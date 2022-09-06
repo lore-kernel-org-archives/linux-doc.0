@@ -2,31 +2,31 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3A85ECAAA1
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 06:32:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBC57ECAAA1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 06:57:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238376AbiIFGcn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 02:32:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53454 "EHLO
+        id S233376AbiIFG5g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 02:57:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238389AbiIFGcl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 02:32:41 -0400
+        with ESMTP id S232367AbiIFG5f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 02:57:35 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B43076BD79
-        for <linux-doc@vger.kernel.org>; Mon,  5 Sep 2022 23:32:38 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAC6C72FCB
+        for <linux-doc@vger.kernel.org>; Mon,  5 Sep 2022 23:57:34 -0700 (PDT)
 Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mkl@pengutronix.de>)
-        id 1oVS8N-0006wF-KZ; Tue, 06 Sep 2022 08:32:31 +0200
-Received: from pengutronix.de (unknown [IPv6:2a0a:edc0:0:701:a3ba:d49d:1749:550])
+        id 1oVSWV-0001FF-8W; Tue, 06 Sep 2022 08:57:27 +0200
+Received: from pengutronix.de (unknown [IPv6:2a0a:edc0:0:701:b512:8477:12a4:5bf])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (Client did not present a certificate)
         (Authenticated sender: mkl-all@blackshift.org)
-        by smtp.blackshift.org (Postfix) with ESMTPSA id E6C53DB57C;
-        Tue,  6 Sep 2022 06:32:29 +0000 (UTC)
-Date:   Tue, 6 Sep 2022 08:32:28 +0200
+        by smtp.blackshift.org (Postfix) with ESMTPSA id 292CCDB5D0;
+        Tue,  6 Sep 2022 06:57:25 +0000 (UTC)
+Date:   Tue, 6 Sep 2022 08:57:24 +0200
 From:   Marc Kleine-Budde <mkl@pengutronix.de>
 To:     Dario Binacchi <dario.binacchi@amarulasolutions.com>
 Cc:     linux-kernel@vger.kernel.org,
@@ -38,11 +38,11 @@ Cc:     linux-kernel@vger.kernel.org,
         netdev@vger.kernel.org
 Subject: Re: [PATCH] docs: networking: device drivers: flexcan: fix invalid
  email
-Message-ID: <20220906063228.evruouqqbeh737f5@pengutronix.de>
+Message-ID: <20220906065724.m7tshei6d22vdm5z@pengutronix.de>
 References: <20220828134442.794990-1-dario.binacchi@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="agwluqgtxlz3sxir"
+        protocol="application/pgp-signature"; boundary="t6qnny6ibckwrep7"
 Content-Disposition: inline
 In-Reply-To: <20220828134442.794990-1-dario.binacchi@amarulasolutions.com>
 X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
@@ -54,7 +54,7 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---agwluqgtxlz3sxir
+--t6qnny6ibckwrep7
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -76,19 +76,19 @@ Embedded Linux                   | https://www.pengutronix.de  |
 Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
 Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
 
---agwluqgtxlz3sxir
+--t6qnny6ibckwrep7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmMW6XkACgkQrX5LkNig
-011CewgAh/0isgB9H3tAaQXwXufKklY44Xo0Cy/VlLJYRvIpiEJPVSk9KtB51rOE
-I4mzbxTuj1nA/+CfsOmXcgS4unNPQYpOpSrFxEUf1eJDZuwhh0Xq8g5eWKCIpylN
-fepOmCadyLUQkgtpDZMnCWcF3LPL2w3OYrV9CCfR/POEDGo6+gUBuUEy9AmvGGL0
-ELQM25x9qNNEhWHP88G+DcWxgPyGTa10fxU6zK2Yd9a0bwt2tg465ow+XpAP0hFB
-d9aq4vzaSs/dbIMV6Xiu40azJ1j1Q8uLt8Vm+sUy3q+kb2jexzcnHW0YArV87Jmu
-flosg9GTXLlmY26J83+vFBeAe2fslg==
-=QnEP
+iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmMW71EACgkQrX5LkNig
+011QMQf/dgqSh15X3sp3oGNXLRquTQW1q1TtBFpH6XFVstANsUEsT0ERt2xLLMcn
+RJNnmRPBggIeqo0e6Sk0q5sniSruKNqbynvnPnGRTD0+UxM8teA7eCSgwrEL0lpK
+ngkyOv4k+aiY9GyvkpylcUfyBwk2avNxYXS07U6A2S5CF4z0dEXjvfGzG9ZWLvxC
+iG9w0fA0nYs7EvnS+962UNQCGbY3+NJQ9zMOoKDKCp5+SXFJ+2MDj2awTjhCR7wX
+A2wYk/SeoCZ7QFIAfG8Ls25OPF/Aao2xdFhNpXliRDF6oKeThhDSI/r/cgPdCOei
+rrXVWhPfhAxdTqwnhMFRNK8c/rI0ig==
+=nOQG
 -----END PGP SIGNATURE-----
 
---agwluqgtxlz3sxir--
+--t6qnny6ibckwrep7--
