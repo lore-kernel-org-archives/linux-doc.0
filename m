@@ -2,192 +2,216 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07CC0ECAAA1
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 03:10:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 569BEC6FA86
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 03:25:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230249AbiIFDKu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Sep 2022 23:10:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33528 "EHLO
+        id S232888AbiIFDZ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Sep 2022 23:25:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232132AbiIFDKt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Sep 2022 23:10:49 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B5753C150;
-        Mon,  5 Sep 2022 20:10:48 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id s206so9458619pgs.3;
-        Mon, 05 Sep 2022 20:10:48 -0700 (PDT)
+        with ESMTP id S231947AbiIFDZx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Sep 2022 23:25:53 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 921E93FA21;
+        Mon,  5 Sep 2022 20:25:51 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id p187so7950401iod.8;
+        Mon, 05 Sep 2022 20:25:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=0q5/g2xqSDjoX1m4bFjC22V5UplGI4w9R+6ExEXxELc=;
-        b=J64gz2KzhvRwufT6qI2yRk1QrpOGL4+Ijgce9yyEMrmDsic72KQqMzz5Vtc4Fp17KB
-         JYbJSC+w+9TMU+8udxawWQFzbsaHx1PvO1a2lqKvpK7Oy6JR6KMnLAa/t4BvuIkKCcZf
-         oW3s+shJ+7uFVdUw5KMdokaCSiPpmvQfxe7KRM73c/eT//gSF1M45r/hX4Ge2tLNi3H6
-         15OuAmTNQmGf3JDjhn067whU+XpLJmdh21Z959SlZlIdkXRYYQ9r0K+CO07KZi8y+3Gw
-         czBRXX0O2iXqJPmzz2eSFNcOThf7Qn32h5GyOyoJR8WDrYQqd5khKlwebxrgqP8ifdfX
-         uT8g==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=iKR/yW56j50b1EcL3EzHzwbMOKwCegyIlsHLHbCh6hs=;
+        b=Ld6VntwA3f7JZWbh+p4iNwPWOgJ0nYZVTFic4wsZcRDbFDYESNvQEnxL94FJz5TmTb
+         Uhl2V/sj2erbx1fR34euMt1ZKxCasw8mJgpYXLUYFhdaVy3TfxhzzVNvb00v4gZycLgs
+         IbXI1duj9HXkOpb7Lj0cLu72admUNGgx0rbW3w4iE10InyDuYp4YOZ/DtDEylHXMunkf
+         NUhl5+Dw4q7a/SJCBWO0qgc3hWX7I/S8ODRRaAtbHYv0wLeQ2iyg1vBmZ5KfxU+uQpBQ
+         yNLgmdZUZXftVV8AwmKS73KO6O8uQdz3J2pTQ/EMayuVOz8D6H+Cqjhdur73wF4Z9h41
+         Nsgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=0q5/g2xqSDjoX1m4bFjC22V5UplGI4w9R+6ExEXxELc=;
-        b=PPfO4JB6NcowMPJOgsPepFjHFIa3DFhNFmsgjNrf3Vc3us+zw68bU1vSy1/pEo4UeE
-         XamVNoGL5RTctesxbE2UrlG99QJMZsn57COhioJpj8PvPiMw00N60QawVKM9LXKl6t/W
-         9acH0Ke80NOLg4rKDL76So9E5RyOqsDs2eT4zOZE9iETjBsygz+4sWKbkwu1x0Ue/HS5
-         0DCFvuZ27oI/N71H9vUB0WLYXTeDLn93hA4rkSHn4k8sphp/WbuvkGRVQZfWLCcl3BRe
-         cPv3755o0TE3dtsBIE8T2W3YB621TyAJaV1ZNyfIRpVcag7yD6BsCHfzh8OarAjNSNGt
-         MQXg==
-X-Gm-Message-State: ACgBeo1PIo4yiUUPZ3ZQ8sJyVvQRy6NrCs2VUwtmpfQUtGBmL9fCAQqv
-        0rUR2jrn5BuxX49kUsyLafI=
-X-Google-Smtp-Source: AA6agR4PNdGoLwzIJQfbmesd5qxQF8UnVgpaYg2wB/pPZTvea4YBq8MPq0UxBOfR2LAN/bZWntoBig==
-X-Received: by 2002:a05:6a00:1145:b0:52b:78c:fa26 with SMTP id b5-20020a056a00114500b0052b078cfa26mr53065753pfm.27.1662433847595;
-        Mon, 05 Sep 2022 20:10:47 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-83.three.co.id. [180.214.233.83])
-        by smtp.gmail.com with ESMTPSA id k12-20020aa79d0c000000b00537d7cc774bsm8583585pfp.139.2022.09.05.20.10.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Sep 2022 20:10:47 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 79773103CFD; Tue,  6 Sep 2022 10:10:34 +0700 (WIB)
-Date:   Tue, 6 Sep 2022 10:10:26 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Alexander Potapenko <glider@google.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Christoph Hellwig <hch@lst.de>,
-        Christoph Lameter <cl@linux.com>,
-        David Rientjes <rientjes@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Ilya Leoshkevich <iii@linux.ibm.com>,
-        Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Kees Cook <keescook@chromium.org>,
-        Marco Elver <elver@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Vegard Nossum <vegard.nossum@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 6/44] kmsan: add ReST documentation
-Message-ID: <Yxa6Isgcii+EQWwX@debian.me>
-References: <20220905122452.2258262-1-glider@google.com>
- <20220905122452.2258262-7-glider@google.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=iKR/yW56j50b1EcL3EzHzwbMOKwCegyIlsHLHbCh6hs=;
+        b=WitMjPVKrdD1voPnIYpIRFnzZgmHvZWPKCtMiTRoV7OhVw5JAKCykx9/l1QldG6SFV
+         +cgR88QztzLBUt2r97FdH6kYaFBzoOFI+uEDPqQfFciSt4Auw1G7vK9//Xz63KzYEMd+
+         /rdoexe2WCqmToB9djWwRwYkIDPDo9e4dgX6Nlky3ml63jYg97AwRAfDNpDzpuwj+T+s
+         PHwwv4UWWNWf6ySaeAG8Qsj56rkr/duM5Qg/laPrRTV9uT9quCOv6LV5VuqFgFOBcPX9
+         6kwdc/dt6rnKkwXajYC9OXVpSzkcIXfgAgzZ4wyToWwdzSf4+HVZBJ1Q29Wr5yu93dNE
+         gBjg==
+X-Gm-Message-State: ACgBeo028LIga90Q1uj5l+LvGcAKaqQf84J/25otDyzw1wuqjUNBdzKu
+        /VzYio/6bQ3NhdUktav9GmTOWyTJ0dWHmBMT940=
+X-Google-Smtp-Source: AA6agR6JtNTwijCAbGTjg6V5OCvJLefNSzHEWL7bYm+x4vG2crnAVtACsKmbemfujAazaocMd6x9RIZnV9qn/PFuI3A=
+X-Received: by 2002:a05:6638:2388:b0:34a:e033:396b with SMTP id
+ q8-20020a056638238800b0034ae033396bmr15562574jat.93.1662434750943; Mon, 05
+ Sep 2022 20:25:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="8SFVSXRZNTT5RY83"
-Content-Disposition: inline
-In-Reply-To: <20220905122452.2258262-7-glider@google.com>
+References: <20220902132938.2409206-1-benjamin.tissoires@redhat.com> <20220902132938.2409206-2-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220902132938.2409206-2-benjamin.tissoires@redhat.com>
+From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date:   Tue, 6 Sep 2022 05:25:14 +0200
+Message-ID: <CAP01T75KTjawtsvQmhZhj0=tEJVwc7UewRqdT1ui+uKONg07Zw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v10 01/23] selftests/bpf: regroup and declare
+ similar kfuncs selftests in an array
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 2 Sept 2022 at 15:29, Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> Similar to tools/testing/selftests/bpf/prog_tests/dynptr.c:
+> we declare an array of tests that we run one by one in a for loop.
+>
+> Followup patches will add more similar-ish tests, so avoid a lot of copy
+> paste by grouping the declaration in an array.
+>
+> To be able to call bpf_object__find_program_by_name(), we need to use
+> plain libbpf calls, and not light skeletons. So also change the Makefile
+> to not generate light skeletons.
+>
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>
+> ---
 
---8SFVSXRZNTT5RY83
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I see your point, but this is also a test so that we keep verifying
+kfunc call in light skeleton.
+Code for relocating both is different in libbpf (we generate BPF ASM
+for light skeleton so it is done inside a loader BPF program instead
+of userspace).
+You might then be able to make it work for both light and normal skeleton.
 
-On Mon, Sep 05, 2022 at 02:24:14PM +0200, Alexander Potapenko wrote:
-> +Here is an example of a KMSAN report::
+>
+> new in v10
+> ---
+>  tools/testing/selftests/bpf/Makefile          |  2 +-
+>  .../selftests/bpf/prog_tests/kfunc_call.c     | 56 +++++++++++++------
+>  2 files changed, 39 insertions(+), 19 deletions(-)
+>
+> diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
+> index eecad99f1735..b19b0b35aec8 100644
+> --- a/tools/testing/selftests/bpf/Makefile
+> +++ b/tools/testing/selftests/bpf/Makefile
+> @@ -351,7 +351,7 @@ LINKED_SKELS := test_static_linked.skel.h linked_funcs.skel.h               \
+>                 test_subskeleton.skel.h test_subskeleton_lib.skel.h     \
+>                 test_usdt.skel.h
+>
+> -LSKELS := kfunc_call_test.c fentry_test.c fexit_test.c fexit_sleep.c \
+> +LSKELS := fentry_test.c fexit_test.c fexit_sleep.c \
+>         test_ringbuf.c atomics.c trace_printk.c trace_vprintk.c \
+>         map_ptr_kern.c core_kern.c core_kern_overflow.c
+>  # Generate both light skeleton and libbpf skeleton for these
+> diff --git a/tools/testing/selftests/bpf/prog_tests/kfunc_call.c b/tools/testing/selftests/bpf/prog_tests/kfunc_call.c
+> index eede7c304f86..21e347f46c93 100644
+> --- a/tools/testing/selftests/bpf/prog_tests/kfunc_call.c
+> +++ b/tools/testing/selftests/bpf/prog_tests/kfunc_call.c
+> @@ -2,16 +2,28 @@
+>  /* Copyright (c) 2021 Facebook */
+>  #include <test_progs.h>
+>  #include <network_helpers.h>
+> -#include "kfunc_call_test.lskel.h"
+> +#include "kfunc_call_test.skel.h"
+>  #include "kfunc_call_test_subprog.skel.h"
+>  #include "kfunc_call_test_subprog.lskel.h"
+>  #include "kfunc_call_destructive.skel.h"
+>
+>  #include "cap_helpers.h"
+>
+> -static void test_main(void)
+> +struct kfunc_test_params {
+> +       const char *prog_name;
+> +       int retval;
+> +};
 > +
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> +  BUG: KMSAN: uninit-value in test_uninit_kmsan_check_memory+0x1be/0x380=
- [kmsan_test]
-> +   test_uninit_kmsan_check_memory+0x1be/0x380 mm/kmsan/kmsan_test.c:273
-> +   kunit_run_case_internal lib/kunit/test.c:333
-> +   kunit_try_run_case+0x206/0x420 lib/kunit/test.c:374
-> +   kunit_generic_run_threadfn_adapter+0x6d/0xc0 lib/kunit/try-catch.c:28
-> +   kthread+0x721/0x850 kernel/kthread.c:327
-> +   ret_from_fork+0x1f/0x30 ??:?
+> +static struct kfunc_test_params kfunc_tests[] = {
+> +       {"kfunc_call_test1", 12},
+> +       {"kfunc_call_test2", 3},
+> +       {"kfunc_call_test_ref_btf_id", 0},
+> +};
 > +
-> +  Uninit was stored to memory at:
-> +   do_uninit_local_array+0xfa/0x110 mm/kmsan/kmsan_test.c:260
-> +   test_uninit_kmsan_check_memory+0x1a2/0x380 mm/kmsan/kmsan_test.c:271
-> +   kunit_run_case_internal lib/kunit/test.c:333
-> +   kunit_try_run_case+0x206/0x420 lib/kunit/test.c:374
-> +   kunit_generic_run_threadfn_adapter+0x6d/0xc0 lib/kunit/try-catch.c:28
-> +   kthread+0x721/0x850 kernel/kthread.c:327
-> +   ret_from_fork+0x1f/0x30 ??:?
+> +static void verify_success(struct kfunc_test_params *param)
+>  {
+> -       struct kfunc_call_test_lskel *skel;
+> +       struct kfunc_call_test *skel;
+> +       struct bpf_program *prog;
+>         int prog_fd, err;
+>         LIBBPF_OPTS(bpf_test_run_opts, topts,
+>                 .data_in = &pkt_v4,
+> @@ -19,26 +31,35 @@ static void test_main(void)
+>                 .repeat = 1,
+>         );
+>
+> -       skel = kfunc_call_test_lskel__open_and_load();
+> +       skel = kfunc_call_test__open_and_load();
+>         if (!ASSERT_OK_PTR(skel, "skel"))
+>                 return;
+>
+> -       prog_fd = skel->progs.kfunc_call_test1.prog_fd;
+> -       err = bpf_prog_test_run_opts(prog_fd, &topts);
+> -       ASSERT_OK(err, "bpf_prog_test_run(test1)");
+> -       ASSERT_EQ(topts.retval, 12, "test1-retval");
+> +       prog = bpf_object__find_program_by_name(skel->obj, param->prog_name);
+> +       if (!ASSERT_OK_PTR(prog, "bpf_object__find_program_by_name"))
+> +               goto cleanup;
+>
+> -       prog_fd = skel->progs.kfunc_call_test2.prog_fd;
+> +       prog_fd = bpf_program__fd(prog);
+>         err = bpf_prog_test_run_opts(prog_fd, &topts);
+> -       ASSERT_OK(err, "bpf_prog_test_run(test2)");
+> -       ASSERT_EQ(topts.retval, 3, "test2-retval");
+> +       if (!ASSERT_OK(err, param->prog_name))
+> +               goto cleanup;
+>
+> -       prog_fd = skel->progs.kfunc_call_test_ref_btf_id.prog_fd;
+> -       err = bpf_prog_test_run_opts(prog_fd, &topts);
+> -       ASSERT_OK(err, "bpf_prog_test_run(test_ref_btf_id)");
+> -       ASSERT_EQ(topts.retval, 0, "test_ref_btf_id-retval");
+> +       ASSERT_EQ(topts.retval, param->retval, "retval");
 > +
-> +  Local variable uninit created at:
-> +   do_uninit_local_array+0x4a/0x110 mm/kmsan/kmsan_test.c:256
-> +   test_uninit_kmsan_check_memory+0x1a2/0x380 mm/kmsan/kmsan_test.c:271
+> +cleanup:
+> +       kfunc_call_test__destroy(skel);
+> +}
 > +
-> +  Bytes 4-7 of 8 are uninitialized
-> +  Memory access of size 8 starts at ffff888083fe3da0
+> +static void test_main(void)
+> +{
+> +       int i;
 > +
-> +  CPU: 0 PID: 6731 Comm: kunit_try_catch Tainted: G    B       E     5.1=
-6.0-rc3+ #104
-> +  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2 0=
-4/01/2014
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-Are these table markers in the code block above part of kmsan output?
-
-> +A use of uninitialized value ``v`` is reported by KMSAN in the following=
- cases:
-> + - in a condition, e.g. ``if (v) { ... }``;
-> + - in an indexing or pointer dereferencing, e.g. ``array[v]`` or ``*v``;
-> + - when it is copied to userspace or hardware, e.g. ``copy_to_user(..., =
-&v, ...)``;
-> + - when it is passed as an argument to a function, and
-> +   ``CONFIG_KMSAN_CHECK_PARAM_RETVAL`` is enabled (see below).
-
-The sentence before the list above is rendered as definition list term
-instead, so I add the blank line separator:
-
----- >8 ----
-
-diff --git a/Documentation/dev-tools/kmsan.rst b/Documentation/dev-tools/km=
-san.rst
-index 2a53a801198cbf..55fa82212eb255 100644
---- a/Documentation/dev-tools/kmsan.rst
-+++ b/Documentation/dev-tools/kmsan.rst
-@@ -67,6 +67,7 @@ uninitialized in the local variable, as well as the stack=
- where the value was
- copied to another memory location before use.
-=20
- A use of uninitialized value ``v`` is reported by KMSAN in the following c=
-ases:
-+
-  - in a condition, e.g. ``if (v) { ... }``;
-  - in an indexing or pointer dereferencing, e.g. ``array[v]`` or ``*v``;
-  - when it is copied to userspace or hardware, e.g. ``copy_to_user(..., &v=
-, ...)``;
-
-Thanks.=20
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---8SFVSXRZNTT5RY83
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYxa6FQAKCRD2uYlJVVFO
-o5TjAP4pqdJtF2silbpITwEaYJyueteQAD2tnShYfmi4k/CwmwD+Kf2knjEANX/1
-NS87UnfEtAMR4Gyq0gGFXh2B5ITIaww=
-=3svA
------END PGP SIGNATURE-----
-
---8SFVSXRZNTT5RY83--
+> +       for (i = 0; i < ARRAY_SIZE(kfunc_tests); i++) {
+> +               if (!test__start_subtest(kfunc_tests[i].prog_name))
+> +                       continue;
+>
+> -       kfunc_call_test_lskel__destroy(skel);
+> +               verify_success(&kfunc_tests[i]);
+> +       }
+>  }
+>
+>  static void test_subprog(void)
+> @@ -121,8 +142,7 @@ static void test_destructive(void)
+>
+>  void test_kfunc_call(void)
+>  {
+> -       if (test__start_subtest("main"))
+> -               test_main();
+> +       test_main();
+>
+>         if (test__start_subtest("subprog"))
+>                 test_subprog();
+> --
+> 2.36.1
+>
