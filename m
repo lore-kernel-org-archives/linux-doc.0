@@ -2,85 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F8FECAAA1
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 17:19:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0906DECAAD5
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 17:37:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237273AbiIFRTY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 13:19:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53440 "EHLO
+        id S229629AbiIFRh5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 13:37:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239871AbiIFRSy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 13:18:54 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC0E417E38;
-        Tue,  6 Sep 2022 10:07:42 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id az27so16431306wrb.6;
-        Tue, 06 Sep 2022 10:07:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:message-id:in-reply-to:date:references
-         :subject:cc:to:from:from:to:cc:subject:date;
-        bh=d7AkixOMV32e6vIKIt1+7sUJ8KZkxzm56toQ2L27L/E=;
-        b=D7jUbaMMyC2gYcwc8IognHgPh/EZCIu/DW4jpPg16JRyxc+jy8gb71guWFb14Gpoit
-         0OGsZe/lPtyVcFm1xoAuCfFpGis7SmTa6gU6iGT4/q1v8XolO9oL9miMpGyiRWrdyb4J
-         I6DKLDC5aGh5G0dIL46dANxQqcRDwMW6+fqRJsKA3OJCsm9YQarBNFg/CguS6q8xXWLS
-         Fd/pZFHq8K8LWojqJr4gpEFS74zuM0JkzQ5t0FidJH8QAQxIq5N/hNBCT6SY7XUYpwy0
-         Uxn4R+ZxrE+sYFSq3Hn1Idmq2Qsznsam1ckjJPsCn4qi5jsPHc6az1qVCNqGR93dOqBg
-         nYvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:message-id:in-reply-to:date:references
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=d7AkixOMV32e6vIKIt1+7sUJ8KZkxzm56toQ2L27L/E=;
-        b=jkN5vb9wURKR6a6U2J2B+4kLD9v/eubWxhVuH7tA45lDsCD4JB5e4LsOEhveB00vZY
-         eUZlG7a7YNaV09leZnKdIEXYNip2Nln7KFtX3yVJGb8T7XGFSs6vtKzqPZ0XM/hS9dgf
-         swJvV9sjVNXrK7VvC5ZxNgxFhwhVqPRuFZrLuQtXhn26DpzLk3tqOz1icIFbP6vLuZ0e
-         UWImF3NtQs2UaQIXC2tp2P+XEZ6B5YntgMmoo/tnHyaXODDQfR0P0l/niKrohoE5ODEh
-         Qw41XWgH+4ANIYDxQFuHSiu8N7ajRTOP19upWnFaxGgw3Lp2Pjzv6ADFHNJZi/m0zx7E
-         KQEQ==
-X-Gm-Message-State: ACgBeo1kZmKEBiIh2onC7VHrNQkrvyQWDAcdRGECJW+1ZXtlbnrda4VH
-        WiDkmiu7leKDUTG9jiCDPrvvbcFbm0etfQ==
-X-Google-Smtp-Source: AA6agR6V8Xqe1ALsd54De/WO0V1JbQN4IOWkD22QSXiegjL0f+7f/84PJ2yIKhcEJK/STy7sYVvxDg==
-X-Received: by 2002:a5d:4690:0:b0:228:9858:8520 with SMTP id u16-20020a5d4690000000b0022898588520mr5896626wrq.558.1662484060984;
-        Tue, 06 Sep 2022 10:07:40 -0700 (PDT)
-Received: from imac ([88.97.103.74])
-        by smtp.gmail.com with ESMTPSA id c8-20020a7bc008000000b003a31ca9dfb6sm18227921wmb.32.2022.09.06.10.07.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Sep 2022 10:07:39 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Subject: Re: [PATCH bpf-next v3 2/2] Add table of BPF program types to
- libbpf docs
-References: <20220829091500.24115-1-donald.hunter@gmail.com>
-        <20220829091500.24115-3-donald.hunter@gmail.com>
-        <87h71kadjh.fsf@intel.com>
-Date:   Tue, 06 Sep 2022 18:07:38 +0100
-In-Reply-To: <87h71kadjh.fsf@intel.com> (Jani Nikula's message of "Tue, 06 Sep
-        2022 15:32:50 +0300")
-Message-ID: <m2zgfc4ejp.fsf@gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
+        with ESMTP id S229897AbiIFRhS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 13:37:18 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3500C8A7D7;
+        Tue,  6 Sep 2022 10:33:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662485618; x=1694021618;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=s9gZ2XoICzxug5E8CZrxYGQ5div98Sn+DFN1sd0gc/8=;
+  b=XrdLy11yHzX/wQB9w1Kzwjsg2dTb7WXtKGIC33FQjqdjk7IbBqcTxOR3
+   eKFIN8XWTNGxKRnFhP8N8iBnJrvFtewEJPniNxO24U5WVvUqAxenDya5i
+   B3lhk0skVB5YLJ41c8FbAy6vToKZdnbOS9YyDdsa7i9zMtIf9fW7Yp++I
+   GmHZi/TXhDno+1aGUUcwVjMV06kv7SK08oMh0eSqXFoHP1hD65KPXFdLl
+   gmwJBLjx571v4gL7JqTOciIlTfOTNxn9c+4memnPS+W2vBfY7ccKYjBUg
+   AVajUR6bo/AUOQA5uY8qyxPyjv7c7KUawrq8MfsTNmHpsq+cLctRTq3Yj
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="360606039"
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
+   d="scan'208";a="360606039"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 10:33:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
+   d="scan'208";a="644258976"
+Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 06 Sep 2022 10:33:36 -0700
+Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oVcS7-0005Ov-1H;
+        Tue, 06 Sep 2022 17:33:35 +0000
+Date:   Wed, 7 Sep 2022 01:32:38 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Namjae Jeon <linkinjeon@kernel.org>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steve French <stfrench@microsoft.com>,
+        linux-doc@vger.kernel.org
+Subject: [samba-ksmbd:ksmbd-for-next-next 3/3] htmldocs:
+ Documentation/filesystems/cifs/ksmbd.rst:123: WARNING: Unexpected
+ indentation.
+Message-ID: <202209070129.JKu6GWs2-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jani Nikula <jani.nikula@linux.intel.com> writes:
+tree:   git://git.samba.org/ksmbd.git ksmbd-for-next-next
+head:   61f596cda9f2d4d6b068f5226b2e2bc9478fa873
+commit: 61f596cda9f2d4d6b068f5226b2e2bc9478fa873 [3/3] ksmbd: update documentation
+reproduce:
+        git remote add samba-ksmbd git://git.samba.org/ksmbd.git
+        git fetch --no-tags samba-ksmbd ksmbd-for-next-next
+        git checkout 61f596cda9f2d4d6b068f5226b2e2bc9478fa873
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
->> +
->> +.. csv-table:: Program Types and Their ELF Section Names
->> +   :file: ../../output/program_types.csv
->
-> Oh. You should probably test this with out-of-tree builds.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-By out of tree, do you mean make htmldocs O=... or something else?
+All warnings (new ones prefixed by >>):
 
-I have tested with O=... whih works for the kernel docs, but I think I
-will need to rework the location to support the libbpf doc build which
-has different directory layout.
+>> Documentation/filesystems/cifs/ksmbd.rst:123: WARNING: Unexpected indentation.
 
-Thanks,
-Donald.
+vim +123 Documentation/filesystems/cifs/ksmbd.rst
+
+   120	
+   121	1. Download ksmbd-tools(https://github.com/cifsd-team/ksmbd-tools/releases) and compile them.
+   122	   - Refer README(https://github.com/cifsd-team/ksmbd-tools/blob/master/README.md)
+ > 123	     to know how to use ksmbd.<foo> utils
+   124	
+   125	     $ ./autogen.sh
+   126	     $ ./configure --with-rundir=/run
+   127	     $ make && sudo make install
+   128	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
