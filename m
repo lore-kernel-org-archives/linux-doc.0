@@ -2,205 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F48BC6FA86
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 20:10:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9435FECAAA1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 20:13:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231260AbiIFUKi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 16:10:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55358 "EHLO
+        id S230106AbiIFUN3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 16:13:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230087AbiIFUKP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 16:10:15 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 35E3DBC80F;
-        Tue,  6 Sep 2022 13:05:14 -0700 (PDT)
-Received: from pwmachine.numericable.fr (85-170-34-72.rev.numericable.fr [85.170.34.72])
-        by linux.microsoft.com (Postfix) with ESMTPSA id C7ACA20B929C;
-        Tue,  6 Sep 2022 12:58:21 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C7ACA20B929C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1662494306;
-        bh=Y3tZA2UfXIUdO651eZpQHa6bop0UrWXdjXGmdZD7XUw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=I0ImiMk2OSzmHAF9EcIea/Iv6FlA7LB/hWbPy9LpmWBxA/OWCrauZk3R6t9VWJC0j
-         3itEgHNH7uQHYpyP7WU01yZH1+GyGnywJA1qfj5ePpesxIZc6DIPD0paS1A2iERyfe
-         wJx8sQQLjg4QvCTa3T51mNdXaCtjSca+V+FF1wrE=
-From:   Francis Laniel <flaniel@linux.microsoft.com>
-To:     bpf@vger.kernel.org
-Cc:     Francis Laniel <flaniel@linux.microsoft.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>,
-        Joanne Koong <joannelkoong@gmail.com>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Maxim Mikityanskiy <maximmi@nvidia.com>,
-        Geliang Tang <geliang.tang@suse.com>,
-        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+        with ESMTP id S230459AbiIFUNB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 16:13:01 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4AE4BFE91;
+        Tue,  6 Sep 2022 13:08:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662494901; x=1694030901;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BtSUgyZI0HU1Ciu5kPkV1iRG3MhKpjlp45UBeg7Ubto=;
+  b=UN4MlCwZaX5iWbehPmfGxDy41jQgVUUqunDFgJVf1dOOCLsE+v4gmBLK
+   YpyAh5J/VygCCLmYquPpNexopvjclbWukC1OSxNG4aYOhwlbQpu5O/+29
+   6sdcoJHzaWTpVtrYhztXHpG3ad9Fc1eEjjFF15kcKuFuXESVwVDlXxr3l
+   n7NvZM0fhqN7+CkQoJpUJiOVXOI/glY5MJ+ExDpetZh17Cn+LdpepqVbl
+   FShXwawUB/zCTwrahA7vv1iu33ty3ykxBXxE4X/Or0RS12kkZD0ajF5YS
+   rrrianKO3YmVAPWMS3AuqD48VZWaA3L0/69+T3f7+wNWD/yLHpZvtJy2Q
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="358409679"
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
+   d="scan'208";a="358409679"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 13:07:27 -0700
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
+   d="scan'208";a="614221316"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 13:07:21 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1oVeqr-009MCy-3D;
+        Tue, 06 Sep 2022 23:07:18 +0300
+Date:   Tue, 6 Sep 2022 23:07:17 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     matthew.gerlach@linux.intel.com
+Cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: [RFC PATCH v2 1/5] bpf: Make ring buffer overwritable.
-Date:   Tue,  6 Sep 2022 21:56:42 +0200
-Message-Id: <20220906195656.33021-2-flaniel@linux.microsoft.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220906195656.33021-1-flaniel@linux.microsoft.com>
-References: <20220906195656.33021-1-flaniel@linux.microsoft.com>
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
+        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de,
+        Basheer Ahmed Muddebihal 
+        <basheer.ahmed.muddebihal@linux.intel.com>
+Subject: Re: [PATCH v1 2/5] fpga: dfl: Move the DFH definitions
+Message-ID: <YxeoddLVHki/WDUu@smile.fi.intel.com>
+References: <20220906190426.3139760-1-matthew.gerlach@linux.intel.com>
+ <20220906190426.3139760-3-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220906190426.3139760-3-matthew.gerlach@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-By default, BPF ring buffer are size bounded, when producers already filled the
-buffer, they need to wait for the consumer to get those data before adding new
-ones.
-In terms of API, bpf_ringbuf_reserve() returns NULL if the buffer is full.
+On Tue, Sep 06, 2022 at 12:04:23PM -0700, matthew.gerlach@linux.intel.com wrote:
+> From: Basheer Ahmed Muddebihal <basheer.ahmed.muddebihal@linux.intel.com>
+> 
+> Moving the DFH register offset and register definitions from
+> drivers/fpga/dfl.h to include/linux/dfl.h.  These definitions
 
-This patch permits making BPF ring buffer overwritable.
-When producers already wrote as many data as the buffer size, they will begin to
-over write existing data, so the oldest will be replaced.
-As a result, bpf_ringbuf_reserve() never returns NULL.
+Single space?
 
-To avoid memory consumption, this patch writes data backward like overwritable
-perf ring buffer added in
-commit 9ecda41acb97 ("perf/core: Add ::write_backward attribute to perf event").
+> need to be accessed by dfl drivers that are outside of
+> drivers/fpga.
 
-Signed-off-by: Francis Laniel <flaniel@linux.microsoft.com>
----
- include/uapi/linux/bpf.h |  3 +++
- kernel/bpf/ringbuf.c     | 43 ++++++++++++++++++++++++++++++----------
- 2 files changed, 36 insertions(+), 10 deletions(-)
+...
 
-diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-index 59a217ca2dfd..c87a667649ab 100644
---- a/include/uapi/linux/bpf.h
-+++ b/include/uapi/linux/bpf.h
-@@ -1227,6 +1227,9 @@ enum {
- 
- /* Create a map that is suitable to be an inner map with dynamic max entries */
- 	BPF_F_INNER_MAP		= (1U << 12),
-+
-+/* Create an overwritable BPF_RINGBUF */
-+	BFP_F_RB_OVERWRITABLE	= (1U << 13),
- };
- 
- /* Flags for BPF_PROG_QUERY. */
-diff --git a/kernel/bpf/ringbuf.c b/kernel/bpf/ringbuf.c
-index ded4faeca192..369c61cfe8aa 100644
---- a/kernel/bpf/ringbuf.c
-+++ b/kernel/bpf/ringbuf.c
-@@ -12,7 +12,7 @@
- #include <uapi/linux/btf.h>
- #include <linux/btf_ids.h>
- 
--#define RINGBUF_CREATE_FLAG_MASK (BPF_F_NUMA_NODE)
-+#define RINGBUF_CREATE_FLAG_MASK (BPF_F_NUMA_NODE | BFP_F_RB_OVERWRITABLE)
- 
- /* non-mmap()'able part of bpf_ringbuf (everything up to consumer page) */
- #define RINGBUF_PGOFF \
-@@ -37,6 +37,8 @@ struct bpf_ringbuf {
- 	u64 mask;
- 	struct page **pages;
- 	int nr_pages;
-+	__u8 overwritable: 1,
-+	     __reserved:    7;
- 	spinlock_t spinlock ____cacheline_aligned_in_smp;
- 	/* Consumer and producer counters are put into separate pages to allow
- 	 * mapping consumer page as r/w, but restrict producer page to r/o.
-@@ -127,7 +129,12 @@ static void bpf_ringbuf_notify(struct irq_work *work)
- 	wake_up_all(&rb->waitq);
- }
- 
--static struct bpf_ringbuf *bpf_ringbuf_alloc(size_t data_sz, int numa_node)
-+static inline bool is_overwritable(struct bpf_ringbuf *rb)
-+{
-+	return !!rb->overwritable;
-+}
-+
-+static struct bpf_ringbuf *bpf_ringbuf_alloc(size_t data_sz, int numa_node, __u32 flags)
- {
- 	struct bpf_ringbuf *rb;
- 
-@@ -142,6 +149,7 @@ static struct bpf_ringbuf *bpf_ringbuf_alloc(size_t data_sz, int numa_node)
- 	rb->mask = data_sz - 1;
- 	rb->consumer_pos = 0;
- 	rb->producer_pos = 0;
-+	rb->overwritable = !!(flags & BFP_F_RB_OVERWRITABLE);
- 
- 	return rb;
- }
-@@ -170,7 +178,7 @@ static struct bpf_map *ringbuf_map_alloc(union bpf_attr *attr)
- 
- 	bpf_map_init_from_attr(&rb_map->map, attr);
- 
--	rb_map->rb = bpf_ringbuf_alloc(attr->max_entries, rb_map->map.numa_node);
-+	rb_map->rb = bpf_ringbuf_alloc(attr->max_entries, rb_map->map.numa_node, attr->map_flags);
- 	if (!rb_map->rb) {
- 		kfree(rb_map);
- 		return ERR_PTR(-ENOMEM);
-@@ -248,6 +256,7 @@ static unsigned long ringbuf_avail_data_sz(struct bpf_ringbuf *rb)
- 
- 	cons_pos = smp_load_acquire(&rb->consumer_pos);
- 	prod_pos = smp_load_acquire(&rb->producer_pos);
-+
- 	return prod_pos - cons_pos;
- }
- 
-@@ -325,14 +334,24 @@ static void *__bpf_ringbuf_reserve(struct bpf_ringbuf *rb, u64 size)
- 	}
- 
- 	prod_pos = rb->producer_pos;
--	new_prod_pos = prod_pos + len;
- 
--	/* check for out of ringbuf space by ensuring producer position
--	 * doesn't advance more than (ringbuf_size - 1) ahead
--	 */
--	if (new_prod_pos - cons_pos > rb->mask) {
--		spin_unlock_irqrestore(&rb->spinlock, flags);
--		return NULL;
-+	if (!is_overwritable(rb)) {
-+		new_prod_pos = prod_pos + len;
-+
-+		/* check for out of ringbuf space by ensuring producer position
-+		 * doesn't advance more than (ringbuf_size - 1) ahead
-+		 */
-+		if (new_prod_pos - cons_pos > rb->mask) {
-+			spin_unlock_irqrestore(&rb->spinlock, flags);
-+			return NULL;
-+		}
-+	} else {
-+		/*
-+		 * With overwritable ring buffer we go from the end toward the
-+		 * beginning.
-+		 */
-+		prod_pos -= len;
-+		new_prod_pos = prod_pos;
- 	}
- 
- 	hdr = (void *)rb->data + (prod_pos & rb->mask);
-@@ -457,10 +476,14 @@ BPF_CALL_2(bpf_ringbuf_query, struct bpf_map *, map, u64, flags)
- 
- 	switch (flags) {
- 	case BPF_RB_AVAIL_DATA:
-+		if (is_overwritable(rb))
-+			return -EINVAL;
- 		return ringbuf_avail_data_sz(rb);
- 	case BPF_RB_RING_SIZE:
- 		return rb->mask + 1;
- 	case BPF_RB_CONS_POS:
-+		if (is_overwritable(rb))
-+			return -EINVAL;
- 		return smp_load_acquire(&rb->consumer_pos);
- 	case BPF_RB_PROD_POS:
- 		return smp_load_acquire(&rb->producer_pos);
+> +#define DFH			0x0
+> +#define GUID_L			0x8
+> +#define GUID_H			0x10
+> +#define NEXT_AFU		0x18
+
+While at it, you may make them same width, like "0x08".
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
