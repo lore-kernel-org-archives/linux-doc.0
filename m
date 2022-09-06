@@ -2,88 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 748FCC6FA83
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 10:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 789B1ECAAD5
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 11:12:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233536AbiIFKwy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 06:52:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48410 "EHLO
+        id S234074AbiIFLM0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 07:12:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239629AbiIFKwZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 06:52:25 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E5347B29D;
-        Tue,  6 Sep 2022 03:50:57 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id bp20so14338866wrb.9;
-        Tue, 06 Sep 2022 03:50:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date;
-        bh=DeZeaGmLe3sAs17o9u4aA+9IGunBSiFEik8IifS7SLk=;
-        b=N7RZ/0QQzjm+knbE/RlztSF707It1haNgKph+ZBYlZgjSTSpbFx7ALekjKZ1JSbqVj
-         4OmM51mK2yEhaqZi7CZy8qDmn2dwQoBCZ9jAznomYjkO/Oh6zZ289ArQ5LwEUIWyQ+vT
-         UE8x1rJWGMUpRjzB70jAJlhoZdg9GIUWAUAu+no9EePC6i09sIRqrOArGJJFt8HkdESg
-         4DMzrswVY1LW0/yfMNHTB1AnnSHDNy+cQfBz0M0J0AGmPb4tN/ORMr/BNxVlOrOX7Wxv
-         TGKuo/oK3zSNftUeSV9vol3cSbUfQip/uqJBRvbsk1bmWRmyClHFbl0XBgiqFgRI7h1U
-         OiQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=DeZeaGmLe3sAs17o9u4aA+9IGunBSiFEik8IifS7SLk=;
-        b=bMm/SkxzfErBfXzEAx6Ba0GsGBiNhJmvNxP4Fxu+skgo/xOblDWQ1XhyJJJd+6oEVZ
-         k5LC24qpdGm5hG6Ztuz5LqdxjC//I9LRznv3xQ0lfmBaQo8kn9LAbkqVJ2BjMY+9lMyP
-         xDiQ95616fJOjty1Gu3fBIFjAnjjbaAflHXdmHK8xZhbajk1+lYJcVMS6OhjzLFDGv9C
-         YdgTAVXNmM3fqdAotRClZDpDRE/hGN0Pyz69fYBykm4ihI53vvlYLNkv/rvtzMkvWQs1
-         Y3TfSperx/G1s9xZcGROYjg1hBzlveUPaWwBTMRcQtLB7/cWhRBA9UsO32XqVdOQ0btJ
-         7Gvg==
-X-Gm-Message-State: ACgBeo0YYd8Xm13pPqfcCXn+VRW8X4AjbIszopijlyIVRm1FYlKYkzsf
-        gNXqEKyXBMw/XWYjEO3azT0=
-X-Google-Smtp-Source: AA6agR79p5K6VeBZ3o0ywObGZXXOxpg7PafY0OT9DSE6RWchw34Oq7Z7KDr/pgwu9Xvm9agFIeSsmA==
-X-Received: by 2002:a5d:47c7:0:b0:225:8905:296 with SMTP id o7-20020a5d47c7000000b0022589050296mr27986402wrc.515.1662461455554;
-        Tue, 06 Sep 2022 03:50:55 -0700 (PDT)
-Received: from imac ([88.97.103.74])
-        by smtp.gmail.com with ESMTPSA id z14-20020a5d4c8e000000b0021e4829d359sm12179006wrs.39.2022.09.06.03.50.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Sep 2022 03:50:54 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Daniel Borkmann <daniel@iogearbox.net>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Subject: Re: [PATCH bpf-next v3 1/2] Add subdir support to Documentation
- makefile
-In-Reply-To: <3d08894c-b3d1-37e8-664e-48e66dc664ac@iogearbox.net> (Daniel
-        Borkmann's message of "Fri, 2 Sep 2022 17:08:09 +0200")
-Date:   Tue, 06 Sep 2022 11:21:59 +0100
-Message-ID: <m2h71k6bw8.fsf@gmail.com>
-References: <20220829091500.24115-1-donald.hunter@gmail.com>
-        <20220829091500.24115-2-donald.hunter@gmail.com>
-        <3d08894c-b3d1-37e8-664e-48e66dc664ac@iogearbox.net>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
+        with ESMTP id S234375AbiIFLMX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 07:12:23 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 303AB792EC;
+        Tue,  6 Sep 2022 04:12:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662462742; x=1693998742;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Bp/QZXCFTZwQSDShcDQGV6IwRcbjBetyV2jm9TRX0io=;
+  b=VoehulZuL8OokP2qgK6MT6s+3qUcC1ODTaa+VvMjtODkGTb3A9WVmBr9
+   1LJXEdGSvxmQutmE5HwnHpZwqK9L19ZqNaQQVeM1bay0tNkz14LQvjSx0
+   Uu0o/8xlnoVxmosZxAmsALjFmO6qFT40ES/XGBAuTnrvQf+ZbdyhdLmic
+   Z6lLiw3qgMEOE4/VkPAOfzYGel3qD2y/H7hyGXl+3iNt12KTz9Q2SUKsm
+   cCqv2PNFMVAWVB92ZYaI0MhOTPxmdcR+YZ59sGKLag2eGV080SMDKLISr
+   oBxVtZUhgHRoGLRZv85rCfsqj57f7xc+VewRHNd/hntKaFKy3blvQ3FlQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10461"; a="382860796"
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
+   d="scan'208";a="382860796"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 04:12:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
+   d="scan'208";a="756332691"
+Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 06 Sep 2022 04:12:19 -0700
+Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oVWV9-00052h-0S;
+        Tue, 06 Sep 2022 11:12:19 +0000
+Date:   Tue, 6 Sep 2022 19:11:38 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Aleksa Savic <savicaleksa83@gmail.com>, linux-hwmon@vger.kernel.org
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        Aleksa Savic <savicaleksa83@gmail.com>,
+        Jack Doan <me@jackdoan.com>, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (aquacomputer_d5next) Add support for
+ Aquacomputer High Flow Next
+Message-ID: <202209061853.1eqL4nKA-lkp@intel.com>
+References: <20220905142521.6674-1-savicaleksa83@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220905142521.6674-1-savicaleksa83@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Daniel Borkmann <daniel@iogearbox.net> writes:
+Hi Aleksa,
 
-> On 8/29/22 11:14 AM, Donald Hunter wrote:
->> Run make in list of subdirs to build generated sources and migrate
->> userspace-api/media to use this instead of being a special case.
->> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
->
-> Jonathan, given this touches Documentation/Makefile, could you ACK if
-> it looks good to you? Noticed both patches don't have doc: $subj prefix,
-> but that's something we could fix up.
->
-> Maybe one small request, would be nice to build Documentation/bpf/libbpf/
-> also with every BPF CI run to avoid breakage of program_types.csv. Donald
-> could you check if feasible? Follow-up might be ok too, but up to Andrii.
+I love your patch! Yet something to improve:
 
-Sure, I can look at what is needed for the BPF CI run.
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on next-20220901]
+[cannot apply to linus/master v6.0-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> Thanks,
-> Daniel
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksa-Savic/hwmon-aquacomputer_d5next-Add-support-for-Aquacomputer-High-Flow-Next/20220905-222744
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20220906/202209061853.1eqL4nKA-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/0a43ba8acd8bcd54afd03ea6149d54fc99fe284c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Aleksa-Savic/hwmon-aquacomputer_d5next-Add-support-for-Aquacomputer-High-Flow-Next/20220905-222744
+        git checkout 0a43ba8acd8bcd54afd03ea6149d54fc99fe284c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/kvm/ drivers/hwmon/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/hwmon/aquacomputer_d5next.c:38:3: error: use of undeclared identifier 'highflownext'
+           [highflownext] = "highflownext"
+            ^
+   drivers/hwmon/aquacomputer_d5next.c:425:8: error: use of undeclared identifier 'highflownext'
+                   case highflownext:
+                        ^
+   drivers/hwmon/aquacomputer_d5next.c:443:8: error: use of undeclared identifier 'highflownext'
+                   case highflownext:
+                        ^
+   drivers/hwmon/aquacomputer_d5next.c:465:8: error: use of undeclared identifier 'highflownext'
+                   case highflownext:
+                        ^
+   drivers/hwmon/aquacomputer_d5next.c:736:7: error: use of undeclared identifier 'highflownext'
+           case highflownext:
+                ^
+>> drivers/hwmon/aquacomputer_d5next.c:924:7: error: use of undeclared identifier 'USB_PRODUCT_ID_HIGHFLOWNEXT'
+           case USB_PRODUCT_ID_HIGHFLOWNEXT:
+                ^
+   drivers/hwmon/aquacomputer_d5next.c:925:16: error: use of undeclared identifier 'highflownext'
+                   priv->kind = highflownext;
+                                ^
+   drivers/hwmon/aquacomputer_d5next.c:993:47: error: use of undeclared identifier 'USB_PRODUCT_ID_HIGHFLOWNEXT'
+           { HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_HIGHFLOWNEXT) },
+                                                        ^
+>> drivers/hwmon/aquacomputer_d5next.c:997:1: error: definition of variable with array type needs an explicit size or an initializer
+   MODULE_DEVICE_TABLE(hid, aqc_table);
+   ^
+   include/linux/module.h:244:21: note: expanded from macro 'MODULE_DEVICE_TABLE'
+   extern typeof(name) __mod_##type##__##name##_device_table               \
+                       ^
+   <scratch space>:196:1: note: expanded from here
+   __mod_hid__aqc_table_device_table
+   ^
+   9 errors generated.
+
+
+vim +/highflownext +38 drivers/hwmon/aquacomputer_d5next.c
+
+    31	
+    32	static const char *const aqc_device_names[] = {
+    33		[d5next] = "d5next",
+    34		[farbwerk] = "farbwerk",
+    35		[farbwerk360] = "farbwerk360",
+    36		[octo] = "octo",
+    37		[quadro] = "quadro",
+  > 38		[highflownext] = "highflownext"
+    39	};
+    40	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
