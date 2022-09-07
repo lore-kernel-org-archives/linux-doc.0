@@ -2,144 +2,238 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 505A3C38145
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 19:59:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D758C38145
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 20:27:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229574AbiIGT7j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Sep 2022 15:59:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58960 "EHLO
+        id S230026AbiIGU1p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Sep 2022 16:27:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229938AbiIGT7f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 15:59:35 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2048.outbound.protection.outlook.com [40.107.244.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4391862E6;
-        Wed,  7 Sep 2022 12:59:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PNaOEeNlQZYfqhGAWW/tdMIt+slP6AkOmlWX7+p1z3hEQ/20atwV/R2PtKkR05poDQvU2TPzWn+Y2xsu14w2DdUYPnRy8ufWwDr+xOE8msHmMhKj62EIe7dURneB8ET6lq5v7aBgYtNyEDDz1fylp1cdGum+DHo9TwPh5bw6tmlDxlVQK7iA3cUScTjYGc/uJp907MSGuFIIOzcqvffPnKmjf00/XvMpSEN4qjnJ0eHXnNzqySRMjOvBF4lN3QQgwOQxu/GqtnpVc8Kwt3apbRiEOABQUr2Kkkl+smcbh70TcPPIs3zkSUnptuYHs9xbcp+Mvgelr0EIPyUH+2vq3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RzAufIVP2BQ48P/L/rZHNc4XJzmOWTq6Q+yuVHLgMk8=;
- b=cP7hAj+t99ipO7fDNpnq2GtznNkGDt/XKqQbyblo3vx/CO1/nlm8n3ioT+Az0z8M0tE6LRdx071MNuKI23azBt0eVf+5rP0v67h/ynxuD/g/w0yxXDBPBGRZ5aHLEwUHCh2E7SnGOcTohJ0fS8MiqnrJF+maAf4r07PBjz29SsTVWuqM1nEd+HU9a0uLgnyFSeOK2Qt0BVtJNmbL+uC3MdZeC1Vya6nQ8UBWdeRH5SEFoU/YMl0L7F1cpjlTTDkhnC+1gRSg7T1LIQfBJVTWndBDuPAN4LdXPFdetV9SrK0V00SnI1EH4q56eEyzmRKfymthsKu9doOULXzIF1lYbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RzAufIVP2BQ48P/L/rZHNc4XJzmOWTq6Q+yuVHLgMk8=;
- b=ppNh2HZyKAW8J9tLrC+d9EpzD+s0uBHivHc7hKjL6QFoS3JL7rVkQFHgCq+S5H6Vbfd6h9vTPpkBX85JVQ9aApqprEZdKCXZJ7Fp3Cel6wTQdq88EuF0aZNmR0EWtPjCOWbVOj8BdaJ7NpuJcziWUSK/e9dZ5/cEwAm0eh73veI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by PH7PR12MB6585.namprd12.prod.outlook.com (2603:10b6:510:213::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.12; Wed, 7 Sep
- 2022 19:59:31 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::4120:60cf:46a8:7109]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::4120:60cf:46a8:7109%5]) with mapi id 15.20.5588.017; Wed, 7 Sep 2022
- 19:59:31 +0000
-Message-ID: <24c64113-f815-f3f5-708f-340a758f781a@amd.com>
-Date:   Wed, 7 Sep 2022 14:59:26 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v4 05/13] x86/cpufeatures: Add Bandwidth Monitoring Event
- Configuration feature flag
-Content-Language: en-US
-To:     Daniel Sneddon <daniel.sneddon@linux.intel.com>, corbet@lwn.net,
-        reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de
-Cc:     fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, sandipan.das@amd.com, tony.luck@intel.com,
-        james.morse@arm.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bagasdotme@gmail.com,
-        eranian@google.com
-References: <166257348081.1043018.11227924488792315932.stgit@bmoger-ubuntu>
- <166257363444.1043018.17384356050516925226.stgit@bmoger-ubuntu>
- <ec61c77f-260f-d9b1-a85a-1888fc45545d@linux.intel.com>
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <ec61c77f-260f-d9b1-a85a-1888fc45545d@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BLAPR03CA0035.namprd03.prod.outlook.com
- (2603:10b6:208:32d::10) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+        with ESMTP id S229984AbiIGU1o (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 16:27:44 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5CC1C12F7;
+        Wed,  7 Sep 2022 13:27:42 -0700 (PDT)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 287KKBMC023592;
+        Wed, 7 Sep 2022 20:27:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=EFnBZp+qRg5HlqnBE8Ox+Rq8lJoTg3g+r/+0ivX52IU=;
+ b=DKbf97KUL6jBdapBk/nvAgFakgYNbKU+uAaQrFfMU79wVMO+nxx3xcNT+qPZH7LLoIg/
+ 5ZQ67TpOmhNt+cpYcOkVYnoaKhF9aLMN0J55o8nwRIfdMkyvlsUfXhyPjdFAl7si6//6
+ Uhm0PuwLTGnv2SgM+/GEvVLNoWNx/3GMScbo0lJWPrHoT6Uz9t2WG6KiccXTe1S+b5wQ
+ lDO1QdM/i4sfhYpIXDrbLPuLld0OlgbhON9DVZbWDZ3ssGCYVeQbfJNVHfzcAe39Jo6M
+ bypL4DtwMdInAO2PEEsWWY85bdqJkvTnf/McuL0wlGEEE5un3HjZtPOL/kjAh7lo6t5/ IA== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jer1x2p56-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 07 Sep 2022 20:27:39 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 287KRcUQ001876
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 7 Sep 2022 20:27:38 GMT
+Received: from [10.110.115.160] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 7 Sep 2022
+ 13:27:37 -0700
+Message-ID: <b7da735b-2ac9-68af-95bb-86ecc81c750c@quicinc.com>
+Date:   Wed, 7 Sep 2022 13:27:06 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 443e75a2-cc34-4fb1-70c2-08da910b7a6d
-X-MS-TrafficTypeDiagnostic: PH7PR12MB6585:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Vv451ilOcu5gFRu4bilciA30PMSpvlD/dCPWSju2kP2Eh8LLfiQwr/Cj3RsCiO/+Bp+vNAo63LgOewsz6nTO04lMuQwsS4P8OPWIGGaUHny+fBcWJYCrOm9eksMc1hGS78wVwJKGEhX6IV+wGdFi7Vx9YuXcQmqe43nXzd1cvGslfzJCDnGVScNyBIcvup7wAaS9dfvtALdKPHRJmZTvLwEf4oD4ZR4GQti2Vw/dDbXB7OkWDqKcVtAlK39iixN34MY+FGJmzK6OqetZkxhcSldf61Zy9CnJUnNOiDThF1G6OoVDfSuYUczZLt9lfq9kw8l8hbqXLswP8WUa7BchUXgH2sUIax07obuyEgbNR5LNOwyauX9wnFASlzsX75mIzx/6Ojl1W2zqpMG9uCmYceuqiq1BnzdP65mD0kJYViZrxKt1nGdCHWDQ3jVRII58rHq0E3FK/l9U1QEoSRlBDy05MGp6GgNyPhiswAPIBOQtVhuuk2WMnCUYj+av0V6D3uoyr+3PvMzINhFCZfimkALlqqdgWX9PPk0UR/RMIykKUdeA+JlA5GXVTNuHr1eeeTI4uK478qM/N9ukT5k+B+RJzAYa6k9DOtnSl3VDY4oXOlPJ/GzC3afWCvqMhvTlhJK8215dzKQefnnPXjb1vmhQlJovL/hskIXzSdRYDaTYv0khD2dTScroY6jGV3F7ENIKICb8/AhQiISpSgZzM97IwC5pxNsebTFsLaf1yPJO0G4Fg6Dp1MlBCcwYud11OT7w9oKbZfTpm79piZpE5kkVK2fg4JwZVGoM+UuSZE4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(396003)(366004)(39860400002)(346002)(376002)(31686004)(36756003)(38100700002)(186003)(316002)(2616005)(4744005)(66946007)(8676002)(41300700001)(7416002)(66556008)(4326008)(26005)(6486002)(6512007)(2906002)(86362001)(53546011)(5660300002)(478600001)(66476007)(6666004)(31696002)(8936002)(6506007)(3450700001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OElQRCtMMGw0UGhJTVpyanVNTjlTdm5Yd0laZjFIYTJFQU15MEZCWkRwa2xS?=
- =?utf-8?B?ZEtJbCs0M3RSZnJpQWZHZnBZQVVaRVRDMitUVTZZcnpHODNtL255M0gxL01B?=
- =?utf-8?B?aTVacG5XUzVFVGdKQlFXQ1RUTzJTVVdDMDBGdmcyWUV0UDNCK1ZFblhaNndx?=
- =?utf-8?B?SmRsd1ZXMjM2bkd1S2hpY2kvRkU4SEJNQkFKd05ld0dSeGJtZElZVElyOGNw?=
- =?utf-8?B?TWZUVkJQSFN5aml4UVMyUWU3eERVRURFL1NORUVpTXRXU1lkWGsxNGlYeitO?=
- =?utf-8?B?Q3drOHJ4cThlblQ2czl0ZmhwQytORWxlUHdJTWlnbXJOaFdqTnhHNHdwc0t0?=
- =?utf-8?B?Vk9UNFk2RFpISjYxZEl2dUZFWm01eEdycm1CR3VGTU5hSUpCc0hOVEJtc1oy?=
- =?utf-8?B?dm5JVS9iUTNzcnhVMnREaXR2Vi8xUzAxcFlHR01QdE5md3RQZVFnQ05qK2FR?=
- =?utf-8?B?L0lNcy9LaDNVS0g1YVUxMkxzYmlpRHZxL3pVOUxMczB0KzR1TnBkZTRuOG02?=
- =?utf-8?B?OEhQSTlzSHFrOEVXdTVkMkJwUlFUb1JpTEVaa1dQNFhaL01SaU5vdTdhRDVs?=
- =?utf-8?B?SlVRK2ptdVNOV0plak0rK3V1Q1E5UXdQQi9NS25KdHZuUXJ2WjYyMmo0OS8x?=
- =?utf-8?B?RDhVZ3gwVFlGQ0lMdEp2RCtEb0NqV2FwdFZnc0dsMzRzbk9sWXlLTXBFSU01?=
- =?utf-8?B?dnVPWlZNaGJ6WVZwWHN4NXNVK1Q0SHhhU0tNRG9GaGtucjZCakZHWThaMnBl?=
- =?utf-8?B?NXl4bFVKYmlMYWtiN3pKTGRQWDVHNjVGd1ltVExnTk54Y2dBaTZxQU5yNmQ3?=
- =?utf-8?B?aUJValA3QkJJTWNNMFFLNjlVVG9Ob0NDL2c4YzVEeDU3dGRqSHUzcTdUL3Z6?=
- =?utf-8?B?M0JGRmJRL1psd0tUMHZRZG1qNFZSMW5IalFGRE81dDRhcGNzT2ZZaXhHcjN4?=
- =?utf-8?B?dGI1blJIeTJrakVsSERqK0l3a2NMdnd0cW5pbFJJbVdsQTdyL1l2ZU5uei8z?=
- =?utf-8?B?SU14bkZCVkdjNlIyOW9yUVBmVldRQnd4MkdRWkJvK1M0TU9FTVRhY1hpdUNE?=
- =?utf-8?B?anI4U09EV1c0QVNnMzNhc1NVQUMwRUxwWmVLQUJyK2lIVGtZU3BnU05DNnpE?=
- =?utf-8?B?NXFyVVIvRmk4MkRScTR4d2lsZUlDWkU3MlNkNjV2cy9LZEVkbzZKQjBHanNr?=
- =?utf-8?B?RERMc21UV3NXakp3OVBualA3bVkyVGtUa0ZLdFo4aUxwMURPdzIzaVdsdzVY?=
- =?utf-8?B?UjBiZHIxdjB0VytraTVIb2R3WC9JV0VxRmNIRGlGeUZnUjMwaGkwYkJ0bHRP?=
- =?utf-8?B?T3Erb3FSVlU2WWVjUCtkaFhBWmMxR3hrWTZ6RW5oV0R6RElYV0JrSFJUN1VL?=
- =?utf-8?B?aGQzSGs2SkFNVVJlMGlBWmtlTno3dEtTbTVySGhWQWFpbk9vQTJWbVRQQ2Vy?=
- =?utf-8?B?MEpWWCtHL3JQZWZBekF5YlVVcUpKMXByTjhidWdtamhmY0xQK1h2WklnQit0?=
- =?utf-8?B?b0gyTWtEQjdUbzdDeHY0RVRxMFlEQmtIRG5COXZ6ZkdkSExvTTBhbUF1MVhx?=
- =?utf-8?B?M25kNEYwVUVjbkgxZ3NGTkRGbENIbTlPTUtIdi8vVkJaV3JYait0UjFvaHB6?=
- =?utf-8?B?ZFZsem1ONVA5VEtwUTRWcEdFTjdZc1JnOFgrbUVqcG45akhWSnNTakpoZFFD?=
- =?utf-8?B?bVZvMDNyRURCYjI1QU1Zbmx2MldDZWM4SnJ2MUxnazVwakFILzV5dUs3RzR6?=
- =?utf-8?B?TCtvUkphZjNLMTc2R0tlYWEvVDFwSlIzU0dPckZIeDYyNGxrc1RMVi8wU00y?=
- =?utf-8?B?bzU1WFg2WmgvcDhvdnZUVzRBalFLREgxbWxqYVhjcjlQdnYzZEFpSlRmZUFO?=
- =?utf-8?B?WThIZG1uMXBtNEdKS1RIZHUxRUhWcHZBbGRkL2pEd0RXaGwveWhRVlY5dVJs?=
- =?utf-8?B?Rk92OHdxY3dmWWdUaGpiWDJoL0cxZXYwWjlsVUpoeUlsYWZaNW1nWENpS2RY?=
- =?utf-8?B?Z1pxazllUDEveGthUXhGajc4UTJlRTBtRzhpT1A5OFZ2eUdVZlJNbWxFdHZa?=
- =?utf-8?B?TWIyQjl3K1dDY3lTakZ3UEtodEJtczc5RnJMbGtFNnpjRXR6U2w4dm01VUlM?=
- =?utf-8?Q?EQscc0QNpBujqKSsfdlRxjIUZ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 443e75a2-cc34-4fb1-70c2-08da910b7a6d
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 19:59:31.3350
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0n/SOIFRIcFhChfrAtSc1iRl/5BRNqHKccIPee4k6G3XmNEc+fsWpPp1zS4FB1Js
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6585
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 1/2] dt-bindings: power: reset: qcom-pon: update "reg"
+ property details
+Content-Language: en-US
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        <corbet@lwn.net>, <sre@kernel.org>, <robh+dt@kernel.org>,
+        <agross@kernel.org>, <bjorn.andersson@linaro.org>
+CC:     <krzysztof.kozlowski+dt@linaro.org>, <vkoul@kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        David Collins <quic_collinsd@quicinc.com>
+References: <20220725191314.19456-1-quic_amelende@quicinc.com>
+ <20220725191314.19456-2-quic_amelende@quicinc.com>
+ <a47a33a5-aec7-2a52-f1e8-52c45307862e@linaro.org>
+ <0e6bf142-ca56-2414-86c4-1a18b74b3ba6@quicinc.com>
+In-Reply-To: <0e6bf142-ca56-2414-86c4-1a18b74b3ba6@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: -VcN0grdqGtflX2ZQzYiXi3Dt06-h0zZ
+X-Proofpoint-GUID: -VcN0grdqGtflX2ZQzYiXi3Dt06-h0zZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-07_10,2022-09-07_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
+ suspectscore=0 bulkscore=0 mlxlogscore=999 spamscore=0 priorityscore=1501
+ malwarescore=0 clxscore=1011 adultscore=0 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2209070076
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Daniel,
 
-On 9/7/22 13:36, Daniel Sneddon wrote:
-> On 9/7/22 11:00, Babu Moger wrote:
->>  #define X86_FEATURE_SMBA		(11*32+18) /* SLOW Memory Bandwidth Allocation */
->> +#define X86_FEATURE_BMEC		(11*32+18) /* AMD Bandwidth Monitoring Event Configuration (BMEC) */
-> Shouldn't this be +19 instead?
+Hi,
 
-Sorry. Missed that. Will fix it. 
-Thanks
-Babu Moger
+Wanted to send a reminder for this patch conversation.
 
+Thanks,
+Anjelique
+On 8/19/2022 1:26 PM, Anjelique Melendez wrote:
+> 
+> Hi Krzysztof,
+> First I would like to apologize for my lack of response to this patch series
+> over these past few weeks. I have been out of office.
+> 
+> On 7/26/2022 3:25 AM, Krzysztof Kozlowski wrote:
+>> On 25/07/2022 21:13, Anjelique Melendez wrote:
+>>> From: David Collins <quic_collinsd@quicinc.com>
+>>>
+>>> Update the description of "reg" property to add the PON_PBS base
+>>> address along with PON_HLOS base address.  Also add "reg-names"
+>>> property constraints.
+>>>
+>>> Signed-off-by: David Collins <quic_collinsd@quicinc.com>
+>>> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+>>> ---
+>>>  Documentation/devicetree/bindings/power/reset/qcom,pon.yaml | 50 +++++++++++++++++++++++++++---
+>>>  1 file changed, 46 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+>>> index 353f155d..d7b6b875 100644
+>>> --- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+>>> +++ b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+>>> @@ -15,18 +15,27 @@ description: |
+>>>  
+>>>    This DT node has pwrkey and resin as sub nodes.
+>>>  
+>>> -allOf:
+>>> -  - $ref: reboot-mode.yaml#
+>>> -
+>>>  properties:
+>>>    compatible:
+>>>      enum:
+>>>        - qcom,pm8916-pon
+>>>        - qcom,pms405-pon
+>>>        - qcom,pm8998-pon
+>>> +      - qcom,pmk8350-pon
+>>>  
+>>>    reg:
+>>> -    maxItems: 1
+>>> +    description: |
+>>> +      Specifies the SPMI base address for the PON (power-on) peripheral.  For
+>>> +      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
+>>> +      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
+>>> +      peripherals.  In that case, the PON_PBS address needs to be specified to
+>>> +      facilitate software debouncing on some PMIC.
+>>> +    minItems: 1
+>>> +    maxItems: 2
+>>> +
+>>> +  reg-names:
+>>> +    minItems: 1
+>>> +    maxItems: 2
+>>>  
+>>>    pwrkey:
+>>>      type: object
+>>> @@ -42,6 +51,39 @@ required:
+>>>  
+>>>  unevaluatedProperties: false
+>>>  
+>>> +allOf:
+>>> +  - $ref: reboot-mode.yaml#
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            enum:
+>>> +              - qcom,pm8916-pon
+>>> +              - qcom,pms405-pon
+>>> +              - qcom,pm8998-pon
+>>> +    then:
+>>> +      properties:
+>>> +        reg:
+>>> +          maxItems: 1
+>>> +        reg-names:
+>>> +          items:
+>>> +            - const: pon
+>>
+>> All your previous patches were actually missing (in commit msg, in the
+>> code) that piece of information which you add here. You now add
+>> reg-names with "pon" for older devices. I assumed previous that it is
+>> somehow needed, so I gave you the hints how it should be coded. But I
+>> don't understand - why are you doing it
+>>
+>> This should be explained in commit msg. To me it is not needed at all...
+>> unless you want to mark that first address space is entirely different
+>> for other devices?
+> Adding reg-names "pon" for older devices is simply to provide clarification
+> about what the register relates to. Similar to reg-names "hlos" and "pbs"
+> for gen3 children devices, reg-names is completely optional and is not
+> consumed by any driver.
+> 
+> Before adding the "qcom,pmk8350-pon" compatible string, the best way to
+> differentiate between a "qcom,pm8998-pon" parent with a gen1/gen2 child vs a
+> "qcom,pm8998-pon" parent with a gen3 child with only an hlos register was to
+> include reg-names. i.e.
+> 
+> pon_hlos@1300 {
+>         reg = <0x1300>;
+>         compatible = "qcom,pm8998-pon";
+> 	reg-names = "pon";
+> };
+> 
+> vs 
+> 
+> pon_hlos@1300 {
+>         reg = <0x1300>;
+>         compatible = "qcom,pm8998-pon";
+> 	reg-names = "hlos";
+> };
+> 
+> Adding the new "qcom,pmk8350-pon" compatible string would now be used to
+> differentiate between gen1/gen2 vs gen3 children, so we could get rid of the
+> addition of reg-names for older devices.
+> 
+> 
+> Similarly we could get rid of reg-names and the "qcom,pmk8350-pon" compatible
+> string as a whole like mentioned in
+> https://lore.kernel.org/all/99a5d9ac-9c20-b441-44af-26772a0e989d@linaro.org/,
+> if reg-names and the new compatible string is causing too much confusion.
+> 
+> 
+> Thanks,
+> Anjelique 
+>>
+> 
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            const: qcom,pmk8350-pon
+>>> +    then:
+>>> +      properties:
+>>> +        reg:
+>>> +          minItems: 1
+>>> +          maxItems: 2
+>>> +        reg-names:
+>>> +          minItems: 1
+>>> +          items:
+>>> +            - const: hlos
+>>> +            - const: pbs
+>>> +
+>>>  examples:
+>>>    - |
+>>>     #include <dt-bindings/interrupt-controller/irq.h>
+>>
+>>
+>> Best regards,
+>> Krzysztof
