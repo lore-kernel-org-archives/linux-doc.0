@@ -2,147 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EC53C38145
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 10:15:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45AC1C54EE9
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 15:38:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230311AbiIGKPS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Sep 2022 06:15:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39290 "EHLO
+        id S229852AbiIGPi2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Sep 2022 11:38:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230132AbiIGKPI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 06:15:08 -0400
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDEC25588;
-        Wed,  7 Sep 2022 03:15:02 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.west.internal (Postfix) with ESMTP id CF3012B059F7;
-        Wed,  7 Sep 2022 06:14:59 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Wed, 07 Sep 2022 06:15:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1662545699; x=1662549299; bh=UmErXfxWmw
-        fotEsmsDPTW3AU+XHqokuOWaVIqSNnJFU=; b=e67eu/2Sau6rqKLtSjHFTtHnaQ
-        sYFIdetsex7+OyjkVCLZ9beeQM0Mj/IeHdY5qLHK5/qa9DCDvlLfEE0vXVsM++FW
-        DmI/pO1hL9RP2EFDsAEE3ZnAqtF6BaG2jIBVsYacgmki9ZiMgYsXxo4j1ZXSX9am
-        YWAAb2igRgEssKmR+azw8g+pGFpKueubV/O/pNMRsjRI65T0mBNq1diDNtzgyRRi
-        BgsjNAl0Lz/1ivUtK2a7FQjQi0ubIrbxh0shz6nEs/S2OgZa23RbnQvx6QX/6NnK
-        4qfC1NcLXSP+byXBtZ5fMkEPxzPtxh4drQDP4xaivqxX8mhLS+T3qZooLzIg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1662545699; x=1662549299; bh=UmErXfxWmwfotEsmsDPTW3AU+XHq
-        okuOWaVIqSNnJFU=; b=gTKIwCiZt86E5s5vG5fI33tYaugRTJZhOxCAbdnOKqVO
-        koCeLg26AixgJHv7xcEnAVxt2f+uq1Qe9Ly/XZ9AZxNADVEoNEuSTGAaJ1MVz9Xv
-        vEs4uekKsxYNrk27iiUJQKpMO5V9w1ithQ8yq6Sl4fwmsTAW1q1KnTVjnJ8fY9iP
-        Pk1BQNuHauJpW3b8oe5l248mJVUiGc/KcaSWHIQV88MILHRtmTjY2juOAMF16fZw
-        9TFpjATLujFr5ARlnpjrbY4FALuKVkxhNB5Jt7IUi/vL1AUfPtj+Yah3oQmyM+jX
-        hEXnmkP2LMNTlZ6Qq+wjqmzBuITrYXXD+pOTprwL+g==
-X-ME-Sender: <xms:Im8YY4-zB8jizsFZUbdhZ7cQgbYb9bCeUnh0Z3zsNHcXxM9vVxqGqw>
-    <xme:Im8YYwsKZOjKJ7WWo353mzbZGW2tQzA0JuhJaglRtfijovoc5gsezEZ-yuGQrdEII
-    1Y3hM4PsLWPNmM17-8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgvdegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:Im8YY-CAIpeIMrSA33XANi56_-wSyqmDx83zlMGLBrCNm1JDzeKnaA>
-    <xmx:Im8YY4eL3awRkF6q0khiLQ5sSOmH-E4e4PH_DDBP1MlQ94HXlXLtZw>
-    <xmx:Im8YY9N2Z5S1YfDKXcAZptJ2D7xwO8QSkiH1M6PEbQFOARfWIzdRHQ>
-    <xmx:I28YY4GQNGTdhuWe697LLmw2mSLNz7DZ60kD9zrtOAKd-nrNQXqNz3_17_M>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 3CDB4B60083; Wed,  7 Sep 2022 06:14:58 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-927-gf4c98c8499-fm-20220826.002-gf4c98c84
-Mime-Version: 1.0
-Message-Id: <b348a306-3043-4ccc-9067-81759ab29143@www.fastmail.com>
-In-Reply-To: <CAMRc=MehcpT84-ucLbYmdVTAjT86bNb9NEfV6npCmPZHqbsArw@mail.gmail.com>
-References: <cover.1662116601.git.christophe.leroy@csgroup.eu>
- <CAMRc=MehcpT84-ucLbYmdVTAjT86bNb9NEfV6npCmPZHqbsArw@mail.gmail.com>
-Date:   Wed, 07 Sep 2022 12:14:38 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Bartosz Golaszewski" <brgl@bgdev.pl>,
-        "Christophe Leroy" <christophe.leroy@csgroup.eu>
-Cc:     "Linus Walleij" <linus.walleij@linaro.org>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        Keerthy <j-keerthy@ti.com>,
-        "Russell King" <linux@armlinux.org.uk>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        "Davide Ciminaghi" <ciminaghi@gnudd.com>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>, x86@kernel.org
-Subject: Re: [PATCH v2 0/9] gpio: Get rid of ARCH_NR_GPIOS (v2)
-Content-Type: text/plain
+        with ESMTP id S229958AbiIGPi0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 11:38:26 -0400
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732B18A6CB;
+        Wed,  7 Sep 2022 08:38:25 -0700 (PDT)
+Received: by mail-ot1-f45.google.com with SMTP id t8-20020a9d5908000000b0063b41908168so10521554oth.8;
+        Wed, 07 Sep 2022 08:38:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=KSoB0G6pzRD9DIaWPNDedKDIgG6tTjWjaUw36ufPm4w=;
+        b=jLzB3um7Ct52eto1lBrsQO9dhG9K0S5ts6G2JgXiWzV95OU7MDuqD+czk0typ/4DrF
+         dRYwQi6NHaz19VlWongvg9C/nWjJTKiEVoexe6uL1vCkjqwMn601m2BjNdM7lO1SbEMh
+         JBedtChdnteNGGt5lnTFq2L/kTHdM4Aui3pzgARj1j/cp9CxLed/Zi7S55m2mLPmyHpK
+         Ti3S5glwqr90ioYThVspBYJVajAT8B+NxLsQlncwdt+nCG+HnahvvDxJvsgNF77kLJZ2
+         7sQYConqjA3ZC63L8ToVq+Kb3w67bUfYXLBiAZxlhgHDGLOJjaLvmKVeTLzU7PFzLlHB
+         +VQw==
+X-Gm-Message-State: ACgBeo25SIEwi/fYJEcX+0hscd8RN/6zHuYfKhy41L7JGuk5rKGdkbK0
+        3rcfp3r/9bxYOXlXoNoSRw==
+X-Google-Smtp-Source: AA6agR7cHntWzuv22mM6yjZi+6RNKL5IJKl5pY/iSsPF1rL/uA/vWpzkdCz2m1iQhfyCAPlQWPYbhw==
+X-Received: by 2002:a9d:5508:0:b0:636:ee02:ff7c with SMTP id l8-20020a9d5508000000b00636ee02ff7cmr1745217oth.249.1662565104411;
+        Wed, 07 Sep 2022 08:38:24 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id bm23-20020a0568081a9700b0034480f7eec4sm6550747oib.12.2022.09.07.08.38.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Sep 2022 08:38:23 -0700 (PDT)
+Received: (nullmailer pid 3498322 invoked by uid 1000);
+        Wed, 07 Sep 2022 15:38:23 -0000
+Date:   Wed, 7 Sep 2022 10:38:22 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
+        devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH 2/7] dt-bindings: gpio: add binding for the GPIO block
+ for Apple Mac SMC
+Message-ID: <20220907153822.GA3492530-robh@kernel.org>
+References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
+ <E1oVYUI-005CmB-84@rmk-PC.armlinux.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <E1oVYUI-005CmB-84@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 7, 2022, at 11:58 AM, Bartosz Golaszewski wrote:
-> On Fri, Sep 2, 2022 at 2:42 PM Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
->>
->>  Documentation/driver-api/gpio/legacy.rst |   5 -
->>  arch/arm/Kconfig                         |  21 --
->>  arch/arm/include/asm/gpio.h              |   1 -
->>  arch/arm64/Kconfig                       |  12 -
->>  arch/x86/Kconfig                         |   5 -
->>  drivers/gpio/Kconfig                     |   8 -
->>  drivers/gpio/Makefile                    |   1 -
->>  drivers/gpio/gpio-aggregator.c           |   7 +-
->>  drivers/gpio/gpio-davinci.c              |   3 -
->>  drivers/gpio/gpio-sta2x11.c              | 411 -----------------------
->>  drivers/gpio/gpiolib.c                   |  13 +-
->>  include/asm-generic/gpio.h               |  55 ++-
->>  12 files changed, 33 insertions(+), 509 deletions(-)
->>  delete mode 100644 drivers/gpio/gpio-sta2x11.c
+On Tue, Sep 06, 2022 at 02:19:34PM +0100, Russell King (Oracle) wrote:
+> Add the DT binding for the Apple Mac System Management Controller GPIOs.
+> 
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
+>  .../devicetree/bindings/gpio/gpio-macsmc.yaml | 28 +++++++++++++++++++
+>  .../devicetree/bindings/mfd/apple,smc.yaml    |  4 +++
+>  2 files changed, 32 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+> new file mode 100644
+> index 000000000000..ee620fe50ca8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+> @@ -0,0 +1,28 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpio/gpio-macsmc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple Mac System Management Controller GPIO
+> +
+> +maintainers:
+> +  - Hector Martin <marcan@marcan.st>
+> +
+> +description:
+> +  This describes the binding for the Apple Mac System Management Controller
+> +  GPIO block.
+> +
+> +properties:
+> +  gpio-controller: true
+> +  '#gpio-cells':
+> +    const: 2
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    smc_gpio: gpio {
+> +      gpio-controller;
+> +      #gpio-cells = <2>;
+> +    };
 
-For the arch/arm*/Kconfig and include/asm-generic changes:
+Please move the example to the mfd schema. One complete example rather 
+than piecemeal examples.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> index 168f237c2962..47e3cd58bf19 100644
+> --- a/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> @@ -37,6 +37,10 @@ title: Apple Mac System Management Controller
+>      description:
+>        A phandle to the mailbox channel
+>  
+> +patternProperties:
+> +  gpio:
+> +    $ref: /schemas/gpio/gpio-macsmc.yaml
+> +
 
-sta2x11 is an x86 driver, so not my area, but I think it would be
-best to kill off the entire platform rather than just its gpio
-driver, since everything needs to work together and it's clearly
-not functional at the moment.
+Reorder the patches such that the MFD binding is last and this hunk can 
+be part of it.
 
-$ git grep -l STA2X11
-Documentation/admin-guide/media/pci-cardlist.rst
-arch/x86/Kconfig
-arch/x86/include/asm/sta2x11.h
-arch/x86/pci/Makefile
-arch/x86/pci/sta2x11-fixup.c
-drivers/ata/ahci.c
-drivers/gpio/Kconfig
-drivers/gpio/Makefile
-drivers/gpio/gpio-sta2x11.c
-drivers/i2c/busses/Kconfig
-drivers/media/pci/Makefile
-drivers/media/pci/sta2x11/Kconfig
-drivers/media/pci/sta2x11/Makefile
-drivers/media/pci/sta2x11/sta2x11_vip.c
-drivers/media/pci/sta2x11/sta2x11_vip.h
-drivers/mfd/Kconfig
-drivers/mfd/Makefile
-drivers/mfd/sta2x11-mfd.c
-include/linux/mfd/sta2x11-mfd.h
-
-Removing the other sta2x11 bits (mfd, media, x86) should
-probably be done through the respective tree, but it would
-be good not to forget those.
-
-      Arnd
+Rob
