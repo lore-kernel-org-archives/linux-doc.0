@@ -2,172 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42000C6FA8A
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 17:04:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB2A4C38145
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 17:13:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230040AbiIGREs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Sep 2022 13:04:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34756 "EHLO
+        id S229916AbiIGRND (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Sep 2022 13:13:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230094AbiIGREp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 13:04:45 -0400
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43AD118C
-        for <linux-doc@vger.kernel.org>; Wed,  7 Sep 2022 10:04:41 -0700 (PDT)
-Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-1278624b7c4so19359122fac.5
-        for <linux-doc@vger.kernel.org>; Wed, 07 Sep 2022 10:04:41 -0700 (PDT)
+        with ESMTP id S229977AbiIGRMc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 13:12:32 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89C72BFA8B;
+        Wed,  7 Sep 2022 10:12:12 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id c11so17257307wrp.11;
+        Wed, 07 Sep 2022 10:12:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=Ro6O+2s9xjG7/14chisnyJusofpe1P/Z+6Ni1HfLglw=;
-        b=SFFia7VrpSfHHqK4+wrGcNeHGpCjolBliKK6r1h6XIGRo5GSXMMhxGqrAZd7h/1Z8I
-         fZPHWdG3DVGVcrZh+RMzotY75nbYwZF3yvul2CYa8AlFvlyUYoinzuFbkei+E22aaGaF
-         hAcyyxG/Z+aKkT3k0U/r3XrRUCZZbGhXiEzNA=
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date;
+        bh=eD0xuiNX3wD0z20Pv3fc/gF3yUZHFmC8co6RhSNzbeM=;
+        b=Ty1nlULRqbTYBzI09R0J4LKQcvXHU/02T1na/x0/OIdZ4mCSxDvbQw8bszgJ1Nrj8S
+         wkfomwVX9GKnQI0I1HtYHmiwbND0BjBJYwRtTzBwOX29jlE3wBO6T4qt4Ndur9Q/r1Uq
+         YhJT//FBrJfpbo3yzb4cV/AECiS2b8mr1/WWNK2HlBiRz442F92imzd2MqjAvm16b0EA
+         dqqd4x+SJ032c/pDqngfap36L3eDySgXyuirLZ6gL4OuM532yl2VajguRBKBYp9jZTzy
+         0SRIKUEE+swjeGipV125CsqX3AO+fAbkWZbDS5BDZLmroWB03aOBsSEJ0NnST3rJ6is+
+         eKAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=Ro6O+2s9xjG7/14chisnyJusofpe1P/Z+6Ni1HfLglw=;
-        b=KVbHOVcjccZqKAcUFNL5IAqYXl5ghET3QFSjHmqmhKmsX3mnohIMkVMzQkj5kS0mb5
-         xxOz23S/viMLrZFWKAMnAro0wnV7fJckByx0X4oi2nBCZvHoYoO8Nb6Ujz97t5cdCJOi
-         hAblP69gh4gfb41mR8zKtai3S2yS4cCBdCOA0bdKGpBOwfQ1YLmr9B9BFA3I2+cJDvlC
-         hfCaulCB1aSUZwcBHxNFjfolzZ3tBfa15tFztVKlOXWVNI90+pS3uNcONmoNm+o24ocA
-         hv6CaPMx57eV4Ol3J4uHJIwZoig8DenY5l2iXLROHcUrBZPMsdkUJxWfpmjJTYUGYS/V
-         Bn4w==
-X-Gm-Message-State: ACgBeo1Lny9m4mbKVoXr2Z/IVHqsvDevWTD0ZBVo3GgyZSxOewIByq7q
-        sX8mVExxhQhShY+iEUrB0qzoooDRzVxFog==
-X-Google-Smtp-Source: AA6agR4FkjgGqypwQsAGAKljOEPCRsPrErdX43149/Tc4LeOEOy+X3yXn4pC104wOUQITSh4BTalZw==
-X-Received: by 2002:aca:2810:0:b0:344:e898:35aa with SMTP id 16-20020aca2810000000b00344e89835aamr12773184oix.279.1662570280756;
-        Wed, 07 Sep 2022 10:04:40 -0700 (PDT)
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com. [209.85.160.50])
-        by smtp.gmail.com with ESMTPSA id 188-20020a4a1dc5000000b0044565e7ab41sm5248904oog.32.2022.09.07.10.04.40
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Sep 2022 10:04:40 -0700 (PDT)
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1274ec87ad5so22692343fac.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Sep 2022 10:04:40 -0700 (PDT)
-X-Received: by 2002:a05:6870:b28c:b0:127:ad43:573e with SMTP id
- c12-20020a056870b28c00b00127ad43573emr2505114oao.174.1662570269627; Wed, 07
- Sep 2022 10:04:29 -0700 (PDT)
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=eD0xuiNX3wD0z20Pv3fc/gF3yUZHFmC8co6RhSNzbeM=;
+        b=qSwN3iPP7nbhLlU0ggJ+JS9hiL+8FAUzkXa8sX7FfB9Dqy0MdH62/f1IMtXEeJiMhU
+         2zOnJBU71C/AuZgrZWiXDI2SaDrAu41fu4E3fGskxnJx2r0a0i8vfCaZCZQOtDi9Y8Ns
+         gjFPuegpYKbtHdEFNl8G+bTSJgz2OqkmZhBYziKbzzQDPPrS6EvyC0m9xLST61cAIcJ7
+         TDX8TUCW++5+JN9MZzEY5lazeWoH7rk+TAjRptVs9LWMMHl5SqFLngvrEeSG3B6KJQES
+         Cn6SBkrY7NUb4WthvDzPwX8aNDq35+La4fx1gxvsRpfWmsL0X7zB8dXYTp3I2mTODlKx
+         qzNA==
+X-Gm-Message-State: ACgBeo0gfGlwaR0unzUaqtaMaVNFY95eQAl04EOcoyJVDXVliK2c3Mqs
+        WTa3UU8SFTL/HlUovXsKiF0=
+X-Google-Smtp-Source: AA6agR5yxLsnkcrpy3PeMKRCbpBup3SUjSmpp6SprsnF9G8/bK7OpI4Fjn1G7+fCIKMBDSvGQrflbA==
+X-Received: by 2002:a5d:5b17:0:b0:226:da70:619e with SMTP id bx23-20020a5d5b17000000b00226da70619emr2793441wrb.434.1662570724639;
+        Wed, 07 Sep 2022 10:12:04 -0700 (PDT)
+Received: from elementary ([94.73.32.249])
+        by smtp.gmail.com with ESMTPSA id r1-20020a5d4e41000000b00228bf773b1fsm10548737wrt.7.2022.09.07.10.12.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Sep 2022 10:12:03 -0700 (PDT)
+Date:   Wed, 7 Sep 2022 19:12:01 +0200
+From:   =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To:     =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maxime Ripard <mripard@kernel.org>,
+        David Gow <davidgow@google.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] drm/doc: Custom Kconfig for KUnit is no longer needed
+Message-ID: <20220907171201.GA4529@elementary>
+References: <20220905184711.391022-1-michal.winiarski@intel.com>
 MIME-Version: 1.0
-References: <20220823222526.1524851-1-evgreen@chromium.org> <e74a2c48-fd30-aa4c-9ab6-eafe652f7878@amd.com>
-In-Reply-To: <e74a2c48-fd30-aa4c-9ab6-eafe652f7878@amd.com>
-From:   Evan Green <evgreen@chromium.org>
-Date:   Wed, 7 Sep 2022 10:03:53 -0700
-X-Gmail-Original-Message-ID: <CAE=gft6gjqhviovxQDY=qrBiKQH1RBkCd_f+pnNw4Tz=M0ewBg@mail.gmail.com>
-Message-ID: <CAE=gft6gjqhviovxQDY=qrBiKQH1RBkCd_f+pnNw4Tz=M0ewBg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/10] Encrypted Hibernation
-To:     "Limonciello, Mario" <mario.limonciello@amd.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Eric Biggers <ebiggers@kernel.org>,
-        Matthew Garrett <mgarrett@aurora.tech>,
-        Jarkko Sakkinen <jarkko@kernel.org>, zohar@linux.ibm.com,
-        linux-integrity@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-        apronin@chromium.org, Daniil Lunev <dlunev@google.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Len Brown <len.brown@intel.com>,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
-        keyrings@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-security-module@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220905184711.391022-1-michal.winiarski@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 31, 2022 at 11:35 AM Limonciello, Mario
-<mario.limonciello@amd.com> wrote:
->
-> On 8/23/2022 17:25, Evan Green wrote:
-> > We are exploring enabling hibernation in some new scenarios. However,
-> > our security team has a few requirements, listed below:
-> > 1. The hibernate image must be encrypted with protection derived from
-> >     both the platform (eg TPM) and user authentication data (eg
-> >     password).
-> > 2. Hibernation must not be a vector by which a malicious userspace can
-> >     escalate to the kernel.
-> >
-> > Requirement #1 can be achieved solely with uswsusp, however requirement
-> > 2 necessitates mechanisms in the kernel to guarantee integrity of the
-> > hibernate image. The kernel needs a way to authenticate that it generated
-> > the hibernate image being loaded, and that the image has not been tampered
-> > with. Adding support for in-kernel AEAD encryption with a TPM-sealed key
-> > allows us to achieve both requirements with a single computation pass.
-> >
-> > Matthew Garrett published a series [1] that aligns closely with this
-> > goal. His series utilized the fact that PCR23 is a resettable PCR that
-> > can be blocked from access by usermode. The TPM can create a sealed key
-> > tied to PCR23 in two ways. First, the TPM can attest to the value of
-> > PCR23 when the key was created, which the kernel can use on resume to
-> > verify that the kernel must have created the key (since it is the only
-> > one capable of modifying PCR23). It can also create a policy that enforces
-> > PCR23 be set to a specific value as a condition of unsealing the key,
-> > preventing usermode from unsealing the key by talking directly to the
-> > TPM.
-> >
-> > This series adopts that primitive as a foundation, tweaking and building
-> > on it a bit. Where Matthew's series used the TPM-backed key to encrypt a
-> > hash of the image, this series uses the key directly as a gcm(aes)
-> > encryption key, which the kernel uses to encrypt and decrypt the
-> > hibernate image in chunks of 16 pages. This provides both encryption and
-> > integrity, which turns out to be a noticeable performance improvement over
-> > separate passes for encryption and hashing.
-> >
-> > The series also introduces the concept of mixing user key material into
-> > the encryption key. This allows usermode to introduce key material
-> > based on unspecified external authentication data (in our case derived
-> > from something like the user password or PIN), without requiring
-> > usermode to do a separate encryption pass.
-> >
-> > Matthew also documented issues his series had [2] related to generating
-> > fake images by booting alternate kernels without the PCR23 limiting.
-> > With access to PCR23 on the same machine, usermode can create fake
-> > hibernate images that are indistinguishable to the new kernel from
-> > genuine ones. His post outlines a solution that involves adding more
-> > PCRs into the creation data and policy, with some gyrations to make this
-> > work well on a standard PC.
-> >
-> > Our approach would be similar: on our machines PCR 0 indicates whether
-> > the system is booted in secure/verified mode or developer mode. By
-> > adding PCR0 to the policy, we can reject hibernate images made in
-> > developer mode while in verified mode (or vice versa).
-> >
-> > Additionally, mixing in the user authentication data limits both
-> > data exfiltration attacks (eg a stolen laptop) and forged hibernation
-> > image attacks to attackers that already know the authentication data (eg
-> > user's password). This, combined with our relatively sealed userspace
-> > (dm-verity on the rootfs), and some judicious clearing of the hibernate
-> > image (such as across an OS update) further reduce the risk of an online
-> > attack. The remaining attack space of a forgery from someone with
-> > physical access to the device and knowledge of the authentication data
-> > is out of scope for us, given that flipping to developer mode or
-> > reflashing RO firmware trivially achieves the same thing.
-> >
-> > A couple of patches still need to be written on top of this series. The
-> > generalized functionality to OR in additional PCRs via Kconfig (like PCR
-> > 0 or 5) still needs to be added. We'll also need a patch that disallows
-> > unencrypted forms of resume from hibernation, to fully close the door
-> > to malicious userspace. However, I wanted to get this series out first
-> > and get reactions from upstream before continuing to add to it.
->
-> Something else to think about in this series is what happens with
-> `hibernation_available` in kernel/power/hibernate.c.  Currently if the
-> system is locked down hibernate is disabled, but I would think that
-> with a setup like that described here that should no longer be necessary.
->
+Hi Michał,
 
-Correct, I think that would be a reasonable followup to this series.
+On Mon, Sep 05, 2022 at 08:47:11PM +0200, Michał Winiarski wrote:
+> When built for UML, KUnit provides virtio/PCI, which means that the
+> DMA/IOMEM UML emulation needed by DRM is already present and does not
+> need to be manually added with --kconfig_add.
+> 
+> References: commit 6fc3a8636a7b ("kunit: tool: Enable virtio/PCI by default on UML")
+> Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
+> ---
+>  Documentation/gpu/drm-internals.rst | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
+> index 5fd20a306718..c264a9587d21 100644
+> --- a/Documentation/gpu/drm-internals.rst
+> +++ b/Documentation/gpu/drm-internals.rst
+> @@ -228,16 +228,11 @@ follows:
+>  
+>  .. code-block:: bash
+>  
+> -	$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/tests \
+> -		--kconfig_add CONFIG_VIRTIO_UML=y \
+> -		--kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=y
+> +	$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/tests
+>  
+>  .. note::
+>  	The configuration included in ``.kunitconfig`` should be as generic as
+>  	possible.
+> -	``CONFIG_VIRTIO_UML`` and ``CONFIG_UML_PCI_OVER_VIRTIO`` are not
+> -	included in it because they are only required for User Mode Linux.
+> -
+>  
+>  Legacy Support Code
+>  ===================
+> -- 
+> 2.37.3
+> 
 
--Evan
+Thanks for the patch. This was in my ToDo list and I was waiting until
+6fc3a8636a7b was merged in the DRM tree, but since you already fixed it
+I can mark it as done.
+
+Thanks!
