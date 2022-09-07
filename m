@@ -2,148 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 634E1ECAAD3
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 09:41:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F8DCECAAD3
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 09:59:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230171AbiIGJlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Sep 2022 05:41:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51464 "EHLO
+        id S230301AbiIGJ7f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Sep 2022 05:59:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230206AbiIGJkr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 05:40:47 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 878EE8C44A;
-        Wed,  7 Sep 2022 02:40:46 -0700 (PDT)
-Received: from [192.168.10.7] (unknown [39.45.34.118])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: usama.anjum)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 86B816601F59;
-        Wed,  7 Sep 2022 10:40:41 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1662543644;
-        bh=uY9pFagbdbh2lu8qFd2KKrIN4d71jSAT6G/zm0gBKdA=;
-        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-        b=bxbY5WxH4rDgMWoliFxR6YZ8Ia1K9Tiw4FBvay0lZQ/wFpp5fJPhe2OZ9kZJvKPtD
-         U4zYvbBUaEPP654ir03KVcclG9hpZxVMhnXw1C0TCvJOoknbNfodO3HdVTP0rqsP5V
-         cDqdEBqviA8BAhb9aFUJomTcw92gNg2Hc5Z7evMXLAy5F6uFtscHy7mlE0i2j+MW70
-         qylf+08rgESV6oVoor2i9EFePOJtK0Hp1zfCyKC9eC9AaQgKvtsCJyU/C0wtB4uOjG
-         2HAPUt63VEawgolQd37NugEEScwTS2kHaUR5gw5odZUkyiyENUQFi78Gr+la3TShER
-         ytgxww5A5tn9A==
-Message-ID: <19df8db9-cff4-848e-905b-525f620848e8@collabora.com>
-Date:   Wed, 7 Sep 2022 14:40:37 +0500
+        with ESMTP id S230336AbiIGJ6z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 05:58:55 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7C10B7766
+        for <linux-doc@vger.kernel.org>; Wed,  7 Sep 2022 02:58:40 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id fy31so29155579ejc.6
+        for <linux-doc@vger.kernel.org>; Wed, 07 Sep 2022 02:58:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=heSFzetbXWgbtnsASv1LZ6qPan1dJOs+6DCCGWIHMBc=;
+        b=vHf0XP6Ze2kKCdhKxtVAgOHIr2JsfMKXNXZBFepV2YBWzCPoSXlPG+D1rz3Zg9Rch0
+         ypMUtQMR9yyK7gQjXW2ZyJ2cnlHlg71InbxQR7ofH3deJAocrr+yORgDxvorjARevA1l
+         tJHxHMkBbBa+CnVkksjAvgq0kmgk+59QTtXcjKW9zZhxRIFlhHlqchKmGRNkvoXe2Y85
+         F23ax+ngd/IlSAB6HD0FpqhIOJKU7jZkyGDdKtaAWVwaraHMfa6YxvtZnPZFhff7znmT
+         4e4T7YcqtsBKyZOiDnLNOkbTrFzdJQLHpf4Mu3ZhQsTPjK/8w9zsT/qHgDHipv7pBptk
+         v+yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=heSFzetbXWgbtnsASv1LZ6qPan1dJOs+6DCCGWIHMBc=;
+        b=edCna3x4rZT5PErqyWNknHL8SmqzuWQql9c/yftzn4Y/saKn0Q3J2lp7LEOUwkm7SB
+         dmHRPrpxQYyBOnX2jxE9E7Sv+LAk/teDagSfdBRoR1JWkcZkbr3n61AlVPQyCLQNJqYu
+         ZlnuMLJF7D42kxo3kzdZHXOJA5wYG06qk0wKTJVDiGRlMfmxfrO0INUK3cltWcKpxnIz
+         +x0lamDhNYFzDZpdtLHzM6nOJcLDb13PSopz9BpRnvq3xXY2QDEgMrrrBV4DsYtNQ3R7
+         BqxJAZQy94ZsQ9x+nWJTIMIyvCGQdg79MWmOx4q4SI+eceHy/T6CKMJXJDKPLfuntybE
+         2ieQ==
+X-Gm-Message-State: ACgBeo1X3i3hJXtNlikW4yCjt+K7807cMiyFDONkZsm2lovUWkzWs9y/
+        FaXQ9HL8rRLod4ju+BpnCg+YQokpR/MAhez4uHx74Q==
+X-Google-Smtp-Source: AA6agR47HMjnxQAohy22Di9zQNJim5dtH8VkOKRmZAWyo3gky2iLulW9tTE1/ctNbKsixVbNqreBKmb966LjP7FAmDg=
+X-Received: by 2002:a17:906:4fd5:b0:74f:2bad:f9d with SMTP id
+ i21-20020a1709064fd500b0074f2bad0f9dmr1687207ejw.697.1662544719244; Wed, 07
+ Sep 2022 02:58:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Cc:     usama.anjum@collabora.com, kernel@collabora.com,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        David Hildenbrand <david@redhat.com>,
-        Peter Enderborg <peter.enderborg@sony.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v3 0/4] Implement IOCTL to get and clear soft dirty PTE
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:PROC FILESYSTEM" <linux-fsdevel@vger.kernel.org>,
-        "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-References: <20220826064535.1941190-1-usama.anjum@collabora.com>
-From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <20220826064535.1941190-1-usama.anjum@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1662116601.git.christophe.leroy@csgroup.eu>
+In-Reply-To: <cover.1662116601.git.christophe.leroy@csgroup.eu>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Wed, 7 Sep 2022 11:58:28 +0200
+Message-ID: <CAMRc=MehcpT84-ucLbYmdVTAjT86bNb9NEfV6npCmPZHqbsArw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/9] gpio: Get rid of ARCH_NR_GPIOS (v2)
+To:     Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Keerthy <j-keerthy@ti.com>, Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Davide Ciminaghi <ciminaghi@gnudd.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
+        <linux-arch@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/26/22 11:45 AM, Muhammad Usama Anjum wrote:
-> 
-> Hello,
-> 
-> This patch series implements a new ioctl on the pagemap proc fs file to
-> get, clear and perform both get and clear at the same time atomically on
-> the specified range of the memory.
-> 
-> Soft-dirty PTE bit of the memory pages can be viewed by using pagemap
-> procfs file. The soft-dirty PTE bit for the whole memory range of the
-> process can be cleared by writing to the clear_refs file. This series
-> adds features that weren't present earlier.
-> - There is no atomic get soft-dirty PTE bit status and clear operation
->   present.
-> - The soft-dirty PTE bit of only a part of memory cannot be cleared.
-> 
-> Historically, soft-dirty PTE bit tracking has been used in the CRIU
-> project. The proc fs interface is enough for that as I think the process
-> is frozen. We have the use case where we need to track the soft-dirty
-> PTE bit for the running processes. We need this tracking and clear
-> mechanism of a region of memory while the process is running to emulate
-> the getWriteWatch() syscall of Windows. This syscall is used by games to
-> keep track of dirty pages and keep processing only the dirty pages. This
-> new ioctl can be used by the CRIU project and other applications which
-> require soft-dirty PTE bit information.
-> 
-> As in the current kernel there is no way to clear a part of memory (instead
-> of clearing the Soft-Dirty bits for the entire process) and get+clear
-> operation cannot be performed atomically, there are other methods to mimic
-> this information entirely in userspace with poor performance:
-> - The mprotect syscall and SIGSEGV handler for bookkeeping
-> - The userfaultfd syscall with the handler for bookkeeping
-> Some benchmarks can be seen [1].
-> 
-> This ioctl can be used by the CRIU project and other applications which
-> require soft-dirty PTE bit information. The following operations are
-> supported in this ioctl:
-> - Get the pages that are soft-dirty.
-> - Clear the pages which are soft-dirty.
-> - The optional flag to ignore the VM_SOFTDIRTY and only track per page
-> soft-dirty PTE bit
-Thoughts?
+On Fri, Sep 2, 2022 at 2:42 PM Christophe Leroy
+<christophe.leroy@csgroup.eu> wrote:
+>
+> Since commit 14e85c0e69d5 ("gpio: remove gpio_descs global array")
+> there is no limitation on the number of GPIOs that can be allocated
+> in the system since the allocation is fully dynamic.
+>
+> ARCH_NR_GPIOS is today only used in order to provide downwards
+> gpiobase allocation from that value, while static allocation is
+> performed upwards from 0. However that has the disadvantage of
+> limiting the number of GPIOs that can be registered in the system.
+>
+> To overcome this limitation without requiring each and every
+> platform to provide its 'best-guess' maximum number, rework the
+> allocation to allocate from 512 upwards, allowing approx 2 millions
+> of GPIOs.
+>
+> In the meantime, add a warning for drivers how are still doing
+> static allocation, so that in the future the static allocation gets
+> removed completely and dynamic allocation can start at base 0.
+>
+> Main changes in v2:
+> - Adding a patch to remove sta2x11 GPIO driver instead of modifying it
+> - Moving the base of dynamic allocation from 256 to 512 because there
+> are drivers allocating gpios as high as 400.
+>
+> Christophe Leroy (8):
+>   gpio: aggregator: Stop using ARCH_NR_GPIOS
+>   gpio: davinci: Stop using ARCH_NR_GPIOS
+>   gpiolib: Warn on drivers still using static gpiobase allocation
+>   gpiolib: Get rid of ARCH_NR_GPIOS
+>   Documentation: gpio: Remove text about ARCH_NR_GPIOS
+>   x86: Remove CONFIG_ARCH_NR_GPIO
+>   arm: Remove CONFIG_ARCH_NR_GPIO
+>   arm64: Remove CONFIG_ARCH_NR_GPIO
+>
+> Davide Ciminaghi (1):
+>   gpio: Remove sta2x11 GPIO driver
+>
+>  Documentation/driver-api/gpio/legacy.rst |   5 -
+>  arch/arm/Kconfig                         |  21 --
+>  arch/arm/include/asm/gpio.h              |   1 -
+>  arch/arm64/Kconfig                       |  12 -
+>  arch/x86/Kconfig                         |   5 -
+>  drivers/gpio/Kconfig                     |   8 -
+>  drivers/gpio/Makefile                    |   1 -
+>  drivers/gpio/gpio-aggregator.c           |   7 +-
+>  drivers/gpio/gpio-davinci.c              |   3 -
+>  drivers/gpio/gpio-sta2x11.c              | 411 -----------------------
+>  drivers/gpio/gpiolib.c                   |  13 +-
+>  include/asm-generic/gpio.h               |  55 ++-
+>  12 files changed, 33 insertions(+), 509 deletions(-)
+>  delete mode 100644 drivers/gpio/gpio-sta2x11.c
+>
+> --
+> 2.37.1
+>
 
-> 
-> There are two decisions which have been taken about how to get the output
-> from the syscall.
-> - Return offsets of the pages from the start in the vec
-> - Stop execution when vec is filled with dirty pages
-> These two arguments doesn't follow the mincore() philosophy where the
-> output array corresponds to the address range in one to one fashion, hence
-> the output buffer length isn't passed and only a flag is set if the page
-> is present. This makes mincore() easy to use with less control. We are
-> passing the size of the output array and putting return data consecutively
-> which is offset of dirty pages from the start. The user can convert these
-> offsets back into the dirty page addresses easily. Suppose, the user want
-> to get first 10 dirty pages from a total memory of 100 pages. He'll
-> allocate output buffer of size 10 and the ioctl will abort after finding the
-> 10 pages. This behaviour is needed to support Windows' getWriteWatch(). The
-> behaviour like mincore() can be achieved by passing output buffer of 100
-> size. This interface can be used for any desired behaviour.
-> 
-> [1] https://lore.kernel.org/lkml/54d4c322-cd6e-eefd-b161-2af2b56aae24@collabora.com/
-> 
-> Regards,
-> Muhammad Usama Anjum
-> 
-> Muhammad Usama Anjum (4):
->   fs/proc/task_mmu: update functions to clear the soft-dirty PTE bit
->   fs/proc/task_mmu: Implement IOCTL to get and clear soft dirty PTE bit
->   selftests: vm: add pagemap ioctl tests
->   mm: add documentation of the new ioctl on pagemap
-> 
->  Documentation/admin-guide/mm/soft-dirty.rst |  42 +-
->  fs/proc/task_mmu.c                          | 342 ++++++++++-
->  include/uapi/linux/fs.h                     |  23 +
->  tools/include/uapi/linux/fs.h               |  23 +
->  tools/testing/selftests/vm/.gitignore       |   1 +
->  tools/testing/selftests/vm/Makefile         |   2 +
->  tools/testing/selftests/vm/pagemap_ioctl.c  | 649 ++++++++++++++++++++
->  7 files changed, 1050 insertions(+), 32 deletions(-)
->  create mode 100644 tools/testing/selftests/vm/pagemap_ioctl.c
-> 
+I'd like to take it through the GPIO tree if we can get acks for ARM and x86?
 
--- 
-Muhammad Usama Anjum
+Bart
