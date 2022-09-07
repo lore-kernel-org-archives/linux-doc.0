@@ -2,83 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 024AFECAAD3
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 08:13:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC50C38145
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 08:31:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229921AbiIGINa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Sep 2022 04:13:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44672 "EHLO
+        id S229829AbiIGIbI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Sep 2022 04:31:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230045AbiIGIN2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 04:13:28 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 748AAAB064;
-        Wed,  7 Sep 2022 01:13:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662538404; x=1694074404;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=3tY7+UxsQtJxsn+pHqJlmXnkE7m3zYrQ42nl+LWECsg=;
-  b=fwGw0aBvB8E3X52pT1E+L6kk/Ej/kpnCSNJOqrFt33m6EKlIjeEzgIH+
-   6yQHMvkOMvtSEEb5z2JF+/UGPikYMGRHKkwiNBsgECNLbV63MHSx5eiFC
-   0EQZb+hiBuwYGTFvY39Wgh7ziz6Q0iLxIVZsKph5d+x4HEM8+JKll5cJk
-   m+zUmk7r1BUBHk9B0IT1RbCfm85Tjvp03rBd5Pgb/OG1jBHczXGWkVJ6z
-   xZzHK0ykjjxuhUV9vFmy4nkmvPZfCTIbV8QdhQSl2hXehfckRjgwWikrx
-   et497IRafEMeycBnOcGklQu2PW97zwDcxzvH6hlRyiMNjU+cDRqd6ILjA
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="277204804"
-X-IronPort-AV: E=Sophos;i="5.93,296,1654585200"; 
-   d="scan'208";a="277204804"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2022 01:13:23 -0700
-X-IronPort-AV: E=Sophos;i="5.93,296,1654585200"; 
-   d="scan'208";a="644521099"
-Received: from bpawlows-mobl.ger.corp.intel.com (HELO localhost) ([10.252.45.157])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2022 01:13:21 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Subject: Re: [PATCH bpf-next v3 2/2] Add table of BPF program types to
- libbpf docs
-In-Reply-To: <m2zgfc4ejp.fsf@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220829091500.24115-1-donald.hunter@gmail.com>
- <20220829091500.24115-3-donald.hunter@gmail.com>
- <87h71kadjh.fsf@intel.com> <m2zgfc4ejp.fsf@gmail.com>
-Date:   Wed, 07 Sep 2022 11:13:04 +0300
-Message-ID: <87fsh38uwf.fsf@intel.com>
-MIME-Version: 1.0
+        with ESMTP id S229809AbiIGIbH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 04:31:07 -0400
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5441B8E4D2;
+        Wed,  7 Sep 2022 01:31:03 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.west.internal (Postfix) with ESMTP id BE3772B058E5;
+        Wed,  7 Sep 2022 04:22:26 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Wed, 07 Sep 2022 04:22:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm1; t=1662538946; x=1662542546; bh=X79Bowixk2
+        UfvY4aNNNBf2XN1vgN+OVQkvEi3n41B/0=; b=FHq3eWsWbj7AeTTcT3sCiG2Gid
+        zoMcoGnX87QaDKCL9Klc4femUTSwemZiQ3qSZVwFlxvWnOSM7bX1ZQzTRZr/ntO/
+        rUHgfMfaMnw/547ubHfdDxNcdibTQ2teOF/7DV2qlAmttNSlW7d5iyhtiWg/uUDJ
+        lO5qL1F586qegEJupGnmnHsI1IuCp/ImB2pbQwWZ70GdaaWn+oyXtexephhYdXmV
+        SQislyNm+YIIa72TtD5MTVU7il9ysVv6MvEvZIg7XCSWABdf8+1sk/oBKSO3pfZ1
+        uvi6NqIm6jxqcFGbLN03EAn7fM7h4L7Oi/Ji5N0dSTsTCHL9kkQrct9oFswQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1662538946; x=1662542546; bh=X79Bowixk2UfvY4aNNNBf2XN1vgN
+        +OVQkvEi3n41B/0=; b=i2fgw7Lm2RcMVoE6K+rIusyvnZ4lyDN5dx8+fgyWxbIF
+        +AqTwmsIDN0yb6WUldLlrs74GDun+0ghaNFmnjAZTG/kG/DTX2Ue6Jo6AoIEGfnp
+        m23C0krGK+yRAnjvF9vuguVXjMShUCvrdItalepOHerr8sWvWVCUH+p2pz2BA84o
+        9CL/mCBfzT64N5Sg+EM/Sn8zu3t4Mmkl8ZGk/QCKdH6GT+U+UaWKS/+FhXt/OrSz
+        UJnDAu8M6YDAc3UEYGHiyeS8WJGorrnO8HOYrXp9DGJehh1+4dezsYWVDALjUEnt
+        h56fIcvzomWG4T8yO1l/aiAYb7MXV5HfHSWhSnNe0w==
+X-ME-Sender: <xms:wFQYY3OkJ587gJqTFniHmGsoib1jkjdGST-qEVi3IKekB1A8gjk2Ww>
+    <xme:wFQYYx9zmv0pewFSnpE2qd-qg4VthrNbv2mqpQ6fzyLh1lG1ncg64YLF8XhxEzdRd
+    HxfOqHKeDJhq7DxaTA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgtdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:wFQYY2Q2JbiXtN04GC_Hse6TtfQrs-R6JzVpCd0xqk1-TcpRmNZX_A>
+    <xmx:wFQYY7tsyffEhqi73XQbt5gJ44AMPaQ4LgT-tZrwxuBOXwBcKVpCPw>
+    <xmx:wFQYY_cRGxurafke8L8pYB345DBK3SybXlKUd3IJpkYtG6W6mxVuLQ>
+    <xmx:wlQYYynsfP7agf-9b5bKj6YVeu5IB60g4wd5G4IyoTohz3aQSZ3gRnFKefaSHW1i>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 32FE6B60083; Wed,  7 Sep 2022 04:22:24 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-927-gf4c98c8499-fm-20220826.002-gf4c98c84
+Mime-Version: 1.0
+Message-Id: <e2e2a0c7-d859-4255-94b6-b030aa9dc277@www.fastmail.com>
+In-Reply-To: <YxfBGDg6YkIQ6Wzq@phenom.ffwll.local>
+References: <20220806163255.10404-1-markuss.broks@gmail.com>
+ <20220806163255.10404-4-markuss.broks@gmail.com>
+ <YxfBGDg6YkIQ6Wzq@phenom.ffwll.local>
+Date:   Wed, 07 Sep 2022 10:22:03 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Daniel Vetter" <daniel@ffwll.ch>,
+        "Markuss Broks" <markuss.broks@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Ard Biesheuvel" <ardb@kernel.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "Jiri Slaby" <jirislaby@kernel.org>,
+        "Helge Deller" <deller@gmx.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Borislav Petkov" <bp@suse.de>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        "Damien Le Moal" <damien.lemoal@opensource.wdc.com>,
+        "Thomas Zimmermann" <tzimmermann@suse.de>,
+        "Michal Suchanek" <msuchanek@suse.de>,
+        "Javier Martinez Canillas" <javierm@redhat.com>,
+        "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+        "Wei Ming Chen" <jj251510319013@gmail.com>,
+        "Bartlomiej Zolnierkiewicz" <b.zolnierkie@samsung.com>,
+        "Tony Lindgren" <tony@atomide.com>, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 3/3] efi: earlycon: Add support for generic framebuffers and
+ move to console subsystem
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 06 Sep 2022, Donald Hunter <donald.hunter@gmail.com> wrote:
-> Jani Nikula <jani.nikula@linux.intel.com> writes:
+On Tue, Sep 6, 2022, at 11:52 PM, Daniel Vetter wrote:
+> On Sat, Aug 06, 2022 at 07:32:24PM +0300, Markuss Broks wrote:
 >
->>> +
->>> +.. csv-table:: Program Types and Their ELF Section Names
->>> +   :file: ../../output/program_types.csv
->>
->> Oh. You should probably test this with out-of-tree builds.
+> Ok I have a more fundamental issue with this than the lack of proper patch
+> splitting I mentioned in the other thread.
 >
-> By out of tree, do you mean make htmldocs O=... or something else?
-
-Yeah, O= is what I mean.
-
-BR,
-Jani.
-
+> This is the wrong place.
 >
-> I have tested with O=... whih works for the kernel docs, but I think I
-> will need to rework the location to support the libbpf doc build which
-> has different directory layout.
->
-> Thanks,
-> Donald.
+> drivers/video/console is about the various vt console implementations,
+> which supply a struct consw to con_register_driver.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+You are right, that was my mistake. The original patch was for
+drivers/video/fbdev/, and I suggested moving it out of there because
+it does not depend on the fbdev subsystem, but clearly my suggestions
+of drivers/video/console was equally wrong.
+
+> This otoh is an (early) kernel/printk console implemented using struct
+> console. Totally different thing, and really shouldn't end up in
+> drivers/video/console imo. Somewhere in drivers/firmware might still be
+> the best place, the sysfb stuff is also there. Maybe
+> drivers/firmware/sysfb_earlycon.c?
+
+drivers/firmware/ is better but doesn't sound great to me either,
+since one important thing the patch does is to not make it depend
+on EFI firmware or BIOS style screen_info any more. 
+
+Maybe drivers/tty/earlycon_simplefb.c would work better, keeping
+it close to the earlycon base support in drivers/tty/serial/,
+the vt console and the old simplefb driver/, without tying to too
+closely to fbdev of UEFI.
+
+     Arnd
