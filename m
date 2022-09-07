@@ -2,152 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCFC8C38145
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 15:41:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D23C38145
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 15:54:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229451AbiIGPlM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Sep 2022 11:41:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38072 "EHLO
+        id S229477AbiIGPx6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Sep 2022 11:53:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbiIGPlM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 11:41:12 -0400
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E8299C236;
-        Wed,  7 Sep 2022 08:41:11 -0700 (PDT)
-Received: by mail-ot1-f44.google.com with SMTP id 92-20020a9d0be5000000b0063946111607so10526980oth.10;
-        Wed, 07 Sep 2022 08:41:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=btKRTicmLvDCX1hJOEXkDhCFvp2y2mAwN4dxOJuI9Xs=;
-        b=yt1fLBqyuOP0ssFIVk6Uaq81ttk/r/xucwmV8YtK55pJ2WSQMaEll49f9qw5fdpubm
-         G1lj6E+HqV2wl5iQC7xSweZJUajZYpzZt6AFcrQA0l8oLNnQqdMlyhmhQp1GgI1EVpO0
-         jPvH6M60wo86fCv8YeGbuxv0XnGSaJAoD+DjEIL3cKWQ+JL4wYAdfasgO3eQ33EVABoi
-         4E2I0mSE8sNuB/mMaMAnnWAiX9byAb1mkXjkK8nJPpNl3KYQnCT6xwZxrn4As0Os+PIL
-         UDKkNkdXx+SYJa5kQEHcMiQWxX9+ZAtBt7EKQKQlOQ1EKOKPjusqfHDOQyyXpAC32nns
-         X8PQ==
-X-Gm-Message-State: ACgBeo0XPHLG0ZGTFFBlrW91buK9QKjehjTcJjVW2PCP79Mb1sFYVXBh
-        /bo7sLbQ8o3m0UWMUTdgTg==
-X-Google-Smtp-Source: AA6agR4p0eaTsxXGe9aZXFV+W851SwM/FoDIIR/4L+/Kvd6bS7Rk3DlqEa0K4TyDOXVuPAnToLaI3w==
-X-Received: by 2002:a9d:77c3:0:b0:637:36c1:475b with SMTP id w3-20020a9d77c3000000b0063736c1475bmr1673088otl.346.1662565270329;
-        Wed, 07 Sep 2022 08:41:10 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id l14-20020a4ac60e000000b00435ae9a836asm5174440ooq.15.2022.09.07.08.41.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 08:41:09 -0700 (PDT)
-Received: (nullmailer pid 3502719 invoked by uid 1000);
-        Wed, 07 Sep 2022 15:41:08 -0000
-Date:   Wed, 7 Sep 2022 10:41:08 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
-        devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH 1/7] dt-bindings: mfd: add binding for Apple Mac System
- Management Controller
-Message-ID: <20220907154108.GA3498574-robh@kernel.org>
-References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
- <E1oVYUD-005Cm5-3Z@rmk-PC.armlinux.org.uk>
+        with ESMTP id S229884AbiIGPxb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 11:53:31 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CBDF74E2A;
+        Wed,  7 Sep 2022 08:53:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=vh/HiySd7IixUJQ4SUop9TW+9NLt9KE49HmDRsCBipc=; b=t5FOdjDrVJnsnDIDkDKuH64BLF
+        iDpHA3LR8azPZS3KvdZAi0Y9AWxn6iimlMQiKwKxCYrzFBbpR2+LDR9Lixe0Y+fi8PC1rCW37jYW6
+        /6PTMIIDlbciXTTFaKyJIWsXeh/01gu0VCV18S0hRDUbgDYNeWhCn8UdUXsExLY7T2Pbzx5O3/9U+
+        Eu0MI5W6nwLU5rNyELB/bH2SihYP8odXzIU0I1rX07Gmy4jdhpomGPEWuQ/6h53ybw8J3UbdzVzxH
+        XE4WmovuAjlqh9oeCIXCscWtySB9wdaQW/LUnqAwVgEZcmLeMreKC4020cW5T3+g4dkVH1tUaYl26
+        hLN1+Z3Q==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oVxMj-007VRh-8k; Wed, 07 Sep 2022 15:53:25 +0000
+Date:   Wed, 7 Sep 2022 08:53:25 -0700
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Oleksandr Natalenko <oleksandr@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Huang Ying <ying.huang@intel.com>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        Will Deacon <will@kernel.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Stephen Kitt <steve@sk2.org>, Rob Herring <robh@kernel.org>,
+        Joel Savitz <jsavitz@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Renaud =?iso-8859-1?Q?M=E9trich?= <rmetrich@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Grzegorz Halat <ghalat@redhat.com>, Qi Guo <qguo@redhat.com>
+Subject: Re: [PATCH] core_pattern: add CPU specifier
+Message-ID: <Yxi+dQkuV2zdBzk3@bombadil.infradead.org>
+References: <20220903064330.20772-1-oleksandr@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E1oVYUD-005Cm5-3Z@rmk-PC.armlinux.org.uk>
+In-Reply-To: <20220903064330.20772-1-oleksandr@redhat.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 06, 2022 at 02:19:29PM +0100, Russell King (Oracle) wrote:
-> Add a DT binding for the Apple Mac System Management Controller.
-> 
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> ---
->  .../devicetree/bindings/mfd/apple,smc.yaml    | 61 +++++++++++++++++++
->  1 file changed, 61 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> new file mode 100644
-> index 000000000000..168f237c2962
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> @@ -0,0 +1,61 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Apple Mac System Management Controller
-> +
-> +maintainers:
-> +  - Hector Martin <marcan@marcan.st>
-> +
-> +description:
-> +  Apple Mac System Management Controller implements various functions
-> +  such as GPIO, RTC, power, reboot.
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - apple,t6000-smc
-> +          - apple,t8103-smc
-> +          - apple,t8112-smc
-> +      - const: apple,smc
-> +
-> +  reg:
-> +    items:
-> +      - description: SMC area
-> +      - description: SRAM area
-> +
-> +  reg-names:
-> +    items:
-> +      - const: smc
-> +      - const: sram
-> +
-> +  mboxes:
-> +    maxItems: 1
-> +    description:
-> +      A phandle to the mailbox channel
+On Sat, Sep 03, 2022 at 08:43:30AM +0200, Oleksandr Natalenko wrote:
+> Statistically, in a large deployment regular segfaults may indicate a CPU issue.
 
-That's every 'mboxes'. Drop generic descriptions on common properties.
+Can you elaborate on this? How common is this observed to be true? Are
+there any public findings or bugs where it showed this?
 
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - mboxes
-> +
-> +examples:
-> +  - |
-> +    soc {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
-> +
-> +      smc@23e400000 {
-> +        compatible = "apple,t8103-smc", "apple,smc";
-> +        reg = <0x2 0x3e400000 0x0 0x4000>,
-> +               <0x2 0x3fe00000 0x0 0x100000>;
-> +        reg-names = "smc", "sram";
-> +        mboxes = <&smc_mbox>;
-> +      };
-> +    };
-> -- 
-> 2.30.2
-> 
-> 
+  Luis
