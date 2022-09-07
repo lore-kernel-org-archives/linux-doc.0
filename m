@@ -2,152 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3DA2C38145
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 16:56:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42000C6FA8A
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 17:04:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230024AbiIGQ4T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Sep 2022 12:56:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45788 "EHLO
+        id S230040AbiIGREs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Sep 2022 13:04:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230118AbiIGQ4L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 12:56:11 -0400
-X-Greylist: delayed 1200 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 07 Sep 2022 09:56:06 PDT
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6C1E3AB29;
-        Wed,  7 Sep 2022 09:56:06 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailnew.west.internal (Postfix) with ESMTP id 865F22B05B86;
-        Wed,  7 Sep 2022 12:18:35 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 07 Sep 2022 12:18:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1662567515; x=1662574715; bh=5D
-        ZtFrVdqR12nN7HSUlbgO9Phu3Lj4gHCeI3MI0eXEs=; b=gKjMSLcGKU47Bpx6uQ
-        gZ+Ahn/J6pmAu6Fk54tOUPmkt4ySG4YQ4tNtCsXNooyXqDQdnB0p/CITTV1m34mq
-        s+LAYPRNp7umaA0DS2tD6Bl9cL2UPuUH1NnFqt+Hujshubfu6tpdqxXryN7Jif7b
-        wFcbM6hQx1KAluzks24vm6vt401JXycrXk/U1TxhftI2k9a3Qr1m/7eQrpEGaUoY
-        dMxR1PpNXaxHCUiB+IzNfCTcZdKp74OQaJyZNKu9NNG2Kd9Cty0VZ7c37OqmpmGx
-        91qSQwwUWpUuKrGDcjIKulD3bI5YIyxjctZu6ma29GlM+OIwXDzKYX0fO8UNhgKu
-        Ok5g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1662567515; x=1662574715; bh=5DZtFrVdqR12nN7HSUlbgO9Phu3L
-        j4gHCeI3MI0eXEs=; b=OZJQAUW2is2zfDT/Ce2aXyZmrMSXobT3OZMp5q6fVpQ/
-        iVRiwH1zHSZcVtLQ2DkHlpUlqbEffGM1fAmWod1B2oWsgEDoe///wEj9f9lghrAo
-        QmF2m0YsiHOKiN8AKnZz/6f5uUQMq/9NAYeyhYKiSfFb9Dz+qoavKwdvW7oRiyhC
-        EATCi/71d3py5lcq99u7ST/c6PkyOa3KHXiwFRYH2JEiXVa1izqMZLW3QFlYIdsy
-        XqD1Q0zUyBwkxx7SuUl6U3WVue4FTTdJB8uWCgJhcTDbXLhEkyIR5uYLz6VpaFwh
-        96XgrgE3i0bQPirExWJbzFosbfLoZt7t6DTe9rF30A==
-X-ME-Sender: <xms:V8QYYw_o5DzFzVn-nsNBEVd-FS_D_oEsE0Ni1kSDm-EDmUqf7t5RYw>
-    <xme:V8QYY4tkvs0qarp3milgqkj-QnUfLwCvr9jPsDhMl_JVoMp1Uawemvudn2tTZjoFP
-    RKollyj_THPCycU494>
-X-ME-Received: <xmr:V8QYY2AJ6tnceeMtt6ze-9Y21GxOCHjfGO0Uaic1_Z0sgkplNSGu4E0Lv93m0HLV2ntwuQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedttddgleelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
-    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
-    grmhgvqeenucggtffrrghtthgvrhhnpeelgffhfeetlefhveffleevfffgtefffeelfedu
-    udfhjeduteeggfeiheefteehjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuve
-    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhl
-    sehshhhuthgvmhhovhdrnhgrmhgv
-X-ME-Proxy: <xmx:V8QYYweqdTZRL4Hql-Il9ILHjXYOl5I2TLxUmx4tUf2irEd7UWrODA>
-    <xmx:V8QYY1Nzk_PUNIp2LKA55MR0G9GVC8m4bLDpu3YSj4OFMB6ygSASzg>
-    <xmx:V8QYY6lIz_r5CyIgsFG97LMd1GcuCvwSFmdupTCv8XNGm0jAThrJpw>
-    <xmx:W8QYYyKr-0dAl_rNZ4o-w_sGm3XfXyNXiJWuDL3a0JOCCopTLRQCg_cdsds>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Sep 2022 12:18:31 -0400 (EDT)
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id CAD3C103799; Wed,  7 Sep 2022 19:18:27 +0300 (+03)
-Date:   Wed, 7 Sep 2022 19:18:27 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 05/14] mm/memfd: Introduce MFD_INACCESSIBLE flag
-Message-ID: <20220907161827.klbscalq5lk66rco@box.shutemov.name>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
- <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
+        with ESMTP id S230094AbiIGREp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 13:04:45 -0400
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43AD118C
+        for <linux-doc@vger.kernel.org>; Wed,  7 Sep 2022 10:04:41 -0700 (PDT)
+Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-1278624b7c4so19359122fac.5
+        for <linux-doc@vger.kernel.org>; Wed, 07 Sep 2022 10:04:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=Ro6O+2s9xjG7/14chisnyJusofpe1P/Z+6Ni1HfLglw=;
+        b=SFFia7VrpSfHHqK4+wrGcNeHGpCjolBliKK6r1h6XIGRo5GSXMMhxGqrAZd7h/1Z8I
+         fZPHWdG3DVGVcrZh+RMzotY75nbYwZF3yvul2CYa8AlFvlyUYoinzuFbkei+E22aaGaF
+         hAcyyxG/Z+aKkT3k0U/r3XrRUCZZbGhXiEzNA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=Ro6O+2s9xjG7/14chisnyJusofpe1P/Z+6Ni1HfLglw=;
+        b=KVbHOVcjccZqKAcUFNL5IAqYXl5ghET3QFSjHmqmhKmsX3mnohIMkVMzQkj5kS0mb5
+         xxOz23S/viMLrZFWKAMnAro0wnV7fJckByx0X4oi2nBCZvHoYoO8Nb6Ujz97t5cdCJOi
+         hAblP69gh4gfb41mR8zKtai3S2yS4cCBdCOA0bdKGpBOwfQ1YLmr9B9BFA3I2+cJDvlC
+         hfCaulCB1aSUZwcBHxNFjfolzZ3tBfa15tFztVKlOXWVNI90+pS3uNcONmoNm+o24ocA
+         hv6CaPMx57eV4Ol3J4uHJIwZoig8DenY5l2iXLROHcUrBZPMsdkUJxWfpmjJTYUGYS/V
+         Bn4w==
+X-Gm-Message-State: ACgBeo1Lny9m4mbKVoXr2Z/IVHqsvDevWTD0ZBVo3GgyZSxOewIByq7q
+        sX8mVExxhQhShY+iEUrB0qzoooDRzVxFog==
+X-Google-Smtp-Source: AA6agR4FkjgGqypwQsAGAKljOEPCRsPrErdX43149/Tc4LeOEOy+X3yXn4pC104wOUQITSh4BTalZw==
+X-Received: by 2002:aca:2810:0:b0:344:e898:35aa with SMTP id 16-20020aca2810000000b00344e89835aamr12773184oix.279.1662570280756;
+        Wed, 07 Sep 2022 10:04:40 -0700 (PDT)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com. [209.85.160.50])
+        by smtp.gmail.com with ESMTPSA id 188-20020a4a1dc5000000b0044565e7ab41sm5248904oog.32.2022.09.07.10.04.40
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Sep 2022 10:04:40 -0700 (PDT)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1274ec87ad5so22692343fac.0
+        for <linux-doc@vger.kernel.org>; Wed, 07 Sep 2022 10:04:40 -0700 (PDT)
+X-Received: by 2002:a05:6870:b28c:b0:127:ad43:573e with SMTP id
+ c12-20020a056870b28c00b00127ad43573emr2505114oao.174.1662570269627; Wed, 07
+ Sep 2022 10:04:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
+References: <20220823222526.1524851-1-evgreen@chromium.org> <e74a2c48-fd30-aa4c-9ab6-eafe652f7878@amd.com>
+In-Reply-To: <e74a2c48-fd30-aa4c-9ab6-eafe652f7878@amd.com>
+From:   Evan Green <evgreen@chromium.org>
+Date:   Wed, 7 Sep 2022 10:03:53 -0700
+X-Gmail-Original-Message-ID: <CAE=gft6gjqhviovxQDY=qrBiKQH1RBkCd_f+pnNw4Tz=M0ewBg@mail.gmail.com>
+Message-ID: <CAE=gft6gjqhviovxQDY=qrBiKQH1RBkCd_f+pnNw4Tz=M0ewBg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] Encrypted Hibernation
+To:     "Limonciello, Mario" <mario.limonciello@amd.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Matthew Garrett <mgarrett@aurora.tech>,
+        Jarkko Sakkinen <jarkko@kernel.org>, zohar@linux.ibm.com,
+        linux-integrity@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+        apronin@chromium.org, Daniil Lunev <dlunev@google.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>,
+        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Len Brown <len.brown@intel.com>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
+        keyrings@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 05, 2022 at 03:28:50PM +0200, David Hildenbrand wrote:
-> On 06.07.22 10:20, Chao Peng wrote:
-> > Introduce a new memfd_create() flag indicating the content of the
-> > created memfd is inaccessible from userspace through ordinary MMU
-> > access (e.g., read/write/mmap). However, the file content can be
-> > accessed via a different mechanism (e.g. KVM MMU) indirectly.
-> > 
-> > It provides semantics required for KVM guest private memory support
-> > that a file descriptor with this flag set is going to be used as the
-> > source of guest memory in confidential computing environments such
-> > as Intel TDX/AMD SEV but may not be accessible from host userspace.
-> > 
-> > The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
-> > also impossible for a memfd created with this flag.
-> 
-> It's kind of weird to have it that way. Why should the user have to
-> care? It's the notifier requirement to have that, no?
-> 
-> Why can't we handle that when register a notifier? If anything is
-> already mapped, fail registering the notifier if the notifier has these
-> demands. If registering succeeds, block it internally.
-> 
-> Or what am I missing? We might not need the memfile set flag semantics
-> eventually and would not have to expose such a flag to user space.
+On Wed, Aug 31, 2022 at 11:35 AM Limonciello, Mario
+<mario.limonciello@amd.com> wrote:
+>
+> On 8/23/2022 17:25, Evan Green wrote:
+> > We are exploring enabling hibernation in some new scenarios. However,
+> > our security team has a few requirements, listed below:
+> > 1. The hibernate image must be encrypted with protection derived from
+> >     both the platform (eg TPM) and user authentication data (eg
+> >     password).
+> > 2. Hibernation must not be a vector by which a malicious userspace can
+> >     escalate to the kernel.
+> >
+> > Requirement #1 can be achieved solely with uswsusp, however requirement
+> > 2 necessitates mechanisms in the kernel to guarantee integrity of the
+> > hibernate image. The kernel needs a way to authenticate that it generated
+> > the hibernate image being loaded, and that the image has not been tampered
+> > with. Adding support for in-kernel AEAD encryption with a TPM-sealed key
+> > allows us to achieve both requirements with a single computation pass.
+> >
+> > Matthew Garrett published a series [1] that aligns closely with this
+> > goal. His series utilized the fact that PCR23 is a resettable PCR that
+> > can be blocked from access by usermode. The TPM can create a sealed key
+> > tied to PCR23 in two ways. First, the TPM can attest to the value of
+> > PCR23 when the key was created, which the kernel can use on resume to
+> > verify that the kernel must have created the key (since it is the only
+> > one capable of modifying PCR23). It can also create a policy that enforces
+> > PCR23 be set to a specific value as a condition of unsealing the key,
+> > preventing usermode from unsealing the key by talking directly to the
+> > TPM.
+> >
+> > This series adopts that primitive as a foundation, tweaking and building
+> > on it a bit. Where Matthew's series used the TPM-backed key to encrypt a
+> > hash of the image, this series uses the key directly as a gcm(aes)
+> > encryption key, which the kernel uses to encrypt and decrypt the
+> > hibernate image in chunks of 16 pages. This provides both encryption and
+> > integrity, which turns out to be a noticeable performance improvement over
+> > separate passes for encryption and hashing.
+> >
+> > The series also introduces the concept of mixing user key material into
+> > the encryption key. This allows usermode to introduce key material
+> > based on unspecified external authentication data (in our case derived
+> > from something like the user password or PIN), without requiring
+> > usermode to do a separate encryption pass.
+> >
+> > Matthew also documented issues his series had [2] related to generating
+> > fake images by booting alternate kernels without the PCR23 limiting.
+> > With access to PCR23 on the same machine, usermode can create fake
+> > hibernate images that are indistinguishable to the new kernel from
+> > genuine ones. His post outlines a solution that involves adding more
+> > PCRs into the creation data and policy, with some gyrations to make this
+> > work well on a standard PC.
+> >
+> > Our approach would be similar: on our machines PCR 0 indicates whether
+> > the system is booted in secure/verified mode or developer mode. By
+> > adding PCR0 to the policy, we can reject hibernate images made in
+> > developer mode while in verified mode (or vice versa).
+> >
+> > Additionally, mixing in the user authentication data limits both
+> > data exfiltration attacks (eg a stolen laptop) and forged hibernation
+> > image attacks to attackers that already know the authentication data (eg
+> > user's password). This, combined with our relatively sealed userspace
+> > (dm-verity on the rootfs), and some judicious clearing of the hibernate
+> > image (such as across an OS update) further reduce the risk of an online
+> > attack. The remaining attack space of a forgery from someone with
+> > physical access to the device and knowledge of the authentication data
+> > is out of scope for us, given that flipping to developer mode or
+> > reflashing RO firmware trivially achieves the same thing.
+> >
+> > A couple of patches still need to be written on top of this series. The
+> > generalized functionality to OR in additional PCRs via Kconfig (like PCR
+> > 0 or 5) still needs to be added. We'll also need a patch that disallows
+> > unencrypted forms of resume from hibernation, to fully close the door
+> > to malicious userspace. However, I wanted to get this series out first
+> > and get reactions from upstream before continuing to add to it.
+>
+> Something else to think about in this series is what happens with
+> `hibernation_available` in kernel/power/hibernate.c.  Currently if the
+> system is locked down hibernate is disabled, but I would think that
+> with a setup like that described here that should no longer be necessary.
+>
 
-Well, with the new shim-based[1] implementation the approach without uAPI
-does not work.
+Correct, I think that would be a reasonable followup to this series.
 
-We now have two struct file, one is a normal accessible memfd and the
-other one is wrapper around that hides the memfd from userspace and
-filters allowed operations. If we first create an accessible memfd that
-userspace see it would be hard to hide it as by the time userspace may
-have multiple fds in different processes that point to the same struct
-file.
-
-[1] https://lore.kernel.org/all/20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+-Evan
