@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 736EDC38145
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 18:02:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 445AEC38145
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 18:02:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229549AbiIGSCC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Sep 2022 14:02:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51562 "EHLO
+        id S229986AbiIGSCV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Sep 2022 14:02:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230267AbiIGSBg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 14:01:36 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2067.outbound.protection.outlook.com [40.107.237.67])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD889C00ED;
-        Wed,  7 Sep 2022 11:01:17 -0700 (PDT)
+        with ESMTP id S229830AbiIGSBq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 14:01:46 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2089.outbound.protection.outlook.com [40.107.220.89])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A3D1B531B;
+        Wed,  7 Sep 2022 11:01:28 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wz3WDb34Fn6xStqPGXNpw9QRSja3sPhbiT5Ttd9tDniUhBuOS6R02iR8hXaRClg5LXvzyM01MMx9hyB06lLsG9R2e+PDBd+M5Icr0pJnudGY/XEkUI0WhSWAbZNZHO+RKMBAsixzIgP+2jwwGOA/nWUFiR10Nn71NFhBmtMxjQ8Zf9dl1eSyrIgkAK2Sy9SU85KTw6w9bjbyo0m3BdCMvmNK/6X5/8IFFE2/qVs/X/aX+rypQDIG7a7Oa2by1IQeLk+nwSCnvyI4H2IO1xmzEsd29rM/JtGQuGVMdbtLl1XRmGAaT3nWK3d1F/2VYlFoCJNtML5Nxr1/AgdJhjSUcA==
+ b=MEeYi52aQRteOCpQspqR9FZn37d6Um68XBay99e9n4z/SZeztm512ZJ7V9cOeI7MFA+gU5Di5AlOt+FNbKGvNWylne+Ehb42FMeWlCLAo23oevu0Mj13qKS4Es6BNXmvQoVfZ29pnctGmeMS+C3XiGwvm/gW2bU5LTnYyYY5UFZ3c3PGrVOxn6ySwCpUpatqRUPgaK+ayK7azUv3Iq1FaSdYJcD4FXSMEGWAyLXpY8sbrLU+GoPad+cGoKtxNH0BfqmZPAfaFmxQUJxeSBx3WYruWhr+gi1DF2ZxKj6/dbQPqRTXWhjis5RycvwGO9lShh30VggWfEyjloyc7gWg6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o7E8w6G9IOdQ/csZtqgLfbosYqj9Ua/qTVaUvXaFDdk=;
- b=NWLw/mvsRSfvX8n2y15AAXt3qg3Vz/2E8tIlVqW7PzgJ/Ev8GP7JqrT3k0S4BG2kIpZW5wWmK1iT9HeILxhPI1nM7l2rE1BwGtH2ATI6lU40eaUkXh0hGMrn69iSid8DbpxPtnx1x8XajXd7TOTiZnDoxNL0pmn7rTallkSpqI0a+sJrfv1fDCQx5q5+D9d/4iG50c9olOvfbTOBUMSEGZ3KVGKawHA7YjtoX+mfRQ4aZWNgB4/YX0W/pjVEW+sQgd0FrKljRJc0Bv/7affJgETMmllwY3TEA2yUnTzE5TFiYQN1Yui6rT5czTp5hcrPrmvl76O5wnzxlJ4iyjv4yA==
+ bh=51h14UboifHH/gPPlyu5dVDAZwkObI6EANpnvaQTpSQ=;
+ b=oRICPkReQOTANiLj56JN76VpPYbd48JQnIInfojTqYSH9nBmxowyFctD3W3bFYqKdR9i3v4hrKA6oQJEYOIuHi0P4YsUJ8p307gbjxetO5vR1HGRpsC5M2pT/5pXY7bzKKm+FTCGtyTmp1YUfRmil7v7sZ7Taiq5FZoAnnPBOguPaz6VQmoVXjwnQeCVk0mZFnlt1jbpM5ER0tOtVdqaYwM9XyuOI3Ghi21CzzImJcGCSkCCuwou4Nj3pZhok6FwiDbFag3npxnej9AqYYD4+77KPT6diKTLD+iiU2jIRMGB4/X0kT3/18IncOXkaASDmIF5C710qq8kNToUYU3BmA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o7E8w6G9IOdQ/csZtqgLfbosYqj9Ua/qTVaUvXaFDdk=;
- b=bqQ4U8FdU4bKbXSrie/38ok3W4A930k+806sQ5pehrureownHmovuSsX0719/BhoHlCko8Aj2jMGjxBPDncn2duHSTYjVGEM0W60jbccwvOfym/aL3Tjiy/BGJ5edW9Zr9SexjkwQ8Xc9dETvfCpPikUuux3I2bmmkpYntGuxCc=
-Received: from BN9PR03CA0532.namprd03.prod.outlook.com (2603:10b6:408:131::27)
- by BL0PR12MB4881.namprd12.prod.outlook.com (2603:10b6:208:1c7::7) with
+ bh=51h14UboifHH/gPPlyu5dVDAZwkObI6EANpnvaQTpSQ=;
+ b=ZTlqhyKB6re/9vxnFRC9bIWR3zJ4HS6ZD6fbKac0fm9rL/vs4Etyxig4QwNpMseUHuoTW9cdaIQ3LWrQb3itQwlGOVfWVQT2CNfkyuCktkoIhPmvnBL0Ig1Pi5IVqmXTwcaXX2Qp18a/2Kn84RQHibuFWoFzNLdaD7sRPD8V2ic=
+Received: from BN9PR03CA0515.namprd03.prod.outlook.com (2603:10b6:408:131::10)
+ by BL3PR12MB6473.namprd12.prod.outlook.com (2603:10b6:208:3b9::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.18; Wed, 7 Sep
- 2022 18:01:10 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.21; Wed, 7 Sep
+ 2022 18:01:11 +0000
 Received: from BN8NAM11FT116.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:131:cafe::85) by BN9PR03CA0532.outlook.office365.com
- (2603:10b6:408:131::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.12 via Frontend
- Transport; Wed, 7 Sep 2022 18:01:10 +0000
+ (2603:10b6:408:131:cafe::ba) by BN9PR03CA0515.outlook.office365.com
+ (2603:10b6:408:131::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12 via Frontend
+ Transport; Wed, 7 Sep 2022 18:01:11 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,12 +48,12 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  BN8NAM11FT116.mail.protection.outlook.com (10.13.176.67) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5612.13 via Frontend Transport; Wed, 7 Sep 2022 18:01:10 +0000
+ 15.20.5612.13 via Frontend Transport; Wed, 7 Sep 2022 18:01:11 +0000
 Received: from [127.0.1.1] (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 7 Sep
- 2022 13:01:02 -0500
-Subject: [PATCH v4 09/13] x86/resctrl: Add sysfs interface files to read/write
+ 2022 13:01:09 -0500
+Subject: [PATCH v4 10/13] x86/resctrl: Add the sysfs interface to read the
  event configuration
 From:   Babu Moger <babu.moger@amd.com>
 To:     <corbet@lwn.net>, <reinette.chatre@intel.com>,
@@ -70,8 +70,8 @@ CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
         <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
         <eranian@google.com>
-Date:   Wed, 7 Sep 2022 13:01:02 -0500
-Message-ID: <166257366204.1043018.4834615270384002210.stgit@bmoger-ubuntu>
+Date:   Wed, 7 Sep 2022 13:01:09 -0500
+Message-ID: <166257366902.1043018.16087054015308149859.stgit@bmoger-ubuntu>
 In-Reply-To: <166257348081.1043018.11227924488792315932.stgit@bmoger-ubuntu>
 References: <166257348081.1043018.11227924488792315932.stgit@bmoger-ubuntu>
 User-Agent: StGit/1.1.dev103+g5369f4c
@@ -83,123 +83,202 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT116:EE_|BL0PR12MB4881:EE_
-X-MS-Office365-Filtering-Correlation-Id: 954dced1-085e-4b9c-8de2-08da90faf20a
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT116:EE_|BL3PR12MB6473:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19499cc3-e96c-4921-e4ab-08da90faf2c6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QQy9B81GevH+wRycYRWHzRVEH8jBmMWrtHFQZL4L5e2d1jQprj8MA9I3UZfTsiaiwntLPxBLSgzNE37L4ZTS20nhmFF4f1RFfqE/+7DyTPgbaO4wyB2ZRq7r1GRI9jt+Xm6fRm7k/FaX5GVe4hNtpaqJPuqkVyoncyS0nDNNL4CZZK6sgG3Kmmpv5EksCSL37cQObKv+Defe1B9WJp1Jh+ODMoEQT6J0+L352d1K6YPDBboX06Mhfea0n4FjHA7Nt/VUCMR3IKfnmM0j4sBHC4wwKmQSDOGBrkDN4avSnMoKDNADWxJnJpyRtGUKCFA53OdckDatE74NXuE1RUBMA9ruE9NvbRNoDnciIIybsPzPGBPQEdQimYS/0Nar95ScvlqYSLPzRPLA0IGp/un9zIBGGnnkvpHQunzsCp61oClx+EeOffd2mKZ3uoFW05FAERBKrPHAvXQoOydsH1dErTQjVG0/6tc08JjHWp+fAMEgeyJPVicx5yZCdzDzVn2snoELCHymZkOoTrGMbCrDeE3GpTeL4Dniq+XAXevSNg54U3Ni9tJ8uNU9G6+3enESkAFIHaJ+JsVbDvrklAEXlrhqMrtCuCRtY/KfXe/aIuLF4IUKgWQblqpfWYsJSJ4h5+OD2tj4BFF3CuziDfoTiuVxAlnx2Fkh3qUUt1DefmV0pr1dNlSpGPC56GDGAzkgZ6Ls4FjM+VPZdA2TMeo9w16ePDdNJECpY2eAzA4Wi8JIyOJD/kdT7V7EOqyhSUgMDG4f6r/R9h/sbt1mAbIZSu+syoP8YrQXD4nhElTV24jDabvHIVcmfdOj638mhI7WJWED/qOSUPPV94DBZR8gwg==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(7916004)(4636009)(396003)(136003)(346002)(39860400002)(376002)(36840700001)(46966006)(40470700004)(83380400001)(316002)(110136005)(9686003)(478600001)(26005)(40460700003)(16576012)(54906003)(33716001)(103116003)(40480700001)(8936002)(2906002)(82310400005)(7416002)(86362001)(5660300002)(356005)(4326008)(82740400003)(70586007)(70206006)(36860700001)(8676002)(47076005)(44832011)(426003)(81166007)(336012)(186003)(41300700001)(16526019)(71626007)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: +6qXJTfegNTj2bmFNTrg0PgN8NMwf/ZguSrxsylpQxNLwKG/alqLUTdkn+E3x9WxZO1Os2DEqbAKpsHy5SzHyJsxM22Gg4e70lqI0j1sQ6cGtuYUqiLkz0X3foODAdz4jQarMk1wuF8RGCdlAsIei1aBJmTItIgCZKECFWAeSwkL8fN/kETlbQmaL5Mkbi/u7RqRhIjJuOIV9dGaJr7ldP1FcvzTseM6hwzT951dE523ZSmH/3jaj8H1Rrd+77v/iuGWLQROGVyMGSJbAaMppOkn4rhMZcwiXQt70VLcjpYGRBuwoy9Q9C/ixS1ACye0hHQzHaCgRaLMfVHqbVS6osBey10MIsjF1UqHAAjCwcOo45cHlLqZBmD8vzkGH3mRqm20blFMBmL6qbvm9Q/j4xT757SCOp0aV/WQmKpJvZef9E15FR3PqP2t/ZihVJ2aELtztlUMxkAuUsV6jD7cv7Wt7teNkmAXu/AXMaPT6kuh0HswUv9ioYu/mG938ZsXSC/9U9DHn/hZ+GxjjeEmVjqHH72i0Z22h+noVz/UkX8FplLbSJ4FnmTyDeXoxEU8VEtc46S2H4bb0ER2XfeIRQAMcir6jyQwuRDc8tAnCLiYGl/tl8ZhueqHmU1z42E4J0M7Ir3ysFlYfvNyd6ECzrJu/WUn8U8Q3uhRqQzJIJqlVJ9AtORzNfocVMoW5cJ1tD2chaLzZ4MTQhlaeEKaeFBDfDR0u8FR2D3dK0YPuANUdUmZ4a/6AkzJVLJeQVJKz/02sU5CZbRoKMb+NbVNWW7OWy7i4zncy1x21XEBSQ7Vfm7CoIOybNPIG8KtBwjgPeO72espWxhmWHvxDpukVA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(7916004)(39860400002)(376002)(346002)(136003)(396003)(36840700001)(46966006)(40470700004)(36860700001)(7416002)(40460700003)(16526019)(5660300002)(26005)(8936002)(40480700001)(186003)(426003)(41300700001)(103116003)(47076005)(81166007)(44832011)(2906002)(86362001)(9686003)(336012)(33716001)(110136005)(478600001)(54906003)(4326008)(82310400005)(83380400001)(8676002)(316002)(82740400003)(16576012)(356005)(70206006)(70586007)(71626007)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 18:01:10.2723
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 18:01:11.4909
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 954dced1-085e-4b9c-8de2-08da90faf20a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19499cc3-e96c-4921-e4ab-08da90faf2c6
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT116.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4881
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6473
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add two new sysfs files to read/write the event configuration if=0A=
-the feature Bandwidth Monitoring Event Configuration (BMEC) is=0A=
-supported. The file mbm_local_config is for the configuration=0A=
-of the event mbm_local_bytes and the file mbm_total_config is=0A=
-for the configuration of mbm_total_bytes.=0A=
+The current event configuration can be viewed by the user by reading=0A=
+the sysfs configuration file.=0A=
 =0A=
-$ls /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local*=0A=
-/sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes=0A=
-/sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_config=0A=
+Following are the types of events supported:=0A=
 =0A=
-$ls /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total*=0A=
-/sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes=0A=
-/sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_config=0A=
+=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0A=
+Bits   Description=0A=
+=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0A=
+6      Dirty Victims from the QOS domain to all types of memory=0A=
+5      Reads to slow memory in the non-local NUMA domain=0A=
+4      Reads to slow memory in the local NUMA domain=0A=
+3      Non-temporal writes to non-local NUMA domain=0A=
+2      Non-temporal writes to local NUMA domain=0A=
+1      Reads to memory in the non-local NUMA domain=0A=
+0      Reads to memory in the local NUMA domain=0A=
+=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0A=
+=0A=
+By default, the mbm_total_bytes configuration is set to 0x7F to count=0A=
+all the event types and the mbm_local_bytes configuration is set to=0A=
+0x15 to count all the local memory events.=0A=
+=0A=
+$cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_config=0A=
+0x7f=0A=
+=0A=
+$cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_config=0A=
+0x15=0A=
 =0A=
 Signed-off-by: Babu Moger <babu.moger@amd.com>=0A=
 ---=0A=
- arch/x86/kernel/cpu/resctrl/rdtgroup.c |   40 ++++++++++++++++++++++++----=
-----=0A=
- 1 file changed, 30 insertions(+), 10 deletions(-)=0A=
+ arch/x86/kernel/cpu/resctrl/internal.h |   24 ++++++++++=0A=
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c |   77 ++++++++++++++++++++++++++++=
+++++=0A=
+ 2 files changed, 101 insertions(+)=0A=
 =0A=
+diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/r=
+esctrl/internal.h=0A=
+index 45923eb4022f..96f439324d78 100644=0A=
+--- a/arch/x86/kernel/cpu/resctrl/internal.h=0A=
++++ b/arch/x86/kernel/cpu/resctrl/internal.h=0A=
+@@ -15,6 +15,7 @@=0A=
+ #define MSR_IA32_MBA_THRTL_BASE		0xd50=0A=
+ #define MSR_IA32_MBA_BW_BASE		0xc0000200=0A=
+ #define MSR_IA32_SMBA_BW_BASE		0xc0000280=0A=
++#define MSR_IA32_EVT_CFG_BASE		0xc0000400=0A=
+ =0A=
+ #define MSR_IA32_QM_CTR			0x0c8e=0A=
+ #define MSR_IA32_QM_EVTSEL		0x0c8d=0A=
+@@ -50,6 +51,29 @@=0A=
+  */=0A=
+ #define MBM_CNTR_WIDTH_OFFSET_MAX (62 - MBM_CNTR_WIDTH_BASE)=0A=
+ =0A=
++/* Reads to Local DRAM Memory */=0A=
++#define READS_TO_LOCAL_MEM		BIT(0)=0A=
++=0A=
++/* Reads to Remote DRAM Memory */=0A=
++#define READS_TO_REMOTE_MEM		BIT(1)=0A=
++=0A=
++/* Non-Temporal Writes to Local Memory */=0A=
++#define NON_TEMP_WRITE_TO_LOCAL_MEM	BIT(2)=0A=
++=0A=
++/* Non-Temporal Writes to Remote Memory */=0A=
++#define NON_TEMP_WRITE_TO_REMOTE_MEM	BIT(3)=0A=
++=0A=
++/* Reads to Local Memory the system identifies as "Slow Memory" */=0A=
++#define READS_TO_LOCAL_S_MEM		BIT(4)=0A=
++=0A=
++/* Reads to Remote Memory the system identifies as "Slow Memory" */=0A=
++#define READS_TO_REMOTE_S_MEM		BIT(5)=0A=
++=0A=
++/* Dirty Victims to All Types of Memory */=0A=
++#define  DIRTY_VICTIMS_TO_ALL_MEM	BIT(6)=0A=
++=0A=
++/* Max event bits supported */=0A=
++#define MAX_EVT_CONFIG_BITS		GENMASK(6, 0)=0A=
+ =0A=
+ struct rdt_fs_context {=0A=
+ 	struct kernfs_fs_context	kfc;=0A=
 diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/r=
 esctrl/rdtgroup.c=0A=
-index f55a693fa958..da11fdad204d 100644=0A=
+index da11fdad204d..6f067c1ac7c1 100644=0A=
 --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c=0A=
 +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c=0A=
-@@ -254,6 +254,10 @@ static const struct kernfs_ops kf_mondata_ops =3D {=0A=
+@@ -254,8 +254,85 @@ static const struct kernfs_ops kf_mondata_ops =3D {=0A=
  	.seq_show		=3D rdtgroup_mondata_show,=0A=
  };=0A=
  =0A=
-+static const struct kernfs_ops kf_mondata_config_ops =3D {=0A=
-+	.atomic_write_len       =3D PAGE_SIZE,=0A=
++struct mon_config_info {=0A=
++	u32 evtid;=0A=
++	u32 mon_config;=0A=
 +};=0A=
 +=0A=
- static bool is_cpu_list(struct kernfs_open_file *of)=0A=
- {=0A=
- 	struct rftype *rft =3D of->kn->priv;=0A=
-@@ -2478,24 +2482,40 @@ static struct file_system_type rdt_fs_type =3D {=0A=
- 	.kill_sb		=3D rdt_kill_sb,=0A=
- };=0A=
- =0A=
--static int mon_addfile(struct kernfs_node *parent_kn, const char *name,=0A=
-+static int mon_addfile(struct kernfs_node *parent_kn, struct mon_evt *mevt=
-,=0A=
- 		       void *priv)=0A=
- {=0A=
--	struct kernfs_node *kn;=0A=
-+	struct kernfs_node *kn_evt, *kn_evt_config;=0A=
- 	int ret =3D 0;=0A=
- =0A=
--	kn =3D __kernfs_create_file(parent_kn, name, 0444,=0A=
--				  GLOBAL_ROOT_UID, GLOBAL_ROOT_GID, 0,=0A=
--				  &kf_mondata_ops, priv, NULL, NULL);=0A=
--	if (IS_ERR(kn))=0A=
--		return PTR_ERR(kn);=0A=
-+	kn_evt =3D __kernfs_create_file(parent_kn, mevt->name, 0444,=0A=
-+			GLOBAL_ROOT_UID, GLOBAL_ROOT_GID, 0,=0A=
-+			&kf_mondata_ops, priv, NULL, NULL);=0A=
-+	if (IS_ERR(kn_evt))=0A=
-+		return PTR_ERR(kn_evt);=0A=
- =0A=
--	ret =3D rdtgroup_kn_set_ugid(kn);=0A=
-+	ret =3D rdtgroup_kn_set_ugid(kn_evt);=0A=
- 	if (ret) {=0A=
--		kernfs_remove(kn);=0A=
-+		kernfs_remove(kn_evt);=0A=
- 		return ret;=0A=
- 	}=0A=
- =0A=
-+	if (mevt->configurable) {=0A=
-+		kn_evt_config =3D __kernfs_create_file(parent_kn,=0A=
-+				mevt->config_name, 0644,=0A=
-+				GLOBAL_ROOT_UID, GLOBAL_ROOT_GID, 0,=0A=
-+				&kf_mondata_config_ops, priv, NULL, NULL);=0A=
-+		if (IS_ERR(kn_evt_config))=0A=
-+			return PTR_ERR(kn_evt_config);=0A=
++/*=0A=
++ * This is called via IPI to read the CQM/MBM counters=0A=
++ * in a domain.=0A=
++ */=0A=
++void mon_event_config_read(void *info)=0A=
++{=0A=
++	struct mon_config_info *mon_info =3D info;=0A=
++	u32 h, msr_index;=0A=
 +=0A=
-+		ret =3D rdtgroup_kn_set_ugid(kn_evt_config);=0A=
-+		if (ret) {=0A=
-+			kernfs_remove(kn_evt_config);=0A=
-+			kernfs_remove(kn_evt);=0A=
-+			return ret;=0A=
-+		}=0A=
++	switch (mon_info->evtid) {=0A=
++	case QOS_L3_MBM_TOTAL_EVENT_ID:=0A=
++		msr_index =3D 0;=0A=
++		break;=0A=
++	case QOS_L3_MBM_LOCAL_EVENT_ID:=0A=
++		msr_index =3D 1;=0A=
++		break;=0A=
++	default:=0A=
++		/* Not expected to come here */=0A=
++		return;=0A=
 +	}=0A=
 +=0A=
- 	return ret;=0A=
- }=0A=
++	rdmsr(MSR_IA32_EVT_CFG_BASE + msr_index, mon_info->mon_config, h);=0A=
++}=0A=
++=0A=
++void mondata_config_read(struct rdt_domain *d, struct mon_config_info *mon=
+_info)=0A=
++{=0A=
++	smp_call_function_any(&d->cpu_mask, mon_event_config_read, mon_info, 1);=
+=0A=
++}=0A=
++=0A=
++int rdtgroup_mondata_config_show(struct seq_file *m, void *arg)=0A=
++{=0A=
++	struct kernfs_open_file *of =3D m->private;=0A=
++	struct mon_config_info mon_info;=0A=
++	struct rdt_hw_resource *hw_res;=0A=
++	u32 resid, evtid, domid;=0A=
++	struct rdtgroup *rdtgrp;=0A=
++	struct rdt_resource *r;=0A=
++	union mon_data_bits md;=0A=
++	struct rdt_domain *d;=0A=
++	int ret =3D 0;=0A=
++=0A=
++	rdtgrp =3D rdtgroup_kn_lock_live(of->kn);=0A=
++	if (!rdtgrp) {=0A=
++		ret =3D -ENOENT;=0A=
++		goto out;=0A=
++	}=0A=
++=0A=
++	md.priv =3D of->kn->priv;=0A=
++	resid =3D md.u.rid;=0A=
++	domid =3D md.u.domid;=0A=
++	evtid =3D md.u.evtid;=0A=
++=0A=
++	hw_res =3D &rdt_resources_all[resid];=0A=
++	r =3D &hw_res->r_resctrl;=0A=
++=0A=
++	d =3D rdt_find_domain(r, domid, NULL);=0A=
++	if (IS_ERR_OR_NULL(d)) {=0A=
++		ret =3D -ENOENT;=0A=
++		goto out;=0A=
++	}=0A=
++=0A=
++	mon_info.evtid =3D evtid;=0A=
++	mondata_config_read(d, &mon_info);=0A=
++=0A=
++	seq_printf(m, "0x%x\n", mon_info.mon_config);=0A=
++=0A=
++out:=0A=
++	rdtgroup_kn_unlock(of->kn);=0A=
++	return ret;=0A=
++}=0A=
++=0A=
+ static const struct kernfs_ops kf_mondata_config_ops =3D {=0A=
+ 	.atomic_write_len       =3D PAGE_SIZE,=0A=
++	.seq_show               =3D rdtgroup_mondata_config_show,=0A=
+ };=0A=
  =0A=
-@@ -2550,7 +2570,7 @@ static int mkdir_mondata_subdir(struct kernfs_node *p=
-arent_kn,=0A=
- 	priv.u.domid =3D d->id;=0A=
- 	list_for_each_entry(mevt, &r->evt_list, list) {=0A=
- 		priv.u.evtid =3D mevt->evtid;=0A=
--		ret =3D mon_addfile(kn, mevt->name, priv.priv);=0A=
-+		ret =3D mon_addfile(kn, mevt, priv.priv);=0A=
- 		if (ret)=0A=
- 			goto out_destroy;=0A=
- =0A=
+ static bool is_cpu_list(struct kernfs_open_file *of)=0A=
 =0A=
 
