@@ -2,280 +2,461 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D625C6FA83
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 08:51:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D524FECAAD3
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 09:03:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229959AbiIGIvu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Sep 2022 04:51:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35236 "EHLO
+        id S229966AbiIGJDz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Sep 2022 05:03:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbiIGIvp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 04:51:45 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04BD99080E;
-        Wed,  7 Sep 2022 01:51:44 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5F513B81ADB;
-        Wed,  7 Sep 2022 08:51:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 834E1C433D7;
-        Wed,  7 Sep 2022 08:51:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662540701;
-        bh=t96HpRLLdQhSB9aqtR6pVBEsmGcqgnccAYCDAYDxrZI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=pej6dZXuqndW9LHaGY7P+hS8DWzEosmvIK/d9MTAq8NJyzVr7kvn1T2a7Z9uIWJHm
-         JdB5zB2roMS8huTQrr0OTW3vkjFBt4kcE7EjeEiDpmBwEhyjz8xiu7acE4FOV9o2oP
-         LlVq820maB3skzJgcJhNEdgVEB1N1RuC38SF9HjrNJi/XAO+gOF35a2SYbxHIojjcM
-         9X/RVXqYoQH278BAiBJOPTd0i/aj3yTv16Y+FyL8i7SCdLEOnMXAWdWI9mQ/wAFZig
-         ZMGCTb1FZkHS9y77ErbOYdPVa7/WVpPrp3TlD+AFODoBG2yPEiP5Nq8J0wb+3gDgCG
-         9GZb1ATE9/G3g==
-Date:   Wed, 7 Sep 2022 17:51:36 +0900
-From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Jianlin Lv <iecedge@gmail.com>, corbet@lwn.net, mingo@redhat.com,
-        jianlv@ebay.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>, bpf@vger.kernel.org
-Subject: Re: [PATCH v2] tracing/kprobes: Add method to display private
- kprobes in tracefs
-Message-Id: <20220907175136.96b05b241e650de21eb661e6@kernel.org>
-In-Reply-To: <20220906111214.0dd113cd@gandalf.local.home>
-References: <20220725062334.1778-1-iecedge@gmail.com>
-        <20220906111214.0dd113cd@gandalf.local.home>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229940AbiIGJDy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 05:03:54 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B3AFAF0F5
+        for <linux-doc@vger.kernel.org>; Wed,  7 Sep 2022 02:03:53 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id 145so13985218pfw.4
+        for <linux-doc@vger.kernel.org>; Wed, 07 Sep 2022 02:03:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=Z934rlNstfofpuyWEurIb+XEjfuq990ZSdiH3EvHyDc=;
+        b=d8iv/xnJfP5vvzSSAHeGHVaPpyoQSjFvtA9P6dbF3rOgTmFoI5A5RuUR0xOhO6zKD4
+         eeYrI4xm1/Sr8aYEfDhDvQLBHtaR6PB9wKh4gUjfR0/o1+KjCtjrwU7gl+7JHzw4jSdY
+         TFpX22xWQPT7rLibuT/DYhHuQCkOxK79FMOlxwqY0IIukkRFyVUL2E/pNpHEXLbN81oj
+         ySNBTEwbvIlNHNegEiBeoC1FH2uqGY4pixSJl+zFONb/qlmwMaKA+2u7DadUWzzAepo8
+         rLZ19vO70JGo1mdTaMTz5UcHWPb9UgXsvIL+QqoPleXUOcBKGACqLDTI+S8GjhPjFxjl
+         1tow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=Z934rlNstfofpuyWEurIb+XEjfuq990ZSdiH3EvHyDc=;
+        b=Iej57G2Zn5p6dbpfAzkxagJ3CbQD8LqocxyXhgbgQmTlZ6K1W3D8OM94GaPO4gh/9n
+         m1sMcaktnZwGAdyM5SksDQixSeoZVqdwUdIdxgkLaQY3gRadQAFRND8RNf7NQyPgID73
+         nhC1N8hG8N3IchCp8I4mrHAxsVxm1GvyuORNtKRrGuojUWjrDCPUte3lm6J/GY8cUT9g
+         oROCfXCtD/uY6tXiXzTw6xjfJm/WoqyqdA35G1l/4oS9q+mSQS0MPF2B3/KVTPVeGjI/
+         2a3gJYjRGTXmphoGuBqxOmQ5UzwGsRHwKK9by02FrCwyHcqCI/zRVfAMIySjbi8v66i+
+         bpQw==
+X-Gm-Message-State: ACgBeo3WmJDKnZ3wpLIto9AnQriuvdrPPZQYYTNbDndTJvOFt/GF4YmM
+        GU/BB+gnx5fe4p1ptreqL7rc+g==
+X-Google-Smtp-Source: AA6agR7iN9BJBRAkt9ypzmep6EHv0C0pDSFCGX8r0vobkuIuHom8V/eFvhAf0l0hepgON++SOZHBSw==
+X-Received: by 2002:a63:8549:0:b0:434:3c39:4fe0 with SMTP id u70-20020a638549000000b004343c394fe0mr2498448pgd.221.1662541432330;
+        Wed, 07 Sep 2022 02:03:52 -0700 (PDT)
+Received: from C02CV1DAMD6P.bytedance.net ([139.177.225.237])
+        by smtp.gmail.com with ESMTPSA id n8-20020a170903110800b0016d6963cb12sm11679514plh.304.2022.09.07.02.03.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Sep 2022 02:03:51 -0700 (PDT)
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+To:     peterz@infradead.org
+Cc:     hannes@cmpxchg.org, tj@kernel.org, surenb@google.com,
+        mkoutny@suse.com, mingo@redhat.com, gregkh@linuxfoundation.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Chengming Zhou <zhouchengming@bytedance.com>
+Subject: [PATCH] sched/psi: Per-cgroup PSI accounting disable/re-enable interface
+Date:   Wed,  7 Sep 2022 17:03:32 +0800
+Message-Id: <20220907090332.2078-1-zhouchengming@bytedance.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220825164111.29534-11-zhouchengming@bytedance.com>
+References: <20220825164111.29534-11-zhouchengming@bytedance.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[Adding bpf ML]
+PSI accounts stalls for each cgroup separately and aggregates it
+at each level of the hierarchy. This may cause non-negligible overhead
+for some workloads when under deep level of the hierarchy.
 
-On Tue, 6 Sep 2022 11:12:14 -0400
-Steven Rostedt <rostedt@goodmis.org> wrote:
+commit 3958e2d0c34e ("cgroup: make per-cgroup pressure stall tracking configurable")
+make PSI to skip per-cgroup stall accounting, only account system-wide
+to avoid this each level overhead.
 
-> 
-> [ Adding Masami and Tom ]
-> 
-> On Mon, 25 Jul 2022 06:23:34 +0000
-> Jianlin Lv <iecedge@gmail.com> wrote:
-> 
-> > The private kprobes are not added to the global list dyn_event_list,
-> > so there is a missing interface to show probe hit and probe miss.
-> > This patch adds a profiling interface to check the number of hits or
-> > misses for private kprobes.
-> 
-> Masami, what do you think of this patch?
+But for our use case, we also want leaf cgroup PSI stats accounted for
+userspace adjustment on that cgroup, apart from only system-wide adjustment.
 
-I discussed it with BPF people when it was introduced and they didn't
-want to show up it on tracefs because it is a private one. I agreed that.
+So this patch introduce a per-cgroup PSI accounting disable/re-enable
+interface "cgroup.pressure", which is a read-write single value file that
+allowed values are "0" and "1", the defaults is "1" so per-cgroup
+PSI stats is enabled by default.
 
-So I think this kind of interface must be managed by BPF subsystem.
-Is there any API to manage the BPF probe points in BPF subsystem?
+Implementation details:
 
-Thank you,
+It should be relatively straight-forward to disable and re-enable
+state aggregation, time tracking, averaging on a per-cgroup level,
+if we can live with losing history from while it was disabled.
+I.e. the avgs will restart from 0, total= will have gaps.
 
-> 
-> -- Steve
-> 
-> > 
-> > Signed-off-by: Jianlin Lv <iecedge@gmail.com>
-> > ---
-> > v2: update commit message
-> > ---
-> >  Documentation/trace/kprobetrace.rst |  6 +++-
-> >  kernel/trace/trace_dynevent.c       | 20 +++++++++++
-> >  kernel/trace/trace_dynevent.h       | 37 ++++++++++++++++++++
-> >  kernel/trace/trace_kprobe.c         | 54 +++++++++++++++++++++++++++++
-> >  4 files changed, 116 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-> > index b175d88f31eb..8815d64dd8a6 100644
-> > --- a/Documentation/trace/kprobetrace.rst
-> > +++ b/Documentation/trace/kprobetrace.rst
-> > @@ -146,7 +146,11 @@ trigger:
-> >  Event Profiling
-> >  ---------------
-> >  You can check the total number of probe hits and probe miss-hits via
-> > -/sys/kernel/debug/tracing/kprobe_profile.
-> > +/sys/kernel/debug/tracing/kprobe_profile or
-> > +/sys/kernel/debug/tracing/kprobe_local_profile.
-> > +All kprobe events created by kprobe_events will be added to the global
-> > +list, you can get their profiling via kprobe_profile; kprobe_local_profile
-> > +shows profiling for private kprobe events created by perf_kprobe pmu.
-> >  The first column is event name, the second is the number of probe hits,
-> >  the third is the number of probe miss-hits.
-> >  
-> > diff --git a/kernel/trace/trace_dynevent.c b/kernel/trace/trace_dynevent.c
-> > index 076b447a1b88..70ec99cd9c53 100644
-> > --- a/kernel/trace/trace_dynevent.c
-> > +++ b/kernel/trace/trace_dynevent.c
-> > @@ -181,6 +181,26 @@ static const struct seq_operations dyn_event_seq_op = {
-> >  	.show	= dyn_event_seq_show
-> >  };
-> >  
-> > +#ifdef CONFIG_KPROBE_EVENTS
-> > +LIST_HEAD(local_event_list);
-> > +
-> > +void *local_event_seq_start(struct seq_file *m, loff_t *pos)
-> > +{
-> > +	mutex_lock(&event_mutex);
-> > +	return seq_list_start(&local_event_list, *pos);
-> > +}
-> > +
-> > +void *local_event_seq_next(struct seq_file *m, void *v, loff_t *pos)
-> > +{
-> > +	return seq_list_next(v, &local_event_list, pos);
-> > +}
-> > +
-> > +void local_event_seq_stop(struct seq_file *m, void *v)
-> > +{
-> > +	mutex_unlock(&event_mutex);
-> > +}
-> > +#endif /* CONFIG_KPROBE_EVENTS */
-> > +
-> >  /*
-> >   * dyn_events_release_all - Release all specific events
-> >   * @type:	the dyn_event_operations * which filters releasing events
-> > diff --git a/kernel/trace/trace_dynevent.h b/kernel/trace/trace_dynevent.h
-> > index 936477a111d3..e30193470295 100644
-> > --- a/kernel/trace/trace_dynevent.h
-> > +++ b/kernel/trace/trace_dynevent.h
-> > @@ -101,6 +101,43 @@ void dyn_event_seq_stop(struct seq_file *m, void *v);
-> >  int dyn_events_release_all(struct dyn_event_operations *type);
-> >  int dyn_event_release(const char *raw_command, struct dyn_event_operations *type);
-> >  
-> > +#ifdef CONFIG_KPROBE_EVENTS
-> > +extern struct list_head local_event_list;
-> > +
-> > +static inline
-> > +int local_event_init(struct dyn_event *ev, struct dyn_event_operations *ops)
-> > +{
-> > +	if (!ev || !ops)
-> > +		return -EINVAL;
-> > +
-> > +	INIT_LIST_HEAD(&ev->list);
-> > +	ev->ops = ops;
-> > +	return 0;
-> > +}
-> > +
-> > +static inline int local_event_add(struct dyn_event *ev)
-> > +{
-> > +	lockdep_assert_held(&event_mutex);
-> > +
-> > +	if (!ev || !ev->ops)
-> > +		return -EINVAL;
-> > +
-> > +	list_add_tail(&ev->list, &local_event_list);
-> > +	return 0;
-> > +}
-> > +
-> > +static inline void local_event_remove(struct dyn_event *ev)
-> > +{
-> > +	lockdep_assert_held(&event_mutex);
-> > +	list_del_init(&ev->list);
-> > +}
-> > +
-> > +void *local_event_seq_start(struct seq_file *m, loff_t *pos);
-> > +void *local_event_seq_next(struct seq_file *m, void *v, loff_t *pos);
-> > +void local_event_seq_stop(struct seq_file *m, void *v);
-> > +
-> > +#endif /* CONFIG_KPROBE_EVENTS */
-> > +
-> >  /*
-> >   * for_each_dyn_event	-	iterate over the dyn_event list
-> >   * @pos:	the struct dyn_event * to use as a loop cursor
-> > diff --git a/kernel/trace/trace_kprobe.c b/kernel/trace/trace_kprobe.c
-> > index a245ea673715..76f500b17b46 100644
-> > --- a/kernel/trace/trace_kprobe.c
-> > +++ b/kernel/trace/trace_kprobe.c
-> > @@ -1213,6 +1213,52 @@ static const struct file_operations kprobe_profile_ops = {
-> >  	.release        = seq_release,
-> >  };
-> >  
-> > +#ifdef CONFIG_KPROBE_EVENTS
-> > +/* kprobe Local profile  */
-> > +static int local_probes_profile_seq_show(struct seq_file *m, void *v)
-> > +{
-> > +	struct dyn_event *ev = v;
-> > +	struct trace_kprobe *tk;
-> > +
-> > +	if (!is_trace_kprobe(ev))
-> > +		return 0;
-> > +
-> > +	tk = to_trace_kprobe(ev);
-> > +	seq_printf(m, "  %-44s %15lu %15lu\n",
-> > +		trace_probe_name(&tk->tp),
-> > +		trace_kprobe_nhit(tk),
-> > +		tk->rp.kp.nmissed);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct seq_operations local_profile_seq_op = {
-> > +	.start  = local_event_seq_start,
-> > +	.next   = local_event_seq_next,
-> > +	.stop   = local_event_seq_stop,
-> > +	.show   = local_probes_profile_seq_show
-> > +};
-> > +
-> > +static int local_profile_open(struct inode *inode, struct file *file)
-> > +{
-> > +	int ret;
-> > +
-> > +	ret = security_locked_down(LOCKDOWN_TRACEFS);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return seq_open(file, &local_profile_seq_op);
-> > +}
-> > +
-> > +static const struct file_operations kprobe_local_profile_ops = {
-> > +	.owner          = THIS_MODULE,
-> > +	.open           = local_profile_open,
-> > +	.read           = seq_read,
-> > +	.llseek         = seq_lseek,
-> > +	.release        = seq_release,
-> > +};
-> > +#endif /* CONFIG_KPROBE_EVENTS */
-> > +
-> >  /* Kprobe specific fetch functions */
-> >  
-> >  /* Return the length of string -- including null terminal byte */
-> > @@ -1830,6 +1876,7 @@ create_local_trace_kprobe(char *func, void *addr, unsigned long offs,
-> >  	if (ret < 0)
-> >  		goto error;
-> >  
-> > +	local_event_add(&tk->devent);
-> >  	return trace_probe_event_call(&tk->tp);
-> >  error:
-> >  	free_trace_kprobe(tk);
-> > @@ -1849,6 +1896,7 @@ void destroy_local_trace_kprobe(struct trace_event_call *event_call)
-> >  		return;
-> >  	}
-> >  
-> > +	local_event_remove(&tk->devent);
-> >  	__unregister_trace_kprobe(tk);
-> >  
-> >  	free_trace_kprobe(tk);
-> > @@ -1929,6 +1977,12 @@ static __init int init_kprobe_trace(void)
-> >  	trace_create_file("kprobe_profile", TRACE_MODE_READ,
-> >  			  NULL, NULL, &kprobe_profile_ops);
-> >  
-> > +#ifdef CONFIG_KPROBE_EVENTS
-> > +	/* kprobe Local profile */
-> > +	tracefs_create_file("kprobe_local_profile", TRACE_MODE_READ,
-> > +			  NULL, NULL, &kprobe_local_profile_ops);
-> > +#endif /* CONFIG_KPROBE_EVENTS */
-> > +
-> >  	setup_boot_kprobe_events();
-> >  
-> >  	return 0;
-> 
+But it's hard or complex to stop/restart groupc->tasks[] updates,
+which is not implemented in this patch. So we always update
+groupc->tasks[] and PSI_ONCPU bit in psi_group_change() even when
+the cgroup PSI stats is disabled.
 
+Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
+Suggested-by: Tejun Heo <tj@kernel.org>
+Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+---
+Updated version to fix build error when !CONFIG_PSI.
+---
+ Documentation/admin-guide/cgroup-v2.rst | 17 ++++++
+ include/linux/cgroup-defs.h             |  3 ++
+ include/linux/psi.h                     |  2 +
+ include/linux/psi_types.h               |  3 ++
+ kernel/cgroup/cgroup.c                  | 70 ++++++++++++++++++++++---
+ kernel/sched/psi.c                      | 70 ++++++++++++++++++++++---
+ 6 files changed, 152 insertions(+), 13 deletions(-)
 
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 971c418bc778..4cad4e2b31ec 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -976,6 +976,23 @@ All cgroup core files are prefixed with "cgroup."
+ 	killing cgroups is a process directed operation, i.e. it affects
+ 	the whole thread-group.
+ 
++  cgroup.pressure
++	A read-write single value file that allowed values are "0" and "1".
++	The default is "1".
++
++	Writing "0" to the file will disable the cgroup PSI accounting.
++	Writing "1" to the file will re-enable the cgroup PSI accounting.
++
++	This control attribute is not hierarchical, so disable or enable PSI
++	accounting in a cgroup does not affect PSI accounting in descendants
++	and doesn't need pass enablement via ancestors from root.
++
++	The reason this control attribute exists is that PSI accounts stalls for
++	each cgroup separately and aggregates it at each level of the hierarchy.
++	This may cause non-negligible overhead for some workloads when under
++	deep level of the hierarchy, in which case this control attribute can
++	be used to disable PSI accounting in the non-leaf cgroups.
++
+   irq.pressure
+ 	A read-write nested-keyed file.
+ 
+diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
+index 4bcf56b3491c..7df76b318245 100644
+--- a/include/linux/cgroup-defs.h
++++ b/include/linux/cgroup-defs.h
+@@ -428,6 +428,9 @@ struct cgroup {
+ 	struct cgroup_file procs_file;	/* handle for "cgroup.procs" */
+ 	struct cgroup_file events_file;	/* handle for "cgroup.events" */
+ 
++	/* handles for "{cpu,memory,io,irq}.pressure" */
++	struct cgroup_file psi_files[NR_PSI_RESOURCES];
++
+ 	/*
+ 	 * The bitmask of subsystems enabled on the child cgroups.
+ 	 * ->subtree_control is the one configured through
+diff --git a/include/linux/psi.h b/include/linux/psi.h
+index 362a74ca1d3b..b029a847def1 100644
+--- a/include/linux/psi.h
++++ b/include/linux/psi.h
+@@ -39,6 +39,7 @@ static inline struct psi_group *cgroup_psi(struct cgroup *cgrp)
+ int psi_cgroup_alloc(struct cgroup *cgrp);
+ void psi_cgroup_free(struct cgroup *cgrp);
+ void cgroup_move_task(struct task_struct *p, struct css_set *to);
++void psi_cgroup_restart(struct psi_group *group);
+ #endif
+ 
+ #else /* CONFIG_PSI */
+@@ -60,6 +61,7 @@ static inline void cgroup_move_task(struct task_struct *p, struct css_set *to)
+ {
+ 	rcu_assign_pointer(p->cgroups, to);
+ }
++static inline void psi_cgroup_restart(struct psi_group *group) {}
+ #endif
+ 
+ #endif /* CONFIG_PSI */
+diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
+index a0b746258c68..6e4372735068 100644
+--- a/include/linux/psi_types.h
++++ b/include/linux/psi_types.h
+@@ -152,6 +152,7 @@ struct psi_trigger {
+ 
+ struct psi_group {
+ 	struct psi_group *parent;
++	bool enabled;
+ 
+ 	/* Protects data used by the aggregator */
+ 	struct mutex avgs_lock;
+@@ -194,6 +195,8 @@ struct psi_group {
+ 
+ #else /* CONFIG_PSI */
+ 
++#define NR_PSI_RESOURCES	0
++
+ struct psi_group { };
+ 
+ #endif /* CONFIG_PSI */
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index 4f72a71820db..0bca8f29361d 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -3708,8 +3708,8 @@ static int cgroup_cpu_pressure_show(struct seq_file *seq, void *v)
+ 	return psi_show(seq, psi, PSI_CPU);
+ }
+ 
+-static ssize_t cgroup_pressure_write(struct kernfs_open_file *of, char *buf,
+-					  size_t nbytes, enum psi_res res)
++static ssize_t pressure_write(struct kernfs_open_file *of, char *buf,
++			      size_t nbytes, enum psi_res res)
+ {
+ 	struct cgroup_file_ctx *ctx = of->priv;
+ 	struct psi_trigger *new;
+@@ -3746,21 +3746,21 @@ static ssize_t cgroup_io_pressure_write(struct kernfs_open_file *of,
+ 					  char *buf, size_t nbytes,
+ 					  loff_t off)
+ {
+-	return cgroup_pressure_write(of, buf, nbytes, PSI_IO);
++	return pressure_write(of, buf, nbytes, PSI_IO);
+ }
+ 
+ static ssize_t cgroup_memory_pressure_write(struct kernfs_open_file *of,
+ 					  char *buf, size_t nbytes,
+ 					  loff_t off)
+ {
+-	return cgroup_pressure_write(of, buf, nbytes, PSI_MEM);
++	return pressure_write(of, buf, nbytes, PSI_MEM);
+ }
+ 
+ static ssize_t cgroup_cpu_pressure_write(struct kernfs_open_file *of,
+ 					  char *buf, size_t nbytes,
+ 					  loff_t off)
+ {
+-	return cgroup_pressure_write(of, buf, nbytes, PSI_CPU);
++	return pressure_write(of, buf, nbytes, PSI_CPU);
+ }
+ 
+ #ifdef CONFIG_IRQ_TIME_ACCOUNTING
+@@ -3776,10 +3776,58 @@ static ssize_t cgroup_irq_pressure_write(struct kernfs_open_file *of,
+ 					 char *buf, size_t nbytes,
+ 					 loff_t off)
+ {
+-	return cgroup_pressure_write(of, buf, nbytes, PSI_IRQ);
++	return pressure_write(of, buf, nbytes, PSI_IRQ);
+ }
+ #endif
+ 
++static int cgroup_pressure_show(struct seq_file *seq, void *v)
++{
++	struct cgroup *cgrp = seq_css(seq)->cgroup;
++	struct psi_group *psi = cgroup_psi(cgrp);
++
++	seq_printf(seq, "%d\n", psi->enabled);
++
++	return 0;
++}
++
++static ssize_t cgroup_pressure_write(struct kernfs_open_file *of,
++				     char *buf, size_t nbytes,
++				     loff_t off)
++{
++	ssize_t ret;
++	int enable;
++	struct cgroup *cgrp;
++	struct psi_group *psi;
++
++	ret = kstrtoint(strstrip(buf), 0, &enable);
++	if (ret)
++		return ret;
++
++	if (enable < 0 || enable > 1)
++		return -ERANGE;
++
++	cgrp = cgroup_kn_lock_live(of->kn, false);
++	if (!cgrp)
++		return -ENOENT;
++
++	psi = cgroup_psi(cgrp);
++	if (psi->enabled != enable) {
++		int i;
++
++		/* show or hide {cpu,memory,io,irq}.pressure files */
++		for (i = 0; i < NR_PSI_RESOURCES; i++)
++			cgroup_file_show(&cgrp->psi_files[i], enable);
++
++		psi->enabled = enable;
++		if (enable)
++			psi_cgroup_restart(psi);
++	}
++
++	cgroup_kn_unlock(of->kn);
++
++	return nbytes;
++}
++
+ static __poll_t cgroup_pressure_poll(struct kernfs_open_file *of,
+ 					  poll_table *pt)
+ {
+@@ -5155,6 +5203,7 @@ static struct cftype cgroup_base_files[] = {
+ 	{
+ 		.name = "io.pressure",
+ 		.flags = CFTYPE_PRESSURE,
++		.file_offset = offsetof(struct cgroup, psi_files[PSI_IO]),
+ 		.seq_show = cgroup_io_pressure_show,
+ 		.write = cgroup_io_pressure_write,
+ 		.poll = cgroup_pressure_poll,
+@@ -5163,6 +5212,7 @@ static struct cftype cgroup_base_files[] = {
+ 	{
+ 		.name = "memory.pressure",
+ 		.flags = CFTYPE_PRESSURE,
++		.file_offset = offsetof(struct cgroup, psi_files[PSI_MEM]),
+ 		.seq_show = cgroup_memory_pressure_show,
+ 		.write = cgroup_memory_pressure_write,
+ 		.poll = cgroup_pressure_poll,
+@@ -5171,6 +5221,7 @@ static struct cftype cgroup_base_files[] = {
+ 	{
+ 		.name = "cpu.pressure",
+ 		.flags = CFTYPE_PRESSURE,
++		.file_offset = offsetof(struct cgroup, psi_files[PSI_CPU]),
+ 		.seq_show = cgroup_cpu_pressure_show,
+ 		.write = cgroup_cpu_pressure_write,
+ 		.poll = cgroup_pressure_poll,
+@@ -5180,12 +5231,19 @@ static struct cftype cgroup_base_files[] = {
+ 	{
+ 		.name = "irq.pressure",
+ 		.flags = CFTYPE_PRESSURE,
++		.file_offset = offsetof(struct cgroup, psi_files[PSI_IRQ]),
+ 		.seq_show = cgroup_irq_pressure_show,
+ 		.write = cgroup_irq_pressure_write,
+ 		.poll = cgroup_pressure_poll,
+ 		.release = cgroup_pressure_release,
+ 	},
+ #endif
++	{
++		.name = "cgroup.pressure",
++		.flags = CFTYPE_PRESSURE,
++		.seq_show = cgroup_pressure_show,
++		.write = cgroup_pressure_write,
++	},
+ #endif /* CONFIG_PSI */
+ 	{ }	/* terminate */
+ };
+diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+index 9a8aee80a087..9711827e31e5 100644
+--- a/kernel/sched/psi.c
++++ b/kernel/sched/psi.c
+@@ -181,6 +181,7 @@ static void group_init(struct psi_group *group)
+ {
+ 	int cpu;
+ 
++	group->enabled = true;
+ 	for_each_possible_cpu(cpu)
+ 		seqcount_init(&per_cpu_ptr(group->pcpu, cpu)->seq);
+ 	group->avg_last_update = sched_clock();
+@@ -696,17 +697,16 @@ static void psi_group_change(struct psi_group *group, int cpu,
+ 	groupc = per_cpu_ptr(group->pcpu, cpu);
+ 
+ 	/*
+-	 * First we assess the aggregate resource states this CPU's
+-	 * tasks have been in since the last change, and account any
+-	 * SOME and FULL time these may have resulted in.
+-	 *
+-	 * Then we update the task counts according to the state
++	 * First we update the task counts according to the state
+ 	 * change requested through the @clear and @set bits.
++	 *
++	 * Then if the cgroup PSI stats accounting enabled, we
++	 * assess the aggregate resource states this CPU's tasks
++	 * have been in since the last change, and account any
++	 * SOME and FULL time these may have resulted in.
+ 	 */
+ 	write_seqcount_begin(&groupc->seq);
+ 
+-	record_times(groupc, now);
+-
+ 	/*
+ 	 * Start with TSK_ONCPU, which doesn't have a corresponding
+ 	 * task count - it's just a boolean flag directly encoded in
+@@ -745,6 +745,23 @@ static void psi_group_change(struct psi_group *group, int cpu,
+ 		if (set & (1 << t))
+ 			groupc->tasks[t]++;
+ 
++	if (!group->enabled) {
++		/*
++		 * On the first group change after disabling PSI, conclude
++		 * the current state and flush its time. This is unlikely
++		 * to matter to the user, but aggregation (get_recent_times)
++		 * may have already incorporated the live state into times_prev;
++		 * avoid a delta sample underflow when PSI is later re-enabled.
++		 */
++		if (unlikely(groupc->state_mask & (1 << PSI_NONIDLE)))
++			record_times(groupc, now);
++
++		groupc->state_mask = state_mask;
++
++		write_seqcount_end(&groupc->seq);
++		return;
++	}
++
+ 	for (s = 0; s < NR_PSI_STATES; s++) {
+ 		if (test_state(groupc->tasks, s, state_mask & PSI_ONCPU))
+ 			state_mask |= (1 << s);
+@@ -761,6 +778,8 @@ static void psi_group_change(struct psi_group *group, int cpu,
+ 	if (unlikely((state_mask & PSI_ONCPU) && cpu_curr(cpu)->in_memstall))
+ 		state_mask |= (1 << PSI_MEM_FULL);
+ 
++	record_times(groupc, now);
++
+ 	groupc->state_mask = state_mask;
+ 
+ 	write_seqcount_end(&groupc->seq);
+@@ -907,6 +926,9 @@ void psi_account_irqtime(struct task_struct *task, u32 delta)
+ 
+ 	group = task_psi_group(task);
+ 	do {
++		if (!group->enabled)
++			continue;
++
+ 		groupc = per_cpu_ptr(group->pcpu, cpu);
+ 
+ 		write_seqcount_begin(&groupc->seq);
+@@ -1080,6 +1102,40 @@ void cgroup_move_task(struct task_struct *task, struct css_set *to)
+ 
+ 	task_rq_unlock(rq, task, &rf);
+ }
++
++void psi_cgroup_restart(struct psi_group *group)
++{
++	int cpu;
++
++	/*
++	 * After we disable psi_group->enabled, we don't actually
++	 * stop percpu tasks accounting in each psi_group_cpu,
++	 * instead only stop test_state() loop, record_times()
++	 * and averaging worker, see psi_group_change() for details.
++	 *
++	 * When disable cgroup PSI, this function has nothing to sync
++	 * since cgroup pressure files are hidden and percpu psi_group_cpu
++	 * would see !psi_group->enabled and only do task accounting.
++	 *
++	 * When re-enable cgroup PSI, this function use psi_group_change()
++	 * to get correct state mask from test_state() loop on tasks[],
++	 * and restart groupc->state_start from now, use .clear = .set = 0
++	 * here since no task status really changed.
++	 */
++	if (!group->enabled)
++		return;
++
++	for_each_possible_cpu(cpu) {
++		struct rq *rq = cpu_rq(cpu);
++		struct rq_flags rf;
++		u64 now;
++
++		rq_lock_irq(rq, &rf);
++		now = cpu_clock(cpu);
++		psi_group_change(group, cpu, 0, 0, now, true);
++		rq_unlock_irq(rq, &rf);
++	}
++}
+ #endif /* CONFIG_CGROUPS */
+ 
+ int psi_show(struct seq_file *m, struct psi_group *group, enum psi_res res)
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+2.37.2
+
