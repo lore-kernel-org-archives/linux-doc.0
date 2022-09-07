@@ -2,157 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30B2DC54EE9
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 21:37:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A2AEC54EE9
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Sep 2022 22:01:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229811AbiIGVhX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Sep 2022 17:37:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45882 "EHLO
+        id S230203AbiIGWBT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Sep 2022 18:01:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbiIGVhW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 17:37:22 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53F0A1F61D;
-        Wed,  7 Sep 2022 14:37:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662586641; x=1694122641;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=B4/ksnDW8Xem29FiMzcN7TgkM2msIVMY3Ax00LuxAqE=;
-  b=Ox3n59/YSBehX+KG6Dk+Ok6xbVuLn/uMMOleJYXsReqbuGau147U/P1P
-   1cvSLYGd7l1mTZMe0shbRIn/pyUXVSheYxu5FvVGqZdGwqhq2BXDD5HAF
-   TjCzjTKXKWyMm6ButWb0KKJfgXD4pnqt6H6CJrncpyD4sCfoMdlfbagmj
-   i+NqUjCY4LkQJ5Ows+iV8PMJrwl4kMM0g8HsHInDL5FzJkkVIPBBbNrPw
-   A+UzzRXVPb4WuhUHi2Z5t/diabR99D4SS5mzdUJexcwrqcL24VV4Aloe3
-   CoSZWTuicZ55+9waVx9grOxZJSSSuxwC+248gAGkp8hKF+TjD9R2RkpgA
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10463"; a="323191480"
-X-IronPort-AV: E=Sophos;i="5.93,298,1654585200"; 
-   d="scan'208";a="323191480"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2022 14:37:20 -0700
-X-IronPort-AV: E=Sophos;i="5.93,298,1654585200"; 
-   d="scan'208";a="591886845"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2022 14:37:20 -0700
-Date:   Wed, 7 Sep 2022 14:37:32 -0700 (PDT)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
-        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
-Subject: Re: [PATCH v1 4/5] fpga: dfl: add generic support for MSIX
- interrupts
-In-Reply-To: <YxeqTdny7Nu7LzZo@smile.fi.intel.com>
-Message-ID: <alpine.DEB.2.22.394.2209071433320.3336870@rhweight-WRK1>
-References: <20220906190426.3139760-1-matthew.gerlach@linux.intel.com> <20220906190426.3139760-5-matthew.gerlach@linux.intel.com> <YxeqTdny7Nu7LzZo@smile.fi.intel.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S229577AbiIGWBS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 18:01:18 -0400
+Received: from out03.mta.xmission.com (out03.mta.xmission.com [166.70.13.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15C8F895DE;
+        Wed,  7 Sep 2022 15:01:17 -0700 (PDT)
+Received: from in01.mta.xmission.com ([166.70.13.51]:32958)
+        by out03.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1oW36e-0064Jr-Ba; Wed, 07 Sep 2022 16:01:12 -0600
+Received: from ip68-110-29-46.om.om.cox.net ([68.110.29.46]:53706 helo=email.froward.int.ebiederm.org.xmission.com)
+        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1oW36d-0092tB-7e; Wed, 07 Sep 2022 16:01:11 -0600
+From:   "Eric W. Biederman" <ebiederm@xmission.com>
+To:     Oleg Nesterov <oleg@redhat.com>
+Cc:     Oleksandr Natalenko <oleksandr@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Huang Ying <ying.huang@intel.com>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        Will Deacon <will@kernel.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Stephen Kitt <steve@sk2.org>, Rob Herring <robh@kernel.org>,
+        Joel Savitz <jsavitz@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Renaud =?utf-8?Q?M=C3=A9trich?= <rmetrich@redhat.com>,
+        Grzegorz Halat <ghalat@redhat.com>, Qi Guo <qguo@redhat.com>
+References: <20220903064330.20772-1-oleksandr@redhat.com>
+        <87r10ob0st.fsf@email.froward.int.ebiederm.org>
+        <5599808.DvuYhMxLoT@redhat.com> <20220907173438.GA15992@redhat.com>
+Date:   Wed, 07 Sep 2022 17:00:43 -0500
+In-Reply-To: <20220907173438.GA15992@redhat.com> (Oleg Nesterov's message of
+        "Wed, 7 Sep 2022 19:34:40 +0200")
+Message-ID: <877d2ec0ac.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain
+X-XM-SPF: eid=1oW36d-0092tB-7e;;;mid=<877d2ec0ac.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.110.29.46;;;frm=ebiederm@xmission.com;;;spf=softfail
+X-XM-AID: U2FsdGVkX1/MTX45R8okRsDE3mI928lifjqE1i+i1fQ=
+X-SA-Exim-Connect-IP: 68.110.29.46
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCH] core_pattern: add CPU specifier
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Oleg Nesterov <oleg@redhat.com> writes:
 
-
-On Tue, 6 Sep 2022, Andy Shevchenko wrote:
-
-> On Tue, Sep 06, 2022 at 12:04:25PM -0700, matthew.gerlach@linux.intel.com wrote:
->> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> On 09/07, Oleksandr Natalenko wrote:
 >>
->> Define and use a DFHv1 parameter to add generic support for MSIX
->> interrupts for DFL devices.
+>> The advantage of having CPU recorded in the file name is that
+>> in case of multiple cores one can summarise them with a simple
+>> ls+grep without invoking a fully-featured debugger to find out
+>> whether the segfaults happened on the same CPU.
 >
-> ...
+> Besides, if you only need to gather the statistics about the faulting
+> CPU(s), you do not even need to actually dump the the core. For example,
+> something like
 >
->> +	if (fid != FEATURE_ID_AFU && fid != PORT_FEATURE_ID_ERROR &&
->> +	    fid != PORT_FEATURE_ID_UINT && fid != FME_FEATURE_ID_GLOBAL_ERR) {
->> +		v = readq(base);
->> +		v = FIELD_GET(DFH_VERSION, v);
->> +
->> +		if (v == 1) {
->> +			v =  readq(base + DFHv1_CSR_SIZE_GRP);
+> 	#!/usr/bin/sh
 >
-> I am already lost what v keeps...
+> 	echo $* >> path/to/coredump-stat.txt
 >
-> Perhaps
+> and
+> 	echo '| path-to-script-above %C' >/proc/sys/kernel/core_pattern
 >
-> 		v = readq(base);
-> 		switch (FIELD_GET(DFH_VERSION, v)) {
-> 		case 1:
-> 			...
-> 			break;
-> 		}
+> can help.
 
-How about?
- 		if (FIELD_GET(DFH_VERSION, readq(base)) == 1) {
- 			...
- 		}
->
->> +			if (FIELD_GET(DFHv1_CSR_SIZE_GRP_HAS_PARAMS, v)) {
->
-> 				void __iomem *v1hdr = base + DFHv1_PARAM_HDR;
->
->> +				off = dfl_find_param(base + DFHv1_PARAM_HDR, ofst,
->> +						     DFHv1_PARAM_ID_MSIX);
->
-> 				off = dfl_find_param(v1hdr, ofst, DFHv1_PARAM_ID_MSIX);
->
->> +				if (off >= 0) {
->> +					ibase = readl(base + DFHv1_PARAM_HDR +
->> +						      off + DFHv1_PARAM_MSIX_STARTV);
->> +					inr = readl(base + DFHv1_PARAM_HDR +
->> +						    off + DFHv1_PARAM_MSIX_NUMV);
->
-> 					ibase = readl(v1hdr + off + DFHv1_PARAM_MSIX_STARTV);
-> 					inr = readl(v1hdr + off + DFHv1_PARAM_MSIX_NUMV);
->
->> +					dev_dbg(binfo->dev, "%s start %d num %d fid 0x%x\n",
->> +						__func__, ibase, inr, fid);
->
-> No __func__ for dev_dbg(). Dynamic debug has this feature at runtime!
->
->> +				}
->> +			}
->> +		}
->> +	}
->
-> ...
->
->> +/*
->
-> If it's a kernel doc, make it to be parsable as a such.
+So I am confused.  I thought someone had modified print_fatal_signal
+to print this information.  Looking at the code now I don't see it,
+but perhaps that is in linux-next somewhere.
 
-Yes, the intention is kernel doc. Thanks for the feedback. I
-will fix this and add the newline as suggested below.
+That would seem to be the really obvious place to put this and much
+closer to the original fault so we ware more likely to record the
+cpu on which things actually happened on.
 
-Matthew Gerlach
+If we don't care about the core dump just getting the information in
+syslog where it can be analyzed seems like the thing to do.
 
->
->> + * dfl_find_param() - find the offset of the given parameter
->> + * @base: base pointer to start of dfl parameters in DFH
->> + * @max: maximum offset to search
->> + * @param: id of dfl parameter
->> + *
->> + * Return: positive offset on success, negative error code otherwise.
->> + */
->> +int dfl_find_param(void __iomem *base, resource_size_t max, int param);
->
-> + blank line.
->
->>  #endif /* __LINUX_DFL_H */
->
-> -- 
-> With Best Regards,
-> Andy Shevchenko
->
->
->
+For a developers box putting it in core pattern makes sense, isn't a
+hinderance to use.  For anyone else's box the information needs to come
+out in a way that allows automated tools to look for a pattern.
+Requiring someone to take an extra step to print the information seems
+a hinderance to automated tools doing the looking.
+
+Eric
+
