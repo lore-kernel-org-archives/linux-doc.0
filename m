@@ -2,135 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07778C6FA89
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 14:25:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D05EAC38145
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 14:55:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231983AbiIHOZZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Sep 2022 10:25:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34666 "EHLO
+        id S232302AbiIHOzo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Sep 2022 10:55:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230309AbiIHOZY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 10:25:24 -0400
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33D0072ED3;
-        Thu,  8 Sep 2022 07:25:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=N1TrM7TbvW4pn1BGGWDOrYT43Tz4PeQhBJcHN6NEPZo=; b=t0cis0RtsabCUAQD0/556FaEXb
-        /Y5PIXTg4fPBLDK4Nd1zu9jZjHyZCf2xVGeGJMWPy0SZJ3FbyLkWnfRHmE/yBkgATZhPxJCBKDb18
-        Dd8uUVtcWFpbIuhKesY55pkxbNoqxln4mRqPGQuMyha9K0acIpc7nI+yTN/Y3pOn8+WWUqwXAFsNU
-        EPh6dvoPSjKtcctEmP35dFDb0Z27OSJLj39NQWbjAdHOGiW9JL+UvYjPHk/dpSNrQiV6h6dDiIhNN
-        6eTqn9ndo6ELOgJc1OySUxNwVwYnW40h7riiWCwfOd4gCw2BkIH6Gp7hKIqjZdr8eN3QKXQoFrqLI
-        NApesA6Q==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34204)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1oWISt-0006cE-FH; Thu, 08 Sep 2022 15:25:11 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1oWISo-00028R-RL; Thu, 08 Sep 2022 15:25:06 +0100
-Date:   Thu, 8 Sep 2022 15:25:06 +0100
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
-        devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH 2/7] dt-bindings: gpio: add binding for the GPIO block
- for Apple Mac SMC
-Message-ID: <Yxn7QqBQ7d4rd81+@shell.armlinux.org.uk>
-References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
- <E1oVYUI-005CmB-84@rmk-PC.armlinux.org.uk>
- <39b08217-b939-d188-12ce-ce6006282e1e@linaro.org>
+        with ESMTP id S230461AbiIHOzm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 10:55:42 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7DB498763
+        for <linux-doc@vger.kernel.org>; Thu,  8 Sep 2022 07:55:40 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id s15so20227375ljp.5
+        for <linux-doc@vger.kernel.org>; Thu, 08 Sep 2022 07:55:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=fgfnhY3Ull0vFOfCmjRPglZnCyMcEKdcwqQSL0htN4s=;
+        b=Tfxv0wLLpxiul/CCTKgU19nq1+XuXriBZ9LEMrMatNFJ1wo2fzx/HSwJqbhQM44pmK
+         wwdS9BNxGTEgHi0RmOwgAN3usrdTi/vOqYrMp+qN/466jLe50E4voyYfGoqsfVRtk4Yu
+         GGs8UuleALrZvGc3Em9sxDAuWYiNV5JWHBznhh/PNQfGPRFewKAe78QbCzZvmo7D0fNH
+         p5z7id3h1Bd3mKefKckdHPrEHoFDDNOrQiQ2d0daHrehbFKtiuI1nHgpufCe1DWyLE/o
+         9QBOwZig6kQNYdGH4bSIzTozQCH3DT5PviCl1OC9UVmflrCatHXBpui/QATYDhZwXc7q
+         6Huw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=fgfnhY3Ull0vFOfCmjRPglZnCyMcEKdcwqQSL0htN4s=;
+        b=RckdHO3OXVIFYRsuSp/C7BrMPIKCiJ9odrrOJjA8372nLNUSTk7Fv9Qx3+TLCMGH4B
+         u+s4Zme7ijxrPY/dGHMPu68Kun1TP+A6cplPVSmCXozGEdM38gXGoj43uEKK1mLIFSye
+         BgEpNCVGN+GLgi0CGWIN/HEYsYGOWjSdHXwy2CVzKqAjPFSDuPI25ybYypGua12As/O7
+         FhLg6qtxRCgTr9XR0K2+LrCVdwXPViM7FqMkbUCGXjX7pJfWOJm4hu62byqP420DEIIf
+         5SgPCG4/kPlCy941rHdkDgqqphzNSY18G38PZqbLRBpPhEoKyXzk9tsIyhGZf2tHBLyM
+         3iLw==
+X-Gm-Message-State: ACgBeo1XrYRLBaDixp5q3Ob6QGZtbUFZPpf3esE+55i8jVDXA7astBx+
+        1l7Dr9PJC5I3vzKSY3B9kZ136w==
+X-Google-Smtp-Source: AA6agR7CdTkFme++fxO7yCuNAUYEhQGmRtghzjNi1mJGcVbSKLCJ2f0obGMN5IJudh/AGuecUAFTjg==
+X-Received: by 2002:a2e:a910:0:b0:26a:ed13:cda6 with SMTP id j16-20020a2ea910000000b0026aed13cda6mr1407716ljq.250.1662648939305;
+        Thu, 08 Sep 2022 07:55:39 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id c16-20020ac24150000000b0048afd0c496fsm3066503lfi.156.2022.09.08.07.55.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Sep 2022 07:55:38 -0700 (PDT)
+Message-ID: <889151be-9ea8-6a9e-e5fe-eac1dd93250c@linaro.org>
+Date:   Thu, 8 Sep 2022 16:55:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <39b08217-b939-d188-12ce-ce6006282e1e@linaro.org>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v4 1/2] dt-bindings: power: reset: qcom-pon: update "reg"
+ property details
+Content-Language: en-US
+To:     Anjelique Melendez <quic_amelende@quicinc.com>, corbet@lwn.net,
+        sre@kernel.org, robh+dt@kernel.org, agross@kernel.org,
+        bjorn.andersson@linaro.org
+Cc:     krzysztof.kozlowski+dt@linaro.org, vkoul@kernel.org,
+        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        David Collins <quic_collinsd@quicinc.com>
+References: <20220725191314.19456-1-quic_amelende@quicinc.com>
+ <20220725191314.19456-2-quic_amelende@quicinc.com>
+ <a47a33a5-aec7-2a52-f1e8-52c45307862e@linaro.org>
+ <0e6bf142-ca56-2414-86c4-1a18b74b3ba6@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <0e6bf142-ca56-2414-86c4-1a18b74b3ba6@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 08, 2022 at 02:17:54PM +0200, Krzysztof Kozlowski wrote:
-> On 06/09/2022 15:19, Russell King (Oracle) wrote:
-> > Add the DT binding for the Apple Mac System Management Controller GPIOs.
-> > 
-> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > ---
-> >  .../devicetree/bindings/gpio/gpio-macsmc.yaml | 28 +++++++++++++++++++
-> >  .../devicetree/bindings/mfd/apple,smc.yaml    |  4 +++
-> >  2 files changed, 32 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
-> > new file mode 100644
-> > index 000000000000..ee620fe50ca8
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
-> > @@ -0,0 +1,28 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/gpio/gpio-macsmc.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Apple Mac System Management Controller GPIO
-> > +
-> > +maintainers:
-> > +  - Hector Martin <marcan@marcan.st>
-> > +
-> > +description:
-> > +  This describes the binding for the Apple Mac System Management Controller
-> > +  GPIO block.
-> > +
-> > +properties:
-> > +  gpio-controller: true
-> > +  '#gpio-cells':
-> > +    const: 2
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    smc_gpio: gpio {
-> > +      gpio-controller;
-> > +      #gpio-cells = <2>;
-> > +    };
-> > diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> > index 168f237c2962..47e3cd58bf19 100644
-> > --- a/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> > +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> > @@ -37,6 +37,10 @@ title: Apple Mac System Management Controller
-> >      description:
-> >        A phandle to the mailbox channel
-> >  
-> > +patternProperties:
-> > +  gpio:
+On 19/08/2022 22:26, Anjelique Melendez wrote:
 > 
-> This is not a pattern. Should be in properties.
+> Hi Krzysztof,
+> First I would like to apologize for my lack of response to this patch series
+> over these past few weeks. I have been out of office.
 > 
-> Please run `make dt_binding_check` (see
-> Documentation/devicetree/bindings/writing-schema.rst for instructions).
+> On 7/26/2022 3:25 AM, Krzysztof Kozlowski wrote:
+>> On 25/07/2022 21:13, Anjelique Melendez wrote:
+>>> From: David Collins <quic_collinsd@quicinc.com>
+>>>
+>>> Update the description of "reg" property to add the PON_PBS base
+>>> address along with PON_HLOS base address.  Also add "reg-names"
+>>> property constraints.
+>>>
+>>> Signed-off-by: David Collins <quic_collinsd@quicinc.com>
+>>> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+>>> ---
+>>>  Documentation/devicetree/bindings/power/reset/qcom,pon.yaml | 50 +++++++++++++++++++++++++++---
+>>>  1 file changed, 46 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+>>> index 353f155d..d7b6b875 100644
+>>> --- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+>>> +++ b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+>>> @@ -15,18 +15,27 @@ description: |
+>>>  
+>>>    This DT node has pwrkey and resin as sub nodes.
+>>>  
+>>> -allOf:
+>>> -  - $ref: reboot-mode.yaml#
+>>> -
+>>>  properties:
+>>>    compatible:
+>>>      enum:
+>>>        - qcom,pm8916-pon
+>>>        - qcom,pms405-pon
+>>>        - qcom,pm8998-pon
+>>> +      - qcom,pmk8350-pon
+>>>  
+>>>    reg:
+>>> -    maxItems: 1
+>>> +    description: |
+>>> +      Specifies the SPMI base address for the PON (power-on) peripheral.  For
+>>> +      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
+>>> +      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
+>>> +      peripherals.  In that case, the PON_PBS address needs to be specified to
+>>> +      facilitate software debouncing on some PMIC.
+>>> +    minItems: 1
+>>> +    maxItems: 2
+>>> +
+>>> +  reg-names:
+>>> +    minItems: 1
+>>> +    maxItems: 2
+>>>  
+>>>    pwrkey:
+>>>      type: object
+>>> @@ -42,6 +51,39 @@ required:
+>>>  
+>>>  unevaluatedProperties: false
+>>>  
+>>> +allOf:
+>>> +  - $ref: reboot-mode.yaml#
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            enum:
+>>> +              - qcom,pm8916-pon
+>>> +              - qcom,pms405-pon
+>>> +              - qcom,pm8998-pon
+>>> +    then:
+>>> +      properties:
+>>> +        reg:
+>>> +          maxItems: 1
+>>> +        reg-names:
+>>> +          items:
+>>> +            - const: pon
+>>
+>> All your previous patches were actually missing (in commit msg, in the
+>> code) that piece of information which you add here. You now add
+>> reg-names with "pon" for older devices. I assumed previous that it is
+>> somehow needed, so I gave you the hints how it should be coded. But I
+>> don't understand - why are you doing it
+>>
+>> This should be explained in commit msg. To me it is not needed at all...
+>> unless you want to mark that first address space is entirely different
+>> for other devices?
+> Adding reg-names "pon" for older devices is simply to provide clarification
+> about what the register relates to. Similar to reg-names "hlos" and "pbs"
+> for gen3 children devices, reg-names is completely optional and is not
+> consumed by any driver.
 
-I did. It didn't warn for me. Yes, I had updated it immediately prior.
-Yes I had installed the lint package.
+OK, can be. Include it in the commit msg, please.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+
+Best regards,
+Krzysztof
