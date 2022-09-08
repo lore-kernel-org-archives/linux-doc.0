@@ -2,80 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2043EC38145
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 05:31:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F763ECAAD5
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 06:11:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230047AbiIHFbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Sep 2022 01:31:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47402 "EHLO
+        id S229941AbiIHGLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Sep 2022 02:11:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbiIHFbV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 01:31:21 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D409B6B642;
-        Wed,  7 Sep 2022 22:31:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229884AbiIHGLR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 02:11:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9663DABF14
+        for <linux-doc@vger.kernel.org>; Wed,  7 Sep 2022 23:11:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1662617475;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=L4sZiKf7Pb+Ro+0hy7kuWa+zv8cmGXs8YS6IIyb9ffg=;
+        b=Du9sKF9PWQ2ggf4koMJcbojFLDbaZl3U+C4Nfu1NtGhidQspJCVrEnD53PqEoFYS9FcvfS
+        UdQHbIHobLlD7LGMHVRniIesHNe/mJsAfgO3x9zNB8M9XHFdytjA4X3+CkT5eOl03KWCiA
+        UBCXRvSxrJKWHYRXSbpgCIp/wVOcCkA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-552-Ww0xld40Pz-8TyeFJln2vA-1; Thu, 08 Sep 2022 02:11:12 -0400
+X-MC-Unique: Ww0xld40Pz-8TyeFJln2vA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8C577B81F05;
-        Thu,  8 Sep 2022 05:31:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5F29C433D6;
-        Thu,  8 Sep 2022 05:31:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1662615078;
-        bh=993P6P5uXUu3gMFdwZ6bKw95vMR8jDKZUPI8ijKD64Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LPmK5FNxEtNNpbGCkMIWknBOvFfca0Gn5VRehRES829d1issxJtdRujj/76bPTft5
-         pF1+HRBk3NDLgnNDUNlCBHGRvKHftiyeRfbtYsujNgab7cjrtSZbMdk6TQb8jpzCU0
-         YSliZe8vhr/40UEXi2AbPhsCUt23CANxyFm/oH0o=
-Date:   Thu, 8 Sep 2022 07:31:40 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v12 1/3] x86/tdx: Add TDX Guest attestation interface
- driver
-Message-ID: <Yxl+PE4A+WUfQ7bl@kroah.com>
-References: <20220908002723.923241-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220908002723.923241-2-sathyanarayanan.kuppuswamy@linux.intel.com>
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82919811E80;
+        Thu,  8 Sep 2022 06:11:11 +0000 (UTC)
+Received: from butterfly.localnet (dhcp-10-40-5-89.brq.redhat.com [10.40.5.89])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EDD03492C3B;
+        Thu,  8 Sep 2022 06:11:07 +0000 (UTC)
+From:   Oleksandr Natalenko <oleksandr@redhat.com>
+To:     "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     Oleg Nesterov <oleg@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Huang Ying <ying.huang@intel.com>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        Will Deacon <will@kernel.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Stephen Kitt <steve@sk2.org>, Rob Herring <robh@kernel.org>,
+        Joel Savitz <jsavitz@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Renaud =?ISO-8859-1?Q?M=E9trich?= <rmetrich@redhat.com>,
+        Grzegorz Halat <ghalat@redhat.com>, Qi Guo <qguo@redhat.com>
+Subject: Re: [PATCH] core_pattern: add CPU specifier
+Date:   Thu, 08 Sep 2022 08:11:07 +0200
+Message-ID: <12050461.O9o76ZdvQC@redhat.com>
+Organization: Red Hat
+In-Reply-To: <877d2ec0ac.fsf@email.froward.int.ebiederm.org>
+References: <20220903064330.20772-1-oleksandr@redhat.com> <20220907173438.GA15992@redhat.com> <877d2ec0ac.fsf@email.froward.int.ebiederm.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220908002723.923241-2-sathyanarayanan.kuppuswamy@linux.intel.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 07, 2022 at 05:27:20PM -0700, Kuppuswamy Sathyanarayanan wrote:
-> +	/*
-> +	 * Per TDX Module 1.0 specification, section titled
-> +	 * "TDG.MR.REPORT", REPORTDATA length is fixed as
-> +	 * TDX_REPORTDATA_LEN, TDREPORT length is fixed as
-> +	 * TDX_REPORT_LEN, and TDREPORT subtype is fixed as
-> +	 * 0. Also check for valid user pointers.
-> +	 */
-> +	if (!req.reportdata || !req.tdreport || req.subtype ||
-> +		req.rpd_len != TDX_REPORTDATA_LEN ||
-> +		req.tdr_len != TDX_REPORT_LEN)
-> +		return -EINVAL;
+Hello.
 
-You never verify that your reserved[7] fields are actually set to 0,
-which means you can never use them in the future :(
+On =C4=8Dtvrtek 8. z=C3=A1=C5=99=C3=AD 2022 0:00:43 CEST Eric W. Biederman =
+wrote:
+> Oleg Nesterov <oleg@redhat.com> writes:
+>=20
+> > On 09/07, Oleksandr Natalenko wrote:
+> >>
+> >> The advantage of having CPU recorded in the file name is that
+> >> in case of multiple cores one can summarise them with a simple
+> >> ls+grep without invoking a fully-featured debugger to find out
+> >> whether the segfaults happened on the same CPU.
+> >
+> > Besides, if you only need to gather the statistics about the faulting
+> > CPU(s), you do not even need to actually dump the the core. For example,
+> > something like
+> >
+> > 	#!/usr/bin/sh
+> >
+> > 	echo $* >> path/to/coredump-stat.txt
+> >
+> > and
+> > 	echo '| path-to-script-above %C' >/proc/sys/kernel/core_pattern
+> >
+> > can help.
+>=20
+> So I am confused.  I thought someone had modified print_fatal_signal
+> to print this information.  Looking at the code now I don't see it,
+> but perhaps that is in linux-next somewhere.
 
-Please fix that up, thanks.
+That's a different story that gets solved here: [1] [2].
 
-greg k-h
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?h=
+=3Dx86/cpu&id=3Dc926087eb38520b268515ae1a842db6db62554cc
+[2] https://lore.kernel.org/lkml/20220811024903.178925-1-ira.weiny@intel.co=
+m/
+
+> That would seem to be the really obvious place to put this and much
+> closer to the original fault so we ware more likely to record the
+> cpu on which things actually happened on.
+>=20
+> If we don't care about the core dump just getting the information in
+> syslog where it can be analyzed seems like the thing to do.
+>=20
+> For a developers box putting it in core pattern makes sense, isn't a
+> hinderance to use.  For anyone else's box the information needs to come
+> out in a way that allows automated tools to look for a pattern.
+> Requiring someone to take an extra step to print the information seems
+> a hinderance to automated tools doing the looking.
+>=20
+> Eric
+>=20
+>=20
+
+
+=2D-=20
+Oleksandr Natalenko (post-factum)
+Principal Software Maintenance Engineer
+
+
