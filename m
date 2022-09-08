@@ -2,157 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1BF6ECAAD3
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 00:20:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE6BBECAAD3
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 00:27:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230187AbiIHAUI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Sep 2022 20:20:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55382 "EHLO
+        id S229579AbiIHA1s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Sep 2022 20:27:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230195AbiIHAUH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 20:20:07 -0400
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF5625F21F
-        for <linux-doc@vger.kernel.org>; Wed,  7 Sep 2022 17:19:55 -0700 (PDT)
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 287Hnd9t021975
-        for <linux-doc@vger.kernel.org>; Wed, 7 Sep 2022 17:19:54 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=facebook; bh=jIuRHalrKaQnNst4eWUdRXin2ZluUvvLjoo2dZOonZw=;
- b=q/2wLdtwhORD17+Cejkejj0fblWtD/ZBZEaA7s4HwSUBstqNekF5OTmRuMPMPxsRfJ61
- a/MhBhdagaZWWSC5lBfgJ60DKcdHTKIlPMQ70BPSxT68Y/1PkUlBqrn6nZAEM1vEKvnF
- GN6owfSbfAKL5YpGdl3qcAbInGl26/43QqU= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-        by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3je87gugpd-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 07 Sep 2022 17:19:54 -0700
-Received: from twshared25017.14.frc2.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:82::d) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 7 Sep 2022 17:19:53 -0700
-Received: by devvm6390.atn0.facebook.com (Postfix, from userid 352741)
-        id 26530371C857; Wed,  7 Sep 2022 17:19:50 -0700 (PDT)
-From:   <alexlzhu@fb.com>
-To:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <Kernel-team@fb.com>
-CC:     Alexander Zhu <alexlzhu@fb.com>
-Subject: [PATCH] docs/mm: Improve grammar on mmu_notifier documentation
-Date:   Wed, 7 Sep 2022 17:19:48 -0700
-Message-ID: <20220908001948.3014216-1-alexlzhu@fb.com>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S229569AbiIHA1q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Sep 2022 20:27:46 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 716C6D0218;
+        Wed,  7 Sep 2022 17:27:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662596865; x=1694132865;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ftDogJIQCWUTb5UK7VS3661UIixUHel8n3Dm/IbgrRI=;
+  b=DBnk36FIrAdWUy5j4VCUPEwVrYj+QDdvTz9Gz4xfq5/WlsVZEZFmN8qK
+   nkDAjg+D630kMdbnec2ZYdli5QMQJHOfvcJxtvGt+s9e3XuSbx2LGTnz+
+   dQsF/TI9IejX1uTsdoEimS4fMkLrWTmBX5BoqzUPNi+XjzNp98r28Nw9D
+   SHZDu2JskWe5VhUMaaYTqoikAvrIIhWEH+DzMi8DFK/HqEMjL7vuJzEtx
+   w44vzKxQYISGEYaTjC37R2FylHdC0fYFqAUQYx6hjFfOV3RNO0AhrNoyJ
+   5BgRczdE+e6mGEgqSIAEiOjEAhvtRC3bXrcI5ptB7fqT33o3yJtEV7kyS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10463"; a="360993115"
+X-IronPort-AV: E=Sophos;i="5.93,298,1654585200"; 
+   d="scan'208";a="360993115"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2022 17:27:44 -0700
+X-IronPort-AV: E=Sophos;i="5.93,298,1654585200"; 
+   d="scan'208";a="676440336"
+Received: from pbarrios-mobl1.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.252.133.9])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2022 17:27:43 -0700
+From:   Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>
+Cc:     "H . Peter Anvin" <hpa@zytor.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v12 0/3] Add TDX Guest Attestation support
+Date:   Wed,  7 Sep 2022 17:27:19 -0700
+Message-Id: <20220908002723.923241-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: npA6gVV9XXRCDgzh90DqqJgiUKVPimOf
-X-Proofpoint-GUID: npA6gVV9XXRCDgzh90DqqJgiUKVPimOf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-07_10,2022-09-07_02,2022-06-22_01
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alexander Zhu <alexlzhu@fb.com>
+Hi All,
 
-Improve grammar on mmu_notifier documentation.
+Intel's Trust Domain Extensions (TDX) protect guest VMs from malicious
+hosts and some physical attacks. VM guest with TDX support is called
+as a TDX Guest.
 
-Signed-off-by: Alexander Zhu <alexlzhu@fb.com>
----
- Documentation/mm/mmu_notifier.rst | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+In TDX guest, attestation process is used to verify the TDX guest
+trustworthiness to other entities before provisioning secrets to the
+guest. For example, a key server may request for attestation before
+releasing the encryption keys to mount the encrypted rootfs or
+secondary drive.
 
-diff --git a/Documentation/mm/mmu_notifier.rst b/Documentation/mm/mmu_not=
-ifier.rst
-index df5d7777fc6b..e22b591fc406 100644
---- a/Documentation/mm/mmu_notifier.rst
-+++ b/Documentation/mm/mmu_notifier.rst
-@@ -7,10 +7,11 @@ When clearing a pte/pmd we are given a choice to notify=
- the event through
- (notify version of \*_clear_flush call mmu_notifier_invalidate_range) un=
-der
- the page table lock. But that notification is not necessary in all cases=
-.
-=20
--For secondary TLB (non CPU TLB) like IOMMU TLB or device TLB (when devic=
-e use
--thing like ATS/PASID to get the IOMMU to walk the CPU page table to acce=
-ss a
--process virtual address space). There is only 2 cases when you need to n=
-otify
--those secondary TLB while holding page table lock when clearing a pte/pm=
-d:
-+For secondary TLB (non CPU TLB) like IOMMU TLB or device TLB (when the d=
-evice
-+uses something like ATS/PASID to get the IOMMU to walk the CPU page tabl=
-e to
-+access a process virtual address space). There are only 2 cases when you=
- need
-+to notify the secondary TLB while holding the page table lock when clear=
-ing
-+a pte/pmd:
-=20
-   A) page backing address is free before mmu_notifier_invalidate_range_e=
-nd()
-   B) a page table entry is updated to point to a new page (COW, write fa=
-ult
-@@ -27,13 +28,13 @@ happen:
-   - set page table entry to point to new page
-=20
- If clearing the page table entry is not followed by a notify before sett=
-ing
--the new pte/pmd value then you can break memory model like C11 or C++11 =
-for
--the device.
-+the new pte/pmd value then you can break the memory model like C11 or C+=
-+11
-+for the device.
-=20
- Consider the following scenario (device use a feature similar to ATS/PAS=
-ID):
-=20
--Two address addrA and addrB such that \|addrA - addrB\| >=3D PAGE_SIZE w=
-e assume
--they are write protected for COW (other case of B apply too).
-+Two addresses addrA and addrB such that \|addrA - addrB\| >=3D PAGE_SIZE=
- we assume
-+they are write protected for COW (other case of B applies as well).
-=20
- ::
-=20
-@@ -86,14 +87,13 @@ they are write protected for COW (other case of B app=
-ly too).
-  CPU-thread-3  {}
-  DEV-thread-0  {read addrA from old page}
-  DEV-thread-2  {read addrB from new page}
--
--So here because at time N+2 the clear page table entry was not pair with=
- a
--notification to invalidate the secondary TLB, the device see the new val=
-ue for
--addrB before seeing the new value for addrA. This break total memory ord=
-ering
-+Here because at time N+2 the clear page table entry was not paired with =
-a
-+notification to invalidate the secondary TLB, the device sees the new va=
-lue for
-+addrB before seeing the new value for addrA. This breaks total memory or=
-dering
- for the device.
-=20
- When changing a pte to write protect or to point to a new write protecte=
-d page
- with same content (KSM) it is fine to delay the mmu_notifier_invalidate_=
-range
- call to mmu_notifier_invalidate_range_end() outside the page table lock.=
- This
- is true even if the thread doing the page table update is preempted righ=
-t after
--releasing page table lock but before call mmu_notifier_invalidate_range_=
-end().
-+releasing the page table lock but before calling mmu_notifier_invalidate=
-_range_end().
---=20
-2.30.2
+This patch set adds attestation support for the TDX guest. Details
+about the TDX attestation process and the steps involved are explained
+in the commit log of Patch 1/3 or in Documentation/x86/tdx.rst (added
+by patch 3/3).
+
+Following are the details of the patch set:
+
+Patch 1/3 -> Adds TDREPORT support.
+Patch 2/3 -> Adds selftest support for TDREPORT feature.
+Patch 3/3 -> Add attestation related documentation.
+
+Commit log history is maintained in the individual patches.
+
+Kuppuswamy Sathyanarayanan (3):
+  x86/tdx: Add TDX Guest attestation interface driver
+  selftests: tdx: Test TDX attestation GetReport support
+  Documentation/x86: Document TDX attestation process
+
+ Documentation/x86/tdx.rst                     |  75 +++++++++
+ arch/x86/coco/tdx/tdx.c                       | 112 +++++++++++++
+ arch/x86/include/uapi/asm/tdx.h               |  54 ++++++
+ tools/arch/x86/include/uapi/asm/tdx.h         |  54 ++++++
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/tdx/Makefile          |  11 ++
+ tools/testing/selftests/tdx/config            |   1 +
+ tools/testing/selftests/tdx/tdx_attest_test.c | 155 ++++++++++++++++++
+ 8 files changed, 463 insertions(+)
+ create mode 100644 arch/x86/include/uapi/asm/tdx.h
+ create mode 100644 tools/arch/x86/include/uapi/asm/tdx.h
+ create mode 100644 tools/testing/selftests/tdx/Makefile
+ create mode 100644 tools/testing/selftests/tdx/config
+ create mode 100644 tools/testing/selftests/tdx/tdx_attest_test.c
+
+-- 
+2.34.1
 
