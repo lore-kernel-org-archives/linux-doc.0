@@ -2,269 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF940C38145
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 06:15:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BADFAECAAD5
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 06:45:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229716AbiIHGPZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Sep 2022 02:15:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59110 "EHLO
+        id S230474AbiIHGpv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Sep 2022 02:45:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbiIHGPY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 02:15:24 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D47C85FCC;
-        Wed,  7 Sep 2022 23:15:23 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id d82so3264066pfd.10;
-        Wed, 07 Sep 2022 23:15:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=peZT/o3/Rwk7cwSmlA95lM9nUMw76YizSZmiVcCi3zw=;
-        b=ek18FFuxMETzTmhw6GDkVlKTtFHuoV7gd6YfRU4AhyN2Mykcteg7vX0Z//Seyy9u3j
-         RAbVpcIr21ENhFnywNc3Wizkbcf9bBlwnMnTJcqcJhh7Ks8Hfes1g7JRuYp/RbdEjzel
-         bUr1oOAfePipZ7NxDLIpKIV07kqEdbDHRlGmmhDzBcknj9wN9DPuN2sZ+hAJQAzSYdXz
-         Y5HT0tqGVJ7cbza5SuLr2SkaXBFonVx+sOyz6Go79qRFH8Db1ieY0ULgr0RX1LDdYlAY
-         +hrGuXacE7xVQdwB8I4msdYFs1xKV0ieh+rKunohz1ksgeeqBXFLxsR6Ial97AJZoT3W
-         yESQ==
+        with ESMTP id S230467AbiIHGpo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 02:45:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACDB2D077F
+        for <linux-doc@vger.kernel.org>; Wed,  7 Sep 2022 23:45:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1662619542;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vUaj/TzGiYURsXpCpPVqXBkUIT39jUWVTBNjFRgF1Ys=;
+        b=P7ImJZN27arXd9LGp8jeItorzm+BVmdPZOkHeRjcNsSvlZPv2lnLQU6WuAwL1Bycnv0SKU
+        U18iLeAmLw+MdaMWuvUxbiC9Z+3+xFIaN/Tl5KdkILrEHtvcboHE/y2R1RHUmXaa5fV6ru
+        uMXbf0QVvXfoetHY3mY0+0WGnMGE3z8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-655-RSxOYxoUPVagy-HdyoOFiA-1; Thu, 08 Sep 2022 02:45:41 -0400
+X-MC-Unique: RSxOYxoUPVagy-HdyoOFiA-1
+Received: by mail-wm1-f69.google.com with SMTP id q10-20020a1ce90a000000b003a60123678aso176251wmc.6
+        for <linux-doc@vger.kernel.org>; Wed, 07 Sep 2022 23:45:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=peZT/o3/Rwk7cwSmlA95lM9nUMw76YizSZmiVcCi3zw=;
-        b=K00oQ+oZQVv+qt0PT1Hqsg7pHuiYRRw+IK/eU+cyRFAh7CRD9zUwM4Owb8RpLyoyBu
-         //kSmX55m3jqOIXdsbbYuGMG5ynL+9RsFtye38SPxWWfUtltM1U85/2yvTsL15zWs5Ty
-         6wL1JH4htxp3QIROwGonpcQQ8CwnbdK+oYotLEhmsRRPuRhlAPk2z0d574IHw3iTsNhl
-         MYVZ99qagRuwX1Hp8Q04N082nLySGNcFC16Nrvjc2dPh1gYhzD3NLARaunLTh2pNUC0X
-         TlCW1EEbSX+/hMGEq2UpNAW8tz9OSTkMA9UlOsW5AcB/e9h/uLPMJKDwqymL7ggFnfLW
-         AnTQ==
-X-Gm-Message-State: ACgBeo3Wah6eN2KWEGXjkeYAb4lN7t79w6M1bix4dWOu0yzGojlDzPxX
-        JOeK85J/pRepk4UjU+k+xkSCDJLTmP0xbw==
-X-Google-Smtp-Source: AA6agR4Ol9ODukriAyWNcdbU5EXdTIk7JzZAtHx5Ky+W/6LhsP1SUepMH0v27SwHDrSnh8N+E38PDA==
-X-Received: by 2002:a63:225c:0:b0:42c:3811:93fb with SMTP id t28-20020a63225c000000b0042c381193fbmr6286217pgm.543.1662617722545;
-        Wed, 07 Sep 2022 23:15:22 -0700 (PDT)
-Received: from dusj-System-Product-Name.dhcpserver.bu9bmc.local (125-228-123-29.hinet-ip.hinet.net. [125.228.123.29])
-        by smtp.gmail.com with ESMTPSA id a16-20020a621a10000000b00537a6b81bb7sm14268403pfa.148.2022.09.07.23.15.20
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 07 Sep 2022 23:15:22 -0700 (PDT)
-From:   Duke Du <dukedu83@gmail.com>
-X-Google-Original-From: Duke Du <Duke.Du@quantatw.com>
-To:     jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     fran.hsu@quantatw.com, george.hung@quantatw.com,
-        charles.hsu@quantatw.com, duke.du@quantatw.com
-Subject: [PATCH v4] hwmon: Add driver for the TEXAS TPS546D24 Buck Converter.
-Date:   Thu,  8 Sep 2022 14:13:19 +0800
-Message-Id: <1662617599-15270-1-git-send-email-Duke.Du@quantatw.com>
-X-Mailer: git-send-email 2.7.4
+        h=in-reply-to:subject:from:references:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date;
+        bh=vUaj/TzGiYURsXpCpPVqXBkUIT39jUWVTBNjFRgF1Ys=;
+        b=tb+0m7c++kgx487zGV7/4L760y1QIMKf5U+/x02XTESyG4p1kJR3pw4MxsQt2pbY8x
+         bT3oWnAKBHy6MBSJebnTewdsxL52BrJVd4XGUsGHzTcJYivXzjsocmOcQp0ja5VJA3qe
+         CZaAvrUvFGyFEEjGX9pQQZfRZuP7l17tfwxjOKOSNhiB3w5rPV0c5S2cb+DeaCQL2Khy
+         3e0LEEJ1tvJ1fhlvgS60X8IjC4AnSHWSmp0j0pQMoiw0yzPEdYx1L8UWK8BZ6Zv676TD
+         nVP8lwQSldxW/EHepOZ9N1KZxvbAMLmmAw9GV+lz1Oo/jJYit3cNWAraLIT1Wd+Dk4Ng
+         IX3w==
+X-Gm-Message-State: ACgBeo0uvFXvFMM7qLaIvFYaKpoP5gnNlaoSob7IpBdNCaLE8Ze3DnXX
+        GU89BLql0FCpQMhY1zh90AqSqzWTp6ZjjRTiLb33TGm2qubSOMXfrPw/KOb5Ia6CtRcVER4M4BO
+        fhJ9PuvpgtPC4taygavN5
+X-Received: by 2002:a5d:4f8e:0:b0:228:c692:126f with SMTP id d14-20020a5d4f8e000000b00228c692126fmr3962484wru.315.1662619540338;
+        Wed, 07 Sep 2022 23:45:40 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4QfTzl5V9tPYuu1S4M+nDUBmuqDN+jRgu3jwV2Ic+jSt96UMnSRaQTCgD/djN7A2Vk/vz+3w==
+X-Received: by 2002:a5d:4f8e:0:b0:228:c692:126f with SMTP id d14-20020a5d4f8e000000b00228c692126fmr3962463wru.315.1662619540118;
+        Wed, 07 Sep 2022 23:45:40 -0700 (PDT)
+Received: from [192.168.1.40] (82-64-217-13.subs.proxad.net. [82.64.217.13])
+        by smtp.gmail.com with ESMTPSA id m2-20020a05600c3b0200b003a5ee64cc98sm1605020wms.33.2022.09.07.23.45.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Sep 2022 23:45:39 -0700 (PDT)
+Message-ID: <b1673cd8-dd6d-8b50-6c5a-c715f368f12d@redhat.com>
+Date:   Thu, 8 Sep 2022 08:45:38 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Content-Language: fr-FR, en-US
+To:     Luis Chamberlain <mcgrof@kernel.org>,
+        Oleksandr Natalenko <oleksandr@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Huang Ying <ying.huang@intel.com>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        Will Deacon <will@kernel.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Stephen Kitt <steve@sk2.org>, Rob Herring <robh@kernel.org>,
+        Joel Savitz <jsavitz@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Grzegorz Halat <ghalat@redhat.com>, Qi Guo <qguo@redhat.com>
+References: <20220903064330.20772-1-oleksandr@redhat.com>
+ <Yxi+dQkuV2zdBzk3@bombadil.infradead.org>
+From:   =?UTF-8?Q?Renaud_M=c3=a9trich?= <rmetrich@redhat.com>
+Subject: Re: [PATCH] core_pattern: add CPU specifier
+In-Reply-To: <Yxi+dQkuV2zdBzk3@bombadil.infradead.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------k8la8Uj55ngffJ2zzB3njW3t"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Duke Du <dukedu83@gmail.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------k8la8Uj55ngffJ2zzB3njW3t
+Content-Type: multipart/mixed; boundary="------------ozI1oNvwj07SgA7LzGWdRxR4";
+ protected-headers="v1"
+From: =?UTF-8?Q?Renaud_M=c3=a9trich?= <rmetrich@redhat.com>
+To: Luis Chamberlain <mcgrof@kernel.org>,
+ Oleksandr Natalenko <oleksandr@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Andrew Morton <akpm@linux-foundation.org>, Huang Ying
+ <ying.huang@intel.com>, "Jason A . Donenfeld" <Jason@zx2c4.com>,
+ Will Deacon <will@kernel.org>, "Guilherme G . Piccoli"
+ <gpiccoli@igalia.com>, Laurent Dufour <ldufour@linux.ibm.com>,
+ Stephen Kitt <steve@sk2.org>, Rob Herring <robh@kernel.org>,
+ Joel Savitz <jsavitz@redhat.com>, "Eric W . Biederman"
+ <ebiederm@xmission.com>, Kees Cook <keescook@chromium.org>,
+ Xiaoming Ni <nixiaoming@huawei.com>, Oleg Nesterov <oleg@redhat.com>,
+ Grzegorz Halat <ghalat@redhat.com>, Qi Guo <qguo@redhat.com>
+Message-ID: <b1673cd8-dd6d-8b50-6c5a-c715f368f12d@redhat.com>
+Subject: Re: [PATCH] core_pattern: add CPU specifier
+References: <20220903064330.20772-1-oleksandr@redhat.com>
+ <Yxi+dQkuV2zdBzk3@bombadil.infradead.org>
+In-Reply-To: <Yxi+dQkuV2zdBzk3@bombadil.infradead.org>
 
-Add the pmbus driver for TEXAS tps546d24 Buck Converter.
-The vout mode of tps546d24 supported relative data format,
-which is not meet for the original driver (pmbus.c).
+--------------ozI1oNvwj07SgA7LzGWdRxR4
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Duke Du <dukedu83@gmail.com>
----
-Change in v1: 
-    Initial patchset.
-Change in v2:
-    Correct the tps546d24.rst format.
-Change in v3:
-    1. Modify the patch description. 
-    2. Put the change log between the dashes and diffstat.
-Change in v4:
-    1. Modify the patch description. 
-    2. Clear the bit 7 of PMBUS_VOUT_MODE to change the mode from relative 
-       to absolute.
-    3. Add the vendor prefix.
----
----
- Documentation/hwmon/index.rst     |  1 +
- Documentation/hwmon/tps546d24.rst | 35 ++++++++++++++++++++++
- MAINTAINERS                       |  7 +++++
- drivers/hwmon/pmbus/Kconfig       |  9 ++++++
- drivers/hwmon/pmbus/Makefile      |  1 +
- drivers/hwmon/pmbus/tps546d24.c   | 63 +++++++++++++++++++++++++++++++++++++++
- 6 files changed, 116 insertions(+)
- create mode 100644 Documentation/hwmon/tps546d24.rst
- create mode 100644 drivers/hwmon/pmbus/tps546d24.c
+SGVsbG8sDQoNCkkgaGF2ZSBiZWVuIHdvcmtpbmcgY2xvc2VseSB3aXRoIE9sZWtzYW5kciBv
+biBhIGNvdXBsZSBvZiBjYXNlcyB3aGVyZSANCmN1c3RvbWVycyBjb3VsZCBzZWUgc2VnZmF1
+bHRzIGZvciB2YXJpb3VzIHByb2Nlc3NlcywgaW5jbHVkaW5nIGJhc2ljIA0KdG9vbHMgKCJn
+cmVwIiwgImN1dCIsIGV0Yy4pIHRoYXQgdXN1YWxseSBkb24ndCBkaWUuDQoNClRoZSBjb3Jl
+ZHVtcHMgc2hvd2VkIG9mIGNvdXJzZSBub3RoaW5nIGJlY2F1c2UgZnJvbSB1c2VybGFuZCdz
+IA0KcGVyc3BlY3RpdmUgdGhlcmUgd2FzIG5vdGhpbmcgd3JvbmcsIGJ1dCBqdXN0IGEgYmFk
+IHBvaW50ZXIgd2hpY2ggDQpjb3VsZG4ndCBiZSBleHBsYWluZWQuDQoNCk1lbW9yeSB0ZXN0
+aW5nIChlLmcuIE1lbXRlc3Q4NispIGFuZCBDUFUgdGVzdGluZyAodXN1YWxseSBmcm9tIGhh
+cmR3YXJlIA0KdmVuZG9yKSBuZXZlciBzaG93ZWQgYW55IGlzc3VlIHdpdGggdGhlIGhhcmR3
+YXJlIGFzIHdlbGwsIGV2ZW4gdGhvdWdoIA0KdGhlcmUgd2FzLCBwcm9iYWJseSBiZWNhdXNl
+IGl0IHJlcXVpcmVkIHNwZWNpYWwgY29uZGl0aW9ucywgc3VjaCBhcyANCnNwZWNpZmljIGxv
+YWQgYW5kL29yIHRoZXJtYWwgY29uZGl0aW9ucy4NCg0KVGhlIHRyb3VibGVzaG9vdGluZyBv
+ZiBzdWNoIGNhc2VzIHRha2VzIHNldmVyYWwgd2Vla3Mgb3IgZXZlbiBtb250aHMsIA0KdW50
+aWwgd2UgaGF2ZSBlbm91Z2ggZXZpZGVuY2UgaXQncyBub3QgdGhlIE9TIHRoYXQgaXMgZmF1
+bHR5LCBhbmQgaXQncyANCmFsd2F5cyBzdHJ1Z2dsaW5nLg0KDQpVc3VhbGx5IHdoZW4gd2Ug
+c3RhcnQgZ2V0dGluZyBrZXJuZWwgY3Jhc2hlcywgd2UgYXJlIHRoZW4gaGFwcHkgYmVjYXVz
+ZSANCmtlcm5lbCBjcmFzaGVzIGluZGljYXRlIHRoZSBDUFUgdGhlIHRhc2sgd2FzIHJ1bm5p
+bmcgb24sIGFuZCBpdCBzZWVtcyB0byANCmFsd2F5cyBiZSByZWxpYWJsZSBlbm91Z2ggaW5m
+b3JtYXRpb24gdG8gcG9pbnQgdG8gZmF1bHR5IENQVS4gRm9yIG90aGVyIA0KY2FzZXMgd2hl
+cmUgbm8ga2VybmVsIGNyYXNoIGNvdWxkIGJlIG9ic2VydmVkLCB0aGVzZSBhcmUgc29sdmVk
+IGFmdGVyIA0KcmVxdWVzdGluZyB0aGUgY3VzdG9tZXIgdG8gcmVwbGFjZSB0aGUgaGFyZHdh
+cmUgY29tcG9uZW50cywgd2hpY2ggaXMgDQpzb21ldGhpbmcgZGlmZmljdWx0IHRvIGV4cGxh
+aW4gc2luY2UgaXQgdXN1YWxseSBjb3N0cyB0aGUgY3VzdG9tZXIgbW9uZXkgDQphbmQgdGlt
+ZS4NCg0KSSBob3BlIHN1Y2ggZmVhdHVyZSB3aWxsIGJlIGhlbHBmdWwgZm9yIGV2ZXJ5Ym9k
+eSBkb2luZyBMaW51eCBzdXBwb3J0Lg0KDQpSZW5hdWQuDQoNCkxlIDkvNy8yMiDDoCAxNzo1
+MywgTHVpcyBDaGFtYmVybGFpbiBhIMOpY3JpdMKgOg0KPiBPbiBTYXQsIFNlcCAwMywgMjAy
+MiBhdCAwODo0MzozMEFNICswMjAwLCBPbGVrc2FuZHIgTmF0YWxlbmtvIHdyb3RlOg0KPj4g
+U3RhdGlzdGljYWxseSwgaW4gYSBsYXJnZSBkZXBsb3ltZW50IHJlZ3VsYXIgc2VnZmF1bHRz
+IG1heSBpbmRpY2F0ZSBhIENQVSBpc3N1ZS4NCj4gQ2FuIHlvdSBlbGFib3JhdGUgb24gdGhp
+cz8gSG93IGNvbW1vbiBpcyB0aGlzIG9ic2VydmVkIHRvIGJlIHRydWU/IEFyZQ0KPiB0aGVy
+ZSBhbnkgcHVibGljIGZpbmRpbmdzIG9yIGJ1Z3Mgd2hlcmUgaXQgc2hvd2VkIHRoaXM/DQo+
+DQo+ICAgIEx1aXMNCj4NCg==
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index f7113b0..d3eede4 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -205,6 +205,7 @@ Hardware Monitoring Kernel Drivers
-    tps23861
-    tps40422
-    tps53679
-+   tps546d24
-    twl4030-madc-hwmon
-    ucd9000
-    ucd9200
-diff --git a/Documentation/hwmon/tps546d24.rst b/Documentation/hwmon/tps546d24.rst
-new file mode 100644
-index 0000000..3061fd8
---- /dev/null
-+++ b/Documentation/hwmon/tps546d24.rst
-@@ -0,0 +1,35 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+Kernel driver tps546d24
-+======================
-+
-+Supported chips:
-+
-+  * TI TPS546D24
-+
-+    Prefix: 'tps546d24'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://www.ti.com/lit/gpn/tps546d24
-+
-+Author: Duke Du <dukedu83@gmail.com>
-+
-+
-+Description
-+-----------
-+
-+The TPS546D24A is a highly integrated, non-isolated DC/DC converter capable
-+of high frequency operation and 40-A current output from a 7-mm x 5-mm
-+package.
-+
-+Two, three, and four TPS546D24A devices can be interconnected
-+to provide up to 160 A on a single output. The device has an option to
-+overdrive the internal 5-V LDO with an external 5-V supply via the VDD5
-+pin to improve efficiency and reduce power dissipation of the converter.
-+
-+
-+Platform data support
-+---------------------
-+
-+The driver supports standard PMBus driver platform data.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8a5012b..fa2d4fb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20583,6 +20583,13 @@ Q:	https://patchwork.kernel.org/project/linux-integrity/list/
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git
- F:	drivers/char/tpm/
- 
-+TPS546D24 DRIVER
-+M:	Duke Du <dukedu83@gmail.com>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/tps546d24.rst
-+F:	drivers/hwmon/pmbus/tps546d24.c
-+
- TRACING
- M:	Steven Rostedt <rostedt@goodmis.org>
- M:	Ingo Molnar <mingo@redhat.com>
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 951e4a9..89668af 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -397,6 +397,15 @@ config SENSORS_TPS53679
- 	  This driver can also be built as a module. If so, the module will
- 	  be called tps53679.
- 
-+config SENSORS_TPS546D24
-+	tristate "TPS546D24"
-+	help
-+	  If you say yes here you get hardware monitoring support for TEXAS
-+	  TPS546D24.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called tps546d24
-+
- config SENSORS_UCD9000
- 	tristate "TI UCD90120, UCD90124, UCD90160, UCD90320, UCD9090, UCD90910"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index e2fe86f..0002dbe 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -41,6 +41,7 @@ obj-$(CONFIG_SENSORS_Q54SJ108A2)	+= q54sj108a2.o
- obj-$(CONFIG_SENSORS_STPDDC60)	+= stpddc60.o
- obj-$(CONFIG_SENSORS_TPS40422)	+= tps40422.o
- obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
-+obj-$(CONFIG_SENSORS_TPS546D24)	+= tps546d24.o
- obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
- obj-$(CONFIG_SENSORS_UCD9200)	+= ucd9200.o
- obj-$(CONFIG_SENSORS_XDPE122)	+= xdpe12284.o
-diff --git a/drivers/hwmon/pmbus/tps546d24.c b/drivers/hwmon/pmbus/tps546d24.c
-new file mode 100644
-index 0000000..84f3dc9
---- /dev/null
-+++ b/drivers/hwmon/pmbus/tps546d24.c
-@@ -0,0 +1,63 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Hardware monitoring driver for TEXAS TPS546D24 buck converter
-+ */
-+
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/pmbus.h>
-+#include "pmbus.h"
-+
-+static struct pmbus_driver_info tps546d24_info = {
-+	.pages = 1,
-+	.format[PSC_VOLTAGE_IN] = linear,
-+	.format[PSC_VOLTAGE_OUT] = linear,
-+	.format[PSC_TEMPERATURE] = linear,
-+	.format[PSC_CURRENT_OUT] = linear,
-+	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_IIN
-+			| PMBUS_HAVE_IOUT | PMBUS_HAVE_VOUT
-+			| PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_VOUT
-+			| PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-+};
-+
-+static int tps546d24_probe(struct i2c_client *client)
-+{
-+	int reg;
-+
-+	reg = i2c_smbus_read_byte_data(client, PMBUS_VOUT_MODE);
-+	if (reg > 0x80)
-+		i2c_smbus_write_byte_data(client, PMBUS_VOUT_MODE, reg & 0x7f);
-+	return pmbus_do_probe(client, &tps546d24_info);
-+}
-+
-+static const struct i2c_device_id tps546d24_id[] = {
-+	{"tps546d24", 0},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, tps546d24_id);
-+
-+static const struct of_device_id tps546d24_of_match[] = {
-+	{.compatible = "ti,tps546d24"},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, tps546d24_of_match);
-+
-+/* This is the driver that will be inserted */
-+static struct i2c_driver tps546d24_driver = {
-+	.driver = {
-+		   .name = "tps546d24",
-+		   .of_match_table = of_match_ptr(tps546d24_of_match),
-+	   },
-+	.probe_new = tps546d24_probe,
-+	.id_table = tps546d24_id,
-+};
-+
-+module_i2c_driver(tps546d24_driver);
-+
-+MODULE_AUTHOR("Duke Du <dukedu83@gmail.com>");
-+MODULE_DESCRIPTION("PMBus driver for TI tps546d24");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(PMBUS);
--- 
-2.7.4
+--------------ozI1oNvwj07SgA7LzGWdRxR4--
+
+--------------k8la8Uj55ngffJ2zzB3njW3t
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEEDdWGHF0SM+2VX5h9XRKQlPtuQyYFAmMZj5IFAwAAAAAACgkQXRKQlPtuQyaR
+khAAmf9a/W12v18Qz3c/Bl2ZaGGvfFY8ZiTpDH9/yVW+7zych78DMDKACnaYUE9AYseqYQ3Ldgc7
+jX2sn3WCT3s5Fk6TtpPaklmtyegMGgHBQo/m15xx2U6Gb7NevsJ/0sCMcvrRpTaxeuNn1a2yY2v5
+Xo4XSs0T6rUnU8Tg82DgHogURsIcsku/yVhR70H6KjbV7SjUbfAsqqDMFqTnbIStqly1W9Z6jVqH
+xuzQ0d+Z+DYrBl0b8rtQrfWvPqA1Z0q9CtQIek+caUzAFbVQoI+hepiFSqdbB2ZhoWRiGJwiF+Di
+HDFUgn/pvucFcfJXDnklBQQ1RLwF5XSLcAUJ55Scq3hsFpJ9+3dc1oNOfBmuIr3hPuSi84+tQyXu
+QFY6Djph3LLa4acWu7IGeh+7BjQdXKrRfCKFq86NoF1GYHTgREwCA3g3pMm9v+0odlOcUSJY3phe
+UZ9DSV8q+KHvbf4a5XmcY51NpablPMtZxc9EY4z9YZ9tDtJ2IJa+OyVwyl/p52cS2ga9zcsIanif
+AS9x20tM9BW2AFacyXR+UdSYbLWIs0fJyPd7/45A9u4v9UyNkyBpa4rOIKNHF7j6wCGabp4zJvnp
+6MZ9+6DW6FW8S01aPpZedM8JKCaXqJzl2sBRGcOS39QPuzQBKRoy0Zi8BflLdKH2EPjVv/1HXYGn
+QbQ=
+=eLrW
+-----END PGP SIGNATURE-----
+
+--------------k8la8Uj55ngffJ2zzB3njW3t--
 
