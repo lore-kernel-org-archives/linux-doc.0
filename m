@@ -2,130 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16761C54EE9
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 14:56:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 363F1C54EE9
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 15:09:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232641AbiIHO45 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Sep 2022 10:56:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45356 "EHLO
+        id S231590AbiIHPJQ convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Sep 2022 11:09:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232706AbiIHO4y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 10:56:54 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BB5611C14B
-        for <linux-doc@vger.kernel.org>; Thu,  8 Sep 2022 07:56:51 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id bt10so28179141lfb.1
-        for <linux-doc@vger.kernel.org>; Thu, 08 Sep 2022 07:56:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=AJmEg2q9mG/fH5ApWPAmlCUORJqYzRuMecwU+JJYy7c=;
-        b=suOq8Nck//LIb2Gnt9WDdFc62Oa1zliaLTDmluGSK0yAsThsDajGtvT1vb7/t5lmT+
-         NDwlzBJubLwCaH5bSfcRsTWNUUBTHXiuBEdnNHDulSIhZ4aIVxNAxoIcJn7+ujPAEbip
-         fp02FhpK7pStd1ylxpORRmMBwt3GLxBkXjKTkRdvyket8yESMsaS1x6JyzYNj7uWXZ3I
-         D5xye36d2w5N58E8UrW20Mo4CTAvJ4bhF8IeBOJsJSmYZmpbdC3DhbPMgyN+6+ar0phl
-         9Eofd1cFuwdetf/TqOvjqas7aAmo/QSuEv6z0c8x3AKcMzRq1GQOO5KxFkzcFDWZc1CL
-         9plA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=AJmEg2q9mG/fH5ApWPAmlCUORJqYzRuMecwU+JJYy7c=;
-        b=whExTdF3ce9Bsw5EdrAvmqcR1n7nXzade+XoFn4l+/a743wGkw6pS7IEXBOlec5aKk
-         M1WLWCIcKm6gAqrdvGfb5J8jlcdd3spNq/a2bHMno++F1puGC357PsW8gvCSGwPPE++e
-         1gOGjWexfpO94Xw3Ven6YkKzYiph/2QDjeEMyUrZqOGthyTLe9tWYBIbaV3EF+gTft3p
-         uaR/QWFGJWFGnchcg8o+b8q+U7/sjzk38KWN33p46wTbMfQdBav+iY/fJg58p29FWjD6
-         Eyz+VkJ9ajRHc5PPeDT/Ol+6nu7XSu8JZgS7D8mDZz13t2kNFrTybDPNetn82nbfaEwv
-         OoQw==
-X-Gm-Message-State: ACgBeo1E4SR4UPKk/Qfp5cZtK/VCTXs3sssFC1ViYN893HY5C3n2fZVl
-        gUT8MDOrivzHV84c59Hl5PXAoA==
-X-Google-Smtp-Source: AA6agR4yKt8FR62+ocnlzY5Vvxm8+qFHQD1FMbhG0EjNVe96hMqaezOVpdGmxZD9fOf7oWOwxt/QjA==
-X-Received: by 2002:a05:6512:3f19:b0:492:fdaa:b535 with SMTP id y25-20020a0565123f1900b00492fdaab535mr2611738lfa.267.1662649009795;
-        Thu, 08 Sep 2022 07:56:49 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id a9-20020ac25e69000000b00498ee99a749sm277218lfr.304.2022.09.08.07.56.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Sep 2022 07:56:49 -0700 (PDT)
-Message-ID: <e0b13195-0aed-094d-c7af-4581b61d6453@linaro.org>
-Date:   Thu, 8 Sep 2022 16:56:48 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v4 2/2] power: reset: qcom-pon: add support for
- qcom,pmk8350-pon compatible string
-Content-Language: en-US
-To:     Anjelique Melendez <quic_amelende@quicinc.com>, corbet@lwn.net,
-        sre@kernel.org, robh+dt@kernel.org, agross@kernel.org,
-        bjorn.andersson@linaro.org
-Cc:     krzysztof.kozlowski+dt@linaro.org, vkoul@kernel.org,
-        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        with ESMTP id S232861AbiIHPJP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 11:09:15 -0400
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB6E8E7F91;
+        Thu,  8 Sep 2022 08:09:08 -0700 (PDT)
+Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay01.hostedemail.com (Postfix) with ESMTP id B0B861C27AC;
+        Thu,  8 Sep 2022 15:09:06 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf06.hostedemail.com (Postfix) with ESMTPA id 19DE420010;
+        Thu,  8 Sep 2022 15:09:02 +0000 (UTC)
+Message-ID: <2e3295bca268c37aa57fb5b14da9a4c1795ac067.camel@perches.com>
+Subject: Re: [PATCH v3] checkpatch: warn for non-standard fixes tag style
+From:   Joe Perches <joe@perches.com>
+To:     Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@corigine.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20220725191314.19456-1-quic_amelende@quicinc.com>
- <20220725191314.19456-3-quic_amelende@quicinc.com>
- <57f8d9c4-6f49-ad3d-fc82-7a0f66d1775a@linaro.org>
- <f9853511-e64c-9daf-b4e3-e334035771a8@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <f9853511-e64c-9daf-b4e3-e334035771a8@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Cc:     oss-drivers@corigine.com, Simon Horman <simon.horman@corigine.com>,
+        Louis Peens <louis.peens@corigine.com>
+Date:   Thu, 08 Sep 2022 08:09:01 -0700
+In-Reply-To: <20220908114325.4153436-1-niklas.soderlund@corigine.com>
+References: <20220908114325.4153436-1-niklas.soderlund@corigine.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+MIME-Version: 1.0
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 19DE420010
+X-Stat-Signature: demmofq5fa5y1b57z81y98bdn6pn575q
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19x4WVO6Dxvs4HzzmeCe+NDeqANcEHshgg=
+X-HE-Tag: 1662649742-413860
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19/08/2022 22:26, Anjelique Melendez wrote:
-> 
-> 
-> On 7/26/2022 3:27 AM, Krzysztof Kozlowski wrote:
->> On 25/07/2022 21:13, Anjelique Melendez wrote:
->>> Add support for the new "qcom,pmk8350-pon" comptaible string.
->>>
->>> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
->>> ---
->>>  drivers/power/reset/qcom-pon.c | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/power/reset/qcom-pon.c b/drivers/power/reset/qcom-pon.c
->>> index 4a688741a88a..16bc01738be9 100644
->>> --- a/drivers/power/reset/qcom-pon.c
->>> +++ b/drivers/power/reset/qcom-pon.c
->>> @@ -82,6 +82,7 @@ static const struct of_device_id pm8916_pon_id_table[] = {
->>>  	{ .compatible = "qcom,pm8916-pon", .data = (void *)GEN1_REASON_SHIFT },
->>>  	{ .compatible = "qcom,pms405-pon", .data = (void *)GEN1_REASON_SHIFT },
->>>  	{ .compatible = "qcom,pm8998-pon", .data = (void *)GEN2_REASON_SHIFT },
->>> +	{ .compatible = "qcom,pmk8350-pon", .data = (void *)GEN2_REASON_SHIFT },
->>>  	{ }
->>>  };
->>>  MODULE_DEVICE_TABLE(of, pm8916_pon_id_table);
->>
->> This is now confusing. The new device has entirely different first and
->> second IO address spaces, but you do not code here any differences.
->>
-> 
-> Based on previous responses to this patch series, it was decided that a new
-> "qcom,pmk8350-pon" compatible string is needed to differentiate between gen1/gen2
-> vs gen3 children pon devices. Currently the child handles obtaining the register
-> address(es) from its parent's regmap in drivers/input/misc/pm8941-pwrkey.c
-> (https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/input/misc/pm8941-pwrkey.c?h=v6.0-rc1#n287).
-> The patch that handled that change can be found at
-> https://lore.kernel.org/linux-arm-msm/20220422191239.6271-4-quic_amelende@quicinc.com/.
-> 
-> This driver, as the parent, does not actually need any changes besides adding the
-> new parent compatible string. Specifically this driver handles reboot mode support.
-> Everything needed to handle reboot mode is in the first register and reboot mode
-> is handled the same as a "qcom,pm8998-pon" parent. The split of the pon register
-> in pmk8350 does not affect reboot mode. This is why before we added a new compatible
-> string "qcom,pm8998-pon" still worked for gen3 children devices. Even though 2
-> registers could be defined in the device tree, as a 2nd register is optional for gen3
-> children devices,the fact that this driver uses of_property_read_u32() will ensure that
-> the base address used for reboot mode comes from the first register.  
-> 
+On Thu, 2022-09-08 at 13:43 +0200, Niklas Söderlund wrote:
+> Add a warning for fixes tags that does not fall in line with the
+> standards specified by the community.
 
-Ah, makes sense.
+Thanks.  Good on you for adding the .rst block too.
+
+This seems OK but maybe:
+
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+[]
+> @@ -3140,6 +3140,47 @@ sub process {
+>  			}
+>  		}
+>  
+> +# Check Fixes: styles is correct
+> +		if (!$in_header_lines && $line =~ /^fixes:?/i) {
+> +			my $orig_commit = "";
+> +			my $id = "0123456789ab";
+> +			my $title = "commit title";
+> +			my $tag_case = 1;
+> +			my $tag_space = 1;
+> +			my $id_length = 1;
+> +			my $id_case = 1;
+> +			my $title_has_quotes = 0;
+> +
+> +			if ($line =~ /(fixes:?)\s+([0-9a-f]{5,})\s+($balanced_parens)/i) {
+> +				my $tag = $1;
+> +				$orig_commit = $2;
+> +				$title = $3;
+> +
+> +				$tag_case = 0 if $tag eq "Fixes:";
+> +				$tag_space = 0 if ($line =~ /^fixes:? [0-9a-f]{5,} ($balanced_parens)/i);
+> +
+> +				$id_length = 0 if ($orig_commit =~ /^[0-9a-f]{12}$/i);
+> +				$id_case = 0 if ($orig_commit !~ /[A-F]/);
+> +
+> +				# Always strip leading/trailing parens then double quotes if existing
+> +				$title = substr($title, 1, -1);
+> +				if ($title =~ /^".*"$/) {
+> +					$title = substr($title, 1, -1);
+> +					$title_has_quotes = 1;
+> +				}
+> +			}
+> +
+> +			($id, $title) = git_commit_info($orig_commit, $id,
+> +							$title);
+
+Maybe add another test for the title being different from the commit.
+
+Something like:
+
+			my ($cid, $ctitle) = git_commit_info($orig_commit, $id, $title);
+
+> +
+> +			if ($tag_case || $tag_space || $id_length || $id_case ||
+
+			    $ctitle != $title ||
+
+> +			    !$title_has_quotes) {
+> +				WARN("BAD_FIXES_TAG",
+> +				     "Please use correct Fixes: style 'Fixes: <12 chars of sha1> (\"<title line>\")' - ie: 'Fixes: $id (\"$title\")'\n" . $herecurr);
+
+				     "Please use correct Fixes: style 'Fixes: <12 chars of sha1> (\"<title line>\")' - ie: 'Fixes: $id (\"$ctitle\")'\n" . $herecurr);
 
 
-Best regards,
-Krzysztof
