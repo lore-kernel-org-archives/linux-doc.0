@@ -2,302 +2,333 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 777FEC38145
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 18:20:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C460BC54EE9
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 18:26:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231634AbiIHSUc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Sep 2022 14:20:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56788 "EHLO
+        id S229876AbiIHS0z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Sep 2022 14:26:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231538AbiIHSUa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 14:20:30 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45D7EA2633;
-        Thu,  8 Sep 2022 11:20:26 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id o4so18595448pjp.4;
-        Thu, 08 Sep 2022 11:20:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date;
-        bh=jFr962b3Vh092XG5kMgf/jyI9HdgFMZcVYWjVRDIAFA=;
-        b=Yycnx16+R/JT+3ksrXPh5iKV6ddwNQDUB5dMGNXVUIEYFlxNQL4ihImqW696AOjbh1
-         WlciYtczqdrwafHjtBUfqMw+pUfGLuiBRoGUuI6BCDMdjWh75nf/XMGCnO+OQ/vehoMA
-         YYJX9atjYQs8Brz7xImLuFZJTrXQ3jvRaFmeBAseotQejrTSopt1D+OKir6gkviUHZof
-         3csmRXeKDKpInRSY8iI8x+e3yKzqW8fPCzPn884/kaDLrXdk4G4BcqSJ9ej9tQfDvFz8
-         zIhciy8AdmNr5tgbk+6md1aAbqWVSaL/0jgWAYiSssftw+kqpRk/YtRzlXfUS4cO9+aE
-         7tyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date;
-        bh=jFr962b3Vh092XG5kMgf/jyI9HdgFMZcVYWjVRDIAFA=;
-        b=Msngvn2QwVnjmQzBOfIQnUmq3ag/5HYN57QeEry5n02u65cFHNpB+v7ESIF8RKDMRe
-         Wx96RI2mnSuvuXGJreCqztVnLUWhaGSXJUh57tiG3WakTj1KqsHSTc5WbPiLQEZmkMDc
-         4+tl8aB9guWQPMkVRs4JZaNo5Kw6GoEqrbf8TxJQheoGRarSUDOPFokdMx5s+vX0hjvB
-         +zodZNlKRXg1dsLynkLBC83Y3iTdWSLTL2Vw0VR1tzNNxcHAedrH99HfcHlkrGhOJn52
-         kr/u4qQrC5/OWGWLFrMvg3HRPIi+0A4qk6SsJ9lh5JxtRVa/TCxIXAtHTxDS4URWqOWs
-         0FKQ==
-X-Gm-Message-State: ACgBeo32HrMsj4jqXRSMMbGMzCm4HdhLX75iSha6gUZtt3pUHK1B6PsN
-        sYOrLciaJ20vHcRo1Z5jT8Z0rEzm0NCZfQ==
-X-Google-Smtp-Source: AA6agR4b6grczwtnHbzSxyd/upMJi/YT932fDwvPVLXPok1jVjj0XQ/xF7i343jUAw9piwbANagOJg==
-X-Received: by 2002:a17:90b:4a82:b0:200:a89e:6f1f with SMTP id lp2-20020a17090b4a8200b00200a89e6f1fmr5331337pjb.13.1662661225552;
-        Thu, 08 Sep 2022 11:20:25 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id l10-20020a170903120a00b0016ef87334aesm15050594plh.162.2022.09.08.11.20.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Sep 2022 11:20:23 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <41c67246-114d-f458-4ff1-164995639ca0@roeck-us.net>
-Date:   Thu, 8 Sep 2022 11:20:22 -0700
+        with ESMTP id S229796AbiIHS0y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 14:26:54 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D79BC80536;
+        Thu,  8 Sep 2022 11:26:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662661613; x=1694197613;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=XCN+nznFK/T3/KATNNPaflYV2XfXuH0BnwglpOubXP4=;
+  b=QgJvsi8CpjS5uGka2WJyBqiAzibsaVzlT+hwyplX3m7ZUMZP3/L+In2+
+   ZGYdxcgcSSBML3BkFmm3AddRVUtdH1qySpc1wAew8zKaKlPTuH4rAxJdA
+   rk+iB9xGbOsOU8OGMMkZ5gIgpPPNLwkL2SvL49AJf01mZkiJR458TtjWm
+   NEf4ltqCxIrQIjCPvqeW0/akiWPWql0IPLWJq+pot7ToUYka1IvRc8Ap5
+   nARt1g9VFYR5nvuf+rNWqaniFi+fJ6qYxK3DJFbQfyhUwOzYJFZ0skJ/Y
+   wP9Dp7ua3diCiYRF2lRNrdKxsaOTIokYXjHllrQ33Dp8jyqdZdJSz0oGO
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="280313745"
+X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
+   d="scan'208";a="280313745"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 11:26:53 -0700
+X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
+   d="scan'208";a="683335025"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 11:26:52 -0700
+Date:   Thu, 8 Sep 2022 11:27:03 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
+        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
+Subject: Re: [PATCH v1 5/5] tty: serial: 8250: add DFL bus driver for Altera
+ 16550.
+In-Reply-To: <YxesjfoBagiC3gGE@smile.fi.intel.com>
+Message-ID: <alpine.DEB.2.22.394.2209081049290.61321@rhweight-WRK1>
+References: <20220906190426.3139760-1-matthew.gerlach@linux.intel.com> <20220906190426.3139760-6-matthew.gerlach@linux.intel.com> <YxesjfoBagiC3gGE@smile.fi.intel.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v4] hwmon: Add driver for the TEXAS TPS546D24 Buck
- Converter.
-Content-Language: en-US
-To:     Duke Du <dukedu83@gmail.com>, jdelvare@suse.com, corbet@lwn.net,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     fran.hsu@quantatw.com, george.hung@quantatw.com,
-        charles.hsu@quantatw.com, duke.du@quantatw.com
-References: <1662617599-15270-1-git-send-email-Duke.Du@quantatw.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <1662617599-15270-1-git-send-email-Duke.Du@quantatw.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/7/22 23:13, Duke Du wrote:
-> From: Duke Du <dukedu83@gmail.com>
-> 
-> Add the pmbus driver for TEXAS tps546d24 Buck Converter.
-> The vout mode of tps546d24 supported relative data format,
-> which is not meet for the original driver (pmbus.c).
 
-"which is not supported by the PMBus core"
 
-> 
-> Signed-off-by: Duke Du <dukedu83@gmail.com>
-> ---
-> Change in v1:
->      Initial patchset.
-> Change in v2:
->      Correct the tps546d24.rst format.
-> Change in v3:
->      1. Modify the patch description.
->      2. Put the change log between the dashes and diffstat.
-> Change in v4:
->      1. Modify the patch description.
->      2. Clear the bit 7 of PMBUS_VOUT_MODE to change the mode from relative
->         to absolute.
->      3. Add the vendor prefix.
-> ---
-> ---
->   Documentation/hwmon/index.rst     |  1 +
->   Documentation/hwmon/tps546d24.rst | 35 ++++++++++++++++++++++
->   MAINTAINERS                       |  7 +++++
->   drivers/hwmon/pmbus/Kconfig       |  9 ++++++
->   drivers/hwmon/pmbus/Makefile      |  1 +
->   drivers/hwmon/pmbus/tps546d24.c   | 63 +++++++++++++++++++++++++++++++++++++++
->   6 files changed, 116 insertions(+)
->   create mode 100644 Documentation/hwmon/tps546d24.rst
->   create mode 100644 drivers/hwmon/pmbus/tps546d24.c
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index f7113b0..d3eede4 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -205,6 +205,7 @@ Hardware Monitoring Kernel Drivers
->      tps23861
->      tps40422
->      tps53679
-> +   tps546d24
->      twl4030-madc-hwmon
->      ucd9000
->      ucd9200
-> diff --git a/Documentation/hwmon/tps546d24.rst b/Documentation/hwmon/tps546d24.rst
-> new file mode 100644
-> index 0000000..3061fd8
-> --- /dev/null
-> +++ b/Documentation/hwmon/tps546d24.rst
-> @@ -0,0 +1,35 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +Kernel driver tps546d24
-> +======================
-> +
-> +Supported chips:
-> +
-> +  * TI TPS546D24
-> +
-> +    Prefix: 'tps546d24'
-> +
-> +    Addresses scanned: -
-> +
-> +    Datasheet: https://www.ti.com/lit/gpn/tps546d24
-> +
-> +Author: Duke Du <dukedu83@gmail.com>
-> +
-> +
-> +Description
-> +-----------
-> +
-> +The TPS546D24A is a highly integrated, non-isolated DC/DC converter capable
-> +of high frequency operation and 40-A current output from a 7-mm x 5-mm
-> +package.
-> +
-> +Two, three, and four TPS546D24A devices can be interconnected
-> +to provide up to 160 A on a single output. The device has an option to
-> +overdrive the internal 5-V LDO with an external 5-V supply via the VDD5
-> +pin to improve efficiency and reduce power dissipation of the converter.
-> +
-> +
-> +Platform data support
-> +---------------------
-> +
-> +The driver supports standard PMBus driver platform data.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8a5012b..fa2d4fb 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20583,6 +20583,13 @@ Q:	https://patchwork.kernel.org/project/linux-integrity/list/
->   T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git
->   F:	drivers/char/tpm/
->   
-> +TPS546D24 DRIVER
-> +M:	Duke Du <dukedu83@gmail.com>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/hwmon/tps546d24.rst
-> +F:	drivers/hwmon/pmbus/tps546d24.c
-> +
->   TRACING
->   M:	Steven Rostedt <rostedt@goodmis.org>
->   M:	Ingo Molnar <mingo@redhat.com>
-> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> index 951e4a9..89668af 100644
-> --- a/drivers/hwmon/pmbus/Kconfig
-> +++ b/drivers/hwmon/pmbus/Kconfig
-> @@ -397,6 +397,15 @@ config SENSORS_TPS53679
->   	  This driver can also be built as a module. If so, the module will
->   	  be called tps53679.
->   
-> +config SENSORS_TPS546D24
-> +	tristate "TPS546D24"
-> +	help
-> +	  If you say yes here you get hardware monitoring support for TEXAS
-> +	  TPS546D24.
-> +
-> +	  This driver can also be built as a module. If so, the module will
-> +	  be called tps546d24
-> +
->   config SENSORS_UCD9000
->   	tristate "TI UCD90120, UCD90124, UCD90160, UCD90320, UCD9090, UCD90910"
->   	help
-> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-> index e2fe86f..0002dbe 100644
-> --- a/drivers/hwmon/pmbus/Makefile
-> +++ b/drivers/hwmon/pmbus/Makefile
-> @@ -41,6 +41,7 @@ obj-$(CONFIG_SENSORS_Q54SJ108A2)	+= q54sj108a2.o
->   obj-$(CONFIG_SENSORS_STPDDC60)	+= stpddc60.o
->   obj-$(CONFIG_SENSORS_TPS40422)	+= tps40422.o
->   obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
-> +obj-$(CONFIG_SENSORS_TPS546D24)	+= tps546d24.o
->   obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
->   obj-$(CONFIG_SENSORS_UCD9200)	+= ucd9200.o
->   obj-$(CONFIG_SENSORS_XDPE122)	+= xdpe12284.o
-> diff --git a/drivers/hwmon/pmbus/tps546d24.c b/drivers/hwmon/pmbus/tps546d24.c
-> new file mode 100644
-> index 0000000..84f3dc9
-> --- /dev/null
-> +++ b/drivers/hwmon/pmbus/tps546d24.c
-> @@ -0,0 +1,63 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Hardware monitoring driver for TEXAS TPS546D24 buck converter
-> + */
-> +
-> +#include <linux/err.h>
-> +#include <linux/i2c.h>
-> +#include <linux/init.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/pmbus.h>
-> +#include "pmbus.h"
-> +
-> +static struct pmbus_driver_info tps546d24_info = {
-> +	.pages = 1,
-> +	.format[PSC_VOLTAGE_IN] = linear,
-> +	.format[PSC_VOLTAGE_OUT] = linear,
-> +	.format[PSC_TEMPERATURE] = linear,
-> +	.format[PSC_CURRENT_OUT] = linear,
-> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_IIN
-> +			| PMBUS_HAVE_IOUT | PMBUS_HAVE_VOUT
-> +			| PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_VOUT
-> +			| PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-> +};
-> +
-> +static int tps546d24_probe(struct i2c_client *client)
-> +{
-> +	int reg;
-> +
-> +	reg = i2c_smbus_read_byte_data(client, PMBUS_VOUT_MODE);
-> +	if (reg > 0x80)
+On Tue, 6 Sep 2022, Andy Shevchenko wrote:
 
-This does not cover reg == 0x80, and does not handle errors.
+> On Tue, Sep 06, 2022 at 12:04:26PM -0700, matthew.gerlach@linux.intel.com wrote:
+>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>
+>> Add a Device Feature List (DFL) bus driver for the Altera
+>> 16550 implementation of UART.
+>
+> ...
+>
+>> +#include <linux/dfl.h>
+>
+>> +#include <linux/version.h>
+>
+> Hmm... Do we need this?
 
-I would suggest something like
+We do not need this.
 
-	if (reg < 0)
-		return reg;
+>
+>> +#include <linux/serial.h>
+>> +#include <linux/serial_8250.h>
+>> +#include <linux/kernel.h>
+>> +#include <linux/module.h>
+>> +#include <linux/bitfield.h>
+>> +#include <linux/io-64-nonatomic-lo-hi.h>
+>
+> Can this block be sorted alphabetically?
 
-	if (reg & 0x80) {
-		int err;
+Yes, they can and should be sorted alphabetically.
 
-		err = i2c_smbus_write_byte_data(client, PMBUS_VOUT_MODE, reg & 0x7f);
-		if (err < 0)
-			return err;
-	}
-	return pmbus_do_probe(client, &tps546d24_info);
+>
+> ...
+>
+>> +int feature_uart_walk(struct dfl_uart *dfluart, resource_size_t max)
+>> +{
+>> +	void __iomem *param_base;
+>> +	int off;
+>> +	u64 v;
+>> +
+>> +	v = readq(dfluart->csr_base + DFHv1_CSR_ADDR);
+>> +	dfluart->csr_addr = FIELD_GET(DFHv1_CSR_ADDR_MASK, v);
+>> +
+>> +	v = readq(dfluart->csr_base + DFHv1_CSR_SIZE_GRP);
+>> +	dfluart->csr_size = FIELD_GET(DFHv1_CSR_SIZE_GRP_SIZE, v);
+>> +
+>> +	if (dfluart->csr_addr == 0 || dfluart->csr_size == 0) {
+>> +		dev_err(dfluart->dev, "FIXME bad dfh address and size\n");
+>
+> DFH ?
 
-Thanks,
-Guenter
+Yes,"DFH" is better than "dfh" in the message.
 
-> +		i2c_smbus_write_byte_data(client, PMBUS_VOUT_MODE, reg & 0x7f);
-> +	return pmbus_do_probe(client, &tps546d24_info);
-> +}
-> +
-> +static const struct i2c_device_id tps546d24_id[] = {
-> +	{"tps546d24", 0},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, tps546d24_id);
-> +
-> +static const struct of_device_id tps546d24_of_match[] = {
-> +	{.compatible = "ti,tps546d24"},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, tps546d24_of_match);
-> +
-> +/* This is the driver that will be inserted */
-> +static struct i2c_driver tps546d24_driver = {
-> +	.driver = {
-> +		   .name = "tps546d24",
-> +		   .of_match_table = of_match_ptr(tps546d24_of_match),
-> +	   },
-> +	.probe_new = tps546d24_probe,
-> +	.id_table = tps546d24_id,
-> +};
-> +
-> +module_i2c_driver(tps546d24_driver);
-> +
-> +MODULE_AUTHOR("Duke Du <dukedu83@gmail.com>");
-> +MODULE_DESCRIPTION("PMBus driver for TI tps546d24");
-> +MODULE_LICENSE("GPL");
-> +MODULE_IMPORT_NS(PMBUS);
+>
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	if (!FIELD_GET(DFHv1_CSR_SIZE_GRP_HAS_PARAMS, v)) {
+>> +		dev_err(dfluart->dev, "missing required parameters\n");
+>
+> Not sure I understood what parameters are here. FPGA VHDL? Configuration? RTL?
 
+How about "missing required DFH parameters\n"?
+
+>
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	param_base = dfluart->csr_base + DFHv1_PARAM_HDR;
+>> +
+>> +	off = dfl_find_param(param_base, max, DFHv1_PARAM_ID_CLK_FRQ);
+>> +	if (off < 0) {
+>> +		dev_err(dfluart->dev, "missing CLK_FRQ param\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	dfluart->uart_clk = readq(param_base + off + DFHv1_PARAM_DATA);
+>
+>> +	dev_dbg(dfluart->dev, "UART_CLK_ID %llu Hz\n", dfluart->uart_clk);
+>
+> Isn't this available via normal interfaces to user?
+
+I am not sure what "normal interfaces to user" you are referring to.  The 
+code is just trying to read the frequency of the input clock to the uart 
+from a DFH paramter.
+
+>
+>> +	off = dfl_find_param(param_base, max, DFHv1_PARAM_ID_FIFO_LEN);
+>> +	if (off < 0) {
+>> +		dev_err(dfluart->dev, "missing FIFO_LEN param\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	dfluart->fifo_len = readq(param_base + off + DFHv1_PARAM_DATA);
+>> +	dev_dbg(dfluart->dev, "UART_FIFO_ID fifo_len %llu\n", dfluart->fifo_len);
+>> +
+>> +	off = dfl_find_param(param_base, max, DFHv1_PARAM_ID_REG_LAYOUT);
+>> +	if (off < 0) {
+>> +		dev_err(dfluart->dev, "missing REG_LAYOUT param\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	v = readq(param_base + off + DFHv1_PARAM_DATA);
+>> +	dfluart->fifo_size = FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v);
+>> +	dfluart->reg_shift = FIELD_GET(DFHv1_PARAM_ID_REG_SHIFT, v);
+>> +	dev_dbg(dfluart->dev, "UART_LAYOUT_ID width %d shift %d\n",
+>> +		dfluart->fifo_size, dfluart->reg_shift);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int dfl_uart_probe(struct dfl_device *dfl_dev)
+>> +{
+>> +	struct device *dev = &dfl_dev->dev;
+>> +	struct uart_8250_port uart;
+>> +	struct dfl_uart *dfluart;
+>> +	int ret;
+>> +
+>> +	memset(&uart, 0, sizeof(uart));
+>> +
+>> +	dfluart = devm_kzalloc(dev, sizeof(*dfluart), GFP_KERNEL);
+>> +	if (!dfluart)
+>> +		return -ENOMEM;
+>> +
+>> +	dfluart->csr_base = devm_ioremap_resource(dev, &dfl_dev->mmio_res);
+>> +	if (IS_ERR(dfluart->csr_base)) {
+>
+>> +		dev_err(dev, "failed to get mem resource!\n");
+>
+> The above call have a few different messages depending on error code.
+> No need to repeat this.
+
+I will remove the call to dev_err().
+>
+>> +		return PTR_ERR(dfluart->csr_base);
+>> +	}
+>> +
+>> +	dfluart->dev = dev;
+>> +
+>> +	ret = feature_uart_walk(dfluart, resource_size(&dfl_dev->mmio_res));
+>> +	if (ret < 0) {
+>> +		dev_err(dev, "failed to uart feature walk %d\n", ret);
+>
+>> +		return -EINVAL;
+>
+> Why shadowing error code?
+> What about
+>
+> 	return dev_err_probe(dev, ret, ...);
+> ?
+>
+
+Using dev_err_probe seems like the way to go.
+
+>> +	}
+>> +
+>> +	dev_dbg(dev, "nr_irqs %d %p\n", dfl_dev->num_irqs, dfl_dev->irqs);
+>> +
+>> +	if (dfl_dev->num_irqs == 1)
+>> +		uart.port.irq = dfl_dev->irqs[0];
+>> +
+>> +	switch (dfluart->fifo_len) {
+>> +	case 32:
+>> +		uart.port.type = PORT_ALTR_16550_F32;
+>> +		break;
+>> +
+>> +	case 64:
+>> +		uart.port.type = PORT_ALTR_16550_F64;
+>> +		break;
+>> +
+>> +	case 128:
+>> +		uart.port.type = PORT_ALTR_16550_F128;
+>> +		break;
+>> +
+>> +	default:
+>> +		dev_err(dev, "bad fifo_len %llu\n", dfluart->fifo_len);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	uart.port.iotype = UPIO_MEM32;
+>> +	uart.port.membase = dfluart->csr_base + dfluart->csr_addr;
+>> +	uart.port.mapsize = dfluart->csr_size;
+>> +	uart.port.regshift = dfluart->reg_shift;
+>> +	uart.port.uartclk = dfluart->uart_clk;
+>> +
+>> +	/* register the port */
+>> +	ret = serial8250_register_8250_port(&uart);
+>> +	if (ret < 0) {
+>> +		dev_err(dev, "unable to register 8250 port %d.\n", ret);
+>> +		return -EINVAL;
+>> +	}
+>> +	dev_info(dev, "serial8250_register_8250_port %d\n", ret);
+>> +	dfluart->line = ret;
+>> +	dev_set_drvdata(dev, dfluart);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static void dfl_uart_remove(struct dfl_device *dfl_dev)
+>> +{
+>> +	struct dfl_uart *dfluart = dev_get_drvdata(&dfl_dev->dev);
+>> +
+>> +	if (dfluart->line > 0)
+>> +		serial8250_unregister_port(dfluart->line);
+>> +}
+>
+> ...
+>
+>> +#define FME_FEATURE_ID_UART 0x24
+>
+> Purpose of this definition? For me with or without is still an ID.
+
+I don't think I understand the question. Is the name of the macro unclear, 
+or do you think it is not necessary?
+
+>
+>> +static const struct dfl_device_id dfl_uart_ids[] = {
+>> +	{ FME_ID, FME_FEATURE_ID_UART },
+>> +	{ }
+>> +};
+>
+> ...
+>
+>> +static struct dfl_driver dfl_uart_driver = {
+>> +	.drv = {
+>> +		.name = "dfl-uart",
+>> +	},
+>> +	.id_table = dfl_uart_ids,
+>> +	.probe = dfl_uart_probe,
+>> +	.remove = dfl_uart_remove,
+>> +};
+>
+>> +
+>
+> No need to have this blank line.
+
+I will remove the blank line.
+
+>
+>> +module_dfl_driver(dfl_uart_driver);
+>
+> ...
+>
+>> +MODULE_DEVICE_TABLE(dfl, dfl_uart_ids);
+>
+> Move this closer to the definition. That's how other drivers do in the kernel.
+
+Thanks for the suggestion.
+
+>
+> ...
+>
+>> --- a/drivers/tty/serial/8250/Kconfig
+>> +++ b/drivers/tty/serial/8250/Kconfig
+>
+>> --- a/drivers/tty/serial/8250/Makefile
+>> +++ b/drivers/tty/serial/8250/Makefile
+>
+> I know that the records in those files are not sorted, but can you try hard
+> to find the best place for them in those files from sorting point of view?
+>
+
+I will try to find a better place from sorting porint of view.
+
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+>
