@@ -2,118 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAC1CC54EE9
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 09:10:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00FBAECAAD5
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 09:36:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231517AbiIHJKh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Sep 2022 05:10:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47674 "EHLO
+        id S229547AbiIHJgo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Sep 2022 05:36:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230523AbiIHJKe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 05:10:34 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C21E4D21E6;
-        Thu,  8 Sep 2022 02:10:29 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id t65so5188679pgt.2;
-        Thu, 08 Sep 2022 02:10:29 -0700 (PDT)
+        with ESMTP id S229510AbiIHJgn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 05:36:43 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 760D34D819;
+        Thu,  8 Sep 2022 02:36:42 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id bh13so16201086pgb.4;
+        Thu, 08 Sep 2022 02:36:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=jTqtul/Z9mMalwu5ubZotPsoAGUQsm/DOSMJnjh6dr8=;
-        b=no2P4SUySPsgEf9LrWgiTEZ8iOeot7dhoSv5Eq44hgdOF0BYS6RPSNeT9kF7JsF5Mr
-         ytc/A2SEGZj/zR4ROCKftMAiRcYSrnRseA+mSWtgaJkaNh/+j++P/GGiOQiJNLZC1JWn
-         KGR+DrC2ZXrKVL5fU+SxdCM2sSxazdqaRrF10mw97jXaEt/VaG/dGacRg9KHNPLofkuD
-         fX077YZy+bu3maiKhCmwXqKHFEKvdPJSKGepKq9fZVUyAne1gs3Ua4yIK6tPhNDCdwCb
-         vTL8XF2MmPIQyR9GwBjmcZiQaQShTeiEOxSCNb0rkaQnzD9v14BhZeX/fbwKDhqM8ufZ
-         M6VQ==
+        bh=H+m2ewlqCCq95CTgb1OHmBjXlEDwPuPSJxmvMbooqnY=;
+        b=gEyNGOXT010lySrOLxp9f1lEV0BNBgKehPKlE8AJFfDX9C1vNuHRLrHCKifUEAXhkh
+         gKYviM/MnqLzVZobJm4RzPxDDWATEKuWiJ1c4U413zgz9e8MOvNhq0YHnteYD50hqO1u
+         DR21wikum5B7Izke31cf0OpQM6HMerx/KJfkroDqmB7xtsPQJQ6iV1Rv3kjCvdC3O+oO
+         VQp13pAIgL1O8u2+R0kuG0M+Y5SmxZFUjGiR1ySgi/a0tNO08rb2wsR40YgQNxgUobo7
+         jHyPEdCKWCJToM9SMH7ibp9VW8YIzwYqWELZD3P2ouSPyM0DkEJD6YqP7SgmPiKJGvRz
+         ADFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=jTqtul/Z9mMalwu5ubZotPsoAGUQsm/DOSMJnjh6dr8=;
-        b=O4kI5kBJfATZu3Zd4vZXO6wqp+L/b1XcMc/bLj6jfm2/tQ9nVApmXZyR6rpbtV+Aus
-         o01oTRDdbMedua+8A2Sst0y7QjMiqvAVMSmZ6jTtI3F0L6znH2NtGCxYwkp0qgHaUrxI
-         Wt0SCBxOiE+lGsiYSgBfWSfeCWo8DYQH9tLKITdRhr/F+kZyaq48famNYYSFsWcUW+0D
-         snHdJjSqPJPEiDQhLmUWzWL4dWE1JUSko3fOUEdMlrWpXPB29+W5lbn7mgIz0y1uKIzS
-         uOYZd4vS6etTL5twwPdUW1RczCWotyJEjlhgnG4fF8osm/QeaXvk9/1GolJ4sd0ESxDO
-         TV4w==
-X-Gm-Message-State: ACgBeo0A+RIcP8OgRaglEfyyF19j86QBZk1gHq6aSspDmE1JI1t3BLxt
-        jdJiskeCVhMrE/O+07HMt0A=
-X-Google-Smtp-Source: AA6agR5D1Ba9T8KNCi69P9rVO/Pvw+LbF76KG9Y8Izk9bv+tumAV3VGCo0jphXhqjTZmsP4gDLRJ8Q==
-X-Received: by 2002:a05:6a00:10cf:b0:528:48c3:79e0 with SMTP id d15-20020a056a0010cf00b0052848c379e0mr8261474pfu.18.1662628229176;
-        Thu, 08 Sep 2022 02:10:29 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-7.three.co.id. [180.214.232.7])
-        by smtp.gmail.com with ESMTPSA id z7-20020a170903018700b00177f4ef7970sm987441plg.11.2022.09.08.02.10.28
+        bh=H+m2ewlqCCq95CTgb1OHmBjXlEDwPuPSJxmvMbooqnY=;
+        b=Ick53UVHvk4bGl8GfdzLtzsVXl/y/neJUkuViKaj6+x0NEgxATb6PuU8ZGuK78Lm6M
+         4d+6tbvMEj0btmEws8rb7oTBC/HGQmFSJBjc0UCuKZw1arieumkhtf1MT1rr1Vs6auzd
+         imXIvcj4H3gtNQmJtTFUPND2uprhe3bxR373wsqT+x7ppgJC46OZzxP+w8nYZWkFpJgb
+         yijWZEWCtnyI+ElJIvQHL9DNBMz4CRz98WG312UCF9Q0aZ8ZPnXXEto/IwMAK8zSbEas
+         ZFT4pYq0xTjuA2jlHfdlvEnEkpxZgaP8xPoZb9n79RuDO9LftYRPTrq6gU10WCHEh51M
+         omhg==
+X-Gm-Message-State: ACgBeo2k/+P8QRdEPMt7qeKLjmYTVyN5AD9ES1HdhofJAFyTnvwyiyhU
+        KZITd3VSOBJXCk6+uGRLviQ=
+X-Google-Smtp-Source: AA6agR7nul2gPA+ZBmM/QS1AbeuMbpEHXaT12rXXv16fg9yBoKyOa4EQQPqGEWr1wbNK4/6owLzcEg==
+X-Received: by 2002:a65:42cc:0:b0:431:af8c:77e1 with SMTP id l12-20020a6542cc000000b00431af8c77e1mr7018308pgp.308.1662629802020;
+        Thu, 08 Sep 2022 02:36:42 -0700 (PDT)
+Received: from debian.me (subs28-116-206-12-33.three.co.id. [116.206.12.33])
+        by smtp.gmail.com with ESMTPSA id oa14-20020a17090b1bce00b0020255f4960bsm1295513pjb.24.2022.09.08.02.36.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Sep 2022 02:10:28 -0700 (PDT)
+        Thu, 08 Sep 2022 02:36:41 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id BC3C7104014; Thu,  8 Sep 2022 16:10:23 +0700 (WIB)
-Date:   Thu, 8 Sep 2022 16:10:23 +0700
+        id 0768B1009E5; Thu,  8 Sep 2022 16:26:40 +0700 (WIB)
+Date:   Thu, 8 Sep 2022 16:26:40 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v12 3/3] Documentation/x86: Document TDX attestation
- process
-Message-ID: <Yxmxf6zQorvuVPKi@debian.me>
-References: <20220908002723.923241-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220908002723.923241-4-sathyanarayanan.kuppuswamy@linux.intel.com>
+To:     Babu Moger <babu.moger@amd.com>
+Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, fenghua.yu@intel.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        eranian@google.com
+Subject: Re: [PATCH v4 13/13] Documentation/x86: Update resctrl_ui.rst for
+ new features
+Message-ID: <Yxm1UJzpjW+AjXzQ@debian.me>
+References: <166257348081.1043018.11227924488792315932.stgit@bmoger-ubuntu>
+ <166257368995.1043018.8665350782054895088.stgit@bmoger-ubuntu>
+ <Yxlqn0C8rDsLUHNv@debian.me>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="z6mtDtut/Q3b/8t6"
+        protocol="application/pgp-signature"; boundary="Rbj7V0w5G8TJEeMh"
 Content-Disposition: inline
-In-Reply-To: <20220908002723.923241-4-sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <Yxlqn0C8rDsLUHNv@debian.me>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---z6mtDtut/Q3b/8t6
+--Rbj7V0w5G8TJEeMh
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 07, 2022 at 05:27:22PM -0700, Kuppuswamy Sathyanarayanan wrote:
-> Document details about TDX attestation process and related user API
-> support.
+On Thu, Sep 08, 2022 at 11:07:59AM +0700, Bagas Sanjaya wrote:
+> Use code blocks for terminal output above:
 >=20
-> Attestation details can be found in Guest-Host-Communication Interface
-> (GHCI) for Intel Trust Domain Extensions (TDX), section titled "TD
-> attestation".
->=20
+> ---- >8 ----
+> t a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
+> index 56581587c1a331..6474cf655792bf 100644
+> --- a/Documentation/x86/resctrl.rst
+> +++ b/Documentation/x86/resctrl.rst
+> @@ -163,23 +163,23 @@ with the following files:
+>  "mon_features":
+>  		Lists the monitoring events if
+>  		monitoring is enabled for the resource.
+> -                Example output:
+> +                Example::
+> =20
+> -                # cat /sys/fs/resctrl/info/L3_MON/mon_features
+> -                llc_occupancy
+> -                mbm_total_bytes
+> -                mbm_local_bytes
+> +                   # cat /sys/fs/resctrl/info/L3_MON/mon_features
+> +                   llc_occupancy
+> +                   mbm_total_bytes
+> +                   mbm_local_bytes
+> =20
+>                  If the system supports Bandwidth Monitoring Event
+>                  Configuration (BMEC), then the bandwidth events will
+> -                be configurable. Then the output will be.
+> +                be configurable. The output will be::
+> =20
+> -                # cat /sys/fs/resctrl/info/L3_MON/mon_features
+> -                llc_occupancy
+> -                mbm_total_bytes
+> -                mbm_total_config
+> -                mbm_local_bytes
+> -                mbm_local_config
+> +                   # cat /sys/fs/resctrl/info/L3_MON/mon_features
+> +                   llc_occupancy
+> +                   mbm_total_bytes
+> +                   mbm_total_config
+> +                   mbm_local_bytes
+> +                   mbm_local_config
 
-The doc LGTM, thanks.
+Hi Babu,
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+The suggestion diff above looks corrupted, so here is the proper one:
+
+---- >8 ----
+diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
+index 56581587c1a331..6474cf655792bf 100644
+--- a/Documentation/x86/resctrl.rst
++++ b/Documentation/x86/resctrl.rst
+@@ -163,23 +163,23 @@ with the following files:
+ "mon_features":
+ 		Lists the monitoring events if
+ 		monitoring is enabled for the resource.
+-                Example output:
++                Example::
+=20
+-                # cat /sys/fs/resctrl/info/L3_MON/mon_features
+-                llc_occupancy
+-                mbm_total_bytes
+-                mbm_local_bytes
++                   # cat /sys/fs/resctrl/info/L3_MON/mon_features
++                   llc_occupancy
++                   mbm_total_bytes
++                   mbm_local_bytes
+=20
+                 If the system supports Bandwidth Monitoring Event
+                 Configuration (BMEC), then the bandwidth events will
+-                be configurable. Then the output will be.
++                be configurable. The output will be::
+=20
+-                # cat /sys/fs/resctrl/info/L3_MON/mon_features
+-                llc_occupancy
+-                mbm_total_bytes
+-                mbm_total_config
+-                mbm_local_bytes
+-                mbm_local_config
++                   # cat /sys/fs/resctrl/info/L3_MON/mon_features
++                   llc_occupancy
++                   mbm_total_bytes
++                   mbm_total_config
++                   mbm_local_bytes
++                   mbm_local_config
+=20
+ "max_threshold_occupancy":
+ 		Read/write file provides the largest value (in
+
+Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---z6mtDtut/Q3b/8t6
+--Rbj7V0w5G8TJEeMh
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYxmxeQAKCRD2uYlJVVFO
-oygOAP9p+Qux0e+GyeKI/gYB/Aem5r1asUQLvgg1Li53bg7LgAEAtZtRWyD+GZyl
-ED0dXEWb7g4yp8LJV/ueAV1RmQtMdQY=
-=QgKp
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYxm1SgAKCRD2uYlJVVFO
+o++FAQDR8ikyW6Dg6ZO9t0YgQVNQ0Z1XvyEzj6zlFdhjb+SOJgEAuGJhLDonPQIq
+t5C/8Lgk700EIeX7xt6Y8VJwERe/YAk=
+=BZYG
 -----END PGP SIGNATURE-----
 
---z6mtDtut/Q3b/8t6--
+--Rbj7V0w5G8TJEeMh--
