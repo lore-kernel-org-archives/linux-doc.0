@@ -2,108 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16328C6FA86
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 19:07:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BE6BC38145
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 19:29:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230158AbiIHTHc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Sep 2022 15:07:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37830 "EHLO
+        id S231360AbiIHT3B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Sep 2022 15:29:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbiIHTHb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 15:07:31 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6B5FC04F0;
-        Thu,  8 Sep 2022 12:07:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662664049; x=1694200049;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=44eqfRb+CPq6+faXpY40ZoHvEwz6Mc0cnlewhnmlylc=;
-  b=DZyFwN8QNY5TIO/4iunsaWHHkAY+Q/LdaD7+AnD9peGalPZdYpf0tbRC
-   FIrQWYPL2VERFNzfNo822zlBd0ozO2It3AauduBEzmVKtyJfo4ARb41zM
-   65FsVtWmAHZtkOmlE/C8s/gx0Cm+bvsudxlJEQ4ht21qi4+WArK7mmLHM
-   bLaqc21nYSLITbOrmsNs7yo76I8LKRM1kGsm8kfgqKJzTA9L3n/OTUEPJ
-   G/Ah+NYSYsMcMw/D1RW55UtxlN3K+u3bWwEFrs4tVG538LiJBS7LYtf2D
-   Obcms0TPLfYl5gheiJ4now0ccxrWKlmv7rZHqneetGfVNvlnaZCkzPTll
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="277032673"
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
-   d="scan'208";a="277032673"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 12:07:29 -0700
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
-   d="scan'208";a="740787532"
-Received: from duttamou-mobl1.amr.corp.intel.com (HELO [10.209.109.184]) ([10.209.109.184])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 12:07:28 -0700
-Message-ID: <6cf407ed-95c7-0db4-d581-b85efad13239@linux.intel.com>
-Date:   Thu, 8 Sep 2022 12:07:28 -0700
+        with ESMTP id S230334AbiIHT3A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 15:29:00 -0400
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A340CB532D;
+        Thu,  8 Sep 2022 12:28:59 -0700 (PDT)
+Received: by mail-qv1-f43.google.com with SMTP id ml1so7795446qvb.1;
+        Thu, 08 Sep 2022 12:28:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=rtjCvFMzCSvxYl+KVbiv9tLwcN6J8Pm9uw37RRRl7gg=;
+        b=p8E4JfUtzfT9wVWLIjZKq6B3xlI/3i6dQHGJVI6YrOKtZm6qUAEOBTQk5wTt/yh44I
+         mSFJtUz0YjcZTaxHAsrhNyQCSdeUMUBm+f/kFTc0upKvLifovZLgNcXzBIIijUVerZIp
+         7QAKYrB2fRoTWJ5L2Ak9Wus5RWC4Q+ck90WCC1PqCs8M1Yz7/kgeLbrzg8IlqVYBLl5h
+         nCWblac+Wci1w2vtrfDMCDrgqQioglDh/HRxg3VOIcFuNhZp84HogT0GG1Jd7S2+chmv
+         uPBO/9qaioPLwk8DaBdVWK7/l2kqwmfAVYLvLegEyW/vUKue6DmP67r5rHcwm2Eth4np
+         kUcg==
+X-Gm-Message-State: ACgBeo26UVIHgJCGkNsJxMSyEw0WJYiiKIFQIRYrV1Ck1KtSJPgVKpRd
+        jJ4sk769eXHVVkZ0unHvyXr6NterjwG9OQ==
+X-Google-Smtp-Source: AA6agR7s5p6HzyJHwRi9FzrwOUJiHuIJXnXeCwN3wBaIYXEI9uGZC6hdraz6FPzdZULkztCyT4HR4Q==
+X-Received: by 2002:ad4:5d65:0:b0:4a4:cac:d56b with SMTP id fn5-20020ad45d65000000b004a40cacd56bmr9207035qvb.2.1662665338625;
+        Thu, 08 Sep 2022 12:28:58 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id 15-20020ac84e8f000000b0031f0b43629dsm15924814qtp.23.2022.09.08.12.28.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Sep 2022 12:28:57 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-3450990b0aeso150101287b3.12;
+        Thu, 08 Sep 2022 12:28:57 -0700 (PDT)
+X-Received: by 2002:a81:758a:0:b0:345:450b:6668 with SMTP id
+ q132-20020a81758a000000b00345450b6668mr8834017ywc.316.1662665336860; Thu, 08
+ Sep 2022 12:28:56 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v12 1/3] x86/tdx: Add TDX Guest attestation interface
- driver
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220908002723.923241-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220908002723.923241-2-sathyanarayanan.kuppuswamy@linux.intel.com>
- <Yxl+PE4A+WUfQ7bl@kroah.com>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <Yxl+PE4A+WUfQ7bl@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220906190426.3139760-1-matthew.gerlach@linux.intel.com>
+ <20220906190426.3139760-5-matthew.gerlach@linux.intel.com>
+ <YxeqTdny7Nu7LzZo@smile.fi.intel.com> <alpine.DEB.2.22.394.2209071433320.3336870@rhweight-WRK1>
+ <YxnMLI17XvjN74DW@smile.fi.intel.com> <alpine.DEB.2.22.394.2209081031450.61321@rhweight-WRK1>
+In-Reply-To: <alpine.DEB.2.22.394.2209081031450.61321@rhweight-WRK1>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 8 Sep 2022 21:28:45 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWwRXKP51vX9KYjiwdZ9mUhsnLxkrAex+LwKpCw-H7=8A@mail.gmail.com>
+Message-ID: <CAMuHMdWwRXKP51vX9KYjiwdZ9mUhsnLxkrAex+LwKpCw-H7=8A@mail.gmail.com>
+Subject: Re: [PATCH v1 4/5] fpga: dfl: add generic support for MSIX interrupts
+To:     matthew.gerlach@linux.intel.com
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
+        russell.h.weight@intel.com, basheer.ahmed.muddebihal@intel.com,
+        Tom Rix <trix@redhat.com>, Moritz Fischer <mdf@kernel.org>,
+        linux-fpga@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        tianfei.zhang@intel.com, Jonathan Corbet <corbet@lwn.net>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Johan Hovold <johan@kernel.org>, Lukas Wunner <lukas@wunner.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hi Matthew,
 
-On 9/7/22 10:31 PM, Greg Kroah-Hartman wrote:
-> On Wed, Sep 07, 2022 at 05:27:20PM -0700, Kuppuswamy Sathyanarayanan wrote:
->> +	/*
->> +	 * Per TDX Module 1.0 specification, section titled
->> +	 * "TDG.MR.REPORT", REPORTDATA length is fixed as
->> +	 * TDX_REPORTDATA_LEN, TDREPORT length is fixed as
->> +	 * TDX_REPORT_LEN, and TDREPORT subtype is fixed as
->> +	 * 0. Also check for valid user pointers.
->> +	 */
->> +	if (!req.reportdata || !req.tdreport || req.subtype ||
->> +		req.rpd_len != TDX_REPORTDATA_LEN ||
->> +		req.tdr_len != TDX_REPORT_LEN)
->> +		return -EINVAL;
-> 
-> You never verify that your reserved[7] fields are actually set to 0,
-> which means you can never use them in the future :(
+On Thu, Sep 8, 2022 at 7:34 PM <matthew.gerlach@linux.intel.com> wrote:
+> On Thu, 8 Sep 2022, Andy Shevchenko wrote:
+> > On Wed, Sep 07, 2022 at 02:37:32PM -0700, matthew.gerlach@linux.intel.com wrote:
+> >> On Tue, 6 Sep 2022, Andy Shevchenko wrote:
+> >>> On Tue, Sep 06, 2022 at 12:04:25PM -0700, matthew.gerlach@linux.intel.com wrote:
+> >
+> > ...
+> >
+> >>>> +  if (fid != FEATURE_ID_AFU && fid != PORT_FEATURE_ID_ERROR &&
+> >>>> +      fid != PORT_FEATURE_ID_UINT && fid != FME_FEATURE_ID_GLOBAL_ERR) {
+> >>>> +          v = readq(base);
+> >>>> +          v = FIELD_GET(DFH_VERSION, v);
+> >>>> +
+> >>>> +          if (v == 1) {
+> >>>> +                  v =  readq(base + DFHv1_CSR_SIZE_GRP);
+> >>>
+> >>> I am already lost what v keeps...
+> >>>
+> >>> Perhaps
+> >>>
+> >>>             v = readq(base);
+> >>>             switch (FIELD_GET(DFH_VERSION, v)) {
+> >>>             case 1:
+> >>>                     ...
+> >>>                     break;
+> >>>             }
+> >>
+> >> How about?
+> >>              if (FIELD_GET(DFH_VERSION, readq(base)) == 1) {
+> >>                      ...
+> >>              }
+> >
+> > This one tends to be expanded in the future, so I would keep it switch case.
+> >
+>
+> I'm okay with using the switch statement, but how about the following?
+>
+>                 switch (FIELD_GET(DFH_VERSION, readq(base))) {
+>                  case 1:
+>                         ...
+>                         break;
+>                 }
 
-Currently, we don't use those fields in our code. Why do we have to
-make sure they are set to zero? Can't we add checks when we really use
-them in future?
+Would it make sense to print an error if a newer version than 1 is detected?
+BTW, what is the expected value when DFHv1 is not detected? Zero
+or an arbitrary number?
 
-If your suggestion is to define allowed values of these fields for user,
-we can add some help in structure definition of "tdx_report_req" in
-arch/x86/include/uapi/asm/tdx.h
+Gr{oetje,eeting}s,
 
-> 
-> Please fix that up, thanks.
-> 
-> greg k-h
+                        Geert
 
--- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
