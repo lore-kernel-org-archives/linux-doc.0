@@ -2,104 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C715C38145
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 21:17:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45BE7C54EE9
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 22:03:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229931AbiIHVRH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Sep 2022 17:17:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38744 "EHLO
+        id S229534AbiIHWDB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Sep 2022 18:03:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229685AbiIHVRG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 17:17:06 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19DFDC32F7;
-        Thu,  8 Sep 2022 14:17:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662671825; x=1694207825;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WCfMZhbDQ5gEis6Z2V2kC1NDXjb3rrNnL4l392+aqgw=;
-  b=NwrDHLkFG4hUa/ZF27CxCDhSKpDG+hzLyCO80b9DmXrMKCNpOO+KHy1c
-   /mXAvzN+M5yWzc13QMzyv7vDSD6StMV4LRd/SmhlixaC5N8BURPkHo6St
-   T2ZZQh4w2txE2oHOuCB5XaQY/CQO/c0g3pjh5ln4AHqePiMHav5Kbk8Cd
-   TgOtea7rBM7PyZ3j5wQtCGTiuK4g8ikMyhoP+L5HYmv+qwvQJsxXgJdzG
-   8DRYYMOTiMt7NZ04SHuyFUJhzGuMihG/3HCdX8S+vMDuKxKPgzZvUJiqp
-   UJ9k+4CXrqzSO4P1dsPHEWPe42JQXZyloHITj8yQXeZ97SMR8rbABDWfp
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="284346824"
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
-   d="scan'208";a="284346824"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 14:17:04 -0700
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
-   d="scan'208";a="683389519"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 14:16:59 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1oWOtL-00AJUn-3A;
-        Fri, 09 Sep 2022 00:16:55 +0300
-Date:   Fri, 9 Sep 2022 00:16:55 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     matthew.gerlach@linux.intel.com
-Cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
-        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
-Subject: Re: [PATCH v1 5/5] tty: serial: 8250: add DFL bus driver for Altera
- 16550.
-Message-ID: <Yxpbx0Tclqy4O9cR@smile.fi.intel.com>
-References: <20220906190426.3139760-1-matthew.gerlach@linux.intel.com>
- <20220906190426.3139760-6-matthew.gerlach@linux.intel.com>
- <YxesjfoBagiC3gGE@smile.fi.intel.com>
- <alpine.DEB.2.22.394.2209081049290.61321@rhweight-WRK1>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2209081049290.61321@rhweight-WRK1>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        with ESMTP id S229576AbiIHWCx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 18:02:53 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 135573AB;
+        Thu,  8 Sep 2022 15:02:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 4B593CE20FD;
+        Thu,  8 Sep 2022 22:02:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5250DC433D6;
+        Thu,  8 Sep 2022 22:02:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1662674569;
+        bh=8sy1ATs3JDer4J6KBpLpL/36vh5+x6IuTH2whh/yMVE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=x1eZtPss8z2xDuQ68b7Q5wAXvxzGWI3qEDMWP24UxzJLRN0Ko2W1T66YWttxzQSug
+         fl4/D5KUwLVvlUF4thcLin9nf2YLrJqrxEww2eV1LvdGqPuFVeNXBhmHAFqIVnbKnm
+         uoyYf/5C6LmYn6auMZsETC++A5gpXT7EgxuY4U8w=
+Date:   Thu, 8 Sep 2022 15:02:48 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Liu Shixin <liushixin2@huawei.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <cgroups@vger.kernel.org>, <linux-mm@kvack.org>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH] mm/memcontrol: use kstrtobool for swapaccount param
+ parsing
+Message-Id: <20220908150248.85fff32bf275844f0927a856@linux-foundation.org>
+In-Reply-To: <20220908083452.2844125-1-liushixin2@huawei.com>
+References: <20220908083452.2844125-1-liushixin2@huawei.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 08, 2022 at 11:27:03AM -0700, matthew.gerlach@linux.intel.com wrote:
-> On Tue, 6 Sep 2022, Andy Shevchenko wrote:
-> > On Tue, Sep 06, 2022 at 12:04:26PM -0700, matthew.gerlach@linux.intel.com wrote:
+On Thu, 8 Sep 2022 16:34:52 +0800 Liu Shixin <liushixin2@huawei.com> wrote:
 
-...
+> --- a/mm/swap_cgroup.c
+> +++ b/mm/swap_cgroup.c
+> @@ -194,7 +194,7 @@ int swap_cgroup_swapon(int type, unsigned long max_pages)
+>  	return 0;
+>  nomem:
+>  	pr_info("couldn't allocate enough memory for swap_cgroup\n");
+> -	pr_info("swap_cgroup can be disabled by swapaccount=0 boot option\n");
+> +	pr_info("swap_cgroup can be disabled by swapaccount=[oO][Ff]/N/n/0 boot option\n");
 
-> > > +	dev_dbg(dfluart->dev, "UART_CLK_ID %llu Hz\n", dfluart->uart_clk);
-> > 
-> > Isn't this available via normal interfaces to user?
-> 
-> I am not sure what "normal interfaces to user" you are referring to.  The
-> code is just trying to read the frequency of the input clock to the uart
-> from a DFH paramter.
-
-I mean dev_dbg() call. The user can get uart_clk via one of the UART/serial
-ABIs (don't remember which one, though).
-
-
-...
-
-> > > +#define FME_FEATURE_ID_UART 0x24
-> > 
-> > Purpose of this definition? For me with or without is still an ID.
-> 
-> I don't think I understand the question. Is the name of the macro unclear,
-> or do you think it is not necessary?
-
-I mean how the definition is useful / useless. I.o.w. I think it's not
-necessary.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+I'm not sure this really needed changing.  "=0" was OK and the message
+now looks rather silly.  But whatever.
