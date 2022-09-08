@@ -2,113 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A863C6FA86
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 17:34:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C062C38145
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 17:39:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231555AbiIHReQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Sep 2022 13:34:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50222 "EHLO
+        id S232070AbiIHRj2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Sep 2022 13:39:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231433AbiIHReO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 13:34:14 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA89BC58C3;
-        Thu,  8 Sep 2022 10:34:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662658453; x=1694194453;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=yPoPiu4s5AIvWYRtd6XRgDWLB41yZsUhqTPTHKz4Q3c=;
-  b=eS3FwQVzLLKg3O67WOwhilfi72KLy1lY/LqABwz1kdblZii5iG4FBIXv
-   /wIyAu4Wh2UuF918bctkB/Tcvx2zS+VbQ5bGYqiDi5SoILhYwmy2/lRau
-   aw918TQ2vo0aJqZREtayrb8g7JPcMi1HLPAowTTP0CtL/dV+fBOmes7vG
-   BVdI4OJyemvRKAm2X3zwL3kbfn4fEmFTihf/ZIXtuJ1nMOEJzqENN9XxQ
-   +CpqIe0vvgoTWsJPBrkNL1R5dGlreewGljci0CQF977ParNRQLAW5g26k
-   wvTSHcTB9zjxksVoLnuYWAjCsorWVCkTL4KC2lMoNB9xjEttV7muoNuJq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="298611243"
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
-   d="scan'208";a="298611243"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 10:34:13 -0700
-X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
-   d="scan'208";a="676796260"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 10:34:12 -0700
-Date:   Thu, 8 Sep 2022 10:34:07 -0700 (PDT)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
-        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
-Subject: Re: [PATCH v1 4/5] fpga: dfl: add generic support for MSIX
- interrupts
-In-Reply-To: <YxnMLI17XvjN74DW@smile.fi.intel.com>
-Message-ID: <alpine.DEB.2.22.394.2209081031450.61321@rhweight-WRK1>
-References: <20220906190426.3139760-1-matthew.gerlach@linux.intel.com> <20220906190426.3139760-5-matthew.gerlach@linux.intel.com> <YxeqTdny7Nu7LzZo@smile.fi.intel.com> <alpine.DEB.2.22.394.2209071433320.3336870@rhweight-WRK1>
- <YxnMLI17XvjN74DW@smile.fi.intel.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S229874AbiIHRi4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 13:38:56 -0400
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 494A1EE536;
+        Thu,  8 Sep 2022 10:38:46 -0700 (PDT)
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+        by localhost (Postfix) with ESMTP id 4MNmYn0v7vz9smC;
+        Thu,  8 Sep 2022 19:38:21 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+        by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id kNLhBIKg6Pfk; Thu,  8 Sep 2022 19:38:21 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase2.c-s.fr (Postfix) with ESMTP id 4MNmYg2YwWz9smH;
+        Thu,  8 Sep 2022 19:38:15 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 3CF338B794;
+        Thu,  8 Sep 2022 19:38:15 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id hbr9uaj5SYN9; Thu,  8 Sep 2022 19:38:15 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.232.247])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id B29D68B792;
+        Thu,  8 Sep 2022 19:38:13 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (localhost [127.0.0.1])
+        by PO20335.IDSI0.si.c-s.fr (8.17.1/8.16.1) with ESMTPS id 288HcBYe3449189
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Thu, 8 Sep 2022 19:38:11 +0200
+Received: (from chleroy@localhost)
+        by PO20335.IDSI0.si.c-s.fr (8.17.1/8.17.1/Submit) id 288HcBUR3449188;
+        Thu, 8 Sep 2022 19:38:11 +0200
+X-Authentication-Warning: PO20335.IDSI0.si.c-s.fr: chleroy set sender to christophe.leroy@csgroup.eu using -f
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+To:     Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>
+Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v1 12/19] Documentation: Rename PPC_FSL_BOOK3E to PPC_E500
+Date:   Thu,  8 Sep 2022 19:37:45 +0200
+Message-Id: <d286049f86e5fe37ffd1d647c38cb5c3cd40d802.1662658653.git.christophe.leroy@csgroup.eu>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <4e7e6259e5af0e0e171f19ee1f85ab5b2553723f.1662658653.git.christophe.leroy@csgroup.eu>
+References: <4e7e6259e5af0e0e171f19ee1f85ab5b2553723f.1662658653.git.christophe.leroy@csgroup.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1662658668; l=1023; s=20211009; h=from:subject:message-id; bh=G31CScpXL/aiwB692gW5SggycGuWlOF/ZDfuTCgADWA=; b=krnNRTGpkQSp7NyRgM0LzN98Ppu3q1fO8rejyPVQHf5ZcRsM/jah33VuDA/p81SoiWmpn4ohg91I ogJ3fM2WBOhuHNK2uq1VxfDPlsNCaqWohB7gp4pB7EtxjqTlWDYF
+X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+CONFIG_PPC_FSL_BOOK3E is redundant with CONFIG_PPC_E500.
 
+Rename it so that CONFIG_PPC_FSL_BOOK3E can be removed later.
 
-On Thu, 8 Sep 2022, Andy Shevchenko wrote:
+Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> On Wed, Sep 07, 2022 at 02:37:32PM -0700, matthew.gerlach@linux.intel.com wrote:
->> On Tue, 6 Sep 2022, Andy Shevchenko wrote:
->>> On Tue, Sep 06, 2022 at 12:04:25PM -0700, matthew.gerlach@linux.intel.com wrote:
->
-> ...
->
->>>> +	if (fid != FEATURE_ID_AFU && fid != PORT_FEATURE_ID_ERROR &&
->>>> +	    fid != PORT_FEATURE_ID_UINT && fid != FME_FEATURE_ID_GLOBAL_ERR) {
->>>> +		v = readq(base);
->>>> +		v = FIELD_GET(DFH_VERSION, v);
->>>> +
->>>> +		if (v == 1) {
->>>> +			v =  readq(base + DFHv1_CSR_SIZE_GRP);
->>>
->>> I am already lost what v keeps...
->>>
->>> Perhaps
->>>
->>> 		v = readq(base);
->>> 		switch (FIELD_GET(DFH_VERSION, v)) {
->>> 		case 1:
->>> 			...
->>> 			break;
->>> 		}
->>
->> How about?
->> 		if (FIELD_GET(DFH_VERSION, readq(base)) == 1) {
->> 			...
->> 		}
->
-> This one tends to be expanded in the future, so I would keep it switch case.
->
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 426fa892d311..c8dec1ce6b6b 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3626,7 +3626,7 @@
+ 			(bounds check bypass). With this option data leaks are
+ 			possible in the system.
+ 
+-	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
++	nospectre_v2	[X86,PPC_E500,ARM64] Disable all mitigations for
+ 			the Spectre variant 2 (indirect branch prediction)
+ 			vulnerability. System may allow data leaks with this
+ 			option.
+-- 
+2.37.1
 
-I'm okay with using the switch statement, but how about the following?
-
- 		switch (FIELD_GET(DFH_VERSION, readq(base))) {
-                 case 1:
- 			...
- 			break;
- 		}
-> -- 
-> With Best Regards,
-> Andy Shevchenko
->
->
->
