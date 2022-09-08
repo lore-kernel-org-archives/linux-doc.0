@@ -2,253 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5E0BECAAD5
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 04:08:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2043EC38145
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 05:31:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229490AbiIHEIG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Sep 2022 00:08:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36406 "EHLO
+        id S230047AbiIHFbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Sep 2022 01:31:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbiIHEIF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 00:08:05 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E12E0B515C;
-        Wed,  7 Sep 2022 21:08:04 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id q63so15507702pga.9;
-        Wed, 07 Sep 2022 21:08:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=WDHDco1ME1kp63nAFCVLvw8uKReZNIKLpXHBwYYZT9A=;
-        b=eVjQHuScev8qPeYVLUSB1aeXdKmI8LYZ1Q68rXlO4+tIBtOjWPcR1swvcPfzRNXJoF
-         N4x6K/pJzFTE7vStCtcur57Q+MjovscFuzYsL2rYQxPif52ey0e2pRW3XowoAZe+ib/H
-         vCgGOyY0WHFYf1pXm3VSdW9vjHWJaXtTyceZU3T0bb+ZA/PnvTDChXJTg2t5it86LwJP
-         3BsDEHwAgn6Mv4NON1StaC0txXTOlk1tDSLMquQJoaUx7LUSH8XPP9Qp6ms72W7xitGA
-         AWIoMLhfFyDVP+VloOWFx/Rpp3UP+DI6lRSVi8xxCt8NV7+nptfz38K0jUwktwX6OTx8
-         KUqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=WDHDco1ME1kp63nAFCVLvw8uKReZNIKLpXHBwYYZT9A=;
-        b=4reuA25i6Bu4XMOEAl3IwRsGG28D9aNhXXoXZIYNX2r8m1/hiuMt32D4h4TKB+vaqv
-         /RVqglwWaQ9DkeEOQvWW5swdsAZ+Tu0dAI/jm3EjtGShw8hK3wDlMUWBsEHlHD2S35eX
-         Vi9nYIeYLGVO73TZadYWa+G0SeWnp4tCZCkMTvnIZdPPKihKS2+ebO2N+LMBdBgD5ljz
-         ysDwrqU+i05xtcIfvxnF5AzmI/OXZ2DsFkjWknoBWbvE9J+DieRCw1fk4i7m5WprWk2P
-         OMQbnHyOHOP2LZHhpPLdIWJmWBwEAkkktgBNf5fwclK4o6QQGzBq1SZKNDAAyqZgoyTH
-         C2ZA==
-X-Gm-Message-State: ACgBeo22O8OHHcjsrvc5xLQQpDCHCJl2pFUO2Jhpmw2U2xLLWI3zh6uv
-        Ob2op31NVxLI7wjKxnZ6q+c=
-X-Google-Smtp-Source: AA6agR7KdYwTWGxNx+ZcM0/CPJ7ZlS1H4M18Hj2P1sflzt+HSCqIzyuUoOMxG7urfULOOlZgetdgcw==
-X-Received: by 2002:a05:6a00:124d:b0:538:295a:1c47 with SMTP id u13-20020a056a00124d00b00538295a1c47mr7334243pfi.5.1662610084334;
-        Wed, 07 Sep 2022 21:08:04 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-94.three.co.id. [180.214.232.94])
-        by smtp.gmail.com with ESMTPSA id oa11-20020a17090b1bcb00b002007b60e288sm568745pjb.23.2022.09.07.21.08.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 21:08:03 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id BC9D4103D97; Thu,  8 Sep 2022 11:07:59 +0700 (WIB)
-Date:   Thu, 8 Sep 2022 11:07:59 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Babu Moger <babu.moger@amd.com>
-Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, fenghua.yu@intel.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        eranian@google.com
-Subject: Re: [PATCH v4 13/13] Documentation/x86: Update resctrl_ui.rst for
- new features
-Message-ID: <Yxlqn0C8rDsLUHNv@debian.me>
-References: <166257348081.1043018.11227924488792315932.stgit@bmoger-ubuntu>
- <166257368995.1043018.8665350782054895088.stgit@bmoger-ubuntu>
+        with ESMTP id S229477AbiIHFbV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 01:31:21 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D409B6B642;
+        Wed,  7 Sep 2022 22:31:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8C577B81F05;
+        Thu,  8 Sep 2022 05:31:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5F29C433D6;
+        Thu,  8 Sep 2022 05:31:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1662615078;
+        bh=993P6P5uXUu3gMFdwZ6bKw95vMR8jDKZUPI8ijKD64Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LPmK5FNxEtNNpbGCkMIWknBOvFfca0Gn5VRehRES829d1issxJtdRujj/76bPTft5
+         pF1+HRBk3NDLgnNDUNlCBHGRvKHftiyeRfbtYsujNgab7cjrtSZbMdk6TQb8jpzCU0
+         YSliZe8vhr/40UEXi2AbPhsCUt23CANxyFm/oH0o=
+Date:   Thu, 8 Sep 2022 07:31:40 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v12 1/3] x86/tdx: Add TDX Guest attestation interface
+ driver
+Message-ID: <Yxl+PE4A+WUfQ7bl@kroah.com>
+References: <20220908002723.923241-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20220908002723.923241-2-sathyanarayanan.kuppuswamy@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="mBYbnV23ZAQONOAr"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <166257368995.1043018.8665350782054895088.stgit@bmoger-ubuntu>
+In-Reply-To: <20220908002723.923241-2-sathyanarayanan.kuppuswamy@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Sep 07, 2022 at 05:27:20PM -0700, Kuppuswamy Sathyanarayanan wrote:
+> +	/*
+> +	 * Per TDX Module 1.0 specification, section titled
+> +	 * "TDG.MR.REPORT", REPORTDATA length is fixed as
+> +	 * TDX_REPORTDATA_LEN, TDREPORT length is fixed as
+> +	 * TDX_REPORT_LEN, and TDREPORT subtype is fixed as
+> +	 * 0. Also check for valid user pointers.
+> +	 */
+> +	if (!req.reportdata || !req.tdreport || req.subtype ||
+> +		req.rpd_len != TDX_REPORTDATA_LEN ||
+> +		req.tdr_len != TDX_REPORT_LEN)
+> +		return -EINVAL;
 
---mBYbnV23ZAQONOAr
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+You never verify that your reserved[7] fields are actually set to 0,
+which means you can never use them in the future :(
 
-On Wed, Sep 07, 2022 at 01:01:29PM -0500, Babu Moger wrote:
-> Update the documentation for the new features:
-> 1. Slow Memory Bandwidth allocation (SMBA).
->    With this feature, the QOS  enforcement policies can be applied
->    to the external slow memory connected to the host. QOS enforcement
->    is accomplished by assigning a Class Of Service (COS) to a processor
->    and specifying allocations or limits for that COS for each resource
->    to be allocated.
->=20
-> 2. Bandwidth Monitoring Event Configuration (BMEC).
->    The bandwidth monitoring events mbm_total_bytes and mbm_local_bytes
->    are set to count all the total and local reads/writes respectively.
->    With the introduction of slow memory, the two counters are not
->    enough to count all the different types are memory events. With the
->    feature BMEC, the users have the option to configure mbm_total_bytes
->    and mbm_local_bytes to count the specific type of events.
->=20
-> Also add configuration instructions with examples.
->=20
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
->  Documentation/x86/resctrl.rst |  148 +++++++++++++++++++++++++++++++++++=
-+++++-
->  1 file changed, 146 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
-> index 71a531061e4e..56581587c1a3 100644
-> --- a/Documentation/x86/resctrl.rst
-> +++ b/Documentation/x86/resctrl.rst
-> @@ -17,14 +17,16 @@ AMD refers to this feature as AMD Platform Quality of=
- Service(AMD QoS).
->  This feature is enabled by the CONFIG_X86_CPU_RESCTRL and the x86 /proc/=
-cpuinfo
->  flag bits:
-> =20
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->  RDT (Resource Director Technology) Allocation	"rdt_a"
->  CAT (Cache Allocation Technology)		"cat_l3", "cat_l2"
->  CDP (Code and Data Prioritization)		"cdp_l3", "cdp_l2"
->  CQM (Cache QoS Monitoring)			"cqm_llc", "cqm_occup_llc"
->  MBM (Memory Bandwidth Monitoring)		"cqm_mbm_total", "cqm_mbm_local"
->  MBA (Memory Bandwidth Allocation)		"mba"
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> +SMBA (Slow Memory Bandwidth Allocation)		"smba"
-> +BMEC (Bandwidth Monitoring Event Configuration) "bmec"
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> =20
->  To use the feature mount the file system::
-> =20
-> @@ -161,6 +163,23 @@ with the following files:
->  "mon_features":
->  		Lists the monitoring events if
->  		monitoring is enabled for the resource.
-> +                Example output:
-> +
-> +                # cat /sys/fs/resctrl/info/L3_MON/mon_features
-> +                llc_occupancy
-> +                mbm_total_bytes
-> +                mbm_local_bytes
-> +
-> +                If the system supports Bandwidth Monitoring Event
-> +                Configuration (BMEC), then the bandwidth events will
-> +                be configurable. Then the output will be.
-> +
-> +                # cat /sys/fs/resctrl/info/L3_MON/mon_features
-> +                llc_occupancy
-> +                mbm_total_bytes
-> +                mbm_total_config
-> +                mbm_local_bytes
-> +                mbm_local_config
-> =20
-Use code blocks for terminal output above:
+Please fix that up, thanks.
 
----- >8 ----
-t a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
-index 56581587c1a331..6474cf655792bf 100644
---- a/Documentation/x86/resctrl.rst
-+++ b/Documentation/x86/resctrl.rst
-@@ -163,23 +163,23 @@ with the following files:
- "mon_features":
- 		Lists the monitoring events if
- 		monitoring is enabled for the resource.
--                Example output:
-+                Example::
-=20
--                # cat /sys/fs/resctrl/info/L3_MON/mon_features
--                llc_occupancy
--                mbm_total_bytes
--                mbm_local_bytes
-+                   # cat /sys/fs/resctrl/info/L3_MON/mon_features
-+                   llc_occupancy
-+                   mbm_total_bytes
-+                   mbm_local_bytes
-=20
-                 If the system supports Bandwidth Monitoring Event
-                 Configuration (BMEC), then the bandwidth events will
--                be configurable. Then the output will be.
-+                be configurable. The output will be::
-=20
--                # cat /sys/fs/resctrl/info/L3_MON/mon_features
--                llc_occupancy
--                mbm_total_bytes
--                mbm_total_config
--                mbm_local_bytes
--                mbm_local_config
-+                   # cat /sys/fs/resctrl/info/L3_MON/mon_features
-+                   llc_occupancy
-+                   mbm_total_bytes
-+                   mbm_total_config
-+                   mbm_local_bytes
-+                   mbm_local_config
-=20
- "max_threshold_occupancy":
- 		Read/write file provides the largest value (in
-
-> +        Following are the types of events supported:
-> +
-> +        =3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +        Bits    Description
-> +        =3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +        6       Dirty Victims from the QOS domain to all types of memory
-> +        5       Reads to slow memory in the non-local NUMA domain
-> +        4       Reads to slow memory in the local NUMA domain
-> +        3       Non-temporal writes to non-local NUMA domain
-> +        2       Non-temporal writes to local NUMA domain
-> +        1       Reads to memory in the non-local NUMA domain
-> +        0       Reads to memory in the local NUMA domain
-> +        =3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-
-The table above looks OK.
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---mBYbnV23ZAQONOAr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYxlqmAAKCRD2uYlJVVFO
-o8IYAQCRiGQSsGMwJQ41qfcHFjEW5KgsFxORXsuACBFHmC4I6gEA6PAjuvMBG7p8
-I0qGiGptjY6qv61XHvakeps6DWzwlwY=
-=GTK/
------END PGP SIGNATURE-----
-
---mBYbnV23ZAQONOAr--
+greg k-h
