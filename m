@@ -2,145 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B25F8C6FA86
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 20:21:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECE3BC54EE9
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 20:36:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229696AbiIHUVt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Sep 2022 16:21:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59736 "EHLO
+        id S229492AbiIHUgF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Sep 2022 16:36:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbiIHUVs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 16:21:48 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F992EC74A;
-        Thu,  8 Sep 2022 13:21:47 -0700 (PDT)
+        with ESMTP id S229655AbiIHUgE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 16:36:04 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1D41A926F;
+        Thu,  8 Sep 2022 13:36:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662668507; x=1694204507;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=a7T/JGLT6ZN2mqHLe4wvsZL3e/wJbh1R0c15TYv0olA=;
-  b=Kyn2rGHU+Gr2WOKOPlAZ6r6W40cjNWB2GmN2NCoKaR03AfaXwY0Q4BqU
-   W8lIOCgPUhFTHHjArWwDMH+xsfsnoaBz6c1rQqp1NY/deReN+WkOvgmbq
-   CyESzPZtYm46HcscqthtkA5crwSqi+lLppgOy0Lsgbts6iw9jU9swmLG1
-   QYqpgsBrVO1yBrAA6aHPURYlleL9lWyTkcqbmhM60OsNjVjLPyTw8J/uA
-   H9gdd5eM5QArCM6lLJP8IpJfF/pRnxKNE0YZZFldpGQ1sOgLBFeh/YAVA
-   gsbMwdgnJx3iQhyJRqIy/eiIiKDZwxUBD2FNI5PAKw7V0Y2IvvXj2pito
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="277703539"
+  t=1662669362; x=1694205362;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=m6CZNX2aXbq9rsJJYxU4jwyWhzwBiPojrlK/DZM6cxU=;
+  b=jGh9LAZ1M9EtYHA1TVpZpO1MC2rUfeWSVed7spVN9MxcrzMuyrLlaKD1
+   o599vt0bi/nZQX4UxQZLJkAamZQpLYLWHssNCx45dJoS0MoRr9eK4kCS9
+   DME/bE6FXAoHp8cbCgC/yjbTOEjy8VLDuUMqypOu2kn5baa4temC/Hb9N
+   GZhfGm5H5ezpj58G3OqNmjRf8NUm+aLiHLeckFF0EpMBnlAtWpqlZ7HHu
+   QSJ4dRqdjotFmSTAkGAY1JtnCLQ7nK51+tx5DFy6jkZ6GmI8yU7yQZA8k
+   S7WVQCAV2ChvlACdgA5ZYjIWS4EzMmnsDyFiHMWHT6o+Iw+upLqsw40vM
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="359047820"
 X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
-   d="scan'208";a="277703539"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 13:21:46 -0700
+   d="scan'208";a="359047820"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 13:36:02 -0700
 X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
-   d="scan'208";a="648182741"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 13:21:45 -0700
-Date:   Thu, 8 Sep 2022 13:21:57 -0700 (PDT)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
-        russell.h.weight@intel.com, basheer.ahmed.muddebihal@intel.com,
-        Tom Rix <trix@redhat.com>, Moritz Fischer <mdf@kernel.org>,
-        linux-fpga@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        tianfei.zhang@intel.com, Jonathan Corbet <corbet@lwn.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?ISO-8859-15?Q?Niklas_S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Johan Hovold <johan@kernel.org>, Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH v1 4/5] fpga: dfl: add generic support for MSIX
- interrupts
-In-Reply-To: <CAMuHMdWwRXKP51vX9KYjiwdZ9mUhsnLxkrAex+LwKpCw-H7=8A@mail.gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2209081318250.61321@rhweight-WRK1>
-References: <20220906190426.3139760-1-matthew.gerlach@linux.intel.com> <20220906190426.3139760-5-matthew.gerlach@linux.intel.com> <YxeqTdny7Nu7LzZo@smile.fi.intel.com> <alpine.DEB.2.22.394.2209071433320.3336870@rhweight-WRK1> <YxnMLI17XvjN74DW@smile.fi.intel.com>
- <alpine.DEB.2.22.394.2209081031450.61321@rhweight-WRK1> <CAMuHMdWwRXKP51vX9KYjiwdZ9mUhsnLxkrAex+LwKpCw-H7=8A@mail.gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+   d="scan'208";a="860180227"
+Received: from jkdavis-mobl.amr.corp.intel.com (HELO [10.212.157.35]) ([10.212.157.35])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 13:36:00 -0700
+Message-ID: <ac10ec37-91c8-031e-b3d3-843eaf28f0ee@intel.com>
+Date:   Thu, 8 Sep 2022 13:36:00 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v12 1/3] x86/tdx: Add TDX Guest attestation interface
+ driver
+Content-Language: en-US
+To:     Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220908002723.923241-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20220908002723.923241-2-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <Yxl+PE4A+WUfQ7bl@kroah.com>
+ <6cf407ed-95c7-0db4-d581-b85efad13239@linux.intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <6cf407ed-95c7-0db4-d581-b85efad13239@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 9/8/22 12:07, Sathyanarayanan Kuppuswamy wrote:
+> On 9/7/22 10:31 PM, Greg Kroah-Hartman wrote:
+>> On Wed, Sep 07, 2022 at 05:27:20PM -0700, Kuppuswamy Sathyanarayanan wrote:
+>>> +	/*
+>>> +	 * Per TDX Module 1.0 specification, section titled
+>>> +	 * "TDG.MR.REPORT", REPORTDATA length is fixed as
+>>> +	 * TDX_REPORTDATA_LEN, TDREPORT length is fixed as
+>>> +	 * TDX_REPORT_LEN, and TDREPORT subtype is fixed as
+>>> +	 * 0. Also check for valid user pointers.
+>>> +	 */
+>>> +	if (!req.reportdata || !req.tdreport || req.subtype ||
+>>> +		req.rpd_len != TDX_REPORTDATA_LEN ||
+>>> +		req.tdr_len != TDX_REPORT_LEN)
+>>> +		return -EINVAL;
+>> You never verify that your reserved[7] fields are actually set to 0,
+>> which means you can never use them in the future :(
+> Currently, we don't use those fields in our code. Why do we have to
+> make sure they are set to zero?
 
+Yes.
 
-On Thu, 8 Sep 2022, Geert Uytterhoeven wrote:
+> Can't we add checks when we really use them in future?
 
-> Hi Matthew,
->
-> On Thu, Sep 8, 2022 at 7:34 PM <matthew.gerlach@linux.intel.com> wrote:
->> On Thu, 8 Sep 2022, Andy Shevchenko wrote:
->>> On Wed, Sep 07, 2022 at 02:37:32PM -0700, matthew.gerlach@linux.intel.com wrote:
->>>> On Tue, 6 Sep 2022, Andy Shevchenko wrote:
->>>>> On Tue, Sep 06, 2022 at 12:04:25PM -0700, matthew.gerlach@linux.intel.com wrote:
->>>
->>> ...
->>>
->>>>>> +  if (fid != FEATURE_ID_AFU && fid != PORT_FEATURE_ID_ERROR &&
->>>>>> +      fid != PORT_FEATURE_ID_UINT && fid != FME_FEATURE_ID_GLOBAL_ERR) {
->>>>>> +          v = readq(base);
->>>>>> +          v = FIELD_GET(DFH_VERSION, v);
->>>>>> +
->>>>>> +          if (v == 1) {
->>>>>> +                  v =  readq(base + DFHv1_CSR_SIZE_GRP);
->>>>>
->>>>> I am already lost what v keeps...
->>>>>
->>>>> Perhaps
->>>>>
->>>>>             v = readq(base);
->>>>>             switch (FIELD_GET(DFH_VERSION, v)) {
->>>>>             case 1:
->>>>>                     ...
->>>>>                     break;
->>>>>             }
->>>>
->>>> How about?
->>>>              if (FIELD_GET(DFH_VERSION, readq(base)) == 1) {
->>>>                      ...
->>>>              }
->>>
->>> This one tends to be expanded in the future, so I would keep it switch case.
->>>
->>
->> I'm okay with using the switch statement, but how about the following?
->>
->>                 switch (FIELD_GET(DFH_VERSION, readq(base))) {
->>                  case 1:
->>                         ...
->>                         break;
->>                 }
->
-> Would it make sense to print an error if a newer version than 1 is detected?
-> BTW, what is the expected value when DFHv1 is not detected? Zero
-> or an arbitrary number?
->
-> Gr{oetje,eeting}s,
->
->                        Geert
->
+No.
 
-Hi Geert,
+This has been a hard learned lesson both by people writing software and
+designing hardware interfaces: if you _let_ folks pass garbage you have
+to _keep_ letting them pass garbage forever.  It becomes part of the ABI.
 
-Currently, DFHs that are not version 1 should be version 0. I will fill in 
-the switch statement to do nothing for version 0, and the default case 
-will print a warning of an unexpected version.
-
-Thanks for the feedback.
-
-Matthew Gerlach
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                -- Linus Torvalds
->
+I'm sorry you missed the memo on this one.  But, this is one million
+percent a best practice across the industry.  Please do it.
