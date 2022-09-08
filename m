@@ -2,116 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF6DAC54EE9
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 20:45:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C715C38145
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 21:17:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229494AbiIHUpX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Sep 2022 16:45:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40636 "EHLO
+        id S229931AbiIHVRH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Sep 2022 17:17:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbiIHUpW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 16:45:22 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCD7152FE7;
-        Thu,  8 Sep 2022 13:45:20 -0700 (PDT)
+        with ESMTP id S229685AbiIHVRG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 17:17:06 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19DFDC32F7;
+        Thu,  8 Sep 2022 14:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662669920; x=1694205920;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=trJg9IQop4EvJ5Exf6dImqRzP+GEfhRt13bo6iZ+hU8=;
-  b=TAGiqDlxQlSjItHT5C+1znO7G1NIEuCAxWaK7N5o5LGagGG5KUioAKmD
-   k/8KkieNKxhsoyilQFdu2SOA72nHWgXQCR1ClURnJns9K54js18qJjPkQ
-   mpJz92uCApHi4xnzp/sVY+bTpJBAGjvPYLVp+YF+oBLRpCUYheKzK575D
-   6hMuQIXPbss36X9vwo58Qix0ZnPzqK9/yD9JrNu0b2mXxf7aAcYpVkABk
-   gCmLQxRqbbvH2HuXJR50rTe9UhUluEAJKqp5yzbivXOEsfB98UpTvyeP8
-   4EITwj449+77nEJSNOde6gYvC690PbC7B4W7kt9LjzFB+BBDVxl6gBXxW
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="298657908"
+  t=1662671825; x=1694207825;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WCfMZhbDQ5gEis6Z2V2kC1NDXjb3rrNnL4l392+aqgw=;
+  b=NwrDHLkFG4hUa/ZF27CxCDhSKpDG+hzLyCO80b9DmXrMKCNpOO+KHy1c
+   /mXAvzN+M5yWzc13QMzyv7vDSD6StMV4LRd/SmhlixaC5N8BURPkHo6St
+   T2ZZQh4w2txE2oHOuCB5XaQY/CQO/c0g3pjh5ln4AHqePiMHav5Kbk8Cd
+   TgOtea7rBM7PyZ3j5wQtCGTiuK4g8ikMyhoP+L5HYmv+qwvQJsxXgJdzG
+   8DRYYMOTiMt7NZ04SHuyFUJhzGuMihG/3HCdX8S+vMDuKxKPgzZvUJiqp
+   UJ9k+4CXrqzSO4P1dsPHEWPe42JQXZyloHITj8yQXeZ97SMR8rbABDWfp
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="284346824"
 X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
-   d="scan'208";a="298657908"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 13:45:20 -0700
+   d="scan'208";a="284346824"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 14:17:04 -0700
 X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
-   d="scan'208";a="740814983"
-Received: from duttamou-mobl1.amr.corp.intel.com (HELO [10.209.109.184]) ([10.209.109.184])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 13:45:19 -0700
-Message-ID: <19dfab3e-8ab4-87ee-fadf-a1a58ae3d2d7@linux.intel.com>
-Date:   Thu, 8 Sep 2022 13:45:19 -0700
+   d="scan'208";a="683389519"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 14:16:59 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1oWOtL-00AJUn-3A;
+        Fri, 09 Sep 2022 00:16:55 +0300
+Date:   Fri, 9 Sep 2022 00:16:55 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     matthew.gerlach@linux.intel.com
+Cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
+        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
+Subject: Re: [PATCH v1 5/5] tty: serial: 8250: add DFL bus driver for Altera
+ 16550.
+Message-ID: <Yxpbx0Tclqy4O9cR@smile.fi.intel.com>
+References: <20220906190426.3139760-1-matthew.gerlach@linux.intel.com>
+ <20220906190426.3139760-6-matthew.gerlach@linux.intel.com>
+ <YxesjfoBagiC3gGE@smile.fi.intel.com>
+ <alpine.DEB.2.22.394.2209081049290.61321@rhweight-WRK1>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v12 1/3] x86/tdx: Add TDX Guest attestation interface
- driver
-Content-Language: en-US
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220908002723.923241-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220908002723.923241-2-sathyanarayanan.kuppuswamy@linux.intel.com>
- <Yxl+PE4A+WUfQ7bl@kroah.com>
- <6cf407ed-95c7-0db4-d581-b85efad13239@linux.intel.com>
- <ac10ec37-91c8-031e-b3d3-843eaf28f0ee@intel.com>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <ac10ec37-91c8-031e-b3d3-843eaf28f0ee@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2209081049290.61321@rhweight-WRK1>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Sep 08, 2022 at 11:27:03AM -0700, matthew.gerlach@linux.intel.com wrote:
+> On Tue, 6 Sep 2022, Andy Shevchenko wrote:
+> > On Tue, Sep 06, 2022 at 12:04:26PM -0700, matthew.gerlach@linux.intel.com wrote:
+
+...
+
+> > > +	dev_dbg(dfluart->dev, "UART_CLK_ID %llu Hz\n", dfluart->uart_clk);
+> > 
+> > Isn't this available via normal interfaces to user?
+> 
+> I am not sure what "normal interfaces to user" you are referring to.  The
+> code is just trying to read the frequency of the input clock to the uart
+> from a DFH paramter.
+
+I mean dev_dbg() call. The user can get uart_clk via one of the UART/serial
+ABIs (don't remember which one, though).
 
 
-On 9/8/22 1:36 PM, Dave Hansen wrote:
-> On 9/8/22 12:07, Sathyanarayanan Kuppuswamy wrote:
->> On 9/7/22 10:31 PM, Greg Kroah-Hartman wrote:
->>> On Wed, Sep 07, 2022 at 05:27:20PM -0700, Kuppuswamy Sathyanarayanan wrote:
->>>> +	/*
->>>> +	 * Per TDX Module 1.0 specification, section titled
->>>> +	 * "TDG.MR.REPORT", REPORTDATA length is fixed as
->>>> +	 * TDX_REPORTDATA_LEN, TDREPORT length is fixed as
->>>> +	 * TDX_REPORT_LEN, and TDREPORT subtype is fixed as
->>>> +	 * 0. Also check for valid user pointers.
->>>> +	 */
->>>> +	if (!req.reportdata || !req.tdreport || req.subtype ||
->>>> +		req.rpd_len != TDX_REPORTDATA_LEN ||
->>>> +		req.tdr_len != TDX_REPORT_LEN)
->>>> +		return -EINVAL;
->>> You never verify that your reserved[7] fields are actually set to 0,
->>> which means you can never use them in the future :(
->> Currently, we don't use those fields in our code. Why do we have to
->> make sure they are set to zero?
-> 
-> Yes.
-> 
->> Can't we add checks when we really use them in future?
-> 
-> No.
-> 
-> This has been a hard learned lesson both by people writing software and
-> designing hardware interfaces: if you _let_ folks pass garbage you have
-> to _keep_ letting them pass garbage forever.  It becomes part of the ABI.
-> 
-> I'm sorry you missed the memo on this one.  But, this is one million
-> percent a best practice across the industry.  Please do it.
+...
 
-Ok. Thanks for clarifying it. I will fix it in next version.
+> > > +#define FME_FEATURE_ID_UART 0x24
+> > 
+> > Purpose of this definition? For me with or without is still an ID.
+> 
+> I don't think I understand the question. Is the name of the macro unclear,
+> or do you think it is not necessary?
+
+I mean how the definition is useful / useless. I.o.w. I think it's not
+necessary.
 
 -- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+With Best Regards,
+Andy Shevchenko
+
+
