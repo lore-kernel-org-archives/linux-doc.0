@@ -2,119 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A30DAC38145
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 16:47:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A863C6FA86
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Sep 2022 17:34:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230177AbiIHQrB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Sep 2022 12:47:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42876 "EHLO
+        id S231555AbiIHReQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Sep 2022 13:34:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiIHQrA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 12:47:00 -0400
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 235A9B4E9B;
-        Thu,  8 Sep 2022 09:46:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=qtQp5tdiILv0tGhvoMFeR9PrV87mSTbmJDKlZd+2Xwo=; b=HtKhJIlDKAJ/7ZH7a225FlpstI
-        pLSoQwRGmhUTbEa9FpxQXUgJ8KKyQnjZSl2+gbWF163qf4Kp+/TBap7U+CpunKE/9z1RhKN+MJqCP
-        x7mNm5EUPwoLf9yh/ILb/bp9T7s6WCO74zW9J4enwNCDdQ2jM40ofiq0th8YG6v17yHYf0o+9MUcG
-        7rCkXOcIvvXmwIqTtz79cwHCarB8Qm8W7iDAATF/jy1o5tEWjXk0ugQ1fR9IJzlb0OjGDVqO07xU4
-        u1rr9gaYFjNALrBWMs3VOfLFYWGDRM3Tae/Hpg4BxdvZMjZrSmBotW/dGxOclBz0bYf5IacabWd9G
-        3XmNmVmQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34206)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1oWKfv-0006nM-Gm; Thu, 08 Sep 2022 17:46:47 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1oWKfq-0002DO-Ck; Thu, 08 Sep 2022 17:46:42 +0100
-Date:   Thu, 8 Sep 2022 17:46:42 +0100
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Sven Peter <sven@svenpeter.dev>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
-        devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 7/7] arm64: dts: apple: Add SMC node to t8103/t6001
- devicetrees
-Message-ID: <Yxoccowow9avoZ/i@shell.armlinux.org.uk>
-References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
- <E1oVYUi-005Cmk-0R@rmk-PC.armlinux.org.uk>
- <8a94f2e6-f537-4e29-8375-e79b84524582@www.fastmail.com>
+        with ESMTP id S231433AbiIHReO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Sep 2022 13:34:14 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA89BC58C3;
+        Thu,  8 Sep 2022 10:34:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662658453; x=1694194453;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=yPoPiu4s5AIvWYRtd6XRgDWLB41yZsUhqTPTHKz4Q3c=;
+  b=eS3FwQVzLLKg3O67WOwhilfi72KLy1lY/LqABwz1kdblZii5iG4FBIXv
+   /wIyAu4Wh2UuF918bctkB/Tcvx2zS+VbQ5bGYqiDi5SoILhYwmy2/lRau
+   aw918TQ2vo0aJqZREtayrb8g7JPcMi1HLPAowTTP0CtL/dV+fBOmes7vG
+   BVdI4OJyemvRKAm2X3zwL3kbfn4fEmFTihf/ZIXtuJ1nMOEJzqENN9XxQ
+   +CpqIe0vvgoTWsJPBrkNL1R5dGlreewGljci0CQF977ParNRQLAW5g26k
+   wvTSHcTB9zjxksVoLnuYWAjCsorWVCkTL4KC2lMoNB9xjEttV7muoNuJq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10464"; a="298611243"
+X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
+   d="scan'208";a="298611243"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 10:34:13 -0700
+X-IronPort-AV: E=Sophos;i="5.93,300,1654585200"; 
+   d="scan'208";a="676796260"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2022 10:34:12 -0700
+Date:   Thu, 8 Sep 2022 10:34:07 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
+        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
+Subject: Re: [PATCH v1 4/5] fpga: dfl: add generic support for MSIX
+ interrupts
+In-Reply-To: <YxnMLI17XvjN74DW@smile.fi.intel.com>
+Message-ID: <alpine.DEB.2.22.394.2209081031450.61321@rhweight-WRK1>
+References: <20220906190426.3139760-1-matthew.gerlach@linux.intel.com> <20220906190426.3139760-5-matthew.gerlach@linux.intel.com> <YxeqTdny7Nu7LzZo@smile.fi.intel.com> <alpine.DEB.2.22.394.2209071433320.3336870@rhweight-WRK1>
+ <YxnMLI17XvjN74DW@smile.fi.intel.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8a94f2e6-f537-4e29-8375-e79b84524582@www.fastmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 06, 2022 at 03:42:47PM +0200, Sven Peter wrote:
-> 
-> 
-> On Tue, Sep 6, 2022, at 15:20, Russell King wrote:
-> > From: Hector Martin <marcan@marcan.st>
-> >
-> > Signed-off-by: Hector Martin <marcan@marcan.st>
-> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > ---
-> >  arch/arm64/boot/dts/apple/t8103.dtsi | 26 ++++++++++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi 
-> > b/arch/arm64/boot/dts/apple/t8103.dtsi
-> > index 51a63b29d404..15c6023cf612 100644
-> > --- a/arch/arm64/boot/dts/apple/t8103.dtsi
-> > +++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-> > @@ -336,6 +336,32 @@ wdt: watchdog@23d2b0000 {
-> >  			interrupts = <AIC_IRQ 338 IRQ_TYPE_LEVEL_HIGH>;
-> >  		};
-> > 
-> > +		smc_mbox: mbox@23e408000 {
-> > +			compatible = "apple,t8103-asc-mailbox", "apple,asc-mailbox-v4";
-> > +			reg = <0x2 0x3e408000 0x0 0x4000>;
-> > +			interrupt-parent = <&aic>;
-> > +			interrupts = <AIC_IRQ 400 IRQ_TYPE_LEVEL_HIGH>,
-> > +				<AIC_IRQ 401 IRQ_TYPE_LEVEL_HIGH>,
-> > +				<AIC_IRQ 402 IRQ_TYPE_LEVEL_HIGH>,
-> > +				<AIC_IRQ 403 IRQ_TYPE_LEVEL_HIGH>;
-> > +			interrupt-names = "send-empty", "send-not-empty",
-> > +				"recv-empty", "recv-not-empty";
-> > +			#mbox-cells = <0>;
-> > +		};
-> > +
-> > +		smc: smc@23e400000 {
-> 
-> Usually we sort these nodes by their address to prevent merge conflicts.
-> I guess it doesn't really matter here though since nothing will be between
-> these two nodes.
-> Either way,
 
-If that's how the nodes should be sorted, let's do it now so we don't
-end up with another patch that re-ordering this - I've made the change.
 
-> Reviewed-by: Sven Peter <sven@svenpeter.dev>
+On Thu, 8 Sep 2022, Andy Shevchenko wrote:
 
-Thanks!
+> On Wed, Sep 07, 2022 at 02:37:32PM -0700, matthew.gerlach@linux.intel.com wrote:
+>> On Tue, 6 Sep 2022, Andy Shevchenko wrote:
+>>> On Tue, Sep 06, 2022 at 12:04:25PM -0700, matthew.gerlach@linux.intel.com wrote:
+>
+> ...
+>
+>>>> +	if (fid != FEATURE_ID_AFU && fid != PORT_FEATURE_ID_ERROR &&
+>>>> +	    fid != PORT_FEATURE_ID_UINT && fid != FME_FEATURE_ID_GLOBAL_ERR) {
+>>>> +		v = readq(base);
+>>>> +		v = FIELD_GET(DFH_VERSION, v);
+>>>> +
+>>>> +		if (v == 1) {
+>>>> +			v =  readq(base + DFHv1_CSR_SIZE_GRP);
+>>>
+>>> I am already lost what v keeps...
+>>>
+>>> Perhaps
+>>>
+>>> 		v = readq(base);
+>>> 		switch (FIELD_GET(DFH_VERSION, v)) {
+>>> 		case 1:
+>>> 			...
+>>> 			break;
+>>> 		}
+>>
+>> How about?
+>> 		if (FIELD_GET(DFH_VERSION, readq(base)) == 1) {
+>> 			...
+>> 		}
+>
+> This one tends to be expanded in the future, so I would keep it switch case.
+>
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+I'm okay with using the switch statement, but how about the following?
+
+ 		switch (FIELD_GET(DFH_VERSION, readq(base))) {
+                 case 1:
+ 			...
+ 			break;
+ 		}
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+>
