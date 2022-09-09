@@ -2,118 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4CE2ECAAA1
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 21:36:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D620ECAAA1
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 21:38:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbiIIVgJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Sep 2022 17:36:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53288 "EHLO
+        id S231484AbiIIVix (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Sep 2022 17:38:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230108AbiIIVgI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 17:36:08 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CA84F3439;
-        Fri,  9 Sep 2022 14:36:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662759366; x=1694295366;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=nOmysUMqkWG2qS+aBrtlAZ6GS6f/rSpIBnTNj+QpHbo=;
-  b=de3r9CquOr4VDK1EF5PyRaYpZkJB7QhoGBMvJTp+YXRzLQd8fx9zaxoB
-   QKPmceGc8GJDR4yechGKwPoSrSti0pVFSnOA5EOz8Y9ORrzcJJRSJXn7S
-   7nrhNUaPts/D0z/a9TogXC0auC3EJQgX066QQQ5UXgFrgaV/HKJ76Q8cM
-   zOyrNH2/uY7Q+OVINXDtPCDbP7P9x8AHMBbxU9D11QnFJAhn76OyUQ8p8
-   2mvYG5WGoV9o1Who/z3nfi83NOHEzHHGqByPk9Ko8KDOpmyc86PTmzYtc
-   K0qzERUnuBWRUvipMxCDxz3lXH9YlyUd3VjzIrCRdgfbV1pav2DV9Pio3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10465"; a="361529380"
-X-IronPort-AV: E=Sophos;i="5.93,304,1654585200"; 
-   d="scan'208";a="361529380"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2022 14:36:05 -0700
-X-IronPort-AV: E=Sophos;i="5.93,304,1654585200"; 
-   d="scan'208";a="566506447"
-Received: from omeier-mobl1.ger.corp.intel.com (HELO [10.209.54.138]) ([10.209.54.138])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2022 14:36:05 -0700
-Message-ID: <129981cd-32b7-0228-f932-4367f6c79316@intel.com>
-Date:   Fri, 9 Sep 2022 14:36:05 -0700
+        with ESMTP id S231164AbiIIViw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 17:38:52 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1353F296E
+        for <linux-doc@vger.kernel.org>; Fri,  9 Sep 2022 14:38:50 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id d12-20020a05600c34cc00b003a83d20812fso2499673wmq.1
+        for <linux-doc@vger.kernel.org>; Fri, 09 Sep 2022 14:38:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=2Y+NLNuQyKNaFU6mPTgzkQeYfosTVSCZJmxTb/6tykg=;
+        b=S9fvTRoZDs1adI4sC3PL20INBwJC7nCemJe/AWoDTwEcfdlhgkbeQ39SsyPpbuMjDN
+         rVj+mRn1WT6L0Ojlq1kZzN8OWl+nNhMwBrR7+vfwU/D3QXYA3+ZwnOzrQf6mYAFLjSKs
+         J/P+mrf/AGE3uU4oRTx3+dWzPl+UQfnW/BHvCnvvziTLm5OaWP+0Ha+d2oFsW4chiekM
+         ZxcMhqfKh2Osx3CpVUUXCMb0Px0hkDa/gRrE/MccqDaNC2X00pNm/+7B4E0wK+lzmC8M
+         /5eZN3sut+pyn9MKpdI2ajTtNp9TZeFLfKo6oA0DTH6ccWmsOXF9fMqs4BS8nsUdg1/k
+         ID3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=2Y+NLNuQyKNaFU6mPTgzkQeYfosTVSCZJmxTb/6tykg=;
+        b=yyl1mu7kZZ7NWkvb2KD1XAbGJsTnr5zXIius/e2qZm8XpFvSRoIoguHHzTRxN2AnR7
+         LhzDqXK8VJg0+wxl2cGwmacqWjkGcaxXWWTiOgQjSDPpH2eIwqRJ5gm5SVq1zMuGmU21
+         CTKtx3SWU0N9M9vsLg9sxwPOukOOMhOjNb4CCHo0O9UEIPqZZTlwYc9hn8Xy1OqNanHy
+         aGznd7BQ9rqjhliKHALKTOZnvQJ44AE9YYOiojjhwbnTp16sy8kz3xGzo1A++ycldVz1
+         sPcT/R5JuUyKDsq8NgN3THRxC0Hf/VURvRoVAdYMax+CayCQ7KZCfxkO/55lq98IqCvZ
+         672A==
+X-Gm-Message-State: ACgBeo1ysjDv/EF3GUl2CJWW/14GKNxyE2ux/ag9Nt43m5yM149y8fBX
+        OLKfmfQ9xkEXLLq5QgviXTDOtV7Nt8kpvL007PfJYA==
+X-Google-Smtp-Source: AA6agR55Ji109n89/PIZXx7w8Zwy/UxdI6HoxoE5W3L937PCHDl99glgs5wvCTO9sZZ0mnsie1BGFRbQMfSmWlHgRwg=
+X-Received: by 2002:a7b:c416:0:b0:3ab:73e4:c44a with SMTP id
+ k22-20020a7bc416000000b003ab73e4c44amr6512861wmi.147.1662759529003; Fri, 09
+ Sep 2022 14:38:49 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v4 1/4] Documentation/x86: Explain the purpose for dynamic
- features
-Content-Language: en-US
-To:     "Chang S. Bae" <chang.seok.bae@intel.com>, x86@kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com
-Cc:     hpa@zytor.com, corbet@lwn.net, bagasdotme@gmail.com,
-        tony.luck@intel.com, yang.zhong@intel.com,
-        linux-doc@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220909201540.17705-1-chang.seok.bae@intel.com>
- <20220909201540.17705-2-chang.seok.bae@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <20220909201540.17705-2-chang.seok.bae@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220909180617.374238-1-fmayer@google.com> <202209091432.5FEEE461F7@keescook>
+In-Reply-To: <202209091432.5FEEE461F7@keescook>
+From:   Florian Mayer <fmayer@google.com>
+Date:   Fri, 9 Sep 2022 14:38:37 -0700
+Message-ID: <CAJAyTCBuETy0oY-2tjvKxDDmQCsBdL2d4UU7Fv-ySKZw_S4DNA@mail.gmail.com>
+Subject: Re: [PATCH RESEND] Add sicode to /proc/<PID>/stat.
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Peter Collingbourne <pcc@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/9/22 13:15, Chang S. Bae wrote:
-> +The purpose for dynamic features
-> +--------------------------------
-> +
-> + - Legacy userspace libraries have hard-coded sizes for an alternate signal
-> +   stack. With the arch_prctl() options, the signal frame beyond AVX-512
-> +   and PKRU will not be written by old programs as they are prevented from
-> +   using dynamic features. Then, the small signal stack will be compatible
-> +   on systems that support dynamic features.
+On Fri, 9 Sept 2022 at 14:34, Kees Cook <keescook@chromium.org> wrote:
+>
+> Normally no changes are made to "stat" any more. New additions are made
+> to "status" instead. Could it live there instead?
 
-This doesn't really ever broach the _problem_ that dynamic features solve.
-
-	Legacy userspace libraries often have hard-coded, static sizes
-	for alternate signal stacks, often using MINSIGSTKSZ which is
-	typically 2k.  That stack must be able to store at *least*
-	the signal frame that the kernel sets up before jumping into
-	the signal handler.  That signal frame must include an XSAVE
-	buffer defined by the CPU.
-
-	However, that means that the size of signal stacks is dynamic,
-	not static, because different CPUs have differently-sized XSAVE
-	buffers.  Those old <=2k buffers are now too small for new CPU
-	features like AVX-512, which is causing stack overflows at
-	signal entry.
-
-
-> + - Modern server systems are consolidating more applications to share the
-> +   CPU resource.
-
-I'm not sure what this means.  Are you saying that CPU time is more
-overcommitted?  Or that different users are more likely to be sharing
-the same CPU core?  Or, is this trying to allude to the frequency
-penalties that cores (and even packages) pay for using features like
-AVX-512?
-
-> The risk of applications interfering with each other is
-> +   growing. The controllability on the resource trends to be more
-> +   warranted. Thus, this permission mechanism will be useful for that.
-
-Should this be something more like:
-
-Historically, a CPU shared very few resources with its neighbors outside
-of caches.  A CPU could execute whatever instructions it wanted without
-impacting other CPUs.  Also, there were minimal long-lasting temporal
-effects; an application that preceded yours running on a CPU would not
-impact how your application runs.
-
-That model has been eroding, first with SMT where multiple logical CPUs
-share a core's resources.  Then, with features like AVX-512 that have a
-frequency and thermal impact which can last even after AVX-512 use
-ceases and have an impact wider than a single core.
-
-In other words, it has become easier to be a "noisy neighbor".
-
-Dynamic features allow the kernel limit applications' ability to become
-noisy neighbors in the first place.
+Yes, that would also work.
+I put it in stat for consistency because the exit_code is also there
+(and not in status).
