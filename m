@@ -2,101 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D468CECAAD3
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 21:49:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4A5AECAAA1
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 21:53:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230012AbiIIVta (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Sep 2022 17:49:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48676 "EHLO
+        id S229806AbiIIVxM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Sep 2022 17:53:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230333AbiIIVt2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 17:49:28 -0400
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE47B2F0
-        for <linux-doc@vger.kernel.org>; Fri,  9 Sep 2022 14:49:22 -0700 (PDT)
-Received: from submission (posteo.de [185.67.36.169]) 
-        by mout02.posteo.de (Postfix) with ESMTPS id 2A013240104
-        for <linux-doc@vger.kernel.org>; Fri,  9 Sep 2022 23:49:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-        t=1662760161; bh=3rMTshyvUJWma1obwyTT1MmiezlmAqKA/Is5uYaBc9c=;
-        h=Date:From:To:Cc:Subject:From;
-        b=sE/C3OEGbrvYVVa7dTHZcOroh3qQGxAjI497deVWsx05aMIo+d7EBEJKhiMRDj0Ew
-         cV/Cf4SMvGJPCpGmm1g+GSN0I12H0yFfvN7xNfPGwp6iuye0IngLc46vYG7LoT2bPt
-         F245PQVDUk20PInYuLyDAuZTCv9ieTV4X4uKAKNFY7e0YOVktOVqohl30w5VuNVl9d
-         o5m6rZfUeydVX9MV5zKFwYJeKK6x8oRy15e2gflufgcbf3WZxURzI/uz8pUAxcagy1
-         ohfP3pH4qsDH0IhmIzpV9EAOyiJiG0yFTDOn04pdBan72BM53euXK8tKuWGgHwXtDU
-         0cTAl6tlMmrVw==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4MPV4t3hPBz6tpY;
-        Fri,  9 Sep 2022 23:49:18 +0200 (CEST)
-Date:   Fri,  9 Sep 2022 21:49:14 +0000
-From:   Daniel =?utf-8?Q?M=C3=BCller?= <deso@posteo.net>
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     Andrii Nakryiko <andrii.nakryiko@gmail.com>,
-        Daniel Borkmann <daniel@iogearbox.net>, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH bpf-next v3 1/2] Add subdir support to Documentation
- makefile
-Message-ID: <20220909214914.hdn4rxsj6b2cy3xj@muellerd-fedora-PC2BDTX9>
-References: <20220829091500.24115-1-donald.hunter@gmail.com>
- <20220829091500.24115-2-donald.hunter@gmail.com>
- <3d08894c-b3d1-37e8-664e-48e66dc664ac@iogearbox.net>
- <m2h71k6bw8.fsf@gmail.com>
- <CAEf4BzZ_2wCVTjhAe0XzJ5qfbVhV0pfZeJ=z9Jg_fj_fzD1JFw@mail.gmail.com>
- <m2bkro3lh5.fsf@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <m2bkro3lh5.fsf@gmail.com>
+        with ESMTP id S229690AbiIIVxL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 17:53:11 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0AB870E57;
+        Fri,  9 Sep 2022 14:53:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A3CC61FF5;
+        Fri,  9 Sep 2022 21:53:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58F78C433D6;
+        Fri,  9 Sep 2022 21:53:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1662760389;
+        bh=0JcE0DLdNzQm3AF+ZqlE39XNCX4d5bRLfNDfq0UT/g4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=MBWJF+Ae7WdYf68cBxuz+A7rZmgFkpzsf5z3e0zEWKuLYcSLhPtI2YV1SGKHOY3oC
+         Luy2cPNFoakNi7qC+zQaeo5I81q7yZDg3ogVrDFGH9CAIvXo278uOnjET+AEwkAjdl
+         j/pOtTVmax8W40oStXD8ZsmUhesodTnlrMEBtlAM=
+Date:   Fri, 9 Sep 2022 14:53:08 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Liu Shixin <liushixin2@huawei.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <cgroups@vger.kernel.org>, <linux-mm@kvack.org>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: Re: [PATCH v2] mm/memcontrol: use kstrtobool for swapaccount param
+ parsing
+Message-Id: <20220909145308.f2f61d6992f00ef6977f833b@linux-foundation.org>
+In-Reply-To: <20220909084647.3598299-1-liushixin2@huawei.com>
+References: <20220909084647.3598299-1-liushixin2@huawei.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 09, 2022 at 11:12:22AM +0100, Donald Hunter wrote:
-> Andrii Nakryiko <andrii.nakryiko@gmail.com> writes:
+On Fri, 9 Sep 2022 16:46:47 +0800 Liu Shixin <liushixin2@huawei.com> wrote:
+
+> Use kstrtobool which is more powerful to handle all kinds of parameters
+> like 'Yy1Nn0' or [oO][NnFf] for "on" and "off".
 > 
-> > On Tue, Sep 6, 2022 at 3:50 AM Donald Hunter <donald.hunter@gmail.com> wrote:
-> >>
-> >> Daniel Borkmann <daniel@iogearbox.net> writes:
-> >>
-> >> > On 8/29/22 11:14 AM, Donald Hunter wrote:
-> >> >> Run make in list of subdirs to build generated sources and migrate
-> >> >> userspace-api/media to use this instead of being a special case.
-> >> >> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> >> >
-> >> > Jonathan, given this touches Documentation/Makefile, could you ACK if
-> >> > it looks good to you? Noticed both patches don't have doc: $subj prefix,
-> >> > but that's something we could fix up.
-> >> >
-> >> > Maybe one small request, would be nice to build Documentation/bpf/libbpf/
-> >> > also with every BPF CI run to avoid breakage of program_types.csv. Donald
-> >> > could you check if feasible? Follow-up might be ok too, but up to Andrii.
-> >>
-> >> Sure, I can look at what is needed for the BPF CI run.
-> >>
-> >
-> > Daniel (Mueller, not Borkmann), is this something that can be added to BPF CI?
+> ...
+>
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6037,10 +6037,11 @@
+>  			Execution Facility on pSeries.
+>  
+>  	swapaccount=	[KNL]
+> -			Format: [0|1]
+> +			Format: { [oO][Nn]/Y/y/1 | [oO][Ff]/N/n/0 }
+>  			Enable accounting of swap in memory resource
+> -			controller if no parameter or 1 is given or disable
+> -			it if 0 is given (See Documentation/admin-guide/cgroup-v1/memory.rst)
+> +			controller if no parameter or [oO][Nn]/Y/y/1 is given
+> +			or disable it if [oO][Ff]/N/n/0 is given
+> +			(See Documentation/admin-guide/cgroup-v1/memory.rst)
+>  
+>  	swiotlb=	[ARM,IA-64,PPC,MIPS,X86]
+>  			Format: { <int> [,<int>] | force | noforce }
 
-I think as long as all required packages are available in the CI distribution
-(which I believe is currently a Ubuntu image, but may in the future become Arch
-Linux) it should not be a problem to perform checking in CI. It seems as if
-generating the documentation may take a while, so we should likely try to have
-it run in a separate job. I can't tell what hidden dependencies there may be,
-though.
+mhocko suggested dropping this change as well.
 
-> It looks to me like it can be added to BPF CI if we change docs/conf.py
-> to call a new make target in docs/sphinx/Makefile. Hopefully Daniel can
-> confirm whether this is the case.
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index 0a1a8a846870..5511c0c120d9 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -7434,10 +7434,10 @@ bool mem_cgroup_swap_full(struct folio *folio)
+>  
+>  static int __init setup_swap_account(char *s)
+>  {
+> -	if (!strcmp(s, "1"))
+> -		cgroup_memory_noswap = false;
+> -	else if (!strcmp(s, "0"))
+> -		cgroup_memory_noswap = true;
+> +	bool res;
+> +
+> +	if (!kstrtobool(s, &res))
+> +		cgroup_memory_noswap = !res;
+>  	return 1;
+>  }
+>  __setup("swapaccount=", setup_swap_account);
 
-I am not familiar with the documentation generation, but my quick search seems
-to suggest that this is done by a 3rd party service and is decoupled from BPF
-CI. Specifically, what you suggest may be reflected in the generated docs at
-https://libbpf.readthedocs.io/, but I believe they are created from the libbpf
-GitHub repository, which is only infrequently synced from bpf tree sources. I
-didn't find any indication that CI triggers documentation creation, but it's
-possible I missed something.
+And I agree.  See, the risk with this patch is that someone will
+develop userspace code which relies upon the new behaviour.  Then when
+someone tries to use that code on an older kernel, whoops, it doesn't
+work.  In other words, we're encouraging development of
+non-backward-compatible userspace code.
 
-[...]
-
-Thanks,
-Daniel
+Leaving the documentation as it was (just "0|1") will help to prevent
+that situation.
