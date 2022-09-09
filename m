@@ -2,285 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58514ECAAD5
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 05:24:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 415D1ECAAA1
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 05:25:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbiIIFYg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Sep 2022 01:24:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43234 "EHLO
+        id S230124AbiIIFZd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Sep 2022 01:25:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229562AbiIIFYf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 01:24:35 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0F53C7669;
-        Thu,  8 Sep 2022 22:24:31 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 53433153B;
-        Thu,  8 Sep 2022 22:24:37 -0700 (PDT)
-Received: from [10.162.41.8] (unknown [10.162.41.8])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AEF913F73D;
-        Thu,  8 Sep 2022 22:24:49 -0700 (PDT)
-Message-ID: <1e8642d5-0e2d-5747-d0d2-5aa0817ea4af@arm.com>
-Date:   Fri, 9 Sep 2022 10:54:18 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 4/4] arm64: support batched/deferred tlb shootdown
- during page reclamation
-Content-Language: en-US
-To:     Yicong Yang <yangyicong@huawei.com>, akpm@linux-foundation.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        x86@kernel.org, catalin.marinas@arm.com, will@kernel.org,
+        with ESMTP id S229765AbiIIFZb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 01:25:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2486C11B768;
+        Thu,  8 Sep 2022 22:25:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B6D7060E73;
+        Fri,  9 Sep 2022 05:25:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96C6EC433D6;
+        Fri,  9 Sep 2022 05:25:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1662701127;
+        bh=5ucUGip+DuD7iH3WnYKRFd1earxVUc3d4+Vs7Qq1gho=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=T8+KLjZ4ExVBBh2HkIR5lmVDmr+zJwSD3kOC1eOcKi684sRhK/GHAnCBjpnQ0lcZ3
+         qvsu4+sRjQZW7DFZAGWE/t3MQOE73jX3htBrZqP0DFs+N63OjMkOEWN/Tp2e15OnYU
+         BOHr+DD1q9WRaHIK9K9d8VpskSEJ/W0BTYuistkI=
+Date:   Fri, 9 Sep 2022 07:25:24 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
         linux-doc@vger.kernel.org
-Cc:     corbet@lwn.net, peterz@infradead.org, arnd@arndb.de,
-        linux-kernel@vger.kernel.org, darren@os.amperecomputing.com,
-        yangyicong@hisilicon.com, huzhanyuan@oppo.com, lipeifeng@oppo.com,
-        zhangshiming@oppo.com, guojian@oppo.com, realmz6@gmail.com,
-        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, Barry Song <21cnbao@gmail.com>,
-        wangkefeng.wang@huawei.com, xhao@linux.alibaba.com,
-        prime.zeng@hisilicon.com, Barry Song <v-songbaohua@oppo.com>,
-        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
-References: <20220822082120.8347-1-yangyicong@huawei.com>
- <20220822082120.8347-5-yangyicong@huawei.com>
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <20220822082120.8347-5-yangyicong@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v12 1/3] x86/tdx: Add TDX Guest attestation interface
+ driver
+Message-ID: <YxrORIJIyTvFH+0m@kroah.com>
+References: <20220908002723.923241-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20220908002723.923241-2-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <Yxl+PE4A+WUfQ7bl@kroah.com>
+ <49f7bb67-2f4f-8e06-5420-5b279fdf3199@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <49f7bb67-2f4f-8e06-5420-5b279fdf3199@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Sep 08, 2022 at 04:53:18PM -0700, Sathyanarayanan Kuppuswamy wrote:
+> Hi Dave/Greg,
+> 
+> On 9/7/22 10:31 PM, Greg Kroah-Hartman wrote:
+> > On Wed, Sep 07, 2022 at 05:27:20PM -0700, Kuppuswamy Sathyanarayanan wrote:
+> >> +	/*
+> >> +	 * Per TDX Module 1.0 specification, section titled
+> >> +	 * "TDG.MR.REPORT", REPORTDATA length is fixed as
+> >> +	 * TDX_REPORTDATA_LEN, TDREPORT length is fixed as
+> >> +	 * TDX_REPORT_LEN, and TDREPORT subtype is fixed as
+> >> +	 * 0. Also check for valid user pointers.
+> >> +	 */
+> >> +	if (!req.reportdata || !req.tdreport || req.subtype ||
+> >> +		req.rpd_len != TDX_REPORTDATA_LEN ||
+> >> +		req.tdr_len != TDX_REPORT_LEN)
+> >> +		return -EINVAL;
+> > 
+> > You never verify that your reserved[7] fields are actually set to 0,
+> > which means you can never use them in the future :(
+> > 
+> > Please fix that up, thanks.
+> 
+> Would you prefer a new posting (v12.1 or v13) with this change, or do you
+> want to continue the review in the same version?
 
+What would you want to see happen if you were a reviewer?
 
-On 8/22/22 13:51, Yicong Yang wrote:
-> From: Barry Song <v-songbaohua@oppo.com>
-> 
-> on x86, batched and deferred tlb shootdown has lead to 90%
-> performance increase on tlb shootdown. on arm64, HW can do
-> tlb shootdown without software IPI. But sync tlbi is still
-> quite expensive.
-> 
-> Even running a simplest program which requires swapout can
-> prove this is true,
->  #include <sys/types.h>
->  #include <unistd.h>
->  #include <sys/mman.h>
->  #include <string.h>
-> 
->  int main()
->  {
->  #define SIZE (1 * 1024 * 1024)
->          volatile unsigned char *p = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
->                                           MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-> 
->          memset(p, 0x88, SIZE);
-> 
->          for (int k = 0; k < 10000; k++) {
->                  /* swap in */
->                  for (int i = 0; i < SIZE; i += 4096) {
->                          (void)p[i];
->                  }
-> 
->                  /* swap out */
->                  madvise(p, SIZE, MADV_PAGEOUT);
->          }
->  }
-> 
-> Perf result on snapdragon 888 with 8 cores by using zRAM
-> as the swap block device.
-> 
->  ~ # perf record taskset -c 4 ./a.out
->  [ perf record: Woken up 10 times to write data ]
->  [ perf record: Captured and wrote 2.297 MB perf.data (60084 samples) ]
->  ~ # perf report
->  # To display the perf.data header info, please use --header/--header-only options.
->  # To display the perf.data header info, please use --header/--header-only options.
->  #
->  #
->  # Total Lost Samples: 0
->  #
->  # Samples: 60K of event 'cycles'
->  # Event count (approx.): 35706225414
->  #
->  # Overhead  Command  Shared Object      Symbol
->  # ........  .......  .................  .............................................................................
->  #
->     21.07%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irq
->      8.23%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irqrestore
->      6.67%  a.out    [kernel.kallsyms]  [k] filemap_map_pages
->      6.16%  a.out    [kernel.kallsyms]  [k] __zram_bvec_write
->      5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
->      3.71%  a.out    [kernel.kallsyms]  [k] _raw_spin_lock
->      3.49%  a.out    [kernel.kallsyms]  [k] memset64
->      1.63%  a.out    [kernel.kallsyms]  [k] clear_page
->      1.42%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock
->      1.26%  a.out    [kernel.kallsyms]  [k] mod_zone_state.llvm.8525150236079521930
->      1.23%  a.out    [kernel.kallsyms]  [k] xas_load
->      1.15%  a.out    [kernel.kallsyms]  [k] zram_slot_lock
-> 
-> ptep_clear_flush() takes 5.36% CPU in the micro-benchmark
-> swapping in/out a page mapped by only one process. If the
-> page is mapped by multiple processes, typically, like more
-> than 100 on a phone, the overhead would be much higher as
-> we have to run tlb flush 100 times for one single page.
-> Plus, tlb flush overhead will increase with the number
-> of CPU cores due to the bad scalability of tlb shootdown
-> in HW, so those ARM64 servers should expect much higher
-> overhead.
-> 
-> Further perf annonate shows 95% cpu time of ptep_clear_flush
-> is actually used by the final dsb() to wait for the completion
-> of tlb flush. This provides us a very good chance to leverage
-> the existing batched tlb in kernel. The minimum modification
-> is that we only send async tlbi in the first stage and we send
-> dsb while we have to sync in the second stage.
-> 
-> With the above simplest micro benchmark, collapsed time to
-> finish the program decreases around 5%.
-> 
-> Typical collapsed time w/o patch:
->  ~ # time taskset -c 4 ./a.out
->  0.21user 14.34system 0:14.69elapsed
-> w/ patch:
->  ~ # time taskset -c 4 ./a.out
->  0.22user 13.45system 0:13.80elapsed
-> 
-> Also, Yicong Yang added the following observation.
-> 	Tested with benchmark in the commit on Kunpeng920 arm64 server,
-> 	observed an improvement around 12.5% with command
-> 	`time ./swap_bench`.
-> 		w/o		w/
-> 	real	0m13.460s	0m11.771s
-> 	user	0m0.248s	0m0.279s
-> 	sys	0m12.039s	0m11.458s
-> 
-> 	Originally it's noticed a 16.99% overhead of ptep_clear_flush()
-> 	which has been eliminated by this patch:
-> 
-> 	[root@localhost yang]# perf record -- ./swap_bench && perf report
-> 	[...]
-> 	16.99%  swap_bench  [kernel.kallsyms]  [k] ptep_clear_flush
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Nadav Amit <namit@vmware.com>
-> Cc: Mel Gorman <mgorman@suse.de>
-> Tested-by: Yicong Yang <yangyicong@hisilicon.com>
-> Tested-by: Xin Hao <xhao@linux.alibaba.com>
-> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-> ---
->  .../features/vm/TLB/arch-support.txt          |  2 +-
->  arch/arm64/Kconfig                            |  1 +
->  arch/arm64/include/asm/tlbbatch.h             | 12 ++++++++
->  arch/arm64/include/asm/tlbflush.h             | 28 +++++++++++++++++--
->  4 files changed, 40 insertions(+), 3 deletions(-)
->  create mode 100644 arch/arm64/include/asm/tlbbatch.h
-> 
-> diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
-> index 1c009312b9c1..2caf815d7c6c 100644
-> --- a/Documentation/features/vm/TLB/arch-support.txt
-> +++ b/Documentation/features/vm/TLB/arch-support.txt
-> @@ -9,7 +9,7 @@
->      |       alpha: | TODO |
->      |         arc: | TODO |
->      |         arm: | TODO |
-> -    |       arm64: | TODO |
-> +    |       arm64: |  ok  |
->      |        csky: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 571cc234d0b3..09d45cd6d665 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -93,6 +93,7 @@ config ARM64
->  	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
->  	select ARCH_SUPPORTS_NUMA_BALANCING
->  	select ARCH_SUPPORTS_PAGE_TABLE_CHECK
-> +	select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
->  	select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
->  	select ARCH_WANT_DEFAULT_BPF_JIT
->  	select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT
-> diff --git a/arch/arm64/include/asm/tlbbatch.h b/arch/arm64/include/asm/tlbbatch.h
-> new file mode 100644
-> index 000000000000..fedb0b87b8db
-> --- /dev/null
-> +++ b/arch/arm64/include/asm/tlbbatch.h
-> @@ -0,0 +1,12 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _ARCH_ARM64_TLBBATCH_H
-> +#define _ARCH_ARM64_TLBBATCH_H
-> +
-> +struct arch_tlbflush_unmap_batch {
-> +	/*
-> +	 * For arm64, HW can do tlb shootdown, so we don't
-> +	 * need to record cpumask for sending IPI
-> +	 */
-> +};
-> +
-> +#endif /* _ARCH_ARM64_TLBBATCH_H */
-> diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
-> index 412a3b9a3c25..23cbc987321a 100644
-> --- a/arch/arm64/include/asm/tlbflush.h
-> +++ b/arch/arm64/include/asm/tlbflush.h
-> @@ -254,17 +254,24 @@ static inline void flush_tlb_mm(struct mm_struct *mm)
->  	dsb(ish);
->  }
->  
-> -static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
-> +
-> +static inline void __flush_tlb_page_nosync(struct mm_struct *mm,
->  					 unsigned long uaddr)
->  {
->  	unsigned long addr;
->  
->  	dsb(ishst);
-> -	addr = __TLBI_VADDR(uaddr, ASID(vma->vm_mm));
-> +	addr = __TLBI_VADDR(uaddr, ASID(mm));
->  	__tlbi(vale1is, addr);
->  	__tlbi_user(vale1is, addr);
->  }
->  
-> +static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
-> +					 unsigned long uaddr)
-> +{
-> +	return __flush_tlb_page_nosync(vma->vm_mm, uaddr);
-> +}
-> +
->  static inline void flush_tlb_page(struct vm_area_struct *vma,
->  				  unsigned long uaddr)
->  {
-> @@ -272,6 +279,23 @@ static inline void flush_tlb_page(struct vm_area_struct *vma,
->  	dsb(ish);
->  }
->  
-> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
-> +{
-> +	return true;
-> +}
-
-Always defer and batch up TLB flush, unconditionally ?
-
-> +
-> +static inline void arch_tlbbatch_add_mm(struct arch_tlbflush_unmap_batch *batch,
-> +					struct mm_struct *mm,
-> +					unsigned long uaddr)
-> +{
-> +	__flush_tlb_page_nosync(mm, uaddr);
-> +}
-> +
-> +static inline void arch_tlbbatch_flush(struct arch_tlbflush_unmap_batch *batch)
-> +{
-> +	dsb(ish);
-> +}
-
-Adding up __flush_tlb_page_nosync() without a corresponding dsb(ish) and
-then doing once via arch_tlbbatch_flush() will have the same effect from
-an architecture perspective ?
-
-> +
->  /*
->   * This is meant to avoid soft lock-ups on large TLB flushing ranges and not
->   * necessarily a performance improvement.
+(hint, new version...)
