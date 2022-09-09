@@ -2,38 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9C4BECAAA1
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 07:37:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15253ECAAD3
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 07:37:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229488AbiIIHhn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Sep 2022 03:37:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38328 "EHLO
+        id S230335AbiIIHh4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Sep 2022 03:37:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231489AbiIIHgZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 03:36:25 -0400
+        with ESMTP id S230430AbiIIHgl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 03:36:41 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7032A3460;
-        Fri,  9 Sep 2022 00:35:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CE6F2FFED;
+        Fri,  9 Sep 2022 00:35:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 58F7A61F10;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 723DB61F16;
         Fri,  9 Sep 2022 07:34:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 233ECC4FEE2;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32F47C4FF07;
         Fri,  9 Sep 2022 07:34:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1662708895;
-        bh=p0gRNxopbv/9oIGzyzpAiFGWySnAU40dy4twByJWqqA=;
+        bh=hQa2qB2CeTyw3GAgYwyhVj1XTZmgIzZSunChiyTazuM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UF86OSy1bdrAVtz2A0D0TfkQsXszkgNG3lm2ofj+awZdWdrJhutftWrsNWL1HFCoA
-         B7AG2oHiP8REm09hAfc5y+8QWu8OM1jLQT1vBua2p9fTIpu4JHYP0wQbiqYStaZDNM
-         0zMC30RVi8rUVlinq3Ym1AF5hmk2MThFKmCbXD7hQ5YeqV3v5DjmyVXZOgna+nHFaH
-         hSt5Cx1slBZyLUzZWkJaHQyOY528jucre/DmlC1805E2+EGxVQZSLfMaVERDyl0if+
-         s6oXv4nzgSDhZ/7H0DEU4O5bY4jdY1hLPKlYvnlRx9W89YlljeswIFdvIE77dS8QMO
-         uvx2ZCXmUchVg==
+        b=Z+phLD5baNAwxItQcI1si4W3MWaifXIx3QrVpzQO1eXR8RIJjaf2ss7uWaV0HGNwJ
+         fAwWRHAYqx726AcPnwCMLKn84RKM3XRPRcDr+AbDcLskCuEy7KqKHDh/R2JfYhg+D3
+         iKKBEL0aFUdzMs7XF3LJFL4A+k05MusdODNW6jIVoUiHkFxZ3irzCJkYG60JJfCrcj
+         NfX9Sf32DaASb+DUqGndSVmUdPJXeuPs0MZEm1mc4apXN0VkBHFXgOSqSn8v8Oe8kw
+         IXntVwQxwy6Zy7kMccovBKxcJaHvFLtAhzAEdWCFpGpVmGoEsU4ofe+znF7tdhKAJ2
+         GLIWH3wRnks5w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
         (envelope-from <mchehab@kernel.org>)
-        id 1oWYXH-007FHH-31;
+        id 1oWYXH-007FHP-76;
         Fri, 09 Sep 2022 09:34:47 +0200
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -49,9 +49,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
         dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 26/37] docs: gpu: i915.rst: display: add kernel-doc markups
-Date:   Fri,  9 Sep 2022 09:34:33 +0200
-Message-Id: <690f8555b119dc783764de7d484ac07a711d2cd5.1662708705.git.mchehab@kernel.org>
+Subject: [PATCH v3 28/37] docs: gpu: i915.rst: GuC: add more kernel-doc markups
+Date:   Fri,  9 Sep 2022 09:34:35 +0200
+Message-Id: <1b5cf28c08c5b9f5786ace0bb77de1f6558f6639.1662708705.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <cover.1662708705.git.mchehab@kernel.org>
 References: <cover.1662708705.git.mchehab@kernel.org>
@@ -62,9 +62,9 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are several documented kAPI at the display side that
-aren't currently part of the docs. Add them, as this allows
-identifying issues with badly-formatted tags.
+There are several documented GuC kAPI that aren't currently part
+of the docs. Add them, as this allows identifying issues with
+badly-formatted tags.
 
 Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -73,69 +73,41 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v3 00/37] at: https://lore.kernel.org/all/cover.1662708705.git.mchehab@kernel.org/
 
- Documentation/gpu/i915.rst | 50 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+ Documentation/gpu/i915.rst | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index 4e59db1cfb00..2ad7941a79f2 100644
+index b668f36fb0a3..7f2daa1b4a8b 100644
 --- a/Documentation/gpu/i915.rst
 +++ b/Documentation/gpu/i915.rst
-@@ -100,6 +100,56 @@ Display FIFO Underrun Reporting
- .. kernel-doc:: drivers/gpu/drm/i915/display/intel_fifo_underrun.c
-    :internal:
+@@ -593,6 +593,28 @@ GuC
  
-+Atomic Modeset Support
-+----------------------
+ .. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc.h
+ 
++.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_atomic.c
++.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
 +
-+Display Power Domain
-+--------------------
++.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_display_power.c
++.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_display_power_map.c
++.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_display_power_well.c
++.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
 +
-+Misc display functions
-+----------------------
++.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_backlight.c
++.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_crtc.c
++.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_uc.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_connector.c
++.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_display_debugfs.c
++.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
 +
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dp.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dp_link_training.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dpll.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_dpt.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_fb.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_fb_pin.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_gmbus.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_lvds.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_opregion.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_snps_phy.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/display/intel_tc.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/display/skl_scaler.c
-+
-+
- Plane Configuration
- -------------------
+ GuC Firmware Layout
+ ~~~~~~~~~~~~~~~~~~~
  
 -- 
 2.37.3
