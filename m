@@ -2,181 +2,286 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D99B8ECAAD3
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 14:39:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F873ECAAA1
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 15:05:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230434AbiIIOjm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Sep 2022 10:39:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60744 "EHLO
+        id S231510AbiIIPFn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Sep 2022 11:05:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232063AbiIIOji (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 10:39:38 -0400
-Received: from de-smtp-delivery-113.mimecast.com (de-smtp-delivery-113.mimecast.com [194.104.111.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8767E13D65
-        for <linux-doc@vger.kernel.org>; Fri,  9 Sep 2022 07:39:36 -0700 (PDT)
-Received: from CHE01-GV0-obe.outbound.protection.outlook.com
- (mail-gv0che01lp2047.outbound.protection.outlook.com [104.47.22.47]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- de-mta-12-NsuC0PNrNPSwxGvZzOc1LQ-1; Fri, 09 Sep 2022 16:39:33 +0200
-X-MC-Unique: NsuC0PNrNPSwxGvZzOc1LQ-1
-Received: from ZRAP278MB0383.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:2f::11)
- by GV0P278MB0083.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:1d::10) with
+        with ESMTP id S231360AbiIIPFm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 11:05:42 -0400
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2088.outbound.protection.outlook.com [40.107.22.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2DA3AD99B;
+        Fri,  9 Sep 2022 08:05:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=odKdI70Y2wYV97vhqEHjGHypOeZmP6BoYB7li0L54iO3sIttEYCY7FpcuxvS7e/twn0GUgIONl7qQJfFFVxjH6CAxNaUPH2O63k5rshqfK9SU5Hvbm20P0pjMDbYvOY3qT9rc4kjsgDjjxDw8IJXr5NHhbXJKgRKNMIbJe7xA5xrcTsGZMTkF7NAP8dEuCu7FFlqN8IzdZbvn8UzGd+KlLljqAoO7fXGDK9AiKUlw7W4op0iM2BlQYfcV8dKYbG1Dv5NRIQQbTx4SFdkYu8WJfr/ZWiLQPD6OtFZ3IkOFexr2RIZWGK1gLviSnUJ+KDkej+MWpTAo9NrGJzTgSU41g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5efQus/rTcyTbzGhLaocm7fA9h80cmBpq8E3eklwd6Q=;
+ b=L6Lv2i3hHGVRQ9m2/eP45a0cPPk5edEofqWyBgGC/tGKnIjzum3YvMCrDwSg0fneeUnF9XTylxCBSvGoJuMU+fIjB0lFJ1bBSY+GNeDCzzt79P3kUkQe9Ha6PLJVeG6h87zjM9haciraoVm12WR25yjoiKbwGgM+fquSlWTrI9fIqdLUsr9KsByCoobijG7ToovNKxb+waHVGsStkVUbrgaaI4l9GELqIKeA1Ms5bCeUB3y8IsQ/Cb4epc+DDtlFREXrrnuQXummGTX/5zDlshCkJE59fcQgcL82UWgO4a6ZM9dj7pgoGk4oiNIL7tVNALC5b7+P11OkYHKOpCboEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5efQus/rTcyTbzGhLaocm7fA9h80cmBpq8E3eklwd6Q=;
+ b=DhbysmXC3yIky5RHBiEUAQS0BCWjYiuK7AxSdio2wdpSVD59S3ESmpW1VmKzwJ6MfHTOv30PJPYjZqWKYulYhLZcn/lfrUTf0RYiRSfAbPUxmrPuIM9xKvmSCqqsN9uRqgpWB2grn671O5bzihYLfyfDaDLki9pIWiIimmOQX0372xRWQRKJgH6vPwiENzhewbgJAK7nZFApcf0wpYEDG2xReR0Lr3IyaJOsBnDfQFMxXevojtLmAIC9xBE25e/G97Rmx0IigR4oku1YOVkXU/aQRaoG4y6GDMvBkI/qf2imCZXX82GDGl7KaBGttJwDTowvXxzr+1VphojbyyHFjg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB7PR03MB4972.eurprd03.prod.outlook.com (2603:10a6:10:7d::22)
+ by PR3PR03MB6442.eurprd03.prod.outlook.com (2603:10a6:102:70::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12; Fri, 9 Sep
- 2022 14:39:32 +0000
-Received: from ZRAP278MB0383.CHEP278.PROD.OUTLOOK.COM
- ([fe80::21ec:3301:e620:576]) by ZRAP278MB0383.CHEP278.PROD.OUTLOOK.COM
- ([fe80::21ec:3301:e620:576%5]) with mapi id 15.20.5612.020; Fri, 9 Sep 2022
- 14:39:31 +0000
-From:   Philippe Schenker <philippe.schenker@toradex.com>
-To:     "niklas.soderlund@corigine.com" <niklas.soderlund@corigine.com>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "louis.peens@corigine.com" <louis.peens@corigine.com>,
-        "oss-drivers@corigine.com" <oss-drivers@corigine.com>,
-        "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "joe@perches.com" <joe@perches.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "apw@canonical.com" <apw@canonical.com>,
-        "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-        "simon.horman@corigine.com" <simon.horman@corigine.com>
-Subject: Re: [PATCH v4] checkpatch: warn for non-standard fixes tag style
-Thread-Topic: [PATCH v4] checkpatch: warn for non-standard fixes tag style
-Thread-Index: AQHYw6J36XbPp0cJM0ex5Lib68XRDK3Vz1eAgADoJYCAAHUwgA==
-Date:   Fri, 9 Sep 2022 14:39:31 +0000
-Message-ID: <a202d401dabb47da24bfcbad7140281a9af6c0c4.camel@toradex.com>
-References: <20220908164434.122106-1-niklas.soderlund@corigine.com>
-         <3275d886491dc934e3277cde9cc766b0ce0886ea.camel@toradex.com>
-         <Yxrt1aa60xY0H7j0@oden.dyn.berto.se>
-In-Reply-To: <Yxrt1aa60xY0H7j0@oden.dyn.berto.se>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: ZRAP278MB0383:EE_|GV0P278MB0083:EE_
-x-ms-office365-filtering-correlation-id: ac5b658a-0d4c-44c4-f477-08da92711baa
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0
-x-microsoft-antispam-message-info: EmmJYNEkABsTrXm1XfnAyREIt8oCEAHEqJRzxEi2LEuCYB7IF70+GfrgGAyRhTU7xZaxDiwVtzPC1Fu3XMXfSog+unXXMsoIL/foRwSYAIDqfZ58bMkK7qYgbE3ZBto6Mol6nTyMpREGvgh1NXQWDXu8/fNOVJmKsEWtEjR3nm5C1DR4BVL1b+pgocdHMdGIn7TKBZMd324NGgKwt1MIMmGaL5FnpTfVZFb6o1N8SDlGySWSJAPSvaBZ9oiX1hDAgZFL8LSXQKSDpZb905sUo7L+Vw2eA8mu2tXiWGVx2hXKx0EF4SREWDIu3JVMMLUylEdEUDXBkwl9JHB13heuC/AegJk10i59WdCrEFWrEFdLj4pE50i+aO73j5G4K+bXOXoSM6+fkR5MifTMNxrAdbdVXOwwEOalbo6p7j3g7DfzAOMeV4eWwPQiiH4dON42TsQpnoWRqLnc0asJiI7sRDdC9RfB2MUI1OlgvOhUhJC4+tvF2BmsQN4qJIZO4rBm1ONGA3VF/Gt9P9tF+ZqwMxx1n8Er5hMFHKJQUkoLSCz89g6+YQmBDABjp818ArcKukVz17OBRImEpokmlZwl5NYtkHX3ASQ2nr7EVQa11yht26uN3V83MarNYHsXA2ZSS78FC3y4P7iG/ruvyQuG7ebPMzasUvSSObHPO1Y+MpLIhhrZjWwmu1MUlDOUlYAw7ocbU357qDeo2yF0wafkWQvPsJ0sSvYjFOShpAyjdfbUi4WdzLrOggUKwvt1Qntg0dLMxGKts07eL24wwGDImOieeXUbXLGsrzAWc28lNWI=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZRAP278MB0383.CHEP278.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(39840400004)(366004)(346002)(376002)(396003)(76116006)(2616005)(966005)(6486002)(186003)(66476007)(66556008)(36756003)(66946007)(478600001)(66446008)(8676002)(4326008)(64756008)(38070700005)(7416002)(8936002)(316002)(41300700001)(54906003)(6916009)(71200400001)(6512007)(26005)(38100700002)(2906002)(44832011)(5660300002)(122000001)(53546011)(6506007)(86362001)(83380400001);DIR:OUT;SFP:1102
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UGR0WXB3bVhRYjNmQWhZTEJkRmpkWXBTY3ExdXpBRGhrN21vbjRQdkt0Y0Fm?=
- =?utf-8?B?YWhVZU1iRVRNcVlGbElUeERPdHlCNmtVUUQ4R2RsM1JsTXVzUWJGSjBpd00w?=
- =?utf-8?B?SUpWaE5OTnh6VXdLZnBLZFJDaUR4bGZyR0Z1bzFEY2N0TDg0KzNISmF0Tlc1?=
- =?utf-8?B?WGh5UWFvVmZHNTQzZDVsaFFjL1AwWWV1Z3NDVkZSNjRvRTA4UTAvazNlaWpB?=
- =?utf-8?B?Y1pVeTkrRVM2OThzeHFwd2lrM1lmaUhzSGVRUWF2bmExYzRtS2ZISCtLb3hY?=
- =?utf-8?B?TXJTb29uOWhHYlU0VmJ1S2w3UHlmZGlnekcrcEh0cVpxSlZFanl4NFpBZjdy?=
- =?utf-8?B?NStGL3ptdDdZcUxhWDFiaEVIbWFlMzJhRFV3RkV3MitoL3kyblRtMkZnTVhR?=
- =?utf-8?B?Yms3YVpVbHptK1gyVDhYOGhYZ3dkdGVVQ2NvWWgvdlBEL3N6L0hYK1NJWlhm?=
- =?utf-8?B?NzFmcmJuaFdmRkdIVmc4VURXdGt5RXNnR1BRWjJtTEJ6ZThCU2FSSGljelNv?=
- =?utf-8?B?UUJhTDlYd3ZpYndkOXBkamw0Ui8xK0pDM00vTUdBMHFHc3hlMmNUZ1VjRXl2?=
- =?utf-8?B?RFR0YVB2cHpDYWJOa1Y5Q3hsZ2xoNVk2Zko1OVZiVGh4RjJPSVJmOGcwQmVn?=
- =?utf-8?B?aUtNcW0zbWZDclBKU09pQWx0V1pYUmdjQ1czVEtRQU9ickM1dFNjbHFkc0Fn?=
- =?utf-8?B?RGUvZTNObnRvZXFMMkJ3RGIwYjB4clRGTlhKQkFBRlNSam1KWHEzQTZMbExh?=
- =?utf-8?B?MUlDTzFRZ0p3bFVidFhzQStDdGZRaVFHNWZQc3VOcGFrczdBWHY5ZWg5cVYw?=
- =?utf-8?B?Z2s0QVU0aDRhVWs2QURlbnhnSFFJK01wNUxlbkhUQkRtbE1TYm1HRytjRGdV?=
- =?utf-8?B?UWtuVXhBcVFSdE0zNVJBc1JkampBeGtFTHVkUGx4SWF5OFpIVERCSi90YWhh?=
- =?utf-8?B?TDdWNzh0bWgyVUFyZlBZcWYwM3dCNFRGYVNOdWVldGcvSmFUbTlhb25GRkZQ?=
- =?utf-8?B?aDY0Ukh2TXJmMkp3ZFRaUEVZNlRQWFdndVlrK0FRdFVuR252RGNXcDMvRTM1?=
- =?utf-8?B?MXFZV2RCYWN4UFp2cm5aVGUyaU4xNG1obFByUVJ2ZytTZzlQaGlDVlYvYXJV?=
- =?utf-8?B?R1YwSzlSc2VwRnpsNEZ2R1FmSHpYZlYxUkxNaHhpWGtNenk4R2tlMWJCMWJi?=
- =?utf-8?B?ZlloRGNYK0Q2YmRBRm9KMExPclA2TVFQOTlkMXcrTTJ2TEJCeVVlRGJJdllV?=
- =?utf-8?B?MlYyK1RkNVZJUm0zTlZKcGdGa3hxSGh4L2dMc1ZYZS9ORzUvMUlTN2dZR0FJ?=
- =?utf-8?B?cWh5N0ZVYzZRUE1vSUJCYU9TaHpOVC9VVmJHdDlYbFcyRFJEZkRITFNjZHEy?=
- =?utf-8?B?NXR2U3lGRkRjd1RYemM0MDhEeSthakRmaVE1Tk80dzNIS1NaN3RpZllKZE15?=
- =?utf-8?B?V2RiVk5hYy9xbXRSNFg0eTdYMGVUbHRxZWJod3hyQVQ1VVpGU1ZCMWdjQXdM?=
- =?utf-8?B?NGdoSjNiVmthcng5QXdETFZWS2VqM0x0Z3h1MUV1VzFpUkZyVjRNTFd0dktK?=
- =?utf-8?B?ZzJZUjBqRUJ4SlZKZzFZVURpRnMyYmN0TjNSUUJaT0V1eFFwLzNUUGNMSDFK?=
- =?utf-8?B?RXVidXVmeExTZmpaZ0l0NFlnWUd1OWtrM0JlOUxhUm41UDUzaC9KWWlIdlZl?=
- =?utf-8?B?TGlpTzgwV2t1ek91QUVKRkZoRWk5cGUrNEwwdUhYTFBraEhGSFFHWEhmR2Mr?=
- =?utf-8?B?WUVqTjdpQk5NZ3J2a0tMWU9oYVJIQkprUklqRVRWLzVjRFptRWJhZEFnaGR4?=
- =?utf-8?B?TG40Wm1SK1prNXI3R05oM3RGZE9DNHVSVkw2YXdwYUZ5SXo4WmhvOTdBN2p6?=
- =?utf-8?B?VEp4a3RqMlVXcXRvUkdnSzFHNnNhN01ZTE5ZVG9YekkrTUpMUWh3VmgxbXJ5?=
- =?utf-8?B?S3pUUVBWMGhyZFZ2MnIyemVIOStLK2VoMk5RejViSVRud1pwTG9wNmJ1blo5?=
- =?utf-8?B?TklnM0NRZU9FU2F2MGdwVlIyL1FJeW5McVdLNkFIVk9wMXdXRXBKZFFGaHRP?=
- =?utf-8?B?MU1ESzUvNFJnN0VPT0dFYlhrMEZESUZML3VidDhOQjBNOTV0UUdWc2xaWE03?=
- =?utf-8?B?dC92a2xQZVZtWFI5NGtXTmJ3V1NNMEN2b3hWNVBSZHpXdDc1S0Y0ZWJMbWZK?=
- =?utf-8?Q?y870zGxSaI8SpMZlWluc8B0=3D?=
-MIME-Version: 1.0
-X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: ZRAP278MB0383.CHEP278.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac5b658a-0d4c-44c4-f477-08da92711baa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2022 14:39:31.9181
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d9995866-0d9b-4251-8315-093f062abab4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: R/ZKNlfLVR/eW9s6uPFIU6neCJYRhSRidMdvLwZynD+q39HLPDFoYmB+CAKg3Ys6rqR3Xl5Qx9opHtOHznYRhwe2ei/6cKNES+dczwNBu2U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV0P278MB0083
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: toradex.com
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.19; Fri, 9 Sep
+ 2022 15:05:37 +0000
+Received: from DB7PR03MB4972.eurprd03.prod.outlook.com
+ ([fe80::ecaa:a5a9:f0d5:27a2]) by DB7PR03MB4972.eurprd03.prod.outlook.com
+ ([fe80::ecaa:a5a9:f0d5:27a2%4]) with mapi id 15.20.5588.018; Fri, 9 Sep 2022
+ 15:05:36 +0000
+Subject: Re: [PATCH v5 0/8] phy: Add support for Lynx 10G SerDes
+To:     Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        linux-phy@lists.infradead.org
+Cc:     devicetree@vger.kernel.org, Ioana Ciornei <ioana.ciornei@nxp.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        linuxppc-dev@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220902213721.946138-1-sean.anderson@seco.com>
+From:   Sean Anderson <sean.anderson@seco.com>
+Message-ID: <de50858e-0056-fd72-2b67-27bf597b3366@seco.com>
+Date:   Fri, 9 Sep 2022 11:05:32 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20220902213721.946138-1-sean.anderson@seco.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-ID: <75BAEEFB4390AC4BB6D78C0ABDB6BD47@CHEP278.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR14CA0027.namprd14.prod.outlook.com
+ (2603:10b6:208:23e::32) To DB7PR03MB4972.eurprd03.prod.outlook.com
+ (2603:10a6:10:7d::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a860e0b0-de2c-4324-1107-08da9274c03f
+X-MS-TrafficTypeDiagnostic: PR3PR03MB6442:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8rQZsscWyBrT7Z8FNEx7fndxpi1KgcIdLxBXc5WOqvzHfL4ilY3VABnt1edHRRb4LUmVgAcSArCUBEiNtGjaSAQM/6deUb7BwgGDABSAGnqYhpWsyIgfTsWEQi/ts/gXupvB0n8qMULH3qXEfV562laC2CxoE2ePAoNsU8xfSC3ciCXs9fkqj9yuQzbb5Icsc/i0IQdojvNSCze3T5zEjMIygS20VxKHGpAXzhQul18lbqkFySzySpb9K/Y1RGMeVAO4eW6+XQPiT01uLqCfOZtMLuh5zbf0y8oQBJO+R9ryw6pWItDhpdgrES6WldKoiFhAKC3fujg0EOPKQYfefwpyGyi4UnkYYJU9Lcdr8P64RXOM+aPkMvc0e7WNiuH9lsewe92mLug5uQHiX2y+gVjWx5uI9bzRrjis7vlXUV5i8rv7lET/H/qhU9MJmch9PNwG7GcsAhras749Ux6lqg684an87I59piruXbyZkJaGvEGg46Co3cjpSe0TeUVsd7kw3B212A293T2cpQ3rE7p5SjrH8I08L/4rMQ6AVO/pnaAYfB7dw1wxwQiknX6nCFRZgTO8f8Xvir+3HswiHC5DBPEi2meiQ95GM2WciF0otlmEwhXTctit/QjJGOlG4YPLRX5riUieAmwcG6vjmwwjNPQv5nh6rARu5NbbRh9bHuKvriOtaWzejL/HdTZO2ffe0Y+MifvNqsUzDoJNntQfzgMHnMBsO/k4g0kXXrVplut9bMfFm/KiAl7ZAMHWn6iUBVYYXX8xE7A8YO11yWHF1Grh+dJ//2NXBYwwE4ULuNO+Ni338tdPUlDzelfqWRz3XCOQ2VzvuNs7LytheO03yXxkALnaReHs4mZgWB8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4972.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(376002)(346002)(136003)(396003)(366004)(39850400004)(31686004)(316002)(86362001)(38350700002)(38100700002)(36756003)(478600001)(6486002)(110136005)(54906003)(966005)(31696002)(6506007)(186003)(41300700001)(6512007)(2616005)(53546011)(52116002)(6666004)(26005)(7416002)(44832011)(2906002)(83380400001)(8676002)(4326008)(66946007)(66556008)(66476007)(5660300002)(8936002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cEZzYWR1d1FMOFJyazU2YytjKzFybUVKY1N3Uk92aENQWlZOMjkyVWVDQkxo?=
+ =?utf-8?B?ZUdFSmd5Q2lGQzBGZlFyTUNodkkrakFzb01SalNWUGdHdGhQYThzUmtiWDBz?=
+ =?utf-8?B?Q3ZNaDRHWFFzSm5aRVVPa3VTNkRLK2tnK2ZQNTJKQTFPV1VMd0ZVVitYSThZ?=
+ =?utf-8?B?SnA0QWpad3dCT1VwcXViTDgyemxDRWpuZWRPNCtqMjFHakpLQXd5SFFJTllF?=
+ =?utf-8?B?RlhHS0hUa1l1bjFaUXk2NFpZSytMQjRxN094WXhYTGRENEtlc2FvQzlyVVZ2?=
+ =?utf-8?B?NmJ2K25wVlloZTFrQUJmUk12UERvVkM3OUtpL3VXMjExQzZDRGlrSVVxeE93?=
+ =?utf-8?B?L2svNkdYZVdJNUlDS2FibHR3R1pwTG83YzN2WG1MeU42dVg2MGZEWTBsMDhB?=
+ =?utf-8?B?SlljczNhQjNXS0xGQzk5cFRxZHJMVFFVSEFDc2lza1RiWjVEZUdJek9pbkhN?=
+ =?utf-8?B?ZXZGd2VGN1psUFdPTDNLNTBQUi9OVnNEWUR0bTl6aEN4aVBnSzJvQm5CTjNh?=
+ =?utf-8?B?TUNrOUR3RU9qakNmOFBxRWxIQjFmZzI5YzIwc1ZZeTBNc1hNVERXbEkwdlUr?=
+ =?utf-8?B?c0xwbTRtY0tWMGlhTWk2eVQ0ZWNGWlNidzY1VEQ3ZHpjWDVpMDBmZEtTc1Q2?=
+ =?utf-8?B?UU9kcFdCbzNMVXRqT3NIMUk3YmRHN25aRTlzZ0ZvVEdYL09DMEgzNzZCRVJu?=
+ =?utf-8?B?a05mY0xGRndNRlROOSt4QXd6WWJlaG94ek1yZkx0N1d6c3k0VzJPSXcxbkkx?=
+ =?utf-8?B?WDJiaFM0emZXdm03QVVtdUxsTm9SSndpU3dnZHRZNFc2SGJtK21JT3ZldG11?=
+ =?utf-8?B?Ty9zOS9qTWR2OCtnQVNoQ09ZTjU4Tnhyem5WTWVETllCN1c4TllvODg1Y2V0?=
+ =?utf-8?B?SzI3U2U4aEk4WktsUnU4WDJCWXJYTnNkVXkzZ2pXU2tmWCtVeWZBL09jTlN6?=
+ =?utf-8?B?U2xKM3pLM1pUOEdBU0d6b1dNUVVsb0dCZE1zaGtpNm84a3o3VFU4S2o1bDBE?=
+ =?utf-8?B?WFpDcWVjSldSUE5ybDBMWTlzTmJ5RVNVVksxMmRkL09td3ZVTy84LzFKYVJ3?=
+ =?utf-8?B?TFpDYk1XRWdRZ1VnMkRjTkttS0NRbDBFRFd3Z1N0L1JianNKTVBGMzR4YTFZ?=
+ =?utf-8?B?N3VQbFhuT0plWmtCVCtiazN2WjRrN2FpbzJ5am9OWFVtS3JsUkI1MmdQS0da?=
+ =?utf-8?B?Wk9qS2N1b1MvTVN4T2hLMUFUNEZIclROVzFGa21YZTF6Z0R3a1dtRFkyT3Fo?=
+ =?utf-8?B?N3pVaGYvZ1VTc202SFZuSzhhMTExTFM1WVo4cnBSMEdpQlhXSzB0eGhKc3Av?=
+ =?utf-8?B?dU5FakhjMW9acWo2MjZXVmdzMmVYVVBiWXRoV0kxb2hvZko5cHdtamY1R2Zq?=
+ =?utf-8?B?Z1Q1bmY1ZHJNMDNrdU1FcHVmUi9IUUJaQ1JWUklPSmkxbHB6aTlBU2I5aEd4?=
+ =?utf-8?B?VXA5TkN6SHRSUHlvY1EvOVdQenRvOGJKN0h1a3FoZUxpVU0xdHRBYS9Oblc4?=
+ =?utf-8?B?K0RXZ0lRc3JqUmtUbm9oYkFRVnZQWUt6TmJrMy9GRnRxUGNqL0JTQkNBcS9i?=
+ =?utf-8?B?ZVg3aFk1WGlzSUVGT0V6cmlUL0YzWStiRmFiNG9STjJJdS9vc2l2YUlpRVdj?=
+ =?utf-8?B?MGNPTXJYVGtFMjIvTUsrUnJxc3ZPSUJEZncrRnV1MnFpZ1dVRG1CcEplQXNG?=
+ =?utf-8?B?WEluWDNQZElwNTZFWFVzUnRtRzhQZjlFcEo0Mlkzb2x3WVlnM1hmbllTcjgy?=
+ =?utf-8?B?UHdYclNnZ1N2QTNvcHdQcmI2aThMUkc4LzR6eUxLQjdCbE5YRVFNeE1lM21w?=
+ =?utf-8?B?N0FLTjFjc3QzdUxPSVc2RUUreW8wTmpSdmNxMWMxKzcrSy9sdlVRWDhoZ09N?=
+ =?utf-8?B?bHJRSndhdG5vZ1gxTXdOSVNjYVlyVXNTVCtoTXJXam52TXVRZzFTZEVtS3VC?=
+ =?utf-8?B?cllMbERKc1B6RDhWdE9aYW96Z1dYMVNHNDJHM21DUWIwYkxLSVBkM0hwNjBy?=
+ =?utf-8?B?TVNyL21zZ0hUaEE3eEY5ZGdRRG9TcDAvazFOeUlTZzZEK0x1T3ZrMTM5TXdO?=
+ =?utf-8?B?eUFWMlpuZURKZmNFVXlWOUdxRklSZUUvNEhQSHliQWpCSUJ2OHRobm5Lejhv?=
+ =?utf-8?B?YVZVZ203T3RPK080UTZMaG8ydkNzcGoyOVdMdUlnelR0L1dHU2tHYmkzNFJr?=
+ =?utf-8?B?V3c9PQ==?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a860e0b0-de2c-4324-1107-08da9274c03f
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4972.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2022 15:05:36.7597
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TBjI26Ht+1NY/ppXG56sUEJ6nM7aZJmLtJUR/JECEcFIo/qaYdFExkkapT2W3iL0+QfKNghCFTTSwhHQquKtyA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR03MB6442
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gRnJpLCAyMDIyLTA5LTA5IGF0IDA5OjQwICswMjAwLCBuaWtsYXMuc29kZXJsdW5kQGNvcmln
-aW5lLmNvbSB3cm90ZToNCj4gSGkgUGhpbGlwcGUsDQo+IA0KPiBPbiAyMDIyLTA5LTA4IDE3OjQ5
-OjE0ICswMDAwLCBQaGlsaXBwZSBTY2hlbmtlciB3cm90ZToNCj4gPiBIaSBOaWtsYXMsIA0KPiA+
-IA0KPiA+IFRoYW5rcyBmb3IgYWRkaW5nIG1lIHRvIGNjLiBJIHdpbGwgYWxzbyBhZGQgU3RlcGhl
-biwgYXMgaGUgYWxzbyBzZW50DQo+ID4gc29tZSBjb21tZW50cyBvbiBteSBzdWJtaXNzaW9uIHRo
-ZSBleGFjdCBzYW1lIHByb2JsZW0uIEknbQ0KPiA+IHN1cHBvcnRpdmUgb2YNCj4gPiB5b3VyIGNv
-ZGUgYXMgaXQgaGFzIHRoZSBuaWNlIGFkdmFudGFnZSBvZiBzdWdnZXN0aW5nIHRoZSByaWdodA0K
-PiA+IGZvcm1hdCBvZg0KPiA+IHRoZSB0YWcgaWYgaXQgbWlnaHQgYmUgd3JvbmcuIEhvd2V2ZXIg
-aXQgc2VlbXMgbG90IG9mIHN0dWZmIGlzDQo+ID4gc2xpZ2h0bHkNCj4gPiBkdXBsaWNhdGVkIGFu
-ZCBsb3RzIG9mIGxpbmVzIGNvdWxkIGJlIGxlZnQgYXdheSBzaW1wbGlmeWluZyBpdA0KPiA+IGdy
-ZWF0bHkuDQo+ID4gSSBkb24ndCB3YW50IHRvIGhvbGQgYW55dGhpbmcgdXAgYW55d2F5IHNvIEkn
-bSBmaW5lIHdpdGggaXQsIGJ1dA0KPiA+IHdpbGwNCj4gPiBzdGlsbGxlYXZlIHNvbWUgY29tbWVu
-dHMgb2YgdGhpbmdzIEkgdGhpbmsgc2hvdWxkIGJlIGltcHJvdmVkLg0KPiANCj4gSSBhZ3JlZSB0
-aGUgTG9DIGNvdWxkIGJlIHJlZHVjZWQsIEkgdHJ5IHRvIG1pbWljIHRoZSBzdHlsZSBmcm9tIHRo
-ZSANCj4gIkNoZWNrIGZvciBnaXQgaWQgY29tbWl0IGxlbmd0aCBhbmQgaW1wcm9wZXJseSBmb3Jt
-ZWQgY29tbWl0IA0KPiBkZXNjcmlwdGlvbnMiIGNoZWNrLiBBcyB0aGVyZSBpcyBzb21lIG92ZXJs
-YXAgbWF5YmUgb25lIGRheSBzb21lb25lIA0KPiBjbGV2ZXJlciB0aGVuIG1lIGNhbiBmaWd1cmUg
-b3V0IGhvdyB0byBzaGFyZSBjb2RlIGJldHdlZW4gdGhlbS4NCj4gDQo+ID4gPiArIyBDaGVjayBG
-aXhlczogc3R5bGVzIGlzIGNvcnJlY3QNCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqBpZiAoISRpbl9oZWFkZXJfbGluZXMgJiYgJGxpbmUgPX4gL15maXhlczo/L2kpIHsNCj4g
-PiANCj4gPiBJIHdvdWxkIGNoZWNrIGFsbCBsaW5lcyB0aGF0IHN0YXJ0IHdpdGggZml4ZXMsIGV2
-ZW4gaWYgdGhlcmUgaXMNCj4gPiB3aGl0ZXNwYWNlIGluIGZyb250IChhbmQgdGhlbiBmYWlsaW5n
-IGxhdGVyIG9uLi4uKQ0KPiA+IA0KPiA+IGlmICghJGluX2hlYWRlcl9saW5lcyAmJiAkbGluZSA9
-fiAvXlxzKmZpeGVzOj8vaSkgew0KPiANCj4gR29vZCBwb2ludCwgd2lsbCBkbyBzbyBpbiB2NS4N
-Cj4gDQo+ID4gSWYgd2UgY2hlY2sgYWxzbyB0aGUgZml4ZXM6IGxpbmVzIHRoYXQgYmVnaW4gd2l0
-aCB3aGl0ZXNwYWNlIHRoaXMgDQo+ID4gd291bGQgYmUgYSBnb29kIHNwYWNlIHRvIGNoZWNrIHRo
-YXQgd2UgZG8gbm90IHdhbnQgYW55IHdoaXRlc3BhY2UgaW4NCj4gPiBmcm9udCBvZiBGaXhlczog
-dGFnLg0KPiA+IA0KPiA+IC8oXHMqZml4ZXM6PylccysoWzAtOWEtZl17NSx9KVxzKygkYmFsYW5j
-ZWRfcGFyZW5zKS9pKSB7DQo+IA0KPiBEaXR0by4NCj4gDQo+ID4gPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAkaWRfbGVuZ3Ro
-ID0gMCBpZiAoJG9yaWdfY29tbWl0ID1+DQo+ID4gPiAvXlswLTlhLWZdezEyfSQvaSk7DQo+ID4g
-DQo+ID4gSSBzdWdnZXN0IHdlIGJvcnJvdyB0aGUgcGF0dGVyIHRoYXQgaXMgYWxzbyB1c2VkIGlu
-ICJDaGVjayBmb3IgZ2l0DQo+ID4gaWQNCj4gPiBjb21taXQgbGVuZ3RoIGFuZCBpbXByb3Blcmx5
-IGZvcm1lZCBjb21taXQgZGVzY3JpcHRpb25zIi4gVGhpcyBoYXMNCj4gPiB0aGUNCj4gPiByZWFz
-b24gYXMgY2hlY2tpbmcgc3RyaWN0bHkgZm9yIDEyIGNoYXJzIGlzIGF0IHRoZSBtb21lbnQgcmln
-aHQgYnV0DQo+ID4gYXMNCj4gPiBsaW51eCBncm93cyAxMyBjaGFycyB3aWxsIGV2ZW50dWFsbHkg
-Y29tZS4NCj4gPiANCj4gPiAkaWRfbGVuZ3RoID0gMCBpZiAoJG9yaWdfY29tbWl0ID1+IC9eWzAt
-OWEtZl17MTIsNDB9JC9pKTsNCj4gDQo+IFRoaXMgb25lIGJvdGhlcnMgbWUgYSBiaXQuIEkgZGlk
-IGRvIHRoYXQgYmVmb3JlIEkgc2VudCBvdXQgdjEgYnV0IA0KPiBjaGFuZ2VkIG15IG1pbmQuIFRo
-ZSByZWFzb24gYmVpbmcgdGhhdCB0aGUgZG9jdW1lbnRhdGlvbiBhc2tzDQo+IGV4cGxpY2l0bHkg
-DQo+IGZvciAxMiBjaGFycyBbMV0uIEkgaGF2ZSBubyBwcmVmZXJlbmNlIG9uIGtlZXBpbmcgaXQg
-c3RyaWN0bHkgMTIgb3IgDQo+IGFsbG93aW5nIGFueXRoaW5nIGluIHRoZSAxMiB0byA0MCByYW5n
-ZSwgYnV0IGkgZG8gdGhpbmsgdGhlIGNoZWNrDQo+IHNob3VsZCANCj4gcmVmbGVjdCB3aGF0cyBp
-biB0aGUgZG9jdW1lbnRhdGlvbi4gSWYgd2UgY2hhbmdlIHRoaXMgbWF5YmUgd2UgYWxzbw0KPiBu
-ZWVkIA0KPiB0byB1cGRhdGUgdGhlIGRvY3VtZW50YXRpb24/DQo+IA0KPiBPbmUgYXJndW1lbnQg
-dG8ga2VlcCBpdCBzdHJpY3QgaXMgdGhhdCB3aGVuIExpbnV4IHRoZSBuZWVkIDEzIG9yIG1vcmUg
-DQo+IGNoYXJhY3RlcnMgdGhlIGRvY3VtZW50YXRpb24gd2lsbCBuZWVkIHRvIGJlIHVwZGF0ZWQg
-YW5kIGl0IGlzIG5hdHVyYWwNCj4gdGhhdCB0aGUgc2NyaXB0IHRvIGNoZWNrIHRoYXQgdGhlIHN0
-eWxlIGRvY3VtZW50ZWQgaXMgZm9sbG93ZWQgaXMgDQo+IHVwZGF0ZWQgYXQgdGhlIHNhbWUgdGlt
-ZS4NCg0KSW4gdGhlIGVuZCBJJ20gZmluZSB3aXRoIGJvdGggdmFyaWFudHMuIFVwIHRvIHlvdSwg
-SSBqdXN0IHdvdWxkIG5vdCBoYXZlDQptYWRlIHRoZSB3aG9sZSBjaGVjayB0b28gc3RyaWN0IGFz
-IHVudGlsIG5vdyB0aGVyZSB3YXMgbm8gY2hlY2sgYXQgYWxsLg0KQnV0IHRoZSBmYWN0IHdlIGFy
-ZSBub3cgZXZlbiBjaGVja2luZyBvbmUgc3BhY2UgY2hhcmFjdGVyIGl0IGlzIGFsc28NCmZpbmUg
-Zm9yIG1lIHRoYXQgd2UgbGltaXQgdGhpcyB0byBzdHJpY3RseSAxMiBjaGFyYWN0ZXJzLg0KDQo+
-IA0KPiAxLsKgDQo+IGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL2h0bWwvbGF0ZXN0L3Byb2Nl
-c3Mvc3VibWl0dGluZy1wYXRjaGVzLmh0bWwjZGVzY3JpYmUteW91ci1jaGFuZ2VzDQo+IA0KDQo=
+Hi Vinod/Kishon,
 
+On 9/2/22 5:37 PM, Sean Anderson wrote:
+> This adds support for the Lynx 10G SerDes found on the QorIQ T-series
+> and Layerscape series. Due to limited time and hardware, only support
+> for the LS1046ARDB is added in this initial series. There is a sketch
+> for LS1088ARDB support, but it is incomplete.
+> 
+> Dynamic reconfiguration does not work. That is, the configuration must
+> match what is set in the RCW. From my testing, SerDes register settings
+> appear identical. The issue appears to be between the PCS and the MAC.
+> The link itself comes up at both ends, and a mac loopback succeeds.
+> However, a PCS loopback results in dropped packets. Perhaps there is
+> some undocumented register in the PCS?
+> 
+> I suspect this driver is around 95% complete, but, unfortunately, I no
+> longer have time to investigate this further.
+> 
+> Changes in v5:
+> - Update commit description
+> - Dual id header
+> - Remove references to PHY_INTERFACE_MODE_1000BASEKX to allow this
+>   series to be applied directly to linux/master.
+> - Add fsl,lynx-10g.h to MAINTAINERS
+> 
+> Changes in v4:
+> - Add 2500BASE-X and 10GBASE-R phy types
+> - Use subnodes to describe lane configuration, instead of describing
+>   PCCRs. This is the same style used by phy-cadence-sierra et al.
+> - Add ids for Lynx 10g PLLs
+> - Rework all debug statements to remove use of __func__. Additional
+>   information has been provided as necessary.
+> - Consider alternative parent rates in round_rate and not in set_rate.
+>   Trying to modify out parent's rate in set_rate will deadlock.
+> - Explicitly perform a stop/reset sequence in set_rate. This way we
+>   always ensure that the PLL is properly stopped.
+> - Set the power-down bit when disabling the PLL. We can do this now that
+>   enable/disable aren't abused during the set rate sequence.
+> - Fix typos in QSGMII_OFFSET and XFI_OFFSET
+> - Rename LNmTECR0_TEQ_TYPE_PRE to LNmTECR0_TEQ_TYPE_POST to better
+>   reflect its function (adding post-cursor equalization).
+> - Use of_clk_hw_onecell_get instead of a custom function.
+> - Return struct clks from lynx_clks_init instead of embedding lynx_clk
+>   in lynx_priv.
+> - Rework PCCR helper functions; T-series SoCs differ from Layerscape SoCs
+>   primarily in the layout and offset of the PCCRs. This will help bring a
+>   cleaner abstraction layer. The caps have been removed, since this handles the
+>   only current usage.
+> - Convert to use new binding format. As a result of this, we no longer need to
+>   have protocols for PCIe or SATA. Additionally, modes now live in lynx_group
+>   instead of lynx_priv.
+> - Remove teq from lynx_proto_params, since it can be determined from
+>   preq_ratio/postq_ratio.
+> - Fix an early return from lynx_set_mode not releasing serdes->lock.
+> - Rename lynx_priv.conf to .cfg, since I kept mistyping it.
+> 
+> Changes in v3:
+> - Manually expand yaml references
+> - Add mode configuration to device tree
+> - Rename remaining references to QorIQ SerDes to Lynx 10G
+> - Fix PLL enable sequence by waiting for our reset request to be cleared
+>   before continuing. Do the same for the lock, even though it isn't as
+>   critical. Because we will delay for 1.5ms on average, use prepare
+>   instead of enable so we can sleep.
+> - Document the status of each protocol
+> - Fix offset of several bitfields in RECR0
+> - Take into account PLLRST_B, SDRST_B, and SDEN when considering whether
+>   a PLL is "enabled."
+> - Only power off unused lanes.
+> - Split mode lane mask into first/last lane (like group)
+> - Read modes from device tree
+> - Use caps to determine whether KX/KR are supported
+> - Move modes to lynx_priv
+> - Ensure that the protocol controller is not already in-use when we try
+>   to configure a new mode. This should only occur if the device tree is
+>   misconfigured (e.g. when QSGMII is selected on two lanes but there is
+>   only one QSGMII controller).
+> - Split PLL drivers off into their own file
+> - Add clock for "ext_dly" instead of writing the bit directly (and
+>   racing with any clock code).
+> - Use kasprintf instead of open-coding the snprintf dance
+> - Support 1000BASE-KX in lynx_lookup_proto. This still requires PCS
+>   support, so nothing is truly "enabled" yet.
+> - Describe modes in device tree
+> - ls1088a: Add serdes bindings
+> 
+> Changes in v2:
+> - Rename to fsl,lynx-10g.yaml
+> - Refer to the device in the documentation, rather than the binding
+> - Move compatible first
+> - Document phy cells in the description
+> - Allow a value of 1 for phy-cells. This allows for compatibility with
+>   the similar (but according to Ioana Ciornei different enough) lynx-28g
+>   binding.
+> - Remove minItems
+> - Use list for clock-names
+> - Fix example binding having too many cells in regs
+> - Add #clock-cells. This will allow using assigned-clocks* to configure
+>   the PLLs.
+> - Document the structure of the compatible strings
+> - Rename driver to Lynx 10G (etc.)
+> - Fix not clearing group->pll after disabling it
+> - Support 1 and 2 phy-cells
+> - Power off lanes during probe
+> - Clear SGMIIaCR1_PCS_EN during probe
+> - Rename LYNX_PROTO_UNKNOWN to LYNX_PROTO_NONE
+> - Handle 1000BASE-KX in lynx_proto_mode_prep
+> - Use one phy cell for SerDes1, since no lanes can be grouped
+> - Disable SerDes by default to prevent breaking boards inadvertently.
+> 
+> Sean Anderson (8):
+>   dt-bindings: phy: Add 2500BASE-X and 10GBASE-R
+>   dt-bindings: phy: Add Lynx 10G phy binding
+>   dt-bindings: clock: Add ids for Lynx 10g PLLs
+>   phy: fsl: Add Lynx 10G SerDes driver
+>   arm64: dts: ls1046a: Add serdes bindings
+>   arm64: dts: ls1088a: Add serdes bindings
+>   arm64: dts: ls1046ardb: Add serdes bindings
+>   [WIP] arm64: dts: ls1088ardb: Add serdes bindings
+> 
+>  .../devicetree/bindings/phy/fsl,lynx-10g.yaml |  236 ++++
+>  Documentation/driver-api/phy/index.rst        |    1 +
+>  Documentation/driver-api/phy/lynx_10g.rst     |   66 +
+>  MAINTAINERS                                   |    7 +
+>  .../boot/dts/freescale/fsl-ls1046a-rdb.dts    |  112 ++
+>  .../arm64/boot/dts/freescale/fsl-ls1046a.dtsi |   18 +
+>  .../boot/dts/freescale/fsl-ls1088a-rdb.dts    |  161 +++
+>  .../arm64/boot/dts/freescale/fsl-ls1088a.dtsi |   18 +
+>  drivers/phy/freescale/Kconfig                 |   20 +
+>  drivers/phy/freescale/Makefile                |    3 +
+>  drivers/phy/freescale/lynx-10g.h              |   16 +
+>  drivers/phy/freescale/phy-fsl-lynx-10g-clk.c  |  501 +++++++
+>  drivers/phy/freescale/phy-fsl-lynx-10g.c      | 1162 +++++++++++++++++
+>  include/dt-bindings/clock/fsl,lynx-10g.h      |   14 +
+>  include/dt-bindings/phy/phy.h                 |    2 +
+>  15 files changed, 2337 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/phy/fsl,lynx-10g.yaml
+>  create mode 100644 Documentation/driver-api/phy/lynx_10g.rst
+>  create mode 100644 drivers/phy/freescale/lynx-10g.h
+>  create mode 100644 drivers/phy/freescale/phy-fsl-lynx-10g-clk.c
+>  create mode 100644 drivers/phy/freescale/phy-fsl-lynx-10g.c
+>  create mode 100644 include/dt-bindings/clock/fsl,lynx-10g.h
+> 
+
+I noticed in patchwork [1] that this entire series is marked as "Changes
+Requested," despite having received only automated feedback on one patch
+in the series. I am concerned about this because last time this occurred
+[2], the series received no feedback for a month. I suspect this is
+because series marked "Changes Requested" are hidden in patchwork by
+default. Can you change the status of this series back to new? Or should
+I just resend again?
+
+--Sean
+
+[1] https://patchwork.kernel.org/project/linux-phy/list/?series=673741&state=*
+[2] https://patchwork.kernel.org/project/linux-phy/list/?series=665484&state=*
