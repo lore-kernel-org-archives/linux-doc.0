@@ -2,78 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1860EECAAA1
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 08:15:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC23EECAAD3
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 08:27:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231462AbiIIIPN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Sep 2022 04:15:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57660 "EHLO
+        id S231449AbiIII1r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Sep 2022 04:27:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230181AbiIIIPJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 04:15:09 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D4EF6BCCE;
-        Fri,  9 Sep 2022 01:15:07 -0700 (PDT)
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.57])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MP7z83tTQzHngR;
-        Fri,  9 Sep 2022 16:13:08 +0800 (CST)
-Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 9 Sep 2022 16:15:05 +0800
-Received: from [10.174.179.24] (10.174.179.24) by
- dggpemm100009.china.huawei.com (7.185.36.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 9 Sep 2022 16:15:04 +0800
-Subject: Re: [PATCH] mm/memcontrol: use kstrtobool for swapaccount param
- parsing
-To:     Michal Hocko <mhocko@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20220908083452.2844125-1-liushixin2@huawei.com>
- <20220908150248.85fff32bf275844f0927a856@linux-foundation.org>
- <YxrtODqHhdEkW2Lx@dhcp22.suse.cz>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <cgroups@vger.kernel.org>, <linux-mm@kvack.org>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-From:   Liu Shixin <liushixin2@huawei.com>
-Message-ID: <ee96ad93-e40b-6614-6cf7-b64bbc78ebc2@huawei.com>
-Date:   Fri, 9 Sep 2022 16:15:04 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        with ESMTP id S229776AbiIII1p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 04:27:45 -0400
+Received: from out203-205-221-236.mail.qq.com (out203-205-221-236.mail.qq.com [203.205.221.236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1132129C4B;
+        Fri,  9 Sep 2022 01:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+        s=s201512; t=1662712058;
+        bh=aoLYthYaly+LPb1QY/iuCsxLqqcSPLGYImw3emWr4Tc=;
+        h=From:To:Cc:Subject:Date;
+        b=eZ4ek7YY5KxzqRFiYPqS07zM6S45dTcXUWy2zC1m7lr/u0DbXN/mptJRQWMwUH8CZ
+         GE0Tsw3T1rqkgC2LZy4zy3YpW2FQpY/3NYgLyXXtbipLqmU5hMokXmQt4jsGugAMis
+         /LoBwgiB1y82Bav1UHxv/5zzM3esGQwR0zGZgnNM=
+Received: from localhost.localdomain ([39.156.73.13])
+        by newxmesmtplogicsvrszc8.qq.com (NewEsmtp) with SMTP
+        id 5DAB6A8D; Fri, 09 Sep 2022 14:23:26 +0800
+X-QQ-mid: xmsmtpt1662704606tj9l3mno2
+Message-ID: <tencent_404273595E97D42A7BAF59A3318800065908@qq.com>
+X-QQ-XMAILINFO: N+tZcXNNUKPOqZ/kLfFa+J1YW7xUCVDPhrfLVPEiKDvNDW8NxScyADHqL0mKt6
+         2g9TyVmW3diPVqfaPulMjssdfKbgu26s63HvRczz4+3aOnjAzeKz1FZ+QdtY2ZZ9vvCBhj8cDmwD
+         tGSdPdFhuzl/LUOImUxoz/nPUEDXTvrb2ueNTK3wlknp8RbsI7kv+8mi7yJRUNXVu+pZdQTNFf3D
+         B6VSCgclQdO+Fo+nipGtEUz+rbMkFn7dN672JQLi2f+tyjrR7xaJ9vGnjkbn93KSILTC2N1U2Gge
+         KjO4bI8UHur9Ju2ufn6Ii8ewz2tRvmDqGLFL2E5+4NjGWNYRIp7mOIODMKX0QsgOJOLp8jhuDvqi
+         Q7EltiUBqvcOYLFR/o7qa76Ds/TlKbBr35cUv7O/Zj5r6JnADwvrarNxSpg4Vue27uHf2lMy2/7z
+         b8ywu+zS7g9w4FOS6kb0HRdM0ZEDIgm63l1rIglfURjM+RVBYCADDQPQ+w3I+xA1SdUcDRJPl53+
+         a7Nmor27hukwM1ruoKWD0bysUnBHe1AiMYH0GwSUxNZtlRGYl30R2Hjl1y9T12QDnR8Xl+4kjvsA
+         tV/4b5Nx2Vq6A++oflaLPL255SuOg1INIijE2rr7yPA3uX1gfuDeo2LEO63zcFjvO1ynpe+WsjJz
+         jzTT4fM8eG8xLcX3M08JUR43vSM9LX2d4UHAklmSJJ9uMZOWnWiC4sFuyK45yexSTZt3NvPc7r6X
+         Vmf7B7jcqqfzmZc8q/QF4rQ4Jpo1Gw9v+PySgDz6AaCVYEFGdGeziPmDHwZCI65wrEs9HDNzmFpr
+         CsnOf3pLYexHAWO4ZlHrW2G1opGywLdLYnFbQvHtAvlc/YorGffs6s5PPZ5nklNog6F/EI3eJDhB
+         SyxgaphNoHf+f/ZWpfiBrWhRLVLMkuGiuvMyXJ/fBFh9e/mt1tZoLYdSy4HcJ/Q7tkS8w9jVmmqm
+         F9e/ne0DSEZBlIkTuhmhshiUH3ztpvaPQq5Pz1gDHkRBlSHyRC1VtfzLVsBpVEz06rWOSKtsNj/O
+         nFpIXeig6YR4bi3rFeUCial8zTQ3Dck5cdokVrlw==
+From:   Rong Tao <rtoax@foxmail.com>
+To:     corbet@lwn.net
+Cc:     Rong Tao <rtoax@foxmail.com>, Thomas Gleixner <tglx@linutronix.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Borislav Petkov <bp@suse.de>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Erik Ekman <erik@kryo.se>, Jiri Kosina <jkosina@suse.cz>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: process/submitting-patches: misspelling "mesages"
+Date:   Fri,  9 Sep 2022 14:23:03 +0800
+X-OQ-MSGID: <20220909062304.5629-1-rtoax@foxmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <YxrtODqHhdEkW2Lx@dhcp22.suse.cz>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.179.24]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm100009.china.huawei.com (7.185.36.113)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Fix spelling mistakes, "mesages" should be spelled "messages".
 
+Signed-off-by: Rong Tao <rtoax@foxmail.com>
+---
+ Documentation/process/submitting-patches.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 2022/9/9 15:37, Michal Hocko wrote:
-> On Thu 08-09-22 15:02:48, Andrew Morton wrote:
->> On Thu, 8 Sep 2022 16:34:52 +0800 Liu Shixin <liushixin2@huawei.com> wrote:
->>
->>> --- a/mm/swap_cgroup.c
->>> +++ b/mm/swap_cgroup.c
->>> @@ -194,7 +194,7 @@ int swap_cgroup_swapon(int type, unsigned long max_pages)
->>>  	return 0;
->>>  nomem:
->>>  	pr_info("couldn't allocate enough memory for swap_cgroup\n");
->>> -	pr_info("swap_cgroup can be disabled by swapaccount=0 boot option\n");
->>> +	pr_info("swap_cgroup can be disabled by swapaccount=[oO][Ff]/N/n/0 boot option\n");
->> I'm not sure this really needed changing.  "=0" was OK and the message
->> now looks rather silly.
-> Agreed. While swapaccount=0 is clear the extended form, even if correct,
-> might just confuse some admins.
-Thanks, the previous info is more appropriate, I will update the patch.
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index be49d8f2601b..0f45e8fd526f 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -715,7 +715,7 @@ references.
+ 
+ .. _backtraces:
+ 
+-Backtraces in commit mesages
++Backtraces in commit messages
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ Backtraces help document the call chain leading to a problem. However,
+-- 
+2.31.1
 
