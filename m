@@ -2,99 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD54DECAAD5
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 07:57:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82287ECAAD3
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 08:13:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230133AbiIIH5W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Sep 2022 03:57:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43734 "EHLO
+        id S231431AbiIIINa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Sep 2022 04:13:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229774AbiIIH4y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 03:56:54 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BE7B10B552;
-        Fri,  9 Sep 2022 00:55:39 -0700 (PDT)
-Received: from canpemm500005.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MP7Wx5qhBznVDK;
-        Fri,  9 Sep 2022 15:53:01 +0800 (CST)
-Received: from ubuntu1804.huawei.com (10.67.174.63) by
- canpemm500005.china.huawei.com (7.192.104.229) with Microsoft SMTP Server
+        with ESMTP id S231462AbiIIIN3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 04:13:29 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0610DB6D61;
+        Fri,  9 Sep 2022 01:13:28 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MP7tG5TxYzZcn0;
+        Fri,  9 Sep 2022 16:08:54 +0800 (CST)
+Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 9 Sep 2022 15:55:37 +0800
-From:   Zhao Gongyi <zhaogongyi@huawei.com>
-To:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mm@kvack.org>, <linux-kselftest@vger.kernel.org>
-CC:     <akinobu.mita@gmail.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <osalvador@suse.de>, <shuah@kernel.org>,
-        Zhao Gongyi <zhaogongyi@huawei.com>
-Subject: [PATCH -next 3/5] selftests/memory-hotplug: Add checking after online or offline
-Date:   Fri, 9 Sep 2022 15:51:58 +0800
-Message-ID: <20220909075200.198363-4-zhaogongyi@huawei.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220909075200.198363-1-zhaogongyi@huawei.com>
-References: <20220909075200.198363-1-zhaogongyi@huawei.com>
+ 15.1.2375.24; Fri, 9 Sep 2022 16:13:26 +0800
+Received: from huawei.com (10.175.113.32) by dggpemm100009.china.huawei.com
+ (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 9 Sep
+ 2022 16:13:25 +0800
+From:   Liu Shixin <liushixin2@huawei.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <cgroups@vger.kernel.org>, <linux-mm@kvack.org>,
+        Liu Shixin <liushixin2@huawei.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>
+Subject: [PATCH v2] mm/memcontrol: use kstrtobool for swapaccount param parsing
+Date:   Fri, 9 Sep 2022 16:46:47 +0800
+Message-ID: <20220909084647.3598299-1-liushixin2@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.174.63]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- canpemm500005.china.huawei.com (7.192.104.229)
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.32]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm100009.china.huawei.com (7.185.36.113)
 X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add checking for online_memory_expect_success()/
-offline_memory_expect_success()/offline_memory_expect_fail(), or
-the test would exit 0 although the functions return 1.
+Use kstrtobool which is more powerful to handle all kinds of parameters
+like 'Yy1Nn0' or [oO][NnFf] for "on" and "off".
 
-Signed-off-by: Zhao Gongyi <zhaogongyi@huawei.com>
+Signed-off-by: Liu Shixin <liushixin2@huawei.com>
 ---
- .../memory-hotplug/mem-on-off-test.sh          | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 7 ++++---
+ mm/memcontrol.c                                 | 8 ++++----
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/tools/testing/selftests/memory-hotplug/mem-on-off-test.sh b/tools/testing/selftests/memory-hotplug/mem-on-off-test.sh
-index f1a9d81b934c..3bdf3c4d6d06 100755
---- a/tools/testing/selftests/memory-hotplug/mem-on-off-test.sh
-+++ b/tools/testing/selftests/memory-hotplug/mem-on-off-test.sh
-@@ -267,7 +267,11 @@ done
- printf %#x $error > $NOTIFIER_ERR_INJECT_DIR/actions/MEM_GOING_ONLINE/erro
-
- for memory in `hotpluggable_offline_memory`; do
--	online_memory_expect_fail $memory
-+	online_memory_expect_fail $memory || {
-+		echo "online memory $memory: unexpected success"
-+		retval=1
-+	}
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 2434c6729f1c..5f8531e39bc9 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6037,10 +6037,11 @@
+ 			Execution Facility on pSeries.
+ 
+ 	swapaccount=	[KNL]
+-			Format: [0|1]
++			Format: { [oO][Nn]/Y/y/1 | [oO][Ff]/N/n/0 }
+ 			Enable accounting of swap in memory resource
+-			controller if no parameter or 1 is given or disable
+-			it if 0 is given (See Documentation/admin-guide/cgroup-v1/memory.rst)
++			controller if no parameter or [oO][Nn]/Y/y/1 is given
++			or disable it if [oO][Ff]/N/n/0 is given
++			(See Documentation/admin-guide/cgroup-v1/memory.rst)
+ 
+ 	swiotlb=	[ARM,IA-64,PPC,MIPS,X86]
+ 			Format: { <int> [,<int>] | force | noforce }
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 0a1a8a846870..5511c0c120d9 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -7434,10 +7434,10 @@ bool mem_cgroup_swap_full(struct folio *folio)
+ 
+ static int __init setup_swap_account(char *s)
+ {
+-	if (!strcmp(s, "1"))
+-		cgroup_memory_noswap = false;
+-	else if (!strcmp(s, "0"))
+-		cgroup_memory_noswap = true;
++	bool res;
 +
- done
-
- #
-@@ -275,7 +279,11 @@ done
- #
- echo 0 > $NOTIFIER_ERR_INJECT_DIR/actions/MEM_GOING_ONLINE/error
- for memory in `hotpluggable_offline_memory`; do
--	online_memory_expect_success $memory
-+	online_memory_expect_success $memory || {
-+		echo "online memory $memory: unexpected fail"
-+		retval=1
-+	}
-+
- done
-
- #
-@@ -284,7 +292,11 @@ done
- printf %#x $error > $NOTIFIER_ERR_INJECT_DIR/actions/MEM_GOING_OFFLINE/error
- for memory in `hotpluggable_online_memory`; do
- 	if [ $((RANDOM % 100)) -lt $ratio ]; then
--		offline_memory_expect_fail $memory
-+		offline_memory_expect_fail $memory || {
-+			echo "offline memory $memory: unexpected success"
-+			retval=1
-+		}
-+
- 	fi
- done
-
---
-2.17.1
++	if (!kstrtobool(s, &res))
++		cgroup_memory_noswap = !res;
+ 	return 1;
+ }
+ __setup("swapaccount=", setup_swap_account);
+-- 
+2.25.1
 
