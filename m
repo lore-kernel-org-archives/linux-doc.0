@@ -2,84 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A64A1ECAAD5
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 20:54:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C59E5ECAAA1
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 21:34:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229601AbiIIUyc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Sep 2022 16:54:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58190 "EHLO
+        id S229599AbiIIVec (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Sep 2022 17:34:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229623AbiIIUyb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 16:54:31 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CB05BF4;
-        Fri,  9 Sep 2022 13:54:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662756869; x=1694292869;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ROjuV4CqzT86ZTJF04fmVbf2WhqVLX3ZkCVgsyHl1rY=;
-  b=Virz7ZNEpOYCIACYzqTAHLLhprV9jAwEsvb7WaDVLbNsOs4XrlEU95OM
-   es4oe4/QasOFxoe1QgD/IF22dknmmx/mQ8B5cmRJ7QUg4wVMjcXgnZa/f
-   O9CNa+T696Wja91vIMAYkZ0HwTKkXGg9arWOc4MUjyqyPqyqb2zE154N/
-   l3KfanOs1LUbxyAO6Du696b8U1u64MVujV8teE6ABbvu8uQgjHKsWuY84
-   s8BHPrKs60J1KE/Lz6XA+cf3OjrqXJpxXgpRhaHRBF2sOaWm3O8cTA7Ch
-   jIihw2fXtQKysG8oR9CXxNFii+L9WCEwI0wDDQ05PqB44l/YXcJKUYJt/
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10465"; a="295150924"
-X-IronPort-AV: E=Sophos;i="5.93,304,1654585200"; 
-   d="scan'208";a="295150924"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2022 13:54:29 -0700
-X-IronPort-AV: E=Sophos;i="5.93,304,1654585200"; 
-   d="scan'208";a="566494911"
-Received: from omeier-mobl1.ger.corp.intel.com (HELO [10.209.54.138]) ([10.209.54.138])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2022 13:54:27 -0700
-Message-ID: <bc3b0fbc-3b5d-7dec-609b-37bc7a643d83@intel.com>
-Date:   Fri, 9 Sep 2022 13:54:26 -0700
+        with ESMTP id S229918AbiIIVeb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 17:34:31 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0C8265CA
+        for <linux-doc@vger.kernel.org>; Fri,  9 Sep 2022 14:34:28 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id g4so2771587pgc.0
+        for <linux-doc@vger.kernel.org>; Fri, 09 Sep 2022 14:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=32RKuQk21ut6+KAUx33F1+gsJh+klfpdgDVand8UaUY=;
+        b=J6IxD7L7SZ4AKh9XtSi8eh8Jx+8cegZUiSYmvebzo/SCXpDkI4leU+G088tW5UxyH2
+         TOgZilOPz8NSHWBm5sC2bZBL90HQ/f0MUxSvD0c4d+RiD1OzERYWYJM+BA5FsHysAoL/
+         gE5wODosEq+1Aq6kpfxRdvOttRfFVTQbdE2mc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=32RKuQk21ut6+KAUx33F1+gsJh+klfpdgDVand8UaUY=;
+        b=6bxKWOXLlK6RzfsHYKGEXten4Bzx13drEcR+E+usXNBWL0feIOC8OVc3A4LfIR1nKH
+         Y7kqwMH+fJLofrSxlFpuv05/Co+3pbQ6PoM/NQFYJnXohBF8aznDLCb1uYE5OgGkuDOI
+         15uhxT14yQaH7IRWhn1pyHtCsBWAmsMIZIWCMCJZ5uf/GZgxE0VsTdcZrG5WGxm5CEVb
+         0mKIVTbWwFCisqmPsM76HJuYVx9RXxbYABfWb6d/BfAMepdDU3yCwd0bpGeEbwIK6Jyr
+         wCEzDweOmZR1zlUMX/p8DKTuiBfNHVGnSuXYHPDh4A/r0WnrRBYa+rcBAUhxSlqDlym9
+         9D/Q==
+X-Gm-Message-State: ACgBeo2URBoDH3pwkrS+mNj26FSw/uHkchoSoh4gX0MpAW5PhLTRJqKv
+        2ZD+C8YmvoeIWNVneYAg6qiU0w==
+X-Google-Smtp-Source: AA6agR4MrzUXBLxlI8FMdz+81a18JRGoiLJstTSYWOLWPZB6bw3JAP0uUwjrMYvdUZm9UO87zhTJgQ==
+X-Received: by 2002:a65:60c5:0:b0:434:e149:6745 with SMTP id r5-20020a6560c5000000b00434e1496745mr14253221pgv.30.1662759268324;
+        Fri, 09 Sep 2022 14:34:28 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id f196-20020a6238cd000000b00540de61c967sm182116pfa.201.2022.09.09.14.34.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Sep 2022 14:34:27 -0700 (PDT)
+Date:   Fri, 9 Sep 2022 14:34:26 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Florian Mayer <fmayer@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Peter Collingbourne <pcc@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH RESEND] Add sicode to /proc/<PID>/stat.
+Message-ID: <202209091432.5FEEE461F7@keescook>
+References: <20220909180617.374238-1-fmayer@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v13 1/3] x86/tdx: Add TDX Guest attestation interface
- driver
-Content-Language: en-US
-To:     Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>
-Cc:     "H . Peter Anvin" <hpa@zytor.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220909192708.1113126-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220909192708.1113126-2-sathyanarayanan.kuppuswamy@linux.intel.com>
- <1942be91-ec18-5fb3-9fcd-6ffcfaf9f36c@intel.com>
- <c289f18c-1276-eaa8-739e-4fb530eace91@linux.intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <c289f18c-1276-eaa8-739e-4fb530eace91@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220909180617.374238-1-fmayer@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/9/22 13:07, Sathyanarayanan Kuppuswamy wrote:
->> What's wrong with:
->>
->> 	memchr_inv(&req.reserved, sizeof(req.reserved), 0)
-> I did not consider the hard coding issue. It is a mistake. Your suggestion
-> looks better. I will use it.
+On Fri, Sep 09, 2022 at 11:06:17AM -0700, Florian Mayer wrote:
+> In order to enable additional debugging features, Android init needs a
+> way to distinguish MTE-related SEGVs (with si_code of SEGV_MTEAERR)
+> from other SEGVs. This is not possible with current APIs, neither by
+> the existing information in /proc/<pid>/stat, nor via waitpid.
 
-BTW...  Please look at how memchr_inv() gets used in the kernel.  Don't
-copy my nonsense too exactly.
+Normally no changes are made to "stat" any more. New additions are made
+to "status" instead. Could it live there instead?
+
+-Kees
+
+-- 
+Kees Cook
