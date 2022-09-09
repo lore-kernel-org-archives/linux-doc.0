@@ -2,52 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E22FECAAD3
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 06:17:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F04BECAAD5
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 06:32:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229706AbiIIGRQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Sep 2022 02:17:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53004 "EHLO
+        id S231209AbiIIGcW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Sep 2022 02:32:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbiIIGRP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 02:17:15 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F9B01177B6;
-        Thu,  8 Sep 2022 23:17:14 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.55])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MP5Jx2PsTz14QXx;
-        Fri,  9 Sep 2022 14:13:21 +0800 (CST)
+        with ESMTP id S230472AbiIIGcU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 02:32:20 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5F8312FBA1;
+        Thu,  8 Sep 2022 23:32:14 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MP5gh37h4znVFj;
+        Fri,  9 Sep 2022 14:29:36 +0800 (CST)
 Received: from [10.67.102.169] (10.67.102.169) by
  canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 9 Sep 2022 14:17:11 +0800
-CC:     <yangyicong@hisilicon.com>, <gregkh@linuxfoundation.org>,
-        <alexander.shishkin@linux.intel.com>, <leo.yan@linaro.org>,
-        <james.clark@arm.com>, <will@kernel.org>, <robin.murphy@arm.com>,
-        <acme@kernel.org>, <peterz@infradead.org>, <corbet@lwn.net>,
-        <mark.rutland@arm.com>, <jonathan.cameron@huawei.com>,
-        <john.garry@huawei.com>, <helgaas@kernel.org>,
-        <lorenzo.pieralisi@arm.com>, <suzuki.poulose@arm.com>,
-        <joro@8bytes.org>, <shameerali.kolothum.thodi@huawei.com>,
-        <mingo@redhat.com>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-pci@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-        <iommu@lists.linux-foundation.org>, <iommu@lists.linux.dev>,
-        <linux-doc@vger.kernel.org>, <prime.zeng@huawei.com>,
-        <liuqi115@huawei.com>, <zhangshaokun@hisilicon.com>,
-        <linuxarm@huawei.com>, <bagasdotme@gmail.com>
-Subject: Re: [PATCH v12 0/5] Add driver support for HiSilicon PCIe Tune and
- Trace device
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-References: <20220816114414.4092-1-yangyicong@huawei.com>
- <20220908230914.GA246683@p14s>
+ 15.1.2375.24; Fri, 9 Sep 2022 14:32:11 +0800
+CC:     <yangyicong@hisilicon.com>, <akpm@linux-foundation.org>,
+        <linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
+        <x86@kernel.org>, <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
+        <peterz@infradead.org>, <arnd@arndb.de>,
+        <linux-kernel@vger.kernel.org>, <darren@os.amperecomputing.com>,
+        <huzhanyuan@oppo.com>, <lipeifeng@oppo.com>,
+        <zhangshiming@oppo.com>, <guojian@oppo.com>, <realmz6@gmail.com>,
+        <linux-mips@vger.kernel.org>, <openrisc@lists.librecores.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
+        <linux-s390@vger.kernel.org>, <wangkefeng.wang@huawei.com>,
+        <xhao@linux.alibaba.com>, <prime.zeng@hisilicon.com>,
+        Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
+Subject: Re: [PATCH v3 4/4] arm64: support batched/deferred tlb shootdown
+ during page reclamation
+To:     Barry Song <21cnbao@gmail.com>,
+        Anshuman Khandual <anshuman.khandual@arm.com>
+References: <20220822082120.8347-1-yangyicong@huawei.com>
+ <20220822082120.8347-5-yangyicong@huawei.com>
+ <1e8642d5-0e2d-5747-d0d2-5aa0817ea4af@arm.com>
+ <CAGsJ_4xD4m-szM1Cm4N5ZRCODGC0fbW+BLBhy8g6+eK=aHPQNw@mail.gmail.com>
 From:   Yicong Yang <yangyicong@huawei.com>
-Message-ID: <05e54c98-a42f-6362-c6d3-0268e91bf3a0@huawei.com>
-Date:   Fri, 9 Sep 2022 14:17:11 +0800
+Message-ID: <8d393624-c8b8-a288-061d-a8590cb8a85e@huawei.com>
+Date:   Fri, 9 Sep 2022 14:32:11 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <20220908230914.GA246683@p14s>
+In-Reply-To: <CAGsJ_4xD4m-szM1Cm4N5ZRCODGC0fbW+BLBhy8g6+eK=aHPQNw@mail.gmail.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.67.102.169]
@@ -58,176 +60,265 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/9/9 7:09, Mathieu Poirier wrote:
-> On Tue, Aug 16, 2022 at 07:44:09PM +0800, Yicong Yang wrote:
->> From: Yicong Yang <yangyicong@hisilicon.com>
+On 2022/9/9 13:35, Barry Song wrote:
+> On Fri, Sep 9, 2022 at 5:24 PM Anshuman Khandual
+> <anshuman.khandual@arm.com> wrote:
 >>
->> HiSilicon PCIe tune and trace device (PTT) is a PCIe Root Complex integrated
->> Endpoint (RCiEP) device, providing the capability to dynamically monitor and
->> tune the PCIe traffic (tune), and trace the TLP headers (trace).
 >>
->> PTT tune is designed for monitoring and adjusting PCIe link parameters. We provide
->> several parameters of the PCIe link. Through the driver, user can adjust the value
->> of certain parameter to affect the PCIe link for the purpose of enhancing the
->> performance in certian situation.
 >>
->> PTT trace is designed for dumping the TLP headers to the memory, which can be
->> used to analyze the transactions and usage condition of the PCIe Link. Users
->> can choose filters to trace headers, by either requester ID, or those downstream
->> of a set of Root Ports on the same core of the PTT device. It's also supported
->> to trace the headers of certain type and of certain direction.
+>> On 8/22/22 13:51, Yicong Yang wrote:
+>>> From: Barry Song <v-songbaohua@oppo.com>
+>>>
+>>> on x86, batched and deferred tlb shootdown has lead to 90%
+>>> performance increase on tlb shootdown. on arm64, HW can do
+>>> tlb shootdown without software IPI. But sync tlbi is still
+>>> quite expensive.
+>>>
+>>> Even running a simplest program which requires swapout can
+>>> prove this is true,
+>>>  #include <sys/types.h>
+>>>  #include <unistd.h>
+>>>  #include <sys/mman.h>
+>>>  #include <string.h>
+>>>
+>>>  int main()
+>>>  {
+>>>  #define SIZE (1 * 1024 * 1024)
+>>>          volatile unsigned char *p = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
+>>>                                           MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+>>>
+>>>          memset(p, 0x88, SIZE);
+>>>
+>>>          for (int k = 0; k < 10000; k++) {
+>>>                  /* swap in */
+>>>                  for (int i = 0; i < SIZE; i += 4096) {
+>>>                          (void)p[i];
+>>>                  }
+>>>
+>>>                  /* swap out */
+>>>                  madvise(p, SIZE, MADV_PAGEOUT);
+>>>          }
+>>>  }
+>>>
+>>> Perf result on snapdragon 888 with 8 cores by using zRAM
+>>> as the swap block device.
+>>>
+>>>  ~ # perf record taskset -c 4 ./a.out
+>>>  [ perf record: Woken up 10 times to write data ]
+>>>  [ perf record: Captured and wrote 2.297 MB perf.data (60084 samples) ]
+>>>  ~ # perf report
+>>>  # To display the perf.data header info, please use --header/--header-only options.
+>>>  # To display the perf.data header info, please use --header/--header-only options.
+>>>  #
+>>>  #
+>>>  # Total Lost Samples: 0
+>>>  #
+>>>  # Samples: 60K of event 'cycles'
+>>>  # Event count (approx.): 35706225414
+>>>  #
+>>>  # Overhead  Command  Shared Object      Symbol
+>>>  # ........  .......  .................  .............................................................................
+>>>  #
+>>>     21.07%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irq
+>>>      8.23%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irqrestore
+>>>      6.67%  a.out    [kernel.kallsyms]  [k] filemap_map_pages
+>>>      6.16%  a.out    [kernel.kallsyms]  [k] __zram_bvec_write
+>>>      5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
+>>>      3.71%  a.out    [kernel.kallsyms]  [k] _raw_spin_lock
+>>>      3.49%  a.out    [kernel.kallsyms]  [k] memset64
+>>>      1.63%  a.out    [kernel.kallsyms]  [k] clear_page
+>>>      1.42%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock
+>>>      1.26%  a.out    [kernel.kallsyms]  [k] mod_zone_state.llvm.8525150236079521930
+>>>      1.23%  a.out    [kernel.kallsyms]  [k] xas_load
+>>>      1.15%  a.out    [kernel.kallsyms]  [k] zram_slot_lock
+>>>
+>>> ptep_clear_flush() takes 5.36% CPU in the micro-benchmark
+>>> swapping in/out a page mapped by only one process. If the
+>>> page is mapped by multiple processes, typically, like more
+>>> than 100 on a phone, the overhead would be much higher as
+>>> we have to run tlb flush 100 times for one single page.
+>>> Plus, tlb flush overhead will increase with the number
+>>> of CPU cores due to the bad scalability of tlb shootdown
+>>> in HW, so those ARM64 servers should expect much higher
+>>> overhead.
+>>>
+>>> Further perf annonate shows 95% cpu time of ptep_clear_flush
+>>> is actually used by the final dsb() to wait for the completion
+>>> of tlb flush. This provides us a very good chance to leverage
+>>> the existing batched tlb in kernel. The minimum modification
+>>> is that we only send async tlbi in the first stage and we send
+>>> dsb while we have to sync in the second stage.
+>>>
+>>> With the above simplest micro benchmark, collapsed time to
+>>> finish the program decreases around 5%.
+>>>
+>>> Typical collapsed time w/o patch:
+>>>  ~ # time taskset -c 4 ./a.out
+>>>  0.21user 14.34system 0:14.69elapsed
+>>> w/ patch:
+>>>  ~ # time taskset -c 4 ./a.out
+>>>  0.22user 13.45system 0:13.80elapsed
+>>>
+>>> Also, Yicong Yang added the following observation.
+>>>       Tested with benchmark in the commit on Kunpeng920 arm64 server,
+>>>       observed an improvement around 12.5% with command
+>>>       `time ./swap_bench`.
+>>>               w/o             w/
+>>>       real    0m13.460s       0m11.771s
+>>>       user    0m0.248s        0m0.279s
+>>>       sys     0m12.039s       0m11.458s
+>>>
+>>>       Originally it's noticed a 16.99% overhead of ptep_clear_flush()
+>>>       which has been eliminated by this patch:
+>>>
+>>>       [root@localhost yang]# perf record -- ./swap_bench && perf report
+>>>       [...]
+>>>       16.99%  swap_bench  [kernel.kallsyms]  [k] ptep_clear_flush
+>>>
+>>> Cc: Jonathan Corbet <corbet@lwn.net>
+>>> Cc: Nadav Amit <namit@vmware.com>
+>>> Cc: Mel Gorman <mgorman@suse.de>
+>>> Tested-by: Yicong Yang <yangyicong@hisilicon.com>
+>>> Tested-by: Xin Hao <xhao@linux.alibaba.com>
+>>> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+>>> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+>>> ---
+>>>  .../features/vm/TLB/arch-support.txt          |  2 +-
+>>>  arch/arm64/Kconfig                            |  1 +
+>>>  arch/arm64/include/asm/tlbbatch.h             | 12 ++++++++
+>>>  arch/arm64/include/asm/tlbflush.h             | 28 +++++++++++++++++--
+>>>  4 files changed, 40 insertions(+), 3 deletions(-)
+>>>  create mode 100644 arch/arm64/include/asm/tlbbatch.h
+>>>
+>>> diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
+>>> index 1c009312b9c1..2caf815d7c6c 100644
+>>> --- a/Documentation/features/vm/TLB/arch-support.txt
+>>> +++ b/Documentation/features/vm/TLB/arch-support.txt
+>>> @@ -9,7 +9,7 @@
+>>>      |       alpha: | TODO |
+>>>      |         arc: | TODO |
+>>>      |         arm: | TODO |
+>>> -    |       arm64: | TODO |
+>>> +    |       arm64: |  ok  |
+>>>      |        csky: | TODO |
+>>>      |     hexagon: | TODO |
+>>>      |        ia64: | TODO |
+>>> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+>>> index 571cc234d0b3..09d45cd6d665 100644
+>>> --- a/arch/arm64/Kconfig
+>>> +++ b/arch/arm64/Kconfig
+>>> @@ -93,6 +93,7 @@ config ARM64
+>>>       select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
+>>>       select ARCH_SUPPORTS_NUMA_BALANCING
+>>>       select ARCH_SUPPORTS_PAGE_TABLE_CHECK
+>>> +     select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
+>>>       select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
+>>>       select ARCH_WANT_DEFAULT_BPF_JIT
+>>>       select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT
+>>> diff --git a/arch/arm64/include/asm/tlbbatch.h b/arch/arm64/include/asm/tlbbatch.h
+>>> new file mode 100644
+>>> index 000000000000..fedb0b87b8db
+>>> --- /dev/null
+>>> +++ b/arch/arm64/include/asm/tlbbatch.h
+>>> @@ -0,0 +1,12 @@
+>>> +/* SPDX-License-Identifier: GPL-2.0 */
+>>> +#ifndef _ARCH_ARM64_TLBBATCH_H
+>>> +#define _ARCH_ARM64_TLBBATCH_H
+>>> +
+>>> +struct arch_tlbflush_unmap_batch {
+>>> +     /*
+>>> +      * For arm64, HW can do tlb shootdown, so we don't
+>>> +      * need to record cpumask for sending IPI
+>>> +      */
+>>> +};
+>>> +
+>>> +#endif /* _ARCH_ARM64_TLBBATCH_H */
+>>> diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
+>>> index 412a3b9a3c25..23cbc987321a 100644
+>>> --- a/arch/arm64/include/asm/tlbflush.h
+>>> +++ b/arch/arm64/include/asm/tlbflush.h
+>>> @@ -254,17 +254,24 @@ static inline void flush_tlb_mm(struct mm_struct *mm)
+>>>       dsb(ish);
+>>>  }
+>>>
+>>> -static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
+>>> +
+>>> +static inline void __flush_tlb_page_nosync(struct mm_struct *mm,
+>>>                                        unsigned long uaddr)
+>>>  {
+>>>       unsigned long addr;
+>>>
+>>>       dsb(ishst);
+>>> -     addr = __TLBI_VADDR(uaddr, ASID(vma->vm_mm));
+>>> +     addr = __TLBI_VADDR(uaddr, ASID(mm));
+>>>       __tlbi(vale1is, addr);
+>>>       __tlbi_user(vale1is, addr);
+>>>  }
+>>>
+>>> +static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
+>>> +                                      unsigned long uaddr)
+>>> +{
+>>> +     return __flush_tlb_page_nosync(vma->vm_mm, uaddr);
+>>> +}
+>>> +
+>>>  static inline void flush_tlb_page(struct vm_area_struct *vma,
+>>>                                 unsigned long uaddr)
+>>>  {
+>>> @@ -272,6 +279,23 @@ static inline void flush_tlb_page(struct vm_area_struct *vma,
+>>>       dsb(ish);
+>>>  }
+>>>
+>>> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
+>>> +{
+>>> +     return true;
+>>> +}
 >>
->> The driver registers a PMU device for each PTT device. The trace can be used
->> through `perf record` and the traced headers can be decoded by `perf report`.
->> The tune can be used through the sysfs attributes of related PMU device. See
->> the documentation for the detailed usage.
->>
->> This patchset adds an initial driver support for the PTT device. The userspace
->> perf tool support will be sent in a separate patchset.
->>
->> Change since v11:
->> - Drop WARN_ON() for irq_set_affinity() failure per Greg
->> - Split out userspace perf support patches according to the comments
->> Link: https://lore.kernel.org/lkml/20220721130116.43366-1-yangyicong@huawei.com/
->>
->> Change since v10:
->> - Use title case in the documentation
->> - Add RB from Bagas, thanks.
->> Link: https://lore.kernel.org/lkml/20220714092710.53486-1-yangyicong@hisilicon.com/
->>
->> Change since v9:
->> - Add sysfs ABI description documentation
->> - Remove the controversial available_{root_port, requester}_filters sysfs file
->> - Shorten 2 tune sysfs attributes name and add some comments
->> - Move hisi_ptt_process_auxtrace_info() to Patch 6.
->> - Add RB from Leo and Ack-by from Mathieu, thanks!
->> Link: https://lore.kernel.org/lkml/20220606115555.41103-1-yangyicong@hisilicon.com/
->>
->> Change since v8:
->> - Cleanups and one minor fix from Jonathan and John, thanks
->> Link: https://lore.kernel.org/lkml/20220516125223.32012-1-yangyicong@hisilicon.com/
->>
->> Change since v7:
->> - Configure the DMA in probe rather than in runtime. Also use devres to manage
->>   PMU device as we have no order problem now
->> - Refactor the config validation function per John and Leo
->> - Use a spinlock hisi_ptt::pmu_lock instead of mutex to serialize the perf process
->>   in pmu::start as it's in atomic context
->> - Only commit the traced data when stop, per Leo and James
->> - Drop the filter dynamically updating patch from this series to simply the review
->>   of the driver. That patch will be send separately.
->> - add a cpumask sysfs attribute and handle the cpu hotplug events, follow the
->>   uncore PMU convention
->> - Other cleanups and fixes, both in driver and perf tool
->> Link: https://lore.kernel.org/lkml/20220407125841.3678-1-yangyicong@hisilicon.com/
->>
->> Change since v6:
->> - Fix W=1 errors reported by lkp test, thanks
->>
->> Change since v5:
->> - Squash the PMU patch into PATCH 2 suggested by John
->> - refine the commit message of PATCH 1 and some comments
->> Link: https://lore.kernel.org/lkml/20220308084930.5142-1-yangyicong@hisilicon.com/
->>
->> Change since v4:
->> Address the comments from Jonathan, John and Ma Ca, thanks.
->> - Use devm* also for allocating the DMA buffers
->> - Remove the IRQ handler stub in Patch 2
->> - Make functions waiting for hardware state return boolean
->> - Manual remove the PMU device as it should be removed first
->> - Modifier the orders in probe and removal to make them matched well
->> - Make available {directions,type,format} array const and non-global
->> - Using the right filter list in filters show and well protect the
->>   list with mutex
->> - Record the trace status with a boolean @started rather than enum
->> - Optimize the process of finding the PTT devices of the perf-tool
->> Link: https://lore.kernel.org/linux-pci/20220221084307.33712-1-yangyicong@hisilicon.com/
->>
->> Change since v3:
->> Address the comments from Jonathan and John, thanks.
->> - drop members in the common struct which can be get on the fly
->> - reduce buffer struct and organize the buffers with array instead of list
->> - reduce the DMA reset wait time to avoid long time busy loop
->> - split the available_filters sysfs attribute into two files, for root port
->>   and requester respectively. Update the documentation accordingly
->> - make IOMMU mapping check earlier in probe to avoid race condition. Also
->>   make IOMMU quirk patch prior to driver in the series
->> - Cleanups and typos fixes from John and Jonathan
->> Link: https://lore.kernel.org/linux-pci/20220124131118.17887-1-yangyicong@hisilicon.com/
->>
->> Change since v2:
->> - address the comments from Mathieu, thanks.
->>   - rename the directory to ptt to match the function of the device
->>   - spinoff the declarations to a separate header
->>   - split the trace function to several patches
->>   - some other comments.
->> - make default smmu domain type of PTT device to identity
->>   Drop the RMR as it's not recommended and use an iommu_def_domain_type
->>   quirk to passthrough the device DMA as suggested by Robin. 
->> Link: https://lore.kernel.org/linux-pci/20211116090625.53702-1-yangyicong@hisilicon.com/
->>
->> Change since v1:
->> - switch the user interface of trace to perf from debugfs
->> - switch the user interface of tune to sysfs from debugfs
->> - add perf tool support to start trace and decode the trace data
->> - address the comments of documentation from Bjorn
->> - add RMR[1] support of the device as trace works in RMR mode or
->>   direct DMA mode. RMR support is achieved by common APIs rather
->>   than the APIs implemented in [1].
->> Link: https://lore.kernel.org/lkml/1618654631-42454-1-git-send-email-yangyicong@hisilicon.com/
->> [1] https://lore.kernel.org/linux-acpi/20210805080724.480-1-shameerali.kolothum.thodi@huawei.com/
->>
->> Yicong Yang (5):
->>   iommu/arm-smmu-v3: Make default domain type of HiSilicon PTT device to
->>     identity
->>   hwtracing: hisi_ptt: Add trace function support for HiSilicon PCIe
->>     Tune and Trace device
->>   hwtracing: hisi_ptt: Add tune function support for HiSilicon PCIe Tune
->>     and Trace device
->>   docs: trace: Add HiSilicon PTT device driver documentation
->>   MAINTAINERS: Add maintainer for HiSilicon PTT driver
->>
->>  .../ABI/testing/sysfs-devices-hisi_ptt        |   61 +
->>  Documentation/trace/hisi-ptt.rst              |  298 +++++
->>  Documentation/trace/index.rst                 |    1 +
->>  MAINTAINERS                                   |    8 +
->>  drivers/Makefile                              |    1 +
->>  drivers/hwtracing/Kconfig                     |    2 +
->>  drivers/hwtracing/ptt/Kconfig                 |   12 +
->>  drivers/hwtracing/ptt/Makefile                |    2 +
->>  drivers/hwtracing/ptt/hisi_ptt.c              | 1047 +++++++++++++++++
->>  drivers/hwtracing/ptt/hisi_ptt.h              |  200 ++++
->>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |   21 +
+>> Always defer and batch up TLB flush, unconditionally ?
 > 
-> I fixed the month and kernel revision in sysfs-devices-hisi_ptt before applying
-> this set.  You can double check that everything is to your liking in the
-> coresight next tree[1].
+> My understanding is we actually don't need tlbbatch for a machine with one
+> or two cores as the tlb flush is not expensive. even for a system with four
+> cortex-a55 cores, i didn't see obvious cost. it was less than 1%.
+> when we have 8 cores, we see the obvious cost of tlb flush. for a server with
+> 100 crores, the cost is incredibly huge.
+> 
+> But, we can hardly write source code to differentiate machines according to
+> how many cores a machine has, especially when cores can be hot-plugged.
 > 
 
-Thanks a lot for the fixes, I thought to use the month when posting the patches and sorry for
-calculating a wrong release version. I've pulled and checked again and everything is fine.
+Another thing is that we're not recording mm_cpumask() on arm64 so for now we cannot do
+the check like x86 and others.
 
-Thanks you again and everybody helped reveiw this series!
-
-Regards,
-Yicong.
-
-> Thanks,
-> Mathieu
-> 
-> [1]. https://git.kernel.org/pub/scm/linux/kernel/git/coresight/linux.git/log/?h=next
-> 
-> 
->>  11 files changed, 1653 insertions(+)
->>  create mode 100644 Documentation/ABI/testing/sysfs-devices-hisi_ptt
->>  create mode 100644 Documentation/trace/hisi-ptt.rst
->>  create mode 100644 drivers/hwtracing/ptt/Kconfig
->>  create mode 100644 drivers/hwtracing/ptt/Makefile
->>  create mode 100644 drivers/hwtracing/ptt/hisi_ptt.c
->>  create mode 100644 drivers/hwtracing/ptt/hisi_ptt.h
 >>
->> -- 
->> 2.24.0
+>>> +
+>>> +static inline void arch_tlbbatch_add_mm(struct arch_tlbflush_unmap_batch *batch,
+>>> +                                     struct mm_struct *mm,
+>>> +                                     unsigned long uaddr)
+>>> +{
+>>> +     __flush_tlb_page_nosync(mm, uaddr);
+>>> +}
+>>> +
+>>> +static inline void arch_tlbbatch_flush(struct arch_tlbflush_unmap_batch *batch)
+>>> +{
+>>> +     dsb(ish);
+>>> +}
 >>
+>> Adding up __flush_tlb_page_nosync() without a corresponding dsb(ish) and
+>> then doing once via arch_tlbbatch_flush() will have the same effect from
+>> an architecture perspective ?
+> 
+> The difference is we drop the cost of lots of single tlb flush. we
+> only need to sync
+> when we have to sync. dsb(ish) guarantees the completion of previous
+> multiple tlb
+> flush instructions.
+> 
+>>
+>>> +
+>>>  /*
+>>>   * This is meant to avoid soft lock-ups on large TLB flushing ranges and not
+>>>   * necessarily a performance improvement.
+> 
+> Thanks
+> Barry
 > .
 > 
