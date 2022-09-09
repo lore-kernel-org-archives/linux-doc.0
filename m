@@ -2,123 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3121ECAAD3
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 12:23:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B6ACECAAD3
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Sep 2022 13:36:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231395AbiIIMX1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Sep 2022 08:23:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54550 "EHLO
+        id S230460AbiIINgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Sep 2022 09:36:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231331AbiIIMW6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 08:22:58 -0400
+        with ESMTP id S229985AbiIINgS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 09:36:18 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B67211163
-        for <linux-doc@vger.kernel.org>; Fri,  9 Sep 2022 05:21:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15CC012A312
+        for <linux-doc@vger.kernel.org>; Fri,  9 Sep 2022 06:36:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662726115;
+        s=mimecast20190719; t=1662730576;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=wpKZaZKB6OuIOUbNK0QXmxRia5uDsfJYJGNMehBpaeQ=;
-        b=Gg28gKJ3uKapzabdcjs/ovSkjmzQHcse7/DT6PFfTqWsw+hYpR7ACfBtTyuGGGiV/+5xuy
-        N7xGMSXUYiUl8By9l0ewwMVmj8Q+DdQE+Rz0WnpSaZ/PBT87lvB2r1bpSRU/W3tFQGIMx0
-        ZohYkQ23f6xUZy3z3J76XaWgPtdxaW8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=r+j5NRBRWTe4dwiHyAiQIy4Dst2HaG54q1byj2vgh9A=;
+        b=Pm4Un1c14ij9ifplVWSJx663rrDOhST3ySl93FHP7hpb+rZ5tdJXm893rTSVEWFAaQIGbM
+        nj/q/tUcgJIpP9p3+2TU7ixJGTC7LS/CUa4j3w5nX7IRGzXhZ6Bm96C8rdcRY3qBSnSRcs
+        2/3jjD87HbNGcA4ZGQsjae8gYxJwrkc=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-554-XqOtu6fJOE6kCT-T2Giu4A-1; Fri, 09 Sep 2022 08:21:53 -0400
-X-MC-Unique: XqOtu6fJOE6kCT-T2Giu4A-1
-Received: by mail-wm1-f71.google.com with SMTP id az27-20020a05600c601b00b003b26feb5cbbso2698627wmb.5
-        for <linux-doc@vger.kernel.org>; Fri, 09 Sep 2022 05:21:53 -0700 (PDT)
+ us-mta-260-42IJ19vdP2GnRRkhjRCjBQ-1; Fri, 09 Sep 2022 09:36:13 -0400
+X-MC-Unique: 42IJ19vdP2GnRRkhjRCjBQ-1
+Received: by mail-pg1-f200.google.com with SMTP id e187-20020a6369c4000000b0041c8dfb8447so975430pgc.23
+        for <linux-doc@vger.kernel.org>; Fri, 09 Sep 2022 06:36:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date;
-        bh=wpKZaZKB6OuIOUbNK0QXmxRia5uDsfJYJGNMehBpaeQ=;
-        b=TbXCSfcV36m17m/8oGkJxNHbMQMwKwi4uCQ4mSgyofAZmc3l/g8s5Wm8kXKf+QQWpZ
-         1FVm+WJUjNTE+h3f8iDMuP4K7safFciJsxoGN/yklTTw4xI1LoCagnOZFdoIgmgJz7hC
-         05NK24pzUGprKH/owQsvisP68l0/OVFRvUxbDaAJSwc1RkWd/bdN2DEbJLLq2EZUV+l1
-         TnWKJJlyurx7BUQPOT/DoYRq8VAlgWTAsNdUZKE0GfqjqHMWjHLUwfzFr4y1qWcGfE7Q
-         0f46CykeKuygToHgjS0Ln5ePobKcJS3aCuaunOPibJmDUhRCRF+46gqW+0jR9iZ4LvOl
-         iTLA==
-X-Gm-Message-State: ACgBeo2CPXqOihrM+N+2DRcksDoG4sQgLA0qynUfxbr9STqEaiYqtgCB
-        8z5IGfesCwgVxrDhH+lqy1ikphUVYoAypexvaNrEe5YsI9LrcdLVlQF51CiunBIr3kCXX16i+8F
-        ju5CsL1694A/oVsNhtlBK
-X-Received: by 2002:a5d:588a:0:b0:228:462f:a49 with SMTP id n10-20020a5d588a000000b00228462f0a49mr8372603wrf.616.1662726112730;
-        Fri, 09 Sep 2022 05:21:52 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4zCe6lDbEZptsQT9dTPwb/AYvVBjW5axO/MWFBwE2Vrd8p4VQ+FCvkXzdgnWOwMPwcYhUpUA==
-X-Received: by 2002:a5d:588a:0:b0:228:462f:a49 with SMTP id n10-20020a5d588a000000b00228462f0a49mr8372589wrf.616.1662726112488;
-        Fri, 09 Sep 2022 05:21:52 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:6300:1fe0:42e1:62c5:91b6? (p200300cbc70463001fe042e162c591b6.dip0.t-ipconnect.de. [2003:cb:c704:6300:1fe0:42e1:62c5:91b6])
-        by smtp.gmail.com with ESMTPSA id q127-20020a1c4385000000b003a5f54e3bbbsm429713wma.38.2022.09.09.05.21.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Sep 2022 05:21:52 -0700 (PDT)
-Message-ID: <c4447a26-8bc7-2250-0a64-1cb3a1b3b5a2@redhat.com>
-Date:   Fri, 9 Sep 2022 14:21:51 +0200
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=r+j5NRBRWTe4dwiHyAiQIy4Dst2HaG54q1byj2vgh9A=;
+        b=he7nJSwWGl3QkpwBNsmcvOIfhB9Q0kFPbKgacmL5YpuCjLUOiSnP6Y2DxvrerFmUpS
+         uDIBVyrsrqso/drcr73oHwDEd//Yz0zvSp338SUjM8dz5RIalenK3Wh7fp5LNrAfH7iZ
+         aYWwR25oPb3dQOirrIuF/aOX2DFusJVQCpYlt9y701mj+eCe+ztU2tG9X1hPTT3JJko+
+         Yb+nU2FHEaw3Qe62e8j9TuUy6PljUWv68JKe9EVZuJkL7SR8xQ3rpe5DnyiM2IzFy0ro
+         xjBlxhVt2LfB1E9kHhq85i2hQMXYZ8BgARy4FT6hfDhWK6RRGGda6dP1kmfzMvBYCH5J
+         0ySA==
+X-Gm-Message-State: ACgBeo0CREcQ1K8fxndrLycwIwRuNga8mZxJr0qBgGLM+FKpif2ALMhz
+        Opwb+EML8cJc2/O4J74GtstWjPLv8e+rbyrcTPhs3f4KO7mDBZ8/auTebTbWlQ/HdFvZmObgI7J
+        MPR+3SqIYsn5eMIiwUQnuIPd6J8G/VROc+Xhb
+X-Received: by 2002:a63:f74c:0:b0:42b:77c2:ce7c with SMTP id f12-20020a63f74c000000b0042b77c2ce7cmr12592096pgk.473.1662730571984;
+        Fri, 09 Sep 2022 06:36:11 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5SuJp+5hF11ORlTCZwHRZ31liJYmxmCrru4MNb9MY8mX5OINDPGCydElCCxBRT4j/66jaTrmZy9iz49jm7DGI=
+X-Received: by 2002:a63:f74c:0:b0:42b:77c2:ce7c with SMTP id
+ f12-20020a63f74c000000b0042b77c2ce7cmr12592074pgk.473.1662730571756; Fri, 09
+ Sep 2022 06:36:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH -next 4/5] selftests/memory-hotplug: Restore memory before
- exit
-Content-Language: en-US
-To:     Zhao Gongyi <zhaogongyi@huawei.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-kselftest@vger.kernel.org
-Cc:     akinobu.mita@gmail.com, corbet@lwn.net, osalvador@suse.de,
-        shuah@kernel.org
-References: <20220909075200.198363-1-zhaogongyi@huawei.com>
- <20220909075200.198363-5-zhaogongyi@huawei.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220909075200.198363-5-zhaogongyi@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220908002723.923241-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20220908002723.923241-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <Yxn5VDzJMUxSKz0Z@fedora> <23a76ce3-d568-3c73-eecc-fa499aeecfcd@linux.intel.com>
+In-Reply-To: <23a76ce3-d568-3c73-eecc-fa499aeecfcd@linux.intel.com>
+From:   Wander Lairson Costa <wander@redhat.com>
+Date:   Fri, 9 Sep 2022 10:36:00 -0300
+Message-ID: <CAAq0SUk9_DS4T5_uAg+3re7=wrGXMkiXgw_oPsWfrmgY79P=2g@mail.gmail.com>
+Subject: Re: [PATCH v12 2/3] selftests: tdx: Test TDX attestation GetReport support
+To:     Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09.09.22 09:51, Zhao Gongyi wrote:
-> Some momory will be left in offline state when calling
-> offline_memory_expect_fail() failed. Restore it before exit.
-> 
-> Signed-off-by: Zhao Gongyi <zhaogongyi@huawei.com>
-> ---
->   .../memory-hotplug/mem-on-off-test.sh         | 24 +++++++++++++------
->   1 file changed, 17 insertions(+), 7 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/memory-hotplug/mem-on-off-test.sh b/tools/testing/selftests/memory-hotplug/mem-on-off-test.sh
-> index 3bdf3c4d6d06..259fd8978639 100755
-> --- a/tools/testing/selftests/memory-hotplug/mem-on-off-test.sh
-> +++ b/tools/testing/selftests/memory-hotplug/mem-on-off-test.sh
-> @@ -134,6 +134,17 @@ offline_memory_expect_fail()
->   	return 0
->   }
-> 
-> +online_all_hot_pluggable_memory()
-> +{
-> +
-> +	for memory in `hotpluggable_offline_memory`; do
-> +		online_memory_expect_success $memory || {
-> +			echo "online memory $memory: unexpected fail"
-> +			retval=1
-> +		}
-> +	done
-> +}
+On Thu, Sep 8, 2022 at 8:45 PM Sathyanarayanan Kuppuswamy
+<sathyanarayanan.kuppuswamy@linux.intel.com> wrote:
+>
+>
+>
+> On 9/8/22 7:16 AM, Wander Lairson Costa wrote:
+> >> +#ifdef DEBUG
+> >> +static void print_array_hex(const char *title, const char *prefix_str,
+> >> +            const void *buf, int len)
+> >> +{
+> >> +    const __u8 *ptr = buf;
+> >> +    int i, rowsize = HEX_DUMP_SIZE;
+> >> +
+> >> +    if (!len || !buf)
+> >> +            return;
+> >> +
+> >> +    printf("\t\t%s", title);
+> >> +
+> >> +    for (i = 0; i < len; i++) {
+> >> +            if (!(i % rowsize))
+> >> +                    printf("\n%s%.8x:", prefix_str, i);
+> >> +            printf(" %.2x", ptr[i]);
+> >> +    }
+> >> +
+> >> +    printf("\n");
+> >> +}
+> >> +#endif
+> >> +
+> >> +TEST(verify_report)
+> >> +{
+> >> +    __u8 reportdata[TDX_REPORTDATA_LEN];
+> >> +    struct tdreport tdreport;
+> >> +    struct tdx_report_req req;
+> >> +    int devfd, i;
+> >> +
+> >> +    devfd = open(TDX_GUEST_DEVNAME, O_RDWR | O_SYNC);
+> >> +
+> >> +    ASSERT_LT(0, devfd);
+> >> +
+> >> +    /* Generate sample report data */
+> >> +    for (i = 0; i < TDX_REPORTDATA_LEN; i++)
+> >> +            reportdata[i] = i;
+> >> +
+> >> +    /* Initialize IOCTL request */
+> >> +    req.subtype     = 0;
+> >> +    req.reportdata  = (__u64)reportdata;
+> >> +    req.rpd_len     = TDX_REPORTDATA_LEN;
+> >> +    req.tdreport    = (__u64)&tdreport;
+> >> +    req.tdr_len     = sizeof(tdreport);
+> >> +
+> >> +    /* Get TDREPORT */
+> >> +    ASSERT_EQ(0, ioctl(devfd, TDX_CMD_GET_REPORT, &req));
+> >> +
+> >> +#ifdef DEBUG
+> >> +    print_array_hex("\n\t\tTDX report data\n", "",
+> >> +                    reportdata, sizeof(reportdata));
+> >> +
+> >> +    print_array_hex("\n\t\tTDX tdreport data\n", "",
+> >> +                    &tdreport, sizeof(tdreport));
+> >> +#endif
+> > You can unconditionally define print_array_hex, and
+> > use `if (DEBUG)` instead of #ifdef `DEBUG here`. The compiler
+> > will get rid of the unused code when DEBUG is not defined
+> > as expected, but you get the parser to validate it
+> > independent of the definition of DEBUG.
+>
+> Currently, DEBUG is a macro, so we cannot use if (DEBUG) directly.
+> You are suggesting to change DEBUG to a variable? Any reason to
+> make this change? I think both changes are functionally similar.
+> So I am wondering why to make this change?
+>
 
-Maybe call it
+My thought is always to define DEBUG. If in debug mode it is defined
+to 1; otherwise to 0.
+Then, you can use `if (DEBUG)` instead of `#ifdef DEBUG`. But the
+former will always check the syntax of the debug code,
+independent of the value of DEBUG, and the compiler will generate the
+same code. The GNU coding standard [1] explains that
+better than I do.
 
-"online_all_offline_memory()"
+[1] https://www.gnu.org/prep/standards/standards.html#Conditional-Compilation
 
-instead?
-
-Note that "removable" as used in hotpluggable_memory() will nowadays 
-always return "1" if the kernel supports memory hotunplug, independent 
-of the specific memory block.
-
--- 
-Thanks,
-
-David / dhildenb
+> >
+>
+> --
+> Sathyanarayanan Kuppuswamy
+> Linux Kernel Developer
+>
 
