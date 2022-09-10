@@ -2,221 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61F00C6FA82
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Sep 2022 08:39:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EA88ECAAD5
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Sep 2022 08:49:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229517AbiIJIi7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Sep 2022 04:38:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45380 "EHLO
+        id S229576AbiIJItI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Sep 2022 04:49:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbiIJIi6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Sep 2022 04:38:58 -0400
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2123.outbound.protection.outlook.com [40.107.102.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DADE61114A;
-        Sat, 10 Sep 2022 01:38:56 -0700 (PDT)
+        with ESMTP id S229517AbiIJItH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Sep 2022 04:49:07 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2117.outbound.protection.outlook.com [40.107.243.117])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AB916746C;
+        Sat, 10 Sep 2022 01:49:07 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YdVXYUFng99fPHp+5DGm61DXOoH/DMo9d39fezyqg9sLSgsS6ZExVKQqhXK+j9KOcNuKMfmB2ld3/onG24WzNR7NtWRgNohS6MtDNJxVQ2cPN7WOOPkajFqba+ai29CRbJF688lxUQFDjsDl4v/7sO5Z6tVPZRJDu389yU30nCmrmKFvCt0Y+vXqhonJq0RJaVZXlEyazZt00DjbXmFllN/VMpym79cjhr4ulklu3fuI2zqFLc4Z9HetKGmpuk1mhl4fPkfv8u1UEBcHwQD98nWcRA3pKp7bCXJX73NFngHW7Buv3mj34yunTxNdga7lfvx49TkRw1RgW/ZtfrPKSQ==
+ b=ReZcp6Go+0AYRvQ6LjJswHY3S7g/3l8yf2vxNNyZ7u+WMnYL8gPwaPJUbHxO8ojRD9snLrTWgIj82vapCxaM8AJbsZ7WK1EtXiVo/gIYbnfN5vgNkkVs9Xg2AJYaxP7vYq7iy+OflHdui5Rp7L56RLfOrX6OkLGiZ3bTrEp+qnodgzHlDcRsXNJJQdFSGqqvkYYY4h/kO0lUEXSXgAZrvpD+kBS7yuWeHwsc93QC+6tcs0AA0XSGIebm4vELJyhAnSRaR3BzkpJklXznXDnZcmdiwe9G5clZFlaXuVm/fMq8dlJE+MldkYWIoPBtHkDom/GfoJBc6exQuEXcnew4kw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZyfXV9G+R62BMVg+qlbKdRGdRnS+LINQSCo8b+M+AVg=;
- b=TECAStcBI5IBqsLdJsW9Hjbf7+ZBMMI5zkF6VPmb2okhdPBbYI/EtKDYe6CQ6SW1omO28mPzNC6pyEgdP4OjmB1cktB/VXzafcBFp2aV8FDPArT3vxgboIPKXPJTh0dLf0khd8vLUtArQZEf+gPXOnk2Dab6RQOM7rtbNM0BSbDWwThk++rpkXLpTUO+LJ6bcUbuVPya4KaTqwd2B+SbHDjH713YVl0jijb76gWYrZCWvJQBeFYpm5KMg1O8f9BJD8NGykaCUdFVip02ALYmgjfi+9IUhIPR3loR8LbFvako0T5AXZ+D+5eFCUNCZPfo6PKtVy9j1g2UZAir/eqq5A==
+ bh=kTUPxfUcBoOidsF87JZPLzEdMSM+1YMC/594JQbXxUw=;
+ b=aZrhBmktjVmw5PEl4hhXpQu3YcFOaf2/3QvH9axTre7qu1wChZK3C07qqbp9P7ULehIOgJUlCCmyIMvKWXaI51y5dPo9y5C3ODveFUzUBS1bJwZpOR6/wt5HQBwfHywhlp0kbChTBR11yOmKvAhuj/gfsdM2q3VNoYA1f751zYZk9MMEJoKnu0M3MMq+rufD7kpVebSmvh5mnM6extQr4lRgksCnCNtU4E6bu4JJl1v97TkFkF0dGIgrZVG84+kAmeH1+J3utkX5VC7lU1h06+RC1wkKqg+AcjPzd5A1Mb4WVtfPvgUlKm7PJnf1pixaIN5x393axpJ52zHex+NS0g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
  dkim=pass header.d=corigine.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZyfXV9G+R62BMVg+qlbKdRGdRnS+LINQSCo8b+M+AVg=;
- b=PbFz46CEDl9fU3XvXwpoxSv286qEA4g+azBPh4TiJWbgNHbeDLueSSJhjebejAwlSdpS+6Ia9h1Xu6/shAiP0lj5sVRiVLsk8/CeCAO8Y18G2Q4DlyR7iGM6n5hf325cA4ag6wjPBR2fMLsPIpZ2wKIZSfAnPjql9xK+U67j9uc=
+ bh=kTUPxfUcBoOidsF87JZPLzEdMSM+1YMC/594JQbXxUw=;
+ b=a1qvgVa4KIE9sWr+lBz2lcVTFeqQhcptGbv+TmGbDAi87vUFnd/tpgfCBnyTDlzXdQPgEGA6C0YkTux/Sz1l6P5gu8q6fRo8A3jaJikqagjUQKpBuiFuVVZgZO9pql9Twp/s9Upxw3UD5B1WB+T1JajRYNpFAsTXShS+Z4D0jSc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=corigine.com;
 Received: from DM6PR13MB4431.namprd13.prod.outlook.com (2603:10b6:5:1bb::21)
- by BL3PR13MB5075.namprd13.prod.outlook.com (2603:10b6:208:33e::6) with
+ by SA1PR13MB5540.namprd13.prod.outlook.com (2603:10b6:806:233::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.6; Sat, 10 Sep
- 2022 08:38:52 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.5; Sat, 10 Sep
+ 2022 08:49:04 +0000
 Received: from DM6PR13MB4431.namprd13.prod.outlook.com
  ([fe80::2944:20ba:ee80:b9c7]) by DM6PR13MB4431.namprd13.prod.outlook.com
  ([fe80::2944:20ba:ee80:b9c7%3]) with mapi id 15.20.5612.011; Sat, 10 Sep 2022
- 08:38:52 +0000
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@corigine.com>
-To:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Philippe Schenker <philippe.schenker@toradex.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     oss-drivers@corigine.com,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@corigine.com>,
-        Simon Horman <simon.horman@corigine.com>,
-        Louis Peens <louis.peens@corigine.com>
-Subject: [PATCH v6] checkpatch: warn for non-standard fixes tag style
-Date:   Sat, 10 Sep 2022 10:38:35 +0200
-Message-Id: <20220910083835.2219239-1-niklas.soderlund@corigine.com>
-X-Mailer: git-send-email 2.37.3
-Content-Type: text/plain; charset=UTF-8
+ 08:49:04 +0000
+Date:   Sat, 10 Sep 2022 10:48:58 +0200
+From:   "niklas.soderlund@corigine.com" <niklas.soderlund@corigine.com>
+To:     Joe Perches <joe@perches.com>
+Cc:     Philippe Schenker <philippe.schenker@toradex.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+        "apw@canonical.com" <apw@canonical.com>,
+        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
+        "louis.peens@corigine.com" <louis.peens@corigine.com>,
+        "simon.horman@corigine.com" <simon.horman@corigine.com>,
+        "oss-drivers@corigine.com" <oss-drivers@corigine.com>
+Subject: Re: [PATCH v4] checkpatch: warn for non-standard fixes tag style
+Message-ID: <YxxPepPX8Vp91XEA@oden.dyn.berto.se>
+References: <20220908164434.122106-1-niklas.soderlund@corigine.com>
+ <3275d886491dc934e3277cde9cc766b0ce0886ea.camel@toradex.com>
+ <Yxrt1aa60xY0H7j0@oden.dyn.berto.se>
+ <9f9a0740aef282d30af8fa02ca7c6479e80aa9a0.camel@perches.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0083.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1e::18) To DM6PR13MB4431.namprd13.prod.outlook.com
+In-Reply-To: <9f9a0740aef282d30af8fa02ca7c6479e80aa9a0.camel@perches.com>
+X-ClientProxiedBy: GV3P280CA0105.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:8::11) To DM6PR13MB4431.namprd13.prod.outlook.com
  (2603:10b6:5:1bb::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR13MB4431:EE_|BL3PR13MB5075:EE_
-X-MS-Office365-Filtering-Correlation-Id: f75497f4-3106-4fd3-76f2-08da9307e3c0
+X-MS-TrafficTypeDiagnostic: DM6PR13MB4431:EE_|SA1PR13MB5540:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1b1941b0-4d63-479b-5d56-08da9309508b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RjqKlqFC9os0yQ3M2XC3kjCms6zB4m/mFxZhOZ4PFL9CsALXm3N0kQ3CbZKSeW9+YS36ZLwb2qUqxJ9kRiGKIy5V+6txvj/DTO6UR8ri3ImcEzX3FhBWCkl8rt5aibxfsi0mG9yMEcvyqk0b5PaGsrAcmWgNjYe/1AainXHf+xC+M2zYwoPFreQLyazRaigwICvH6cTWAOxLFegXCknrec4V+ADrx0dTpR9SDkSA/2H5LMZVi017LrloPAAbmMpDlFTQzeWO9X75t98S+r4SKUrZ3DJbft80dR4Rv3dIdGilREzdBVFDJmGq75E+QSAPAPAbcPRI0lGoNWeBDfwsIYsvbsna3M3m5krxpbjWJYFa6zmgSNEnuWlKRLGP85BDQkVIiVVaoJsR8gcGOhxocmoa1zmheBu30objSyCmoel4blnh1Imo9gvznQ6S+vM+E9KcgykavrEIER9ljiW6Wv7Ly8Ay0++thuX6/xNbvw9sfVNo13YYOsSspnxH/GHiUTrJf9ZMeIEtRkVl4U4wIHHTSSwjfZHYgisGl5BzBFA+Qm3w8sw5QeKaUNkw5apBUdfYyeYT0W+xySfBEZt67p10RmjpgNQdo4XZKhOZBJrtKGd7SCa8KVLSJoezuomBP7o+nWSkQ2WIARidOi10C3IyWXD1PmvJFmOrM/SR0rReh6dkNoQiTZjBVyT2L8COcgbSkp+lFWgliJKA6UuGxttUrAlRCya6ldItei7d/5xWaKeHNAi8AY6QtwAEomXWk0Ad/Aj/+HnGe5RuJhSJC+QEI0NJ8sCkQ2KJeHa1dj4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR13MB4431.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(39840400004)(346002)(396003)(136003)(366004)(54906003)(83380400001)(38100700002)(8936002)(4326008)(8676002)(38350700002)(2616005)(66574015)(1076003)(186003)(5660300002)(36756003)(2906002)(316002)(66476007)(66556008)(66946007)(6666004)(6506007)(107886003)(110136005)(41300700001)(26005)(6512007)(52116002)(966005)(6486002)(478600001)(86362001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: pPF7uFXmDS+Aib5mHPrYro7UNmTyJ09sgBWEoIq6dtI3Hy9aYnXBapVxon+Grym5F9aF4WcQIrzkOpXeL6s8M5mn5RP+Fl2S0pa6Jz1w1+i6YKaW8nvoHv0FBpG9XqBAEBumdQJ+kq9v4+8E1QlPJmfIoJl0B/gzxNNzdgdukZkJOF9ontHVXqXlBDV2YMU79I0WSRBhte29Foyf7esGBecgNoC572NXfEJLnFwtWjFwzfO1T70pSv6rMgsPM3Adq1BCx4KLGT8SfTO1z+NRDaDvmXSa7Zh+w2/0O/RefHKz4lonDdFdYwHsWYOrfs031hdxu+1JPC43qM0I8vvQq5BG6SqAyBIo3uXf5gTNIXt/qCOckOc7yetbEjdv6BaapfVJ+M4NC0bg+w0TcOWA7mM7Ny98eo4PfcwSPcMsGo5K1rmZT/wBK5fk5XuWFIhKFY0yankxDzOFNitIDt/Wx3q4h0SeQYnL+57RHBtKE+P+3YRHu3TcVL81JOJywgZf2Sz1hlNkEnpJfvfytgEMOvX0WBBFfTU2L2vbbFbVkNKYEi0moqNJ5I/o2/Y4oZSLl1GCF21YlyCtJHG+NpAaV7ikl7D6tDRqNw2VsLBHNgtWJlPzcJPlf4X3e54jAnc5Y0WTnS1eZCSn/ZCtX36VW7vaJQ5wtdCAy9EG8pJBEkWB50F6kkvrCJL3UBsjB0w9IiYAri5UsmQBnHuQ437Qi2Pj8E6bCigWOGGRs0I2CGHzBhKdS3yR+YrLXtm7pcoS
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR13MB4431.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(366004)(39830400003)(396003)(346002)(136003)(26005)(6486002)(9686003)(66574015)(6506007)(41300700001)(52116002)(6512007)(186003)(38350700002)(53546011)(38100700002)(86362001)(107886003)(6666004)(4326008)(5660300002)(66476007)(8936002)(6916009)(316002)(54906003)(8676002)(66946007)(2906002)(66556008)(478600001)(4744005);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z2QxR1Q4R0ZEQS9QYlJ2SHAyNlpnb0NoSmV6c2x5OEJITm1QRlhMRXRJVWlh?=
- =?utf-8?B?SjlKUCtRdExDNGZKbjdEZlVKWHRMNTNvLy9MSllZenlzek1Vb1IzVzA1SFBn?=
- =?utf-8?B?OEVHQUpvUGp2aVdCN0VGMklHQ08vbW9OU24xMEkyY1lXOURQUHBnaFk3VUJ4?=
- =?utf-8?B?S3hVd1ZqalVobGFIMjIrME1ZT011SnA2Sk1OYzc2WmFnamdPYTNnb241ZThw?=
- =?utf-8?B?R09mcGtNNFN0eWpGaTczWTQzZmNoUURlY1pWc0l5TldWRGZDeU1ZbFpPOGMv?=
- =?utf-8?B?NGJ5WUhwMy82TUpRaFdRK0dWaXNYM3o4S3l3VktUVmFnZUtnUHFlNy83bVRY?=
- =?utf-8?B?TU5FMklDcU5vN0cxdWdqbGNHN0JHdUJwZUJOazFkNlB4T0hNYkZjSkNCK29n?=
- =?utf-8?B?WWJDazl3RU5lbDdzandlNlBzRVBvMFhwUHRZQk1TY3R4M0pmT1NpWTR1MkxX?=
- =?utf-8?B?V20xVGZxbE9IT2RXMnpUOEZwczFCcHZjNExQZDNaMTVob3c4Vjg2S2EvaGFR?=
- =?utf-8?B?enN4ZXB4OW5qSWRPLy9tOVF6Ry9RYXdhaEw5U2JOVGp3NmluZXpSVE5EOEI4?=
- =?utf-8?B?TDJXWG5CLzJuZ09hYlI4VkUxM3VKSXMxaW1ZaG1Pc3pmZ3lacjJBTVNoRWlP?=
- =?utf-8?B?MTAvSnc1dWsxNDRFUUxxL0hZZDh5MnpMU3F0NmJjaUNXd0xBYkVxaWd3OEp4?=
- =?utf-8?B?dmpzTkg0MWtlbkFHY0dNUkprS3BNWFRnOXJCNXZ2NUIreHlINzZoeGltMFA2?=
- =?utf-8?B?Yml4TWRaVk1hdzhhbXR0MjZxL3g1cDNXVHY3YVBQTk9xWGo2U3pmTjdqbWF0?=
- =?utf-8?B?TWJITHNJSHgybnFPN1A1UDRBRExaekFINitmVXp0WFhGdm43eFVBTThIb0Q1?=
- =?utf-8?B?UzlTM3ZORU43QWxURlRQZ3EwTHlrZjRNdlVoR0lIU3d5YmpZU21yWEVhNC9P?=
- =?utf-8?B?ZVpyaFp3dnkzTGxTMDFaMXhtdjgrcGtGTzd5MG9vNHNmUkEyaDVTTytwVWRo?=
- =?utf-8?B?REIya2RGWlJhaFNjbC9rM2xqNmZvY2JhZ3NoM0hCcVV5VzNQQXlBYmNIN2xa?=
- =?utf-8?B?YitqVXIzUWVIWHRxczVhbTRHQ0l5QURadFVZeWo1WDNNY3FRdXZVYTlFbTZH?=
- =?utf-8?B?UkZkc1FESDZSQWZ1SjQvK3JIRG8ybUkwaVR2bmdPMXE3QkEvZWh2eUtyeUVs?=
- =?utf-8?B?VFRDUGl5aWlHcU1CRy83OWcvYklPdVFLSDFBRWM2NWRtNG03a3R0VmhCd3J6?=
- =?utf-8?B?bUE5OUpQZllYMVVLV3JCdEw2ajhiVEcrSFozOUd2VUR0T0diNWY0amtTLzNh?=
- =?utf-8?B?NERwdVcxM3NMNGJlOU81NzlJTXFOS1JveVVTeXAwS3lhenBVbllXMjUyL1Y0?=
- =?utf-8?B?c1FINW4yL0FYNHljY0JpSC9yWHE0ZksvQlJzUXFJaG8rVVZTcW9HZWtGNVBS?=
- =?utf-8?B?TkM4QUY3TC9HblFxZG4ydGxLdHNnMk1lYzZTR1RsRmM0Wnduc0dpUU9oUS9L?=
- =?utf-8?B?MzdLK3RxRmg1amFJWUdyTDdCQ0wrMHdid2d3V0c3RXRUWW1XOUlkMk8wSVdW?=
- =?utf-8?B?bWFKQzhWb1dWd2tkc0RmdGpKYzFTTXRjbjRRU0Zralh5UGhVZkdWd1VUQUtQ?=
- =?utf-8?B?UXR4ZUlpb3VaR0s5QldtbDMrYXYrcUxaUHNWTFNqSzVKZnR0QnBUQTFBcU5W?=
- =?utf-8?B?bG5SWmg1QkRDSTJmak5GRWx3SWYwZnQ4OXFsTUxZYk9EUzloUGk4b1pnQUJE?=
- =?utf-8?B?SjVHM1FQZ25YZGxRcmFWN3k0RmZDU3c4S1ZrRGdDWmgxeWF5ZmxKUlQzOWZi?=
- =?utf-8?B?aURoMC82c0gzWFFaMmsrUDVNeXBQcTd6UEZabXdTMFJ5bEMxSzBqSkpCaXJo?=
- =?utf-8?B?SE9KbmhsWUU3MWZGZ3BpVUtQN055T3dLUENMZUplYmxZazJQK1VlS0dGZ1Ax?=
- =?utf-8?B?L25TdXZzUWVKYXNQZllyWVpNOXI0VnllekFvRVdkaU9ub1NCZjRvd0RUYjJz?=
- =?utf-8?B?bWYvV2VrbkxDamRlK2RHbmhoOTRwWUUwSjYzUjBhN2pZTVZ2VE0vRG5ud0V5?=
- =?utf-8?B?cjBnL3pHZWpiRGNjc3NFeGJoNXZMeDRuZDJiMUtISHlDVk16YzUyM2MyeGZE?=
- =?utf-8?B?d0RlUzAzaDZ0T1lodzhQNVR1UUJmWHZnYzUrcEErdTcySmlTYlk3QzFBckJy?=
- =?utf-8?B?SGc9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?SLHNWQOFkCRnLFLj/obCq7GqQzWT5y21tk1ZYbM9KNBmvmvemZPzf0MlPJ?=
+ =?iso-8859-1?Q?WBOP296Bl/f6sWuViU9OA28+n4ZXHxXAJysX6/1ufhSHcpwZe9gzYOLRDB?=
+ =?iso-8859-1?Q?rSlx8kxNZhM52jNrXWxC+2x9I8LbjII3lkWh/nhCJPd2Wy6mJFYrvLJ4v1?=
+ =?iso-8859-1?Q?kRdFiskeQpT1H87suRkJZlIVwEMiEeb3ad2MWLCztoSoYV0UGpns9Mu+RR?=
+ =?iso-8859-1?Q?WV+RgSnvSTDI3aOqXfHvSHUdYZ8dsoZnf+pGtk95T/dNbvHKS2znwsO2xW?=
+ =?iso-8859-1?Q?Qkn8yl2kSupIAxXxIbhnvLYwNFSCBrQGdSBETgRocIeQ+WzpNQwCWJwhrC?=
+ =?iso-8859-1?Q?imdnDnfU6ZYfYTLOeyRHXKdqwS1vkR1rFTDWO1h/tbAWd+bdNj08tQnSiU?=
+ =?iso-8859-1?Q?sftPKkMuV0ii2b7aTSpOwsfcdc7XpcuAxol8q8nHwmjpxYxO1hejeYsDWp?=
+ =?iso-8859-1?Q?LwNzAp21XaDoKeM6yKy3Rbl9WsdhaETZAZnh3Rpl7atwpQA/EkE3aSKSsI?=
+ =?iso-8859-1?Q?7mMIi2afXiH+8zgDPBu2zn/gIQJYLNQ/l8dx9pxaTv6T2IAa6MNOkOdvW3?=
+ =?iso-8859-1?Q?Tbbay+W3rGmr7Y7F3lD+gxO0h3y9xay0I4JIxJ6xQQg6USmSstC+Cj1Iwo?=
+ =?iso-8859-1?Q?kF7mvdQoxJLZuw8K8sIKAS9DWo86GSSllgkyXcMA+p1DjifI5OY6A2dnaT?=
+ =?iso-8859-1?Q?IwxDoSpZ/NxtZTWQrdhh/gogvTkz7Gj4cAABM/WWSv1QAEyoDJ/Xc4esxQ?=
+ =?iso-8859-1?Q?HOYM8SfUk6rrtlveGQqs8cg/0JI92BepyvvUnARha2DKVCjZ3IMdQz2HvC?=
+ =?iso-8859-1?Q?Z2ObU2DroeUyWpMjqsnk7Xoo2TSzc6q2i6gtdc2MTXg+o5BQOO5hFldZ3C?=
+ =?iso-8859-1?Q?l/XmuKWqlaKJJcIzPjH6xA6EVmsczQi2l1QJLLxPbb6QV44FZ70Ef2aNMf?=
+ =?iso-8859-1?Q?VYL/+3rzQJGBybstXJCGXAMhPnrm42LQ6k5xVYC8WWNsRmkFTdAhN9DamU?=
+ =?iso-8859-1?Q?gN7O0PxKvzBTT5UPAlRu5Jne1LuBGKKOdYr65ptgw26ACR9RQOBd+QVr/w?=
+ =?iso-8859-1?Q?f3JL90MG2lkpj5LffzRdGjaV17mHQR1NrnyJdwmi/TuZwac4QUCpm8f4hg?=
+ =?iso-8859-1?Q?MQ4KwIIVlbl++BAmcVGzQLpOvMl/RnF+65IimUl1MT8ZNnvGWE2i7V/Lms?=
+ =?iso-8859-1?Q?m4n4DARw9K62W41IKMlqb5JqrcerxSTH1OY17L3CQe0c7vpcCk/2n+Flym?=
+ =?iso-8859-1?Q?KweIr8/Gy+LRyo+pyALDoBvVBXedpREQE75akiS5xW6vhS0S92vZpKojTD?=
+ =?iso-8859-1?Q?X6PMDRicFw6s3vqlQiDRepMkviWNXUzJib9ll05eDdzstV8LgQpHfEcNsm?=
+ =?iso-8859-1?Q?spSXGaU1pHeYYPHzsyn0AWLyyhhfVL+f+WEfiPNUcZBT3FhK3gWqQSsDWS?=
+ =?iso-8859-1?Q?1a+f27l4vNLSQ5XEluqApvwQUFDAoQYcwGGVpGEpWHJ7FJMwVQJkYN+vVl?=
+ =?iso-8859-1?Q?6AUvHDfTQmHeeqRc5xrkQJamz7LEtAmiw5vkC+BMkchBRIuKlBCrdgp0HL?=
+ =?iso-8859-1?Q?aMqJvOCVAh8J+RvaR0VOSA6u3gsCTuoFwv7pO0v6D/8objaxT09Y6kKCSf?=
+ =?iso-8859-1?Q?ecjkH8uR/77QlIijMPB18BE3sC32tLwYJw5EJaiYXkSn1IX2dQgStioA?=
+ =?iso-8859-1?Q?=3D=3D?=
 X-OriginatorOrg: corigine.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR13MB5075
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR13MB5540
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a warning for fixes tags that does not fall in line with the
-standards specified by the community.
+Hi Joe,
 
-Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund@corigine.com>
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
-Reviewed-by: Louis Peens <louis.peens@corigine.com>
----
-* Changes since v5
-- Add support for --fix option for checkpatch.pl.
+Thanks for your feedback.
 
-* Changes since v4
-- Extend test to cover lines with whitespace before the fixes: tag, e.g.
-  match check on /^\s*fixes:?/i.
+On 2022-09-09 10:57:10 -0700, Joe Perches wrote:
+> I think it's better to make sure that there is a likely SHA1 of some
+> minimum length after the fixes line.
+> 
+> And a relatively common defect is to have the word "commit" after fixes.
+> 
+> e.g.:
+> 
+> Fixes commit 554c0a3abf216 ("staging: Add rtl8723bs sdio wifi driver").
+> Fixes commit a2c60d42d97c ("Add files for new driver - part 16").
+> 
+> So maybe:
+> 
+> 	if (!$in_header_lines &&
+> 	    $line =~ /^\s*fixes:?\s*(?:commit\s*)?[0-9a-f]{5,}\b/i)
 
-* Changes since v3
-- Add test that title in tag match title of commit referenced by sha1.
+I'm sorry I just sent out v6 and missed this comment, which I think is a 
+great idea. I will let v6 stew for a day or two in case there is other 
+feedback and then spin a v7 with this addressed.
 
-* Changes since v2
-- Change the pattern to match on 'fixes:?' to catch more malformed
-  tags.
-
-* Changes since v1
-- Update the documentation wording and add mention one cause of the
-  message can be that email program splits the tag over multiple lines.
----
- Documentation/dev-tools/checkpatch.rst |  8 +++++
- scripts/checkpatch.pl                  | 43 ++++++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
-
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index b52452bc2963..8c8456a3bd18 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -612,6 +612,14 @@ Commit message
- 
-     See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
- 
-+  **BAD_FIXES_TAG**
-+    The Fixes: tag is malformed or does not fall in line with the standards
-+    specified by the community. This can occur if the tag have been split into
-+    multiple lines (e.g., when pasted in email program with word wrapping
-+    enabled).
-+
-+    See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
-+
- 
- Comparison style
- ----------------
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 79e759aac543..77f577535fc3 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3140,6 +3140,49 @@ sub process {
- 			}
- 		}
- 
-+# Check Fixes: styles is correct
-+		if (!$in_header_lines && $line =~ /^\s*fixes:?/i) {
-+			my $orig_commit = "";
-+			my $id = "0123456789ab";
-+			my $title = "commit title";
-+			my $tag_case = 1;
-+			my $tag_space = 1;
-+			my $id_length = 1;
-+			my $id_case = 1;
-+			my $title_has_quotes = 0;
-+
-+			if ($line =~ /(\s*fixes:?)\s+([0-9a-f]{5,})\s+($balanced_parens)/i) {
-+				my $tag = $1;
-+				$orig_commit = $2;
-+				$title = $3;
-+
-+				$tag_case = 0 if $tag eq "Fixes:";
-+				$tag_space = 0 if ($line =~ /^fixes:? [0-9a-f]{5,} ($balanced_parens)/i);
-+
-+				$id_length = 0 if ($orig_commit =~ /^[0-9a-f]{12}$/i);
-+				$id_case = 0 if ($orig_commit !~ /[A-F]/);
-+
-+				# Always strip leading/trailing parens then double quotes if existing
-+				$title = substr($title, 1, -1);
-+				if ($title =~ /^".*"$/) {
-+					$title = substr($title, 1, -1);
-+					$title_has_quotes = 1;
-+				}
-+			}
-+
-+			my ($cid, $ctitle) = git_commit_info($orig_commit, $id,
-+							     $title);
-+
-+			if ($ctitle ne $title || $tag_case || $tag_space ||
-+			    $id_length || $id_case || !$title_has_quotes) {
-+				if (WARN("BAD_FIXES_TAG",
-+				     "Please use correct Fixes: style 'Fixes: <12 chars of sha1> (\"<title line>\")' - ie: 'Fixes: $cid (\"$ctitle\")'\n" . $herecurr) &&
-+				    $fix) {
-+					$fixed[$fixlinenr] = "Fixes: $cid (\"$ctitle\")";
-+				}
-+			}
-+		}
-+
- # Check email subject for common tools that don't need to be mentioned
- 		if ($in_header_lines &&
- 		    $line =~ /^Subject:.*\b(?:checkpatch|sparse|smatch)\b[^:]/i) {
 -- 
-2.37.3
-
+Kind Regards,
+Niklas Söderlund
