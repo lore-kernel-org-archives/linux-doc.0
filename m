@@ -2,47 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90777C6FA83
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Sep 2022 21:24:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96299C6FA83
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Sep 2022 21:27:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230139AbiIJVYQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Sep 2022 17:24:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44592 "EHLO
+        id S230527AbiIJV1Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Sep 2022 17:27:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230443AbiIJVXM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Sep 2022 17:23:12 -0400
+        with ESMTP id S231158AbiIJV0p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Sep 2022 17:26:45 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C71C151A00;
-        Sat, 10 Sep 2022 14:19:05 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A46652E64;
+        Sat, 10 Sep 2022 14:21:34 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3AABF60B4D;
-        Sat, 10 Sep 2022 21:18:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9AAEC433D6;
-        Sat, 10 Sep 2022 21:18:50 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7E55E60EDC;
+        Sat, 10 Sep 2022 21:19:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 133F2C43470;
+        Sat, 10 Sep 2022 21:19:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662844731;
-        bh=de0UWzH2KUXwSSVq/hNoyyVgaNRZRqOmYE7O8y8s+Gs=;
+        s=k20201202; t=1662844773;
+        bh=h/2VHYflfI4l94B4W06etXhd5jyq4NPY5MSNpkIzHos=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BfJbLAsKgAZ/7k0qpZW1C6dIkQL2EbBCX36HZhMNdOVMTYzTa0BFms+4IshAbSdra
-         b8OMbKmvB82ysHIlP1t+vlVCMFTvJ0Nxeuv+FxkCihEldMn7iL4/z6uUM/o0Ezb2nS
-         PhPMpQ2KEA9AFpGP5YJUxuxCeIMeT2E/2BYQ93L1BEGoKpNQnX/i3rU+BjlEGvjf/M
-         /moY89RLl/qC4ZT4W8CP/P1Vdy/aULrV8nj3PoOjVR09ukF/8GI2YqWbSdI7uc5d9H
-         KKa6x154vz03Y4M2T9K6ZiWFBwtlAoQ7A1cDFFjPk2t6W1YI/Tgxvtu0au1yWMo7yL
-         zNphPVyjwIEmw==
+        b=NZ1yFpuH7WC/4n49Gt39YX8YZPI70sKLoLEbJgFuFk/IVBoCwVTL5cWRgTkN/F7+S
+         E1gC/12t+PaXoUuuzazlKWq6mB8gu17s3UU4RGEaH8FFuQvV3HoIKsDecxRjNC17tO
+         +DwrXg6PQRCL30Z4hsL798tTBQAaqxEdVDBz9SFaCuZPYq3pYrvKw9q276eCaDCuRt
+         hXD/1p/5y7xw7yf02SZt1+J3ItQOXr9svrC0WFuMQGparxiJHhf3ivZF110Dy/zAaD
+         D8jyOHE+SWZ9zUBI67rqSElyshZLq/vWZXuXN9XpIr34wCQhvnoEGtyAxNPaC17hGr
+         ilPvOot/JVZQg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Greg Tulli <greg.iforce@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
         linux-input@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 09/14] Input: iforce - add support for Boeder Force Feedback Wheel
-Date:   Sat, 10 Sep 2022 17:18:27 -0400
-Message-Id: <20220910211832.70579-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 5/8] Input: iforce - add support for Boeder Force Feedback Wheel
+Date:   Sat, 10 Sep 2022 17:19:18 -0400
+Message-Id: <20220910211921.70891-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220910211832.70579-1-sashal@kernel.org>
-References: <20220910211832.70579-1-sashal@kernel.org>
+In-Reply-To: <20220910211921.70891-1-sashal@kernel.org>
+References: <20220910211921.70891-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -80,10 +80,10 @@ index 9746fd76cc581..f38c330c028e5 100644
  * Logitech WingMan Force Wheel
  * Guillemot Race Leader Force Feedback
 diff --git a/drivers/input/joystick/iforce/iforce-main.c b/drivers/input/joystick/iforce/iforce-main.c
-index b2a68bc9f0b4d..b86de1312512b 100644
+index 58d5cfe465263..12d96937c83f0 100644
 --- a/drivers/input/joystick/iforce/iforce-main.c
 +++ b/drivers/input/joystick/iforce/iforce-main.c
-@@ -50,6 +50,7 @@ static struct iforce_device iforce_device[] = {
+@@ -64,6 +64,7 @@ static struct iforce_device iforce_device[] = {
  	{ 0x046d, 0xc291, "Logitech WingMan Formula Force",		btn_wheel, abs_wheel, ff_iforce },
  	{ 0x05ef, 0x020a, "AVB Top Shot Pegasus",			btn_joystick_avb, abs_avb_pegasus, ff_iforce },
  	{ 0x05ef, 0x8884, "AVB Mag Turbo Force",			btn_wheel, abs_wheel, ff_iforce },
