@@ -2,71 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A977ECAAA1
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Sep 2022 02:52:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B0D7C6FA89
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Sep 2022 07:57:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbiIJCws convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Sep 2022 22:52:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40844 "EHLO
+        id S229569AbiIJH5c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Sep 2022 03:57:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229809AbiIJCwm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Sep 2022 22:52:42 -0400
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD28BE622B;
-        Fri,  9 Sep 2022 19:52:37 -0700 (PDT)
-Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay01.hostedemail.com (Postfix) with ESMTP id E84DA1C6737;
-        Sat, 10 Sep 2022 02:52:35 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 903D120027;
-        Sat, 10 Sep 2022 02:52:33 +0000 (UTC)
-Message-ID: <f1d9e2953551455bdee615dbe84ce55efead1c39.camel@perches.com>
-Subject: Re: [PATCH v5] checkpatch: warn for non-standard fixes tag style
-From:   Joe Perches <joe@perches.com>
-To:     Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@corigine.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Philippe Schenker <philippe.schenker@toradex.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     oss-drivers@corigine.com, Simon Horman <simon.horman@corigine.com>,
-        Louis Peens <louis.peens@corigine.com>
-Date:   Fri, 09 Sep 2022 19:52:31 -0700
-In-Reply-To: <20220909202534.1857709-1-niklas.soderlund@corigine.com>
-References: <20220909202534.1857709-1-niklas.soderlund@corigine.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        with ESMTP id S229536AbiIJH53 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Sep 2022 03:57:29 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C6E67A535
+        for <linux-doc@vger.kernel.org>; Sat, 10 Sep 2022 00:57:27 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id f9so5787747lfr.3
+        for <linux-doc@vger.kernel.org>; Sat, 10 Sep 2022 00:57:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=FBGOIg/B2+IRHqE8BYouXguAvAX+t/CI7o0Vq9YTfI0=;
+        b=MlDQ2ythtKpKOjWObS4gfHzZWOKHcWdUoGdVxqhWziD/d3D74tWUoLU3wJWywyaJVe
+         J9DNVtw9Jw7v+Ksx7qGMhK6C6ThbmhL7kFPKTpVVEb3Lj5n7d/JrZGkOp+PwpZ3acigM
+         URMCRNVKNmxx3QRaLS4sdh6emcAyPwomh4+TcxURVjzjnew/m0gjjuPgcbIGdBL1R2g0
+         vrcG4SZuVlvocrhW0xdm0BfqYIL6WCFOUPqreYUJ1iVhZw75xh3L1fNUVNsIr/NH6+hb
+         hykWFw+9WcGGtQLBT8hQoihR75L8PyQEcvIBSnHpoZLY1Vu3JZUEkmrYuHaP77G14ZsJ
+         MI1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=FBGOIg/B2+IRHqE8BYouXguAvAX+t/CI7o0Vq9YTfI0=;
+        b=vALtG0Rr5j/a+tLxEfxaR/9sdRg5OHfHb0VoYHMgwNsCFeUwnU8fG0GMbhCXhlZ19Y
+         qxx/or8tlYnwwS8wMULzjlhuL3a2Zkf1H4ILoC+8ZcOOiBK/7fL3Mm31l7vlEu59zMGp
+         rkmKOPWYLr5kgQvD7hMTlKoE3NvCu/3VC04Jvd0VCKXWOg+FLCeq7CvX/QMdzuos8XtZ
+         qUmEquKBjDN497iWliLfw9pwNps3lsN7wobZ5NBoMt169b6AoMrVVE1pZR/G2O0mX+Uw
+         DRkm9LhNUZj3rgpu1fOCkpO91HerrqcFQWYD4bOgwLEqo403pgzrzqnP1i9h+CXN9zZy
+         BvAA==
+X-Gm-Message-State: ACgBeo1TFclrYw2hmLkkSizkAjN7ZsznP5G6hzZCZIXNYteTrN6qw7ew
+        0JuVE602SuC0oNDHgjeNSNvhWg==
+X-Google-Smtp-Source: AA6agR5BjkJ+3ILP6ANCTf0QXdk2PGjorpHbnNON4yZjw5qhZAa1CM+brxbEvMXc0lgHySEkklUFEg==
+X-Received: by 2002:a05:6512:3128:b0:499:3c1d:f9e with SMTP id p8-20020a056512312800b004993c1d0f9emr1171315lfd.634.1662796645731;
+        Sat, 10 Sep 2022 00:57:25 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id 202-20020a2e05d3000000b0026ab83298d6sm251494ljf.77.2022.09.10.00.57.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 10 Sep 2022 00:57:25 -0700 (PDT)
+Message-ID: <91645b10-5f4f-9c9b-3867-96357e06e330@linaro.org>
+Date:   Sat, 10 Sep 2022 09:57:24 +0200
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 903D120027
-X-Stat-Signature: qwc566poa58ycpu4gq5ugbhxeycc3hto
-X-Rspamd-Server: rspamout02
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19n2zYvW1uGKh4qzeWX0sVWcp+JwB/gzjM=
-X-HE-Tag: 1662778353-845646
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [RESEND PATCH v5 1/2] dt-bindings: power: reset: qcom-pon: Add
+ new compatible "qcom,pmk8350-pon"
+Content-Language: en-US
+To:     Anjelique Melendez <quic_amelende@quicinc.com>, corbet@lwn.net,
+        sre@kernel.org, robh+dt@kernel.org, agross@kernel.org,
+        andersson@kernel.org
+Cc:     krzysztof.kozlowski+dt@linaro.org, vkoul@kernel.org,
+        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_collinsd@quicinc.com
+References: <20220909204207.15820-1-quic_amelende@quicinc.com>
+ <20220909204207.15820-2-quic_amelende@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220909204207.15820-2-quic_amelende@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2022-09-09 at 22:25 +0200, Niklas Söderlund wrote:
-> Add a warning for fixes tags that does not fall in line with the
-> standards specified by the community.
-[]
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-[]
-> @@ -3140,6 +3140,47 @@ sub process {
-[]
-> +			if ($ctitle ne $title || $tag_case || $tag_space ||
-> +			    $id_length || $id_case || !$title_has_quotes) {
-> +				WARN("BAD_FIXES_TAG",
-> +				     "Please use correct Fixes: style 'Fixes: <12 chars of sha1> (\"<title line>\")' - ie: 'Fixes: $cid (\"$ctitle\")'\n" . $herecurr);
+On 09/09/2022 22:42, Anjelique Melendez wrote:
+> From: David Collins <quic_collinsd@quicinc.com>
+> 
+> Add a new compatible string "qcom,pmk8350-pon" for GEN3 PMIC PON
+> peripherals and update "reg" property.
+> Also, Add an optional "reg-names" property to differentiate between
+> GEN1/GEN2 and GEN3 peripherals. GEN1/GEN2 peripherals only need one
+> register address to be specified (e.g. "pon") whereas GEN3 peripherals
+> can have two register addresses specified ("hlos", "pbs").
+> 
 
-BTW: Might as well add a --fix for Fixes:
 
-				if (WARN("...") &&
-				    $fix) {
-					$fixed[$fixlinenr] = "Fixes: $cid (\"$ctitle\")";
-				}
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+Best regards,
+Krzysztof
