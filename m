@@ -2,60 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B0D7C6FA89
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Sep 2022 07:57:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BA8FC6FA82
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Sep 2022 07:57:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229569AbiIJH5c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Sep 2022 03:57:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38620 "EHLO
+        id S229536AbiIJH5p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Sep 2022 03:57:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbiIJH53 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Sep 2022 03:57:29 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C6E67A535
-        for <linux-doc@vger.kernel.org>; Sat, 10 Sep 2022 00:57:27 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id f9so5787747lfr.3
-        for <linux-doc@vger.kernel.org>; Sat, 10 Sep 2022 00:57:27 -0700 (PDT)
+        with ESMTP id S229614AbiIJH5l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Sep 2022 03:57:41 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE95D7FFB7
+        for <linux-doc@vger.kernel.org>; Sat, 10 Sep 2022 00:57:37 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id k10so6528135lfm.4
+        for <linux-doc@vger.kernel.org>; Sat, 10 Sep 2022 00:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=FBGOIg/B2+IRHqE8BYouXguAvAX+t/CI7o0Vq9YTfI0=;
-        b=MlDQ2ythtKpKOjWObS4gfHzZWOKHcWdUoGdVxqhWziD/d3D74tWUoLU3wJWywyaJVe
-         J9DNVtw9Jw7v+Ksx7qGMhK6C6ThbmhL7kFPKTpVVEb3Lj5n7d/JrZGkOp+PwpZ3acigM
-         URMCRNVKNmxx3QRaLS4sdh6emcAyPwomh4+TcxURVjzjnew/m0gjjuPgcbIGdBL1R2g0
-         vrcG4SZuVlvocrhW0xdm0BfqYIL6WCFOUPqreYUJ1iVhZw75xh3L1fNUVNsIr/NH6+hb
-         hykWFw+9WcGGtQLBT8hQoihR75L8PyQEcvIBSnHpoZLY1Vu3JZUEkmrYuHaP77G14ZsJ
-         MI1Q==
+        bh=jqhp804BEoPC+ADQDzmqNl0ZgSvHbNrXdNN71VZt+28=;
+        b=pOGRwOOjhrXv8IPsULsyy3bbbXOZKQrzj3JKrshQxRy67ZNW5AUC80C8JEM/kXiu8Q
+         FuXgKLva+xuSOwdBLIawOtmLnmFB/3tD9auY+gQh+bvtjsjlxarF9QMGAXVjW+tpzqT/
+         /Gperra4QARFdyrAf/z8GKofAM/Q9OCJwOTQfuHScriGVqpjm18bhgTsWIeP3wms7Btd
+         sJBdE0j9M9ijUS5lXx6fSj/GX7xTT5yNh4QSRVQJf0phObaTNCOSglFM9oV2T06E6OQP
+         iSGTLhjo0yBvzXml6t3m/og13uvczLTUS89MSSwxD97wpL9OibpJwtsMCOsSmoLQTDB4
+         7vcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=FBGOIg/B2+IRHqE8BYouXguAvAX+t/CI7o0Vq9YTfI0=;
-        b=vALtG0Rr5j/a+tLxEfxaR/9sdRg5OHfHb0VoYHMgwNsCFeUwnU8fG0GMbhCXhlZ19Y
-         qxx/or8tlYnwwS8wMULzjlhuL3a2Zkf1H4ILoC+8ZcOOiBK/7fL3Mm31l7vlEu59zMGp
-         rkmKOPWYLr5kgQvD7hMTlKoE3NvCu/3VC04Jvd0VCKXWOg+FLCeq7CvX/QMdzuos8XtZ
-         qUmEquKBjDN497iWliLfw9pwNps3lsN7wobZ5NBoMt169b6AoMrVVE1pZR/G2O0mX+Uw
-         DRkm9LhNUZj3rgpu1fOCkpO91HerrqcFQWYD4bOgwLEqo403pgzrzqnP1i9h+CXN9zZy
-         BvAA==
-X-Gm-Message-State: ACgBeo1TFclrYw2hmLkkSizkAjN7ZsznP5G6hzZCZIXNYteTrN6qw7ew
-        0JuVE602SuC0oNDHgjeNSNvhWg==
-X-Google-Smtp-Source: AA6agR5BjkJ+3ILP6ANCTf0QXdk2PGjorpHbnNON4yZjw5qhZAa1CM+brxbEvMXc0lgHySEkklUFEg==
-X-Received: by 2002:a05:6512:3128:b0:499:3c1d:f9e with SMTP id p8-20020a056512312800b004993c1d0f9emr1171315lfd.634.1662796645731;
-        Sat, 10 Sep 2022 00:57:25 -0700 (PDT)
+        bh=jqhp804BEoPC+ADQDzmqNl0ZgSvHbNrXdNN71VZt+28=;
+        b=YpmuOBjUd5MIisisnqCLWc4H0TnK947F9met/l6YxRGJJRIAOqomMefx5qcASdOX42
+         I4WP4NWNsCjd8O3Z77PRrmOKgtuhHjcNXyhgoku85+53k1kIr8Ic+xZVn60QIyAnDvfS
+         Ij3137LraSsl1T6nxg1o6uFKPKZQnH50CAtoJyKczgmsxS49Qnksp9ls2R/dECsnGTpy
+         /GP4z2jsrVv6s3l6S1tgYVLsm1pDWZfOjY8CAQ+n4KPiSGPkUqb9vMYKZdRRK47wJfen
+         E+SgYD5izGKFBYR5EKvO3NyFxmuNYWVPc4OcTXrmuMdvH8vf24u0dk8D4AvKMpa8Ej+p
+         KMHw==
+X-Gm-Message-State: ACgBeo00FohsPAEJiyUfXOvev+4FBHZ0QS8Bjy/qMGx5mhji9bEjgpqa
+        ajzgscCspKgh5gmbZnpew2djcg==
+X-Google-Smtp-Source: AA6agR6/7INkCThnS+iVINNWPvlsIwHQLzpko3Hon45J1hx2d0KzURWIsDc5FqU8ZCvCd4IR13PkbA==
+X-Received: by 2002:a05:6512:68c:b0:492:2f73:6135 with SMTP id t12-20020a056512068c00b004922f736135mr6007785lfe.480.1662796657470;
+        Sat, 10 Sep 2022 00:57:37 -0700 (PDT)
 Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id 202-20020a2e05d3000000b0026ab83298d6sm251494ljf.77.2022.09.10.00.57.24
+        by smtp.gmail.com with ESMTPSA id w1-20020a05651234c100b0048ae316caf0sm184088lfr.18.2022.09.10.00.57.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 10 Sep 2022 00:57:25 -0700 (PDT)
-Message-ID: <91645b10-5f4f-9c9b-3867-96357e06e330@linaro.org>
-Date:   Sat, 10 Sep 2022 09:57:24 +0200
+        Sat, 10 Sep 2022 00:57:37 -0700 (PDT)
+Message-ID: <e3586d4e-fbc6-d73d-5b4f-f8c7e69689f9@linaro.org>
+Date:   Sat, 10 Sep 2022 09:57:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [RESEND PATCH v5 1/2] dt-bindings: power: reset: qcom-pon: Add
- new compatible "qcom,pmk8350-pon"
+Subject: Re: [RESEND PATCH v5 2/2] power: reset: qcom-pon: add support for
+ qcom,pmk8350-pon compatible string
 Content-Language: en-US
 To:     Anjelique Melendez <quic_amelende@quicinc.com>, corbet@lwn.net,
         sre@kernel.org, robh+dt@kernel.org, agross@kernel.org,
@@ -65,9 +65,9 @@ Cc:     krzysztof.kozlowski+dt@linaro.org, vkoul@kernel.org,
         devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, quic_collinsd@quicinc.com
 References: <20220909204207.15820-1-quic_amelende@quicinc.com>
- <20220909204207.15820-2-quic_amelende@quicinc.com>
+ <20220909204207.15820-3-quic_amelende@quicinc.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220909204207.15820-2-quic_amelende@quicinc.com>
+In-Reply-To: <20220909204207.15820-3-quic_amelende@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -75,15 +75,9 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 09/09/2022 22:42, Anjelique Melendez wrote:
-> From: David Collins <quic_collinsd@quicinc.com>
+> Add support for the new "qcom,pmk8350-pon" comptaible string.
 > 
-> Add a new compatible string "qcom,pmk8350-pon" for GEN3 PMIC PON
-> peripherals and update "reg" property.
-> Also, Add an optional "reg-names" property to differentiate between
-> GEN1/GEN2 and GEN3 peripherals. GEN1/GEN2 peripherals only need one
-> register address to be specified (e.g. "pon") whereas GEN3 peripherals
-> can have two register addresses specified ("hlos", "pbs").
-> 
+> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
 
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
