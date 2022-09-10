@@ -2,47 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45138ECAAD3
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Sep 2022 21:23:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90777C6FA83
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Sep 2022 21:24:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230496AbiIJVXN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Sep 2022 17:23:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44652 "EHLO
+        id S230139AbiIJVYQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Sep 2022 17:24:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230448AbiIJVW1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Sep 2022 17:22:27 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C56A950706;
-        Sat, 10 Sep 2022 14:18:46 -0700 (PDT)
+        with ESMTP id S230443AbiIJVXM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Sep 2022 17:23:12 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C71C151A00;
+        Sat, 10 Sep 2022 14:19:05 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C59BBB8091F;
-        Sat, 10 Sep 2022 21:18:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D64C433D6;
-        Sat, 10 Sep 2022 21:18:20 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3AABF60B4D;
+        Sat, 10 Sep 2022 21:18:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9AAEC433D6;
+        Sat, 10 Sep 2022 21:18:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662844701;
-        bh=54RdefYutBM/Gw3iVNj/W+hkwOzEHl/9vNlS+w2lrfg=;
+        s=k20201202; t=1662844731;
+        bh=de0UWzH2KUXwSSVq/hNoyyVgaNRZRqOmYE7O8y8s+Gs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nmUQShL3ZZM/INbRAl1KBDJXk71+8Kn5DeB46WKOeliK+BXTQZ5q17Zo4tZNo7Lay
-         u1+YaYN/WAMqvLgyMKo4THZ2OMzZnphwcr7oRYqwlWFIX8NfWWhvTLFphRUCfrqR19
-         7ApNPcYP7G4MZfKj7bZtzc1lG+4bAhT4eNZQJyOGJdtSydZNL91Lb0l1JHLoOLB08Y
-         A0pg5BFpGQ4erNLs31TX/XHTmptIrivFY5cmKXr49pQ86uLBBbImkUHZSksc95JNkG
-         hLEVJBhGT6I3pFjjAvKGB+AcSOm2OQ2q/pz2ixs+eNHMpF15g0GeYYmVKERdNARm9v
-         ffnX9oqIY3dCg==
+        b=BfJbLAsKgAZ/7k0qpZW1C6dIkQL2EbBCX36HZhMNdOVMTYzTa0BFms+4IshAbSdra
+         b8OMbKmvB82ysHIlP1t+vlVCMFTvJ0Nxeuv+FxkCihEldMn7iL4/z6uUM/o0Ezb2nS
+         PhPMpQ2KEA9AFpGP5YJUxuxCeIMeT2E/2BYQ93L1BEGoKpNQnX/i3rU+BjlEGvjf/M
+         /moY89RLl/qC4ZT4W8CP/P1Vdy/aULrV8nj3PoOjVR09ukF/8GI2YqWbSdI7uc5d9H
+         KKa6x154vz03Y4M2T9K6ZiWFBwtlAoQ7A1cDFFjPk2t6W1YI/Tgxvtu0au1yWMo7yL
+         zNphPVyjwIEmw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Greg Tulli <greg.iforce@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
         linux-input@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 15/21] Input: iforce - add support for Boeder Force Feedback Wheel
-Date:   Sat, 10 Sep 2022 17:17:46 -0400
-Message-Id: <20220910211752.70291-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 09/14] Input: iforce - add support for Boeder Force Feedback Wheel
+Date:   Sat, 10 Sep 2022 17:18:27 -0400
+Message-Id: <20220910211832.70579-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220910211752.70291-1-sashal@kernel.org>
-References: <20220910211752.70291-1-sashal@kernel.org>
+In-Reply-To: <20220910211832.70579-1-sashal@kernel.org>
+References: <20220910211832.70579-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -68,7 +68,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 2 insertions(+)
 
 diff --git a/Documentation/input/joydev/joystick.rst b/Documentation/input/joydev/joystick.rst
-index f615906a0821b..6d721396717a2 100644
+index 9746fd76cc581..f38c330c028e5 100644
 --- a/Documentation/input/joydev/joystick.rst
 +++ b/Documentation/input/joydev/joystick.rst
 @@ -517,6 +517,7 @@ All I-Force devices are supported by the iforce module. This includes:
