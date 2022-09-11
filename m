@@ -2,96 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EACFC6FA89
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Sep 2022 09:59:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09CD2C6FA8A
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Sep 2022 09:59:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229976AbiIKJ7m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 11 Sep 2022 05:59:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57484 "EHLO
+        id S229978AbiIKJ7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 11 Sep 2022 05:59:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbiIKJ7i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Sep 2022 05:59:38 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65823114F
-        for <linux-doc@vger.kernel.org>; Sun, 11 Sep 2022 02:59:30 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id c11so4322823qtw.8
-        for <linux-doc@vger.kernel.org>; Sun, 11 Sep 2022 02:59:30 -0700 (PDT)
+        with ESMTP id S229992AbiIKJ7j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Sep 2022 05:59:39 -0400
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 714B71151
+        for <linux-doc@vger.kernel.org>; Sun, 11 Sep 2022 02:59:29 -0700 (PDT)
+Received: by mail-qk1-x72c.google.com with SMTP id d17so3448765qko.13
+        for <linux-doc@vger.kernel.org>; Sun, 11 Sep 2022 02:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=soleen.com; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date;
-        bh=OPh2SoeDJ39bM1Jn5fFI8VsUd8dRA2153uVq4iTm5YA=;
-        b=Cm/iwBj9qSxR6hNh4WkGnlY2rIhzISZ52M2GqSDfU7xNlfLTD1kDBK3GW4JyIWLpbF
-         vFCNPAJLgXJtsglJR9PAeKY44F6cjvaw6tuS4MXxA20nHmxmD/wqzebHgdbHMGmAD61N
-         ZV4Tr5DVsNuioBerAQQDoJ4+a5mniKGiZRxoUQiZlNMllJ4sclh03nAFz08cVB8ODhMT
-         Skx+FX/f8czauTMll515ktdu7gVSZJA1f7251v/yIj0BzYslEFQQtKX5F2MkHK/8CwmU
-         Hx7spxOmVfuUwec09wkdbVsfFyOD1wVjfc69FUWeWsnCvU5bgK+iVzVBPk9GSB7Lao7h
-         VxvQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date;
+        bh=05QawunNkBTDZNRfoCgb3ddj6vEbyg8mxMOwfq8BU7w=;
+        b=FITg0qC1SJ9aTWSShCLy+0XEwLiqqzm16acwEyJX+XAOfrkrL3gQKFBN6iNFjhoHZG
+         EYZSqPwq89StyoiXOzPi38OdVfen6Kch8+/0qdeqz32WP9rIf/YfnNlK9jiEjdznFivN
+         AWmO7rucIghTBighws2gKH3KXmkj8HoMUlZFBEiOrRJ3AiTCYs9aOifMWtWN6LwtdZ9Q
+         gvQ28/d6rSLqSZWi9KMMqD5dqriCMSBexYGH4bchWXrRUAM6shbXX1zRtugVZ+iidlYX
+         OtB+AesCotlHvIHNl28PHVO62PQklu7/96OO8IaLxQocXyu9UWL4GRPuzYDaYlM5l80F
+         PvLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=OPh2SoeDJ39bM1Jn5fFI8VsUd8dRA2153uVq4iTm5YA=;
-        b=cAdUxXgI370Qi0dxTykTOgyb7Gpfjfl8UwzWqz+AUfvjgm/mt5uqbCZ2hT5ZCG3Qvd
-         77smBDZOgqLH/ZHycEsZ2NRTQZ7E5n9Mx06LdewHWDw+Zw9CzZodU7kK1F6s8rWNJYKO
-         hsRW+NkZ0dtGW5Ry7ag4hfASRRhQi8rGqsuSW+IMf18Cb1MGoEjQm6g26XSSQtum0Wid
-         wa+Nvi/uMpjqWBKkZlK9KTqndXNrDKUZo0VZUPp2Z2/vZaYhi99kYw7HsCUBCFtzBWOW
-         PzTQQFlzSnkeA4lAGxyQewoXJWlR3MbgnTytxK3i7rLezuSzxIucCQGzkoxoOzaxyoKt
-         3D8w==
-X-Gm-Message-State: ACgBeo3MDbw20NpWn2BJiJRKVA8XZhMxPCvpoYiIPVuxuTUzLShnrS4D
-        xtwvIJ4JWywgbG+Svfwtlfdt+PsjriLNpzi4Sq0UyA==
-X-Google-Smtp-Source: AA6agR5J3Cn9HvOjdYaL72tcgWTBN3wcKIFFTOLz4o2e2o7b+hMrlixH3K7CPiJSXhwkuBn1HYdkSA==
-X-Received: by 2002:a05:622a:609:b0:35b:acd0:21ff with SMTP id z9-20020a05622a060900b0035bacd021ffmr3764909qta.321.1662890369441;
-        Sun, 11 Sep 2022 02:59:29 -0700 (PDT)
-Received: from soleen.c.googlers.com.com (240.157.150.34.bc.googleusercontent.com. [34.150.157.240])
-        by smtp.gmail.com with ESMTPSA id y29-20020a37f61d000000b006cbd60c14c9sm4625233qkj.35.2022.09.11.02.59.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date;
+        bh=05QawunNkBTDZNRfoCgb3ddj6vEbyg8mxMOwfq8BU7w=;
+        b=4xBrzR5Sc/MQgHqr2UAUj7syFrUye7hLMWmiciVT5C6LoAp8dJ7TnE27XHzNCDrK1B
+         TFDLdEZ7Kq5DB7G7Cm9+HWUsqj77IYaQVrfJfKGh5DE+FPvXkAF94EAv/JNufgW982hV
+         4jHLXFoI5XugXaMJqQH0YbQFtcAFBI9d3Qif4ePIzk8XsMleshg9//ZYgdMow/MRKo30
+         mxCLqGuTYBUW4P22RVZ8kJ7gp5NKeVd4h6rOPof6qHF+gYuett/C+Q7N/U44ve5cIgqZ
+         U8h8HfwKoNZ7F+Xpr14Mr5RZg8y42AXb3v23uPH+FZsYsOnUuTjVRiGKvJukV9IEYEgk
+         nJbA==
+X-Gm-Message-State: ACgBeo3GIX1bGpw+ORlUZ7R+PrzG0aYL2a8wGPQzGTZ1FENBF1sbiQA7
+        WS0lLEM27hy65ibJQ25WoC2YEkDyJpI8mvRktwSjjQ==
+X-Google-Smtp-Source: AA6agR71DltUgDiY2jCMkxrf+AZs/phfKSzHNt2mi1NjERR2m+qoQs1XuGvQYq7t2EcHdQja6Z5EDA==
+X-Received: by 2002:a05:620a:144b:b0:6cd:5fc9:372 with SMTP id i11-20020a05620a144b00b006cd5fc90372mr7364483qkl.452.1662890368474;
         Sun, 11 Sep 2022 02:59:28 -0700 (PDT)
+Received: from soleen.c.googlers.com.com (240.157.150.34.bc.googleusercontent.com. [34.150.157.240])
+        by smtp.gmail.com with ESMTPSA id y29-20020a37f61d000000b006cbd60c14c9sm4625233qkj.35.2022.09.11.02.59.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Sep 2022 02:59:27 -0700 (PDT)
 From:   Pasha Tatashin <pasha.tatashin@soleen.com>
 To:     pasha.tatashin@soleen.com, akpm@linux-foundation.org,
         corbet@lwn.net, linux-mm@kvack.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, rick.p.edgecombe@intel.com
-Subject: [PATCH 1/3] mm/page_table_check: Check writable zero page in page table check
-Date:   Sun, 11 Sep 2022 09:59:21 +0000
-Message-Id: <20220911095923.3614387-2-pasha.tatashin@soleen.com>
+Subject: [PATCH 0/3] page table check default to warn instead of panic
+Date:   Sun, 11 Sep 2022 09:59:20 +0000
+Message-Id: <20220911095923.3614387-1-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
-In-Reply-To: <20220911095923.3614387-1-pasha.tatashin@soleen.com>
-References: <20220911095923.3614387-1-pasha.tatashin@soleen.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rick Edgecombe <rick.p.edgecombe@intel.com>
+From: Pasha Tatashin <tatashin@google.com>
 
-The zero page should remain all zero, so that it can be mapped as
-read-only for read faults of memory that should be zeroed. If it is ever
-mapped writable to userspace, it could become non-zero and so other apps
-would unexpectedly get non-zero data. So the zero page should never be
-mapped writable to userspace. Check for this condition in
-page_table_check_set().
+Page table check when detects errors panics the kernel. Let instead,
+print a warning, and panic only when specifically requested via kernel
+parameter:
 
-Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- mm/page_table_check.c | 2 ++
- 1 file changed, 2 insertions(+)
+	page_table_check=panic
 
-diff --git a/mm/page_table_check.c b/mm/page_table_check.c
-index e2062748791a..665ece0d55d4 100644
---- a/mm/page_table_check.c
-+++ b/mm/page_table_check.c
-@@ -102,6 +102,8 @@ static void page_table_check_set(struct mm_struct *mm, unsigned long addr,
- 	if (!pfn_valid(pfn))
- 		return;
- 
-+	BUG_ON(is_zero_pfn(pfn) && rw);
-+
- 	page = pfn_to_page(pfn);
- 	page_ext = lookup_page_ext(page);
- 	anon = PageAnon(page);
+The discussion about using panic vs. warn is here:
+https://lore.kernel.org/linux-mm/20220902232732.12358-1-rick.p.edgecombe@intel.com
+
+Pasha Tatashin (2):
+  mm/page_table_check: Do WARN_ON instead of BUG_ON by default
+  doc/vm: add information about page_table_check=panic
+
+Rick Edgecombe (1):
+  mm/page_table_check: Check writable zero page in page table check
+
+ Documentation/mm/page_table_check.rst | 16 ++++----
+ mm/page_table_check.c                 | 53 ++++++++++++++++++++-------
+ 2 files changed, 49 insertions(+), 20 deletions(-)
+
 -- 
 2.37.2.789.g6183377224-goog
 
