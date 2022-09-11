@@ -2,87 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56EB1C6FA82
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Sep 2022 02:48:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D51CC6FA82
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Sep 2022 03:25:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229742AbiIKCsI convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Sep 2022 22:48:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60398 "EHLO
+        id S229575AbiIKDZJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Sep 2022 23:25:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbiIKCsH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Sep 2022 22:48:07 -0400
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E642438457;
-        Sat, 10 Sep 2022 19:48:03 -0700 (PDT)
-Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay09.hostedemail.com (Postfix) with ESMTP id 9961580615;
-        Sun, 11 Sep 2022 02:48:01 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf15.hostedemail.com (Postfix) with ESMTPA id AEBEC1A;
-        Sun, 11 Sep 2022 02:47:59 +0000 (UTC)
-Message-ID: <2febb7893346b6234983453de7c037536e479bfc.camel@perches.com>
-Subject: Re: [PATCH v4] checkpatch: warn for non-standard fixes tag style
-From:   Joe Perches <joe@perches.com>
-To:     "niklas.soderlund@corigine.com" <niklas.soderlund@corigine.com>,
-        Philippe Schenker <philippe.schenker@toradex.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-        "apw@canonical.com" <apw@canonical.com>,
-        "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-        "louis.peens@corigine.com" <louis.peens@corigine.com>,
-        "simon.horman@corigine.com" <simon.horman@corigine.com>,
-        "oss-drivers@corigine.com" <oss-drivers@corigine.com>
-Date:   Sat, 10 Sep 2022 19:47:57 -0700
-In-Reply-To: <9f9a0740aef282d30af8fa02ca7c6479e80aa9a0.camel@perches.com>
-References: <20220908164434.122106-1-niklas.soderlund@corigine.com>
-         <3275d886491dc934e3277cde9cc766b0ce0886ea.camel@toradex.com>
-         <Yxrt1aa60xY0H7j0@oden.dyn.berto.se>
-         <9f9a0740aef282d30af8fa02ca7c6479e80aa9a0.camel@perches.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        with ESMTP id S229531AbiIKDZI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Sep 2022 23:25:08 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 453751B7A4;
+        Sat, 10 Sep 2022 20:25:04 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id c2so5452202plo.3;
+        Sat, 10 Sep 2022 20:25:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=g1YJLc5z0WaEtu65y0i/ZKRdnjxQt85hQV5pQSDFUrA=;
+        b=NakaKVgAM4/G8p21ziwOjOqoOLiBZyUnbhi7I9SWZnMO56q0AYAjejYTfq2cFOQ8af
+         I+QzRqPK/NxLDTTtl184AbLmvdZywJmVZwHDYEKzk2XUHQH01+Dg7xu+Ju5ArPK7vdJf
+         nBUZo4TWekHlSH6QnxU79cVa7SW5t9gdU99XtR5t3mZHPXchVnAN4aHdE4GdV2diSK42
+         UznpSOufkpufk9HSae/EPfBbhP3eWd3KPqezu/cA8saNNZOVuELz/DrRwXPx8xJVV5IW
+         7rAATzNpbgNEStgiKFgTAn4Vfs+uLxkX7WjXIlMSJ6qGyXnw/Oehdfhc2QEYDKw2Y4F/
+         04GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=g1YJLc5z0WaEtu65y0i/ZKRdnjxQt85hQV5pQSDFUrA=;
+        b=xMZ3qdNH/B2uAe74iUpLOXMkidS4UCaX3tavwyojuRF6RjBEAm5dhcgMZ9OB1m5/wd
+         jHAZlPJbGQXm+BxyJPmguPJLJQkGjUAaSVGp4pEkcjDN5Js6cTezkO6sKHe06Wk/R7E3
+         tFVySwluo163fhYe1Xq64SMBu4izTnh/YGf9oetVm9c+vIUsHOG8PQzy4RpWw3RUpVvn
+         hL2xNd64ILt0IGNQdUooazJ7o4+ManY6RkijfRLi3F1OzLobxFx4wEYCX9aRv3NqZCm5
+         jQPt9MrE/iV6aRUM3JLqIg1j9tnWe/OTVM1cabv+vv0jQfTg6dssLAQs14pieCIceca7
+         G4Ng==
+X-Gm-Message-State: ACgBeo0G/XyKOLHeOJRdSRBPTHWwMB9pe3jOx08RKAh2T88vWbicr5SX
+        Kz1e1byN47/zCdqyPbC+wimTh2/33Zq47w==
+X-Google-Smtp-Source: AA6agR5WK9Zv5xuj9zDz3zi/vUKWOkbROy3/swpZu9N37zUN9Ad5+Z8Mq13MnluUN2HVRZHTnQbJPw==
+X-Received: by 2002:a17:902:dacd:b0:174:e43b:a235 with SMTP id q13-20020a170902dacd00b00174e43ba235mr21030072plx.37.1662866704037;
+        Sat, 10 Sep 2022 20:25:04 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-78.three.co.id. [180.214.233.78])
+        by smtp.gmail.com with ESMTPSA id n68-20020a622747000000b0053e599d7032sm2467023pfn.54.2022.09.10.20.25.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Sep 2022 20:25:03 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id F3C40103990; Sun, 11 Sep 2022 10:24:58 +0700 (WIB)
+Date:   Sun, 11 Sep 2022 10:24:58 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     alexlzhu@fb.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kernel-team@fb.com
+Subject: Re: [PATCH] docs/mm: Improve grammar on mmu_notifier documentation
+Message-ID: <Yx1VCtoJzJGwWLF0@debian.me>
+References: <20220908001948.3014216-1-alexlzhu@fb.com>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: AEBEC1A
-X-Stat-Signature: h13yutk9y9wri4g3qzr51mwk4xcmonzs
-X-Rspamd-Server: rspamout02
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19n7kE87D4jQzH7pcA7dlomOJhrJqeZPSk=
-X-HE-Tag: 1662864479-88451
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="krJoGUX3JHCMjCSM"
+Content-Disposition: inline
+In-Reply-To: <20220908001948.3014216-1-alexlzhu@fb.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2022-09-09 at 10:57 -0700, Joe Perches wrote:
-> On Fri, 2022-09-09 at 09:40 +0200, niklas.soderlund@corigine.com wrote:
-> > On 2022-09-08 17:49:14 +0000, Philippe Schenker wrote:
-[]
-> > > I would check all lines that start with fixes, even if there is
-> > > whitespace in front (and then failing later on...)
-> > > 
-> > > if (!$in_header_lines && $line =~ /^\s*fixes:?/i) {
-> 
-> I think that's a poor idea.
-> 
-> You should really review git history for lines that start with fixes
-> and look at the number of false positives that would give.
-> 
-> Try this grep:
-> 
-> $ git log -100000 --no-merges --grep="^\s*fixes" -i --format=email -P | \
->   grep -P -i "^\s*fixes)" | \
->   grep -P -v "^Fixes: [0-9a-f]{12,}'
-> [...]
-> 
-> That is a greater than 10% false positive rate.
 
-One day I'll be better at typing grep commands in the editor...
+--krJoGUX3JHCMjCSM
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Try:
+On Wed, Sep 07, 2022 at 05:19:48PM -0700, alexlzhu@fb.com wrote:
+> @@ -86,14 +87,13 @@ they are write protected for COW (other case of B app=
+ly too).
+>   CPU-thread-3  {}
+>   DEV-thread-0  {read addrA from old page}
+>   DEV-thread-2  {read addrB from new page}
+> -
+> -So here because at time N+2 the clear page table entry was not pair with=
+ a
+> -notification to invalidate the secondary TLB, the device see the new val=
+ue for
+> -addrB before seeing the new value for addrA. This break total memory ord=
+ering
+> +Here because at time N+2 the clear page table entry was not paired with a
+> +notification to invalidate the secondary TLB, the device sees the new va=
+lue for
+> +addrB before seeing the new value for addrA. This breaks total memory or=
+dering
 
-$ git log -100000 --no-merges --grep="^\s*fixes" -i --format=email -P | \
-  grep -P -i "^\s*fixes" | \
-  grep -P -v "^Fixes: [0-9a-f]{12,}"
+You remove the blank line separator between the code block and
+paragraph, which kernel test robot (and Sphinx) complains; so you need
+to keep it:
 
+---- >8 ----
+diff --git a/Documentation/mm/mmu_notifier.rst b/Documentation/mm/mmu_notif=
+ier.rst
+index e22b591fc4061f..751b6eaf456e52 100644
+--- a/Documentation/mm/mmu_notifier.rst
++++ b/Documentation/mm/mmu_notifier.rst
+@@ -87,6 +87,7 @@ they are write protected for COW (other case of B applies=
+ as well).
+  CPU-thread-3  {}
+  DEV-thread-0  {read addrA from old page}
+  DEV-thread-2  {read addrB from new page}
++
+ Here because at time N+2 the clear page table entry was not paired with a
+ notification to invalidate the secondary TLB, the device sees the new valu=
+e for
+ addrB before seeing the new value for addrA. This breaks total memory orde=
+ring
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--krJoGUX3JHCMjCSM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYx1VBAAKCRD2uYlJVVFO
+o++dAP4pXGa5ossOKkNSjQEYDTxVMhNZLYZFSt1AhiC7OJFvMgEA3Iab+k8i32LL
+lv3y50CVIQ9rO8sDKawhraNWAXzzngc=
+=vpHt
+-----END PGP SIGNATURE-----
+
+--krJoGUX3JHCMjCSM--
