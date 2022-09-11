@@ -2,87 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09CD2C6FA8A
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Sep 2022 09:59:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 140B8C6FA89
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Sep 2022 10:06:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229978AbiIKJ7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 11 Sep 2022 05:59:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57532 "EHLO
+        id S229976AbiIKKGw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 11 Sep 2022 06:06:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229992AbiIKJ7j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Sep 2022 05:59:39 -0400
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 714B71151
-        for <linux-doc@vger.kernel.org>; Sun, 11 Sep 2022 02:59:29 -0700 (PDT)
-Received: by mail-qk1-x72c.google.com with SMTP id d17so3448765qko.13
-        for <linux-doc@vger.kernel.org>; Sun, 11 Sep 2022 02:59:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date;
-        bh=05QawunNkBTDZNRfoCgb3ddj6vEbyg8mxMOwfq8BU7w=;
-        b=FITg0qC1SJ9aTWSShCLy+0XEwLiqqzm16acwEyJX+XAOfrkrL3gQKFBN6iNFjhoHZG
-         EYZSqPwq89StyoiXOzPi38OdVfen6Kch8+/0qdeqz32WP9rIf/YfnNlK9jiEjdznFivN
-         AWmO7rucIghTBighws2gKH3KXmkj8HoMUlZFBEiOrRJ3AiTCYs9aOifMWtWN6LwtdZ9Q
-         gvQ28/d6rSLqSZWi9KMMqD5dqriCMSBexYGH4bchWXrRUAM6shbXX1zRtugVZ+iidlYX
-         OtB+AesCotlHvIHNl28PHVO62PQklu7/96OO8IaLxQocXyu9UWL4GRPuzYDaYlM5l80F
-         PvLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date;
-        bh=05QawunNkBTDZNRfoCgb3ddj6vEbyg8mxMOwfq8BU7w=;
-        b=4xBrzR5Sc/MQgHqr2UAUj7syFrUye7hLMWmiciVT5C6LoAp8dJ7TnE27XHzNCDrK1B
-         TFDLdEZ7Kq5DB7G7Cm9+HWUsqj77IYaQVrfJfKGh5DE+FPvXkAF94EAv/JNufgW982hV
-         4jHLXFoI5XugXaMJqQH0YbQFtcAFBI9d3Qif4ePIzk8XsMleshg9//ZYgdMow/MRKo30
-         mxCLqGuTYBUW4P22RVZ8kJ7gp5NKeVd4h6rOPof6qHF+gYuett/C+Q7N/U44ve5cIgqZ
-         U8h8HfwKoNZ7F+Xpr14Mr5RZg8y42AXb3v23uPH+FZsYsOnUuTjVRiGKvJukV9IEYEgk
-         nJbA==
-X-Gm-Message-State: ACgBeo3GIX1bGpw+ORlUZ7R+PrzG0aYL2a8wGPQzGTZ1FENBF1sbiQA7
-        WS0lLEM27hy65ibJQ25WoC2YEkDyJpI8mvRktwSjjQ==
-X-Google-Smtp-Source: AA6agR71DltUgDiY2jCMkxrf+AZs/phfKSzHNt2mi1NjERR2m+qoQs1XuGvQYq7t2EcHdQja6Z5EDA==
-X-Received: by 2002:a05:620a:144b:b0:6cd:5fc9:372 with SMTP id i11-20020a05620a144b00b006cd5fc90372mr7364483qkl.452.1662890368474;
-        Sun, 11 Sep 2022 02:59:28 -0700 (PDT)
-Received: from soleen.c.googlers.com.com (240.157.150.34.bc.googleusercontent.com. [34.150.157.240])
-        by smtp.gmail.com with ESMTPSA id y29-20020a37f61d000000b006cbd60c14c9sm4625233qkj.35.2022.09.11.02.59.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Sep 2022 02:59:27 -0700 (PDT)
-From:   Pasha Tatashin <pasha.tatashin@soleen.com>
-To:     pasha.tatashin@soleen.com, akpm@linux-foundation.org,
-        corbet@lwn.net, linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rick.p.edgecombe@intel.com
-Subject: [PATCH 0/3] page table check default to warn instead of panic
-Date:   Sun, 11 Sep 2022 09:59:20 +0000
-Message-Id: <20220911095923.3614387-1-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.37.2.789.g6183377224-goog
+        with ESMTP id S229771AbiIKKGw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Sep 2022 06:06:52 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1704013D7D;
+        Sun, 11 Sep 2022 03:06:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662890811; x=1694426811;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=COoydWrhxx4yHmAPhCBCqR8wvWQLCV4m7CypWvSwh8w=;
+  b=d44lBWsFEfjgphwKGO7PfMVrzesBd1LZt5LIJ6qnTCcYcX0ut81SSd+b
+   6CaU5fbEwGLbFjr4GOLKJAxtcCvdVj1zriaNTnaWMaBWSIKVBPtUxArwO
+   EcBXVaO/lroMRTzLFscFkEmuV9NbxG+pXxeaZIBrWGzW41Uh5JaRiqXx5
+   3O3Uhm9OAppnXmDjO4nqBw9zebfVOPFCjgROqfWeZagsPyTTwqg+AxDQQ
+   LoMHNxJTUpOh9XrOMLs10ln82NA12pVTY0w3NfglpbVGCmm1pIp+cqm4r
+   eE4HJOkQFt8Gd7zxGf1XEhgVzv/sNrP3AnMqmmsv47po6qRc1Q74aVGC7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10466"; a="323936195"
+X-IronPort-AV: E=Sophos;i="5.93,307,1654585200"; 
+   d="scan'208";a="323936195"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2022 03:06:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,307,1654585200"; 
+   d="scan'208";a="677732462"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by fmsmga008.fm.intel.com with ESMTP; 11 Sep 2022 03:06:46 -0700
+Date:   Sun, 11 Sep 2022 17:57:15 +0800
+From:   Xu Yilun <yilun.xu@intel.com>
+To:     matthew.gerlach@linux.intel.com
+Cc:     hao.wu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
+        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
+Subject: Re: [PATCH v1 1/5] Documentation: fpga: dfl: Add documentation for
+ DFHv1
+Message-ID: <Yx2w+yl9SFFx0Qtx@yilunxu-OptiPlex-7050>
+References: <20220906190426.3139760-1-matthew.gerlach@linux.intel.com>
+ <20220906190426.3139760-2-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220906190426.3139760-2-matthew.gerlach@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Pasha Tatashin <tatashin@google.com>
+On 2022-09-06 at 12:04:22 -0700, matthew.gerlach@linux.intel.com wrote:
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> 
+> Add documentation describing the extentions provided by Version
+> 1 of the Device Feature Header (DFHv1).
+> 
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> ---
+>  Documentation/fpga/dfl.rst | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> index 15b670926084..31699b89781e 100644
+> --- a/Documentation/fpga/dfl.rst
+> +++ b/Documentation/fpga/dfl.rst
+> @@ -561,6 +561,30 @@ new DFL feature via UIO direct access, its feature id should be added to the
+>  driver's id_table.
+>  
+>  
+> +Extending the Device Feature Header - DFHv1
+> +===========================================
+> +The current 8 bytes of the Device Feature Header, hereafter referred to as
+> +to DFHv0, provide very little opportunity for the hardware to describe itself
+> +to software. Version 1 of the Device Feature Header (DFHv1) is being introduced
+> +to provide increased flexibility and extensibility to hardware designs using
+> +Device Feature Lists.  The list below describes some of the goals behind the
+> +changes in DFHv1:
+> +
+> +* Provide a standardized mechanism for features to describe
+> +  parameters/capabilities to software.
+> +* Standardize the use of a GUID for all DFHv1 types.
+> +* Decouple the location of the DFH from the register space of the feature itself.
+> +
+> +Modeled after PCI Capabilities, DFHv1 Parameters provide a mechanism to associate
+> +a list of parameter values to a particular feature.
+> +
+> +With DFHv0, not all features types contained a GUID.  DFHv1 makes the GUILD standard
+> +across all types.
+> +
+> +With DFHv0, the register map of a given feature is located immediately following
+> +the DFHv0 in the memory space.  With DFHv1, the location of the feature register
+> +map can be specified as an offset to the DFHv1 or as an absolute address.
 
-Page table check when detects errors panics the kernel. Let instead,
-print a warning, and panic only when specifically requested via kernel
-parameter:
+Could you make a table or diagram to describe the data structure layout of DFHv1
+extention.
 
-	page_table_check=panic
+Thanks,
+Yilun
 
-The discussion about using panic vs. warn is here:
-https://lore.kernel.org/linux-mm/20220902232732.12358-1-rick.p.edgecombe@intel.com
-
-Pasha Tatashin (2):
-  mm/page_table_check: Do WARN_ON instead of BUG_ON by default
-  doc/vm: add information about page_table_check=panic
-
-Rick Edgecombe (1):
-  mm/page_table_check: Check writable zero page in page table check
-
- Documentation/mm/page_table_check.rst | 16 ++++----
- mm/page_table_check.c                 | 53 ++++++++++++++++++++-------
- 2 files changed, 49 insertions(+), 20 deletions(-)
-
--- 
-2.37.2.789.g6183377224-goog
-
+> +
+>  Open discussion
+>  ===============
+>  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
+> -- 
+> 2.25.1
+> 
