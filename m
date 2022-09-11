@@ -2,95 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D393ECAAA1
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Sep 2022 09:52:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C1A1C6FA96
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Sep 2022 10:28:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbiILJwf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Sep 2022 05:52:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49802 "EHLO
+        id S230114AbiILK2r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Sep 2022 06:28:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229802AbiILJwf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Sep 2022 05:52:35 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 112B7222A7;
-        Mon, 12 Sep 2022 02:52:34 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34E91113E;
-        Mon, 12 Sep 2022 02:52:40 -0700 (PDT)
-Received: from [10.57.49.22] (unknown [10.57.49.22])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0EC8C3F71A;
-        Mon, 12 Sep 2022 02:52:31 -0700 (PDT)
-Message-ID: <0e5567ee-41ba-2364-5e5a-2a6626c08ed1@arm.com>
-Date:   Mon, 12 Sep 2022 10:52:30 +0100
+        with ESMTP id S230162AbiILK2m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Sep 2022 06:28:42 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AB40386A2;
+        Mon, 12 Sep 2022 03:28:41 -0700 (PDT)
+Received: from mercury (unknown [185.122.133.20])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: sre)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id DF34E6601FE8;
+        Mon, 12 Sep 2022 11:28:37 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1662978518;
+        bh=uNMLlgZMTYcC5mzrst0fDY2xiMV9lFyKj19odG4H/ko=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=e4YH8PA2z+L5Ko4pHG9kgmhpitFfNDSbDDISQ80oKXc99bYtm5NF2jCieDrRAPQvD
+         oPk1JD/+oGt+Y17TMDGyUKlP+cyplznLl+X4QAsXzR1UAMyw+ZX3EuhJtLQ3kxXAr0
+         NST/dL16r9meU7jEGAX/jeXivDKdDLI+iW/vZ9kpu0A5LMIMxlUVZ/j5ylCsh4gnuH
+         shsHxDQoE2g7j4qE9PXLj0gz2i9+WmPZbWmV/zkvoqW5dWOOwsAK72AuyjFiZvtEnR
+         2kPCunh+CpnxJlcDTov/Mox/MyshlvaY/ghHqIFZt/FT0W08iKj0jpYF7net1DzTnl
+         k1X/zSz+2ce+w==
+Received: by mercury (Postfix, from userid 1000)
+        id 9885D1063356; Sun, 11 Sep 2022 14:18:43 +0200 (CEST)
+Date:   Sun, 11 Sep 2022 14:18:43 +0200
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Anjelique Melendez <quic_amelende@quicinc.com>
+Cc:     corbet@lwn.net, robh+dt@kernel.org, agross@kernel.org,
+        andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        vkoul@kernel.org, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        quic_collinsd@quicinc.com
+Subject: Re: [RESEND PATCH v5 0/2] add support for PON GEN3 device
+Message-ID: <20220911121843.k4appu2fszeeilkc@mercury.elektranox.org>
+References: <20220909204207.15820-1-quic_amelende@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH] coresight: docs: Fix a broken reference
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc:     Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org
-References: <c7f864854e9e03916017712017ff59132c51c338.1659251193.git.christophe.jaillet@wanadoo.fr>
- <20220822160202.GB1583519@p14s>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20220822160202.GB1583519@p14s>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="igpyojxumu3a3dio"
+Content-Disposition: inline
+In-Reply-To: <20220909204207.15820-1-quic_amelende@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Cc: acme
 
-On 22/08/2022 17:02, Mathieu Poirier wrote:
-> On Sun, Jul 31, 2022 at 09:06:48AM +0200, Christophe JAILLET wrote:
->> Since the commit in Fixes: tag, "coresight-cpu-debug.txt" has been turned
->> into "arm,coresight-cpu-debug.yaml".
->>
->> Update the doc accordingly to avoid a 'make htmldocs' warning
->>
->> Fixes: 66d052047ca8 ("dt-bindings: arm: Convert CoreSight CPU debug to DT schema")
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->> ---
->>   Documentation/trace/coresight/coresight-cpu-debug.rst | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
-> 
-> Applied.
+--igpyojxumu3a3dio
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-fyi, there is another patch fixing the same here.
+Hi,
 
-https://lkml.kernel.org/r/20815dbff3d27f5d3e6876363f052d2a08ad2e72.1660829433.git.mchehab@kernel.org
+On Fri, Sep 09, 2022 at 01:42:07PM -0700, Anjelique Melendez wrote:
+>  Resent with fixed path for dt-bindings.
+>=20
+> Changes from v4:
+>   - Updated commit message for patch 1/2
+>=20
+> Changes from v3:
+>   - Addressed Krysztof's comments on patch 1/2
+>     - Added missing minItems/maxItems
+>     - Merged if statments with same constraints together
+>     - Removed description from "reg-names"
+>    =20
+> Changes from v2:
+>   - Added new "qcom,pmk8350-pon" compatible string as per Krysztof's
+>     advice
+>   - Updated dt logic to use comptaible strings to decide constraints
+>     as per Krysztof's comment
+>   - Added new patch (v3 2/2) to support new compatible string
+>=20
+> Changes from v1:
+>   - Updated path which was missing Documentation/devicetree prefix
+>   - Updated CC list
+>=20
+> New patch series to separate this patch from applied patches.
+> Comments from original patch can be found
+> https://lore.kernel.org/linux-arm-msm/27515993-18f3-8891-4835-9b6a8d7f86b=
+0@quicinc.com/
+>=20
+> David Collins (1):
+>   dt-bindings: power: reset: qcom-pon: Add new compatible
+>     "qcom,pmk8350-pon"
+>=20
+> Anjelique Melendez (1):
+>   power: reset: qcom-pon: add support for qcom,pmk8350-pon compatible str=
+ing
+>=20
+>  Documentation/devicetree/bindings/power/reset/qcom,pon.yaml | 50 +++++++=
+++++++++++++++++++++---
+>  drivers/power/reset/qcom-pon.c | 1 +
+>  2 file changed, 47 insertions(+), 4 deletions(-)
 
-We may have to decide which one goes in.
+Thanks, I queued both patches.
 
-Cheers
-Suzuki
+-- Sebastian
 
-> 
-> Thanks,
-> Mathieu
-> 
->> diff --git a/Documentation/trace/coresight/coresight-cpu-debug.rst b/Documentation/trace/coresight/coresight-cpu-debug.rst
->> index 993dd294b81b..836b35532667 100644
->> --- a/Documentation/trace/coresight/coresight-cpu-debug.rst
->> +++ b/Documentation/trace/coresight/coresight-cpu-debug.rst
->> @@ -117,7 +117,8 @@ divide into below cases:
->>   Device Tree Bindings
->>   --------------------
->>   
->> -See Documentation/devicetree/bindings/arm/coresight-cpu-debug.txt for details.
->> +See Documentation/devicetree/bindings/arm/arm,coresight-cpu-debug.yaml for
->> +details.
->>   
->>   
->>   How to use the module
->> -- 
->> 2.34.1
->>
+--igpyojxumu3a3dio
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmMd0iIACgkQ2O7X88g7
++prrIw//duIMpV+No1Iwxa9UAzrbknmcZBWNwAm6tm23uRklakcfkj5dzCLtd8lG
+kQf9RROKa08Yp8mhuOhOe2NAR9gp0stXj7rywJRKmLJhJjqaAsXYKqAO/rqdMS4b
+lnDSbtQxJBHReLVT7oezDaKMtuqDBdpJ5FM4Q+SUt8/dJSTVog6Hyai1AwfZtItR
+ndK0IpISd5Kj7wbqdhMK2yP8VFUsH5JdRKgMBCb0UQN9wKKLrgFJOiE9JzhfmKDn
+M+xJ31QRj3/rxNS02p2BtFid0+VgSwAwcsvWsdWFhGkk0kFlo0mgqtnTI1pYX4PY
+ymKQ/8tMjBqKs5GK7FxKFxvHGlqOEW+wAH8L21M4jZSP8vuXhbieYHneRIu3VQJs
+D9LNyM/SVHb9BQ4ICAWZZevFmM6IqxNP7t3qghazu5GlB6GoGEdTtWot6Xcvf0WV
+e5ubn+0bSQ4sorRA+Pw1RYBpB9ivqIYgg3ZCZq8e4SF4G79pzu1c6oqJQUwi1And
+FiDKGyx2Pp8nej+MEGuBOIsL3bVIvc369IiKJ+tJUiIbRlTTRn0o8fmk6sq/dqNk
+SSI2+paNsjzsO/N+Pc8uvmaxMQfSFYHbFSCWnDkbiQOIiHXWURULs+wFHQ+7yhFI
+dX0ubIXKYNAQ9xn3xpS6h05Xrb5ZAiRH4qG4S2ZJd7KLlfxqXfI=
+=4XS6
+-----END PGP SIGNATURE-----
+
+--igpyojxumu3a3dio--
