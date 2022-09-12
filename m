@@ -2,85 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EED02C6FA86
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Sep 2022 20:43:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E88ECC6FA83
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Sep 2022 00:08:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbiIKUnQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 11 Sep 2022 16:43:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32956 "EHLO
+        id S229514AbiILAIT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 11 Sep 2022 20:08:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbiIKUnO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Sep 2022 16:43:14 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81304222AF
-        for <linux-doc@vger.kernel.org>; Sun, 11 Sep 2022 13:43:12 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id q21so10072268edc.9
-        for <linux-doc@vger.kernel.org>; Sun, 11 Sep 2022 13:43:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=lSSgE6qKNsM5nRSZIZrwkAPBKl3L+uuKrmU0F7pD7HY=;
-        b=JPDXpPqvckmhgM18iZ464Ra4GB/SbxdXoB7mEFnkbkwW0BRaAxrNtroPGl5mUT2WBd
-         pvwfk74PBiUKM3805865m1rO90BYGGTb6OfQMgoWFTvGGKxz7e1J59pXHUMb90uqIGVq
-         DvczbtudWRonTOXp0egQqyMlPi3QFxL2LC3I9HxD8oKSiT/VZByKkCnkKkwmDqdP/2lj
-         jSI9jTQmMP8PcfjfMBcWc7SQ7xf+70+2cVLkZq9xRKkmN8oNLab6YKRdUP9uqKgEZWb+
-         ueuuFbB+qY5K5T90Y7pJ7YbxEYirSPrYgAljQnXnSb1mbHnpaKONiixAd8OxhKnuaiWN
-         DSXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=lSSgE6qKNsM5nRSZIZrwkAPBKl3L+uuKrmU0F7pD7HY=;
-        b=F4HdZc2tqwyUGZ+WnRb9faiMOf6kAMQ2A6AgW0pTMUj2a3XWuIGyrHuMIS73dbKNKS
-         VUabt80d8z29iHbhupCrGa3FwTo5vt0MiePHVoDKdy9m/Peuw/rzrT//v3G00cEC+aF+
-         tArFsNtv/KIrLejhdcVfdGcREfQCyzqR3psO3T/2qhWLLxBR6OMirSi5OS8hjkPAEGDS
-         PpqfdjIURq5ZX7StxY1Er6qXF+KfBGDvucbc4fo/4HUQXpRIzH7ElgvVeANT2WraN3I7
-         fqkVRtp0+mug5Mu8Ow40xVADlQRwrGuoKPfxcZivHNtNA2wmsv9JmKrRXhWqrVGXXJ93
-         GxAw==
-X-Gm-Message-State: ACgBeo0Z/uxN6u3ccCdPsrHkEu+sJP8/0VO2j5ZZtO+O0QAQfBPzQzyd
-        MkYUXBOMP7CPJ6nVlD/4a+HwjFuKTwoOx4ktk3t/Tg==
-X-Google-Smtp-Source: AA6agR6XNXb6iXZAgJVLktD2yTU+LhSGDNL4w1b9CIbVMQlDxN1dXvmNUnGzMKm9uOJ76P7qbjXjKF0Dd53Kd+70owY=
-X-Received: by 2002:a05:6402:5249:b0:451:67ff:f02 with SMTP id
- t9-20020a056402524900b0045167ff0f02mr5735975edd.227.1662928990454; Sun, 11
- Sep 2022 13:43:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220911095923.3614387-1-pasha.tatashin@soleen.com>
- <20220911095923.3614387-3-pasha.tatashin@soleen.com> <Yx4IEvkmAlcTIP6v@casper.infradead.org>
-In-Reply-To: <Yx4IEvkmAlcTIP6v@casper.infradead.org>
-From:   Pasha Tatashin <pasha.tatashin@soleen.com>
-Date:   Sun, 11 Sep 2022 16:42:34 -0400
-Message-ID: <CA+CK2bD5ae0oUefiGMAzxun4-rJhqUdfJqbzcCkZM_Uek-KTxQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mm/page_table_check: Do WARN_ON instead of BUG_ON by default
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        with ESMTP id S229446AbiILAIT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Sep 2022 20:08:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEBAF21836;
+        Sun, 11 Sep 2022 17:08:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 894176113E;
+        Mon, 12 Sep 2022 00:08:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB8AC433D7;
+        Mon, 12 Sep 2022 00:08:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1662941295;
+        bh=FzZorLF2NlTI8c48kkyPVRMS1b1Nj7mM9WPqa+83iC0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=qkOyIAC8xjhNKb7TJznT0R9qxDAfIgpk3ityT7U5fvkhKXzZxZgbb6SCL2LrpRnIY
+         q20s4xgyqh7fXA2PeJDnhimUYeVhOEUJJT7RVu872ThuSgh+9gityr/rAgvrK4ANC3
+         tpRgP1mMn8mHs3ge/Hj/ZrrlWh43hUEXtzUIooN8=
+Date:   Sun, 11 Sep 2022 17:08:14 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-mm <linux-mm@kvack.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+        page-reclaim@google.com
+Subject: Re: [PATCH v14 00/14] Multi-Gen LRU Framework
+Message-Id: <20220911170814.f6a32b40e64397a61b1f8daf@linux-foundation.org>
+In-Reply-To: <20220815071332.627393-1-yuzhao@google.com>
+References: <20220815071332.627393-1-yuzhao@google.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Sep 11, 2022 at 12:08 PM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Sun, Sep 11, 2022 at 09:59:22AM +0000, Pasha Tatashin wrote:
-> > Currently, page_table_check when detects errors panics kernel. Instead,
-> > print a warning, and panic only when specifically requested via kernel
-> > parameter:
-> >
-> >       page_table_check=panic
->
-> Why are the page table checks so special that they deserve their own
-> command line parameter?  Why shouldn't this be controlled by the usual
-> panic_on_warn option?
+I'd like to move mglru into the mm-stable branch late this week.
 
-page_table_check can be used as a security feature preventing false
-page sharing between address spaces. For example, at Google we want it
-to keep enabled on production systems, yet we do not want to enable
-panic_on_warn as it would cause panics for many other reasons which
-are security unrelated.
-
-Pasha
+I'm not terribly happy about the level of review nor the carefulness of
+the code commenting (these things are related) and I have a note here
+that "mm: multi-gen LRU: admin guide" is due for an update and everyone
+is at conference anyway.  But let's please try to push things along anyway.
