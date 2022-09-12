@@ -2,85 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BC45ECAAD5
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Sep 2022 09:40:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF08BECAAA1
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Sep 2022 09:43:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229861AbiILJkG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Sep 2022 05:40:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60986 "EHLO
+        id S229555AbiILJnR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Sep 2022 05:43:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229778AbiILJkE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Sep 2022 05:40:04 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A8BF11AF08;
-        Mon, 12 Sep 2022 02:40:00 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CC22D113E;
-        Mon, 12 Sep 2022 02:40:05 -0700 (PDT)
-Received: from [10.57.49.22] (unknown [10.57.49.22])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EB79C3F71A;
-        Mon, 12 Sep 2022 02:39:57 -0700 (PDT)
-Message-ID: <1037211f-6c10-16de-4819-2a51d115f65b@arm.com>
-Date:   Mon, 12 Sep 2022 10:39:56 +0100
+        with ESMTP id S229546AbiILJnR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Sep 2022 05:43:17 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2CC527CC6;
+        Mon, 12 Sep 2022 02:43:15 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id m17-20020a7bce11000000b003a5bedec07bso10601853wmc.0;
+        Mon, 12 Sep 2022 02:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :message-id:date:in-reply-to:subject:cc:to:from:from:to:cc:subject
+         :date;
+        bh=v9fqEBVLV5iKy/G2Bt6vR6zJk2p8sIIWJSHXdeCUN1s=;
+        b=kIeYUPvDeV3L0Ro9OdON4Zmv0MbYRKR9sTDCa3GD3DboeJaj4C37LnP+h4KRJkdjFw
+         231QRbFJZFg9Pcvpv8L22ik4gIQlwKD2AUNZAtNGtBlP63fa0631zj+DdlzpfMP4fvhm
+         4mSLhuhzcdJm7oZn666Z1lfAoul29ZqmvALzImJp/XS/8ND0+QnEryo5aKzUW7Irmgo+
+         DywnByjG8XSCKzTqwfrphDqevo5H1iBULB444PwwNDOmRsUtHtpyJkZIwOybiGWdXaN3
+         gRlfrNV30KGiNrQFMwfwIYU28bKw+BzlQsdM2o5G44lNY5CuGFW854gIBnm0mKGI2vJj
+         U6TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :message-id:date:in-reply-to:subject:cc:to:from:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=v9fqEBVLV5iKy/G2Bt6vR6zJk2p8sIIWJSHXdeCUN1s=;
+        b=eH7EGwb8GFgJu82U6hbfIeq7sLW6d0YvwCiyFuCtYkoCJv6950eAmde1jIlsa84+Ny
+         fQOKeVQXykWgxkW7MdRfEUOx2rvMuVDX283yuW+iuu8PfWByc4iWdS42Le2Vtt9ae9e0
+         RAXYXMsJZEP+aF8oVGJCm/xtEiLPuDPXpXo6bT+bpArp10+z8W1gjrZYGZr+wWVFcJmR
+         ijyoF+uPkD5zr6+2YKy4snBIk+M07xqMg07ZvP86YEwRAs9SGyOnwCh9pI9iZI+Wbcj8
+         IH0CQnmJ9yO70vGz9yOEjx4wtzrTykPl0+sRTGqp0VfHNW4O74HJAh+C1aSlA50ZVy/J
+         PEOg==
+X-Gm-Message-State: ACgBeo2nYv4OCoe5E4BMrJ4fnESXCuW1y6cxF/Qk+8Beo+2+2W34UJ8R
+        0nAsd49Ie2Su/OwEXAHEHeQ=
+X-Google-Smtp-Source: AA6agR5XgB7miHJ7dy/o6yB5sM8VyivrnHoVunGowNiZkzJ7q6rHS5zoqsCVBqyxxyv9ye1jJg40EQ==
+X-Received: by 2002:a05:600c:34c2:b0:3b4:76f2:9c3b with SMTP id d2-20020a05600c34c200b003b476f29c3bmr4628234wmq.179.1662975794282;
+        Mon, 12 Sep 2022 02:43:14 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:a19a:6418:7e1e:227a])
+        by smtp.gmail.com with ESMTPSA id k9-20020adfb349000000b002252884cc91sm6963635wrd.43.2022.09.12.02.43.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Sep 2022 02:43:13 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     Daniel =?utf-8?Q?M=C3=BCller?= <deso@posteo.net>
+Cc:     Andrii Nakryiko <andrii.nakryiko@gmail.com>,
+        Daniel Borkmann <daniel@iogearbox.net>, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH bpf-next v3 1/2] Add subdir support to Documentation
+ makefile
+In-Reply-To: <20220909214914.hdn4rxsj6b2cy3xj@muellerd-fedora-PC2BDTX9>
+        ("Daniel =?utf-8?Q?M=C3=BCller=22's?= message of "Fri, 9 Sep 2022 21:49:14
+ +0000")
+Date:   Mon, 12 Sep 2022 09:31:55 +0100
+Message-ID: <m235cx2dtw.fsf@gmail.com>
+References: <20220829091500.24115-1-donald.hunter@gmail.com>
+        <20220829091500.24115-2-donald.hunter@gmail.com>
+        <3d08894c-b3d1-37e8-664e-48e66dc664ac@iogearbox.net>
+        <m2h71k6bw8.fsf@gmail.com>
+        <CAEf4BzZ_2wCVTjhAe0XzJ5qfbVhV0pfZeJ=z9Jg_fj_fzD1JFw@mail.gmail.com>
+        <m2bkro3lh5.fsf@gmail.com>
+        <20220909214914.hdn4rxsj6b2cy3xj@muellerd-fedora-PC2BDTX9>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 06/13] Documentation: coresight: fix a documentation build
- warning
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        corbet@lwn.net
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, Leo Yan <leo.yan@linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Mike Leach <mike.leach@linaro.org>, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <cover.1660829433.git.mchehab@kernel.org>
- <ff5c57f03d106dc5cc14448ec0db224267fb1bfb.1660829433.git.mchehab@kernel.org>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <ff5c57f03d106dc5cc14448ec0db224267fb1bfb.1660829433.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18/08/2022 14:38, Mauro Carvalho Chehab wrote:
-> Using wildcards for cross-reference doesn't work, as the Sphinx
-> automarkup plugin is not smart enough. So, changeset
-> c06475910b52 ("Documentation: coresight: Escape coresight bindings file wildcard")
-> tried to fix it, but at the wrong way, as it the building system
-> will keep producing warnings about that:
-> 
-> 	Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
-> 
-> As automarkup will still try (and fail) to create a cross reference.
-> So, instead, change the markup to ensure that the warning won't be
-> reported.
-> 
-> Fixes: c06475910b52 ("Documentation: coresight: Escape coresight bindings file wildcard")
-> Cc: Bagas Sanjaya <bagasdotme@gmail.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Daniel M=C3=BCller <deso@posteo.net> writes:
 
-Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> On Fri, Sep 09, 2022 at 11:12:22AM +0100, Donald Hunter wrote:
+>> Andrii Nakryiko <andrii.nakryiko@gmail.com> writes:
+>>=20
+>> > On Tue, Sep 6, 2022 at 3:50 AM Donald Hunter <donald.hunter@gmail.com>=
+ wrote:
+>> >>
+>> >> Daniel Borkmann <daniel@iogearbox.net> writes:
+>> >>
+>> >> > On 8/29/22 11:14 AM, Donald Hunter wrote:
+>> >> >> Run make in list of subdirs to build generated sources and migrate
+>> >> >> userspace-api/media to use this instead of being a special case.
+>> >> >> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+>> >> >
+>> >> > Jonathan, given this touches Documentation/Makefile, could you ACK =
+if
+>> >> > it looks good to you? Noticed both patches don't have doc: $subj pr=
+efix,
+>> >> > but that's something we could fix up.
+>> >> >
+>> >> > Maybe one small request, would be nice to build Documentation/bpf/l=
+ibbpf/
+>> >> > also with every BPF CI run to avoid breakage of program_types.csv. =
+Donald
+>> >> > could you check if feasible? Follow-up might be ok too, but up to A=
+ndrii.
+>> >>
+>> >> Sure, I can look at what is needed for the BPF CI run.
+>> >>
+>> >
+>> > Daniel (Mueller, not Borkmann), is this something that can be added to=
+ BPF CI?
+>
+> I think as long as all required packages are available in the CI distribu=
+tion
+> (which I believe is currently a Ubuntu image, but may in the future becom=
+e Arch
+> Linux) it should not be a problem to perform checking in CI. It seems as =
+if
+> generating the documentation may take a while, so we should likely try to=
+ have
+> it run in a separate job. I can't tell what hidden dependencies there may=
+ be,
+> though.
+>
+>> It looks to me like it can be added to BPF CI if we change docs/conf.py
+>> to call a new make target in docs/sphinx/Makefile. Hopefully Daniel can
+>> confirm whether this is the case.
+>
+> I am not familiar with the documentation generation, but my quick search =
+seems
+> to suggest that this is done by a 3rd party service and is decoupled from=
+ BPF
+> CI. Specifically, what you suggest may be reflected in the generated docs=
+ at
+> https://libbpf.readthedocs.io/, but I believe they are created from the l=
+ibbpf
+> GitHub repository, which is only infrequently synced from bpf tree source=
+s. I
+> didn't find any indication that CI triggers documentation creation, but i=
+t's
+> possible I missed something.
 
-> ---
-> 
-> See [PATCH 00/13] at: https://lore.kernel.org/all/cover.1660829433.git.mchehab@kernel.org/
-> 
->   Documentation/trace/coresight/coresight.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-> index 4a71ea6cb390..826e59a698da 100644
-> --- a/Documentation/trace/coresight/coresight.rst
-> +++ b/Documentation/trace/coresight/coresight.rst
-> @@ -130,7 +130,7 @@ Misc:
->   Device Tree Bindings
->   --------------------
->   
-> -See Documentation/devicetree/bindings/arm/arm,coresight-\*.yaml for details.
-> +See ``Documentation/devicetree/bindings/arm/arm,coresight-*.yaml`` for details.
->   
->   As of this writing drivers for ITM, STMs and CTIs are not provided but are
->   expected to be added as the solution matures.
-
+Apologies, I was referring to the libbpf GitHub repository. Anything
+committed to the kernel Documentation/bpf/libbpf risks breaking the
+documentation generation in the libbpf GitHub repository which, as you
+say, uses readthedocs.
