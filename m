@@ -2,132 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C56E7ECAAD5
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Sep 2022 09:43:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D393ECAAA1
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Sep 2022 09:52:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbiILJnT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Sep 2022 05:43:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38136 "EHLO
+        id S229786AbiILJwf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Sep 2022 05:52:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229665AbiILJnS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Sep 2022 05:43:18 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D51F27CC6;
-        Mon, 12 Sep 2022 02:43:17 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id bq9so14429355wrb.4;
-        Mon, 12 Sep 2022 02:43:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date;
-        bh=whFntIzUpcvDtnBm7FBQbpgonKohtryF1V2AtmqVNB4=;
-        b=fU8UujsNk7v/6OuYU88YPT0CHT0RBTh7wrGVq//9vIeB8ROtnC4JCtHkfy495U2m+k
-         Mc0u2aVLyfaItgcRPbyvgQb7mXXNSdS4ZL4YrKdUYrf6XAXNQdLbUtae1QaaDVCMZK2U
-         h/mtDxUGO6dzvP+PjQIFQ0RYAf98msXGP4zj0BtkcSjHvCSppqW79UE3tr7D7ZO2zx2r
-         fjpRpk7dciPz8Dh/06OgyHy7l+4PKWSrZVUn4TT8KPTE3C0PPetUo7+ocP1QtxxMDwSw
-         1EEs4iTQWvoKp38QpqU8Wm/1zgHi+UWD8nxcIm5n64aJ3OcCHe35s4jJLlU9Q72EGW/f
-         Dk0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=whFntIzUpcvDtnBm7FBQbpgonKohtryF1V2AtmqVNB4=;
-        b=Q95IOIwQNf3uRzWHuk4AKX37TzeS9VQ75lO1ckyPvky+K1rhOk0r9dKILpV/Nv1K2M
-         J/8EmLXDNGGxhxolAwd9u7UKg7O3WPbFdNEKeTT60G4ThcmpCgFV52uVsdlSup8u6g0S
-         HiAXD8deHeyrpe87nT0nclbWMEAZfJdIqtmBBXZJZZDADcZx30wia2CBJRYiuVjNuubW
-         hAYcyJpnx4B6rWwK5ybRPZTPMjwl1LTN+IsCRd/5NxwgDFZ/0g2LpnOEyudap0STn2K+
-         U38CWfDRhy+UHXrmtBJLM4qOmuMo2g6WvSsurebdgUXjEVZ7o8SCdbuNQC6Zwa8jginY
-         EEAA==
-X-Gm-Message-State: ACgBeo2oTP5KcVFN0+5za2Dqh0jpBr0Sw5mNIwj7cRa9zj0EWcr+KLy8
-        iJ2tjjKaVzO4+vSmuu0E+mc=
-X-Google-Smtp-Source: AA6agR7j8sjMW8SpsLL9tP28CeKyROqsTSry0YM32AC65MrMP+QWDL6W2Z/AtQTuBihG70JVJnUp+g==
-X-Received: by 2002:adf:d1cc:0:b0:22a:47d5:8a22 with SMTP id b12-20020adfd1cc000000b0022a47d58a22mr5656011wrd.481.1662975795698;
-        Mon, 12 Sep 2022 02:43:15 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:a19a:6418:7e1e:227a])
-        by smtp.gmail.com with ESMTPSA id d7-20020a5d5387000000b00228d52b935asm6796018wrv.71.2022.09.12.02.43.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Sep 2022 02:43:15 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH bpf-next v3 0/2] Add table of BPF program types to docs
-In-Reply-To: <CAEf4Bza1vGKeGj45wt_vxiQG=voeOU33KSGsjJ-qJERpuhdW8A@mail.gmail.com>
-        (Andrii Nakryiko's message of "Fri, 9 Sep 2022 15:24:20 -0700")
-Date:   Mon, 12 Sep 2022 09:44:07 +0100
-Message-ID: <m2y1up0yp4.fsf@gmail.com>
-References: <20220829091500.24115-1-donald.hunter@gmail.com>
-        <CAEf4Bza1vGKeGj45wt_vxiQG=voeOU33KSGsjJ-qJERpuhdW8A@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
+        with ESMTP id S229802AbiILJwf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Sep 2022 05:52:35 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 112B7222A7;
+        Mon, 12 Sep 2022 02:52:34 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34E91113E;
+        Mon, 12 Sep 2022 02:52:40 -0700 (PDT)
+Received: from [10.57.49.22] (unknown [10.57.49.22])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0EC8C3F71A;
+        Mon, 12 Sep 2022 02:52:31 -0700 (PDT)
+Message-ID: <0e5567ee-41ba-2364-5e5a-2a6626c08ed1@arm.com>
+Date:   Mon, 12 Sep 2022 10:52:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH] coresight: docs: Fix a broken reference
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc:     Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org
+References: <c7f864854e9e03916017712017ff59132c51c338.1659251193.git.christophe.jaillet@wanadoo.fr>
+ <20220822160202.GB1583519@p14s>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20220822160202.GB1583519@p14s>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Andrii Nakryiko <andrii.nakryiko@gmail.com> writes:
+Cc: acme
 
-> On Mon, Aug 29, 2022 at 2:15 AM Donald Hunter <donald.hunter@gmail.com> wrote:
+On 22/08/2022 17:02, Mathieu Poirier wrote:
+> On Sun, Jul 31, 2022 at 09:06:48AM +0200, Christophe JAILLET wrote:
+>> Since the commit in Fixes: tag, "coresight-cpu-debug.txt" has been turned
+>> into "arm,coresight-cpu-debug.yaml".
 >>
->> Extend the libbpf documentation with a table of program types, attach
->> points and ELF section names. The table uses data from program_types.csv
->> which is generated from tools/lib/bpf/libbpf.c during the documentation
->> build.
+>> Update the doc accordingly to avoid a 'make htmldocs' warning
 >>
->> Patch 1 adds subdir support to Documentation/Makefile and changes
->> userspace-api/media to use this instead of being a special case.
+>> Fixes: 66d052047ca8 ("dt-bindings: arm: Convert CoreSight CPU debug to DT schema")
+>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>> ---
+>>   Documentation/trace/coresight/coresight-cpu-debug.rst | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
 >>
->> Patch 2 adds the program_types documentation with a new makefile in
->> the libbpf doc directory to generate program_types.csv
->>
->> I plan to look at adding info about the format of section "extras" for
->> each program type as a follow-on.
->>
->> v2 -> v3:
->> Put program_types after API docs in TOC as suggested by Andrii Nakryiko
->> Fix formatting as reported by Andrii Nakryiko
->> Include USDT extras example as suggested by Andrii Nakryiko
->> Include sample of program_types.csv as suggested by Andrii Nakryiko
->>
->> v1 -> v2:
->> Automate the generation of program_types.csv as suggested by
->> Andrii Nakryiko.
->>
->> Donald Hunter (2):
->>   Add subdir support to Documentation makefile
->>   Add table of BPF program types to libbpf docs
->>
->>  Documentation/Makefile                     | 16 ++++++-
->>  Documentation/bpf/libbpf/Makefile          | 49 ++++++++++++++++++++++
->>  Documentation/bpf/libbpf/index.rst         |  3 ++
->>  Documentation/bpf/libbpf/program_types.rst | 32 ++++++++++++++
->>  Documentation/bpf/programs.rst             |  3 ++
->>  Documentation/userspace-api/media/Makefile |  2 +
->>  6 files changed, 103 insertions(+), 2 deletions(-)
->>  create mode 100644 Documentation/bpf/libbpf/Makefile
->>  create mode 100644 Documentation/bpf/libbpf/program_types.rst
->>
->> --
->> 2.35.1
->>
->
-> This is marked as Changes Requested, so I presume there are some
-> fixes/updates pending on top of v3? BPF CI should probably be done as
-> a follow up, though.
+> 
+> Applied.
 
-Yes, there is a typo reported by Jesper Brouer that will require a v4.
+fyi, there is another patch fixing the same here.
 
-> But otherwise looks good to me and I appreciate the effort to improve
-> libbpf's documentations.
->
-> Acked-by: Andrii Nakryiko <andrii@kernel.org>
+https://lkml.kernel.org/r/20815dbff3d27f5d3e6876363f052d2a08ad2e72.1660829433.git.mchehab@kernel.org
 
-This patchset will break the documentation build in the libbpf GitHub
-repository when Documentation/bpf/libbpf gets synced to there.
+We may have to decide which one goes in.
 
-At a minimum, I think I would need to refactor this patchset so that it
-is easier to integrate the .csv generation into the libbpf GitHub
-documentation build. But a simpler way forward might be to move this
-entirely to the libbpf Github repository and then just add a readthedocs
-URL to Documentation/bpf/libbpf/index.rst, the same as currently done
-for the API docs.
+Cheers
+Suzuki
+
+> 
+> Thanks,
+> Mathieu
+> 
+>> diff --git a/Documentation/trace/coresight/coresight-cpu-debug.rst b/Documentation/trace/coresight/coresight-cpu-debug.rst
+>> index 993dd294b81b..836b35532667 100644
+>> --- a/Documentation/trace/coresight/coresight-cpu-debug.rst
+>> +++ b/Documentation/trace/coresight/coresight-cpu-debug.rst
+>> @@ -117,7 +117,8 @@ divide into below cases:
+>>   Device Tree Bindings
+>>   --------------------
+>>   
+>> -See Documentation/devicetree/bindings/arm/coresight-cpu-debug.txt for details.
+>> +See Documentation/devicetree/bindings/arm/arm,coresight-cpu-debug.yaml for
+>> +details.
+>>   
+>>   
+>>   How to use the module
+>> -- 
+>> 2.34.1
+>>
+
