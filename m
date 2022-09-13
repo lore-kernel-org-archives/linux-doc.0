@@ -2,69 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D261BC54EE9
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 10:35:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E5ABC6FA82
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 10:45:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231635AbiIMKfD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Sep 2022 06:35:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36958 "EHLO
+        id S231652AbiIMKpi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Sep 2022 06:45:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231617AbiIMKfA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 06:35:00 -0400
-Received: from out1.migadu.com (out1.migadu.com [91.121.223.63])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5768C10FC8;
-        Tue, 13 Sep 2022 03:34:56 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1663065294;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Oac3nih64E0pi5snDdXMh4iMt6lvJM63V217jemxOhc=;
-        b=dhPTSi3G/hlnCI2RbLxXw/uXLx+5gnjunhauhgmpG3H3TXa2adVMGUgVjhp8+NV35PezOS
-        ZthAY2vp1IUzGtcU4o7gF3Dt+JwNU20LbBQsGnkUkiIVZH5u/mugUZjMjXGWSX4iZo3w3q
-        6dWKZU9ap4GYETodLLRP5gHlRPbP/kk=
+        with ESMTP id S231695AbiIMKpe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 06:45:34 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 51C7F13F24;
+        Tue, 13 Sep 2022 03:45:25 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 665341063;
+        Tue, 13 Sep 2022 03:45:31 -0700 (PDT)
+Received: from [10.57.15.170] (unknown [10.57.15.170])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CCBCC3F71A;
+        Tue, 13 Sep 2022 03:45:22 -0700 (PDT)
+Message-ID: <aa96eb55-4925-221f-1fb2-8226ea347c22@arm.com>
+Date:   Tue, 13 Sep 2022 11:45:17 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] mm/memcontrol: use kstrtobool for swapaccount param
- parsing
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20220909084647.3598299-1-liushixin2@huawei.com>
-Date:   Tue, 13 Sep 2022 18:34:40 +0800
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] dma-contiguous: add optional cma_name for cma= kernel
+ parameter
+To:     Nate Drude <nate.d@variscite.com>, iommu@lists.linux.dev
+Cc:     Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Muchun Song <songmuchun@bytedance.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-mm@kvack.org,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <128547F8-DABA-4548-82F5-0707A3614084@linux.dev>
-References: <20220909084647.3598299-1-liushixin2@huawei.com>
-To:     Liu Shixin <liushixin2@huawei.com>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+        eran.m@variscite.com
+References: <20220912163805.4113238-1-nate.d@variscite.com>
+Content-Language: en-GB
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220912163805.4113238-1-nate.d@variscite.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 2022-09-12 17:38, Nate Drude wrote:
+> When cma is defined in the device tree, the device tree node
+> name is used as the cma name. In the following example, the cma
+> will be named 'linux,cma':
+> 
+> linux,cma {
+> 	compatible = "shared-dma-pool";
+> 	reusable;
+> 	size = <0 0x3c000000>;
+> 	alloc-ranges = <0 0x40000000 0 0xC0000000>;
+> 	linux,cma-default;
+> };
+> 
+> And a device /dev/dma_heap/linux,cma is created.
+> 
+> However, when cma is provided by command line, a default
+> name of 'reserved' is used, and the device path changes to
+> /dev/dma_heap/reserved.
 
+If userspace expects the CMA heap driver to expose a consistent name for 
+CMA heaps, shouldn't it be the CMA heap driver's responsibility to 
+expose a consistent name for CMA heaps? Tinkering with the core CMA code 
+doesn't feel like the right approach.
 
-> On Sep 9, 2022, at 16:46, Liu Shixin <liushixin2@huawei.com> wrote:
->=20
-> Use kstrtobool which is more powerful to handle all kinds of =
-parameters
-> like 'Yy1Nn0' or [oO][NnFf] for "on" and "off".
->=20
-> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+Furthermore, given that DT reserved-memory nodes carrying the 
+"linux-cma-default" property equally can (and do) have different names 
+as well, that or fixing userspace really are the only robust options.
 
-With Andrew and Michal=E2=80=99s suggestion.
+Thanks,
+Robin.
 
-Reviewed-by: Muchun Song <songmuchun@bytedance.com>
-
-Thanks.=
+> This is problematic because some user space applications,
+> like gstreamer plugins, are expecting /dev/dma_heap/linux,cma.
+> 
+> This parameter allows overriding the default 'reserved' name.
+> 
+> Signed-off-by: Nate Drude <nate.d@variscite.com>
+> ---
+>   .../admin-guide/kernel-parameters.txt         |  7 +++++++
+>   kernel/dma/contiguous.c                       | 21 ++++++++++++++++++-
+>   2 files changed, 27 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 51397a320f5e..975ec862d071 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -644,6 +644,13 @@
+>   			altogether. For more information, see
+>   			kernel/dma/contiguous.c
+>   
+> +	cma_name=	Override the cma heap name
+> +			Format: <string>
+> +			When passing the cma kernel parameter, the default
+> +			cma name is 'reserved'. This parameter allows it to
+> +			be overriden to align with the device tree name,
+> +			like 'linux,cma'.
+> +
+>   	cma_pernuma=nn[MG]
+>   			[ARM64,KNL,CMA]
+>   			Sets the size of kernel per-numa memory area for
+> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+> index 3d63d91cba5c..e89819ec183e 100644
+> --- a/kernel/dma/contiguous.c
+> +++ b/kernel/dma/contiguous.c
+> @@ -74,6 +74,7 @@ static const phys_addr_t size_bytes __initconst =
+>   static phys_addr_t  size_cmdline __initdata = -1;
+>   static phys_addr_t base_cmdline __initdata;
+>   static phys_addr_t limit_cmdline __initdata;
+> +static char name_cmdline[CMA_MAX_NAME] = "reserved";
+>   
+>   static int __init early_cma(char *p)
+>   {
+> @@ -96,6 +97,24 @@ static int __init early_cma(char *p)
+>   }
+>   early_param("cma", early_cma);
+>   
+> +static int __init early_cma_name(char *p)
+> +{
+> +	if (!p) {
+> +		pr_err("Config string not provided\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (!strlen(p)) {
+> +		pr_err("cma_name must have at least one character\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	snprintf(name_cmdline, CMA_MAX_NAME, p);
+> +
+> +	return 0;
+> +}
+> +early_param("cma_name", early_cma_name);
+> +
+>   #ifdef CONFIG_DMA_PERNUMA_CMA
+>   
+>   static struct cma *dma_contiguous_pernuma_area[MAX_NUMNODES];
+> @@ -231,7 +250,7 @@ int __init dma_contiguous_reserve_area(phys_addr_t size, phys_addr_t base,
+>   	int ret;
+>   
+>   	ret = cma_declare_contiguous(base, size, limit, 0, 0, fixed,
+> -					"reserved", res_cma);
+> +					name_cmdline, res_cma);
+>   	if (ret)
+>   		return ret;
+>   
