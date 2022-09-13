@@ -2,103 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86F7BC6FA82
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 16:28:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53BADC54EE9
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 16:35:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231542AbiIMQ2Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Sep 2022 12:28:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54998 "EHLO
+        id S231827AbiIMQfm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Sep 2022 12:35:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232009AbiIMQ15 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 12:27:57 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AC80AE208;
-        Tue, 13 Sep 2022 08:23:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663082615; x=1694618615;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Xv3LSLJmI60OwaQZNgO6wmG3l4up4OQb63JFCEM8X4Q=;
-  b=J7nmIPvcJmoGibWc1aqkwUtC6QNghmadigMSA6jhq/wl8GHQzgcPjVAV
-   QZSGS3NMJtxkts268Y3y7L9bs0UkSyKesx/aBX0qIiWugVhM93J4Tr0wN
-   SOO22aUGtfH2m6SfM4ese9D3llYXqNK+ecsZyUuIb6v3E2yQiu+uR4QIf
-   AehfrUA6iFjiQn8ivPxLPYYSUPcsPoKYGQpwBCIuc4NAJX4bM4//3kqvd
-   RerbOZQgfbDkB8NWU0pofa+XxhFd0sCYd32LPGi1jlwewvEQ8GdgXoUUO
-   vQC6DANfR64EQvVtkKGPSfsoytbS6smHF9GH4blh8xp0/ATLasyjognjt
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="277897879"
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; 
-   d="scan'208";a="277897879"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2022 08:21:23 -0700
-X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; 
-   d="scan'208";a="646969211"
-Received: from liweian-mobl.amr.corp.intel.com (HELO [10.209.26.112]) ([10.209.26.112])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2022 08:21:22 -0700
-Message-ID: <11c9a594-4012-c648-829b-6bd410d2415d@linux.intel.com>
-Date:   Tue, 13 Sep 2022 08:21:22 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v13 1/3] x86/tdx: Add TDX Guest attestation interface
- driver
-Content-Language: en-US
-To:     Dave Hansen <dave.hansen@intel.com>,
-        "Huang, Kai" <kai.huang@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "ak@linux.intel.com" <ak@linux.intel.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "wander@redhat.com" <wander@redhat.com>,
-        "tim.gardner@canonical.com" <tim.gardner@canonical.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "isaku.yamahata@gmail.com" <isaku.yamahata@gmail.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Luck, Tony" <tony.luck@intel.com>,
-        "khalid.elmously@canonical.com" <khalid.elmously@canonical.com>,
-        "marcelo.cerri@canonical.com" <marcelo.cerri@canonical.com>,
-        "Cox, Philip" <philip.cox@canonical.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-References: <20220909192708.1113126-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220909192708.1113126-2-sathyanarayanan.kuppuswamy@linux.intel.com>
- <f85dbb3636ad199ff5f6ea9bdf5e17261f66945d.camel@intel.com>
- <d67b4273-e0a6-6b24-b96c-7a3193ae52f9@linux.intel.com>
- <4a4ed638-d505-6f30-bf0f-a16a32d494a4@intel.com>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <4a4ed638-d505-6f30-bf0f-a16a32d494a4@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S232131AbiIMQfZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 12:35:25 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F67513F4C;
+        Tue, 13 Sep 2022 08:30:12 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id bu5-20020a17090aee4500b00202e9ca2182so1838782pjb.0;
+        Tue, 13 Sep 2022 08:30:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=wdXJc4cOP2OBanHA5cgFEXNr8vURWUWRGVRnE3vx/QI=;
+        b=Gi8gKLK2wERK5uNEY4abb4G4eHhfJBGdgVCs20+xzEFcEUSgl68r/rakyb68hSnupu
+         gkNZO17hLBlvKZN5/8FG1/qbNTTZpYaKnxFy+aMDoqp1fhpaqOJQPW2SZWxOej+7HQhe
+         yoV85cRJhC63/Ih5ditoyEyRPlUN8xhIHEsR6CRkkxQ0vzdhvJ5WIwV4+JlcME16/dur
+         swp0jHCFG2WX7WHBL2WkX2mWgLI+kd1+ugD5ZokC2+DodV64t/5WbS1kDf17SCTH/n5u
+         CcVH6Y1KkY82XOxCf2IjbW9IfWO6/BbCNtNvK44piDDiFpCD3RwlFRteLgfm60O4EXFi
+         5HvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=wdXJc4cOP2OBanHA5cgFEXNr8vURWUWRGVRnE3vx/QI=;
+        b=nvoVJeZ5CyOBR5mdOQ1EwDytvN9bQGB7ZSY7r+AX07Zy7LVZkQw/QtN3aHC6eTBvUq
+         meUFbt3m/xn8X2Z6YLTCPZQcJt4W+fdcENRgNuIME7V0Yj+/ooxwsCGbjgKCWHY7hVx0
+         fszG8dzGZIpNkVj48sURZ56TQCdc6R09b3zg97dhCL49jhI4gPs1/dsnJIHv0iUElqcY
+         +cTFr5KZZisE/6YeSCgkeSbtymW38Ku+1rIu1qXNlyngdYMxeY9Soew+Rdppz6JCWgt7
+         hpUILTRIKgojFX91Ciq5P7YCZ0bqLS+UiKRQY8vSp4HeQ6Ewc2TXmDZX2dP8JIbL4HnY
+         vUgA==
+X-Gm-Message-State: ACgBeo3QFkL0B2CxzNRJ0x5k+YCfrnxEFvxlz5ba5fAPF1zY4lfSND3l
+        L+2rDL9NVyqw0beBhmcUpW4=
+X-Google-Smtp-Source: AA6agR4+WK7BbMgNUMHNP8zdqPSV1DQAbXELqVUe3+Tui14DERAWMK+4Q3GcYF4NfTiInlDeMgZnwQ==
+X-Received: by 2002:a17:90b:4a43:b0:202:8d29:c172 with SMTP id lb3-20020a17090b4a4300b002028d29c172mr4487010pjb.177.1663082900141;
+        Tue, 13 Sep 2022 08:28:20 -0700 (PDT)
+Received: from localhost.localdomain ([182.160.5.243])
+        by smtp.gmail.com with ESMTPSA id q6-20020a17090311c600b00177ef3246absm8697930plh.103.2022.09.13.08.28.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Sep 2022 08:28:19 -0700 (PDT)
+From:   Tuo Cao <91tuocao@gmail.com>
+To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        91tuocao@gmail.com
+Subject: [RESEND] docs: x86: move do_IRQ to common_interrupt in entry_64.rst
+Date:   Tue, 13 Sep 2022 23:28:01 +0800
+Message-Id: <20220913152801.30966-1-91tuocao@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+do_IRQ has been replaced by common_interrupt in commit
+fa5e5c409213 ("x86/entry: Use idtentry for interrupts").
+Move do_IRQ to common_interrupt.
 
-On 9/13/22 2:01 AM, Dave Hansen wrote:
-> On 9/12/22 19:44, Sathyanarayanan Kuppuswamy wrote:
->>> and include the header (<linux/string.h> ?) for memchr_inv()?
->> One of the previous headers includes linux/string.h (I am not sure which one).
->> So why include it explicitly?
-> Because it's a best practice.  What happens is that you ride along on
-> the coat tails of another #include, someone sees that include is no
-> longer used and removes it.  Then, your code is busted on some weird
-> .config.
-> 
-> *OR*, the header itself changes and doesn't #include the dependency you
-> need.
-> 
-> I guess you can go add this advice to Documentation/ if it's not there
-> already somewhere.
+Signed-off-by: Tuo Cao <91tuocao@gmail.com>
+---
+ Documentation/x86/entry_64.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Ok. I will include it explicitly.
-
+diff --git a/Documentation/x86/entry_64.rst b/Documentation/x86/entry_64.rst
+index e433e08f7018..4f12152570e7 100644
+--- a/Documentation/x86/entry_64.rst
++++ b/Documentation/x86/entry_64.rst
+@@ -33,8 +33,8 @@ Some of these entries are:
+  - interrupt: An array of entries.  Every IDT vector that doesn't
+    explicitly point somewhere else gets set to the corresponding
+    value in interrupts.  These point to a whole array of
+-   magically-generated functions that make their way to do_IRQ with
+-   the interrupt number as a parameter.
++   magically-generated functions that make their way to common_interrupt
++   with the interrupt number as a parameter.
+ 
+  - APIC interrupts: Various special-purpose interrupts for things
+    like TLB shootdown.
 -- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+2.17.1
+
