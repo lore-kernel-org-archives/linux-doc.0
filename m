@@ -2,62 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E443EC6FA82
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 14:02:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B45EC6FA82
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 14:24:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232380AbiIMOCi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Sep 2022 10:02:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43740 "EHLO
+        id S232448AbiIMOYX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Sep 2022 10:24:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232381AbiIMOCh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 10:02:37 -0400
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4569A52089;
-        Tue, 13 Sep 2022 07:02:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1663077751;
-        bh=O1z3l50xIaYRroOo+hnaK6L/EtOU7idyMtJpMw+/BwI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=MUu0OO1rfXql6B84I4hTiT5lRNr4t5xfOEY0Ot8sB9wBk24YmRJKnkdCXFMsI/j3F
-         ySFEGUvX3jhu6RmJlC50OOOc0ZeBAz+c62SJ2BpMi7DJecBY096TdHDysSX9/bS2qx
-         BbwgNXSpOrdbl1rUlhOGHSSJVZGFyJmqNUVZMjbQ=
-Received: from localhost.localdomain ([111.199.187.40])
-        by newxmesmtplogicsvrsza31.qq.com (NewEsmtp) with SMTP
-        id 9B21E83; Tue, 13 Sep 2022 22:02:27 +0800
-X-QQ-mid: xmsmtpt1663077747tlwp82smi
-Message-ID: <tencent_DE0CDA85E4B2F02FD3547C5E0746E3109909@qq.com>
-X-QQ-XMAILINFO: OC704IrkdJt62SQ4r8Yi3WTXGA3h47FQ6UsElMlGE0Rpncl8274I3TBlTvo5Fk
-         ldigeJyfqLpJDUjBKg1+wBwhYihnWwPGW5w5zzM8WCaF1324NV59K1LNbEE0OvQ/79x/DV/ft6qK
-         1WAwkh3RqwV+qPpuIUrtD0qqC1zUUgD/u9V7jm6qcqvFahjt98gnzuUsT62lVolTs3deURvKGe2L
-         NPdR3wALVZPi8GCzTIAiKHqIm1lqyry43hE7wAC4PFKTpWQpCQSKh9bWbFL6AQkWjENjVsSzbsM+
-         ZpzwOzHYQICUVhhdRqualixtlWjDZSMGlodOy3gKgzJRmshECAaTZE+tPk6ydPsaLdPw5+fjPM6P
-         LF4u0XA16vpwiN0p6UemetVDAAZv8RLtdBO+7xOkQup9h4ICij3b6w7eAiq9qeWdF6NpQSoVfN/n
-         uSalOJLomM3zDNvrA7eUKjhgGVHHTWhPgIV6mUNb5Qoy7hTjDtoQq2G0m0w5uR55RPrJGqBOeXDs
-         SZiU5veOSJEa/6m1e4QlazWOoTZw76LEfgsw99rXrEuvmDj9EvCFOJmOdE/XqNIllQ6miK+qtOOi
-         9JY7HWVCZRkZOsdKt/dkVLiLzLCnqToB4VxW9c+ggGcEYwwuR6x8BEAW4IW/AXrjuVYIUt62kOn1
-         38/afvE2i8wRrRp47+wsMyMNthC9/52vYAyQWCKfW08Dlv1iey2ryAvV4fjVLjrBFlhVCntWZLj5
-         2Rx40UvsdiT0n9cziT/oUoO4UZgaG9AqTORir+RGupmKnNEE929Trqk7UsMI1H3uDIlQkEQfMQjr
-         k2FDL7zc0gY6cfTsZ1hDdZKsn3dCtMkXCu0B7Afr2gLY4j445vMLiKYxyTxQvIhgvUsFrbXPjkE+
-         Q89VhQqaJ/D8no7GomiJlL+ef9vyFkwt7LacLUVXJoDnoRTwR8+IbddQIju0tFmG+PFVnJ323qAq
-         3hyDT3klcJzuLOdpUZW/WtWqFgdopECGremmixqRy05kFNbEM6EE9gDnLefIy5
-From:   Rong Tao <rtoax@foxmail.com>
-To:     bagasdotme@gmail.com
-Cc:     corbet@lwn.net, erik@kryo.se, jkosina@suse.cz,
-        konstantin@linuxfoundation.org, krzysztof.kozlowski@linaro.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux@leemhuis.info, lkp@intel.com, ojeda@kernel.org,
-        rdunlap@infradead.org, rtoax@foxmail.com, tglx@linutronix.de
-Subject: Re: Re: [PATCH] Documentation: process/submitting-patches: misspelling "mesages"
-Date:   Tue, 13 Sep 2022 22:02:26 +0800
-X-OQ-MSGID: <20220913140226.17692-1-rtoax@foxmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <7862b646-9214-3f0c-54d4-6183157f2c2a@gmail.com>
-References: <7862b646-9214-3f0c-54d4-6183157f2c2a@gmail.com>
+        with ESMTP id S233647AbiIMOXv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 10:23:51 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A326611A
+        for <linux-doc@vger.kernel.org>; Tue, 13 Sep 2022 07:15:49 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id h8so14041076wrf.3
+        for <linux-doc@vger.kernel.org>; Tue, 13 Sep 2022 07:15:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=6nsFmLg7g9YsbtCPZSgBySib0lGrAO6qTsg2zwTfO+s=;
+        b=BfdyTA4mOxqx1rh39T/VtbAJ/bIq3+Z0rmL6H5tU3SRiMzwD1WbfMTeBQ8XyfXmg4r
+         E/4uZEx49ZGdm7jPYGEy3cW466dhfMJtG1D6LIopDPFNjfNIkNk++MGZQ/nNgfEuCqZQ
+         G6IDYW0gysjKZE8JuMcbrLZOlHbhCCoqyp5uJx26te2dlzc8IXTGYIlhfgxwxU94YgIF
+         F5Dh4OZQmjUn0nuFiLUagS675FSLe+lNPo2O9+1yhzUBKE1jje6LmmpxK1B53JeX8k3j
+         QUEmOiwCYGXeCTF+AfEmDoYQQVyyNeNAOuXYNnxgw9Fj1SPyGvx8lNTxhGtp5VVFtgIp
+         VI2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=6nsFmLg7g9YsbtCPZSgBySib0lGrAO6qTsg2zwTfO+s=;
+        b=SPinHPJeXNM9hwUK8W9FArdMwm7XWirX7fHyHA0BRouLoIB3VTXk9KV9TJS3dhEJ1l
+         oTUsyI69m2Hc74lkRmzWsoXhZ0aladJXYz8JVbVmBmQI2E4NR4sIF560zq03Wlm14u8F
+         Q2FaJbU9GqpFuCDW6US4jiye10JaB/ZII+d4LqHaNNE3htJfvd5Tk9V8Iv5mjg8/K/2p
+         hmWhNysm36CG6AQIgoGEnMT3Tu6TEY5z1PtKSO5Ims7UzXTotnu6/rFPpc+Upm84D9Xg
+         xuNPS0TNfoeVeyz1rssymLodx3QwdzUDpSs3l+v4EyvrXSMSRCbYB17f+kQaVCldfsTK
+         sHYQ==
+X-Gm-Message-State: ACgBeo3b6vV4gC5pgAZzq7Ul1TqgiR5hV/+zFIDrKNAPI9aPKY/LOfsN
+        gT2s1J2J0JJbwiELxMDovPapyQ==
+X-Google-Smtp-Source: AA6agR6+HzIAG6FR/aycTWCe6kk6TLnu4qKS9LdSgIHsdUoa+Iyz0USBz4xF0llFjpDIInXCjYzkiQ==
+X-Received: by 2002:a5d:6581:0:b0:228:e143:ddd7 with SMTP id q1-20020a5d6581000000b00228e143ddd7mr18534314wru.329.1663078455288;
+        Tue, 13 Sep 2022 07:14:15 -0700 (PDT)
+Received: from [10.119.22.201] ([89.101.193.67])
+        by smtp.gmail.com with ESMTPSA id j13-20020adff54d000000b00229d55994e0sm10377533wrp.59.2022.09.13.07.14.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Sep 2022 07:14:14 -0700 (PDT)
+Message-ID: <2e4c52b5-85e8-6951-8248-961c2cdb13e7@linaro.org>
+Date:   Tue, 13 Sep 2022 16:14:13 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: lkp report WARNING: Title underline too short.
+Content-Language: en-US
+To:     Rong Tao <rtoax@foxmail.com>
+Cc:     corbet@lwn.net, erik@kryo.se, jkosina@suse.cz,
+        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux@leemhuis.info, lkp@intel.com,
+        ojeda@kernel.org, rdunlap@infradead.org, tglx@linutronix.de,
+        Rong Tao <rongtao@cestc.cn>
+References: <cc102d14-77a8-f97d-60c1-f0918656905f@linaro.org>
+ <tencent_43596D97142AB4AFFDA36A8813061442FF08@qq.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <tencent_43596D97142AB4AFFDA36A8813061442FF08@qq.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, thanks for your reply! This is indeed [PATCH v2],
-not familiar with the use of send-email before.
+On 13/09/2022 15:55, Rong Tao wrote:
+> From: Rong Tao <rongtao@cestc.cn>
+> 
+> Hi, thanks for your reply!
+> 
+> https://lore.kernel.org/lkml/202209100436.Ud19XNGq-lkp@intel.com/
+> 
+> The doc submitting-patches.rst has a WARNING 'Title underline too short'
+> 
+> before:
+> 
+>  Backtraces in commit messages
+>  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 
+> after fix the warning:
+> 
+>  Backtraces in commit messages
+>  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 
+> add a '^' in the end.
+> 
+
+
+Don't top-post. I don't know what did you reply to...
+
+If about reported-by tag, the link there did not report original issue,
+so skip the tag.
+
+Best regards,
+Krzysztof
