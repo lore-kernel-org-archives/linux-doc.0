@@ -2,89 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D581FC6FA82
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 08:41:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B452C6FA83
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 09:02:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231255AbiIMIk7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Sep 2022 04:40:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42902 "EHLO
+        id S230512AbiIMJCk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Sep 2022 05:02:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231495AbiIMIke (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 04:40:34 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A46BE3DF26
-        for <linux-doc@vger.kernel.org>; Tue, 13 Sep 2022 01:40:32 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id bo13so3045119wrb.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Sep 2022 01:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=0zoWuvCgWu4ls1SKokP2SbGe8xuUJikmfcWhPEHtPYA=;
-        b=EepqB84lbNoqzWAIP+E+fTAyWgXpANMPOYwlMBKfYNiOFsC3LJ+dd9aR7XtNLMYoW6
-         4rLMYrNZIDFKecIG1YUlMgZT4OM+9nPKqVydK/uuj5KpG7bkpZIBoytccfVDe4G7pb39
-         gWSp7xJdhwy9D6eYH8iZczD5yzrhE6cRuKadjUqtjvnQCwdChiOo5f3kFPuTm53P+rZU
-         DQZ0mXN5sBtK/i4bOAX7iGVunuld/XnoH8pFNLzrIUZjjUn4pwNAeyKOrI/B81vxusjs
-         50lirQO4lh4yznWi/s31sXl5IjU30MyfjxBGIWGZJmXsiiKCOd/vyVGQ5BkoHxHCCoWk
-         9wGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=0zoWuvCgWu4ls1SKokP2SbGe8xuUJikmfcWhPEHtPYA=;
-        b=L3fuPBal0xNBEQnXEak+hXwJ/lKrKqm//yrhuzEgfKQurPnIHU/V2uczafPZZN6rhz
-         eGg/4EEpMFtJwidWalgsMs+WSEVfGpl2V+bTeeR7CQEqVizOfu8m9WKrnChErJXJWAUV
-         yJRDe/0ngq1H59HcHQ8uLbHdol3nuFzhyufmt6+mw/+kWDeZATMIGCQ7HONrGlMbkUPe
-         ywvyTb+nXmJPE7D1lDuFjNSQ8Ogj9vKEWDKwzoXW/O5f5plQBAGyPSaD5Wfx8lRe2dkQ
-         guHK6tZrR+p9jxo3GaPoXv5gv4JyZxZarhb1LniJPNr+mVzznDfy/6ZwoNkZ0Eu1pLXT
-         PDbg==
-X-Gm-Message-State: ACgBeo1xSV/OZCoj9zxxKGciyav91xoJ88EVRJb8wsz/9nVjV0IW5Oah
-        J7pvcP/TugBSLSBWUBLoH10c0Q==
-X-Google-Smtp-Source: AA6agR4wjHWTsVfVYAgYeb4n3rmhbDY2maDTSxTXR5Pv3YiPF33VSRisqICPlujHBunO3GiXhY2Atw==
-X-Received: by 2002:a5d:5987:0:b0:22a:46f5:1d95 with SMTP id n7-20020a5d5987000000b0022a46f51d95mr9254546wri.608.1663058431247;
-        Tue, 13 Sep 2022 01:40:31 -0700 (PDT)
-Received: from [10.119.22.201] ([89.101.193.70])
-        by smtp.gmail.com with ESMTPSA id cc17-20020a5d5c11000000b0022ac119fcc5sm975613wrb.60.2022.09.13.01.40.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Sep 2022 01:40:30 -0700 (PDT)
-Message-ID: <cc102d14-77a8-f97d-60c1-f0918656905f@linaro.org>
-Date:   Tue, 13 Sep 2022 10:40:30 +0200
+        with ESMTP id S231592AbiIMJCI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 05:02:08 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25FA95C955;
+        Tue, 13 Sep 2022 02:01:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663059700; x=1694595700;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=MQLvPvSmi5l1/oQ588bxZkJ8HGx1AWb6oknroVfrx08=;
+  b=itfQsbOjPORrhRUFn1PasTqK5kkjPE9rUspVsNTmoBeyX8gaDhIh21kC
+   c5a3Sh7zlWPXt5zhpVrUGM0x860aicRu/GLhBhbWKa2/ofGrTbSKTvHTm
+   SNbPsWIJFABn7fZopyRcnM+PVl34a9w2/8uxPaix9bLUdFBHLlvr8mCUY
+   ZlvrmuVZ14apAcv1Um2UsfS3uITQd2Ie6fa1PrqrQgD4JM8n8lk3nH1XT
+   Dp+zfYiCOm79y7mn3y00hBecsVSJvhCOD07rMsX8WstXq0NFFkOu7fEIb
+   p3O23TD/TYwSRroqaYfL6aDXOwnKOjhRSXlMwcNxFyMRgvlAt0GItHFSW
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="362036070"
+X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; 
+   d="scan'208";a="362036070"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2022 02:01:39 -0700
+X-IronPort-AV: E=Sophos;i="5.93,312,1654585200"; 
+   d="scan'208";a="616384388"
+Received: from bsalunkh-mobl.ger.corp.intel.com (HELO [10.213.238.99]) ([10.213.238.99])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2022 02:01:35 -0700
+Message-ID: <4a4ed638-d505-6f30-bf0f-a16a32d494a4@intel.com>
+Date:   Tue, 13 Sep 2022 02:01:33 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] Documentation: process/submitting-patches: misspelling
- "mesages"
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v13 1/3] x86/tdx: Add TDX Guest attestation interface
+ driver
 Content-Language: en-US
-To:     Rong Tao <rtoax@foxmail.com>, corbet@lwn.net
-Cc:     kernel test robot <lkp@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Erik Ekman <erik@kryo.se>, Jiri Kosina <jkosina@suse.cz>,
-        Miguel Ojeda <ojeda@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <tencent_6A928C02229619E8099167DD5CCAA8D8BF0A@qq.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <tencent_6A928C02229619E8099167DD5CCAA8D8BF0A@qq.com>
+To:     Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        "Huang, Kai" <kai.huang@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "ak@linux.intel.com" <ak@linux.intel.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "wander@redhat.com" <wander@redhat.com>,
+        "tim.gardner@canonical.com" <tim.gardner@canonical.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "isaku.yamahata@gmail.com" <isaku.yamahata@gmail.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Luck, Tony" <tony.luck@intel.com>,
+        "khalid.elmously@canonical.com" <khalid.elmously@canonical.com>,
+        "marcelo.cerri@canonical.com" <marcelo.cerri@canonical.com>,
+        "Cox, Philip" <philip.cox@canonical.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+References: <20220909192708.1113126-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20220909192708.1113126-2-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <f85dbb3636ad199ff5f6ea9bdf5e17261f66945d.camel@intel.com>
+ <d67b4273-e0a6-6b24-b96c-7a3193ae52f9@linux.intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <d67b4273-e0a6-6b24-b96c-7a3193ae52f9@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 13/09/2022 07:11, Rong Tao wrote:
-> Fix spelling mistakes, "mesages" should be spelled "messages".
-> 
-> Signed-off-by: Rong Tao <rtoax@foxmail.com>
-> Reported-by: kernel test robot <lkp@intel.com>
+On 9/12/22 19:44, Sathyanarayanan Kuppuswamy wrote:
+>> and include the header (<linux/string.h> ?) for memchr_inv()?
+> One of the previous headers includes linux/string.h (I am not sure which one).
+> So why include it explicitly?
 
-What is here exactly reported by lkp?
+Because it's a best practice.  What happens is that you ride along on
+the coat tails of another #include, someone sees that include is no
+longer used and removes it.  Then, your code is busted on some weird
+.config.
 
-Didn't you send a patch like that already or is this a v1? I saw
-something similar...
+*OR*, the header itself changes and doesn't #include the dependency you
+need.
 
-Best regards,
-Krzysztof
+I guess you can go add this advice to Documentation/ if it's not there
+already somewhere.
