@@ -2,124 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78BC1C54EE9
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 17:25:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40DDCECAAD8
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 18:26:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232688AbiIMRZq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Sep 2022 13:25:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54868 "EHLO
+        id S232406AbiIMS0x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Sep 2022 14:26:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232753AbiIMRZS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 13:25:18 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB8379E2DC
-        for <linux-doc@vger.kernel.org>; Tue, 13 Sep 2022 09:12:09 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id l10so12304074plb.10
-        for <linux-doc@vger.kernel.org>; Tue, 13 Sep 2022 09:12:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=4GTld6ZU8MtCcyeBG9nWMSKRKMoB2xn8bpkZwXHEw2s=;
-        b=DihabYGaFpN/XoOHm1MSaQi2kRH2os0yj0QoILo7SPAJF8OpMSQjLf1+pqVt7GZRjd
-         D81sKZU5Oq0vtGEgr0Plm1UVQOezX4s/yuWlGktjKnB/6aqUWru04VRRHhXjgMf9lgKo
-         FR9C6O8IdbFGuxPJakYZ4BdDTShUXISvdElPZULkotAb3nTa0x7V27hT49l5H57ZEuzT
-         Y2ncOVkRrhHKP66UtZI06AJkG7HRBc21aMZ2rHU6LkxtwqHKRvYMVYVLxRX743DN2L19
-         qdr5gZklkks6Bi/hi2Z1rhwNsdKW/awWh0sDR0Rahs+8lcIfTne4V8e5TEE/NSU59M4J
-         aEIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=4GTld6ZU8MtCcyeBG9nWMSKRKMoB2xn8bpkZwXHEw2s=;
-        b=gPxsSJQOu+XEfpPq9crneJL0TrKWx+Rvky+U+TdleeZl9U1eTej85q/I7EfEYnrxJl
-         c8vQTskzXYzLzFAIeL2AJbNI6KghZXzqS0MoxpRsdd8esqzGjoCrt9/F+T/rnfFlh0uw
-         Ytnn9hoRVZZ/ILqP/2ltAy4BLbv6q3w14c5k57UTfUCuIna2GnnmcRJTdTviTEvp3+Kj
-         LNisHy49oRgN+/CoIU47GC4AWR7pOXzBC310M6MY/n1qzn+WF6pPlSlLghetPiM5wBAj
-         M57GXVnK0EU+Htu8G//TBurnmOZeynpjw1hgAM1/mMoDb3eKxaEVNzG6qXhlZXl0pCHt
-         g8xA==
-X-Gm-Message-State: ACgBeo3JWZcqvAD7zHXm3ZAagePHEo2SlLn5WZIddyODUCwlfvh+H1Ul
-        L5shF6uJwtroBXkPkODicsGVQfMb5mHvhA==
-X-Google-Smtp-Source: AA6agR40QaognMZ1z9EKqE4W87Ed5lvL47BWBF35ur3fvygfSXXOQSwbnkou/SgHBPbWX+ZFZu3LkA==
-X-Received: by 2002:a17:902:ce12:b0:172:9512:595d with SMTP id k18-20020a170902ce1200b001729512595dmr33361116plg.101.1663085528936;
-        Tue, 13 Sep 2022 09:12:08 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id ij24-20020a170902ab5800b001783f964fe3sm3191697plb.113.2022.09.13.09.12.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 09:12:07 -0700 (PDT)
-Date:   Tue, 13 Sep 2022 16:12:04 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>,
-        Elena Reshetova <elena.reshetova@intel.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <YyCr1IfPWtAHmrwN@google.com>
-References: <20220818132421.6xmjqduempmxnnu2@box>
- <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
- <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
- <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
- <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
- <20220908011037.ez2cdorthqxkerwk@box.shutemov.name>
- <YyBQ+wzPtGwwRB/U@google.com>
- <20220913132821.3ch5cv3rgdxqgz3i@box.shutemov.name>
- <YyCZZSyCrwXLLCD9@google.com>
- <20220913160046.rkz7uh6cpwy6wyzg@box.shutemov.name>
+        with ESMTP id S231393AbiIMS0h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 14:26:37 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F53CE65;
+        Tue, 13 Sep 2022 10:44:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D25FEB80DCB;
+        Tue, 13 Sep 2022 17:44:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6F17C433C1;
+        Tue, 13 Sep 2022 17:44:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663091066;
+        bh=Ic/VkqMBJjuwfLGWBGT9Tc39hmFMScQMkwunOI94tFg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=s+TnU1vRb4T4DpJ4MIOfOPek8KCXQfe40HKcXuHkrBy6QlKdSFLWBh5YjDmpBYcHk
+         j3mjBOlBTBtLGLBkmY1S3AV0gdH3aAZFXxh6FDsc356KBPDYsei9Qoyk8H8b37YKrO
+         tVPdf7x3Huor0YjmmZfStaszdLNY4O74zjlApywWRd4oJqsbKIrdmh83CMqXO5F6hM
+         pBpUEFCzHHMCLzq1dLznJo9pHMDFeLYSNUI6F0NbN5LdqerPH0GXVj2zXxvgWHK8Kc
+         CzCdauMR9GiXuBgBwkfryDFPs3URk4JSrkNKfko8VsFqxDdYSmWSBKj1O89erfUzD9
+         57HUZKWlJy32w==
+Date:   Tue, 13 Sep 2022 23:14:22 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Sean Anderson <sean.anderson@seco.com>
+Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
+        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        linuxppc-dev@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 0/8] phy: Add support for Lynx 10G SerDes
+Message-ID: <YyDBdn+IHqConzIW@matsya>
+References: <20220902213721.946138-1-sean.anderson@seco.com>
+ <de50858e-0056-fd72-2b67-27bf597b3366@seco.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220913160046.rkz7uh6cpwy6wyzg@box.shutemov.name>
+In-Reply-To: <de50858e-0056-fd72-2b67-27bf597b3366@seco.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 13, 2022, Kirill A. Shutemov wrote:
-> On Tue, Sep 13, 2022 at 02:53:25PM +0000, Sean Christopherson wrote:
-> > > > Switching topics, what actually prevents mmapp() on the shim?  I tried to follow,
-> > > > but I don't know these areas well enough.
-> > > 
-> > > It has no f_op->mmap, so mmap() will fail with -ENODEV. See do_mmap().
-> > > (I did not read the switch statement correctly at first. Note there are
-> > > two 'fallthrough' there.)
-> > 
-> > Ah, validate_mmap_request().  Thought not implementing ->mmap() was the key, but
-> > couldn't find the actual check.
-> 
-> validate_mmap_request() is in mm/nommu.c which is not relevant for real
-> computers.
-> 
-> I was talking about this check:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/mm/mmap.c#n1495
+On 09-09-22, 11:05, Sean Anderson wrote:
 
-Hence the comment about 'fallthrough'.  Thanks again!
+> 
+> I noticed in patchwork [1] that this entire series is marked as "Changes
+> Requested," despite having received only automated feedback on one patch
+> in the series. I am concerned about this because last time this occurred
+> [2], the series received no feedback for a month. I suspect this is
+> because series marked "Changes Requested" are hidden in patchwork by
+> default. Can you change the status of this series back to new? Or should
+> I just resend again?
+
+Yes please, update with ack collected any feedback addressed would be
+right...
+
+> [1] https://patchwork.kernel.org/project/linux-phy/list/?series=673741&state=*
+> [2] https://patchwork.kernel.org/project/linux-phy/list/?series=665484&state=*
+
+-- 
+~Vinod
