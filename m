@@ -2,156 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E5ABC6FA82
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 10:45:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C71EFC6FA89
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 13:28:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231652AbiIMKpi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Sep 2022 06:45:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50938 "EHLO
+        id S232026AbiIMN2e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Sep 2022 09:28:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231695AbiIMKpe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 06:45:34 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 51C7F13F24;
-        Tue, 13 Sep 2022 03:45:25 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 665341063;
-        Tue, 13 Sep 2022 03:45:31 -0700 (PDT)
-Received: from [10.57.15.170] (unknown [10.57.15.170])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CCBCC3F71A;
-        Tue, 13 Sep 2022 03:45:22 -0700 (PDT)
-Message-ID: <aa96eb55-4925-221f-1fb2-8226ea347c22@arm.com>
-Date:   Tue, 13 Sep 2022 11:45:17 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] dma-contiguous: add optional cma_name for cma= kernel
- parameter
-To:     Nate Drude <nate.d@variscite.com>, iommu@lists.linux.dev
-Cc:     Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
+        with ESMTP id S232239AbiIMN23 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 09:28:29 -0400
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5694857264;
+        Tue, 13 Sep 2022 06:28:28 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 6452758125D;
+        Tue, 13 Sep 2022 09:28:27 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 13 Sep 2022 09:28:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+         h=cc:cc:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1663075707; x=1663082907; bh=n3
+        5h590WgdUt3xeeXXEzHszlHEJbyzJQQXGzriv2Bdw=; b=lKhOb1x+8VXpLkYPJq
+        dQl5YvKDsVrJ3pc1cddIuP6OhdRr8PsWyp/A/vRSqdBGYijU98a2laOVKR84OdSY
+        CdujPPGE0VZNBRb8AFY5Y5Bx1hpN0K9qsML8ipAktp7Q4dsDv5hCzrn+3fKsf/oU
+        AhorqLE+1pGl42TcXBgEa1DEL85Fj/o6hRRyojZPC9K2zjk3pPIL5621K5ST63O8
+        QfX/As62Z9kgVwLF1Vd52L/j0ZbsibgzX3lP1nE0p6SlvlCfHzYP8Y99DMnqszRU
+        4kZiWacNgNvCjeHG/gHZIM3PEyq5YzCWaFwJxZ8RsSsTMQSpviggfPNqbX84abPQ
+        SlkA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1663075707; x=1663082907; bh=n35h590WgdUt3xeeXXEzHszlHEJb
+        yzJQQXGzriv2Bdw=; b=ZZUXlLMBCwce09seR6ZzZnhVx7X63lDnrSq7QexCOwba
+        A9401e3wLEjkdxebo61so4SM6Eq2+gBV02DerWOkmkljGlX/8BrYO0KifPKbfmud
+        tQGaxOuowW4z8g5wT/UeLXR8rB2bnERzrbHJwJ5umSz5EJnMO4J9NxfjkUcDN41W
+        ISvaKFiU8znaJRomeYO0cB8ZVXsFHA6uardhWbtNSZOWNtG8CTvsDtlB8FinOjfN
+        45PNRNVCpZA3g1XU+QLYkHfi3HSFsluN4GdXXUFeq8Zm+Jgw+zf2yo/okKDpCwuQ
+        Wv9geoz6xdCGPVhJGhJCSQxqRkadFT8yTRz4LL3O3A==
+X-ME-Sender: <xms:eYUgY8CjLPKuTLErxJ4o7QqNakfFEyw9cYv848faCnzZPxniWs4lwg>
+    <xme:eYUgY-hUFvVKwy38mKzxfqEfSEJ3tEM_VA5Gzsp_f_5cZePwaLvxqDi6bkNeJt1XW
+    CueKAX56_RWW-j6RfE>
+X-ME-Received: <xmr:eYUgY_nuCtjj0RQRFpPvX2-WFSAdAlgNrUl5Hj9r4PSXpqEMl-Z2eKx-upeysHMSG2w3RQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedugedgieeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+    grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
+    tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
+X-ME-Proxy: <xmx:eYUgYyziyk8GEwFDdH5XLuijt9yUa6rzCS1KLcOm2ep5cIGYKtwNtw>
+    <xmx:eYUgYxSZaSXMPQyjTS7T6QD290vjxjCsvaAjVUPK4mcC-Dgg1cdtuw>
+    <xmx:eYUgY9bB1MRIgbGNWw19SQsAqBeUUHmJgRlp1QnEzC7DGx9oHYpRvg>
+    <xmx:e4UgY4Oc1dwdLRHEd5XIz0WqilcnByyzA9-tDEQ_CmYKJfC235yyYQ>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 13 Sep 2022 09:28:25 -0400 (EDT)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id 9C1AC10458D; Tue, 13 Sep 2022 16:28:21 +0300 (+03)
+Date:   Tue, 13 Sep 2022 16:28:21 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
         Muchun Song <songmuchun@bytedance.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        eran.m@variscite.com
-References: <20220912163805.4113238-1-nate.d@variscite.com>
-Content-Language: en-GB
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20220912163805.4113238-1-nate.d@variscite.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        "Gupta, Pankaj" <pankaj.gupta@amd.com>,
+        Elena Reshetova <elena.reshetova@intel.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220913132821.3ch5cv3rgdxqgz3i@box.shutemov.name>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box>
+ <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
+ <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
+ <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
+ <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
+ <20220908011037.ez2cdorthqxkerwk@box.shutemov.name>
+ <YyBQ+wzPtGwwRB/U@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YyBQ+wzPtGwwRB/U@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-09-12 17:38, Nate Drude wrote:
-> When cma is defined in the device tree, the device tree node
-> name is used as the cma name. In the following example, the cma
-> will be named 'linux,cma':
+On Tue, Sep 13, 2022 at 09:44:27AM +0000, Sean Christopherson wrote:
+> On Thu, Sep 08, 2022, Kirill A. Shutemov wrote:
+> > On Wed, Aug 31, 2022 at 05:24:39PM +0300, Kirill A . Shutemov wrote:
+> > > On Sat, Aug 20, 2022 at 10:15:32PM -0700, Hugh Dickins wrote:
+> > > > > I will try next week to rework it as shim to top of shmem. Does it work
+> > > > > for you?
+> > > > 
+> > > > Yes, please do, thanks.  It's a compromise between us: the initial TDX
+> > > > case has no justification to use shmem at all, but doing it that way
+> > > > will help you with some of the infrastructure, and will probably be
+> > > > easiest for KVM to extend to other more relaxed fd cases later.
+> > > 
+> > > Okay, below is my take on the shim approach.
+> > > 
+> > > I don't hate how it turned out. It is easier to understand without
+> > > callback exchange thing.
+> > > 
+> > > The only caveat is I had to introduce external lock to protect against
+> > > race between lookup and truncate.
 > 
-> linux,cma {
-> 	compatible = "shared-dma-pool";
-> 	reusable;
-> 	size = <0 0x3c000000>;
-> 	alloc-ranges = <0 0x40000000 0 0xC0000000>;
-> 	linux,cma-default;
-> };
-> 
-> And a device /dev/dma_heap/linux,cma is created.
-> 
-> However, when cma is provided by command line, a default
-> name of 'reserved' is used, and the device path changes to
-> /dev/dma_heap/reserved.
+> As before, I think this lock is unnecessary.  Or at least it's unnessary to hold
+> the lock across get/put.  The ->invalidate() call will ensure that the pfn is
+> never actually used if get() races with truncation.
 
-If userspace expects the CMA heap driver to expose a consistent name for 
-CMA heaps, shouldn't it be the CMA heap driver's responsibility to 
-expose a consistent name for CMA heaps? Tinkering with the core CMA code 
-doesn't feel like the right approach.
+The updated version you replying to does not use the lock to protect
+against truncation anymore. The lock protect notifier list.
 
-Furthermore, given that DT reserved-memory nodes carrying the 
-"linux-cma-default" property equally can (and do) have different names 
-as well, that or fixing userspace really are the only robust options.
+> Switching topics, what actually prevents mmapp() on the shim?  I tried to follow,
+> but I don't know these areas well enough.
 
-Thanks,
-Robin.
+It has no f_op->mmap, so mmap() will fail with -ENODEV. See do_mmap().
+(I did not read the switch statement correctly at first. Note there are
+two 'fallthrough' there.)
 
-> This is problematic because some user space applications,
-> like gstreamer plugins, are expecting /dev/dma_heap/linux,cma.
-> 
-> This parameter allows overriding the default 'reserved' name.
-> 
-> Signed-off-by: Nate Drude <nate.d@variscite.com>
-> ---
->   .../admin-guide/kernel-parameters.txt         |  7 +++++++
->   kernel/dma/contiguous.c                       | 21 ++++++++++++++++++-
->   2 files changed, 27 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 51397a320f5e..975ec862d071 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -644,6 +644,13 @@
->   			altogether. For more information, see
->   			kernel/dma/contiguous.c
->   
-> +	cma_name=	Override the cma heap name
-> +			Format: <string>
-> +			When passing the cma kernel parameter, the default
-> +			cma name is 'reserved'. This parameter allows it to
-> +			be overriden to align with the device tree name,
-> +			like 'linux,cma'.
-> +
->   	cma_pernuma=nn[MG]
->   			[ARM64,KNL,CMA]
->   			Sets the size of kernel per-numa memory area for
-> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-> index 3d63d91cba5c..e89819ec183e 100644
-> --- a/kernel/dma/contiguous.c
-> +++ b/kernel/dma/contiguous.c
-> @@ -74,6 +74,7 @@ static const phys_addr_t size_bytes __initconst =
->   static phys_addr_t  size_cmdline __initdata = -1;
->   static phys_addr_t base_cmdline __initdata;
->   static phys_addr_t limit_cmdline __initdata;
-> +static char name_cmdline[CMA_MAX_NAME] = "reserved";
->   
->   static int __init early_cma(char *p)
->   {
-> @@ -96,6 +97,24 @@ static int __init early_cma(char *p)
->   }
->   early_param("cma", early_cma);
->   
-> +static int __init early_cma_name(char *p)
-> +{
-> +	if (!p) {
-> +		pr_err("Config string not provided\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (!strlen(p)) {
-> +		pr_err("cma_name must have at least one character\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	snprintf(name_cmdline, CMA_MAX_NAME, p);
-> +
-> +	return 0;
-> +}
-> +early_param("cma_name", early_cma_name);
-> +
->   #ifdef CONFIG_DMA_PERNUMA_CMA
->   
->   static struct cma *dma_contiguous_pernuma_area[MAX_NUMNODES];
-> @@ -231,7 +250,7 @@ int __init dma_contiguous_reserve_area(phys_addr_t size, phys_addr_t base,
->   	int ret;
->   
->   	ret = cma_declare_contiguous(base, size, limit, 0, 0, fixed,
-> -					"reserved", res_cma);
-> +					name_cmdline, res_cma);
->   	if (ret)
->   		return ret;
->   
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
