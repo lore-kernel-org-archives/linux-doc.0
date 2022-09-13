@@ -2,88 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55D34C54EE9
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 05:12:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99F5EC6FA86
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Sep 2022 06:40:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229804AbiIMFM3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Sep 2022 01:12:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48814 "EHLO
+        id S230160AbiIMGkj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Sep 2022 02:40:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229611AbiIMFM2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 01:12:28 -0400
-Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 282333F308;
-        Mon, 12 Sep 2022 22:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1663045942;
-        bh=un3wW3Q9eJYQrOv+2NY7IIUwgvKVP+G0a31QQZrKJkU=;
-        h=From:To:Cc:Subject:Date;
-        b=FBiv6sCpNLmHpHXq8xbV6pH90LWp/M/a8boyBw5Y9OoOAGceAYwOZ28sKEbkJNR4U
-         DUw6hFLDRTrQYLui3N2WSDWAGaLDHhvpOyndnGmvD+/Jckae/jocRCbVZUHpOL0pAP
-         zmtdg8Dj+RueqdppgOuPOOFWqi9yAbeYj8oCtG8g=
-Received: from localhost.localdomain ([39.156.73.13])
-        by newxmesmtplogicsvrsza31.qq.com (NewEsmtp) with SMTP
-        id 2CC2C414; Tue, 13 Sep 2022 13:11:12 +0800
-X-QQ-mid: xmsmtpt1663045872t8pn9uxoj
-Message-ID: <tencent_6A928C02229619E8099167DD5CCAA8D8BF0A@qq.com>
-X-QQ-XMAILINFO: NkHKfw09D6j8jAfGuQjgM9SdmnY8NmYi/2THULIh0pWbMJaLKqKXq7iOyeHbXL
-         5WCpD3+z9Z3kyKAEAqXwEjQtTb0tKKJrc884luO0ZGq81WiRxkSW+TVzl86P/NCWhGxi5vQbYYPT
-         EyD9yWQOT2ZRGYlkAtCXhbly+5kWtZucToSv25OE4dWVDH9FKMXmF+6wj+/SUSfsCyPsUo+he0F+
-         0IRM/88Q12N15eFzPNpL5qFoof/pAT2k+gzECMrHd+MC4ZVMM076TQP7fGHBtzHNZz2trszmi7dU
-         lAW2C9p24vaAbijSBG768Ip5oL5mDHk2KbqqXP7riXX8mYmXBWbR9lLeknv/M3DbeOYkEkq1inGN
-         DEAenckYI7A2u9oML3XTNwl3WiWE9dEeT+CFfnn9hG2R4I5gsQhfTi2FZZIXA6xsNI9Jf/W6oLki
-         iSYUDb5F+1rAVAu8B4I4PRhJJyAE8/AHBVgf3rZ4NO1xjftlbOq3GrXjoW1EppVgVRt8Xw01f0XR
-         WtPTcSItJQ2pFxmLQ/GYYsggu0d4SPiEZW5f2gsWdteAzcBZksjSrR6PSQtGphprknHRHiz+S95M
-         cKmWo2+hxG78ow+/gkGV8oW3of8IxI07ZtDS1oQiMcRvUyQOqVzFjPk9M4GPg98pfImTRgg6IBPn
-         N9GqWcLehDP+qyzveiaCk9hdaVZRWST35TtyqVq70xFpf1xA1yWMPlsmgxOBg3nCgqZRYEA+lbXj
-         vhjwKIG2mNEhTX2xi8wW/rCNb3L7kSI4pa1ADFAyEEX47gL8Q9x8l0jp1Ki9JatLXx1nwYZ37h8C
-         dgbpP4Bpv7na5c1ie9gNrd7FnYeAmId8Kd0rrQs5A/zakSUq+mapXbLjrQxtrPCN9LlGKQRTJHzw
-         klo4auqhTggn1gwN+Qp5BGQZeiZW3XUrvVhy15qhP0K5WauWcFb1NBfy4uHd9gE9fazKuI0MDpfQ
-         UOqb/GqFZKLzlmdS0zHAaRQ2txwYeG2DUkizZMq1FERQ9oGvSbIA==
-From:   Rong Tao <rtoax@foxmail.com>
-To:     corbet@lwn.net
-Cc:     Rong Tao <rtoax@foxmail.com>, kernel test robot <lkp@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Erik Ekman <erik@kryo.se>, Jiri Kosina <jkosina@suse.cz>,
-        Miguel Ojeda <ojeda@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: process/submitting-patches: misspelling "mesages"
-Date:   Tue, 13 Sep 2022 13:11:09 +0800
-X-OQ-MSGID: <20220913051110.10737-1-rtoax@foxmail.com>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S230374AbiIMGke (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 02:40:34 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAD6852818;
+        Mon, 12 Sep 2022 23:40:32 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MRYd70VbLzNm90;
+        Tue, 13 Sep 2022 14:35:55 +0800 (CST)
+Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 13 Sep 2022 14:40:29 +0800
+Received: from huawei.com (10.175.113.32) by dggpemm100009.china.huawei.com
+ (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 13 Sep
+ 2022 14:40:29 +0800
+From:   Liu Shixin <liushixin2@huawei.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Shakeel Butt <shakeelb@google.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+        Liu Shixin <liushixin2@huawei.com>,
+        "Kefeng Wang" <wangkefeng.wang@huawei.com>
+Subject: [PATCH v3] mm/memcontrol: use kstrtobool for swapaccount param parsing
+Date:   Tue, 13 Sep 2022 15:13:58 +0800
+Message-ID: <20220913071358.1812206-1-liushixin2@huawei.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220909145308.f2f61d6992f00ef6977f833b@linux-foundation.org>
+References: <20220909145308.f2f61d6992f00ef6977f833b@linux-foundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.32]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm100009.china.huawei.com (7.185.36.113)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix spelling mistakes, "mesages" should be spelled "messages".
+Use kstrtobool which is more powerful to handle all kinds of parameters
+like 'Yy1Nn0' or [oO][NnFf] for "on" and "off".
 
-Signed-off-by: Rong Tao <rtoax@foxmail.com>
-Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Liu Shixin <liushixin2@huawei.com>
 ---
- Documentation/process/submitting-patches.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ mm/memcontrol.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index be49d8f2601b..7dc94555417d 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -715,8 +715,8 @@ references.
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 0a1a8a846870..5511c0c120d9 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -7434,10 +7434,10 @@ bool mem_cgroup_swap_full(struct folio *folio)
  
- .. _backtraces:
- 
--Backtraces in commit mesages
--^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+Backtraces in commit messages
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- Backtraces help document the call chain leading to a problem. However,
- not all backtraces are helpful. For example, early boot call chains are
+ static int __init setup_swap_account(char *s)
+ {
+-	if (!strcmp(s, "1"))
+-		cgroup_memory_noswap = false;
+-	else if (!strcmp(s, "0"))
+-		cgroup_memory_noswap = true;
++	bool res;
++
++	if (!kstrtobool(s, &res))
++		cgroup_memory_noswap = !res;
+ 	return 1;
+ }
+ __setup("swapaccount=", setup_swap_account);
 -- 
-2.31.1
+2.25.1
 
