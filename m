@@ -2,142 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC22BECAAD8
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 13:04:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E02CCECAAD3
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 13:22:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbiINNEX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Sep 2022 09:04:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36708 "EHLO
+        id S229863AbiINNWE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Sep 2022 09:22:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbiINNEW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 09:04:22 -0400
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9286C6C76B;
-        Wed, 14 Sep 2022 06:04:17 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.west.internal (Postfix) with ESMTP id B55D82B05D9C;
-        Wed, 14 Sep 2022 09:04:12 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Wed, 14 Sep 2022 09:04:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1663160652; x=1663164252; bh=8JfDZhGhDT
-        nn1MAP2k2cOZYtoltqkx4/4nhZ1F4oVjI=; b=QDwr9SP7k1+Rj0nzhL5WKBQMDL
-        sNTfbUpxIfB3tqtQq12h0/L2PRquqoSfuoYUaaycp/EqwHZvflbQwhxse6kOObuO
-        NKc/y7tHADHGfaaRjuMmv0XTMceixzHeQXl7uySZ9cYZcynJeTtuC909Z5E3Trfd
-        T8W3owPE4ElN3mV06XJKBBfLqbt8E2z2gp+LEBVQ+ZvSsZxwaSxhCv1KBGb+sXFw
-        eUDOVZKV1YQfeKagI74PIBBhr3FAxn8trX9WSwNqLXXCClm/r9U20TNEPiDD2KyC
-        GGtA+/nmj4Fsd8Njn8L+Zp5rpWEbGwUU1O0oMQqZPSPoMOUgG59xgv//LmRw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1663160652; x=1663164252; bh=8JfDZhGhDTnn1MAP2k2cOZYtoltq
-        kx4/4nhZ1F4oVjI=; b=0wnZz1ZSbLPgR4yFtqMTBONUEFWQrj+tHyZmktK7ETNW
-        KE7PHz3c/pjFHiFG29UngXbh34qegeLtgUwTlrNweGyouPfxs67G4SWH6x27s7Ff
-        geGW5pIKTpVsGC1wacj884HLBb+FtSB9iRyZJp1Z1dSAUYnyH4ZmachyHWiy7NOL
-        dov7QhBV7SSzBuE0/NLu+IOJ4JozlOp1HUsp7lit+Pwj/tYAivPUyzZ46atW6vSt
-        rcjTWm7sIE0UE/2MaD8b7rwXXNfM1hDAWtBN2jlMfFHCNsMatr/rWSU8d2p79R1g
-        k7gOTZQlSD1mTD7XvBKFKUWDFW+IXK5IpN/YzZENfg==
-X-ME-Sender: <xms:StEhY52OyGyuiuNnCSm1jWO3pmAfykjEaZQE-i3xFprB1YarT5Tgjg>
-    <xme:StEhYwHjN2iFwC36_VY7eYaqkwr7QgGQzq_GWaYQQjVGjPX6gbfxzTjWGi0OMYb-Y
-    dFsxzBc5kuGXl5-dMc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeduiedgiedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
-    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:StEhY57lCrCC5oZmyJsh6s1pof64IlhVvSl5qqj-khKX8lpvg1Gf2Q>
-    <xmx:StEhY20ke7UzJk_Ivp6dNoIjESH-zJ7xbcC_Em8VhXG3WX5uEfDT3g>
-    <xmx:StEhY8E06D4FGJV6kqK2odCAjQ98DgN7QxlNkYW02lFzMr2QlVt-2Q>
-    <xmx:TNEhY0L75ishRnnifktbGHJSW8DfLk-Syoyyy_o3QZWSUcn8_V2dLA-S_fk>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 918E0B60086; Wed, 14 Sep 2022 09:04:10 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-934-g6274855a4c-fm-20220913.002-g6274855a
-Mime-Version: 1.0
-Message-Id: <a7cb856c-8a3f-4737-ae9e-b75c306ad88e@www.fastmail.com>
-In-Reply-To: <CACRpkdbazHcUassRMqZ2oHmama3nWEZ3U3bB-y-3dmo3jgFPWg@mail.gmail.com>
-References: <cover.1662116601.git.christophe.leroy@csgroup.eu>
- <CAMRc=MehcpT84-ucLbYmdVTAjT86bNb9NEfV6npCmPZHqbsArw@mail.gmail.com>
- <b348a306-3043-4ccc-9067-81759ab29143@www.fastmail.com>
- <CACRpkdbazHcUassRMqZ2oHmama3nWEZ3U3bB-y-3dmo3jgFPWg@mail.gmail.com>
-Date:   Wed, 14 Sep 2022 15:03:50 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Linus Walleij" <linus.walleij@linaro.org>,
-        "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
-Cc:     "Bartosz Golaszewski" <brgl@bgdev.pl>,
-        "Christophe Leroy" <christophe.leroy@csgroup.eu>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        Keerthy <j-keerthy@ti.com>,
-        "Russell King" <linux@armlinux.org.uk>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        "Davide Ciminaghi" <ciminaghi@gnudd.com>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>, x86@kernel.org
-Subject: Re: [PATCH v2 0/9] gpio: Get rid of ARCH_NR_GPIOS (v2)
-Content-Type: text/plain
+        with ESMTP id S229967AbiINNVs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 09:21:48 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CCD672B7C;
+        Wed, 14 Sep 2022 06:21:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7BCE0B81B54;
+        Wed, 14 Sep 2022 13:21:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4369CC43151;
+        Wed, 14 Sep 2022 13:21:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663161698;
+        bh=5eg3+MDl9mj9XaKfqXdunaBWCFhVKFc0lhc1VADdGlQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=awke9ZXiGJAhz25PXRgSFckS8/SgyblY/V90V6y+T8HXt6Z74xy0aolItOKA+hCsi
+         q1GGtin+Bukiq9wuTMFHvhTezXx7xPPFvKLpL7D2Y1klGJ4h6cfFkWEPlTFwWnNvtJ
+         7iyZV6IfurOr3qmDtnl9u65/yDxU/93A6reINHOqyfzByJOxBy8RFjF29cTr/2YzjV
+         87fAc8rJDae5roRDvHNChkGUh/M2HJX3RmxQwCjMOqa7KV9fTMU8e3+mitvB8ln1XD
+         nmSwUGq350CRYLdI/1NMKJuWSsgY0FfGGvwFqOZKpTv4KADAuRG7TRwoS1ogZwajxA
+         Al8UOngHVTLKQ==
+Received: by mail-vs1-f46.google.com with SMTP id a129so15879295vsc.0;
+        Wed, 14 Sep 2022 06:21:38 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1NxFOU8xta+fiJad9sRgDEeZmkCGDNZG/oAWLvFnO/B7Y32NSl
+        8rzU82VmtbIzwYvRGOxluzaQJziCxNrC8h/vJA==
+X-Google-Smtp-Source: AA6agR56jMVfRX3RtWINn1f1vrMILDJRHWk9UzHiBvWRHbJ6w8oCSCG8tGKMh7eB+FbUCGbrLkT5kxjkTYjpwJ7X9+I=
+X-Received: by 2002:a05:6102:3353:b0:38c:9170:a96b with SMTP id
+ j19-20020a056102335300b0038c9170a96bmr12924355vse.26.1663161697076; Wed, 14
+ Sep 2022 06:21:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220913195508.3511038-1-opendmb@gmail.com>
+In-Reply-To: <20220913195508.3511038-1-opendmb@gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 14 Sep 2022 08:21:25 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLmJcLHViPaBPvkBhR4xi+ZQuAJQpXoiJLVRW9EH4EX0Q@mail.gmail.com>
+Message-ID: <CAL_JsqLmJcLHViPaBPvkBhR4xi+ZQuAJQpXoiJLVRW9EH4EX0Q@mail.gmail.com>
+Subject: Re: [PATCH 00/21] mm: introduce Designated Movable Blocks
+To:     Doug Berger <opendmb@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Hari Bathini <hbathini@linux.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        - <devicetree-spec@vger.kernel.org>,
+        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-mm <linux-mm@kvack.org>,
+        iommu@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 14, 2022, at 2:38 PM, Linus Walleij wrote:
-> On Wed, Sep 7, 2022 at 12:15 PM Arnd Bergmann <arnd@arndb.de> wrote:
->> >>  drivers/gpio/gpio-sta2x11.c              | 411 -----------------------
-> (...)
->> sta2x11 is an x86 driver, so not my area, but I think it would be
->> best to kill off the entire platform rather than just its gpio
->> driver, since everything needs to work together and it's clearly
->> not functional at the moment.
->>
->> $ git grep -l STA2X11
->> Documentation/admin-guide/media/pci-cardlist.rst
->> arch/x86/Kconfig
->> arch/x86/include/asm/sta2x11.h
->> arch/x86/pci/Makefile
->> arch/x86/pci/sta2x11-fixup.c
->> drivers/ata/ahci.c
->> drivers/gpio/Kconfig
->> drivers/gpio/Makefile
->> drivers/gpio/gpio-sta2x11.c
->> drivers/i2c/busses/Kconfig
->> drivers/media/pci/Makefile
->> drivers/media/pci/sta2x11/Kconfig
->> drivers/media/pci/sta2x11/Makefile
->> drivers/media/pci/sta2x11/sta2x11_vip.c
->> drivers/media/pci/sta2x11/sta2x11_vip.h
->> drivers/mfd/Kconfig
->> drivers/mfd/Makefile
->> drivers/mfd/sta2x11-mfd.c
->> include/linux/mfd/sta2x11-mfd.h
->>
->> Removing the other sta2x11 bits (mfd, media, x86) should
->> probably be done through the respective tree, but it would
->> be good not to forget those.
+On Tue, Sep 13, 2022 at 2:57 PM Doug Berger <opendmb@gmail.com> wrote:
 >
-> Andy is pretty much default x86 platform device maintainer, maybe
-> he can ACK or brief us on what he knows about the status of
-> STA2x11?
+> MOTIVATION:
+> Some Broadcom devices (e.g. 7445, 7278) contain multiple memory
+> controllers with each mapped in a different address range within
+> a Uniform Memory Architecture. Some users of these systems have
+> expressed the desire to locate ZONE_MOVABLE memory on each
+> memory controller to allow user space intensive processing to
+> make better use of the additional memory bandwidth.
+> Unfortunately, the historical monotonic layout of zones would
+> mean that if the lowest addressed memory controller contains
+> ZONE_MOVABLE memory then all of the memory available from
+> memory controllers at higher addresses must also be in the
+> ZONE_MOVABLE zone. This would force all kernel memory accesses
+> onto the lowest addressed memory controller and significantly
+> reduce the amount of memory available for non-movable
+> allocations.
 
-I think the explanation given by Davide and Alessandro
-was rather detailed already:
+Why are you sending kernel patches to the Devicetree specification list?
 
-https://lore.kernel.org/lkml/Yw3LQjhZWmZaU2N1@arcana.i.gnudd.com/
-https://lore.kernel.org/lkml/Yw3DKCuDoPkCaqxE@arcana.i.gnudd.com/
-
-    Arnd
+Rob
