@@ -2,102 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E02CCECAAD3
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 13:22:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30740C6FA82
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 13:41:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229863AbiINNWE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Sep 2022 09:22:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60048 "EHLO
+        id S229615AbiINNl4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Sep 2022 09:41:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229967AbiINNVs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 09:21:48 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CCD672B7C;
-        Wed, 14 Sep 2022 06:21:41 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7BCE0B81B54;
-        Wed, 14 Sep 2022 13:21:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4369CC43151;
-        Wed, 14 Sep 2022 13:21:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663161698;
-        bh=5eg3+MDl9mj9XaKfqXdunaBWCFhVKFc0lhc1VADdGlQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=awke9ZXiGJAhz25PXRgSFckS8/SgyblY/V90V6y+T8HXt6Z74xy0aolItOKA+hCsi
-         q1GGtin+Bukiq9wuTMFHvhTezXx7xPPFvKLpL7D2Y1klGJ4h6cfFkWEPlTFwWnNvtJ
-         7iyZV6IfurOr3qmDtnl9u65/yDxU/93A6reINHOqyfzByJOxBy8RFjF29cTr/2YzjV
-         87fAc8rJDae5roRDvHNChkGUh/M2HJX3RmxQwCjMOqa7KV9fTMU8e3+mitvB8ln1XD
-         nmSwUGq350CRYLdI/1NMKJuWSsgY0FfGGvwFqOZKpTv4KADAuRG7TRwoS1ogZwajxA
-         Al8UOngHVTLKQ==
-Received: by mail-vs1-f46.google.com with SMTP id a129so15879295vsc.0;
-        Wed, 14 Sep 2022 06:21:38 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1NxFOU8xta+fiJad9sRgDEeZmkCGDNZG/oAWLvFnO/B7Y32NSl
-        8rzU82VmtbIzwYvRGOxluzaQJziCxNrC8h/vJA==
-X-Google-Smtp-Source: AA6agR56jMVfRX3RtWINn1f1vrMILDJRHWk9UzHiBvWRHbJ6w8oCSCG8tGKMh7eB+FbUCGbrLkT5kxjkTYjpwJ7X9+I=
-X-Received: by 2002:a05:6102:3353:b0:38c:9170:a96b with SMTP id
- j19-20020a056102335300b0038c9170a96bmr12924355vse.26.1663161697076; Wed, 14
- Sep 2022 06:21:37 -0700 (PDT)
+        with ESMTP id S229491AbiINNlz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 09:41:55 -0400
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA03D32062;
+        Wed, 14 Sep 2022 06:41:53 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 7CB245802E9;
+        Wed, 14 Sep 2022 09:41:50 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 14 Sep 2022 09:41:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+         h=cc:cc:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1663162910; x=1663170110; bh=9u
+        dvku0NNJooTG5PR0CRxNtI94An28JpAV1KnmmamBY=; b=ZjHvw3a6pBffuT3xRg
+        xpoDAsYdt4XL8/i/JT3v6IJjJroO/aoAmhQHhq5g6bBilEH/voNXhJn22WWPxMvi
+        /FZvn0xz4b1jy83cjVTjFGR8jISB6D26oPXcyE4/Jh05WGOMMQBo2uSzJeG+IUqf
+        tsAaH9NoX1zMBypHeLhhHYzffMkBrClCguZcrzv40a5a9mnFExobe2CfTEo5U727
+        ilQX7CTdlZn4zZoFT3FuOaKoCRsiq+4yGYQNpulzLh/CMeqoz41D8SVnJKI/qze7
+        e22XmGRw1rpvTos+1duo3HpiTwanP/OM2Rs+iImOcETLHVpgGh+VrijR6zA1WQxn
+        QQrw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1663162910; x=1663170110; bh=9udvku0NNJooTG5PR0CRxNtI94An
+        28JpAV1KnmmamBY=; b=EdHJVI6+aLmZ4CEL85sFGkG2z8mijdhi3WTBzJXCG1zC
+        P55PwahnplR0MpOhEvJrBhyCuc8pHum1Bzg8fL6gA8ebL66fBvv+liNmMdcwAFwa
+        y8uUNrthcmwXsz8tF1pQ3ncXP3H6zX31CZ8KBYmUkxSmWjP3hq8IrtT4wtsp8qUp
+        J4nCHxGuANWdr4HLs1E8C6bcrxKd+h+bZnNRhoLXrJqsAZZ/kb41ZoPPu+LNBt/4
+        ZhYmW0Z3jPGdIderbBJzavHUoMkKTRBtEIKVak5ZU2nLhYfHtHjsO0kfSjG9KuJQ
+        EnZ1fuMON3EByPgHpWYlISBExOmpcZvG32Zoi/bWqg==
+X-ME-Sender: <xms:HNohY8ve_0GngwMEMdzu-j2WoinjMwGGqv_a5bFsdZkaQMLkD88bWQ>
+    <xme:HNohY5daNrEO4E0rJOS9eJ1cwYDP3v-FAVa518SuH9wUA_pRIwdLyeVEpQ1Xb481o
+    F0oYWlkCl5by0cDDbE>
+X-ME-Received: <xmr:HNohY3yUHLYns9-T2hzVdsfuq_tTnHv-wmds33nAB9yuFIKkb5JymKMtjdzg1Vi-PQBfJQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeduiedgjedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+    grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
+    tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
+X-ME-Proxy: <xmx:HNohY_MMxuYhCY_lW_sZgN_XAVJqC6hOZWAcTLIR5kZsrqb1QDSn-Q>
+    <xmx:HNohY8-ZPRjxtF6BNQ0JhsQkY14SwfGotj5Ioswu9elQnezW3h6TLQ>
+    <xmx:HNohY3UTJXhfAuRh1iWerMz_fyW7_lza7Aco2t_MBtaPF-1pSlp07w>
+    <xmx:HtohY_eICiNZzS-lR2V0SZqZPprnKWCaYtbKNid-25sIQMt2Gifytg>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 14 Sep 2022 09:41:48 -0400 (EDT)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id C4BF8104669; Wed, 14 Sep 2022 16:41:45 +0300 (+03)
+Date:   Wed, 14 Sep 2022 16:41:45 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v13 3/3] Documentation/x86: Document TDX attestation
+ process
+Message-ID: <20220914134145.3llpjs76wkb3yacs@box.shutemov.name>
+References: <20220909192708.1113126-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20220909192708.1113126-4-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20220913175440.wahcdmaumeqjgzmh@box>
+ <c5868924-f2a0-d6fd-c757-ae539194f9f2@linux.intel.com>
 MIME-Version: 1.0
-References: <20220913195508.3511038-1-opendmb@gmail.com>
-In-Reply-To: <20220913195508.3511038-1-opendmb@gmail.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Wed, 14 Sep 2022 08:21:25 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLmJcLHViPaBPvkBhR4xi+ZQuAJQpXoiJLVRW9EH4EX0Q@mail.gmail.com>
-Message-ID: <CAL_JsqLmJcLHViPaBPvkBhR4xi+ZQuAJQpXoiJLVRW9EH4EX0Q@mail.gmail.com>
-Subject: Re: [PATCH 00/21] mm: introduce Designated Movable Blocks
-To:     Doug Berger <opendmb@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Hari Bathini <hbathini@linux.ibm.com>,
-        Kees Cook <keescook@chromium.org>,
-        - <devicetree-spec@vger.kernel.org>,
-        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
-        Mel Gorman <mgorman@suse.de>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        devicetree@vger.kernel.org, linux-mm <linux-mm@kvack.org>,
-        iommu@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c5868924-f2a0-d6fd-c757-ae539194f9f2@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 13, 2022 at 2:57 PM Doug Berger <opendmb@gmail.com> wrote:
->
-> MOTIVATION:
-> Some Broadcom devices (e.g. 7445, 7278) contain multiple memory
-> controllers with each mapped in a different address range within
-> a Uniform Memory Architecture. Some users of these systems have
-> expressed the desire to locate ZONE_MOVABLE memory on each
-> memory controller to allow user space intensive processing to
-> make better use of the additional memory bandwidth.
-> Unfortunately, the historical monotonic layout of zones would
-> mean that if the lowest addressed memory controller contains
-> ZONE_MOVABLE memory then all of the memory available from
-> memory controllers at higher addresses must also be in the
-> ZONE_MOVABLE zone. This would force all kernel memory accesses
-> onto the lowest addressed memory controller and significantly
-> reduce the amount of memory available for non-movable
-> allocations.
+On Tue, Sep 13, 2022 at 06:23:34PM -0700, Sathyanarayanan Kuppuswamy wrote:
+> After addressing the comments, the final version looks like below.
 
-Why are you sending kernel patches to the Devicetree specification list?
+Looks okay to me. You can keep my Acked-by for the patchset.
 
-Rob
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
