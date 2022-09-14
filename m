@@ -2,230 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB9DDECAAD3
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 10:03:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C63BC6FA8B
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 10:10:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbiINKD6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Sep 2022 06:03:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49068 "EHLO
+        id S229479AbiINKKS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Sep 2022 06:10:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiINKD5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 06:03:57 -0400
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2112.outbound.protection.outlook.com [40.107.95.112])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32FA6696C9;
-        Wed, 14 Sep 2022 03:03:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kHrlcKxrcrCJ4YTzq1oWaSH5atSEU1fVabTqKO5+7KXbHXkKGoEkyipbXh4GQhpUhQrPnujW8Trj/00k+W3ywsm1nP08aL0fzDDORq5kaCGqJt7bDoXeWlzyIrgsjrQbyHPfNR37YXvsfim+dIIszS/F/3k2KupozmWSyHInG8zn4DmEpXXS7xhJXehkbEJhCeMzms6Zq5xX5XrI0zSlPGSFwwd6/oTs9j8+fginvMearokt7e7pTDnOLcr9/pxdqijh5051XBlQRXFY8/X1T1nnNM6ncOMxOmzVBkIpO3VHnqE/jk0H3u3/Tikgd46cTuJQJcZw7VDYFhls9e/WdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4B/YI2dWEo5gi+8HFWWJuyb8fgKGOktOEcbpKD5s2Fo=;
- b=JfZpyCWthIbj8zoroxCTLT5W1qRC2CTP80L7NvXpxd8j/CbXVy/YP04Y1IbD5uKgXnkwB8qO62Bed91NDZEUpQ3rD1GHIKtzUve/xR4kmC3k9tqsHczepAa4TH8qLVEoPV27jzSu2B5t9qiR2aMgbxnxLE+ZckMetHn8GKUxM8V7NGOgfsotAcfNLmHyHM07+J/AnEe44FyPKb2AGcS+cFSBW/qggyoso7o9AIatGOk+hRmJXzB3Az9nxv4DWb89kd2gEssuthwyLq0cOgNJH7vAJxouf6TewhhdeZHtAQ/xslF08vNrViUW6IEZNtIHAv3Qzq+YiUVjSw1QBmgy9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4B/YI2dWEo5gi+8HFWWJuyb8fgKGOktOEcbpKD5s2Fo=;
- b=qOolaJW3HcW1pRqNCAFpPoODQ8zURoG4ywfsAg3nnf4V2MLohdcxW68k78i1AKXYrWgE+7cLxL1qAXLGacZWHA8ZsD7mXX1bAL4f6voNrY4C+Re+6ot9xDXmaDGRpSqkct3hAhnzEN5wgJmopC11YY3/nqCsToY7PrguUhjT4OY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from DM6PR13MB4431.namprd13.prod.outlook.com (2603:10b6:5:1bb::21)
- by BLAPR13MB4690.namprd13.prod.outlook.com (2603:10b6:208:331::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.12; Wed, 14 Sep
- 2022 10:03:52 +0000
-Received: from DM6PR13MB4431.namprd13.prod.outlook.com
- ([fe80::2944:20ba:ee80:b9c7]) by DM6PR13MB4431.namprd13.prod.outlook.com
- ([fe80::2944:20ba:ee80:b9c7%3]) with mapi id 15.20.5632.012; Wed, 14 Sep 2022
- 10:03:52 +0000
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@corigine.com>
-To:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Philippe Schenker <philippe.schenker@toradex.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     oss-drivers@corigine.com,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@corigine.com>,
-        Simon Horman <simon.horman@corigine.com>,
-        Louis Peens <louis.peens@corigine.com>
-Subject: [PATCH v7] checkpatch: warn for non-standard fixes tag style
-Date:   Wed, 14 Sep 2022 12:02:55 +0200
-Message-Id: <20220914100255.1048460-1-niklas.soderlund@corigine.com>
-X-Mailer: git-send-email 2.37.3
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO6P123CA0012.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:338::18) To DM6PR13MB4431.namprd13.prod.outlook.com
- (2603:10b6:5:1bb::21)
+        with ESMTP id S229582AbiINKKA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 06:10:00 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD72417059;
+        Wed, 14 Sep 2022 03:09:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663150198; x=1694686198;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nDq1Jq+CBdwiqeg0WoX/BodjNBVR/c2opxgpCEwHwLo=;
+  b=a611p2sxzkoOesMM+3zXI8JB7/lHb/lydKmwJ5CNnv2v35FUxWgHDHnL
+   5R3qXQQzbJHcN0ZU3OI2KqHbMHjpSd2q5UH+iVOH2TdsgX5Rt6Ewa0T0z
+   wFQg6K280edoT+0ph9EwZD3wmYi6rJPEU2ypG+XFE+HNJmtN6AAKfTS43
+   aP/rd29t3z0c9rX0u/8al2oeAWXboiyHBdYly5Q1GEicecWxJv47HunqB
+   kqH/g/YDM22RPo028uuUgJO499nifRT9caOEClX8CmVDYZ2+u2eNGxSOR
+   AzBKIRF0caYxIS4UQ17a6olpj52x3qo36WcjZC8MMbftZw+xOd5O4mhD9
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="360130832"
+X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
+   d="scan'208";a="360130832"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 03:09:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
+   d="scan'208";a="594325009"
+Received: from lkp-server01.sh.intel.com (HELO d6e6b7c4e5a2) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 14 Sep 2022 03:09:57 -0700
+Received: from kbuild by d6e6b7c4e5a2 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oYPLA-00005a-0o;
+        Wed, 14 Sep 2022 10:09:56 +0000
+Date:   Wed, 14 Sep 2022 18:09:18 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dan Williams <dan.j.williams@intel.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [djbw-nvdimm:libnvdimm-pending 16/22] drivers/dax/mapping.c:646:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202209141710.pI0d0v9N-lkp@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR13MB4431:EE_|BLAPR13MB4690:EE_
-X-MS-Office365-Filtering-Correlation-Id: 562f7b9e-a818-41cd-8623-08da96386d00
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gphSvz5qqGfJIsTm+gjxJrt2IOflwDDz7Phpk4llqsHaRAYU5ifDQ0kxdTD0q+nkGNxXCGfShjf+gGI/ICyInmlwS+SAKUIh1a6ZYFClxl20zuZiSOLo9ihakUsAKWVG++17/Zf4xhGNPpps4gEniaayymyLj+io5yJ7fbQMckM2QeKsVrO1bDF5myxERmgqvvNTBRy+BC1rN2udWo2GX2qVJ0s6GT2G8AhyOn+4aKIbWFg0m3qSQsiefCIbd7Ry4U2HLTdcjsBJmdwm0b+iFTNLqXyVs/xqmkpNcIGqFTKw0jpki6nxkK1m7cGxzz2H1QubRWLpxQ0z2UyWLlxw7ceCwxvU4e4Jm7Fe7R2tvItGYdmb7mmFVrnNrgi6c7EllVxAeXmAAPROA3064UaL1nBUlxVZPPbSDebn+LvMtOKsMabjdWm6b6K6dkVSbGYxSmZkR1dwzazXc16Z4PcTfpb6RGY0vcrgKY8r850V66Ve3Fb4eXeQOWJLGSG5MmwxW6p/s/HQ6W8BGXmLSgCrZyA2JA81OS8t5mMQyzoiPSxT8LUXD/aApptTFQ9QX8md27tvMjVd0v0wf8hu/knWdg4ZS4Jwws91IX5KUaI8Xk/BYztNZ02iqiixamX1ou5c+ty5TYWevhxuk31Rkh5q77NsPNEwrxX4e4vRWk/Qem+TbTOfMa+CQEOoURsVpQN6MurZUbdWanXS0zss5oLu8HKzGnstAAFOWoR+Y6rkcYX5KcPCRsrdWIyXIYmvRo9Oh5Cs4fppOVski54UiuSXjWcYPN92LN0UOlRDo4nDD4KNWp2v/fbt5ha/1DdZGcA1IhPJuW3NI4mOO7w3uyReSw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR13MB4431.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(366004)(39830400003)(376002)(396003)(451199015)(26005)(66574015)(6512007)(38350700002)(110136005)(478600001)(52116002)(86362001)(6506007)(107886003)(83380400001)(8676002)(8936002)(2906002)(66556008)(38100700002)(66946007)(1076003)(2616005)(186003)(316002)(41300700001)(66476007)(4326008)(5660300002)(54906003)(36756003)(6486002)(966005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QUxzRTJIczZzWk8vZkE5M1pjUjBIdmRMVXZQYzJEMC81ZUFja1dTMGdzSE5F?=
- =?utf-8?B?ZllNQk41dW9QZmhLa1JvUFB6ZzRNR1RZUGdnQnVKTWdLVU02c1RVYm4vUmo1?=
- =?utf-8?B?dGsrYkQ1MVFpVUFVaHV3V28rUmJtNHNuV3JibjltbHd2NWtYQ2hJcUpONndZ?=
- =?utf-8?B?RW9hSUFjNzAzM2EvY1l4bTQ3dGtxS01RVVpUNis0aUl1WEVhRFg3YWF1VGFX?=
- =?utf-8?B?d1MyNGZHc21YQzVpWnRISE9FZG5kVVF6d0RsdVF5M242OHB6L0NSV2RnU2tr?=
- =?utf-8?B?QzNUa1dTUUpBc1RuRjlqN2hCc3JtK3FMV2ZkNEpMMWdPZWdHcDVZbFVRbm5D?=
- =?utf-8?B?b1BkQUoyajArTDNqSDQrVmJobjZvQUJtNWN0Nlg0dFpWTU9PQkpReWIra1Jz?=
- =?utf-8?B?RndoUkVhWWJBaXRNdkFsV3Vobmk1SEVFdlNlcXJJdFhmTzZGLzZvQ2w1ekc1?=
- =?utf-8?B?Skw0YmNreVNET1VSTnhYQzhqRitSaFEvdVE2UiswTzRPMnV1aWtYYzVZRFps?=
- =?utf-8?B?bXBsK2JUdVMzU1NjbDhjRytkcFpoVnAxRHhtaVRqRElSYVhVbzhZek5QTWJx?=
- =?utf-8?B?QzhsUmJrbityTEtuZmlRTEc3V0RwT0JKVVBaUWxyRGd4OU1GU1c3MGVIU1hm?=
- =?utf-8?B?OFhaYXgycDV2bWs5VzJVRTRxUm1MS3k3SkxDZ3RQa1pCbTRRaStEZG55b040?=
- =?utf-8?B?RTRQdnh4bWZZbVpGQ1dzZG9pMkFMbFhIUWdmTkVyQzhZUkNhYUgwSWNwRjla?=
- =?utf-8?B?Yk9hQ0lPWHJZTFBxQ1crU1dlV2V6ZE1kSWtuUmQ0eldoZmErb0MvZ25IQVF1?=
- =?utf-8?B?MUlvVUF3ci9pNlpNREEybFFzNlVSNk0zKzQ3ejJiV1BaVTA4QlIzb2R2RGFk?=
- =?utf-8?B?TnJqb21JUkxMWldZaHJZRU5JMnF5Yjdta3dhZS9DTkMwVzA0NUlhYU5TaTBR?=
- =?utf-8?B?Sjcreml1ZmRTaGJPSEI2ZFpFTkxXWm9PaDZZS3dPOFoxWXRGeUFjNDQvMk1z?=
- =?utf-8?B?V3k5bkNHT2lxd2xwVEQrcDErR3BSd0NuZWt0WG81a2t4QjlmYWlCWlU5bjhW?=
- =?utf-8?B?VDM3NW5MUmFjNXF6M0l6ZWc3Q0pRWWtIZWNkUnBnTm1OKys1U09lRmlVT0dm?=
- =?utf-8?B?a1pLNU1BSlJEWG82QVBleWxhTTZJejRCT2NvNjUvY3lZWHM1SWw1N2ZqKzlX?=
- =?utf-8?B?TjYrRk9WSU0rWERYUklRbzBLQzh3Y0Ztc0dQVUk2TFk4b3pBeE5DSVFvS29p?=
- =?utf-8?B?WUI3WXZLNjFFUklHU1FERVNwZnh5N2g2bkZBUGM5RGp0V3c3WUVBVGxVbEJk?=
- =?utf-8?B?bmJXN3dRTUJtL2hJNVByUHYwSnkzMW8xNE9kK2NNdWh1VmhDWjJNcXN5a1Nt?=
- =?utf-8?B?aDN2UUhXWmdpYlBkdk1ueXZ3UnJLeTBNRnd1cDJ5UFFLY1d6V2tvSnBWRGN4?=
- =?utf-8?B?NVViZ1lMaXEyR3ZJUUw3MjlFazRFZjBHMGdINmhvRVg1aWIvZ0YzN0Z2aTE3?=
- =?utf-8?B?bHJRcHBnS29TYW16UlkrN3FVcmkzWURBMUFZSzRGVlp3R0xLT3BDOE1tUXdG?=
- =?utf-8?B?Q1dyWnVxQTY2Yk9RcWw1d2toZ3did2lWVzF3RG01NzlDYnR2Wmw1WEl2Q3px?=
- =?utf-8?B?VFVLdDdnZGIzL2FqUnJSNDhnemorR2NUL2dVRkhqMDFjaXJDa3RXbkFjSW9Y?=
- =?utf-8?B?cVFMTjcyZVhkUGpMcTRzYlBhZEZxOEFERXNuRFBnTlJZMVF0UVg0L1hnWWRt?=
- =?utf-8?B?dS9qWkpaelVGeVRBSkhzdWJUVVg3VjBzUDhvaU9Dd1FnYlptdXc4QXlYZERl?=
- =?utf-8?B?Yk1VOUc1NTFzMmpSeHNQaUVjdzdpV2RtMEwwZzRidE5wRTQ3ZENMSUd6OVZm?=
- =?utf-8?B?RmtxWDdpbjl1VUNPNEhWSU5SWlZpUXphTjdybDBTNlZxcjlDeEFHZE1XM3VW?=
- =?utf-8?B?Zlg3Ym83OUJ5RDhjNjRxSGRza0NnSk1jbzlRaWViR01VQUhxcW44bmprNzQy?=
- =?utf-8?B?NFk1bFh6ZVpsQUd4dFBUdUY2UjRkTVVZZFBHZzlQQjcwMGU4dmw5MktmY3hN?=
- =?utf-8?B?aTBuYnhGRnZLSHZFYkdDWmw0dTB3T2Ezb2VZcXRxTVFqOGFaMjlneUNsSTlD?=
- =?utf-8?B?cHJtQ2lDdFc5blVDakJ3U3BJcmdnNmh1Q3VvRitiVXRQeTUyYVMyaDQyY0pL?=
- =?utf-8?B?QUE9PQ==?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR13MB4690
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a warning for fixes tags that does not follow community conventions.
+Hi Dan,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund@corigine.com>
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
-Reviewed-by: Louis Peens <louis.peens@corigine.com>
-Reviewed-by: Philippe Schenker <philippe.schenker@toradex.com>
-Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Acked-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-* Changes since v6
-- Update first check to make sure that there is a likely SHA1 of some
-  minimum length after the fixes line.
-- s/fall in line with community standard/follow community conventions/.
-- Improve grammar, thanks Lukas.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-* Changes since v5
-- Add support for --fix option for checkpatch.pl.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djbw/nvdimm.git libnvdimm-pending
+head:   e27a0356de15f16934325784c6b1d89cf0f13458
+commit: 155ac6b670cf6385f6dd14910560d569560af889 [16/22] devdax: Move address_space helpers to the DAX core
+config: x86_64-randconfig-a015 (https://download.01.org/0day-ci/archive/20220914/202209141710.pI0d0v9N-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djbw/nvdimm.git/commit/?id=155ac6b670cf6385f6dd14910560d569560af889
+        git remote add djbw-nvdimm https://git.kernel.org/pub/scm/linux/kernel/git/djbw/nvdimm.git
+        git fetch --no-tags djbw-nvdimm libnvdimm-pending
+        git checkout 155ac6b670cf6385f6dd14910560d569560af889
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-* Changes since v4
-- Extend test to cover lines with whitespace before the fixes: tag, e.g.
-  match check on /^\s*fixes:?/i.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-* Changes since v3
-- Add test that title in tag match title of commit referenced by sha1.
+All warnings (new ones prefixed by >>):
 
-* Changes since v2
-- Change the pattern to match on 'fixes:?' to catch more malformed
-  tags.
+>> drivers/dax/mapping.c:646: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Return NULL if the entry is zapped and all pages in the entry are
 
-* Changes since v1
-- Update the documentation wording and add mention one cause of the
-  message can be that email program splits the tag over multiple lines.
----
- Documentation/dev-tools/checkpatch.rst |  7 ++++
- scripts/checkpatch.pl                  | 44 ++++++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index b52452bc2963..c3389c6f3838 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -612,6 +612,13 @@ Commit message
- 
-     See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
- 
-+  **BAD_FIXES_TAG**
-+    The Fixes: tag is malformed or does not follow the community conventions.
-+    This can occur if the tag have been split into multiple lines (e.g., when
-+    pasted in an email program with word wrapping enabled).
-+
-+    See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
-+
- 
- Comparison style
- ----------------
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 79e759aac543..ddc5c9d730c3 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3140,6 +3140,50 @@ sub process {
- 			}
- 		}
- 
-+# Check Fixes: styles is correct
-+		if (!$in_header_lines &&
-+		    $line =~ /^\s*fixes:?\s*(?:commit\s*)?[0-9a-f]{5,}\b/i) {
-+			my $orig_commit = "";
-+			my $id = "0123456789ab";
-+			my $title = "commit title";
-+			my $tag_case = 1;
-+			my $tag_space = 1;
-+			my $id_length = 1;
-+			my $id_case = 1;
-+			my $title_has_quotes = 0;
-+
-+			if ($line =~ /(\s*fixes:?)\s+([0-9a-f]{5,})\s+($balanced_parens)/i) {
-+				my $tag = $1;
-+				$orig_commit = $2;
-+				$title = $3;
-+
-+				$tag_case = 0 if $tag eq "Fixes:";
-+				$tag_space = 0 if ($line =~ /^fixes:? [0-9a-f]{5,} ($balanced_parens)/i);
-+
-+				$id_length = 0 if ($orig_commit =~ /^[0-9a-f]{12}$/i);
-+				$id_case = 0 if ($orig_commit !~ /[A-F]/);
-+
-+				# Always strip leading/trailing parens then double quotes if existing
-+				$title = substr($title, 1, -1);
-+				if ($title =~ /^".*"$/) {
-+					$title = substr($title, 1, -1);
-+					$title_has_quotes = 1;
-+				}
-+			}
-+
-+			my ($cid, $ctitle) = git_commit_info($orig_commit, $id,
-+							     $title);
-+
-+			if ($ctitle ne $title || $tag_case || $tag_space ||
-+			    $id_length || $id_case || !$title_has_quotes) {
-+				if (WARN("BAD_FIXES_TAG",
-+				     "Please use correct Fixes: style 'Fixes: <12 chars of sha1> (\"<title line>\")' - ie: 'Fixes: $cid (\"$ctitle\")'\n" . $herecurr) &&
-+				    $fix) {
-+					$fixed[$fixlinenr] = "Fixes: $cid (\"$ctitle\")";
-+				}
-+			}
-+		}
-+
- # Check email subject for common tools that don't need to be mentioned
- 		if ($in_header_lines &&
- 		    $line =~ /^Subject:.*\b(?:checkpatch|sparse|smatch)\b[^:]/i) {
+vim +646 drivers/dax/mapping.c
+
+   644	
+   645	/**
+ > 646	 * Return NULL if the entry is zapped and all pages in the entry are
+   647	 * idle, otherwise return the non-idle page in the entry
+   648	 */
+   649	static struct page *dax_zap_pages(struct xa_state *xas, void *entry)
+   650	{
+   651		struct page *ret = NULL;
+   652		unsigned long pfn;
+   653		bool zap;
+   654	
+   655		if (!dax_entry_size(entry))
+   656			return NULL;
+   657	
+   658		zap = !dax_is_zapped(entry);
+   659	
+   660		for_each_mapped_pfn(entry, pfn) {
+   661			struct page *page = pfn_to_page(pfn);
+   662	
+   663			if (zap)
+   664				page_ref_dec(page);
+   665	
+   666			if (!ret && !dax_page_idle(page))
+   667				ret = page;
+   668		}
+   669	
+   670		if (zap)
+   671			dax_zap_entry(xas, entry);
+   672	
+   673		return ret;
+   674	}
+   675	
+
 -- 
-2.37.3
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
