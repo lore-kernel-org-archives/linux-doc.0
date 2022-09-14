@@ -2,161 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB6CCC6FA82
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 14:55:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A30AECAAD3
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 15:39:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229963AbiINOzN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Sep 2022 10:55:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37702 "EHLO
+        id S230249AbiINPjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Sep 2022 11:39:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229797AbiINOzK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 10:55:10 -0400
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBDDD27FC6;
-        Wed, 14 Sep 2022 07:55:08 -0700 (PDT)
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1225219ee46so41667957fac.2;
-        Wed, 14 Sep 2022 07:55:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=tByLw1qEkiOZGzDHv1iwtkakEjYoENISc7jNLUAn1ZI=;
-        b=37nhlQGZpq+xkUuAniQQrE0zVlIfMreR4MhwBx0+WmPiJ7zO2fKsD3salZ/uBmf+2W
-         PKpwsDkWIj1epW0b/pJAqHPATJvtuk+j9do1BQ7TEwkrl2M6iYQL+o6lFw8IJKcykfkB
-         7g6sVIbLYqzd4D9y6NIDGbCUMSe6m8MBWlYMkjH4eRzCiC/Wfyw/G+7Od7z0Q6bRkZJf
-         olNNV1T8yWQkROrlYtgjPoyfV3E8Y42Pl0a+J0GEDqhhq/UBkhuCDzSGC+2fMZstTZwi
-         H5rm7Z1tyg7Xf9QHubHFWUdNq5lcLzG/khAY0Os2JZ3wC1u2u34tAzKCYCdpAbcaHE7q
-         SmNA==
-X-Gm-Message-State: ACgBeo0ndcBiRxxfMiyQFysqH8mc3bBmjvMTps4RHHzk0YZsbhzvfYuR
-        9ZVryzBxEAnvNqqAhT5wRQ==
-X-Google-Smtp-Source: AA6agR70yLqmwAo8ampR4EIA+plNY4V86lsveWAcGrBtki2l9qALN86LHK3Z0XMIwQY5gPpxtS1baQ==
-X-Received: by 2002:a05:6808:ec7:b0:2f9:6119:d6ed with SMTP id q7-20020a0568080ec700b002f96119d6edmr1974104oiv.215.1663167307860;
-        Wed, 14 Sep 2022 07:55:07 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id z8-20020a056808028800b003431d9b3edfsm5303651oic.2.2022.09.14.07.55.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Sep 2022 07:55:07 -0700 (PDT)
-Received: (nullmailer pid 2198793 invoked by uid 1000);
-        Wed, 14 Sep 2022 14:55:06 -0000
-Date:   Wed, 14 Sep 2022 09:55:06 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Doug Berger <opendmb@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Hari Bathini <hbathini@linux.ibm.com>,
-        Kees Cook <keescook@chromium.org>,
-        - <devicetree-spec@vger.kernel.org>,
-        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
-        Mel Gorman <mgorman@suse.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-mm@kvack.org, iommu@lists.linux.dev
-Subject: Re: [PATCH 16/21] dt-bindings: reserved-memory: introduce
- designated-movable-block
-Message-ID: <20220914145506.GA2149379-robh@kernel.org>
-References: <20220913195508.3511038-1-opendmb@gmail.com>
- <20220913195508.3511038-17-opendmb@gmail.com>
+        with ESMTP id S230433AbiINPii (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 11:38:38 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96A5884EC2;
+        Wed, 14 Sep 2022 08:36:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663169795; x=1694705795;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=TTSmPWTGTvQ2ubhEdKoOh9dsn95GYUqtSGWPLazI0uU=;
+  b=EbbLDdrOlJl73czShs/WEhohAV1aNbqwnwCP/IERWQM3tqjLGq1y0Hdj
+   JRuHj11x+JpUswQGc3iyjSvf/MUVYaiiZ26aDLu0S1TU+XUEBwHCTZVbC
+   eS1JQAspzQih8kFYTudBlxb9+yfox0XkFlwBRO1HlJ14X4oxvtqyIGmyV
+   ekTJ7xbCDaDfSdWK+RLsH7RzynIy7F8LHAdj/U2e7uAmPkYJ/cKqNVvXL
+   9dQcDvlI7j2AEWf+Rax9+6aW0FFabWByYYiWNoLfttfstTlvzP85//xKH
+   eMwSYujpXNia44m8G/T3ho/CKExB+fInkEyaNmAo/ODmR+oRP5av8cAUL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="285500122"
+X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
+   d="scan'208";a="285500122"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 08:36:12 -0700
+X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
+   d="scan'208";a="759257743"
+Received: from mmcgoort-mobl.amr.corp.intel.com (HELO [10.209.54.54]) ([10.209.54.54])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 08:36:11 -0700
+Message-ID: <1182ef92-cae3-b7c1-8339-8e8bfa48f2e3@linux.intel.com>
+Date:   Wed, 14 Sep 2022 08:36:10 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220913195508.3511038-17-opendmb@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PATCH v13 1/3] x86/tdx: Add TDX Guest attestation interface
+ driver
+Content-Language: en-US
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>
+Cc:     "H . Peter Anvin" <hpa@zytor.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220909192708.1113126-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20220909192708.1113126-2-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <7c3cc265-869b-b2fc-43f2-d2cbd0bc142c@intel.com>
+From:   Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <7c3cc265-869b-b2fc-43f2-d2cbd0bc142c@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 13, 2022 at 12:55:03PM -0700, Doug Berger wrote:
-> Introduce designated-movable-block.yaml to document the
-> devicetree binding for Designated Movable Block children of the
-> reserved-memory node.
 
-What is a Designated Movable Block? This patch needs to stand on its 
-own.
 
-Why does this belong or need to be in DT?
-
+On 9/14/22 4:36 AM, Dave Hansen wrote:
+> On 9/9/22 12:27, Kuppuswamy Sathyanarayanan wrote:
+>>
+>>  arch/x86/coco/tdx/tdx.c         | 115 ++++++++++++++++++++++++++++++++
+>>  arch/x86/include/uapi/asm/tdx.h |  56 ++++++++++++++++
+>>  2 files changed, 171 insertions(+)
+>>  create mode 100644 arch/x86/include/uapi/asm/tdx.h
 > 
-> Signed-off-by: Doug Berger <opendmb@gmail.com>
-> ---
->  .../designated-movable-block.yaml             | 51 +++++++++++++++++++
->  1 file changed, 51 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/reserved-memory/designated-movable-block.yaml
+> The SEV equivalent of this in in:
 > 
-> diff --git a/Documentation/devicetree/bindings/reserved-memory/designated-movable-block.yaml b/Documentation/devicetree/bindings/reserved-memory/designated-movable-block.yaml
-> new file mode 100644
-> index 000000000000..42f846069a2e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/reserved-memory/designated-movable-block.yaml
-> @@ -0,0 +1,51 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/reserved-memory/designated-movable-block.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: /reserved-memory Designated Movable Block node binding
-> +
-> +maintainers:
-> +  - devicetree-spec@vger.kernel.org
-> +
-> +allOf:
-> +  - $ref: "reserved-memory.yaml"
-> +
-> +properties:
-> +  compatible:
-> +    const: designated-movable-block
-> +    description:
-> +      This indicates a region of memory meant to be placed into
-> +      ZONE_MOVABLE.
+> 	drivers/virt/coco/sev-guest/sev-guest.c
+> 
+> right?
+> 
+> Why did you choose a different location?  Also, can you please study the
 
-Don't put Linuxisms into bindings.
+When we initially submitted the attestation patches, virt/coco folder
+was not created. I initially kept this driver in platform/x86/, but
+later moved to arch/x86/coco based on the review comments in v4. There
+was a discussion about the need for a new config and the location of
+the driver. The outcome of that discussion is, since this is not a
+traditional driver, but a basic TDX feature, we don't need a special
+config and the code can be maintained in the arch/x86/coco folder.
 
-> +
-> +unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reusable
-> +
-> +examples:
-> +  - |
-> +      reserved-memory {
-> +          #address-cells = <0x2>;
-> +          #size-cells = <0x2>;
-> +
-> +          DMB0@10800000 {
-> +               compatible = "designated-movable-block";
-> +               reusable;
-> +               reg = <0x0 0x10800000 0x0 0x2d800000>;
-> +          };
-> +
-> +          DMB1@40000000 {
-> +               compatible = "designated-movable-block";
-> +               reusable;
-> +               reg = <0x0 0x40000000 0x0 0x30000000>;
-> +          };
-> +
-> +          DMB2@80000000 {
-> +               compatible = "designated-movable-block";
-> +               reusable;
-> +               reg = <0x0 0x80000000 0x0 0x2fc00000>;
-> +          };
-> +      };
-> -- 
-> 2.25.1
-> 
-> 
+https://lore.kernel.org/lkml/YmEfgn7fMcZ2oCnr@zn.tnic/
+
+> SEV implementation a bit?  It might help you find problems like the
+> ioctl() return code issue.  The SEV driver appears to have gotten that
+> right.
+
+Ok.
+
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
