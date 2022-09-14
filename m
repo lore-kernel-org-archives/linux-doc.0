@@ -2,111 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A30AECAAD3
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 15:39:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB37AC6FA89
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 16:09:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230249AbiINPjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Sep 2022 11:39:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44338 "EHLO
+        id S229640AbiINQJk convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Sep 2022 12:09:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230433AbiINPii (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 11:38:38 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96A5884EC2;
-        Wed, 14 Sep 2022 08:36:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663169795; x=1694705795;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=TTSmPWTGTvQ2ubhEdKoOh9dsn95GYUqtSGWPLazI0uU=;
-  b=EbbLDdrOlJl73czShs/WEhohAV1aNbqwnwCP/IERWQM3tqjLGq1y0Hdj
-   JRuHj11x+JpUswQGc3iyjSvf/MUVYaiiZ26aDLu0S1TU+XUEBwHCTZVbC
-   eS1JQAspzQih8kFYTudBlxb9+yfox0XkFlwBRO1HlJ14X4oxvtqyIGmyV
-   ekTJ7xbCDaDfSdWK+RLsH7RzynIy7F8LHAdj/U2e7uAmPkYJ/cKqNVvXL
-   9dQcDvlI7j2AEWf+Rax9+6aW0FFabWByYYiWNoLfttfstTlvzP85//xKH
-   eMwSYujpXNia44m8G/T3ho/CKExB+fInkEyaNmAo/ODmR+oRP5av8cAUL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="285500122"
-X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
-   d="scan'208";a="285500122"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 08:36:12 -0700
-X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
-   d="scan'208";a="759257743"
-Received: from mmcgoort-mobl.amr.corp.intel.com (HELO [10.209.54.54]) ([10.209.54.54])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 08:36:11 -0700
-Message-ID: <1182ef92-cae3-b7c1-8339-8e8bfa48f2e3@linux.intel.com>
-Date:   Wed, 14 Sep 2022 08:36:10 -0700
+        with ESMTP id S229603AbiINQJd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 12:09:33 -0400
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2DF7BED;
+        Wed, 14 Sep 2022 09:09:29 -0700 (PDT)
+Received: from omf08.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay09.hostedemail.com (Postfix) with ESMTP id 952D880C18;
+        Wed, 14 Sep 2022 16:09:27 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf08.hostedemail.com (Postfix) with ESMTPA id 09AAD20025;
+        Wed, 14 Sep 2022 16:09:25 +0000 (UTC)
+Message-ID: <aa858ac592679fdf512debe17e0612c575450860.camel@perches.com>
+Subject: Re: [PATCH v7] checkpatch: warn for non-standard fixes tag style
+From:   Joe Perches <joe@perches.com>
+To:     Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@corigine.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     oss-drivers@corigine.com, Simon Horman <simon.horman@corigine.com>,
+        Louis Peens <louis.peens@corigine.com>
+Date:   Wed, 14 Sep 2022 09:09:25 -0700
+In-Reply-To: <20220914100255.1048460-1-niklas.soderlund@corigine.com>
+References: <20220914100255.1048460-1-niklas.soderlund@corigine.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v13 1/3] x86/tdx: Add TDX Guest attestation interface
- driver
-Content-Language: en-US
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>
-Cc:     "H . Peter Anvin" <hpa@zytor.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220909192708.1113126-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220909192708.1113126-2-sathyanarayanan.kuppuswamy@linux.intel.com>
- <7c3cc265-869b-b2fc-43f2-d2cbd0bc142c@intel.com>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <7c3cc265-869b-b2fc-43f2-d2cbd0bc142c@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 09AAD20025
+X-Stat-Signature: 9md5hxrn71chdp7f1f7hcsjjgts5nfpt
+X-Rspamd-Server: rspamout05
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX183LY6G42xmDTBsfnC5aVm3gnaz6IMy0ks=
+X-HE-Tag: 1663171765-135009
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, 2022-09-14 at 12:02 +0200, Niklas Söderlund wrote:
+> Add a warning for fixes tags that does not follow community conventions.
+[]
+> * Changes since v6
+> - Update first check to make sure that there is a likely SHA1 of some
+>   minimum length after the fixes line.
 
+https://lore.kernel.org/lkml/2febb7893346b6234983453de7c037536e479bfc.camel@perches.com/
 
-On 9/14/22 4:36 AM, Dave Hansen wrote:
-> On 9/9/22 12:27, Kuppuswamy Sathyanarayanan wrote:
->>
->>  arch/x86/coco/tdx/tdx.c         | 115 ++++++++++++++++++++++++++++++++
->>  arch/x86/include/uapi/asm/tdx.h |  56 ++++++++++++++++
->>  2 files changed, 171 insertions(+)
->>  create mode 100644 arch/x86/include/uapi/asm/tdx.h
-> 
-> The SEV equivalent of this in in:
-> 
-> 	drivers/virt/coco/sev-guest/sev-guest.c
-> 
-> right?
-> 
-> Why did you choose a different location?  Also, can you please study the
+The goal here should be to identify a line that looks like a commit
+reference.
 
-When we initially submitted the attestation patches, virt/coco folder
-was not created. I initially kept this driver in platform/x86/, but
-later moved to arch/x86/coco based on the review comments in v4. There
-was a discussion about the need for a new config and the location of
-the driver. The outcome of that discussion is, since this is not a
-traditionalÂ driver, but a basic TDX feature, we don't need a special
-config and the code can be maintained in the arch/x86/coco folder.
+So find lines that starts with 'fixes' and have a SHA1 commit id as
+broadly as reasonable.
 
-https://lore.kernel.org/lkml/YmEfgn7fMcZ2oCnr@zn.tnic/
+Did you run the grep pattern and look at the results?
 
-> SEV implementation a bit?  It might help you find problems like the
-> ioctl() return code issue.  The SEV driver appears to have gotten that
-> right.
+One grep pattern to verify the non canonical fixes format that
+are mistakenly used is:
 
-Ok.
+$ git log --since=5-years-ago --no-merges --grep='^\s*fixes' -i --format=email -P | \
+  grep -P -i '^\s*fixes' | \
+  grep -P -v '^Fixes: [0-9a-f]{12,12}\s*\(".*")'
 
--- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+[]
+
+There are many different styles.
+Parenthesea are sometimes not used.
+
+> +			if ($line =~ /(\s*fixes:?)\s+([0-9a-f]{5,})\s+($balanced_parens)/i) {
+
+How about some pattern like
+
+	/fixes\s*:?\s*(?:commit:?\s*)?[0-9a-f]{5,}/i
+
+or maybe even more broadly:
+
+	/fixes\b.*\b[0-9a-f]{5,}\b/i
+
