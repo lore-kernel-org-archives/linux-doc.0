@@ -2,56 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0DCAC6FA82
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 17:08:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFEA2ECAAD3
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 17:08:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229678AbiINRIP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Sep 2022 13:08:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52882 "EHLO
+        id S229693AbiINRIz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Sep 2022 13:08:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229683AbiINRIN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 13:08:13 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F284A815;
-        Wed, 14 Sep 2022 10:08:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663175292; x=1694711292;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H3Q2dCshLHXiyNfBuzyi9AzD37fPh22mEf4ZIc/U4Oc=;
-  b=e39atokjhvmGl5BBN/vdY9VJGPnkpBoib7p0SRw/H+Xs4Cur0VlDjti8
-   A2NHhd5VsNTPlzRNXeStipQ+JLdYLqXZwItqM79rU7btwBIEb4QhV5pDx
-   ZwLyJ1FsM3tybhDY3amUzPo0YWRfjbDyWaU2FSjDL2tY5svKzeVhtJdGM
-   jLnUT06b0/1RQoSZcLaQgR3rN+ErcBmkExXSjKTGpR+R4QIru/xc1RUyH
-   u2DRlSAi0QAujjeelqcIu1XU54r7RjYdgcC1jxqSzdC1/ZVxg3+oqypP/
-   11fE8vAFdiDumlI5AD0Vn96fSyqaNQjqUkhKjSCrFBhXSyfKjE8UGhMkV
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="278215623"
-X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
-   d="scan'208";a="278215623"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 10:08:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
-   d="scan'208";a="619384021"
-Received: from lkp-server01.sh.intel.com (HELO d6e6b7c4e5a2) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Sep 2022 10:08:04 -0700
-Received: from kbuild by d6e6b7c4e5a2 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oYVrn-0000Pe-2J;
-        Wed, 14 Sep 2022 17:08:03 +0000
-Date:   Thu, 15 Sep 2022 01:07:22 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Doug Berger <opendmb@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
+        with ESMTP id S229630AbiINRIx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 13:08:53 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4DC04A815;
+        Wed, 14 Sep 2022 10:08:52 -0700 (PDT)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28EG2DFI019638;
+        Wed, 14 Sep 2022 17:08:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2022-7-12;
+ bh=sxnu/ud7okUwTaP46Kbo7izmkdpc98GY1qFcrzjoz/o=;
+ b=CgNZ129BvNhr4mdfBI0Y0V0IwktRbmgKG6Zezu9xrai+jmtzNMlCJHxiCEiLxj4qAcl7
+ fbSM2M2/MY39hL11XI+8pSxixu8gJfbtQiqH905Hti0zIxvzJaHI6u8re71Oy0CP4BJR
+ Ie2jTAtZvwAXfvkLht+KoLDYuQqlrorJrewkDoIoV2JHNUQfIpRu2PwVulS8iNNj+amd
+ XvwOUGULX45LH39K+up9UVVa4ay5r9DdsFZ2u5mHnKtju1zxgGm58g9KDKvuX2DkD7R8
+ 9apuKqqtt2ZBIKpcTOVog9QMUpk6vI4ZM/eFa+gVyK28/UkeTfoQ88M6Ay6bX+cHfXvc rg== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3jjxyf2vwv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Sep 2022 17:08:06 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 28EG6pXB009756;
+        Wed, 14 Sep 2022 17:08:06 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3jjyecxdc0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Sep 2022 17:08:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VonjfKMW/AIrLbCdyCfVJhmyCopzzGoOY3oqcw3HyDRCVW5fVzDHUasL3XvZKCz8ObJLhocZRjvp+PHisn28GgGgMuB5OH+zSKsCkxlJDnfYwZ5eO3O4xQHDFgYqdXHBe3e7Y1aCh49E/gNYm+9nvbLlxJHwmOQld76Okhw41H6ZDrS23O14+8/VfVBzJ4fPRKmZnfPsnKqJOuN0KoeHKz5nfoxf5Ie9Zvcc/xR1+B2O08gnGS/H6U6cY/Tm0zlfAJsepPBq/DNTr7mVqGlOoxB9VNGxX543uFvdcbW0PB0I75TH7lrT0CiK9Awa9al0EvBlATZw33E+rG/eja+HJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sxnu/ud7okUwTaP46Kbo7izmkdpc98GY1qFcrzjoz/o=;
+ b=C49b/HVBXqWREjxpDDLF77VkSSP0ZV2j/08A80EejU0yiD4bn+TA2xHvb/3tUym1HNSgwZXg5VUNjK4Iv2ip0r5YwONA691pS2ZaOYiDFyRufCvzYLcF/f5pDz23XIQFhfCfb87MMxaXipW0xozP/pYWBZpwG9KEB+YoMbVM4K6nEADNssl8eqRJ6ZK+TjMlGGS9FxbN5fuanv2HesKrPg2Y+If8Neal1VdIMmZMYPS4rVbFhazJivocwI0Tqnp7QZBlpfV/nnw+1MoEjjp8W+NHfd1qYb5/5+du19xIXb73nZpvyV/hAq4UyPDckXFw7BNBlP7PbtTeIKfxkh0BHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sxnu/ud7okUwTaP46Kbo7izmkdpc98GY1qFcrzjoz/o=;
+ b=MABD7BPzAQNXEBC/+ZTwgalgAGGP1xVBdPHlu8KOZNqkbJr5N8ttWbTGAJDIq0LNOwRv9Dx8oMQmFUcs0d1zdpMVZe6vkQems5gGnHPW5SZx0pTeqor4X8J16Khro9nSD6+xfMLrI2/m7uJqPjzfroV4VBztCisjVyd7RaoT11I=
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
+ by CH2PR10MB4149.namprd10.prod.outlook.com (2603:10b6:610:a7::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.22; Wed, 14 Sep
+ 2022 17:08:03 +0000
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::e9d2:a804:e53a:779a]) by BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::e9d2:a804:e53a:779a%6]) with mapi id 15.20.5612.022; Wed, 14 Sep 2022
+ 17:08:03 +0000
+Date:   Wed, 14 Sep 2022 10:08:00 -0700
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+To:     Doug Berger <opendmb@gmail.com>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Frank Rowand <frowand.list@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
         Muchun Song <songmuchun@bytedance.com>,
         Mike Rapoport <rppt@kernel.org>,
         Christoph Hellwig <hch@lst.de>,
@@ -62,7 +80,6 @@ Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
         Neeraj Upadhyay <quic_neeraju@quicinc.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Doug Berger <opendmb@gmail.com>,
         Florian Fainelli <f.fainelli@gmail.com>,
         David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
         Oscar Salvador <osalvador@suse.de>,
@@ -71,189 +88,96 @@ Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
         - <devicetree-spec@vger.kernel.org>,
         KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
         Mel Gorman <mgorman@suse.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 18/21] mm/cma: support CMA in Designated Movable Blocks
-Message-ID: <202209150009.PoWlLoNu-lkp@intel.com>
-References: <20220913195508.3511038-19-opendmb@gmail.com>
-MIME-Version: 1.0
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-mm@kvack.org, iommu@lists.linux.dev
+Subject: Re: [PATCH 03/21] mm/hugetlb: correct demote page offset logic
+Message-ID: <YyIKcNRP+Q0Vt3CT@monkey>
+References: <20220913195508.3511038-1-opendmb@gmail.com>
+ <20220913195508.3511038-4-opendmb@gmail.com>
+ <YyETeBdbldnoRZ+x@casper.infradead.org>
+ <33ff9543-3396-7609-3865-7eed20b853f5@gmail.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220913195508.3511038-19-opendmb@gmail.com>
+In-Reply-To: <33ff9543-3396-7609-3865-7eed20b853f5@gmail.com>
+X-ClientProxiedBy: MW4PR02CA0007.namprd02.prod.outlook.com
+ (2603:10b6:303:16d::33) To BY5PR10MB4196.namprd10.prod.outlook.com
+ (2603:10b6:a03:20d::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR10MB4196:EE_|CH2PR10MB4149:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3ed0a77b-28fc-4240-9658-08da9673af4e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7N1MeNe1tT3vrO7FV0TboRdzyGPIrZ3MRBvjjg5U7iWgpDsOXqVnJjre0cmhBFlKBBDu0vAoNeMcI5ygRKQDyQ50NEt2tqIkdCy+ehRzwQaRp7OIXIexXeBk9d8iTPWOTFK2Q8bqWUxn3sVhRfHxiuQg1CE3U8piEVJkTFSf7xY19jE97pROoO57F+c5gM3ntmv0rLN9b87f2FMM8XbdXMwfNEsnIpFzJbfWKUprBfXvl1E7eWq30UMKYAZtYdr1vyrjL5ueeg4w29ZTucFQLcxlwqyjYTBUlgmk1iMZKhZuRDngS50EDZAldpwSebW63TM/y69dL2BSKD9XJjeh0pokjsGSAwuV6lGf1PKJS3KDV6zbY/30yQZZf6ZimTeGaFmfxya3Im247HRCONa8SNSKzp9i8EPskDTLrW2nCtqshbJiXqomUgj2HzixdraWTkY44wbU/SqI/156B5zlUodCseRuOqGvl41lG/adinMBCZ4VMV71eMmjO0m0qi+QAFlX1C13ONzSdBG+UtpJ7Sa9JpU4iJ/1SE+Qzp/GsaHSiNdLv7YPQLOT8nE8g5GdLLtoshEj49FxYjrXMwD5RFaXBP8hCB2r+RyrXsR1JSUZGQmmM1QiHegU45nLU4YN/6z6bFQ1Uuijv8onONliL+Gr98uh2LAjXH/drs3GHeKJQywQUYu+Xl9fLvEnlPf81xYSHOXE+qbUHDHDTUFhPVefE7h54LwF3qpnLdUUhqRkIWwiVHCChzaPl0WHgZFd
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(7916004)(396003)(39860400002)(346002)(376002)(136003)(366004)(451199015)(66556008)(2906002)(66476007)(26005)(316002)(4326008)(66946007)(7416002)(8676002)(6486002)(186003)(7406005)(9686003)(6506007)(38100700002)(41300700001)(6512007)(8936002)(53546011)(4744005)(54906003)(33716001)(44832011)(83380400001)(86362001)(6916009)(478600001)(5660300002)(67856001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?knZ2ZqrGiEj3eBWtMRs4PDCbE3aJzxPGFzWt0nLgIYeIFaMZbVAKufrn4v2r?=
+ =?us-ascii?Q?NISZDavDnrXNzP9obS/z9jkCz0gmWnd/7qaukeUmhBkMNROVQXpldgTEebHd?=
+ =?us-ascii?Q?5bJ1LoLXRgx/CGAQMfuatykwsUnQgV/MusM4eBpz8rxLM+P8d1n9yGQM0Jmw?=
+ =?us-ascii?Q?5LiXWVyL5S8EML+fxRvDNPJ2w7iy3hLW2i8fMC+RRGJKDUPJ8ipqBAX+sc6g?=
+ =?us-ascii?Q?oUyc/MUBkk7pvQ3WOgOTdTQB9qKWbnD0zQv6RNdIAsQmxFOoRPAJAF7zJ5M6?=
+ =?us-ascii?Q?RLarze7AFdcc0O6dDZ+DLgjpBvW3VEg86l41KuSmS7QMpYqOWNB9tvW4UGj4?=
+ =?us-ascii?Q?ZQn107NQnZDNLVDPQQjyBXobjhPnLJRGF1dt67VCsjFjRfwdNlwmMozZCzCs?=
+ =?us-ascii?Q?uwjO55a3I7WMaSYs8kFRy4q9Sk1L9jC+O93I73sm6taqhivOZsan7FEx9834?=
+ =?us-ascii?Q?2UlM0bNiXKG/WprNNnEiGGUdwa8N79vcmu4hu9CulyzfzeBv57xtHM/2SMwS?=
+ =?us-ascii?Q?f6XpqfI7zd8Zy+iep+uJUaOaNa5sZIUpOEdPapl311AOfC+DWjYo4uuw9Dnj?=
+ =?us-ascii?Q?U9WKo8rc5pW2F5HIdvPabkEcKPNPAsAVVjV0yaABD0zZWeOvGW8AgQ/HdAW5?=
+ =?us-ascii?Q?hSchvx4kb0uA77q0f2k0Z8XP/u2XviBXl8aYv2oHtoEbEAl8wEay57kYI8uc?=
+ =?us-ascii?Q?JGLu1GRh+rwxdrInmfyF6Iwipq9+vUfbquzM2Pb3zVIGF+FsIEFM1YmE64dd?=
+ =?us-ascii?Q?i9HM8AG1dHfBvE0hBHaJkeLO0zYenxVZo/83lmHKFHDlV0fqQ3Zu94sW/9ID?=
+ =?us-ascii?Q?dGPjC+/0aW6NwR+Cb6j8SoEGGlC/xNL75RlIvU0GQQBaZmMh0br2CnX+X3Qd?=
+ =?us-ascii?Q?uVQ/2fR33Q2q0+AxUXRD3fZ/gycv+AX0KQpazTQFiDhrXPzriaj7vir6ULS4?=
+ =?us-ascii?Q?zA+cruh/3FkmiHip7zU+k8W3e1IGdlfNXzSOv+mDQdfg2I9dJHJ5Gfa0w7yL?=
+ =?us-ascii?Q?nfC8ERfZKlXE77Gma62sSZvuCidg9zznU9Q3Z1bcTPdm9K29IvZXdHqYNxbt?=
+ =?us-ascii?Q?VrO2KMkt4TpXdjawRZmPh18JKb3Ssd/4SUkd2P8YuHHPEqcTNqdn/UUYZKMu?=
+ =?us-ascii?Q?7k+/A+MDmkF7Fd5YhWG3yh8QXAlddE1kNv86ZR6A9sH8/SDsII6tHeSA2DAv?=
+ =?us-ascii?Q?Q+9W/+bImRqaM+gY1gGtlI90EK5nsg3kQpHYjM5dZXU15plm5GA6HUqvDxoN?=
+ =?us-ascii?Q?hn5wH+0wv6cx20svAl0YZ5P2TOu0xF0lAV2fDIjOPx59AhMySg+KmKEf2qFQ?=
+ =?us-ascii?Q?xWgKx2CBUpyq7zIAS37Gs9CJ7Q++VQSnWCAfABiXF2D6fCPHMD4P4Ba/EcGJ?=
+ =?us-ascii?Q?0S/pJzWaRd+854Ql9nFmpoXz12B/O88tFL80MvbwiOeqvQnW/SEaQGMvZkbq?=
+ =?us-ascii?Q?GDaxkJOsz7c9Whm9HaSL2bFWXidVh4M1BoC4bPqy1iyP63kKVEDBOaky+Za8?=
+ =?us-ascii?Q?uA1V5RvU3qdwu9W+97NYXHzrllKi6bhLvsFvtrIOddDE/8i8Yw+UJeQgsjfE?=
+ =?us-ascii?Q?jXMVDIywmaEFBRHbzXFp7D/MwhX6UR5dtJwmhMdTuhcvyXl2Nlfhv9WncZZD?=
+ =?us-ascii?Q?ww=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ed0a77b-28fc-4240-9658-08da9673af4e
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2022 17:08:03.5414
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /NQG/Di8089dYWYcI8veLTApzl3kGrSD6E3Bfl4MCaBvJVbVaBshwTZOv9N2FQwGp78XuKU0FPHFIfuK2xTfVA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB4149
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-14_08,2022-09-14_04,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0 adultscore=0
+ phishscore=0 malwarescore=0 spamscore=0 mlxlogscore=842 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2208220000
+ definitions=main-2209140083
+X-Proofpoint-GUID: bc0MjNNQTBxUiAaxWQSyLoC09UJ72SJO
+X-Proofpoint-ORIG-GUID: bc0MjNNQTBxUiAaxWQSyLoC09UJ72SJO
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Doug,
+On 09/13/22 18:07, Doug Berger wrote:
+> On 9/13/2022 4:34 PM, Matthew Wilcox wrote:
+> > On Tue, Sep 13, 2022 at 12:54:50PM -0700, Doug Berger wrote:
+> > > With gigantic pages it may not be true that struct page structures
+> > > are contiguous across the entire gigantic page. The mem_map_offset
+> > > function is used here in place of direct pointer arithmetic to
+> > > correct for this.
+> > 
+> > We're just eliminating mem_map_offset().  Please use nth_page()
+> > instead.That's good to know. I will include that in v2.
 
-I love your patch! Perhaps something to improve:
+Thanks Doug and Matthew.  I will take a closer look at this series soon.
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.0-rc5]
-[cannot apply to akpm-mm/mm-everything next-20220914]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Doug-Berger/mm-introduce-Designated-Movable-Blocks/20220914-040216
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-config: i386-randconfig-a002 (https://download.01.org/0day-ci/archive/20220915/202209150009.PoWlLoNu-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/635e919c92ca242c4b900bdfc7e21529e76f2f8e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Doug-Berger/mm-introduce-Designated-Movable-Blocks/20220914-040216
-        git checkout 635e919c92ca242c4b900bdfc7e21529e76f2f8e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> mm/page_alloc.c:9236:5: warning: no previous prototype for function '_alloc_contig_range' [-Wmissing-prototypes]
-   int _alloc_contig_range(unsigned long start, unsigned long end,
-       ^
-   mm/page_alloc.c:9236:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int _alloc_contig_range(unsigned long start, unsigned long end,
-   ^
-   static 
-   1 warning generated.
-
-
-vim +/_alloc_contig_range +9236 mm/page_alloc.c
-
-  9235	
-> 9236	int _alloc_contig_range(unsigned long start, unsigned long end,
-  9237				unsigned int migratetype, gfp_t gfp_mask)
-  9238	{
-  9239		unsigned long outer_start, outer_end;
-  9240		int order;
-  9241		int ret = 0;
-  9242	
-  9243		struct compact_control cc = {
-  9244			.nr_migratepages = 0,
-  9245			.order = -1,
-  9246			.zone = page_zone(pfn_to_page(start)),
-  9247			.mode = MIGRATE_SYNC,
-  9248			.ignore_skip_hint = true,
-  9249			.no_set_skip_hint = true,
-  9250			.gfp_mask = current_gfp_context(gfp_mask),
-  9251			.alloc_contig = true,
-  9252		};
-  9253		INIT_LIST_HEAD(&cc.migratepages);
-  9254	
-  9255		/*
-  9256		 * What we do here is we mark all pageblocks in range as
-  9257		 * MIGRATE_ISOLATE.  Because pageblock and max order pages may
-  9258		 * have different sizes, and due to the way page allocator
-  9259		 * work, start_isolate_page_range() has special handlings for this.
-  9260		 *
-  9261		 * Once the pageblocks are marked as MIGRATE_ISOLATE, we
-  9262		 * migrate the pages from an unaligned range (ie. pages that
-  9263		 * we are interested in). This will put all the pages in
-  9264		 * range back to page allocator as MIGRATE_ISOLATE.
-  9265		 *
-  9266		 * When this is done, we take the pages in range from page
-  9267		 * allocator removing them from the buddy system.  This way
-  9268		 * page allocator will never consider using them.
-  9269		 *
-  9270		 * This lets us mark the pageblocks back as
-  9271		 * MIGRATE_CMA/MIGRATE_MOVABLE so that free pages in the
-  9272		 * aligned range but not in the unaligned, original range are
-  9273		 * put back to page allocator so that buddy can use them.
-  9274		 */
-  9275	
-  9276		ret = start_isolate_page_range(start, end, migratetype, 0, gfp_mask);
-  9277		if (ret)
-  9278			goto done;
-  9279	
-  9280		drain_all_pages(cc.zone);
-  9281	
-  9282		/*
-  9283		 * In case of -EBUSY, we'd like to know which page causes problem.
-  9284		 * So, just fall through. test_pages_isolated() has a tracepoint
-  9285		 * which will report the busy page.
-  9286		 *
-  9287		 * It is possible that busy pages could become available before
-  9288		 * the call to test_pages_isolated, and the range will actually be
-  9289		 * allocated.  So, if we fall through be sure to clear ret so that
-  9290		 * -EBUSY is not accidentally used or returned to caller.
-  9291		 */
-  9292		ret = __alloc_contig_migrate_range(&cc, start, end);
-  9293		if (ret && ret != -EBUSY)
-  9294			goto done;
-  9295		ret = 0;
-  9296		sync_hugetlb_dissolve();
-  9297	
-  9298		/*
-  9299		 * Pages from [start, end) are within a pageblock_nr_pages
-  9300		 * aligned blocks that are marked as MIGRATE_ISOLATE.  What's
-  9301		 * more, all pages in [start, end) are free in page allocator.
-  9302		 * What we are going to do is to allocate all pages from
-  9303		 * [start, end) (that is remove them from page allocator).
-  9304		 *
-  9305		 * The only problem is that pages at the beginning and at the
-  9306		 * end of interesting range may be not aligned with pages that
-  9307		 * page allocator holds, ie. they can be part of higher order
-  9308		 * pages.  Because of this, we reserve the bigger range and
-  9309		 * once this is done free the pages we are not interested in.
-  9310		 *
-  9311		 * We don't have to hold zone->lock here because the pages are
-  9312		 * isolated thus they won't get removed from buddy.
-  9313		 */
-  9314	
-  9315		order = 0;
-  9316		outer_start = start;
-  9317		while (!PageBuddy(pfn_to_page(outer_start))) {
-  9318			if (++order >= MAX_ORDER) {
-  9319				outer_start = start;
-  9320				break;
-  9321			}
-  9322			outer_start &= ~0UL << order;
-  9323		}
-  9324	
-  9325		if (outer_start != start) {
-  9326			order = buddy_order(pfn_to_page(outer_start));
-  9327	
-  9328			/*
-  9329			 * outer_start page could be small order buddy page and
-  9330			 * it doesn't include start page. Adjust outer_start
-  9331			 * in this case to report failed page properly
-  9332			 * on tracepoint in test_pages_isolated()
-  9333			 */
-  9334			if (outer_start + (1UL << order) <= start)
-  9335				outer_start = start;
-  9336		}
-  9337	
-  9338		/* Make sure the range is really isolated. */
-  9339		if (test_pages_isolated(outer_start, end, 0)) {
-  9340			ret = -EBUSY;
-  9341			goto done;
-  9342		}
-  9343	
-  9344		/* Grab isolated pages from freelists. */
-  9345		outer_end = isolate_freepages_range(&cc, outer_start, end);
-  9346		if (!outer_end) {
-  9347			ret = -EBUSY;
-  9348			goto done;
-  9349		}
-  9350	
-  9351		/* Free head and tail (if any) */
-  9352		if (start != outer_start)
-  9353			free_contig_range(outer_start, start - outer_start);
-  9354		if (end != outer_end)
-  9355			free_contig_range(end, outer_end - end);
-  9356	
-  9357	done:
-  9358		undo_isolate_page_range(start, end, migratetype);
-  9359		return ret;
-  9360	}
-  9361	
-
+It seems like this patch is a fix independent of the series.  If so, I
+would suggest sending separate to make it easy for backports to stable.
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Mike Kravetz
