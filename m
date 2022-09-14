@@ -2,101 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A3E4C6FA8D
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 16:26:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E27A2ECAAD3
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 16:57:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229982AbiINQ04 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Sep 2022 12:26:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41940 "EHLO
+        id S229931AbiINQ5s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Sep 2022 12:57:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbiINQ0v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 12:26:51 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FB6E7E030;
-        Wed, 14 Sep 2022 09:26:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663172810; x=1694708810;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=AC4JYbF6AZcpOk2oht7rvIOxqaKfTAvgQo6j8JLFWEE=;
-  b=afEnwMN5XozfSm3J9o9LzpNp0aO20MpEYBZDb5MwtdClwihffjuteOo3
-   k+Sn47FTPy5VV8q8DsMshWBdwagH60p0LzKc55qrKe/u46QtXy+53FQE4
-   gtLh5uEYaJvkNaU3zKkNtz7ycDFwXVaxcZnrAeppgOl74GQ7qL79MKTwY
-   3h5nQoZxfmzbF40Wo9WRoh2VHWNbSiKSA+AClqmOeMk3TsjgFrDUvlVV1
-   VHbIa6a3NIIAK9Miu8jh00G/v/qwt3HA15ixP9ng97JwluJq3dnPOuK2O
-   OPEypocReTAiKMVH6xtW6UTpYuqRpr+5L3TOF4n+SrSwQJmtlVskO8XWN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="278861305"
-X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
-   d="scan'208";a="278861305"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 09:25:47 -0700
-X-IronPort-AV: E=Sophos;i="5.93,315,1654585200"; 
-   d="scan'208";a="759273083"
-Received: from mmcgoort-mobl.amr.corp.intel.com (HELO [10.209.54.54]) ([10.209.54.54])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 09:25:46 -0700
-Message-ID: <ae8b76d0-9f1a-d694-8316-d96651b38957@linux.intel.com>
-Date:   Wed, 14 Sep 2022 09:25:45 -0700
+        with ESMTP id S229813AbiINQ5q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 12:57:46 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5601382857;
+        Wed, 14 Sep 2022 09:57:41 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id 3so10955304qka.5;
+        Wed, 14 Sep 2022 09:57:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=UWYZ+LvZVhpAV6ZQBWEOlqo/TbgQPhE93gUN5h4Opa4=;
+        b=lBXUbs9pZpO+yTmR2jdfhmRm/kBSeGhEo/6IKheeNxrOaZ+SSStX4UyGbG7noCTZnL
+         lp4GNVPC+yuVX066hyg9SZyWVQUc+v0zWdguOY/nmscUyeDVvKy5jSWZaO+xzphOdvAQ
+         aTsC9QANMQ3cKIIiE6++nnjm/oB7778JyBSse4UwGosbGCTpuV7jvDE16vVWkNMCWqqr
+         paslr3euDOvfLPglAFtll6BbrIEH7G9dDqqDsbt8U2peyjwbTzpRL2hP2NTerae1SkXT
+         SVn4fudGRJTBSCtwGh1X5bX9nACK+SBbNtTAxaGYxsK9dZyA1/5h4e4DVMpUTdy67eBY
+         DA4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=UWYZ+LvZVhpAV6ZQBWEOlqo/TbgQPhE93gUN5h4Opa4=;
+        b=ED0KJ70yDH2uE4v88gHzjwp93i683HF1PaeLHL0K9wCAG4N0cztBXdZ/ZBphWtabVs
+         iYa8u7TRkjLW9L3Ym1NRfCbnQ1e77P8Q2A2WmnIxv2qGz+sriKBAYVCwbFUe74q4tP2e
+         mktxEaidJ0fe9TZYizmwMxMbTT54TljmuV45JRw2g52OvnOsiZjoRxBBrmlhEqs7/ly6
+         6AG8Rs8IHuf++LDyY0RM1azCH+4201e3637swql72jP5oPbL1uEhjGc8+1ixFGx097kf
+         udR972sG1MTnYohgfgbq6IhH/HLQNjRuK3sqVomudmcMYf+BMD6St33bfBzFos0xxqD6
+         u83g==
+X-Gm-Message-State: ACgBeo1C+IY6rlZoqF9Mq6IHlQ3ZlnEaR/Wd5/RhX+62fAR6qt8ZYtGu
+        xHOIlYFUuVs0jYp4Pd91f2w=
+X-Google-Smtp-Source: AA6agR6Wu36k8hHB+/9VV1slDHLKSuMtkQx48tsI3xnwZirYVolN/T5Srax7wN9UvBnxLS0DXw6nUw==
+X-Received: by 2002:a05:620a:13ae:b0:6ce:5926:1511 with SMTP id m14-20020a05620a13ae00b006ce59261511mr9345627qki.431.1663174660232;
+        Wed, 14 Sep 2022 09:57:40 -0700 (PDT)
+Received: from [10.69.40.226] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id b3-20020a05620a118300b006b8f4ade2c9sm2051740qkk.19.2022.09.14.09.57.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Sep 2022 09:57:38 -0700 (PDT)
+Message-ID: <1825234b-f17a-dea4-38f6-ba5881ab9a3d@gmail.com>
+Date:   Wed, 14 Sep 2022 09:57:35 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v13 1/3] x86/tdx: Add TDX Guest attestation interface
- driver
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH 00/21] mm: introduce Designated Movable Blocks
 Content-Language: en-US
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>
-Cc:     "H . Peter Anvin" <hpa@zytor.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220909192708.1113126-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220909192708.1113126-2-sathyanarayanan.kuppuswamy@linux.intel.com>
- <7c3cc265-869b-b2fc-43f2-d2cbd0bc142c@intel.com>
- <1182ef92-cae3-b7c1-8339-8e8bfa48f2e3@linux.intel.com>
- <d238f235-5623-d152-c0d3-2ef851f88473@intel.com>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <d238f235-5623-d152-c0d3-2ef851f88473@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Hari Bathini <hbathini@linux.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        - <devicetree-spec@vger.kernel.org>,
+        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-mm <linux-mm@kvack.org>,
+        iommu@lists.linux.dev
+References: <20220913195508.3511038-1-opendmb@gmail.com>
+ <CAL_JsqLmJcLHViPaBPvkBhR4xi+ZQuAJQpXoiJLVRW9EH4EX0Q@mail.gmail.com>
+From:   Doug Berger <opendmb@gmail.com>
+In-Reply-To: <CAL_JsqLmJcLHViPaBPvkBhR4xi+ZQuAJQpXoiJLVRW9EH4EX0Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 9/14/22 9:12 AM, Dave Hansen wrote:
-> On 9/14/22 08:36, Sathyanarayanan Kuppuswamy wrote:
->> When we initially submitted the attestation patches, virt/coco folder
->> was not created. I initially kept this driver in platform/x86/, but
->> later moved to arch/x86/coco based on the review comments in v4. There
->> was a discussion about the need for a new config and the location of
->> the driver. The outcome of that discussion is, since this is not a
->> traditional driver, but a basic TDX feature, we don't need a special
->> config and the code can be maintained in the arch/x86/coco folder.
+On 9/14/2022 6:21 AM, Rob Herring wrote:
+> On Tue, Sep 13, 2022 at 2:57 PM Doug Berger <opendmb@gmail.com> wrote:
+>>
+>> MOTIVATION:
+>> Some Broadcom devices (e.g. 7445, 7278) contain multiple memory
+>> controllers with each mapped in a different address range within
+>> a Uniform Memory Architecture. Some users of these systems have
+>> expressed the desire to locate ZONE_MOVABLE memory on each
+>> memory controller to allow user space intensive processing to
+>> make better use of the additional memory bandwidth.
+>> Unfortunately, the historical monotonic layout of zones would
+>> mean that if the lowest addressed memory controller contains
+>> ZONE_MOVABLE memory then all of the memory available from
+>> memory controllers at higher addresses must also be in the
+>> ZONE_MOVABLE zone. This would force all kernel memory accesses
+>> onto the lowest addressed memory controller and significantly
+>> reduce the amount of memory available for non-movable
+>> allocations.
 > 
-> Could you please include the following in this set somewhere:
+> Why are you sending kernel patches to the Devicetree specification list?
 > 
-> "The code to do the SEV analog of this TDX functionality is in
-> ___insert_path_here____.   This code is different from that because
-> ______reason______ so it is instead placed in ____other_path____."
-> 
-> ?
+> Rob
+My apologies if this is a problem. No offense was intended.
 
-Ok. I will include it in the cover letter.
+My process has been to run my patches through get_maintainers.pl to get 
+the list of addresses to copy on submissions and my 
+0016-dt-bindings-reserved-memory-introduce-designated-mov.patch 
+solicited the
+'- <devicetree-spec@vger.kernel.org>' address.
 
--- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+My preference when reviewing is to receive an entire patch set to 
+understand the context of an individual commit, but I can certainly 
+understand that others may have different preferences.
+
+It was my understanding that the Devicetree specification list was part 
+of the kernel (e.g. @vger.kernel.org) and would be willing to receive 
+patches that might be of relevance to it.
+
+I am inexperienced with yaml and devicetree processes in general so I 
+have tried to lean on the examples of other reserved-memory node 
+bindings for help.
+
+There is much to learn and I am happy to modify my process to better 
+accommodate your needs.
+
+Regards,
+     Doug
