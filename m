@@ -2,67 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AC6FC6FA82
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 17:54:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F427ECAAD3
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 18:08:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbiINRyf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Sep 2022 13:54:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51072 "EHLO
+        id S229676AbiINSID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Sep 2022 14:08:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbiINRye (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 13:54:34 -0400
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E51E097;
-        Wed, 14 Sep 2022 10:54:32 -0700 (PDT)
-Received: by mail-qt1-x82a.google.com with SMTP id z18so11779763qts.7;
-        Wed, 14 Sep 2022 10:54:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=078ohqEl3SbvSuLUyK3z9/YOVVWoH6vsNvPCy6kXlrI=;
-        b=KJeN8BAbeQhrvfhh8qJlMy+PCwI0ztOtPFYIGvj/n2ABIfXLdb93t6qjzN0kQM8+og
-         eWmqaiwNRo7hnpwsuVFYx50Blm6etKPmPVX+wURHIU8xXv/HpBmbVMp28HYu5oMSUsGX
-         +5EEDwSv5lIVQWgqp7TdRVAMdYl7ypTb2JnJm7oaXu08gcHZ1RFpv4YUkc63H8Pdw3RD
-         D9fMiyebzoyOnhPUFxWGi4D3UGHh5Zsj1o53imZgzb+W5ArT9HtuzMRqlK1Qrp3HuvaU
-         CjnoCGrYdIpmnafc2Tp/gi2czpGf2a79J1N08j6qoinJAsOfTLxH79I/JJq2e1CYp2/V
-         tvnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=078ohqEl3SbvSuLUyK3z9/YOVVWoH6vsNvPCy6kXlrI=;
-        b=2NspH0sbtWEPg7vGaROzVNaPP+Z38Wggi5WngXftYPKBYUbQpL+wz+O+30RaDJ9WBC
-         wKJ73iRdgK+1nEQnr1cVzfx6WwtTO24omgG3X4QVVRGUHt5pQS1JxybhS9pubCPYcLno
-         ZKSPhnwlhekXTsXw6FCVCn3r3iXCzVa5E48E2WZrJwKAs2aHw+a5yga3Fzmr6TBi3ci4
-         /QWXdQl83XHA33XfBKnPBu2FHOaTHdPA30zqeMsuGV25trkBXBDe+Dr8tzBYaZgag1Ya
-         w9nzgyFitlwQ+p/YamFntPJXbRUqW3uxReU1rSXJGRp76YKUOBCacCBlCQOUtqOPbX1A
-         xVdw==
-X-Gm-Message-State: ACgBeo1HWfjeoVMICKYHGUKksiJFnZ4Lfth51MUWLB8tjDSzII1SNrWQ
-        8euRHammi8X5kw5TVTar9fM=
-X-Google-Smtp-Source: AA6agR6TNcOs9G/1GT36JKa+IitWjuNF26XpK7u3lTR4YMggceCehr58RazsJJgUrvEATr7qoTnO3A==
-X-Received: by 2002:ac8:57c7:0:b0:344:55d9:dcd7 with SMTP id w7-20020ac857c7000000b0034455d9dcd7mr33921914qta.162.1663178071901;
-        Wed, 14 Sep 2022 10:54:31 -0700 (PDT)
-Received: from [10.69.40.226] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id g21-20020a05620a40d500b006b59f02224asm2299077qko.60.2022.09.14.10.54.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Sep 2022 10:54:31 -0700 (PDT)
-Message-ID: <43aabfed-bc03-3fc0-5b9a-4c5e6ebb8416@gmail.com>
-Date:   Wed, 14 Sep 2022 10:54:27 -0700
+        with ESMTP id S229511AbiINSIC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 14:08:02 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C603861DC;
+        Wed, 14 Sep 2022 11:08:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9F90461E6A;
+        Wed, 14 Sep 2022 18:08:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BF6FC43147;
+        Wed, 14 Sep 2022 18:08:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663178880;
+        bh=8QO6bezE+2K66FghJrVXTS5RtL94PMOZ3HUJaLfntwk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HWyfrzoHehEIavhH0FSENC4JAl8tEfACVV0EcKmgJTzz5TmvQ2cnxAl5LY7uNl4mH
+         qdPv4Mb6NFc2gUWo4Alk3cKLUKviK5+TbwHcf8yRMl9SeSndcJf3rI2h4Gqq5G09d+
+         tkcML9ZrQS/FZ3M5vL3vUpIDA+zBy1/ts+GShucqdut5M28lSNmb8iUFoBgO1hnASQ
+         /4A39HsAYbSQ6Xjj1f3WduoaOq0vL47e2QOFlZQIQ3r7dCgw9Qj7sUPyHYd3vtgril
+         OwJ+wsy22o/ruYXmtJ2gRHucakBcnersIGClmLXVYJQTHVmx1AIlSF13n7u6pCqOoQ
+         k7t8lnGj+bDgg==
+Received: by mail-vk1-f176.google.com with SMTP id s192so7873704vkb.9;
+        Wed, 14 Sep 2022 11:07:59 -0700 (PDT)
+X-Gm-Message-State: ACgBeo2HZwkPuRd3ZApxc+0IV2gCJ/ZjfpBkS09ldmseCL81WIGeaPui
+        3fmPYpONYux/4cyCM576PHjuPUkPh1dgva1OAg==
+X-Google-Smtp-Source: AA6agR5e7YhAc50wVpbeL+nwFLR7EEXrTzSrB3+SbLjm7qzwukA3T8qMv8Q9XbVsrcu5TfJXz1WuSkUl1XpmcLAHTDs=
+X-Received: by 2002:a1f:9e44:0:b0:39e:e4ff:1622 with SMTP id
+ h65-20020a1f9e44000000b0039ee4ff1622mr11413773vke.15.1663178878750; Wed, 14
+ Sep 2022 11:07:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH 03/21] mm/hugetlb: correct demote page offset logic
-Content-Language: en-US
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+References: <20220913195508.3511038-1-opendmb@gmail.com> <CAL_JsqLmJcLHViPaBPvkBhR4xi+ZQuAJQpXoiJLVRW9EH4EX0Q@mail.gmail.com>
+ <1825234b-f17a-dea4-38f6-ba5881ab9a3d@gmail.com>
+In-Reply-To: <1825234b-f17a-dea4-38f6-ba5881ab9a3d@gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 14 Sep 2022 13:07:36 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJ6+uYf=Pb82j3CWC3iD=-hbnf3nj_TsHoQAUcLK3mKbg@mail.gmail.com>
+Message-ID: <CAL_JsqJ6+uYf=Pb82j3CWC3iD=-hbnf3nj_TsHoQAUcLK3mKbg@mail.gmail.com>
+Subject: Re: [PATCH 00/21] mm: introduce Designated Movable Blocks
+To:     Doug Berger <opendmb@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Frank Rowand <frowand.list@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
         Muchun Song <songmuchun@bytedance.com>,
         Mike Rapoport <rppt@kernel.org>,
         Christoph Hellwig <hch@lst.de>,
@@ -78,50 +69,54 @@ Cc:     Matthew Wilcox <willy@infradead.org>,
         Oscar Salvador <osalvador@suse.de>,
         Hari Bathini <hbathini@linux.ibm.com>,
         Kees Cook <keescook@chromium.org>,
+        - <devicetree-spec@vger.kernel.org>,
         KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
-        Mel Gorman <mgorman@suse.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-mm@kvack.org, iommu@lists.linux.dev
-References: <20220913195508.3511038-1-opendmb@gmail.com>
- <20220913195508.3511038-4-opendmb@gmail.com>
- <YyETeBdbldnoRZ+x@casper.infradead.org>
- <33ff9543-3396-7609-3865-7eed20b853f5@gmail.com> <YyIKcNRP+Q0Vt3CT@monkey>
-From:   Doug Berger <opendmb@gmail.com>
-In-Reply-To: <YyIKcNRP+Q0Vt3CT@monkey>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Mel Gorman <mgorman@suse.de>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-mm <linux-mm@kvack.org>,
+        iommu@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/14/2022 10:08 AM, Mike Kravetz wrote:
-> On 09/13/22 18:07, Doug Berger wrote:
->> On 9/13/2022 4:34 PM, Matthew Wilcox wrote:
->>> On Tue, Sep 13, 2022 at 12:54:50PM -0700, Doug Berger wrote:
->>>> With gigantic pages it may not be true that struct page structures
->>>> are contiguous across the entire gigantic page. The mem_map_offset
->>>> function is used here in place of direct pointer arithmetic to
->>>> correct for this.
->>>
->>> We're just eliminating mem_map_offset().  Please use nth_page()
->>> instead.That's good to know. I will include that in v2.
-> 
-> Thanks Doug and Matthew.  I will take a closer look at this series soon.
-> 
-> It seems like this patch is a fix independent of the series.  If so, I
-> would suggest sending separate to make it easy for backports to stable.
-Yes, as I noted in [PATCH 00/21] the first three patches fit that 
-description, but I included them here in case someone was brave enough 
-to attempt to use this patch set. They were in my branch for my own testing.
+On Wed, Sep 14, 2022 at 11:57 AM Doug Berger <opendmb@gmail.com> wrote:
+>
+> On 9/14/2022 6:21 AM, Rob Herring wrote:
+> > On Tue, Sep 13, 2022 at 2:57 PM Doug Berger <opendmb@gmail.com> wrote:
+> >>
+> >> MOTIVATION:
+> >> Some Broadcom devices (e.g. 7445, 7278) contain multiple memory
+> >> controllers with each mapped in a different address range within
+> >> a Uniform Memory Architecture. Some users of these systems have
+> >> expressed the desire to locate ZONE_MOVABLE memory on each
+> >> memory controller to allow user space intensive processing to
+> >> make better use of the additional memory bandwidth.
+> >> Unfortunately, the historical monotonic layout of zones would
+> >> mean that if the lowest addressed memory controller contains
+> >> ZONE_MOVABLE memory then all of the memory available from
+> >> memory controllers at higher addresses must also be in the
+> >> ZONE_MOVABLE zone. This would force all kernel memory accesses
+> >> onto the lowest addressed memory controller and significantly
+> >> reduce the amount of memory available for non-movable
+> >> allocations.
+> >
+> > Why are you sending kernel patches to the Devicetree specification list?
+> >
+> > Rob
+> My apologies if this is a problem. No offense was intended.
 
-Full disclosure: An earlier version of this patch set had more complete 
-support for hugepage isolation that included migrating the isolation 
-state when demoting a hugepage that touched lines in 
-demote_free_huge_page() and depended on the subpage variable introduced 
-here.
+None taken. Just trying to keep a low traffic list low traffic.
 
-At this point I will submit a patch for this on its own and will likely 
-remove the first three commits when submitting V2 of the set.
+> My process has been to run my patches through get_maintainers.pl to get
+> the list of addresses to copy on submissions and my
+> 0016-dt-bindings-reserved-memory-introduce-designated-mov.patch
+> solicited the
+> '- <devicetree-spec@vger.kernel.org>' address.
 
-Thanks for your consideration.
--Doug
+Yeah, I see that now. That needs to be a person for a specific
+binding. The only bindings using the list should be targeting the
+dtschema repo. (And even those are a person ideally.)
+
+Rob
