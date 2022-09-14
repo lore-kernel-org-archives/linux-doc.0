@@ -2,83 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94AA4ECAAD3
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 14:36:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB6CCC6FA82
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 14:55:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229796AbiINOgw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Sep 2022 10:36:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35684 "EHLO
+        id S229963AbiINOzN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Sep 2022 10:55:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229996AbiINOgh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 10:36:37 -0400
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEA9C4BA6A;
-        Wed, 14 Sep 2022 07:36:36 -0700 (PDT)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-1278624b7c4so41525130fac.5;
-        Wed, 14 Sep 2022 07:36:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=kFgFNMVDRvCC/nP/lPORN2htqPQLp6KV5JvuAgA93QY=;
-        b=VczWFULHqHoMqMKDSp7OE8Ntcn6YdvZ+uzgeUyKY+MaARpoa1fkJsylo+QEI0ej0xV
-         BQXK6G+qelaHL6OaDfw2i0KueNMcaHDp8jF/cCQ5X3lX2Gzy58ICYnYot3u1DaROke2F
-         x62wBEm+wXgrMzdx0+XWasiG8FqSRnkKk5m8XGNYfcTDbOUP86pDkHWxYRhN3MwszuR4
-         l/k1vzu8Bn8MBgL7LK6k3o8PSNy3I207pRTgb9AovmXX640D2wLZOcIffNpI4cBGY5r9
-         3VuDM0THQijUL3Dg6iQqXNqYY7PKtTMxBWniivpwQjNIq9CNbzxXbOPXmiiOpWmjbEGv
-         FVCA==
+        with ESMTP id S229797AbiINOzK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 10:55:10 -0400
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBDDD27FC6;
+        Wed, 14 Sep 2022 07:55:08 -0700 (PDT)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1225219ee46so41667957fac.2;
+        Wed, 14 Sep 2022 07:55:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=kFgFNMVDRvCC/nP/lPORN2htqPQLp6KV5JvuAgA93QY=;
-        b=giZJ5LM7yI88C6gEcilKx3++zqVsL36pKA5298fFSRS57Y0d8kbG+2ix96xM0mvu48
-         Gl/Wk9h7xKnmjPaZqNIONKfHL35cqb/TkTyScMIxXufJasJo6C/k+/xpyzMB/vNCkCrA
-         WFDkNbbHjSxkteYzAxGJTiUVgTIU7TIe4v9Gv/a1rWX3PedkoK5rzWAdmnrdwLiThkvB
-         YgsgoIXh3SMuzA5vDbv2qGQR4xeXyKLjc9YhOM3Luv7Fv0EiFOtSyjcFGwA8piuKHg3L
-         e6oSHHfs4jCl8vjEcMXXktt3Ip1iD0uxNWhLMYrgD5gX/9W2aaDexmMgaXwJnoW5RonC
-         nNLQ==
-X-Gm-Message-State: ACgBeo2BV9buIywH0C86WwcGBWaSAj4Cw2BhYUgVyT41meg2HOfT3glS
-        DthUhAgdGMsZpQhrF1TH97M+JEKBbmJwte62FSw=
-X-Google-Smtp-Source: AA6agR68fG7ReaARw1T683i+0dbbcVItIA0tOejmfRQpCIgjiblCs09OGM0ihVhlQs2YgvzB/IVA0NYKBaLgBG0piUs=
-X-Received: by 2002:a05:6870:d1c5:b0:127:4089:929d with SMTP id
- b5-20020a056870d1c500b001274089929dmr2550325oac.203.1663166195962; Wed, 14
- Sep 2022 07:36:35 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=tByLw1qEkiOZGzDHv1iwtkakEjYoENISc7jNLUAn1ZI=;
+        b=37nhlQGZpq+xkUuAniQQrE0zVlIfMreR4MhwBx0+WmPiJ7zO2fKsD3salZ/uBmf+2W
+         PKpwsDkWIj1epW0b/pJAqHPATJvtuk+j9do1BQ7TEwkrl2M6iYQL+o6lFw8IJKcykfkB
+         7g6sVIbLYqzd4D9y6NIDGbCUMSe6m8MBWlYMkjH4eRzCiC/Wfyw/G+7Od7z0Q6bRkZJf
+         olNNV1T8yWQkROrlYtgjPoyfV3E8Y42Pl0a+J0GEDqhhq/UBkhuCDzSGC+2fMZstTZwi
+         H5rm7Z1tyg7Xf9QHubHFWUdNq5lcLzG/khAY0Os2JZ3wC1u2u34tAzKCYCdpAbcaHE7q
+         SmNA==
+X-Gm-Message-State: ACgBeo0ndcBiRxxfMiyQFysqH8mc3bBmjvMTps4RHHzk0YZsbhzvfYuR
+        9ZVryzBxEAnvNqqAhT5wRQ==
+X-Google-Smtp-Source: AA6agR70yLqmwAo8ampR4EIA+plNY4V86lsveWAcGrBtki2l9qALN86LHK3Z0XMIwQY5gPpxtS1baQ==
+X-Received: by 2002:a05:6808:ec7:b0:2f9:6119:d6ed with SMTP id q7-20020a0568080ec700b002f96119d6edmr1974104oiv.215.1663167307860;
+        Wed, 14 Sep 2022 07:55:07 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id z8-20020a056808028800b003431d9b3edfsm5303651oic.2.2022.09.14.07.55.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Sep 2022 07:55:07 -0700 (PDT)
+Received: (nullmailer pid 2198793 invoked by uid 1000);
+        Wed, 14 Sep 2022 14:55:06 -0000
+Date:   Wed, 14 Sep 2022 09:55:06 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Doug Berger <opendmb@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Hari Bathini <hbathini@linux.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        - <devicetree-spec@vger.kernel.org>,
+        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
+        Mel Gorman <mgorman@suse.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-mm@kvack.org, iommu@lists.linux.dev
+Subject: Re: [PATCH 16/21] dt-bindings: reserved-memory: introduce
+ designated-movable-block
+Message-ID: <20220914145506.GA2149379-robh@kernel.org>
+References: <20220913195508.3511038-1-opendmb@gmail.com>
+ <20220913195508.3511038-17-opendmb@gmail.com>
 MIME-Version: 1.0
-References: <20220805033838.1714674-1-yang.yang29@zte.com.cn>
-In-Reply-To: <20220805033838.1714674-1-yang.yang29@zte.com.cn>
-From:   Joonsoo Kim <js1304@gmail.com>
-Date:   Wed, 14 Sep 2022 23:36:24 +0900
-Message-ID: <CAAmzW4NvQ+hsSoXFgXAsbp+mKHaxPA2PmjK4Hu-5Z+pB6RuwnA@mail.gmail.com>
-Subject: Re: [PATCH] filemap: Make the accounting of thrashing more consistent
-To:     cgel.zte@gmail.com
-Cc:     akpm@linux-foundation.org, bsingharora@gmail.com, corbet@lwn.net,
-        willy@infradead.org, yang.yang29@zte.com.cn, david@redhat.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220913195508.3511038-17-opendmb@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2022=EB=85=84 8=EC=9B=94 5=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 12:39, <=
-cgel.zte@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> From: Yang Yang <yang.yang29@zte.com.cn>
->
-> Once upon a time, we only support accounting thrashing of page cache.
-> Then Joonsoo introduced workingset detection for anonymous pages and
-> we gained the ability to account thrashing of them[1].
->
-> So let delayacct account both the thrashing of page cache and anonymous
-> pages, this could make the codes more consistent and simpler.
->
-> [1] commit aae466b0052e ("mm/swap: implement workingset detection for ano=
-nymous LRU")
->
-> Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
-> Signed-off-by: CGEL ZTE <cgel.zte@gmail.com>
+On Tue, Sep 13, 2022 at 12:55:03PM -0700, Doug Berger wrote:
+> Introduce designated-movable-block.yaml to document the
+> devicetree binding for Designated Movable Block children of the
+> reserved-memory node.
 
-Acked-by: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+What is a Designated Movable Block? This patch needs to stand on its 
+own.
+
+Why does this belong or need to be in DT?
+
+> 
+> Signed-off-by: Doug Berger <opendmb@gmail.com>
+> ---
+>  .../designated-movable-block.yaml             | 51 +++++++++++++++++++
+>  1 file changed, 51 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/reserved-memory/designated-movable-block.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/reserved-memory/designated-movable-block.yaml b/Documentation/devicetree/bindings/reserved-memory/designated-movable-block.yaml
+> new file mode 100644
+> index 000000000000..42f846069a2e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/reserved-memory/designated-movable-block.yaml
+> @@ -0,0 +1,51 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/reserved-memory/designated-movable-block.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: /reserved-memory Designated Movable Block node binding
+> +
+> +maintainers:
+> +  - devicetree-spec@vger.kernel.org
+> +
+> +allOf:
+> +  - $ref: "reserved-memory.yaml"
+> +
+> +properties:
+> +  compatible:
+> +    const: designated-movable-block
+> +    description:
+> +      This indicates a region of memory meant to be placed into
+> +      ZONE_MOVABLE.
+
+Don't put Linuxisms into bindings.
+
+> +
+> +unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reusable
+> +
+> +examples:
+> +  - |
+> +      reserved-memory {
+> +          #address-cells = <0x2>;
+> +          #size-cells = <0x2>;
+> +
+> +          DMB0@10800000 {
+> +               compatible = "designated-movable-block";
+> +               reusable;
+> +               reg = <0x0 0x10800000 0x0 0x2d800000>;
+> +          };
+> +
+> +          DMB1@40000000 {
+> +               compatible = "designated-movable-block";
+> +               reusable;
+> +               reg = <0x0 0x40000000 0x0 0x30000000>;
+> +          };
+> +
+> +          DMB2@80000000 {
+> +               compatible = "designated-movable-block";
+> +               reusable;
+> +               reg = <0x0 0x80000000 0x0 0x2fc00000>;
+> +          };
+> +      };
+> -- 
+> 2.25.1
+> 
+> 
