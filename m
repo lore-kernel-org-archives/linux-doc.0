@@ -2,522 +2,319 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDF9EC6FA89
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 01:09:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35BB6C54EE9
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 01:23:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229668AbiINBJs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Sep 2022 21:09:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40034 "EHLO
+        id S229489AbiINBXn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Sep 2022 21:23:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbiINBJq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 21:09:46 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2049.outbound.protection.outlook.com [40.107.220.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4515514D2F;
-        Tue, 13 Sep 2022 18:09:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ss1uq1yTxI2wzqwL5/CZQb2IrNoQfSTW3kaAhPuYf/zzzLb2qLcE2snwR1Vxd1oiH36ZCrJUM+T1s/OZ2LLRNyjudhrJhGD6BXWJLFWLt14M57aD/imY7gL1rSs+nlU4NVRYkfK6l8Fyqw3Ckjuovj3VdcoJxYtjSmJcTUJXnhyg4FAvUsMt3ChQUOPIuOUOInJKdjX/bXCb+l53PiUXz16pKUQN7MsMRnxvd0Vb2GNrPqO9rnDze3lIalzctVQML1feZteq2TrMnpzX3DkSVEGY2azTzM3RAXcOm2EkFv6bAXYlK+BtaY48hYdKFzUnoBrSLvHHlvgQkgrk2s+hGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2v/TCRcZ/UTFjnI4Zbvw/IAbK4sfnHYDS7H9Kum4LEk=;
- b=ESrRUJoegk9suGYsWdz9Qee9yk9M039vRT+4R9/RbDrsRpoCUTIi8ZIqE82qXb+a6VS/LYkcnUgCbSKZ3RUg8e8P3C0IVFHFk0o9wdBnrhIIenC72oFhQFAxtDiX9GtK3SOXAzal/23E/VNGJHpfN8Mn/JGtsoagBHtz3wXmwVF1R1TMzefQQh+sy0ZuxNpC5CdG7fGkgZB3OAl1ITykUzt+bAiY3Z0nhUUCCtiWuBvoH5TwX9hNnxKC2hxHjowVYn/CCG0uz2U4Kddv0lboZCLkyytK7fcTJhYcWB0y27f/ZtODCpaXlsQQaPyimIS/W/vqucceKjmqHMNukNgw9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2v/TCRcZ/UTFjnI4Zbvw/IAbK4sfnHYDS7H9Kum4LEk=;
- b=AldNPiGotb9KR0Fj/6sXxGG8JjkolBYvub3KBHYFtCyDusseiwPmAC4zdSiEh27xZlOJsJQaoDmgd4YttXS/WajMq6N7SzGBdTlccDAU443A9Qk8neTs6PO0PGHuvxLBBTz6zrbwXT1fTpfR5L7pAW9xCEe3+GGto02YX34EdcEkHk3HxgQU2770tYLeR70eR0OjFY4LqulH8mWusjR+h1HHrr8AbyR8uAbghw4okObfapb4Vrn6iMon126z2iyUBdzdcOxfWtHLZ+xGrGHEE2B9H34VIspYBxWd34dmsCGteUaAHizF1I4hChjIqDYuLjYXmAUWUx9F6v0WPhVxYA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB5744.namprd12.prod.outlook.com (2603:10b6:8:73::18) by
- BY5PR12MB4034.namprd12.prod.outlook.com (2603:10b6:a03:205::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5612.18; Wed, 14 Sep 2022 01:09:39 +0000
-Received: from DS7PR12MB5744.namprd12.prod.outlook.com
- ([fe80::94df:bc2b:6294:8cc6]) by DS7PR12MB5744.namprd12.prod.outlook.com
- ([fe80::94df:bc2b:6294:8cc6%6]) with mapi id 15.20.5612.022; Wed, 14 Sep 2022
- 01:09:39 +0000
-From:   Zi Yan <ziy@nvidia.com>
-To:     Doug Berger <opendmb@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Hari Bathini <hbathini@linux.ibm.com>,
-        Kees Cook <keescook@chromium.org>,
-        - <devicetree-spec@vger.kernel.org>,
-        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
-        Mel Gorman <mgorman@suse.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-mm@kvack.org, iommu@lists.linux.dev
-Subject: Re: [PATCH 01/21] mm/page_isolation: protect cma from
- isolate_single_pageblock
-Date:   Tue, 13 Sep 2022 21:09:36 -0400
-X-Mailer: MailMate (1.14r5911)
-Message-ID: <71D040CB-0E26-4CD3-9121-54D740F24594@nvidia.com>
-In-Reply-To: <ff84d89b-6d4f-c739-63be-4c4825b1fd03@gmail.com>
-References: <20220913195508.3511038-1-opendmb@gmail.com>
- <20220913195508.3511038-2-opendmb@gmail.com>
- <36E322BF-F052-4A8B-9FA5-4E0AA84E4AAF@nvidia.com>
- <ff84d89b-6d4f-c739-63be-4c4825b1fd03@gmail.com>
-Content-Type: multipart/signed;
- boundary="=_MailMate_616185E2-29EC-4B0E-8755-A12BD9249736_=";
- micalg=pgp-sha512; protocol="application/pgp-signature"
-X-ClientProxiedBy: BL1PR13CA0331.namprd13.prod.outlook.com
- (2603:10b6:208:2c6::6) To DS7PR12MB5744.namprd12.prod.outlook.com
- (2603:10b6:8:73::18)
+        with ESMTP id S229585AbiINBXk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 21:23:40 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B12176556D;
+        Tue, 13 Sep 2022 18:23:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663118618; x=1694654618;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=lbeU84M3yA/lQbBKX0b3sLR775J5S+s8pCPMWnzhg3E=;
+  b=QzZPhegPMpULmMI2ygr8Cwt7R/QbzK/f74QIpEjxcr6QXVP5TgEBnDUl
+   oDHbNb5fAc0bo5n0Hk6JywWAMZHpn9J8xEvqTQa89NRkhB+ZqWNckGuK/
+   7X2GtG06MW/Y3Nwi+lQ5W+rMM7jy9T50ctb0FW1mN+e97qFmFOkYl4l07
+   x5p8w5yBEOO4eVXM8dTe6mbOp/KgjMTc4M33vqi8CWcg6fYkPaI25XZdj
+   Hse8CU6FhkCMuIvg3hwfYW+f999Wz74Jy8nU47n0BgUfakGIKGhncfftp
+   Uow6pV3wp3GjdyyaQsLLmvoU5BlvVuMrpfKAqTRgAy8uQywqQ1jd31x8G
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10469"; a="281337398"
+X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; 
+   d="scan'208";a="281337398"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2022 18:23:35 -0700
+X-IronPort-AV: E=Sophos;i="5.93,313,1654585200"; 
+   d="scan'208";a="792144302"
+Received: from ewcubbag-mobl2.amr.corp.intel.com (HELO [10.209.57.220]) ([10.209.57.220])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2022 18:23:35 -0700
+Message-ID: <c5868924-f2a0-d6fd-c757-ae539194f9f2@linux.intel.com>
+Date:   Tue, 13 Sep 2022 18:23:34 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB5744:EE_|BY5PR12MB4034:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ec16b30-5a3d-4aca-8f49-08da95edcc29
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4h4lWOSn2nbintC84jjHb0E+B6dRHbZDpSs1le45MxyMbuBQ8cDSr5Ni24J6V84V4gZ6UFfjWuekUZ7iwtCzrVg2+qlbxATTDLHCDlnUzgQmH5GcoxjRVMTsoNf2FTVZ8bskKJe2+SD41Bu5J+RMutcgRzvRZgs6nf56cmzN3z1kj+BimDjh/ZRbhshwMzlTA8tA6F0h9D7+l5Vdcax1L/l21K/zm2lzcAa6zCJeCD38hRtQr+wLI6dDxdZDAcsYwBFUvvIe3we9iHkEZ+/cT389nN+wPuhcJc3EUskzOQlT1W/BbPz18TQlAMKsyZ7IOzFcNb7NkCADIpcOe1TxSlBk/lKLIvfnD+SXlIFe6TFXUqCMce+d8qKAnSIzxUsyH0VoUiv7/AFmlkTQCuvlNYnG2lEhwCbU7r5qdrQHYrIN4kzU+6L4HZK4QJRLULvffo19qhAacc45uu28Ssd0HxxtJPovos1jyaFwWe9tqlg2uP3c4HhSnWxEditAtujVY/09dt2y4r/iMmrO0Ky08z9IgqExKvHNELLaT7iNgjqbDA9bEW6lW6jiC/cg/D4yYjmWv2KQOFrUX5zAK5YghlePXnifpmZkkuAWu4p6YxcKKpVLtlBfAYGz37BcIzj9G2pQGhucU5yjtnucKr14lLFqECxNOkaRbrNcu3H/WtVKdqkuhBN7qdDRsq1oK2T+2ZkRiNXWR4FeF55yCHCca0C08R0jCTaw7JD5FtCEL1sYx0gKcHcwiDkMkmQgvMgLv/7MIs7Ioza1SEPU//3p1FVQ8zvvytQ1iwX2d6ywojU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB5744.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(376002)(136003)(396003)(366004)(451199015)(66476007)(8676002)(2906002)(86362001)(41300700001)(53546011)(316002)(186003)(7416002)(30864003)(6486002)(2616005)(6506007)(6512007)(26005)(7406005)(5660300002)(66946007)(54906003)(8936002)(83380400001)(478600001)(36756003)(33656002)(4326008)(66556008)(6666004)(235185007)(38100700002)(6916009)(72826004)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?U0JebXqRrk1zqRxsG8QTFFKxP9kw2MRWhkisbzpNqOBFxE+cbUK4XnZ+iukd?=
- =?us-ascii?Q?daoaBBzH3t2+iMrwbM6FonDGNhtmpBp2UE9SXLnpv+YRjm4rajyRfRG1SVcX?=
- =?us-ascii?Q?E922qnXUbb65UXMTGVVPm765oxZ1MHpe6ArF9/T6o9JVoW8VL3ZdK2mNB8+w?=
- =?us-ascii?Q?yQIKMPvjK+sTHbN/vS10cmnxiT8KZ/DwMaytE6OGEg6BniT17uarMYdogzPn?=
- =?us-ascii?Q?vyZFHNuWJ0ndqIhtIrq+XMV09MuzeeWuIQ04Xzk2RAMYvIl0BLFYgVlXgxtf?=
- =?us-ascii?Q?uJ/v0OtJnJaDgwpXbLxaEboKiUp5bdKpP9LkB675rIjnI6ogzKx6JSkCWL/q?=
- =?us-ascii?Q?mnvqVyQ1yAKe9hV2oSy0uID7Fg6WHQJvd/TIl1xcgP6UIOrDPQZ9yCaxN4rF?=
- =?us-ascii?Q?WJwMh8silJJxoHeERV/sDDOnrcH2BctxgfF5Oc7blml81rT7eHGPjGexDpoe?=
- =?us-ascii?Q?6zoWsoSDqysunpJ2zn3WUumDN1Hn4bl6TCF+JHbqJbaYeg3zaVri/TYtOqxX?=
- =?us-ascii?Q?I/ni3Nh9K/BnYQTR9I7ZmkN0P5qpchkBmyx0C3e5VYOfPki2JdnbyuQUQuv0?=
- =?us-ascii?Q?W0cgYXm/Cci67ayn2XEl/rciHIZQ/GB+zTtyKzjEOigqA4enCDNMRngZrKp8?=
- =?us-ascii?Q?4MmpkfEaVHXLveah4KV/G6Z4VMS6jFOed9LgR2eGvHrB6llK5SbIUg9RUFdE?=
- =?us-ascii?Q?SdAeZgeDgZREmEv1bLTA3u6P2DosLNpSKhUHBXN4X1qGDDKTH0bCPxBbAgj0?=
- =?us-ascii?Q?Qg5mOZYq2DAgxTuo8HzdBkc7qx9XHnfLezMfgTvylLYimzP91vKhKjMajWmV?=
- =?us-ascii?Q?crcPO7u0gNt/Cc3Hhxf2O13FubTrJUuBG2PgKiBOrfLhJwVfDjLvi8CGmXIo?=
- =?us-ascii?Q?dydVzu3N8Msf71N+zpPl/MdKpDxfjyfWETPBuWwb2qdOEUGKPF57O1XErQzM?=
- =?us-ascii?Q?LgGbn+0JqmLp1NdBcPXX3DPewSdWCGmJ2qUY+GigxmLGYYjIR/SSoyHqOIJN?=
- =?us-ascii?Q?uE7uFPXxuu6aEdA9rmypH5RnNDZNSspGUjRV/LR5TIiOmQlyfPSkTL1nlsIE?=
- =?us-ascii?Q?fzeU/O5SiE/ibocYu7jVd106/tMdltFoSseEfcv3yhS6KEO89tww+hRIezjA?=
- =?us-ascii?Q?32yYiXHRVLAni/lenG0Zcf6N9xF5f+eBFzJdqWKFdISvqhSIx95LOAptBqRp?=
- =?us-ascii?Q?0K654rTQMG1kHU+znd2lwYIJqC7FQM/uQ+FNBVS5i4jdPnFe4Fg/gNFCF9J8?=
- =?us-ascii?Q?bV/4Lpzvp3eyGOQ3gxTZVNJjscPHVk70cWT8Aqd+EYAYLFolkjimm0/Ml+M8?=
- =?us-ascii?Q?7iXJYzBl731HbqILSXn5Xv1EfIR4196Bz4qubERuIELTpxgRd+OnxWZLIhFP?=
- =?us-ascii?Q?L35+KLsUvycaKD/PU2rtpuxmXHmtmlTDV7S6dqAaUK3hqucC9gnEy5CIwu0Z?=
- =?us-ascii?Q?xYR3kfPQQbaqow92yZs97xPe2CLdhlBo5DBf2nLTr7FQnuWduM1Mi1SnKHCR?=
- =?us-ascii?Q?1MDTAuXbqRnYWB8IyrlMyPvVq27uTWyFaekvI3tTx0jGRn7KrE2xkM1Dik7h?=
- =?us-ascii?Q?+f0pv3wFYBh1fYpcIMWEdtow97vA8xfXAlCUQfGZ?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ec16b30-5a3d-4aca-8f49-08da95edcc29
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB5744.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2022 01:09:39.4079
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PxwcqyhOX3bWKeXwERNKljk3E1PYhMppZOa/gB43wnpWLYjS3gbmRyBuBiSFjPmI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4034
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PATCH v13 3/3] Documentation/x86: Document TDX attestation
+ process
+Content-Language: en-US
+To:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220909192708.1113126-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20220909192708.1113126-4-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20220913175440.wahcdmaumeqjgzmh@box>
+From:   Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <20220913175440.wahcdmaumeqjgzmh@box>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---=_MailMate_616185E2-29EC-4B0E-8755-A12BD9249736_=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Hi Kirill/Kai,
 
-On 13 Sep 2022, at 20:59, Doug Berger wrote:
-
-> On 9/13/2022 5:02 PM, Zi Yan wrote:
->> On 13 Sep 2022, at 15:54, Doug Berger wrote:
+On 9/13/22 10:54 AM, Kirill A . Shutemov wrote:
+> On Fri, Sep 09, 2022 at 12:27:08PM -0700, Kuppuswamy Sathyanarayanan wrote:
+>> Document details about TDX attestation process and related user API
+>> support.
+> 
+> "related user API support" sounds wrong to me.
+> 
+> Maybe just "related userspace API"?
+> 
+>> Attestation details can be found in Guest-Host-Communication Interface
+>> (GHCI) for Intel Trust Domain Extensions (TDX), section titled "TD
+>> attestation".
 >>
->>> The function set_migratetype_isolate() has special handling for
->>> pageblocks of MIGRATE_CMA type that protects them from being
->>> isolated for MIGRATE_MOVABLE requests.
->>>
->>> Since isolate_single_pageblock() doesn't receive the migratetype
->>> argument of start_isolate_page_range() it used the migratetype
->>> of the pageblock instead of the requested migratetype which
->>> defeats this MIGRATE_CMA check.
->>>
->>> This allows an attempt to create a gigantic page within a CMA
->>> region to change the migratetype of the first and last pageblocks
->>> from MIGRATE_CMA to MIGRATE_MOVABLE when they are restored after
->>> failure, which corrupts the CMA region.
->>>
->>> The calls to (un)set_migratetype_isolate() for the first and last
->>> pageblocks of the start_isolate_page_range() are moved back into
->>> that function to allow access to its migratetype argument and make
->>> it easier to see how all of the pageblocks in the range are
->>> isolated.
->>>
->>> Fixes: b2c9e2fbba32 ("mm: make alloc_contig_range work at pageblock g=
-ranularity")
->>> Signed-off-by: Doug Berger <opendmb@gmail.com>
->>> ---
->>>   mm/page_isolation.c | 75 +++++++++++++++++++++---------------------=
----
->>>   1 file changed, 35 insertions(+), 40 deletions(-)
+>> [Bagas Sanjaya fixed htmldocs warning]
+>> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>> Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+>> ---
 >>
->> Thanks for the fix.
-> Thanks for the review.
->
+>> Change since v12:
+>>  * None
 >>
->> Why not just pass migratetype into isolate_single_pageblock() and use
->> it when set_migratetype_isolate() is used? That would have much
->> fewer changes. What is the reason of pulling skip isolation logic out?=
-
-> I found the skip_isolation logic confusing and thought that setting and=
- restoring the migratetype within the same function and consolidating the=
- error recovery paths also within that function was easier to understand =
-and less prone to accidental breakage.
->
-> In particular, setting MIGRATE_ISOLATE in isolate_single_pageblock() an=
-d having to remember to unset it in start_isolate_page_range() differentl=
-y on different error paths was troublesome for me.
-
-Wouldn't this work as well?
-
-diff --git a/mm/page_isolation.c b/mm/page_isolation.c
-index c1307d1bea81..a312cabd0d95 100644
---- a/mm/page_isolation.c
-+++ b/mm/page_isolation.c
-@@ -288,6 +288,7 @@ __first_valid_page(unsigned long pfn, unsigned long n=
-r_pages)
-  * @isolate_before:    isolate the pageblock before the boundary_pfn
-  * @skip_isolation:    the flag to skip the pageblock isolation in secon=
-d
-  *                     isolate_single_pageblock()
-+ * @migratetype:       Migrate type to set in error recovery.
-  *
-  * Free and in-use pages can be as big as MAX_ORDER and contain more tha=
-n one
-  * pageblock. When not all pageblocks within a page are isolated at the =
-same
-@@ -302,9 +303,9 @@ __first_valid_page(unsigned long pfn, unsigned long n=
-r_pages)
-  * the in-use page then splitting the free page.
-  */
- static int isolate_single_pageblock(unsigned long boundary_pfn, int flag=
-s,
--                       gfp_t gfp_flags, bool isolate_before, bool skip_i=
-solation)
-+                       gfp_t gfp_flags, bool isolate_before, bool skip_i=
-solation,
-+                       int migratetype)
- {
--       unsigned char saved_mt;
-        unsigned long start_pfn;
-        unsigned long isolate_pageblock;
-        unsigned long pfn;
-@@ -328,12 +329,10 @@ static int isolate_single_pageblock(unsigned long b=
-oundary_pfn, int flags,
-        start_pfn  =3D max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAG=
-ES),
-                                      zone->zone_start_pfn);
-
--       saved_mt =3D get_pageblock_migratetype(pfn_to_page(isolate_pagebl=
-ock));
--
-        if (skip_isolation)
--               VM_BUG_ON(!is_migrate_isolate(saved_mt));
-+               VM_BUG_ON(!is_migrate_isolate(get_pageblock_migratetype(p=
-fn_to_page(isolate_pageblock))));
-        else {
--               ret =3D set_migratetype_isolate(pfn_to_page(isolate_pageb=
-lock), saved_mt, flags,
-+               ret =3D set_migratetype_isolate(pfn_to_page(isolate_pageb=
-lock), migratetype, flags,
-                                isolate_pageblock, isolate_pageblock + pa=
-geblock_nr_pages);
-
-                if (ret)
-@@ -475,7 +474,7 @@ static int isolate_single_pageblock(unsigned long bou=
-ndary_pfn, int flags,
- failed:
-        /* restore the original migratetype */
-        if (!skip_isolation)
--               unset_migratetype_isolate(pfn_to_page(isolate_pageblock),=
- saved_mt);
-+               unset_migratetype_isolate(pfn_to_page(isolate_pageblock),=
- migratetype);
-        return -EBUSY;
- }
-
-@@ -537,7 +536,8 @@ int start_isolate_page_range(unsigned long start_pfn,=
- unsigned long end_pfn,
-        bool skip_isolation =3D false;
-
-        /* isolate [isolate_start, isolate_start + pageblock_nr_pages) pa=
-geblock */
--       ret =3D isolate_single_pageblock(isolate_start, flags, gfp_flags,=
- false, skip_isolation);
-+       ret =3D isolate_single_pageblock(isolate_start, flags, gfp_flags,=
- false,
-+                               skip_isolation, migratetype);
-        if (ret)
-                return ret;
-
-@@ -545,7 +545,8 @@ int start_isolate_page_range(unsigned long start_pfn,=
- unsigned long end_pfn,
-                skip_isolation =3D true;
-
-        /* isolate [isolate_end - pageblock_nr_pages, isolate_end) pagebl=
-ock */
--       ret =3D isolate_single_pageblock(isolate_end, flags, gfp_flags, t=
-rue, skip_isolation);
-+       ret =3D isolate_single_pageblock(isolate_end, flags, gfp_flags, t=
-rue,
-+                               skip_isolation, migratetype);
-        if (ret) {
-                unset_migratetype_isolate(pfn_to_page(isolate_start), mig=
-ratetype);
-                return ret;
-
->
-> It could certainly be done differently, but this was my preference.
-
-A smaller patch can make review easier, right?
-
+>> Changes since v11:
+>>  * Fixed htmldocs warnings.
 >>
->> Ultimately, I would like to make MIGRATE_ISOLATE a separate bit,
->> so that migratetype will not be overwritten during page isolation.
->> Then, set_migratetype_isolate() and start_isolate_page_range()
->> will not have migratetype to set in error recovery any more.
->> That is on my TODO.
+>>  Documentation/x86/tdx.rst | 75 +++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 75 insertions(+)
 >>
->>>
->>> diff --git a/mm/page_isolation.c b/mm/page_isolation.c
->>> index 9d73dc38e3d7..8e16aa22cb61 100644
->>> --- a/mm/page_isolation.c
->>> +++ b/mm/page_isolation.c
->>> @@ -286,8 +286,6 @@ __first_valid_page(unsigned long pfn, unsigned lo=
-ng nr_pages)
->>>    * @flags:			isolation flags
->>>    * @gfp_flags:			GFP flags used for migrating pages
->>>    * @isolate_before:	isolate the pageblock before the boundary_pfn
->>> - * @skip_isolation:	the flag to skip the pageblock isolation in seco=
-nd
->>> - *			isolate_single_pageblock()
->>>    *
->>>    * Free and in-use pages can be as big as MAX_ORDER-1 and contain m=
-ore than one
->>>    * pageblock. When not all pageblocks within a page are isolated at=
- the same
->>> @@ -302,9 +300,8 @@ __first_valid_page(unsigned long pfn, unsigned lo=
-ng nr_pages)
->>>    * the in-use page then splitting the free page.
->>>    */
->>>   static int isolate_single_pageblock(unsigned long boundary_pfn, int=
- flags,
->>> -			gfp_t gfp_flags, bool isolate_before, bool skip_isolation)
->>> +			gfp_t gfp_flags, bool isolate_before)
->>>   {
->>> -	unsigned char saved_mt;
->>>   	unsigned long start_pfn;
->>>   	unsigned long isolate_pageblock;
->>>   	unsigned long pfn;
->>> @@ -328,18 +325,6 @@ static int isolate_single_pageblock(unsigned lon=
-g boundary_pfn, int flags,
->>>   	start_pfn  =3D max(ALIGN_DOWN(isolate_pageblock, MAX_ORDER_NR_PAGE=
-S),
->>>   				      zone->zone_start_pfn);
->>>
->>> -	saved_mt =3D get_pageblock_migratetype(pfn_to_page(isolate_pagebloc=
-k));
->>> -
->>> -	if (skip_isolation)
->>> -		VM_BUG_ON(!is_migrate_isolate(saved_mt));
->>> -	else {
->>> -		ret =3D set_migratetype_isolate(pfn_to_page(isolate_pageblock), sa=
-ved_mt, flags,
->>> -				isolate_pageblock, isolate_pageblock + pageblock_nr_pages);
->>> -
->>> -		if (ret)
->>> -			return ret;
->>> -	}
->>> -
->>>   	/*
->>>   	 * Bail out early when the to-be-isolated pageblock does not form
->>>   	 * a free or in-use page across boundary_pfn:
->>> @@ -428,7 +413,7 @@ static int isolate_single_pageblock(unsigned long=
- boundary_pfn, int flags,
->>>   					ret =3D set_migratetype_isolate(page, page_mt,
->>>   						flags, head_pfn, head_pfn + nr_pages);
->>>   					if (ret)
->>> -						goto failed;
->>> +						return ret;
->>>   				}
->>>
->>>   				ret =3D __alloc_contig_migrate_range(&cc, head_pfn,
->>> @@ -443,7 +428,7 @@ static int isolate_single_pageblock(unsigned long=
- boundary_pfn, int flags,
->>>   					unset_migratetype_isolate(page, page_mt);
->>>
->>>   				if (ret)
->>> -					goto failed;
->>> +					return -EBUSY;
->>>   				/*
->>>   				 * reset pfn to the head of the free page, so
->>>   				 * that the free page handling code above can split
->>> @@ -459,24 +444,19 @@ static int isolate_single_pageblock(unsigned lo=
-ng boundary_pfn, int flags,
->>>   				while (!PageBuddy(pfn_to_page(outer_pfn))) {
->>>   					/* stop if we cannot find the free page */
->>>   					if (++order >=3D MAX_ORDER)
->>> -						goto failed;
->>> +						return -EBUSY;
->>>   					outer_pfn &=3D ~0UL << order;
->>>   				}
->>>   				pfn =3D outer_pfn;
->>>   				continue;
->>>   			} else
->>>   #endif
->>> -				goto failed;
->>> +				return -EBUSY;
->>>   		}
->>>
->>>   		pfn++;
->>>   	}
->>>   	return 0;
->>> -failed:
->>> -	/* restore the original migratetype */
->>> -	if (!skip_isolation)
->>> -		unset_migratetype_isolate(pfn_to_page(isolate_pageblock), saved_mt=
-);
->>> -	return -EBUSY;
->>>   }
->>>
->>>   /**
->>> @@ -534,21 +514,30 @@ int start_isolate_page_range(unsigned long star=
-t_pfn, unsigned long end_pfn,
->>>   	unsigned long isolate_start =3D ALIGN_DOWN(start_pfn, pageblock_nr=
-_pages);
->>>   	unsigned long isolate_end =3D ALIGN(end_pfn, pageblock_nr_pages);
->>>   	int ret;
->>> -	bool skip_isolation =3D false;
->>>
->>>   	/* isolate [isolate_start, isolate_start + pageblock_nr_pages) pag=
-eblock */
->>> -	ret =3D isolate_single_pageblock(isolate_start, flags, gfp_flags, f=
-alse, skip_isolation);
->>> +	ret =3D set_migratetype_isolate(pfn_to_page(isolate_start), migrate=
-type,
->>> +			flags, isolate_start, isolate_start + pageblock_nr_pages);
->>>   	if (ret)
->>>   		return ret;
->>> -
->>> -	if (isolate_start =3D=3D isolate_end - pageblock_nr_pages)
->>> -		skip_isolation =3D true;
->>> +	ret =3D isolate_single_pageblock(isolate_start, flags, gfp_flags, f=
-alse);
->>> +	if (ret)
->>> +		goto unset_start_block;
->>>
->>>   	/* isolate [isolate_end - pageblock_nr_pages, isolate_end) pageblo=
-ck */
->>> -	ret =3D isolate_single_pageblock(isolate_end, flags, gfp_flags, tru=
-e, skip_isolation);
->>> +	pfn =3D isolate_end - pageblock_nr_pages;
->>> +	if (isolate_start !=3D pfn) {
->>> +		ret =3D set_migratetype_isolate(pfn_to_page(pfn), migratetype,
->>> +				flags, pfn, pfn + pageblock_nr_pages);
->>> +		if (ret)
->>> +			goto unset_start_block;
->>> +	}
->>> +	ret =3D isolate_single_pageblock(isolate_end, flags, gfp_flags, tru=
-e);
->>>   	if (ret) {
->>> -		unset_migratetype_isolate(pfn_to_page(isolate_start), migratetype)=
-;
->>> -		return ret;
->>> +		if (isolate_start !=3D pfn)
->>> +			goto unset_end_block;
->>> +		else
->>> +			goto unset_start_block;
->>>   	}
->>>
->>>   	/* skip isolated pageblocks at the beginning and end */
->>> @@ -557,15 +546,21 @@ int start_isolate_page_range(unsigned long star=
-t_pfn, unsigned long end_pfn,
->>>   	     pfn +=3D pageblock_nr_pages) {
->>>   		page =3D __first_valid_page(pfn, pageblock_nr_pages);
->>>   		if (page && set_migratetype_isolate(page, migratetype, flags,
->>> -					start_pfn, end_pfn)) {
->>> -			undo_isolate_page_range(isolate_start, pfn, migratetype);
->>> -			unset_migratetype_isolate(
->>> -				pfn_to_page(isolate_end - pageblock_nr_pages),
->>> -				migratetype);
->>> -			return -EBUSY;
->>> -		}
->>> +					start_pfn, end_pfn))
->>> +			goto unset_isolated_blocks;
->>>   	}
->>>   	return 0;
->>> +
->>> +unset_isolated_blocks:
->>> +	ret =3D -EBUSY;
->>> +	undo_isolate_page_range(isolate_start + pageblock_nr_pages, pfn,
->>> +				migratetype);
->>> +unset_end_block:
->>> +	unset_migratetype_isolate(pfn_to_page(isolate_end - pageblock_nr_pa=
-ges),
->>> +				  migratetype);
->>> +unset_start_block:
->>> +	unset_migratetype_isolate(pfn_to_page(isolate_start), migratetype);=
+>> diff --git a/Documentation/x86/tdx.rst b/Documentation/x86/tdx.rst
+>> index b8fa4329e1a5..c9e3ecf86e0b 100644
+>> --- a/Documentation/x86/tdx.rst
+>> +++ b/Documentation/x86/tdx.rst
+>> @@ -210,6 +210,81 @@ converted to shared on boot.
+>>  For coherent DMA allocation, the DMA buffer gets converted on the
+>>  allocation. Check force_dma_unencrypted() for details.
+>>  
+>> +Attestation
+>> +===========
+>> +
+>> +Attestation is used to verify the TDX guest trustworthiness to other
+>> +entities before provisioning secrets to the guest. For example, a key
+>> +server may request for attestation before releasing the encryption keys
+>> +to mount the encrypted rootfs or secondary drive.
+> 
+> Maybe "may request attestation quote before ..."?
+> 
+>> +TDX module records the state of the TDX guest in various stages of guest
+>> +boot process using build time measurement register (MRTD) and runtime
+>> +measurement registers (RTMR). Measurements related to guest initial
+>> +configuration and firmware image is recorded in the MRTD register.
+>> +Measurements related to initial state, kernel image, firmware image,
+>> +command line options, initrd, ACPI tables, etc are recorded in RTMR
+>> +registers. For more details, please refer to TDX Virtual Firmware design
+>> +specification, sec titled "TD Measurement".
+>> +
+>> +At TDX guest runtime, the Intel TDX module reuses the Intel SGX attestation
+>> +infrastructure to provide support for attesting to these measurements as
+>> +described below.
+>> +
+>> +The attestation process consists of two steps: TDREPORT generation and
+>> +Quote generation.
+>> +
+>> +TDX guest uses TDCALL[TDG.MR.REPORT] to get the TDREPORT (TDREPORT_STRUCT)
+>> +from the TDX module. TDREPORT is a fixed-size data structure generated by
+>> +the TDX module which contains guest-specific information (such as build
+>> +and boot measurements), platform security version, and the MAC to protect
+>> +the integrity of the TDREPORT.
+>> +
+>> +After getting the TDREPORT, the second step of the attestation process
+>> +is to send it to the QE to generate the Quote. TDREPORT by design can only
+> 
+> The first use of QE abbreviation is before it is defined. -EPARSE.
+> 
+>> +be verified on local platform as the MAC key is bound to the platform. To
+>> +support remote verification of the TDREPORT, TDX leverages Intel SGX Quote
+>> +Enclave (QE) to verify the TDREPORT locally and convert it to a remote
+>> +verifiable Quote. Method of sending TDREPORT to QE is implemenentation
+>> +specific. Attestation software can choose whatever communication channel
+>> +available (i.e. vsock or hypercall) to send the TDREPORT to QE and receive
+>> +the Quote.
+>> +
+>> +To allow userspace attestation agent get the TDREPORT, TDX guest driver
+>> +exposes an IOCTL (TDX_CMD_GET_REPORT) interface via /dev/tdx-guest misc
+>> +device.
+>> +
+>> +TDX Guest driver
+>> +================
+>> +
+>> +The TDX guest driver exposes IOCTL interfaces via /dev/tdx-guest misc
+>> +device to allow user space to get certain TDX guest specific details
+>> +(like attestation report, attestation quote or storage keys, etc).
+>> +
+>> +In this section, for each supported IOCTL, following information is
+>> +provided along with generic description.
+> 
+> "for each" looks strange as we only have single IOCTL.
+> 
+>> +:Input parameters: Parameters passed to the IOCTL and related details.
+>> +:Output: Details about output data and return value (with details
+>> +         about the non common error values).
+>> +
+>> +TDX_CMD_GET_REPORT
+>> +------------------
+>> +
+>> +:Input parameters: struct tdx_report_req
+>> +:Output: Upon successful execution, TDREPORT data is copied to
+>> +         tdx_report_req.tdreport and returns 0 or returns
+>> +         -EIO on TDCALL failure and standard error number on
+>> +         other common failures.
+>> +
+>> +The TDX_CMD_GET_REPORT IOCTL can be used by the attestation software to
+>> +get the TDX guest measurements data (with few other info) in the format
+>> +of TDREPORT_STRUCT. It uses TDCALL[TDG.MR.REPORT] to get the TDREPORT
+>> +from the TDX Module.
+>> +
+>> +Format of TDREPORT_STRUCT can be found in TDX 1.0 Module specification,
+>> +sec titled "TDREPORT_STRUCT".
+>> +
+> 
 
->>> +	return ret;
->>>   }
->>>
->>>   /*
->>> -- =
-
->>> 2.25.1
->>
->>
->> --
->> Best Regards,
->> Yan, Zi
+After addressing the comments, the final version looks like below.
 
 
---
-Best Regards,
-Yan, Zi
 
---=_MailMate_616185E2-29EC-4B0E-8755-A12BD9249736_=
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename=signature.asc
-Content-Type: application/pgp-signature; name=signature.asc
+Attestation
 
------BEGIN PGP SIGNATURE-----
+===========
 
-iQJDBAEBCgAtFiEE6rR4j8RuQ2XmaZol4n+egRQHKFQFAmMhKdAPHHppeUBudmlk
-aWEuY29tAAoJEOJ/noEUByhU4G0P/0E4O0Cg41Szq2Fc+4Izzn2CFvZWxau6lI7X
-ff2eB/+eopoZzo/hq4V/Nzh36jUxeCeWIyhfQPPOqkvt1tAeGUC4LGwtikyj1Ifw
-+h4o5hglAVsBBSobMbZYDNme9ewg9syLZ+X+dvRQnFS2Shi8t0l+yE3MMYKfWRnN
-nQ11gPeeFCz75p8U6bi7EN3ALoYHs/duxL6q9+9+Xzo/cmaufGWBQgjDTT839EXA
-OD8zpEDFluyi8WtR3TS8Fk1O0fLpMLhAuVdwneI1Tb7HyGzWjLjqqhSGz+uWiOHA
-Q6Vk/p880S+1nmhm2UiLZV12+JzzBeHtXRrvWQjnUlwV/fjIH2i+jot6pConPh4j
-bTKcEWMT6lsagQkZev0gCAMHxs2UF8Atx5HMrqVIwbAi3tOcgilogmAbeVzVk7bB
-fW0Cxmosv1oBlfcuHLVzDtMcLs4Jp6IoEmgkVxDOWGNJMFo94vfd+DG3/XJDAcm3
-TfJLCwqOeeQ3yUowSxdlyZqsOv0mWq07PgdhJq7hOeObA86RQb9xX2VLfn0bAoAE
-9KABUvkrZYjCCbpLtc9OPWesZyzQbw8HGwR5Qol46r7RKZarFhZyjZL3XG9Udvjv
-U4OggIcIKdrGGEdLXn6IEzg3nhUIuAxeBQDbc/jn6MMfUQzYIKewdMfcd0GVDsRi
-sUSyKCKM
-=Ek6s
------END PGP SIGNATURE-----
 
---=_MailMate_616185E2-29EC-4B0E-8755-A12BD9249736_=--
+
+Attestation is used to verify the TDX guest trustworthiness to other
+
+entities before provisioning secrets to the guest. For example, a key
+
+server may request attestation quote before releasing the encryption
+
+keys to mount the encrypted rootfs or secondary drive.
+
+
+
+The TDX module records the state of the TDX guest in various stages of
+
+the guest boot process using build time measurement register (MRTD) and
+
+runtime measurement registers (RTMR). Measurements related to guest
+
+initial configuration and firmware image are recorded in the MRTD
+
+register. Measurements related to initial state, kernel image, firmware
+
+image, command line options, initrd, ACPI tables, etc are recorded in
+
+RTMR registers. For more details, please refer to TDX Virtual Firmware
+
+design specification, sec titled "TD Measurement". At TDX guest runtime,
+
+the attestation process is used to attest to these measurements.
+
+
+
+The attestation process consists of two steps: TDREPORT generation and
+
+Quote generation.
+
+
+
+TDX guest uses TDCALL[TDG.MR.REPORT] to get the TDREPORT (TDREPORT_STRUCT)
+
+from the TDX module. TDREPORT is a fixed-size data structure generated by
+
+the TDX module which contains guest-specific information (such as build
+
+and boot measurements), platform security version, and the MAC to protect
+
+the integrity of the TDREPORT.
+
+
+
+After getting the TDREPORT, the second step of the attestation process
+
+is to send it to the Quoting Enclave (QE) to generate the Quote. TDREPORT
+
+by design can only be verified on the local platform as the MAC key is
+
+bound to the platform. To support remote verification of the TDREPORT,
+
+TDX leverages Intel SGX Quoting Enclave to verify the TDREPORT locally
+
+and convert it to a remotely verifiable Quote. Method of sending TDREPORT
+
+to QE is implementation specific. Attestation software can choose
+
+whatever communication channel available (i.e. vsock or hypercall) to
+
+send the TDREPORT to QE and receive the Quote.
+
+
+TDX Guest driver
+
+================
+
+
+
+The TDX guest driver exposes IOCTL interfaces via /dev/tdx-guest device
+
+to service TDX guest user-specific requests. But currently only
+
+TDX_CMD_GET_RERPORT IOCTL is supported to allow user space attestation
+
+agent to get the TDREPORT.
+
+
+
+Following are the IOCTL ABI details:
+
+
+
+TDX_CMD_GET_REPORT
+
+------------------
+
+
+
+:Input parameters: struct tdx_report_req
+
+:Output: Upon successful execution, TDREPORT data is copied to
+
+         tdx_report_req.tdreport and return 0. Return -EIO on
+
+         TDCALL failure or standard error number on other common
+
+         failures.
+
+
+
+The TDX_CMD_GET_REPORT IOCTL can be used by the attestation software to
+
+get the TDREPORT from the TDX module using TDCALL[TDG.MR.REPORT].
+
+
+
+
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
