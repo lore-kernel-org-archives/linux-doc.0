@@ -2,142 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E48ABC54EE9
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 02:22:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82FF4ECAAD8
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 02:58:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbiINCWg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Sep 2022 22:22:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51296 "EHLO
+        id S229512AbiINC6M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Sep 2022 22:58:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbiINCWf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 22:22:35 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76D2C5D12E;
-        Tue, 13 Sep 2022 19:22:34 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id b75so8248783pfb.7;
-        Tue, 13 Sep 2022 19:22:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=Xh2tj/Sm3azGG4pEFrcs+/3d9DJUuBiaLdi0ugkWFc8=;
-        b=njZ5LCTmBxMANq0KZsKakLpizFlmK0o4Zn/gnfYybetBfymjccZSv76p2IJPMZO2E+
-         RHod7ouozCHayUw1eBsNxICKRlTMDdzINTFLIlznOnkfe3AWKIX+R4CFc//5YLnCPJHm
-         Q8gVdL5gEhpavGoZGyDCC/k6pkJDJXS4qk8E2qSZqZ6m3Qj2eo40VjN2WnYt/gU2+L88
-         T5FzoOVPXk5jHeQCqRp8l/cB4no00J7uLc4eLXbwUBw6H93jQBa6MhsMU5nNdbGHsa7K
-         v0d/qfVmkeWEbbQgcUr/fJpwtRFC8WqprmxtrVl+6IGvKHE9dRSANqNMSLBo4foqPdsX
-         zTiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=Xh2tj/Sm3azGG4pEFrcs+/3d9DJUuBiaLdi0ugkWFc8=;
-        b=ts4f1ez9SEWdiZtAvuI63dwl1VyboNnKnTqHOBHrygm4BYKMqUMMtEAJ1RenmFvU1J
-         l2yFCZZGMHPnaiv4+WthSL1REjxZNzfEVWDe/x73y7M0BQ7HSbKI4yZvgXgENfPsZ4Fg
-         Jz2tRw6bBDYsVwelo8qMLgrQCFPXz0mrXuWYhW/JdhA7Mgl2eQ8ImbGNFxqGdFa8gg8N
-         Kd6S3uHRDCK6hjPTAkFF9MplnvW1hLanTijJIQvh2eEOAS2jrvuV5Hy/Q1HFz0RNj53G
-         0X7gTORcBI2S2PmahhBS2y9E2KXP0qW4qVi1Vkhy70mBRC1Z8zU0iUURzIBAEh2W5tYE
-         vZ/w==
-X-Gm-Message-State: ACgBeo0g2ZwpNs7Ka0jYURLznKhRB0PZKAmUpKMcWQBrbTXoTxgaR270
-        R0bTinqPEchaxF3yKXIlGp4=
-X-Google-Smtp-Source: AA6agR5g5r/B36KAruxppH2g9pWT+VmkBduzxZV0nu3PAL/AvO6oKnBb48Sqq7EqDTRqBd1fNuffnQ==
-X-Received: by 2002:a05:6a00:88a:b0:53a:b7a0:ea3a with SMTP id q10-20020a056a00088a00b0053ab7a0ea3amr34561001pfj.21.1663122153986;
-        Tue, 13 Sep 2022 19:22:33 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-75.three.co.id. [180.214.232.75])
-        by smtp.gmail.com with ESMTPSA id a184-20020a621ac1000000b00543780ba513sm5846083pfa.218.2022.09.13.19.22.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Sep 2022 19:22:33 -0700 (PDT)
-Message-ID: <731a3b01-1ade-6003-eb21-6b0a2c919750@gmail.com>
-Date:   Wed, 14 Sep 2022 09:22:28 +0700
+        with ESMTP id S229503AbiINC6L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Sep 2022 22:58:11 -0400
+Received: from out203-205-221-233.mail.qq.com (out203-205-221-233.mail.qq.com [203.205.221.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E61B6583E;
+        Tue, 13 Sep 2022 19:58:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+        s=s201512; t=1663124287;
+        bh=mntmAyFdC2kyLkanzymJFmnOFp0qNaHrcUQTPCMpG28=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=OswdrgyIdnbh1CY5/rPQHIWVZJyFR6+WCLh3oTByrLNciwak7JrwsOWeUxXiw/7Ke
+         /fgSux6kli4Gl+9PKv+7Nkdkh7KvFWq3g0BJ9u+fkkJJ00e2IfmI3DakBa8IIjGULM
+         +qhRoJTu6853c3YR5e0rSm0jT7qkkH7KlMfpp3jw=
+Received: from localhost.localdomain ([39.156.73.13])
+        by newxmesmtplogicsvrszc8.qq.com (NewEsmtp) with SMTP
+        id E8301052; Wed, 14 Sep 2022 10:58:03 +0800
+X-QQ-mid: xmsmtpt1663124283txe2q73ln
+Message-ID: <tencent_312AB3C62E6755325FB3477910430DB08509@qq.com>
+X-QQ-XMAILINFO: OEgU9iHXvJ5F5hxvh6cfJsq8O9UquHOB49EoJqG5k8wDySZxy+IO78SyBqREc6
+         cyobI7u6JYRq5gtZu2Pnj7IggKgN2e67Hv1vlMAXKb/zQqy8frYr5MVHdF9NZqmAOEXD4XZ44+tO
+         oq9TsLjGGRpJFkV2k11DhTKjbLz7bqe/Iev2kVwsCbyqDRpbCHp1dz4/xJpFZnFXn6lP9wJj2sb/
+         CwcHS9WGRei98V7QWyhs9NQNGa0rGEAPvXbdXv7ncXwZe9IHyeLZ17pCk1lwptMfbmizr4ucapRB
+         zgO4fhRoCN0l+5maM8P8la2Q8wfj61t1054qTION0PRvIcc+2DjRIY4lOBEIlyhWBmLZpZvF/hFo
+         rC85pL++Sh0nXE19IrEqNxdlsHcNscCYBD6jlZuawWMhMlNx8MCz9Crm4wBJh7xuxsZhT6X/iMCV
+         JvhRpnB2jd21aNpi1FrfHgBFK14QfRQ0iaTLBbh8ht4Ln6nqt5L94ijSklbDHohBmPGttHBecnLm
+         Y+9UzAOaIbqyoE8s0/M9yCZqUQtSsSEs/qWz38aGVNuk00MSTLxiCm0AuWm1rNhcqS2OWmYf+4rK
+         VllRQESIv6qt9rfGfyGWtnNzC7ucd7lsl0dJ2E/wUJ5jWaHe+z9KV1H1C8RSqYfK5OJWrSdQPC7d
+         v2SGjL1zOr3w14KwudzZ46cLtM5VgveRFf20zPnedlY1f/7a3cUPnJ3abx2TL2O2LHvXqYc76SNa
+         81MQVc9hV78Awrj2SkyvojDgHH7GvI7LYYlBUfzUPBwKNgNciyUqrt+LEbisVc/DJCXBb9Vyw30a
+         edOFS+1yF4XRqL3gmiYllJKaRVKH7MmMJOnYI2fJ++vOb5luCUrq9SqcC5iXF2gMkcmn8/SMlqY4
+         t4rL5jcMyJfCjA1Fm54cdAhniD+tqoCitaielG6qzt8DqVbbAu8GEzrdYfEZ/GLG0MHNLa0SW4yj
+         D66kONGEMK6omcAmelJSMOwUFZSoGU4Hw/pLsNLwMSBT4tPmipisIyyKM3ApxV
+From:   Rong Tao <rtoax@foxmail.com>
+To:     krzysztof.kozlowski@linaro.org
+Cc:     corbet@lwn.net, erik@kryo.se, jkosina@suse.cz,
+        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux@leemhuis.info, lkp@intel.com,
+        ojeda@kernel.org, rdunlap@infradead.org, rongtao@cestc.cn,
+        rtoax@foxmail.com, tglx@linutronix.de,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v2] Documentation: process/submitting-patches: misspelling "mesages"
+Date:   Wed, 14 Sep 2022 10:58:01 +0800
+X-OQ-MSGID: <20220914025801.13727-1-rtoax@foxmail.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <2e4c52b5-85e8-6951-8248-961c2cdb13e7@linaro.org>
+References: <2e4c52b5-85e8-6951-8248-961c2cdb13e7@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2] Documentation: remove magic number doc
-Content-Language: en-US
-To:     =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net
-References: <ae1e3abd-cafb-7059-b8ae-5bcb13d53b40@gmail.com>
- <20220907231109.htnfxzmr6wkuhn2v@tarta.nabijaczleweli.xyz>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220907231109.htnfxzmr6wkuhn2v@tarta.nabijaczleweli.xyz>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/8/22 06:11, наб wrote:
-> The entire file blames back to the start of git
-> (minus whitespace from the RST translation and a typo fix):
->   * there are changelog comments for March 1994 through to Linux 2.5.74
->   * struct tty_ldisc is two pointers nowadays, so naturally no magic
->   * GDA_MAGIC is defined but unused, and it's been this way
->     since start-of-git
->   * M3_CARD_MAGIC isn't defined, because
->     commit d56b9b9c464a10ab1ee51a4c6190a2b57b8ef7a6 ("[PATCH] The
->     scheduled removal of some OSS drivers")
->     removed the entire driver in 2006
->   * CS_CARD_MAGIC likewise since
->     commit b5d425c97f7d4e92151167b01ca038e7853c6b37 ("more scheduled OSS
->     driver removal") in 2007
->   * KMALLOC_MAGIC and VMALLOC_MAGIC were removed in
->     commit e38e0cfa48ac38f4fe24453d2523852467c95b21 ("[ALSA] Remove
->     kmalloc wrappers"), six months after start of git
->   * SLAB_C_MAGIC has never even appeared in git
->     (removed in in 2.4.0-test3pre6)
->
+Fix spelling mistakes, "mesages" should be spelled "messages".
 
-Hi,
+Signed-off-by: Rong Tao <rtoax@foxmail.com>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/process/submitting-patches.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The patch description can be improved, see below.
-
-Nit: Use abbreviated hash when referring to commits (`git show -s
---pretty=format:"%h (\"%s\")`). You may need to set `core.abbrev=12`
-in your `~/.gitconfig`.
-
-> At a glance, the only ones still in use are in code mostly untouched
-> since git (TTY, SLIP, SCSI (drivers/scsi/{arm/queue.c,ncr53c8xx.c}),
-> &c., but not PPP or PTY (neither exist now)).
->
-
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index be49d8f2601b..7dc94555417d 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -715,8 +715,8 @@ references.
  
-"... are in drivers which are mostly untouched..."
-
-Also, really PPP and PTY have been burninated? Since what commit?
-
-> A rough estimate of magic numbers in the kernel may be obtained via
->   # git grep define | grep '_MAGIC\b' |
->     grep -ve IOC  -e ^tools/ -e '_IO[(WR]' -e _SUPER | wc -l
->   780
-> there is, of course, a few other meanings of magic here,
-> but a random sampling of SR_EEPROM_MAGIC, L2TP_TUNNEL_MAGIC,
-> and MD_SB_MAGIC showed they are all used like magic-number.rst describes
-> and are not in it
-> 
-
-"A rough estimate ... is obtained by:"
-
-"Note that the word 'magic' may have different meaning from magic
-number context.
-There are also magic numbers which aren't listed here, like ..."
-
-> By all accounts, it seems magic-number.rst is a low-value historical
-> relic at best and misleading cruft at worst
-> 
-
-"Therefore, magic-number.rst is a low-value historial relic at best and
-misleading cruft at worst, so remove the documentation."
-
-Thanks.
-
+ .. _backtraces:
+ 
+-Backtraces in commit mesages
+-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++Backtraces in commit messages
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ Backtraces help document the call chain leading to a problem. However,
+ not all backtraces are helpful. For example, early boot call chains are
 -- 
-An old man doll... just what I always wanted! - Clara
+2.31.1
+
