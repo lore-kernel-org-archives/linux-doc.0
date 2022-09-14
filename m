@@ -2,63 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0537CECAAD3
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 17:28:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBF6BC6FA82
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Sep 2022 17:30:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229682AbiINR2D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Sep 2022 13:28:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51234 "EHLO
+        id S229647AbiINRax (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Sep 2022 13:30:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbiINR2B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 13:28:01 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 638817647E;
-        Wed, 14 Sep 2022 10:27:57 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id u28so8472751qku.2;
-        Wed, 14 Sep 2022 10:27:57 -0700 (PDT)
+        with ESMTP id S229609AbiINRaw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 13:30:52 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CB8680365;
+        Wed, 14 Sep 2022 10:30:51 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id c6so12278061qvn.6;
+        Wed, 14 Sep 2022 10:30:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=QyRGzlkoFcQG3CIMtJPpDZn+hUgACTBPPomMcutX19k=;
-        b=Pn4nqjxVEX/40MaS2pCNxckO6W0GVqjplLgc4YUpDc+NUzQMdvYp+h9a2SUbKePdNf
-         y8kZjtKbeOf8fVif7+dfDenYS/1jVYV5uoFoAs/cY4uIPSj19owpvWNd7wx/0m0l7rws
-         oecBLvmQr6nar/9/rUQmFR9ltOIqaaW68CcY5Kgo8ysxDTvO6RFaQqmmpD1CQ5gzcJXf
-         OFxlH1/pZ06zBltHk8fY4h1CK4yGsoQUovRnAPOdclXozylg4qtr0bgrQJa/egKMEPOb
-         B6ZmZiy3RVdEFGRF2KkrY1qTREOETvJsBmdX8yhjBlcH4gn8S8Vz2XX1XviQtC12zn6h
-         pu3A==
+        bh=0L27G4iP/cuKuBXoxBJrd9C7v+AkXXve2e5WgZmnPFM=;
+        b=OwNpFg7qm3P6LQcskO6h973FuZ5ZH5pqPhL9rSvFWvFDrm4IqvH2rasrZoz63gaIVM
+         QBxwZeFlhTErfLCFnU/hBTKbTzaucoDPNVe+ec0H2jDaK8Ebhzi4iLc4B30cdh5SIP+J
+         U/u8Q+X/XTfAqwup7cUdIYBZy2FMkUqtyZkZx1xbRc2bYhX/D4AOCAU6cAR2wn7cwBTv
+         b/PDf4eVJsqSWzv4DCt6F0Fc7zS9N2yOjUi4GsS5Wj91RFeCQIxdy5ahy+ncakDr8iB6
+         Fxan9Mw9UOkoWGjPBTPYJun8O3wwAS+yMUT6j8hC6rwUjtVB9XEcsUqg/IOrwP18C5+W
+         aNJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=QyRGzlkoFcQG3CIMtJPpDZn+hUgACTBPPomMcutX19k=;
-        b=U5cvOve9nEyOkJ34gs/g/WjV4svgLRuWkMZ0KDu5Z32ClAimD30nqsQU6KRV+HRpBm
-         m3BxwmCkHY7Ls8YwPmZ9QtDdCwTopnV8vTfEmtntoSVN8qPQZ6IsJfUkNB5LZR9tHb7l
-         Bp+4YCjfLmhHNyUTnjOX19QAakubdieTSelgdsGet0QAJQv2KnyuNiNn8zJMWvYWDo+U
-         xHxchI6Ggy0QJcS2TMxrQ0AAAsOV1tRJh+MMp/kfdtlvW0sMpyUJMmWbNbHc1RIrV6Bl
-         ha70dqoCrB5vRsY/ulqODfPOw0yBOaEl7/8xzj8G2556yC1afgVI8hmZzq4XCDtSZdXP
-         FEcA==
-X-Gm-Message-State: ACgBeo27X7u847Z1/ZYhP+84LLRfTXRk+AFtqxFEAGkuWycOmysbCR1W
-        oGECaRHyM17zWUmN+qZQXyE=
-X-Google-Smtp-Source: AA6agR5pvM1OqTJhrtgIA3p55nJJ77rDjYUI3TvVtLJ4yP/4XiCqo9RIOd8UUqhIagFXgfBGt0vKFQ==
-X-Received: by 2002:a05:620a:24d6:b0:6cd:f96a:35b with SMTP id m22-20020a05620a24d600b006cdf96a035bmr15502737qkn.471.1663176476372;
-        Wed, 14 Sep 2022 10:27:56 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id d1-20020ac85341000000b0035ba48c032asm1838553qto.25.2022.09.14.10.27.07
+        bh=0L27G4iP/cuKuBXoxBJrd9C7v+AkXXve2e5WgZmnPFM=;
+        b=zB37yqYVwGp49Nxmoo0/lZHTwnyD0owHONmfIu0qSNIdzeGhAew/qCNUolvLPNkAiF
+         fKQ9VZKbAZqT8qvD5bz/gWa6CmoiAqcJQfcyKiYoCUaEAwy1mfkHvHyiAs8IE5RmCjHG
+         b3uOkOQaUA15yL4LkDkp59Yj3mt2Jb91DnkLssaZuIQX2bm+0Lm9SC1joLYTSCt1qpez
+         a+pdyfB/AQ2GD+CDNOT2ihDa6X2MdpTxElWGpcLcqtrwHUaC5VXxtac5EdYhz5QWcbpD
+         UJtnII5DkMMQf9rnKTM+66oHxswwFGfRO66grUV06EwFELsCsDY4K/tdICWCaV+NXzOK
+         jTlA==
+X-Gm-Message-State: ACgBeo3rOrzdHGSIV7e/dENJHKEPAsHQdu6znGZk5YJPib1jviwaxdNU
+        UdwOkwZ4lGRQkhHu5/Ksyyg=
+X-Google-Smtp-Source: AA6agR4NanY+oRAKCwumuYS4qynQNlgRdXUQ9CoMAaXbiNck4dr+MBmcWBG+TscWXqo8NNLfJw1SfA==
+X-Received: by 2002:a05:6214:2aaa:b0:4ac:acbd:7ef8 with SMTP id js10-20020a0562142aaa00b004acacbd7ef8mr16025208qvb.126.1663176650653;
+        Wed, 14 Sep 2022 10:30:50 -0700 (PDT)
+Received: from [10.69.40.226] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id x8-20020ac85388000000b0035bafecff78sm1838006qtp.74.2022.09.14.10.30.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Sep 2022 10:27:55 -0700 (PDT)
-Message-ID: <c4d40567-6ac6-d822-7098-a5ad1ae567ec@gmail.com>
-Date:   Wed, 14 Sep 2022 10:26:48 -0700
+        Wed, 14 Sep 2022 10:30:50 -0700 (PDT)
+Message-ID: <4d715585-413d-a506-1bc0-1f12a0aec716@gmail.com>
+Date:   Wed, 14 Sep 2022 10:30:45 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
 Subject: Re: [PATCH 02/21] mm/hugetlb: correct max_huge_pages accounting on
  demote
 Content-Language: en-US
-To:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Doug Berger <opendmb@gmail.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>,
@@ -74,6 +73,7 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Neeraj Upadhyay <quic_neeraju@quicinc.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
         David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
         Oscar Salvador <osalvador@suse.de>,
         Hari Bathini <hbathini@linux.ibm.com>,
@@ -85,7 +85,7 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         linux-mm@kvack.org, iommu@lists.linux.dev
 References: <20220913195508.3511038-1-opendmb@gmail.com>
  <20220913195508.3511038-3-opendmb@gmail.com> <YyIN+bpKdCb3JuuY@monkey>
-From:   Florian Fainelli <f.fainelli@gmail.com>
+From:   Doug Berger <opendmb@gmail.com>
 In-Reply-To: <YyIN+bpKdCb3JuuY@monkey>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
@@ -93,7 +93,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/14/22 10:23, Mike Kravetz wrote:
+On 9/14/2022 10:23 AM, Mike Kravetz wrote:
 > On 09/13/22 12:54, Doug Berger wrote:
 >> When demoting a hugepage to a smaller order, the number of pages
 >> added to the target hstate will be the size of the large page
@@ -124,8 +124,5 @@ On 9/14/22 10:23, Mike Kravetz wrote:
 > 
 > https://lore.kernel.org/linux-mm/20220823030209.57434-2-linmiaohe@huawei.com/
 > 
-
-Could we slap the Fixes tag when this Miaohe's patch series gets 
-accepted since the offending commit is in v5.16 and beyond. Thanks!
--- 
-Florian
+Excellent! Thanks for the pointer and sorry for the noise.
+-Doug
