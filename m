@@ -2,222 +2,328 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD305ECAAA1
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 06:16:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26130C6FA8A
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 06:42:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbiIOGQj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Sep 2022 02:16:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45080 "EHLO
+        id S229697AbiIOGm0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Sep 2022 02:42:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229625AbiIOGQh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 02:16:37 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C6DB923D1
-        for <linux-doc@vger.kernel.org>; Wed, 14 Sep 2022 23:16:33 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.53])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MSn1C4K7kz14QX2;
-        Thu, 15 Sep 2022 14:12:31 +0800 (CST)
-Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 15 Sep 2022 14:16:30 +0800
-Received: from huawei.com (10.175.113.32) by dggpemm100009.china.huawei.com
- (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 15 Sep
- 2022 14:16:29 +0800
-From:   Liu Shixin <liushixin2@huawei.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>
-CC:     <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        Liu Shixin <liushixin2@huawei.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: [PATCH 1/2] riscv: Enable HAVE_ARCH_HUGE_VMAP for 64BIT
-Date:   Thu, 15 Sep 2022 14:50:26 +0800
-Message-ID: <20220915065027.3501044-2-liushixin2@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220915065027.3501044-1-liushixin2@huawei.com>
-References: <20220915065027.3501044-1-liushixin2@huawei.com>
+        with ESMTP id S229554AbiIOGmZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 02:42:25 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29DB9DFDF;
+        Wed, 14 Sep 2022 23:42:24 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id z21so25501929edi.1;
+        Wed, 14 Sep 2022 23:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=MkcJu/Np8QuY/ucOxBZPuFE0LnT6gseutxCz5TndTPg=;
+        b=j3eTBGf11Nt5+jlK0GEsZ2oZLsD9oA8jFoxO/kjHYBeK/HQGxlXX4qcF/+4p9oBCUf
+         T1AP3Y6UCoGVMYKSuFMllXKzY7BeIexsgm3ewn1j1N2011ArAfLCCzNtl+dK2fINPhIh
+         TDKNMkVNKlvWCA/LpcKTziiYSSkzLyIyrrCgFjLDbV0Gk3JEQLhdPXDZJ6+ziQGFIyEK
+         c2UQi2duVSIj9iRAhH/AJQ29zyuzofbUwi81QwaZkNXFmuS0Fvyh7LDURHvJWxN6M+Z2
+         kMIWlQVJq/Qe7sHPCAzQI0sz6rmLsSTBFPQXM6e7V8VLWYEDAOcV2CKIhTfy7KdQ9cN5
+         zvJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=MkcJu/Np8QuY/ucOxBZPuFE0LnT6gseutxCz5TndTPg=;
+        b=72NDNtEj2LUpZNYqZ3KRN7XPkHciir2P6McGvOPbTe4F93FjQcY2XCTVGrRs9BG2rD
+         AdN7hC161XDa7zHTwZTwhslaPfgPSWZkHSZHZKcD9U67RRfPNh5i2xKKXFFNwocJ+bhy
+         agfMg81vMrbjr4Rvn6VDBaGEK/RiDH1EiTFbQ5PJGVHA8vcKJtjioQZudGw3gBg8KmlK
+         ZDUgBhTmIHipxpPY3ggmlDyB89PDi6z4BJfKRnRYsH60vkGNvcLs9W/CxQpEf8NOB3tZ
+         54QolfPnrO5nsAmmGnbwmE4lMX6QagsT0t1VsDIMCKc+KhJwLn85hgMX0yLfPA1ftO6e
+         d+oA==
+X-Gm-Message-State: ACgBeo0OpJ6nYJZz/Yf3+n96Jv876a/IrOiVPk9KRPbvyZf2AdOQSDNu
+        XlWCc7sba09hi7EGrtAyEmJCpZoAc2dBGtTm57g=
+X-Google-Smtp-Source: AA6agR6wPP3msraWOxsivyd5ENGviV/IVE9dV3jxTgCEx3eOfvGhuGKM0U4MD3Qme1H9p+QOQwm2LQK9Q3eEVT2wk2A=
+X-Received: by 2002:aa7:dcd2:0:b0:44e:69f3:edd1 with SMTP id
+ w18-20020aa7dcd2000000b0044e69f3edd1mr33523512edu.244.1663224142586; Wed, 14
+ Sep 2022 23:42:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.32]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm100009.china.huawei.com (7.185.36.113)
-X-CFilter-Loop: Reflected
+References: <20220822082120.8347-1-yangyicong@huawei.com> <20220822082120.8347-5-yangyicong@huawei.com>
+ <1e8642d5-0e2d-5747-d0d2-5aa0817ea4af@arm.com> <CAGsJ_4xD4m-szM1Cm4N5ZRCODGC0fbW+BLBhy8g6+eK=aHPQNw@mail.gmail.com>
+ <1125554b-c183-23c4-5516-95b918a761cc@arm.com>
+In-Reply-To: <1125554b-c183-23c4-5516-95b918a761cc@arm.com>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Thu, 15 Sep 2022 18:42:11 +1200
+Message-ID: <CAGsJ_4zkRv7RYCB2SC0uydMSQWfwXs3-nkjxMoR7wgn2nt43gA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] arm64: support batched/deferred tlb shootdown
+ during page reclamation
+To:     Anshuman Khandual <anshuman.khandual@arm.com>
+Cc:     Yicong Yang <yangyicong@huawei.com>, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        x86@kernel.org, catalin.marinas@arm.com, will@kernel.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net, peterz@infradead.org,
+        arnd@arndb.de, linux-kernel@vger.kernel.org,
+        darren@os.amperecomputing.com, yangyicong@hisilicon.com,
+        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
+        guojian@oppo.com, realmz6@gmail.com, linux-mips@vger.kernel.org,
+        openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        wangkefeng.wang@huawei.com, xhao@linux.alibaba.com,
+        prime.zeng@hisilicon.com, Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This sets the HAVE_ARCH_HUGE_VMAP option, and defines the required
-page table functions. With this feature, ioremap area will be mapped with
-huge page granularity according to its actual size. This feature can be
-disabled by kernel parameter "nohugeiomap".
+On Thu, Sep 15, 2022 at 6:07 PM Anshuman Khandual
+<anshuman.khandual@arm.com> wrote:
+>
+>
+>
+> On 9/9/22 11:05, Barry Song wrote:
+> > On Fri, Sep 9, 2022 at 5:24 PM Anshuman Khandual
+> > <anshuman.khandual@arm.com> wrote:
+> >>
+> >>
+> >>
+> >> On 8/22/22 13:51, Yicong Yang wrote:
+> >>> From: Barry Song <v-songbaohua@oppo.com>
+> >>>
+> >>> on x86, batched and deferred tlb shootdown has lead to 90%
+> >>> performance increase on tlb shootdown. on arm64, HW can do
+> >>> tlb shootdown without software IPI. But sync tlbi is still
+> >>> quite expensive.
+> >>>
+> >>> Even running a simplest program which requires swapout can
+> >>> prove this is true,
+> >>>  #include <sys/types.h>
+> >>>  #include <unistd.h>
+> >>>  #include <sys/mman.h>
+> >>>  #include <string.h>
+> >>>
+> >>>  int main()
+> >>>  {
+> >>>  #define SIZE (1 * 1024 * 1024)
+> >>>          volatile unsigned char *p = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
+> >>>                                           MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+> >>>
+> >>>          memset(p, 0x88, SIZE);
+> >>>
+> >>>          for (int k = 0; k < 10000; k++) {
+> >>>                  /* swap in */
+> >>>                  for (int i = 0; i < SIZE; i += 4096) {
+> >>>                          (void)p[i];
+> >>>                  }
+> >>>
+> >>>                  /* swap out */
+> >>>                  madvise(p, SIZE, MADV_PAGEOUT);
+> >>>          }
+> >>>  }
+> >>>
+> >>> Perf result on snapdragon 888 with 8 cores by using zRAM
+> >>> as the swap block device.
+> >>>
+> >>>  ~ # perf record taskset -c 4 ./a.out
+> >>>  [ perf record: Woken up 10 times to write data ]
+> >>>  [ perf record: Captured and wrote 2.297 MB perf.data (60084 samples) ]
+> >>>  ~ # perf report
+> >>>  # To display the perf.data header info, please use --header/--header-only options.
+> >>>  # To display the perf.data header info, please use --header/--header-only options.
+> >>>  #
+> >>>  #
+> >>>  # Total Lost Samples: 0
+> >>>  #
+> >>>  # Samples: 60K of event 'cycles'
+> >>>  # Event count (approx.): 35706225414
+> >>>  #
+> >>>  # Overhead  Command  Shared Object      Symbol
+> >>>  # ........  .......  .................  .............................................................................
+> >>>  #
+> >>>     21.07%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irq
+> >>>      8.23%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irqrestore
+> >>>      6.67%  a.out    [kernel.kallsyms]  [k] filemap_map_pages
+> >>>      6.16%  a.out    [kernel.kallsyms]  [k] __zram_bvec_write
+> >>>      5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
+> >>>      3.71%  a.out    [kernel.kallsyms]  [k] _raw_spin_lock
+> >>>      3.49%  a.out    [kernel.kallsyms]  [k] memset64
+> >>>      1.63%  a.out    [kernel.kallsyms]  [k] clear_page
+> >>>      1.42%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock
+> >>>      1.26%  a.out    [kernel.kallsyms]  [k] mod_zone_state.llvm.8525150236079521930
+> >>>      1.23%  a.out    [kernel.kallsyms]  [k] xas_load
+> >>>      1.15%  a.out    [kernel.kallsyms]  [k] zram_slot_lock
+> >>>
+> >>> ptep_clear_flush() takes 5.36% CPU in the micro-benchmark
+> >>> swapping in/out a page mapped by only one process. If the
+> >>> page is mapped by multiple processes, typically, like more
+> >>> than 100 on a phone, the overhead would be much higher as
+> >>> we have to run tlb flush 100 times for one single page.
+> >>> Plus, tlb flush overhead will increase with the number
+> >>> of CPU cores due to the bad scalability of tlb shootdown
+> >>> in HW, so those ARM64 servers should expect much higher
+> >>> overhead.
+> >>>
+> >>> Further perf annonate shows 95% cpu time of ptep_clear_flush
+> >>> is actually used by the final dsb() to wait for the completion
+> >>> of tlb flush. This provides us a very good chance to leverage
+> >>> the existing batched tlb in kernel. The minimum modification
+> >>> is that we only send async tlbi in the first stage and we send
+> >>> dsb while we have to sync in the second stage.
+> >>>
+> >>> With the above simplest micro benchmark, collapsed time to
+> >>> finish the program decreases around 5%.
+> >>>
+> >>> Typical collapsed time w/o patch:
+> >>>  ~ # time taskset -c 4 ./a.out
+> >>>  0.21user 14.34system 0:14.69elapsed
+> >>> w/ patch:
+> >>>  ~ # time taskset -c 4 ./a.out
+> >>>  0.22user 13.45system 0:13.80elapsed
+> >>>
+> >>> Also, Yicong Yang added the following observation.
+> >>>       Tested with benchmark in the commit on Kunpeng920 arm64 server,
+> >>>       observed an improvement around 12.5% with command
+> >>>       `time ./swap_bench`.
+> >>>               w/o             w/
+> >>>       real    0m13.460s       0m11.771s
+> >>>       user    0m0.248s        0m0.279s
+> >>>       sys     0m12.039s       0m11.458s
+> >>>
+> >>>       Originally it's noticed a 16.99% overhead of ptep_clear_flush()
+> >>>       which has been eliminated by this patch:
+> >>>
+> >>>       [root@localhost yang]# perf record -- ./swap_bench && perf report
+> >>>       [...]
+> >>>       16.99%  swap_bench  [kernel.kallsyms]  [k] ptep_clear_flush
+> >>>
+> >>> Cc: Jonathan Corbet <corbet@lwn.net>
+> >>> Cc: Nadav Amit <namit@vmware.com>
+> >>> Cc: Mel Gorman <mgorman@suse.de>
+> >>> Tested-by: Yicong Yang <yangyicong@hisilicon.com>
+> >>> Tested-by: Xin Hao <xhao@linux.alibaba.com>
+> >>> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> >>> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+> >>> ---
+> >>>  .../features/vm/TLB/arch-support.txt          |  2 +-
+> >>>  arch/arm64/Kconfig                            |  1 +
+> >>>  arch/arm64/include/asm/tlbbatch.h             | 12 ++++++++
+> >>>  arch/arm64/include/asm/tlbflush.h             | 28 +++++++++++++++++--
+> >>>  4 files changed, 40 insertions(+), 3 deletions(-)
+> >>>  create mode 100644 arch/arm64/include/asm/tlbbatch.h
+> >>>
+> >>> diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
+> >>> index 1c009312b9c1..2caf815d7c6c 100644
+> >>> --- a/Documentation/features/vm/TLB/arch-support.txt
+> >>> +++ b/Documentation/features/vm/TLB/arch-support.txt
+> >>> @@ -9,7 +9,7 @@
+> >>>      |       alpha: | TODO |
+> >>>      |         arc: | TODO |
+> >>>      |         arm: | TODO |
+> >>> -    |       arm64: | TODO |
+> >>> +    |       arm64: |  ok  |
+> >>>      |        csky: | TODO |
+> >>>      |     hexagon: | TODO |
+> >>>      |        ia64: | TODO |
+> >>> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> >>> index 571cc234d0b3..09d45cd6d665 100644
+> >>> --- a/arch/arm64/Kconfig
+> >>> +++ b/arch/arm64/Kconfig
+> >>> @@ -93,6 +93,7 @@ config ARM64
+> >>>       select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
+> >>>       select ARCH_SUPPORTS_NUMA_BALANCING
+> >>>       select ARCH_SUPPORTS_PAGE_TABLE_CHECK
+> >>> +     select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
+> >>>       select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
+> >>>       select ARCH_WANT_DEFAULT_BPF_JIT
+> >>>       select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT
+> >>> diff --git a/arch/arm64/include/asm/tlbbatch.h b/arch/arm64/include/asm/tlbbatch.h
+> >>> new file mode 100644
+> >>> index 000000000000..fedb0b87b8db
+> >>> --- /dev/null
+> >>> +++ b/arch/arm64/include/asm/tlbbatch.h
+> >>> @@ -0,0 +1,12 @@
+> >>> +/* SPDX-License-Identifier: GPL-2.0 */
+> >>> +#ifndef _ARCH_ARM64_TLBBATCH_H
+> >>> +#define _ARCH_ARM64_TLBBATCH_H
+> >>> +
+> >>> +struct arch_tlbflush_unmap_batch {
+> >>> +     /*
+> >>> +      * For arm64, HW can do tlb shootdown, so we don't
+> >>> +      * need to record cpumask for sending IPI
+> >>> +      */
+> >>> +};
+> >>> +
+> >>> +#endif /* _ARCH_ARM64_TLBBATCH_H */
+> >>> diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
+> >>> index 412a3b9a3c25..23cbc987321a 100644
+> >>> --- a/arch/arm64/include/asm/tlbflush.h
+> >>> +++ b/arch/arm64/include/asm/tlbflush.h
+> >>> @@ -254,17 +254,24 @@ static inline void flush_tlb_mm(struct mm_struct *mm)
+> >>>       dsb(ish);
+> >>>  }
+> >>>
+> >>> -static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
+> >>> +
+> >>> +static inline void __flush_tlb_page_nosync(struct mm_struct *mm,
+> >>>                                        unsigned long uaddr)
+> >>>  {
+> >>>       unsigned long addr;
+> >>>
+> >>>       dsb(ishst);
+> >>> -     addr = __TLBI_VADDR(uaddr, ASID(vma->vm_mm));
+> >>> +     addr = __TLBI_VADDR(uaddr, ASID(mm));
+> >>>       __tlbi(vale1is, addr);
+> >>>       __tlbi_user(vale1is, addr);
+> >>>  }
+> >>>
+> >>> +static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
+> >>> +                                      unsigned long uaddr)
+> >>> +{
+> >>> +     return __flush_tlb_page_nosync(vma->vm_mm, uaddr);
+> >>> +}
+> >>> +
+> >>>  static inline void flush_tlb_page(struct vm_area_struct *vma,
+> >>>                                 unsigned long uaddr)
+> >>>  {
+> >>> @@ -272,6 +279,23 @@ static inline void flush_tlb_page(struct vm_area_struct *vma,
+> >>>       dsb(ish);
+> >>>  }
+> >>>
+> >>> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
+> >>> +{
+> >>> +     return true;
+> >>> +}
+> >>
+> >> Always defer and batch up TLB flush, unconditionally ?
+> >
+> > My understanding is we actually don't need tlbbatch for a machine with one
+> > or two cores as the tlb flush is not expensive. even for a system with four
+> > cortex-a55 cores, i didn't see obvious cost. it was less than 1%.
+> > when we have 8 cores, we see the obvious cost of tlb flush. for a server with
+> > 100 crores, the cost is incredibly huge.
+>
+> Although dsb(ish) is deferred via arch_tlbbatch_flush(), there is still
+> one dsb(isht) instruction left in __flush_tlb_page_nosync(). Is not that
+> expensive as well, while queuing up individual TLB flushes ?
 
-Signed-off-by: Liu Shixin <liushixin2@huawei.com>
----
- .../features/vm/huge-vmap/arch-support.txt    |  2 +-
- arch/riscv/Kconfig                            |  1 +
- arch/riscv/include/asm/vmalloc.h              | 18 ++++
- arch/riscv/mm/Makefile                        |  1 +
- arch/riscv/mm/pgtable.c                       | 83 +++++++++++++++++++
- 5 files changed, 104 insertions(+), 1 deletion(-)
- create mode 100644 arch/riscv/mm/pgtable.c
+This one is much much cheaper as it is not waiting for the
+completion of tlbi. waiting for the completion of tlbi is a big
+deal in arm64, thus, similar optimization can be seen here
 
-diff --git a/Documentation/features/vm/huge-vmap/arch-support.txt b/Documentation/features/vm/huge-vmap/arch-support.txt
-index 13b4940e0c3a..7274a4b15bcc 100644
---- a/Documentation/features/vm/huge-vmap/arch-support.txt
-+++ b/Documentation/features/vm/huge-vmap/arch-support.txt
-@@ -21,7 +21,7 @@
-     |    openrisc: | TODO |
-     |      parisc: | TODO |
-     |     powerpc: |  ok  |
--    |       riscv: | TODO |
-+    |       riscv: |  ok  |
-     |        s390: | TODO |
-     |          sh: | TODO |
-     |       sparc: | TODO |
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index d557cc50295d..336b925570c0 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -70,6 +70,7 @@ config RISCV
- 	select GENERIC_TIME_VSYSCALL if MMU && 64BIT
- 	select GENERIC_VDSO_TIME_NS if HAVE_GENERIC_VDSO
- 	select HAVE_ARCH_AUDITSYSCALL
-+	select HAVE_ARCH_HUGE_VMAP if MMU && 64BIT && !XIP_KERNEL
- 	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL
- 	select HAVE_ARCH_JUMP_LABEL_RELATIVE if !XIP_KERNEL
- 	select HAVE_ARCH_KASAN if MMU && 64BIT
-diff --git a/arch/riscv/include/asm/vmalloc.h b/arch/riscv/include/asm/vmalloc.h
-index ff9abc00d139..48da5371f1e9 100644
---- a/arch/riscv/include/asm/vmalloc.h
-+++ b/arch/riscv/include/asm/vmalloc.h
-@@ -1,4 +1,22 @@
- #ifndef _ASM_RISCV_VMALLOC_H
- #define _ASM_RISCV_VMALLOC_H
- 
-+#ifdef CONFIG_HAVE_ARCH_HUGE_VMAP
-+
-+#define IOREMAP_MAX_ORDER (PUD_SHIFT)
-+
-+#define arch_vmap_pud_supported arch_vmap_pud_supported
-+static inline bool arch_vmap_pud_supported(pgprot_t prot)
-+{
-+	return true;
-+}
-+
-+#define arch_vmap_pmd_supported arch_vmap_pmd_supported
-+static inline bool arch_vmap_pmd_supported(pgprot_t prot)
-+{
-+	return true;
-+}
-+
-+#endif
-+
- #endif /* _ASM_RISCV_VMALLOC_H */
-diff --git a/arch/riscv/mm/Makefile b/arch/riscv/mm/Makefile
-index d76aabf4b94d..ce7f121ad2dc 100644
---- a/arch/riscv/mm/Makefile
-+++ b/arch/riscv/mm/Makefile
-@@ -13,6 +13,7 @@ obj-y += extable.o
- obj-$(CONFIG_MMU) += fault.o pageattr.o
- obj-y += cacheflush.o
- obj-y += context.o
-+obj-y += pgtable.o
- 
- ifeq ($(CONFIG_MMU),y)
- obj-$(CONFIG_SMP) += tlbflush.o
-diff --git a/arch/riscv/mm/pgtable.c b/arch/riscv/mm/pgtable.c
-new file mode 100644
-index 000000000000..6645ead1a7c1
---- /dev/null
-+++ b/arch/riscv/mm/pgtable.c
-@@ -0,0 +1,83 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <asm/pgalloc.h>
-+#include <linux/gfp.h>
-+#include <linux/kernel.h>
-+#include <linux/pgtable.h>
-+
-+#ifdef CONFIG_HAVE_ARCH_HUGE_VMAP
-+int p4d_set_huge(p4d_t *p4d, phys_addr_t addr, pgprot_t prot)
-+{
-+	return 0;
-+}
-+
-+void p4d_clear_huge(p4d_t *p4d)
-+{
-+}
-+
-+int pud_set_huge(pud_t *pud, phys_addr_t phys, pgprot_t prot)
-+{
-+	pud_t new_pud = pfn_pud(__phys_to_pfn(phys), prot);
-+
-+	set_pud(pud, new_pud);
-+	return 1;
-+}
-+
-+int pud_clear_huge(pud_t *pud)
-+{
-+	if (!pud_leaf(READ_ONCE(*pud)))
-+		return 0;
-+	pud_clear(pud);
-+	return 1;
-+}
-+
-+int pud_free_pmd_page(pud_t *pud, unsigned long addr)
-+{
-+	pmd_t *pmd = pud_pgtable(*pud);
-+	int i;
-+
-+	pud_clear(pud);
-+
-+	flush_tlb_kernel_range(addr, addr + PUD_SIZE);
-+
-+	for (i = 0; i < PTRS_PER_PMD; i++) {
-+		if (!pmd_none(pmd[i])) {
-+			pte_t *pte = (pte_t *)pmd_page_vaddr(pmd[i]);
-+
-+			pte_free_kernel(NULL, pte);
-+		}
-+	}
-+
-+	pmd_free(NULL, pmd);
-+
-+	return 1;
-+}
-+
-+int pmd_set_huge(pmd_t *pmd, phys_addr_t phys, pgprot_t prot)
-+{
-+	pmd_t new_pmd = pfn_pmd(__phys_to_pfn(phys), prot);
-+
-+	set_pmd(pmd, new_pmd);
-+	return 1;
-+}
-+
-+int pmd_clear_huge(pmd_t *pmd)
-+{
-+	if (!pmd_leaf(READ_ONCE(*pmd)))
-+		return 0;
-+	pmd_clear(pmd);
-+	return 1;
-+}
-+
-+int pmd_free_pte_page(pmd_t *pmd, unsigned long addr)
-+{
-+	pte_t *pte = (pte_t *)pmd_page_vaddr(*pmd);
-+
-+	pmd_clear(pmd);
-+
-+	flush_tlb_kernel_range(addr, addr + PMD_SIZE);
-+	pte_free_kernel(NULL, pte);
-+	return 1;
-+}
-+
-+#endif /* CONFIG_HAVE_ARCH_HUGE_VMAP */
--- 
-2.25.1
+3403e56b41c1("arm64: mm: Don't wait for completion of TLB invalidation
+when page aging").
 
+
+>
+> The very idea behind TLB deferral is the opportunity it (might) provide
+> to accumulate address ranges and cpu masks so that individual TLB flush
+> can be replaced with a more cost effective range based TLB flush. Hence
+> I guess unless address range or cpumask based cost effective TLB flush
+> is available, deferral does not improve the unmap performance as much.
+
+
+After sending tlbi, if we wait for the completion of tlbi, we have to get Ack
+from all cpus in the system, tlbi is not scalable. The point here is that we
+avoid waiting for each individual TLBi. Alternatively, they are batched. If
+you read the benchmark in the commit log, you can find the great decline
+in the cost to swap out a page.
+
+Thanks
+Barry
