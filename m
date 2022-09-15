@@ -2,141 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE04FECAAA1
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 15:21:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43BBAC6FA89
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 15:23:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231239AbiIOPVs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Sep 2022 11:21:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44776 "EHLO
+        id S229459AbiIOPXv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Sep 2022 11:23:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231181AbiIOPVK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 11:21:10 -0400
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A1A9F8F5;
-        Thu, 15 Sep 2022 08:16:49 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id A87445802F7;
-        Thu, 15 Sep 2022 11:16:46 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Thu, 15 Sep 2022 11:16:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1663255006; x=1663258606; bh=iyfcgLT49L
-        WSRff5Kts3C38d2554ZyUqP/64q59S5es=; b=W4TR4q+Dd0PqyZ/30nmu36Fr7i
-        TSksvzLjmVIjZ+CSNgQdnADbEKSPqivzfMvKx6Bod07yFXxuIJVr2oz7v02ed130
-        8znPURVzseoVO3T/aUfoRUcV6M6x8VXtVG84PvMfX25FxRDv94nw9VdLu1U3tJLp
-        UGKIA0TIidS5y1QxDVjpTP2bzsMnz/ElL+N9QT0dWnvrZUoYw8u0aceIjKvuXVUF
-        ZTzJeCuiv+BbF0j9uhkK0UcZeVRoCUP89Wl6xcqbfXq6sCcZNpvFoKUjEMkcUxW0
-        ebz+nEmLHkObmKDmG/cfXcdPA8Q8z5h/TFBEnwDQ3zUWyFDS4lgHqOC1YGOA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1663255006; x=1663258606; bh=iyfcgLT49LWSRff5Kts3C38d2554
-        ZyUqP/64q59S5es=; b=DXOEfnQrCvp+dWZ0aS1+kLO+aXvqp4oHRwqiR0UJJsbu
-        WRyMDwQHtJrMvHpObfPrH6rWG2+mawyUyQiLS2PVYGZgB9VM8f51Zj89U96w6jFt
-        IfK23yDXab185lAGsbSZc8yeAohlhNk9jhUqLkQNPeOVRnOBSjmQJtYspfiPsEmr
-        DdDte64EyF8l98PljFHTKn/NcgM863PfO0VACcWybNQ4Vl+wHJfV1Qen8XOPQC6X
-        XDZDKX5Qs2f4wg6QH1YUAZdvhYDkB6TSOjH23pYoevULaLPr9waNuSA9O34Vd2pR
-        CEQH3L0uN6fNpir/k7x1r5vRKq3zjPRxwZAqsgaFJA==
-X-ME-Sender: <xms:3UEjY09qQYbq2GKMLRt7VQKM6kdkLzSrgY6lrcp4POVR68WGZRX5wQ>
-    <xme:3UEjY8tZJ7rpdhsu7Q_zlAhEABhEzexTXM5ZH7d0sYEredBiBBGiI8Agk7ySdreys
-    yc-0KMmIwFKk7G9wOk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedukedgkeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffgeffuddtvdehffefleethfejjeegvdelffejieegueetledvtedtudelgfdu
-    gfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:3UEjY6D18WUTQxnHEpy3Lbd6vBH6lKBQJANfA0EBFD21gaJlfPHvSQ>
-    <xmx:3UEjY0fBFj8fliwQPArf20JI9bQ-a9c9_AdV7SyiA4TbN-eiwNCKcA>
-    <xmx:3UEjY5PZDUo3q16ogJEDGuALwDQnK7E5lTllcoBOA2e6hp8xgx431A>
-    <xmx:3kEjY6sqpQ6DgGZds5TQPZPEA4soUV9HpsQXsLzBUFoqyZUIqc8gAA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 1CE8CB60086; Thu, 15 Sep 2022 11:16:45 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
-Mime-Version: 1.0
-Message-Id: <a8ee97f5-b92f-47a6-9b50-197974738ff7@www.fastmail.com>
-In-Reply-To: <PH0PR12MB5481192DB7B5C6E19683D514DC499@PH0PR12MB5481.namprd12.prod.outlook.com>
-References: <20220915050106.650813-1-parav@nvidia.com>
- <96457b14-e196-4f29-be9a-7fa25ac805d9@www.fastmail.com>
- <PH0PR12MB5481192DB7B5C6E19683D514DC499@PH0PR12MB5481.namprd12.prod.outlook.com>
-Date:   Thu, 15 Sep 2022 17:16:24 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Parav Pandit" <parav@nvidia.com>,
-        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
-        "Will Deacon" <will@kernel.org>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
-        "Nicholas Piggin" <npiggin@gmail.com>,
-        "dhowells@redhat.com" <dhowells@redhat.com>,
-        "j.alglave@ucl.ac.uk" <j.alglave@ucl.ac.uk>,
-        "luc.maranget@inria.fr" <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        "akiyks@gmail.com" <akiyks@gmail.com>,
-        "Dan Lustig" <dlustig@nvidia.com>,
-        "joel@joelfernandes.org" <joel@joelfernandes.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] locking/memory-barriers.txt: Improve documentation for writel()
- usage
-Content-Type: text/plain
+        with ESMTP id S230468AbiIOPXW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 11:23:22 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE6B81E3F2;
+        Thu, 15 Sep 2022 08:22:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663255360; x=1694791360;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=2mRF8w8hL1HBMWIlqV+SFW8gKa3TqIUcCL/Ln8KWTlo=;
+  b=WLKsNPDzK7AXBjvTZpnJuif9g9Fg9x3PHxdrOWnoLElToOhTkXdWqk8y
+   KrLTqd2tBQ4ttorZyhNNvLuqfHiSV8eIvyqq9MDDvZlgLke4UunkHpXlk
+   XDn41iaJ3WyWI6Z8mCn9iGijUFOPrVRBApCasdtiYM0rX5RWmk3dEArmb
+   MwkfW7At6qq+lyqxFiy5OyfSTx80fZwNbUNH4zXt6TftWwF+gLy4pCsVc
+   FjXvEVj2JuRVpT1y4Dz9VZhM2I4yIH7C96JLDI3MDdSzzEkw7Ki3LhxJ3
+   4jTuGmq0EziPYJvEblIvUD8f6hzU8evUFWQwuXUpBrL8e2aay1403tOeK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="285785144"
+X-IronPort-AV: E=Sophos;i="5.93,318,1654585200"; 
+   d="scan'208";a="285785144"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2022 08:22:38 -0700
+X-IronPort-AV: E=Sophos;i="5.93,318,1654585200"; 
+   d="scan'208";a="679560931"
+Received: from vasanth1-mobl.amr.corp.intel.com (HELO [10.255.231.111]) ([10.255.231.111])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2022 08:22:37 -0700
+Message-ID: <208a847e-92eb-0590-b498-e34d59b1cf34@linux.intel.com>
+Date:   Thu, 15 Sep 2022 08:22:37 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PATCH v13 1/3] x86/tdx: Add TDX Guest attestation interface
+ driver
+Content-Language: en-US
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220909192708.1113126-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20220909192708.1113126-2-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <YyMH37G2CTuVCbLM@kroah.com>
+From:   Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <YyMH37G2CTuVCbLM@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 15, 2022, at 4:18 PM, Parav Pandit wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->> Sent: Thursday, September 15, 2022 8:38 AM
->> 
->> On Thu, Sep 15, 2022, at 7:01 AM, Parav Pandit wrote:
->> > The cited commit [1] describes that when using writel(), explcit wmb()
->> > is not needed. However, it should have said that dma_wmb() is not
->> > needed.
->> 
->> Are you sure? As I understand it, the dma_wmb() only serializes a set of
->> memory accesses, but does not serialized against an MMIO access, which
->> depending on the CPU architecture may require a different type of barrier.
->> 
->> E.g. on arm, writel() uses __iowmb(), which like wmb() is defined as "dsb(x);
->> arm_heavy_mb();", while dma_wmb() is a "dmb(oshst)".
->
-> You are right, on arm heavy barrier dsb() is needed, while on arm64, 
-> dmb(oshst) is sufficient.
->
-> So more accurate documentation is to say that 
-> 'when using writel() a prior IO barrier is not needed ...'
->
-> How about that?
+Hi,
 
-That's probably fine, not sure if it's worth changing.
+On 9/15/22 4:09 AM, Greg Kroah-Hartman wrote:
+> On Fri, Sep 09, 2022 at 12:27:06PM -0700, Kuppuswamy Sathyanarayanan wrote:
+>> +static int __init tdx_guest_init(void)
+>> +{
+>> +	int ret;
+>> +
+>> +	if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
+>> +		return -EIO;
+>> +
+>> +	ret = misc_register(&tdx_misc_dev);
+>> +	if (ret) {
+>> +		pr_err("misc device registration failed\n");
+>> +		return ret;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +device_initcall(tdx_guest_init)
+> 
+> As mentioned elsewhere, make this a normal module_init() format and only
+> load the module if the hardware is present.  Don't just always be
 
-> It started with my cleanup efforts to two drivers [1] and [2] that had 
-> difficulty in using writel() on 32-bit system, and it ended up open 
-> coding writel() as wmb() + mlx5_write64().
->
-> I am cleaning up the repetitive pattern of, 
-> wmb();
-> mlx5_write64()
->
-> Before I fix drivers, I thought to improve the documentation that I can 
-> follow. :)
+This feature needs to be enabled by default for all valid TDX guests.
 
-Right, that is definitely a good idea.
+If TDX support is enabled and the guest is a valid TDX guest, the
+"X86 FEATURE TDX GUEST" feature flag will be set. So looking for
+"if(!cpu feature enabled(X86 FEATURE TDX GUEST))" will ensure that
+the interface is only created in a valid TDX guest.
 
-I see that there is more going on with that function, at least
-the loop in post_send_nop() probably just wants to use
-__iowrite64_copy(), but that also has no barrier in it, while
-changing mlx5_write64() to use iowrite64be() or similar would
-of course add excessive barriers inside of the loop.
+Even if we make it into a separate driver and use module init(), we'll
+have to use the same "if(!cpu feature enabled(X86 FEATURE TDX GUEST))"
+check to create and load the device. This approach was used in earlier
+versions of this driver. We later changed it to initcall because it
+appeared to be a roundabout approach.
 
-       Arnd
+Let me know if you still suggest to use module_init() model.
+
+Following is the sample implementation with module_init() and this code
+will be compiled with CONFIG_INTEL_TDX_GUEST=y.
+
++static struct platform_driver tdx_attest_driver = {
++	.probe		= tdx_attest_probe,
++	.remove		= tdx_attest_remove,
++	.driver		= {
++		.name	= DRIVER_NAME,
++	},
++};
++
++static int __init tdx_attest_init(void)
++{
++	int ret;
++
++	/* Make sure we are in a valid TDX platform */
++	if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
++		return -EIO;
++
++	ret = platform_driver_register(&tdx_attest_driver);
++	if (ret) {
++		pr_err("failed to register driver, err=%d\n", ret);
++		return ret;
++	}
++
++	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
++	if (IS_ERR(pdev)) {
++		ret = PTR_ERR(pdev);
++		pr_err("failed to allocate device, err=%d\n", ret);
++		platform_driver_unregister(&tdx_attest_driver);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void __exit tdx_attest_exit(void)
++{
++	platform_device_unregister(pdev);
++	platform_driver_unregister(&tdx_attest_driver);
++}
++
++module_init(tdx_attest_init);
++module_exit(tdx_attest_exit);
+
+> built/loaded, that's not ok.
+
+
+
+> 
+> thanks,
+> 
+> greg k-h
+
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
