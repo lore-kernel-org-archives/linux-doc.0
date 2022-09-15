@@ -2,99 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AAE5ECAAA1
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 12:38:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98B7DECAAD3
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 13:15:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbiIOMiY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Sep 2022 08:38:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55876 "EHLO
+        id S229815AbiIONP5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Sep 2022 09:15:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229612AbiIOMiX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 08:38:23 -0400
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26327E81B;
-        Thu, 15 Sep 2022 05:38:20 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 2E87B580A3A;
-        Thu, 15 Sep 2022 08:38:18 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Thu, 15 Sep 2022 08:38:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1663245498; x=1663249098; bh=GOQu+p1fdW
-        E5Hvw9mjSrByv4wqlK2YtuqQuIjWmQzbM=; b=iK5aPwGsVp4LFDgOT6v1vOcJXd
-        v2t8uJQju2i8NkEtKrotkc5at3C7vkyEkNUUxz9B82lUwXv7Lr21VT80tZNk6Xg0
-        VRUNf0hJD0plBl1FZ5GNRUtEqIwjfFhYH6YW1ePT91pqrlvLL+KGgT89uA9hxfn6
-        y/08rc0ujo57MH7A18qUiPKHanmiiEVUS+YH4kezjtMvb680f/DDVV+g4ZUyIKQF
-        G+8ELEfkrpp9D9oh46zsXllUYrXMC5N+wCJXgEzOA0k0mxgByf2UcCBISBR/xyim
-        HR87b5q8kR/eRvt6H06SHTiTX6L0WAboqXD460/6N0lIuurIpQ/aXNFpRHng==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1663245498; x=1663249098; bh=GOQu+p1fdWE5Hvw9mjSrByv4wqlK
-        2YtuqQuIjWmQzbM=; b=XaP2SxmoImcj1BJ6jg8g6fEGc6KHKH0i4XzjSPePeibz
-        wZwJE85YQWmeqJeFt25ucs8DVPCn4dDPa1/zkBlnTXJLa+V6CNhcZRSOI0TEpwhA
-        GzICWSWNfPluom+CS1n8uoEzUs6YOUouK+x+auOp4GJxMAqFCx3F+gIxfFrAao7l
-        bI6qVKdN1+VIslJf/FV3mxocas2V9/2nfiWksIwRSfJWzitRtJrTLOKoB7FGL+EX
-        LTdB6SDyV8+n5Qiv70X6A8yHCmG+6Ks7xS44poXj+NO1UANnO7uID7gtTHKu9nMj
-        MYZ4+v+XA8xhFq/2uDZMtGVBPM5pgY7lPEQhofEKkQ==
-X-ME-Sender: <xms:uRwjYxy4457sp1J45hJz17mdgyC-fHkQu3jpgXB8k3GPtPBi2CSV8g>
-    <xme:uRwjYxSoJIjfQx0nTyxs4Dx5qqAUuU5SZqiJUKACxcFlBExpeOjL0uW3XHBMSFWC6
-    QlwuabPhy0cW1anTu4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedukedgheehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffgeffuddtvdehffefleethfejjeegvdelffejieegueetledvtedtudelgfdu
-    gfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:uRwjY7XgbSh2gejrUG0URQLMnh5ZCUjw7_jlihEsNOxC_rdc_UmOjg>
-    <xmx:uRwjYzi3alBKqtNJCZvnBe4DCeR0e54CtjSK3-tNYoEucuiBBLJ1yw>
-    <xmx:uRwjYzAX8NFJFzjqDJ6_8NkuIZ2gBRjnK9nUrTeL3waIGlxcMFuKJw>
-    <xmx:uhwjY1QFxdp0oD-rFYiv-ob2eFLeh0JULhb9m9QbhYG0ddWSVtPZqQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 9768BB60089; Thu, 15 Sep 2022 08:38:17 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
-Mime-Version: 1.0
-Message-Id: <96457b14-e196-4f29-be9a-7fa25ac805d9@www.fastmail.com>
-In-Reply-To: <20220915050106.650813-1-parav@nvidia.com>
-References: <20220915050106.650813-1-parav@nvidia.com>
-Date:   Thu, 15 Sep 2022 14:37:57 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Parav Pandit" <parav@nvidia.com>, stern@rowland.harvard.edu,
-        parri.andrea@gmail.com, "Will Deacon" <will@kernel.org>,
-        "Peter Zijlstra" <peterz@infradead.org>, boqun.feng@gmail.com,
-        "Nicholas Piggin" <npiggin@gmail.com>, dhowells@redhat.com,
-        j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
-        "Paul E. McKenney" <paulmck@kernel.org>, akiyks@gmail.com,
-        dlustig@nvidia.com, joel@joelfernandes.org,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] locking/memory-barriers.txt: Improve documentation for writel()
- usage
-Content-Type: text/plain
+        with ESMTP id S229682AbiIONP4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 09:15:56 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5C4854C82;
+        Thu, 15 Sep 2022 06:15:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 97BC3B8200F;
+        Thu, 15 Sep 2022 13:15:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC51CC433D6;
+        Thu, 15 Sep 2022 13:15:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1663247752;
+        bh=D99hEJwO1zg9kh/dzIgxfTC45cTYP3GG0gTzAtC2HGA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DUBaRJeOmWDtl4Zx9/FCXZUMTevnyyFhK4aENnzetz0tBhjQizwVpnJLtbemjYix9
+         1OL70DsII4MdyZ2K/fPnSvYNqdfC3lUo7tJ/0Xd1aYLH1Bz9Es0BkoRESDQf9dmAR6
+         DrM31CjAuMHphyWumv12TgXKWX/LCGbMpeKmQcws=
+Date:   Thu, 15 Sep 2022 15:16:18 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net
+Subject: Re: [PATCH v3] Documentation: remove magic number doc
+Message-ID: <YyMlovoskUcHLEb7@kroah.com>
+References: <731a3b01-1ade-6003-eb21-6b0a2c919750@gmail.com>
+ <20220914233254.zcuaw23nl2wgs7f3@tarta.nabijaczleweli.xyz>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220914233254.zcuaw23nl2wgs7f3@tarta.nabijaczleweli.xyz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 15, 2022, at 7:01 AM, Parav Pandit wrote:
-> The cited commit [1] describes that when using writel(), explcit wmb()
-> is not needed. However, it should have said that dma_wmb() is not
-> needed.
+On Thu, Sep 15, 2022 at 01:32:54AM +0200, наб wrote:
+> The entire file blames back to the start of git
+> (minus whitespace from the RST translation and a typo fix):
+>   * there are changelog comments for March 1994 through to Linux 2.5.74
+>   * struct tty_ldisc is two pointers nowadays, so naturally no magic
+>   * GDA_MAGIC is defined but unused, and it's been this way
+>     since start-of-git
+>   * M3_CARD_MAGIC isn't defined, because
+>     commit d56b9b9c464a ("[PATCH] The scheduled removal of some OSS
+>     drivers") removed the entire driver in 2006
+>   * CS_CARD_MAGIC likewise since
+>     commit b5d425c97f7d ("more scheduled OSS driver removal") in 2007
+>   * KMALLOC_MAGIC and VMALLOC_MAGIC were removed in
+>     commit e38e0cfa48ac ("[ALSA] Remove kmalloc wrappers"),
+>     six months after start of git
+>   * SLAB_C_MAGIC has never even appeared in git
+>     (removed in 2.4.0-test3pre6)
+> 
+> At a glance, the only ones still in use are in drivers which are mostly
+> untouched since git (TTY, SLIP,
+> SCSI (drivers/scsi/{arm/queue.c,ncr53c8xx.c}), &c.).
+> 
+> A rough estimate of magic numbers in the kernel is obtained by:
+>   # git grep define | grep '_MAGIC\b' |
+>     grep -ve IOC  -e ^tools/ -e '_IO[(WR]' -e _SUPER | wc -l
+>   780
+> Note that the word 'magic' may have different meaning from magic
+> number context.
+> There are also magic numbers which aren't listed here, like
+> SR_EEPROM_MAGIC, L2TP_TUNNEL_MAGIC, and MD_SB_MAGIC.
+> 
+> Therefore, magic-number.rst is a low-value historial relic at best and
+> misleading cruft at worst, so remove the documentation.
+> 
+> Signed-off-by: Ahelenia Ziemiańska <nabijaczleweli@nabijaczleweli.xyz>
 
-Are you sure? As I understand it, the dma_wmb() only serializes
-a set of memory accesses, but does not serialized against an MMIO
-access, which depending on the CPU architecture may require a
-different type of barrier.
+Please only remove the ones that are not used anymore.
 
-E.g. on arm, writel() uses __iowmb(), which like wmb() is defined
-as "dsb(x); arm_heavy_mb();", while dma_wmb() is a "dmb(oshst)".
+Then work on actually removing the remaining ones (hint, the tty layer
+should not need this and I'll gladly take patches), and only after they
+are all gone, can you remove the whole file.
 
-     Arnd
+thanks,
+
+greg k-h
