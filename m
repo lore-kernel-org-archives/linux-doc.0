@@ -2,87 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEFDEC6FA89
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 15:02:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE04FECAAA1
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 15:21:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229921AbiIOPC0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Sep 2022 11:02:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42326 "EHLO
+        id S231239AbiIOPVs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Sep 2022 11:21:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229869AbiIOPCZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 11:02:25 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 881A585FDF;
-        Thu, 15 Sep 2022 08:02:24 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id o70-20020a17090a0a4c00b00202f898fa86so8289039pjo.2;
-        Thu, 15 Sep 2022 08:02:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=l6l3XBbZgS3tr14q2oBrffwPSTwXxpqq1iQ9lWl+dBc=;
-        b=HsAHqRgqy1RewASaznRyALx4trsvMmIIut1OHoWxdjUTvIjUYJEphcLh/mZoI22u6O
-         ugUlFIw3Uraa5Ol8BoPF6YZa2GOjCUf3tn0g8A1hlpkxzTU7uLDYR73FsNtMZpLu6d1C
-         86wC35pO/fO1Zw3XHh3ptIebXp7RtmwZlMsguUMFiVMyYv0IuQ9+hsdJ6gXxiQxDJDR0
-         IpfOthZRvxXQTaItQfHsCxY6Hw29xsA/6HDEF6PiixNlodI1epsiDPZ9f2Xhy/iK/jX6
-         PjrSvlmAQj/LopCXD8ta13AXPiex9DgE7EuBiLxwf4TFNI8NetqKG0/DPc7oeAO2gWjw
-         /APQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=l6l3XBbZgS3tr14q2oBrffwPSTwXxpqq1iQ9lWl+dBc=;
-        b=OAWlzYRKjBTIZZXljtC4X7g9XDMu4uTlUNMsVhDG9FzlvDqMCBRkFqSCsamjWKmSaY
-         vx3OqmUyC5apNemQSU93OgCjfhjn/29NWdsE6EyY/mO86OOuG1DXXkgABU54VKC68acr
-         EwSgha/MDhv6nMFWx2GsYc8NePhhM0A83/VJX/ybYoCQN5u0BQ+myEgcd6hFBJnknCYu
-         AMcqye81It4Z2Terp1XvjL7xSA78FlerooOZtyAzoQC862273PW7nSnHOO88PZIYUS3T
-         5AS/JeOb9p/cPU1csLDypOrwD0wVXDYXIN7012bCbv47/0sXBrObgVzMjJE+gHzibeVU
-         VbjQ==
-X-Gm-Message-State: ACrzQf2ajW8ZX7TGSbQTgEwyAGuoHXjdi3HqbUebeuSk/w7GZ1X7HDQB
-        OjvXMcz+s5mjK7LEfrz+Wc0=
-X-Google-Smtp-Source: AMsMyM4JAZklEkyspJhHNnognMb3Z3VWzT0BsDSrF0OY6mGEK8ZoObRi+EInlWw6HdfE9T0X+E03mw==
-X-Received: by 2002:a17:902:f08c:b0:178:25ab:aaef with SMTP id p12-20020a170902f08c00b0017825abaaefmr192171pla.57.1663254143838;
-        Thu, 15 Sep 2022 08:02:23 -0700 (PDT)
-Received: from localhost.localdomain ([182.160.5.243])
-        by smtp.gmail.com with ESMTPSA id np13-20020a17090b4c4d00b001df264610c4sm4254849pjb.0.2022.09.15.08.02.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Sep 2022 08:02:23 -0700 (PDT)
-From:   Tuo Cao <91tuocao@gmail.com>
-To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        corbet@lwn.net
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        91tuocao@gmail.com
-Subject: [PATCH v3] docs: x86: replace do_IRQ int the entry_64.rst with common_interrupt()
-Date:   Thu, 15 Sep 2022 23:01:55 +0800
-Message-Id: <20220915150155.9908-1-91tuocao@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S231181AbiIOPVK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 11:21:10 -0400
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A1A9F8F5;
+        Thu, 15 Sep 2022 08:16:49 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id A87445802F7;
+        Thu, 15 Sep 2022 11:16:46 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Thu, 15 Sep 2022 11:16:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm1; t=1663255006; x=1663258606; bh=iyfcgLT49L
+        WSRff5Kts3C38d2554ZyUqP/64q59S5es=; b=W4TR4q+Dd0PqyZ/30nmu36Fr7i
+        TSksvzLjmVIjZ+CSNgQdnADbEKSPqivzfMvKx6Bod07yFXxuIJVr2oz7v02ed130
+        8znPURVzseoVO3T/aUfoRUcV6M6x8VXtVG84PvMfX25FxRDv94nw9VdLu1U3tJLp
+        UGKIA0TIidS5y1QxDVjpTP2bzsMnz/ElL+N9QT0dWnvrZUoYw8u0aceIjKvuXVUF
+        ZTzJeCuiv+BbF0j9uhkK0UcZeVRoCUP89Wl6xcqbfXq6sCcZNpvFoKUjEMkcUxW0
+        ebz+nEmLHkObmKDmG/cfXcdPA8Q8z5h/TFBEnwDQ3zUWyFDS4lgHqOC1YGOA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; t=1663255006; x=1663258606; bh=iyfcgLT49LWSRff5Kts3C38d2554
+        ZyUqP/64q59S5es=; b=DXOEfnQrCvp+dWZ0aS1+kLO+aXvqp4oHRwqiR0UJJsbu
+        WRyMDwQHtJrMvHpObfPrH6rWG2+mawyUyQiLS2PVYGZgB9VM8f51Zj89U96w6jFt
+        IfK23yDXab185lAGsbSZc8yeAohlhNk9jhUqLkQNPeOVRnOBSjmQJtYspfiPsEmr
+        DdDte64EyF8l98PljFHTKn/NcgM863PfO0VACcWybNQ4Vl+wHJfV1Qen8XOPQC6X
+        XDZDKX5Qs2f4wg6QH1YUAZdvhYDkB6TSOjH23pYoevULaLPr9waNuSA9O34Vd2pR
+        CEQH3L0uN6fNpir/k7x1r5vRKq3zjPRxwZAqsgaFJA==
+X-ME-Sender: <xms:3UEjY09qQYbq2GKMLRt7VQKM6kdkLzSrgY6lrcp4POVR68WGZRX5wQ>
+    <xme:3UEjY8tZJ7rpdhsu7Q_zlAhEABhEzexTXM5ZH7d0sYEredBiBBGiI8Agk7ySdreys
+    yc-0KMmIwFKk7G9wOk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedukedgkeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffgeffuddtvdehffefleethfejjeegvdelffejieegueetledvtedtudelgfdu
+    gfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:3UEjY6D18WUTQxnHEpy3Lbd6vBH6lKBQJANfA0EBFD21gaJlfPHvSQ>
+    <xmx:3UEjY0fBFj8fliwQPArf20JI9bQ-a9c9_AdV7SyiA4TbN-eiwNCKcA>
+    <xmx:3UEjY5PZDUo3q16ogJEDGuALwDQnK7E5lTllcoBOA2e6hp8xgx431A>
+    <xmx:3kEjY6sqpQ6DgGZds5TQPZPEA4soUV9HpsQXsLzBUFoqyZUIqc8gAA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 1CE8CB60086; Thu, 15 Sep 2022 11:16:45 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
+Mime-Version: 1.0
+Message-Id: <a8ee97f5-b92f-47a6-9b50-197974738ff7@www.fastmail.com>
+In-Reply-To: <PH0PR12MB5481192DB7B5C6E19683D514DC499@PH0PR12MB5481.namprd12.prod.outlook.com>
+References: <20220915050106.650813-1-parav@nvidia.com>
+ <96457b14-e196-4f29-be9a-7fa25ac805d9@www.fastmail.com>
+ <PH0PR12MB5481192DB7B5C6E19683D514DC499@PH0PR12MB5481.namprd12.prod.outlook.com>
+Date:   Thu, 15 Sep 2022 17:16:24 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Parav Pandit" <parav@nvidia.com>,
+        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
+        "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
+        "Will Deacon" <will@kernel.org>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
+        "Nicholas Piggin" <npiggin@gmail.com>,
+        "dhowells@redhat.com" <dhowells@redhat.com>,
+        "j.alglave@ucl.ac.uk" <j.alglave@ucl.ac.uk>,
+        "luc.maranget@inria.fr" <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "akiyks@gmail.com" <akiyks@gmail.com>,
+        "Dan Lustig" <dlustig@nvidia.com>,
+        "joel@joelfernandes.org" <joel@joelfernandes.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] locking/memory-barriers.txt: Improve documentation for writel()
+ usage
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-do_IRQ has been replaced by common_interrupt in commit
-fa5e5c409213 ("x86/entry: Use idtentry for interrupts").
+On Thu, Sep 15, 2022, at 4:18 PM, Parav Pandit wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> Sent: Thursday, September 15, 2022 8:38 AM
+>> 
+>> On Thu, Sep 15, 2022, at 7:01 AM, Parav Pandit wrote:
+>> > The cited commit [1] describes that when using writel(), explcit wmb()
+>> > is not needed. However, it should have said that dma_wmb() is not
+>> > needed.
+>> 
+>> Are you sure? As I understand it, the dma_wmb() only serializes a set of
+>> memory accesses, but does not serialized against an MMIO access, which
+>> depending on the CPU architecture may require a different type of barrier.
+>> 
+>> E.g. on arm, writel() uses __iowmb(), which like wmb() is defined as "dsb(x);
+>> arm_heavy_mb();", while dma_wmb() is a "dmb(oshst)".
+>
+> You are right, on arm heavy barrier dsb() is needed, while on arm64, 
+> dmb(oshst) is sufficient.
+>
+> So more accurate documentation is to say that 
+> 'when using writel() a prior IO barrier is not needed ...'
+>
+> How about that?
 
-Signed-off-by: Tuo Cao <91tuocao@gmail.com>
----
- Documentation/x86/entry_64.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+That's probably fine, not sure if it's worth changing.
 
-diff --git a/Documentation/x86/entry_64.rst b/Documentation/x86/entry_64.rst
-index e433e08f7018..0afdce3c06f4 100644
---- a/Documentation/x86/entry_64.rst
-+++ b/Documentation/x86/entry_64.rst
-@@ -33,8 +33,8 @@ Some of these entries are:
-  - interrupt: An array of entries.  Every IDT vector that doesn't
-    explicitly point somewhere else gets set to the corresponding
-    value in interrupts.  These point to a whole array of
--   magically-generated functions that make their way to do_IRQ with
--   the interrupt number as a parameter.
-+   magically-generated functions that make their way to common_interrupt()
-+   with the interrupt number as a parameter.
- 
-  - APIC interrupts: Various special-purpose interrupts for things
-    like TLB shootdown.
--- 
-2.17.1
+> It started with my cleanup efforts to two drivers [1] and [2] that had 
+> difficulty in using writel() on 32-bit system, and it ended up open 
+> coding writel() as wmb() + mlx5_write64().
+>
+> I am cleaning up the repetitive pattern of, 
+> wmb();
+> mlx5_write64()
+>
+> Before I fix drivers, I thought to improve the documentation that I can 
+> follow. :)
 
+Right, that is definitely a good idea.
+
+I see that there is more going on with that function, at least
+the loop in post_send_nop() probably just wants to use
+__iowrite64_copy(), but that also has no barrier in it, while
+changing mlx5_write64() to use iowrite64be() or similar would
+of course add excessive barriers inside of the loop.
+
+       Arnd
