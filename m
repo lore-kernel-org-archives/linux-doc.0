@@ -2,80 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77FA8C6FA86
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 17:35:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AA4DECAAA1
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 17:56:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229463AbiIORfF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Sep 2022 13:35:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52100 "EHLO
+        id S229838AbiIOR4l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Sep 2022 13:56:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229495AbiIORfE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 13:35:04 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67C1388DFF;
-        Thu, 15 Sep 2022 10:35:03 -0700 (PDT)
-Received: from localhost (unknown [89.101.24.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 94FCA77D;
-        Thu, 15 Sep 2022 17:35:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 94FCA77D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1663263303; bh=72y/ZPnddY0r3jRVs/65Nl+A1xWizCASCrfFCeh0Q3k=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=IL9xHi6pT+CKuPTO6EnS8ET5GM7XapMOihWjC8vE+k45A80qbbhkzaOZvWJDYotDm
-         SI+kuYUkDj3kq+TSIQPDxgLjS1Rsxz/F0uKpD9VWaxT/aHaoZYLPvzAmxPrkPCIeTj
-         pbEGacT/n46fMAQAh3vYvlJNEUHuw9075nU5t9lznZxSZbS08kT5YKBgTiFzkQmCcX
-         h5w5e15tuNpzYzPZ6USOlYkh2o1b+GBHe5iZQnvaVgN5PsteOWufnWN47m2bZOcM4e
-         QBioFAV1Wcd2kTkilyomQVgyCaOb0RqOpLFZtjZpPykJN02KWlifHKYuLb1A0jUL7l
-         gvf7Jbn5HdVnw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Tuo Cao <91tuocao@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        91tuocao@gmail.com
-Subject: Re: [PATCH v3] docs: x86: replace do_IRQ int the entry_64.rst with
- common_interrupt()
-In-Reply-To: <20220915150155.9908-1-91tuocao@gmail.com>
-References: <20220915150155.9908-1-91tuocao@gmail.com>
-Date:   Thu, 15 Sep 2022 11:34:56 -0600
-Message-ID: <87fsgsee2n.fsf@meer.lwn.net>
+        with ESMTP id S229940AbiIOR4k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 13:56:40 -0400
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C44D7538D
+        for <linux-doc@vger.kernel.org>; Thu, 15 Sep 2022 10:56:39 -0700 (PDT)
+Received: by mail-vs1-xe2d.google.com with SMTP id c3so20130588vsc.6
+        for <linux-doc@vger.kernel.org>; Thu, 15 Sep 2022 10:56:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=6R15UDYWCPlv8CkuUmhLYYnCsk3TgroblTtGcqD+OxI=;
+        b=hv19UOihN1HQFux+vxC38XY8F2OZ/wbKgvNlfGEXlGZS0UsbNwXyrjIXKpKkAufId2
+         w9j17Ofze2/94oPXDcBS5R/IrGvAUBhb172PMBmCUs28VGVdgEoxtvLA9Jxv4cmXJsYu
+         LVuMTOrWqLcVUQbWJES0pKlEO4B1QK24xqTuo4XmrKUz81MWiISd1IwI2MBhVysQvmHO
+         qY5XVzSrakxQ5lvg3OxJhNoSa4zFy0uBvr62rbfYg5OEROA1AziUU8PNGkqHFVSmbOVE
+         md5NCH8LcDTye5nFr9brK4Y1ZwRf6UyNFLiZLhCtoDTLq3UJSxT1YfPaVX46p6sKZhsz
+         xneA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=6R15UDYWCPlv8CkuUmhLYYnCsk3TgroblTtGcqD+OxI=;
+        b=j4vYvOTm8HvnEO6zsZRt02Klkoo07Js6MtSbJ1scBi/zYgqd+FshaWKH7c3UITUMA/
+         o0aCgLavulhZ7v8t2meAA8jZ5i6aH5hPVNRfcV1113FGXIZVl+MAr4MKAlCUr1+xRG20
+         4w5Lu66DF2I9dE4sOAlKJHbKglreyjLhzhn/CKLA8719EsU0l2wz+945XHOoYXS6c1HS
+         nXls5it5Aiym6+xzuOA9MR2wLbYq3HTeI0J1SUduVUOD2ZSRIHwIUMUre2kBmOKol5yP
+         wcWjvWlQudQJp/sNsKYltkA3FImMPWiDdumNXlvqdOlYuFyl26nF+YbTZpnl0NiF9APt
+         lMmg==
+X-Gm-Message-State: ACrzQf2WuHDRgv4O4fP3OjyY2xVg9kPuiDywv9+xIN0O5AZSt91fN/Yv
+        NvOVdkVpoh9BV9CaX3YFTbU5NkDbE4KlpHQPu7xIjw==
+X-Google-Smtp-Source: AMsMyM6ljPOdRxZyAfL+Hv948pFu9ioMk+dFDU/D3NwzG7Itx8/f/6hSSSORm2EOreZJeGJFGzUSB4vUEORHPkMDreM=
+X-Received: by 2002:a67:1d83:0:b0:398:928e:3b94 with SMTP id
+ d125-20020a671d83000000b00398928e3b94mr621843vsd.46.1663264598547; Thu, 15
+ Sep 2022 10:56:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20220815071332.627393-1-yuzhao@google.com> <20220911170814.f6a32b40e64397a61b1f8daf@linux-foundation.org>
+In-Reply-To: <20220911170814.f6a32b40e64397a61b1f8daf@linux-foundation.org>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Thu, 15 Sep 2022 11:56:02 -0600
+Message-ID: <CAOUHufZk-u0S+FyDEdxw1nehBKz_G_GG_3_LAzqyssx21Wd4Jw@mail.gmail.com>
+Subject: Re: [PATCH v14 00/14] Multi-Gen LRU Framework
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tuo Cao <91tuocao@gmail.com> writes:
-
-> do_IRQ has been replaced by common_interrupt in commit
-> fa5e5c409213 ("x86/entry: Use idtentry for interrupts").
+On Sun, Sep 11, 2022 at 6:08 PM Andrew Morton <akpm@linux-foundation.org> wrote:
 >
-> Signed-off-by: Tuo Cao <91tuocao@gmail.com>
-> ---
->  Documentation/x86/entry_64.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> I'd like to move mglru into the mm-stable branch late this week.
 >
-> diff --git a/Documentation/x86/entry_64.rst b/Documentation/x86/entry_64.rst
-> index e433e08f7018..0afdce3c06f4 100644
-> --- a/Documentation/x86/entry_64.rst
-> +++ b/Documentation/x86/entry_64.rst
-> @@ -33,8 +33,8 @@ Some of these entries are:
->   - interrupt: An array of entries.  Every IDT vector that doesn't
->     explicitly point somewhere else gets set to the corresponding
->     value in interrupts.  These point to a whole array of
-> -   magically-generated functions that make their way to do_IRQ with
-> -   the interrupt number as a parameter.
-> +   magically-generated functions that make their way to common_interrupt()
-> +   with the interrupt number as a parameter.
->  
->   - APIC interrupts: Various special-purpose interrupts for things
->     like TLB shootdown.
+> I'm not terribly happy about the level of review nor the carefulness of
+> the code commenting (these things are related) and I have a note here
+> that "mm: multi-gen LRU: admin guide" is due for an update and everyone
+> is at conference anyway.  But let's please try to push things along anyway.
 
-So why have you sent a "v3" the same day?  It doesn't look like anything
-has changed...?
-
-Thanks,
-
-jon
+Thanks for the heads-up. Will add as many comments as I can and wrap
+it up by the end of tomorrow.
