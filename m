@@ -2,116 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C36ECAAD3
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 00:30:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA656ECAAD3
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 01:40:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229436AbiIOAau (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Sep 2022 20:30:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35478 "EHLO
+        id S229701AbiIOBkw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Sep 2022 21:40:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbiIOAat (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 20:30:49 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E53D886FF7;
-        Wed, 14 Sep 2022 17:30:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663201848; x=1694737848;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=f3arqoM1mTN79PR584P6N+hqC5q/kwp/eTlHzWZFjgw=;
-  b=nu+7lIo2ischnxQEON7BpILh6o9oA8NALaem6kJUdoIX1d5qlu4NRQGV
-   BeDKghTR0Vq8gvIlnC0utiAlRWZ4yISYUdEZe7FXcSIeJioxRgl95R+KJ
-   Cxfxq0ASnI6Il9iRx8gu4LrReBADKTzDh41zK9UIvQkSIi9ZS1C0SzD2D
-   eD6RQBvbqCXV4OXhJ1c3pVFqnJoAUgVbuc4AOyGgEfJGgn2GAJSH85eO9
-   UMYgdFSRM05V4pKS70rf8VzyVrs2nekVFWapND0vzs20Kf2wuH/Ir+Dqo
-   ewIqUUEIHqZBJxJnsq6oso0UUQ9r/nisb+6iyX9+BvzUh+4adjrGNT1I4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="362536145"
-X-IronPort-AV: E=Sophos;i="5.93,316,1654585200"; 
-   d="scan'208";a="362536145"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 17:30:47 -0700
-X-IronPort-AV: E=Sophos;i="5.93,316,1654585200"; 
-   d="scan'208";a="759418141"
-Received: from mmcgoort-mobl.amr.corp.intel.com (HELO [10.209.54.54]) ([10.209.54.54])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 17:30:46 -0700
-Message-ID: <d5b54f8c-2e03-4ac8-8b8a-605c7f0f601b@linux.intel.com>
-Date:   Wed, 14 Sep 2022 17:30:45 -0700
+        with ESMTP id S229473AbiIOBkv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 21:40:51 -0400
+Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 972D32A25B;
+        Wed, 14 Sep 2022 18:40:48 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1663206046;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aHrMqKnOhvrceoKDNwr4kJF7nEDwLaJAxZRfEElDacM=;
+        b=NOK9QL6c//UcrFx6c0l7e3u6T3ikeR3S7RiyaScZazN8wsGha6NRbAbuzX4Cfw2v+zq51Y
+        7CWGErYlPAkwbIO4kuO4+cMqn8M24j/UIslfY4vEJndq6Dr5HZHgWQgt5QZbpKCgE0E2+f
+        vqonwUNyZXx1RB2YKrAjmb9GjSVqg5M=
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v13 1/3] x86/tdx: Add TDX Guest attestation interface
- driver
-Content-Language: en-US
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>
-Cc:     "H . Peter Anvin" <hpa@zytor.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220909192708.1113126-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220909192708.1113126-2-sathyanarayanan.kuppuswamy@linux.intel.com>
- <7c3cc265-869b-b2fc-43f2-d2cbd0bc142c@intel.com>
- <1182ef92-cae3-b7c1-8339-8e8bfa48f2e3@linux.intel.com>
- <d238f235-5623-d152-c0d3-2ef851f88473@intel.com>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <d238f235-5623-d152-c0d3-2ef851f88473@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 03/21] mm/hugetlb: correct demote page offset logic
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20220913195508.3511038-4-opendmb@gmail.com>
+Date:   Thu, 15 Sep 2022 09:40:34 +0800
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Hari Bathini <hbathini@linux.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        - <devicetree-spec@vger.kernel.org>,
+        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Linux MM <linux-mm@kvack.org>, iommu@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <1CA76834-D826-4799-A114-0E27A10D062F@linux.dev>
+References: <20220913195508.3511038-1-opendmb@gmail.com>
+ <20220913195508.3511038-4-opendmb@gmail.com>
+To:     Doug Berger <opendmb@gmail.com>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 9/14/22 9:12 AM, Dave Hansen wrote:
-> On 9/14/22 08:36, Sathyanarayanan Kuppuswamy wrote:
->> When we initially submitted the attestation patches, virt/coco folder
->> was not created. I initially kept this driver in platform/x86/, but
->> later moved to arch/x86/coco based on the review comments in v4. There
->> was a discussion about the need for a new config and the location of
->> the driver. The outcome of that discussion is, since this is not a
->> traditional driver, but a basic TDX feature, we don't need a special
->> config and the code can be maintained in the arch/x86/coco folder.
-> 
-> Could you please include the following in this set somewhere:
-> 
-> "The code to do the SEV analog of this TDX functionality is in
-> ___insert_path_here____.   This code is different from that because
-> ______reason______ so it is instead placed in ____other_path____."
-> 
-> ?
+> On Sep 14, 2022, at 03:54, Doug Berger <opendmb@gmail.com> wrote:
+>=20
+> With gigantic pages it may not be true that struct page structures
+> are contiguous across the entire gigantic page. The mem_map_offset
+> function is used here in place of direct pointer arithmetic to
+> correct for this.
+>=20
+> Fixes: 8531fc6f52f5 ("hugetlb: add hugetlb demote page support")
+> Signed-off-by: Doug Berger <opendmb@gmail.com>
 
-I have also included info about why we don't use a separate config
-option for it.
+With Matthew=E2=80=99s suggestion.
 
-The code for the SEV equivalent of this TDX attestation functionality
-can be found in drivers/virt/coco/sev-guest/. It is implemented as a
-platform module driver, and it can be enabled using the CONFIG_SEV_GUEST
-config option. However, in the case of TDX, it is implemented as a
-built-in driver in the arch/x86/coco/tdx/tdx.c because of the following
-reasons:
+Acked-by: Muchun Song <songmuchun@bytedance.com>
 
-1. Attestation is expected to be needed by all distributions that support
-   TDX. Therefore, using a separate configuration option is not necessary.
-   With TDX support, it can be enabled by default, and a built-in driver
-   model will work better in this use case.
-2. Since it is not a conventional device driver and the code is very simple,
-   creating an individual driver for it may be an overkill.
+Thanks.
 
--- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
