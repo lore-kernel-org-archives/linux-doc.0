@@ -2,243 +2,797 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8FB0C32771
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 18:57:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46CD6C32771
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 22:38:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229685AbiIOS50 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Sep 2022 14:57:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57694 "EHLO
+        id S229772AbiIOWim (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Sep 2022 18:38:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbiIOS5Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 14:57:25 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E2CF481CC;
-        Thu, 15 Sep 2022 11:57:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1663268244; x=1694804244;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=WNXGD5MA+W5e5WxsA9+TaCihzlPBzhme9JjwgdnlSfw=;
-  b=z8GLtyOys+Qw4o1O38ZWDuI/rVlxh3kWLmQNlFkeHANxfw6vmH7Rd+8u
-   WM5Sj0KH++6zfroMlHY/hKZKUCF9zKyk2IImjwrarPmzI9HgBmsnaHoMO
-   70Ad+RerVQfyzT1kmGpcw2ujHzHpv4WQ4gzgrSF/padjL1WSuj3NXvTJ/
-   s096b1ZD/MIof/Zwt7VsHpvd2eWxNAKiJA5h2of/T2zxoqE78T25hL0EJ
-   lZKUp68CRC8FdQ77OX18utX+b/0MOwGpwMwCrP6Xv3acsfGMhIE7T0bUO
-   kY8x5Q85D3o9jrnMSZBeyD032Zz5C42gS5HGmUbsYiFCP4R8gYiKDg8DF
-   g==;
-X-IronPort-AV: E=Sophos;i="5.93,318,1654585200"; 
-   d="scan'208";a="113898617"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 15 Sep 2022 11:57:23 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Thu, 15 Sep 2022 11:57:21 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
- Transport; Thu, 15 Sep 2022 11:57:21 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AdVWdokT0PPCzIKElMs0Tqn4BUo3rFSJqEvZh3dO9oAjSGoW9JiNlGQmMVtZJR1SzJ6b1sYT8+P1cLdpGWGWYj7TLhpbp9jjIjPTD2yliQskkD8jAUZjJawn9nlHe2Bp2PG3lo/0GF1S+6oDbUzaghfl38IliCveNAWJAWiJy2bq2im6P2q4kzGpv+uUwGE20jJypApYhwJL02hw3CvIeEgbE613CbpBKT1FDbbRiRJ/wmxak5wK12qzx251HVMM4r/4kMN4fZHXCbOE8BLyaj7uDNvr/L5W1Uf+IucMBRPCpMcX4JrzQ5JwHzILw/dls3iU9Up+HvLK79QqkVxTTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WNXGD5MA+W5e5WxsA9+TaCihzlPBzhme9JjwgdnlSfw=;
- b=Zvu4Rqy5QNk4N9xHPQqaJpfR4M20HpPWhXyM/JXCQpHqb8vUEx+caHU9UCGgf/DCSo4mlaRZKar4/uoIGfSn5otCYUTeM8q4zKXSG+BXNok1nhrKEgnwmrMF1oaF2ts7vL9Pt+STulNtwWvsfoJqpkFWIL9/JdraX32N7HznRimv2l0cLhi/oQOehQa0C67cvtOJSFuRjIC3T+oCW2w5+UMIY4KSCdh6BvtnpHZj6Em1YqCYc6VgduYw10F/vCXmvNJ642BfgRZ3+C73Ff3k2WPs19EE7mesPFH3lfEe93ReUJuC3KISjcm7CC/QXR8S2uvMPytVLrAAC1kscB/3qw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WNXGD5MA+W5e5WxsA9+TaCihzlPBzhme9JjwgdnlSfw=;
- b=ICi/e3mP1s8VhPLit87l/bXSDidwKAc7CH6+LK9XojeDxF027Xjw23flC9QydRA0c7Q3XGxG/q/2aCtUF5PnOKvpcSFdSNutAoKT8wyT2jJiZtNpBNbJqcoWwlOte6qh5uoBRVX7pnwoRUf5vQZpStbaJ5MsqI65TVq4VdwJhjU=
-Received: from CO1PR11MB5154.namprd11.prod.outlook.com (2603:10b6:303:99::15)
- by DM4PR11MB7183.namprd11.prod.outlook.com (2603:10b6:8:111::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.14; Thu, 15 Sep
- 2022 18:57:14 +0000
-Received: from CO1PR11MB5154.namprd11.prod.outlook.com
- ([fe80::545a:72f5:1940:e009]) by CO1PR11MB5154.namprd11.prod.outlook.com
- ([fe80::545a:72f5:1940:e009%3]) with mapi id 15.20.5632.015; Thu, 15 Sep 2022
- 18:57:14 +0000
-From:   <Conor.Dooley@microchip.com>
-To:     <xianting.tian@linux.alibaba.com>, <palmer@dabbelt.com>
-CC:     <paul.walmsley@sifive.com>, <aou@eecs.berkeley.edu>,
-        <anup@brainfault.org>, <heiko@sntech.de>, <guoren@kernel.org>,
-        <mick@ics.forth.gr>, <alexandre.ghiti@canonical.com>,
-        <bhe@redhat.com>, <vgoyal@redhat.com>, <dyoung@redhat.com>,
-        <corbet@lwn.net>, <kexec@lists.infradead.org>,
-        <linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <crash-utility@redhat.com>,
-        <heinrich.schuchardt@canonical.com>, <k-hagio-ab@nec.com>,
-        <hschauhan@nulltrace.org>, <yixun.lan@gmail.com>
-Subject: Re: [PATCH V6 0/6] RISC-V fixups to work with crash tool
-Thread-Topic: [PATCH V6 0/6] RISC-V fixups to work with crash tool
-Thread-Index: AQHYrVXcv96MB9H2nE2Pb9bFKutIJ62p4OmAgAC6RICANnQWAA==
-Date:   Thu, 15 Sep 2022 18:57:14 +0000
-Message-ID: <39fdc85e-b2d5-863c-4878-4b3380d76bc4@microchip.com>
-References: <mhng-f5fdaa37-e99a-4214-a297-ec81f0fed0c1@palmer-mbp2014>
- <f4f82b84-d224-ed8d-d54d-a55f2eddeb31@linux.alibaba.com>
-In-Reply-To: <f4f82b84-d224-ed8d-d54d-a55f2eddeb31@linux.alibaba.com>
-Accept-Language: en-IE, en-US
-Content-Language: en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CO1PR11MB5154:EE_|DM4PR11MB7183:EE_
-x-ms-office365-filtering-correlation-id: ae066f74-fc3f-4009-4003-08da974c1aa5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XW2reqaTNN2ZsL9WGHQeC0DfeAoqkE5vSyUcLmACy6FhgRpNrYNOF0HPuoYdiB7vjKIdoUWZ5LvJS1g349cr1y/qLg3fS4r6+rOLTYjXIInd78IrVUXNBPVqHZgrHqhDOVctWMZMoZr6FFzHfzHd8USQuFMzK/rkvoCmJDmQaqGG9kiXWzEh2adD0+MSXxWf8RodkpmqDvtA3ghw+QEflZUAKCGCM6NCLMjbmfqV9oP+0Cho3L3KVFl7vkUaIbBWO5mxq+2E3JSQoTt8/l6W2cEKTs7yjw4r088vEnlCIiykPydYhPCBtXYYDPM91rUgrCJkielCH/+YxZWMgHotNvAgGpAAVBHhll3NIBX59wc1DLWIA7cfAr+9wxKw0TlL3SOnCq49naIqaHL3KyfqskaLKm+ucGOfGmCec5P2kWAbsDbr5UcPATveekurBkNdfazhGJ6Tsgq7Dr6ugIj0/0wycv3czqXBWPAiXK0/xlG67utaR8VmpD58ZDp799mE5BGZd4UaO+5xd/3jhO0HGONCXOK2mpT4mWdi8HrT7bWHD0lDo+vTPYK35SYTEikJFznIguG0VOOSUoBptiNZw/0pZzuMjjLiMb2i8f1EJsVu1Mjd9ZW7QZPY6XsfgWxc28TJhlGKwHYBxHU0HqXtoptJNReLXlfXZgzf5nePFbeV48vaAEvlOhiSgedNM8+oQr1UKvRFJkDzyi41PBcGbA+vgYS0IDqOYfv08mes5H/Jb9ucfgG6wHBC1BJ+yEyxxXi7eeJFvAIOE7XGnyFa5pro/Eb2oHXBA86vrdWOxMznsxt2qGRygZySujVfC0KW5TSZZWbOsGV/6NtvZdZpmMeJcdcqWNK3TACBjU0QPM3bPG04xoBmqy3z4yo08Ke8PRbOCVuzWm5HWsdxZe8m7w==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5154.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(136003)(376002)(346002)(366004)(39860400002)(451199015)(31686004)(36756003)(7416002)(2906002)(54906003)(122000001)(38100700002)(8676002)(64756008)(316002)(110136005)(6486002)(66476007)(66446008)(66556008)(86362001)(76116006)(31696002)(8936002)(4326008)(5660300002)(66946007)(91956017)(83380400001)(186003)(478600001)(2616005)(26005)(38070700005)(6512007)(966005)(71200400001)(6506007)(41300700001)(53546011)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dW1GQ1k5Z05ySmROb1dZNmtHYys5NjRHR1RLc2tNOElDQklFdmlSV2kyQi91?=
- =?utf-8?B?QVozRnZEclF1OHJ5bkl2ZlYvdFJvNlc2QmFRYnAwd3VWYU83MzJLRGkwWTIr?=
- =?utf-8?B?YXByZTFzOUlQZUVIVjB3djVYWUg0cHRLaFB6MUR5N1dIU2YvU0VTT3dBS0xB?=
- =?utf-8?B?R0VieWthNFAybXRrdEI2ZSs4V3J0dDBwMXhoMzNHQUEvcEdWTHFobzJZM1lU?=
- =?utf-8?B?dDNtZ0lZaHMrWlZXWWFEcE1DWkNkQjV4VUZtZWxYaXFjZEFiNTY1UUhIK1hn?=
- =?utf-8?B?N0UvVXhiYll4L0ZGZXRoSTJ0c2FmQjFHc0N4akZpNWR2U3g0ZGw4MUFYc1JO?=
- =?utf-8?B?QVdkMHdBSHMvZ3FTN2xkOEh6NGxuR2RueWtlTFV6c3l2M2JPRDBWVExTdEhT?=
- =?utf-8?B?SEY4TzZzTldobFc3b1JTdjJCTndhTm5jM0ttbmQ2bFVOdXlZbnFKSnZNcUtp?=
- =?utf-8?B?OVIyUWMrZ1hMVmZRY0NOR3NibVJlOTd6aE9FQk9lcm5nTUw2UW45bzQ2bTZo?=
- =?utf-8?B?SjBEc1VuVGpBNGlVQXZlazFXM1NLT3Q2YXArNG5aenBVOVZIaTEvVkh0UWRX?=
- =?utf-8?B?UDZRU1N6Q25oZVh0bDkxZXRBT0x1aVJ0UFppMCtQTjRwZ00vZlE5UXdEdVhT?=
- =?utf-8?B?WVZhZ2hMc3kwNDZWanBVRW5keFpQYkdUTTZrU2cvMGlGcDRFTVNjbTExTFcw?=
- =?utf-8?B?NjFGRGQ0VU9FYlNrMSs0RE5VNmI5Y0E2Uk5CYTRiNG83K0NkZzk0SEYwTVZX?=
- =?utf-8?B?VEhubXFla2JFYzI0TitJK3dmWnVncmtpT3EzSHpQU2xncGFYMHV2NUZUT01r?=
- =?utf-8?B?M1V0OWNXV3RsRkI2VktxemhjTm5XUWdiQyttUGJ2WEptZ3ViN0dCMzc2MTU2?=
- =?utf-8?B?QTczMEE5enhLTkpDRU5HVUZMaERMYkQyUlhuRzIrUVpwUVJrWVpVcGh0L3pS?=
- =?utf-8?B?YUZKVmg4WnA0bUZaQ0dwWmE0akN3WFhDd1QwcEc2MnlWUzBiNWtNdUlnV0M1?=
- =?utf-8?B?M05ScU5SZHJtRVJmNXE3aFozQisxbllpcGFRV051bDRBOSttNHhPRGFFdHpY?=
- =?utf-8?B?Yyt0M01MZ3FTVmdPMXRpdDZ4Zm9hNkdGdWZGSGZ1amorMkhobDlwNGNtN0Qx?=
- =?utf-8?B?RFA2Nkh6K2VyYXNieWhrTTdHd3lUekN3Q3F3R3dLSE5lamNXeXExZmpteVVG?=
- =?utf-8?B?RHgrcjY5bnhudzN6Q25hdEVqb2x3dnJndktwRU9rbXl0amU3UDZWNERUYTYx?=
- =?utf-8?B?cHZsb05BSTRCTVQ0eXRwS1pFelpHRjgvS0gyTEk3U3JMZXVXL0hpbGhMN2NB?=
- =?utf-8?B?WWJLa3FtaEdBVTZMMFpQazhlanVRaTA1YldtczJzV1owdDBoY2NkR3dzbXdK?=
- =?utf-8?B?QTZVMUpPZWFONjdsSERudisrQkFoalVobHRxN3V3RmxIVDcwb0RJNHdUNHo3?=
- =?utf-8?B?QVpqejJoU01oUjNFRG1Uc2NqeVJUSzFCbEFQVHEwcDBuaWgwQy9MNjlrV2Vj?=
- =?utf-8?B?djJnSWxHckxtS0UydWt6RUZIelF0cnQxTlJob3ZyQ0hIeEJjdHA1QTdCM1hN?=
- =?utf-8?B?Y21RUHRzazBjMUk4VmthSUhaQ3lWVGpFTngxQVVYdzlZUStxQTdCbkltSWlV?=
- =?utf-8?B?elZzcFZNOXlsd2JDTUM4TWwzOUJKN1Frcjk2VElvTENhSlA2VU55V3Ivd0Z5?=
- =?utf-8?B?Q1BOcStpcWFVemV5WWV6cGVNUy9xYjNpMzNFUkkxSjMwM0s1c3hKbGhjaUwr?=
- =?utf-8?B?d3ZpM0pHcGtwd3IzR1hpSHhhTExvcVFNWkJRL2dCSGozMTlnc0h4aDlGV1dF?=
- =?utf-8?B?Y2h0WDFOTFd2Y0ZEMDI0ZmhOTk9zZHFSbGh3SDBnOWpORUZ4YU5GeUZtVG9F?=
- =?utf-8?B?OFcwL1NwLzZCSmw4T3c4cXdQUXRUdGtmQlJEcFNLYjg5d0dOVTVLSWRkZW9Z?=
- =?utf-8?B?MG5KLzFXL3pLRDVEYmNiL1c1OG84NTdPZUk0RlBzTWdFNDMvRzBwOWVnU3lU?=
- =?utf-8?B?Ull0ZFg3WFBhZEJZc2ZEekhiVUsxUnlRR0VxaUFLcGV5MWRnMlEzRmJENXhj?=
- =?utf-8?B?MmsvQTRYTTh6MFZPNGUrK05memppeXREZENFVmlSdlJ6cVkwRk5GekdpMzY2?=
- =?utf-8?B?T2ppSDNYb1k3ZmY1Q1lBbnNja2FWaC9TdGphQzZJSkVSVXg1bzlBUWVpQnQ2?=
- =?utf-8?B?ZVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <07CEF55DCFDEA747B19340253F8B6B77@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S229724AbiIOWil (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 18:38:41 -0400
+Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6E98E4DB0F;
+        Thu, 15 Sep 2022 15:38:37 -0700 (PDT)
+Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
+        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id A9D7711FC;
+        Fri, 16 Sep 2022 00:38:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
+        s=202205; t=1663281514;
+        bh=r1VyE7EmKiNzn3LnCZ3m17d23IWgpQQmBETrrC/1Hzo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tUVBLZRb9jUupiUEoIGMeVjom5VpV152f7wiQ+Pzp4hZrGUc+Omxd6mmz6LSmQh4w
+         T4WNrKJPAq7TeqgeuXU+tM6bkJP8oKoBNeLlSq8JYf5gW15FiTlXF8tkCse5k07Zcf
+         CdEN28YXOvnjO86buW/GToYVcGI6BfxQmgLx0dxIHZntYPjr/VZBBZyarRtbFS8vSV
+         5JgoQYHw2gop5GcSYOGuYJ8XW93HnzQqv8tlzWqSjRcwCDTRgwfRM5YRITjXvUXRKw
+         Yd/hwUg1hL2OGS3k7c/3tZhd66bAuKhmvfMnr5cKu/KMJ8VI61kxzfGvnZvNgXNtz1
+         IspY461mKBq5YhO1JwOWj76XFVTClqDo2Rb3MODYxT6uaTxRiBeWew9lSn6ATWCBxO
+         2e6F7gqgFx1YmXKikCW7ivHih1noNwW/13bZs/tcL2MeRy21xcfysj4coNFzRDJ+QP
+         sUwP/p8BjJGD3XQ/JptlJrWwBMSYYtEDh1U4rjCGxYjuRhOYNNnmCQZRnNstWynZGn
+         06WhuPOon50S0T1dp9FnvsmiFG1i2SyIw3ZwOI9UoPhbckCfbGp3Eq1IPrCoj8Qhm8
+         +iafa80qFIaxN0zHZzcAJyIeW8481ucQChJAO/wegtxDxTre/bbvzWghYFcMpLypkw
+         JO6vJzMTaB/JatcAw0pMfRcI=
+Date:   Fri, 16 Sep 2022 00:38:33 +0200
+From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net
+Subject: [PATCH v4 01/18] Documentation: remove nonexistent magic numbers
+Message-ID: <8389a7b85b5c660c6891b1740b5dacc53491a41b.1663280877.git.nabijaczleweli@nabijaczleweli.xyz>
+References: <YyMlovoskUcHLEb7@kroah.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5154.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae066f74-fc3f-4009-4003-08da974c1aa5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Sep 2022 18:57:14.6536
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EOWRSWcv6VTR7lqA8GhL/ytW5MqJhsSpbAKvZROK0xnmX/ZKC0iF1VLn1cmpgEpFPzmr6qG0YYJd8FRSbx7Te3U77YMedgFS4Nin/e6fRx4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7183
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="tbi25wg7fxdpfvam"
+Content-Disposition: inline
+In-Reply-To: <YyMlovoskUcHLEb7@kroah.com>
+User-Agent: NeoMutt/20220429
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gMTIvMDgvMjAyMiAwNDoyMywgWGlhbnRpbmcgVGlhbiB3cm90ZToNCj4gRVhURVJOQUwgRU1B
-SUw6IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3Uga25v
-dyB0aGUgY29udGVudCBpcyBzYWZlDQo+IA0KPiDlnKggMjAyMi84LzEyIOS4iuWNiDEyOjE3LCBQ
-YWxtZXIgRGFiYmVsdCDlhpnpgZM6DQo+PiBPbiBUaHUsIDExIEF1ZyAyMDIyIDAwOjQxOjQ0IFBE
-VCAoLTA3MDApLA0KPj4geGlhbnRpbmcudGlhbkBsaW51eC5hbGliYWJhLmNvbSB3cm90ZToNCj4+
-PiBJIGV2ZXIgc2VudCB0aGUgcGF0Y2ggMSBpbiB0aGUgbGluazoNCj4+PiBodHRwczovL3BhdGNo
-d29yay5rZXJuZWwub3JnL3Byb2plY3QvbGludXgtcmlzY3YvcGF0Y2gvMjAyMjA3MDgwNzMxNTAu
-MzUyODMwLTMteGlhbnRpbmcudGlhbkBsaW51eC5hbGliYWJhLmNvbS8NCj4+Pg0KPj4+IEFuZCBw
-YXRjaCAyLDMgaW4gdGhlIGxpbms6DQo+Pj4gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9w
-cm9qZWN0L2xpbnV4LXJpc2N2L3BhdGNoLzIwMjIwNzE0MTEzMzAwLjM2Nzg1NC0yLXhpYW50aW5n
-LnRpYW5AbGludXguYWxpYmFiYS5jb20vDQo+Pj4NCj4+PiBodHRwczovL3BhdGNod29yay5rZXJu
-ZWwub3JnL3Byb2plY3QvbGludXgtcmlzY3YvcGF0Y2gvMjAyMjA3MTQxMTMzMDAuMzY3ODU0LTMt
-eGlhbnRpbmcudGlhbkBsaW51eC5hbGliYWJhLmNvbS8NCj4+Pg0KPj4+DQo+Pj4gVGhpcyBwYXRj
-aCBzZXQganVzdCBwdXQgdGhlc2UgcGF0Y2hlcyB0b2dldGhlciwgYW5kIHdpdGggdGhyZWUgbmV3
-DQo+Pj4gcGF0Y2ggNCwgNSwgNi4NCj4+PiB0aGVzZSBzaXggcGF0Y2hlcyBhcmUgdGhlIGZpeHVw
-cyBmb3IgbWFjaGluZV9rZXhlYywga2VybmVsIG1vZGUgUEMNCj4+PiBmb3Igdm1jb3JlDQo+Pj4g
-YW5kIGltcHJvdmVtZW50cyBmb3Igdm1jb3JlaW5mbywgbWVtb3J5IGxheW91dCBkdW1wIGFuZCBm
-aXh1cA0KPj4+IHNjaGVkdWxlIG91dCBpc3N1ZQ0KPj4+IGluIG1hY2hpbmVfY3Jhc2hfc2h1dGRv
-d24oKS4NCj4+Pg0KPj4+IFRoZSBtYWluIGNoYW5nZXMgaW4gdGhlIHNpeCBwYXRjaHMgYXMgYmVs
-b3csDQo+Pj4gUGF0Y2ggMTogRml4dXAgdXNlIG9mIHNtcF9wcm9jZXNzb3JfaWQoKSBpbiBwcmVl
-bXB0aWJsZSBjb250ZXh0LCB0bw0KPj4+IGNsZWFudXANCj4+PiDCoMKgwqDCoMKgwqDCoMKgIHRo
-ZSBjb25zb2xlIHByaW50cy4NCj4+PiBQYXRjaCAyOiBGaXh1cCB0byBnZXQgY29ycmVjdCBrZXJu
-ZWwgbW9kZSBQQyBmb3Iga2VybmVsIG1vZGUgcmVncyBmb3INCj4+PiB2bWNvcmUuDQo+Pj4gUGF0
-Y2ggMzogRml4dXAgc2NoZWR1bGUgb3V0IGlzc3VlIGluIG1hY2hpbmVfY3Jhc2hfc2h1dGRvd24o
-KQ0KPj4+IFBhdGNoIDQ6IEFkZCBtb2R1bGVzIHRvIHZpcnR1YWwga2VybmVsIG1lbW9yeSBsYXlv
-dXQgZHVtcC4NCj4+PiBQYXRjaCA1OiBBZGQgVk0gbGF5b3V0LCB2YSBiaXRzLCByYW0gYmFzZSB0
-byB2bWNvcmVpbmZvLCB3aGljaCBjYW4NCj4+PiBzaW1wbGlmeQ0KPj4+IMKgwqDCoMKgwqDCoMKg
-wqAgdGhlIGRldmVsb3BtZW50IG9mIGNyYXNoIHRvb2wgYXMgQVJNNjQgYWxyZWFkeSBkaWQNCj4+
-PiDCoMKgwqDCoMKgwqDCoMKgIChhcmNoL2FybTY0L2tlcm5lbC9jcmFzaF9jb3JlLmMpLg0KPj4+
-IFBhdGNoIDY6IFVwZGF0ZXMgdm1jb3JlaW5mby5yc3QgZm9yIHZtY29yZWluZm8gZXhwb3J0IGZv
-ciBSSVNDVjY0Lg0KPj4+DQo+Pj4gV2l0aCB0aGVzZSBzaXggcGF0Y2hlcyhwYXRjaCAyIGlzIG11
-c3QpLCBjcmFzaCB0b29sIGNhbiB3b3JrIHdlbGwgdG8NCj4+PiBhbmFseXplDQo+Pj4gYSB2bWNv
-cmUuIFRoZSBwYXRjaGVzIGZvciBjcmFzaCB0b29sIGZvciBSSVNDVjY0IGlzIGluIHRoZSBsaW5r
-Og0KPj4+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJpc2N2LzIwMjIwODAxMDQzMDQw
-LjIwMDMyNjQtMS14aWFudGluZy50aWFuQGxpbnV4LmFsaWJhYmEuY29tLw0KPj4+DQo+Pj4NCj4+
-PiAtLS0tLS0NCj4+PiBDaGFuZ2VzIHYxIC0+IHYyOg0KPj4+IMKgIDEsIHJlbW92ZSB0aGUgcGF0
-Y2ggIkFkZCBhIGZhc3QgY2FsbCBwYXRoIG9mIGNyYXNoX2tleGVjKCkiIGZyb20NCj4+PiB0aGlz
-IHNlcmllcw0KPj4+IMKgwqDCoMKgIG9mIHBhdGNoZXMsIGFzIGl0IGFscmVhZHkgYXBwbGllZCB0
-byByaXNjdiBnaXQuDQo+Pj4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tl
-cm5lbC9naXQvcmlzY3YvbGludXguZ2l0L2NvbW1pdC8/aD1mb3ItbmV4dCZpZD0zZjE5MDExMTBh
-ODliMGUyZTEzYWRiMmFjOGQxYTcxMDI4NzllYTk4DQo+Pj4gwqAgMiwgYWRkICdSZXZpZXdlZC1i
-eScgYmFzZWQgb24gdGhlIGNvbW1lbnRzIG9mIHYxLg0KPj4+IENoYW5nZXMgdjIgLT4gdjM6DQo+
-Pj4gwqAgdXNlICJyaXNjdiIgaW5zdGVhZCBvZiAicmlzY3Y2NCIgaW4gcGF0Y2ggNSBzdWJqZWN0
-IGxpbmUuDQo+Pj4gQ2hhbmdlcyB2MyAtPiB2NDoNCj4+PiDCoCB1c2UgInJpc2N2IiBpbnN0ZWFk
-IG9mICJyaXNjdjY0IiBpbiB0aGUgc3VtbWFyeSBvZiBwYXRjaCA1IHN1YmplY3QNCj4+PiBsaW5l
-Lg0KPj4+IENoYW5nZXMgdjQgLT4gdjU6DQo+Pj4gwqAgYWRkIGEgbmV3IHBhdGNoICJSSVNDLVY6
-IEZpeHVwIHNjaGVkdWxlIG91dCBpc3N1ZSBpbg0KPj4+IG1hY2hpbmVfY3Jhc2hfc2h1dGRvd24o
-KSINCj4+PiBDaGFuZ2VzIHY1IC0+IHY2Og0KPj4+IMKgIDEsIG1vdmUgImZpeHVwIiBwYXRjaGVz
-IHRvIHRoZSBzdGFydCBvZiB0aGUgcGF0Y2ggc2V0Lg0KPj4+IMKgIDIsIGNoYW5nZSBwYXRjaCAx
-LCAyLCA2J3Mgc3ViamVjdCB0byBtYWtlIGl0IHRlbGwgbW9yZSB3aGF0IGl0J3MNCj4+PiBhYm91
-dC4NCj4+PiDCoCAzLCBhZGQgRml4ZXMgZm9yIHBhdGNoIDMuDQo+Pj4gwqAgNCwgYWRqdWVzdCB0
-aGUgY2hhbmdlcyBmb3JtYXQgZm9yIHBhdGNoIDYuDQo+Pj4NCj4+Pg0KPj4+IFhpYW50aW5nIFRp
-YW4gKDYpOg0KPj4+IMKgIFJJU0MtVjoga2V4ZWM6IEZpeHVwIHVzZSBvZiBzbXBfcHJvY2Vzc29y
-X2lkKCkgaW4gcHJlZW1wdGlibGUgY29udGV4dA0KPj4+IMKgIFJJU0MtVjogRml4dXAgZ2V0IGlu
-Y29ycmVjdCB1c2VyIG1vZGUgUEMgZm9yIGtlcm5lbCBtb2RlIHJlZ3MNCj4+PiDCoCBSSVNDLVY6
-IEZpeHVwIHNjaGVkdWxlIG91dCBpc3N1ZSBpbiBtYWNoaW5lX2NyYXNoX3NodXRkb3duKCkNCj4+
-PiDCoCBSSVNDLVY6IEFkZCBtb2R1bGVzIHRvIHZpcnR1YWwga2VybmVsIG1lbW9yeSBsYXlvdXQg
-ZHVtcA0KPj4+IMKgIFJJU0MtVjogQWRkIGFyY2hfY3Jhc2hfc2F2ZV92bWNvcmVpbmZvIHN1cHBv
-cnQNCj4+PiDCoCBEb2N1bWVudGF0aW9uOiBrZHVtcDogZGVzY3JpYmUgVk1DT1JFSU5GTyBleHBv
-cnQgZm9yIFJJU0NWNjQNCj4+Pg0KPj4+IMKgLi4uL2FkbWluLWd1aWRlL2tkdW1wL3ZtY29yZWlu
-Zm8ucnN0wqDCoMKgwqDCoMKgwqDCoMKgIHwgMzEgKysrKysrKysrKysrKysrKysrKw0KPj4+IMKg
-YXJjaC9yaXNjdi9rZXJuZWwvTWFrZWZpbGXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCB8wqAgMSArDQo+Pj4gwqBhcmNoL3Jpc2N2L2tlcm5lbC9jcmFzaF9jb3JlLmPCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAyOSArKysrKysrKysrKysrKysrKw0KPj4+IMKg
-YXJjaC9yaXNjdi9rZXJuZWwvY3Jhc2hfc2F2ZV9yZWdzLlPCoMKgwqDCoMKgwqDCoMKgwqDCoCB8
-wqAgMiArLQ0KPj4+IMKgYXJjaC9yaXNjdi9rZXJuZWwvbWFjaGluZV9rZXhlYy5jwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIHwgMjggKysrKysrKysrKysrKystLS0NCj4+PiDCoGFyY2gvcmlzY3Yv
-bW0vaW5pdC5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfMKgIDQgKysrDQo+Pj4gwqA2IGZpbGVzIGNoYW5nZWQsIDg5IGluc2VydGlvbnMoKyksIDYg
-ZGVsZXRpb25zKC0pDQo+Pj4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgYXJjaC9yaXNjdi9rZXJuZWwv
-Y3Jhc2hfY29yZS5jDQo+Pg0KPj4gVGhhbmsuwqAgSSd2ZSB0YWtlbiB0aGUgZmlyc3QgNCBvbnRv
-IGZvci1uZXh0LCB3aGljaCBpcyBzdGlsbCB0YXJnZXRlZA0KPj4gZm9yIDUuMjAsIGFzIHRoZXkn
-cmUgZml4ZXMuwqAgSSdtIG5vdCBvcHBvc2VkIHRvIHRha2luZyB0aGUNCj4+IGRvY3VtZW50YXRp
-b24gcGF0Y2ggZm9yIHRoaXMgY3ljbGUgYXMgd2VsbCwgaXQganVzdCBuZWVkcyBzb21lDQo+PiBn
-b2luZy1vdmVyIGFzIHRoZSB3b3JkaW5nIGxvb2tzIHZlcnkgb2RkIChvciBhdCBsZWFzdCBpdCBk
-b2VzIHRvIG1lDQo+PiByaWdodCBub3csIG1heWJlIEknbSBqdXN0IHN0aWxsIGhhbGYgYXNsZWVw
-KS7CoCBQYXRjaCA1IGlzIGEgbmV3DQo+PiBmZWF0dXJlLCBhbmQgZ2l2ZW4gdGhhdCBpdCdzIGJl
-aW5nIHNwdW4gZHVyaW5nIHRoZSBtZXJnZSB3aW5kb3cgaXQncw0KPj4gdG9vIGxhdGUuDQo+IA0K
-PiBUaGFuayB5b3UgUGFsbWVyLCBDb25vci4NCj4gSSBzYXcgcGF0Y2ggNSw2IGFscmVhZHkgbWVy
-Z2VkIHRvIFBhbG1lcidzIHJpc2N2LWNyYXNoIGJyYW5jaCwNCj4gaHR0cHM6Ly9naXQua2VybmVs
-Lm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvcGFsbWVyL2xpbnV4LmdpdC9sb2cvP2g9cmlz
-Y3YtY3Jhc2gNCj4gTG9va2luZyBmb3J3YXJkIHRvIGJlIG1lcmdlZCB0byA2LjEoPykuIHRoYW5r
-cy4NCj4gDQoNCkZyb20gcmVhZGluZyB0aGlzLCBpdCBsb29rcyBsaWtlIGFub3RoZXIgcmV2aXNp
-b24gKGZvciB0aGUgcmVtYWluaW5nDQpwYXRjaGVzKSBtaWdodCBiZSBhIGdvb2QgaWRlYSBzbyB0
-aGF0IHRoZSBkb2NzIGNhbiB1bmRlcmdvIGZ1cnRoZXINCnJldmlldz8NCg0KVGhhbmtzDQpDb25v
-ci4NCg0K
+
+--tbi25wg7fxdpfvam
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+The entire file blames back to the start of git
+(minus whitespace from the RST translation and a typo fix):
+  * there are changelog comments for March 1994 through to Linux 2.5.74
+  * struct tty_ldisc is two pointers nowadays, so naturally no magic
+  * GDA_MAGIC is defined but unused, and it's been this way
+    since start-of-git
+  * M3_CARD_MAGIC isn't defined, because
+    commit d56b9b9c464a ("[PATCH] The scheduled removal of some OSS
+    drivers") removed the entire driver in 2006
+  * CS_CARD_MAGIC likewise since
+    commit b5d425c97f7d ("more scheduled OSS driver removal") in 2007
+  * KMALLOC_MAGIC and VMALLOC_MAGIC were removed in
+    commit e38e0cfa48ac ("[ALSA] Remove kmalloc wrappers"),
+    six months after start of git
+  * SLAB_C_MAGIC has never even appeared in git
+    (removed in 2.4.0-test3pre6)
+
+magic-number.rst is a low-value historial relic at best and
+misleading cruft at worst, so start with cleaning out ones that only
+appear therein
+
+Automated:
+grep MAGIC Documentation/process/magic-number.rst | while read -r mag _;
+do git grep -wF "$mag" | grep -vq '^Documentation.*magic-number.rst:' ||
+sed -i "/^$mag/d" \
+Documentation/{,translations/{zh_CN,zh_TW,it_IT}/}process/magic-number.rst
+done
+
+Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
+---
+ Documentation/process/magic-number.rst        | 42 -------------------
+ .../it_IT/process/magic-number.rst            | 42 -------------------
+ .../zh_CN/process/magic-number.rst            | 42 -------------------
+ .../zh_TW/process/magic-number.rst            | 42 -------------------
+ 4 files changed, 168 deletions(-)
+
+diff --git a/Documentation/process/magic-number.rst b/Documentation/process=
+/magic-number.rst
+index f5ba36e96461..eb2db3608a15 100644
+--- a/Documentation/process/magic-number.rst
++++ b/Documentation/process/magic-number.rst
+@@ -70,70 +70,29 @@ Magic Name            Number           Structure       =
+         File
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+ PG_MAGIC              'P'              pg_{read,write}_hdr      ``include/=
+linux/pg.h``
+ CMAGIC                0x0111           user                     ``include/=
+linux/a.out.h``
+-MKISS_DRIVER_MAGIC    0x04bf           mkiss_channel            ``drivers/=
+net/mkiss.h``
+ HDLC_MAGIC            0x239e           n_hdlc                   ``drivers/=
+char/n_hdlc.c``
+ APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86=
+/kernel/apm_32.c``
+-DB_MAGIC              0x4442           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+-DL_MAGIC              0x444d           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+ FASYNC_MAGIC          0x4601           fasync_struct            ``include/=
+linux/fs.h``
+-FF_MAGIC              0x4646           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+-PTY_MAGIC             0x5001                                    ``drivers/=
+char/pty.c``
+-PPP_MAGIC             0x5002           ppp                      ``include/=
+linux/if_pppvar.h``
+-SSTATE_MAGIC          0x5302           serial_state             ``include/=
+linux/serial.h``
+ SLIP_MAGIC            0x5302           slip                     ``drivers/=
+net/slip.h``
+-STRIP_MAGIC           0x5303           strip                    ``drivers/=
+net/strip.c``
+-SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/=
+net/hamradio/6pack.h``
+-AX25_MAGIC            0x5316           ax_disp                  ``drivers/=
+net/mkiss.h``
+ TTY_MAGIC             0x5401           tty_struct               ``include/=
+linux/tty.h``
+ MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
+char/synclink.c``
+ TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
+linux/tty_driver.h``
+ MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
+char/pcmcia/synclink_cs.c``
+-USB_SERIAL_MAGIC      0x6702           usb_serial               ``drivers/=
+usb/serial/usb-serial.h``
+ FULL_DUPLEX_MAGIC     0x6969                                    ``drivers/=
+net/ethernet/dec/tulip/de2104x.c``
+-USB_BLUETOOTH_MAGIC   0x6d02           usb_bluetooth            ``drivers/=
+usb/class/bluetty.c``
+ RFCOMM_TTY_MAGIC      0x6d02                                    ``net/blue=
+tooth/rfcomm/tty.c``
+-USB_SERIAL_PORT_MAGIC 0x7301           usb_serial_port          ``drivers/=
+usb/serial/usb-serial.h``
+ CG_MAGIC              0x00090255       ufs_cylinder_group       ``include/=
+linux/ufs_fs.h``
+-LSEMAGIC              0x05091998       lse                      ``drivers/=
+fc4/fc.c``
+ RIEBL_MAGIC           0x09051990                                ``drivers/=
+net/atarilance.c``
+ NBD_REQUEST_MAGIC     0x12560953       nbd_request              ``include/=
+linux/nbd.h``
+-RED_MAGIC2            0x170fc2a5       (any)                    ``mm/slab.=
+c``
+ BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
+net/baycom_epp.c``
+-ISDN_X25IFACE_MAGIC   0x1e75a2b9       isdn_x25iface_proto_data ``drivers/=
+isdn/isdn_x25iface.h``
+-ECP_MAGIC             0x21504345       cdkecpsig                ``include/=
+linux/cdk.h``
+-LSOMAGIC              0x27091997       lso                      ``drivers/=
+fc4/fc.c``
+-LSMAGIC               0x2a3b4d2a       ls                       ``drivers/=
+fc4/fc.c``
+-WANPIPE_MAGIC         0x414C4453       sdla_{dump,exec}         ``include/=
+linux/wanpipe.h``
+-CS_CARD_MAGIC         0x43525553       cs_card                  ``sound/os=
+s/cs46xx.c``
+-LABELCL_MAGIC         0x4857434c       labelcl_info_s           ``include/=
+asm/ia64/sn/labelcl.h``
+-ISDN_ASYNC_MAGIC      0x49344C01       modem_info               ``include/=
+linux/isdn.h``
+-CTC_ASYNC_MAGIC       0x49344C01       ctc_tty_info             ``drivers/=
+s390/net/ctctty.c``
+-ISDN_NET_MAGIC        0x49344C02       isdn_net_local_s         ``drivers/=
+isdn/i4l/isdn_net_lib.h``
+ SAVEKMSG_MAGIC2       0x4B4D5347       savekmsg                 ``arch/*/a=
+miga/config.c``
+-CS_STATE_MAGIC        0x4c4f4749       cs_state                 ``sound/os=
+s/cs46xx.c``
+-SLAB_C_MAGIC          0x4f17a36d       kmem_cache               ``mm/slab.=
+c``
+ COW_MAGIC             0x4f4f4f4d       cow_header_v1            ``arch/um/=
+drivers/ubd_user.c``
+-I810_CARD_MAGIC       0x5072696E       i810_card                ``sound/os=
+s/i810_audio.c``
+-TRIDENT_CARD_MAGIC    0x5072696E       trident_card             ``sound/os=
+s/trident.c``
+-ROUTER_MAGIC          0x524d4157       wan_device               [in ``wanr=
+outer.h`` pre 3.9]
+ SAVEKMSG_MAGIC1       0x53415645       savekmsg                 ``arch/*/a=
+miga/config.c``
+ GDA_MAGIC             0x58464552       gda                      ``arch/mip=
+s/include/asm/sn/gda.h``
+-RED_MAGIC1            0x5a2cf071       (any)                    ``mm/slab.=
+c``
+ EEPROM_MAGIC_VALUE    0x5ab478d2       lanai_dev                ``drivers/=
+atm/lanai.c``
+ HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
+linux/hdlcdrv.h``
+-PCXX_MAGIC            0x5c6df104       channel                  ``drivers/=
+char/pcxx.h``
+ KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
+s/include/asm/sn/klkernvars.h``
+-I810_STATE_MAGIC      0x63657373       i810_state               ``sound/os=
+s/i810_audio.c``
+-TRIDENT_STATE_MAGIC   0x63657373       trient_state             ``sound/os=
+s/trident.c``
+-M3_CARD_MAGIC         0x646e6f50       m3_card                  ``sound/os=
+s/maestro3.c``
+ FW_HEADER_MAGIC       0x65726F66       fw_header                ``drivers/=
+atm/fore200e.h``
+-SLOT_MAGIC            0x67267321       slot                     ``drivers/=
+hotplug/cpqphp.h``
+-SLOT_MAGIC            0x67267322       slot                     ``drivers/=
+hotplug/acpiphp.h``
+ LO_MAGIC              0x68797548       nbd_device               ``include/=
+linux/nbd.h``
+-M3_STATE_MAGIC        0x734d724d       m3_state                 ``sound/os=
+s/maestro3.c``
+-VMALLOC_MAGIC         0x87654320       snd_alloc_track          ``sound/co=
+re/memory.c``
+-KMALLOC_MAGIC         0x87654321       snd_alloc_track          ``sound/co=
+re/memory.c``
+-PWC_MAGIC             0x89DC10AB       pwc_device               ``drivers/=
+usb/media/pwc.h``
+ NBD_REPLY_MAGIC       0x96744668       nbd_reply                ``include/=
+linux/nbd.h``
+ ENI155_MAGIC          0xa54b872d       midway_eprom	        ``drivers/atm/=
+eni.h``
+ CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+coda_fs_i.h``
+@@ -141,7 +100,6 @@ YAM_MAGIC             0xF10A7654       yam_port        =
+         ``drivers/net/ha
+ CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
+scsi/ncr53c8xx.c``
+ QUEUE_MAGIC_FREE      0xf7e1c9a3       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+ QUEUE_MAGIC_USED      0xf7e1cc33       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+-HTB_CMAGIC            0xFEFAFEF1       htb_class                ``net/sche=
+d/sch_htb.c``
+ NMI_MAGIC             0x48414d4d455201 nmi_s                    ``arch/mip=
+s/include/asm/sn/nmi.h``
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+=20
+diff --git a/Documentation/translations/it_IT/process/magic-number.rst b/Do=
+cumentation/translations/it_IT/process/magic-number.rst
+index f452fafb1e84..86ef47906f37 100644
+--- a/Documentation/translations/it_IT/process/magic-number.rst
++++ b/Documentation/translations/it_IT/process/magic-number.rst
+@@ -76,70 +76,29 @@ Nome magico           Numero           Struttura       =
+         File
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+ PG_MAGIC              'P'              pg_{read,write}_hdr      ``include/=
+linux/pg.h``
+ CMAGIC                0x0111           user                     ``include/=
+linux/a.out.h``
+-MKISS_DRIVER_MAGIC    0x04bf           mkiss_channel            ``drivers/=
+net/mkiss.h``
+ HDLC_MAGIC            0x239e           n_hdlc                   ``drivers/=
+char/n_hdlc.c``
+ APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86=
+/kernel/apm_32.c``
+-DB_MAGIC              0x4442           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+-DL_MAGIC              0x444d           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+ FASYNC_MAGIC          0x4601           fasync_struct            ``include/=
+linux/fs.h``
+-FF_MAGIC              0x4646           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+-PTY_MAGIC             0x5001                                    ``drivers/=
+char/pty.c``
+-PPP_MAGIC             0x5002           ppp                      ``include/=
+linux/if_pppvar.h``
+-SSTATE_MAGIC          0x5302           serial_state             ``include/=
+linux/serial.h``
+ SLIP_MAGIC            0x5302           slip                     ``drivers/=
+net/slip.h``
+-STRIP_MAGIC           0x5303           strip                    ``drivers/=
+net/strip.c``
+-SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/=
+net/hamradio/6pack.h``
+-AX25_MAGIC            0x5316           ax_disp                  ``drivers/=
+net/mkiss.h``
+ TTY_MAGIC             0x5401           tty_struct               ``include/=
+linux/tty.h``
+ MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
+char/synclink.c``
+ TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
+linux/tty_driver.h``
+ MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
+char/pcmcia/synclink_cs.c``
+-USB_SERIAL_MAGIC      0x6702           usb_serial               ``drivers/=
+usb/serial/usb-serial.h``
+ FULL_DUPLEX_MAGIC     0x6969                                    ``drivers/=
+net/ethernet/dec/tulip/de2104x.c``
+-USB_BLUETOOTH_MAGIC   0x6d02           usb_bluetooth            ``drivers/=
+usb/class/bluetty.c``
+ RFCOMM_TTY_MAGIC      0x6d02                                    ``net/blue=
+tooth/rfcomm/tty.c``
+-USB_SERIAL_PORT_MAGIC 0x7301           usb_serial_port          ``drivers/=
+usb/serial/usb-serial.h``
+ CG_MAGIC              0x00090255       ufs_cylinder_group       ``include/=
+linux/ufs_fs.h``
+-LSEMAGIC              0x05091998       lse                      ``drivers/=
+fc4/fc.c``
+ RIEBL_MAGIC           0x09051990                                ``drivers/=
+net/atarilance.c``
+ NBD_REQUEST_MAGIC     0x12560953       nbd_request              ``include/=
+linux/nbd.h``
+-RED_MAGIC2            0x170fc2a5       (any)                    ``mm/slab.=
+c``
+ BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
+net/baycom_epp.c``
+-ISDN_X25IFACE_MAGIC   0x1e75a2b9       isdn_x25iface_proto_data ``drivers/=
+isdn/isdn_x25iface.h``
+-ECP_MAGIC             0x21504345       cdkecpsig                ``include/=
+linux/cdk.h``
+-LSOMAGIC              0x27091997       lso                      ``drivers/=
+fc4/fc.c``
+-LSMAGIC               0x2a3b4d2a       ls                       ``drivers/=
+fc4/fc.c``
+-WANPIPE_MAGIC         0x414C4453       sdla_{dump,exec}         ``include/=
+linux/wanpipe.h``
+-CS_CARD_MAGIC         0x43525553       cs_card                  ``sound/os=
+s/cs46xx.c``
+-LABELCL_MAGIC         0x4857434c       labelcl_info_s           ``include/=
+asm/ia64/sn/labelcl.h``
+-ISDN_ASYNC_MAGIC      0x49344C01       modem_info               ``include/=
+linux/isdn.h``
+-CTC_ASYNC_MAGIC       0x49344C01       ctc_tty_info             ``drivers/=
+s390/net/ctctty.c``
+-ISDN_NET_MAGIC        0x49344C02       isdn_net_local_s         ``drivers/=
+isdn/i4l/isdn_net_lib.h``
+ SAVEKMSG_MAGIC2       0x4B4D5347       savekmsg                 ``arch/*/a=
+miga/config.c``
+-CS_STATE_MAGIC        0x4c4f4749       cs_state                 ``sound/os=
+s/cs46xx.c``
+-SLAB_C_MAGIC          0x4f17a36d       kmem_cache               ``mm/slab.=
+c``
+ COW_MAGIC             0x4f4f4f4d       cow_header_v1            ``arch/um/=
+drivers/ubd_user.c``
+-I810_CARD_MAGIC       0x5072696E       i810_card                ``sound/os=
+s/i810_audio.c``
+-TRIDENT_CARD_MAGIC    0x5072696E       trident_card             ``sound/os=
+s/trident.c``
+-ROUTER_MAGIC          0x524d4157       wan_device               [in ``wanr=
+outer.h`` pre 3.9]
+ SAVEKMSG_MAGIC1       0x53415645       savekmsg                 ``arch/*/a=
+miga/config.c``
+ GDA_MAGIC             0x58464552       gda                      ``arch/mip=
+s/include/asm/sn/gda.h``
+-RED_MAGIC1            0x5a2cf071       (any)                    ``mm/slab.=
+c``
+ EEPROM_MAGIC_VALUE    0x5ab478d2       lanai_dev                ``drivers/=
+atm/lanai.c``
+ HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
+linux/hdlcdrv.h``
+-PCXX_MAGIC            0x5c6df104       channel                  ``drivers/=
+char/pcxx.h``
+ KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
+s/include/asm/sn/klkernvars.h``
+-I810_STATE_MAGIC      0x63657373       i810_state               ``sound/os=
+s/i810_audio.c``
+-TRIDENT_STATE_MAGIC   0x63657373       trient_state             ``sound/os=
+s/trident.c``
+-M3_CARD_MAGIC         0x646e6f50       m3_card                  ``sound/os=
+s/maestro3.c``
+ FW_HEADER_MAGIC       0x65726F66       fw_header                ``drivers/=
+atm/fore200e.h``
+-SLOT_MAGIC            0x67267321       slot                     ``drivers/=
+hotplug/cpqphp.h``
+-SLOT_MAGIC            0x67267322       slot                     ``drivers/=
+hotplug/acpiphp.h``
+ LO_MAGIC              0x68797548       nbd_device               ``include/=
+linux/nbd.h``
+-M3_STATE_MAGIC        0x734d724d       m3_state                 ``sound/os=
+s/maestro3.c``
+-VMALLOC_MAGIC         0x87654320       snd_alloc_track          ``sound/co=
+re/memory.c``
+-KMALLOC_MAGIC         0x87654321       snd_alloc_track          ``sound/co=
+re/memory.c``
+-PWC_MAGIC             0x89DC10AB       pwc_device               ``drivers/=
+usb/media/pwc.h``
+ NBD_REPLY_MAGIC       0x96744668       nbd_reply                ``include/=
+linux/nbd.h``
+ ENI155_MAGIC          0xa54b872d       midway_eprom	        ``drivers/atm/=
+eni.h``
+ CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+coda_fs_i.h``
+@@ -147,7 +106,6 @@ YAM_MAGIC             0xF10A7654       yam_port        =
+         ``drivers/net/ha
+ CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
+scsi/ncr53c8xx.c``
+ QUEUE_MAGIC_FREE      0xf7e1c9a3       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+ QUEUE_MAGIC_USED      0xf7e1cc33       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+-HTB_CMAGIC            0xFEFAFEF1       htb_class                ``net/sche=
+d/sch_htb.c``
+ NMI_MAGIC             0x48414d4d455201 nmi_s                    ``arch/mip=
+s/include/asm/sn/nmi.h``
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+=20
+diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Do=
+cumentation/translations/zh_CN/process/magic-number.rst
+index 42f0635ca70a..cbefdcbfbf53 100644
+--- a/Documentation/translations/zh_CN/process/magic-number.rst
++++ b/Documentation/translations/zh_CN/process/magic-number.rst
+@@ -59,71 +59,30 @@ Linux =E9=AD=94=E6=9C=AF=E6=95=B0
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+ PG_MAGIC              'P'              pg_{read,write}_hdr      ``include/=
+linux/pg.h``
+ CMAGIC                0x0111           user                     ``include/=
+linux/a.out.h``
+-MKISS_DRIVER_MAGIC    0x04bf           mkiss_channel            ``drivers/=
+net/mkiss.h``
+ HDLC_MAGIC            0x239e           n_hdlc                   ``drivers/=
+char/n_hdlc.c``
+ APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86=
+/kernel/apm_32.c``
+-DB_MAGIC              0x4442           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+-DL_MAGIC              0x444d           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+ FASYNC_MAGIC          0x4601           fasync_struct            ``include/=
+linux/fs.h``
+-FF_MAGIC              0x4646           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+-PTY_MAGIC             0x5001                                    ``drivers/=
+char/pty.c``
+-PPP_MAGIC             0x5002           ppp                      ``include/=
+linux/if_pppvar.h``
+-SSTATE_MAGIC          0x5302           serial_state             ``include/=
+linux/serial.h``
+ SLIP_MAGIC            0x5302           slip                     ``drivers/=
+net/slip.h``
+-STRIP_MAGIC           0x5303           strip                    ``drivers/=
+net/strip.c``
+-SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/=
+net/hamradio/6pack.h``
+-AX25_MAGIC            0x5316           ax_disp                  ``drivers/=
+net/mkiss.h``
+ TTY_MAGIC             0x5401           tty_struct               ``include/=
+linux/tty.h``
+ MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
+char/synclink.c``
+ TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
+linux/tty_driver.h``
+ MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
+char/pcmcia/synclink_cs.c``
+-USB_SERIAL_MAGIC      0x6702           usb_serial               ``drivers/=
+usb/serial/usb-serial.h``
+ FULL_DUPLEX_MAGIC     0x6969                                    ``drivers/=
+net/ethernet/dec/tulip/de2104x.c``
+-USB_BLUETOOTH_MAGIC   0x6d02           usb_bluetooth            ``drivers/=
+usb/class/bluetty.c``
+ RFCOMM_TTY_MAGIC      0x6d02                                    ``net/blue=
+tooth/rfcomm/tty.c``
+-USB_SERIAL_PORT_MAGIC 0x7301           usb_serial_port          ``drivers/=
+usb/serial/usb-serial.h``
+ CG_MAGIC              0x00090255       ufs_cylinder_group       ``include/=
+linux/ufs_fs.h``
+-LSEMAGIC              0x05091998       lse                      ``drivers/=
+fc4/fc.c``
+ GDTIOCTL_MAGIC        0x06030f07       gdth_iowr_str            ``drivers/=
+scsi/gdth_ioctl.h``
+ RIEBL_MAGIC           0x09051990                                ``drivers/=
+net/atarilance.c``
+ NBD_REQUEST_MAGIC     0x12560953       nbd_request              ``include/=
+linux/nbd.h``
+-RED_MAGIC2            0x170fc2a5       (any)                    ``mm/slab.=
+c``
+ BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
+net/baycom_epp.c``
+-ISDN_X25IFACE_MAGIC   0x1e75a2b9       isdn_x25iface_proto_data ``drivers/=
+isdn/isdn_x25iface.h``
+-ECP_MAGIC             0x21504345       cdkecpsig                ``include/=
+linux/cdk.h``
+-LSOMAGIC              0x27091997       lso                      ``drivers/=
+fc4/fc.c``
+-LSMAGIC               0x2a3b4d2a       ls                       ``drivers/=
+fc4/fc.c``
+-WANPIPE_MAGIC         0x414C4453       sdla_{dump,exec}         ``include/=
+linux/wanpipe.h``
+-CS_CARD_MAGIC         0x43525553       cs_card                  ``sound/os=
+s/cs46xx.c``
+-LABELCL_MAGIC         0x4857434c       labelcl_info_s           ``include/=
+asm/ia64/sn/labelcl.h``
+-ISDN_ASYNC_MAGIC      0x49344C01       modem_info               ``include/=
+linux/isdn.h``
+-CTC_ASYNC_MAGIC       0x49344C01       ctc_tty_info             ``drivers/=
+s390/net/ctctty.c``
+-ISDN_NET_MAGIC        0x49344C02       isdn_net_local_s         ``drivers/=
+isdn/i4l/isdn_net_lib.h``
+ SAVEKMSG_MAGIC2       0x4B4D5347       savekmsg                 ``arch/*/a=
+miga/config.c``
+-CS_STATE_MAGIC        0x4c4f4749       cs_state                 ``sound/os=
+s/cs46xx.c``
+-SLAB_C_MAGIC          0x4f17a36d       kmem_cache               ``mm/slab.=
+c``
+ COW_MAGIC             0x4f4f4f4d       cow_header_v1            ``arch/um/=
+drivers/ubd_user.c``
+-I810_CARD_MAGIC       0x5072696E       i810_card                ``sound/os=
+s/i810_audio.c``
+-TRIDENT_CARD_MAGIC    0x5072696E       trident_card             ``sound/os=
+s/trident.c``
+-ROUTER_MAGIC          0x524d4157       wan_device               [in ``wanr=
+outer.h`` pre 3.9]
+ SAVEKMSG_MAGIC1       0x53415645       savekmsg                 ``arch/*/a=
+miga/config.c``
+ GDA_MAGIC             0x58464552       gda                      ``arch/mip=
+s/include/asm/sn/gda.h``
+-RED_MAGIC1            0x5a2cf071       (any)                    ``mm/slab.=
+c``
+ EEPROM_MAGIC_VALUE    0x5ab478d2       lanai_dev                ``drivers/=
+atm/lanai.c``
+ HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
+linux/hdlcdrv.h``
+-PCXX_MAGIC            0x5c6df104       channel                  ``drivers/=
+char/pcxx.h``
+ KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
+s/include/asm/sn/klkernvars.h``
+-I810_STATE_MAGIC      0x63657373       i810_state               ``sound/os=
+s/i810_audio.c``
+-TRIDENT_STATE_MAGIC   0x63657373       trient_state             ``sound/os=
+s/trident.c``
+-M3_CARD_MAGIC         0x646e6f50       m3_card                  ``sound/os=
+s/maestro3.c``
+ FW_HEADER_MAGIC       0x65726F66       fw_header                ``drivers/=
+atm/fore200e.h``
+-SLOT_MAGIC            0x67267321       slot                     ``drivers/=
+hotplug/cpqphp.h``
+-SLOT_MAGIC            0x67267322       slot                     ``drivers/=
+hotplug/acpiphp.h``
+ LO_MAGIC              0x68797548       nbd_device               ``include/=
+linux/nbd.h``
+-M3_STATE_MAGIC        0x734d724d       m3_state                 ``sound/os=
+s/maestro3.c``
+-VMALLOC_MAGIC         0x87654320       snd_alloc_track          ``sound/co=
+re/memory.c``
+-KMALLOC_MAGIC         0x87654321       snd_alloc_track          ``sound/co=
+re/memory.c``
+-PWC_MAGIC             0x89DC10AB       pwc_device               ``drivers/=
+usb/media/pwc.h``
+ NBD_REPLY_MAGIC       0x96744668       nbd_reply                ``include/=
+linux/nbd.h``
+ ENI155_MAGIC          0xa54b872d       midway_eprom	        ``drivers/atm/=
+eni.h``
+ CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+coda_fs_i.h``
+@@ -132,7 +91,6 @@ YAM_MAGIC             0xF10A7654       yam_port         =
+        ``drivers/net/ha
+ CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
+scsi/ncr53c8xx.c``
+ QUEUE_MAGIC_FREE      0xf7e1c9a3       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+ QUEUE_MAGIC_USED      0xf7e1cc33       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+-HTB_CMAGIC            0xFEFAFEF1       htb_class                ``net/sche=
+d/sch_htb.c``
+ NMI_MAGIC             0x48414d4d455201 nmi_s                    ``arch/mip=
+s/include/asm/sn/nmi.h``
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+=20
+diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Do=
+cumentation/translations/zh_TW/process/magic-number.rst
+index ae321a9aaece..7fd6e494467b 100644
+--- a/Documentation/translations/zh_TW/process/magic-number.rst
++++ b/Documentation/translations/zh_TW/process/magic-number.rst
+@@ -62,71 +62,30 @@ Linux =E9=AD=94=E8=A1=93=E6=95=B8
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+ PG_MAGIC              'P'              pg_{read,write}_hdr      ``include/=
+linux/pg.h``
+ CMAGIC                0x0111           user                     ``include/=
+linux/a.out.h``
+-MKISS_DRIVER_MAGIC    0x04bf           mkiss_channel            ``drivers/=
+net/mkiss.h``
+ HDLC_MAGIC            0x239e           n_hdlc                   ``drivers/=
+char/n_hdlc.c``
+ APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86=
+/kernel/apm_32.c``
+-DB_MAGIC              0x4442           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+-DL_MAGIC              0x444d           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+ FASYNC_MAGIC          0x4601           fasync_struct            ``include/=
+linux/fs.h``
+-FF_MAGIC              0x4646           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+-PTY_MAGIC             0x5001                                    ``drivers/=
+char/pty.c``
+-PPP_MAGIC             0x5002           ppp                      ``include/=
+linux/if_pppvar.h``
+-SSTATE_MAGIC          0x5302           serial_state             ``include/=
+linux/serial.h``
+ SLIP_MAGIC            0x5302           slip                     ``drivers/=
+net/slip.h``
+-STRIP_MAGIC           0x5303           strip                    ``drivers/=
+net/strip.c``
+-SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/=
+net/hamradio/6pack.h``
+-AX25_MAGIC            0x5316           ax_disp                  ``drivers/=
+net/mkiss.h``
+ TTY_MAGIC             0x5401           tty_struct               ``include/=
+linux/tty.h``
+ MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
+char/synclink.c``
+ TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
+linux/tty_driver.h``
+ MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
+char/pcmcia/synclink_cs.c``
+-USB_SERIAL_MAGIC      0x6702           usb_serial               ``drivers/=
+usb/serial/usb-serial.h``
+ FULL_DUPLEX_MAGIC     0x6969                                    ``drivers/=
+net/ethernet/dec/tulip/de2104x.c``
+-USB_BLUETOOTH_MAGIC   0x6d02           usb_bluetooth            ``drivers/=
+usb/class/bluetty.c``
+ RFCOMM_TTY_MAGIC      0x6d02                                    ``net/blue=
+tooth/rfcomm/tty.c``
+-USB_SERIAL_PORT_MAGIC 0x7301           usb_serial_port          ``drivers/=
+usb/serial/usb-serial.h``
+ CG_MAGIC              0x00090255       ufs_cylinder_group       ``include/=
+linux/ufs_fs.h``
+-LSEMAGIC              0x05091998       lse                      ``drivers/=
+fc4/fc.c``
+ GDTIOCTL_MAGIC        0x06030f07       gdth_iowr_str            ``drivers/=
+scsi/gdth_ioctl.h``
+ RIEBL_MAGIC           0x09051990                                ``drivers/=
+net/atarilance.c``
+ NBD_REQUEST_MAGIC     0x12560953       nbd_request              ``include/=
+linux/nbd.h``
+-RED_MAGIC2            0x170fc2a5       (any)                    ``mm/slab.=
+c``
+ BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
+net/baycom_epp.c``
+-ISDN_X25IFACE_MAGIC   0x1e75a2b9       isdn_x25iface_proto_data ``drivers/=
+isdn/isdn_x25iface.h``
+-ECP_MAGIC             0x21504345       cdkecpsig                ``include/=
+linux/cdk.h``
+-LSOMAGIC              0x27091997       lso                      ``drivers/=
+fc4/fc.c``
+-LSMAGIC               0x2a3b4d2a       ls                       ``drivers/=
+fc4/fc.c``
+-WANPIPE_MAGIC         0x414C4453       sdla_{dump,exec}         ``include/=
+linux/wanpipe.h``
+-CS_CARD_MAGIC         0x43525553       cs_card                  ``sound/os=
+s/cs46xx.c``
+-LABELCL_MAGIC         0x4857434c       labelcl_info_s           ``include/=
+asm/ia64/sn/labelcl.h``
+-ISDN_ASYNC_MAGIC      0x49344C01       modem_info               ``include/=
+linux/isdn.h``
+-CTC_ASYNC_MAGIC       0x49344C01       ctc_tty_info             ``drivers/=
+s390/net/ctctty.c``
+-ISDN_NET_MAGIC        0x49344C02       isdn_net_local_s         ``drivers/=
+isdn/i4l/isdn_net_lib.h``
+ SAVEKMSG_MAGIC2       0x4B4D5347       savekmsg                 ``arch/*/a=
+miga/config.c``
+-CS_STATE_MAGIC        0x4c4f4749       cs_state                 ``sound/os=
+s/cs46xx.c``
+-SLAB_C_MAGIC          0x4f17a36d       kmem_cache               ``mm/slab.=
+c``
+ COW_MAGIC             0x4f4f4f4d       cow_header_v1            ``arch/um/=
+drivers/ubd_user.c``
+-I810_CARD_MAGIC       0x5072696E       i810_card                ``sound/os=
+s/i810_audio.c``
+-TRIDENT_CARD_MAGIC    0x5072696E       trident_card             ``sound/os=
+s/trident.c``
+-ROUTER_MAGIC          0x524d4157       wan_device               [in ``wanr=
+outer.h`` pre 3.9]
+ SAVEKMSG_MAGIC1       0x53415645       savekmsg                 ``arch/*/a=
+miga/config.c``
+ GDA_MAGIC             0x58464552       gda                      ``arch/mip=
+s/include/asm/sn/gda.h``
+-RED_MAGIC1            0x5a2cf071       (any)                    ``mm/slab.=
+c``
+ EEPROM_MAGIC_VALUE    0x5ab478d2       lanai_dev                ``drivers/=
+atm/lanai.c``
+ HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
+linux/hdlcdrv.h``
+-PCXX_MAGIC            0x5c6df104       channel                  ``drivers/=
+char/pcxx.h``
+ KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
+s/include/asm/sn/klkernvars.h``
+-I810_STATE_MAGIC      0x63657373       i810_state               ``sound/os=
+s/i810_audio.c``
+-TRIDENT_STATE_MAGIC   0x63657373       trient_state             ``sound/os=
+s/trident.c``
+-M3_CARD_MAGIC         0x646e6f50       m3_card                  ``sound/os=
+s/maestro3.c``
+ FW_HEADER_MAGIC       0x65726F66       fw_header                ``drivers/=
+atm/fore200e.h``
+-SLOT_MAGIC            0x67267321       slot                     ``drivers/=
+hotplug/cpqphp.h``
+-SLOT_MAGIC            0x67267322       slot                     ``drivers/=
+hotplug/acpiphp.h``
+ LO_MAGIC              0x68797548       nbd_device               ``include/=
+linux/nbd.h``
+-M3_STATE_MAGIC        0x734d724d       m3_state                 ``sound/os=
+s/maestro3.c``
+-VMALLOC_MAGIC         0x87654320       snd_alloc_track          ``sound/co=
+re/memory.c``
+-KMALLOC_MAGIC         0x87654321       snd_alloc_track          ``sound/co=
+re/memory.c``
+-PWC_MAGIC             0x89DC10AB       pwc_device               ``drivers/=
+usb/media/pwc.h``
+ NBD_REPLY_MAGIC       0x96744668       nbd_reply                ``include/=
+linux/nbd.h``
+ ENI155_MAGIC          0xa54b872d       midway_eprom	        ``drivers/atm/=
+eni.h``
+ CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+coda_fs_i.h``
+@@ -135,7 +94,6 @@ YAM_MAGIC             0xF10A7654       yam_port         =
+        ``drivers/net/ha
+ CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
+scsi/ncr53c8xx.c``
+ QUEUE_MAGIC_FREE      0xf7e1c9a3       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+ QUEUE_MAGIC_USED      0xf7e1cc33       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+-HTB_CMAGIC            0xFEFAFEF1       htb_class                ``net/sche=
+d/sch_htb.c``
+ NMI_MAGIC             0x48414d4d455201 nmi_s                    ``arch/mip=
+s/include/asm/sn/nmi.h``
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+=20
+--=20
+2.30.2
+
+--tbi25wg7fxdpfvam
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmMjqWQACgkQvP0LAY0m
+WPFIgQ/+Pj18wW7Vo8WTHzLhNGGDqZjSQUd+DrqvNXt+9jAAvnmhWxH97ef6hG+B
+8tWkSm+296bXeKZEqGtGMyzkTHDNx9XISwSAJpEaCsFVeUTpahj3yegNLZyKVUnK
+Xie/iLmiIDBGNjatYz+bhRii6rthcMdlLp1ueSVNqOk3ncB9n0lc761PY4AkjDsY
+oIggeY9P5YqZejIW9HPBBnXwbSK6ubTsSeBlUtQ2a7JEW1GM6hwQNDsMsuFX091m
+tMsY4aLg+xNudW5GNjeCrnngT0YAjB5KIuLN/JFjgWMNwFZp53DggWHhLC73Qcpg
+vAvC8T2Rzi84i+FEWo3Pn8aGtbDYyjFreq51kaYYh2NZPlzVkHf1rzcAVYTjxppy
+9c6PqTYkhavD0+PdFspoNnPN2dhherqhH2w4p/Lz0PXPq1r45pC7JHK6+QWRSuJz
+j0HV/9T6YI+gPnjQ59Z1+JvkiNVJdKNuhtFBVL+gt+BZnWRdtQ2hIsj4J38bHuF9
+bmPntabFjp1vIi3WRhoibcrsuH9XSSUJjgQbjP4Pyj96CZAn5FWPTZXC51VZkNWo
+eYRYyw7vW/g6w6ZPq+bRwQxhbYrDWuk5LwFXTvi3ClFy4MdDZWbmqoVGKz1JFoTv
+/cR3UBCuV6d22VD9ZvpwkrQn2t2agXCWmzbgCW+e/fQqc/jSl/4=
+=E/yn
+-----END PGP SIGNATURE-----
+
+--tbi25wg7fxdpfvam--
