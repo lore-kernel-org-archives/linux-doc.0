@@ -2,91 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F71CC6FA82
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 01:48:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7F23ECAAA1
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 04:09:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230036AbiIOBsk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Sep 2022 21:48:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36288 "EHLO
+        id S229581AbiIOEJS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Sep 2022 00:09:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230023AbiIOBsh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Sep 2022 21:48:37 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 635178E478;
-        Wed, 14 Sep 2022 18:48:36 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id b75so11344944pfb.7;
-        Wed, 14 Sep 2022 18:48:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=jpawstLZ7baQ0n4gMGxZ7TutmdKIlyo5QJi8v2DcoQE=;
-        b=Du5scnVL3uaQScrP4EVfUx/mpUtESuVpOjZN5EovEaLg4ZJKvRYlgqa+HoTwgwKpLU
-         6JDrFH/x5wOxR+Zu9mRy1IPZOd1xL4lV3RX8chsYpeUEsoZQH6Yqn7ASQpu4JV83FKYW
-         nSb1f06sULsnFwLtJXbzPI3EmGaIpGM3Hpw//Tq+EMuRpzuVENLqIHgEnikbAcUVHtfi
-         ZkURhdZyEGCVRTLFA/14y7uwih1nuHpTw6Jx4aCMWZ39li1N9W8/qLt59lEIjeqbxfDl
-         30Mz2rIkVWx5eOU/AqVSacig+LAKSSwHaTjoEPxEZ5MgY+BC5pMwu7m5WqjBifcrvSFi
-         W6Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=jpawstLZ7baQ0n4gMGxZ7TutmdKIlyo5QJi8v2DcoQE=;
-        b=qtc01zToS7Q1WKwEoG1Ay91sHCZ8q07K0CUMRqelBu6+wUL+jMkdlTB3VvqbbkUNPh
-         RifPCPo9T37Glb4xZjI+yrGu9P0Win/P/gah7JA9sDvo6rTG8iFCb/QoY6cuO46YUK1H
-         Q8RtQfCOPUyLNffau6hPVSbpOm+C1Pl+3Sw8ScaBGkj2gYvsLOStp1IW4Z/WjdeIpZTJ
-         rxY+43tTQpPWyyIJFjuKS2RxBpvSM4b5jMuOvK3Ab5Lggw0cOqvfjfWlnjN5wi25LVyh
-         wMN+EGPXRD8ays+v03Wd+hy5TIlZIC1kkp/KqPVLCDKCgR/gfrJAyJw6YYg9onqAgsd0
-         PkoA==
-X-Gm-Message-State: ACgBeo0rsNa/c3J7UhuipylRtHx77orB5HRU8N75eJTdVWEbqroeGIuo
-        S5Gj0Z0WSxeXQwqBKtSNpMo=
-X-Google-Smtp-Source: AA6agR6D2QFk8tfHYeY2SqVmHyRef4S904Uj/qGkzB+W0/yfNOYsaJeATniZIn5v4yzj+mo52jXPxA==
-X-Received: by 2002:a05:6a00:852:b0:544:5907:7520 with SMTP id q18-20020a056a00085200b0054459077520mr15834526pfk.31.1663206515688;
-        Wed, 14 Sep 2022 18:48:35 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-73.three.co.id. [180.214.232.73])
-        by smtp.gmail.com with ESMTPSA id 75-20020a62174e000000b0054223a0185asm9471699pfx.161.2022.09.14.18.48.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Sep 2022 18:48:35 -0700 (PDT)
-Message-ID: <1b161a3e-61da-a0ee-f0ce-97e445d275ef@gmail.com>
-Date:   Thu, 15 Sep 2022 08:48:30 +0700
+        with ESMTP id S229458AbiIOEJP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 00:09:15 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0088C8E0EF;
+        Wed, 14 Sep 2022 21:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663214954; x=1694750954;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TzphYM1h+6I8Oo1m4GyReXXjD1TCLY++ypjD7c+v8/c=;
+  b=lU/UKNN/lijyxU674Md/oHJeM8yK5+J13Ze3kd4pik8075EIBL1XRk8R
+   B25hHhlPFnWA9erTd1/Bp6ulz5h/0m5T4EyotBD058Hp04yco6x4duXVo
+   epYH4Bdxk9Lex+cVqKcCL7bJpbsH8YatixTW65jadJ8Hf3N2KPJZ4Z9Jt
+   gX8JwhRot5ifus/PSuBc3a+8ooo6K3QkMzMhr7/lCt8eA53Slyvcbh0Va
+   6Xkzsq2F4Pvn0SYkOaMtfwwL8u3+f7NjqUqIz2TkxmdfQAtJsOsctz7JU
+   5S9Za95sRZMyybsaAwu6NWXZZCv47a2vDFDHPG1QAyuyPm8L6mrG4ng4+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="360345510"
+X-IronPort-AV: E=Sophos;i="5.93,316,1654585200"; 
+   d="scan'208";a="360345510"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2022 21:09:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,316,1654585200"; 
+   d="scan'208";a="594659869"
+Received: from lkp-server01.sh.intel.com (HELO d6e6b7c4e5a2) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 14 Sep 2022 21:09:13 -0700
+Received: from kbuild by d6e6b7c4e5a2 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oYgBc-0000qu-17;
+        Thu, 15 Sep 2022 04:09:12 +0000
+Date:   Thu, 15 Sep 2022 12:09:02 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Palmer Dabbelt <palmer@rivosinc.com>
+Cc:     kbuild-all@lists.01.org, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [ammarfaizi2-block:palmer/linux/riscv-hwprobe 2/4] htmldocs:
+ Documentation/riscv/hwprobe.rst:40: WARNING: Unexpected indentation.
+Message-ID: <202209151152.HqgJ1dvn-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [RESEND] docs: x86: move do_IRQ to common_interrupt in
- entry_64.rst
-Content-Language: en-US
-To:     Tuo Cao <91tuocao@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, corbet@lwn.net
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20220913152801.30966-1-91tuocao@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220913152801.30966-1-91tuocao@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/13/22 22:28, Tuo Cao wrote:
-> do_IRQ has been replaced by common_interrupt in commit
-> fa5e5c409213 ("x86/entry: Use idtentry for interrupts").
-> Move do_IRQ to common_interrupt.
-> <snip>...
-> -   magically-generated functions that make their way to do_IRQ with
-> -   the interrupt number as a parameter.
-> +   magically-generated functions that make their way to common_interrupt
-> +   with the interrupt number as a parameter.
->  
+tree:   https://github.com/ammarfaizi2/linux-block palmer/linux/riscv-hwprobe
+head:   9be297f7ed349945cccc85f8df9d90e5ab68c1d9
+commit: b4d5e48f9f63b0c36801f57df0c22c7328f841c2 [2/4] (WIP) RISC-V: hwprobe: Add support for RISCV_HWPROBE_BASE_BEHAVIOR_IMA
+reproduce:
+        # https://github.com/ammarfaizi2/linux-block/commit/b4d5e48f9f63b0c36801f57df0c22c7328f841c2
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
+        git fetch --no-tags ammarfaizi2-block palmer/linux/riscv-hwprobe
+        git checkout b4d5e48f9f63b0c36801f57df0c22c7328f841c2
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Above is not moving something; but rather replace mentions to do_IRQ
-in the documentation with common_interrupt.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Please rework the patch subject and description.
+All warnings (new ones prefixed by >>):
 
-Thanks.
+>> Documentation/riscv/hwprobe.rst:40: WARNING: Unexpected indentation.
+
+vim +40 Documentation/riscv/hwprobe.rst
+
+    27	
+    28	* :RISCV_HWPROBE_KEY_MVENDORID:: Contains the value of :mvendorid:, as per the
+    29	  ISA specifications.
+    30	* :RISCV_HWPROBE_KEY_MARCHID:: Contains the value of :marchid:, as per the ISA
+    31	  specifications.
+    32	* :RISCV_HWPROBE_KEY_MIMPLID:: Contains the value of :mimplid:, as per the ISA
+    33	  specifications.
+    34	* :RISCV_HWPROBE_KEY_BASE_BEHAVIOR:: A bitmask containing the base user-visible
+    35	  behavior that this kernel supports.  The following base user ABIs are defined:
+    36	    * :RISCV_HWPROBE_BASE_BEHAVIOR_IMA:: Support for rv32ima or rv64ima, as
+    37	      defined by version 2.2 of the user ISA and version 1.10 of the privileged
+    38	      ISA, with the following known exceptions (more exceptions may be added,
+    39	      but only if it can be demonstrated that the user ABI is not broken):
+  > 40	        * The :fence.i: instruction cannot be directly executed by userspace
 
 -- 
-An old man doll... just what I always wanted! - Clara
+0-DAY CI Kernel Test Service
+https://01.org/lkp
