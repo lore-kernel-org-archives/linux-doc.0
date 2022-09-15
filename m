@@ -2,78 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0DC9C6FA89
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 14:42:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEFDEC6FA89
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 15:02:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229804AbiIOOmJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Sep 2022 10:42:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37446 "EHLO
+        id S229921AbiIOPC0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Sep 2022 11:02:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230107AbiIOOlj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 10:41:39 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E903BB8D;
-        Thu, 15 Sep 2022 07:41:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=IU+Vy0N15fZhJfU1yY5jatba4ZvCtVnu9ygPkLo6lyQ=; b=Q9hFJ6cTg3JyvOYK5+F4ElqCJr
-        WM7sl+KOcFV/mFxIgbwkWajuwCq3EPpEfYdmS22DOWB7t++uXqXMPUsh4PFq595J4QCz8dgOxFK+n
-        9VKBVyqDAQEyg2wE6dnTxuPXRghggN7gBNzysQpMqGMh1bAifX/xht8kagXz+sVTcaH1nnD1nuBFf
-        g+CE08+sC9+/VSAXsTe0JT5KCGYDRaHBDbnaDtXeHO5ja2kc1u6jiDvre65yh30MgtewTjFY60kT1
-        2DpeHN7jd3lWi8ODjp4HP5Hn8ffds94kkJ9HDSwDigoMXuC57znTaC+O+qD7zgo7wM+XIUz+s8Qkr
-        ih5giFiQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oYq37-001A2f-5d; Thu, 15 Sep 2022 14:41:05 +0000
-Date:   Thu, 15 Sep 2022 15:41:05 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Tuo Cao <91tuocao@gmail.com>
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        with ESMTP id S229869AbiIOPCZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 11:02:25 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 881A585FDF;
+        Thu, 15 Sep 2022 08:02:24 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id o70-20020a17090a0a4c00b00202f898fa86so8289039pjo.2;
+        Thu, 15 Sep 2022 08:02:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=l6l3XBbZgS3tr14q2oBrffwPSTwXxpqq1iQ9lWl+dBc=;
+        b=HsAHqRgqy1RewASaznRyALx4trsvMmIIut1OHoWxdjUTvIjUYJEphcLh/mZoI22u6O
+         ugUlFIw3Uraa5Ol8BoPF6YZa2GOjCUf3tn0g8A1hlpkxzTU7uLDYR73FsNtMZpLu6d1C
+         86wC35pO/fO1Zw3XHh3ptIebXp7RtmwZlMsguUMFiVMyYv0IuQ9+hsdJ6gXxiQxDJDR0
+         IpfOthZRvxXQTaItQfHsCxY6Hw29xsA/6HDEF6PiixNlodI1epsiDPZ9f2Xhy/iK/jX6
+         PjrSvlmAQj/LopCXD8ta13AXPiex9DgE7EuBiLxwf4TFNI8NetqKG0/DPc7oeAO2gWjw
+         /APQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=l6l3XBbZgS3tr14q2oBrffwPSTwXxpqq1iQ9lWl+dBc=;
+        b=OAWlzYRKjBTIZZXljtC4X7g9XDMu4uTlUNMsVhDG9FzlvDqMCBRkFqSCsamjWKmSaY
+         vx3OqmUyC5apNemQSU93OgCjfhjn/29NWdsE6EyY/mO86OOuG1DXXkgABU54VKC68acr
+         EwSgha/MDhv6nMFWx2GsYc8NePhhM0A83/VJX/ybYoCQN5u0BQ+myEgcd6hFBJnknCYu
+         AMcqye81It4Z2Terp1XvjL7xSA78FlerooOZtyAzoQC862273PW7nSnHOO88PZIYUS3T
+         5AS/JeOb9p/cPU1csLDypOrwD0wVXDYXIN7012bCbv47/0sXBrObgVzMjJE+gHzibeVU
+         VbjQ==
+X-Gm-Message-State: ACrzQf2ajW8ZX7TGSbQTgEwyAGuoHXjdi3HqbUebeuSk/w7GZ1X7HDQB
+        OjvXMcz+s5mjK7LEfrz+Wc0=
+X-Google-Smtp-Source: AMsMyM4JAZklEkyspJhHNnognMb3Z3VWzT0BsDSrF0OY6mGEK8ZoObRi+EInlWw6HdfE9T0X+E03mw==
+X-Received: by 2002:a17:902:f08c:b0:178:25ab:aaef with SMTP id p12-20020a170902f08c00b0017825abaaefmr192171pla.57.1663254143838;
+        Thu, 15 Sep 2022 08:02:23 -0700 (PDT)
+Received: from localhost.localdomain ([182.160.5.243])
+        by smtp.gmail.com with ESMTPSA id np13-20020a17090b4c4d00b001df264610c4sm4254849pjb.0.2022.09.15.08.02.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Sep 2022 08:02:23 -0700 (PDT)
+From:   Tuo Cao <91tuocao@gmail.com>
+To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs: x86: replace do_IRQ int the entry_64.rst with
- common_interrupt
-Message-ID: <YyM5gTgcvvFY7Oxk@casper.infradead.org>
-References: <20220915135452.7901-1-91tuocao@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220915135452.7901-1-91tuocao@gmail.com>
+        corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        91tuocao@gmail.com
+Subject: [PATCH v3] docs: x86: replace do_IRQ int the entry_64.rst with common_interrupt()
+Date:   Thu, 15 Sep 2022 23:01:55 +0800
+Message-Id: <20220915150155.9908-1-91tuocao@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 15, 2022 at 09:54:52PM +0800, Tuo Cao wrote:
-> do_IRQ has been replaced by common_interrupt in commit
-> fa5e5c409213 ("x86/entry: Use idtentry for interrupts").
-> 
-> Signed-off-by: Tuo Cao <91tuocao@gmail.com>
-> ---
->  Documentation/x86/entry_64.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/x86/entry_64.rst b/Documentation/x86/entry_64.rst
-> index e433e08f7018..4f12152570e7 100644
-> --- a/Documentation/x86/entry_64.rst
-> +++ b/Documentation/x86/entry_64.rst
-> @@ -33,8 +33,8 @@ Some of these entries are:
->   - interrupt: An array of entries.  Every IDT vector that doesn't
->     explicitly point somewhere else gets set to the corresponding
->     value in interrupts.  These point to a whole array of
-> -   magically-generated functions that make their way to do_IRQ with
-> -   the interrupt number as a parameter.
-> +   magically-generated functions that make their way to common_interrupt
+do_IRQ has been replaced by common_interrupt in commit
+fa5e5c409213 ("x86/entry: Use idtentry for interrupts").
 
-If we write common_interrupt() with the brackets, that'll get turned
-into a nice link to the kernel-doc for common_interrupt().  If anyone
-writes it ;-)
+Signed-off-by: Tuo Cao <91tuocao@gmail.com>
+---
+ Documentation/x86/entry_64.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> +   with the interrupt number as a parameter.
->  
->   - APIC interrupts: Various special-purpose interrupts for things
->     like TLB shootdown.
-> -- 
-> 2.17.1
-> 
+diff --git a/Documentation/x86/entry_64.rst b/Documentation/x86/entry_64.rst
+index e433e08f7018..0afdce3c06f4 100644
+--- a/Documentation/x86/entry_64.rst
++++ b/Documentation/x86/entry_64.rst
+@@ -33,8 +33,8 @@ Some of these entries are:
+  - interrupt: An array of entries.  Every IDT vector that doesn't
+    explicitly point somewhere else gets set to the corresponding
+    value in interrupts.  These point to a whole array of
+-   magically-generated functions that make their way to do_IRQ with
+-   the interrupt number as a parameter.
++   magically-generated functions that make their way to common_interrupt()
++   with the interrupt number as a parameter.
+ 
+  - APIC interrupts: Various special-purpose interrupts for things
+    like TLB shootdown.
+-- 
+2.17.1
+
