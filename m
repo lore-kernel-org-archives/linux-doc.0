@@ -2,135 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBCA9ECAAA1
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 07:35:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FEBEC6FA86
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 09:02:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229738AbiIOHfp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Sep 2022 03:35:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42774 "EHLO
+        id S229986AbiIOJB5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Sep 2022 05:01:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229713AbiIOHfn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 03:35:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E174792E4
-        for <linux-doc@vger.kernel.org>; Thu, 15 Sep 2022 00:35:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663227338;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=soVYuMAxayh+2brnGzLjNkGMPYifBwRHy6hrOc9fKJ8=;
-        b=OyPlY/1tpSkuNIuHGkNy3q3T709HeKFVaGyFkAZ/MG+FxFjU1t5zdpibDN/MOu0ymX9v9B
-        T9wUieo+qIcOczD4RB3igJJLWm4DgJetZhGQdmvU0IOGYwm/Ut5Zt1GtlxzlU6BykYWFQu
-        J+jWu6BVH4o3O2u0QzDLjnLBIdD4ih8=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-67-EE1MXMGNPPGNBquPTCrqBQ-1; Thu, 15 Sep 2022 03:35:37 -0400
-X-MC-Unique: EE1MXMGNPPGNBquPTCrqBQ-1
-Received: by mail-pl1-f199.google.com with SMTP id p18-20020a170902a41200b00172b0dc71e0so12055539plq.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 Sep 2022 00:35:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=soVYuMAxayh+2brnGzLjNkGMPYifBwRHy6hrOc9fKJ8=;
-        b=vzPQYzL4x4SPX2AcRRptTdndoqrHE2EnCsvTeUhHIt7JUtDnewHuT/uPqWzSZW33n+
-         IxayoMK0oBKNHs1Rlxr3se8lTnCqBKvf836bvGiHXcKho6Mq9eUvP5iTaD+ascIxTaNy
-         5d4bd59BuxbzAmRkVHCBB6wn7G40cXz6aBniwJMiCV86UO7CETqLi5EIjwWR37HzZz4Q
-         yOHXRI11N27u4Dyy8u95CgMgrdEvVwC+goBid3mQkbQdjJHNJQW5EvfmfHcKDl0OYLP6
-         y81ZX9+fd4dkqpA8dOd/x2SKWTrB6u+qBlGH+OBTUnKhuBcVd/mKgiLwnY2Jpujox3iV
-         h3TA==
-X-Gm-Message-State: ACrzQf3RmGhZdSEydfAsTeqqCSMU1fqBAYVwzu5Cr2eV6zjx7qPkHS4M
-        5hZtQtPZwAFxUu1x1AD0hofdcqTKqEjitq5oAU2oiDabB0FVPdnUx1dErJ2t4QzFfy/ifx8jHth
-        npoSipdgn+hVdJU7CVW7eahYz5bwmz+3gY/03
-X-Received: by 2002:a17:903:3014:b0:176:e498:2340 with SMTP id o20-20020a170903301400b00176e4982340mr3078637pla.119.1663227336200;
-        Thu, 15 Sep 2022 00:35:36 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM66EOQRG+uyyFv9IE6MmpghdMEhIjmEVFEbL27fE57qiUN+hTdC4XHDd0YfNOVJy61ajzo/dhfEWZYTZs15d48=
-X-Received: by 2002:a17:903:3014:b0:176:e498:2340 with SMTP id
- o20-20020a170903301400b00176e4982340mr3078616pla.119.1663227335929; Thu, 15
- Sep 2022 00:35:35 -0700 (PDT)
+        with ESMTP id S229881AbiIOJBv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 05:01:51 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F9FB4332C;
+        Thu, 15 Sep 2022 02:01:49 -0700 (PDT)
+Received: from canpemm500005.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MSrh84DTDzmVMC;
+        Thu, 15 Sep 2022 16:58:00 +0800 (CST)
+Received: from ubuntu1804.huawei.com (10.67.174.63) by
+ canpemm500005.china.huawei.com (7.192.104.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 15 Sep 2022 17:01:45 +0800
+From:   Zhao Gongyi <zhaogongyi@huawei.com>
+To:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-kselftest@vger.kernel.org>
+CC:     <akinobu.mita@gmail.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <osalvador@suse.de>, <shuah@kernel.org>,
+        Zhao Gongyi <zhaogongyi@huawei.com>
+Subject: [PATCH -next v2 0/5] Optimize and bugfix for notifier error
+Date:   Thu, 15 Sep 2022 16:57:52 +0800
+Message-ID: <20220915085757.258608-1-zhaogongyi@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20220822060936.769855-1-marcus.folkesson@gmail.com>
- <CAO-hwJ+3Yrr--cr=r5+jvs4A=A-cmDtrKQETo=YOYDC3nXTMBg@mail.gmail.com>
- <YwTvrNuulKx0SB6H@gmail.com> <CAO-hwJKiq50fWwXNUGcXeWtWcUXb65ZmJMsADfrsUTac_Xj2dw@mail.gmail.com>
- <YwcbVJswrL1Doi4s@gmail.com> <CAO-hwJJ86oAuaFD+uX7Rwv7cASO=4mchRJ1UBTxz9gYs6M1rUg@mail.gmail.com>
- <YyLVblZkIPCvNd/2@gmail.com>
-In-Reply-To: <YyLVblZkIPCvNd/2@gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 15 Sep 2022 08:35:25 +0100
-Message-ID: <CAO-hwJJ5dRrgxrae-RasYXuu7C9xjw6RmPaPfmO=YU3StMaQ3A@mail.gmail.com>
-Subject: Re: [RESEND PATCH 1/2] HID: Add driver for RC Simulator Controllers
-To:     Marcus Folkesson <marcus.folkesson@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.67.174.63]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ canpemm500005.china.huawei.com (7.192.104.229)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 15, 2022 at 8:28 AM Marcus Folkesson
-<marcus.folkesson@gmail.com> wrote:
->
-> Hi Benjamin,
->
-> On Tue, Aug 30, 2022 at 02:45:11PM +0200, Benjamin Tissoires wrote:
-> > On Thu, Aug 25, 2022 at 8:44 AM Marcus Folkesson
-> > <marcus.folkesson@gmail.com> wrote:
-> > >
->
->
-> [...]
-> > >
-> > >
-> > > Is the fact that more than one button share the same
-> > > byte hard to describe in the report?
-> >
-> > No, this is actually easy to describe. You say that there is one usage
-> > of "something" which has a report size of 1 bit, and then you have
-> > another usage of "something else" with the same report size.
-> >
-> > But usually you have to add padding after to make up to 8 bits (so 6
-> > bits in that case).
-> >
-> > I was referring to the case  where you are parsing the same bit on the
-> > wire, and give a different usage based if you have received an odd or
-> > an even number of reports. In that case, we probably need to use move
-> > this bit to a const field in the original report descriptor and say
-> > that the data is now not const:
-> >
-> > - initial report (completely random example):
-> >   X (2 bytes) | Y (2 bytes) | button this_or_that (1 bit, depending of
-> > odd or even received reports) | 7 bits of padding
-> > - we can declare it as:
-> >   X (2 bytes) | Y (2 bytes) | button this (1 bit) | button that (1
-> > bit) | 6 bits of padding
->
-> How about if there is no unused bytes?
->
-> The XTRG2FMS has 8 10-bit channels and use every byte in the report.
-> Should I specify 8 8-bit channels instead and fix that in raw_event?
-> If so, should I only use 8bit values then?
+1. Fix non-working usage of negative values
+2. Add checking after online or offline
+3. Restore memory before exit
+4. Correct test's name
 
-If I am not wrong, you should be able to add another byte in the
-report descriptor, as long as your raw_event function always adds it.
-Though now that I am typing it, I am actually wondering if this will
-work. You can always try, there is a chance it'll work, but I can't
-remember if it'll result in a timeout on the USB front because it'll
-expect one more byte that will never arrive.
+Changes in v2:
+  - Replace 'online_all_hot_pluggable_memory'
+    with 'online_all_offline_memory()'.
+  - Collect Reviewed-by tags from David Hildenbrand.
 
->
-> (Are you at the ELCE conference btw?)
 
-I was at Plumbers this week, but got an extra day today. But yeah, I'm
-in Dublin today.
+Zhao Gongyi (5):
+  docs: notifier-error-inject: fix non-working usage of negative values
+  selftests/memory-hotplug: Use 'printf' instead of 'echo'
+  selftests/memory-hotplug: Add checking after online or offline
+  selftests/memory-hotplug: Restore memory before exit
+  docs: notifier-error-inject: Correct test's name
 
-Cheers,
-Benjamin
+ .../fault-injection/notifier-error-inject.rst | 14 ++++---
+ .../memory-hotplug/mem-on-off-test.sh         | 37 +++++++++++++++----
+ 2 files changed, 39 insertions(+), 12 deletions(-)
 
->
-> Best regards
-> Marcus Folkesson
+--
+2.17.1
 
