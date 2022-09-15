@@ -2,163 +2,493 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D6A5C6FA8A
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 14:31:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE59ECAAA1
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 14:34:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229741AbiIOObv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Sep 2022 10:31:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46898 "EHLO
+        id S230144AbiIOOeV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Sep 2022 10:34:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbiIOObu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 10:31:50 -0400
-Received: from na01-obe.outbound.protection.outlook.com (mail-centralusazon11013011.outbound.protection.outlook.com [52.101.64.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 306E88E4DD;
-        Thu, 15 Sep 2022 07:31:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OHeyFDBD+AItx7PhTsSNX0O9s8yFr5IWkj28k8PjvC/Kt/FYIXqh5vctYF/ak0wHljtoZEII2RLXHcPHHRWRak/EWjN9f12Sru/qkFYCczF+A8xDJO6EaaVf6ChEDl/9Ll4rXxK0OhTSQtqAklDRYSsi/X2WlNboO29H8gGxs6eEYKKcwO1SE254v3JcJGvUpGyxrHmdt8tEncZopa1hzAqKEQFsxVCuwKFOEPJyIN4DEyHs4Xok3CgkUvfP8vDBq5BktZ6D/p0TalxLfeGLOxeMFqCNg8hRkCyW7YvQvOz3vANY9CL3ZFKaWs4JIld6Rg04AOI7nCHHD3tMpgfYZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PU9/jwik2S/Ca1+WTB2qizOF8aMDF1VlWAbarjk4we0=;
- b=JC+pr+Uzy7/ELQbWpY99or9qfnCPUTRQh7XwpR5tqLhqqcbLwuLAaSKIszzF56K/ONoaF3+t8I6fmzsa9NACt3gWRWDAtMr5rvFvctF+b1Xs6VgKSXzc2/0sNbezN8Edwrlhaq0zDFmAvyDwhjtCbE+O1EfWbKevaQU7nDjksMJCdm8jtijaYxbFttRmIq0xtq4ePo52VQnbJHCwVoesmaFY6swTuWG85tzFYKvvfB5eEPjBuvfBhcoRbFQlE06AHOf12/macKsRe3x5W/zPw3E/fVDwGbDPT+87hWFy3MNSNgT5U3C5GkfevmIzX8Pd8psg4eHfXt0Ksy16EbcPvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PU9/jwik2S/Ca1+WTB2qizOF8aMDF1VlWAbarjk4we0=;
- b=2GCtkOnCc7AytbbpZx53V0W+EN0rP6m/PTG5eO0d18eNU0lR7S681UUQRNqiH9cIOyTLprtmvfoJ6nH0PfhAbLEY9RpWNZyWL+MgAmPj3fsFvB2YQK0LGD/goefq4/YHe+4Q/LDavlmRNfa7G+18HpRJb6LfqZMujRcWBXrm4qI=
-Received: from BY3PR05MB8531.namprd05.prod.outlook.com (2603:10b6:a03:3ce::6)
- by BY5PR05MB6931.namprd05.prod.outlook.com (2603:10b6:a03:1c3::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.4; Thu, 15 Sep
- 2022 14:31:45 +0000
-Received: from BY3PR05MB8531.namprd05.prod.outlook.com
- ([fe80::e46:a7cf:acd:c835]) by BY3PR05MB8531.namprd05.prod.outlook.com
- ([fe80::e46:a7cf:acd:c835%2]) with mapi id 15.20.5632.012; Thu, 15 Sep 2022
- 14:31:45 +0000
-From:   Nadav Amit <namit@vmware.com>
-To:     Barry Song <21cnbao@gmail.com>
-CC:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        Yicong Yang <yangyicong@huawei.com>,
+        with ESMTP id S230105AbiIOOeP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 10:34:15 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7D4D9D645;
+        Thu, 15 Sep 2022 07:34:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663252454; x=1694788454;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=GqJ8BWA2xllQ6m1R4ZOnTmOeGfyvP6hMWqDM8wTtsYc=;
+  b=jI95cE5P7C+1X3eQ7FgdyJU3vqVmcTaS0PtNBc3MMNQxa09rUHsSg7Yp
+   JyqOhR4yrDWNL6U8j/NGQZOIvjTvNcMqZek7y45Bz+m/OfteBQHmgazfh
+   U7BNuMAxM8maJz8irNZSebUmFTE2hzAjLEokjQ0Vll0AYZv2zPfuzZdnp
+   FfBIPG3FuuJmQNx8aFVPs12BDQEARAcA5rOSjnyfKJX345cvFrLl9C28m
+   DkOv+Ff7zWnSoQqk0UXO0TL7Zc/dBP3Jz9wv5czRzZDRUgNyHR9ApnX1W
+   OK78ltzNFQS7nVyORHcoJnmh0XRteLrkqqXbc89gmRhwBwDq6za3mlZyV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10470"; a="385021442"
+X-IronPort-AV: E=Sophos;i="5.93,318,1654585200"; 
+   d="scan'208";a="385021442"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2022 07:34:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,318,1654585200"; 
+   d="scan'208";a="945976926"
+Received: from chaop.bj.intel.com ([10.240.193.75])
+  by fmsmga005.fm.intel.com with ESMTP; 15 Sep 2022 07:34:02 -0700
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Linux MM <linux-mm@kvack.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "darren@os.amperecomputing.com" <darren@os.amperecomputing.com>,
-        "yangyicong@hisilicon.com" <yangyicong@hisilicon.com>,
-        "huzhanyuan@oppo.com" <huzhanyuan@oppo.com>,
-        "lipeifeng@oppo.com" <lipeifeng@oppo.com>,
-        "zhangshiming@oppo.com" <zhangshiming@oppo.com>,
-        "guojian@oppo.com" <guojian@oppo.com>,
-        "realmz6@gmail.com" <realmz6@gmail.com>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "openrisc@lists.librecores.org" <openrisc@lists.librecores.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "wangkefeng.wang@huawei.com" <wangkefeng.wang@huawei.com>,
-        "xhao@linux.alibaba.com" <xhao@linux.alibaba.com>,
-        "prime.zeng@hisilicon.com" <prime.zeng@hisilicon.com>,
-        Barry Song <v-songbaohua@oppo.com>,
-        Mel Gorman <mgorman@suse.de>
-Subject: Re: [PATCH v3 4/4] arm64: support batched/deferred tlb shootdown
- during page reclamation
-Thread-Topic: [PATCH v3 4/4] arm64: support batched/deferred tlb shootdown
- during page reclamation
-Thread-Index: AQHYtgB7WHPVSXtcQ0CQkErpE23BFq3WrNAAgAADEgCACXcNAIAACaCAgACDMQA=
-Date:   Thu, 15 Sep 2022 14:31:45 +0000
-Message-ID: <2AB9EC05-16B4-46F8-B716-53941C1C9A50@vmware.com>
-References: <20220822082120.8347-1-yangyicong@huawei.com>
- <20220822082120.8347-5-yangyicong@huawei.com>
- <1e8642d5-0e2d-5747-d0d2-5aa0817ea4af@arm.com>
- <CAGsJ_4xD4m-szM1Cm4N5ZRCODGC0fbW+BLBhy8g6+eK=aHPQNw@mail.gmail.com>
- <1125554b-c183-23c4-5516-95b918a761cc@arm.com>
- <CAGsJ_4zkRv7RYCB2SC0uydMSQWfwXs3-nkjxMoR7wgn2nt43gA@mail.gmail.com>
-In-Reply-To: <CAGsJ_4zkRv7RYCB2SC0uydMSQWfwXs3-nkjxMoR7wgn2nt43gA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.120.41.1.1)
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vmware.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY3PR05MB8531:EE_|BY5PR05MB6931:EE_
-x-ms-office365-filtering-correlation-id: 2fd87c49-7d2f-4c91-f73c-08da97270419
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: p/l/a3ULHbnWmI8p16l5x7McwxcbPykOMk7prk6v6JcpaK6U6zTgijBlq6f0oHQlN7mdizkKVDaZvPHry/xJwCmp5CkwMKbB6ius44BxgXY45+MG9mhMcnWhRKcFT6adS7tUshiwvR2KPHur6mkZFP0n72ribLma8c6qF4s4dX4mSlkVG+Fe4Ado/AqPiViCiRWRxjtTag2pkqPOZQUj0i3eqncbyB0wTucXwtDqava6oUuuQL4YxI16Pzz1OBABPK6ViF7An5HRFM4Xgn/g65AvGd3G6lXf1aOPQKLc7B0F+wP6X1mJNZX26mkllo+Qa2ogM9UScGvERBrc4JiWNgq3+UFcQZdFiKra9FXsH6EVDS12Rcr1QANGpRmHoqAFWp/WPuHFMKMqJx1+qbqSaAVTp+adwiiHfwvmCYLliQDOhqcof8fuyOedUqxn/ruytw/syPL7OmdTwdo5Un99EcaKKB6zLPoi9rmjZzC50lN+sG/Tzcuo9qT0iXg/f1P9/6AYDPMpCMvp3OKfbm9GKTFvElOYSaM9FO0EA8Z4W89IRANO48u/Uw0nqOUjTdlTEx+EggVCQjEhyg6OQpqlJJatWBvLO5dLN75KknRoGUP9XPKr6VHPPj5WWks1ABYl3g9qza10OS8bLoKFbFcm2slYZU34q/dKEQzpIDgXlJtG/o2yUARD6121/o0m0s16281UlOf+k+5mdVFGzHsSksEqtmqb8ynmcvwiWbIXZmOBDTL4e4Y0QD4SCiMPe/J7z3o4b0Vcqwr6OHAogRHebVFIVGRs/37PRjLJGSGUzCiYEG0QU9NVIqD14MPwlRZjjQhYJqDBA5Vu2ooBjoad8VIpPwyF7j5J+hHTn4JX33U=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY3PR05MB8531.namprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(376002)(39860400002)(396003)(346002)(451199015)(38100700002)(66446008)(53546011)(26005)(66556008)(41300700001)(2616005)(7416002)(186003)(8676002)(122000001)(54906003)(6916009)(316002)(6506007)(4744005)(6486002)(64756008)(2906002)(66476007)(76116006)(4326008)(8936002)(478600001)(5660300002)(66946007)(7406005)(86362001)(6512007)(33656002)(71200400001)(38070700005)(36756003)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?d8Pv7Cy3K+TOApWdCapKdbFvTEWoMZymv8TKkx7s5RofwTab/ZyPN+qsPvbW?=
- =?us-ascii?Q?mifE0bd5OiG7/Bk3aMOasgq2djUQmFMQejZLguAQVk2o4pRTPFAz2sEH/0cB?=
- =?us-ascii?Q?1vl7BgiQDSOgCgzCh2eFj5uiJhdWU2i4IVYJWE7zY6EqO3kh5xu2cZdSFukD?=
- =?us-ascii?Q?UUhPtMBP5CDoNVJgOrhKkGUOCl5QU/OLvXfHJAQaeJ58DVHN79fCpqZVlw9z?=
- =?us-ascii?Q?qS46Col+GUCPFfCMJm+bJKqmGYXq1l4xvUOm711jHMcTs49DMk8/hJgXfLXm?=
- =?us-ascii?Q?5Xwod9AsI47BZhaXtwZcsQHBiE6rLJfSqGufKD9boWiGtJJOAdiFmSbJBHyR?=
- =?us-ascii?Q?VVMVvH1eQg9RQiIjQTSj8Jqc5DdQ2FF3iNo+V9TOBZY6YzRcBTdhKxVAFU0k?=
- =?us-ascii?Q?yT0BWO4wmJTPCWxkalDkJFE6TNj87iqRRNFDxCQ+7K9cleZusu4IPRt/UGI8?=
- =?us-ascii?Q?VGejVAHg4GvrqV3R+y7CQS4+IADCMT4iVENz/rHG1CEBZp2FLxFZt8+LlsCt?=
- =?us-ascii?Q?4wZyW03ioYjzQ7q+OSMxROrBcAQRylljUEvD+p8X5XOiusyeiRuykOn7Ho1y?=
- =?us-ascii?Q?Xh3UfGbhQMTzSIbRImpnFTGV2YIkyJPWuAZzCGtyy932Mj6vnc3530sAZa1J?=
- =?us-ascii?Q?X7zdqsH/qbMXz6GLcE/FDMLEPWqnfkbHo6e6Oqk2f7LhjK10Y5U+WS8im+PK?=
- =?us-ascii?Q?qceBFhEnnuyCuIX74uivOn//RZ+PNooCJknceL0kzXOJy8u4Yq5ZPXhxjJtb?=
- =?us-ascii?Q?ryjaLO4sPnyzMwg9jxVvcyrkGdf7KJxbeqEdze1koupIOfp0s+KZV6NBaTmK?=
- =?us-ascii?Q?EcxO9CijBzpI59ymKQIwGO7KWUZ+EExYkQZOLWOHI9N9q7s49MTt2pKQ2BKA?=
- =?us-ascii?Q?o5F11pmnpFQskPGSJH0eT5Nmk0grwC+WeR4da28JyyUjzo8su2IkS73tUpBu?=
- =?us-ascii?Q?2cE3bArUC4lLs005xDd0yLsTaNeMQ3m6CXP4I4dA2fRBoWxAyGk4kQITmNE7?=
- =?us-ascii?Q?MtZIUR8IKQJt2oFFjplg1dV9K0my+sAosB851BcGtOLO2AQZwzTGpUISaN2O?=
- =?us-ascii?Q?WdlrJaZolHZxFbzGUyZuDQRWuIzkLR05WoFHmfW/DwoosVrbIjzWLrHWZvrb?=
- =?us-ascii?Q?rlKbPSy5tNTb6supuoGLED6eWWVox8Jc86qVqpyEZyGqK5QbxgOxI41BPgCA?=
- =?us-ascii?Q?dPsf6F28gumgJaqWn5+Bc/rRvrRc0KMhAuO8UBocKPp+UfrHcoJUpnEZO0im?=
- =?us-ascii?Q?av4a6Qw8caN+SHtJPc0yqzCbrkD9jlxQDrR75Qp77N6N/poL6sQtnyem58l1?=
- =?us-ascii?Q?s3pxGtlvzAaajxxA8PmPmKoSopf+yDjNIL6dB+jGvdq3gCGQk3U/HfHZeHVh?=
- =?us-ascii?Q?0dihMDbRqHZoGdOZmlc6A4266tTiJQRPBQ/Eda9m1p+ICVfrETipkBhg9dON?=
- =?us-ascii?Q?Uay+go5mAl8aQW9nmxo6ahbraHZ6t+8AyCEupOPqB7pKuZFxZ1CnckKAUAeu?=
- =?us-ascii?Q?bmX+m8YkjZvqeP4R0/Vc+grXrzs6gKwrWTYD+j1u1SLu32pZfyOiRE+pX6cY?=
- =?us-ascii?Q?07ZXzBjydMmplwjTgUcYcvvg4IzYMy4ZE2grc2lP?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <011A480CEE0FA44B9996ADE03C86ECEA@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Date:   Thu, 15 Sep 2022 22:29:06 +0800
+Message-Id: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR05MB6931
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 
+KVM can use memfd-provided memory for guest memory. For normal userspace
+accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
+virtual address space and then tells KVM to use the virtual address to
+setup the mapping in the secondary page table (e.g. EPT).
 
-> On Sep 14, 2022, at 11:42 PM, Barry Song <21cnbao@gmail.com> wrote:
->=20
->>=20
->> The very idea behind TLB deferral is the opportunity it (might) provide
->> to accumulate address ranges and cpu masks so that individual TLB flush
->> can be replaced with a more cost effective range based TLB flush. Hence
->> I guess unless address range or cpumask based cost effective TLB flush
->> is available, deferral does not improve the unmap performance as much.
->=20
->=20
-> After sending tlbi, if we wait for the completion of tlbi, we have to get=
- Ack
-> from all cpus in the system, tlbi is not scalable. The point here is that=
- we
-> avoid waiting for each individual TLBi. Alternatively, they are batched. =
-If
-> you read the benchmark in the commit log, you can find the great decline
-> in the cost to swap out a page.
+With confidential computing technologies like Intel TDX, the
+memfd-provided memory may be encrypted with special key for special
+software domain (e.g. KVM guest) and is not expected to be directly
+accessed by userspace. Precisely, userspace access to such encrypted
+memory may lead to host crash so it should be prevented.
 
-Just a minor correction: arch_tlbbatch_flush() does not collect ranges.
-On x86 it only accumulate CPU mask.
+This patch introduces userspace inaccessible memfd (created with
+MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
+ordinary MMU access (e.g. read/write/mmap) but can be accessed via
+in-kernel interface so KVM can directly interact with core-mm without
+the need to map the memory into KVM userspace.
+
+It provides semantics required for KVM guest private(encrypted) memory
+support that a file descriptor with this flag set is going to be used as
+the source of guest memory in confidential computing environments such
+as Intel TDX/AMD SEV.
+
+KVM userspace is still in charge of the lifecycle of the memfd. It
+should pass the opened fd to KVM. KVM uses the kernel APIs newly added
+in this patch to obtain the physical memory address and then populate
+the secondary page table entries.
+
+The userspace inaccessible memfd can be fallocate-ed and hole-punched
+from userspace. When hole-punching happens, KVM can get notified through
+inaccessible_notifier it then gets chance to remove any mapped entries
+of the range in the secondary page tables.
+
+The userspace inaccessible memfd itself is implemented as a shim layer
+on top of real memory file systems like tmpfs/hugetlbfs but this patch
+only implemented tmpfs. The allocated memory is currently marked as
+unmovable and unevictable, this is required for current confidential
+usage. But in future this might be changed.
+
+Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+---
+ include/linux/memfd.h      |  24 ++++
+ include/uapi/linux/magic.h |   1 +
+ include/uapi/linux/memfd.h |   1 +
+ mm/Makefile                |   2 +-
+ mm/memfd.c                 |  25 ++++-
+ mm/memfd_inaccessible.c    | 219 +++++++++++++++++++++++++++++++++++++
+ 6 files changed, 270 insertions(+), 2 deletions(-)
+ create mode 100644 mm/memfd_inaccessible.c
+
+diff --git a/include/linux/memfd.h b/include/linux/memfd.h
+index 4f1600413f91..334ddff08377 100644
+--- a/include/linux/memfd.h
++++ b/include/linux/memfd.h
+@@ -3,6 +3,7 @@
+ #define __LINUX_MEMFD_H
+ 
+ #include <linux/file.h>
++#include <linux/pfn_t.h>
+ 
+ #ifdef CONFIG_MEMFD_CREATE
+ extern long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg);
+@@ -13,4 +14,27 @@ static inline long memfd_fcntl(struct file *f, unsigned int c, unsigned long a)
+ }
+ #endif
+ 
++struct inaccessible_notifier;
++
++struct inaccessible_notifier_ops {
++	void (*invalidate)(struct inaccessible_notifier *notifier,
++			   pgoff_t start, pgoff_t end);
++};
++
++struct inaccessible_notifier {
++	struct list_head list;
++	const struct inaccessible_notifier_ops *ops;
++};
++
++void inaccessible_register_notifier(struct file *file,
++				    struct inaccessible_notifier *notifier);
++void inaccessible_unregister_notifier(struct file *file,
++				      struct inaccessible_notifier *notifier);
++
++int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
++			 int *order);
++void inaccessible_put_pfn(struct file *file, pfn_t pfn);
++
++struct file *memfd_mkinaccessible(struct file *memfd);
++
+ #endif /* __LINUX_MEMFD_H */
+diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+index 6325d1d0e90f..9d066be3d7e8 100644
+--- a/include/uapi/linux/magic.h
++++ b/include/uapi/linux/magic.h
+@@ -101,5 +101,6 @@
+ #define DMA_BUF_MAGIC		0x444d4142	/* "DMAB" */
+ #define DEVMEM_MAGIC		0x454d444d	/* "DMEM" */
+ #define SECRETMEM_MAGIC		0x5345434d	/* "SECM" */
++#define INACCESSIBLE_MAGIC	0x494e4143	/* "INAC" */
+ 
+ #endif /* __LINUX_MAGIC_H__ */
+diff --git a/include/uapi/linux/memfd.h b/include/uapi/linux/memfd.h
+index 7a8a26751c23..48750474b904 100644
+--- a/include/uapi/linux/memfd.h
++++ b/include/uapi/linux/memfd.h
+@@ -8,6 +8,7 @@
+ #define MFD_CLOEXEC		0x0001U
+ #define MFD_ALLOW_SEALING	0x0002U
+ #define MFD_HUGETLB		0x0004U
++#define MFD_INACCESSIBLE	0x0008U
+ 
+ /*
+  * Huge page size encoding when MFD_HUGETLB is specified, and a huge page
+diff --git a/mm/Makefile b/mm/Makefile
+index 9a564f836403..f82e5d4b4388 100644
+--- a/mm/Makefile
++++ b/mm/Makefile
+@@ -126,7 +126,7 @@ obj-$(CONFIG_HARDENED_USERCOPY) += usercopy.o
+ obj-$(CONFIG_PERCPU_STATS) += percpu-stats.o
+ obj-$(CONFIG_ZONE_DEVICE) += memremap.o
+ obj-$(CONFIG_HMM_MIRROR) += hmm.o
+-obj-$(CONFIG_MEMFD_CREATE) += memfd.o
++obj-$(CONFIG_MEMFD_CREATE) += memfd.o memfd_inaccessible.o
+ obj-$(CONFIG_MAPPING_DIRTY_HELPERS) += mapping_dirty_helpers.o
+ obj-$(CONFIG_PTDUMP_CORE) += ptdump.o
+ obj-$(CONFIG_PAGE_REPORTING) += page_reporting.o
+diff --git a/mm/memfd.c b/mm/memfd.c
+index 08f5f8304746..1853a90f49ff 100644
+--- a/mm/memfd.c
++++ b/mm/memfd.c
+@@ -261,7 +261,8 @@ long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg)
+ #define MFD_NAME_PREFIX_LEN (sizeof(MFD_NAME_PREFIX) - 1)
+ #define MFD_NAME_MAX_LEN (NAME_MAX - MFD_NAME_PREFIX_LEN)
+ 
+-#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
++#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB | \
++		       MFD_INACCESSIBLE)
+ 
+ SYSCALL_DEFINE2(memfd_create,
+ 		const char __user *, uname,
+@@ -283,6 +284,14 @@ SYSCALL_DEFINE2(memfd_create,
+ 			return -EINVAL;
+ 	}
+ 
++	/* Disallow sealing when MFD_INACCESSIBLE is set. */
++	if ((flags & MFD_INACCESSIBLE) && (flags & MFD_ALLOW_SEALING))
++		return -EINVAL;
++
++	/* TODO: add hugetlb support */
++	if ((flags & MFD_INACCESSIBLE) && (flags & MFD_HUGETLB))
++		return -EINVAL;
++
+ 	/* length includes terminating zero */
+ 	len = strnlen_user(uname, MFD_NAME_MAX_LEN + 1);
+ 	if (len <= 0)
+@@ -331,10 +340,24 @@ SYSCALL_DEFINE2(memfd_create,
+ 		*file_seals &= ~F_SEAL_SEAL;
+ 	}
+ 
++	if (flags & MFD_INACCESSIBLE) {
++		struct file *inaccessible_file;
++
++		inaccessible_file = memfd_mkinaccessible(file);
++		if (IS_ERR(inaccessible_file)) {
++			error = PTR_ERR(inaccessible_file);
++			goto err_file;
++		}
++
++		file = inaccessible_file;
++	}
++
+ 	fd_install(fd, file);
+ 	kfree(name);
+ 	return fd;
+ 
++err_file:
++	fput(file);
+ err_fd:
+ 	put_unused_fd(fd);
+ err_name:
+diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
+new file mode 100644
+index 000000000000..2d33cbdd9282
+--- /dev/null
++++ b/mm/memfd_inaccessible.c
+@@ -0,0 +1,219 @@
++// SPDX-License-Identifier: GPL-2.0
++#include "linux/sbitmap.h"
++#include <linux/memfd.h>
++#include <linux/pagemap.h>
++#include <linux/pseudo_fs.h>
++#include <linux/shmem_fs.h>
++#include <uapi/linux/falloc.h>
++#include <uapi/linux/magic.h>
++
++struct inaccessible_data {
++	struct mutex lock;
++	struct file *memfd;
++	struct list_head notifiers;
++};
++
++static void inaccessible_notifier_invalidate(struct inaccessible_data *data,
++				 pgoff_t start, pgoff_t end)
++{
++	struct inaccessible_notifier *notifier;
++
++	mutex_lock(&data->lock);
++	list_for_each_entry(notifier, &data->notifiers, list) {
++		notifier->ops->invalidate(notifier, start, end);
++	}
++	mutex_unlock(&data->lock);
++}
++
++static int inaccessible_release(struct inode *inode, struct file *file)
++{
++	struct inaccessible_data *data = inode->i_mapping->private_data;
++
++	fput(data->memfd);
++	kfree(data);
++	return 0;
++}
++
++static long inaccessible_fallocate(struct file *file, int mode,
++				   loff_t offset, loff_t len)
++{
++	struct inaccessible_data *data = file->f_mapping->private_data;
++	struct file *memfd = data->memfd;
++	int ret;
++
++	if (mode & FALLOC_FL_PUNCH_HOLE) {
++		if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
++			return -EINVAL;
++	}
++
++	ret = memfd->f_op->fallocate(memfd, mode, offset, len);
++	inaccessible_notifier_invalidate(data, offset, offset + len);
++	return ret;
++}
++
++static const struct file_operations inaccessible_fops = {
++	.release = inaccessible_release,
++	.fallocate = inaccessible_fallocate,
++};
++
++static int inaccessible_getattr(struct user_namespace *mnt_userns,
++				const struct path *path, struct kstat *stat,
++				u32 request_mask, unsigned int query_flags)
++{
++	struct inode *inode = d_inode(path->dentry);
++	struct inaccessible_data *data = inode->i_mapping->private_data;
++	struct file *memfd = data->memfd;
++
++	return memfd->f_inode->i_op->getattr(mnt_userns, path, stat,
++					     request_mask, query_flags);
++}
++
++static int inaccessible_setattr(struct user_namespace *mnt_userns,
++				struct dentry *dentry, struct iattr *attr)
++{
++	struct inode *inode = d_inode(dentry);
++	struct inaccessible_data *data = inode->i_mapping->private_data;
++	struct file *memfd = data->memfd;
++	int ret;
++
++	if (attr->ia_valid & ATTR_SIZE) {
++		if (memfd->f_inode->i_size)
++			return -EPERM;
++
++		if (!PAGE_ALIGNED(attr->ia_size))
++			return -EINVAL;
++	}
++
++	ret = memfd->f_inode->i_op->setattr(mnt_userns,
++					    file_dentry(memfd), attr);
++	return ret;
++}
++
++static const struct inode_operations inaccessible_iops = {
++	.getattr = inaccessible_getattr,
++	.setattr = inaccessible_setattr,
++};
++
++static int inaccessible_init_fs_context(struct fs_context *fc)
++{
++	if (!init_pseudo(fc, INACCESSIBLE_MAGIC))
++		return -ENOMEM;
++
++	fc->s_iflags |= SB_I_NOEXEC;
++	return 0;
++}
++
++static struct file_system_type inaccessible_fs = {
++	.owner		= THIS_MODULE,
++	.name		= "[inaccessible]",
++	.init_fs_context = inaccessible_init_fs_context,
++	.kill_sb	= kill_anon_super,
++};
++
++static struct vfsmount *inaccessible_mnt;
++
++static __init int inaccessible_init(void)
++{
++	inaccessible_mnt = kern_mount(&inaccessible_fs);
++	if (IS_ERR(inaccessible_mnt))
++		return PTR_ERR(inaccessible_mnt);
++	return 0;
++}
++fs_initcall(inaccessible_init);
++
++struct file *memfd_mkinaccessible(struct file *memfd)
++{
++	struct inaccessible_data *data;
++	struct address_space *mapping;
++	struct inode *inode;
++	struct file *file;
++
++	data = kzalloc(sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return ERR_PTR(-ENOMEM);
++
++	data->memfd = memfd;
++	mutex_init(&data->lock);
++	INIT_LIST_HEAD(&data->notifiers);
++
++	inode = alloc_anon_inode(inaccessible_mnt->mnt_sb);
++	if (IS_ERR(inode)) {
++		kfree(data);
++		return ERR_CAST(inode);
++	}
++
++	inode->i_mode |= S_IFREG;
++	inode->i_op = &inaccessible_iops;
++	inode->i_mapping->private_data = data;
++
++	file = alloc_file_pseudo(inode, inaccessible_mnt,
++				 "[memfd:inaccessible]", O_RDWR,
++				 &inaccessible_fops);
++	if (IS_ERR(file)) {
++		iput(inode);
++		kfree(data);
++	}
++
++	file->f_flags |= O_LARGEFILE;
++
++	mapping = memfd->f_mapping;
++	mapping_set_unevictable(mapping);
++	mapping_set_gfp_mask(mapping,
++			     mapping_gfp_mask(mapping) & ~__GFP_MOVABLE);
++
++	return file;
++}
++
++void inaccessible_register_notifier(struct file *file,
++				    struct inaccessible_notifier *notifier)
++{
++	struct inaccessible_data *data = file->f_mapping->private_data;
++
++	mutex_lock(&data->lock);
++	list_add(&notifier->list, &data->notifiers);
++	mutex_unlock(&data->lock);
++}
++EXPORT_SYMBOL_GPL(inaccessible_register_notifier);
++
++void inaccessible_unregister_notifier(struct file *file,
++				      struct inaccessible_notifier *notifier)
++{
++	struct inaccessible_data *data = file->f_mapping->private_data;
++
++	mutex_lock(&data->lock);
++	list_del(&notifier->list);
++	mutex_unlock(&data->lock);
++}
++EXPORT_SYMBOL_GPL(inaccessible_unregister_notifier);
++
++int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
++			 int *order)
++{
++	struct inaccessible_data *data = file->f_mapping->private_data;
++	struct file *memfd = data->memfd;
++	struct page *page;
++	int ret;
++
++	ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
++	if (ret)
++		return ret;
++
++	*pfn = page_to_pfn_t(page);
++	*order = thp_order(compound_head(page));
++	SetPageUptodate(page);
++	unlock_page(page);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(inaccessible_get_pfn);
++
++void inaccessible_put_pfn(struct file *file, pfn_t pfn)
++{
++	struct page *page = pfn_t_to_page(pfn);
++
++	if (WARN_ON_ONCE(!page))
++		return;
++
++	put_page(page);
++}
++EXPORT_SYMBOL_GPL(inaccessible_put_pfn);
+-- 
+2.25.1
 
