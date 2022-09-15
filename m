@@ -2,86 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18780ECAAD3
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 11:09:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13B09C6FA82
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 12:16:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229550AbiIOLI6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Sep 2022 07:08:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56026 "EHLO
+        id S229541AbiIOMQf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Sep 2022 08:16:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbiIOLI5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 07:08:57 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB83D9A953;
-        Thu, 15 Sep 2022 04:08:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 374A0B81FB1;
-        Thu, 15 Sep 2022 11:08:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7413BC433C1;
-        Thu, 15 Sep 2022 11:08:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1663240134;
-        bh=X2hjnjeX49SebaaaihSZE19uspJmmj2lwVirIDzCF7U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=boJ7wi+9tDgG0wTR1Qga6ltlyFe0JxieAebGeG3fD/VJAJEQC22qH+AyaZwlVQ+Ls
-         jKaAYOJO2r8e7nmsnFrKkkFeEbHWT0j/bPIWLhhgnPZZ9jr+OOc5+XqgQfmcE7kj8i
-         yn3QOmPtbgta0EkCGoup4tnfwSGTyyxZ1rKgrEuU=
-Date:   Thu, 15 Sep 2022 13:09:19 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v13 1/3] x86/tdx: Add TDX Guest attestation interface
- driver
-Message-ID: <YyMH37G2CTuVCbLM@kroah.com>
-References: <20220909192708.1113126-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220909192708.1113126-2-sathyanarayanan.kuppuswamy@linux.intel.com>
+        with ESMTP id S229449AbiIOMQe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 08:16:34 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9594999B76;
+        Thu, 15 Sep 2022 05:16:33 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id c198so17852208pfc.13;
+        Thu, 15 Sep 2022 05:16:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=qnMPBaAj1F3T+8uZYN8jbU4xqXRIMovL97bP0OzxrFk=;
+        b=RU8hZBI/8Ck49RloIrjJgsj+xZtizolgAaWkd130ApklbJmxi6clWXsXoN7u7tfcaP
+         p6Njbr14DJqQ1e2AlQYXjcuYP8XcAeyKrdU62m56NHeCYG/wZG9FUxwgzyvdmXqGbr6C
+         PJQmOf414VMDGjQjNWhrd0KflKApcIef2nRCgfSCyALTTJXOhQsR10c+FSBy+TqY/ZXM
+         TZcHB9xFxx8GgE8pYf2OzXvB1lIbY/HL9Af7yO7c0pvs/nBou2BLN6RqYeYttrxWgHTn
+         VKb/pwkzwZTJ8AQ0HpxWmgts5HCcGVg3bWSatpEXw6gW/pfLPk/1S7dMilY2oqUtP/Ek
+         VI6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=qnMPBaAj1F3T+8uZYN8jbU4xqXRIMovL97bP0OzxrFk=;
+        b=Ywtl0SltZxZPGJWm14tKRMK27O8UgqboxUqmD91xDcYZhy5Tb2QKpEaT3/oecGCW45
+         W4y1VbUhFuUtow+N2+KJJZRT8UYQV7m6yJKacuZlh53uYp9vq5XJSY8J2c0WIYbNn9nC
+         KaS8CQ95MaXKabyjjvsiqqwebjgwOb4RfvZ3NOLi/v+L5CCKZSwCPA+1JabS7B4NXJU0
+         YX0MKy4XCA1h9kc0fSv92Y3iAdF2bbNv8kq9uhoLjsJb6kM/uwMxzzpB4waxhtrTQXxY
+         bzWYgcoiU6O2RRvsxMiXXD8kB8K9TCj4X2nQVQhArxakp4S9VdH1xB+ow6Li1cNBFyBl
+         WXvg==
+X-Gm-Message-State: ACgBeo1Y5GnO9CyfkXrfaplBxfUULWLKYNac1ZPeanhugvvp+UzjrUsr
+        EqyF+QVecEq7dtz2QJCMF2c=
+X-Google-Smtp-Source: AA6agR4+pfSgCfDDqhYhxLZkNNkPZXlWG5N7V5crl7vr0SWJD7xxRn4xH2ZIQgtnu2/SiThMWKFDuA==
+X-Received: by 2002:a63:8bc8:0:b0:438:bc9e:edc4 with SMTP id j191-20020a638bc8000000b00438bc9eedc4mr21054588pge.20.1663244193024;
+        Thu, 15 Sep 2022 05:16:33 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-22.three.co.id. [180.214.232.22])
+        by smtp.gmail.com with ESMTPSA id q9-20020a170902f34900b001768b6f9a97sm12657259ple.147.2022.09.15.05.16.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Sep 2022 05:16:32 -0700 (PDT)
+Message-ID: <6698eda3-977b-902f-ba23-89cfd674c121@gmail.com>
+Date:   Thu, 15 Sep 2022 19:16:23 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220909192708.1113126-2-sathyanarayanan.kuppuswamy@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] locking/memory-barriers.txt: Improve documentation for
+ writel() usage
+Content-Language: en-US
+To:     Parav Pandit <parav@nvidia.com>, stern@rowland.harvard.edu,
+        parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org,
+        boqun.feng@gmail.com, npiggin@gmail.com, dhowells@redhat.com,
+        j.alglave@ucl.ac.uk, luc.maranget@inria.fr, paulmck@kernel.org,
+        akiyks@gmail.com, dlustig@nvidia.com, joel@joelfernandes.org,
+        corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20220915050106.650813-1-parav@nvidia.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220915050106.650813-1-parav@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 09, 2022 at 12:27:06PM -0700, Kuppuswamy Sathyanarayanan wrote:
-> +static int __init tdx_guest_init(void)
-> +{
-> +	int ret;
-> +
-> +	if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-> +		return -EIO;
-> +
-> +	ret = misc_register(&tdx_misc_dev);
-> +	if (ret) {
-> +		pr_err("misc device registration failed\n");
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +device_initcall(tdx_guest_init)
+On 9/15/22 12:01, Parav Pandit wrote:
+> The cited commit [1] describes that when using writel(), explcit wmb()
+> is not needed. However, it should have said that dma_wmb() is not
+> needed.
+> 
+> Hence update the example to be more accurate that matches the current
+> implementation and document section of dma_wmb()/dma_rmb().
+> 
+> [1] commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
 
-As mentioned elsewhere, make this a normal module_init() format and only
-load the module if the hardware is present.  Don't just always be
-built/loaded, that's not ok.
+Just say the blamed commit without using numbered references.
 
-thanks,
 
-greg k-h
+-- 
+An old man doll... just what I always wanted! - Clara
