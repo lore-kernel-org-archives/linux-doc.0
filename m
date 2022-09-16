@@ -2,175 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6545C54EE9
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 06:52:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B686C54EE9
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 07:34:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230100AbiIPGwW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Sep 2022 02:52:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36250 "EHLO
+        id S229723AbiIPHem (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Sep 2022 03:34:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229725AbiIPGwL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 02:52:11 -0400
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39920A344D;
-        Thu, 15 Sep 2022 23:52:10 -0700 (PDT)
-Received: by mail-ed1-f41.google.com with SMTP id e18so30133635edj.3;
-        Thu, 15 Sep 2022 23:52:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=v+opaeaI9VpfwC19hC5ba/VNJ9z9PATWt8b6OHLFwXc=;
-        b=hsaXTEP2nCJylB5rO07kdOOgO10yyMgwIPnBzDSHjRjz4ObQZK7aCgvskd+KSeCvW3
-         hjHQcl2qs0olMFKm4hv9BRPvI56MdGGka9DZj4RmEYdTd8SZn+tTHj2cEmLBgPw1r0nb
-         ClH7dVGBhDKPlgljKzv7Lj5GzpbCjfONfAy1mP9v3ePeGNlm1ukSyLIrukySD66cVjmR
-         IdYv+7IH2jeIUp4HL+8liMHnD2+qCdFP588YV4B5j1gvmE0gK4kFx2eLpMVm6Y2g9WO/
-         pfRV3nl+XDp92gxwpqWm0t5Q9tbByHAMVMMyMIvwV6BTg9ufdqX8+XeaA/hfE0W9gSP0
-         XP+A==
-X-Gm-Message-State: ACrzQf1T3fp+ov5dH1sD3SRv6tfzQAvvgSNnZpZexgfw+RuIZzmKTm9Y
-        Nhrc5mRC6nmGQ/q47lmwY78=
-X-Google-Smtp-Source: AMsMyM6xkUmcOkfacgE+/eTa/6ohE3NQJtHPYHE2htpgBi7IMgMweQfQTk682flmPt+X6hfjm7D1rg==
-X-Received: by 2002:a05:6402:10cc:b0:446:491f:d6dd with SMTP id p12-20020a05640210cc00b00446491fd6ddmr2722621edu.360.1663311128750;
-        Thu, 15 Sep 2022 23:52:08 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id kw22-20020a170907771600b0077b2b0563f4sm9420143ejc.173.2022.09.15.23.52.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Sep 2022 23:52:08 -0700 (PDT)
-Message-ID: <ea128c38-b71a-52f8-2642-122688c9cc7a@kernel.org>
-Date:   Fri, 16 Sep 2022 08:52:07 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 4/5] tty: synclink_gt: remove MGSL_MAGIC
-Content-Language: en-US
-To:     =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
+        with ESMTP id S229781AbiIPHek (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 03:34:40 -0400
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E57CDFBF;
+        Fri, 16 Sep 2022 00:34:37 -0700 (PDT)
+Received: from letrec.thunk.org ([185.122.133.20])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 28G7XsIY025301
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 16 Sep 2022 03:33:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1663313638; bh=Ff+be2aCuv0yea74ummplMFRZDnk4ZWbn37rurbNeF0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=gr+5GH5RLqFulFpsF3k4gAP7e+11xkZg+vg/J7AxAp6kzUip8aOeSAKiISUDdcrUR
+         XbPA0kK/r72MyA3yhTd4GoHHbmUG7DT1SYveDgKGZOZFO2GnV5EiKXjWXzP1ZiYa57
+         TORlt4unerQXInsMP6ttfyv5cuX+oBO3BrV9h/keFbAMRevmAufOoEDumHADbY9zgg
+         glD7pOvpm+MYMMD3YHZioaqvceS5ciQlmvqSnW0W7aUOKBbqLsEn6kFA18pKPifNhl
+         Tn4ta8uu+Db6KKzPI/QmMJWZgdbWIn5WsCC2qF7wM5eEteZZ/v6dO3HoR4s2Oveh7H
+         V00iWyjFqiEow==
+Received: by letrec.thunk.org (Postfix, from userid 15806)
+        id A88908C2B4B; Fri, 16 Sep 2022 03:33:53 -0400 (EDT)
+Date:   Fri, 16 Sep 2022 03:33:53 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
         Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>,
         Hu Haowen <src.res@email.cn>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         linux-doc-tw-discuss@lists.sourceforge.net
+Subject: Re: [PATCH 1/5] tty: remove TTY_MAGIC
+Message-ID: <YyQm4dBVyvefVcAd@mit.edu>
 References: <476d024cd6b04160a5de381ea2b9856b60088cbd.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
- <3d82b3c864970cdec6717c56dd906b54e78694d7.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
-From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <3d82b3c864970cdec6717c56dd906b54e78694d7.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <476d024cd6b04160a5de381ea2b9856b60088cbd.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 16. 09. 22, 3:55, наб wrote:
+On Fri, Sep 16, 2022 at 03:54:59AM +0200, наб wrote:
 > According to Greg, in the context of magic numbers as defined in
 > magic-number.rst, "the tty layer should not need this and I'll gladly
 > take patches"
 > 
 > Ref: https://lore.kernel.org/linux-doc/YyMlovoskUcHLEb7@kroah.com/
-> Signed-off-by: Ahelenia Ziemiańska <nabijaczleweli@nabijaczleweli.xyz>
 
-Acked-by: Jiri Slaby <jirislaby@kernel.org>
+Well, I would disagree with Greg K-H on this --- but I haven't been
+tty maintainer in well over a decade.  Assuming code is Bug-Free(tm),
+sure, it's not necessary.  But there is any kind of memory bug (e.g.,
+a corrupted pointer, a use-after free, some other structure
+corruption), this catches the problem earlier rather than later, and
+it's a light-weight to do a quick sanity check.
 
-> ---
->   Documentation/process/magic-number.rst                    | 1 -
->   Documentation/translations/it_IT/process/magic-number.rst | 1 -
->   Documentation/translations/zh_CN/process/magic-number.rst | 1 -
->   Documentation/translations/zh_TW/process/magic-number.rst | 1 -
->   drivers/tty/synclink_gt.c                                 | 8 --------
->   5 files changed, 12 deletions(-)
-> 
-> diff --git a/Documentation/process/magic-number.rst b/Documentation/process/magic-number.rst
-> index fdaa3e4b1953..2326c3be94fc 100644
-> --- a/Documentation/process/magic-number.rst
-> +++ b/Documentation/process/magic-number.rst
-> @@ -83,7 +83,6 @@ SLIP_MAGIC            0x5302           slip                     ``drivers/net/sl
->   STRIP_MAGIC           0x5303           strip                    ``drivers/net/strip.c``
->   SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/net/hamradio/6pack.h``
->   AX25_MAGIC            0x5316           ax_disp                  ``drivers/net/mkiss.h``
-> -MGSL_MAGIC            0x5401           mgsl_info                ``drivers/char/synclink.c``
->   MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/char/pcmcia/synclink_cs.c``
->   USB_SERIAL_MAGIC      0x6702           usb_serial               ``drivers/usb/serial/usb-serial.h``
->   FULL_DUPLEX_MAGIC     0x6969                                    ``drivers/net/ethernet/dec/tulip/de2104x.c``
-> diff --git a/Documentation/translations/it_IT/process/magic-number.rst b/Documentation/translations/it_IT/process/magic-number.rst
-> index 1898f98875de..1803497816f1 100644
-> --- a/Documentation/translations/it_IT/process/magic-number.rst
-> +++ b/Documentation/translations/it_IT/process/magic-number.rst
-> @@ -89,7 +89,6 @@ SLIP_MAGIC            0x5302           slip                     ``drivers/net/sl
->   STRIP_MAGIC           0x5303           strip                    ``drivers/net/strip.c``
->   SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/net/hamradio/6pack.h``
->   AX25_MAGIC            0x5316           ax_disp                  ``drivers/net/mkiss.h``
-> -MGSL_MAGIC            0x5401           mgsl_info                ``drivers/char/synclink.c``
->   MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/char/pcmcia/synclink_cs.c``
->   USB_SERIAL_MAGIC      0x6702           usb_serial               ``drivers/usb/serial/usb-serial.h``
->   FULL_DUPLEX_MAGIC     0x6969                                    ``drivers/net/ethernet/dec/tulip/de2104x.c``
-> diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Documentation/translations/zh_CN/process/magic-number.rst
-> index 911cdaeaf698..9780bf710eeb 100644
-> --- a/Documentation/translations/zh_CN/process/magic-number.rst
-> +++ b/Documentation/translations/zh_CN/process/magic-number.rst
-> @@ -72,7 +72,6 @@ SLIP_MAGIC            0x5302           slip                     ``drivers/net/sl
->   STRIP_MAGIC           0x5303           strip                    ``drivers/net/strip.c``
->   SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/net/hamradio/6pack.h``
->   AX25_MAGIC            0x5316           ax_disp                  ``drivers/net/mkiss.h``
-> -MGSL_MAGIC            0x5401           mgsl_info                ``drivers/char/synclink.c``
->   MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/char/pcmcia/synclink_cs.c``
->   USB_SERIAL_MAGIC      0x6702           usb_serial               ``drivers/usb/serial/usb-serial.h``
->   FULL_DUPLEX_MAGIC     0x6969                                    ``drivers/net/ethernet/dec/tulip/de2104x.c``
-> diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Documentation/translations/zh_TW/process/magic-number.rst
-> index ac87f188235f..933545e92137 100644
-> --- a/Documentation/translations/zh_TW/process/magic-number.rst
-> +++ b/Documentation/translations/zh_TW/process/magic-number.rst
-> @@ -75,7 +75,6 @@ SLIP_MAGIC            0x5302           slip                     ``drivers/net/sl
->   STRIP_MAGIC           0x5303           strip                    ``drivers/net/strip.c``
->   SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/net/hamradio/6pack.h``
->   AX25_MAGIC            0x5316           ax_disp                  ``drivers/net/mkiss.h``
-> -MGSL_MAGIC            0x5401           mgsl_info                ``drivers/char/synclink.c``
->   MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/char/pcmcia/synclink_cs.c``
->   USB_SERIAL_MAGIC      0x6702           usb_serial               ``drivers/usb/serial/usb-serial.h``
->   FULL_DUPLEX_MAGIC     0x6969                                    ``drivers/net/ethernet/dec/tulip/de2104x.c``
-> diff --git a/drivers/tty/synclink_gt.c b/drivers/tty/synclink_gt.c
-> index 9bc2a9265277..19e3dd470fc2 100644
-> --- a/drivers/tty/synclink_gt.c
-> +++ b/drivers/tty/synclink_gt.c
-> @@ -91,7 +91,6 @@ static char *driver_name     = "SyncLink GT";
->   static char *slgt_driver_name = "synclink_gt";
->   static char *tty_dev_prefix  = "ttySLG";
->   MODULE_LICENSE("GPL");
-> -#define MGSL_MAGIC 0x5401
->   #define MAX_DEVICES 32
->   
->   static const struct pci_device_id pci_table[] = {
-> @@ -215,8 +214,6 @@ struct slgt_info {
->   
->   	struct slgt_info *next_device;	/* device list link */
->   
-> -	int magic;
-> -
->   	char device_name[25];
->   	struct pci_dev *pdev;
->   
-> @@ -554,10 +551,6 @@ static inline int sanity_check(struct slgt_info *info, char *devname, const char
->   		printk("null struct slgt_info for (%s) in %s\n", devname, name);
->   		return 1;
->   	}
-> -	if (info->magic != MGSL_MAGIC) {
-> -		printk("bad magic number struct slgt_info (%s) in %s\n", devname, name);
-> -		return 1;
-> -	}
->   #else
->   	if (!info)
->   		return 1;
-> @@ -3498,7 +3491,6 @@ static struct slgt_info *alloc_dev(int adapter_num, int port_num, struct pci_dev
->   	} else {
->   		tty_port_init(&info->port);
->   		info->port.ops = &slgt_port_ops;
-> -		info->magic = MGSL_MAGIC;
->   		INIT_WORK(&info->task, bh_handler);
->   		info->max_frame_size = 4096;
->   		info->base_clock = 14745600;
+It has certainly caught problems in the past, and I still use this
+programming technique in programs that I do maintain, such as
+e2fsprogs.
 
--- 
-js
-suse labs
+But it's not a big deal either way,
 
+						- Ted
+
+P.S. BTW, I didn't make up this technique; it's a program pattern
+first used in Multics.
