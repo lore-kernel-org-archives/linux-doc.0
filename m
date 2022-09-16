@@ -2,178 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3562BECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 16:18:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA541C6FA82
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 18:10:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229458AbiIPQSb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Sep 2022 12:18:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60970 "EHLO
+        id S229953AbiIPSKG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Sep 2022 14:10:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230161AbiIPQSX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 12:18:23 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E033B600E;
-        Fri, 16 Sep 2022 09:18:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663345093; x=1694881093;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=YDVOokc5iXGEV4ShcLNxCrJHWlSLHy69qui48L9iM94=;
-  b=IJVHQ4thpnE0itY1DdjkX24VwWLMK12m6tAyorXemewr2WjBcqJUJ4xm
-   HEG2H/yMhiupZP7u5kIGZEBtaVYixDdmwQ0gfwm9x0KhBwuvUEYwbugdT
-   Qnia7Hcs6A7Pg9e7k/0kS4swWa6qSAomDcBkEMk75ParroQa10ZAgbYLt
-   HFUpFSt2twgBlVgDGE4kqY38fzH7fvphGkuMQjxHywIWza5oo6B7yQ6eI
-   NJVr7vujaWC5rkYay2wLI1by4ZuuHSrDsv4aPB3j4pjPjpOMxZ/L5sGFw
-   8O0GjhXNgJxMPSpgHpZVHTm6ZvaQkTPECSk58gHTv9a+K9pj1s4FZcsQv
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10472"; a="297748408"
-X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; 
-   d="scan'208";a="297748408"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2022 09:18:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; 
-   d="scan'208";a="793143843"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orsmga005.jf.intel.com with ESMTP; 16 Sep 2022 09:18:06 -0700
-Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 16 Sep 2022 09:18:06 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Fri, 16 Sep 2022 09:18:06 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.176)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Fri, 16 Sep 2022 09:18:05 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H+uIDbWt1kEtHwrEhmgLzjJEZNMdtT5qMxlZTRRGYcOc14YoB+/UpFsbHfsXKBMFpy/UtT1+iV95GNjx5hj2CXseHp5yuehpjllxaHa86h2lZe8chKnZsRGn0L3at1YFCr4dgF/9yaowgJH9/P+34cgfZgzGTy8EErkgz2XtwTWrSrf5c0uU7XL5LUmUdDazcVNP+W6odOHlVRz/kVdKmDixY5vZ2hDELxaymgJKhJ199Q1iDIRyJ/hYn7QedlwojdbnMF9m9vgY+yw8iVZUxofee/Abv4wMVTDEfGrKsaIPMQhsma9Wmv/X/e5iNk3b6EHzAyluY7vF+9A/o9gfRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GsaS8igGZN9a82sgIFDszAKaeyLMV8JLM9Iu27DgcL8=;
- b=eA0nXtNZMxxdeWmNY24WGLLRxK2RMUdIhS6DCo66t0l2LXqop0FlS3aF91F530LlDztWsEvFw+VsORm2WJ1BNUDykIFnkbSpe07vG67vWR20IQ89TlZV4165e4fMs1cxM+lGDNhzIvpKUdIx2klngNqJxcFZQ5hFx7+dfpDfFtFipCdB21BqnpyELMdaZOqeVLlJZjDzGB1PwJlKwETV+tG//IEZK1TTuXUg3UkmZns/x8a8Xr09sqCmDZN37G9c/6LTOQqboRplR3jwNZS5bRTUG90QX+4Mo4CWNBBCGbPcmHmvE2QpzNElRgjAaKmKXB0gG2NtIwt4f+B5kSLI5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
- by SN7PR11MB6604.namprd11.prod.outlook.com (2603:10b6:806:270::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.22; Fri, 16 Sep
- 2022 16:17:58 +0000
-Received: from CY4PR11MB1862.namprd11.prod.outlook.com
- ([fe80::a824:112:52f7:5743]) by CY4PR11MB1862.namprd11.prod.outlook.com
- ([fe80::a824:112:52f7:5743%12]) with mapi id 15.20.5632.016; Fri, 16 Sep 2022
- 16:17:58 +0000
-Message-ID: <aa3cbecb-636f-cece-0c6f-97f67f060cdb@intel.com>
-Date:   Fri, 16 Sep 2022 09:17:54 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.2.2
-Subject: Re: [PATCH v4 12/13] x86/resctrl: Replace smp_call_function_many with
- on_each_cpu_mask
-Content-Language: en-US
-To:     Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
-        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
-CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
-        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
-        <songmuchun@bytedance.com>, <peterz@infradead.org>,
-        <jpoimboe@kernel.org>, <pbonzini@redhat.com>,
-        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
-        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
-        <sandipan.das@amd.com>, <tony.luck@intel.com>,
-        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
-        <eranian@google.com>
-References: <166257348081.1043018.11227924488792315932.stgit@bmoger-ubuntu>
- <166257368306.1043018.15116501631578530094.stgit@bmoger-ubuntu>
-From:   Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <166257368306.1043018.15116501631578530094.stgit@bmoger-ubuntu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0003.namprd13.prod.outlook.com
- (2603:10b6:a03:2c0::8) To CY4PR11MB1862.namprd11.prod.outlook.com
- (2603:10b6:903:124::18)
+        with ESMTP id S229674AbiIPSKE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 14:10:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30D3A2A428
+        for <linux-doc@vger.kernel.org>; Fri, 16 Sep 2022 11:10:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663351802;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=dGo9IIHnzVXPXPzRwNLgG2J2p1J5QcMOec8HOITKZNg=;
+        b=TcvDb91UJkLON22XWVt04TMLE2I8atkLvCSeLnC6ygPliYX0Jx9fAkgDgEX3MdcERWCrbL
+        p7XB3W60KHlU766zr+lyYmiThOgsAFpn/HI7aIeFTQLEdyD+zdXDcKVNF+VHJVOBBIEVjv
+        1khXd9VqqmdG+n7iqWGhtqg4NmPGrIo=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-636-_ft1KkgnNLGLxnkPGznz2g-1; Fri, 16 Sep 2022 14:09:55 -0400
+X-MC-Unique: _ft1KkgnNLGLxnkPGznz2g-1
+Received: by mail-qt1-f198.google.com with SMTP id fe14-20020a05622a4d4e00b0035cc376b1d5so4103318qtb.4
+        for <linux-doc@vger.kernel.org>; Fri, 16 Sep 2022 11:09:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=dGo9IIHnzVXPXPzRwNLgG2J2p1J5QcMOec8HOITKZNg=;
+        b=Kfc9gWt9/wfoGH5YA1VowHqolmoQF0Jy32TCtUtqbr0XYSbdev7VYm8chv/vi1fq/i
+         I6/yqreJ3SC+GAGxrvEY3p1/SJbh8mrsMfmXcy2k34lWP886Vtsdy5O+bWTFbMwQPpHz
+         Zh7IOdRTJVQRpVWmRVfEbrNFMX+KAx+Ep+CgHKO1fcs9pG1B5pyZPUuf0ORhrFRVkUtR
+         9jPDM4q/X7O5Zq0jcYNPOZJKOwKkrv/uLkCLDEcClP/Ekw5YyQfbYCcKfuy10T2oYZ+9
+         LmehkT0gka0wBE0yN5/3b7MSllEn7cE2gACgM7+lM/ZJ6GOyrdERk2FGwhLwlwZoKaw+
+         qfCw==
+X-Gm-Message-State: ACrzQf09TLmw7F0wXfMpNqSU9Q7tZFCtN9rZ1P5F4/+agKxCdxCS3pb+
+        bpmbTIlYSwDumAtVGdMNd65k3vVy9qqA3WQdx6OIGrUHI8dZBi/oQsr20YTGS2aIxka4CH7FN3X
+        OCDBHyIHmVgz1QR11rVIg
+X-Received: by 2002:ac8:5f4d:0:b0:35b:ba2e:ce1 with SMTP id y13-20020ac85f4d000000b0035bba2e0ce1mr5516866qta.26.1663351795091;
+        Fri, 16 Sep 2022 11:09:55 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5Eq8nutd1y8SgkrtcXFUsUl9UMHM0MnxQbGXx8ngkMtdvW9XgFJl7Id6By2Z5c1AZ7GoPT7w==
+X-Received: by 2002:ac8:5f4d:0:b0:35b:ba2e:ce1 with SMTP id y13-20020ac85f4d000000b0035bba2e0ce1mr5516842qta.26.1663351794880;
+        Fri, 16 Sep 2022 11:09:54 -0700 (PDT)
+Received: from xz-m1.local (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
+        by smtp.gmail.com with ESMTPSA id l19-20020a05620a28d300b006b60d5a7205sm7398453qkp.51.2022.09.16.11.09.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Sep 2022 11:09:54 -0700 (PDT)
+Date:   Fri, 16 Sep 2022 14:09:52 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Gavin Shan <gshan@redhat.com>
+Cc:     kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, catalin.marinas@arm.com,
+        linux-kselftest@vger.kernel.org, bgardon@google.com,
+        shuah@kernel.org, corbet@lwn.net, maz@kernel.org,
+        drjones@redhat.com, will@kernel.org, zhenyzha@redhat.com,
+        dmatlack@google.com, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, pbonzini@redhat.com,
+        oliver.upton@linux.dev, shan.gavin@gmail.com
+Subject: Re: [PATCH v2 1/5] KVM: x86: Introduce KVM_REQ_RING_SOFT_FULL
+Message-ID: <YyS78BqsQxKkLOiW@xz-m1.local>
+References: <20220916045135.154505-1-gshan@redhat.com>
+ <20220916045135.154505-2-gshan@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PR11MB1862:EE_|SN7PR11MB6604:EE_
-X-MS-Office365-Filtering-Correlation-Id: c8e011be-3927-4e4a-7853-08da97ff04c7
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AcLzD6Ltd3Ce8pWJVq3icfsrn2qNpsYn6w+6soylQca01Ub1boU9rjGxrhBVKS+cY7LDSF+Izk8YsrmuFZru47mnAHsup1M7W8KpdxCQwlDJLcWCNbTgn+KM0FHE4Riz7tijZOOlVv2lYdp9CvJC/DGF3nFtNVsRhln169QJ7oTrz2AJvSl5ohMZMlk1ni0tFf7VbfoyL9KiKDmmgn57wgDpHtuETllhd9STiuEtFZznVqoVZigBQmWoo3XZ7Mr/LaS+92A5/BON4ksxXqnT46PxxqN+DO2S80PwXuiMCuJViG3VveHlKxxoFxG5KlTr7hzlekJ+ZDDI4oP7TW6CVRz/uaLu+UvVRTqjxX2Eazry+/W9WqcbesfiPsjBTE9iIJG8yvLQPz7lfzUXmRy9/lKmP98rpPkCXWHlgM0uYl22KtT+CWOKdAK1xrmZckmSyyje5+UHOIdO2MmGz6lmqLNXPbkLRBP41maHIFhtXY7RXL8MRy/mJreBspVlU05sIn9yR7HmsZgu2q81ccbbn3RUCS2CRLErndMMsYTCAEx4pa24tddEDtryr2dqodWSaKzgC/JQAzzI+gQvewl3KZ/doNOBxKzCD0I4i8oE/ZTusFdhFhZB4xiMMWBfrEfTDuv2GbZ76JMS2a0SEg0ZcE46MWpisPpqrCDW2przFl3aq3AgKEHNWuCrC8L7hC6fniUrLGlvrcQ7mYb+1j6zukjRoLhFX0m4RMfMnRVJ+dKZUaxeL4SPOOf/FSJp7f9iDezyRTtB/F3GKBxTHp/lbiloGF/Jl2ZK1/FfHPmgghI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(366004)(376002)(136003)(346002)(39860400002)(451199015)(6666004)(66556008)(44832011)(38100700002)(7416002)(66476007)(478600001)(186003)(31686004)(8676002)(82960400001)(5660300002)(6486002)(36756003)(4326008)(26005)(4744005)(2906002)(8936002)(41300700001)(6506007)(2616005)(53546011)(86362001)(6512007)(316002)(66946007)(31696002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?azVFK205MVdUOUkyd0VUeHFwcmN4alpHckkvSjFrWC83K1BKQnNOd1dTUXI4?=
- =?utf-8?B?blN6M1hqNldGRlBjejNBMUJrZ25jVnNLTUprOUlpcmhWc25ac1B3K3FqanZF?=
- =?utf-8?B?SXVqWTFyM2M3Mm9YSTNkdFcxOHcwcXJuMjFiYnYzaysxdkkxNzN4ZlplWVpF?=
- =?utf-8?B?K0hPZ0ZFTkVQZXIxVnN4Y3FZSjR6UU80SUg2TG8rRC9HWSt6OWQwQnBEUEJ3?=
- =?utf-8?B?WVl0akNmL3YzeXkyZUU0Z1ZXWElQNy96cUZ4eXpSckNwaXkxRytmL1FOZ01L?=
- =?utf-8?B?TDNxSE1RbjF3bGVkaUE4Lzg1QUNIejZzUkU5bFpQVW5lakRCMDh4MDZrY1ky?=
- =?utf-8?B?UE5EcGpKTmJ6Nmp1ZkIwQW5jcDhUb2JwZjdLUGdRWFJGcjZiRlloMkJmSGxE?=
- =?utf-8?B?eDNEWFBReXpqVXZXNTg4L2h6OVVicFBsU0lLeWd2K1d1U1RvZVEzRkJsNEYv?=
- =?utf-8?B?dlBzVWdNUmZZdWUvOEdRVEcyc1prelZFcmgvSWRIQXcyL1UrSG8wN0JPcWpV?=
- =?utf-8?B?anY4aXZBSmxTS1AxRlU2T2dId3phWFhQblJLdlVNWGNHVWJOQXJMeFZuRmdC?=
- =?utf-8?B?dm5LL1dZY25SSXhuUkNjbXhzVGN5R24wWVFaUWJCVnlKeFVOREtnendtZUdW?=
- =?utf-8?B?d1pTQXdDYWVvdFFIRXV0TTFEMitPSU1TY0c4ckNtbnRtbWcrd1FLU2FEb2ZN?=
- =?utf-8?B?aHNDN0ZPZk5TTGcyNTZVMTJJMVJkTzgrcEQ5U3RKRlJNZHBJWHBJRURhUzNz?=
- =?utf-8?B?L0R1ek5ZQ2dFQVBldVFJaThWeUJVTWVyc3UyY2JiL2s4Z3RJYjl6TXBkQmh6?=
- =?utf-8?B?djhQbGw0SzJySjd0NWlxa2pkZGl6OGZ5SG5PbXpzQVh2azl1MisvMnZYS3cx?=
- =?utf-8?B?TlNNUUM2MEJuREdwTWY5Sy80ZXFiSVVMMkgzN3ZQRmVNSDZUc1Jlc09ldjdO?=
- =?utf-8?B?ZWxFZjdRWEQwa0JqeFhOQjE5TWRVdEJDbG9FWERNYmNqOElXYW1SaEp6VlMr?=
- =?utf-8?B?STZtWUs2ZXN4YWN1M3YvNjNsaG9mN0pseFdwMFE5QittTTlodCtud3JFbnBv?=
- =?utf-8?B?dTZ0VVMyeFFTdjZZT1BHLzZiMi9TOWx6NW1FWDQ2NTRlTHJEM09oWWEyN0dN?=
- =?utf-8?B?SnU4NWlxYlErZE5uWkQ2SDFzMXp1VjN4TWx5TkQ1VGNsbEt2OXZ6RXhQNzQ1?=
- =?utf-8?B?WGJxdkRETmNBVWcyT1ZJS2tuRDl6Zk9JaTY4TWQveE1WNE8ydVFoZ0NlbUZ6?=
- =?utf-8?B?Z1hnS0J4UFhxTG5ZQVhaY2QyVHZlSjg5czV5dm9wbFhqZlpRckZ6ZmxTVG1j?=
- =?utf-8?B?SmVzeUhSYjhPOWtLeDRRN2dsTWVPV3ViVy9TRzAxNi9tcU1TVEszQVVtRmx1?=
- =?utf-8?B?QTBlaU8zR3dDS1BFOFI5U05mRFc2OGJ2THJSWTluaVJzY0p1MkxpRFBHU1Y3?=
- =?utf-8?B?aXZqNTJYcEFQUVk1UWYvR2twckhxZHJtSUl2Y3VLSVpQaDlwY1ZLa0ZPUjRN?=
- =?utf-8?B?alVPN1JvbnB1ckJNcFhVM2I5Zk5FTnZzZjhuQVJZWUpqTWdYNFg4bGVYSDVQ?=
- =?utf-8?B?NklDbzM5VldZQytydmZKMUNrWS9sSXc5Z3oxRndyUGZBOHJMTkhZL01KR1pY?=
- =?utf-8?B?V21GVHJlYUdxQTFTUFM0dGh2WFMwTEh3SEREc2N2ZkpkR0N5NjB0Z2RUS3ZN?=
- =?utf-8?B?dEovRlJJMlQwWmJ1Q2Yyb0FjTTJ1Y1BNU2xiM3RYcERzOTBMWkJKYm0xbGVZ?=
- =?utf-8?B?WDA2ZUlzM05Lc1ZrVVVUeWlZcE5aeTBxSkNYNFJoMUQ2Z2RoRkI1dThPeDlG?=
- =?utf-8?B?K2s2NUxHcy8xTVdsYkdWSENJTldlckRGTWZ2RjJMYUNJWEYrdHM3UWRTblB4?=
- =?utf-8?B?VWZib0V0Ym15TFBPa25uSHdOVkpzcmhNOFA1Nk5oa3dScENsUGRFeUtlZXBl?=
- =?utf-8?B?djdsUjN0d2thMVhlaEx6aWJ5aE5xUG5Yd1V6NG5WV2hTaUlweG0wVDlCbVlQ?=
- =?utf-8?B?RC9penV3Mm9rZG9RdkMxeTAwdTRRWHV5THloRWs1WjJYTzJhK1k0cCtPTW96?=
- =?utf-8?B?L25UZnBLNmY5a2xJanB1U0VLaGNSb3RDQlgyWDFYVGJld3BKZlZkbWVDSDIr?=
- =?utf-8?B?bS9ZVThWbHRjTUZhNFFYN0VyalVCWGlIbzRta3ZLNXlzaUZ5L0txUGYxWHp1?=
- =?utf-8?B?d1E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8e011be-3927-4e4a-7853-08da97ff04c7
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2022 16:17:58.1169
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d53rZ8XDlT3m6c4bWBme3K5BhAwLiVQRFlS6jkEC99v2pO2lQFjxQPSmYUZ/WYCUL5CMURbt+P5viZdjLelOTFvNQYMYhY5ZQJCLDeSZWNo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6604
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220916045135.154505-2-gshan@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Babu,
-
-On 9/7/2022 11:01 AM, Babu Moger wrote:
-> The call on_each_cpu_mask can run the function on each CPU specified by
-
-parenthesis are used to indicate functions, in this case, please write
-"on_each_cpu_mask()" and "smp_call_function_many()" instead.
-
-> cpumask, which may include the local processor. So, replace the call
-> smp_call_function_many with on_each_cpu_mask to simplify the code.
+On Fri, Sep 16, 2022 at 12:51:31PM +0800, Gavin Shan wrote:
+> This adds KVM_REQ_RING_SOFT_FULL, which is raised when the dirty
+> ring of the specific VCPU becomes softly full in kvm_dirty_ring_push().
+> The VCPU is enforced to exit when the request is raised and its
+> dirty ring is softly full on its entrance.
 > 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> Suggested-by: Marc Zyngier <maz@kernel.org>
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>  arch/x86/kvm/x86.c       | 5 +++--
+>  include/linux/kvm_host.h | 1 +
+>  virt/kvm/dirty_ring.c    | 4 ++++
+>  3 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 43a6a7efc6ec..7f368f59f033 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -10265,8 +10265,9 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
+>  	bool req_immediate_exit = false;
+>  
+>  	/* Forbid vmenter if vcpu dirty ring is soft-full */
+> -	if (unlikely(vcpu->kvm->dirty_ring_size &&
+> -		     kvm_dirty_ring_soft_full(&vcpu->dirty_ring))) {
+> +	if (kvm_check_request(KVM_REQ_RING_SOFT_FULL, vcpu) &&
+> +	    kvm_dirty_ring_soft_full(&vcpu->dirty_ring)) {
+> +		kvm_make_request(KVM_REQ_RING_SOFT_FULL, vcpu);
+>  		vcpu->run->exit_reason = KVM_EXIT_DIRTY_RING_FULL;
+>  		trace_kvm_dirty_ring_exit(vcpu);
+>  		r = 0;
 
-Reinette
+As commented previously - can we use kvm_test_request() instead? because we
+don't want to unconditionally clear the bit.  Instead of making the request
+again, we can clear request only if !full.
+
+We can also safely move this into the block of below kvm_request_pending()
+as Marc used to suggest.
+
+To explicitly use kvm_clear_request(), we may need to be careful on the
+memory barriers.  I'm wondering whether we should have moved
+smp_mb__after_atomic() into kvm_clear_request() because kvm_clear_request()
+is used outside kvm_check_request() and IIUC all the call sites should
+better have that barrier too to be safe.
+
+Side note: when I read the code around I also see some mis-use of clear
+request where it can be omitted, e.g.:
+
+		if (kvm_check_request(KVM_REQ_UNHALT, vcpu)) {
+			kvm_clear_request(KVM_REQ_UNHALT, vcpu);
+			vcpu->run->exit_reason = KVM_EXIT_IRQ_WINDOW_OPEN;
+		}
+
+Maybe it's a sign of bad naming, so we should renamed kvm_check_request()
+to kvm_test_clear_request() too to show that clearing after that is not
+needed?
+
+Thanks,
+
+-- 
+Peter Xu
+
