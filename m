@@ -2,150 +2,244 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 536EBECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 04:53:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BD73C54EE9
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 06:51:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229941AbiIPExA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Sep 2022 00:53:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49058 "EHLO
+        id S230077AbiIPGvS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Sep 2022 02:51:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbiIPEwk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 00:52:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6361A1D47
-        for <linux-doc@vger.kernel.org>; Thu, 15 Sep 2022 21:52:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663303949;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dsE8NdyhX5qef8QVsrNnndpCLaTRMlO/gHKVyL+LIsw=;
-        b=CjNC76sJ8LLPjUFQ4VDpD8sSFUTFCOC9kLTyC1Jij48X02PhN5iG3plzHzAmJAbH9x77Ck
-        GaqE6ZeHg7b+57hpXft8g62RPztn54fqX1JLloKBlR1p2FMiUOIMZgT6qTwhhPWnmslw6P
-        9OCPnHWutORKW7S52dnWthWzzNxbx0g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-475-OvCHZnSlO5Ct-YwtnDc50w-1; Fri, 16 Sep 2022 00:52:25 -0400
-X-MC-Unique: OvCHZnSlO5Ct-YwtnDc50w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7CED85A59D;
-        Fri, 16 Sep 2022 04:52:24 +0000 (UTC)
-Received: from gshan.redhat.com (vpn2-54-126.bne.redhat.com [10.64.54.126])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 903BE140EBF3;
-        Fri, 16 Sep 2022 04:52:18 +0000 (UTC)
-From:   Gavin Shan <gshan@redhat.com>
-To:     kvmarm@lists.cs.columbia.edu
-Cc:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        catalin.marinas@arm.com, linux-kselftest@vger.kernel.org,
-        bgardon@google.com, shuah@kernel.org, corbet@lwn.net,
-        maz@kernel.org, drjones@redhat.com, will@kernel.org,
-        zhenyzha@redhat.com, dmatlack@google.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        pbonzini@redhat.com, peterx@redhat.com, oliver.upton@linux.dev,
-        shan.gavin@gmail.com
-Subject: [PATCH v2 5/5] KVM: selftests: Automate choosing dirty ring size in dirty_log_test
-Date:   Fri, 16 Sep 2022 12:51:35 +0800
-Message-Id: <20220916045135.154505-6-gshan@redhat.com>
-In-Reply-To: <20220916045135.154505-1-gshan@redhat.com>
-References: <20220916045135.154505-1-gshan@redhat.com>
+        with ESMTP id S229528AbiIPGvQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 02:51:16 -0400
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D2394AD6F;
+        Thu, 15 Sep 2022 23:51:15 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id l14so47276519eja.7;
+        Thu, 15 Sep 2022 23:51:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=sKhXGktHtVUqarBdZl5rD7qLU05ZsSVPmeioTFprB5I=;
+        b=PjL4bS+6SyxaBDoJkugH2ucgU1x79qUEsgR9Dd3QZN2tO5kJ5951XrLGv0Yw/njDbE
+         MO/hakfaPl2nwlAdNH2+IDRMLdXT0r96+TKMJDpdIk3CoKueEWpHNEGN6TUCIjYUQLsY
+         8XYs4S8isgy7XikrghQzVkigzyVeeWvp/3v19aDyR1nXoVNasopVaF7OcuODKJRl0eu4
+         ei9oSZUijrJr46+HtNA9cm11+p3Lo1cxHEyuI5XRfukwH26TwvdFgirgD9c2usVz7gZ8
+         Yj1jFh0pc0NkYaAU+53/0tkmBAQw3J5hCJcRnm4rLhqNRHSLRRNVusu0ai3sDKVJtKnO
+         7D7Q==
+X-Gm-Message-State: ACrzQf0Z8ITsFZilWcJvBOhrMz3rFDdN+hWnIIsXb+ZTVz1F04hBJ2yX
+        mAO+TWDFGn1wcf/ltAmwQGA=
+X-Google-Smtp-Source: AMsMyM6J/Av1o2NM87UqRj1frJfsuwLMBWlH/VwswPodcHMVqXUKL4fknDltnkTnC228PWmfeaywCA==
+X-Received: by 2002:a17:907:2d89:b0:77f:cc16:f3fe with SMTP id gt9-20020a1709072d8900b0077fcc16f3femr2444310ejc.610.1663311073896;
+        Thu, 15 Sep 2022 23:51:13 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+        by smtp.gmail.com with ESMTPSA id 10-20020a170906310a00b0073d6d6e698bsm10091336ejx.187.2022.09.15.23.51.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Sep 2022 23:51:13 -0700 (PDT)
+Message-ID: <c950647b-1570-7630-4754-611c06511a8f@kernel.org>
+Date:   Fri, 16 Sep 2022 08:51:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 1/5] tty: remove TTY_MAGIC
+Content-Language: en-US
+To:     =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net
+References: <476d024cd6b04160a5de381ea2b9856b60088cbd.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <476d024cd6b04160a5de381ea2b9856b60088cbd.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the dirty ring case, we rely on vcpu exit due to full dirty ring
-state. On ARM64 system, there are 4096 host pages when the host
-page size is 64KB. In this case, the vcpu never exits due to the
-full dirty ring state. The similar case is 4KB page size on host
-and 64KB page size on guest. The vcpu corrupts same set of host
-pages, but the dirty page information isn't collected in the main
-thread. This leads to infinite loop as the following log shows.
+On 16. 09. 22, 3:54, наб wrote:
+> According to Greg, in the context of magic numbers as defined in
+> magic-number.rst, "the tty layer should not need this and I'll gladly
+> take patches"
+> 
+> Ref: https://lore.kernel.org/linux-doc/YyMlovoskUcHLEb7@kroah.com/
+> Signed-off-by: Ahelenia Ziemiańska <nabijaczleweli@nabijaczleweli.xyz>
 
-  # ./dirty_log_test -M dirty-ring -c 65536 -m 5
-  Setting log mode to: 'dirty-ring'
-  Test iterations: 32, interval: 10 (ms)
-  Testing guest mode: PA-bits:40,  VA-bits:48,  4K pages
-  guest physical test memory offset: 0xffbffe0000
-  vcpu stops because vcpu is kicked out...
-  Notifying vcpu to continue
-  vcpu continues now.
-  Iteration 1 collected 576 pages
-  <No more output afterwards>
+What a good riddance! We have by far better debugging techniques nowadays.
 
-Fix the issue by automatically choosing the best dirty ring size,
-to ensure vcpu exit due to full dirty ring state. The option '-c'
-becomes a hint to the dirty ring count, instead of the value of it.
+Acked-by: Jiri Slaby <jirislaby@kernel.org>
 
-Signed-off-by: Gavin Shan <gshan@redhat.com>
----
- tools/testing/selftests/kvm/dirty_log_test.c | 26 +++++++++++++++++---
- 1 file changed, 22 insertions(+), 4 deletions(-)
+> ---
+> Whole series: amd64 allyesconfig builds; amd64 Debian config boots and
+> appears to work; naturally, the HVC stuff is S/390 only, but it's a
+> constant offset
+> 
+>   Documentation/process/magic-number.rst                    | 1 -
+>   Documentation/translations/it_IT/process/magic-number.rst | 1 -
+>   Documentation/translations/zh_CN/process/magic-number.rst | 1 -
+>   Documentation/translations/zh_TW/process/magic-number.rst | 1 -
+>   drivers/tty/tty_io.c                                      | 8 --------
+>   drivers/tty/tty_mutex.c                                   | 6 ------
+>   include/linux/tty.h                                       | 6 ------
+>   7 files changed, 24 deletions(-)
+> 
+> diff --git a/Documentation/process/magic-number.rst b/Documentation/process/magic-number.rst
+> index f5ba36e96461..b4c7ec61437e 100644
+> --- a/Documentation/process/magic-number.rst
+> +++ b/Documentation/process/magic-number.rst
+> @@ -84,7 +84,6 @@ SLIP_MAGIC            0x5302           slip                     ``drivers/net/sl
+>   STRIP_MAGIC           0x5303           strip                    ``drivers/net/strip.c``
+>   SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/net/hamradio/6pack.h``
+>   AX25_MAGIC            0x5316           ax_disp                  ``drivers/net/mkiss.h``
+> -TTY_MAGIC             0x5401           tty_struct               ``include/linux/tty.h``
+>   MGSL_MAGIC            0x5401           mgsl_info                ``drivers/char/synclink.c``
+>   TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/linux/tty_driver.h``
+>   MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/char/pcmcia/synclink_cs.c``
+> diff --git a/Documentation/translations/it_IT/process/magic-number.rst b/Documentation/translations/it_IT/process/magic-number.rst
+> index f452fafb1e84..bcb23384fefd 100644
+> --- a/Documentation/translations/it_IT/process/magic-number.rst
+> +++ b/Documentation/translations/it_IT/process/magic-number.rst
+> @@ -90,7 +90,6 @@ SLIP_MAGIC            0x5302           slip                     ``drivers/net/sl
+>   STRIP_MAGIC           0x5303           strip                    ``drivers/net/strip.c``
+>   SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/net/hamradio/6pack.h``
+>   AX25_MAGIC            0x5316           ax_disp                  ``drivers/net/mkiss.h``
+> -TTY_MAGIC             0x5401           tty_struct               ``include/linux/tty.h``
+>   MGSL_MAGIC            0x5401           mgsl_info                ``drivers/char/synclink.c``
+>   TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/linux/tty_driver.h``
+>   MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/char/pcmcia/synclink_cs.c``
+> diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Documentation/translations/zh_CN/process/magic-number.rst
+> index 42f0635ca70a..6250087d36c5 100644
+> --- a/Documentation/translations/zh_CN/process/magic-number.rst
+> +++ b/Documentation/translations/zh_CN/process/magic-number.rst
+> @@ -73,7 +73,6 @@ SLIP_MAGIC            0x5302           slip                     ``drivers/net/sl
+>   STRIP_MAGIC           0x5303           strip                    ``drivers/net/strip.c``
+>   SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/net/hamradio/6pack.h``
+>   AX25_MAGIC            0x5316           ax_disp                  ``drivers/net/mkiss.h``
+> -TTY_MAGIC             0x5401           tty_struct               ``include/linux/tty.h``
+>   MGSL_MAGIC            0x5401           mgsl_info                ``drivers/char/synclink.c``
+>   TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/linux/tty_driver.h``
+>   MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/char/pcmcia/synclink_cs.c``
+> diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Documentation/translations/zh_TW/process/magic-number.rst
+> index ae321a9aaece..fd169d760bbd 100644
+> --- a/Documentation/translations/zh_TW/process/magic-number.rst
+> +++ b/Documentation/translations/zh_TW/process/magic-number.rst
+> @@ -76,7 +76,6 @@ SLIP_MAGIC            0x5302           slip                     ``drivers/net/sl
+>   STRIP_MAGIC           0x5303           strip                    ``drivers/net/strip.c``
+>   SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/net/hamradio/6pack.h``
+>   AX25_MAGIC            0x5316           ax_disp                  ``drivers/net/mkiss.h``
+> -TTY_MAGIC             0x5401           tty_struct               ``include/linux/tty.h``
+>   MGSL_MAGIC            0x5401           mgsl_info                ``drivers/char/synclink.c``
+>   TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/linux/tty_driver.h``
+>   MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/char/pcmcia/synclink_cs.c``
+> diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+> index 82a8855981f7..33962109bd10 100644
+> --- a/drivers/tty/tty_io.c
+> +++ b/drivers/tty/tty_io.c
+> @@ -170,7 +170,6 @@ static void free_tty_struct(struct tty_struct *tty)
+>   	tty_ldisc_deinit(tty);
+>   	put_device(tty->dev);
+>   	kvfree(tty->write_buf);
+> -	tty->magic = 0xDEADDEAD;
+>   	kfree(tty);
+>   }
+>   
+> @@ -265,11 +264,6 @@ static int tty_paranoia_check(struct tty_struct *tty, struct inode *inode,
+>   			imajor(inode), iminor(inode), routine);
+>   		return 1;
+>   	}
+> -	if (tty->magic != TTY_MAGIC) {
+> -		pr_warn("(%d:%d): %s: bad magic number\n",
+> -			imajor(inode), iminor(inode), routine);
+> -		return 1;
+> -	}
+>   #endif
+>   	return 0;
+>   }
+> @@ -1533,7 +1527,6 @@ static void release_one_tty(struct work_struct *work)
+>   	if (tty->ops->cleanup)
+>   		tty->ops->cleanup(tty);
+>   
+> -	tty->magic = 0;
+>   	tty_driver_kref_put(driver);
+>   	module_put(owner);
+>   
+> @@ -3093,7 +3086,6 @@ struct tty_struct *alloc_tty_struct(struct tty_driver *driver, int idx)
+>   		return NULL;
+>   
+>   	kref_init(&tty->kref);
+> -	tty->magic = TTY_MAGIC;
+>   	if (tty_ldisc_init(tty)) {
+>   		kfree(tty);
+>   		return NULL;
+> diff --git a/drivers/tty/tty_mutex.c b/drivers/tty/tty_mutex.c
+> index 393518a24cfe..784e46a0a3b1 100644
+> --- a/drivers/tty/tty_mutex.c
+> +++ b/drivers/tty/tty_mutex.c
+> @@ -14,8 +14,6 @@
+>   
+>   void tty_lock(struct tty_struct *tty)
+>   {
+> -	if (WARN(tty->magic != TTY_MAGIC, "L Bad %p\n", tty))
+> -		return;
+>   	tty_kref_get(tty);
+>   	mutex_lock(&tty->legacy_mutex);
+>   }
+> @@ -25,8 +23,6 @@ int tty_lock_interruptible(struct tty_struct *tty)
+>   {
+>   	int ret;
+>   
+> -	if (WARN(tty->magic != TTY_MAGIC, "L Bad %p\n", tty))
+> -		return -EIO;
+>   	tty_kref_get(tty);
+>   	ret = mutex_lock_interruptible(&tty->legacy_mutex);
+>   	if (ret)
+> @@ -36,8 +32,6 @@ int tty_lock_interruptible(struct tty_struct *tty)
+>   
+>   void tty_unlock(struct tty_struct *tty)
+>   {
+> -	if (WARN(tty->magic != TTY_MAGIC, "U Bad %p\n", tty))
+> -		return;
+>   	mutex_unlock(&tty->legacy_mutex);
+>   	tty_kref_put(tty);
+>   }
+> diff --git a/include/linux/tty.h b/include/linux/tty.h
+> index 7b0a5d478ef6..ba65043e9029 100644
+> --- a/include/linux/tty.h
+> +++ b/include/linux/tty.h
+> @@ -122,8 +122,6 @@ struct tty_operations;
+>   /**
+>    * struct tty_struct - state associated with a tty while open
+>    *
+> - * @magic: magic value set early in @alloc_tty_struct to %TTY_MAGIC, for
+> - *	   debugging purposes
+>    * @kref: reference counting by tty_kref_get() and tty_kref_put(), reaching zero
+>    *	  frees the structure
+>    * @dev: class device or %NULL (e.g. ptys, serdev)
+> @@ -193,7 +191,6 @@ struct tty_operations;
+>    * &struct tty_port.
+>    */
+>   struct tty_struct {
+> -	int	magic;
+>   	struct kref kref;
+>   	struct device *dev;
+>   	struct tty_driver *driver;
+> @@ -260,9 +257,6 @@ struct tty_file_private {
+>   	struct list_head list;
+>   };
+>   
+> -/* tty magic number */
+> -#define TTY_MAGIC		0x5401
+> -
+>   /**
+>    * DOC: TTY Struct Flags
+>    *
 
-diff --git a/tools/testing/selftests/kvm/dirty_log_test.c b/tools/testing/selftests/kvm/dirty_log_test.c
-index 7d91df7e036f..47ac2c719ade 100644
---- a/tools/testing/selftests/kvm/dirty_log_test.c
-+++ b/tools/testing/selftests/kvm/dirty_log_test.c
-@@ -23,6 +23,9 @@
- #include "guest_modes.h"
- #include "processor.h"
- 
-+#define DIRTY_MEM_BITS 30 /* 1G */
-+#define PAGE_SHIFT_4K  12
-+
- /* The memory slot index to track dirty pages */
- #define TEST_MEM_SLOT_INDEX		1
- 
-@@ -271,6 +274,24 @@ static bool dirty_ring_supported(void)
- 
- static void dirty_ring_create_vm_done(struct kvm_vm *vm)
- {
-+	uint64_t pages;
-+	uint32_t limit;
-+
-+	/*
-+	 * We rely on vcpu exit due to full dirty ring state. Adjust
-+	 * the ring buffer size to ensure we're able to reach the
-+	 * full dirty ring state.
-+	 */
-+	pages = (1ul << (DIRTY_MEM_BITS - vm->page_shift)) + 3;
-+	pages = vm_adjust_num_guest_pages(vm->mode, pages);
-+	if (vm->page_size < getpagesize())
-+		pages = vm_num_host_pages(vm->mode, pages);
-+
-+	limit = 1 << (31 - __builtin_clz(pages));
-+	test_dirty_ring_count = 1 << (31 - __builtin_clz(test_dirty_ring_count));
-+	test_dirty_ring_count = min(limit, test_dirty_ring_count);
-+	pr_info("dirty ring count: 0x%x\n", test_dirty_ring_count);
-+
- 	/*
- 	 * Switch to dirty ring mode after VM creation but before any
- 	 * of the vcpu creation.
-@@ -683,9 +704,6 @@ static struct kvm_vm *create_vm(enum vm_guest_mode mode, struct kvm_vcpu **vcpu,
- 	return vm;
- }
- 
--#define DIRTY_MEM_BITS 30 /* 1G */
--#define PAGE_SHIFT_4K  12
--
- struct test_params {
- 	unsigned long iterations;
- 	unsigned long interval;
-@@ -828,7 +846,7 @@ static void help(char *name)
- 	printf("usage: %s [-h] [-i iterations] [-I interval] "
- 	       "[-p offset] [-m mode]\n", name);
- 	puts("");
--	printf(" -c: specify dirty ring size, in number of entries\n");
-+	printf(" -c: hint to dirty ring size, in number of entries\n");
- 	printf("     (only useful for dirty-ring test; default: %"PRIu32")\n",
- 	       TEST_DIRTY_RING_COUNT);
- 	printf(" -i: specify iteration counts (default: %"PRIu64")\n",
 -- 
-2.23.0
+js
+suse labs
 
