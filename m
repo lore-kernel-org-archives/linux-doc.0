@@ -2,105 +2,220 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AAC0ECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 08:45:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FB1EC6FA8B
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 09:14:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229704AbiIPIp5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Sep 2022 04:45:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51328 "EHLO
+        id S231258AbiIPJOo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Sep 2022 05:14:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229669AbiIPIp4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 04:45:56 -0400
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14B464C635;
-        Fri, 16 Sep 2022 01:45:54 -0700 (PDT)
-Received: by mail-wr1-f50.google.com with SMTP id h8so27909068wrf.3;
-        Fri, 16 Sep 2022 01:45:54 -0700 (PDT)
+        with ESMTP id S231221AbiIPJOj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 05:14:39 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D1F6FD13;
+        Fri, 16 Sep 2022 02:14:34 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id t65so19814556pgt.2;
+        Fri, 16 Sep 2022 02:14:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=9HbJp1JFOjaCOMdfyVv+S5Btdn1/AdqiEXlLTZXJGsw=;
+        b=FhXk6bHLd2b2R99Ls/aHceAb/stM1+/U366ItM+cIq6+4cGyeSSS3oIj0C0fleVnRb
+         1Oy5YydiCifwONXQ7wSQiUYRXoH7Mx1foLkqZPWh8dP8iXIDDqQ5t6pLwxs6+plCZvlg
+         Nn+HEf/pJUaZbke7TTPzTTPkGpt085qGFfZNtCQRSNX3ALv7oZte2z1tpOrDZga6rULp
+         UhUnt0L+EsaXnKH93vJFxK9Cqsv5+shWxVZ8+qcd1oF52gRR3xHbwA1NrpOFdZedwuRe
+         un8jpB+sJR4QedlqDa4uSBkp9rex0MViA2EldTkEAnstjD1ZJKcVVfl3WtUvxl6d6Cxc
+         Ghxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=iZiPe0D4cLkpuFufuNwDu+VYitqmg7bP4qJyg2ltBuk=;
-        b=fsC6gz4wiuXv41B8IjRaHz9u4nJ1+WMb25M6r/XP7B6qWxS08oJYLmEkjWGcRDlNB+
-         IiMy2votgduwMzMr8AC3Vu9nthgmCYe6wb5yOnK/91tSISKwLySfxIyFabXgnZr++tzo
-         lLf+ygvGcSOje1dpWPOqI+AZmu3y3Y3xxBgIkmIH7KCE0s3/R6eE5bx6o6Rr00fy8UUp
-         Wxz2CPiqvorag/lcscO8pq6CZr6jwRtP3FvtFXbmJJQ1M1Tlz4GGz4LLKyFCPz+qjQZE
-         /mejYzJ+DSKsROtwquwAvq9yGU71k672f4PyQuRa3YFodA7+FSCdYeZx/QUhPUXN4qqB
-         qtbg==
-X-Gm-Message-State: ACrzQf2QYj5ZsLFY2aaeQRraJanaHbSytOIzunl3ypXKbjYQWxF9KoIc
-        rgqBVZx7Az7hQd2RpTqYkVw=
-X-Google-Smtp-Source: AMsMyM6ehRST8tEsmn5t138+v3rLwez5vDw/AlYQffbozBfK+ocJiAgXgrdCF6nRoduCMaDWdBpaaQ==
-X-Received: by 2002:a5d:5504:0:b0:228:b90c:e5e0 with SMTP id b4-20020a5d5504000000b00228b90ce5e0mr2122327wrv.624.1663317952504;
-        Fri, 16 Sep 2022 01:45:52 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id y10-20020adff6ca000000b00228cd9f6349sm4323553wrp.106.2022.09.16.01.45.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Sep 2022 01:45:51 -0700 (PDT)
-Message-ID: <682df554-0602-2f94-22d1-e39a4dd8f366@kernel.org>
-Date:   Fri, 16 Sep 2022 10:45:50 +0200
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=9HbJp1JFOjaCOMdfyVv+S5Btdn1/AdqiEXlLTZXJGsw=;
+        b=J0JRfvX69bvz2Pbhp1Qr1oMRkNujqrt9gDE/TiWJEOMTWZJXFOLCDpqblfhbJkyHi2
+         qML8bMZhbD0PeX4ubS5fsuQL/F3OQw2C8+scEklJ/Hx0Nibe8ENDgJIK9+U18q4yiw/N
+         4k1TXWCVVK2/zn5vZjPcYzosWm8h0PnPrNoFDK3I3ZAzsfx0UhzFt7q6TMERRXJuJZ7L
+         1ICk1QSm1DTK6I6h/RlyxuObTiJ9uTnP8/1mVxpzFN/8aQ474G5ZzWi/sxeohjdXGrLN
+         KWVyy2onEcStzWtrJQBVg8+45V6XqYRRQL1KDuBWULCKQBHAYqu1X1zYEJ35TV2tYZks
+         aQ/A==
+X-Gm-Message-State: ACrzQf3e61PNjadJTgrfOW+F1dz4U3jlV1/TmaVAyueqiVHoCE8GXfJK
+        NuuQlOxxhKs4rednY6CqWrM=
+X-Google-Smtp-Source: AMsMyM5/dJZc/QkfgAbO54iWH2nmTge0XbEgPmG5RCUUzNqq/hIVySC1GzK1Hf1d9uWZroqXUsDRFw==
+X-Received: by 2002:a65:6e82:0:b0:41a:9b73:f0e6 with SMTP id bm2-20020a656e82000000b0041a9b73f0e6mr3808278pgb.371.1663319673424;
+        Fri, 16 Sep 2022 02:14:33 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-32.three.co.id. [116.206.28.32])
+        by smtp.gmail.com with ESMTPSA id c81-20020a621c54000000b0052d4cb47339sm13931057pfc.151.2022.09.16.02.14.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Sep 2022 02:14:32 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 719B010322A; Fri, 16 Sep 2022 16:14:29 +0700 (WIB)
+Date:   Fri, 16 Sep 2022 16:14:29 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <YyQ+dQT9/V5e62/u@debian.me>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 1/5] tty: remove TTY_MAGIC
-Content-Language: en-US
-To:     Theodore Ts'o <tytso@mit.edu>,
-        =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net
-References: <476d024cd6b04160a5de381ea2b9856b60088cbd.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
- <YyQm4dBVyvefVcAd@mit.edu>
-From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <YyQm4dBVyvefVcAd@mit.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="r2iCa8Nng+AYARyi"
+Content-Disposition: inline
+In-Reply-To: <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 16. 09. 22, 9:33, Theodore Ts'o wrote:
-> On Fri, Sep 16, 2022 at 03:54:59AM +0200, наб wrote:
->> According to Greg, in the context of magic numbers as defined in
->> magic-number.rst, "the tty layer should not need this and I'll gladly
->> take patches"
->>
->> Ref: https://lore.kernel.org/linux-doc/YyMlovoskUcHLEb7@kroah.com/
-> 
-> Well, I would disagree with Greg K-H on this --- but I haven't been
-> tty maintainer in well over a decade.  Assuming code is Bug-Free(tm),
-> sure, it's not necessary.  But there is any kind of memory bug (e.g.,
-> a corrupted pointer,
 
-I don't think it can help with corrupted pointer much, but:
+--r2iCa8Nng+AYARyi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> a use-after free, some other structure
-> corruption), this catches the problem earlier rather than later, and
-> it's a light-weight to do a quick sanity check.
+On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.=
+rst
+> index abd7c32126ce..c1fac1e9f820 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -1319,7 +1319,7 @@ yet and must be cleared on entry.
+>  :Capability: KVM_CAP_USER_MEMORY
+>  :Architectures: all
+>  :Type: vm ioctl
+> -:Parameters: struct kvm_userspace_memory_region (in)
+> +:Parameters: struct kvm_userspace_memory_region(_ext) (in)
+>  :Returns: 0 on success, -1 on error
+> =20
+>  ::
+> @@ -1332,9 +1332,18 @@ yet and must be cleared on entry.
+>  	__u64 userspace_addr; /* start of the userspace allocated memory */
+>    };
+> =20
+> +  struct kvm_userspace_memory_region_ext {
+> +	struct kvm_userspace_memory_region region;
+> +	__u64 private_offset;
+> +	__u32 private_fd;
+> +	__u32 pad1;
+> +	__u64 pad2[14];
+> +  };
+> +
+>    /* for kvm_memory_region::flags */
+>    #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
+>    #define KVM_MEM_READONLY	(1UL << 1)
+> +  #define KVM_MEM_PRIVATE		(1UL << 2)
+> =20
+>  This ioctl allows the user to create, modify or delete a guest physical
+>  memory slot.  Bits 0-15 of "slot" specify the slot id and this value
+> @@ -1365,12 +1374,27 @@ It is recommended that the lower 21 bits of guest=
+_phys_addr and userspace_addr
+>  be identical.  This allows large pages in the guest to be backed by large
+>  pages in the host.
+> =20
+> -The flags field supports two flags: KVM_MEM_LOG_DIRTY_PAGES and
+> -KVM_MEM_READONLY.  The former can be set to instruct KVM to keep track of
+> -writes to memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know h=
+ow to
+> -use it.  The latter can be set, if KVM_CAP_READONLY_MEM capability allow=
+s it,
+> -to make a new slot read-only.  In this case, writes to this memory will =
+be
+> -posted to userspace as KVM_EXIT_MMIO exits.
+> +kvm_userspace_memory_region_ext includes all the kvm_userspace_memory_re=
+gion
+> +fields. It also includes additional fields for some specific features. S=
+ee
+> +below description of flags field for more information. It's recommended =
+to use
+> +kvm_userspace_memory_region_ext in new userspace code.
 
-Although it's light-weight, it's also NOT that useful. Maybe tty 
-_userspace_ functions return EIO, but that's about it (kernel does not 
-check magic in any of its code paths, if I am looking correctly). I bet 
-users would notice a corrupted tty structure even without this, and 
-maybe earlier. And in that case, kmemcheck is next on the list. And that 
-tells us much more than "we are corrupted".
+Better say "kvm_userspace_memory_region_ext includes all fields of
+kvm_userspace_memory_region struct, while also adds additional fields ..."
 
-> It has certainly caught problems in the past, and I still use this
-> programming technique in programs that I do maintain, such as
-> e2fsprogs.
+> +
+> +The flags field supports below flags:
 
-Asking google about:
-"tty_paranoia_check" "bad magic number"
-gives ~149 results, the last one from 2008. And it seems to be the only 
-report, the others are links to sources. So yes, it triggered at least 
-once, but is it that useful? Looking at the results, I don't think so.
+s/below/following/
 
-thanks,
--- 
-js
-suse labs
+> +
+> +- KVM_MEM_LOG_DIRTY_PAGES can be set to instruct KVM to keep track of wr=
+ites to
+> +  memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know how to us=
+e it.
+> +
 
+Better say "... For more details, see KVM_GET_DIRTY_LOG."
+
+> +- KVM_MEM_READONLY can be set, if KVM_CAP_READONLY_MEM capability allows=
+ it, to
+> +  make a new slot read-only.  In this case, writes to this memory will b=
+e posted
+> +  to userspace as KVM_EXIT_MMIO exits.
+> +
+
+Better say "if KVM_CAP_READONLY_MEM allows, KVM_MEM_READONLY makes a new
+slot read-only ..."
+
+> +- KVM_MEM_PRIVATE can be set to indicate a new slot has private memory b=
+acked by
+> +  a file descirptor(fd) and the content of the private memory is invisib=
+le to
+> +  userspace. In this case, userspace should use private_fd/private_offse=
+t in
+> +  kvm_userspace_memory_region_ext to instruct KVM to provide private mem=
+ory to
+> +  guest. Userspace should guarantee not to map the same pfn indicated by
+> +  private_fd/private_offset to different gfns with multiple memslots. Fa=
+iled to
+> +  do this may result undefined behavior.
+> =20
+
+For the lists above,
+s/can be set/
+
+Thanks.=20
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--r2iCa8Nng+AYARyi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYyQ+bwAKCRD2uYlJVVFO
+o23ZAQDRE9CoC5C+vDIubVjEpXEJsigvh2LH13HdQDeX1z+k1AD/X1CQT1z1G/wL
+BTUE4CCJxYH87fBebOmUE0OMZL/c8go=
+=sF4e
+-----END PGP SIGNATURE-----
+
+--r2iCa8Nng+AYARyi--
