@@ -2,181 +2,231 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09B65ECAAA1
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Sep 2022 22:41:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4953CC32771
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 01:55:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229915AbiIOWlI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Sep 2022 18:41:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45484 "EHLO
+        id S229886AbiIPBzN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Sep 2022 21:55:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229913AbiIOWkg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 18:40:36 -0400
+        with ESMTP id S229888AbiIPBzK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 21:55:10 -0400
 Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2E3CC63F3C;
-        Thu, 15 Sep 2022 15:40:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2C9C11AF12;
+        Thu, 15 Sep 2022 18:55:07 -0700 (PDT)
 Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id CF30CBC8;
-        Fri, 16 Sep 2022 00:40:23 +0200 (CEST)
+        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 70BE2E78;
+        Fri, 16 Sep 2022 03:55:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
-        s=202205; t=1663281623;
-        bh=uSiwbfwlbAmVy/bvi2OxiTS/OaWTkmogxTkg+BudNu0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IWcvLbVKAnnJulSKTKePt+dSLjrulgaXcaq3PJgdnR+jZ9dhpk7WjsMGZfDQp+rlD
-         pABG4EHsy3lC/1CxdgprvZ50lQ/kvzHUtqmdHGg1aRTww2Cf4Y0bIJ4izIBevIjQlh
-         ho0CxCvfRxL18aU6VB9K+sneoGMlkMzh/OlgWqkbbzttCYOIweW3HRVqscxUXg88Ph
-         aL3kGg/1KmM5WzhkJBcQeDrsYaAPa4fa2nnuULeg5dHCpcUtVwhRK5SlToJ4MTkBbI
-         kGVdpPZQfNyZi0dZt+UyUeDGRie7LvTUv2i2y0FMmd7i5kI6pcurhX1TviSMLqAr6+
-         YSUVcgsvzHSObXFfnrqeR6Z4NKWGHNBGqgl+pu2VlzVlcsyDsg0kYUGh3OKlhBBJ8p
-         YAIiCKHNx/dEYSz3RLLlNRZOGzXK7QJ1JlxMHNSab5Q+rPty2QJhhnaGd38t6qY3PN
-         INS4A/gzaqDDX9zXHVheYAkwO6IPp5TLh+ZRTRgMNuPgdH/xsPMctmfRBZzRB7BPVG
-         mf/lcpt42OIP9yi4BIDN3GUx5UANGHnX/qZ708KpTscaMRcyi68GkItKrXcmU8ifAd
-         iGhFwwGEmwoTlQGj7IvZ0KvItFTuIfYLKibDljkaYk5p17zmXBdOEzZDp0wPzKZ8mP
-         y8AI1lh0bfTiPP01hiIiSH8U=
-Date:   Fri, 16 Sep 2022 00:40:22 +0200
+        s=202205; t=1663293306;
+        bh=N3vQS5AYXxMLawpBRXT2LeeGvkV2SaAVtJNCbDHexlw=;
+        h=Date:From:Cc:Subject:References:In-Reply-To:From;
+        b=gXGYVaRWCN1FQEpE7xp/UX+JPuAWgo/GKtLk8prjYqPnKm2lmxKZX63vRZmLTqx30
+         JDbldRPoVBnO17Zku6VMoRu8VfqxI+o7q8H6FCI5PHn40tRTWFMj7gGFo/vTM6PEve
+         3zJWjoQH/vekzYHs/zayDTERMcaM+jnipJrWifKY9Z4NOueg2fKGJVgBqD2dGim9sC
+         TJ+R8Dk6yTMorYqWv6L2q2DRquDr4n6inRZwMmC3yQNvZTWTwfEAC/fipTBPXzg5a1
+         OhOZm1Wo6dtJAu67BkCjfHZP6a0Ug7FF+vmxS56MHAz8ZBd0aX4TEKB4AfN/RN2MZT
+         TRtaLssvm7ujtzFacgbNuM10hvYwl+DFSE4r400D7Rcs+IxHHc1h/y/PDclnsajPtT
+         AnrF5JZpkYuUamBG/PTIc5GY+rH4qeQdvohtyncDrnA2FK9cjdJsILFn9ILZ1zfaxB
+         1NxwayzpHUsmhzjV8hxIvm+iDCszYME4lRbo4DFXUHXlpVMMWIKNcOluJ+ym5oO7UR
+         LFnWKlEDSuiGTFQH28BllRmKWxxAyyMYsnHZp7GT/Uhfy+ky4PqN8aWCHLwbrDq+ql
+         oaI6XkRQvPE9i4Llycc/3YqTXbRjxGB7dG+UwnM/DQBoaUthqFI0WhVfAqAFjVsdxI
+         fkIBcKw68s8OPv1xLBut09V0=
+Date:   Fri, 16 Sep 2022 03:55:05 +0200
 From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
         Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>, linux-doc@vger.kernel.org,
+        Hu Haowen <src.res@email.cn>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         linux-doc-tw-discuss@lists.sourceforge.net
-Subject: [PATCH v4 18/18] Documentation: ENI155_MAGIC isn't a magic number
-Message-ID: <5f1dfa09150be7f23fb275d170c9019b5197a79f.1663280877.git.nabijaczleweli@nabijaczleweli.xyz>
-References: <YyMlovoskUcHLEb7@kroah.com>
+Subject: [PATCH 2/5] tty: remove TTY_DRIVER_MAGIC
+Message-ID: <723478a270a3858f27843cbec621df4d5d44efcc.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
+References: <476d024cd6b04160a5de381ea2b9856b60088cbd.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="q3sygo55ovno2tcu"
+        protocol="application/pgp-signature"; boundary="swyyvwfzdtgh22iy"
 Content-Disposition: inline
-In-Reply-To: <YyMlovoskUcHLEb7@kroah.com>
+In-Reply-To: <476d024cd6b04160a5de381ea2b9856b60088cbd.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
 User-Agent: NeoMutt/20220429
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---q3sygo55ovno2tcu
+--swyyvwfzdtgh22iy
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-It's part of the EEPROM format
+According to Greg, in the context of magic numbers as defined in
+magic-number.rst, "the tty layer should not need this and I'll gladly
+take patches"
 
+Ref: https://lore.kernel.org/linux-doc/YyMlovoskUcHLEb7@kroah.com/
 Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
 ---
  Documentation/process/magic-number.rst                    | 1 -
  Documentation/translations/it_IT/process/magic-number.rst | 1 -
  Documentation/translations/zh_CN/process/magic-number.rst | 1 -
  Documentation/translations/zh_TW/process/magic-number.rst | 1 -
- 4 files changed, 4 deletions(-)
+ drivers/tty/tty_io.c                                      | 1 -
+ include/linux/tty_driver.h                                | 5 -----
+ 6 files changed, 10 deletions(-)
 
 diff --git a/Documentation/process/magic-number.rst b/Documentation/process=
 /magic-number.rst
-index 520cbab3ee17..f420fa2d7f8b 100644
+index b4c7ec61437e..d47799ba0ca4 100644
 --- a/Documentation/process/magic-number.rst
 +++ b/Documentation/process/magic-number.rst
-@@ -81,7 +81,6 @@ NBD_REQUEST_MAGIC     0x12560953       nbd_request       =
-       ``include/linux/
- BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
-net/baycom_epp.c``
- HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
-linux/hdlcdrv.h``
- KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
-s/include/asm/sn/klkernvars.h``
--ENI155_MAGIC          0xa54b872d       midway_eprom	        ``drivers/atm/=
-eni.h``
- CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
-coda_fs_i.h``
- YAM_MAGIC             0xF10A7654       yam_port                 ``drivers/=
-net/hamradio/yam.c``
- CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
-scsi/ncr53c8xx.c``
+@@ -85,7 +85,6 @@ STRIP_MAGIC           0x5303           strip             =
+       ``drivers/net/st
+ SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/=
+net/hamradio/6pack.h``
+ AX25_MAGIC            0x5316           ax_disp                  ``drivers/=
+net/mkiss.h``
+ MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
+char/synclink.c``
+-TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
+linux/tty_driver.h``
+ MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
+char/pcmcia/synclink_cs.c``
+ USB_SERIAL_MAGIC      0x6702           usb_serial               ``drivers/=
+usb/serial/usb-serial.h``
+ FULL_DUPLEX_MAGIC     0x6969                                    ``drivers/=
+net/ethernet/dec/tulip/de2104x.c``
 diff --git a/Documentation/translations/it_IT/process/magic-number.rst b/Do=
 cumentation/translations/it_IT/process/magic-number.rst
-index 33ad6186fbd4..fa7f926649d2 100644
+index bcb23384fefd..24022ab52ebb 100644
 --- a/Documentation/translations/it_IT/process/magic-number.rst
 +++ b/Documentation/translations/it_IT/process/magic-number.rst
-@@ -87,7 +87,6 @@ NBD_REQUEST_MAGIC     0x12560953       nbd_request       =
-       ``include/linux/
- BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
-net/baycom_epp.c``
- HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
-linux/hdlcdrv.h``
- KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
-s/include/asm/sn/klkernvars.h``
--ENI155_MAGIC          0xa54b872d       midway_eprom	        ``drivers/atm/=
-eni.h``
- CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
-coda_fs_i.h``
- YAM_MAGIC             0xF10A7654       yam_port                 ``drivers/=
-net/hamradio/yam.c``
- CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
-scsi/ncr53c8xx.c``
+@@ -91,7 +91,6 @@ STRIP_MAGIC           0x5303           strip             =
+       ``drivers/net/st
+ SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/=
+net/hamradio/6pack.h``
+ AX25_MAGIC            0x5316           ax_disp                  ``drivers/=
+net/mkiss.h``
+ MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
+char/synclink.c``
+-TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
+linux/tty_driver.h``
+ MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
+char/pcmcia/synclink_cs.c``
+ USB_SERIAL_MAGIC      0x6702           usb_serial               ``drivers/=
+usb/serial/usb-serial.h``
+ FULL_DUPLEX_MAGIC     0x6969                                    ``drivers/=
+net/ethernet/dec/tulip/de2104x.c``
 diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Do=
 cumentation/translations/zh_CN/process/magic-number.rst
-index 1a8c7d3c98b6..4371f1683693 100644
+index 6250087d36c5..811804996283 100644
 --- a/Documentation/translations/zh_CN/process/magic-number.rst
 +++ b/Documentation/translations/zh_CN/process/magic-number.rst
-@@ -70,7 +70,6 @@ NBD_REQUEST_MAGIC     0x12560953       nbd_request       =
-       ``include/linux/
- BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
-net/baycom_epp.c``
- HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
-linux/hdlcdrv.h``
- KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
-s/include/asm/sn/klkernvars.h``
--ENI155_MAGIC          0xa54b872d       midway_eprom	        ``drivers/atm/=
-eni.h``
- CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
-coda_fs_i.h``
- YAM_MAGIC             0xF10A7654       yam_port                 ``drivers/=
-net/hamradio/yam.c``
- CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
-scsi/ncr53c8xx.c``
+@@ -74,7 +74,6 @@ STRIP_MAGIC           0x5303           strip             =
+       ``drivers/net/st
+ SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/=
+net/hamradio/6pack.h``
+ AX25_MAGIC            0x5316           ax_disp                  ``drivers/=
+net/mkiss.h``
+ MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
+char/synclink.c``
+-TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
+linux/tty_driver.h``
+ MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
+char/pcmcia/synclink_cs.c``
+ USB_SERIAL_MAGIC      0x6702           usb_serial               ``drivers/=
+usb/serial/usb-serial.h``
+ FULL_DUPLEX_MAGIC     0x6969                                    ``drivers/=
+net/ethernet/dec/tulip/de2104x.c``
 diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Do=
 cumentation/translations/zh_TW/process/magic-number.rst
-index 40063df8ba84..3e83f18b9c18 100644
+index fd169d760bbd..8e37e00590f5 100644
 --- a/Documentation/translations/zh_TW/process/magic-number.rst
 +++ b/Documentation/translations/zh_TW/process/magic-number.rst
-@@ -73,7 +73,6 @@ NBD_REQUEST_MAGIC     0x12560953       nbd_request       =
-       ``include/linux/
- BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
-net/baycom_epp.c``
- HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
-linux/hdlcdrv.h``
- KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
-s/include/asm/sn/klkernvars.h``
--ENI155_MAGIC          0xa54b872d       midway_eprom	        ``drivers/atm/=
-eni.h``
- CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
-coda_fs_i.h``
- YAM_MAGIC             0xF10A7654       yam_port                 ``drivers/=
-net/hamradio/yam.c``
- CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
-scsi/ncr53c8xx.c``
+@@ -77,7 +77,6 @@ STRIP_MAGIC           0x5303           strip             =
+       ``drivers/net/st
+ SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/=
+net/hamradio/6pack.h``
+ AX25_MAGIC            0x5316           ax_disp                  ``drivers/=
+net/mkiss.h``
+ MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
+char/synclink.c``
+-TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
+linux/tty_driver.h``
+ MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
+char/pcmcia/synclink_cs.c``
+ USB_SERIAL_MAGIC      0x6702           usb_serial               ``drivers/=
+usb/serial/usb-serial.h``
+ FULL_DUPLEX_MAGIC     0x6969                                    ``drivers/=
+net/ethernet/dec/tulip/de2104x.c``
+diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+index 33962109bd10..d036fc59a2e8 100644
+--- a/drivers/tty/tty_io.c
++++ b/drivers/tty/tty_io.c
+@@ -3321,7 +3321,6 @@ struct tty_driver *__tty_alloc_driver(unsigned int li=
+nes, struct module *owner,
+ 		return ERR_PTR(-ENOMEM);
+=20
+ 	kref_init(&driver->kref);
+-	driver->magic =3D TTY_DRIVER_MAGIC;
+ 	driver->num =3D lines;
+ 	driver->owner =3D owner;
+ 	driver->flags =3D flags;
+diff --git a/include/linux/tty_driver.h b/include/linux/tty_driver.h
+index 4841d8069c07..b0421f5de8a6 100644
+--- a/include/linux/tty_driver.h
++++ b/include/linux/tty_driver.h
+@@ -396,7 +396,6 @@ struct tty_operations {
+ /**
+  * struct tty_driver -- driver for TTY devices
+  *
+- * @magic: set to %TTY_DRIVER_MAGIC in __tty_alloc_driver()
+  * @kref: reference counting. Reaching zero frees all the internals and the
+  *	  driver.
+  * @cdevs: allocated/registered character /dev devices
+@@ -432,7 +431,6 @@ struct tty_operations {
+  * @driver_name, @name, @type, @subtype, @init_termios, and @ops.
+  */
+ struct tty_driver {
+-	int	magic;
+ 	struct kref kref;
+ 	struct cdev **cdevs;
+ 	struct module	*owner;
+@@ -489,9 +487,6 @@ static inline void tty_set_operations(struct tty_driver=
+ *driver,
+ 	driver->ops =3D op;
+ }
+=20
+-/* tty driver magic number */
+-#define TTY_DRIVER_MAGIC		0x5402
+-
+ /**
+  * DOC: TTY Driver Flags
+  *
 --=20
 2.30.2
 
---q3sygo55ovno2tcu
+--swyyvwfzdtgh22iy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmMjqdYACgkQvP0LAY0m
-WPG6FBAAm69t7iWQh2dYeucifgxqyST6l+63EoAJUUnwtmT5q2we7RXU4ZfU7w2C
-0ZT8+wjLYsXIpxrz/zOGFOhfLP2aIoTtkP+QgFPJxaiZcxVigbY3Rz5gMQYobf79
-6qi7d1k9j5zh1cPn73lHT/zxPlTTvF399z76Vc1TawIOV/EdkHSCAOalat2EqF71
-fRr1L3z1py7kdF2V2tm/o3pr6VZ9V0VgVnQBZ3dMEO/DjZ3j6OPlfIJzFpm8oDzQ
-80TdIlFRRXEAXGE7xlktp/jMuMglLRjjJO/skFYewpKjWirZ5skun3xnpdy2wajO
-LQXLx75jw0mCWWXf7aanD6z7/vfB9DqGOMvowWsmU7W1miLSONchC/MSlI2D8Xlf
-sJGnHdxoE5zkT5916FW9neyQiaz3sktu90gxj+wn07XYrrLJCOWsNDsXKVaUQjJX
-Zrk4n+byVAk/WufEyFPcOLWHagC5PtdTZJVbWHdtAoNZ9f1xrDFRIIoh098rSXlQ
-P7FMRctCDOaBjbQZCfG6ysr4+/J67AiqnaKnD17HAdcse4f2HRc91iscQNYgrm+F
-cNSzNNn3pNo/NuPzAotENNhjBZNPYs+TKHqhZMS1TcOmCjXXbJrwYprDbWd3kxN4
-8eOMCi+TGe5Qv67I4grkXvaDhnlFU5+wWEgh6M+55BkQFsHYya4=
-=SRbT
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmMj13gACgkQvP0LAY0m
+WPF1fw//QDsJljVX10mZTHRjFIsQF/g0sXdswWcwiLhpFd2sSlG0EgTImHFrCCfc
+mtiv5c9bZOayJGorWxdi4niXDgBpuI1z5uH7ibcTD6C8kC3+wj0IstO4FP1i2Gdu
+xU7/5IgvbWy4+qW9yXOaBt7firQWkQPSkHkE5sV5kYWDLSo0f28OkaBF43gWHk5P
+ON+1Q1vnNd5710MXXiQ+251zRZ2uqfd9YZfxQrZGjza9kJZTFX50ljpULJi4mjPF
+1Xb6ER+PQ0VYGbEqa6ejJAfI9IdSlXr5x4avjieeKSfnnkIP72taymbPWx6rKmYd
+5AHVBcWPRBamS4ngCOHibkg6wUEVpkrMZkRYtLJeT6FlU9fwGK/IDb9TG4ft8b7u
+tFpiExV6dJBEBCs2o30mSfOym2CoY9WO+QMOJt/4MT8JN0aKAeko02SwPCr/ohTT
+24VarihD8Ot3Ww4Nds43QulJYIt2CbZ3/+aXGg2XYUV30RBIFvcuUBBO44Mih1E6
+yCSWTdaQJ405r9BPlI4QSxMYPSKXbrLm/YcilhPAcrqM6/HJIyd4ymwAx/+cmCCn
+p699Bxz8BGQ0yzvmGdru4NZFh1MDugjg62j51Mj7ovuVm2VqgXrTCbMjBQlBbF19
+acO64/ui0L7YZiTTXMGgyOrkreY415bDfed1LbOOKY5Op2I88kA=
+=45RD
 -----END PGP SIGNATURE-----
 
---q3sygo55ovno2tcu--
+--swyyvwfzdtgh22iy--
