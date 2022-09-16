@@ -2,127 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B9AEECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 09:18:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3969FC54EE9
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 09:55:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230157AbiIPJS2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Sep 2022 05:18:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36758 "EHLO
+        id S229821AbiIPJzP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Sep 2022 05:55:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231262AbiIPJSE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 05:18:04 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF242A99EF;
-        Fri, 16 Sep 2022 02:17:51 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id b23so20639161pfp.9;
-        Fri, 16 Sep 2022 02:17:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=RFJvLC3oyKntFrzTiQRhGZVyVO6GPmrCQg8gZcgZyFw=;
-        b=Si6vfDs3bb2P2LS+f46ihWdK3HAyZdel6Ti1Rl2uXqTyVhhM+fRPVv2zmQ4d/VKab8
-         E4MWbu0mTcGqAAdPVQlX+SSKfU7KNUsJrnxmoBrVPgeHoXCdIBpGm9c0rMYAv+TCkITP
-         CrEQiNGzUycaWOLkBp7E1yPKzvFAgYuY/fZAO8XH1XVhBx+LMLqnJpoTapoE/PeMwBdh
-         gR1mmMH6iNh/WBmaizEX2KFNP64aO1OPWnEsFQYWCLpTltBTj52KfzB4SBNaMVGNxlZc
-         4uKj2M4qd/vGEsuKn8Qx6qonwZz8cdIn9MQSREeaVvRUXI8uhZafFWRTbUHEkdBASLVc
-         boHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=RFJvLC3oyKntFrzTiQRhGZVyVO6GPmrCQg8gZcgZyFw=;
-        b=54A3nWdRxuXxlksECDGwjlzlODPqF1IEKd8vY4oQFFAhn3dJAEkw9SRmtp9FRw5yR6
-         HTq3y3IP98sxStjDVjwXHKBtkvukVQ3OFB5UbJxL22j6XKvHMAVCTtW5ZOrgeaMvBFJs
-         XkzGxjEpbGcK0ABWAAgGSIWp338yAiznQIn96McKcA0XHZ744Ynym+Zdooa1pp7CMPJ9
-         ILwPhaZWOTFywC/+ZqEhchIyE7Jlfp5G1X/y05GwDDq7gtERdW5PxuHikQ7qLKgZ9Zlp
-         r8YxTYhRkkDmKx73Zs5yj+bEQrDqGRrN3Th1sKKWAOgOjoPrSr1/uS7+zGDV1IPKzrC0
-         sM2w==
-X-Gm-Message-State: ACrzQf1Vv97mG5H9HRamlmbqq5rj6UtDlAOTqAD0s5RtOFFRKSVG7XSI
-        OSkBFvMspXXTI0pWhmIdPMQ=
-X-Google-Smtp-Source: AMsMyM6PMf1pTSKPrEToM1vu4+OPBqOTXE35gLiVtkoVeVNAu/wJ9Awn1DLWt6lUQ0y1S1KgHHMDJw==
-X-Received: by 2002:a63:77c4:0:b0:435:4224:98b6 with SMTP id s187-20020a6377c4000000b00435422498b6mr3751652pgc.94.1663319871288;
-        Fri, 16 Sep 2022 02:17:51 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-32.three.co.id. [116.206.28.32])
-        by smtp.gmail.com with ESMTPSA id q7-20020a17090311c700b00174f7d10a03sm14635852plh.86.2022.09.16.02.17.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 02:17:50 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 5800510322A; Fri, 16 Sep 2022 16:17:48 +0700 (WIB)
-Date:   Fri, 16 Sep 2022 16:17:48 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Message-ID: <YyQ/PHZHkDSgjH/v@debian.me>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-4-chao.p.peng@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="y7c2sZGFbG3OyuxM"
-Content-Disposition: inline
-In-Reply-To: <20220915142913.2213336-4-chao.p.peng@linux.intel.com>
+        with ESMTP id S229635AbiIPJzP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 05:55:15 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BF3385D106;
+        Fri, 16 Sep 2022 02:55:12 -0700 (PDT)
+Received: from linux.localdomain (unknown [113.200.148.30])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Bx5OH7RyRjbBYbAA--.38315S2;
+        Fri, 16 Sep 2022 17:55:07 +0800 (CST)
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs, kprobes: Fix the wrong location of Kprobes
+Date:   Fri, 16 Sep 2022 17:55:06 +0800
+Message-Id: <1663322106-12178-1-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: git-send-email 2.1.0
+X-CM-TRANSID: AQAAf8Bx5OH7RyRjbBYbAA--.38315S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7XrWfXry7JrWkCw1DWF18uFg_yoWDuFX_Aw
+        4qqa95J3yjqrWUur43JF4fXF4xZ3WS9Fy8Ar4qqr4UKw12qw4xJan5GFWDZFWrGay7ur1a
+        vFZ7ZrnxXFZFqjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUb7AYjsxI4VW3JwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0
+        cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
+        A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+        w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26F4j6r4UJw
+        Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK67AK6r4fMxAIw28I
+        cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
+        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI
+        42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42
+        IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280
+        aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8J8n5UUUUU==
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+After commit 22471e1313f2 ("kconfig: use a menu in arch/Kconfig to reduce
+clutter"), the location of Kprobes is under "General architecture-dependent
+options" rather than "General setup".
 
---y7c2sZGFbG3OyuxM
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+---
+ Documentation/trace/kprobes.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Thu, Sep 15, 2022 at 10:29:08PM +0800, Chao Peng wrote:
-> + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
-> +   private memory access when the bit is set otherwise the memory error =
-is
-> +   caused by shared memory access when the bit is clear.
+diff --git a/Documentation/trace/kprobes.rst b/Documentation/trace/kprobes.rst
+index f318bce..48cf778 100644
+--- a/Documentation/trace/kprobes.rst
++++ b/Documentation/trace/kprobes.rst
+@@ -328,8 +328,8 @@ Configuring Kprobes
+ ===================
+ 
+ When configuring the kernel using make menuconfig/xconfig/oldconfig,
+-ensure that CONFIG_KPROBES is set to "y". Under "General setup", look
+-for "Kprobes".
++ensure that CONFIG_KPROBES is set to "y", look for "Kprobes" under
++"General architecture-dependent options".
+ 
+ So that you can load and unload Kprobes-based instrumentation modules,
+ make sure "Loadable module support" (CONFIG_MODULES) and "Module
+-- 
+2.1.0
 
-s/set otherwise/set. Otherwise,
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---y7c2sZGFbG3OyuxM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYyQ/PAAKCRD2uYlJVVFO
-o+4BAQDezOCiD0NOTihbyDi8bMxnDsZat5ohcP3Z6qp+0VEjSAD+PZb6ujbn8gYi
-c4AOBSOQzNSdKZVaTt8s86rxM84+4gk=
-=Ns2r
------END PGP SIGNATURE-----
-
---y7c2sZGFbG3OyuxM--
