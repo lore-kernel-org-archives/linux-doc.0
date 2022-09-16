@@ -2,102 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DC19C6FA8B
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 09:59:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00BF7C6FA90
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 10:08:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbiIPJ7R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Sep 2022 05:59:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45908 "EHLO
+        id S230441AbiIPKIv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Sep 2022 06:08:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230238AbiIPJ7P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 05:59:15 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC0D8AA4D9;
-        Fri, 16 Sep 2022 02:59:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663322353; x=1694858353;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=+GGngsOt+mHhqh1Zhh4O/6JETM5+xIHPKtlncj1KbqA=;
-  b=jCk6G/BbCxqBSmqRYtWMEGvZ3X4Rcvi2rc7Rc1TuMfkOZBoLIuAQYXjd
-   pj9VK+SQ197Gqm+34E4mB2lBeJxWnI4kVyAOaluo3qcFVZ+zGgVVJPtwx
-   2WbXyXeVSxs5aRB8YY96VBintdJkvDPw3+HWTd3DLMzEUKTkd+Ezu8Dbj
-   g6+S3k0G+1wkn+Rv6JUAHW9NOjEvestgc11oK8Y/r+/Au3IrWOsNCSNFp
-   g8P/K7UDQ6m78sDkJHdhzVNl5uzBfRWGrzH7c4WBPRmilWSGmtilC88Ne
-   35GKh+OgpgRM+wRQt1XHC6m5NxaFmiOhNsW5/NsbTggKPpXIxErJl91hn
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10471"; a="325230069"
-X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; 
-   d="scan'208";a="325230069"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2022 02:59:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,320,1654585200"; 
-   d="scan'208";a="620036737"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by fmsmga007.fm.intel.com with ESMTP; 16 Sep 2022 02:59:03 -0700
-Date:   Fri, 16 Sep 2022 17:54:24 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Message-ID: <20220916095424.GB2261402@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-4-chao.p.peng@linux.intel.com>
- <YyQ/PHZHkDSgjH/v@debian.me>
+        with ESMTP id S230488AbiIPKI1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 06:08:27 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CA45AB41E;
+        Fri, 16 Sep 2022 03:08:10 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id iw17so21010366plb.0;
+        Fri, 16 Sep 2022 03:08:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:content-language:subject:from
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date;
+        bh=o4dNK8sODyJBDE21/k1sZDBLAnfZVMB1+5ooUJQHkAA=;
+        b=J0VYXSd+C84QGhK27beRSQzeBVKtXzs2wSW/W6r1+IHs1GeuOKnsObida6F1x0mfHV
+         IMXdNvUCh+aarVyWDJ6lwSFe9jBZPWssGdSmSxo6NtqS4NCZ6h6pQC2ckoypt4w4QIyj
+         2hQ86wMC9YcQg9I4yzhP+nnicewsV1CmurYcsCz8Sq3wsPZRWST8OGLrugoPAkztL7uo
+         c8LS7J+nLOkAEq1c1r8BZOSJ8ENKMYPpu/bSa5AsF804LnMQio779Gvriq1RKI9/oqWO
+         rrrTL4wgYgfxuUTF7bhfsH6YD+lAXGRgDtUF466jQL2UAqVk+VzrOAmb+w+MHg1VkkwE
+         93og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:content-language:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date;
+        bh=o4dNK8sODyJBDE21/k1sZDBLAnfZVMB1+5ooUJQHkAA=;
+        b=ko+KoGMlVY+nJ5+NM7mBW1VeAo+568+L1ec42CR2phdDexBK+hipSi+f8+ZzPoKpIk
+         McTn3o8cS1cqX/WXvr35hDEj9Wk33obGc+HM8yoDdgYt9BdJnuiV4sMUKUNgpbHMiKtf
+         319h0TRyVPEzYPHmi3Q9JLfmEj7paDm1Xw9sN0Ym6Sj7bPrcfiU1Lz8wtZGxzMPgY75g
+         7Best9zjcpOJx/uANIQ1d+YsDiBXzyCbe6yapqHt7Ox0NLti8xlZDG/fSE2tIr12BS69
+         0c8XUQBvDE4P7AibAxLVH4H5mAo1cDshAtCT7ERAgl8WibGPlcQoKzLoQJBxXhB+/Ues
+         cYLQ==
+X-Gm-Message-State: ACrzQf2MBai0irAN5lIMg2BFzVThyIT3c56pjz7pq3phieDZ1hG9yrJx
+        FyOfie23pDx050zK230JaDI=
+X-Google-Smtp-Source: AMsMyM4qpIYXnlQnQD91X+fdX76pKdrEkAGhw6YVOpWoCxw/+QWgDPnnFBfgR2FMPD6EN4GM0tZl1g==
+X-Received: by 2002:a17:90a:5a02:b0:203:1640:2da9 with SMTP id b2-20020a17090a5a0200b0020316402da9mr4517252pjd.245.1663322889278;
+        Fri, 16 Sep 2022 03:08:09 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id o2-20020a170902778200b0016c50179b1esm14375267pll.152.2022.09.16.03.08.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Sep 2022 03:08:08 -0700 (PDT)
+Message-ID: <a67e3279-6bc7-ee2c-2b49-9275252460b0@gmail.com>
+Date:   Fri, 16 Sep 2022 19:08:05 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YyQ/PHZHkDSgjH/v@debian.me>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] docs/doc-guide: Add documentation on SPHINX_IMGMATH
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 16, 2022 at 04:17:48PM +0700, Bagas Sanjaya wrote:
-> On Thu, Sep 15, 2022 at 10:29:08PM +0800, Chao Peng wrote:
-> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
-> > +   private memory access when the bit is set otherwise the memory error is
-> > +   caused by shared memory access when the bit is clear.
-> 
-> s/set otherwise/set. Otherwise,
+Now that building html docs with math expressions does not need texlive
+packages, remove the note on the requirement in the "Sphinx Install"
+section.
 
-Thanks.
+Instead, add sections of "Math Expressions in HTML" and "Choice of Math
+Renderer".
+Describe the effect of setting SPHINX_IMGMATH in the latter section.
 
-> 
-> Thanks.
-> 
-> -- 
-> An old man doll... just what I always wanted! - Clara
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+---
+Hi,
 
+This is a follow-up of the mathjax patch set [1].
+In the thread, I mentioned my plan to add support of SVG images for
+imgmath in reply to Randy.
+
+I've not convinced myself if adding code for checking dvisvgm's
+dependencies in conf.py is the right thing to do.
+
+My reservation comes from:
+
+ 1) Any lack in dependency list can result in false-positive of
+    enabling SVG and a build error of htmldocs with cryptic looking
+    error messages.
+ 2) Dependency of dvisvgm may change in future releases of Sphinx
+    and/or dvisvgm as well as other texlive packages.
+
+So I'm sending this documentation update describing the current state
+of affairs for the 6.1 merge window.
+
+I might change my mind and revisit the SVG part if I hear people's
+interests in it.
+
+For the moment, SVG math images can be enabled by adding:
+
+    SPHINXOPTS="-D imgmath_image_format='svg'"
+
+to the "make htmldocs" command line.
+
+[1]: https://lore.kernel.org/all/9b8ff6d7-e97a-c03f-7d46-4b80ae3cf196@gmail.com/
+
+        Thanks, Akira
+--
+ Documentation/doc-guide/sphinx.rst | 57 +++++++++++++++++++++++++++---
+ 1 file changed, 53 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+index 1228b85f6f77..c708cec889af 100644
+--- a/Documentation/doc-guide/sphinx.rst
++++ b/Documentation/doc-guide/sphinx.rst
+@@ -48,10 +48,6 @@ or ``virtualenv``, depending on how your distribution packaged Python 3.
+       on the Sphinx version, it should be installed separately,
+       with ``pip install sphinx_rtd_theme``.
+ 
+-   #) Some ReST pages contain math expressions. Due to the way Sphinx works,
+-      those expressions are written using LaTeX notation. It needs texlive
+-      installed with amsfonts and amsmath in order to evaluate them.
+-
+ In summary, if you want to install Sphinx version 2.4.4, you should do::
+ 
+        $ virtualenv sphinx_2.4.4
+@@ -86,6 +82,27 @@ Depending on the distribution, you may also need to install a series of
+ ``texlive`` packages that provide the minimal set of functionalities
+ required for ``XeLaTeX`` to work.
+ 
++Math Expressions in HTML
++------------------------
++
++Some ReST pages contain math expressions. Due to the way Sphinx works,
++those expressions are written using LaTeX notation.
++There are two options for Sphinx to render math expressions in html output.
++One is an extension called `imgmath`_ which converts math expressions into
++images and embeds them in html pages.
++The other is an extension called `mathjax`_ which delegates math rendering
++to JavaScript capable web browsers.
++The former was the only option for pre-6.1 kernel documentation and it
++requires quite a few texlive packages including amsfonts and amsmath among
++others.
++
++Since kernel release 6.1, html pages with math expressions can be built
++without installing any texlive packages. See `Choice of Math Renderer`_ for
++further info.
++
++.. _imgmath: https://www.sphinx-doc.org/en/master/usage/extensions/math.html#module-sphinx.ext.imgmath
++.. _mathjax: https://www.sphinx-doc.org/en/master/usage/extensions/math.html#module-sphinx.ext.mathjax
++
+ .. _sphinx-pre-install:
+ 
+ Checking for Sphinx dependencies
+@@ -164,6 +181,38 @@ To remove the generated documentation, run ``make cleandocs``.
+ 	  as well would improve the quality of images embedded in PDF
+ 	  documents, especially for kernel releases 5.18 and later.
+ 
++Choice of Math Renderer
++-----------------------
++
++Since kernel release 6.1, mathjax works as a fallback math renderer for
++html output.\ [#sph1_8]_
++
++Math renderer is chosen depending on available commands as shown below:
++
++.. table:: Math Renderer Choices for HTML
++
++    ============= ================= ============
++    Math renderer Required commands Image format
++    ============= ================= ============
++    imgmath       latex, dvipng     PNG (raster)
++    mathjax
++    ============= ================= ============
++
++The choice can be overridden by setting an environment variable
++``SPHINX_IMGMATH`` as shown below:
++
++.. table:: Effect of Setting ``SPHINX_IMGMATH``
++
++    ====================== ========
++    Setting                Renderer
++    ====================== ========
++    ``SPHINX_IMGMATH=yes`` imgmath
++    ``SPHINX_IMGMATH=no``  mathjax
++    ====================== ========
++
++.. [#sph1_8] Fallback of math renderer requires Sphinx >=1.8.
++
++
+ Writing Documentation
+ =====================
+ 
+
+base-commit: 7ebeef22dcc2c3db83dcd1e8292744cf29c1859f
+-- 
+2.25.1
 
