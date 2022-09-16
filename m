@@ -2,37 +2,37 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC45ECAAA1
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 01:55:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E047C32771
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 01:55:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229890AbiIPBzO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Sep 2022 21:55:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44662 "EHLO
+        id S229905AbiIPBzQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Sep 2022 21:55:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229872AbiIPBzK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 21:55:10 -0400
+        with ESMTP id S229906AbiIPBzO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Sep 2022 21:55:14 -0400
 Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4D3C1140D2;
-        Thu, 15 Sep 2022 18:55:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D7AE31A055;
+        Thu, 15 Sep 2022 18:55:11 -0700 (PDT)
 Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id BE50F1074;
-        Fri, 16 Sep 2022 03:55:00 +0200 (CEST)
+        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id F1AEB125A;
+        Fri, 16 Sep 2022 03:55:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
-        s=202205; t=1663293300;
-        bh=i036dqtp+M5F2iUf7rJM+aJuwo1MGvMl7sNUQfom7jo=;
-        h=Date:From:Cc:Subject:From;
-        b=jO4yYTbqKxQRidV2ITu2C9smcNmZQMv3jhS+P36B8OBpk2tfFzCEPRGSg2zgdBLdm
-         95i3qlukPocwJsfOwb+GZ3naz/p9VjXl9CxzML/VdnFazDNL9UEGyqOLnXUDuW9COJ
-         D7iCeC+w7zSugktHa9hIJvz3IWcdzY0AXJVWEAUjM2UXoVejOgbeGQ77hJ7fuYvXGJ
-         dFDwRISCMTMod1Woch1TqDFEehHmuby2V/48UsomAYtB9wqejPbqNNh/jXsOm0Hir7
-         kRTugodsI5plFMwoiOW1DNGYBR0w3dX4YD2LfzUGVoWJrm0XP5eqYzSR5mMCfR6Qu/
-         aXyuxKEffSwqHOtWxrMyQ18szB6oX7CyuqmLK09v3GflYTjmkKHBL+nFNIV8IvZ8tu
-         tJAiIPvy/FOEA8GXzHF5I1uhcVAx8PFnIUQLnvWy6VtZkk5rryoCpK4GPihiJSSKSC
-         cAZWUpTMwTRNFb/0wBGgXXxfKqaqpcGQRG4vCfiSy41C+MlLojxzYlMQYiIYjJ4ngn
-         qFTchflAv4KD+I3DZJ+rdR5Z/988w95/caMDutn7AF/yTr8esQsHDAp04kGMAnEb+j
-         gxmVQbYOj7NDwvJG9LQykm3ZCcY9dGj+pXdaCCfl2SdWpAE9CovP9y2JwF58T20RvE
-         ZuYfXcFe3oOQslZbAOqX/ics=
-Date:   Fri, 16 Sep 2022 03:54:59 +0200
+        s=202205; t=1663293311;
+        bh=l0Up1jZyTCS2dKkFauxESzl8/7NdhtmhF1IzaGGwj58=;
+        h=Date:From:Cc:Subject:References:In-Reply-To:From;
+        b=cyTjTMVtElMdkrFiSsakaxBpI7R+ATMUnzUtk0+9KgNhnTw+odQ8SXkHy5yOFUAky
+         4WzlLKE6eJPoKTRYLT1cyY5IWPeURCt0c37na3aOwPLGRI3ULuMzQq5cGl4PeaVZv6
+         H3DXsE0HTe4PTKwLxdjS5GkZcw77uO/5HsWmKCeihXxCPfy6kL/DybK9C2qobFtZ9E
+         hS7C6mvdqp+tRyoqxCSpYjGuYhMeYrm7oUsh7nCWitCqfmnGJejIdMS5494Znh4S96
+         qLgpqQMrN2vx+l5wXqaU6bEoZghxP82WahDniEDf2kFKrhlyXtTVSf8a7gQ5lB5U8J
+         JrXw+X0QSpsYzAf8iJdU7svgSdKbTQGaPxNKchtvWzln3D78UAa0Cjf2SS766szGNX
+         nKgqOot/U6PA6aKfs/fyhgL57BOKaGGyLS+oDSHs+MuL9EAbWLzsdAS2m7kITHaMyU
+         E2+fsf6Zq2QgpaBS3aJao/PyxU0cJ9tJROvY8ImC02g5DBl6Us3hv+QzzL8D3YnOch
+         mG2H2ob+DpGCFO/g52zgKtDd7behwJslFANFKNPIToKodhDA5gA+9rGeVxw3EuM7mU
+         aiXCpUnlKkZkG0LccKErl/XwGxz8/MzDzuwiVaXu2TDJhtLBTH+vMCbUq6CWA9fhxA
+         v2C3yQbExTkHTyCpDpyUItVM=
+Date:   Fri, 16 Sep 2022 03:55:09 +0200
 From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
@@ -43,12 +43,14 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         linux-doc-tw-discuss@lists.sourceforge.net
-Subject: [PATCH 1/5] tty: remove TTY_MAGIC
-Message-ID: <476d024cd6b04160a5de381ea2b9856b60088cbd.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
+Subject: [PATCH 3/5] tty: n_hdlc: remove HDLC_MAGIC
+Message-ID: <c31d228302da3f426cebf6fcff855181a5590a66.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
+References: <476d024cd6b04160a5de381ea2b9856b60088cbd.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="pqehfju4slo4lchw"
+        protocol="application/pgp-signature"; boundary="txf7e6nlcjptf72l"
 Content-Disposition: inline
+In-Reply-To: <476d024cd6b04160a5de381ea2b9856b60088cbd.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
 User-Agent: NeoMutt/20220429
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
@@ -56,7 +58,7 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---pqehfju4slo4lchw
+--txf7e6nlcjptf72l
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -68,229 +70,214 @@ take patches"
 Ref: https://lore.kernel.org/linux-doc/YyMlovoskUcHLEb7@kroah.com/
 Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
 ---
-Whole series: amd64 allyesconfig builds; amd64 Debian config boots and
-appears to work; naturally, the HVC stuff is S/390 only, but it's a
-constant offset
-
- Documentation/process/magic-number.rst                    | 1 -
- Documentation/translations/it_IT/process/magic-number.rst | 1 -
- Documentation/translations/zh_CN/process/magic-number.rst | 1 -
- Documentation/translations/zh_TW/process/magic-number.rst | 1 -
- drivers/tty/tty_io.c                                      | 8 --------
- drivers/tty/tty_mutex.c                                   | 6 ------
- include/linux/tty.h                                       | 6 ------
- 7 files changed, 24 deletions(-)
+ Documentation/process/magic-number.rst        |  1 -
+ .../it_IT/process/magic-number.rst            |  1 -
+ .../zh_CN/process/magic-number.rst            |  1 -
+ .../zh_TW/process/magic-number.rst            |  1 -
+ drivers/tty/n_hdlc.c                          | 27 -------------------
+ 5 files changed, 31 deletions(-)
 
 diff --git a/Documentation/process/magic-number.rst b/Documentation/process=
 /magic-number.rst
-index f5ba36e96461..b4c7ec61437e 100644
+index d47799ba0ca4..fdaa3e4b1953 100644
 --- a/Documentation/process/magic-number.rst
 +++ b/Documentation/process/magic-number.rst
-@@ -84,7 +84,6 @@ SLIP_MAGIC            0x5302           slip              =
-       ``drivers/net/sl
- STRIP_MAGIC           0x5303           strip                    ``drivers/=
-net/strip.c``
- SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/=
-net/hamradio/6pack.h``
- AX25_MAGIC            0x5316           ax_disp                  ``drivers/=
+@@ -71,7 +71,6 @@ Magic Name            Number           Structure         =
+       File
+ PG_MAGIC              'P'              pg_{read,write}_hdr      ``include/=
+linux/pg.h``
+ CMAGIC                0x0111           user                     ``include/=
+linux/a.out.h``
+ MKISS_DRIVER_MAGIC    0x04bf           mkiss_channel            ``drivers/=
 net/mkiss.h``
--TTY_MAGIC             0x5401           tty_struct               ``include/=
-linux/tty.h``
- MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
-char/synclink.c``
- TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
-linux/tty_driver.h``
- MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
-char/pcmcia/synclink_cs.c``
+-HDLC_MAGIC            0x239e           n_hdlc                   ``drivers/=
+char/n_hdlc.c``
+ APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86=
+/kernel/apm_32.c``
+ DB_MAGIC              0x4442           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+ DL_MAGIC              0x444d           fc_info                  ``drivers/=
+net/iph5526_novram.c``
 diff --git a/Documentation/translations/it_IT/process/magic-number.rst b/Do=
 cumentation/translations/it_IT/process/magic-number.rst
-index f452fafb1e84..bcb23384fefd 100644
+index 24022ab52ebb..1898f98875de 100644
 --- a/Documentation/translations/it_IT/process/magic-number.rst
 +++ b/Documentation/translations/it_IT/process/magic-number.rst
-@@ -90,7 +90,6 @@ SLIP_MAGIC            0x5302           slip              =
-       ``drivers/net/sl
- STRIP_MAGIC           0x5303           strip                    ``drivers/=
-net/strip.c``
- SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/=
-net/hamradio/6pack.h``
- AX25_MAGIC            0x5316           ax_disp                  ``drivers/=
+@@ -77,7 +77,6 @@ Nome magico           Numero           Struttura         =
+       File
+ PG_MAGIC              'P'              pg_{read,write}_hdr      ``include/=
+linux/pg.h``
+ CMAGIC                0x0111           user                     ``include/=
+linux/a.out.h``
+ MKISS_DRIVER_MAGIC    0x04bf           mkiss_channel            ``drivers/=
 net/mkiss.h``
--TTY_MAGIC             0x5401           tty_struct               ``include/=
-linux/tty.h``
- MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
-char/synclink.c``
- TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
-linux/tty_driver.h``
- MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
-char/pcmcia/synclink_cs.c``
+-HDLC_MAGIC            0x239e           n_hdlc                   ``drivers/=
+char/n_hdlc.c``
+ APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86=
+/kernel/apm_32.c``
+ DB_MAGIC              0x4442           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+ DL_MAGIC              0x444d           fc_info                  ``drivers/=
+net/iph5526_novram.c``
 diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Do=
 cumentation/translations/zh_CN/process/magic-number.rst
-index 42f0635ca70a..6250087d36c5 100644
+index 811804996283..911cdaeaf698 100644
 --- a/Documentation/translations/zh_CN/process/magic-number.rst
 +++ b/Documentation/translations/zh_CN/process/magic-number.rst
-@@ -73,7 +73,6 @@ SLIP_MAGIC            0x5302           slip              =
-       ``drivers/net/sl
- STRIP_MAGIC           0x5303           strip                    ``drivers/=
-net/strip.c``
- SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/=
-net/hamradio/6pack.h``
- AX25_MAGIC            0x5316           ax_disp                  ``drivers/=
+@@ -60,7 +60,6 @@ Linux =E9=AD=94=E6=9C=AF=E6=95=B0
+ PG_MAGIC              'P'              pg_{read,write}_hdr      ``include/=
+linux/pg.h``
+ CMAGIC                0x0111           user                     ``include/=
+linux/a.out.h``
+ MKISS_DRIVER_MAGIC    0x04bf           mkiss_channel            ``drivers/=
 net/mkiss.h``
--TTY_MAGIC             0x5401           tty_struct               ``include/=
-linux/tty.h``
- MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
-char/synclink.c``
- TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
-linux/tty_driver.h``
- MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
-char/pcmcia/synclink_cs.c``
+-HDLC_MAGIC            0x239e           n_hdlc                   ``drivers/=
+char/n_hdlc.c``
+ APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86=
+/kernel/apm_32.c``
+ DB_MAGIC              0x4442           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+ DL_MAGIC              0x444d           fc_info                  ``drivers/=
+net/iph5526_novram.c``
 diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Do=
 cumentation/translations/zh_TW/process/magic-number.rst
-index ae321a9aaece..fd169d760bbd 100644
+index 8e37e00590f5..ac87f188235f 100644
 --- a/Documentation/translations/zh_TW/process/magic-number.rst
 +++ b/Documentation/translations/zh_TW/process/magic-number.rst
-@@ -76,7 +76,6 @@ SLIP_MAGIC            0x5302           slip              =
-       ``drivers/net/sl
- STRIP_MAGIC           0x5303           strip                    ``drivers/=
-net/strip.c``
- SIXPACK_MAGIC         0x5304           sixpack                  ``drivers/=
-net/hamradio/6pack.h``
- AX25_MAGIC            0x5316           ax_disp                  ``drivers/=
+@@ -63,7 +63,6 @@ Linux =E9=AD=94=E8=A1=93=E6=95=B8
+ PG_MAGIC              'P'              pg_{read,write}_hdr      ``include/=
+linux/pg.h``
+ CMAGIC                0x0111           user                     ``include/=
+linux/a.out.h``
+ MKISS_DRIVER_MAGIC    0x04bf           mkiss_channel            ``drivers/=
 net/mkiss.h``
--TTY_MAGIC             0x5401           tty_struct               ``include/=
-linux/tty.h``
- MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
-char/synclink.c``
- TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
-linux/tty_driver.h``
- MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
-char/pcmcia/synclink_cs.c``
-diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
-index 82a8855981f7..33962109bd10 100644
---- a/drivers/tty/tty_io.c
-+++ b/drivers/tty/tty_io.c
-@@ -170,7 +170,6 @@ static void free_tty_struct(struct tty_struct *tty)
- 	tty_ldisc_deinit(tty);
- 	put_device(tty->dev);
- 	kvfree(tty->write_buf);
--	tty->magic =3D 0xDEADDEAD;
- 	kfree(tty);
- }
-=20
-@@ -265,11 +264,6 @@ static int tty_paranoia_check(struct tty_struct *tty, =
-struct inode *inode,
- 			imajor(inode), iminor(inode), routine);
- 		return 1;
- 	}
--	if (tty->magic !=3D TTY_MAGIC) {
--		pr_warn("(%d:%d): %s: bad magic number\n",
--			imajor(inode), iminor(inode), routine);
--		return 1;
--	}
- #endif
- 	return 0;
- }
-@@ -1533,7 +1527,6 @@ static void release_one_tty(struct work_struct *work)
- 	if (tty->ops->cleanup)
- 		tty->ops->cleanup(tty);
-=20
--	tty->magic =3D 0;
- 	tty_driver_kref_put(driver);
- 	module_put(owner);
-=20
-@@ -3093,7 +3086,6 @@ struct tty_struct *alloc_tty_struct(struct tty_driver=
- *driver, int idx)
- 		return NULL;
-=20
- 	kref_init(&tty->kref);
--	tty->magic =3D TTY_MAGIC;
- 	if (tty_ldisc_init(tty)) {
- 		kfree(tty);
- 		return NULL;
-diff --git a/drivers/tty/tty_mutex.c b/drivers/tty/tty_mutex.c
-index 393518a24cfe..784e46a0a3b1 100644
---- a/drivers/tty/tty_mutex.c
-+++ b/drivers/tty/tty_mutex.c
-@@ -14,8 +14,6 @@
-=20
- void tty_lock(struct tty_struct *tty)
- {
--	if (WARN(tty->magic !=3D TTY_MAGIC, "L Bad %p\n", tty))
--		return;
- 	tty_kref_get(tty);
- 	mutex_lock(&tty->legacy_mutex);
- }
-@@ -25,8 +23,6 @@ int tty_lock_interruptible(struct tty_struct *tty)
- {
- 	int ret;
-=20
--	if (WARN(tty->magic !=3D TTY_MAGIC, "L Bad %p\n", tty))
--		return -EIO;
- 	tty_kref_get(tty);
- 	ret =3D mutex_lock_interruptible(&tty->legacy_mutex);
- 	if (ret)
-@@ -36,8 +32,6 @@ int tty_lock_interruptible(struct tty_struct *tty)
-=20
- void tty_unlock(struct tty_struct *tty)
- {
--	if (WARN(tty->magic !=3D TTY_MAGIC, "U Bad %p\n", tty))
--		return;
- 	mutex_unlock(&tty->legacy_mutex);
- 	tty_kref_put(tty);
- }
-diff --git a/include/linux/tty.h b/include/linux/tty.h
-index 7b0a5d478ef6..ba65043e9029 100644
---- a/include/linux/tty.h
-+++ b/include/linux/tty.h
-@@ -122,8 +122,6 @@ struct tty_operations;
- /**
-  * struct tty_struct - state associated with a tty while open
-  *
-- * @magic: magic value set early in @alloc_tty_struct to %TTY_MAGIC, for
-- *	   debugging purposes
-  * @kref: reference counting by tty_kref_get() and tty_kref_put(), reachin=
-g zero
-  *	  frees the structure
-  * @dev: class device or %NULL (e.g. ptys, serdev)
-@@ -193,7 +191,6 @@ struct tty_operations;
-  * &struct tty_port.
+-HDLC_MAGIC            0x239e           n_hdlc                   ``drivers/=
+char/n_hdlc.c``
+ APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86=
+/kernel/apm_32.c``
+ DB_MAGIC              0x4442           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+ DL_MAGIC              0x444d           fc_info                  ``drivers/=
+net/iph5526_novram.c``
+diff --git a/drivers/tty/n_hdlc.c b/drivers/tty/n_hdlc.c
+index 94c1ec2dd754..b5aa27051119 100644
+--- a/drivers/tty/n_hdlc.c
++++ b/drivers/tty/n_hdlc.c
+@@ -76,8 +76,6 @@
+  * OF THE POSSIBILITY OF SUCH DAMAGE.
   */
- struct tty_struct {
--	int	magic;
- 	struct kref kref;
- 	struct device *dev;
- 	struct tty_driver *driver;
-@@ -260,9 +257,6 @@ struct tty_file_private {
- 	struct list_head list;
- };
 =20
--/* tty magic number */
--#define TTY_MAGIC		0x5401
+-#define HDLC_MAGIC 0x239e
 -
+ #include <linux/module.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+@@ -124,7 +122,6 @@ struct n_hdlc_buf_list {
+=20
  /**
-  * DOC: TTY Struct Flags
-  *
+  * struct n_hdlc - per device instance data structure
+- * @magic: magic value for structure
+  * @tbusy: reentrancy flag for tx wakeup code
+  * @woke_up: tx wakeup needs to be run again as it was called while @tbusy
+  * @tx_buf_list: list of pending transmit frame buffers
+@@ -133,7 +130,6 @@ struct n_hdlc_buf_list {
+  * @rx_free_buf_list: list unused received frame buffers
+  */
+ struct n_hdlc {
+-	int			magic;
+ 	bool			tbusy;
+ 	bool			woke_up;
+ 	struct n_hdlc_buf_list	tx_buf_list;
+@@ -200,10 +196,6 @@ static void n_hdlc_tty_close(struct tty_struct *tty)
+ {
+ 	struct n_hdlc *n_hdlc =3D tty->disc_data;
+=20
+-	if (n_hdlc->magic !=3D HDLC_MAGIC) {
+-		pr_warn("n_hdlc: trying to close unopened tty!\n");
+-		return;
+-	}
+ #if defined(TTY_NO_WRITE_SPLIT)
+ 	clear_bit(TTY_NO_WRITE_SPLIT, &tty->flags);
+ #endif
+@@ -386,12 +378,6 @@ static void n_hdlc_tty_receive(struct tty_struct *tty,=
+ const __u8 *data,
+=20
+ 	pr_debug("%s() called count=3D%d\n", __func__, count);
+=20
+-	/* verify line is using HDLC discipline */
+-	if (n_hdlc->magic !=3D HDLC_MAGIC) {
+-		pr_err("line not using HDLC discipline\n");
+-		return;
+-	}
+-
+ 	if (count > maxframe) {
+ 		pr_debug("rx count>maxframesize, data discarded\n");
+ 		return;
+@@ -542,9 +528,6 @@ static ssize_t n_hdlc_tty_write(struct tty_struct *tty,=
+ struct file *file,
+=20
+ 	pr_debug("%s() called count=3D%zd\n", __func__, count);
+=20
+-	if (n_hdlc->magic !=3D HDLC_MAGIC)
+-		return -EIO;
+-
+ 	/* verify frame size */
+ 	if (count > maxframe) {
+ 		pr_debug("%s: truncating user packet from %zu to %d\n",
+@@ -609,10 +592,6 @@ static int n_hdlc_tty_ioctl(struct tty_struct *tty, un=
+signed int cmd,
+=20
+ 	pr_debug("%s() called %d\n", __func__, cmd);
+=20
+-	/* Verify the status of the device */
+-	if (n_hdlc->magic !=3D HDLC_MAGIC)
+-		return -EBADF;
+-
+ 	switch (cmd) {
+ 	case FIONREAD:
+ 		/* report count of read data available */
+@@ -673,9 +652,6 @@ static __poll_t n_hdlc_tty_poll(struct tty_struct *tty,=
+ struct file *filp,
+ 	struct n_hdlc *n_hdlc =3D tty->disc_data;
+ 	__poll_t mask =3D 0;
+=20
+-	if (n_hdlc->magic !=3D HDLC_MAGIC)
+-		return 0;
+-
+ 	/*
+ 	 * queue the current process into any wait queue that may awaken in the
+ 	 * future (read and write)
+@@ -739,9 +715,6 @@ static struct n_hdlc *n_hdlc_alloc(void)
+ 	n_hdlc_alloc_buf(&n_hdlc->rx_free_buf_list, DEFAULT_RX_BUF_COUNT, "rx");
+ 	n_hdlc_alloc_buf(&n_hdlc->tx_free_buf_list, DEFAULT_TX_BUF_COUNT, "tx");
+=20
+-	/* Initialize the control block */
+-	n_hdlc->magic  =3D HDLC_MAGIC;
+-
+ 	return n_hdlc;
+=20
+ }	/* end of n_hdlc_alloc() */
 --=20
 2.30.2
 
---pqehfju4slo4lchw
+--txf7e6nlcjptf72l
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmMj13AACgkQvP0LAY0m
-WPEqkQ//a9MLJLX11AXclFxX6RLlbIPvkQMpfYkQfUYAhdZfv4t4xBYUBG6ehUup
-OX71YVtBpzrZ1sdJYg53uDEt7Px94XfkB5BispT5SHckwxVEGQ6imsYo0TcmHF8u
-q0ELTGUN2MNTQDGKIDgmK0cAL2EOsjCWFcmS8GHqYq4DZGE6zxsfWF0x4+JkS79Y
-AN1mn6HBniBMzPY41ooh4cBKq9y7nf04T1BkQeMbHhHJ0WPftcFo9CmVdISYllAi
-5QcxV7j7yO9FhXGmktxZ2dsGdt41Gan4jNFOhH0mQh+zC7YjjB4X6c47BijkUy+/
-haAbpBYIvjsMrnZ47xE9UVBOCv1YY9tg+q4nwFZy3ABO2eNCKFu59xQ1TQl6JIzP
-oXjvJCFdfdR2Pzv2O0mAU+9A3T7+x4kyCQ2wwoNXu1sQI6OrdOunpANs1qjP5SGf
-2yv+b7NPSElNIXaL0pob2gCaAnFJI7I56zMJjMHx/yW8W6wY5leg7XtMnnD3XOO9
-/ZmiRsODbH48Z/P8SU1F5Wi0BBrPngmds7K0kkIJrcINLIYVvKKtJgoR1jsU3NnK
-34m9MsIYLL2N7LEo/vNSoqQF58aUz2CfX8Klv5ZYWhEXrYPTpToxb2OSVM2xetxf
-xClMjjbLX96cGt8jHwcN1QpW5QlfMUsvllygW97oU30zXfjGCK0=
-=LmRm
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmMj130ACgkQvP0LAY0m
+WPG2tQ/+L191UhW+L1B+imMg2Sa99fKn6Zma6p1sAUJVHPcWxT6UIIyCoBg5GBvn
+9qmZKWQDxyIuRCvLvgSpoWYAydAGCfXk9V7oc52g2ecxRprNmnRDwNYNOREjnQiA
+NVKgqRa7WT3lJK8oZZ0ftPEi2dAT4Xmo1QycntpbRUC8KPYLoojWFpN951CmFiPn
+XT+dfkda3dUU+FCoSFY5+ATqAhLu6SWl0AK/LZyBr9CVWjicVCZPOdHjuMfeHL0O
+PHkUUfgX7d6nqp9xUrKAAfOc6qK9YlMiLk8QyCajgdqW4nB08ZwyRr10ngbkURUz
+XuqRK1u10kl6KDnCnBUeWQlA6fR1qSg8mGKzCWJPgsH8PQasei+Ww37O4ilj6LAi
+FOgPKazbrFA83GA9Diae9dvpeOo5Ta4vrFcJz11Ydsdcz+l7bexkMnSQRsRrXHZ6
+1na8A5edh6dcbBgIYrD43nG7I2jbhFGH/lkFU153ErJ0b8dUi4MqIRN6Y87lJreq
+rwQCYqwOl3vOBIntXCt7x5VsEDnLiuw0h+o4jWCgv+1prELJ7KBhBjB4LsPo6iAr
+E2FjOAUPwivVL72X655T01KDdeeT6twUhQ5HAMOJ8FnnKstVHpjOtWpVklzp0hmj
+KOjQGN55GP09/l6ull6y0fd469VIXJSJOAxMhzk26ncT6BubelA=
+=fK9M
 -----END PGP SIGNATURE-----
 
---pqehfju4slo4lchw--
+--txf7e6nlcjptf72l--
