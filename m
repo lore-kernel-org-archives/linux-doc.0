@@ -2,102 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 361A8ECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 14:51:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03AE7ECAAD8
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 15:35:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231562AbiIPOvO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Sep 2022 10:51:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54524 "EHLO
+        id S229703AbiIPPfb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Sep 2022 11:35:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231555AbiIPOvL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 10:51:11 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48BE1AA3FA;
-        Fri, 16 Sep 2022 07:51:10 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id j188so4085136oih.0;
-        Fri, 16 Sep 2022 07:51:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=EBqCKShT/F8kMJH+Z3gM3kcmqT/mLcpixNsbluDSabY=;
-        b=ZQ+ACWTj+tDVmU1b+agSsJZd6a5IS2rB0q/WHmmuTuxBnjJbUZXIYTQ7FPOOmt1b92
-         KN09NPjvBGMqZ98ITIpjOXP0xiwLQ4H40dwk0smybp59dgwugcA245ehNdO5ItzO43VL
-         f5s5WiceQd3TjQ8WtP4KSN2FmcZIFdWUDCJlhIVodeUCVd57p+wts5Jv9kZzFeE54jM7
-         M23tHA7TJX3da4ZOkxAD7MoOQlqwCh3Q2YJNSq1a93OouGD7zDPOE0zlPGlM3FxlKwze
-         NgqhbKKv1TcVJYp8SVHA3UR4BmvydRRnZQwX28Y9lCu4AuF3AtIOgc6RFXwcasGyII35
-         KAFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=EBqCKShT/F8kMJH+Z3gM3kcmqT/mLcpixNsbluDSabY=;
-        b=7wHkbX+CWesjSmhbJWUdhLltTkW4YO6D5K/LEEvPM7a2dR+tZVRYNWCz9o4Ei1ZGqv
-         uRuc/z3mQsg++XjThWRcXOYrI9rkvfCwCd2v1k+xOalIMIg8dUtm6a40NtkOx9OycpFR
-         oO8kAq3jEF9ydAJJamVS3DdiE+Cl4LV9kGk6AxGeB9rAdBfeT8AK2SIF6zrOI9qiSE1r
-         As1VaWZ0TPIc9CI6UEnI/THHVDLbv7tS8L8p/gW7H+6yXYUmdN1Gy8aftWnPsTby7VuN
-         VdYq2Uyp0kX8Ic3V1rM5k89bW9IWUSeFRNr5kILTlbbpcNu6QybMvPAMPuOgHoSJqFGl
-         Z/dw==
-X-Gm-Message-State: ACrzQf2ZD0TrSI7ddKqhIJDGBRongEMNqHP1R/8/bz4pvZHNSrFuEcIg
-        MM1rIeMd8Au2O+3Vp3qxvAB3qMbzguZlHaypCelv+Y+0YkhBEGFWm4g=
-X-Google-Smtp-Source: AMsMyM4u6Yt0nQEAgIxRqF8ByBOCtBXgFVf54bX03uKK29Rpm3rIkZMafjoU1bDV8cBINjL2cnNcV9kBs4DLmrzl24w=
-X-Received: by 2002:a05:6808:168f:b0:34b:ac91:6f5f with SMTP id
- bb15-20020a056808168f00b0034bac916f5fmr2653045oib.254.1663339869682; Fri, 16
- Sep 2022 07:51:09 -0700 (PDT)
+        with ESMTP id S230107AbiIPPfa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 11:35:30 -0400
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCF8477557
+        for <linux-doc@vger.kernel.org>; Fri, 16 Sep 2022 08:35:28 -0700 (PDT)
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28G9Yqam029055
+        for <linux-doc@vger.kernel.org>; Fri, 16 Sep 2022 08:35:28 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=facebook; bh=cJznvX5vSdufDeB16b7C1iV7PPRU7JyEPDZUIMzKNRk=;
+ b=ZXA3LI3kMMmhGkr4UNkOjbQm+xrcnWdEcAhr79GxpE19tSOCdQEr6Xk2xmjszsA0mlPp
+ H/dRNZM3vCFZA7SrwkqFotSNx5w3Qcra+Ky5X1z0d0VJgDt9c3bc1p7HRwam7N89zfH5
+ nAPjt8/PT9U+HfJVn9PmyswoTt2cgZADceM= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+        by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3jm8xgydhh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 16 Sep 2022 08:35:28 -0700
+Received: from twshared25017.14.frc2.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:82::e) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 16 Sep 2022 08:35:26 -0700
+Received: by devvm6390.atn0.facebook.com (Postfix, from userid 352741)
+        id EFC743CD5121; Fri, 16 Sep 2022 08:35:18 -0700 (PDT)
+From:   <alexlzhu@fb.com>
+To:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <Kernel-team@fb.com>
+CC:     Alexander Zhu <alexlzhu@fb.com>
+Subject: [PATCH v2] docs/mm: Improve grammar on mmu_notifier documentation.
+Date:   Fri, 16 Sep 2022 08:35:16 -0700
+Message-ID: <20220916153516.3253582-1-alexlzhu@fb.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220915150155.9908-1-91tuocao@gmail.com> <87fsgsee2n.fsf@meer.lwn.net>
-In-Reply-To: <87fsgsee2n.fsf@meer.lwn.net>
-From:   tuo cao <91tuocao@gmail.com>
-Date:   Fri, 16 Sep 2022 22:50:58 +0800
-Message-ID: <CAEVeK2CMs8J3urkZnRpbW=965sT51N3Qey=0y-JwkvHZy_FFRA@mail.gmail.com>
-Subject: Re: [PATCH v3] docs: x86: replace do_IRQ int the entry_64.rst with common_interrupt()
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-GUID: Xa9_8GN-6Rw9srbGFyrzR1oYUR0YxmNU
+X-Proofpoint-ORIG-GUID: Xa9_8GN-6Rw9srbGFyrzR1oYUR0YxmNU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-16_10,2022-09-16_01,2022-06-22_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2022=E5=B9=B49=E6=9C=8816=E6=97=
-=A5=E5=91=A8=E4=BA=94 01:35=E5=86=99=E9=81=93=EF=BC=9A
->
-> Tuo Cao <91tuocao@gmail.com> writes:
->
-> > do_IRQ has been replaced by common_interrupt in commit
-> > fa5e5c409213 ("x86/entry: Use idtentry for interrupts").
-> >
-> > Signed-off-by: Tuo Cao <91tuocao@gmail.com>
-> > ---
-> >  Documentation/x86/entry_64.rst | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/x86/entry_64.rst b/Documentation/x86/entry_6=
-4.rst
-> > index e433e08f7018..0afdce3c06f4 100644
-> > --- a/Documentation/x86/entry_64.rst
-> > +++ b/Documentation/x86/entry_64.rst
-> > @@ -33,8 +33,8 @@ Some of these entries are:
-> >   - interrupt: An array of entries.  Every IDT vector that doesn't
-> >     explicitly point somewhere else gets set to the corresponding
-> >     value in interrupts.  These point to a whole array of
-> > -   magically-generated functions that make their way to do_IRQ with
-> > -   the interrupt number as a parameter.
-> > +   magically-generated functions that make their way to common_interru=
-pt()
-> > +   with the interrupt number as a parameter.
-> >
-> >   - APIC interrupts: Various special-purpose interrupts for things
-> >     like TLB shootdown.
->
-> So why have you sent a "v3" the same day?  It doesn't look like anything
-> has changed...?
-"v3" has wrote common_interrupt() with the brackets.
+From: Alexander Zhu <alexlzhu@fb.com>
 
->
-> Thanks,
->
-> jon
+Improve grammar on mmu_notifier documentation.
+
+Signed-off-by: Alexander Zhu <alexlzhu@fb.com>
+---
+Changes in v2:
+    -add blank line back in to avoid kernel test robot complaining
+
+ Documentation/mm/mmu_notifier.rst | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
+
+diff --git a/Documentation/mm/mmu_notifier.rst b/Documentation/mm/mmu_not=
+ifier.rst
+index df5d7777fc6b..751b6eaf456e 100644
+--- a/Documentation/mm/mmu_notifier.rst
++++ b/Documentation/mm/mmu_notifier.rst
+@@ -7,10 +7,11 @@ When clearing a pte/pmd we are given a choice to notify=
+ the event through
+ (notify version of \*_clear_flush call mmu_notifier_invalidate_range) un=
+der
+ the page table lock. But that notification is not necessary in all cases=
+.
+=20
+-For secondary TLB (non CPU TLB) like IOMMU TLB or device TLB (when devic=
+e use
+-thing like ATS/PASID to get the IOMMU to walk the CPU page table to acce=
+ss a
+-process virtual address space). There is only 2 cases when you need to n=
+otify
+-those secondary TLB while holding page table lock when clearing a pte/pm=
+d:
++For secondary TLB (non CPU TLB) like IOMMU TLB or device TLB (when the d=
+evice
++uses something like ATS/PASID to get the IOMMU to walk the CPU page tabl=
+e to
++access a process virtual address space). There are only 2 cases when you=
+ need
++to notify the secondary TLB while holding the page table lock when clear=
+ing
++a pte/pmd:
+=20
+   A) page backing address is free before mmu_notifier_invalidate_range_e=
+nd()
+   B) a page table entry is updated to point to a new page (COW, write fa=
+ult
+@@ -27,13 +28,13 @@ happen:
+   - set page table entry to point to new page
+=20
+ If clearing the page table entry is not followed by a notify before sett=
+ing
+-the new pte/pmd value then you can break memory model like C11 or C++11 =
+for
+-the device.
++the new pte/pmd value then you can break the memory model like C11 or C+=
++11
++for the device.
+=20
+ Consider the following scenario (device use a feature similar to ATS/PAS=
+ID):
+=20
+-Two address addrA and addrB such that \|addrA - addrB\| >=3D PAGE_SIZE w=
+e assume
+-they are write protected for COW (other case of B apply too).
++Two addresses addrA and addrB such that \|addrA - addrB\| >=3D PAGE_SIZE=
+ we assume
++they are write protected for COW (other case of B applies as well).
+=20
+ ::
+=20
+@@ -87,13 +88,13 @@ they are write protected for COW (other case of B app=
+ly too).
+  DEV-thread-0  {read addrA from old page}
+  DEV-thread-2  {read addrB from new page}
+=20
+-So here because at time N+2 the clear page table entry was not pair with=
+ a
+-notification to invalidate the secondary TLB, the device see the new val=
+ue for
+-addrB before seeing the new value for addrA. This break total memory ord=
+ering
++Here because at time N+2 the clear page table entry was not paired with =
+a
++notification to invalidate the secondary TLB, the device sees the new va=
+lue for
++addrB before seeing the new value for addrA. This breaks total memory or=
+dering
+ for the device.
+=20
+ When changing a pte to write protect or to point to a new write protecte=
+d page
+ with same content (KSM) it is fine to delay the mmu_notifier_invalidate_=
+range
+ call to mmu_notifier_invalidate_range_end() outside the page table lock.=
+ This
+ is true even if the thread doing the page table update is preempted righ=
+t after
+-releasing page table lock but before call mmu_notifier_invalidate_range_=
+end().
++releasing the page table lock but before calling mmu_notifier_invalidate=
+_range_end().
+--=20
+2.30.2
+
