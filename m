@@ -2,172 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73339ECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 08:11:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AAC0ECAAD8
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Sep 2022 08:45:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230178AbiIPILm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Sep 2022 04:11:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58088 "EHLO
+        id S229704AbiIPIp5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Sep 2022 04:45:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230128AbiIPILj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 04:11:39 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59CC252E70;
-        Fri, 16 Sep 2022 01:11:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 107F1B8240A;
-        Fri, 16 Sep 2022 08:11:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CCBDC4314B;
-        Fri, 16 Sep 2022 08:11:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1663315894;
-        bh=UjrJ6rV6Smlr80CPMv/VjhqDaYwm1rHtI46H63PMjMg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y2Aq472hCkCe877D/8cXUKgjyP37uokYLKVT88+4PyqAQkm+Vegp7D6VXcOO1g2Zb
-         r77qN0g5yhXJX0jR9aIFdqpklsL4R2oRq8HySr8TINdrXsi6thXNyKhsTviMY/dS5s
-         lylvKBokAv6+cs01qZl07dV5jK8B/jH4shDsPuHE=
-Date:   Fri, 16 Sep 2022 10:12:00 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v13 1/3] x86/tdx: Add TDX Guest attestation interface
- driver
-Message-ID: <YyQv0JS6dDcn364X@kroah.com>
-References: <20220909192708.1113126-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220909192708.1113126-2-sathyanarayanan.kuppuswamy@linux.intel.com>
- <YyMH37G2CTuVCbLM@kroah.com>
- <208a847e-92eb-0590-b498-e34d59b1cf34@linux.intel.com>
+        with ESMTP id S229669AbiIPIp4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Sep 2022 04:45:56 -0400
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14B464C635;
+        Fri, 16 Sep 2022 01:45:54 -0700 (PDT)
+Received: by mail-wr1-f50.google.com with SMTP id h8so27909068wrf.3;
+        Fri, 16 Sep 2022 01:45:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=iZiPe0D4cLkpuFufuNwDu+VYitqmg7bP4qJyg2ltBuk=;
+        b=fsC6gz4wiuXv41B8IjRaHz9u4nJ1+WMb25M6r/XP7B6qWxS08oJYLmEkjWGcRDlNB+
+         IiMy2votgduwMzMr8AC3Vu9nthgmCYe6wb5yOnK/91tSISKwLySfxIyFabXgnZr++tzo
+         lLf+ygvGcSOje1dpWPOqI+AZmu3y3Y3xxBgIkmIH7KCE0s3/R6eE5bx6o6Rr00fy8UUp
+         Wxz2CPiqvorag/lcscO8pq6CZr6jwRtP3FvtFXbmJJQ1M1Tlz4GGz4LLKyFCPz+qjQZE
+         /mejYzJ+DSKsROtwquwAvq9yGU71k672f4PyQuRa3YFodA7+FSCdYeZx/QUhPUXN4qqB
+         qtbg==
+X-Gm-Message-State: ACrzQf2QYj5ZsLFY2aaeQRraJanaHbSytOIzunl3ypXKbjYQWxF9KoIc
+        rgqBVZx7Az7hQd2RpTqYkVw=
+X-Google-Smtp-Source: AMsMyM6ehRST8tEsmn5t138+v3rLwez5vDw/AlYQffbozBfK+ocJiAgXgrdCF6nRoduCMaDWdBpaaQ==
+X-Received: by 2002:a5d:5504:0:b0:228:b90c:e5e0 with SMTP id b4-20020a5d5504000000b00228b90ce5e0mr2122327wrv.624.1663317952504;
+        Fri, 16 Sep 2022 01:45:52 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+        by smtp.gmail.com with ESMTPSA id y10-20020adff6ca000000b00228cd9f6349sm4323553wrp.106.2022.09.16.01.45.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Sep 2022 01:45:51 -0700 (PDT)
+Message-ID: <682df554-0602-2f94-22d1-e39a4dd8f366@kernel.org>
+Date:   Fri, 16 Sep 2022 10:45:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <208a847e-92eb-0590-b498-e34d59b1cf34@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 1/5] tty: remove TTY_MAGIC
+Content-Language: en-US
+To:     Theodore Ts'o <tytso@mit.edu>,
+        =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net
+References: <476d024cd6b04160a5de381ea2b9856b60088cbd.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
+ <YyQm4dBVyvefVcAd@mit.edu>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <YyQm4dBVyvefVcAd@mit.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 15, 2022 at 08:22:37AM -0700, Sathyanarayanan Kuppuswamy wrote:
-> Hi,
+On 16. 09. 22, 9:33, Theodore Ts'o wrote:
+> On Fri, Sep 16, 2022 at 03:54:59AM +0200, наб wrote:
+>> According to Greg, in the context of magic numbers as defined in
+>> magic-number.rst, "the tty layer should not need this and I'll gladly
+>> take patches"
+>>
+>> Ref: https://lore.kernel.org/linux-doc/YyMlovoskUcHLEb7@kroah.com/
 > 
-> On 9/15/22 4:09 AM, Greg Kroah-Hartman wrote:
-> > On Fri, Sep 09, 2022 at 12:27:06PM -0700, Kuppuswamy Sathyanarayanan wrote:
-> >> +static int __init tdx_guest_init(void)
-> >> +{
-> >> +	int ret;
-> >> +
-> >> +	if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-> >> +		return -EIO;
-> >> +
-> >> +	ret = misc_register(&tdx_misc_dev);
-> >> +	if (ret) {
-> >> +		pr_err("misc device registration failed\n");
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +device_initcall(tdx_guest_init)
-> > 
-> > As mentioned elsewhere, make this a normal module_init() format and only
-> > load the module if the hardware is present.  Don't just always be
-> 
-> This feature needs to be enabled by default for all valid TDX guests.
+> Well, I would disagree with Greg K-H on this --- but I haven't been
+> tty maintainer in well over a decade.  Assuming code is Bug-Free(tm),
+> sure, it's not necessary.  But there is any kind of memory bug (e.g.,
+> a corrupted pointer,
 
-Why?  What is so needed by userspace to require this brand new char
-device node just to use TDX?
+I don't think it can help with corrupted pointer much, but:
 
-> If TDX support is enabled and the guest is a valid TDX guest, the
-> "X86 FEATURE TDX GUEST" feature flag will be set. So looking for
-> "if(!cpu feature enabled(X86 FEATURE TDX GUEST))" will ensure that
-> the interface is only created in a valid TDX guest.
+> a use-after free, some other structure
+> corruption), this catches the problem earlier rather than later, and
+> it's a light-weight to do a quick sanity check.
 
-Yes, but that's not the point.  We don't just "build all drivers into
-the kernel and only bind to hardware we actually have".  That's not how
-Linux works, sorry.
+Although it's light-weight, it's also NOT that useful. Maybe tty 
+_userspace_ functions return EIO, but that's about it (kernel does not 
+check magic in any of its code paths, if I am looking correctly). I bet 
+users would notice a corrupted tty structure even without this, and 
+maybe earlier. And in that case, kmemcheck is next on the list. And that 
+tells us much more than "we are corrupted".
 
-> Even if we make it into a separate driver and use module init(), we'll
-> have to use the same "if(!cpu feature enabled(X86 FEATURE TDX GUEST))"
-> check to create and load the device. This approach was used in earlier
-> versions of this driver. We later changed it to initcall because it
-> appeared to be a roundabout approach.
+> It has certainly caught problems in the past, and I still use this
+> programming technique in programs that I do maintain, such as
+> e2fsprogs.
 
-Sorry, no, do it properly, have it be autoloaded only on the systems
-that have the cpu feature.
-
-> Let me know if you still suggest to use module_init() model.
-
-Yes, it is a requirement.  Do you want every driver to try to copy what
-you are doing here?
-
-> Following is the sample implementation with module_init() and this code
-> will be compiled with CONFIG_INTEL_TDX_GUEST=y.
-> 
-> +static struct platform_driver tdx_attest_driver = {
-> +	.probe		= tdx_attest_probe,
-> +	.remove		= tdx_attest_remove,
-> +	.driver		= {
-> +		.name	= DRIVER_NAME,
-> +	},
-> +};
-> +
-> +static int __init tdx_attest_init(void)
-> +{
-> +	int ret;
-> +
-> +	/* Make sure we are in a valid TDX platform */
-> +	if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-> +		return -EIO;
-> +
-> +	ret = platform_driver_register(&tdx_attest_driver);
-> +	if (ret) {
-> +		pr_err("failed to register driver, err=%d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
-> +	if (IS_ERR(pdev)) {
-> +		ret = PTR_ERR(pdev);
-> +		pr_err("failed to allocate device, err=%d\n", ret);
-> +		platform_driver_unregister(&tdx_attest_driver);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void __exit tdx_attest_exit(void)
-> +{
-> +	platform_device_unregister(pdev);
-> +	platform_driver_unregister(&tdx_attest_driver);
-> +}
-> +
-> +module_init(tdx_attest_init);
-> +module_exit(tdx_attest_exit);
-
-Sorry, no, this too is not ok as you are not telling userspace if it
-needs to load your driver or not automatically.  Please do this
-properly.
-
-Basic issues like this shouldn't be showing up in v13 of a patch series.
-Please take the time and start over and go and get a lot of internal
-review before sending anything out again.
+Asking google about:
+"tty_paranoia_check" "bad magic number"
+gives ~149 results, the last one from 2008. And it seems to be the only 
+report, the others are links to sources. So yes, it triggered at least 
+once, but is it that useful? Looking at the results, I don't think so.
 
 thanks,
+-- 
+js
+suse labs
 
-greg k-h
