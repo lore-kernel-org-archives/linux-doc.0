@@ -2,155 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A9D7C6FA82
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Sep 2022 23:12:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD0AC6FA82
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Sep 2022 23:47:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbiIRXMy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Sep 2022 19:12:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47880 "EHLO
+        id S229587AbiIRXr6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Sep 2022 19:47:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229676AbiIRXMx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Sep 2022 19:12:53 -0400
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACF2814D2C;
-        Sun, 18 Sep 2022 16:12:52 -0700 (PDT)
-Received: by mail-qv1-xf2c.google.com with SMTP id m9so20754108qvv.7;
-        Sun, 18 Sep 2022 16:12:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=wvpTcnm9RKL2tVJ7oiw7DzzogtB5Fx17ivWfAb5DiHk=;
-        b=pIdlRpQZD72JzZQzd8zbwuHyDbJRHFMvWAv5gP+k+WwO8xw3oaK80SdBXSp45NQ8A8
-         17+8exKn9YgZp/XPYbF5IWrbRmqwm0NkF4RdcZbFX7f4IlJGcfEp9vLyAZZyhR5X4HOc
-         0KrJ5FHH0Fk1WyA/c68RkUNw64+kwK4rFSekJTY598YL26NCUzTDQb4PAyqfSdi3lcoY
-         mLTLlsNdhXMvlOyQKoDvMDI4cUCXpPL+naM1oRj5NwaTTv2gdsoq5lHqSJxxlgC7/MGa
-         uPWNE92LE6Y1bYd95KARHfoPM/2mbOyxZ+o8LysfcPu5XwXIOxZCXMf+vSpS78Eqsc33
-         aydw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=wvpTcnm9RKL2tVJ7oiw7DzzogtB5Fx17ivWfAb5DiHk=;
-        b=pZhkAaaXHFlTsXztFqrXb3+Ad0G8H4gEfUj0k+iJVnP7guIAwi4RbCjALx9jTJapYM
-         XL6evjeGR3KLrYplvcu0yxkr3wLGfLqXCfTHwmPUF/TpOkUinfA4EZQh8TYIibHUfgby
-         Q9LASielDZavMwX3YJ3ZuRcOJZ5/Npbgo3qi86G2LlPXlMn9qnKlFBURX/O8NkmboZZv
-         bgSRrKzE8Rsy/Bn99lhFwW7R1LJLUB0o8b/amtOCNkoka9rxrL4jCpMJbmO/7oWqJjIp
-         mdZTS7rLHWChhEp7HIcOElvXWZIHgdu5wmkrPSymcDWN+X5ckd5HrTP1fn2t1vsoY2od
-         +myw==
-X-Gm-Message-State: ACrzQf0B2e+k4kovKn65Ezzkintj4ssSGrUnGITTqR8h1uBrW3+tcTDy
-        el+DXs2IIx2Y5RErRlzourM=
-X-Google-Smtp-Source: AMsMyM4ywyNNaawdwx+pT3MiAKcVQI5HVSBAdiiHi2Ex9A/5bu+0kdgt3Bo5Q37Bm5fvYbP0nDWDNw==
-X-Received: by 2002:a05:6214:2508:b0:4ad:1c2c:cc79 with SMTP id gf8-20020a056214250800b004ad1c2ccc79mr8785841qvb.79.1663542771812;
-        Sun, 18 Sep 2022 16:12:51 -0700 (PDT)
-Received: from [192.168.1.50] (ip70-191-40-110.oc.oc.cox.net. [70.191.40.110])
-        by smtp.gmail.com with ESMTPSA id i10-20020ac84f4a000000b0031eb5648b86sm9324302qtw.41.2022.09.18.16.12.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Sep 2022 16:12:50 -0700 (PDT)
-Message-ID: <b4b2b4c6-52b6-80f0-5db3-7f7b751989c3@gmail.com>
-Date:   Sun, 18 Sep 2022 16:12:46 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH 16/21] dt-bindings: reserved-memory: introduce
- designated-movable-block
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        with ESMTP id S229519AbiIRXr5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Sep 2022 19:47:57 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 680EC13D20;
+        Sun, 18 Sep 2022 16:47:56 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E928AB8159B;
+        Sun, 18 Sep 2022 23:47:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F72FC433D6;
+        Sun, 18 Sep 2022 23:47:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1663544873;
+        bh=4fwR9rPjWfkV5OrkpZKeGBol8VbyfO8AaecqrymPg84=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=CryioqGUr67tZVMXmPinT0VyfA+BiW9GFUPBq5vhkJmwwfSD4hXi8RBFUY0XHTkr8
+         GH0Cpzirbegi9k5DJjUu8WGDFAn5VQyo89jqWDwDdg6oPXJczvBxpPCQvqOPY0gZNo
+         F1v42ZUI8ew0rTfnsqbpVGSdGtwun+to0k5Q9Ho8=
+Date:   Sun, 18 Sep 2022 16:47:51 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
         Mike Rapoport <rppt@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Hari Bathini <hbathini@linux.ibm.com>,
-        Kees Cook <keescook@chromium.org>,
-        - <devicetree-spec@vger.kernel.org>,
-        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
-        Mel Gorman <mgorman@suse.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-mm@kvack.org, iommu@lists.linux.dev
-References: <20220913195508.3511038-1-opendmb@gmail.com>
- <20220913195508.3511038-17-opendmb@gmail.com>
- <20220914145506.GA2149379-robh@kernel.org>
- <57f19774-39a1-03a6-fe68-83d7e4b16521@gmail.com>
- <07d87203-6fe1-c612-cb79-9080e1988454@linaro.org>
-From:   Doug Berger <opendmb@gmail.com>
-In-Reply-To: <07d87203-6fe1-c612-cb79-9080e1988454@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>
+Subject: Re: [PATCH v14 00/14] Multi-Gen LRU Framework
+Message-Id: <20220918164751.376ec0c07bb619e5eb12ab49@linux-foundation.org>
+In-Reply-To: <CAOUHufZzDCezgeeAj6M3WqOQKJYxQ_4jNCD8itU0+J6JE_fV4g@mail.gmail.com>
+References: <20220815071332.627393-1-yuzhao@google.com>
+        <20220911170814.f6a32b40e64397a61b1f8daf@linux-foundation.org>
+        <CAOUHufZk-u0S+FyDEdxw1nehBKz_G_GG_3_LAzqyssx21Wd4Jw@mail.gmail.com>
+        <CAOUHufZzDCezgeeAj6M3WqOQKJYxQ_4jNCD8itU0+J6JE_fV4g@mail.gmail.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/18/2022 3:31 AM, Krzysztof Kozlowski wrote:
-> On 14/09/2022 18:13, Doug Berger wrote:
->> On 9/14/2022 7:55 AM, Rob Herring wrote:
->>> On Tue, Sep 13, 2022 at 12:55:03PM -0700, Doug Berger wrote:
->>>> Introduce designated-movable-block.yaml to document the
->>>> devicetree binding for Designated Movable Block children of the
->>>> reserved-memory node.
->>>
->>> What is a Designated Movable Block? This patch needs to stand on its
->>> own.
->> As noted in my reply to your [PATCH 00/21] comment, my intention in
->> submitting the entire patch set (and specifically PATCH 00/21]) was to
->> communicate this context. Now that I believe I understand that only this
->> patch should have been submitted to the devicetree-spec mailing list, I
->> will strive harder to make it more self contained.
-> 
-> The submission of entire thread was ok. What is missing is the
-> explanation in this commit. This commit must be self-explanatory (e.g.
-> in explaining "Why are you doing it?"), not rely on other commits for
-> such explanation.
-> 
->>
->>>
->>> Why does this belong or need to be in DT?
->> While my preferred method of declaring Designated Movable Blocks is
->> through the movablecore kernel parameter, I can conceive that others may
->> wish to take advantage of the reserved-memory DT nodes. In particular,
->> it has the advantage that a device can claim ownership of the
->> reserved-memory via device tree, which is something that has yet to be
->> implemented for DMBs defined with movablecore.
-> 
-> Rephrasing the question: why OS memory layout and OS behavior is a
-> property of hardware (DTS)?
-I would say the premise is fundamentally the same as the existing 
-reserved-memory child node.
+On Sun, 18 Sep 2022 14:40:01 -0600 Yu Zhao <yuzhao@google.com> wrote:
 
-I've been rethinking how this should be specified. I am now thinking 
-that it may be better to introduce a new Reserved Memory property that 
-serves as a modifier to the 'reusable' property. The 'reusable' property 
-allows the OS to use memory that has been reserved for a device and 
-therefore requires the device driver to reclaim the memory prior to its 
-use. However, an OS may have multiple ways of implementing such reuse 
-and reclamation.
+> Let me also post the incremental patches after this email, in case you
+> strongly prefer to add them on top of v14.
 
-I am considering introducing the vendor specific 'linux,dmb' property 
-that is dependent on the 'reusable' property to allow both the OS and 
-the device driver to identify the method used by the Linux OS to support 
-reuse and reclamation of the reserved-memory child node.
+Thanks, helpful.
 
-Such a property would remove any need for new compatible strings to the 
-device tree. Does that approach seem reasonable to you?
+I have one question regarding 03/11.
 
-> 
-> Best regards,
-> Krzysztof
-Thanks again for taking the time,
--Doug
+The final two updates look pretty substantial.  I guess I'll do a
+series replacement and let this and mapletree sit another week.
