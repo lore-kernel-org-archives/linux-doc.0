@@ -2,103 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8CAEC6FA86
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Sep 2022 20:40:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1323BC6FA82
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Sep 2022 22:05:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229552AbiIRUkk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Sep 2022 16:40:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33000 "EHLO
+        id S229566AbiIRWE7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Sep 2022 18:04:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbiIRUkj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Sep 2022 16:40:39 -0400
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9B1212AE6
-        for <linux-doc@vger.kernel.org>; Sun, 18 Sep 2022 13:40:37 -0700 (PDT)
-Received: by mail-vs1-xe33.google.com with SMTP id m66so28008962vsm.12
-        for <linux-doc@vger.kernel.org>; Sun, 18 Sep 2022 13:40:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=p2Y379zqkwz40ZL+4t+CIYoyTLObybL6KsnvdRTVh1w=;
-        b=CMNhyAKgueFSnC433vb3wgkwkZ42HQt3WLZ7GEF7I05l0r8US1a01hlcGjTQD3g+9t
-         l9jySJJ5TxbFOfF26oa5qfDzWv0DyyH7toXvocwOzifhitj8LL8/H8Y00rk46phggwDD
-         fMvc7Kepq2m/8Fook+KqkCu5EYAnqjUbxe/OJhCKYXZyMRArlDl/8TqZkEbBR6kNWjOw
-         c40mmBnBNstVSwKQKDTwHGRhb3BQIJT7orXgWM9d5bnQZ0/G61ntKz3yyNdnWhB8ciXq
-         8v/SghhHV2PDK4CivHHzGBNJ9TB+5ZPfPo3r5de5YDKmLkZJKIH6vaCSQSBEDEAbWVNk
-         KScA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=p2Y379zqkwz40ZL+4t+CIYoyTLObybL6KsnvdRTVh1w=;
-        b=NtI8rwgjF/O11ZUZ9Z/Xw7DLeHIXF53vrAV2lI3isblbtpM5m+3OdC06nd8w77zwEl
-         M0PwH3HWZhk7B9+mhe57iMp0hGHenj1rZCMxwd+1ulrbcX25H7BgbFdat16wSyqQI/Bh
-         VAJvU+y9PytIyNOFm2JJyz6Sp+T+Gk7cQo3XARbtxLdZfeMVGB0hHhSiJJxl0eqVF7aG
-         ml4Cpz1rgp/aP+oW7y5QoVZbuyuQqhTl5wPSPk3+mIiVZyP4IQun4D+cktk0F2jWKjnM
-         5Eo9cK0ZiYwKPGNfBs4sc3iywNr263EIQZPwTpOy2uQjKwxu5fA/FfOwTGg9blAhoHwF
-         6j4Q==
-X-Gm-Message-State: ACrzQf3Q8FtuSFlFKNaNUk9/eVkdlq8T9wrZGfs8vQH9Ach2sGIUtPkI
-        eO6iJoMMmqfWygrX9lwmaRvAhbNZIIQ23+gjv56dtg==
-X-Google-Smtp-Source: AMsMyM5zsVVinbCD1mPksNskV06acgMEYCscCac9teY2zIOIGR1JAkwN86Uoa+vkhuhs7gR4TmsSqOguAcLBmI9QjPg=
-X-Received: by 2002:a05:6102:3309:b0:39a:e5eb:8508 with SMTP id
- v9-20020a056102330900b0039ae5eb8508mr1821685vsc.65.1663533636994; Sun, 18 Sep
- 2022 13:40:36 -0700 (PDT)
+        with ESMTP id S229458AbiIRWE6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Sep 2022 18:04:58 -0400
+Received: from out02.mta.xmission.com (out02.mta.xmission.com [166.70.13.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324BCBF70;
+        Sun, 18 Sep 2022 15:04:57 -0700 (PDT)
+Received: from in01.mta.xmission.com ([166.70.13.51]:48816)
+        by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1oa2PI-00H78e-0b; Sun, 18 Sep 2022 16:04:56 -0600
+Received: from ip68-110-29-46.om.om.cox.net ([68.110.29.46]:50464 helo=email.froward.int.ebiederm.org.xmission.com)
+        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1oa2PH-000O86-13; Sun, 18 Sep 2022 16:04:55 -0600
+From:   "Eric W. Biederman" <ebiederm@xmission.com>
+To:     Florian Mayer <fmayer@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
+        Christian Brauner <brauner@kernel.org>,
+        Evgenii Stepanov <eugenis@google.com>,
+        Peter Collingbourne <pcc@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>, linux-api@vger.kernel.org
+References: <20220909180617.374238-1-fmayer@google.com>
+        <87v8pw8bkx.fsf@email.froward.int.ebiederm.org>
+        <CAJAyTCCcecgqeMfs9W8=U4wi-6O+DaRktUsyJuStYy-JgKQCdg@mail.gmail.com>
+Date:   Sun, 18 Sep 2022 17:04:48 -0500
+In-Reply-To: <CAJAyTCCcecgqeMfs9W8=U4wi-6O+DaRktUsyJuStYy-JgKQCdg@mail.gmail.com>
+        (Florian Mayer's message of "Fri, 9 Sep 2022 16:05:34 -0700")
+Message-ID: <875yhk730f.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20220815071332.627393-1-yuzhao@google.com> <20220911170814.f6a32b40e64397a61b1f8daf@linux-foundation.org>
- <CAOUHufZk-u0S+FyDEdxw1nehBKz_G_GG_3_LAzqyssx21Wd4Jw@mail.gmail.com>
-In-Reply-To: <CAOUHufZk-u0S+FyDEdxw1nehBKz_G_GG_3_LAzqyssx21Wd4Jw@mail.gmail.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Sun, 18 Sep 2022 14:40:01 -0600
-Message-ID: <CAOUHufZzDCezgeeAj6M3WqOQKJYxQ_4jNCD8itU0+J6JE_fV4g@mail.gmail.com>
-Subject: Re: [PATCH v14 00/14] Multi-Gen LRU Framework
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-XM-SPF: eid=1oa2PH-000O86-13;;;mid=<875yhk730f.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.110.29.46;;;frm=ebiederm@xmission.com;;;spf=softfail
+X-XM-AID: U2FsdGVkX1+GH9uiilgu5nUbYPntWwWcfiqEPCTLJ20=
+X-SA-Exim-Connect-IP: 68.110.29.46
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCH RESEND] Add sicode to /proc/<PID>/stat.
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 15, 2022 at 11:56 AM Yu Zhao <yuzhao@google.com> wrote:
+Florian Mayer <fmayer@google.com> writes:
+
+> On Fri, 9 Sept 2022 at 14:47, Eric W. Biederman <ebiederm@xmission.com> wrote:
+>> Added linux-api because you are changing the api.
 >
-> On Sun, Sep 11, 2022 at 6:08 PM Andrew Morton <akpm@linux-foundation.org> wrote:
-> >
-> > I'd like to move mglru into the mm-stable branch late this week.
-> >
-> > I'm not terribly happy about the level of review nor the carefulness of
-> > the code commenting (these things are related) and I have a note here
-> > that "mm: multi-gen LRU: admin guide" is due for an update and everyone
-> > is at conference anyway.  But let's please try to push things along anyway.
+> Thanks.
 >
-> Thanks for the heads-up. Will add as many comments as I can and wrap
-> it up by the end of tomorrow.
+>> Several things.  First you are messing with /proc/<pid>/stat which is
+>> heavily used.  You do add the value to the end of the list which is
+>> good.  You don't talk about how many userspace applications you have
+>> tested to be certain that it is actually safe to add something to this
+>> file, nor do you talk about measuring performance.
+>
+> Makes sense. Given this and Kees comment above, it seems like status
+> instead is a better place. That should deal with the compatibility
+> issue given it's a key-value pair file. Do you have the same
+> performance concerns for that file as well?
 
-I've posted v15 which can replace what mm-unstable currently has.
-Apologies for the delay: an unexpected lockdep warning from the maple
-tree forced me to restart all the tests [1].
+They are a general concern.  It is worth checking to see if the
+performance of the proc file you modify changes measurably.
 
-Let me also post the incremental patches after this email, in case you
-strongly prefer to add them on top of v14.
+>> This implementation seems very fragile.  How long until you need the
+>> full siginfo of the signal that caused the process to exit somewhere?
+>
+> For our use case probably never. I don't know if someone else will
+> eventually need everything.
+>
+>> There are two ways to get this information with existing APIs.
+>> - Catch the signal in the process and give it to someone.
+>
+> This would involve establishing a back-channel from the child process
+> to init, which is not impossible but also not particularly
+> architecturally nice.
+>
+>> - Debug the process and stop in PTRACE_EVENT_EXIT and read
+>>   the signal with PTRACE_PEEKSIGINFO.
+>
+> This will not work with the SELinux rules we want to enforce on Android.
+>
+>> I know people have wanted the full siginfo on exit before, but we have
+>> not gotten there yet.
+>
+> That sounds like a much bigger change. How would that look? A new
+> sys-call to get the siginfo from a zombie? A new wait API?
 
-[1] https://lore.kernel.org/r/CAOUHufZabH85CeUN-MEMgL8gJGzJEWUrkiM58JkTbBhh-jew0Q@mail.gmail.com/
+Another proc file.  It is more that we have gotten requests for that
+in the past.
+
+I will toss out one more possibility that seems like a good solution
+with existing facilities.  Have the coredump helper (aka the process
+that coredumps are piped to) read the signal state from the coredump.
+At which point the coredump helper can back channel to init or whatever
+needs this information.
+
+I am probably missing something obvious but the consumer of all
+coredumps seems like the right place to add functionality for debugging
+like this as it can tell everything about the dead userspace process.
+
+Eric
