@@ -2,116 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1323BC6FA82
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Sep 2022 22:05:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E03AC6FA86
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Sep 2022 22:41:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbiIRWE7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Sep 2022 18:04:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59994 "EHLO
+        id S229567AbiIRWlq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Sep 2022 18:41:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbiIRWE6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Sep 2022 18:04:58 -0400
-Received: from out02.mta.xmission.com (out02.mta.xmission.com [166.70.13.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324BCBF70;
-        Sun, 18 Sep 2022 15:04:57 -0700 (PDT)
-Received: from in01.mta.xmission.com ([166.70.13.51]:48816)
-        by out02.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1oa2PI-00H78e-0b; Sun, 18 Sep 2022 16:04:56 -0600
-Received: from ip68-110-29-46.om.om.cox.net ([68.110.29.46]:50464 helo=email.froward.int.ebiederm.org.xmission.com)
-        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1oa2PH-000O86-13; Sun, 18 Sep 2022 16:04:55 -0600
-From:   "Eric W. Biederman" <ebiederm@xmission.com>
-To:     Florian Mayer <fmayer@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Oleg Nesterov <oleg@redhat.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Evgenii Stepanov <eugenis@google.com>,
-        Peter Collingbourne <pcc@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>, linux-api@vger.kernel.org
-References: <20220909180617.374238-1-fmayer@google.com>
-        <87v8pw8bkx.fsf@email.froward.int.ebiederm.org>
-        <CAJAyTCCcecgqeMfs9W8=U4wi-6O+DaRktUsyJuStYy-JgKQCdg@mail.gmail.com>
-Date:   Sun, 18 Sep 2022 17:04:48 -0500
-In-Reply-To: <CAJAyTCCcecgqeMfs9W8=U4wi-6O+DaRktUsyJuStYy-JgKQCdg@mail.gmail.com>
-        (Florian Mayer's message of "Fri, 9 Sep 2022 16:05:34 -0700")
-Message-ID: <875yhk730f.fsf@email.froward.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        with ESMTP id S229568AbiIRWlp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Sep 2022 18:41:45 -0400
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2618513DD7;
+        Sun, 18 Sep 2022 15:41:44 -0700 (PDT)
+Received: by mail-qk1-x735.google.com with SMTP id i3so14758794qkl.3;
+        Sun, 18 Sep 2022 15:41:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=T3gVy8PY5F80NKzToZR+FbLhKAMIz93GHIgxt0CrUHc=;
+        b=IdhMRMeVpLQC67KcBFbCc/Jk0NGq4dg7JkjAwoTSwVgFyHVLpmo57WQ2VAAFPSpOJR
+         r/9qz+pdnTpAd4aPzMyGQSWik9rG81luFOikAvBJeo/smV0jCiTpWVQRbtdBD11hJ5k5
+         l0DbhUSUT8rbGhN/x730+aAlpW9MR1K1+gYSN2IJK+rVK5hpDSv1JYkHcMi45dtuqGjR
+         fSgMTT+gm/9mlBfp9hEjn7wRVetzg1vsIXa0ief0VysCXiH+e5dsCFW1G4DCBFE8A40K
+         xr4IsApIfjEqUZLbzo/a9wIdVKrsR8252r9e6m7jTn8timZ9ipitjOxOwiqosjNzfFUQ
+         jjIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=T3gVy8PY5F80NKzToZR+FbLhKAMIz93GHIgxt0CrUHc=;
+        b=6DKLWM9edlfAXYNAIZIvrCMIrD44HXIuIGnLUUPPdNCoR64HIQ7FM40iw69+qOnPAP
+         +nkavXj0qdPdeUXl1o8OzaunKjlx059iU3PUeNVKV6wvsgmuWIGtO1FmByYQIfgDlRGV
+         q02/Ch2BmEEKIaUIpKnrNaSRCHEtAfhICthaDtT0yPFDhwlajy5zZbfyNOFPnUoemd+O
+         Js0y79X0MU34dzc2SqAb3IkJLpkL6AMYOlNIiSPtmuy9u5CXixo0OrXlKEIHxCmnUZKp
+         cUg7T4wg/gNx2eXrZnnouNOixkDTsMoK+bl65Tgy4G96imKZL3sLOgnrmo2O2YCdoV2s
+         x0MA==
+X-Gm-Message-State: ACrzQf1BoccWkNDEM5Vu1ZlZ5hWtPH1n2+ri6afoqgCZel5f4x8QGZRS
+        vwCjaRf58sWWK7ZZ/Sfqbg8=
+X-Google-Smtp-Source: AMsMyM79ModVLCgaO51KZdimfwEWQbDJb0RVfNll2I2jhJXQhJFNDD2szD3/oSle4SS7VVvj1xrxgQ==
+X-Received: by 2002:a05:620a:2441:b0:6ce:bc87:a3b7 with SMTP id h1-20020a05620a244100b006cebc87a3b7mr11277117qkn.113.1663540903292;
+        Sun, 18 Sep 2022 15:41:43 -0700 (PDT)
+Received: from [192.168.1.50] (ip70-191-40-110.oc.oc.cox.net. [70.191.40.110])
+        by smtp.gmail.com with ESMTPSA id d8-20020a05620a166800b006ce0733caebsm11017959qko.14.2022.09.18.15.41.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Sep 2022 15:41:42 -0700 (PDT)
+Message-ID: <32303ffa-3f0c-5a83-fe97-69fca07c3b32@gmail.com>
+Date:   Sun, 18 Sep 2022 15:41:38 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1oa2PH-000O86-13;;;mid=<875yhk730f.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.110.29.46;;;frm=ebiederm@xmission.com;;;spf=softfail
-X-XM-AID: U2FsdGVkX1+GH9uiilgu5nUbYPntWwWcfiqEPCTLJ20=
-X-SA-Exim-Connect-IP: 68.110.29.46
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [PATCH RESEND] Add sicode to /proc/<PID>/stat.
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH 16/21] dt-bindings: reserved-memory: introduce
+ designated-movable-block
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Hari Bathini <hbathini@linux.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        - <devicetree-spec@vger.kernel.org>,
+        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
+        Mel Gorman <mgorman@suse.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-mm@kvack.org, iommu@lists.linux.dev
+References: <20220913195508.3511038-1-opendmb@gmail.com>
+ <20220913195508.3511038-17-opendmb@gmail.com>
+ <be75776d-c55a-ddce-81f3-aeacc2f29592@linaro.org>
+From:   Doug Berger <opendmb@gmail.com>
+In-Reply-To: <be75776d-c55a-ddce-81f3-aeacc2f29592@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Florian Mayer <fmayer@google.com> writes:
-
-> On Fri, 9 Sept 2022 at 14:47, Eric W. Biederman <ebiederm@xmission.com> wrote:
->> Added linux-api because you are changing the api.
->
-> Thanks.
->
->> Several things.  First you are messing with /proc/<pid>/stat which is
->> heavily used.  You do add the value to the end of the list which is
->> good.  You don't talk about how many userspace applications you have
->> tested to be certain that it is actually safe to add something to this
->> file, nor do you talk about measuring performance.
->
-> Makes sense. Given this and Kees comment above, it seems like status
-> instead is a better place. That should deal with the compatibility
-> issue given it's a key-value pair file. Do you have the same
-> performance concerns for that file as well?
-
-They are a general concern.  It is worth checking to see if the
-performance of the proc file you modify changes measurably.
-
->> This implementation seems very fragile.  How long until you need the
->> full siginfo of the signal that caused the process to exit somewhere?
->
-> For our use case probably never. I don't know if someone else will
-> eventually need everything.
->
->> There are two ways to get this information with existing APIs.
->> - Catch the signal in the process and give it to someone.
->
-> This would involve establishing a back-channel from the child process
-> to init, which is not impossible but also not particularly
-> architecturally nice.
->
->> - Debug the process and stop in PTRACE_EVENT_EXIT and read
->>   the signal with PTRACE_PEEKSIGINFO.
->
-> This will not work with the SELinux rules we want to enforce on Android.
->
->> I know people have wanted the full siginfo on exit before, but we have
->> not gotten there yet.
->
-> That sounds like a much bigger change. How would that look? A new
-> sys-call to get the siginfo from a zombie? A new wait API?
-
-Another proc file.  It is more that we have gotten requests for that
-in the past.
-
-I will toss out one more possibility that seems like a good solution
-with existing facilities.  Have the coredump helper (aka the process
-that coredumps are piped to) read the signal state from the coredump.
-At which point the coredump helper can back channel to init or whatever
-needs this information.
-
-I am probably missing something obvious but the consumer of all
-coredumps seems like the right place to add functionality for debugging
-like this as it can tell everything about the dead userspace process.
-
-Eric
+On 9/18/2022 3:28 AM, Krzysztof Kozlowski wrote:
+> On 13/09/2022 20:55, Doug Berger wrote:
+>> Introduce designated-movable-block.yaml to document the
+>> devicetree binding for Designated Movable Block children of the
+>> reserved-memory node.
+>>
+>> Signed-off-by: Doug Berger <opendmb@gmail.com>
+>> ---
+>>   .../designated-movable-block.yaml             | 51 +++++++++++++++++++
+>>   1 file changed, 51 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/reserved-memory/designated-movable-block.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/reserved-memory/designated-movable-block.yaml b/Documentation/devicetree/bindings/reserved-memory/designated-movable-block.yaml
+>> new file mode 100644
+>> index 000000000000..42f846069a2e
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/reserved-memory/designated-movable-block.yaml
+>> @@ -0,0 +1,51 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/reserved-memory/designated-movable-block.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: /reserved-memory Designated Movable Block node binding
+> 
+> Drop "binding"
+> 
+>> +
+>> +maintainers:
+>> +  - devicetree-spec@vger.kernel.org
+>> +
+>> +allOf:
+>> +  - $ref: "reserved-memory.yaml"
+> 
+> Skip quotes
+> 
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: designated-movable-block
+>> +    description:
+>> +      This indicates a region of memory meant to be placed into
+>> +      ZONE_MOVABLE.
+>> +
+>> +unevaluatedProperties: false
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reusable
+>> +
+>> +examples:
+>> +  - |
+>> +      reserved-memory {
+> 
+> Use 4 spaces for example indentation.
+> 
+>> +          #address-cells = <0x2>;
+>> +          #size-cells = <0x2>;
+>> +
+>> +          DMB0@10800000 {
+> 
+> The convention for node names is to use lowercase and generic node
+> names, so just "dmb".
+> 
+> 
+> 
+> Best regards,
+> Krzysztof
+Thanks for taking the time to review and provide feedback on this patch.
+-Doug
