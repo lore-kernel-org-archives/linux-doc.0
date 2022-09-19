@@ -2,135 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C27DFC54EE9
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 11:55:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF8F0C54EE9
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 13:32:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbiISLzq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Sep 2022 07:55:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48424 "EHLO
+        id S229968AbiISNcy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Sep 2022 09:32:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230121AbiISLzR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 07:55:17 -0400
+        with ESMTP id S229964AbiISNcw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 09:32:52 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1772DA9B
-        for <linux-doc@vger.kernel.org>; Mon, 19 Sep 2022 04:54:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D4541BEBF
+        for <linux-doc@vger.kernel.org>; Mon, 19 Sep 2022 06:32:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663588448;
+        s=mimecast20190719; t=1663594370;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=hxH7XjLCdlYQTKyCIzL976yQ4mhPMOVNZUR3p/LmDx8=;
-        b=HIfpBzIpTmDdJ8fR5z32qQJCqZA/u+k3Td+Z6jt2BEHvnRngcOHqNZvcP6jJ/CVbM3+saA
-        aoCKqrE25iZQ81hAyVSh3r48RAdmo3c8cA+T/CwpHGEoeaFUvnTqSF4nAyqPzqxEXNYwm1
-        n8pnMACJnQ6jSIyHIjLSq/uyFds4f/Y=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=S3R/J9mAzmfvH9Y9E0yXACqtf5r5Llzujq7g/NYrlA8=;
+        b=FY1KSt+ZBP+qu1yNlZF5w4EnAj2jX3FkiOmmmKQCsf1zvLvy2VYnTLq4w4obyLkDrn2t5u
+        0+AZYAWKr+Og4J72OaAYJqohPo60Hu/p8T60MvM+CviPRJfQPN6HmBIvT0rHdefem84ZB7
+        sSWWDXlg94yG6loZqntofVGL8EowRGY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-595-4sczOAz6O_Kl45zhPueMOQ-1; Mon, 19 Sep 2022 07:54:07 -0400
-X-MC-Unique: 4sczOAz6O_Kl45zhPueMOQ-1
-Received: by mail-wm1-f69.google.com with SMTP id k38-20020a05600c1ca600b003b49a809168so4552062wms.5
-        for <linux-doc@vger.kernel.org>; Mon, 19 Sep 2022 04:54:07 -0700 (PDT)
+ us-mta-37-SLYcXeyKOVudzKVg7vRyCQ-1; Mon, 19 Sep 2022 09:32:49 -0400
+X-MC-Unique: SLYcXeyKOVudzKVg7vRyCQ-1
+Received: by mail-wr1-f71.google.com with SMTP id d25-20020adf9b99000000b0022adb03aee6so1752437wrc.6
+        for <linux-doc@vger.kernel.org>; Mon, 19 Sep 2022 06:32:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date;
-        bh=hxH7XjLCdlYQTKyCIzL976yQ4mhPMOVNZUR3p/LmDx8=;
-        b=nRUVBMjaTgrly/c+NIRTX2WiIII5HBL5bv/UgV/+yxcK0boDf+QgYJNCNAusrHaGO3
-         Q92pNJ9p0+OXryFFHp4KcV6bJe0xXiucVAZTSdadLrT1TZyjlxnsVrsJbEMsJC3uJeHq
-         /mS9bERjgGd8Kag3ffNbVmJ0d1Dax446t5TtmdpXxAfWGBtp0K1e1u9Ivpu6Z8izYXVI
-         PGwqOmXs0PlZZcntnEtcWXZi3zIgSlrh6i3qu64NnkZrAEhxkakmavn6WaYP4IqWsyqs
-         ZglzeqXodH5Vc6tgTln9cIpaBkUXjm9B4htKZ9JsPL5kGHuK9iuDxrmzhOM9ZA+z63JB
-         FFqQ==
-X-Gm-Message-State: ACrzQf2wKtUaCmRlQDsZEiSvo8/mHJGoXw9rj1dECTSn5T2tmarvlvtx
-        hKorjIYtDR9EMfHEZiSJ571ugGM/EL1wjEFzqAxAaJcCQim0dGqr0p9L6hWcvylC7kMa2POker2
-        7pMyaj4aa8eJCPi4/d/0F
-X-Received: by 2002:a05:6000:10ca:b0:22a:3318:861f with SMTP id b10-20020a05600010ca00b0022a3318861fmr9934756wrx.284.1663588446326;
-        Mon, 19 Sep 2022 04:54:06 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6HbiOSrTrk9TAE5NnDOP0QYF+RHfacKHcGcpTYDBiBVoe5noLLX571BUd1lbeary1JNbNsLg==
-X-Received: by 2002:a05:6000:10ca:b0:22a:3318:861f with SMTP id b10-20020a05600010ca00b0022a3318861fmr9934743wrx.284.1663588446069;
-        Mon, 19 Sep 2022 04:54:06 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c703:c100:c136:f914:345f:f5f3? (p200300cbc703c100c136f914345ff5f3.dip0.t-ipconnect.de. [2003:cb:c703:c100:c136:f914:345f:f5f3])
-        by smtp.gmail.com with ESMTPSA id z20-20020a05600c0a1400b003b4727d199asm13853417wmp.15.2022.09.19.04.54.05
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=S3R/J9mAzmfvH9Y9E0yXACqtf5r5Llzujq7g/NYrlA8=;
+        b=SxWnQ0sEPkxrwIL5PsusmIlJuzau+5rV36K9gxb4NzRT/j+4ZRbwPHE3bsux704+4V
+         LG/pxWe9dWd1YgYjB0s9R5lFh0CkpSYJ+B+0Wm2sDldIrr1Pgja+CjwINoGV7qff77QD
+         USSqxf64fd/j2uxGVbfV3paCZG4vFc/Gq/r6+/oc9dWocAVumEFsGmkClvPC0ZYDtvO5
+         RUBNqqOv4dww5dDy9lv6dDZSKnFjjyhCuI8NfwZAdwg7HfgORiN3YgNx1oAEtQ+vCwUf
+         zrCq246HZet71Y+fCb+g8iKSDXzul0GttKPooFcSCTICAWCapMGT5/mZekEKnSmjw9l1
+         8wPA==
+X-Gm-Message-State: ACgBeo144wP0RJzTCBOkw0ZXutm3vMSBTBNG4Qh+lw8XWVl9cKsC91JW
+        ehxodiyiz7OaP6sGWPLLA1rQ3/bc5XtJiKs7sM4pkS5WaCvNprzYRw80c3K6awsNdXQ1bcN+Mt5
+        gRmMRa3WoS4LSUQ7fA500
+X-Received: by 2002:a7b:c8d6:0:b0:3b4:868b:afc3 with SMTP id f22-20020a7bc8d6000000b003b4868bafc3mr18599079wml.66.1663594363530;
+        Mon, 19 Sep 2022 06:32:43 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6OcwxNBdq96pcCKiBsuz5gSLS3FYvAwyZhxQCkoPkFWU0g/YPusv2Hki3QnCjwBm0u4wEhQQ==
+X-Received: by 2002:a7b:c8d6:0:b0:3b4:868b:afc3 with SMTP id f22-20020a7bc8d6000000b003b4868bafc3mr18598877wml.66.1663594359815;
+        Mon, 19 Sep 2022 06:32:39 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:2bc:381::432? ([2a01:e0a:2bc:381::432])
+        by smtp.gmail.com with ESMTPSA id x1-20020adfdd81000000b002205cbc1c74sm9753212wrl.101.2022.09.19.06.32.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Sep 2022 04:54:05 -0700 (PDT)
-Message-ID: <9b0cd14c-2a7d-b3f6-7588-90bc5859d102@redhat.com>
-Date:   Mon, 19 Sep 2022 13:54:04 +0200
+        Mon, 19 Sep 2022 06:32:38 -0700 (PDT)
+Message-ID: <d4b420a0-23da-6ab6-886a-7342f7e63651@redhat.com>
+Date:   Mon, 19 Sep 2022 15:32:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
+Subject: Re: [RESEND PATCH 1/2] HID: Add driver for RC Simulator Controllers
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Marcus Folkesson <marcus.folkesson@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+References: <20220822060936.769855-1-marcus.folkesson@gmail.com>
+ <CAO-hwJ+3Yrr--cr=r5+jvs4A=A-cmDtrKQETo=YOYDC3nXTMBg@mail.gmail.com>
+ <YwTvrNuulKx0SB6H@gmail.com>
+ <CAO-hwJKiq50fWwXNUGcXeWtWcUXb65ZmJMsADfrsUTac_Xj2dw@mail.gmail.com>
+ <YwcbVJswrL1Doi4s@gmail.com>
+ <CAO-hwJJ86oAuaFD+uX7Rwv7cASO=4mchRJ1UBTxz9gYs6M1rUg@mail.gmail.com>
+ <YyLVblZkIPCvNd/2@gmail.com>
+ <CAO-hwJJ5dRrgxrae-RasYXuu7C9xjw6RmPaPfmO=YU3StMaQ3A@mail.gmail.com>
 Content-Language: en-US
-To:     Akinobu Mita <akinobu.mita@gmail.com>
-Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, osalvador@suse.de,
-        shuah@kernel.org, Zhao Gongyi <zhaogongyi@huawei.com>,
-        Wei Yongjun <weiyongjun1@huawei.com>,
-        Yicong Yang <yangyicong@hisilicon.com>
-References: <20220917071427.28499-1-akinobu.mita@gmail.com>
- <93c044ca-7d2f-e23f-8eb4-72c133737a15@redhat.com>
- <CAC5umyhhnoJvoGT5NQX8VNn4QT_3qA1nY5tnZre59pL7vbMpzg@mail.gmail.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH -v2] lib/notifier-error-inject: fix error when writing
- errno to debugfs file
-In-Reply-To: <CAC5umyhhnoJvoGT5NQX8VNn4QT_3qA1nY5tnZre59pL7vbMpzg@mail.gmail.com>
+In-Reply-To: <CAO-hwJJ5dRrgxrae-RasYXuu7C9xjw6RmPaPfmO=YU3StMaQ3A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19.09.22 13:40, Akinobu Mita wrote:
-> 2022年9月19日(月) 18:20 David Hildenbrand <david@redhat.com>:
+
+
+On 9/15/22 09:35, Benjamin Tissoires wrote:
+> On Thu, Sep 15, 2022 at 8:28 AM Marcus Folkesson
+> <marcus.folkesson@gmail.com> wrote:
 >>
->> On 17.09.22 09:14, Akinobu Mita wrote:
->>> The simple attribute files do not accept a negative value since the
->>> commit 488dac0c9237 ("libfs: fix error cast of negative value in
->>> simple_attr_write()"), so we can no longer use DEFINE_SIMPLE_ATTRIBUTE() to
->>> define a file operations for errno value.
+>> Hi Benjamin,
+>>
+>> On Tue, Aug 30, 2022 at 02:45:11PM +0200, Benjamin Tissoires wrote:
+>>> On Thu, Aug 25, 2022 at 8:44 AM Marcus Folkesson
+>>> <marcus.folkesson@gmail.com> wrote:
+>>>>
+>>
+>>
+>> [...]
+>>>>
+>>>>
+>>>> Is the fact that more than one button share the same
+>>>> byte hard to describe in the report?
 >>>
->>> Fixes: 488dac0c9237 ("libfs: fix error cast of negative value in simple_attr_write()")
->>> Reported-by: Zhao Gongyi <zhaogongyi@huawei.com>
->>> Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+>>> No, this is actually easy to describe. You say that there is one usage
+>>> of "something" which has a report size of 1 bit, and then you have
+>>> another usage of "something else" with the same report size.
+>>>
+>>> But usually you have to add padding after to make up to 8 bits (so 6
+>>> bits in that case).
+>>>
+>>> I was referring to the case  where you are parsing the same bit on the
+>>> wire, and give a different usage based if you have received an odd or
+>>> an even number of reports. In that case, we probably need to use move
+>>> this bit to a const field in the original report descriptor and say
+>>> that the data is now not const:
+>>>
+>>> - initial report (completely random example):
+>>>    X (2 bytes) | Y (2 bytes) | button this_or_that (1 bit, depending of
+>>> odd or even received reports) | 7 bits of padding
+>>> - we can declare it as:
+>>>    X (2 bytes) | Y (2 bytes) | button this (1 bit) | button that (1
+>>> bit) | 6 bits of padding
 >>
->> But shouldn't we fix simple_attr_write() instead?
+>> How about if there is no unused bytes?
 >>
->> I mean, simple_attr_read() might use attr->fmt to print a signed value,
->> but simple_attr_write() fails on signed values now?
->>
->> I might be wrong, but there is a disconnect. I feel like
->> simple_attr_write() should similarly make decisions based on attr->fmt.
+>> The XTRG2FMS has 8 10-bit channels and use every byte in the report.
+>> Should I specify 8 8-bit channels instead and fix that in raw_event?
+>> If so, should I only use 8bit values then?
 > 
-> I agree there is a disconnect, but I have no idea how to fix
-> simple_attr_write().
-> (strcmp(attr->fmt, "%%lld\n") is ugly)
-> If no one seems to come up with a good idea, I'll fix the similar problems
-> in fault-injection the same way I did here.
+> If I am not wrong, you should be able to add another byte in the
+> report descriptor, as long as your raw_event function always adds it.
+> Though now that I am typing it, I am actually wondering if this will
+> work. You can always try, there is a chance it'll work, but I can't
+> remember if it'll result in a timeout on the USB front because it'll
+> expect one more byte that will never arrive.
+
+I am back home, and I just tested that. I had a doubt, and it is indeed
+failing. You need the following change for this to be working (I need to
+send it as a proper patch after assessing it hasn't side effects)
+
+---
+
+diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+index 13cce286247e..f37ffe2bd488 100644
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -275,6 +275,7 @@ static void hid_irq_in(struct urb *urb)
+         int                     status;
+  
+         switch (urb->status) {
++       case -EOVERFLOW:        /* happens with modified report descriptors */
+         case 0:                 /* success */
+                 usbhid->retry_delay = 0;
+                 if (!test_bit(HID_OPENED, &usbhid->iofl))
+---
+
+Cheers,
+Benjamin
+
 > 
-
-Maybe we simply want another interface for the handful of %lld users. Or 
-another way to allow DEFINE_SIMPLE_ATTRIBUTE users to specify it.
-
-Might be good enough to specify instead of/in addition to "%llu" an enum 
-that expresses what we want.
-
-$ git grep -C2 DEFINE_SIMPLE  | grep "\%"
-
-tells me that we have
-
-a) %llu
-b) %llx
-c) %lld
-d) 0x%llx
-e) 0x%08llx
-
-Maybe we can adjust the debugfs cases to be more similar, to eventually 
-get only a, b and c.
-
--- 
-Thanks,
-
-David / dhildenb
+>>
+>> (Are you at the ELCE conference btw?)
+> 
+> I was at Plumbers this week, but got an extra day today. But yeah, I'm
+> in Dublin today.
+> 
+> Cheers,
+> Benjamin
+> 
+>>
+>> Best regards
+>> Marcus Folkesson
 
