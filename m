@@ -2,144 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57D10ECAAA1
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 19:47:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA7EFECAAD3
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 19:54:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229718AbiISTrT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Sep 2022 15:47:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45298 "EHLO
+        id S229551AbiISTyv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Sep 2022 15:54:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbiISTrQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 15:47:16 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12A7028E36
-        for <linux-doc@vger.kernel.org>; Mon, 19 Sep 2022 12:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663616833; x=1695152833;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KPyorXiXa3xTAe+xx6fVMoj0eQMHUSS1VMconXy/Yws=;
-  b=ZDncCSEqX65/evN/pqneAQvoseIdPGz2eE5L7DfS3uv1OZ8mo0CKna4n
-   oKGes5ytmV/ix7QtXmr/Kgmf9Erqcjg95uH0mQh+QooqTWoMkmQC1YqNf
-   VIhpwevpAtYX34iyEchf9OZPi0rHQyJ0zpay9ujg8DwY8kqt2THpngMwN
-   aFpYrgdc9R4qO5Qkbe1IKfDoRZTv9UedDOBN4ML4KI6EXS3HVPeCRTiMD
-   LIuX7OucVY+ffpep/p873BCXzxXaVMLhbrD4/xPYXVXg/PNZuYWEpbL3d
-   WFsYpDt8ck7XDODJvlILnfIql9JZV6d5gHatNkYGKtswRp7sxzfsUGG30
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="325800986"
-X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; 
-   d="scan'208";a="325800986"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 12:47:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,328,1654585200"; 
-   d="scan'208";a="649285825"
-Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 19 Sep 2022 12:47:11 -0700
-Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oaMjX-0002CG-08;
-        Mon, 19 Sep 2022 19:47:11 +0000
-Date:   Tue, 20 Sep 2022 03:46:39 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Josef Bacik <josef@toxicpanda.com>
-Cc:     kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        David Sterba <dsterba@suse.com>, linux-doc@vger.kernel.org
-Subject: [linux-next:master 6333/7934] fs/btrfs/extent-io-tree.c:165:
- warning: This comment starts with '/**', but isn't a kernel-doc comment.
- Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202209200314.tChS7q2Y-lkp@intel.com>
+        with ESMTP id S229540AbiISTyr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 15:54:47 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40616140C7
+        for <linux-doc@vger.kernel.org>; Mon, 19 Sep 2022 12:54:46 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id q15-20020a17090a304f00b002002ac83485so327248pjl.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Sep 2022 12:54:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=g7zNNY89d4k8ugINF0iti3Ty6QBiU6BSa9NeL6oDdnc=;
+        b=J46nl8pGcRAq9y7Kxtf00LObEtiZeEnL9MXTH3mBudNAB1pfFaVRAWVEJ3JhnrC6Hs
+         Lp0XCwskM8N2p8YqlAQGWOjCPiTwfYw2KW1XHrvT9uJwj5nfl7CFXr/LZ7t4ae2qY+lv
+         Sx2le6JkOjOs30KSx3h1B9Z4g5siK4c3wB7e7TulFuRDlcQvmah8UDL5K/xjRRaJxMBX
+         5sYkHTZaJOPWRckEKssnGgzjl29DcMaMWIZimZVjGFHBOebvxvbYjMqS6NliczIazC1m
+         n9iRrqV6+Ve/lS+byOyYGWzDlvhUNMnHkNk5j2oeVjm33kL4SJzStIKcKXGmspHgr1Cy
+         smLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=g7zNNY89d4k8ugINF0iti3Ty6QBiU6BSa9NeL6oDdnc=;
+        b=FqCLQA8ExtZhCprWE9nELOX55DTWwBODzB34mYgNkbBRSWDpe93aBitZxe3C1lN+tv
+         ToX3STm7opTbj5UmwzjInVpenErOj8rRgvm8dd2kqSLJ9kPmt/EZFU2aemyQ8f01ARN+
+         FS92ubpEHel9FliLzs5N4QCEQH7v1ZiWx3S9VhqrYOCHOr/0npVRVndedIowKDWkzhOq
+         xV8pOdigEJRFS5s8VprE674qlozb8Za+J5JcRPXAEWpQvYwGeagkqfMSlGWXFzPJyWFD
+         XvVFBn9X6A7XEEq6LF9iC7YyEBUfU0GkkLfKp59TP5db+21IT/rbUd92Z/OG8aLndFG4
+         vJKw==
+X-Gm-Message-State: ACrzQf3p5LkS0V/iC7NPJmzs4li1spItJ9v4bylOPMaXg22l2rGrUxPb
+        Mp0slFQ3cmNKlysPsx0LM9pQ+g==
+X-Google-Smtp-Source: AMsMyM6aAqjbQN2s6/yxk/aDmjhEYxdJeVSFPaipVSZeL3rirrj/BwqC/Vq8QXJ7EyPXjCVJOlmknA==
+X-Received: by 2002:a17:902:e54e:b0:178:5371:5199 with SMTP id n14-20020a170902e54e00b0017853715199mr1320475plf.59.1663617285719;
+        Mon, 19 Sep 2022 12:54:45 -0700 (PDT)
+Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+        by smtp.gmail.com with ESMTPSA id 14-20020a17090a0cce00b001fd9c63e56bsm819824pjt.32.2022.09.19.12.54.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Sep 2022 12:54:44 -0700 (PDT)
+Date:   Mon, 19 Sep 2022 13:54:42 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] coresight: docs: Fix a broken reference
+Message-ID: <20220919195442.GA759648@p14s>
+References: <c7f864854e9e03916017712017ff59132c51c338.1659251193.git.christophe.jaillet@wanadoo.fr>
+ <20220822160202.GB1583519@p14s>
+ <0e5567ee-41ba-2364-5e5a-2a6626c08ed1@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <0e5567ee-41ba-2364-5e5a-2a6626c08ed1@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4c9ca5b1597e3222177ba2a94658f78fa5ef4f58
-commit: caa49bdb937d60c059fc8cba02241ed0b10b073a [6333/7934] btrfs: temporarily export and move core extent_io_tree tree functions
-config: alpha-randconfig-r026-20220919 (https://download.01.org/0day-ci/archive/20220920/202209200314.tChS7q2Y-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=caa49bdb937d60c059fc8cba02241ed0b10b073a
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout caa49bdb937d60c059fc8cba02241ed0b10b073a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash fs/btrfs/
+On Mon, Sep 12, 2022 at 10:52:30AM +0100, Suzuki K Poulose wrote:
+> Cc: acme
+> 
+> On 22/08/2022 17:02, Mathieu Poirier wrote:
+> > On Sun, Jul 31, 2022 at 09:06:48AM +0200, Christophe JAILLET wrote:
+> > > Since the commit in Fixes: tag, "coresight-cpu-debug.txt" has been turned
+> > > into "arm,coresight-cpu-debug.yaml".
+> > > 
+> > > Update the doc accordingly to avoid a 'make htmldocs' warning
+> > > 
+> > > Fixes: 66d052047ca8 ("dt-bindings: arm: Convert CoreSight CPU debug to DT schema")
+> > > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> > > ---
+> > >   Documentation/trace/coresight/coresight-cpu-debug.rst | 3 ++-
+> > >   1 file changed, 2 insertions(+), 1 deletion(-)
+> > > 
+> > 
+> > Applied.
+> 
+> fyi, there is another patch fixing the same here.
+> 
+> https://lkml.kernel.org/r/20815dbff3d27f5d3e6876363f052d2a08ad2e72.1660829433.git.mchehab@kernel.org
+> 
+> We may have to decide which one goes in.
+>
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Thanks for pointing that out.  I looked in the documentation's next tree[1] and the
+patch hasn't been added there.  As such I suggest to keep Christophe's patch.
 
-All warnings (new ones prefixed by >>):
+Regards,
+Mathieu
 
->> fs/btrfs/extent-io-tree.c:165: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Search @tree for an entry that contains @offset. Such entry would have
-   fs/btrfs/extent-io-tree.c:217: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Search offset in the tree or fill neighbor rbtree node pointers.
+[1]. git://git.lwn.net/linux.git docs-next
 
-
-vim +165 fs/btrfs/extent-io-tree.c
-
-   163	
-   164	/**
- > 165	 * Search @tree for an entry that contains @offset. Such entry would have
-   166	 * entry->start <= offset && entry->end >= offset.
-   167	 *
-   168	 * @tree:       the tree to search
-   169	 * @offset:     offset that should fall within an entry in @tree
-   170	 * @node_ret:   pointer where new node should be anchored (used when inserting an
-   171	 *	        entry in the tree)
-   172	 * @parent_ret: points to entry which would have been the parent of the entry,
-   173	 *               containing @offset
-   174	 *
-   175	 * Return a pointer to the entry that contains @offset byte address and don't change
-   176	 * @node_ret and @parent_ret.
-   177	 *
-   178	 * If no such entry exists, return pointer to entry that ends before @offset
-   179	 * and fill parameters @node_ret and @parent_ret, ie. does not return NULL.
-   180	 */
-   181	struct rb_node *tree_search_for_insert(struct extent_io_tree *tree, u64 offset,
-   182					       struct rb_node ***node_ret,
-   183					       struct rb_node **parent_ret)
-   184	{
-   185		struct rb_root *root = &tree->state;
-   186		struct rb_node **node = &root->rb_node;
-   187		struct rb_node *prev = NULL;
-   188		struct tree_entry *entry;
-   189	
-   190		while (*node) {
-   191			prev = *node;
-   192			entry = rb_entry(prev, struct tree_entry, rb_node);
-   193	
-   194			if (offset < entry->start)
-   195				node = &(*node)->rb_left;
-   196			else if (offset > entry->end)
-   197				node = &(*node)->rb_right;
-   198			else
-   199				return *node;
-   200		}
-   201	
-   202		if (node_ret)
-   203			*node_ret = node;
-   204		if (parent_ret)
-   205			*parent_ret = prev;
-   206	
-   207		/* Search neighbors until we find the first one past the end */
-   208		while (prev && offset > entry->end) {
-   209			prev = rb_next(prev);
-   210			entry = rb_entry(prev, struct tree_entry, rb_node);
-   211		}
-   212	
-   213		return prev;
-   214	}
-   215	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> Cheers
+> Suzuki
+> 
+> > 
+> > Thanks,
+> > Mathieu
+> > 
+> > > diff --git a/Documentation/trace/coresight/coresight-cpu-debug.rst b/Documentation/trace/coresight/coresight-cpu-debug.rst
+> > > index 993dd294b81b..836b35532667 100644
+> > > --- a/Documentation/trace/coresight/coresight-cpu-debug.rst
+> > > +++ b/Documentation/trace/coresight/coresight-cpu-debug.rst
+> > > @@ -117,7 +117,8 @@ divide into below cases:
+> > >   Device Tree Bindings
+> > >   --------------------
+> > > -See Documentation/devicetree/bindings/arm/coresight-cpu-debug.txt for details.
+> > > +See Documentation/devicetree/bindings/arm/arm,coresight-cpu-debug.yaml for
+> > > +details.
+> > >   How to use the module
+> > > -- 
+> > > 2.34.1
+> > > 
+> 
