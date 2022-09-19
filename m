@@ -2,113 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 590E1C6FA8B
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 01:28:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF2BECAAD8
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 02:09:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229483AbiISB16 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Sep 2022 21:27:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58966 "EHLO
+        id S229714AbiISCJH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Sep 2022 22:09:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbiISB15 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Sep 2022 21:27:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7F3E18383
-        for <linux-doc@vger.kernel.org>; Sun, 18 Sep 2022 18:27:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663550874;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=mTlHJkSe2zwoVsxiCcbcUXVRXRosTOKrm+znhbWqwWI=;
-        b=jEltpuvKknpBGp2cG2u1cMyzrj1eg8rsEbnPgeJTzymA+xbTg4qpVQzwSDC8k1GqfwwpHV
-        EVDA875PpEGOdw3uImdznLxY5NikTzuCor4FOAi2MfF1hecXUISC+AsfZe43vtfjPREsDJ
-        zyzH/Ezs6zBMHF1v+FuEBZoqEpTAe+A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-464-Iy3PoTvROFe09ARVEqroCA-1; Sun, 18 Sep 2022 21:27:51 -0400
-X-MC-Unique: Iy3PoTvROFe09ARVEqroCA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 568FE85A583;
-        Mon, 19 Sep 2022 01:27:50 +0000 (UTC)
-Received: from [10.64.54.126] (vpn2-54-126.bne.redhat.com [10.64.54.126])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A6E5A40C6EC2;
-        Mon, 19 Sep 2022 01:27:42 +0000 (UTC)
-Reply-To: Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH v2 2/5] KVM: arm64: Enable ring-based dirty memory
- tracking
-To:     kernel test robot <lkp@intel.com>, kvmarm@lists.cs.columbia.edu
-Cc:     kbuild-all@lists.01.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, catalin.marinas@arm.com,
-        linux-kselftest@vger.kernel.org, bgardon@google.com,
-        shuah@kernel.org, corbet@lwn.net, maz@kernel.org,
-        drjones@redhat.com, will@kernel.org, zhenyzha@redhat.com,
-        dmatlack@google.com, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, pbonzini@redhat.com,
-        peterx@redhat.com, oliver.upton@linux.dev, shan.gavin@gmail.com
-References: <20220916045135.154505-3-gshan@redhat.com>
- <202209180726.FLL69aKA-lkp@intel.com>
-From:   Gavin Shan <gshan@redhat.com>
-Message-ID: <fbf2bbe6-06d7-8e06-3f7f-04ca01d604c0@redhat.com>
-Date:   Mon, 19 Sep 2022 11:27:40 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+        with ESMTP id S229479AbiISCJF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Sep 2022 22:09:05 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3110E18E13;
+        Sun, 18 Sep 2022 19:09:04 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id i15-20020a17090a4b8f00b0020073b4ac27so4731706pjh.3;
+        Sun, 18 Sep 2022 19:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=3v36Zt64TunF3kbYmT58DofeaeMqqtA4ouhjWhjl7lY=;
+        b=d3v4bg3UAuGDRHbVn+rmoemyYJa4N3jL2imNkJX90oAg6R4JpI/cDJOLYrPbUSYgjV
+         Prw2nNxWkw63VVLIflyfz7rG8ErJU+KxoCtE2dx5q7Xf9e2qPZnJi1X262/390Vuza8T
+         cmZi/VOPMS8bCjpdf/QxL40QIlt9zGz9ucDS76ylqr1qj6DpVbhwZHyiapNryI03mGyp
+         EyJ/l+nwn4cCUjT4xVum3Ebw97DQ6FO8zL32U1O9FQnHaxZAZzp3JOq9HXKjlmy3hPk/
+         g61bo3usivd39HizVqOcoAujrptDbK4B6F10rN+KaX9lwHIRXMH3Nd6YrWgbNsseTNYR
+         KHeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=3v36Zt64TunF3kbYmT58DofeaeMqqtA4ouhjWhjl7lY=;
+        b=4Jvi1oQpw3HkfY5NG+jvMMIs41kufsYd/SS1vd75BZbJQcbWI1iWqV/A2HPZ3aM2i0
+         KCszs31JYnGOLGkRljyG8O2koIJfvB4JoFPuA4PgjdhenkgAFdDCfY1w+qKvI4KhpnAl
+         gHhUoB1R3kmHW0AP4124Pc2oN/zrrU5/83QzO9JB36VtAj9Y+IOdS22ZLdAFDY7PbRDV
+         4eAUX+DuX7XIhYv/kw8z7r839N3qcJnUE5JOO5eUxostZoN2Hvxhn/1z+1HYZpRaxSxb
+         S0zK9wLQ1VcJjR5km6Jg078fEkO1Pe2htrK2R+wew9S/rKB1llYeJ7SLheNyboiUtw4Q
+         w4rw==
+X-Gm-Message-State: ACrzQf0TgMLHE3UHvqmEyTLF/IFE7Yv8uIxmkctt4JBIPBx/L6bCIEgm
+        oWWqL4zNzrv+JLrJRhrCLzk=
+X-Google-Smtp-Source: AMsMyM5DuNnCVfMMlnq5nOkhIz4hCz1UEMx3AUk/IWv/J55k6bVpk+dE8T73dilHPz/4T83YXovkaQ==
+X-Received: by 2002:a17:90b:35cf:b0:202:6f3d:53a7 with SMTP id nb15-20020a17090b35cf00b002026f3d53a7mr17969210pjb.63.1663553343360;
+        Sun, 18 Sep 2022 19:09:03 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-13.three.co.id. [180.214.232.13])
+        by smtp.gmail.com with ESMTPSA id c6-20020a634e06000000b0043941566481sm11343214pgb.39.2022.09.18.19.09.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Sep 2022 19:09:03 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id A9410101A98; Mon, 19 Sep 2022 09:08:59 +0700 (WIB)
+Date:   Mon, 19 Sep 2022 09:08:59 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+        page-reclaim@google.com
+Subject: Re: [PATCH mm-unstable v15 00/14] Multi-Gen LRU Framework
+Message-ID: <YyfPO8rVujtUzEwt@debian.me>
+References: <20220918080010.2920238-1-yuzhao@google.com>
 MIME-Version: 1.0
-In-Reply-To: <202209180726.FLL69aKA-lkp@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="FZxmQtoS2Tn1HQRT"
+Content-Disposition: inline
+In-Reply-To: <20220918080010.2920238-1-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/18/22 1:10 AM, kernel test robot wrote:
-> Thank you for the patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on kvm/queue]
-> [also build test WARNING on kvmarm/next linus/master v6.0-rc5 next-20220916]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Gavin-Shan/KVM-arm64-Enable-ring-based-dirty-memory-tracking/20220916-125417
-> base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-> config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20220918/202209180726.FLL69aKA-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/a1a4cd8f6a5e8927f800baff7d965870a1b7d7ba
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Gavin-Shan/KVM-arm64-Enable-ring-based-dirty-memory-tracking/20220916-125417
->          git checkout a1a4cd8f6a5e8927f800baff7d965870a1b7d7ba
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> arch/arm64/kvm/../../../virt/kvm/dirty_ring.c:14:12: warning: no previous prototype for 'kvm_cpu_dirty_log_size' [-Wmissing-prototypes]
->        14 | int __weak kvm_cpu_dirty_log_size(void)
->           |            ^~~~~~~~~~~~~~~~~~~~~~
-> 
-> 
 
-[...]
+--FZxmQtoS2Tn1HQRT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for reporting the issue. The weak function needn't to be overrided by
-ARM64. In v3, I will have a separate patch to fix the issue by moving its
-declaration to kvm_dirty_ring.h.
+On Sun, Sep 18, 2022 at 01:59:57AM -0600, Yu Zhao wrote:
+> base-commit: 6cf215f1d5dac59a5a09514138ca37aed2719d0a
 
-Thanks,
-Gavin
+Hmm, there is no such commit on mm tree, not even on linux-next, so I
+can't apply this series for testing.
 
+The base commit is on what tree? Or I have to wait for rebasing this
+series on top of latest mm-unstable.
 
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--FZxmQtoS2Tn1HQRT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYyfPMgAKCRD2uYlJVVFO
+o4fsAQDbhpYeZ+rwK+dnLi93l14DegafDTFra0UaKlsts06U1gEAyAs2rS2qROhs
+l2++piY2jaOc0CAFvCqHCuJR9tfd4gY=
+=GwOJ
+-----END PGP SIGNATURE-----
+
+--FZxmQtoS2Tn1HQRT--
