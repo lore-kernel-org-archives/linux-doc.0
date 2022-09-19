@@ -2,115 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF2BECAAD8
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 02:09:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27A06C6FA91
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 02:46:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229714AbiISCJH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Sep 2022 22:09:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34268 "EHLO
+        id S229655AbiISCqr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Sep 2022 22:46:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiISCJF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Sep 2022 22:09:05 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3110E18E13;
-        Sun, 18 Sep 2022 19:09:04 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id i15-20020a17090a4b8f00b0020073b4ac27so4731706pjh.3;
-        Sun, 18 Sep 2022 19:09:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=3v36Zt64TunF3kbYmT58DofeaeMqqtA4ouhjWhjl7lY=;
-        b=d3v4bg3UAuGDRHbVn+rmoemyYJa4N3jL2imNkJX90oAg6R4JpI/cDJOLYrPbUSYgjV
-         Prw2nNxWkw63VVLIflyfz7rG8ErJU+KxoCtE2dx5q7Xf9e2qPZnJi1X262/390Vuza8T
-         cmZi/VOPMS8bCjpdf/QxL40QIlt9zGz9ucDS76ylqr1qj6DpVbhwZHyiapNryI03mGyp
-         EyJ/l+nwn4cCUjT4xVum3Ebw97DQ6FO8zL32U1O9FQnHaxZAZzp3JOq9HXKjlmy3hPk/
-         g61bo3usivd39HizVqOcoAujrptDbK4B6F10rN+KaX9lwHIRXMH3Nd6YrWgbNsseTNYR
-         KHeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=3v36Zt64TunF3kbYmT58DofeaeMqqtA4ouhjWhjl7lY=;
-        b=4Jvi1oQpw3HkfY5NG+jvMMIs41kufsYd/SS1vd75BZbJQcbWI1iWqV/A2HPZ3aM2i0
-         KCszs31JYnGOLGkRljyG8O2koIJfvB4JoFPuA4PgjdhenkgAFdDCfY1w+qKvI4KhpnAl
-         gHhUoB1R3kmHW0AP4124Pc2oN/zrrU5/83QzO9JB36VtAj9Y+IOdS22ZLdAFDY7PbRDV
-         4eAUX+DuX7XIhYv/kw8z7r839N3qcJnUE5JOO5eUxostZoN2Hvxhn/1z+1HYZpRaxSxb
-         S0zK9wLQ1VcJjR5km6Jg078fEkO1Pe2htrK2R+wew9S/rKB1llYeJ7SLheNyboiUtw4Q
-         w4rw==
-X-Gm-Message-State: ACrzQf0TgMLHE3UHvqmEyTLF/IFE7Yv8uIxmkctt4JBIPBx/L6bCIEgm
-        oWWqL4zNzrv+JLrJRhrCLzk=
-X-Google-Smtp-Source: AMsMyM5DuNnCVfMMlnq5nOkhIz4hCz1UEMx3AUk/IWv/J55k6bVpk+dE8T73dilHPz/4T83YXovkaQ==
-X-Received: by 2002:a17:90b:35cf:b0:202:6f3d:53a7 with SMTP id nb15-20020a17090b35cf00b002026f3d53a7mr17969210pjb.63.1663553343360;
-        Sun, 18 Sep 2022 19:09:03 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-13.three.co.id. [180.214.232.13])
-        by smtp.gmail.com with ESMTPSA id c6-20020a634e06000000b0043941566481sm11343214pgb.39.2022.09.18.19.09.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Sep 2022 19:09:03 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id A9410101A98; Mon, 19 Sep 2022 09:08:59 +0700 (WIB)
-Date:   Mon, 19 Sep 2022 09:08:59 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
-        page-reclaim@google.com
-Subject: Re: [PATCH mm-unstable v15 00/14] Multi-Gen LRU Framework
-Message-ID: <YyfPO8rVujtUzEwt@debian.me>
-References: <20220918080010.2920238-1-yuzhao@google.com>
+        with ESMTP id S229541AbiISCqp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Sep 2022 22:46:45 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4C214BF70;
+        Sun, 18 Sep 2022 19:46:44 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 72BE613D5;
+        Sun, 18 Sep 2022 19:46:50 -0700 (PDT)
+Received: from [10.162.41.7] (unknown [10.162.41.7])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 053413F5A1;
+        Sun, 18 Sep 2022 19:46:34 -0700 (PDT)
+Message-ID: <7403e6bb-0011-381b-a99e-cbd9d7b1a270@arm.com>
+Date:   Mon, 19 Sep 2022 08:16:32 +0530
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="FZxmQtoS2Tn1HQRT"
-Content-Disposition: inline
-In-Reply-To: <20220918080010.2920238-1-yuzhao@google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 4/4] arm64: support batched/deferred tlb shootdown
+ during page reclamation
+Content-Language: en-US
+To:     Nadav Amit <namit@vmware.com>, Barry Song <21cnbao@gmail.com>
+Cc:     Yicong Yang <yangyicong@huawei.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux MM <linux-mm@kvack.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "darren@os.amperecomputing.com" <darren@os.amperecomputing.com>,
+        "yangyicong@hisilicon.com" <yangyicong@hisilicon.com>,
+        "huzhanyuan@oppo.com" <huzhanyuan@oppo.com>,
+        "lipeifeng@oppo.com" <lipeifeng@oppo.com>,
+        "zhangshiming@oppo.com" <zhangshiming@oppo.com>,
+        "guojian@oppo.com" <guojian@oppo.com>,
+        "realmz6@gmail.com" <realmz6@gmail.com>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "openrisc@lists.librecores.org" <openrisc@lists.librecores.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "wangkefeng.wang@huawei.com" <wangkefeng.wang@huawei.com>,
+        "xhao@linux.alibaba.com" <xhao@linux.alibaba.com>,
+        "prime.zeng@hisilicon.com" <prime.zeng@hisilicon.com>,
+        Barry Song <v-songbaohua@oppo.com>,
+        Mel Gorman <mgorman@suse.de>
+References: <20220822082120.8347-1-yangyicong@huawei.com>
+ <20220822082120.8347-5-yangyicong@huawei.com>
+ <1e8642d5-0e2d-5747-d0d2-5aa0817ea4af@arm.com>
+ <CAGsJ_4xD4m-szM1Cm4N5ZRCODGC0fbW+BLBhy8g6+eK=aHPQNw@mail.gmail.com>
+ <1125554b-c183-23c4-5516-95b918a761cc@arm.com>
+ <CAGsJ_4zkRv7RYCB2SC0uydMSQWfwXs3-nkjxMoR7wgn2nt43gA@mail.gmail.com>
+ <2AB9EC05-16B4-46F8-B716-53941C1C9A50@vmware.com>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <2AB9EC05-16B4-46F8-B716-53941C1C9A50@vmware.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---FZxmQtoS2Tn1HQRT
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 18, 2022 at 01:59:57AM -0600, Yu Zhao wrote:
-> base-commit: 6cf215f1d5dac59a5a09514138ca37aed2719d0a
+On 9/15/22 20:01, Nadav Amit wrote:
+> 
+> 
+>> On Sep 14, 2022, at 11:42 PM, Barry Song <21cnbao@gmail.com> wrote:
+>>
+>>>
+>>> The very idea behind TLB deferral is the opportunity it (might) provide
+>>> to accumulate address ranges and cpu masks so that individual TLB flush
+>>> can be replaced with a more cost effective range based TLB flush. Hence
+>>> I guess unless address range or cpumask based cost effective TLB flush
+>>> is available, deferral does not improve the unmap performance as much.
+>>
+>>
+>> After sending tlbi, if we wait for the completion of tlbi, we have to get Ack
+>> from all cpus in the system, tlbi is not scalable. The point here is that we
+>> avoid waiting for each individual TLBi. Alternatively, they are batched. If
+>> you read the benchmark in the commit log, you can find the great decline
+>> in the cost to swap out a page.
+> 
+> Just a minor correction: arch_tlbbatch_flush() does not collect ranges.
+> On x86 it only accumulate CPU mask.
 
-Hmm, there is no such commit on mm tree, not even on linux-next, so I
-can't apply this series for testing.
-
-The base commit is on what tree? Or I have to wait for rebasing this
-series on top of latest mm-unstable.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---FZxmQtoS2Tn1HQRT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYyfPMgAKCRD2uYlJVVFO
-o4fsAQDbhpYeZ+rwK+dnLi93l14DegafDTFra0UaKlsts06U1gEAyAs2rS2qROhs
-l2++piY2jaOc0CAFvCqHCuJR9tfd4gY=
-=GwOJ
------END PGP SIGNATURE-----
-
---FZxmQtoS2Tn1HQRT--
+Thanks Nadav for the clarification.
