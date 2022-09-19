@@ -2,72 +2,279 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C988C6FA82
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 09:01:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D5DDC6FA82
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 09:13:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229968AbiISJBo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Sep 2022 05:01:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36768 "EHLO
+        id S230257AbiISJM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Sep 2022 05:12:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230117AbiISJBm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 05:01:42 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 813D41C135;
-        Mon, 19 Sep 2022 02:01:40 -0700 (PDT)
-Received: from canpemm100006.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MWJT64862zMn2F;
-        Mon, 19 Sep 2022 16:56:58 +0800 (CST)
-Received: from canpemm500005.china.huawei.com (7.192.104.229) by
- canpemm100006.china.huawei.com (7.192.104.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 19 Sep 2022 17:01:38 +0800
-Received: from canpemm500005.china.huawei.com ([7.192.104.229]) by
- canpemm500005.china.huawei.com ([7.192.104.229]) with mapi id 15.01.2375.031;
- Mon, 19 Sep 2022 17:01:38 +0800
-From:   zhaogongyi <zhaogongyi@huawei.com>
-To:     David Hildenbrand <david@redhat.com>,
-        Akinobu Mita <akinobu.mita@gmail.com>
-CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "osalvador@suse.de" <osalvador@suse.de>,
-        "shuah@kernel.org" <shuah@kernel.org>
-Subject: Re: [PATCH -next v2 1/5] docs: notifier-error-inject: fix non-working
- usage of negative values
-Thread-Topic: [PATCH -next v2 1/5] docs: notifier-error-inject: fix
- non-working usage of negative values
-Thread-Index: AdjMBWnu287D6MO2SCOsmHrOPTOinw==
-Date:   Mon, 19 Sep 2022 09:01:38 +0000
-Message-ID: <076b1f2a38ab4ca4a61e6a79c765bcba@huawei.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.67.110.209]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S230003AbiISJM5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 05:12:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1E0D1F2DB
+        for <linux-doc@vger.kernel.org>; Mon, 19 Sep 2022 02:12:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663578773;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jxl8dn6mQx+TY+/R8pZqq4F+YYfwiklYX5vSpv2CpI0=;
+        b=WENIsmXzdmVCuSzdkhYVZnf4bQQ5yJk/iiveYAH2kYgojznv9Tdgqw9kyAxXp8C6wFzqx9
+        yBwsKVJjOCzNaDsfNwCPbSGHRU6HvhEsFrnwu2V1WHLgKRtO3tJ7SEO6F9x36jY5XM++OZ
+        bg7/3ergx61rWTOaCDYqXVojASTJC+k=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-336-R0gEMS--Pu-B6MjT_9ZhYQ-1; Mon, 19 Sep 2022 05:12:50 -0400
+X-MC-Unique: R0gEMS--Pu-B6MjT_9ZhYQ-1
+Received: by mail-wr1-f70.google.com with SMTP id h20-20020adfaa94000000b0022af8c26b72so491624wrc.7
+        for <linux-doc@vger.kernel.org>; Mon, 19 Sep 2022 02:12:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date;
+        bh=jxl8dn6mQx+TY+/R8pZqq4F+YYfwiklYX5vSpv2CpI0=;
+        b=yCaEk+UVDsx+HpUEBclvwwKtC4cWZ1VTM6bXhmEse1CtPQJLMoUKDgc3HG8+IojFJh
+         Vk1rZ2EZKngpRrJF5MiX/dV8bFlagtVL1b6uylxTdorPKye2OQVBL8B1OJDEdQ6pBR4G
+         rf/cWWw7m0IaaMwO6L+NsRwSY2He+9j2f6oQhAsMOOhBkqycfVQUldjtYfjq/XCikIA+
+         JsI3/bhvyfhhiYebJw1aTPmbaVzG8cS5ky+MFXc5fmAa9Gg2TnCZU+wshtiNpbjFHfof
+         26bfCD+dkl0Jdhx4PU7Xvwgmcdd6CPot0Lo/6q1nmbjz6CzxsZvDZB0AYDuJz2Z96Sy+
+         Ud2Q==
+X-Gm-Message-State: ACrzQf3SoRp3/NjBhujAu0/hm8sBQEcsvKoc674u1/nQNVGPh6fbE3mT
+        CSA8QZukZQjTxRCHfcpPOJIEQLFSkPBE/pcOV5ErOlOew8lPoNNpMiWQ1w7vtmtTPEyolmNU05T
+        vNYWCgOvvViQaTlQtkVn0
+X-Received: by 2002:a05:600c:434c:b0:3b4:82fb:5f78 with SMTP id r12-20020a05600c434c00b003b482fb5f78mr11569499wme.157.1663578769340;
+        Mon, 19 Sep 2022 02:12:49 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM42ZT4pkoKjyDjQQPF2OgJto1LVpfUrBqi2mVYRAlQ8yoTL+vv0kZdwqQbz4IN8mCzxBGb4fw==
+X-Received: by 2002:a05:600c:434c:b0:3b4:82fb:5f78 with SMTP id r12-20020a05600c434c00b003b482fb5f78mr11569468wme.157.1663578768973;
+        Mon, 19 Sep 2022 02:12:48 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c703:c100:c136:f914:345f:f5f3? (p200300cbc703c100c136f914345ff5f3.dip0.t-ipconnect.de. [2003:cb:c703:c100:c136:f914:345f:f5f3])
+        by smtp.gmail.com with ESMTPSA id bk23-20020a0560001d9700b0022b014fb0b7sm2473698wrb.110.2022.09.19.02.12.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Sep 2022 02:12:48 -0700 (PDT)
+Message-ID: <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
+Date:   Mon, 19 Sep 2022 11:12:46 +0200
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Content-Language: en-US
+To:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+In-Reply-To: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkhDQoNCj4gDQo+IE9uIDE3LjA5LjIyIDA3OjM5LCBBa2lub2J1IE1pdGEgd3JvdGU6DQo+ID4g
-MjAyMuW5tDnmnIgxNeaXpSjmnKgpIDE4OjAxIFpoYW8gR29uZ3lpIDx6aGFvZ29uZ3lpQGh1YXdl
-aS5jb20+Og0KPiA+Pg0KPiA+PiBGYXVsdCBpbmplY3Rpb24gdXNlcyBkZWJ1Z2ZzIGluIGEgd2F5
-IHRoYXQgdGhlIHByb3ZpZGVkIHZhbHVlcyB2aWENCj4gPj4gc3lzZnMgYXJlIGludGVycHJldGVk
-IGFzIHU2NC4gUHJvdmlkaW5nIG5lZ2F0aXZlIG51bWJlcnMgcmVzdWx0cyBpbg0KPiA+PiBhbiBl
-cnJvcjoNCj4gPj4NCj4gPj4gICAgIyBjZCBzeXMva2VybmVsL2RlYnVnL25vdGlmaWVyLWVycm9y
-LWluamVjdC9tZW1vcnkNCj4gPj4gICAgIyAgZWNobyAtMTIgPiBhY3Rpb25zL01FTV9HT0lOR19P
-TkxJTkUvZXJyb3INCj4gPj4gICAgLWJhc2g6IGVjaG86IHdyaXRlIGVycm9yOiBJbnZhbGlkIGFy
-Z3VtZW50DQo+ID4+DQo+ID4+IFVwZGF0ZSB0aGUgZG9jcyBhbmQgZXhhbXBsZXMgdG8gdXNlICJw
-cmludGYgJSN4IDx2YWw+IiBpbiB0aGVzZSBjYXNlcy4NCj4gPg0KPiA+IEknZCByYXRoZXIgZml4
-IHRoZSBub3RpZmllci1lcnJvci1pbmplY3QgbW9kdWxlIHRoYW4gY2hhbmdlIHRoZSB1c2VyDQo+
-IGludGVyZmFjZS4NCj4gPiBJJ2xsIHNlbmQgYSBwYXRjaCwgc28gY291bGQgeW91IGNoZWNrIGlm
-IHRoYXQgc29sdmVzIHRoZSBwcm9ibGVtLg0KPiA+DQo+IA0KPiBUaGF0IHdpbGwgYWxzbyBtYWtl
-IHBhdGNoICMyIHVubmVjZXNzYXJ5LCBjb3JyZWN0Pw0KDQpZZXMuIEJ1dCB0aGVyZSBpcyBhbm90
-aGVyIGNvbW1pdCAwMDU3NDc1MjZkNGYzYzJlYzk5NTg5MWU5NWNiNzYyNTE2MTAyMmY5IHRoYXQg
-aGFzIHRoZSBzYW1lIHByb2JsZW0uDQoNClRoYW5rcyENCg0KPiANCj4gLS0NCj4gVGhhbmtzLA0K
-PiANCj4gRGF2aWQgLyBkaGlsZGVuYg0KDQo=
+On 15.09.22 16:29, Chao Peng wrote:
+> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> 
+> KVM can use memfd-provided memory for guest memory. For normal userspace
+> accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
+> virtual address space and then tells KVM to use the virtual address to
+> setup the mapping in the secondary page table (e.g. EPT).
+> 
+> With confidential computing technologies like Intel TDX, the
+> memfd-provided memory may be encrypted with special key for special
+> software domain (e.g. KVM guest) and is not expected to be directly
+> accessed by userspace. Precisely, userspace access to such encrypted
+> memory may lead to host crash so it should be prevented.
+
+Initially my thaught was that this whole inaccessible thing is TDX 
+specific and there is no need to force that on other mechanisms. That's 
+why I suggested to not expose this to user space but handle the notifier 
+requirements internally.
+
+IIUC now, protected KVM has similar demands. Either access (read/write) 
+of guest RAM would result in a fault and possibly crash the hypervisor 
+(at least not the whole machine IIUC).
+
+> 
+> This patch introduces userspace inaccessible memfd (created with
+> MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
+> ordinary MMU access (e.g. read/write/mmap) but can be accessed via
+> in-kernel interface so KVM can directly interact with core-mm without
+> the need to map the memory into KVM userspace.
+
+With secretmem we decided to not add such "concept switch" flags and 
+instead use a dedicated syscall.
+
+What about memfd_inaccessible()? Especially, sealing and hugetlb are not 
+even supported and it might take a while to support either.
+
+
+> 
+> It provides semantics required for KVM guest private(encrypted) memory
+> support that a file descriptor with this flag set is going to be used as
+> the source of guest memory in confidential computing environments such
+> as Intel TDX/AMD SEV.
+> 
+> KVM userspace is still in charge of the lifecycle of the memfd. It
+> should pass the opened fd to KVM. KVM uses the kernel APIs newly added
+> in this patch to obtain the physical memory address and then populate
+> the secondary page table entries.
+> 
+> The userspace inaccessible memfd can be fallocate-ed and hole-punched
+> from userspace. When hole-punching happens, KVM can get notified through
+> inaccessible_notifier it then gets chance to remove any mapped entries
+> of the range in the secondary page tables.
+> 
+> The userspace inaccessible memfd itself is implemented as a shim layer
+> on top of real memory file systems like tmpfs/hugetlbfs but this patch
+> only implemented tmpfs. The allocated memory is currently marked as
+> unmovable and unevictable, this is required for current confidential
+> usage. But in future this might be changed.
+> 
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>   include/linux/memfd.h      |  24 ++++
+>   include/uapi/linux/magic.h |   1 +
+>   include/uapi/linux/memfd.h |   1 +
+>   mm/Makefile                |   2 +-
+>   mm/memfd.c                 |  25 ++++-
+>   mm/memfd_inaccessible.c    | 219 +++++++++++++++++++++++++++++++++++++
+>   6 files changed, 270 insertions(+), 2 deletions(-)
+>   create mode 100644 mm/memfd_inaccessible.c
+> 
+> diff --git a/include/linux/memfd.h b/include/linux/memfd.h
+> index 4f1600413f91..334ddff08377 100644
+> --- a/include/linux/memfd.h
+> +++ b/include/linux/memfd.h
+> @@ -3,6 +3,7 @@
+>   #define __LINUX_MEMFD_H
+>   
+>   #include <linux/file.h>
+> +#include <linux/pfn_t.h>
+>   
+>   #ifdef CONFIG_MEMFD_CREATE
+>   extern long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg);
+> @@ -13,4 +14,27 @@ static inline long memfd_fcntl(struct file *f, unsigned int c, unsigned long a)
+>   }
+>   #endif
+>   
+> +struct inaccessible_notifier;
+> +
+> +struct inaccessible_notifier_ops {
+> +	void (*invalidate)(struct inaccessible_notifier *notifier,
+> +			   pgoff_t start, pgoff_t end);
+> +};
+> +
+> +struct inaccessible_notifier {
+> +	struct list_head list;
+> +	const struct inaccessible_notifier_ops *ops;
+> +};
+> +
+> +void inaccessible_register_notifier(struct file *file,
+> +				    struct inaccessible_notifier *notifier);
+> +void inaccessible_unregister_notifier(struct file *file,
+> +				      struct inaccessible_notifier *notifier);
+> +
+> +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
+> +			 int *order);
+> +void inaccessible_put_pfn(struct file *file, pfn_t pfn);
+> +
+> +struct file *memfd_mkinaccessible(struct file *memfd);
+> +
+>   #endif /* __LINUX_MEMFD_H */
+> diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+> index 6325d1d0e90f..9d066be3d7e8 100644
+> --- a/include/uapi/linux/magic.h
+> +++ b/include/uapi/linux/magic.h
+> @@ -101,5 +101,6 @@
+>   #define DMA_BUF_MAGIC		0x444d4142	/* "DMAB" */
+>   #define DEVMEM_MAGIC		0x454d444d	/* "DMEM" */
+>   #define SECRETMEM_MAGIC		0x5345434d	/* "SECM" */
+> +#define INACCESSIBLE_MAGIC	0x494e4143	/* "INAC" */
+
+
+[...]
+
+> +
+> +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
+> +			 int *order)
+> +{
+> +	struct inaccessible_data *data = file->f_mapping->private_data;
+> +	struct file *memfd = data->memfd;
+> +	struct page *page;
+> +	int ret;
+> +
+> +	ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	*pfn = page_to_pfn_t(page);
+> +	*order = thp_order(compound_head(page));
+> +	SetPageUptodate(page);
+> +	unlock_page(page);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_get_pfn);
+> +
+> +void inaccessible_put_pfn(struct file *file, pfn_t pfn)
+> +{
+> +	struct page *page = pfn_t_to_page(pfn);
+> +
+> +	if (WARN_ON_ONCE(!page))
+> +		return;
+> +
+> +	put_page(page);
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_put_pfn);
+
+Sorry, I missed your reply regarding get/put interface.
+
+https://lore.kernel.org/linux-mm/20220810092532.GD862421@chaop.bj.intel.com/
+
+"We have a design assumption that somedays this can even support 
+non-page based backing stores."
+
+As long as there is no such user in sight (especially how to get the 
+memfd from even allocating such memory which will require bigger 
+changes), I prefer to keep it simple here and work on pages/folios. No 
+need to over-complicate it for now.
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
