@@ -2,90 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19405ECAAA1
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 17:07:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 489B2C54EE9
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 17:09:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231266AbiISRHZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Sep 2022 13:07:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56466 "EHLO
+        id S230443AbiISRJA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Sep 2022 13:09:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230414AbiISRGu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 13:06:50 -0400
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 742903ED4F;
-        Mon, 19 Sep 2022 10:05:17 -0700 (PDT)
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-        by localhost (Postfix) with ESMTP id 4MWWF34S8dz9sl8;
-        Mon, 19 Sep 2022 19:02:15 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-        by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id S3VF5cw_7SYS; Mon, 19 Sep 2022 19:02:15 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase2.c-s.fr (Postfix) with ESMTP id 4MWWDr5wSDz9sl9;
-        Mon, 19 Sep 2022 19:02:04 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id A9ADB8B78B;
-        Mon, 19 Sep 2022 19:02:04 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id c3Dun-A3qyRJ; Mon, 19 Sep 2022 19:02:04 +0200 (CEST)
-Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.232.8])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 4EC178B773;
-        Mon, 19 Sep 2022 19:02:04 +0200 (CEST)
-Received: from PO20335.IDSI0.si.c-s.fr (localhost [127.0.0.1])
-        by PO20335.IDSI0.si.c-s.fr (8.17.1/8.16.1) with ESMTPS id 28JH1wk51549624
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Mon, 19 Sep 2022 19:01:58 +0200
-Received: (from chleroy@localhost)
-        by PO20335.IDSI0.si.c-s.fr (8.17.1/8.17.1/Submit) id 28JH1wYK1549623;
-        Mon, 19 Sep 2022 19:01:58 +0200
-X-Authentication-Warning: PO20335.IDSI0.si.c-s.fr: chleroy set sender to christophe.leroy@csgroup.eu using -f
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-To:     Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>
-Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH v2 12/19] Documentation: Rename PPC_FSL_BOOK3E to PPC_E500
-Date:   Mon, 19 Sep 2022 19:01:36 +0200
-Message-Id: <d3d42b395c09e66b0705fda1e51779f33e13ac38.1663606876.git.christophe.leroy@csgroup.eu>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <828f6a64eeb51ce9abfa1d4e84c521a02fecebb8.1663606875.git.christophe.leroy@csgroup.eu>
-References: <828f6a64eeb51ce9abfa1d4e84c521a02fecebb8.1663606875.git.christophe.leroy@csgroup.eu>
+        with ESMTP id S231292AbiISRIO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 13:08:14 -0400
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A0B242ACC;
+        Mon, 19 Sep 2022 10:06:17 -0700 (PDT)
+Received: by mail-qv1-xf2a.google.com with SMTP id z9so153803qvn.9;
+        Mon, 19 Sep 2022 10:06:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=ZumCCGDQusAQ3Mpp2cw6j3semFoJaYgTAu3RsB110TI=;
+        b=oVPkUPSHVhU74v9Xs626/cMfInS7G0ZvAbJn8sC7OUx+ddkabpGlwnFqfyUt/PaWhN
+         /bWP79W0I3mQokuSIPm3fTm1HE+44WoJ1iQzFqLBLAEHEg47GZuvOGVgbdWoOXfvHNSj
+         GGtOlhJJ5GOYndxDpZEgR4fIm+vjvkiEEZu00KBeH99U25fE1M0+AePx5h5XVT+JAhYH
+         udQBc6hD42tUTiNg1e0ki9G9+aclf6HjAbLDXMf8jlwot8ZURMXSc5P2ooILajg4A0oi
+         zmwjCtPXv4cZO4MGtpqA8REhyLR+A525nZLeeMdeqZGW32ywEOe5mY09Nf8CnPR69XSd
+         +cDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=ZumCCGDQusAQ3Mpp2cw6j3semFoJaYgTAu3RsB110TI=;
+        b=2y4w5x9f/x6rQuxW33WbVVJUw0scbe3rIE3ao1/GQmsDKhjGYpfNVQ/8UfRV5qVvgi
+         L8FRD7PSiMnZfPw1jbEkiyp50XKCr8M5gi/JAaXkOu2eo+M7mvllTfbrSi+Rs/dIZ54t
+         p9GyPTxJ/3PCD97A5q+wT/glsj9jYywYzwuLBIeR30LwmsdTq/pdtjowgJHGaQBENChy
+         OFElsnHY5ustSvEEus9+fLxg3bU+eXvGI9GAdjxclY1gpIPw705/Ae2ykf/mxNjqTR1f
+         mb6CFDaAjwa9VdDaX9CZ0t5FHapRAKbppGvSQbxeDvXK+NBPHcamcgNF8XYT5O3Aj+iW
+         Tc+A==
+X-Gm-Message-State: ACrzQf0PEiomvDtGAaMtsZgJJbcXggQVvzCedzmc6iVqpF9WnGezIo/q
+        Rzw54cAaqGoq1RgaDQrlfDo=
+X-Google-Smtp-Source: AMsMyM4LXnZx2kXa150S3BIgRWySXgcH/voN5Xy5m34cHgeUt/ITmTBsX5rqlw1j6pZdBO/ssvJsjA==
+X-Received: by 2002:a05:6214:2387:b0:496:c9db:82b0 with SMTP id fw7-20020a056214238700b00496c9db82b0mr15823610qvb.111.1663607176094;
+        Mon, 19 Sep 2022 10:06:16 -0700 (PDT)
+Received: from localhost ([2600:1700:65a0:ab60:e599:ec9f:997f:2930])
+        by smtp.gmail.com with ESMTPSA id c16-20020ac85a90000000b00341a807ed21sm10921840qtc.72.2022.09.19.10.06.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Sep 2022 10:06:15 -0700 (PDT)
+Date:   Mon, 19 Sep 2022 10:06:13 -0700
+From:   Cong Wang <xiyou.wangcong@gmail.com>
+To:     Eric Dumazet <edumazet@google.com>
+Cc:     Peilin Ye <yepeilin.cs@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Jamal Hadi Salim <jhs@mojatatu.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Peilin Ye <peilin.ye@bytedance.com>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Cong Wang <cong.wang@bytedance.com>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Dave Taht <dave.taht@gmail.com>
+Subject: Re: [PATCH RFC v2 net-next 0/5] net: Qdisc backpressure
+ infrastructure
+Message-ID: <YyihhbCz4ObMf8yk@pop-os.localdomain>
+References: <cover.1651800598.git.peilin.ye@bytedance.com>
+ <cover.1661158173.git.peilin.ye@bytedance.com>
+ <CANn89iJsOHK1qgudpfFW9poC4NRBZiob-ynTOuRBkuJTw6FaJw@mail.gmail.com>
+ <YwzthDleRuvyEsXC@pop-os.localdomain>
+ <CANn89iJMBQ8--_hUihCcBEVawsZQLqL9x9V1=5pzrxTy+w8Z4A@mail.gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1663606899; l=1023; s=20211009; h=from:subject:message-id; bh=mzcbo4MeqpUQugY5af2ekUxOsdx736AJlQlhUXXpELE=; b=CuHMf4NyC1MRuuC6NCMG7HmRloBj69YbAQYAjGM/flK9aCYUvUbqaJYL6GEpy0a+Q+OrcfsGWbEJ XqIbnR79ACaRumw36N1fhcpM3joqTzaxKavzVjqGqYSVHq2av1BB
-X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANn89iJMBQ8--_hUihCcBEVawsZQLqL9x9V1=5pzrxTy+w8Z4A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CONFIG_PPC_FSL_BOOK3E is redundant with CONFIG_PPC_E500.
+On Mon, Aug 29, 2022 at 09:53:43AM -0700, Eric Dumazet wrote:
+> On Mon, Aug 29, 2022 at 9:47 AM Cong Wang <xiyou.wangcong@gmail.com> wrote:
+> >
+> > On Mon, Aug 22, 2022 at 09:22:39AM -0700, Eric Dumazet wrote:
+> > > On Mon, Aug 22, 2022 at 2:10 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> > > >
+> > > > From: Peilin Ye <peilin.ye@bytedance.com>
+> > > >
+> > > > Hi all,
+> > > >
+> > > > Currently sockets (especially UDP ones) can drop a lot of packets at TC
+> > > > egress when rate limited by shaper Qdiscs like HTB.  This patchset series
+> > > > tries to solve this by introducing a Qdisc backpressure mechanism.
+> > > >
+> > > > RFC v1 [1] used a throttle & unthrottle approach, which introduced several
+> > > > issues, including a thundering herd problem and a socket reference count
+> > > > issue [2].  This RFC v2 uses a different approach to avoid those issues:
+> > > >
+> > > >   1. When a shaper Qdisc drops a packet that belongs to a local socket due
+> > > >      to TC egress congestion, we make part of the socket's sndbuf
+> > > >      temporarily unavailable, so it sends slower.
+> > > >
+> > > >   2. Later, when TC egress becomes idle again, we gradually recover the
+> > > >      socket's sndbuf back to normal.  Patch 2 implements this step using a
+> > > >      timer for UDP sockets.
+> > > >
+> > > > The thundering herd problem is avoided, since we no longer wake up all
+> > > > throttled sockets at the same time in qdisc_watchdog().  The socket
+> > > > reference count issue is also avoided, since we no longer maintain socket
+> > > > list on Qdisc.
+> > > >
+> > > > Performance is better than RFC v1.  There is one concern about fairness
+> > > > between flows for TBF Qdisc, which could be solved by using a SFQ inner
+> > > > Qdisc.
+> > > >
+> > > > Please see the individual patches for details and numbers.  Any comments,
+> > > > suggestions would be much appreciated.  Thanks!
+> > > >
+> > > > [1] https://lore.kernel.org/netdev/cover.1651800598.git.peilin.ye@bytedance.com/
+> > > > [2] https://lore.kernel.org/netdev/20220506133111.1d4bebf3@hermes.local/
+> > > >
+> > > > Peilin Ye (5):
+> > > >   net: Introduce Qdisc backpressure infrastructure
+> > > >   net/udp: Implement Qdisc backpressure algorithm
+> > > >   net/sched: sch_tbf: Use Qdisc backpressure infrastructure
+> > > >   net/sched: sch_htb: Use Qdisc backpressure infrastructure
+> > > >   net/sched: sch_cbq: Use Qdisc backpressure infrastructure
+> > > >
+> > >
+> > > I think the whole idea is wrong.
+> > >
+> >
+> > Be more specific?
+> >
+> > > Packet schedulers can be remote (offloaded, or on another box)
+> >
+> > This is not the case we are dealing with (yet).
+> >
+> > >
+> > > The idea of going back to socket level from a packet scheduler should
+> > > really be a last resort.
+> >
+> > I think it should be the first resort, as we should backpressure to the
+> > source, rather than anything in the middle.
+> >
+> > >
+> > > Issue of having UDP sockets being able to flood a network is tough, I
+> > > am not sure the core networking stack
+> > > should pretend it can solve the issue.
+> >
+> > It seems you misunderstand it here, we are not dealing with UDP on the
+> > network, just on an end host. The backpressure we are dealing with is
+> > from Qdisc to socket on _TX side_ and on one single host.
+> >
+> > >
+> > > Note that FQ based packet schedulers can also help already.
+> >
+> > It only helps TCP pacing.
+> 
+> FQ : Fair Queue.
+> 
+> It definitely helps without the pacing part...
 
-Rename it so that CONFIG_PPC_FSL_BOOK3E can be removed later.
+True. but the fair queuing part has nothing related to this patchset...
+Only the pacing part is related to this topic, and it is merely about
+TCP.
 
-Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 7172a91539f2..07a134d8388b 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3626,7 +3626,7 @@
- 			(bounds check bypass). With this option data leaks are
- 			possible in the system.
- 
--	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
-+	nospectre_v2	[X86,PPC_E500,ARM64] Disable all mitigations for
- 			the Spectre variant 2 (indirect branch prediction)
- 			vulnerability. System may allow data leaks with this
- 			option.
--- 
-2.37.1
-
+Thanks.
