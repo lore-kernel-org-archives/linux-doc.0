@@ -2,105 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9702CECAAD3
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 15:01:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BB07ECAAD3
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 15:29:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229645AbiISPBV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Sep 2022 11:01:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47760 "EHLO
+        id S229837AbiISP3O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Sep 2022 11:29:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229656AbiISPBU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 11:01:20 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB76B31372;
-        Mon, 19 Sep 2022 08:01:18 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 3A6931F74A;
-        Mon, 19 Sep 2022 15:01:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1663599677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=iDQ4TbeBXa/svhW7EfZleIQJqRglXyx7TDIqISE6yyM=;
-        b=QruWER5KDSb+2K6n6HFs/WUurfTkzp5sMxSVkMVrm3lehOt+UtyXCfIE5QlGQ6AB/pQl2H
-        bWA7U17LROAZJt8gYCc6PbCQMojyqbCPedL6IdL4/SbV8YQ9RG2aDhG9+P00umlWIFwU4j
-        oOEFwRn36kywPKURtqAA8cYTgrgtKb4=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 02ABA13A96;
-        Mon, 19 Sep 2022 15:01:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id SryBOTyEKGOsbgAAMHmgww
-        (envelope-from <mhocko@suse.com>); Mon, 19 Sep 2022 15:01:16 +0000
-Date:   Mon, 19 Sep 2022 17:01:16 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Liu Shixin <liushixin2@huawei.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Shakeel Butt <shakeelb@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH v3] mm/memcontrol: use kstrtobool for swapaccount param
- parsing
-Message-ID: <YyiEPPecoqsinebe@dhcp22.suse.cz>
-References: <20220909145308.f2f61d6992f00ef6977f833b@linux-foundation.org>
- <20220913071358.1812206-1-liushixin2@huawei.com>
+        with ESMTP id S229866AbiISP3M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 11:29:12 -0400
+Received: from out01.mta.xmission.com (out01.mta.xmission.com [166.70.13.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEDE9DEDE;
+        Mon, 19 Sep 2022 08:29:10 -0700 (PDT)
+Received: from in01.mta.xmission.com ([166.70.13.51]:51716)
+        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1oaIhp-005WyF-Ma; Mon, 19 Sep 2022 09:29:09 -0600
+Received: from ip68-110-29-46.om.om.cox.net ([68.110.29.46]:41908 helo=email.froward.int.ebiederm.org.xmission.com)
+        by in01.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1oaIho-001xqf-J0; Mon, 19 Sep 2022 09:29:09 -0600
+From:   "Eric W. Biederman" <ebiederm@xmission.com>
+To:     Alexey Gladkov <legion@kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux Containers <containers@lists.linux.dev>,
+        linux-doc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christian Brauner <brauner@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Manfred Spraul <manfred@colorfullife.com>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <87wnc1i2wo.fsf@email.froward.int.ebiederm.org>
+        <cover.1660664258.git.legion@kernel.org>
+        <9b566b9b7313300d60b7dfd785ab041bed757ae0.1660664258.git.legion@kernel.org>
+Date:   Mon, 19 Sep 2022 10:29:02 -0500
+In-Reply-To: <9b566b9b7313300d60b7dfd785ab041bed757ae0.1660664258.git.legion@kernel.org>
+        (Alexey Gladkov's message of "Tue, 16 Aug 2022 17:42:45 +0200")
+Message-ID: <87bkrb2xj5.fsf@email.froward.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220913071358.1812206-1-liushixin2@huawei.com>
+Content-Type: text/plain
+X-XM-SPF: eid=1oaIho-001xqf-J0;;;mid=<87bkrb2xj5.fsf@email.froward.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.110.29.46;;;frm=ebiederm@xmission.com;;;spf=softfail
+X-XM-AID: U2FsdGVkX1+4L+9MyEPXt7wTGczqMWy7gxvNtcsX4Dk=
+X-SA-Exim-Connect-IP: 68.110.29.46
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCH v1 3/3] docs: Add information about ipc sysctls limitations
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 13-09-22 15:13:58, Liu Shixin wrote:
-> Use kstrtobool which is more powerful to handle all kinds of parameters
-> like 'Yy1Nn0' or [oO][NnFf] for "on" and "off".
+Alexey Gladkov <legion@kernel.org> writes:
 
-the main usefulness is with the code reusability of library functions
-rather than ad-hoc stuff.
+> After 25b21cb2f6d6 ("[PATCH] IPC namespace core") and 4e9823111bdc
+> ("[PATCH] IPC namespace - shm") the shared memory page count stopped
+> being global and started counting per ipc namespace. The documentation
+> and shmget(2) still says that shmall is a global option.
+>
+> shmget(2):
+>
+> SHMALL System-wide limit on the total amount of shared memory, measured
+> in units of the system page size. On Linux, this limit can be read and
+> modified via /proc/sys/kernel/shmall.
+>
+> I think the changes made in 2006 should be documented.
 
-> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+Agreed. Documenting these limits only apply to their ipc namespace is
+overdue.
 
-Acked-by: Michal Hocko <mhocko@suse.com>
+Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
 
-Thanks!
+> Signed-off-by: Alexey Gladkov <legion@kernel.org>
 > ---
->  mm/memcontrol.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index 0a1a8a846870..5511c0c120d9 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -7434,10 +7434,10 @@ bool mem_cgroup_swap_full(struct folio *folio)
+>  Documentation/admin-guide/sysctl/kernel.rst | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index ddccd1077462..9ad344b5e7a1 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -541,6 +541,9 @@ default (``MSGMNB``).
+>  ``msgmni`` is the maximum number of IPC queues. 32000 by default
+>  (``MSGMNI``).
 >  
->  static int __init setup_swap_account(char *s)
->  {
-> -	if (!strcmp(s, "1"))
-> -		cgroup_memory_noswap = false;
-> -	else if (!strcmp(s, "0"))
-> -		cgroup_memory_noswap = true;
-> +	bool res;
-> +
-> +	if (!kstrtobool(s, &res))
-> +		cgroup_memory_noswap = !res;
->  	return 1;
->  }
->  __setup("swapaccount=", setup_swap_account);
-> -- 
-> 2.25.1
-
--- 
-Michal Hocko
-SUSE Labs
+> +All of these parameters are set per ipc namespace. The maximum number of bytes
+> +in POSIX message queues is limited by ``RLIMIT_MSGQUEUE``. This limit is
+> +respected hierarchically in the each user namespace.
+>  
+>  msg_next_id, sem_next_id, and shm_next_id (System V IPC)
+>  ========================================================
+> @@ -1169,15 +1172,20 @@ are doing anyway :)
+>  shmall
+>  ======
+>  
+> -This parameter sets the total amount of shared memory pages that
+> -can be used system wide. Hence, ``shmall`` should always be at least
+> -``ceil(shmmax/PAGE_SIZE)``.
+> +This parameter sets the total amount of shared memory pages that can be used
+> +inside ipc namespace. The shared memory pages counting occurs for each ipc
+> +namespace separately and is not inherited. Hence, ``shmall`` should always be at
+> +least ``ceil(shmmax/PAGE_SIZE)``.
+>  
+>  If you are not sure what the default ``PAGE_SIZE`` is on your Linux
+>  system, you can run the following command::
+>  
+>  	# getconf PAGE_SIZE
+>  
+> +To reduce or disable the ability to allocate shared memory, you must create a
+> +new ipc namespace, set this parameter to the required value and prohibit the
+> +creation of a new ipc namespace in the current user namespace or cgroups can
+> +be used.
+>  
+>  shmmax
+>  ======
