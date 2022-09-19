@@ -2,171 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 489B2C54EE9
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 17:09:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F4134ECAAA1
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 17:24:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230443AbiISRJA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Sep 2022 13:09:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58182 "EHLO
+        id S230095AbiISRYx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Sep 2022 13:24:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231292AbiISRIO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 13:08:14 -0400
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A0B242ACC;
-        Mon, 19 Sep 2022 10:06:17 -0700 (PDT)
-Received: by mail-qv1-xf2a.google.com with SMTP id z9so153803qvn.9;
-        Mon, 19 Sep 2022 10:06:17 -0700 (PDT)
+        with ESMTP id S229617AbiISRYv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 13:24:51 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F374D12741;
+        Mon, 19 Sep 2022 10:24:50 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id d24so5359192pls.4;
+        Mon, 19 Sep 2022 10:24:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=ZumCCGDQusAQ3Mpp2cw6j3semFoJaYgTAu3RsB110TI=;
-        b=oVPkUPSHVhU74v9Xs626/cMfInS7G0ZvAbJn8sC7OUx+ddkabpGlwnFqfyUt/PaWhN
-         /bWP79W0I3mQokuSIPm3fTm1HE+44WoJ1iQzFqLBLAEHEg47GZuvOGVgbdWoOXfvHNSj
-         GGtOlhJJ5GOYndxDpZEgR4fIm+vjvkiEEZu00KBeH99U25fE1M0+AePx5h5XVT+JAhYH
-         udQBc6hD42tUTiNg1e0ki9G9+aclf6HjAbLDXMf8jlwot8ZURMXSc5P2ooILajg4A0oi
-         zmwjCtPXv4cZO4MGtpqA8REhyLR+A525nZLeeMdeqZGW32ywEOe5mY09Nf8CnPR69XSd
-         +cDQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=yLXbhdZTFJDz1Eruum+B2eKRMi+oFeTFSm6260p2MLc=;
+        b=CLcyONO1tRPGjoZAaIYtpv+BQUg6p73mrNktcLcwmrzTHqJzD2K7NR1GfWPSCBGPxE
+         Yu2F92jKgBwkknxARDrGTifPH6MQk386kI0Sw7CZHJdP07ZR75qOh2W14DeRRgakdUNR
+         nF3ibbpOsfMGK52NKZ0rwKUS2aAELJihMdlQ89i1XsXj7HqtU5/QYt5ETDqhUqRWVbFq
+         UaDax9f6skaAn+5zG+0Tcq/K/IbZ5LemJiiSqoQxvnP9sAZ8NoZ41jC8Aw1ldsY98lkA
+         Y2sEvfDJAtYboaLm00hKcoCpOi7+rvCaHRpeZmD820MlkgG1eYb5KrMTIbFAU5Rw8Xk2
+         /1Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=ZumCCGDQusAQ3Mpp2cw6j3semFoJaYgTAu3RsB110TI=;
-        b=2y4w5x9f/x6rQuxW33WbVVJUw0scbe3rIE3ao1/GQmsDKhjGYpfNVQ/8UfRV5qVvgi
-         L8FRD7PSiMnZfPw1jbEkiyp50XKCr8M5gi/JAaXkOu2eo+M7mvllTfbrSi+Rs/dIZ54t
-         p9GyPTxJ/3PCD97A5q+wT/glsj9jYywYzwuLBIeR30LwmsdTq/pdtjowgJHGaQBENChy
-         OFElsnHY5ustSvEEus9+fLxg3bU+eXvGI9GAdjxclY1gpIPw705/Ae2ykf/mxNjqTR1f
-         mb6CFDaAjwa9VdDaX9CZ0t5FHapRAKbppGvSQbxeDvXK+NBPHcamcgNF8XYT5O3Aj+iW
-         Tc+A==
-X-Gm-Message-State: ACrzQf0PEiomvDtGAaMtsZgJJbcXggQVvzCedzmc6iVqpF9WnGezIo/q
-        Rzw54cAaqGoq1RgaDQrlfDo=
-X-Google-Smtp-Source: AMsMyM4LXnZx2kXa150S3BIgRWySXgcH/voN5Xy5m34cHgeUt/ITmTBsX5rqlw1j6pZdBO/ssvJsjA==
-X-Received: by 2002:a05:6214:2387:b0:496:c9db:82b0 with SMTP id fw7-20020a056214238700b00496c9db82b0mr15823610qvb.111.1663607176094;
-        Mon, 19 Sep 2022 10:06:16 -0700 (PDT)
-Received: from localhost ([2600:1700:65a0:ab60:e599:ec9f:997f:2930])
-        by smtp.gmail.com with ESMTPSA id c16-20020ac85a90000000b00341a807ed21sm10921840qtc.72.2022.09.19.10.06.15
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=yLXbhdZTFJDz1Eruum+B2eKRMi+oFeTFSm6260p2MLc=;
+        b=eSrt3RXlvXNIjZM/hvTHYdeDE9nYW8Y7OH4NscBZ8wqj9Y6/Bc7PwCsvxPXfMIZb+u
+         huwarC4UJ/4ghjHLUChHwkedTbAEw3hjVubYmY/zjmUl6WHf4+5tMqzLEdR50OLXsMpn
+         RWbJER7e00EROZiDwu3pNgG/a5QcM6JHoVEY+2siIt2GaMwSL2Q3ajKyyrMMA46zkOkO
+         JO0esQaObPbIoOyr0lfL3+fMir7Ul6slubexQAI8T0RZY+RNb4uhwhAGQqRAqqduJNFo
+         cTcjB1G3O9KX6Eq7ixyWLfqY207MXYVDTZv+3vU9XksvhHPdJXSEM4k1vdLTyD6qJop5
+         DR6A==
+X-Gm-Message-State: ACrzQf0+03JA2krE/QWOechyfJyqEfrJGeUMK60eKG6y9cp4bdqKeb0o
+        SQG/wxqk7xhd8EaHGDLwgmuqMIjHXdQ=
+X-Google-Smtp-Source: AMsMyM6VM/BivqDfuJDvVl6ZNbzXY/5NA1f7mD4YYRuIqm7xUhTzEi114h9ynNOaChL++gsvhYqEiw==
+X-Received: by 2002:a17:902:e94f:b0:16d:847b:3343 with SMTP id b15-20020a170902e94f00b0016d847b3343mr774637pll.103.1663608290154;
+        Mon, 19 Sep 2022 10:24:50 -0700 (PDT)
+Received: from localhost.localdomain (KD027092233113.ppp-bb.dion.ne.jp. [27.92.233.113])
+        by smtp.gmail.com with ESMTPSA id h7-20020aa796c7000000b0053f2505318asm21226480pfq.142.2022.09.19.10.24.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Sep 2022 10:06:15 -0700 (PDT)
-Date:   Mon, 19 Sep 2022 10:06:13 -0700
-From:   Cong Wang <xiyou.wangcong@gmail.com>
-To:     Eric Dumazet <edumazet@google.com>
-Cc:     Peilin Ye <yepeilin.cs@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Jamal Hadi Salim <jhs@mojatatu.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Peilin Ye <peilin.ye@bytedance.com>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Cong Wang <cong.wang@bytedance.com>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Dave Taht <dave.taht@gmail.com>
-Subject: Re: [PATCH RFC v2 net-next 0/5] net: Qdisc backpressure
- infrastructure
-Message-ID: <YyihhbCz4ObMf8yk@pop-os.localdomain>
-References: <cover.1651800598.git.peilin.ye@bytedance.com>
- <cover.1661158173.git.peilin.ye@bytedance.com>
- <CANn89iJsOHK1qgudpfFW9poC4NRBZiob-ynTOuRBkuJTw6FaJw@mail.gmail.com>
- <YwzthDleRuvyEsXC@pop-os.localdomain>
- <CANn89iJMBQ8--_hUihCcBEVawsZQLqL9x9V1=5pzrxTy+w8Z4A@mail.gmail.com>
+        Mon, 19 Sep 2022 10:24:49 -0700 (PDT)
+From:   Akinobu Mita <akinobu.mita@gmail.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, corbet@lwn.net, david@redhat.com,
+        osalvador@suse.de, shuah@kernel.org,
+        Zhao Gongyi <zhaogongyi@huawei.com>,
+        Wei Yongjun <weiyongjun1@huawei.com>,
+        Yicong Yang <yangyicong@hisilicon.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        akpm@linux-foundation.org
+Cc:     Akinobu Mita <akinobu.mita@gmail.com>
+Subject: [PATCH 0/3] fix error when writing negative value to simple attribute files
+Date:   Tue, 20 Sep 2022 02:24:15 +0900
+Message-Id: <20220919172418.45257-1-akinobu.mita@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANn89iJMBQ8--_hUihCcBEVawsZQLqL9x9V1=5pzrxTy+w8Z4A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 29, 2022 at 09:53:43AM -0700, Eric Dumazet wrote:
-> On Mon, Aug 29, 2022 at 9:47 AM Cong Wang <xiyou.wangcong@gmail.com> wrote:
-> >
-> > On Mon, Aug 22, 2022 at 09:22:39AM -0700, Eric Dumazet wrote:
-> > > On Mon, Aug 22, 2022 at 2:10 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
-> > > >
-> > > > From: Peilin Ye <peilin.ye@bytedance.com>
-> > > >
-> > > > Hi all,
-> > > >
-> > > > Currently sockets (especially UDP ones) can drop a lot of packets at TC
-> > > > egress when rate limited by shaper Qdiscs like HTB.  This patchset series
-> > > > tries to solve this by introducing a Qdisc backpressure mechanism.
-> > > >
-> > > > RFC v1 [1] used a throttle & unthrottle approach, which introduced several
-> > > > issues, including a thundering herd problem and a socket reference count
-> > > > issue [2].  This RFC v2 uses a different approach to avoid those issues:
-> > > >
-> > > >   1. When a shaper Qdisc drops a packet that belongs to a local socket due
-> > > >      to TC egress congestion, we make part of the socket's sndbuf
-> > > >      temporarily unavailable, so it sends slower.
-> > > >
-> > > >   2. Later, when TC egress becomes idle again, we gradually recover the
-> > > >      socket's sndbuf back to normal.  Patch 2 implements this step using a
-> > > >      timer for UDP sockets.
-> > > >
-> > > > The thundering herd problem is avoided, since we no longer wake up all
-> > > > throttled sockets at the same time in qdisc_watchdog().  The socket
-> > > > reference count issue is also avoided, since we no longer maintain socket
-> > > > list on Qdisc.
-> > > >
-> > > > Performance is better than RFC v1.  There is one concern about fairness
-> > > > between flows for TBF Qdisc, which could be solved by using a SFQ inner
-> > > > Qdisc.
-> > > >
-> > > > Please see the individual patches for details and numbers.  Any comments,
-> > > > suggestions would be much appreciated.  Thanks!
-> > > >
-> > > > [1] https://lore.kernel.org/netdev/cover.1651800598.git.peilin.ye@bytedance.com/
-> > > > [2] https://lore.kernel.org/netdev/20220506133111.1d4bebf3@hermes.local/
-> > > >
-> > > > Peilin Ye (5):
-> > > >   net: Introduce Qdisc backpressure infrastructure
-> > > >   net/udp: Implement Qdisc backpressure algorithm
-> > > >   net/sched: sch_tbf: Use Qdisc backpressure infrastructure
-> > > >   net/sched: sch_htb: Use Qdisc backpressure infrastructure
-> > > >   net/sched: sch_cbq: Use Qdisc backpressure infrastructure
-> > > >
-> > >
-> > > I think the whole idea is wrong.
-> > >
-> >
-> > Be more specific?
-> >
-> > > Packet schedulers can be remote (offloaded, or on another box)
-> >
-> > This is not the case we are dealing with (yet).
-> >
-> > >
-> > > The idea of going back to socket level from a packet scheduler should
-> > > really be a last resort.
-> >
-> > I think it should be the first resort, as we should backpressure to the
-> > source, rather than anything in the middle.
-> >
-> > >
-> > > Issue of having UDP sockets being able to flood a network is tough, I
-> > > am not sure the core networking stack
-> > > should pretend it can solve the issue.
-> >
-> > It seems you misunderstand it here, we are not dealing with UDP on the
-> > network, just on an end host. The backpressure we are dealing with is
-> > from Qdisc to socket on _TX side_ and on one single host.
-> >
-> > >
-> > > Note that FQ based packet schedulers can also help already.
-> >
-> > It only helps TCP pacing.
-> 
-> FQ : Fair Queue.
-> 
-> It definitely helps without the pacing part...
+The simple attribute files do not accept a negative value since the
+commit 488dac0c9237 ("libfs: fix error cast of negative value in
+simple_attr_write()"), but some attribute files want to accept
+a negative value.
 
-True. but the fair queuing part has nothing related to this patchset...
-Only the pacing part is related to this topic, and it is merely about
-TCP.
+Akinobu Mita (3):
+  libfs: add DEFINE_SIMPLE_ATTRIBUTE_SIGNED for signed value
+  lib/notifier-error-inject: fix error when writing -errno to debugfs
+    file
+  debugfs: fix error when writing negative value to atomic_t debugfs
+    file
 
-Thanks.
+ .../fault-injection/fault-injection.rst       | 10 +++----
+ fs/debugfs/file.c                             | 28 +++++++++++++++----
+ fs/libfs.c                                    | 22 +++++++++++++--
+ include/linux/debugfs.h                       | 19 +++++++++++--
+ include/linux/fs.h                            | 12 ++++++--
+ lib/notifier-error-inject.c                   |  2 +-
+ 6 files changed, 73 insertions(+), 20 deletions(-)
+
+-- 
+2.34.1
+
