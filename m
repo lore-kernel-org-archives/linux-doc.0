@@ -2,168 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 409CDECAAD3
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 11:03:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7962ECAAD3
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Sep 2022 11:05:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229861AbiISLD5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Sep 2022 07:03:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38028 "EHLO
+        id S230137AbiISLFm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Sep 2022 07:05:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229839AbiISLDv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 07:03:51 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C089CD1
-        for <linux-doc@vger.kernel.org>; Mon, 19 Sep 2022 04:03:50 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id s10so32745099ljp.5
-        for <linux-doc@vger.kernel.org>; Mon, 19 Sep 2022 04:03:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=TcbEHO2M1Vn7869vpthKt1PADnZwIS+iJq0ZGvm2ISU=;
-        b=eCgAMNR0/oNYqUNLjWGvDumqw2QiynIm6mZWzzKGu8A6nUQFWlfAojCCn04+7s1PNP
-         kFrK/0r9SLLWN+D5XksTCe3ZX1uhmpZuNKZa7bwM2kNFWt5qS5PiZGcTlY1XhJreiw5P
-         SJJLfgaolJXDlxo2Fz2pOMASibdZJRfJG/8pI0uiUlmdXAboZigmyqe236MZC/Blduvn
-         v8j4HXPXFi2tea2082grXHIvE8p2hzHgYBEffBpWASuaD9gIuEORS8QeKe25TzYYL9A1
-         ut5w945Z/HWY+KpJdbSFHFK7cFwvpTKadENcsO68367MD0bQYhrS1FADSoVFVXiwv5Wa
-         FNLQ==
+        with ESMTP id S229919AbiISLFh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Sep 2022 07:05:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AD1B9FD9
+        for <linux-doc@vger.kernel.org>; Mon, 19 Sep 2022 04:05:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663585528;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=IulqkCtEaGt099GbXE/BHeOG0mRKOudTYkQ9exTVP/g=;
+        b=Rzgpec3nxF2pp+TRGKk4NLGjSMlXSVSVDumQyUyBkUdVFJpZqdjzSmQ0LA5vvbQtnVZG0P
+        DbZBrtmLF2LKC31lj+s1Z+RQ1i5pC6sdWJyOo2bpihwtyE0rdjuP0HsPXB1y8nKWu8Kw/H
+        01LL9yFPN6+qiPav5avN5QfLv3FlJ8I=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-602-9s11UZJYO9WWPLEEhThERA-1; Mon, 19 Sep 2022 07:05:27 -0400
+X-MC-Unique: 9s11UZJYO9WWPLEEhThERA-1
+Received: by mail-wr1-f70.google.com with SMTP id q17-20020adfab11000000b0022a44f0c5d9so6105224wrc.2
+        for <linux-doc@vger.kernel.org>; Mon, 19 Sep 2022 04:05:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=TcbEHO2M1Vn7869vpthKt1PADnZwIS+iJq0ZGvm2ISU=;
-        b=XozCTLcEXVLpTMLUfq3Mtqqre/fy25I4Hhe0gB2aSRd8u73C6GbJyv3Ox7WTyHrAym
-         RfZ1pOlb9u+lg4AFTpIajFbfvKm7rUmT7BXcOaXWE06aS7HYBd5Eohtch5F+/hCYIoQw
-         EUkgs41sO/UOnEJbMIG3NPNiHFzmO98J4/hnCvlXYbW6o3/wa1HijxIVb/4jFazNF8RK
-         gwMlOq1i1MF393od4hd7f8IyvBI+KCeRu/0081vTTcKj3txegH/erq7hjg0bVqArhjr0
-         Giehhj2Ph2HYni3UDsYkJWbY7c9YWqMYhODtTlHWdknxSGoigVhzkuc/8N/cAkUEqwOp
-         bKtQ==
-X-Gm-Message-State: ACrzQf0oz3UMte4cqH/agpRqOCUKqASJJhh7piD4QGI4GCMUjaI3H0Vx
-        AOiKOocWNE/Ph1eaZsQnWVAdTw==
-X-Google-Smtp-Source: AMsMyM6ehRBDTKsqy6n6LtYJaToBW7Kz4lBTJZvNjeGA2Sv6mgDRd/UJeVtCu0piJ8hcO0aLPDOfew==
-X-Received: by 2002:a2e:9608:0:b0:26a:a73b:b8c1 with SMTP id v8-20020a2e9608000000b0026aa73bb8c1mr5203413ljh.328.1663585428366;
-        Mon, 19 Sep 2022 04:03:48 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id s2-20020a056512314200b0048b08e25979sm5132313lfi.199.2022.09.19.04.03.46
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date;
+        bh=IulqkCtEaGt099GbXE/BHeOG0mRKOudTYkQ9exTVP/g=;
+        b=7sPPQf8gvhTWWhL2pciWX4lvUdVXO8jD/hhC/HwilBTUhKphE6NQrF+d2XBQzQkG3X
+         FX3hBil4v0hYTnUOmFfifIfE+4m11a+eQRHqhmDFFd4DZfMCmkKVM06S9Wy/qabV52hN
+         Hwk/Q4O5MYV+WedY4a6v2EeFUTRSeAZjFotVc6iM16skpBbYZP1EcI5izNGIULVbu+tk
+         HK2vNGpTTpEt9ISeEPpJ6FnLCYRr5QBCdWBLaRKKtpt545Y27Nvkza2xIiT60iQWfL//
+         6BevBHJU12XpdWTgOpdCruOgQNTPygNjkUJuceTw22zLPEz6S/+wph95u+Vo4vmxyjsz
+         BMLQ==
+X-Gm-Message-State: ACrzQf1b/OYc+8ARl+ctTZzkK67ZRgpgcuVpv3iN/Rq/9Q0JFmxZIKel
+        MEj0r/pW1aW3Rq6HRKLm3yifniCahmzBdgq0vzOvCcFPln5DuZRWPTB76/pZ8jvUuNj0XFzAZkT
+        logdk3wYWXKqLqAD4a9c2
+X-Received: by 2002:a05:6000:114b:b0:228:ab76:fa00 with SMTP id d11-20020a056000114b00b00228ab76fa00mr10087466wrx.628.1663585526815;
+        Mon, 19 Sep 2022 04:05:26 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM57vq8QjEFjVNsIk+CislbvrnvNW7MFRM57slGULMzKF0ghTms9waLzTbyAJnL91m2L8CeC3Q==
+X-Received: by 2002:a05:6000:114b:b0:228:ab76:fa00 with SMTP id d11-20020a056000114b00b00228ab76fa00mr10087440wrx.628.1663585526436;
+        Mon, 19 Sep 2022 04:05:26 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c703:c100:c136:f914:345f:f5f3? (p200300cbc703c100c136f914345ff5f3.dip0.t-ipconnect.de. [2003:cb:c703:c100:c136:f914:345f:f5f3])
+        by smtp.gmail.com with ESMTPSA id bx26-20020a5d5b1a000000b0022afcc11f65sm3939718wrb.47.2022.09.19.04.05.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Sep 2022 04:03:47 -0700 (PDT)
-Message-ID: <e0e043aa-0f79-59a8-05ab-e48046860524@linaro.org>
-Date:   Mon, 19 Sep 2022 13:03:46 +0200
+        Mon, 19 Sep 2022 04:05:25 -0700 (PDT)
+Message-ID: <93339a97-ea08-0880-b0cf-e5270179079a@redhat.com>
+Date:   Mon, 19 Sep 2022 13:05:25 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 16/21] dt-bindings: reserved-memory: introduce
- designated-movable-block
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH -next v2 1/5] docs: notifier-error-inject: fix non-working
+ usage of negative values
 Content-Language: en-US
-To:     Doug Berger <opendmb@gmail.com>, Rob Herring <robh@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+To:     zhaogongyi <zhaogongyi@huawei.com>,
+        Akinobu Mita <akinobu.mita@gmail.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Hari Bathini <hbathini@linux.ibm.com>,
-        Kees Cook <keescook@chromium.org>,
-        - <devicetree-spec@vger.kernel.org>,
-        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
-        Mel Gorman <mgorman@suse.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-mm@kvack.org, iommu@lists.linux.dev
-References: <20220913195508.3511038-1-opendmb@gmail.com>
- <20220913195508.3511038-17-opendmb@gmail.com>
- <20220914145506.GA2149379-robh@kernel.org>
- <57f19774-39a1-03a6-fe68-83d7e4b16521@gmail.com>
- <07d87203-6fe1-c612-cb79-9080e1988454@linaro.org>
- <b4b2b4c6-52b6-80f0-5db3-7f7b751989c3@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <b4b2b4c6-52b6-80f0-5db3-7f7b751989c3@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        "osalvador@suse.de" <osalvador@suse.de>,
+        "shuah@kernel.org" <shuah@kernel.org>
+References: <076b1f2a38ab4ca4a61e6a79c765bcba@huawei.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <076b1f2a38ab4ca4a61e6a79c765bcba@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19/09/2022 01:12, Doug Berger wrote:
-> On 9/18/2022 3:31 AM, Krzysztof Kozlowski wrote:
->> On 14/09/2022 18:13, Doug Berger wrote:
->>> On 9/14/2022 7:55 AM, Rob Herring wrote:
->>>> On Tue, Sep 13, 2022 at 12:55:03PM -0700, Doug Berger wrote:
->>>>> Introduce designated-movable-block.yaml to document the
->>>>> devicetree binding for Designated Movable Block children of the
->>>>> reserved-memory node.
->>>>
->>>> What is a Designated Movable Block? This patch needs to stand on its
->>>> own.
->>> As noted in my reply to your [PATCH 00/21] comment, my intention in
->>> submitting the entire patch set (and specifically PATCH 00/21]) was to
->>> communicate this context. Now that I believe I understand that only this
->>> patch should have been submitted to the devicetree-spec mailing list, I
->>> will strive harder to make it more self contained.
->>
->> The submission of entire thread was ok. What is missing is the
->> explanation in this commit. This commit must be self-explanatory (e.g.
->> in explaining "Why are you doing it?"), not rely on other commits for
->> such explanation.
->>
->>>
->>>>
->>>> Why does this belong or need to be in DT?
->>> While my preferred method of declaring Designated Movable Blocks is
->>> through the movablecore kernel parameter, I can conceive that others may
->>> wish to take advantage of the reserved-memory DT nodes. In particular,
->>> it has the advantage that a device can claim ownership of the
->>> reserved-memory via device tree, which is something that has yet to be
->>> implemented for DMBs defined with movablecore.
->>
->> Rephrasing the question: why OS memory layout and OS behavior is a
->> property of hardware (DTS)?
-> I would say the premise is fundamentally the same as the existing 
-> reserved-memory child node.
-
-I don't think it is fundamentally the same.
-
-The existing reserved-memory node describes memory used by hardware - by
-other devices. The OS way of handling this memory - movable, reclaimable
-etc - is not part of it.
-
-So no, it is not the same.
-
+On 19.09.22 11:01, zhaogongyi wrote:
+> Hi!
 > 
-> I've been rethinking how this should be specified. I am now thinking 
-> that it may be better to introduce a new Reserved Memory property that 
-> serves as a modifier to the 'reusable' property. The 'reusable' property 
-> allows the OS to use memory that has been reserved for a device and 
-> therefore requires the device driver to reclaim the memory prior to its 
-> use. However, an OS may have multiple ways of implementing such reuse 
-> and reclamation.
+>>
+>> On 17.09.22 07:39, Akinobu Mita wrote:
+>>> 2022年9月15日(木) 18:01 Zhao Gongyi <zhaogongyi@huawei.com>:
+>>>>
+>>>> Fault injection uses debugfs in a way that the provided values via
+>>>> sysfs are interpreted as u64. Providing negative numbers results in
+>>>> an error:
+>>>>
+>>>>     # cd sys/kernel/debug/notifier-error-inject/memory
+>>>>     #  echo -12 > actions/MEM_GOING_ONLINE/error
+>>>>     -bash: echo: write error: Invalid argument
+>>>>
+>>>> Update the docs and examples to use "printf %#x <val>" in these cases.
+>>>
+>>> I'd rather fix the notifier-error-inject module than change the user
+>> interface.
+>>> I'll send a patch, so could you check if that solves the problem.
+>>>
+>>
+>> That will also make patch #2 unnecessary, correct?
+> 
+> Yes. But there is another commit 005747526d4f3c2ec995891e95cb7625161022f9 that has the same problem.
+> 
+> Thanks!
 
-... and I repeat the question - why OS way of implementing reuse and
-reclamation is relevant to DT?
+Right. See my reply to the other patch:
 
-> I am considering introducing the vendor specific 'linux,dmb' property 
-> that is dependent on the 'reusable' property to allow both the OS and 
-> the device driver to identify the method used by the Linux OS to support 
-> reuse and reclamation of the reserved-memory child node.
+https://lkml.kernel.org/r/93c044ca-7d2f-e23f-8eb4-72c133737a15@redhat.com
 
-Sure, but why? Why OS and Linux driver specific pieces should be in DT?
-> Such a property would remove any need for new compatible strings to the 
-> device tree. Does that approach seem reasonable to you?
+simple_attr_read()/simple_attr_write() fmt behavior is odd.
 
-No, because you did not explain original question. At all.
+-- 
+Thanks,
 
-Best regards,
-Krzysztof
+David / dhildenb
+
