@@ -2,129 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 402B8C6FA91
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 10:32:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67149C54EE9
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 11:10:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231307AbiITKcQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Sep 2022 06:32:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45506 "EHLO
+        id S230216AbiITLKz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Sep 2022 07:10:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231189AbiITKbu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 06:31:50 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECD1471BEE;
-        Tue, 20 Sep 2022 03:31:44 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 22CA121CA8;
-        Tue, 20 Sep 2022 10:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1663669903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=BxA0/0TiFti37VW/MInsc7VC0/281DSV8FYTm2yNBt8=;
-        b=Y0oH2LqYa+mXOTgLMdgA0HwkLj5+7iveRezVjwmDA8OkP/gZLJBsHGqIhwz4KOYUXezPHv
-        aH8mtwY+dI7NI2pOxvtRfshYDlYk0A9KEvrbnch0ZN1NrcXs5PFeYZlm+D8defBo8Qd06I
-        Kf+iHkg4jiof9pTdqSSFCVR8kDztkrk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1663669903;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=BxA0/0TiFti37VW/MInsc7VC0/281DSV8FYTm2yNBt8=;
-        b=uBdfy7gdkzfJYDvbAps4KCruWHfQ1NwD4+UL+NqDA0ecT9Ruaq3hstbu3EfiQYnCmzd+Pg
-        ggm0OsRJnncSCBBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C37A413ABB;
-        Tue, 20 Sep 2022 10:31:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id RH+2Lo6WKWO/IwAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Tue, 20 Sep 2022 10:31:42 +0000
-Message-ID: <30b3c8d3-3e2e-8f07-a05e-3c91fccde024@suse.cz>
-Date:   Tue, 20 Sep 2022 12:31:42 +0200
+        with ESMTP id S230220AbiITLKm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 07:10:42 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C7A7B86D
+        for <linux-doc@vger.kernel.org>; Tue, 20 Sep 2022 04:10:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663672242; x=1695208242;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Mk37G7OAFiuftFDanH18OltgE6w68yKL3nvcxgy8dLY=;
+  b=R5J5P7oeUNMv87MVBNl/olDSoxeR93r7pjhprQ6XyBFVpqIrv35TuThP
+   viMbz/a4RVI7gmh/qVeYnjbmVv79Iqa/40f/z7A1XZ28ABdv6Ht+nXv1T
+   aDySFmZnI0hvS7FlkRosKaMVK2rvJ/g1aPSgrzMiNjQgcTZcnaTVQqP1p
+   4ij6rz/w93UNbHQ8bMIzjFHd+0fwnobGY7JnmxfYMmqCFMkjas1c1Vq9o
+   0sEh86cin0o1trOWwVf6ZWWoRiKUjMf3L468fVwq19e7J2WwCEkMDg1YK
+   z3fIEfuM4vVvjgwbL3p2wJjv1cLi5fQ+kCVS/GaHy1ywXxgHHTDAESawb
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="300484620"
+X-IronPort-AV: E=Sophos;i="5.93,330,1654585200"; 
+   d="scan'208";a="300484620"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2022 04:10:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,330,1654585200"; 
+   d="scan'208";a="618873530"
+Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 20 Sep 2022 04:10:36 -0700
+Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oab99-0002iD-0X;
+        Tue, 20 Sep 2022 11:10:35 +0000
+Date:   Tue, 20 Sep 2022 19:09:35 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Michal Simek <monstr@monstr.eu>
+Cc:     kbuild-all@lists.01.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org
+Subject: [xilinx-xlnx:master 253/700] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/remoteproc/xilinx,zynqmp-r5-remoteproc.txt
+Message-ID: <202209201904.Hipk1zS7-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] mm: Make failslab writable again
-Content-Language: en-US
-To:     Alexander Atanasov <alexander.atanasov@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Cc:     kernel@openvz.org, Kees Cook <keescook@chromium.org>,
-        Roman Gushchin <guro@fb.com>, Jann Horn <jannh@google.com>,
-        Vijayanand Jitta <vjitta@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20220920082033.1727374-1-alexander.atanasov@virtuozzo.com>
- <21646f5c-39ee-a51c-f30c-272de85ee350@suse.cz>
- <6f5a8f71-3d82-97bf-90e1-0f33546bb59b@virtuozzo.com>
- <60111450-d66a-a146-1a70-0c093400f3e5@suse.cz>
- <7d79d13b-0579-452f-7a07-4e3eba205d23@virtuozzo.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <7d79d13b-0579-452f-7a07-4e3eba205d23@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/20/22 12:21, Alexander Atanasov wrote:
-> On 20.09.22 12:29, Vlastimil Babka wrote:
->> On 9/20/22 11:17, Alexander Atanasov wrote:
->>> Hello,
->>>
->>> On 20.09.22 11:42, Vlastimil Babka wrote:
->>>>> +static ssize_t failslab_store(struct kmem_cache *s, const char *buf,
->>>>> +                size_t length)
->>>>> +{
->>>>> +    if (s->refcount > 1)
->>>>> +        return -EINVAL;
->>>>> +
->>>>> +    s->flags &= ~SLAB_FAILSLAB;
->>>>> +    if (buf[0] == '1')
->>>>> +        s->flags |= SLAB_FAILSLAB;
->>>>
->>>> Could we at least use a temporary variable to set up the final value and
->>>> then do a WRITE_ONCE() to s->flags, so the compiler is not allowed to do
->>>> some funky stuff? Assuming this is really the only place where we modify
->>>> s->flags during runtime, so we can't miss other updates due to RMW.
->>>
->>> Since it is set or clear - instead of temporary variable and potentially two
->>> writes and RMW issues i would suggest this:
->>> +    if (buf[0] == '1')
->>> +        s->flags |= SLAB_FAILSLAB;
->>> +       else
->>> +        s->flags &= ~SLAB_FAILSLAB;
->>
->> This way also has RMW issues, and also the compiler is allowed to
->> temporarily modify s->flags any way it likes; with WRITE_ONCE() it can't.
-> 
-> Okay, so the safest way is this?
-> 
-> if (buf[0] == '1')
->     WRITE_ONCE(s->flags, READ_ONCE(s->flags) | SLAB_FAILSLAB);
-> else
->     WRITE_ONCE(s->flags, READ_ONCE(s->flags) & ~SLAB_FAILSLAB);
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   1b14bc5f77a5f355659987039abe92c930befb48
+commit: aa65f3d5ba5783976d1337ee94a0511f13cb1204 [253/700] dt-bindings: remoteproc: Remove old binding in txt format
+reproduce:
+        # https://github.com/Xilinx/linux-xlnx/commit/aa65f3d5ba5783976d1337ee94a0511f13cb1204
+        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
+        git fetch --no-tags xilinx-xlnx master
+        git checkout aa65f3d5ba5783976d1337ee94a0511f13cb1204
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Yeah, that would work. Given we are the only writer, we shouldn't even need
-a READ_ONCE.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-> It got me thinking how many places would break if the compiler
-> starts to temporariliy modify the flags - i hope it never does.
+All warnings (new ones prefixed by >>):
 
-That's likely true as well. But the macros have been introduced for this
-purpose AFAIK.
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/remoteproc/xilinx,zynqmp-r5-remoteproc.txt
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
