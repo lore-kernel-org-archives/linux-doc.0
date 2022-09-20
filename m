@@ -2,220 +2,292 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DADC7ECAAD8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 13:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 356ECC54EE9
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 14:17:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230240AbiITNoM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Sep 2022 09:44:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59928 "EHLO
+        id S231707AbiITORu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Sep 2022 10:17:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229911AbiITNoL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 09:44:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85DAB4F38F
-        for <linux-doc@vger.kernel.org>; Tue, 20 Sep 2022 06:44:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663681448;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vwW7t8MPa7zeKiTEgnAftOAZBeq2iD70Wyn142D/zRo=;
-        b=SClir3dq9ieDg7GzdeVhk3z8wn69SXG5Za2e9Tpolj3w/M9cVkavVKQ/qBcXJuLLqDDlYs
-        Zj4dMrCFUH1iSeE/su+Eijma+w6g5opW7yzC8v6IiRx51k/kSuAXuRyTGTAhyzGmpmPwb9
-        UHoeh7OZmlABBKZZrmgnKeTdT5/gNqI=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-632-0FBwxr2mNhKbbZXmaLHNZA-1; Tue, 20 Sep 2022 09:44:07 -0400
-X-MC-Unique: 0FBwxr2mNhKbbZXmaLHNZA-1
-Received: by mail-pf1-f199.google.com with SMTP id br14-20020a056a00440e00b00548434985cdso1748505pfb.8
-        for <linux-doc@vger.kernel.org>; Tue, 20 Sep 2022 06:44:07 -0700 (PDT)
+        with ESMTP id S229473AbiITORY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 10:17:24 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68C1040575;
+        Tue, 20 Sep 2022 07:14:49 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id 207so2752964pgc.7;
+        Tue, 20 Sep 2022 07:14:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date;
+        bh=l/TSBP3bM46Y8BgurOOjmdB29ov4ishVMfQQ/qrakyk=;
+        b=MfPg5cMYetuDGfmp2i7zX+Ec1H+wWWb03e3olE6awfrmj9g/4eqL2Vd+nPBFH1cBE/
+         rLmYof69+DpsjGM2g94rRIg5frEu80LxtQKyqPUl8C4UgreWutaCKVWip+R1It1Ygkcw
+         rNsOQ7LV0j4n/08MpDjC/GWU8oEvvpmB325U63yv4zZaUfJKs8ckEEDIAXQ3At1iLSCd
+         RF2B/vEOOlF/pNcujnJrZAJcNPeuHkL+VlELnpqAzwH8wp3hdNH+yXnDFNt3H/+dXUB0
+         J4k09BSily48msjRSujho25uZZ+45He+7qNCNMAO7LIsDOIMPCtc/WVXvS2EncWqMaCO
+         Wk5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=vwW7t8MPa7zeKiTEgnAftOAZBeq2iD70Wyn142D/zRo=;
-        b=NG0ec3WhCmaDs/OjWb8B4Ue4y+oLe1HthqEskqbDnz3c9f5wEg795SPs+0wQpLJDvB
-         GcDgxUxYRvgd5uWxVVJPjT4kLfv6VDUExjs32urkMohcfAmR1aqCDzN5rWsvhWDj8JEH
-         Cn673T00uryESGvMR8B9azukg48VOFsrOlCR7MxPnsprOi244GUGECVy3jPvwHS03BwU
-         6D/LAhZHtDqoSCVyTkSpVY0P8GpPmlyfV+oNWwx07w8ASJ8f17i/OxmLi4Fur59muwsV
-         2M2bKnQcp4tMHqSaqkZ3YdA3KZGSWNJOTqSJIivhc8BprC3+DV2OessQ6ZWtaRlGmy1K
-         zwrA==
-X-Gm-Message-State: ACrzQf0tfGpfYM+7xMd/5CS3tbyX0LZCeC+1A5lszt0o2bk44BU1yv63
-        QOf6KSOvqtm7V+5CNmAzRLL1gLgZE5dYi2bCqfeAxhDamxx1Jz97sHIQ/J1eYLqYbgcAaieYMaj
-        y1caCHXfMWtSsG2pumg0i5/ozpgFAQdcU6Ggd
-X-Received: by 2002:a17:90a:f28b:b0:203:627c:7ba1 with SMTP id fs11-20020a17090af28b00b00203627c7ba1mr4063199pjb.191.1663681446408;
-        Tue, 20 Sep 2022 06:44:06 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM61euhDYViIzDlUs4Ah/OZb3hFvXIlLEfl5ptqxt1gkv1vD4Ica+puVs5gjlf6riTd8NcMoul6d/R4nLAKpoCo=
-X-Received: by 2002:a17:90a:f28b:b0:203:627c:7ba1 with SMTP id
- fs11-20020a17090af28b00b00203627c7ba1mr4063163pjb.191.1663681446067; Tue, 20
- Sep 2022 06:44:06 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=l/TSBP3bM46Y8BgurOOjmdB29ov4ishVMfQQ/qrakyk=;
+        b=orBewqMMyAY1BhBZSF4gtkrUcb5p5KEKMWi0u75YDyX5ILkAiH2jA91pLQ1LNaezll
+         04R9GkvfSE6R96sFHmjQTwkEaSUi2yhsHMjXqt7ck0zAYS/2CuqsknHr9AmS2/Ewv3kb
+         EeDqI/DA7OV5esjm9VqAAWWgcC99ytsr6fENdhuoSPEbuUxfWFufGyHl/AjUVZQNQahM
+         JTKknuGAbgyJ61c6S2l5bPdAgySMipHZjjws8Cvbs+r+bW381ZTVTnFmpCS2k4uO2+4F
+         JC8bu8bAnRxH8us/HyDOQcaW0fJWX+dG8LesJSeG0VlqLSJgcdGNKS3dRPSvDahtsF5f
+         uIOw==
+X-Gm-Message-State: ACrzQf0ik850UltCAo9+9CFkyFV0+fp8xFZadjbqnGfcQJWSEbbuKGp2
+        Czxp+F5R2TFfZey2rogcQ0w=
+X-Google-Smtp-Source: AMsMyM4em0H8XrQ8JPPKTe1FM2BD14ySi3pby8z7GbNQVU4L9Ifz5DVL4Cvm/VYDqiT3lFWUGkLnEA==
+X-Received: by 2002:aa7:9851:0:b0:53e:87eb:1ffa with SMTP id n17-20020aa79851000000b0053e87eb1ffamr24155170pfq.35.1663683288040;
+        Tue, 20 Sep 2022 07:14:48 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id om2-20020a17090b3a8200b00200b2894648sm54971pjb.52.2022.09.20.07.14.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Sep 2022 07:14:47 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Tue, 20 Sep 2022 07:14:46 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Duke Du <dukedu83@gmail.com>
+Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        fran.hsu@quantatw.com, george.hung@quantatw.com,
+        charles.hsu@quantatw.com, duke.du@quantatw.com
+Subject: Re: [PATCH v5] hwmon: Add driver for the TEXAS TPS546D24 Buck
+ Converter.
+Message-ID: <20220920141446.GA3529285@roeck-us.net>
+References: <1662951668-9849-1-git-send-email-Duke.Du@quantatw.com>
 MIME-Version: 1.0
-References: <20220902132938.2409206-1-benjamin.tissoires@redhat.com>
-In-Reply-To: <20220902132938.2409206-1-benjamin.tissoires@redhat.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 20 Sep 2022 15:43:55 +0200
-Message-ID: <CAO-hwJ+GxSHKf-zCNg-WM_5+o2B94n4=AXGwz-tfipS_+YpK+w@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v10 00/23] Introduce eBPF support for HID devices
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1662951668-9849-1-git-send-email-Duke.Du@quantatw.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 2, 2022 at 3:29 PM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> Hi,
->
-> here comes the v10 of the HID-BPF series.
->
-> Again, for a full explanation of HID-BPF, please refer to the last patch
-> in this series (23/23).
->
-> Hopefully we are getting closer to merging the bpf-core changes that
-> are pre-requesite of the HID work.
->
-> This revision of the series focused on those bpf-core changes with
-> a hopefully proper way of fixing access to ctx pointers, and a few more
-> selftests to cover those changes.
->
-> Once those bpf changes are in, the HID changes are pretty much self
-> consistent, which is a good thing, but I still wonder how we are going
-> to merge the selftests. I'd rather have the selftests in the bpf tree to
-> prevent any regression on bpf-core changes, but that might require some
-> coordination between the HID and bpf trees.
->
-> Anyway, let's hope we are getting closer to the end of those revisions :)
+On Mon, Sep 12, 2022 at 11:01:08AM +0800, Duke Du wrote:
+> From: Duke Du <dukedu83@gmail.com>
+> 
+> Add the pmbus driver for TEXAS tps546d24 Buck Converter.
+> The vout mode of tps546d24 supported relative data format,
+> which is not supported by the PMBus core.
+> 
+> Signed-off-by: Duke Du <dukedu83@gmail.com>
 
-FWIW, I have now applied the HID patches 8, 9, and 10 to hid.git. They
-are independent of the bpf work and given how close we are to 6.1, we
-can take them just now.
-Patch 11 is having a conflict with the HID tree, so I'll need to
-handle it in v11 for the HID part.
+Applied to hwmon-next.
 
-The first few patches have already been applied in the bpf-next tree,
-as part of the v11 subset of those patches.
+Thanks,
+Guenter
 
-The plan is now to wait for all of these to land in 6.1-rc1, and then
-submit only the HID changes as a followup series for 6.2.
-
-Cheers,
-Benjamin
-
->
-> Cheers,
-> Benjamin
->
->
-> Benjamin Tissoires (23):
->   selftests/bpf: regroup and declare similar kfuncs selftests in an
->     array
->   bpf: split btf_check_subprog_arg_match in two
->   bpf/verifier: allow all functions to read user provided context
->   selftests/bpf: add test for accessing ctx from syscall program type
->   bpf/btf: bump BTF_KFUNC_SET_MAX_CNT
->   bpf/verifier: allow kfunc to return an allocated mem
->   selftests/bpf: Add tests for kfunc returning a memory pointer
->   HID: core: store the unique system identifier in hid_device
->   HID: export hid_report_type to uapi
->   HID: convert defines of HID class requests into a proper enum
->   HID: Kconfig: split HID support and hid-core compilation
->   HID: initial BPF implementation
->   selftests/bpf: add tests for the HID-bpf initial implementation
->   HID: bpf: allocate data memory for device_event BPF programs
->   selftests/bpf/hid: add test to change the report size
->   HID: bpf: introduce hid_hw_request()
->   selftests/bpf: add tests for bpf_hid_hw_request
->   HID: bpf: allow to change the report descriptor
->   selftests/bpf: add report descriptor fixup tests
->   selftests/bpf: Add a test for BPF_F_INSERT_HEAD
->   samples/bpf: HID: add new hid_mouse example
->   samples/bpf: HID: add Surface Dial example
->   Documentation: add HID-BPF docs
->
->  Documentation/hid/hid-bpf.rst                 | 513 +++++++++
->  Documentation/hid/index.rst                   |   1 +
->  drivers/Makefile                              |   2 +-
->  drivers/hid/Kconfig                           |  20 +-
->  drivers/hid/Makefile                          |   2 +
->  drivers/hid/bpf/Kconfig                       |  17 +
->  drivers/hid/bpf/Makefile                      |  11 +
->  drivers/hid/bpf/entrypoints/Makefile          |  93 ++
->  drivers/hid/bpf/entrypoints/README            |   4 +
->  drivers/hid/bpf/entrypoints/entrypoints.bpf.c |  66 ++
->  .../hid/bpf/entrypoints/entrypoints.lskel.h   | 682 ++++++++++++
->  drivers/hid/bpf/hid_bpf_dispatch.c            | 526 ++++++++++
->  drivers/hid/bpf/hid_bpf_dispatch.h            |  28 +
->  drivers/hid/bpf/hid_bpf_jmp_table.c           | 577 ++++++++++
->  drivers/hid/hid-core.c                        |  49 +-
->  include/linux/bpf.h                           |  11 +-
->  include/linux/bpf_verifier.h                  |   2 +
->  include/linux/btf.h                           |  10 +
->  include/linux/hid.h                           |  38 +-
->  include/linux/hid_bpf.h                       | 148 +++
->  include/uapi/linux/hid.h                      |  26 +-
->  include/uapi/linux/hid_bpf.h                  |  25 +
->  kernel/bpf/btf.c                              | 149 ++-
->  kernel/bpf/verifier.c                         |  66 +-
->  net/bpf/test_run.c                            |  37 +
->  samples/bpf/.gitignore                        |   2 +
->  samples/bpf/Makefile                          |  27 +
->  samples/bpf/hid_mouse.bpf.c                   | 134 +++
->  samples/bpf/hid_mouse.c                       | 161 +++
->  samples/bpf/hid_surface_dial.bpf.c            | 161 +++
->  samples/bpf/hid_surface_dial.c                | 232 ++++
->  tools/include/uapi/linux/hid.h                |  62 ++
->  tools/include/uapi/linux/hid_bpf.h            |  25 +
->  tools/testing/selftests/bpf/Makefile          |   2 +-
->  tools/testing/selftests/bpf/config            |   3 +
->  tools/testing/selftests/bpf/prog_tests/hid.c  | 990 ++++++++++++++++++
->  .../selftests/bpf/prog_tests/kfunc_call.c     | 182 +++-
->  tools/testing/selftests/bpf/progs/hid.c       | 206 ++++
->  .../selftests/bpf/progs/kfunc_call_fail.c     | 160 +++
->  .../selftests/bpf/progs/kfunc_call_test.c     |  71 ++
->  40 files changed, 5416 insertions(+), 105 deletions(-)
->  create mode 100644 Documentation/hid/hid-bpf.rst
->  create mode 100644 drivers/hid/bpf/Kconfig
->  create mode 100644 drivers/hid/bpf/Makefile
->  create mode 100644 drivers/hid/bpf/entrypoints/Makefile
->  create mode 100644 drivers/hid/bpf/entrypoints/README
->  create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.bpf.c
->  create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.lskel.h
->  create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.c
->  create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.h
->  create mode 100644 drivers/hid/bpf/hid_bpf_jmp_table.c
->  create mode 100644 include/linux/hid_bpf.h
->  create mode 100644 include/uapi/linux/hid_bpf.h
->  create mode 100644 samples/bpf/hid_mouse.bpf.c
->  create mode 100644 samples/bpf/hid_mouse.c
->  create mode 100644 samples/bpf/hid_surface_dial.bpf.c
->  create mode 100644 samples/bpf/hid_surface_dial.c
->  create mode 100644 tools/include/uapi/linux/hid.h
->  create mode 100644 tools/include/uapi/linux/hid_bpf.h
->  create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
->  create mode 100644 tools/testing/selftests/bpf/progs/hid.c
->  create mode 100644 tools/testing/selftests/bpf/progs/kfunc_call_fail.c
->
-> --
-> 2.36.1
->
-
+> ---
+> Change in v1:
+>     Initial patchset.
+> Change in v2:
+>     Correct the tps546d24.rst format.
+> Change in v3:
+>     1. Modify the patch description.
+>     2. Put the change log between the dashes and diffstat.
+> Change in v4:
+>     1. Modify the patch description.
+>     2. Clear the bit 7 of PMBUS_VOUT_MODE to change the mode from relative
+>        to absolute.
+>     3. Add the vendor prefix.
+> Change in v5:
+>     1. Update the patch description.
+>     2. Extend the title underline at tps546d24.rst line 4.
+>     3. Add error handler and cover the edge case.
+> ---
+> ---
+>  Documentation/hwmon/index.rst     |  1 +
+>  Documentation/hwmon/tps546d24.rst | 35 +++++++++++++++++++
+>  MAINTAINERS                       |  7 ++++
+>  drivers/hwmon/pmbus/Kconfig       |  9 +++++
+>  drivers/hwmon/pmbus/Makefile      |  1 +
+>  drivers/hwmon/pmbus/tps546d24.c   | 71 +++++++++++++++++++++++++++++++++++++++
+>  6 files changed, 124 insertions(+)
+>  create mode 100644 Documentation/hwmon/tps546d24.rst
+>  create mode 100644 drivers/hwmon/pmbus/tps546d24.c
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index f7113b0..d3eede4 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -205,6 +205,7 @@ Hardware Monitoring Kernel Drivers
+>     tps23861
+>     tps40422
+>     tps53679
+> +   tps546d24
+>     twl4030-madc-hwmon
+>     ucd9000
+>     ucd9200
+> diff --git a/Documentation/hwmon/tps546d24.rst b/Documentation/hwmon/tps546d24.rst
+> new file mode 100644
+> index 0000000..97adb8a
+> --- /dev/null
+> +++ b/Documentation/hwmon/tps546d24.rst
+> @@ -0,0 +1,35 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +Kernel driver tps546d24
+> +=======================
+> +
+> +Supported chips:
+> +
+> +  * TI TPS546D24
+> +
+> +    Prefix: 'tps546d24'
+> +
+> +    Addresses scanned: -
+> +
+> +    Datasheet: https://www.ti.com/lit/gpn/tps546d24
+> +
+> +Author: Duke Du <dukedu83@gmail.com>
+> +
+> +
+> +Description
+> +-----------
+> +
+> +The TPS546D24A is a highly integrated, non-isolated DC/DC converter capable
+> +of high frequency operation and 40-A current output from a 7-mm x 5-mm
+> +package.
+> +
+> +Two, three, and four TPS546D24A devices can be interconnected
+> +to provide up to 160 A on a single output. The device has an option to
+> +overdrive the internal 5-V LDO with an external 5-V supply via the VDD5
+> +pin to improve efficiency and reduce power dissipation of the converter.
+> +
+> +
+> +Platform data support
+> +---------------------
+> +
+> +The driver supports standard PMBus driver platform data.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8a5012b..fa2d4fb 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -20583,6 +20583,13 @@ Q:	https://patchwork.kernel.org/project/linux-integrity/list/
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git
+>  F:	drivers/char/tpm/
+>  
+> +TPS546D24 DRIVER
+> +M:	Duke Du <dukedu83@gmail.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/hwmon/tps546d24.rst
+> +F:	drivers/hwmon/pmbus/tps546d24.c
+> +
+>  TRACING
+>  M:	Steven Rostedt <rostedt@goodmis.org>
+>  M:	Ingo Molnar <mingo@redhat.com>
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 951e4a9..89668af 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -397,6 +397,15 @@ config SENSORS_TPS53679
+>  	  This driver can also be built as a module. If so, the module will
+>  	  be called tps53679.
+>  
+> +config SENSORS_TPS546D24
+> +	tristate "TPS546D24"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for TEXAS
+> +	  TPS546D24.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called tps546d24
+> +
+>  config SENSORS_UCD9000
+>  	tristate "TI UCD90120, UCD90124, UCD90160, UCD90320, UCD9090, UCD90910"
+>  	help
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index e2fe86f..0002dbe 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -41,6 +41,7 @@ obj-$(CONFIG_SENSORS_Q54SJ108A2)	+= q54sj108a2.o
+>  obj-$(CONFIG_SENSORS_STPDDC60)	+= stpddc60.o
+>  obj-$(CONFIG_SENSORS_TPS40422)	+= tps40422.o
+>  obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
+> +obj-$(CONFIG_SENSORS_TPS546D24)	+= tps546d24.o
+>  obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
+>  obj-$(CONFIG_SENSORS_UCD9200)	+= ucd9200.o
+>  obj-$(CONFIG_SENSORS_XDPE122)	+= xdpe12284.o
+> diff --git a/drivers/hwmon/pmbus/tps546d24.c b/drivers/hwmon/pmbus/tps546d24.c
+> new file mode 100644
+> index 0000000..ef2b0be
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/tps546d24.c
+> @@ -0,0 +1,71 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Hardware monitoring driver for TEXAS TPS546D24 buck converter
+> + */
+> +
+> +#include <linux/err.h>
+> +#include <linux/i2c.h>
+> +#include <linux/init.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/pmbus.h>
+> +#include "pmbus.h"
+> +
+> +static struct pmbus_driver_info tps546d24_info = {
+> +	.pages = 1,
+> +	.format[PSC_VOLTAGE_IN] = linear,
+> +	.format[PSC_VOLTAGE_OUT] = linear,
+> +	.format[PSC_TEMPERATURE] = linear,
+> +	.format[PSC_CURRENT_OUT] = linear,
+> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_IIN
+> +			| PMBUS_HAVE_IOUT | PMBUS_HAVE_VOUT
+> +			| PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_VOUT
+> +			| PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
+> +};
+> +
+> +static int tps546d24_probe(struct i2c_client *client)
+> +{
+> +	int reg;
+> +
+> +	reg = i2c_smbus_read_byte_data(client, PMBUS_VOUT_MODE);
+> +	if (reg < 0)
+> +		return reg;
+> +
+> +	if (reg & 0x80) {
+> +		int err;
+> +
+> +		err = i2c_smbus_write_byte_data(client, PMBUS_VOUT_MODE, reg & 0x7f);
+> +		if (err < 0)
+> +			return err;
+> +	}
+> +	return pmbus_do_probe(client, &tps546d24_info);
+> +}
+> +
+> +static const struct i2c_device_id tps546d24_id[] = {
+> +	{"tps546d24", 0},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(i2c, tps546d24_id);
+> +
+> +static const struct of_device_id tps546d24_of_match[] = {
+> +	{.compatible = "ti,tps546d24"},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, tps546d24_of_match);
+> +
+> +/* This is the driver that will be inserted */
+> +static struct i2c_driver tps546d24_driver = {
+> +	.driver = {
+> +		   .name = "tps546d24",
+> +		   .of_match_table = of_match_ptr(tps546d24_of_match),
+> +	   },
+> +	.probe_new = tps546d24_probe,
+> +	.id_table = tps546d24_id,
+> +};
+> +
+> +module_i2c_driver(tps546d24_driver);
+> +
+> +MODULE_AUTHOR("Duke Du <dukedu83@gmail.com>");
+> +MODULE_DESCRIPTION("PMBus driver for TI tps546d24");
+> +MODULE_LICENSE("GPL");
+> +MODULE_IMPORT_NS(PMBUS);
