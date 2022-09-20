@@ -2,59 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 606ADECAAD8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 10:29:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 402B8C6FA91
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 10:32:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229926AbiITK3D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Sep 2022 06:29:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39676 "EHLO
+        id S231307AbiITKcQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Sep 2022 06:32:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230184AbiITK3C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 06:29:02 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4ED0F7198B;
-        Tue, 20 Sep 2022 03:29:01 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 90CFB23A;
-        Tue, 20 Sep 2022 03:29:07 -0700 (PDT)
-Received: from [10.1.26.30] (e121896.cambridge.arm.com [10.1.26.30])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1B2353F73B;
-        Tue, 20 Sep 2022 03:28:58 -0700 (PDT)
-Message-ID: <0dd10e45-d797-f6a8-59a6-cdbebb5d825a@arm.com>
-Date:   Tue, 20 Sep 2022 11:28:57 +0100
+        with ESMTP id S231189AbiITKbu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 06:31:50 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECD1471BEE;
+        Tue, 20 Sep 2022 03:31:44 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 22CA121CA8;
+        Tue, 20 Sep 2022 10:31:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1663669903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=BxA0/0TiFti37VW/MInsc7VC0/281DSV8FYTm2yNBt8=;
+        b=Y0oH2LqYa+mXOTgLMdgA0HwkLj5+7iveRezVjwmDA8OkP/gZLJBsHGqIhwz4KOYUXezPHv
+        aH8mtwY+dI7NI2pOxvtRfshYDlYk0A9KEvrbnch0ZN1NrcXs5PFeYZlm+D8defBo8Qd06I
+        Kf+iHkg4jiof9pTdqSSFCVR8kDztkrk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1663669903;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=BxA0/0TiFti37VW/MInsc7VC0/281DSV8FYTm2yNBt8=;
+        b=uBdfy7gdkzfJYDvbAps4KCruWHfQ1NwD4+UL+NqDA0ecT9Ruaq3hstbu3EfiQYnCmzd+Pg
+        ggm0OsRJnncSCBBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C37A413ABB;
+        Tue, 20 Sep 2022 10:31:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id RH+2Lo6WKWO/IwAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Tue, 20 Sep 2022 10:31:42 +0000
+Message-ID: <30b3c8d3-3e2e-8f07-a05e-3c91fccde024@suse.cz>
+Date:   Tue, 20 Sep 2022 12:31:42 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 2/2] arm64/sve: Add Perf extensions documentation
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] mm: Make failslab writable again
 Content-Language: en-US
-To:     Mark Rutland <mark.rutland@arm.com>, Will Deacon <will@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, acme@kernel.org,
-        leo.yan@linaro.org, john.garry@huawei.com, catalin.marinas@arm.com,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20220901132658.1024635-1-james.clark@arm.com>
- <20220901132658.1024635-3-james.clark@arm.com>
- <YxC0r6RCffBXXllT@sirena.org.uk>
-From:   James Clark <james.clark@arm.com>
-In-Reply-To: <YxC0r6RCffBXXllT@sirena.org.uk>
+To:     Alexander Atanasov <alexander.atanasov@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc:     kernel@openvz.org, Kees Cook <keescook@chromium.org>,
+        Roman Gushchin <guro@fb.com>, Jann Horn <jannh@google.com>,
+        Vijayanand Jitta <vjitta@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+References: <20220920082033.1727374-1-alexander.atanasov@virtuozzo.com>
+ <21646f5c-39ee-a51c-f30c-272de85ee350@suse.cz>
+ <6f5a8f71-3d82-97bf-90e1-0f33546bb59b@virtuozzo.com>
+ <60111450-d66a-a146-1a70-0c093400f3e5@suse.cz>
+ <7d79d13b-0579-452f-7a07-4e3eba205d23@virtuozzo.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <7d79d13b-0579-452f-7a07-4e3eba205d23@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 01/09/2022 14:33, Mark Brown wrote:
-> On Thu, Sep 01, 2022 at 02:26:58PM +0100, James Clark wrote:
+On 9/20/22 12:21, Alexander Atanasov wrote:
+> On 20.09.22 12:29, Vlastimil Babka wrote:
+>> On 9/20/22 11:17, Alexander Atanasov wrote:
+>>> Hello,
+>>>
+>>> On 20.09.22 11:42, Vlastimil Babka wrote:
+>>>>> +static ssize_t failslab_store(struct kmem_cache *s, const char *buf,
+>>>>> +                size_t length)
+>>>>> +{
+>>>>> +    if (s->refcount > 1)
+>>>>> +        return -EINVAL;
+>>>>> +
+>>>>> +    s->flags &= ~SLAB_FAILSLAB;
+>>>>> +    if (buf[0] == '1')
+>>>>> +        s->flags |= SLAB_FAILSLAB;
+>>>>
+>>>> Could we at least use a temporary variable to set up the final value and
+>>>> then do a WRITE_ONCE() to s->flags, so the compiler is not allowed to do
+>>>> some funky stuff? Assuming this is really the only place where we modify
+>>>> s->flags during runtime, so we can't miss other updates due to RMW.
+>>>
+>>> Since it is set or clear - instead of temporary variable and potentially two
+>>> writes and RMW issues i would suggest this:
+>>> +    if (buf[0] == '1')
+>>> +        s->flags |= SLAB_FAILSLAB;
+>>> +       else
+>>> +        s->flags &= ~SLAB_FAILSLAB;
+>>
+>> This way also has RMW issues, and also the compiler is allowed to
+>> temporarily modify s->flags any way it likes; with WRITE_ONCE() it can't.
 > 
->> Document that the VG register is available in Perf samples
+> Okay, so the safest way is this?
 > 
-> Reviewed-by: Mark Brown <broonie@kernel.org>
+> if (buf[0] == '1')
+>     WRITE_ONCE(s->flags, READ_ONCE(s->flags) | SLAB_FAILSLAB);
+> else
+>     WRITE_ONCE(s->flags, READ_ONCE(s->flags) & ~SLAB_FAILSLAB);
 
-Hi Will/Mark R,
+Yeah, that would work. Given we are the only writer, we shouldn't even need
+a READ_ONCE.
 
-Is this set ok to go into 6.1?
+> It got me thinking how many places would break if the compiler
+> starts to temporariliy modify the flags - i hope it never does.
 
-Thanks
-James
+That's likely true as well. But the macros have been introduced for this
+purpose AFAIK.
