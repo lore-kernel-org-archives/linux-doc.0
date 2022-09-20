@@ -2,64 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36402ECAAD8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 08:18:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB33CC54EE9
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 08:19:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230271AbiITISR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Sep 2022 04:18:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33072 "EHLO
+        id S229473AbiITITO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Sep 2022 04:19:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbiITIR5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 04:17:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F7B467171
-        for <linux-doc@vger.kernel.org>; Tue, 20 Sep 2022 01:15:07 -0700 (PDT)
+        with ESMTP id S231358AbiITISn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 04:18:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9121B696F3
+        for <linux-doc@vger.kernel.org>; Tue, 20 Sep 2022 01:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663661706;
+        s=mimecast20190719; t=1663661731;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=IZY1YavaFvCQO8tOgPzXe0UBwQkGNW34ROeeUBFifyI=;
-        b=bnbXqrexHF6ZFVLwzCA5gNxmsOXcwWWvWfHVRVV2xdqU0DW+uOEKWiOJYrtHfrR5YTGUDD
-        cT+LsqRHrt+gM53LUWPfloLjHaJ+evjOCwA7mnVHVxaLXHR9ZNEPr0WJNOUIrOpu+qv4HN
-        0rL69Q49SFXAXm4jEy0patXHjSElXfw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=/e/evqGTFru+f3l3LD+eG8BtO8WljnsYCWvP+vFWoVo=;
+        b=J5cVXx+u+D77CPkciGe9KroVi+Wf3kU3Si2zzwRMcjFB3fUVUBDKst/cnOg2inGFJZ7CEi
+        05zR1r09t1kudRul4+7nzglQijga239H+NuXT+cf2Ibjv3CIM7r2YiqT7H7kBsy+QcmwhL
+        blgEEeQ+U9vGGHXptfVplFhuri8hrmw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-257-7-hQE2HDPIK3z0Y0YOYBqg-1; Tue, 20 Sep 2022 04:14:59 -0400
-X-MC-Unique: 7-hQE2HDPIK3z0Y0YOYBqg-1
-Received: by mail-wr1-f72.google.com with SMTP id v7-20020adfa1c7000000b0022ae7d7313eso819864wrv.19
-        for <linux-doc@vger.kernel.org>; Tue, 20 Sep 2022 01:14:59 -0700 (PDT)
+ us-mta-654-UtzWJ0z6Pn6BnKIy5sIreQ-1; Tue, 20 Sep 2022 04:15:23 -0400
+X-MC-Unique: UtzWJ0z6Pn6BnKIy5sIreQ-1
+Received: by mail-wm1-f71.google.com with SMTP id p24-20020a05600c1d9800b003b4b226903dso5925909wms.4
+        for <linux-doc@vger.kernel.org>; Tue, 20 Sep 2022 01:15:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :content-language:references:to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date;
-        bh=IZY1YavaFvCQO8tOgPzXe0UBwQkGNW34ROeeUBFifyI=;
-        b=G5MXu/g16CjZBzCW0jww4jhbnsiZhkjXSC8ZZs0TzVsydUpE3dfGMFBR8cX+ZV7Tbw
-         PHIDkUVhlXUvLBz1rn4V3wRRgY9sAdkgw7cNvQ3YSnAxOcFRKDGIvOOdZhjd/r44F1hY
-         TAOblyW70WKCGuj9aDTsItUD4VgBV/T1lcaWWoYZFtKkpLdc/3kPspmGDYAi4W8L5m9A
-         ldREPyBu7XW9U6h5PjzFNjSwbSli6waIERftTma9BY9ABe70k9F/bBc1BGDcv6lIWg3B
-         CO5Guk5keXRId7zvRo9yyPDDlktrkrFoIfsxxOUSChKPcmSvnIQS8+9jRb4KnCTtwDJp
-         ZXMg==
-X-Gm-Message-State: ACrzQf03YmcOJg8bC7bQkD3jEK4KCyEUCFf/s0oY9YJ8ZecMGo8Mv4vx
-        ZXIf5KWiT9asf6iGkkbafLIo/gu3x+UHxhJX/qRaKcbORweDGfj3VPqppM1UTH6qZXtOKcX1XNQ
-        oshk3hsJ5UvV70KLtS9cJ
-X-Received: by 2002:a05:600c:502c:b0:3a8:41e9:cd32 with SMTP id n44-20020a05600c502c00b003a841e9cd32mr1390975wmr.177.1663661698496;
-        Tue, 20 Sep 2022 01:14:58 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM66+NV0/AY2AzFAp6F92Em689IXLMoLrKqSW9fGLIpywepwzilF5sHgjwovliPmjN35Y1UA+w==
-X-Received: by 2002:a05:600c:502c:b0:3a8:41e9:cd32 with SMTP id n44-20020a05600c502c00b003a841e9cd32mr1390961wmr.177.1663661698255;
-        Tue, 20 Sep 2022 01:14:58 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=/e/evqGTFru+f3l3LD+eG8BtO8WljnsYCWvP+vFWoVo=;
+        b=MG7N71EF73T9pdu2AZq2z8GdhskFXNtWcnv6VJNoAa4bsaMvyh7M2v0z2MuJ7YxXGK
+         94xzHyKHGtnj/ItID3KTWzUT2/I98x/2H1tv3r76XjiXyqs8QlTVKpLq28a3hGhsgYC9
+         H18eqoLXe807s9io+FwBPd02dF9Zb7VfPoF+9g3yKH+bOm5mFu/qF4MCHoJbUBiyFe8J
+         beWHv3NcbhUO2jpXuwGVT9o7Bu/lt15TnLBe2auV0MAEkMPorJ1bBGPElCNYsETOGyqG
+         GAY/9XMeJbBQ4vQpPRKmYKIHjL7HnXZ98dAFzaaWsmlpDpdUjjK4UOWVJ6tCsSljZiBx
+         Eb0A==
+X-Gm-Message-State: ACrzQf3Z1S4hzfO+WANc5M/QYUDs7udoiGkEFxdTcEoRl78u/oMnInjZ
+        HAxeQnSqE8NkXg7dUOQ8SByqrpHeMSf8OQHBF7ZZ7avTgKznyVA0quMyS1rrodSr3oSkp/BydAq
+        +j2ZnQJ4rr4EQqc9Ygo4W
+X-Received: by 2002:a05:600c:23ca:b0:3b4:6199:8ab9 with SMTP id p10-20020a05600c23ca00b003b461998ab9mr1396440wmb.20.1663661722189;
+        Tue, 20 Sep 2022 01:15:22 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5pb0rzdBr6watv2OP+RIFajUY8ofPhVTXwU2pExV8u2gef6cxMTASlsrhhKQd0N+G4n5cOww==
+X-Received: by 2002:a05:600c:23ca:b0:3b4:6199:8ab9 with SMTP id p10-20020a05600c23ca00b003b461998ab9mr1396424wmb.20.1663661721920;
+        Tue, 20 Sep 2022 01:15:21 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c712:2300:e82d:5a58:4fd8:c1e6? (p200300cbc7122300e82d5a584fd8c1e6.dip0.t-ipconnect.de. [2003:cb:c712:2300:e82d:5a58:4fd8:c1e6])
-        by smtp.gmail.com with ESMTPSA id l4-20020adff484000000b0022ac13aa98fsm889374wro.97.2022.09.20.01.14.57
+        by smtp.gmail.com with ESMTPSA id a5-20020adfe5c5000000b00228de58ae2bsm901775wrn.12.2022.09.20.01.15.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Sep 2022 01:14:57 -0700 (PDT)
-Message-ID: <08572e43-5de6-9bca-54ab-1779aeb54c25@redhat.com>
-Date:   Tue, 20 Sep 2022 10:14:56 +0200
+        Tue, 20 Sep 2022 01:15:21 -0700 (PDT)
+Message-ID: <749470a3-e1c7-dc60-d7b7-4e5e3ffde8dd@redhat.com>
+Date:   Tue, 20 Sep 2022 10:15:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
+Subject: Re: [PATCH 2/3] lib/notifier-error-inject: fix error when writing
+ -errno to debugfs file
+Content-Language: en-US
 To:     Akinobu Mita <akinobu.mita@gmail.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-kselftest@vger.kernel.org, linux-fsdevel@vger.kernel.org,
@@ -72,13 +75,10 @@ To:     Akinobu Mita <akinobu.mita@gmail.com>, linux-doc@vger.kernel.org,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         akpm@linux-foundation.org
 References: <20220919172418.45257-1-akinobu.mita@gmail.com>
- <20220919172418.45257-2-akinobu.mita@gmail.com>
-Content-Language: en-US
+ <20220919172418.45257-3-akinobu.mita@gmail.com>
 From:   David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Subject: Re: [PATCH 1/3] libfs: add DEFINE_SIMPLE_ATTRIBUTE_SIGNED for signed
- value
-In-Reply-To: <20220919172418.45257-2-akinobu.mita@gmail.com>
+In-Reply-To: <20220919172418.45257-3-akinobu.mita@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -88,19 +88,31 @@ X-Mailing-List: linux-doc@vger.kernel.org
 On 19.09.22 19:24, Akinobu Mita wrote:
 > The simple attribute files do not accept a negative value since the
 > commit 488dac0c9237 ("libfs: fix error cast of negative value in
-> simple_attr_write()"), so we have to use a 64-bit value to write a
-> negative value.
+> simple_attr_write()").
 > 
-> This adds DEFINE_SIMPLE_ATTRIBUTE_SIGNED for a signed value.
+> This restores the previous behaviour by using newly introduced
+> DEFINE_SIMPLE_ATTRIBUTE_SIGNED instead of DEFINE_SIMPLE_ATTRIBUTE.
 > 
 > Fixes: 488dac0c9237 ("libfs: fix error cast of negative value in simple_attr_write()")
-
-This patch itself isn't a fix. The fixes tags belong to the other 
-patches that make use of this.
-
 > Reported-by: Zhao Gongyi <zhaogongyi@huawei.com>
 > Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
 > ---
+>   lib/notifier-error-inject.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/lib/notifier-error-inject.c b/lib/notifier-error-inject.c
+> index 21016b32d313..2b24ea6c9497 100644
+> --- a/lib/notifier-error-inject.c
+> +++ b/lib/notifier-error-inject.c
+> @@ -15,7 +15,7 @@ static int debugfs_errno_get(void *data, u64 *val)
+>   	return 0;
+>   }
+>   
+> -DEFINE_SIMPLE_ATTRIBUTE(fops_errno, debugfs_errno_get, debugfs_errno_set,
+> +DEFINE_SIMPLE_ATTRIBUTE_SIGNED(fops_errno, debugfs_errno_get, debugfs_errno_set,
+>   			"%lld\n");
+>   
+>   static struct dentry *debugfs_create_errno(const char *name, umode_t mode,
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 
