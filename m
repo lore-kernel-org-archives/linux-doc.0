@@ -2,78 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC51CECAAD8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 11:20:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5322ECAAD8
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 12:14:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229812AbiITLUS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Sep 2022 07:20:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38192 "EHLO
+        id S230122AbiITMOK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Sep 2022 08:14:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbiITLUR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 07:20:17 -0400
-Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net [83.223.78.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 776FB32D98;
-        Tue, 20 Sep 2022 04:20:15 -0700 (PDT)
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-         client-signature RSA-PSS (4096 bits) client-digest SHA256)
-        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
-        by bmailout2.hostsharing.net (Postfix) with ESMTPS id 84EF2280F3D8F;
-        Tue, 20 Sep 2022 13:20:11 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id 7AB6B27C89; Tue, 20 Sep 2022 13:20:11 +0200 (CEST)
-Date:   Tue, 20 Sep 2022 13:20:11 +0200
-From:   Lukas Wunner <lukas@wunner.de>
-To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     linux-serial@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
-        linux-api@vger.kernel.org
-Subject: Re: [PATCH v9 5/6] serial: Support for RS-485 multipoint addresses
-Message-ID: <20220920112011.GA7187@wunner.de>
-References: <20220624204210.11112-1-ilpo.jarvinen@linux.intel.com>
- <20220624204210.11112-6-ilpo.jarvinen@linux.intel.com>
+        with ESMTP id S229920AbiITMOJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 08:14:09 -0400
+Received: from relay.virtuozzo.com (relay.virtuozzo.com [130.117.225.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 392576B67B;
+        Tue, 20 Sep 2022 05:14:08 -0700 (PDT)
+Received: from dev011.ch-qa.sw.ru ([172.29.1.16])
+        by relay.virtuozzo.com with esmtp (Exim 4.95)
+        (envelope-from <alexander.atanasov@virtuozzo.com>)
+        id 1oac55-004fqT-6p;
+        Tue, 20 Sep 2022 14:12:39 +0200
+From:   Alexander Atanasov <alexander.atanasov@virtuozzo.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc:     kernel@openvz.org,
+        Alexander Atanasov <alexander.atanasov@virtuozzo.com>,
+        Kees Cook <keescook@chromium.org>,
+        Roman Gushchin <guro@fb.com>, Jann Horn <jannh@google.com>,
+        Vijayanand Jitta <vjitta@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: [PATCH v2] mm: Make failslab writable again
+Date:   Tue, 20 Sep 2022 15:11:11 +0300
+Message-Id: <20220920121111.1792905-1-alexander.atanasov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220624204210.11112-6-ilpo.jarvinen@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 24, 2022 at 11:42:09PM +0300, Ilpo Järvinen wrote:
-> ADDRB in termios indicates 9th bit addressing mode is enabled. In this
-> mode, 9th bit is used to indicate an address (byte) within the
-> communication line. ADDRB can only be enabled/disabled through
-> ->rs485_config() that is also responsible for setting the destination and
-> receiver (filter) addresses.
-[...]
-> --- a/include/uapi/asm-generic/termbits-common.h
-> +++ b/include/uapi/asm-generic/termbits-common.h
-> @@ -46,6 +46,7 @@ typedef unsigned int	speed_t;
->  #define EXTA		B19200
->  #define EXTB		B38400
->  
-> +#define ADDRB		0x20000000	/* address bit */
->  #define CMSPAR		0x40000000	/* mark or space (stick) parity */
->  #define CRTSCTS		0x80000000	/* flow control */
->
+In (060807f841ac mm, slub: make remaining slub_debug related attributes
+read-only) failslab was made read-only.
+I think it became a collateral victim to the two other options for which
+the reasons are perfectly valid.
+Here is why:
+ - sanity_checks and trace are slab internal debug options,
+   failslab is used for fault injection.
+ - for fault injections, which by presumption are random, it
+   does not matter if it is not set atomically. And you need to
+   set atleast one more option to trigger fault injection.
+ - in a testing scenario you may need to change it at runtime
+   example: module loading - you test all allocations limited
+   by the space option. Then you move to test only your module's
+   own slabs.
+ - when set by command line flags it effectively disables all
+   cache merges.
 
-You may want to consider submitting a patch to the Linux man-pages
-project to document the newly introduced bit:
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Roman Gushchin <guro@fb.com>
+Cc: Christoph Lameter <cl@linux.com>
+Cc: Jann Horn <jannh@google.com>
+Cc: Vijayanand Jitta <vjitta@codeaurora.org>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+Cc: Pekka Enberg <penberg@kernel.org>
+Link: http://lkml.kernel.org/r/20200610163135.17364-5-vbabka@suse.cz
 
-https://www.kernel.org/doc/man-pages/patches.html
-https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/man3/termios.3
+Signed-off-by: Alexander Atanasov <alexander.atanasov@virtuozzo.com>
+---
+ Documentation/mm/slub.rst |  2 ++
+ mm/slub.c                 | 16 +++++++++++++++-
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
-Thanks,
+V1->V2: Fixed commit message. Flags are set using WRITE_ONCE.
 
-Lukas
+diff --git a/Documentation/mm/slub.rst b/Documentation/mm/slub.rst
+index 43063ade737a..86837073a39e 100644
+--- a/Documentation/mm/slub.rst
++++ b/Documentation/mm/slub.rst
+@@ -116,6 +116,8 @@ options from the ``slub_debug`` parameter translate to the following files::
+ 	T	trace
+ 	A	failslab
+ 
++failslab file is writable, so writing 1 or 0 will enable or disable
++the option at runtime. Write returns -EINVAL if cache is an alias.
+ Careful with tracing: It may spew out lots of information and never stop if
+ used on the wrong slab.
+ 
+diff --git a/mm/slub.c b/mm/slub.c
+index 862dbd9af4f5..57cf18936526 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -5617,7 +5617,21 @@ static ssize_t failslab_show(struct kmem_cache *s, char *buf)
+ {
+ 	return sysfs_emit(buf, "%d\n", !!(s->flags & SLAB_FAILSLAB));
+ }
+-SLAB_ATTR_RO(failslab);
++
++static ssize_t failslab_store(struct kmem_cache *s, const char *buf,
++				size_t length)
++{
++	if (s->refcount > 1)
++		return -EINVAL;
++
++	if (buf[0] == '1')
++		WRITE_ONCE(s->flags, s->flags | SLAB_FAILSLAB);
++	else
++		WRITE_ONCE(s->flags, s->flags & ~SLAB_FAILSLAB);
++
++	return length;
++}
++SLAB_ATTR(failslab);
+ #endif
+ 
+ static ssize_t shrink_show(struct kmem_cache *s, char *buf)
+
+base-commit: 80e78fcce86de0288793a0ef0f6acf37656ee4cf
+-- 
+2.31.1
+
