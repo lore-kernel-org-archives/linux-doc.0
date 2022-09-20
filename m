@@ -2,79 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67149C54EE9
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 11:10:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC51CECAAD8
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 11:20:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230216AbiITLKz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Sep 2022 07:10:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51068 "EHLO
+        id S229812AbiITLUS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Sep 2022 07:20:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230220AbiITLKm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 07:10:42 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C7A7B86D
-        for <linux-doc@vger.kernel.org>; Tue, 20 Sep 2022 04:10:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663672242; x=1695208242;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Mk37G7OAFiuftFDanH18OltgE6w68yKL3nvcxgy8dLY=;
-  b=R5J5P7oeUNMv87MVBNl/olDSoxeR93r7pjhprQ6XyBFVpqIrv35TuThP
-   viMbz/a4RVI7gmh/qVeYnjbmVv79Iqa/40f/z7A1XZ28ABdv6Ht+nXv1T
-   aDySFmZnI0hvS7FlkRosKaMVK2rvJ/g1aPSgrzMiNjQgcTZcnaTVQqP1p
-   4ij6rz/w93UNbHQ8bMIzjFHd+0fwnobGY7JnmxfYMmqCFMkjas1c1Vq9o
-   0sEh86cin0o1trOWwVf6ZWWoRiKUjMf3L468fVwq19e7J2WwCEkMDg1YK
-   z3fIEfuM4vVvjgwbL3p2wJjv1cLi5fQ+kCVS/GaHy1ywXxgHHTDAESawb
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="300484620"
-X-IronPort-AV: E=Sophos;i="5.93,330,1654585200"; 
-   d="scan'208";a="300484620"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2022 04:10:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,330,1654585200"; 
-   d="scan'208";a="618873530"
-Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 20 Sep 2022 04:10:36 -0700
-Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oab99-0002iD-0X;
-        Tue, 20 Sep 2022 11:10:35 +0000
-Date:   Tue, 20 Sep 2022 19:09:35 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Michal Simek <monstr@monstr.eu>
-Cc:     kbuild-all@lists.01.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org
-Subject: [xilinx-xlnx:master 253/700] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/remoteproc/xilinx,zynqmp-r5-remoteproc.txt
-Message-ID: <202209201904.Hipk1zS7-lkp@intel.com>
+        with ESMTP id S229590AbiITLUR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 07:20:17 -0400
+Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net [83.223.78.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 776FB32D98;
+        Tue, 20 Sep 2022 04:20:15 -0700 (PDT)
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+         client-signature RSA-PSS (4096 bits) client-digest SHA256)
+        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
+        by bmailout2.hostsharing.net (Postfix) with ESMTPS id 84EF2280F3D8F;
+        Tue, 20 Sep 2022 13:20:11 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+        id 7AB6B27C89; Tue, 20 Sep 2022 13:20:11 +0200 (CEST)
+Date:   Tue, 20 Sep 2022 13:20:11 +0200
+From:   Lukas Wunner <lukas@wunner.de>
+To:     Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc:     linux-serial@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH v9 5/6] serial: Support for RS-485 multipoint addresses
+Message-ID: <20220920112011.GA7187@wunner.de>
+References: <20220624204210.11112-1-ilpo.jarvinen@linux.intel.com>
+ <20220624204210.11112-6-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220624204210.11112-6-ilpo.jarvinen@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/Xilinx/linux-xlnx master
-head:   1b14bc5f77a5f355659987039abe92c930befb48
-commit: aa65f3d5ba5783976d1337ee94a0511f13cb1204 [253/700] dt-bindings: remoteproc: Remove old binding in txt format
-reproduce:
-        # https://github.com/Xilinx/linux-xlnx/commit/aa65f3d5ba5783976d1337ee94a0511f13cb1204
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx master
-        git checkout aa65f3d5ba5783976d1337ee94a0511f13cb1204
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On Fri, Jun 24, 2022 at 11:42:09PM +0300, Ilpo Järvinen wrote:
+> ADDRB in termios indicates 9th bit addressing mode is enabled. In this
+> mode, 9th bit is used to indicate an address (byte) within the
+> communication line. ADDRB can only be enabled/disabled through
+> ->rs485_config() that is also responsible for setting the destination and
+> receiver (filter) addresses.
+[...]
+> --- a/include/uapi/asm-generic/termbits-common.h
+> +++ b/include/uapi/asm-generic/termbits-common.h
+> @@ -46,6 +46,7 @@ typedef unsigned int	speed_t;
+>  #define EXTA		B19200
+>  #define EXTB		B38400
+>  
+> +#define ADDRB		0x20000000	/* address bit */
+>  #define CMSPAR		0x40000000	/* mark or space (stick) parity */
+>  #define CRTSCTS		0x80000000	/* flow control */
+>
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+You may want to consider submitting a patch to the Linux man-pages
+project to document the newly introduced bit:
 
-All warnings (new ones prefixed by >>):
+https://www.kernel.org/doc/man-pages/patches.html
+https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/man3/termios.3
 
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/remoteproc/xilinx,zynqmp-r5-remoteproc.txt
+Thanks,
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Lukas
