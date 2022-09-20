@@ -2,113 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C34FECAAD8
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 12:23:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A73BC6FA91
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 12:43:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230517AbiITMX2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Sep 2022 08:23:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35316 "EHLO
+        id S231199AbiITMkt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Sep 2022 08:40:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbiITMXZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 08:23:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C124F75388
-        for <linux-doc@vger.kernel.org>; Tue, 20 Sep 2022 05:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663676604;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ITgZ+FEhdrS2y8XEyUzkVY3PfF+vnYBUViWp7eHKbVA=;
-        b=PFDPIhZXNEZZNciKkueyQsb0hI4OuzPwcgYhAbsso5FYx6TOE0XJMpuIt2nCRvKmbxVirE
-        +Hp1vqXcFQRSjS25pwQ1XMjROe+3oGELZX4Lq6lJOLcxu/oDx259fOpqdmLUiO9i5tLUdx
-        mhkTH3wIXsU7M9h1P9L+cTlvvQr1bo4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-287-5ll2Ea3jNV6xCqe3I2yCaA-1; Tue, 20 Sep 2022 08:23:22 -0400
-X-MC-Unique: 5ll2Ea3jNV6xCqe3I2yCaA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC1DA38173C1;
-        Tue, 20 Sep 2022 12:23:21 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.195.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 082A8C15BB5;
-        Tue, 20 Sep 2022 12:23:17 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org,
-        David Hildenbrand <david@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        David Laight <David.Laight@ACULAB.COM>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Dave Young <dyoung@redhat.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: [PATCH v1 3/3] checkpatch: warn on usage of VM_BUG_ON() and other BUG variants
-Date:   Tue, 20 Sep 2022 14:23:02 +0200
-Message-Id: <20220920122302.99195-4-david@redhat.com>
-In-Reply-To: <20220920122302.99195-1-david@redhat.com>
-References: <20220920122302.99195-1-david@redhat.com>
+        with ESMTP id S231152AbiITMks (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 08:40:48 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9AB51DA4E;
+        Tue, 20 Sep 2022 05:40:46 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id r7so4118628wrm.2;
+        Tue, 20 Sep 2022 05:40:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:references:cc:to:subject:from:from:to:cc
+         :subject:date;
+        bh=yng4fntN3H4g/Kn8cC7l2p8l7dcWaKasoa6PW4F1QCs=;
+        b=gMkDEO0GzZ51WcfNRJinNkaa0yAbv5tVus1zWKh2FtPFSBVFRfH96wPdGpZNWRUr/J
+         5+Yrp+KYdJx13GE8Sg+ZrXY2cJcTREF2szhcVMsys3hK1IwZvNQwaDEzs5pNZyzPCSpB
+         Qtxre4p/3Q3Ksbik/vq3ssm+Kd+z7We5eUeDXYEZAjMFbIXvsBZaQuWilmWUpXl/Gwcc
+         MNwdC4LhFRGzdSfGr7uBIbBhixENzrBCF9jvQ/x/HNvy1PsQ1TmOCy03oVx6SzUFULqn
+         cWuDgj9fJJw81+vthqG5oGL/aIK/rJgUOykQ2W9c5ShWkK5cXolkVHUrX+tEXcCx6Rwl
+         UDVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:references:cc:to:subject:from
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=yng4fntN3H4g/Kn8cC7l2p8l7dcWaKasoa6PW4F1QCs=;
+        b=dwMWbVle6m/twrmtzL7yY1z6HdE0X7vTP6TrNAHUoPXVaxqlua4kiVVoBvX2Pm5fwj
+         3h5W5tGr29igNLRjirxI/sNinNL6AynVDuTW0srx72Xl2T2DW/bWZPkT8zm5SLF/S899
+         EKTUGUsLjFJevGfGluqZxmbLG0EHxMGkyaAnJjqSPdXlozbQ5GxOHPTuUr5mViCkOWKz
+         z/sR+OTg+tUYcNAM494iN8KErG8BhfKgVLImWahgWtvI2wuhVEATaHoj3W7LhBjpt5Yg
+         A1amTW6s+PmMG8MQm56WpufhntOYt4i3YTCc1G1lXpQRCXLPw9eb+Hv+KdyX39KSSzGR
+         aStg==
+X-Gm-Message-State: ACrzQf3Iu606bQnkS1sGi9iE8BfMiPlAycCNHarD3sXgLGB7V5TbOoXN
+        8qcJGoRabY+ux57lCzhKQgo=
+X-Google-Smtp-Source: AMsMyM6hVzXP5G9oCHsivIHXufoSS54s5avthZuMy9TUis5+tymn5KOcv99zubCTgB61GHR1aZOzsA==
+X-Received: by 2002:a05:6000:81c:b0:22a:38f5:1a49 with SMTP id bt28-20020a056000081c00b0022a38f51a49mr14138763wrb.454.1663677645312;
+        Tue, 20 Sep 2022 05:40:45 -0700 (PDT)
+Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
+        by smtp.gmail.com with ESMTPSA id t17-20020a5d5351000000b00228d52b935asm1526426wrv.71.2022.09.20.05.40.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Sep 2022 05:40:44 -0700 (PDT)
+From:   Edward Cree <ecree.xilinx@gmail.com>
+Subject: Re: [PATCH v3 net-next] docs: net: add an explanation of VF (and
+ other) Representors
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, ecree@xilinx.com,
+        netdev@vger.kernel.org, linux-net-drivers@amd.com
+Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        jacob.e.keller@intel.com, jesse.brandeburg@intel.com,
+        michael.chan@broadcom.com, andy@greyhouse.net, saeed@kernel.org,
+        jiri@resnulli.us, snelson@pensando.io, simon.horman@corigine.com,
+        alexander.duyck@gmail.com, rdunlap@infradead.org, parav@nvidia.com,
+        roid@nvidia.com, marcin.szycik@linux.intel.com
+References: <20220905135557.39233-1-ecree@xilinx.com>
+ <228fb86d-4239-0aa9-ba88-e3fdc7cbe99f@gmail.com>
+Message-ID: <482e66b4-9dae-1376-e59a-854bfc023c59@gmail.com>
+Date:   Tue, 20 Sep 2022 13:40:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+In-Reply-To: <228fb86d-4239-0aa9-ba88-e3fdc7cbe99f@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-checkpatch does not point out that VM_BUG_ON() and friends should be
-avoided, however, Linus notes:
+On 06/09/2022 10:29, Bagas Sanjaya wrote:
+> I think by convention, footnotes should be put on bottom of the doc.
 
-    VM_BUG_ON() has the exact same semantics as BUG_ON. It is literally
-    no different, the only difference is "we can make the code smaller
-    because these are less important". [1]
+Hmm, a quick and unscientific sample of Documentation/ suggests that
+ many/most existing examples put the footnote shortly after the
+ reference or at the end of the section, roughly as I did here.  I
+ looked at five rST files found by "grep \[#\]_" and all of them had
+ the footnote body close to the reference.
+The placement of the footnote text in the generated output is up to
+ the stylesheet / renderer, of course.
 
-So let's warn on VM_BUG_ON() and other BUG variants as well. While at it,
-make it clearer that the kernel really shouldn't be crashed.
-
-As there are some subsystem BUG macros that actually don't end up crashing
-the kernel -- for example, KVM_BUG_ON() -- exclude these manually.
-
-[1] https://lore.kernel.org/r/CAHk-=wg40EAZofO16Eviaj7mfqDhZ2gVEbvfsMf6gYzspRjYvw@mail.gmail.com
-
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- scripts/checkpatch.pl | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 79e759aac543..21f3a79aa46f 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -4695,12 +4695,12 @@ sub process {
- 			}
- 		}
- 
--# avoid BUG() or BUG_ON()
--		if ($line =~ /\b(?:BUG|BUG_ON)\b/) {
-+# do not use BUG() or variants
-+		if ($line =~ /\b(?!AA_|BUILD_|DCCP_|IDA_|KVM_|RWLOCK_|snd_|SPIN_)(?:[a-zA-Z_]*_)?BUG(?:_ON)?(?:_[A-Z_]+)?\s*\(/) {
- 			my $msg_level = \&WARN;
- 			$msg_level = \&CHK if ($file);
- 			&{$msg_level}("AVOID_BUG",
--				      "Avoid crashing the kernel - try using WARN_ON & recovery code rather than BUG() or BUG_ON()\n" . $herecurr);
-+				      "Do not crash the kernel unless it is unavoidable - use WARN_ON_ONCE & recovery code (if reasonable) rather than BUG() or variants.\n" . $herecurr);
- 		}
- 
- # avoid LINUX_VERSION_CODE
--- 
-2.37.3
-
+-ed
