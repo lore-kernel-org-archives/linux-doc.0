@@ -2,169 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0B04C54EE9
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 08:43:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B4BEC6FA82
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 08:46:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbiITIn2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Sep 2022 04:43:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49506 "EHLO
+        id S231269AbiITIqM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Sep 2022 04:46:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230028AbiITInD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 04:43:03 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4572F659FA;
-        Tue, 20 Sep 2022 01:42:39 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id ED52A1F898;
-        Tue, 20 Sep 2022 08:42:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1663663357; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VIiaZw8kyqLy+k7/L0lKws/bc45zpwA5196SAUlqTnE=;
-        b=WhWdox47SVo2w033FWXOrKg4uJsJ6QizXju5q9h/4jzaYV8ks9I4eN+TT2KfxCtxL94d0i
-        mNLY29nzm2AgHF5XYQhRvzfBETyTbtFKvcbcJYM6APTbCrjauOYYtwnWiJi+DGvoUinlIL
-        Mawd1xVO96D1gzT1UtAa3vCdhmPuO48=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1663663357;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VIiaZw8kyqLy+k7/L0lKws/bc45zpwA5196SAUlqTnE=;
-        b=s/4W4QsI7MIf3DbvvNSN4Q1jXe4XzTNY7nKe7NOHSDEdhww6/O7rMGlwb6E5fvAfql+YmC
-        sW/6+WTFjlYI6ZDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B2FEF13ABB;
-        Tue, 20 Sep 2022 08:42:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id MYoFK/18KWOmcAAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Tue, 20 Sep 2022 08:42:37 +0000
-Message-ID: <21646f5c-39ee-a51c-f30c-272de85ee350@suse.cz>
-Date:   Tue, 20 Sep 2022 10:42:37 +0200
+        with ESMTP id S230238AbiITIpv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 04:45:51 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3D86E2A738;
+        Tue, 20 Sep 2022 01:45:48 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6ED20106F;
+        Tue, 20 Sep 2022 01:45:54 -0700 (PDT)
+Received: from [10.163.57.146] (unknown [10.163.57.146])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE8EE3F73B;
+        Tue, 20 Sep 2022 01:45:37 -0700 (PDT)
+Message-ID: <8c4f103b-8f04-d0ad-b30a-2db7e52b36a3@arm.com>
+Date:   Tue, 20 Sep 2022 14:15:34 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] mm: Make failslab writable again
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 4/4] arm64: support batched/deferred tlb shootdown
+ during page reclamation
 Content-Language: en-US
-To:     Alexander Atanasov <alexander.atanasov@virtuozzo.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Cc:     kernel@openvz.org, Kees Cook <keescook@chromium.org>,
-        Roman Gushchin <guro@fb.com>, Jann Horn <jannh@google.com>,
-        Vijayanand Jitta <vjitta@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20220920082033.1727374-1-alexander.atanasov@virtuozzo.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20220920082033.1727374-1-alexander.atanasov@virtuozzo.com>
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Yicong Yang <yangyicong@huawei.com>, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        x86@kernel.org, catalin.marinas@arm.com, will@kernel.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net, peterz@infradead.org,
+        arnd@arndb.de, linux-kernel@vger.kernel.org,
+        darren@os.amperecomputing.com, yangyicong@hisilicon.com,
+        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
+        guojian@oppo.com, realmz6@gmail.com, linux-mips@vger.kernel.org,
+        openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        wangkefeng.wang@huawei.com, xhao@linux.alibaba.com,
+        prime.zeng@hisilicon.com, Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
+References: <20220822082120.8347-1-yangyicong@huawei.com>
+ <20220822082120.8347-5-yangyicong@huawei.com>
+ <302febae-508c-d73e-8676-d51752946645@arm.com>
+ <CAGsJ_4ywwFJFi+q3Ra5UE3twzS9eExtvuXgoGK-8u4c1ZdXCBw@mail.gmail.com>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <CAGsJ_4ywwFJFi+q3Ra5UE3twzS9eExtvuXgoGK-8u4c1ZdXCBw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/20/22 10:20, Alexander Atanasov wrote:
-> In (060807f841ac mm, slub: make remaining slub_debug related attributes
-> read-only failslab) it was made RO.
 
-"read-only) failslab was made RO" ?
 
-> I think it became a collateral victim to the other two options
-> (sanity_checks and trace) for which the reasons are perfectly valid.
-
-The commit also mentioned that modifying the flags is not protected in any
-way, see below.
-
-> Here is why:
->  - sanity_checks and trace are slab internal debug options,
->    failslab is used for fault injection.
->  - for fault injections, which by presumption are random, it
->    does not matter if it is not set atomically. You need to
->    set atleast one more option to trigger fault injection.
->  - in a testing scenario you may need to change it at runtime
->    example: module loading - you test all allocations limited
->    by the space option. Then you move to test only your module's
->    own slabs.
->  - when set by command line flags it effectively disables all
->    cache merges.
+On 9/20/22 09:09, Barry Song wrote:
+> On Tue, Sep 20, 2022 at 3:00 PM Anshuman Khandual
+> <anshuman.khandual@arm.com> wrote:
+>>
+>>
+>> On 8/22/22 13:51, Yicong Yang wrote:
+>>> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
+>>> +{
+>>> +     return true;
+>>> +}
+>>
+>> This needs to be conditional on systems, where there will be performance
+>> improvements, and should not just be enabled all the time on all systems.
+>> num_online_cpus() > X, which does not hold any cpu hotplug lock would be
+>> a good metric ?
 > 
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Roman Gushchin <guro@fb.com>
-> Cc: Christoph Lameter <cl@linux.com>
-> Cc: Jann Horn <jannh@google.com>
-> Cc: Vijayanand Jitta <vjitta@codeaurora.org>
-> Cc: David Rientjes <rientjes@google.com>
-> Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
-> Cc: Pekka Enberg <penberg@kernel.org>
-> Link: http://lkml.kernel.org/r/20200610163135.17364-5-vbabka@suse.cz
-> 
-> Signed-off-by: Alexander Atanasov <alexander.atanasov@virtuozzo.com>
-> ---
->  Documentation/mm/slub.rst |  2 ++
->  mm/slub.c                 | 14 +++++++++++++-
->  2 files changed, 15 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/mm/slub.rst b/Documentation/mm/slub.rst
-> index 43063ade737a..86837073a39e 100644
-> --- a/Documentation/mm/slub.rst
-> +++ b/Documentation/mm/slub.rst
-> @@ -116,6 +116,8 @@ options from the ``slub_debug`` parameter translate to the following files::
->  	T	trace
->  	A	failslab
->  
-> +failslab file is writable, so writing 1 or 0 will enable or disable
-> +the option at runtime. Write returns -EINVAL if cache is an alias.
->  Careful with tracing: It may spew out lots of information and never stop if
->  used on the wrong slab.
->  
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 862dbd9af4f5..7c15d312e0fb 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -5617,7 +5617,19 @@ static ssize_t failslab_show(struct kmem_cache *s, char *buf)
->  {
->  	return sysfs_emit(buf, "%d\n", !!(s->flags & SLAB_FAILSLAB));
->  }
-> -SLAB_ATTR_RO(failslab);
-> +
-> +static ssize_t failslab_store(struct kmem_cache *s, const char *buf,
-> +				size_t length)
-> +{
-> +	if (s->refcount > 1)
-> +		return -EINVAL;
-> +
-> +	s->flags &= ~SLAB_FAILSLAB;
-> +	if (buf[0] == '1')
-> +		s->flags |= SLAB_FAILSLAB;
+> for a small system, i don't see how this patch will help, e.g. cpus <= 4;
+> so we can actually disable tlb-batch on small systems.
 
-Could we at least use a temporary variable to set up the final value and
-then do a WRITE_ONCE() to s->flags, so the compiler is not allowed to do
-some funky stuff? Assuming this is really the only place where we modify
-s->flags during runtime, so we can't miss other updates due to RMW.
+Do not subscribe ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH based on NR_CPUS ?
+That might not help much as the default value is 256 for NR_CPUS.
 
-> +	return length;
-> +}
-> +SLAB_ATTR(failslab);
->  #endif
->  
->  static ssize_t shrink_show(struct kmem_cache *s, char *buf)
-> 
-> base-commit: 80e78fcce86de0288793a0ef0f6acf37656ee4cf
+OR
 
+arch_tlbbatch_should_defer() checks on
+
+1. online cpus			(dont enable batched TLB if <= X)
+2. ARM64_WORKAROUND_REPEAT_TLBI (dont enable batched TLB)
+
+> just need to check if we will have any race condition since hotplug will
+> make the condition true and false dynamically.
+
+If should_defer_flush() evaluate to be false, then ptep_clear_flush()
+clears and flushes the entry right away. This should not race with other
+queued up TLBI requests, which will be flushed separately. Wondering how
+there can be a race here !
