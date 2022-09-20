@@ -2,93 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B4BEC6FA82
-	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 08:46:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B3F1ECAAD8
+	for <linux-doc@archiver.kernel.org>; Tue, 20 Sep 2022 08:47:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231269AbiITIqM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 20 Sep 2022 04:46:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59904 "EHLO
+        id S230241AbiITIrJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 20 Sep 2022 04:47:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230238AbiITIpv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 04:45:51 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3D86E2A738;
-        Tue, 20 Sep 2022 01:45:48 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6ED20106F;
-        Tue, 20 Sep 2022 01:45:54 -0700 (PDT)
-Received: from [10.163.57.146] (unknown [10.163.57.146])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE8EE3F73B;
-        Tue, 20 Sep 2022 01:45:37 -0700 (PDT)
-Message-ID: <8c4f103b-8f04-d0ad-b30a-2db7e52b36a3@arm.com>
-Date:   Tue, 20 Sep 2022 14:15:34 +0530
+        with ESMTP id S231469AbiITIqy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 20 Sep 2022 04:46:54 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CDCE36875;
+        Tue, 20 Sep 2022 01:46:50 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 9C98D1C000F; Tue, 20 Sep 2022 10:46:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1663663608;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=m+B044GiOC3FAHs7y8TAP5asmItikcEGRpu5Fy9MMXw=;
+        b=mi/lhRJA28hXLOLUUNvAjRNQgDkpVqi2t4fefgT3gyLQJ/IRDTmkLHghrnSCAIHfe0iFxe
+        4ZoRH1eMoCzYNlhpTCx+JQzcrL4O8gcPxw1PJbKcjsgZOW5FMU3AQ+v5MxPmEGVqrgIgzq
+        vZIneReOXTciX9VDgVpIp1hrm4RNoV8=
+Date:   Tue, 20 Sep 2022 10:46:48 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Evan Green <evgreen@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, gwendal@chromium.org,
+        Eric Biggers <ebiggers@kernel.org>,
+        Matthew Garrett <mgarrett@aurora.tech>, jarkko@kernel.org,
+        zohar@linux.ibm.com, linux-integrity@vger.kernel.org,
+        apronin@chromium.org, dlunev@google.com, rjw@rjwysocki.net,
+        linux-pm@vger.kernel.org, corbet@lwn.net, jejb@linux.ibm.com,
+        David Howells <dhowells@redhat.com>,
+        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Len Brown <len.brown@intel.com>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
+        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 00/10] Encrypted Hibernation
+Message-ID: <20220920084648.GA17087@duo.ucw.cz>
+References: <20220823222526.1524851-1-evgreen@chromium.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 4/4] arm64: support batched/deferred tlb shootdown
- during page reclamation
-Content-Language: en-US
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Yicong Yang <yangyicong@huawei.com>, akpm@linux-foundation.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        x86@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net, peterz@infradead.org,
-        arnd@arndb.de, linux-kernel@vger.kernel.org,
-        darren@os.amperecomputing.com, yangyicong@hisilicon.com,
-        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
-        guojian@oppo.com, realmz6@gmail.com, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        wangkefeng.wang@huawei.com, xhao@linux.alibaba.com,
-        prime.zeng@hisilicon.com, Barry Song <v-songbaohua@oppo.com>,
-        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
-References: <20220822082120.8347-1-yangyicong@huawei.com>
- <20220822082120.8347-5-yangyicong@huawei.com>
- <302febae-508c-d73e-8676-d51752946645@arm.com>
- <CAGsJ_4ywwFJFi+q3Ra5UE3twzS9eExtvuXgoGK-8u4c1ZdXCBw@mail.gmail.com>
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <CAGsJ_4ywwFJFi+q3Ra5UE3twzS9eExtvuXgoGK-8u4c1ZdXCBw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="gBBFr7Ir9EOA20Yy"
+Content-Disposition: inline
+In-Reply-To: <20220823222526.1524851-1-evgreen@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--gBBFr7Ir9EOA20Yy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 9/20/22 09:09, Barry Song wrote:
-> On Tue, Sep 20, 2022 at 3:00 PM Anshuman Khandual
-> <anshuman.khandual@arm.com> wrote:
->>
->>
->> On 8/22/22 13:51, Yicong Yang wrote:
->>> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
->>> +{
->>> +     return true;
->>> +}
->>
->> This needs to be conditional on systems, where there will be performance
->> improvements, and should not just be enabled all the time on all systems.
->> num_online_cpus() > X, which does not hold any cpu hotplug lock would be
->> a good metric ?
-> 
-> for a small system, i don't see how this patch will help, e.g. cpus <= 4;
-> so we can actually disable tlb-batch on small systems.
+Hi!
 
-Do not subscribe ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH based on NR_CPUS ?
-That might not help much as the default value is 256 for NR_CPUS.
+> We are exploring enabling hibernation in some new scenarios. However,
+> our security team has a few requirements, listed below:
+> 1. The hibernate image must be encrypted with protection derived from
+>    both the platform (eg TPM) and user authentication data (eg
+>    password).
+> 2. Hibernation must not be a vector by which a malicious userspace can
+>    escalate to the kernel.
 
-OR
+Why is #2 reasonable requirement?
 
-arch_tlbbatch_should_defer() checks on
+We normally allow userspace with appropriate permissions to update the
+kernel, for example.
 
-1. online cpus			(dont enable batched TLB if <= X)
-2. ARM64_WORKAROUND_REPEAT_TLBI (dont enable batched TLB)
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
 
-> just need to check if we will have any race condition since hotplug will
-> make the condition true and false dynamically.
+--gBBFr7Ir9EOA20Yy
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If should_defer_flush() evaluate to be false, then ptep_clear_flush()
-clears and flushes the entry right away. This should not race with other
-queued up TLBI requests, which will be flushed separately. Wondering how
-there can be a race here !
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYyl9+AAKCRAw5/Bqldv6
+8lvdAJ4zQXifIqIZAAW6gMeQtj3ws4bIFQCffBRZxZNKdBsV8wRgBtUhoS9GFp8=
+=1j7r
+-----END PGP SIGNATURE-----
+
+--gBBFr7Ir9EOA20Yy--
