@@ -2,169 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90130C6FA8B
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 16:57:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D702CECAAD8
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 18:09:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229720AbiIUQ5p convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Sep 2022 12:57:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44404 "EHLO
+        id S230312AbiIUSJL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Sep 2022 14:09:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230372AbiIUQ5b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 12:57:31 -0400
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4918114;
-        Wed, 21 Sep 2022 09:57:29 -0700 (PDT)
-Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay04.hostedemail.com (Postfix) with ESMTP id A3B5F1A0137;
-        Wed, 21 Sep 2022 16:57:27 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf14.hostedemail.com (Postfix) with ESMTPA id 2BD0442;
-        Wed, 21 Sep 2022 16:57:21 +0000 (UTC)
-Message-ID: <9735b34d490b9774d883b8caf37ccb2e842cccfb.camel@perches.com>
-Subject: Re: [PATCH v7] checkpatch: warn for non-standard fixes tag style
-From:   Joe Perches <joe@perches.com>
-To:     Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@corigine.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Philippe Schenker <philippe.schenker@toradex.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     oss-drivers@corigine.com, Simon Horman <simon.horman@corigine.com>,
-        Louis Peens <louis.peens@corigine.com>
-Date:   Wed, 21 Sep 2022 09:57:23 -0700
-In-Reply-To: <20220914100255.1048460-1-niklas.soderlund@corigine.com>
-References: <20220914100255.1048460-1-niklas.soderlund@corigine.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        with ESMTP id S230241AbiIUSJK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 14:09:10 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C3D481B3C
+        for <linux-doc@vger.kernel.org>; Wed, 21 Sep 2022 11:09:07 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id u28so4565673qku.2
+        for <linux-doc@vger.kernel.org>; Wed, 21 Sep 2022 11:09:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=2KAjKe3iq+QwXIwjpYW0v2WCVk5payTUoCJDsQmbzI8=;
+        b=fHDduti3CxdhlR7cTOA3bHhFjSsFgLzHd7cyUqMp7cDXRqkMCXpLOCc22ysE/u6Kh2
+         HIGYwvhJxEZfTaOngML/3hnx0h432B4fP7654sKJhbc5rtbz36iNUhGVxIJi+7ZkpwJK
+         Hjm/3CgbuCWlweV9iNYNfgs81GLrkku0T+vBnkfB6J2jO02uzYEZ3hQ0SfGKaqtZL6v1
+         TyJGu1wof5Q41gchlf9KraJgvFxDWjGIzqspgvV9PCaNgCxTeXJuBXQlqrVf41ZO3v41
+         l0igml8T46Gi/I4N/N2ciB7wX2RNoBfMYAPi5C86mv/+8zmytwTakT45ZHsr8oD2zbaV
+         YSuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=2KAjKe3iq+QwXIwjpYW0v2WCVk5payTUoCJDsQmbzI8=;
+        b=aTk+ahBVl0yNGYvKBpC+G2bKQ6VD0alcl6I2V2pvvMRzRm1ZeQ/JhulqoJt4jTBx3V
+         5d0aEl9BqitNM0awg8deN6ttxEt5oMQScoDeI9QMDoNGjcmwyemOOxXrlxeJfLSvCy9z
+         RcdKhpRa/9AkfZWARC4kU8nkmuMVlsEN3uwFKZEoUP48V3m1S6Vx5ZPtMa2zNsKubUdk
+         K8056kN0DMlUnUxD+39Gus8uP4up3QZ5UrdBwzB95KyvuvomwtPzFKYT8Ad8zuX5urWs
+         gnwtPj9C9taeBpY+8yfEw4PNkcIQ7qQn4oyegxtt3NTrE2lY01379NiOvgBOKif7Kpqi
+         XaMg==
+X-Gm-Message-State: ACrzQf0YO6ZezdcRzZbeNakVbZJz9JIVwyukg31eRnxyN/kDvCw/Xqa4
+        lHHCU7AOo9bSaAQsYtyCMtwSkg==
+X-Google-Smtp-Source: AMsMyM4UCVkUuJlIWCzIoLcjoOrjvEbZNm7U4braBDAIgp5TxPj0szTxk92o8GSPD6WK1CcXL2nSfg==
+X-Received: by 2002:ae9:eb04:0:b0:6cb:d287:d6d4 with SMTP id b4-20020ae9eb04000000b006cbd287d6d4mr20476883qkg.310.1663783746781;
+        Wed, 21 Sep 2022 11:09:06 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
+        by smtp.gmail.com with ESMTPSA id o10-20020ac841ca000000b00339163a06fcsm2075049qtm.6.2022.09.21.11.09.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Sep 2022 11:09:05 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1ob49g-001Gq7-T9;
+        Wed, 21 Sep 2022 15:09:04 -0300
+Date:   Wed, 21 Sep 2022 15:09:04 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Evan Green <evgreen@chromium.org>, linux-kernel@vger.kernel.org,
+        gwendal@chromium.org, Eric Biggers <ebiggers@kernel.org>,
+        Matthew Garrett <mgarrett@aurora.tech>, jarkko@kernel.org,
+        zohar@linux.ibm.com, linux-integrity@vger.kernel.org,
+        apronin@chromium.org, dlunev@google.com, rjw@rjwysocki.net,
+        linux-pm@vger.kernel.org, corbet@lwn.net, jejb@linux.ibm.com,
+        David Howells <dhowells@redhat.com>,
+        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
+        Len Brown <len.brown@intel.com>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
+        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 00/10] Encrypted Hibernation
+Message-ID: <YytTQPOlAC58Bk7W@ziepe.ca>
+References: <20220823222526.1524851-1-evgreen@chromium.org>
+ <20220920084648.GA17087@duo.ucw.cz>
 MIME-Version: 1.0
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 2BD0442
-X-Stat-Signature: 5auhrq3z3n7q7kp4ym5irfo6dfcgippf
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/a4BkMAYN1IzZGlaMLaXwLXHNoKlMAuiE=
-X-HE-Tag: 1663779441-445637
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220920084648.GA17087@duo.ucw.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2022-09-14 at 12:02 +0200, Niklas Söderlund wrote:
-> Add a warning for fixes tags that does not follow community conventions.
+On Tue, Sep 20, 2022 at 10:46:48AM +0200, Pavel Machek wrote:
+> Hi!
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund@corigine.com>
-> Reviewed-by: Simon Horman <simon.horman@corigine.com>
-> Reviewed-by: Louis Peens <louis.peens@corigine.com>
-> Reviewed-by: Philippe Schenker <philippe.schenker@toradex.com>
-> Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
-> Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Acked-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > We are exploring enabling hibernation in some new scenarios. However,
+> > our security team has a few requirements, listed below:
+> > 1. The hibernate image must be encrypted with protection derived from
+> >    both the platform (eg TPM) and user authentication data (eg
+> >    password).
+> > 2. Hibernation must not be a vector by which a malicious userspace can
+> >    escalate to the kernel.
+> 
+> Why is #2 reasonable requirement?
 
-Acked-by: Joe Perches <joe@perches.com>
+These days with kernel lockdown we don't allow userspace to enter the
+kernel
 
-> ---
-> * Changes since v6
-> - Update first check to make sure that there is a likely SHA1 of some
->   minimum length after the fixes line.
-> - s/fall in line with community standard/follow community conventions/.
-> - Improve grammar, thanks Lukas.
-> 
-> * Changes since v5
-> - Add support for --fix option for checkpatch.pl.
-> 
-> * Changes since v4
-> - Extend test to cover lines with whitespace before the fixes: tag, e.g.
->   match check on /^\s*fixes:?/i.
-> 
-> * Changes since v3
-> - Add test that title in tag match title of commit referenced by sha1.
-> 
-> * Changes since v2
-> - Change the pattern to match on 'fixes:?' to catch more malformed
->   tags.
-> 
-> * Changes since v1
-> - Update the documentation wording and add mention one cause of the
->   message can be that email program splits the tag over multiple lines.
-> ---
->  Documentation/dev-tools/checkpatch.rst |  7 ++++
->  scripts/checkpatch.pl                  | 44 ++++++++++++++++++++++++++
->  2 files changed, 51 insertions(+)
-> 
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> index b52452bc2963..c3389c6f3838 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -612,6 +612,13 @@ Commit message
->  
->      See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
->  
-> +  **BAD_FIXES_TAG**
-> +    The Fixes: tag is malformed or does not follow the community conventions.
-> +    This can occur if the tag have been split into multiple lines (e.g., when
-> +    pasted in an email program with word wrapping enabled).
-> +
-> +    See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
-> +
->  
->  Comparison style
->  ----------------
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 79e759aac543..ddc5c9d730c3 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -3140,6 +3140,50 @@ sub process {
->  			}
->  		}
->  
-> +# Check Fixes: styles is correct
-> +		if (!$in_header_lines &&
-> +		    $line =~ /^\s*fixes:?\s*(?:commit\s*)?[0-9a-f]{5,}\b/i) {
-> +			my $orig_commit = "";
-> +			my $id = "0123456789ab";
-> +			my $title = "commit title";
-> +			my $tag_case = 1;
-> +			my $tag_space = 1;
-> +			my $id_length = 1;
-> +			my $id_case = 1;
-> +			my $title_has_quotes = 0;
-> +
-> +			if ($line =~ /(\s*fixes:?)\s+([0-9a-f]{5,})\s+($balanced_parens)/i) {
-> +				my $tag = $1;
-> +				$orig_commit = $2;
-> +				$title = $3;
-> +
-> +				$tag_case = 0 if $tag eq "Fixes:";
-> +				$tag_space = 0 if ($line =~ /^fixes:? [0-9a-f]{5,} ($balanced_parens)/i);
-> +
-> +				$id_length = 0 if ($orig_commit =~ /^[0-9a-f]{12}$/i);
-> +				$id_case = 0 if ($orig_commit !~ /[A-F]/);
-> +
-> +				# Always strip leading/trailing parens then double quotes if existing
-> +				$title = substr($title, 1, -1);
-> +				if ($title =~ /^".*"$/) {
-> +					$title = substr($title, 1, -1);
-> +					$title_has_quotes = 1;
-> +				}
-> +			}
-> +
-> +			my ($cid, $ctitle) = git_commit_info($orig_commit, $id,
-> +							     $title);
-> +
-> +			if ($ctitle ne $title || $tag_case || $tag_space ||
-> +			    $id_length || $id_case || !$title_has_quotes) {
-> +				if (WARN("BAD_FIXES_TAG",
-> +				     "Please use correct Fixes: style 'Fixes: <12 chars of sha1> (\"<title line>\")' - ie: 'Fixes: $cid (\"$ctitle\")'\n" . $herecurr) &&
-> +				    $fix) {
-> +					$fixed[$fixlinenr] = "Fixes: $cid (\"$ctitle\")";
-> +				}
-> +			}
-> +		}
-> +
->  # Check email subject for common tools that don't need to be mentioned
->  		if ($in_header_lines &&
->  		    $line =~ /^Subject:.*\b(?:checkpatch|sparse|smatch)\b[^:]/i) {
+> We normally allow userspace with appropriate permissions to update the
+> kernel, for example.
+
+And in a lockdown secure boot environment only a signed kernel can be
+booted in the first place.
+
+A series like this is effectively carrying the secure boot trust
+across the hibernation
+
+Jason
 
