@@ -2,145 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9E3BECAAD8
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 08:55:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70798C32771
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 10:42:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229895AbiIUIzA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Sep 2022 04:55:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41542 "EHLO
+        id S229761AbiIUKmO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Sep 2022 06:42:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229715AbiIUIyt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 04:54:49 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56E461D0CB;
-        Wed, 21 Sep 2022 01:54:48 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id y3so12082513ejc.1;
-        Wed, 21 Sep 2022 01:54:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=sc4HrH+dawwbyFY4jxaPYFax97q7PbwtRdCVIa2eWag=;
-        b=nvXLTwTum0Zu+Nzwkb/Va5KR7MpZoNKJUWh0AvWe8HdVcr1Grhklhdo1BZW8sba5fw
-         BGnTPKQw9TWdIn1AwbWmhqYPWj/FVYt+uu55rzvSXj7gyQEl6nisi0K/8PiKq+G1vate
-         OwUz5f2/PwR248iBS39pCnt+cZvqAUi3xnXwI/CPS+xFuJqBAs2z3QcTEXopA/PS8206
-         LsKWiJynHncuR2MFh2DVSwmUKzCR6RXBe0hFSksOj2krERKhpYbj6OOLJgFNJt7NSBQ6
-         hVqA13u7w8pzq63oY/Yhzl8fszOLZBKNoD8poD5JuUBZFek7tviVQ4tIq4kb5M10FNKT
-         s1WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=sc4HrH+dawwbyFY4jxaPYFax97q7PbwtRdCVIa2eWag=;
-        b=fiYKw6vUuuu4YpfvCiVnOScNgbyE6WEVmuiqJL5IpbUGPlvIVtUKQZIVBRD1aEY1M3
-         tJjNAGQbMeOJKyXdtr3TfAI4B/wMCEtOKHTm6Ajyr3XhgI93OTK/6+kKJRxFZumrOvb9
-         sQ7zSWI0UOpoQb0h7EehaZGkS0i2dXguapPv1iSaVreSsXFDbVrOU2S9uLAQk41D3jE+
-         JW7O2g4G5DzmCvDxFKGiyQeKHTshW9qaogFv1ZaqRrRL7ff8i3yLk3QatVvG03tpK5v1
-         8bytmGliYixaxdFXmJAlPi6oXSKWDMum4pWteD7RE9iBVHSsFVBsuHnhpnYnrlMzLHmc
-         RbyQ==
-X-Gm-Message-State: ACrzQf0LQg0hp0qSphZSBVE4owymdiID4ghN7kIzH6Qghn8ow9QCWhEc
-        LT2eFukVxmPo6hjrkMlO9EKS19nXY8o78IMu1pQ=
-X-Google-Smtp-Source: AMsMyM5mpmqn+gfhEkasy6u301zqGqQeURhHcxEGpcBIv8VPgxV44BVkZMurDLR6PBxFMgmK/214xxyLA2GRvdonQRQ=
-X-Received: by 2002:a17:907:c13:b0:781:d3c2:5015 with SMTP id
- ga19-20020a1709070c1300b00781d3c25015mr4799862ejc.457.1663750486484; Wed, 21
- Sep 2022 01:54:46 -0700 (PDT)
+        with ESMTP id S229845AbiIUKmN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 06:42:13 -0400
+Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3E94915D8
+        for <linux-doc@vger.kernel.org>; Wed, 21 Sep 2022 03:42:10 -0700 (PDT)
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-60-1IQFo52uNZmnFUZIsYK-2Q-1; Wed, 21 Sep 2022 06:42:08 -0400
+X-MC-Unique: 1IQFo52uNZmnFUZIsYK-2Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E2B4E8630C3;
+        Wed, 21 Sep 2022 10:42:07 +0000 (UTC)
+Received: from comp-core-i7-2640m-0182e6.redhat.com (unknown [10.40.208.17])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3A4B01759F;
+        Wed, 21 Sep 2022 10:42:06 +0000 (UTC)
+From:   Alexey Gladkov <legion@kernel.org>
+To:     LKML <linux-kernel@vger.kernel.org>,
+        Linux Containers <containers@lists.linux.dev>,
+        linux-doc@vger.kernel.org, linux-man@vger.kernel.org
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Christian Brauner <brauner@kernel.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Manfred Spraul <manfred@colorfullife.com>
+Subject: [PATCH v3 3/3] docs: Add information about ipc sysctls limitations
+Date:   Wed, 21 Sep 2022 12:41:49 +0200
+Message-Id: <ede20ddf7be48b93e8084c3be2e920841ee1a641.1663756794.git.legion@kernel.org>
+In-Reply-To: <cover.1663756794.git.legion@kernel.org>
+References: <202209211737.0Bu0F40t-lkp@intel.com> <cover.1663756794.git.legion@kernel.org>
 MIME-Version: 1.0
-References: <20220921084302.43631-1-yangyicong@huawei.com> <20220921084302.43631-2-yangyicong@huawei.com>
-In-Reply-To: <20220921084302.43631-2-yangyicong@huawei.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Wed, 21 Sep 2022 20:54:35 +1200
-Message-ID: <CAGsJ_4ydO=CegfrAF=jYmhOffXd7zKaFp_YxhdMgnoNGA8mBQQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] mm/tlbbatch: Introduce arch_tlbbatch_should_defer()
-To:     Yicong Yang <yangyicong@huawei.com>
-Cc:     akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-arm-kernel@lists.infradead.org, x86@kernel.org,
-        catalin.marinas@arm.com, will@kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net, peterz@infradead.org,
-        arnd@arndb.de, linux-kernel@vger.kernel.org,
-        darren@os.amperecomputing.com, yangyicong@hisilicon.com,
-        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
-        guojian@oppo.com, realmz6@gmail.com, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        wangkefeng.wang@huawei.com, xhao@linux.alibaba.com,
-        prime.zeng@hisilicon.com, anshuman.khandual@arm.com,
-        Anshuman Khandual <khandual@linux.vnet.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 21, 2022 at 8:45 PM Yicong Yang <yangyicong@huawei.com> wrote:
->
-> From: Anshuman Khandual <khandual@linux.vnet.ibm.com>
->
-> The entire scheme of deferred TLB flush in reclaim path rests on the
-> fact that the cost to refill TLB entries is less than flushing out
-> individual entries by sending IPI to remote CPUs. But architecture
-> can have different ways to evaluate that. Hence apart from checking
-> TTU_BATCH_FLUSH in the TTU flags, rest of the decision should be
-> architecture specific.
->
-> Signed-off-by: Anshuman Khandual <khandual@linux.vnet.ibm.com>
-> [https://lore.kernel.org/linuxppc-dev/20171101101735.2318-2-khandual@linux.vnet.ibm.com/]
-> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-> [Rebase and fix incorrect return value type]
-> Reviewed-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-> Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
+After 25b21cb2f6d6 ("[PATCH] IPC namespace core") and 4e9823111bdc
+("[PATCH] IPC namespace - shm") the shared memory page count stopped
+being global and started counting per ipc namespace. The documentation
+and shmget(2) still says that shmall is a global option.
 
-Reviewed-by: Barry Song <baohua@kernel.org>
+shmget(2):
 
->  arch/x86/include/asm/tlbflush.h | 12 ++++++++++++
->  mm/rmap.c                       |  9 +--------
->  2 files changed, 13 insertions(+), 8 deletions(-)
->
-> diff --git a/arch/x86/include/asm/tlbflush.h b/arch/x86/include/asm/tlbflush.h
-> index cda3118f3b27..8a497d902c16 100644
-> --- a/arch/x86/include/asm/tlbflush.h
-> +++ b/arch/x86/include/asm/tlbflush.h
-> @@ -240,6 +240,18 @@ static inline void flush_tlb_page(struct vm_area_struct *vma, unsigned long a)
->         flush_tlb_mm_range(vma->vm_mm, a, a + PAGE_SIZE, PAGE_SHIFT, false);
->  }
->
-> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
-> +{
-> +       bool should_defer = false;
-> +
-> +       /* If remote CPUs need to be flushed then defer batch the flush */
-> +       if (cpumask_any_but(mm_cpumask(mm), get_cpu()) < nr_cpu_ids)
-> +               should_defer = true;
-> +       put_cpu();
-> +
-> +       return should_defer;
-> +}
-> +
->  static inline u64 inc_mm_tlb_gen(struct mm_struct *mm)
->  {
->         /*
-> diff --git a/mm/rmap.c b/mm/rmap.c
-> index 93d5a6f793d2..cd8cf5cb0b01 100644
-> --- a/mm/rmap.c
-> +++ b/mm/rmap.c
-> @@ -690,17 +690,10 @@ static void set_tlb_ubc_flush_pending(struct mm_struct *mm, bool writable)
->   */
->  static bool should_defer_flush(struct mm_struct *mm, enum ttu_flags flags)
->  {
-> -       bool should_defer = false;
-> -
->         if (!(flags & TTU_BATCH_FLUSH))
->                 return false;
->
-> -       /* If remote CPUs need to be flushed then defer batch the flush */
-> -       if (cpumask_any_but(mm_cpumask(mm), get_cpu()) < nr_cpu_ids)
-> -               should_defer = true;
-> -       put_cpu();
-> -
-> -       return should_defer;
-> +       return arch_tlbbatch_should_defer(mm);
->  }
->
->  /*
-> --
-> 2.24.0
->
+SHMALL System-wide limit on the total amount of shared memory, measured
+in units of the system page size. On Linux, this limit can be read and
+modified via /proc/sys/kernel/shmall.
+
+I think the changes made in 2006 should be documented.
+
+Signed-off-by: Alexey Gladkov <legion@kernel.org>
+Acked-by: "Eric W. Biederman" <ebiederm@xmission.com>
+---
+ Documentation/admin-guide/sysctl/kernel.rst | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index ee6572b1edad..c8b89bd8f004 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -541,6 +541,9 @@ default (``MSGMNB``).
+ ``msgmni`` is the maximum number of IPC queues. 32000 by default
+ (``MSGMNI``).
+ 
++All of these parameters are set per ipc namespace. The maximum number of bytes
++in POSIX message queues is limited by ``RLIMIT_MSGQUEUE``. This limit is
++respected hierarchically in the each user namespace.
+ 
+ msg_next_id, sem_next_id, and shm_next_id (System V IPC)
+ ========================================================
+@@ -1181,15 +1184,20 @@ are doing anyway :)
+ shmall
+ ======
+ 
+-This parameter sets the total amount of shared memory pages that
+-can be used system wide. Hence, ``shmall`` should always be at least
+-``ceil(shmmax/PAGE_SIZE)``.
++This parameter sets the total amount of shared memory pages that can be used
++inside ipc namespace. The shared memory pages counting occurs for each ipc
++namespace separately and is not inherited. Hence, ``shmall`` should always be at
++least ``ceil(shmmax/PAGE_SIZE)``.
+ 
+ If you are not sure what the default ``PAGE_SIZE`` is on your Linux
+ system, you can run the following command::
+ 
+ 	# getconf PAGE_SIZE
+ 
++To reduce or disable the ability to allocate shared memory, you must create a
++new ipc namespace, set this parameter to the required value and prohibit the
++creation of a new ipc namespace in the current user namespace or cgroups can
++be used.
+ 
+ shmmax
+ ======
+-- 
+2.33.4
+
