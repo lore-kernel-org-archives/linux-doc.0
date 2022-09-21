@@ -2,45 +2,42 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F287C6FA8B
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 20:12:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A27EBC6FA82
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 20:13:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230309AbiIUUMl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Sep 2022 16:12:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57170 "EHLO
+        id S230443AbiIUUNa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Sep 2022 16:13:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229970AbiIUUMk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 16:12:40 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B394DA3D74;
-        Wed, 21 Sep 2022 13:12:39 -0700 (PDT)
+        with ESMTP id S230380AbiIUUN1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 16:13:27 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79C8AA4B13;
+        Wed, 21 Sep 2022 13:13:17 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 55B0B7F9;
-        Wed, 21 Sep 2022 20:12:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 55B0B7F9
+        by ms.lwn.net (Postfix) with ESMTPSA id 58C482B0;
+        Wed, 21 Sep 2022 20:13:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 58C482B0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1663791159; bh=HCyw+9UYLfNJ7d/Ja91BuDVnp8I7ZyuTH/KCTIXzVbY=;
+        t=1663791196; bh=28ptMZUzJD0DzYp8Orj7yZu0E/3Ie5MqeiQlOIFfBPY=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Gwl5RHBCP2sRiGkW7Q9ibExU4CkooWU1s4ehou7KP46wH6sZYFmm3nES8T/RMyDAU
-         TR32ucz2dwWTEu3Wu8ODASBb1B+6dkGbEQTfMkAQJfSzYXhXm2Ke/vOszg3a3ZOOAH
-         VF1Wsw9DcU0wjhQ6CBWGJQzKQMQzy7jpbX0P504bh64IGhSbBGZ71kjB+Hu7G9Mxtn
-         vfr7QheNxQe3Zh/+MOQiZcRN5cPwtOHgA0LsxYaISmcGYEE7tyr6X7eWhK5QA7eDYq
-         Hw93WucxfArzuOY1GNXYMTIvzXMrz98E24J4kYRWKSzAdBKqPFtO4u+fqT517aPW5I
-         btMlgHhXuRgeg==
+        b=AJYw5RwskVegI2+3Q6ye9XmL/Eq3fsJuP9PSfYNFvjTKgxbwcVx9y+oteaxMJreLD
+         nMhcZlHGQmAyRlFRw29Gcw92p1v4dLKUT25/1NYT0bCZMaBtlZ6NFJww59tfbSGJsM
+         Nw4ChwehFawM0lIFUn6haU3LDk9/J2UVyNseq6Xz2yLFsKGWuR94UiBMtCq18fg1yY
+         bOrGmCgnmrj/iexRw19iiFqV+FcHlkRHiSmxiPs2ikjbmvwSGWw+CehxX+s24v3ATC
+         SRBVKrMAyZejBFzH5jLv0DHqyWw4GwG40a/wFMu/nYAkZIn78SAawEGYfcdUXnWoj5
+         mG3SsWCftCn4Q==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Bernie Thompson <bernie@plugable.com>,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Helge Deller <deller@gmx.de>, linux-doc@vger.kernel.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v2] Documentation: fb: udlfb: clean up text and formatting
-In-Reply-To: <20220828192501.14232-1-rdunlap@infradead.org>
-References: <20220828192501.14232-1-rdunlap@infradead.org>
-Date:   Wed, 21 Sep 2022 14:12:38 -0600
-Message-ID: <874jx0v64p.fsf@meer.lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        Evgeniy Polyakov <zbr@ioremap.net>
+Subject: Re: [PATCH] Documentation: W1: minor typo corrections
+In-Reply-To: <20220828002845.7022-1-rdunlap@infradead.org>
+References: <20220828002845.7022-1-rdunlap@infradead.org>
+Date:   Wed, 21 Sep 2022 14:13:15 -0600
+Message-ID: <87zgestrj8.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -49,23 +46,23 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Randy Dunlap <rdunlap@infradead.org> writes:
 
-> Clean up punctuation, spelling, and formatting for command line usage
-> and modprobe config file usage in udlfb.rst.
+> Correct one typo/spello and remove one duplicated word in the
+> W1 documentation.
 >
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Bernie Thompson <bernie@plugable.com>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Helge Deller <deller@gmx.de>
 > Cc: Jonathan Corbet <corbet@lwn.net>
 > Cc: linux-doc@vger.kernel.org
-> Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+> Cc: Evgeniy Polyakov <zbr@ioremap.net>
 > ---
-> v2: use some text suggestions from Bagas Sanjaya (Thanks);
->     add a '.' at the end of a sentence.
+> @Evegniy-
+> I notice that ioremap.net web site is not working for me.
+> Can you do something about that or modify the URL in
+> Documentation/w1/w1-netlink.rst (2. http://www.ioremap.net/archive/w1)
+> for source code examples?
 >
->  Documentation/fb/udlfb.rst |   23 +++++++++++++++--------
->  1 file changed, 15 insertions(+), 8 deletions(-)
+>  Documentation/w1/masters/ds2490.rst |    2 +-
+>  Documentation/w1/w1-generic.rst     |    2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
 Applied, thanks.
 
