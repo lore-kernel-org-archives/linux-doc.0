@@ -2,72 +2,213 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2D78ECAAD8
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 21:00:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB86C32771
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 21:11:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229506AbiIUVAm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Sep 2022 17:00:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58032 "EHLO
+        id S229974AbiIUVLd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Sep 2022 17:11:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229761AbiIUVAl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 17:00:41 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 800359F77D;
-        Wed, 21 Sep 2022 14:00:39 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        with ESMTP id S229886AbiIUVLc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 17:11:32 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C1610CE;
+        Wed, 21 Sep 2022 14:11:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BE8B3536;
-        Wed, 21 Sep 2022 21:00:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BE8B3536
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1663794039; bh=7isKC+YSrGaask6vUXhGDpDQnw8IL3toZv6gUCLE72s=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=rEOiBVfntAQvQ1GXrONqpjs813fenB0/n52jEVdwxQ1YknIczxpIKHAmyjezOCPxg
-         o1aKp2E2GraujCxZmQ+hGhSFbda0QsqNhQOj0OpcfE3Qbjo7lUgAz34y0IzS14BEK7
-         JOzPWrqIVvpVOHqYgJS270Gv5p1JcGSp7WT7anNLntwFeqjh23hk5glbEAWcAbXpOT
-         cafgxu3hHWtRwGBV2u/aggSOC6rIoQO9ks5ckVyCCqXdL3qziATkQ+9qvqzAih1iVR
-         DdkkTgrwNZzHDyrnHRnsjtc8qduw3CAYr8++oGI0UC0Ho/9Rp4XqnEFZW6psFNuCEL
-         mDFM0l/VGvb7A==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: Re: [RFC] docs: Define c_paren_attributes for attributes with
- arguments
-In-Reply-To: <20220902223507.2537469-1-keescook@chromium.org>
-References: <20220902223507.2537469-1-keescook@chromium.org>
-Date:   Wed, 21 Sep 2022 15:00:36 -0600
-Message-ID: <87mtastpcb.fsf@meer.lwn.net>
-MIME-Version: 1.0
+        by ams.source.kernel.org (Postfix) with ESMTPS id 191E2B81F8E;
+        Wed, 21 Sep 2022 21:11:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A7B1C433D7;
+        Wed, 21 Sep 2022 21:11:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663794687;
+        bh=q5iTDoMb1h594m9zBAcQ294TqIVliTEQoMBfbSTQOEc=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=HXKQICEaWSNQF2IN43p5UTWR7wkEBhbRHnddHQoZkXz8gJLh7Pr2bkQPAxjcpnJi2
+         0Q/h6CzriwchnUlmsO9BDrIPtn/TeLnrVo5uHkw+szXrG+6sXl1ElJp1xhSdyvhMlJ
+         cuioDOWdEvguwOM6wEjHbayOspWvgVYmtrk92qmcaHWzfQCFkqJWQC2h1+eW5FaVCH
+         Wv0Tu9JJEiRYwy9ADZliY6hVGdYUT8dEXk/XfHpcHKoPPq7vjZWjV2QbbCcjdLDi+Z
+         vuZjF6LDsm0w768UHnwzYxUul0fXGQ4vzbQ9ilbulLqSISqwiHkJi3bQJ47+UV6Hyw
+         mrdSIgubNRwXg==
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 277B227C0054;
+        Wed, 21 Sep 2022 17:11:25 -0400 (EDT)
+Received: from imap48 ([10.202.2.98])
+  by compute2.internal (MEProxy); Wed, 21 Sep 2022 17:11:25 -0400
+X-ME-Sender: <xms:-n0rY_4N0LKpSTfU-17jxItIVA2IeOyeV3GBH-kTGeaQnD44QEGWsA>
+    <xme:-n0rY05FRoGSPXzqMPaO0MmZQgUZpWgYxdjP4kFXdAHqngqCBvxsuyaZNtPNWtT0M
+    maJP6ri53jokKJgZsg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefuddgudeitdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    nhguhicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedvhfeuvddthfdufffhkeekffetgffhledtleegffetheeugeej
+    ffduhefgteeihfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedu
+    keehieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinh
+    hugidrlhhuthhordhush
+X-ME-Proxy: <xmx:-n0rY2fud6xh0WVrheag-M-5En3oxyvmXPkXJRxC0S-XYaeJiPIqsw>
+    <xmx:-n0rYwJ4GI3Nzi4ft0zhvleIXE5-DX0-OH5WjOjQhfMBWzMBrktPoA>
+    <xmx:-n0rYzKpWKke8wVrjYykrrHICZQAPwgvRIuBwudPMdXnQbse-OJeWA>
+    <xmx:_X0rYxkptztuCef_-KiMtVyhiKBRT0-vPWSHiG4dcD54DzNMZcfFTWwsQ6o>
+Feedback-ID: ieff94742:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id C289931A0062; Wed, 21 Sep 2022 17:11:22 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
+Mime-Version: 1.0
+Message-Id: <84e81d21-c800-4fd5-ad7c-f20bcdd7508b@www.fastmail.com>
+In-Reply-To: <Yyi+l3+p9lbBAC4M@google.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
+ <Yyi+l3+p9lbBAC4M@google.com>
+Date:   Wed, 21 Sep 2022 14:10:51 -0700
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Sean Christopherson" <seanjc@google.com>,
+        "David Hildenbrand" <david@redhat.com>
+Cc:     "Chao Peng" <chao.p.peng@linux.intel.com>,
+        "kvm list" <kvm@vger.kernel.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        "Linux API" <linux-api@vger.kernel.org>, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, "Paolo Bonzini" <pbonzini@redhat.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Vitaly Kuznetsov" <vkuznets@redhat.com>,
+        "Wanpeng Li" <wanpengli@tencent.com>,
+        "Jim Mattson" <jmattson@google.com>,
+        "Joerg Roedel" <joro@8bytes.org>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Hugh Dickins" <hughd@google.com>,
+        "Jeff Layton" <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Shuah Khan" <shuah@kernel.org>, "Mike Rapoport" <rppt@kernel.org>,
+        "Steven Price" <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        "Vlastimil Babka" <vbabka@suse.cz>,
+        "Vishal Annapurve" <vannapurve@google.com>,
+        "Yu Zhang" <yu.c.zhang@linux.intel.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        "Dave Hansen" <dave.hansen@intel.com>,
+        "Andi Kleen" <ak@linux.intel.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        "Quentin Perret" <qperret@google.com>,
+        "Michael Roth" <michael.roth@amd.com>,
+        "Michal Hocko" <mhocko@suse.com>,
+        "Muchun Song" <songmuchun@bytedance.com>, wei.w.wang@intel.com,
+        "Will Deacon" <will@kernel.org>, "Marc Zyngier" <maz@kernel.org>,
+        "Fuad Tabba" <tabba@google.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kees Cook <keescook@chromium.org> writes:
+(please excuse any formatting disasters.  my internet went out as I was composing this, and i did my best to rescue it.)
 
-> While Sphinx's "c_id_attributes" is needed for basic attributes, any
-> attributes with arguments need to be defined in "c_paren_attributes"
-> to avoid errors like:
+On Mon, Sep 19, 2022, at 12:10 PM, Sean Christopherson wrote:
+> +Will, Marc and Fuad (apologies if I missed other pKVM folks)
 >
-> include/linux/fortify-string.h:116: warning: Function parameter or member '__builtin_strncpy' not described in '__diagnose_as'
-> include/linux/fortify-string.h:116: warning: Function parameter or member '1' not described in '__diagnose_as'
-> include/linux/fortify-string.h:116: warning: Function parameter or member '2' not described in '__diagnose_as'
-> include/linux/fortify-string.h:116: warning: Function parameter or member '3' not described in '__diagnose_as'
+> On Mon, Sep 19, 2022, David Hildenbrand wrote:
+>> On 15.09.22 16:29, Chao Peng wrote:
+>> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+>> > 
+>> > KVM can use memfd-provided memory for guest memory. For normal userspace
+>> > accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
+>> > virtual address space and then tells KVM to use the virtual address to
+>> > setup the mapping in the secondary page table (e.g. EPT).
+>> > 
+>> > With confidential computing technologies like Intel TDX, the
+>> > memfd-provided memory may be encrypted with special key for special
+>> > software domain (e.g. KVM guest) and is not expected to be directly
+>> > accessed by userspace. Precisely, userspace access to such encrypted
+>> > memory may lead to host crash so it should be prevented.
+>> 
+>> Initially my thaught was that this whole inaccessible thing is TDX specific
+>> and there is no need to force that on other mechanisms. That's why I
+>> suggested to not expose this to user space but handle the notifier
+>> requirements internally.
+>> 
+>> IIUC now, protected KVM has similar demands. Either access (read/write) of
+>> guest RAM would result in a fault and possibly crash the hypervisor (at
+>> least not the whole machine IIUC).
 >
-> Move such attributes to "c_paren_attributes" and add __alloc_size
-> and __diagnose_as to the list.
+> Yep.  The missing piece for pKVM is the ability to convert from shared 
+> to private
+> while preserving the contents, e.g. to hand off a large buffer 
+> (hundreds of MiB)
+> for processing in the protected VM.  Thoughts on this at the bottom.
+>
+>> > This patch introduces userspace inaccessible memfd (created with
+>> > MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
+>> > ordinary MMU access (e.g. read/write/mmap) but can be accessed via
+>> > in-kernel interface so KVM can directly interact with core-mm without
+>> > the need to map the memory into KVM userspace.
+>> 
+>> With secretmem we decided to not add such "concept switch" flags and instead
+>> use a dedicated syscall.
+>>
+>
+> I have no personal preference whatsoever between a flag and a dedicated syscall,
+> but a dedicated syscall does seem like it would give the kernel a bit more
+> flexibility.
 
-So which tree are those warnings coming from?  I can't reproduce them
-with linux-next.
+The third option is a device node, e.g. /dev/kvm_secretmem or /dev/kvm_tdxmem or similar.  But if we need flags or other details in the future, maybe this isn't ideal.
 
-As Akira noted, the kernel-doc script is the source of those warnings,
-so changing the Sphinx configuration is unlikely to help.  I think we
-just need to teach kernel-doc to ignore those attributes.
+>
+>> What about memfd_inaccessible()? Especially, sealing and hugetlb are not
+>> even supported and it might take a while to support either.
+>
+> Don't know about sealing, but hugetlb support for "inaccessible" memory 
+> needs to
+> come sooner than later.  "inaccessible" in quotes because we might want 
+> to choose
+> a less binary name, e.g. "restricted"?.
+>
+> Regarding pKVM's use case, with the shim approach I believe this can be done by
+> allowing userspace mmap() the "hidden" memfd, but with a ton of restrictions
+> piled on top.
+>
+> My first thought was to make the uAPI a set of KVM ioctls so that KVM 
+> could tightly
+> tightly control usage without taking on too much complexity in the 
+> kernel, but
+> working through things, routing the behavior through the shim itself 
+> might not be
+> all that horrific.
+>
+> IIRC, we discarded the idea of allowing userspace to map the "private" 
+> fd because
+> things got too complex, but with the shim it doesn't seem _that_ bad.
 
-Thanks,
+What's the exact use case?  Is it just to pre-populate the memory?
 
-jon
+>
+> E.g. on the memfd side:
+>
+>   1. The entire memfd must be mapped, and at most one mapping is allowed, i.e.
+>      mapping is all or nothing.
+>
+>   2. Acquiring a reference via get_pfn() is disallowed if there's a mapping for
+>      the restricted memfd.
+>
+>   3. Add notifier hooks to allow downstream users to further restrict things.
+>
+>   4. Disallow splitting VMAs, e.g. to force userspace to munmap() everything in
+>      one shot.
+>
+>   5. Require that there are no outstanding references at munmap().  Or if this
+>      can't be guaranteed by userspace, maybe add some way for userspace to wait
+>      until it's ok to convert to private?  E.g. so that get_pfn() doesn't need
+>      to do an expensive check every time.
+
+Hmm.  I haven't looked at the code to see if this would really work, but I think this could be done more in line with how the rest of the kernel works by using the rmap infrastructure.  When the pKVM memfd is in not-yet-private mode, just let it be mmapped as usual (but don't allow any form of GUP or pinning).  Then have an ioctl to switch to to shared mode that takes locks or sets flags so that no new faults can be serviced and does unmap_mapping_range.
+
+As long as the shim arranges to have its own vm_ops, I don't immediately see any reason this can't work.
