@@ -2,84 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DABA5C6FA82
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 14:40:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34CFFECAAD8
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 16:57:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbiIUOkU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Sep 2022 10:40:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53372 "EHLO
+        id S230145AbiIUQ52 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Sep 2022 12:57:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbiIUOkT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 10:40:19 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32271402DD;
-        Wed, 21 Sep 2022 07:40:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C603CB8301E;
-        Wed, 21 Sep 2022 14:40:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6E788C433D6;
-        Wed, 21 Sep 2022 14:40:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663771215;
-        bh=2T86XA+5LLRichFf9g+zaObrU6VZTSO6i3adeaZKruA=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=fFGOLCisHynWsSMueNl7Y/v2sux1PWBY0s02V7u6xMuzjqEQZxGXxxSGlyI75LRKE
-         O+UxhptDLtFr8TInpEYb65bNF7gLtBZlKLciQX6AQqiTvdY6zSEMmE26sewYMl4Gnq
-         xE9HKhyVdHG+s5LvLcmkw4ZpnSgVkRqjGHLMmzS0Ul8nM9BQU78tZzWkJWWQR2h8CL
-         22rG6iaERRwU7XKrm0pKPQS1IZwVHYGMucbAN5K85JwGC2RJ0PhmA23Qc3Uw+0amU6
-         3BRi7KL89t7iaAkI3iqIJIZic0g5yhvG4XljorL+pLU8Udpt/6ic+4IFr4IpDxcWO0
-         ER8Cme9c6bb6Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4BEEBE4D03D;
-        Wed, 21 Sep 2022 14:40:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S231549AbiIUQ5K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 12:57:10 -0400
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4C6EEA3;
+        Wed, 21 Sep 2022 09:56:15 -0700 (PDT)
+Received: from omf04.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay06.hostedemail.com (Postfix) with ESMTP id C35F6A7795;
+        Wed, 21 Sep 2022 16:56:12 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf04.hostedemail.com (Postfix) with ESMTPA id C84EB2002B;
+        Wed, 21 Sep 2022 16:56:00 +0000 (UTC)
+Message-ID: <aac5ee76680d9ea445f09894e161fa1fb66884a8.camel@perches.com>
+Subject: Re: [PATCH v7] checkpatch: warn for non-standard fixes tag style
+From:   Joe Perches <joe@perches.com>
+To:     Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@corigine.com>
+Cc:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        oss-drivers@corigine.com, Simon Horman <simon.horman@corigine.com>,
+        Louis Peens <louis.peens@corigine.com>
+Date:   Wed, 21 Sep 2022 09:56:07 -0700
+In-Reply-To: <Yyse1XvsdiIJ3dun@oden.dyn.berto.se>
+References: <20220914100255.1048460-1-niklas.soderlund@corigine.com>
+         <aa858ac592679fdf512debe17e0612c575450860.camel@perches.com>
+         <YyLtEza0VhSbflvH@oden.dyn.berto.se> <Yyse1XvsdiIJ3dun@oden.dyn.berto.se>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3 net-next] docs: net: add an explanation of VF (and other)
- Representors
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166377121530.12143.786016178695125042.git-patchwork-notify@kernel.org>
-Date:   Wed, 21 Sep 2022 14:40:15 +0000
-References: <20220905135557.39233-1-ecree@xilinx.com>
-In-Reply-To: <20220905135557.39233-1-ecree@xilinx.com>
-To:     <ecree@xilinx.com>
-Cc:     netdev@vger.kernel.org, linux-net-drivers@amd.com,
-        davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        jacob.e.keller@intel.com, jesse.brandeburg@intel.com,
-        michael.chan@broadcom.com, andy@greyhouse.net, saeed@kernel.org,
-        jiri@resnulli.us, snelson@pensando.io, simon.horman@corigine.com,
-        alexander.duyck@gmail.com, rdunlap@infradead.org, parav@nvidia.com,
-        roid@nvidia.com, marcin.szycik@linux.intel.com,
-        ecree.xilinx@gmail.com
+X-Stat-Signature: 4b4fdr94awb8f97y889xrrjf9e7y1xtc
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: C84EB2002B
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/QsOblTrNsJ6wV3M3O22304IWryb+lA2o=
+X-HE-Tag: 1663779360-402295
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+On Wed, 2022-09-21 at 16:25 +0200, Niklas Söderlund wrote:
+> Hello Joe,
 
-This patch was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+Hello Niklas
 
-On Mon, 5 Sep 2022 14:55:57 +0100 you wrote:
-> From: Edward Cree <ecree.xilinx@gmail.com>
-> 
-> There's no clear explanation of what VF Representors are for, their
->  semantics, etc., outside of vendor docs and random conference slides.
-> Add a document explaining Representors and defining what drivers that
->  implement them are expected to do.
-> 
-> [...]
+> Just wanted to check on my misunderstanding below before posting a v8.
 
-Here is the summary with links:
-  - [v3,net-next] docs: net: add an explanation of VF (and other) Representors
-    https://git.kernel.org/netdev/net-next/c/6fb4825e492b
+I think v7 is ok, unless you found something else better.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> > > One grep pattern to verify the non canonical fixes format that
+> > > are mistakenly used is:
+> > > 
+> > > $ git log --since=5-years-ago --no-merges --grep='^\s*fixes' -i --format=email -P | \
+> > >   grep -P -i '^\s*fixes' | \
+> > >   grep -P -v '^Fixes: [0-9a-f]{12,12}\s*\(".*")'
+> > > There are many different styles.
+> > > Parentheses are sometimes not used.
+> > 
+> > I understand this, and I did have a look at it.
 
-
+Good enough for me.  Thanks.
