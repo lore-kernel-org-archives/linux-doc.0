@@ -2,110 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D702CECAAD8
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 18:09:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F46AC6FA8B
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 18:26:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230312AbiIUSJL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Sep 2022 14:09:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40774 "EHLO
+        id S229521AbiIUS0e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Sep 2022 14:26:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230241AbiIUSJK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 14:09:10 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C3D481B3C
-        for <linux-doc@vger.kernel.org>; Wed, 21 Sep 2022 11:09:07 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id u28so4565673qku.2
-        for <linux-doc@vger.kernel.org>; Wed, 21 Sep 2022 11:09:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=2KAjKe3iq+QwXIwjpYW0v2WCVk5payTUoCJDsQmbzI8=;
-        b=fHDduti3CxdhlR7cTOA3bHhFjSsFgLzHd7cyUqMp7cDXRqkMCXpLOCc22ysE/u6Kh2
-         HIGYwvhJxEZfTaOngML/3hnx0h432B4fP7654sKJhbc5rtbz36iNUhGVxIJi+7ZkpwJK
-         Hjm/3CgbuCWlweV9iNYNfgs81GLrkku0T+vBnkfB6J2jO02uzYEZ3hQ0SfGKaqtZL6v1
-         TyJGu1wof5Q41gchlf9KraJgvFxDWjGIzqspgvV9PCaNgCxTeXJuBXQlqrVf41ZO3v41
-         l0igml8T46Gi/I4N/N2ciB7wX2RNoBfMYAPi5C86mv/+8zmytwTakT45ZHsr8oD2zbaV
-         YSuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=2KAjKe3iq+QwXIwjpYW0v2WCVk5payTUoCJDsQmbzI8=;
-        b=aTk+ahBVl0yNGYvKBpC+G2bKQ6VD0alcl6I2V2pvvMRzRm1ZeQ/JhulqoJt4jTBx3V
-         5d0aEl9BqitNM0awg8deN6ttxEt5oMQScoDeI9QMDoNGjcmwyemOOxXrlxeJfLSvCy9z
-         RcdKhpRa/9AkfZWARC4kU8nkmuMVlsEN3uwFKZEoUP48V3m1S6Vx5ZPtMa2zNsKubUdk
-         K8056kN0DMlUnUxD+39Gus8uP4up3QZ5UrdBwzB95KyvuvomwtPzFKYT8Ad8zuX5urWs
-         gnwtPj9C9taeBpY+8yfEw4PNkcIQ7qQn4oyegxtt3NTrE2lY01379NiOvgBOKif7Kpqi
-         XaMg==
-X-Gm-Message-State: ACrzQf0YO6ZezdcRzZbeNakVbZJz9JIVwyukg31eRnxyN/kDvCw/Xqa4
-        lHHCU7AOo9bSaAQsYtyCMtwSkg==
-X-Google-Smtp-Source: AMsMyM4UCVkUuJlIWCzIoLcjoOrjvEbZNm7U4braBDAIgp5TxPj0szTxk92o8GSPD6WK1CcXL2nSfg==
-X-Received: by 2002:ae9:eb04:0:b0:6cb:d287:d6d4 with SMTP id b4-20020ae9eb04000000b006cbd287d6d4mr20476883qkg.310.1663783746781;
-        Wed, 21 Sep 2022 11:09:06 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id o10-20020ac841ca000000b00339163a06fcsm2075049qtm.6.2022.09.21.11.09.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Sep 2022 11:09:05 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1ob49g-001Gq7-T9;
-        Wed, 21 Sep 2022 15:09:04 -0300
-Date:   Wed, 21 Sep 2022 15:09:04 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Evan Green <evgreen@chromium.org>, linux-kernel@vger.kernel.org,
-        gwendal@chromium.org, Eric Biggers <ebiggers@kernel.org>,
-        Matthew Garrett <mgarrett@aurora.tech>, jarkko@kernel.org,
-        zohar@linux.ibm.com, linux-integrity@vger.kernel.org,
-        apronin@chromium.org, dlunev@google.com, rjw@rjwysocki.net,
-        linux-pm@vger.kernel.org, corbet@lwn.net, jejb@linux.ibm.com,
-        David Howells <dhowells@redhat.com>,
-        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
-        Len Brown <len.brown@intel.com>,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Paul Moore <paul@paul-moore.com>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
-        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v2 00/10] Encrypted Hibernation
-Message-ID: <YytTQPOlAC58Bk7W@ziepe.ca>
-References: <20220823222526.1524851-1-evgreen@chromium.org>
- <20220920084648.GA17087@duo.ucw.cz>
+        with ESMTP id S229720AbiIUS0d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 14:26:33 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A0599E6BD;
+        Wed, 21 Sep 2022 11:26:31 -0700 (PDT)
+Received: from [192.168.10.9] (unknown [39.45.34.16])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: usama.anjum)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 86C166601F3F;
+        Wed, 21 Sep 2022 19:26:26 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1663784789;
+        bh=So86y159AbWJGTLFx2a5tmcV8v05eppZwwAmrovWgMM=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=IGDJJARkqok3B6pKtzC9Wf7OvwLPfsce/uxiqcj2w9+vuT/nKW+Tks5OD65FDuCuX
+         H/ap7da1XCgHuIvU/XoqGGV4A8u28RcxRxhH9jJr8DwSY6p1zURGwZxRoZ6mSc/hIJ
+         tfwYtCeXl39rr5ol291NlnhTqquo5POJ3kuKgzTLo4tWJPeBRjQN3gpoQKbCDHRNQe
+         N2Dx3YQGKt+qQX+l1X+V+GFHp+5ww+zNHJoh3/aB01Sz9WYhlATyMSmRmulP7978mI
+         JqFUDHrzQblaK5hcEicjIUcmsBR2stbPew4HBYXDSiweegz2o2i7VBbflfbJWxlhrh
+         qy9Igt7cKbb5A==
+Message-ID: <2c8b7116-56e9-3202-c47e-e42078c85793@collabora.com>
+Date:   Wed, 21 Sep 2022 23:26:21 +0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220920084648.GA17087@duo.ucw.cz>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Cc:     usama.anjum@collabora.com, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:PROC FILESYSTEM" <linux-fsdevel@vger.kernel.org>,
+        "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, kernel@collabora.com,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        David Hildenbrand <david@redhat.com>,
+        Peter Enderborg <peter.enderborg@sony.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v3 0/4] Implement IOCTL to get and clear soft dirty PTE
+Content-Language: en-US
+To:     Andrei Vagin <avagin@gmail.com>
+References: <20220826064535.1941190-1-usama.anjum@collabora.com>
+ <YyiDg79flhWoMDZB@gmail.com>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <YyiDg79flhWoMDZB@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 20, 2022 at 10:46:48AM +0200, Pavel Machek wrote:
-> Hi!
+Hi,
+
+Thank you for reviewing.
+
+On 9/19/22 7:58 PM, Andrei Vagin wrote:
+>> This ioctl can be used by the CRIU project and other applications which
+>> require soft-dirty PTE bit information. The following operations are
+>> supported in this ioctl:
+>> - Get the pages that are soft-dirty.
 > 
-> > We are exploring enabling hibernation in some new scenarios. However,
-> > our security team has a few requirements, listed below:
-> > 1. The hibernate image must be encrypted with protection derived from
-> >    both the platform (eg TPM) and user authentication data (eg
-> >    password).
-> > 2. Hibernation must not be a vector by which a malicious userspace can
-> >    escalate to the kernel.
+> I think this interface doesn't have to be limited by the soft-dirty
+> bits only. For example, CRIU needs to know whether file, present and swap bits
+> are set or not.
+These operations can be performed by pagemap procfs file. Definitely
+performing them through IOCTL will be faster. But I'm trying to add a
+simple IOCTL by which some specific PTE bit can be read and cleared
+atomically. This IOCTL can be extended to include other bits like file,
+present and swap bits by keeping the interface simple. The following
+mask advice is nice. But if we add that kind of masking, it'll start to
+look like a filter on top of pagemap. My intention is to not duplicate
+the functionality already provided by the pagemap. One may ask, then why
+am I adding "get the soft-dirty pages" functionality? I'm adding it to
+complement the get and clear operation. The "get" and "get and clear"
+operations with special flag (PAGEMAP_SD_NO_REUSED_REGIONS) can give
+results quicker by not splitting the VMAs.
+
 > 
-> Why is #2 reasonable requirement?
+> I mean we should be able to specify for what pages we need to get info
+> for. An ioctl argument can have these four fields:
+> * required bits (rmask & mask == mask) - all bits from this mask have to be set.
+> * any of these bits (amask & mask != 0) - any of these bits is set.
+> * exclude masks (emask & mask == 0) = none of these bits are set.
+> * return mask - bits that have to be reported to user.
+> 
+>> - Clear the pages which are soft-dirty.
+>> - The optional flag to ignore the VM_SOFTDIRTY and only track per page
+>> soft-dirty PTE bit
+>>
+>> There are two decisions which have been taken about how to get the output
+>> from the syscall.
+>> - Return offsets of the pages from the start in the vec
+> 
+> We can conside to return regions that contains pages with the same set
+> of bits.
+> 
+> struct page_region {
+> 	void *start;
+> 	long size;
+> 	u64 bitmap;
+> }
+> 
+> And ioctl returns arrays of page_region-s. I believe it will be more
+> compact form for many cases.
+Thank you for mentioning this. I'd considered this while development.
+But I gave up and used the simple array to return the offsets of the
+pages as in the problem I'm trying to solve, the dirty pages may be
+present amid non-dirty pages. The range may not be useful in that case.
+Also we want to return only a specific number of pages of interest. The
+following paragraph explains it.
 
-These days with kernel lockdown we don't allow userspace to enter the
-kernel
+> 
+>> - Stop execution when vec is filled with dirty pages
+>> These two arguments doesn't follow the mincore() philosophy where the
+>> output array corresponds to the address range in one to one fashion, hence
+>> the output buffer length isn't passed and only a flag is set if the page
+>> is present. This makes mincore() easy to use with less control. We are
+>> passing the size of the output array and putting return data consecutively
+>> which is offset of dirty pages from the start. The user can convert these
+>> offsets back into the dirty page addresses easily. Suppose, the user want
+>> to get first 10 dirty pages from a total memory of 100 pages. He'll
+>> allocate output buffer of size 10 and the ioctl will abort after finding the
+>> 10 pages. This behaviour is needed to support Windows' getWriteWatch(). The
+>> behaviour like mincore() can be achieved by passing output buffer of 100
+>> size. This interface can be used for any desired behaviour.
+>>
+>> [1] https://lore.kernel.org/lkml/54d4c322-cd6e-eefd-b161-2af2b56aae24@collabora.com/
+>>
+>> Regards,
+>> Muhammad Usama Anjum
+>>
+>> Muhammad Usama Anjum (4):
+>>   fs/proc/task_mmu: update functions to clear the soft-dirty PTE bit
+>>   fs/proc/task_mmu: Implement IOCTL to get and clear soft dirty PTE bit
+>>   selftests: vm: add pagemap ioctl tests
+>>   mm: add documentation of the new ioctl on pagemap
+>>
+>>  Documentation/admin-guide/mm/soft-dirty.rst |  42 +-
+>>  fs/proc/task_mmu.c                          | 342 ++++++++++-
+>>  include/uapi/linux/fs.h                     |  23 +
+>>  tools/include/uapi/linux/fs.h               |  23 +
+>>  tools/testing/selftests/vm/.gitignore       |   1 +
+>>  tools/testing/selftests/vm/Makefile         |   2 +
+>>  tools/testing/selftests/vm/pagemap_ioctl.c  | 649 ++++++++++++++++++++
+>>  7 files changed, 1050 insertions(+), 32 deletions(-)
+>>  create mode 100644 tools/testing/selftests/vm/pagemap_ioctl.c
+>>
+>> -- 
+>> 2.30.2
+>>
 
-> We normally allow userspace with appropriate permissions to update the
-> kernel, for example.
-
-And in a lockdown secure boot environment only a signed kernel can be
-booted in the first place.
-
-A series like this is effectively carrying the secure boot trust
-across the hibernation
-
-Jason
-
+-- 
+Muhammad Usama Anjum
