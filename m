@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D0CBC32771
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 12:49:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F4AC6FA8E
+	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 12:49:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229490AbiIUMtc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Sep 2022 08:49:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53618 "EHLO
+        id S229805AbiIUMtf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Sep 2022 08:49:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229835AbiIUMs6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 08:48:58 -0400
+        with ESMTP id S229657AbiIUMs5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 08:48:57 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6F9397EDF
-        for <linux-doc@vger.kernel.org>; Wed, 21 Sep 2022 05:48:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5128C95693
+        for <linux-doc@vger.kernel.org>; Wed, 21 Sep 2022 05:48:21 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ore@pengutronix.de>)
-        id 1oaz8r-0001uN-Bh; Wed, 21 Sep 2022 14:47:53 +0200
+        id 1oaz8r-0001ub-Bi; Wed, 21 Sep 2022 14:47:53 +0200
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ore@pengutronix.de>)
-        id 1oaz8p-0023o8-Nc; Wed, 21 Sep 2022 14:47:50 +0200
+        id 1oaz8q-0023oN-1Q; Wed, 21 Sep 2022 14:47:50 +0200
 Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ore@pengutronix.de>)
-        id 1oaz8m-000J8z-VD; Wed, 21 Sep 2022 14:47:48 +0200
+        id 1oaz8n-000J9G-0X; Wed, 21 Sep 2022 14:47:49 +0200
 From:   Oleksij Rempel <o.rempel@pengutronix.de>
 To:     Andrew Lunn <andrew@lunn.ch>,
         Heiner Kallweit <hkallweit1@gmail.com>,
@@ -43,9 +43,9 @@ Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
         David Jander <david@protonic.nl>,
         Luka Perkov <luka.perkov@sartura.hr>,
         Robert Marko <robert.marko@sartura.hr>
-Subject: [PATCH net-next v6 4/7] net: mdiobus: search for PSE nodes by parsing PHY nodes.
-Date:   Wed, 21 Sep 2022 14:47:44 +0200
-Message-Id: <20220921124748.73495-5-o.rempel@pengutronix.de>
+Subject: [PATCH net-next v6 6/7] dt-bindings: net: pse-dt: add bindings for regulator based PoDL PSE controller
+Date:   Wed, 21 Sep 2022 14:47:46 +0200
+Message-Id: <20220921124748.73495-7-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220921124748.73495-1-o.rempel@pengutronix.de>
 References: <20220921124748.73495-1-o.rempel@pengutronix.de>
@@ -59,145 +59,119 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some PHYs can be linked with PSE (Power Sourcing Equipment), so search
-for related nodes and attach it to the phydev.
+Add bindings for the regulator based Ethernet PoDL PSE controller and
+generic bindings for all PSE controllers.
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 ---
+changes v6:
+- add description of PSE controller
+- change "^ethernet-pse(@[a-f0-9]+)?$" to "^ethernet-pse(@.*)?$"
+changes v5:
+- rename to podl-pse-regulator.yaml
+- remove compatible description
+- remove "-1" on node name
+- add pse-controller.yaml for common properties
 changes v4:
-- add Reviewed-by: Andrew Lunn
-- put pse_control_put() after unregister_mii_timestamper()
-changes v3:
-- remove is_acpi_node() check
-- rework fwnode_find_pse_control() error handling
+- rename to PSE regulator
+- drop currently unused properties
+- use own compatible for PoDL PSE
+changes v2:
+- rename compatible to more generic "ieee802.3-pse"
+- add class and type properties for PoDL and PoE variants
+- add pairs property
 ---
- drivers/net/mdio/fwnode_mdio.c | 34 ++++++++++++++++++++++++++++++++--
- drivers/net/phy/phy_device.c   |  2 ++
- include/linux/phy.h            |  2 ++
- 3 files changed, 36 insertions(+), 2 deletions(-)
+ .../net/pse-pd/podl-pse-regulator.yaml        | 40 +++++++++++++++++++
+ .../bindings/net/pse-pd/pse-controller.yaml   | 33 +++++++++++++++
+ 2 files changed, 73 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/pse-pd/podl-pse-regulator.yaml
+ create mode 100644 Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml
 
-diff --git a/drivers/net/mdio/fwnode_mdio.c b/drivers/net/mdio/fwnode_mdio.c
-index 7ff7349a27a2..e2c97e207bbd 100644
---- a/drivers/net/mdio/fwnode_mdio.c
-+++ b/drivers/net/mdio/fwnode_mdio.c
-@@ -10,10 +10,28 @@
- #include <linux/fwnode_mdio.h>
- #include <linux/of.h>
- #include <linux/phy.h>
-+#include <linux/pse-pd/pse.h>
- 
- MODULE_AUTHOR("Calvin Johnson <calvin.johnson@oss.nxp.com>");
- MODULE_LICENSE("GPL");
- 
-+static struct pse_control *
-+fwnode_find_pse_control(struct fwnode_handle *fwnode)
-+{
-+	struct pse_control *psec;
-+	struct device_node *np;
+diff --git a/Documentation/devicetree/bindings/net/pse-pd/podl-pse-regulator.yaml b/Documentation/devicetree/bindings/net/pse-pd/podl-pse-regulator.yaml
+new file mode 100644
+index 000000000000..c6b1c188abf7
+--- /dev/null
++++ b/Documentation/devicetree/bindings/net/pse-pd/podl-pse-regulator.yaml
+@@ -0,0 +1,40 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/net/pse-pd/podl-pse-regulator.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	np = to_of_node(fwnode);
-+	if (!np)
-+		return NULL;
++title: Regulator based Power Sourcing Equipment
 +
-+	psec = of_pse_control_get(np);
-+	if (PTR_ERR(psec) == -ENOENT)
-+		return NULL;
++maintainers:
++  - Oleksij Rempel <o.rempel@pengutronix.de>
 +
-+	return psec;
-+}
++description: Regulator based PoDL PSE controller. The device must be referenced
++  by the PHY node to control power injection to the Ethernet cable.
 +
- static struct mii_timestamper *
- fwnode_find_mii_timestamper(struct fwnode_handle *fwnode)
- {
-@@ -91,14 +109,21 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
- 				struct fwnode_handle *child, u32 addr)
- {
- 	struct mii_timestamper *mii_ts = NULL;
-+	struct pse_control *psec = NULL;
- 	struct phy_device *phy;
- 	bool is_c45 = false;
- 	u32 phy_id;
- 	int rc;
- 
-+	psec = fwnode_find_pse_control(child);
-+	if (IS_ERR(psec))
-+		return PTR_ERR(psec);
++allOf:
++  - $ref: "pse-controller.yaml#"
 +
- 	mii_ts = fwnode_find_mii_timestamper(child);
--	if (IS_ERR(mii_ts))
--		return PTR_ERR(mii_ts);
-+	if (IS_ERR(mii_ts)) {
-+		rc = PTR_ERR(mii_ts);
-+		goto clean_pse;
-+	}
- 
- 	rc = fwnode_property_match_string(child, "compatible",
- 					  "ethernet-phy-ieee802.3-c45");
-@@ -134,18 +159,23 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
- 			goto clean_phy;
- 	}
- 
-+	phy->psec = psec;
++properties:
++  compatible:
++    const: podl-pse-regulator
 +
- 	/* phy->mii_ts may already be defined by the PHY driver. A
- 	 * mii_timestamper probed via the device tree will still have
- 	 * precedence.
- 	 */
- 	if (mii_ts)
- 		phy->mii_ts = mii_ts;
++  '#pse-cells':
++    const: 0
 +
- 	return 0;
- 
- clean_phy:
- 	phy_device_free(phy);
- clean_mii_ts:
- 	unregister_mii_timestamper(mii_ts);
-+clean_pse:
-+	pse_control_put(psec);
- 
- 	return rc;
- }
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index 2198f1302642..2e65a36b4384 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -26,6 +26,7 @@
- #include <linux/netdevice.h>
- #include <linux/phy.h>
- #include <linux/phy_led_triggers.h>
-+#include <linux/pse-pd/pse.h>
- #include <linux/property.h>
- #include <linux/sfp.h>
- #include <linux/skbuff.h>
-@@ -989,6 +990,7 @@ EXPORT_SYMBOL(phy_device_register);
- void phy_device_remove(struct phy_device *phydev)
- {
- 	unregister_mii_timestamper(phydev->mii_ts);
-+	pse_control_put(phydev->psec);
- 
- 	device_del(&phydev->mdio.dev);
- 
-diff --git a/include/linux/phy.h b/include/linux/phy.h
-index 337230c135f7..6cc017a1cf44 100644
---- a/include/linux/phy.h
-+++ b/include/linux/phy.h
-@@ -596,6 +596,7 @@ struct macsec_ops;
-  * @master_slave_get: Current master/slave advertisement
-  * @master_slave_state: Current master/slave configuration
-  * @mii_ts: Pointer to time stamper callbacks
-+ * @psec: Pointer to Power Sourcing Equipment control struct
-  * @lock:  Mutex for serialization access to PHY
-  * @state_queue: Work queue for state machine
-  * @shared: Pointer to private data shared by phys in one package
-@@ -709,6 +710,7 @@ struct phy_device {
- 	struct phylink *phylink;
- 	struct net_device *attached_dev;
- 	struct mii_timestamper *mii_ts;
-+	struct pse_control *psec;
- 
- 	u8 mdix;
- 	u8 mdix_ctrl;
++  pse-supply:
++    description: Power supply for the PSE controller
++
++additionalProperties: false
++
++required:
++  - compatible
++  - pse-supply
++
++examples:
++  - |
++    ethernet-pse {
++      compatible = "podl-pse-regulator";
++      pse-supply = <&reg_t1l1>;
++      #pse-cells = <0>;
++    };
+diff --git a/Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml b/Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml
+new file mode 100644
+index 000000000000..b110abb42597
+--- /dev/null
++++ b/Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml
+@@ -0,0 +1,33 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/net/pse-pd/pse-controller.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Power Sourcing Equipment (PSE).
++
++description: Binding for the Power Sourcing Equipment (PSE) as defined in the
++  IEEE 802.3 specification. It is designed for hardware which is delivering
++  power over twisted pair/ethernet cable. The ethernet-pse nodes should be
++  used to describe PSE controller and referenced by the ethernet-phy node.
++
++maintainers:
++  - Oleksij Rempel <o.rempel@pengutronix.de>
++
++properties:
++  $nodename:
++    pattern: "^ethernet-pse(@.*)?$"
++
++  "#pse-cells":
++    description:
++      Used to uniquely identify a PSE instance within an IC. Will be
++      0 on PSE nodes with only a single output and at least 1 on nodes
++      controlling several outputs.
++    enum: [0, 1]
++
++required:
++  - "#pse-cells"
++
++additionalProperties: true
++
++...
 -- 
 2.30.2
 
