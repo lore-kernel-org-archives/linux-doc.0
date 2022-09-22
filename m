@@ -2,165 +2,406 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1772ECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 07:34:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34EA2C6FA82
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 07:41:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229954AbiIWHej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 03:34:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46128 "EHLO
+        id S229925AbiIWHlv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 03:41:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229928AbiIWHei (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 03:34:38 -0400
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60119.outbound.protection.outlook.com [40.107.6.119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0C462A247;
-        Fri, 23 Sep 2022 00:34:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dAHuuhZgSs1oRlHwhqbcqPH8N3aBWsAsziyjdl7Mzlncy/xwv2XtDwnY+eA3fnh5ehbIIBdT+IfBHvdqj0qqGx7VgiuBNeUUMZzCVWMahxsdWXUGF5OM1rJZSEPBmgSawhFc96rwAb/92oXGMgJZIHD4ciz4jlofR34JMseAD0Z1hJnbBzdkEhAuOAMa8yM34bDmQS2ezDVR08g1AVU2w2R4qQ2+ExyX6cJhBhfAErEulV9/ewOXS3TjJg3LmfqUsu5L4NP2sSiliw9JjjTlG60zAQAwE7Lz7/Ffls4UsvHYjX94AKBnu6408D/OtOqjGx8o84fzz/3jZyhBaqXPkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fjOYn/4k09qNOyxi88hh7BxnKaKDN3zBNvOmPFWhqjo=;
- b=gXZ9WlF8F4rR6diMs2t0KomNmOJyZP4ZjC4uCCZGv8nhnRxv7mB3vEtTNk82pfKJx3cI1tmzMdxX5Y7DigHj43HaQJt4YgYPyDdX4WoCYnwIr3lepZvkThSsWoHUyG+x4OgRB/m/3J+R9G9vX1EMEOj4en4WWgvcwr4X7eqgVco4nO/ZtAIi2lECAI+gZ9rHIYeQb+DYyl27FjGb3t/JUzlbQOHnFI4H2Gb7ip5TfQU0pM7FAlL5I/om5gQZfF/gy3HMqjK/U2tuhEKx2uZcN8ax/LjLmoZc8JsQkDwXTobwGo9bACrEr+qiG/ebMFfckm0ncFtTp9OCKSFpOdvkVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fjOYn/4k09qNOyxi88hh7BxnKaKDN3zBNvOmPFWhqjo=;
- b=Y2pDOSHKlJIC5k+qk/8fQc7UEIJay/t+ixY0BMxNyUfjxok8caMSznWqL3iMtk1ElRXG2JBxtOb0sm5Rw6b+4zbmwfDtMYWxYRzg1lZP31NACvNj9IkOEwWs3q/97QWKN4McURWhYfy4ew0SRXu3O1XwG/SCnSn+WL4OIIhEtP7EnZKXouuWmen/G11iQdUl0/xtXEVOGjpiWOVHWfCdnhwIqDfJ1uX+AOhn07Ob9pS+j4vsV9YBfqpvLw4OcEnj8rO7k9IeUF2yDxyBRTFM3P74P52lbjOhdFiK0X1CcfC2i3VWAXzoicqVYBTsNwwaqccgOiCAA0ZzJjl53d7CWg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from VE1PR08MB4765.eurprd08.prod.outlook.com (2603:10a6:802:a5::16)
- by GV1PR08MB7803.eurprd08.prod.outlook.com (2603:10a6:150:5a::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.18; Fri, 23 Sep
- 2022 07:34:31 +0000
-Received: from VE1PR08MB4765.eurprd08.prod.outlook.com
- ([fe80::2846:1df0:88bb:451f]) by VE1PR08MB4765.eurprd08.prod.outlook.com
- ([fe80::2846:1df0:88bb:451f%3]) with mapi id 15.20.5654.020; Fri, 23 Sep 2022
- 07:34:31 +0000
-Message-ID: <30063d97-69f0-bea2-9d59-108140995bfc@virtuozzo.com>
-Date:   Fri, 23 Sep 2022 10:34:28 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.2.2
-Subject: Re: [PATCH v2] mm: Make failslab writable again
-To:     Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Roman Gushchin <roman.gushchin@linux.dev>, kernel@openvz.org,
-        Kees Cook <keescook@chromium.org>,
-        Roman Gushchin <guro@fb.com>, Jann Horn <jannh@google.com>,
-        Vijayanand Jitta <vjitta@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20220920121111.1792905-1-alexander.atanasov@virtuozzo.com>
- <Yyr1xONdw8dBgsKr@hyeyoo>
-From:   Alexander Atanasov <alexander.atanasov@virtuozzo.com>
-In-Reply-To: <Yyr1xONdw8dBgsKr@hyeyoo>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR07CA0252.eurprd07.prod.outlook.com
- (2603:10a6:803:b4::19) To VE1PR08MB4765.eurprd08.prod.outlook.com
- (2603:10a6:802:a5::16)
+        with ESMTP id S229535AbiIWHlo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 03:41:44 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 46DA11288A5
+        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 00:41:41 -0700 (PDT)
+Received: from [192.168.100.8] (unknown [112.20.112.163])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8CxYOIoYy1jA44gAA--.57504S3;
+        Fri, 23 Sep 2022 15:41:30 +0800 (CST)
+Message-ID: <72e0b27c-089a-cbce-d399-fec6f0358eeb@loongson.cn>
+Date:   Fri, 23 Sep 2022 07:41:26 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4765:EE_|GV1PR08MB7803:EE_
-X-MS-Office365-Filtering-Correlation-Id: 50ff07b1-44c9-47fc-f308-08da9d360d91
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JNvGQJMuVjIG/upM65hO3w4nndy792ZEgOtR8G4px2w4nxFejLebAiC5drDo8yioqqjg7j4PaJfybOxrizqV6iAp9/eD32/4Qui49t3Z0jcxAD5Q39NCGoD1mlzBP82NKPdcm3H0owvv+oDQMmDS+43g4Ierga2xn/m0h3MViIwirmXaRu6rGU31egpDd5vYpe7SY4YEEzl5E+BPm3TUpcxlmm0RBbqhNIBGn1GzixnIj7Y8SXQky7aiUA02tnDjga9WjC8g9vPHRmhVnwprqozCqw+Y5D1csOd8DVJ7zTfmFp/JvFxFwnUqvnfL4bx2uXRcvY1VrQqO2FUkmQZlTuvq2GGfOIRoAK+dTMg8YsiaMYKGDO4mfL+P2YvI6Oy3Aoxx3nozOtkLeAn0T9DK+mp01rjCv3goj0r6TIuBLYPN2LvT424kEwMnmFwHZy2jOYWsWO8uBIaQAA7OW4H1VTLQ5QIPHEQjQM/Aqzv/u7pLhEEYJ9hKe9dY7rKjsUQLPuT8J2oVu5AH9d7ox2uVgokKSGTyFQQZyMzjwOv8bhuFUtsV8lvgImCewJJlw2K7/fO9hLnw1fFAwlC9JU8QCksJ4A7WlV3h4TlTCUdKh9Qr/D53Orux3w18Li0wSGrPKwH4Ag5GevqcdZpmMw9WROZKKeE5ArqhtccxxvfYEUlrWzqpoxvbEMZRJIdAEGl7LTIM03d7RAGohqQywcTsg+3DeR6l4cYHj+FGxilXVTwi+yGlLYGOVOASd3RWWgo2Sb2HOcn569cR+/qQci6wXGyu86a6RK3tPbXAJlGiFBJyasUWkBlAEcu5UitmMEXW
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4765.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(39850400004)(136003)(346002)(366004)(376002)(451199015)(478600001)(54906003)(6916009)(316002)(66476007)(8676002)(66556008)(31686004)(6486002)(4326008)(66946007)(38350700002)(6666004)(41300700001)(5660300002)(53546011)(6506007)(52116002)(6512007)(44832011)(26005)(186003)(36756003)(2906002)(2616005)(8936002)(86362001)(31696002)(7416002)(83380400001)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGxES0g3dURVNzZPK05OUWxhdkUvc04wTHdpTkRycmNHT1lYeHFsd08rdlgx?=
- =?utf-8?B?WlB0Mkk1OVFTQStOT2x3U0ZGek85cWdBRGN2eHJDUFlBS0x3ZTgxSDZzdVA0?=
- =?utf-8?B?UGw0WGErMjcyaTRqUWRKRSsyMHBVT3pTZ2JVSzg2TVFmWkwrOXZBQm9UWWpK?=
- =?utf-8?B?aEYyb0pWbVBobXBzQi9ONmtDR2NlQXAvRVAwYnpWbVlRTVFFcGZxbE9lT0w2?=
- =?utf-8?B?SDkyUm1ZemVKaVFyQlN2Vk1EY3BzOHYyR3M1aklqSHNDUkR4RHlQT3VkU3NN?=
- =?utf-8?B?TEhzdDYxZGZtdkVzbHQwUmxvNFhOelBtQUt6dm9JdEx3R3RqSXZ0UkhGTitl?=
- =?utf-8?B?SUhFMmZpbFo5Z1ZPQTFlUWxsQUt4NnpnNnFYdjdMY0E5YktIV1Bxc3BxQkpn?=
- =?utf-8?B?QVVyODl3YnlYMHhEZG1SMHRGM2lJRFRkbHpHRDZzZ0lLdXNqV3ZGM1YvQzRs?=
- =?utf-8?B?S1k1Zlc1TFZ0RmlHQXNjdWtXRUwyZkRPOGZvUkdSQjlHTnlqazNaVlVSSnE4?=
- =?utf-8?B?cXNTd3c2eW1sbkVvQjZJVjl6ZVdWQVlqMEJIUkVWL2Y4YUtSUVJQM2MxTHF6?=
- =?utf-8?B?NmI5QU5iREU5Rk1NMzBrdGZ0UGtKdzZybUFoSTFjTkJ1QmtjYTZxOHFiRkN6?=
- =?utf-8?B?ZVo4dytDTGF5Rm9qVjI5NzBuNTdHQnlQZ0pqUG9wM0JoTklLTzc3S1NjajJ0?=
- =?utf-8?B?cmZSRWN4K0xtNFVNUnZ2c21kc0hCL0pOV2o0SzBCMXZFNEhOZkp3S2hxRFZx?=
- =?utf-8?B?Y0piS3VLa3JPQlRNVitmTkE2R1dkcjNkcTljWFN1SzZEblJaUFo3N1dhV093?=
- =?utf-8?B?ZHZFL0hkQVdXTVkxY1JZOGdPbGVFVXNGbjlIbVlzTEZQdE0vZThLaWVOaDU0?=
- =?utf-8?B?RFhDNHhrNDgrWEQ2SHpJQVpkWlNHT01lUCttRG16ZHB5MFhCeGg5T21qRXl6?=
- =?utf-8?B?ajhZb2lMVGM5Y002Lzc5TWZPUmcxZVE0OHhHbzM0SUZNREVJczRGMktObEJx?=
- =?utf-8?B?TWJFNVpuNlhlbWxKNWt4bDNURU1MNFRJQWJIRVhoWUxSUGVOY0pyLzJyZzd4?=
- =?utf-8?B?dFFQU1dXdHUrcUlmWGpZL3NOd1JIOUZ3QVBPWWNGMmRpSG0zS1ZSMVk1TW1u?=
- =?utf-8?B?OG92cVJINEk0aHhPcTdrOGNNTW50MVBDck9nNThxQWNSL0M0Q1FLTVl2akV0?=
- =?utf-8?B?bzJRTXBMUzNlUTFsSHQxa2FJTHNwVXVJRnM5LzVjNGFvVG1sU2Z3eVpFdVJU?=
- =?utf-8?B?RWVGakdMTVNibGlHN08rQWlHbWw3VEhPUDliWDJmNlVzT2xJSnl3RGd3SEgz?=
- =?utf-8?B?TzJ3NkFmTlhSNzJvdVVyRW1hb013Ni9McWFpTno4UXJtaWJBblVtZnRxL1hX?=
- =?utf-8?B?bmRIbG1IU01FQk0rcSs2TzhIbXlGeVFncnRZLzhZS1BGMnEycW02bWczb0pR?=
- =?utf-8?B?Nk1JVTFaOW9CUnVTMXVCQ2QrMDR3NE9ZZ3dqQVZqVVFBYTcvUTFGMC9tS2U5?=
- =?utf-8?B?QkJydkRZeEkvbUxuUklHVytkSUZiSXo4SnIxMEVkVEI5Q1ZaYzJLb0RzOFNZ?=
- =?utf-8?B?QjFwTVBoNHNLc21yU1g1MHBRcmtrdGs3ZjdJRDNNM3Q0aGRIR0hwNytWd29q?=
- =?utf-8?B?UkozNkY3UTRLMENWZlJwdEk4UzFDYUdKMjhUYWl5MVBob2duaUdTSDdYNDlN?=
- =?utf-8?B?SGtrbjV0RHlWTXdQS0J0c1UyamdnMWtaV3VZME56RkpzbU5uRkZ0ZFVmZHcv?=
- =?utf-8?B?NTR5U3dGUWtySjVZVzI0aGlTSUs4OTQrN1dVa3BYWURxSmxIZmxSM3BYVisr?=
- =?utf-8?B?R2kyYmE1djRiVUNIR2dseTBPaGd6Y0NsSXRRVW01Sk9VS21pVHcwYmRkeE5M?=
- =?utf-8?B?QWo4SGdZK0s5SUx0N21ndmtIcmlQSkI3TVZVem9ZQmdrc2tERzRVZGlTSnJw?=
- =?utf-8?B?QmhsaXgvSTNGejFUcGFqYlY3UDVEdzg0UHNUNXFXUy9NY2MraDF5cXRSUGpJ?=
- =?utf-8?B?OWV2S0wzdUVvRGhKWER2TVkyTURGY1UwTzE1aW9pZFZpazA1MEdjTkJyeGNN?=
- =?utf-8?B?K3Y5UWNvTGk4SkZVRW5WTWxPS2wxREJIQnRZR0gzUEFUamtXc0ZsV3lMWjgr?=
- =?utf-8?B?SXhpYTRxSkVvSWY2cE1qMnlUb3ZDS1lndmxoU3lZSEgrOWZBbjVMNlNVS2Ft?=
- =?utf-8?B?UlE9PQ==?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50ff07b1-44c9-47fc-f308-08da9d360d91
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4765.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2022 07:34:30.9841
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q09N7xg7jKPnKr+SUdHmor3JCvEg1obW04n+BOMsy22/8Ge+c/oOwZ6zjvxocalz1eikbTws5oTpuje3ow6rAjanpMeoH7kC58fPY2aToh5yACVQMbZC/g5eVgJTauDO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB7803
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 2/2] docs/zh_CN: Add new translation of
+ admin-guide/bootconfig.rst
+To:     Wu XiangCheng <wu.xiangcheng@linux.dev>,
+        Alex Shi <alexs@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Tang Yizhou <tangyizhou@huawei.com>,
+        Shile Zhang <shile.zhang@linux.alibaba.com>,
+        linux-doc@vger.kernel.org
+References: <cover.1663850554.git.bobwxc@email.cn>
+ <386249dc333a3e40b80c3a9483d60d2bfd24a6c4.1663850554.git.bobwxc@email.cn>
+From:   YanTeng Si <siyanteng@loongson.cn>
+In-Reply-To: <386249dc333a3e40b80c3a9483d60d2bfd24a6c4.1663850554.git.bobwxc@email.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxYOIoYy1jA44gAA--.57504S3
+X-Coremail-Antispam: 1UD129KBjvAXoW3ur1DtFy7ArWxCr17tw1UZFb_yoW8Jw47Zo
+        WS9a15uwnrGF13XFy3Cws8GrZrKF1jkr47Cw4DJr4DXr1DGa1SkF1UAw4rJ39akFs8K3WF
+        yFWrXFykX3WkC3Z5n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUY97k0a2IF6FyUM7kC6x804xWl14x267AKxVW8JVW5JwAFc2x0
+        x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2jI8I6cxK6x804I
+        0_JFv_Gryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY
+        67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87
+        Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8I
+        j28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr
+        4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY
+        jI0SjxkI62AI1cAE67vIY487MxkIecxEwVAFwVW8CwCF04k20xvY0x0EwIxGrwCFx2IqxV
+        CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
+        6r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
+        WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG
+        6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
+        1UYxBIdaVFxhVjvjDU0xZFpf9x07jYq2NUUUUU=
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
 
-On 21.09.22 14:30, Hyeonggon Yoo wrote:
-> On Tue, Sep 20, 2022 at 03:11:11PM +0300, Alexander Atanasov wrote:
->> In (060807f841ac mm, slub: make remaining slub_debug related attributes
->> read-only) failslab was made read-only.
->> I think it became a collateral victim to the two other options for which
->> the reasons are perfectly valid.
->> Here is why:
->>   - sanity_checks and trace are slab internal debug options,
->>     failslab is used for fault injection.
->>   - for fault injections, which by presumption are random, it
->>     does not matter if it is not set atomically. And you need to
->>     set atleast one more option to trigger fault injection.
->>   - in a testing scenario you may need to change it at runtime
->>     example: module loading - you test all allocations limited
->>     by the space option. Then you move to test only your module's
->>     own slabs.
->>   - when set by command line flags it effectively disables all
->>     cache merges.
-> 
-> Maybe we can make failslab= boot parameter to consider cache filtering?
-> 
-> With that, just pass something like this:
-> 	failslab=X,X,X,X,cache_filter slub_debug=A,<cache-name>> 
+在 2022/9/22 21:04, Wu XiangCheng 写道:
+> From: Wu XiangCheng <bobwxc@email.cn>
+>
+> The last English version used:
+>    commit 2f51efc6b71d ("docs: bootconfig: Add how to embed the
+>    bootconfig into kernel")
+>
+> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>   .../zh_CN/admin-guide/bootconfig.rst          | 293 ++++++++++++++++++
+>   .../translations/zh_CN/admin-guide/index.rst  |   2 +-
+>   2 files changed, 294 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/admin-guide/bootconfig.rst
+>
+> diff --git a/Documentation/translations/zh_CN/admin-guide/bootconfig.rst b/Documentation/translations/zh_CN/admin-guide/bootconfig.rst
+> new file mode 100644
+> index 000000000000..072d17f5f199
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/admin-guide/bootconfig.rst
+> @@ -0,0 +1,293 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/admin-guide/bootconfig.rst
+> +
+> +:译者: 吴想成 Wu XiangCheng <bobwxc@email.cn>
+> +
+> +========
+> +引导配置
+> +========
+> +
+> +:作者: Masami Hiramatsu <mhiramat@kernel.org>
+> +
+> +概述
+> +====
+> +
+> +引导配置扩展了现有的内核命令行，以一种更有效率的方式在引导内核时进一步支持
+> +键值数据。这允许管理员传递一份结构化关键字的配置文件。
+> +
+> +配置文件语法
+> +============
+> +
+> +引导配置文件的语法采用非常简单的键值结构。每个关键字由点连接的单词组成，键
+> +和值由 ``=`` 连接。值以分号（ ``;`` ）或换行符（ ``\n`` ）结尾。数组值中每
+> +个元素由逗号（ ``,`` ）分隔。::
+> +
+> +  KEY[.WORD[...]] = VALUE[, VALUE2[...]][;]
+> +
+> +与内核命令行语法不同，逗号和 ``=`` 周围允许有空格。
+> +
+> +关键字只允许包含字母、数字、连字符（ ``-`` ）和下划线（ ``_`` ）。值可包含
+> +可打印字符和空格，但分号（ ``;`` ）、换行符（ ``\n`` ）、逗号（ ``,`` ）、
+> +井号（ ``#`` ）和右大括号（ ``}`` ）等分隔符除外。
+> +
+> +如果你需要在值中使用这些分隔符，可以用双引号（ ``"VALUE"`` ）或单引号
+> +（ ``'VALUE'`` ）括起来。注意，引号无法转义。
+> +
+> +键的值可以为空或不存在。这些键用于检查该键是否存在（类似布尔值）。
+> +
+> +键值语法
+> +--------
+> +
+> +引导配置文件语法允许用户通过大括号合并键名部分相同的关键字。例如::
+> +
+> + foo.bar.baz = value1
+> + foo.bar.qux.quux = value2
+> +
+> +也可以写成::
+> +
+> + foo.bar {
+> +    baz = value1
+> +    qux.quux = value2
+> + }
+> +
+> +或者更紧凑一些，写成::
+> +
+> + foo.bar { baz = value1; qux.quux = value2 }
+> +
+> +在这两种样式中，引导解析时相同的关键字都会自动合并。因此可以追加类似的树或
+> +键值。
+> +
+> +相同关键字的值
+> +--------------
+> +
+> +禁止两个或多个值或数组共享同一个关键字。例如::
+> +
+> + foo = bar, baz
+> + foo = qux  # !错误! 我们不可以重定义相同的关键字
+> +
+> +如果你想要更新值，必须显式使用覆盖操作符 ``:=`` 。例如::
+> +
+> + foo = bar, baz
+> + foo := qux
+> +
+> +这样 ``foo`` 关键字的值就变成了 ``qux`` 。这对于通过添加（部分）自定义引导
+> +配置来覆盖默认值非常有用，免于解析默认引导配置。
+> +
+> +如果你想对现有关键字追加值作为数组成员，可以使用 ``+=`` 操作符。例如::
+> +
+> + foo = bar, baz
+> + foo += qux
+> +
+> +这样， ``foo`` 关键字就同时拥有了 ``bar`` ， ``baz`` 和 ``qux`` 。
+> +
+> +此外，父关键字下可同时存在值和子关键字。
+> +例如，下列配置是可行的。::
+> +
+> + foo = value1
+> + foo.bar = value2
+> + foo := value3 # 这会更新foo的值。
+> +
+> +注意，裸值不能直接放进结构化关键字中，必须在大括号外定义它。例如::
+> +
+> + foo {
+> +     bar = value1
+> +     bar {
+> +         baz = value2
+> +         qux = value3
+> +     }
+> + }
+> +
+> +同时，关键字下值节点的顺序是固定的。如果值和子关键字同时存在，值永远是该关
+> +键字的第一个子节点。因此如果用户先指定子关键字，如::
+> +
+> + foo.bar = value1
+> + foo = value2
+> +
+> +则在程序（和/proc/bootconfig）中，它会按如下显示::
+> +
+> + foo = value2
+> + foo.bar = value1
+> +
+> +注释
+> +----
+> +
+> +配置语法接受shell脚本风格的注释。注释以井号（ ``#`` ）开始，到换行符
+> +（ ``\n`` ）结束。
+> +
+> +::
+> +
+> + # comment line
+> + foo = value # value is set to foo.
+> + bar = 1, # 1st element
+> +       2, # 2nd element
+> +       3  # 3rd element
+> +
+> +会被解析为::
+> +
+> + foo = value
+> + bar = 1, 2, 3
+> +
+> +注意你不能把注释放在值和分隔符（ ``,`` 或 ``;`` ）之间。如下配置语法是错误的::
+> +
+> + key = 1 # comment
+> +       ,2
+> +
+> +
+> +/proc/bootconfig
+> +================
+> +
+> +/proc/bootconfig是引导配置的用户空间接口。与/proc/cmdline不同，此文件内容以
+> +键值列表样式显示。
+> +每个键值对一行，样式如下::
+> +
+> + KEY[.WORDS...] = "[VALUE]"[,"VALUE2"...]
+> +
+> +
+> +用引导配置引导内核
+> +==================
+> +
+> +用引导配置引导内核有两种方法：将引导配置附加到initrd镜像或直接嵌入内核中。
+> +
+> +*initrd: initial RAM disk，初始内存磁盘*
 
-> Users should pass slub_debug=A,<cache-name> anyway to prevent cache merging.
-It will be good to have this in case you want to test cache that is used 
-early. But why push something to command line option only when it can be 
-changed at runtime?
+Hmmm, how about?
 
--- 
-Regards,
-Alexander Atanasov
+
+.. note::
+initrd: initial RAM disk，初始内存磁盘
+> +
+> +将引导配置附加到initrd
+> +----------------------
+> +
+> +由于默认情况下引导配置文件是用initrd加载的，因此它将被添加到initrd（initramfs）
+> +镜像文件的末尾，其中包含填充、大小、校验值和12字节幻数，如下所示::
+> +
+> + [initrd][bootconfig][padding][size(le32)][checksum(le32)][#BOOTCONFIG\n]
+> +
+> +大小和校验值为小端序存放的32位无符号值。
+> +
+> +当引导配置被加到initrd镜像时，整个文件大小会对齐到4字节。空字符（ ``\0`` ）
+> +会填补对齐空隙。因此 ``size`` 就是引导配置文件的长度+填充的字节。
+> +
+> +Linux内核在内存中解码initrd镜像的最后部分以获取引导配置数据。由于这种“背负式”
+> +的方法，只要引导加载器传递了正确的initrd文件大小，就无需更改或更新引导加载器
+> +和内核镜像本身。如果引导加载器意外传递了更长的大小，内核将无法找到引导配置数
+> +据。
+> +
+> +Linux内核在tools/bootconfig下提供了 ``bootconfig`` 命令来完成此操作，管理员
+> +可以用它从initrd镜像中删除或追加配置文件。你可以用以下命令来构建它::
+> +
+> + # make -C tools/bootconfig
+> +
+> +要向initrd镜像添加你的引导配置文件，请按如下命令操作（旧数据会自动移除）::
+> +
+> + # tools/bootconfig/bootconfig -a your-config /boot/initrd.img-X.Y.Z
+> +
+> +要从镜像中移除配置，可以使用-d选项::
+> +
+> + # tools/bootconfig/bootconfig -d /boot/initrd.img-X.Y.Z
+> +
+> +然后在内核命令行上添加 ``bootconfig`` 告诉内核去initrd文件末尾寻找内核配置。
+> +
+> +将引导配置嵌入内核
+> +------------------
+> +
+> +如果你不能使用initrd，也可以通过Kconfig选项将引导配置文件嵌入内核中。在此情
+> +况下，你需要用以下选项重新编译内核::
+> +
+> + CONFIG_BOOT_CONFIG_EMBED=y
+> + CONFIG_BOOT_CONFIG_EMBED_FILE="/引导配置/文件/的/路径"
+> +
+> +``CONFIG_BOOT_CONFIG_EMBED_FILE`` 需要从源码树或对象树开始的引导配置文件的
+> +绝对/相对路径。内核会将其嵌入作为默认引导配置。
+> +
+> +与将引导配置附加到initrd一样，你也需要在内核命令行上添加 ``bootconfig`` 告诉
+> +内核去启用内嵌的引导配置。
+> +
+> +注意，即使你已经设置了此选项，仍可用附加到initrd的其他引导配置覆盖内嵌的引导
+> +配置。
+> +
+> +通过引导配置传递内核参数
+> +========================
+> +
+> +除了内核命令行，引导配置也可以用于传递内核参数。所有 ``kernel`` 关键字下的键
+> +值对都将直接传递给内核命令行。此外， ``init`` 下的键值对将通过命令行传递给
+> +init进程。参数按以下顺序与用户给定的内核命令行字符串相连，因此命令行参数可以
+> +覆盖引导配置参数（这取决于子系统如何处理参数，但通常前面的参数将被后面的参数
+> +覆盖）::
+> +
+> + [bootconfig params][cmdline params] -- [bootconfig init params][cmdline init params]
+> +
+> +如果引导配置文件给出的kernel/init参数是::
+> +
+> + kernel {
+> +   root = 01234567-89ab-cdef-0123-456789abcd
+> + }
+> + init {
+> +  splash
+> + }
+> +
+> +这将被复制到内核命令行字符串中，如下所示::
+> +
+> + root="01234567-89ab-cdef-0123-456789abcd" -- splash
+> +
+> +如果用户给出的其他命令行是::
+> +
+> + ro bootconfig -- quiet
+> +
+> +则最后的内核命令行如下::
+> +
+> + root="01234567-89ab-cdef-0123-456789abcd" ro bootconfig -- splash quiet
+> +
+> +
+> +配置文件的限制
+> +==============
+> +
+> +当前最大的配置大小是32KB，关键字总数（不是键值条目）必须少于1024个节点。
+> +注意：这不是条目数而是节点数，条目必须消耗超过2个节点（一个关键字和一个值）。
+> +所以从理论上讲最多512个键值对。如果关键字平均包含3个单词，则可有256个键值对。
+> +在大多数情况下，配置项的数量将少于100个条目，小于8KB，因此这应该足够了。如果
+> +节点数超过1024，解析器将返回错误，即使文件大小小于32KB。（请注意，此最大尺寸
+> +不包括填充的空字符。）
+> +无论如何，因为 ``bootconfig`` 命令在附加启动配置到initrd映像时会验证它，用户
+> +可以在引导之前注意到它。
+> +
+> +
+> +引导配置API
+> +===========
+> +
+> +用户可以查询或遍历键值对，也可以查找（前缀）根关键字节点，并在查找该节点下的
+> +键值。
+> +
+> +如果您有一个关键字字符串，则可以直接使用 xbc_find_value() 查询该键的值。如果
+> +你想知道引导配置里有哪些关键字，可以使用 xbc_for_each_key_value() 迭代键值对。
+> +请注意，您需要使用 xbc_array_for_each_value() 访问数组的值，例如::
+> +
+> + vnode = NULL;
+> + xbc_find_value("key.word", &vnode);
+> + if (vnode && xbc_node_is_array(vnode))
+> +    xbc_array_for_each_value(vnode, value) {
+> +      printk("%s ", value);
+> +    }
+> +
+> +如果您想查找具有前缀字符串的键，可以使用 xbc_find_node() 通过前缀字符串查找
+> +节点，然后用 xbc_node_for_each_key_value() 迭代前缀节点下的键。
+> +
+> +但最典型的用法是获取前缀下的命名值或前缀下的命名数组，例如::
+> +
+> + root = xbc_find_node("key.prefix");
+> + value = xbc_node_find_value(root, "option", &vnode);
+> + ...
+> + xbc_node_for_each_array_value(root, "array-option", value, anode) {
+> +    ...
+> + }
+> +
+> +这将访问值“key.prefix.option”的值和“key.prefix.array-option”的数组。
+> +
+> +锁是不需要的，因为在初始化之后配置只读。如果需要修改，必须复制所有数据和关键字。
+> +
+> +
+> +函数与结构体
+> +============
+> +
+> +相关定义的kernel-doc参见：
+> +
+> + - include/linux/bootconfig.h
+> + - lib/bootconfig.c
+> diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+> index 2f6970d0a032..ac2960da33e6 100644
+> --- a/Documentation/translations/zh_CN/admin-guide/index.rst
+> +++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+> @@ -63,6 +63,7 @@ Todolist:
+>   .. toctree::
+>      :maxdepth: 1
+>   
+> +   bootconfig
+>      clearing-warn-once
+>      cpu-load
+>      cputopology
+> @@ -80,7 +81,6 @@ Todolist:
+>   *   binderfs
+>   *   binfmt-misc
+>   *   blockdev/index
+> -*   bootconfig
+>   *   braille-console
+>   *   btmrvl
+>   *   cgroup-v1/index
+
+
+Thanks
+
+Yanteng
 
