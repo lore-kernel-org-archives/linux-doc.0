@@ -2,125 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35184C6FA8B
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 19:49:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E9AFC54EE9
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 20:08:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231459AbiIVTt0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Sep 2022 15:49:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44220 "EHLO
+        id S232198AbiIVUIc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Sep 2022 16:08:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232035AbiIVTtY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 15:49:24 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE21010C783
-        for <linux-doc@vger.kernel.org>; Thu, 22 Sep 2022 12:49:22 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id p1-20020a17090a2d8100b0020040a3f75eso3250892pjd.4
-        for <linux-doc@vger.kernel.org>; Thu, 22 Sep 2022 12:49:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=AOIMXA4PI9BYXrk6/Ja2mOKlrFIROrj5K/ieUQQwXS4=;
-        b=h1quGJbzNcYbvksztMmJbAj4021+BcmdngI9oVLKqryAXjZOZrGY+bZOFcLzMWlozZ
-         LAcA23Adi1Jic4pRnJCptlWTG4EcoRJkXHfvedp0K1HaJOCXyEXxuhzgdof/jPIDOZEe
-         ebqjyLF5ANcpzYiinKi6eaQnqth3W4n2V8+InjN4EWNaK7npJ/bYc7FhRS+iyNb4HHPb
-         Efk7QXZ7wTcSNyFHTH7NWGDPMQ4YLD125sVU1j3HVB2TkIAvgthLngw1wMrAfORH5ZfR
-         U8+tmRxUsuSWAVFhBHQcUHbhvue7DyoPTDpJKMkc7xktoeaZV8RiJlYUMocHTDHlXZyf
-         XJ3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=AOIMXA4PI9BYXrk6/Ja2mOKlrFIROrj5K/ieUQQwXS4=;
-        b=7F8LKBeHlinABK4kUz0NjvDOubbL2gdlBUaDnFFXkcbIoXsOPHTV9urRqkseb6Q8tq
-         lVi9dbis4DVhfQh0fa3YedfKACxAK2+UXhRFDl4jtPiQZjiZwsEw1XPB3s4DsROfuCie
-         BxYeOvKrZjWx3vFZdWdHXt4j50BHwTzz9rhWsKH/46PTny29JcqKZSFfZw/9d3gQnFBn
-         Ha+8LddFRr4dBV+DKxP3FsJPoA6yNZ212MHlpBDpcUCzBsv6nC2YMy/xrk8TLoIiSS1l
-         VJKcOKc+c8OXSPUEjHmZEPSibDXB23XmmcvdjnQdcI8nWt5GKtMcLaoXPQ4+DmZphFeW
-         SjkA==
-X-Gm-Message-State: ACrzQf2eS0Slte7YR1uTs8kbsgiBK2ZZ11Y7E8WJj2k5P1mhsR9okfFq
-        LC+XuzZZ9u0Tb8EhfPfzB1MP5w==
-X-Google-Smtp-Source: AMsMyM7xkIpUg/GEtYg3CdJDso/M2NS+vljJqn+Iz/Og0ecRlPYRkH7bufKUsfNRGuIjAMJq7OVhXg==
-X-Received: by 2002:a17:90a:644e:b0:200:422c:6b1 with SMTP id y14-20020a17090a644e00b00200422c06b1mr5394594pjm.183.1663876162098;
-        Thu, 22 Sep 2022 12:49:22 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id a10-20020a170902ecca00b00172897952a0sm4576315plh.283.2022.09.22.12.49.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 12:49:21 -0700 (PDT)
-Date:   Thu, 22 Sep 2022 19:49:18 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     "Wang, Wei W" <wei.w.wang@intel.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "Nakajima, Jun" <jun.nakajima@intel.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "ak@linux.intel.com" <ak@linux.intel.com>,
-        "david@redhat.com" <david@redhat.com>,
-        "aarcange@redhat.com" <aarcange@redhat.com>,
-        "ddutile@redhat.com" <ddutile@redhat.com>,
-        "dhildenb@redhat.com" <dhildenb@redhat.com>,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>,
-        "Hocko, Michal" <mhocko@suse.com>,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <Yyy8Pp0Y4NRzIzNw@google.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <DS0PR11MB63734D4DF4C4F368805EC97DDC4E9@DS0PR11MB6373.namprd11.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DS0PR11MB63734D4DF4C4F368805EC97DDC4E9@DS0PR11MB6373.namprd11.prod.outlook.com>
+        with ESMTP id S232241AbiIVUIb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 16:08:31 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D49FE6A39;
+        Thu, 22 Sep 2022 13:08:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663877310; x=1695413310;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=YMQAWurETlSCjBbvjxddlKNJW8TpNQNrIE4e8GG/gJs=;
+  b=ixR2OUx6+uGs5FmzLkBT5+BWXTGFO4EkwbIWO05ZFP9mXD0ArIoh1j68
+   ynYtdAH0lWcz7DpTPzkH8FyAZsnt4Ek9KJX9oYZ+Tcy/UO3drZCRsFRsN
+   Zl6IofT4vH96onKwtopi8TmcEB3RVfkWwu8h6xcQeEqKQW19HgD4e6J8y
+   6EyzMS1Ah7G3wXUuHwfnhMGMddjrntxixCS2loCVWvgPNVl88QubG2vLV
+   /Cg647H4fYb/IdLJP93rZN876CRraVPqKbop8YgcCpjIkCVTKLMV5uOMk
+   tMmWbYhlYvUz5JpWcXuEBZjWp9gPzW+Us1+Hj+UrktCIsC2+OjZZR+Tnk
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="362221576"
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="362221576"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 13:08:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="571117133"
+Received: from chang-linux-3.sc.intel.com ([172.25.66.173])
+  by orsmga003.jf.intel.com with ESMTP; 22 Sep 2022 13:08:13 -0700
+From:   "Chang S. Bae" <chang.seok.bae@intel.com>
+To:     x86@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com
+Cc:     hpa@zytor.com, corbet@lwn.net, bagasdotme@gmail.com,
+        tony.luck@intel.com, yang.zhong@intel.com,
+        linux-doc@vger.kernel.org, linux-man@vger.kernel.org,
+        linux-kernel@vger.kernel.org, chang.seok.bae@intel.com
+Subject: [PATCH v5 1/4] Documentation/x86: Explain the purpose for dynamic features
+Date:   Thu, 22 Sep 2022 12:58:07 -0700
+Message-Id: <20220922195810.23248-2-chang.seok.bae@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220922195810.23248-1-chang.seok.bae@intel.com>
+References: <20220922195810.23248-1-chang.seok.bae@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 22, 2022, Wang, Wei W wrote:
-> On Thursday, September 15, 2022 10:29 PM, Chao Peng wrote:
-> > +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
-> > +			 int *order)
-> 
-> Better to remove "order" from this interface?
+This summary will help to guide the proper use of the enabling model.
 
-Hard 'no'.
+Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
+Reviewed-by: Tony Luck <tony.luck@intel.com>
+Cc: x86@kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+---
+Changes from v4:
+* Re-write about the sigaltstack sizing (Dave Hansen).
+* Drop the second point as the case is not clear yet.
 
-> Some callers only need to get pfn, and no need to bother with
-> defining and inputting something unused. For callers who need the "order",
-> can easily get it via thp_order(pfn_to_page(pfn)) on their own.
+Changes from v3:
+* Add as a new patch (Tony Luck).
+---
+ Documentation/x86/xstate.rst | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-That requires (a) assuming the pfn is backed by struct page, and (b) assuming the
-struct page is a transparent huge page.  That might be true for the current
-implementation, but it most certainly will not always be true.
+diff --git a/Documentation/x86/xstate.rst b/Documentation/x86/xstate.rst
+index 5cec7fb558d6..e954e79af4ce 100644
+--- a/Documentation/x86/xstate.rst
++++ b/Documentation/x86/xstate.rst
+@@ -11,6 +11,22 @@ are enabled by XCR0 as well, but the first use of related instruction is
+ trapped by the kernel because by default the required large XSTATE buffers
+ are not allocated automatically.
+ 
++The purpose for dynamic features
++--------------------------------
++
++Legacy userspace libraries often have hard-coded, static sizes for
++alternate signal stacks, often using MINSIGSTKSZ which is typically 2KB.
++That stack must be able to store at *least* the signal frame that the
++kernel sets up before jumping into the signal handler. That signal frame
++must include an XSAVE buffer defined by the CPU.
++
++However, that means that the size of signal stacks is dynamic, not static,
++because different CPUs have differently-sized XSAVE buffers. A compiled-in
++size of 2KB with existing applications is too small for new CPU features
++like AMX. Instead of universally requiring larger stack, with the dynamic
++enabling, the kernel can enforce userspace applications to have
++properly-sized altstacks.
++
+ Using dynamically enabled XSTATE features in user space applications
+ --------------------------------------------------------------------
+ 
+-- 
+2.17.1
 
-KVM originally did things like this, where there was dedicated code for THP vs.
-HugeTLB, and it was a mess.  The goal here is very much to avoid repeating those
-mistakes.  Have the backing store _tell_ KVM how big the mapping is, don't force
-KVM to rediscover the info on its own.
