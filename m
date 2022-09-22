@@ -2,80 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7D1DC6FA82
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 06:39:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5969C6FA82
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 08:10:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229725AbiIVGjI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Sep 2022 02:39:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46782 "EHLO
+        id S230353AbiIVIKw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Sep 2022 04:10:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229712AbiIVGjH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 02:39:07 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3146B6D00;
-        Wed, 21 Sep 2022 23:39:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663828746; x=1695364746;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=obk4N+2lv46lmCRfrPLcAtsdnjc8XXyT+8+jHw3SMic=;
-  b=YU/TiJHkLKv1984Y/ziaVByCK2ngNc0ucKYHfv91KHgYi6qxi7eSZuc/
-   tsV0vKUktYLFx6xcPYPXkD4CbfUjWYcPZDwW91wkxVo40T7o1i6dKQ1io
-   hj78ITCp52qT45crNAWjeuCCvGCFGe5chIR+OogAjpuWE6kXM8qE2ZOI4
-   z2/55hsIjkfHwOwjLOz2QqTluU7e2lGWj7ZA3F7QhTXPA1k7inj16NVuA
-   jrxhg1UtwYE15dq+Uf4lttIONUJPcrTHbdNx8AuDbRZ9lWJUrApqCmO4+
-   ropdX6oZ3o2p459F8bjYYD2Fqf3rRnPhYqcTjo7V4z7O6B+8q9hZy8wdR
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10477"; a="300199744"
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; 
-   d="scan'208";a="300199744"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2022 23:39:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; 
-   d="scan'208";a="650394136"
-Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 21 Sep 2022 23:39:04 -0700
-Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1obFrT-0004OO-2X;
-        Thu, 22 Sep 2022 06:39:03 +0000
-Date:   Thu, 22 Sep 2022 14:38:14 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: htmldocs: Warning:
- Documentation/translations/zh_CN/devicetree/changesets.rst references a file
- that doesn't exist: Documentation/Devicetree/changesets.rst
-Message-ID: <202209221415.peH8XStP-lkp@intel.com>
+        with ESMTP id S230221AbiIVIKm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 04:10:42 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0665CC8F6;
+        Thu, 22 Sep 2022 01:10:37 -0700 (PDT)
+Received: from canpemm500005.china.huawei.com (unknown [172.30.72.54])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MY7Fj0JwPzHpmF;
+        Thu, 22 Sep 2022 16:08:25 +0800 (CST)
+Received: from ubuntu1804.huawei.com (10.67.174.63) by
+ canpemm500005.china.huawei.com (7.192.104.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 22 Sep 2022 16:10:35 +0800
+From:   Zhao Gongyi <zhaogongyi@huawei.com>
+To:     <akinobu.mita@gmail.com>
+CC:     <akpm@linux-foundation.org>, <corbet@lwn.net>, <david@redhat.com>,
+        <gregkh@linuxfoundation.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>,
+        <osalvador@suse.de>, <rafael@kernel.org>, <shuah@kernel.org>,
+        <viro@zeniv.linux.org.uk>, <weiyongjun1@huawei.com>,
+        <yangyicong@hisilicon.com>, <zhaogongyi@huawei.com>
+Subject: Re: [PATCH 0/3] fix error when writing negative value to simple attribute files
+Date:   Thu, 22 Sep 2022 16:06:48 +0800
+Message-ID: <20220922080648.254312-1-zhaogongyi@huawei.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220919172418.45257-1-akinobu.mita@gmail.com>
+References: <20220919172418.45257-1-akinobu.mita@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
+X-Originating-IP: [10.67.174.63]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ canpemm500005.china.huawei.com (7.192.104.229)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   git://git.lwn.net/linux.git docs-next
-head:   a8249d62a611f398fafebbb8f6129888e98d5354
-commit: 702f436ab07b88a778ced4561ad62dadb7c919c9 docs/zh_CN: add dt changesets translation
-date:   10 hours ago
-reproduce:
-        git remote add lwn git://git.lwn.net/linux.git
-        git fetch --no-tags lwn docs-next
-        git checkout 702f436ab07b88a778ced4561ad62dadb7c919c9
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On Tue, 20 Sep 2022 02:24:15 +0900
+Akinobu Mita <akinobu.mita@gmail.com> wrote:
+> The simple attribute files do not accept a negative value since the
+> commit 488dac0c9237 ("libfs: fix error cast of negative value in
+> simple_attr_write()"), but some attribute files want to accept
+> a negative value.
+> 
+> Akinobu Mita (3):
+>   libfs: add DEFINE_SIMPLE_ATTRIBUTE_SIGNED for signed value
+>   lib/notifier-error-inject: fix error when writing -errno to debugfs
+>     file
+>   debugfs: fix error when writing negative value to atomic_t debugfs
+>     file
+> 
+>  .../fault-injection/fault-injection.rst       | 10 +++----
+>  fs/debugfs/file.c                             | 28 +++++++++++++++----
+>  fs/libfs.c                                    | 22 +++++++++++++--
+>  include/linux/debugfs.h                       | 19 +++++++++++--
+>  include/linux/fs.h                            | 12 ++++++--
+>  lib/notifier-error-inject.c                   |  2 +-
+>  6 files changed, 73 insertions(+), 20 deletions(-)
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+I have tested this version, it is ok.
 
-All warnings (new ones prefixed by >>):
-
->> Warning: Documentation/translations/zh_CN/devicetree/changesets.rst references a file that doesn't exist: Documentation/Devicetree/changesets.rst
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Tested-by: Zhao Gongyi <zhaogongyi@huawei.com>
