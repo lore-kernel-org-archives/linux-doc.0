@@ -2,170 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8841BC54EE9
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 03:36:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C82DC6FA82
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 05:30:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbiIVDge (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Sep 2022 23:36:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50802 "EHLO
+        id S229825AbiIVFaa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Sep 2022 01:30:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229545AbiIVDgc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 23:36:32 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E81E4AA4C9;
-        Wed, 21 Sep 2022 20:36:31 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id iw17so7631918plb.0;
-        Wed, 21 Sep 2022 20:36:31 -0700 (PDT)
+        with ESMTP id S229969AbiIVFa3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 01:30:29 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1ED4ABF20
+        for <linux-doc@vger.kernel.org>; Wed, 21 Sep 2022 22:30:28 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id 78so8062634pgb.13
+        for <linux-doc@vger.kernel.org>; Wed, 21 Sep 2022 22:30:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=DRlr4S0CdSPmGIBpEz7/6qWP3xmZ7dHXhNXq25Lelfo=;
-        b=E8w9Ju0b579ywPoHP7Rh6tU35JZG2Qi3xWsB7kZR+rLcQDWp1cM08sw1D5lrLNnw3F
-         YZa77V4Ru6jOaVZUzKlIWepuQ0BjuGI6QGKoGj7QiNHjkM7SA+IsG1NIZv1g98CqDjmY
-         04tsTMoMcEMmJYkjqBT98Muat5eD1flAZiiANuDFLMLFIoHWy9Or0AEt/TL8Z4qRYI2t
-         5rbU/0sM6hP5OPyUhZGBcNQFZoy4tGZiPOhHZEKYd/tIPOJ6Ti2I5xGPmDyk1yJelmXU
-         SQHPKazmoTv2/ta3pLUDKjw94Je2CllGIojgS/7CgGOZA5Hwa/FiUGhRrjyekbhGAbrx
-         5c0Q==
+        bh=29krL0qvuFg0KCphJZfO0u7z2tvgm5X6ahpdbCTG5JM=;
+        b=n2CDFCVq+NijhKq28N0Aj315cnhJnRhM4bxGYBq+d9sJPi7E9uujmDTxRYvi5M2We2
+         lIbhnGBVBDwMTmPm4TFmJjWPUY3nRltAQWpXrXCg1v4oGqm+nVHzlU5jdmJHrxz7I1Hl
+         tYp5BSHxCOH42fzVB/A8OR4XlMt8IE7wguFeE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=DRlr4S0CdSPmGIBpEz7/6qWP3xmZ7dHXhNXq25Lelfo=;
-        b=iVEJrJ/FXdc/xRaKFtSb/kmrxsksRAVISy2d5dqNEuLuCuS3OuWmujsJpQTnxtFcZP
-         v0luW7M/d/Sapgc6QfdTfSzf1oKmAnybpElRUC1fWhKGx6lHIb6c1gfMhIQXntglwiXP
-         yu/n+h0f56EpOxB7oNu8i7jDiYsweK/WKJpyoEqmHtzkWmH2f8hn564dcuIViFl+re6N
-         cXu2eg04jucJv1VWD/fk3q3PjZU1oQs9DT++41+u9rFWGQOSWp4iGE5wfaqIXohdYhH3
-         uJ3KpMdEHcXet4ghVMnEgN9pvkYfTKoBglNnK7m1VwFGboeriwlZd6Mfgbldltb8DG/C
-         PbKw==
-X-Gm-Message-State: ACrzQf3f4fAw0BcWjeBrWFeX61ncorb1ZRi5e+8/i8Yzimj7Gen11g6i
-        z9uGpnz7mEWZo0ElxKB6qtc=
-X-Google-Smtp-Source: AMsMyM5v5jKc5k7ipnnOiIapTlVN0RgxK4J/JwooeGbdFgmOPw6vHGvS3h3FuG317NAUBGe0NQGmSg==
-X-Received: by 2002:a17:903:1110:b0:178:9f67:b524 with SMTP id n16-20020a170903111000b001789f67b524mr1411691plh.50.1663817791390;
-        Wed, 21 Sep 2022 20:36:31 -0700 (PDT)
-Received: from debian.me (subs28-116-206-12-54.three.co.id. [116.206.12.54])
-        by smtp.gmail.com with ESMTPSA id m14-20020a170902db0e00b00172fad607b3sm2800814plx.207.2022.09.21.20.36.29
+        bh=29krL0qvuFg0KCphJZfO0u7z2tvgm5X6ahpdbCTG5JM=;
+        b=5GiTX0NpszHCNRxmnUC4cf6wh0uwKgq4s8XQjPN6OaCxRZ1iShIoSJGH/8a7H8b5eZ
+         Kvf40TIpW5kAacYXwzdPpBK1iAN1bvJmOBuT/2avv8TEOamFPPJ2+e52gv47tiggufBF
+         71Vsc2FJgWRt0GDaCSolJLVwb7DGVQ2lP5exvruuWwVsle7iC/oQUqtg6TA+NjAsWDGv
+         4gHsIqwHKH/9OHPKu/C8iQ3mJviCsqJ6/bKtrGC8O9/J1GE2jg7mZYFUI5Jo5lNbwH5a
+         I98bxGUygLokYJzYVT0u3kn9MlGPyhnrMRhH3MPy+ptHO34OUJuCWw91Idh4dmFJfUnP
+         ttMA==
+X-Gm-Message-State: ACrzQf17hoDB88jH2OAYdLbJK02LbAsJAcsiFTOmnifIw1kXGLxPSkeG
+        zTEWz9ZoYkOYyuZtlbf7KZ5wLQ==
+X-Google-Smtp-Source: AMsMyM6v2iHcKBv3dbH5kl/i70Ai8m8LshgThkTu5jlpNWXMW8oMZccFmHnMq8TJAFDqKc01zRPIrg==
+X-Received: by 2002:a05:6a00:1743:b0:548:8629:ceab with SMTP id j3-20020a056a00174300b005488629ceabmr1764304pfc.23.1663824628324;
+        Wed, 21 Sep 2022 22:30:28 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id l187-20020a633ec4000000b0043057fe66c0sm2834975pga.48.2022.09.21.22.30.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Sep 2022 20:36:30 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id E222C102CFC; Thu, 22 Sep 2022 10:36:25 +0700 (WIB)
-Date:   Thu, 22 Sep 2022 10:36:25 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        kernel test robot <lkp@intel.com>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Robert Marko <robert.marko@sartura.hr>
-Subject: Re: [PATCH net-next v6 5/7] ethtool: add interface to interact with
- Ethernet Power Equipment
-Message-ID: <YyvYOcfrur2mQXGl@debian.me>
-References: <20220921124748.73495-1-o.rempel@pengutronix.de>
- <20220921124748.73495-6-o.rempel@pengutronix.de>
+        Wed, 21 Sep 2022 22:30:27 -0700 (PDT)
+Date:   Wed, 21 Sep 2022 22:30:26 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab@kernel.org
+Subject: Re: [RFC] docs: Define c_paren_attributes for attributes with
+ arguments
+Message-ID: <202209212229.1C07A60456@keescook>
+References: <20220902223507.2537469-1-keescook@chromium.org>
+ <d1af650a-1e0b-a650-4cda-57fb1d54f1af@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="MTrYSV5QHljcKwmR"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220921124748.73495-6-o.rempel@pengutronix.de>
+In-Reply-To: <d1af650a-1e0b-a650-4cda-57fb1d54f1af@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Sep 09, 2022 at 02:08:30PM +0900, Akira Yokosawa wrote:
+> Hi Kees,
+> 
+> I expected some responses from Jon, but looks like he's been busy
+> elsewhere. Let me chime in.
+> 
+> On Fri,  2 Sep 2022 15:35:07 -0700, Kees Cook wrote:
+> > While Sphinx's "c_id_attributes" is needed for basic attributes, any
+> > attributes with arguments need to be defined in "c_paren_attributes"
+> > to avoid errors like:
+> > 
+> > include/linux/fortify-string.h:116: warning: Function parameter or member '__builtin_strncpy' not described in '__diagnose_as'
+> > include/linux/fortify-string.h:116: warning: Function parameter or member '1' not described in '__diagnose_as'
+> > include/linux/fortify-string.h:116: warning: Function parameter or member '2' not described in '__diagnose_as'
+> > include/linux/fortify-string.h:116: warning: Function parameter or member '3' not described in '__diagnose_as'
+> 
+> These warnings are from ./scripts/kernel-doc.
+> So I think you need to teach the script about "__diagnose_as" so that
+> the kernel-doc comment of strncpy() can be converted to reST doc
+> which Sphinx can understand.
 
---MTrYSV5QHljcKwmR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ah! Thank you, yeah, I couldn't figure out where it was coming from.
 
-On Wed, Sep 21, 2022 at 02:47:45PM +0200, Oleksij Rempel wrote:
-> +PSE_GET
-> +=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Gets PSE attributes.
-> +
-> +Request contents:
-> +
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +  ``ETHTOOL_A_PSE_HEADER``               nested  request header
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Kernel response contents:
-> +
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> +  ``ETHTOOL_A_PSE_HEADER``                nested  reply header
-> +  ``ETHTOOL_A_PODL_PSE_ADMIN_STATE``         u32  Operational state of t=
-he PoDL
-> +                                                  PSE functions
-> +  ``ETHTOOL_A_PODL_PSE_PW_D_STATUS``         u32  power detection status=
- of the
-> +                                                  PoDL PSE.
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> +
-> +When set, the optional ``ETHTOOL_A_PODL_PSE_ADMIN_STATE`` attribute iden=
-tifies
-> +the operational state of the PoDL PSE functions.  The operational state =
-of the
-> +PSE function can be changed using the ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL=
-``
-> +action. This option is corresponding to IEEE 802.3-2018 30.15.1.1.2
-> +aPoDLPSEAdminState. Possible values are:
+> Past changes in ./scripts/kernel-doc might give you some hints.
 
-The IEEE 802.3-2018 keyword name can be enclosed within inline code block.
+Yeah, including changes from me for similar things. How quickly I
+forgot! :)
 
-> +When set, the optional ``ETHTOOL_A_PODL_PSE_PW_D_STATUS`` attribute iden=
-tifies
-> +the power detection status of the PoDL PSE.  The status depend on intern=
-al PSE
-> +state machine and automatic PD classification support. This option is
-> +corresponding to IEEE 802.3-2018 30.15.1.1.3 aPoDLPSEPowerDetectionStatu=
-s.
+Thanks,
 
-Same here.
+-Kees
 
-> +When set, the optional ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL`` attribute is=
- used
-> +to control PoDL PSE Admin functions. This option is implementing
-> +IEEE 802.3-2018 30.15.1.2.1 acPoDLPSEAdminControl. See
-
-Same here too.
-
-Otherwise LGTM.
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---MTrYSV5QHljcKwmR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYyvYNAAKCRD2uYlJVVFO
-o+8FAP4zK3UmIUdOQH+lNRAv2FK50AeVwbm1AMvGvBlNmvUuMQD/dfXyj23GsJk9
-OY1S/EdG8ybdI9p0U3BXMpirdVdCuAs=
-=B+4n
------END PGP SIGNATURE-----
-
---MTrYSV5QHljcKwmR--
+-- 
+Kees Cook
