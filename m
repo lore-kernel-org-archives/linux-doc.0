@@ -2,119 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8BC7C54EE9
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 20:08:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D097AECAAD8
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 20:33:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232564AbiIVUIu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Sep 2022 16:08:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53412 "EHLO
+        id S229741AbiIVUdS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Sep 2022 16:33:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232369AbiIVUId (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 16:08:33 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFF78E7E1D;
-        Thu, 22 Sep 2022 13:08:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663877313; x=1695413313;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=APb2LiHwFZJrqIKUHw/Hp/TgOVz7B3k99VkTBnRFohc=;
-  b=Vm9KPrDB/xdxu/c+RAkxccar8o5gdSpVlOGoMDN+k29r0GA/97ReIo4B
-   0ZIMwNV2A6s/YaoEEeNYMbRZjL8Tb0Oq/iKCaQozHowFNnwRcLnPVr7CJ
-   EzGhCOSxWFwaWrHXDWAtejMOn4J6wz0yc68CtPOKdVdM4Ma4lLEwKl49R
-   V28ksy1+4sTxPrircrYu1VcarPwbkT3qU4Ja2zFwjC8Byq2HKnd19wtCN
-   Bi+s5IIdKAWYFbRooj0BijVMRinq0duEM1zD7wnZTpS2h5iIJw57A37NX
-   0Blbftgn3fkobXbDei/3ordwMlP3u+x937WvPzBakxQL2AqfSuxjy/5De
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="362221581"
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="362221581"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 13:08:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="571117143"
-Received: from chang-linux-3.sc.intel.com ([172.25.66.173])
-  by orsmga003.jf.intel.com with ESMTP; 22 Sep 2022 13:08:15 -0700
-From:   "Chang S. Bae" <chang.seok.bae@intel.com>
-To:     x86@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com
-Cc:     hpa@zytor.com, corbet@lwn.net, bagasdotme@gmail.com,
-        tony.luck@intel.com, yang.zhong@intel.com,
-        linux-doc@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-kernel@vger.kernel.org, chang.seok.bae@intel.com
-Subject: [PATCH v5 4/4] Documentation/x86: Explain the state component permission for guests
-Date:   Thu, 22 Sep 2022 12:58:10 -0700
-Message-Id: <20220922195810.23248-5-chang.seok.bae@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220922195810.23248-1-chang.seok.bae@intel.com>
-References: <20220922195810.23248-1-chang.seok.bae@intel.com>
+        with ESMTP id S229715AbiIVUdR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 16:33:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A231210952A;
+        Thu, 22 Sep 2022 13:33:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 26BAE6226E;
+        Thu, 22 Sep 2022 20:33:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F09FBC433B5;
+        Thu, 22 Sep 2022 20:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663878795;
+        bh=urcA7+hARfPA3IhXqmBZCx3ulGuq1r3MPqnSKQa3knY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=SgYxfhemqOxJ5S7W/lKJJ8AlpQ8LIQGDGSse3HuBnrsyPc7EA6vkA1MGBaRmb2QAt
+         ZDW3YD2oxQcESWr/vdaefK+anH8CsHMBp9LA7vM4Q33CegiYyltdSdkyX5u+AROl9O
+         QHXlQ9aC7YG2PaERFd/FdCh0QrUvTJrHfZsJxopsFjauRhVQ+wLq4QMFBxKoha2sRt
+         hiMCXasAUSJ5JSajDuld2zje0l5TZO9c2NaUiH21U4sku2qnMaIbwYQfYvH2308fLY
+         m6l1UQv12B/bGpkQxb+UD1+XVQvCzuCAwuEqnpRojDG1Nho1ILdIBw1mSNT7lypeyh
+         a3dRyAD72UbHQ==
+From:   Will Deacon <will@kernel.org>
+To:     James Clark <james.clark@arm.com>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     catalin.marinas@arm.com, kernel-team@android.com,
+        Will Deacon <will@kernel.org>,
+        linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+        acme@kernel.org, john.garry@huawei.com,
+        Jonathan Corbet <corbet@lwn.net>, leo.yan@linaro.org,
+        broonie@kernel.org, linux-doc@vger.kernel.org,
+        Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH v3 0/2] perf: arm64: Kernel support for Dwarf unwinding through SVE functions
+Date:   Thu, 22 Sep 2022 21:33:04 +0100
+Message-Id: <166385556279.1475166.2989569100449667346.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220901132658.1024635-1-james.clark@arm.com>
+References: <20220901132658.1024635-1-james.clark@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 980fe2fddcff ("x86/fpu: Extend fpu_xstate_prctl() with guest
-permissions") extends a couple of arch_prctl(2) options for VCPU threads.
-Add description for them.
+On Thu, 1 Sep 2022 14:26:56 +0100, James Clark wrote:
+> I'm resubmitting this with a few of the changes suggested by Will on V2.
+> 
+> I haven't made any changes regarding the open questions about the
+> discoverability or saving the new reg and passing to output_sample()
+> because I think it's best to be consistent with the implementations on
+> other platforms first. I have explained in more detail on v2 [1].
+> 
+> [...]
 
-Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
-Reviewed-by: Yang Zhong <yang.zhong@intel.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
-Cc: x86@kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
----
-Changes from v1:
-* Add the reason for the guest options (Dave Hansen).
-* Add a note to allude some VMM policy, i.e. KVM_X86_XCOMP_GUEST_SUPP.
-* Move it in the separate section.
+Applied to will (for-next/perf), thanks!
 
-Note the correspondent attributes were also proposed for the KVM API. But,
-it was seen as inessential:
-    https://lore.kernel.org/lkml/20220823231402.7839-1-chang.seok.bae@intel.com/
----
- Documentation/x86/xstate.rst | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+[1/2] perf: arm64: Add SVE vector granule register to user regs
+      https://git.kernel.org/will/c/cbb0c02caf4b
+[2/2] arm64/sve: Add Perf extensions documentation
+      https://git.kernel.org/will/c/1f2906d1e10a
 
-diff --git a/Documentation/x86/xstate.rst b/Documentation/x86/xstate.rst
-index 23b1c9f3efb2..ae5c69e48b11 100644
---- a/Documentation/x86/xstate.rst
-+++ b/Documentation/x86/xstate.rst
-@@ -143,3 +143,32 @@ entry if the feature is in its initial configuration.  This differs from
- non-dynamic features which are always written regardless of their
- configuration.  Signal handlers can examine the XSAVE buffer's XSTATE_BV
- field to determine if a features was written.
-+
-+Dynamic features for virtual machines
-+-------------------------------------
-+
-+The permission for the guest state component needs to be managed separately
-+from the host, as they are exclusive to each other. A coupled of options
-+are extended to control the guest permission:
-+
-+-ARCH_GET_XCOMP_GUEST_PERM
-+
-+ arch_prctl(ARCH_GET_XCOMP_GUEST_PERM, &features);
-+
-+ ARCH_GET_XCOMP_GUEST_PERM is a variant of ARCH_GET_XCOMP_PERM. So it
-+ provides the same semantics and functionality but for the guest
-+ components.
-+
-+-ARCH_REQ_XCOMP_GUEST_PERM
-+
-+ arch_prctl(ARCH_REQ_XCOMP_GUEST_PERM, feature_nr);
-+
-+ ARCH_REQ_XCOMP_GUEST_PERM is a variant of ARCH_REQ_XCOMP_PERM. It has the
-+ same semantics for the guest permission. While providing a similar
-+ functionality, this comes with a constraint. Permission is frozen when the
-+ first VCPU is created. Any attempt to change permission after that point
-+ is going to be rejected. So, the permission has to be requested before the
-+ first VCPU creation.
-+
-+Note that some VMMs may have already established a set of supported state
-+components. These options are not presumed to support any particular VMM.
+Cheers,
 -- 
-2.17.1
+Will
 
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
