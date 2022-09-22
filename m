@@ -2,67 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CBEEC6FA82
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 14:13:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34318C6FA91
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 14:31:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230119AbiIVONF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Sep 2022 10:13:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48572 "EHLO
+        id S231383AbiIVObZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Sep 2022 10:31:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231868AbiIVOMk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 10:12:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96ECAF3105;
-        Thu, 22 Sep 2022 07:12:35 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 18F91634D5;
-        Thu, 22 Sep 2022 14:12:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E73E7C433C1;
-        Thu, 22 Sep 2022 14:12:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1663855954;
-        bh=Xb4aKt4yRKii/ZJsTP4k75RDysJecWdTr3F2rUxcCIs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=M5IcslA4SCgY7Kb2fTZO7lPli/MFFNZurd/TJkl80n3dUGNYKuwAI3o1L3AqTD9gK
-         3ICU3cjuwY+ePo4pttqkoirLB1xNc4snbHMWT8Ow+2vZvGtzCHGaIOM1mbsBNH1VJi
-         KAI7j/y8RVZMg9nOgZMIdIDAwnIFcWhhvsF8Ldy0=
-Date:   Thu, 22 Sep 2022 16:12:31 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net
-Subject: Re: [PATCH 1/5] tty: remove TTY_MAGIC
-Message-ID: <YyxtTxyHJMVZiqBi@kroah.com>
-References: <476d024cd6b04160a5de381ea2b9856b60088cbd.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
+        with ESMTP id S231371AbiIVObY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 10:31:24 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3AA10B5A40;
+        Thu, 22 Sep 2022 07:31:24 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8BF7B1595;
+        Thu, 22 Sep 2022 07:31:30 -0700 (PDT)
+Received: from [10.57.1.91] (unknown [10.57.1.91])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 469B83F73B;
+        Thu, 22 Sep 2022 07:31:22 -0700 (PDT)
+Message-ID: <d6eaa797-380b-e8ae-f928-54843dd596f2@arm.com>
+Date:   Thu, 22 Sep 2022 15:31:20 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <476d024cd6b04160a5de381ea2b9856b60088cbd.1663288066.git.nabijaczleweli@nabijaczleweli.xyz>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 0/2] perf: arm64: Kernel support for Dwarf unwinding
+ through SVE functions
+Content-Language: en-US
+To:     Will Deacon <will@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, broonie@kernel.org,
+        acme@kernel.org, leo.yan@linaro.org, john.garry@huawei.com,
+        catalin.marinas@arm.com, Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org
+References: <20220901132658.1024635-1-james.clark@arm.com>
+ <20220922140406.GG12095@willie-the-truck>
+From:   James Clark <james.clark@arm.com>
+In-Reply-To: <20220922140406.GG12095@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 16, 2022 at 03:54:59AM +0200, наб wrote:
-> According to Greg, in the context of magic numbers as defined in
-> magic-number.rst, "the tty layer should not need this and I'll gladly
-> take patches"
+
+
+On 22/09/2022 15:04, Will Deacon wrote:
+> On Thu, Sep 01, 2022 at 02:26:56PM +0100, James Clark wrote:
+>> I'm resubmitting this with a few of the changes suggested by Will on V2.
+>>
+>> I haven't made any changes regarding the open questions about the
+>> discoverability or saving the new reg and passing to output_sample()
+>> because I think it's best to be consistent with the implementations on
+>> other platforms first. I have explained in more detail on v2 [1].
+>>
+>> [1]: https://lore.kernel.org/lkml/5fcf1a6f-c8fb-c296-992e-18aae8874095@arm.com/
 > 
-> Ref: https://lore.kernel.org/linux-doc/YyMlovoskUcHLEb7@kroah.com/
-> Signed-off-by: Ahelenia Ziemiańska <nabijaczleweli@nabijaczleweli.xyz>
-> ---
-> Whole series: amd64 allyesconfig builds; amd64 Debian config boots and
-> appears to work; naturally, the HVC stuff is S/390 only, but it's a
-> constant offset
+> Fair enough, I can't argue against being consistent.
+> 
+> Given that this exposes subtle new user ABI, do we have any coverage in
+> the selftests? If not, please could you add something?
+> 
 
-Many thanks for this cleanup, now queued up.
+Thanks, I will do that. I assume you mean the self tests in
+tools/perf/tests and not some non Perf tests?
 
-greg k-h
+> Thanks,
+> 
+> Will
