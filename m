@@ -2,215 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12411C54EE9
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 13:43:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54839C6FA82
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 14:04:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229656AbiIVNnz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Sep 2022 09:43:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49832 "EHLO
+        id S231199AbiIVOEV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Sep 2022 10:04:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230058AbiIVNny (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 09:43:54 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E43FD74CE;
-        Thu, 22 Sep 2022 06:43:53 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id t190so9155544pgd.9;
-        Thu, 22 Sep 2022 06:43:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date;
-        bh=A1gPIGPkwtBGNAsou3191eDbQnV5HHWhy5YFxtQ8rL0=;
-        b=C0FMWnH4ugLgjQCous99pqe1wPHUAHr4+tONBDxgiuVY2C7QiPNnPy8wa85+aDYArY
-         Q9CcWmvTsaW+HVRDsMq8Sp+ZP6KRzG/AUCj5UKIlIj88xHEXOwewDKTrpgu/iG5TBEbI
-         IFyLdTZYLN/N51HRjK48hWY9hwA2EN/Px+Fwd6k73RqomjklcD7i16LKcfUQqSIUgNVI
-         wetzltHqurERKJWxlNQ+lWdXu6EQ/D4EvDXD/YNTo6gfKbdVBRSUzb0vpEvfWXzH6ehX
-         zhXZ+7l7tigtoN3rJZQwXP2cG4mFuQD+yspPrg2NCWkcuLxBXNCuZQ2DFusEgLHkhqg+
-         vsUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=A1gPIGPkwtBGNAsou3191eDbQnV5HHWhy5YFxtQ8rL0=;
-        b=ZZpbB1L/D2gloJIpulWCNAzM6aVQiqoB+U42KnMBN+2fFzEce3fFXPGwIsk+FLUtA9
-         ci2Sz1ZqveG56jSb+jjxLhyQgzIveA1ebzUtmd0sLU0ff8dB9fDsVOMiYGTTthZ5046F
-         vw/9QkOVFYmzS8sy997EHhLw4g4kV3JomsroCebBLzt8JHLBLaarxzaUGFuG3033V1en
-         31bafcOTCT9Qt+QFZ1xyWylyfuF2Q+wsX6anyMdTZZsdya3Sk59r02jpZ6ZuU+pByMJ+
-         Z4WsYT3WUO+4mbnnr9qfr0S7/Mv8P2YEeZg43dxU+7bmV1bfl1xjErRM5po4fOzAd1R2
-         wprg==
-X-Gm-Message-State: ACrzQf2HIdvA8PNPhItypnAcmrsqLzCBlDZNjynMzWIhT/WWBZUQdGmM
-        0bYxuHxQPD4aQqNcwn6b2fI=
-X-Google-Smtp-Source: AMsMyM7AkwO3l8V5ynYvYZueIPngu0PrXh3//n/yokMVdyGKH8unhU1UjYRnlttNuuru0V/uT29V4Q==
-X-Received: by 2002:a05:6a00:15d4:b0:544:170c:4f5a with SMTP id o20-20020a056a0015d400b00544170c4f5amr3614064pfu.75.1663854232588;
-        Thu, 22 Sep 2022 06:43:52 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id x125-20020a628683000000b0053e199aa99bsm4295515pfd.220.2022.09.22.06.43.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Sep 2022 06:43:52 -0700 (PDT)
-Message-ID: <93343c05-f31e-cfbe-6650-8ea8d79e6d55@gmail.com>
-Date:   Thu, 22 Sep 2022 22:43:43 +0900
+        with ESMTP id S230081AbiIVOER (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 10:04:17 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C539952E4C;
+        Thu, 22 Sep 2022 07:04:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1B866B83708;
+        Thu, 22 Sep 2022 14:04:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72489C433C1;
+        Thu, 22 Sep 2022 14:04:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663855453;
+        bh=VgWUO4Ckjan3w0JYAK63vpjVgU/HRN09V887VEmZ824=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hf7hYytrI3XkOXHq3SP1OR8h4PTC79Oy5j8QfIE5Oy/W4R9kcFue8GZgjuthalwv4
+         LY3LplmSIxs6jvir8GCkpTLWRUaGUXVT6EJ+dfpC4VOdbdcmDjLeS+w4CCKlL+JUPi
+         6dtUjNorb9JPS8xEZz0DdjI2E7Adh/7Nn5lEvRnLfmiIafKL8+lLmFc9BcQrWNRBAa
+         Gmsazl2KSUEqoSoqvzG3cQ0SMV7nEMgUDQymMndHaM4hwpRIXiQiXVMJ7oW0WwVPFW
+         VDn6kbPzXMAzoi9v2KThd+bcr1XRZmbwfUvEbOZLUv7ak5NdhPJw7wOV+rqhqCYw9a
+         oo0ihb+N1NMQg==
+Date:   Thu, 22 Sep 2022 15:04:07 +0100
+From:   Will Deacon <will@kernel.org>
+To:     James Clark <james.clark@arm.com>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, broonie@kernel.org,
+        acme@kernel.org, leo.yan@linaro.org, john.garry@huawei.com,
+        catalin.marinas@arm.com, Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] perf: arm64: Kernel support for Dwarf unwinding
+ through SVE functions
+Message-ID: <20220922140406.GG12095@willie-the-truck>
+References: <20220901132658.1024635-1-james.clark@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-To:     David Hildenbrand <david@redhat.com>
-Cc:     David.Laight@ACULAB.COM, akpm@linux-foundation.org,
-        apw@canonical.com, bhe@redhat.com, christophe.leroy@csgroup.eu,
-        corbet@lwn.net, dwaipayanray1@gmail.com, dyoung@redhat.com,
-        jani.nikula@linux.intel.com, joe@perches.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
-        lukas.bulwahn@gmail.com, mingo@kernel.org, mpe@ellerman.id.au,
-        npiggin@gmail.com, torvalds@linux-foundation.org,
-        vgoyal@redhat.com, Akira Yokosawa <akiyks@gmail.com>
-References: <20220920122302.99195-2-david@redhat.com>
-Subject: Re: [PATCH v1 1/3] coding-style.rst: document BUG() and WARN() rules
- ("do not crash the kernel")
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220920122302.99195-2-david@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220901132658.1024635-1-james.clark@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Thu, Sep 01, 2022 at 02:26:56PM +0100, James Clark wrote:
+> I'm resubmitting this with a few of the changes suggested by Will on V2.
+> 
+> I haven't made any changes regarding the open questions about the
+> discoverability or saving the new reg and passing to output_sample()
+> because I think it's best to be consistent with the implementations on
+> other platforms first. I have explained in more detail on v2 [1].
+> 
+> [1]: https://lore.kernel.org/lkml/5fcf1a6f-c8fb-c296-992e-18aae8874095@arm.com/
 
-Minor nits on section title adornments.
-See inline comments below.
+Fair enough, I can't argue against being consistent.
 
-On Tue, 20 Sep 2022 14:23:00 +0200, David Hildenbrand wrote:
-> Linus notes [1] that the introduction of new code that uses VM_BUG_ON()
-> is just as bad as BUG_ON(), because it will crash the kernel on
-> distributions that enable CONFIG_DEBUG_VM (like Fedora):
-> 
->     VM_BUG_ON() has the exact same semantics as BUG_ON. It is literally
->     no different, the only difference is "we can make the code smaller
->     because these are less important". [2]
-> 
-> This resulted in a more generic discussion about usage of BUG() and
-> friends. While there might be corner cases that still deserve a BUG_ON(),
-> most BUG_ON() cases should simply use WARN_ON_ONCE() and implement a
-> recovery path if reasonable:
-> 
->     The only possible case where BUG_ON can validly be used is "I have
->     some fundamental data corruption and cannot possibly return an
->     error". [2]
-> 
-> As a very good approximation is the general rule:
-> 
->     "absolutely no new BUG_ON() calls _ever_" [2]
-> 
-> ... not even if something really shouldn't ever happen and is merely for
-> documenting that an invariant always has to hold. However, there are sill
-> exceptions where BUG_ON() may be used:
-> 
->     If you have a "this is major internal corruption, there's no way we can
->     continue", then BUG_ON() is appropriate. [3]
-> 
-> There is only one good BUG_ON():
-> 
->     Now, that said, there is one very valid sub-form of BUG_ON():
->     BUILD_BUG_ON() is absolutely 100% fine. [2]
-> 
-> While WARN will also crash the machine with panic_on_warn set, that's
-> exactly to be expected:
-> 
->     So we have two very different cases: the "virtual machine with good
->     logging where a dead machine is fine" - use 'panic_on_warn'. And
->     the actual real hardware with real drivers, running real loads by
->     users. [4]
-> 
-> The basic idea is that warnings will similarly get reported by users
-> and be found during testing. However, in contrast to a BUG(), there is a
-> way to actually influence the expected behavior (e.g., panic_on_warn)
-> and to eventually keep the machine alive to extract some debug info.
-> 
-> Ingo notes that not all WARN_ON_ONCE cases need recovery. If we don't ever
-> expect this code to trigger in any case, recovery code is not really
-> helpful.
-> 
->     I'd prefer to keep all these warnings 'simple' - i.e. no attempted
->     recovery & control flow, unless we ever expect these to trigger.
->     [5]
-> 
-> There have been different rules floating around that were never properly
-> documented. Let's try to clarify.
-> 
-> [1] https://lkml.kernel.org/r/CAHk-=wiEAH+ojSpAgx_Ep=NKPWHU8AdO3V56BXcCsU97oYJ1EA@mail.gmail.com
-> [2] https://lore.kernel.org/r/CAHk-=wg40EAZofO16Eviaj7mfqDhZ2gVEbvfsMf6gYzspRjYvw@mail.gmail.com
-> [2] https://lkml.kernel.org/r/CAHk-=wit-DmhMfQErY29JSPjFgebx_Ld+pnerc4J2Ag990WwAA@mail.gmail.com
-> [4] https://lore.kernel.org/r/CAHk-=wgF7K2gSSpy=m_=K3Nov4zaceUX9puQf1TjkTJLA2XC_g@mail.gmail.com
-> [5] https://lore.kernel.org/r/YwIW+mVeZoTOxn%2F4@gmail.com
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  Documentation/process/coding-style.rst | 61 ++++++++++++++++++++++++++
->  1 file changed, 61 insertions(+)
-> 
-> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> index 03eb53fd029a..e05899cbfd49 100644
-> --- a/Documentation/process/coding-style.rst
-> +++ b/Documentation/process/coding-style.rst
-> @@ -1186,6 +1186,67 @@ expression used.  For instance:
->  	#endif /* CONFIG_SOMETHING */
->  
->  
-> +22) Do not crash the kernel
-> +---------------------------
-> +
-> +In general, it is not the kernel developer's decision to crash the kernel.
-> +
-> +Avoid panic()
-> +=============
-This looks to me like a subsection-level title.  The adornment symbol
-needs to be:
+Given that this exposes subtle new user ABI, do we have any coverage in
+the selftests? If not, please could you add something?
 
-   *************
+Thanks,
 
-> +
-> +panic() should be used with care and primarily only during system boot.
-> +panic() is, for example, acceptable when running out of memory during boot and
-> +not being able to continue.
-> +
-> +Use WARN() rather than BUG()
-> +============================
-Ditto.
-
-> +
-> +Do not add new code that uses any of the BUG() variants, such as BUG(),
-> +BUG_ON(), or VM_BUG_ON(). Instead, use a WARN*() variant, preferably
-> +WARN_ON_ONCE(), and possibly with recovery code. Recovery code is not
-> +required if there is no reasonable way to at least partially recover.
-> +
-> +"I'm too lazy to do error handling" is not an excuse for using BUG(). Major
-> +internal corruptions with no way of continuing may still use BUG(), but need
-> +good justification.
-> +
-> +Use WARN_ON_ONCE() rather than WARN() or WARN_ON()
-> +**************************************************
-These wrong adornment symbol confuse ReST parser of Sphinx and results in
-the build error from "make htmldocs" at this title (long message folded):
-
-    Sphinx parallel build error:
-
-    docutils.utils.SystemMessage: /xxx/Documentation/process/coding-style.rst:1213:
-     (SEVERE/4) Title level inconsistent:
-
-
-
-Please fix in v2.
-
-        Thanks, Akira
-
-> +
-> +WARN_ON_ONCE() is generally preferred over WARN() or WARN_ON(), because it
-> +is common for a given warning condition, if it occurs at all, to occur
-> +multiple times. This can fill up and wrap the kernel log, and can even slow
-> +the system enough that the excessive logging turns into its own, additional
-> +problem.
-> +
-[...]
-
+Will
