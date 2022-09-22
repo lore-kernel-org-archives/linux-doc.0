@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47439C54EE9
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 13:04:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8828EC54EE9
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 13:04:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230310AbiIVNEH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Sep 2022 09:04:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47626 "EHLO
+        id S229830AbiIVNEt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Sep 2022 09:04:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231528AbiIVNEF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 09:04:05 -0400
-Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB500E9CE9
-        for <linux-doc@vger.kernel.org>; Thu, 22 Sep 2022 06:04:03 -0700 (PDT)
-Date:   Thu, 22 Sep 2022 21:03:39 +0800
+        with ESMTP id S230101AbiIVNEr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 09:04:47 -0400
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C71F43E5A
+        for <linux-doc@vger.kernel.org>; Thu, 22 Sep 2022 06:04:41 -0700 (PDT)
+Date:   Thu, 22 Sep 2022 21:04:22 +0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1663851841;
+        t=1663851879;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=rGGjxKQNyXoSj+50RuaMBE1obr92atG1U523WETa5ac=;
-        b=xm99Ygh3b1TPi0/EdGO994gTsxeok7EBzJZaEwm3pLCeRCuNlrtqMhTiG29xEWPYUjiWge
-        c+X5MQSlK1DUszrGXC/0wug1USbAC1TJs3Q4jjIYOpvfvmYJvrwXKQO/LhSRt0VyGK3jbb
-        C0ClJrQZrzhUEO+41J+SWyNC5oblkhQ=
+        bh=WtOKrVeWLC7YUoEL7rZbSkA9pvdNKtwp3o/UOCsMKeQ=;
+        b=Jj4rWgvJiSdTf47qIl5NFvYmGwqKZq+Ll/d0Dv1HQq67crwYEeIIx4gvmomXnY09WhuTJv
+        NbjcHtsev2ygMZcR3tCkCHE2Z0D76lDzuAZR6D7KHOde8kd01fhlf4bo3FFVMm9eq0XAuS
+        pX4YrU0p5NEVM7VvqMB0GRxZX/0qp7o=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
 To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
@@ -32,9 +32,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Tang Yizhou <tangyizhou@huawei.com>,
         Shile Zhang <shile.zhang@linux.alibaba.com>,
         linux-doc@vger.kernel.org
-Subject: [PATCH 1/2] docs/zh_CN: Update zh_CN/admin-guide/README.rst to
- 6.0-rc2
-Message-ID: <7f6e0b8961f79befa62e0070f9682ab3abde8622.1663850554.git.bobwxc@email.cn>
+Subject: [PATCH 2/2] docs/zh_CN: Add new translation of
+ admin-guide/bootconfig.rst
+Message-ID: <386249dc333a3e40b80c3a9483d60d2bfd24a6c4.1663850554.git.bobwxc@email.cn>
 References: <cover.1663850554.git.bobwxc@email.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -49,179 +49,336 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Wu XiangCheng <bobwxc@email.cn>
 
-* update to commit ea052e7257bd ("docs: admin-guide: for kernel bugs
-  refer to other kernel documentation")
-
-We are in 6.x now ;)
+The last English version used:
+  commit 2f51efc6b71d ("docs: bootconfig: Add how to embed the
+  bootconfig into kernel")
 
 Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
 ---
- .../translations/zh_CN/admin-guide/README.rst | 101 ++++--------------
- 1 file changed, 22 insertions(+), 79 deletions(-)
+ .../zh_CN/admin-guide/bootconfig.rst          | 293 ++++++++++++++++++
+ .../translations/zh_CN/admin-guide/index.rst  |   2 +-
+ 2 files changed, 294 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/bootconfig.rst
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/README.rst b/Documentation/translations/zh_CN/admin-guide/README.rst
-index d20949e8bf6f..e679cbc3c89d 100644
---- a/Documentation/translations/zh_CN/admin-guide/README.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/README.rst
-@@ -6,10 +6,10 @@
- 
-  吴想成 Wu XiangCheng <bobwxc@email.cn>
- 
--Linux内核5.x版本 <http://kernel.org/>
-+Linux内核6.x版本 <http://kernel.org/>
- =========================================
- 
--以下是Linux版本5的发行注记。仔细阅读它们，
-+以下是Linux版本6的发行注记。仔细阅读它们，
- 它们会告诉你这些都是什么，解释如何安装内核，以及遇到问题时该如何做。
- 
- 什么是Linux？
-@@ -61,27 +61,27 @@ Linux内核5.x版本 <http://kernel.org/>
-  - 如果您要安装完整的源代码，请把内核tar档案包放在您有权限的目录中（例如您
-    的主目录）并将其解包::
- 
--     xz -cd linux-5.x.tar.xz | tar xvf -
-+     xz -cd linux-6.x.tar.xz | tar xvf -
- 
-    将“X”替换成最新内核的版本号。
- 
-    【不要】使用 /usr/src/linux 目录！这里有一组库头文件使用的内核头文件
-    （通常是不完整的）。它们应该与库匹配，而不是被内核的变化搞得一团糟。
- 
-- - 您还可以通过打补丁在5.x版本之间升级。补丁以xz格式分发。要通过打补丁进行
--   安装，请获取所有较新的补丁文件，进入内核源代码（linux-5.x）的目录并
-+ - 您还可以通过打补丁在6.x版本之间升级。补丁以xz格式分发。要通过打补丁进行
-+   安装，请获取所有较新的补丁文件，进入内核源代码（linux-6.x）的目录并
-    执行::
- 
--     xz -cd ../patch-5.x.xz | patch -p1
-+     xz -cd ../patch-6.x.xz | patch -p1
- 
-    请【按顺序】替换所有大于当前源代码树版本的“x”，这样就可以了。您可能想要
-    删除备份文件（文件名类似xxx~ 或 xxx.orig)，并确保没有失败的补丁（文件名
-    类似xxx# 或 xxx.rej）。如果有，不是你就是我犯了错误。
- 
--   与5.x内核的补丁不同，5.x.y内核（也称为稳定版内核）的补丁不是增量的，而是
--   直接应用于基本的5.x内核。例如，如果您的基本内核是5.0，并且希望应用5.0.3
--   补丁，则不应先应用5.0.1和5.0.2的补丁。类似地，如果您运行的是5.0.2内核，
--   并且希望跳转到5.0.3，那么在应用5.0.3补丁之前，必须首先撤销5.0.2补丁
-+   与6.x内核的补丁不同，6.x.y内核（也称为稳定版内核）的补丁不是增量的，而是
-+   直接应用于基本的6.x内核。例如，如果您的基本内核是6.0，并且希望应用6.0.3
-+   补丁，则不应先应用6.0.1和6.0.2的补丁。类似地，如果您运行的是6.0.2内核，
-+   并且希望跳转到6.0.3，那么在应用6.0.3补丁之前，必须首先撤销6.0.2补丁
-    （即patch -R）。更多关于这方面的内容，请阅读
-    :ref:`Documentation/process/applying-patches.rst <applying_patches>` 。
- 
-@@ -103,7 +103,7 @@ Linux内核5.x版本 <http://kernel.org/>
- 软件要求
- ---------
- 
--   编译和运行5.x内核需要各种软件包的最新版本。请参考
-+   编译和运行6.x内核需要各种软件包的最新版本。请参考
-    :ref:`Documentation/process/changes.rst <changes>`
-    来了解最低版本要求以及如何升级软件包。请注意，使用过旧版本的这些包可能会
-    导致很难追踪的间接错误，因此不要以为在生成或操作过程中出现明显问题时可以
-@@ -116,12 +116,12 @@ Linux内核5.x版本 <http://kernel.org/>
-    ``make O=output/dir`` 选项可以为输出文件（包括 .config）指定备用位置。
-    例如::
- 
--     kernel source code: /usr/src/linux-5.x
-+     kernel source code: /usr/src/linux-6.x
-      build directory:    /home/name/build/kernel
- 
-    要配置和构建内核，请使用::
- 
--     cd /usr/src/linux-5.x
-+     cd /usr/src/linux-6.x
-      make O=/home/name/build/kernel menuconfig
-      make O=/home/name/build/kernel
-      sudo make O=/home/name/build/kernel modules_install install
-@@ -227,8 +227,6 @@ Linux内核5.x版本 <http://kernel.org/>
-  - 确保您至少有gcc 5.1可用。
-    有关更多信息，请参阅 :ref:`Documentation/process/changes.rst <changes>` 。
- 
--   请注意，您仍然可以使用此内核运行a.out用户程序。
--
-  - 执行 ``make`` 来创建压缩内核映像。如果您安装了lilo以适配内核makefile，
-    那么也可以进行 ``make install`` ，但是您可能需要先检查特定的lilo设置。
- 
-@@ -282,67 +280,12 @@ Linux内核5.x版本 <http://kernel.org/>
- 若遇到问题
- -----------
- 
-- - 如果您发现了一些可能由于内核缺陷所导致的问题，请检查MAINTAINERS（维护者）
--   文件看看是否有人与令您遇到麻烦的内核部分相关。如果无人在此列出，那么第二
--   个最好的方案就是把它们发给我（torvalds@linux-foundation.org），也可能发送
--   到任何其他相关的邮件列表或新闻组。
--
-- - 在所有的缺陷报告中，【请】告诉我们您在说什么内核，如何复现问题，以及您的
--   设置是什么的（使用您的常识）。如果问题是新的，请告诉我；如果问题是旧的，
--   请尝试告诉我您什么时候首次注意到它。
--
-- - 如果缺陷导致如下消息::
--
--     unable to handle kernel paging request at address C0000010
--     Oops: 0002
--     EIP:   0010:XXXXXXXX
--     eax: xxxxxxxx   ebx: xxxxxxxx   ecx: xxxxxxxx   edx: xxxxxxxx
--     esi: xxxxxxxx   edi: xxxxxxxx   ebp: xxxxxxxx
--     ds: xxxx  es: xxxx  fs: xxxx  gs: xxxx
--     Pid: xx, process nr: xx
--     xx xx xx xx xx xx xx xx xx xx
--
--   或者类似的内核调试信息显示在屏幕上或在系统日志里，请【如实】复制它。
--   可能对你来说转储（dump）看起来不可理解，但它确实包含可能有助于调试问题的
--   信息。转储上方的文本也很重要：它说明了内核转储代码的原因（在上面的示例中，
--   是由于内核指针错误）。更多关于如何理解转储的信息，请参见
--   Documentation/admin-guide/bug-hunting.rst。
--
-- - 如果使用 CONFIG_KALLSYMS 编译内核，则可以按原样发送转储，否则必须使用
--   ``ksymoops`` 程序来理解转储（但通常首选使用CONFIG_KALLSYMS编译）。
--   此实用程序可从
--   https://www.kernel.org/pub/linux/utils/kernel/ksymoops/ 下载。
--   或者，您可以手动执行转储查找：
--
-- - 在调试像上面这样的转储时，如果您可以查找EIP值的含义，这将非常有帮助。
--   十六进制值本身对我或其他任何人都没有太大帮助：它会取决于特定的内核设置。
--   您应该做的是从EIP行获取十六进制值（忽略 ``0010:`` ），然后在内核名字列表
--   中查找它，以查看哪个内核函数包含有问题的地址。
--
--   要找到内核函数名，您需要找到与显示症状的内核相关联的系统二进制文件。就是
--   文件“linux/vmlinux”。要提取名字列表并将其与内核崩溃中的EIP进行匹配，
--   请执行::
--
--     nm vmlinux | sort | less
--
--   这将为您提供一个按升序排序的内核地址列表，从中很容易找到包含有问题的地址
--   的函数。请注意，内核调试消息提供的地址不一定与函数地址完全匹配（事实上，
--   这是不可能的），因此您不能只“grep”列表：不过列表将为您提供每个内核函数
--   的起点，因此通过查找起始地址低于你正在搜索的地址，但后一个函数的高于的
--   函数，你会找到您想要的。实际上，在您的问题报告中加入一些“上下文”可能是
--   一个好主意，给出相关的上下几行。
--
--   如果您由于某些原因无法完成上述操作（如您使用预编译的内核映像或类似的映像），
--   请尽可能多地告诉我您的相关设置信息，这会有所帮助。有关详细信息请阅读
--   ‘Documentation/admin-guide/reporting-issues.rst’。
--
-- - 或者，您可以在正在运行的内核上使用gdb（只读的；即不能更改值或设置断点）。
--   为此，请首先使用-g编译内核；适当地编辑arch/x86/Makefile，然后执行 ``make
--   clean`` 。您还需要启用CONFIG_PROC_FS（通过 ``make config`` ）。
--
--   使用新内核重新启动后，执行 ``gdb vmlinux /proc/kcore`` 。现在可以使用所有
--   普通的gdb命令。查找系统崩溃点的命令是 ``l *0xXXXXXXXX`` （将xxx替换为EIP
--   值）。
--
--   用gdb无法调试一个当前未运行的内核是由于gdb（错误地）忽略了编译内核的起始
--   偏移量。
-+如果您发现了一些可能由于内核缺陷所导致的问题，请参阅：
-+Documentation/translations/zh_CN/admin-guide/reporting-issues.rst 。
+diff --git a/Documentation/translations/zh_CN/admin-guide/bootconfig.rst b/Documentation/translations/zh_CN/admin-guide/bootconfig.rst
+new file mode 100644
+index 000000000000..072d17f5f199
+--- /dev/null
++++ b/Documentation/translations/zh_CN/admin-guide/bootconfig.rst
+@@ -0,0 +1,293 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+想要理解内核错误报告，请参阅：
-+Documentation/translations/zh_CN/admin-guide/bug-hunting.rst 。
++.. include:: ../disclaimer-zh_CN.rst
 +
-+更多用GDB调试内核的信息，请参阅：
-+Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
-+和 Documentation/dev-tools/kgdb.rst 。
++:Original: Documentation/admin-guide/bootconfig.rst
++
++:译者: 吴想成 Wu XiangCheng <bobwxc@email.cn>
++
++========
++引导配置
++========
++
++:作者: Masami Hiramatsu <mhiramat@kernel.org>
++
++概述
++====
++
++引导配置扩展了现有的内核命令行，以一种更有效率的方式在引导内核时进一步支持
++键值数据。这允许管理员传递一份结构化关键字的配置文件。
++
++配置文件语法
++============
++
++引导配置文件的语法采用非常简单的键值结构。每个关键字由点连接的单词组成，键
++和值由 ``=`` 连接。值以分号（ ``;`` ）或换行符（ ``\n`` ）结尾。数组值中每
++个元素由逗号（ ``,`` ）分隔。::
++
++  KEY[.WORD[...]] = VALUE[, VALUE2[...]][;]
++
++与内核命令行语法不同，逗号和 ``=`` 周围允许有空格。
++
++关键字只允许包含字母、数字、连字符（ ``-`` ）和下划线（ ``_`` ）。值可包含
++可打印字符和空格，但分号（ ``;`` ）、换行符（ ``\n`` ）、逗号（ ``,`` ）、
++井号（ ``#`` ）和右大括号（ ``}`` ）等分隔符除外。
++
++如果你需要在值中使用这些分隔符，可以用双引号（ ``"VALUE"`` ）或单引号
++（ ``'VALUE'`` ）括起来。注意，引号无法转义。
++
++键的值可以为空或不存在。这些键用于检查该键是否存在（类似布尔值）。
++
++键值语法
++--------
++
++引导配置文件语法允许用户通过大括号合并键名部分相同的关键字。例如::
++
++ foo.bar.baz = value1
++ foo.bar.qux.quux = value2
++
++也可以写成::
++
++ foo.bar {
++    baz = value1
++    qux.quux = value2
++ }
++
++或者更紧凑一些，写成::
++
++ foo.bar { baz = value1; qux.quux = value2 }
++
++在这两种样式中，引导解析时相同的关键字都会自动合并。因此可以追加类似的树或
++键值。
++
++相同关键字的值
++--------------
++
++禁止两个或多个值或数组共享同一个关键字。例如::
++
++ foo = bar, baz
++ foo = qux  # !错误! 我们不可以重定义相同的关键字
++
++如果你想要更新值，必须显式使用覆盖操作符 ``:=`` 。例如::
++
++ foo = bar, baz
++ foo := qux
++
++这样 ``foo`` 关键字的值就变成了 ``qux`` 。这对于通过添加（部分）自定义引导
++配置来覆盖默认值非常有用，免于解析默认引导配置。
++
++如果你想对现有关键字追加值作为数组成员，可以使用 ``+=`` 操作符。例如::
++
++ foo = bar, baz
++ foo += qux
++
++这样， ``foo`` 关键字就同时拥有了 ``bar`` ， ``baz`` 和 ``qux`` 。
++
++此外，父关键字下可同时存在值和子关键字。
++例如，下列配置是可行的。::
++
++ foo = value1
++ foo.bar = value2
++ foo := value3 # 这会更新foo的值。
++
++注意，裸值不能直接放进结构化关键字中，必须在大括号外定义它。例如::
++
++ foo {
++     bar = value1
++     bar {
++         baz = value2
++         qux = value3
++     }
++ }
++
++同时，关键字下值节点的顺序是固定的。如果值和子关键字同时存在，值永远是该关
++键字的第一个子节点。因此如果用户先指定子关键字，如::
++
++ foo.bar = value1
++ foo = value2
++
++则在程序（和/proc/bootconfig）中，它会按如下显示::
++
++ foo = value2
++ foo.bar = value1
++
++注释
++----
++
++配置语法接受shell脚本风格的注释。注释以井号（ ``#`` ）开始，到换行符
++（ ``\n`` ）结束。
++
++::
++
++ # comment line
++ foo = value # value is set to foo.
++ bar = 1, # 1st element
++       2, # 2nd element
++       3  # 3rd element
++
++会被解析为::
++
++ foo = value
++ bar = 1, 2, 3
++
++注意你不能把注释放在值和分隔符（ ``,`` 或 ``;`` ）之间。如下配置语法是错误的::
++
++ key = 1 # comment
++       ,2
++
++
++/proc/bootconfig
++================
++
++/proc/bootconfig是引导配置的用户空间接口。与/proc/cmdline不同，此文件内容以
++键值列表样式显示。
++每个键值对一行，样式如下::
++
++ KEY[.WORDS...] = "[VALUE]"[,"VALUE2"...]
++
++
++用引导配置引导内核
++==================
++
++用引导配置引导内核有两种方法：将引导配置附加到initrd镜像或直接嵌入内核中。
++
++*initrd: initial RAM disk，初始内存磁盘*
++
++将引导配置附加到initrd
++----------------------
++
++由于默认情况下引导配置文件是用initrd加载的，因此它将被添加到initrd（initramfs）
++镜像文件的末尾，其中包含填充、大小、校验值和12字节幻数，如下所示::
++
++ [initrd][bootconfig][padding][size(le32)][checksum(le32)][#BOOTCONFIG\n]
++
++大小和校验值为小端序存放的32位无符号值。
++
++当引导配置被加到initrd镜像时，整个文件大小会对齐到4字节。空字符（ ``\0`` ）
++会填补对齐空隙。因此 ``size`` 就是引导配置文件的长度+填充的字节。
++
++Linux内核在内存中解码initrd镜像的最后部分以获取引导配置数据。由于这种“背负式”
++的方法，只要引导加载器传递了正确的initrd文件大小，就无需更改或更新引导加载器
++和内核镜像本身。如果引导加载器意外传递了更长的大小，内核将无法找到引导配置数
++据。
++
++Linux内核在tools/bootconfig下提供了 ``bootconfig`` 命令来完成此操作，管理员
++可以用它从initrd镜像中删除或追加配置文件。你可以用以下命令来构建它::
++
++ # make -C tools/bootconfig
++
++要向initrd镜像添加你的引导配置文件，请按如下命令操作（旧数据会自动移除）::
++
++ # tools/bootconfig/bootconfig -a your-config /boot/initrd.img-X.Y.Z
++
++要从镜像中移除配置，可以使用-d选项::
++
++ # tools/bootconfig/bootconfig -d /boot/initrd.img-X.Y.Z
++
++然后在内核命令行上添加 ``bootconfig`` 告诉内核去initrd文件末尾寻找内核配置。
++
++将引导配置嵌入内核
++------------------
++
++如果你不能使用initrd，也可以通过Kconfig选项将引导配置文件嵌入内核中。在此情
++况下，你需要用以下选项重新编译内核::
++
++ CONFIG_BOOT_CONFIG_EMBED=y
++ CONFIG_BOOT_CONFIG_EMBED_FILE="/引导配置/文件/的/路径"
++
++``CONFIG_BOOT_CONFIG_EMBED_FILE`` 需要从源码树或对象树开始的引导配置文件的
++绝对/相对路径。内核会将其嵌入作为默认引导配置。
++
++与将引导配置附加到initrd一样，你也需要在内核命令行上添加 ``bootconfig`` 告诉
++内核去启用内嵌的引导配置。
++
++注意，即使你已经设置了此选项，仍可用附加到initrd的其他引导配置覆盖内嵌的引导
++配置。
++
++通过引导配置传递内核参数
++========================
++
++除了内核命令行，引导配置也可以用于传递内核参数。所有 ``kernel`` 关键字下的键
++值对都将直接传递给内核命令行。此外， ``init`` 下的键值对将通过命令行传递给
++init进程。参数按以下顺序与用户给定的内核命令行字符串相连，因此命令行参数可以
++覆盖引导配置参数（这取决于子系统如何处理参数，但通常前面的参数将被后面的参数
++覆盖）::
++
++ [bootconfig params][cmdline params] -- [bootconfig init params][cmdline init params]
++
++如果引导配置文件给出的kernel/init参数是::
++
++ kernel {
++   root = 01234567-89ab-cdef-0123-456789abcd
++ }
++ init {
++  splash
++ }
++
++这将被复制到内核命令行字符串中，如下所示::
++
++ root="01234567-89ab-cdef-0123-456789abcd" -- splash
++
++如果用户给出的其他命令行是::
++
++ ro bootconfig -- quiet
++
++则最后的内核命令行如下::
++
++ root="01234567-89ab-cdef-0123-456789abcd" ro bootconfig -- splash quiet
++
++
++配置文件的限制
++==============
++
++当前最大的配置大小是32KB，关键字总数（不是键值条目）必须少于1024个节点。
++注意：这不是条目数而是节点数，条目必须消耗超过2个节点（一个关键字和一个值）。
++所以从理论上讲最多512个键值对。如果关键字平均包含3个单词，则可有256个键值对。
++在大多数情况下，配置项的数量将少于100个条目，小于8KB，因此这应该足够了。如果
++节点数超过1024，解析器将返回错误，即使文件大小小于32KB。（请注意，此最大尺寸
++不包括填充的空字符。）
++无论如何，因为 ``bootconfig`` 命令在附加启动配置到initrd映像时会验证它，用户
++可以在引导之前注意到它。
++
++
++引导配置API
++===========
++
++用户可以查询或遍历键值对，也可以查找（前缀）根关键字节点，并在查找该节点下的
++键值。
++
++如果您有一个关键字字符串，则可以直接使用 xbc_find_value() 查询该键的值。如果
++你想知道引导配置里有哪些关键字，可以使用 xbc_for_each_key_value() 迭代键值对。
++请注意，您需要使用 xbc_array_for_each_value() 访问数组的值，例如::
++
++ vnode = NULL;
++ xbc_find_value("key.word", &vnode);
++ if (vnode && xbc_node_is_array(vnode))
++    xbc_array_for_each_value(vnode, value) {
++      printk("%s ", value);
++    }
++
++如果您想查找具有前缀字符串的键，可以使用 xbc_find_node() 通过前缀字符串查找
++节点，然后用 xbc_node_for_each_key_value() 迭代前缀节点下的键。
++
++但最典型的用法是获取前缀下的命名值或前缀下的命名数组，例如::
++
++ root = xbc_find_node("key.prefix");
++ value = xbc_node_find_value(root, "option", &vnode);
++ ...
++ xbc_node_for_each_array_value(root, "array-option", value, anode) {
++    ...
++ }
++
++这将访问值“key.prefix.option”的值和“key.prefix.array-option”的数组。
++
++锁是不需要的，因为在初始化之后配置只读。如果需要修改，必须复制所有数据和关键字。
++
++
++函数与结构体
++============
++
++相关定义的kernel-doc参见：
++
++ - include/linux/bootconfig.h
++ - lib/bootconfig.c
+diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+index 2f6970d0a032..ac2960da33e6 100644
+--- a/Documentation/translations/zh_CN/admin-guide/index.rst
++++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+@@ -63,6 +63,7 @@ Todolist:
+ .. toctree::
+    :maxdepth: 1
+ 
++   bootconfig
+    clearing-warn-once
+    cpu-load
+    cputopology
+@@ -80,7 +81,6 @@ Todolist:
+ *   binderfs
+ *   binfmt-misc
+ *   blockdev/index
+-*   bootconfig
+ *   braille-console
+ *   btmrvl
+ *   cgroup-v1/index
 -- 
 2.30.2
 
