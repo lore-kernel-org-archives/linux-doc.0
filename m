@@ -2,31 +2,31 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 820D7C6FA91
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 20:42:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B2C8C54EE9
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 20:42:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230000AbiIVUmD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Sep 2022 16:42:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44216 "EHLO
+        id S230021AbiIVUmG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Sep 2022 16:42:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbiIVUmC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 16:42:02 -0400
+        with ESMTP id S229993AbiIVUmD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 16:42:03 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E2552BE01;
-        Thu, 22 Sep 2022 13:42:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D7E62BE01;
+        Thu, 22 Sep 2022 13:42:03 -0700 (PDT)
 Received: from meer.lwn.net (unknown [IPv6:2601:281:8300:73::5f6])
-        by ms.lwn.net (Postfix) with ESMTPA id BBA087F8;
-        Thu, 22 Sep 2022 20:42:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BBA087F8
+        by ms.lwn.net (Postfix) with ESMTPA id 7B7593485;
+        Thu, 22 Sep 2022 20:42:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7B7593485
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1663879321; bh=pjEqGsC3o1cCyVpcxwjXhbptLW8M3DxLII6MXHLKxx4=;
+        t=1663879322; bh=mDxQXQ4NurBox4LsoF5to14jeYq+gAafXUk9PwOPWrk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iWbxNZ1XAipsse42nS+MNazVPJlCC7b34fZWJxBpwzReFOUFFM4i1f5/7aQZNXkTq
-         6yXrURAPxiLLTti3nYhSEg3Nqxi3mycUcXKQuQzTgGYzfen4TgK4pyH85jkONumqIY
-         wzXvv6Hy7pQFgLCAMxl3cWBDslrmUubZTt4ppSnDIhUGV2QdUCUceKm/9/U6y+Q26A
-         +XeWD/x5RZnFc08kYTCbwBoZ6NrxUPgsxWlH4dBwnZCUL61I7JGrelXIYuY+tK+3Da
-         Dmvezp+UkU4vLurABReZjxVMBiXkidy7jdOGApP8VXNbsxoBtuPZVmmmu/fSZl18Ac
-         C9vRbxVkf/aCA==
+        b=Imj0aX1VxffoffDyE9sDm6f8S1Fqi7Gu4/og3bpqCvkvCTYVxBknNwT8FpGoZ68Dq
+         J93aj1SSDQmctCdZ9dEeR7kwExw3gRaUQxXVN3Gkgnb+bdX3Y9RoADvHWv7H0Fs0RQ
+         eUanToJFhiGDvD/7Hac6hLETLjD279hsQlvBT6o2icdaWQGL1fuZg3/pPl5y1QEfC4
+         RxuyQuZ7xb97gUVzfnamsGFydj0Znm749J6xsjS2u2fL9YBN5jFRSGOkjElAxDs5qf
+         mnSUNllJnGfT+dSIvVE+gVNMd0kX6V5MCrONS/4GBCpRJcVBLyhOtp+eg7dnoOnXX1
+         e5mhF+WL9p/4g==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -34,9 +34,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Kees Cook <keescook@chromium.org>,
         Jani Nikula <jani.nikula@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 3/7] docs: reconfigure the HTML left column
-Date:   Thu, 22 Sep 2022 14:41:34 -0600
-Message-Id: <20220922204138.153146-4-corbet@lwn.net>
+Subject: [PATCH v2 6/7] docs: Expand the front-page CPU-architecture section
+Date:   Thu, 22 Sep 2022 14:41:37 -0600
+Message-Id: <20220922204138.153146-7-corbet@lwn.net>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220922204138.153146-1-corbet@lwn.net>
 References: <20220922204138.153146-1-corbet@lwn.net>
@@ -46,31 +46,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use the html_sidebars directive to get a more useful set of links in the
-left column.
+Actually show the entries for individual architectures, since otherwise a
+single line reading "CPU architectures" is not very enlightening.
 
-Unfortunately, this is a no-op with the default RTD theme, but others
-observe it.
+We should really move all of the architecture directories under an arch/
+directory, as we do with the top-level directory, but that's a task for
+another day.
 
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/conf.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/index.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 78dd6d1e7b88..22c9d4df1967 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -370,7 +370,8 @@ html_static_path = ['sphinx-static']
- html_use_smartypants = False
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 6d01c2e38573..5a700548ae82 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -93,7 +93,7 @@ Architecture-specific documentation
+ -----------------------------------
  
- # Custom sidebar templates, maps document names to template names.
--#html_sidebars = {}
-+# Note that the RTD theme ignores this
-+html_sidebars = { '**': ['searchbox.html', 'localtoc.html', 'sourcelink.html']}
+ .. toctree::
+-   :maxdepth: 1
++   :maxdepth: 2
  
- # Additional templates that should be rendered to pages, maps page names to
- # template names.
+    arch
+ 
 -- 
 2.37.2
 
