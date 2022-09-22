@@ -2,98 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C82DC6FA82
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 05:30:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C93EC6FA8B
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 05:41:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229825AbiIVFaa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Sep 2022 01:30:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47276 "EHLO
+        id S229554AbiIVFlV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Sep 2022 01:41:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229969AbiIVFa3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 01:30:29 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1ED4ABF20
-        for <linux-doc@vger.kernel.org>; Wed, 21 Sep 2022 22:30:28 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id 78so8062634pgb.13
-        for <linux-doc@vger.kernel.org>; Wed, 21 Sep 2022 22:30:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=29krL0qvuFg0KCphJZfO0u7z2tvgm5X6ahpdbCTG5JM=;
-        b=n2CDFCVq+NijhKq28N0Aj315cnhJnRhM4bxGYBq+d9sJPi7E9uujmDTxRYvi5M2We2
-         lIbhnGBVBDwMTmPm4TFmJjWPUY3nRltAQWpXrXCg1v4oGqm+nVHzlU5jdmJHrxz7I1Hl
-         tYp5BSHxCOH42fzVB/A8OR4XlMt8IE7wguFeE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=29krL0qvuFg0KCphJZfO0u7z2tvgm5X6ahpdbCTG5JM=;
-        b=5GiTX0NpszHCNRxmnUC4cf6wh0uwKgq4s8XQjPN6OaCxRZ1iShIoSJGH/8a7H8b5eZ
-         Kvf40TIpW5kAacYXwzdPpBK1iAN1bvJmOBuT/2avv8TEOamFPPJ2+e52gv47tiggufBF
-         71Vsc2FJgWRt0GDaCSolJLVwb7DGVQ2lP5exvruuWwVsle7iC/oQUqtg6TA+NjAsWDGv
-         4gHsIqwHKH/9OHPKu/C8iQ3mJviCsqJ6/bKtrGC8O9/J1GE2jg7mZYFUI5Jo5lNbwH5a
-         I98bxGUygLokYJzYVT0u3kn9MlGPyhnrMRhH3MPy+ptHO34OUJuCWw91Idh4dmFJfUnP
-         ttMA==
-X-Gm-Message-State: ACrzQf17hoDB88jH2OAYdLbJK02LbAsJAcsiFTOmnifIw1kXGLxPSkeG
-        zTEWz9ZoYkOYyuZtlbf7KZ5wLQ==
-X-Google-Smtp-Source: AMsMyM6v2iHcKBv3dbH5kl/i70Ai8m8LshgThkTu5jlpNWXMW8oMZccFmHnMq8TJAFDqKc01zRPIrg==
-X-Received: by 2002:a05:6a00:1743:b0:548:8629:ceab with SMTP id j3-20020a056a00174300b005488629ceabmr1764304pfc.23.1663824628324;
-        Wed, 21 Sep 2022 22:30:28 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l187-20020a633ec4000000b0043057fe66c0sm2834975pga.48.2022.09.21.22.30.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Sep 2022 22:30:27 -0700 (PDT)
-Date:   Wed, 21 Sep 2022 22:30:26 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mchehab@kernel.org
-Subject: Re: [RFC] docs: Define c_paren_attributes for attributes with
- arguments
-Message-ID: <202209212229.1C07A60456@keescook>
-References: <20220902223507.2537469-1-keescook@chromium.org>
- <d1af650a-1e0b-a650-4cda-57fb1d54f1af@gmail.com>
+        with ESMTP id S229736AbiIVFlR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 01:41:17 -0400
+Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F01967C777;
+        Wed, 21 Sep 2022 22:41:16 -0700 (PDT)
+Content-Type: text/plain;
+        charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1663825274;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=3o5jnHwQWCGnKdAACfGC/dEXqfoHhsVb5vQTbV0mozg=;
+        b=e9CSu7xsoCLhIqAEWsdYCpQ+AwZ7FgnQqI2SuOS3peJmrJ32AduWPYpEn3P8K6WR29fHYy
+        yTNpD4YHd9ve8cALB5CH0W7d2CzTQHYBNqVQ3gmSpkHxPxj50/79ZR2oK9TFjotF+bpFVx
+        s3RiyXU/X037qI2WbaZI17TmwQw0Z4g=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d1af650a-1e0b-a650-4cda-57fb1d54f1af@gmail.com>
+Subject: Re: [PATCH] docs: hugetlbpage.rst: fix a typo of hugepage size
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20220922030645.9719-1-wuhoipok@gmail.com>
+Date:   Thu, 22 Sep 2022 13:41:09 +0800
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux MM <linux-mm@kvack.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Message-Id: <CAE3E1D4-E2FD-411B-A815-4B95A161316B@linux.dev>
+References: <20220922030645.9719-1-wuhoipok@gmail.com>
+To:     Hoi Pok Wu <wuhoipok@gmail.com>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 09, 2022 at 02:08:30PM +0900, Akira Yokosawa wrote:
-> Hi Kees,
+
+
+> On Sep 22, 2022, at 11:06, Hoi Pok Wu <wuhoipok@gmail.com> wrote:
 > 
-> I expected some responses from Jon, but looks like he's been busy
-> elsewhere. Let me chime in.
+> should be kB instead of Kb
 > 
-> On Fri,  2 Sep 2022 15:35:07 -0700, Kees Cook wrote:
-> > While Sphinx's "c_id_attributes" is needed for basic attributes, any
-> > attributes with arguments need to be defined in "c_paren_attributes"
-> > to avoid errors like:
-> > 
-> > include/linux/fortify-string.h:116: warning: Function parameter or member '__builtin_strncpy' not described in '__diagnose_as'
-> > include/linux/fortify-string.h:116: warning: Function parameter or member '1' not described in '__diagnose_as'
-> > include/linux/fortify-string.h:116: warning: Function parameter or member '2' not described in '__diagnose_as'
-> > include/linux/fortify-string.h:116: warning: Function parameter or member '3' not described in '__diagnose_as'
-> 
-> These warnings are from ./scripts/kernel-doc.
-> So I think you need to teach the script about "__diagnose_as" so that
-> the kernel-doc comment of strncpy() can be converted to reST doc
-> which Sphinx can understand.
+> Signed-off-by: Hoi Pok Wu <wuhoipok@gmail.com>
 
-Ah! Thank you, yeah, I couldn't figure out where it was coming from.
+Reviewed-by: Muchun Song <songmuchun@bytedance.com>
 
-> Past changes in ./scripts/kernel-doc might give you some hints.
+Thanks.
 
-Yeah, including changes from me for similar things. How quickly I
-forgot! :)
-
-Thanks,
-
--Kees
-
--- 
-Kees Cook
