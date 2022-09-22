@@ -2,151 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7E41ECAAD8
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 03:21:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8841BC54EE9
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 03:36:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231312AbiIVDVr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Sep 2022 23:21:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59522 "EHLO
+        id S229578AbiIVDge (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Sep 2022 23:36:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230165AbiIVDVV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 23:21:21 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E57A7AE23F;
-        Wed, 21 Sep 2022 20:15:42 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CAACE143D;
-        Wed, 21 Sep 2022 20:15:40 -0700 (PDT)
-Received: from [10.162.43.8] (unknown [10.162.43.8])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8EAB43F5A1;
-        Wed, 21 Sep 2022 20:15:24 -0700 (PDT)
-Message-ID: <0236922f-841e-c6d8-c9ee-599d72c458d3@arm.com>
-Date:   Thu, 22 Sep 2022 08:45:22 +0530
+        with ESMTP id S229545AbiIVDgc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 23:36:32 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E81E4AA4C9;
+        Wed, 21 Sep 2022 20:36:31 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id iw17so7631918plb.0;
+        Wed, 21 Sep 2022 20:36:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=DRlr4S0CdSPmGIBpEz7/6qWP3xmZ7dHXhNXq25Lelfo=;
+        b=E8w9Ju0b579ywPoHP7Rh6tU35JZG2Qi3xWsB7kZR+rLcQDWp1cM08sw1D5lrLNnw3F
+         YZa77V4Ru6jOaVZUzKlIWepuQ0BjuGI6QGKoGj7QiNHjkM7SA+IsG1NIZv1g98CqDjmY
+         04tsTMoMcEMmJYkjqBT98Muat5eD1flAZiiANuDFLMLFIoHWy9Or0AEt/TL8Z4qRYI2t
+         5rbU/0sM6hP5OPyUhZGBcNQFZoy4tGZiPOhHZEKYd/tIPOJ6Ti2I5xGPmDyk1yJelmXU
+         SQHPKazmoTv2/ta3pLUDKjw94Je2CllGIojgS/7CgGOZA5Hwa/FiUGhRrjyekbhGAbrx
+         5c0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=DRlr4S0CdSPmGIBpEz7/6qWP3xmZ7dHXhNXq25Lelfo=;
+        b=iVEJrJ/FXdc/xRaKFtSb/kmrxsksRAVISy2d5dqNEuLuCuS3OuWmujsJpQTnxtFcZP
+         v0luW7M/d/Sapgc6QfdTfSzf1oKmAnybpElRUC1fWhKGx6lHIb6c1gfMhIQXntglwiXP
+         yu/n+h0f56EpOxB7oNu8i7jDiYsweK/WKJpyoEqmHtzkWmH2f8hn564dcuIViFl+re6N
+         cXu2eg04jucJv1VWD/fk3q3PjZU1oQs9DT++41+u9rFWGQOSWp4iGE5wfaqIXohdYhH3
+         uJ3KpMdEHcXet4ghVMnEgN9pvkYfTKoBglNnK7m1VwFGboeriwlZd6Mfgbldltb8DG/C
+         PbKw==
+X-Gm-Message-State: ACrzQf3f4fAw0BcWjeBrWFeX61ncorb1ZRi5e+8/i8Yzimj7Gen11g6i
+        z9uGpnz7mEWZo0ElxKB6qtc=
+X-Google-Smtp-Source: AMsMyM5v5jKc5k7ipnnOiIapTlVN0RgxK4J/JwooeGbdFgmOPw6vHGvS3h3FuG317NAUBGe0NQGmSg==
+X-Received: by 2002:a17:903:1110:b0:178:9f67:b524 with SMTP id n16-20020a170903111000b001789f67b524mr1411691plh.50.1663817791390;
+        Wed, 21 Sep 2022 20:36:31 -0700 (PDT)
+Received: from debian.me (subs28-116-206-12-54.three.co.id. [116.206.12.54])
+        by smtp.gmail.com with ESMTPSA id m14-20020a170902db0e00b00172fad607b3sm2800814plx.207.2022.09.21.20.36.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Sep 2022 20:36:30 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id E222C102CFC; Thu, 22 Sep 2022 10:36:25 +0700 (WIB)
+Date:   Thu, 22 Sep 2022 10:36:25 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        kernel test robot <lkp@intel.com>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Jander <david@protonic.nl>,
+        Luka Perkov <luka.perkov@sartura.hr>,
+        Robert Marko <robert.marko@sartura.hr>
+Subject: Re: [PATCH net-next v6 5/7] ethtool: add interface to interact with
+ Ethernet Power Equipment
+Message-ID: <YyvYOcfrur2mQXGl@debian.me>
+References: <20220921124748.73495-1-o.rempel@pengutronix.de>
+ <20220921124748.73495-6-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 4/4] arm64: support batched/deferred tlb shootdown
- during page reclamation
-Content-Language: en-US
-To:     Nadav Amit <namit@vmware.com>
-Cc:     Yicong Yang <yangyicong@huawei.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux MM <linux-mm@kvack.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "darren@os.amperecomputing.com" <darren@os.amperecomputing.com>,
-        "yangyicong@hisilicon.com" <yangyicong@hisilicon.com>,
-        "huzhanyuan@oppo.com" <huzhanyuan@oppo.com>,
-        "lipeifeng@oppo.com" <lipeifeng@oppo.com>,
-        "zhangshiming@oppo.com" <zhangshiming@oppo.com>,
-        "guojian@oppo.com" <guojian@oppo.com>,
-        "realmz6@gmail.com" <realmz6@gmail.com>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "openrisc@lists.librecores.org" <openrisc@lists.librecores.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        Barry Song <21cnbao@gmail.com>,
-        "wangkefeng.wang@huawei.com" <wangkefeng.wang@huawei.com>,
-        "xhao@linux.alibaba.com" <xhao@linux.alibaba.com>,
-        "prime.zeng@hisilicon.com" <prime.zeng@hisilicon.com>,
-        Barry Song <v-songbaohua@oppo.com>,
-        Mel Gorman <mgorman@suse.de>
-References: <20220822082120.8347-1-yangyicong@huawei.com>
- <20220822082120.8347-5-yangyicong@huawei.com>
- <888da5f3-104c-3929-c21e-c710922d6f1e@arm.com>
- <36B9DE22-E3BC-4CB2-8E3F-B21B61434CD3@vmware.com>
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <36B9DE22-E3BC-4CB2-8E3F-B21B61434CD3@vmware.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="MTrYSV5QHljcKwmR"
+Content-Disposition: inline
+In-Reply-To: <20220921124748.73495-6-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--MTrYSV5QHljcKwmR
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 9/21/22 12:47, Nadav Amit wrote:
-> On Sep 20, 2022, at 11:53 PM, Anshuman Khandual <anshuman.khandual@arm.com> wrote:
-> 
->> ⚠ External Email
->>
->> On 8/22/22 13:51, Yicong Yang wrote:
->>> +static inline void arch_tlbbatch_add_mm(struct arch_tlbflush_unmap_batch *batch,
->>> +                                     struct mm_struct *mm,
->>> +                                     unsigned long uaddr)
->>> +{
->>> +     __flush_tlb_page_nosync(mm, uaddr);
->>> +}
->>> +
->>> +static inline void arch_tlbbatch_flush(struct arch_tlbflush_unmap_batch *batch)
->>> +{
->>> +     dsb(ish);
->>> +}
->>
->> Just wondering if arch_tlbbatch_add_mm() could also detect continuous mapping
->> TLB invalidation requests on a given mm and try to generate a range based TLB
->> invalidation such as flush_tlb_range().
->>
->> struct arch_tlbflush_unmap_batch via task->tlb_ubc->arch can track continuous
->> ranges while being queued up via arch_tlbbatch_add_mm(), any range formed can
->> later be flushed in subsequent arch_tlbbatch_flush() ?
->>
->> OR
->>
->> It might not be worth the effort and complexity, in comparison to performance
->> improvement, TLB range flush brings in ?
-> 
-> So here are my 2 cents, based on my experience with Intel-x86. It is likely
-> different on arm64, but perhaps it can provide you some insight into what
-> parameters you should measure and consider.
-> 
-> In general there is a tradeoff between full TLB flushes and entry-specific
-> ones. Flushing specific entries takes more time than flushing the entire
-> TLB, but sade TLB refills.
+On Wed, Sep 21, 2022 at 02:47:45PM +0200, Oleksij Rempel wrote:
+> +PSE_GET
+> +=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Gets PSE attributes.
+> +
+> +Request contents:
+> +
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +  ``ETHTOOL_A_PSE_HEADER``               nested  request header
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Kernel response contents:
+> +
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> +  ``ETHTOOL_A_PSE_HEADER``                nested  reply header
+> +  ``ETHTOOL_A_PODL_PSE_ADMIN_STATE``         u32  Operational state of t=
+he PoDL
+> +                                                  PSE functions
+> +  ``ETHTOOL_A_PODL_PSE_PW_D_STATUS``         u32  power detection status=
+ of the
+> +                                                  PoDL PSE.
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> +
+> +When set, the optional ``ETHTOOL_A_PODL_PSE_ADMIN_STATE`` attribute iden=
+tifies
+> +the operational state of the PoDL PSE functions.  The operational state =
+of the
+> +PSE function can be changed using the ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL=
+``
+> +action. This option is corresponding to IEEE 802.3-2018 30.15.1.1.2
+> +aPoDLPSEAdminState. Possible values are:
 
-Right.
+The IEEE 802.3-2018 keyword name can be enclosed within inline code block.
 
-> 
-> Dave Hansen made some calculations in the past and came up with 33 as a
-> magic cutoff number, i.e., if you need to flush more than 33 entries, just
-> flush the entire TLB. I am not sure that this exact number is very
-> meaningful, since one might argue that it should’ve taken PTI into account
-> (which might require twice as many TLB invalidations).
+> +When set, the optional ``ETHTOOL_A_PODL_PSE_PW_D_STATUS`` attribute iden=
+tifies
+> +the power detection status of the PoDL PSE.  The status depend on intern=
+al PSE
+> +state machine and automatic PD classification support. This option is
+> +corresponding to IEEE 802.3-2018 30.15.1.1.3 aPoDLPSEPowerDetectionStatu=
+s.
 
-Okay.
+Same here.
 
-> 
-> Anyhow, back to arch_tlbbatch_add_mm(). It may be possible to track ranges,
-> but the question is whether you would actually succeed in forming continuous
-> ranges that are eventually (on x86) smaller than the full TLB flush cutoff
-> (=33). Questionable (perhaps better with MGLRU?).
+> +When set, the optional ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL`` attribute is=
+ used
+> +to control PoDL PSE Admin functions. This option is implementing
+> +IEEE 802.3-2018 30.15.1.2.1 acPoDLPSEAdminControl. See
 
-This proposal here for arm64 does not cause a full TLB flush ever. It creates
-individual TLB flushes all the time. Hence the choice here is not between full
-TLB flush and possible range flushes. Choice is actually between individual
-TLB flushes and range/full TLB flushes.
+Same here too.
 
-> 
-> Then, you should remember that tracking should be very efficient, since even
-> few cache misses might have greater cost than what you save by
-> selective-flushing. Finally, on x86 you would need to invoke the smp/IPI
-> layer multiple times to send different cores the relevant range they need to
-> flush.
+Otherwise LGTM.
 
-Agreed, these reasons make it much difficult to gain any more performance.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-> 
-> IOW: It is somewhat complicated to implement efficeintly. On x86, and
-> probably other IPI-based TLB shootdown systems, does not have clear
-> performance benefit (IMHO).
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Agreed, thanks for such a detailed explanation, appreciate it.
+--MTrYSV5QHljcKwmR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYyvYNAAKCRD2uYlJVVFO
+o+8FAP4zK3UmIUdOQH+lNRAv2FK50AeVwbm1AMvGvBlNmvUuMQD/dfXyj23GsJk9
+OY1S/EdG8ybdI9p0U3BXMpirdVdCuAs=
+=B+4n
+-----END PGP SIGNATURE-----
+
+--MTrYSV5QHljcKwmR--
