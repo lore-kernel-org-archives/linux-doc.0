@@ -2,213 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB86C32771
-	for <linux-doc@archiver.kernel.org>; Wed, 21 Sep 2022 21:11:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50B50ECAAD8
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 02:13:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229974AbiIUVLd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 21 Sep 2022 17:11:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40406 "EHLO
+        id S230416AbiIVCNR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 21 Sep 2022 22:13:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229886AbiIUVLc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 17:11:32 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73C1610CE;
-        Wed, 21 Sep 2022 14:11:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 191E2B81F8E;
-        Wed, 21 Sep 2022 21:11:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A7B1C433D7;
-        Wed, 21 Sep 2022 21:11:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663794687;
-        bh=q5iTDoMb1h594m9zBAcQ294TqIVliTEQoMBfbSTQOEc=;
-        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-        b=HXKQICEaWSNQF2IN43p5UTWR7wkEBhbRHnddHQoZkXz8gJLh7Pr2bkQPAxjcpnJi2
-         0Q/h6CzriwchnUlmsO9BDrIPtn/TeLnrVo5uHkw+szXrG+6sXl1ElJp1xhSdyvhMlJ
-         cuioDOWdEvguwOM6wEjHbayOspWvgVYmtrk92qmcaHWzfQCFkqJWQC2h1+eW5FaVCH
-         Wv0Tu9JJEiRYwy9ADZliY6hVGdYUT8dEXk/XfHpcHKoPPq7vjZWjV2QbbCcjdLDi+Z
-         vuZjF6LDsm0w768UHnwzYxUul0fXGQ4vzbQ9ilbulLqSISqwiHkJi3bQJ47+UV6Hyw
-         mrdSIgubNRwXg==
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 277B227C0054;
-        Wed, 21 Sep 2022 17:11:25 -0400 (EDT)
-Received: from imap48 ([10.202.2.98])
-  by compute2.internal (MEProxy); Wed, 21 Sep 2022 17:11:25 -0400
-X-ME-Sender: <xms:-n0rY_4N0LKpSTfU-17jxItIVA2IeOyeV3GBH-kTGeaQnD44QEGWsA>
-    <xme:-n0rY05FRoGSPXzqMPaO0MmZQgUZpWgYxdjP4kFXdAHqngqCBvxsuyaZNtPNWtT0M
-    maJP6ri53jokKJgZsg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefuddgudeitdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    nhguhicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpedvhfeuvddthfdufffhkeekffetgffhledtleegffetheeugeej
-    ffduhefgteeihfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedu
-    keehieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinh
-    hugidrlhhuthhordhush
-X-ME-Proxy: <xmx:-n0rY2fud6xh0WVrheag-M-5En3oxyvmXPkXJRxC0S-XYaeJiPIqsw>
-    <xmx:-n0rYwJ4GI3Nzi4ft0zhvleIXE5-DX0-OH5WjOjQhfMBWzMBrktPoA>
-    <xmx:-n0rYzKpWKke8wVrjYykrrHICZQAPwgvRIuBwudPMdXnQbse-OJeWA>
-    <xmx:_X0rYxkptztuCef_-KiMtVyhiKBRT0-vPWSHiG4dcD54DzNMZcfFTWwsQ6o>
-Feedback-ID: ieff94742:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id C289931A0062; Wed, 21 Sep 2022 17:11:22 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
-Mime-Version: 1.0
-Message-Id: <84e81d21-c800-4fd5-ad7c-f20bcdd7508b@www.fastmail.com>
-In-Reply-To: <Yyi+l3+p9lbBAC4M@google.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
- <Yyi+l3+p9lbBAC4M@google.com>
-Date:   Wed, 21 Sep 2022 14:10:51 -0700
-From:   "Andy Lutomirski" <luto@kernel.org>
-To:     "Sean Christopherson" <seanjc@google.com>,
-        "David Hildenbrand" <david@redhat.com>
-Cc:     "Chao Peng" <chao.p.peng@linux.intel.com>,
-        "kvm list" <kvm@vger.kernel.org>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        "Linux API" <linux-api@vger.kernel.org>, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, "Paolo Bonzini" <pbonzini@redhat.com>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Vitaly Kuznetsov" <vkuznets@redhat.com>,
-        "Wanpeng Li" <wanpengli@tencent.com>,
-        "Jim Mattson" <jmattson@google.com>,
-        "Joerg Roedel" <joro@8bytes.org>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Hugh Dickins" <hughd@google.com>,
-        "Jeff Layton" <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "Shuah Khan" <shuah@kernel.org>, "Mike Rapoport" <rppt@kernel.org>,
-        "Steven Price" <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        "Vlastimil Babka" <vbabka@suse.cz>,
-        "Vishal Annapurve" <vannapurve@google.com>,
-        "Yu Zhang" <yu.c.zhang@linux.intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        "Nakajima, Jun" <jun.nakajima@intel.com>,
-        "Dave Hansen" <dave.hansen@intel.com>,
-        "Andi Kleen" <ak@linux.intel.com>, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        "Quentin Perret" <qperret@google.com>,
-        "Michael Roth" <michael.roth@amd.com>,
-        "Michal Hocko" <mhocko@suse.com>,
-        "Muchun Song" <songmuchun@bytedance.com>, wei.w.wang@intel.com,
-        "Will Deacon" <will@kernel.org>, "Marc Zyngier" <maz@kernel.org>,
-        "Fuad Tabba" <tabba@google.com>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Content-Type: text/plain
+        with ESMTP id S230391AbiIVCNQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 21 Sep 2022 22:13:16 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 062419AF86
+        for <linux-doc@vger.kernel.org>; Wed, 21 Sep 2022 19:13:15 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id jm5so6458106plb.13
+        for <linux-doc@vger.kernel.org>; Wed, 21 Sep 2022 19:13:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=5JuEdZib93/mRGmpoSVPHNyLaJxdh8tRUlgzrtp9wVc=;
+        b=cVOfxQTOxFRzzqtXS5x+p0l1YYT70GWE5aTURbU48eFqUMnq2JVJuU9tPEi9BAlq3R
+         tEdKBKSo8gc5/xJsRtlUy2AJLqn6nK84zSmmaQhgaFPw2nMFyL+MCwnsRR6xHf/nvhMk
+         wz2hIl5HwSDRZOIpNW469kTVdOT7VGqfPc1a2ZGhCUQz1IYVLH0TpRva4JNRvOqJcwix
+         Z4pq1lf9HvL34xodo0WGeKHk9Ps2c3+N4+DrIO92uPDgSXgiwgDtMpZnBMxye8AR5tSr
+         RerrxhWUgrhYhr6epdrSeqIJDhnHKfdU4mCmSg0rMeaXEakG+Cfpq1xLUEZmGgKkXBdI
+         uRJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=5JuEdZib93/mRGmpoSVPHNyLaJxdh8tRUlgzrtp9wVc=;
+        b=Y2IXZHIbIc1ZkUgDTJPFOFHWa3RoteZTLrkkypfAL5zjaaQGm/KxPELkef0FmBk29p
+         pHaMvIPIAC1hqY1K9skV9YXEl0GxTXU2XZ+OIJPnqI2jiBEezjiJ5Pb7IxoH18i/opbE
+         2eHCNd9dxm1Gcl1lBHfE4TnFNMgeYJhszkqFFtEtiGUoNt5h6YhIVXMeRHQR020MrDhQ
+         OtFm7TDyFqZbzrwWIMz8c1LVwBgG/C07qr4GMCPOSPUflRW684UimhGdgD79Ru3W3R4B
+         NqSEKa92rB8GfhddvHA+/QlHSz/o46xxqiU6d8XoGXVg2NyYmHX08fIV4nmDt8TAlAai
+         8f5w==
+X-Gm-Message-State: ACrzQf1uqRpJ1LySfyYKW4VkpuklKOfkqPPugIz1nBx7uC5Qb/DhdlzD
+        srd2cOtt1ZnL/+zclScurysH1u2LLJU=
+X-Google-Smtp-Source: AMsMyM7q56jRcwvN33ZgC5FPtyQEKIvF/lQ3+p3FBthXnmlvmYohqiIc9J+ZCQx7TQUflplrvClmGg==
+X-Received: by 2002:a17:902:720b:b0:178:83e9:11ec with SMTP id ba11-20020a170902720b00b0017883e911ecmr1016436plb.34.1663812794540;
+        Wed, 21 Sep 2022 19:13:14 -0700 (PDT)
+Received: from [192.168.43.80] (subs28-116-206-12-54.three.co.id. [116.206.12.54])
+        by smtp.gmail.com with ESMTPSA id bg18-20020a056a02011200b00434feb1841dsm2490646pgb.66.2022.09.21.19.13.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Sep 2022 19:13:13 -0700 (PDT)
+Message-ID: <81cae8f1-67e9-37ba-4bfd-566c877944ca@gmail.com>
+Date:   Thu, 22 Sep 2022 09:13:08 +0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH RESEND] Documentation: kprobetrace: Improve readability
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Yoann Congal <yoann.congal@smile.fr>, linux-doc@vger.kernel.org
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux-MM <linux-mm@kvack.org>
+References: <20220915153358.813993-1-yoann.congal@smile.fr>
+ <87r104tr6o.fsf@meer.lwn.net>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <87r104tr6o.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-(please excuse any formatting disasters.  my internet went out as I was composing this, and i did my best to rescue it.)
-
-On Mon, Sep 19, 2022, at 12:10 PM, Sean Christopherson wrote:
-> +Will, Marc and Fuad (apologies if I missed other pKVM folks)
->
-> On Mon, Sep 19, 2022, David Hildenbrand wrote:
->> On 15.09.22 16:29, Chao Peng wrote:
->> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
->> > 
->> > KVM can use memfd-provided memory for guest memory. For normal userspace
->> > accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
->> > virtual address space and then tells KVM to use the virtual address to
->> > setup the mapping in the secondary page table (e.g. EPT).
->> > 
->> > With confidential computing technologies like Intel TDX, the
->> > memfd-provided memory may be encrypted with special key for special
->> > software domain (e.g. KVM guest) and is not expected to be directly
->> > accessed by userspace. Precisely, userspace access to such encrypted
->> > memory may lead to host crash so it should be prevented.
->> 
->> Initially my thaught was that this whole inaccessible thing is TDX specific
->> and there is no need to force that on other mechanisms. That's why I
->> suggested to not expose this to user space but handle the notifier
->> requirements internally.
->> 
->> IIUC now, protected KVM has similar demands. Either access (read/write) of
->> guest RAM would result in a fault and possibly crash the hypervisor (at
->> least not the whole machine IIUC).
->
-> Yep.  The missing piece for pKVM is the ability to convert from shared 
-> to private
-> while preserving the contents, e.g. to hand off a large buffer 
-> (hundreds of MiB)
-> for processing in the protected VM.  Thoughts on this at the bottom.
->
->> > This patch introduces userspace inaccessible memfd (created with
->> > MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
->> > ordinary MMU access (e.g. read/write/mmap) but can be accessed via
->> > in-kernel interface so KVM can directly interact with core-mm without
->> > the need to map the memory into KVM userspace.
->> 
->> With secretmem we decided to not add such "concept switch" flags and instead
->> use a dedicated syscall.
+On 9/22/22 03:20, Jonathan Corbet wrote:
+> Yoann Congal <yoann.congal@smile.fr> writes:
+> 
+>> Improve readability of kprobetrace documentation by adding markup
+>> (mainly code snippets), fixing some typos and splitting some paragraphs.
 >>
->
-> I have no personal preference whatsoever between a flag and a dedicated syscall,
-> but a dedicated syscall does seem like it would give the kernel a bit more
-> flexibility.
+>> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+>> ---
+>>  Documentation/trace/kprobetrace.rst | 128 ++++++++++++++--------------
+>>  1 file changed, 66 insertions(+), 62 deletions(-)
+> 
+> A couple of comments here.
+> 
+> - There's enough in this patch that I think one of the relevant
+>   maintainers should have a look.  MAINTAINERS is silent on who is
+>   responsible for this file, so I've CC'd a couple of likely suspects.
+> 
 
-The third option is a device node, e.g. /dev/kvm_secretmem or /dev/kvm_tdxmem or similar.  But if we need flags or other details in the future, maybe this isn't ideal.
+Hi jon,
 
->
->> What about memfd_inaccessible()? Especially, sealing and hugetlb are not
->> even supported and it might take a while to support either.
->
-> Don't know about sealing, but hugetlb support for "inaccessible" memory 
-> needs to
-> come sooner than later.  "inaccessible" in quotes because we might want 
-> to choose
-> a less binary name, e.g. "restricted"?.
->
-> Regarding pKVM's use case, with the shim approach I believe this can be done by
-> allowing userspace mmap() the "hidden" memfd, but with a ton of restrictions
-> piled on top.
->
-> My first thought was to make the uAPI a set of KVM ioctls so that KVM 
-> could tightly
-> tightly control usage without taking on too much complexity in the 
-> kernel, but
-> working through things, routing the behavior through the shim itself 
-> might not be
-> all that horrific.
->
-> IIRC, we discarded the idea of allowing userspace to map the "private" 
-> fd because
-> things got too complex, but with the shim it doesn't seem _that_ bad.
+I think this is Andrew Morton is also likely candidate for reviewing this
+(maintainer of last resort). CC'ing him and linux-mm people.
 
-What's the exact use case?  Is it just to pre-populate the memory?
+Thanks.
 
->
-> E.g. on the memfd side:
->
->   1. The entire memfd must be mapped, and at most one mapping is allowed, i.e.
->      mapping is all or nothing.
->
->   2. Acquiring a reference via get_pfn() is disallowed if there's a mapping for
->      the restricted memfd.
->
->   3. Add notifier hooks to allow downstream users to further restrict things.
->
->   4. Disallow splitting VMAs, e.g. to force userspace to munmap() everything in
->      one shot.
->
->   5. Require that there are no outstanding references at munmap().  Or if this
->      can't be guaranteed by userspace, maybe add some way for userspace to wait
->      until it's ok to convert to private?  E.g. so that get_pfn() doesn't need
->      to do an expensive check every time.
-
-Hmm.  I haven't looked at the code to see if this would really work, but I think this could be done more in line with how the rest of the kernel works by using the rmap infrastructure.  When the pKVM memfd is in not-yet-private mode, just let it be mmapped as usual (but don't allow any form of GUP or pinning).  Then have an ioctl to switch to to shared mode that takes locks or sets flags so that no new faults can be serviced and does unmap_mapping_range.
-
-As long as the shim arranges to have its own vm_ops, I don't immediately see any reason this can't work.
+-- 
+An old man doll... just what I always wanted! - Clara
