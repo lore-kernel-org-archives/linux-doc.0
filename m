@@ -2,40 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8523C6FA91
-	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 20:08:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5593C6FA82
+	for <linux-doc@archiver.kernel.org>; Thu, 22 Sep 2022 20:08:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232367AbiIVUId (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Sep 2022 16:08:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53398 "EHLO
+        id S232402AbiIVUIe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Sep 2022 16:08:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232280AbiIVUIc (ORCPT
+        with ESMTP id S232285AbiIVUIc (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 16:08:32 -0400
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AB55E7E1D;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01CC7E4D80;
         Thu, 22 Sep 2022 13:08:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663877311; x=1695413311;
-  h=from:to:cc:subject:date:message-id;
-  bh=1/UP5ggZVyEOLFcqk5IssnydM3WiXqVmzAT+4XSCr2g=;
-  b=iVBdAjJ4vc0V8Pn+qrDdhbAloLZd/w3/o/GEVye5z2rQadLpv3t9ueXN
-   poNvq8GvY3jdLt8rDc1Tu5obqBW5eIcDoy6ap37cfOYVNu83IpZSfaaNk
-   N9b7TVhaDmn4ZpOiJFzA6/1GmuDlLo8nb3uwIc/4xuF7TACiJ6bA7lbhC
-   l/8F7CsJ1NzYmPR6UbynBOXYUd5ucqWUviThCCxKgHRpyiy5L7JYe3kB5
-   lSY+nWfDm0upfW5881IXqqTk8b14BnRxlonrcXbMPR0tXwwiejk0zIcCI
-   PJFWblHNw5b34p6Z4OfKHDkTYN1VR6n+UQVBlibSbUC83z3lNeksyAfRb
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="362221572"
+  t=1663877312; x=1695413312;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=v8yPnByOxolH3y3Ja7dBlrus/vQe6rAVnEPjft+iu64=;
+  b=NHbvyv89nnSIp472EKBVd2ltCy2rlZTexivLxV7iEm84TjVFm3Ti3pHJ
+   qA820PIBYVb5gXDhpeOYuBzUCpTwdxKTw8NY+swCgxKh2a4Uw4pujePvO
+   2MKilWipFJ/JReXegawbH3q1t4G44n7WZvu7S5i/AsufsQwYR7cFQdLr8
+   bWX0IbcUwd+3Ou9c8hoH93jVecEO6n/GpNWZ7lQsQPDjf9NfVpBO+qGJ/
+   bK65yx7v1VyVRldYq5sfU5KxO+5pHgze+dWdom+MfbJAIH6myb/DdZ0ug
+   sQY/e7Bd8EzjcUeJW17zIkn+amYyr1YQ5YQysC/ZjNndxoUFKd8nXV8fG
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="362221577"
 X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="362221572"
+   d="scan'208";a="362221577"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 13:08:13 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 13:08:14 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="571117130"
+   d="scan'208";a="571117136"
 Received: from chang-linux-3.sc.intel.com ([172.25.66.173])
-  by orsmga003.jf.intel.com with ESMTP; 22 Sep 2022 13:08:13 -0700
+  by orsmga003.jf.intel.com with ESMTP; 22 Sep 2022 13:08:14 -0700
 From:   "Chang S. Bae" <chang.seok.bae@intel.com>
 To:     x86@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         dave.hansen@linux.intel.com
@@ -43,60 +44,45 @@ Cc:     hpa@zytor.com, corbet@lwn.net, bagasdotme@gmail.com,
         tony.luck@intel.com, yang.zhong@intel.com,
         linux-doc@vger.kernel.org, linux-man@vger.kernel.org,
         linux-kernel@vger.kernel.org, chang.seok.bae@intel.com
-Subject: [PATCH v5 0/4] Documentation/x86: Improve the AMX documentation
-Date:   Thu, 22 Sep 2022 12:58:06 -0700
-Message-Id: <20220922195810.23248-1-chang.seok.bae@intel.com>
+Subject: [PATCH v5 2/4] x86/arch_prctl: Add AMX feature numbers as ABI constants
+Date:   Thu, 22 Sep 2022 12:58:08 -0700
+Message-Id: <20220922195810.23248-3-chang.seok.bae@intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220922195810.23248-1-chang.seok.bae@intel.com>
+References: <20220922195810.23248-1-chang.seok.bae@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
+AMX state is dynamically enabled by the architecture-specific prctl().
+Expose the state components as ABI constants. They become handy not to be
+looked up from the architecture specification.
 
-The change from the last version [1]:
-* Update the purpose part (patch1) by rewriting the altstack story and
-  having it as the only reason.
+Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
+Reviewed-by: Tony Luck <tony.luck@intel.com>
+Cc: x86@kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+Changes from v2:
+* Add as a new patch (Tony Luck).
+---
+ arch/x86/include/uapi/asm/prctl.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Thanks Dave Hansen for the feedback.
-
-=== Cover Letter ===
-
-When the AMX feature was supported in Linux, the dynamic feature enabling
-model was introduced. The following documentation changes were considered
-to help users to adopt this new enabling model:
-
-(1) The AMX-enabling code example is expected to clarify the steps.
-(2) Along with that, a couple of ABI constants may be useful for users.
-(3) Also, describing the motiviation will provide the context of this.
-(4) Lastly, the description of new guest options are added as missing.
-
-If they are acceptable, the arch_prctl(2) manual page [2] will be followed
-up separately with something similar to the kernel documentation.
-
-These patches can be also found in this repository:
-  git://github.com/intel/amx-linux.git amx-doc
-
-And the compiled preview is available here:
-  https://htmlpreview.github.io/?https://github.com/intel/amx-linux/doc-web/x86/xstate.html
-
-Thanks,
-Chang
-
-[1] https://lore.kernel.org/lkml/20220909201540.17705-1-chang.seok.bae@intel.com/
-[2] arch_prctl(2): https://man7.org/linux/man-pages/man2/arch_prctl.2.html
-
-Chang S. Bae (4):
-  Documentation/x86: Explain the purpose for dynamic features
-  x86/arch_prctl: Add AMX feature numbers as ABI constants
-  Documentation/x86: Add the AMX enabling example
-  Documentation/x86: Explain the state component permission for guests
-
- Documentation/x86/xstate.rst      | 100 ++++++++++++++++++++++++++++++
- arch/x86/include/uapi/asm/prctl.h |   3 +
- 2 files changed, 103 insertions(+)
-
-
-base-commit: 08ed00508bc1fa0a0bc6dd2420f982b55051de23
+diff --git a/arch/x86/include/uapi/asm/prctl.h b/arch/x86/include/uapi/asm/prctl.h
+index 500b96e71f18..f298c778f856 100644
+--- a/arch/x86/include/uapi/asm/prctl.h
++++ b/arch/x86/include/uapi/asm/prctl.h
+@@ -16,6 +16,9 @@
+ #define ARCH_GET_XCOMP_GUEST_PERM	0x1024
+ #define ARCH_REQ_XCOMP_GUEST_PERM	0x1025
+ 
++#define ARCH_XCOMP_TILECFG		17
++#define ARCH_XCOMP_TILEDATA		18
++
+ #define ARCH_MAP_VDSO_X32		0x2001
+ #define ARCH_MAP_VDSO_32		0x2002
+ #define ARCH_MAP_VDSO_64		0x2003
 -- 
 2.17.1
 
