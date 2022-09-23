@@ -2,166 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05486ECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 14:56:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37353ECAAD8
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 15:03:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230058AbiIWO4C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 10:56:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54808 "EHLO
+        id S230504AbiIWPDm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 11:03:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230325AbiIWO4C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 10:56:02 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB78E3EF7;
-        Fri, 23 Sep 2022 07:56:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663944960; x=1695480960;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=xT7yQQlMI8i1XEshe1ZI4ZUk0EILHNHDnZDc2Vgflc4=;
-  b=bZ2WtHr/KzHZHPIV0qBxaIqSSsONtYY0DCGhR4PSLXVcFfGRN2wfpg/O
-   aXouCK0rlJh7W2kH2A8lyKDZzv/oYN8VUib9kcLazHIgZ4A63rRwaJ8Ri
-   eptLiWPZTP5YaqrT1FmMIpW5WVmP3/PUJ+2D7OinhwQzoww7+48TTAAIP
-   jkzQSq7ogEMbVit3Iev+EuGMkohV6c/8BmJGQvq+aBEwblq+gCAjYwf6E
-   2hz8c4HHX6nHDDvP+6YlM3K3xAtruIPV86krwyvm8kSHw+re8ZHMtgHvk
-   4jg78JLQveq+uF+LECwURHFqWvBiCboQnkRLo6IPK/gIcQYPAOWkugNSR
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="364626046"
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
-   d="scan'208";a="364626046"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 07:55:59 -0700
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
-   d="scan'208";a="620234672"
-Received: from alutz-mobl.ger.corp.intel.com ([10.252.35.146])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 07:55:54 -0700
-Date:   Fri, 23 Sep 2022 17:55:51 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
-        macro@orcam.me.uk, johan@kernel.org,
-        Lukas Wunner <lukas@wunner.de>,
-        Matthew Gerlach <matthew.gerlach@intel.com>
-Subject: Re: [PATCH v2 5/6] fpga: dfl: parse the location of the feature's
- registers from DFHv1
-In-Reply-To: <20220923121745.129167-6-matthew.gerlach@linux.intel.com>
-Message-ID: <5ce7d953-9289-bb2d-79c-2e5669373a35@linux.intel.com>
-References: <20220923121745.129167-1-matthew.gerlach@linux.intel.com> <20220923121745.129167-6-matthew.gerlach@linux.intel.com>
+        with ESMTP id S229461AbiIWPDm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 11:03:42 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5BBE126B72;
+        Fri, 23 Sep 2022 08:03:37 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 1428C378;
+        Fri, 23 Sep 2022 15:03:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1428C378
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1663945417; bh=A0O72tRjDBgujuwz38dOr2piaeqFN+zibaZ3R9pwl+k=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=JFuekg3U+d8YyZp1LeTaV2jTS2GFOP/HAT/7uGmjpqyKJwod4sFKY8VtJXMSHwzsB
+         cnrTkYVw+bh/BPyka9Y9yCXdFrIDL0fAls9A95P9xZwnAiCetFnnI3RMbni59dz4E+
+         tqxXBeZhfNwjBkY67r5f8mzGw968li418gBmcOoVzzVOZIONwwMM9gqMPOf6wabgwc
+         PGAfvIQPIuems7HGF/1rfi+Fc96mns0D0422t7VGefWPn1zNW5VS8TWg44KP5ONXuy
+         xbYU/CxdrleNxq9Qg3nsEioGAN7MHkUJbPp73Br963EMgUvngIegm3mDJ0q4H36pHL
+         yxxrQyY0hWHsg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Thorsten Leemhuis <linux@leemhuis.info>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2 0/4] Rewrite the top-level index.rst
+In-Reply-To: <aa35d204-3033-96f2-ed83-c5034067fe4b@leemhuis.info>
+References: <20220922204138.153146-1-corbet@lwn.net>
+ <7f02143c-461f-268b-0f17-7fe20a7423d6@leemhuis.info>
+ <875yhep5l1.fsf@meer.lwn.net>
+ <aa35d204-3033-96f2-ed83-c5034067fe4b@leemhuis.info>
+Date:   Fri, 23 Sep 2022 09:03:36 -0600
+Message-ID: <87r102nnef.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 23 Sep 2022, matthew.gerlach@linux.intel.com wrote:
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-> From: Matthew Gerlach <matthew.gerlach@intel.com>
-> 
-> The location of a feature's registers is explicitly
-> described in DFHv1 and can be relative to the base of the DFHv1
-> or an absolute address.  Parse the location and pass the information
-> to DFL driver.
-> 
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> ---
-> v2: Introduced in v2.
-> ---
->  drivers/fpga/dfl.c  | 26 +++++++++++++++++++++++++-
->  drivers/fpga/dfl.h  |  4 ++++
->  include/linux/dfl.h |  4 ++++
->  3 files changed, 33 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
-> index dfd3f563c92d..6fb4f30f93cf 100644
-> --- a/drivers/fpga/dfl.c
-> +++ b/drivers/fpga/dfl.c
-> @@ -381,6 +381,8 @@ dfl_dev_add(struct dfl_feature_platform_data *pdata,
->  	ddev->feature_id = feature->id;
->  	ddev->revision = feature->revision;
->  	ddev->cdev = pdata->dfl_cdev;
-> +	ddev->csr_start = feature->csr_start;
-> +	ddev->csr_size = feature->csr_size;
->  
->  	/* add mmio resource */
->  	parent_res = &pdev->resource[feature->resource_index];
-> @@ -708,18 +710,25 @@ struct build_feature_devs_info {
->   * struct dfl_feature_info - sub feature info collected during feature dev build
->   *
->   * @fid: id of this sub feature.
-> + * @revision: revision of this sub feature
-> + * @dfh_version: version of Device Feature Header (DFH)
->   * @mmio_res: mmio resource of this sub feature.
->   * @ioaddr: mapped base address of mmio resource.
->   * @node: node in sub_features linked list.
-> + * @csr_start: DFHv1 start of feature registers
-> + * @csr_size: DFHv1 size of feature registers
->   * @irq_base: start of irq index in this sub feature.
->   * @nr_irqs: number of irqs of this sub feature.
->   */
->  struct dfl_feature_info {
->  	u16 fid;
->  	u8 revision;
-> +	u8 dfh_version;
->  	struct resource mmio_res;
->  	void __iomem *ioaddr;
->  	struct list_head node;
-> +	resource_size_t csr_start;
-> +	resource_size_t csr_size;
->  	unsigned int irq_base;
->  	unsigned int nr_irqs;
->  };
-> @@ -797,6 +806,8 @@ static int build_info_commit_dev(struct build_feature_devs_info *binfo)
->  		feature->dev = fdev;
->  		feature->id = finfo->fid;
->  		feature->revision = finfo->revision;
-> +		feature->csr_start = finfo->csr_start;
-> +		feature->csr_size = finfo->csr_size;
->  
->  		/*
->  		 * the FIU header feature has some fundamental functions (sriov
-> @@ -1054,6 +1065,7 @@ create_feature_instance(struct build_feature_devs_info *binfo,
->  {
->  	unsigned int irq_base, nr_irqs;
->  	struct dfl_feature_info *finfo;
-> +	u8 dfh_version = 0;
->  	u8 revision = 0;
->  	int ret;
->  	u64 v;
-> @@ -1061,7 +1073,7 @@ create_feature_instance(struct build_feature_devs_info *binfo,
->  	if (fid != FEATURE_ID_AFU) {
->  		v = readq(binfo->ioaddr + ofst);
->  		revision = FIELD_GET(DFH_REVISION, v);
-> -
-> +		dfh_version = FIELD_GET(DFH_VERSION, v);
->  		/* read feature size and id if inputs are invalid */
->  		size = size ? size : feature_size(v);
->  		fid = fid ? fid : feature_id(v);
-> @@ -1080,12 +1092,24 @@ create_feature_instance(struct build_feature_devs_info *binfo,
->  
->  	finfo->fid = fid;
->  	finfo->revision = revision;
-> +	finfo->dfh_version = dfh_version;
->  	finfo->mmio_res.start = binfo->start + ofst;
->  	finfo->mmio_res.end = finfo->mmio_res.start + size - 1;
->  	finfo->mmio_res.flags = IORESOURCE_MEM;
->  	finfo->irq_base = irq_base;
->  	finfo->nr_irqs = nr_irqs;
+>>  I maintain that the actual users of our
+>> docs are primarily kernel developers.
+>
+> I guess you are right with that, but maybe that's just like that due to
+> the docs we have and not the docs we should have (or should aim for
+> having in the long run).
+>
+> IOW: why is the kernel different from say LibreOffice, Firefox, or some
+> random command line app: if I look into the documentation (say because
+> I'm using that software for the very first time or because I have a
+> problem with it after using it for years) I don't expect to see lots of
+> docs at the most prominent place that are only relevant for people that
+> want to modify said software; I'd expect things like "what is this
+> software and how can I use it", "how can I install this software", "how
+> can I report a bug", and "what knobs are available to deal with corner
+> cases" there.
 
-Ordering here seems slightly odd. If finfo would be built before calling
-parse_feature_irqs(), it could be passed into there and there would be no 
-need to:
-- read version for second time
-- pass irq_base & nr_irqs as pointer parameters
+For better or for worse, our most prominent user-facing documentation is
+the man pages, which are not a part of the kernel repository.  (Hmm...it
+wouldn't hurt to add a link to them to the front page, if and when a
+site with current man pages exists again).
 
--- 
- i.
+I don't have that much invested in the current ordering, we can
+certainly change it - anytime we want.  Anybody else have an opinion on
+that topic?
+
+>> I want to do it because it's a clear step forward and has already been
+>> pending for a month.  It is surely not perfect, and there will
+>> undoubtedly be changes, perhaps big ones, to come, but I cannot imagine
+>> a scenario where we want to go back to the mess we have now.
+>
+> I understand and yes, maybe it's the right thing to do; but OTOH that
+> page is a mess for quite a while already, so is it really a big problem
+> to just leave it like that for 9 or 10 more weeks while trying to bring
+> in a few more people that might be able to directly bring us on a good
+> long-term course?
+
+I guess my feelings are that (1) I've had enough promises to help with
+documentation over the years to learn not to count on such until said
+help actually materializes, and (2) demonstrating what we can do can, I
+hope, only inspire people who know more than me to show what we *really*
+can do...
+
+Thanks,
+
+jon
