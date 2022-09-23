@@ -2,214 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50BA1ECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 15:56:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD41C6FA82
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 17:06:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229514AbiIWPz7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 11:55:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39200 "EHLO
+        id S231517AbiIWRG3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 13:06:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230294AbiIWPz5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 11:55:57 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2088.outbound.protection.outlook.com [40.107.237.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 880F21E3C3;
-        Fri, 23 Sep 2022 08:55:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WvvEGoiLUvMBURDElJnIoVA/m/PoEeAuqcxUynh9PUUoTpdOyGzYIHm4vCcjIBstZrJxzZOu5A+FVugi7AaR46LeMuveh0ecdG0vxaUxCiezTiiVoKliNu5d8cQnrDFr+E6YPLdMewlbkCM90b7+I3xW86ekIxdggdCjqzUaLUFKyhQjZZBaVV/yDHVkdEvhZGg+/g+7ixpXer4fBcisxYxA4X9qNKanK2wKGq2lYlR2IVTH3hg1iemzfmD++BURRZE48uEDKXFEHiTQzexXzmEeIYUFiUyjeL8zehBoCZgDenBdGEjkwfYKIzn1XZGumt53osm9OCC4t3geV0kMFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=keg/8KTYA/Hh629e2cVZB/vptyEcLsGo2T3bV6uil2s=;
- b=MutAftiUXAUXSthTblfDgTuyQXbUcQQeeMTGAIBVeirw0i5UR5HxeMEuaQCdfbTMFgdbg5HXYUFsg3dcs09d7l8VkVBx20B2RkKg/y/e8ZppHSUhcr2OaDlvqZ1RXVZYnyRgxkuX4x/azoP8to/CSolU34D0QMeMOxL4+S9UhCexjVva5hbp2Ncad2K6uDbMxHSHOZ+Hn70KN1P7TICjmsEExkI4gGLQmm6xDUR/d2V9JHJSpd8NOKqmQl3Mjr0QCiGZtYDa3PRjeTG2Sb25vDXLggN0HUYjog0oF/MNn3ZrPEbbt72bMXU0PfPWcdImDV7lTUSS3z3hpbBqFk27rA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=keg/8KTYA/Hh629e2cVZB/vptyEcLsGo2T3bV6uil2s=;
- b=RtcFQKNIlRzdPlL1MESCG/CxiKz6CgMttOEwdfl0+TpwKLx7L7wJ+8MXpRaus/bOy1op7m02y1QuKmFzSU5QRZ9qGPdK/JPhNYo5tisu01tkhKvIwfQAGCF2jBPY5snhJutbe/E093NCcuYEEScPUx6WGuj7zatXisWy6Mk4JYMJDkBytdlqYgTaXtIsjlqKm6NNKSpfHQ+bcdDAInrvLGbZxiylU6tW1yPu5fcp//v/yf0Czy2NfHXCmAOqUQ7laatJnLozmVGSaIIQ85hSjHknrxn+Jgw8n/IioB+1RGAL5L2bjN7cQZnFibG6LRRi0TWTYVC3vVT/MaXxy3pk7A==
-Received: from PH0PR12MB5481.namprd12.prod.outlook.com (2603:10b6:510:d4::15)
- by CY8PR12MB7515.namprd12.prod.outlook.com (2603:10b6:930:93::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.20; Fri, 23 Sep
- 2022 15:55:51 +0000
-Received: from PH0PR12MB5481.namprd12.prod.outlook.com
- ([fe80::1429:e3e9:dc54:ba98]) by PH0PR12MB5481.namprd12.prod.outlook.com
- ([fe80::1429:e3e9:dc54:ba98%9]) with mapi id 15.20.5654.020; Fri, 23 Sep 2022
- 15:55:51 +0000
-From:   Parav Pandit <parav@nvidia.com>
-To:     Arnd Bergmann <arnd@arndb.de>,
-        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "dhowells@redhat.com" <dhowells@redhat.com>,
-        "j.alglave@ucl.ac.uk" <j.alglave@ucl.ac.uk>,
-        "luc.maranget@inria.fr" <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        "akiyks@gmail.com" <akiyks@gmail.com>,
-        Dan Lustig <dlustig@nvidia.com>,
-        "joel@joelfernandes.org" <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH] locking/memory-barriers.txt: Improve documentation for
- writel() usage
-Thread-Topic: [PATCH] locking/memory-barriers.txt: Improve documentation for
- writel() usage
-Thread-Index: AQHYyMA9YvMyHkwA3EyvMDv7VnmV1K3gbnaAgAAIXgCAACPnAIAAECbggAAocwCADGDdkA==
-Date:   Fri, 23 Sep 2022 15:55:51 +0000
-Message-ID: <PH0PR12MB548166865BF446C7F232DCE1DC519@PH0PR12MB5481.namprd12.prod.outlook.com>
-References: <20220915050106.650813-1-parav@nvidia.com>
- <96457b14-e196-4f29-be9a-7fa25ac805d9@www.fastmail.com>
- <PH0PR12MB5481192DB7B5C6E19683D514DC499@PH0PR12MB5481.namprd12.prod.outlook.com>
- <a8ee97f5-b92f-47a6-9b50-197974738ff7@www.fastmail.com>
- <PH0PR12MB548113D13F9E9CE4D5206514DC499@PH0PR12MB5481.namprd12.prod.outlook.com>
- <9ae25893-f19f-4186-a19a-7fc55d9295ed@www.fastmail.com>
-In-Reply-To: <9ae25893-f19f-4186-a19a-7fc55d9295ed@www.fastmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR12MB5481:EE_|CY8PR12MB7515:EE_
-x-ms-office365-filtering-correlation-id: c10f550b-1781-45b5-9e11-08da9d7c1718
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: HmjuZ+ILWYa+IakPvn4iShToYBATK6nwJJBKNy4o0lb1kahDYe1VGMwaFPu1u9eKmuWYU0KhhSKmWTImwopjEaSfnpc4w87w6246Ulf4njuqvUHaypvrH1E85vufHOG1Kfkvg2wYO5/IwX3Ya7erUKvpu4Hty/YQHfIQ2pL2+ztxiomnR51pN38O5NiwI5T9tXopnA4bXzHyZ0ZCBCc1mTD0V5tIEFxcEYqTN2l0jeu7Fwy8dRIDDGOf7eCj3heBmK3sakCUrHG6XHhl9P6rBs9BuPpyD6PJR02kBMhavLwE4UHspG8oZWyEg1zZmcZ8Zw7dTeJcn20SsVnY7XEZkDRxM0rjY0etF2Ue31mYE994VNkBubPRxGtkYa2z1DsVAfk4kAXfElsJQB5LCeheGimsEqs457+Z91QmAfTBCPh48Pul2+Z97vEvYbyf3A+NQ8MQqMiQYok1l8BvHJy7ouevzLgpYts0n8CYNKbhNLs3yOqHIMZ9xB+nfMyc81Q4ZZHFCPPo0nEIY0vIOKWDTT0/4xbFSS0rz1G7F0xdJIC4ywvSQ/LRaKbk1QUhSCiLJPovsoI5EdCsRJ/WD7CaOj3TcwIegTEvHh7YhsXJk3cmfCiidwUGmOA5a97J75iF4xA7sqeLWQaeu5Z+C0bpQjgQSQDOWQs/ZGn5vBQzCYHy9zgQpFjiKOz/8sovXdPVuT8XQq68/di0CnlB3IZe2afTl66UbnHJzScQWUUSYW6NjZVq4Vck38NJsLcbqk0QcxKNy2yOoWi9J5zmYW+KDoNqQc+PZF56KC9EWea0SeA=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB5481.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(346002)(376002)(396003)(39860400002)(451199015)(86362001)(7416002)(66556008)(41300700001)(66946007)(52536014)(64756008)(66446008)(66476007)(76116006)(8676002)(2906002)(8936002)(5660300002)(186003)(6506007)(7696005)(83380400001)(110136005)(316002)(9686003)(71200400001)(38070700005)(921005)(122000001)(38100700002)(478600001)(55016003)(33656002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?QyouEsXzgJ5OVAcNvmNl/KiPIZbvwRMZWqbCYbfVWEySVSkjUfbSrz7JUvAJ?=
- =?us-ascii?Q?tH4qBXToZAVrvR2eX+rVC98aEnbxVaLkQwWvY940ndCBlRGG0o57OJejde9L?=
- =?us-ascii?Q?cdKD1x6FNyqk35KDgQ/ws//+x+wu8hyZ0EwsV0X4oFtoqMZr8jeGM9o2pz/P?=
- =?us-ascii?Q?guhxU8wsaWOwarFSXnIcTFaAy4nC5+/KFRyoLftklgDmoco1JWPEjFV2LVZ0?=
- =?us-ascii?Q?pvZWDiN2s3rXSr6lPGNNKiOJzl8yiW/AW4blbIhqDCWXiPUEL8z7XpZzGHze?=
- =?us-ascii?Q?jIMIfD+y9nPgUrRsW+N8yIarQ8SsiDsKthLBFG1S0JxwKu6Fqpwil61jDeo3?=
- =?us-ascii?Q?/gc8amkIYBo1KpOkAz5B+y+6j7X2awPBgLFVQcO/Mu1XreYsUp6qFccUICtR?=
- =?us-ascii?Q?MJTc83kuwilPKq0Jhnhzo6aM9SlJmwwTizRUvjpHc8T5hzV8B0SbTy40EZsE?=
- =?us-ascii?Q?wVlfVLsQIENsF11zYQ4Llc1V7cDu4YGLO9FDvmRE26Kp6JgZlIZY754hfTFJ?=
- =?us-ascii?Q?IvCYHpkpZSI1z7xfoYQbZLEV4KcVdUzGN0We48i5jwQnUTgrEwUQSU1Rtc3+?=
- =?us-ascii?Q?UJOHDGTzV48D4GQgMJ2bDobrdiLfdipiXNan9gjxnd40qQEdaN5ExWVr7Vos?=
- =?us-ascii?Q?rEo1pgI7mWYWk67/smmertmVMqG38qaJZL5AKHSwhc/qeAOHjQVBnn40Vg3g?=
- =?us-ascii?Q?Iny6qCOiRzub82PwjiAQG2EXU8MQ4csKrfHkdLGMpIvkq2549PfgyT1mCwcw?=
- =?us-ascii?Q?vR+KyHJlL6IdfJNimrPQewln9xrim85ZGMVfEzn1L/zFBpBgE0nABE5MYYed?=
- =?us-ascii?Q?e+mOjFzidcgw73Pz5NMtdLR4XCYJgqE/wwFMdhTulT8NAKTwt8EaXoSjuXvU?=
- =?us-ascii?Q?GuhxQO1v4hMvdBgBuVrWYlESBGMBljVQCgA3UgEXuSbX0e3kXC10nV/hXLBO?=
- =?us-ascii?Q?VY0cFCD4uYWDKfX84m13Bzl4EAk8xVyqmMGFlwBMV1kZ3nhA0d4eAixTrjTe?=
- =?us-ascii?Q?mZo2hmkmT2/4YzUy45ip0GBKvWax2OoZ6KT6nhKrP8rBzm6NZi+wThVwpHl/?=
- =?us-ascii?Q?C5rg+kxgxoO1Sgi9lbn1kE+694SAiXy5OJbhPbDzGxVRrItcg25RHN+aIU7s?=
- =?us-ascii?Q?rYZucpmP4dCuj5Hzi9ecaC26gDGwI/sdkEJH600nOYqDn3EPbeEh0Lep+64x?=
- =?us-ascii?Q?+T2r5whn0I1Zxhf8c9h/r37YZx7rPwRUiJmUtMXFXopPsCsA27dn6aoS2dnP?=
- =?us-ascii?Q?8hVwzFptG7l1QjnXU9VWfDXyI/ym91Oti4UqQu+dHfGP+fECQ1hdq3DO4z98?=
- =?us-ascii?Q?GPTiJZDNcw2W6T0ZDdk6gd8lgcIZ4fkdxo/tTSgy7EwwFYFKMt6OE3LYF+Dm?=
- =?us-ascii?Q?K8qXJsQcVlk1y9yYRFBgn962yjvw5EH+8Sqy88KyuVwHeY3aIiT/lFTs1Zf0?=
- =?us-ascii?Q?0qAoCsvXTuTXw/kZMahuw+0uE/lcfMdDbUKlXTBtpKVJJ5N6i/sBAERnPTC0?=
- =?us-ascii?Q?wLkF27xLWYqTDSev61IErrjV/b3YqKV+BfZEN777QfqLJzrnOckY9x3Elxj4?=
- =?us-ascii?Q?BanlLDeLxzWd7n3t7LKIwNLUfTJtdMhjxxQriKtsoygQnyFq3xkH6KmMqUg8?=
- =?us-ascii?Q?t+2unwIavDPCuS9pLF/Ztik=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S230113AbiIWRG3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 13:06:29 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B633614A7BE;
+        Fri, 23 Sep 2022 10:06:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663952787; x=1695488787;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=ZCjIgHYGCH7WpacNcOYdFFzz/xvTzjVdh8YXbYg2xC0=;
+  b=Ou4qCBIweqBVIgYcnC1B1tNYl/WLMuzKQBPdmmsE8w1cdilQWSjcvfSr
+   2CWMyVdmVy/u50Ys1Qug61RHa+odYXdLxC2sUWNchAAxQj6jL6CNd+jDA
+   Gu+DerPxBobq8dMOLOEcz9Ha9kLXkjPUx8EhSrT5gs0f0MV44YyCqSJKp
+   ACI4qZN8KeNng8X+52tE4w0IuPUls3OPoZqoV1jT+NfBeSP6CgGDyNvuH
+   VhHS3G/2kpMv3LnUCUeGYNyX/V3a8VKRRKiy6lyKl4kxBClFIrkmTbRsv
+   K3Ne5UM26dX6zWdu5JxwuAEgWx1VQDFfGElNNuK9bVGe1BEn8+UbnEVxs
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="302085971"
+X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
+   d="scan'208";a="302085971"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 10:06:27 -0700
+X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
+   d="scan'208";a="571439005"
+Received: from bmuddebi-mobl.amr.corp.intel.com (HELO [10.209.43.107]) ([10.209.43.107])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 10:06:26 -0700
+Message-ID: <0a5ec2cc-239b-9685-9bbf-7e8a7eacd10f@linux.intel.com>
+Date:   Fri, 23 Sep 2022 10:06:17 -0700
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB5481.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c10f550b-1781-45b5-9e11-08da9d7c1718
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2022 15:55:51.5028
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WxMrht6mWFlWJ4tNaSzCaRjSWvAS+nr8JRuiA9HxuxlZQQI6m+qDFuHkD66miJyPPKlXICT5K45uub/KeU3b3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7515
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 5/6] fpga: dfl: parse the location of the feature's
+ registers from DFHv1
+Content-Language: en-US
+To:     matthew.gerlach@linux.intel.com, hao.wu@intel.com,
+        yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
+        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
+Cc:     Matthew Gerlach <matthew.gerlach@intel.com>
+References: <20220923121745.129167-1-matthew.gerlach@linux.intel.com>
+ <20220923121745.129167-6-matthew.gerlach@linux.intel.com>
+From:   "Muddebihal, Basheer Ahmed" 
+        <basheer.ahmed.muddebihal@linux.intel.com>
+In-Reply-To: <20220923121745.129167-6-matthew.gerlach@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Arnd Bergmann <arnd@arndb.de>
-> Sent: Friday, September 16, 2022 12:09 AM
 
-[..]
-> >>
-> > I think it is worth because current documentation, indirectly (or
-> > incorrectly) indicate that
-> > "writel() does wmb() internally, so those drivers, who has difficulty
-> > in using writel() can do, wmb() + raw write".
->=20
-> I don't think it's wrong from a barrier perspective though:
-> if a driver uses writel_relaxed(), then the only way to guarantee orderin=
-g is
-> to have a full wmb() before it.
->=20
-Sorry for the late response.
 
-Yes. Idea is to avoid wmb() whenever it is not necessary.
+On 9/23/2022 5:17 AM, matthew.gerlach@linux.intel.com wrote:
+> From: Matthew Gerlach <matthew.gerlach@intel.com>
+> 
+> The location of a feature's registers is explicitly
+> described in DFHv1 and can be relative to the base of the DFHv1
+> or an absolute address.  Parse the location and pass the information
+> to DFL driver.
+> 
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> ---
+> v2: Introduced in v2.
+> ---
+>  drivers/fpga/dfl.c  | 26 +++++++++++++++++++++++++-
+>  drivers/fpga/dfl.h  |  4 ++++
+>  include/linux/dfl.h |  4 ++++
+>  3 files changed, 33 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+> index dfd3f563c92d..6fb4f30f93cf 100644
+> --- a/drivers/fpga/dfl.c
+> +++ b/drivers/fpga/dfl.c
+> @@ -381,6 +381,8 @@ dfl_dev_add(struct dfl_feature_platform_data *pdata,
+>  	ddev->feature_id = feature->id;
+>  	ddev->revision = feature->revision;
+>  	ddev->cdev = pdata->dfl_cdev;
+> +	ddev->csr_start = feature->csr_start;
+> +	ddev->csr_size = feature->csr_size;
+>  
+>  	/* add mmio resource */
+>  	parent_res = &pdev->resource[feature->resource_index];
+> @@ -708,18 +710,25 @@ struct build_feature_devs_info {
+>   * struct dfl_feature_info - sub feature info collected during feature dev build
+>   *
+>   * @fid: id of this sub feature.
+> + * @revision: revision of this sub feature
+> + * @dfh_version: version of Device Feature Header (DFH)
+>   * @mmio_res: mmio resource of this sub feature.
+>   * @ioaddr: mapped base address of mmio resource.
+>   * @node: node in sub_features linked list.
+> + * @csr_start: DFHv1 start of feature registers
+> + * @csr_size: DFHv1 size of feature registers
+>   * @irq_base: start of irq index in this sub feature.
+>   * @nr_irqs: number of irqs of this sub feature.
+>   */
+>  struct dfl_feature_info {
+>  	u16 fid;
+>  	u8 revision;
+> +	u8 dfh_version;
+>  	struct resource mmio_res;
+>  	void __iomem *ioaddr;
+>  	struct list_head node;
+> +	resource_size_t csr_start;
+> +	resource_size_t csr_size;
+>  	unsigned int irq_base;
+>  	unsigned int nr_irqs;
+>  };
+> @@ -797,6 +806,8 @@ static int build_info_commit_dev(struct build_feature_devs_info *binfo)
+>  		feature->dev = fdev;
+>  		feature->id = finfo->fid;
+>  		feature->revision = finfo->revision;> +		feature->csr_start = finfo->csr_start;
+> +		feature->csr_size = finfo->csr_size;
+>  
+>  		/*
+>  		 * the FIU header feature has some fundamental functions (sriov
+> @@ -1054,6 +1065,7 @@ create_feature_instance(struct build_feature_devs_info *binfo,
+>  {
+>  	unsigned int irq_base, nr_irqs;
+>  	struct dfl_feature_info *finfo;
+> +	u8 dfh_version = 0;
+>  	u8 revision = 0;
+>  	int ret;
+>  	u64 v;
+> @@ -1061,7 +1073,7 @@ create_feature_instance(struct build_feature_devs_info *binfo,
+>  	if (fid != FEATURE_ID_AFU) {
+>  		v = readq(binfo->ioaddr + ofst);
+>  		revision = FIELD_GET(DFH_REVISION, v);
+> -
+> +		dfh_version = FIELD_GET(DFH_VERSION, v);
+>  		/* read feature size and id if inputs are invalid */
+>  		size = size ? size : feature_size(v);
+>  		fid = fid ? fid : feature_id(v);
+> @@ -1080,12 +1092,24 @@ create_feature_instance(struct build_feature_devs_info *binfo,
+>  
+>  	finfo->fid = fid;
+>  	finfo->revision = revision;
+> +	finfo->dfh_version = dfh_version;
+>  	finfo->mmio_res.start = binfo->start + ofst;
+>  	finfo->mmio_res.end = finfo->mmio_res.start + size - 1;
+>  	finfo->mmio_res.flags = IORESOURCE_MEM;
+>  	finfo->irq_base = irq_base;
+>  	finfo->nr_irqs = nr_irqs;
+>  
+> +	if (dfh_version == 1) {
+> +		v = readq(binfo->ioaddr + ofst + DFHv1_CSR_ADDR);
+> +		if (v & DFHv1_CSR_ADDR_REL)
+> +			finfo->csr_start = FIELD_GET(DFHv1_CSR_ADDR_MASK, v);
+> +		else
+> +			finfo->csr_start = binfo->start + ofst + FIELD_GET(DFHv1_CSR_ADDR_MASK, v);
+> +
+> +		v = readq(binfo->ioaddr + ofst + DFHv1_CSR_SIZE_GRP);
+> +		finfo->csr_size = FIELD_GET(DFHv1_CSR_SIZE_GRP_SIZE, v);
+> +	}
+> +
+>  	list_add_tail(&finfo->node, &binfo->sub_features);
+>  	binfo->feature_num++;
+>  
+> diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
+> index e620fcb02b5a..64cedd00dca4 100644
+> --- a/drivers/fpga/dfl.h
+> +++ b/drivers/fpga/dfl.h
+> @@ -217,6 +217,8 @@ struct dfl_feature_irq_ctx {
+>   *		    this index is used to find its mmio resource from the
+>   *		    feature dev (platform device)'s resources.
+>   * @ioaddr: mapped mmio resource address.
+> + * @csr_start: DFHv1 start of feature registers
+> + * @csr_size: DFHv1 size of feature registers
+>   * @irq_ctx: interrupt context list.
+>   * @nr_irqs: number of interrupt contexts.
+>   * @ops: ops of this sub feature.
+> @@ -229,6 +231,8 @@ struct dfl_feature {
+>  	u8 revision;
+>  	int resource_index;
+>  	void __iomem *ioaddr;
+> +	resource_size_t csr_start;
+> +	resource_size_t csr_size;
+>  	struct dfl_feature_irq_ctx *irq_ctx;
+>  	unsigned int nr_irqs;
+>  	const struct dfl_feature_ops *ops;
+> diff --git a/include/linux/dfl.h b/include/linux/dfl.h
+> index 33e21c360671..7d74ef8d1d20 100644
+> --- a/include/linux/dfl.h
+> +++ b/include/linux/dfl.h
+> @@ -84,6 +84,8 @@ enum dfl_id_type {
+>   * @type: type of DFL FIU of the device. See enum dfl_id_type.
+>   * @feature_id: feature identifier local to its DFL FIU type.
+>   * @mmio_res: mmio resource of this dfl device.
+> + * @csr_start: DFHv1 start of feature registers
+> + * @csr_size: DFHv1 size of feature registers
+>   * @irqs: list of Linux IRQ numbers of this dfl device.
+>   * @num_irqs: number of IRQs supported by this dfl device.
+>   * @cdev: pointer to DFL FPGA container device this dfl device belongs to.
+> @@ -96,6 +98,8 @@ struct dfl_device {
+>  	u16 feature_id;
+>  	u8 revision;
+> +	u8 dfh_version;
 
-I will update the example description to reflect it.
+This is already parsed as part of info dfl_feature_info, Can we add dfh_version to store it for further use ? 
 
-> > And I sort of see above pattern in two drivers, and it is not good.
-> > It ends up doing dsb(st) on arm64, while needed barrier is only
-> > dmb(oshst).
-> >
-> > So to fix those two drivers, it is better to first avoid wmb()
-> > documentation reference when referring to writel().
->=20
-> Yes, this suggestion is correct. On x86 and a few others, I think it's ev=
-en
-> worse when wmb() is an expensive barrier, while writel() is the same as
-> writel_relaxed() and the barrier is implied by the MMIO access.
->=20
-> It might help to spell this out and say that writel() is always preferred=
- over
-> wmb()+writel_relaxed().
->=20
-True.
-
-> Site note: there are several other problems with wmb()+__raw_writel(),
-> which on many architectures does not guarantee any atomicity of the acces=
-s
-> (a word store could get split into four byte stores), breaks endianess
-> assumptions and may still not provide the correct barrier semantics.
->
-Hmm. So far didn't observe this on arm64, x86_64, ppc64 yet.
-May be because the address is aligned to 8 bytes, we don't see the byte sto=
-res?
-=20
-> >> I see that there is more going on with that function, at least the
-> >> loop in
-> >> post_send_nop() probably just wants to use __iowrite64_copy(), but
-> >> that also has no barrier in it, while changing mlx5_write64() to use
-> >> iowrite64be() or similar would of course add excessive barriers inside=
- of
-> the loop.
-> >
-> > True. All other conversion seems possible.
-> > For post_send_nop(), __iowmb() needs to be exposed, which is not
-> > available today and it is only one-off user, I am inclined to keep
-> > post_send_nop()  as-is, but want to improve/correct rest of the
-> > callers in these two drivers.
->=20
-> __iowmb() is architecture-specific and does not have a well-defined
-> behavior. wmb() is probably the best choice for post_send_nop().
-Yes.
-
-> Alternatively, one could use __iowrite64_copy() for the first few fields
-> followed by a single writel64be for the last one.
->=20
-__iowrite64_copy() () seems right fit for post_send_nop() compare t current=
- code.
-
-> If you think we need something better than that, maybe having an
-> iowrite64_copy() (without leading __) that includes a barrier would work.
-
-It is only one-off user, and not so critical path, so we can differ iowrite=
-64_copy() for now.
-
-mlx5_write64() variant to use writeX() and avoid wmb() post the documentati=
-on update is good start.
+>  	struct resource mmio_res;
+> +	resource_size_t csr_start;
+> +	resource_size_t csr_size;
+>  	int *irqs;
+>  	unsigned int num_irqs;
+>  	struct dfl_fpga_cdev *cdev;
