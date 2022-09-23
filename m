@@ -2,152 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB348C6FA82
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 13:22:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0DC0ECAAD8
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 13:39:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230440AbiIWNW1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 09:22:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54852 "EHLO
+        id S229949AbiIWNjL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 09:39:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232260AbiIWNWV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 09:22:21 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95332142E10;
-        Fri, 23 Sep 2022 06:22:20 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id u69so244548pgd.2;
-        Fri, 23 Sep 2022 06:22:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=BEuCLzuc3ENbIRn81OGPoQeMDtExe197i261vnUhmwI=;
-        b=UpGBvjOuI55O/7ntd1MnrrZ0y7dTCWIbVcR/mcNAF5O/ni7cVDshw5t3Nhs+cYTB3Z
-         4WMBm/rj8dS5QH1XHQEgwizCBEuIKPEnoqoQzx/LndlTpTckcsZYkiuGg9MGqS65/pKG
-         AbMokCVnag67yNOKoPrlOrrxi0NaL0xRd2uta/k7vpDoCaDpWfr0FfwLDPA4MugB4MLD
-         G5zSGbexEZj49Z2c0YKWTEefpgikBNlQdDE5YtwGpJs9uKGI5QJC5jxQDWgMyAhx/i4s
-         B2n85WqDK/YiEHisqwlIVmbzpm4LbCdYAsEUGYtCzCha5TOQpnX77abLxD7FBeOBJLn9
-         uwMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=BEuCLzuc3ENbIRn81OGPoQeMDtExe197i261vnUhmwI=;
-        b=CvI6XFG/nOUwzbonN76cUfjCTx4oONCxBqTnBWxATJCV+KFhFLyZU/ju1CmYMSqAdZ
-         MbbuGIcxiNf/AFCUZgstIHbOpqeZtsuTdzdR4Se6ZeyjbsQRcErkhjTNdCz23j9arUrJ
-         T1Wr9TuTnggVWM3O+pRjjMWKOs4bbyx+298JQpH3jNHSKp9CfSIon8c8Wl1U3/5krOsS
-         +abGT8qWd6yV4FFkb4FoULKI1K8GcztirgfcwVqwasvmlky7xcpSUpfh/4ZxH5PGXCge
-         QyijyENE3r9MgZA68YJaTvrxOY3iq8G5f0288V8hPr3zMKjl+BPP51O4y9lqW7j40Oze
-         4O5A==
-X-Gm-Message-State: ACrzQf1swYbiGAFdtyZgigtQVpjz4QqAkdxrAMU8fy2eRxV3H5qSLZ8V
-        sOVDoTCpWJ9SKQv/uRU6NP0=
-X-Google-Smtp-Source: AMsMyM5dfdLfb7hVgq83LWNLX9AE7mbGw1teE6OivbAEy/+jM1qaarYLAre+ni05RTSyGxyxd+bU8Q==
-X-Received: by 2002:a63:4c02:0:b0:43c:96b:e6a6 with SMTP id z2-20020a634c02000000b0043c096be6a6mr7443696pga.288.1663939340054;
-        Fri, 23 Sep 2022 06:22:20 -0700 (PDT)
-Received: from debian.me (subs28-116-206-12-34.three.co.id. [116.206.12.34])
-        by smtp.gmail.com with ESMTPSA id i8-20020aa796e8000000b0053db6f7d2f1sm6373792pfq.181.2022.09.23.06.22.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Sep 2022 06:22:17 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id BAE5D101070; Fri, 23 Sep 2022 20:22:12 +0700 (WIB)
-Date:   Fri, 23 Sep 2022 20:22:12 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Subject: Re: [PATCH bpf-next v4 2/2] Add table of BPF program types to libbpf
- docs
-Message-ID: <Yy2zBAIFGGBMe4k1@debian.me>
-References: <20220922115257.99815-1-donald.hunter@gmail.com>
- <20220922115257.99815-3-donald.hunter@gmail.com>
+        with ESMTP id S229511AbiIWNjL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 09:39:11 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2DC4A98C5;
+        Fri, 23 Sep 2022 06:39:09 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 71C5B7F9;
+        Fri, 23 Sep 2022 13:39:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 71C5B7F9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1663940349; bh=XtwcXAwE7op9aNDWjiJrtgb37mH7+IErYuk6ped7kew=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=FZi9/vFOrDm0CaK2TE2Py0RePLYhQf8j5N0LwRMMJygDH6lGG4a8kQc5knsaR3leq
+         r4WWT8Qv4siVf0a1IkBmjrWf6N8D4dzVs6C2dpgeaDYo0bWCuFGICNpCYr4B3ambAy
+         CIZQHnAQnYaf+xJPSCZIudHQaxExKlsfc9f2WuKeutXFQl5VUVKxmiZ+4YsLf5sTEE
+         UyCigETcpxjvsbt6STZota1w2ZgzE4OH6PjmS7XP8vp5ap/kgBDrUwWn8sSSGyj6/v
+         Jln9xcx643/aQa4SS7oQaJbtUvDKka0+RljOr2fSM/RP697TVs91xpRJUW5gFNWo+M
+         3evwU4IdcDdfQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Kees Cook <keescook@chromium.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2 7/7] docs: put atomic*.txt and memory-barriers.txt
+ into the core-api book
+In-Reply-To: <0ce29b47-1e4b-6c3a-27fa-47e442f1f21e@gmail.com>
+References: <20220922204138.153146-1-corbet@lwn.net>
+ <20220922204138.153146-8-corbet@lwn.net>
+ <0ce29b47-1e4b-6c3a-27fa-47e442f1f21e@gmail.com>
+Date:   Fri, 23 Sep 2022 07:39:08 -0600
+Message-ID: <87a66qp5vn.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="IG2Hjj6xDqLr5q1D"
-Content-Disposition: inline
-In-Reply-To: <20220922115257.99815-3-donald.hunter@gmail.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
---IG2Hjj6xDqLr5q1D
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 9/23/22 03:41, Jonathan Corbet wrote:
+>> @@ -0,0 +1,18 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +   This is a simple wrapper to bring atomic_bitops.txt into the RST world
+>> +   until such a time as that file can be converted directly.
+>> +
+>> +=============
+>> +Atomic bitops
+>> +=============
+>> +
+>> +.. raw:: latex
+>> +
+>> +    \footnotesize
+>> +
+>> +.. include:: ../../atomic_bitops.txt
+>> +   :literal:
+>> +
+>> +.. raw:: latex
+>> +
+>> +    \normalsize
+>
+> Shouldn't warning like "This documentation isn't in RST format and included
+> as literal block" be added?
 
-On Thu, Sep 22, 2022 at 12:52:57PM +0100, Donald Hunter wrote:
-> +..
-> +  program_types.csv is generated from tools/lib/bpf/libbpf.c and is form=
-atted like this:
-> +    Program Type,Attach Type,ELF Section Name,Sleepable
-> +    ``BPF_PROG_TYPE_SOCKET_FILTER``,,``socket``,
-> +    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT_OR_MIGRATE`=
-`,``sk_reuseport/migrate``,
-> +    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT``,``sk_reus=
-eport``,
-> +    ``BPF_PROG_TYPE_KPROBE``,,``kprobe+``,
-> +    ``BPF_PROG_TYPE_KPROBE``,,``uprobe+``,
-> +    ``BPF_PROG_TYPE_KPROBE``,,``uprobe.s+``,Yes
+Why?  Who needs that information and what will they do with it?
 
-The note above doesn't get rendered on htmldocs output, so I have applied
-the fixup:
+Thanks,
 
----- >8 ----
-
-diff --git a/Documentation/bpf/libbpf/program_types.rst b/Documentation/bpf=
-/libbpf/program_types.rst
-index b74fbf3363dd6c..3ce0ec94b399b4 100644
---- a/Documentation/bpf/libbpf/program_types.rst
-+++ b/Documentation/bpf/libbpf/program_types.rst
-@@ -16,15 +16,17 @@ When ``extras`` are specified, they provide details of =
-how to auto-attach the BP
- The format of ``extras`` depends on the program type, e.g. ``SEC("tracepoi=
-nt/<category>/<name>")``
- for tracepoints or ``SEC("usdt/<path-to-binary>:<usdt_provider>:<usdt_name=
->")`` for USDT probes.
-=20
--..
--  program_types.csv is generated from tools/lib/bpf/libbpf.c and is format=
-ted like this:
--    Program Type,Attach Type,ELF Section Name,Sleepable
--    ``BPF_PROG_TYPE_SOCKET_FILTER``,,``socket``,
--    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT_OR_MIGRATE``,=
-``sk_reuseport/migrate``,
--    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT``,``sk_reusep=
-ort``,
--    ``BPF_PROG_TYPE_KPROBE``,,``kprobe+``,
--    ``BPF_PROG_TYPE_KPROBE``,,``uprobe+``,
--    ``BPF_PROG_TYPE_KPROBE``,,``uprobe.s+``,Yes
-+.. note::
-+   The table below is generated from ``tools/lib/bpf/libbpf.c`` and is
-+   formatted like this (in CSV format)::
-+
-+     Program Type,Attach Type,ELF Section Name,Sleepable
-+     BPF_PROG_TYPE_SOCKET_FILTER,,socket,
-+     BPF_PROG_TYPE_SK_REUSEPORT,BPF_SK_REUSEPORT_SELECT_OR_MIGRATE,sk_reus=
-eport/migrate,
-+     BPF_PROG_TYPE_SK_REUSEPORT,BPF_SK_REUSEPORT_SELECT,sk_reuseport,
-+     BPF_PROG_TYPE_KPROBE,,kprobe+,
-+     BPF_PROG_TYPE_KPROBE,,uprobe+,
-+     BPF_PROG_TYPE_KPROBE,,uprobe.s+,Yes
-=20
- .. csv-table:: Program Types and Their ELF Section Names
-    :file: program_types.csv
-=20
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---IG2Hjj6xDqLr5q1D
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYy2y/wAKCRD2uYlJVVFO
-o8k8AQD+GgOoCerwCVv4HDW/ksr9rFzvAZnHBb+P3KHSC6GgRwD9Gu+pgY6wkNsy
-I9rm3l5ItKuDzrHYPtVb94hXMOzXKgk=
-=vo+Z
------END PGP SIGNATURE-----
-
---IG2Hjj6xDqLr5q1D--
+jon
