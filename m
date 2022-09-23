@@ -2,80 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0DC0ECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 13:39:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB53ECAAD8
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 13:45:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbiIWNjL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 09:39:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50850 "EHLO
+        id S232284AbiIWNpf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 09:45:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229511AbiIWNjL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 09:39:11 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2DC4A98C5;
-        Fri, 23 Sep 2022 06:39:09 -0700 (PDT)
+        with ESMTP id S229949AbiIWNpe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 09:45:34 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15164AB072;
+        Fri, 23 Sep 2022 06:45:30 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 71C5B7F9;
-        Fri, 23 Sep 2022 13:39:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 71C5B7F9
+        by ms.lwn.net (Postfix) with ESMTPSA id 91DAD378;
+        Fri, 23 Sep 2022 13:45:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 91DAD378
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1663940349; bh=XtwcXAwE7op9aNDWjiJrtgb37mH7+IErYuk6ped7kew=;
+        t=1663940730; bh=hNBiWwThgUqyTe1rjOqsA/BbPGXZ8spv21EYme1ZkQA=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=FZi9/vFOrDm0CaK2TE2Py0RePLYhQf8j5N0LwRMMJygDH6lGG4a8kQc5knsaR3leq
-         r4WWT8Qv4siVf0a1IkBmjrWf6N8D4dzVs6C2dpgeaDYo0bWCuFGICNpCYr4B3ambAy
-         CIZQHnAQnYaf+xJPSCZIudHQaxExKlsfc9f2WuKeutXFQl5VUVKxmiZ+4YsLf5sTEE
-         UyCigETcpxjvsbt6STZota1w2ZgzE4OH6PjmS7XP8vp5ap/kgBDrUwWn8sSSGyj6/v
-         Jln9xcx643/aQa4SS7oQaJbtUvDKka0+RljOr2fSM/RP697TVs91xpRJUW5gFNWo+M
-         3evwU4IdcDdfQ==
+        b=QWY+8q7ZMshRXfyj6gmdRp4UaIjrcz99CTyVxr5M8vHdzApl+nYXupZ4urGtavA1Q
+         dsfx3yGqmDXPQ6/Lv14oeiROQv3Eu4hFh3D6dOX9RumxGbRVQbt2QgF0pjgGSK1WBz
+         qVQ/bvOkekurHmJ6X3yab/wdou9PvCTgnFTvE9Mq9W1tEWXJKFWJGHFlmpNqz2FK/M
+         mEIRUaj/okWHH+DqFC79DDjdJCDAmD3U2Jfkwel3xNgIETEmplmmU7qpbz20xN+hUZ
+         j/v9FpVTmqf0MWTEa9MEWauHsTUm7L9rIF5QJ02dkcGvRJeKduHyP2H517O2GdNFnG
+         ce0+C+mZk2L+w==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Kees Cook <keescook@chromium.org>,
+To:     Thorsten Leemhuis <linux@leemhuis.info>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
         Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2 7/7] docs: put atomic*.txt and memory-barriers.txt
- into the core-api book
-In-Reply-To: <0ce29b47-1e4b-6c3a-27fa-47e442f1f21e@gmail.com>
+Subject: Re: [PATCH v2 0/4] Rewrite the top-level index.rst
+In-Reply-To: <7f02143c-461f-268b-0f17-7fe20a7423d6@leemhuis.info>
 References: <20220922204138.153146-1-corbet@lwn.net>
- <20220922204138.153146-8-corbet@lwn.net>
- <0ce29b47-1e4b-6c3a-27fa-47e442f1f21e@gmail.com>
-Date:   Fri, 23 Sep 2022 07:39:08 -0600
-Message-ID: <87a66qp5vn.fsf@meer.lwn.net>
+ <7f02143c-461f-268b-0f17-7fe20a7423d6@leemhuis.info>
+Date:   Fri, 23 Sep 2022 07:45:30 -0600
+Message-ID: <875yhep5l1.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-> On 9/23/22 03:41, Jonathan Corbet wrote:
->> @@ -0,0 +1,18 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +   This is a simple wrapper to bring atomic_bitops.txt into the RST world
->> +   until such a time as that file can be converted directly.
->> +
->> +=============
->> +Atomic bitops
->> +=============
->> +
->> +.. raw:: latex
->> +
->> +    \footnotesize
->> +
->> +.. include:: ../../atomic_bitops.txt
->> +   :literal:
->> +
->> +.. raw:: latex
->> +
->> +    \normalsize
+> On 22.09.22 22:41, Jonathan Corbet wrote:
+>> The top-level index.rst file is the entry point for the kernel's
+>> documentation, especially for readers of the HTML output.  It is currently
+>> a mess containing everything we thought to throw in there.  Firefox says it
+>> would require 26 pages of paper to print it.  That is not a user-friendly
+>> introduction.
 >
-> Shouldn't warning like "This documentation isn't in RST format and included
-> as literal block" be added?
+> That's true, but is it maybe good or even important for googleability?
+> When you talked about this in your LPC talk this went on in the matrix chat:
+>
+> ```
+> Nur Hussein
+> I feel like every existing page needs to be accessible (somehow)
+> from that starting page
+>
+> Zsuzsa Nagy
+>
+> access to all pages <- findability from a search engine (technical
+> author talking here)
+>
+> step #2 in-site search for those who already landed on your pages
+> ```
 
-Why?  Who needs that information and what will they do with it?
+So every page remains accessible, just like they are now.  They just
+aren't linked directly from the front page - as many pages already are
+not.  I honestly don't understand what the problem is here.
+
+*No* site links everything directly on its front page.  Even if it had
+an effect on search engines, I think it would be wrong to prioritize SEO
+over basic usability.
+
+>> This series aims to improve our documentation entry point with a focus on
+>> rewriting index.rst.  The result is, IMO, simpler and more approachable.
+>> For anybody who wants to see the rendered results without building the
+>> docs, have a look at:
+>> 
+>>   https://static.lwn.net/kerneldoc/
+>
+> I still think we're doing all this to build something for users and
+> hence docs for users should be at the top spot. I'd even think "those
+> people are selfish" if I'd look into the docs of a software and find
+> texts for developers at the top spot.
+
+Again ... who are the users?  I maintain that the actual users of our
+docs are primarily kernel developers.
+
+>> Unless I get screams I plan to slip this into 6.1.  It is definitely not
+>> the final form of the front page, but I doubt we'll ever get there; we can
+>> change it in whatever ways make sense.
+>
+> My 2 cent: why the rush? I'd say: let's try to get some feedback from
+> Zsuzsa and experts on docs first. I'd be willing to approach them. If
+> that doesn't work out over the next few weeks, just merge what you have
+> for 6.2.
+
+I want to do it because it's a clear step forward and has already been
+pending for a month.  It is surely not perfect, and there will
+undoubtedly be changes, perhaps big ones, to come, but I cannot imagine
+a scenario where we want to go back to the mess we have now.
 
 Thanks,
 
