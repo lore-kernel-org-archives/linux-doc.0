@@ -2,67 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF46C54EE9
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 00:51:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF064C6FA8B
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 00:53:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231348AbiIWAvC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Sep 2022 20:51:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56994 "EHLO
+        id S231526AbiIWAxh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Sep 2022 20:53:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231750AbiIWAum (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 20:50:42 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0932CF1D70;
-        Thu, 22 Sep 2022 17:50:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=srj8tG1KHLmSlDpKcGgtXzEQLTVB90Z7Sdq6M6tLsgk=; b=EYEsC2QD6loZyakBCAKYxPjw/W
-        F7yxSq+SgsNhJyYJxBirwip+QYk6Hc7RXC1YELD0cvM6otqSgA47rShXp+NVSOCXvzz8f7mmMhhRX
-        sIyR9VxO534KsjqMlJePcLM/mRAi6RChxoBFbqQl9nAmD28zyKbql8aF8Z2uEhurPAtg=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1obWtN-00HaEh-9X; Fri, 23 Sep 2022 02:50:09 +0200
-Date:   Fri, 23 Sep 2022 02:50:09 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Robert Marko <robert.marko@sartura.hr>
-Subject: Re: [PATCH net-next v6 7/7] net: pse-pd: add regulator based PSE
- driver
-Message-ID: <Yy0CwerZ2UvWqnhD@lunn.ch>
-References: <20220921124748.73495-1-o.rempel@pengutronix.de>
- <20220921124748.73495-8-o.rempel@pengutronix.de>
+        with ESMTP id S231556AbiIWAxd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 20:53:33 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 336C563D3;
+        Thu, 22 Sep 2022 17:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663894412; x=1695430412;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N5ROSjhMMMcLpyjlHpJbtQYkQW/pwctSUSnQMueHIwE=;
+  b=j0npw3hxIhk/PNb5lDfzUqD6jLjrltPDSjqtLFQjLyRdomVN6bRefFHz
+   uXvWfgG4uz2MxxCNbni1bBuYLUa+koUygb7dcUoPhN2odkzkEqsUE2Wob
+   Fo3ygUUA51auPuT+HUNkVklb8KJxTyVHf8P3Nv4GF0eEHysOqNnxnR5jK
+   a+aoyB5TILiFMiHOHcYb4b+G3B3EocQyJuAwQzMVBtEvZSutXObl/iFrY
+   gYXU6YQKmcVmT+UImswR9TWKMm2m/x/gVKgcmicaxRHWA+kzIVIcNHalx
+   KMF697UTmPER7m2tv6+hrcdtos4Dsv4g4RgjJkJoqemIe2EOLD0fxzTul
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="283569063"
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="283569063"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 17:53:31 -0700
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="622334850"
+Received: from dnessim-mobl1.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.60.183])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 17:53:21 -0700
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id 6B9DA104532; Fri, 23 Sep 2022 03:53:19 +0300 (+03)
+Date:   Fri, 23 Sep 2022 03:53:19 +0300
+From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     "Wang, Wei W" <wei.w.wang@intel.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "Nakajima, Jun" <jun.nakajima@intel.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "ak@linux.intel.com" <ak@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "aarcange@redhat.com" <aarcange@redhat.com>,
+        "ddutile@redhat.com" <ddutile@redhat.com>,
+        "dhildenb@redhat.com" <dhildenb@redhat.com>,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>,
+        "Hocko, Michal" <mhocko@suse.com>,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Message-ID: <20220923005319.wkzpl36uailh4zbw@box.shutemov.name>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <DS0PR11MB63734D4DF4C4F368805EC97DDC4E9@DS0PR11MB6373.namprd11.prod.outlook.com>
+ <Yyy8Pp0Y4NRzIzNw@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220921124748.73495-8-o.rempel@pengutronix.de>
+In-Reply-To: <Yyy8Pp0Y4NRzIzNw@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 21, 2022 at 02:47:47PM +0200, Oleksij Rempel wrote:
-> Add generic, regulator based PSE driver to support simple Power Sourcing
-> Equipment without automatic classification support.
+On Thu, Sep 22, 2022 at 07:49:18PM +0000, Sean Christopherson wrote:
+> On Thu, Sep 22, 2022, Wang, Wei W wrote:
+> > On Thursday, September 15, 2022 10:29 PM, Chao Peng wrote:
+> > > +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
+> > > +			 int *order)
+> > 
+> > Better to remove "order" from this interface?
 > 
-> This driver was tested on 10Bast-T1L switch with regulator based PoDL PSE.
+> Hard 'no'.
 > 
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> > Some callers only need to get pfn, and no need to bother with
+> > defining and inputting something unused. For callers who need the "order",
+> > can easily get it via thp_order(pfn_to_page(pfn)) on their own.
+> 
+> That requires (a) assuming the pfn is backed by struct page, and (b) assuming the
+> struct page is a transparent huge page.  That might be true for the current
+> implementation, but it most certainly will not always be true.
+> 
+> KVM originally did things like this, where there was dedicated code for THP vs.
+> HugeTLB, and it was a mess.  The goal here is very much to avoid repeating those
+> mistakes.  Have the backing store _tell_ KVM how big the mapping is, don't force
+> KVM to rediscover the info on its own.
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+I guess we can allow order pointer to be NULL to cover caller that don't
+need to know the order. Is it useful?
 
-    Andrew
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
