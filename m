@@ -2,79 +2,206 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 878E0C6FA82
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 11:54:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FD86C6FA91
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 12:22:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231796AbiIWLyo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 07:54:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44476 "EHLO
+        id S232072AbiIWMWk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 08:22:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231639AbiIWLyo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 07:54:44 -0400
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [IPv6:2a01:37:1000::53df:5f64:0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 540722C11A;
-        Fri, 23 Sep 2022 04:54:40 -0700 (PDT)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-         client-signature RSA-PSS (4096 bits) client-digest SHA256)
-        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
-        by bmailout1.hostsharing.net (Postfix) with ESMTPS id 77C4D3000CACB;
-        Fri, 23 Sep 2022 13:54:36 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id 5F1DD4F386; Fri, 23 Sep 2022 13:54:36 +0200 (CEST)
-Date:   Fri, 23 Sep 2022 13:54:36 +0200
-From:   Lukas Wunner <lukas@wunner.de>
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-doc@vger.kernel.org, linux-spi@vger.kernel.org,
-        corbet@lwn.net, broonie@kernel.org
-Subject: Re: [PATCH -next] Documentation: devres: add missing SPI helper
-Message-ID: <20220923115436.GA17203@wunner.de>
-References: <20220917122639.1896965-1-yangyingliang@huawei.com>
- <20220923055518.GA17668@wunner.de>
- <a61fd394-978f-1a12-b38e-2f3ab8ad02f7@huawei.com>
+        with ESMTP id S231474AbiIWMV6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 08:21:58 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25108135047;
+        Fri, 23 Sep 2022 05:17:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663935451; x=1695471451;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=G3/jDHfEgmt1mU16f2cag46kqaswEiQqco0ejWollM4=;
+  b=VYXetGqXpU9SMfAdQIVeDkI86yECh6mGv77EkcCLk2j5vddFZ+IE8o1C
+   jTlxdcfeOJ7bqzychE8XFgI541V5vO/aLdRuBGTfmavZC3wzHcqVGARlh
+   IVHNAPpeemXaibAAb7o6o1w9sXAB933Z5vCDYhWbmSgNceKfwH69iT/4l
+   vdVZmj3GlnwSlUxlHHUG3Yu9BYlluXlUPRaSxxQUREu5AJT49BASvkwbd
+   +mhnmboiJNnMbdwV1j89qj0Q6cJcdEX2vSHZEtOfDiy2clyB63ZFSGf29
+   JgJ1755WJELHl7EwB24ECOGYyrF+VzubQwpNqoArDB+In2ovmMK6NWsQI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="364595273"
+X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
+   d="scan'208";a="364595273"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 05:17:30 -0700
+X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
+   d="scan'208";a="762597732"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 05:17:30 -0700
+From:   matthew.gerlach@linux.intel.com
+To:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
+        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
+Cc:     Basheer Ahmed Muddebihal 
+        <basheer.ahmed.muddebihal@linux.intel.com>,
+        Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Subject: [PATCH v2 2/6] fpga: dfl: Move the DFH definitions
+Date:   Fri, 23 Sep 2022 05:17:41 -0700
+Message-Id: <20220923121745.129167-3-matthew.gerlach@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220923121745.129167-1-matthew.gerlach@linux.intel.com>
+References: <20220923121745.129167-1-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a61fd394-978f-1a12-b38e-2f3ab8ad02f7@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 23, 2022 at 02:32:42PM +0800, Yang Yingliang wrote:
-> On 2022/9/23 13:55, Lukas Wunner wrote:
-> > On Sat, Sep 17, 2022 at 08:26:39PM +0800, Yang Yingliang wrote:
-> > > Add devm_spi_alloc_master() and devm_spi_alloc_slave() to devres.rst.
-> > > They are introduced by commit 5e844cc37a5c ("spi: Introduce device-managed
-> > > SPI controller allocation").
-> > > 
-> > > Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> > > ---
-> > >   Documentation/driver-api/driver-model/devres.rst | 2 ++
-> > >   1 file changed, 2 insertions(+)
-> > > 
-> > > diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-> > > index 76cc256c9e4f..1bd6f38dd7e3 100644
-> > > --- a/Documentation/driver-api/driver-model/devres.rst
-> > > +++ b/Documentation/driver-api/driver-model/devres.rst
-> > > @@ -437,6 +437,8 @@ SLAVE DMA ENGINE
-> > >   SPI
-> > >     devm_spi_register_master()
-> > > +  devm_spi_alloc_master()
-> > > +  devm_spi_alloc_slave()
-> > >   WATCHDOG
-> > >     devm_watchdog_register_device()
-> > Putting the alloc functions above the register function would
-> > probably be more in line with how they're used.  Apart from that:
-> 
-> Do I need send a v2 to move up alloc functions with your review tag.
+From: Basheer Ahmed Muddebihal <basheer.ahmed.muddebihal@linux.intel.com>
 
-I'm not seeing v1 of your patch in linux-next, so apparently it
-hasn't been applied yet.  So yes, if you could respin that would
-be great.  Please cc me both on this patch as well as any
-devm_spi_alloc_master() conversions you make.
+Moving the DFH register offset and register definitions from
+drivers/fpga/dfl.h to include/linux/dfl.h. These definitions
+need to be accessed by dfl drivers that are outside of
+drivers/fpga.
 
-Thanks,
+Signed-off-by: Basheer Ahmed Muddebihal <basheer.ahmed.muddebihal@linux.intel.com>
+Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+---
+v2: remove extra space in commit
+    use uniform number of digits in constants
+    don't change copyright date because of removed content
+---
+ drivers/fpga/dfl-afu-main.c |  4 ++--
+ drivers/fpga/dfl.c          |  2 +-
+ drivers/fpga/dfl.h          | 20 +-------------------
+ include/linux/dfl.h         | 33 ++++++++++++++++++++++++++++++++-
+ 4 files changed, 36 insertions(+), 23 deletions(-)
 
-Lukas
+diff --git a/drivers/fpga/dfl-afu-main.c b/drivers/fpga/dfl-afu-main.c
+index 7f621e96d3b8..c26961ee33db 100644
+--- a/drivers/fpga/dfl-afu-main.c
++++ b/drivers/fpga/dfl-afu-main.c
+@@ -468,8 +468,8 @@ afu_id_show(struct device *dev, struct device_attribute *attr, char *buf)
+ 		return -EBUSY;
+ 	}
+ 
+-	guidl = readq(base + GUID_L);
+-	guidh = readq(base + GUID_H);
++	guidl = readq(base + DFH_GUID_L);
++	guidh = readq(base + DFH_GUID_H);
+ 	mutex_unlock(&pdata->lock);
+ 
+ 	return scnprintf(buf, PAGE_SIZE, "%016llx%016llx\n", guidh, guidl);
+diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+index b9aae85ba930..1132f3c10440 100644
+--- a/drivers/fpga/dfl.c
++++ b/drivers/fpga/dfl.c
+@@ -1163,7 +1163,7 @@ static int parse_feature_fiu(struct build_feature_devs_info *binfo,
+ 	 * find and parse FIU's child AFU via its NEXT_AFU register.
+ 	 * please note that only Port has valid NEXT_AFU pointer per spec.
+ 	 */
+-	v = readq(binfo->ioaddr + NEXT_AFU);
++	v = readq(binfo->ioaddr + DFH_NEXT_AFU);
+ 
+ 	offset = FIELD_GET(NEXT_AFU_NEXT_DFH_OFST, v);
+ 	if (offset)
+diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
+index 06cfcd5e84bb..e620fcb02b5a 100644
+--- a/drivers/fpga/dfl.h
++++ b/drivers/fpga/dfl.h
+@@ -17,6 +17,7 @@
+ #include <linux/bitfield.h>
+ #include <linux/cdev.h>
+ #include <linux/delay.h>
++#include <linux/dfl.h>
+ #include <linux/eventfd.h>
+ #include <linux/fs.h>
+ #include <linux/interrupt.h>
+@@ -53,28 +54,9 @@
+ #define PORT_FEATURE_ID_UINT		0x12
+ #define PORT_FEATURE_ID_STP		0x13
+ 
+-/*
+- * Device Feature Header Register Set
+- *
+- * For FIUs, they all have DFH + GUID + NEXT_AFU as common header registers.
+- * For AFUs, they have DFH + GUID as common header registers.
+- * For private features, they only have DFH register as common header.
+- */
+-#define DFH			0x0
+-#define GUID_L			0x8
+-#define GUID_H			0x10
+-#define NEXT_AFU		0x18
+-
+-#define DFH_SIZE		0x8
+-
+ /* Device Feature Header Register Bitfield */
+-#define DFH_ID			GENMASK_ULL(11, 0)	/* Feature ID */
+ #define DFH_ID_FIU_FME		0
+ #define DFH_ID_FIU_PORT		1
+-#define DFH_REVISION		GENMASK_ULL(15, 12)	/* Feature revision */
+-#define DFH_NEXT_HDR_OFST	GENMASK_ULL(39, 16)	/* Offset to next DFH */
+-#define DFH_EOL			BIT_ULL(40)		/* End of list */
+-#define DFH_TYPE		GENMASK_ULL(63, 60)	/* Feature type */
+ #define DFH_TYPE_AFU		1
+ #define DFH_TYPE_PRIVATE	3
+ #define DFH_TYPE_FIU		4
+diff --git a/include/linux/dfl.h b/include/linux/dfl.h
+index 431636a0dc78..33d167c53b09 100644
+--- a/include/linux/dfl.h
++++ b/include/linux/dfl.h
+@@ -2,7 +2,7 @@
+ /*
+  * Header file for DFL driver and device API
+  *
+- * Copyright (C) 2020 Intel Corporation, Inc.
++ * Copyright (C) 2020-2022 Intel Corporation, Inc.
+  */
+ 
+ #ifndef __LINUX_DFL_H
+@@ -11,6 +11,37 @@
+ #include <linux/device.h>
+ #include <linux/mod_devicetable.h>
+ 
++/*
++ * Device Feature Header Register Set
++ *
++ * For FIUs, they all have DFH + GUID + NEXT_AFU as common header registers.
++ * For AFUs, they have DFH + GUID as common header registers.
++ * For private features, they only have DFH register as common header.
++ */
++#define DFH			0x00
++#define DFH_GUID_L		0x08
++#define DFH_GUID_H		0x10
++#define DFH_NEXT_AFU		0x18
++
++/*
++ * DFHv1 Register Offset definitons
++ * In DHFv1, DFH + GUID + CSR_START + CSR_SIZE_GROUP + PARAM_HDR + PARAM_DATA
++ * as common header registers
++ */
++#define DFHv1_CSR_ADDR		0x18  /* CSR Register start address */
++#define DFHv1_CSR_SIZE_GRP	0x20  /* Size of Reg Block and Group/tag */
++#define DFHv1_PARAM_HDR		0x28  /* Optional First Param header */
++#define DFHv1_PARAM_DATA	0x08  /* Offset of Param data from Param header */
++
++#define DFH_SIZE		0x08
++
++/* Device Feature Header Register Bitfield */
++#define DFH_ID			GENMASK_ULL(11, 0)	/* Feature ID */
++#define DFH_REVISION		GENMASK_ULL(15, 12)	/* Feature revision */
++#define DFH_NEXT_HDR_OFST	GENMASK_ULL(39, 16)	/* Offset to next DFH */
++#define DFH_EOL			BIT_ULL(40)		/* End of list */
++#define DFH_TYPE		GENMASK_ULL(63, 60)	/* Feature type */
++
+ /**
+  * enum dfl_id_type - define the DFL FIU types
+  */
+-- 
+2.25.1
+
