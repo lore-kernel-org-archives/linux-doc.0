@@ -2,82 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B4EFECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 04:05:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC639ECAAD8
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 04:25:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232217AbiIWEFi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 00:05:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53656 "EHLO
+        id S229953AbiIWEZt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 00:25:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232262AbiIWEF1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 00:05:27 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7FA8BD69C9
-        for <linux-doc@vger.kernel.org>; Thu, 22 Sep 2022 21:05:25 -0700 (PDT)
-Received: from localhost.localdomain (unknown [112.20.112.163])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxBOJ8MC1jJHkgAA--.56189S2;
-        Fri, 23 Sep 2022 12:05:16 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     alexs@kernel.org, corbet@lwn.net
-Cc:     wu.xiangcheng@linux.dev, linux-doc@vger.kernel.org,
-        Yanteng Si <siyanteng@loongson.cn>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH] docs/zh_CN: Fix build warning
-Date:   Fri, 23 Sep 2022 12:04:19 +0800
-Message-Id: <20220923040419.3787429-1-siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S229810AbiIWEZt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 00:25:49 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E430115A63;
+        Thu, 22 Sep 2022 21:25:42 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id y136so11292449pfb.3;
+        Thu, 22 Sep 2022 21:25:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=hd3EpiDY5Yp5kjyghC+w8xTY5Gtmr6LFsGwoEFrFfQQ=;
+        b=jaTSYnPiUKQJZpq63Nj3ZjxDcZtrSwU9JNlC09jquN4REPFd7hg759VNephG44c4en
+         SID+SdrMn15447U9frGUH7T1JmQuEGa5vQArpl4FeViseJ0Xycp22E98hQNCJt09g7Q0
+         ejOyTO4sCcRdY4LWI806i4o2/73MDzBH0uPYF5i/D43wNTNpBZWppQOCa6i1MHxc+hxb
+         2O3konf5Fb4wM9Ha632TB17rGJisAdsp/OrldNf0oMYSXe06MwzymZP8AhC9SPSMMJDd
+         7JrZVz5PsMZHntkt89RaZZoiqB4TeiiHRkf6zU3RWfAfrLnO78h/XhfU/QveEBLzOnkD
+         EiUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=hd3EpiDY5Yp5kjyghC+w8xTY5Gtmr6LFsGwoEFrFfQQ=;
+        b=elfBs4THGvNt7BBcPAj0kv42urosWfIKCByd8HqTeSAHfjpWPXCs7MKJOuo8lqjkRm
+         LtqDsUzxygd4XnW0k1NSTHKgLo/zNxgRxRMUHzGqsXCAjeANH2rihN3tz1qkFzFGBaVw
+         oFNQpcd4zYWHhae/Eov6sgqOc9WrTp00EkP78hNS5srLlxtJKs2+zwfdsUxQl9ENJme/
+         kHXJjzkv6rVlYGnZzTgxW2z4551GhQ2eoQnM3Xkyw2Gsjv/nO1UKgSjlhL2s6Hffka92
+         AG+Q5DIfVrG1nKu4fuvVjPPevZIHhhVD2S1oLtYau4ZQl4Y1EMPQkvjLYrgfPOqbJ6O6
+         BedA==
+X-Gm-Message-State: ACrzQf18+DDl+ZwLGl9gEwvdJktsTbKMvD/rzdPhQag1iODI9MONsIYt
+        FCVE7rGwwYGhTlouLRYPtq8=
+X-Google-Smtp-Source: AMsMyM68aod5tm2PwBh0vxUAIo5yNFhUrzCMAEhsDmjtNgN2CrPCApVUdgUYjV+6Rex1yw95h644Ww==
+X-Received: by 2002:a63:1215:0:b0:43a:827d:dd with SMTP id h21-20020a631215000000b0043a827d00ddmr6141561pgl.98.1663907142045;
+        Thu, 22 Sep 2022 21:25:42 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-23.three.co.id. [116.206.28.23])
+        by smtp.gmail.com with ESMTPSA id o126-20020a625a84000000b0053e84617fe7sm5247361pfb.106.2022.09.22.21.25.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Sep 2022 21:25:41 -0700 (PDT)
+Message-ID: <0ce29b47-1e4b-6c3a-27fa-47e442f1f21e@gmail.com>
+Date:   Fri, 23 Sep 2022 11:25:35 +0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 7/7] docs: put atomic*.txt and memory-barriers.txt into
+ the core-api book
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Kees Cook <keescook@chromium.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+References: <20220922204138.153146-1-corbet@lwn.net>
+ <20220922204138.153146-8-corbet@lwn.net>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220922204138.153146-8-corbet@lwn.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxBOJ8MC1jJHkgAA--.56189S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7XFyDuFy3ZryUKFyfGF17KFg_yoWkAFX_Zr
-        s2gF4vyFsxJFyFga18AF1DGF1UAF1fKr48Z3WDt398Aw1UXrWqg3WqqwnavFyUGF4fur98
-        urWkZrW5ZrsrXjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUb2kFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-        Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-        0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-        jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-        1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8XwCF
-        04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
-        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
-        r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
-        1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
-        x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUjoa0DUUUUU==
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since commit 702f436ab07b ("docs/zh_CN: add dt changesets translation")
-introduce a build warning:
+On 9/23/22 03:41, Jonathan Corbet wrote:
+> @@ -0,0 +1,18 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +   This is a simple wrapper to bring atomic_bitops.txt into the RST world
+> +   until such a time as that file can be converted directly.
+> +
+> +=============
+> +Atomic bitops
+> +=============
+> +
+> +.. raw:: latex
+> +
+> +    \footnotesize
+> +
+> +.. include:: ../../atomic_bitops.txt
+> +   :literal:
+> +
+> +.. raw:: latex
+> +
+> +    \normalsize
 
-Warning: Documentation/translations/zh_CN/devicetree/changesets.rst
-references a file that doesn't exist:
-Documentation/Devicetree/changesets.rst
+Shouldn't warning like "This documentation isn't in RST format and included
+as literal block" be added?
 
-Change the first letter of Devicetree to lowercase.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- Documentation/translations/zh_CN/devicetree/changesets.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/translations/zh_CN/devicetree/changesets.rst b/Documentation/translations/zh_CN/devicetree/changesets.rst
-index 2ace05f3c377..3df1b03c5695 100644
---- a/Documentation/translations/zh_CN/devicetree/changesets.rst
-+++ b/Documentation/translations/zh_CN/devicetree/changesets.rst
-@@ -1,7 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- .. include:: ../disclaimer-zh_CN.rst
- 
--:Original: Documentation/Devicetree/changesets.rst
-+:Original: Documentation/devicetree/changesets.rst
- 
- :翻译:
- 
 -- 
-2.31.1
-
+An old man doll... just what I always wanted! - Clara
