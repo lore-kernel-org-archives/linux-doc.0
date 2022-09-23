@@ -2,86 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B569BECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 12:43:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A2A4C6FA90
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 12:47:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231341AbiIWMn1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 08:43:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56480 "EHLO
+        id S231653AbiIWMrc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 08:47:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231221AbiIWMn0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 08:43:26 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 58F38132D76;
-        Fri, 23 Sep 2022 05:43:24 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AA5C5139F;
-        Fri, 23 Sep 2022 05:43:30 -0700 (PDT)
-Received: from [10.57.2.155] (unknown [10.57.2.155])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4905F3F73B;
-        Fri, 23 Sep 2022 05:43:22 -0700 (PDT)
-Message-ID: <c8f9d6d2-4397-3bbd-da97-865cca56d73a@arm.com>
-Date:   Fri, 23 Sep 2022 13:43:20 +0100
+        with ESMTP id S231506AbiIWMr1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 08:47:27 -0400
+Received: from out1.migadu.com (out1.migadu.com [IPv6:2001:41d0:2:863f::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7605113572D
+        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 05:47:26 -0700 (PDT)
+Date:   Fri, 23 Sep 2022 20:47:05 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1663937244;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:  in-reply-to:in-reply-to;
+        bh=LkjLgyuoqMC4WRzVJ1lHBSuMdnSypXGRA6Y6/dRfTLU=;
+        b=BH2P0yx80HplJJFj5evibSQTi6G29XDhTRSktJ5RLQSnJ6ZO7ju1lg3jUfB0tZ/7x9E5EA
+        X2p59MyUm083ck+HF996Qf0rF2KNptr2cuu2roVRra83skcXtM8/IQ2DqHss+ILbHFtN34
+        9gw07dYNClXZ3cGSrhVddDeyl/7+Q2k=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     alexs@kernel.org, corbet@lwn.net, wu.xiangcheng@linux.dev,
+        linux-doc@vger.kernel.org, Yanteng Si <siyanteng@loongson.cn>,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] docs/zh_CN: Fix build warning
+Message-ID: <Yy2qyUoRq5in4Q+w@bobwxc.mipc>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 0/2] perf: arm64: Kernel support for Dwarf unwinding
- through SVE functions
-Content-Language: en-US
-To:     Will Deacon <will@kernel.org>
-Cc:     catalin.marinas@arm.com, kernel-team@android.com,
-        linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-        acme@kernel.org, john.garry@huawei.com,
-        Jonathan Corbet <corbet@lwn.net>, leo.yan@linaro.org,
-        broonie@kernel.org, linux-doc@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-References: <20220901132658.1024635-1-james.clark@arm.com>
- <166385556279.1475166.2989569100449667346.b4-ty@kernel.org>
- <1dabe308-21f7-aa2e-ee8f-48807878f91b@arm.com>
- <20220923123633.GC13942@willie-the-truck>
-From:   James Clark <james.clark@arm.com>
-In-Reply-To: <20220923123633.GC13942@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220923040419.3787429-1-siyanteng@loongson.cn>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 23/09/2022 13:36, Will Deacon wrote:
-> On Fri, Sep 23, 2022 at 10:32:15AM +0100, James Clark wrote:
->>
->>
->> On 22/09/2022 21:33, Will Deacon wrote:
->>> On Thu, 1 Sep 2022 14:26:56 +0100, James Clark wrote:
->>>> I'm resubmitting this with a few of the changes suggested by Will on V2.
->>>>
->>>> I haven't made any changes regarding the open questions about the
->>>> discoverability or saving the new reg and passing to output_sample()
->>>> because I think it's best to be consistent with the implementations on
->>>> other platforms first. I have explained in more detail on v2 [1].
->>>>
->>>> [...]
->>>
->>> Applied to will (for-next/perf), thanks!
->>>
->>> [1/2] perf: arm64: Add SVE vector granule register to user regs
->>>       https://git.kernel.org/will/c/cbb0c02caf4b
->>> [2/2] arm64/sve: Add Perf extensions documentation
->>>       https://git.kernel.org/will/c/1f2906d1e10a
->>>
->>> Cheers,
->>
->> Thanks Will. Sorry about the build, I will fix my config for next time.
+> Since commit 702f436ab07b ("docs/zh_CN: add dt changesets translation")
+> introduce a build warning:
 > 
-> No problem. For some reason, I was unable to repro the failure locally.
-> Maybe it's a GCC thing?
-
-For me I needed CONFIG_HEADERS_INSTALL and CONFIG_UAPI_HEADER_TEST to
-reproduce it. I was already using gcc, so not sure if it's depends on
-that or not.
-
+> Warning: Documentation/translations/zh_CN/devicetree/changesets.rst
+> references a file that doesn't exist:
+> Documentation/Devicetree/changesets.rst
 > 
-> Will
+> Change the first letter of Devicetree to lowercase.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+
+Better a Fixes: tag.
+
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+
+Thanks,
+
+> ---
+>  Documentation/translations/zh_CN/devicetree/changesets.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/translations/zh_CN/devicetree/changesets.rst b/Documentation/translations/zh_CN/devicetree/changesets.rst
+> index 2ace05f3c377..3df1b03c5695 100644
+> --- a/Documentation/translations/zh_CN/devicetree/changesets.rst
+> +++ b/Documentation/translations/zh_CN/devicetree/changesets.rst
+> @@ -1,7 +1,7 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  .. include:: ../disclaimer-zh_CN.rst
+>  
+> -:Original: Documentation/Devicetree/changesets.rst
+> +:Original: Documentation/devicetree/changesets.rst
+>  
+>  :翻译:
+>  
+> -- 
+> 2.31.1
+> 
+> 
+
+-- 
+Wu XiangCheng	0x32684A40BCA7AEA7
+
