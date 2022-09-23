@@ -2,91 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F6CC6FA86
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 19:02:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89FB5C07E9D
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 19:06:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231440AbiIWTCF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 15:02:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43664 "EHLO
+        id S231239AbiIWTGS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 15:06:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230387AbiIWTCE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 15:02:04 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F42311D0C9;
-        Fri, 23 Sep 2022 12:02:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=shcg4WjPwUQd4grLAK6y7B//HQOlI365zxAI+CXvxxY=; b=RS4B0wtrtJLyhr1dcWtKXBsjbe
-        K89o5e0i5uHjdOzta7PHaf+vUCW7v0D4iSptCxPJGUAnn6+zSJgx8mPRNHZrAl51sr+pjVYoNrRVP
-        pGkDn73DXmMSUsnnF2tVAWMyWECJ95MVnmhEDtoaER3Jo60Ysij3/+tetpd9ekFtbXm3Y893djlyv
-        iPlJ1Fp6fLtvK4IPee8Le9DpCuQHA3aUzvUoycULuEZ7YMJyZFIa+jaPiNPflxOQDfkbEVYfdkgkf
-        diXpBtEM2k5cqG0EpW3oCDFZmcBAOGgA72/HdSuo/T021yyXXzqN58/TWjtwHiGIsGXtkMfOPFKFW
-        ISrkoYJQ==;
-Received: from [2601:1c2:d80:3110::a2e7]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1obnw3-005Tle-8J; Fri, 23 Sep 2022 19:02:03 +0000
-Message-ID: <f5830658-9cd7-4d44-6fd6-d031da1a3442@infradead.org>
-Date:   Fri, 23 Sep 2022 12:02:02 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 2/7] docs: Rewrite the front page
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+        with ESMTP id S230449AbiIWTGR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 15:06:17 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13217124C06;
+        Fri, 23 Sep 2022 12:06:17 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id A7153735;
+        Fri, 23 Sep 2022 19:06:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A7153735
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1663959976; bh=QCxlk2C203yiZmH3NcY7ljKSsBSBefRBwRjTA6IL/TQ=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ICp5cAvPkCiRqpGuumh0+rH/JABU12A+n9wQLyG7X7Bs1ur7+B402rlZAh53DfOpn
+         5Z82QY3IN9UYrzy2bptcQS2p3Y/BdTGGKvXJC0H7YyrdQIi1pWxArxqGIMVllTxz4b
+         b5A7SX/9Kf+fPBPEXx+hrdMx2g9REUoJVNaMM1DetPOKbgxYTJiH/2pw44ojn89YWS
+         cFUXdiRVAtPfudHZvaQVDykeD277fwcLAAQZz1d9Wg26HWUoU3xy0iSqizbU8W4xd5
+         gKdUkvy4Y42djnkoXbO7TB76cxqmKxT7fdlrgsqaf9QL0jZQGLAgNUs2HjU1qJQz6U
+         aMieER5Ny2MtQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Thorsten Leemhuis <linux@leemhuis.info>,
         Kees Cook <keescook@chromium.org>,
         Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2 7/7] docs: put atomic*.txt and memory-barriers.txt
+ into the core-api book
+In-Reply-To: <a22ed923-754a-b757-e0ca-87b6d6e6e8d2@infradead.org>
 References: <20220922204138.153146-1-corbet@lwn.net>
- <20220922204138.153146-3-corbet@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220922204138.153146-3-corbet@lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20220922204138.153146-8-corbet@lwn.net>
+ <a22ed923-754a-b757-e0ca-87b6d6e6e8d2@infradead.org>
+Date:   Fri, 23 Sep 2022 13:06:15 -0600
+Message-ID: <874jwx9ahk.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jonathan,
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-On 9/22/22 13:41, Jonathan Corbet wrote:
-> The front page is the entry point to the documentation, especially for
-> people who read it online.  It's a big mess of everything we could think to
-> toss into it.  Rewrite the page with an eye toward simplicity and making it
-> easy for readers to get going toward what they really want to find.
-> 
-> This is only a beginning, but it makes our docs more approachable than
-> before.
-> 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/index.rst          | 150 +++++++++++--------------------
->  Documentation/subsystem-apis.rst |  58 ++++++++++++
->  2 files changed, 111 insertions(+), 97 deletions(-)
->  create mode 100644 Documentation/subsystem-apis.rst
+> When I look at https://static.lwn.net/kerneldoc/,
+> I want to move these 3 from "Other documentation":
+> Atomic Types
+> Atomic bitops
+> Memory Barriers
+>
+> to "Internal API Manuals", then I saw this patch...
+> Maybe I am misunderstanding. Is this patch supposed to move those 3 items
+> from Other or not?
 
-I don't see a kernel version listed anywhere on the front page
-(maybe it depends on what theme is used?) at
-https://static.lwn.net/kerneldoc/, so I think it needs something like
-this.
+*Sigh*  I somehow pushed an intermediate build of the web pages to that
+site.  That is fixed now; apologies for the confusion.
 
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -18,6 +18,8 @@ documents into a coherent whole.  Please
- documentation are welcome; join the linux-doc list at vger.kernel.org if
- you want to help out.
- 
-+This documentation is for Linux kernel $(KERNELRELEASE).
-+
- Licensing documentation
- -----------------------
- 
+Thanks for taking a look,
 
-The line numbering is probably off a bit, but the big problem is in
-using $(KERNELRELEASE). Would using $(version) [with 'version' coming
-from conf.py] work here? Nope, that doesn't work either.
-
--- 
-~Randy
+jon
