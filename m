@@ -2,72 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4144CC04A95
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 18:48:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F6CC6FA86
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 19:02:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232901AbiIWSs2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 14:48:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49180 "EHLO
+        id S231440AbiIWTCF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 15:02:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229821AbiIWSs1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 14:48:27 -0400
+        with ESMTP id S230387AbiIWTCE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 15:02:04 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8EC31205A0;
-        Fri, 23 Sep 2022 11:48:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F42311D0C9;
+        Fri, 23 Sep 2022 12:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
         Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=t2OLBQEmg4AoUb1NRCujWt4eLSWl7grEqO7FcmKManU=; b=oFo0Ys/xhZAy+k9GdkSrmpOgjI
-        1zDdRO8+3NxQGaKeJURysOSPjtgIV0WzFW433yC0gz/Idd6slmlw6rSKrJzf4ax6LcUwQi4Gc2ePT
-        12SNJlK8ZK66WCJ9CQ65ffQ4yLKe0oJphtrTCED9Dz8e1gxMCynmcb7OLP68OlKziTPda0GaIw/cl
-        9ZOcjeJ9CWLwBcic3YTtk2eZ5t1jwkmLX9BCu75bO+/vOQy0Qncd7P3q0Q6+rlW98fp1JYz1myfYN
-        gbcADmQKRQ9/yM1E8C/ZqqEbbhQ0vZsF0cu7lKD36XakZQA4mKldnuvHu2f6TwB8glgxjlscP7GTO
-        9UrA5EDg==;
+        bh=shcg4WjPwUQd4grLAK6y7B//HQOlI365zxAI+CXvxxY=; b=RS4B0wtrtJLyhr1dcWtKXBsjbe
+        K89o5e0i5uHjdOzta7PHaf+vUCW7v0D4iSptCxPJGUAnn6+zSJgx8mPRNHZrAl51sr+pjVYoNrRVP
+        pGkDn73DXmMSUsnnF2tVAWMyWECJ95MVnmhEDtoaER3Jo60Ysij3/+tetpd9ekFtbXm3Y893djlyv
+        iPlJ1Fp6fLtvK4IPee8Le9DpCuQHA3aUzvUoycULuEZ7YMJyZFIa+jaPiNPflxOQDfkbEVYfdkgkf
+        diXpBtEM2k5cqG0EpW3oCDFZmcBAOGgA72/HdSuo/T021yyXXzqN58/TWjtwHiGIsGXtkMfOPFKFW
+        ISrkoYJQ==;
 Received: from [2601:1c2:d80:3110::a2e7]
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1obnis-005OS9-7z; Fri, 23 Sep 2022 18:48:26 +0000
-Message-ID: <0b717bbd-0b3b-ecf8-e1f5-4641491498c3@infradead.org>
-Date:   Fri, 23 Sep 2022 11:48:25 -0700
+        id 1obnw3-005Tle-8J; Fri, 23 Sep 2022 19:02:03 +0000
+Message-ID: <f5830658-9cd7-4d44-6fd6-d031da1a3442@infradead.org>
+Date:   Fri, 23 Sep 2022 12:02:02 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v2 0/4] Rewrite the top-level index.rst
+Subject: Re: [PATCH v2 2/7] docs: Rewrite the front page
 Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
         Thorsten Leemhuis <linux@leemhuis.info>,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Kees Cook <keescook@chromium.org>,
         Jani Nikula <jani.nikula@linux.intel.com>
 References: <20220922204138.153146-1-corbet@lwn.net>
- <7f02143c-461f-268b-0f17-7fe20a7423d6@leemhuis.info>
- <875yhep5l1.fsf@meer.lwn.net>
+ <20220922204138.153146-3-corbet@lwn.net>
 From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <875yhep5l1.fsf@meer.lwn.net>
+In-Reply-To: <20220922204138.153146-3-corbet@lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Jonathan,
 
-
-On 9/23/22 06:45, Jonathan Corbet wrote:
-> Thorsten Leemhuis <linux@leemhuis.info> writes:
+On 9/22/22 13:41, Jonathan Corbet wrote:
+> The front page is the entry point to the documentation, especially for
+> people who read it online.  It's a big mess of everything we could think to
+> toss into it.  Rewrite the page with an eye toward simplicity and making it
+> easy for readers to get going toward what they really want to find.
 > 
->> On 22.09.22 22:41, Jonathan Corbet wrote:
->>> The top-level index.rst file is the entry point for the kernel's
->>> documentation, especially for readers of the HTML output.  It is currently
->>> a mess containing everything we thought to throw in there.  Firefox says it
->>> would require 26 pages of paper to print it.  That is not a user-friendly
->>> introduction.
->>
+> This is only a beginning, but it makes our docs more approachable than
+> before.
 > 
-> Again ... who are the users?  I maintain that the actual users of our
-> docs are primarily kernel developers.
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  Documentation/index.rst          | 150 +++++++++++--------------------
+>  Documentation/subsystem-apis.rst |  58 ++++++++++++
+>  2 files changed, 111 insertions(+), 97 deletions(-)
+>  create mode 100644 Documentation/subsystem-apis.rst
 
-ACK!
+I don't see a kernel version listed anywhere on the front page
+(maybe it depends on what theme is used?) at
+https://static.lwn.net/kerneldoc/, so I think it needs something like
+this.
 
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -18,6 +18,8 @@ documents into a coherent whole.  Please
+ documentation are welcome; join the linux-doc list at vger.kernel.org if
+ you want to help out.
+ 
++This documentation is for Linux kernel $(KERNELRELEASE).
++
+ Licensing documentation
+ -----------------------
+ 
+
+The line numbering is probably off a bit, but the big problem is in
+using $(KERNELRELEASE). Would using $(version) [with 'version' coming
+from conf.py] work here? Nope, that doesn't work either.
 
 -- 
 ~Randy
