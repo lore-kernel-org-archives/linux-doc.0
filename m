@@ -2,99 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC639ECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 04:25:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 207CEC6FA82
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 05:55:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229953AbiIWEZt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 00:25:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46770 "EHLO
+        id S229570AbiIWFzW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 01:55:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229810AbiIWEZt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 00:25:49 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E430115A63;
-        Thu, 22 Sep 2022 21:25:42 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id y136so11292449pfb.3;
-        Thu, 22 Sep 2022 21:25:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=hd3EpiDY5Yp5kjyghC+w8xTY5Gtmr6LFsGwoEFrFfQQ=;
-        b=jaTSYnPiUKQJZpq63Nj3ZjxDcZtrSwU9JNlC09jquN4REPFd7hg759VNephG44c4en
-         SID+SdrMn15447U9frGUH7T1JmQuEGa5vQArpl4FeViseJ0Xycp22E98hQNCJt09g7Q0
-         ejOyTO4sCcRdY4LWI806i4o2/73MDzBH0uPYF5i/D43wNTNpBZWppQOCa6i1MHxc+hxb
-         2O3konf5Fb4wM9Ha632TB17rGJisAdsp/OrldNf0oMYSXe06MwzymZP8AhC9SPSMMJDd
-         7JrZVz5PsMZHntkt89RaZZoiqB4TeiiHRkf6zU3RWfAfrLnO78h/XhfU/QveEBLzOnkD
-         EiUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=hd3EpiDY5Yp5kjyghC+w8xTY5Gtmr6LFsGwoEFrFfQQ=;
-        b=elfBs4THGvNt7BBcPAj0kv42urosWfIKCByd8HqTeSAHfjpWPXCs7MKJOuo8lqjkRm
-         LtqDsUzxygd4XnW0k1NSTHKgLo/zNxgRxRMUHzGqsXCAjeANH2rihN3tz1qkFzFGBaVw
-         oFNQpcd4zYWHhae/Eov6sgqOc9WrTp00EkP78hNS5srLlxtJKs2+zwfdsUxQl9ENJme/
-         kHXJjzkv6rVlYGnZzTgxW2z4551GhQ2eoQnM3Xkyw2Gsjv/nO1UKgSjlhL2s6Hffka92
-         AG+Q5DIfVrG1nKu4fuvVjPPevZIHhhVD2S1oLtYau4ZQl4Y1EMPQkvjLYrgfPOqbJ6O6
-         BedA==
-X-Gm-Message-State: ACrzQf18+DDl+ZwLGl9gEwvdJktsTbKMvD/rzdPhQag1iODI9MONsIYt
-        FCVE7rGwwYGhTlouLRYPtq8=
-X-Google-Smtp-Source: AMsMyM68aod5tm2PwBh0vxUAIo5yNFhUrzCMAEhsDmjtNgN2CrPCApVUdgUYjV+6Rex1yw95h644Ww==
-X-Received: by 2002:a63:1215:0:b0:43a:827d:dd with SMTP id h21-20020a631215000000b0043a827d00ddmr6141561pgl.98.1663907142045;
-        Thu, 22 Sep 2022 21:25:42 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-23.three.co.id. [116.206.28.23])
-        by smtp.gmail.com with ESMTPSA id o126-20020a625a84000000b0053e84617fe7sm5247361pfb.106.2022.09.22.21.25.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Sep 2022 21:25:41 -0700 (PDT)
-Message-ID: <0ce29b47-1e4b-6c3a-27fa-47e442f1f21e@gmail.com>
-Date:   Fri, 23 Sep 2022 11:25:35 +0700
+        with ESMTP id S229448AbiIWFzV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 01:55:21 -0400
+Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net [83.223.78.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7C31CDCE8;
+        Thu, 22 Sep 2022 22:55:19 -0700 (PDT)
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+         client-signature RSA-PSS (4096 bits) client-digest SHA256)
+        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
+        by bmailout2.hostsharing.net (Postfix) with ESMTPS id 5C284280044E8;
+        Fri, 23 Sep 2022 07:55:18 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+        id 44C7E4F1BA; Fri, 23 Sep 2022 07:55:18 +0200 (CEST)
+Date:   Fri, 23 Sep 2022 07:55:18 +0200
+From:   Lukas Wunner <lukas@wunner.de>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     linux-doc@vger.kernel.org, linux-spi@vger.kernel.org,
+        corbet@lwn.net, broonie@kernel.org
+Subject: Re: [PATCH -next] Documentation: devres: add missing SPI helper
+Message-ID: <20220923055518.GA17668@wunner.de>
+References: <20220917122639.1896965-1-yangyingliang@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 7/7] docs: put atomic*.txt and memory-barriers.txt into
- the core-api book
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Kees Cook <keescook@chromium.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-References: <20220922204138.153146-1-corbet@lwn.net>
- <20220922204138.153146-8-corbet@lwn.net>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220922204138.153146-8-corbet@lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220917122639.1896965-1-yangyingliang@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/23/22 03:41, Jonathan Corbet wrote:
-> @@ -0,0 +1,18 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +   This is a simple wrapper to bring atomic_bitops.txt into the RST world
-> +   until such a time as that file can be converted directly.
-> +
-> +=============
-> +Atomic bitops
-> +=============
-> +
-> +.. raw:: latex
-> +
-> +    \footnotesize
-> +
-> +.. include:: ../../atomic_bitops.txt
-> +   :literal:
-> +
-> +.. raw:: latex
-> +
-> +    \normalsize
+On Sat, Sep 17, 2022 at 08:26:39PM +0800, Yang Yingliang wrote:
+> Add devm_spi_alloc_master() and devm_spi_alloc_slave() to devres.rst.
+> They are introduced by commit 5e844cc37a5c ("spi: Introduce device-managed
+> SPI controller allocation").
+> 
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> ---
+>  Documentation/driver-api/driver-model/devres.rst | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+> index 76cc256c9e4f..1bd6f38dd7e3 100644
+> --- a/Documentation/driver-api/driver-model/devres.rst
+> +++ b/Documentation/driver-api/driver-model/devres.rst
+> @@ -437,6 +437,8 @@ SLAVE DMA ENGINE
+>  
+>  SPI
+>    devm_spi_register_master()
+> +  devm_spi_alloc_master()
+> +  devm_spi_alloc_slave()
+>  
+>  WATCHDOG
+>    devm_watchdog_register_device()
 
-Shouldn't warning like "This documentation isn't in RST format and included
-as literal block" be added?
+Putting the alloc functions above the register function would
+probably be more in line with how they're used.  Apart from that:
 
--- 
-An old man doll... just what I always wanted! - Clara
+Reviewed-by: Lukas Wunner <lukas@wunner.de>
