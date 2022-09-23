@@ -2,128 +2,304 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A2CECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 15:05:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36CB0C6FA82
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 15:20:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232169AbiIWPFz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 11:05:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38560 "EHLO
+        id S232399AbiIWPUe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 11:20:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232180AbiIWPFt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 11:05:49 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EC4EDF688;
-        Fri, 23 Sep 2022 08:05:48 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id r7so469873wrm.2;
-        Fri, 23 Sep 2022 08:05:48 -0700 (PDT)
+        with ESMTP id S232003AbiIWPU2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 11:20:28 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22443E108A
+        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 08:20:25 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id j16so839406lfg.1
+        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 08:20:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date;
-        bh=1k/Im0a6/2zJIZF5Uvpl9nL2Zd7ZEhVf1xGnML7mQiY=;
-        b=fwvD8x9ikvaFa2JHRm3xmN6XKNW4Cqwc4zSMWm3ljNVL3uDPfsqUwBUpfRJ8Qg6qks
-         pEZHwQnpYt3wBLZ7P43se/UO1By3C2nqrPO2dPtAn9sXxnEpa+wQZNgsT8wlWQXY3TfF
-         ynCJ07Pq+bKlXpZwmhSRW9R991Pdx911pIVip/BOmpPRXFlOVq88yuXLozEvb76Jw4ge
-         SVWiCCEZv/fBCRG64G5VdsNy7t8lBUqm17kyuLjuJDlgjc7vGKCmsSiUcReGjwVKPjgk
-         gUiYEyWFA8a97kYqjBaMsmVb/0PNk4wxE9V0LH2adLuTXEF5WszG+J4ohTM+7U15Ub4L
-         F28Q==
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date;
+        bh=Zow8yFZS7DL+sQi+dFI8ktR+CVObD/Cj7M/2zMgZrcE=;
+        b=OwesCIlz00EUn7DRsMx0DjzCHBk8S/+Xi2g5fPxGQhSRVaCPRjRDdaU3EoxDGBycWF
+         WjeJOwauK+2vsuvUb0vjkRCZ4RMivueV3nfN+bQNkdWetxD6j+QKSjPsuee2Tp2n38Jz
+         /iJsK25fqBHvk1flzzUqT6xcaD2Kcry+CP91ebbpRaH+7JaO7k+DDGbA80azTpePJHUo
+         C9mi6Q2+k5+aqh7plurR6pEpUr9EvDPbLxCLDRinQNGibIiinnoVBg84EnbuaBKnPpUT
+         cKT++hkuZ7OScqK5B4U9F14Zu14fLK/+p4hCg8Uwqh1UdA/pssHQoaFSPvqyG9cck4Rn
+         GTYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=1k/Im0a6/2zJIZF5Uvpl9nL2Zd7ZEhVf1xGnML7mQiY=;
-        b=WCRjGkcgsCKwh643Dr7944mTQ/gDdU/2Ul8FrIxNH3DLWAAvRhczBwESLa7DfraoyQ
-         mpP6Q9kwRpmwWV+MWy2szDpbimHByHsglCJgdHFB7quxRWEPBoq5SP2HHTpD9ZXvqV9R
-         6MrAl50GR+86SGcw88qdddaTXvOLrhnYpY2ilIvh0WacniTVvi+JCBIiIgh+zAnqJtDj
-         qJrGICB+uKQl2OsICaUMU0dgjBTBw+51V3FLEzaBXnmodE8FcoDxw76VVGqMMyHfzaWy
-         CxQ+/enmgcohKVWQW0SzV/a3BsjhsNuFosR2JmHsYp/ZpjOUAiGGsvobrtBwo3EWmD3m
-         V3lg==
-X-Gm-Message-State: ACrzQf1q0W2vBYAkyPF0u5bzePjzD7DffygdBq2ppgt+gjMcmE574b5V
-        a9MotiTJTQ68xmbbu6mxQUXhXmUV2bZwRA==
-X-Google-Smtp-Source: AMsMyM5D3niELpKni0WfW68gWeRMJyv0hMsxrtzmrNE0ODyW7ZPISv+Hw3GWMHBOFyqAMGQpC2/prQ==
-X-Received: by 2002:adf:f5d0:0:b0:228:6ca8:21f2 with SMTP id k16-20020adff5d0000000b002286ca821f2mr5851709wrp.271.1663945546478;
-        Fri, 23 Sep 2022 08:05:46 -0700 (PDT)
-Received: from imac ([88.97.103.74])
-        by smtp.gmail.com with ESMTPSA id g11-20020a05600c310b00b003b4fe03c881sm2831391wmo.48.2022.09.23.08.05.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Sep 2022 08:05:45 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Subject: Re: [PATCH bpf-next v4 2/2] Add table of BPF program types to
- libbpf docs
-In-Reply-To: <Yy2zBAIFGGBMe4k1@debian.me> (Bagas Sanjaya's message of "Fri, 23
-        Sep 2022 20:22:12 +0700")
-Date:   Fri, 23 Sep 2022 16:05:11 +0100
-Message-ID: <m2czbm872w.fsf@gmail.com>
-References: <20220922115257.99815-1-donald.hunter@gmail.com>
-        <20220922115257.99815-3-donald.hunter@gmail.com>
-        <Yy2zBAIFGGBMe4k1@debian.me>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=Zow8yFZS7DL+sQi+dFI8ktR+CVObD/Cj7M/2zMgZrcE=;
+        b=PL/Ah0OhJa7FmH9tFxNO4qHIeabqJgIy32ILBuKgPvQ5J2BYBiKQz8t5BlxIw4r7NJ
+         ZngvBNo6e2dw9LMen5uHaAGnFwAj13/NfQ3gPeC70/s52VI2ssaxrjFrmGX76l0g6lE0
+         6zC3htIxU7po7NdsrNyY4Rj2WT3a8QanH7S5po7g3uyM6tQzz4z/BGXLoz/2HdnTHDgi
+         pVOn1jSLMJ/Pua7UvDsjV+WCpuE4dR5pM8ZtIj328mbGOpbyFXrt3yRzBms5luOi1Y0+
+         SqQfqrTYuiOskL1rU7HZDoxb9tF8OBMat28lF5lSJ09rt02LfGBLoIu0bgZR3Ke5rZoc
+         cXwA==
+X-Gm-Message-State: ACrzQf02Mb6zKGJer74/qNecQ0M80peoNXXVjmzn4Gkzo6D1ftbUw3P2
+        IxDbBqR61+pDOU+EnFF/guKlU9Rse+YW1TH9WxHjnQ==
+X-Google-Smtp-Source: AMsMyM78W2SpygRyWA6BwLCi+G+Q9AwHIlqubh16dKOB9mvu+zIZ03puXTWepUQ7h9eMZBQnICvUmLJxtqa9A8Z7/3M=
+X-Received: by 2002:a05:6512:3612:b0:499:aea7:8bed with SMTP id
+ f18-20020a056512361200b00499aea78bedmr3269322lfs.26.1663946423216; Fri, 23
+ Sep 2022 08:20:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com> <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
+ <Yyi+l3+p9lbBAC4M@google.com>
+In-Reply-To: <Yyi+l3+p9lbBAC4M@google.com>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Fri, 23 Sep 2022 16:19:46 +0100
+Message-ID: <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Hi,
 
-> On Thu, Sep 22, 2022 at 12:52:57PM +0100, Donald Hunter wrote:
->> +..
->> +  program_types.csv is generated from tools/lib/bpf/libbpf.c and is formatted like this:
->> +    Program Type,Attach Type,ELF Section Name,Sleepable
->> +    ``BPF_PROG_TYPE_SOCKET_FILTER``,,``socket``,
->> +    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT_OR_MIGRATE``,``sk_reuseport/migrate``,
->> +    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT``,``sk_reuseport``,
->> +    ``BPF_PROG_TYPE_KPROBE``,,``kprobe+``,
->> +    ``BPF_PROG_TYPE_KPROBE``,,``uprobe+``,
->> +    ``BPF_PROG_TYPE_KPROBE``,,``uprobe.s+``,Yes
+On Mon, Sep 19, 2022 at 8:10 PM Sean Christopherson <seanjc@google.com> wro=
+te:
 >
-> The note above doesn't get rendered on htmldocs output, so I have applied
-> the fixup:
-
-It was intended to be a comment to the reader of program_types.rst that
-this is the format of the .csv file that will be rendered. It was not
-meant to be a note on the rendered page.
-
-The rendered page will show the table that is produced by the csv-table
-directive which is self explanatory.
-
+> +Will, Marc and Fuad (apologies if I missed other pKVM folks)
 >
-> ---- >8 ----
+> On Mon, Sep 19, 2022, David Hildenbrand wrote:
+> > On 15.09.22 16:29, Chao Peng wrote:
+> > > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > >
+> > > KVM can use memfd-provided memory for guest memory. For normal usersp=
+ace
+> > > accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
+> > > virtual address space and then tells KVM to use the virtual address t=
+o
+> > > setup the mapping in the secondary page table (e.g. EPT).
+> > >
+> > > With confidential computing technologies like Intel TDX, the
+> > > memfd-provided memory may be encrypted with special key for special
+> > > software domain (e.g. KVM guest) and is not expected to be directly
+> > > accessed by userspace. Precisely, userspace access to such encrypted
+> > > memory may lead to host crash so it should be prevented.
+> >
+> > Initially my thaught was that this whole inaccessible thing is TDX spec=
+ific
+> > and there is no need to force that on other mechanisms. That's why I
+> > suggested to not expose this to user space but handle the notifier
+> > requirements internally.
+> >
+> > IIUC now, protected KVM has similar demands. Either access (read/write)=
+ of
+> > guest RAM would result in a fault and possibly crash the hypervisor (at
+> > least not the whole machine IIUC).
 >
-> diff --git a/Documentation/bpf/libbpf/program_types.rst b/Documentation/bpf/libbpf/program_types.rst
-> index b74fbf3363dd6c..3ce0ec94b399b4 100644
-> --- a/Documentation/bpf/libbpf/program_types.rst
-> +++ b/Documentation/bpf/libbpf/program_types.rst
-> @@ -16,15 +16,17 @@ When ``extras`` are specified, they provide details of how to auto-attach the BP
->  The format of ``extras`` depends on the program type, e.g. ``SEC("tracepoint/<category>/<name>")``
->  for tracepoints or ``SEC("usdt/<path-to-binary>:<usdt_provider>:<usdt_name>")`` for USDT probes.
->  
-> -..
-> -  program_types.csv is generated from tools/lib/bpf/libbpf.c and is formatted like this:
-> -    Program Type,Attach Type,ELF Section Name,Sleepable
-> -    ``BPF_PROG_TYPE_SOCKET_FILTER``,,``socket``,
-> -    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT_OR_MIGRATE``,``sk_reuseport/migrate``,
-> -    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT``,``sk_reuseport``,
-> -    ``BPF_PROG_TYPE_KPROBE``,,``kprobe+``,
-> -    ``BPF_PROG_TYPE_KPROBE``,,``uprobe+``,
-> -    ``BPF_PROG_TYPE_KPROBE``,,``uprobe.s+``,Yes
-> +.. note::
-> +   The table below is generated from ``tools/lib/bpf/libbpf.c`` and is
-> +   formatted like this (in CSV format)::
-> +
-> +     Program Type,Attach Type,ELF Section Name,Sleepable
-> +     BPF_PROG_TYPE_SOCKET_FILTER,,socket,
-> +     BPF_PROG_TYPE_SK_REUSEPORT,BPF_SK_REUSEPORT_SELECT_OR_MIGRATE,sk_reuseport/migrate,
-> +     BPF_PROG_TYPE_SK_REUSEPORT,BPF_SK_REUSEPORT_SELECT,sk_reuseport,
-> +     BPF_PROG_TYPE_KPROBE,,kprobe+,
-> +     BPF_PROG_TYPE_KPROBE,,uprobe+,
-> +     BPF_PROG_TYPE_KPROBE,,uprobe.s+,Yes
->  
->  .. csv-table:: Program Types and Their ELF Section Names
->     :file: program_types.csv
->  
-> Thanks.
+> Yep.  The missing piece for pKVM is the ability to convert from shared to=
+ private
+> while preserving the contents, e.g. to hand off a large buffer (hundreds =
+of MiB)
+> for processing in the protected VM.  Thoughts on this at the bottom.
+
+Just wanted to mention that for pKVM (arm64), this wouldn't crash the
+hypervisor. A userspace access would crash the userspace process since
+the hypervisor would inject a fault back. Because of that making it
+inaccessible from userspace is good to have, but not really vital for
+pKVM. What is important for pKVM is that the guest private memory is
+not GUP'able by the host. This is because if it were, it might be
+possible for a malicious userspace process (e.g., a malicious vmm) to
+trick the host kernel into accessing guest private memory in a context
+where it isn=E2=80=99t prepared to handle the fault injected by the
+hypervisor. This of course might crash the host.
+
+> > > This patch introduces userspace inaccessible memfd (created with
+> > > MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
+> > > ordinary MMU access (e.g. read/write/mmap) but can be accessed via
+> > > in-kernel interface so KVM can directly interact with core-mm without
+> > > the need to map the memory into KVM userspace.
+> >
+> > With secretmem we decided to not add such "concept switch" flags and in=
+stead
+> > use a dedicated syscall.
+> >
+>
+> I have no personal preference whatsoever between a flag and a dedicated s=
+yscall,
+> but a dedicated syscall does seem like it would give the kernel a bit mor=
+e
+> flexibility.
+>
+> > What about memfd_inaccessible()? Especially, sealing and hugetlb are no=
+t
+> > even supported and it might take a while to support either.
+>
+> Don't know about sealing, but hugetlb support for "inaccessible" memory n=
+eeds to
+> come sooner than later.  "inaccessible" in quotes because we might want t=
+o choose
+> a less binary name, e.g. "restricted"?.
+>
+> Regarding pKVM's use case, with the shim approach I believe this can be d=
+one by
+> allowing userspace mmap() the "hidden" memfd, but with a ton of restricti=
+ons
+> piled on top.
+>
+> My first thought was to make the uAPI a set of KVM ioctls so that KVM cou=
+ld tightly
+> tightly control usage without taking on too much complexity in the kernel=
+, but
+> working through things, routing the behavior through the shim itself migh=
+t not be
+> all that horrific.
+>
+> IIRC, we discarded the idea of allowing userspace to map the "private" fd=
+ because
+> things got too complex, but with the shim it doesn't seem _that_ bad.
+>
+> E.g. on the memfd side:
+>
+>   1. The entire memfd must be mapped, and at most one mapping is allowed,=
+ i.e.
+>      mapping is all or nothing.
+>
+>   2. Acquiring a reference via get_pfn() is disallowed if there's a mappi=
+ng for
+>      the restricted memfd.
+>
+>   3. Add notifier hooks to allow downstream users to further restrict thi=
+ngs.
+>
+>   4. Disallow splitting VMAs, e.g. to force userspace to munmap() everyth=
+ing in
+>      one shot.
+>
+>   5. Require that there are no outstanding references at munmap().  Or if=
+ this
+>      can't be guaranteed by userspace, maybe add some way for userspace t=
+o wait
+>      until it's ok to convert to private?  E.g. so that get_pfn() doesn't=
+ need
+>      to do an expensive check every time.
+>
+>   static int memfd_restricted_mmap(struct file *file, struct vm_area_stru=
+ct *vma)
+>   {
+>         if (vma->vm_pgoff)
+>                 return -EINVAL;
+>
+>         if ((vma->vm_end - vma->vm_start) !=3D <file size>)
+>                 return -EINVAL;
+>
+>         mutex_lock(&data->lock);
+>
+>         if (data->has_mapping) {
+>                 r =3D -EINVAL;
+>                 goto err;
+>         }
+>         list_for_each_entry(notifier, &data->notifiers, list) {
+>                 r =3D notifier->ops->mmap_start(notifier, ...);
+>                 if (r)
+>                         goto abort;
+>         }
+>
+>         notifier->ops->mmap_end(notifier, ...);
+>         mutex_unlock(&data->lock);
+>         return 0;
+>
+>   abort:
+>         list_for_each_entry_continue_reverse(notifier &data->notifiers, l=
+ist)
+>                 notifier->ops->mmap_abort(notifier, ...);
+>   err:
+>         mutex_unlock(&data->lock);
+>         return r;
+>   }
+>
+>   static void memfd_restricted_close(struct vm_area_struct *vma)
+>   {
+>         mutex_lock(...);
+>
+>         /*
+>          * Destroy the memfd and disable all future accesses if there are
+>          * outstanding refcounts (or other unsatisfied restrictions?).
+>          */
+>         if (<outstanding references> || ???)
+>                 memfd_restricted_destroy(...);
+>         else
+>                 data->has_mapping =3D false;
+>
+>         mutex_unlock(...);
+>   }
+>
+>   static int memfd_restricted_may_split(struct vm_area_struct *area, unsi=
+gned long addr)
+>   {
+>         return -EINVAL;
+>   }
+>
+>   static int memfd_restricted_mapping_mremap(struct vm_area_struct *new_v=
+ma)
+>   {
+>         return -EINVAL;
+>   }
+>
+> Then on the KVM side, its mmap_start() + mmap_end() sequence would:
+>
+>   1. Not be supported for TDX or SEV-SNP because they don't allow adding =
+non-zero
+>      memory into the guest (after pre-boot phase).
+>
+>   2. Be mutually exclusive with shared<=3D>private conversions, and is al=
+lowed if
+>      and only if the entire gfn range of the associated memslot is shared=
+.
+
+In general I think that this would work with pKVM. However, limiting
+private<->shared conversions to the granularity of a whole memslot
+might be difficult to handle in pKVM, since the guest doesn't have the
+concept of memslots. For example, in pKVM right now, when a guest
+shares back its restricted DMA pool with the host it does so at the
+page-level. pKVM would also need a way to make an fd accessible again
+when shared back, which I think isn't possible with this patch.
+
+You were initially considering a KVM ioctl for mapping, which might be
+better suited for this since KVM knows which pages are shared and
+which ones are private. So routing things through KVM might simplify
+things and allow it to enforce all the necessary restrictions (e.g.,
+private memory cannot be mapped). What do you think?
+
+Thanks,
+/fuad
