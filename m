@@ -2,67 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0481C6FA82
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 15:21:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55F6CECAAD8
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 15:21:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231991AbiIWPVH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 11:21:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35566 "EHLO
+        id S232564AbiIWPV3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 11:21:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232542AbiIWPU7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 11:20:59 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8201813D1C3
-        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 08:20:52 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id z20so456043ljq.3
-        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 08:20:52 -0700 (PDT)
+        with ESMTP id S232477AbiIWPVD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 11:21:03 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56FEBEE662
+        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 08:20:59 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id k10so817659lfm.4
+        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 08:20:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=SUWKwcsZsry2fgvm0fDpc5kVnOus3A4t37kogjVDCAM=;
-        b=ENR7gm/ufNi1bXyPhRkLqOIR8X61pAuHZDAxvBQJtBMo1XxcJXpZCyvZXjdZtxEGqs
-         Rld/BEcs2SP4Qyo9L4ZnVLbMttpTZWKLplZzijm55RmkSXps8vg+nlMTQRL8Q8n8sP8V
-         PQt74elT4aSaOtht+ghVFN1gYzIIvLmyZUBZycxab9teGDT4klNyOyRb/aF7xVrdEhn9
-         7oLI/l2Io92zNWZn3GSEQCNXcxdOVW4hgKbxpiZ3V8r6dHHCPZ3UDzrOP3Zt+jMD0Csi
-         vmw3ypm10IkLOpdYu1J8qcIYc6CXN4laL/fqx5HsbDxujMM99DHcUV+6BWkduPO9udYw
-         ZNYQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=buJ2Vw0w3M4WrtI5/DU3oXsQobrkkmx9rFyElDeN7mE=;
+        b=e4OQSAjFu3gpxUO4Unn7HPTzW4khEaeLVPKzk0HjIO1WzfoYTIkCo/F1RYrvwR66SF
+         JwCMt5XxADhIKzoYXxMVuOAC/AuI4zxQZgSxUcFBjf8hrr2yXlfmAMcitgt6vZxhWH7Z
+         +VIcwj2/Ns3wteLBkCd1UIvA6lB5eXh/e73AYfVmUkfoy7XbWsS6Q2HYL5D+SrhsOsPZ
+         qOl0jP48UI31PUrNDZzwE9j3uXZ/4o/lWYfvXhojlsVXKd3GrscU+YcreZEHR9zMjYjf
+         xc0uDmUYT7UwO9Q1pGoCLduSZHAasvlCEIMiRTg83bldOSofpAYj2YT99ZO5jc8hyvkT
+         Y9Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=SUWKwcsZsry2fgvm0fDpc5kVnOus3A4t37kogjVDCAM=;
-        b=1sOvC4sFgu1n896XpSt7rsfrT8+3Gh0xCsuwryidoGXKH6Gnlyzi85fV5Mp1cgBT8n
-         eBJvm/DWXVBjdvlY0TteBDtbXqyFWtg84rQzGr+l0iykzn0NZ8nQeTXGWzFp5+9Ed2AC
-         oz33p01N2AICaFU/DDCYYH2MqqwOJ6V9K60kwJBAxDfspYFsspIwp/v9UIq8dG0eTDMb
-         PsOKttQAdiyjAo4MFZKUTEXXa9simAGviTLfdgaAT87KLwjyBDVUOdtpHo/6KG7QHOIT
-         ishNHSuZRxa3vqA3DDvjfftSP8jOh5Xzf4l04PQhXyGAPCCS2R5UvHa2bbv43oEZ18i9
-         mivw==
-X-Gm-Message-State: ACrzQf04AYppGj0bnNms/+VSgP5H8NMrpImg5cpM6tmoY6hrbn/dcOAI
-        8UCt47d4Epu14NKGHn4SetHz2h6JeOSUe37x2uMpgA==
-X-Google-Smtp-Source: AMsMyM7wJ1CjDy1uo28Cq+7fc7qkrSMtXjul2vWncBmw/XrFOfxAvAKrbpIhjT0LJgDsFIw328yn+2TOFJu3bRs5xe4=
-X-Received: by 2002:a05:651c:1508:b0:26c:622e:abe1 with SMTP id
- e8-20020a05651c150800b0026c622eabe1mr3040402ljf.228.1663946450628; Fri, 23
- Sep 2022 08:20:50 -0700 (PDT)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=buJ2Vw0w3M4WrtI5/DU3oXsQobrkkmx9rFyElDeN7mE=;
+        b=jNTQ2cLaRQGjbr98NTeTkpsaFiUhm8VC/27jai4XCj2E9+E7xyZvcrEjDcagJ7EqDG
+         F7M6mHBWWbUBcr9O6pQFEOLssgKcWkR++TLvE0CbK3xb3op88atm6lpfkOSZJx/LuRan
+         bQfFIVvmQPtF8JdgeTyG4Aiv7d57EPhEW4wpFx4KyGKKa/15+QbGxZGniE5eF1YNrp85
+         dvwyg3Lm1SCKQgciNqgpnn8YWLWFs5fhNVNxcptvZYJMTunFtavsx0jaYx/D5GH/o5oc
+         aPmkW4mSYkPTG2JRqvivl68i05rCXOC43tmOnpJp+HoW3rEZFcEsJVsy9EBCszvTnzz4
+         QlAg==
+X-Gm-Message-State: ACrzQf2hlvVjoLWkUBCai8jk0iX/K25NS9f2GfbsUKMD4FieLB0nBfG5
+        95tkRO53FUAfcispln+y2WedCC5gyRDeg6UG8eEaYg==
+X-Google-Smtp-Source: AMsMyM7tQgOI6niyU5IXyfNHgsog0iDYl0WXgb5yVh7a8oMMnxo4TbbSeRkhbm4RLcMIb8opCLgiEX29WHKjDwAENJs=
+X-Received: by 2002:a05:6512:b85:b0:499:202a:bde9 with SMTP id
+ b5-20020a0565120b8500b00499202abde9mr3630798lfv.550.1663946457534; Fri, 23
+ Sep 2022 08:20:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com> <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
- <Yyi+l3+p9lbBAC4M@google.com> <84e81d21-c800-4fd5-ad7c-f20bcdd7508b@www.fastmail.com>
-In-Reply-To: <84e81d21-c800-4fd5-ad7c-f20bcdd7508b@www.fastmail.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com> <DS0PR11MB63734D4DF4C4F368805EC97DDC4E9@DS0PR11MB6373.namprd11.prod.outlook.com>
+ <Yyy8Pp0Y4NRzIzNw@google.com> <20220923005319.wkzpl36uailh4zbw@box.shutemov.name>
+In-Reply-To: <20220923005319.wkzpl36uailh4zbw@box.shutemov.name>
 From:   Fuad Tabba <tabba@google.com>
-Date:   Fri, 23 Sep 2022 16:20:13 +0100
-Message-ID: <CA+EHjTzt6grmRx59ziG6LHWBsE598dxiOYqqRM4cKvpF3ujqHg@mail.gmail.com>
+Date:   Fri, 23 Sep 2022 16:20:21 +0100
+Message-ID: <CA+EHjTy+2JG_=Xw5ojwZAW6+3Nr4-4a8YCBxWN5PmAhh7jjT+A@mail.gmail.com>
 Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-To:     Andy Lutomirski <luto@kernel.org>
+To:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
-        David Hildenbrand <david@redhat.com>,
+        "Wang, Wei W" <wei.w.wang@intel.com>,
         Chao Peng <chao.p.peng@linux.intel.com>,
-        kvm list <kvm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
@@ -71,8 +72,8 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Joerg Roedel <joro@8bytes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
         Jeff Layton <jlayton@kernel.org>,
         "J . Bruce Fields" <bfields@fieldses.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -82,87 +83,60 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Vishal Annapurve <vannapurve@google.com>,
         Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
         "Nakajima, Jun" <jun.nakajima@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "ak@linux.intel.com" <ak@linux.intel.com>,
+        "david@redhat.com" <david@redhat.com>,
+        "aarcange@redhat.com" <aarcange@redhat.com>,
+        "ddutile@redhat.com" <ddutile@redhat.com>,
+        "dhildenb@redhat.com" <dhildenb@redhat.com>,
         Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
+        "Hocko, Michal" <mhocko@suse.com>,
+        Muchun Song <songmuchun@bytedance.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi,
 
-<...>
-
-> > Regarding pKVM's use case, with the shim approach I believe this can be=
- done by
-> > allowing userspace mmap() the "hidden" memfd, but with a ton of restric=
-tions
-> > piled on top.
-> >
-> > My first thought was to make the uAPI a set of KVM ioctls so that KVM
-> > could tightly
-> > tightly control usage without taking on too much complexity in the
-> > kernel, but
-> > working through things, routing the behavior through the shim itself
-> > might not be
-> > all that horrific.
-> >
-> > IIRC, we discarded the idea of allowing userspace to map the "private"
-> > fd because
-> > things got too complex, but with the shim it doesn't seem _that_ bad.
+On Fri, Sep 23, 2022 at 1:53 AM Kirill A . Shutemov
+<kirill.shutemov@linux.intel.com> wrote:
 >
-> What's the exact use case?  Is it just to pre-populate the memory?
+> On Thu, Sep 22, 2022 at 07:49:18PM +0000, Sean Christopherson wrote:
+> > On Thu, Sep 22, 2022, Wang, Wei W wrote:
+> > > On Thursday, September 15, 2022 10:29 PM, Chao Peng wrote:
+> > > > +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
+> > > > +                  int *order)
+> > >
+> > > Better to remove "order" from this interface?
+> >
+> > Hard 'no'.
+> >
+> > > Some callers only need to get pfn, and no need to bother with
+> > > defining and inputting something unused. For callers who need the "order",
+> > > can easily get it via thp_order(pfn_to_page(pfn)) on their own.
+> >
+> > That requires (a) assuming the pfn is backed by struct page, and (b) assuming the
+> > struct page is a transparent huge page.  That might be true for the current
+> > implementation, but it most certainly will not always be true.
+> >
+> > KVM originally did things like this, where there was dedicated code for THP vs.
+> > HugeTLB, and it was a mess.  The goal here is very much to avoid repeating those
+> > mistakes.  Have the backing store _tell_ KVM how big the mapping is, don't force
+> > KVM to rediscover the info on its own.
+>
+> I guess we can allow order pointer to be NULL to cover caller that don't
+> need to know the order. Is it useful?
 
-Prepopulate memory and access memory that could go back and forth from
-being shared to being private.
+I think that would be useful. In pKVM we don't need to know the order,
+and I had to use a dummy variable when porting V7.
 
 Cheers,
 /fuad
 
 
-
-> >
-> > E.g. on the memfd side:
-> >
-> >   1. The entire memfd must be mapped, and at most one mapping is allowe=
-d, i.e.
-> >      mapping is all or nothing.
-> >
-> >   2. Acquiring a reference via get_pfn() is disallowed if there's a map=
-ping for
-> >      the restricted memfd.
-> >
-> >   3. Add notifier hooks to allow downstream users to further restrict t=
-hings.
-> >
-> >   4. Disallow splitting VMAs, e.g. to force userspace to munmap() every=
-thing in
-> >      one shot.
-> >
-> >   5. Require that there are no outstanding references at munmap().  Or =
-if this
-> >      can't be guaranteed by userspace, maybe add some way for userspace=
- to wait
-> >      until it's ok to convert to private?  E.g. so that get_pfn() doesn=
-'t need
-> >      to do an expensive check every time.
->
-> Hmm.  I haven't looked at the code to see if this would really work, but =
-I think this could be done more in line with how the rest of the kernel wor=
-ks by using the rmap infrastructure.  When the pKVM memfd is in not-yet-pri=
-vate mode, just let it be mmapped as usual (but don't allow any form of GUP=
- or pinning).  Then have an ioctl to switch to to shared mode that takes lo=
-cks or sets flags so that no new faults can be serviced and does unmap_mapp=
-ing_range.
->
-> As long as the shim arranges to have its own vm_ops, I don't immediately =
-see any reason this can't work.
+> --
+>   Kiryl Shutsemau / Kirill A. Shutemov
