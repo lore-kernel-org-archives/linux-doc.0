@@ -2,238 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14877ECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 06:34:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1772ECAAD8
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 07:34:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230376AbiIWGe6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 02:34:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35584 "EHLO
+        id S229954AbiIWHej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 03:34:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230378AbiIWGe4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 02:34:56 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 143923135D
-        for <linux-doc@vger.kernel.org>; Thu, 22 Sep 2022 23:34:51 -0700 (PDT)
-Received: from [192.168.100.8] (unknown [112.20.112.163])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8CxbWuDUy1jGYYgAA--.9318S3;
-        Fri, 23 Sep 2022 14:34:43 +0800 (CST)
-Message-ID: <b18d769d-933f-dc58-8c52-270cb8e51ddb@loongson.cn>
-Date:   Fri, 23 Sep 2022 06:34:40 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 1/2] docs/zh_CN: Update zh_CN/admin-guide/README.rst to
- 6.0-rc2
-To:     Wu XiangCheng <wu.xiangcheng@linux.dev>,
-        Alex Shi <alexs@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Tang Yizhou <tangyizhou@huawei.com>,
-        Shile Zhang <shile.zhang@linux.alibaba.com>,
-        linux-doc@vger.kernel.org
-References: <cover.1663850554.git.bobwxc@email.cn>
- <7f6e0b8961f79befa62e0070f9682ab3abde8622.1663850554.git.bobwxc@email.cn>
-From:   YanTeng Si <siyanteng@loongson.cn>
-In-Reply-To: <7f6e0b8961f79befa62e0070f9682ab3abde8622.1663850554.git.bobwxc@email.cn>
+        with ESMTP id S229928AbiIWHei (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 03:34:38 -0400
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60119.outbound.protection.outlook.com [40.107.6.119])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0C462A247;
+        Fri, 23 Sep 2022 00:34:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dAHuuhZgSs1oRlHwhqbcqPH8N3aBWsAsziyjdl7Mzlncy/xwv2XtDwnY+eA3fnh5ehbIIBdT+IfBHvdqj0qqGx7VgiuBNeUUMZzCVWMahxsdWXUGF5OM1rJZSEPBmgSawhFc96rwAb/92oXGMgJZIHD4ciz4jlofR34JMseAD0Z1hJnbBzdkEhAuOAMa8yM34bDmQS2ezDVR08g1AVU2w2R4qQ2+ExyX6cJhBhfAErEulV9/ewOXS3TjJg3LmfqUsu5L4NP2sSiliw9JjjTlG60zAQAwE7Lz7/Ffls4UsvHYjX94AKBnu6408D/OtOqjGx8o84fzz/3jZyhBaqXPkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fjOYn/4k09qNOyxi88hh7BxnKaKDN3zBNvOmPFWhqjo=;
+ b=gXZ9WlF8F4rR6diMs2t0KomNmOJyZP4ZjC4uCCZGv8nhnRxv7mB3vEtTNk82pfKJx3cI1tmzMdxX5Y7DigHj43HaQJt4YgYPyDdX4WoCYnwIr3lepZvkThSsWoHUyG+x4OgRB/m/3J+R9G9vX1EMEOj4en4WWgvcwr4X7eqgVco4nO/ZtAIi2lECAI+gZ9rHIYeQb+DYyl27FjGb3t/JUzlbQOHnFI4H2Gb7ip5TfQU0pM7FAlL5I/om5gQZfF/gy3HMqjK/U2tuhEKx2uZcN8ax/LjLmoZc8JsQkDwXTobwGo9bACrEr+qiG/ebMFfckm0ncFtTp9OCKSFpOdvkVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fjOYn/4k09qNOyxi88hh7BxnKaKDN3zBNvOmPFWhqjo=;
+ b=Y2pDOSHKlJIC5k+qk/8fQc7UEIJay/t+ixY0BMxNyUfjxok8caMSznWqL3iMtk1ElRXG2JBxtOb0sm5Rw6b+4zbmwfDtMYWxYRzg1lZP31NACvNj9IkOEwWs3q/97QWKN4McURWhYfy4ew0SRXu3O1XwG/SCnSn+WL4OIIhEtP7EnZKXouuWmen/G11iQdUl0/xtXEVOGjpiWOVHWfCdnhwIqDfJ1uX+AOhn07Ob9pS+j4vsV9YBfqpvLw4OcEnj8rO7k9IeUF2yDxyBRTFM3P74P52lbjOhdFiK0X1CcfC2i3VWAXzoicqVYBTsNwwaqccgOiCAA0ZzJjl53d7CWg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from VE1PR08MB4765.eurprd08.prod.outlook.com (2603:10a6:802:a5::16)
+ by GV1PR08MB7803.eurprd08.prod.outlook.com (2603:10a6:150:5a::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.18; Fri, 23 Sep
+ 2022 07:34:31 +0000
+Received: from VE1PR08MB4765.eurprd08.prod.outlook.com
+ ([fe80::2846:1df0:88bb:451f]) by VE1PR08MB4765.eurprd08.prod.outlook.com
+ ([fe80::2846:1df0:88bb:451f%3]) with mapi id 15.20.5654.020; Fri, 23 Sep 2022
+ 07:34:31 +0000
+Message-ID: <30063d97-69f0-bea2-9d59-108140995bfc@virtuozzo.com>
+Date:   Fri, 23 Sep 2022 10:34:28 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.2.2
+Subject: Re: [PATCH v2] mm: Make failslab writable again
+To:     Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Roman Gushchin <roman.gushchin@linux.dev>, kernel@openvz.org,
+        Kees Cook <keescook@chromium.org>,
+        Roman Gushchin <guro@fb.com>, Jann Horn <jannh@google.com>,
+        Vijayanand Jitta <vjitta@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+References: <20220920121111.1792905-1-alexander.atanasov@virtuozzo.com>
+ <Yyr1xONdw8dBgsKr@hyeyoo>
+From:   Alexander Atanasov <alexander.atanasov@virtuozzo.com>
+In-Reply-To: <Yyr1xONdw8dBgsKr@hyeyoo>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxbWuDUy1jGYYgAA--.9318S3
-X-Coremail-Antispam: 1UD129KBjvJXoWfJFy7AFW5Ar17Ww13WryfJFb_yoWkJFykpF
-        ZrKryxta17GFy5Gry8Kr1kCF13Jan293y3Ga40yas3A34FyFZrtwsF9345Wwn7W34xGFy0
-        yFyDZrW0krW2v37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUU9qb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
-        0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M280x2IEY4vE77IFxV
-        WUZVW8XwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE
-        14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E87
-        Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq
-        07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r
-        18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l
-        c7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE14v_GF1l42xK82IYc2Ij64vIr41l4I8I3I
-        0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWU
-        GVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI
-        0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0
-        rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r
-        4UJbIYCTnIWIevJa73UjIFyTuYvjxU4ksqDUUUU
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR07CA0252.eurprd07.prod.outlook.com
+ (2603:10a6:803:b4::19) To VE1PR08MB4765.eurprd08.prod.outlook.com
+ (2603:10a6:802:a5::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1PR08MB4765:EE_|GV1PR08MB7803:EE_
+X-MS-Office365-Filtering-Correlation-Id: 50ff07b1-44c9-47fc-f308-08da9d360d91
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JNvGQJMuVjIG/upM65hO3w4nndy792ZEgOtR8G4px2w4nxFejLebAiC5drDo8yioqqjg7j4PaJfybOxrizqV6iAp9/eD32/4Qui49t3Z0jcxAD5Q39NCGoD1mlzBP82NKPdcm3H0owvv+oDQMmDS+43g4Ierga2xn/m0h3MViIwirmXaRu6rGU31egpDd5vYpe7SY4YEEzl5E+BPm3TUpcxlmm0RBbqhNIBGn1GzixnIj7Y8SXQky7aiUA02tnDjga9WjC8g9vPHRmhVnwprqozCqw+Y5D1csOd8DVJ7zTfmFp/JvFxFwnUqvnfL4bx2uXRcvY1VrQqO2FUkmQZlTuvq2GGfOIRoAK+dTMg8YsiaMYKGDO4mfL+P2YvI6Oy3Aoxx3nozOtkLeAn0T9DK+mp01rjCv3goj0r6TIuBLYPN2LvT424kEwMnmFwHZy2jOYWsWO8uBIaQAA7OW4H1VTLQ5QIPHEQjQM/Aqzv/u7pLhEEYJ9hKe9dY7rKjsUQLPuT8J2oVu5AH9d7ox2uVgokKSGTyFQQZyMzjwOv8bhuFUtsV8lvgImCewJJlw2K7/fO9hLnw1fFAwlC9JU8QCksJ4A7WlV3h4TlTCUdKh9Qr/D53Orux3w18Li0wSGrPKwH4Ag5GevqcdZpmMw9WROZKKeE5ArqhtccxxvfYEUlrWzqpoxvbEMZRJIdAEGl7LTIM03d7RAGohqQywcTsg+3DeR6l4cYHj+FGxilXVTwi+yGlLYGOVOASd3RWWgo2Sb2HOcn569cR+/qQci6wXGyu86a6RK3tPbXAJlGiFBJyasUWkBlAEcu5UitmMEXW
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR08MB4765.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(39850400004)(136003)(346002)(366004)(376002)(451199015)(478600001)(54906003)(6916009)(316002)(66476007)(8676002)(66556008)(31686004)(6486002)(4326008)(66946007)(38350700002)(6666004)(41300700001)(5660300002)(53546011)(6506007)(52116002)(6512007)(44832011)(26005)(186003)(36756003)(2906002)(2616005)(8936002)(86362001)(31696002)(7416002)(83380400001)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGxES0g3dURVNzZPK05OUWxhdkUvc04wTHdpTkRycmNHT1lYeHFsd08rdlgx?=
+ =?utf-8?B?WlB0Mkk1OVFTQStOT2x3U0ZGek85cWdBRGN2eHJDUFlBS0x3ZTgxSDZzdVA0?=
+ =?utf-8?B?UGw0WGErMjcyaTRqUWRKRSsyMHBVT3pTZ2JVSzg2TVFmWkwrOXZBQm9UWWpK?=
+ =?utf-8?B?aEYyb0pWbVBobXBzQi9ONmtDR2NlQXAvRVAwYnpWbVlRTVFFcGZxbE9lT0w2?=
+ =?utf-8?B?SDkyUm1ZemVKaVFyQlN2Vk1EY3BzOHYyR3M1aklqSHNDUkR4RHlQT3VkU3NN?=
+ =?utf-8?B?TEhzdDYxZGZtdkVzbHQwUmxvNFhOelBtQUt6dm9JdEx3R3RqSXZ0UkhGTitl?=
+ =?utf-8?B?SUhFMmZpbFo5Z1ZPQTFlUWxsQUt4NnpnNnFYdjdMY0E5YktIV1Bxc3BxQkpn?=
+ =?utf-8?B?QVVyODl3YnlYMHhEZG1SMHRGM2lJRFRkbHpHRDZzZ0lLdXNqV3ZGM1YvQzRs?=
+ =?utf-8?B?S1k1Zlc1TFZ0RmlHQXNjdWtXRUwyZkRPOGZvUkdSQjlHTnlqazNaVlVSSnE4?=
+ =?utf-8?B?cXNTd3c2eW1sbkVvQjZJVjl6ZVdWQVlqMEJIUkVWL2Y4YUtSUVJQM2MxTHF6?=
+ =?utf-8?B?NmI5QU5iREU5Rk1NMzBrdGZ0UGtKdzZybUFoSTFjTkJ1QmtjYTZxOHFiRkN6?=
+ =?utf-8?B?ZVo4dytDTGF5Rm9qVjI5NzBuNTdHQnlQZ0pqUG9wM0JoTklLTzc3S1NjajJ0?=
+ =?utf-8?B?cmZSRWN4K0xtNFVNUnZ2c21kc0hCL0pOV2o0SzBCMXZFNEhOZkp3S2hxRFZx?=
+ =?utf-8?B?Y0piS3VLa3JPQlRNVitmTkE2R1dkcjNkcTljWFN1SzZEblJaUFo3N1dhV093?=
+ =?utf-8?B?ZHZFL0hkQVdXTVkxY1JZOGdPbGVFVXNGbjlIbVlzTEZQdE0vZThLaWVOaDU0?=
+ =?utf-8?B?RFhDNHhrNDgrWEQ2SHpJQVpkWlNHT01lUCttRG16ZHB5MFhCeGg5T21qRXl6?=
+ =?utf-8?B?ajhZb2lMVGM5Y002Lzc5TWZPUmcxZVE0OHhHbzM0SUZNREVJczRGMktObEJx?=
+ =?utf-8?B?TWJFNVpuNlhlbWxKNWt4bDNURU1MNFRJQWJIRVhoWUxSUGVOY0pyLzJyZzd4?=
+ =?utf-8?B?dFFQU1dXdHUrcUlmWGpZL3NOd1JIOUZ3QVBPWWNGMmRpSG0zS1ZSMVk1TW1u?=
+ =?utf-8?B?OG92cVJINEk0aHhPcTdrOGNNTW50MVBDck9nNThxQWNSL0M0Q1FLTVl2akV0?=
+ =?utf-8?B?bzJRTXBMUzNlUTFsSHQxa2FJTHNwVXVJRnM5LzVjNGFvVG1sU2Z3eVpFdVJU?=
+ =?utf-8?B?RWVGakdMTVNibGlHN08rQWlHbWw3VEhPUDliWDJmNlVzT2xJSnl3RGd3SEgz?=
+ =?utf-8?B?TzJ3NkFmTlhSNzJvdVVyRW1hb013Ni9McWFpTno4UXJtaWJBblVtZnRxL1hX?=
+ =?utf-8?B?bmRIbG1IU01FQk0rcSs2TzhIbXlGeVFncnRZLzhZS1BGMnEycW02bWczb0pR?=
+ =?utf-8?B?Nk1JVTFaOW9CUnVTMXVCQ2QrMDR3NE9ZZ3dqQVZqVVFBYTcvUTFGMC9tS2U5?=
+ =?utf-8?B?QkJydkRZeEkvbUxuUklHVytkSUZiSXo4SnIxMEVkVEI5Q1ZaYzJLb0RzOFNZ?=
+ =?utf-8?B?QjFwTVBoNHNLc21yU1g1MHBRcmtrdGs3ZjdJRDNNM3Q0aGRIR0hwNytWd29q?=
+ =?utf-8?B?UkozNkY3UTRLMENWZlJwdEk4UzFDYUdKMjhUYWl5MVBob2duaUdTSDdYNDlN?=
+ =?utf-8?B?SGtrbjV0RHlWTXdQS0J0c1UyamdnMWtaV3VZME56RkpzbU5uRkZ0ZFVmZHcv?=
+ =?utf-8?B?NTR5U3dGUWtySjVZVzI0aGlTSUs4OTQrN1dVa3BYWURxSmxIZmxSM3BYVisr?=
+ =?utf-8?B?R2kyYmE1djRiVUNIR2dseTBPaGd6Y0NsSXRRVW01Sk9VS21pVHcwYmRkeE5M?=
+ =?utf-8?B?QWo4SGdZK0s5SUx0N21ndmtIcmlQSkI3TVZVem9ZQmdrc2tERzRVZGlTSnJw?=
+ =?utf-8?B?QmhsaXgvSTNGejFUcGFqYlY3UDVEdzg0UHNUNXFXUy9NY2MraDF5cXRSUGpJ?=
+ =?utf-8?B?OWV2S0wzdUVvRGhKWER2TVkyTURGY1UwTzE1aW9pZFZpazA1MEdjTkJyeGNN?=
+ =?utf-8?B?K3Y5UWNvTGk4SkZVRW5WTWxPS2wxREJIQnRZR0gzUEFUamtXc0ZsV3lMWjgr?=
+ =?utf-8?B?SXhpYTRxSkVvSWY2cE1qMnlUb3ZDS1lndmxoU3lZSEgrOWZBbjVMNlNVS2Ft?=
+ =?utf-8?B?UlE9PQ==?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50ff07b1-44c9-47fc-f308-08da9d360d91
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR08MB4765.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2022 07:34:30.9841
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q09N7xg7jKPnKr+SUdHmor3JCvEg1obW04n+BOMsy22/8Ge+c/oOwZ6zjvxocalz1eikbTws5oTpuje3ow6rAjanpMeoH7kC58fPY2aToh5yACVQMbZC/g5eVgJTauDO
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB7803
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello,
 
-在 2022/9/22 21:03, Wu XiangCheng 写道:
-> From: Wu XiangCheng <bobwxc@email.cn>
->
-> * update to commit ea052e7257bd ("docs: admin-guide: for kernel bugs
->    refer to other kernel documentation")
->
-> We are in 6.x now ;)
->
-> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->   .../translations/zh_CN/admin-guide/README.rst | 101 ++++--------------
->   1 file changed, 22 insertions(+), 79 deletions(-)
->
-> diff --git a/Documentation/translations/zh_CN/admin-guide/README.rst b/Documentation/translations/zh_CN/admin-guide/README.rst
-> index d20949e8bf6f..e679cbc3c89d 100644
-> --- a/Documentation/translations/zh_CN/admin-guide/README.rst
-> +++ b/Documentation/translations/zh_CN/admin-guide/README.rst
-> @@ -6,10 +6,10 @@
->   
->    吴想成 Wu XiangCheng <bobwxc@email.cn>
->   
-> -Linux内核5.x版本 <http://kernel.org/>
-> +Linux内核6.x版本 <http://kernel.org/>
->   =========================================
->   
-> -以下是Linux版本5的发行注记。仔细阅读它们，
-> +以下是Linux版本6的发行注记。仔细阅读它们，
->   它们会告诉你这些都是什么，解释如何安装内核，以及遇到问题时该如何做。
->   
->   什么是Linux？
-> @@ -61,27 +61,27 @@ Linux内核5.x版本 <http://kernel.org/>
->    - 如果您要安装完整的源代码，请把内核tar档案包放在您有权限的目录中（例如您
->      的主目录）并将其解包::
->   
-> -     xz -cd linux-5.x.tar.xz | tar xvf -
-> +     xz -cd linux-6.x.tar.xz | tar xvf -
->   
->      将“X”替换成最新内核的版本号。
->   
->      【不要】使用 /usr/src/linux 目录！这里有一组库头文件使用的内核头文件
->      （通常是不完整的）。它们应该与库匹配，而不是被内核的变化搞得一团糟。
->   
-> - - 您还可以通过打补丁在5.x版本之间升级。补丁以xz格式分发。要通过打补丁进行
-> -   安装，请获取所有较新的补丁文件，进入内核源代码（linux-5.x）的目录并
-> + - 您还可以通过打补丁在6.x版本之间升级。补丁以xz格式分发。要通过打补丁进行
-> +   安装，请获取所有较新的补丁文件，进入内核源代码（linux-6.x）的目录并
->      执行::
->   
-> -     xz -cd ../patch-5.x.xz | patch -p1
-> +     xz -cd ../patch-6.x.xz | patch -p1
->   
->      请【按顺序】替换所有大于当前源代码树版本的“x”，这样就可以了。您可能想要
->      删除备份文件（文件名类似xxx~ 或 xxx.orig)，并确保没有失败的补丁（文件名
->      类似xxx# 或 xxx.rej）。如果有，不是你就是我犯了错误。
->   
-> -   与5.x内核的补丁不同，5.x.y内核（也称为稳定版内核）的补丁不是增量的，而是
-> -   直接应用于基本的5.x内核。例如，如果您的基本内核是5.0，并且希望应用5.0.3
-> -   补丁，则不应先应用5.0.1和5.0.2的补丁。类似地，如果您运行的是5.0.2内核，
-> -   并且希望跳转到5.0.3，那么在应用5.0.3补丁之前，必须首先撤销5.0.2补丁
-> +   与6.x内核的补丁不同，6.x.y内核（也称为稳定版内核）的补丁不是增量的，而是
-> +   直接应用于基本的6.x内核。例如，如果您的基本内核是6.0，并且希望应用6.0.3
-> +   补丁，则不应先应用6.0.1和6.0.2的补丁。类似地，如果您运行的是6.0.2内核，
-> +   并且希望跳转到6.0.3，那么在应用6.0.3补丁之前，必须首先撤销6.0.2补丁
->      （即patch -R）。更多关于这方面的内容，请阅读
->      :ref:`Documentation/process/applying-patches.rst <applying_patches>` 。
->   
-> @@ -103,7 +103,7 @@ Linux内核5.x版本 <http://kernel.org/>
->   软件要求
->   ---------
->   
-> -   编译和运行5.x内核需要各种软件包的最新版本。请参考
-> +   编译和运行6.x内核需要各种软件包的最新版本。请参考
->      :ref:`Documentation/process/changes.rst <changes>`
->      来了解最低版本要求以及如何升级软件包。请注意，使用过旧版本的这些包可能会
->      导致很难追踪的间接错误，因此不要以为在生成或操作过程中出现明显问题时可以
-> @@ -116,12 +116,12 @@ Linux内核5.x版本 <http://kernel.org/>
->      ``make O=output/dir`` 选项可以为输出文件（包括 .config）指定备用位置。
->      例如::
->   
-> -     kernel source code: /usr/src/linux-5.x
-> +     kernel source code: /usr/src/linux-6.x
->        build directory:    /home/name/build/kernel
->   
->      要配置和构建内核，请使用::
->   
-> -     cd /usr/src/linux-5.x
-> +     cd /usr/src/linux-6.x
->        make O=/home/name/build/kernel menuconfig
->        make O=/home/name/build/kernel
->        sudo make O=/home/name/build/kernel modules_install install
-> @@ -227,8 +227,6 @@ Linux内核5.x版本 <http://kernel.org/>
->    - 确保您至少有gcc 5.1可用。
->      有关更多信息，请参阅 :ref:`Documentation/process/changes.rst <changes>` 。
->   
-> -   请注意，您仍然可以使用此内核运行a.out用户程序。
-> -
->    - 执行 ``make`` 来创建压缩内核映像。如果您安装了lilo以适配内核makefile，
->      那么也可以进行 ``make install`` ，但是您可能需要先检查特定的lilo设置。
->   
-> @@ -282,67 +280,12 @@ Linux内核5.x版本 <http://kernel.org/>
->   若遇到问题
->   -----------
->   
-> - - 如果您发现了一些可能由于内核缺陷所导致的问题，请检查MAINTAINERS（维护者）
-> -   文件看看是否有人与令您遇到麻烦的内核部分相关。如果无人在此列出，那么第二
-> -   个最好的方案就是把它们发给我（torvalds@linux-foundation.org），也可能发送
-> -   到任何其他相关的邮件列表或新闻组。
-> -
-> - - 在所有的缺陷报告中，【请】告诉我们您在说什么内核，如何复现问题，以及您的
-> -   设置是什么的（使用您的常识）。如果问题是新的，请告诉我；如果问题是旧的，
-> -   请尝试告诉我您什么时候首次注意到它。
-> -
-> - - 如果缺陷导致如下消息::
-> -
-> -     unable to handle kernel paging request at address C0000010
-> -     Oops: 0002
-> -     EIP:   0010:XXXXXXXX
-> -     eax: xxxxxxxx   ebx: xxxxxxxx   ecx: xxxxxxxx   edx: xxxxxxxx
-> -     esi: xxxxxxxx   edi: xxxxxxxx   ebp: xxxxxxxx
-> -     ds: xxxx  es: xxxx  fs: xxxx  gs: xxxx
-> -     Pid: xx, process nr: xx
-> -     xx xx xx xx xx xx xx xx xx xx
-> -
-> -   或者类似的内核调试信息显示在屏幕上或在系统日志里，请【如实】复制它。
-> -   可能对你来说转储（dump）看起来不可理解，但它确实包含可能有助于调试问题的
-> -   信息。转储上方的文本也很重要：它说明了内核转储代码的原因（在上面的示例中，
-> -   是由于内核指针错误）。更多关于如何理解转储的信息，请参见
-> -   Documentation/admin-guide/bug-hunting.rst。
-> -
-> - - 如果使用 CONFIG_KALLSYMS 编译内核，则可以按原样发送转储，否则必须使用
-> -   ``ksymoops`` 程序来理解转储（但通常首选使用CONFIG_KALLSYMS编译）。
-> -   此实用程序可从
-> -   https://www.kernel.org/pub/linux/utils/kernel/ksymoops/ 下载。
-> -   或者，您可以手动执行转储查找：
-> -
-> - - 在调试像上面这样的转储时，如果您可以查找EIP值的含义，这将非常有帮助。
-> -   十六进制值本身对我或其他任何人都没有太大帮助：它会取决于特定的内核设置。
-> -   您应该做的是从EIP行获取十六进制值（忽略 ``0010:`` ），然后在内核名字列表
-> -   中查找它，以查看哪个内核函数包含有问题的地址。
-> -
-> -   要找到内核函数名，您需要找到与显示症状的内核相关联的系统二进制文件。就是
-> -   文件“linux/vmlinux”。要提取名字列表并将其与内核崩溃中的EIP进行匹配，
-> -   请执行::
-> -
-> -     nm vmlinux | sort | less
-> -
-> -   这将为您提供一个按升序排序的内核地址列表，从中很容易找到包含有问题的地址
-> -   的函数。请注意，内核调试消息提供的地址不一定与函数地址完全匹配（事实上，
-> -   这是不可能的），因此您不能只“grep”列表：不过列表将为您提供每个内核函数
-> -   的起点，因此通过查找起始地址低于你正在搜索的地址，但后一个函数的高于的
-> -   函数，你会找到您想要的。实际上，在您的问题报告中加入一些“上下文”可能是
-> -   一个好主意，给出相关的上下几行。
-> -
-> -   如果您由于某些原因无法完成上述操作（如您使用预编译的内核映像或类似的映像），
-> -   请尽可能多地告诉我您的相关设置信息，这会有所帮助。有关详细信息请阅读
-> -   ‘Documentation/admin-guide/reporting-issues.rst’。
-> -
-> - - 或者，您可以在正在运行的内核上使用gdb（只读的；即不能更改值或设置断点）。
-> -   为此，请首先使用-g编译内核；适当地编辑arch/x86/Makefile，然后执行 ``make
-> -   clean`` 。您还需要启用CONFIG_PROC_FS（通过 ``make config`` ）。
-> -
-> -   使用新内核重新启动后，执行 ``gdb vmlinux /proc/kcore`` 。现在可以使用所有
-> -   普通的gdb命令。查找系统崩溃点的命令是 ``l *0xXXXXXXXX`` （将xxx替换为EIP
-> -   值）。
-> -
-> -   用gdb无法调试一个当前未运行的内核是由于gdb（错误地）忽略了编译内核的起始
-> -   偏移量。
-> +如果您发现了一些可能由于内核缺陷所导致的问题，请参阅：
-> +Documentation/translations/zh_CN/admin-guide/reporting-issues.rst 。
-> +
-> +想要理解内核错误报告，请参阅：
-> +Documentation/translations/zh_CN/admin-guide/bug-hunting.rst 。
-> +
-> +更多用GDB调试内核的信息，请参阅：
-> +Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
-> +和 Documentation/dev-tools/kgdb.rst 。
+On 21.09.22 14:30, Hyeonggon Yoo wrote:
+> On Tue, Sep 20, 2022 at 03:11:11PM +0300, Alexander Atanasov wrote:
+>> In (060807f841ac mm, slub: make remaining slub_debug related attributes
+>> read-only) failslab was made read-only.
+>> I think it became a collateral victim to the two other options for which
+>> the reasons are perfectly valid.
+>> Here is why:
+>>   - sanity_checks and trace are slab internal debug options,
+>>     failslab is used for fault injection.
+>>   - for fault injections, which by presumption are random, it
+>>     does not matter if it is not set atomically. And you need to
+>>     set atleast one more option to trigger fault injection.
+>>   - in a testing scenario you may need to change it at runtime
+>>     example: module loading - you test all allocations limited
+>>     by the space option. Then you move to test only your module's
+>>     own slabs.
+>>   - when set by command line flags it effectively disables all
+>>     cache merges.
+> 
+> Maybe we can make failslab= boot parameter to consider cache filtering?
+> 
+> With that, just pass something like this:
+> 	failslab=X,X,X,X,cache_filter slub_debug=A,<cache-name>> 
+
+> Users should pass slub_debug=A,<cache-name> anyway to prevent cache merging.
+It will be good to have this in case you want to test cache that is used 
+early. But why push something to command line option only when it can be 
+changed at runtime?
+
+-- 
+Regards,
+Alexander Atanasov
 
