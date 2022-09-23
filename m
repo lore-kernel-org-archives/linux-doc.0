@@ -2,167 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EB0FC6FA82
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 07:46:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 710E7C6FA82
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 08:10:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230351AbiIWHqs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 03:46:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60066 "EHLO
+        id S230167AbiIWIKW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 04:10:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiIWHqY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 03:46:24 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C31B12CCB7;
-        Fri, 23 Sep 2022 00:45:54 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id p1-20020a17090a2d8100b0020040a3f75eso4613914pjd.4;
-        Fri, 23 Sep 2022 00:45:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=aW76gmW+Z5hGGf3FjMaj197LqqVcbY4HHUFygvXrzUA=;
-        b=h1Anx/e+40quCUEE9ycjrVAHM57MhJA71U/Re2pB7wtxs4ZMpzqynxCPwQt67zQtJK
-         22UOjlbXgygfYyj/+w60swmIgl4V4Ca7t3JzfUnLX59IqSne7zPqVwzWDTSFDor+Dobp
-         Hn+PrVqeg9+TacjmbTzNXcwSU4ue8KaTkHvranUB+H/P15PlalEHTLrfuTPePP08RbBA
-         CbMRLV8c1El6Iqa4dcypl1M5f7rAmLMcxRW9OPQnKovXtLKh0rb9EA2JslfmsoX4VwmB
-         w6LciDrccFaR+PJZUEb8flOF5JVl1E0CKGjEP7bLoAmx/6BJ3IWW7hCbfnOGj2mPMTnq
-         d2HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=aW76gmW+Z5hGGf3FjMaj197LqqVcbY4HHUFygvXrzUA=;
-        b=FoXe2U86faa1WbJSJndwXHwsbCS77nUpeInq6PcHpM+7Qr9kdcW/32ygJO1jX+yu1m
-         mVeBmLtfHAkdXF7r9ihQXAUdnQ7vycHdp/dJ0R9XH2dDRAcKxRdgIzO87IimoOHEm6za
-         VztjnR5JubVMW0enzwTxG2byOaTrkQ/HUN7u2vx2Cf/fjZQylpBGgmHojDm1AsARN/zW
-         a303bHQ9mM3SasefaxRolDz0HuV7AMCWQAjyYzVA2d26KsfEyomhD2NO4gR0ZFk6VTp1
-         t7qvP4ZcZLhiQoJVnIqiJb6U2acWzFXGqAjV9DYgs97RTXu3Y5Ra7niZct33JiHcOcCu
-         mDhA==
-X-Gm-Message-State: ACrzQf0EwWrGC/J6eNm6m1zTIb/QVnp2njMcFvk9DpMT+q60LFL1hLTj
-        0KCmzx874wHaeO5kdPxhv64=
-X-Google-Smtp-Source: AMsMyM71WeCrPnQNhXCWkVmdt5T5edtpWR1oa3FeGb/YIU4JETsDGn0kB1fH/4YJ5z6byQmddCzVuw==
-X-Received: by 2002:a17:902:720b:b0:178:83e9:11ec with SMTP id ba11-20020a170902720b00b0017883e911ecmr7052576plb.34.1663919142618;
-        Fri, 23 Sep 2022 00:45:42 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-67.three.co.id. [180.214.233.67])
-        by smtp.gmail.com with ESMTPSA id w68-20020a628247000000b0053e75395705sm5780233pfd.127.2022.09.23.00.45.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Sep 2022 00:45:41 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id B596E1037D4; Fri, 23 Sep 2022 14:45:34 +0700 (WIB)
-Date:   Fri, 23 Sep 2022 14:45:34 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        with ESMTP id S229954AbiIWIKW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 04:10:22 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8BBE108081;
+        Fri, 23 Sep 2022 01:10:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663920620; x=1695456620;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=wbH0r5c//ruJs6KanqbGDo6O5zuHina9rhNzoAQJT10=;
+  b=Zuy9AvvKCKQ58BBdCJc26oxEnbgMbTaT8XXoTATks/5p7SfU+ViUiAFV
+   o8jaAvHPQimdAyBrpL5OLVFc9xfi7ceKgeDOmmaxFln6Mm/WJwDX1fm/G
+   mpLcAVo/pXdXtIDNUcndjfu8tnH8fnctoc81qyiIu6LU82R9MQ9nxLeMX
+   yeyqR4F01aDI1PYfJdYzTvP6BnMetlpqRBzfoZpIjNQv01aJPsSvvWVrf
+   PEBO5otfdrCWJbKrCn/B9qafRVnOBccBfrfmNrG4T5XtqspIETnGgD6VN
+   IjbW2wGiWu1NcecWXIFtAgOdAI8EMgWpPY1odqckvPPBhDkmGDgxHeMBK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="364556849"
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="364556849"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 01:10:19 -0700
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="653320190"
+Received: from armannov-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.61.93])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 01:10:17 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
         Thorsten Leemhuis <linux@leemhuis.info>,
         Kees Cook <keescook@chromium.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>
-Subject: Re: [PATCH v2 5/7] docs: move asm-annotations.rst into core-api
-Message-ID: <Yy1kHrS7ieq1VCqw@debian.me>
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2 0/4] Rewrite the top-level index.rst
+In-Reply-To: <20220922204138.153146-1-corbet@lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20220922204138.153146-1-corbet@lwn.net>
- <20220922204138.153146-6-corbet@lwn.net>
+Date:   Fri, 23 Sep 2022 11:09:59 +0300
+Message-ID: <87r1024ilk.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="mx4ZK54fQt2or+1d"
-Content-Disposition: inline
-In-Reply-To: <20220922204138.153146-6-corbet@lwn.net>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 22 Sep 2022, Jonathan Corbet <corbet@lwn.net> wrote:
+> Unless I get screams I plan to slip this into 6.1.  It is definitely not
+> the final form of the front page, but I doubt we'll ever get there; we can
+> change it in whatever ways make sense.
 
---mx4ZK54fQt2or+1d
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm screaming for you to merge it already! It's a great stride forward.
 
-On Thu, Sep 22, 2022 at 02:41:36PM -0600, Jonathan Corbet wrote:
-> @@ -43,10 +43,11 @@ annotated objects like this, tools can be run on them=
- to generate more useful
->  information. In particular, on properly annotated objects, ``objtool`` c=
-an be
->  run to check and fix the object if needed. Currently, ``objtool`` can re=
-port
->  missing frame pointer setup/destruction in functions. It can also
-> -automatically generate annotations for :doc:`ORC unwinder <x86/orc-unwin=
-der>`
-> +automatically generate annotations for the ORC unwinder
-> +(Documentation/x86/orc-unwinder.rst)
->  for most code. Both of these are especially important to support reliable
-> -stack traces which are in turn necessary for :doc:`Kernel live patching
-> -<livepatch/livepatch>`.
-> +stack traces which are in turn necessary for kernel live patching
-> +(Documentation/livepatch/livepatch.rst).
+FWIW,
 
-Hi jon,
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-I think Sphinx internal references are better fit for these links:
-
----- >8 ----
-
-diff --git a/Documentation/core-api/asm-annotations.rst b/Documentation/cor=
-e-api/asm-annotations.rst
-index bc514ed598870c..d3071f131dad73 100644
---- a/Documentation/core-api/asm-annotations.rst
-+++ b/Documentation/core-api/asm-annotations.rst
-@@ -43,11 +43,10 @@ annotated objects like this, tools can be run on them t=
-o generate more useful
- information. In particular, on properly annotated objects, ``objtool`` can=
- be
- run to check and fix the object if needed. Currently, ``objtool`` can repo=
-rt
- missing frame pointer setup/destruction in functions. It can also
--automatically generate annotations for the ORC unwinder
--(Documentation/x86/orc-unwinder.rst)
-+automatically generate annotations for the :ref:`ORC unwinder <orc-unwinde=
-r>`
- for most code. Both of these are especially important to support reliable
--stack traces which are in turn necessary for kernel live patching
--(Documentation/livepatch/livepatch.rst).
-+stack traces which are in turn necessary for :ref:`kernel live patching
-+<kernel-livepatch>`.
-=20
- Caveat and Discussion
- ---------------------
-diff --git a/Documentation/livepatch/livepatch.rst b/Documentation/livepatc=
-h/livepatch.rst
-index 68e3651e8af925..ebb8b05a9b0d3e 100644
---- a/Documentation/livepatch/livepatch.rst
-+++ b/Documentation/livepatch/livepatch.rst
-@@ -1,3 +1,5 @@
-+.. _kernel-livepatch:
-+
- =3D=3D=3D=3D=3D=3D=3D=3D=3D
- Livepatch
- =3D=3D=3D=3D=3D=3D=3D=3D=3D
-diff --git a/Documentation/x86/orc-unwinder.rst b/Documentation/x86/orc-unw=
-inder.rst
-index cdb257015bd9e8..b26368c3892d3d 100644
---- a/Documentation/x86/orc-unwinder.rst
-+++ b/Documentation/x86/orc-unwinder.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
-=20
-+.. _orc-unwinder:
-+
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
- ORC unwinder
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---mx4ZK54fQt2or+1d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYy1kFAAKCRD2uYlJVVFO
-o0KWAP9jzvP4ppaXJOFGMQh19B6PfDGQfLT5QMGsWxf7kAGfjgD9G6np/5Q3JDdz
-Jen+9y5W1RBiByedHFXTIZ/nPiafNQA=
-=PCxc
------END PGP SIGNATURE-----
-
---mx4ZK54fQt2or+1d--
+-- 
+Jani Nikula, Intel Open Source Graphics Center
