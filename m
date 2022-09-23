@@ -2,70 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C708C6FA86
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 09:32:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72406C6FA94
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 10:29:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229997AbiIWJcs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 05:32:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41000 "EHLO
+        id S230113AbiIWK3O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 06:29:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231869AbiIWJcW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 05:32:22 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 07B7C15A0F;
-        Fri, 23 Sep 2022 02:32:18 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 11EFE13D5;
-        Fri, 23 Sep 2022 02:32:25 -0700 (PDT)
-Received: from [10.57.2.155] (unknown [10.57.2.155])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A42BB3F73B;
-        Fri, 23 Sep 2022 02:32:16 -0700 (PDT)
-Message-ID: <1dabe308-21f7-aa2e-ee8f-48807878f91b@arm.com>
-Date:   Fri, 23 Sep 2022 10:32:15 +0100
+        with ESMTP id S231218AbiIWK2x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 06:28:53 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C98AA128A37;
+        Fri, 23 Sep 2022 03:28:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663928928; x=1695464928;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rZsIBuKNgLub+auoIS69rq+B1ncorMSEq0WWo4jjZ2c=;
+  b=CNbqh7rBMzULRwx+JWwBDrmdeR02ed+Yj65XB5l0Ihs7E6aQMvrKbzBn
+   wV7YFFvdArnrvZGLLX2KbFVLiJ4J283EZITY5jmpscCO/zAApJX6QmDbS
+   PAjXbFUeuA7LVx57L3fRTPoy4CeEWnZu0s0gWoyIidYFifEycCvkHqnuw
+   3VXj8FiQdgXzTOVgWsQmNdLN9X73iApfB/eoBjaCGwCnx9/LfuEx2DW8H
+   npoQxSTrCOtRrMXMXLMGsyy7UV1RBSYmACLzResIzWMnm7bIcZdy+0r1u
+   JM6uwnFtzJby/iFLpUGwmzRyBOmNMtPVVkTb3/VOiFQR7ADHTp5YBXz2Q
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="302010087"
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="302010087"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 03:28:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="948974907"
+Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 23 Sep 2022 03:28:45 -0700
+Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1obfvJ-0005Zk-01;
+        Fri, 23 Sep 2022 10:28:45 +0000
+Date:   Fri, 23 Sep 2022 18:28:20 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sergiu Moga <sergiu.moga@microchip.com>
+Cc:     kbuild-all@lists.01.org, linux-serial@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: [tty:tty-next 37/45] htmldocs: Warning: MAINTAINERS references a
+ file that doesn't exist:
+ Documentation/devicetree/bindings/mfd/atmel-usart.txt
+Message-ID: <202209231815.jXlxs0vj-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 0/2] perf: arm64: Kernel support for Dwarf unwinding
- through SVE functions
-Content-Language: en-US
-To:     Will Deacon <will@kernel.org>
-Cc:     catalin.marinas@arm.com, kernel-team@android.com,
-        linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-        acme@kernel.org, john.garry@huawei.com,
-        Jonathan Corbet <corbet@lwn.net>, leo.yan@linaro.org,
-        broonie@kernel.org, linux-doc@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-References: <20220901132658.1024635-1-james.clark@arm.com>
- <166385556279.1475166.2989569100449667346.b4-ty@kernel.org>
-From:   James Clark <james.clark@arm.com>
-In-Reply-To: <166385556279.1475166.2989569100449667346.b4-ty@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-next
+head:   adafbbf6895eb0ce41a313c6ee68870ab9aa93cd
+commit: b9e947fbf008769ffda1028f627d604757e62265 [37/45] dt-bindings: serial: atmel,at91-usart: convert to json-schema
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git/commit/?id=b9e947fbf008769ffda1028f627d604757e62265
+        git remote add tty https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git
+        git fetch --no-tags tty tty-next
+        git checkout b9e947fbf008769ffda1028f627d604757e62265
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-On 22/09/2022 21:33, Will Deacon wrote:
-> On Thu, 1 Sep 2022 14:26:56 +0100, James Clark wrote:
->> I'm resubmitting this with a few of the changes suggested by Will on V2.
->>
->> I haven't made any changes regarding the open questions about the
->> discoverability or saving the new reg and passing to output_sample()
->> because I think it's best to be consistent with the implementations on
->> other platforms first. I have explained in more detail on v2 [1].
->>
->> [...]
-> 
-> Applied to will (for-next/perf), thanks!
-> 
-> [1/2] perf: arm64: Add SVE vector granule register to user regs
->       https://git.kernel.org/will/c/cbb0c02caf4b
-> [2/2] arm64/sve: Add Perf extensions documentation
->       https://git.kernel.org/will/c/1f2906d1e10a
-> 
-> Cheers,
+All warnings (new ones prefixed by >>):
 
-Thanks Will. Sorry about the build, I will fix my config for next time.
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mfd/atmel-usart.txt
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
