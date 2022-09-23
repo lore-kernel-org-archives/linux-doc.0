@@ -2,165 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FB96C6FA8B
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 14:40:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E347BC6FA82
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 14:43:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230356AbiIWOkx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 10:40:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60312 "EHLO
+        id S231317AbiIWOnq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 10:43:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231579AbiIWOkv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 10:40:51 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F06AAF1857;
-        Fri, 23 Sep 2022 07:40:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663944050; x=1695480050;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Fs2fxSNfqcm045ENtCdw6SPv/7P4W5SdGkbp+E5zDPs=;
-  b=i+BwdRNi7rDZY/UqqxhbZHRtF4gNbate7cbADjOUl1qhk/F5DBDjyK3h
-   QnMNfsHQEgVGY9JUHqe0OavUKGaVZAJu4IOVVzQDUB9nx/N/9fEUiYstQ
-   xT0dDkHosU2Ah12vHmFeOy2OfBpwnnxbPo1kByGlLbzo/P0cffTBCbmdl
-   Z9SYi03qbwYAchcy/3NrsLoclCIT6opp2phfG5KOEiYklR1NyT96bTJ7O
-   zUUUm4bk2TvPnwh9YrrCPAUrfQZJWye/TPLhqtUBeQEYjx6aK879ZR/51
-   d2FjSmJ1ViIRwFk/qedxV+m9cChDWXQ7XqYvQlf7LZJiGTCMUAUCUaI0u
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="302053273"
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
-   d="scan'208";a="302053273"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 07:40:48 -0700
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
-   d="scan'208";a="865312354"
-Received: from alutz-mobl.ger.corp.intel.com ([10.252.35.146])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 07:40:42 -0700
-Date:   Fri, 23 Sep 2022 17:40:40 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
-        macro@orcam.me.uk, johan@kernel.org, Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH v2 1/6] Documentation: fpga: dfl: Add documentation for
- DFHv1
-In-Reply-To: <40e867ec-c7-66f-9db9-94f6132d587e@linux.intel.com>
-Message-ID: <b0689af0-511-dd5d-8e3-cca69d609cb0@linux.intel.com>
-References: <20220923121745.129167-1-matthew.gerlach@linux.intel.com> <20220923121745.129167-2-matthew.gerlach@linux.intel.com> <40e867ec-c7-66f-9db9-94f6132d587e@linux.intel.com>
+        with ESMTP id S232439AbiIWOnm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 10:43:42 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B96D412FF00;
+        Fri, 23 Sep 2022 07:43:40 -0700 (PDT)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1objty-0000ZC-Ah; Fri, 23 Sep 2022 16:43:38 +0200
+Message-ID: <aa35d204-3033-96f2-ed83-c5034067fe4b@leemhuis.info>
+Date:   Fri, 23 Sep 2022 16:43:37 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-2146711104-1663944047=:1595"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Content-Language: en-US, de-DE
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+References: <20220922204138.153146-1-corbet@lwn.net>
+ <7f02143c-461f-268b-0f17-7fe20a7423d6@leemhuis.info>
+ <875yhep5l1.fsf@meer.lwn.net>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v2 0/4] Rewrite the top-level index.rst
+In-Reply-To: <875yhep5l1.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1663944220;115e561c;
+X-HE-SMSGID: 1objty-0000ZC-Ah
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-2146711104-1663944047=:1595
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
-
-On Fri, 23 Sep 2022, Ilpo Järvinen wrote:
-
-> On Fri, 23 Sep 2022, matthew.gerlach@linux.intel.com wrote:
+On 23.09.22 15:45, Jonathan Corbet wrote:
+> Thorsten Leemhuis <linux@leemhuis.info> writes:
 > 
-> > From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> > 
-> > Add documentation describing the extensions provided by Version
-> > 1 of the Device Feature Header (DFHv1).
-> > 
-> > Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> > ---
-> > v2: s/GUILD/GUID/
-> >     add picture
-> > ---
-> >  Documentation/fpga/dfl.rst | 49 ++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 49 insertions(+)
-> > 
-> > diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-> > index 15b670926084..7c786b75b498 100644
-> > --- a/Documentation/fpga/dfl.rst
-> > +++ b/Documentation/fpga/dfl.rst
-> > @@ -561,6 +561,55 @@ new DFL feature via UIO direct access, its feature id should be added to the
-> >  driver's id_table.
-> >  
-> >  
-> > +Extending the Device Feature Header - DFHv1
-> > +===========================================
-> > +The current 8 bytes of the Device Feature Header, hereafter referred to as
-> > +to DFHv0, provide very little opportunity for the hardware to describe itself
-> > +to software. Version 1 of the Device Feature Header (DFHv1) is being introduced
-> > +to provide increased flexibility and extensibility to hardware designs using
-> > +Device Feature Lists.  The list below describes some of the goals behind the
-> > +changes in DFHv1:
-> > +
-> > +* Provide a standardized mechanism for features to describe
-> > +  parameters/capabilities to software.
-> > +* Standardize the use of a GUID for all DFHv1 types.
-> > +* Decouple the location of the DFH from the register space of the feature itself.
-> > +
-> > +Modeled after PCI Capabilities, DFHv1 Parameters provide a mechanism to associate
-> > +a list of parameter values to a particular feature.
-> > +
-> > +With DFHv0, not all features types contained a GUID.  DFHv1 makes the GUID standard
-> > +across all types.
-> > +
-> > +With DFHv0, the register map of a given feature is located immediately following
-> > +the DFHv0 in the memory space.  With DFHv1, the location of the feature register
-> > +map can be specified as an offset to the DFHv1 or as an absolute address.  The DFHv1
-> > +structure is shown below:
-> > +
-> > +    +-----------------------------------------------------------------------+
-> > +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0|
-> > +    +-----------------------------------------------------------------------+
-> > +    |63                                 GUID_L                             0|
-> > +    +-----------------------------------------------------------------------+
-> > +    |63                                 GUID_H                             0|
-> > +    +-----------------------------------------------------------------------+
-> > +    |63                 Address/Offset                            1|  Rel  0|
-> > +    +-----------------------------------------------------------------------+
+>> On 22.09.22 22:41, Jonathan Corbet wrote:
+>>> The top-level index.rst file is the entry point for the kernel's
+>>> documentation, especially for readers of the HTML output.  It is currently
+>>> a mess containing everything we thought to throw in there.  Firefox says it
+>>> would require 26 pages of paper to print it.  That is not a user-friendly
+>>> introduction.
+>>
+>> That's true, but is it maybe good or even important for googleability?
+>> When you talked about this in your LPC talk this went on in the matrix chat:
+>>
+>> ```
+>> Nur Hussein
+>> I feel like every existing page needs to be accessible (somehow)
+>> from that starting page
+>>
+>> Zsuzsa Nagy
+>>
+>> access to all pages <- findability from a search engine (technical
+>> author talking here)
+>>
+>> step #2 in-site search for those who already landed on your pages
+>> ```
 > 
-> Is something missing here given the layout is claimed (in 2/6) to be:
-> 
-> "DFHv1 Register Offset definitons
-> In DHFv1, DFH + GUID + CSR_START + CSR_SIZE_GROUP + PARAM_HDR + PARAM_DATA"
-> 
-> ?
+> So every page remains accessible, just like they are now.  They just
+> aren't linked directly from the front page - as many pages already are
+> not.  I honestly don't understand what the problem is here.
 
-Ah, I think I've figured it out, PARAM_HDR + PARAM_DATA combo is repeated 
-n times (rather than the params being covered by the "PARAM_DATA")?
+I'm not sure myself if there is a problem, I just wanted to bring that
+LPC chat up, as it seemed Zsuzsa had a lot of experience with this sort
+of problems at was at least somewhat interested in Linux kernel docs --
+so I thought it might be worth bringing Zsuzsa into this discussion (but
+I couldn't quickly find a email address to simply CC).
 
--- 
- i.
+> *No* site links everything directly on its front page.  Even if it had
+> an effect on search engines, I think it would be wrong to prioritize SEO
+> over basic usability.
 
-> > +    |63 Size of register set  32|Params 31|30 Group    16|15 Instance      0|
-> > +    +-----------------------------------------------------------------------+
-> > +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID           0|
-> > +    +-----------------------------------------------------------------------+
-> > +    |63                 Parameter Data                                     0|
-> > +    +-----------------------------------------------------------------------+
-> > +
-> > +                                  ...
-> > +
-> > +    +-----------------------------------------------------------------------+
-> > +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID           0|
-> > +    +-----------------------------------------------------------------------+
-> > +    |63                 Parameter Data                                     0|
-> > +    +-----------------------------------------------------------------------+
-> > +
-> >  Open discussion
-> >  ===============
-> >  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
-> > 
+Yeah, agreed. Something about SEO not being a priority was mentioned in
+the chat, too.
+
+>>> This series aims to improve our documentation entry point with a focus on
+>>> rewriting index.rst.  The result is, IMO, simpler and more approachable.
+>>> For anybody who wants to see the rendered results without building the
+>>> docs, have a look at:
+>>>
+>>>   https://static.lwn.net/kerneldoc/
+>>
+>> I still think we're doing all this to build something for users and
+>> hence docs for users should be at the top spot. I'd even think "those
+>> people are selfish" if I'd look into the docs of a software and find
+>> texts for developers at the top spot.
 > 
-> 
+> Again ... who are the users?
 
---8323329-2146711104-1663944047=:1595--
+I meant people just using the kernel, not developing the kernel itself
+or developing software that's running on top of it.
+
+>  I maintain that the actual users of our
+> docs are primarily kernel developers.
+
+I guess you are right with that, but maybe that's just like that due to
+the docs we have and not the docs we should have (or should aim for
+having in the long run).
+
+IOW: why is the kernel different from say LibreOffice, Firefox, or some
+random command line app: if I look into the documentation (say because
+I'm using that software for the very first time or because I have a
+problem with it after using it for years) I don't expect to see lots of
+docs at the most prominent place that are only relevant for people that
+want to modify said software; I'd expect things like "what is this
+software and how can I use it", "how can I install this software", "how
+can I report a bug", and "what knobs are available to deal with corner
+cases" there.
+
+>>> Unless I get screams I plan to slip this into 6.1.  It is definitely not
+>>> the final form of the front page, but I doubt we'll ever get there; we can
+>>> change it in whatever ways make sense.
+>>
+>> My 2 cent: why the rush? I'd say: let's try to get some feedback from
+>> Zsuzsa and experts on docs first. I'd be willing to approach them. If
+>> that doesn't work out over the next few weeks, just merge what you have
+>> for 6.2.
+> 
+> I want to do it because it's a clear step forward and has already been
+> pending for a month.  It is surely not perfect, and there will
+> undoubtedly be changes, perhaps big ones, to come, but I cannot imagine
+> a scenario where we want to go back to the mess we have now.
+
+I understand and yes, maybe it's the right thing to do; but OTOH that
+page is a mess for quite a while already, so is it really a big problem
+to just leave it like that for 9 or 10 more weeks while trying to bring
+in a few more people that might be able to directly bring us on a good
+long-term course?
+
+Ciao, Thorsten
