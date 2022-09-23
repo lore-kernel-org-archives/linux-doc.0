@@ -2,96 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37353ECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 15:03:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 165CEC6FA82
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 15:05:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230504AbiIWPDm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 11:03:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35630 "EHLO
+        id S232105AbiIWPFx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 11:05:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiIWPDm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 11:03:42 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5BBE126B72;
-        Fri, 23 Sep 2022 08:03:37 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 1428C378;
-        Fri, 23 Sep 2022 15:03:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1428C378
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1663945417; bh=A0O72tRjDBgujuwz38dOr2piaeqFN+zibaZ3R9pwl+k=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=JFuekg3U+d8YyZp1LeTaV2jTS2GFOP/HAT/7uGmjpqyKJwod4sFKY8VtJXMSHwzsB
-         cnrTkYVw+bh/BPyka9Y9yCXdFrIDL0fAls9A95P9xZwnAiCetFnnI3RMbni59dz4E+
-         tqxXBeZhfNwjBkY67r5f8mzGw968li418gBmcOoVzzVOZIONwwMM9gqMPOf6wabgwc
-         PGAfvIQPIuems7HGF/1rfi+Fc96mns0D0422t7VGefWPn1zNW5VS8TWg44KP5ONXuy
-         xbYU/CxdrleNxq9Qg3nsEioGAN7MHkUJbPp73Br963EMgUvngIegm3mDJ0q4H36pHL
-         yxxrQyY0hWHsg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2 0/4] Rewrite the top-level index.rst
-In-Reply-To: <aa35d204-3033-96f2-ed83-c5034067fe4b@leemhuis.info>
-References: <20220922204138.153146-1-corbet@lwn.net>
- <7f02143c-461f-268b-0f17-7fe20a7423d6@leemhuis.info>
- <875yhep5l1.fsf@meer.lwn.net>
- <aa35d204-3033-96f2-ed83-c5034067fe4b@leemhuis.info>
-Date:   Fri, 23 Sep 2022 09:03:36 -0600
-Message-ID: <87r102nnef.fsf@meer.lwn.net>
+        with ESMTP id S232169AbiIWPFs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 11:05:48 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93950DF066;
+        Fri, 23 Sep 2022 08:05:46 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id z13-20020a7bc7cd000000b003b5054c6f9bso2973344wmk.2;
+        Fri, 23 Sep 2022 08:05:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date;
+        bh=S1qtkZsCimc0bFiQuX5IHvT9C5pm95R4wJmpj4GAnEc=;
+        b=hG1mpQSA/nM+t1cRg2a6BFYyZL1Y+evNVWLWctb9VVbOh5hlFufcid5iEOwCf8wsh1
+         xz3cAfXMAVBhQcjWRt+leXtIONtQ2aYsZqRdweRvGVmXlfJc7d0v9a8/1aLyRP8LStiX
+         XJes9wq6L2Gj0EJ8G+zXSwY6fBVb+c6pKdH2Kv7FXbpSIg+C4YklOT3TvQkv5KyTc0Kk
+         Z+jo7VR8J5JMw5omYUxBQrfWA1Kj4PH/6PP6y5UwC6jncYcbUArq6EJF967k+0qOoST9
+         6My/tGvtL5bGaNfBSuWMvYj1nFoOxIE07dyy7SImZfZ3UHlEnue0mc+6PPOTBz8iOydj
+         kn8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=S1qtkZsCimc0bFiQuX5IHvT9C5pm95R4wJmpj4GAnEc=;
+        b=ICgn2nlVPvxx7uDXgzV6yTiQqrA0QVqbM+v2eI9zWgIFo2e3+KNk9bCYd65y7Bag1R
+         wgvhROUSZgdXZQ9qUijSw1legEOEp1Eb8lP12PHBF5F/JF3XT+gTs+gpPS99s70Gq2Ig
+         wtGH3nPHuwG6casPj8vw7FnuLwmuMve4TXnhJpQim5p8i/pTWTfLfSlDwVmMgp0qF3vM
+         qQz7ZqFefrNnANgVAOjskHuBBR2DovU6+ni1JTF5R0JG0gIjBi9sOb9EgTKYwgceda8u
+         TPJyhcF4VXDzoGi+jV7TPCwJfVhu2MIMw6TqIvIWEatvHsJmJhNmedcaDm5XabqR2kir
+         39KA==
+X-Gm-Message-State: ACrzQf2vMTa30u94cI8Ty/8hE9JYLQqScviaiTZHvd+WRek7DmDJ8sIc
+        Zsh8rEhLusYF61kkMIb7kMQ=
+X-Google-Smtp-Source: AMsMyM7hGGK8RuhEr/O6ilSvhFpIs40LQmejWASmZUnptTjT8Oyx3IJEWG4DGLk86lVY90iwldIMQg==
+X-Received: by 2002:a05:600c:198d:b0:3b4:b6b6:6fa with SMTP id t13-20020a05600c198d00b003b4b6b606famr13426430wmq.110.1663945544966;
+        Fri, 23 Sep 2022 08:05:44 -0700 (PDT)
+Received: from imac ([88.97.103.74])
+        by smtp.gmail.com with ESMTPSA id r8-20020a05600c35c800b003a84375d0d1sm2932506wmq.44.2022.09.23.08.05.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Sep 2022 08:05:44 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Subject: Re: [PATCH bpf-next v4 1/2] Add subdir support to Documentation
+ makefile
+In-Reply-To: <87tu4zsfse.fsf@meer.lwn.net> (Jonathan Corbet's message of "Thu,
+        22 Sep 2022 07:24:33 -0600")
+Date:   Fri, 23 Sep 2022 15:58:14 +0100
+Message-ID: <m2h70y87eh.fsf@gmail.com>
+References: <20220922115257.99815-1-donald.hunter@gmail.com>
+        <20220922115257.99815-2-donald.hunter@gmail.com>
+        <87tu4zsfse.fsf@meer.lwn.net>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+Jonathan Corbet <corbet@lwn.net> writes:
 
->>  I maintain that the actual users of our
->> docs are primarily kernel developers.
+> Donald Hunter <donald.hunter@gmail.com> writes:
 >
-> I guess you are right with that, but maybe that's just like that due to
-> the docs we have and not the docs we should have (or should aim for
-> having in the long run).
+>> Run make in list of subdirs to build generated sources and migrate
+>> userspace-api/media to use this instead of being a special case.
+>>
+>> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
 >
-> IOW: why is the kernel different from say LibreOffice, Firefox, or some
-> random command line app: if I look into the documentation (say because
-> I'm using that software for the very first time or because I have a
-> problem with it after using it for years) I don't expect to see lots of
-> docs at the most prominent place that are only relevant for people that
-> want to modify said software; I'd expect things like "what is this
-> software and how can I use it", "how can I install this software", "how
-> can I report a bug", and "what knobs are available to deal with corner
-> cases" there.
+> This could really use a bit more information on exactly what you're
+> doing and why you want to do it.
 
-For better or for worse, our most prominent user-facing documentation is
-the man pages, which are not a part of the kernel repository.  (Hmm...it
-wouldn't hurt to add a link to them to the front page, if and when a
-site with current man pages exists again).
+What would you like me to add? Something like:
 
-I don't have that much invested in the current ordering, we can
-certainly change it - anytime we want.  Anybody else have an opinion on
-that topic?
+"... in preparation for running a generator script to produce .csv data
+used by bpf documentation"
 
->> I want to do it because it's a clear step forward and has already been
->> pending for a month.  It is surely not perfect, and there will
->> undoubtedly be changes, perhaps big ones, to come, but I cannot imagine
->> a scenario where we want to go back to the mess we have now.
->
-> I understand and yes, maybe it's the right thing to do; but OTOH that
-> page is a mess for quite a while already, so is it really a big problem
-> to just leave it like that for 9 or 10 more weeks while trying to bring
-> in a few more people that might be able to directly bring us on a good
-> long-term course?
+> Beyond that, I would *really* like to see more use of Sphinx extensions
+> for this kind of special-case build rather than hacking in more
+> special-purpose scripts.  Is there a reason why it couldn't be done that
+> way?
 
-I guess my feelings are that (1) I've had enough promises to help with
-documentation over the years to learn not to count on such until said
-help actually materializes, and (2) demonstrating what we can do can, I
-hope, only inspire people who know more than me to show what we *really*
-can do...
+I looked at writing the BPF program types as a Sphinx extension but
+found that approach problematic for the following reasons:
 
-Thanks,
+- This needs to run both in the kernel tree and the libbpf Github
+  project. The tree layouts are different so the relative paths to
+  source files are different. I don't see an elegant way to handle this
+  inline in a .rst file. This can easily be handled in Makefiles
+  that are specific to each project.
 
-jon
+- It makes use of csv-table which does all the heavy lifting to produce
+  the desired output.
+
+- I have zero experience of extending Sphinx.
+
+I thought about submitting this directly to the libbpf Github project
+and then just linking from the kernel docs to the page about program
+types in the libbpf project docs. But I think it is preferable to master
+the gen-bpf-progtypes.sh script in the kernel tree where it can be
+maintained in the same repo as the libbpf.c source file it parses.
