@@ -2,111 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB53ECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 13:45:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 695E0C6FA90
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 14:11:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232284AbiIWNpf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 09:45:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32998 "EHLO
+        id S232545AbiIWOLo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 10:11:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229949AbiIWNpe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 09:45:34 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15164AB072;
-        Fri, 23 Sep 2022 06:45:30 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 91DAD378;
-        Fri, 23 Sep 2022 13:45:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 91DAD378
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1663940730; bh=hNBiWwThgUqyTe1rjOqsA/BbPGXZ8spv21EYme1ZkQA=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=QWY+8q7ZMshRXfyj6gmdRp4UaIjrcz99CTyVxr5M8vHdzApl+nYXupZ4urGtavA1Q
-         dsfx3yGqmDXPQ6/Lv14oeiROQv3Eu4hFh3D6dOX9RumxGbRVQbt2QgF0pjgGSK1WBz
-         qVQ/bvOkekurHmJ6X3yab/wdou9PvCTgnFTvE9Mq9W1tEWXJKFWJGHFlmpNqz2FK/M
-         mEIRUaj/okWHH+DqFC79DDjdJCDAmD3U2Jfkwel3xNgIETEmplmmU7qpbz20xN+hUZ
-         j/v9FpVTmqf0MWTEa9MEWauHsTUm7L9rIF5QJ02dkcGvRJeKduHyP2H517O2GdNFnG
-         ce0+C+mZk2L+w==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2 0/4] Rewrite the top-level index.rst
-In-Reply-To: <7f02143c-461f-268b-0f17-7fe20a7423d6@leemhuis.info>
-References: <20220922204138.153146-1-corbet@lwn.net>
- <7f02143c-461f-268b-0f17-7fe20a7423d6@leemhuis.info>
-Date:   Fri, 23 Sep 2022 07:45:30 -0600
-Message-ID: <875yhep5l1.fsf@meer.lwn.net>
+        with ESMTP id S232550AbiIWOLN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 10:11:13 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 012E5E1087;
+        Fri, 23 Sep 2022 07:11:09 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.56])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MYv8y4Kxrz1P6qG;
+        Fri, 23 Sep 2022 22:06:58 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 23 Sep 2022 22:11:08 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 23 Sep
+ 2022 22:11:07 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-doc@vger.kernel.org>, <linux-spi@vger.kernel.org>
+CC:     <corbet@lwn.net>, <broonie@kernel.org>, <lukas@wunner.de>,
+        <yangyingliang@huawei.com>
+Subject: [PATCH -next v2] Documentation: devres: add missing SPI helper
+Date:   Fri, 23 Sep 2022 22:18:03 +0800
+Message-ID: <20220923141803.75734-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+Add devm_spi_alloc_master() and devm_spi_alloc_slave() to devres.rst.
+They are introduced by commit 5e844cc37a5c ("spi: Introduce device-managed
+SPI controller allocation").
 
-> On 22.09.22 22:41, Jonathan Corbet wrote:
->> The top-level index.rst file is the entry point for the kernel's
->> documentation, especially for readers of the HTML output.  It is currently
->> a mess containing everything we thought to throw in there.  Firefox says it
->> would require 26 pages of paper to print it.  That is not a user-friendly
->> introduction.
->
-> That's true, but is it maybe good or even important for googleability?
-> When you talked about this in your LPC talk this went on in the matrix chat:
->
-> ```
-> Nur Hussein
-> I feel like every existing page needs to be accessible (somehow)
-> from that starting page
->
-> Zsuzsa Nagy
->
-> access to all pages <- findability from a search engine (technical
-> author talking here)
->
-> step #2 in-site search for those who already landed on your pages
-> ```
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Reviewed-by: Lukas Wunner <lukas@wunner.de>
+---
+v2:
+  Put alloc functions above the register function.
+---
+ Documentation/driver-api/driver-model/devres.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-So every page remains accessible, just like they are now.  They just
-aren't linked directly from the front page - as many pages already are
-not.  I honestly don't understand what the problem is here.
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index 2895f9ea00c4..7a3c34214c4c 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -436,6 +436,8 @@ SLAVE DMA ENGINE
+   devm_acpi_dma_controller_register()
+ 
+ SPI
++  devm_spi_alloc_master()
++  devm_spi_alloc_slave()
+   devm_spi_register_master()
+ 
+ WATCHDOG
+-- 
+2.25.1
 
-*No* site links everything directly on its front page.  Even if it had
-an effect on search engines, I think it would be wrong to prioritize SEO
-over basic usability.
-
->> This series aims to improve our documentation entry point with a focus on
->> rewriting index.rst.  The result is, IMO, simpler and more approachable.
->> For anybody who wants to see the rendered results without building the
->> docs, have a look at:
->> 
->>   https://static.lwn.net/kerneldoc/
->
-> I still think we're doing all this to build something for users and
-> hence docs for users should be at the top spot. I'd even think "those
-> people are selfish" if I'd look into the docs of a software and find
-> texts for developers at the top spot.
-
-Again ... who are the users?  I maintain that the actual users of our
-docs are primarily kernel developers.
-
->> Unless I get screams I plan to slip this into 6.1.  It is definitely not
->> the final form of the front page, but I doubt we'll ever get there; we can
->> change it in whatever ways make sense.
->
-> My 2 cent: why the rush? I'd say: let's try to get some feedback from
-> Zsuzsa and experts on docs first. I'd be willing to approach them. If
-> that doesn't work out over the next few weeks, just merge what you have
-> for 6.2.
-
-I want to do it because it's a clear step forward and has already been
-pending for a month.  It is surely not perfect, and there will
-undoubtedly be changes, perhaps big ones, to come, but I cannot imagine
-a scenario where we want to go back to the mess we have now.
-
-Thanks,
-
-jon
