@@ -2,96 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 145B4C6FA82
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 08:55:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C708C6FA86
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 09:32:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230383AbiIWIzO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 04:55:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45716 "EHLO
+        id S229997AbiIWJcs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 05:32:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231409AbiIWIzN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 04:55:13 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18FA87B784;
-        Fri, 23 Sep 2022 01:55:10 -0700 (PDT)
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1obeSi-0007LE-IZ; Fri, 23 Sep 2022 10:55:08 +0200
-Message-ID: <7f02143c-461f-268b-0f17-7fe20a7423d6@leemhuis.info>
-Date:   Fri, 23 Sep 2022 10:55:08 +0200
+        with ESMTP id S231869AbiIWJcW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 05:32:22 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 07B7C15A0F;
+        Fri, 23 Sep 2022 02:32:18 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 11EFE13D5;
+        Fri, 23 Sep 2022 02:32:25 -0700 (PDT)
+Received: from [10.57.2.155] (unknown [10.57.2.155])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A42BB3F73B;
+        Fri, 23 Sep 2022 02:32:16 -0700 (PDT)
+Message-ID: <1dabe308-21f7-aa2e-ee8f-48807878f91b@arm.com>
+Date:   Fri, 23 Sep 2022 10:32:15 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Content-Language: en-US, de-DE
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-References: <20220922204138.153146-1-corbet@lwn.net>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v2 0/4] Rewrite the top-level index.rst
-In-Reply-To: <20220922204138.153146-1-corbet@lwn.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 0/2] perf: arm64: Kernel support for Dwarf unwinding
+ through SVE functions
+Content-Language: en-US
+To:     Will Deacon <will@kernel.org>
+Cc:     catalin.marinas@arm.com, kernel-team@android.com,
+        linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+        acme@kernel.org, john.garry@huawei.com,
+        Jonathan Corbet <corbet@lwn.net>, leo.yan@linaro.org,
+        broonie@kernel.org, linux-doc@vger.kernel.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+References: <20220901132658.1024635-1-james.clark@arm.com>
+ <166385556279.1475166.2989569100449667346.b4-ty@kernel.org>
+From:   James Clark <james.clark@arm.com>
+In-Reply-To: <166385556279.1475166.2989569100449667346.b4-ty@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1663923311;751ff017;
-X-HE-SMSGID: 1obeSi-0007LE-IZ
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-On 22.09.22 22:41, Jonathan Corbet wrote:
-> The top-level index.rst file is the entry point for the kernel's
-> documentation, especially for readers of the HTML output.  It is currently
-> a mess containing everything we thought to throw in there.  Firefox says it
-> would require 26 pages of paper to print it.  That is not a user-friendly
-> introduction.
 
-That's true, but is it maybe good or even important for googleability?
-When you talked about this in your LPC talk this went on in the matrix chat:
-
-```
-Nur Hussein
-I feel like every existing page needs to be accessible (somehow)
-from that starting page
-
-Zsuzsa Nagy
-
-access to all pages <- findability from a search engine (technical
-author talking here)
-
-step #2 in-site search for those who already landed on your pages
-```
-
-It looks to me like Zsuzsa shared a lot of valuable comments on the chat
-during the talk. I wonder if we should bring Zsuzsa into this discussion
-before heading in a wrong direction, as that might result in some back
-and forth that just confuses people reading the docs.
-
-Maybe we should try to get even more people into the discussion that
-write docs for a living. I guess there might be some people at Red Hat,
-SUSE, or open source projects that have actual experience in bringing
-structure into a big chunk of texts of a large open source project. Not
-sure if we can get them to help us, but I guess it's worth a try.
-
-> This series aims to improve our documentation entry point with a focus on
-> rewriting index.rst.  The result is, IMO, simpler and more approachable.
-> For anybody who wants to see the rendered results without building the
-> docs, have a look at:
+On 22/09/2022 21:33, Will Deacon wrote:
+> On Thu, 1 Sep 2022 14:26:56 +0100, James Clark wrote:
+>> I'm resubmitting this with a few of the changes suggested by Will on V2.
+>>
+>> I haven't made any changes regarding the open questions about the
+>> discoverability or saving the new reg and passing to output_sample()
+>> because I think it's best to be consistent with the implementations on
+>> other platforms first. I have explained in more detail on v2 [1].
+>>
+>> [...]
 > 
->   https://static.lwn.net/kerneldoc/
+> Applied to will (for-next/perf), thanks!
+> 
+> [1/2] perf: arm64: Add SVE vector granule register to user regs
+>       https://git.kernel.org/will/c/cbb0c02caf4b
+> [2/2] arm64/sve: Add Perf extensions documentation
+>       https://git.kernel.org/will/c/1f2906d1e10a
+> 
+> Cheers,
 
-I still think we're doing all this to build something for users and
-hence docs for users should be at the top spot. I'd even think "those
-people are selfish" if I'd look into the docs of a software and find
-texts for developers at the top spot.
-
-> Unless I get screams I plan to slip this into 6.1.  It is definitely not
-> the final form of the front page, but I doubt we'll ever get there; we can
-> change it in whatever ways make sense.
-
-My 2 cent: why the rush? I'd say: let's try to get some feedback from
-Zsuzsa and experts on docs first. I'd be willing to approach them. If
-that doesn't work out over the next few weeks, just merge what you have
-for 6.2.
-
-Ciao, Thorsten
+Thanks Will. Sorry about the build, I will fix my config for next time.
