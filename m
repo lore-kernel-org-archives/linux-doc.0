@@ -2,81 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72406C6FA94
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 10:29:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80F9FC6FA8E
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 10:56:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230113AbiIWK3O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 06:29:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50322 "EHLO
+        id S230415AbiIWK4t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 06:56:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231218AbiIWK2x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 06:28:53 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C98AA128A37;
-        Fri, 23 Sep 2022 03:28:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663928928; x=1695464928;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rZsIBuKNgLub+auoIS69rq+B1ncorMSEq0WWo4jjZ2c=;
-  b=CNbqh7rBMzULRwx+JWwBDrmdeR02ed+Yj65XB5l0Ihs7E6aQMvrKbzBn
-   wV7YFFvdArnrvZGLLX2KbFVLiJ4J283EZITY5jmpscCO/zAApJX6QmDbS
-   PAjXbFUeuA7LVx57L3fRTPoy4CeEWnZu0s0gWoyIidYFifEycCvkHqnuw
-   3VXj8FiQdgXzTOVgWsQmNdLN9X73iApfB/eoBjaCGwCnx9/LfuEx2DW8H
-   npoQxSTrCOtRrMXMXLMGsyy7UV1RBSYmACLzResIzWMnm7bIcZdy+0r1u
-   JM6uwnFtzJby/iFLpUGwmzRyBOmNMtPVVkTb3/VOiFQR7ADHTp5YBXz2Q
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="302010087"
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="302010087"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 03:28:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="948974907"
-Received: from lkp-server01.sh.intel.com (HELO c0a60f19fe7e) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 23 Sep 2022 03:28:45 -0700
-Received: from kbuild by c0a60f19fe7e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1obfvJ-0005Zk-01;
-        Fri, 23 Sep 2022 10:28:45 +0000
-Date:   Fri, 23 Sep 2022 18:28:20 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sergiu Moga <sergiu.moga@microchip.com>
-Cc:     kbuild-all@lists.01.org, linux-serial@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: [tty:tty-next 37/45] htmldocs: Warning: MAINTAINERS references a
- file that doesn't exist:
- Documentation/devicetree/bindings/mfd/atmel-usart.txt
-Message-ID: <202209231815.jXlxs0vj-lkp@intel.com>
+        with ESMTP id S229724AbiIWK4U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 06:56:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9004B1075A3
+        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 03:55:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663930533;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=eef54XeIfI5ePPfdQCCa+xwkgeOXOv7/COauKA6kwwQ=;
+        b=T1/dnU6p98uww+nanGTVnruJC9rupkKWmubAscT2C0i4dHvmIjX2isoheWoSXTI2E+WZMe
+        Ivpi0a2jB7NP9+a0D//clBGqETi7e8u5dCtN1UnizMhPv8mLTB6Ksbl0G3YQIVOs+/0lrM
+        PMgDVYXVuAJijAS86b+qJtC2bivLRWM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-492-6n6J7plsPGadW6jkEy1rCw-1; Fri, 23 Sep 2022 06:55:32 -0400
+X-MC-Unique: 6n6J7plsPGadW6jkEy1rCw-1
+Received: by mail-wr1-f69.google.com with SMTP id g19-20020adfa493000000b0022a2ee64216so3889959wrb.14
+        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 03:55:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date;
+        bh=eef54XeIfI5ePPfdQCCa+xwkgeOXOv7/COauKA6kwwQ=;
+        b=OVOVStbOFSghZGFBxPbXMczpYnchXjPiBFzfM6IGnKopAJXoI1DQnVyJqHcP5d5lUE
+         Brr99cNuPu3P+eM8aSd360vd8AtQUrj4d8sD2xo+P1fNc5+eVqjoRxc0mQYFSjrf41g5
+         MsjcI9Td9/pJuE33ljMBElZ5/1DgsjQKyQwJ5tNsxf5Q71Zq1lqHtBIamqBTwFCcMQsR
+         Pu20ByvTEpQsGXO+IlFc5J9kIa2zxDoa2r/6BqeeKKns0hpSidbL+B1cXIViyo/KYbpt
+         MRm67lj5HOkAA27ZlIxX6p3PGoMI98+KRv1/C/zLAQzr0tqS0SL4GwqJAnX3Aib89RAO
+         Rnxg==
+X-Gm-Message-State: ACrzQf34otc6ghz8V3sPVwNUMuIXSnsAqmO8xPvQORz/IPJO6NQG5Rug
+        TqfCRHfVbVxCJbayouILj/5m08ar/qhUOPx8S8+eG2ra9XlGsX7l6aSefrEB6DdbqA0UJrkRYIl
+        L0OiSpkG0T6FL+bke82At
+X-Received: by 2002:adf:de01:0:b0:228:62ae:78bc with SMTP id b1-20020adfde01000000b0022862ae78bcmr4702210wrm.41.1663930531715;
+        Fri, 23 Sep 2022 03:55:31 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4kdGvtbB82mE3J4eOPvIcDO2feso4JPy2pwAaShDx+NaqgW7GNPKE3hF5xRI57FveqzL+0bQ==
+X-Received: by 2002:adf:de01:0:b0:228:62ae:78bc with SMTP id b1-20020adfde01000000b0022862ae78bcmr4702188wrm.41.1663930531409;
+        Fri, 23 Sep 2022 03:55:31 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c704:cc00:4585:a83b:64f2:ad21? (p200300cbc704cc004585a83b64f2ad21.dip0.t-ipconnect.de. [2003:cb:c704:cc00:4585:a83b:64f2:ad21])
+        by smtp.gmail.com with ESMTPSA id d10-20020a056000114a00b002250c35826dsm7067750wrx.104.2022.09.23.03.55.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Sep 2022 03:55:30 -0700 (PDT)
+Message-ID: <3108be4e-319d-3444-308d-ca60729ea502@redhat.com>
+Date:   Fri, 23 Sep 2022 12:55:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v1 1/3] coding-style.rst: document BUG() and WARN() rules
+ ("do not crash the kernel")
+Content-Language: en-US
+To:     John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        David Laight <David.Laight@ACULAB.COM>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Dave Young <dyoung@redhat.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>
+References: <20220920122302.99195-1-david@redhat.com>
+ <20220920122302.99195-2-david@redhat.com>
+ <3dcbcc7b-9ca0-1465-5a73-075a1c151331@nvidia.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <3dcbcc7b-9ca0-1465-5a73-075a1c151331@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-next
-head:   adafbbf6895eb0ce41a313c6ee68870ab9aa93cd
-commit: b9e947fbf008769ffda1028f627d604757e62265 [37/45] dt-bindings: serial: atmel,at91-usart: convert to json-schema
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git/commit/?id=b9e947fbf008769ffda1028f627d604757e62265
-        git remote add tty https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git
-        git fetch --no-tags tty tty-next
-        git checkout b9e947fbf008769ffda1028f627d604757e62265
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On 23.09.22 04:26, John Hubbard wrote:
+> On 9/20/22 05:23, David Hildenbrand wrote:
+>> [1] https://lkml.kernel.org/r/CAHk-=wiEAH+ojSpAgx_Ep=NKPWHU8AdO3V56BXcCsU97oYJ1EA@mail.gmail.com
+>> [2] https://lore.kernel.org/r/CAHk-=wg40EAZofO16Eviaj7mfqDhZ2gVEbvfsMf6gYzspRjYvw@mail.gmail.com
+>> [2] https://lkml.kernel.org/r/CAHk-=wit-DmhMfQErY29JSPjFgebx_Ld+pnerc4J2Ag990WwAA@mail.gmail.com
+> 
+> s/2/3/
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Thanks!
 
-All warnings (new ones prefixed by >>):
+> 
+> ...
+>> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+>> index 03eb53fd029a..e05899cbfd49 100644
+>> --- a/Documentation/process/coding-style.rst
+>> +++ b/Documentation/process/coding-style.rst
+>> @@ -1186,6 +1186,67 @@ expression used.  For instance:
+>>   	#endif /* CONFIG_SOMETHING */
+>>   
+>>   
+>> +22) Do not crash the kernel
+>> +---------------------------
+>> +
+>> +In general, it is not the kernel developer's decision to crash the kernel.
+> 
+> What do you think of this alternate wording:
+> 
+> In general, the decision to crash the kernel belongs to the user, rather
+> than to the kernel developer.
 
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mfd/atmel-usart.txt
+Ack
+
+[...]
+
+> I like the wording, it feels familiar somehow! :)
+
+:)
+
+> 
+> Reviewed-by: John Hubbard <jhubbard@nvidia.com>
+
+Thanks!
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Thanks,
+
+David / dhildenb
+
