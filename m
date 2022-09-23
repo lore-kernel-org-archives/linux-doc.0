@@ -2,86 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B18AC07E9D
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 18:44:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4144CC04A95
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 18:48:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229821AbiIWSo6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 14:44:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44162 "EHLO
+        id S232901AbiIWSs2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 14:48:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiIWSo5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 14:44:57 -0400
+        with ESMTP id S229821AbiIWSs1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 14:48:27 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F8C03ECD7;
-        Fri, 23 Sep 2022 11:44:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8EC31205A0;
+        Fri, 23 Sep 2022 11:48:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
         Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=KuiMXesKGfJiWErvIH2Wnk9SB3SRaAZkfT43/NCQskQ=; b=j1uLjhFi9cHkexHB5Z8HfvfvNw
-        xX30xzuhLNW3i6rlCd2wo1kevk3y5ERGIHhZgGobNi9MDbojeBXCtLn5AeVs7/f5Y+QrNrxTdcgey
-        98Cmvljqk/5BNqfszFZ0+8HJibmkGelUBz69qk09wF+oeUQrg4gbn6WZ32iE3xTQnh43rlg6gQWW7
-        OgGgEB9oJErIaQA1WZBgIRWWxyw6wVdsaqHAfTMupiLOx/Rja4K5yB739oDyAuslJHHytQFlHaPYk
-        Pycgy7J0iQJEl9uPFg+Ah6t8+2yQIQUAe6tb9N5foiH2CKWjJytkpnOPEtzgZUtHW9bjbIYEwPBpL
-        HA4AiB6Q==;
+        bh=t2OLBQEmg4AoUb1NRCujWt4eLSWl7grEqO7FcmKManU=; b=oFo0Ys/xhZAy+k9GdkSrmpOgjI
+        1zDdRO8+3NxQGaKeJURysOSPjtgIV0WzFW433yC0gz/Idd6slmlw6rSKrJzf4ax6LcUwQi4Gc2ePT
+        12SNJlK8ZK66WCJ9CQ65ffQ4yLKe0oJphtrTCED9Dz8e1gxMCynmcb7OLP68OlKziTPda0GaIw/cl
+        9ZOcjeJ9CWLwBcic3YTtk2eZ5t1jwkmLX9BCu75bO+/vOQy0Qncd7P3q0Q6+rlW98fp1JYz1myfYN
+        gbcADmQKRQ9/yM1E8C/ZqqEbbhQ0vZsF0cu7lKD36XakZQA4mKldnuvHu2f6TwB8glgxjlscP7GTO
+        9UrA5EDg==;
 Received: from [2601:1c2:d80:3110::a2e7]
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1obnfP-005Nix-JD; Fri, 23 Sep 2022 18:44:51 +0000
-Message-ID: <a22ed923-754a-b757-e0ca-87b6d6e6e8d2@infradead.org>
-Date:   Fri, 23 Sep 2022 11:44:50 -0700
+        id 1obnis-005OS9-7z; Fri, 23 Sep 2022 18:48:26 +0000
+Message-ID: <0b717bbd-0b3b-ecf8-e1f5-4641491498c3@infradead.org>
+Date:   Fri, 23 Sep 2022 11:48:25 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v2 7/7] docs: put atomic*.txt and memory-barriers.txt into
- the core-api book
+Subject: Re: [PATCH v2 0/4] Rewrite the top-level index.rst
 Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
+To:     Jonathan Corbet <corbet@lwn.net>,
         Thorsten Leemhuis <linux@leemhuis.info>,
-        Kees Cook <keescook@chromium.org>,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
         Jani Nikula <jani.nikula@linux.intel.com>
 References: <20220922204138.153146-1-corbet@lwn.net>
- <20220922204138.153146-8-corbet@lwn.net>
+ <7f02143c-461f-268b-0f17-7fe20a7423d6@leemhuis.info>
+ <875yhep5l1.fsf@meer.lwn.net>
 From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220922204138.153146-8-corbet@lwn.net>
+In-Reply-To: <875yhep5l1.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
 
-On 9/22/22 13:41, Jonathan Corbet wrote:
-> These files describe part of the core API, but have never been converted to
-> RST due to ... let's say local oppposition.  So, create a set of
-> special-purpose wrappers to ..include these files into a separate page so
-> that they can be a part of the htmldocs build.  Then link them into the
-> core-api manual and remove them from the "staging" dumping ground.
+
+On 9/23/22 06:45, Jonathan Corbet wrote:
+> Thorsten Leemhuis <linux@leemhuis.info> writes:
 > 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/core-api/index.rst              |  3 ++
->  .../core-api/wrappers/atomic_bitops.rst       | 18 ++++++++
->  Documentation/core-api/wrappers/atomic_t.rst  | 19 +++++++++
->  .../core-api/wrappers/memory-barriers.rst     | 18 ++++++++
->  Documentation/staging/index.rst               | 42 -------------------
->  5 files changed, 58 insertions(+), 42 deletions(-)
->  create mode 100644 Documentation/core-api/wrappers/atomic_bitops.rst
->  create mode 100644 Documentation/core-api/wrappers/atomic_t.rst
->  create mode 100644 Documentation/core-api/wrappers/memory-barriers.rst
+>> On 22.09.22 22:41, Jonathan Corbet wrote:
+>>> The top-level index.rst file is the entry point for the kernel's
+>>> documentation, especially for readers of the HTML output.  It is currently
+>>> a mess containing everything we thought to throw in there.  Firefox says it
+>>> would require 26 pages of paper to print it.  That is not a user-friendly
+>>> introduction.
+>>
+> 
+> Again ... who are the users?  I maintain that the actual users of our
+> docs are primarily kernel developers.
+
+ACK!
 
 
-When I look at https://static.lwn.net/kerneldoc/,
-I want to move these 3 from "Other documentation":
-Atomic Types
-Atomic bitops
-Memory Barriers
-
-to "Internal API Manuals", then I saw this patch...
-Maybe I am misunderstanding. Is this patch supposed to move those 3 items
-from Other or not?
-
-thanks.
 -- 
 ~Randy
