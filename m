@@ -2,224 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD41C6FA82
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 17:06:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C23D4C07E9D
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 17:45:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231517AbiIWRG3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 13:06:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41254 "EHLO
+        id S232317AbiIWRpp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 13:45:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230113AbiIWRG3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 13:06:29 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B633614A7BE;
-        Fri, 23 Sep 2022 10:06:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663952787; x=1695488787;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ZCjIgHYGCH7WpacNcOYdFFzz/xvTzjVdh8YXbYg2xC0=;
-  b=Ou4qCBIweqBVIgYcnC1B1tNYl/WLMuzKQBPdmmsE8w1cdilQWSjcvfSr
-   2CWMyVdmVy/u50Ys1Qug61RHa+odYXdLxC2sUWNchAAxQj6jL6CNd+jDA
-   Gu+DerPxBobq8dMOLOEcz9Ha9kLXkjPUx8EhSrT5gs0f0MV44YyCqSJKp
-   ACI4qZN8KeNng8X+52tE4w0IuPUls3OPoZqoV1jT+NfBeSP6CgGDyNvuH
-   VhHS3G/2kpMv3LnUCUeGYNyX/V3a8VKRRKiy6lyKl4kxBClFIrkmTbRsv
-   K3Ne5UM26dX6zWdu5JxwuAEgWx1VQDFfGElNNuK9bVGe1BEn8+UbnEVxs
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="302085971"
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
-   d="scan'208";a="302085971"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 10:06:27 -0700
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; 
-   d="scan'208";a="571439005"
-Received: from bmuddebi-mobl.amr.corp.intel.com (HELO [10.209.43.107]) ([10.209.43.107])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 10:06:26 -0700
-Message-ID: <0a5ec2cc-239b-9685-9bbf-7e8a7eacd10f@linux.intel.com>
-Date:   Fri, 23 Sep 2022 10:06:17 -0700
+        with ESMTP id S232086AbiIWRpp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 13:45:45 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1690AE094
+        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 10:45:44 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id fs14so696762pjb.5
+        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 10:45:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=1W19l9DCIdh8AdoZLG059wHQSMo4HlwOoqThHwjkRJs=;
+        b=kzaeMXcRHogHx1jdPsQE/dCgpx1HAIXr3A5bw1te7bpSaoDvBbBxuGfClu9wbV0UaK
+         wGJrubxOcXUPT+E9xYsoWbpPOFp9Ys6tIqUVK0BMrCTbblZ470lHxUaHYRnPXVeqNG5b
+         EnWjP7/VaAl2f+jvxvAzIxss42b82HI8yccu0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=1W19l9DCIdh8AdoZLG059wHQSMo4HlwOoqThHwjkRJs=;
+        b=PCKVL7pGp+/vVLvUIkkGo/glNAQsg4juOpxvtJ+jEIxyb4TgHDxuXw66tQDtqEAjti
+         BjVIgTmSSMXDIsFjDnl+grCyWx7NTBWbepbX+uKtals45I9Yuaph10AFetBnA9SgL0zh
+         jCSjYeMVapznY11bw0LXYx7hpY8LSpdoGUFrpbrt1+ZxOFURqjjcgf4PXigdB/pZOdlZ
+         8iIUEFwCkwk6kmwH6gmJSsY07G8PYWGASKjZqRGJg1Jb9sXfR0yDpxll7bGS/t/EvDvN
+         6Dn4VjOnopePYo4E7Dkz+KWEi641jHBMP/Py5q9id2NSz55dswrkzff8uWfnRp6hhkhS
+         LMiw==
+X-Gm-Message-State: ACrzQf2Yr3ls102gwcivHn6bXMVBaQX/uhnURfQ3ydBAijFoamwL3Ydk
+        lh7WcFzKg5gy5w4a+F/MCJ7+wnwbBQs4GQ==
+X-Google-Smtp-Source: AMsMyM51KpVTj5e0/6iXhj+Ej1quD9cSKABJOyqN4n4YbwIuC8QKpUGwuIECeN0CLsBcG/05ihNS0A==
+X-Received: by 2002:a17:90b:38c5:b0:202:98df:208c with SMTP id nn5-20020a17090b38c500b0020298df208cmr22271561pjb.129.1663955143751;
+        Fri, 23 Sep 2022 10:45:43 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id p18-20020a631e52000000b004393f60db36sm5940622pgm.32.2022.09.23.10.45.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Sep 2022 10:45:42 -0700 (PDT)
+Date:   Fri, 23 Sep 2022 10:45:41 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Thorsten Leemhuis <linux@leemhuis.info>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2 0/4] Rewrite the top-level index.rst
+Message-ID: <202209230942.E199E35F@keescook>
+References: <20220922204138.153146-1-corbet@lwn.net>
+ <7f02143c-461f-268b-0f17-7fe20a7423d6@leemhuis.info>
+ <875yhep5l1.fsf@meer.lwn.net>
+ <aa35d204-3033-96f2-ed83-c5034067fe4b@leemhuis.info>
+ <87r102nnef.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 5/6] fpga: dfl: parse the location of the feature's
- registers from DFHv1
-Content-Language: en-US
-To:     matthew.gerlach@linux.intel.com, hao.wu@intel.com,
-        yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
-        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
-Cc:     Matthew Gerlach <matthew.gerlach@intel.com>
-References: <20220923121745.129167-1-matthew.gerlach@linux.intel.com>
- <20220923121745.129167-6-matthew.gerlach@linux.intel.com>
-From:   "Muddebihal, Basheer Ahmed" 
-        <basheer.ahmed.muddebihal@linux.intel.com>
-In-Reply-To: <20220923121745.129167-6-matthew.gerlach@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87r102nnef.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Sep 23, 2022 at 09:03:36AM -0600, Jonathan Corbet wrote:
+> For better or for worse, our most prominent user-facing documentation is
+> the man pages, which are not a part of the kernel repository.  (Hmm...it
+> wouldn't hurt to add a link to them to the front page, if and when a
+> site with current man pages exists again).
 
+Oh, yes, good idea!
 
-On 9/23/2022 5:17 AM, matthew.gerlach@linux.intel.com wrote:
-> From: Matthew Gerlach <matthew.gerlach@intel.com>
-> 
-> The location of a feature's registers is explicitly
-> described in DFHv1 and can be relative to the base of the DFHv1
-> or an absolute address.  Parse the location and pass the information
-> to DFL driver.
-> 
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> ---
-> v2: Introduced in v2.
-> ---
->  drivers/fpga/dfl.c  | 26 +++++++++++++++++++++++++-
->  drivers/fpga/dfl.h  |  4 ++++
->  include/linux/dfl.h |  4 ++++
->  3 files changed, 33 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
-> index dfd3f563c92d..6fb4f30f93cf 100644
-> --- a/drivers/fpga/dfl.c
-> +++ b/drivers/fpga/dfl.c
-> @@ -381,6 +381,8 @@ dfl_dev_add(struct dfl_feature_platform_data *pdata,
->  	ddev->feature_id = feature->id;
->  	ddev->revision = feature->revision;
->  	ddev->cdev = pdata->dfl_cdev;
-> +	ddev->csr_start = feature->csr_start;
-> +	ddev->csr_size = feature->csr_size;
->  
->  	/* add mmio resource */
->  	parent_res = &pdev->resource[feature->resource_index];
-> @@ -708,18 +710,25 @@ struct build_feature_devs_info {
->   * struct dfl_feature_info - sub feature info collected during feature dev build
->   *
->   * @fid: id of this sub feature.
-> + * @revision: revision of this sub feature
-> + * @dfh_version: version of Device Feature Header (DFH)
->   * @mmio_res: mmio resource of this sub feature.
->   * @ioaddr: mapped base address of mmio resource.
->   * @node: node in sub_features linked list.
-> + * @csr_start: DFHv1 start of feature registers
-> + * @csr_size: DFHv1 size of feature registers
->   * @irq_base: start of irq index in this sub feature.
->   * @nr_irqs: number of irqs of this sub feature.
->   */
->  struct dfl_feature_info {
->  	u16 fid;
->  	u8 revision;
-> +	u8 dfh_version;
->  	struct resource mmio_res;
->  	void __iomem *ioaddr;
->  	struct list_head node;
-> +	resource_size_t csr_start;
-> +	resource_size_t csr_size;
->  	unsigned int irq_base;
->  	unsigned int nr_irqs;
->  };
-> @@ -797,6 +806,8 @@ static int build_info_commit_dev(struct build_feature_devs_info *binfo)
->  		feature->dev = fdev;
->  		feature->id = finfo->fid;
->  		feature->revision = finfo->revision;> +		feature->csr_start = finfo->csr_start;
-> +		feature->csr_size = finfo->csr_size;
->  
->  		/*
->  		 * the FIU header feature has some fundamental functions (sriov
-> @@ -1054,6 +1065,7 @@ create_feature_instance(struct build_feature_devs_info *binfo,
->  {
->  	unsigned int irq_base, nr_irqs;
->  	struct dfl_feature_info *finfo;
-> +	u8 dfh_version = 0;
->  	u8 revision = 0;
->  	int ret;
->  	u64 v;
-> @@ -1061,7 +1073,7 @@ create_feature_instance(struct build_feature_devs_info *binfo,
->  	if (fid != FEATURE_ID_AFU) {
->  		v = readq(binfo->ioaddr + ofst);
->  		revision = FIELD_GET(DFH_REVISION, v);
-> -
-> +		dfh_version = FIELD_GET(DFH_VERSION, v);
->  		/* read feature size and id if inputs are invalid */
->  		size = size ? size : feature_size(v);
->  		fid = fid ? fid : feature_id(v);
-> @@ -1080,12 +1092,24 @@ create_feature_instance(struct build_feature_devs_info *binfo,
->  
->  	finfo->fid = fid;
->  	finfo->revision = revision;
-> +	finfo->dfh_version = dfh_version;
->  	finfo->mmio_res.start = binfo->start + ofst;
->  	finfo->mmio_res.end = finfo->mmio_res.start + size - 1;
->  	finfo->mmio_res.flags = IORESOURCE_MEM;
->  	finfo->irq_base = irq_base;
->  	finfo->nr_irqs = nr_irqs;
->  
-> +	if (dfh_version == 1) {
-> +		v = readq(binfo->ioaddr + ofst + DFHv1_CSR_ADDR);
-> +		if (v & DFHv1_CSR_ADDR_REL)
-> +			finfo->csr_start = FIELD_GET(DFHv1_CSR_ADDR_MASK, v);
-> +		else
-> +			finfo->csr_start = binfo->start + ofst + FIELD_GET(DFHv1_CSR_ADDR_MASK, v);
-> +
-> +		v = readq(binfo->ioaddr + ofst + DFHv1_CSR_SIZE_GRP);
-> +		finfo->csr_size = FIELD_GET(DFHv1_CSR_SIZE_GRP_SIZE, v);
-> +	}
-> +
->  	list_add_tail(&finfo->node, &binfo->sub_features);
->  	binfo->feature_num++;
->  
-> diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
-> index e620fcb02b5a..64cedd00dca4 100644
-> --- a/drivers/fpga/dfl.h
-> +++ b/drivers/fpga/dfl.h
-> @@ -217,6 +217,8 @@ struct dfl_feature_irq_ctx {
->   *		    this index is used to find its mmio resource from the
->   *		    feature dev (platform device)'s resources.
->   * @ioaddr: mapped mmio resource address.
-> + * @csr_start: DFHv1 start of feature registers
-> + * @csr_size: DFHv1 size of feature registers
->   * @irq_ctx: interrupt context list.
->   * @nr_irqs: number of interrupt contexts.
->   * @ops: ops of this sub feature.
-> @@ -229,6 +231,8 @@ struct dfl_feature {
->  	u8 revision;
->  	int resource_index;
->  	void __iomem *ioaddr;
-> +	resource_size_t csr_start;
-> +	resource_size_t csr_size;
->  	struct dfl_feature_irq_ctx *irq_ctx;
->  	unsigned int nr_irqs;
->  	const struct dfl_feature_ops *ops;
-> diff --git a/include/linux/dfl.h b/include/linux/dfl.h
-> index 33e21c360671..7d74ef8d1d20 100644
-> --- a/include/linux/dfl.h
-> +++ b/include/linux/dfl.h
-> @@ -84,6 +84,8 @@ enum dfl_id_type {
->   * @type: type of DFL FIU of the device. See enum dfl_id_type.
->   * @feature_id: feature identifier local to its DFL FIU type.
->   * @mmio_res: mmio resource of this dfl device.
-> + * @csr_start: DFHv1 start of feature registers
-> + * @csr_size: DFHv1 size of feature registers
->   * @irqs: list of Linux IRQ numbers of this dfl device.
->   * @num_irqs: number of IRQs supported by this dfl device.
->   * @cdev: pointer to DFL FPGA container device this dfl device belongs to.
-> @@ -96,6 +98,8 @@ struct dfl_device {
->  	u16 feature_id;
->  	u8 revision;
-> +	u8 dfh_version;
+> I don't have that much invested in the current ordering, we can
+> certainly change it - anytime we want.  Anybody else have an opinion on
+> that topic?
 
-This is already parsed as part of info dfl_feature_info, Can we add dfh_version to store it for further use ? 
+I think you, as the recognized leader of the doc project, can
+establish some guiding principles on this, providing a bit of top-down
+order. e.g. adopt a specific "Linux kernel documentation project mission
+statement / strategy" that takes a distinctly opinionated stand on
+anything that has been debated. For example, a strawman, not meant
+to block this series in any way:
 
->  	struct resource mmio_res;
-> +	resource_size_t csr_start;
-> +	resource_size_t csr_size;
->  	int *irqs;
->  	unsigned int num_irqs;
->  	struct dfl_fpga_cdev *cdev;
+	Our primary audience is kernel developers, especially new
+	contributors. Our next priority is people who want to engage
+	with the developer community, but may not strictly be kernel
+	developers (e.g. testers, bug reporters, researchers, press,
+	etc). Next is users of the kernel, especially for how to use
+	various features or configurations.
+
+	Topics are ordered from least complexity to greatest complexity,
+	with ties solved alphabetically.
+
+	Links to development conversations must use Lore URLs unless
+	they are specifically not available.
+
+	Links to external documentation is strongly encouraged. Any
+	dead links will be removed if not updated within 6 months.
+
+	The "htmldocs" build target is expected to build without
+	warnings.
+
+It could live in Documentation/doc-guide/contributing.rst, and be the
+tie-break for anything that comes up. Obviously, it, too, could change.
+
+> I guess my feelings are that (1) I've had enough promises to help with
+> documentation over the years to learn not to count on such until said
+> help actually materializes, and (2) demonstrating what we can do can, I
+> hope, only inspire people who know more than me to show what we *really*
+> can do...
+
+Ship it! "Patches welcome", etc. :)
+
+-- 
+Kees Cook
