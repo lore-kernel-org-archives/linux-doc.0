@@ -2,144 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA51CC07E9D
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 18:40:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B18AC07E9D
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 18:44:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232775AbiIWSkl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 14:40:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38548 "EHLO
+        id S229821AbiIWSo6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 14:44:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232911AbiIWSkg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 14:40:36 -0400
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FD88A6C28;
-        Fri, 23 Sep 2022 11:40:34 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 0EF3A580B86;
-        Fri, 23 Sep 2022 14:40:34 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Fri, 23 Sep 2022 14:40:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1663958433; x=1663962033; bh=8bciG4zq3c
-        1fgJUXpN6Xfq9ayVFaPQsJlfJ51hqnhag=; b=mu67ZZTY1E4gC5hxnR1tmic3BO
-        ZVXCEqwfYme1u37Pje/jqcZ6LktWbkFtLVZtsUJWckNCuUPqUWniIxWGnFZrkYUL
-        htd69DHyz8UB3ySN3MBNY7k0KCgdn+35GdkNOV+NxUVgOXlYTiDbSqo3JdeYdfAr
-        8FCuxr9qn4bhCauzeek9Xmkct+W2vSau3Ne78lhQIMiEHGxwxRBYpB7RBKb/oL4x
-        d0KiEiqGc9YXthq5X6UZ7+kSWWp30viWsA3UaQRPWk6SVtbnm6ySKLk/zSJFlBkE
-        cMYRym6QtnleWesctMiSu36e01UGtf/LYTG8dMZ/vYLOWTWk+w6+0xfmNdgw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1663958433; x=1663962033; bh=8bciG4zq3c1fgJUXpN6Xfq9ayVFa
-        PQsJlfJ51hqnhag=; b=BpNX57Z48CaWEz00dPfahZ6syraP4PZdPltC3nWaV6g2
-        voFSWSU4ND0nk8HSEvZ0wcfSXKAz1Dymd3n4/IbIBqH7rndUsmCVQrgGkEXaVUdo
-        /Jw7y7ki8xmIU5Dlo8I0kMmjH62mRRCrts8pBUbgcP3zz5x0+Mw0cKTxAqGT/1P6
-        35HADwMOBJHlwDA2akAvZtFxfJsSQHRXqT7hifoLpoifxVdiML02Ly4COGPi6GDd
-        5Cxs7hX0PRcATDOuiO/RKz+hduKXKBtxt8m8KDzqjLCOqRDyaz3Oif7kSczq+AEo
-        FspR3U9KyRG/FuQxNoeB5fIDtyqpLZOz/Og5SadSFQ==
-X-ME-Sender: <xms:of0tYzae2rnLTD-qLbyPHXGZFC3ko-zoCeoDBTsi8gB4s4PxKf4b5Q>
-    <xme:of0tYyb994GU0hI41uH6_jA285Gtd_ak4BGecRZrQDAsK8mQxvaZEK3QaPrTrewDC
-    FTKagF4h2WYmoLxBt0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefiedgudefudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffegffdutddvhefffeeltefhjeejgedvleffjeeigeeuteelvdettddulefg
-    udfgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:of0tY19Fb253gGbJN2R3j6Y6BWxLaCgUCjr_PA-NpDrMFTSmZIVL_g>
-    <xmx:of0tY5pPK5iCiGLFoFtM_tBZmVBMtr9RuErA33ZhMk6e-V7FiHf9JQ>
-    <xmx:of0tY-oEMd7ucQkB8vHXIBPRKHRw6IWl3WamWHHcSHKEDPKVJOy-1g>
-    <xmx:of0tYyYjb7v5PqJNh8GQ6e8XYw31z5T__ZeBcbx9n9ydY_WF32Kufg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 1F141B60086; Fri, 23 Sep 2022 14:40:33 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
-Mime-Version: 1.0
-Message-Id: <b7379459-989f-446d-9d1d-b381a8550de1@www.fastmail.com>
-In-Reply-To: <PH0PR12MB548166865BF446C7F232DCE1DC519@PH0PR12MB5481.namprd12.prod.outlook.com>
-References: <20220915050106.650813-1-parav@nvidia.com>
- <96457b14-e196-4f29-be9a-7fa25ac805d9@www.fastmail.com>
- <PH0PR12MB5481192DB7B5C6E19683D514DC499@PH0PR12MB5481.namprd12.prod.outlook.com>
- <a8ee97f5-b92f-47a6-9b50-197974738ff7@www.fastmail.com>
- <PH0PR12MB548113D13F9E9CE4D5206514DC499@PH0PR12MB5481.namprd12.prod.outlook.com>
- <9ae25893-f19f-4186-a19a-7fc55d9295ed@www.fastmail.com>
- <PH0PR12MB548166865BF446C7F232DCE1DC519@PH0PR12MB5481.namprd12.prod.outlook.com>
-Date:   Fri, 23 Sep 2022 20:40:12 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Parav Pandit" <parav@nvidia.com>,
-        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
-        "Will Deacon" <will@kernel.org>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
-        "Nicholas Piggin" <npiggin@gmail.com>,
-        "dhowells@redhat.com" <dhowells@redhat.com>,
-        "j.alglave@ucl.ac.uk" <j.alglave@ucl.ac.uk>,
-        "luc.maranget@inria.fr" <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        "akiyks@gmail.com" <akiyks@gmail.com>,
-        "Dan Lustig" <dlustig@nvidia.com>,
-        "joel@joelfernandes.org" <joel@joelfernandes.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] locking/memory-barriers.txt: Improve documentation for writel()
- usage
-Content-Type: text/plain
+        with ESMTP id S229461AbiIWSo5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 14:44:57 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F8C03ECD7;
+        Fri, 23 Sep 2022 11:44:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=KuiMXesKGfJiWErvIH2Wnk9SB3SRaAZkfT43/NCQskQ=; b=j1uLjhFi9cHkexHB5Z8HfvfvNw
+        xX30xzuhLNW3i6rlCd2wo1kevk3y5ERGIHhZgGobNi9MDbojeBXCtLn5AeVs7/f5Y+QrNrxTdcgey
+        98Cmvljqk/5BNqfszFZ0+8HJibmkGelUBz69qk09wF+oeUQrg4gbn6WZ32iE3xTQnh43rlg6gQWW7
+        OgGgEB9oJErIaQA1WZBgIRWWxyw6wVdsaqHAfTMupiLOx/Rja4K5yB739oDyAuslJHHytQFlHaPYk
+        Pycgy7J0iQJEl9uPFg+Ah6t8+2yQIQUAe6tb9N5foiH2CKWjJytkpnOPEtzgZUtHW9bjbIYEwPBpL
+        HA4AiB6Q==;
+Received: from [2601:1c2:d80:3110::a2e7]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1obnfP-005Nix-JD; Fri, 23 Sep 2022 18:44:51 +0000
+Message-ID: <a22ed923-754a-b757-e0ca-87b6d6e6e8d2@infradead.org>
+Date:   Fri, 23 Sep 2022 11:44:50 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 7/7] docs: put atomic*.txt and memory-barriers.txt into
+ the core-api book
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Kees Cook <keescook@chromium.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+References: <20220922204138.153146-1-corbet@lwn.net>
+ <20220922204138.153146-8-corbet@lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220922204138.153146-8-corbet@lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 23, 2022, at 5:55 PM, Parav Pandit wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->> Sent: Friday, September 16, 2022 12:09 AM
+Hi--
 
->> > And I sort of see above pattern in two drivers, and it is not good.
->> > It ends up doing dsb(st) on arm64, while needed barrier is only
->> > dmb(oshst).
->> >
->> > So to fix those two drivers, it is better to first avoid wmb()
->> > documentation reference when referring to writel().
->> 
->> Yes, this suggestion is correct. On x86 and a few others, I think it's even
->> worse when wmb() is an expensive barrier, while writel() is the same as
->> writel_relaxed() and the barrier is implied by the MMIO access.
->> 
->> It might help to spell this out and say that writel() is always preferred over
->> wmb()+writel_relaxed().
->> 
-> True.
->
->> Site note: there are several other problems with wmb()+__raw_writel(),
->> which on many architectures does not guarantee any atomicity of the access
->> (a word store could get split into four byte stores), breaks endianess
->> assumptions and may still not provide the correct barrier semantics.
->>
-> Hmm. So far didn't observe this on arm64, x86_64, ppc64 yet.
-> May be because the address is aligned to 8 bytes, we don't see the byte stores?
+On 9/22/22 13:41, Jonathan Corbet wrote:
+> These files describe part of the core API, but have never been converted to
+> RST due to ... let's say local oppposition.  So, create a set of
+> special-purpose wrappers to ..include these files into a separate page so
+> that they can be a part of the htmldocs build.  Then link them into the
+> core-api manual and remove them from the "staging" dumping ground.
+> 
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  Documentation/core-api/index.rst              |  3 ++
+>  .../core-api/wrappers/atomic_bitops.rst       | 18 ++++++++
+>  Documentation/core-api/wrappers/atomic_t.rst  | 19 +++++++++
+>  .../core-api/wrappers/memory-barriers.rst     | 18 ++++++++
+>  Documentation/staging/index.rst               | 42 -------------------
+>  5 files changed, 58 insertions(+), 42 deletions(-)
+>  create mode 100644 Documentation/core-api/wrappers/atomic_bitops.rst
+>  create mode 100644 Documentation/core-api/wrappers/atomic_t.rst
+>  create mode 100644 Documentation/core-api/wrappers/memory-barriers.rst
 
-It's complicated. On some architectures (but not the ones you list),
-__raw_writel() is a pointer dereference, so the compiler is allowed
-to use whichever instruction it wants. Depending on the CPU it
-is building for, gcc can decide to split up those stores when it
-sees a pointer that was assigned from pointer with lesser alignment
-(which is undefined behavior in C). If the pointer is actually
-unaligned but gcc does not see this, then powerpc and arm will
-trigger an alignment exception for an MMIO location even on CPUs
-that can work with unaligned data on normal RAM.
 
-> mlx5_write64() variant to use writeX() and avoid wmb() post the 
-> documentation update is good start.
+When I look at https://static.lwn.net/kerneldoc/,
+I want to move these 3 from "Other documentation":
+Atomic Types
+Atomic bitops
+Memory Barriers
 
-Ok, fair enough, as long as the loop function is not timing
-critical itself.
+to "Internal API Manuals", then I saw this patch...
+Maybe I am misunderstanding. Is this patch supposed to move those 3 items
+from Other or not?
 
-    Arnd
+thanks.
+-- 
+~Randy
