@@ -2,148 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 678D5C6FA8B
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 00:58:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60278ECAAD8
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 02:06:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231580AbiIWA6W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 22 Sep 2022 20:58:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42770 "EHLO
+        id S229518AbiIWCGE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 22 Sep 2022 22:06:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231532AbiIWA6V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 20:58:21 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89B8D1114E4;
-        Thu, 22 Sep 2022 17:58:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663894700; x=1695430700;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ml+yVLdWFYzsyDqjZioBXvGBweEy273hCGRMNDKeVO8=;
-  b=cd/1LyD4UQVamNgO/s0DIDHY0YYMwsxXkU6wVfMS6PVBSRoZfSD1P2Ko
-   Vnb1+yy8FZ6WSo25k6uJfqi9OR4R8b0mOeOgtbamZHM9K79UWaEcxEI16
-   6iX9z60x98poA+XBv6X7o/QPTdYBsdWWj8k5xg4/9wSLHgxiZAgdWrgtk
-   5mEMUtUysJRmxtmJFGIkNKs2cePtum9tu74+Nwz5byEdqLXmnVN5/bh+d
-   FVaA44ytENtwrQyqnepff6pxG76WWar4D42MkVbXiKWBs2NmLS9txY5vw
-   erguz2zz1ymybWIJUUw05E5/grhuqjbOTm190r1FX8vxytG6Ypc4W9JxJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="364488768"
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="364488768"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 17:58:19 -0700
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="615437441"
-Received: from dnessim-mobl1.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.60.183])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 17:58:10 -0700
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id 5F4F01044E2; Fri, 23 Sep 2022 03:58:08 +0300 (+03)
-Date:   Fri, 23 Sep 2022 03:58:08 +0300
-From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        David Hildenbrand <david@redhat.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
+        with ESMTP id S229521AbiIWCGD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 22 Sep 2022 22:06:03 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2082.outbound.protection.outlook.com [40.107.220.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCBE128E2C;
+        Thu, 22 Sep 2022 19:06:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mBjtxg6G1ROgl/bBfr9AMut/Ym5TJ8WslHhKTzUtBWOJB9Rn4M+Q+Rs47qQcU0KVJliNZME/PQum+KL1XAEOlrYBuFtlBXQWIRG6f8NO5Of3YBUwOHMrNTcuN5/gsZeuUhalambHkFKvkcJmiP5xLZZiwJY4gH25CnDzGRzHVTX6W/3tEIyM/oYTvr/wLCkRTzFRWlOnIQUAox1lbTSqkrg1C3HqYDFp9DNxCyUjfoieEnCgkZhiPGBoWYDv7HBkKe//aTU3pMtu7I1nSnkrFCeLluyrY2MHbR4+aV/YeV/OWMgMjx9PvmRGDT9VjkKBy0pb+XYgjmqo7o+yBQFh+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=buFa+WQw/q1/AAhXQgBnAGV7XGvGJ0obkpDaCo/dQzE=;
+ b=ZGQ7sA0x1mxeC79SG8AsukL7biP+Aeo2NTVVckixUZRqPukIoSbV+LVnI75toY8KAzW8EeftEJ5GJnGPwgnypaGZ2DZriOF6qLbWWBKgEpzvNdfKGqZ0Bnb90Y6xStaSiBU3yIKIA8dJmfGfyIB6g/YVGHU3D00TqdcLdGZ+XoGSt2YVVVidlOEidcucDWYc9XzAJRJIhWsecd7nNG3MqMT0ALFoEhNODX3rT1EYqjTWQI2V+x4hrboRva8lfJOIAqp3FNRiKZfLUDRNsn16bjPyC9Uw1nmUJ6zx2c0n0UZ+f3/bEEV0+HOtYZ7TlaF2ICNdbZNyuzZmXz4L0LjW5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=buFa+WQw/q1/AAhXQgBnAGV7XGvGJ0obkpDaCo/dQzE=;
+ b=GNpVZe1+kdSaOc1GCTMZ+Px6lsg13hcNIy/iQ0Ywcld9ftIH8bNldDZx1qV3MaWmCrrFJVKoiVgug4f8M3KUKvICMz0Kb53i4kf+i6XKHNY/MelO4qSgxgLvxGK8YBVdxeg1hhc9wwsijL4cXF48bjLz2XI2Pf5WbC0a4AugfTiTPAAsWvq1l7A8LvminW+cNkOSYVc4yci8VZzF6HwqzBRo3sJynCqeylqfXs2TLowWEkcjODteFvxh82V5KSPt4RAFx2s6kFSCCsGjrQcMBrDSKtoL64rvEpSQBmqb7dCUA6wUvqb6P1tDVy03LVMmuzFm9W27GRrqV0LZ8nKdsA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB4140.namprd12.prod.outlook.com (2603:10b6:5:221::13)
+ by PH7PR12MB6612.namprd12.prod.outlook.com (2603:10b6:510:210::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.20; Fri, 23 Sep
+ 2022 02:06:00 +0000
+Received: from DM6PR12MB4140.namprd12.prod.outlook.com
+ ([fe80::e0c5:bb15:a743:7ddb]) by DM6PR12MB4140.namprd12.prod.outlook.com
+ ([fe80::e0c5:bb15:a743:7ddb%3]) with mapi id 15.20.5654.020; Fri, 23 Sep 2022
+ 02:05:59 +0000
+Message-ID: <d0c59eb8-baca-26fd-5f10-4a1f89bcf7b9@nvidia.com>
+Date:   Thu, 22 Sep 2022 19:05:54 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v1 3/3] checkpatch: warn on usage of VM_BUG_ON() and other
+ BUG variants
+Content-Language: en-US
+To:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <20220923005808.vfltoecttoatgw5o@box.shutemov.name>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
+        Ingo Molnar <mingo@kernel.org>,
+        David Laight <David.Laight@ACULAB.COM>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Dave Young <dyoung@redhat.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>
+References: <20220920122302.99195-1-david@redhat.com>
+ <20220920122302.99195-4-david@redhat.com>
+From:   John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <20220920122302.99195-4-david@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BY3PR05CA0024.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::29) To DM6PR12MB4140.namprd12.prod.outlook.com
+ (2603:10b6:5:221::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4140:EE_|PH7PR12MB6612:EE_
+X-MS-Office365-Filtering-Correlation-Id: 271e93ad-9713-47b8-75f2-08da9d082846
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gsXoAKb7vTen1Jf/hlXxUgxLTOYkLbE+2OS3EIo8Dwd0NKUy2xPNHJ7h4JS3Cvngi3YrJ2FKqD1kaXDzB18XWaccEdBlKBpyib5JYUSjLHzY23Ww5MWQUeLeAPFsEJosTNgzdpXpj4rdC/+JOvawtqnnnq4CA8ZrCDPMOiQUVYLqWQmW4pmCDdsS/5S+PBAjk0msNcjlslYLGil9A05iCVm8c+taXRga/tSLFw8Ezscot/0dl2ZEhLdlCVGw/kj6c0eDu3uYTFsEqGRs3HKDH4jHlxUHbOjPB83CIHd5UZ7g/+Dn0Ble+91ntK7lutf6Oi5iBsNl2WSPsBcX9nV+Bq+rNS+S2gZFOeXQgPDGn5jvuQYuO7YAM/gsuZaOcDznXIQFstbyJ3dpju3RZFVnHhveroXzZF1w56Hr8/Ij9mZjtXNlymGg2oZwL6YnMNr/mQLZVI1ME+lIOTE8TvifV8SgLonj1FqwWYKhxVAao//6QHyXDynPJJddLpupTozMZ1QCh0r3g8VFbhG1ae2vnO/WoCsk6XcPCyQ6M6CTFOnKD9NMpWq2iErE574Yy4IRcuF2egc1dFds3LlkNGnpHNErlTmyxKIUqGt9itC+Ewo7/eABXdXhvAXnVYuxBGXHciT37GXaKmqx5EAuDz+Ei+4BJ86wmHBiNfx+PGqPZQJD4es2q/u3nXTAu9wtd7IUXl2xLw41HdhKWGlRjxWGfEp9R+yo9mmm2M0xCOIABUmGFWAicS8PRsPaQ6YN5YYDhayQ724vACF3IgIYid/XEujgk4p+kv/biVMavwlA1iSe6aC0jptObAwkW9l4zmbM88s9jiYcabyD9uIXtd/OmXRi2qlgS08BLGWvi1KRRxsnhjCH5m4ZD3RMln7xxYYi
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4140.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(366004)(39860400002)(376002)(346002)(136003)(451199015)(31696002)(8676002)(66476007)(66556008)(86362001)(6512007)(66946007)(2906002)(8936002)(7416002)(5660300002)(4326008)(6666004)(41300700001)(53546011)(6506007)(2616005)(186003)(83380400001)(26005)(316002)(54906003)(478600001)(966005)(6486002)(38100700002)(36756003)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bVdUclBiaytLMW9OOXpmeXJkNjlRZ2FDZE1Uc1VPNVlNTFVsSXJwQVg0elBm?=
+ =?utf-8?B?SDhHZjdub2dUNHVENnFTbm5yUDBPeTZ2WDE2OTNlMHpUeFFsYkJhOXJMTlJT?=
+ =?utf-8?B?SWRKa1B5TG42Y1pFZXlncXA1a2wySy9QTlN5L0lBc25NbXVZMUNKa0gvUGlC?=
+ =?utf-8?B?Q01kM3FVT1NnbjZmR0pETWpwOGhqMWpqVFBvM0VoRHM4WmlUYzFtZHNLN2xu?=
+ =?utf-8?B?aG53K1Z4c283VGFxOEJYeVFlUFk5T3p5elFOUGRaM3YvMGxlSVpwZ0M5bW1Q?=
+ =?utf-8?B?UWF4Q1cyRXJ6MndtK2c5QUM0NStib0pBODNFTWJKeXFzUkdJdDlmMks2czJn?=
+ =?utf-8?B?SmVEYTVxQUdDT2pWSEdhVCtYWFhZRGNodHFOd0pKQ3c1aEZJaGJKU0ZQMkxO?=
+ =?utf-8?B?Zys3ZDlGbmR4VGVyUC81cnRqMExlNER0VEJ0R2NvNGt1aDk3YklDSmZzVVg0?=
+ =?utf-8?B?RWN6SExrOXRGcVdpNlVVRWQ0cnhvSDYwSXg3YTZoaGhtQlI3NEFMNTFod1V5?=
+ =?utf-8?B?VENSRnFoRThjY0xIalRxTUprZld6eG0rZllncTBvT2QyeXdUVndQMkJhQTNR?=
+ =?utf-8?B?WnhMQVRJTExROTBPcmp5clBYOFZhTHZraGM0WlZXSmJVUnFQc3gxcVRSMVM0?=
+ =?utf-8?B?dW5TdlVaRHYrbGpXcnNqWFp1SEtNV3Zndk1weklEcDFjcW10VHdWTzArRXRW?=
+ =?utf-8?B?NHhpMStQUnVOS1dqR2E1YWtLcU1UaGlRNW1TZno5Ry9mbnpDM2tabElUUXVi?=
+ =?utf-8?B?b1ovRGc5L3V0OCthanpBN3Mwd2ZYYVpVNHRIa3MxSFA0dGdITm0wL3MzNmll?=
+ =?utf-8?B?NnBHNmxMMmRYTlNoTUFrRE9qV2VMZHpFazBiUjFwclgyMXc3bURGM1U3Y2My?=
+ =?utf-8?B?Nm9hOTdlQndlaTlWWmNEUklQWEd4dzRCbXk5UzgvL3JCbHBTenFrVnJIVGpk?=
+ =?utf-8?B?Y0d1dkFzdUl2bmRLRENGaTc3Y2I1YVlXaGVFaDErYjZ3TlNXYnRzYW1qZ0lM?=
+ =?utf-8?B?dW1paVdkMkJSb3VwV3oxMTJsSjUvM1hEZE1EY0lkbU9yMWFQMFNSRFowb3Q3?=
+ =?utf-8?B?d0l3OTRLME1LcTdyOHgrN0g1MEV4S0lDcXd6eEg1OUUwMTdFQ250YVZ0ZjFG?=
+ =?utf-8?B?MnpFL1NBSU5SV25nUUhPUUpPT1oxNS9IMTNIcnZvcnZ0NE5rSS9ETVJvWXFE?=
+ =?utf-8?B?TG5jUnlxVEdqK2ZpajloYmczWXh4YTR3Ulh3SFJIZUVkUjNnZ3pCbTdiOEpw?=
+ =?utf-8?B?R2ZrSEwwOEh0K2UxWDFNZm1XcW1rNVM2M085UnhCNk9OUkgreXkxUUYwSEpQ?=
+ =?utf-8?B?dnpSK1FJUVRJNjlzc0h2a1l5cWh1TmVHQmFSMTBYbkdWVUpSa0NmaWY4TTd0?=
+ =?utf-8?B?SWZUVVF5Szh2VXUvcUFOU3lmMzRVYWtlVlhGMHNYOTVDeW00ZGRCNis4SnAz?=
+ =?utf-8?B?Nm9aaGhJcVh2eTQ3UFB2UFlKTWxSMlRLOHo2T2tvR2gyQytjMk5kUXVOeS9u?=
+ =?utf-8?B?b2kxY1JXN1lSNEt1ZnhVNXUzYjdtTVh5VXNaMnM0WUVucGp0TXBWOXBLSDFP?=
+ =?utf-8?B?RVZGM0JwWjlKV1MvZVJqc0dkT0lXUlgrckk5cC9FR3RBVFNablUrSW1uTFB0?=
+ =?utf-8?B?eVRqSnlGYW1TNFJOMGFnODJZQWh1dXhCRGZjMldQbndoRXB1SXJ1VDJTUVFO?=
+ =?utf-8?B?QUNBU0I4MUtveDVnQWxIK2srMW5HYnRhTytGbHY1Z1BsaUJ5VmR2N0xaWmd4?=
+ =?utf-8?B?ZGRDZHhKZDI2SFdQMjNHQ1c3VldlSEF5Q0VDellQNDk5SVRaeU9VMmxCdkIx?=
+ =?utf-8?B?cHhWNGQzekhlU3RPanFZeHRueWhLSFVtczRKeUlQZ0tmeDBCSjJ6RmFZRHA1?=
+ =?utf-8?B?QXNPdTZQb0xmUk10V1ROZGVOV2lQNFN5U0NteVVCdnQydUVrTmxwa2RYRVMx?=
+ =?utf-8?B?QjNlRjAyVXQ1Tjhtd1RWc1J3OTJrdS9WYzI1S29iR2JGWmJycExIaUxlcXov?=
+ =?utf-8?B?ZnB3WFBESU1JSUwyWmJ5b3lkcVJRR1pMNy9MSndjN09aUVdONm0vTHVTTWIz?=
+ =?utf-8?B?NVBnU1NDWGFPS2kyWTVMcEtaN1VsT1F0MEZEOFp1eEVwSkhLbDNPNVArZmV3?=
+ =?utf-8?Q?rd+0TaP8hN/lJ4qFBclYpb5GO?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 271e93ad-9713-47b8-75f2-08da9d082846
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4140.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2022 02:05:59.2363
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hd+k5PYSAZczENF704qH+V0VZcJDYABccKYxDp7B97yLDjnrEkwEjCn5n6+0RMLZL8EMQT273QVJ9xPEoAWg3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6612
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 19, 2022 at 11:12:46AM +0200, David Hildenbrand wrote:
-> > diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
-> > index 6325d1d0e90f..9d066be3d7e8 100644
-> > --- a/include/uapi/linux/magic.h
-> > +++ b/include/uapi/linux/magic.h
-> > @@ -101,5 +101,6 @@
-> >   #define DMA_BUF_MAGIC		0x444d4142	/* "DMAB" */
-> >   #define DEVMEM_MAGIC		0x454d444d	/* "DMEM" */
-> >   #define SECRETMEM_MAGIC		0x5345434d	/* "SECM" */
-> > +#define INACCESSIBLE_MAGIC	0x494e4143	/* "INAC" */
+On 9/20/22 05:23, David Hildenbrand wrote:
+> checkpatch does not point out that VM_BUG_ON() and friends should be
+> avoided, however, Linus notes:
 > 
+>     VM_BUG_ON() has the exact same semantics as BUG_ON. It is literally
+>     no different, the only difference is "we can make the code smaller
+>     because these are less important". [1]
 > 
-> [...]
+> So let's warn on VM_BUG_ON() and other BUG variants as well. While at it,
+> make it clearer that the kernel really shouldn't be crashed.
 > 
-> > +
-> > +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
-> > +			 int *order)
-> > +{
-> > +	struct inaccessible_data *data = file->f_mapping->private_data;
-> > +	struct file *memfd = data->memfd;
-> > +	struct page *page;
-> > +	int ret;
-> > +
-> > +	ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	*pfn = page_to_pfn_t(page);
-> > +	*order = thp_order(compound_head(page));
-> > +	SetPageUptodate(page);
-> > +	unlock_page(page);
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(inaccessible_get_pfn);
-> > +
-> > +void inaccessible_put_pfn(struct file *file, pfn_t pfn)
-> > +{
-> > +	struct page *page = pfn_t_to_page(pfn);
-> > +
-> > +	if (WARN_ON_ONCE(!page))
-> > +		return;
-> > +
-> > +	put_page(page);
-> > +}
-> > +EXPORT_SYMBOL_GPL(inaccessible_put_pfn);
+> As there are some subsystem BUG macros that actually don't end up crashing
+> the kernel -- for example, KVM_BUG_ON() -- exclude these manually.
 > 
-> Sorry, I missed your reply regarding get/put interface.
+> [1] https://lore.kernel.org/r/CAHk-=wg40EAZofO16Eviaj7mfqDhZ2gVEbvfsMf6gYzspRjYvw@mail.gmail.com
 > 
-> https://lore.kernel.org/linux-mm/20220810092532.GD862421@chaop.bj.intel.com/
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  scripts/checkpatch.pl | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> "We have a design assumption that somedays this can even support non-page
-> based backing stores."
-> 
-> As long as there is no such user in sight (especially how to get the memfd
-> from even allocating such memory which will require bigger changes), I
-> prefer to keep it simple here and work on pages/folios. No need to
-> over-complicate it for now.
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 79e759aac543..21f3a79aa46f 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -4695,12 +4695,12 @@ sub process {
+>  			}
+>  		}
+>  
+> -# avoid BUG() or BUG_ON()
+> -		if ($line =~ /\b(?:BUG|BUG_ON)\b/) {
+> +# do not use BUG() or variants
+> +		if ($line =~ /\b(?!AA_|BUILD_|DCCP_|IDA_|KVM_|RWLOCK_|snd_|SPIN_)(?:[a-zA-Z_]*_)?BUG(?:_ON)?(?:_[A-Z_]+)?\s*\(/) {
 
-Sean, Paolo , what is your take on this? Do you have conrete use case of
-pageless backend for the mechanism in sight? Maybe DAX?
+Should this be a separate patch? Adding a bunch of exceptions to the BUG() rules is 
+a separate and distinct thing from adding VM_BUG_ON() and other *BUG*() variants to
+the mix.
+
+>  			my $msg_level = \&WARN;
+>  			$msg_level = \&CHK if ($file);
+>  			&{$msg_level}("AVOID_BUG",
+> -				      "Avoid crashing the kernel - try using WARN_ON & recovery code rather than BUG() or BUG_ON()\n" . $herecurr);
+> +				      "Do not crash the kernel unless it is unavoidable - use WARN_ON_ONCE & recovery code (if reasonable) rather than BUG() or variants.\n" . $herecurr);
+
+Here's a requested tweak, to clean up the output and fix punctuation:
+
+"Avoid crashing the kernel--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants.\n" . $herecurr);
+
+
+thanks,
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+John Hubbard
+NVIDIA
+
