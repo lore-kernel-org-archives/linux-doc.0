@@ -2,112 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A01ABECAAD8
-	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 10:58:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90B98ECAAD8
+	for <linux-doc@archiver.kernel.org>; Fri, 23 Sep 2022 11:10:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230472AbiIWK6r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 06:58:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42082 "EHLO
+        id S231959AbiIWLKW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 07:10:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231837AbiIWK6d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 06:58:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C39AADE9D
-        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 03:58:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663930712;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=pq+nqOhkpxfLUyiqEq4MNg6ulDavWi2pU/tSeIb7Oc0=;
-        b=Gl2cDoLB6/AvIdcZ30SWvHLyp1GIr5KC5dwlIfWn7G+g9W8R1vRyGdKo5C8BW4d4hcFp+i
-        gTGf/pnDjaAZYIhcC4xLdM+9RNrcuq1rcdT4UQmZ3h2tn+OXlOzFIPVzFjpPW2Er1g7Pir
-        poaJbeOi3B9Hrm2smmnYnttw/Zx8KmU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-464-SDp1-tU3PaejjV0danTFvw-1; Fri, 23 Sep 2022 06:58:30 -0400
-X-MC-Unique: SDp1-tU3PaejjV0danTFvw-1
-Received: by mail-wm1-f72.google.com with SMTP id p9-20020a05600c23c900b003b48dc0cef1so1690506wmb.1
-        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 03:58:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date;
-        bh=pq+nqOhkpxfLUyiqEq4MNg6ulDavWi2pU/tSeIb7Oc0=;
-        b=Yqkpr1ZAPWBQ+181UKFyFAnxaQYz7PuiK2vSW74dpys0XkdsAR5bgxTrR3vf7/J0uU
-         azzY48bW7ZmDHuHPmgbwEVjC8JWxXV0xBiDxKlYZZ1bDPDD+3HSVF9f8ArFmvLqeHAUC
-         gJ7NSUjvglrdEnbeatAm3MAjdFySvAGCOTmzVVIhhDC0RVau6bDQFuTxOqTe0qSpL3hq
-         tVRyRgoH5fV3PykauVG5USRwCp9Uv7T05VzvKn+td65Vx/fVhZ1ZGho2foy9YGO6EP8x
-         Fz9CZwSy45LzViLvDTQJpeIj9vewbCJo8tGuf29vZ4jr5Sehfmil1DdlnTNu+dNKUyhA
-         lawQ==
-X-Gm-Message-State: ACrzQf3vPUtGFFNq/ayHmk+voEZqCxix1Zpnro/BzXzgrGsEk4Sl/pAo
-        yGfnbm8mIpQTK8efTLOFm8qrPRjggSYJhluWDdx9WOYxAbWlX4GpA56hEwihg8KIQFkVtpx5EID
-        5Beh9iu3NPkptRtmHehwM
-X-Received: by 2002:a05:6000:794:b0:22b:311:afe9 with SMTP id bu20-20020a056000079400b0022b0311afe9mr4596516wrb.509.1663930709602;
-        Fri, 23 Sep 2022 03:58:29 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM692HEan4sa48+pnUlqFXSHn8xzHJwtwuzQCIVFVG2mftuoGFZX1M6CyfbTNUt+KIc+bI3WYg==
-X-Received: by 2002:a05:6000:794:b0:22b:311:afe9 with SMTP id bu20-20020a056000079400b0022b0311afe9mr4596495wrb.509.1663930709283;
-        Fri, 23 Sep 2022 03:58:29 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:cc00:4585:a83b:64f2:ad21? (p200300cbc704cc004585a83b64f2ad21.dip0.t-ipconnect.de. [2003:cb:c704:cc00:4585:a83b:64f2:ad21])
-        by smtp.gmail.com with ESMTPSA id i66-20020a1c3b45000000b003b2878b9e0dsm2158664wma.20.2022.09.23.03.58.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Sep 2022 03:58:28 -0700 (PDT)
-Message-ID: <4f7ae306-7894-8baa-f920-441ce8c472a0@redhat.com>
-Date:   Fri, 23 Sep 2022 12:58:27 +0200
+        with ESMTP id S231548AbiIWLKU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 07:10:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E09BA831E;
+        Fri, 23 Sep 2022 04:10:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0B07161EF9;
+        Fri, 23 Sep 2022 11:10:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 664ADC433D7;
+        Fri, 23 Sep 2022 11:10:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663931418;
+        bh=LbW+VUr9DWt/bljfn5Ciy9AmuInJestA0k3eWHVTt6k=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=RYaHvTqq5gghs2gneIkUOvpWfNcxCgBpvD6gOB5162wt+2McsR83Vl73OpvKKpn2e
+         RCIj0oiS5U9XleKIyItiMsDYWY7jx4UwundC1RMm11QNkhKurfeeYjheFmSqh6K5qY
+         OBSyTf9SANNaAQbOhMIXGABEEELA27gxx/Duuy+S4hNZFFLmh6PcNRiCnF3JBzzKWK
+         H7pB5v4PvKiuDSEJArKoxH+VBuG4dU/CIVcC7PM8M/M9t6dc/0NGqDl0iHqXKrb7WH
+         eRS6PuSv+GP7U8IbZbN6XWS+Ihk1huu0GGk2GnIt2CQTNQNzrGtUaJlmfaYoW9Yj9n
+         V4fAEnH9CmyKQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4A6F4E4D03A;
+        Fri, 23 Sep 2022 11:10:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v1 3/3] checkpatch: warn on usage of VM_BUG_ON() and other
- BUG variants
-Content-Language: en-US
-To:     John Hubbard <jhubbard@nvidia.com>, Joe Perches <joe@perches.com>,
-        linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        David Laight <David.Laight@ACULAB.COM>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Dave Young <dyoung@redhat.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>
-References: <20220920122302.99195-1-david@redhat.com>
- <20220920122302.99195-4-david@redhat.com>
- <d0c59eb8-baca-26fd-5f10-4a1f89bcf7b9@nvidia.com>
- <3179f4545d3f71358da3e6c6ee18085af601b2eb.camel@perches.com>
- <60fa5b16-021e-1e54-7e06-39bbb871eaef@nvidia.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <60fa5b16-021e-1e54-7e06-39bbb871eaef@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v6 0/8] net: phy: Add support for rate matching
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166393141830.14679.9638727148672158207.git-patchwork-notify@kernel.org>
+Date:   Fri, 23 Sep 2022 11:10:18 +0000
+References: <20220920221235.1487501-1-sean.anderson@seco.com>
+In-Reply-To: <20220920221235.1487501-1-sean.anderson@seco.com>
+To:     Sean Anderson <sean.anderson@seco.com>
+Cc:     netdev@vger.kernel.org, andrew@lunn.ch, hkallweit1@gmail.com,
+        linux@armlinux.org.uk, olteanv@gmail.com, edumazet@google.com,
+        linux-kernel@vger.kernel.org, kuba@kernel.org, pabeni@redhat.com,
+        alexandru.marginean@nxp.com, davem@davemloft.net,
+        claudiu.manoil@nxp.com, ioana.ciornei@nxp.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->> And I think that "Do not crash" is a stronger statement than "Avoid crashing"
->> so I prefer the original suggestion but it's not a big deal either way.
+Hello:
+
+This series was applied to netdev/net-next.git (master)
+by David S. Miller <davem@davemloft.net>:
+
+On Tue, 20 Sep 2022 18:12:27 -0400 you wrote:
+> This adds support for phy rate matching: when a phy adapts between
+> differing phy interface and link speeds. It was originally submitted as
+> part of [1], which is considered "v1" of this series.
 > 
-> Yes, stronger wording is better. So how about this:
+> Several past discussions [2-4] around adding rate adaptation provide
+> some context.
 > 
-> "Do not crash the kernel unless it is absolutely unavoidable--use WARN_ON_ONCE() plus recovery code (if feasible) instead of BUG() or variants\n" . $herecurr);
+> [...]
 
-Okay, let's use that.
+Here is the summary with links:
+  - [net-next,v6,1/8] net: phylink: Document MAC_(A)SYM_PAUSE
+    https://git.kernel.org/netdev/net-next/c/72bc36956f73
+  - [net-next,v6,2/8] net: phylink: Export phylink_caps_to_linkmodes
+    https://git.kernel.org/netdev/net-next/c/606116529ab2
+  - [net-next,v6,3/8] net: phylink: Generate caps and convert to linkmodes separately
+    https://git.kernel.org/netdev/net-next/c/3e6eab8f3ef9
+  - [net-next,v6,4/8] net: phy: Add support for rate matching
+    https://git.kernel.org/netdev/net-next/c/0c3e10cb4423
+  - [net-next,v6,5/8] net: phylink: Adjust link settings based on rate matching
+    https://git.kernel.org/netdev/net-next/c/ae0e4bb2a0e0
+  - [net-next,v6,6/8] net: phylink: Adjust advertisement based on rate matching
+    https://git.kernel.org/netdev/net-next/c/b7e9294885b6
+  - [net-next,v6,7/8] net: phy: aquantia: Add some additional phy interfaces
+    https://git.kernel.org/netdev/net-next/c/7de26bf144f6
+  - [net-next,v6,8/8] net: phy: aquantia: Add support for rate matching
+    (no matching commit)
 
-Thanks!
-
+You are awesome, thank you!
 -- 
-Thanks,
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-David / dhildenb
 
