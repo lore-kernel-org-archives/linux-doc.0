@@ -2,65 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24DB3C07E9D
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Sep 2022 02:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9CB9C07E9D
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Sep 2022 02:20:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233008AbiIXCOu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 22:14:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36864 "EHLO
+        id S233033AbiIXCUE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 23 Sep 2022 22:20:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230113AbiIXCOt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 22:14:49 -0400
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D796424BCC;
-        Fri, 23 Sep 2022 19:14:43 -0700 (PDT)
-Received: by mail-qt1-f179.google.com with SMTP id w2so1131598qtv.9;
-        Fri, 23 Sep 2022 19:14:43 -0700 (PDT)
+        with ESMTP id S230113AbiIXCUD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 22:20:03 -0400
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20B843AE61;
+        Fri, 23 Sep 2022 19:20:02 -0700 (PDT)
+Received: by mail-qk1-f174.google.com with SMTP id k12so1187515qkj.8;
+        Fri, 23 Sep 2022 19:20:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=XYpb3jMoE2sW/1DrEQcCXaAdtZuC9Ljzelzta3hGVvo=;
-        b=o9nfKEAKIdcVeBJDdILQUXSgafLPD/K+S5hhxFJHZmTJio725itvWOxKu4CZppuf15
-         dzEPzijQALu/09UlWiu75YXdV9/M2bB6LrQybt5W5KYaylem6JFSL7eFjdBXNCeE9yTC
-         QJ4Z+dcqTZ++Jr5dxu1gqUn0VrxUET4cIP32pKc9n8CI8zCERTtmY+UAF94TWznJ1Bz0
-         fd9av4z5luxOXazgG/5gLU1kWgsZ2ZeJkBHVgX9pqMuCDTYh9URrpJpy8g424c3IAasX
-         fnLniPQEeswoEbXxBufNw1KAX0OlR7yCsqKDXoerJ+/F0dWsWl5n/ED0tIzrp+eED2yU
-         rMzw==
-X-Gm-Message-State: ACrzQf0LCjxvBs1cwxZUBjoo6BiyZxnqcVf8dO9NodhgMmJvfTU2kmTA
-        nDhmKA5kBbspSbgh3dV7szZ93JtKaIuF/g==
-X-Google-Smtp-Source: AMsMyM4MUwRUUY75JOpTav8YqgKmv6hRd8op8lfYeqXipzXPq34sefaIil43ZGPOU5xtC1HYtnW2gA==
-X-Received: by 2002:a05:622a:1904:b0:35c:c657:14e4 with SMTP id w4-20020a05622a190400b0035cc65714e4mr9772665qtc.65.1663985682878;
-        Fri, 23 Sep 2022 19:14:42 -0700 (PDT)
+        bh=OpEPvLv/O1HM7B+SRN9luBqj0c1Ggp5FsG5boA0jORs=;
+        b=dSLACMSBNFqztokANX/Dos2MCMLrRji8o8WrI/cCU0p4Qy32BQ9VyOGVbEPptxseip
+         40G7Bkj1+J7MtCn+XWVBxumYJLZ4OQwWmVejOlHmGIf68LfaBEs3ktYAfHXeUKlkTizJ
+         Outv1hVlZ2XOcDg8296d6+dGVneBr/x+rznMYyQgM3JrnMjaiiJBj4aE7PjB5OH0WC8B
+         BbK0EuYpE2uS9cu+Rh7ldObW1zyo92u5BPxwOuybG0dknTtd6ZxOKazleTUM5U8NTIFK
+         lbzrD4ZC+M18k+NHp/1hSH2Jubg47oNyFkluB0XavUNsFKngD22NcViXnEH5/y6N+UVt
+         L0iA==
+X-Gm-Message-State: ACrzQf2jIGlGidzgHSv/LGTYDFrsErrhK1YOp2GxoojL8EEwezLO/BCC
+        JVVyxko6N1CCvwvurCxPgJBufeng5j80Rl5r
+X-Google-Smtp-Source: AMsMyM6H705+Uolyv3bgv+4nMOV24YAB8AvLp9Fi9/fJiLLfWpE/od8oqIPL2zqCBBCfsG+OumHDdQ==
+X-Received: by 2002:a37:348:0:b0:6cf:f30:9f0b with SMTP id 69-20020a370348000000b006cf0f309f0bmr7874862qkd.735.1663986001110;
+        Fri, 23 Sep 2022 19:20:01 -0700 (PDT)
 Received: from maniforge.dhcp.thefacebook.com ([2620:10d:c091:480::2c58])
-        by smtp.gmail.com with ESMTPSA id w12-20020a05620a444c00b006af1f0af045sm7447796qkp.107.2022.09.23.19.14.42
+        by smtp.gmail.com with ESMTPSA id h11-20020a05620a284b00b006bbc3724affsm7012664qkp.45.2022.09.23.19.20.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Sep 2022 19:14:42 -0700 (PDT)
-Date:   Fri, 23 Sep 2022 21:14:44 -0500
+        Fri, 23 Sep 2022 19:20:00 -0700 (PDT)
+Date:   Fri, 23 Sep 2022 21:20:02 -0500
 From:   David Vernet <void@manifault.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Thorsten Leemhuis <linux@leemhuis.info>,
         Kees Cook <keescook@chromium.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2 4/7] docs: remove some index.rst cruft
-Message-ID: <Yy5oFE41pCDeN6LS@maniforge.dhcp.thefacebook.com>
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jiri Slaby <jirislaby@kernel.org>
+Subject: Re: [PATCH v2 5/7] docs: move asm-annotations.rst into core-api
+Message-ID: <Yy5pUi+9M50eVSNS@maniforge.dhcp.thefacebook.com>
 References: <20220922204138.153146-1-corbet@lwn.net>
- <20220922204138.153146-5-corbet@lwn.net>
+ <20220922204138.153146-6-corbet@lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220922204138.153146-5-corbet@lwn.net>
+In-Reply-To: <20220922204138.153146-6-corbet@lwn.net>
 User-Agent: Mutt/2.2.7 (2022-08-07)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 22, 2022 at 02:41:35PM -0600, Jonathan Corbet wrote:
-> There is some useless boilerplate text that was added by sphinx when this
-> file was first created; take it out.
+On Thu, Sep 22, 2022 at 02:41:36PM -0600, Jonathan Corbet wrote:
+> This one file should not really be in the top-level documentation
+> directory.  core-api/ may not be a perfect fit but seems to be best, so
+> move it there.  Adjust a couple of internal document references to make
+> them location-independent.
 > 
+> Cc: Jiri Slaby <jirislaby@kernel.org>
 > Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
 Reviewed-by: David Vernet <void@manifault.com>
+
+Certainly seems better for it to live under Core utilities compared to
+where it is now.
