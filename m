@@ -2,103 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 676FDC04A95
-	for <linux-doc@archiver.kernel.org>; Sat, 24 Sep 2022 02:31:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13313C07E9D
+	for <linux-doc@archiver.kernel.org>; Sat, 24 Sep 2022 04:25:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229724AbiIXCbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 23 Sep 2022 22:31:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60014 "EHLO
+        id S233053AbiIXEZj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 24 Sep 2022 00:25:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232812AbiIXCbV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 23 Sep 2022 22:31:21 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B8C4ED5C6;
-        Fri, 23 Sep 2022 19:31:20 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id a5-20020a17090aa50500b002008eeb040eso8755871pjq.1;
-        Fri, 23 Sep 2022 19:31:20 -0700 (PDT)
+        with ESMTP id S231701AbiIXEZi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 24 Sep 2022 00:25:38 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452D7193DA
+        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 21:25:02 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id go6so1741173pjb.2
+        for <linux-doc@vger.kernel.org>; Fri, 23 Sep 2022 21:25:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=PlrfWlpdqt+xjgKL+9XUICyPlvBbkUl0DMPU2Xl4+oc=;
-        b=Q7ZkxgV/zpidkkl8W5NQ9L17EWFBen+v6rHHNZhWZeObfzSJYsm5LtFtAfu/tX5R13
-         OialadSdL+h7AunTW40BC5eE3YQAdv8BCPPHMP7fieqHd/NT/RYt+49rvKw/UU63JNSZ
-         MtAgwo6W1G69cWLTgDdHtFmK3dDp5xwM0Vokoqcx69SmwN7QYQ39gcBBMflKY0Mk1/gm
-         z5WIaiQ9oU79KYeoBZuBa7l0kuv1MgLtxfozDt4qtbm0d5AGqW9KHp921W23zq2OxjeZ
-         ytvSpnYblDxatYSl+XB9lzwe2lV6EtKPzaBceWBD0zaen7kswqvWVrQc/OtyJaMARPzO
-         S5Hg==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=SryvsTQwltO56wFoDvYodwqQ1nJOEHCTIO0SJE5NltI=;
+        b=ObuYdtRhhEO7gwpcaf1j2KjwMFpw8F5W/TLQdvkECdKCrvzl5XhjxOIVWCFrX9Pum/
+         Ie1/G7co8F4srMEufyH74VkvfDtJCE9BD7NEc4LuOBhrmD6dRNV5H/A7IBng9Yt9p6wM
+         dJpmNomGeevmMKL2gfWwYGOAY0fBJgpMugGrA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=PlrfWlpdqt+xjgKL+9XUICyPlvBbkUl0DMPU2Xl4+oc=;
-        b=4rYU/fN8RaozX0zjaa8SUQx6kHPAzPGtZApTS1B+D4Gm6ukXNdOvFevOSJ7grqUrj3
-         /oGkYLoPNE8gveiRvnkn0WbkOYsg4dVIbePXfNSjryXeW45It/sJ5kU5z031dugkks0G
-         p+TGdo/tqC7qZHuGxXWlCQ+Nzju0xKz4UB7GpPBT0n9yBe5Jbu6cQhO9RAvtlmEbU0je
-         WauyDCnjLFjdPZ4sF0cTij93IkwQVvKnz3N52GlowLsCsbHMPP2uJkLXO6SxmYM4wij2
-         QkdN1oEh0xd3mr0puu6RNd58xYxteObV3PSY9Q5j+hVRy6CfRUgCOxPCaui/DTCpQ/Y8
-         qzSg==
-X-Gm-Message-State: ACrzQf2uC63rA6XWjIWX/6v2DuhSPh0M0DX/jl0sYdLF2rO0rUBTOHMM
-        /ik35P0HluVmCLGCXxyu28Q=
-X-Google-Smtp-Source: AMsMyM6jvUot8t6GrHmTP41IkTux0bIlddfaTyuuU2n8pCxP/xihsPczbyUjdGWhHOIsNbeIbXyhaQ==
-X-Received: by 2002:a17:902:efd2:b0:176:b888:2481 with SMTP id ja18-20020a170902efd200b00176b8882481mr11128332plb.144.1663986679861;
-        Fri, 23 Sep 2022 19:31:19 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id e23-20020aa79817000000b00540b35628a4sm7230424pfl.123.2022.09.23.19.31.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Sep 2022 19:31:19 -0700 (PDT)
-Message-ID: <d9e15a0b-0ec9-894b-b0a6-3425af2ddeff@gmail.com>
-Date:   Sat, 24 Sep 2022 11:31:16 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] string: Rewrite and add more kern-doc for the str*()
- functions
-Content-Language: en-US
-To:     Kees Cook <keescook@chromium.org>
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=SryvsTQwltO56wFoDvYodwqQ1nJOEHCTIO0SJE5NltI=;
+        b=U2W3uHnhgcz0w1jVT/zSpZ6fIuleF+r24aqO5bBKAwcgjVbSrmvnNn3crSNzLnib58
+         HC6cHaKjyHBSggpysGH8WhTdD74Y8biamD2cXmasbpFp+WlgTyfRXcnp8WDHkyRF1GUp
+         378DxYDvBR2CJfCE6drKec/55/OpT+jLjwJFUCKuea+Ml6Wgrj1VyEVHVsgzUGB43rR/
+         YEMp7VLrEk5MgXoXwZEwd6gDC/qNGJEsCuvb/VqLtQvLil1/iHTiTJopprqUDT8llZpH
+         giD+qCsVAbM6bwJeAt+DD34AxbzsDJO7Ouwl2laA9z/T3mMJJGP+ErKkWKMwZHKomzlP
+         7khQ==
+X-Gm-Message-State: ACrzQf1jPBazGgGOihColHtmZ3RygRJzg1B0woy+/I+DhT/TUTYn88TD
+        3c0u/C09UU52UITEj5dOlnZa1A==
+X-Google-Smtp-Source: AMsMyM7T9m312Yujg1sI+sfc1mrgJtRTD4FRf7qTOYqqZkubbh1ByTieKeWf7zSDNEfsqZiDd94wDg==
+X-Received: by 2002:a17:90b:38cb:b0:203:100:bb53 with SMTP id nn11-20020a17090b38cb00b002030100bb53mr13412364pjb.107.1663993501436;
+        Fri, 23 Sep 2022 21:25:01 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id b20-20020a630c14000000b0043ab80adf63sm6323708pgl.36.2022.09.23.21.25.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Sep 2022 21:25:00 -0700 (PDT)
+Date:   Fri, 23 Sep 2022 21:24:59 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] string: Rewrite and add more kern-doc for the str*()
+ functions
+Message-ID: <202209232124.F8233E7@keescook>
 References: <20220922062817.2283352-1-keescook@chromium.org>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220922062817.2283352-1-keescook@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <d9e15a0b-0ec9-894b-b0a6-3425af2ddeff@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d9e15a0b-0ec9-894b-b0a6-3425af2ddeff@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Kees,
-
-On Wed, 21 Sep 2022 23:28:17 -0700, Kees Cook wrote:
-> While there were varying degrees of kern-doc for various str*()-family
-> functions, many needed updating and clarification, or to just be
-> entirely written. Update (and relocate) existing kern-doc and add missing
-> functions, sadly shaking my head at how many times I have written "Do
-> not use this function". Include the results in the core kernel API doc.
+On Sat, Sep 24, 2022 at 11:31:16AM +0900, Akira Yokosawa wrote:
+> Hi Kees,
 > 
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
-> Follow up to https://lore.kernel.org/lkml/20220902223507.2537469-1-keescook@chromium.org
-> Note that this is on top of my recent fortify-string.h series:
-> https://lore.kernel.org/lkml/20220920192202.190793-1-keescook@chromium.org/
-I wanted to test this change, but I've not able to find a good commit
-where the fortify-string.h series and this one can be applied cleanly.
-
-Would you mind creating a topic branch somewhere on your git tree
-and sharing it?
-
-Regards,
-Akira
-
-> ---
->  Documentation/core-api/kernel-api.rst |   3 +
->  include/linux/fortify-string.h        | 133 ++++++++++++++++++++++++--
->  lib/string.c                          |  82 ----------------
->  scripts/kernel-doc                    |   4 +
->  4 files changed, 130 insertions(+), 92 deletions(-)
+> On Wed, 21 Sep 2022 23:28:17 -0700, Kees Cook wrote:
+> > While there were varying degrees of kern-doc for various str*()-family
+> > functions, many needed updating and clarification, or to just be
+> > entirely written. Update (and relocate) existing kern-doc and add missing
+> > functions, sadly shaking my head at how many times I have written "Do
+> > not use this function". Include the results in the core kernel API doc.
+> > 
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> > Follow up to https://lore.kernel.org/lkml/20220902223507.2537469-1-keescook@chromium.org
+> > Note that this is on top of my recent fortify-string.h series:
+> > https://lore.kernel.org/lkml/20220920192202.190793-1-keescook@chromium.org/
+> I wanted to test this change, but I've not able to find a good commit
+> where the fortify-string.h series and this one can be applied cleanly.
 > 
-[...]
+> Would you mind creating a topic branch somewhere on your git tree
+> and sharing it?
+
+Sure! It's part of my devel/hardening branch:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=devel/hardening
+
+Thanks for taking a look!
+
+-- 
+Kees Cook
