@@ -2,223 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 755DAC07E9D
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 16:57:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BFFCC32771
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 17:06:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230008AbiIZQ5I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 12:57:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38064 "EHLO
+        id S230171AbiIZRGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 13:06:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230011AbiIZQ4t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 12:56:49 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFD8A6C762
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 08:52:22 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id h3so7975113lja.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 08:52:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=x4NTypTBJW4b7REu+E6eGP25pHpiqubalYhFPom5anA=;
-        b=nyBYl3et3D/Hwg0PXcmhDbdFVdgPs3wT1T5m4FWqxqT5warTXHeLblDbQ/PO42CWGY
-         jbpOwM8f7b+hUVCjTVqEffZDcvNQvdlgXth8PswhOzbaHGeI6lrVsgAHqFlK93PKl3Ai
-         29wu0qn3ZcEfauxpueUyETsbUfSS3n0CXd8kORVyU3Uk9W+0ddF1wH325LwJztuinsWa
-         lNrIfEakQ6yL4BBqZDrJojilF7V7sSd37sQ8L03NWeQ320JAVL8LJpzI5X3t8KB5QrvI
-         KVgePx51bdk4JXI/uNiFSoF+7/stF86Grk0vLeOtU1pn4URzIXpZfxGdKpM0y4tu7MVO
-         9wDg==
+        with ESMTP id S229812AbiIZRG1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 13:06:27 -0400
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACFDC5757C;
+        Mon, 26 Sep 2022 09:10:58 -0700 (PDT)
+Received: by mail-oi1-f176.google.com with SMTP id n83so8793366oif.11;
+        Mon, 26 Sep 2022 09:10:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=x4NTypTBJW4b7REu+E6eGP25pHpiqubalYhFPom5anA=;
-        b=rJQcq1FQDP5fnFWHc/4GZt7c8L6OlhPH+OCSlco96UigZogakuNsGhiGe2LT/cEBtB
-         gnZwu7eXgwruv52ob34cZLsLunrvQ4IqHvJXfloWuVdhX83ZKmio3d+6JaVgTjhIDK5J
-         ZPrLEIzQMNWCg5/Q4SLjzB4shbhrBOVrk13SYbcpRe9vprebYjmniWguS7t6kJbIedpf
-         nMPgy+rOgpj9oI5H5hEpQMf7Pww0fTFPok6rjLFRORka82lhYQ8DcK+c+j85xx1iYaWI
-         /FCyMgCH0HROsTy7mxNPdIfGVBvrsVogG2l97KyNl3C9BLoslG3LK/+QIaz25tBpOAtV
-         XXtg==
-X-Gm-Message-State: ACrzQf3JHNTeSqk6Q0RnCoOHppTKGv1wLOPcVwfUWDs/CC0ta+31sQel
-        v9+V0Z8DUmDTaBIwe9kqmK++ieHmycPY1i4mcVomaw==
-X-Google-Smtp-Source: AMsMyM4TnPZUbURsP5BnRXq8d6hA/qshAGD43sNBUgtRFJmy1zG4ZPjO55nhnzDzvSMBCXJWhr1o64pz5goInSn46Ck=
-X-Received: by 2002:a05:651c:1508:b0:26c:622e:abe1 with SMTP id
- e8-20020a05651c150800b0026c622eabe1mr7742402ljf.228.1664207540822; Mon, 26
- Sep 2022 08:52:20 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=EnxGpPNSu9tkRW91egZi/JyRBJEVMjafDP7wp2vUUJg=;
+        b=2sWKyfTMnFBu77l7jcpA4XBhpoUbpS9EbiUSLfjWXvASRNkEzNmLVM3oim0S6FMAxu
+         IEZ85C7f182OtpupjCdZGUYYQsRjf0BMpxAip8cjuOsC1PXzfE1Kn7rqYF0Am+VKdE4d
+         poaKDdO1IGwTbf3zrjDJXcFJsPZ0+XsUDE0DHjC+uNAXHp/b69IsN6i1gYAhg2U1WQed
+         K0X4kcTBnBnLLHxfqa9gG/gltx3AxwQWfVrJwTZtiUIZQ8eGGFGzqnyGxfnVH3t474SO
+         q0g8ZQPLwVFSQfZjrgESfVxCTs7f6a8ugKDUu19n9hK2Uypcy96ZkCX9R1aWcx30unsL
+         UYVw==
+X-Gm-Message-State: ACrzQf2vjBb6jJhRCpU9Ho+tZ3BBN0JiprkrcGoemi9jPONgjxEywGF2
+        CUO/LsrVWySgyFJvX306wA==
+X-Google-Smtp-Source: AMsMyM7NfWKMkOVO+VVgVFP1qw8jgussZbCmQjL2fU6ahxMuW012gWRlYXSUT+SY6Ab3Rfic439fLQ==
+X-Received: by 2002:a05:6808:13cf:b0:34f:f317:df4e with SMTP id d15-20020a05680813cf00b0034ff317df4emr15599550oiw.124.1664208657892;
+        Mon, 26 Sep 2022 09:10:57 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id o10-20020a056871078a00b0012b2b0b6281sm8985547oap.9.2022.09.26.09.10.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Sep 2022 09:10:57 -0700 (PDT)
+Received: (nullmailer pid 2123602 invoked by uid 1000);
+        Mon, 26 Sep 2022 16:10:56 -0000
+Date:   Mon, 26 Sep 2022 11:10:56 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
+        vadfed@fb.com, johannes@sipsolutions.net, jiri@resnulli.us,
+        dsahern@kernel.org, stephen@networkplumber.org, fw@strlen.de,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC net-next 2/4] ynl: add the schema for the schemas
+Message-ID: <20220926161056.GA2002659-robh@kernel.org>
+References: <20220811022304.583300-1-kuba@kernel.org>
+ <20220811022304.583300-3-kuba@kernel.org>
 MIME-Version: 1.0
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com> <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
- <Yyi+l3+p9lbBAC4M@google.com> <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
- <20220926142330.GC2658254@chaop.bj.intel.com>
-In-Reply-To: <20220926142330.GC2658254@chaop.bj.intel.com>
-From:   Fuad Tabba <tabba@google.com>
-Date:   Mon, 26 Sep 2022 16:51:44 +0100
-Message-ID: <CA+EHjTz5yGhsxUug+wqa9hrBO60Be0dzWeWzX00YtNxin2eYHg@mail.gmail.com>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220811022304.583300-3-kuba@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Wed, Aug 10, 2022 at 07:23:02PM -0700, Jakub Kicinski wrote:
+> A schema in jsonschema format which should be familiar
+> to dt-bindings writers. It looks kinda hard to read, TBH,
+> I'm not sure how to make it better.
 
-On Mon, Sep 26, 2022 at 3:28 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> On Fri, Sep 23, 2022 at 04:19:46PM +0100, Fuad Tabba wrote:
-> > > Regarding pKVM's use case, with the shim approach I believe this can be done by
-> > > allowing userspace mmap() the "hidden" memfd, but with a ton of restrictions
-> > > piled on top.
-> > >
-> > > My first thought was to make the uAPI a set of KVM ioctls so that KVM could tightly
-> > > tightly control usage without taking on too much complexity in the kernel, but
-> > > working through things, routing the behavior through the shim itself might not be
-> > > all that horrific.
-> > >
-> > > IIRC, we discarded the idea of allowing userspace to map the "private" fd because
-> > > things got too complex, but with the shim it doesn't seem _that_ bad.
-> > >
-> > > E.g. on the memfd side:
-> > >
-> > >   1. The entire memfd must be mapped, and at most one mapping is allowed, i.e.
-> > >      mapping is all or nothing.
-> > >
-> > >   2. Acquiring a reference via get_pfn() is disallowed if there's a mapping for
-> > >      the restricted memfd.
-> > >
-> > >   3. Add notifier hooks to allow downstream users to further restrict things.
-> > >
-> > >   4. Disallow splitting VMAs, e.g. to force userspace to munmap() everything in
-> > >      one shot.
-> > >
-> > >   5. Require that there are no outstanding references at munmap().  Or if this
-> > >      can't be guaranteed by userspace, maybe add some way for userspace to wait
-> > >      until it's ok to convert to private?  E.g. so that get_pfn() doesn't need
-> > >      to do an expensive check every time.
-> > >
-> > >   static int memfd_restricted_mmap(struct file *file, struct vm_area_struct *vma)
-> > >   {
-> > >         if (vma->vm_pgoff)
-> > >                 return -EINVAL;
-> > >
-> > >         if ((vma->vm_end - vma->vm_start) != <file size>)
-> > >                 return -EINVAL;
-> > >
-> > >         mutex_lock(&data->lock);
-> > >
-> > >         if (data->has_mapping) {
-> > >                 r = -EINVAL;
-> > >                 goto err;
-> > >         }
-> > >         list_for_each_entry(notifier, &data->notifiers, list) {
-> > >                 r = notifier->ops->mmap_start(notifier, ...);
-> > >                 if (r)
-> > >                         goto abort;
-> > >         }
-> > >
-> > >         notifier->ops->mmap_end(notifier, ...);
-> > >         mutex_unlock(&data->lock);
-> > >         return 0;
-> > >
-> > >   abort:
-> > >         list_for_each_entry_continue_reverse(notifier &data->notifiers, list)
-> > >                 notifier->ops->mmap_abort(notifier, ...);
-> > >   err:
-> > >         mutex_unlock(&data->lock);
-> > >         return r;
-> > >   }
-> > >
-> > >   static void memfd_restricted_close(struct vm_area_struct *vma)
-> > >   {
-> > >         mutex_lock(...);
-> > >
-> > >         /*
-> > >          * Destroy the memfd and disable all future accesses if there are
-> > >          * outstanding refcounts (or other unsatisfied restrictions?).
-> > >          */
-> > >         if (<outstanding references> || ???)
-> > >                 memfd_restricted_destroy(...);
-> > >         else
-> > >                 data->has_mapping = false;
-> > >
-> > >         mutex_unlock(...);
-> > >   }
-> > >
-> > >   static int memfd_restricted_may_split(struct vm_area_struct *area, unsigned long addr)
-> > >   {
-> > >         return -EINVAL;
-> > >   }
-> > >
-> > >   static int memfd_restricted_mapping_mremap(struct vm_area_struct *new_vma)
-> > >   {
-> > >         return -EINVAL;
-> > >   }
-> > >
-> > > Then on the KVM side, its mmap_start() + mmap_end() sequence would:
-> > >
-> > >   1. Not be supported for TDX or SEV-SNP because they don't allow adding non-zero
-> > >      memory into the guest (after pre-boot phase).
-> > >
-> > >   2. Be mutually exclusive with shared<=>private conversions, and is allowed if
-> > >      and only if the entire gfn range of the associated memslot is shared.
-> >
-> > In general I think that this would work with pKVM. However, limiting
-> > private<->shared conversions to the granularity of a whole memslot
-> > might be difficult to handle in pKVM, since the guest doesn't have the
-> > concept of memslots. For example, in pKVM right now, when a guest
-> > shares back its restricted DMA pool with the host it does so at the
-> > page-level. pKVM would also need a way to make an fd accessible again
-> > when shared back, which I think isn't possible with this patch.
->
-> But does pKVM really want to mmap/munmap a new region at the page-level,
-> that can cause VMA fragmentation if the conversion is frequent as I see.
-> Even with a KVM ioctl for mapping as mentioned below, I think there will
-> be the same issue.
+This got my attention in the Plumbers agenda though I missed the talk. 
+It's nice to see another jsonschema user in the kernel. I hope you make 
+jsonschema a dependency for everyone before I do. :) Hopefully we don't 
+hit any comflict in required version of jsonschema as I've needed both a 
+minimum version for features as well as been broken by new versions.
 
-pKVM doesn't really need to unmap the memory. What is really important
-is that the memory is not GUP'able. Having private memory mapped and
-then accessed by a misbehaving/malicious process will reinject a fault
-into the misbehaving process.
+I would avoid calling all this 'YAML netlink' as YAML is just the file 
+format you are using. We started with calling things YAML, but I nudge 
+folks away from that to 'DT schema'. Also, probably not an issue here, 
+but be aware that YAML is much slower to parse than JSON. 
 
-Cheers,
-/fuad
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+>  Documentation/netlink/schema.yaml | 242 ++++++++++++++++++++++++++++++
+>  1 file changed, 242 insertions(+)
+>  create mode 100644 Documentation/netlink/schema.yaml
+> 
+> diff --git a/Documentation/netlink/schema.yaml b/Documentation/netlink/schema.yaml
+> new file mode 100644
+> index 000000000000..1290aa4794ba
+> --- /dev/null
+> +++ b/Documentation/netlink/schema.yaml
+> @@ -0,0 +1,242 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: "http://kernel.org/schemas/netlink/schema.yaml#"
+> +$schema: "http://kernel.org/meta-schemas/core.yaml#"
 
-> >
-> > You were initially considering a KVM ioctl for mapping, which might be
-> > better suited for this since KVM knows which pages are shared and
-> > which ones are private. So routing things through KVM might simplify
-> > things and allow it to enforce all the necessary restrictions (e.g.,
-> > private memory cannot be mapped). What do you think?
-> >
-> > Thanks,
-> > /fuad
+In case there's ever another one: meta-schemas/netlink/core.yaml
+
+Or something similar.
+
+> +
+> +title: Protocol
+> +description: Specification of a genetlink protocol
+> +type: object
+> +required: [ name, description, attribute-spaces, operations ]
+> +additionalProperties: False
+> +properties:
+> +  name:
+> +    description: Name of the genetlink family
+> +    type: string
+> +  description:
+
+It's better if your schema vocabulary is disjoint from jsonschema 
+vocabulary. From what I've seen, it's fairly common to get the 
+indentation off and jsonschema behavior is to ignore unknown keywords. 
+If the vocabularies are disjoint, you can write a meta-schema that only 
+allows jsonschema schema vocabulary at the right levels. Probably less 
+of an issue here as you don't have 1000s of schemas.
+
+> +    description: Description of the family
+> +    type: string
+> +  version:
+> +    description: Version of the family as defined by genetlink.
+> +    type: integer
+
+Do you have the need to define the int size? We did our own keyword for 
+this, but since then I've looked at several other projects that have 
+used something like 'format: uint32'. There was some chatter about 
+trying to standardize this, but I haven't checked in a while.
+
+> +  attr-cnt-suffix:
+> +    description: Suffix for last member of attribute enum, default is "MAX".
+> +    type: string
+> +  headers:
+> +    description: C headers defining the protocol
+> +    type: object
+> +    additionalProperties: False
+> +    properties:
+> +      uapi:
+> +        description: Path under include/uapi where protocol definition is placed
+> +        type: string
+> +      kernel:
+> +        description: Additional headers on which the protocol definition depends (kernel side)
+> +        anyOf: &str-or-arrstr
+> +          -
+> +            type: array
+> +            items:
+> +              type: string
+> +          -
+> +            type: string
+> +      user:
+> +        description: Additional headers on which the protocol definition depends (user side)
+> +        anyOf: *str-or-arrstr
+
+For DT, we stick to a JSON compatible subset of YAML, so no anchors. The 
+jsonschema way to do this is using '$defs' (or 'definitions' before the 
+spec standardized it) and '$ref'.
+
+> +  constants:
+> +    description: Enums and defines of the protocol
+> +    type: array
+> +    items:
+> +      type: object
+> +      required: [ type, name ]
+> +      additionalProperties: False
+> +      properties:
+> +        name:
+> +          type: string
+> +        type:
+> +          enum: [ enum, flags ]
+> +        value-prefix:
+> +          description: For enum the prefix of the values, optional.
+> +          type: string
+> +        value-start:
+> +          description: For enum the literal initializer for the first value.
+> +          oneOf: [ { type: string }, { type: integer }]
+
+I think you can do just 'type: [ string, integer ]'.
+
+Rob
