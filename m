@@ -2,75 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 979A5C32771
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 23:09:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 584C4C07E9D
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 23:12:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229657AbiIZXJX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 19:09:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42920 "EHLO
+        id S229694AbiIZXM3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 19:12:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbiIZXJW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 19:09:22 -0400
+        with ESMTP id S229505AbiIZXM2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 19:12:28 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 031D2AA4DA;
-        Mon, 26 Sep 2022 16:09:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EE8BAB18A;
+        Mon, 26 Sep 2022 16:12:27 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B402D6D9;
-        Mon, 26 Sep 2022 23:09:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B402D6D9
+        by ms.lwn.net (Postfix) with ESMTPSA id E4EBD734;
+        Mon, 26 Sep 2022 23:12:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E4EBD734
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1664233761; bh=2p/EPuoFqvaDv4uqMLHwlAFSCdcJ1ybk/XDKdDwtX2Y=;
+        t=1664233947; bh=IoycBVcfegEQ6iOmud3qcL+egsdWLwEFK7jjvLI0xaE=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=M52sr2DDaEuWhakEVDGyrUP6LL+fWLDM0JGmao5OoWT+kEsOWTs8JRaPWcEyXxeNb
-         rhIXAVeH80jWMCQHLSymcxxwDDXgqOFZ0BlLpnwCtY5P+SO7J0Cr7OC2cb+QlkMEfU
-         1SlQobuyrBUfcEPIz5O/xenn9m2MTm31yCsvgyUE5EI42M/9niDiHJVVIAa9/t0jQn
-         z5XSUxHlusj5fm+y1M372RhgRN/Eb6/04JBHmfXnC5Ar6bxiFixKy70ue158zrjIkD
-         0jrbuV7VT4QszqQmbwi92prZdAbFN6TA1vmmcxIGWKAUkILXnN7/2h1XW3QBVHdo0k
-         N4QcXzGeauWag==
+        b=fBjZVd/Tdj/AWthPa7N+9bNu5qflPPWnuzuJRjiB3GTbtoh6PIfAjxoX9azNZ05Xk
+         YfYK4ypgtwlBigxuVpabN0TqS2pYw1CqyQ18VA7SqTCkgCUTl+e0JBHY1ELhGtp44C
+         J9I2g1/w/U9t4E8wgk+cpjrkzRGm3cceDbZMOTjP0DPUVYegNWn8F7DqNGtX06vSAX
+         NrYMWDDob7JXaXGwq/L6Cgw6OdxLOwmNqo3koKK8iq/BxJf+xK1tlqSIsbj8Wo7A7S
+         GA7bhzlk00fTzLB0pEpglOTzkGCsAV6gueSRibe6yfxoI8HKBWy2emXavLQXXyW9Cu
+         T7p50Ag36Pz3A==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yang Yingliang <yangyingliang@huawei.com>,
-        linux-doc@vger.kernel.org, linux-spi@vger.kernel.org
-Cc:     broonie@kernel.org, lukas@wunner.de, yangyingliang@huawei.com
-Subject: Re: [PATCH -next v2] Documentation: devres: add missing SPI helper
-In-Reply-To: <20220923141803.75734-1-yangyingliang@huawei.com>
-References: <20220923141803.75734-1-yangyingliang@huawei.com>
-Date:   Mon, 26 Sep 2022 17:09:21 -0600
-Message-ID: <87leq5pwbi.fsf@meer.lwn.net>
+To:     Kristen Carlson Accardi <kristen@linux.intel.com>,
+        linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        LF TAB <tech-board@lists.linux-foundation.org>
+Subject: Re: [PATCH] Documentation/CoC: Reflect current CoC interpretation
+ and practices
+In-Reply-To: <20220926211149.2278214-1-kristen@linux.intel.com>
+References: <20220926211149.2278214-1-kristen@linux.intel.com>
+Date:   Mon, 26 Sep 2022 17:12:26 -0600
+Message-ID: <87h70tpw6d.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yang Yingliang <yangyingliang@huawei.com> writes:
+Kristen Carlson Accardi <kristen@linux.intel.com> writes:
 
-> Add devm_spi_alloc_master() and devm_spi_alloc_slave() to devres.rst.
-> They are introduced by commit 5e844cc37a5c ("spi: Introduce device-managed
-> SPI controller allocation").
->
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> Reviewed-by: Lukas Wunner <lukas@wunner.de>
-> ---
-> v2:
->   Put alloc functions above the register function.
-> ---
->  Documentation/driver-api/driver-model/devres.rst | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-> index 2895f9ea00c4..7a3c34214c4c 100644
-> --- a/Documentation/driver-api/driver-model/devres.rst
-> +++ b/Documentation/driver-api/driver-model/devres.rst
-> @@ -436,6 +436,8 @@ SLAVE DMA ENGINE
->    devm_acpi_dma_controller_register()
->  
->  SPI
-> +  devm_spi_alloc_master()
-> +  devm_spi_alloc_slave()
->    devm_spi_register_master()
+> The Code of Conduct interpretation does not reflect the current
+> practices of the CoC committee or the TAB. Update the documentation
+> to remove references to initial committees and boot strap periods
+> since it is past that time, and note that the this document
+> does serve as the documentation for the CoC committee processes.
 
-Applied, thanks.
+Since this takes the TAB's name in vain, they should probably be CC'd on
+it; I've added that now.
+
+Thanks,
 
 jon
+
+> Signed-off-by: Kristen Carlson Accardi <kristen@linux.intel.com>
+> Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  .../code-of-conduct-interpretation.rst        | 24 ++++++++++---------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
+>
+> diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
+> index 4f8a06b00f60..922e0b547bc3 100644
+> --- a/Documentation/process/code-of-conduct-interpretation.rst
+> +++ b/Documentation/process/code-of-conduct-interpretation.rst
+> @@ -127,10 +127,12 @@ are listed at https://kernel.org/code-of-conduct.html.  Members can not
+>  access reports made before they joined or after they have left the
+>  committee.
+>  
+> -The initial Code of Conduct Committee consists of volunteer members of
+> -the TAB, as well as a professional mediator acting as a neutral third
+> -party.  The first task of the committee is to establish documented
+> -processes, which will be made public.
+> +The Code of Conduct Committee consists of volunteer community members
+> +appointed by the TAB, as well as a professional mediator acting as a
+> +neutral third party.  The processes the Code of Conduct committee will
+> +use to address reports is varied and will depend on the individual
+> +circumstance, however, this file serves as documentation for the
+> +general process used.
+>  
+>  Any member of the committee, including the mediator, can be contacted
+>  directly if a reporter does not wish to include the full committee in a
+> @@ -141,16 +143,16 @@ processes (see above) and consults with the TAB as needed and
+>  appropriate, for instance to request and receive information about the
+>  kernel community.
+>  
+> -Any decisions by the committee will be brought to the TAB, for
+> -implementation of enforcement with the relevant maintainers if needed.
+> -A decision by the Code of Conduct Committee can be overturned by the TAB
+> -by a two-thirds vote.
+> +Any decisions regarding enforcement recommendations will be brought to
+> +the TAB for implementation of enforcement with the relevant maintainers
+> +if needed.  A decision by the Code of Conduct Committee can be overturned
+> +by the TAB by a two-thirds vote.
+>  
+>  At quarterly intervals, the Code of Conduct Committee and TAB will
+>  provide a report summarizing the anonymised reports that the Code of
+>  Conduct committee has received and their status, as well details of any
+>  overridden decisions including complete and identifiable voting details.
+>  
+> -We expect to establish a different process for Code of Conduct Committee
+> -staffing beyond the bootstrap period.  This document will be updated
+> -with that information when this occurs.
+> +Because how we interpret and enforce the Code of Conduct will evolve over
+> +time, this document will be updated when necessary to reflect any
+> +changes.
+> -- 
+> 2.37.3
