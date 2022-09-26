@@ -2,97 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A092C6FA92
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 15:22:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1DFDC6FA8E
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 15:25:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236490AbiIZPWp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 11:22:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47194 "EHLO
+        id S236565AbiIZPZT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 11:25:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236304AbiIZPWP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 11:22:15 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA9A085AA3;
-        Mon, 26 Sep 2022 07:08:45 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id A1B451F8A4;
-        Mon, 26 Sep 2022 14:08:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1664201324; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=j600WWM/VHOKFyO6Qxlx/kgR3oXfjp923FSo/xkqVEo=;
-        b=qYELV+5U/XVCqd6kESY7/gFf387nX8FJynNLNsM3BnQWoIagPjdK7IGMl1iFWBzlOeod/9
-        M1vErEEHSaNoJznOOokLM0fFnbd14vY3PPtZBsc8IA1yQoFtKLWmI/Hf/eAmHB51DKO0VC
-        DxEY0i3ZHBXuoKoEq2kjQHBHUTb3XZs=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7F18A139BD;
-        Mon, 26 Sep 2022 14:08:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id cuHOGWyyMWPMAQAAMHmgww
-        (envelope-from <mhocko@suse.com>); Mon, 26 Sep 2022 14:08:44 +0000
-Date:   Mon, 26 Sep 2022 16:08:43 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        wuyun.abel@bytedance.com
-Subject: Re: [External] Re: [RFC] proc: Add a new isolated
- /proc/pid/mempolicy type.
-Message-ID: <YzGya2Q3iuWS2WdM@dhcp22.suse.cz>
-References: <20220926091033.340-1-hezhongkun.hzk@bytedance.com>
- <YzF3aaLvEvFhTQa3@dhcp22.suse.cz>
- <24b20953-eca9-eef7-8e60-301080a17d2d@bytedance.com>
+        with ESMTP id S236689AbiIZPYC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 11:24:02 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B8A71E3D1;
+        Mon, 26 Sep 2022 07:09:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664201389; x=1695737389;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=kLBWR5qEV1U14bOBHrdj86S+fx8bShjKVx0oSvRe47k=;
+  b=iSJSXIFxmEPPzzhQPc8Aq8o5dPkLSD+Nk04JxvzeMf0ETHkKRtT0A/XG
+   Gm9rZW/FMCZ9Mk/wygBAcheoEHj3qBZnldcy+azn0woWxgMdAQsZwKvO8
+   MLi9TTLwzijWvRScze04ZMZURRt5yGnWOpePaxRSApG18DSY5qNmBWohP
+   qtNWnL9ywD6dZAw6KOnYG9tp1vYxaZqYryWbuEpULNd8Vm0TT52/ny4Rh
+   sNB/QJF3GHrOVNqyv+j0j8bxw5rEh5EGvEZ0j/dNWIlPx0lECYVzHB/1+
+   4YZlCpZzAPVkRG0nE+b6wfOh2nWNllXsxaRm0C1IVSsJfFvLQHuvUksCJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="365068855"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; 
+   d="scan'208";a="365068855"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2022 07:09:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="651840417"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; 
+   d="scan'208";a="651840417"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga008.jf.intel.com with ESMTP; 26 Sep 2022 07:09:28 -0700
+Date:   Mon, 26 Sep 2022 22:04:51 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Fuad Tabba <tabba@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20220926140451.GA2658254@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <CA+EHjTzHTaDaAKEMjFHzXLBgUS4bMfnppzO==KeDGpyUKO0fCw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <24b20953-eca9-eef7-8e60-301080a17d2d@bytedance.com>
+In-Reply-To: <CA+EHjTzHTaDaAKEMjFHzXLBgUS4bMfnppzO==KeDGpyUKO0fCw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 26-09-22 20:53:19, Zhongkun He wrote:
-> > [Cc linux-api - please do so for any patches making/updating
-> > kernel<->user interfaces]
-> > 
-> > 
-> > On Mon 26-09-22 17:10:33, hezhongkun wrote:
-> > > From: Zhongkun He <hezhongkun.hzk@bytedance.com>
-> > > 
-> > > /proc/pid/mempolicy can be used to check and adjust the userspace task's
-> > > mempolicy dynamically.In many case, the application and the control plane
-> > > are two separate systems. When the application is created, it doesn't know
-> > > how to use memory, and it doesn't care. The control plane will decide the
-> > > memory usage policy based on different reasons.In that case, we can
-> > > dynamically adjust the mempolicy using /proc/pid/mempolicy interface.
-> > 
-> > Is there any reason to make it procfs interface rather than pidfd one?
+On Mon, Sep 26, 2022 at 11:26:45AM +0100, Fuad Tabba wrote:
+...
+
+> > +
+> > +- KVM_MEM_PRIVATE can be set to indicate a new slot has private memory backed by
+> > +  a file descirptor(fd) and the content of the private memory is invisible to
 > 
-> Hi michal,  thanks for your reply.
+> s/descirptor/descriptor
+
+Thanks.
+
+...
+
+>  static long kvm_vm_ioctl(struct file *filp,
+> >                            unsigned int ioctl, unsigned long arg)
+> >  {
+> > @@ -4645,14 +4672,20 @@ static long kvm_vm_ioctl(struct file *filp,
+> >                 break;
+> >         }
+> >         case KVM_SET_USER_MEMORY_REGION: {
+> > -               struct kvm_userspace_memory_region kvm_userspace_mem;
+> > +               struct kvm_user_mem_region mem;
+> > +               unsigned long size = sizeof(struct kvm_userspace_memory_region);
 > 
-> I just think that it is easy to display and adjust the mempolicy using
-> procfs. But it may not be suitable, I will send a pidfd_set_mempolicy patch
-> later.
+> nit: should this be sizeof(struct mem)? That's more similar to the
+> existing code and makes it dependent on the size of mem regardless of
+> possible changes to its type in the future.
 
-proc interface has many usability issues. That is why pidfd has been
-introduced. So I would rather go with the pidfd interface than repeating
-old proc API mistakes.
+Unluckily no, the size we need copy_from_user() depends on the flags,
+e.g. without KVM_MEM_PRIVATE, we can't safely copy that big size since
+the 'extended' part may not even exist.
 
-> Btw.in order to add per-thread-group mempolicy, is it possible to add
-> mempolicy in mm_struct?
+> 
+> > +
+> > +               kvm_sanity_check_user_mem_region_alias();
+> >
+> >                 r = -EFAULT;
+> > -               if (copy_from_user(&kvm_userspace_mem, argp,
+> > -                                               sizeof(kvm_userspace_mem)))
+> > +               if (copy_from_user(&mem, argp, size);
+> 
+> It gets fixed in a future patch, but the ; should be a ).
 
-I dunno. This would make the mempolicy interface even more confusing.
-Per mm behavior makes a lot of sense but we already do have per-thread
-semantic so I would stick to it rather than introducing a new semantic.
+Good catch, thanks!
 
-Why is this really important?
--- 
-Michal Hocko
-SUSE Labs
+Chao
+> 
+> Cheers,
+> /fuad
