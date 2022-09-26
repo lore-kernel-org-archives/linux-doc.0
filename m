@@ -2,762 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1439C07E9D
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 13:44:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BC1EC32771
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 14:35:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235259AbiIZNoV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 09:44:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45874 "EHLO
+        id S234784AbiIZOfj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 10:35:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236221AbiIZNoC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 09:44:02 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D178B1EC9B9
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 05:01:32 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1ocmEU-0007Wr-0Z; Mon, 26 Sep 2022 13:25:06 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ore@pengutronix.de>)
-        id 1ocmES-0031Gt-VD; Mon, 26 Sep 2022 13:25:03 +0200
-Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ore@pengutronix.de>)
-        id 1ocmEP-0049kq-NW; Mon, 26 Sep 2022 13:25:01 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Oleksij Rempel <o.rempel@pengutronix.de>,
-        kernel test robot <lkp@intel.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Robert Marko <robert.marko@sartura.hr>
-Subject: [PATCH net-next v7 5/7] ethtool: add interface to interact with Ethernet Power Equipment
-Date:   Mon, 26 Sep 2022 13:24:58 +0200
-Message-Id: <20220926112500.990705-6-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220926112500.990705-1-o.rempel@pengutronix.de>
-References: <20220926112500.990705-1-o.rempel@pengutronix.de>
+        with ESMTP id S234834AbiIZOer (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 10:34:47 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51CF788A0F
+        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 05:53:25 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id 129so5029114pgc.5
+        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 05:53:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date;
+        bh=JfI/MQ3cqMqiBUWply4+srFdGKgWiHs9QbzXGnedrjw=;
+        b=py/jOoP+LNdmJsrwUiecLbM+RTy9qdwEEAUALnxViUcmpv12jPLZ1j8G3Pfx7DLDqV
+         K99WGoTIFAGynejfWry3s0e5BHXkn0fc2ohyqEpW0Evq54sfrnUjTnwSrmsvgRz+BRqo
+         k/Lzkdml0LQ6B0ieqaNEV73WkMwrBW4yi/P9OYlCbEW6X3FUNcd3N4VpE2fdgeEXPM70
+         JpCnbC5hJuxY73hbCc6CnKtUyCoyoBco8sXVwsObAYGR/2GGLe4ZcYGdFRSYrxpyLa35
+         z32e9L5Ukv6DsMO6XpMMJErLNKv9h9nndfxOliXE3TUOnAE9XbqHiG2IoRhKG0sJfqOF
+         zYKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date;
+        bh=JfI/MQ3cqMqiBUWply4+srFdGKgWiHs9QbzXGnedrjw=;
+        b=qrjLuhyz6fGDsMQ+s23VBYqIYiEXGy43LfoYauc96gQsna1doKhI3jkKfCfH8LpuGz
+         CZ1apIvsORxUO3skAlwCP1pwxVs5biBPOs3SMssr0T4qwozzrqYyb1m426OCx3Rrgx6i
+         551pa0jGZNLwbPqn0MKVJ4ijUSL82I8qJM1facSluyxFg86vKTcseziSKFdx3BkuY2SW
+         01bcaxdDntjrQ8dOHI11pbEG/bqmx/6Vbn02qFOk4B8bYWG5MOxl0ddYG5WkEwDarhAI
+         A0JvbLPZJAzpm6/T/gQp6T224tF6FY9hUXeyiB3jN+i2+mctngB2nhAe27Zw7LU7seAD
+         fy5Q==
+X-Gm-Message-State: ACrzQf1c/25BIXZ7Ckse4/kr3m6f/9wRSbxtEW37ZtbbllavEWVPO7DM
+        1xLh+a901jcIjE50sOaqGhnrhQ==
+X-Google-Smtp-Source: AMsMyM4pRwA8C32gEkFcBudu2gl4n1YxKWuI7PaQvRSdl0XKQx52Sa6xuC252+HH/8g8/i7QCjy3LA==
+X-Received: by 2002:a62:6085:0:b0:53e:7874:5067 with SMTP id u127-20020a626085000000b0053e78745067mr23937829pfb.4.1664196804856;
+        Mon, 26 Sep 2022 05:53:24 -0700 (PDT)
+Received: from [10.68.76.92] ([139.177.225.245])
+        by smtp.gmail.com with ESMTPSA id q20-20020aa78434000000b0053fcb800ec0sm12107196pfn.9.2022.09.26.05.53.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Sep 2022 05:53:24 -0700 (PDT)
+Message-ID: <24b20953-eca9-eef7-8e60-301080a17d2d@bytedance.com>
+Date:   Mon, 26 Sep 2022 20:53:19 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [External] Re: [RFC] proc: Add a new isolated /proc/pid/mempolicy
+ type.
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     corbet@lwn.net, akpm@linux-foundation.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        wuyun.abel@bytedance.com
+References: <20220926091033.340-1-hezhongkun.hzk@bytedance.com>
+ <YzF3aaLvEvFhTQa3@dhcp22.suse.cz>
+From:   Zhongkun He <hezhongkun.hzk@bytedance.com>
+In-Reply-To: <YzF3aaLvEvFhTQa3@dhcp22.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add interface to support Power Sourcing Equipment. At current step it
-provides generic way to address all variants of PSE devices as defined
-in IEEE 802.3-2018 but support only objects specified for IEEE 802.3-2018 104.4
-PoDL Power Sourcing Equipment (PSE).
+> [Cc linux-api - please do so for any patches making/updating
+> kernel<->user interfaces]
+> 
+> 
+> On Mon 26-09-22 17:10:33, hezhongkun wrote:
+>> From: Zhongkun He <hezhongkun.hzk@bytedance.com>
+>>
+>> /proc/pid/mempolicy can be used to check and adjust the userspace task's
+>> mempolicy dynamically.In many case, the application and the control plane
+>> are two separate systems. When the application is created, it doesn't know
+>> how to use memory, and it doesn't care. The control plane will decide the
+>> memory usage policy based on different reasons.In that case, we can
+>> dynamically adjust the mempolicy using /proc/pid/mempolicy interface.
+> 
+> Is there any reason to make it procfs interface rather than pidfd one?
 
-Currently supported and mandatory objects are:
-IEEE 802.3-2018 30.15.1.1.3 aPoDLPSEPowerDetectionStatus
-IEEE 802.3-2018 30.15.1.1.2 aPoDLPSEAdminState
-IEEE 802.3-2018 30.15.1.2.1 acPoDLPSEAdminControl
+Hi michal,  thanks for your reply.
 
-This is minimal interface needed to control PSE on each separate
-ethernet port but it provides not all mandatory objects specified in
-IEEE 802.3-2018.
+I just think that it is easy to display and adjust the mempolicy using 
+procfs. But it may not be suitable, I will send a pidfd_set_mempolicy 
+patch later.
 
-Since "PoDL PSE" and "PSE" have similar names, but some different values
-I decide to not merge them and keep separate naming schema. This should
-allow as to be as close to IEEE 802.3 spec as possible and avoid name
-conflicts in the future.
+Btw.in order to add per-thread-group mempolicy, is it possible to add 
+mempolicy in mm_struct?
 
-This implementation is connected to PHYs instead of MACs because PSE
-auto classification can potentially interfere with PHY auto negotiation.
-So, may be some extra PHY related initialization will be needed.
-
-With WIP version of ethtools interaction with PSE capable link looks
-as following:
-
-$ ip l
-...
-5: t1l1@eth0: <BROADCAST,MULTICAST> ..
-...
-
-$ ethtool --show-pse t1l1
-PSE attributs for t1l1:
-PoDL PSE Admin State: disabled
-PoDL PSE Power Detection Status: disabled
-
-$ ethtool --set-pse t1l1 podl-pse-admin-control enable
-$ ethtool --show-pse t1l1
-PSE attributs for t1l1:
-PoDL PSE Admin State: enabled
-PoDL PSE Power Detection Status: delivering power
-
-Signed-off-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
-changes v7:
-- change u8 comments to u32
-- make IEEE 802.3-2018 keyword name as inline code block in the rst
-  file.
-changes v6:
-- remove pointer checks in the pse_ethtool_*() functions
-- use EOPNOTSUPP instead of ENOTSUPP
-- remove ETHTOOL_MSG_PSE_NTF. It is currently not used
-- return ret on ethnl_ops_begin() error
-- use podl_admin_state > 0 instead of podl_admin_state >= 0
-- add extack msg on !phydev and !phydev->psec for get and set functions.
-- avoid indenting the success path
-changes v5:
-- use u32 sized fields instead of u8
-- document status field in the pse_ethtool_get_status function
-changes v3:
-- drop ethtool_set_ethtool_pse_ops()
-- remove todo artifact
-- remove ETHTOOL_PODL_PSE_*_COUNT, enums
-- fix kdoc warnings
-changes v2:
-- rework PSE ethtool API. Reduce it to get_status and set_config cbs
-- remove phydev locking. Use PSE own locking instead
----
- Documentation/networking/ethtool-netlink.rst |  59 ++++++
- drivers/net/pse-pd/pse_core.c                |  58 ++++++
- include/linux/pse-pd/pse.h                   |  62 +++++++
- include/uapi/linux/ethtool.h                 |  45 +++++
- include/uapi/linux/ethtool_netlink.h         |  16 ++
- net/ethtool/Makefile                         |   3 +-
- net/ethtool/common.h                         |   1 +
- net/ethtool/netlink.c                        |  17 ++
- net/ethtool/netlink.h                        |   4 +
- net/ethtool/pse-pd.c                         | 185 +++++++++++++++++++
- 10 files changed, 449 insertions(+), 1 deletion(-)
- create mode 100644 net/ethtool/pse-pd.c
-
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index 09fb1d5ba67f..d578b8bcd8a4 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -220,6 +220,8 @@ Userspace to kernel:
-   ``ETHTOOL_MSG_PHC_VCLOCKS_GET``       get PHC virtual clocks info
-   ``ETHTOOL_MSG_MODULE_SET``            set transceiver module parameters
-   ``ETHTOOL_MSG_MODULE_GET``            get transceiver module parameters
-+  ``ETHTOOL_MSG_PSE_SET``               set PSE parameters
-+  ``ETHTOOL_MSG_PSE_GET``               get PSE parameters
-   ===================================== =================================
- 
- Kernel to userspace:
-@@ -260,6 +262,7 @@ Kernel to userspace:
-   ``ETHTOOL_MSG_STATS_GET_REPLY``          standard statistics
-   ``ETHTOOL_MSG_PHC_VCLOCKS_GET_REPLY``    PHC virtual clocks info
-   ``ETHTOOL_MSG_MODULE_GET_REPLY``         transceiver module parameters
-+  ``ETHTOOL_MSG_PSE_GET_REPLY``            PSE parameters
-   ======================================== =================================
- 
- ``GET`` requests are sent by userspace applications to retrieve device
-@@ -1627,6 +1630,62 @@ For SFF-8636 modules, low power mode is forced by the host according to table
- For CMIS modules, low power mode is forced by the host according to table 6-12
- in revision 5.0 of the specification.
- 
-+PSE_GET
-+=======
-+
-+Gets PSE attributes.
-+
-+Request contents:
-+
-+  =====================================  ======  ==========================
-+  ``ETHTOOL_A_PSE_HEADER``               nested  request header
-+  =====================================  ======  ==========================
-+
-+Kernel response contents:
-+
-+  ======================================  ======  =============================
-+  ``ETHTOOL_A_PSE_HEADER``                nested  reply header
-+  ``ETHTOOL_A_PODL_PSE_ADMIN_STATE``         u32  Operational state of the PoDL
-+                                                  PSE functions
-+  ``ETHTOOL_A_PODL_PSE_PW_D_STATUS``         u32  power detection status of the
-+                                                  PoDL PSE.
-+  ======================================  ======  =============================
-+
-+When set, the optional ``ETHTOOL_A_PODL_PSE_ADMIN_STATE`` attribute identifies
-+the operational state of the PoDL PSE functions.  The operational state of the
-+PSE function can be changed using the ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL``
-+action. This option is corresponding to ``IEEE 802.3-2018`` 30.15.1.1.2
-+aPoDLPSEAdminState. Possible values are:
-+
-+.. kernel-doc:: include/uapi/linux/ethtool.h
-+    :identifiers: ethtool_podl_pse_admin_state
-+
-+When set, the optional ``ETHTOOL_A_PODL_PSE_PW_D_STATUS`` attribute identifies
-+the power detection status of the PoDL PSE.  The status depend on internal PSE
-+state machine and automatic PD classification support. This option is
-+corresponding to ``IEEE 802.3-2018`` 30.15.1.1.3 aPoDLPSEPowerDetectionStatus.
-+Possible values are:
-+
-+.. kernel-doc:: include/uapi/linux/ethtool.h
-+    :identifiers: ethtool_podl_pse_pw_d_status
-+
-+PSE_SET
-+=======
-+
-+Sets PSE parameters.
-+
-+Request contents:
-+
-+  ======================================  ======  =============================
-+  ``ETHTOOL_A_PSE_HEADER``                nested  request header
-+  ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL``       u32  Control PoDL PSE Admin state
-+  ======================================  ======  =============================
-+
-+When set, the optional ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL`` attribute is used
-+to control PoDL PSE Admin functions. This option is implementing
-+``IEEE 802.3-2018`` 30.15.1.2.1 acPoDLPSEAdminControl. See
-+``ETHTOOL_A_PODL_PSE_ADMIN_STATE`` for supported values.
-+
- Request translation
- ===================
- 
-diff --git a/drivers/net/pse-pd/pse_core.c b/drivers/net/pse-pd/pse_core.c
-index a61543b72758..37ac3dc370df 100644
---- a/drivers/net/pse-pd/pse_core.c
-+++ b/drivers/net/pse-pd/pse_core.c
-@@ -291,3 +291,61 @@ devm_pse_control_get(struct device *dev)
- 	return psec;
- }
- EXPORT_SYMBOL_GPL(devm_pse_control_get);
-+
-+/**
-+ * pse_ethtool_get_status - get status of PSE control
-+ * @psec: PSE control pointer
-+ * @extack: extack for reporting useful error messages
-+ * @status: struct to store PSE status
-+ */
-+int pse_ethtool_get_status(struct pse_control *psec,
-+			   struct netlink_ext_ack *extack,
-+			   struct pse_control_status *status)
-+{
-+	const struct pse_controller_ops *ops;
-+	int err;
-+
-+	ops = psec->pcdev->ops;
-+
-+	if (!ops->ethtool_get_status) {
-+		NL_SET_ERR_MSG(extack,
-+			       "PSE driver does not support status report");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	mutex_lock(&psec->pcdev->lock);
-+	err = ops->ethtool_get_status(psec->pcdev, psec->id, extack, status);
-+	mutex_unlock(&psec->pcdev->lock);
-+
-+	return err;
-+}
-+EXPORT_SYMBOL_GPL(pse_ethtool_get_status);
-+
-+/**
-+ * pse_ethtool_set_config - set PSE control configuration
-+ * @psec: PSE control pointer
-+ * @extack: extack for reporting useful error messages
-+ * @config: Configuration of the test to run
-+ */
-+int pse_ethtool_set_config(struct pse_control *psec,
-+			   struct netlink_ext_ack *extack,
-+			   const struct pse_control_config *config)
-+{
-+	const struct pse_controller_ops *ops;
-+	int err;
-+
-+	ops = psec->pcdev->ops;
-+
-+	if (!ops->ethtool_set_config) {
-+		NL_SET_ERR_MSG(extack,
-+			       "PSE driver does not configuration");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	mutex_lock(&psec->pcdev->lock);
-+	err = ops->ethtool_set_config(psec->pcdev, psec->id, extack, config);
-+	mutex_unlock(&psec->pcdev->lock);
-+
-+	return err;
-+}
-+EXPORT_SYMBOL_GPL(pse_ethtool_set_config);
-diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
-index 84df782ea3f1..9369474163c8 100644
---- a/include/linux/pse-pd/pse.h
-+++ b/include/linux/pse-pd/pse.h
-@@ -9,6 +9,47 @@
- #include <linux/list.h>
- #include <uapi/linux/ethtool.h>
- 
-+struct phy_device;
-+struct pse_controller_dev;
-+
-+/**
-+ * struct pse_control_config - PSE control/channel configuration.
-+ *
-+ * @admin_cotrol: set PoDL PSE admin control as described in
-+ *	IEEE 802.3-2018 30.15.1.2.1 acPoDLPSEAdminControl
-+ */
-+struct pse_control_config {
-+	enum ethtool_podl_pse_admin_state admin_cotrol;
-+};
-+
-+/**
-+ * struct pse_control_status - PSE control/channel status.
-+ *
-+ * @podl_admin_state: operational state of the PoDL PSE
-+ *	functions. IEEE 802.3-2018 30.15.1.1.2 aPoDLPSEAdminState
-+ * @podl_pw_status: power detection status of the PoDL PSE.
-+ *	IEEE 802.3-2018 30.15.1.1.3 aPoDLPSEPowerDetectionStatus:
-+ */
-+struct pse_control_status {
-+	enum ethtool_podl_pse_admin_state podl_admin_state;
-+	enum ethtool_podl_pse_pw_d_status podl_pw_status;
-+};
-+
-+/**
-+ * struct pse_controller_ops - PSE controller driver callbacks
-+ *
-+ * @ethtool_get_status: get PSE control status for ethtool interface
-+ * @ethtool_set_config: set PSE control configuration over ethtool interface
-+ */
-+struct pse_controller_ops {
-+	int (*ethtool_get_status)(struct pse_controller_dev *pcdev,
-+		unsigned long id, struct netlink_ext_ack *extack,
-+		struct pse_control_status *status);
-+	int (*ethtool_set_config)(struct pse_controller_dev *pcdev,
-+		unsigned long id, struct netlink_ext_ack *extack,
-+		const struct pse_control_config *config);
-+};
-+
- struct module;
- struct device_node;
- struct of_phandle_args;
-@@ -53,6 +94,13 @@ struct pse_control *devm_pse_control_get( struct device *dev);
- struct pse_control *of_pse_control_get(struct device_node *node);
- void pse_control_put(struct pse_control *psec);
- 
-+int pse_ethtool_get_status(struct pse_control *psec,
-+			   struct netlink_ext_ack *extack,
-+			   struct pse_control_status *status);
-+int pse_ethtool_set_config(struct pse_control *psec,
-+			   struct netlink_ext_ack *extack,
-+			   const struct pse_control_config *config);
-+
- #else
- 
- static inline int pse_controller_register(struct pse_controller_dev *pcdev)
-@@ -89,6 +137,20 @@ static inline void pse_control_put(struct pse_control *psec)
- {
- }
- 
-+int pse_ethtool_get_status(struct pse_control *psec,
-+			   struct netlink_ext_ack *extack,
-+			   struct pse_control_status *status)
-+{
-+	return -ENOTSUPP;
-+}
-+
-+int pse_ethtool_set_config(struct pse_control *psec,
-+			   struct netlink_ext_ack *extack,
-+			   const struct pse_control_config *config)
-+{
-+	return -ENOTSUPP;
-+}
-+
- #endif
- 
- #endif
-diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
-index fe9893d1485d..dc2aa3d75b39 100644
---- a/include/uapi/linux/ethtool.h
-+++ b/include/uapi/linux/ethtool.h
-@@ -736,6 +736,51 @@ enum ethtool_module_power_mode {
- 	ETHTOOL_MODULE_POWER_MODE_HIGH,
- };
- 
-+/**
-+ * enum ethtool_podl_pse_admin_state - operational state of the PoDL PSE
-+ *	functions. IEEE 802.3-2018 30.15.1.1.2 aPoDLPSEAdminState
-+ * @ETHTOOL_PODL_PSE_ADMIN_STATE_UNKNOWN: state of PoDL PSE functions are
-+ * 	unknown
-+ * @ETHTOOL_PODL_PSE_ADMIN_STATE_DISABLED: PoDL PSE functions are disabled
-+ * @ETHTOOL_PODL_PSE_ADMIN_STATE_ENABLED: PoDL PSE functions are enabled
-+ */
-+enum ethtool_podl_pse_admin_state {
-+	ETHTOOL_PODL_PSE_ADMIN_STATE_UNKNOWN = 1,
-+	ETHTOOL_PODL_PSE_ADMIN_STATE_DISABLED,
-+	ETHTOOL_PODL_PSE_ADMIN_STATE_ENABLED,
-+};
-+
-+/**
-+ * enum ethtool_podl_pse_pw_d_status - power detection status of the PoDL PSE.
-+ *	IEEE 802.3-2018 30.15.1.1.3 aPoDLPSEPowerDetectionStatus:
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_UNKNOWN: PoDL PSE
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_DISABLED: "The enumeration “disabled” is
-+ *	asserted true when the PoDL PSE state diagram variable mr_pse_enable is
-+ *	false"
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_SEARCHING: "The enumeration “searching” is
-+ *	asserted true when either of the PSE state diagram variables
-+ *	pi_detecting or pi_classifying is true."
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_DELIVERING: "The enumeration “deliveringPower”
-+ *	is asserted true when the PoDL PSE state diagram variable pi_powered is
-+ *	true."
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_SLEEP: "The enumeration “sleep” is asserted
-+ *	true when the PoDL PSE state diagram variable pi_sleeping is true."
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_IDLE: "The enumeration “idle” is asserted true
-+ *	when the logical combination of the PoDL PSE state diagram variables
-+ *	pi_prebiased*!pi_sleeping is true."
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_ERROR: "The enumeration “error” is asserted
-+ *	true when the PoDL PSE state diagram variable overload_held is true."
-+ */
-+enum ethtool_podl_pse_pw_d_status {
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_UNKNOWN = 1,
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_DISABLED,
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_SEARCHING,
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_DELIVERING,
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_SLEEP,
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_IDLE,
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_ERROR,
-+};
-+
- /**
-  * struct ethtool_gstrings - string set for data tagging
-  * @cmd: Command number = %ETHTOOL_GSTRINGS
-diff --git a/include/uapi/linux/ethtool_netlink.h b/include/uapi/linux/ethtool_netlink.h
-index 408a664fad59..bb57084ac524 100644
---- a/include/uapi/linux/ethtool_netlink.h
-+++ b/include/uapi/linux/ethtool_netlink.h
-@@ -49,6 +49,8 @@ enum {
- 	ETHTOOL_MSG_PHC_VCLOCKS_GET,
- 	ETHTOOL_MSG_MODULE_GET,
- 	ETHTOOL_MSG_MODULE_SET,
-+	ETHTOOL_MSG_PSE_GET,
-+	ETHTOOL_MSG_PSE_SET,
- 
- 	/* add new constants above here */
- 	__ETHTOOL_MSG_USER_CNT,
-@@ -94,6 +96,7 @@ enum {
- 	ETHTOOL_MSG_PHC_VCLOCKS_GET_REPLY,
- 	ETHTOOL_MSG_MODULE_GET_REPLY,
- 	ETHTOOL_MSG_MODULE_NTF,
-+	ETHTOOL_MSG_PSE_GET_REPLY,
- 
- 	/* add new constants above here */
- 	__ETHTOOL_MSG_KERNEL_CNT,
-@@ -863,6 +866,19 @@ enum {
- 	ETHTOOL_A_MODULE_MAX = (__ETHTOOL_A_MODULE_CNT - 1)
- };
- 
-+/* Power Sourcing Equipment */
-+enum {
-+	ETHTOOL_A_PSE_UNSPEC,
-+	ETHTOOL_A_PSE_HEADER,			/* nest - _A_HEADER_* */
-+	ETHTOOL_A_PODL_PSE_ADMIN_STATE,		/* u32 */
-+	ETHTOOL_A_PODL_PSE_ADMIN_CONTROL,	/* u32 */
-+	ETHTOOL_A_PODL_PSE_PW_D_STATUS,		/* u32 */
-+
-+	/* add new constants above here */
-+	__ETHTOOL_A_PSE_CNT,
-+	ETHTOOL_A_PSE_MAX = (__ETHTOOL_A_PSE_CNT - 1)
-+};
-+
- /* generic netlink info */
- #define ETHTOOL_GENL_NAME "ethtool"
- #define ETHTOOL_GENL_VERSION 1
-diff --git a/net/ethtool/Makefile b/net/ethtool/Makefile
-index b76432e70e6b..72ab0944262a 100644
---- a/net/ethtool/Makefile
-+++ b/net/ethtool/Makefile
-@@ -7,4 +7,5 @@ obj-$(CONFIG_ETHTOOL_NETLINK)	+= ethtool_nl.o
- ethtool_nl-y	:= netlink.o bitset.o strset.o linkinfo.o linkmodes.o \
- 		   linkstate.o debug.o wol.o features.o privflags.o rings.o \
- 		   channels.o coalesce.o pause.o eee.o tsinfo.o cabletest.o \
--		   tunnels.o fec.o eeprom.o stats.o phc_vclocks.o module.o
-+		   tunnels.o fec.o eeprom.o stats.o phc_vclocks.o module.o \
-+		   pse-pd.o
-diff --git a/net/ethtool/common.h b/net/ethtool/common.h
-index 2dc2b80aea5f..c1779657e074 100644
---- a/net/ethtool/common.h
-+++ b/net/ethtool/common.h
-@@ -46,6 +46,7 @@ int ethtool_get_max_rxfh_channel(struct net_device *dev, u32 *max);
- int __ethtool_get_ts_info(struct net_device *dev, struct ethtool_ts_info *info);
- 
- extern const struct ethtool_phy_ops *ethtool_phy_ops;
-+extern const struct ethtool_pse_ops *ethtool_pse_ops;
- 
- int ethtool_get_module_info_call(struct net_device *dev,
- 				 struct ethtool_modinfo *modinfo);
-diff --git a/net/ethtool/netlink.c b/net/ethtool/netlink.c
-index f4e41a6e0163..1a4c11356c96 100644
---- a/net/ethtool/netlink.c
-+++ b/net/ethtool/netlink.c
-@@ -286,6 +286,7 @@ ethnl_default_requests[__ETHTOOL_MSG_USER_CNT] = {
- 	[ETHTOOL_MSG_STATS_GET]		= &ethnl_stats_request_ops,
- 	[ETHTOOL_MSG_PHC_VCLOCKS_GET]	= &ethnl_phc_vclocks_request_ops,
- 	[ETHTOOL_MSG_MODULE_GET]	= &ethnl_module_request_ops,
-+	[ETHTOOL_MSG_PSE_GET]		= &ethnl_pse_request_ops,
- };
- 
- static struct ethnl_dump_ctx *ethnl_dump_context(struct netlink_callback *cb)
-@@ -1023,6 +1024,22 @@ static const struct genl_ops ethtool_genl_ops[] = {
- 		.policy = ethnl_module_set_policy,
- 		.maxattr = ARRAY_SIZE(ethnl_module_set_policy) - 1,
- 	},
-+	{
-+		.cmd	= ETHTOOL_MSG_PSE_GET,
-+		.doit	= ethnl_default_doit,
-+		.start	= ethnl_default_start,
-+		.dumpit	= ethnl_default_dumpit,
-+		.done	= ethnl_default_done,
-+		.policy = ethnl_pse_get_policy,
-+		.maxattr = ARRAY_SIZE(ethnl_pse_get_policy) - 1,
-+	},
-+	{
-+		.cmd	= ETHTOOL_MSG_PSE_SET,
-+		.flags	= GENL_UNS_ADMIN_PERM,
-+		.doit	= ethnl_set_pse,
-+		.policy = ethnl_pse_set_policy,
-+		.maxattr = ARRAY_SIZE(ethnl_pse_set_policy) - 1,
-+	},
- };
- 
- static const struct genl_multicast_group ethtool_nl_mcgrps[] = {
-diff --git a/net/ethtool/netlink.h b/net/ethtool/netlink.h
-index c0d587611854..1bfd374f9718 100644
---- a/net/ethtool/netlink.h
-+++ b/net/ethtool/netlink.h
-@@ -345,6 +345,7 @@ extern const struct ethnl_request_ops ethnl_module_eeprom_request_ops;
- extern const struct ethnl_request_ops ethnl_stats_request_ops;
- extern const struct ethnl_request_ops ethnl_phc_vclocks_request_ops;
- extern const struct ethnl_request_ops ethnl_module_request_ops;
-+extern const struct ethnl_request_ops ethnl_pse_request_ops;
- 
- extern const struct nla_policy ethnl_header_policy[ETHTOOL_A_HEADER_FLAGS + 1];
- extern const struct nla_policy ethnl_header_policy_stats[ETHTOOL_A_HEADER_FLAGS + 1];
-@@ -383,6 +384,8 @@ extern const struct nla_policy ethnl_stats_get_policy[ETHTOOL_A_STATS_GROUPS + 1
- extern const struct nla_policy ethnl_phc_vclocks_get_policy[ETHTOOL_A_PHC_VCLOCKS_HEADER + 1];
- extern const struct nla_policy ethnl_module_get_policy[ETHTOOL_A_MODULE_HEADER + 1];
- extern const struct nla_policy ethnl_module_set_policy[ETHTOOL_A_MODULE_POWER_MODE_POLICY + 1];
-+extern const struct nla_policy ethnl_pse_get_policy[ETHTOOL_A_PSE_HEADER + 1];
-+extern const struct nla_policy ethnl_pse_set_policy[ETHTOOL_A_PSE_MAX + 1];
- 
- int ethnl_set_linkinfo(struct sk_buff *skb, struct genl_info *info);
- int ethnl_set_linkmodes(struct sk_buff *skb, struct genl_info *info);
-@@ -402,6 +405,7 @@ int ethnl_tunnel_info_start(struct netlink_callback *cb);
- int ethnl_tunnel_info_dumpit(struct sk_buff *skb, struct netlink_callback *cb);
- int ethnl_set_fec(struct sk_buff *skb, struct genl_info *info);
- int ethnl_set_module(struct sk_buff *skb, struct genl_info *info);
-+int ethnl_set_pse(struct sk_buff *skb, struct genl_info *info);
- 
- extern const char stats_std_names[__ETHTOOL_STATS_CNT][ETH_GSTRING_LEN];
- extern const char stats_eth_phy_names[__ETHTOOL_A_STATS_ETH_PHY_CNT][ETH_GSTRING_LEN];
-diff --git a/net/ethtool/pse-pd.c b/net/ethtool/pse-pd.c
-new file mode 100644
-index 000000000000..096d4470a3af
---- /dev/null
-+++ b/net/ethtool/pse-pd.c
-@@ -0,0 +1,185 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+//
-+// ethtool interface for for Ethernet PSE (Power Sourcing Equipment)
-+// and PD (Powered Device)
-+//
-+// Copyright (c) 2022 Pengutronix, Oleksij Rempel <kernel@pengutronix.de>
-+//
-+
-+#include "common.h"
-+#include "linux/pse-pd/pse.h"
-+#include "netlink.h"
-+#include <linux/ethtool_netlink.h>
-+#include <linux/ethtool.h>
-+#include <linux/phy.h>
-+
-+struct pse_req_info {
-+	struct ethnl_req_info base;
-+};
-+
-+struct pse_reply_data {
-+	struct ethnl_reply_data	base;
-+	struct pse_control_status status;
-+};
-+
-+#define PSE_REPDATA(__reply_base) \
-+	container_of(__reply_base, struct pse_reply_data, base)
-+
-+/* PSE_GET */
-+
-+const struct nla_policy ethnl_pse_get_policy[ETHTOOL_A_PSE_HEADER + 1] = {
-+	[ETHTOOL_A_PSE_HEADER] = NLA_POLICY_NESTED(ethnl_header_policy),
-+};
-+
-+static int pse_get_pse_attributs(struct net_device *dev,
-+				 struct netlink_ext_ack *extack,
-+				 struct pse_reply_data *data)
-+{
-+	struct phy_device *phydev = dev->phydev;
-+
-+	if (!phydev) {
-+		NL_SET_ERR_MSG(extack, "No PHY is attached");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	if (!phydev->psec) {
-+		NL_SET_ERR_MSG(extack, "No PSE is attached");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	memset(&data->status, 0, sizeof(data->status));
-+
-+	return pse_ethtool_get_status(phydev->psec, extack, &data->status);
-+}
-+
-+static int pse_prepare_data(const struct ethnl_req_info *req_base,
-+			       struct ethnl_reply_data *reply_base,
-+			       struct genl_info *info)
-+{
-+	struct pse_reply_data *data = PSE_REPDATA(reply_base);
-+	struct net_device *dev = reply_base->dev;
-+	int ret;
-+
-+	ret = ethnl_ops_begin(dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = pse_get_pse_attributs(dev, info->extack, data);
-+
-+	ethnl_ops_complete(dev);
-+
-+	return ret;
-+}
-+
-+static int pse_reply_size(const struct ethnl_req_info *req_base,
-+			  const struct ethnl_reply_data *reply_base)
-+{
-+	const struct pse_reply_data *data = PSE_REPDATA(reply_base);
-+	const struct pse_control_status *st = &data->status;
-+	int len = 0;
-+
-+	if (st->podl_admin_state > 0)
-+		len += nla_total_size(sizeof(u32)); /* _PODL_PSE_ADMIN_STATE */
-+	if (st->podl_pw_status > 0)
-+		len += nla_total_size(sizeof(u32)); /* _PODL_PSE_PW_D_STATUS */
-+
-+	return len;
-+}
-+
-+static int pse_fill_reply(struct sk_buff *skb,
-+			  const struct ethnl_req_info *req_base,
-+			  const struct ethnl_reply_data *reply_base)
-+{
-+	const struct pse_reply_data *data = PSE_REPDATA(reply_base);
-+	const struct pse_control_status *st = &data->status;
-+
-+	if (st->podl_admin_state > 0 &&
-+	    nla_put_u32(skb, ETHTOOL_A_PODL_PSE_ADMIN_STATE,
-+			st->podl_admin_state))
-+		return -EMSGSIZE;
-+
-+	if (st->podl_pw_status > 0 &&
-+	    nla_put_u32(skb, ETHTOOL_A_PODL_PSE_PW_D_STATUS,
-+			st->podl_pw_status))
-+		return -EMSGSIZE;
-+
-+	return 0;
-+}
-+
-+const struct ethnl_request_ops ethnl_pse_request_ops = {
-+	.request_cmd		= ETHTOOL_MSG_PSE_GET,
-+	.reply_cmd		= ETHTOOL_MSG_PSE_GET_REPLY,
-+	.hdr_attr		= ETHTOOL_A_PSE_HEADER,
-+	.req_info_size		= sizeof(struct pse_req_info),
-+	.reply_data_size	= sizeof(struct pse_reply_data),
-+
-+	.prepare_data		= pse_prepare_data,
-+	.reply_size		= pse_reply_size,
-+	.fill_reply		= pse_fill_reply,
-+};
-+
-+/* PSE_SET */
-+
-+const struct nla_policy ethnl_pse_set_policy[ETHTOOL_A_PSE_MAX + 1] = {
-+	[ETHTOOL_A_PSE_HEADER] = NLA_POLICY_NESTED(ethnl_header_policy),
-+	[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL] =
-+		NLA_POLICY_RANGE(NLA_U32, ETHTOOL_PODL_PSE_ADMIN_STATE_DISABLED,
-+				 ETHTOOL_PODL_PSE_ADMIN_STATE_ENABLED),
-+};
-+
-+static int pse_set_pse_config(struct net_device *dev,
-+			      struct netlink_ext_ack *extack,
-+			      struct nlattr **tb)
-+{
-+	struct phy_device *phydev = dev->phydev;
-+	struct pse_control_config config = {};
-+
-+	/* Optional attribute. Do not return error if not set. */
-+	if (!tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL])
-+		return 0;
-+
-+	/* this values are already validated by the ethnl_pse_set_policy */
-+	config.admin_cotrol = nla_get_u32(tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL]);
-+
-+	if (!phydev) {
-+		NL_SET_ERR_MSG(extack, "No PHY is attached");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	if (!phydev->psec) {
-+		NL_SET_ERR_MSG(extack, "No PSE is attached");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return pse_ethtool_set_config(phydev->psec, extack, &config);
-+}
-+
-+int ethnl_set_pse(struct sk_buff *skb, struct genl_info *info)
-+{
-+	struct ethnl_req_info req_info = {};
-+	struct nlattr **tb = info->attrs;
-+	struct net_device *dev;
-+	int ret;
-+
-+	ret = ethnl_parse_header_dev_get(&req_info, tb[ETHTOOL_A_PSE_HEADER],
-+					 genl_info_net(info), info->extack,
-+					 true);
-+	if (ret < 0)
-+		return ret;
-+
-+	dev = req_info.dev;
-+
-+	rtnl_lock();
-+	ret = ethnl_ops_begin(dev);
-+	if (ret < 0)
-+		goto out_rtnl;
-+
-+	ret = pse_set_pse_config(dev, info->extack, tb);
-+	ethnl_ops_complete(dev);
-+out_rtnl:
-+	rtnl_unlock();
-+
-+	ethnl_parse_header_dev_put(&req_info);
-+
-+	return ret;
-+}
--- 
-2.30.2
 
