@@ -2,244 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84844C32771
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 19:47:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B92D7C32771
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 20:20:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229503AbiIZTry (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 15:47:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46728 "EHLO
+        id S230445AbiIZUUI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 16:20:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230100AbiIZTrb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 15:47:31 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E91040545
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 12:47:16 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id v4so7463902pgi.10
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 12:47:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=ZlICVrogearv1SNrgNdDyrmevECXfWWv2T83Z8YgO/0=;
-        b=N72HnbW5sMb92Q4N/bHZzDTNdb4ybAcE8r9IeS1ZaUm4g+VCbclqW5dTR4hrxICF+U
-         XRIx7I6cBdy72OPPbY1ryHlJIyGz6jDtjoDGXSoUfO9xiC+yQvPw5QkzyfTYSil/J6BQ
-         arId7t6AQzxGSEyQQhF8/jC26EXyDtkCM1DD8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=ZlICVrogearv1SNrgNdDyrmevECXfWWv2T83Z8YgO/0=;
-        b=fagF/QygKJekKgV9NU3KnWIiqkE2uV++T0YAlmdNrcSYHoQExS4/8Slj7ej+EmeebS
-         EaPkLhcU7ARIJxWQE17bgUI5adwHTreuwgE/H1RtXxBJ8wSNMxI0nmHKN3HY7LJ/YmDw
-         jcNCGR+xNyIxDH3/OClcxj/h/QHnvDNbYTpEAzZaOj99VByZh7J2qhiMpwVV8zD76lH5
-         ifgxWQgjxf8oIyQXAjihOd+haM0m3EwzvpwxUHO9+yqf50qklK1vq45x3wn1SZ5uEq7v
-         CKsSScFoP4zkeD4AGZtbyC93/YYintb4wOmphj9CTxBCohCTCUdinUubOu/5ZHXs6NsU
-         8CyA==
-X-Gm-Message-State: ACrzQf0o5+3bLc3eYaJmqS67uAqs2fTR4iKw7DQavROz3J8kQDY3hLXh
-        nMk/9fL9Q+y7TIwPqiqI84dHtCSEBMb66g==
-X-Google-Smtp-Source: AMsMyM46ZKCBt4vnZ6cvNv2xFJ4zMtqYAExJV1tiwALAiTO2eAifiY9luw1EWNA5MhmGUBA0BtqajQ==
-X-Received: by 2002:a05:6a00:a05:b0:534:b1ad:cfac with SMTP id p5-20020a056a000a0500b00534b1adcfacmr25053072pfh.35.1664221635658;
-        Mon, 26 Sep 2022 12:47:15 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y6-20020a17090322c600b0016ed8af2ec0sm11748282plg.29.2022.09.26.12.47.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Sep 2022 12:47:14 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] overflow: Fix kern-doc markup for functions
-Date:   Mon, 26 Sep 2022 12:47:13 -0700
-Message-Id: <20220926194713.1806917-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S230404AbiIZUUH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 16:20:07 -0400
+Received: from cloudserver094114.home.pl (cloudserver094114.home.pl [79.96.170.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D7B933371;
+        Mon, 26 Sep 2022 13:20:05 -0700 (PDT)
+Received: from localhost (127.0.0.1) (HELO v370.home.net.pl)
+ by /usr/run/smtp (/usr/run/postfix/private/idea_relay_lmtp) via UNIX with SMTP (IdeaSmtpServer 5.0.0)
+ id b2b7e29611829f54; Mon, 26 Sep 2022 22:20:04 +0200
+Received: from kreacher.localnet (unknown [195.136.19.0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by v370.home.net.pl (Postfix) with ESMTPSA id DDA7F66D6B6;
+        Mon, 26 Sep 2022 22:20:03 +0200 (CEST)
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Linux ACPI <linux-acpi@vger.kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH] ACPI: docs: Drop useless DSDT override documentation
+Date:   Mon, 26 Sep 2022 22:20:03 +0200
+Message-ID: <5606509.DvuYhMxLoT@kreacher>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6889; h=from:subject; bh=0PMShzQ6EtJF+kRUqPhXtNPnTNusvCqcZvTzeg25ZSg=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjMgHAcuS1Ak0XX+ChZpczDofMNNUiFb6phvm+EPXJ vd1yFnWJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYzIBwAAKCRCJcvTf3G3AJsVAD/ wPqoGRtTA9mVe6LhiBA9MsJ2zOFjvc9MWJ7nqqm7gsu0vHwGZ/H0xL02y31F2dxCIwmIJUw0cpmQem 8/KwdDgvz9TWCO5xX6Uqv5Su/JrMmOAStgvqA63TfF+5YqWemyjZrM5y9HnaCAXN56gWbg28hWmGxo MqvJjxkrI2Ke0uQJC7M6SxAgQVSyqzilFwzSf70B3MVz3dKwDi7pMn3rdbnEy0KMNT5mHeRpFglOxd +mekH+Ch/3aNQhFX8xI7y3a3qjp3shLEF5kEDxX+zaDT7MaJIKGyxWNxhX4yRdzroZl1w1Qxl19+lt 9WlQX1zNjmpnhGaerzVIuRRtZl3cK3aOBQUeUsExG8jBSebGbv9fvsqAPesbFShQgLApITemZCYE4S FhkMLm/4XNK97w/VMGjHAtunZraG6O2wMTRjQgUocENw4mGodTNZV8BBDlvGc0RTL7bwumsL0UbZba yhsRI/01KZiPDYOAFYnA7XmiMeVUEuNQSQYC0cYxTcyKJA9SZaOr9g+hLn+eVsbV/nbG48EBW1EW0Y JQ2guS/fEZ5lOvw1zcGDDFRyNUJVSKd2+cqBH9C3w0msq0V6mlRcj9xiMEUnaQAvkHK2HywbK3YDJh 1BCC83tR43TGWjgeuYbNXUnZFpj+Q1Wc3lRBgx37rgIFiaDHP7nKuh1qs6nA==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
+X-CLIENT-IP: 195.136.19.0
+X-CLIENT-HOSTNAME: 195.136.19.0
+X-VADE-SPAMSTATE: clean
+X-VADE-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegvddgudegkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfjqffogffrnfdpggftiffpkfenuceurghilhhouhhtmecuudehtdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkggfgtgesthfuredttddtjeenucfhrhhomhepfdftrghfrggvlhculfdrucghhihsohgtkhhifdcuoehrjhifsehrjhifhihsohgtkhhirdhnvghtqeenucggtffrrghtthgvrhhnpedvueeuvefhgefffeejjeeuueeutdfgtdfftdfhffehgfevuefhtefftdeuheeukeenucffohhmrghinheptddurdhorhhgnecukfhppeduleehrddufeeirdduledrtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduleehrddufeeirdduledrtddphhgvlhhopehkrhgvrggthhgvrhdrlhhotggrlhhnvghtpdhmrghilhhfrhhomhepfdftrghfrggvlhculfdrucghhihsohgtkhhifdcuoehrjhifsehrjhifhihsohgtkhhirdhnvghtqedpnhgspghrtghpthhtohepiedprhgtphhtthhopehlihhnuhigqdgrtghpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhrihhnihhvrghsrdhprghnughruhhv
+ rggurgeslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehruhhirdiihhgrnhhgsehinhhtvghlrdgtohhmpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkoheslhhinhhugidrihhnthgvlhdrtghomh
+X-DCC--Metrics: v370.home.net.pl 1024; Body=6 Fuz1=6 Fuz2=6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix the kern-doc markings for several of the overflow helpers and move
-their location into the core kernel API documentation, where it belongs
-(it's not driver-specific).
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-hardening@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
+Because https://01.org/linux-acpi web site has become permanently
+unreachable, the "Overriding DSDT" document in the kernel tree
+pointing to it as the main source of information is useless (and
+the config option name mentioned by it is incorrect), so drop it
+and drop the pointer to it from the ACPI Kconfig.
+
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
- Documentation/core-api/kernel-api.rst |  6 ++++
- Documentation/driver-api/basics.rst   |  3 --
- include/linux/overflow.h              | 43 +++++++++++++++------------
- 3 files changed, 30 insertions(+), 22 deletions(-)
+ Documentation/admin-guide/acpi/dsdt-override.rst |   13 -------------
+ drivers/acpi/Kconfig                             |    1 -
+ 2 files changed, 14 deletions(-)
 
-diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-index 20569f26dde1..0d0c4f87057c 100644
---- a/Documentation/core-api/kernel-api.rst
-+++ b/Documentation/core-api/kernel-api.rst
-@@ -121,6 +121,12 @@ Text Searching
- CRC and Math Functions in Linux
- ===============================
- 
-+Arithmetic Overflow Checking
-+----------------------------
-+
-+.. kernel-doc:: include/linux/overflow.h
-+   :internal:
-+
- CRC Functions
- -------------
- 
-diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
-index 3e2dae954898..4b4d8e28d3be 100644
---- a/Documentation/driver-api/basics.rst
-+++ b/Documentation/driver-api/basics.rst
-@@ -107,9 +107,6 @@ Kernel utility functions
- .. kernel-doc:: kernel/panic.c
-    :export:
- 
--.. kernel-doc:: include/linux/overflow.h
--   :internal:
+Index: linux-pm/Documentation/admin-guide/acpi/dsdt-override.rst
+===================================================================
+--- linux-pm.orig/Documentation/admin-guide/acpi/dsdt-override.rst
++++ /dev/null
+@@ -1,13 +0,0 @@
+-.. SPDX-License-Identifier: GPL-2.0
 -
- Device Resource Management
- --------------------------
+-===============
+-Overriding DSDT
+-===============
+-
+-Linux supports a method of overriding the BIOS DSDT:
+-
+-CONFIG_ACPI_CUSTOM_DSDT - builds the image into the kernel.
+-
+-When to use this method is described in detail on the
+-Linux/ACPI home page:
+-https://01.org/linux-acpi/documentation/overriding-dsdt
+Index: linux-pm/drivers/acpi/Kconfig
+===================================================================
+--- linux-pm.orig/drivers/acpi/Kconfig
++++ linux-pm/drivers/acpi/Kconfig
+@@ -347,7 +347,6 @@ config ACPI_CUSTOM_DSDT_FILE
+ 	depends on !STANDALONE
+ 	help
+ 	  This option supports a custom DSDT by linking it into the kernel.
+-	  See Documentation/admin-guide/acpi/dsdt-override.rst
  
-diff --git a/include/linux/overflow.h b/include/linux/overflow.h
-index 58eb34aa2af9..4b5b3ec91233 100644
---- a/include/linux/overflow.h
-+++ b/include/linux/overflow.h
-@@ -51,7 +51,8 @@ static inline bool __must_check __must_check_overflow(bool overflow)
- 	return unlikely(overflow);
- }
- 
--/** check_add_overflow() - Calculate addition with overflow checking
-+/**
-+ * check_add_overflow - Calculate addition with overflow checking
-  *
-  * @a: first addend
-  * @b: second addend
-@@ -66,7 +67,8 @@ static inline bool __must_check __must_check_overflow(bool overflow)
- #define check_add_overflow(a, b, d)	\
- 	__must_check_overflow(__builtin_add_overflow(a, b, d))
- 
--/** check_sub_overflow() - Calculate subtraction with overflow checking
-+/**
-+ * check_sub_overflow - Calculate subtraction with overflow checking
-  *
-  * @a: minuend; value to subtract from
-  * @b: subtrahend; value to subtract from @a
-@@ -81,7 +83,8 @@ static inline bool __must_check __must_check_overflow(bool overflow)
- #define check_sub_overflow(a, b, d)	\
- 	__must_check_overflow(__builtin_sub_overflow(a, b, d))
- 
--/** check_mul_overflow() - Calculate multiplication with overflow checking
-+/**
-+ * check_mul_overflow - Calculate multiplication with overflow checking
-  *
-  * @a: first factor
-  * @b: second factor
-@@ -96,7 +99,8 @@ static inline bool __must_check __must_check_overflow(bool overflow)
- #define check_mul_overflow(a, b, d)	\
- 	__must_check_overflow(__builtin_mul_overflow(a, b, d))
- 
--/** check_shl_overflow() - Calculate a left-shifted value and check overflow
-+/**
-+ * check_shl_overflow - Calculate a left-shifted value and check overflow
-  *
-  * @a: Value to be shifted
-  * @s: How many bits left to shift
-@@ -104,15 +108,16 @@ static inline bool __must_check __must_check_overflow(bool overflow)
-  *
-  * Computes *@d = (@a << @s)
-  *
-- * Returns true if '*d' cannot hold the result or when 'a << s' doesn't
-+ * Returns true if '*@d' cannot hold the result or when '@a << @s' doesn't
-  * make sense. Example conditions:
-- * - 'a << s' causes bits to be lost when stored in *d.
-- * - 's' is garbage (e.g. negative) or so large that the result of
-- *   'a << s' is guaranteed to be 0.
-- * - 'a' is negative.
-- * - 'a << s' sets the sign bit, if any, in '*d'.
-  *
-- * '*d' will hold the results of the attempted shift, but is not
-+ * - '@a << @s' causes bits to be lost when stored in *@d.
-+ * - '@s' is garbage (e.g. negative) or so large that the result of
-+ *   '@a << @s' is guaranteed to be 0.
-+ * - '@a' is negative.
-+ * - '@a << @s' sets the sign bit, if any, in '*@d'.
-+ *
-+ * '*@d' will hold the results of the attempted shift, but is not
-  * considered "safe for use" if true is returned.
-  */
- #define check_shl_overflow(a, s, d) __must_check_overflow(({		\
-@@ -176,7 +181,7 @@ static inline bool __must_check __must_check_overflow(bool overflow)
- 			      __same_type(n, T))
- 
- /**
-- * size_mul() - Calculate size_t multiplication with saturation at SIZE_MAX
-+ * size_mul - Calculate size_t multiplication with saturation at SIZE_MAX
-  *
-  * @factor1: first factor
-  * @factor2: second factor
-@@ -196,7 +201,7 @@ static inline size_t __must_check size_mul(size_t factor1, size_t factor2)
- }
- 
- /**
-- * size_add() - Calculate size_t addition with saturation at SIZE_MAX
-+ * size_add - Calculate size_t addition with saturation at SIZE_MAX
-  *
-  * @addend1: first addend
-  * @addend2: second addend
-@@ -216,7 +221,7 @@ static inline size_t __must_check size_add(size_t addend1, size_t addend2)
- }
- 
- /**
-- * size_sub() - Calculate size_t subtraction with saturation at SIZE_MAX
-+ * size_sub - Calculate size_t subtraction with saturation at SIZE_MAX
-  *
-  * @minuend: value to subtract from
-  * @subtrahend: value to subtract from @minuend
-@@ -239,7 +244,7 @@ static inline size_t __must_check size_sub(size_t minuend, size_t subtrahend)
- }
- 
- /**
-- * array_size() - Calculate size of 2-dimensional array.
-+ * array_size - Calculate size of 2-dimensional array.
-  *
-  * @a: dimension one
-  * @b: dimension two
-@@ -252,7 +257,7 @@ static inline size_t __must_check size_sub(size_t minuend, size_t subtrahend)
- #define array_size(a, b)	size_mul(a, b)
- 
- /**
-- * array3_size() - Calculate size of 3-dimensional array.
-+ * array3_size - Calculate size of 3-dimensional array.
-  *
-  * @a: dimension one
-  * @b: dimension two
-@@ -266,8 +271,8 @@ static inline size_t __must_check size_sub(size_t minuend, size_t subtrahend)
- #define array3_size(a, b, c)	size_mul(size_mul(a, b), c)
- 
- /**
-- * flex_array_size() - Calculate size of a flexible array member
-- *                     within an enclosing structure.
-+ * flex_array_size - Calculate size of a flexible array member
-+ *                   within an enclosing structure.
-  *
-  * @p: Pointer to the structure.
-  * @member: Name of the flexible array member.
-@@ -284,7 +289,7 @@ static inline size_t __must_check size_sub(size_t minuend, size_t subtrahend)
- 		size_mul(count, sizeof(*(p)->member) + __must_be_array((p)->member)))
- 
- /**
-- * struct_size() - Calculate size of structure with trailing flexible array.
-+ * struct_size - Calculate size of structure with trailing flexible array.
-  *
-  * @p: Pointer to the structure.
-  * @member: Name of the array member.
--- 
-2.34.1
+ 	  Enter the full path name to the file which includes the AmlCode
+ 	  or dsdt_aml_code declaration.
+
+
 
