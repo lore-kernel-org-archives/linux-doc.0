@@ -2,206 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C75B8C07E9D
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 16:06:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78122C07E9D
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 16:24:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235890AbiIZQGh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 12:06:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48274 "EHLO
+        id S236556AbiIZQYU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 12:24:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234696AbiIZQGC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 12:06:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B68324F
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 07:53:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1664204032;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=JiDPhoXeiEYDPNNsZkNx5skNUhZVDc2YhX8tUxT6Z4I=;
-        b=fI80kL3/xNroi1iv9ML+QqXqRM6pfZryDUAxfezu/H83BgdaDWMvCh6E0tui6c1VXdyydw
-        P9+XKmPphByjuKYf+qJNW57bK7K4IcbSyxyvPtnx4boaNQdfiOaeXwFevfbE8OiBfIm6gQ
-        7YB0vMCUW7GfVzLgpmXcBU1JcWT+MBc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-441-J11LbTknMRejY-Kem5zGkg-1; Mon, 26 Sep 2022 10:53:41 -0400
-X-MC-Unique: J11LbTknMRejY-Kem5zGkg-1
-Received: by mail-wr1-f72.google.com with SMTP id x1-20020adfbb41000000b0022b113add45so1273984wrg.10
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 07:53:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date;
-        bh=JiDPhoXeiEYDPNNsZkNx5skNUhZVDc2YhX8tUxT6Z4I=;
-        b=Nh3RPu4EAEfTdqcga23wQurGgUYl8Jn8g4LE7k8jXo7CMaXSWGrIrZGrJfMMDuZx2P
-         2Nl3/to8SVV3cEJ47mpbcbUZQkuawaKmHpkc4pCBxtWt2j3Y4SpFChEO7O6KVoZSOBqt
-         b9Pjr5/gVNh9+nOKOsNIRRVW/YOtvBpP3XVnp00t5tWm5A7PRuBxdd1JWkYrs8DlDAHH
-         RBz6caAbVmW1RTNsElRqmT9AEL/ioVidd1FlVpfk+1r1Ul5Ntw3GpQNAxo1NdIY2Oj8Q
-         6uF4hDFD3efc6NBOU7uNKuEu+Isgh0z2PeiU5CAt5JpJ8jBHjn1by4QUaNwunVOZVPez
-         ngGA==
-X-Gm-Message-State: ACrzQf0diwhldc4ObHj+DxO9HWIyNRaTbu4YvYXmBRl4m1zWc0GVM3/p
-        xZB7gJCbGYE3O/zehU14q+Y96indFc83yOqWjNJWr7SRn+nX9WAuQovbAOsW+m8yx5DLGd9Odmu
-        Ix9h4PHEFCqW2u6oDXRw0
-X-Received: by 2002:a05:600c:a07:b0:3ab:945:77c4 with SMTP id z7-20020a05600c0a0700b003ab094577c4mr22424181wmp.97.1664204020678;
-        Mon, 26 Sep 2022 07:53:40 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4F1aj6dFmsu9oiMooh87XJHOqSDiWx3ICISxNlRpzSCeG1iwk0ewGaZ3Lrv8KXjMX88Z1kZg==
-X-Received: by 2002:a05:600c:a07:b0:3ab:945:77c4 with SMTP id z7-20020a05600c0a0700b003ab094577c4mr22424160wmp.97.1664204020377;
-        Mon, 26 Sep 2022 07:53:40 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c703:4b00:e090:7fa6:b7d6:d4a7? (p200300cbc7034b00e0907fa6b7d6d4a7.dip0.t-ipconnect.de. [2003:cb:c703:4b00:e090:7fa6:b7d6:d4a7])
-        by smtp.gmail.com with ESMTPSA id r64-20020a1c4443000000b003b4935f04a4sm13954042wma.5.2022.09.26.07.53.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Sep 2022 07:53:39 -0700 (PDT)
-Message-ID: <0a99aa24-599c-cc60-b23b-b77887af3702@redhat.com>
-Date:   Mon, 26 Sep 2022 16:53:37 +0200
+        with ESMTP id S235458AbiIZQYC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 12:24:02 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CB6EFE64F;
+        Mon, 26 Sep 2022 08:12:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664205172; x=1695741172;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=DdnFEf3Z9EiRRHykbZYmRviWkWZkPGSza/2gJffcK00=;
+  b=legMk3/mh2fDpYFBJ/uK4VY3CWV8U0yeSlkbqFF62Eq6v4au2naPCGAw
+   tDzNEsnscPUlRkhsYecJSjZUwtqNV7fF08t+l9VDH5Cd5lMtK3U9lAIMl
+   sbXx1bAeqMXjX9oovMhgPfKfmR/6l5vL87cF9HoHkMLFZLBZdIoHWJ2jb
+   RZFwrSA/hk0D6+1ml9RGDk+PiQz5nZL3W1G1QHj5R8PargdSSuxf5Jfc6
+   DAEqgYni9HPY25ArgtL1RsItk9PfUEM3MXyAp7vsFpbaEhGzuCJXIHMCO
+   tBJDhPbBySipKhQ67312Oao557O3HZfAJRfev8uOlgogA46HlFfq6ydSG
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="387345848"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; 
+   d="scan'208";a="387345848"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2022 08:12:51 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="746649807"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; 
+   d="scan'208";a="746649807"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2022 08:12:51 -0700
+Date:   Mon, 26 Sep 2022 08:13:10 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
+        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
+Subject: Re: [PATCH v2 4/6] fpga: dfl: add generic support for MSIX
+ interrupts
+In-Reply-To: <Yy3O5OeDjJ99g/M2@smile.fi.intel.com>
+Message-ID: <alpine.DEB.2.22.394.2209260804500.363733@rhweight-WRK1>
+References: <20220923121745.129167-1-matthew.gerlach@linux.intel.com> <20220923121745.129167-5-matthew.gerlach@linux.intel.com> <Yy3O5OeDjJ99g/M2@smile.fi.intel.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Content-Language: en-US
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
- <20220923005808.vfltoecttoatgw5o@box.shutemov.name>
- <f703e615-3b75-96a2-fb48-2fefd8a2069b@redhat.com>
- <20220926144854.dyiacztlpx4fkjs5@box.shutemov.name>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220926144854.dyiacztlpx4fkjs5@box.shutemov.name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 26.09.22 16:48, Kirill A. Shutemov wrote:
-> On Mon, Sep 26, 2022 at 12:35:34PM +0200, David Hildenbrand wrote:
->> On 23.09.22 02:58, Kirill A . Shutemov wrote:
->>> On Mon, Sep 19, 2022 at 11:12:46AM +0200, David Hildenbrand wrote:
->>>>> diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
->>>>> index 6325d1d0e90f..9d066be3d7e8 100644
->>>>> --- a/include/uapi/linux/magic.h
->>>>> +++ b/include/uapi/linux/magic.h
->>>>> @@ -101,5 +101,6 @@
->>>>>     #define DMA_BUF_MAGIC		0x444d4142	/* "DMAB" */
->>>>>     #define DEVMEM_MAGIC		0x454d444d	/* "DMEM" */
->>>>>     #define SECRETMEM_MAGIC		0x5345434d	/* "SECM" */
->>>>> +#define INACCESSIBLE_MAGIC	0x494e4143	/* "INAC" */
->>>>
->>>>
->>>> [...]
->>>>
->>>>> +
->>>>> +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
->>>>> +			 int *order)
->>>>> +{
->>>>> +	struct inaccessible_data *data = file->f_mapping->private_data;
->>>>> +	struct file *memfd = data->memfd;
->>>>> +	struct page *page;
->>>>> +	int ret;
->>>>> +
->>>>> +	ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
->>>>> +	if (ret)
->>>>> +		return ret;
->>>>> +
->>>>> +	*pfn = page_to_pfn_t(page);
->>>>> +	*order = thp_order(compound_head(page));
->>>>> +	SetPageUptodate(page);
->>>>> +	unlock_page(page);
->>>>> +
->>>>> +	return 0;
->>>>> +}
->>>>> +EXPORT_SYMBOL_GPL(inaccessible_get_pfn);
->>>>> +
->>>>> +void inaccessible_put_pfn(struct file *file, pfn_t pfn)
->>>>> +{
->>>>> +	struct page *page = pfn_t_to_page(pfn);
->>>>> +
->>>>> +	if (WARN_ON_ONCE(!page))
->>>>> +		return;
->>>>> +
->>>>> +	put_page(page);
->>>>> +}
->>>>> +EXPORT_SYMBOL_GPL(inaccessible_put_pfn);
->>>>
->>>> Sorry, I missed your reply regarding get/put interface.
->>>>
->>>> https://lore.kernel.org/linux-mm/20220810092532.GD862421@chaop.bj.intel.com/
->>>>
->>>> "We have a design assumption that somedays this can even support non-page
->>>> based backing stores."
->>>>
->>>> As long as there is no such user in sight (especially how to get the memfd
->>>> from even allocating such memory which will require bigger changes), I
->>>> prefer to keep it simple here and work on pages/folios. No need to
->>>> over-complicate it for now.
->>>
->>> Sean, Paolo , what is your take on this? Do you have conrete use case of
->>> pageless backend for the mechanism in sight? Maybe DAX?
+
+
+On Fri, 23 Sep 2022, Andy Shevchenko wrote:
+
+> On Fri, Sep 23, 2022 at 05:17:43AM -0700, matthew.gerlach@linux.intel.com wrote:
+>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 >>
->> The problem I'm having with this is how to actually get such memory into the
->> memory backend (that triggers notifiers) and what the semantics are at all
->> with memory that is not managed by the buddy.
->>
->> memfd with fixed PFNs doesn't make too much sense.
-> 
-> What do you mean by "fixed PFN". It is as fixed as struct page/folio, no?
-> PFN covers more possible backends.
+>> Define and use a DFHv1 parameter to add generic support for MSIX
+>> interrupts for DFL devices.
+>
+> ...
+>
+>> +	if (fid != FEATURE_ID_AFU && fid != PORT_FEATURE_ID_ERROR &&
+>> +	    fid != PORT_FEATURE_ID_UINT && fid != FME_FEATURE_ID_GLOBAL_ERR) {
+>
+>> +
+>
+> Unneeded blank line.
 
-For DAX, you usually bypass the buddy and map /dev/mem or a devdax. In 
-contrast to ordinary memfd that allocates memory via the buddy. That's 
-the difference I see -- and I wonder how it could work.
+I will remove the blank line.
 
-> 
->> When using DAX, what happens with the shared <->private conversion? Which
->> "type" is supposed to use dax, which not?
->>
->> In other word, I'm missing too many details on the bigger picture of how
->> this would work at all to see why it makes sense right now to prepare for
->> that.
-> 
-> IIUC, KVM doesn't really care about pages or folios. They need PFN to
-> populate SEPT. Returning page/folio would make KVM do additional steps to
-> extract PFN and one more place to have a bug.
+>
+>> +		v = FIELD_GET(DFH_VERSION, readq(base));
+>> +		switch (v) {
+>
+> This v...
+>
+>> +		case 0:
+>> +			break;
+>> +
+>> +		case 1:
+>> +			v =  readq(base + DFHv1_CSR_SIZE_GRP);
+>
+> Extra space.
+>
+> ...and this v are semantically different. It's quite hard to deduce their
+> semantics.
 
-Fair enough. Smells KVM specific, though.
+I was trying to be consistent with the existing code where the read was 
+stored in a temporary variable, v, and the FIELD_GET would be used for the 
+specific field.  Will it be sufficiently clear if the v used above is 
+changed to dfl_ver, and this use of v followed by FIELD_GET remains as is?
 
--- 
-Thanks,
-
-David / dhildenb
-
+>
+>> +			if (FIELD_GET(DFHv1_CSR_SIZE_GRP_HAS_PARAMS, v)) {
+>> +				off = dfl_find_param(base + DFHv1_PARAM_HDR, ofst,
+>> +						     DFHv1_PARAM_ID_MSIX);
+>
+> I guess I have suggested to use temporary variable(s) here.
+>
+> 			void __iomem *dfhv1 = base + DFHv1...;
+> 			void __iomem *nth;
+>
+>> +				if (off >= 0) {
+>
+> 					nth = dfhv1 + off;
+>
+>> +					ibase = readl(base + DFHv1_PARAM_HDR +
+>> +						      off + DFHv1_PARAM_MSIX_STARTV);
+>> +					inr = readl(base + DFHv1_PARAM_HDR +
+>> +						    off + DFHv1_PARAM_MSIX_NUMV);
+>
+> 					ibase = readl(nth + DFHv1_PARAM_MSIX_STARTV);
+> 					inr = readl(nth + DFHv1_PARAM_MSIX_NUMV);
+>
+>> +					dev_dbg(binfo->dev, "start %d num %d fid 0x%x\n",
+>> +						ibase, inr, fid);
+>> +				}
+>> +			}
+>> +			break;
+>> +
+>> +		default:
+>> +			dev_warn(binfo->dev, "unexpected DFH version %lld\n", v);
+>> +			break;
+>> +		}
+>> +	}
+>
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+>
