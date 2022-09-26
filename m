@@ -2,197 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A41ABC6FA82
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 17:35:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9CFBC6FA82
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 18:23:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230523AbiIZRfP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 13:35:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36566 "EHLO
+        id S229532AbiIZSXu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 14:23:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230452AbiIZRe4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 13:34:56 -0400
-Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 127B9DEA2;
-        Mon, 26 Sep 2022 09:54:37 -0700 (PDT)
-Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 2CED02040;
-        Mon, 26 Sep 2022 17:15:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
-        s=202205; t=1664205355;
-        bh=O6butbHEYXb4X2YTzbhHaO1UylgtvPZjvHMs4RWdSvg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JxiznzBra2+BR0qTR5UGFsIS055L/CO0mxcmXg0liP/AVCsFSQKoKe14LpHaJbWZq
-         FgCcdSEqNKm2Zvscjpvz+wXc2/WNHgqWmEt6gtzVkFbn2oXSOs4oFUTTV5OdNDPbik
-         VmLNpwl42PU4fGkCmeCPH72iCPnx9s7Au5MWnfq/4SwU1fJ/5fy4ghQ59j/BhNs/gF
-         O0NIjhWLPooszMQD9CESnym/nwt81rkLslMJT3q5MI47CLz0/eT0wG7Ph25DCPWQmg
-         otmjxCCN4BdkhYarHKUGCthMm17n/rJL0IVxWzqO+7nUXKBL+k2xgJzL2lDutxhiH6
-         A3lHbNvWfb9iAZuCuiLnOoX/DuPd3Ql64EK0O8pkOqRgqFZnO+x5/tNQtGD8ucZBmU
-         NGLj80zd2+EX24UgFgblGYsxhE9z+VqY1nOWdHSA54utZWReTwioykSH3JpQZ9Z6lL
-         SOajSAx/JkXbJKzXKyfACYFS5hTjqqPs01szTRAHmJMsBEZmsemjmQyD4y5yy0Cu9r
-         fnK/vh8+NTajE8JE5O6rxw3GE9NYgv9hV47R7jKN3hmYI2VssBFbrvkR/JZp7j5TGm
-         7046P4UREg7FSI835qcareeyEqAYUdhinIFp3jy+LoHeR4oiV4+byeK2iRoKS2gAaV
-         iC9wAhSX2hd6n4+6TBNeIUYA=
-Date:   Mon, 26 Sep 2022 17:15:54 +0200
-From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Linux MM <linux-mm@kvack.org>
-Subject: Re: [PATCH v4 02/18] a.out: remove define-only CMAGIC, previously
- magic number
-Message-ID: <20220926151554.7gxd6unp5727vw3c@tarta.nabijaczleweli.xyz>
-References: <YyMlovoskUcHLEb7@kroah.com>
- <9cbea062df7125ef43e2e0b2a67ede6ad1c5f27e.1663280877.git.nabijaczleweli@nabijaczleweli.xyz>
- <CAMuHMdWxf=+CnwXT61VvYhcHi093rz=0ftWQXKVviMunzE1HHw@mail.gmail.com>
+        with ESMTP id S230367AbiIZSX1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 14:23:27 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A177ECF3;
+        Mon, 26 Sep 2022 11:21:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3D1C7611CD;
+        Mon, 26 Sep 2022 18:21:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A841C433D6;
+        Mon, 26 Sep 2022 18:21:09 +0000 (UTC)
+Date:   Mon, 26 Sep 2022 14:22:18 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs, kprobes: Fix the wrong location of Kprobes
+Message-ID: <20220926142218.100e0d9b@gandalf.local.home>
+In-Reply-To: <1663322106-12178-1-git-send-email-yangtiezhu@loongson.cn>
+References: <1663322106-12178-1-git-send-email-yangtiezhu@loongson.cn>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="owvvegzmxe7bs6ov"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWxf=+CnwXT61VvYhcHi093rz=0ftWQXKVviMunzE1HHw@mail.gmail.com>
-User-Agent: NeoMutt/20220429
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 16 Sep 2022 17:55:06 +0800
+Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
 
---owvvegzmxe7bs6ov
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> After commit 22471e1313f2 ("kconfig: use a menu in arch/Kconfig to reduce
+> clutter"), the location of Kprobes is under "General architecture-dependent
+> options" rather than "General setup".
+> 
 
-Hi!
+Probably add a "Fixes:" tag for the above mentioned commit.
 
-On Mon, Sep 26, 2022 at 10:16:02AM +0200, Geert Uytterhoeven wrote:
-> Thanks for your patch, which is now commit 53c2bd679017277f
-> ("a.out: remove define-only CMAGIC, previously magic number") in
-> driver-core/driver-core-next.
->=20
-> On Fri, Sep 16, 2022 at 12:40 AM =D0=BD=D0=B0=D0=B1 <nabijaczleweli@nabij=
-aczleweli.xyz> wrote:
-> > The last user was removed in 5.1 in
-> > commit 08300f4402ab ("a.out: remove core dumping support")
-> > but this is part of the UAPI headers, so this may want to either wait
-> > until a.out is removed entirely, or be removed from the magic number doc
-> > and silently remain in the header
->=20
-> Indeed. This is part of uapi, and might break some unknown
-> userspace, while the gain is limited.  Do we really want to reduce
-> include/uapi/linux/a.out.h piecewise (e.g. N_BADMAG() seems to be
-> unused, too), instead of keeping it until a.out support is removed
-> completely?
+Anyway, Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-Not really, but it looked like a magic number in the magic-number.rst
-sense due to the field being "magic" and the unintuitive type naming:
-I hadn't realised it's part of the on-disk format
-re-examination shows that it very well may be (have been).
-
-> Anyway, even at that point, it might be wise to keep the header file
-> around, as people have expressed the desire to run a.out binaries
-> through a userspace-compatibility wrapper.
-
-Agreed. Scissor-patch that reverts the removal below.
-
-> > A cursory glance on DCS didn't show any user code actually using this
-> > value
->=20
-> What is DCS?
-
-Debian Code Search; in this case my query was:
-  https://codesearch.debian.net/search?q=3D%5CbCMAGIC%5Cb&literal=3D0
-
-There's a few false positives here but all results that are using CMAGIC
-to mean this CMAGIC (and aren't hurd code copied from linux)
-just re-define it.
-
-> >  Documentation/process/magic-number.rst                    | 1 -
-> >  Documentation/translations/it_IT/process/magic-number.rst | 1 -
-> >  Documentation/translations/zh_CN/process/magic-number.rst | 1 -
-> >  Documentation/translations/zh_TW/process/magic-number.rst | 1 -
-> >  include/uapi/linux/a.out.h                                | 3 ---
-> >  5 files changed, 7 deletions(-)
-> >=20
-> > diff --git a/include/uapi/linux/a.out.h b/include/uapi/linux/a.out.h
-> > index 5fafde3798e5..bb15da96df2a 100644
-> > --- a/include/uapi/linux/a.out.h
-> > +++ b/include/uapi/linux/a.out.h
-> > @@ -70,9 +70,6 @@ enum machine_type {
-> >     The first page is unmapped to help trap NULL pointer references */
-> >  #define QMAGIC 0314
-> >
-> > -/* Code indicating core file.  */
-> > -#define CMAGIC 0421
-> > -
-> >  #if !defined (N_BADMAG)
-> >  #define N_BADMAG(x)      (N_MAGIC(x) !=3D OMAGIC         \
-> >                         && N_MAGIC(x) !=3D NMAGIC         \
->=20
-> Gr{oetje,eeting}s,
->                         Geert
-
-Best,
-=D0=BD=D0=B0=D0=B1
-
--- >8 --
-Subject: [PATCH] a.out: restore CMAGIC
-
-Part of UAPI and the on-disk format:
-this means that it's not a magic number per magic-number.rst,
-and it's best to leave it untouched to avoid breaking userspace
-and suffer the same fate as a.out in general
-
-Fixes: commit 53c2bd679017 ("a.out: remove define-only CMAGIC,
- previously magic number")
-Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
----
- include/uapi/linux/a.out.h | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/include/uapi/linux/a.out.h b/include/uapi/linux/a.out.h
-index bb15da96df2a..5fafde3798e5 100644
---- a/include/uapi/linux/a.out.h
-+++ b/include/uapi/linux/a.out.h
-@@ -70,6 +70,9 @@ enum machine_type {
-    The first page is unmapped to help trap NULL pointer references */
- #define QMAGIC 0314
-=20
-+/* Code indicating core file.  */
-+#define CMAGIC 0421
-+
- #if !defined (N_BADMAG)
- #define N_BADMAG(x)	  (N_MAGIC(x) !=3D OMAGIC		\
- 			&& N_MAGIC(x) !=3D NMAGIC		\
---=20
-2.30.2
+-- Steve
 
 
---owvvegzmxe7bs6ov
-Content-Type: application/pgp-signature; name="signature.asc"
+> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+> ---
+>  Documentation/trace/kprobes.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/trace/kprobes.rst b/Documentation/trace/kprobes.rst
+> index f318bce..48cf778 100644
+> --- a/Documentation/trace/kprobes.rst
+> +++ b/Documentation/trace/kprobes.rst
+> @@ -328,8 +328,8 @@ Configuring Kprobes
+>  ===================
+>  
+>  When configuring the kernel using make menuconfig/xconfig/oldconfig,
+> -ensure that CONFIG_KPROBES is set to "y". Under "General setup", look
+> -for "Kprobes".
+> +ensure that CONFIG_KPROBES is set to "y", look for "Kprobes" under
+> +"General architecture-dependent options".
+>  
+>  So that you can load and unload Kprobes-based instrumentation modules,
+>  make sure "Loadable module support" (CONFIG_MODULES) and "Module
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmMxwikACgkQvP0LAY0m
-WPFsOg/+LbOR74Qel4hfE8PDMr9APMECOWl5vTlxh+SZqgou2UJ8HIQ6kqweyyZi
-ap9urcIzyiIb4lnGUWSLMyGG89H6paRIAr8pPX/wLWOkkXpukCg77CnwbqZrQCO3
-etsnNxwThtjN23Y4ggMhHwZ85Nn6RnhmzFcHHZ2UsfbyYjnGT85eZHhUzh8uFjjF
-J2UEdff3e4dx32vGw+SRbzxre1g/fCXB1Yp8dcvvQ9vLJjxHqayK2uNVjVF3Cbmk
-c71dYu38EEcAymYByMwDqiV1gKpisguLzsRctH2ZK6H7k1UakLutLH9GnRAeNJ+Z
-6p/rb02O6N5yFGyXzjix74ILOWhhv/+HJ8D2EFWM02ictMrttjawVCcGSkU048d0
-h3hSMEXR8vAcVu9utZyW1lMotDJHvcdlPYE9hA+Mem82B/+w6qIszvkG2//JO7So
-HkkPkWEeel+3vWSfdilM1DhlX5aFgzdB74DrJywFbOzjwL4kYiKi53AEF0VJgCOd
-vEcX/vxN8oVUxaaHL7Tun0UkWYCS1hpt8A74rbrWhdflM+Oc4c7A+0d9ga8MFM4f
-CDygsPBClz2WthgcNV+1RfVh257MDurYIqmaLcenaQOBF5Z/6wHAnE5ne0D5oN0d
-uYDvV2jjjSHts0sLJssHo3QEJr78NIMxC7G1ETfF42lWzGLPRUs=
-=qrkH
------END PGP SIGNATURE-----
-
---owvvegzmxe7bs6ov--
