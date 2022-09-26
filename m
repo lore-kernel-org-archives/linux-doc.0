@@ -2,105 +2,383 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 867A8C07E9D
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 08:29:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDCD8C6FA82
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 09:10:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234360AbiIZI3F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 04:29:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60936 "EHLO
+        id S234585AbiIZJKp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 05:10:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234507AbiIZI2k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 04:28:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4F3B3AB07
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 01:28:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1664180910;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HqsG+MVHFIIYUXh9jWxIMmssIKFxTC2Q+EMTX/72P4E=;
-        b=JNYjtZ386ZGMLopPhcC2KQp3nOV1Ry/zIWYKH8W/bniXjVklSnnBAs/0kDnpEK0XXF6nfQ
-        GP01I8Q6mVDSw1I3tlKE7zpYgW+rtpX3atcG/n49jdRgAIgp16TPCDaPAMwG/h8y7DpXZx
-        TUv9htU3DNvYkhEw27VyBVyC7yDND2c=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-629-8sIaOloPPlS059UFIohMWQ-1; Mon, 26 Sep 2022 04:28:29 -0400
-X-MC-Unique: 8sIaOloPPlS059UFIohMWQ-1
-Received: by mail-wr1-f70.google.com with SMTP id g19-20020adfa493000000b0022a2ee64216so926381wrb.14
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 01:28:29 -0700 (PDT)
+        with ESMTP id S234433AbiIZJKo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 05:10:44 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D2823A162
+        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 02:10:42 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id q15-20020a17090a304f00b002002ac83485so6159391pjl.0
+        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 02:10:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=4c6rsA/nj+c23v2pL8EFuT0jFlHDAIqFaKKXHCIq3T0=;
+        b=VYqF48rXQrsaARUdMc7oQLC1cOOk8WAYwJtqdYenUUNGxHxOII7mbSGfI/5iP12/vB
+         gkPtW0roD9QYEUoeTpZKPJElv5gbdBl4Wymy94NY5vbQAhHaqWtmNmDj2FIO+eSkkTYv
+         5pSuzqhw1NuKJq0OODskkl3dL3iswXXxXSvZja6hiYJ/YzhQRBYVQXxiZAPy0++CEtZT
+         Vz/KmpnlwGZVqA/k8du1ZxK2kpVIh/Uv8JlAGr6g1bRbvEZfji9gFHd2dwtJQyT/UHSk
+         sYuj43DfsFqY0VtbgEvg39TjoI5nDMa+NSWQWsCQcV4yo1foy6wUdx0cvS1/xAA1V3N6
+         FZRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date;
-        bh=HqsG+MVHFIIYUXh9jWxIMmssIKFxTC2Q+EMTX/72P4E=;
-        b=bqgPs/Qvi+gQyn/85w3ddgHoWqRxB3cvvQH31AKjvyS6OcHS0qQefNzidS9GS2Z6mP
-         Eg3iyIzcsxCacj15E9j/zOTMsCcpKuXspGEJ/bH0ee3oF4ElZZiIiIyiNnWHEG1WXj3M
-         J4BO50EzJFLgbLU+QZ7m76hn4MG1vhw4GegR0zKQpixNEpO3jFZLNtZg1MKRHqINSpvb
-         H0Rj9mQXJ+6Y33kU8kgFUjKnLyKJ3I2qnePYrPxh+APaLch169MW8+pEheP5c20WmDhV
-         8yobK3Qril132BkveiOLc3zuIdYQPY68zUvIO50fmIgE1vh67Kz5rskVjIlvjpouMj3b
-         8SUQ==
-X-Gm-Message-State: ACrzQf0R4B23MFCgr27v6IMqOeXjO4yzEt6UJFL5OltrjKR/aXgVIAmE
-        kcWRa0gDrIGoacKseQEi5/IDyTAl92C3q+epy6v5Jl+qp7BXq86ZVzO1oOn2ezOPEbHyZ081hFq
-        iSS/i1IIAYemAvg1HW95x
-X-Received: by 2002:adf:ee89:0:b0:228:7bdf:47d with SMTP id b9-20020adfee89000000b002287bdf047dmr12331982wro.641.1664180908454;
-        Mon, 26 Sep 2022 01:28:28 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7Bl/WEHU2vEBAzJ2u0mYVj47cUqiOCermg8qPqGs7Ef8aijleyg7ahis7ThaGwb8JRoRHffQ==
-X-Received: by 2002:adf:ee89:0:b0:228:7bdf:47d with SMTP id b9-20020adfee89000000b002287bdf047dmr12331970wro.641.1664180908227;
-        Mon, 26 Sep 2022 01:28:28 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c703:4b00:e090:7fa6:b7d6:d4a7? (p200300cbc7034b00e0907fa6b7d6d4a7.dip0.t-ipconnect.de. [2003:cb:c703:4b00:e090:7fa6:b7d6:d4a7])
-        by smtp.gmail.com with ESMTPSA id y5-20020a5d6145000000b00226dedf1ab7sm13413277wrt.76.2022.09.26.01.28.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Sep 2022 01:28:27 -0700 (PDT)
-Message-ID: <f8ff6148-2775-4465-809b-36a4e5a4c403@redhat.com>
-Date:   Mon, 26 Sep 2022 10:28:26 +0200
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=4c6rsA/nj+c23v2pL8EFuT0jFlHDAIqFaKKXHCIq3T0=;
+        b=FX1PmSC5kEbbQ+pA5prmtrmKif9oGqWOgjnDVCeFgrbYHj1695csi8YgM2i1WyHoLI
+         iiE332z+KZFqNu6ZLDLCDqgECGWGQO8TfVlwPhRmAQ1Eg39WTJeiGfe/U0YZF5N38X8M
+         llwC/zgVQwQ4P0hzFE6a+RCYCa7PRoxtcr2u7F3B1NHpqLfIRjHNFU0NY6Zx6LIvrmnS
+         P0SFtqF2TDK24V1xw29CqcpMZm0a4bexZR3oWvmsQd/EnTt7ev067KAUMZFNsP6z1clh
+         DBYutp0SeRgu+w8xSuQO5cqUnso/3U04SNIVdyLXe7X9grdUOZjefbBkUmYl5Hi/Nyuf
+         xUNg==
+X-Gm-Message-State: ACrzQf3EWCbO9j/kOd2FVHK10CKT78GctUDdTZEgeeWkvAcFNDh7fjFj
+        X0DKvKzGsFDNGtFPrF8qiACKYg==
+X-Google-Smtp-Source: AMsMyM7E7EZRWTnSrzkr3k8Aigg7dre7T8cfu0oIbNgzQXLcoHg8AW+DjGUt0mEMLzGGmypeBdEAiw==
+X-Received: by 2002:a17:90b:4d8f:b0:202:6634:997e with SMTP id oj15-20020a17090b4d8f00b002026634997emr24167098pjb.237.1664183441624;
+        Mon, 26 Sep 2022 02:10:41 -0700 (PDT)
+Received: from R911R1VA-1UT.bytedance.net ([139.177.225.229])
+        by smtp.gmail.com with ESMTPSA id om12-20020a17090b3a8c00b0020263b7177csm20826852pjb.3.2022.09.26.02.10.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Sep 2022 02:10:41 -0700 (PDT)
+From:   hezhongkun <hezhongkun.hzk@bytedance.com>
+To:     corbet@lwn.net, akpm@linux-foundation.org, mhocko@suse.com
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, wuyun.abel@bytedance.com,
+        Zhongkun He <hezhongkun.hzk@bytedance.com>
+Subject: [RFC] proc: Add a new isolated /proc/pid/mempolicy type.
+Date:   Mon, 26 Sep 2022 17:10:33 +0800
+Message-Id: <20220926091033.340-1-hezhongkun.hzk@bytedance.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH 2/3] mm/page_table_check: Do WARN_ON instead of BUG_ON by
- default
-Content-Language: en-US
-To:     Matthew Wilcox <willy@infradead.org>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc:     akpm@linux-foundation.org, corbet@lwn.net, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rick.p.edgecombe@intel.com
-References: <20220911095923.3614387-1-pasha.tatashin@soleen.com>
- <20220911095923.3614387-3-pasha.tatashin@soleen.com>
- <Yx4IEvkmAlcTIP6v@casper.infradead.org>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <Yx4IEvkmAlcTIP6v@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11.09.22 18:08, Matthew Wilcox wrote:
-> On Sun, Sep 11, 2022 at 09:59:22AM +0000, Pasha Tatashin wrote:
->> Currently, page_table_check when detects errors panics kernel. Instead,
->> print a warning, and panic only when specifically requested via kernel
->> parameter:
->>
->> 	page_table_check=panic
-> 
-> Why are the page table checks so special that they deserve their own
-> command line parameter?  Why shouldn't this be controlled by the usual
-> panic_on_warn option?
-> 
+From: Zhongkun He <hezhongkun.hzk@bytedance.com>
 
-I agree.
+/proc/pid/mempolicy can be used to check and adjust the userspace task's
+mempolicy dynamically.In many case, the application and the control plane
+are two separate systems. When the application is created, it doesn't know
+how to use memory, and it doesn't care. The control plane will decide the
+memory usage policy based on different reasons.In that case, we can
+dynamically adjust the mempolicy using /proc/pid/mempolicy interface.
 
-https://lkml.kernel.org/r/20220923113426.52871-2-david@redhat.com
+Format of input:
+----------------
+<mode>[=<flags>][:<nodelist>]
 
-Use of WARN_ON_ONCE is the way to go nowadays.
+Example
+-------
+set mempolicy:
+ $ echo "interleave=static:0-3" > /proc/27036/mempolicy
+ $ cat /proc/27036/mempolicy
+ interleave=static:0-3
+remove mempolicy:
++  $ echo "default" > /proc/27036/mempolicy
 
+The following 6 mempolicy mode types：
+"default" "prefer"  "bind" "interleave" "local" "prefer (many)"
+
+The supported mode flags are:
+"static" "relative"
+
+nodelist         For example：0-3 or 0,1,2,3
+
+Signed-off-by: Zhongkun He <hezhongkun.hzk@bytedance.com>
+---
+ Documentation/filesystems/proc.rst |  40 +++++++++
+ fs/proc/base.c                     |   2 +
+ fs/proc/internal.h                 |   1 +
+ fs/proc/task_mmu.c                 | 129 +++++++++++++++++++++++++++++
+ include/linux/mempolicy.h          |   5 --
+ mm/mempolicy.c                     |   2 -
+ 6 files changed, 172 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index e7aafc82be99..fa7bc24c6a91 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -47,6 +47,8 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
+   3.10  /proc/<pid>/timerslack_ns - Task timerslack value
+   3.11	/proc/<pid>/patch_state - Livepatch patch operation state
+   3.12	/proc/<pid>/arch_status - Task architecture specific information
++  3.13  /proc/<pid>/mempolicy & /proc/<pid>/task/<tid>/mempolicy- Adjust
++                                                                the mempolicy
+ 
+   4	Configuring procfs
+   4.1	Mount options
+@@ -2145,6 +2147,44 @@ AVX512_elapsed_ms
+   the task is unlikely an AVX512 user, but depends on the workload and the
+   scheduling scenario, it also could be a false negative mentioned above.
+ 
++3.13 /proc/<pid>/mempolicy & /proc/<pid>/task/<tid>/mempolicy- Adjust the mempolicy
++-----------------------------------------------------------------------------------
++When CONFIG_NUMA is enabled, these files can be used to check and adjust the current
++mempolicy.Please note that the effectively <pid>,<tid> is from userspace programs.
++
++Format of input:
++----------------
++<mode>[=<flags>][:<nodelist>]
++
++Example
++-------
++set mempolicy:
++ $ echo "interleave=static:0-3" > /proc/27036/mempolicy
++ $ cat /proc/27036/mempolicy
++ interleave=static:0-3
++
++remove mempolicy:
++  $ echo "default" > /proc/27036/mempolicy
++
++The following 6 mempolicy mode types are supported:
++"default"         Default is converted to the NULL memory policy, any existing non-default policy
++                  will simply be removed when "default" is specified.
++"prefer"          The allocation should be attempted from the single node specified in the policy.
++"bind"            Memory must come from the set of nodes specified by the policy.
++"interleave"      Page allocations be interleaved across the nodes specified in the policy.
++"local"           The memory is allocated on the node of the CPU that triggered the allocation.
++"prefer (many)"   The allocation should be preferrably satisfied from the nodemask specified in the policy.
++
++The supported mode flags are:
++
++"static"          A nonempty nodemask specifies physical node IDs.
++"relative"        A nonempty nodemask specifies node IDs that are relative
++                  to the set of node IDs allowed by the thread's current cpuset.
++
++nodelist         For example: 0-3 or 0,1,2,3
++
++Please see: Documentation/admin-guide/mm/numa_memory_policy.rst  for descriptions of memory policy.
++
+ Chapter 4: Configuring procfs
+ =============================
+ 
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 93f7e3d971e4..4dbe714b4e61 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -3252,6 +3252,7 @@ static const struct pid_entry tgid_base_stuff[] = {
+ 	REG("maps",       S_IRUGO, proc_pid_maps_operations),
+ #ifdef CONFIG_NUMA
+ 	REG("numa_maps",  S_IRUGO, proc_pid_numa_maps_operations),
++	REG("mempolicy",  S_IRUGO|S_IWUSR, proc_mempolicy_operations),
+ #endif
+ 	REG("mem",        S_IRUSR|S_IWUSR, proc_mem_operations),
+ 	LNK("cwd",        proc_cwd_link),
+@@ -3600,6 +3601,7 @@ static const struct pid_entry tid_base_stuff[] = {
+ #endif
+ #ifdef CONFIG_NUMA
+ 	REG("numa_maps", S_IRUGO, proc_pid_numa_maps_operations),
++	REG("mempolicy",  S_IRUGO|S_IWUSR, proc_mempolicy_operations),
+ #endif
+ 	REG("mem",       S_IRUSR|S_IWUSR, proc_mem_operations),
+ 	LNK("cwd",       proc_cwd_link),
+diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+index 06a80f78433d..33ffbd79db58 100644
+--- a/fs/proc/internal.h
++++ b/fs/proc/internal.h
+@@ -300,6 +300,7 @@ extern const struct file_operations proc_pid_smaps_operations;
+ extern const struct file_operations proc_pid_smaps_rollup_operations;
+ extern const struct file_operations proc_clear_refs_operations;
+ extern const struct file_operations proc_pagemap_operations;
++extern const struct file_operations proc_mempolicy_operations;
+ 
+ extern unsigned long task_vsize(struct mm_struct *);
+ extern unsigned long task_statm(struct mm_struct *,
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 4e0023643f8b..299276e19c52 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -2003,4 +2003,133 @@ const struct file_operations proc_pid_numa_maps_operations = {
+ 	.release	= proc_map_release,
+ };
+ 
++#define MPOLBUFLEN 64
++/*
++ *Display task's  memory policy via /proc./
++ */
++static ssize_t mempolicy_read(struct file *file, char __user *buf,
++		size_t count, loff_t *ppos)
++{
++	struct task_struct *task = get_proc_task(file_inode(file));
++	char buffer[MPOLBUFLEN];
++	struct mempolicy *mpol;
++	size_t len = 0;
++
++	if (!task)
++		return -ESRCH;
++
++	task_lock(task);
++	mpol = task->mempolicy;
++	mpol_get(mpol);
++	task_unlock(task);
++
++	if (!mpol || mpol->mode == MPOL_DEFAULT)
++		goto out;
++
++	memset(buffer, 0, sizeof(buffer));
++	mpol_to_str(buffer, sizeof(buffer), mpol);
++	buffer[strlen(buffer)] = '\n';
++	len = simple_read_from_buffer(buf, count, ppos, buffer, strlen(buffer));
++
++out:
++	mpol_put(mpol);
++	put_task_struct(task);
++	return len;
++}
++
++/*
++ *Update nodemask of mempolicy according to task->mems_allowed.
++ */
++static int update_task_mpol(struct task_struct *task, struct mempolicy *mpol)
++{
++	nodemask_t tsk_allowed;
++	struct mempolicy *old = NULL;
++	int err = 0;
++
++	task_lock(task);
++	local_irq_disable();
++	old = task->mempolicy;
++
++	if (mpol)
++		nodes_and(tsk_allowed, task->mems_allowed, mpol->w.user_nodemask);
++	else
++		nodes_clear(tsk_allowed);
++
++	if (!nodes_empty(tsk_allowed)) {
++		task->mempolicy = mpol;
++		mpol_rebind_task(task, &tsk_allowed);
++	} else if (!mpol || mpol->mode == MPOL_LOCAL) {
++		/*default (pol==NULL), clear the old mpol;
++		 *local memory policies are not a subject of any remapping.
++		 */
++		task->mempolicy = mpol;
++	} else {
++		/*tsk_allowed is empty.*/
++		err = -EINVAL;
++	}
++
++	if (!err && mpol && mpol->mode == MPOL_INTERLEAVE)
++		task->il_prev = MAX_NUMNODES-1;
++
++	local_irq_enable();
++	task_unlock(task);
++
++	/*If successful, release old policy,
++	 * otherwise keep old and release mpol.
++	 */
++	if (err)
++		mpol_put(mpol);
++	else
++		mpol_put(old);
++
++	return err;
++}
++
++/*
++ *Modify task's memory policy via /proc.
++ */
++static ssize_t mempolicy_write(struct file *file, const char __user *buf,
++		size_t count, loff_t *ppos)
++{
++	char buffer[MPOLBUFLEN];
++	struct mempolicy *mpol = NULL;
++	struct task_struct *task;
++	int err = 0;
++
++	task = get_proc_task(file_inode(file));
++
++	if (!task)
++		return -ESRCH;
++
++	/*we can only change the user's mempolicy*/
++	if (task->flags & PF_KTHREAD || is_global_init(task)) {
++		err = -EPERM;
++		goto out;
++	}
++
++	memset(buffer, 0, sizeof(buffer));
++	if (count > sizeof(buffer) - 1)
++		count = sizeof(buffer) - 1;
++	if (copy_from_user(buffer, buf, count)) {
++		err = -EFAULT;
++		goto out;
++	}
++
++	err = mpol_parse_str(strstrip(buffer), &mpol);
++	if (err) {
++		err = -EINVAL;
++		goto out;
++	}
++	err = update_task_mpol(task, mpol);
++out:
++	put_task_struct(task);
++	return err < 0 ? err : count;
++}
++
++const struct file_operations proc_mempolicy_operations = {
++	.read		= mempolicy_read,
++	.write		= mempolicy_write,
++	.llseek		= default_llseek,
++};
++
+ #endif /* CONFIG_NUMA */
+diff --git a/include/linux/mempolicy.h b/include/linux/mempolicy.h
+index 668389b4b53d..a08f66972e6b 100644
+--- a/include/linux/mempolicy.h
++++ b/include/linux/mempolicy.h
+@@ -172,10 +172,7 @@ int do_migrate_pages(struct mm_struct *mm, const nodemask_t *from,
+ 		     const nodemask_t *to, int flags);
+ 
+ 
+-#ifdef CONFIG_TMPFS
+ extern int mpol_parse_str(char *str, struct mempolicy **mpol);
+-#endif
+-
+ extern void mpol_to_str(char *buffer, int maxlen, struct mempolicy *pol);
+ 
+ /* Check if a vma is migratable */
+@@ -277,12 +274,10 @@ static inline void check_highest_zone(int k)
+ {
+ }
+ 
+-#ifdef CONFIG_TMPFS
+ static inline int mpol_parse_str(char *str, struct mempolicy **mpol)
+ {
+ 	return 1;	/* error */
+ }
+-#endif
+ 
+ static inline int mpol_misplaced(struct page *page, struct vm_area_struct *vma,
+ 				 unsigned long address)
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index b73d3248d976..a1ae6412e3ae 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -2958,7 +2958,6 @@ static const char * const policy_modes[] =
+ };
+ 
+ 
+-#ifdef CONFIG_TMPFS
+ /**
+  * mpol_parse_str - parse string to mempolicy, for tmpfs mpol mount option.
+  * @str:  string containing mempolicy to parse
+@@ -3091,7 +3090,6 @@ int mpol_parse_str(char *str, struct mempolicy **mpol)
+ 		*mpol = new;
+ 	return err;
+ }
+-#endif /* CONFIG_TMPFS */
+ 
+ /**
+  * mpol_to_str - format a mempolicy structure for printing
 -- 
-Thanks,
-
-David / dhildenb
+2.25.1
 
