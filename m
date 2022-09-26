@@ -2,177 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BFFCC32771
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 17:06:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B31ECC07E9D
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 17:29:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230171AbiIZRGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 13:06:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58480 "EHLO
+        id S230458AbiIZR3h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 13:29:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229812AbiIZRG1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 13:06:27 -0400
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACFDC5757C;
-        Mon, 26 Sep 2022 09:10:58 -0700 (PDT)
-Received: by mail-oi1-f176.google.com with SMTP id n83so8793366oif.11;
-        Mon, 26 Sep 2022 09:10:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=EnxGpPNSu9tkRW91egZi/JyRBJEVMjafDP7wp2vUUJg=;
-        b=2sWKyfTMnFBu77l7jcpA4XBhpoUbpS9EbiUSLfjWXvASRNkEzNmLVM3oim0S6FMAxu
-         IEZ85C7f182OtpupjCdZGUYYQsRjf0BMpxAip8cjuOsC1PXzfE1Kn7rqYF0Am+VKdE4d
-         poaKDdO1IGwTbf3zrjDJXcFJsPZ0+XsUDE0DHjC+uNAXHp/b69IsN6i1gYAhg2U1WQed
-         K0X4kcTBnBnLLHxfqa9gG/gltx3AxwQWfVrJwTZtiUIZQ8eGGFGzqnyGxfnVH3t474SO
-         q0g8ZQPLwVFSQfZjrgESfVxCTs7f6a8ugKDUu19n9hK2Uypcy96ZkCX9R1aWcx30unsL
-         UYVw==
-X-Gm-Message-State: ACrzQf2vjBb6jJhRCpU9Ho+tZ3BBN0JiprkrcGoemi9jPONgjxEywGF2
-        CUO/LsrVWySgyFJvX306wA==
-X-Google-Smtp-Source: AMsMyM7NfWKMkOVO+VVgVFP1qw8jgussZbCmQjL2fU6ahxMuW012gWRlYXSUT+SY6Ab3Rfic439fLQ==
-X-Received: by 2002:a05:6808:13cf:b0:34f:f317:df4e with SMTP id d15-20020a05680813cf00b0034ff317df4emr15599550oiw.124.1664208657892;
-        Mon, 26 Sep 2022 09:10:57 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id o10-20020a056871078a00b0012b2b0b6281sm8985547oap.9.2022.09.26.09.10.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Sep 2022 09:10:57 -0700 (PDT)
-Received: (nullmailer pid 2123602 invoked by uid 1000);
-        Mon, 26 Sep 2022 16:10:56 -0000
-Date:   Mon, 26 Sep 2022 11:10:56 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
-        vadfed@fb.com, johannes@sipsolutions.net, jiri@resnulli.us,
-        dsahern@kernel.org, stephen@networkplumber.org, fw@strlen.de,
-        linux-doc@vger.kernel.org
-Subject: Re: [RFC net-next 2/4] ynl: add the schema for the schemas
-Message-ID: <20220926161056.GA2002659-robh@kernel.org>
-References: <20220811022304.583300-1-kuba@kernel.org>
- <20220811022304.583300-3-kuba@kernel.org>
+        with ESMTP id S230477AbiIZR3P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 13:29:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C48D12EDB9;
+        Mon, 26 Sep 2022 09:47:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6EAB561046;
+        Mon, 26 Sep 2022 16:47:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 570B8C433D6;
+        Mon, 26 Sep 2022 16:47:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1664210823;
+        bh=pllqmpbENCp1sBAaSJobpSEIC+YpKgpQi47z6PgaasU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XYuMgLFP5IBHzKaNKaPJqy0L9us7bEOTbUiF77cEUtsP1gDW2eJtQJ2z2RHEMHaGt
+         VakeALZqqpryzrZ4TrR1VhNvZaJwlUbc5qZ2b1YUIJ/juTrmtiTENpBp4IWnM/jRXm
+         GvG/LYxfWTLyWBE4poiaGJmLNZ539Ntff8/PG2Cc=
+Date:   Mon, 26 Sep 2022 18:47:01 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linux MM <linux-mm@kvack.org>
+Subject: Re: [PATCH v4 02/18] a.out: remove define-only CMAGIC, previously
+ magic number
+Message-ID: <YzHXhbO/UI3uHucA@kroah.com>
+References: <YyMlovoskUcHLEb7@kroah.com>
+ <9cbea062df7125ef43e2e0b2a67ede6ad1c5f27e.1663280877.git.nabijaczleweli@nabijaczleweli.xyz>
+ <CAMuHMdWxf=+CnwXT61VvYhcHi093rz=0ftWQXKVviMunzE1HHw@mail.gmail.com>
+ <20220926151554.7gxd6unp5727vw3c@tarta.nabijaczleweli.xyz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220811022304.583300-3-kuba@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220926151554.7gxd6unp5727vw3c@tarta.nabijaczleweli.xyz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 10, 2022 at 07:23:02PM -0700, Jakub Kicinski wrote:
-> A schema in jsonschema format which should be familiar
-> to dt-bindings writers. It looks kinda hard to read, TBH,
-> I'm not sure how to make it better.
-
-This got my attention in the Plumbers agenda though I missed the talk. 
-It's nice to see another jsonschema user in the kernel. I hope you make 
-jsonschema a dependency for everyone before I do. :) Hopefully we don't 
-hit any comflict in required version of jsonschema as I've needed both a 
-minimum version for features as well as been broken by new versions.
-
-I would avoid calling all this 'YAML netlink' as YAML is just the file 
-format you are using. We started with calling things YAML, but I nudge 
-folks away from that to 'DT schema'. Also, probably not an issue here, 
-but be aware that YAML is much slower to parse than JSON. 
-
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
->  Documentation/netlink/schema.yaml | 242 ++++++++++++++++++++++++++++++
->  1 file changed, 242 insertions(+)
->  create mode 100644 Documentation/netlink/schema.yaml
+On Mon, Sep 26, 2022 at 05:15:54PM +0200, наб wrote:
+> Hi!
 > 
-> diff --git a/Documentation/netlink/schema.yaml b/Documentation/netlink/schema.yaml
-> new file mode 100644
-> index 000000000000..1290aa4794ba
-> --- /dev/null
-> +++ b/Documentation/netlink/schema.yaml
-> @@ -0,0 +1,242 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: "http://kernel.org/schemas/netlink/schema.yaml#"
-> +$schema: "http://kernel.org/meta-schemas/core.yaml#"
+> On Mon, Sep 26, 2022 at 10:16:02AM +0200, Geert Uytterhoeven wrote:
+> > Thanks for your patch, which is now commit 53c2bd679017277f
+> > ("a.out: remove define-only CMAGIC, previously magic number") in
+> > driver-core/driver-core-next.
+> > 
+> > On Fri, Sep 16, 2022 at 12:40 AM наб <nabijaczleweli@nabijaczleweli.xyz> wrote:
+> > > The last user was removed in 5.1 in
+> > > commit 08300f4402ab ("a.out: remove core dumping support")
+> > > but this is part of the UAPI headers, so this may want to either wait
+> > > until a.out is removed entirely, or be removed from the magic number doc
+> > > and silently remain in the header
+> > 
+> > Indeed. This is part of uapi, and might break some unknown
+> > userspace, while the gain is limited.  Do we really want to reduce
+> > include/uapi/linux/a.out.h piecewise (e.g. N_BADMAG() seems to be
+> > unused, too), instead of keeping it until a.out support is removed
+> > completely?
+> 
+> Not really, but it looked like a magic number in the magic-number.rst
+> sense due to the field being "magic" and the unintuitive type naming:
+> I hadn't realised it's part of the on-disk format
+> re-examination shows that it very well may be (have been).
+> 
+> > Anyway, even at that point, it might be wise to keep the header file
+> > around, as people have expressed the desire to run a.out binaries
+> > through a userspace-compatibility wrapper.
+> 
+> Agreed. Scissor-patch that reverts the removal below.
+> 
+> > > A cursory glance on DCS didn't show any user code actually using this
+> > > value
+> > 
+> > What is DCS?
+> 
+> Debian Code Search; in this case my query was:
+>   https://codesearch.debian.net/search?q=%5CbCMAGIC%5Cb&literal=0
+> 
+> There's a few false positives here but all results that are using CMAGIC
+> to mean this CMAGIC (and aren't hurd code copied from linux)
+> just re-define it.
+> 
+> > >  Documentation/process/magic-number.rst                    | 1 -
+> > >  Documentation/translations/it_IT/process/magic-number.rst | 1 -
+> > >  Documentation/translations/zh_CN/process/magic-number.rst | 1 -
+> > >  Documentation/translations/zh_TW/process/magic-number.rst | 1 -
+> > >  include/uapi/linux/a.out.h                                | 3 ---
+> > >  5 files changed, 7 deletions(-)
+> > > 
+> > > diff --git a/include/uapi/linux/a.out.h b/include/uapi/linux/a.out.h
+> > > index 5fafde3798e5..bb15da96df2a 100644
+> > > --- a/include/uapi/linux/a.out.h
+> > > +++ b/include/uapi/linux/a.out.h
+> > > @@ -70,9 +70,6 @@ enum machine_type {
+> > >     The first page is unmapped to help trap NULL pointer references */
+> > >  #define QMAGIC 0314
+> > >
+> > > -/* Code indicating core file.  */
+> > > -#define CMAGIC 0421
+> > > -
+> > >  #if !defined (N_BADMAG)
+> > >  #define N_BADMAG(x)      (N_MAGIC(x) != OMAGIC         \
+> > >                         && N_MAGIC(x) != NMAGIC         \
+> > 
+> > Gr{oetje,eeting}s,
+> >                         Geert
+> 
+> Best,
+> наб
+> 
+> -- >8 --
+> Subject: [PATCH] a.out: restore CMAGIC
+> 
+> Part of UAPI and the on-disk format:
+> this means that it's not a magic number per magic-number.rst,
+> and it's best to leave it untouched to avoid breaking userspace
+> and suffer the same fate as a.out in general
+> 
+> Fixes: commit 53c2bd679017 ("a.out: remove define-only CMAGIC,
+>  previously magic number")
+> Signed-off-by: Ahelenia Ziemiańska <nabijaczleweli@nabijaczleweli.xyz>
+> ---
+>  include/uapi/linux/a.out.h | 3 +++
+>  1 file changed, 3 insertions(+)
 
-In case there's ever another one: meta-schemas/netlink/core.yaml
+Thanks, I'll take this through my tree as it has the offending commit in
+it.
 
-Or something similar.
-
-> +
-> +title: Protocol
-> +description: Specification of a genetlink protocol
-> +type: object
-> +required: [ name, description, attribute-spaces, operations ]
-> +additionalProperties: False
-> +properties:
-> +  name:
-> +    description: Name of the genetlink family
-> +    type: string
-> +  description:
-
-It's better if your schema vocabulary is disjoint from jsonschema 
-vocabulary. From what I've seen, it's fairly common to get the 
-indentation off and jsonschema behavior is to ignore unknown keywords. 
-If the vocabularies are disjoint, you can write a meta-schema that only 
-allows jsonschema schema vocabulary at the right levels. Probably less 
-of an issue here as you don't have 1000s of schemas.
-
-> +    description: Description of the family
-> +    type: string
-> +  version:
-> +    description: Version of the family as defined by genetlink.
-> +    type: integer
-
-Do you have the need to define the int size? We did our own keyword for 
-this, but since then I've looked at several other projects that have 
-used something like 'format: uint32'. There was some chatter about 
-trying to standardize this, but I haven't checked in a while.
-
-> +  attr-cnt-suffix:
-> +    description: Suffix for last member of attribute enum, default is "MAX".
-> +    type: string
-> +  headers:
-> +    description: C headers defining the protocol
-> +    type: object
-> +    additionalProperties: False
-> +    properties:
-> +      uapi:
-> +        description: Path under include/uapi where protocol definition is placed
-> +        type: string
-> +      kernel:
-> +        description: Additional headers on which the protocol definition depends (kernel side)
-> +        anyOf: &str-or-arrstr
-> +          -
-> +            type: array
-> +            items:
-> +              type: string
-> +          -
-> +            type: string
-> +      user:
-> +        description: Additional headers on which the protocol definition depends (user side)
-> +        anyOf: *str-or-arrstr
-
-For DT, we stick to a JSON compatible subset of YAML, so no anchors. The 
-jsonschema way to do this is using '$defs' (or 'definitions' before the 
-spec standardized it) and '$ref'.
-
-> +  constants:
-> +    description: Enums and defines of the protocol
-> +    type: array
-> +    items:
-> +      type: object
-> +      required: [ type, name ]
-> +      additionalProperties: False
-> +      properties:
-> +        name:
-> +          type: string
-> +        type:
-> +          enum: [ enum, flags ]
-> +        value-prefix:
-> +          description: For enum the prefix of the values, optional.
-> +          type: string
-> +        value-start:
-> +          description: For enum the literal initializer for the first value.
-> +          oneOf: [ { type: string }, { type: integer }]
-
-I think you can do just 'type: [ string, integer ]'.
-
-Rob
+greg k-h
