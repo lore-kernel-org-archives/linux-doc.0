@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD13EC32771
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 23:08:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 979A5C32771
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 23:09:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229716AbiIZXIA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 19:08:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41898 "EHLO
+        id S229657AbiIZXJX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 19:09:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiIZXIA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 19:08:00 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76579A99F3
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 16:07:59 -0700 (PDT)
+        with ESMTP id S229505AbiIZXJW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 19:09:22 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 031D2AA4DA;
+        Mon, 26 Sep 2022 16:09:22 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 247526D9;
-        Mon, 26 Sep 2022 23:07:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 247526D9
+        by ms.lwn.net (Postfix) with ESMTPSA id B402D6D9;
+        Mon, 26 Sep 2022 23:09:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B402D6D9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1664233679; bh=Ltqt/ahueQxktzBHy9zs1jUgPcXx3uxiXbQvMePf/50=;
+        t=1664233761; bh=2p/EPuoFqvaDv4uqMLHwlAFSCdcJ1ybk/XDKdDwtX2Y=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=WvmGm+ae8HZNPEmFJf+VNJlGiyVafyZYuPsH9o9JMkNvKzFP2apL79LMfxrZK1xsM
-         lWBOPHLTl7/h/GgHgMUeqDmLuGTHQ4HZxjxHd0MBPWNZq/tsY+qUgvmaZ/kroetj+/
-         /aG5xxirpeUhw88EBHgbO+uWdUxcTA96JB59plUgl+V7PwnCO5YTCURVknY4+LjAUh
-         JFxJUoFVRhaw/GqJguCcP7rjpXRLmOUWKOeG1Ahy53TlTwnpW1zIclqUhTT/IpTx30
-         QeeuAhqEf/gnrJtAKKx79zB46Fo/kUVmMSewLY0IyZ42XV4eJp1Ix6VIK677eYS+99
-         71dK0ju0jwDEg==
+        b=M52sr2DDaEuWhakEVDGyrUP6LL+fWLDM0JGmao5OoWT+kEsOWTs8JRaPWcEyXxeNb
+         rhIXAVeH80jWMCQHLSymcxxwDDXgqOFZ0BlLpnwCtY5P+SO7J0Cr7OC2cb+QlkMEfU
+         1SlQobuyrBUfcEPIz5O/xenn9m2MTm31yCsvgyUE5EI42M/9niDiHJVVIAa9/t0jQn
+         z5XSUxHlusj5fm+y1M372RhgRN/Eb6/04JBHmfXnC5Ar6bxiFixKy70ue158zrjIkD
+         0jrbuV7VT4QszqQmbwi92prZdAbFN6TA1vmmcxIGWKAUkILXnN7/2h1XW3QBVHdo0k
+         N4QcXzGeauWag==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Yang Yingliang <yangyingliang@huawei.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     linus.walleij@linaro.org, yangyingliang@huawei.com
-Subject: Re: [PATCH -next] Documentation: devres: add missing PINCTRL helpers
-In-Reply-To: <20220922153737.2863951-1-yangyingliang@huawei.com>
-References: <20220922153737.2863951-1-yangyingliang@huawei.com>
-Date:   Mon, 26 Sep 2022 17:07:58 -0600
-Message-ID: <87pmfhpwdt.fsf@meer.lwn.net>
+        linux-doc@vger.kernel.org, linux-spi@vger.kernel.org
+Cc:     broonie@kernel.org, lukas@wunner.de, yangyingliang@huawei.com
+Subject: Re: [PATCH -next v2] Documentation: devres: add missing SPI helper
+In-Reply-To: <20220923141803.75734-1-yangyingliang@huawei.com>
+References: <20220923141803.75734-1-yangyingliang@huawei.com>
+Date:   Mon, 26 Sep 2022 17:09:21 -0600
+Message-ID: <87leq5pwbi.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -46,26 +46,30 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Yang Yingliang <yangyingliang@huawei.com> writes:
 
-> Add devm_pinctrl_get_select() and devm_pinctrl_register_and_init() to
-> devres.rst.
+> Add devm_spi_alloc_master() and devm_spi_alloc_slave() to devres.rst.
+> They are introduced by commit 5e844cc37a5c ("spi: Introduce device-managed
+> SPI controller allocation").
 >
 > Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> Reviewed-by: Lukas Wunner <lukas@wunner.de>
+> ---
+> v2:
+>   Put alloc functions above the register function.
 > ---
 >  Documentation/driver-api/driver-model/devres.rst | 2 ++
 >  1 file changed, 2 insertions(+)
 >
 > diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-> index 2895f9ea00c4..d31eb10b271d 100644
+> index 2895f9ea00c4..7a3c34214c4c 100644
 > --- a/Documentation/driver-api/driver-model/devres.rst
 > +++ b/Documentation/driver-api/driver-model/devres.rst
-> @@ -391,7 +391,9 @@ PHY
->  PINCTRL
->    devm_pinctrl_get()
->    devm_pinctrl_put()
-> +  devm_pinctrl_get_select()
->    devm_pinctrl_register()
-> +  devm_pinctrl_register_and_init()
->    devm_pinctrl_unregister()
+> @@ -436,6 +436,8 @@ SLAVE DMA ENGINE
+>    devm_acpi_dma_controller_register()
+>  
+>  SPI
+> +  devm_spi_alloc_master()
+> +  devm_spi_alloc_slave()
+>    devm_spi_register_master()
 
 Applied, thanks.
 
