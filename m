@@ -2,62 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C244C6FA82
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 15:56:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BDA7C07E9D
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 15:59:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235208AbiIZP4t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 11:56:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36520 "EHLO
+        id S234671AbiIZP7o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 11:59:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233463AbiIZP43 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 11:56:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3729491F2
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 07:44:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8BADDB80ABF
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 14:43:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5FCCC433D7;
-        Mon, 26 Sep 2022 14:43:57 +0000 (UTC)
-Date:   Mon, 26 Sep 2022 10:45:05 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc:     Yoann Congal <yoann.congal@smile.fr>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH RESEND] Documentation: kprobetrace: Improve readability
-Message-ID: <20220926104505.542d1da0@gandalf.local.home>
-In-Reply-To: <20220925104846.630cd22a3f82e69770eb365a@kernel.org>
-References: <20220915153358.813993-1-yoann.congal@smile.fr>
-        <87r104tr6o.fsf@meer.lwn.net>
-        <81cae8f1-67e9-37ba-4bfd-566c877944ca@gmail.com>
-        <20220921224725.618283bc@gandalf.local.home>
-        <fa0bb78c-c0c3-bea5-45b1-460b0754e369@smile.fr>
-        <20220925104846.630cd22a3f82e69770eb365a@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S233680AbiIZP7T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 11:59:19 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF507AE73;
+        Mon, 26 Sep 2022 07:48:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664203686; x=1695739686;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=ApUD8PJZgoHpd3NiZopnRx0+jOuuZwHI0s8b4Xeyra0=;
+  b=KvJdfmoAy+VzB8NJ7/3Kcu8gNuwF0SHYrl+nAtyH+2lyb3cAft+KiRjj
+   FNV6tf5auzBHg8DLVjBQFJKPVQUDaGWaWyZChTbcS5iiGEbzratrhciuV
+   AirYwY7ogt4UuscnIdZBPqGSujqBS9oR6FIyFLj2UqYs+T3cHeuW1ROYL
+   RzLCO+YOfMcTqzpd3Yu1aT8KydzBOB/MZBtH1CREth+/Wv17tCezpoPjG
+   EVKxi4W8CgfKLq9S9G8EMyeePm+ba1WMJ8li/vESgnYT6BW1ajdZoNXb3
+   yv+4noECIgcRRMxlhljuJ5Xn+GAafxR+n3Z2iRVHH2lNk0+VdtGb2u3yN
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="280771484"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; 
+   d="scan'208";a="280771484"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2022 07:47:56 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="710144915"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; 
+   d="scan'208";a="710144915"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2022 07:47:56 -0700
+Date:   Mon, 26 Sep 2022 07:47:46 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-serial <linux-serial@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
+        macro@orcam.me.uk, johan@kernel.org, Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH v2 4/6] fpga: dfl: add generic support for MSIX
+ interrupts
+In-Reply-To: <a602677-78ac-23a0-1a63-96b325595998@linux.intel.com>
+Message-ID: <alpine.DEB.2.22.394.2209260734490.363733@rhweight-WRK1>
+References: <20220923121745.129167-1-matthew.gerlach@linux.intel.com> <20220923121745.129167-5-matthew.gerlach@linux.intel.com> <a602677-78ac-23a0-1a63-96b325595998@linux.intel.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="8323328-119000197-1664203695=:363733"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 25 Sep 2022 10:48:46 +0900
-Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> > I'll send a v2 splitted and a lot less markup added (CC'ing the tracing 
-> > maintainers). I guess I got a bit carried away once I started...
-> > 
-> > Steven, without adding any markup where there was not previously, how do 
-> > you feel about changing the '...'/"..." by ``...`` where applicable?  
+--8323328-119000197-1664203695=:363733
+Content-Type: text/plain; charset=ISO-8859-15; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-I'm happy with anything that Masami agrees on.
 
-> 
-> Hi, I'm the original author of that document.
-> I think it depends on the context (unless mechanically replaced.)
-> I will review it, so plaese split that part.
 
--- Steve
+On Fri, 23 Sep 2022, Ilpo Järvinen wrote:
+
+> On Fri, 23 Sep 2022, matthew.gerlach@linux.intel.com wrote:
+>
+>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>
+>> Define and use a DFHv1 parameter to add generic support for MSIX
+>> interrupts for DFL devices.
+>>
+>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>> ---
+>> v2: fix kernel doc
+>>     clarify use of DFH_VERSION field
+>> ---
+>>  drivers/fpga/dfl.c  | 60 +++++++++++++++++++++++++++++++++++++++++----
+>>  include/linux/dfl.h | 14 +++++++++++
+>>  2 files changed, 69 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+>> index 1132f3c10440..dfd3f563c92d 100644
+>> --- a/drivers/fpga/dfl.c
+>> +++ b/drivers/fpga/dfl.c
+>> @@ -941,23 +941,22 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+>>  	void __iomem *base = binfo->ioaddr + ofst;
+>>  	unsigned int i, ibase, inr = 0;
+>>  	enum dfl_id_type type;
+>> -	int virq;
+>> +	int virq, off;
+>>  	u64 v;
+>>
+>>  	type = feature_dev_id_type(binfo->feature_dev);
+>>
+>>  	/*
+>>  	 * Ideally DFL framework should only read info from DFL header, but
+>> -	 * current version DFL only provides mmio resources information for
+>> +	 * current version, DFHv0, only provides mmio resources information for
+>>  	 * each feature in DFL Header, no field for interrupt resources.
+>>  	 * Interrupt resource information is provided by specific mmio
+>>  	 * registers of each private feature which supports interrupt. So in
+>>  	 * order to parse and assign irq resources, DFL framework has to look
+>>  	 * into specific capability registers of these private features.
+>>  	 *
+>> -	 * Once future DFL version supports generic interrupt resource
+>> -	 * information in common DFL headers, the generic interrupt parsing
+>> -	 * code will be added. But in order to be compatible to old version
+>> +	 * DFHv1 supports generic interrupt resource information in DFHv1
+>> +	 * parameter blocks. But in order to be compatible to old version
+>>  	 * DFL, the driver may still fall back to these quirks.
+>>  	 */
+>>  	if (type == PORT_ID) {
+>> @@ -981,6 +980,36 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+>>  		}
+>>  	}
+>>
+>> +	if (fid != FEATURE_ID_AFU && fid != PORT_FEATURE_ID_ERROR &&
+>> +	    fid != PORT_FEATURE_ID_UINT && fid != FME_FEATURE_ID_GLOBAL_ERR) {
+>> +
+>> +		v = FIELD_GET(DFH_VERSION, readq(base));
+>
+> I'd call this variable version (or ver) if you want to store it but it
+> would also fit to switch () line so that no extra variable is needed.
+
+I will change the v to dfh_ver to be clearer.  I want to store the 
+value because it is used in the default case in the error message.  The 
+error message helps to debug broken FPGA images.
+
+>
+>> +		switch (v) {
+>> +		case 0:
+>> +			break;
+>> +
+>> +		case 1:
+>> +			v =  readq(base + DFHv1_CSR_SIZE_GRP);
+>
+> Extra space.
+
+I will remove extra space.
+
+>
+>> +			if (FIELD_GET(DFHv1_CSR_SIZE_GRP_HAS_PARAMS, v)) {
+>> +				off = dfl_find_param(base + DFHv1_PARAM_HDR, ofst,
+>> +						     DFHv1_PARAM_ID_MSIX);
+>> +				if (off >= 0) {
+>
+> I'd reverse these 2 conditions and break when there's nothing to do.
+
+I'm not sure what you mean by reversing these conditions because a DFHv1 
+may or may not have parameters (the first condition), and a DFHv1 may have
+parameters but may not have a MSI-X parameter (the second condition).
+
+>
+>> +					ibase = readl(base + DFHv1_PARAM_HDR +
+>> +						      off + DFHv1_PARAM_MSIX_STARTV);
+>> +					inr = readl(base + DFHv1_PARAM_HDR +
+>> +						    off + DFHv1_PARAM_MSIX_NUMV);
+>> +					dev_dbg(binfo->dev, "start %d num %d fid 0x%x\n",
+>> +						ibase, inr, fid);
+>> +				}
+>> +			}
+>> +			break;
+>> +
+>> +		default:
+>> +			dev_warn(binfo->dev, "unexpected DFH version %lld\n", v);
+>> +			break;
+>> +		}
+>> +	}
+>> +
+>>  	if (!inr) {
+>>  		*irq_base = 0;
+>>  		*nr_irqs = 0;
+>
+> -- 
+> i.
+>
+>
+--8323328-119000197-1664203695=:363733--
