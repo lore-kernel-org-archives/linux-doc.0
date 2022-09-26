@@ -2,91 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10031C32771
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 21:09:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3269FC07E9D
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 21:12:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229906AbiIZVJR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 17:09:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41204 "EHLO
+        id S231345AbiIZVMN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 17:12:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230165AbiIZVJQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 17:09:16 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A009A1D76
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 14:09:13 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id e68so7941721pfe.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 14:09:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=z2N8LaF32sVo0MzpvnaJgrHDNgj6iB+hPRs2AGkWfto=;
-        b=iNU6fF1RWdROt/mKhKh4y/8mQA0kXSsvh1U2vUwg0opVJI50FrW0nhkdSisbS+YFN9
-         B8Gv0OIsH5ynOXaMK89XrVLTRyEeZ4gikeERElQneRjRrgHWrUGTYPtORP/zSK1VOOZj
-         wsqw+bXF8lV8ERMgHOCH+e2L1ZvocMDhekVx8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=z2N8LaF32sVo0MzpvnaJgrHDNgj6iB+hPRs2AGkWfto=;
-        b=lAAnzqCkPZ7C6Xa6PUokZWOBMhNaeRs92Ouuv5BspvOgDflwAzo+dxU7BvNq4Gn4lI
-         PY3zgAf4QfpAMIcJuR50DNxMcGqwEyQZ3KVk6HTBwszc1ngJ7kY5VEpczXDg2dfx8SjO
-         E8+fFovK1RLM6lxAxgrej4bpaWdiuXp7aBgnZgC+aZWBNJ7S3noWePXQ3RYoOkNbAy/I
-         haaXaf1ukLyfJoy9VNCQV11FNKsp8oa8/EyoxFKWuwygguDOahoMyKTcnJbTGTKv8VvR
-         LYHc1F6P5I7NGT1m8TMEq4lM5t3hEQqv6cz1TfyL1hpAtIQYf8f8UtoCI5b/F++QdvEA
-         DMtQ==
-X-Gm-Message-State: ACrzQf0BAlGwjoxpxxB1k+qpwVh18NKWvN5WWVgyQBKeZ35mbWH8YIss
-        cTtysZyVDX6dE31/J3ItPKRLuw==
-X-Google-Smtp-Source: AMsMyM5WIe3hqBa57RBis752CH191gAYntlDiD5fJNhEuECKTcn7TB+Nt6Sb9VomPqk1ExNiN3sNcg==
-X-Received: by 2002:a63:3348:0:b0:439:db24:8b02 with SMTP id z69-20020a633348000000b00439db248b02mr21236503pgz.425.1664226552446;
-        Mon, 26 Sep 2022 14:09:12 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id p7-20020aa79e87000000b005459e8a103asm12569831pfq.167.2022.09.26.14.09.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Sep 2022 14:09:11 -0700 (PDT)
-Date:   Mon, 26 Sep 2022 14:09:10 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] overflow: Fix kern-doc markup for functions
-Message-ID: <202209261408.59F78C0D@keescook>
-References: <20220926194713.1806917-1-keescook@chromium.org>
- <YzIUS/+H2YA7RBvA@casper.infradead.org>
+        with ESMTP id S231352AbiIZVMM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 17:12:12 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 370A3816A1;
+        Mon, 26 Sep 2022 14:12:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664226731; x=1695762731;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wM8U/+Gl73sPho1s2SA6QSooOy4H6zdBbgwSMTYT7nU=;
+  b=aZzeLvS1JrSMqRorp/jtM7T7lP7ejS1dPhE+2mJ2P1U+LLX68inV1+M0
+   Ksz8aMSccEohIo7Qj26WHJxqxG99gGsaAaYTvMKQKJudVnHt0EtpJYUkS
+   ZhMq9QEgFPiYbCn29MEmE+rKjg0BlP0nGLSedTJQDsrwfDxXag/UYR408
+   +0kNNA7W1oefB+Uhb5FUCK0opaARjKLAlt5DaQUclKE4oUL76LkRSVimJ
+   dohLKeJEMKw0fxCYGG7uriJbaxxl7Oa3Ff0mvhAg4RXXluJT+/OZ1mx4J
+   lqDJIPsmQHRaPAmqwjARQrXtmkj+ip2XWdKtYKEBn2oNnJT92p4WbpeO3
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="327497258"
+X-IronPort-AV: E=Sophos;i="5.93,347,1654585200"; 
+   d="scan'208";a="327497258"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2022 14:12:10 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="654435268"
+X-IronPort-AV: E=Sophos;i="5.93,347,1654585200"; 
+   d="scan'208";a="654435268"
+Received: from andrewjy-mobl.amr.corp.intel.com (HELO kcaccard-desk.amr.corp.intel.com) ([10.212.166.96])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2022 14:12:10 -0700
+From:   Kristen Carlson Accardi <kristen@linux.intel.com>
+To:     linux-doc@vger.kernel.org, corbet@lwn.net,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation/CoC: Reflect current CoC interpretation and practices
+Date:   Mon, 26 Sep 2022 14:11:49 -0700
+Message-Id: <20220926211149.2278214-1-kristen@linux.intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YzIUS/+H2YA7RBvA@casper.infradead.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 26, 2022 at 10:06:19PM +0100, Matthew Wilcox wrote:
-> On Mon, Sep 26, 2022 at 12:47:13PM -0700, Kees Cook wrote:
-> > -/** check_add_overflow() - Calculate addition with overflow checking
-> > +/**
-> > + * check_add_overflow - Calculate addition with overflow checking
-> >   *
-> >   * @a: first addend
-> >   * @b: second addend
-> 
-> Why did you remove the ()?  And why didn't you delete the blank line?
-> According to our documentation, the canonical form is:
-> 
->   /**
->    * function_name() - Brief description of function.
->    * @arg1: Describe the first argument.
->    * @arg2: Describe the second argument.
->    *        One can provide multiple line descriptions
->    *        for arguments.
-> 
-> I don't usually complain about people getting that wrong, but when
-> people correct it to be wrong ...
+The Code of Conduct interpretation does not reflect the current
+practices of the CoC committee or the TAB. Update the documentation
+to remove references to initial committees and boot strap periods
+since it is past that time, and note that the this document
+does serve as the documentation for the CoC committee processes.
 
-Hunh, everywhere I'd looked didn't have the "()" (which seems
-redundant). The blank line was entirely aesthetics for me. If it's
-supposed to be without a blank, I can fix it up everwhere.
+Signed-off-by: Kristen Carlson Accardi <kristen@linux.intel.com>
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ .../code-of-conduct-interpretation.rst        | 24 ++++++++++---------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
+diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
+index 4f8a06b00f60..922e0b547bc3 100644
+--- a/Documentation/process/code-of-conduct-interpretation.rst
++++ b/Documentation/process/code-of-conduct-interpretation.rst
+@@ -127,10 +127,12 @@ are listed at https://kernel.org/code-of-conduct.html.  Members can not
+ access reports made before they joined or after they have left the
+ committee.
+ 
+-The initial Code of Conduct Committee consists of volunteer members of
+-the TAB, as well as a professional mediator acting as a neutral third
+-party.  The first task of the committee is to establish documented
+-processes, which will be made public.
++The Code of Conduct Committee consists of volunteer community members
++appointed by the TAB, as well as a professional mediator acting as a
++neutral third party.  The processes the Code of Conduct committee will
++use to address reports is varied and will depend on the individual
++circumstance, however, this file serves as documentation for the
++general process used.
+ 
+ Any member of the committee, including the mediator, can be contacted
+ directly if a reporter does not wish to include the full committee in a
+@@ -141,16 +143,16 @@ processes (see above) and consults with the TAB as needed and
+ appropriate, for instance to request and receive information about the
+ kernel community.
+ 
+-Any decisions by the committee will be brought to the TAB, for
+-implementation of enforcement with the relevant maintainers if needed.
+-A decision by the Code of Conduct Committee can be overturned by the TAB
+-by a two-thirds vote.
++Any decisions regarding enforcement recommendations will be brought to
++the TAB for implementation of enforcement with the relevant maintainers
++if needed.  A decision by the Code of Conduct Committee can be overturned
++by the TAB by a two-thirds vote.
+ 
+ At quarterly intervals, the Code of Conduct Committee and TAB will
+ provide a report summarizing the anonymised reports that the Code of
+ Conduct committee has received and their status, as well details of any
+ overridden decisions including complete and identifiable voting details.
+ 
+-We expect to establish a different process for Code of Conduct Committee
+-staffing beyond the bootstrap period.  This document will be updated
+-with that information when this occurs.
++Because how we interpret and enforce the Code of Conduct will evolve over
++time, this document will be updated when necessary to reflect any
++changes.
 -- 
-Kees Cook
+2.37.3
+
