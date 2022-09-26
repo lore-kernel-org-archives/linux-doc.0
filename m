@@ -2,160 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6988EC32771
-	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 15:33:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED806C07E9D
+	for <linux-doc@archiver.kernel.org>; Mon, 26 Sep 2022 15:45:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236485AbiIZPdU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 11:33:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58728 "EHLO
+        id S236708AbiIZPpC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 11:45:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236379AbiIZPcz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 11:32:55 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4AF050538;
-        Mon, 26 Sep 2022 07:19:11 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 8CD4D21ED4;
-        Mon, 26 Sep 2022 14:19:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1664201950; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=acJkGEJzQvXK3ntpRB7CEDesvJKyVtqSHHdOsYKLzIg=;
-        b=i1dwUiOyCBw7IR7aEH1PBRg4a9gQzwDV01bgDjlihYYT+NCz760Ilh718xzjV+CMcd+1gU
-        Ysl9/VyM6OsgmljS7s7h0UDr+PBJX3FQhki4eIpF0+Av66TnrmdN/ZlEiCcnlBWkWVVSNE
-        WoPIKXRUUFnLgAouJlYWO//iNsY5ADU=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3D18F139BD;
-        Mon, 26 Sep 2022 14:19:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id BwGjDd60MWOiBgAAMHmgww
-        (envelope-from <jgross@suse.com>); Mon, 26 Sep 2022 14:19:10 +0000
-From:   Juergen Gross <jgross@suse.com>
-To:     xen-devel@lists.xenproject.org, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Juergen Gross <jgross@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        with ESMTP id S233995AbiIZPoa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 11:44:30 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1541246DBB;
+        Mon, 26 Sep 2022 07:28:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664202499; x=1695738499;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=popbE19nKyEVwEGLpuPjkB9hubnGI4/mt3D2DsIdq20=;
+  b=VOmjQDpgUtNfhGsIapa2JrKADo8DGSf8o+87QWFZqxYIayeqKaSIjsdc
+   kwhZw9p77kN/eRTmUMe8r/5V3+87RR/hWYj3x/JNyaterjVfszFTb0ip3
+   1DGNoxUcd+Xyw7zgtecWlYLgtcaJOjsABAJY6VMBS/yZNUSjZzfh2ocVw
+   NmX7dr7XavoJLwazr/uuPlAXeb1f3+XXKdgwzEvKs/YFsBwmf5gKTD8qS
+   lbpkNubtbXU/Z4UQfwcx2uu7A4/dD/qDTSA92e2yVHEfEEpxK7N+c+yrD
+   5lxzwJCpnAsmKFoQMZN8QAWuc8+Zsi9v4t2mwbaRGrPy5cBKC+U0WLfsq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="301023549"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; 
+   d="scan'208";a="301023549"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2022 07:28:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="598755672"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; 
+   d="scan'208";a="598755672"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga006.jf.intel.com with ESMTP; 26 Sep 2022 07:28:07 -0700
+Date:   Mon, 26 Sep 2022 22:23:30 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Fuad Tabba <tabba@google.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH 3/3] xen/pv: support selecting safe/unsafe msr accesses
-Date:   Mon, 26 Sep 2022 16:18:49 +0200
-Message-Id: <20220926141849.21805-4-jgross@suse.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220926141849.21805-1-jgross@suse.com>
-References: <20220926141849.21805-1-jgross@suse.com>
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Message-ID: <20220926142330.GC2658254@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
+ <Yyi+l3+p9lbBAC4M@google.com>
+ <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instead of always doing the safe variants for reading and writing MSRs
-in Xen PV guests, make the behavior controllable via Kconfig option
-and a boot parameter.
+On Fri, Sep 23, 2022 at 04:19:46PM +0100, Fuad Tabba wrote:
+> > Regarding pKVM's use case, with the shim approach I believe this can be done by
+> > allowing userspace mmap() the "hidden" memfd, but with a ton of restrictions
+> > piled on top.
+> >
+> > My first thought was to make the uAPI a set of KVM ioctls so that KVM could tightly
+> > tightly control usage without taking on too much complexity in the kernel, but
+> > working through things, routing the behavior through the shim itself might not be
+> > all that horrific.
+> >
+> > IIRC, we discarded the idea of allowing userspace to map the "private" fd because
+> > things got too complex, but with the shim it doesn't seem _that_ bad.
+> >
+> > E.g. on the memfd side:
+> >
+> >   1. The entire memfd must be mapped, and at most one mapping is allowed, i.e.
+> >      mapping is all or nothing.
+> >
+> >   2. Acquiring a reference via get_pfn() is disallowed if there's a mapping for
+> >      the restricted memfd.
+> >
+> >   3. Add notifier hooks to allow downstream users to further restrict things.
+> >
+> >   4. Disallow splitting VMAs, e.g. to force userspace to munmap() everything in
+> >      one shot.
+> >
+> >   5. Require that there are no outstanding references at munmap().  Or if this
+> >      can't be guaranteed by userspace, maybe add some way for userspace to wait
+> >      until it's ok to convert to private?  E.g. so that get_pfn() doesn't need
+> >      to do an expensive check every time.
+> >
+> >   static int memfd_restricted_mmap(struct file *file, struct vm_area_struct *vma)
+> >   {
+> >         if (vma->vm_pgoff)
+> >                 return -EINVAL;
+> >
+> >         if ((vma->vm_end - vma->vm_start) != <file size>)
+> >                 return -EINVAL;
+> >
+> >         mutex_lock(&data->lock);
+> >
+> >         if (data->has_mapping) {
+> >                 r = -EINVAL;
+> >                 goto err;
+> >         }
+> >         list_for_each_entry(notifier, &data->notifiers, list) {
+> >                 r = notifier->ops->mmap_start(notifier, ...);
+> >                 if (r)
+> >                         goto abort;
+> >         }
+> >
+> >         notifier->ops->mmap_end(notifier, ...);
+> >         mutex_unlock(&data->lock);
+> >         return 0;
+> >
+> >   abort:
+> >         list_for_each_entry_continue_reverse(notifier &data->notifiers, list)
+> >                 notifier->ops->mmap_abort(notifier, ...);
+> >   err:
+> >         mutex_unlock(&data->lock);
+> >         return r;
+> >   }
+> >
+> >   static void memfd_restricted_close(struct vm_area_struct *vma)
+> >   {
+> >         mutex_lock(...);
+> >
+> >         /*
+> >          * Destroy the memfd and disable all future accesses if there are
+> >          * outstanding refcounts (or other unsatisfied restrictions?).
+> >          */
+> >         if (<outstanding references> || ???)
+> >                 memfd_restricted_destroy(...);
+> >         else
+> >                 data->has_mapping = false;
+> >
+> >         mutex_unlock(...);
+> >   }
+> >
+> >   static int memfd_restricted_may_split(struct vm_area_struct *area, unsigned long addr)
+> >   {
+> >         return -EINVAL;
+> >   }
+> >
+> >   static int memfd_restricted_mapping_mremap(struct vm_area_struct *new_vma)
+> >   {
+> >         return -EINVAL;
+> >   }
+> >
+> > Then on the KVM side, its mmap_start() + mmap_end() sequence would:
+> >
+> >   1. Not be supported for TDX or SEV-SNP because they don't allow adding non-zero
+> >      memory into the guest (after pre-boot phase).
+> >
+> >   2. Be mutually exclusive with shared<=>private conversions, and is allowed if
+> >      and only if the entire gfn range of the associated memslot is shared.
+> 
+> In general I think that this would work with pKVM. However, limiting
+> private<->shared conversions to the granularity of a whole memslot
+> might be difficult to handle in pKVM, since the guest doesn't have the
+> concept of memslots. For example, in pKVM right now, when a guest
+> shares back its restricted DMA pool with the host it does so at the
+> page-level. pKVM would also need a way to make an fd accessible again
+> when shared back, which I think isn't possible with this patch.
 
-The default will be the current behavior, which is to always use the
-safe variant.
+But does pKVM really want to mmap/munmap a new region at the page-level,
+that can cause VMA fragmentation if the conversion is frequent as I see.
+Even with a KVM ioctl for mapping as mentioned below, I think there will
+be the same issue.
 
-Signed-off-by: Juergen Gross <jgross@suse.com>
----
- .../admin-guide/kernel-parameters.txt         |  6 +++++
- arch/x86/xen/Kconfig                          |  9 +++++++
- arch/x86/xen/enlighten_pv.c                   | 24 +++++++++++--------
- 3 files changed, 29 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 426fa892d311..1bda9cf18fae 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6836,6 +6836,12 @@
- 			Crash from Xen panic notifier, without executing late
- 			panic() code such as dumping handler.
- 
-+	xen_msr_safe=	[X86,XEN]
-+			Format: <bool>
-+			Select whether to always use non-faulting (safe) MSR
-+			access functions when running as Xen PV guest. The
-+			default value is controlled by CONFIG_XEN_PV_MSR_SAFE.
-+
- 	xen_nopvspin	[X86,XEN]
- 			Disables the qspinlock slowpath using Xen PV optimizations.
- 			This parameter is obsoleted by "nopvspin" parameter, which
-diff --git a/arch/x86/xen/Kconfig b/arch/x86/xen/Kconfig
-index 85246dd9faa1..9b1ec5d8c99c 100644
---- a/arch/x86/xen/Kconfig
-+++ b/arch/x86/xen/Kconfig
-@@ -92,3 +92,12 @@ config XEN_DOM0
- 	select X86_X2APIC if XEN_PVH && X86_64
- 	help
- 	  Support running as a Xen Dom0 guest.
-+
-+config XEN_PV_MSR_SAFE
-+	bool "Always use safe MSR accesses in PV guests"
-+	default y
-+	depends on XEN_PV
-+	help
-+	  Use safe (not faulting) MSR access functions even if the MSR access
-+	  should not fault anyway.
-+	  The default can be changed by using the "xen_msr_safe" boot parameter.
-diff --git a/arch/x86/xen/enlighten_pv.c b/arch/x86/xen/enlighten_pv.c
-index 4e68e047df94..6b0e5d4c485a 100644
---- a/arch/x86/xen/enlighten_pv.c
-+++ b/arch/x86/xen/enlighten_pv.c
-@@ -108,6 +108,16 @@ struct tls_descs {
-  */
- static DEFINE_PER_CPU(struct tls_descs, shadow_tls_desc);
- 
-+static __read_mostly bool xen_msr_safe = IS_ENABLED(CONFIG_XEN_PV_MSR_SAFE);
-+
-+static int __init parse_xen_msr_safe(char *str)
-+{
-+	if (str)
-+		return strtobool(str, &xen_msr_safe);
-+	return -EINVAL;
-+}
-+early_param("xen_msr_safe", parse_xen_msr_safe);
-+
- static void __init xen_pv_init_platform(void)
- {
- 	/* PV guests can't operate virtio devices without grants. */
-@@ -1010,22 +1020,16 @@ static int xen_write_msr_safe(unsigned int msr, unsigned int low,
- 
- static u64 xen_read_msr(unsigned int msr)
- {
--	/*
--	 * This will silently swallow a #GP from RDMSR.  It may be worth
--	 * changing that.
--	 */
- 	int err;
- 
--	return xen_read_msr_safe(msr, &err);
-+	return xen_do_read_msr(msr, xen_msr_safe ? &err : NULL);
- }
- 
- static void xen_write_msr(unsigned int msr, unsigned low, unsigned high)
- {
--	/*
--	 * This will silently swallow a #GP from WRMSR.  It may be worth
--	 * changing that.
--	 */
--	xen_write_msr_safe(msr, low, high);
-+	int err;
-+
-+	xen_do_write_msr(msr, low, high, xen_msr_safe ? &err : NULL);
- }
- 
- /* This is called once we have the cpu_possible_mask */
--- 
-2.35.3
-
+> 
+> You were initially considering a KVM ioctl for mapping, which might be
+> better suited for this since KVM knows which pages are shared and
+> which ones are private. So routing things through KVM might simplify
+> things and allow it to enforce all the necessary restrictions (e.g.,
+> private memory cannot be mapped). What do you think?
+> 
+> Thanks,
+> /fuad
