@@ -2,136 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B512CC6FA82
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 00:50:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5883C6FA82
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 01:36:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229459AbiI0AuD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 20:50:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58384 "EHLO
+        id S229699AbiI0BgY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 21:36:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbiI0AuC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 20:50:02 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F61020182;
-        Mon, 26 Sep 2022 17:50:01 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id p1-20020a17090a2d8100b0020040a3f75eso8561193pjd.4;
-        Mon, 26 Sep 2022 17:50:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=anOfjEKm49o/rbXtkTtCMIqjAWrFaD+tdksXbREFKb4=;
-        b=Zg8ohBnyKsIgxhxGL39sNzgFwPjnmHwuABBZxWwKb2v491mAMO2h45I7t3mODFvXBx
-         5mFMNFVd6Xi5XKsrWVSY0ABYH5pkRumTx+Tya8nXA4wBXZW8fBCcD22u3W5ZA/LNsK1T
-         SAI0mFAqmpFCDPVQy4Mp8PDwxSqHs2X4sEJuW2EYtjWWMUhd7NjrhRkWJ7fqujPW9wvv
-         RwFr8j6laOaU+ERCvcM3qq4dG1qevc/tGAhx9D/vXoYJ2HUbYLydgF5G/VRm5jNVGw9J
-         pFfbrv+d2eOhd5PgGG2C+bAhHrG4iioDKB0dVCsJiRoTbL+b8b93ak4gzAdgvl7RXUiD
-         aVYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=anOfjEKm49o/rbXtkTtCMIqjAWrFaD+tdksXbREFKb4=;
-        b=gULNBWVA3vmlmWby5rVWEDvoiuvq3G5e7FZV129bRvTZFeP924PbePwIGVEeSC5CQQ
-         r5+ylWBP1t/ErzbqBQDLF2EqrlJLRmznrlqrvwb4mko6GtYru+w/4p89XuvH4+Nf+SAF
-         rTEql8fyskqDNFK8WJRFIkM9dvnrlwSZ6UBykgFO0FqfmKX12efuAn+7VReEGq1mHvsy
-         R3KxzpEe6MDQbuwfTjbxgVW6JQXj91vzV+8o3BiCfmrWr0iRkiVmZCIXRxqV+Bc+uytn
-         CS+Lijeelesu7sy4s9Jd8/pI5Di+bEi+JgG4XUOclTqNG8Fy9yH7SWSPfYIKwBOSlR10
-         PwnA==
-X-Gm-Message-State: ACrzQf16hy+WtpRXd0Hl0KHWTrpf7kMku3p8Fvq/NkwduYoYF3nRwWDl
-        f2t4O4aXq5Hoku7YhzhuhF4=
-X-Google-Smtp-Source: AMsMyM5xGeW0V0jX7yPgbGYUjz8ZBfPA4vZGsY8Qlgx6EbUzcb8RIoU+1i+yhG8zxvc/ni0paQIcXA==
-X-Received: by 2002:a17:90b:4c8a:b0:202:b3cd:f960 with SMTP id my10-20020a17090b4c8a00b00202b3cdf960mr1534138pjb.129.1664239800615;
-        Mon, 26 Sep 2022 17:50:00 -0700 (PDT)
-Received: from hyeyoo ([114.29.91.56])
-        by smtp.gmail.com with ESMTPSA id w16-20020aa79a10000000b0053639773ad8sm134914pfj.119.2022.09.26.17.49.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Sep 2022 17:49:59 -0700 (PDT)
-Date:   Tue, 27 Sep 2022 09:49:52 +0900
-From:   Hyeonggon Yoo <42.hyeyoo@gmail.com>
-To:     Alexander Atanasov <alexander.atanasov@virtuozzo.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Roman Gushchin <roman.gushchin@linux.dev>, kernel@openvz.org,
-        Kees Cook <keescook@chromium.org>,
-        Roman Gushchin <guro@fb.com>, Jann Horn <jannh@google.com>,
-        Vijayanand Jitta <vjitta@codeaurora.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v2] mm: Make failslab writable again
-Message-ID: <YzJIsFZQoCEYntvR@hyeyoo>
-References: <20220920121111.1792905-1-alexander.atanasov@virtuozzo.com>
- <Yyr1xONdw8dBgsKr@hyeyoo>
- <30063d97-69f0-bea2-9d59-108140995bfc@virtuozzo.com>
+        with ESMTP id S229738AbiI0BgW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 21:36:22 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97448DF6;
+        Mon, 26 Sep 2022 18:36:20 -0700 (PDT)
+Received: from canpemm100008.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Mc2Fc0v3kzpTpl;
+        Tue, 27 Sep 2022 09:33:24 +0800 (CST)
+Received: from canpemm500005.china.huawei.com (7.192.104.229) by
+ canpemm100008.china.huawei.com (7.192.104.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 27 Sep 2022 09:36:18 +0800
+Received: from canpemm500005.china.huawei.com ([7.192.104.229]) by
+ canpemm500005.china.huawei.com ([7.192.104.229]) with mapi id 15.01.2375.031;
+ Tue, 27 Sep 2022 09:36:18 +0800
+From:   zhaogongyi <zhaogongyi@huawei.com>
+To:     David Hildenbrand <david@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+CC:     "akinobu.mita@gmail.com" <akinobu.mita@gmail.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "osalvador@suse.de" <osalvador@suse.de>,
+        "shuah@kernel.org" <shuah@kernel.org>
+Subject: Re: [PATCH -next v3 1/3] selftests/memory-hotplug: Add checking after
+ online or offline
+Thread-Topic: [PATCH -next v3 1/3] selftests/memory-hotplug: Add checking
+ after online or offline
+Thread-Index: AdjSEXoq4KNGQqzodUStOJZvmVcVRQ==
+Date:   Tue, 27 Sep 2022 01:36:18 +0000
+Message-ID: <5484ea857c0644c9bdeb03bd3aa1c041@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.67.110.209]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <30063d97-69f0-bea2-9d59-108140995bfc@virtuozzo.com>
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 23, 2022 at 10:34:28AM +0300, Alexander Atanasov wrote:
-> Hello,
-> 
-> On 21.09.22 14:30, Hyeonggon Yoo wrote:
-> > On Tue, Sep 20, 2022 at 03:11:11PM +0300, Alexander Atanasov wrote:
-> > > In (060807f841ac mm, slub: make remaining slub_debug related attributes
-> > > read-only) failslab was made read-only.
-> > > I think it became a collateral victim to the two other options for which
-> > > the reasons are perfectly valid.
-> > > Here is why:
-> > >   - sanity_checks and trace are slab internal debug options,
-> > >     failslab is used for fault injection.
-> > >   - for fault injections, which by presumption are random, it
-> > >     does not matter if it is not set atomically. And you need to
-> > >     set atleast one more option to trigger fault injection.
-> > >   - in a testing scenario you may need to change it at runtime
-> > >     example: module loading - you test all allocations limited
-> > >     by the space option. Then you move to test only your module's
-> > >     own slabs.
-> > >   - when set by command line flags it effectively disables all
-> > >     cache merges.
-> > 
-> > Maybe we can make failslab= boot parameter to consider cache filtering?
-> > 
-> > With that, just pass something like this:
-> > 	failslab=X,X,X,X,cache_filter slub_debug=A,<cache-name>>
-> 
-> > Users should pass slub_debug=A,<cache-name> anyway to prevent cache merging.
->
-> It will be good to have this in case you want to test cache that is used
-> early. But why push something to command line option only when it can be
-> changed at runtime?
-
-Hmm okay. I'm not against changing it writable. (it looks okay to me.)
-Just wanted to understand your use case!
-
-Can you please elaborate why booting with slub_debug=A,<your cache name>
-and enabling cache_filter after boot does not work?
-
-Or is it trying to changnig these steps,
-
-FROM
-	1. booting with slub_debug=A,<cache name>
-	2. write to cache_filter to enable cache filtering
-	3. setup probability, interval, times, size
-
-TO
-
-	1. write to failslab attribute of <cache name> (may fail it has alias)
-	2. write to cache_filter to enable cache filtering
-	3. setup probability, interval, times, size
-?
-
-as you may know, SLAB_FAILSLAB does nothing when
-cache_filter is disabled, and you should pass slub_debug=A,<cache name> anyway
-to prevent doing cache merging with <cache name>.
-
--- 
-Thanks,
-Hyeonggon
+DQo+IA0KPiBPbiAyNi4wOS4yMiAxNTowMywgWmhhbyBHb25neWkgd3JvdGU6DQo+ID4gQWRkIGNo
+ZWNraW5nIGZvciBvbmxpbmVfbWVtb3J5X2V4cGVjdF9zdWNjZXNzKCkvDQo+ID4gb2ZmbGluZV9t
+ZW1vcnlfZXhwZWN0X3N1Y2Nlc3MoKS9vZmZsaW5lX21lbW9yeV9leHBlY3RfZmFpbCgpLCBvcg0K
+PiB0aGUNCj4gPiB0ZXN0IHdvdWxkIGV4aXQgMCBhbHRob3VnaCB0aGUgZnVuY3Rpb25zIHJldHVy
+biAxLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogWmhhbyBHb25neWkgPHpoYW9nb25neWlAaHVh
+d2VpLmNvbT4NCj4gPiAtLS0NCj4gPiAgIC4uLi9zZWxmdGVzdHMvbWVtb3J5LWhvdHBsdWcvbWVt
+LW9uLW9mZi10ZXN0LnNoICAgfCAxNQ0KPiArKysrKysrKysrKystLS0NCj4gPiAgIDEgZmlsZSBj
+aGFuZ2VkLCAxMiBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAt
+LWdpdCBhL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL21lbW9yeS1ob3RwbHVnL21lbS1vbi1vZmYt
+dGVzdC5zaA0KPiA+IGIvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvbWVtb3J5LWhvdHBsdWcvbWVt
+LW9uLW9mZi10ZXN0LnNoDQo+ID4gaW5kZXggNDZhOTdmMzE4ZjU4Li4zZWRkYTFmMTNmN2IgMTAw
+NzU1DQo+ID4gLS0tIGEvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvbWVtb3J5LWhvdHBsdWcvbWVt
+LW9uLW9mZi10ZXN0LnNoDQo+ID4gKysrIGIvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvbWVtb3J5
+LWhvdHBsdWcvbWVtLW9uLW9mZi10ZXN0LnNoDQo+ID4gQEAgLTI2Niw3ICsyNjYsMTAgQEAgZG9u
+ZQ0KPiA+ICAgIw0KPiA+ICAgZWNobyAkZXJyb3IgPg0KPiAkTk9USUZJRVJfRVJSX0lOSkVDVF9E
+SVIvYWN0aW9ucy9NRU1fR09JTkdfT05MSU5FL2Vycm9yDQo+ID4gICBmb3IgbWVtb3J5IGluIGBo
+b3RwbHVnZ2FibGVfb2ZmbGluZV9tZW1vcnlgOyBkbw0KPiA+IC0Jb25saW5lX21lbW9yeV9leHBl
+Y3RfZmFpbCAkbWVtb3J5DQo+ID4gKwlvbmxpbmVfbWVtb3J5X2V4cGVjdF9mYWlsICRtZW1vcnkg
+fHwgew0KPiA+ICsJCWVjaG8gIm9ubGluZSBtZW1vcnkgJG1lbW9yeTogdW5leHBlY3RlZCBzdWNj
+ZXNzIg0KPiANCj4gVGhlIGZ1bmN0aW9ucyB0aGVtc2VsZiBhbHJlYWR5IHByaW50IGFuIGVycm9y
+LCBpc24ndCBpdCBzdWZmaWNpZW50IHRvIHNldA0KPiByZXR2YWw9MT8NCg0KSW5kZWVkLCB0aGlz
+IGZ1bmN0aW9uIGlzIG9ubHkgY2FsbGVkIG9uY2UuIEl0IGlzIG5vIG5lZWQgdG8gYWRkIHRoZSBs
+b2cgaW5mby4NCg0KDQo+IA0KPiA+ICsJCXJldHZhbD0xDQo+ID4gKwl9DQo+ID4gICBkb25lDQo+
+ID4NCj4gPiAgICMNCj4gPiBAQCAtMjc0LDcgKzI3NywxMCBAQCBkb25lDQo+ID4gICAjDQo+ID4g
+ICBlY2hvIDAgPg0KPiAkTk9USUZJRVJfRVJSX0lOSkVDVF9ESVIvYWN0aW9ucy9NRU1fR09JTkdf
+T05MSU5FL2Vycm9yDQo+ID4gICBmb3IgbWVtb3J5IGluIGBob3RwbHVnZ2FibGVfb2ZmbGluZV9t
+ZW1vcnlgOyBkbw0KPiA+IC0Jb25saW5lX21lbW9yeV9leHBlY3Rfc3VjY2VzcyAkbWVtb3J5DQo+
+ID4gKwlvbmxpbmVfbWVtb3J5X2V4cGVjdF9zdWNjZXNzICRtZW1vcnkgfHwgew0KPiA+ICsJCWVj
+aG8gIm9ubGluZSBtZW1vcnkgJG1lbW9yeTogdW5leHBlY3RlZCBmYWlsIg0KPiA+ICsJCXJldHZh
+bD0xDQo+ID4gKwl9DQo+ID4gICBkb25lDQo+ID4NCj4gPiAgICMNCj4gPiBAQCAtMjgzLDcgKzI4
+OSwxMCBAQCBkb25lDQo+ID4gICBlY2hvICRlcnJvciA+DQo+ICROT1RJRklFUl9FUlJfSU5KRUNU
+X0RJUi9hY3Rpb25zL01FTV9HT0lOR19PRkZMSU5FL2Vycm9yDQo+ID4gICBmb3IgbWVtb3J5IGlu
+IGBob3RwbHVnZ2FibGVfb25saW5lX21lbW9yeWA7IGRvDQo+ID4gICAJaWYgWyAkKChSQU5ET00g
+JSAxMDApKSAtbHQgJHJhdGlvIF07IHRoZW4NCj4gPiAtCQlvZmZsaW5lX21lbW9yeV9leHBlY3Rf
+ZmFpbCAkbWVtb3J5DQo+ID4gKwkJb2ZmbGluZV9tZW1vcnlfZXhwZWN0X2ZhaWwgJG1lbW9yeSB8
+fCB7DQo+ID4gKwkJCWVjaG8gIm9mZmxpbmUgbWVtb3J5ICRtZW1vcnk6IHVuZXhwZWN0ZWQgc3Vj
+Y2VzcyINCj4gPiArCQkJcmV0dmFsPTENCj4gPiArCQl9DQo+IA0KPiBUaGVzZSBmdW5jdGlvbnMg
+cmV0dXJuIDAgaWYgdGhlIHJlc3VsdCBpcyBhcyBleHBlY3RlZCBhbmQgMSBpZiB0aGUgcmVzdWx0
+IGlzDQo+IHVuZXhwZWN0ZWQuDQo+IA0KPiAuLi4gYnV0IHdvdWxkbid0IHdlIGV2YWx1YXRlIHRo
+ZSByaWdodCBoYW5kIHNpZGUgb25seSBpZiB0aGUgcmVzdWx0IGlzICIwIiAtLQ0KPiBleHBlY3Rl
+ZD8gSSBtaWdodCBiZSB3cm9uZy4NCj4gDQoNClllcywgaWYgb2ZmbGluZV9tZW1vcnlfZXhwZWN0
+X2ZhaWwncyByZXR1cm4gdmFsdWUgaXMgbm90IHplcm8sIHRoZW4gaXQgd2lsbCBzZXQgJ3JldHZh
+bD0xJw0KDQo+IA0KPiBXb3VsZG4ndCBpdCBiZSBzaW1wbGVyIGRvIGl0IGFzIGluICJPbmxpbmUg
+YWxsIGhvdC1wbHVnZ2FibGUgbWVtb3J5IGFnYWluIg0KPiANCj4gaWYgISBvbmxpbmVfbWVtb3J5
+X2V4cGVjdF9zdWNjZXNzICRtZW1vcnk7IHRoZW4NCj4gCXJldHZhbD0xDQo+IGZpDQo+IA0KPiAo
+c2ltaWxhcmx5IGFkanVzdGluZyB0aGUgZnVuY3Rpb24gbmFtZSkNCg0KSSB3aWxsIHNlbmQgYSBu
+ZXcgdmVyc2lvbiBvZiB0aGUgcGF0Y2ggdG8gZml4IGl0Lg0KDQpLaW5kIHJlZ2FyZHMsDQpHb25n
+eWkNCg==
