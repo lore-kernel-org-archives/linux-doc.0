@@ -2,228 +2,237 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30DEFC6FA83
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 16:44:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4121C6FA83
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 16:49:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233070AbiI0Qoz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 12:44:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37092 "EHLO
+        id S233009AbiI0Qtv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 12:49:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231650AbiI0Qou (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 12:44:50 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0270BC9;
-        Tue, 27 Sep 2022 09:44:45 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id s26so9903940pgv.7;
-        Tue, 27 Sep 2022 09:44:45 -0700 (PDT)
+        with ESMTP id S233202AbiI0Qtk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 12:49:40 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D462DDF12
+        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 09:49:33 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id u92so751501pjh.3
+        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 09:49:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=BWgKxUk31+J2+2MSd46wU4vlOnJG3Yc8AiZ9YkHKoOw=;
-        b=RPz+oGaXBgnWrNZkao9myAW+JIeB14subN6cQTIoHYYD+ugeMtypU+830O25ILYK7O
-         G/IKSCYBSyTr3XUJxW12BiCEpY6OgqMDNlVYvVC1EDcTeQ1Q36H/A8NkvNxDQ6MXSRI+
-         aJKl5drrDxwWBed3HvWdZO6c8bBkvkXcbH2zdNdpXGena7uwMJe58Ps7ID+bplm+O4PE
-         tVrvgHf95mkeqPj8J8ARzL4lmJSwP+F6rCsVmMizfY42R+BnYrMLtNGvLg+kEpC732+p
-         Z+PUer58KgcwURonAZoKBovdGO//6XIQ9HsVqzkKwoPahxJ0W+YQap86VPv3UGbqks7R
-         Nsdg==
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=CshlNIOejbfiYc9tiWv058BC6HJpHyki8VAbybm61uA=;
+        b=MucmUzS2nCcF+AhT93QZQrmD3Psbz+Enr8Z1TI7Cl88vuGDyx6aGFblYhF7ZvzNJ9P
+         oHqeDAjNu2VqHESkGQZT9EmNsJXCAY9WpWP5mBw31Vo3QbUQMzyXGuWxp9cHqOk5VguX
+         gOhSrowuXG+DHdSY0V2Tnnmr+AGJ8P6bdZRLc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=BWgKxUk31+J2+2MSd46wU4vlOnJG3Yc8AiZ9YkHKoOw=;
-        b=8KXExfuQy7hGBctKa+3gJAC9i8lDEn/5JwhV6ADpVVhrB/ZG9e5OzKA7cfBFOte3s2
-         DbCfWp2sKbHvVNEVBrJsdguhMbWAItu2GQSOorTP7XJo20JAgRQsuDcvarwu0B+WLjMb
-         KR32BrvrhYLY+QWPi5VNfhBTDjjfspM/BgSnWje/6YD3finpYvXOUX608q3rU3D6ac8w
-         4KwjfntFedKi7rfDcvFp1p5oyoDKExioA6W1xwbrDfbWmb0j6PItaD6JoJ5fVkuw4KI2
-         HDlrbsQS07n3Yi+GXI2pPp0UaWVUZpyaHytoCWqvsYmqKsrcJL8aWF4xYdwrf8wNwljJ
-         uQiw==
-X-Gm-Message-State: ACrzQf1pyqqId+xfCmL8v1C/iEzBUqcYw4ugfgSDM7k+ar1UrLbwy21T
-        TBwRTkuumOaTEd1k3lhgGBI=
-X-Google-Smtp-Source: AMsMyM7lXlUEqdYMJEwpDow4qNfPvfCwMrN01PHaXlLmv+QcFcQ92RJndlw8wjyhzmbTuH7O+FOrMg==
-X-Received: by 2002:a05:6a00:2409:b0:54e:a3ad:d32d with SMTP id z9-20020a056a00240900b0054ea3add32dmr29903648pfh.70.1664297085046;
-        Tue, 27 Sep 2022 09:44:45 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c083:3603:1885:b229:3257:6535? ([2620:10d:c090:500::1:5b3])
-        by smtp.gmail.com with ESMTPSA id o3-20020a170902d4c300b00174ea015ee2sm1863469plg.38.2022.09.27.09.44.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Sep 2022 09:44:44 -0700 (PDT)
-Message-ID: <0c989c58-2aa6-eca6-2bb9-24b1ae71694a@gmail.com>
-Date:   Tue, 27 Sep 2022 09:44:42 -0700
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=CshlNIOejbfiYc9tiWv058BC6HJpHyki8VAbybm61uA=;
+        b=B8qi3ZH4XWZOjkMK6DYJ9o0GdLyFyB/ds2cWJqmbjx4MO3j+k/54+zhZt///r4Ox5g
+         glm8rJjJLLPpSmN4TKHP8zzPhjwjoB3zQN3jJu1xDjjfypkPvykzlpDbb1ySXTcsoqU4
+         789c74aJn802Hg2tlLO6IGnTcYq1TJDMm/eWrztdX8cJWSIxJV8cXfJEQxhga4qi2dPr
+         r4gyuQyZA3W/v5oMEFc3welAq5Sc216AeJ8GiPXZlSjs79rt0jeOxAc5Xo0DODgQ2A95
+         7ZQCxfJamBU4/TOfaGlItJZZ6XOZzgOyOuHiMIbwpPtPNwdxEbXsXMUwWCoTSEmO4YUx
+         dXDw==
+X-Gm-Message-State: ACrzQf1WJgHMEHe6GAhXsHBJiShCjBBo5d09XYMbGZ1uVnY6jDdRoxNV
+        XHVfO67LgsYlnUSALs1DzXc+EQ==
+X-Google-Smtp-Source: AMsMyM5nHrnaxrzhddnmL2v6Bi3s6QZogqG6G/cZkv7Zy3cQbem1uUeyfaGRak4dMeabdo6+o2ZdLQ==
+X-Received: by 2002:a17:90b:3ec1:b0:203:5eef:fe1e with SMTP id rm1-20020a17090b3ec100b002035eeffe1emr5441458pjb.143.1664297373237;
+        Tue, 27 Sep 2022 09:49:33 -0700 (PDT)
+Received: from evgreen-glaptop.lan ([73.231.74.141])
+        by smtp.gmail.com with ESMTPSA id p13-20020a63950d000000b00434272fe870sm1753509pgd.88.2022.09.27.09.49.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Sep 2022 09:49:32 -0700 (PDT)
+From:   Evan Green <evgreen@chromium.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-integrity@vger.kernel.org, apronin@chromium.org,
+        dlunev@google.com, jarkko@kernel.org, Pavel Machek <pavel@ucw.cz>,
+        Ben Boeckel <me@benboeckel.net>, rjw@rjwysocki.net,
+        corbet@lwn.net, linux-pm@vger.kernel.org, zohar@linux.ibm.com,
+        Kees Cook <keescook@chromium.org>,
+        Eric Biggers <ebiggers@kernel.org>, jejb@linux.ibm.com,
+        gwendal@chromium.org, Matthew Garrett <mgarrett@aurora.tech>,
+        Evan Green <evgreen@chromium.org>,
+        David Howells <dhowells@redhat.com>,
+        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Len Brown <len.brown@intel.com>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
+        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: [PATCH v3 00/11] Encrypted Hibernation
+Date:   Tue, 27 Sep 2022 09:49:11 -0700
+Message-Id: <20220927164922.3383711-1-evgreen@chromium.org>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.2.2
-Subject: Re: [net-next v2 0/6] net: support QUIC crypto
-To:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc:     Xin Long <lucien.xin@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
-        davem <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Ahern <dsahern@kernel.org>, shuah@kernel.org,
-        imagedong@tencent.com, network dev <netdev@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <adel.abushaev@gmail.com>
- <20220817200940.1656747-1-adel.abushaev@gmail.com>
- <CADvbK_fVRVYjtSkn29ec70mko9aEwnwu+kHYx8bAAWm-n25mjA@mail.gmail.com>
- <f479b419-b05d-2cae-4fd0-4e88707b8d8b@gmail.com>
- <CA+FuTSf_8MjF4jeUjEqDrOwqXzf485jX_GJyVP5kPUDzOFezkg@mail.gmail.com>
-Content-Language: en-US
-From:   Adel Abouchaev <adel.abushaev@gmail.com>
-In-Reply-To: <CA+FuTSf_8MjF4jeUjEqDrOwqXzf485jX_GJyVP5kPUDzOFezkg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+We are exploring enabling hibernation in some new scenarios. However,
+our security team has a few requirements, listed below:
+1. The hibernate image must be encrypted with protection derived from
+   both the platform (eg TPM) and user authentication data (eg
+   password).
+2. Hibernation must not be a vector by which a malicious userspace can
+   escalate to the kernel.
 
-On 9/25/22 11:04 AM, Willem de Bruijn wrote:
->>> The patch seems to get the crypto_ctx by doing a connection hash table
->>> lookup in the sendmsg(), which is not good from the performance side.
->>> One QUIC connection can go over multiple UDP sockets, but I don't
->>> think one socket can be used by multiple QUIC connections. So why not
->>> save the ctx in the socket instead?
->> A single socket could have multiple connections originated from it,
->> having different destinations, if the socket is not connected. An
->> optimization could be made for connected sockets to cache the context
->> and save time on a lookup. The measurement of kernel operations timing
->> did not reveal a significant amount of time spent in this lookup due to
->> a relatively small number of connections per socket in general. A shared
->> table across multiple sockets might experience a different performance
->> grading.
-> I'm late to this patch series, sorry. High quality implementation. I
-> have a few design questions similar to Xin.
->
-> If multiplexing, instead of looking up a connection by { address, port
-> variable length connection ID }, perhaps return a connection table
-> index on setsockopt and use that in sendmsg.
+Requirement #1 can be achieved solely with uswsusp, however requirement
+2 necessitates mechanisms in the kernel to guarantee integrity of the
+hibernate image. The kernel needs a way to authenticate that it generated
+the hibernate image being loaded, and that the image has not been tampered
+with. Adding support for in-kernel AEAD encryption with a TPM-sealed key
+allows us to achieve both requirements with a single computation pass.
 
+Matthew Garrett published a series [1] that aligns closely with this
+goal. His series utilized the fact that PCR23 is a resettable PCR that
+can be blocked from access by usermode. The TPM can create a sealed key
+tied to PCR23 in two ways. First, the TPM can attest to the value of
+PCR23 when the key was created, which the kernel can use on resume to
+verify that the kernel must have created the key (since it is the only
+one capable of modifying PCR23). It can also create a policy that enforces
+PCR23 be set to a specific value as a condition of unsealing the key,
+preventing usermode from unsealing the key by talking directly to the
+TPM.
 
-It was deliberate to not to return anything other than 0 from 
-setsockopt() as defined in the spec for the function. Despite that it 
-says "shall", the doc says that 0 is the only value for successful 
-operation. This was the reason not to use setsockopt() for any 
-bidirectional transfers of data and or status. A more sophisticated 
-approach with netlink sockets would be more suitable for it. The second 
-reason is the API asymmetry for Tx and Rx which will be introduced - the 
-Rx will still need to match on the address, port and cid. The third 
-reason is that in current implementations there are no more than a few 
-connections per socket, which does not abuse the rhashtable that does a 
-lookup, although it takes time to hash the key into a hash for a seek. 
-The performance measurement ran against the runtime and did not flag 
-this path as underperforming either, there were other parts that 
-substantially add to the runtime, not the key lookup though.
+This series adopts that primitive as a foundation, tweaking and building
+on it a bit. Where Matthew's series used the TPM-backed key to encrypt a
+hash of the image, this series uses the key directly as a gcm(aes)
+encryption key, which the kernel uses to encrypt and decrypt the
+hibernate image in chunks of 16 pages. This provides both encryption and
+integrity, which turns out to be a noticeable performance improvement over
+separate passes for encryption and hashing.
 
+The series also introduces the concept of mixing user key material into
+the encryption key. This allows usermode to introduce key material
+based on unspecified external authentication data (in our case derived
+from something like the user password or PIN), without requiring
+usermode to do a separate encryption pass.
 
->>> The patch is to reduce the copying operations between user space and
->>> the kernel. I might miss something in your user space code, but the
->>> msg to send is *already packed* into the Stream Frame in user space,
->>> what's the difference if you encrypt it in userspace and then
->>> sendmsg(udp_sk) with zero-copy to the kernel.
->> It is possible to do it this way. Zero-copy works best with packet sizes
->> starting at 32K and larger.  Anything less than that would consume the
->> improvements of zero-copy by zero-copy pre/post operations and needs to
->> align memory.
-> Part of the cost of MSG_ZEROCOPY is in mapping and unmapping user
-> pages. This series re-implements that with its own get_user_pages.
-> That is duplicative non-trivial code. And it will incur the same cost.
-> What this implementation saves is the (indeed non-trivial)
-> asynchronous completion notification over the error queue.
->
-> The cover letter gives some performance numbers against a userspace
-> implementation that has to copy from user to kernel. It might be more
-> even to compare against an implementation using MSG_ZEROCOPY and
-> UDP_SEGMENT. A userspace crypto implementation may have other benefits
-> compared to a kernel implementation, such as not having to convert to
-> crypto API scatter-gather arrays and back to network structures.
->
-> A few related points
->
-> - The implementation support multiplexed connections, but only one
-> crypto sendmsg can be outstanding at any time:
->
->    + /**
->    + * To synchronize concurrent sendmsg() requests through the same socket
->    + * and protect preallocated per-context memory.
->    + **/
->    + struct mutex sendmsg_mux;
->
-> That is quite limiting for production workloads.
+Matthew also documented issues his series had [2] related to generating
+fake images by booting alternate kernels without the PCR23 limiting.
+With access to PCR23 on the same machine, usermode can create fake
+hibernate images that are indistinguishable to the new kernel from
+genuine ones. His post outlines a solution that involves adding more
+PCRs into the creation data and policy, with some gyrations to make this
+work well on a standard PC.
 
-The use case that we have with MVFST library currently runs a single 
-worker for a connection and has a single socket attached to it. QUIC 
-allows simultaneous use of multiple connection IDs to swap them in 
-runtime, and implementation would request only a handful of these. The 
-MVFST batches writes into a block of about 8Kb and then uses GSO to send 
-them all at once.
+Our approach would be similar: on our machines PCR 0 indicates whether
+the system is booted in secure/verified mode or developer mode. By
+adding PCR0 to the policy, we can reject hibernate images made in
+developer mode while in verified mode (or vice versa).
 
-> - Crypto operations are also executed synchronously, using
-> crypto_wait_req after each operationn. This limits throughput by using
-> at most one core per UDP socket. And adds sendmsg latency (which may
-> or may not be important to the application). Wireguard shows an
-> example of how to parallelize software crypto across cores.
->
-> - The implementation avoids dynamic allocation of cipher text pages by
-> using a single ctx->cipher_page. This is protected by sendmsg_mux (see
-> above). Is that safe when packets leave the protocol stack and are
-> then held in a qdisc or when being processed by the NIC?
-> quic_sendmsg_locked will return, but the cipher page is not free to
-> reuse yet.
-There is currently no use case that we have in hands that requires 
-parallel transmission of data for the same connection. Multiple 
-connections would have no issue running in parallel as each of them will 
-have it's own preallocated cipher_page in the context.
+Additionally, mixing in the user authentication data limits both
+data exfiltration attacks (eg a stolen laptop) and forged hibernation
+image attacks to attackers that already know the authentication data (eg
+user's password). This, combined with our relatively sealed userspace
+(dm-verity on the rootfs), and some judicious clearing of the hibernate
+image (such as across an OS update) further reduce the risk of an online
+attack. The remaining attack space of a forgery from someone with
+physical access to the device and knowledge of the authentication data
+is out of scope for us, given that flipping to developer mode or
+reflashing RO firmware trivially achieves the same thing.
 
-There is a fragmentation further down the stack with 
-ip_generic_getfrag() that eventually does copy_from_iter() and makea a 
-copy of the data. This is executed as part of __ip_append_data() called 
-from udp_sendmsg() in ipv4/udp.c. The assumption was that this is 
-executed synchronously and the queues and NIC will see a mapping of a 
-different memory area than the ciphertext in the pre-allocated page.
+A couple of patches still need to be written on top of this series. The
+generalized functionality to OR in additional PCRs via Kconfig (like PCR
+0 or 5) still needs to be added. We'll also need a patch that disallows
+unencrypted forms of resume from hibernation, to fully close the door
+to malicious userspace. However, I wanted to get this series out first
+and get reactions from upstream before continuing to add to it.
 
->
-> - The real benefit of kernel QUIC will come from HW offload. Would it
-> be better to avoid the complexity of an in-kernel software
-> implementation and only focus on HW offload? Basically, pass the
-> plaintext QUIC packets over a standard UDP socket and alongside in a
-> cmsg pass either an index into a HW security association database or
-> the immediate { key, iv } connection_info (for stateless sockets), to
-> be encoded into the descriptor by the device driver.
-Hardware usually targets a single ciphersuite such as AES-GCM-128/256, 
-while QUIC also supports Chacha20-Poly1305 and AES-CCM. The generalized 
-support for offload prompted implementation of these ciphers in kernel 
-code. The kernel code could also engage if the future hardware has 
-capacity caps preventing it from handling all requests in the hardware.
-> - With such a simpler path, could we avoid introducing ULP and just
-> have udp [gs]etsockopt CRYPTO_STATE. Where QUIC is the only defined
-> state type yet.
->
-> - Small aside: as the series introduces new APIs with non-trivial
-> parsing in the kernel, it's good to run a fuzzer like syzkaller on it
-> (if not having done so yet).
-Agreed.
->> The other possible obstacle would be that eventual support
->> of QUIC encryption and decryption in hardware would integrate well with
->> this current approach.
->>> Didn't really understand the "GSO" you mentioned, as I don't see any
->>> code about kernel GSO, I guess it's just "Fragment size", right?
->>> BTW, it‘s not common to use "//" for the kernel annotation.
-> minor point: fragment has meaning in IPv4. For GSO, prefer gso_size.
-Sure, will change it to gso_size.
->
->> Once the payload arrives into the kernel, the GSO on the interface would
->> instruct L3/L4 stack on fragmentation. In this case, the plaintext QUIC
->> packets should be aligned on the GSO marks less the tag size that would
->> be added by encryption. For GSO size 1000, the QUIC packets in the batch
->> for transmission should all be 984 bytes long, except maybe the last
->> one. Once the tag is attached, the new size of 1000 will correctly split
->> the QUIC packets further down the stack for transmission in individual
->> IP/UDP packets. The code is also saving processing time by sending all
->> packets at once to UDP in a single call, when GSO is enabled.
->>> I'm not sure if it's worth adding a ULP layer over UDP for this QUIC
->>> TX only. Honestly, I'm more supporting doing a full QUIC stack in the
->>> kernel independently with socket APIs to use it:
->>> https://github.com/lxin/tls_hs.
->>>
->>> Thanks.
+[1] https://patchwork.kernel.org/project/linux-pm/cover/20210220013255.1083202-1-matthewgarrett@google.com/
+[2] https://mjg59.dreamwidth.org/58077.html
+
+Changes in v3:
+ - Unify tpm1/2_pcr_reset prototypes (Jarkko)
+ - Wait no, remove the TPM1 stuff altogether (Jarkko)
+ - Remove extra From tag and blank in commit msg (Jarkko).
+ - Split find_and_validate_cc() export to its own patch (Jarkko)
+ - Rename tpm_find_and_validate_cc() to tpm2_find_and_validate_cc().
+ - Fix up commit message (Jarkko)
+ - tpm2_find_and_validate_cc() was split (Jarkko)
+ - Simply fully restrict TPM1 since v2 failed to account for tunnelled
+   transport sessions (Stefan and Jarkko).
+ - Fix SoB and -- note ordering (Kees)
+ - Add comments describing the TPM2 spec type names for the new fields
+   in tpm2key.asn1 (Kees)
+ - Add len buffer checks in tpm2_key_encode() (Kees)
+ - Clarified creationpcrs documentation (Ben)
+ - Changed funky tag to suggested-by (Kees). Matthew, holler if you want
+   something different.
+ - ENCRYPTED_HIBERNATION needs TRUSTED_KEYS builtin for
+   key_type_trusted.
+ - Remove KEYS dependency since it's covered by TRUSTED_KEYS (Kees)
+ - Changed funky tag to Co-developed-by (Kees). Matthew, holler if you
+   want something different.
+ - Changed funky tag to Co-developed-by (Kees)
+
+Changes in v2:
+ - Fixed sparse warnings
+ - Adjust hash len by 2 due to new ASN.1 storage, and add underflow
+   check.
+ - Rework load/create_kernel_key() to eliminate a label (Andrey)
+ - Call put_device() needed from calling tpm_default_chip().
+ - Add missing static on snapshot_encrypted_byte_count()
+ - Fold in only the used kernel key bytes to the user key.
+ - Make the user key length 32 (Eric)
+ - Use CRYPTO_LIB_SHA256 for less boilerplate (Eric)
+ - Fixed some sparse warnings
+ - Use CRYPTO_LIB_SHA256 to get rid of sha256_data() (Eric)
+ - Adjusted offsets due to new ASN.1 format, and added a creation data
+   length check.
+ - Fix sparse warnings
+ - Fix session type comment (Andrey)
+ - Eliminate extra label in get/create_kernel_key() (Andrey)
+ - Call tpm_try_get_ops() before calling tpm2_flush_context().
+
+Evan Green (8):
+  tpm: Export and rename tpm2_find_and_validate_cc()
+  security: keys: trusted: Include TPM2 creation data
+  security: keys: trusted: Verify creation data
+  PM: hibernate: Add kernel-based encryption
+  PM: hibernate: Use TPM-backed keys to encrypt image
+  PM: hibernate: Mix user key in encrypted hibernate
+  PM: hibernate: Verify the digest encryption key
+  PM: hibernate: seal the encryption key with a PCR policy
+
+Matthew Garrett (3):
+  tpm: Add support for in-kernel resetting of PCRs
+  tpm: Allow PCR 23 to be restricted to kernel-only use
+  security: keys: trusted: Allow storage of PCR values in creation data
+
+ Documentation/power/userland-swsusp.rst       |    8 +
+ .../security/keys/trusted-encrypted.rst       |    6 +
+ drivers/char/tpm/Kconfig                      |   12 +
+ drivers/char/tpm/tpm-dev-common.c             |    8 +
+ drivers/char/tpm/tpm-interface.c              |   25 +
+ drivers/char/tpm/tpm.h                        |   23 +
+ drivers/char/tpm/tpm1-cmd.c                   |   13 +
+ drivers/char/tpm/tpm2-cmd.c                   |   58 +
+ drivers/char/tpm/tpm2-space.c                 |    8 +-
+ include/keys/trusted-type.h                   |    9 +
+ include/linux/tpm.h                           |   12 +
+ include/uapi/linux/suspend_ioctls.h           |   28 +-
+ kernel/power/Kconfig                          |   15 +
+ kernel/power/Makefile                         |    1 +
+ kernel/power/power.h                          |    1 +
+ kernel/power/snapenc.c                        | 1037 +++++++++++++++++
+ kernel/power/snapshot.c                       |    5 +
+ kernel/power/user.c                           |   44 +-
+ kernel/power/user.h                           |  114 ++
+ security/keys/trusted-keys/tpm2key.asn1       |   15 +-
+ security/keys/trusted-keys/trusted_tpm1.c     |    9 +
+ security/keys/trusted-keys/trusted_tpm2.c     |  318 ++++-
+ 22 files changed, 1724 insertions(+), 45 deletions(-)
+ create mode 100644 kernel/power/snapenc.c
+ create mode 100644 kernel/power/user.h
+
+-- 
+2.31.0
+
