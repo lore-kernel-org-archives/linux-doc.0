@@ -2,186 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15DE9C6FA82
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 12:54:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3BAEC6FA83
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 13:07:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231696AbiI0Mye (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 08:54:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39076 "EHLO
+        id S232358AbiI0NHN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 09:07:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231727AbiI0My1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 08:54:27 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ABB8E118D;
-        Tue, 27 Sep 2022 05:54:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664283266; x=1695819266;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Flh/QIQI4J2i9KB5PdCsdOmNeR/PhgABr6J+CVo/0qg=;
-  b=chr/NFCRW2I0L0NnBbfPuwcHpkdg9QyBCVcpTrzdM2HvzL2RtUC6lFc0
-   dRNiaYfl2U1/XiDsx85JEfFADlG+w+VZZcTMq20ol8A+25YgPmt3dzhDp
-   /F1dgA1Obb36s5W6IdwOSc7vAbfk72uB+Bhpjau3HpK5mA3fJVzAY0hXC
-   VlEKKTjopmvmmkvwGhrDoJ5hWlEvkFNeqzrkjERFmYiPP7TutKTYwlS75
-   yW3m5wTZC1IeDHk6phbmxyzBPPKhspsSkzXLPelncEeIG9Mip30zcA1Ul
-   cZGj0xt/lljbX3fTMxOERHFnlzk5/0WqNCye/sDcz98uQ4dBWsEajQTkX
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="284433545"
-X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
-   d="scan'208";a="284433545"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2022 05:54:25 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="866558230"
-X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
-   d="scan'208";a="866558230"
-Received: from aksaxena-mobl2.ger.corp.intel.com ([10.252.60.19])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2022 05:54:18 -0700
-Date:   Tue, 27 Sep 2022 15:54:16 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     matthew.gerlach@linux.intel.com
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
-        macro@orcam.me.uk, johan@kernel.org, Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH v2 1/6] Documentation: fpga: dfl: Add documentation for
- DFHv1
-In-Reply-To: <alpine.DEB.2.22.394.2209270535320.2165158@rhweight-WRK1>
-Message-ID: <f411fef5-1aa4-4cf-6037-cddf6f1e3d0@linux.intel.com>
-References: <20220923121745.129167-1-matthew.gerlach@linux.intel.com> <20220923121745.129167-2-matthew.gerlach@linux.intel.com> <40e867ec-c7-66f-9db9-94f6132d587e@linux.intel.com> <alpine.DEB.2.22.394.2209270535320.2165158@rhweight-WRK1>
+        with ESMTP id S232355AbiI0NHK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 09:07:10 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1BA4177343
+        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 06:07:08 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id x1-20020a17090ab00100b001fda21bbc90so15501765pjq.3
+        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 06:07:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=wLWYmfFySAd0GACOj4/rphI/57VoRcvb+5EekgbbspY=;
+        b=vpZuuu+cF8tKQW52wVI/FmSsjrI369ARx9x3l38QFDVBOY19iVxTCIFY2z5Z/RDz3c
+         /KqBkQMe4HZvIYPfm/Q4Fj2R0q1L+Y6n3yo9mpWc/7QINyfciOuJ+CEbUu90eoA8MsvO
+         wLL1YBsaHOMLuSkbDqCbZ9yRM0epZd8t+yVGMB3d8hKZuPMjQJ+ZfC32vFaybi9/L+Qe
+         Dkpf6LxbuzCH8EAmobz/VVimGkbsUIwtpxwKTeXhIW6f5qb14YamDSOJ9PS+hG7NAuW2
+         KNnSDh8AQ2ixJUAHn2Q/qJKMWDQkFBR147zZRAozzgYpU11id1HWzvLMCBtWMRFKVnD3
+         bwXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=wLWYmfFySAd0GACOj4/rphI/57VoRcvb+5EekgbbspY=;
+        b=DgZTC3FvhqbNcgwKRK6zAMee9A0czaRwLgsED4Pk1mh3EFpbNxGbc3WPlw8WLN0/c+
+         N1G8HKfso1CAj5tIVz40KIKUzgyr215ouhWXH93JqohKG2I4s4i3su84D9uBvgQwpVco
+         TPuG88a6+AzyDXN84Sd/FRT/8qwFC0YDQJJajixhrO9+K0yqfM57ZDGz7zjG7vL4Vli9
+         K7/HeURrUzOtUzLrsCynStv91uSBE8tgqgd3Pwe3iYYlpBS8wh8da50t8106zDwdfjsm
+         IwB9cmOKHmp2MKtjAoplV9w/uH3fRANXEulsryc2kNrrCMolQYAJm3M/CgSnOlw7UK90
+         mDPQ==
+X-Gm-Message-State: ACrzQf25l6WGpcpDimGjQ1Au7y0dayi7Bg6sk6NnfgXOnymRB7DpX+Xu
+        o4d65b34w27tgElWwkgrRZHrBA==
+X-Google-Smtp-Source: AMsMyM7ruRMzAu8IGLLKYxSovEqEH/m8RWT1TTaVupSf2kDnDsYqaynyezwuWSmpP6dyNWjHeKLljA==
+X-Received: by 2002:a17:902:e841:b0:177:82b6:e6f7 with SMTP id t1-20020a170902e84100b0017782b6e6f7mr27664517plg.66.1664284027853;
+        Tue, 27 Sep 2022 06:07:07 -0700 (PDT)
+Received: from [10.255.19.83] ([139.177.225.224])
+        by smtp.gmail.com with ESMTPSA id f22-20020a63f116000000b0042a713dd68csm1515083pgi.53.2022.09.27.06.07.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Sep 2022 06:07:07 -0700 (PDT)
+Message-ID: <9a0130ce-6528-6652-5a8e-3612c5de2d96@bytedance.com>
+Date:   Tue, 27 Sep 2022 21:07:02 +0800
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-962032008-1664283266=:2334"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.0
+Subject: Re: [External] Re: [RFC] proc: Add a new isolated /proc/pid/mempolicy
+ type.
+Content-Language: en-US
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Zhongkun He <hezhongkun.hzk@bytedance.com>, corbet@lwn.net,
+        akpm@linux-foundation.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20220926091033.340-1-hezhongkun.hzk@bytedance.com>
+ <YzF3aaLvEvFhTQa3@dhcp22.suse.cz>
+ <24b20953-eca9-eef7-8e60-301080a17d2d@bytedance.com>
+ <YzGya2Q3iuWS2WdM@dhcp22.suse.cz>
+ <7ac9abce-4458-982b-6c04-f9569a78c0da@bytedance.com>
+ <YzLVTxGHgYp3Es4t@dhcp22.suse.cz>
+From:   Abel Wu <wuyun.abel@bytedance.com>
+In-Reply-To: <YzLVTxGHgYp3Es4t@dhcp22.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-962032008-1664283266=:2334
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
-
-On Tue, 27 Sep 2022, matthew.gerlach@linux.intel.com wrote:
-
+On 9/27/22 6:49 PM, Michal Hocko wrote:
+> On Tue 27-09-22 11:20:54, Abel Wu wrote:
+> [...]
+>>>> Btw.in order to add per-thread-group mempolicy, is it possible to add
+>>>> mempolicy in mm_struct?
+>>>
+>>> I dunno. This would make the mempolicy interface even more confusing.
+>>> Per mm behavior makes a lot of sense but we already do have per-thread
+>>> semantic so I would stick to it rather than introducing a new semantic.
+>>>
+>>> Why is this really important?
+>>
+>> We want soft control on memory footprint of background jobs by applying
+>> NUMA preferences when necessary, so the impact on different NUMA nodes
+>> can be managed to some extent. These NUMA preferences are given by the
+>> control panel, and it might not be suitable to overwrite the tasks with
+>> specific memory policies already (or vice versa).
 > 
-> 
-> On Fri, 23 Sep 2022, Ilpo Järvinen wrote:
-> 
-> > On Fri, 23 Sep 2022, matthew.gerlach@linux.intel.com wrote:
-> > 
-> > > From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> > > 
-> > > Add documentation describing the extensions provided by Version
-> > > 1 of the Device Feature Header (DFHv1).
-> > > 
-> > > Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> > > ---
-> > > v2: s/GUILD/GUID/
-> > >     add picture
-> > > ---
-> > >  Documentation/fpga/dfl.rst | 49 ++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 49 insertions(+)
-> > > 
-> > > diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-> > > index 15b670926084..7c786b75b498 100644
-> > > --- a/Documentation/fpga/dfl.rst
-> > > +++ b/Documentation/fpga/dfl.rst
-> > > @@ -561,6 +561,55 @@ new DFL feature via UIO direct access, its feature id
-> > > should be added to the
-> > >  driver's id_table.
-> > > 
-> > > 
-> > > +Extending the Device Feature Header - DFHv1
-> > > +===========================================
-> > > +The current 8 bytes of the Device Feature Header, hereafter referred to
-> > > as
-> > > +to DFHv0, provide very little opportunity for the hardware to describe
-> > > itself
-> > > +to software. Version 1 of the Device Feature Header (DFHv1) is being
-> > > introduced
-> > > +to provide increased flexibility and extensibility to hardware designs
-> > > using
-> > > +Device Feature Lists.  The list below describes some of the goals behind
-> > > the
-> > > +changes in DFHv1:
-> > > +
-> > > +* Provide a standardized mechanism for features to describe
-> > > +  parameters/capabilities to software.
-> > > +* Standardize the use of a GUID for all DFHv1 types.
-> > > +* Decouple the location of the DFH from the register space of the feature
-> > > itself.
-> > > +
-> > > +Modeled after PCI Capabilities, DFHv1 Parameters provide a mechanism to
-> > > associate
-> > > +a list of parameter values to a particular feature.
-> > > +
-> > > +With DFHv0, not all features types contained a GUID.  DFHv1 makes the
-> > > GUID standard
-> > > +across all types.
-> > > +
-> > > +With DFHv0, the register map of a given feature is located immediately
-> > > following
-> > > +the DFHv0 in the memory space.  With DFHv1, the location of the feature
-> > > register
-> > > +map can be specified as an offset to the DFHv1 or as an absolute address.
-> > > The DFHv1
-> > > +structure is shown below:
-> > > +
-> > > +
-> > > +-----------------------------------------------------------------------+
-> > > +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11
-> > > ID 0|
-> > > +
-> > > +-----------------------------------------------------------------------+
-> > > +    |63                                 GUID_L
-> > > 0|
-> > > +
-> > > +-----------------------------------------------------------------------+
-> > > +    |63                                 GUID_H
-> > > 0|
-> > > +
-> > > +-----------------------------------------------------------------------+
-> > > +    |63                 Address/Offset                            1|  Rel
-> > > 0|
-> > > +
-> > > +-----------------------------------------------------------------------+
-> > 
-> > Is something missing here given the layout is claimed (in 2/6) to be:
-> > 
-> > "DFHv1 Register Offset definitons
-> > In DHFv1, DFH + GUID + CSR_START + CSR_SIZE_GROUP + PARAM_HDR + PARAM_DATA"
-> > 
-> > ?
-> 
-> 
-> I was hesitant to have a picture because the description would then be in two
-> places.  I suspect my picture is not clear, but it does line up with the
-> offset definitions:
-> 
-> DFH offset 0x0
-> GUID offsets 0x8 and 0x10
-> CSR_START offset 0x18
-> CSR_SIZE offset 0x20
-> First PARAM_HDR, if it exists, is 0x28,
-> First PARAM_DATA, if it exists, is 0x30.
+> Maybe the answer is somehow implicit but I do not really see any
+> argument for the per thread-group semantic here. In other words why a
+> new interface has to cover more than the local [sg]et_mempolicy?
+> I can see convenience as one potential argument. Also if there is a
+> requirement to change the policy in atomic way then this would require a
+> single syscall.
 
-I already noted in the other email I figured it out. It was thanks to 
-the offsets in the header how I found out where I had misintepreted 
-things. I initially had thought PARAM_DATA would be the parameters, both 
-headers and param data, but then realized that it's PARAM_HDR+PARAM_DATA 
-which is repeated n times.
+Convenience is not our major concern. A well-tuned workload can have
+specific memory policies for different tasks/vmas in one process, and
+this can be achieved by set_mempolicy()/mbind() respectively. While
+other workloads are not, they don't care where the memory residents,
+so the impact they brought on the co-located workloads might vary in
+different NUMA nodes.
 
-I don't think there's need to fix anything in here.
+The control panel, which has a full knowledge of workload profiling,
+may want to interfere the behavior of the non-mempolicied processes
+by giving them NUMA preferences, to better serve the co-located jobs.
 
--- 
- i.
+So in this scenario, a process's memory policy can be assigned by two
+objects dynamically:
 
---8323329-962032008-1664283266=:2334--
+  a) the process itself, through set_mempolicy()/mbind()
+  b) the control panel, but API is not available right now
+
+Considering the two policies should not fight each other, it sounds
+reasonable to introduce a new syscall to assign memory policy to a
+process through struct mm_struct.
+
+
