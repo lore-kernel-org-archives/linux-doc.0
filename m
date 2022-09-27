@@ -2,146 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4286DC6FA83
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 23:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12028C54EE9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 23:48:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231823AbiI0XXd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 19:23:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44112 "EHLO
+        id S230071AbiI0XsD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 19:48:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232020AbiI0XXc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 19:23:32 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C02821D31A
-        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 16:23:29 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id 78so10688662pgb.13
-        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 16:23:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=4MnMVs6E8JaSDSsn99y8Cflsak9Vn4oCEKVAnOpimrc=;
-        b=KTBy7fQLQX03opurQqZ2U9ctULmybQ5FJUoo4PZb+gpAETjrkid149E9fk/0W8/73E
-         ZrwvTRfgroj/9bgiZZ8XJyKrd78XrYX2iQYAUldEdxqL5OZpVAi1zS9yu8prYMHVa77l
-         4zjeo6ZBuAJWWGf1zHyMcSzUGInYNji/wPL8fWTGb5gG2xdIaqbbpro066Nv0icVdUH8
-         qi08NfiTgaHr/ClJbZ6TR3Yy/OpgSs603ryzzPCdNeTU5ylFZxeFY2UaHzVWoEaEC5jr
-         gHQ/fgp9BIfxbbHrCGK8KR3V4hCHTuvinL4qrNVOIDHv67EUocIGa2CUS0dDgpDBgy9Q
-         85BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=4MnMVs6E8JaSDSsn99y8Cflsak9Vn4oCEKVAnOpimrc=;
-        b=LBI/Bkz3EUbzINytxeudls42T6iUZR3QZ0Gkff48iG/LTZ5Nfs++5OgpYOfIIAEqP4
-         hej5h1j38seiPtd1i6b2cGU9dLCu2XIykUDy1cQb6QwW/Nc1U5b4fdNCnpDR4axopIWb
-         lEwHbKyLuH1TRqmjBhzFxmexTHHBg8pLWW8AV7Ko5fIDdOgDlHMG+ghNU+oCffEgo2a7
-         SS0DzQvd8C7s8NFWCzOknSaqJGKe7U/rCTAAn4ZEga7F8bh3r4Z42KFOVC66JVFDOkgt
-         sj0qcTBMIu8L2W3KcgRDF//nc00d8KqN9bvzLCXPe6eCiMfh7AmLmXC2tLMjCVjKZ4Rn
-         mCBg==
-X-Gm-Message-State: ACrzQf05vXc3edpzvFPGqjdBT+g8ypHWUgBzSZ5MmlUB5AwLt+1jU6Xg
-        2bForblhodNPsMQgHP996i0Fpg==
-X-Google-Smtp-Source: AMsMyM5cCdZ/UJFMHAs5b3PS1i/34zTcpqdwe1Srr8AE4gzK5DkIpIp9pBozWLBz/E9ieWU+3YHPog==
-X-Received: by 2002:a05:6a00:124f:b0:542:6c43:5be8 with SMTP id u15-20020a056a00124f00b005426c435be8mr31885111pfi.5.1664321009101;
-        Tue, 27 Sep 2022 16:23:29 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id j1-20020a17090a318100b002007b60e288sm58733pjb.23.2022.09.27.16.23.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 16:23:28 -0700 (PDT)
-Date:   Tue, 27 Sep 2022 23:23:24 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     "Kirill A. Shutemov" <kirill@shutemov.name>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <YzOF7MT15nfBX0Ma@google.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
- <20220923005808.vfltoecttoatgw5o@box.shutemov.name>
- <f703e615-3b75-96a2-fb48-2fefd8a2069b@redhat.com>
- <20220926144854.dyiacztlpx4fkjs5@box.shutemov.name>
- <0a99aa24-599c-cc60-b23b-b77887af3702@redhat.com>
+        with ESMTP id S229515AbiI0XsA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 19:48:00 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 449571B349C;
+        Tue, 27 Sep 2022 16:47:59 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0010DB81E34;
+        Tue, 27 Sep 2022 23:47:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97460C433D6;
+        Tue, 27 Sep 2022 23:47:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664322476;
+        bh=zu8DhpREBxnDbXHPKtFL4jUKQOyG5JcebqzNX6Tenm4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=MOlI3JUxeVWF2QXGdc01RE6z3qlVfDvOfDP8VejyhCVCNgjG69H7v79chXSvMynKT
+         szeKFD6I4MCCwO82ncuimmWIAd8hfY3kpoQVjFfMeQ5hREknO/hA7Ty6FnSXMunX04
+         yuBB+MueV89oC4ofJVoh2Nx4m8qQxDRQhXAcj6rA5mebMYgQtA2/fSY7iLR4C1uSNb
+         Q1oNI+XgZxk0XdtHo3fmWD6tocUWtEFT8UMx8jZ8jhG6ywZeIzwWadmN5vptlRXLe3
+         jGXqi8hYbVA9cTkgOG7VUovJ0sAXkbfNiagNUqm+UOxLtZU3jZDCbQUK25IbarN3ZI
+         eHzMHzAb2Otig==
+Date:   Tue, 27 Sep 2022 18:47:55 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Huang Shijie <shijie@os.amperecomputing.com>
+Cc:     bhelgaas@google.com, patches@amperecomputing.com,
+        zwang@amperecomputing.com, darren@os.amperecomputing.com,
+        corbet@lwn.net, yangyicong@hisilicon.com,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] PCI: update the links for aer-inject git tree
+Message-ID: <20220927234755.GA1750512@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0a99aa24-599c-cc60-b23b-b77887af3702@redhat.com>
+In-Reply-To: <20220805105238.345599-1-shijie@os.amperecomputing.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 26, 2022, David Hildenbrand wrote:
-> On 26.09.22 16:48, Kirill A. Shutemov wrote:
-> > On Mon, Sep 26, 2022 at 12:35:34PM +0200, David Hildenbrand wrote:
-> > > When using DAX, what happens with the shared <->private conversion? Which
-> > > "type" is supposed to use dax, which not?
-> > > 
-> > > In other word, I'm missing too many details on the bigger picture of how
-> > > this would work at all to see why it makes sense right now to prepare for
-> > > that.
-> > 
-> > IIUC, KVM doesn't really care about pages or folios. They need PFN to
-> > populate SEPT. Returning page/folio would make KVM do additional steps to
-> > extract PFN and one more place to have a bug.
+On Fri, Aug 05, 2022 at 10:52:38AM +0000, Huang Shijie wrote:
+> The aer-inject tree has been moved to:
+>     https://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git
+> Update the links.
 > 
-> Fair enough. Smells KVM specific, though.
+> Signed-off-by: Huang Shijie <shijie@os.amperecomputing.com>
+> ---
+> v1 --> v2: Modified the commit message and the title.
+> v2 --> v3: Change the commit message again.
+> ---
+>  Documentation/PCI/pcieaer-howto.rst | 2 +-
+>  drivers/pci/pcie/Kconfig            | 2 +-
+>  drivers/pci/pcie/aer_inject.c       | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/PCI/pcieaer-howto.rst b/Documentation/PCI/pcieaer-howto.rst
+> index 0b36b9ebfa4b..b31fc9a0edbc 100644
+> --- a/Documentation/PCI/pcieaer-howto.rst
+> +++ b/Documentation/PCI/pcieaer-howto.rst
+> @@ -294,7 +294,7 @@ After reboot with new kernel or insert the module, a device file named
+>  Then, you need a user space tool named aer-inject, which can be gotten
+>  from:
+>  
+> -    https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
+> +    https://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git/
 
-TL;DR: I'm good with either approach, though providing a "struct page" might avoid
-       refactoring the API in the nearish future.
+I don't get it.  Both links work fine for me.  Do the cgit links
+redirect to pub/scm, but cgit is deprecated?  I'm happy to apply if
+that's the case, but I'd like a pointer to the reason for the change,
+e.g., email that says cgit is being deprecated.
 
-Playing devil's advocate for a second, the counter argument is that KVM is the
-only user for the foreseeable future.
-
-That said, it might make sense to return a "struct page" from the core API and
-force KVM to do page_to_pfn().  KVM already does that for HVA-based memory, so
-it's not exactly new code.
-
-More importantly, KVM may actually need/want the "struct page" in the not-too-distant
-future to support mapping non-refcounted "struct page" memory into the guest.  The
-ChromeOS folks have a use case involving virtio-gpu blobs where KVM can get handed a
-"struct page" that _isn't_ refcounted[*].  Once the lack of mmu_notifier integration
-is fixed, the remaining issue is that KVM doesn't currently have a way to determine
-whether or not it holds a reference to the page.  Instead, KVM assumes that if the
-page is "normal", it's refcounted, e.g. see kvm_release_pfn_clean().
-
-KVM's current workaround for this is to refuse to map these pages into the guest,
-i.e. KVM simply forces its assumption that normal pages are refcounted to be true.
-To remove that workaround, the likely solution will be to pass around a tuple of
-page+pfn, where "page" is non-NULL if the pfn is a refcounted "struct page".
-
-At that point, getting handed a "struct page" from the core API would be a good
-thing as KVM wouldn't need to probe the PFN to determine whether or not it's a
-refcounted page.
-
-Note, I still want the order to be provided by the API so that KVM doesn't need
-to run through a bunch of helpers to try and figure out the allowed mapping size.
-
-[*] https://lore.kernel.org/all/CAD=HUj736L5oxkzeL2JoPV8g1S6Rugy_TquW=PRt73YmFzP6Jw@mail.gmail.com
-
+Bjorn
