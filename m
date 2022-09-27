@@ -2,161 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BCFCC6FA82
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 13:22:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC348C07E9D
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 13:59:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232825AbiI0NWs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 09:22:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52592 "EHLO
+        id S230183AbiI0N7v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 09:59:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232721AbiI0NV3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 09:21:29 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8EBE1B14EF;
-        Tue, 27 Sep 2022 06:18:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S232985AbiI0N7T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 09:59:19 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43BE21616F2;
+        Tue, 27 Sep 2022 06:58:55 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0542EB81BEA;
-        Tue, 27 Sep 2022 13:17:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC298C433D6;
-        Tue, 27 Sep 2022 13:17:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664284676;
-        bh=5pDV+1IeylvfkCFNfGNAvhddDJ6vUthK0D0dKmZmb+c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RhazsGhH0AKSFvhKsq/twtVvwPXEbvpVumnhHseP8p8MkU+c/ChI4R4vcMMRa5IIE
-         5X0SU043Tk53MpcPsHfmyXRYYIi8CKfoH6uFSOB4E4g6Tr65muwWPn3x8gbmrvYCeW
-         CGNFqHN5wlgFIyFo1zNkarZcFsEIHeLgDHcssAdHjUjRnmAMcVCMeMjERyxbsb+pwC
-         jBLrQ5ATr7+0GiSctXch8pOWyJ1yAa9UW1e+zxvQcxLgGXwZ7TImFBTSkHp8bbcvjs
-         +F/ylRmIsC5N/h7UZaFDyfLBHf9c0uZE0AwMtWqxCMwiOZ3DL/dNgnVmdB64DpGWr3
-         0moYdgUKAo88Q==
-From:   Miguel Ojeda <ojeda@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        David Gow <davidgow@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v10 25/27] x86: enable initial Rust support
-Date:   Tue, 27 Sep 2022 15:14:56 +0200
-Message-Id: <20220927131518.30000-26-ojeda@kernel.org>
-In-Reply-To: <20220927131518.30000-1-ojeda@kernel.org>
-References: <20220927131518.30000-1-ojeda@kernel.org>
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 8B5361FCF5;
+        Tue, 27 Sep 2022 13:58:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1664287133; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=px0sFDh89qomZMV5WztXjGmCBWJe2Ndh6D4h5jyTjxQ=;
+        b=PFEU6f0BOxVvjmuPPfAHpthYreZsZAoyIuCck5vkKfdQ/eAKv+/8BQfGW+IIYWWtjUqDhD
+        s/B+bZMvsPg2fuT99+VvTbHrqbTQLTImERjcW1HTVO8gtIbk8w2gwy9xhAB2UsrXICP4a4
+        Z7HqJd3fViX4h7UMTU0+oNVUO4F39sk=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6A8DC139BE;
+        Tue, 27 Sep 2022 13:58:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id LG+5F50BM2P2MwAAMHmgww
+        (envelope-from <mhocko@suse.com>); Tue, 27 Sep 2022 13:58:53 +0000
+Date:   Tue, 27 Sep 2022 15:58:52 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Abel Wu <wuyun.abel@bytedance.com>
+Cc:     Zhongkun He <hezhongkun.hzk@bytedance.com>, corbet@lwn.net,
+        akpm@linux-foundation.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [External] Re: [RFC] proc: Add a new isolated
+ /proc/pid/mempolicy type.
+Message-ID: <YzMBnKUo8ny9S/7+@dhcp22.suse.cz>
+References: <20220926091033.340-1-hezhongkun.hzk@bytedance.com>
+ <YzF3aaLvEvFhTQa3@dhcp22.suse.cz>
+ <24b20953-eca9-eef7-8e60-301080a17d2d@bytedance.com>
+ <YzGya2Q3iuWS2WdM@dhcp22.suse.cz>
+ <7ac9abce-4458-982b-6c04-f9569a78c0da@bytedance.com>
+ <YzLVTxGHgYp3Es4t@dhcp22.suse.cz>
+ <9a0130ce-6528-6652-5a8e-3612c5de2d96@bytedance.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9a0130ce-6528-6652-5a8e-3612c5de2d96@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Note that only x86_64 is covered and not all features nor mitigations
-are handled, but it is enough as a starting point and showcases
-the basics needed to add Rust support for a new architecture.
+On Tue 27-09-22 21:07:02, Abel Wu wrote:
+> On 9/27/22 6:49 PM, Michal Hocko wrote:
+> > On Tue 27-09-22 11:20:54, Abel Wu wrote:
+> > [...]
+> > > > > Btw.in order to add per-thread-group mempolicy, is it possible to add
+> > > > > mempolicy in mm_struct?
+> > > > 
+> > > > I dunno. This would make the mempolicy interface even more confusing.
+> > > > Per mm behavior makes a lot of sense but we already do have per-thread
+> > > > semantic so I would stick to it rather than introducing a new semantic.
+> > > > 
+> > > > Why is this really important?
+> > > 
+> > > We want soft control on memory footprint of background jobs by applying
+> > > NUMA preferences when necessary, so the impact on different NUMA nodes
+> > > can be managed to some extent. These NUMA preferences are given by the
+> > > control panel, and it might not be suitable to overwrite the tasks with
+> > > specific memory policies already (or vice versa).
+> > 
+> > Maybe the answer is somehow implicit but I do not really see any
+> > argument for the per thread-group semantic here. In other words why a
+> > new interface has to cover more than the local [sg]et_mempolicy?
+> > I can see convenience as one potential argument. Also if there is a
+> > requirement to change the policy in atomic way then this would require a
+> > single syscall.
+> 
+> Convenience is not our major concern. A well-tuned workload can have
+> specific memory policies for different tasks/vmas in one process, and
+> this can be achieved by set_mempolicy()/mbind() respectively. While
+> other workloads are not, they don't care where the memory residents,
+> so the impact they brought on the co-located workloads might vary in
+> different NUMA nodes.
+> 
+> The control panel, which has a full knowledge of workload profiling,
+> may want to interfere the behavior of the non-mempolicied processes
+> by giving them NUMA preferences, to better serve the co-located jobs.
+> 
+> So in this scenario, a process's memory policy can be assigned by two
+> objects dynamically:
+> 
+>  a) the process itself, through set_mempolicy()/mbind()
+>  b) the control panel, but API is not available right now
+> 
+> Considering the two policies should not fight each other, it sounds
+> reasonable to introduce a new syscall to assign memory policy to a
+> process through struct mm_struct.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
-Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
-Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
-Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
-Co-developed-by: David Gow <davidgow@google.com>
-Signed-off-by: David Gow <davidgow@google.com>
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
- Documentation/rust/arch-support.rst |  1 +
- arch/x86/Kconfig                    |  1 +
- arch/x86/Makefile                   | 10 ++++++++++
- scripts/generate_rust_target.rs     | 15 +++++++++++++--
- 4 files changed, 25 insertions(+), 2 deletions(-)
+So you want to allow restoring the original local policy if the external
+one is disabled?
 
-diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arch-support.rst
-index 1152e0fbdad0..6982b63775da 100644
---- a/Documentation/rust/arch-support.rst
-+++ b/Documentation/rust/arch-support.rst
-@@ -15,4 +15,5 @@ support corresponds to ``S`` values in the ``MAINTAINERS`` file.
- ============  ================  ==============================================
- Architecture  Level of support  Constraints
- ============  ================  ==============================================
-+``x86``       Maintained        ``x86_64`` only.
- ============  ================  ==============================================
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index f9920f1341c8..3ca198742b10 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -257,6 +257,7 @@ config X86
- 	select HAVE_STATIC_CALL_INLINE		if HAVE_OBJTOOL
- 	select HAVE_PREEMPT_DYNAMIC_CALL
- 	select HAVE_RSEQ
-+	select HAVE_RUST			if X86_64
- 	select HAVE_SYSCALL_TRACEPOINTS
- 	select HAVE_UACCESS_VALIDATION		if HAVE_OBJTOOL
- 	select HAVE_UNSTABLE_SCHED_CLOCK
-diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-index bafbd905e6e7..2d7e640674c6 100644
---- a/arch/x86/Makefile
-+++ b/arch/x86/Makefile
-@@ -68,6 +68,7 @@ export BITS
- #    https://gcc.gnu.org/bugzilla/show_bug.cgi?id=53383
- #
- KBUILD_CFLAGS += -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx
-+KBUILD_RUSTFLAGS += -Ctarget-feature=-sse,-sse2,-sse3,-ssse3,-sse4.1,-sse4.2,-avx,-avx2
- 
- ifeq ($(CONFIG_X86_KERNEL_IBT),y)
- #
-@@ -155,8 +156,17 @@ else
-         cflags-$(CONFIG_GENERIC_CPU)	+= -mtune=generic
-         KBUILD_CFLAGS += $(cflags-y)
- 
-+        rustflags-$(CONFIG_MK8)		+= -Ctarget-cpu=k8
-+        rustflags-$(CONFIG_MPSC)	+= -Ctarget-cpu=nocona
-+        rustflags-$(CONFIG_MCORE2)	+= -Ctarget-cpu=core2
-+        rustflags-$(CONFIG_MATOM)	+= -Ctarget-cpu=atom
-+        rustflags-$(CONFIG_GENERIC_CPU)	+= -Ztune-cpu=generic
-+        KBUILD_RUSTFLAGS += $(rustflags-y)
-+
-         KBUILD_CFLAGS += -mno-red-zone
-         KBUILD_CFLAGS += -mcmodel=kernel
-+        KBUILD_RUSTFLAGS += -Cno-redzone=y
-+        KBUILD_RUSTFLAGS += -Ccode-model=kernel
- endif
- 
- #
-diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_target.rs
-index 7256c9606cf0..3c6cbe2b278d 100644
---- a/scripts/generate_rust_target.rs
-+++ b/scripts/generate_rust_target.rs
-@@ -148,8 +148,19 @@ fn main() {
-     let mut ts = TargetSpec::new();
- 
-     // `llvm-target`s are taken from `scripts/Makefile.clang`.
--    if cfg.has("DUMMY_ARCH") {
--        ts.push("arch", "dummy_arch");
-+    if cfg.has("X86_64") {
-+        ts.push("arch", "x86_64");
-+        ts.push(
-+            "data-layout",
-+            "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128",
-+        );
-+        let mut features = "-3dnow,-3dnowa,-mmx,+soft-float".to_string();
-+        if cfg.has("RETPOLINE") {
-+            features += ",+retpoline-external-thunk";
-+        }
-+        ts.push("features", features);
-+        ts.push("llvm-target", "x86_64-linux-gnu");
-+        ts.push("target-pointer-width", "64");
-     } else {
-         panic!("Unsupported architecture");
-     }
+Anyway, pidfd_$FOO behavior should be semantically very similar to the
+original $FOO. Moving from per-task to per-mm is a major shift in the
+semantic.  I can imagine to have a dedicated flag for the syscall to
+enfore the policy to the full thread group. But having a different
+semantic is both tricky and also constrained because per-thread binding
+is then impossible.
 -- 
-2.37.3
-
+Michal Hocko
+SUSE Labs
