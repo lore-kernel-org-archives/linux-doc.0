@@ -2,31 +2,31 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4694FC6FA83
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 16:07:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52839C54EE9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 16:07:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233097AbiI0QHy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 12:07:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33124 "EHLO
+        id S232662AbiI0QH4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 12:07:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232736AbiI0QHc (ORCPT
+        with ESMTP id S233058AbiI0QHc (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 12:07:32 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A0BAB14F1;
-        Tue, 27 Sep 2022 09:06:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F5031BF0DD;
+        Tue, 27 Sep 2022 09:06:17 -0700 (PDT)
 Received: from meer.lwn.net (unknown [IPv6:2601:281:8300:73::5f6])
-        by ms.lwn.net (Postfix) with ESMTPA id 366BC7F8;
-        Tue, 27 Sep 2022 16:06:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 366BC7F8
+        by ms.lwn.net (Postfix) with ESMTPA id 64394844;
+        Tue, 27 Sep 2022 16:06:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 64394844
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1664294776; bh=Fwtxq3iIjYwQxaI52YLezdXTv1SluuHrldzBLIG1uo0=;
+        t=1664294777; bh=mYEI8X3YQvLK/RUu/d22/5zHkkKnMAgHHDcj2TDiJVY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LKVkY7nu+tM4Evl53NUeinYcIixA+N9Y4ehwB3Gke60aYLEnCwnegEzP3Ud0CQB6r
-         06mNGBy7cwNFjj2MzXw8vNhBxVS2tksO0AmetzIrwpTpsSRNitewpclFNOwwpwGDq4
-         XTqogzFXIlZBw4Rfw0F3Z+h+vGXBQ1Ni3+cEO3PSd6jWq5nI8dOMMxge97DqUTXpf/
-         JI2H92amiMEXpx/MpcmZa3+6o33t7UzMBdWG/Z1G/nKAeY991P+LyB6DhdLDlp0GgE
-         yPRDmL++xkhbj3GY257wtiZg09xsk/XaTN5+JqJOTbBYo2KZqKLH9L/B5aK6fKjDV6
-         cZrsCzxy23Wpw==
+        b=mb/pw2FS39AP+Af+44V0wdrH25DDwQiNiPhe5hGjVq7MeCtyiRR0kdx3rexffJXL8
+         ZWZ/EuFJWJOtW1Pm6ibk+COonfqqu6XQQwr8A77AgkhzeIBPVkByjUYNZPV8nxMbBW
+         Z4g62f3NwcIfEgmY6+2eRWbq1B9Cfdqa43IHxJj8f6uNDQUQZV2ysoxiClY73cpG32
+         NfDprW83mv9xhENMHMHNyhn3AIxvYDTl6oL0YA7L8/M1F52hMsbuYUa4ibevJutw/n
+         FDufSlH3enHKjLMN7n6+FvNTIPm4CJZ6GAVeHGH5QzOsKM+Im6VLkZw2r9CXMc5xQm
+         vwBqYO+kHmoQw==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -35,12 +35,10 @@ Cc:     linux-kernel@vger.kernel.org,
         Jani Nikula <jani.nikula@linux.intel.com>,
         Joe Perches <joe@perches.com>,
         David Vernet <void@manifault.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v3 5/7] docs: move asm-annotations.rst into core-api
-Date:   Tue, 27 Sep 2022 10:05:57 -0600
-Message-Id: <20220927160559.97154-6-corbet@lwn.net>
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v3 7/7] docs: add a man-pages link to the front page
+Date:   Tue, 27 Sep 2022 10:05:59 -0600
+Message-Id: <20220927160559.97154-8-corbet@lwn.net>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220927160559.97154-1-corbet@lwn.net>
 References: <20220927160559.97154-1-corbet@lwn.net>
@@ -50,90 +48,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This one file should not really be in the top-level documentation
-directory.  core-api/ may not be a perfect fit but seems to be best, so
-move it there.  Adjust a couple of internal document references to make
-them location-independent, and point checkpatch.pl at the new location.
+Readers looking for user-oriented information may benefit from it.
 
-Cc: Jiri Slaby <jirislaby@kernel.org>
-Cc: Joe Perches <joe@perches.com>
-Reviewed-by: David Vernet <void@manifault.com>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/{ => core-api}/asm-annotations.rst | 7 ++++---
- Documentation/core-api/index.rst                 | 1 +
- Documentation/index.rst                          | 8 --------
- scripts/checkpatch.pl                            | 2 +-
- 4 files changed, 6 insertions(+), 12 deletions(-)
- rename Documentation/{ => core-api}/asm-annotations.rst (97%)
+ Documentation/index.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/asm-annotations.rst b/Documentation/core-api/asm-annotations.rst
-similarity index 97%
-rename from Documentation/asm-annotations.rst
-rename to Documentation/core-api/asm-annotations.rst
-index a64f2ca469d4..bc514ed59887 100644
---- a/Documentation/asm-annotations.rst
-+++ b/Documentation/core-api/asm-annotations.rst
-@@ -43,10 +43,11 @@ annotated objects like this, tools can be run on them to generate more useful
- information. In particular, on properly annotated objects, ``objtool`` can be
- run to check and fix the object if needed. Currently, ``objtool`` can report
- missing frame pointer setup/destruction in functions. It can also
--automatically generate annotations for :doc:`ORC unwinder <x86/orc-unwinder>`
-+automatically generate annotations for the ORC unwinder
-+(Documentation/x86/orc-unwinder.rst)
- for most code. Both of these are especially important to support reliable
--stack traces which are in turn necessary for :doc:`Kernel live patching
--<livepatch/livepatch>`.
-+stack traces which are in turn necessary for kernel live patching
-+(Documentation/livepatch/livepatch.rst).
- 
- Caveat and Discussion
- ---------------------
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index dc95df462eea..f5d8e3779fe8 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -23,6 +23,7 @@ it.
-    printk-formats
-    printk-index
-    symbol-namespaces
-+   asm-annotations
- 
- Data structures and low-level utilities
- =======================================
 diff --git a/Documentation/index.rst b/Documentation/index.rst
-index da80c584133c..5a700548ae82 100644
+index 5a700548ae82..85eab6e990ab 100644
 --- a/Documentation/index.rst
 +++ b/Documentation/index.rst
-@@ -89,14 +89,6 @@ platform firmwares.
-    devicetree/index
+@@ -76,6 +76,8 @@ developers seeking information on the kernel's user-space APIs.
+    User-space tools <tools/index>
+    userspace-api/index
  
++See also: the `Linux man pages <https://www.kernel.org/doc/man-pages/>`_,
++which are kept separately from the kernel's own documentation.
  
--Architecture-agnostic documentation
-------------------------------------
--
--.. toctree::
--   :maxdepth: 1
--
--   asm-annotations
--
- Architecture-specific documentation
- -----------------------------------
- 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 79e759aac543..812af52f97d2 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3751,7 +3751,7 @@ sub process {
- 		if ($realfile =~ /\.S$/ &&
- 		    $line =~ /^\+\s*(?:[A-Z]+_)?SYM_[A-Z]+_(?:START|END)(?:_[A-Z_]+)?\s*\(\s*\.L/) {
- 			WARN("AVOID_L_PREFIX",
--			     "Avoid using '.L' prefixed local symbol names for denoting a range of code via 'SYM_*_START/END' annotations; see Documentation/asm-annotations.rst\n" . $herecurr);
-+			     "Avoid using '.L' prefixed local symbol names for denoting a range of code via 'SYM_*_START/END' annotations; see Documentation/core-api/asm-annotations.rst\n" . $herecurr);
- 		}
- 
- # check we are in a valid source file C or perl if not then ignore this hunk
+ Firmware-related documentation
+ ------------------------------
 -- 
 2.37.2
 
