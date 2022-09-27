@@ -2,211 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89B68C32771
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 02:10:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D6C8C07E9D
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 02:58:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229777AbiI0CK5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 22:10:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51312 "EHLO
+        id S230477AbiI0C6W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 22:58:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbiI0CK5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 22:10:57 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A84F291D38;
-        Mon, 26 Sep 2022 19:10:55 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id r62so4317091pgr.12;
-        Mon, 26 Sep 2022 19:10:55 -0700 (PDT)
+        with ESMTP id S231126AbiI0C5w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 22:57:52 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B00F54DB4C;
+        Mon, 26 Sep 2022 19:53:42 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id g1-20020a17090a708100b00203c1c66ae3so8813528pjk.2;
+        Mon, 26 Sep 2022 19:53:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=fYBffQSM2i+9QGjPyC0nAW4u5emJOvkPCeCMQMjuXZU=;
-        b=nN7gOaf+1x6pj2PGcmMVFr/Ou1YdxJKRzMciyT2hMhRm6IqzontFRPT0INguTXaoJh
-         5c2c8c4Yl/GCB+L5hDuAIJ6Rdg6NHCEijidkLVlLE5PzlPmNzgXYK7ynZRAaBQxa2FJX
-         j76YbUOX32VHVBUpyiH+GDR9Cokqx1m4ht8jLlqkNQcY/bRK4T7R1tcu1VdYIVdNmOTo
-         47YYfckn8HddDapahpusEnM7vAaWNRWkbuLDO4zABl/UChdTYE9nsc0fA9T3//xC6PBv
-         e2fXz3Xo4tNZAFfSfPsNtb+NBeJBcE9Onjxk3fXRkX8UMl1jOYNfBp5vTq2eFwfg8Zs6
-         zu6w==
+        bh=uVSDX283H5TLgkOzDymE7tG05Kgkflu8UK7iAbsdboU=;
+        b=c/RqcdJoO27QwlNbfMvLMb7gmXT6fAo6t6bl6Cqlh3sxssmDGtvTt4s3LqkqX0A/0o
+         S1bUEfXxTjLpMUP3t3mIUcXXSTx66VoJYOrTHgle0H54/o1XEawTJHPS2q86SuFghjV2
+         hatIXXP5uZoF1ug5+MykghIUKvlDsZDOqqewiICSfGvhUQVG8POWyZO3Plu5AS+x/3zC
+         qOgwQlFez/RDeRiRdnDe7JNReOG3fGui4OXmHMJiCHTvS5sUWjyidlrG7fHaSWb17UNv
+         Zbm5sFuMwVEd8giDvACuHAlw4rmUyMDP45piY66CsrUcaXqu3W3ybS9stpISvfxAu6qF
+         0mrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=fYBffQSM2i+9QGjPyC0nAW4u5emJOvkPCeCMQMjuXZU=;
-        b=v6y2greDP8tmpK2W6bYRsoF2Z4lz2VTLXCBqPaU00NlugU2ioYBN9ELpKUH0e3KAu8
-         xWrrc9FnGbdEeJOXhCimQJg/Byo1KYtzYqDiFBuNrwubyhjNYc4EA0tkUAPwHFPvMx4f
-         qQ2KE8xKyA8gKYyfJq/yMhJrx+/F76kHnDSaSsenR+wgFyz9zvC7rjnLRMQTwZHaS+/D
-         D+ob4EAlj8Wgioaqu3Hdt7lxDu1ycbjz2mdySgP4QbbDnnDn/RI3yIV4r8B6rwqkKXRN
-         AXyD+YRU7Bk3jKuKHcvN4UjUvnF2HKlEJbrPbgZRf1hWAQaCLIcmlE/OJXmJsChIotsL
-         w7oQ==
-X-Gm-Message-State: ACrzQf11pFHSBLse7bWg+CWKUiCuqwqTAV+bu9U1U1SGQgBx/G5jFxZD
-        8aAa2MUjw3dWwVRnN6Ij6fs=
-X-Google-Smtp-Source: AMsMyM6Jzo4YtMWiAU/8Neiwxfp9Num3a72wV3ezSFpFa5VbxauFC+poIfYTZFf3yLAR1MpLIbmjvQ==
-X-Received: by 2002:a05:6a00:854:b0:542:4254:17f6 with SMTP id q20-20020a056a00085400b00542425417f6mr26636751pfk.47.1664244655148;
-        Mon, 26 Sep 2022 19:10:55 -0700 (PDT)
+        bh=uVSDX283H5TLgkOzDymE7tG05Kgkflu8UK7iAbsdboU=;
+        b=hwNGErtK1MupCXkADcyT9LRzQHW9puK9FIju7ltnaXoHS6d+mGWY5tqolN5P/swcDb
+         olq1nycCcOTo/eRbl6LKFA7FppFlAcGUhp11VNYy/hF4pvlkr0DY0408kTPBmUnL2GNF
+         4dkV4CIZh6wGHkXeL39XoxcKB7fQC4k8bdnU+t7+3D0T8peRqV/0I+BJgSQIYvjR50Rn
+         Xl/pkDG96f4kj0qzXub4pMX4MVE/67cYoCYRWyQXKtpBXaqKlOV3HO3JLCZkPAveI1/X
+         dDX/uUPN21ZhVZ4CW22JyW9bV8PqFieOs9KrnwNDXk34FfnleG9yvdc7Gpi4gPAa+X1m
+         cIwQ==
+X-Gm-Message-State: ACrzQf0f8iDGmQa2jWM0ep4jOADZu7kT+UsxB2LUn6GhXLwEIbBpg6Ht
+        iqhV2eGc4s+ZBFn2kbx7uS8=
+X-Google-Smtp-Source: AMsMyM6urwfUhEEHFDBjIwyD6Xpc4CWvA1/+3nhlQv60PYzbz4oIT0y+KCAWsdNda0o5nwFE9Q2S5w==
+X-Received: by 2002:a17:90b:1e01:b0:202:ee2b:c856 with SMTP id pg1-20020a17090b1e0100b00202ee2bc856mr2005411pjb.29.1664247222263;
+        Mon, 26 Sep 2022 19:53:42 -0700 (PDT)
 Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id a15-20020aa78e8f000000b00540f3ac5fb8sm217566pfr.69.2022.09.26.19.10.53
+        by smtp.gmail.com with ESMTPSA id a4-20020a1709027e4400b00173cfaed233sm189404pln.62.2022.09.26.19.53.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Sep 2022 19:10:54 -0700 (PDT)
-Message-ID: <2429b482-089e-8678-2c10-176cab612426@gmail.com>
-Date:   Tue, 27 Sep 2022 11:10:48 +0900
+        Mon, 26 Sep 2022 19:53:41 -0700 (PDT)
+Message-ID: <ada70afe-64d5-ccab-242e-9a3c3c85e6c4@gmail.com>
+Date:   Tue, 27 Sep 2022 11:53:38 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] docs/doc-guide: Add documentation on SPHINX_IMGMATH
+Subject: Re: [PATCH] overflow: Fix kern-doc markup for functions
 Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <a67e3279-6bc7-ee2c-2b49-9275252460b0@gmail.com>
+To:     Kees Cook <keescook@chromium.org>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220926194713.1806917-1-keescook@chromium.org>
+ <YzIUS/+H2YA7RBvA@casper.infradead.org> <202209261408.59F78C0D@keescook>
 From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <a67e3279-6bc7-ee2c-2b49-9275252460b0@gmail.com>
+In-Reply-To: <202209261408.59F78C0D@keescook>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 16 Sep 2022 19:08:05 +0900, Akira Yokosawa wrote:
-> Now that building html docs with math expressions does not need texlive
-> packages, remove the note on the requirement in the "Sphinx Install"
-> section.
-> 
-> Instead, add sections of "Math Expressions in HTML" and "Choice of Math
-> Renderer".
-> Describe the effect of setting SPHINX_IMGMATH in the latter section.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-Gentle ping.
+Hi,
 
-Jon, is there anything I need to do for improving this?
+Somehow Kees added me in Cc:, so let me comment.  :-)
+
+On Mon, 26 Sep 2022 14:09:10 -0700, Kees Cook wrote:
+> On Mon, Sep 26, 2022 at 10:06:19PM +0100, Matthew Wilcox wrote:
+>> On Mon, Sep 26, 2022 at 12:47:13PM -0700, Kees Cook wrote:
+>>> -/** check_add_overflow() - Calculate addition with overflow checking
+>>> +/**
+>>> + * check_add_overflow - Calculate addition with overflow checking
+>>>   *
+>>>   * @a: first addend
+>>>   * @b: second addend
+>>
+>> Why did you remove the ()?  And why didn't you delete the blank line?
+>> According to our documentation, the canonical form is:
+>>
+>>   /**
+>>    * function_name() - Brief description of function.
+>>    * @arg1: Describe the first argument.
+>>    * @arg2: Describe the second argument.
+>>    *        One can provide multiple line descriptions
+>>    *        for arguments.
+
+Matthew, you call it the "canonical form", my take is more of a "template
+that is known to work".
+
+>>
+>> I don't usually complain about people getting that wrong, but when
+>> people correct it to be wrong ...
+
+I'd say "wrong" if "./scripts/kernel-doc -v -none include/linux/overflow.h"
+complained or the resulting reST doc didn't rendered properly, but that's
+not the case here.
+
+> 
+> Hunh, everywhere I'd looked didn't have the "()" (which seems
+> redundant). The blank line was entirely aesthetics for me. If it's
+> supposed to be without a blank, I can fix it up everwhere.
+
+So, I think this is more of a territory of preference or consistency
+rather than that of correctness.  Those extra blank lines can be confusing
+as most people expect it in front of description part.
+
+get_maintainer.pl says Kees is the sole maintainer of overflow.h, so
+it's his call, I guess.
 
         Thanks, Akira
-
-> ---
-> Hi,
 > 
-> This is a follow-up of the mathjax patch set [1].
-> In the thread, I mentioned my plan to add support of SVG images for
-> imgmath in reply to Randy.
-> 
-> I've not convinced myself if adding code for checking dvisvgm's
-> dependencies in conf.py is the right thing to do.
-> 
-> My reservation comes from:
-> 
->  1) Any lack in dependency list can result in false-positive of
->     enabling SVG and a build error of htmldocs with cryptic looking
->     error messages.
->  2) Dependency of dvisvgm may change in future releases of Sphinx
->     and/or dvisvgm as well as other texlive packages.
-> 
-> So I'm sending this documentation update describing the current state
-> of affairs for the 6.1 merge window.
-> 
-> I might change my mind and revisit the SVG part if I hear people's
-> interests in it.
-> 
-> For the moment, SVG math images can be enabled by adding:
-> 
->     SPHINXOPTS="-D imgmath_image_format='svg'"
-> 
-> to the "make htmldocs" command line.
-> 
-> [1]: https://lore.kernel.org/all/9b8ff6d7-e97a-c03f-7d46-4b80ae3cf196@gmail.com/
-> 
->         Thanks, Akira
-> --
->  Documentation/doc-guide/sphinx.rst | 57 +++++++++++++++++++++++++++---
->  1 file changed, 53 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-> index 1228b85f6f77..c708cec889af 100644
-> --- a/Documentation/doc-guide/sphinx.rst
-> +++ b/Documentation/doc-guide/sphinx.rst
-> @@ -48,10 +48,6 @@ or ``virtualenv``, depending on how your distribution packaged Python 3.
->        on the Sphinx version, it should be installed separately,
->        with ``pip install sphinx_rtd_theme``.
->  
-> -   #) Some ReST pages contain math expressions. Due to the way Sphinx works,
-> -      those expressions are written using LaTeX notation. It needs texlive
-> -      installed with amsfonts and amsmath in order to evaluate them.
-> -
->  In summary, if you want to install Sphinx version 2.4.4, you should do::
->  
->         $ virtualenv sphinx_2.4.4
-> @@ -86,6 +82,27 @@ Depending on the distribution, you may also need to install a series of
->  ``texlive`` packages that provide the minimal set of functionalities
->  required for ``XeLaTeX`` to work.
->  
-> +Math Expressions in HTML
-> +------------------------
-> +
-> +Some ReST pages contain math expressions. Due to the way Sphinx works,
-> +those expressions are written using LaTeX notation.
-> +There are two options for Sphinx to render math expressions in html output.
-> +One is an extension called `imgmath`_ which converts math expressions into
-> +images and embeds them in html pages.
-> +The other is an extension called `mathjax`_ which delegates math rendering
-> +to JavaScript capable web browsers.
-> +The former was the only option for pre-6.1 kernel documentation and it
-> +requires quite a few texlive packages including amsfonts and amsmath among
-> +others.
-> +
-> +Since kernel release 6.1, html pages with math expressions can be built
-> +without installing any texlive packages. See `Choice of Math Renderer`_ for
-> +further info.
-> +
-> +.. _imgmath: https://www.sphinx-doc.org/en/master/usage/extensions/math.html#module-sphinx.ext.imgmath
-> +.. _mathjax: https://www.sphinx-doc.org/en/master/usage/extensions/math.html#module-sphinx.ext.mathjax
-> +
->  .. _sphinx-pre-install:
->  
->  Checking for Sphinx dependencies
-> @@ -164,6 +181,38 @@ To remove the generated documentation, run ``make cleandocs``.
->  	  as well would improve the quality of images embedded in PDF
->  	  documents, especially for kernel releases 5.18 and later.
->  
-> +Choice of Math Renderer
-> +-----------------------
-> +
-> +Since kernel release 6.1, mathjax works as a fallback math renderer for
-> +html output.\ [#sph1_8]_
-> +
-> +Math renderer is chosen depending on available commands as shown below:
-> +
-> +.. table:: Math Renderer Choices for HTML
-> +
-> +    ============= ================= ============
-> +    Math renderer Required commands Image format
-> +    ============= ================= ============
-> +    imgmath       latex, dvipng     PNG (raster)
-> +    mathjax
-> +    ============= ================= ============
-> +
-> +The choice can be overridden by setting an environment variable
-> +``SPHINX_IMGMATH`` as shown below:
-> +
-> +.. table:: Effect of Setting ``SPHINX_IMGMATH``
-> +
-> +    ====================== ========
-> +    Setting                Renderer
-> +    ====================== ========
-> +    ``SPHINX_IMGMATH=yes`` imgmath
-> +    ``SPHINX_IMGMATH=no``  mathjax
-> +    ====================== ========
-> +
-> +.. [#sph1_8] Fallback of math renderer requires Sphinx >=1.8.
-> +
-> +
->  Writing Documentation
->  =====================
->  
-> 
-> base-commit: 7ebeef22dcc2c3db83dcd1e8292744cf29c1859f
