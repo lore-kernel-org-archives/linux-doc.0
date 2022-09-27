@@ -2,81 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69D81C6FA92
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 08:13:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5FE3C54EE9
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 08:19:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229597AbiI0INw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 04:13:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56882 "EHLO
+        id S231231AbiI0ITl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 04:19:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230055AbiI0INe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 04:13:34 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82F3B7D7B5;
-        Tue, 27 Sep 2022 01:09:05 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.54])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4McBwc6fytzHtfR;
-        Tue, 27 Sep 2022 16:04:16 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 27 Sep 2022 16:09:03 +0800
-Received: from [10.174.178.174] (10.174.178.174) by
- dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 27 Sep 2022 16:09:02 +0800
-Subject: Re: [PATCH -next] Documentation: devres: add missing IIO helpers
-To:     <linux-doc@vger.kernel.org>, <linux-iio@vger.kernel.org>
-CC:     <jic23@kernel.org>, <lars@metafoo.de>,
-        <Jonathan.Cameron@huawei.com>, <corbet@lwn.net>,
-        <yangyingliang@huawei.com>
-References: <20220927074043.942836-1-yangyingliang@huawei.com>
-From:   Yang Yingliang <yangyingliang@huawei.com>
-Message-ID: <850dabb9-e62b-2273-9371-1ae1b7535e50@huawei.com>
-Date:   Tue, 27 Sep 2022 16:09:02 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        with ESMTP id S231203AbiI0ITh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 04:19:37 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27B2AB481;
+        Tue, 27 Sep 2022 01:19:34 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id q15-20020a17090a304f00b002002ac83485so9430361pjl.0;
+        Tue, 27 Sep 2022 01:19:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=9U+Qwke6i9i5veqMmKRkGRTk17ZxOAfJ107jvmytI2o=;
+        b=Rx4P8Knj0NPbKfAvw12ndhmhaR87tzsHAoBOw9QlJzGjGqNh3l7v8odLyRgz/u0vjS
+         segkGFeEMhFXlSuYalUYD/xkSztwdAfLDqP64F/ScjeRh1q7Tqdz6mt3uKsQgpoHsLV4
+         +AncxOntrmIbac9hDreTgYXtD8RxmL5+04Z25IiP8qG8GRHX6bay/oZaMo7IZooXu8aG
+         J/hVqxE2xatkdQsfH1AHxPDr4HDiF3rq2uMnhQgj/FuN1NVc4tu6E5lCzZx6SsqljwNh
+         I1sxBmoYPyWFTSjTvhvhshLbtKlouY5TzZI40tSobpU+YfQjY9mZxqJYdsei7eQ6wZ+u
+         wuXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=9U+Qwke6i9i5veqMmKRkGRTk17ZxOAfJ107jvmytI2o=;
+        b=mFtIASolk3PlKehUGwSaswL0G19KCIjRU2/wAZlw+c+Swh4PR1syjs9QQN65I3eGfU
+         M1MvWhwIYPdtwLGeJlNrVHXwY30PKcHaXT8gY7mnOEBto7M535RfDVcenpmyEyAz/hOz
+         ch9oGYhU7whwSkmCOwI0Duc2/3G/+HAZCGnBuu6G+W+Y8oNKOHU/B/2NsNd59ayLEQtJ
+         Rc7YaN0hGnWwK24tKPtdOHcOREAqbom2W1KDiSCuBAJPRxd0p8tPvTxd7EfHKtVVbgqJ
+         S9x0vmI95R4s6iKrzFC+mJ0n0FXnrajvjNVbvQ/Ibt2f8NtkJlrFWd5AeHvMtiDVv3z8
+         mXtg==
+X-Gm-Message-State: ACrzQf22/xewddjP3967kbGlu8Ik1Ze0ncH8SXY2Im7QCBvdMow4WaHr
+        ziSyBeHbN8+oZrukr0jT+diqaOZD7Gs=
+X-Google-Smtp-Source: AMsMyM4hRHa0SrXblfbSs1dZTPP/1dvW/D+2EVB0KBZkQIgccgRP6GIZaG7Zbc5VjcXz4jTvLD52kA==
+X-Received: by 2002:a17:90b:4a85:b0:202:4f3f:1f65 with SMTP id lp5-20020a17090b4a8500b002024f3f1f65mr3181331pjb.241.1664266773606;
+        Tue, 27 Sep 2022 01:19:33 -0700 (PDT)
+Received: from [192.168.43.80] (subs28-116-206-12-32.three.co.id. [116.206.12.32])
+        by smtp.gmail.com with ESMTPSA id bf1-20020a170902b90100b0017849a2b56asm870691plb.46.2022.09.27.01.19.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Sep 2022 01:19:32 -0700 (PDT)
+Message-ID: <dd89a30e-5403-8844-036c-9c9107cac888@gmail.com>
+Date:   Tue, 27 Sep 2022 15:19:29 +0700
 MIME-Version: 1.0
-In-Reply-To: <20220927074043.942836-1-yangyingliang@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH] Documentation/CoC: Reflect current CoC interpretation and
+ practices
 Content-Language: en-US
-X-Originating-IP: [10.174.178.174]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+To:     Kristen Carlson Accardi <kristen@linux.intel.com>,
+        linux-doc@vger.kernel.org, corbet@lwn.net,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+References: <20220926211149.2278214-1-kristen@linux.intel.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220926211149.2278214-1-kristen@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add Cc: Jonathan Corbet <corbet@lwn.net>
+On 9/27/22 04:11, Kristen Carlson Accardi wrote:
+> The Code of Conduct interpretation does not reflect the current
+> practices of the CoC committee or the TAB. Update the documentation
+> to remove references to initial committees and boot strap periods
+> since it is past that time, and note that the this document
+> does serve as the documentation for the CoC committee processes.
+> 
 
-On 2022/9/27 15:40, Yang Yingliang wrote:
-> Add missing device-managed helpers of iio to devres.rst.
->
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->   Documentation/driver-api/driver-model/devres.rst | 4 ++++
->   1 file changed, 4 insertions(+)
->
-> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-> index 2895f9ea00c4..5154844bc222 100644
-> --- a/Documentation/driver-api/driver-model/devres.rst
-> +++ b/Documentation/driver-api/driver-model/devres.rst
-> @@ -286,12 +286,16 @@ IIO
->     devm_iio_device_register()
->     devm_iio_dmaengine_buffer_setup()
->     devm_iio_kfifo_buffer_setup()
-> +  devm_iio_kfifo_buffer_setup_ext()
->     devm_iio_map_array_register()
->     devm_iio_triggered_buffer_setup()
-> +  devm_iio_triggered_buffer_setup_ext()
->     devm_iio_trigger_alloc()
->     devm_iio_trigger_register()
->     devm_iio_channel_get()
->     devm_iio_channel_get_all()
-> +  devm_iio_hw_consumer_alloc()
-> +  devm_fwnode_iio_channel_get_by_name()
->   
->   INPUT
->     devm_input_allocate_device()
+When was the bootstrap period be concluded?
+
+-- 
+An old man doll... just what I always wanted! - Clara
