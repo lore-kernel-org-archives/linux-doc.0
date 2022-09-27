@@ -2,208 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0513C6FA83
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 16:50:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 591B7C6FA83
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 16:54:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233231AbiI0Quw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 12:50:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53088 "EHLO
+        id S232142AbiI0Qy3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 12:54:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233245AbiI0QuK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 12:50:10 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05C80580B9
-        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 09:50:07 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id r62so6087448pgr.12
-        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 09:50:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=Osgivv1xZqrvAofoxgxtt3Fhv5buczncGhXN6IzEZgM=;
-        b=MnrEQZGGGi7Zz5FsNy2Hp51B9vBhT3Qw6PnZqJ8R1qlLmr9ahYCagnw0WtklFIQ77J
-         WB9FmgJGeez4cna1TcM4yZVBghJmmKK/4rqdTnorUHJKRzyIazqEyoYoDR0ScsJQaQgY
-         Lb3shhu74tkzqegJoyfLluUZF7kePYYkzwBNc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=Osgivv1xZqrvAofoxgxtt3Fhv5buczncGhXN6IzEZgM=;
-        b=YD288H0inkk8FpsB7uIolmE8tstS8Lwyrkz0nOpXf/oXOSO/1TnPY8zIf/vy2hHs0/
-         JTn4bw3xL5aak7+JkAbyxRZ23w+XP2lfKSs472AlXDgCoHR7/kVvqr6361QhnUY2AkW/
-         r0v+CQkEkv1QVzB7XtRazawgb0W9BUWK5+604JezUErBr2LpNY3hx563kBmHjdB4f451
-         Q+fCJmoyrjg0/nxiof/l6276UQcJrMqzp85qBIyrdcjUiGsxhPFAKsHjAMZQ8G7H0Xr/
-         Y2Z/yQsNfI+ZbzvRJLpH9HAQ+2fPIeGz40b7Q8vlXwE+7PZylOGuA3yr4a+SanUFpyxW
-         vlkQ==
-X-Gm-Message-State: ACrzQf2qC9Hsdbf5S+OQw/zrLj+4EwFShVOlGxzd7Kul0RqrSzbcTVon
-        xgowy8+G27Sz0lOJ146C00+XXw==
-X-Google-Smtp-Source: AMsMyM6zg6GU62faRZTKgXdQyh5+c6x1H6TPVhoa0Pj8IbzdKDRvUzr6V2vk1Pk1Ou1mPyi78I5E1w==
-X-Received: by 2002:a63:8643:0:b0:440:2914:c57 with SMTP id x64-20020a638643000000b0044029140c57mr921010pgd.604.1664297406379;
-        Tue, 27 Sep 2022 09:50:06 -0700 (PDT)
-Received: from evgreen-glaptop.lan ([73.231.74.141])
-        by smtp.gmail.com with ESMTPSA id p13-20020a63950d000000b00434272fe870sm1753509pgd.88.2022.09.27.09.50.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Sep 2022 09:50:05 -0700 (PDT)
-From:   Evan Green <evgreen@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-integrity@vger.kernel.org, apronin@chromium.org,
-        dlunev@google.com, jarkko@kernel.org, Pavel Machek <pavel@ucw.cz>,
-        Ben Boeckel <me@benboeckel.net>, rjw@rjwysocki.net,
-        corbet@lwn.net, linux-pm@vger.kernel.org, zohar@linux.ibm.com,
-        Kees Cook <keescook@chromium.org>,
-        Eric Biggers <ebiggers@kernel.org>, jejb@linux.ibm.com,
-        gwendal@chromium.org, Matthew Garrett <mgarrett@aurora.tech>,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Evan Green <evgreen@chromium.org>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        Paul Moore <paul@paul-moore.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: [PATCH v3 05/11] security: keys: trusted: Allow storage of PCR values in creation data
-Date:   Tue, 27 Sep 2022 09:49:16 -0700
-Message-Id: <20220927094559.v3.5.I32591db064b6cdc91850d777f363c9d05c985b39@changeid>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20220927164922.3383711-1-evgreen@chromium.org>
-References: <20220927164922.3383711-1-evgreen@chromium.org>
+        with ESMTP id S230517AbiI0QyK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 12:54:10 -0400
+Received: from smtp-42a9.mail.infomaniak.ch (smtp-42a9.mail.infomaniak.ch [IPv6:2001:1600:3:17::42a9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FF50FB309
+        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 09:52:46 -0700 (PDT)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4McQfC4NM4zMqnZC;
+        Tue, 27 Sep 2022 18:52:35 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4McQfB5Tpwz3j;
+        Tue, 27 Sep 2022 18:52:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1664297555;
+        bh=zz9l4xpKfZ/apNznukdF5CRsTs4o3l6iVFdsTZpnrBw=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=NlYeqLYZNCrL/XPHBSWu4pPUXsK8dfEBITM9q/9z3YnRYjjlB5Ewt0C6C0Wzi/Zi3
+         0d/k49Bkkj7P9rvrMoer54C8BSSlXatP+0vLrbSb2KfB0qm1B7NjgxA8/w/Zsa734h
+         Bi+p1bjBUayuxsT4rm8hOv6AzvDs5fl1r+Gkdma4=
+Message-ID: <2200767d-ef88-b8dc-b5bd-f0b8e65d4cef@digikod.net>
+Date:   Tue, 27 Sep 2022 18:52:34 +0200
 MIME-Version: 1.0
+User-Agent: 
+Subject: Re: [PATCH v1 3/3] landlock: Fix documentation style
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     James Morris <jmorris@namei.org>, Paul Moore <paul@paul-moore.com>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
+References: <20220923154207.3311629-1-mic@digikod.net>
+ <20220923154207.3311629-4-mic@digikod.net> <Yy7S07GpqZEY4J8n@debian.me>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <Yy7S07GpqZEY4J8n@debian.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Matthew Garrett <matthewgarrett@google.com>
 
-When TPMs generate keys, they can also generate some information
-describing the state of the PCRs at creation time. This data can then
-later be certified by the TPM, allowing verification of the PCR values.
-This allows us to determine the state of the system at the time a key
-was generated. Add an additional argument to the trusted key creation
-options, allowing the user to provide the set of PCRs that should have
-their values incorporated into the creation data.
+On 24/09/2022 11:50, Bagas Sanjaya wrote:
+> On Fri, Sep 23, 2022 at 05:42:07PM +0200, Mickaël Salaün wrote:
+>> It seems that all code should use double backquotes, which is also used
+>> to convert "%" defines.  Let's use an homogeneous style and remove all
+>> use of simple backquotes (which should only be used for emphasis).
+>>
+> 
+> A little nit: the kernel log content at the opening paragraph should
+> also be in inline code:
 
-Link: https://lore.kernel.org/lkml/20210220013255.1083202-6-matthewgarrett@google.com/
-Signed-off-by: Matthew Garrett <mjg59@google.com>
-Signed-off-by: Evan Green <evgreen@chromium.org>
----
+Is there some precedent? Explicit quotes (") seems more appropriate 
+because we are talking about a text string (not a command nor a code 
+snippet).
 
-Changes in v3:
- - Clarified creationpcrs documentation (Ben)
-
- .../security/keys/trusted-encrypted.rst       |  6 +++++
- include/keys/trusted-type.h                   |  1 +
- security/keys/trusted-keys/trusted_tpm1.c     |  9 +++++++
- security/keys/trusted-keys/trusted_tpm2.c     | 25 +++++++++++++++++--
- 4 files changed, 39 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-index 0bfb4c33974890..fd9c7cd72a6254 100644
---- a/Documentation/security/keys/trusted-encrypted.rst
-+++ b/Documentation/security/keys/trusted-encrypted.rst
-@@ -199,6 +199,12 @@ Usage::
-        policyhandle= handle to an authorization policy session that defines the
-                      same policy and with the same hash algorithm as was used to
-                      seal the key.
-+       creationpcrs= hex integer representing the set of PCRs to be
-+                     included in the creation data. For each bit set, the
-+                     corresponding PCR will be included in the key creation
-+                     data. Bit 0 corresponds to PCR0. Currently only the first
-+                     PC standard 24 PCRs are supported on the currently active
-+                     bank. Leading zeroes are optional. TPM2 only.
- 
- "keyctl print" returns an ascii hex copy of the sealed key, which is in standard
- TPM_STORED_DATA format.  The key length for new keys are always in bytes.
-diff --git a/include/keys/trusted-type.h b/include/keys/trusted-type.h
-index 209086fed240a5..8523d41507b2a4 100644
---- a/include/keys/trusted-type.h
-+++ b/include/keys/trusted-type.h
-@@ -54,6 +54,7 @@ struct trusted_key_options {
- 	uint32_t policydigest_len;
- 	unsigned char policydigest[MAX_DIGEST_SIZE];
- 	uint32_t policyhandle;
-+	uint32_t creation_pcrs;
- };
- 
- struct trusted_key_ops {
-diff --git a/security/keys/trusted-keys/trusted_tpm1.c b/security/keys/trusted-keys/trusted_tpm1.c
-index aa108bea6739b3..2975827c01bec0 100644
---- a/security/keys/trusted-keys/trusted_tpm1.c
-+++ b/security/keys/trusted-keys/trusted_tpm1.c
-@@ -713,6 +713,7 @@ enum {
- 	Opt_hash,
- 	Opt_policydigest,
- 	Opt_policyhandle,
-+	Opt_creationpcrs,
- };
- 
- static const match_table_t key_tokens = {
-@@ -725,6 +726,7 @@ static const match_table_t key_tokens = {
- 	{Opt_hash, "hash=%s"},
- 	{Opt_policydigest, "policydigest=%s"},
- 	{Opt_policyhandle, "policyhandle=%s"},
-+	{Opt_creationpcrs, "creationpcrs=%s"},
- 	{Opt_err, NULL}
- };
- 
-@@ -858,6 +860,13 @@ static int getoptions(char *c, struct trusted_key_payload *pay,
- 				return -EINVAL;
- 			opt->policyhandle = handle;
- 			break;
-+		case Opt_creationpcrs:
-+			if (!tpm2)
-+				return -EINVAL;
-+			res = kstrtoint(args[0].from, 16, &opt->creation_pcrs);
-+			if (res < 0)
-+				return -EINVAL;
-+			break;
- 		default:
- 			return -EINVAL;
- 		}
-diff --git a/security/keys/trusted-keys/trusted_tpm2.c b/security/keys/trusted-keys/trusted_tpm2.c
-index e1388d7d799a36..a7ad83bc0e5396 100644
---- a/security/keys/trusted-keys/trusted_tpm2.c
-+++ b/security/keys/trusted-keys/trusted_tpm2.c
-@@ -401,7 +401,7 @@ int tpm2_seal_trusted(struct tpm_chip *chip,
- 	struct tpm_buf buf;
- 	u32 hash;
- 	u32 flags;
--	int i;
-+	int i, j;
- 	int rc;
- 
- 	for (i = 0; i < ARRAY_SIZE(tpm2_hash_map); i++) {
-@@ -470,7 +470,28 @@ int tpm2_seal_trusted(struct tpm_chip *chip,
- 	tpm_buf_append_u16(&buf, 0);
- 
- 	/* creation PCR */
--	tpm_buf_append_u32(&buf, 0);
-+	if (options->creation_pcrs) {
-+		/* One bank */
-+		tpm_buf_append_u32(&buf, 1);
-+		/* Which bank to use */
-+		tpm_buf_append_u16(&buf, hash);
-+		/* Length of the PCR bitmask */
-+		tpm_buf_append_u8(&buf, 3);
-+		/* PCR bitmask */
-+		for (i = 0; i < 3; i++) {
-+			char tmp = 0;
-+
-+			for (j = 0; j < 8; j++) {
-+				char bit = (i * 8) + j;
-+
-+				if (options->creation_pcrs & (1 << bit))
-+					tmp |= (1 << j);
-+			}
-+			tpm_buf_append_u8(&buf, tmp);
-+		}
-+	} else {
-+		tpm_buf_append_u32(&buf, 0);
-+	}
- 
- 	if (buf.flags & TPM_BUF_OVERFLOW) {
- 		rc = -E2BIG;
--- 
-2.31.0
-
+> 
+> ---- >8 ----
+> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
+> index cec780c2f4973c..5dbd577b5f58b7 100644
+> --- a/Documentation/userspace-api/landlock.rst
+> +++ b/Documentation/userspace-api/landlock.rst
+> @@ -19,10 +19,10 @@ unexpected/malicious behaviors in user space applications.  Landlock empowers
+>   any process, including unprivileged ones, to securely restrict themselves.
+>   
+>   We can quickly make sure that Landlock is enabled in the running system by
+> -looking for "landlock: Up and running" in kernel logs (as root): ``dmesg | grep
+> -landlock || journalctl -kg landlock`` .  Developers can also easily check for
+> -Landlock support with a :ref:`related system call <landlock_abi_versions>`.  If
+> -Landlock is not currently supported, we need to :ref:`configure the kernel
+> +looking for ``landlock: Up and running`` in kernel logs (as root): ``dmesg |
+> +grep landlock || journalctl -kg landlock`` .  Developers can also easily check
+> +for Landlock support with a :ref:`related system call <landlock_abi_versions>`.
+> +If Landlock is not currently supported, we need to :ref:`configure the kernel
+>   appropriately <kernel_support>`.
+>   
+>   Landlock rules
+> 
+> Thanks.
+> 
