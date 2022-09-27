@@ -2,300 +2,267 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6B0BC6FA83
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 16:58:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C9C4C6FA83
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 17:12:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231772AbiI0Q6e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 12:58:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45080 "EHLO
+        id S231688AbiI0RM4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 13:12:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232119AbiI0Q6M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 12:58:12 -0400
-Received: from smtp-bc0c.mail.infomaniak.ch (smtp-bc0c.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc0c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADEBFA571D
-        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 09:58:09 -0700 (PDT)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4McQmc08ZfzMpnXt;
-        Tue, 27 Sep 2022 18:58:08 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4McQmb2f2kzx0;
-        Tue, 27 Sep 2022 18:58:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1664297887;
-        bh=fl0BeeR5XXCBRZ4sKyv9lfRO1AjfOiPJ+wlp7lCXc24=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=cBPGk986j/gNOkxQzHVmNY01hue6fXYYDUX0pCkj49g/6y5QA3L25tV/Ftsch6BU/
-         2Mt3R1N4D69G36jh7a65bOBWYqptroAKoB4+3yFoivbTOih0dGkMF1PiI1UCUFoUfs
-         8Y1mZ/8imKS9+7IHPcmSm55tL0+c5itT1HcI1BZg=
-Message-ID: <0467efc1-648e-dec2-689b-8827d50b86dc@digikod.net>
-Date:   Tue, 27 Sep 2022 18:58:06 +0200
+        with ESMTP id S231659AbiI0RMy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 13:12:54 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 346351B910A
+        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 10:12:53 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id c15so1296263qvp.7
+        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 10:12:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date;
+        bh=OiY5rTg7VuhmYymVKAvhy3a2Viv1gv5iq9jVHgcVhoo=;
+        b=Cyaj3DXeuxOqDwfDoeKxig+AmOf6rB9Lo+Up8G4NmzjQlDqn9j/oOY405eSYaMVi2+
+         Co67QWpVc6W0uq3SFu/ES6dQHBjbIzJkYrHOXgXzuJ6xX7uynNn1QWzTJ1lIiW0Aq5iD
+         /+pwfqzghCxnVvLkRV1j7m2pajju9eQVQSL79FpwoZqG+REqh4R44nVtupwyj+eGPpGc
+         ofX7+dIr1YHxxr8htDQ9HAji34uJ1vec/p82hYJTIBUwvZZJznIdSifoCeHVYzD68fi8
+         GLZGhu8KtuGM7XMYPcKfUZXAKyw7E48FGUFcPEHJPfqSj/WPItlp9/B0uqVwFbmtaWkO
+         DM7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=OiY5rTg7VuhmYymVKAvhy3a2Viv1gv5iq9jVHgcVhoo=;
+        b=h0rti53tiGGh+3FPkMLaCthlaM3+VmCuX9UYB9HcsuXgXClesKuYC6HhcfUC6BKAv/
+         h0QzW7NwIj/rM8KhBnbJ1y8zrB1tEI0uUjswJ2ZLQ1KnyolnSuaTRDMg/lkDQ0g9mOmu
+         9b81v8QVLH89ulyt7IIgBM19H+a1GU/sZOCrTHpz/aJbOwiSkPgtu7bCP2KgYNELqjku
+         OGVBz/Z9kmo25Vc5Ckn0Jy5g0Si2RKtZb08XngH31U5pmCyyAhC3MhMXlGFn/w6RINrj
+         DwgZ36lMRx7jKqOPHRt2woAb69hsEwxDjMoXK0tl279ZcuXKLlbaFCfSI156kt8Bkm51
+         aZgg==
+X-Gm-Message-State: ACrzQf3u8MVlb6EYJx1+69Lpw5lLqD+yPjBDlbvRGD5wXX7mn4rcN2K6
+        2rQAZhNptgoV3MXne7iNF0RlngsDnzo=
+X-Google-Smtp-Source: AMsMyM5855UMmMTQK5ziubLetOgUopjTU/iDM2z4tVTMieBAOroSUtfcOi2UJvwYxHjBtWsanPoOhw==
+X-Received: by 2002:ad4:5b84:0:b0:4af:4ad5:cbd7 with SMTP id 4-20020ad45b84000000b004af4ad5cbd7mr17271217qvp.7.1664298772116;
+        Tue, 27 Sep 2022 10:12:52 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id u18-20020a05620a455200b006ce60f5d8e4sm1233859qkp.130.2022.09.27.10.12.50
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Sep 2022 10:12:51 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-352eb66e3e8so2941307b3.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 10:12:50 -0700 (PDT)
+X-Received: by 2002:a81:de44:0:b0:341:6954:52b2 with SMTP id
+ o4-20020a81de44000000b00341695452b2mr25648802ywl.208.1664298770377; Tue, 27
+ Sep 2022 10:12:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: 
-Subject: Re: [PATCH v1 3/3] landlock: Fix documentation style
-Content-Language: en-US
-To:     =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     James Morris <jmorris@namei.org>, Paul Moore <paul@paul-moore.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
-References: <20220923154207.3311629-1-mic@digikod.net>
- <20220923154207.3311629-4-mic@digikod.net> <Yy4ineDopP/BivHj@nuc>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <Yy4ineDopP/BivHj@nuc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <adel.abushaev@gmail.com> <20220817200940.1656747-1-adel.abushaev@gmail.com>
+ <CADvbK_fVRVYjtSkn29ec70mko9aEwnwu+kHYx8bAAWm-n25mjA@mail.gmail.com>
+ <f479b419-b05d-2cae-4fd0-4e88707b8d8b@gmail.com> <CA+FuTSf_8MjF4jeUjEqDrOwqXzf485jX_GJyVP5kPUDzOFezkg@mail.gmail.com>
+ <0c989c58-2aa6-eca6-2bb9-24b1ae71694a@gmail.com>
+In-Reply-To: <0c989c58-2aa6-eca6-2bb9-24b1ae71694a@gmail.com>
+From:   Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Date:   Tue, 27 Sep 2022 13:12:13 -0400
+X-Gmail-Original-Message-ID: <CA+FuTSdCmWu5w09KZshCv=TVugf_x5NUY1xjv4X8kgbEQ+WbHQ@mail.gmail.com>
+Message-ID: <CA+FuTSdCmWu5w09KZshCv=TVugf_x5NUY1xjv4X8kgbEQ+WbHQ@mail.gmail.com>
+Subject: Re: [net-next v2 0/6] net: support QUIC crypto
+To:     Adel Abouchaev <adel.abushaev@gmail.com>
+Cc:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Xin Long <lucien.xin@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>, davem <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Ahern <dsahern@kernel.org>, shuah@kernel.org,
+        imagedong@tencent.com, network dev <netdev@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Sep 27, 2022 at 12:45 PM Adel Abouchaev <adel.abushaev@gmail.com> w=
+rote:
+>
+>
+> On 9/25/22 11:04 AM, Willem de Bruijn wrote:
+> >>> The patch seems to get the crypto_ctx by doing a connection hash tabl=
+e
+> >>> lookup in the sendmsg(), which is not good from the performance side.
+> >>> One QUIC connection can go over multiple UDP sockets, but I don't
+> >>> think one socket can be used by multiple QUIC connections. So why not
+> >>> save the ctx in the socket instead?
+> >> A single socket could have multiple connections originated from it,
+> >> having different destinations, if the socket is not connected. An
+> >> optimization could be made for connected sockets to cache the context
+> >> and save time on a lookup. The measurement of kernel operations timing
+> >> did not reveal a significant amount of time spent in this lookup due t=
+o
+> >> a relatively small number of connections per socket in general. A shar=
+ed
+> >> table across multiple sockets might experience a different performance
+> >> grading.
+> > I'm late to this patch series, sorry. High quality implementation. I
+> > have a few design questions similar to Xin.
+> >
+> > If multiplexing, instead of looking up a connection by { address, port
+> > variable length connection ID }, perhaps return a connection table
+> > index on setsockopt and use that in sendmsg.
+>
+>
+> It was deliberate to not to return anything other than 0 from
+> setsockopt() as defined in the spec for the function. Despite that it
+> says "shall", the doc says that 0 is the only value for successful
+> operation. This was the reason not to use setsockopt() for any
+> bidirectional transfers of data and or status. A more sophisticated
+> approach with netlink sockets would be more suitable for it. The second
+> reason is the API asymmetry for Tx and Rx which will be introduced - the
 
-On 23/09/2022 23:18, Günther Noack wrote:
-> On Fri, Sep 23, 2022 at 05:42:07PM +0200, Mickaël Salaün wrote:
->> It seems that all code should use double backquotes, which is also used
->> to convert "%" defines.  Let's use an homogeneous style and remove all
->> use of simple backquotes (which should only be used for emphasis).
->>
->> Cc: Günther Noack <gnoack3000@gmail.com>
->> Cc: Paul Moore <paul@paul-moore.com>
->> Signed-off-by: Mickaël Salaün <mic@digikod.net>
->> Link: https://lore.kernel.org/r/20220923154207.3311629-4-mic@digikod.net
->> ---
->>   Documentation/security/landlock.rst      |  4 +--
->>   Documentation/userspace-api/landlock.rst | 25 ++++++++-------
->>   include/uapi/linux/landlock.h            | 10 +++---
->>   security/landlock/syscalls.c             | 40 ++++++++++++------------
->>   4 files changed, 40 insertions(+), 39 deletions(-)
->>
->> diff --git a/Documentation/security/landlock.rst b/Documentation/security/landlock.rst
->> index cc9617f3175b..c0029d5d02eb 100644
->> --- a/Documentation/security/landlock.rst
->> +++ b/Documentation/security/landlock.rst
->> @@ -54,8 +54,8 @@ content of a listed inode.  Indeed, a file name is local to its parent
->>   directory, and an inode can be referenced by multiple file names thanks to
->>   (hard) links.  Being able to unlink a file only has a direct impact on the
->>   directory, not the unlinked inode.  This is the reason why
->> -`LANDLOCK_ACCESS_FS_REMOVE_FILE` or `LANDLOCK_ACCESS_FS_REFER` are not allowed
->> -to be tied to files but only to directories.
->> +``LANDLOCK_ACCESS_FS_REMOVE_FILE`` or ``LANDLOCK_ACCESS_FS_REFER`` are not
->> +allowed to be tied to files but only to directories.
->>   
->>   Tests
->>   =====
->> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
->> index 83bae71bf042..cec780c2f497 100644
->> --- a/Documentation/userspace-api/landlock.rst
->> +++ b/Documentation/userspace-api/landlock.rst
->> @@ -69,7 +69,7 @@ should try to protect users as much as possible whatever the kernel they are
->>   using.  To avoid binary enforcement (i.e. either all security features or
->>   none), we can leverage a dedicated Landlock command to get the current version
->>   of the Landlock ABI and adapt the handled accesses.  Let's check if we should
->> -remove the `LANDLOCK_ACCESS_FS_REFER` access right which is only supported
->> +remove the ``LANDLOCK_ACCESS_FS_REFER`` access right which is only supported
->>   starting with the second version of the ABI.
->>   
->>   .. code-block:: c
->> @@ -128,7 +128,7 @@ descriptor.
->>   It may also be required to create rules following the same logic as explained
->>   for the ruleset creation, by filtering access rights according to the Landlock
->>   ABI version.  In this example, this is not required because
->> -`LANDLOCK_ACCESS_FS_REFER` is not allowed by any rule.
->> +``LANDLOCK_ACCESS_FS_REFER`` is not allowed by any rule.
->>   
->>   We now have a ruleset with one rule allowing read access to ``/usr`` while
->>   denying all other handled accesses for the filesystem.  The next step is to
->> @@ -154,8 +154,8 @@ The current thread is now ready to sandbox itself with the ruleset.
->>       }
->>       close(ruleset_fd);
->>   
->> -If the `landlock_restrict_self` system call succeeds, the current thread is now
->> -restricted and this policy will be enforced on all its subsequently created
->> +If the ``landlock_restrict_self`` system call succeeds, the current thread is
->> +now restricted and this policy will be enforced on all its subsequently created
->>   children as well.  Once a thread is landlocked, there is no way to remove its
->>   security policy; only adding more restrictions is allowed.  These threads are
->>   now in a new Landlock domain, merge of their parent one (if any) with the new
->> @@ -175,7 +175,8 @@ depend on their location (i.e. parent directories).  This is particularly
->>   relevant when we want to allow linking or renaming.  Indeed, having consistent
->>   access rights per directory enables to change the location of such directory
->>   without relying on the destination directory access rights (except those that
->> -are required for this operation, see `LANDLOCK_ACCESS_FS_REFER` documentation).
->> +are required for this operation, see ``LANDLOCK_ACCESS_FS_REFER``
->> +documentation).
->>   Having self-sufficient hierarchies also helps to tighten the required access
->>   rights to the minimal set of data.  This also helps avoid sinkhole directories,
->>   i.e.  directories where data can be linked to but not linked from.  However,
->> @@ -259,7 +260,7 @@ Backward and forward compatibility
->>   
->>   Landlock is designed to be compatible with past and future versions of the
->>   kernel.  This is achieved thanks to the system call attributes and the
->> -associated bitflags, particularly the ruleset's `handled_access_fs`.  Making
->> +associated bitflags, particularly the ruleset's ``handled_access_fs``.  Making
->>   handled access right explicit enables the kernel and user space to have a clear
->>   contract with each other.  This is required to make sure sandboxing will not
->>   get stricter with a system update, which could break applications.
->> @@ -394,7 +395,7 @@ according to the potentially lost constraints.  To protect against privilege
->>   escalations through renaming or linking, and for the sake of simplicity,
->>   Landlock previously limited linking and renaming to the same directory.
->>   Starting with the Landlock ABI version 2, it is now possible to securely
->> -control renaming and linking thanks to the new `LANDLOCK_ACCESS_FS_REFER`
->> +control renaming and linking thanks to the new ``LANDLOCK_ACCESS_FS_REFER``
->>   access right.
->>   
->>   .. _kernel_support:
->> @@ -403,14 +404,14 @@ Kernel support
->>   ==============
->>   
->>   Landlock was first introduced in Linux 5.13 but it must be configured at build
->> -time with `CONFIG_SECURITY_LANDLOCK=y`.  Landlock must also be enabled at boot
->> +time with ``CONFIG_SECURITY_LANDLOCK=y``.  Landlock must also be enabled at boot
->>   time as the other security modules.  The list of security modules enabled by
->> -default is set with `CONFIG_LSM`.  The kernel configuration should then
->> -contains `CONFIG_LSM=landlock,[...]` with `[...]`  as the list of other
->> +default is set with ``CONFIG_LSM``.  The kernel configuration should then
->> +contains ``CONFIG_LSM=landlock,[...]`` with ``[...]``  as the list of other
->>   potentially useful security modules for the running system (see the
->> -`CONFIG_LSM` help).
->> +``CONFIG_LSM`` help).
->>   
->> -If the running kernel does not have `landlock` in `CONFIG_LSM`, then we can
->> +If the running kernel does not have ``landlock`` in ``CONFIG_LSM``, then we can
->>   still enable it by adding ``lsm=landlock,[...]`` to
->>   Documentation/admin-guide/kernel-parameters.rst thanks to the bootloader
->>   configuration.
->> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
->> index 23df4e0e8ace..9c4bcc37a455 100644
->> --- a/include/uapi/linux/landlock.h
->> +++ b/include/uapi/linux/landlock.h
->> @@ -26,7 +26,7 @@ struct landlock_ruleset_attr {
->>   	 * Landlock filesystem access rights that are not part of
->>   	 * handled_access_fs are allowed.  This is needed for backward
->>   	 * compatibility reasons.  One exception is the
->> -	 * LANDLOCK_ACCESS_FS_REFER access right, which is always implicitly
->> +	 * %LANDLOCK_ACCESS_FS_REFER access right, which is always implicitly
-> 
-> At the risk of asking a newbie question, why is this access right
-> prefixed with % in this command, but most others are surrounded by
-> double-backticks in other places?
+I thought the cover letter indicated that due to asymmetry of most
+QUIC workloads, only Tx offload is implemented. You do intend to add
+Rx later?
 
-The % command is only interpreted in code comments, but it in ignored in 
-RST files. This translates to double-backticks though. It seems that % 
-is more appropriate this way and it is also more readable. I only used 
-`` when I couldn't use %.
+> Rx will still need to match on the address, port and cid. The third
+> reason is that in current implementations there are no more than a few
+> connections per socket,
 
-Jonathan may have a better explanation.
+This is very different from how we do QUIC at Google. There we
+definitely multiplex many connections across essentially a socket per
+CPU IIRC.
 
-> 
-> According to [1], % is used to denote a constant - should these
-> LANDLOCK_ACCESS_FS* rights not all be showing up as constants?
-> 
-> [1] https://docs.kernel.org/doc-guide/kernel-doc.html#highlights-and-cross-references
-> 
-> Apart from this item, this change looks good.
-> 
->>   	 * handled, but must still be explicitly handled to add new rules with
->>   	 * this access right.
->>   	 */
->> @@ -128,11 +128,11 @@ struct landlock_path_beneath_attr {
->>    *   hierarchy must also always have the same or a superset of restrictions of
->>    *   the source hierarchy.  If it is not the case, or if the domain doesn't
->>    *   handle this access right, such actions are denied by default with errno
->> - *   set to EXDEV.  Linking also requires a LANDLOCK_ACCESS_FS_MAKE_* access
->> - *   right on the destination directory, and renaming also requires a
->> - *   LANDLOCK_ACCESS_FS_REMOVE_* access right on the source's (file or
->> + *   set to ``EXDEV``.  Linking also requires a ``LANDLOCK_ACCESS_FS_MAKE_*``
->> + *   access right on the destination directory, and renaming also requires a
->> + *   ``LANDLOCK_ACCESS_FS_REMOVE_*`` access right on the source's (file or
->>    *   directory) parent.  Otherwise, such actions are denied with errno set to
->> - *   EACCES.  The EACCES errno prevails over EXDEV to let user space
->> + *   ``EACCES``.  The ``EACCES`` errno prevails over ``EXDEV`` to let user space
->>    *   efficiently deal with an unrecoverable error.
->>    *
->>    * .. warning::
->> diff --git a/security/landlock/syscalls.c b/security/landlock/syscalls.c
->> index 735a0865ea11..2ca0ccbd905a 100644
->> --- a/security/landlock/syscalls.c
->> +++ b/security/landlock/syscalls.c
->> @@ -149,10 +149,10 @@ static const struct file_operations ruleset_fops = {
->>    *
->>    * Possible returned errors are:
->>    *
->> - * - EOPNOTSUPP: Landlock is supported by the kernel but disabled at boot time;
->> - * - EINVAL: unknown @flags, or unknown access, or too small @size;
->> - * - E2BIG or EFAULT: @attr or @size inconsistencies;
->> - * - ENOMSG: empty &landlock_ruleset_attr.handled_access_fs.
->> + * - %EOPNOTSUPP: Landlock is supported by the kernel but disabled at boot time;
->> + * - %EINVAL: unknown @flags, or unknown access, or too small @size;
->> + * - %E2BIG or %EFAULT: @attr or @size inconsistencies;
->> + * - %ENOMSG: empty &landlock_ruleset_attr.handled_access_fs.
->>    */
->>   SYSCALL_DEFINE3(landlock_create_ruleset,
->>   		const struct landlock_ruleset_attr __user *const, attr,
->> @@ -280,7 +280,7 @@ static int get_path_from_fd(const s32 fd, struct path *const path)
->>    * @ruleset_fd: File descriptor tied to the ruleset that should be extended
->>    *		with the new rule.
->>    * @rule_type: Identify the structure type pointed to by @rule_attr (only
->> - *             LANDLOCK_RULE_PATH_BENEATH for now).
->> + *             %LANDLOCK_RULE_PATH_BENEATH for now).
->>    * @rule_attr: Pointer to a rule (only of type &struct
->>    *             landlock_path_beneath_attr for now).
->>    * @flags: Must be 0.
->> @@ -290,17 +290,17 @@ static int get_path_from_fd(const s32 fd, struct path *const path)
->>    *
->>    * Possible returned errors are:
->>    *
->> - * - EOPNOTSUPP: Landlock is supported by the kernel but disabled at boot time;
->> - * - EINVAL: @flags is not 0, or inconsistent access in the rule (i.e.
->> + * - %EOPNOTSUPP: Landlock is supported by the kernel but disabled at boot time;
->> + * - %EINVAL: @flags is not 0, or inconsistent access in the rule (i.e.
->>    *   &landlock_path_beneath_attr.allowed_access is not a subset of the
->>    *   ruleset handled accesses);
->> - * - ENOMSG: Empty accesses (e.g. &landlock_path_beneath_attr.allowed_access);
->> - * - EBADF: @ruleset_fd is not a file descriptor for the current thread, or a
->> + * - %ENOMSG: Empty accesses (e.g. &landlock_path_beneath_attr.allowed_access);
->> + * - %EBADF: @ruleset_fd is not a file descriptor for the current thread, or a
->>    *   member of @rule_attr is not a file descriptor as expected;
->> - * - EBADFD: @ruleset_fd is not a ruleset file descriptor, or a member of
->> + * - %EBADFD: @ruleset_fd is not a ruleset file descriptor, or a member of
->>    *   @rule_attr is not the expected file descriptor type;
->> - * - EPERM: @ruleset_fd has no write access to the underlying ruleset;
->> - * - EFAULT: @rule_attr inconsistency.
->> + * - %EPERM: @ruleset_fd has no write access to the underlying ruleset;
->> + * - %EFAULT: @rule_attr inconsistency.
->>    */
->>   SYSCALL_DEFINE4(landlock_add_rule, const int, ruleset_fd,
->>   		const enum landlock_rule_type, rule_type,
->> @@ -378,20 +378,20 @@ SYSCALL_DEFINE4(landlock_add_rule, const int, ruleset_fd,
->>    * @flags: Must be 0.
->>    *
->>    * This system call enables to enforce a Landlock ruleset on the current
->> - * thread.  Enforcing a ruleset requires that the task has CAP_SYS_ADMIN in its
->> + * thread.  Enforcing a ruleset requires that the task has %CAP_SYS_ADMIN in its
->>    * namespace or is running with no_new_privs.  This avoids scenarios where
->>    * unprivileged tasks can affect the behavior of privileged children.
->>    *
->>    * Possible returned errors are:
->>    *
->> - * - EOPNOTSUPP: Landlock is supported by the kernel but disabled at boot time;
->> - * - EINVAL: @flags is not 0.
->> - * - EBADF: @ruleset_fd is not a file descriptor for the current thread;
->> - * - EBADFD: @ruleset_fd is not a ruleset file descriptor;
->> - * - EPERM: @ruleset_fd has no read access to the underlying ruleset, or the
->> + * - %EOPNOTSUPP: Landlock is supported by the kernel but disabled at boot time;
->> + * - %EINVAL: @flags is not 0.
->> + * - %EBADF: @ruleset_fd is not a file descriptor for the current thread;
->> + * - %EBADFD: @ruleset_fd is not a ruleset file descriptor;
->> + * - %EPERM: @ruleset_fd has no read access to the underlying ruleset, or the
->>    *   current thread is not running with no_new_privs, or it doesn't have
->> - *   CAP_SYS_ADMIN in its namespace.
->> - * - E2BIG: The maximum number of stacked rulesets is reached for the current
->> + *   %CAP_SYS_ADMIN in its namespace.
->> + * - %E2BIG: The maximum number of stacked rulesets is reached for the current
->>    *   thread.
->>    */
->>   SYSCALL_DEFINE2(landlock_restrict_self, const int, ruleset_fd, const __u32,
->> -- 
->> 2.37.2
->>
-> 
+> which does not abuse the rhashtable that does a
+> lookup, although it takes time to hash the key into a hash for a seek.
+> The performance measurement ran against the runtime and did not flag
+> this path as underperforming either, there were other parts that
+> substantially add to the runtime, not the key lookup though.
+>
+>
+> >>> The patch is to reduce the copying operations between user space and
+> >>> the kernel. I might miss something in your user space code, but the
+> >>> msg to send is *already packed* into the Stream Frame in user space,
+> >>> what's the difference if you encrypt it in userspace and then
+> >>> sendmsg(udp_sk) with zero-copy to the kernel.
+> >> It is possible to do it this way. Zero-copy works best with packet siz=
+es
+> >> starting at 32K and larger.  Anything less than that would consume the
+> >> improvements of zero-copy by zero-copy pre/post operations and needs t=
+o
+> >> align memory.
+> > Part of the cost of MSG_ZEROCOPY is in mapping and unmapping user
+> > pages. This series re-implements that with its own get_user_pages.
+> > That is duplicative non-trivial code. And it will incur the same cost.
+> > What this implementation saves is the (indeed non-trivial)
+> > asynchronous completion notification over the error queue.
+> >
+> > The cover letter gives some performance numbers against a userspace
+> > implementation that has to copy from user to kernel. It might be more
+> > even to compare against an implementation using MSG_ZEROCOPY and
+> > UDP_SEGMENT. A userspace crypto implementation may have other benefits
+> > compared to a kernel implementation, such as not having to convert to
+> > crypto API scatter-gather arrays and back to network structures.
+> >
+> > A few related points
+> >
+> > - The implementation support multiplexed connections, but only one
+> > crypto sendmsg can be outstanding at any time:
+> >
+> >    + /**
+> >    + * To synchronize concurrent sendmsg() requests through the same so=
+cket
+> >    + * and protect preallocated per-context memory.
+> >    + **/
+> >    + struct mutex sendmsg_mux;
+> >
+> > That is quite limiting for production workloads.
+>
+> The use case that we have with MVFST library currently runs a single
+> worker for a connection and has a single socket attached to it. QUIC
+> allows simultaneous use of multiple connection IDs to swap them in
+> runtime, and implementation would request only a handful of these. The
+> MVFST batches writes into a block of about 8Kb and then uses GSO to send
+> them all at once.
+>
+> > - Crypto operations are also executed synchronously, using
+> > crypto_wait_req after each operationn. This limits throughput by using
+> > at most one core per UDP socket. And adds sendmsg latency (which may
+> > or may not be important to the application). Wireguard shows an
+> > example of how to parallelize software crypto across cores.
+> >
+> > - The implementation avoids dynamic allocation of cipher text pages by
+> > using a single ctx->cipher_page. This is protected by sendmsg_mux (see
+> > above). Is that safe when packets leave the protocol stack and are
+> > then held in a qdisc or when being processed by the NIC?
+> > quic_sendmsg_locked will return, but the cipher page is not free to
+> > reuse yet.
+> There is currently no use case that we have in hands that requires
+> parallel transmission of data for the same connection. Multiple
+> connections would have no issue running in parallel as each of them will
+> have it's own preallocated cipher_page in the context.
+
+This still leaves the point that sendmsg may return and the mutex
+released while the cipher_page is still associated with an skb in the
+transmit path.
+
+> There is a fragmentation further down the stack with
+> ip_generic_getfrag() that eventually does copy_from_iter() and makea a
+> copy of the data. This is executed as part of __ip_append_data() called
+> from udp_sendmsg() in ipv4/udp.c. The assumption was that this is
+> executed synchronously and the queues and NIC will see a mapping of a
+> different memory area than the ciphertext in the pre-allocated page.
+>
+> >
+> > - The real benefit of kernel QUIC will come from HW offload. Would it
+> > be better to avoid the complexity of an in-kernel software
+> > implementation and only focus on HW offload? Basically, pass the
+> > plaintext QUIC packets over a standard UDP socket and alongside in a
+> > cmsg pass either an index into a HW security association database or
+> > the immediate { key, iv } connection_info (for stateless sockets), to
+> > be encoded into the descriptor by the device driver.
+> Hardware usually targets a single ciphersuite such as AES-GCM-128/256,
+> while QUIC also supports Chacha20-Poly1305 and AES-CCM. The generalized
+> support for offload prompted implementation of these ciphers in kernel
+> code.
+
+All userspace libraries also support all protocols as fall-back. No
+need for two fall-backs if HW support is missing?
+
+> The kernel code could also engage if the future hardware has
+> capacity caps preventing it from handling all requests in the hardware.
+> > - With such a simpler path, could we avoid introducing ULP and just
+> > have udp [gs]etsockopt CRYPTO_STATE. Where QUIC is the only defined
+> > state type yet.
+> >
+> > - Small aside: as the series introduces new APIs with non-trivial
+> > parsing in the kernel, it's good to run a fuzzer like syzkaller on it
+> > (if not having done so yet).
+> Agreed.
+> >> The other possible obstacle would be that eventual support
+> >> of QUIC encryption and decryption in hardware would integrate well wit=
+h
+> >> this current approach.
+> >>> Didn't really understand the "GSO" you mentioned, as I don't see any
+> >>> code about kernel GSO, I guess it's just "Fragment size", right?
+> >>> BTW, it=E2=80=98s not common to use "//" for the kernel annotation.
+> > minor point: fragment has meaning in IPv4. For GSO, prefer gso_size.
+> Sure, will change it to gso_size.
+> >
+> >> Once the payload arrives into the kernel, the GSO on the interface wou=
+ld
+> >> instruct L3/L4 stack on fragmentation. In this case, the plaintext QUI=
+C
+> >> packets should be aligned on the GSO marks less the tag size that woul=
+d
+> >> be added by encryption. For GSO size 1000, the QUIC packets in the bat=
+ch
+> >> for transmission should all be 984 bytes long, except maybe the last
+> >> one. Once the tag is attached, the new size of 1000 will correctly spl=
+it
+> >> the QUIC packets further down the stack for transmission in individual
+> >> IP/UDP packets. The code is also saving processing time by sending all
+> >> packets at once to UDP in a single call, when GSO is enabled.
+> >>> I'm not sure if it's worth adding a ULP layer over UDP for this QUIC
+> >>> TX only. Honestly, I'm more supporting doing a full QUIC stack in the
+> >>> kernel independently with socket APIs to use it:
+> >>> https://github.com/lxin/tls_hs.
+> >>>
+> >>> Thanks.
