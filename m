@@ -2,84 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5FE3C54EE9
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 08:19:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29FEBC07E9D
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 08:22:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231231AbiI0ITl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 04:19:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42414 "EHLO
+        id S231453AbiI0IWK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 04:22:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231203AbiI0ITh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 04:19:37 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27B2AB481;
-        Tue, 27 Sep 2022 01:19:34 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id q15-20020a17090a304f00b002002ac83485so9430361pjl.0;
-        Tue, 27 Sep 2022 01:19:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=9U+Qwke6i9i5veqMmKRkGRTk17ZxOAfJ107jvmytI2o=;
-        b=Rx4P8Knj0NPbKfAvw12ndhmhaR87tzsHAoBOw9QlJzGjGqNh3l7v8odLyRgz/u0vjS
-         segkGFeEMhFXlSuYalUYD/xkSztwdAfLDqP64F/ScjeRh1q7Tqdz6mt3uKsQgpoHsLV4
-         +AncxOntrmIbac9hDreTgYXtD8RxmL5+04Z25IiP8qG8GRHX6bay/oZaMo7IZooXu8aG
-         J/hVqxE2xatkdQsfH1AHxPDr4HDiF3rq2uMnhQgj/FuN1NVc4tu6E5lCzZx6SsqljwNh
-         I1sxBmoYPyWFTSjTvhvhshLbtKlouY5TzZI40tSobpU+YfQjY9mZxqJYdsei7eQ6wZ+u
-         wuXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=9U+Qwke6i9i5veqMmKRkGRTk17ZxOAfJ107jvmytI2o=;
-        b=mFtIASolk3PlKehUGwSaswL0G19KCIjRU2/wAZlw+c+Swh4PR1syjs9QQN65I3eGfU
-         M1MvWhwIYPdtwLGeJlNrVHXwY30PKcHaXT8gY7mnOEBto7M535RfDVcenpmyEyAz/hOz
-         ch9oGYhU7whwSkmCOwI0Duc2/3G/+HAZCGnBuu6G+W+Y8oNKOHU/B/2NsNd59ayLEQtJ
-         Rc7YaN0hGnWwK24tKPtdOHcOREAqbom2W1KDiSCuBAJPRxd0p8tPvTxd7EfHKtVVbgqJ
-         S9x0vmI95R4s6iKrzFC+mJ0n0FXnrajvjNVbvQ/Ibt2f8NtkJlrFWd5AeHvMtiDVv3z8
-         mXtg==
-X-Gm-Message-State: ACrzQf22/xewddjP3967kbGlu8Ik1Ze0ncH8SXY2Im7QCBvdMow4WaHr
-        ziSyBeHbN8+oZrukr0jT+diqaOZD7Gs=
-X-Google-Smtp-Source: AMsMyM4hRHa0SrXblfbSs1dZTPP/1dvW/D+2EVB0KBZkQIgccgRP6GIZaG7Zbc5VjcXz4jTvLD52kA==
-X-Received: by 2002:a17:90b:4a85:b0:202:4f3f:1f65 with SMTP id lp5-20020a17090b4a8500b002024f3f1f65mr3181331pjb.241.1664266773606;
-        Tue, 27 Sep 2022 01:19:33 -0700 (PDT)
-Received: from [192.168.43.80] (subs28-116-206-12-32.three.co.id. [116.206.12.32])
-        by smtp.gmail.com with ESMTPSA id bf1-20020a170902b90100b0017849a2b56asm870691plb.46.2022.09.27.01.19.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Sep 2022 01:19:32 -0700 (PDT)
-Message-ID: <dd89a30e-5403-8844-036c-9c9107cac888@gmail.com>
-Date:   Tue, 27 Sep 2022 15:19:29 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH] Documentation/CoC: Reflect current CoC interpretation and
- practices
-Content-Language: en-US
-To:     Kristen Carlson Accardi <kristen@linux.intel.com>,
+        with ESMTP id S231130AbiI0IWH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 04:22:07 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41B03AA4DC;
+        Tue, 27 Sep 2022 01:22:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id EA68FB8198C;
+        Tue, 27 Sep 2022 08:22:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E2E1C433C1;
+        Tue, 27 Sep 2022 08:22:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1664266922;
+        bh=pxlcFe1lsswRR24DUMZ9doZA73cRVv7IeBcyhZAumnA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BM4602TszfDF8QAGQTdA7Gvipnv3hBv3a3KCs0b0kc5/Or0Jt8SGY2vws66e9Uwhy
+         9xL0CiFy5a7NeEAijhH6KpRvM1P8wBG2Gy4PYtw+5pMX7OM3LiJ2Yfc/PGVmoBVF+T
+         YgyY8kb10rnFqNwjh6FN+KYfDVE6r0xm74u2xUls=
+Date:   Tue, 27 Sep 2022 10:22:00 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Kristen Carlson Accardi <kristen@linux.intel.com>,
         linux-doc@vger.kernel.org, corbet@lwn.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
         linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/CoC: Reflect current CoC interpretation
+ and practices
+Message-ID: <YzKyqNJk72TY//42@kroah.com>
 References: <20220926211149.2278214-1-kristen@linux.intel.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220926211149.2278214-1-kristen@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <dd89a30e-5403-8844-036c-9c9107cac888@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dd89a30e-5403-8844-036c-9c9107cac888@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/27/22 04:11, Kristen Carlson Accardi wrote:
-> The Code of Conduct interpretation does not reflect the current
-> practices of the CoC committee or the TAB. Update the documentation
-> to remove references to initial committees and boot strap periods
-> since it is past that time, and note that the this document
-> does serve as the documentation for the CoC committee processes.
+On Tue, Sep 27, 2022 at 03:19:29PM +0700, Bagas Sanjaya wrote:
+> On 9/27/22 04:11, Kristen Carlson Accardi wrote:
+> > The Code of Conduct interpretation does not reflect the current
+> > practices of the CoC committee or the TAB. Update the documentation
+> > to remove references to initial committees and boot strap periods
+> > since it is past that time, and note that the this document
+> > does serve as the documentation for the CoC committee processes.
+> > 
 > 
+> When was the bootstrap period be concluded?
 
-When was the bootstrap period be concluded?
+I do not understand the question, sorry.  What exactly are you asking
+here?
 
--- 
-An old man doll... just what I always wanted! - Clara
+confused,
+
+greg k-h
