@@ -2,128 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3301DC6FA92
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 15:59:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83519C07E9D
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 16:06:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231448AbiI0P7r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 11:59:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33446 "EHLO
+        id S232584AbiI0QGE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 12:06:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231394AbiI0P7q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 11:59:46 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 101E4165B2;
-        Tue, 27 Sep 2022 08:59:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664294385; x=1695830385;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=94Usqc87BKOJMsZqMwetyxtlbvxFJh5VRsFtzTTf6+g=;
-  b=NgfdPgdciyVS8QoBvFmygWVuXslFhDqQNPHyYHHA1l2K7N0Yr2a8vX35
-   okgX6VQFLKRUdEWLClg3vaGnW3+LZK0EU9QDQtVkNuvv5mpkco+j5qcJR
-   yQnsIjk2sYrOir5aVLNvayiPbxFutHeNDO5ZyIFVwU6w7aIpOjfxWZLyO
-   SqsPi0RAqwoC2PLpTXvzwC/hbEBc7tcUd5TEv5EHofjOyY3AiQYngjerP
-   bgg393SkQSimYF4+YSDjDm+O+dILWi1TBFjSI5pDiReubeVxfffJRxi3/
-   QNSog3yqq0mLWu79cMjAgeaJw16V45TZvz0L2meLDWEoFEbwkYF0Eve90
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="301331494"
-X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
-   d="scan'208";a="301331494"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2022 08:59:42 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="725562481"
-X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
-   d="scan'208";a="725562481"
-Received: from liukaren-mobl1.amr.corp.intel.com (HELO [10.209.44.66]) ([10.209.44.66])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2022 08:59:41 -0700
-Message-ID: <a9a569566c2771621f170d017ce981dcfff2b1e7.camel@linux.intel.com>
-Subject: Re: [PATCH] Documentation/CoC: Reflect current CoC interpretation
- and practices
-From:   Kristen Carlson Accardi <kristen@linux.intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        with ESMTP id S232908AbiI0QFo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 12:05:44 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 128481C45BC;
+        Tue, 27 Sep 2022 09:03:52 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 878062CD;
+        Tue, 27 Sep 2022 16:03:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 878062CD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1664294631; bh=jHSmSAR/hobBlMN0tqy1ovtiuqG6lGuz9A1LCwBR+d8=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Hu+iHpqZId9a2KB+8oILML7Q00W4M53pyLpcc8okZ+M4ob7+lrxLZK2Oyg9yUVO0h
+         WvN8n0BdN32oFT6UawHcSBZIAqSZW/pWWsIJKWR9gWSDX2LbZ9g0xuOz64oq67Oy/m
+         x4bB2gdFDlUFiqjnfOTkg5pzdOKpDG0qdvrORuVnhc+R1bBDjBfX+dCKDUyLWue5Ov
+         0LgktRf+Yful4wUsKTLaxvHqfi+eNHfODFo0zhTmFyvpaiDvrD8p6iYYg5PrTCx6fq
+         VGyAzyLjMDP25IvLCF9U3hhXCDG2KZOjfCtjePnkNINpxJj+FGsmaEAaqaXu58hIjs
+         7eqKSFOLJ9fFA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Kristen Carlson Accardi <kristen@linux.intel.com>,
+        linux-doc@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Shuah Khan <skhan@linuxfoundation.org>,
         linux-kernel@vger.kernel.org,
         LF TAB <tech-board@lists.linux-foundation.org>
-Date:   Tue, 27 Sep 2022 08:59:40 -0700
-In-Reply-To: <87h70tpw6d.fsf@meer.lwn.net>
+Subject: Re: [PATCH] Documentation/CoC: Reflect current CoC interpretation
+ and practices
+In-Reply-To: <a9a569566c2771621f170d017ce981dcfff2b1e7.camel@linux.intel.com>
 References: <20220926211149.2278214-1-kristen@linux.intel.com>
-         <87h70tpw6d.fsf@meer.lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+ <87h70tpw6d.fsf@meer.lwn.net>
+ <a9a569566c2771621f170d017ce981dcfff2b1e7.camel@linux.intel.com>
+Date:   Tue, 27 Sep 2022 10:03:50 -0600
+Message-ID: <87sfkcolcp.fsf@meer.lwn.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2022-09-26 at 17:12 -0600, Jonathan Corbet wrote:
-> Kristen Carlson Accardi <kristen@linux.intel.com> writes:
->=20
-> > The Code of Conduct interpretation does not reflect the current
-> > practices of the CoC committee or the TAB. Update the documentation
-> > to remove references to initial committees and boot strap periods
-> > since it is past that time, and note that the this document
-> > does serve as the documentation for the CoC committee processes.
->=20
-> Since this takes the TAB's name in vain, they should probably be CC'd
-> on
-> it; I've added that now.
->=20
-> Thanks,
->=20
-> jon
+Kristen Carlson Accardi <kristen@linux.intel.com> writes:
 
-Thanks Jon,
+>> > +neutral third party.=C2=A0 The processes the Code of Conduct committee
+>> > will
+>> > +use to address reports is varied and will depend on the individual
+>
+> Eek, I see a small error here - it should either say "The processes the
+> Code of Conduct committee will use to address reports are varied"
+> OR
+> "The process the Code of Conduct committee will use to address reports
+> is varied"
+>
+> Perhaps this can be fixed when it is added to a tree, or let me know if
+> you would like another version.
 
->=20
-> > Signed-off-by: Kristen Carlson Accardi <kristen@linux.intel.com>
-> > Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > ---
-> > =C2=A0.../code-of-conduct-interpretation.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 24 ++++++++++-----
-> > ----
-> > =C2=A01 file changed, 13 insertions(+), 11 deletions(-)
-> >=20
-> > diff --git a/Documentation/process/code-of-conduct-
-> > interpretation.rst b/Documentation/process/code-of-conduct-
-> > interpretation.rst
-> > index 4f8a06b00f60..922e0b547bc3 100644
-> > --- a/Documentation/process/code-of-conduct-interpretation.rst
-> > +++ b/Documentation/process/code-of-conduct-interpretation.rst
-> > @@ -127,10 +127,12 @@ are listed at
-> > https://kernel.org/code-of-conduct.html.=C2=A0 Members can not
-> > =C2=A0access reports made before they joined or after they have left th=
-e
-> > =C2=A0committee.
-> > =C2=A0
-> > -The initial Code of Conduct Committee consists of volunteer
-> > members of
-> > -the TAB, as well as a professional mediator acting as a neutral
-> > third
-> > -party.=C2=A0 The first task of the committee is to establish documente=
-d
-> > -processes, which will be made public.
-> > +The Code of Conduct Committee consists of volunteer community
-> > members
-> > +appointed by the TAB, as well as a professional mediator acting as
-> > a
-> > +neutral third party.=C2=A0 The processes the Code of Conduct committee
-> > will
-> > +use to address reports is varied and will depend on the individual
-
-Eek, I see a small error here - it should either say "The processes the
-Code of Conduct committee will use to address reports are varied"
-OR
-"The process the Code of Conduct committee will use to address reports
-is varied"
-
-Perhaps this can be fixed when it is added to a tree, or let me know if
-you would like another version.
-
+I can tweak it, no worries.
 
 Thanks,
-Kristen
 
+jon
