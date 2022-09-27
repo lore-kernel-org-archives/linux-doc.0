@@ -2,80 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F251EC54EE9
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 15:31:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3301DC6FA92
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 15:59:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232198AbiI0Pb0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 11:31:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42360 "EHLO
+        id S231448AbiI0P7r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 11:59:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232177AbiI0PbZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 11:31:25 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB4E1BF0CA;
-        Tue, 27 Sep 2022 08:31:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6DC7C61A2D;
-        Tue, 27 Sep 2022 15:31:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F8C9C433D6;
-        Tue, 27 Sep 2022 15:31:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1664292683;
-        bh=c38sDKyGOCIWMAL+5RdQblbALUt7vW6NR+mbJSrj9nc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wFyvyXeqy4uXX6VyLVzObGRKH68++Fu/jaJvuc7rq1E/W5DBnGYfSqWYcwn9lhZO3
-         8Xi58k51JRSlVMTXj7VUDdd/wyFXg8YcdI4qvAsgaSrCNSQwyWilnXJKStZ5SFvXJd
-         H9G+k/h7sQ4B4xOcGRaLGCkhwql54fjgO0iRmzEs=
-Date:   Tue, 27 Sep 2022 17:31:16 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        David Gow <davidgow@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v10 25/27] x86: enable initial Rust support
-Message-ID: <YzMXRGyeA78P1iVw@kroah.com>
-References: <20220927131518.30000-1-ojeda@kernel.org>
- <20220927131518.30000-26-ojeda@kernel.org>
+        with ESMTP id S231394AbiI0P7q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 11:59:46 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 101E4165B2;
+        Tue, 27 Sep 2022 08:59:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664294385; x=1695830385;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=94Usqc87BKOJMsZqMwetyxtlbvxFJh5VRsFtzTTf6+g=;
+  b=NgfdPgdciyVS8QoBvFmygWVuXslFhDqQNPHyYHHA1l2K7N0Yr2a8vX35
+   okgX6VQFLKRUdEWLClg3vaGnW3+LZK0EU9QDQtVkNuvv5mpkco+j5qcJR
+   yQnsIjk2sYrOir5aVLNvayiPbxFutHeNDO5ZyIFVwU6w7aIpOjfxWZLyO
+   SqsPi0RAqwoC2PLpTXvzwC/hbEBc7tcUd5TEv5EHofjOyY3AiQYngjerP
+   bgg393SkQSimYF4+YSDjDm+O+dILWi1TBFjSI5pDiReubeVxfffJRxi3/
+   QNSog3yqq0mLWu79cMjAgeaJw16V45TZvz0L2meLDWEoFEbwkYF0Eve90
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="301331494"
+X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
+   d="scan'208";a="301331494"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2022 08:59:42 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="725562481"
+X-IronPort-AV: E=Sophos;i="5.93,349,1654585200"; 
+   d="scan'208";a="725562481"
+Received: from liukaren-mobl1.amr.corp.intel.com (HELO [10.209.44.66]) ([10.209.44.66])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2022 08:59:41 -0700
+Message-ID: <a9a569566c2771621f170d017ce981dcfff2b1e7.camel@linux.intel.com>
+Subject: Re: [PATCH] Documentation/CoC: Reflect current CoC interpretation
+ and practices
+From:   Kristen Carlson Accardi <kristen@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        LF TAB <tech-board@lists.linux-foundation.org>
+Date:   Tue, 27 Sep 2022 08:59:40 -0700
+In-Reply-To: <87h70tpw6d.fsf@meer.lwn.net>
+References: <20220926211149.2278214-1-kristen@linux.intel.com>
+         <87h70tpw6d.fsf@meer.lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220927131518.30000-26-ojeda@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 27, 2022 at 03:14:56PM +0200, Miguel Ojeda wrote:
-> Note that only x86_64 is covered and not all features nor mitigations
-> are handled, but it is enough as a starting point and showcases
-> the basics needed to add Rust support for a new architecture.
-> 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
-> Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
-> Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
-> Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
-> Co-developed-by: David Gow <davidgow@google.com>
-> Signed-off-by: David Gow <davidgow@google.com>
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
->  Documentation/rust/arch-support.rst |  1 +
->  arch/x86/Kconfig                    |  1 +
->  arch/x86/Makefile                   | 10 ++++++++++
->  scripts/generate_rust_target.rs     | 15 +++++++++++++--
->  4 files changed, 25 insertions(+), 2 deletions(-)
+On Mon, 2022-09-26 at 17:12 -0600, Jonathan Corbet wrote:
+> Kristen Carlson Accardi <kristen@linux.intel.com> writes:
+>=20
+> > The Code of Conduct interpretation does not reflect the current
+> > practices of the CoC committee or the TAB. Update the documentation
+> > to remove references to initial committees and boot strap periods
+> > since it is past that time, and note that the this document
+> > does serve as the documentation for the CoC committee processes.
+>=20
+> Since this takes the TAB's name in vain, they should probably be CC'd
+> on
+> it; I've added that now.
+>=20
+> Thanks,
+>=20
+> jon
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Thanks Jon,
+
+>=20
+> > Signed-off-by: Kristen Carlson Accardi <kristen@linux.intel.com>
+> > Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > ---
+> > =C2=A0.../code-of-conduct-interpretation.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 24 ++++++++++-----
+> > ----
+> > =C2=A01 file changed, 13 insertions(+), 11 deletions(-)
+> >=20
+> > diff --git a/Documentation/process/code-of-conduct-
+> > interpretation.rst b/Documentation/process/code-of-conduct-
+> > interpretation.rst
+> > index 4f8a06b00f60..922e0b547bc3 100644
+> > --- a/Documentation/process/code-of-conduct-interpretation.rst
+> > +++ b/Documentation/process/code-of-conduct-interpretation.rst
+> > @@ -127,10 +127,12 @@ are listed at
+> > https://kernel.org/code-of-conduct.html.=C2=A0 Members can not
+> > =C2=A0access reports made before they joined or after they have left th=
+e
+> > =C2=A0committee.
+> > =C2=A0
+> > -The initial Code of Conduct Committee consists of volunteer
+> > members of
+> > -the TAB, as well as a professional mediator acting as a neutral
+> > third
+> > -party.=C2=A0 The first task of the committee is to establish documente=
+d
+> > -processes, which will be made public.
+> > +The Code of Conduct Committee consists of volunteer community
+> > members
+> > +appointed by the TAB, as well as a professional mediator acting as
+> > a
+> > +neutral third party.=C2=A0 The processes the Code of Conduct committee
+> > will
+> > +use to address reports is varied and will depend on the individual
+
+Eek, I see a small error here - it should either say "The processes the
+Code of Conduct committee will use to address reports are varied"
+OR
+"The process the Code of Conduct committee will use to address reports
+is varied"
+
+Perhaps this can be fixed when it is added to a tree, or let me know if
+you would like another version.
+
+
+Thanks,
+Kristen
+
