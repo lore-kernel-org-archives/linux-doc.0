@@ -2,72 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D274C07E9D
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 08:43:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3AFEC6FA86
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 09:15:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229603AbiI0Ink (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 04:43:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39238 "EHLO
+        id S230318AbiI0JPt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 05:15:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231268AbiI0Ind (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 04:43:33 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C0E67539B;
-        Tue, 27 Sep 2022 01:43:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0253661736;
-        Tue, 27 Sep 2022 08:43:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11144C433D6;
-        Tue, 27 Sep 2022 08:43:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1664268211;
-        bh=cMC0mbnCxjb8IKzSlWcakWh/99h0aVPN0peMWzbTBdg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=s7XInvNcFk1a+0zD9fVBCEVG9kYlk7mXr09rw68F3kZvjpm5uRpNFEQxYuKaeSLir
-         mIGs8cffCmPWHhII0K4CXPglklQAJlCPAIe5y8RfX6BzBc2yOLmBwfN0p260mAnmZH
-         X8HcolgRgPJTG2ytlQ5WI8DnbW2ZtYEa2/LSl3/I=
-Date:   Tue, 27 Sep 2022 10:43:29 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Kristen Carlson Accardi <kristen@linux.intel.com>,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/CoC: Reflect current CoC interpretation
- and practices
-Message-ID: <YzK3sSrHSckm7T3b@kroah.com>
-References: <20220926211149.2278214-1-kristen@linux.intel.com>
- <dd89a30e-5403-8844-036c-9c9107cac888@gmail.com>
- <YzKyqNJk72TY//42@kroah.com>
- <f0c27a5b-fee2-eb64-6855-639e7ea65d37@gmail.com>
+        with ESMTP id S231451AbiI0JPp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 05:15:45 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADF8F8A7F6;
+        Tue, 27 Sep 2022 02:15:42 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4McDRd2xl3zpV3J;
+        Tue, 27 Sep 2022 17:12:45 +0800 (CST)
+Received: from [10.67.102.169] (10.67.102.169) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 27 Sep 2022 17:15:40 +0800
+CC:     <yangyicong@hisilicon.com>, <corbet@lwn.net>,
+        <peterz@infradead.org>, <arnd@arndb.de>,
+        <linux-kernel@vger.kernel.org>, <darren@os.amperecomputing.com>,
+        <huzhanyuan@oppo.com>, <lipeifeng@oppo.com>,
+        <zhangshiming@oppo.com>, <guojian@oppo.com>, <realmz6@gmail.com>,
+        <linux-mips@vger.kernel.org>, <openrisc@lists.librecores.org>,
+        <linux-mm@kvack.org>, <x86@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <akpm@linux-foundation.org>,
+        <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+        Barry Song <21cnbao@gmail.com>, <wangkefeng.wang@huawei.com>,
+        <xhao@linux.alibaba.com>, <prime.zeng@hisilicon.com>,
+        Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4 2/2] arm64: support batched/deferred tlb shootdown
+ during page reclamation
+To:     Anshuman Khandual <anshuman.khandual@arm.com>
+References: <20220921084302.43631-1-yangyicong@huawei.com>
+ <20220921084302.43631-3-yangyicong@huawei.com>
+ <168eac93-a6ee-0b2e-12bb-4222eff24561@arm.com>
+From:   Yicong Yang <yangyicong@huawei.com>
+Message-ID: <8e391962-4e3a-5a56-64b4-78e8637e3b8c@huawei.com>
+Date:   Tue, 27 Sep 2022 17:15:40 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f0c27a5b-fee2-eb64-6855-639e7ea65d37@gmail.com>
+In-Reply-To: <168eac93-a6ee-0b2e-12bb-4222eff24561@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 27, 2022 at 03:27:24PM +0700, Bagas Sanjaya wrote:
-> On 9/27/22 15:22, Greg Kroah-Hartman wrote:
-> >> When was the bootstrap period be concluded?
-> > 
-> > I do not understand the question, sorry.  What exactly are you asking
-> > here?
-> > 
-> > confused,
-> > 
-> > greg k-h
+On 2022/9/27 14:16, Anshuman Khandual wrote:
+> [...]
 > 
-> Hi Greg,
+> On 9/21/22 14:13, Yicong Yang wrote:
+>> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
+>> +{
+>> +	/* for small systems with small number of CPUs, TLB shootdown is cheap */
+>> +	if (num_online_cpus() <= 4)
 > 
-> In the patch, the mention to bootstrap period of CoC committee is
-> replaced with note about dynamic nature of CoC interpretation. I asked
-> when the duration of bootstrap period was before we got into status quo.
+> It would be great to have some more inputs from others, whether 4 (which should
+> to be codified into a macro e.g ARM64_NR_CPU_DEFERRED_TLB, or something similar)
+> is optimal for an wide range of arm64 platforms.
+> 
 
-It was a while ago, a few years perhaps?  We had forgotten to update the
-document since then, sorry.
+Do you prefer this macro to be static or make it configurable through kconfig then
+different platforms can make choice based on their own situations? It maybe hard to
+test on all the arm64 platforms.
 
-greg k-h
+Thanks.
+
+>> +		return false;> +
+>> +#ifdef CONFIG_ARM64_WORKAROUND_REPEAT_TLBI
+>> +	if (unlikely(this_cpu_has_cap(ARM64_WORKAROUND_REPEAT_TLBI)))
+>> +		return false;
+>> +#endif
+>> +
+>> +	return true;
+>> +}
+>> +
+> 
+> [...]
+> 
+> .
+> 
