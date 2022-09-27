@@ -2,113 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81EC1C32771
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 03:09:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54399C07E9D
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 03:22:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229914AbiI0DJ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 23:09:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42836 "EHLO
+        id S231295AbiI0DWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 23:22:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230248AbiI0DIK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 23:08:10 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBC2A75FD1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 20:02:41 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id a80so8506114pfa.4
-        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 20:02:41 -0700 (PDT)
+        with ESMTP id S230034AbiI0DVS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 23:21:18 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CFE48A1D9
+        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 20:21:00 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id 78so8224163pgb.13
+        for <linux-doc@vger.kernel.org>; Mon, 26 Sep 2022 20:21:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=85M7BEeaq9zxW2h3AU3e8O57XOSPgZunos10OsJfDq0=;
-        b=KfigKs+pa68qGUfx08Fz5iZPF/LbCgHd5uxt/2Dh09KNMPECXa9wkgYQDDy1HXmGCV
-         Y71VHxpZ8kiRBtnqJtoPdQsrWPXgvL0uXPs4xxdOjBkOj6/pYkI9X2XpMAa2Vdb+B0mM
-         lSLI/IFeoBVrfsSvKaNYLN0lfIjsVSL31i7rI=
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=gJSpeC3acOdE1deb6CRGlYyNAu45L1g+bIJ1h5Tmd0Y=;
+        b=8EkLAgwZLfVvgJvVIU7PCfEIoNhZ6TzqC/Im9C6pJdGo7ONY4xK2NNh2/Oqm83SkCm
+         3CDCMXfWyd+dHuO4OBUDuasbemAK/ulf7HP5hmd2qrfRY1MNLen0L9IxkoS27WB/50YE
+         PCeWC8Ww+2fzTnWS7OsR93tlHW2UozCqDK05XFzcmUgFKhTQHNwTRtY7GIPitdbkTJIf
+         pXbv/N7umBU3OuI2V2HtOzZIqmsi8zYjtbBJXrJ4PstJbu6nxM4l6CeYizM2NmTt9KSg
+         gi7ybENpJOffa18GybvGaN97VsqzSiyrn2EKhEnenU1aNOJ0XrBkQ/UCvKRSsz9ava2Y
+         5NYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=85M7BEeaq9zxW2h3AU3e8O57XOSPgZunos10OsJfDq0=;
-        b=gXfdzVPpdx7siO1hhguxUN+AIRxJJxy2l0e8V6CBQ1HtLbSsqGHTzKkO6CJlsZx6Me
-         3uFYVl3eURwoeUlypXb2AV641nhCy5FWuEEtaOIewJSiUKNDmHI4jrOZKThI1FH/WeGJ
-         shijE0FIVNW8cAM0hy2U9RuexOMSVfVelRvchzEXKaT0CAFH/XrNpKNeXy4CqJX0Lq8S
-         Y9dSUdD/cezUHTx6waNHEGAtTH+8sbhZ1sC9jNLr81R2nMbmOGPZms6aBfDLjHh5DnaT
-         3jDL2MsnjIbAnpNuQAbPN27tMtbyBaljSpcpMBQXSnP14Kyiw7Zuu1oXsZsiOZql83kE
-         8smg==
-X-Gm-Message-State: ACrzQf2nGuH7v2D9DqUEMbSXIRnrpvo7GQw1+rHm9650IJ+e0vyahyPK
-        EacPEz7v1uiUJnEUKUaSC8piAQ==
-X-Google-Smtp-Source: AMsMyM55rJie2+871SGa0Nl+9qYm+Jk7BeAdd3mOnkfA+n0BFLgxS701gzO7WRnXsgRXTP0GFUmsig==
-X-Received: by 2002:a63:6b83:0:b0:43c:17e8:c2a5 with SMTP id g125-20020a636b83000000b0043c17e8c2a5mr21546502pgc.457.1664247738268;
-        Mon, 26 Sep 2022 20:02:18 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f26-20020a639c1a000000b0042254fce5e7sm234514pge.50.2022.09.26.20.02.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Sep 2022 20:02:17 -0700 (PDT)
-Date:   Mon, 26 Sep 2022 20:02:16 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] overflow: Fix kern-doc markup for functions
-Message-ID: <202209261959.A202D045@keescook>
-References: <20220926194713.1806917-1-keescook@chromium.org>
- <YzIUS/+H2YA7RBvA@casper.infradead.org>
- <202209261408.59F78C0D@keescook>
- <ada70afe-64d5-ccab-242e-9a3c3c85e6c4@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=gJSpeC3acOdE1deb6CRGlYyNAu45L1g+bIJ1h5Tmd0Y=;
+        b=5cBvFpoO+ytSg0dY6ZFiCTHHMqaRpwuLoCt7IRRenO52cXdDJP9Rb0CRaxirHTLuII
+         PeM6BJ9H3jSKhD4uXeBm5tsTn2B9aiv25Wbj/6ZONwxs67ZoCYpZ1qN4p4ddm+VObI/x
+         w2DSosKxIs2mtmT+CKFjBZk13+9NNkU+UwYItNchPNLtzMUOqoigt9dpP58jgt64y+9A
+         fbyHk7LELX9FWcsLEKI5BQ1x7zlLFXiuS2QF20bEtlMRAqLzmHWNDG/Dfqlk5NAHq33r
+         cOdtebOVEUoelxUE5IFE5HLs4QNGo2BrOdSYrS12NMOHSZCjl7t0E4R4XXPnDrKVVImh
+         04Kg==
+X-Gm-Message-State: ACrzQf2C9NgGWYtbo4+pnu/wzfZqieVuCTT0H3aKj+sy2eEOk4jVuT4X
+        10NKViEbSebFHBl92xjtcxMZTw==
+X-Google-Smtp-Source: AMsMyM6UNlMWxj+4hK+7MEVtLFzHUlsUqma1gXOwIueoKn9DvqI+ZL4yPxyRpb4Kijt2V67UV2LZgw==
+X-Received: by 2002:a63:91ca:0:b0:436:64db:c902 with SMTP id l193-20020a6391ca000000b0043664dbc902mr22917146pge.87.1664248859946;
+        Mon, 26 Sep 2022 20:20:59 -0700 (PDT)
+Received: from [10.255.19.83] ([139.177.225.240])
+        by smtp.gmail.com with ESMTPSA id c3-20020a170902d48300b0017870f471f6sm185074plg.226.2022.09.26.20.20.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Sep 2022 20:20:59 -0700 (PDT)
+Message-ID: <7ac9abce-4458-982b-6c04-f9569a78c0da@bytedance.com>
+Date:   Tue, 27 Sep 2022 11:20:54 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ada70afe-64d5-ccab-242e-9a3c3c85e6c4@gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.0
+Subject: Re: [RFC] proc: Add a new isolated /proc/pid/mempolicy type.
+Content-Language: en-US
+To:     Michal Hocko <mhocko@suse.com>,
+        Zhongkun He <hezhongkun.hzk@bytedance.com>
+Cc:     corbet@lwn.net, akpm@linux-foundation.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20220926091033.340-1-hezhongkun.hzk@bytedance.com>
+ <YzF3aaLvEvFhTQa3@dhcp22.suse.cz>
+ <24b20953-eca9-eef7-8e60-301080a17d2d@bytedance.com>
+ <YzGya2Q3iuWS2WdM@dhcp22.suse.cz>
+From:   Abel Wu <wuyun.abel@bytedance.com>
+In-Reply-To: <YzGya2Q3iuWS2WdM@dhcp22.suse.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 27, 2022 at 11:53:38AM +0900, Akira Yokosawa wrote:
-> Hi,
-> 
-> Somehow Kees added me in Cc:, so let me comment.  :-)
-> 
-> On Mon, 26 Sep 2022 14:09:10 -0700, Kees Cook wrote:
-> > On Mon, Sep 26, 2022 at 10:06:19PM +0100, Matthew Wilcox wrote:
-> >> On Mon, Sep 26, 2022 at 12:47:13PM -0700, Kees Cook wrote:
-> >>> -/** check_add_overflow() - Calculate addition with overflow checking
-> >>> +/**
-> >>> + * check_add_overflow - Calculate addition with overflow checking
-> >>>   *
-> >>>   * @a: first addend
-> >>>   * @b: second addend
-> >>
-> >> Why did you remove the ()?  And why didn't you delete the blank line?
-> >> According to our documentation, the canonical form is:
-> >>
-> >>   /**
-> >>    * function_name() - Brief description of function.
-> >>    * @arg1: Describe the first argument.
-> >>    * @arg2: Describe the second argument.
-> >>    *        One can provide multiple line descriptions
-> >>    *        for arguments.
-> 
-> Matthew, you call it the "canonical form", my take is more of a "template
-> that is known to work".
+Hi Michal, thanks very much for your patience!
 
-Out of curiosity, why is the trailing "()" part of the standard
-template? Isn't it redundant? Or is trying to help differentiate between
-things that are non-callable? (i.e. a variable, etc.)
-
-> > Hunh, everywhere I'd looked didn't have the "()" (which seems
-> > redundant). The blank line was entirely aesthetics for me. If it's
-> > supposed to be without a blank, I can fix it up everwhere.
+On 9/26/22 10:08 PM, Michal Hocko wrote:
+> On Mon 26-09-22 20:53:19, Zhongkun He wrote:
+>>> [Cc linux-api - please do so for any patches making/updating
+>>> kernel<->user interfaces]
+>>>
+>>>
+>>> On Mon 26-09-22 17:10:33, hezhongkun wrote:
+>>>> From: Zhongkun He <hezhongkun.hzk@bytedance.com>
+>>>>
+>>>> /proc/pid/mempolicy can be used to check and adjust the userspace task's
+>>>> mempolicy dynamically.In many case, the application and the control plane
+>>>> are two separate systems. When the application is created, it doesn't know
+>>>> how to use memory, and it doesn't care. The control plane will decide the
+>>>> memory usage policy based on different reasons.In that case, we can
+>>>> dynamically adjust the mempolicy using /proc/pid/mempolicy interface.
+>>>
+>>> Is there any reason to make it procfs interface rather than pidfd one?
+>>
+>> Hi michal,  thanks for your reply.
+>>
+>> I just think that it is easy to display and adjust the mempolicy using
+>> procfs. But it may not be suitable, I will send a pidfd_set_mempolicy patch
+>> later.
 > 
-> So, I think this is more of a territory of preference or consistency
-> rather than that of correctness.  Those extra blank lines can be confusing
-> as most people expect it in front of description part.
+> proc interface has many usability issues. That is why pidfd has been
+> introduced. So I would rather go with the pidfd interface than repeating
+> old proc API mistakes.
+
+I can't agree more.
+
 > 
-> get_maintainer.pl says Kees is the sole maintainer of overflow.h, so
-> it's his call, I guess.
+>> Btw.in order to add per-thread-group mempolicy, is it possible to add
+>> mempolicy in mm_struct?
+> 
+> I dunno. This would make the mempolicy interface even more confusing.
+> Per mm behavior makes a lot of sense but we already do have per-thread
+> semantic so I would stick to it rather than introducing a new semantic.
+> 
+> Why is this really important?
 
-Well, maintainer or not, I want to make sure stuff is as readable as
-possible by everyone else too. :) I'm happy to skip the blank lines!
+We want soft control on memory footprint of background jobs by applying
+NUMA preferences when necessary, so the impact on different NUMA nodes
+can be managed to some extent. These NUMA preferences are given by the
+control panel, and it might not be suitable to overwrite the tasks with
+specific memory policies already (or vice versa).
 
--- 
-Kees Cook
+Best Regards,
+Abel
