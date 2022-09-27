@@ -2,183 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40342C32771
-	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 00:37:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B512CC6FA82
+	for <linux-doc@archiver.kernel.org>; Tue, 27 Sep 2022 00:50:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229852AbiI0Ahj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 26 Sep 2022 20:37:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34758 "EHLO
+        id S229459AbiI0AuD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 26 Sep 2022 20:50:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229688AbiI0Ahi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 20:37:38 -0400
-Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 757166AA08;
-        Mon, 26 Sep 2022 17:37:32 -0700 (PDT)
-Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 0C6B91ED6;
-        Tue, 27 Sep 2022 02:37:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
-        s=202205; t=1664239049;
-        bh=l3/JFyfKNKQmVY9nWfEU2gb90XvHerhhcvbTIVEAFKw=;
-        h=Date:From:Cc:Subject:From;
-        b=FYi7pIFe36DI194+3ijU14jGNT4kTP3gefgEcUJh02WLb/9zIQHpCirrLBHJTHR2G
-         4TlmuJskv2gBuEkGrXReNKlrpntZ9HQN0twEElpYVBNJk7WxGydEzNschFHdYyVKa6
-         KKyJIEjkKW3KBrFFMaogKkR+RVTpS5rSO0TDGjE/TQb2ZVVLcLJdg2th33YMbMhQHC
-         bGWFc2FP5bfTjZvh1txI6wVoI0aXaSpW2HeOqEC6BP0bA9TQYrgdvNkyID0yjrp6/u
-         SSXkJJ4TRl0F3jK0Q64utlhEsZu9pEub1oLwIOHy0GBQpX0IkmG+865Co0tl2db5je
-         TkGy+LKX2DEHI12HK4rNJUz/G2Jebnvmtb4ITrO4qRWxBjrHwNVZctYKi3G1pcLt7W
-         VQk9EQ/f5+qbioSuGkHDWBExrjv/oOp1uMCN1hGWDZ+EEQGj1sHBD1TO9wFeNj1bNE
-         B5jPTeruAzfpqXwffFpFtTve7CM8YuVTnBpFq4ccVe3vm6lcz66Zrm4A7EGRkQGYtZ
-         WuO+3ZDi2+ZcX/+4omac0DCnGaKe5I+q50lQEwwwPQ4h+6gya5KDpCSxc3n2FAq7Sj
-         krWWcKTK6u8YsLn6hqrfTjp5BLm0QCgCClgxe7niUXW96BLsXDkOSg9UUtoIRtTYud
-         Gg5n/57i+JfGVgvGwisSMGDg=
-Date:   Tue, 27 Sep 2022 02:37:27 +0200
-From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        with ESMTP id S229512AbiI0AuC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 26 Sep 2022 20:50:02 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F61020182;
+        Mon, 26 Sep 2022 17:50:01 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id p1-20020a17090a2d8100b0020040a3f75eso8561193pjd.4;
+        Mon, 26 Sep 2022 17:50:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=anOfjEKm49o/rbXtkTtCMIqjAWrFaD+tdksXbREFKb4=;
+        b=Zg8ohBnyKsIgxhxGL39sNzgFwPjnmHwuABBZxWwKb2v491mAMO2h45I7t3mODFvXBx
+         5mFMNFVd6Xi5XKsrWVSY0ABYH5pkRumTx+Tya8nXA4wBXZW8fBCcD22u3W5ZA/LNsK1T
+         SAI0mFAqmpFCDPVQy4Mp8PDwxSqHs2X4sEJuW2EYtjWWMUhd7NjrhRkWJ7fqujPW9wvv
+         RwFr8j6laOaU+ERCvcM3qq4dG1qevc/tGAhx9D/vXoYJ2HUbYLydgF5G/VRm5jNVGw9J
+         pFfbrv+d2eOhd5PgGG2C+bAhHrG4iioDKB0dVCsJiRoTbL+b8b93ak4gzAdgvl7RXUiD
+         aVYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=anOfjEKm49o/rbXtkTtCMIqjAWrFaD+tdksXbREFKb4=;
+        b=gULNBWVA3vmlmWby5rVWEDvoiuvq3G5e7FZV129bRvTZFeP924PbePwIGVEeSC5CQQ
+         r5+ylWBP1t/ErzbqBQDLF2EqrlJLRmznrlqrvwb4mko6GtYru+w/4p89XuvH4+Nf+SAF
+         rTEql8fyskqDNFK8WJRFIkM9dvnrlwSZ6UBykgFO0FqfmKX12efuAn+7VReEGq1mHvsy
+         R3KxzpEe6MDQbuwfTjbxgVW6JQXj91vzV+8o3BiCfmrWr0iRkiVmZCIXRxqV+Bc+uytn
+         CS+Lijeelesu7sy4s9Jd8/pI5Di+bEi+JgG4XUOclTqNG8Fy9yH7SWSPfYIKwBOSlR10
+         PwnA==
+X-Gm-Message-State: ACrzQf16hy+WtpRXd0Hl0KHWTrpf7kMku3p8Fvq/NkwduYoYF3nRwWDl
+        f2t4O4aXq5Hoku7YhzhuhF4=
+X-Google-Smtp-Source: AMsMyM5xGeW0V0jX7yPgbGYUjz8ZBfPA4vZGsY8Qlgx6EbUzcb8RIoU+1i+yhG8zxvc/ni0paQIcXA==
+X-Received: by 2002:a17:90b:4c8a:b0:202:b3cd:f960 with SMTP id my10-20020a17090b4c8a00b00202b3cdf960mr1534138pjb.129.1664239800615;
+        Mon, 26 Sep 2022 17:50:00 -0700 (PDT)
+Received: from hyeyoo ([114.29.91.56])
+        by smtp.gmail.com with ESMTPSA id w16-20020aa79a10000000b0053639773ad8sm134914pfj.119.2022.09.26.17.49.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Sep 2022 17:49:59 -0700 (PDT)
+Date:   Tue, 27 Sep 2022 09:49:52 +0900
+From:   Hyeonggon Yoo <42.hyeyoo@gmail.com>
+To:     Alexander Atanasov <alexander.atanasov@virtuozzo.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Roman Gushchin <roman.gushchin@linux.dev>, kernel@openvz.org,
+        Kees Cook <keescook@chromium.org>,
+        Roman Gushchin <guro@fb.com>, Jann Horn <jannh@google.com>,
+        Vijayanand Jitta <vjitta@codeaurora.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net
-Subject: [PATCH] Documentation: NBD_REQUEST_MAGIC isn't a magic number
-Message-ID: <20220927003727.slf4ofb7dgum6apt@tarta.nabijaczleweli.xyz>
+        linux-mm@kvack.org
+Subject: Re: [PATCH v2] mm: Make failslab writable again
+Message-ID: <YzJIsFZQoCEYntvR@hyeyoo>
+References: <20220920121111.1792905-1-alexander.atanasov@virtuozzo.com>
+ <Yyr1xONdw8dBgsKr@hyeyoo>
+ <30063d97-69f0-bea2-9d59-108140995bfc@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="7373m7fyjiwtqpbt"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: NeoMutt/20220429
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <30063d97-69f0-bea2-9d59-108140995bfc@virtuozzo.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Sep 23, 2022 at 10:34:28AM +0300, Alexander Atanasov wrote:
+> Hello,
+> 
+> On 21.09.22 14:30, Hyeonggon Yoo wrote:
+> > On Tue, Sep 20, 2022 at 03:11:11PM +0300, Alexander Atanasov wrote:
+> > > In (060807f841ac mm, slub: make remaining slub_debug related attributes
+> > > read-only) failslab was made read-only.
+> > > I think it became a collateral victim to the two other options for which
+> > > the reasons are perfectly valid.
+> > > Here is why:
+> > >   - sanity_checks and trace are slab internal debug options,
+> > >     failslab is used for fault injection.
+> > >   - for fault injections, which by presumption are random, it
+> > >     does not matter if it is not set atomically. And you need to
+> > >     set atleast one more option to trigger fault injection.
+> > >   - in a testing scenario you may need to change it at runtime
+> > >     example: module loading - you test all allocations limited
+> > >     by the space option. Then you move to test only your module's
+> > >     own slabs.
+> > >   - when set by command line flags it effectively disables all
+> > >     cache merges.
+> > 
+> > Maybe we can make failslab= boot parameter to consider cache filtering?
+> > 
+> > With that, just pass something like this:
+> > 	failslab=X,X,X,X,cache_filter slub_debug=A,<cache-name>>
+> 
+> > Users should pass slub_debug=A,<cache-name> anyway to prevent cache merging.
+>
+> It will be good to have this in case you want to test cache that is used
+> early. But why push something to command line option only when it can be
+> changed at runtime?
 
---7373m7fyjiwtqpbt
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hmm okay. I'm not against changing it writable. (it looks okay to me.)
+Just wanted to understand your use case!
 
-It's part of the line protocol, same as in commit 82805818898d
-("Documentation: NBD_REPLY_MAGIC isn't a magic number")
+Can you please elaborate why booting with slub_debug=A,<your cache name>
+and enabling cache_filter after boot does not work?
 
-Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
----
-Based on driver-core-next where the main 18-patch series
-of magic-number.rst trivial cleanups landed =E2=80=92 I'd missed it then
+Or is it trying to changnig these steps,
 
- Documentation/process/magic-number.rst                    | 1 -
- Documentation/translations/it_IT/process/magic-number.rst | 1 -
- Documentation/translations/zh_CN/process/magic-number.rst | 1 -
- Documentation/translations/zh_TW/process/magic-number.rst | 1 -
- 4 files changed, 4 deletions(-)
+FROM
+	1. booting with slub_debug=A,<cache name>
+	2. write to cache_filter to enable cache filtering
+	3. setup probability, interval, times, size
 
-diff --git a/Documentation/process/magic-number.rst b/Documentation/process=
-/magic-number.rst
-index f420fa2d7f8b..c7b4fdf500fe 100644
---- a/Documentation/process/magic-number.rst
-+++ b/Documentation/process/magic-number.rst
-@@ -77,7 +77,6 @@ TTY_MAGIC             0x5401           tty_struct        =
-       ``include/linux/
- MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
-char/synclink.c``
- TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
-linux/tty_driver.h``
- MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
-char/pcmcia/synclink_cs.c``
--NBD_REQUEST_MAGIC     0x12560953       nbd_request              ``include/=
-linux/nbd.h``
- BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
-net/baycom_epp.c``
- HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
-linux/hdlcdrv.h``
- KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
-s/include/asm/sn/klkernvars.h``
-diff --git a/Documentation/translations/it_IT/process/magic-number.rst b/Do=
-cumentation/translations/it_IT/process/magic-number.rst
-index fa7f926649d2..8ca59c0395d3 100644
---- a/Documentation/translations/it_IT/process/magic-number.rst
-+++ b/Documentation/translations/it_IT/process/magic-number.rst
-@@ -83,7 +83,6 @@ TTY_MAGIC             0x5401           tty_struct        =
-       ``include/linux/
- MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
-char/synclink.c``
- TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
-linux/tty_driver.h``
- MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
-char/pcmcia/synclink_cs.c``
--NBD_REQUEST_MAGIC     0x12560953       nbd_request              ``include/=
-linux/nbd.h``
- BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
-net/baycom_epp.c``
- HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
-linux/hdlcdrv.h``
- KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
-s/include/asm/sn/klkernvars.h``
-diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Do=
-cumentation/translations/zh_CN/process/magic-number.rst
-index 4371f1683693..b6d2bb4322a3 100644
---- a/Documentation/translations/zh_CN/process/magic-number.rst
-+++ b/Documentation/translations/zh_CN/process/magic-number.rst
-@@ -66,7 +66,6 @@ TTY_MAGIC             0x5401           tty_struct        =
-       ``include/linux/
- MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
-char/synclink.c``
- TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
-linux/tty_driver.h``
- MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
-char/pcmcia/synclink_cs.c``
--NBD_REQUEST_MAGIC     0x12560953       nbd_request              ``include/=
-linux/nbd.h``
- BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
-net/baycom_epp.c``
- HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
-linux/hdlcdrv.h``
- KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
-s/include/asm/sn/klkernvars.h``
-diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Do=
-cumentation/translations/zh_TW/process/magic-number.rst
-index 3e83f18b9c18..52169e6543ee 100644
---- a/Documentation/translations/zh_TW/process/magic-number.rst
-+++ b/Documentation/translations/zh_TW/process/magic-number.rst
-@@ -69,7 +69,6 @@ TTY_MAGIC             0x5401           tty_struct        =
-       ``include/linux/
- MGSL_MAGIC            0x5401           mgsl_info                ``drivers/=
-char/synclink.c``
- TTY_DRIVER_MAGIC      0x5402           tty_driver               ``include/=
-linux/tty_driver.h``
- MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
-char/pcmcia/synclink_cs.c``
--NBD_REQUEST_MAGIC     0x12560953       nbd_request              ``include/=
-linux/nbd.h``
- BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
-net/baycom_epp.c``
- HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
-linux/hdlcdrv.h``
- KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
-s/include/asm/sn/klkernvars.h``
---=20
-2.30.2
+TO
 
---7373m7fyjiwtqpbt
-Content-Type: application/pgp-signature; name="signature.asc"
+	1. write to failslab attribute of <cache name> (may fail it has alias)
+	2. write to cache_filter to enable cache filtering
+	3. setup probability, interval, times, size
+?
 
------BEGIN PGP SIGNATURE-----
+as you may know, SLAB_FAILSLAB does nothing when
+cache_filter is disabled, and you should pass slub_debug=A,<cache name> anyway
+to prevent doing cache merging with <cache name>.
 
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmMyRcQACgkQvP0LAY0m
-WPH2mQ/+LwfEfmwKBa/U9I7UCg52jbM+8s2QNiXNwslTIf9G5nJP5GUSnK/tWtHs
-G9hOmQQDcKF6OHSZRQaowDdpuaHjB838f3cccuaVfB6Y0FIjobnCx7/n8a6dqYzm
-Bc5Nw8RfeSGGC/0hZ7XYoqWmtyiOf/BFnCkrLz3ePyOkh3pyX0PofG1aKJrRo1HC
-E3j5H3i0wD8oI2ggOmzifRzGrthYaDiIqjhcXHJ/KXWVOdo6Ve6s0KUd5ZsipCFC
-A24grwQJklqxlxCZ3ULJFyI6LVjHysv2qQplyesNDczd4S8PD4Bc6dUCjoslbKlv
-yxzdgoC+RBiGTqdzP9mySiuBTiduK9iGyX5wbbbUXZKrBJHOWbNGjsv7uDmGbMSU
-/cnsJWaPagS+OS7vTNp425pXJ3JJS47AnPZzAFm7vZU+TPkn3stRWWSRL7QqJagv
-W84rtOymczd2mWs29rGOmyjoRp/Au6xqPbjDCj7gl2RWCuQ4UDAx20IWYEPD3+u+
-UZCqA9vFb4dKNFhaC4kcjMY5uB1hrFwNg0mNs8X3Eg3MRqoUH50UJoaLNYy03TqQ
-PxUIduELJ/ZDeqwAU/9iZX5rrHFBfBjnDn27Bkap0Vi2bWR1ZPyqy2uurwgAuhe5
-Hb+dpm90dxmtRueztrFKrwN8AWlCtzA+q84Ke9WHkTj87xV2f9E=
-=LYD0
------END PGP SIGNATURE-----
-
---7373m7fyjiwtqpbt--
+-- 
+Thanks,
+Hyeonggon
