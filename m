@@ -2,134 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAC56C04A95
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 12:32:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B7D2C04A95
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 12:45:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233864AbiI1Mcd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Sep 2022 08:32:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48924 "EHLO
+        id S229576AbiI1MpL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Sep 2022 08:45:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233622AbiI1Mcb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 08:32:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D50A593516;
-        Wed, 28 Sep 2022 05:32:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3FD4E61E82;
-        Wed, 28 Sep 2022 12:32:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A121BC433C1;
-        Wed, 28 Sep 2022 12:32:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664368348;
-        bh=EyNm9e/kospwfUBKMSLkr0M2BSBwrVHn2fh1tDOdwuM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=dfamZNM5fP+jn1l5pyh80H1snVTZr8zfNWZmV0lU2et4mkWHw2nG4TrGClGDvYOrV
-         EEktRyPQv/7b62/9h6h2UohFiwIAobSGr/eGKFTJmWuNnBPo7B5jW6DuEDkjRq/e0R
-         x3u88+dSTqXXhTHF2UzCz8xJHbjSANofTRcPiIr7MGpLZl8fbdiuSM9tolDSftwo+S
-         25DyQJcfykPBCBSAT8aS3NKb5CZ2xralbCPtDaKbwkoWSMWIS9Ov20IO6X18CvS0Pa
-         saR47y/KECX3v/JG33rJEFGIorc8WBXzw9A0wZuZ0/sRnNoDRYNCmSluEoexLld8un
-         ek88SPjumXegw==
-Received: by mail-vs1-f48.google.com with SMTP id m66so12471730vsm.12;
-        Wed, 28 Sep 2022 05:32:28 -0700 (PDT)
-X-Gm-Message-State: ACrzQf02zzQU12ZGk9eaN7CsSlRYhT7IEPDlpjzLDjHoRZetbsWQHb3O
-        q0vNRENBnu7F3+K2FMdA+lYe1o09B8d9An3fhA==
-X-Google-Smtp-Source: AMsMyM6cV6HG80bHtUqnkMS+FDPOKphyXe4bLYl971eCVshhJr4zTcZBzeEWdG5eCe0dGT9yqfT3s/YdKFKkUqsBVrI=
-X-Received: by 2002:a67:3c7:0:b0:39b:45c2:6875 with SMTP id
- 190-20020a6703c7000000b0039b45c26875mr13161363vsd.6.1664368347626; Wed, 28
- Sep 2022 05:32:27 -0700 (PDT)
+        with ESMTP id S230520AbiI1MpK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 08:45:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6F3513D47
+        for <linux-doc@vger.kernel.org>; Wed, 28 Sep 2022 05:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1664369106;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=uufQYKHlB4NMDLgfrNjl6fs7TYc608vt4M1Drzs/IdQ=;
+        b=EgSsMitTgjGRcjmAMhpxJb53Mx89pVWvUoqi5VIh7JEtc9jGR/l4oLZNDTGoGhvR2Nkxbb
+        xxTvdBUswWTU8QljEnbyY3TnBvbuCbP/MwoPt70eT9ipTv8DkimOrz6uK+dlf0iovhpL9X
+        j+5nUT7lY3KpXDY15z3+FvHzOSbi/UI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-251-iwjXnGiNNL-aHGHWGcvPEg-1; Wed, 28 Sep 2022 08:45:04 -0400
+X-MC-Unique: iwjXnGiNNL-aHGHWGcvPEg-1
+Received: by mail-wm1-f71.google.com with SMTP id f25-20020a7bc8d9000000b003b4768dcd9cso519462wml.9
+        for <linux-doc@vger.kernel.org>; Wed, 28 Sep 2022 05:45:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date;
+        bh=uufQYKHlB4NMDLgfrNjl6fs7TYc608vt4M1Drzs/IdQ=;
+        b=JI6jGxRgEPBegFlSQxmulGdjzsGfEZNdVnozNvYb5qXLBNoS9zDLYJxSSnmtlBGxae
+         NSSnomA5Sqa3sFbDwBvSJuVhqyMPyKa3Pcr/fVWZ7TMv2euh0aYtodpL73SZMmWDxzOL
+         k8yBpoilOL8/meHzhkrJkzZe7qObM4lCEWSML6Il/DVn2d2QX9omCtEWlMhQ4m0FSZDs
+         VbSXaiVHvGXV3sOo4kezMbILZAsq2rLp1g8fm4aUbenOO/lwtC18IQegC9Jkjq0TQdko
+         PmX8cmQIDdQ/mMnCGumVMO4XiA+VH6S7JIDro62fsE3PnPe6xuXsk47HSd83LxaNDZgF
+         L78w==
+X-Gm-Message-State: ACrzQf2sGaDM43mk5ARlUo5s0tnfHAj3GsPWE2pvS9bvwwG1zMbTM6bR
+        tIp5ADjtkmv2fpc+u5v274WmOvb+2ZSsUnwL1o/w87UJdx/v6qHLW6voOcb9LA1NvNsuHYI0fd7
+        BlpdoredYfe9uRnrSY/Yc
+X-Received: by 2002:a5d:54ce:0:b0:22a:e653:654 with SMTP id x14-20020a5d54ce000000b0022ae6530654mr20853560wrv.134.1664369103796;
+        Wed, 28 Sep 2022 05:45:03 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6DXGXWYtOD1tp72GMv95ymx/s3vXL+wcRLQZFw20ZkjuJBEtRIWnmJ9pGR6pi/ghRFhlc6iA==
+X-Received: by 2002:a5d:54ce:0:b0:22a:e653:654 with SMTP id x14-20020a5d54ce000000b0022ae6530654mr20853525wrv.134.1664369103389;
+        Wed, 28 Sep 2022 05:45:03 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c704:1100:add9:5f61:6b94:7540? (p200300cbc7041100add95f616b947540.dip0.t-ipconnect.de. [2003:cb:c704:1100:add9:5f61:6b94:7540])
+        by smtp.gmail.com with ESMTPSA id p13-20020a05600c1d8d00b003b332a7bf15sm1635047wms.7.2022.09.28.05.45.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Sep 2022 05:45:02 -0700 (PDT)
+Message-ID: <6f2615f2-27c6-34e5-77f3-166d0e7b6182@redhat.com>
+Date:   Wed, 28 Sep 2022 14:45:01 +0200
 MIME-Version: 1.0
-References: <20220811022304.583300-1-kuba@kernel.org> <20220811022304.583300-3-kuba@kernel.org>
- <20220926161056.GA2002659-robh@kernel.org> <20220927145622.4e3339a4@kernel.org>
-In-Reply-To: <20220927145622.4e3339a4@kernel.org>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 28 Sep 2022 07:32:16 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJTg58HGJG6QbdNmHuUVK8EoEtzbQkMQOiprw01ryv83g@mail.gmail.com>
-Message-ID: <CAL_JsqJTg58HGJG6QbdNmHuUVK8EoEtzbQkMQOiprw01ryv83g@mail.gmail.com>
-Subject: Re: [RFC net-next 2/4] ynl: add the schema for the schemas
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
-        vadfed@fb.com, johannes@sipsolutions.net, jiri@resnulli.us,
-        dsahern@kernel.org, stephen@networkplumber.org, fw@strlen.de,
-        linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH -next v4 1/3] selftests/memory-hotplug: Add checking after
+ online or offline
+Content-Language: en-US
+To:     zhaogongyi <zhaogongyi@huawei.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Cc:     "akinobu.mita@gmail.com" <akinobu.mita@gmail.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "osalvador@suse.de" <osalvador@suse.de>,
+        "shuah@kernel.org" <shuah@kernel.org>
+References: <dd8998bcfe0e4b82a617dfd79d93368c@huawei.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <dd8998bcfe0e4b82a617dfd79d93368c@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 27, 2022 at 4:56 PM Jakub Kicinski <kuba@kernel.org> wrote:
->
-> On Mon, 26 Sep 2022 11:10:56 -0500 Rob Herring wrote:
-> > On Wed, Aug 10, 2022 at 07:23:02PM -0700, Jakub Kicinski wrote:
-> > > A schema in jsonschema format which should be familiar
-> > > to dt-bindings writers. It looks kinda hard to read, TBH,
-> > > I'm not sure how to make it better.
 
-[...]
+>> Reviewed-by: David Hildenbrand <david@redhat.com>
+>>
+>>
+>> I am questioning the stability of the offlining test, though.
+>> Offlining a random memory block can fail easily, because "->removable" is not
+>> expressive:
+>>
+>> # tools/testing/selftests/memory-hotplug/mem-on-off-test.sh
+>> Test scope: 2% hotplug memory
+>>            online all hot-pluggable memory in offline state:
+>>                    SKIPPED - no hot-pluggable memory in offline state
+>>            offline 2% hot-pluggable memory in online state
+>>            trying to offline 2 out of 96 memory block(s):
+>> online->offline memory0
+>> tools/testing/selftests/memory-hotplug/mem-on-off-test.sh: line 78: echo:
+>> write error: Invalid argument offline_memory_expect_success 0: unexpected
+>> fail
+>> online->offline memory10
+>> online->offline memory11
+>>
+>>
+>> I guess this test will almost always fail nowadays.
+> 
+> Offline some memory node maybe failed as expected, but the error message is a bit annoying.
 
-> > > +    description: Description of the family
-> > > +    type: string
-> > > +  version:
-> > > +    description: Version of the family as defined by genetlink.
-> > > +    type: integer
-> >
-> > Do you have the need to define the int size? We did our own keyword for
-> > this, but since then I've looked at several other projects that have
-> > used something like 'format: uint32'. There was some chatter about
-> > trying to standardize this, but I haven't checked in a while.
->
-> It's 8 bits in theory (struct genlmsghdr::version), in practice it's
-> never used, and pretty much ignored. The jsonschema I have on Fedora
-> does not know about uint8.
+Ah, I see it now. We try offlining two and fail offlining the first one. 
+Can we silence that warning in that case somehow?
 
-It wouldn't. It's some users of jsonschema that have added their own
-thing. With python-jsonschema, you can add your own FormatChecker
-class to handle custom 'format' entries.
+-- 
+Thanks,
 
+David / dhildenb
 
-> > > +  attr-cnt-suffix:
-> > > +    description: Suffix for last member of attribute enum, default is "MAX".
-> > > +    type: string
-> > > +  headers:
-> > > +    description: C headers defining the protocol
-> > > +    type: object
-> > > +    additionalProperties: False
-> > > +    properties:
-> > > +      uapi:
-> > > +        description: Path under include/uapi where protocol definition is placed
-> > > +        type: string
-> > > +      kernel:
-> > > +        description: Additional headers on which the protocol definition depends (kernel side)
-> > > +        anyOf: &str-or-arrstr
-> > > +          -
-> > > +            type: array
-> > > +            items:
-> > > +              type: string
-> > > +          -
-> > > +            type: string
-> > > +      user:
-> > > +        description: Additional headers on which the protocol definition depends (user side)
-> > > +        anyOf: *str-or-arrstr
-> >
-> > For DT, we stick to a JSON compatible subset of YAML, so no anchors. The
-> > jsonschema way to do this is using '$defs' (or 'definitions' before the
-> > spec standardized it) and '$ref'.
->
-> I need to read up on this. Is it possible to extend a type?
-> We really need a way to define a narrow set of properties for "going
-> forward" while the old families have extra quirks. I couldn't find any
-> jsonschema docs on how the inherit and extend.
-
-You can add constraints, but you can't override what you inherit.
-
-You do that with a $ref (and unevaluatedProperties if adding
-properties) to the base schema and then add more schema constraints.
-For example, we define something as an array with a $ref and then add
-the bounds to it. That can also be done by 2 schemas applied
-independently. However, if it's constraining properties present in an
-object, then that can't be independent (that's where
-unevaluatedProperties comes into play).
-
-Rob
