@@ -2,211 +2,286 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09BE9C32771
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 15:22:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 151BDC32771
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 15:25:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234224AbiI1PWt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Sep 2022 11:22:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37708 "EHLO
+        id S234051AbiI1PY7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Sep 2022 11:24:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233765AbiI1PW1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 11:22:27 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99F4CB7EF8;
-        Wed, 28 Sep 2022 08:21:20 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id x1-20020a17090ab00100b001fda21bbc90so2731011pjq.3;
-        Wed, 28 Sep 2022 08:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=+WEGG8bdhAe2IeIV7nqdCMLjsT+NYXr3vPeV8ohPUdo=;
-        b=NWQyIQIxOLBbO8SUWUFvnbiVWQh98VMz4aaF7yBvntNeo0lhVe58k8UbVlT21ceSy3
-         N73J25O0TqMb7/Thn4zweOWpAI5H0J0ntIKpBQEAuOKdh6FgK1uAI485b6iHqcWhI1Pl
-         bo4Rx9klC7pi4nz6dh5u3ntQhBZe+lpNuMRyBggNRNpyvKDUds8WsQLcy/KE+8aJLfWQ
-         iRlwAUj5xdkEv8czArv0Qq0NY/vLa4Ty7E6RWatQOK91Alq1xvljZFnjyb1DOCEtMwSs
-         2qMFu7mVUL95Ss/7LqKnn37AkHMHMy2RYH+POfMXUwH6+T16znqYpIEGsYIdmODza/xY
-         3F5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=+WEGG8bdhAe2IeIV7nqdCMLjsT+NYXr3vPeV8ohPUdo=;
-        b=XwZSCfNUFHbU00EAu/hbFYy/iceQDNAJ47l1BriEZwO4zS0edl0FGdt+nFT1ZbZpcd
-         iIv3fRh7LNQsq9ePt310xOtV6B0FlqTZzw2JWE8avuMq/btG059JlddjYuZaOu65fmUI
-         bg4jYKRogW2L2j10clQ136flthH9PaXJAtm4rGF6SFxs9mvwNXDNmqi6Uc/T02f6jlwU
-         zvSTcp+TijAoF3+OThokN2Dg3GjUXByJSB6NL90t2BubtCQkcNwJU4MtMTrJ/lQQqwb3
-         xYVrVjNNly1T2UaG+yQ62T5XOl4Ev/Qnlkm0Qrst/Z+n5lmLYLltQo9H8Bu5YuMrtUVv
-         iIHQ==
-X-Gm-Message-State: ACrzQf3PBL5QLlV9KgFHSobglYrr9UlYRIQ1LLKCvBCL6jW2f9pgWEZ5
-        q0J1eC7Vw62C/wVGaqxwSE4=
-X-Google-Smtp-Source: AMsMyM5mMWhYz3X1436kKEvjTcv3eDyNmzU671ZYKCbUm/02hn0itjtfv1akLF+RCA7rJZzYyQPCdw==
-X-Received: by 2002:a17:90a:2fc9:b0:202:5605:65ae with SMTP id n9-20020a17090a2fc900b00202560565aemr11170445pjm.167.1664378479610;
-        Wed, 28 Sep 2022 08:21:19 -0700 (PDT)
-Received: from hyeyoo ([114.29.91.56])
-        by smtp.gmail.com with ESMTPSA id y2-20020a170902864200b0016c0c82e85csm3784367plt.75.2022.09.28.08.21.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Sep 2022 08:21:17 -0700 (PDT)
-Date:   Thu, 29 Sep 2022 00:21:10 +0900
-From:   Hyeonggon Yoo <42.hyeyoo@gmail.com>
-To:     Alexander Atanasov <alexander.atanasov@virtuozzo.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Roman Gushchin <roman.gushchin@linux.dev>, kernel@openvz.org,
-        Kees Cook <keescook@chromium.org>,
-        Roman Gushchin <guro@fb.com>, Jann Horn <jannh@google.com>,
-        Vijayanand Jitta <vjitta@codeaurora.org>,
+        with ESMTP id S234407AbiI1PYd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 11:24:33 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24E5CCBADC;
+        Wed, 28 Sep 2022 08:23:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OCgeGzpwUM5JH9DXTWR9qZzYyHreMQ8pLcOFm9Ew9f6nVVBoWMJWq8RLYzyCieNFfXVEa33exa6cEsCJ8X7iog+jYGtahb6eCLTR7ucl322HVzCxLoCC4dz5NsvrxbpdWHrJAAl3TY7BGnpNyaUxPAEcinu0oWmEbhKnPTTkLnvdT9Dbzd9M9qxG28DA5i5zzQyUTS7y7H7eQOUdwJM4Ul4IwyA1Toa9BZ10HtkYtGhVGe0b4TOZaZd6pPzdoxxxcQF8x1cjbtthcAdmelgWWV6QQr04j5J6ESRkbxD2I94CWJz30piD2pIlJQkYRmRcj3kZir1+lgZj3wymLBn0iw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PeWEIaOqrpSqRh3N2V81M4jCG/KRvDHupubxLVfpyNw=;
+ b=NzL9FL2r6UDPXU2Uiq/0+cyGvRrJ+bhE7UOouPNPJJA70IuUBUY5ZHlNOCVEvMgX4jaWna2JAo2noMWVSOqK1IUzyefi+1Lby45SAr0ccKSDWSha2MUacXrQE0RPP4hOaKwXvngj5vEPD+igJSv+uiY3jDjlgPkkT9D8+/zRk+82N+sZYLUp+oiA8ybBptH9tcloPdCfRSZN1mEvhLS7cY6lxrPdIu69B+O4gC4zoa/jNxMmbMzzHDZxgdChaVISaPckGNeMqubQpQq+nCuj8oCbWfQU0nTZ7q4mOgDp2zhbn/lKQVB7QqmUECxul6WQDCcGneBZffgX4MWQIjwqQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PeWEIaOqrpSqRh3N2V81M4jCG/KRvDHupubxLVfpyNw=;
+ b=Ul3f8i/Ka9xsCnwqTpMgbrjEIOIFbTpqNRL9TZTu1Zoa6FS2QOosks3nYg9M/dDVrjEOMX9e1avlX07AHN7/1aXnNNES5QLttjBg4HmF8nkrI7lQ4oYedA9KSq/VFHqsmQ2tbOYSkE3gmdwLOjK3yTTcP+enTHW7woP64Cqsf+w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by PH7PR12MB6539.namprd12.prod.outlook.com (2603:10b6:510:1f0::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.26; Wed, 28 Sep
+ 2022 15:23:35 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::619e:35bf:5e0b:c51e]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::619e:35bf:5e0b:c51e%3]) with mapi id 15.20.5676.017; Wed, 28 Sep 2022
+ 15:23:35 +0000
+Message-ID: <99bfbeac-1454-a453-a2ef-36eee2aea34c@amd.com>
+Date:   Wed, 28 Sep 2022 10:23:29 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v5 12/12] Documentation/x86: Update resctrl_ui.rst for new
+ features
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, fenghua.yu@intel.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v2] mm: Make failslab writable again
-Message-ID: <YzRmZlJBFA9HIlSM@hyeyoo>
-References: <20220920121111.1792905-1-alexander.atanasov@virtuozzo.com>
- <Yyr1xONdw8dBgsKr@hyeyoo>
- <30063d97-69f0-bea2-9d59-108140995bfc@virtuozzo.com>
- <YzJIsFZQoCEYntvR@hyeyoo>
- <7640a2d9-a32d-2fd7-8f64-586edb9b781e@virtuozzo.com>
+        eranian@google.com
+References: <166431016617.373387.1968875281081252467.stgit@bmoger-ubuntu>
+ <166431042060.373387.8454967155095795574.stgit@bmoger-ubuntu>
+ <YzPMorJQFKPY+n4d@debian.me>
+From:   "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <YzPMorJQFKPY+n4d@debian.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0202.namprd13.prod.outlook.com
+ (2603:10b6:208:2be::27) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7640a2d9-a32d-2fd7-8f64-586edb9b781e@virtuozzo.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH7PR12MB6539:EE_
+X-MS-Office365-Filtering-Correlation-Id: 94be0cb2-2947-44d5-dcd7-08daa165691c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 05wAqNPWyVvP9ZusbSylrakQmBMYVTjVZeXIsYPMk3PrmSWPMNqvhSeL/gQeCVOZtGJIaYWAO5d0ZpF3DV9OYkw+hhDTr7SIOrsOBzIeLs4RcAwMZKRfqAzr/NwWNBN4jIB6czdvGh8clJlN4X25IABJCtfgXvQwz+ZOJmkdp2KRyllZpK5G7olXxTm7oszk15vXb5f5BgdvFOJC6wxmsUlSnJjCl0sIn1Y7j35C6wKMU776d0LYUdygccJWyPm8k0rkllzCtA7OrAw2JBGoF5LP/w9dzBUWTY9sZiz9fDV2OWYeOpaDrjcTG9789+KZpOhlm1w6cOHe/zvkrhSXJA5PIVmBohflUTmdpNHI/PFwue8D2ZwFnxkkhepDufjZhAF/AJmDQTp7pKZ++FzbRkD2yM0qUbN44EP6b1LFWVdDenbCEKWW8cU7q1I+8+YRshURgcz/g6mZPoxSYFnSdMGpYUf/C4pXzE/12/w4wAHzAQHs8gKF0iaY0HAEJND1kBdd05/Ss5CfMIjeURZBqJ8RxL5OPjLHso2+bYZ7+ePzJUOzgtYDVG92KKJMHiUaI9kaPV9E0Hrg+OPPFF8M3vlXVGMF5jY2tiff+/thN6wM/JBsD92q90HMN7twhytK1LHrmE13AP6EysYTgBtK7KgZS57JqZEhxYazBLsUj7mH4LIrBP02SHF0VA0dQRCVFDH9MiTMeN9MjhFnTjqhkBJHryu5A3ggV9JtYmEN0NEcmYXExHtVlx1TK8xx8vosYicBYf2ssNjid3uy3xoZw13DYzoGFiM0IwdIsQo+n0M=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(396003)(136003)(346002)(39860400002)(376002)(451199015)(2906002)(26005)(6512007)(31686004)(6506007)(6666004)(8936002)(7416002)(3450700001)(53546011)(41300700001)(186003)(316002)(66946007)(4326008)(8676002)(66476007)(66556008)(5660300002)(38100700002)(6916009)(83380400001)(478600001)(86362001)(36756003)(31696002)(2616005)(6486002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NHA5QXNycTBQNGhHU0VwVldGZlFoVThPUTZDT2JUQnAvZ3F0WkVjRzBBdlZa?=
+ =?utf-8?B?QkxrRmlzcXU2YkFZQXZhc3IxTTV1bmlKaG9kSzRoZHZxZW9LRysrY0xIdmtx?=
+ =?utf-8?B?VnRwaFdjTVF6MkljN3FXU2Zra1JTMDFoL3ZPVVQvZ2dBS01LUW5UWjJ4VzZX?=
+ =?utf-8?B?VjZNNUJ6cG1BZFRncWMyLzVMVFMwdjBVSGEwYWtHeHI4V1lBVm1kWERjYTZ4?=
+ =?utf-8?B?dlREdzQ3c2M5ajh2SThrbUREbSt6R2VUTFdEeEZ5MTMzZkExNDhTUFp3cDEr?=
+ =?utf-8?B?aHc5dHJWcThkL3FNN1ZFS3RwUzJoS3duT0Zic2Y0R1g3OVRUVWVleUlzak4x?=
+ =?utf-8?B?SFpNcTRhdmZUMWpmUmFNQURzZmhrNVRIYmRWbnFDMk94U2hVZy9UVnhXc25i?=
+ =?utf-8?B?ZU5lWHJEalBDcG1VZXl0YnRuLzVnMzhBazRxU3o0cENjOXZqK0o4cjhjYnF1?=
+ =?utf-8?B?TkxkYmwrOU5Pei95WnU4MGtyTmJjc0xhMXk0b1pHd2NBTDkrVXVjMlJMRkFI?=
+ =?utf-8?B?aU5SSXZUZkhxODFyZ3MvVjFBV3pEMnhRbW10U3paZWpLL052d3F4SmhnS1FB?=
+ =?utf-8?B?U1NwZTVsV1lQSFdlNHRNOXhTaVBFRUJzZUtKR0dRaTMyYmtGOUdraDdycGw1?=
+ =?utf-8?B?VllmcHJScmJBbnlSdHF6SndTQ0QyQnhqS0l0ZnExSTNXSVF6QU54dFcxTnJ6?=
+ =?utf-8?B?cUd3Q3F0NGNJOTNHUlM5ckJSb1U1TGROcmEvSXZYSGswRzA2ZDlMbUE5VXBH?=
+ =?utf-8?B?WHoxdGxVdEh1dlByT2wyUEFHQmRtVW5yUDd0dENXWWcveHBNb3ZqS3dwZHRL?=
+ =?utf-8?B?TDUyTnk2amdwbzNWMmxmckprVmNvUWJZRWhJR1FSajJpbDNINjB4UTZRbUpX?=
+ =?utf-8?B?bXdtbUxkUGNVMjFMcFBBb1lzVW5IWkY5UU4yT3lmM01MbTFFQ3J6RFdpV1B3?=
+ =?utf-8?B?LzFoM0tlOEdiZVNTazE2aUgwYjlOOUtDNlhidFJoZGZsUFd6aHQ4UmE5Tnhu?=
+ =?utf-8?B?VkQ3MTRwTXNoVTJBaFd6ZmpkOGo3eXk5Mkt3L0FqWkJ2dUpPYjBZWFFzQjZl?=
+ =?utf-8?B?VG84QVRWNFFpSHcwOTRzT0lKY3QxWFRpOUNsa2Yyc1R6c1ZYY2wvR3pjcmNU?=
+ =?utf-8?B?U1NRVGVIVEJ6NzE1Zms0a1I4N1c4Q1BpOHpmd1VKTENkbDdDY0I2bjFicXFX?=
+ =?utf-8?B?TjcwUHgycmdnNjZLN1pRWGV2NWRmM1Vmc3d5S1dJQ0JmVUptSld2VDVQeG9L?=
+ =?utf-8?B?dHN1Vm1mRDZNQnY2QzZEQWJmeVZXalpKVy9qSVF1YUQ0aDA4TGRoM0NlQXlj?=
+ =?utf-8?B?eDlSYUNwTjNHYVFRdXFWMEVJdnRoMVVRN2ttMWM2bS9yV0JxdXU4TDRYZi85?=
+ =?utf-8?B?cFdzdkFIUjY4N3FnelQzM1kreWxrbUs4MnZ2YXFlMlR0dmRRekJkbkVZL2J4?=
+ =?utf-8?B?WE5jS1NiY29aM0hWOEx2eUo3SU80MThqamQwNWxVeUptUFJ4Y05nOFlLMDNH?=
+ =?utf-8?B?OHg5OVhSYTlkOWlKZXJxWUhVSGoxN3c1YXNPRDVnQmsrUVVBSUJGTUlibE0z?=
+ =?utf-8?B?VTFtY0dWM1dTeVpoMW1IUU54eUJmVWNTandlWXZTUFU5MlZsTzh6YjlmSXRw?=
+ =?utf-8?B?T1pCNW12Smh5TGx1WHp4cVJqdEoyb3B5andSSFVoYnVhTHI2R2xCQzdKeGNE?=
+ =?utf-8?B?S0pLRzRVMDB2TmVHMWxnZVVWblJNT3FXcGRkWG9tS2dIQXhXYmcvWUkybUh0?=
+ =?utf-8?B?Mm9ta0lkSnhjanVCOU9TOWRma04zM2hNUTQyK0xyb1hiYkZ3ZXJ1b2o0eXBK?=
+ =?utf-8?B?OWh3L2plVW0raTlWdWNQdU1CR2s3Z3Arb3Y0cmdiODNxUjhjbTlONy9GL1R6?=
+ =?utf-8?B?SnNsdUZ6Qm50M3I3bDVaM1BzU3Y2NnFoRWsveE1aZjg4aGswMmRIWHZOREpv?=
+ =?utf-8?B?WjRVWFJLbERWNXpSYjhVZld4eXlXeEYzTHQ4NW9DRVNFS0R3d1Z1OHp0TmRK?=
+ =?utf-8?B?WDZ1a0p5VDBGUm9FcDFoZlB6RGJCSG9NekFrOXUxYlJvSDRwakQ3bUt2dWEw?=
+ =?utf-8?B?c3NTdzFEZG04ejhna0ttd1ltT3NPZGpIa0IxS0xoQzQweGlOSkRLM2k4ZzNr?=
+ =?utf-8?Q?MvKnlva3PCgoC4nWkYYTV90Cx?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94be0cb2-2947-44d5-dcd7-08daa165691c
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2022 15:23:35.5624
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fanooIKYOmj6uOYYcbLDnj3ROUeBEQ4KTiHK95b3eXWpdxfgxD/h+dVviMWJapkC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6539
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 27, 2022 at 10:44:20AM +0300, Alexander Atanasov wrote:
-> Hello,
-> 
-> On 27.09.22 3:49, Hyeonggon Yoo wrote:
-> > On Fri, Sep 23, 2022 at 10:34:28AM +0300, Alexander Atanasov wrote:
-> > > Hello,
-> > > 
-> > > On 21.09.22 14:30, Hyeonggon Yoo wrote:
-> > > > On Tue, Sep 20, 2022 at 03:11:11PM +0300, Alexander Atanasov wrote:
-> > > > > In (060807f841ac mm, slub: make remaining slub_debug related attributes
-> > > > > read-only) failslab was made read-only.
-> > > > > I think it became a collateral victim to the two other options for which
-> > > > > the reasons are perfectly valid.
-> > > > > Here is why:
-> > > > >    - sanity_checks and trace are slab internal debug options,
-> > > > >      failslab is used for fault injection.
-> > > > >    - for fault injections, which by presumption are random, it
-> > > > >      does not matter if it is not set atomically. And you need to
-> > > > >      set atleast one more option to trigger fault injection.
-> > > > >    - in a testing scenario you may need to change it at runtime
-> > > > >      example: module loading - you test all allocations limited
-> > > > >      by the space option. Then you move to test only your module's
-> > > > >      own slabs.
-> > > > >    - when set by command line flags it effectively disables all
-> > > > >      cache merges.
-> > > > 
-> > > > Maybe we can make failslab= boot parameter to consider cache filtering?
-> > > > 
-> > > > With that, just pass something like this:
-> > > > 	failslab=X,X,X,X,cache_filter slub_debug=A,<cache-name>>
-> > > 
-> > > > Users should pass slub_debug=A,<cache-name> anyway to prevent cache merging.
-> > > 
-> > > It will be good to have this in case you want to test cache that is used
-> > > early. But why push something to command line option only when it can be
-> > > changed at runtime?
-> > 
-> > Hmm okay. I'm not against changing it writable. (it looks okay to me.)
-> 
-> Okay. Good to know that.
-> 
-> > Just wanted to understand your use case!
-> > Can you please elaborate why booting with slub_debug=A,<your cache name>
-> > and enabling cache_filter after boot does not work?
-> 
-> I didn't say it does not work - it does work but requires reboot. You may
-> want to test variations of caches for example. Cache A, Cache B ... C and so
-> on one by one. Reboots might be fast these days with VMs but you may not be
-> able to test everything in a VM. And ... reboots used to be the signature
-> move of one Other OS.
+Hi Sanjaya,
 
-Thank you for elaboration!
-Makes sense.
 
-> 
-> > Or is it trying to changnig these steps,
-> > 
-> > FROM
-> > 	1. booting with slub_debug=A,<cache name>
-> > 	2. write to cache_filter to enable cache filtering
-> > 	3. setup probability, interval, times, size
-> > 
-> > TO
-> > 
-> > 	1. write to failslab attribute of <cache name> (may fail it has alias)
-> > 	2. write to cache_filter to enable cache filtering
-> > 	3. setup probability, interval, times, size
-> > ?
-> > 
-> > as you may know, SLAB_FAILSLAB does nothing whens
-> > cache_filter is disabled, and you should pass slub_debug=A,<cache name> anyway
-> 
-> Okay , i think there awaits another problem:
-> bool __should_failslab(struct kmem_cache *s, gfp_t gfpflags)
-> {
-> ...
-> 
->         if (failslab.cache_filter && !(s->flags & SLAB_FAILSLAB))
->                 return false;
-> ...
-> 	return should_fail(&failslab.attr, s->object_size);
-> }
-> 
-> So if you do not have cache_filter set ... you go to should_fail for all
-> slabs.
-
-Yes.
-
-> I've been hit by that and spend a lot of time trying to understand why i got
-> crashes at random places. And the reason was that i read an old
-> documentation that said cache_filter is writable and i blindly wrote 1 to
-> it.
+On 9/27/22 23:25, Bagas Sanjaya wrote:
+> On Tue, Sep 27, 2022 at 03:27:00PM -0500, Babu Moger wrote:
+>> +        Following are the types of events supported:
+>> +
+>> +        ====    ========================================================
+>> +        Bits    Description
+>> +        ====    ========================================================
+>> +        6       Dirty Victims from the QOS domain to all types of memory
+>> +        5       Reads to slow memory in the non-local NUMA domain
+>> +        4       Reads to slow memory in the local NUMA domain
+>> +        3       Non-temporal writes to non-local NUMA domain
+>> +        2       Non-temporal writes to local NUMA domain
+>> +        1       Reads to memory in the non-local NUMA domain
+>> +        0       Reads to memory in the local NUMA domain
+>> +        ====    ========================================================
+>> +
+>> +        By default, the mbm_total_bytes configuration is set to 0x7f to count
+>> +        all the event types and the mbm_local_bytes configuration is set to
+>> +        0x15 to count all the local memory events.
+>> +
+>> +        Example::
+>> +
+>> +            To view the current configuration, run the command.
+>> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_total_config
+>> +            0:0x7f;1:0x7f;2:0x7f;3:0x7f
+>> +
+>> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_local_config
+>> +            0:0x15;1:0x15;3:0x15;4:0x15
+>> +
+>> +            To change the mbm_total_bytes to count only reads on domain 0,
+>> +            run the command. The bits 0,1,4 and 5 needs to set.
+>> +
+>> +            # echo  "0:0x33" > /sys/fs/resctrl/info/L3_MON/mbm_total_config
+>> +
+>> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_total_config
+>> +            0:0x33;1:0x7f;2:0x7f;3:0x7f
+>> +
+>> +            To change the mbm_local_bytes to count all the slow memory reads on
+>> +            domain 1, run the command. The bits 4 and 5 needs to set.
+>> +
+>> +            # echo  "1:0x30" > /sys/fs/resctrl/info/L3_MON/mbm_local_config
+>> +
+>> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_local_config
+>> +            0:0x15;1:0x30;3:0x15;4:0x15
+>>  
+> Hi Babu,
 >
-> If the intent is to only work with cache filter set - then i will update
-> the patch to do so.
+> The description text for each snippets above shouldn't in the code
+> block. Also, split the block into three code blocks in the lists:
+Did you mean, I need to remove similar texts from code?
+>
+> ---- >8 ----
+> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
+> index b4fe54f219b6f3..ec578b069276ce 100644
+> --- a/Documentation/x86/resctrl.rst
+> +++ b/Documentation/x86/resctrl.rst
+> @@ -206,25 +206,26 @@ with the following files:
+>          all the event types and the mbm_local_bytes configuration is set to
+>          0x15 to count all the local memory events.
+>  
+> -        Example::
+> +        Examples:
+> +
+> +        * To view the current configuration::
+>  
+> -            To view the current configuration, run the command.
+>              # cat /sys/fs/resctrl/info/L3_MON/mbm_total_config
+>              0:0x7f;1:0x7f;2:0x7f;3:0x7f
+>  
+>              # cat /sys/fs/resctrl/info/L3_MON/mbm_local_config
+>              0:0x15;1:0x15;3:0x15;4:0x15
+>  
+> -            To change the mbm_total_bytes to count only reads on domain 0,
+> -            run the command. The bits 0,1,4 and 5 needs to set.
+> +        * To change the mbm_total_bytes to count only reads on domain 0
+> +          (the bits 0, 1, 4 and 5 needs to be set)::
+>  
+>              # echo  "0:0x33" > /sys/fs/resctrl/info/L3_MON/mbm_total_config
+>  
+>              # cat /sys/fs/resctrl/info/L3_MON/mbm_total_config
+>              0:0x33;1:0x7f;2:0x7f;3:0x7f
+>  
+> -            To change the mbm_local_bytes to count all the slow memory reads on
+> -            domain 1, run the command. The bits 4 and 5 needs to set.
+> +        * To change the mbm_local_bytes to count all the slow memory reads on
+> +          domain 1 (the bits 4 and 5 needs to be set)::
+>  
+>              # echo  "1:0x30" > /sys/fs/resctrl/info/L3_MON/mbm_local_config
+>  
 
-You mean to set cache_filter to true when writing to 'failslab',
-or when setting SLAB_FAILSLAB slab flag?
+Thanks for the diff. I cannot get this right for some reason. I will
+probably send the diff before the final series.
 
-I'm not so confident for that because it's implicitly changing.
-Maybe more documentation would be proper?
 
-what do you think, Vlastimil?
+>
+> Also, there isn't description of mapping from bits from the supported events
+> table to the bytes input for mbm_{total,local}_config.
 
-> This is the only place where SLAB_FAILSLAB is explicitly
-> tested, other places check it as part of SLAB_NEVER_MERGE.
-> 
-> But even for all caches it is kind of possible to test with size(space)
-> which is in turn useful because you need to figure out how you handle
-> failures from external caches - external to your code under test and you
-> don't want to keep track for all of them (same goes for too much options in
-> command line). 
+It is already there. Is that not clear?
 
-Yeah, we should be able to inject fault in all caches, or a specific
-cache(s).
++        Following are the types of events supported:
++
++        ====    ========================================================
++        Bits    Description
++        ====    ========================================================
++        6       Dirty Victims from the QOS domain to all types of memory
++        5       Reads to slow memory in the non-local NUMA domain
++        4       Reads to slow memory in the local NUMA domain
++        3       Non-temporal writes to non-local NUMA domain
++        2       Non-temporal writes to local NUMA domain
++        1       Reads to memory in the non-local NUMA domain
++        0       Reads to memory in the local NUMA domain
++        ====    ========================================================
 
-> > to prevent doing cache merging with <cache name>.
-> 
-> Or you can pass SLAB_FAILSLAB from your module when creating the cache to
-> prevent merge when under test.
 
-Right. I missed that.
+>
+>> +Slow Memory b/w domain is L3 cache.
+>> +::
+>> +
+>> +	SMBA:<cache_id0>=bandwidth0;<cache_id1>=bandwidth1;...
+>> +
+> What b/w stands for in the context above?
+b/w is bandwidth. I will correct it.
+>
+>>  Reading/writing the schemata file
+>>  ---------------------------------
+>>  Reading the schemata file will show the state of all resources
+>> @@ -479,6 +567,44 @@ which you wish to change.  E.g.
+>>    L3DATA:0=fffff;1=fffff;2=3c0;3=fffff
+>>    L3CODE:0=fffff;1=fffff;2=fffff;3=fffff
+>>  
+>> +Reading/writing the schemata file (on AMD systems)
+>> +--------------------------------------------------
+>> +Reading the schemata file will show the state of all resources
+>> +on all domains. When writing the memory bandwidth allocation you
+>> +only need to specify those values in an absolute number expressed
+>> +in 1/8 GB/s increments. To allocate bandwidth limit of 2GB, you
+>> +need to specify the value 16 (16 * 1/8 = 2).  E.g.
+>> <snipped>...
+>> +Reading the schemata file will show the state of all resources
+>> +on all domains. When writing the memory bandwidth allocation you
+>> +only need to specify those values in an absolute number expressed
+>> +in 1/8 GB/s increments. To allocate bandwidth limit of 8GB, you
+>> +need to specify the value 64 (64 * 1/8 = 8).  E.g.
+> s/E.g./For example:/
 
-> 
-> 
-> -- 
-> Regards,
-> Alexander Atanasov
-> 
+Thanks
 
--- 
-Thanks,
-Hyeonggon
+Babu Moger
+
+
