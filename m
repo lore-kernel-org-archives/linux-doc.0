@@ -2,99 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FD85C32771
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 15:03:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC820C54EE9
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 15:08:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233320AbiI1PD1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Sep 2022 11:03:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47936 "EHLO
+        id S234668AbiI1PIK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Sep 2022 11:08:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229640AbiI1PD0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 11:03:26 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B53A367A8;
-        Wed, 28 Sep 2022 08:03:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=j8dtOkI4/DbIj26pNqdisQlvlJxpcZ2xj3Pqld4MWOI=; b=HpLywNW0Z3W544AcYHbYLNQIwy
-        9YZdryN4uy9s6PPfiJF5bJN1fQJkAbuAO42Uys/VjQc8DO30QcxhJTJRrdtyk+J6p7zVcrk7KbC/8
-        AXKaStZW15/Y/KX2E3mblk49BOliLtFSxaa7eA2Z51b0oMfkW9ZbXCvN9JyO2yhMV/na1Bbht55r8
-        cvYsThs+6xNhBTAtI59F9X3+iUq2XrfXJbj85pOzp5Di8D4SDyCyQt6z38HvjX8xWTP//oVEaL52K
-        +DZeErui1JDRlpym3ZRUflYStJMeIHHp+twr/WD+6PwpHOceWQeg9PuwINRZhvx8FqWM+Bjewx4D2
-        J30Rf/yw==;
-Received: from [2601:1c2:d80:3110::a2e7]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1odYan-00GmQE-Di; Wed, 28 Sep 2022 15:03:21 +0000
-Message-ID: <14088654-189e-2983-fbdd-d2a28b0b13db@infradead.org>
-Date:   Wed, 28 Sep 2022 08:03:20 -0700
+        with ESMTP id S234686AbiI1PHm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 11:07:42 -0400
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45B16B0890;
+        Wed, 28 Sep 2022 08:07:07 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id bq9so20282922wrb.4;
+        Wed, 28 Sep 2022 08:07:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=qREYIWjuGjLGDeO/dgifyqQc1nhCGZnGcZ9iHgJIHrM=;
+        b=3FPbnQNvQH1QOFRPk1fHaETYNCQF/b1fykyp12/VZPRI79+YXanPxeJ7vP160rrTtb
+         f4VlpkSGJMzjqcj56ddkp1I4oRvh9L0UDeewNHPU+YyJSOQKTQ5PZ2+IizAjcKlcy2zp
+         MlUchM8rScLrcMKJCUy6dFrWEGIRL904vUcTAxpv8rwBH77tSI1A5YwqgrnhhPSRogOq
+         wD+sPQXSjuRUfMkShi7pMy7++3PicEAShc11K+Xg997yvrwAAlSwWXNqFKDFpjUt/6im
+         Pj++84oLZk8Yd6+gTqV78WRLwF+JmxHnN1NsIlgnm2rBvzuji+WcKKDUiX/HB3gX8CHT
+         6ysw==
+X-Gm-Message-State: ACrzQf2N8271h57ZQAQzcGx7qauukAF9bHFjOc4wHakyG4ItHLO19F8U
+        CKqcllBrvbiS6o2yIlCRCwbMg0qaKhg=
+X-Google-Smtp-Source: AMsMyM5FFV4aX5J6YjdrDCbVIvl3V6P8/lD53lGFfc9W3f5bjY3hHbBprT2F7AKvWApQc2n4Pf+ISQ==
+X-Received: by 2002:a05:6000:1acf:b0:22b:36ad:28e with SMTP id i15-20020a0560001acf00b0022b36ad028emr20180294wry.314.1664377619666;
+        Wed, 28 Sep 2022 08:06:59 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id f4-20020adfe904000000b0022ac38fb20asm4355010wrm.111.2022.09.28.08.06.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 08:06:59 -0700 (PDT)
+Date:   Wed, 28 Sep 2022 15:06:57 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
+        Jarkko Sakkinen <jarkko@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        live-patching@vger.kernel.org, Wei Liu <wei.liu@kernel.org>
+Subject: Re: [PATCH v10 00/27] Rust support
+Message-ID: <YzRjEc9zQbHeWPFL@liuwe-devbox-debian-v2>
+References: <20220927131518.30000-1-ojeda@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3 7/7] docs: add a man-pages link to the front page
-Content-Language: en-US
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joe Perches <joe@perches.com>,
-        David Vernet <void@manifault.com>
-References: <20220927160559.97154-1-corbet@lwn.net>
- <20220927160559.97154-8-corbet@lwn.net>
- <ff413763-6cac-576f-7671-2f883bb56c51@leemhuis.info>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <ff413763-6cac-576f-7671-2f883bb56c51@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220927131518.30000-1-ojeda@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Sep 27, 2022 at 03:14:31PM +0200, Miguel Ojeda wrote:
+> 
+> Miguel Ojeda (22):
+>   rust: import upstream `alloc` crate
 
+I cannot find this patch in my inbox. That's probably filtered out by
+the mailing list since it is too big.
 
-On 9/27/22 23:21, Thorsten Leemhuis wrote:
-> 
-> 
-> On 27.09.22 18:05, Jonathan Corbet wrote:
->> Readers looking for user-oriented information may benefit from it.
->>
->> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
->> ---
->>  Documentation/index.rst | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/Documentation/index.rst b/Documentation/index.rst
->> index 5a700548ae82..85eab6e990ab 100644
->> --- a/Documentation/index.rst
->> +++ b/Documentation/index.rst
->> @@ -76,6 +76,8 @@ developers seeking information on the kernel's user-space APIs.
->>     User-space tools <tools/index>
->>     userspace-api/index
->>  
->> +See also: the `Linux man pages <https://www.kernel.org/doc/man-pages/>`_,
->> +which are kept separately from the kernel's own documentation.
-> 
-> People following that link might be inclined to click on the section 1
-> and then find a lot of stuff that has nothing or not much to do with the
-> kernel and then might feel lost. So how about a text like this instead:
-> 
-> ```
-> See also the `Linux man pages <https://www.kernel.org/doc/man-pages/>`_,
-> as that where some of the kernel's documentation is kept. Among it are
-> for example descriptions of Linux' `system calls
-> <https://man7.org/linux/man-pages/dir_section_2.html>`_ and `devices
-> <https://man7.org/linux/man-pages/dir_section_4.html>`_; the sections
-> `files <https://man7.org/linux/man-pages/dir_section_5.html>`_ and
-> `overviews, conventions, and miscellaneous
-> <https://man7.org/linux/man-pages/dir_section_7.html>`_ also contain
-> many documents dedicated to aspects of the kernel.
-> ```
-> 
-> The last section (e.g. everything after the semicolon) might not be
-> worth it.
+I've gone to GitHub to take a look at the commit
+753dece88d70a23b015e01674a662e683235c08f in the `rust-next` branch. It
+looks good to me, so feel free to add
 
-I prefer the simple instead of the verbose.
+    Reviewed-by: Wei Liu <wei.liu@kernel.org>
 
--- 
-~Randy
+to that patch.
+
+Thanks,
+Wei.
