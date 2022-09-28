@@ -2,47 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89B1CC6FA82
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 19:57:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9221BC6FA93
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 19:57:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234489AbiI1T5t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Sep 2022 15:57:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45194 "EHLO
+        id S234528AbiI1T5u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Sep 2022 15:57:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234490AbiI1T5m (ORCPT
+        with ESMTP id S234459AbiI1T5m (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 15:57:42 -0400
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35C6353000;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 326E65509D;
         Wed, 28 Sep 2022 12:57:40 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28SIslci013958;
-        Wed, 28 Sep 2022 19:57:28 GMT
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28SJSpUo027441;
+        Wed, 28 Sep 2022 19:57:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=sIeIv2GHhdIaUzuwyuy1aRskVdv99fEUoIF3oD08GRw=;
- b=LNTlZNG9EQNrCY8dvx5e2vPItTfWN/MmN/NAf859JPYVyjxq7HwHLqT/KciEYzV+5+Yr
- dCqatfolOrbXhQzxzvfImD7TCZl3+qx2So/0w7Xo7pWfrwJkuZFjhqmpoQKF4kerbIyQ
- bSsP6jS8r06LpOP+yFa0U8BjpB8oxX4/ZYZdpMljKh3xXqbbtKf5cSumtFjk+pP7l5SZ
- UAVjFcf8gNQmDSeQawVdf6h0xnc5/ixQUa8oTJhEXvuCHdlOabcxB76USlRIuTsfnQ5P
- vjN8MbpoBtkOfPA+kuMfy8h2rnkK9bCXSULvJo5FvsaJFGjDDWsfS+QQ7eaJiMytJ+/O Vw== 
+ bh=hT8omuFurzv/CTps/1Sv9pKKfuVW13cQYKJD7CV8nPQ=;
+ b=HZesoL9iBakcnPeGIEciCPY3+lURdVLBSeuBW6/4TXKTHnF3V+8NBgiY1WmPyWvHA3hT
+ wxQ6RKbqXbA+BAt078iV7+UrphczN/aXD+19sqfSxW2YwqxDAnanTs8hD8QjYkxWLdek
+ RkIF0eOwmV7Y99QZ5euFnto+qDdAPnhsJyuYwm9ZwkjJNhjA9qs2uBMPfl5F3jSGIPwE
+ CSkOXIzpAdqDOY8ZH/iRnaMrANDhaQ8IVtWs9+2WqjMIEy3UJMv7mokDVbook5M1to/K
+ kGZOowA9kzlgnN6imo0s50LMR1JZP2TZMswAZkdZczbvpodoc87Dw7X+cKG8FbJCwtvm VA== 
 Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jvuxtr5u1-1
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jvpuv98vn-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Sep 2022 19:57:28 +0000
+        Wed, 28 Sep 2022 19:57:27 +0000
 Received: from nasanex01b.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28SJvRht022177
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28SJvQTr022169
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 28 Sep 2022 19:57:27 GMT
+        Wed, 28 Sep 2022 19:57:26 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Wed, 28 Sep 2022 12:57:26 -0700
+ 15.2.986.29; Wed, 28 Sep 2022 12:57:25 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Sudeep Holla" <sudeep.holla@arm.com>,
         Arnd Bergmann <arnd@arndb.de>
 CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Murali Nalajala <quic_mnalajal@quicinc.com>,
@@ -53,8 +50,11 @@ CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         Jassi Brar <jassisinghbrar@gmail.com>,
         <linux-arm-kernel@lists.infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
         Marc Zyngier <maz@kernel.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         "Will Deacon" <will@kernel.org>,
@@ -62,9 +62,9 @@ CC:     Elliot Berman <quic_eberman@quicinc.com>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
         <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 05/14] virt: gunyah: Add hypercalls to identify Gunyah
-Date:   Wed, 28 Sep 2022 12:56:24 -0700
-Message-ID: <20220928195633.2348848-6-quic_eberman@quicinc.com>
+Subject: [PATCH v4 03/14] gunyah: Common types and error codes for Gunyah hypercalls
+Date:   Wed, 28 Sep 2022 12:56:22 -0700
+Message-ID: <20220928195633.2348848-4-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220928195633.2348848-1-quic_eberman@quicinc.com>
 References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
@@ -76,229 +76,122 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: wTHt_ZghDsNr31n_AFi3DUZmuIFH67zo
-X-Proofpoint-ORIG-GUID: wTHt_ZghDsNr31n_AFi3DUZmuIFH67zo
+X-Proofpoint-GUID: 2rzRnaorIfSriGmy5WyaQYhZfkvV0DW0
+X-Proofpoint-ORIG-GUID: 2rzRnaorIfSriGmy5WyaQYhZfkvV0DW0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-09-28_09,2022-09-28_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 spamscore=0 mlxlogscore=999 clxscore=1015 phishscore=0
- suspectscore=0 mlxscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0 phishscore=0 mlxlogscore=891 spamscore=0 suspectscore=0
+ malwarescore=0 clxscore=1015 priorityscore=1501 mlxscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2209130000 definitions=main-2209280119
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add hypercalls to identify when Linux is running a virtual machine under
-Gunyah.
-
-There are two calls to help identify Gunyah:
-
-1. gh_hypercall_get_uid() returns a UID when running under a Gunyah
-   hypervisor.
-2. gh_hypercall_hyp_identify() returns build information and a set of
-   feature flags that are supported by Gunyah.
+Add architecture-independent standard error codes, types, and macros for
+Gunyah hypercalls.
 
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- MAINTAINERS                   |  2 +
- arch/arm64/Kbuild             |  1 +
- arch/arm64/gunyah/Makefile    |  2 +
- arch/arm64/gunyah/hypercall.c | 71 +++++++++++++++++++++++++++++++++++
- drivers/virt/Kconfig          |  2 +
- drivers/virt/gunyah/Kconfig   | 13 +++++++
- include/asm-generic/gunyah.h  | 36 ++++++++++++++++++
- 7 files changed, 127 insertions(+)
- create mode 100644 arch/arm64/gunyah/Makefile
- create mode 100644 arch/arm64/gunyah/hypercall.c
- create mode 100644 drivers/virt/gunyah/Kconfig
+ MAINTAINERS                  |  1 +
+ include/asm-generic/gunyah.h | 74 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 75 insertions(+)
+ create mode 100644 include/asm-generic/gunyah.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 31bda0197f9a..feafac12db35 100644
+index 5b6b6f25c604..31bda0197f9a 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -8887,6 +8887,8 @@ L:	linux-arm-msm@vger.kernel.org
+@@ -8887,6 +8887,7 @@ L:	linux-arm-msm@vger.kernel.org
  S:	Supported
  F:	Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
  F:	Documentation/virt/gunyah/
-+F:	arch/arm64/gunyah/
-+F:	drivers/virt/gunyah/
- F:	include/asm-generic/gunyah.h
++F:	include/asm-generic/gunyah.h
  
  HABANALABS PCI DRIVER
-diff --git a/arch/arm64/Kbuild b/arch/arm64/Kbuild
-index 5bfbf7d79c99..fbcde0d5cec8 100644
---- a/arch/arm64/Kbuild
-+++ b/arch/arm64/Kbuild
-@@ -4,6 +4,7 @@ obj-$(CONFIG_KVM)	+= kvm/
- obj-$(CONFIG_XEN)	+= xen/
- obj-$(subst m,y,$(CONFIG_HYPERV))	+= hyperv/
- obj-$(CONFIG_CRYPTO)	+= crypto/
-+obj-$(CONFIG_GUNYAH)	+= gunyah/
- 
- # for cleaning
- subdir- += boot
-diff --git a/arch/arm64/gunyah/Makefile b/arch/arm64/gunyah/Makefile
+ M:	Oded Gabbay <ogabbay@kernel.org>
+diff --git a/include/asm-generic/gunyah.h b/include/asm-generic/gunyah.h
 new file mode 100644
-index 000000000000..f71a9533c266
+index 000000000000..64a02dd3b5ad
 --- /dev/null
-+++ b/arch/arm64/gunyah/Makefile
-@@ -0,0 +1,2 @@
-+obj-$(CONFIG_GUNYAH) += gunyah_hypercall.o
-+gunyah_hypercall-y += hypercall.o
-diff --git a/arch/arm64/gunyah/hypercall.c b/arch/arm64/gunyah/hypercall.c
-new file mode 100644
-index 000000000000..5b08c9d80de0
---- /dev/null
-+++ b/arch/arm64/gunyah/hypercall.c
-@@ -0,0 +1,71 @@
-+// SPDX-License-Identifier: GPL-2.0-only
++++ b/include/asm-generic/gunyah.h
+@@ -0,0 +1,74 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
 + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
-+#include <linux/arm-smccc.h>
-+#include <linux/module.h>
-+#include <asm-generic/gunyah.h>
++#ifndef _ASM_GUNYAH_H
++#define _ASM_GUNYAH_H
 +
-+#define GH_CALL_TYPE_PLATFORM_CALL		0
-+#define GH_CALL_TYPE_HYPERCALL			2
-+#define GH_CALL_TYPE_SERVICE			3
-+#define GH_CALL_TYPE_SHIFT			14
-+#define GH_CALL_FUNCTION_NUM_MASK		0x3fff
++#include <linux/types.h>
++#include <linux/errno.h>
 +
-+#define GH_SERVICE(fn)		ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32, \
-+						   ARM_SMCCC_OWNER_VENDOR_HYP, \
-+						   (GH_CALL_TYPE_SERVICE << GH_CALL_TYPE_SHIFT) \
-+							| ((fn) & GH_CALL_FUNCTION_NUM_MASK))
++/* Common Gunyah macros */
++#define GH_CAPID_INVAL	U64_MAX
++#define GH_VMID_ROOT_VM	0xff
 +
-+#define GH_HYPERCALL_CALL_UID			GH_SERVICE(0x3f01)
++#define GH_ERROR_OK			0
 +
-+#define GH_HYPERCALL(fn)	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_64, \
-+						   ARM_SMCCC_OWNER_VENDOR_HYP, \
-+						   (GH_CALL_TYPE_HYPERCALL << GH_CALL_TYPE_SHIFT) \
-+							| ((fn) & GH_CALL_FUNCTION_NUM_MASK))
++#define GH_ERROR_UNIMPLEMENTED		-1
++#define GH_ERROR_RETRY			-2
 +
-+#define GH_HYPERCALL_HYP_IDENTIFY		GH_HYPERCALL(0x0000)
++#define GH_ERROR_ARG_INVAL		1
++#define GH_ERROR_ARG_SIZE		2
++#define GH_ERROR_ARG_ALIGN		3
 +
-+/**
-+ * gh_hypercall_get_uid() - Returns a UID when running under a Gunyah hypervisor.
-+ * @uid: An array of 4 u32's (u32 uid[4];)
-+ *
-+ * The UID will be either QC_HYP_UID or GUNYAH_UID defined in include/asm-generic/gunyah.h.
-+ * QC_HYP_UID is returned on platforms using Qualcomm's version of Gunyah.
-+ * GUNYAH_UID is returned on platforms using open source version of Gunyah.
-+ * If the uid is not one of the above two UIDs, then it is assumed that the hypervisor or firmware
-+ * is not Gunyah.
-+ */
-+void gh_hypercall_get_uid(u32 *uid)
++#define GH_ERROR_NOMEM			10
++
++#define GH_ERROR_ADDR_OVFL		20
++#define GH_ERROR_ADDR_UNFL		21
++#define GH_ERROR_ADDR_INVAL		22
++
++#define GH_ERROR_DENIED			30
++#define GH_ERROR_BUSY			31
++#define GH_ERROR_IDLE			32
++
++#define GH_ERROR_IRQ_BOUND		40
++#define GH_ERROR_IRQ_UNBOUND		41
++
++#define GH_ERROR_CSPACE_CAP_NULL	50
++#define GH_ERROR_CSPACE_CAP_REVOKED	51
++#define GH_ERROR_CSPACE_WRONG_OBJ_TYPE	52
++#define GH_ERROR_CSPACE_INSUF_RIGHTS	53
++#define GH_ERROR_CSPACE_FULL		54
++
++#define GH_ERROR_MSGQUEUE_EMPTY		60
++#define GH_ERROR_MSGQUEUE_FULL		61
++
++static inline int gh_remap_error(int gh_error)
 +{
-+	struct arm_smccc_res res;
-+
-+	arm_smccc_1_1_hvc(GH_HYPERCALL_CALL_UID, &res);
-+
-+	uid[0] = res.a0;
-+	uid[1] = res.a1;
-+	uid[2] = res.a2;
-+	uid[3] = res.a3;
++	switch (gh_error) {
++	case GH_ERROR_OK:
++		return 0;
++	case GH_ERROR_NOMEM:
++		return -ENOMEM;
++	case GH_ERROR_DENIED:
++	case GH_ERROR_CSPACE_CAP_NULL:
++	case GH_ERROR_CSPACE_CAP_REVOKED:
++	case GH_ERROR_CSPACE_WRONG_OBJ_TYPE:
++	case GH_ERROR_CSPACE_INSUF_RIGHTS:
++	case GH_ERROR_CSPACE_FULL:
++		return -EACCES;
++	case GH_ERROR_BUSY:
++	case GH_ERROR_IDLE:
++		return -EBUSY;
++	case GH_ERROR_IRQ_BOUND:
++	case GH_ERROR_IRQ_UNBOUND:
++	case GH_ERROR_MSGQUEUE_FULL:
++	case GH_ERROR_MSGQUEUE_EMPTY:
++		return -EPERM;
++	default:
++		return -EINVAL;
++	}
 +}
-+EXPORT_SYMBOL_GPL(gh_hypercall_get_uid);
 +
-+/**
-+ * gh_hypercall_hyp_identify() - Returns build information and feature flags supported by Gunyah.
-+ * @hyp_identify: filled by the hypercall with the API info and feature flags.
-+ */
-+void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identity)
-+{
-+	struct arm_smccc_res res;
-+
-+	arm_smccc_1_1_hvc(GH_HYPERCALL_HYP_IDENTIFY, &res);
-+
-+	hyp_identity->api_info = res.a0;
-+	hyp_identity->flags[0] = res.a1;
-+	hyp_identity->flags[1] = res.a2;
-+	hyp_identity->flags[2] = res.a3;
-+}
-+EXPORT_SYMBOL_GPL(gh_hypercall_hyp_identify);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Gunyah Hypervisor Hypercalls");
-diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
-index 87ef258cec64..c39409b69d01 100644
---- a/drivers/virt/Kconfig
-+++ b/drivers/virt/Kconfig
-@@ -52,4 +52,6 @@ source "drivers/virt/coco/efi_secret/Kconfig"
- 
- source "drivers/virt/coco/sev-guest/Kconfig"
- 
-+source "drivers/virt/gunyah/Kconfig"
-+
- endif
-diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
-new file mode 100644
-index 000000000000..7ac917e0aa3f
---- /dev/null
-+++ b/drivers/virt/gunyah/Kconfig
-@@ -0,0 +1,13 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+config GUNYAH
-+	tristate "Gunyah Virtualization drivers"
-+	depends on ARM64
-+	select AUXILIARY_BUS
-+	help
-+	  The Gunyah drivers are the helper interfaces that runs in a guest VM
-+	  such as basic inter-VM IPC and signaling mechanisms, and higher level
-+	  services such as memory/device sharing, IRQ sharing, and so on.
-+
-+	  Say Y/M here to enable the drivers needed to interact in a Gunyah
-+	  virtual environment.
-diff --git a/include/asm-generic/gunyah.h b/include/asm-generic/gunyah.h
-index 64a02dd3b5ad..86eb59e203ef 100644
---- a/include/asm-generic/gunyah.h
-+++ b/include/asm-generic/gunyah.h
-@@ -71,4 +71,40 @@ static inline int gh_remap_error(int gh_error)
- 	}
- }
- 
-+#define QC_HYP_UID0 0x19bd54bd
-+#define QC_HYP_UID1 0x0b37571b
-+#define QC_HYP_UID2 0x946f609b
-+#define QC_HYP_UID3 0x54539de6
-+
-+#define GUNYAH_UID0 0x673d5f14
-+#define GUNYAH_UID1 0x9265ce36
-+#define GUNYAH_UID2 0xa4535fdb
-+#define GUNYAH_UID3 0xc1d58fcd
-+
-+#define gh_uid_matches(prefix, uid)	\
-+	((uid)[0] == prefix ## _UID0 && (uid)[1] == prefix ## _UID1 && \
-+	 (uid)[2] == prefix ## _UID2 && (uid)[3] == prefix ## _UID3)
-+
-+#define GH_API_INFO_API_VERSION(x)	(((x) >> 0) & 0x3fff)
-+#define GH_API_INFO_BIG_ENDIAN(x)	(((x) >> 14) & 1)
-+#define GH_API_INFO_IS_64BIT(x)		(((x) >> 15) & 1)
-+#define GH_API_INFO_VARIANT(x)		(((x) >> 56) & 0xff)
-+
-+#define GH_IDENTIFY_PARTITION_CSPACE(flags)	(((flags)[0] >> 0) & 1)
-+#define GH_IDENTIFY_DOORBELL(flags)		(((flags)[0] >> 1) & 1)
-+#define GH_IDENTIFY_MSGQUEUE(flags)		(((flags)[0] >> 2) & 1)
-+#define GH_IDENTIFY_VIC(flags)			(((flags)[0] >> 3) & 1)
-+#define GH_IDENTIFY_VPM(flags)			(((flags)[0] >> 4) & 1)
-+#define GH_IDENTIFY_VCPU(flags)			(((flags)[0] >> 5) & 1)
-+#define GH_IDENTIFY_MEMEXTENT(flags)		(((flags)[0] >> 6) & 1)
-+#define GH_IDENTIFY_TRACE_CTRL(flags)		(((flags)[0] >> 7) & 1)
-+
-+struct gh_hypercall_hyp_identify_resp {
-+	u64 api_info;
-+	u64 flags[3];
-+};
-+
-+void gh_hypercall_get_uid(u32 *uid);
-+void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identity);
-+
- #endif
++#endif
 -- 
 2.25.1
 
