@@ -2,203 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CCBCC07E9D
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 00:13:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1CF7C07E9D
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 00:24:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230357AbiI1ANA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 20:13:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43426 "EHLO
+        id S230169AbiI1AYx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 20:24:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbiI1AM6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 20:12:58 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF588E6A27;
-        Tue, 27 Sep 2022 17:12:55 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id m3so15218292eda.12;
-        Tue, 27 Sep 2022 17:12:55 -0700 (PDT)
+        with ESMTP id S232817AbiI1AYf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 20:24:35 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 461911138EB;
+        Tue, 27 Sep 2022 17:24:04 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id rk17so10740732ejb.1;
+        Tue, 27 Sep 2022 17:24:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=1Jtjq3PMPX0CIHFz0zhoXaOuw+IpQxj3g5XM4aru3yY=;
-        b=CJLjv+2W5bThdba4CMUjkGbJjCa8qyeiM7hTon9h5lbbCp5SSc+t7rfef+xTs/EqEd
-         +5/XhNxQuVqBLReNLGHP7GlAvyIUtQrWicx8nJuAoaOXtB0p/exotrgE8HWhQUteuwXA
-         tWuUiXalbllJmNschDifFW2VcmVYrb1SXRe4EstYaey87wYQv5pg01YHu0rdFg74dj3z
-         xHi12tkbwqftR7By/qdKjPPrEzgjrW4uQPDVwWdANPgBkRmOJDPOmO8pxHf65ARxry+x
-         lwtbjIzDWt73q0drZM8NnH1TP4FV3aLCr5wRI+xhJ8U0ftrPB9XI4Yd0KtBBFX8TBY7i
-         gwjA==
+        bh=yrRvoMA2qzsQLaNGkBWV3qKU0u6GXYvGhupTkuY6VEY=;
+        b=N4SqAspV6MMkhBYCFIyWw1zoLE0Rd7s2OcFI1DceVn/pHLgQQpIGuPVe/Y5xz2rq7u
+         4AwEph2NeuV3pICsTTUzwRekddH0yOeND7JGqULNGiEUieyWRG6v6tDzpLe64Ks46WYl
+         +E7aPSySmJM5rrRbU/QTtIuWWnrypBa5Nee0vTcASR26Pbtt3a1rnWEXJiAhZ0LuaF3z
+         G0Kpy5TJl/IDsRofANqT6QeQSyO+rxKfvYX1lEVX/uIl1opJ/g6T4wX2v3xFu9sWUBhf
+         nxjbUpm/gkJf8RF8BM1xVL9NUSyaLL/yweBBM9Jtss7d1JdDL1D0xSUAW2CB9lb+daDC
+         gCuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=1Jtjq3PMPX0CIHFz0zhoXaOuw+IpQxj3g5XM4aru3yY=;
-        b=ZLCmruhtpgXnZzbfe+7SKDW1mKLC171/nYc9qn2RMKsTz/DOHowdZB3vanunyD4XmE
-         ICUnb5DQj/SixIKYs6Me4oa/mDcP/ENLcLNLtVmXLrBymsn+HTbpNDQ7nyr7t5pUd0oV
-         I0BnSEL0TOLJY5VgEyZCvqLsmbr73xm2305UthfjMMH0EXYQ1Q2GcS13Qe2KVjIzE/1S
-         mfgXlG8WBC0P/eXAQEWOiHKAmCh3gq4ia2Fu68+oItNWMIeFNR+126OeZdjdZHAMHPw4
-         Mtek2vyr6np9J4FbMubs48Aly/PLUUS8oAel/SDh4jmv1n6Q2/6G5UIEN/fFs9h1WJja
-         FVgg==
-X-Gm-Message-State: ACrzQf1nbLNkqwEoLkmcIvVsLUAOR5tksd3sh8AziPwK4b41/foMvJcQ
-        dha3m+pVM7rn7m+KT9RAxmO7dWbUCd4Er9Cp6bo=
-X-Google-Smtp-Source: AMsMyM4PdANFhysY3PhaCnw5W75C8FGr9n2Q7cAz3kPK53pNrt876wOv464T5B1TFaSTGjaINDWby6KPgqtmsslNpx4=
-X-Received: by 2002:a50:d79a:0:b0:457:d209:c09c with SMTP id
- w26-20020a50d79a000000b00457d209c09cmr3251088edi.14.1664323974164; Tue, 27
- Sep 2022 17:12:54 -0700 (PDT)
+        bh=yrRvoMA2qzsQLaNGkBWV3qKU0u6GXYvGhupTkuY6VEY=;
+        b=j0VYDRs5klCIdfjk4CA9knBeIGVZqAtIdfICpLMQqP27BrwyAW5SGw/vh/uN3U/4ln
+         Dv64rBpQ/TRjU0hI38+OVJm8ILu5ALNqyw8msGbnoWAV1qeYPon3n8woM1N+EP+L3hcU
+         0nPTtLaw7+/DtWkQtQrN+BjUNOlC61YyAN5Xz42BD3OXxCeiuOQBNsZT2GdfjiDJ010A
+         Y4e+91GkAGyuQBszYDJnU1SaGtl0Zqt5+KXcHx751q6Z0HvK+D+peCGaqFjCKEXD8Lfu
+         8eWt0ZrXG/1KiY9A9Rpse28+b6Ws3SUNNOgJIlZaKCOnMVdONvlQ03uRbjSlX1onCKqz
+         m8pw==
+X-Gm-Message-State: ACrzQf0Gxq6q7ET/Zi31BKEHCz2cMfP3p4e4OqAbwkURdOAxqfjcylnX
+        TbIf0H3cwqkmZ0q4/7WDFhTDCxPHRxLEkJ/7+ffqRfDt1nc=
+X-Google-Smtp-Source: AMsMyM7eMgPelqF9CjnEbxsTqqXy6pmBZpLW9pueVjK2kG6gmJQBXY3G4jO1eBrNDVmQMCspWLB2ar5LjeuRSz4OCpA=
+X-Received: by 2002:a17:907:7eaa:b0:782:3d2b:20b0 with SMTP id
+ qb42-20020a1709077eaa00b007823d2b20b0mr25078507ejc.746.1664324641882; Tue, 27
+ Sep 2022 17:24:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220906195656.33021-1-flaniel@linux.microsoft.com>
-In-Reply-To: <20220906195656.33021-1-flaniel@linux.microsoft.com>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Tue, 27 Sep 2022 17:12:41 -0700
-Message-ID: <CAEf4BzaE8HiVsA3fFeHfg4dd2AFWM2Aq+H0_mQN3FfmGQOt8=Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/5] Make BPF ring buffer overwritable
-To:     Francis Laniel <flaniel@linux.microsoft.com>
-Cc:     bpf@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>,
-        Joanne Koong <joannelkoong@gmail.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Maxim Mikityanskiy <maximmi@nvidia.com>,
-        Geliang Tang <geliang.tang@suse.com>,
-        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
+References: <20220921084302.43631-1-yangyicong@huawei.com> <20220921084302.43631-3-yangyicong@huawei.com>
+ <168eac93-a6ee-0b2e-12bb-4222eff24561@arm.com> <8e391962-4e3a-5a56-64b4-78e8637e3b8c@huawei.com>
+In-Reply-To: <8e391962-4e3a-5a56-64b4-78e8637e3b8c@huawei.com>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Wed, 28 Sep 2022 13:23:50 +1300
+Message-ID: <CAGsJ_4z=dZbrAUD9jczT08S3qi_ep-h+EK35UfayVk1S+Cnp2A@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] arm64: support batched/deferred tlb shootdown
+ during page reclamation
+To:     Yicong Yang <yangyicong@huawei.com>
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        yangyicong@hisilicon.com, corbet@lwn.net, peterz@infradead.org,
+        arnd@arndb.de, linux-kernel@vger.kernel.org,
+        darren@os.amperecomputing.com, huzhanyuan@oppo.com,
+        lipeifeng@oppo.com, zhangshiming@oppo.com, guojian@oppo.com,
+        realmz6@gmail.com, linux-mips@vger.kernel.org,
+        openrisc@lists.librecores.org, linux-mm@kvack.org, x86@kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, akpm@linux-foundation.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        wangkefeng.wang@huawei.com, xhao@linux.alibaba.com,
+        prime.zeng@hisilicon.com, Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>,
+        catalin.marinas@arm.com, will@kernel.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Sep 6, 2022 at 12:58 PM Francis Laniel
-<flaniel@linux.microsoft.com> wrote:
+On Tue, Sep 27, 2022 at 10:15 PM Yicong Yang <yangyicong@huawei.com> wrote:
 >
-> Hi.
->
->
-> First, I hope you are fine and the same for your relatives.
->
-> Normally, when BPF ring buffer are full, producers cannot write anymore and
-> need to wait for consumer to get some data.
-> As a consequence, calling bpf_ringbuf_reserve() from eBPF code returns NULL.
->
-> This contribution adds a new flag to make BPF ring buffer overwritable.
-> Perf ring buffers already implement an option to be overwritable. In order to
-> avoid data corruption, the data is written backward, see
+> On 2022/9/27 14:16, Anshuman Khandual wrote:
+> > [...]
+> >
+> > On 9/21/22 14:13, Yicong Yang wrote:
+> >> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
+> >> +{
+> >> +    /* for small systems with small number of CPUs, TLB shootdown is cheap */
+> >> +    if (num_online_cpus() <= 4)
+> >
+> > It would be great to have some more inputs from others, whether 4 (which should
+> > to be codified into a macro e.g ARM64_NR_CPU_DEFERRED_TLB, or something similar)
+> > is optimal for an wide range of arm64 platforms.
+> >
 
-No, you are not avoiding data corruption. This patch set doesn't apply
-cleanly, so I can't try this locally, but try the following example:
+I have tested it on a 4-cpus and 8-cpus machine. but i have no machine
+with 5,6,7
+cores.
+I saw improvement on 8-cpus machines and I found 4-cpus machines don't need
+this patch.
 
-1. Allocate very small ringbuf (4KB).
-2. Write BPF program that does multiple reservations within single
-run. Enough reservations to overfill entire ringbuf and wrap over. For
-each reserved sample fill it completely with garbage.
-3. Try to submit all (successful) reservations. My theory is you'll
-observe a crash.
+so it seems safe to have
+if (num_online_cpus()  < 8)
 
-Make sure that sample size isn't an exact multiple of ringbuf size so
-that you don't have a nice neat overlap.
+>
+> Do you prefer this macro to be static or make it configurable through kconfig then
+> different platforms can make choice based on their own situations? It maybe hard to
+> test on all the arm64 platforms.
 
-Look at bpf_ringbuf_restore_from_rec(). Each successful reservation
-contains a very delicate and precise offset that allows
-bpf_ringbuf_commit() to find the BPF ringbuf map in memory. By
-allowing to overwrite active not-yet-submitted reservation you allow
-to corrupt this information in the record header. This will make
-kernel code to dereference garbage addresses.
+Maybe we can have this default enabled on machines with 8 and more cpus and
+provide a tlbflush_batched = on or off to allow users enable or
+disable it according
+to their hardware and products. Similar example: rodata=on or off.
 
-This whole backwards approach won't work with BPF ringbuf. It works
-with BPF perfbuf only under some non-enforceable assumptions, from
-what I understand. We need something else for an overwritable ringbuf.
+Hi Anshuman, Will,  Catalin, Andrew,
+what do you think about this approach?
 
+BTW, haoxin mentioned another important user scenarios for tlb bach on arm64:
+https://lore.kernel.org/lkml/393d6318-aa38-01ed-6ad8-f9eac89bf0fc@linux.alibaba.com/
 
-> commit 9ecda41acb97 ("perf/core: Add ::write_backward attribute to perf event").
-> This patch series re-uses the same idea from perf ring buffers but in BPF ring
-> buffers.
-> So, calling bpf_ringbuf_reserve() on an overwritable BPF ring buffer never
-> returns NULL.
-> As a consequence, oldest data will be overwritten by the newest so consumer will
-> loose data.
+I do believe we need it based on the expensive cost of tlb shootdown in arm64
+even by hardware broadcast.
+
 >
-> Overwritable ring buffers are useful in BPF programs that are permanently
-> enabled but rarely read, only on-demand, for example in case of a user request
-> to investigate problems. We would like to use this in the Traceloop project [1].
+> Thanks.
 >
-> The self test added in this series was tested and validated in a VM:
-> you@vm# ./share/linux/tools/testing/selftests/bpf/test_progs -t ringbuf_over
-> Can't find bpf_testmod.ko kernel module: -2
-> WARNING! Selftests relying on bpf_testmod.ko will be skipped.
-> #135     ringbuf_over_writable:OK
-> Summary: 1/0 PASSED, 0 SKIPPED, 0 FAILED
->
-> You can also test the libbpf implementation by using the last patch of this
-> series which should be applied to iovisor/bcc:
-> you@home$ cd /path/to/iovisor/bcc
-> you@home$ git am -3 v2-0005-for-test-purpose-only-Add-toy-to-play-with-BPF-ri.patch
-> you@home$ cd /path/to/linux/tools/lib/bpf
-> you@home$ make -j$(nproc)
-> you@home$ cp libbpf.a /path/to/iovisor/bcc/libbpf-tools/.output
-> you@home$ cd /path/to/iovisor/bcc/libbpf-tools/
-> you@home$ make -j toy
-> # Start your VM and copy toy executable inside it.
-> root@vm-amd64:~# ./share/toy &
-> [1] 287
-> root@vm-amd64:~# for i in {1..16}; do ls > /dev/null; done
-> 16
-> 15
-> 14
-> 13
-> 12
-> 11
-> 10
-> 9
-> root@vm-amd64:~# ls > /dev/null && ls > /dev/null
-> 18
-> 17
->
-> As you can see, the first eight events are overwritten.
->
-> If you see any way to improve this contribution, feel free to share.
->
-> Changes since:
->  v1:
->   * Made producers write backward like perf ring buffer, so it permits avoiding
->   memory corruption.
->   * Added libbpf implementation to consume all events available.
->   * Added selftest.
->   * Added documentation.
->
-> Francis Laniel (5):
->   bpf: Make ring buffer overwritable.
->   selftests: Add BPF overwritable ring buffer self tests.
->   docs/bpf: Add documentation for overwritable ring buffer.
->   libbpf: Add implementation to consume overwritable BPF ring buffer.
->   for test purpose only: Add toy to play with BPF ring.
->
->  ...-only-Add-toy-to-play-with-BPF-ring-.patch | 147 ++++++++++++++++
->  Documentation/bpf/ringbuf.rst                 |  18 +-
->  include/uapi/linux/bpf.h                      |   3 +
->  kernel/bpf/ringbuf.c                          |  43 +++--
->  tools/include/uapi/linux/bpf.h                |   3 +
->  tools/lib/bpf/ringbuf.c                       | 106 ++++++++++++
->  tools/testing/selftests/bpf/Makefile          |   5 +-
->  .../bpf/prog_tests/ringbuf_overwritable.c     | 158 ++++++++++++++++++
->  .../bpf/progs/test_ringbuf_overwritable.c     |  61 +++++++
->  9 files changed, 531 insertions(+), 13 deletions(-)
->  create mode 100644 0001-for-test-purpose-only-Add-toy-to-play-with-BPF-ring-.patch
->  create mode 100644 tools/testing/selftests/bpf/prog_tests/ringbuf_overwritable.c
->  create mode 100644 tools/testing/selftests/bpf/progs/test_ringbuf_overwritable.c
->
->
-> Best regards and thank you in advance.
-> ---
-> [1] https://github.com/kinvolk/traceloop
-> Traceloop was presented at LPC 2020 (https://lpc.events/event/7/contributions/667/)
-> --
-> 2.25.1
->
+> >> +            return false;> +
+> >> +#ifdef CONFIG_ARM64_WORKAROUND_REPEAT_TLBI
+> >> +    if (unlikely(this_cpu_has_cap(ARM64_WORKAROUND_REPEAT_TLBI)))
+> >> +            return false;
+> >> +#endif
+> >> +
+> >> +    return true;
+> >> +}
+> >> +
+> >
+> > [...]
+> >
+> > .
+> >
+
+Thanks
+Barry
