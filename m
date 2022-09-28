@@ -2,73 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C1C8C32771
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 13:40:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F6EC32771
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 13:57:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234050AbiI1NkM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Sep 2022 09:40:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46426 "EHLO
+        id S234222AbiI1N53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Sep 2022 09:57:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234212AbiI1Njq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 09:39:46 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC48E5A2F9;
-        Wed, 28 Sep 2022 06:39:44 -0700 (PDT)
-Received: from ip4d147bae.dynamic.kabel-deutschland.de ([77.20.123.174] helo=truhe.fritz.box); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1odXHp-0006WL-N5; Wed, 28 Sep 2022 15:39:41 +0200
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: [PATCH v1] docs: process/5.Posting.rst: clarify use of Reported-by: tag
-Date:   Wed, 28 Sep 2022 15:39:40 +0200
-Message-Id: <2fc7162dfb76e04da5ea903c9c170d913e735dad.1664372256.git.linux@leemhuis.info>
-X-Mailer: git-send-email 2.37.3
+        with ESMTP id S233785AbiI1N51 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 09:57:27 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48E8852814;
+        Wed, 28 Sep 2022 06:57:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664373447; x=1695909447;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yJ6+49HFr+oDLMxfyQGefKBQ8j0Hnt0G1q40J+YPBGE=;
+  b=Esw9uKvS5W+Q7bX9McUQZsx8wmHsKGBJMsOdS5/jmPG/HaWMDOpbXFIW
+   y8naaZRw0SLhwhsnX5HgP6KDh5AlKc/YdQvqD/nTxrJ3b4xz6wIMAAC6U
+   Ig3pkQLyjYO5Najq+qKCOJsNAHdJcspjiMfSVHl5N0Yadw7x4aCpsdCj9
+   j01huV00ZNlXqThYZEfFwePob37AfVArJwgLsytwJclRaqPHoMxZ3H5It
+   Nn0QDyeX1biXd5iO4v6oynbPm8A9P1SEu16bexBl/uxxU30rY45CjHblu
+   JxiUCGZEF7dNKziGafnSrv4OMAjB8ulxyg8Yj+4hx4swdvrknhL4Hxrpd
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="302518541"
+X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; 
+   d="scan'208";a="302518541"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2022 06:57:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="621930496"
+X-IronPort-AV: E=Sophos;i="5.93,352,1654585200"; 
+   d="scan'208";a="621930496"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga002.jf.intel.com with ESMTP; 28 Sep 2022 06:57:25 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id E6C33101; Wed, 28 Sep 2022 16:57:43 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v1 1/1] docs: filesystems: sysfs: Make text and code for ->show() consistent
+Date:   Wed, 28 Sep 2022 16:57:41 +0300
+Message-Id: <20220928135741.54919-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1664372384;24a868f7;
-X-HE-SMSGID: 1odXHp-0006WL-N5
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bring the description on when to use the Reported-by: tag found in
-Documentation/process/5.Posting.rst more in line with the description in
-Documentation/process/submitting-patches.rst: before this change the two
-were contradicting each other, as the latter is way more permissive and
-only states '[...] if the bug was reported in private, then ask for
-permission first before using the Reported-by tag.'
+The documentation says that ->show() should only use sysfs_emit() or
+sysfs_emit_at(), but example keeps outdated code. Update the code to
+be consistent.
 
-Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-
+Fixes: 2efc459d06f1 ("sysfs: Add sysfs_emit and sysfs_emit_at to format sysfs output")
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-Hi! I noticed some confusion in our development community on when to use
-the Reported-by: tag. Some of this apparently is caused by the
-inconsistency fixed in this patch. Ciao, Thorsten
----
- Documentation/process/5.Posting.rst | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ Documentation/filesystems/sysfs.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-index 906235c11c24..d87f1fee4cbc 100644
---- a/Documentation/process/5.Posting.rst
-+++ b/Documentation/process/5.Posting.rst
-@@ -256,8 +256,10 @@ The tags in common use are:
-  - Cc: the named person received a copy of the patch and had the
-    opportunity to comment on it.
+diff --git a/Documentation/filesystems/sysfs.rst b/Documentation/filesystems/sysfs.rst
+index 004d490179f3..8bba676b1365 100644
+--- a/Documentation/filesystems/sysfs.rst
++++ b/Documentation/filesystems/sysfs.rst
+@@ -263,7 +263,7 @@ A very simple (and naive) implementation of a device attribute is::
+     static ssize_t show_name(struct device *dev, struct device_attribute *attr,
+ 			    char *buf)
+     {
+-	    return scnprintf(buf, PAGE_SIZE, "%s\n", dev->name);
++	    return sysfs_emit(buf, "%s\n", dev->name);
+     }
  
--Be careful in the addition of tags to your patches: only Cc: is appropriate
--for addition without the explicit permission of the person named.
-+Be careful in the addition of tags to your patches, as only Cc: is appropriate
-+for addition without the explicit permission of the person named; using
-+Reported-by: is fine most of the time as well, but ask for permission if
-+the bug was reported in private.
- 
- 
- Sending the patch
-
-base-commit: 3ef859a4f6c97253b75eb53d259b7789fb92d875
+     static ssize_t store_name(struct device *dev, struct device_attribute *attr,
 -- 
-2.37.3
+2.35.1
 
