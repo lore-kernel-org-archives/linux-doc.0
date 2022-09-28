@@ -2,100 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37DB7C6FA82
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 06:59:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5070C04A95
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 07:57:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232753AbiI1G7X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Sep 2022 02:59:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46270 "EHLO
+        id S229661AbiI1H5w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Sep 2022 03:57:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233391AbiI1G7E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 02:59:04 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9F517C77D
-        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 23:58:56 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id b6so13288792ljr.10
-        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 23:58:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=Qu/VhJX92VKSX7l7z4v5PEDwp2MN2vUwxA8YDbW68bI=;
-        b=huE5HIYJVftNh0Ht149pZrcZeVpIRE7lwIVErV+J8poZ0DN6ypAtmdgke01Au2FIsM
-         V3lQMuxJwd6/tjGrUhFMPNu0xVPkjIWDDkzrX/NyjvCkVZ5f6nuGbBlILnLk5pMzRHlb
-         RDlmtN/FyP79gtSnkhf5uMbkaFXcOo0AhhbK7/YXVhdg6rcQy1sOvH3FFRdw4oUEdzTc
-         8KjDuJBjO9uCKLXvxbWnDrJF2Tm3Me6ZHXfc0FRo0SQ2GF3++ApWiTX1xcwcJWaBYwwi
-         Yz4DXEDYhxDsUkaegv4rY8awqArRT9xXXgIlTC7oNk6TF2vXVCBDOWl9wShz3houGgzQ
-         ddBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=Qu/VhJX92VKSX7l7z4v5PEDwp2MN2vUwxA8YDbW68bI=;
-        b=hdVwCEw3ATmH7OQnfCunPlDHnxYH4AtP6I/RymxApPatUUnK7h5p4s0rYeH2elGI6b
-         SM/MBR8rUP49OhZKsrFYUufCzt8SZUG4NwcXLdXYeL3arlsoQEyh1sI1sLj1wiclbQzY
-         x9LsCUtCHnsoMFnV8uWsIYE4A8GaqBsS/l2hoezH11Z8U6gzxdxAnbkmBPWvsj0S8VlW
-         JB2gq1kVI36M90dyVhuFKtxl14yA41ZV9jsKvf/PvT3irUQB4Isxospco/SC23PPhOse
-         1H/G2XG+tCRyPFojDMWHptd5sXTI6s9Vqep3CnSkuJK/H5h96H04NgR8LeT7Y1nLGsDo
-         Bd3g==
-X-Gm-Message-State: ACrzQf0qnC+SxWmub1ylCfNIYyNLv7CfrRnjRD4ytvHiRc2q8WaqF/5q
-        ehrB1jwigJVfu8coQtTjQXF4LumFc6DBbA==
-X-Google-Smtp-Source: AMsMyM5EQEAIm3/ZUzrpf8ztO/R91GxLCmyhIVlFSiK9YN6SkEdDDvuYoxqffnMejtH1y+ttQwmvXw==
-X-Received: by 2002:a05:6512:c0f:b0:49b:1e8c:59fd with SMTP id z15-20020a0565120c0f00b0049b1e8c59fdmr11920138lfu.426.1664347987465;
-        Tue, 27 Sep 2022 23:53:07 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id q12-20020a2e84cc000000b0026c41574790sm358109ljh.30.2022.09.27.23.53.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Sep 2022 23:53:07 -0700 (PDT)
-Message-ID: <f74a9883-3a9b-8606-b20d-f046835fb827@linaro.org>
-Date:   Wed, 28 Sep 2022 08:53:06 +0200
+        with ESMTP id S232648AbiI1H5v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 03:57:51 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AD3A63E5;
+        Wed, 28 Sep 2022 00:57:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 07E74B81F61;
+        Wed, 28 Sep 2022 07:57:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59E25C433D6;
+        Wed, 28 Sep 2022 07:57:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664351864;
+        bh=ruZ2DsK+gMbfErHsem/PLXeWS8YS24c8thncWAIJF0o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kq3wd8OCFk4Zi3saIY7Rw52ujF8gD0yuF244x2GtPfaKk7H4ppKQq9bG2lF/dm41p
+         Z39aqnoN86n28V6QEZP7v0dhyUVCe5kZrISQoSOKK/1eSEqcgppl2btoyH6dpmRqZc
+         Cno6e2jk2lAaA/6zglYnl7q9hg/YRmp1iv8pB6JPvBxXDrjX0BiFWTSzrP6PLtTnl7
+         RdfLpk6AqaXuYY/HLBo3MquICqha9k0o3tsZ5MqNCYnen1Jn5Zpqm+X/QOYx3PbMPS
+         +5E9ZfAvQENXlQy8NneD4stO2UvDL+ngWSIMvvZ4dH02yF8yk7ZQXvO77pa7GBRkl2
+         hx2dxvLbNxTjA==
+Date:   Wed, 28 Sep 2022 10:57:29 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Vernon Yang <vernon2gm@gmail.com>
+Cc:     corbet@lwn.net, akpm@linux-foundation.org, bobwxc@email.cn,
+        hughd@google.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation/mm: modify page_referenced to
+ folio_referenced
+Message-ID: <YzP+aZsR6Lov7zi6@kernel.org>
+References: <20220926152032.74621-1-vernon2gm@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH] Documentation/process: Add text to indicate supporters
- should be mailed
-Content-Language: en-US
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, corbet@lwn.net,
-        linux@leemhuis.info, konstantin@linuxfoundation.org,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-References: <20220928003006.230103-1-bryan.odonoghue@linaro.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220928003006.230103-1-bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220926152032.74621-1-vernon2gm@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28/09/2022 02:30, Bryan O'Donoghue wrote:
-> Recently when submitting a yaml change I found that I had omitted the
-> maintainer whose tree the change needed to go through.
+On Mon, Sep 26, 2022 at 11:20:32PM +0800, Vernon Yang wrote:
+> Since commit b3ac04132c4b ("mm/rmap: Turn page_referenced() into
+> folio_referenced()") the page_referenced function name was modified,
+> so fix it up to use the correct one.
+> 
+> Signed-off-by: Vernon Yang <vernon2gm@gmail.com>
 
-Thank you for your patch. There is something to discuss/improve.
+Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index be49d8f2601b4..5f97379da41da 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -227,9 +227,11 @@ You should always copy the appropriate subsystem maintainer(s) on any patch
->  to code that they maintain; look through the MAINTAINERS file and the
->  source code revision history to see who those maintainers are.  The
->  script scripts/get_maintainer.pl can be very useful at this step (pass paths to
-> -your patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
-> -maintainer for the subsystem you are working on, Andrew Morton
-> -(akpm@linux-foundation.org) serves as a maintainer of last resort.
-> +your patches as arguments to scripts/get_maintainer.pl).  You should mail
-> +everyone who appears as "maintainer" or "supporter" in the
-> +scripts/get_maintainer.pl output.  If you cannot find a maintainer for the
-> +subsystem you are working on, Andrew Morton (akpm@linux-foundation.org) serves
-> +as a maintainer of last resort.
+> ---
+>  Documentation/mm/unevictable-lru.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/mm/unevictable-lru.rst b/Documentation/mm/unevictable-lru.rst
+> index b280367d6a44..4a0e158aa9ce 100644
+> --- a/Documentation/mm/unevictable-lru.rst
+> +++ b/Documentation/mm/unevictable-lru.rst
+> @@ -197,7 +197,7 @@ unevictable list for the memory cgroup and node being scanned.
+>  There may be situations where a page is mapped into a VM_LOCKED VMA, but the
+>  page is not marked as PG_mlocked.  Such pages will make it all the way to
+>  shrink_active_list() or shrink_page_list() where they will be detected when
+> -vmscan walks the reverse map in page_referenced() or try_to_unmap().  The page
+> +vmscan walks the reverse map in folio_referenced() or try_to_unmap().  The page
+>  is culled to the unevictable list when it is released by the shrinker.
+>  
+>  To "cull" an unevictable page, vmscan simply puts the page back on the LRU list
+> @@ -267,7 +267,7 @@ the LRU.  Such pages can be "noticed" by memory management in several places:
+>   (4) in the fault path and when a VM_LOCKED stack segment is expanded; or
+>  
+>   (5) as mentioned above, in vmscan:shrink_page_list() when attempting to
+> -     reclaim a page in a VM_LOCKED VMA by page_referenced() or try_to_unmap().
+> +     reclaim a page in a VM_LOCKED VMA by folio_referenced() or try_to_unmap().
+>  
+>  mlocked pages become unlocked and rescued from the unevictable list when:
+>  
+> @@ -547,7 +547,7 @@ vmscan's shrink_inactive_list() and shrink_page_list() also divert obviously
+>  unevictable pages found on the inactive lists to the appropriate memory cgroup
+>  and node unevictable list.
+>  
+> -rmap's page_referenced_one(), called via vmscan's shrink_active_list() or
+> +rmap's folio_referenced_one(), called via vmscan's shrink_active_list() or
+>  shrink_page_list(), and rmap's try_to_unmap_one() called via shrink_page_list(),
+>  check for (3) pages still mapped into VM_LOCKED VMAs, and call mlock_vma_page()
+>  to correct them.  Such pages are culled to the unevictable list when released
+> -- 
+> 2.25.1
+> 
 
-That's still a bit misleading, because you should also send the patch to
-reviewers and mailing lists. :)
-
-Best regards,
-Krzysztof
-
+-- 
+Sincerely yours,
+Mike.
