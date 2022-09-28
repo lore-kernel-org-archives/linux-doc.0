@@ -2,143 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0538C07E9D
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 03:10:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60F88C32771
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 03:32:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230321AbiI1DJ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 23:09:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57628 "EHLO
+        id S231269AbiI1Dcs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 23:32:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231329AbiI1DJ6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 23:09:58 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03B0187F81
-        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 20:09:58 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id n7so1968334plp.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 Sep 2022 20:09:57 -0700 (PDT)
+        with ESMTP id S231329AbiI1Dco (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 23:32:44 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0392613D42;
+        Tue, 27 Sep 2022 20:32:44 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id r8-20020a17090a560800b00205eaaba073so564043pjf.1;
+        Tue, 27 Sep 2022 20:32:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=zE7FRbXVPXMEH0b3SCAktRXR5ucy9Cwb3p8sNyPms6k=;
-        b=7Gk9byhcd7iaiCUxW9fPwqLZ1MFtkv5Clj4uvCPSsGM1y7EO3tQ93QukOy/hGkhfdm
-         AgOrIMM2SjaloUB63geELSqt32Fn6CqeXF8Y3LKmzq4dRYidmX+Q/v5DyJkCykX8Kepd
-         XQWR8UO3Cb/E1TUXfavDlTFRpCjjMXXqpBBBPDLAKHbXPWmweIaot6zqT0zTfA4UCgbH
-         72/lXNOoaDhFmTLJqvmv4wL1nsD0rEW8cJCvRXTEgksSXk+S88KUM/AkCEVGYnRI8ss0
-         T1AFP5cJ5pPcs3PKOu4Rv6JtvSgvyIq2UIiha6M3NczrbtCi42FiC+0X7Yzf5B5sXkJx
-         yTfA==
+        bh=5IUmqNkNBw6dRpG6ZEomA1DspemF9lwJ7nLqg2d/+UU=;
+        b=KIPWQJXqYb5m7RKiC0jM9a/OXfbywkFlOOWm3eqnVPioTbYoED+DWfTR7W08d/NQQP
+         pyCcX67eYiyJLYJY1qxbYjkTHCBbhVrKChVAHvmEtwmds8Z9DEgFp3F66ADbK9G4Mkxo
+         jxcChVu5y6IKnRKunt3SWJVHU3gv/+bf+8+sMb3mmaSUGT58y2MaPoWJe5+W90F17tQt
+         ecUmTQIqZO7MEkLLq9j8TrcwNMo7fWeaZqV4l3Wvqj+ge3N/9V/NdCCfeOCupJQ+YMyq
+         7ir20h2EMAu909NaBXxpVTRuY8YKEPZkG0ZmrNqoBC6UJTIT1tMdHp1aFnlB0dmpgAGm
+         d0lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=zE7FRbXVPXMEH0b3SCAktRXR5ucy9Cwb3p8sNyPms6k=;
-        b=J6qM2l2BYo72s13PZHpgXaSFEBIgXW8bF1KgYIABFc/4xnzXWYZOzamoFuHhHnsdwr
-         xwByilBQCyjEj2xsDgToHyrWwBAAaj9Ssg/UunHZ7wD7UWb547T7pHa+HQOeDpRSO2eB
-         WfsHwr/FG3PsbOtiPmBA8ClnVY4CJN5vOoEqZZ3Ybf7BoTBPPfi3GmIxiStP5jdnB/+K
-         tSpRbYlcGkrq4eYCz/Itzk+az0v2HIicSTU3bEkk5+EK3rTtYg8LyaJyoaFrEfShe6vS
-         uzYt/1bqcpeDjy3kyagYZ4/DYWWUo7vD1IRzPpwQAYwd7lqhpikemq8HjQt+pHHsKFtf
-         JrZg==
-X-Gm-Message-State: ACrzQf196K60OBglnHuvev/xgRdclUXAJ1SKNeVA8w7Fpp8/a9jiHYWo
-        wH6z9iumQaqyD0uVPksUeSTQ51+3Kzv5Ag==
-X-Google-Smtp-Source: AMsMyM59Ac5doia8SG1Tk6ELgAAt60AKGObQlhx6QKt3jqPT3bnUgFIyecNFAzz02Y9xAJ06qbut/A==
-X-Received: by 2002:a17:902:d50f:b0:178:6505:fae3 with SMTP id b15-20020a170902d50f00b001786505fae3mr30442831plg.54.1664334592382;
-        Tue, 27 Sep 2022 20:09:52 -0700 (PDT)
-Received: from [10.255.19.83] ([139.177.225.240])
-        by smtp.gmail.com with ESMTPSA id lt4-20020a17090b354400b00205e940614dsm274076pjb.34.2022.09.27.20.09.49
+        bh=5IUmqNkNBw6dRpG6ZEomA1DspemF9lwJ7nLqg2d/+UU=;
+        b=VnPbZlhr9tZHzGkRcdUaw8LipGteT0pgVsLIWNRj55TXELFV+aQa7Kh1TVPd/NkMl3
+         5ip3uE2x67EEZAfPaYovJH+MDzJP9EkgFJV6L1Ckt4z7lzl5sB//vW35KqnObgk/epcw
+         2n8Ij8zjHS1IKFbGnm4nErKNvpAyMA6X7t3kBjK0TrTPr23LmC3nZRpRCM95kE97egjj
+         DpeVv+gNBF498e2SRtM/Pu5yZsVhSKU/apOsUe9IzeXBOPRKUqlANfu8bBhIof+9UOpb
+         rY3gAWOOk24vp4wA4Kxy+2Kk4DpEyuP//GUPBW9Yj7nPyjZT2XUdfVbJCo3Th3i41h8R
+         CbhA==
+X-Gm-Message-State: ACrzQf2Qs2SHuyvwI7Qwgc3gEcSJ0Zj45FFLrDgIazuw27EKo9rqZ2OR
+        ix6dpgTctuAz+hBcK4FkIX0=
+X-Google-Smtp-Source: AMsMyM64Fxxk2OyDmcxVzf7BacTyV2aMJNuNG7JHkkHSrIszveVLeYILTTyTSKz/smAEvlSxaZf6TA==
+X-Received: by 2002:a17:90a:1b2d:b0:205:e395:841c with SMTP id q42-20020a17090a1b2d00b00205e395841cmr4713697pjq.28.1664335963424;
+        Tue, 27 Sep 2022 20:32:43 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-87.three.co.id. [180.214.233.87])
+        by smtp.gmail.com with ESMTPSA id m9-20020a170902db0900b0016d6c939332sm2379139plx.279.2022.09.27.20.32.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Sep 2022 20:09:51 -0700 (PDT)
-Message-ID: <4e2aa5c2-3d8c-2a2f-691b-218e23e7271f@bytedance.com>
-Date:   Wed, 28 Sep 2022 11:09:47 +0800
+        Tue, 27 Sep 2022 20:32:42 -0700 (PDT)
+Message-ID: <396ba5b0-64e6-a9a1-c6e1-4984506c9c3b@gmail.com>
+Date:   Wed, 28 Sep 2022 10:32:37 +0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.0
-Subject: Re: [RFC] proc: Add a new isolated /proc/pid/mempolicy type.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v3 2/7] docs: Rewrite the front page
 Content-Language: en-US
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Zhongkun He <hezhongkun.hzk@bytedance.com>, corbet@lwn.net,
-        akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20220926091033.340-1-hezhongkun.hzk@bytedance.com>
- <YzF3aaLvEvFhTQa3@dhcp22.suse.cz>
- <24b20953-eca9-eef7-8e60-301080a17d2d@bytedance.com>
- <YzGya2Q3iuWS2WdM@dhcp22.suse.cz>
- <7ac9abce-4458-982b-6c04-f9569a78c0da@bytedance.com>
- <YzLVTxGHgYp3Es4t@dhcp22.suse.cz>
- <9a0130ce-6528-6652-5a8e-3612c5de2d96@bytedance.com>
- <YzMBnKUo8ny9S/7+@dhcp22.suse.cz>
-From:   Abel Wu <wuyun.abel@bytedance.com>
-In-Reply-To: <YzMBnKUo8ny9S/7+@dhcp22.suse.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Kees Cook <keescook@chromium.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joe Perches <joe@perches.com>,
+        David Vernet <void@manifault.com>,
+        Jani Nikula <jani.nikula@intel.com>
+References: <20220927160559.97154-1-corbet@lwn.net>
+ <20220927160559.97154-3-corbet@lwn.net>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220927160559.97154-3-corbet@lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/27/22 9:58 PM, Michal Hocko wrote:
-> On Tue 27-09-22 21:07:02, Abel Wu wrote:
->> On 9/27/22 6:49 PM, Michal Hocko wrote:
->>> On Tue 27-09-22 11:20:54, Abel Wu wrote:
->>> [...]
->>>>>> Btw.in order to add per-thread-group mempolicy, is it possible to add
->>>>>> mempolicy in mm_struct?
->>>>>
->>>>> I dunno. This would make the mempolicy interface even more confusing.
->>>>> Per mm behavior makes a lot of sense but we already do have per-thread
->>>>> semantic so I would stick to it rather than introducing a new semantic.
->>>>>
->>>>> Why is this really important?
->>>>
->>>> We want soft control on memory footprint of background jobs by applying
->>>> NUMA preferences when necessary, so the impact on different NUMA nodes
->>>> can be managed to some extent. These NUMA preferences are given by the
->>>> control panel, and it might not be suitable to overwrite the tasks with
->>>> specific memory policies already (or vice versa).
->>>
->>> Maybe the answer is somehow implicit but I do not really see any
->>> argument for the per thread-group semantic here. In other words why a
->>> new interface has to cover more than the local [sg]et_mempolicy?
->>> I can see convenience as one potential argument. Also if there is a
->>> requirement to change the policy in atomic way then this would require a
->>> single syscall.
->>
->> Convenience is not our major concern. A well-tuned workload can have
->> specific memory policies for different tasks/vmas in one process, and
->> this can be achieved by set_mempolicy()/mbind() respectively. While
->> other workloads are not, they don't care where the memory residents,
->> so the impact they brought on the co-located workloads might vary in
->> different NUMA nodes.
->>
->> The control panel, which has a full knowledge of workload profiling,
->> may want to interfere the behavior of the non-mempolicied processes
->> by giving them NUMA preferences, to better serve the co-located jobs.
->>
->> So in this scenario, a process's memory policy can be assigned by two
->> objects dynamically:
->>
->>   a) the process itself, through set_mempolicy()/mbind()
->>   b) the control panel, but API is not available right now
->>
->> Considering the two policies should not fight each other, it sounds
->> reasonable to introduce a new syscall to assign memory policy to a
->> process through struct mm_struct.
+On 9/27/22 23:05, Jonathan Corbet wrote:
+> The front page is the entry point to the documentation, especially for
+> people who read it online.  It's a big mess of everything we could think to
+> toss into it.  Rewrite the page with an eye toward simplicity and making it
+> easy for readers to get going toward what they really want to find.
 > 
-> So you want to allow restoring the original local policy if the external
-> one is disabled?
-
-Pretty much, but the internal policies are expected to have precedence
-over the external ones, since they are set for some reason to meet their
-specific requirements. The external ones are used only when there is no
-internal policy active.
-
+> This is only a beginning, but it makes our docs more approachable than
+> before.
 > 
-> Anyway, pidfd_$FOO behavior should be semantically very similar to the
-> original $FOO. Moving from per-task to per-mm is a major shift in the
-> semantic.  I can imagine to have a dedicated flag for the syscall to
-> enforce the policy to the full thread group. But having a different
-> semantic is both tricky and also constrained because per-thread binding
-> is then impossible.
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> Reviewed-by: David Vernet <void@manifault.com>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  Documentation/index.rst          | 148 +++++++++++--------------------
+>  Documentation/subsystem-apis.rst |  58 ++++++++++++
+>  2 files changed, 110 insertions(+), 96 deletions(-)
+>  create mode 100644 Documentation/subsystem-apis.rst
+> 
+> diff --git a/Documentation/index.rst b/Documentation/index.rst
+> index 4737c18c97ff..bc492e79f1be 100644
+> --- a/Documentation/index.rst
+> +++ b/Documentation/index.rst
+> @@ -18,131 +18,88 @@ documents into a coherent whole.  Please note that improvements to the
+>  documentation are welcome; join the linux-doc list at vger.kernel.org if
+>  you want to help out.
+>  
+> -Licensing documentation
+> ------------------------
+> +Working with the development community
+> +--------------------------------------
+>  
+<snipped>...
+> -User-oriented documentation
+> ----------------------------
+> -
+> -The following manuals are written for *users* of the kernel — those who are
+> -trying to get it to work optimally on a given system.
+> +The essential guides for interacting with the kernel's development
+> +community and getting your work upstream.
+>  
+<snipped>...
+> +User-oriented documentation
+> +---------------------------
+>  
+> -These books get into the details of how specific kernel subsystems work
+> -from the point of view of a kernel developer.  Much of the information here
+> -is taken directly from the kernel source, with supplemental material added
+> -as needed (or at least as we managed to add it — probably *not* all that is
+> -needed).
+> +The following manuals are written for *users* of the kernel — those who are
+> +trying to get it to work optimally on a given system and application
+> +developers seeking information on the kernel's user-space APIs.
+>  
+>  .. toctree::
+> -   :maxdepth: 2
+> +   :maxdepth: 1
+> +
+> +   admin-guide/index
+> +   The kernel build system <kbuild/index>
+> +   admin-guide/reporting-issues.rst
+> +   User-space tools <tools/index>
+> +   userspace-api/index
+> +
 
-Agreed. What about a syscall only apply to per-mm? There are precedents
-like process_madvice(2).
+Hi jon,
+
+Why did developer documentations list first before user-oriented ones? I looked
+the rendered result as if the former was given more spotlight than the latter.
+
+Thanks.
+
+-- 
+An old man doll... just what I always wanted! - Clara
