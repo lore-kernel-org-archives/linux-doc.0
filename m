@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E54CC6FA83
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 00:55:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9197AC54EE9
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 01:01:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbiI1Azz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 27 Sep 2022 20:55:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51250 "EHLO
+        id S229818AbiI1BBI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 27 Sep 2022 21:01:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229838AbiI1Azx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 20:55:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EA0AB6002;
-        Tue, 27 Sep 2022 17:55:51 -0700 (PDT)
+        with ESMTP id S231502AbiI1BBF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 27 Sep 2022 21:01:05 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A300E7C1B6;
+        Tue, 27 Sep 2022 18:01:02 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B2F061CD5;
-        Wed, 28 Sep 2022 00:55:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C74ABC433D6;
-        Wed, 28 Sep 2022 00:55:49 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4865AB81E77;
+        Wed, 28 Sep 2022 01:01:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39189C433C1;
+        Wed, 28 Sep 2022 01:00:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664326550;
-        bh=zhby2WkIY+2vrCBlQlJB7Z8ZYK63F+z7AimfqPfjWLE=;
+        s=k20201202; t=1664326859;
+        bh=xf1KWcWWS/gh3cdjZ1hQdsIxEkddHB6FWg7h2R0XIyg=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=to5ua9epoOC+ymk9knNoNS4MY4yEPYove5Pzd3K3o8PT9BbZdfp7LLQrRlRiKPlJH
-         ux4BX346zXOZi9V3bXwDlfvvyFcjim3ns5uMp5TX8ZNIxLOKHDmtPoHxEgt0ztNJao
-         lE8PfKVJqpu6UbVx2ZvFMX/8feDO37p5Yvt9i2Gv8ZZqmPZbcYtjKOhWLI3d1/NQ1y
-         cGCdGj24TqhSarzL2E3Ypy7ogZmk+zZdxUDInYzeQrXjlGrUc0/AkqgdjYq2vWb9tq
-         2Nj+Ky5nRFnaqysA/ZmTCyT0CBLMWa9r6muHcyd/mlGIUvRO9EKO+EkSTVLSQyARvj
-         TTmuG2NePkuOA==
-Date:   Tue, 27 Sep 2022 17:55:48 -0700
+        b=ooGTwwJBeQ/H2anhobyE2MPRwc5h0zHcLfIty52xhbxEmlK/YNjS4jwmXVn8AUqNv
+         kl3dImqZ2P78pGe5w5eGVlmsIf0QjphI/g6v5VoKrUG3yX2I245yctSl6/IpcKUqHO
+         BATpPx+MERbQrou4UMiiIyAte7HWJksdXd2+82y8xfmWv+iKaxU+3vr4MKs1RksUZH
+         vPnLU+wO/6ZpcdrW7oG5eBD4EGDoHw9gC62PFktvfhsjVLVtTKROdAjH/LRLVlrzuM
+         wyKNYciPASh2GeYYfssY+nd2Vgtxh+t0RPrmMf72xERNxUWUILXVMzjZ2zpOmZSHxF
+         JbidGACtGbRuA==
+Date:   Tue, 27 Sep 2022 18:00:56 -0700
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     Oleksij Rempel <o.rempel@pengutronix.de>
 Cc:     Andrew Lunn <andrew@lunn.ch>,
@@ -48,12 +48,12 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         David Jander <david@protonic.nl>,
         Luka Perkov <luka.perkov@sartura.hr>,
         Robert Marko <robert.marko@sartura.hr>
-Subject: Re: [PATCH net-next v7 4/7] net: mdiobus: search for PSE nodes by
- parsing PHY nodes.
-Message-ID: <20220927175548.331d9bae@kernel.org>
-In-Reply-To: <20220926112500.990705-5-o.rempel@pengutronix.de>
+Subject: Re: [PATCH net-next v7 2/7] net: add framework to support Ethernet
+ PSE and PDs devices
+Message-ID: <20220927180056.5e8e410c@kernel.org>
+In-Reply-To: <20220926112500.990705-3-o.rempel@pengutronix.de>
 References: <20220926112500.990705-1-o.rempel@pengutronix.de>
-        <20220926112500.990705-5-o.rempel@pengutronix.de>
+        <20220926112500.990705-3-o.rempel@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -61,32 +61,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 26 Sep 2022 13:24:57 +0200 Oleksij Rempel wrote:
-> +static struct pse_control *
-> +fwnode_find_pse_control(struct fwnode_handle *fwnode)
+On Mon, 26 Sep 2022 13:24:55 +0200 Oleksij Rempel wrote:
+> +static inline int pse_controller_register(struct pse_controller_dev *pcdev)
 > +{
-> +	struct pse_control *psec;
-> +	struct device_node *np;
+> +	return -ENOTSUPP;
+> +}
 > +
-> +	np = to_of_node(fwnode);
-> +	if (!np)
-> +		return NULL;
+> +static inline void pse_controller_unregister(struct pse_controller_dev *pcdev)
+> +{
+> +}
 > +
-> +	psec = of_pse_control_get(np);
-
-This will fail with ENOTSUPP if PSE is not built. Won't that make all
-fwnode_mdiobus_register_phy() calls fail?
-
-static inline struct pse_control *of_pse_control_get(struct device_node *node)
-{
-	return ERR_PTR(-ENOTSUPP);
-}
-
-Actually let me take a closer look at patch 2 :S
-
-> +	if (PTR_ERR(psec) == -ENOENT)
-> +		return NULL;
-> +
-> +	return psec;
+> +static inline int devm_pse_controller_register(struct device *dev,
+> +						 struct pse_controller_dev *pcdev)
+> +{
+> +	return -ENOTSUPP;
 > +}
 
+Presumably only PSE controller drivers would try to register themselves.
+Such drivers should depend on the right config, and therefore we don't
+need static inline stubs for the register/unregister API.
+
+> +static inline struct pse_control *pse_control_get(struct device *dev)
+> +{
+> +	return ERR_PTR(-ENOTSUPP);
+> +}
+> +
+> +static inline struct pse_control *devm_pse_control_get( struct device *dev)
+
+nit: extra space after (
+
+> +{
+> +	return ERR_PTR(-ENOTSUPP);
+> +}
+
+These two I don't see any calls to outside drivers/net/pse-pd/pse_core.c
+so they should go from the API until we get an in-tree caller.
+
+> +static inline struct pse_control *of_pse_control_get(struct device_node *node)
+> +{
+> +	return ERR_PTR(-ENOTSUPP);
+> +}
+
+This one should prolly return -ENOENT as noted on patch 4.
+
+If you could sed -i 's/ENOTSUPP/EOPNOTSUPP/' on the patches that'd be
+great, I don't think those errno can leak to user space but why risk
+it...
