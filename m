@@ -2,105 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7BEDC32771
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 11:14:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C820C04A95
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 11:22:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233320AbiI1LOS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Sep 2022 07:14:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55236 "EHLO
+        id S233301AbiI1LWz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Sep 2022 07:22:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233354AbiI1LOB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 07:14:01 -0400
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 469E582746;
-        Wed, 28 Sep 2022 04:12:28 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id r20so7653015qtn.12;
-        Wed, 28 Sep 2022 04:12:28 -0700 (PDT)
+        with ESMTP id S233277AbiI1LWy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 07:22:54 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 632BEDCEA6
+        for <linux-doc@vger.kernel.org>; Wed, 28 Sep 2022 04:22:53 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id r3-20020a05600c35c300b003b4b5f6c6bdso831173wmq.2
+        for <linux-doc@vger.kernel.org>; Wed, 28 Sep 2022 04:22:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=O+7aN7Pyi7vB73016tct0OjiYxGBoeThuIOSnpHypbo=;
-        b=EbL2+Kg0+T5h9wU7g/Mwbc/+gz1rX/B0OwRN3wCxTOrAPLNUVAHLSKrenWD9DMDlZH
-         0xKHdQQ9EnzuJz3jED1RnTpv7ZWCUYtRBbyGnUnEANy3FSO3DOlR+KCKDPo6+Na9Z5CT
-         jSZR6zO2v7+JexYWqs7Fo/rhcosfjZafYS3RztWMTxYHIKBIyXRVU8R93tTh5tjU1OVy
-         RAVgQyvZUv1CulWOo3Bt+dLMeGFJ34TdbD6LhrlmWDvhyaXL2IEcmwHCGzDiYtbIpugw
-         D1/0sRiPD5s0OUepOLTq9pxUQdlhtpFqdBYxYeTMfny2zEdk/sZO7oOsbZMPd++ur4km
-         NdRA==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=5r/R/zTIA+UHBL8+NNIn1gm9HIoK0uBpWfJYbDlV8fM=;
+        b=rmOlj0O5Gox6voSOmmA5cQZt7ZLl8o7m7KKbOWy5gB6tBqU24bcTnPGTVioXvCwgMu
+         gN/ULWyC5rDIEma3ZK+xu239v4SzOq6Hrv6UQxsvLaWFHpSs2PCB1pSQPzKwb3dnG9zz
+         Hk2yKnyOvKSI4pbHBVkFXOgF8ReOk5vCmiMMYPpw5KK1XUYARXXKiRelifdisViWSNaT
+         onUnmIHDgpFrRTZz+WSYJa5vHO5JT4dae4EU/j9rHvNpp+hhc5ZRcHOpdOqD8gAJbJ+9
+         3gRIbMFm7nFXchiK9vGMZOVoqunMdm4x9oRiUj38toeOAm7J/6gTvL9UE/pARnrTQmZz
+         IMbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=O+7aN7Pyi7vB73016tct0OjiYxGBoeThuIOSnpHypbo=;
-        b=fZBo2hFKZQkDwYxZ45CaIKD1nOecdN311+ZMVPzuExtvFi2yoXsEEixHU6N3JZ4EgC
-         w4BJ91k1C6kfsOD751k0edCTQuMxiH0sjmcKgdO3RCL7Zz081ec2ACONqyczlcKp3Tfx
-         0lH9Fo+0FnE1DmZECJwOriyKcVlfvjG77w+D8Y3sUZyu6UXLBpZ8WXtxIexT7Cpp9/xp
-         VcIO9FeIWSHeHn3y/xMlEz5iHL/jxEWhiUZYl6LckhcMFyV7g3fOW1xpTVkU6B0uURBr
-         5ldL7XgB+rQj1ANnWi+D+WAUT6CW1TdF0vnxzalrxX9PbKfOv9FN0sdNsx5fhemjli7n
-         udXw==
-X-Gm-Message-State: ACrzQf1NFykxrm05rDEOW3/ljsPblPGcToP1QCFmk7Yxj4y2ibZFaish
-        c83Jv4jxBypxacT4QU1oKQYG/7OaLUP9EcsAJC8=
-X-Google-Smtp-Source: AMsMyM4f5GGBrZrstWM5cw+DgDSKan0EQIaXJRPTO2p1SCYeseOiR8QvjBJanttgRMZjKjQkzChd+D/u6f5zWiFDbqw=
-X-Received: by 2002:ac8:7c43:0:b0:35c:cd8f:3da5 with SMTP id
- o3-20020ac87c43000000b0035ccd8f3da5mr26282721qtv.61.1664363547646; Wed, 28
- Sep 2022 04:12:27 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=5r/R/zTIA+UHBL8+NNIn1gm9HIoK0uBpWfJYbDlV8fM=;
+        b=wlwJC0T8yl0uEWLhifghd1uGB68ubynMHKF1MAUw4tPMr+YnM58V3+6J7Y91IPA4Rx
+         x2SX5sSnVLNo72zvopbkXYJ5H4jjuZdXjPynNEcFYz5kWpwRtJeI1hQ9I/7MAuEo954B
+         4FKEb+3f+jcL8oOStsCeLH2hxvOn1CxKhn0HGq57NyBQFUWkf0CC6OQwcyagd/Uzj2/K
+         3hQiVtUPSx6Q8fYDxDWnNQY5RZK5wPGPUZVpt30kwhoUHPl4hztwfueTBAZ0JtaJ/8eH
+         +b3y/ONe+1h1RIC1/kc+xk9G+Hd96t9313Le/Z88De7CjzpIHGmoiGb9mmb/blmyc+h+
+         Jrhg==
+X-Gm-Message-State: ACrzQf3e0rnuB2ZANbEGYdd1g1W/U83TW8+yJINRnCs0tItP5W848yzg
+        FXa18Ryt0A4bxNw/KAZLO2lM/w==
+X-Google-Smtp-Source: AMsMyM4IRzJUnjS5cjxciVMnT5ISSlNEu4XDbmDM2yNgF1XqotFEavzESCfNxM5yFS42yWqqKYYQ5Q==
+X-Received: by 2002:a05:600c:1da8:b0:3b4:8fd6:5132 with SMTP id p40-20020a05600c1da800b003b48fd65132mr6326840wms.99.1664364171921;
+        Wed, 28 Sep 2022 04:22:51 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id q17-20020adff511000000b002253fd19a6asm5093793wro.18.2022.09.28.04.22.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Sep 2022 04:22:51 -0700 (PDT)
+Message-ID: <c9d2b6b2-6f67-fccd-6e57-844ad1455cdd@linaro.org>
+Date:   Wed, 28 Sep 2022 12:22:50 +0100
 MIME-Version: 1.0
-References: <20220928110509.13544-1-ilpo.jarvinen@linux.intel.com>
-In-Reply-To: <20220928110509.13544-1-ilpo.jarvinen@linux.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 28 Sep 2022 14:11:51 +0300
-Message-ID: <CAHp75Vd3ZEDvSjdf61b8+GKX9Tfa_rZgA7tS7ShF6Hr8uXbzGw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] serial: RS485 kerneldoc/documentation improvements
-To:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     Jiri Slaby <jirislaby@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH] Documentation/process: Add text to indicate supporters
+ should be mailed
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        corbet@lwn.net, linux@leemhuis.info,
+        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+References: <20220928003006.230103-1-bryan.odonoghue@linaro.org>
+ <f74a9883-3a9b-8606-b20d-f046835fb827@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <f74a9883-3a9b-8606-b20d-f046835fb827@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 28, 2022 at 2:05 PM Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
->
-> RS485 documentation improvements. While doing the kerneldoc conversion,
-> a few other items came up so they're now included to this series.
+On 28/09/2022 07:53, Krzysztof Kozlowski wrote:
+> That's still a bit misleading, because you should also send the patch to
+> reviewers and mailing lists. 😄
 
-in this
+I can add something along the lines of "and whatever subsystem mailing 
+list is called returned by the script"
 
+and leave it to the discretion of the patch sender to determine if they 
+want to include LKML or just go straight to the subsystem.
 
-LGTM, thanks!
+---
+bod
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-> v3:
-> - More fixes to kernel doc formatting (thanks to Jiri)
-> - Added a few other related improvements
->
-> v2:
-> - Include serial_rs485 into documentation
-> - Add * to multi-line flag descriptions
->
->
-> Ilpo J=C3=A4rvinen (4):
->   serial: Convert serial_rs485 to kernel doc
->   Documentation: rs485: Link reference properly
->   Documentation: rs485: Mention uart_get_rs485_mode()
->   Documentation: rs485: Fix struct referencing
->
->  .../driver-api/serial/serial-rs485.rst        | 36 ++++++-----
->  include/uapi/linux/serial.h                   | 62 ++++++++++++-------
->  2 files changed, 60 insertions(+), 38 deletions(-)
->
-> --
-> 2.30.2
->
-
-
---=20
-With Best Regards,
-Andy Shevchenko
