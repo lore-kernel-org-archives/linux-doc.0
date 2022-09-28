@@ -2,175 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 825ACC04A95
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 17:26:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B6AEC04A95
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 18:46:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234278AbiI1R00 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Sep 2022 13:26:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40462 "EHLO
+        id S231499AbiI1Sq3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Sep 2022 14:46:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234282AbiI1R0W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 13:26:22 -0400
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7948564FF;
-        Wed, 28 Sep 2022 10:26:20 -0700 (PDT)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-1319cf91d8aso4192649fac.5;
-        Wed, 28 Sep 2022 10:26:20 -0700 (PDT)
+        with ESMTP id S233049AbiI1Sq2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 14:46:28 -0400
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67C57861FE
+        for <linux-doc@vger.kernel.org>; Wed, 28 Sep 2022 11:46:26 -0700 (PDT)
+Received: by mail-il1-x130.google.com with SMTP id h14so7055925ila.12
+        for <linux-doc@vger.kernel.org>; Wed, 28 Sep 2022 11:46:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date;
-        bh=PxNaDeF78j51lFfkEadsKMLXI6VN8WO63ACpoLyrqAc=;
-        b=BMH+foBeGZ0fT1YqRY6YhuE+yCJl0PVTMuhsDCZrdLLygiTQi+LziyJTd/8zgvDFwb
-         1DLKN627LNM33uU0L4iAwTJWeyYNUO9jUYEzJEcAOg+tQxaQMgUqsPlm9gvCnkzga7m7
-         yQQy3C1Pwo39TEsXD5LiIwdaCT+Tgv3gr3hg3A3nLNINcqoYpuP7eFWAPCt6+zfPfbp0
-         PE9Ce/mzWP0bpeCh0kjYTQl5xxM7skkOc7iX/qdQSgB5FLLV+lFw8PMgDk34pRRz0iGb
-         bDPEYPrc36hZgwnSlTt0ID4hvoZ/N2lSYymNA84/bJAggcSGKVw6OMBuFO8u1d+0TLj4
-         YGCg==
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=LpxoywpaQZbEd7HNklvkbE+pBYLLyfSwOdEaf41jsQ0=;
+        b=kWM/3CIyRI6nfI+De5JUNdFwTItNaQXTWqbDTabs6UaUl/0MCPJIFdwWe1TWp0THQt
+         pyuVI/kmr0tZXHf86RfvoAy2tWcuMABnOLuW9Hx3mry5zD2o7haITtjPCiSFjM2w7SMk
+         OmTU9AKIiMlvgQ/AS4vDI7wJt4dCTGI/izxGoJAXjKUgLrbtrQK0iFKQSvp8hiIE460w
+         7K+IGuJlBsXOCkKO3CfPBBEq2dq75P1+C0RpyxQxXTccXXClJS6elMDN9J4+1PcOC1qX
+         ni21VCsI+ZJbnh3VosmGkjkU06nDSzTiDMUgBqSuNo1eH1cMXYU7F2qVJRhcxfl2gC7G
+         Ec1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=PxNaDeF78j51lFfkEadsKMLXI6VN8WO63ACpoLyrqAc=;
-        b=RMPmGJAWEnqyIOSaWDgL1SemppErHp6sP7ryJJ7GUPK5i40lYkcRb6xg4IN+zlyQH/
-         xViKIItA1udWJb8Kk/h8/IaPV4ey4MbWN0IyHXeWyG9idXQ2P65trhFB2MYyRhXbbN9s
-         gwU+HfDFP8ZQDPc/+VeBowEe4Kie2sRo1OqMdsN++rfSGohTYNooHxlhS/ksuXQxrKku
-         Zpq8gsVrp7JjNKPr1iAiJ9OGS/Hfr0Ifh9XIhynrWtj5OR+iDUr+uQr0FoccAN1gms7Y
-         rInQXyiXlGIiTi2deNl/h2cMhZWUqysIwF3YP2fbvijU2e4VrjSjbByHmSbdxoMi1O6x
-         vfFQ==
-X-Gm-Message-State: ACrzQf3daVKoB84J/QPct2x8x1BjGQSisGeFMFFFm/dtPczsaPkiwa53
-        fxk5lBFCx7pbMuDwiIU06Z2tMU8eMsHsR/pv
-X-Google-Smtp-Source: AMsMyM5zT85D/7aPruPMVZWLo1j6CLq62YJzQEB6Ux1aR2+YMtJUEDF5SmsBqDOMq1WaKNFizKNoxQ==
-X-Received: by 2002:a05:6870:eaa9:b0:131:65bc:e475 with SMTP id s41-20020a056870eaa900b0013165bce475mr5880425oap.15.1664385979703;
-        Wed, 28 Sep 2022 10:26:19 -0700 (PDT)
-Received: from ?IPV6:2804:14c:4c2:8202:7121:ae72:af3b:9956? ([2804:14c:4c2:8202:7121:ae72:af3b:9956])
-        by smtp.gmail.com with ESMTPSA id q42-20020a056871082a00b0012796e8033dsm2702795oap.57.2022.09.28.10.26.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Sep 2022 10:26:19 -0700 (PDT)
-Message-ID: <9024bdb2-4460-0424-42f4-b280983f3146@gmail.com>
-Date:   Wed, 28 Sep 2022 14:26:14 -0300
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=LpxoywpaQZbEd7HNklvkbE+pBYLLyfSwOdEaf41jsQ0=;
+        b=kdEyDjZhUgvmOFKxV3hSB9ATsu0GvXzw0T5Loc8eQT3hJUK3Sf40oeiKUjWFlyebFe
+         WXf7ppDoqJyy0Cn6hVVyYrbKIk3TBXFX2nlPXNhjAEA7xime0sCh/UckIMRKru4yLUN9
+         MKELojq8kRTMjOk6o2mqZbJZdI2Tgd88qShDRTNFfCkXG9VJmITe6xLSYN3mDiec3ZiB
+         W1NRBDK4V5W/2tlZoqbvy7lK7NyzX0xs9N+/9LZNCW44BO1Z55ZJsmHPBmFL1sLlEKdI
+         3SBpLD5RIKmrJclEfMf8Qh8Dgz4Qy8avqJ3yKrdbnk/LdiaQyeMxGBfUeRDBbYlr8E0V
+         iiXA==
+X-Gm-Message-State: ACrzQf37OQGKpWqlq7G0tzHyl8KBE0iH+yr3utopif3RqQu6r8qMMdhp
+        ta3YlHc0PYOxMiD0b3Cd0WBxnA==
+X-Google-Smtp-Source: AMsMyM6KnMs6h0Vv/mW+gYrgQ8avvnHmbBJG/o6ac7PBd3Tr7J6tylm8KXP4s2KRm+MwddNuokxv1A==
+X-Received: by 2002:a05:6e02:16c7:b0:2f6:6eb4:8df3 with SMTP id 7-20020a056e0216c700b002f66eb48df3mr16415870ilx.31.1664390785536;
+        Wed, 28 Sep 2022 11:46:25 -0700 (PDT)
+Received: from google.com ([2620:15c:183:200:e132:6c29:fb2a:a1b])
+        by smtp.gmail.com with ESMTPSA id cq5-20020a056638478500b003428c21ed12sm2058124jab.167.2022.09.28.11.46.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 11:46:25 -0700 (PDT)
+Date:   Wed, 28 Sep 2022 12:46:20 -0600
+From:   Yu Zhao <yuzhao@google.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH mm-unstable v15 09/14] mm: multi-gen LRU: optimize
+ multiple memcgs
+Message-ID: <YzSWfFI+MOeb1ils@google.com>
+References: <20220918080010.2920238-1-yuzhao@google.com>
+ <20220918080010.2920238-10-yuzhao@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-From:   Tales Aparecida <tales.aparecida@gmail.com>
-Subject: Re: [PATCH v2 0/2] kunit: add boot time parameter to enable KUnit
-To:     Joe Fradley <joefradley@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        kernel-team@android.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com
-References: <20220823142456.3977086-1-joefradley@google.com>
- <10f97a94-ab35-fbc7-4dd7-98586a027c8b@gmail.com>
- <CAF-60z2huZ0scPzrV8mrZGzH0Ha6-c+iszOdcpVV7y020m4arw@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CAF-60z2huZ0scPzrV8mrZGzH0Ha6-c+iszOdcpVV7y020m4arw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220918080010.2920238-10-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28/09/2022 10:58, Joe Fradley wrote:
-> On Sat, Sep 24, 2022 at 5:42 PM Tales Aparecida
-> <tales.aparecida@gmail.com> wrote:
->>
->> Hi,
->>
->>
->> This series is
->> Tested-by: Tales Aparecida <tales.aparecida@gmail.com>
->>
->> 1. Tested using kunit_tool: running tests and showing output as expected.
->>
->> 2. Tested further by running QEMU through virtme-run with:
->>    $ ../virtme/virtme-run --show-command --kdir ../linux/.for-amd/ --mods=auto --kopt kunit.enable=1
->>
->> 2.a. "KUNIT_DEFAULT_ENABLED" works as expected when "kunit.enable" is omitted
->> 2.b. kunit.enable=0 results in printing "kunit: disabled" on boot and on loading test modules, as expected
->> 3.c. kunit.enable=1 runs tests on boot and allows them to run when loading test modules
->>
->> 3. Regarding taint
->> 3.a. /proc/sys/kernel/tainted is 0 when kunit.enable=0 and does not change when trying to load test modules.
->> 3.b. /proc/sys/kernel/tainted is 0 when kunit.enable=1 until the first test runs, then it becomes 262144 (2^18) as expected.
-> 
-> Tales, thank you for doing this testing.
-> 
->>
->>
->> On other note, there's something I would like to delve into below.
->>
->>
->> On 23/08/2022 11:24, Joe Fradley wrote:
->>> v2:
->>>  - Added enable check in executor.c to prevent wrong error output from
->>>    kunit_tool.py when run against a KUnit disabled kernel
->>>  - kunit_tool.py now passes kunit.enable=1
->>>  - Flipped around logic of new config to KUNIT_DEFAULT_ENABLED
->>>  - Now load modules containing tests but not executing them
->>>  - Various message/description text clean up
->>>
->>> There are some use cases where the kernel binary is desired to be the same
->>> for both production and testing. This poses a problem for users of KUnit
->>> as built-in tests will automatically run at startup and test modules
->>> can still be loaded leaving the kernel in an unsafe state. There is a
->>> "test" taint flag that gets set if a test runs but nothing to prevent
->>> the execution.
->>
->> Do you have any info on whether these use cases would have something against writing tests for static functions using the documented approach of including the tests into the actual runtime code?
->> https://docs.kernel.org/dev-tools/kunit/usage.html#testing-static-functions
->>
->> Otherwise, would them agree to export the symbols that need to be tested?
->>
->> I would really like to understand better what are these use cases :)
-> 
-> I feel using the static functions as described in your link is a good
-> alternative to
-> modules with embedded KUnit tests. However, this is a different use case then
-> I refer to, which is the ability to have the framework embedded in the
-> kernel for
-> both production and test with the control of test execution gated on a kernel
-> command line parameter.
-> 
+Hi Andrew,
 
-I have another question regarding the compilation in this use case.
+Can you please take this fixlet? Thanks.
 
-Does it have a strict requirement to minimize the kernel size?
-That is, is there any requirement around built-in test modules
-and/or a plan to load test modules on demand when booting with
-kunit.enable=1?
+Fix imprecise comments.
 
+Signed-off-by: Yu Zhao <yuzhao@google.com>
+---
+ mm/vmscan.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-I would also like to know whether the use case includes running
-unit tests for AMDGPU or DRM, just so we can be aware of it when
-writing more tests for static functions using the approach shown
-in that link. 
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index a8fd6300fa7e..5b565470286b 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -5078,7 +5078,7 @@ static bool should_abort_scan(struct lruvec *lruvec, unsigned long seq,
+ 	DEFINE_MAX_SEQ(lruvec);
+ 
+ 	if (!current_is_kswapd()) {
+-		/* age each memcg once to ensure fairness */
++		/* age each memcg at most once to ensure fairness */
+ 		if (max_seq - seq > 1)
+ 			return true;
+ 
+@@ -5103,10 +5103,9 @@ static bool should_abort_scan(struct lruvec *lruvec, unsigned long seq,
+ 
+ 	/*
+ 	 * A minimum amount of work was done under global memory pressure. For
+-	 * kswapd, it may be overshooting. For direct reclaim, the target isn't
+-	 * met, and yet the allocation may still succeed, since kswapd may have
+-	 * caught up. In either case, it's better to stop now, and restart if
+-	 * necessary.
++	 * kswapd, it may be overshooting. For direct reclaim, the allocation
++	 * may succeed if all suitable zones are somewhat safe. In either case,
++	 * it's better to stop now, and restart later if necessary.
+ 	 */
+ 	for (i = 0; i <= sc->reclaim_idx; i++) {
+ 		unsigned long wmark;
+-- 
+2.37.3.998.g577e59143f-goog
 
->>
->>>
->>> This patch adds the kunit.enable module parameter that will need to be
->>> set to true in addition to KUNIT being enabled for KUnit tests to run.
->>> The default value is true giving backwards compatibility. However, for
->>> the production+testing use case the new config option KUNIT_DEFAULT_ENABLED
->>> can be set to N requiring the tester to opt-in by passing kunit.enable=1 to
->>> the kernel.
->>>
->>> Joe Fradley (2):
->>>   kunit: add kunit.enable to enable/disable KUnit test
->>>   kunit: no longer call module_info(test, "Y") for kunit modules
->>>
->>>  .../admin-guide/kernel-parameters.txt         |  6 +++++
->>>  include/kunit/test.h                          |  3 ++-
->>>  lib/kunit/Kconfig                             | 11 +++++++++
->>>  lib/kunit/executor.c                          |  4 ++++
->>>  lib/kunit/test.c                              | 24 +++++++++++++++++++
->>>  tools/testing/kunit/kunit_kernel.py           |  1 +
->>>  6 files changed, 48 insertions(+), 1 deletion(-)
->>>
->>
->> Great work!
->>
->> Kind regards,
->> Tales
