@@ -2,352 +2,231 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F1F9C6FA94
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 21:56:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A9BCC6FA86
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 22:33:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234417AbiI1V4U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Sep 2022 17:56:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49560 "EHLO
+        id S234325AbiI1Wds (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Sep 2022 18:33:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234061AbiI1V4T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 17:56:19 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1A31CE13;
-        Wed, 28 Sep 2022 14:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664402177; x=1695938177;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Nltxb2EGTwHFQKq16AbBXnTFbiEi82a/6GBt9aWYGJY=;
-  b=hPPhPHlvLRjN4ZXS5SaHtqwg9vdjVFKBqqYKgjHpRExe9QXBlarj1YsK
-   +GWJ8zldUi+FvJBiVKtyDT96+s4x3jbcX6jHVA/ZpRXSyd60kGuQdN/p/
-   /mpw52RhZ0uwJxzczjIL2VvwewBAlC4cJiLI39GbyLa8+hM9Ow2u+rT0u
-   Mwzy+QGcChPgjHTgLm6yZGd0hXz/rjYhUOgufEx+JcU0zjIi0F+J+tfK3
-   Uwi6iA38ekA8FWw0MXzXCjODZ6uKdw8JXyusjG3wqmj9aOUaYPZfBwpjO
-   Ij4Yknuqj85EXiyc7aLaZvqnfASoz1vThSyFJlHgTnSg81me3FCCRTyG0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="363566936"
-X-IronPort-AV: E=Sophos;i="5.93,353,1654585200"; 
-   d="scan'208";a="363566936"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2022 14:56:17 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="652848716"
-X-IronPort-AV: E=Sophos;i="5.93,353,1654585200"; 
-   d="scan'208";a="652848716"
-Received: from mjpaul-mobl1.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.209.66.23])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2022 14:56:16 -0700
-From:   Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     "H . Peter Anvin" <hpa@zytor.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v14 3/3] selftests: tdx: Test TDX attestation GetReport support
-Date:   Wed, 28 Sep 2022 14:55:35 -0700
-Message-Id: <20220928215535.26527-4-sathyanarayanan.kuppuswamy@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220928215535.26527-1-sathyanarayanan.kuppuswamy@linux.intel.com>
-References: <20220928215535.26527-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+        with ESMTP id S231577AbiI1Wdq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 18:33:46 -0400
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 450AFF8FB7;
+        Wed, 28 Sep 2022 15:33:45 -0700 (PDT)
+Received: by mail-qk1-x72c.google.com with SMTP id k12so8788499qkj.8;
+        Wed, 28 Sep 2022 15:33:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=OipyPPJT0Rp6dbUT2IznpicXr4z8zsUI864uuh5VE5c=;
+        b=ZlwJGPrnZnL4/H1HJZ4haFRfPHh+HPZ4bbbKwSxk7NIbta9ydOmarwzNlfyab9fr/s
+         6KoBAqf1QDo4A/9wUSWvOyLwGFvyue4pZvE2RDLc6gLMwE6V5DXDQHz8jmUdt40gR0UD
+         vMYcYogkIvYyDzILXfZ0vzfLJj3II/bvj/EIElCzh5L6vCMzQ1yG+ZeVHAkD6Iiq5Lwz
+         KVCOQu6afE9iZtHudNqtuBqxLXwtEttv5M1oGqVdN6gEAzNcK5R8HKxQET5ihMaYWxSO
+         C+bVBU4O5lBrXOABGDA9cmFqPCl1+CTmpMwvleOeQMX2bkQrwFYYePLQknXts9S1XxLe
+         lgFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=OipyPPJT0Rp6dbUT2IznpicXr4z8zsUI864uuh5VE5c=;
+        b=FCTshdns7hXEz7I+arJESmTfy/ZXtezdKb7QFqPe9unWc2an52gS9J9yGIXb257yoG
+         YpPPKjf0NoL1OgXvNxpdU8NpcsdMlgyYruyGhygSjOpew251qqDf+J1jA5XQC1yJV/us
+         FdncdkiRCguDx5bvaTHLXhrKbGIcNQKLx9gmKGZn0dtAI5pM1pjPZJAapy2ZfL8o+2BA
+         jRN+XbNHVIED+EhaMltE3hfOao+Kjl5JtMCiso9pe2CpKOchrquHCe3x6Vo2KzzPpzTM
+         CjShwfQltrV8APRayJcwNZzucW96Yi/cwGGtseOdHzofCqH/uZzbA2OulUa/GIq039NI
+         zLPw==
+X-Gm-Message-State: ACrzQf301ge0LDvODxQV1Jl72/h9nWqZI5CflQ5nRxcqLRJFwWcBk69V
+        SxBFms08oZH+CzTGgKkroeA=
+X-Google-Smtp-Source: AMsMyM5ZFEsGBrXLgEqVigWokvCwJLbam+3Ws5Dlf+FFlfZt1R3Lnj1m/5W+5F7o7BbHBTFiaapr9g==
+X-Received: by 2002:a05:620a:13cd:b0:6cb:e443:e97a with SMTP id g13-20020a05620a13cd00b006cbe443e97amr218754qkl.449.1664404424301;
+        Wed, 28 Sep 2022 15:33:44 -0700 (PDT)
+Received: from stbirv-lnx-3.igp.broadcom.net ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id j188-20020a37b9c5000000b006bb83c2be40sm3963481qkf.59.2022.09.28.15.33.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 15:33:43 -0700 (PDT)
+From:   Doug Berger <opendmb@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, Doug Berger <opendmb@gmail.com>
+Subject: [PATCH v2 0/9] mm: introduce Designated Movable Blocks
+Date:   Wed, 28 Sep 2022 15:32:52 -0700
+Message-Id: <20220928223301.375229-1-opendmb@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Attestation is used to verify the trustworthiness of a TDX guest.
-During the guest bring-up, the Intel TDX module measures and records
-the initial contents and configuration of the guest, and at runtime,
-guest software uses runtime measurement registers (RMTRs) to measure
-and record details related to kernel image, command line params, ACPI
-tables, initrd, etc. At guest runtime, the attestation process is used
-to attest to these measurements.
+MOTIVATION:
+Some Broadcom devices (e.g. 7445, 7278) contain multiple memory
+controllers with each mapped in a different address range within
+a Uniform Memory Architecture. Some users of these systems have
+expressed the desire to locate ZONE_MOVABLE memory on each
+memory controller to allow user space intensive processing to
+make better use of the additional memory bandwidth.
+Unfortunately, the historical monotonic layout of zones would
+mean that if the lowest addressed memory controller contains
+ZONE_MOVABLE memory then all of the memory available from
+memory controllers at higher addresses must also be in the
+ZONE_MOVABLE zone. This would force all kernel memory accesses
+onto the lowest addressed memory controller and significantly
+reduce the amount of memory available for non-movable
+allocations.
 
-The first step in the TDX attestation process is to get the TDREPORT
-data. It is a fixed size data structure generated by the TDX module
-which includes the above mentioned measurements data, a MAC ID to
-protect the integrity of the TDREPORT, and a 64-Byte of user specified
-data passed during TDREPORT request which can uniquely identify the
-TDREPORT.
+The main objective of this patch set is therefore to allow a
+block of memory to be designated as part of the ZONE_MOVABLE
+zone where it will always only be used by the kernel page
+allocator to satisfy requests for movable pages. The term
+Designated Movable Block is introduced here to represent such a
+block. The favored implementation allows modification of the
+'movablecore' kernel parameter to allow specification of a base
+address and support for multiple blocks. The existing
+'movablecore' mechanisms are retained.
 
-Intel's TDX guest driver exposes TDX_CMD_GET_REPORT IOCTL interface to
-enable guest userspace to get the TDREPORT.
+BACKGROUND:
+NUMA architectures support distributing movablecore memory
+across each node, but it is undesirable to introduce the
+overhead and complexities of NUMA on systems that don't have a
+Non-Uniform Memory Architecture.
 
-Add a kernel self test module to test this ABI and verify the validity
-of the generated TDREPORT.
+Commit 342332e6a925 ("mm/page_alloc.c: introduce kernelcore=mirror option")
+also depends on zone overlap to support sytems with multiple
+mirrored ranges.
 
-Reviewed-by: Tony Luck <tony.luck@intel.com>
-Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Acked-by: Kai Huang <kai.huang@intel.com>
-Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
----
+Commit c6f03e2903c9 ("mm, memory_hotplug: remove zone restrictions")
+embraced overlapped zones for memory hotplug.
 
-Changes since v13:
- * Removed __packed from TDREPORT structs.
- * Since the guest driver is moved to drivers/virt/coco, removed
-   tools/arch/x86/include header folder usage.
- * Fixed struct comments to match kernel-doc format.
- * Fixed commit log as per review comments.
- * Fixed some format issues in the code.
+This commit set follows their lead to allow the ZONE_MOVABLE
+zone to overlap other zones while spanning the pages from the
+lowest Designated Movable Block to the end of the node.
+Designated Movable Blocks are made absent from overlapping zones
+and present within the ZONE_MOVABLE zone.
 
-Changes since v12:
- * Changed #ifdef DEBUG usage with if (DEBUG).
- * Initialized reserved entries values to zero.
+I initially investigated an implementation using a Designated
+Movable migrate type in line with comments[1] made by Mel Gorman
+regarding a "sticky" MIGRATE_MOVABLE type to avoid using
+ZONE_MOVABLE. However, this approach was riskier since it was
+much more instrusive on the allocation paths. Ultimately, the
+progress made by the memory hotplug folks to expand the
+ZONE_MOVABLE functionality convinced me to follow this approach.
 
-Changes since v11:
- * Renamed devname with TDX_GUEST_DEVNAME.
+OTHER OPPORTUNITIES:
+CMA introduced a paradigm where multiple allocators could
+operate on the same region of memory, and that paradigm can be
+extended to Designated Movable Blocks as well. I was interested
+in using kernel resource management as a mechanism for exposing
+Designated Movable Block resources (e.g. /proc/iomem) that would
+be used by the kernel page allocator like any other ZONE_MOVABLE
+memory, but could be claimed by an alternative allocator (e.g.
+CMA). Unfortunately, this becomes complicated because the kernel
+resource implementation varies materially across different
+architectures and I do not require this capability so I have
+deferred that.
 
-Changes since v10:
- * Replaced TD/TD Guest usage with guest or TDX guest.
- * Reworded the subject line.
+The Devicetree Specification includes support for specifying
+reserved memory regions with a 'reusable' property to allow
+sharing of the reserved memory between device drivers and the
+OS. This is in line with the paradigm introduced by CMA, but is
+currently only used by 'shared-dma-pool' compatible reserved
+memory regions. Linux could choose to use Designated Movable
+Blocks as the default mechanism for other 'reusable' reserved
+memory. Device drivers that own 'reusable' reserved memory could
+use the dmb_intersects() function introduced here to determine
+whether memory requires reclamation from the OS before use and
+could use the alloc/free_contig_range() functions to perform the
+reclamation and release of memory needed by the device. The CMA
+allocator API could be another candidate for device driver
+reclamation, but it is not currently exposed for use by device
+drivers in modules.
 
-Changes since v9:
- * Copied arch/x86/include/uapi/asm/tdx.h to tools/arch/x86/include to
-   decouple header dependency between kernel source and tools dir.
- * Fixed Makefile to adapt to above change.
- * Fixed commit log and comments.
- * Added __packed to hardware structs.
+There have been attempts to modify the behavior of the kernel
+page allocators use of CMA regions (e.g. [1] & [2]). This
+implementation of Designated Movable Blocks creates an
+opportunity to allow the CMA allocator to operate on
+ZONE_MOVABLE memory that the kernel page allocator can use more
+agressively, without affecting users of the existing CMA
+implementation. This would have benefit when memory reuse is
+more valuable than the cost of increased latency of CMA
+allocations (e.g. hugetlb_cma).
 
-Changes since v8:
- * Please refer to https://lore.kernel.org/all/ \
-   20220728034420.648314-1-sathyanarayanan.kuppuswamy@linux.intel.com/
+These other opportunities are dependent on the Designated
+Movable Block concept introduced here, so I will hold off
+submitting any such follow-on proposals until there is movement
+on this commit set.
 
- tools/testing/selftests/Makefile             |   1 +
- tools/testing/selftests/tdx/Makefile         |   7 +
- tools/testing/selftests/tdx/config           |   1 +
- tools/testing/selftests/tdx/tdx_guest_test.c | 175 +++++++++++++++++++
- 4 files changed, 184 insertions(+)
- create mode 100644 tools/testing/selftests/tdx/Makefile
- create mode 100644 tools/testing/selftests/tdx/config
- create mode 100644 tools/testing/selftests/tdx/tdx_guest_test.c
+NOTES:
+The MEMBLOCK_MOVABLE and MEMBLOCK_HOTPLUG flags have a lot in
+common and could potentially be consolidated, but I chose to
+avoid that here to reduce controversy.
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 10b34bb03bc1..22bdb3d848f5 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -70,6 +70,7 @@ TARGETS += sync
- TARGETS += syscall_user_dispatch
- TARGETS += sysctl
- TARGETS += tc-testing
-+TARGETS += tdx
- TARGETS += timens
- ifneq (1, $(quicktest))
- TARGETS += timers
-diff --git a/tools/testing/selftests/tdx/Makefile b/tools/testing/selftests/tdx/Makefile
-new file mode 100644
-index 000000000000..8dd43517cd55
---- /dev/null
-+++ b/tools/testing/selftests/tdx/Makefile
-@@ -0,0 +1,7 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+CFLAGS += -O3 -Wl,-no-as-needed -Wall -static
-+
-+TEST_GEN_PROGS := tdx_guest_test
-+
-+include ../lib.mk
-diff --git a/tools/testing/selftests/tdx/config b/tools/testing/selftests/tdx/config
-new file mode 100644
-index 000000000000..aa1edc829ab6
---- /dev/null
-+++ b/tools/testing/selftests/tdx/config
-@@ -0,0 +1 @@
-+CONFIG_TDX_GUEST_DRIVER=y
-diff --git a/tools/testing/selftests/tdx/tdx_guest_test.c b/tools/testing/selftests/tdx/tdx_guest_test.c
-new file mode 100644
-index 000000000000..5232634d7354
---- /dev/null
-+++ b/tools/testing/selftests/tdx/tdx_guest_test.c
-@@ -0,0 +1,175 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Test TDX attestation
-+ *
-+ * Copyright (C) 2022 Intel Corporation. All rights reserved.
-+ *
-+ * Author: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-+ */
-+
-+#include <sys/ioctl.h>
-+
-+#include <errno.h>
-+#include <fcntl.h>
-+
-+#include "../kselftest_harness.h"
-+#include "../../../../include/uapi/linux/tdx-guest.h"
-+
-+#define TDX_GUEST_DEVNAME "/dev/tdx-guest"
-+#define HEX_DUMP_SIZE 8
-+#define DEBUG 0
-+
-+/**
-+ * struct tdreport_type - Type header of TDREPORT_STRUCT.
-+ * @type: Type of the TDREPORT (0 - SGX, 81 - TDX, rest are reserved)
-+ * @sub_type: Subtype of the TDREPORT (Default value is 0).
-+ * @version: TDREPORT version (Default value is 0).
-+ * @reserved: Added for future extension.
-+ *
-+ * More details can be found in TDX v1.0 module specification, sec
-+ * titled "REPORTTYPE".
-+ */
-+struct tdreport_type {
-+	__u8 type;
-+	__u8 sub_type;
-+	__u8 version;
-+	__u8 reserved;
-+};
-+
-+/**
-+ * struct reportmac - TDX guest report data, MAC and TEE hashes.
-+ * @type: TDREPORT type header.
-+ * @reserved1: Reserved for future extension.
-+ * @cpu_svn: CPU security version.
-+ * @tee_tcb_info_hash: SHA384 hash of TEE TCB INFO.
-+ * @tee_td_info_hash: SHA384 hash of TDINFO_STRUCT.
-+ * @reportdata: User defined unique data passed in TDG.MR.REPORT request.
-+ * @reserved2: Reserved for future extension.
-+ * @mac: CPU MAC ID.
-+ *
-+ * It is MAC-protected and contains hashes of the remainder of the
-+ * report structure along with user provided report data. More details can
-+ * be found in TDX v1.0 Module specification, sec titled "REPORTMACSTRUCT"
-+ */
-+struct reportmac {
-+	struct tdreport_type type;
-+	__u8 reserved1[12];
-+	__u8 cpu_svn[16];
-+	__u8 tee_tcb_info_hash[48];
-+	__u8 tee_td_info_hash[48];
-+	__u8 reportdata[64];
-+	__u8 reserved2[32];
-+	__u8 mac[32];
-+};
-+
-+/**
-+ * struct td_info - TDX guest measurements and configuration.
-+ * @attr: TDX Guest attributes (like debug, spet_disable, etc).
-+ * @xfam: Extended features allowed mask.
-+ * @mrtd: Build time measurement register.
-+ * @mrconfigid: Software-defined ID for non-owner-defined configuration
-+ *	of the guest - e.g., run-time or OS configuration.
-+ * @mrowner: Software-defined ID for the guest owner.
-+ * @mrownerconfig: Software-defined ID for owner-defined configuration of
-+ *	the guest - e.g., specific to the workload.
-+ * @rtmr: Run time measurement registers.
-+ * @reserved: Added for future extension.
-+ *
-+ * It contains the measurements and initial configuration of the TDX guest
-+ * that was locked at initialization and a set of measurement registers
-+ * that are run-time extendable. More details can be found in TDX v1.0
-+ * Module specification, sec titled "TDINFO_STRUCT".
-+ */
-+struct td_info {
-+	__u8 attr[8];
-+	__u64 xfam;
-+	__u64 mrtd[6];
-+	__u64 mrconfigid[6];
-+	__u64 mrowner[6];
-+	__u64 mrownerconfig[6];
-+	__u64 rtmr[24];
-+	__u64 reserved[14];
-+};
-+
-+/*
-+ * struct tdreport - Output of TDCALL[TDG.MR.REPORT].
-+ * @reportmac: Mac protected header of size 256 bytes.
-+ * @tee_tcb_info: Additional attestable elements in the TCB are not
-+ *	reflected in the reportmac.
-+ * @reserved: Added for future extension.
-+ * @tdinfo: Measurements and configuration data of size 512 bytes.
-+ *
-+ * More details can be found in TDX v1.0 Module specification, sec
-+ * titled "TDREPORT_STRUCT".
-+ */
-+struct tdreport {
-+	struct reportmac reportmac;
-+	__u8 tee_tcb_info[239];
-+	__u8 reserved[17];
-+	struct td_info tdinfo;
-+};
-+
-+static void print_array_hex(const char *title, const char *prefix_str,
-+			    const void *buf, int len)
-+{
-+	int i, j, line_len, rowsize = HEX_DUMP_SIZE;
-+	const __u8 *ptr = buf;
-+
-+	if (!len || !buf)
-+		return;
-+
-+	printf("\t\t%s", title);
-+
-+	for (j = 0; j < len; j += rowsize) {
-+		line_len = rowsize < (len - j) ? rowsize : (len - j);
-+		printf("%s%.8x:", prefix_str, j);
-+		for (i = 0; i < line_len; i++)
-+			printf(" %.2x", ptr[j + i]);
-+		printf("\n");
-+	}
-+
-+	printf("\n");
-+}
-+
-+TEST(verify_report)
-+{
-+	__u8 reportdata[TDX_REPORTDATA_LEN];
-+	struct tdx_report_req req;
-+	struct tdreport tdreport;
-+	int devfd, i;
-+
-+	devfd = open(TDX_GUEST_DEVNAME, O_RDWR | O_SYNC);
-+	ASSERT_LT(0, devfd);
-+
-+	/* Generate sample report data */
-+	for (i = 0; i < TDX_REPORTDATA_LEN; i++)
-+		reportdata[i] = i;
-+
-+	/* Initialize IOCTL request */
-+	req.subtype     = 0;
-+	req.reportdata  = (__u64)reportdata;
-+	req.rpd_len     = TDX_REPORTDATA_LEN;
-+	req.tdreport    = (__u64)&tdreport;
-+	req.tdr_len     = sizeof(tdreport);
-+
-+	memset(req.reserved, 0, sizeof(req.reserved));
-+
-+	/* Get TDREPORT */
-+	ASSERT_EQ(0, ioctl(devfd, TDX_CMD_GET_REPORT, &req));
-+
-+	if (DEBUG) {
-+		print_array_hex("\n\t\tTDX report data\n", "",
-+				reportdata, sizeof(reportdata));
-+
-+		print_array_hex("\n\t\tTDX tdreport data\n", "",
-+				&tdreport, sizeof(tdreport));
-+	}
-+
-+	/* Make sure TDREPORT data includes the REPORTDATA passed */
-+	ASSERT_EQ(0, memcmp(&tdreport.reportmac.reportdata[0],
-+			    reportdata, sizeof(reportdata)));
-+
-+	ASSERT_EQ(0, close(devfd));
-+}
-+
-+TEST_HARNESS_MAIN
+The CMA and DMB alignment constraints are currently the same so
+the logic could be simplified, but this implementation keeps
+them distinct to facilitate independent evolution of the
+implementations if necessary.
+
+Changes in v2:
+  - first three commits upstreamed separately [3], [4], and [5].
+  - commits 04-06 submitted separately [6].
+  - Corrected errors "Reported-by: kernel test robot <lkp@intel.com>"
+  - Deferred commits after 15 to simplify review of the base
+    functionality.
+  - minor reorganization of commit 13.
+
+v1: https://lore.kernel.org/linux-mm/20220913195508.3511038-1-opendmb@gmail.com/
+
+[1] https://lore.kernel.org/lkml/20160428103927.GM2858@techsingularity.net/
+[2] https://lore.kernel.org/lkml/1401260672-28339-1-git-send-email-iamjoonsoo.kim@lge.com
+[3] https://lore.kernel.org/linux-mm/20220914023913.1855924-1-zi.yan@sent.com
+[4] https://lore.kernel.org/linux-mm/20220823030209.57434-2-linmiaohe@huawei.com
+[5] https://lore.kernel.org/linux-mm/20220914190917.3517663-1-opendmb@gmail.com
+[6] https://lore.kernel.org/linux-mm/20220921223639.1152392-1-opendmb@gmail.com/
+
+Doug Berger (9):
+  lib/show_mem.c: display MovableOnly
+  mm/vmstat: show start_pfn when zone spans pages
+  mm/page_alloc: calculate node_spanned_pages from pfns
+  mm/page_alloc.c: allow oversized movablecore
+  mm/page_alloc: introduce init_reserved_pageblock()
+  memblock: introduce MEMBLOCK_MOVABLE flag
+  mm/dmb: Introduce Designated Movable Blocks
+  mm/page_alloc: make alloc_contig_pages DMB aware
+  mm/page_alloc: allow base for movablecore
+
+ .../admin-guide/kernel-parameters.txt         |  14 +-
+ include/linux/dmb.h                           |  29 ++++
+ include/linux/gfp.h                           |   5 +-
+ include/linux/memblock.h                      |   8 +
+ lib/show_mem.c                                |   2 +-
+ mm/Kconfig                                    |  12 ++
+ mm/Makefile                                   |   1 +
+ mm/cma.c                                      |  15 +-
+ mm/dmb.c                                      |  91 ++++++++++
+ mm/memblock.c                                 |  30 +++-
+ mm/page_alloc.c                               | 155 ++++++++++++++----
+ mm/vmstat.c                                   |   5 +
+ 12 files changed, 321 insertions(+), 46 deletions(-)
+ create mode 100644 include/linux/dmb.h
+ create mode 100644 mm/dmb.c
+
 -- 
-2.34.1
+2.25.1
 
