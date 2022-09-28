@@ -2,40 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6F78C04A95
-	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 19:57:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DC2FC32771
+	for <linux-doc@archiver.kernel.org>; Wed, 28 Sep 2022 19:57:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233290AbiI1T52 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Sep 2022 15:57:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44812 "EHLO
+        id S234469AbiI1T5s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Sep 2022 15:57:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234320AbiI1T51 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 15:57:27 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C562952E7F;
-        Wed, 28 Sep 2022 12:57:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1664395045; x=1695931045;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=cmwmpm0KFVc+J9NbMuqse/WrCkY3i8NAXtTrYSw7L4c=;
-  b=y9p8DyNQ6mdzqD1MXNpiyLMBgjoPdvkE0GJ6RhSvhtN6dPj6l4JzGboo
-   MI15pc4SLUaT1mn9Qrfgs8kBZXBapNGYCo/+mokePq1H/BX6HMC2r2DBI
-   H5EGc+P3mDV1gbD8C1EpchGj+tJQ/Vmq9RTnsEQcXbgablFvi15tZqSDt
-   8=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 28 Sep 2022 12:57:25 -0700
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2022 12:57:25 -0700
+        with ESMTP id S234494AbiI1T5m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 15:57:42 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5465A543FF;
+        Wed, 28 Sep 2022 12:57:40 -0700 (PDT)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28SIswDo014804;
+        Wed, 28 Sep 2022 19:57:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=qcppdkim1;
+ bh=NdBMegGfQRT3NVnpSimV4eMtuPXioAvn9GAQ6vw5iwE=;
+ b=ERLMeh/ZTmpvYaqxXzeHc3+vR31zxhuuIfTo3mKl+MRXnM2X9NFiQi8z4MuECHIxDvH8
+ mY4NrC2FMN49JPsHqcYW9uFcwWukojAnHUF1xi2ZjNc21E8EH5wN4DB6vqkV1h4znFv6
+ uD7AxuqzBxhGX/N+9EzCHQahFCp6F58QmQjJLdsVRhmaRKC0zv7p23LyO/JzqVg8Pa7z
+ rZe4rBOVsXC1YmXtr38JAAgvEQH8lvteFCpqbjfS1djcu1xu7Ukrnu71eT1Vw164pdF3
+ 7wCWYphetNg/uUzSZ6l+zV41TNOopKv+7FOjUefChRvmUvRrpxjAzuWfJ8NIlUFteXJ9 aw== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jvuxtr5u0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 28 Sep 2022 19:57:27 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28SJvRUO007498
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 28 Sep 2022 19:57:27 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Wed, 28 Sep 2022 12:57:24 -0700
+ 15.2.986.29; Wed, 28 Sep 2022 12:57:26 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        "Sudeep Holla" <sudeep.holla@arm.com>
 CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
@@ -45,21 +52,19 @@ CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         Jassi Brar <jassisinghbrar@gmail.com>,
         <linux-arm-kernel@lists.infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
         Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        "Rob Herring" <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Will Deacon" <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 01/14] docs: gunyah: Introduce Gunyah Hypervisor
-Date:   Wed, 28 Sep 2022 12:56:20 -0700
-Message-ID: <20220928195633.2348848-2-quic_eberman@quicinc.com>
+Subject: [PATCH v4 04/14] arm64: smccc: Include alternative-macros.h
+Date:   Wed, 28 Sep 2022 12:56:23 -0700
+Message-ID: <20220928195633.2348848-5-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220928195633.2348848-1-quic_eberman@quicinc.com>
 References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
@@ -69,237 +74,43 @@ Content-Type: text/plain
 X-Originating-IP: [10.49.16.6]
 X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: QyF3LfcdhOkgXtEfd3BFQGpnmiSjA84g
+X-Proofpoint-ORIG-GUID: QyF3LfcdhOkgXtEfd3BFQGpnmiSjA84g
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-28_09,2022-09-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ adultscore=0 spamscore=0 mlxlogscore=697 clxscore=1015 phishscore=0
+ suspectscore=0 mlxscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209280119
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Gunyah is an open-source Type-1 hypervisor developed by Qualcomm. It
-does not depend on any lower-privileged OS/kernel code for its core
-functionality. This increases its security and can support a smaller
-trusted computing based when compared to Type-2 hypervisors.
+Fix build error when CONFIG_ARM64_SVE is selected and
+asm/alternative-macros.h wasn't implicitly included by another header.
 
-Add documentation describing the Gunyah hypervisor and the main
-components of the Gunyah hypervisor which are of interest to Linux
-virtualization development.
-
+Fixes: cfa7ff959a78 ("arm64: smccc: Support SMCCC v1.3 SVE register saving hint")
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- Documentation/virt/gunyah/index.rst         | 114 ++++++++++++++++++++
- Documentation/virt/gunyah/message-queue.rst |  52 +++++++++
- Documentation/virt/index.rst                |   1 +
- MAINTAINERS                                 |   7 ++
- 4 files changed, 174 insertions(+)
- create mode 100644 Documentation/virt/gunyah/index.rst
- create mode 100644 Documentation/virt/gunyah/message-queue.rst
+ include/linux/arm-smccc.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/virt/gunyah/index.rst b/Documentation/virt/gunyah/index.rst
-new file mode 100644
-index 000000000000..959f451caccd
---- /dev/null
-+++ b/Documentation/virt/gunyah/index.rst
-@@ -0,0 +1,114 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=================
-+Gunyah Hypervisor
-+=================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   message-queue
-+
-+Gunyah is a Type-1 hypervisor which is independent of any OS kernel, and runs in
-+a higher CPU privilege level. It does not depend on any lower-privileged operating system
-+for its core functionality. This increases its security and can support a much smaller
-+trusted computing base than a Type-2 hypervisor.
-+
-+Gunyah is an open source hypervisor. The source repo is available at
-+https://github.com/quic/gunyah-hypervisor.
-+
-+Gunyah provides these following features.
-+
-+- Scheduling:
-+
-+  A scheduler for virtual CPUs (vCPUs) on physical CPUs and enables time-sharing
-+  of the CPUs. Gunyah supports two models of scheduling:
-+
-+    1. "Behind the back" scheduling in which Gunyah hypervisor schedules vCPUS on its own
-+    2. "Proxy" scheduling in which a delegated VM can donate part of one of its vCPU slice
-+       to another VM's vCPU via a hypercall.
-+
-+- Memory Management:
-+
-+  APIs handling memory, abstracted as objects, limiting direct use of physical
-+  addresses. Memory ownership and usage tracking of all memory under its control.
-+  Memory partitioning between VMs is a fundamental security feature.
-+
-+- Interrupt Virtualization:
-+
-+  Uses CPU hardware interrupt virtualization capabilities. Interrupts are handled
-+  in the hypervisor and routed to the assigned VM.
-+
-+- Inter-VM Communication:
-+
-+  There are several different mechanisms provided for communicating between VMs.
-+
-+- Virtual platform:
-+
-+  Architectural devices such as interrupt controllers and CPU timers are directly provided
-+  by the hypervisor as well as core virtual platform devices and system APIs such as ARM PSCI.
-+
-+- Device Virtualization:
-+
-+  Para-virtualization of devices is supported using inter-VM communication.
-+
-+Architectures supported
-+=======================
-+AArch64 with a GIC
-+
-+Resources and Capabilities
-+==========================
-+
-+Some services or resources provided by the Gunyah hypervisor are described to a virtual machine by
-+capability IDs. For instance, inter-VM communication is performed with doorbells and message queues.
-+Gunyah allows access to manipulate that doorbell via the capability ID. These devices are described
-+in Linux as a struct gunyah_resource.
-+
-+High level management of these resources is performed by the resource manager VM. RM informs a
-+guest VM about resources it can access through either the device tree or via guest-initiated RPC.
-+
-+For each virtual machine, Gunyah maintains a table of resources which can be accessed by that VM.
-+An entry in this table is called a "capability" and VMs can only access resources via this
-+capability table. Hence, virtual Gunyah devices are referenced by a "capability IDs" and not a
-+"resource IDs". A VM can have multiple capability IDs mapping to the same resource. If 2 VMs have
-+access to the same resource, they may not be using the same capability ID to access that resource
-+since the tables are independent per VM.
-+
-+Resource Manager
-+================
-+
-+The resource manager (RM) is a privileged application VM supporting the Gunyah Hypervisor.
-+It provides policy enforcement aspects of the virtualization system. The resource manager can
-+be treated as an extension of the Hypervisor but is separated to its own partition to ensure
-+that the hypervisor layer itself remains small and secure and to maintain a separation of policy
-+and mechanism in the platform. On arm64, RM runs at NS-EL1 similar to other virtual machines.
-+
-+Communication with the resource manager from each guest VM happens with message-queue.rst. Details
-+about the specific messages can be found in drivers/virt/gunyah/rsc_mgr.c
-+
-+::
-+
-+  +-------+   +--------+   +--------+
-+  |  RM   |   |  VM_A  |   |  VM_B  |
-+  +-.-.-.-+   +---.----+   +---.----+
-+    | |           |            |
-+  +-.-.-----------.------------.----+
-+  | | \==========/             |    |
-+  |  \========================/     |
-+  |            Gunyah               |
-+  +---------------------------------+
-+
-+The source for the resource manager is available at https://github.com/quic/gunyah-resource-manager.
-+
-+The resource manager provides the following features:
-+
-+- VM lifecycle management: allocating a VM, starting VMs, destruction of VMs
-+- VM access control policy, including memory sharing and lending
-+- Interrupt routing configuration
-+- Forwarding of system-level events (e.g. VM shutdown) to owner VM
-+
-+When booting a virtual machine which uses a devicetree, resource manager overlays a
-+/hypervisor node. This node can let Linux know it is running as a Gunyah guest VM,
-+how to communicate with resource manager, and basic description and capabilities of
-+this VM. See Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml for a description
-+of this node.
-diff --git a/Documentation/virt/gunyah/message-queue.rst b/Documentation/virt/gunyah/message-queue.rst
-new file mode 100644
-index 000000000000..e130f124ed52
---- /dev/null
-+++ b/Documentation/virt/gunyah/message-queue.rst
-@@ -0,0 +1,52 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Message Queues
-+==============
-+Message queue is a simple low-capacity IPC channel between two VMs. It is
-+intended for sending small control and configuration messages. Each message
-+queue object is unidirectional, so a full-duplex IPC channel requires a pair of
-+objects.
-+
-+Messages can be up to 1024 bytes in length. Longer messages require a further
-+protocol on top of the message queue messages themselves. For instance, communication
-+with the resource manager adds a header field for sending longer messages via multiple
-+message fragments.
-+
-+The diagram below shows how message queue works. A typical configuration involves
-+2 message queues. Message queue 1 allows VM_A to send messages to VM_B. Message
-+queue 2 allows VM_B to send messages to VM_A.
-+
-+1. VM_A sends a message of up to 1024 bytes in length. It raises a hypercall
-+   with the message to inform the hypervisor to add the message to
-+   message queue 1's queue.
-+2. Gunyah raises the corresponding interrupt for VM_B when any of these happens:
-+   a. gh_msgq_send has PUSH flag. Queue is immediately flushed. This is the typical case.
-+   b. Explicility with gh_msgq_push command from VM_A.
-+   c. Message queue has reached a threshold depth.
-+3. VM_B calls gh_msgq_recv and Gunyah copies message to requested buffer.
-+
-+For VM_B to send a message to VM_A, the process is identical, except that hypercalls
-+reference message queue 2's capability ID.
-+
-+::
-+
-+      +---------------+         +-----------------+         +---------------+
-+      |      VM_A     |         |Gunyah hypervisor|         |      VM_B     |
-+      |               |         |                 |         |               |
-+      |               |         |                 |         |               |
-+      |               |   Tx    |                 |         |               |
-+      |               |-------->|                 | Rx vIRQ |               |
-+      |gh_msgq_send() | Tx vIRQ |Message queue 1  |-------->|gh_msgq_recv() |
-+      |               |<------- |                 |         |               |
-+      |               |         |                 |         |               |
-+      | Message Queue |         |                 |         | Message Queue |
-+      | driver        |         |                 |         | driver        |
-+      |               |         |                 |         |               |
-+      |               |         |                 |         |               |
-+      |               |         |                 |   Tx    |               |
-+      |               | Rx vIRQ |                 |<--------|               |
-+      |gh_msgq_recv() |<--------|Message queue 2  | Tx vIRQ |gh_msgq_send() |
-+      |               |         |                 |-------->|               |
-+      |               |         |                 |         |               |
-+      |               |         |                 |         |               |
-+      +---------------+         +-----------------+         +---------------+
-diff --git a/Documentation/virt/index.rst b/Documentation/virt/index.rst
-index 2f1cffa87b1b..418d540f5484 100644
---- a/Documentation/virt/index.rst
-+++ b/Documentation/virt/index.rst
-@@ -15,6 +15,7 @@ Linux Virtualization Support
-    acrn/index
-    coco/sev-guest
-    hyperv/index
-+   gunyah/index
+diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
+index 220c8c60e021..6a627cdbbdec 100644
+--- a/include/linux/arm-smccc.h
++++ b/include/linux/arm-smccc.h
+@@ -383,6 +383,7 @@ asmlinkage void __arm_smccc_hvc(unsigned long a0, unsigned long a1,
  
- .. only:: html and subproject
+ /* nVHE hypervisor doesn't have a current thread so needs separate checks */
+ #if defined(CONFIG_ARM64_SVE) && !defined(__KVM_NVHE_HYPERVISOR__)
++#include <asm/alternative-macros.h>
  
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f5ca4aefd184..e88ebb7cbcb8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8880,6 +8880,13 @@ L:	linux-efi@vger.kernel.org
- S:	Maintained
- F:	block/partitions/efi.*
- 
-+GUNYAH HYPERVISOR DRIVER
-+M:	Elliot Berman <quic_eberman@quicinc.com>
-+M:	Murali Nalajala <quic_mnalajal@quicinc.com>
-+L:	linux-arm-msm@vger.kernel.org
-+S:	Supported
-+F:	Documentation/virt/gunyah/
-+
- HABANALABS PCI DRIVER
- M:	Oded Gabbay <ogabbay@kernel.org>
- S:	Supported
+ #define SMCCC_SVE_CHECK ALTERNATIVE("nop \n",  "bl __arm_smccc_sve_check \n", \
+ 				    ARM64_SVE)
 -- 
 2.25.1
 
