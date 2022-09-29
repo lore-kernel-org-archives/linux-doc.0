@@ -2,164 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 667BBC07E9D
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 08:50:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82D39C07E9D
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 08:56:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235611AbiI2Iuq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 04:50:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58202 "EHLO
+        id S235337AbiI2I4c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 04:56:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235615AbiI2Iuf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 04:50:35 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFD2CEC54B;
-        Thu, 29 Sep 2022 01:50:33 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id x1so699751plv.5;
-        Thu, 29 Sep 2022 01:50:33 -0700 (PDT)
+        with ESMTP id S235232AbiI2I4N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 04:56:13 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CC4FEA599;
+        Thu, 29 Sep 2022 01:56:05 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id w10so689070pll.11;
+        Thu, 29 Sep 2022 01:56:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=wyRrlcXzeH4HfHGAImk3NaXe74TrWSFA0ErQXL3Lurc=;
-        b=Z6oEko58X6cyAidL5cdLdPtKhJkWxMzfPWazsgsBy2UGktfhzdoqIRABYzT1KRxekx
-         bVgp28KwDTcUK/6IHsIfklW1ZhMtkSg36n+zMTH0wfnUORl18OOEcMEz2ddavj8BSEFy
-         9RMRyzJ10828D5WFtdqtWUZcPUQ1oQIoqrh9qgAy997yp9S/8gOSAuFgEywGiqWHmVYV
-         jqg+AZ8zSyT7LpIZpJxBuMHkTYayRWDaeH4+OIjJn8w4A8v0cKDMeZ2UKJJ/b/2GPLq4
-         IkM3jTz5Sux5fwUnw4aJTYUBY9ygMg3mOp/OOBvLkr19needaXPyYlKqtT1UbYCLbNmB
-         nYbw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=0cWeqUzaMnvJsketKHV5m3B9Lf16LWQNARMhtcdH+io=;
+        b=ehTHs2nV2GGGpc0k4+HiEG1bx95nzdT2s331DZ53ruQ0ZAdVnTf+pwrWAAQa1b777K
+         XRYdQFgOpO3383w0aBgNsnx5WdAUXVmbbYvSIJaehz+DXMUrhN9a1rcsjAB6MFm9fVm5
+         q39KLk2CfeW/a9V0cyc3yzbq8yQ+UoREh8b52qfjCvSKNOkthgFbnPiso9CZ16MvnUKx
+         nOf0jdfcOK+he1OtNeD9oIwPRSE8+D8/QzdhIFJKQfItQ4roErv2Z7mZqO9SP9AXbu4R
+         QV1zZF/JyGfWAG+G3qhi9YveAfxW13b83+TktfrULAUW0lIS/I7+RjjZjCVawe/ZPp2u
+         o9aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=wyRrlcXzeH4HfHGAImk3NaXe74TrWSFA0ErQXL3Lurc=;
-        b=QbJJwU7zA7EUzlK1iN7CqxRGYEUM4tRpfcHu07FTfUtzo+91eH3Z9MXpvhlLKWW18E
-         Qpj4mCaYbTiR4YUst7SbFcwxItO6WZPFzUHeU7VCx1ZKqeQeuqX9HV4VBoqZCk7+aP1d
-         vEkOguMoWlsHTmSYtN9BHn1blk4FLf/KckpnZg5PMLjnBWcO5ELaq0E6w+VM4XcNzOfY
-         lt3PTrxOoonjHxom5R7ETmaQXdl3oPBMw1gg71LQ17veBuRKJmUGIJAdruYZOQlPIYfh
-         LRNO6wJBwZTnKlqxeRHRJAnreIIrYbRN8N12akAbkKCYDgx4Wtm4WewqGSSyFoHZlDV9
-         QYzw==
-X-Gm-Message-State: ACrzQf38q08nS7tyn76gL/rK8dcyvgHYp57Cf1bmKDZHDwqHHEbx9Orv
-        mwaEnLCgJBB9Jzyj4CXdfws=
-X-Google-Smtp-Source: AMsMyM403XL05GVHUaJT8ocLDAA2Z1Prgmxaf+M7UlldPke0HpTgHrpCYBoEoYdvRv1R3vhpLLZj4Q==
-X-Received: by 2002:a17:902:8e84:b0:178:71f2:113c with SMTP id bg4-20020a1709028e8400b0017871f2113cmr2324788plb.79.1664441433296;
-        Thu, 29 Sep 2022 01:50:33 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-28.three.co.id. [180.214.232.28])
-        by smtp.gmail.com with ESMTPSA id d18-20020a170902ced200b0017808db132bsm5365039plg.137.2022.09.29.01.50.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 01:50:32 -0700 (PDT)
-Message-ID: <71effcc8-7345-28cd-6585-eb729fb4c6db@gmail.com>
-Date:   Thu, 29 Sep 2022 15:50:29 +0700
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=0cWeqUzaMnvJsketKHV5m3B9Lf16LWQNARMhtcdH+io=;
+        b=AXhemCH8u2CWYbB8PWSInZ5aVgpjr2zt9ANxwam9tUlLNcPelu/jPxubfAbkGHPzLN
+         oN6gI/ZMkd5ct0MCDKILG4nYz+0ibPnqdtPnjYped3zeFa1YavQtXMDv27+Iu6WVwDKK
+         lMw9jsljiaUDZvRJl0B2VL+baw4oUYkFnIEG/030wl5OGhZ0NX69TGzrsaSFpWYXPS7e
+         Jp60BT83IMKMN6dU8AU8JLixwEtRn/AtCkAM7wU5L+ly4st4WIpJLF6RyNhcOsVEsknU
+         dFEybCWjI+DcxYdO1b1QyHHFkBSCHUzLCIAdiXL1hhQLlVRLf7XuWRw4JhmwVu0lTdtn
+         ABvg==
+X-Gm-Message-State: ACrzQf0a1Y05s/DuviInILi2EgsR5NzAlDBdd2EUQX1uGRBJsQNXJfkG
+        lrcXVt5ufXizOWMpwtiWsnY=
+X-Google-Smtp-Source: AMsMyM6nbIstL6rkLYMB924r1HlKquI+95HbQR8gQs/nzchuFmCdeeu8W7EsBEA182vfEHGRsbVEcw==
+X-Received: by 2002:a17:902:ca01:b0:17a:487:d5f5 with SMTP id w1-20020a170902ca0100b0017a0487d5f5mr2451664pld.63.1664441764196;
+        Thu, 29 Sep 2022 01:56:04 -0700 (PDT)
+Received: from fedora.. ([103.230.106.49])
+        by smtp.gmail.com with ESMTPSA id w16-20020a63d750000000b00439dfe09770sm4922796pgi.12.2022.09.29.01.55.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Sep 2022 01:56:03 -0700 (PDT)
+From:   Khalid Masum <khalid.masum.92@gmail.com>
+To:     Brendan Higgins <brendan.higgins@linux.dev>,
+        David Gow <davidgow@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Khalid Masum <khalid.masum.92@gmail.com>,
+        Sadiya Kazi <sadiyakazi@google.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH v2] Documentation: Kunit: Use full path to .kunitconfig
+Date:   Thu, 29 Sep 2022 14:53:32 +0600
+Message-Id: <20220929085332.4155-1-khalid.masum.92@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v3 1/4] serial: Convert serial_rs485 to kernel doc
-Content-Language: en-US
-To:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc:     Jiri Slaby <jirislaby@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <20220928110509.13544-1-ilpo.jarvinen@linux.intel.com>
- <20220928110509.13544-2-ilpo.jarvinen@linux.intel.com>
- <YzURJa1RnxP+uj5/@debian.me>
- <75f07dbe-d1dd-ac18-5c8e-e6972e7fb28b@linux.intel.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <75f07dbe-d1dd-ac18-5c8e-e6972e7fb28b@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/29/22 15:39, Ilpo Järvinen wrote:
-> On Thu, 29 Sep 2022, Bagas Sanjaya wrote:
-> 
->> On Wed, Sep 28, 2022 at 02:05:06PM +0300, Ilpo Järvinen wrote:
->>> diff --git a/include/uapi/linux/serial.h b/include/uapi/linux/serial.h
->>> index cea06924b295..6e347eb10b1f 100644
->>> --- a/include/uapi/linux/serial.h
->>> +++ b/include/uapi/linux/serial.h
->>> @@ -107,37 +107,57 @@ struct serial_icounter_struct {
->>>  	int reserved[9];
->>>  };
->>>  
->>> -/*
->>> +/**
->>> + * struct serial_rs485 - serial interface for controlling RS485 settings.
->>> + * @flags:			RS485 feature flags.
->>> + * @delay_rts_before_send:	Delay before send (milliseconds).
->>> + * @delay_rts_after_send:	Delay after send (milliseconds).
->>> + * @addr_recv:			Receive filter for RS485 addressing mode
->>> + *				(used only when %SER_RS485_ADDR_RECV is set).
->>> + * @addr_dest:			Destination address for RS485 addressing mode
->>> + *				(used only when %SER_RS485_ADDR_DEST is set).
->>> + * @padding0:			Padding (set to zero).
->>> + * @padding1:			Padding (set to zero).
->>> + * @padding:			Deprecated, use @padding0 and @padding1 instead.
->>> + *				Do not use with @addr_recv and @addr_dest (due to
->>> + *				overlap).
->>> + *
->>
->> I don't see definition of fields after @delay_rts_after_send in the
->> htmldocs output.
-> 
-> So it seems, this one I had missed. I guess the reason is that those 
-> members are inside anonymous unions. But the formatting follows what 
-> is documented here AFAICT:
-> 
-> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#nested-structs-unions
-> 
-> Kerneldoc doesn't seem to live up to what is documented about it. It's a 
-> bit ironic that documentation system fails to document even itself to 
-> sufficient level, and what's worse, seems to be full of faulty examples.
-> 
-> Any suggestions how to make it work?
-> 
+The fourth list item on writing test cases instructs adding Kconfig
+fragments to .kunitconfig, which should have been full path to the file
+(.kunit/.kunitconfig).
 
-CC'ing Akira.
+Cc: Sadiya Kazi <sadiyakazi@google.com>
+Cc: David Gow <davidgow@google.com>
+Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+---
+Changes since v1:
+- Update commit message
+- Make the instruction more descriptive
 
->>>   * Serial interface for controlling RS485 settings on chips with suitable
->>>   * support. Set with TIOCSRS485 and get with TIOCGRS485 if supported by your
->>>   * platform. The set function returns the new state, with any unsupported bits
->>>   * reverted appropriately.
->>> + *
->>> + * serial_rs485::flags bits are:
->>> + *
->>> + * * %SER_RS485_ENABLED		- RS485 enabled.
->>> + * * %SER_RS485_RTS_ON_SEND	- Logical level for RTS pin when sending.
->>> + * * %SER_RS485_RTS_AFTER_SEND	- Logical level for RTS pin after sent.
->>> + * * %SER_RS485_RX_DURING_TX	- Full-duplex RS485 line.
->>> + * * %SER_RS485_TERMINATE_BUS	- Enable bus termination (if supported).
->>> + * * %SER_RS485_ADDRB		- Enable RS485 addressing mode.
->>> + * * %SER_RS485_ADDR_RECV	- Receive address filter (enables @addr_recv).
->>> + *				  Requires %SER_RS485_ADDRB.
->>> + * * %SER_RS485_ADDR_DEST	- Destination address (enables @addr_dest).
->>> + *				  Requires %SER_RS485_ADDRB.
->>
->> The last two items are rendered as bold text instead (maybe due to missing
->> fields rendering above?)
-> 
-> It just goes into some random formatting mode here. Even if I remove those 
-> field markers (@) it doesn't do formatting differently so your guesss is 
-> wrong.
-> 
-> I found now a way to make it work though. It works when I put the whole 
-> description on a single line but it comes at the cost of removing the 
-> alignment of those "-". The other way to make it work would be like this:
-> 
-> * * %SER_RS485_ADDR_RECV - Receive address filter (enables @addr_recv).
->     Requires %SER_RS485_ADDRB.
-> 
-> ...And that's no good. I guess the single-line approach is an acceptable 
-> compromise for this case.
-> 
+ Documentation/dev-tools/kunit/start.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-OK, thanks for explaining.
-
+diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+index 867a4bba6bf6..69361065cda6 100644
+--- a/Documentation/dev-tools/kunit/start.rst
++++ b/Documentation/dev-tools/kunit/start.rst
+@@ -217,7 +217,7 @@ Now we are ready to write the test cases.
+ 
+ 	obj-$(CONFIG_MISC_EXAMPLE_TEST) += example_test.o
+ 
+-4. Add the following lines to ``.kunitconfig``:
++4. Add following configuration fragments to ``.kunit/.kunitconfig``:
+ 
+ .. code-block:: none
+ 
 -- 
-An old man doll... just what I always wanted! - Clara
+2.37.3
+
