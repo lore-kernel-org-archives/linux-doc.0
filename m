@@ -2,105 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F8E0C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 10:01:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9486CC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 10:33:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235011AbiI2KBM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 06:01:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35124 "EHLO
+        id S235424AbiI2KdO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 06:33:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235170AbiI2KBJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 06:01:09 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5B55D13791D;
-        Thu, 29 Sep 2022 03:01:06 -0700 (PDT)
-Received: from [10.130.0.135] (unknown [113.200.148.30])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxvmvdbDVjQrsjAA--.56357S3;
-        Thu, 29 Sep 2022 18:01:02 +0800 (CST)
-Subject: Re: [PATCH] docs, kprobes: Fix the wrong location of Kprobes
-To:     Steven Rostedt <rostedt@goodmis.org>
-References: <1663322106-12178-1-git-send-email-yangtiezhu@loongson.cn>
- <20220926142218.100e0d9b@gandalf.local.home>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Tiezhu Yang <yangtiezhu@loongson.cn>
-Message-ID: <75c28f07-4bc7-6094-d264-d7657c40ba88@loongson.cn>
-Date:   Thu, 29 Sep 2022 18:01:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+        with ESMTP id S231199AbiI2KdN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 06:33:13 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03B0898D39
+        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 03:33:12 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id 130-20020a1c0288000000b003b494ffc00bso2415511wmc.0
+        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 03:33:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=0jUTfFIgKk/2yeo2BJNDMeJhuO1PB3sjcqaadJwgKho=;
+        b=hpmTeMR/CKDwh+ce3mVXd4Qf37umw+QQYOURtg0a6TuyYWWRJi63eCiK/8AK8dJW8t
+         q6cB+YFZt3sUUEZA+A4Za2mA/sbs7P6T1rmO1ptBJKKQD9+pYP346ar2uaxUWLLB+FiB
+         nWHy+Np06JX6m8ScNAWQcGHkN4dJBj+CxS/NBnYHUkNHwx3SSmpC4+yTNF5c/eugY3w4
+         KEQFosCOrVNbcT8v6vN7u6bmjN9sZLTeOETE8G3Tz34xlrHYewOoBVKgfG0r6/4VB607
+         gu6yVC58JsNdd5EFwKhTHN2hcvVP/QvpdXTZKZYsFVRz+hxu6JytgY1LNTehQrUwxBf5
+         fM0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=0jUTfFIgKk/2yeo2BJNDMeJhuO1PB3sjcqaadJwgKho=;
+        b=D1paNxU2OJJXPWchYQ0brR94vj+11Edlc1zFeJPS1hVG3u6mj+NSEM+X0KJQ9rxu0p
+         lBRsobIkdgvbTd2COSRniluf6+J5VtHBiZHsmmXcj1CJnBAqBE1NMVv64JkHzhFD3Ru8
+         ljT05vI9nGSwpKZ+HtMZPou5w+upL2ZqFKruseTBA/golqCpnBLs2460EfA4l62pp2ix
+         Q3Zz035QyaqnPSf5hwyh9Uezi6LRwAtWH454a2FHQZnFzu7aKNpwsYMh1Ctx9f0udDFk
+         2dAYUsONqQYRci+dNmPXmN+uFELxCCaV0MfjEdUsx2Ojo8fRguKGzPsk/bs8MFIJjwed
+         LNHg==
+X-Gm-Message-State: ACrzQf2kaG6H7YuOMjJ17ORVaAP2F1Y6DccFHzuAYITXqNF/xKn0qxrQ
+        NAPwQQiNEk18gTTqRlti0UIpKRvRATSp0Q==
+X-Google-Smtp-Source: AMsMyM7MLU2KgC9V6qnhrTEYTwAuXkAO8U/+9DVEppc6EoPIiQucMB88PC0ET3pAluuAo6vV/dCDug==
+X-Received: by 2002:a05:600c:3595:b0:3b4:8378:98d2 with SMTP id p21-20020a05600c359500b003b4837898d2mr1840165wmq.64.1664447590345;
+        Thu, 29 Sep 2022 03:33:10 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id u16-20020a5d5150000000b0021f131de6aesm6085202wrt.34.2022.09.29.03.33.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Sep 2022 03:33:09 -0700 (PDT)
+Message-ID: <b36887f5-ffb8-1665-f959-be1e632e5206@linaro.org>
+Date:   Thu, 29 Sep 2022 11:33:08 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220926142218.100e0d9b@gandalf.local.home>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v2 2/2] Documentation/process: Add text to indicate
+ supporters should be mailed
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        corbet@lwn.net, linux@leemhuis.info,
+        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+References: <20220929002500.283481-1-bryan.odonoghue@linaro.org>
+ <20220929002500.283481-3-bryan.odonoghue@linaro.org>
+ <54a19490-aa0d-2dcd-8407-319d6167add4@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <54a19490-aa0d-2dcd-8407-319d6167add4@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8DxvmvdbDVjQrsjAA--.56357S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7tF1UZrWUtrW8XF1kZr4xWFg_yoW8XF48pF
-        1kJa4S9F1kJ348JrW7Zr1xWryIkFn7uay7GF1kta4rJ3WDZwn7Crn2gr4agFyfursayay7
-        Za4kKFyj9w1av37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUv2b7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
-        0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-        A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xII
-        jxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwV
-        C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
-        0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr
-        1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l
-        c2xSY4AK67AK6r4DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
-        0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
-        AVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
-        CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
-        wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
-        7IU8XJ55UUUUU==
-X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 29/09/2022 08:29, Krzysztof Kozlowski wrote:
+> As I said before, this still ignores reviewers. I don't think it is
+> going to good direction. The submitter is expected to CC
+> everyone/everything which is pointed by get_maintainers.pl except the
+> Git-fallback entries.
 
+Isn't LKML considered optional at this point though ?
 
-On 09/27/2022 02:22 AM, Steven Rostedt wrote:
-> On Fri, 16 Sep 2022 17:55:06 +0800
-> Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
->
->> After commit 22471e1313f2 ("kconfig: use a menu in arch/Kconfig to reduce
->> clutter"), the location of Kprobes is under "General architecture-dependent
->> options" rather than "General setup".
->>
->
-> Probably add a "Fixes:" tag for the above mentioned commit.
->
-> Anyway, Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-
-
-Thank you.
-
-Do you know which tree this patch will go through?
-Is it necessary to send v2 with "Fixes:" tag?
-
-Thanks,
-Tiezhu
-
->
-> -- Steve
->
->
->> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
->> ---
->>  Documentation/trace/kprobes.rst | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/trace/kprobes.rst b/Documentation/trace/kprobes.rst
->> index f318bce..48cf778 100644
->> --- a/Documentation/trace/kprobes.rst
->> +++ b/Documentation/trace/kprobes.rst
->> @@ -328,8 +328,8 @@ Configuring Kprobes
->>  ===================
->>
->>  When configuring the kernel using make menuconfig/xconfig/oldconfig,
->> -ensure that CONFIG_KPROBES is set to "y". Under "General setup", look
->> -for "Kprobes".
->> +ensure that CONFIG_KPROBES is set to "y", look for "Kprobes" under
->> +"General architecture-dependent options".
->>
->>  So that you can load and unload Kprobes-based instrumentation modules,
->>  make sure "Loadable module support" (CONFIG_MODULES) and "Module
-
+---
+bod
