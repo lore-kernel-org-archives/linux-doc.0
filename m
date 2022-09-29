@@ -2,212 +2,262 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F051C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 22:10:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE667C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 22:29:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbiI2WKx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 18:10:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45668 "EHLO
+        id S229689AbiI2W3y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 18:29:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229842AbiI2WKu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 18:10:50 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 876851332E3;
-        Thu, 29 Sep 2022 15:10:48 -0700 (PDT)
+        with ESMTP id S229479AbiI2W3w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 18:29:52 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E49361B795;
+        Thu, 29 Sep 2022 15:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664489448; x=1696025448;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=qIq3AyDZfp335tpTrZH42zuDi6z7RoGEETRhuZ4458w=;
-  b=mvLKLLh+lK1Hgjje7y2j5SSQESkS0IuKlh5lCYj6OQ/0XaeLhJir9fwj
-   I+7eTf9rGukDBm5uAVYjIR/q1tXO21XUtQMVkDgVxjbIKgHAvYurVvitm
-   IEGO49sSWeCTZ6V3KuSf+4ncq0VDbcUoItYPnLoYJfQ6PhMIgAEnheEmU
-   b9BdIWfOvL61G/W53e7uQajnNGe6kirVD4TO0QYF6/pkxXYltzYKsnof0
-   +Sm4mUZD7YDkuzDXlKNlG9IiSmt3mRtRBLsBtF9k7ElwdUiJyVL1Fiuku
-   2ZSiUq7/dUhgU31uapJ00JLgU0AnIPTffNEQIurKR3aXEnhDKUI6u1mXx
+  t=1664490590; x=1696026590;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=dgoCV7vkgGcH+obhSo8r9k9vnopVaP/5/9bw1BHk+Fw=;
+  b=UVm/hcuMvljZVYMjYd1NDI7HHTIQdrebdhKMC8JHleAaWWlLwl/c/J3L
+   roxNmq5lN2KwIi/wbkKUpuEss30Lw5XeVrMATr3SgS3KU7bq1Mz20UcI7
+   bsvRd9xwa48om+K5DMsflIuG4AijzquFnZVakZNFihQgOMFVu4QgMyV+2
+   KXsq2CAkqQhNVN+GP6+LY9OcPyvH/ijVcu7FvCifPpg1A/eLZRnVy3Jgz
+   ve2JJPkEsPi4D7xTns4yVzmhxV1PhoZnFhZA54htn9hgTuSKj+tOHXgWo
+   WGmf3Pxd704tkhngB5NeMa69ZsyiAEl3KpjDJBCKJMa/+3qQ+lji2Y3Zn
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="366091443"
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="303531317"
 X-IronPort-AV: E=Sophos;i="5.93,356,1654585200"; 
-   d="scan'208";a="366091443"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2022 15:10:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="726603363"
+   d="scan'208";a="303531317"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2022 15:29:49 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="691016062"
 X-IronPort-AV: E=Sophos;i="5.93,356,1654585200"; 
-   d="scan'208";a="726603363"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga002.fm.intel.com with ESMTP; 29 Sep 2022 15:10:46 -0700
-Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 29 Sep 2022 15:10:46 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 29 Sep 2022 15:10:45 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 29 Sep 2022 15:10:45 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 29 Sep 2022 15:10:45 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DztCjSZNOdVNGfH9XG9HnLFrdBG23GN9s7Y3rMS5QN446QX+t0jHzpS3O+kRR/uxPcAFTT4f+WaMEYyPN+Bm+QP3IIKyIDxGJ4O98gFvCMz7zuW0RE1+1O+LC67YQX8fgF00ZZoBlHHiHw00w+0UrLwrdrr+cRZmETFKEbquh5jflnuteSXGrgNeERLTpBGBZ5n2R3DXZK6MBO6cDK2fnIdv6Si4xs5IQE6eJYN9ZWbNFi5MGMN/LiZab/0gcfeZHZEFeP5PR4eeR1h6wW4MpepqZ5fRY7z7HwKwiaFkevlq5ozZfyC/a5nxyo8qYwhJIm2AUgz9w9hIbmK306FCgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iZj2wjXiCfdMaSYINP1YRpLNZax+wmdVn8zce8NxGkk=;
- b=QoQb/Tidid3v8f6jkosmBpRO8lCEuGhDBIo6dh3srCFrRf81DoF0XQNmAuXmpOjRuFYPFvW12pUFijIPaXYjSBxgWBnEPGRSDDNBnnF1V8VVph4dKkW9a0ruXyQzX1cLWoAO/jQ2tRiJjhNlTQpPMW+a5Glz1X0EXG2gtKigWx5PN9Vwen7UH/krxmg1QgGeU5MnpVP6j6U2cWBFjuGLebXTLRfDBbrwoVJh1c7lIWEFkJIPwH0WYviJM8IATtXRWxlG825PABvshPOsF7F/l/Vxgr6XeN7cnp5qa+uM6DCRC6gwBxS7JCsfB4gsq4Yb9jMfm8c9xIzYdKKzZCCieQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
- by IA1PR11MB6122.namprd11.prod.outlook.com (2603:10b6:208:3ee::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Thu, 29 Sep
- 2022 22:10:36 +0000
-Received: from CY4PR11MB1862.namprd11.prod.outlook.com
- ([fe80::207e:ab0b:9e29:6a4b]) by CY4PR11MB1862.namprd11.prod.outlook.com
- ([fe80::207e:ab0b:9e29:6a4b%12]) with mapi id 15.20.5676.015; Thu, 29 Sep
- 2022 22:10:36 +0000
-Message-ID: <71ca01ad-e563-3ac3-815d-0bbc3814ed6f@intel.com>
-Date:   Thu, 29 Sep 2022 15:10:25 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.3.0
-Subject: Re: [PATCH v5 12/12] Documentation/x86: Update resctrl_ui.rst for new
- features
-Content-Language: en-US
-To:     Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
-        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
-CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
-        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
-        <songmuchun@bytedance.com>, <peterz@infradead.org>,
-        <jpoimboe@kernel.org>, <pbonzini@redhat.com>,
-        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
-        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
-        <sandipan.das@amd.com>, <tony.luck@intel.com>,
-        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
-        <eranian@google.com>
-References: <166431016617.373387.1968875281081252467.stgit@bmoger-ubuntu>
- <166431042060.373387.8454967155095795574.stgit@bmoger-ubuntu>
-From:   Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <166431042060.373387.8454967155095795574.stgit@bmoger-ubuntu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR03CA0017.namprd03.prod.outlook.com
- (2603:10b6:a03:39a::22) To CY4PR11MB1862.namprd11.prod.outlook.com
- (2603:10b6:903:124::18)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PR11MB1862:EE_|IA1PR11MB6122:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3277aceb-d0c8-4be2-4c5e-08daa2676f42
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xmYml8ShzkMM2emxoi8Lgze877/jagsPM7IIyiW0IC6HaGOBzJhbhafChbXPgA0x82b7IpH+rUt9GTUcyz6fo4Wb3uqZ30Fob2BTQ3O61o5oW+75R8ArT0LkwOmRGxCT7GqAq0zwRri1WMC9k1990B4tWX/Vt8SIPCC0WoUpP3bNVbCvHTV2Bi4m26AYCYbVExHXAQsTTv+pIZSavQdm5YfFE9DDOfq7Kko33kBFhqYcPJaypEmlX++UqbXtzrjKjYdo9fotFgZxjEaK1KTzhLVgFqPCOxMlRZZ83rkzHLZUyWK536ZC4ksem1kIgyr/GcT4pigGkKnsA+Z8k94GbQIdA103GMijqBdp5UjCsQbLJNFC0FXzVL18fmnvew6C7lOLsIHhkg22Eo69foKo81DQpJfHpxImGHBB7vFSC6DVDly4R9pxU62cLZEKZvTjXmpjq/oHU3xUHN0gLLOOSLSufFHU/qfe3t8eaovWAmsGB3qxuBXFnKwuAb6Pbb/daHSL9JvbiDKe5Joq3jg8VdfkBmzAPkxL0BM+jhcGYaZBS9r94S6uAOMUJzwcsTsOWwETWIELlJp2CR6d3NDa/ttLhrdt6D2ceTQcygjGGJ+NKg9W8lhfugg+hOxPoXUln1jnblbKgg5RaMjOJ6tRjm6IoIYbB5ILKd55aY4WRMcXoDSDd3GyoSMfAkJja1wQwrWvkYTKqjMwMdZBbN7c8yT/9nayR8qAv+0t0tpYFIGxlU55p/ushH6C3hLr7s/hVCZt8bdjzEeEiYTpdTiV+SHKc8XqUXo1Gpu02G1K3o8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(396003)(366004)(346002)(376002)(39860400002)(451199015)(5660300002)(26005)(6512007)(8676002)(316002)(66946007)(66556008)(31686004)(478600001)(66476007)(6506007)(8936002)(53546011)(6666004)(6486002)(15650500001)(44832011)(7416002)(2906002)(83380400001)(38100700002)(41300700001)(2616005)(82960400001)(186003)(36756003)(86362001)(4326008)(31696002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YUFnR0l6MWJtc0xQUnFVZ3JYeUY3ODV0UTVnOEYyYjNoOU0wMG42bjI0TDJ1?=
- =?utf-8?B?NEJwYWhmTGx2Ny9VWWwwdkZPN1pNYWtkVnpyZForRmErQ0l2aWJmSjI3Mmwx?=
- =?utf-8?B?eGlTT3FMd1hoUXc4VnFTMXpvY01qRVJXaWVPS2VMSjF3RmJRbWl6dGN3SnMw?=
- =?utf-8?B?bFVCUDNEZTVjWkJ6d0oxT1lEU2VRTnRzcG4vQXNqMjk1OERrMTQ5cWJLajha?=
- =?utf-8?B?RXJWWEVjV2VjNW4xZGdEZ3BjaVJrNkNpZ3F6WG9hSzFLRXhubVEyQnNRdGxS?=
- =?utf-8?B?NzlTK1pFcWJDWHFURG1vMVFKV2pKcnpZVEI1VFlFYmhTM2VaYm1pcnd0WGF0?=
- =?utf-8?B?MExhZm5WdGEyaVZxVXZiYm9mOEJ1TVd5dXhVckw4Q2FGa1BtendWZjdMWE5p?=
- =?utf-8?B?MzBOV05tcS9MbFRseVV0WkF4UnV1M2lINU9vZzF0ZmQxWGwybEYzWVlvbDlQ?=
- =?utf-8?B?dUFCdkhYVmdqVkJHa1ZpYmUvVnFhNTFJTUVHNk1meHBmb3F0U3hMNmVyVmhM?=
- =?utf-8?B?ZEx5eXlKMHFEWlpFTHhIMGZjZktlYmlRcnlmci9nZkR3aHBmTTYycnFDbmY2?=
- =?utf-8?B?d2ZYNFpqUzU0ZW1kRzhEQWRMZW85SXNON2RxTmphYnV1L3p6aUZFU3orTHFv?=
- =?utf-8?B?alZtMWVZelFMNFBVZGtlam9SUDVra0VJeS9jUmlwbXdLUVRVOVdKWklkM0tF?=
- =?utf-8?B?TzBCa1BOa1NTSGtxVlRRVDR5Vmd6TEZLa2hDaVJrTnlvUjFjTS8rdnpqa0lJ?=
- =?utf-8?B?SElDYS94Q1hRK0c3ajRKc0VnS1ZpaTJVTmVRT2hlZDRXOTN1eG4yQ294QUJp?=
- =?utf-8?B?OHdac3YzTDdsN3BJVncwK2JRTmd5TFVvelkxVkE2MGlNSTZ5NWVPNHZIS281?=
- =?utf-8?B?UVY4U2p0cjk0UmR1ZG9tNnRsVEZZa3B2Z2tJODhyYTNPdzZocHpOUUsrekpJ?=
- =?utf-8?B?T1VUVlM4Tk9ORWlNcUNlcmV6a01NeUsvOVNVa2YxZFc2YzhpTlhSamd4cmJa?=
- =?utf-8?B?ZTdNbzY2MEJYclZIU2t4YVZvbmdjRm5GVExZc3NxWWJ0cmxQSG9JU0x5eTNi?=
- =?utf-8?B?eWJWRmh3SmQxNVpRbms3VzJ2VXVUTndFdy90THFCdFNZbHh3dVRMTEszWmVr?=
- =?utf-8?B?TmVMUUVLZENiZEliY0xxRWx4NzV3WEQrRENSSlRaZHFjYWNGcDlMVkE4K0Nw?=
- =?utf-8?B?S1NLa29pa2Q5YnNiREVOd09mOXBvRWdhNDhGaUgwVTFxeTZXbnVUbDU1UWtS?=
- =?utf-8?B?bzZUQWcxQjBhMkhRRlpsWnhpcHQrRkZXT2lvQXdTL0Rmbi9lbHZMQW43cXY0?=
- =?utf-8?B?eU5XZC9XZUZHVlU0NUFkakpuTWtWSjNHQjVJamp6S21YbGN0RXlsOExmRFhS?=
- =?utf-8?B?bDJYa2tZMnJQOUNlbWdocHk1cW9aU1g5SGJBTkpjNmpmajJ4bXJWZkp6YXpq?=
- =?utf-8?B?RXZKdkNyVHBXMFFvdGlrSHArdGNaQUFXZHFiNGE2QmtoWkFPUW5pR21URW9M?=
- =?utf-8?B?M2VESGFuTXVEeTFtZysrSTY4TUpiNTdFVFNDZytkN3N5ODJoT1RHMmpBdWlh?=
- =?utf-8?B?K3VIYWkyc0hhWUNKTVM2WmlPZzNYNVJhczgvNm9vUnUrdEhFZGp2Q1IvU01K?=
- =?utf-8?B?UVV4bjdNNk9BSW9YelZ6SkxsZUMxTEJySmVIdVBhUnF2L2pJclU0QnI3NjlS?=
- =?utf-8?B?eHdoSWtYLzN4ODFwUU40SWNkN3VZb29oWk9tQzZWdlhwY2tiYUwxQ093THQz?=
- =?utf-8?B?UER4UDZ2NVJDaGljdjFoU01zOXhZOWgrZW1IUnVsRW9waDQ0N0dlNnBOVXhi?=
- =?utf-8?B?V0NXaUw4Smx5b2YvbUg4di80RXU2YThmcEhBcjBId0YzTnkrRkJmY1pGVk95?=
- =?utf-8?B?RzNBYlFGNFFwNHczS0ZBOFY4T1NKa0Q3WWZ6ZmV5aXd6MzEvbnZMdDVSOHRP?=
- =?utf-8?B?K2xhSGdqUkFKcm9zaTFWMXAyU3VpVmZ6UVVzK1FWbzRIWjdrM3FMYXFESDda?=
- =?utf-8?B?N3ZZUGZrN1ZiamxWR0t6d296MkNRVTU2amJTSW14Y3hZdVVEeVM5VFYwYXNt?=
- =?utf-8?B?clBWRm1rY0VKMEZ4a2lScEpaaTIySjRvakRkVWFpUTZVNnpyV3B3UUJvclg5?=
- =?utf-8?B?U2JxcjNsSzBQMDdVNlcvdjErQnI4NmpXT1lqWlNQejBEdk9WMXpaeXdNWXJq?=
- =?utf-8?B?NWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3277aceb-d0c8-4be2-4c5e-08daa2676f42
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 22:10:36.1418
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h/Ub8i4AlwUAohwdKPN8jYvJbyYpVlY9ABiF18u6EhNYHx7PmvT2WtNVMFtt+2O5whAW6xkoDOj1XdW6LMMtliQdvdHAKLzIkl74K9skfCM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6122
-X-OriginatorOrg: intel.com
+   d="scan'208";a="691016062"
+Received: from sergungo-mobl.amr.corp.intel.com (HELO rpedgeco-desk.amr.corp.intel.com) ([10.251.25.88])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2022 15:29:47 -0700
+From:   Rick Edgecombe <rick.p.edgecombe@intel.com>
+To:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com, rppt@kernel.org,
+        jamorris@linux.microsoft.com, dethoma@microsoft.com
+Cc:     rick.p.edgecombe@intel.com, Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v2 01/39] Documentation/x86: Add CET description
+Date:   Thu, 29 Sep 2022 15:28:58 -0700
+Message-Id: <20220929222936.14584-2-rick.p.edgecombe@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Babu,
+From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
-In subject: resctrl_ui.rst -> resctrl.rst
+Introduce a new document on Control-flow Enforcement Technology (CET).
 
-On 9/27/2022 1:27 PM, Babu Moger wrote:
-> Update the documentation for the new features:
-> 1. Slow Memory Bandwidth allocation (SMBA).
->    With this feature, the QOS  enforcement policies can be applied
->    to the external slow memory connected to the host. QOS enforcement
->    is accomplished by assigning a Class Of Service (COS) to a processor
->    and specifying allocations or limits for that COS for each resource
->    to be allocated.
-> 
-> 2. Bandwidth Monitoring Event Configuration (BMEC).
->    The bandwidth monitoring events mbm_total_bytes and mbm_local_bytes
->    are set to count all the total and local reads/writes respectively.
->    With the introduction of slow memory, the two counters are not
->    enough to count all the different types are memory events. With the
+Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Co-developed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc: Kees Cook <keescook@chromium.org>
 
-types are memory events -> types of memory events?
+---
 
->    feature BMEC, the users have the option to configure mbm_total_bytes
->    and mbm_local_bytes to count the specific type of events.
-> 
-> Also add configuration instructions with examples.
-> 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
+v2:
+ - Updated to new arch_prctl() API
+ - Add bit about new proc status
 
-...
+v1:
+ - Update and clarify the docs.
+ - Moved kernel parameters documentation to other patch.
 
-> +
-> +"mbm_total_config", "mbm_local_config":
-> +        These files contain the current event configuration for the events
-> +        mbm_total_bytes and mbm_local_bytes, respectively, when the
-> +        Bandwidth Monitoring Event Configuration (BMEC) feature is supported.
-> +        The event configuration settings are domain specific. Changing the
-> +        configuration on one CPU in a domain would affect the whole domain.
+ Documentation/x86/cet.rst   | 140 ++++++++++++++++++++++++++++++++++++
+ Documentation/x86/index.rst |   1 +
+ 2 files changed, 141 insertions(+)
+ create mode 100644 Documentation/x86/cet.rst
 
-This contradicts the implementation done in this series where the
-configuration is changed on every CPU in the domain.
+diff --git a/Documentation/x86/cet.rst b/Documentation/x86/cet.rst
+new file mode 100644
+index 000000000000..4a0dfb6830f9
+--- /dev/null
++++ b/Documentation/x86/cet.rst
+@@ -0,0 +1,140 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=========================================
++Control-flow Enforcement Technology (CET)
++=========================================
++
++Overview
++========
++
++Control-flow Enforcement Technology (CET) is term referring to several
++related x86 processor features that provides protection against control
++flow hijacking attacks. The HW feature itself can be set up to protect
++both applications and the kernel. Only user-mode protection is implemented
++in the 64-bit kernel.
++
++CET introduces Shadow Stack and Indirect Branch Tracking. Shadow stack is
++a secondary stack allocated from memory and cannot be directly modified by
++applications. When executing a CALL instruction, the processor pushes the
++return address to both the normal stack and the shadow stack. Upon
++function return, the processor pops the shadow stack copy and compares it
++to the normal stack copy. If the two differ, the processor raises a
++control-protection fault. Indirect branch tracking verifies indirect
++CALL/JMP targets are intended as marked by the compiler with 'ENDBR'
++opcodes. Not all CPU's have both Shadow Stack and Indirect Branch Tracking
++and only Shadow Stack is currently supported in the kernel.
++
++The Kconfig options is X86_SHADOW_STACK, and it can be disabled with
++the kernel parameter clearcpuid, like this: "clearcpuid=shstk".
++
++To build a CET-enabled kernel, Binutils v2.31 and GCC v8.1 or LLVM v10.0.1
++or later are required. To build a CET-enabled application, GLIBC v2.28 or
++later is also required.
++
++At run time, /proc/cpuinfo shows CET features if the processor supports
++CET.
++
++Application Enabling
++====================
++
++An application's CET capability is marked in its ELF header and can be
++verified from readelf/llvm-readelf output:
++
++    readelf -n <application> | grep -a SHSTK
++        properties: x86 feature: SHSTK
++
++The kernel does not process these applications directly. Applications must
++enable them using the interface descriped in section 4. Typically this
++would be done in dynamic loader or static runtime objects, as is the case
++in glibc.
++
++Backward Compatibility
++======================
++
++GLIBC provides a few CET tunables via the GLIBC_TUNABLES environment
++variable:
++
++GLIBC_TUNABLES=glibc.tune.hwcaps=-SHSTK,-WRSS
++    Turn off SHSTK/WRSS.
++
++GLIBC_TUNABLES=glibc.tune.x86_shstk=<on, permissive>
++    This controls how dlopen() handles SHSTK legacy libraries::
++
++        on         - continue with SHSTK enabled;
++        permissive - continue with SHSTK off.
++
++Details can be found in the GLIBC manual pages.
++
++CET arch_prctl()'s
++==================
++
++Elf features should be enabled by the loader using the below arch_prctl's.
++
++arch_prctl(ARCH_CET_ENABLE, unsigned int feature)
++    Enable a single feature specified in 'feature'. Can only operate on
++    one feature at a time.
++
++arch_prctl(ARCH_CET_DISABLE, unsigned int feature)
++    Disable features specified in 'feature'. Can only operate on
++    one feature at a time.
++
++arch_prctl(ARCH_CET_LOCK, unsigned int features)
++    Lock in features at their current enabled or disabled status.
++
++The return values are as following:
++    On success, return 0. On error, errno can be::
++
++        -EPERM if any of the passed feature are locked.
++        -EOPNOTSUPP if the feature is not supported by the hardware or
++         disabled by kernel parameter.
++        -EINVAL arguments (non existing feature, etc)
++
++Currently shadow stack and WRSS are supported via this interface. WRSS
++can only be enabled with shadow stack, and is automatically disabled
++if shadow stack is disabled.
++
++Proc status
++===========
++To check if an application is actually running with shadow stack, the
++user can read the /proc/$PID/arch_status. It will report "wrss" or
++"shstk" depending on what is enabled.
++
++The implementation of the Shadow Stack
++======================================
++
++Shadow Stack size
++-----------------
++
++A task's shadow stack is allocated from memory to a fixed size of
++MIN(RLIMIT_STACK, 4 GB). In other words, the shadow stack is allocated to
++the maximum size of the normal stack, but capped to 4 GB. However,
++a compat-mode application's address space is smaller, each of its thread's
++shadow stack size is MIN(1/4 RLIMIT_STACK, 4 GB).
++
++Signal
++------
++
++By default, the main program and its signal handlers use the same shadow
++stack. Because the shadow stack stores only return addresses, a large
++shadow stack covers the condition that both the program stack and the
++signal alternate stack run out.
++
++The kernel creates a restore token for the shadow stack and pushes the
++restorer address to the shadow stack. Then verifies that token when
++restoring from the signal handler.
++
++Fork
++----
++
++The shadow stack's vma has VM_SHADOW_STACK flag set; its PTEs are required
++to be read-only and dirty. When a shadow stack PTE is not RO and dirty, a
++shadow access triggers a page fault with the shadow stack access bit set
++in the page fault error code.
++
++When a task forks a child, its shadow stack PTEs are copied and both the
++parent's and the child's shadow stack PTEs are cleared of the dirty bit.
++Upon the next shadow stack access, the resulting shadow stack page fault
++is handled by page copy/re-use.
++
++When a pthread child is created, the kernel allocates a new shadow stack
++for the new thread.
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index c73d133fd37c..9ac03055c4b5 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -22,6 +22,7 @@ x86-specific Documentation
+    mtrr
+    pat
+    intel-hfi
++   cet
+    iommu
+    intel_txt
+    amd-memory-encryption
+-- 
+2.17.1
 
-Reinette
