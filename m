@@ -2,68 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60C3CC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 19:11:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4AB3C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 19:14:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbiI2TL2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 15:11:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56148 "EHLO
+        id S229576AbiI2TOu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 15:14:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiI2TL2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 15:11:28 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60721ADCEB;
-        Thu, 29 Sep 2022 12:11:26 -0700 (PDT)
+        with ESMTP id S229441AbiI2TOt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 15:14:49 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 241F113FB7;
+        Thu, 29 Sep 2022 12:14:43 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0DE282C5;
-        Thu, 29 Sep 2022 19:11:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0DE282C5
+        by ms.lwn.net (Postfix) with ESMTPSA id A1A3C734;
+        Thu, 29 Sep 2022 19:14:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A1A3C734
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1664478686; bh=AtRs6p9PVV0p7iZSTv/3A/XTlDYNnrz1n/NZHsi0NUo=;
+        t=1664478883; bh=Dalettx/wHDsttqTo3jOHGLJpEGvUL0FT9FOrU3OHUk=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=MFTfuqrLi1CwXQkFi6PKyHjnwtEEOkjy6weShw/Eq0WoiWQdUt59/nfY7t6hAtRYd
-         fcZF0DABcx/sz7PQ97yTIJHeOrfDwdgNZsvX4vcTOw6j1ZaGs057jaZyA1WCEGmWlm
-         PPDblpxYRfZPffFKzFwK5GbTphmA2F024PpWmVSbD0S7OdoVx7F6e8k47Yf5u0piif
-         9pSOeE/b6POX6Apt/5dEYEheHXHNLx527ECK0ZqS95ZURxcjRYslRL1XxDmfA0qnrt
-         HbiRzUnNECkXx63K946LqtCvTuYgxupFiYfGNb3prb3s1dcgP6nBJZYn1w64xvSQR+
-         0Mma51Ev5JRYw==
+        b=GCyY6RY75+MFCi3d8nVUAQfiifX83mm/aCo0SYVRXyBXTo/a562MU0aM4s5v4UdTB
+         tU1rbpchTHXGd92VrpoX/RPD4TYgNnDMT7lbq92YQvRMyAmV4V7zZDB6GzHr7L+op4
+         BFrfX1bkqa2x+rEh0oO/1TIP+5bif8mWMRqhzybIZmfXuipOHXVZbKKVamdRWZsmQb
+         i24kmKwL3HMMKrlQjMBwVCdgOANh2IOsa+UdZ76cqxUOmUK9Kuefb38w13u+lcysc9
+         3VOP5mBAbUw6WVHLf/U6rStYJfsTFXkxok+XzXTFxlyswKGzXZi1Dxl6d6bOPanU0r
+         CGHict7VMRwMA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] docs: process/5.Posting.rst: clarify use of
- Reported-by: tag
-In-Reply-To: <2fc7162dfb76e04da5ea903c9c170d913e735dad.1664372256.git.linux@leemhuis.info>
-References: <2fc7162dfb76e04da5ea903c9c170d913e735dad.1664372256.git.linux@leemhuis.info>
-Date:   Thu, 29 Sep 2022 13:11:25 -0600
-Message-ID: <87a66ihu76.fsf@meer.lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] docs/doc-guide: Add documentation on SPHINX_IMGMATH
+In-Reply-To: <2429b482-089e-8678-2c10-176cab612426@gmail.com>
+References: <a67e3279-6bc7-ee2c-2b49-9275252460b0@gmail.com>
+ <2429b482-089e-8678-2c10-176cab612426@gmail.com>
+Date:   Thu, 29 Sep 2022 13:14:43 -0600
+Message-ID: <875yh6hu1o.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> Bring the description on when to use the Reported-by: tag found in
-> Documentation/process/5.Posting.rst more in line with the description in
-> Documentation/process/submitting-patches.rst: before this change the two
-> were contradicting each other, as the latter is way more permissive and
-> only states '[...] if the bug was reported in private, then ask for
-> permission first before using the Reported-by tag.'
+> On Fri, 16 Sep 2022 19:08:05 +0900, Akira Yokosawa wrote:
+>> Now that building html docs with math expressions does not need texlive
+>> packages, remove the note on the requirement in the "Sphinx Install"
+>> section.
+>> 
+>> Instead, add sections of "Math Expressions in HTML" and "Choice of Math
+>> Renderer".
+>> Describe the effect of setting SPHINX_IMGMATH in the latter section.
+>> 
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Gentle ping.
 >
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
->
-> ---
-> Hi! I noticed some confusion in our development community on when to use
-> the Reported-by: tag. Some of this apparently is caused by the
-> inconsistency fixed in this patch. Ciao, Thorsten
-> ---
->  Documentation/process/5.Posting.rst | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> Jon, is there anything I need to do for improving this?
 
-Applied, thanks.
+Nope, just need to wait for me to recover from the fall European tour...
+applied now, thanks.
 
-jon
+jn
