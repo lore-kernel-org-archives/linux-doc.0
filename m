@@ -2,89 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A28B4C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 11:15:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24300C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 12:08:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233587AbiI2LPN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 07:15:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36010 "EHLO
+        id S234998AbiI2MI3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 08:08:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234740AbiI2LPM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 07:15:12 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C292758DC9
-        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 04:15:09 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id a3so1709988lfk.9
-        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 04:15:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=llQA2gLNCc2d4HEow4TpeRHEJ5+62j9pkjl4MachT58=;
-        b=qhb8B+kOBX2pgpF4oVAMYha0qjBvIvF/258CLWiA/nbGuRaA3PQ3v9kGCvQ8Urrq7G
-         1G/GYUUMFwZHro0T47u7eKtT2qYGhFedkCmC14OQB1UEsruNjsC22BmU2bjNfu2Cjzye
-         BNlMZBk7Uk1a7HukB7GwPK/wvNdUaratbb4g4XM0kXIh/uq+/sH6NEcHdHSJHk40L1d4
-         xjWxo9ZaefRr7rtSo7URIVnstve8a7xzLPUsVvfzQxqE/fNXyMn0+rPO2PLK/HSN/VGQ
-         5gCL4EnYRjuwg4423c+oOksGSi87uP5WnCJqdfz+y7IQ7E7CkQrcqrYpNnYflynp+6fq
-         3KRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=llQA2gLNCc2d4HEow4TpeRHEJ5+62j9pkjl4MachT58=;
-        b=zE0Jjvd7SkdPSJGrB/dZaTQd2WzkBq1AHlSLZ70COJ1QxNjdka3QSFpxVCH/YsOzR8
-         Yegd04eDxcGGmveOkvk47PVUs8662lGG3D8whc6yK8l3yHjk4fhSrUnpu/x4rWGQedG/
-         OS4c92yV1sQ7vI7bAODM5kaS35Mtb3s4PXmVfnCHmBvhp0SI/Cn2luXVksBJ6y6dwiRx
-         42aUGWKUwwhsejozN8aPdsgPGZBF1JSXu2PjpkjxtuK1BvmccsXs+jXIsTIdG6p9tgnO
-         iPS4PhKAS/xGQhikjijUuxIVihjQTJmZaIGvWjUDED76hndh4tpwH5qkeeXobTnsj3v/
-         Ym9A==
-X-Gm-Message-State: ACrzQf1rt64v0y+kFelvAmyaf6gsLbO4clhNEmAgEzUrYS9djhKrFcph
-        fuzQa68s4NTr/4DmPvOEYKXRysw81BiaDg==
-X-Google-Smtp-Source: AMsMyM4WYyCpb05WmvkjmQdNPSJVQHLcZkQDiSV+zvECWVXmgKMpa4hdVNUSHDRCnwblcxjwJe9HOA==
-X-Received: by 2002:a05:6512:3612:b0:499:aea7:8bed with SMTP id f18-20020a056512361200b00499aea78bedmr1103047lfs.26.1664450108204;
-        Thu, 29 Sep 2022 04:15:08 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id j14-20020a05651231ce00b0047f7722b73csm753859lfe.142.2022.09.29.04.15.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 04:15:07 -0700 (PDT)
-Message-ID: <4820a854-5d73-d6f1-fd77-7a7f5dc7f67b@linaro.org>
-Date:   Thu, 29 Sep 2022 13:15:07 +0200
+        with ESMTP id S234255AbiI2MI2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 08:08:28 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E097147A26;
+        Thu, 29 Sep 2022 05:08:26 -0700 (PDT)
+Received: from canpemm500006.china.huawei.com (unknown [172.30.72.55])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MdX8Q597Lz1P6w4;
+        Thu, 29 Sep 2022 20:04:06 +0800 (CST)
+Received: from canpemm500005.china.huawei.com (7.192.104.229) by
+ canpemm500006.china.huawei.com (7.192.105.130) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 29 Sep 2022 20:08:24 +0800
+Received: from canpemm500005.china.huawei.com ([7.192.104.229]) by
+ canpemm500005.china.huawei.com ([7.192.104.229]) with mapi id 15.01.2375.031;
+ Thu, 29 Sep 2022 20:08:24 +0800
+From:   zhaogongyi <zhaogongyi@huawei.com>
+To:     David Hildenbrand <david@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+CC:     "akinobu.mita@gmail.com" <akinobu.mita@gmail.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "osalvador@suse.de" <osalvador@suse.de>,
+        "shuah@kernel.org" <shuah@kernel.org>
+Subject: Re: [PATCH -next v4 1/3] selftests/memory-hotplug: Add checking after
+ online or offline
+Thread-Topic: [PATCH -next v4 1/3] selftests/memory-hotplug: Add checking
+ after online or offline
+Thread-Index: AdjT+ytsJOcEj+v4TUG4sPNhxFl26Q==
+Date:   Thu, 29 Sep 2022 12:08:24 +0000
+Message-ID: <96c8944284974e08a63d02dac1fa2601@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.67.110.209]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v2 2/2] Documentation/process: Add text to indicate
- supporters should be mailed
-Content-Language: en-US
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, corbet@lwn.net,
-        linux@leemhuis.info, konstantin@linuxfoundation.org,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-References: <20220929002500.283481-1-bryan.odonoghue@linaro.org>
- <20220929002500.283481-3-bryan.odonoghue@linaro.org>
- <54a19490-aa0d-2dcd-8407-319d6167add4@linaro.org>
- <b36887f5-ffb8-1665-f959-be1e632e5206@linaro.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <b36887f5-ffb8-1665-f959-be1e632e5206@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/09/2022 12:33, Bryan O'Donoghue wrote:
-> On 29/09/2022 08:29, Krzysztof Kozlowski wrote:
->> As I said before, this still ignores reviewers. I don't think it is
->> going to good direction. The submitter is expected to CC
->> everyone/everything which is pointed by get_maintainers.pl except the
->> Git-fallback entries.
-> 
-> Isn't LKML considered optional at this point though ?
-
-No, it's the only list for certain subsystems. If you do not cc it, the
-patch might never get public.
-
-Best regards,
-Krzysztof
-
+SGkhDQoNCj4gDQo+IE9uIDI5LjA5LjIyIDA5OjM5LCB6aGFvZ29uZ3lpIHdyb3RlOg0KPiA+IEhp
+LA0KPiA+DQo+ID4gV2UgY2FuIG5vdCBnZXQgdGhlIEVCVVNZIGZyb20gIiBlY2hvIDAgPg0KPiAv
+c3lzL2RldmljZXMvc3lzdGVtL21lbW9yeS9tZW1vcnl4eHgvb25saW5lIiwgbWF5YmUsIHJlZGly
+ZWN0IHRoZSBlcnJvcg0KPiBvdXB1dCB0byAvZGV2L251bGwgaXMgc3VpdGFibGUgd2hlbiBjYWxs
+aW5nIG9mZmxpbmVfbWVtb3J5X2V4cGVjdF9zdWNjZXNzKCk6DQo+ID4NCj4gPiAjIHNoIG1lbS1v
+bi1vZmYtdGVzdC5zaCAtYQ0KPiA+IG1lbS1vbi1vZmYtdGVzdC5zaDogaWxsZWdhbCBvcHRpb24g
+LS0gYSBUZXN0IHNjb3BlOiAyJSBob3RwbHVnIG1lbW9yeQ0KPiA+ICAgICAgICAgICBvbmxpbmUg
+YWxsIGhvdC1wbHVnZ2FibGUgbWVtb3J5IGluIG9mZmxpbmUgc3RhdGU6DQo+ID4gICAgICAgICAg
+ICAgICAgICAgU0tJUFBFRCAtIG5vIGhvdC1wbHVnZ2FibGUgbWVtb3J5IGluIG9mZmxpbmUgc3Rh
+dGUNCj4gPiAgICAgICAgICAgb2ZmbGluZSAyJSBob3QtcGx1Z2dhYmxlIG1lbW9yeSBpbiBvbmxp
+bmUgc3RhdGUNCj4gPiAgICAgICAgICAgdHJ5aW5nIHRvIG9mZmxpbmUgNCBvdXQgb2YgMTkyIG1l
+bW9yeSBibG9jayhzKToNCj4gPiBvbmxpbmUtPm9mZmxpbmUgbWVtb3J5MA0KPiA+IG9ubGluZS0+
+b2ZmbGluZSBtZW1vcnkxMA0KPiA+IG9ubGluZS0+b2ZmbGluZSBtZW1vcnkxMDANCj4gPiBvbmxp
+bmUtPm9mZmxpbmUgbWVtb3J5MTAxDQo+ID4gb25saW5lLT5vZmZsaW5lIG1lbW9yeTEwMg0KPiA+
+IG9ubGluZS0+b2ZmbGluZSBtZW1vcnkxMDMNCj4gPiBvbmxpbmUtPm9mZmxpbmUgbWVtb3J5MTA0
+DQo+ID4gb25saW5lLT5vZmZsaW5lIG1lbW9yeTEwNQ0KPiA+IG9ubGluZS0+b2ZmbGluZSBtZW1v
+cnkxMDYNCj4gPiBvbmxpbmUtPm9mZmxpbmUgbWVtb3J5MTA3DQo+ID4gb25saW5lLT5vZmZsaW5l
+IG1lbW9yeTEwOA0KPiA+IG9ubGluZS0+b2ZmbGluZSBtZW1vcnkxMDkNCj4gPiBvbmxpbmUtPm9m
+ZmxpbmUgbWVtb3J5MTENCj4gPiBvbmxpbmUtPm9mZmxpbmUgbWVtb3J5MTEwDQo+ID4gb25saW5l
+LT5vZmZsaW5lIG1lbW9yeTExMQ0KPiA+IG9ubGluZS0+b2ZmbGluZSBtZW1vcnkxMTINCj4gPiBv
+bmxpbmUtPm9mZmxpbmUgbWVtb3J5MTEzDQo+ID4gb25saW5lLT5vZmZsaW5lIG1lbW9yeTExNA0K
+PiA+IG9ubGluZS0+b2ZmbGluZSBtZW1vcnkxMTUNCj4gPiBvbmxpbmUtPm9mZmxpbmUgbWVtb3J5
+MTE2DQo+ID4gb25saW5lLT5vZmZsaW5lIG1lbW9yeTExNw0KPiA+IG9ubGluZS0+b2ZmbGluZSBt
+ZW1vcnkxMTgNCj4gPiBvbmxpbmUtPm9mZmxpbmUgbWVtb3J5MTE5DQo+ID4gb25saW5lLT5vZmZs
+aW5lIG1lbW9yeTEyDQo+ID4gb25saW5lLT5vZmZsaW5lIG1lbW9yeTEyMA0KPiA+IG9ubGluZS0+
+b2ZmbGluZSBtZW1vcnkxMjENCj4gPiBvbmxpbmUtPm9mZmxpbmUgbWVtb3J5MTIyDQo+ID4gb25s
+aW5lLT5vZmZsaW5lIG1lbW9yeTEyMw0KPiA+IG9ubGluZS0+b2ZmbGluZSBtZW1vcnkxMjQNCj4g
+DQo+IENhbiB3ZSBoYXZlIGhlcmUgYW4gb3V0cHV0IGxpa2UNCj4gDQo+IG9ubGluZS0+b2ZmbGlu
+ZSBtZW1vcnkwDQo+IC0+IEZhaWx1cmUNCj4gb25saW5lLT5vZmZsaW5lIG1lbW9yeTEwDQo+IC0+
+IFN1Y2Nlc3MNCj4gDQo+IFRoYXQgd291bGQgbWFrZSBtdWNoIG1vcmUgc2Vuc2UgZm9yIGRlYnVn
+Z2luZyBwdXJwb3NlcyBhbmQgdW5kZXJzdGFuZGluZw0KPiB3aGF0IGlzIGhhcHBlbmluZyBoZXJl
+LiBJIHdhcyBwcmltYXJpbHkgY29uY2VybmVkIGFib3V0IHRoZSBtaXNsZWFkaW5nIGVycm9yDQo+
+IG1lc3NhZ2UsIHRoYXQgaW5kaWNhdGVkIHRoYXQgc29tZXRoaW5nIGlzICJ1bmV4cGVjdGVkIiAt
+LSBpdCdzIHBlcmZlY3RseQ0KPiByZWFzb25hYmxlIGhlcmUgdG8gKmV4cGVjdCogdGhhdCBvZmZs
+aW5pbmcgYSByYW5kb20gbWVtb3J5IGJsb2NrcyBqdXN0IGZhaWxzLg0KDQpZZXMsIEkgd2lsbCBz
+dWJtaXQgYSBuZXcgdmVyc2lvbiBvZiBwYXRjaGVzIHRvIGltcGxlbWVudCBpdCBhcyB5b3VyIHN1
+Z2dlc3Rpb25lczoNCg0KMS4gIFJlZGlyZWN0IG1pc2xlYWRpbmcgbXNnIHRvIC9kZXYvbnVsbA0K
+Mi4gIEFkZCBhbiBvdXRwdXQgZm9yIG9ubGluZS0+b2ZmbGluZSB0ZXN0DQoNClRoYW5rcyENCg0K
+DQo+IA0KPiAtLQ0KPiBUaGFua3MsDQo+IA0KPiBEYXZpZCAvIGRoaWxkZW5iDQoNCg==
