@@ -2,103 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEEDBC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 19:28:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16EBBC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 20:48:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229476AbiI2T2u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 15:28:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36944 "EHLO
+        id S229733AbiI2UsB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 16:48:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbiI2T2t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 15:28:49 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5C9615D653;
-        Thu, 29 Sep 2022 12:28:48 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 690632C5;
-        Thu, 29 Sep 2022 19:28:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 690632C5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1664479728; bh=OMEpyJnlKWszhdMzE67M6h33nAUrEjevo9H1lpZDZAE=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=sJ6H7T/Ayt9Q4J0Kdx1tG+zyRnIveeGwuXqxrqTTSKJvLYM2foQe/xgs8izf8/QFm
-         gUO43N/aexHCErOIuarXppFgHCwOKunstUc8baQxG0jCD6daiBQdHG9PfzBX9rd2ZV
-         Hf8kKkE9NUA/oTnipfqmUErBksTiBKzJoqElPVLF2fg4SYLUDUhIoBwIe3Sw1VcyVr
-         Q4lcBUumsESVkQ2O1JqAENWxCvkH8eL5Cf3gr1es8UdDDQCskNAQBTrWn2hg2W5dLv
-         WpLAXMUEKZJ7IUplgbKFYqWTGIHeJPWQ+lhCBHMzdwusXmeU3uteRcVBfP8SmJVh/J
-         Tl2yfd+ymiOZQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
-        Stephen Rothwell <sfr@rothwell.id.au>
-Subject: Re: [PATCH v3 0/7] Rewrite the top-level index.rst
-In-Reply-To: <87ill6hyt6.fsf@meer.lwn.net>
-References: <20220927160559.97154-1-corbet@lwn.net>
- <87mtaii491.fsf@meer.lwn.net> <202209290858.4A3FC9082@keescook>
- <87ill6hyt6.fsf@meer.lwn.net>
-Date:   Thu, 29 Sep 2022 13:28:47 -0600
-Message-ID: <87czbegets.fsf@meer.lwn.net>
+        with ESMTP id S229794AbiI2Urq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 16:47:46 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFAE9154448;
+        Thu, 29 Sep 2022 13:47:44 -0700 (PDT)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28TKLhLT012441;
+        Thu, 29 Sep 2022 20:47:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=v3QdPnmE4RlmkvjK5A58vnndVAEt7ike09Z9ly3kO3A=;
+ b=QUYlY/WuDqKdMmJJsa0clkiujv5dbv9GBH0pw3MSF37J/bl92pSfeuTvEapwsp80RxIh
+ zx3EncAMfRToo7704g+jQdmQLHyFQyJsPGzKoG2uq4jxX9VGdCq/+syVGLJWB4qPL9bQ
+ 7IMR7d9rqeTJcMbTySWYgsS4pGhkW/02e8rGMFA4nzbBjAlVvfekk4zrvE7rKs4eWo76
+ fujXzCLp6cgQl/O2NHTQvyIpQflnzFiuOGqyRc4TP8LPz+SM39xN+AvQihk2mYcCA9wa
+ lwKQGhEm0ZICVda0VZQ7MmCuBIgmxateKL864s/rG74NVH9wKa3IMAW5yB0zyYlyPahs ww== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jvv1sva88-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Sep 2022 20:47:19 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28TKlJvI016492
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 29 Sep 2022 20:47:19 GMT
+Received: from [10.110.116.67] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 29 Sep
+ 2022 13:47:18 -0700
+Message-ID: <c6aa1435-d46f-1186-c029-26e6a4d2fe38@quicinc.com>
+Date:   Thu, 29 Sep 2022 13:47:17 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v4 10/14] gunyah: sysfs: Add node to describe supported
+ features
+Content-Language: en-US
+To:     Joe Perches <joe@perches.com>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        "Mark Rutland" <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
+ <20220928195633.2348848-11-quic_eberman@quicinc.com>
+ <3c02aad6d8bde70964b403a3cb8004de969becc6.camel@perches.com>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <3c02aad6d8bde70964b403a3cb8004de969becc6.camel@perches.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: IX8EWR5gJVC_0_9Jkdww99eiPQw32QHV
+X-Proofpoint-ORIG-GUID: IX8EWR5gJVC_0_9Jkdww99eiPQw32QHV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-29_11,2022-09-29_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
+ phishscore=0 bulkscore=0 spamscore=0 suspectscore=0 impostorscore=0
+ clxscore=1011 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209290129
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[Sending a copy to the linux-next folks as well in the hope that it
-helps when the conflict shows up there.]
 
-Jonathan Corbet <corbet@lwn.net> writes:
 
-> Kees Cook <keescook@chromium.org> writes:
->
->> On Thu, Sep 29, 2022 at 09:34:18AM -0600, Jonathan Corbet wrote:
->>> Jonathan Corbet <corbet@lwn.net> writes:
->>> 
->>> > The top-level index.rst file is the entry point for the kernel's
->>> > documentation, especially for readers of the HTML output.  It is currently
->>> > a mess containing everything we thought to throw in there.  Firefox says it
->>> > would require 26 pages of paper to print it.  That is not a user-friendly
->>> > introduction.
->>> >
->>> > This series aims to improve our documentation entry point with a focus on
->>> > rewriting index.rst.  The result is, IMO, simpler and more approachable.
->>> > For anybody who wants to see the rendered results without building the
->>> > docs, have a look at:
->>> >
->>> >   https://static.lwn.net/kerneldoc/
->>> 
->>> So I think I'll go ahead and drop this into docs-next shortly.  Thanks
->>> to everybody who has commented.
->>> 
->>> This, of course, has the potential to create conflicts with other 6.1
->>> work that touches Documentation/index.rst.  Amazingly, as far as I can
->>> tell, there is only one linux-next commit touching that file - the
->>> addition of the Rust docs.  We'll want to be sure that doesn't get lost
->>> during the merge window.  I'll be sure to include a suitable heads-up in
->>> my pull request.
->>
->> I can add a note in my PR of Rust too -- how should I suggest it be
->> resolved?
->
-> The Rust documentation change to Documentation/index.rst is simple
-> enough:
->
->> diff --git a/Documentation/index.rst b/Documentation/index.rst
->> index 4737c18c97ff..00722aa20cd7 100644
->> --- a/Documentation/index.rst
->> +++ b/Documentation/index.rst
->> @@ -82,6 +82,7 @@ merged much easier.
->>     maintainer/index
->>     fault-injection/index
->>     livepatch/index
->> +   rust/index
->
-> The resolution should take the docs-next version of the file, but add
-> that line after "livepatch/index" in its new location.
->
-> Thanks,
->
-> jon
+On 9/29/2022 12:36 AM, Joe Perches wrote:
+> On Wed, 2022-09-28 at 12:56 -0700, Elliot Berman wrote:
+>> Add a sysfs node to list the features that the Gunyah hypervisor and
+>> Linux supports. For now, Linux support cspace (capability IDs) and
+>> message queues, so only report those..
+> []
+>> diff --git a/drivers/virt/gunyah/sysfs.c b/drivers/virt/gunyah/sysfs.c
+> []
+>> @@ -25,9 +25,24 @@ static ssize_t variant_show(struct kobject *kobj, struct kobj_attribute *attr, c
+>>   }
+>>   static struct kobj_attribute variant_attr = __ATTR_RO(variant);
+>>   
+>> +static ssize_t features_show(struct kobject *kobj, struct kobj_attribute *attr, char *buffer)
+>> +{
+>> +	int len = 0;
+>> +
+>> +	if (GH_IDENTIFY_PARTITION_CSPACE(gunyah_api.flags))
+>> +		len += sysfs_emit_at(buffer, len, "cspace ");
+>> +	if (GH_IDENTIFY_MSGQUEUE(gunyah_api.flags))
+>> +		len += sysfs_emit_at(buffer, len, "message-queue ");
+>> +
+>> +	len += sysfs_emit_at(buffer, len, "\n");
+>> +	return len;
+>> +}
+> 
+> It's generally nicer to avoid unnecessary output spaces.
+> 
+> Perhaps:
+> 
+> {
+> 	int len = 0;
+> 
+> 	if (GH_IDENTIFY_PARTITION_CSPACE(gunyah_api.flags))
+> 		len += sysfs_emit_at(buffer, len, "cspace");
+> 	if (GH_IDENTIFY_MSGQUEUE(gunyah_api.flags)) {
+> 		if (len)
+> 			len += sysfs_emit_at(buffer, len, " ");
+> 		len += sysfs_emit_at(buffer, len, "message-queue");
+> 	}
+> 
+> 	len += sysfs_emit_at(buffer, len, "\n");
+> 
+> 	return len;
+> }
+> 
+
+Thanks! Applied for the next version.
