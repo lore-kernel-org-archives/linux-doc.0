@@ -2,180 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88144C6FA82
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 08:45:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD44C04A95
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 08:48:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230341AbiI2Ipa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 04:45:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47614 "EHLO
+        id S235000AbiI2IsV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 04:48:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234340AbiI2Ip3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 04:45:29 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52CAC52808;
-        Thu, 29 Sep 2022 01:45:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=xQdE/lPTJ2jBPVcsNpjFprsT4OeqEjkOkOH4rvRyf30=; b=frh80iUfjKRc38gJF+SKPbPSGP
-        zV5Lm/FDZwYKF8We0s48A1H72pDczCFu5YFYDn2fK0w8DtmWrbX6qT0nRWf8CWTz7O7xkfwo6m5Tt
-        oOoDLuOjdTQHA2uaTLRTIJDlRV+rDfeIc33/leIOZdh6yOAwGjk9f8CZjto7x00TbAEdWoeVW01GL
-        4rjLk/TFz6C8OPIa6AhTaF7Ubutl5foH7RQL3Msq6kVF16v++Hwe2X4zcCaQ17O9aDzAqx8lCp3QR
-        0s6m12uYx8FoQudNdXQBiKtigOqFJr9vCuRRRyQDAEt8+bJ2WiMmq0vnU4wcOeMF63clulgmDbsD3
-        r9WP292A==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1odpAF-00GrD2-G3; Thu, 29 Sep 2022 08:45:07 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F2EF330008D;
-        Thu, 29 Sep 2022 10:45:01 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id B422D203E4E80; Thu, 29 Sep 2022 10:45:01 +0200 (CEST)
-Date:   Thu, 29 Sep 2022 10:45:01 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Gang Li <ligang.bdlg@bytedance.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4] sched/numa: add per-process numa_balancing
-Message-ID: <YzVbDbLOYUVNnWRu@hirez.programming.kicks-ass.net>
-References: <20220929064359.46932-1-ligang.bdlg@bytedance.com>
+        with ESMTP id S235090AbiI2IsU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 04:48:20 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC10135043;
+        Thu, 29 Sep 2022 01:48:17 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id b5so863722pgb.6;
+        Thu, 29 Sep 2022 01:48:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=LPIjcxqEG5Ykvv0RYWwDgz52L7harSKek7HWfDdgQdU=;
+        b=ZyIBEMLUoaESSJeqOS0JI3ZdR34f1X0R8oDd1KUAHBeOoKhXgjOXD34isIOsLSzzl1
+         EwQwMwPg4xEB7shVlYtNOOHyh2wTeS95La91f2+vbdguvCRWLyWLJ1W8YGr5VLrdcl+y
+         k0eLWMwSLo4bh+pTKNCaOhBnW8NMNEkkfJdd1fzigy7sGlkFpFrzCJFDg53xsF3KoSoh
+         rNr00vwdmYtqeDPc45dQ4D9cOzURbyIKsKQelVEJP576xU8XQHcXkzi7L+fhQ60J3zQ4
+         HjRUMVry5v2Z9lTdP3alMa/FGwL2okHlJ1OWXBqGAB8LmrJ3yJlKoTm27pIMCG2GffGn
+         xddw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=LPIjcxqEG5Ykvv0RYWwDgz52L7harSKek7HWfDdgQdU=;
+        b=75LOoxIKKbx7EQCDwl9oKSiS4Xcv7mmk4TUX7cSWzf9KnSjqIXa013r+G4jQ1i0ECF
+         h/NyOJb/dZmpWM+vFvv7zZTN/sUtLPb5XfKzEXRSMZHbBiVeSezWm4chjYPVfwCkXaA/
+         9NwkhnfaFVjl1uo2WxZgQI17va9h5pRvRBYuEX6aUiXZJ42JV4gbNe3C0a2QnEqhfwa5
+         jeiRLB8PRQaUChU15vORIwD3dcbRsMYuE40km7sIGcjbmqOdxyA/uacn9bCTbrIjta9u
+         If1FBhdNYTKKI/v1MhdiWwTj9yZ+DmR3HOz5i/5vN61jATFeCqGnUctnT6f6FkT5ddRG
+         XodQ==
+X-Gm-Message-State: ACrzQf3WmLlT50ayrVz6ourKbaf8Cur6o/QTU/MtcSlqhpAUg9K0/FQ7
+        TmX2kbK6lgRRsvgh22Br3VQ=
+X-Google-Smtp-Source: AMsMyM5FpKaM9A5fR9Nk6T/5JPue3Q5c9vpxFokqlZS7/CpEgL1GT2mHddYH5UlCXBA0AyI8m7Q7FA==
+X-Received: by 2002:a05:6a02:318:b0:43c:e24a:961c with SMTP id bn24-20020a056a02031800b0043ce24a961cmr1909302pgb.589.1664441296956;
+        Thu, 29 Sep 2022 01:48:16 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-28.three.co.id. [180.214.232.28])
+        by smtp.gmail.com with ESMTPSA id p17-20020a170902e75100b00179eaf275d5sm5360741plf.27.2022.09.29.01.48.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Sep 2022 01:48:16 -0700 (PDT)
+Message-ID: <db30d4f1-31c7-6cbd-f87f-abefa7f4e781@gmail.com>
+Date:   Thu, 29 Sep 2022 15:48:06 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220929064359.46932-1-ligang.bdlg@bytedance.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v5 12/12] Documentation/x86: Update resctrl_ui.rst for new
+ features
+Content-Language: en-US
+To:     babu.moger@amd.com
+Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, fenghua.yu@intel.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        eranian@google.com
+References: <166431016617.373387.1968875281081252467.stgit@bmoger-ubuntu>
+ <166431042060.373387.8454967155095795574.stgit@bmoger-ubuntu>
+ <YzPMorJQFKPY+n4d@debian.me> <99bfbeac-1454-a453-a2ef-36eee2aea34c@amd.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <99bfbeac-1454-a453-a2ef-36eee2aea34c@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 9/28/22 22:23, Moger, Babu wrote:
+>> Hi Babu,
+>>
+>> The description text for each snippets above shouldn't in the code
+>> block. Also, split the block into three code blocks in the lists:
+> Did you mean, I need to remove similar texts from code?
 
-The alternative to this is ofcourse to have your latency critical
-applications use mbind()/set_mempolicy() etc.., because surely, them
-being timing critical, they have the infrastructure to do this right?
+I mean extracting code description from the code block, see the diff below.
 
-Because timing critical software doesn't want it's memory spread
-randomly, because well random is bad for performance, hmm?
+>>
+>> ---- >8 ----
+>> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
+>> index b4fe54f219b6f3..ec578b069276ce 100644
+>> --- a/Documentation/x86/resctrl.rst
+>> +++ b/Documentation/x86/resctrl.rst
+>> @@ -206,25 +206,26 @@ with the following files:
+>>          all the event types and the mbm_local_bytes configuration is set to
+>>          0x15 to count all the local memory events.
+>>  
+>> -        Example::
+>> +        Examples:
+>> +
+>> +        * To view the current configuration::
+>>  
+>> -            To view the current configuration, run the command.
+>>              # cat /sys/fs/resctrl/info/L3_MON/mbm_total_config
+>>              0:0x7f;1:0x7f;2:0x7f;3:0x7f
+>>  
+>>              # cat /sys/fs/resctrl/info/L3_MON/mbm_local_config
+>>              0:0x15;1:0x15;3:0x15;4:0x15
+>>  
+>> -            To change the mbm_total_bytes to count only reads on domain 0,
+>> -            run the command. The bits 0,1,4 and 5 needs to set.
+>> +        * To change the mbm_total_bytes to count only reads on domain 0
+>> +          (the bits 0, 1, 4 and 5 needs to be set)::
+>>  
+>>              # echo  "0:0x33" > /sys/fs/resctrl/info/L3_MON/mbm_total_config
+>>  
+>>              # cat /sys/fs/resctrl/info/L3_MON/mbm_total_config
+>>              0:0x33;1:0x7f;2:0x7f;3:0x7f
+>>  
+>> -            To change the mbm_local_bytes to count all the slow memory reads on
+>> -            domain 1, run the command. The bits 4 and 5 needs to set.
+>> +        * To change the mbm_local_bytes to count all the slow memory reads on
+>> +          domain 1 (the bits 4 and 5 needs to be set)::
+>>  
+>>              # echo  "1:0x30" > /sys/fs/resctrl/info/L3_MON/mbm_local_config
+>>  
+> 
+> Thanks for the diff. I cannot get this right for some reason. I will
+> probably send the diff before the final series.
+> 
+>
 
-And once numa balancing sees all the memory has an expliciy policy, it
-won't touch it.
+OK.
+ 
+>>
+>> Also, there isn't description of mapping from bits from the supported events
+>> table to the bytes input for mbm_{total,local}_config.
+> 
+> It is already there. Is that not clear?
 
-On Thu, Sep 29, 2022 at 02:43:58PM +0800, Gang Li wrote:
+No. I don't see why setting bits 0, 1, 4, and 5 on domain 0 translates to
+`0:0x33`, for example.
 
-> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-> index ef0e6b3e08ff..87215b3776c9 100644
-> --- a/kernel/sched/fair.c
-> +++ b/kernel/sched/fair.c
-> @@ -2818,6 +2818,24 @@ void task_numa_free(struct task_struct *p, bool final)
->  	}
->  }
->  
-> +inline bool numa_balancing_enabled(struct task_struct *p)
+>>
+>>> +Slow Memory b/w domain is L3 cache.
+>>> +::
+>>> +
+>>> +	SMBA:<cache_id0>=bandwidth0;<cache_id1>=bandwidth1;...
+>>> +
+>> What b/w stands for in the context above?
+> b/w is bandwidth. I will correct it.
 
-Does this want to be static?
+OK.
 
-> +{
-> +	if (p->mm) {
-> +		int numab = p->mm->numab_enabled;
-> +
-> +		switch (numab) {
-> +		case NUMAB_ENABLED:
-> +			return true;
-> +		case NUMAB_DISABLED:
-> +			return false;
-> +		case NUMAB_DEFAULT:
-> +			break;
-> +		}
-> +	}
-> +
-> +	return static_branch_unlikely(&sched_numa_balancing);
-> +}
+Thanks for replying.
 
-Blergh, this sucks. Now you have the unconditional pointer chasing and
-cache-misses. The advantage of sched_numa_balancing was that there is no
-overhead when disabled.
-
-Also, "numab" is a weird word.
-
-What about something like:
-
-static inline bool numa_balancing_enabled(struct task_struct *p)
-{
-	if (!static_branch_unlikely(&sched_numa_balancing))
-		return false;
-
-	if (p->mm) switch (p->mm->numa_balancing_mode) {
-	case NUMA_BALANCING_ENABLED:
-		return true;
-	case NUMA_BALANCING_DISABLED:
-		return false
-	default:
-		break;
-	}
-
-	return sysctl_numa_balancing_mode;
-}
-
-( Note how that all following the existing 'numa_balancing' wording
-  without inventing weird new words. )
-
-And then you frob the sysctl and prctl such that sched_numa_balancing
-and sysctl_numa_balancing_mode are not tied together just so.
-Specifically, I'm thinking you should use static_branch_inc() to count
-how many enables you have, one for the default and one for each prctl().
-Then it all just works.
-
-> @@ -11581,8 +11599,10 @@ static void task_tick_fair(struct rq *rq, struct task_struct *curr, int queued)
->  		entity_tick(cfs_rq, se, queued);
->  	}
->  
-> -	if (static_branch_unlikely(&sched_numa_balancing))
-> +#ifdef CONFIG_NUMA_BALANCING
-> +	if (numa_balancing_enabled(curr))
->  		task_tick_numa(rq, curr);
-> +#endif
->  
->  	update_misfit_status(curr, rq);
->  	update_overutilized_status(task_rq(curr));
-
-Surely you can make that #ifdef go away without much effort.
-
-> diff --git a/kernel/sys.c b/kernel/sys.c
-> index 8a6432465dc5..11720a35455a 100644
-> --- a/kernel/sys.c
-> +++ b/kernel/sys.c
-> @@ -59,6 +59,7 @@
->  #include <linux/sched/coredump.h>
->  #include <linux/sched/task.h>
->  #include <linux/sched/cputime.h>
-> +#include <linux/sched/numa_balancing.h>
->  #include <linux/rcupdate.h>
->  #include <linux/uidgid.h>
->  #include <linux/cred.h>
-> @@ -2101,6 +2102,23 @@ static int prctl_set_auxv(struct mm_struct *mm, unsigned long addr,
->  	return 0;
->  }
->  
-> +#ifdef CONFIG_NUMA_BALANCING
-> +static int prctl_pid_numa_balancing_write(int numa_balancing)
-> +{
-> +	if (numa_balancing != PR_SET_NUMAB_DEFAULT
-> +	    && numa_balancing != PR_SET_NUMAB_DISABLED
-> +	    && numa_balancing != PR_SET_NUMAB_ENABLED)
-> +		return -EINVAL;
-
-Operators go at the end of the line.
-
-> +	current->mm->numab_enabled = numa_balancing;
-> +	return 0;
-> +}
+-- 
+An old man doll... just what I always wanted! - Clara
