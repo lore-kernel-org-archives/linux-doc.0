@@ -2,86 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E555C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 18:11:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45EFFC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 19:09:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbiI2SLv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 14:11:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43480 "EHLO
+        id S230258AbiI2TJ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 15:09:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232402AbiI2SLt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 14:11:49 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2286E1E459B;
-        Thu, 29 Sep 2022 11:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664475109; x=1696011109;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Hi2tz7dvkDqO9KGRG9jxKLr4Lwuxpc+amCA8E8qTyfY=;
-  b=kwPk69LahIVQbrC99oxQrpOzjYJoVLsqqPHRMWUraRrs+JBrGm5T/wYG
-   HM6O/V+wvryih12fDRrWPzFQT+5kvJSOkgGplSxNTHkJQ4v6km+6i1w4q
-   IMAVt0POwyGP4drlI9gQO17qT0LDfQlElLGQAe2z/pX53Z0B5UiV+zP6F
-   sVLcm6WKMPjvnjbXVa3NFfFPHCvy37ytMdD2WrckbCoKBzrYuZHozNChA
-   /PaPXET/KhdFTVSxcTpjWsR6tRhsXUNbeqhtieYx80lNX03JUf4r7ZaR4
-   uQ7cuD3FZD3a+DaqU13cx7czs5+DQ5N/3lfEhx1hq1UUkrxLFMiEw+Rb7
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="282347587"
-X-IronPort-AV: E=Sophos;i="5.93,355,1654585200"; 
-   d="scan'208";a="282347587"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2022 11:11:48 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="600106659"
-X-IronPort-AV: E=Sophos;i="5.93,355,1654585200"; 
-   d="scan'208";a="600106659"
-Received: from tjthomps-mobl.amr.corp.intel.com (HELO [10.252.139.94]) ([10.252.139.94])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2022 11:11:48 -0700
-Message-ID: <665a4db2-a342-43ba-38a0-715c34709729@linux.intel.com>
-Date:   Thu, 29 Sep 2022 11:11:47 -0700
+        with ESMTP id S230204AbiI2TJ0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 15:09:26 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D371914FE0B;
+        Thu, 29 Sep 2022 12:09:25 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 6E5D02C5;
+        Thu, 29 Sep 2022 19:09:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6E5D02C5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1664478565; bh=k5z3F0/xzWULuI2Tv5PQzUKwfSUJnGgVlsClzxy7Fac=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=XW0sRaxynQ3YPDubaI1qOGKoZqRdAYpHHtrZAq7I/17jvtYPoSX4cmrrqRMUJP8h+
+         DbyXMfDSDGrVpeWHwuilwI8BtXub/v/8rVtW1qAQYbSoRTqnKjT2fonFDtdERV8+0y
+         0iqwXZGk92IrgQv7Qpbrxc8AYtGEM+irKN9IHfXzvRNXzEAMxfbWA43OXzwym8bR7Z
+         Ufi555s79KAzWDfLUYIYlB8DjfI9R6ezoBHd+518edkLZXXaB2sx++r/LKxrxOCUuv
+         9g9l4EqBrEkIUBr7lCyPc767yg9YEoDAJpSoHk++LegT45X5xDfpvRbAkPEElGkyiv
+         +6Yu5QQ5EXdCQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs, kprobes: Fix the wrong location of Kprobes
+In-Reply-To: <20220926142218.100e0d9b@gandalf.local.home>
+References: <1663322106-12178-1-git-send-email-yangtiezhu@loongson.cn>
+ <20220926142218.100e0d9b@gandalf.local.home>
+Date:   Thu, 29 Sep 2022 13:09:24 -0600
+Message-ID: <87edvuhuaj.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v14 2/3] virt: Add TDX guest driver
-Content-Language: en-US
-To:     Wander Lairson Costa <wander@redhat.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220928215535.26527-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220928215535.26527-3-sathyanarayanan.kuppuswamy@linux.intel.com>
- <YzXduIn83E1oood8@fedora>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <YzXduIn83E1oood8@fedora>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Steven Rostedt <rostedt@goodmis.org> writes:
 
+> On Fri, 16 Sep 2022 17:55:06 +0800
+> Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+>
+>> After commit 22471e1313f2 ("kconfig: use a menu in arch/Kconfig to reduce
+>> clutter"), the location of Kprobes is under "General architecture-dependent
+>> options" rather than "General setup".
+>> 
+>
+> Probably add a "Fixes:" tag for the above mentioned commit.
+>
+> Anyway, Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-On 9/29/22 11:02 AM, Wander Lairson Costa wrote:
->> +#define TDX_GUEST_DEVICE                "tdx-guest"
-> nit: I think now we can use KBUILD_MODNAME, can't we?
-> 
+When you embed a tag like that, b4 doesn't pick it up anymore...but I
+was amending the commit to add the Fixes tag so I put it in too...:)
 
-Yes. We can use it. But I thought user can use this macro
-and avoid hard coding the device name.
+Applied, thanks.
 
--- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+jon
