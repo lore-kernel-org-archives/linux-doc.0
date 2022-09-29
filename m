@@ -2,193 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA82C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 13:26:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD7E1C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 13:34:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235726AbiI2N0w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 09:26:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57402 "EHLO
+        id S233904AbiI2NeZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 09:34:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235596AbiI2N02 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 09:26:28 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD08F11DFCD;
-        Thu, 29 Sep 2022 06:26:19 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id 3so1462454pga.1;
-        Thu, 29 Sep 2022 06:26:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=tZqNyVFP8TilF+zyV4PYC5u7/K2JRWQ8RYWUuGAVbWU=;
-        b=cX4x36k3ftMZAj4wDt2XyX9s8mpa6T2cqgqfZVZR+aM1HnfxIY1D0N/oeEIylgPIsR
-         /s48GoP2v2XTVNoU73D3SNEfQN/EKIV2rg16OqpdizhFX9ds8y0XZWvv8SVml3iY3/jd
-         mVnHBivKIe9S/YU4AbEnrhQInJNlrhnlKXq5Kd67mbYJhkpbwZfiZYKPD9B0QBgNV8Se
-         UnLoJOIhrowLAooSsjasef/0KjFhaPDNe3mkH/b6fZFQJmF5UlcGaA6VCNWZqn17BuNq
-         R7hjSvqlaQW2oyjJDIHQHTG7rz7wTweSCC9r5VolAlNdzsBbHTZFgY8O4NX7sVbveYVQ
-         W2xg==
+        with ESMTP id S233587AbiI2NeY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 09:34:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F34DC98D2C
+        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 06:34:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1664458461;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=rlftdk2hTC+j/otuOrlxim4c/Udb5r6B+3NxPu2X4c8=;
+        b=TwJGFFyo1NemyMN5hcd+QDijhr6vKz3ga9+3PB26EredUXUbJOOvn6cDS9juBU4NcWioOP
+        gM2CGIqB53AdGTWSR4P0tzeptR1Zblujrsnl1/JU6dJnT44e8lJe2EEtq+F1uW8sRDKoLT
+        XvMUJ5yYyg6ft3olYSfeuv8i9LGX7j8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-329-PqiVIw7_NlmLI8vyiKIa4Q-1; Thu, 29 Sep 2022 09:34:20 -0400
+X-MC-Unique: PqiVIw7_NlmLI8vyiKIa4Q-1
+Received: by mail-wr1-f72.google.com with SMTP id s5-20020adfa285000000b0022ad5c2771cso542114wra.18
+        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 06:34:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=tZqNyVFP8TilF+zyV4PYC5u7/K2JRWQ8RYWUuGAVbWU=;
-        b=3J45kZ6Iz7+pjNpkE5uWW3kBC2tHw2tV63/8VsO05Dv/LhxebCZ0l7aEdvBHVxEjSO
-         nHRIUeYyv8Upj1nmqS/O1whpw/AvltEyXyhrcCWy7V6zUNWj0q+4l5hx5QG+GqHt1Av6
-         bYywWQmeM2fG4lGRGOwIkJmKA6M+/4W+IYPkXtocaF3j736IT3fPUf9kWN4Ot3AtoIuB
-         ypG73H/u9zfgYR3xpJ99heM0kYA92OyWKPlwGk0bw9SgIHA8MR4qyDjPL1yWKixdIaCU
-         sXUBSgo9cnzLBq0KZqxQ5uGijOe8d+4GkoKYP2fa448dOxgKJqrwgt74h22cmLAWnoy5
-         ZiMQ==
-X-Gm-Message-State: ACrzQf2aSe3O7Tmih8HAoGHHw0R4ZfeUkpmfCp51zwl5Qcfeda9F1JGg
-        KkHSobnAWnL0geWGavaA30KRBlS7gqAyLSvG
-X-Google-Smtp-Source: AMsMyM6E1lmgYBG3krlNTaNVmvfDxtih9qIcvbgskKpTf5Wihh+/0LcgP9LLmZIJ6wJF7d37f8P1tw==
-X-Received: by 2002:a65:5b05:0:b0:439:a0ae:7e6a with SMTP id y5-20020a655b05000000b00439a0ae7e6amr2981230pgq.16.1664457977896;
-        Thu, 29 Sep 2022 06:26:17 -0700 (PDT)
-Received: from debian.. (subs03-180-214-233-65.three.co.id. [180.214.233.65])
-        by smtp.gmail.com with ESMTPSA id d4-20020a170902654400b0016be834d54asm5886900pln.306.2022.09.29.06.26.14
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=rlftdk2hTC+j/otuOrlxim4c/Udb5r6B+3NxPu2X4c8=;
+        b=YUGZw8KZVIFdaBEhRyxrL9OOSeB8Ah7+ZGqRLevsxkkdzCvi4Xwn04np+0WhgSMrl4
+         Eekb1m1aXGdn4tL/KALX/fCOCDuwBL4QddKcpqx/IJjY85qWGAzma2oTF/8xXRJmtLfO
+         fowgdr1Pr1NUMlbDKRfEIDUSnIwpxV+p9PBmiVQw6sVdsCTrZl/aiVyikO9arHYiLvwR
+         58vgvAOOzZpiX0ktMbFPjStKMLo3oNeS/17+IihVQglWHlhKV/kR+lVCwtCz8BNs4Wi6
+         vejc63zetMXLE7JB4SNf2C6TMOcuJSSyR/oygN4PoQ7y/bZIuczDPO4AWp7PmyFnj+jf
+         tmMQ==
+X-Gm-Message-State: ACrzQf0Ned/ufmIY/wsTd2vIvtR0iENNmmxm71U4orm2bWR1dTeeX0t3
+        +F2O+4UeqQHvGcRbTz596Y4/88nG7WSmH+vNA3Euh6MrTsVvrvkhVGo0cCpDcfKaX9Jvd30trOB
+        pMnisIbyCquD/ucoYNC/n
+X-Received: by 2002:a7b:c047:0:b0:3b4:adc7:1ecb with SMTP id u7-20020a7bc047000000b003b4adc71ecbmr2381498wmc.144.1664458457898;
+        Thu, 29 Sep 2022 06:34:17 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7g3+/13oJtIk6NXj7j85h1BWgvBBXBz91Zb26yCGbshBNMrmY+Zd8Fz4y2SGNJh+4ZxKRZhA==
+X-Received: by 2002:a7b:c047:0:b0:3b4:adc7:1ecb with SMTP id u7-20020a7bc047000000b003b4adc71ecbmr2381475wmc.144.1664458457692;
+        Thu, 29 Sep 2022 06:34:17 -0700 (PDT)
+Received: from localhost.localdomain ([92.62.32.42])
+        by smtp.gmail.com with ESMTPSA id n14-20020a5d420e000000b0022cc895cc11sm3968487wrq.104.2022.09.29.06.34.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Sep 2022 06:26:17 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
-        David Gow <davidgow@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Khalid Masum <khalid.masum.92@gmail.com>,
-        Sadiya Kazi <sadiyakazi@google.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v2] Documentation: kunit: rewrite writing first test instructions
-Date:   Thu, 29 Sep 2022 20:25:49 +0700
-Message-Id: <20220929132549.56452-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.37.2
+        Thu, 29 Sep 2022 06:34:16 -0700 (PDT)
+Date:   Thu, 29 Sep 2022 15:34:13 +0200
+From:   Guillaume Nault <gnault@redhat.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, robh@kernel.org, johannes@sipsolutions.net,
+        ecree.xilinx@gmail.com, stephen@networkplumber.org, sdf@google.com,
+        f.fainelli@gmail.com, fw@strlen.de, linux-doc@vger.kernel.org,
+        razor@blackwall.org, nicolas.dichtel@6wind.com
+Subject: Re: [PATCH net-next 1/6] docs: add more netlink docs (incl. spec
+ docs)
+Message-ID: <20220929133413.GA6761@localhost.localdomain>
+References: <20220929011122.1139374-1-kuba@kernel.org>
+ <20220929011122.1139374-2-kuba@kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3901; i=bagasdotme@gmail.com; h=from:subject; bh=BF2ojZpfYeCZ/rD/w17Lk5r/0Jvd5HPV5sWmEkAa5r0=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDMmmcy5VvnC0u2v8/f4p1o/BZgVBM5/+PLEmqszq7aRFYW6h ke9WdpSyMIhxMMiKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAiO34z/FM04vBJXarZe/+KxluDqd ombzgyE8wWyb0o8bTlcHZxucDIsHvSqqtFkmx9mycL7lc48nu1D+t1/p4HFj0sS3+cPa5bzAcA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220929011122.1139374-2-kuba@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The wordings of step-by-step instructions on writing the first Kunit test
-are instructing readers to write codes without knowing what these are about.
-Rewrite these instructions to include the purpose of written code.
+On Wed, Sep 28, 2022 at 06:11:17PM -0700, Jakub Kicinski wrote:
+> +Answer requests
+> +---------------
+> +
+> +Older families do not reply to all of the commands, especially NEW / ADD
+> +commands. User only gets information whether the operation succeeded or
+> +not via the ACK. Try to find useful data to return. Once the command is
+> +added whether it replies with a full message or only an ACK is uAPI and
+> +cannot be changed. It's better to err on the side of replying.
+> +
+> +Specifically NEW and ADD commands should reply with information identifying
+> +the created object such as the allocated object's ID.
+> +
+> +Having to rely on ``NLM_F_ECHO`` is a hack, not a valid design.
+> +
+> +NLM_F_ECHO
+> +----------
+> +
+> +Make sure to pass the request info to genl_notify() to allow ``NLM_F_ECHO``
+> +to take effect.
 
-While at it, align the code blocks of these contents.
-
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Changes since v1 [1]:
-
-   - Fix jumped list numbering on writing the feature
-
- This patch is based on Khalid's full path to .kunitconfig patch [2].
-
- [1]: https://lore.kernel.org/linux-doc/20220929125458.52979-1-bagasdotme@gmail.com/
- [2]: https://lore.kernel.org/linux-doc/20220929085332.4155-1-khalid.masum.92@gmail.com/
-
- Documentation/dev-tools/kunit/start.rst | 40 ++++++++++++++-----------
- 1 file changed, 22 insertions(+), 18 deletions(-)
-
-diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
-index 7999874dc4ddb3..c0a5adf6d8d665 100644
---- a/Documentation/dev-tools/kunit/start.rst
-+++ b/Documentation/dev-tools/kunit/start.rst
-@@ -131,17 +131,19 @@ are built-in. Otherwise the module will need to be loaded.
- 
- Writing Your First Test
- =======================
--In your kernel repository, let's add some code that we can test.
-+In your kernel repository, let's add some code that we can test. For this
-+purpose, we are going to add simple addition driver.
- 
--1. Create a file ``drivers/misc/example.h``, which includes:
-+1. Write the feature that will be tested. First, write the declaration
-+   for ``misc_example_add()`` in ``drivers/misc/example.h``:
- 
--.. code-block:: c
-+   .. code-block:: c
- 
- 	int misc_example_add(int left, int right);
- 
--2. Create a file ``drivers/misc/example.c``, which includes:
-+   Then implement the function in ``drivers/misc/example.c``:
- 
--.. code-block:: c
-+   .. code-block:: c
- 
- 	#include <linux/errno.h>
- 
-@@ -152,24 +154,25 @@ In your kernel repository, let's add some code that we can test.
- 		return left + right;
- 	}
- 
--3. Add the following lines to ``drivers/misc/Kconfig``:
-+2. Add Kconfig menu entry for the feature to ``drivers/misc/Kconfig``:
- 
--.. code-block:: kconfig
-+   .. code-block:: kconfig
- 
- 	config MISC_EXAMPLE
- 		bool "My example"
- 
--4. Add the following lines to ``drivers/misc/Makefile``:
-+3. Add the kbuild goal that will build the feature to
-+   ``drivers/misc/Makefile``:
- 
--.. code-block:: make
-+   .. code-block:: make
- 
- 	obj-$(CONFIG_MISC_EXAMPLE) += example.o
- 
- Now we are ready to write the test cases.
- 
--1. Add the below test case in ``drivers/misc/example_test.c``:
-+1. Write the test in ``drivers/misc/example_test.c``:
- 
--.. code-block:: c
-+   .. code-block:: c
- 
- 	#include <kunit/test.h>
- 	#include "example.h"
-@@ -202,31 +205,32 @@ Now we are ready to write the test cases.
- 	};
- 	kunit_test_suite(misc_example_test_suite);
- 
--2. Add the following lines to ``drivers/misc/Kconfig``:
-+2. Add following Kconfig entry for the test to ``drivers/misc/Kconfig``:
- 
--.. code-block:: kconfig
-+   .. code-block:: kconfig
- 
- 	config MISC_EXAMPLE_TEST
- 		tristate "Test for my example" if !KUNIT_ALL_TESTS
- 		depends on MISC_EXAMPLE && KUNIT=y
- 		default KUNIT_ALL_TESTS
- 
--3. Add the following lines to ``drivers/misc/Makefile``:
-+3. Add kbuild goal of the test to ``drivers/misc/Makefile``:
- 
--.. code-block:: make
-+   .. code-block:: make
- 
- 	obj-$(CONFIG_MISC_EXAMPLE_TEST) += example_test.o
- 
--4. Add following configuration fragments to ``.kunit/.kunitconfig``:
-+4. Add following configuration fragments for the test to
-+   ``.kunit/.kunitconfig``:
- 
--.. code-block:: none
-+   .. code-block:: none
- 
- 	CONFIG_MISC_EXAMPLE=y
- 	CONFIG_MISC_EXAMPLE_TEST=y
- 
- 5. Run the test:
- 
--.. code-block:: bash
-+   .. code-block:: bash
- 
- 	./tools/testing/kunit/kunit.py run
- 
--- 
-An old man doll... just what I always wanted! - Clara
+Do you mean that netlink commands should properly handle NLM_F_ECHO,
+although they should also design their API so that users don't need it?
 
