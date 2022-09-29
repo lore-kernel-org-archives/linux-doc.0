@@ -2,171 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B537FC07E9D
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 09:02:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D130C07E9D
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 09:04:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235052AbiI2JC5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 05:02:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39748 "EHLO
+        id S235078AbiI2JEj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 05:04:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234996AbiI2JCz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 05:02:55 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B28913F2B9
-        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 02:02:54 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id m4so1120280wrr.5
-        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 02:02:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=6wind.com; s=google;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:reply-to:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date;
-        bh=DZmDQv8ShqZf7E/inJFJGxMUcsYwqScCUrRVgWR98nY=;
-        b=XMRKHBD1fsH0SwtXOXbXgy4xlhe0PT50wqYvlMutjUHckwdv83t51kPNUH5ISbqk+K
-         kRPyUu0S2cTfehNHmmkML7U37UvzIoBiac8jiJO/UpXS6qn83oBQlyDHyVL2gt3nng24
-         rsS0T/jJgerjjUe2uejbHRRYI0j/SLSXKCNQK0KHtPRb+E3AjZrj+yJP1cpLUXckhOXl
-         V0AXfuma/RDVIvIpkXzq55yeL7IEUZHhrcjsNqyZLAjPox0siVOpPE3NXoMTEwiWc4aO
-         rtVGYQZijdYYtlR8lNyru2X0qj0L6aYvXv5w4iOgiACjvqrbFlRRSBLjBtIj8pLlMWqX
-         k1sw==
+        with ESMTP id S235258AbiI2JEf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 05:04:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D7ED2AC
+        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 02:04:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1664442271;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZaVCDSxgfFbbhpN7t2ZlL2MHraJNJaYgGTscSpeG8bI=;
+        b=US4nReiV1pPxXhkJ58Cyl9ogbWYhGeHqHGDHYJS8XueIdDgSpTqYgTqXgA+dH6Xpz4cPM4
+        r/N+PoL6z7mfaaQFysO6ue4oXlXBuvdf4tdxnrEa+OflRcWQoyGfkVnXWtR0Hogt9dEuA3
+        OJeIARdmlc81trDJcCI5dXkOY7PlRCs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-133-Q9Gjp9LBPYKeUXBlD8vM7g-1; Thu, 29 Sep 2022 05:04:29 -0400
+X-MC-Unique: Q9Gjp9LBPYKeUXBlD8vM7g-1
+Received: by mail-wr1-f70.google.com with SMTP id d18-20020adfa352000000b0022cbe33d2a5so273130wrb.11
+        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 02:04:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:reply-to:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date;
-        bh=DZmDQv8ShqZf7E/inJFJGxMUcsYwqScCUrRVgWR98nY=;
-        b=cd2JvBRcB7de5tA7tkEAvmgnuZ59bw6xuOSE2I8hO2b8kAdzsHxB7rtPKWHQEniCOh
-         Qus5lsleAAVg3k9XtblC4WGK+yYjBX+OyAmJeJ+UEO5v/XV11KPAOhTNeRdZ2TXJGpg/
-         4OKc89cy9Lkenjt2aatTv8GbRoPuGpGmCtjmi0xEAmG/T7mrd71zOsFt3WuJVi5DsZKI
-         Tv9ABS7q+RDHYVttDw9tuLA6WPw58yJKDyMc4BwQRRic+O+oEARb/1mBvtA6yGwkQwpS
-         GBi1Uw5aiFCJyZMdAzHFNZkcEkqUZ5S7SBMjx6wsT9xgHLRJghXX0Y8LXBPoi41cfvzk
-         YW+Q==
-X-Gm-Message-State: ACrzQf3aUwNpoGIF2c9EnaKUNRLL2jIXDjOwUtxu7ZbAV4v0NPEEBEcD
-        Q7x0924Ohti2zTAG65518uAknA==
-X-Google-Smtp-Source: AMsMyM7w0ZxZawq0waECn8eu948HVrHSg3so7w5opKWFIVTeECdQIOM8OCtQHHVGy2+R0Fk/5p1DbQ==
-X-Received: by 2002:a5d:59c3:0:b0:22a:4463:5a3a with SMTP id v3-20020a5d59c3000000b0022a44635a3amr1323371wry.123.1664442172642;
-        Thu, 29 Sep 2022 02:02:52 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:b41:c160:c9dd:4896:ac7a:b9e1? ([2a01:e0a:b41:c160:c9dd:4896:ac7a:b9e1])
-        by smtp.gmail.com with ESMTPSA id v11-20020a05600c444b00b003a682354f63sm4043540wmn.11.2022.09.29.02.02.51
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date;
+        bh=ZaVCDSxgfFbbhpN7t2ZlL2MHraJNJaYgGTscSpeG8bI=;
+        b=3CtfoiA3u3kWnIqgl3WfDjslV4dvT3RzrUcIYyeFhoCXFfwnoS9wcYh8eozaBYxESc
+         Q+aEt2/eOOJVBGgPxJ8vNRJWUa0al3sjWxE7Bq7gbOxzyL0+DV2JUuh9Sf8D/wrHrYEK
+         CM7kXDUCEcHO/XPhcJWINoK90RnB7fwozFHp8EhPpjJCXbbSaT5V5/FIH/w1fZyq6tgm
+         3lA40JhzYhlNZ/e1xt0CDNW2wMma2T1p2qqJZomDjoLptopSQJ790SHjm8mJM2kzsRr/
+         4AlaeYY0+RbDso7xtmF6vYqMN0oNdIp4xYXG5sIXHK8Ck95Bmo9sntYa80DwpThRInUG
+         vFsQ==
+X-Gm-Message-State: ACrzQf17G1xWLd0/Q7fA3DMZaBJd4x/LvnF0r/M1uDnsQ3XFhjqm985K
+        o7vGysmc2GDedDNqTZkjiIGxsrtAkFA3WbDdTL84z+rf+uaZ1o8T8PXZXgHRxmaylclMkvkruWa
+        tNt4Qozm0Y2aAkNg7XkTU
+X-Received: by 2002:a5d:64c7:0:b0:22a:6a2e:c4f1 with SMTP id f7-20020a5d64c7000000b0022a6a2ec4f1mr1355214wri.269.1664442268813;
+        Thu, 29 Sep 2022 02:04:28 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7j7YGY9YexIU4PweeHwyH1XB9hyrfcXMb0si62fL6a+YKhLNI6oZjfmmbQ55PFKBuyPXRTBw==
+X-Received: by 2002:a5d:64c7:0:b0:22a:6a2e:c4f1 with SMTP id f7-20020a5d64c7000000b0022a6a2ec4f1mr1355187wri.269.1664442268525;
+        Thu, 29 Sep 2022 02:04:28 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c705:ce00:b5d:2b28:1eb5:9245? (p200300cbc705ce000b5d2b281eb59245.dip0.t-ipconnect.de. [2003:cb:c705:ce00:b5d:2b28:1eb5:9245])
+        by smtp.gmail.com with ESMTPSA id s2-20020a5d4ec2000000b00228d67db06esm6063780wrv.21.2022.09.29.02.04.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 02:02:51 -0700 (PDT)
-Message-ID: <6c64b772-7b2b-77f8-4523-4408e0b3bf8a@6wind.com>
-Date:   Thu, 29 Sep 2022 11:02:51 +0200
+        Thu, 29 Sep 2022 02:04:28 -0700 (PDT)
+Message-ID: <975cd79d-b211-c10b-4e25-d7b7203c0109@redhat.com>
+Date:   Thu, 29 Sep 2022 11:04:26 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Reply-To: nicolas.dichtel@6wind.com
-Subject: Re: [PATCH net-next 4/6] netlink: add a proto specification for FOU
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH -next v4 1/3] selftests/memory-hotplug: Add checking after
+ online or offline
 Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        robh@kernel.org, johannes@sipsolutions.net, ecree.xilinx@gmail.com,
-        stephen@networkplumber.org, sdf@google.com, f.fainelli@gmail.com,
-        fw@strlen.de, linux-doc@vger.kernel.org, razor@blackwall.org,
-        gnault@redhat.com
-References: <20220929011122.1139374-1-kuba@kernel.org>
- <20220929011122.1139374-5-kuba@kernel.org>
-From:   Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Organization: 6WIND
-In-Reply-To: <20220929011122.1139374-5-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To:     zhaogongyi <zhaogongyi@huawei.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Cc:     "akinobu.mita@gmail.com" <akinobu.mita@gmail.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "osalvador@suse.de" <osalvador@suse.de>,
+        "shuah@kernel.org" <shuah@kernel.org>
+References: <f16e94ec925747f3954d34aa4bd0c355@huawei.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <f16e94ec925747f3954d34aa4bd0c355@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-Le 29/09/2022 à 03:11, Jakub Kicinski a écrit :
-> FOU has a reasonably modern Genetlink family. Add a spec.
+On 29.09.22 09:39, zhaogongyi wrote:
+> Hi,
 > 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
->  Documentation/netlink/specs/fou.yaml | 128 +++++++++++++++++++++++++++
->  1 file changed, 128 insertions(+)
->  create mode 100644 Documentation/netlink/specs/fou.yaml
+> We can not get the EBUSY from " echo 0 > /sys/devices/system/memory/memoryxxx/online", maybe, redirect the error ouput to /dev/null is suitable when calling offline_memory_expect_success():
 > 
-> diff --git a/Documentation/netlink/specs/fou.yaml b/Documentation/netlink/specs/fou.yaml
-> new file mode 100644
-> index 000000000000..266c386eedf3
-> --- /dev/null
-> +++ b/Documentation/netlink/specs/fou.yaml
-> @@ -0,0 +1,128 @@
-> +name: fou
-> +
-> +protocol: genetlink-legacy
-> +
-> +doc: |
-> +  Foo-over-UDP.
-> +
-> +c-family-name: fou-genl-name
-> +c-version-name: fou-genl-version
-> +max-by-define: true
-> +kernel-policy: global
-> +
-> +definitions:
-> +  -
-> +    type: enum
-> +    name: encap_type
-> +    name-prefix: fou-encap-
-> +    enum-name:
-> +    entries: [ unspec, direct, gue ]
-> +
-> +attribute-sets:
-> +  -
-> +    name: fou
-> +    name-prefix: fou-attr-
-> +    attributes:
-> +      -
-> +        name: unspec
-> +        type: unused
-The first attribute should always be unspec/unused. Maybe it could be
-automatically generated?
+> # sh mem-on-off-test.sh -a
+> mem-on-off-test.sh: illegal option -- a
+> Test scope: 2% hotplug memory
+>           online all hot-pluggable memory in offline state:
+>                   SKIPPED - no hot-pluggable memory in offline state
+>           offline 2% hot-pluggable memory in online state
+>           trying to offline 4 out of 192 memory block(s):
+> online->offline memory0
+> online->offline memory10
+> online->offline memory100
+> online->offline memory101
+> online->offline memory102
+> online->offline memory103
+> online->offline memory104
+> online->offline memory105
+> online->offline memory106
+> online->offline memory107
+> online->offline memory108
+> online->offline memory109
+> online->offline memory11
+> online->offline memory110
+> online->offline memory111
+> online->offline memory112
+> online->offline memory113
+> online->offline memory114
+> online->offline memory115
+> online->offline memory116
+> online->offline memory117
+> online->offline memory118
+> online->offline memory119
+> online->offline memory12
+> online->offline memory120
+> online->offline memory121
+> online->offline memory122
+> online->offline memory123
+> online->offline memory124
 
-> +      -
-> +        name: port
-> +        type: u16
-> +        byte-order: big-endian
-> +      -
-> +        name: af
-> +        type: u8
-> +      -
-> +        name: ipproto
-> +        type: u8
-> +      -
-> +        name: type
-> +        type: u8
-> +      -
-> +        name: remcsum_nopartial
-> +        type: flag
-> +      -
-> +        name: local_v4
-> +        type: u32
-> +      -
-> +        name: local_v6
-> +        type: binary
-> +        checks:
-> +          min-len: 16
-> +      -
-> +        name: peer_v4
-> +        type: u32
-> +      -
-> +        name: peer_v6
-> +        type: binary
-> +        checks:
-> +          min-len: 16
-> +      -
-> +        name: peer_port
-> +        type: u16
-> +        byte-order: big-endian
-> +      -
-> +        name: ifindex
-> +        type: s32
-> +
-> +operations:
-> +  list:
-> +    -
-> +      name: unspec
-> +      doc: unused
+Can we have here an output like
 
-To what correspond this name?
-It helps to name the generated operations array?
-Something else than 'const struct genl_small_ops fou_ops[3]'?
+online->offline memory0
+-> Failure
+online->offline memory10
+-> Success
+
+That would make much more sense for debugging purposes and understanding 
+what is happening here. I was primarily concerned about the misleading 
+error message, that indicated that something is "unexpected" -- it's 
+perfectly reasonable here to *expect* that offlining a random memory 
+blocks just fails.
+
+-- 
+Thanks,
+
+David / dhildenb
+
