@@ -2,105 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D38AC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 17:37:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD2BC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 17:47:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235009AbiI2Rh3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 13:37:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42468 "EHLO
+        id S231919AbiI2Rrz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 13:47:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235055AbiI2Rh1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 13:37:27 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D00D6123873;
-        Thu, 29 Sep 2022 10:37:25 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id lh5so4251909ejb.10;
-        Thu, 29 Sep 2022 10:37:25 -0700 (PDT)
+        with ESMTP id S229904AbiI2Rry (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 13:47:54 -0400
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 881A2124C29;
+        Thu, 29 Sep 2022 10:47:53 -0700 (PDT)
+Received: by mail-io1-xd32.google.com with SMTP id y141so1487585iof.5;
+        Thu, 29 Sep 2022 10:47:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=KTplSiuNaGRVGHmcAHJDO7FIE5Uxw7tsLd9tBIbz+hg=;
-        b=DYQGSel2ZufCHTaQSXdO0yn1SyYdDtR4dy4qLTygu79yK0az/iNW5w3jdP8qVGUcHn
-         WL730l/ybcQhuB/mlHalJX/1m2Pe25iZ6rcZ5aP54T8C0A6ZcAxt2FHOgAC4Zs3LsY/R
-         DnQ5D/t2SZU7NKOu/FvPzzvvs6kgx8mYmHNNvUvQWjHKzjtCfqJnDXvA/wb9DPlbn+42
-         3N+BCjNxUW0PlSG4o+F8r1wmseep5a4kWhyUrUhQ21jKC29oxAyUmuf89jd+KLQNGu7i
-         bdiQAqTaQwR3Qy93S6gw6nMO8DeIOOVjX8sdUes6CKmwOwPXfnVQs+jwOLtYLwKqoeHf
-         cC+Q==
+        bh=OVAyLeF6DJrdPMl8lO8/3ceKBXeaxoIFS3xspldS0TM=;
+        b=C/7go5NDsFKL/DnUezcDKoVWApyTQiix2F6aELlMHKn52xNzUURuMScVFEJIEYqNUS
+         he62deuQZZsDJHVmKfMZ8Rjtd0uFCNM8XU1UtnTVD7Oa0KRs2u0k4MDBmKhNFhn8XO7Z
+         sk5yM3dD7XeLEZrgEumgEuuTaLd6z8Ns88cfRbIecOXORHaqGsll19trK1L9sD78YLmL
+         33s7NJfur0+9Mia/MsINHEMMLHEHhBilmmvfWuko4lLBjT5svvW3tsiy0vN67UpopGCv
+         Qm/JsoBJvFf5ya2eAvH256az20TL8sWOuzPJTft6HRHr1t3n84ny7JpNzslTbz7mk4Jv
+         ZAsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=KTplSiuNaGRVGHmcAHJDO7FIE5Uxw7tsLd9tBIbz+hg=;
-        b=Fquyqv0Z92u295UUDR99EOLKCOw/aoNBArIzny5FnzyPuVjlS/dueIr32Yf1T2qeHQ
-         sIfQ1n0P4mjWS3faq7KYxDTv+6T/qkedVtkGgBNOOPtpgh+4/28tkd2kynIRPmCjy58u
-         24XjaQigMORQfUe5ZZtlrn+4QH/JV1KjiS8ikA+y+o9NlAkZntmq4P5/OGhpj1wgnerE
-         lQ/lppYfZLyuJ9xeqi1IR93m7EARQjwbMMwdAs27kvUdoR2YUMYUL9emwPQ1bRPxMrQI
-         iMKrQDUqxw/7OvAUfT9c3vKaCG9I3LZIwq/zKQjGwwhhwHHeubjhyyF+n7AVsHfVfhBK
-         l/IQ==
-X-Gm-Message-State: ACrzQf1ECjA4wvLBDscW2pG23zh9AfAY25DbVVMlI69flDXXcxxDUJPt
-        +KWRDnjlTi7Gff6EpljnRAdP79QbmC5W5S4vt6c=
-X-Google-Smtp-Source: AMsMyM6aGtWtfOGB/Y1qKHkRPOm1mZ2Yq7f131+BT1uIusPPyrIpcDWWzgTfBm8jX7auWSp9ZBIpCftQSZ5TuUXn7u8=
-X-Received: by 2002:a17:906:8a5b:b0:781:7009:965e with SMTP id
- gx27-20020a1709068a5b00b007817009965emr3470982ejc.625.1664473044320; Thu, 29
- Sep 2022 10:37:24 -0700 (PDT)
+        bh=OVAyLeF6DJrdPMl8lO8/3ceKBXeaxoIFS3xspldS0TM=;
+        b=ZTMgHIrZgVNgK5irUbcAvJw4LNgwCuE9hfSLhE/ql8Xeq1Kt1IU9zyKbbA4bVyyGUA
+         OrV85XLmNRr3zRKGnaL+Ew5dCWaUSLDKuDr41qGLZllfAjr8A4RzRDwD8SxuHH4qgCE3
+         04SeDWjHKqGilqzo/ktz9JpyEAwT/5qHhNewm4uVB6arrUSHFTR0OMDWPHpqytfqXE6c
+         bZcWfFon2+0r78XIiL3HnrIRE7t6PgFKNRy8/fIIG8+oBGWoGJz/mDpDAScfGB4Qi0Jg
+         /uf1wbLzHFf/Mi8Xhq/kk2yCoE4BVliWe8mmr6BGk7QWtwBGM42h3tmk9sQzqTV8xb8j
+         JM4A==
+X-Gm-Message-State: ACrzQf2vKZDjhHXAoBK1Aszse2KOQHTlS8b0F+dJClk834sD46i+9JT+
+        yehvnfVI2hByieIUpnJC82uc0w4rmZ0td5UmE1k=
+X-Google-Smtp-Source: AMsMyM7/CRJjv0FsTuplXs0rud/FmD6TX8EVa7AISbaNmf7fPPqX7lkc/+PwWTvAVWuwal2uBLgdmhk0sDoKWOB8lR0=
+X-Received: by 2002:a05:6602:1509:b0:69b:35ba:4720 with SMTP id
+ g9-20020a056602150900b0069b35ba4720mr2035091iow.155.1664473672968; Thu, 29
+ Sep 2022 10:47:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
- <20220928195633.2348848-10-quic_eberman@quicinc.com> <20220929165908.zgmlujhp42ihine5@builder.lan>
-In-Reply-To: <20220929165908.zgmlujhp42ihine5@builder.lan>
-From:   Jassi Brar <jassisinghbrar@gmail.com>
-Date:   Thu, 29 Sep 2022 12:37:12 -0500
-Message-ID: <CABb+yY1qpMdvfEwAFphYJJVvAQiNj7_gRmkRk38xx_QXr_qPBA@mail.gmail.com>
-Subject: Re: [PATCH v4 09/14] mailbox: Add Gunyah message queue mailbox
-To:     Bjorn Andersson <andersson@kernel.org>
-Cc:     Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220927160559.97154-1-corbet@lwn.net> <87mtaii491.fsf@meer.lwn.net>
+In-Reply-To: <87mtaii491.fsf@meer.lwn.net>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 29 Sep 2022 19:47:41 +0200
+Message-ID: <CANiq72mWEeg-xiZA0JSKMNqsONQT+Y7HHReix=BoXgHq+BzOmA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/7] Rewrite the top-level index.rst
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Kees Cook <keescook@chromium.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joe Perches <joe@perches.com>,
+        David Vernet <void@manifault.com>,
+        Miguel Ojeda <ojeda@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 11:59 AM Bjorn Andersson <andersson@kernel.org> wrote:
+On Thu, Sep 29, 2022 at 5:34 PM Jonathan Corbet <corbet@lwn.net> wrote:
 >
-> On Wed, Sep 28, 2022 at 12:56:28PM -0700, Elliot Berman wrote:
-> [..]
-> > diff --git a/drivers/mailbox/gunyah-msgq.c b/drivers/mailbox/gunyah-msgq.c
-> [..]
-> > +static int gh_msgq_send_data(struct mbox_chan *chan, void *data)
-> > +{
-> > +     struct gunyah_msgq *msgq = mbox_chan_to_msgq(chan);
-> > +     struct gunyah_msgq_tx_data *msgq_data = data;
+> So I think I'll go ahead and drop this into docs-next shortly.  Thanks
+> to everybody who has commented.
 >
-> The mailbox framework abstracts hardware mailboxes and @data
-> should be the data to be written to the hardware.
->
-> Using the void * to pass composite data types means that the client and
-> provider are tightly coupled and as such the mailbox framework does not
-> provide you any abstraction.
->
-It is so for every platform, because there is no "standard format" in
-which data is to be exchanged between endpoints.
-Mailbox api is used mainly to avoid redoing message queuing and
-response handling.
+> This, of course, has the potential to create conflicts with other 6.1
+> work that touches Documentation/index.rst.  Amazingly, as far as I can
+> tell, there is only one linux-next commit touching that file - the
+> addition of the Rust docs.  We'll want to be sure that doesn't get lost
+> during the merge window.  I'll be sure to include a suitable heads-up in
+> my pull request.
 
-cheers.
+Thanks for the Cc -- I had not seen the series yet, but it looks way better!
+
+Cheers,
+Miguel
