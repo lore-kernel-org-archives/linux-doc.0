@@ -2,310 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ACDCC433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 09:57:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F8E0C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 10:01:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235105AbiI2J5G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 05:57:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51764 "EHLO
+        id S235011AbiI2KBM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 06:01:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234346AbiI2J5F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 05:57:05 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE75B12DEB5;
-        Thu, 29 Sep 2022 02:57:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 00AC4B82344;
-        Thu, 29 Sep 2022 09:57:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17B52C433C1;
-        Thu, 29 Sep 2022 09:56:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1664445419;
-        bh=9RU7iPMGT9nbdWdo2TuVo6cBje8m9qLU6ca7x99RqKo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jIJ4UPSPwR3QnNrqpoAAEsO9ZPY2PSaCphOWWQ8NqH3vpMebGwSWd/LjUX0Ybopiy
-         Q469fZ/f3dDXQUronJ6BDRPvbO715HAQ4afJqcmhV4cwAl/om7k3aQDznNEk4b48h1
-         jBTR/xRZ1iF76K6weteA6UVOSvkB3m6ku5WSdU2E=
-Date:   Thu, 29 Sep 2022 11:56:57 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Quan Nguyen <quan@os.amperecomputing.com>
-Cc:     macro@orcam.me.uk, Lee Jones <lee@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Thu Nguyen <thu@os.amperecomputing.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        thang@os.amperecomputing.com
-Subject: Re: [PATCH v9 4/9] docs: misc-devices: (smpro-errmon) Add
- documentation
-Message-ID: <YzVr6e38fxYylfMA@kroah.com>
-References: <20220929094321.770125-1-quan@os.amperecomputing.com>
- <20220929094321.770125-5-quan@os.amperecomputing.com>
+        with ESMTP id S235170AbiI2KBJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 06:01:09 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5B55D13791D;
+        Thu, 29 Sep 2022 03:01:06 -0700 (PDT)
+Received: from [10.130.0.135] (unknown [113.200.148.30])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxvmvdbDVjQrsjAA--.56357S3;
+        Thu, 29 Sep 2022 18:01:02 +0800 (CST)
+Subject: Re: [PATCH] docs, kprobes: Fix the wrong location of Kprobes
+To:     Steven Rostedt <rostedt@goodmis.org>
+References: <1663322106-12178-1-git-send-email-yangtiezhu@loongson.cn>
+ <20220926142218.100e0d9b@gandalf.local.home>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+From:   Tiezhu Yang <yangtiezhu@loongson.cn>
+Message-ID: <75c28f07-4bc7-6094-d264-d7657c40ba88@loongson.cn>
+Date:   Thu, 29 Sep 2022 18:01:01 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220929094321.770125-5-quan@os.amperecomputing.com>
+In-Reply-To: <20220926142218.100e0d9b@gandalf.local.home>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8DxvmvdbDVjQrsjAA--.56357S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7tF1UZrWUtrW8XF1kZr4xWFg_yoW8XF48pF
+        1kJa4S9F1kJ348JrW7Zr1xWryIkFn7uay7GF1kta4rJ3WDZwn7Crn2gr4agFyfursayay7
+        Za4kKFyj9w1av37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUv2b7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+        0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+        A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xII
+        jxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwV
+        C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+        0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr
+        1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l
+        c2xSY4AK67AK6r4DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
+        0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
+        AVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
+        CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
+        wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
+        7IU8XJ55UUUUU==
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 04:43:16PM +0700, Quan Nguyen wrote:
-> Adds documentation for Ampere(R)'s Altra(R) SMpro errmon driver.
-> 
-> Signed-off-by: Thu Nguyen <thu@os.amperecomputing.com>
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> ---
-> Changes in v9:
->   + Fix issue when building htmldocs                      [Bagas]
->   + Remove unnecessary channel info for VRD and DIMM event [Quan]
->   + Update SPDX license info                               [Greg]
->   + Update document to align with new changes in sysfs     [Quan]
-> 
-> Changes in v8:
->   + Update to reflect single value per sysfs  [Quan]
-> 
-> Changes in v7:
->   + None
-> 
-> Changes in v6:
->   + First introduced in v6 [Quan]
-> 
->  Documentation/misc-devices/index.rst        |   1 +
->  Documentation/misc-devices/smpro-errmon.rst | 193 ++++++++++++++++++++
->  2 files changed, 194 insertions(+)
->  create mode 100644 Documentation/misc-devices/smpro-errmon.rst
-> 
-> diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-> index 756be15a49a4..b74b3b34a235 100644
-> --- a/Documentation/misc-devices/index.rst
-> +++ b/Documentation/misc-devices/index.rst
-> @@ -27,6 +27,7 @@ fit into other categories.
->     max6875
->     oxsemi-tornado
->     pci-endpoint-test
-> +   smpro-errmon
->     spear-pcie-gadget
->     uacce
->     xilinx_sdfec
-> diff --git a/Documentation/misc-devices/smpro-errmon.rst b/Documentation/misc-devices/smpro-errmon.rst
-> new file mode 100644
-> index 000000000000..b17f30a6cafd
-> --- /dev/null
-> +++ b/Documentation/misc-devices/smpro-errmon.rst
-> @@ -0,0 +1,193 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +Kernel driver Ampere(R)'s Altra(R) SMpro errmon
-> +===============================================
-> +
-> +Supported chips:
-> +
-> +  * Ampere(R) Altra(R)
-> +
-> +    Prefix: 'smpro'
-> +
-> +    Preference: Altra SoC BMC Interface Specification
-> +
-> +Author: Thu Nguyen <thu@os.amperecomputing.com>
-> +
-> +Description
-> +-----------
-> +
-> +This driver supports hardware monitoring for Ampere(R) Altra(R) SoC's based on the
-> +SMpro co-processor (SMpro).
-> +The following SoC alert/event types are supported by the errmon driver:
-> +
-> +* Core CE/UE error
-> +* Memory CE/UE error
-> +* PCIe CE/UE error
-> +* Other CE/UE error
-> +* Internal SMpro/PMpro error
-> +* VRD hot
-> +* VRD warn/fault
-> +* DIMM Hot
-> +
-> +The SMpro interface provides the registers to query the status of the SoC alerts/events
-> +and their data and export to userspace by this driver.
-> +
-> +The SoC alerts/events will be referenced as error below.
-> +
-> +Usage Notes
-> +-----------
-> +
-> +SMpro errmon driver creates the sysfs files for each error type.
-> +Example: ``error_core_ce`` to get Core CE error type.
-> +
-> +* If the error is absented, the sysfs file returns empty.
-> +* If the errors are presented, one each read to the sysfs, the oldest error will be returned and clear, the next read will be returned with the next error until all the errors are read out.
-> +
-> +For each host error type, SMpro keeps a latest max number of errors. All the oldest errors that were not read out will be dropped. In that case, the read to the corresponding overflow sysfs will return 1, otherwise, return 0.
-> +Example: ``overflow_core_ce`` to report the overflow status of Core CE error type.
-> +
-> +The format of the error is depended on the error type.
-> +
-> +1) For Core/Memory/PCIe/Other CE/UE error types::
-> +
-> +The return 48-byte in hex format in table below:
-> +
-> +    =======   =============   ===========   ==========================================
-> +    OFFSET    FIELD           SIZE (BYTE)   DESCRIPTION
-> +    =======   =============   ===========   ==========================================
-> +    00        Error Type      1             See Table below for details
-> +    01        Subtype         1             See Table below for details
-> +    02        Instance        2             See Table below for details
-> +    04        Error status    4             See ARM RAS specification for details
-> +    08        Error Address   8             See ARM RAS specification for details
-> +    16        Error Misc 0    8             See ARM RAS specification for details
-> +    24        Error Misc 1    8             See ARM RAS specification for details
-> +    32        Error Misc 2    8             See ARM RAS specification for details
-> +    40        Error Misc 3    8             See ARM RAS specification for details
-> +    =======   =============   ===========   ==========================================
-> +
-> +Below table defines the value of Error types, Sub Types, Sub component and instance:
-> +
-> +    ============    ==========    =========   ===============  ====================================
-> +    Error Group     Error Type    Sub type    Sub component    Instance
-> +    ============    ==========    =========   ===============  ====================================
-> +    CPM (core)      0             0           Snoop-Logic      CPM #
-> +    CPM (core)      0             2           Armv8 Core 1     CPM #
-> +    MCU (mem)       1             1           ERR1             MCU # | SLOT << 11
-> +    MCU (mem)       1             2           ERR2             MCU # | SLOT << 11
-> +    MCU (mem)       1             3           ERR3             MCU #
-> +    MCU (mem)       1             4           ERR4             MCU #
-> +    MCU (mem)       1             5           ERR5             MCU #
-> +    MCU (mem)       1             6           ERR6             MCU #
-> +    MCU (mem)       1             7           Link Error       MCU #
-> +    Mesh (other)    2             0           Cross Point      X | (Y << 5) | NS <<11
-> +    Mesh (other)    2             1           Home Node(IO)    X | (Y << 5) | NS <<11
-> +    Mesh (other)    2             2           Home Node(Mem)   X | (Y << 5) | NS <<11 | device<<12
-> +    Mesh (other)    2             4           CCIX Node        X | (Y << 5) | NS <<11
-> +    2P Link (other) 3             0           N/A              Altra 2P Link #
-> +    GIC (other)     5             0           ERR0             0
-> +    GIC (other)     5             1           ERR1             0
-> +    GIC (other)     5             2           ERR2             0
-> +    GIC (other)     5             3           ERR3             0
-> +    GIC (other)     5             4           ERR4             0
-> +    GIC (other)     5             5           ERR5             0
-> +    GIC (other)     5             6           ERR6             0
-> +    GIC (other)     5             7           ERR7             0
-> +    GIC (other)     5             8           ERR8             0
-> +    GIC (other)     5             9           ERR9             0
-> +    GIC (other)     5             10          ERR10            0
-> +    GIC (other)     5             11          ERR11            0
-> +    GIC (other)     5             12          ERR12            0
-> +    GIC (other)     5             13-21       ERR13            RC# + 1
-> +    SMMU (other)    6             TCU         100              RC #
-> +    SMMU (other)    6             TBU0        0                RC #
-> +    SMMU (other)    6             TBU1        1                RC #
-> +    SMMU (other)    6             TBU2        2                RC #
-> +    SMMU (other)    6             TBU3        3                RC #
-> +    SMMU (other)    6             TBU4        4                RC #
-> +    SMMU (other)    6             TBU5        5                RC #
-> +    SMMU (other)    6             TBU6        6                RC #
-> +    SMMU (other)    6             TBU7        7                RC #
-> +    SMMU (other)    6             TBU8        8                RC #
-> +    SMMU (other)    6             TBU9        9                RC #
-> +    PCIe AER (pcie) 7             Root        0                RC #
-> +    PCIe AER (pcie) 7             Device      1                RC #
-> +    PCIe RC (pcie)  8             RCA HB      0                RC #
-> +    PCIe RC (pcie)  8             RCB HB      1                RC #
-> +    PCIe RC (pcie)  8             RASDP       8                RC #
-> +    OCM (other)     9             ERR0        0                0
-> +    OCM (other)     9             ERR1        1                0
-> +    OCM (other)     9             ERR2        2                0
-> +    SMpro (other)   10            ERR0        0                0
-> +    SMpro (other)   10            ERR1        1                0
-> +    SMpro (other)   10            MPA_ERR     2                0
-> +    PMpro (other)   11            ERR0        0                0
-> +    PMpro (other)   11            ERR1        1                0
-> +    PMpro (other)   11            MPA_ERR     2                0
-> +    ============    ==========    =========   ===============  ====================================
-> +
-> +    For example:
-> +    # cat error_other_ue
-> +    880807001e004010401040101500000001004010401040100c0000000000000000000000000000000000000000000000
-> +
-> +2) For the Internal SMpro/PMpro error types::
-> +
-> +The error_[smpro|pmro] sysfs returns string of 8-byte hex value:
-> +    <4-byte hex value of Error info><4-byte hex value of Error extensive data>
-> +
-> +The warn_[smpro|pmro] sysfs returns string of 4-byte hex value:
-> +    <4-byte hex value of Warning info>
-> +
-> +Reference to Altra SoC BMC Interface Specification for the details.
-> +
-> +3) For the VRD hot, VRD /warn/fault, DIMM Hot event::
-> +
-> +The return string is 2-byte hex string value. Reference to section 5.7 GPI status register in Altra SoC BMC Interface Specification for the details.
-> +
-> +    Example:
-> +    #cat event_vrd_hot
-> +    0000
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +The following sysfs files are supported:
-> +
-> +* Ampere(R) Altra(R):
-> +
-> +Alert Types:
-> +
-> +    ========================  =================  ==================================================
-> +    Alert Type                Sysfs name         Description
-> +    ========================  =================  ==================================================
-> +    Core CE Error             error_core_ce      Trigger when Core has CE error
-> +    Core CE Error overflow    overflow_core_ce   Trigger when Core CE error overflow
-> +    Core UE Error             error_core_ue      Trigger when Core has UE error
-> +    Core UE Error overflow    overflow_core_ue   Trigger when Core UE error overflow
-> +    Memory CE Error           error_mem_ce       Trigger when Memory has CE error
-> +    Memory CE Error overflow  overflow_mem_ce    Trigger when Memory CE error overflow
-> +    Memory UE Error           error_mem_ue       Trigger when Memory has UE error
-> +    Memory UE Error overflow  overflow_mem_ue    Trigger when Memory UE error overflow
-> +    PCIe CE Error             error_pcie_ce      Trigger when any PCIe controller has CE error
-> +    PCIe CE Error overflow    overflow_pcie_ce   Trigger when any PCIe controller CE error overflow
-> +    PCIe UE Error             error_pcie_ue      Trigger when any PCIe controller has UE error
-> +    PCIe UE Error overflow    overflow_pcie_ue   Trigger when any PCIe controller UE error overflow
-> +    Other CE Error            error_other_ce     Trigger when any Others CE error
-> +    Other CE Error overflow   overflow_other_ce  Trigger when any Others CE error overflow
-> +    Other UE Error            error_other_ue     Trigger when any Others UE error
-> +    Other UE Error overflow   overflow_other_ue  Trigger when Others UE error overflow
-> +    SMpro Error               error_smpro        Trigger when system have SMpro error
-> +    SMpro Warning             warn_smpro         Trigger when system have SMpro warning
-> +    PMpro Error               error_pmpro        Trigger when system have PMpro error
-> +    PMpro Warning             warn_pmpro         Trigger when system have PMpro warning
-> +    ========================  =================  ==================================================
-> +
-> +Event Type:
-> +
-> +    ============================ ==========================
-> +    Event Type                   Sysfs name
-> +    ============================ ==========================
-> +    VRD HOT                      event_vrd_hot
-> +    VR Warn/Fault                event_vrd_warn_fault
-> +    DIMM Hot                     event_dimm_hot
-> +    ============================ ==========================
-> -- 
-> 2.35.1
-> 
 
-Why not just put this in the driver itself to be generated automatically
-instead of living in a file that will never be noticed if anything ever
-changes?
 
-thanks,
+On 09/27/2022 02:22 AM, Steven Rostedt wrote:
+> On Fri, 16 Sep 2022 17:55:06 +0800
+> Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+>
+>> After commit 22471e1313f2 ("kconfig: use a menu in arch/Kconfig to reduce
+>> clutter"), the location of Kprobes is under "General architecture-dependent
+>> options" rather than "General setup".
+>>
+>
+> Probably add a "Fixes:" tag for the above mentioned commit.
+>
+> Anyway, Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-greg k-h
+
+Thank you.
+
+Do you know which tree this patch will go through?
+Is it necessary to send v2 with "Fixes:" tag?
+
+Thanks,
+Tiezhu
+
+>
+> -- Steve
+>
+>
+>> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+>> ---
+>>  Documentation/trace/kprobes.rst | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/trace/kprobes.rst b/Documentation/trace/kprobes.rst
+>> index f318bce..48cf778 100644
+>> --- a/Documentation/trace/kprobes.rst
+>> +++ b/Documentation/trace/kprobes.rst
+>> @@ -328,8 +328,8 @@ Configuring Kprobes
+>>  ===================
+>>
+>>  When configuring the kernel using make menuconfig/xconfig/oldconfig,
+>> -ensure that CONFIG_KPROBES is set to "y". Under "General setup", look
+>> -for "Kprobes".
+>> +ensure that CONFIG_KPROBES is set to "y", look for "Kprobes" under
+>> +"General architecture-dependent options".
+>>
+>>  So that you can load and unload Kprobes-based instrumentation modules,
+>>  make sure "Loadable module support" (CONFIG_MODULES) and "Module
+
