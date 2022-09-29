@@ -2,125 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F36C07E9D
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 09:06:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88D39C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 09:26:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235240AbiI2JGJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 05:06:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48680 "EHLO
+        id S235001AbiI2J0B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 05:26:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235231AbiI2JGI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 05:06:08 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF43D13FB57
-        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 02:06:06 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id r3-20020a05600c35c300b003b4b5f6c6bdso398352wmq.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 02:06:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=6wind.com; s=google;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :from:content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date;
-        bh=1fO0qaHDUPQyzt9G+/Ln/q6kw6Dd3DKO8rTIIZflHhA=;
-        b=QBFe2GCeBZv701W+gMbxFdjMN2F12yDMtEH2KGGN9Ng6XdWKC4vHdGWWGrigP5OWpa
-         8Vjmq06IQIs5CkS7jcDrRBrr4jqHoSvWWCDz/XSMSNbF15zm3g5G/8l/8+9oolPrFNff
-         G5CKi6/QI9yin/8I4DjkANCrf2DYZnBonGo+kjzRvZUG+dMIws1en84U94JqBRmSuLgU
-         t5pNavhhcO50AL2BT6uZBYJge59m7mNA8HIjF6e1WqbM2g2Bh/ZZYlSLSrz8EohIOCJ/
-         ctSP+UM0GOw+oEIMlJdx39U0HZnRcSYeM+bIXpSRY6dzca70ys9HMBdTPe9W9Rn7i7XX
-         DdHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :from:content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date;
-        bh=1fO0qaHDUPQyzt9G+/Ln/q6kw6Dd3DKO8rTIIZflHhA=;
-        b=WPNhFYIQhg8NlokjgX0VzokbiDy2HYwipOsnrALrOFqp1VaMH4zWlUkd7PKzXp/5tA
-         3iLzTCNSCgjLJnjhURleDTOrMzVDBFwZBPZUnGVt8S/lpQW3jeJPgECQodIqzmXuOLvN
-         0Dr80iFLB9/m4HLQ/Vk5fXksJWws0zWIPn8jjxKoggHfc4HRiBOXDhVFQtrZlQMHQG6m
-         Tt6W6HuJQil43UASOOcBxfmB0AOACf4QSm4sOy2hrZ6/zkLphEWiIP0fAo/ufSIVLoBY
-         /FGMiXQhTKXmWyrVhPfWyYaR0o0W4r3wpFPCAO9TTYN2yOCWZ73/saonXpWJWGqO9iYR
-         UnIA==
-X-Gm-Message-State: ACrzQf03RwD7hty2iKaZTu1dTb2QI2d+ABAEeME4SicIwg/YA7aK9nx6
-        qd6yzoqN6Ebn2svJkOa6K/zwMw==
-X-Google-Smtp-Source: AMsMyM4d7MiDsUle8S4bqCwB6dPDrv+b9MfgJyVBPBoVphmDcqPr+wUq59s4mO3WvRYzghIyCsApow==
-X-Received: by 2002:a05:600c:3d86:b0:3b4:b65f:a393 with SMTP id bi6-20020a05600c3d8600b003b4b65fa393mr1520883wmb.0.1664442365336;
-        Thu, 29 Sep 2022 02:06:05 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:b41:c160:c9dd:4896:ac7a:b9e1? ([2a01:e0a:b41:c160:c9dd:4896:ac7a:b9e1])
-        by smtp.gmail.com with ESMTPSA id u7-20020adfdd47000000b00228655a5c8fsm6383149wrm.28.2022.09.29.02.06.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 02:06:04 -0700 (PDT)
-Message-ID: <45f51dee-6359-6539-feec-1525209f3f3e@6wind.com>
-Date:   Thu, 29 Sep 2022 11:06:03 +0200
+        with ESMTP id S235154AbiI2JZs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 05:25:48 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB63610FE16;
+        Thu, 29 Sep 2022 02:25:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664443545; x=1695979545;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=mOKSZ4gt8N3oR2TFgzHf+H1VytXoQVKrtFoK/lXXaQ4=;
+  b=AO45MrGI3bWm9dmOJYsjQEuMNeTCSLuAYRBVITr44LOU7W97Pk84qh9A
+   ftfVJjkDEUdWy67WMUsiGYCehmZsCpge4IrQSmOiHiMGHn1XN8l/heiZl
+   S+edYX189Syzd5vnnZWP/gsTu8/GPVgrtUCt8wAxYyOMl1NX3TqzWhVSo
+   aX6eZIZUfJM0gIIN6+qfiY6MkuokmMqW0UXWg4azTBGCYLKD9NcprkEbI
+   KFhYBipuevjcOVo+YT5jMh7ihwU02j09gszMcPx6azbyNOHTg8meuQJcu
+   sAOu7/zxIqV1DU2wr8vu2rglVDbbXWroXrUbZQQ7eiobaeJclf6ZklLC8
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="303329359"
+X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; 
+   d="scan'208";a="303329359"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2022 02:25:43 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="573386024"
+X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; 
+   d="scan'208";a="573386024"
+Received: from pramona-mobl1.ger.corp.intel.com ([10.252.60.139])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2022 02:25:40 -0700
+Date:   Thu, 29 Sep 2022 12:25:38 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-serial <linux-serial@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH v3 1/4] serial: Convert serial_rs485 to kernel doc
+In-Reply-To: <71effcc8-7345-28cd-6585-eb729fb4c6db@gmail.com>
+Message-ID: <f05c437b-db3c-ad3-f393-3ff369d8f1c9@linux.intel.com>
+References: <20220928110509.13544-1-ilpo.jarvinen@linux.intel.com> <20220928110509.13544-2-ilpo.jarvinen@linux.intel.com> <YzURJa1RnxP+uj5/@debian.me> <75f07dbe-d1dd-ac18-5c8e-e6972e7fb28b@linux.intel.com> <71effcc8-7345-28cd-6585-eb729fb4c6db@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Reply-To: nicolas.dichtel@6wind.com
-Subject: Re: [PATCH net-next 4/6] netlink: add a proto specification for FOU
-Content-Language: en-US
-From:   Nicolas Dichtel <nicolas.dichtel@6wind.com>
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        robh@kernel.org, johannes@sipsolutions.net, ecree.xilinx@gmail.com,
-        stephen@networkplumber.org, sdf@google.com, f.fainelli@gmail.com,
-        fw@strlen.de, linux-doc@vger.kernel.org, razor@blackwall.org,
-        gnault@redhat.com
-References: <20220929011122.1139374-1-kuba@kernel.org>
- <20220929011122.1139374-5-kuba@kernel.org>
- <6c64b772-7b2b-77f8-4523-4408e0b3bf8a@6wind.com>
-Organization: 6WIND
-In-Reply-To: <6c64b772-7b2b-77f8-4523-4408e0b3bf8a@6wind.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="8323329-209069814-1664443542=:1640"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Le 29/09/2022 à 11:02, Nicolas Dichtel a écrit :
+--8323329-209069814-1664443542=:1640
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+
+On Thu, 29 Sep 2022, Bagas Sanjaya wrote:
+
+> On 9/29/22 15:39, Ilpo Järvinen wrote:
+> > On Thu, 29 Sep 2022, Bagas Sanjaya wrote:
+> > 
+> >> On Wed, Sep 28, 2022 at 02:05:06PM +0300, Ilpo Järvinen wrote:
+> >>> diff --git a/include/uapi/linux/serial.h b/include/uapi/linux/serial.h
+> >>> index cea06924b295..6e347eb10b1f 100644
+> >>> --- a/include/uapi/linux/serial.h
+> >>> +++ b/include/uapi/linux/serial.h
+> >>> @@ -107,37 +107,57 @@ struct serial_icounter_struct {
+> >>>  	int reserved[9];
+> >>>  };
+> >>>  
+> >>> -/*
+> >>> +/**
+> >>> + * struct serial_rs485 - serial interface for controlling RS485 settings.
+> >>> + * @flags:			RS485 feature flags.
+> >>> + * @delay_rts_before_send:	Delay before send (milliseconds).
+> >>> + * @delay_rts_after_send:	Delay after send (milliseconds).
+> >>> + * @addr_recv:			Receive filter for RS485 addressing mode
+> >>> + *				(used only when %SER_RS485_ADDR_RECV is set).
+> >>> + * @addr_dest:			Destination address for RS485 addressing mode
+> >>> + *				(used only when %SER_RS485_ADDR_DEST is set).
+> >>> + * @padding0:			Padding (set to zero).
+> >>> + * @padding1:			Padding (set to zero).
+> >>> + * @padding:			Deprecated, use @padding0 and @padding1 instead.
+> >>> + *				Do not use with @addr_recv and @addr_dest (due to
+> >>> + *				overlap).
+> >>> + *
+> >>
+> >> I don't see definition of fields after @delay_rts_after_send in the
+> >> htmldocs output.
+> > 
+> > So it seems, this one I had missed. I guess the reason is that those 
+> > members are inside anonymous unions. But the formatting follows what 
+> > is documented here AFAICT:
+> > 
+> > https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#nested-structs-unions
+> > 
+> > Kerneldoc doesn't seem to live up to what is documented about it. It's a 
+> > bit ironic that documentation system fails to document even itself to 
+> > sufficient level, and what's worse, seems to be full of faulty examples.
+> > 
+> > Any suggestions how to make it work?
+> > 
 > 
-> Le 29/09/2022 à 03:11, Jakub Kicinski a écrit :
->> FOU has a reasonably modern Genetlink family. Add a spec.
->>
->> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
->> ---
->>  Documentation/netlink/specs/fou.yaml | 128 +++++++++++++++++++++++++++
->>  1 file changed, 128 insertions(+)
->>  create mode 100644 Documentation/netlink/specs/fou.yaml
->>
->> diff --git a/Documentation/netlink/specs/fou.yaml b/Documentation/netlink/specs/fou.yaml
->> new file mode 100644
->> index 000000000000..266c386eedf3
->> --- /dev/null
->> +++ b/Documentation/netlink/specs/fou.yaml
->> @@ -0,0 +1,128 @@
->> +name: fou
->> +
->> +protocol: genetlink-legacy
->> +
->> +doc: |
->> +  Foo-over-UDP.
->> +
->> +c-family-name: fou-genl-name
->> +c-version-name: fou-genl-version
->> +max-by-define: true
->> +kernel-policy: global
->> +
->> +definitions:
->> +  -
->> +    type: enum
->> +    name: encap_type
->> +    name-prefix: fou-encap-
->> +    enum-name:
->> +    entries: [ unspec, direct, gue ]
->> +
->> +attribute-sets:
->> +  -
->> +    name: fou
->> +    name-prefix: fou-attr-
->> +    attributes:
->> +      -
->> +        name: unspec
->> +        type: unused
-> The first attribute should always be unspec/unused. Maybe it could be
-> automatically generated?
-I read the doc after the code :)
+> CC'ing Akira.
+
+Nevermind, I figured out where the problem is (my incorrect use of 
+private: markers).
+
+-- 
+ i.
+
+--8323329-209069814-1664443542=:1640--
