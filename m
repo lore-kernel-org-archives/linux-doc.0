@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56B49C6FA8E
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 01:11:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92192C6FA92
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 01:11:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233375AbiI2BLk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 28 Sep 2022 21:11:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41054 "EHLO
+        id S232180AbiI2BLl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 28 Sep 2022 21:11:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232298AbiI2BLh (ORCPT
+        with ESMTP id S232938AbiI2BLh (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 28 Sep 2022 21:11:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0995310D65B;
-        Wed, 28 Sep 2022 18:11:35 -0700 (PDT)
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 987ED10FC55;
+        Wed, 28 Sep 2022 18:11:36 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7A3F361738;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2AAC7B822A1;
         Thu, 29 Sep 2022 01:11:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1467C4347C;
-        Thu, 29 Sep 2022 01:11:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B5DCC433D6;
+        Thu, 29 Sep 2022 01:11:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664413895;
-        bh=v2UP+iEo6ZLMzxoyIUNMhK1QWQXUvkj+AhgDe4iNxL0=;
+        s=k20201202; t=1664413893;
+        bh=XI/BrBbRmdN0txffVSpx5uKhCXHwdDeEWzlLHrHM4Zk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TyXco8+a2fFPIIGG232FNhlGMOHzf27dSldR2N/IrqjhCnvKWSolXCvZFMAXlwpr1
-         6EeUp7jHRgMXG/11cBZ0bYb8D61zqjEOr+GNNI/FivLUlhA3mJ91GyxHcY6NyB1Uc3
-         ObQAClKTyxEM15NuXn9kzoxZ2VNtSJjYJK7JelPsoxA/AA9uvM3Udj2i3jgV/xHyeh
-         cEvWf54CKui9oIksgQO0rP3wIbKWfmt6itJsPUowWlARkHwBmNaa4FTi+yimdyLfTd
-         8rIPRwIdU/MAAjCi5nYThWZm+8gKm9eZQ8RQBOxp8FEkINpJsDTKJIirtb3Q51Pf6p
-         7bSlbbhtJ4phw==
+        b=H9FumGL9/Tzoui/2O0SkZ4OnfDgJcLH8PwYh6qIvSn9tnQmdC80/roflR0SNYJwN8
+         2IIyDtzgCuFj9bQvtM3VmHbMCPu4r1tEJlSzgfJyFKxx/M68wZxiJ0Lk3Q6S3ru1Xa
+         C0bx8YtmHqhEPaTUqXMKn1B5YGHHHQyb/ViidqIPgNs/bo+iGpdAJ7b/EblHEC2c+F
+         yRC5eplAgDyEG+MRz2SGvtg5/+8oIOMAkSENigTpjZmJNLceB+O+yqsALHkmW4/PX7
+         eI76o+yUuUcfPCDsxM1YaIySVD18mEnrn1lbGc31vd3TILGYyc0W1qF90+1O86vFeL
+         qFBvfJlThp1fA==
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     davem@davemloft.net
 Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
@@ -39,9 +39,9 @@ Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
         fw@strlen.de, linux-doc@vger.kernel.org, razor@blackwall.org,
         nicolas.dichtel@6wind.com, gnault@redhat.com,
         Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net-next 6/6] net: fou: use policy and operation tables generated from the spec
-Date:   Wed, 28 Sep 2022 18:11:22 -0700
-Message-Id: <20220929011122.1139374-7-kuba@kernel.org>
+Subject: [PATCH net-next 4/6] netlink: add a proto specification for FOU
+Date:   Wed, 28 Sep 2022 18:11:20 -0700
+Message-Id: <20220929011122.1139374-5-kuba@kernel.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929011122.1139374-1-kuba@kernel.org>
 References: <20220929011122.1139374-1-kuba@kernel.org>
@@ -51,229 +51,148 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Generate and plug in the spec-based tables.
-
-A little bit of renaming is needed in the FOU code.
+FOU has a reasonably modern Genetlink family. Add a spec.
 
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
- net/ipv4/Makefile |  2 +-
- net/ipv4/fou-nl.c | 48 ++++++++++++++++++++++++++++++++++++++++++++
- net/ipv4/fou-nl.h | 25 +++++++++++++++++++++++
- net/ipv4/fou.c    | 51 +++++++++--------------------------------------
- 4 files changed, 83 insertions(+), 43 deletions(-)
- create mode 100644 net/ipv4/fou-nl.c
- create mode 100644 net/ipv4/fou-nl.h
+ Documentation/netlink/specs/fou.yaml | 128 +++++++++++++++++++++++++++
+ 1 file changed, 128 insertions(+)
+ create mode 100644 Documentation/netlink/specs/fou.yaml
 
-diff --git a/net/ipv4/Makefile b/net/ipv4/Makefile
-index bbdd9c44f14e..7c6bfc035cf3 100644
---- a/net/ipv4/Makefile
-+++ b/net/ipv4/Makefile
-@@ -26,7 +26,7 @@ obj-$(CONFIG_IP_MROUTE) += ipmr.o
- obj-$(CONFIG_IP_MROUTE_COMMON) += ipmr_base.o
- obj-$(CONFIG_NET_IPIP) += ipip.o
- gre-y := gre_demux.o
--obj-$(CONFIG_NET_FOU) += fou.o
-+obj-$(CONFIG_NET_FOU) += fou.o fou-nl.o
- obj-$(CONFIG_NET_IPGRE_DEMUX) += gre.o
- obj-$(CONFIG_NET_IPGRE) += ip_gre.o
- udp_tunnel-y := udp_tunnel_core.o udp_tunnel_nic.o
-diff --git a/net/ipv4/fou-nl.c b/net/ipv4/fou-nl.c
+diff --git a/Documentation/netlink/specs/fou.yaml b/Documentation/netlink/specs/fou.yaml
 new file mode 100644
-index 000000000000..cc872b40dd78
+index 000000000000..266c386eedf3
 --- /dev/null
-+++ b/net/ipv4/fou-nl.c
-@@ -0,0 +1,48 @@
-+// SPDX-License-Identifier: BSD-3-Clause
-+// Do not edit directly, auto-generated from:
-+//	Documentation/netlink/specs/fou.yaml
-+// YNL-GEN kernel source
++++ b/Documentation/netlink/specs/fou.yaml
+@@ -0,0 +1,128 @@
++name: fou
 +
-+#include <net/netlink.h>
-+#include <net/genetlink.h>
++protocol: genetlink-legacy
 +
-+#include "fou-nl.h"
++doc: |
++  Foo-over-UDP.
 +
-+#include <linux/fou.h>
++c-family-name: fou-genl-name
++c-version-name: fou-genl-version
++max-by-define: true
++kernel-policy: global
 +
-+// Global operation policy for fou
-+const struct nla_policy fou_policy[FOU_ATTR_IFINDEX + 1] = {
-+	[FOU_ATTR_PORT] = { .type = NLA_U16, },
-+	[FOU_ATTR_AF] = { .type = NLA_U8, },
-+	[FOU_ATTR_IPPROTO] = { .type = NLA_U8, },
-+	[FOU_ATTR_TYPE] = { .type = NLA_U8, },
-+	[FOU_ATTR_REMCSUM_NOPARTIAL] = { .type = NLA_FLAG, },
-+	[FOU_ATTR_LOCAL_V4] = { .type = NLA_U32, },
-+	[FOU_ATTR_LOCAL_V6] = { .len = 16, },
-+	[FOU_ATTR_PEER_V4] = { .type = NLA_U32, },
-+	[FOU_ATTR_PEER_V6] = { .len = 16, },
-+	[FOU_ATTR_PEER_PORT] = { .type = NLA_U16, },
-+	[FOU_ATTR_IFINDEX] = { .type = NLA_S32, },
-+};
++definitions:
++  -
++    type: enum
++    name: encap_type
++    name-prefix: fou-encap-
++    enum-name:
++    entries: [ unspec, direct, gue ]
 +
-+// Ops table for fou
-+const struct genl_small_ops fou_ops[3] = {
-+	{
-+		.cmd = FOU_CMD_ADD,
-+		.validate = GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
-+		.doit = fou_add_doit,
-+		.flags = GENL_ADMIN_PERM,
-+	},
-+	{
-+		.cmd = FOU_CMD_DEL,
-+		.validate = GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
-+		.doit = fou_del_doit,
-+		.flags = GENL_ADMIN_PERM,
-+	},
-+	{
-+		.cmd = FOU_CMD_GET,
-+		.validate = GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
-+		.doit = fou_get_doit,
-+		.dumpit = fou_get_dumpit,
-+	},
-+};
-diff --git a/net/ipv4/fou-nl.h b/net/ipv4/fou-nl.h
-new file mode 100644
-index 000000000000..1610396a18bb
---- /dev/null
-+++ b/net/ipv4/fou-nl.h
-@@ -0,0 +1,25 @@
-+// SPDX-License-Identifier: BSD-3-Clause
-+// Do not edit directly, auto-generated from:
-+//	Documentation/netlink/specs/fou.yaml
-+// YNL-GEN kernel header
++attribute-sets:
++  -
++    name: fou
++    name-prefix: fou-attr-
++    attributes:
++      -
++        name: unspec
++        type: unused
++      -
++        name: port
++        type: u16
++        byte-order: big-endian
++      -
++        name: af
++        type: u8
++      -
++        name: ipproto
++        type: u8
++      -
++        name: type
++        type: u8
++      -
++        name: remcsum_nopartial
++        type: flag
++      -
++        name: local_v4
++        type: u32
++      -
++        name: local_v6
++        type: binary
++        checks:
++          min-len: 16
++      -
++        name: peer_v4
++        type: u32
++      -
++        name: peer_v6
++        type: binary
++        checks:
++          min-len: 16
++      -
++        name: peer_port
++        type: u16
++        byte-order: big-endian
++      -
++        name: ifindex
++        type: s32
 +
-+#ifndef _LINUX_FOU_GEN_H
-+#define _LINUX_FOU_GEN_H
++operations:
++  list:
++    -
++      name: unspec
++      doc: unused
 +
-+#include <net/netlink.h>
-+#include <net/genetlink.h>
++    -
++      name: add
++      doc: Add port.
++      attribute-set: fou
 +
-+#include <linux/fou.h>
++      dont-validate: [ strict, dump ]
++      flags: [ admin-perm ]
 +
-+// Global operation policy for fou
-+extern const struct nla_policy fou_policy[FOU_ATTR_IFINDEX + 1];
++      do:
++        request: &all_attrs
++          attributes:
++            - port
++            - ipproto
++            - type
++            - remcsum_nopartial
++            - local_v4
++            - peer_v4
++            - local_v6
++            - peer_v6
++            - peer_port
++            - ifindex
 +
-+// Ops table for fou
-+extern const struct genl_small_ops fou_ops[3];
++    -
++      name: del
++      doc: Delete port.
++      attribute-set: fou
 +
-+int fou_add_doit(struct sk_buff *skb, struct genl_info *info);
-+int fou_del_doit(struct sk_buff *skb, struct genl_info *info);
-+int fou_get_doit(struct sk_buff *skb, struct genl_info *info);
-+int fou_get_dumpit(struct sk_buff *skb, struct netlink_callback *cb);
++      dont-validate: [ strict, dump ]
++      flags: [ admin-perm ]
 +
-+#endif /* _LINUX_FOU_GEN_H */
-diff --git a/net/ipv4/fou.c b/net/ipv4/fou.c
-index 0c3c6d0cee29..6f934ae82d1d 100644
---- a/net/ipv4/fou.c
-+++ b/net/ipv4/fou.c
-@@ -19,6 +19,8 @@
- #include <uapi/linux/fou.h>
- #include <uapi/linux/genetlink.h>
- 
-+#include "fou-nl.h"
++      do:
++        request:  &select_attrs
++          attributes:
++          - af
++          - ifindex
++          - port
++          - peer_port
++          - local_v4
++          - peer_v4
++          - local_v6
++          - peer_v6
 +
- struct fou {
- 	struct socket *sock;
- 	u8 protocol;
-@@ -640,20 +642,6 @@ static int fou_destroy(struct net *net, struct fou_cfg *cfg)
- 
- static struct genl_family fou_nl_family;
- 
--static const struct nla_policy fou_nl_policy[FOU_ATTR_MAX + 1] = {
--	[FOU_ATTR_PORT]			= { .type = NLA_U16, },
--	[FOU_ATTR_AF]			= { .type = NLA_U8, },
--	[FOU_ATTR_IPPROTO]		= { .type = NLA_U8, },
--	[FOU_ATTR_TYPE]			= { .type = NLA_U8, },
--	[FOU_ATTR_REMCSUM_NOPARTIAL]	= { .type = NLA_FLAG, },
--	[FOU_ATTR_LOCAL_V4]		= { .type = NLA_U32, },
--	[FOU_ATTR_PEER_V4]		= { .type = NLA_U32, },
--	[FOU_ATTR_LOCAL_V6]		= { .len = sizeof(struct in6_addr), },
--	[FOU_ATTR_PEER_V6]		= { .len = sizeof(struct in6_addr), },
--	[FOU_ATTR_PEER_PORT]		= { .type = NLA_U16, },
--	[FOU_ATTR_IFINDEX]		= { .type = NLA_S32, },
--};
--
- static int parse_nl_config(struct genl_info *info,
- 			   struct fou_cfg *cfg)
- {
-@@ -745,7 +733,7 @@ static int parse_nl_config(struct genl_info *info,
- 	return 0;
- }
- 
--static int fou_nl_cmd_add_port(struct sk_buff *skb, struct genl_info *info)
-+int fou_add_doit(struct sk_buff *skb, struct genl_info *info)
- {
- 	struct net *net = genl_info_net(info);
- 	struct fou_cfg cfg;
-@@ -758,7 +746,7 @@ static int fou_nl_cmd_add_port(struct sk_buff *skb, struct genl_info *info)
- 	return fou_create(net, &cfg, NULL);
- }
- 
--static int fou_nl_cmd_rm_port(struct sk_buff *skb, struct genl_info *info)
-+int fou_del_doit(struct sk_buff *skb, struct genl_info *info)
- {
- 	struct net *net = genl_info_net(info);
- 	struct fou_cfg cfg;
-@@ -827,7 +815,7 @@ static int fou_dump_info(struct fou *fou, u32 portid, u32 seq,
- 	return -EMSGSIZE;
- }
- 
--static int fou_nl_cmd_get_port(struct sk_buff *skb, struct genl_info *info)
-+int fou_get_doit(struct sk_buff *skb, struct genl_info *info)
- {
- 	struct net *net = genl_info_net(info);
- 	struct fou_net *fn = net_generic(net, fou_net_id);
-@@ -874,7 +862,7 @@ static int fou_nl_cmd_get_port(struct sk_buff *skb, struct genl_info *info)
- 	return ret;
- }
- 
--static int fou_nl_dump(struct sk_buff *skb, struct netlink_callback *cb)
-+int fou_get_dumpit(struct sk_buff *skb, struct netlink_callback *cb)
- {
- 	struct net *net = sock_net(skb->sk);
- 	struct fou_net *fn = net_generic(net, fou_net_id);
-@@ -897,37 +885,16 @@ static int fou_nl_dump(struct sk_buff *skb, struct netlink_callback *cb)
- 	return skb->len;
- }
- 
--static const struct genl_small_ops fou_nl_ops[] = {
--	{
--		.cmd = FOU_CMD_ADD,
--		.validate = GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
--		.doit = fou_nl_cmd_add_port,
--		.flags = GENL_ADMIN_PERM,
--	},
--	{
--		.cmd = FOU_CMD_DEL,
--		.validate = GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
--		.doit = fou_nl_cmd_rm_port,
--		.flags = GENL_ADMIN_PERM,
--	},
--	{
--		.cmd = FOU_CMD_GET,
--		.validate = GENL_DONT_VALIDATE_STRICT | GENL_DONT_VALIDATE_DUMP,
--		.doit = fou_nl_cmd_get_port,
--		.dumpit = fou_nl_dump,
--	},
--};
--
- static struct genl_family fou_nl_family __ro_after_init = {
- 	.hdrsize	= 0,
- 	.name		= FOU_GENL_NAME,
- 	.version	= FOU_GENL_VERSION,
- 	.maxattr	= FOU_ATTR_MAX,
--	.policy = fou_nl_policy,
-+	.policy		= fou_policy,
- 	.netnsok	= true,
- 	.module		= THIS_MODULE,
--	.small_ops	= fou_nl_ops,
--	.n_small_ops	= ARRAY_SIZE(fou_nl_ops),
-+	.small_ops	= fou_ops,
-+	.n_small_ops	= ARRAY_SIZE(fou_ops),
- 	.resv_start_op	= FOU_CMD_GET + 1,
- };
- 
++    -
++      name: get
++      doc: Get tunnel info.
++      attribute-set: fou
++      dont-validate: [ strict, dump ]
++
++      do:
++        request: *select_attrs
++        reply: *all_attrs
++
++      dump:
++        reply: *all_attrs
 -- 
 2.37.3
 
