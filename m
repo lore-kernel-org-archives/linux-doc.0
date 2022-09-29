@@ -2,99 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E71B3C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 13:34:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B578C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 14:32:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233587AbiI2Ned (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 09:34:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52248 "EHLO
+        id S235452AbiI2Ocd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 10:32:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234634AbiI2Neb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 09:34:31 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F95145CA7;
-        Thu, 29 Sep 2022 06:34:30 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id b75so1463639pfb.7;
-        Thu, 29 Sep 2022 06:34:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=7WfdncdEGCadZJ3/QS+GtGXLT8IkfFnobfUtHRR5YNg=;
-        b=o44F1pPy1sJ/51HdRSxMd9Ao1GEYzBWXqikGK5QsnQ951c31zL0rYVlKeqUhWRoT2F
-         V+EPOqmFl8EcRF21EFQctLGbSWK3emZTXSDCUMLq65EUtKAwDGk5Acs8dreEaMo+VaRw
-         OZlD84TJhR5RXqjrfWZjSHSue44Z4Mlun1KzvZvfsybUVXBmdXAz9W6bv7vAZLnflCUH
-         bjHxEklZCWktw7u5WdqPouS9sdiQ/aF6TNF45bu30qZogdd5N6IP2vcM46Oqx11W0wIh
-         +XaLTvA1zLhFuF3IY7dDiKXDD+pqLVFr4r/dMMc6GSxkMiACMxRYKAMPVJ21yXq1OnOy
-         PaVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=7WfdncdEGCadZJ3/QS+GtGXLT8IkfFnobfUtHRR5YNg=;
-        b=myY0Fb28I9bxQmGv38M5SL2i4Oep6vm77EmUqhwERuPtQmdT72dFUsU9edyxM0AGcY
-         zDE6PCJxfj1/VVsUaVPtyZ6j5zT8FbPGpor4h0W+OsQTe7Suag47dcWfwDt8sfNiJ/3t
-         85XQS/t3dAlgktluoBfNS26fFMCZudLFk9h0LESFp5BrJpsZolsIz/MoC9qKGsHwG53L
-         6Au64EEQEuwDOfS57FbiLHkABfsjTMl5D5uBX3Yx8vYNO8K9obNu1o1vv5pPSmcITHgt
-         OxLXOuiXyqlXP7UIbY+S1llUEPHepnre4wOasrMakODpS0e+/NDfMgqX9OZjSMPP96pq
-         97cA==
-X-Gm-Message-State: ACrzQf1cT2l+fRJ+wrrWoK5RBhmDG6vuhehilFPXzWZZXC1a305gujUe
-        7+QpJAxW99TeSXhQzGEj+H0=
-X-Google-Smtp-Source: AMsMyM6idfvdXSqLXEQcJI3fBq6wvKSo0+7WepsYsxkGN1iKjzo7efaRzvF/glGmUf82Lf42CBesUg==
-X-Received: by 2002:a05:6a00:f04:b0:547:50b1:4f4e with SMTP id cr4-20020a056a000f0400b0054750b14f4emr3615696pfb.69.1664458469591;
-        Thu, 29 Sep 2022 06:34:29 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-65.three.co.id. [180.214.233.65])
-        by smtp.gmail.com with ESMTPSA id t8-20020a170902e84800b001766a3b2a26sm5957321plg.105.2022.09.29.06.34.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 06:34:29 -0700 (PDT)
-Message-ID: <8286def4-8086-9014-7893-afa805bd2afc@gmail.com>
-Date:   Thu, 29 Sep 2022 20:33:13 +0700
+        with ESMTP id S235389AbiI2Oca (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 10:32:30 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B49B1BBEDB;
+        Thu, 29 Sep 2022 07:32:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CD3CEB824C5;
+        Thu, 29 Sep 2022 14:32:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 064E8C433D6;
+        Thu, 29 Sep 2022 14:32:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664461946;
+        bh=cxn2DgfDQ233Xhnr134IizVkoqPegCX3GcPZTQwl73M=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=A49moiKyp5qBTbeiDDARfJukzoJob4+2VY/LsBQTQ3fBlKv+rOiRNZG6DC81Yrt3n
+         JCUvd1hwm44xQRjOYXnYDwvvQ2hMkb4kT0vMFanDHSL9HpyXTm9JyigSJSxhpYMpxR
+         2MaCy9x1jmwv0JFVIRMu3HtaoQIeN9+LbbNSrna/vvvabgn+K/nVFVUSmIzYaPcLWs
+         rWSWqOBZfRbQNgzbYrUsEYXo+X2M4byQzpgkLTCW9tYWqQXBAeXWivxLk5k52nJHvq
+         0bGSA0D+1S3xSBl2E5AAMCfOpkjjqhllJyvn4/I5iR+/H+NFUJONsjdn2eSUabUcFy
+         BjxRriRLDqa8A==
+Date:   Thu, 29 Sep 2022 07:32:24 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Guillaume Nault <gnault@redhat.com>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, robh@kernel.org, johannes@sipsolutions.net,
+        ecree.xilinx@gmail.com, stephen@networkplumber.org, sdf@google.com,
+        f.fainelli@gmail.com, fw@strlen.de, linux-doc@vger.kernel.org,
+        razor@blackwall.org, nicolas.dichtel@6wind.com
+Subject: Re: [PATCH net-next 1/6] docs: add more netlink docs (incl. spec
+ docs)
+Message-ID: <20220929073224.2f3869ca@kernel.org>
+In-Reply-To: <20220929133413.GA6761@localhost.localdomain>
+References: <20220929011122.1139374-1-kuba@kernel.org>
+        <20220929011122.1139374-2-kuba@kernel.org>
+        <20220929133413.GA6761@localhost.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v5 12/12] Documentation/x86: Update resctrl_ui.rst for new
- features
-Content-Language: en-US
-To:     babu.moger@amd.com
-Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, fenghua.yu@intel.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        eranian@google.com
-References: <166431016617.373387.1968875281081252467.stgit@bmoger-ubuntu>
- <166431042060.373387.8454967155095795574.stgit@bmoger-ubuntu>
- <YzPMorJQFKPY+n4d@debian.me> <99bfbeac-1454-a453-a2ef-36eee2aea34c@amd.com>
- <db30d4f1-31c7-6cbd-f87f-abefa7f4e781@gmail.com>
- <00e2440f-0f01-5d25-a5c0-d10ff52108ca@amd.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <00e2440f-0f01-5d25-a5c0-d10ff52108ca@amd.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/29/22 20:22, Moger, Babu wrote:
->>>> Also, there isn't description of mapping from bits from the supported events
->>>> table to the bytes input for mbm_{total,local}_config.
->>> It is already there. Is that not clear?
->> No. I don't see why setting bits 0, 1, 4, and 5 on domain 0 translates to
->> `0:0x33`, for example.
+On Thu, 29 Sep 2022 15:34:13 +0200 Guillaume Nault wrote:
+> > +Make sure to pass the request info to genl_notify() to allow ``NLM_F_ECHO``
+> > +to take effect.  
 > 
-> It is 110011b(binary) which is 0x33. I can make that little more clear.
-> 
+> Do you mean that netlink commands should properly handle NLM_F_ECHO,
+> although they should also design their API so that users don't need it?
 
-Ah! I see that flipping bits in order to to set the flag. Thanks for
-the explanation.
+Yes, ECHO should be supported but as an extra, not something that
+is crucial to write a basic script without assuming full ownership 
+of the system...
 
--- 
-An old man doll... just what I always wanted! - Clara
+IOW support the logging use case you mentioned but don't do the NEWLINK
+thing.
+
+Should I clarify or rephrase? The ECHO section needs to be read with
+the one above it to get the full answer.
