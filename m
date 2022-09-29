@@ -2,88 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61CAAC04A95
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 08:22:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43E4DC6FA82
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 08:35:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234740AbiI2IW3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 04:22:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43984 "EHLO
+        id S235375AbiI2IfX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 04:35:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234979AbiI2IWZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 04:22:25 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06DBA124C24;
-        Thu, 29 Sep 2022 01:22:25 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id w20so621756ply.12;
-        Thu, 29 Sep 2022 01:22:25 -0700 (PDT)
+        with ESMTP id S234979AbiI2IfV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 04:35:21 -0400
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58C3B301;
+        Thu, 29 Sep 2022 01:35:20 -0700 (PDT)
+Received: by mail-il1-x131.google.com with SMTP id s18so369640ilj.5;
+        Thu, 29 Sep 2022 01:35:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=RuIrMviIxVvS3xeIfQu+kXUhRDbAHSuN3Gwon2iQMXI=;
-        b=dN3YoFgkXp50HEqth7Mmm9UVSUtqK+WFB4NLyWWK+ERJH8o3Jn0Lob1Ez3sTOuEHOh
-         5Lnv7KWx8GfpiPMuiU40xVeq5ShaNSGr+lLTr3IUd9X2G6evmP3tAPNt0KKXqR/+lDl6
-         XQesZIfOk59URQrzaHaLdw2QlnDRtVVM2Ch0HIFKQXGjNHlK5OKkmpZsDUYCAh2XBZSh
-         yEAzvyBuX4wOUzIBMR61xh2QSVvRlNnzHfg9ORsOdz6ix3ODMBR6+VBeeOOqSSD8k/MO
-         2p4oqZIlaCc1krnUSGHgv031ZFUCFS4ZsuJrR8DAYYboy7g2Nti51dahkJ/yRRCyF4MZ
-         5rkQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=E5jCIqVqd7pvYDtG0r+uLFgxCDJIxgPYc2lxuyAfNlA=;
+        b=ZX02V6lCNRADn+rx87YVjRd6Cz5GeFcNOEhnuU9d55JDk0Sr1DQv/Bd8LdmKdIS0a1
+         mAy1Km4LXBQuCckgn+YakE1TriOqkuJNE8IYxwzNFaovgNyJgzDp9j6a1fTXGEcvn81V
+         PaLP+qDyFDhGIXlJGrSUxDZI9KbbjPde/ReX5YdwjBDutVaT1tUB6+uZcZHLIQKVScKY
+         59C4nT1Eih6xaozyv4u4efDgkCO3363PXp+Rv/ROqLKXgLjRfjxykFREC+XXjRJISZCK
+         47e2pVchck0cIc9gYU3PLv9Vg2YM7rG6BMSlumY/YiRza4OyPqnihANIn62sbI8PJLFb
+         4cZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=RuIrMviIxVvS3xeIfQu+kXUhRDbAHSuN3Gwon2iQMXI=;
-        b=JzfzMEQn6pTQ1Z++WIUFWKUPHp7fCMUvKRCTZ7XNUpJ1sp+6rEfKO5cnKt+pwm3N/p
-         UX7bjaVlEPtJem5RL7J8s2N9vVl3Pu/IySPKuHqCEwCNHYpZS+PtmAXiBGbJ/wntvPZj
-         CEmVb1kXgZe+RiUPe6IH4F/+kmmeuKpDSYzYo0nKHm8N94AxaLiwZu5ZzFqR6DNlCYTL
-         FRMLYcYtkoORdDaG16Suvdrt2Mqab6VXT2UG10UFGG/EFDFt9rl1peEUNOn31hnsbdxz
-         bxvbOelXNWrjipVJ7zO6RyxBTdQo9Td7AwwS4lbSxkdNE7YVkGqDX/tR8prvz5V40caq
-         K24w==
-X-Gm-Message-State: ACrzQf1lcvV5cBXJxznz96p2lZ1hgEVXyMviIJOkVDLf7nGXlQjXZ6Dz
-        2ydtwaCQj6oFhNYQqoEW+cg=
-X-Google-Smtp-Source: AMsMyM5PDzGb20ORN84QWdThcVRmACePMOr/RPUTYr5OrW0HNh/xCIX51CDqhWhq2NtBBMB0kB+rGA==
-X-Received: by 2002:a17:902:d3c6:b0:178:37e0:2e72 with SMTP id w6-20020a170902d3c600b0017837e02e72mr2346393plb.28.1664439744580;
-        Thu, 29 Sep 2022 01:22:24 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-28.three.co.id. [180.214.232.28])
-        by smtp.gmail.com with ESMTPSA id o13-20020a635d4d000000b004296719538esm4937209pgm.40.2022.09.29.01.22.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 01:22:24 -0700 (PDT)
-Message-ID: <04a81c49-7a91-cb52-e321-e4df71815ef1@gmail.com>
-Date:   Thu, 29 Sep 2022 15:22:17 +0700
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=E5jCIqVqd7pvYDtG0r+uLFgxCDJIxgPYc2lxuyAfNlA=;
+        b=e7BYQHiO2QeG9zXxnSg3Vm5obMoG1Om6vMvinLJ/vfPduZ1UKIR+1nuJb4ZvGwincB
+         8yo1gkerit7gdLCNAnPNSeykfIPlIz6BWxF8V4IAGIE6xGq3Vb5oAstDwgV2O6+9teMo
+         xzb8d8we+Yl3GLhyB9Crkq0ihg/YwOoUQMuPZbpuIncwfY7AEoBMVo+Vs8v7s1fRSK9h
+         0JhRZpf17cFW3ITi2pkIsD2ubSikq3vcUHnXEQe2h09Y8f7ydE7j1wGH4txUiIIX6PrB
+         SK793CqO7kQFKqQAN7wLIloIrp+Gv8s+QT32xICun9/DFM8A40GszoMl2ZIh/PVO6inO
+         pqUA==
+X-Gm-Message-State: ACrzQf3gNe8T4H/2sOmXxW5ubAz1o8WR0IGSquVWgavmc38qbfP9mrgZ
+        4K06dnPn66NN647P938/iymCQ5TSWy4t6lSIVNc=
+X-Google-Smtp-Source: AMsMyM4O0xU7vZmBhDQxjK4qWrV9ddJm0DoD2VN+pbMvC/xEsSpubeMXTMxAQIW+wf+8SAjyJzftLCgRiCVhkwttaWI=
+X-Received: by 2002:a05:6e02:6c9:b0:2f6:40e0:ab8d with SMTP id
+ p9-20020a056e0206c900b002f640e0ab8dmr1002289ils.259.1664440519705; Thu, 29
+ Sep 2022 01:35:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v4] sched/numa: add per-process numa_balancing
-Content-Language: en-US
-To:     Gang Li <ligang.bdlg@bytedance.com>,
+References: <20220928040058.37422-1-khalid.masum.92@gmail.com> <be928578-6453-5cf1-32da-322aebe2cee5@gmail.com>
+In-Reply-To: <be928578-6453-5cf1-32da-322aebe2cee5@gmail.com>
+From:   Khalid Masum <khalid.masum.92@gmail.com>
+Date:   Thu, 29 Sep 2022 14:35:08 +0600
+Message-ID: <CAABMjtGkn=WjtC-vrcrwJaEcESBT3PVEZmUjPMsYD_+zdma-aQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: Kunit: Use full path to .kunitconfig
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        "sadiyakazi@google.com" <sadiyakazi@google.com>,
+        David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>
-Cc:     linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20220929064359.46932-1-ligang.bdlg@bytedance.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220929064359.46932-1-ligang.bdlg@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/29/22 13:43, Gang Li wrote:
-> This patch add a new api PR_NUMA_BALANCING in prctl.
-> 
+Hi all,
 
-Use imperative mood instead fir patch description, hence better say
-"Add PR_NUMA_BALANCING to prctl".
+Thanks for reviewing. I shall send a v2 with the suggested changes.
 
--- 
-An old man doll... just what I always wanted! - Clara
+Thanks,
+ -- Khalid Masum
