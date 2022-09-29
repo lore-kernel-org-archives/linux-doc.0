@@ -2,95 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25DE8C433F5
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 19:21:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEEDBC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 19:28:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229930AbiI2TVs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 15:21:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52542 "EHLO
+        id S229476AbiI2T2u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 15:28:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229975AbiI2TVp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 15:21:45 -0400
+        with ESMTP id S229582AbiI2T2t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 15:28:49 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D320913F294;
-        Thu, 29 Sep 2022 12:21:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5C9615D653;
+        Thu, 29 Sep 2022 12:28:48 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5125A734;
-        Thu, 29 Sep 2022 19:21:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5125A734
+        by ms.lwn.net (Postfix) with ESMTPSA id 690632C5;
+        Thu, 29 Sep 2022 19:28:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 690632C5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1664479304; bh=bJcm9pawjNycjM+Nrq5TLidpXgcC/Xq62OwmjJR1/Ag=;
+        t=1664479728; bh=OMEpyJnlKWszhdMzE67M6h33nAUrEjevo9H1lpZDZAE=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=VTHiSta6QeIia+XRQG8Jgoq59d62Ak+77NcNkEEQFhwf/do+hoo/kDrBpCb7E9aAq
-         ffZYCfz3EqwR8VZrakRqJoIk+VlJcSyLogJ7edBgsY1P9ynbUqYzCqzqcwwRygEhg0
-         znZ54jtB6CMNb9WIjbh4MwhX6XGc17YJh4ftpRCoz8f8kJgkmUlm1fnVBjBIX0Yivy
-         vSuo7jeBRsOq/0DOZq6MZ9CndZ23DR1HTK72WvuXtCfV3RT7DKelhsdoD6JiE5WEqW
-         wId3HIz+jvUATz0bQlia5OlL/mf8XpjrvHdVd6YiwaVvDc9t3vil0gbKq8WZkfiCVt
-         TNazD9skBK6qg==
+        b=sJ6H7T/Ayt9Q4J0Kdx1tG+zyRnIveeGwuXqxrqTTSKJvLYM2foQe/xgs8izf8/QFm
+         gUO43N/aexHCErOIuarXppFgHCwOKunstUc8baQxG0jCD6daiBQdHG9PfzBX9rd2ZV
+         Hf8kKkE9NUA/oTnipfqmUErBksTiBKzJoqElPVLF2fg4SYLUDUhIoBwIe3Sw1VcyVr
+         Q4lcBUumsESVkQ2O1JqAENWxCvkH8eL5Cf3gr1es8UdDDQCskNAQBTrWn2hg2W5dLv
+         WpLAXMUEKZJ7IUplgbKFYqWTGIHeJPWQ+lhCBHMzdwusXmeU3uteRcVBfP8SmJVh/J
+         Tl2yfd+ymiOZQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        David Hildenbrand <david@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        David Laight <David.Laight@ACULAB.COM>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Dave Young <dyoung@redhat.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Kalle Valo <kvalo@kernel.org>, "Daniel K ." <daniel@cluded.net>
-Subject: Re: [PATCH v2 0/2] coding-style.rst: document BUG() and WARN() rules
-In-Reply-To: <20220923113426.52871-1-david@redhat.com>
-References: <20220923113426.52871-1-david@redhat.com>
-Date:   Thu, 29 Sep 2022 13:21:43 -0600
-Message-ID: <87k05mgf5k.fsf@meer.lwn.net>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>,
+        Stephen Rothwell <sfr@rothwell.id.au>
+Subject: Re: [PATCH v3 0/7] Rewrite the top-level index.rst
+In-Reply-To: <87ill6hyt6.fsf@meer.lwn.net>
+References: <20220927160559.97154-1-corbet@lwn.net>
+ <87mtaii491.fsf@meer.lwn.net> <202209290858.4A3FC9082@keescook>
+ <87ill6hyt6.fsf@meer.lwn.net>
+Date:   Thu, 29 Sep 2022 13:28:47 -0600
+Message-ID: <87czbegets.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-David Hildenbrand <david@redhat.com> writes:
+[Sending a copy to the linux-next folks as well in the hope that it
+helps when the conflict shows up there.]
 
-> As it seems to be rather unclear if/when to use BUG(), BUG_ON(),
-> VM_BUG_ON(), WARN_ON_ONCE(), ... let's try to document the result of a
-> recent discussion.
+Jonathan Corbet <corbet@lwn.net> writes:
+
+> Kees Cook <keescook@chromium.org> writes:
 >
-> Details can be found in patch #1.
+>> On Thu, Sep 29, 2022 at 09:34:18AM -0600, Jonathan Corbet wrote:
+>>> Jonathan Corbet <corbet@lwn.net> writes:
+>>> 
+>>> > The top-level index.rst file is the entry point for the kernel's
+>>> > documentation, especially for readers of the HTML output.  It is currently
+>>> > a mess containing everything we thought to throw in there.  Firefox says it
+>>> > would require 26 pages of paper to print it.  That is not a user-friendly
+>>> > introduction.
+>>> >
+>>> > This series aims to improve our documentation entry point with a focus on
+>>> > rewriting index.rst.  The result is, IMO, simpler and more approachable.
+>>> > For anybody who wants to see the rendered results without building the
+>>> > docs, have a look at:
+>>> >
+>>> >   https://static.lwn.net/kerneldoc/
+>>> 
+>>> So I think I'll go ahead and drop this into docs-next shortly.  Thanks
+>>> to everybody who has commented.
+>>> 
+>>> This, of course, has the potential to create conflicts with other 6.1
+>>> work that touches Documentation/index.rst.  Amazingly, as far as I can
+>>> tell, there is only one linux-next commit touching that file - the
+>>> addition of the Rust docs.  We'll want to be sure that doesn't get lost
+>>> during the merge window.  I'll be sure to include a suitable heads-up in
+>>> my pull request.
+>>
+>> I can add a note in my PR of Rust too -- how should I suggest it be
+>> resolved?
 >
-> v1 -> v2:
-> * "coding-style.rst: document BUG() and WARN() rules ("do not crash the
->    kernel")"
->  -> Minor rephrasing / reference fix [John]
->  -> Compile fix [Akira]
-> * "powerpc/prom_init: drop PROM_BUG()"
->  -> Dropped because it will go upstream via a different tree
-> * "checkpatch: warn on usage of VM_BUG_ON() and other BUG variants"
->  -> Rephrase warning message and remove trailing period [John+Joe]
+> The Rust documentation change to Documentation/index.rst is simple
+> enough:
 >
-> RFC -> v1:
-> * "coding-style.rst: document BUG() and WARN() rules ("do not crash the
->    kernel")"
->  -> Rephrase/extend according to John
->  -> Add some details regarding the use of panic()
-> * powerpc/prom_init: drop PROM_BUG()
->  -> Added
-> * "checkpatch: warn on usage of VM_BUG_ON() and other BUG variants"
->  -> Warn on more variants
-
-It seems we've talked ourselves out on this one, so I've gone ahead and
-applied it.
-
-Thanks,
-
-jon
+>> diff --git a/Documentation/index.rst b/Documentation/index.rst
+>> index 4737c18c97ff..00722aa20cd7 100644
+>> --- a/Documentation/index.rst
+>> +++ b/Documentation/index.rst
+>> @@ -82,6 +82,7 @@ merged much easier.
+>>     maintainer/index
+>>     fault-injection/index
+>>     livepatch/index
+>> +   rust/index
+>
+> The resolution should take the docs-next version of the file, but add
+> that line after "livepatch/index" in its new location.
+>
+> Thanks,
+>
+> jon
