@@ -2,146 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E95BC04A95
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 08:39:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88144C6FA82
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 08:45:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235627AbiI2Ijs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 04:39:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60442 "EHLO
+        id S230341AbiI2Ipa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 04:45:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235623AbiI2Ijq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 04:39:46 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB08A1ADAA;
-        Thu, 29 Sep 2022 01:39:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664440785; x=1695976785;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=5ZIGBUcxLSm/CK0zM/5R1D7/PfgOCEXhU60Fxb19yVM=;
-  b=awQLQHEOGdbcSwM4n+TPM1XofzEbbUdlwQogKkhTSTKSRhMQR5n+jff4
-   cOjADj+wdJOYLOqcNXnS3pS9wOllFFZekWKA0Nn0lZlJ124NT8sAkUaSP
-   SvrL8auNnMSJwdIKb+ziRNV03OLXaLpmozXudaFVStRFDthiunjyCLU2c
-   r0IDsOjJ2risSihSyLhDxUUARXM2IOsBnAeheTyDG9Egj7l+64dbtVGKD
-   gWCozVt1O8pAUxgU+p8asfvl2IxwOvePF0V/+WL0WwKiVve4PYnxbfmRh
-   TXKGTebIlZFFEsMBqKMdUeaG8Z3UV2BTvOkrcP+yFae//S+UuAjyubaMo
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="328207925"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; 
-   d="scan'208";a="328207925"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2022 01:39:27 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="797473966"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; 
-   d="scan'208";a="797473966"
-Received: from pramona-mobl1.ger.corp.intel.com ([10.252.60.139])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2022 01:39:24 -0700
-Date:   Thu, 29 Sep 2022 11:39:15 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-cc:     Jiri Slaby <jirislaby@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v3 1/4] serial: Convert serial_rs485 to kernel doc
-In-Reply-To: <YzURJa1RnxP+uj5/@debian.me>
-Message-ID: <75f07dbe-d1dd-ac18-5c8e-e6972e7fb28b@linux.intel.com>
-References: <20220928110509.13544-1-ilpo.jarvinen@linux.intel.com> <20220928110509.13544-2-ilpo.jarvinen@linux.intel.com> <YzURJa1RnxP+uj5/@debian.me>
+        with ESMTP id S234340AbiI2Ip3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 04:45:29 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52CAC52808;
+        Thu, 29 Sep 2022 01:45:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=xQdE/lPTJ2jBPVcsNpjFprsT4OeqEjkOkOH4rvRyf30=; b=frh80iUfjKRc38gJF+SKPbPSGP
+        zV5Lm/FDZwYKF8We0s48A1H72pDczCFu5YFYDn2fK0w8DtmWrbX6qT0nRWf8CWTz7O7xkfwo6m5Tt
+        oOoDLuOjdTQHA2uaTLRTIJDlRV+rDfeIc33/leIOZdh6yOAwGjk9f8CZjto7x00TbAEdWoeVW01GL
+        4rjLk/TFz6C8OPIa6AhTaF7Ubutl5foH7RQL3Msq6kVF16v++Hwe2X4zcCaQ17O9aDzAqx8lCp3QR
+        0s6m12uYx8FoQudNdXQBiKtigOqFJr9vCuRRRyQDAEt8+bJ2WiMmq0vnU4wcOeMF63clulgmDbsD3
+        r9WP292A==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1odpAF-00GrD2-G3; Thu, 29 Sep 2022 08:45:07 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F2EF330008D;
+        Thu, 29 Sep 2022 10:45:01 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id B422D203E4E80; Thu, 29 Sep 2022 10:45:01 +0200 (CEST)
+Date:   Thu, 29 Sep 2022 10:45:01 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Gang Li <ligang.bdlg@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4] sched/numa: add per-process numa_balancing
+Message-ID: <YzVbDbLOYUVNnWRu@hirez.programming.kicks-ass.net>
+References: <20220929064359.46932-1-ligang.bdlg@bytedance.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1716970536-1664440767=:1640"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220929064359.46932-1-ligang.bdlg@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323329-1716970536-1664440767=:1640
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+The alternative to this is ofcourse to have your latency critical
+applications use mbind()/set_mempolicy() etc.., because surely, them
+being timing critical, they have the infrastructure to do this right?
 
-On Thu, 29 Sep 2022, Bagas Sanjaya wrote:
+Because timing critical software doesn't want it's memory spread
+randomly, because well random is bad for performance, hmm?
 
-> On Wed, Sep 28, 2022 at 02:05:06PM +0300, Ilpo Järvinen wrote:
-> > diff --git a/include/uapi/linux/serial.h b/include/uapi/linux/serial.h
-> > index cea06924b295..6e347eb10b1f 100644
-> > --- a/include/uapi/linux/serial.h
-> > +++ b/include/uapi/linux/serial.h
-> > @@ -107,37 +107,57 @@ struct serial_icounter_struct {
-> >  	int reserved[9];
-> >  };
-> >  
-> > -/*
-> > +/**
-> > + * struct serial_rs485 - serial interface for controlling RS485 settings.
-> > + * @flags:			RS485 feature flags.
-> > + * @delay_rts_before_send:	Delay before send (milliseconds).
-> > + * @delay_rts_after_send:	Delay after send (milliseconds).
-> > + * @addr_recv:			Receive filter for RS485 addressing mode
-> > + *				(used only when %SER_RS485_ADDR_RECV is set).
-> > + * @addr_dest:			Destination address for RS485 addressing mode
-> > + *				(used only when %SER_RS485_ADDR_DEST is set).
-> > + * @padding0:			Padding (set to zero).
-> > + * @padding1:			Padding (set to zero).
-> > + * @padding:			Deprecated, use @padding0 and @padding1 instead.
-> > + *				Do not use with @addr_recv and @addr_dest (due to
-> > + *				overlap).
-> > + *
-> 
-> I don't see definition of fields after @delay_rts_after_send in the
-> htmldocs output.
+And once numa balancing sees all the memory has an expliciy policy, it
+won't touch it.
 
-So it seems, this one I had missed. I guess the reason is that those 
-members are inside anonymous unions. But the formatting follows what 
-is documented here AFAICT:
+On Thu, Sep 29, 2022 at 02:43:58PM +0800, Gang Li wrote:
 
-https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#nested-structs-unions
+> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+> index ef0e6b3e08ff..87215b3776c9 100644
+> --- a/kernel/sched/fair.c
+> +++ b/kernel/sched/fair.c
+> @@ -2818,6 +2818,24 @@ void task_numa_free(struct task_struct *p, bool final)
+>  	}
+>  }
+>  
+> +inline bool numa_balancing_enabled(struct task_struct *p)
 
-Kerneldoc doesn't seem to live up to what is documented about it. It's a 
-bit ironic that documentation system fails to document even itself to 
-sufficient level, and what's worse, seems to be full of faulty examples.
+Does this want to be static?
 
-Any suggestions how to make it work?
+> +{
+> +	if (p->mm) {
+> +		int numab = p->mm->numab_enabled;
+> +
+> +		switch (numab) {
+> +		case NUMAB_ENABLED:
+> +			return true;
+> +		case NUMAB_DISABLED:
+> +			return false;
+> +		case NUMAB_DEFAULT:
+> +			break;
+> +		}
+> +	}
+> +
+> +	return static_branch_unlikely(&sched_numa_balancing);
+> +}
 
-> >   * Serial interface for controlling RS485 settings on chips with suitable
-> >   * support. Set with TIOCSRS485 and get with TIOCGRS485 if supported by your
-> >   * platform. The set function returns the new state, with any unsupported bits
-> >   * reverted appropriately.
-> > + *
-> > + * serial_rs485::flags bits are:
-> > + *
-> > + * * %SER_RS485_ENABLED		- RS485 enabled.
-> > + * * %SER_RS485_RTS_ON_SEND	- Logical level for RTS pin when sending.
-> > + * * %SER_RS485_RTS_AFTER_SEND	- Logical level for RTS pin after sent.
-> > + * * %SER_RS485_RX_DURING_TX	- Full-duplex RS485 line.
-> > + * * %SER_RS485_TERMINATE_BUS	- Enable bus termination (if supported).
-> > + * * %SER_RS485_ADDRB		- Enable RS485 addressing mode.
-> > + * * %SER_RS485_ADDR_RECV	- Receive address filter (enables @addr_recv).
-> > + *				  Requires %SER_RS485_ADDRB.
-> > + * * %SER_RS485_ADDR_DEST	- Destination address (enables @addr_dest).
-> > + *				  Requires %SER_RS485_ADDRB.
-> 
-> The last two items are rendered as bold text instead (maybe due to missing
-> fields rendering above?)
+Blergh, this sucks. Now you have the unconditional pointer chasing and
+cache-misses. The advantage of sched_numa_balancing was that there is no
+overhead when disabled.
 
-It just goes into some random formatting mode here. Even if I remove those 
-field markers (@) it doesn't do formatting differently so your guesss is 
-wrong.
+Also, "numab" is a weird word.
 
-I found now a way to make it work though. It works when I put the whole 
-description on a single line but it comes at the cost of removing the 
-alignment of those "-". The other way to make it work would be like this:
+What about something like:
 
-* * %SER_RS485_ADDR_RECV - Receive address filter (enables @addr_recv).
-    Requires %SER_RS485_ADDRB.
+static inline bool numa_balancing_enabled(struct task_struct *p)
+{
+	if (!static_branch_unlikely(&sched_numa_balancing))
+		return false;
 
-...And that's no good. I guess the single-line approach is an acceptable 
-compromise for this case.
+	if (p->mm) switch (p->mm->numa_balancing_mode) {
+	case NUMA_BALANCING_ENABLED:
+		return true;
+	case NUMA_BALANCING_DISABLED:
+		return false
+	default:
+		break;
+	}
 
--- 
- i.
+	return sysctl_numa_balancing_mode;
+}
 
---8323329-1716970536-1664440767=:1640--
+( Note how that all following the existing 'numa_balancing' wording
+  without inventing weird new words. )
+
+And then you frob the sysctl and prctl such that sched_numa_balancing
+and sysctl_numa_balancing_mode are not tied together just so.
+Specifically, I'm thinking you should use static_branch_inc() to count
+how many enables you have, one for the default and one for each prctl().
+Then it all just works.
+
+> @@ -11581,8 +11599,10 @@ static void task_tick_fair(struct rq *rq, struct task_struct *curr, int queued)
+>  		entity_tick(cfs_rq, se, queued);
+>  	}
+>  
+> -	if (static_branch_unlikely(&sched_numa_balancing))
+> +#ifdef CONFIG_NUMA_BALANCING
+> +	if (numa_balancing_enabled(curr))
+>  		task_tick_numa(rq, curr);
+> +#endif
+>  
+>  	update_misfit_status(curr, rq);
+>  	update_overutilized_status(task_rq(curr));
+
+Surely you can make that #ifdef go away without much effort.
+
+> diff --git a/kernel/sys.c b/kernel/sys.c
+> index 8a6432465dc5..11720a35455a 100644
+> --- a/kernel/sys.c
+> +++ b/kernel/sys.c
+> @@ -59,6 +59,7 @@
+>  #include <linux/sched/coredump.h>
+>  #include <linux/sched/task.h>
+>  #include <linux/sched/cputime.h>
+> +#include <linux/sched/numa_balancing.h>
+>  #include <linux/rcupdate.h>
+>  #include <linux/uidgid.h>
+>  #include <linux/cred.h>
+> @@ -2101,6 +2102,23 @@ static int prctl_set_auxv(struct mm_struct *mm, unsigned long addr,
+>  	return 0;
+>  }
+>  
+> +#ifdef CONFIG_NUMA_BALANCING
+> +static int prctl_pid_numa_balancing_write(int numa_balancing)
+> +{
+> +	if (numa_balancing != PR_SET_NUMAB_DEFAULT
+> +	    && numa_balancing != PR_SET_NUMAB_DISABLED
+> +	    && numa_balancing != PR_SET_NUMAB_ENABLED)
+> +		return -EINVAL;
+
+Operators go at the end of the line.
+
+> +	current->mm->numab_enabled = numa_balancing;
+> +	return 0;
+> +}
