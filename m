@@ -2,162 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD44C04A95
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 08:48:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 667BBC07E9D
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 08:50:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235000AbiI2IsV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 04:48:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53388 "EHLO
+        id S235611AbiI2Iuq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 04:50:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235090AbiI2IsU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 04:48:20 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC10135043;
-        Thu, 29 Sep 2022 01:48:17 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id b5so863722pgb.6;
-        Thu, 29 Sep 2022 01:48:17 -0700 (PDT)
+        with ESMTP id S235615AbiI2Iuf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 04:50:35 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFD2CEC54B;
+        Thu, 29 Sep 2022 01:50:33 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id x1so699751plv.5;
+        Thu, 29 Sep 2022 01:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=LPIjcxqEG5Ykvv0RYWwDgz52L7harSKek7HWfDdgQdU=;
-        b=ZyIBEMLUoaESSJeqOS0JI3ZdR34f1X0R8oDd1KUAHBeOoKhXgjOXD34isIOsLSzzl1
-         EwQwMwPg4xEB7shVlYtNOOHyh2wTeS95La91f2+vbdguvCRWLyWLJ1W8YGr5VLrdcl+y
-         k0eLWMwSLo4bh+pTKNCaOhBnW8NMNEkkfJdd1fzigy7sGlkFpFrzCJFDg53xsF3KoSoh
-         rNr00vwdmYtqeDPc45dQ4D9cOzURbyIKsKQelVEJP576xU8XQHcXkzi7L+fhQ60J3zQ4
-         HjRUMVry5v2Z9lTdP3alMa/FGwL2okHlJ1OWXBqGAB8LmrJ3yJlKoTm27pIMCG2GffGn
-         xddw==
+        bh=wyRrlcXzeH4HfHGAImk3NaXe74TrWSFA0ErQXL3Lurc=;
+        b=Z6oEko58X6cyAidL5cdLdPtKhJkWxMzfPWazsgsBy2UGktfhzdoqIRABYzT1KRxekx
+         bVgp28KwDTcUK/6IHsIfklW1ZhMtkSg36n+zMTH0wfnUORl18OOEcMEz2ddavj8BSEFy
+         9RMRyzJ10828D5WFtdqtWUZcPUQ1oQIoqrh9qgAy997yp9S/8gOSAuFgEywGiqWHmVYV
+         jqg+AZ8zSyT7LpIZpJxBuMHkTYayRWDaeH4+OIjJn8w4A8v0cKDMeZ2UKJJ/b/2GPLq4
+         IkM3jTz5Sux5fwUnw4aJTYUBY9ygMg3mOp/OOBvLkr19needaXPyYlKqtT1UbYCLbNmB
+         nYbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=LPIjcxqEG5Ykvv0RYWwDgz52L7harSKek7HWfDdgQdU=;
-        b=75LOoxIKKbx7EQCDwl9oKSiS4Xcv7mmk4TUX7cSWzf9KnSjqIXa013r+G4jQ1i0ECF
-         h/NyOJb/dZmpWM+vFvv7zZTN/sUtLPb5XfKzEXRSMZHbBiVeSezWm4chjYPVfwCkXaA/
-         9NwkhnfaFVjl1uo2WxZgQI17va9h5pRvRBYuEX6aUiXZJ42JV4gbNe3C0a2QnEqhfwa5
-         jeiRLB8PRQaUChU15vORIwD3dcbRsMYuE40km7sIGcjbmqOdxyA/uacn9bCTbrIjta9u
-         If1FBhdNYTKKI/v1MhdiWwTj9yZ+DmR3HOz5i/5vN61jATFeCqGnUctnT6f6FkT5ddRG
-         XodQ==
-X-Gm-Message-State: ACrzQf3WmLlT50ayrVz6ourKbaf8Cur6o/QTU/MtcSlqhpAUg9K0/FQ7
-        TmX2kbK6lgRRsvgh22Br3VQ=
-X-Google-Smtp-Source: AMsMyM5FpKaM9A5fR9Nk6T/5JPue3Q5c9vpxFokqlZS7/CpEgL1GT2mHddYH5UlCXBA0AyI8m7Q7FA==
-X-Received: by 2002:a05:6a02:318:b0:43c:e24a:961c with SMTP id bn24-20020a056a02031800b0043ce24a961cmr1909302pgb.589.1664441296956;
-        Thu, 29 Sep 2022 01:48:16 -0700 (PDT)
+        bh=wyRrlcXzeH4HfHGAImk3NaXe74TrWSFA0ErQXL3Lurc=;
+        b=QbJJwU7zA7EUzlK1iN7CqxRGYEUM4tRpfcHu07FTfUtzo+91eH3Z9MXpvhlLKWW18E
+         Qpj4mCaYbTiR4YUst7SbFcwxItO6WZPFzUHeU7VCx1ZKqeQeuqX9HV4VBoqZCk7+aP1d
+         vEkOguMoWlsHTmSYtN9BHn1blk4FLf/KckpnZg5PMLjnBWcO5ELaq0E6w+VM4XcNzOfY
+         lt3PTrxOoonjHxom5R7ETmaQXdl3oPBMw1gg71LQ17veBuRKJmUGIJAdruYZOQlPIYfh
+         LRNO6wJBwZTnKlqxeRHRJAnreIIrYbRN8N12akAbkKCYDgx4Wtm4WewqGSSyFoHZlDV9
+         QYzw==
+X-Gm-Message-State: ACrzQf38q08nS7tyn76gL/rK8dcyvgHYp57Cf1bmKDZHDwqHHEbx9Orv
+        mwaEnLCgJBB9Jzyj4CXdfws=
+X-Google-Smtp-Source: AMsMyM403XL05GVHUaJT8ocLDAA2Z1Prgmxaf+M7UlldPke0HpTgHrpCYBoEoYdvRv1R3vhpLLZj4Q==
+X-Received: by 2002:a17:902:8e84:b0:178:71f2:113c with SMTP id bg4-20020a1709028e8400b0017871f2113cmr2324788plb.79.1664441433296;
+        Thu, 29 Sep 2022 01:50:33 -0700 (PDT)
 Received: from [192.168.43.80] (subs02-180-214-232-28.three.co.id. [180.214.232.28])
-        by smtp.gmail.com with ESMTPSA id p17-20020a170902e75100b00179eaf275d5sm5360741plf.27.2022.09.29.01.48.09
+        by smtp.gmail.com with ESMTPSA id d18-20020a170902ced200b0017808db132bsm5365039plg.137.2022.09.29.01.50.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 01:48:16 -0700 (PDT)
-Message-ID: <db30d4f1-31c7-6cbd-f87f-abefa7f4e781@gmail.com>
-Date:   Thu, 29 Sep 2022 15:48:06 +0700
+        Thu, 29 Sep 2022 01:50:32 -0700 (PDT)
+Message-ID: <71effcc8-7345-28cd-6585-eb729fb4c6db@gmail.com>
+Date:   Thu, 29 Sep 2022 15:50:29 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.1
-Subject: Re: [PATCH v5 12/12] Documentation/x86: Update resctrl_ui.rst for new
- features
+Subject: Re: [PATCH v3 1/4] serial: Convert serial_rs485 to kernel doc
 Content-Language: en-US
-To:     babu.moger@amd.com
-Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, fenghua.yu@intel.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        eranian@google.com
-References: <166431016617.373387.1968875281081252467.stgit@bmoger-ubuntu>
- <166431042060.373387.8454967155095795574.stgit@bmoger-ubuntu>
- <YzPMorJQFKPY+n4d@debian.me> <99bfbeac-1454-a453-a2ef-36eee2aea34c@amd.com>
+To:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Cc:     Jiri Slaby <jirislaby@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-serial <linux-serial@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <20220928110509.13544-1-ilpo.jarvinen@linux.intel.com>
+ <20220928110509.13544-2-ilpo.jarvinen@linux.intel.com>
+ <YzURJa1RnxP+uj5/@debian.me>
+ <75f07dbe-d1dd-ac18-5c8e-e6972e7fb28b@linux.intel.com>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <99bfbeac-1454-a453-a2ef-36eee2aea34c@amd.com>
+In-Reply-To: <75f07dbe-d1dd-ac18-5c8e-e6972e7fb28b@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/28/22 22:23, Moger, Babu wrote:
->> Hi Babu,
->>
->> The description text for each snippets above shouldn't in the code
->> block. Also, split the block into three code blocks in the lists:
-> Did you mean, I need to remove similar texts from code?
-
-I mean extracting code description from the code block, see the diff below.
-
->>
->> ---- >8 ----
->> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
->> index b4fe54f219b6f3..ec578b069276ce 100644
->> --- a/Documentation/x86/resctrl.rst
->> +++ b/Documentation/x86/resctrl.rst
->> @@ -206,25 +206,26 @@ with the following files:
->>          all the event types and the mbm_local_bytes configuration is set to
->>          0x15 to count all the local memory events.
->>  
->> -        Example::
->> +        Examples:
->> +
->> +        * To view the current configuration::
->>  
->> -            To view the current configuration, run the command.
->>              # cat /sys/fs/resctrl/info/L3_MON/mbm_total_config
->>              0:0x7f;1:0x7f;2:0x7f;3:0x7f
->>  
->>              # cat /sys/fs/resctrl/info/L3_MON/mbm_local_config
->>              0:0x15;1:0x15;3:0x15;4:0x15
->>  
->> -            To change the mbm_total_bytes to count only reads on domain 0,
->> -            run the command. The bits 0,1,4 and 5 needs to set.
->> +        * To change the mbm_total_bytes to count only reads on domain 0
->> +          (the bits 0, 1, 4 and 5 needs to be set)::
->>  
->>              # echo  "0:0x33" > /sys/fs/resctrl/info/L3_MON/mbm_total_config
->>  
->>              # cat /sys/fs/resctrl/info/L3_MON/mbm_total_config
->>              0:0x33;1:0x7f;2:0x7f;3:0x7f
->>  
->> -            To change the mbm_local_bytes to count all the slow memory reads on
->> -            domain 1, run the command. The bits 4 and 5 needs to set.
->> +        * To change the mbm_local_bytes to count all the slow memory reads on
->> +          domain 1 (the bits 4 and 5 needs to be set)::
->>  
->>              # echo  "1:0x30" > /sys/fs/resctrl/info/L3_MON/mbm_local_config
->>  
+On 9/29/22 15:39, Ilpo Järvinen wrote:
+> On Thu, 29 Sep 2022, Bagas Sanjaya wrote:
 > 
-> Thanks for the diff. I cannot get this right for some reason. I will
-> probably send the diff before the final series.
-> 
->
-
-OK.
- 
+>> On Wed, Sep 28, 2022 at 02:05:06PM +0300, Ilpo Järvinen wrote:
+>>> diff --git a/include/uapi/linux/serial.h b/include/uapi/linux/serial.h
+>>> index cea06924b295..6e347eb10b1f 100644
+>>> --- a/include/uapi/linux/serial.h
+>>> +++ b/include/uapi/linux/serial.h
+>>> @@ -107,37 +107,57 @@ struct serial_icounter_struct {
+>>>  	int reserved[9];
+>>>  };
+>>>  
+>>> -/*
+>>> +/**
+>>> + * struct serial_rs485 - serial interface for controlling RS485 settings.
+>>> + * @flags:			RS485 feature flags.
+>>> + * @delay_rts_before_send:	Delay before send (milliseconds).
+>>> + * @delay_rts_after_send:	Delay after send (milliseconds).
+>>> + * @addr_recv:			Receive filter for RS485 addressing mode
+>>> + *				(used only when %SER_RS485_ADDR_RECV is set).
+>>> + * @addr_dest:			Destination address for RS485 addressing mode
+>>> + *				(used only when %SER_RS485_ADDR_DEST is set).
+>>> + * @padding0:			Padding (set to zero).
+>>> + * @padding1:			Padding (set to zero).
+>>> + * @padding:			Deprecated, use @padding0 and @padding1 instead.
+>>> + *				Do not use with @addr_recv and @addr_dest (due to
+>>> + *				overlap).
+>>> + *
 >>
->> Also, there isn't description of mapping from bits from the supported events
->> table to the bytes input for mbm_{total,local}_config.
+>> I don't see definition of fields after @delay_rts_after_send in the
+>> htmldocs output.
 > 
-> It is already there. Is that not clear?
+> So it seems, this one I had missed. I guess the reason is that those 
+> members are inside anonymous unions. But the formatting follows what 
+> is documented here AFAICT:
+> 
+> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#nested-structs-unions
+> 
+> Kerneldoc doesn't seem to live up to what is documented about it. It's a 
+> bit ironic that documentation system fails to document even itself to 
+> sufficient level, and what's worse, seems to be full of faulty examples.
+> 
+> Any suggestions how to make it work?
+> 
 
-No. I don't see why setting bits 0, 1, 4, and 5 on domain 0 translates to
-`0:0x33`, for example.
+CC'ing Akira.
 
+>>>   * Serial interface for controlling RS485 settings on chips with suitable
+>>>   * support. Set with TIOCSRS485 and get with TIOCGRS485 if supported by your
+>>>   * platform. The set function returns the new state, with any unsupported bits
+>>>   * reverted appropriately.
+>>> + *
+>>> + * serial_rs485::flags bits are:
+>>> + *
+>>> + * * %SER_RS485_ENABLED		- RS485 enabled.
+>>> + * * %SER_RS485_RTS_ON_SEND	- Logical level for RTS pin when sending.
+>>> + * * %SER_RS485_RTS_AFTER_SEND	- Logical level for RTS pin after sent.
+>>> + * * %SER_RS485_RX_DURING_TX	- Full-duplex RS485 line.
+>>> + * * %SER_RS485_TERMINATE_BUS	- Enable bus termination (if supported).
+>>> + * * %SER_RS485_ADDRB		- Enable RS485 addressing mode.
+>>> + * * %SER_RS485_ADDR_RECV	- Receive address filter (enables @addr_recv).
+>>> + *				  Requires %SER_RS485_ADDRB.
+>>> + * * %SER_RS485_ADDR_DEST	- Destination address (enables @addr_dest).
+>>> + *				  Requires %SER_RS485_ADDRB.
 >>
->>> +Slow Memory b/w domain is L3 cache.
->>> +::
->>> +
->>> +	SMBA:<cache_id0>=bandwidth0;<cache_id1>=bandwidth1;...
->>> +
->> What b/w stands for in the context above?
-> b/w is bandwidth. I will correct it.
+>> The last two items are rendered as bold text instead (maybe due to missing
+>> fields rendering above?)
+> 
+> It just goes into some random formatting mode here. Even if I remove those 
+> field markers (@) it doesn't do formatting differently so your guesss is 
+> wrong.
+> 
+> I found now a way to make it work though. It works when I put the whole 
+> description on a single line but it comes at the cost of removing the 
+> alignment of those "-". The other way to make it work would be like this:
+> 
+> * * %SER_RS485_ADDR_RECV - Receive address filter (enables @addr_recv).
+>     Requires %SER_RS485_ADDRB.
+> 
+> ...And that's no good. I guess the single-line approach is an acceptable 
+> compromise for this case.
+> 
 
-OK.
-
-Thanks for replying.
+OK, thanks for explaining.
 
 -- 
 An old man doll... just what I always wanted! - Clara
