@@ -2,90 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFE9CC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 16:59:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 088CFC433F5
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 17:31:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235839AbiI2Q7X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 12:59:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34654 "EHLO
+        id S235009AbiI2Rbw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 13:31:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236043AbiI2Q7T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 12:59:19 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23DD91CFB81;
-        Thu, 29 Sep 2022 09:59:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S234299AbiI2Rbv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 13:31:51 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EE2D1F11D1;
+        Thu, 29 Sep 2022 10:31:50 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CBF35B82576;
-        Thu, 29 Sep 2022 16:59:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCDC9C433C1;
-        Thu, 29 Sep 2022 16:59:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664470752;
-        bh=yBGZma+h0goCNzGQ3b6u10XnYurahn7ityyKftocg/k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KqtQN1dM354bqBa+U18wuRdBHHRwC13KtjP9RTmSpcgG+2WZ6uQMCLX957242HLgY
-         bS70wuyICSSmQUXyBM+L7E8TbBxH9qbZJW5V5UlSiJgvF2XOHjf9KEz+cHZ/wM9Cbn
-         s3JBc+Kdt4JJWQuejaH9h2XcP7d5pYzvPahdy5R4zjXCeSelaDrQprMIMhseaB6esu
-         ex5O8FkXJFAUA6StUL8F8n6x3715UNbVvD5ijfBLcxWhV/OMsN0IeIFFHLIoftszYt
-         VutPQ4ffc1wCKYNzbtBWr5stpv+GNQHZCKTM/Gs3a4NWjBvycClCafAdhgCDdgBy3l
-         3PipGTRuaKATA==
-Date:   Thu, 29 Sep 2022 11:59:08 -0500
-From:   Bjorn Andersson <andersson@kernel.org>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 09/14] mailbox: Add Gunyah message queue mailbox
-Message-ID: <20220929165908.zgmlujhp42ihine5@builder.lan>
-References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
- <20220928195633.2348848-10-quic_eberman@quicinc.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id D48782C5;
+        Thu, 29 Sep 2022 17:31:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D48782C5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1664472710; bh=LA89bzVbd6Dxqi9oYpscXv0N7S8TvcbIPChAe2BE2OE=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=dLQlVPoMW1n0EKvEQpDFeismuI57/QckJr8AJoEZzPz2HZC6D8cQwJznGmKZUpX0J
+         UzQLk0AIPGN8qYQXGgTKG29TgM9RjX6NWc87w4NZGyQYtcPtnTk6FBwKCAtGjcbbjz
+         yLK7f5dLDDhDn5U+ukxQy3tVHJwcvdjw6L7qh1cJ45wo6NUV5zHV8LXV9ENEawUDYi
+         BIAqSrMJt94HKiVK0ubAf+5kB2KEX+Fof6uRodUo+v2FRPENr79S0g+RIA5JmkA0Iu
+         2nXqGMrAIx8VJ/GvtHaeW3EyEr+G/HTg/gm5klTZT0dWLcnGYIpiTbCNMPtm/KlYpo
+         r1HSrDamo5WjQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joe Perches <joe@perches.com>,
+        David Vernet <void@manifault.com>,
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: Re: [PATCH v3 0/7] Rewrite the top-level index.rst
+In-Reply-To: <202209290858.4A3FC9082@keescook>
+References: <20220927160559.97154-1-corbet@lwn.net>
+ <87mtaii491.fsf@meer.lwn.net> <202209290858.4A3FC9082@keescook>
+Date:   Thu, 29 Sep 2022 11:31:49 -0600
+Message-ID: <87ill6hyt6.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220928195633.2348848-10-quic_eberman@quicinc.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Sep 28, 2022 at 12:56:28PM -0700, Elliot Berman wrote:
-[..]
-> diff --git a/drivers/mailbox/gunyah-msgq.c b/drivers/mailbox/gunyah-msgq.c
-[..]
-> +static int gh_msgq_send_data(struct mbox_chan *chan, void *data)
-> +{
-> +	struct gunyah_msgq *msgq = mbox_chan_to_msgq(chan);
-> +	struct gunyah_msgq_tx_data *msgq_data = data;
+Kees Cook <keescook@chromium.org> writes:
 
-The mailbox framework abstracts hardware mailboxes and @data
-should be the data to be written to the hardware.
+> On Thu, Sep 29, 2022 at 09:34:18AM -0600, Jonathan Corbet wrote:
+>> Jonathan Corbet <corbet@lwn.net> writes:
+>> 
+>> > The top-level index.rst file is the entry point for the kernel's
+>> > documentation, especially for readers of the HTML output.  It is currently
+>> > a mess containing everything we thought to throw in there.  Firefox says it
+>> > would require 26 pages of paper to print it.  That is not a user-friendly
+>> > introduction.
+>> >
+>> > This series aims to improve our documentation entry point with a focus on
+>> > rewriting index.rst.  The result is, IMO, simpler and more approachable.
+>> > For anybody who wants to see the rendered results without building the
+>> > docs, have a look at:
+>> >
+>> >   https://static.lwn.net/kerneldoc/
+>> 
+>> So I think I'll go ahead and drop this into docs-next shortly.  Thanks
+>> to everybody who has commented.
+>> 
+>> This, of course, has the potential to create conflicts with other 6.1
+>> work that touches Documentation/index.rst.  Amazingly, as far as I can
+>> tell, there is only one linux-next commit touching that file - the
+>> addition of the Rust docs.  We'll want to be sure that doesn't get lost
+>> during the merge window.  I'll be sure to include a suitable heads-up in
+>> my pull request.
+>
+> I can add a note in my PR of Rust too -- how should I suggest it be
+> resolved?
 
-Using the void * to pass composite data types means that the client and
-provider are tightly coupled and as such the mailbox framework does not
-provide you any abstraction.
+The Rust documentation change to Documentation/index.rst is simple
+enough:
 
-You also only expose a single channel, so a direct function call between
-the two specific drivers would be a better fit.
+> diff --git a/Documentation/index.rst b/Documentation/index.rst
+> index 4737c18c97ff..00722aa20cd7 100644
+> --- a/Documentation/index.rst
+> +++ b/Documentation/index.rst
+> @@ -82,6 +82,7 @@ merged much easier.
+>     maintainer/index
+>     fault-injection/index
+>     livepatch/index
+> +   rust/index
 
-Regards,
-Bjorn
+The resolution should take the docs-next version of the file, but add
+that line after "livepatch/index" in its new location.
+
+Thanks,
+
+jon
