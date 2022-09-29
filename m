@@ -2,110 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA5B8C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 13:01:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B26DC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 13:23:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235623AbiI2NB0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 09:01:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57998 "EHLO
+        id S234926AbiI2NW6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 09:22:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235530AbiI2NBU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 09:01:20 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F2EB1138E4;
-        Thu, 29 Sep 2022 06:01:19 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id a29so1381540pfk.5;
-        Thu, 29 Sep 2022 06:01:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=IBZE1hFfhBGN3UywvDFOxrxFFMC7GkT93wKps7ObEyo=;
-        b=bSUqoliqIKzIQSfn4j/ybe5t18kl4PMccoPLTaLm+iOFeymFXcqx57dk027sgeoqfp
-         uh8KPj2/vSH10NNistKFI88UIVX7RQDziTWOwXRI4MNzVByTN/flOV4LjtHb5PJrSvTr
-         9FOQ66MDYcWLEdWIkm9gFjEFuZMdOjCKNAAwPCjlfScnxVZR8qZGbxZaP8Q7jRPh1bua
-         I8czg8VukJD11kNDlBagnIaa+mpybXNktErreHcUVP4v3ybWPb19MCjPRHBQcHsMf8ew
-         /gsxjE+XFSzWB9LRh1bpgPRMFjssd4atXYI7wtJ1TYE83r9UuTkwg13W7BWdrkSL69br
-         Twdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=IBZE1hFfhBGN3UywvDFOxrxFFMC7GkT93wKps7ObEyo=;
-        b=tNq4ZJ5npRx/o5oz4rd5ePIfu25kaBPMy//aI8W2rUHkftXDLsX6zMN08MAA/zKtRF
-         dv93ElsZTM2YF+SKLJB/gY1+E7cjzul036hKZSNv15SUcvfIXxMPa9saN4Pepn8H0jwt
-         jMo2QATLReSzMdv1aYCQOkLSEYzT6hpbiSwGMRCRl1WUkWc9BMpYyPPsCecKp/st+2sd
-         Oql38ehCgEi++sgZjMe6nKH6EnimXRtgjXJRmnR4hxJPH7c4ykJdmpOTdGJ33lX5ia3S
-         XahKp595yixD4lyieVZeebNT6i0a0Xy4ismK+cCWegC+MoBqqo45RicWOztaXeVrbOmm
-         jXYw==
-X-Gm-Message-State: ACrzQf1JVM/zYnTFIikPOqaEkrvHYhPowoRy3EzLt/LcIM5uxsSnLLsJ
-        Rmsg3NTgpP4u34sB4GBeHLii+RT38ImjyA==
-X-Google-Smtp-Source: AMsMyM5FN5a727uJ0p9wFhcFR4cJT5yuVdgH9rrTUo5YNQEnIpH1p8u5kVRLprTieR/CxXAuhF6YFQ==
-X-Received: by 2002:a05:6a00:16c4:b0:535:890:d52 with SMTP id l4-20020a056a0016c400b0053508900d52mr3489010pfc.9.1664456478438;
-        Thu, 29 Sep 2022 06:01:18 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-55.three.co.id. [116.206.28.55])
-        by smtp.gmail.com with ESMTPSA id z15-20020a63e10f000000b004340d105fd4sm5550315pgh.21.2022.09.29.06.01.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 06:01:18 -0700 (PDT)
-Message-ID: <a0545ea0-2ce5-68d1-4cbd-bfaa3ff453b5@gmail.com>
-Date:   Thu, 29 Sep 2022 20:00:40 +0700
+        with ESMTP id S234453AbiI2NW5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 09:22:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 055C5147CE8;
+        Thu, 29 Sep 2022 06:22:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6F2C26136A;
+        Thu, 29 Sep 2022 13:22:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 290EFC433C1;
+        Thu, 29 Sep 2022 13:22:54 +0000 (UTC)
+Date:   Thu, 29 Sep 2022 09:24:06 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs, kprobes: Fix the wrong location of Kprobes
+Message-ID: <20220929092406.3383b5a1@gandalf.local.home>
+In-Reply-To: <75c28f07-4bc7-6094-d264-d7657c40ba88@loongson.cn>
+References: <1663322106-12178-1-git-send-email-yangtiezhu@loongson.cn>
+        <20220926142218.100e0d9b@gandalf.local.home>
+        <75c28f07-4bc7-6094-d264-d7657c40ba88@loongson.cn>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH] Documentation: kunit: rewrite writing first test
- instructions
-Content-Language: en-US
-To:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
-        David Gow <davidgow@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Khalid Masum <khalid.masum.92@gmail.com>,
-        Sadiya Kazi <sadiyakazi@google.com>
-References: <20220929125458.52979-1-bagasdotme@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220929125458.52979-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/29/22 19:54, Bagas Sanjaya wrote:
->  Writing Your First Test
->  =======================
-> -In your kernel repository, let's add some code that we can test.
-> +In your kernel repository, let's add some code that we can test. For this
-> +purpose, we are going to add simple addition driver.
->  
-> -1. Create a file ``drivers/misc/example.h``, which includes:
-> +1. Write the feature that will be tested. First, write the declaration
-> +   for ``misc_example_add()`` in ``drivers/misc/example.h``:
->  
-> -.. code-block:: c
-> +   .. code-block:: c
->  
->  	int misc_example_add(int left, int right);
->  
-> -2. Create a file ``drivers/misc/example.c``, which includes:
-> +   Then implement the function in ``drivers/misc/example.c``:
->  
-> -.. code-block:: c
-> +   .. code-block:: c
->  
->  	#include <linux/errno.h>
->  
-> @@ -152,24 +154,25 @@ In your kernel repository, let's add some code that we can test.
->  		return left + right;
->  	}
->  
-> -3. Add the following lines to ``drivers/misc/Kconfig``:
-> +3. Add Kconfig menu entry for the feature to ``drivers/misc/Kconfig``:
->  
+On Thu, 29 Sep 2022 18:01:01 +0800
+Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
 
-The numbering looks jumped. Please ignore this patch as I'll resend shortly.
+> On 09/27/2022 02:22 AM, Steven Rostedt wrote:
+> > On Fri, 16 Sep 2022 17:55:06 +0800
+> > Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+> >  
+> >> After commit 22471e1313f2 ("kconfig: use a menu in arch/Kconfig to reduce
+> >> clutter"), the location of Kprobes is under "General architecture-dependent
+> >> options" rather than "General setup".
+> >>  
+> >
+> > Probably add a "Fixes:" tag for the above mentioned commit.
+> >
+> > Anyway, Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>  
+> 
+> 
+> Thank you.
+> 
+> Do you know which tree this patch will go through?
 
--- 
-An old man doll... just what I always wanted! - Clara
+I believe that Jon can take it through his documentation tree.
+
+> Is it necessary to send v2 with "Fixes:" tag?
+
+No, Jon could add it.
+
+Thanks,
+
+-- Steve
