@@ -2,251 +2,409 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C538DC07E9D
-	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 04:02:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21B3CC04A95
+	for <linux-doc@archiver.kernel.org>; Thu, 29 Sep 2022 06:44:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232339AbiI2ECV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 00:02:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48174 "EHLO
+        id S233404AbiI2GoQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 02:44:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229651AbiI2ECU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 00:02:20 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 582ACF1934;
-        Wed, 28 Sep 2022 21:02:19 -0700 (PDT)
+        with ESMTP id S232431AbiI2GoP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 02:44:15 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A42A12AED4
+        for <linux-doc@vger.kernel.org>; Wed, 28 Sep 2022 23:44:12 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id w20so439801ply.12
+        for <linux-doc@vger.kernel.org>; Wed, 28 Sep 2022 23:44:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1664424139; x=1695960139;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=PQTvPdtfbIJpzPf1F/SRY//WCyK26Mw3kEBkRj9QTyQ=;
-  b=RFunYgSTDYOkxozPb9phlK8pXZXMbqKkOcf29MPWGL+uSQotmXu0YH7z
-   SKZvRIGxljQ0j8DORnvWyrgXC/LjC6kxQBYmtV98Yw9iKJHpbqz8P4iZ9
-   5h3Uu2e8CWPqqt5vqd4yf3GzsQg22csL7aTMaHAqRYX1w2p2s0Zo8oV4o
-   0=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 28 Sep 2022 21:02:19 -0700
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2022 21:02:18 -0700
-Received: from [10.110.116.67] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 28 Sep
- 2022 21:02:17 -0700
-Message-ID: <e6502af5-73c1-6b06-5da7-28185477aefe@quicinc.com>
-Date:   Wed, 28 Sep 2022 21:02:17 -0700
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=/vsjYa0mVNB7hxEqcjh0e4fbj05c2V9q8r7ZQBxHpwM=;
+        b=taHM9fC3gawTMyKIp0dRgyeOgWlcE3tG7aO5KuMpgrd/uifguoPvOh9Ucdgdqupqe9
+         MTf9Es0cSWLJkL/G7L8vzaGpbwLXy6XHr6hGfD7pb4Y8PpSDARZcaVzh6dBhHP6NKtxn
+         eMHmQfoieDk+D2oS/owzPEqVgKnySxeztRglMXlm/ICt+QYTe34qqxVTqBP5Fl/7sWYL
+         JMB5nhFD2HCwOd2z7CF1zIa8MdvhH7u0s0YP8JKCW7TPNeKBIbE5pw3o5fBbaCUa/jl5
+         9bOvj5cuzbPZtT7plPkrMi/MeZCMBoKpM0/J1JH6VfbDnncbJFmjFv7wSyiSxonKcWjb
+         5e+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=/vsjYa0mVNB7hxEqcjh0e4fbj05c2V9q8r7ZQBxHpwM=;
+        b=bsMAS28F1Qc/eUv30XHxNHp5eqdgFOV9jbV9NfvrgAB7t+/DlYe1SX55eJa8BhmCHh
+         RUQ6Gd/gRR2j6+biczzOgxXbZ3zjQluaTS6Xf3LWZ36ropXgZAkjRqGlTHDv/65RFHAs
+         NVRmH/ozBbv9ZetH8ArqONiivGcE4CBXMFhsDNP8nh05k13tppmby0Jce6d6ZdQTDPIP
+         WVK3K6r/Xlxq0vW76YtX3lJB587PKYei1ykqCXRGjG4uZG6///yoGlqnrEnyAovp3QbY
+         BtAcO7bzpLd+B/UZ9uJWUxCR2TvXYJYi6niKOa+ExtPjg1tVpqehZftcVTqJfcccMkRV
+         5nfg==
+X-Gm-Message-State: ACrzQf2VY3nr9ck/JAJzNT3tHQuKeavoK9DmR3LJTthQykatee3bGJvU
+        njnw21L6zeZZ2aYJ/JV4AoI2oA==
+X-Google-Smtp-Source: AMsMyM7YBWdfkzRoRE4S/zqUvt7CLV44mC0samCAKxwGxcYZXq+hTWVlsCY1bMdyEMHyAcWmuIsi+w==
+X-Received: by 2002:a17:902:6943:b0:178:4751:a76b with SMTP id k3-20020a170902694300b001784751a76bmr1869132plt.37.1664433851784;
+        Wed, 28 Sep 2022 23:44:11 -0700 (PDT)
+Received: from C02FT5A6MD6R.bytedance.net ([61.120.150.75])
+        by smtp.gmail.com with ESMTPSA id s18-20020a170902ea1200b00172fad607b3sm5089387plg.207.2022.09.28.23.44.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 23:44:11 -0700 (PDT)
+From:   Gang Li <ligang.bdlg@bytedance.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Valentin Schneider <vschneid@redhat.com>
+Cc:     Gang Li <ligang.bdlg@bytedance.com>, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v4] sched/numa: add per-process numa_balancing
+Date:   Thu, 29 Sep 2022 14:43:58 +0800
+Message-Id: <20220929064359.46932-1-ligang.bdlg@bytedance.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v4 01/14] docs: gunyah: Introduce Gunyah Hypervisor
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
- <20220928195633.2348848-2-quic_eberman@quicinc.com>
- <YzUUaIx+azyzFDNX@debian.me>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <YzUUaIx+azyzFDNX@debian.me>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This patch add a new api PR_NUMA_BALANCING in prctl.
 
+A large number of page faults will cause performance loss when numa
+balancing is performing. Thus those processes which care about worst-case
+performance need numa balancing disabled. Others, on the contrary, allow a
+temporary performance loss in exchange for higher average performance, so
+enable numa balancing is better for them.
 
-On 9/28/2022 8:43 PM, Bagas Sanjaya wrote:
-> On Wed, Sep 28, 2022 at 12:56:20PM -0700, Elliot Berman wrote:
->> diff --git a/Documentation/virt/gunyah/index.rst b/Documentation/virt/gunyah/index.rst
->> new file mode 100644
->> index 000000000000..959f451caccd
->> --- /dev/null
->> +++ b/Documentation/virt/gunyah/index.rst
->> @@ -0,0 +1,114 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +=================
->> +Gunyah Hypervisor
->> +=================
->> +
->> +.. toctree::
->> +   :maxdepth: 1
->> +
->> +   message-queue
->> +
->> +Gunyah is a Type-1 hypervisor which is independent of any OS kernel, and runs in
->> +a higher CPU privilege level. It does not depend on any lower-privileged operating system
->> +for its core functionality. This increases its security and can support a much smaller
->> +trusted computing base than a Type-2 hypervisor.
->> +
->> +Gunyah is an open source hypervisor. The source repo is available at
->> +https://github.com/quic/gunyah-hypervisor.
->> +
->> +Gunyah provides these following features.
->> +
->> +- Scheduling:
->> +
->> +  A scheduler for virtual CPUs (vCPUs) on physical CPUs and enables time-sharing
->> +  of the CPUs. Gunyah supports two models of scheduling:
->> +
->> +    1. "Behind the back" scheduling in which Gunyah hypervisor schedules vCPUS on its own
->> +    2. "Proxy" scheduling in which a delegated VM can donate part of one of its vCPU slice
->> +       to another VM's vCPU via a hypercall.
->> +
->> +- Memory Management:
->> +
->> +  APIs handling memory, abstracted as objects, limiting direct use of physical
->> +  addresses. Memory ownership and usage tracking of all memory under its control.
->> +  Memory partitioning between VMs is a fundamental security feature.
->> +
->> +- Interrupt Virtualization:
->> +
->> +  Uses CPU hardware interrupt virtualization capabilities. Interrupts are handled
->> +  in the hypervisor and routed to the assigned VM.
->> +
->> +- Inter-VM Communication:
->> +
->> +  There are several different mechanisms provided for communicating between VMs.
->> +
->> +- Virtual platform:
->> +
->> +  Architectural devices such as interrupt controllers and CPU timers are directly provided
->> +  by the hypervisor as well as core virtual platform devices and system APIs such as ARM PSCI.
->> +
->> +- Device Virtualization:
->> +
->> +  Para-virtualization of devices is supported using inter-VM communication.
->> +
->> +Architectures supported
->> +=======================
->> +AArch64 with a GIC
->> +
->> +Resources and Capabilities
->> +==========================
->> +
->> +Some services or resources provided by the Gunyah hypervisor are described to a virtual machine by
->> +capability IDs. For instance, inter-VM communication is performed with doorbells and message queues.
->> +Gunyah allows access to manipulate that doorbell via the capability ID. These devices are described
->> +in Linux as a struct gunyah_resource.
->> +
->> +High level management of these resources is performed by the resource manager VM. RM informs a
->> +guest VM about resources it can access through either the device tree or via guest-initiated RPC.
->> +
->> +For each virtual machine, Gunyah maintains a table of resources which can be accessed by that VM.
->> +An entry in this table is called a "capability" and VMs can only access resources via this
->> +capability table. Hence, virtual Gunyah devices are referenced by a "capability IDs" and not a
->> +"resource IDs". A VM can have multiple capability IDs mapping to the same resource. If 2 VMs have
->> +access to the same resource, they may not be using the same capability ID to access that resource
->> +since the tables are independent per VM.
->> +
->> +Resource Manager
->> +================
->> +
->> +The resource manager (RM) is a privileged application VM supporting the Gunyah Hypervisor.
->> +It provides policy enforcement aspects of the virtualization system. The resource manager can
->> +be treated as an extension of the Hypervisor but is separated to its own partition to ensure
->> +that the hypervisor layer itself remains small and secure and to maintain a separation of policy
->> +and mechanism in the platform. On arm64, RM runs at NS-EL1 similar to other virtual machines.
->> +
->> +Communication with the resource manager from each guest VM happens with message-queue.rst. Details
->> +about the specific messages can be found in drivers/virt/gunyah/rsc_mgr.c
->> +
->> +::
->> +
->> +  +-------+   +--------+   +--------+
->> +  |  RM   |   |  VM_A  |   |  VM_B  |
->> +  +-.-.-.-+   +---.----+   +---.----+
->> +    | |           |            |
->> +  +-.-.-----------.------------.----+
->> +  | | \==========/             |    |
->> +  |  \========================/     |
->> +  |            Gunyah               |
->> +  +---------------------------------+
->> +
->> +The source for the resource manager is available at https://github.com/quic/gunyah-resource-manager.
->> +
->> +The resource manager provides the following features:
->> +
->> +- VM lifecycle management: allocating a VM, starting VMs, destruction of VMs
->> +- VM access control policy, including memory sharing and lending
->> +- Interrupt routing configuration
->> +- Forwarding of system-level events (e.g. VM shutdown) to owner VM
->> +
->> +When booting a virtual machine which uses a devicetree, resource manager overlays a
->> +/hypervisor node. This node can let Linux know it is running as a Gunyah guest VM,
->> +how to communicate with resource manager, and basic description and capabilities of
->> +this VM. See Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml for a description
->> +of this node.
-> 
-> The documentation LGTM.
-> 
->> diff --git a/Documentation/virt/gunyah/message-queue.rst b/Documentation/virt/gunyah/message-queue.rst
->> new file mode 100644
->> index 000000000000..e130f124ed52
->> --- /dev/null
->> +++ b/Documentation/virt/gunyah/message-queue.rst
->> <snipped>...
->> +The diagram below shows how message queue works. A typical configuration involves
->> +2 message queues. Message queue 1 allows VM_A to send messages to VM_B. Message
->> +queue 2 allows VM_B to send messages to VM_A.
->> +
->> +1. VM_A sends a message of up to 1024 bytes in length. It raises a hypercall
->> +   with the message to inform the hypervisor to add the message to
->> +   message queue 1's queue.
->> +2. Gunyah raises the corresponding interrupt for VM_B when any of these happens:
->> +   a. gh_msgq_send has PUSH flag. Queue is immediately flushed. This is the typical case.
->> +   b. Explicility with gh_msgq_push command from VM_A.
->> +   c. Message queue has reached a threshold depth.
->> +3. VM_B calls gh_msgq_recv and Gunyah copies message to requested buffer.
->> +
-> 
-> The nested list above should be separated with blank lines to be
-> rendered properly:
-> 
-> ---- >8 ----
-> 
-> diff --git a/Documentation/virt/gunyah/message-queue.rst b/Documentation/virt/gunyah/message-queue.rst
-> index e130f124ed525a..afaad99db215e6 100644
-> --- a/Documentation/virt/gunyah/message-queue.rst
-> +++ b/Documentation/virt/gunyah/message-queue.rst
-> @@ -20,9 +20,11 @@ queue 2 allows VM_B to send messages to VM_A.
->      with the message to inform the hypervisor to add the message to
->      message queue 1's queue.
->   2. Gunyah raises the corresponding interrupt for VM_B when any of these happens:
-> +
->      a. gh_msgq_send has PUSH flag. Queue is immediately flushed. This is the typical case.
->      b. Explicility with gh_msgq_push command from VM_A.
->      c. Message queue has reached a threshold depth.
-> +
->   3. VM_B calls gh_msgq_recv and Gunyah copies message to requested buffer.
->   
->   For VM_B to send a message to VM_A, the process is identical, except that hypercalls
-> 
-> Thanks.
-> 
+Numa balancing can only be controlled globally by
+/proc/sys/kernel/numa_balancing. Due to the above case, we want to
+disable/enable numa_balancing per-process instead.
 
-Thanks! Applied for next version.
+Add numa_balancing under mm_struct. Then use it in task_tick_fair.
+
+Set per-process numa balancing:
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DISABLE); //disable
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_ENABLE);  //enable
+	prctl(PR_NUMA_BALANCING, PR_SET_NUMAB_DEFAULT); //follow global
+Get numa_balancing state:
+	prctl(PR_NUMA_BALANCING, PR_GET_NUMAB, &ret);
+	cat /proc/<pid>/status | grep NumaB_enabled
+
+Cc: linux-api@vger.kernel.org
+Signed-off-by: Gang Li <ligang.bdlg@bytedance.com>
+---
+Changes in v4:
+- code clean: add wrapper function `numa_balancing_enabled`
+
+Changes in v3:
+- Fix compile error.
+
+Changes in v2:
+- Now PR_NUMA_BALANCING support three states: enabled, disabled, default.
+  enabled and disabled will ignore global setting, and default will follow
+  global setting.
+---
+ Documentation/filesystems/proc.rst   |  2 ++
+ fs/proc/task_mmu.c                   | 19 +++++++++++++++
+ include/linux/mm_types.h             |  3 +++
+ include/linux/sched/numa_balancing.h |  8 +++++++
+ include/uapi/linux/prctl.h           |  7 ++++++
+ kernel/fork.c                        |  3 +++
+ kernel/sched/core.c                  | 15 ++++++++++++
+ kernel/sched/fair.c                  | 32 ++++++++++++++++++++-----
+ kernel/sys.c                         | 35 ++++++++++++++++++++++++++++
+ 9 files changed, 118 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index e7aafc82be99..b2ddffad015f 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -192,6 +192,7 @@ read the file /proc/PID/status::
+   VmLib:      1412 kB
+   VmPTE:        20 kb
+   VmSwap:        0 kB
++  NumaB_enabled:  default
+   HugetlbPages:          0 kB
+   CoreDumping:    0
+   THP_enabled:	  1
+@@ -273,6 +274,7 @@ It's slow but very precise.
+  VmPTE                       size of page table entries
+  VmSwap                      amount of swap used by anonymous private data
+                              (shmem swap usage is not included)
++ NumaB_enabled               numa balancing state, set by prctl(PR_NUMA_BALANCING, ...)
+  HugetlbPages                size of hugetlb memory portions
+  CoreDumping                 process's memory is currently being dumped
+                              (killing the process may lead to a corrupted core)
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 8b4f3073f8f5..7358a5932e5a 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -19,6 +19,7 @@
+ #include <linux/shmem_fs.h>
+ #include <linux/uaccess.h>
+ #include <linux/pkeys.h>
++#include <linux/sched/numa_balancing.h>
+ 
+ #include <asm/elf.h>
+ #include <asm/tlb.h>
+@@ -75,6 +76,24 @@ void task_mem(struct seq_file *m, struct mm_struct *mm)
+ 		    " kB\nVmPTE:\t", mm_pgtables_bytes(mm) >> 10, 8);
+ 	SEQ_PUT_DEC(" kB\nVmSwap:\t", swap);
+ 	seq_puts(m, " kB\n");
++#ifdef CONFIG_NUMA_BALANCING
++	seq_puts(m, "NumaB_enabled:\t");
++	switch (mm->numab_enabled) {
++	case NUMAB_DEFAULT:
++		seq_puts(m, "default");
++		break;
++	case NUMAB_DISABLED:
++		seq_puts(m, "disabled");
++		break;
++	case NUMAB_ENABLED:
++		seq_puts(m, "enabled");
++		break;
++	default:
++		seq_puts(m, "unknown");
++		break;
++	}
++	seq_putc(m, '\n');
++#endif
+ 	hugetlb_report_usage(m, mm);
+ }
+ #undef SEQ_PUT_DEC
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 500e536796ca..d9bfa740d905 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -665,6 +665,9 @@ struct mm_struct {
+ 
+ 		/* numa_scan_seq prevents two threads remapping PTEs. */
+ 		int numa_scan_seq;
++
++		/* Controls whether NUMA balancing is active for this mm. */
++		int numab_enabled;
+ #endif
+ 		/*
+ 		 * An operation with batched TLB flushing is going on. Anything
+diff --git a/include/linux/sched/numa_balancing.h b/include/linux/sched/numa_balancing.h
+index 3988762efe15..f4a4cdf264bc 100644
+--- a/include/linux/sched/numa_balancing.h
++++ b/include/linux/sched/numa_balancing.h
+@@ -16,12 +16,20 @@
+ #define TNF_MIGRATE_FAIL 0x10
+ 
+ #ifdef CONFIG_NUMA_BALANCING
++enum {
++	NUMAB_DISABLED,
++	NUMAB_ENABLED,
++	NUMAB_DEFAULT
++};
++DECLARE_STATIC_KEY_FALSE(sched_numa_balancing);
+ extern void task_numa_fault(int last_node, int node, int pages, int flags);
+ extern pid_t task_numa_group_id(struct task_struct *p);
+ extern void set_numabalancing_state(bool enabled);
+ extern void task_numa_free(struct task_struct *p, bool final);
+ extern bool should_numa_migrate_memory(struct task_struct *p, struct page *page,
+ 					int src_nid, int dst_cpu);
++extern bool numa_balancing_enabled(struct task_struct *p);
++extern int numa_balancing_mode(struct mm_struct *mm);
+ #else
+ static inline void task_numa_fault(int last_node, int node, int pages,
+ 				   int flags)
+diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+index a5e06dcbba13..4c57724b04c3 100644
+--- a/include/uapi/linux/prctl.h
++++ b/include/uapi/linux/prctl.h
+@@ -284,4 +284,11 @@ struct prctl_mm_map {
+ #define PR_SET_VMA		0x53564d41
+ # define PR_SET_VMA_ANON_NAME		0
+ 
++/* Set/get enabled per-process numa_balancing */
++#define PR_NUMA_BALANCING		65
++# define PR_SET_NUMAB_DISABLED		NUMAB_DISABLED
++# define PR_SET_NUMAB_ENABLED		NUMAB_ENABLED
++# define PR_SET_NUMAB_DEFAULT		NUMAB_DEFAULT
++# define PR_GET_NUMAB			3
++
+ #endif /* _LINUX_PRCTL_H */
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 844dfdc8c639..1b9254315770 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -1133,6 +1133,9 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+ 	init_tlb_flush_pending(mm);
+ #if defined(CONFIG_TRANSPARENT_HUGEPAGE) && !USE_SPLIT_PMD_PTLOCKS
+ 	mm->pmd_huge_pte = NULL;
++#endif
++#ifdef CONFIG_NUMA_BALANCING
++	mm->numab_enabled = NUMAB_DEFAULT;
+ #endif
+ 	mm_init_uprobes_state(mm);
+ 	hugetlb_count_init(mm);
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index a77e8bfbfb5b..12d171978538 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -4396,6 +4396,21 @@ void set_numabalancing_state(bool enabled)
+ 	__set_numabalancing_state(enabled);
+ }
+ 
++inline int numa_balancing_mode(struct mm_struct *mm)
++{
++	int numab = mm->numab_enabled;
++
++	switch (numab) {
++	case NUMAB_ENABLED:
++		return NUMA_BALANCING_NORMAL;
++	case NUMAB_DISABLED:
++		return NUMA_BALANCING_DISABLED;
++	case NUMAB_DEFAULT:
++	default:
++		return sysctl_numa_balancing_mode;
++	}
++}
++
+ #ifdef CONFIG_PROC_SYSCTL
+ static void reset_memory_tiering(void)
+ {
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index ef0e6b3e08ff..87215b3776c9 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -2818,6 +2818,24 @@ void task_numa_free(struct task_struct *p, bool final)
+ 	}
+ }
+ 
++inline bool numa_balancing_enabled(struct task_struct *p)
++{
++	if (p->mm) {
++		int numab = p->mm->numab_enabled;
++
++		switch (numab) {
++		case NUMAB_ENABLED:
++			return true;
++		case NUMAB_DISABLED:
++			return false;
++		case NUMAB_DEFAULT:
++			break;
++		}
++	}
++
++	return static_branch_unlikely(&sched_numa_balancing);
++}
++
+ /*
+  * Got a PROT_NONE fault for a page on @node.
+  */
+@@ -2830,13 +2848,13 @@ void task_numa_fault(int last_cpupid, int mem_node, int pages, int flags)
+ 	struct numa_group *ng;
+ 	int priv;
+ 
+-	if (!static_branch_likely(&sched_numa_balancing))
+-		return;
+-
+ 	/* for example, ksmd faulting in a user's mm */
+ 	if (!p->mm)
+ 		return;
+ 
++	if (!numa_balancing_enabled(p))
++		return;
++
+ 	/*
+ 	 * NUMA faults statistics are unnecessary for the slow memory
+ 	 * node for memory tiering mode.
+@@ -3151,7 +3169,7 @@ static void update_scan_period(struct task_struct *p, int new_cpu)
+ 	int src_nid = cpu_to_node(task_cpu(p));
+ 	int dst_nid = cpu_to_node(new_cpu);
+ 
+-	if (!static_branch_likely(&sched_numa_balancing))
++	if (!numa_balancing_enabled(p))
+ 		return;
+ 
+ 	if (!p->mm || !p->numa_faults || (p->flags & PF_EXITING))
+@@ -7996,7 +8014,7 @@ static int migrate_degrades_locality(struct task_struct *p, struct lb_env *env)
+ 	unsigned long src_weight, dst_weight;
+ 	int src_nid, dst_nid, dist;
+ 
+-	if (!static_branch_likely(&sched_numa_balancing))
++	if (!numa_balancing_enabled(p))
+ 		return -1;
+ 
+ 	if (!p->numa_faults || !(env->sd->flags & SD_NUMA))
+@@ -11581,8 +11599,10 @@ static void task_tick_fair(struct rq *rq, struct task_struct *curr, int queued)
+ 		entity_tick(cfs_rq, se, queued);
+ 	}
+ 
+-	if (static_branch_unlikely(&sched_numa_balancing))
++#ifdef CONFIG_NUMA_BALANCING
++	if (numa_balancing_enabled(curr))
+ 		task_tick_numa(rq, curr);
++#endif
+ 
+ 	update_misfit_status(curr, rq);
+ 	update_overutilized_status(task_rq(curr));
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 8a6432465dc5..11720a35455a 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -59,6 +59,7 @@
+ #include <linux/sched/coredump.h>
+ #include <linux/sched/task.h>
+ #include <linux/sched/cputime.h>
++#include <linux/sched/numa_balancing.h>
+ #include <linux/rcupdate.h>
+ #include <linux/uidgid.h>
+ #include <linux/cred.h>
+@@ -2101,6 +2102,23 @@ static int prctl_set_auxv(struct mm_struct *mm, unsigned long addr,
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_NUMA_BALANCING
++static int prctl_pid_numa_balancing_write(int numa_balancing)
++{
++	if (numa_balancing != PR_SET_NUMAB_DEFAULT
++	    && numa_balancing != PR_SET_NUMAB_DISABLED
++	    && numa_balancing != PR_SET_NUMAB_ENABLED)
++		return -EINVAL;
++	current->mm->numab_enabled = numa_balancing;
++	return 0;
++}
++
++static int prctl_pid_numa_balancing_read(void)
++{
++	return current->mm->numab_enabled;
++}
++#endif
++
+ static int prctl_set_mm(int opt, unsigned long addr,
+ 			unsigned long arg4, unsigned long arg5)
+ {
+@@ -2615,6 +2633,23 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+ 		error = set_syscall_user_dispatch(arg2, arg3, arg4,
+ 						  (char __user *) arg5);
+ 		break;
++#ifdef CONFIG_NUMA_BALANCING
++	case PR_NUMA_BALANCING:
++		switch (arg2) {
++		case PR_SET_NUMAB_DEFAULT:
++		case PR_SET_NUMAB_DISABLED:
++		case PR_SET_NUMAB_ENABLED:
++			error = prctl_pid_numa_balancing_write((int)arg2);
++			break;
++		case PR_GET_NUMAB:
++			error = put_user(prctl_pid_numa_balancing_read(), (int __user *)arg3);
++			break;
++		default:
++			error = -EINVAL;
++			break;
++		}
++		break;
++#endif
+ #ifdef CONFIG_SCHED_CORE
+ 	case PR_SCHED_CORE:
+ 		error = sched_core_share_pid(arg2, arg3, arg4, arg5);
+-- 
+2.20.1
 
