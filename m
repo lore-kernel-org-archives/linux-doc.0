@@ -2,471 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE30C43217
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 03:41:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ED94C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 04:05:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229839AbiI3DlM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 23:41:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56544 "EHLO
+        id S229882AbiI3EFo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 00:05:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbiI3DlK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 23:41:10 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C8B17EFEE;
-        Thu, 29 Sep 2022 20:41:08 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id u12so3121233pjj.1;
-        Thu, 29 Sep 2022 20:41:08 -0700 (PDT)
+        with ESMTP id S230131AbiI3EFk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 00:05:40 -0400
+Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com [IPv6:2607:f8b0:4864:20::933])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40C53E9CD5
+        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 21:05:35 -0700 (PDT)
+Received: by mail-ua1-x933.google.com with SMTP id p89so1278160uap.12
+        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 21:05:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=GsJL71zBc0kUncy0B1Baf1aatIrD2b+ye64C2hSTZDw=;
-        b=QHUsUemaJemvK+9u/noyxU0kDBzkolQo7gSntrhI+Y8mPIW1QZSUfzsWJYvdTeP+Zx
-         hAKRltsNuwb5Ib6ni9Eu2wqvkjuctWBsBt1+YGsqHAFORs9PWOHJr3EQPIb7FgpFF45C
-         W8JX4iAGyWyVV1+co/0PpLaemTMPHL5mtUvuAZ0Q4QAZW2Z/XZXFWabUUTF1VD2vT6vd
-         iyV2iq8nHkBRYh1UIA0/ZU9wp/jeqzeoBmoy0/BUfF0iGMRJasN5xRDqw4jJT3PcvTez
-         jbQdKF77r84g9q4Smp5dtWEy0lfxRsJt8C+hF1FH9FFU2m9BfnG8ODUJqF3qzkKeUOIu
-         YoBg==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=0Dd4cIXYr8vzuY4h0mF6j8uBkC7zEMugX9E/eH5bqrw=;
+        b=swHFxtR4qv29RvMgolP8tMUITe3Zc15MReB5EJbGruVCK0b+AUqi+aN92JyazJEOEE
+         +nFVvmb8+ksQ8Obm3c+dRPkmapHTsAwyBZeyNwihVm6IlYAkmHugXHLkI9DkC0Sr0HnL
+         SmMw18uJDIc70NvVanxNXzQG8fkbSE+92eZ/TOtlT1f3AJLzx2cL0DXYQ7pqVHdRh9Cy
+         me1JLZgRXpjhZcG357kH22Pdf/Ovah/8pwEo373nmPnmpKKVo0oy4p3EEaYpaDNNDGdD
+         bRtpia9+xvK3BC469nVu7Oz1FpOWzlqvE7w7YrEu0IrObOeIZbkFRmdpdJr15uDEpM72
+         j2dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=GsJL71zBc0kUncy0B1Baf1aatIrD2b+ye64C2hSTZDw=;
-        b=Kd0T2V02jGNmXXJpXeN4q9+SpsgrZRCnlDFL7Xt+tdW9dnRrZRumzXXCQjzhaqpUl/
-         aZEuL5e79uQGIKosJmil+i9wonWD0Wh3vHTUYv1v5CJdNwHj7Mn/oCbcWdWeVS2dUc1g
-         NmGjJORUg7SZXQgxhhDymwKUsXEKjW7ERPRp6CrlnOa8ZqNboSUwgRagRqnD0yBzLgB6
-         z/aaw8k1mSmkMidDLLuDpdi0wTcBdgqaAEvw1SDuu1nebTxJvbc0sgfBou/6LZBgIU5H
-         JvGcACRkBSN7cJ/NdNyFZJ+W7R00mCHljyeN/huM2gdXTC0sgmTxMZ4T4OTZ/qlSuOSq
-         pVsA==
-X-Gm-Message-State: ACrzQf19TJtRLfZJSw2ayhCgSWNv1UTht3G9n/gFTNzK+SIZw2Ndumnk
-        SsFT4TdDyQW5juOdz1yEHGk=
-X-Google-Smtp-Source: AMsMyM5It3aJjg1M83/P5mmD86k816Euz6h2VgrPhh7vuN5+OA4Viy5OUl6Mzc/b5kEy80N5N5l5ZQ==
-X-Received: by 2002:a17:90a:2b0c:b0:203:b7b1:2ba2 with SMTP id x12-20020a17090a2b0c00b00203b7b12ba2mr7332499pjc.34.1664509267586;
-        Thu, 29 Sep 2022 20:41:07 -0700 (PDT)
-Received: from debian.me (subs28-116-206-12-57.three.co.id. [116.206.12.57])
-        by smtp.gmail.com with ESMTPSA id m10-20020a17090a668a00b00203ab277966sm4315763pjj.7.2022.09.29.20.41.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Sep 2022 20:41:06 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 6AB0710374D; Fri, 30 Sep 2022 10:41:03 +0700 (WIB)
-Date:   Fri, 30 Sep 2022 10:41:03 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com, rppt@kernel.org,
-        jamorris@linux.microsoft.com, dethoma@microsoft.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v2 01/39] Documentation/x86: Add CET description
-Message-ID: <YzZlT7sO56TzXgNc@debian.me>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-2-rick.p.edgecombe@intel.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=0Dd4cIXYr8vzuY4h0mF6j8uBkC7zEMugX9E/eH5bqrw=;
+        b=7qr25sr67j9GhrgAopq8Tca5fR7FBMWWzS4hwGLdFgBUhRFgSOvntIGp5foXLC/FDB
+         9C1hwxIO+sfrxessk+TaWEtiqnwe/H9uSY2rAHDZGmDfYaTGQQ7w4qe/PVEPshmFrZo4
+         pO174jT7c/ELfZKyfhpo6uDr6lnrFCEzQKCvdRdsofeu7f8mS2jGoHQBkF590KsFF4l+
+         DpGzXsKRv5XDUmcAac+CQSxpZ298qRi+ZHvVcqTa8AmL7t3mX4WwEOYnAE80UqC9RDte
+         jAgByZcoxUT0Kvc45mQVlv32rbooD7G1cANilwxO1NpDx7XSKIM1mri6ec0cki2aP5i1
+         jqCg==
+X-Gm-Message-State: ACrzQf3ctSnfUQRBN4DTzziM5egR2TiGdheSrOBohAE5bhVO/Sy3bv0a
+        y7ONnOwjdRA4RcFEWB17Pra39g8LMwy4qhtQwu1vDg==
+X-Google-Smtp-Source: AMsMyM6yVObhLCANVfmMyYEpCFdpFjwEkxI7OpmmeUFMHPxuBFQ0gzj+mcxSJjw4YVEgzLR694Ce7AVS7vUPSLMWAKk=
+X-Received: by 2002:a9f:3190:0:b0:3d3:198c:2074 with SMTP id
+ v16-20020a9f3190000000b003d3198c2074mr3608570uad.52.1664510734579; Thu, 29
+ Sep 2022 21:05:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="eGuHlwYLjB6uXtie"
-Content-Disposition: inline
-In-Reply-To: <20220929222936.14584-2-rick.p.edgecombe@intel.com>
+References: <20220929085332.4155-1-khalid.masum.92@gmail.com>
+In-Reply-To: <20220929085332.4155-1-khalid.masum.92@gmail.com>
+From:   David Gow <davidgow@google.com>
+Date:   Fri, 30 Sep 2022 12:05:23 +0800
+Message-ID: <CABVgOSnB842E3dfnnPbmhsZq=yUUPTKSkY86d9aJRdpZ5uGoyw@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: Kunit: Use full path to .kunitconfig
+To:     Khalid Masum <khalid.masum.92@gmail.com>
+Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sadiya Kazi <sadiyakazi@google.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="00000000000013984405e9dd1bc7"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+--00000000000013984405e9dd1bc7
+Content-Type: text/plain; charset="UTF-8"
 
---eGuHlwYLjB6uXtie
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Sep 29, 2022 at 4:56 PM Khalid Masum <khalid.masum.92@gmail.com> wrote:
+>
+> The fourth list item on writing test cases instructs adding Kconfig
+> fragments to .kunitconfig, which should have been full path to the file
+> (.kunit/.kunitconfig).
+>
+> Cc: Sadiya Kazi <sadiyakazi@google.com>
+> Cc: David Gow <davidgow@google.com>
+> Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+> ---
+> Changes since v1:
+> - Update commit message
+> - Make the instruction more descriptive
+>
 
-On Thu, Sep 29, 2022 at 03:28:58PM -0700, Rick Edgecombe wrote:
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Control-flow Enforcement Technology (CET)
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Overview
-> +=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Control-flow Enforcement Technology (CET) is term referring to several
-> +related x86 processor features that provides protection against control
-> +flow hijacking attacks. The HW feature itself can be set up to protect
-> +both applications and the kernel. Only user-mode protection is implement=
-ed
-> +in the 64-bit kernel.
-> +
-> +CET introduces Shadow Stack and Indirect Branch Tracking. Shadow stack is
-> +a secondary stack allocated from memory and cannot be directly modified =
-by
-> +applications. When executing a CALL instruction, the processor pushes the
-> +return address to both the normal stack and the shadow stack. Upon
-> +function return, the processor pops the shadow stack copy and compares it
-> +to the normal stack copy. If the two differ, the processor raises a
-> +control-protection fault. Indirect branch tracking verifies indirect
-> +CALL/JMP targets are intended as marked by the compiler with 'ENDBR'
-> +opcodes. Not all CPU's have both Shadow Stack and Indirect Branch Tracki=
-ng
-> +and only Shadow Stack is currently supported in the kernel.
-> +
-> +The Kconfig options is X86_SHADOW_STACK, and it can be disabled with
-> +the kernel parameter clearcpuid, like this: "clearcpuid=3Dshstk".
-> +
-> +To build a CET-enabled kernel, Binutils v2.31 and GCC v8.1 or LLVM v10.0=
-=2E1
-> +or later are required. To build a CET-enabled application, GLIBC v2.28 or
-> +later is also required.
-> +
-> +At run time, /proc/cpuinfo shows CET features if the processor supports
-> +CET.
-> +
-> +Application Enabling
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +An application's CET capability is marked in its ELF header and can be
-> +verified from readelf/llvm-readelf output:
-> +
-> +    readelf -n <application> | grep -a SHSTK
-> +        properties: x86 feature: SHSTK
-> +
-> +The kernel does not process these applications directly. Applications mu=
-st
-> +enable them using the interface descriped in section 4. Typically this
-> +would be done in dynamic loader or static runtime objects, as is the case
-> +in glibc.
-> +
-> +Backward Compatibility
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +GLIBC provides a few CET tunables via the GLIBC_TUNABLES environment
-> +variable:
-> +
-> +GLIBC_TUNABLES=3Dglibc.tune.hwcaps=3D-SHSTK,-WRSS
-> +    Turn off SHSTK/WRSS.
-> +
-> +GLIBC_TUNABLES=3Dglibc.tune.x86_shstk=3D<on, permissive>
-> +    This controls how dlopen() handles SHSTK legacy libraries::
-> +
-> +        on         - continue with SHSTK enabled;
-> +        permissive - continue with SHSTK off.
-> +
-> +Details can be found in the GLIBC manual pages.
-> +
-> +CET arch_prctl()'s
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Elf features should be enabled by the loader using the below arch_prctl'=
-s.
-> +
-> +arch_prctl(ARCH_CET_ENABLE, unsigned int feature)
-> +    Enable a single feature specified in 'feature'. Can only operate on
-> +    one feature at a time.
-> +
-> +arch_prctl(ARCH_CET_DISABLE, unsigned int feature)
-> +    Disable features specified in 'feature'. Can only operate on
-> +    one feature at a time.
-> +
-> +arch_prctl(ARCH_CET_LOCK, unsigned int features)
-> +    Lock in features at their current enabled or disabled status.
-> +
-> +The return values are as following:
-> +    On success, return 0. On error, errno can be::
-> +
-> +        -EPERM if any of the passed feature are locked.
-> +        -EOPNOTSUPP if the feature is not supported by the hardware or
-> +         disabled by kernel parameter.
-> +        -EINVAL arguments (non existing feature, etc)
-> +
-> +Currently shadow stack and WRSS are supported via this interface. WRSS
-> +can only be enabled with shadow stack, and is automatically disabled
-> +if shadow stack is disabled.
-> +
-> +Proc status
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +To check if an application is actually running with shadow stack, the
-> +user can read the /proc/$PID/arch_status. It will report "wrss" or
-> +"shstk" depending on what is enabled.
-> +
-> +The implementation of the Shadow Stack
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Shadow Stack size
-> +-----------------
-> +
-> +A task's shadow stack is allocated from memory to a fixed size of
-> +MIN(RLIMIT_STACK, 4 GB). In other words, the shadow stack is allocated to
-> +the maximum size of the normal stack, but capped to 4 GB. However,
-> +a compat-mode application's address space is smaller, each of its thread=
-'s
-> +shadow stack size is MIN(1/4 RLIMIT_STACK, 4 GB).
-> +
-> +Signal
-> +------
-> +
-> +By default, the main program and its signal handlers use the same shadow
-> +stack. Because the shadow stack stores only return addresses, a large
-> +shadow stack covers the condition that both the program stack and the
-> +signal alternate stack run out.
-> +
-> +The kernel creates a restore token for the shadow stack and pushes the
-> +restorer address to the shadow stack. Then verifies that token when
-> +restoring from the signal handler.
-> +
-> +Fork
-> +----
-> +
-> +The shadow stack's vma has VM_SHADOW_STACK flag set; its PTEs are requir=
-ed
-> +to be read-only and dirty. When a shadow stack PTE is not RO and dirty, a
-> +shadow access triggers a page fault with the shadow stack access bit set
-> +in the page fault error code.
-> +
-> +When a task forks a child, its shadow stack PTEs are copied and both the
-> +parent's and the child's shadow stack PTEs are cleared of the dirty bit.
-> +Upon the next shadow stack access, the resulting shadow stack page fault
-> +is handled by page copy/re-use.
-> +
-> +When a pthread child is created, the kernel allocates a new shadow stack
-> +for the new thread.
+I confess, I think I prefer v1 overall here. Further notes below.
 
-The documentation above can be improved (both grammar and formatting):
+If there are no further objections, I'll continue to propose v1 for 6.1.
 
----- >8 ----
+Cheers,
+-- David
 
-diff --git a/Documentation/x86/cet.rst b/Documentation/x86/cet.rst
-index 6b270a24ebc3a2..f691f7995cf088 100644
---- a/Documentation/x86/cet.rst
-+++ b/Documentation/x86/cet.rst
-@@ -15,92 +15,101 @@ in the 64-bit kernel.
-=20
- CET introduces Shadow Stack and Indirect Branch Tracking. Shadow stack is
- a secondary stack allocated from memory and cannot be directly modified by
--applications. When executing a CALL instruction, the processor pushes the
-+applications. When executing a ``CALL`` instruction, the processor pushes =
-the
- return address to both the normal stack and the shadow stack. Upon
- function return, the processor pops the shadow stack copy and compares it
- to the normal stack copy. If the two differ, the processor raises a
- control-protection fault. Indirect branch tracking verifies indirect
--CALL/JMP targets are intended as marked by the compiler with 'ENDBR'
--opcodes. Not all CPU's have both Shadow Stack and Indirect Branch Tracking
--and only Shadow Stack is currently supported in the kernel.
-+``CALL``/``JMP`` targets are intended as marked by the compiler with ``END=
-BR``
-+opcodes. Not all CPUs have both Shadow Stack and Indirect Branch Tracking
-+and only Shadow Stack is currently supported by the kernel.
-=20
--The Kconfig options is X86_SHADOW_STACK, and it can be disabled with
--the kernel parameter clearcpuid, like this: "clearcpuid=3Dshstk".
-+The Kconfig options is ``X86_SHADOW_STACK`` and it can be overridden with
-+the kernel command-line parameter ``clearcpuid`` (for example
-+``clearcpuid=3Dshstk``).
-=20
- To build a CET-enabled kernel, Binutils v2.31 and GCC v8.1 or LLVM v10.0.1
--or later are required. To build a CET-enabled application, GLIBC v2.28 or
-+or later are required. To build a CET-enabled application, glibc v2.28 or
- later is also required.
-=20
--At run time, /proc/cpuinfo shows CET features if the processor supports
--CET.
-+At run time, ``/proc/cpuinfo`` shows CET features if the processor supports
-+them
-=20
--Application Enabling
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+Enabling CET in applications
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-=20
--An application's CET capability is marked in its ELF header and can be
--verified from readelf/llvm-readelf output:
-+The CET capability of an application is marked in its ELF header and can be
-+verified from ``readelf``/``llvm-readelf`` output::
-=20
-     readelf -n <application> | grep -a SHSTK
-         properties: x86 feature: SHSTK
-=20
- The kernel does not process these applications directly. Applications must
--enable them using the interface descriped in section 4. Typically this
-+enable them using :ref:`cet-arch_prctl`. Typically this
- would be done in dynamic loader or static runtime objects, as is the case
- in glibc.
-=20
- Backward Compatibility
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
--GLIBC provides a few CET tunables via the GLIBC_TUNABLES environment
-+glibc provides a few CET tunables via the ``GLIBC_TUNABLES`` environment
- variable:
-=20
--GLIBC_TUNABLES=3Dglibc.tune.hwcaps=3D-SHSTK,-WRSS
-+  * ``GLIBC_TUNABLES=3Dglibc.tune.hwcaps=3D-SHSTK,-WRSS``
-+
-     Turn off SHSTK/WRSS.
-=20
--GLIBC_TUNABLES=3Dglibc.tune.x86_shstk=3D<on, permissive>
--    This controls how dlopen() handles SHSTK legacy libraries::
-+  * ``GLIBC_TUNABLES=3Dglibc.tune.x86_shstk=3D<on, permissive>``
-=20
--        on         - continue with SHSTK enabled;
--        permissive - continue with SHSTK off.
-+    This controls how :manpage:`dlopen(3)` handles SHSTK legacy libraries.
-+    Possible values are:
-=20
--Details can be found in the GLIBC manual pages.
-+    * ``on``         - continue with SHSTK enabled;
-+    * ``permissive`` - continue with SHSTK off.
-=20
--CET arch_prctl()'s
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+.. _cet-arch_prctl:
-=20
--Elf features should be enabled by the loader using the below arch_prctl's.
-+CET arch_prctl() interface
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-=20
--arch_prctl(ARCH_CET_ENABLE, unsigned int feature)
--    Enable a single feature specified in 'feature'. Can only operate on
-+ELF features should be enabled by the loader using the following
-+:manpage:`arch_prctl(2)` subfunctions:
-+
-+  * ``arch_prctl(ARCH_CET_ENABLE, unsigned int feature)``
-+
-+    Enable a single feature specified in ``feature``. Can only operate on
-     one feature at a time.
-=20
--arch_prctl(ARCH_CET_DISABLE, unsigned int feature)
--    Disable features specified in 'feature'. Can only operate on
-+  * ``arch_prctl(ARCH_CET_DISABLE, unsigned int feature)``
-+
-+    Disable features specified in ``feature``. Can only operate on
-     one feature at a time.
-=20
--arch_prctl(ARCH_CET_LOCK, unsigned int features)
--    Lock in features at their current enabled or disabled status.
-+  * ``arch_prctl(ARCH_CET_LOCK, unsigned int features)``
-+
-+    Lock in features at their current status.
-+
-+  * ``arch_prctl(ARCH_CET_UNLOCK, unsigned int features)``
-=20
--arch_prctl(ARCH_CET_UNLOCK, unsigned int features)
-     Unlock features.
-=20
--The return values are as following:
--    On success, return 0. On error, errno can be::
-+On success, :manpage:`arch_prctl(2)` returns 0, otherwise the errno
-+can be:
-=20
--        -EPERM if any of the passed feature are locked.
--        -EOPNOTSUPP if the feature is not supported by the hardware or
--         disabled by kernel parameter.
--        -EINVAL arguments (non existing feature, etc)
-+  - ``EPERM`` if any of the passed feature are locked.
-+  - ``EOPNOTSUPP`` if the feature is not supported by the hardware or
-+    disabled by the kernel command-line parameter.
-+  - ``EINVAL`` if the arguments are invalid (non existing feature, etc).
-=20
- Currently shadow stack and WRSS are supported via this interface. WRSS
- can only be enabled with shadow stack, and is automatically disabled
- if shadow stack is disabled.
-=20
--Proc status
-+proc status
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
--To check if an application is actually running with shadow stack, the
--user can read the /proc/$PID/arch_status. It will report "wrss" or
--"shstk" depending on what is enabled.
-+To check if an application is actually running with shadow stack, users can
-+read ``/proc/$PID/arch_status``. It will report ``wrss`` or
-+``shstk`` depending on what is enabled.
-=20
- The implementation of the Shadow Stack
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-@@ -108,11 +117,11 @@ The implementation of the Shadow Stack
- Shadow Stack size
- -----------------
-=20
--A task's shadow stack is allocated from memory to a fixed size of
--MIN(RLIMIT_STACK, 4 GB). In other words, the shadow stack is allocated to
-+The shadow stack of a task is allocated from memory to a fixed size of
-+``MIN(RLIMIT_STACK, 4 GB)``. In other words, the shadow stack is allocated=
- to
- the maximum size of the normal stack, but capped to 4 GB. However,
--a compat-mode application's address space is smaller, each of its thread's
--shadow stack size is MIN(1/4 RLIMIT_STACK, 4 GB).
-+the address space of a compat-mode application is smaller; the shadow stack
-+size of each of its thread is ``MIN(1/4 RLIMIT_STACK, 4 GB)``.
-=20
- Signal
- ------
-@@ -123,19 +132,19 @@ shadow stack covers the condition that both the progr=
-am stack and the
- signal alternate stack run out.
-=20
- The kernel creates a restore token for the shadow stack and pushes the
--restorer address to the shadow stack. Then verifies that token when
--restoring from the signal handler.
-+restorer address to it. Then the kernel verifies that token when restoring
-+from the signal handler.
-=20
- Fork
- ----
-=20
--The shadow stack's vma has VM_SHADOW_STACK flag set; its PTEs are required
--to be read-only and dirty. When a shadow stack PTE is not RO and dirty, a
-+The shadow stack vma has ``VM_SHADOW_STACK`` flag set; its PTEs are requir=
-ed
-+to be read-only and dirty. When a shadow stack PTE is read-write and dirty=
-, a
- shadow access triggers a page fault with the shadow stack access bit set
- in the page fault error code.
-=20
- When a task forks a child, its shadow stack PTEs are copied and both the
--parent's and the child's shadow stack PTEs are cleared of the dirty bit.
-+shadow stack PTEs of parent and child are cleared of the dirty bit.
- Upon the next shadow stack access, the resulting shadow stack page fault
- is handled by page copy/re-use.
-=20
-Thanks.
 
---=20
-An old man doll... just what I always wanted! - Clara
+>  Documentation/dev-tools/kunit/start.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+> index 867a4bba6bf6..69361065cda6 100644
+> --- a/Documentation/dev-tools/kunit/start.rst
+> +++ b/Documentation/dev-tools/kunit/start.rst
+> @@ -217,7 +217,7 @@ Now we are ready to write the test cases.
+>
+>         obj-$(CONFIG_MISC_EXAMPLE_TEST) += example_test.o
+>
+> -4. Add the following lines to ``.kunitconfig``:
+> +4. Add following configuration fragments to ``.kunit/.kunitconfig``:
 
---eGuHlwYLjB6uXtie
-Content-Type: application/pgp-signature; name="signature.asc"
+At the risk of starting an argument, I actually preferred "the
+following lines" here. "configuration fragments" doesn't quite
+describe this perfectly, IMO. Maybe something like "config options"
+would work better. Otherwise, just sticking with "lines" is probably
+fine for the getting started guide. It's unlikely to confuse people,
+and there's further discussion elsewhere in the documentation.
 
------BEGIN PGP SIGNATURE-----
+Regardless, we definitely should keep "the" here in "Add _the_
+following". "Add following" is grammatically more dubious.
 
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYzZlSwAKCRD2uYlJVVFO
-o/E+AQC4R370JtlvOpcNfLV29O/Klt/2032cP5rnzHigPFNppwD9Gg2sSM6SIeq9
-12n3CQKTry04jtXt1YhJb5TVXy4U/Ak=
-=lClp
------END PGP SIGNATURE-----
+>
+>  .. code-block:: none
+>
+> --
+> 2.37.3
+>
 
---eGuHlwYLjB6uXtie--
+--00000000000013984405e9dd1bc7
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
+VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
+ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
+OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
+3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
+lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCAq
+/9gn8/rqn+m5vW5M4syGAGjq8j0BYZJqNv4dskacTjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA5MzAwNDA1MzRaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAZo9z2sCnoYHFnB3902VB
+TtOY2/ZniHdmEBmVXHCBPVEuHvir3qGmuWZuFxbFvBJ6KHQBjE4Fo2Jpi2O5gi8XTq+uT3S1F9Db
+2D2p5QVhG0Rv0ZUCvp21pJViBlLOF0JonyFi9QuTt8wnxWPCwBfK/dSNoKgUWC5X9R+Hiq/MU+J9
+fm8/epGrWN82+YxunTo/SNSdBRlunijC5BzXm7+MHbcbhMNKXs4wXEYSJe1OOn611pe8gOvBDhOz
+FWaTlx8YQj2eHaEy8F1kPeW948UVR2g5rHl45A3N60JEIwrADKN78xMlrDRMdgcj71cTlD1quYsz
+TklVthabKx0TLlMaFA==
+--00000000000013984405e9dd1bc7--
