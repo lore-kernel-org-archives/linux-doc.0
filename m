@@ -2,128 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50A44C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 22:26:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A951C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 23:01:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232406AbiI3WZ6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 18:25:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51126 "EHLO
+        id S232114AbiI3XB2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 19:01:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232762AbiI3WZo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 18:25:44 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 947DFC6962;
-        Fri, 30 Sep 2022 15:25:43 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id e18so7713173edj.3;
-        Fri, 30 Sep 2022 15:25:43 -0700 (PDT)
+        with ESMTP id S231745AbiI3XB1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 19:01:27 -0400
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 386D912CC81
+        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 16:01:25 -0700 (PDT)
+Received: by mail-io1-xd30.google.com with SMTP id 64so4374833iov.13
+        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 16:01:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XSB2fgyM7mwVlglUIENBxNasqUhFjmrYfDkQjbr4j8w=;
-        b=IE2kpqaFyz3n9bL5USI7d0A8Dk+IbQxHxoiXT/PgY+dDDJQnrTaL1/MnCWMPi2aYku
-         koYDeuXfM9X1zNqh3dUjLCCNSmd3JyxxsosVAjsB6RTH2tMOy0i+hGGWouH6WWpsBhZw
-         o4FCsVhYZiZRiljwPULzV4gmWTLD/3Skv4io1nmB0/iJ2ndqk9bzy5+rptMnQX/gh/hr
-         a6IFW96Tuzpqghm36zhwCk/EC1kzigQ2WG2SFq0j1FAPSKC625MDowRcStb+LOxc/WAI
-         GK3uJ4vagpku+Or2qxl2SF0ePkDfXzyAfGHj9rm9/be8cSV8P9iEn0ulRHRzu+MYs7/8
-         A3VA==
+         :mime-version:from:to:cc:subject:date;
+        bh=0zt2Q5NN+Rs2C2aEkp8f4auq2xya6N3MePx4qmypsFc=;
+        b=K9MohiTFe/jI/NYUnjHZt0j/r3AEx4tWk8aMjFSTQ2wHuJqShRre3HIQaSYMPdsPqw
+         CgkBdBtxLiPDFdLfCA6GxIeipwCNfggZQ/FlAtVWHhFws8AnMQjJKh9HcYFItYRxPO9o
+         XZ79w2s0es/8qkrg9qrd9Y+BGBx/7JaqjYds66RbwHuYGYC6AyGz7S9dcfKQka/X/yaU
+         +YrmO36GxfU598k6MBGgoGPwqLiEYmADAe79yYEjNpKUtT25cS3cvkUjS3O+TDumwRCl
+         vdK2JwQniT4vSJ1+KjSMq/WF0h6hTdvi6Zr89DHV15jR6UYe5Wy/UrjSMIaJSTLdYkg9
+         OM0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XSB2fgyM7mwVlglUIENBxNasqUhFjmrYfDkQjbr4j8w=;
-        b=vPevTsv4M2O1gFtI/fMQZ87VwZuR+h+OqMNdmiNbOVKBrK2nP4xy3Ct8IKXX2CrTDc
-         7o6B18nv2fMq3hU5OE7w+22HSajZM40PAmFeDYlbKabGe0+N6MgpidsnCz4ABTCT+/0j
-         W24FgZw2WgNuiCsK9ji1x/hI+kOZzcb0Tjo85IWpH1qtNFvYxaivLxvZeAEQe3uOjiDI
-         066hpJj2x9BhlJ9RZyb8/JcCIP+0HwJef6ds2CnCL4MVTO1m4Xj8A6Hipssy4V3V3X6i
-         3bF/jDfTAIkXrdaGLv8GmIPIUG+SAYxI+OJWI6fexPb2QXrQSgCeGtZ5xM8GoMC0DUlZ
-         ATVQ==
-X-Gm-Message-State: ACrzQf1MI7JhqTeMlkUie/1Gs31VuzJ0pbVSg5GJy4Hq7qYbCCrnQxaN
-        TpiyKtnRapS0in2pC0rdNRAnCcSKRv+KkWgBDgkEcanr
-X-Google-Smtp-Source: AMsMyM4QZDO+CkV5kLgWMbGQrIZIdEFKYCdjz/MPBAkK3wH/j8CkVxIIxNappnmw2xyqoRBwZBFgMzeMEBUidaMdSDs=
-X-Received: by 2002:a05:6402:3603:b0:451:fdda:dddd with SMTP id
- el3-20020a056402360300b00451fddaddddmr9177305edb.81.1664576741982; Fri, 30
- Sep 2022 15:25:41 -0700 (PDT)
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=0zt2Q5NN+Rs2C2aEkp8f4auq2xya6N3MePx4qmypsFc=;
+        b=PQToBzXCj+8he77ZnikOzeMvZ63Y9EUQZAaEb4U2RvQN57pS9rYeWOPVIOuQe0xMTp
+         a9jeskj6/40Kspm7xyVNnut6zb7ci9qekcCwNXJRlzzLiGARzUTFp+TQP13FDKBgrQU1
+         k25vOBhSL7C3ANKkHh0O/qurrAYXz3sqIS0ZCtFkJGgYR8+WrO1Yrpu4D5moWs5LcHg2
+         GJ1yyFTQ3kLIFGKcJW6irwY08nC9Slmrft/BvGIOuDTeWdMtdkAp5d4IU/TO8B4nRR+W
+         hTDTFIOJl0F8u8kHkIL13e4YipY5H+RKoVToqhBaEVXm4WncHvberdTIq+3ySM4s6/k8
+         74wg==
+X-Gm-Message-State: ACrzQf2G8UiAvnFRmTf0jP6oWFsZvAZhDJC6iWbNoqhfdk+CIbTxhKaL
+        Xp71rcd3B0/2um6CcYH7Z+ghfZL7qfipJuVP9eCq6w==
+X-Google-Smtp-Source: AMsMyM4pyhAAdStKkBOdZk4WLOBE/ewn/Xk3NAXvmNiNkUkh/Xch5qpt+jkA7Ix5YZMuQ0NMUnkAdvv1yy96Z0gQfd8=
+X-Received: by 2002:a05:6602:2ccd:b0:6a1:c561:50ca with SMTP id
+ j13-20020a0566022ccd00b006a1c56150camr4976341iow.154.1664578884508; Fri, 30
+ Sep 2022 16:01:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220922115257.99815-1-donald.hunter@gmail.com>
- <20220922115257.99815-2-donald.hunter@gmail.com> <87tu4zsfse.fsf@meer.lwn.net>
- <m2h70y87eh.fsf@gmail.com> <m2wn9l6v7e.fsf@gmail.com>
-In-Reply-To: <m2wn9l6v7e.fsf@gmail.com>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Fri, 30 Sep 2022 15:25:30 -0700
-Message-ID: <CAEf4Bzb8f+Oy5okz38yq+Vm0Pse5gMbWwWrj+6d8-BDaCtHJKg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v4 1/2] Add subdir support to Documentation makefile
-To:     Donald Hunter <donald.hunter@gmail.com>,
-        grantseltzer <grantseltzer@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-23-rick.p.edgecombe@intel.com> <9fed0342-2d02-aaf2-ed66-20ff08bdfd0b@intel.com>
+In-Reply-To: <9fed0342-2d02-aaf2-ed66-20ff08bdfd0b@intel.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Sat, 1 Oct 2022 01:00:48 +0200
+Message-ID: <CAG48ez3-dgcrLxKNAs4_K++FXn-9qL=6kjVY=2Cn-AxoML33Vg@mail.gmail.com>
+Subject: Re: [PATCH v2 22/39] mm: Don't allow write GUPs to shadow stack memory
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com, rppt@kernel.org,
+        jamorris@linux.microsoft.com, dethoma@microsoft.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 30, 2022 at 2:58 AM Donald Hunter <donald.hunter@gmail.com> wrote:
+On Fri, Sep 30, 2022 at 9:16 PM Dave Hansen <dave.hansen@intel.com> wrote:
+> On 9/29/22 15:29, Rick Edgecombe wrote:
+> > @@ -1633,6 +1633,9 @@ static inline bool __pte_access_permitted(unsigned long pteval, bool write)
+> >  {
+> >       unsigned long need_pte_bits = _PAGE_PRESENT|_PAGE_USER;
+> >
+> > +     if (write && (pteval & (_PAGE_RW | _PAGE_DIRTY)) == _PAGE_DIRTY)
+> > +             return 0;
 >
-> Donald Hunter <donald.hunter@gmail.com> writes:
->
-> > Jonathan Corbet <corbet@lwn.net> writes:
-> >
-> >> Beyond that, I would *really* like to see more use of Sphinx extensions
-> >> for this kind of special-case build rather than hacking in more
-> >> special-purpose scripts.  Is there a reason why it couldn't be done that
-> >> way?
-> >
-> > I looked at writing the BPF program types as a Sphinx extension but
-> > found that approach problematic for the following reasons:
-> >
-> > - This needs to run both in the kernel tree and the libbpf Github
-> >   project. The tree layouts are different so the relative paths to
-> >   source files are different. I don't see an elegant way to handle this
-> >   inline in a .rst file. This can easily be handled in Makefiles
-> >   that are specific to each project.
-> >
-> > - It makes use of csv-table which does all the heavy lifting to produce
-> >   the desired output.
-> >
-> > - I have zero experience of extending Sphinx.
-> >
-> > I thought about submitting this directly to the libbpf Github project
-> > and then just linking from the kernel docs to the page about program
-> > types in the libbpf project docs. But I think it is preferable to master
-> > the gen-bpf-progtypes.sh script in the kernel tree where it can be
-> > maintained in the same repo as the libbpf.c source file it parses.
->
-> Given the pushback on Makefile changes and the need for this patch to be
-> compatible with both the kernel tree and the libbpf repo, can I suggest
-> a pragmatic way forward.
->
-> I suggest that I drop the gen-bpf-progtypes.sh script and Makefile
+> Do we not have a helper for this?  Seems a bit messy to open-code these
+> shadow-stack permissions.  Definitely at least needs a comment.
 
-It's way too easy to forget to update this table when adding new
-program type support in libbpf. So if possible I think script is the
-way to go.
+FWIW, if you look at more context around this diff, the function looks
+like this:
 
-Jonathan, given the script is really minimal and allows to keep
-documentation in sync with libbpf source code, do you have a strong
-objection? Writing a custom plugin seems like a too high bar for
-something pretty straightforward like this?
+ static inline bool __pte_access_permitted(unsigned long pteval, bool write)
+ {
+        unsigned long need_pte_bits = _PAGE_PRESENT|_PAGE_USER;
 
-Also, should this be routed through your tree or you'd like us to take
-it through bpf-next tree?
++       if (write && (pteval & (_PAGE_RW | _PAGE_DIRTY)) == _PAGE_DIRTY)
++               return 0;
++
+        if (write)
+                need_pte_bits |= _PAGE_RW;
 
+        if ((pteval & need_pte_bits) != need_pte_bits)
+                return 0;
 
-Donald, if Jonathan is feeling really strongly, then I guess manually
-generated table is ok approach as well, but let's hear from Jonathan
-first.
+        return __pkru_allows_pkey(pte_flags_pkey(pteval), write);
+ }
 
-Also cc Grant about logistics of kernel vs libbpf docs.
+So I think this change is actually a no-op - the only thing it does is
+to return 0 if write==1, !_PAGE_RW, and _PAGE_DIRTY. But the check
+below will always return 0 if !_PAGE_RW, unless I'm misreading it? And
+this is the only patch in the series that touches this function, so
+it's not like this becomes necessary with a later patch in the series
+either.
 
-
-> changes from the patchset and just submit static documentation contents
-> for the table of BPF program types. This would avoid any downstream
-> breakage when syncing from the kernel tree to the libbpf github
-> repo. The table of BPF program types can be maintained manually which
-> should not be a burden going forward. Another benefit would be that the
-> resulting documentation can be curated more easily than if it were
-> auto-generated.
+Should this check go in anyway for clarity reasons, or should this
+instead be a comment explaining that __pte_access_permitted() behaves
+just like the hardware access check, which means shadow pages are
+treated as readonly?
