@@ -2,168 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78491C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 02:20:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AECBFC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 02:34:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229734AbiI3CUU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 22:20:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43914 "EHLO
+        id S229526AbiI3Ce2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 22:34:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbiI3CUN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 22:20:13 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBDAE4D832;
-        Thu, 29 Sep 2022 19:20:12 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id u12so2996910pjj.1;
-        Thu, 29 Sep 2022 19:20:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=SUa/4+caVBv6PoMoDBL5nY89uKoHKJ97ytgcWCmTBgA=;
-        b=oGOI0B4DEdS7UJlwAlxaA9XlbpPMMInd51a1eupKFk3AP7gTbbVfViq07FEQnbXYTX
-         uCdojtfq7/vNxhuXdaKA0j6fr9AQQrsNarvIZHYSbx6py7t+DAtCvPy+iaNg7JAv3MJP
-         wd0FnTdaCCbmGBTJWG06Bb0dcOEQr7IrCYYup2akoDrKH6vBXYdOERnAnRr6nWzD64hz
-         0U+KnBkLvvSXaG8fS6fadaz01UaZoZYduw6mtvwDhN1+cHVgN0ZVBS9DjiSpjswTAVgl
-         64vF3qLk7jWwOs+Ck9h6/ubxy6HpkWx4gZqZai4wI1RMea3DAxb9+u6lH/rgZnK2cxfN
-         KBmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=SUa/4+caVBv6PoMoDBL5nY89uKoHKJ97ytgcWCmTBgA=;
-        b=n4AuxtUHnqTpRqHUEDxZ9rW5kRpIe69W4XL9rhUuFHRXd4Zy1TNLGif0IqcWgpMDjj
-         tdZYgHVOy8iqKz1RUq24vSUC/CTDcD5s8SdNSKr+VGaxhSZ7coG+Fre/4Ta4oTAmnec5
-         L6jRY86Zwf78E3OJMJl2T/Ub0F33yEHWkDSvOlA18nfEK+2xL+9HBqPIL6lyI2MuIePO
-         zkpDaUqpU1XmnP8r9wfi9JXRY+QssJY2ah1UMMhjDo99mjOXpPWml1bM7SCZ0Qxb6C6C
-         wsQj1S0eXk5pX3MBVyGvSJSn43BETTofOXm3HO02TOoOPJPTy0FfbpVwR1T1ORPziFyF
-         4RVA==
-X-Gm-Message-State: ACrzQf1tR/gRpRTqHOO7ZHt0zZE1uEk7v+B2Ia4DlqlHpeBq9QGUpcmg
-        DZM9pPiXY/DBgNno1bAxVl0=
-X-Google-Smtp-Source: AMsMyM7PJM5JhpuH0U97cNrqaL9X5PhYhGXOy5ysxLg+F33208f72L9z1SaYj2xkIrG8Sftn02LCMA==
-X-Received: by 2002:a17:903:18b:b0:176:afb8:b4ab with SMTP id z11-20020a170903018b00b00176afb8b4abmr6631756plg.80.1664504411667;
-        Thu, 29 Sep 2022 19:20:11 -0700 (PDT)
-Received: from localhost.localdomain (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id o11-20020a62f90b000000b0053b850b17c8sm386115pfh.152.2022.09.29.19.20.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Sep 2022 19:20:11 -0700 (PDT)
-From:   Akira Yokosawa <akiyks@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>
-Subject: [PATCH] docs/howto: Replace abundoned URL of gmane.org
-Date:   Fri, 30 Sep 2022 11:19:36 +0900
-Message-Id: <20220930021936.26238-1-akiyks@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S229502AbiI3Ce1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 22:34:27 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A7AA121E59;
+        Thu, 29 Sep 2022 19:34:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 046C6B826C8;
+        Fri, 30 Sep 2022 02:34:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EF28C433D7;
+        Fri, 30 Sep 2022 02:34:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664505263;
+        bh=CDJG0sHnm7j0RyYxIxPni09cTZWfHoHVonnlqWLv9v8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=rX7Wd97B8T4ugW59ASHQndugT9IZs27oW3+I04qziddw2N5eJPlBcmEIRbsoluDkZ
+         vxsDbpc/FbvZ4l5jn3fnWKzfR7YQgb0Ze5UTtS+kz71kqIU6jWjoi+S3C74bBnV5NZ
+         vpjWRi4x4Psh5ZFnX3VFhd2AuWPSxAKv1bq0Xva9GZ6M47EDmFSfWTfTaHq3l4pI8t
+         g28PCIyTuNhm1q/SLuBKKsCb1pTI2D5p5oCZAqDzNTw2qdRKtmgWgMarsSalmTIfpi
+         UolmNKfcYS9RAikGVRF6Za2aYRxVBLVEnw43NO+SqqCFxzs2XbSG07GuLduu5mfqDT
+         V87vITklpKg7g==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        robh@kernel.org, johannes@sipsolutions.net, ecree.xilinx@gmail.com,
+        stephen@networkplumber.org, sdf@google.com, f.fainelli@gmail.com,
+        fw@strlen.de, linux-doc@vger.kernel.org, razor@blackwall.org,
+        nicolas.dichtel@6wind.com, gnault@redhat.com,
+        Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH net-next v2 0/7] Netlink protocol specs
+Date:   Thu, 29 Sep 2022 19:34:11 -0700
+Message-Id: <20220930023418.1346263-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Somehow, there remains a link to gmane.org, which stopped working
-in 2016, in howto.rst. Replace it with the one at lore.kernel.org.
-Do the same changes under translations/ as well.
+Hi!
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: Alex Shi <alexs@kernel.org>
-Cc: Yanteng Si <siyanteng@loongson.cn>
-Cc: Hu Haowen <src.res@email.cn>
----
- Documentation/process/howto.rst                    | 2 +-
- Documentation/translations/it_IT/process/howto.rst | 2 +-
- Documentation/translations/ja_JP/howto.rst         | 2 +-
- Documentation/translations/ko_KR/howto.rst         | 2 +-
- Documentation/translations/zh_CN/process/howto.rst | 2 +-
- Documentation/translations/zh_TW/process/howto.rst | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+I think the Netlink proto specs are far along enough to merge.
+Filling in all attribute types and quirks will be an ongoing
+effort but we have enough to cover FOU so it's somewhat complete.
 
-diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-index cd6997a9d203..bd15c393ba3c 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -379,7 +379,7 @@ to subscribe and unsubscribe from the list can be found at:
- There are archives of the mailing list on the web in many different
- places.  Use a search engine to find these archives.  For example:
- 
--	http://dir.gmane.org/gmane.linux.kernel
-+	https://lore.kernel.org/lkml/
- 
- It is highly recommended that you search the archives about the topic
- you want to bring up, before you post it to the list. A lot of things
-diff --git a/Documentation/translations/it_IT/process/howto.rst b/Documentation/translations/it_IT/process/howto.rst
-index 16ad5622d549..15c08aea1dfe 100644
---- a/Documentation/translations/it_IT/process/howto.rst
-+++ b/Documentation/translations/it_IT/process/howto.rst
-@@ -394,7 +394,7 @@ trovati al sito:
- Ci sono diversi archivi della lista di discussione. Usate un qualsiasi motore
- di ricerca per trovarli. Per esempio:
- 
--	http://dir.gmane.org/gmane.linux.kernel
-+	https://lore.kernel.org/lkml/
- 
- É caldamente consigliata una ricerca in questi archivi sul tema che volete
- sollevare, prima di pubblicarlo sulla lista. Molte cose sono già state
-diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/translations/ja_JP/howto.rst
-index 649e2ff2a407..b47a682d8ded 100644
---- a/Documentation/translations/ja_JP/howto.rst
-+++ b/Documentation/translations/ja_JP/howto.rst
-@@ -410,7 +410,7 @@ https://bugzilla.kernel.org に行ってください。もし今後のバグレ
- このメーリングリストのアーカイブは web 上の多数の場所に存在します。こ
- れらのアーカイブを探すにはサーチエンジンを使いましょう。例えば-
- 
--	http://dir.gmane.org/gmane.linux.kernel
-+	https://lore.kernel.org/lkml/
- 
- リストに投稿する前にすでにその話題がアーカイブに存在するかどうかを検索
- することを是非やってください。多数の事がすでに詳細に渡って議論されてお
-diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation/translations/ko_KR/howto.rst
-index e43970584ca4..df53fafd1b10 100644
---- a/Documentation/translations/ko_KR/howto.rst
-+++ b/Documentation/translations/ko_KR/howto.rst
-@@ -386,7 +386,7 @@ https://bugzilla.kernel.org 를 체크하고자 할 수도 있다; 소수의 커
- 웹상의 많은 다른 곳에도 메일링 리스트의 아카이브들이 있다.
- 이러한 아카이브들을 찾으려면 검색 엔진을 사용하라. 예를 들어:
- 
--      http://dir.gmane.org/gmane.linux.kernel
-+      https://lore.kernel.org/lkml/
- 
- 여러분이 새로운 문제에 관해 리스트에 올리기 전에 말하고 싶은 주제에 관한
- 것을 아카이브에서 먼저 찾아보기를 강력히 권장한다. 이미 상세하게 토론된 많은
-diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
-index 1455190dc087..5bf953146929 100644
---- a/Documentation/translations/zh_CN/process/howto.rst
-+++ b/Documentation/translations/zh_CN/process/howto.rst
-@@ -306,7 +306,7 @@ bugzilla.kernel.org是Linux内核开发者们用来跟踪内核Bug的网站。
- 网上很多地方都有这个邮件列表的存档(archive)。可以使用搜索引擎来找到这些
- 存档。比如：
- 
--	http://dir.gmane.org/gmane.linux.kernel
-+	https://lore.kernel.org/lkml/
- 
- 在发信之前，我们强烈建议你先在存档中搜索你想要讨论的问题。很多已经被详细
- 讨论过的问题只在邮件列表的存档中可以找到。
-diff --git a/Documentation/translations/zh_TW/process/howto.rst b/Documentation/translations/zh_TW/process/howto.rst
-index 68ae4411285b..86b0d4c6d6f9 100644
---- a/Documentation/translations/zh_TW/process/howto.rst
-+++ b/Documentation/translations/zh_TW/process/howto.rst
-@@ -309,7 +309,7 @@ bugzilla.kernel.org是Linux內核開發者們用來跟蹤內核Bug的網站。
- 網上很多地方都有這個郵件列表的存檔(archive)。可以使用搜尋引擎來找到這些
- 存檔。比如：
- 
--	http://dir.gmane.org/gmane.linux.kernel
-+	https://lore.kernel.org/lkml/
- 
- 在發信之前，我們強烈建議你先在存檔中搜索你想要討論的問題。很多已經被詳細
- 討論過的問題只在郵件列表的存檔中可以找到。
+I fully intend to continue polishing the code but at the same
+time I'd like to start helping others base their work on the
+specs (e.g. DPLL) and need to start working on some new families
+myself.
 
-base-commit: 05fff6ba04eef8b88bb94734b66731bef3d8d34b
+That's the progress / motivation for merging. The RFC [1] has more
+of a high level blurb, plus I created a lot of documentation, I'm
+not going to repeat it here. There was also the talk at LPC [2].
+
+[1] https://lore.kernel.org/all/20220811022304.583300-1-kuba@kernel.org/
+[2] https://youtu.be/9QkXIQXkaQk?t=2562
+
+v2:
+ - update docs
+ - change comment format in uAPI from // to /* */
+ - rename fou.c to make linker happy
+
+Jakub Kicinski (7):
+  docs: add more netlink docs (incl. spec docs)
+  netlink: add schemas for YAML specs
+  net: add basic C code generators for Netlink
+  netlink: add a proto specification for FOU
+  net: fou: regenerate the uAPI from the spec
+  net: fou: rename the source for linking
+  net: fou: use policy and operation tables generated from the spec
+
+ Documentation/core-api/index.rst              |    1 +
+ Documentation/core-api/netlink.rst            |   99 +
+ Documentation/netlink/genetlink-c.yaml        |  287 +++
+ Documentation/netlink/genetlink-legacy.yaml   |  313 +++
+ Documentation/netlink/genetlink.yaml          |  252 +++
+ Documentation/netlink/specs/fou.yaml          |  128 ++
+ .../userspace-api/netlink/c-code-gen.rst      |  104 +
+ .../netlink/genetlink-legacy.rst              |   96 +
+ Documentation/userspace-api/netlink/index.rst |    5 +
+ Documentation/userspace-api/netlink/specs.rst |  410 ++++
+ MAINTAINERS                                   |    3 +
+ include/uapi/linux/fou.h                      |   54 +-
+ net/ipv4/Makefile                             |    1 +
+ net/ipv4/fou-nl.c                             |   48 +
+ net/ipv4/fou-nl.h                             |   25 +
+ net/ipv4/{fou.c => fou_core.c}                |   51 +-
+ tools/net/ynl/ynl-gen-c.py                    | 1998 +++++++++++++++++
+ tools/net/ynl/ynl-regen.sh                    |   30 +
+ 18 files changed, 3835 insertions(+), 70 deletions(-)
+ create mode 100644 Documentation/core-api/netlink.rst
+ create mode 100644 Documentation/netlink/genetlink-c.yaml
+ create mode 100644 Documentation/netlink/genetlink-legacy.yaml
+ create mode 100644 Documentation/netlink/genetlink.yaml
+ create mode 100644 Documentation/netlink/specs/fou.yaml
+ create mode 100644 Documentation/userspace-api/netlink/c-code-gen.rst
+ create mode 100644 Documentation/userspace-api/netlink/genetlink-legacy.rst
+ create mode 100644 Documentation/userspace-api/netlink/specs.rst
+ create mode 100644 net/ipv4/fou-nl.c
+ create mode 100644 net/ipv4/fou-nl.h
+ rename net/ipv4/{fou.c => fou_core.c} (94%)
+ create mode 100755 tools/net/ynl/ynl-gen-c.py
+ create mode 100755 tools/net/ynl/ynl-regen.sh
+
 -- 
-2.25.1
+2.37.3
 
