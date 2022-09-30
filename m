@@ -2,113 +2,229 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BFC3C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 03:12:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABC2DC4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 03:37:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230025AbiI3DMB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 23:12:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45746 "EHLO
+        id S229712AbiI3Dhg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 23:37:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229996AbiI3DL7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 23:11:59 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACACD1406DE;
-        Thu, 29 Sep 2022 20:11:38 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id z3so1903374plb.10;
-        Thu, 29 Sep 2022 20:11:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:cc:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=IaT+z8wShHYZ5w6wMv6AiwMbJkJWmBsh9rvT19CMinI=;
-        b=J/jseeYzpVxCMDcGzDXwcZNW3C6aU+eo7MQB5E77/pE7rLKYOqYqcvQlx9xR3yWeL8
-         mZ3PdlsGDNFKwscr/20w9VhgjtQdc0I0dZbC4Bg4zIbpZlemO7twGRYHLrSmuXxDu6Sr
-         4wiuWl8L5Tun/MYFcZDrMMEd2Zhyb26oKkGd9a0NAkTB35HLP9+88q8JD6Bht0K5Glc7
-         7wdkPXj8Px08ujBQsm5K8nFwjkvJr78URyeiLxtVHM6JgyA/B+fJzUoBzUEUlY0yxVhq
-         bTQfCXmtVtoYSIibYr0UMUL5voRnB8Sl6ImJDzec0d2vPTg7bcm57ccMdZQg4XfW8/P7
-         iKbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:cc:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=IaT+z8wShHYZ5w6wMv6AiwMbJkJWmBsh9rvT19CMinI=;
-        b=iKGHebclqpvqOcTxJGJIZ0IV/nHvN+7bE34zAt77BNj55YkmSruUb7f8CIywx0611L
-         BgrHz975enRFWyYhFwJti/gkeXavJJ0dAt8cqlMf/ni3/wOyajW8vA5CYpO596ZJXNCa
-         VpzioGYdVG750X3BPeopq+p+clnHKjwWy1AHNPvjgG/rcwGp0PUy0Nn58BbPkwY2Rwv8
-         G5qs7iJonKtAOetC57ivvrF4xm10daz573X5Kpq18hiAe7pK58j85sYqF/oyLH48aNaD
-         hChBIp9m4UXbJtGYRQ4hhXZynlqcqqUhOnPIU7YR0EKXWg2l9/AXSR+j4Qzu/fqQWfzc
-         vJTA==
-X-Gm-Message-State: ACrzQf1PwOfKMGHQ5SelDbBFItcQUAfxD/DVkHyUOpe5UhYlb46lOUoS
-        bgQ5+72CCrUN+oC192kV2L8=
-X-Google-Smtp-Source: AMsMyM7BVkTC6CjkcAnzMc20d6OIZ9udRuQlU3FFY6GuA9vEMGhjwdjv8EGZE+BBc6fcrxyJbs19cA==
-X-Received: by 2002:a17:90b:17c3:b0:202:bc13:e4e7 with SMTP id me3-20020a17090b17c300b00202bc13e4e7mr7183779pjb.125.1664507498260;
-        Thu, 29 Sep 2022 20:11:38 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id w1-20020a627b01000000b0053e7293be0bsm446891pfc.121.2022.09.29.20.11.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 20:11:37 -0700 (PDT)
-Message-ID: <5db465f3-698f-ebee-a668-1740a705ce9c@gmail.com>
-Date:   Fri, 30 Sep 2022 12:11:29 +0900
+        with ESMTP id S229696AbiI3Dhe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 23:37:34 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D2EA118B1D;
+        Thu, 29 Sep 2022 20:37:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664509053; x=1696045053;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/t5PvzkP5CnfVfh6FXwUHOhMRJZQfg+GbB0zWgJE51E=;
+  b=To2DeY+Tjm5gldKvOE8kNdGTSx3OMsNt+gVL/aaGIDgnXHeByunqxrUq
+   f0xnmIEZzAc1BfSKGtOffAHQ0AEFGThGz/yTbT1xCVHl5/B9TQhghXBfp
+   opRZERiiRj6fd+vL6+Y3Q7RP7pBG/j6TU0tdNa7MO96qbhzGBfHyV/gOY
+   qa5NguRMZ9iYwbz3rjXXX/JPA4ifwGCgyQavlxKScsVBQ4r6p8t0qH3BN
+   T+IKlpMy8lgLUNVthVWRQf6e+kwIWHvGtGPOtOWPX89T4Dke+05HhxCVg
+   qzcTY2h8GjRCGz4d4jxVc82+rN0Yxnoh/2r+Q1lfZVFzv7g4QfkDqjVCz
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="303006236"
+X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; 
+   d="scan'208";a="303006236"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2022 20:37:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="685122739"
+X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; 
+   d="scan'208";a="685122739"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by fmsmga008.fm.intel.com with ESMTP; 29 Sep 2022 20:37:27 -0700
+Date:   Fri, 30 Sep 2022 11:28:38 +0800
+From:   Xu Yilun <yilun.xu@intel.com>
+To:     matthew.gerlach@linux.intel.com
+Cc:     hao.wu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
+        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
+Subject: Re: [PATCH v2 4/6] fpga: dfl: add generic support for MSIX interrupts
+Message-ID: <YzZiZsc3X0Iy6Z5S@yilunxu-OptiPlex-7050>
+References: <20220923121745.129167-1-matthew.gerlach@linux.intel.com>
+ <20220923121745.129167-5-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1] locking/memory-barriers.txt: Improve documentation for
- writel() usage
-Content-Language: en-US
-To:     Parav Pandit <parav@nvidia.com>
-References: <20220930020355.98534-1-parav@nvidia.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Cc:     bagasdotme@gmail.com, arnd@arndb.de, stern@rowland.harvard.edu,
-        parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org,
-        boqun.feng@gmail.com, npiggin@gmail.com, dhowells@redhat.com,
-        j.alglave@ucl.ac.uk, luc.maranget@inria.fr, paulmck@kernel.org,
-        dlustig@nvidia.com, joel@joelfernandes.org, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220930020355.98534-1-parav@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220923121745.129167-5-matthew.gerlach@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, 
-
-On Fri, 30 Sep 2022 05:03:55 +0300, Parav Pandit wrote:
-> The cited commit describes that when using writel(), explcit wmb()
-> is not needed. wmb() is an expensive barrier. writel() uses the needed
-> I/O barrier instead of expensive wmb().
+On 2022-09-23 at 05:17:43 -0700, matthew.gerlach@linux.intel.com wrote:
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 > 
-> Hence update the example to be more accurate that matches the current
-> implementation.
+> Define and use a DFHv1 parameter to add generic support for MSIX
+> interrupts for DFL devices.
 > 
-> commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
-> Signed-off-by: Parav Pandit <parav@nvidia.com>
-> 
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 > ---
-> changelog:
-> v0->v1:
-> - Corrected to mention I/O barrier instead of dma_wmb().
-I don't think dma_wmb() and wmb() belong to "I/O barrier" as far as
-memory-barriers.txt is concerned. They are listed in the "CPU MEMORY
-BARRIERS" section. dma_wmb() belongs to "advanced barrier functions".
-
-You see, writel() is one of the functions listed in the "KERNEL I/O
-BARRIER EFFECTS" section.
-
-Please be consistent with the word choice of the doc you are modifying,
-so that any further confusion can be avoided in this infamously 
-hard-to-follow document. :-)
-
-Regards,
-Akira
-
-> - removed numbered references in commit log
-> - corrected typo 'explcit' to 'explicit' in commit log
+> v2: fix kernel doc
+>     clarify use of DFH_VERSION field
 > ---
->  Documentation/memory-barriers.txt | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+>  drivers/fpga/dfl.c  | 60 +++++++++++++++++++++++++++++++++++++++++----
+>  include/linux/dfl.h | 14 +++++++++++
+>  2 files changed, 69 insertions(+), 5 deletions(-)
 > 
-[...]
+> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+> index 1132f3c10440..dfd3f563c92d 100644
+> --- a/drivers/fpga/dfl.c
+> +++ b/drivers/fpga/dfl.c
+> @@ -941,23 +941,22 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+>  	void __iomem *base = binfo->ioaddr + ofst;
+>  	unsigned int i, ibase, inr = 0;
+>  	enum dfl_id_type type;
+> -	int virq;
+> +	int virq, off;
+>  	u64 v;
+>  
+>  	type = feature_dev_id_type(binfo->feature_dev);
+>  
+>  	/*
+>  	 * Ideally DFL framework should only read info from DFL header, but
+> -	 * current version DFL only provides mmio resources information for
+> +	 * current version, DFHv0, only provides mmio resources information for
+
+With this patchset, it's not 'current version' anymore.
+
+>  	 * each feature in DFL Header, no field for interrupt resources.
+>  	 * Interrupt resource information is provided by specific mmio
+>  	 * registers of each private feature which supports interrupt. So in
+>  	 * order to parse and assign irq resources, DFL framework has to look
+>  	 * into specific capability registers of these private features.
+>  	 *
+> -	 * Once future DFL version supports generic interrupt resource
+> -	 * information in common DFL headers, the generic interrupt parsing
+> -	 * code will be added. But in order to be compatible to old version
+> +	 * DFHv1 supports generic interrupt resource information in DFHv1
+> +	 * parameter blocks. But in order to be compatible to old version
+>  	 * DFL, the driver may still fall back to these quirks.
+>  	 */
+>  	if (type == PORT_ID) {
+> @@ -981,6 +980,36 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+>  		}
+>  	}
+>  
+> +	if (fid != FEATURE_ID_AFU && fid != PORT_FEATURE_ID_ERROR &&
+> +	    fid != PORT_FEATURE_ID_UINT && fid != FME_FEATURE_ID_GLOBAL_ERR) {
+> +
+> +		v = FIELD_GET(DFH_VERSION, readq(base));
+> +		switch (v) {
+> +		case 0:
+> +			break;
+
+In last version, you mentioned that there will be no quirk for DFLv1, so
+how about:
+
+  v = FIELD_GET(DFH_VERSION, readq(base));
+
+  if (v == 0) {
+	/* quirks */
+  } else {
+	/* parse PARAM MSIX  */
+  }
+
+No need to check specific feature ids again.
+
+Thanks,
+Yilun
+
+> +
+> +		case 1:
+> +			v =  readq(base + DFHv1_CSR_SIZE_GRP);
+> +			if (FIELD_GET(DFHv1_CSR_SIZE_GRP_HAS_PARAMS, v)) {
+> +				off = dfl_find_param(base + DFHv1_PARAM_HDR, ofst,
+> +						     DFHv1_PARAM_ID_MSIX);
+> +				if (off >= 0) {
+> +					ibase = readl(base + DFHv1_PARAM_HDR +
+> +						      off + DFHv1_PARAM_MSIX_STARTV);
+> +					inr = readl(base + DFHv1_PARAM_HDR +
+> +						    off + DFHv1_PARAM_MSIX_NUMV);
+> +					dev_dbg(binfo->dev, "start %d num %d fid 0x%x\n",
+> +						ibase, inr, fid);
+> +				}
+> +			}
+> +			break;
+> +
+> +		default:
+> +			dev_warn(binfo->dev, "unexpected DFH version %lld\n", v);
+> +			break;
+> +		}
+> +	}
+> +
+>  	if (!inr) {
+>  		*irq_base = 0;
+>  		*nr_irqs = 0;
+> @@ -1879,6 +1908,27 @@ long dfl_feature_ioctl_set_irq(struct platform_device *pdev,
+>  }
+>  EXPORT_SYMBOL_GPL(dfl_feature_ioctl_set_irq);
+>  
+> +int dfl_find_param(void __iomem *base, resource_size_t max, int param)
+> +{
+> +	int off = 0;
+> +	u64 v, next;
+> +
+> +	while (off < max) {
+> +		v = readq(base + off);
+> +		if (param == FIELD_GET(DFHv1_PARAM_HDR_ID, v))
+> +			return off;
+> +
+> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
+> +		if (!next)
+> +			break;
+> +
+> +		off += next;
+> +	}
+> +
+> +	return -ENOENT;
+> +}
+> +EXPORT_SYMBOL_GPL(dfl_find_param);
+> +
+>  static void __exit dfl_fpga_exit(void)
+>  {
+>  	dfl_chardev_uinit();
+> diff --git a/include/linux/dfl.h b/include/linux/dfl.h
+> index 1e53468ba8d8..33e21c360671 100644
+> --- a/include/linux/dfl.h
+> +++ b/include/linux/dfl.h
+> @@ -63,6 +63,10 @@
+>  #define DFHv1_PARAM_HDR_VERSION		GENMASK_ULL(31, 16) /* Version Param */
+>  #define DFHv1_PARAM_HDR_NEXT_OFFSET	GENMASK_ULL(63, 32) /* Offset of next Param */
+>  
+> +#define DFHv1_PARAM_ID_MSIX	0x1
+> +#define DFHv1_PARAM_MSIX_STARTV	0x8
+> +#define DFHv1_PARAM_MSIX_NUMV	0xc
+> +
+>  /**
+>   * enum dfl_id_type - define the DFL FIU types
+>   */
+> @@ -136,4 +140,14 @@ void dfl_driver_unregister(struct dfl_driver *dfl_drv);
+>  	module_driver(__dfl_driver, dfl_driver_register, \
+>  		      dfl_driver_unregister)
+>  
+> +/**
+> + * dfl_find_param() - find the offset of the given parameter
+> + * @base: base pointer to start of dfl parameters in DFH
+> + * @max: maximum offset to search
+> + * @param: id of dfl parameter
+> + *
+> + * Return: positive offset on success, negative error code otherwise.
+> + */
+> +int dfl_find_param(void __iomem *base, resource_size_t max, int param);
+> +
+>  #endif /* __LINUX_DFL_H */
+> -- 
+> 2.25.1
+> 
