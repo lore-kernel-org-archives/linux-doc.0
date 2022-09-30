@@ -2,167 +2,295 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F248FC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 09:15:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4714FC433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 09:28:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231327AbiI3JPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 05:15:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59482 "EHLO
+        id S230438AbiI3J2Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 05:28:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231379AbiI3JOy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 05:14:54 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06FC3252BA;
-        Fri, 30 Sep 2022 02:14:47 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id x29so4148235ljq.2;
-        Fri, 30 Sep 2022 02:14:47 -0700 (PDT)
+        with ESMTP id S231249AbiI3J2L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 05:28:11 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90F01E319C;
+        Fri, 30 Sep 2022 02:28:03 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id d1-20020a17090a6a4100b002095b319b9aso2588909pjm.0;
+        Fri, 30 Sep 2022 02:28:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=6ZdXt0+WRO/3Bc95XBFjbeowmeJu6ey2N0/xAaEy33I=;
-        b=G2Hv+Z16JQHNrPK9LqoHSXTVHEQqL20EDCJabisewhwaVUPRu8K+/Puhn2k5zY++y6
-         XcTopeQjMqsxsKpKIt43BSkbGihcISu9ZAp0lV+VA2VEGZByyWXBN/Vf9Qn1EUdvNYI7
-         Zqw5PGD7ydLiVcA/NT+la3sGbB0ZCEIVaGaRW6ZcN+eYDfF9bQSo3U2kqO4OsoQokrXl
-         Ql89SbdHWW7bQG95Qsaul0/yPZAGQAA4mxOd/ywyvXHukYffyQVQxNePzNuTRu2zVlLb
-         on87Cer/BG+jdgVOO9sltOHLNs+r+zzhEl3dtvry/SA+CKVfrvMg1t4vq4SQUKqWu3/f
-         eDgQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=3IXMulE4oFMGsJB0VDcz6W+21SMNhKUHzpPjIK+JEMc=;
+        b=YLOneGW8Z02gT3eKcFzrAOlWOgEd5Jv6jNt2xbYgjz1qZmSvfcmi1WCtdw9DbxQKTd
+         USUmM7C6VJ6AVyHhRAdWm/lubv8yu7b2c4ZVtRO4Vi/AxVtZs9z986+vbWDnK64I5fGt
+         RDGhXk38uOujQfpoFno9ic7j4mNQ/ljrLsvckqXjS2M6x3qjO6LeF6cvMq5W3+hFCfoJ
+         gDqH+p9tX1Qu0DrAtakDYGsFRoTu/w7EGxwXNpAwIZ3nDj+RPU8RdD1UZSbtCWAzKY/X
+         II5is/EG3kM6IhDz7KDkwxGjpS5qJzxLSacdkptY0o+WCORfOmCTEa+NwcSX4eH3acyF
+         HnTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=6ZdXt0+WRO/3Bc95XBFjbeowmeJu6ey2N0/xAaEy33I=;
-        b=zbUjki6JvLntWuO5hVyin3nCNGQjDGTLlOteB73VLvYGZQaeAgxhwm5+tdVzq68A+H
-         fw/TLHupP8HBaC/W2cAIoA8pD1Oxq9h/LjVqEovcCB6bjJ63tWSTUtY75teEUbV3gO7K
-         0r+XzlXrJRnK5AisJ3/xk4mK0AEhAKtlLsgLqugQc2PEFHoAOiFskf0aMOVrHTb4gzc8
-         IkuHP1IEbE5ozMPpwtiXrQiotJnHc7Q/7KhUgPrfSQ/l0VTy0rvqZgMdkzDTJx7pXZBD
-         5+uDKf6UMSGW1DdOy2kebLmgojTKXZzZooh2aJa+0cKtjZIQpEnYTU1J6A8wpNL3QV8b
-         0ghw==
-X-Gm-Message-State: ACrzQf0DWGnyPv8AGXpqUFu6oMdZcvW+Q+SdclsOpQX0P52ZCz3sp3H4
-        cFWg6W32dW6Gb4vbZONniv4U02CqDhvAaSu6KrnEuSjC2EdD8lv+i4M=
-X-Google-Smtp-Source: AMsMyM4IoGXD+xVg0TXo82e3pXent3u0FJxeZ4DvmB4dNFPs7pU5s9agQ0HaMJr3Tstl9TpX2//lw2HR72L4dKfwyDs=
-X-Received: by 2002:a2e:bd0e:0:b0:268:c03b:cf56 with SMTP id
- n14-20020a2ebd0e000000b00268c03bcf56mr2685920ljq.393.1664529285753; Fri, 30
- Sep 2022 02:14:45 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=3IXMulE4oFMGsJB0VDcz6W+21SMNhKUHzpPjIK+JEMc=;
+        b=tINqrsLWiOZHG8g/E8MaWo8bpGzAyglLfIhQkSb4bAn/wa+UM1WY9FZ9AreV7mnBCO
+         PJbeQVz6KY0FknYtUZkYz/579kyJuQpIq23LzpVyfo8LRepPsFc0eB9IUa9YF+pI8JkY
+         gl2rfa7u/b4NUl3af2YJqOXdqTNAnKAtoMdgXhmpP618QRRSp/BsQjYvfYLW35s2lq6O
+         Ly+2v3h3B7kHgF55GVl8O9Lg2/G64x8YPtDJMsMPUqSIe0s8ptbTDEDbeg5H1PSfDRtL
+         IWE+0lDB5niPDPMCuZMcmf08NlYjt6QRoNgawKg6QHD/S8fEISZ5M9UmUYkOPpiraI6n
+         0p9Q==
+X-Gm-Message-State: ACrzQf105eDLbOwPRiwEbJ37eznl4jShKPyixljOxTcSRVmm+EWnvcPB
+        RMdOWmKzwRzcUcou2v9CVwk=
+X-Google-Smtp-Source: AMsMyM5tqchW9FvTPDXBlJifjVF8ehV7gN5OeYKFlTPY4u2M6ro5MhWj/+kT3X5fI0yLOWlUZiOZWA==
+X-Received: by 2002:a17:902:76c7:b0:178:ab0a:19af with SMTP id j7-20020a17090276c700b00178ab0a19afmr7872056plt.164.1664530082627;
+        Fri, 30 Sep 2022 02:28:02 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-35.three.co.id. [116.206.28.35])
+        by smtp.gmail.com with ESMTPSA id u12-20020a170902714c00b00178323e689fsm1384487plm.171.2022.09.30.02.28.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Sep 2022 02:28:01 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id EA57B1005BB; Fri, 30 Sep 2022 16:27:57 +0700 (WIB)
+Date:   Fri, 30 Sep 2022 16:27:57 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        linux-serial <linux-serial@vger.kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] serial: Convert serial_rs485 to kernel doc
+Message-ID: <Yza2nRxJ6MXWy/xa@debian.me>
+References: <20220929093148.9468-1-ilpo.jarvinen@linux.intel.com>
+ <20220929093148.9468-2-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-References: <20220930021936.26238-1-akiyks@gmail.com>
-In-Reply-To: <20220930021936.26238-1-akiyks@gmail.com>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Fri, 30 Sep 2022 17:14:09 +0800
-Message-ID: <CAJy-Am=B1r=_xY+Fv4t4HkTK70SPP5bOjYVfwsPQ3nX2HtG-8Q@mail.gmail.com>
-Subject: Re: [PATCH] docs/howto: Replace abundoned URL of gmane.org
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="tzHsB+Sj21QVvgtY"
+Content-Disposition: inline
+In-Reply-To: <20220929093148.9468-2-ilpo.jarvinen@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-TEdGTQ0KUmV2aWV3ZWQtYnk6IEFsZXggU2hpIDxhbGV4c0BrZXJuZWwub3JnPg0KDQpPbiBGcmks
-IFNlcCAzMCwgMjAyMiBhdCAxMDoyMCBBTSBBa2lyYSBZb2tvc2F3YSA8YWtpeWtzQGdtYWlsLmNv
-bT4gd3JvdGU6DQo+DQo+IFNvbWVob3csIHRoZXJlIHJlbWFpbnMgYSBsaW5rIHRvIGdtYW5lLm9y
-Zywgd2hpY2ggc3RvcHBlZCB3b3JraW5nDQo+IGluIDIwMTYsIGluIGhvd3RvLnJzdC4gUmVwbGFj
-ZSBpdCB3aXRoIHRoZSBvbmUgYXQgbG9yZS5rZXJuZWwub3JnLg0KPiBEbyB0aGUgc2FtZSBjaGFu
-Z2VzIHVuZGVyIHRyYW5zbGF0aW9ucy8gYXMgd2VsbC4NCj4NCj4gU2lnbmVkLW9mZi1ieTogQWtp
-cmEgWW9rb3Nhd2EgPGFraXlrc0BnbWFpbC5jb20+DQo+IENjOiBGZWRlcmljbyBWYWdhIDxmZWRl
-cmljby52YWdhQHZhZ2EucHYuaXQ+DQo+IENjOiBBbGV4IFNoaSA8YWxleHNAa2VybmVsLm9yZz4N
-Cj4gQ2M6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCj4gQ2M6IEh1IEhhb3dl
-biA8c3JjLnJlc0BlbWFpbC5jbj4NCj4gLS0tDQo+ICBEb2N1bWVudGF0aW9uL3Byb2Nlc3MvaG93
-dG8ucnN0ICAgICAgICAgICAgICAgICAgICB8IDIgKy0NCj4gIERvY3VtZW50YXRpb24vdHJhbnNs
-YXRpb25zL2l0X0lUL3Byb2Nlc3MvaG93dG8ucnN0IHwgMiArLQ0KPiAgRG9jdW1lbnRhdGlvbi90
-cmFuc2xhdGlvbnMvamFfSlAvaG93dG8ucnN0ICAgICAgICAgfCAyICstDQo+ICBEb2N1bWVudGF0
-aW9uL3RyYW5zbGF0aW9ucy9rb19LUi9ob3d0by5yc3QgICAgICAgICB8IDIgKy0NCj4gIERvY3Vt
-ZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3Byb2Nlc3MvaG93dG8ucnN0IHwgMiArLQ0KPiAg
-RG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfVFcvcHJvY2Vzcy9ob3d0by5yc3QgfCAyICst
-DQo+ICA2IGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkNCj4N
-Cj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vcHJvY2Vzcy9ob3d0by5yc3QgYi9Eb2N1bWVu
-dGF0aW9uL3Byb2Nlc3MvaG93dG8ucnN0DQo+IGluZGV4IGNkNjk5N2E5ZDIwMy4uYmQxNWMzOTNi
-YTNjIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3Byb2Nlc3MvaG93dG8ucnN0DQo+ICsr
-KyBiL0RvY3VtZW50YXRpb24vcHJvY2Vzcy9ob3d0by5yc3QNCj4gQEAgLTM3OSw3ICszNzksNyBA
-QCB0byBzdWJzY3JpYmUgYW5kIHVuc3Vic2NyaWJlIGZyb20gdGhlIGxpc3QgY2FuIGJlIGZvdW5k
-IGF0Og0KPiAgVGhlcmUgYXJlIGFyY2hpdmVzIG9mIHRoZSBtYWlsaW5nIGxpc3Qgb24gdGhlIHdl
-YiBpbiBtYW55IGRpZmZlcmVudA0KPiAgcGxhY2VzLiAgVXNlIGEgc2VhcmNoIGVuZ2luZSB0byBm
-aW5kIHRoZXNlIGFyY2hpdmVzLiAgRm9yIGV4YW1wbGU6DQo+DQo+IC0gICAgICAgaHR0cDovL2Rp
-ci5nbWFuZS5vcmcvZ21hbmUubGludXgua2VybmVsDQo+ICsgICAgICAgaHR0cHM6Ly9sb3JlLmtl
-cm5lbC5vcmcvbGttbC8NCj4NCj4gIEl0IGlzIGhpZ2hseSByZWNvbW1lbmRlZCB0aGF0IHlvdSBz
-ZWFyY2ggdGhlIGFyY2hpdmVzIGFib3V0IHRoZSB0b3BpYw0KPiAgeW91IHdhbnQgdG8gYnJpbmcg
-dXAsIGJlZm9yZSB5b3UgcG9zdCBpdCB0byB0aGUgbGlzdC4gQSBsb3Qgb2YgdGhpbmdzDQo+IGRp
-ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9pdF9JVC9wcm9jZXNzL2hvd3Rv
-LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2l0X0lUL3Byb2Nlc3MvaG93dG8ucnN0
-DQo+IGluZGV4IDE2YWQ1NjIyZDU0OS4uMTVjMDhhZWExZGZlIDEwMDY0NA0KPiAtLS0gYS9Eb2N1
-bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9pdF9JVC9wcm9jZXNzL2hvd3RvLnJzdA0KPiArKysgYi9E
-b2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9pdF9JVC9wcm9jZXNzL2hvd3RvLnJzdA0KPiBAQCAt
-Mzk0LDcgKzM5NCw3IEBAIHRyb3ZhdGkgYWwgc2l0bzoNCj4gIENpIHNvbm8gZGl2ZXJzaSBhcmNo
-aXZpIGRlbGxhIGxpc3RhIGRpIGRpc2N1c3Npb25lLiBVc2F0ZSB1biBxdWFsc2lhc2kgbW90b3Jl
-DQo+ICBkaSByaWNlcmNhIHBlciB0cm92YXJsaS4gUGVyIGVzZW1waW86DQo+DQo+IC0gICAgICAg
-aHR0cDovL2Rpci5nbWFuZS5vcmcvZ21hbmUubGludXgua2VybmVsDQo+ICsgICAgICAgaHR0cHM6
-Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC8NCj4NCj4gIMOJIGNhbGRhbWVudGUgY29uc2lnbGlhdGEg
-dW5hIHJpY2VyY2EgaW4gcXVlc3RpIGFyY2hpdmkgc3VsIHRlbWEgY2hlIHZvbGV0ZQ0KPiAgc29s
-bGV2YXJlLCBwcmltYSBkaSBwdWJibGljYXJsbyBzdWxsYSBsaXN0YS4gTW9sdGUgY29zZSBzb25v
-IGdpw6Agc3RhdGUNCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2ph
-X0pQL2hvd3RvLnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL2hvd3RvLnJz
-dA0KPiBpbmRleCA2NDllMmZmMmE0MDcuLmI0N2E2ODJkOGRlZCAxMDA2NDQNCj4gLS0tIGEvRG9j
-dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvamFfSlAvaG93dG8ucnN0DQo+ICsrKyBiL0RvY3VtZW50
-YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL2hvd3RvLnJzdA0KPiBAQCAtNDEwLDcgKzQxMCw3IEBA
-IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZyDjgavooYzjgaPjgabjgY/jgaDjgZXjgYTjgILj
-goLjgZfku4rlvozjga7jg5DjgrDjg6wNCj4gIOOBk+OBruODoeODvOODquODs+OCsOODquOCueOD
-iOOBruOCouODvOOCq+OCpOODluOBryB3ZWIg5LiK44Gu5aSa5pWw44Gu5aC05omA44Gr5a2Y5Zyo
-44GX44G+44GZ44CC44GTDQo+ICDjgozjgonjga7jgqLjg7zjgqvjgqTjg5bjgpLmjqLjgZnjgavj
-ga/jgrXjg7zjg4Hjgqjjg7Pjgrjjg7PjgpLkvb/jgYTjgb7jgZfjgofjgYbjgILkvovjgYjjgbAt
-DQo+DQo+IC0gICAgICAgaHR0cDovL2Rpci5nbWFuZS5vcmcvZ21hbmUubGludXgua2VybmVsDQo+
-ICsgICAgICAgaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC8NCj4NCj4gIOODquOCueODiOOB
-q+aKleeov+OBmeOCi+WJjeOBq+OBmeOBp+OBq+OBneOBruipsemhjOOBjOOCouODvOOCq+OCpOOD
-luOBq+WtmOWcqOOBmeOCi+OBi+OBqeOBhuOBi+OCkuaknOe0og0KPiAg44GZ44KL44GT44Go44KS
-5piv6Z2e44KE44Gj44Gm44GP44Gg44GV44GE44CC5aSa5pWw44Gu5LqL44GM44GZ44Gn44Gr6Kmz
-57Sw44Gr5rih44Gj44Gm6K2w6KuW44GV44KM44Gm44GKDQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVu
-dGF0aW9uL3RyYW5zbGF0aW9ucy9rb19LUi9ob3d0by5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5z
-bGF0aW9ucy9rb19LUi9ob3d0by5yc3QNCj4gaW5kZXggZTQzOTcwNTg0Y2E0Li5kZjUzZmFmZDFi
-MTAgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2tvX0tSL2hvd3Rv
-LnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9rb19LUi9ob3d0by5yc3QN
-Cj4gQEAgLTM4Niw3ICszODYsNyBAQCBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcg66W8IOyy
-tO2BrO2VmOqzoOyekCDtlaAg7IiY64+EIOyeiOuLpDsg7IaM7IiY7J2YIOy7pA0KPiAg7Ju57IOB
-7J2YIOunjuydgCDri6Trpbgg6rOz7JeQ64+EIOuplOydvOungSDrpqzsiqTtirjsnZgg7JWE7Lm0
-7J2067iM65Ok7J20IOyeiOuLpC4NCj4gIOydtOufrO2VnCDslYTsubTsnbTruIzrk6TsnYQg7LC+
-7Jy866Ck66m0IOqygOyDiSDsl5Tsp4TsnYQg7IKs7Jqp7ZWY6528LiDsmIjrpbwg65Ok7Ja0Og0K
-Pg0KPiAtICAgICAgaHR0cDovL2Rpci5nbWFuZS5vcmcvZ21hbmUubGludXgua2VybmVsDQo+ICsg
-ICAgICBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLw0KPg0KPiAg7Jes65+s67aE7J20IOyD
-iOuhnOyatCDrrLjsoJzsl5Ag6rSA7ZW0IOumrOyKpO2KuOyXkCDsmKzrpqzquLAg7KCE7JeQIOun
-kO2VmOqzoCDsi7bsnYAg7KO87KCc7JeQIOq0gO2VnA0KPiAg6rKD7J2EIOyVhOy5tOydtOu4jOyX
-kOyEnCDrqLzsoIAg7LC+7JWE67O06riw66W8IOqwleugpe2eiCDqtozsnqXtlZzri6QuIOydtOuv
-uCDsg4HshLjtlZjqsowg7Yag66Gg65CcIOunjuydgA0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRh
-dGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcHJvY2Vzcy9ob3d0by5yc3QgYi9Eb2N1bWVudGF0aW9u
-L3RyYW5zbGF0aW9ucy96aF9DTi9wcm9jZXNzL2hvd3RvLnJzdA0KPiBpbmRleCAxNDU1MTkwZGMw
-ODcuLjViZjk1MzE0NjkyOSAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
-bnMvemhfQ04vcHJvY2Vzcy9ob3d0by5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xh
-dGlvbnMvemhfQ04vcHJvY2Vzcy9ob3d0by5yc3QNCj4gQEAgLTMwNiw3ICszMDYsNyBAQCBidWd6
-aWxsYS5rZXJuZWwub3Jn5pivTGludXjlhoXmoLjlvIDlj5HogIXku6znlKjmnaXot5/ouKrlhoXm
-oLhCdWfnmoTnvZHnq5njgIINCj4gIOe9keS4iuW+iOWkmuWcsOaWuemDveaciei/meS4qumCruS7
-tuWIl+ihqOeahOWtmOahoyhhcmNoaXZlKeOAguWPr+S7peS9v+eUqOaQnOe0ouW8leaTjuadpeaJ
-vuWIsOi/meS6mw0KPiAg5a2Y5qGj44CC5q+U5aaC77yaDQo+DQo+IC0gICAgICAgaHR0cDovL2Rp
-ci5nbWFuZS5vcmcvZ21hbmUubGludXgua2VybmVsDQo+ICsgICAgICAgaHR0cHM6Ly9sb3JlLmtl
-cm5lbC5vcmcvbGttbC8NCj4NCj4gIOWcqOWPkeS/oeS5i+WJje+8jOaIkeS7rOW8uueDiOW7uuiu
-ruS9oOWFiOWcqOWtmOaho+S4reaQnOe0ouS9oOaDs+imgeiuqOiuuueahOmXrumimOOAguW+iOWk
-muW3sue7j+iiq+ivpue7hg0KPiAg6K6o6K666L+H55qE6Zeu6aKY5Y+q5Zyo6YKu5Lu25YiX6KGo
-55qE5a2Y5qGj5Lit5Y+v5Lul5om+5Yiw44CCDQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9u
-L3RyYW5zbGF0aW9ucy96aF9UVy9wcm9jZXNzL2hvd3RvLnJzdCBiL0RvY3VtZW50YXRpb24vdHJh
-bnNsYXRpb25zL3poX1RXL3Byb2Nlc3MvaG93dG8ucnN0DQo+IGluZGV4IDY4YWU0NDExMjg1Yi4u
-ODZiMGQ0YzZkNmY5IDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96
-aF9UVy9wcm9jZXNzL2hvd3RvLnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
-cy96aF9UVy9wcm9jZXNzL2hvd3RvLnJzdA0KPiBAQCAtMzA5LDcgKzMwOSw3IEBAIGJ1Z3ppbGxh
-Lmtlcm5lbC5vcmfmmK9MaW51eOWFp+aguOmWi+eZvOiAheWAkeeUqOS+hui3n+i5pOWFp+aguEJ1
-Z+eahOe2suermeOAgg0KPiAg57ay5LiK5b6I5aSa5Zyw5pa56YO95pyJ6YCZ5YCL6YO15Lu25YiX
-6KGo55qE5a2Y5qqUKGFyY2hpdmUp44CC5Y+v5Lul5L2/55So5pCc5bCL5byV5pOO5L6G5om+5Yiw
-6YCZ5LqbDQo+ICDlrZjmqpTjgILmr5TlpoLvvJoNCj4NCj4gLSAgICAgICBodHRwOi8vZGlyLmdt
-YW5lLm9yZy9nbWFuZS5saW51eC5rZXJuZWwNCj4gKyAgICAgICBodHRwczovL2xvcmUua2VybmVs
-Lm9yZy9sa21sLw0KPg0KPiAg5Zyo55m85L+h5LmL5YmN77yM5oiR5YCR5by354OI5bu66K2w5L2g
-5YWI5Zyo5a2Y5qqU5Lit5pCc57Si5L2g5oOz6KaB6KiO6KuW55qE5ZWP6aGM44CC5b6I5aSa5bey
-57aT6KKr6Kmz57SwDQo+ICDoqI7oq5bpgY7nmoTllY/poYzlj6rlnKjpg7Xku7bliJfooajnmoTl
-rZjmqpTkuK3lj6/ku6Xmib7liLDjgIINCj4NCj4gYmFzZS1jb21taXQ6IDA1ZmZmNmJhMDRlZWY4
-Yjg4YmI5NDczNGI2NjczMWJlZjNkOGQzNGINCj4gLS0NCj4gMi4yNS4xDQo+DQo=
+
+--tzHsB+Sj21QVvgtY
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Sep 29, 2022 at 12:31:45PM +0300, Ilpo J=C3=A4rvinen wrote:
+> diff --git a/Documentation/driver-api/serial/serial-rs485.rst b/Documenta=
+tion/driver-api/serial/serial-rs485.rst
+> index 6ebad75c74ed..264e4b753713 100644
+> --- a/Documentation/driver-api/serial/serial-rs485.rst
+> +++ b/Documentation/driver-api/serial/serial-rs485.rst
+> @@ -29,11 +29,11 @@ RS485 Serial Communications
+>  3. Data Structures Already Available in the Kernel
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> =20
+> -   The Linux kernel provides the serial_rs485 structure (see [1]) to han=
+dle
+> -   RS485 communications. This data structure is used to set and configur=
+e RS485
+> +   The Linux kernel provides the serial_rs485 structure to handle RS485
+> +   communications. This data structure is used to set and configure RS485
+>     parameters in the platform data and in ioctls.
+> =20
+> -   The device tree can also provide RS485 boot time parameters (see [2]
+> +   The device tree can also provide RS485 boot time parameters (see [1]
+>     for bindings). The driver is in charge of filling this data structure=
+ from
+>     the values given by the device tree.
+> =20
+> @@ -47,6 +47,9 @@ RS485 Serial Communications
+>     for the uart_port. TIOCGRS485 ioctl can be used to read back the
+>     serial_rs485 structure matching to the current configuration.
+> =20
+> +.. kernel-doc:: include/uapi/linux/serial.h
+> +   :identifiers: serial_rs485
+> +
+>  4. Usage from user-level
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> @@ -126,6 +129,4 @@ RS485 Serial Communications
+>  6. References
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> - [1]	include/uapi/linux/serial.h
+> -
+> - [2]	Documentation/devicetree/bindings/serial/rs485.txt
+> + [1]	Documentation/devicetree/bindings/serial/rs485.txt
+
+For formatting consistency with kernel-doc comment of the struct below,
+the code keywords should be in inline code samples:
+
+---- >8 ----
+diff --git a/Documentation/driver-api/serial/serial-rs485.rst b/Documentati=
+on/driver-api/serial/serial-rs485.rst
+index e53aa291bcd7df..3d48c8b5a3e6f8 100644
+--- a/Documentation/driver-api/serial/serial-rs485.rst
++++ b/Documentation/driver-api/serial/serial-rs485.rst
+@@ -39,15 +39,15 @@ RS485 Serial Communications
+    uart_get_rs485_mode().
+=20
+    Any driver for devices capable of working both as RS232 and RS485 should
+-   implement the rs485_config callback and provide rs485_supported in the
+-   struct uart_port. The serial core calls rs485_config to do the device
+-   specific part in response to TIOCSRS485 ioctl (see below). The
+-   rs485_config callback receives a pointer to a sanitizated struct
++   implement the ``rs485_config`` callback and provide ``rs485_supported``=
+ in
++   the ``struct uart_port``. The serial core calls ``rs485_config`` to do =
+the
++   device specific part in response to TIOCSRS485 ioctl (see below). The
++   ``rs485_config`` callback receives a pointer to a sanitizated struct
+    serial_rs485. The struct serial_rs485 userspace provides is sanitized
+-   before calling rs485_config using rs485_supported that indicates what
+-   RS485 features the driver supports for the struct uart_port. TIOCGRS485
+-   ioctl can be used to read back the struct serial_rs485 matching to the
+-   current configuration.
++   before calling ``rs485_config`` using ``rs485_supported`` that indicates
++   what RS485 features the driver supports for the struct uart_port.
++   TIOCGRS485 ioctl can be used to read back the struct serial_rs485 match=
+ing
++   to the current configuration.
+=20
+ .. kernel-doc:: include/uapi/linux/serial.h
+    :identifiers: serial_rs485 uart_get_rs485_mode
+@@ -108,23 +108,26 @@ RS485 Serial Communications
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+    The Linux kernel provides addressing mode for multipoint RS-485 serial
+-   communications line. The addressing mode is enabled with SER_RS485_ADDRB
++   communications line. The addressing mode is enabled with ``SER_RS485_AD=
+DRB``
+    flag in struct serial_rs485. The struct serial_rs485 has two additional
+    flags and fields for enabling receive and destination addresses.
+=20
+    Address mode flags:
+-	- SER_RS485_ADDRB: Enabled addressing mode (sets also ADDRB in termios).
+-	- SER_RS485_ADDR_RECV: Receive (filter) address enabled.
+-	- SER_RS485_ADDR_DEST: Set destination address.
+=20
+-   Address fields (enabled with corresponding SER_RS485_ADDR_* flag):
+-	- addr_recv: Receive address.
+-	- addr_dest: Destination address.
++	- ``SER_RS485_ADDRB``: Enabled addressing mode (sets also ADDRB in
++          termios).
++	- ``SER_RS485_ADDR_RECV``: Receive (filter) address enabled.
++	- ``SER_RS485_ADDR_DEST``: Set destination address.
++
++   Address fields (enabled with corresponding ``SER_RS485_ADDR_*`` flag):
++
++	- ``addr_recv``: Receive address.
++	- ``addr_dest``: Destination address.
+=20
+    Once a receive address is set, the communication can occur only with the
+    particular device and other peers are filtered out. It is left up to the
+    receiver side to enforce the filtering. Receive address will be cleared
+-   if SER_RS485_ADDR_RECV is not set.
++   if ``SER_RS485_ADDR_RECV`` is not set.
+=20
+    Note: not all devices supporting RS485 support multipoint addressing.
+=20
+
+> diff --git a/include/uapi/linux/serial.h b/include/uapi/linux/serial.h
+> index cea06924b295..4634c913f16a 100644
+> --- a/include/uapi/linux/serial.h
+> +++ b/include/uapi/linux/serial.h
+> @@ -107,33 +107,50 @@ struct serial_icounter_struct {
+>  	int reserved[9];
+>  };
+> =20
+> -/*
+> +/**
+> + * struct serial_rs485 - serial interface for controlling RS485 settings.
+> + * @flags:			RS485 feature flags.
+> + * @delay_rts_before_send:	Delay before send (milliseconds).
+> + * @delay_rts_after_send:	Delay after send (milliseconds).
+> + * @addr_recv:			Receive filter for RS485 addressing mode
+> + *				(used only when %SER_RS485_ADDR_RECV is set).
+> + * @addr_dest:			Destination address for RS485 addressing mode
+> + *				(used only when %SER_RS485_ADDR_DEST is set).
+> + * @padding0:			Padding (set to zero).
+> + * @padding1:			Padding (set to zero).
+> + * @padding:			Deprecated, use @padding0 and @padding1 instead.
+> + *				Do not use with @addr_recv and @addr_dest (due to
+> + *				overlap).
+> + *
+>   * Serial interface for controlling RS485 settings on chips with suitable
+>   * support. Set with TIOCSRS485 and get with TIOCGRS485 if supported by =
+your
+>   * platform. The set function returns the new state, with any unsupporte=
+d bits
+>   * reverted appropriately.
+> + *
+> + * serial_rs485::flags bits are:
+> + *
+
+Maybe better say "The flag bits are:"?
+
+> + * * %SER_RS485_ENABLED		- RS485 enabled.
+> + * * %SER_RS485_RTS_ON_SEND	- Logical level for RTS pin when sending.
+> + * * %SER_RS485_RTS_AFTER_SEND	- Logical level for RTS pin after sent.
+> + * * %SER_RS485_RX_DURING_TX	- Full-duplex RS485 line.
+> + * * %SER_RS485_TERMINATE_BUS	- Enable bus termination (if supported).
+> + * * %SER_RS485_ADDRB		- Enable RS485 addressing mode.
+> + * * %SER_RS485_ADDR_RECV - Receive address filter (enables @addr_recv).=
+ Requires %SER_RS485_ADDRB.
+> + * * %SER_RS485_ADDR_DEST - Destination address (enables @addr_dest). Re=
+quires %SER_RS485_ADDRB.
+>   */
+> -
+>  struct serial_rs485 {
+> -	__u32	flags;			/* RS485 feature flags */
+> -#define SER_RS485_ENABLED		(1 << 0)	/* If enabled */
+> -#define SER_RS485_RTS_ON_SEND		(1 << 1)	/* Logical level for
+> -							   RTS pin when
+> -							   sending */
+> -#define SER_RS485_RTS_AFTER_SEND	(1 << 2)	/* Logical level for
+> -							   RTS pin after sent*/
+> +	__u32	flags;
+> +#define SER_RS485_ENABLED		(1 << 0)
+> +#define SER_RS485_RTS_ON_SEND		(1 << 1)
+> +#define SER_RS485_RTS_AFTER_SEND	(1 << 2)
+>  #define SER_RS485_RX_DURING_TX		(1 << 4)
+> -#define SER_RS485_TERMINATE_BUS		(1 << 5)	/* Enable bus
+> -							   termination
+> -							   (if supported) */
+> -
+> -/* RS-485 addressing mode */
+> -#define SER_RS485_ADDRB			(1 << 6)	/* Enable addressing mode */
+> -#define SER_RS485_ADDR_RECV		(1 << 7)	/* Receive address filter */
+> -#define SER_RS485_ADDR_DEST		(1 << 8)	/* Destination address */
+> +#define SER_RS485_TERMINATE_BUS		(1 << 5)
+> +#define SER_RS485_ADDRB			(1 << 6)
+> +#define SER_RS485_ADDR_RECV		(1 << 7)
+> +#define SER_RS485_ADDR_DEST		(1 << 8)
+> =20
+> -	__u32	delay_rts_before_send;	/* Delay before send (milliseconds) */
+> -	__u32	delay_rts_after_send;	/* Delay after send (milliseconds) */
+> +	__u32	delay_rts_before_send;
+> +	__u32	delay_rts_after_send;
+> =20
+>  	/* The fields below are defined by flags */
+>  	union {
+
+All struct members are described in htmldocs output, thanks.=20
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--tzHsB+Sj21QVvgtY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYza2lgAKCRD2uYlJVVFO
+o2cZAQDE3tRS/nbiVvgR9eWjEEXbu5ozDBpWZf/ULFFvdygNXgD+LXn3FlB5jZx+
+GEJ8TJwz3a75J120ey+R3f9gCNJC7wI=
+=fkEH
+-----END PGP SIGNATURE-----
+
+--tzHsB+Sj21QVvgtY--
