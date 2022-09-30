@@ -2,89 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3BFFC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 11:21:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6005AC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 11:33:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232383AbiI3LVo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 07:21:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34924 "EHLO
+        id S230510AbiI3LdQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 07:33:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230425AbiI3LVB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 07:21:01 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D3912722
-        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 04:09:35 -0700 (PDT)
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Mf6qb173fzpVNq;
-        Fri, 30 Sep 2022 19:06:35 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 30 Sep 2022 19:09:33 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 30 Sep
- 2022 19:09:33 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-doc@vger.kernel.org>
-CC:     <corbet@lwn.net>, <yangyingliang@huawei.com>
-Subject: [PATCH -next 8/8] Documentation: devres: add missing IIO helpers
-Date:   Fri, 30 Sep 2022 19:25:34 +0800
-Message-ID: <20220930112534.861221-9-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220930112534.861221-1-yangyingliang@huawei.com>
-References: <20220930112534.861221-1-yangyingliang@huawei.com>
+        with ESMTP id S231441AbiI3Lcv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 07:32:51 -0400
+X-Greylist: delayed 2641 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 30 Sep 2022 04:25:29 PDT
+Received: from 10.mo550.mail-out.ovh.net (10.mo550.mail-out.ovh.net [178.32.96.102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A944E71726
+        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 04:25:27 -0700 (PDT)
+Received: from player157.ha.ovh.net (unknown [10.108.16.164])
+        by mo550.mail-out.ovh.net (Postfix) with ESMTP id DFFC321B9D
+        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 10:30:19 +0000 (UTC)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player157.ha.ovh.net (Postfix) with ESMTPSA id 84BE82F30298E;
+        Fri, 30 Sep 2022 10:30:14 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass (GARM-104R005c2f86f72-bec0-41b2-8cac-1b1f326278f0,
+                    C05B2F2BD13FA39C9993548B485976379164E02D) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 82.65.25.201
+From:   Stephen Kitt <steve@sk2.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
+Subject: [PATCH v2 1/5] docs: sysctl/fs: remove references to inode-max
+Date:   Fri, 30 Sep 2022 12:29:33 +0200
+Message-Id: <20220930102937.135841-2-steve@sk2.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220930102937.135841-1-steve@sk2.org>
+References: <20220930102937.135841-1-steve@sk2.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 14211953050474415750
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeehvddgvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepgefhhfeliefghfetieffleevfefhieduheektdeghfegvdelfffgjefgtdevieegnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrudehjedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheehtd
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add some missing device-managed helpers of iio to devres.rst.
+inode-max was removed in 2.3.20pre1, remove references to it in the
+sysctl documentation.
 
-devm_iio_kfifo_buffer_setup_ext() is introduced by commit 0a21526bc1d4 ("iio:
-kfifo: add devm_iio_triggered_buffer_setup_ext variant").
-
-devm_iio_triggered_buffer_setup_ext() is introduced by commit 5164c7889857 ("iio:
-triggered-buffer: add {devm_}iio_triggered_buffer_setup_ext variants").
-
-devm_iio_hw_consumer_alloc() is introduced by b688c18d3006 ("IIO: hw_consumer:
-add devm_iio_hw_consumer_alloc").
-
-devm_fwnode_iio_channel_get_by_name() is introduced by commit 1e64b9c5f9a0 ("iio:
-inkern: move to fwnode properties")
-
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Signed-off-by: Stephen Kitt <steve@sk2.org>
 ---
- Documentation/driver-api/driver-model/devres.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/admin-guide/sysctl/fs.rst | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index 16558c6cf702..4daa9d14e527 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -287,12 +287,16 @@ IIO
-   devm_iio_device_register()
-   devm_iio_dmaengine_buffer_setup()
-   devm_iio_kfifo_buffer_setup()
-+  devm_iio_kfifo_buffer_setup_ext()
-   devm_iio_map_array_register()
-   devm_iio_triggered_buffer_setup()
-+  devm_iio_triggered_buffer_setup_ext()
-   devm_iio_trigger_alloc()
-   devm_iio_trigger_register()
-   devm_iio_channel_get()
-   devm_iio_channel_get_all()
-+  devm_iio_hw_consumer_alloc()
-+  devm_fwnode_iio_channel_get_by_name()
+diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
+index 2a501c9ddc55..54130ae33df8 100644
+--- a/Documentation/admin-guide/sysctl/fs.rst
++++ b/Documentation/admin-guide/sysctl/fs.rst
+@@ -33,7 +33,6 @@ Currently, these files are in /proc/sys/fs:
+ - dquot-nr
+ - file-max
+ - file-nr
+-- inode-max
+ - inode-nr
+ - inode-state
+ - nr_open
+@@ -136,18 +135,12 @@ enough for most machines. Actual limit depends on RLIMIT_NOFILE
+ resource limit.
  
- INPUT
-   devm_input_allocate_device()
+ 
+-inode-max, inode-nr & inode-state
+----------------------------------
++inode-nr & inode-state
++----------------------
+ 
+ As with file handles, the kernel allocates the inode structures
+ dynamically, but can't free them yet.
+ 
+-The value in inode-max denotes the maximum number of inode
+-handlers. This value should be 3-4 times larger than the value
+-in file-max, since stdin, stdout and network sockets also
+-need an inode struct to handle them. When you regularly run
+-out of inodes, you need to increase this value.
+-
+ The file inode-nr contains the first two items from
+ inode-state, so we'll skip to that file...
+ 
+@@ -156,11 +149,10 @@ The actual numbers are, in order of appearance, nr_inodes,
+ nr_free_inodes and preshrink.
+ 
+ Nr_inodes stands for the number of inodes the system has
+-allocated, this can be slightly more than inode-max because
+-Linux allocates them one pageful at a time.
++allocated.
+ 
+ Nr_free_inodes represents the number of free inodes (?) and
+-preshrink is nonzero when the nr_inodes > inode-max and the
++preshrink is nonzero when the
+ system needs to prune the inode list instead of allocating
+ more.
+ 
 -- 
-2.25.1
+2.31.1
 
