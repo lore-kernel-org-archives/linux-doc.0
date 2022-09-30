@@ -2,101 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 740EEC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 15:28:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE11C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 15:55:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231429AbiI3P2F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 11:28:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32850 "EHLO
+        id S231501AbiI3Pzk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 11:55:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231649AbiI3P1n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 11:27:43 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31062184820;
-        Fri, 30 Sep 2022 08:27:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664551662; x=1696087662;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=pdBa67z24rRy+FxC1HOkaJMDCnc29Jo4VuWC2sxPlkc=;
-  b=GJGl1Mub2QQcekcktEJSjl+k6U0TUhm4519eUlCUgwsg2GZG8qA6YYOw
-   V9JgBTZ2a9WDwrKQnMhNWZ/kZBjjQw7rzfrZ5fOZp/mp2rRwEPCCNQtbo
-   /dSq6D7lp45sZsZpWVG4bNBmIC6jFPw/+Ab+RI5Hy2JZfdTh0T5Jgb6j1
-   Nq7KyYqxpdwtn/SezQW6sl6lCaDoPXY97WGKE8+oKbcNq9bhl9KqDDWsf
-   VHy6GznfA5uKvPTr1Iaqo8lNenxi5RBpRdRo6Zta+KpzNIneLuKsasO7L
-   /B+Kzosbaej7zbqbSWU9qEeZvX7ShYnd4E+IPAuWuXY+lDM7YAhTeAsFx
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="289377080"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; 
-   d="scan'208";a="289377080"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 08:27:41 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="685320052"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; 
-   d="scan'208";a="685320052"
-Received: from lventrap-mobl2.amr.corp.intel.com (HELO [10.251.23.225]) ([10.251.23.225])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 08:27:40 -0700
-Message-ID: <c0e8ccaa-46b8-061b-f035-cd6a984a25b6@linux.intel.com>
-Date:   Fri, 30 Sep 2022 08:27:39 -0700
+        with ESMTP id S231574AbiI3Pzi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 11:55:38 -0400
+Received: from 10.mo550.mail-out.ovh.net (10.mo550.mail-out.ovh.net [178.32.96.102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2CD953002
+        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 08:55:36 -0700 (PDT)
+Received: from player157.ha.ovh.net (unknown [10.108.20.46])
+        by mo550.mail-out.ovh.net (Postfix) with ESMTP id 88E7D260C7
+        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 10:30:14 +0000 (UTC)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player157.ha.ovh.net (Postfix) with ESMTPSA id DA51A2F30295C;
+        Fri, 30 Sep 2022 10:30:09 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass (GARM-104R0052101a6af-e51e-47df-a03f-556930440260,
+                    C05B2F2BD13FA39C9993548B485976379164E02D) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 82.65.25.201
+From:   Stephen Kitt <steve@sk2.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
+Subject: [PATCH v2 0/5] Update the sysctl/fs documentation
+Date:   Fri, 30 Sep 2022 12:29:32 +0200
+Message-Id: <20220930102937.135841-1-steve@sk2.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v14 2/3] virt: Add TDX guest driver
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Wander Lairson Costa <wander@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220928215535.26527-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220928215535.26527-3-sathyanarayanan.kuppuswamy@linux.intel.com>
- <YzXduIn83E1oood8@fedora>
- <665a4db2-a342-43ba-38a0-715c34709729@linux.intel.com>
- <YzbflIZzANjAgN9d@kroah.com>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <YzbflIZzANjAgN9d@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 14210545676090574470
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeehvddgvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepleegteeujeffjeefjeevhfdtudefjefgteelgedtudekleeiledvvdetudevjedtnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrudehjedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheehtd
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This patch series updates the sysctl/fs in line with similar changes
+made previously to sysctl/kernel and sysctl/abi:
+
+* add an automatically-generated table of contents,
+* order the entries alphabetically,
+* use consistent markup.
+
+In addition, obsolete entries are removed, and the two aio sections
+are merged.
+
+Changes since v2:
+* added a cover letter
+* request review from linux-fsdevel
+* fix the link to core_pattern
+
+Stephen Kitt (5):
+  docs: sysctl/fs: remove references to inode-max
+  docs: sysctl/fs: remove references to dquot-max/-nr
+  docs: sysctl/fs: merge the aio sections
+  docs: sysctl/fs: remove references to super-max/-nr
+  docs: sysctl/fs: re-order, prettify
+
+ Documentation/admin-guide/sysctl/fs.rst     | 240 ++++++++------------
+ Documentation/admin-guide/sysctl/kernel.rst |   2 +
+ 2 files changed, 97 insertions(+), 145 deletions(-)
 
 
-On 9/30/22 5:22 AM, Greg Kroah-Hartman wrote:
-> On Thu, Sep 29, 2022 at 11:11:47AM -0700, Sathyanarayanan Kuppuswamy wrote:
->>
->>
->> On 9/29/22 11:02 AM, Wander Lairson Costa wrote:
->>>> +#define TDX_GUEST_DEVICE                "tdx-guest"
->>> nit: I think now we can use KBUILD_MODNAME, can't we?
->>>
->>
->> Yes. We can use it. But I thought user can use this macro
->> and avoid hard coding the device name.
-> 
-> What user?  Please use KBUILD_MODNAME now instead.
-
-Ok. I will change it.
-
-> 
-> thanks,
-> 
-> greg k-h
-
+base-commit: c3e0e1e23c70455916ff3472072437b3605c6cfe
 -- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+2.31.1
+
