@@ -2,117 +2,242 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E08F3C43217
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 13:41:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA914C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 14:10:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231492AbiI3Nll (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 09:41:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52172 "EHLO
+        id S229758AbiI3OKP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 10:10:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231488AbiI3Nlk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 09:41:40 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 252AF14E762;
-        Fri, 30 Sep 2022 06:41:39 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id u12so4319253pjj.1;
-        Fri, 30 Sep 2022 06:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=Qoz8AmbfL3c1gEhb9RhVqolO2Z1Q7cU3//oNxnT6QiY=;
-        b=lEw9Md54Prt5CXkYBqczlMBRAszMS3UrSUYyupvUcYRiqO09gvfojW/5clCytriixS
-         2808RzoaDYp61oGmZ99HmIzUJaXUj7qfptMeNj8c1POWwsxVBHnMHW5eHJ7eVQ7kbJDC
-         37oHvD+l3+mZZkvB4HR+RV3QXcBs3Gnwia+aka0g/Bvx7s3rv/S2+m7ycYVFA2NzegCX
-         /VsEROR/dBjvTPWylKYne89QtOdOnn5GiizTeDaBCCfx7hMKZMbopyhPWIhn0wZrqUzL
-         wrYqvyrKk7qj4uPS45mcn+WYnyuTZA/rt/bZ0E3bFtZj/6l/7vBHpzi8rbbKXc0catvl
-         XBHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=Qoz8AmbfL3c1gEhb9RhVqolO2Z1Q7cU3//oNxnT6QiY=;
-        b=MDZFeLuDpb2ZdI4/7buaDxUio3smlPEdN+egonP28qT5BJHZ8xFD10fXewknn/YJR4
-         IzEy1J6tlry6GF9tQXCstbX01/TfZQ5d88LpQqqZt9BDfUdftHpS5tUjpMChNMQFlM/5
-         GTjqwWUDPEeH07OvenjBJ8bEsU/7G6Xuwy7Im/KbmZHrMBLryGFvGqhSu1H0Y5JK30dS
-         zK98GZRTNVM5turaRlwPfpImJUKlP1Q8WVh2L4IeFrZ/CrkvIPrq9lQPp+0uLHSkVR7Q
-         N8kbzCFH53uBx8n8SMREF66oy/OG9egRj1Crm8SK/xlJ8dMMxXcLhGwMn0vVl5OU4e/q
-         OkvA==
-X-Gm-Message-State: ACrzQf0rxbnDJhIACMBtAoqMMSh2v8WuxdIaYCbCgjgEJUYvs4e9fFSP
-        qRqVE2UL5MwMp+OxHNpKWlDJZaDYlUkreg==
-X-Google-Smtp-Source: AMsMyM4Kafj66tGKNKwprqNaME3IQ0fN09pKpo4y9u0Is68u+11h+++UwFTbdVUZJ5J3UYY2XafLRQ==
-X-Received: by 2002:a17:902:690a:b0:17a:32d:7acc with SMTP id j10-20020a170902690a00b0017a032d7accmr9017854plk.18.1664545298630;
-        Fri, 30 Sep 2022 06:41:38 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-32.three.co.id. [116.206.28.32])
-        by smtp.gmail.com with ESMTPSA id j17-20020a635511000000b00439c6a4e1ccsm1667305pgb.62.2022.09.30.06.41.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Sep 2022 06:41:38 -0700 (PDT)
-Message-ID: <0eb358ac-068c-d025-07e3-80a3c51ef39c@gmail.com>
-Date:   Fri, 30 Sep 2022 20:41:24 +0700
+        with ESMTP id S230363AbiI3OKN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 10:10:13 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C8E336405;
+        Fri, 30 Sep 2022 07:10:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664547008; x=1696083008;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=YXEUeoO6/hYWuwTpFS0HnvKZYn5bRmmE1JqrdtO1JmE=;
+  b=TCytLOFK70Iae1ixY0UQenUcNkRG3Qm9LagaBgFwurLZ2tnvjATTvc+Q
+   nUkNht/f2GyfkZCSmG7kCD+3bAwPOY4Y/2Wv+KtMskNKs+eK1O2SBHOy2
+   N54GdJFqd/Ez0SLS8zdRyn8HzKhmgbV1jDAFhmBa2AqkXXgd4jX4x0CGG
+   73MDv+kRNRt0dcjWR67NYlliMVgAOIMrCE62fUZugd4gUmKdYcOP0A7JG
+   NamMCT48aDd4PaT0ngYAeerjggkOxkq/H9ziUrV7OFXT5umOFnsC7Jb5v
+   ZMoI7JXg1TbFQJ5RvabxAEY7O1RBrO697O5N3GBqK1PZPyMF/wl5UcbSJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="300915273"
+X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; 
+   d="scan'208";a="300915273"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 07:09:46 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="622779244"
+X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; 
+   d="scan'208";a="622779244"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 07:09:46 -0700
+Date:   Fri, 30 Sep 2022 07:09:57 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Tom Rix <trix@redhat.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, mdf@kernel.org,
+        linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, tianfei.zhang@intel.com,
+        corbet@lwn.net, gregkh@linuxfoundation.org,
+        linux-serial@vger.kernel.org, jirislaby@kernel.org,
+        geert+renesas@glider.be, andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
+        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de,
+        Basheer Ahmed Muddebihal 
+        <basheer.ahmed.muddebihal@linux.intel.com>
+Subject: Re: [PATCH v2 2/6] fpga: dfl: Move the DFH definitions
+In-Reply-To: <36342784-34c3-6a08-7cd4-eb185b61061a@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2209300708410.1634216@rhweight-WRK1>
+References: <20220923121745.129167-1-matthew.gerlach@linux.intel.com> <20220923121745.129167-3-matthew.gerlach@linux.intel.com> <36342784-34c3-6a08-7cd4-eb185b61061a@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v2 01/39] Documentation/x86: Add CET description
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com, rppt@kernel.org,
-        jamorris@linux.microsoft.com, dethoma@microsoft.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-2-rick.p.edgecombe@intel.com>
- <YzZlT7sO56TzXgNc@debian.me> <87v8p5f0mg.fsf@meer.lwn.net>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <87v8p5f0mg.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/30/22 20:33, Jonathan Corbet wrote:
->>  CET introduces Shadow Stack and Indirect Branch Tracking. Shadow stack is
->>  a secondary stack allocated from memory and cannot be directly modified by
->> -applications. When executing a CALL instruction, the processor pushes the
->> +applications. When executing a ``CALL`` instruction, the processor pushes the
-> 
-> Just to be clear, not everybody is fond of sprinkling lots of ``literal
-> text`` throughout the documentation in this way.  Heavy use of it will
-> certainly clutter the plain-text file and can be a net negative overall.
-> 
 
-Actually there is a trade-off between semantic correctness and plain-text
-clarity. With regards to inline code samples (like identifiers), I fall
-into the former camp. But when I'm reviewing patches for which the
-surrounding documentation go latter camp (leave code samples alone without
-markup), I can adapt to that style as long as it causes no warnings
-whatsover.
 
--- 
-An old man doll... just what I always wanted! - Clara
+On Sat, 24 Sep 2022, Tom Rix wrote:
+
+>
+> On 9/23/22 5:17 AM, matthew.gerlach@linux.intel.com wrote:
+>> From: Basheer Ahmed Muddebihal <basheer.ahmed.muddebihal@linux.intel.com>
+>> 
+>> Moving the DFH register offset and register definitions from
+>> drivers/fpga/dfl.h to include/linux/dfl.h. These definitions
+>> need to be accessed by dfl drivers that are outside of
+>> drivers/fpga.
+>
+> This comment does not match what is done.
+>
+> A move, a change in names and the introduction new defines.
+>
+> I am not sure if moving these #defines is the best approach, the later use of 
+> the in the uart with FIELD_GET's i think should be wrapped as functions and 
+> these functions exported rather than the #defines.
+>
+> So split this patch and justify why #defines are added to the user's 
+> includes.
+>
+> Tom
+
+I agree the original intent "diverged in v2".  I will minimize moving and 
+make helper functions to simplify things.
+
+
+>
+>> 
+>> Signed-off-by: Basheer Ahmed Muddebihal 
+>> <basheer.ahmed.muddebihal@linux.intel.com>
+>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>> ---
+>> v2: remove extra space in commit
+>>      use uniform number of digits in constants
+>>      don't change copyright date because of removed content
+>> ---
+>>   drivers/fpga/dfl-afu-main.c |  4 ++--
+>>   drivers/fpga/dfl.c          |  2 +-
+>>   drivers/fpga/dfl.h          | 20 +-------------------
+>>   include/linux/dfl.h         | 33 ++++++++++++++++++++++++++++++++-
+>>   4 files changed, 36 insertions(+), 23 deletions(-)
+>> 
+>> diff --git a/drivers/fpga/dfl-afu-main.c b/drivers/fpga/dfl-afu-main.c
+>> index 7f621e96d3b8..c26961ee33db 100644
+>> --- a/drivers/fpga/dfl-afu-main.c
+>> +++ b/drivers/fpga/dfl-afu-main.c
+>> @@ -468,8 +468,8 @@ afu_id_show(struct device *dev, struct device_attribute 
+>> *attr, char *buf)
+>>   		return -EBUSY;
+>>   	}
+>>   -	guidl = readq(base + GUID_L);
+>> -	guidh = readq(base + GUID_H);
+>> +	guidl = readq(base + DFH_GUID_L);
+>> +	guidh = readq(base + DFH_GUID_H);
+>>   	mutex_unlock(&pdata->lock);
+>>     	return scnprintf(buf, PAGE_SIZE, "%016llx%016llx\n", guidh, guidl);
+>> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+>> index b9aae85ba930..1132f3c10440 100644
+>> --- a/drivers/fpga/dfl.c
+>> +++ b/drivers/fpga/dfl.c
+>> @@ -1163,7 +1163,7 @@ static int parse_feature_fiu(struct 
+>> build_feature_devs_info *binfo,
+>>   	 * find and parse FIU's child AFU via its NEXT_AFU register.
+>>   	 * please note that only Port has valid NEXT_AFU pointer per spec.
+>>   	 */
+>> -	v = readq(binfo->ioaddr + NEXT_AFU);
+>> +	v = readq(binfo->ioaddr + DFH_NEXT_AFU);
+>>     	offset = FIELD_GET(NEXT_AFU_NEXT_DFH_OFST, v);
+>>   	if (offset)
+>> diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
+>> index 06cfcd5e84bb..e620fcb02b5a 100644
+>> --- a/drivers/fpga/dfl.h
+>> +++ b/drivers/fpga/dfl.h
+>> @@ -17,6 +17,7 @@
+>>   #include <linux/bitfield.h>
+>>   #include <linux/cdev.h>
+>>   #include <linux/delay.h>
+>> +#include <linux/dfl.h>
+>>   #include <linux/eventfd.h>
+>>   #include <linux/fs.h>
+>>   #include <linux/interrupt.h>
+>> @@ -53,28 +54,9 @@
+>>   #define PORT_FEATURE_ID_UINT		0x12
+>>   #define PORT_FEATURE_ID_STP		0x13
+>>   -/*
+>> - * Device Feature Header Register Set
+>> - *
+>> - * For FIUs, they all have DFH + GUID + NEXT_AFU as common header 
+>> registers.
+>> - * For AFUs, they have DFH + GUID as common header registers.
+>> - * For private features, they only have DFH register as common header.
+>> - */
+>> -#define DFH			0x0
+>> -#define GUID_L			0x8
+>> -#define GUID_H			0x10
+>> -#define NEXT_AFU		0x18
+>> -
+>> -#define DFH_SIZE		0x8
+>> -
+>>   /* Device Feature Header Register Bitfield */
+>> -#define DFH_ID			GENMASK_ULL(11, 0)	/* Feature ID 
+>> */
+>>   #define DFH_ID_FIU_FME		0
+>>   #define DFH_ID_FIU_PORT		1
+>> -#define DFH_REVISION		GENMASK_ULL(15, 12)	/* Feature revision 
+>> */
+>> -#define DFH_NEXT_HDR_OFST	GENMASK_ULL(39, 16)	/* Offset to next DFH 
+>> */
+>> -#define DFH_EOL			BIT_ULL(40)		/* End of 
+>> list */
+>> -#define DFH_TYPE		GENMASK_ULL(63, 60)	/* Feature type */
+>>   #define DFH_TYPE_AFU		1
+>>   #define DFH_TYPE_PRIVATE	3
+>>   #define DFH_TYPE_FIU		4
+>> diff --git a/include/linux/dfl.h b/include/linux/dfl.h
+>> index 431636a0dc78..33d167c53b09 100644
+>> --- a/include/linux/dfl.h
+>> +++ b/include/linux/dfl.h
+>> @@ -2,7 +2,7 @@
+>>   /*
+>>    * Header file for DFL driver and device API
+>>    *
+>> - * Copyright (C) 2020 Intel Corporation, Inc.
+>> + * Copyright (C) 2020-2022 Intel Corporation, Inc.
+>>    */
+>>     #ifndef __LINUX_DFL_H
+>> @@ -11,6 +11,37 @@
+>>   #include <linux/device.h>
+>>   #include <linux/mod_devicetable.h>
+>>   +/*
+>> + * Device Feature Header Register Set
+>> + *
+>> + * For FIUs, they all have DFH + GUID + NEXT_AFU as common header 
+>> registers.
+>> + * For AFUs, they have DFH + GUID as common header registers.
+>> + * For private features, they only have DFH register as common header.
+>> + */
+>> +#define DFH			0x00
+>> +#define DFH_GUID_L		0x08
+>> +#define DFH_GUID_H		0x10
+>> +#define DFH_NEXT_AFU		0x18
+>> +
+>> +/*
+>> + * DFHv1 Register Offset definitons
+>> + * In DHFv1, DFH + GUID + CSR_START + CSR_SIZE_GROUP + PARAM_HDR + 
+>> PARAM_DATA
+>> + * as common header registers
+>> + */
+>> +#define DFHv1_CSR_ADDR		0x18  /* CSR Register start address 
+>> */
+>> +#define DFHv1_CSR_SIZE_GRP	0x20  /* Size of Reg Block and Group/tag */
+>> +#define DFHv1_PARAM_HDR		0x28  /* Optional First Param header 
+>> */
+>> +#define DFHv1_PARAM_DATA	0x08  /* Offset of Param data from Param 
+>> header */
+>> +
+>> +#define DFH_SIZE		0x08
+>> +
+>> +/* Device Feature Header Register Bitfield */
+>> +#define DFH_ID			GENMASK_ULL(11, 0)	/* Feature ID 
+>> */
+>> +#define DFH_REVISION		GENMASK_ULL(15, 12)	/* Feature revision 
+>> */
+>> +#define DFH_NEXT_HDR_OFST	GENMASK_ULL(39, 16)	/* Offset to next DFH 
+>> */
+>> +#define DFH_EOL			BIT_ULL(40)		/* End of 
+>> list */
+>> +#define DFH_TYPE		GENMASK_ULL(63, 60)	/* Feature type */
+>> +
+>>   /**
+>>    * enum dfl_id_type - define the DFL FIU types
+>>    */
+>
+>
