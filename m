@@ -2,229 +2,471 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABC2DC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 03:37:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE30C43217
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 03:41:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229712AbiI3Dhg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 23:37:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48922 "EHLO
+        id S229839AbiI3DlM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 23:41:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbiI3Dhe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 23:37:34 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D2EA118B1D;
-        Thu, 29 Sep 2022 20:37:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664509053; x=1696045053;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/t5PvzkP5CnfVfh6FXwUHOhMRJZQfg+GbB0zWgJE51E=;
-  b=To2DeY+Tjm5gldKvOE8kNdGTSx3OMsNt+gVL/aaGIDgnXHeByunqxrUq
-   f0xnmIEZzAc1BfSKGtOffAHQ0AEFGThGz/yTbT1xCVHl5/B9TQhghXBfp
-   opRZERiiRj6fd+vL6+Y3Q7RP7pBG/j6TU0tdNa7MO96qbhzGBfHyV/gOY
-   qa5NguRMZ9iYwbz3rjXXX/JPA4ifwGCgyQavlxKScsVBQ4r6p8t0qH3BN
-   T+IKlpMy8lgLUNVthVWRQf6e+kwIWHvGtGPOtOWPX89T4Dke+05HhxCVg
-   qzcTY2h8GjRCGz4d4jxVc82+rN0Yxnoh/2r+Q1lfZVFzv7g4QfkDqjVCz
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="303006236"
-X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; 
-   d="scan'208";a="303006236"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2022 20:37:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="685122739"
-X-IronPort-AV: E=Sophos;i="5.93,357,1654585200"; 
-   d="scan'208";a="685122739"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by fmsmga008.fm.intel.com with ESMTP; 29 Sep 2022 20:37:27 -0700
-Date:   Fri, 30 Sep 2022 11:28:38 +0800
-From:   Xu Yilun <yilun.xu@intel.com>
-To:     matthew.gerlach@linux.intel.com
-Cc:     hao.wu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
-        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
-Subject: Re: [PATCH v2 4/6] fpga: dfl: add generic support for MSIX interrupts
-Message-ID: <YzZiZsc3X0Iy6Z5S@yilunxu-OptiPlex-7050>
-References: <20220923121745.129167-1-matthew.gerlach@linux.intel.com>
- <20220923121745.129167-5-matthew.gerlach@linux.intel.com>
+        with ESMTP id S229696AbiI3DlK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 23:41:10 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C8B17EFEE;
+        Thu, 29 Sep 2022 20:41:08 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id u12so3121233pjj.1;
+        Thu, 29 Sep 2022 20:41:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=GsJL71zBc0kUncy0B1Baf1aatIrD2b+ye64C2hSTZDw=;
+        b=QHUsUemaJemvK+9u/noyxU0kDBzkolQo7gSntrhI+Y8mPIW1QZSUfzsWJYvdTeP+Zx
+         hAKRltsNuwb5Ib6ni9Eu2wqvkjuctWBsBt1+YGsqHAFORs9PWOHJr3EQPIb7FgpFF45C
+         W8JX4iAGyWyVV1+co/0PpLaemTMPHL5mtUvuAZ0Q4QAZW2Z/XZXFWabUUTF1VD2vT6vd
+         iyV2iq8nHkBRYh1UIA0/ZU9wp/jeqzeoBmoy0/BUfF0iGMRJasN5xRDqw4jJT3PcvTez
+         jbQdKF77r84g9q4Smp5dtWEy0lfxRsJt8C+hF1FH9FFU2m9BfnG8ODUJqF3qzkKeUOIu
+         YoBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=GsJL71zBc0kUncy0B1Baf1aatIrD2b+ye64C2hSTZDw=;
+        b=Kd0T2V02jGNmXXJpXeN4q9+SpsgrZRCnlDFL7Xt+tdW9dnRrZRumzXXCQjzhaqpUl/
+         aZEuL5e79uQGIKosJmil+i9wonWD0Wh3vHTUYv1v5CJdNwHj7Mn/oCbcWdWeVS2dUc1g
+         NmGjJORUg7SZXQgxhhDymwKUsXEKjW7ERPRp6CrlnOa8ZqNboSUwgRagRqnD0yBzLgB6
+         z/aaw8k1mSmkMidDLLuDpdi0wTcBdgqaAEvw1SDuu1nebTxJvbc0sgfBou/6LZBgIU5H
+         JvGcACRkBSN7cJ/NdNyFZJ+W7R00mCHljyeN/huM2gdXTC0sgmTxMZ4T4OTZ/qlSuOSq
+         pVsA==
+X-Gm-Message-State: ACrzQf19TJtRLfZJSw2ayhCgSWNv1UTht3G9n/gFTNzK+SIZw2Ndumnk
+        SsFT4TdDyQW5juOdz1yEHGk=
+X-Google-Smtp-Source: AMsMyM5It3aJjg1M83/P5mmD86k816Euz6h2VgrPhh7vuN5+OA4Viy5OUl6Mzc/b5kEy80N5N5l5ZQ==
+X-Received: by 2002:a17:90a:2b0c:b0:203:b7b1:2ba2 with SMTP id x12-20020a17090a2b0c00b00203b7b12ba2mr7332499pjc.34.1664509267586;
+        Thu, 29 Sep 2022 20:41:07 -0700 (PDT)
+Received: from debian.me (subs28-116-206-12-57.three.co.id. [116.206.12.57])
+        by smtp.gmail.com with ESMTPSA id m10-20020a17090a668a00b00203ab277966sm4315763pjj.7.2022.09.29.20.41.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Sep 2022 20:41:06 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 6AB0710374D; Fri, 30 Sep 2022 10:41:03 +0700 (WIB)
+Date:   Fri, 30 Sep 2022 10:41:03 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com, rppt@kernel.org,
+        jamorris@linux.microsoft.com, dethoma@microsoft.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v2 01/39] Documentation/x86: Add CET description
+Message-ID: <YzZlT7sO56TzXgNc@debian.me>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-2-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="eGuHlwYLjB6uXtie"
 Content-Disposition: inline
-In-Reply-To: <20220923121745.129167-5-matthew.gerlach@linux.intel.com>
+In-Reply-To: <20220929222936.14584-2-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-09-23 at 05:17:43 -0700, matthew.gerlach@linux.intel.com wrote:
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> 
-> Define and use a DFHv1 parameter to add generic support for MSIX
-> interrupts for DFL devices.
-> 
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> ---
-> v2: fix kernel doc
->     clarify use of DFH_VERSION field
-> ---
->  drivers/fpga/dfl.c  | 60 +++++++++++++++++++++++++++++++++++++++++----
->  include/linux/dfl.h | 14 +++++++++++
->  2 files changed, 69 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
-> index 1132f3c10440..dfd3f563c92d 100644
-> --- a/drivers/fpga/dfl.c
-> +++ b/drivers/fpga/dfl.c
-> @@ -941,23 +941,22 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
->  	void __iomem *base = binfo->ioaddr + ofst;
->  	unsigned int i, ibase, inr = 0;
->  	enum dfl_id_type type;
-> -	int virq;
-> +	int virq, off;
->  	u64 v;
->  
->  	type = feature_dev_id_type(binfo->feature_dev);
->  
->  	/*
->  	 * Ideally DFL framework should only read info from DFL header, but
-> -	 * current version DFL only provides mmio resources information for
-> +	 * current version, DFHv0, only provides mmio resources information for
 
-With this patchset, it's not 'current version' anymore.
+--eGuHlwYLjB6uXtie
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->  	 * each feature in DFL Header, no field for interrupt resources.
->  	 * Interrupt resource information is provided by specific mmio
->  	 * registers of each private feature which supports interrupt. So in
->  	 * order to parse and assign irq resources, DFL framework has to look
->  	 * into specific capability registers of these private features.
->  	 *
-> -	 * Once future DFL version supports generic interrupt resource
-> -	 * information in common DFL headers, the generic interrupt parsing
-> -	 * code will be added. But in order to be compatible to old version
-> +	 * DFHv1 supports generic interrupt resource information in DFHv1
-> +	 * parameter blocks. But in order to be compatible to old version
->  	 * DFL, the driver may still fall back to these quirks.
->  	 */
->  	if (type == PORT_ID) {
-> @@ -981,6 +980,36 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
->  		}
->  	}
->  
-> +	if (fid != FEATURE_ID_AFU && fid != PORT_FEATURE_ID_ERROR &&
-> +	    fid != PORT_FEATURE_ID_UINT && fid != FME_FEATURE_ID_GLOBAL_ERR) {
+On Thu, Sep 29, 2022 at 03:28:58PM -0700, Rick Edgecombe wrote:
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +		v = FIELD_GET(DFH_VERSION, readq(base));
-> +		switch (v) {
-> +		case 0:
-> +			break;
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Control-flow Enforcement Technology (CET)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Overview
+> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Control-flow Enforcement Technology (CET) is term referring to several
+> +related x86 processor features that provides protection against control
+> +flow hijacking attacks. The HW feature itself can be set up to protect
+> +both applications and the kernel. Only user-mode protection is implement=
+ed
+> +in the 64-bit kernel.
+> +
+> +CET introduces Shadow Stack and Indirect Branch Tracking. Shadow stack is
+> +a secondary stack allocated from memory and cannot be directly modified =
+by
+> +applications. When executing a CALL instruction, the processor pushes the
+> +return address to both the normal stack and the shadow stack. Upon
+> +function return, the processor pops the shadow stack copy and compares it
+> +to the normal stack copy. If the two differ, the processor raises a
+> +control-protection fault. Indirect branch tracking verifies indirect
+> +CALL/JMP targets are intended as marked by the compiler with 'ENDBR'
+> +opcodes. Not all CPU's have both Shadow Stack and Indirect Branch Tracki=
+ng
+> +and only Shadow Stack is currently supported in the kernel.
+> +
+> +The Kconfig options is X86_SHADOW_STACK, and it can be disabled with
+> +the kernel parameter clearcpuid, like this: "clearcpuid=3Dshstk".
+> +
+> +To build a CET-enabled kernel, Binutils v2.31 and GCC v8.1 or LLVM v10.0=
+=2E1
+> +or later are required. To build a CET-enabled application, GLIBC v2.28 or
+> +later is also required.
+> +
+> +At run time, /proc/cpuinfo shows CET features if the processor supports
+> +CET.
+> +
+> +Application Enabling
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +An application's CET capability is marked in its ELF header and can be
+> +verified from readelf/llvm-readelf output:
+> +
+> +    readelf -n <application> | grep -a SHSTK
+> +        properties: x86 feature: SHSTK
+> +
+> +The kernel does not process these applications directly. Applications mu=
+st
+> +enable them using the interface descriped in section 4. Typically this
+> +would be done in dynamic loader or static runtime objects, as is the case
+> +in glibc.
+> +
+> +Backward Compatibility
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +GLIBC provides a few CET tunables via the GLIBC_TUNABLES environment
+> +variable:
+> +
+> +GLIBC_TUNABLES=3Dglibc.tune.hwcaps=3D-SHSTK,-WRSS
+> +    Turn off SHSTK/WRSS.
+> +
+> +GLIBC_TUNABLES=3Dglibc.tune.x86_shstk=3D<on, permissive>
+> +    This controls how dlopen() handles SHSTK legacy libraries::
+> +
+> +        on         - continue with SHSTK enabled;
+> +        permissive - continue with SHSTK off.
+> +
+> +Details can be found in the GLIBC manual pages.
+> +
+> +CET arch_prctl()'s
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Elf features should be enabled by the loader using the below arch_prctl'=
+s.
+> +
+> +arch_prctl(ARCH_CET_ENABLE, unsigned int feature)
+> +    Enable a single feature specified in 'feature'. Can only operate on
+> +    one feature at a time.
+> +
+> +arch_prctl(ARCH_CET_DISABLE, unsigned int feature)
+> +    Disable features specified in 'feature'. Can only operate on
+> +    one feature at a time.
+> +
+> +arch_prctl(ARCH_CET_LOCK, unsigned int features)
+> +    Lock in features at their current enabled or disabled status.
+> +
+> +The return values are as following:
+> +    On success, return 0. On error, errno can be::
+> +
+> +        -EPERM if any of the passed feature are locked.
+> +        -EOPNOTSUPP if the feature is not supported by the hardware or
+> +         disabled by kernel parameter.
+> +        -EINVAL arguments (non existing feature, etc)
+> +
+> +Currently shadow stack and WRSS are supported via this interface. WRSS
+> +can only be enabled with shadow stack, and is automatically disabled
+> +if shadow stack is disabled.
+> +
+> +Proc status
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +To check if an application is actually running with shadow stack, the
+> +user can read the /proc/$PID/arch_status. It will report "wrss" or
+> +"shstk" depending on what is enabled.
+> +
+> +The implementation of the Shadow Stack
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Shadow Stack size
+> +-----------------
+> +
+> +A task's shadow stack is allocated from memory to a fixed size of
+> +MIN(RLIMIT_STACK, 4 GB). In other words, the shadow stack is allocated to
+> +the maximum size of the normal stack, but capped to 4 GB. However,
+> +a compat-mode application's address space is smaller, each of its thread=
+'s
+> +shadow stack size is MIN(1/4 RLIMIT_STACK, 4 GB).
+> +
+> +Signal
+> +------
+> +
+> +By default, the main program and its signal handlers use the same shadow
+> +stack. Because the shadow stack stores only return addresses, a large
+> +shadow stack covers the condition that both the program stack and the
+> +signal alternate stack run out.
+> +
+> +The kernel creates a restore token for the shadow stack and pushes the
+> +restorer address to the shadow stack. Then verifies that token when
+> +restoring from the signal handler.
+> +
+> +Fork
+> +----
+> +
+> +The shadow stack's vma has VM_SHADOW_STACK flag set; its PTEs are requir=
+ed
+> +to be read-only and dirty. When a shadow stack PTE is not RO and dirty, a
+> +shadow access triggers a page fault with the shadow stack access bit set
+> +in the page fault error code.
+> +
+> +When a task forks a child, its shadow stack PTEs are copied and both the
+> +parent's and the child's shadow stack PTEs are cleared of the dirty bit.
+> +Upon the next shadow stack access, the resulting shadow stack page fault
+> +is handled by page copy/re-use.
+> +
+> +When a pthread child is created, the kernel allocates a new shadow stack
+> +for the new thread.
 
-In last version, you mentioned that there will be no quirk for DFLv1, so
-how about:
+The documentation above can be improved (both grammar and formatting):
 
-  v = FIELD_GET(DFH_VERSION, readq(base));
+---- >8 ----
 
-  if (v == 0) {
-	/* quirks */
-  } else {
-	/* parse PARAM MSIX  */
-  }
+diff --git a/Documentation/x86/cet.rst b/Documentation/x86/cet.rst
+index 6b270a24ebc3a2..f691f7995cf088 100644
+--- a/Documentation/x86/cet.rst
++++ b/Documentation/x86/cet.rst
+@@ -15,92 +15,101 @@ in the 64-bit kernel.
+=20
+ CET introduces Shadow Stack and Indirect Branch Tracking. Shadow stack is
+ a secondary stack allocated from memory and cannot be directly modified by
+-applications. When executing a CALL instruction, the processor pushes the
++applications. When executing a ``CALL`` instruction, the processor pushes =
+the
+ return address to both the normal stack and the shadow stack. Upon
+ function return, the processor pops the shadow stack copy and compares it
+ to the normal stack copy. If the two differ, the processor raises a
+ control-protection fault. Indirect branch tracking verifies indirect
+-CALL/JMP targets are intended as marked by the compiler with 'ENDBR'
+-opcodes. Not all CPU's have both Shadow Stack and Indirect Branch Tracking
+-and only Shadow Stack is currently supported in the kernel.
++``CALL``/``JMP`` targets are intended as marked by the compiler with ``END=
+BR``
++opcodes. Not all CPUs have both Shadow Stack and Indirect Branch Tracking
++and only Shadow Stack is currently supported by the kernel.
+=20
+-The Kconfig options is X86_SHADOW_STACK, and it can be disabled with
+-the kernel parameter clearcpuid, like this: "clearcpuid=3Dshstk".
++The Kconfig options is ``X86_SHADOW_STACK`` and it can be overridden with
++the kernel command-line parameter ``clearcpuid`` (for example
++``clearcpuid=3Dshstk``).
+=20
+ To build a CET-enabled kernel, Binutils v2.31 and GCC v8.1 or LLVM v10.0.1
+-or later are required. To build a CET-enabled application, GLIBC v2.28 or
++or later are required. To build a CET-enabled application, glibc v2.28 or
+ later is also required.
+=20
+-At run time, /proc/cpuinfo shows CET features if the processor supports
+-CET.
++At run time, ``/proc/cpuinfo`` shows CET features if the processor supports
++them
+=20
+-Application Enabling
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Enabling CET in applications
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+=20
+-An application's CET capability is marked in its ELF header and can be
+-verified from readelf/llvm-readelf output:
++The CET capability of an application is marked in its ELF header and can be
++verified from ``readelf``/``llvm-readelf`` output::
+=20
+     readelf -n <application> | grep -a SHSTK
+         properties: x86 feature: SHSTK
+=20
+ The kernel does not process these applications directly. Applications must
+-enable them using the interface descriped in section 4. Typically this
++enable them using :ref:`cet-arch_prctl`. Typically this
+ would be done in dynamic loader or static runtime objects, as is the case
+ in glibc.
+=20
+ Backward Compatibility
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-GLIBC provides a few CET tunables via the GLIBC_TUNABLES environment
++glibc provides a few CET tunables via the ``GLIBC_TUNABLES`` environment
+ variable:
+=20
+-GLIBC_TUNABLES=3Dglibc.tune.hwcaps=3D-SHSTK,-WRSS
++  * ``GLIBC_TUNABLES=3Dglibc.tune.hwcaps=3D-SHSTK,-WRSS``
++
+     Turn off SHSTK/WRSS.
+=20
+-GLIBC_TUNABLES=3Dglibc.tune.x86_shstk=3D<on, permissive>
+-    This controls how dlopen() handles SHSTK legacy libraries::
++  * ``GLIBC_TUNABLES=3Dglibc.tune.x86_shstk=3D<on, permissive>``
+=20
+-        on         - continue with SHSTK enabled;
+-        permissive - continue with SHSTK off.
++    This controls how :manpage:`dlopen(3)` handles SHSTK legacy libraries.
++    Possible values are:
+=20
+-Details can be found in the GLIBC manual pages.
++    * ``on``         - continue with SHSTK enabled;
++    * ``permissive`` - continue with SHSTK off.
+=20
+-CET arch_prctl()'s
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++.. _cet-arch_prctl:
+=20
+-Elf features should be enabled by the loader using the below arch_prctl's.
++CET arch_prctl() interface
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+=20
+-arch_prctl(ARCH_CET_ENABLE, unsigned int feature)
+-    Enable a single feature specified in 'feature'. Can only operate on
++ELF features should be enabled by the loader using the following
++:manpage:`arch_prctl(2)` subfunctions:
++
++  * ``arch_prctl(ARCH_CET_ENABLE, unsigned int feature)``
++
++    Enable a single feature specified in ``feature``. Can only operate on
+     one feature at a time.
+=20
+-arch_prctl(ARCH_CET_DISABLE, unsigned int feature)
+-    Disable features specified in 'feature'. Can only operate on
++  * ``arch_prctl(ARCH_CET_DISABLE, unsigned int feature)``
++
++    Disable features specified in ``feature``. Can only operate on
+     one feature at a time.
+=20
+-arch_prctl(ARCH_CET_LOCK, unsigned int features)
+-    Lock in features at their current enabled or disabled status.
++  * ``arch_prctl(ARCH_CET_LOCK, unsigned int features)``
++
++    Lock in features at their current status.
++
++  * ``arch_prctl(ARCH_CET_UNLOCK, unsigned int features)``
+=20
+-arch_prctl(ARCH_CET_UNLOCK, unsigned int features)
+     Unlock features.
+=20
+-The return values are as following:
+-    On success, return 0. On error, errno can be::
++On success, :manpage:`arch_prctl(2)` returns 0, otherwise the errno
++can be:
+=20
+-        -EPERM if any of the passed feature are locked.
+-        -EOPNOTSUPP if the feature is not supported by the hardware or
+-         disabled by kernel parameter.
+-        -EINVAL arguments (non existing feature, etc)
++  - ``EPERM`` if any of the passed feature are locked.
++  - ``EOPNOTSUPP`` if the feature is not supported by the hardware or
++    disabled by the kernel command-line parameter.
++  - ``EINVAL`` if the arguments are invalid (non existing feature, etc).
+=20
+ Currently shadow stack and WRSS are supported via this interface. WRSS
+ can only be enabled with shadow stack, and is automatically disabled
+ if shadow stack is disabled.
+=20
+-Proc status
++proc status
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-To check if an application is actually running with shadow stack, the
+-user can read the /proc/$PID/arch_status. It will report "wrss" or
+-"shstk" depending on what is enabled.
++To check if an application is actually running with shadow stack, users can
++read ``/proc/$PID/arch_status``. It will report ``wrss`` or
++``shstk`` depending on what is enabled.
+=20
+ The implementation of the Shadow Stack
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+@@ -108,11 +117,11 @@ The implementation of the Shadow Stack
+ Shadow Stack size
+ -----------------
+=20
+-A task's shadow stack is allocated from memory to a fixed size of
+-MIN(RLIMIT_STACK, 4 GB). In other words, the shadow stack is allocated to
++The shadow stack of a task is allocated from memory to a fixed size of
++``MIN(RLIMIT_STACK, 4 GB)``. In other words, the shadow stack is allocated=
+ to
+ the maximum size of the normal stack, but capped to 4 GB. However,
+-a compat-mode application's address space is smaller, each of its thread's
+-shadow stack size is MIN(1/4 RLIMIT_STACK, 4 GB).
++the address space of a compat-mode application is smaller; the shadow stack
++size of each of its thread is ``MIN(1/4 RLIMIT_STACK, 4 GB)``.
+=20
+ Signal
+ ------
+@@ -123,19 +132,19 @@ shadow stack covers the condition that both the progr=
+am stack and the
+ signal alternate stack run out.
+=20
+ The kernel creates a restore token for the shadow stack and pushes the
+-restorer address to the shadow stack. Then verifies that token when
+-restoring from the signal handler.
++restorer address to it. Then the kernel verifies that token when restoring
++from the signal handler.
+=20
+ Fork
+ ----
+=20
+-The shadow stack's vma has VM_SHADOW_STACK flag set; its PTEs are required
+-to be read-only and dirty. When a shadow stack PTE is not RO and dirty, a
++The shadow stack vma has ``VM_SHADOW_STACK`` flag set; its PTEs are requir=
+ed
++to be read-only and dirty. When a shadow stack PTE is read-write and dirty=
+, a
+ shadow access triggers a page fault with the shadow stack access bit set
+ in the page fault error code.
+=20
+ When a task forks a child, its shadow stack PTEs are copied and both the
+-parent's and the child's shadow stack PTEs are cleared of the dirty bit.
++shadow stack PTEs of parent and child are cleared of the dirty bit.
+ Upon the next shadow stack access, the resulting shadow stack page fault
+ is handled by page copy/re-use.
+=20
+Thanks.
 
-No need to check specific feature ids again.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Thanks,
-Yilun
+--eGuHlwYLjB6uXtie
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +
-> +		case 1:
-> +			v =  readq(base + DFHv1_CSR_SIZE_GRP);
-> +			if (FIELD_GET(DFHv1_CSR_SIZE_GRP_HAS_PARAMS, v)) {
-> +				off = dfl_find_param(base + DFHv1_PARAM_HDR, ofst,
-> +						     DFHv1_PARAM_ID_MSIX);
-> +				if (off >= 0) {
-> +					ibase = readl(base + DFHv1_PARAM_HDR +
-> +						      off + DFHv1_PARAM_MSIX_STARTV);
-> +					inr = readl(base + DFHv1_PARAM_HDR +
-> +						    off + DFHv1_PARAM_MSIX_NUMV);
-> +					dev_dbg(binfo->dev, "start %d num %d fid 0x%x\n",
-> +						ibase, inr, fid);
-> +				}
-> +			}
-> +			break;
-> +
-> +		default:
-> +			dev_warn(binfo->dev, "unexpected DFH version %lld\n", v);
-> +			break;
-> +		}
-> +	}
-> +
->  	if (!inr) {
->  		*irq_base = 0;
->  		*nr_irqs = 0;
-> @@ -1879,6 +1908,27 @@ long dfl_feature_ioctl_set_irq(struct platform_device *pdev,
->  }
->  EXPORT_SYMBOL_GPL(dfl_feature_ioctl_set_irq);
->  
-> +int dfl_find_param(void __iomem *base, resource_size_t max, int param)
-> +{
-> +	int off = 0;
-> +	u64 v, next;
-> +
-> +	while (off < max) {
-> +		v = readq(base + off);
-> +		if (param == FIELD_GET(DFHv1_PARAM_HDR_ID, v))
-> +			return off;
-> +
-> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
-> +		if (!next)
-> +			break;
-> +
-> +		off += next;
-> +	}
-> +
-> +	return -ENOENT;
-> +}
-> +EXPORT_SYMBOL_GPL(dfl_find_param);
-> +
->  static void __exit dfl_fpga_exit(void)
->  {
->  	dfl_chardev_uinit();
-> diff --git a/include/linux/dfl.h b/include/linux/dfl.h
-> index 1e53468ba8d8..33e21c360671 100644
-> --- a/include/linux/dfl.h
-> +++ b/include/linux/dfl.h
-> @@ -63,6 +63,10 @@
->  #define DFHv1_PARAM_HDR_VERSION		GENMASK_ULL(31, 16) /* Version Param */
->  #define DFHv1_PARAM_HDR_NEXT_OFFSET	GENMASK_ULL(63, 32) /* Offset of next Param */
->  
-> +#define DFHv1_PARAM_ID_MSIX	0x1
-> +#define DFHv1_PARAM_MSIX_STARTV	0x8
-> +#define DFHv1_PARAM_MSIX_NUMV	0xc
-> +
->  /**
->   * enum dfl_id_type - define the DFL FIU types
->   */
-> @@ -136,4 +140,14 @@ void dfl_driver_unregister(struct dfl_driver *dfl_drv);
->  	module_driver(__dfl_driver, dfl_driver_register, \
->  		      dfl_driver_unregister)
->  
-> +/**
-> + * dfl_find_param() - find the offset of the given parameter
-> + * @base: base pointer to start of dfl parameters in DFH
-> + * @max: maximum offset to search
-> + * @param: id of dfl parameter
-> + *
-> + * Return: positive offset on success, negative error code otherwise.
-> + */
-> +int dfl_find_param(void __iomem *base, resource_size_t max, int param);
-> +
->  #endif /* __LINUX_DFL_H */
-> -- 
-> 2.25.1
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYzZlSwAKCRD2uYlJVVFO
+o/E+AQC4R370JtlvOpcNfLV29O/Klt/2032cP5rnzHigPFNppwD9Gg2sSM6SIeq9
+12n3CQKTry04jtXt1YhJb5TVXy4U/Ak=
+=lClp
+-----END PGP SIGNATURE-----
+
+--eGuHlwYLjB6uXtie--
