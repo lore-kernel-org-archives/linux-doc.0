@@ -2,219 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC016C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 09:51:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C16FCC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 09:58:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229700AbiI3JvS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 05:51:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53928 "EHLO
+        id S231245AbiI3J6D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 05:58:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230494AbiI3JvP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 05:51:15 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24162E9063;
-        Fri, 30 Sep 2022 02:51:14 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id d11so3533931pll.8;
-        Fri, 30 Sep 2022 02:51:14 -0700 (PDT)
+        with ESMTP id S230510AbiI3J6D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 05:58:03 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBBBD170B2F;
+        Fri, 30 Sep 2022 02:58:01 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id x15so5546668wrv.1;
+        Fri, 30 Sep 2022 02:58:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=dAI/zB5X3r1p0+6wjY89ucLgBKUEAusottjilwFBw6w=;
-        b=BZ6i7zNjO0iV1zrKwolGYdd4DMx/UCzFxhuvU6ejIDLoHEXU1PAhqhptrsCny8N9OF
-         Q+CKnLYTPWxPEDzx466beXCthImnCLrwOpfRM9CBBCGBuu/8KhzS1EZbzUAXA1VTEcc6
-         jxwGS4PlAzU3IzThJlB3e3eL5dkeDBqi6CGeNqEV4T1h0fUQ6h/z112Yi0raMLbXGUD0
-         jnwWeDQnZ8c75nN12HPv1WJvO1UJajKenf3KGNUfY31kmPpI4O1e3qM+VsActQAHVb6x
-         6GI5i2xhjep1y+kBrAEo+XDU0Q1e+kYxpUDb/ZNrxvrkgSQ19yKTVxHmhGdSGVk/Ysdf
-         ekCg==
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date;
+        bh=HSZ+aShXll8KmOveyBg86lsdBKYjb2hPRP55VOw49Gk=;
+        b=pZEkWxGHz8d5zcLFiDkZXko04pUUEbduI9KD2/QeocZQr5M1usThwTNi3lU0EoGXrP
+         1M+sVVtAslSVXhTrV2yN95gxeDmRw3QcAezp2KFBh3tRUa9Ke4AXqqfh2PKTxtTLcUKw
+         PppixegxJUyc5JCH9WDJq7zlhMCGM12V/tn0Hj3ifp4evzWQilNjP/RZORePoAndbzSf
+         zyK2K1aQ0EGvlHhTak+FVg0EVTV9cKonII3WzS2Px6CUnZoCSHzkMDWxHNTq+IG3VnbM
+         h4humYaHNssn5gTrpu9WG90DmKum12qNuVnA4FhsDeVdMf1pTBDFH/xOr+3eMmNpbh5H
+         NNdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=dAI/zB5X3r1p0+6wjY89ucLgBKUEAusottjilwFBw6w=;
-        b=ViQnQ/hMpVLZ+vqVbyEHh9SFUMnXTQO0Nsbt/N/pNQnesOjRnCowkfiVQJUQNQYqaN
-         1oKJeT11flm/QoR7fq32wweicwCsfEcYzojhqEwOAe9SFsAZYWSEmSrJzPoWH9R+2O6Q
-         HOKgsCDvCu2fObHbDvaQn7WeZyC2c2FpTwM5pABO9ArMgG97WL5L0h05hQ0gHs1479J8
-         C3TuyCk00f5ZAdAolVT4/dZt7GCq2mT42EbmLcmp3EvyVkP0UvW3TIQ2ggqKCFel8tQ5
-         YhV1fbo7SNNt8mJFDRwkvyt9MuXvg0OAuClqUHdUJ6lJh3VPtMQoW9oIOK0dgZXIGl8v
-         3upw==
-X-Gm-Message-State: ACrzQf1myExE3OpDpaqUyD1xwzNaHeDlUJ8bfJ2OdbG7aWyOOnKtdT3G
-        Z8cfntcid5BVh+eH/v1owb0=
-X-Google-Smtp-Source: AMsMyM69G7WPK/dtK5ih/7WLbCJL0YgY0S/p7hg+S9OB4guCwbNb05zO/lPFd40BBNBJP7dB0W2gyw==
-X-Received: by 2002:a17:902:b705:b0:17a:dd:4c3e with SMTP id d5-20020a170902b70500b0017a00dd4c3emr8042122pls.14.1664531473600;
-        Fri, 30 Sep 2022 02:51:13 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-35.three.co.id. [116.206.28.35])
-        by smtp.gmail.com with ESMTPSA id u15-20020a170903124f00b001709b9d292esm1450485plh.268.2022.09.30.02.51.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Sep 2022 02:51:13 -0700 (PDT)
-Message-ID: <464981b6-d9d7-e656-261f-ef48661deaa2@gmail.com>
-Date:   Fri, 30 Sep 2022 16:51:08 +0700
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=HSZ+aShXll8KmOveyBg86lsdBKYjb2hPRP55VOw49Gk=;
+        b=zvYd8eHVXhV8I7WwZ5D7ELROso2ZBqb942msfR+59sV9s/DblbM7KDxHuxQWY3K2Ud
+         q/MCEIX1jQzyibcHTJ/uAD8yKCmEjHMs2HS8fLN9Vw7IDCAlIAZUQiz14Y/DsittG5Jq
+         ZEGNU3sZcZg+fdNdE91n4tezECA994Fy4CU/VSgNrA5RYVeIkCn9hInZkTib/0pS6fTf
+         5B2mgqnXmdGPbicGehDyjqN4QRrbG39nddbeQRHQdxANXCCczs6jOlq2iBr3sXaib04G
+         kUNK+6eFNqsmeOnOsWwuIhe5CFbru3JDXq9+5582zhpzfn7aDNs+zJiz8tY9s5/bvZRy
+         iJqg==
+X-Gm-Message-State: ACrzQf1Dxb2C1VYB50dejJ0fdw1GKl+qKZhBC8JRmcyUVqcSYEG8n2yC
+        59VBivbGQEC2ht5UmBE0q7W/R9DQbum34Q==
+X-Google-Smtp-Source: AMsMyM5jEtN/6B332W/0nOTxkfOUOJ8jDZU9Imj2tm1QPGrx6MU3cPaBNJWnrXxP3jExyNL84q4G4w==
+X-Received: by 2002:a5d:50c3:0:b0:22c:c234:7d96 with SMTP id f3-20020a5d50c3000000b0022cc2347d96mr5256486wrt.192.1664531879987;
+        Fri, 30 Sep 2022 02:57:59 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:480e:2385:926c:bbb7])
+        by smtp.gmail.com with ESMTPSA id bu21-20020a056000079500b0022cdcad0d21sm1519123wrb.8.2022.09.30.02.57.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Sep 2022 02:57:59 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v4 1/2] Add subdir support to Documentation
+ makefile
+In-Reply-To: <m2h70y87eh.fsf@gmail.com> (Donald Hunter's message of "Fri, 23
+        Sep 2022 15:58:14 +0100")
+Date:   Fri, 30 Sep 2022 10:57:25 +0100
+Message-ID: <m2wn9l6v7e.fsf@gmail.com>
+References: <20220922115257.99815-1-donald.hunter@gmail.com>
+        <20220922115257.99815-2-donald.hunter@gmail.com>
+        <87tu4zsfse.fsf@meer.lwn.net> <m2h70y87eh.fsf@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v2] Documentation: kunit: rewrite writing first test
- instructions
-Content-Language: en-US
-To:     David Gow <davidgow@google.com>
-Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Khalid Masum <khalid.masum.92@gmail.com>,
-        Sadiya Kazi <sadiyakazi@google.com>
-References: <20220929132549.56452-1-bagasdotme@gmail.com>
- <CABVgOSkT-EWLqr6R=RvbEgmkMAY0680YbRnEBg1un6h-=TzrUg@mail.gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <CABVgOSkT-EWLqr6R=RvbEgmkMAY0680YbRnEBg1un6h-=TzrUg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/30/22 13:42, David Gow wrote:
-> 
-> While I like the idea behind this, the wording probably needs a bit of
-> tweaking. In addition, by describing everything in too much detail, I
-> fear we might just be adding some needless redundancy. My suspicion is
-> that everyone who's going to be writing KUnit tests already knows C
-> (or has access to better learning materials than this), so we're
-> unlikely to need to describe in detail that, e.g., misc_example_add()
-> adds two numbers together when the code is right there,
-> 
+Donald Hunter <donald.hunter@gmail.com> writes:
 
-We should just say "First, write the driver implementation" (without
-describing writing C code in detail), right?
+> Jonathan Corbet <corbet@lwn.net> writes:
+>
+>> Beyond that, I would *really* like to see more use of Sphinx extensions
+>> for this kind of special-case build rather than hacking in more
+>> special-purpose scripts.  Is there a reason why it couldn't be done that
+>> way?
+>
+> I looked at writing the BPF program types as a Sphinx extension but
+> found that approach problematic for the following reasons:
+>
+> - This needs to run both in the kernel tree and the libbpf Github
+>   project. The tree layouts are different so the relative paths to
+>   source files are different. I don't see an elegant way to handle this
+>   inline in a .rst file. This can easily be handled in Makefiles
+>   that are specific to each project.
+>
+> - It makes use of csv-table which does all the heavy lifting to produce
+>   the desired output.
+>
+> - I have zero experience of extending Sphinx.
+>
+> I thought about submitting this directly to the libbpf Github project
+> and then just linking from the kernel docs to the page about program
+> types in the libbpf project docs. But I think it is preferable to master
+> the gen-bpf-progtypes.sh script in the kernel tree where it can be
+> maintained in the same repo as the libbpf.c source file it parses.
 
->>
->> -.. code-block:: c
->> +   .. code-block:: c
-> 
-> Why are all of these code-block declarations being indented? It
-> doesn't seem to affect the actual documentation build, so I guess it's
-> harmless, but it'd be better not to have it change unnecessarily and
-> clutter up the diff.
-> 
+Given the pushback on Makefile changes and the need for this patch to be
+compatible with both the kernel tree and the libbpf repo, can I suggest
+a pragmatic way forward.
 
-The indentation for code-block directive is required, since the preceding
-paragraph is multiline; otherwise there will be Sphinx warnings.
-
->>
->>         int misc_example_add(int left, int right);
->>
->> -2. Create a file ``drivers/misc/example.c``, which includes:
->> +   Then implement the function in ``drivers/misc/example.c``:
-> 
->>
->> -.. code-block:: c
->> +   .. code-block:: c
-> 
-> Again, code-block indentation?
-
-Yes, for consistency.
-
-> 
->>
->>         #include <linux/errno.h>
->>
->> @@ -152,24 +154,25 @@ In your kernel repository, let's add some code that we can test.
->>                 return left + right;
->>         }
->>
->> -3. Add the following lines to ``drivers/misc/Kconfig``:
->> +2. Add Kconfig menu entry for the feature to ``drivers/misc/Kconfig``:
-> 
-> This needs rewording to add back an article ("a" or "the"), and we
-> probably want to call this a "Kconfig entry" rather than a "Kconfig
-> menu entry". Maybe "Add a Kconfig entry for the driver..."?
-> 
->>
->> -.. code-block:: kconfig
->> +   .. code-block:: kconfig
-> 
-> Indentation again?
-
-Yes, see above reply.
-
-> 
->>
->>         config MISC_EXAMPLE
->>                 bool "My example"
->>
->> -4. Add the following lines to ``drivers/misc/Makefile``:
->> +3. Add the kbuild goal that will build the feature to
->> +   ``drivers/misc/Makefile``:
-> 
-> Kbuild goal? I've never heard of this being called a Kbuild goal before?
-> 
-> How about a "make target"?
-> 
-
-At the time of writing this patch, I use terminology in
-Documentation/kbuild/makefiles.rst, which the "make target" is called
-"Kbuild goal".
-
->>
->> -.. code-block:: make
->> +   .. code-block:: make
-> 
-> Indentation?
-
-Yes, for consistency with the first code-block directive.
-
->>
->> -.. code-block:: c
->> +   .. code-block:: c
-> 
-> Indentation.
-> 
-
-See above reply.
-
->>
->> -.. code-block:: kconfig
->> +   .. code-block:: kconfig
-> 
-> Indentation?
-
-See above reply.
-
->>
->> -.. code-block:: make
->> +   .. code-block:: make
-> 
-> Indentation?
-
-See above reply.
-
->>
->> -.. code-block:: none
->> +   .. code-block:: none
-> 
-> Indentation?
-> 
-
-See above reply.
-
->>
->>         CONFIG_MISC_EXAMPLE=y
->>         CONFIG_MISC_EXAMPLE_TEST=y
->>
->>  5. Run the test:
->>
->> -.. code-block:: bash
->> +   .. code-block:: bash
-> 
-> Indentation?
-
-See above reply.
-
-Thanks for reviewing.
-
--- 
-An old man doll... just what I always wanted! - Clara
+I suggest that I drop the gen-bpf-progtypes.sh script and Makefile
+changes from the patchset and just submit static documentation contents
+for the table of BPF program types. This would avoid any downstream
+breakage when syncing from the kernel tree to the libbpf github
+repo. The table of BPF program types can be maintained manually which
+should not be a burden going forward. Another benefit would be that the
+resulting documentation can be curated more easily than if it were
+auto-generated.
