@@ -2,76 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34846C433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 08:52:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B767AC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 08:54:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230174AbiI3Iwz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 04:52:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35216 "EHLO
+        id S230079AbiI3Iyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 04:54:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230233AbiI3Iwy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 04:52:54 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFD62166F34;
-        Fri, 30 Sep 2022 01:52:53 -0700 (PDT)
-Received: from canpemm500006.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Mf3mK1dmXzlXSn;
-        Fri, 30 Sep 2022 16:48:33 +0800 (CST)
-Received: from canpemm500005.china.huawei.com (7.192.104.229) by
- canpemm500006.china.huawei.com (7.192.105.130) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 30 Sep 2022 16:52:52 +0800
-Received: from canpemm500005.china.huawei.com ([7.192.104.229]) by
- canpemm500005.china.huawei.com ([7.192.104.229]) with mapi id 15.01.2375.031;
- Fri, 30 Sep 2022 16:52:52 +0800
-From:   zhaogongyi <zhaogongyi@huawei.com>
-To:     David Hildenbrand <david@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-CC:     "akinobu.mita@gmail.com" <akinobu.mita@gmail.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "osalvador@suse.de" <osalvador@suse.de>,
-        "shuah@kernel.org" <shuah@kernel.org>
-Subject: Re: [PATCH -next v5 2/4] selftests/memory-hotplug: Restore memory
- before exit
-Thread-Topic: [PATCH -next v5 2/4] selftests/memory-hotplug: Restore memory
- before exit
-Thread-Index: AdjUqWSTmxHH4sO5SHuE6BL6lEWgMA==
-Date:   Fri, 30 Sep 2022 08:52:51 +0000
-Message-ID: <276cce524b1146119f8a0e9ec00a2ba9@huawei.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.67.110.209]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S230297AbiI3Iyx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 04:54:53 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAA40AE7B;
+        Fri, 30 Sep 2022 01:54:48 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 79AB41F8CE;
+        Fri, 30 Sep 2022 08:54:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1664528086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=P0RO0XshdYgWaME5PM9pXp6vGBFepyhLWsPakc7rMWg=;
+        b=tOkdfQhPIuh6ZCbA7P2S7ms44Q0z8BvZJax7S3xaeyugGeuJEkG/1rddoJsCWJFTlaBnwv
+        RfjXQDQ5HSCNVlVMdFf4+8aBNSuRay4eSwVW4TbgrX4lcL2/UJDV//KnKpmuCI+8TH2a/P
+        JFpq7TKChTm3h4X6uWZD3QpW5MgoVWU=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6B63F13776;
+        Fri, 30 Sep 2022 08:54:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id Teq0GNauNmOfTwAAMHmgww
+        (envelope-from <mhocko@suse.com>); Fri, 30 Sep 2022 08:54:46 +0000
+Date:   Fri, 30 Sep 2022 10:54:46 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Abel Wu <wuyun.abel@bytedance.com>
+Cc:     Zhongkun He <hezhongkun.hzk@bytedance.com>, corbet@lwn.net,
+        akpm@linux-foundation.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [RFC] proc: Add a new isolated /proc/pid/mempolicy type.
+Message-ID: <YzauqRWu+Ex9PjF7@dhcp22.suse.cz>
+References: <20220926091033.340-1-hezhongkun.hzk@bytedance.com>
+ <YzF3aaLvEvFhTQa3@dhcp22.suse.cz>
+ <24b20953-eca9-eef7-8e60-301080a17d2d@bytedance.com>
+ <YzGya2Q3iuWS2WdM@dhcp22.suse.cz>
+ <7ac9abce-4458-982b-6c04-f9569a78c0da@bytedance.com>
+ <YzLVTxGHgYp3Es4t@dhcp22.suse.cz>
+ <9a0130ce-6528-6652-5a8e-3612c5de2d96@bytedance.com>
+ <YzMBnKUo8ny9S/7+@dhcp22.suse.cz>
+ <4e2aa5c2-3d8c-2a2f-691b-218e23e7271f@bytedance.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4e2aa5c2-3d8c-2a2f-691b-218e23e7271f@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkhDQoNCj4gDQo+IE9uIDMwLjA5LjIyIDA4OjM1LCBaaGFvIEdvbmd5aSB3cm90ZToNCj4gPiBT
-b21lIG1vbW9yeSB3aWxsIGJlIGxlZnQgaW4gb2ZmbGluZSBzdGF0ZSB3aGVuIGNhbGxpbmcNCj4g
-PiBvZmZsaW5lX21lbW9yeV9leHBlY3RfZmFpbCgpIGZhaWxlZC4gUmVzdG9yZSBpdCBiZWZvcmUg
-ZXhpdC4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFpoYW8gR29uZ3lpIDx6aGFvZ29uZ3lpQGh1
-YXdlaS5jb20+DQo+ID4gLS0tDQo+ID4gICAuLi4vbWVtb3J5LWhvdHBsdWcvbWVtLW9uLW9mZi10
-ZXN0LnNoICAgICAgICAgfCAyMQ0KPiArKysrKysrKysrKysrKy0tLS0tDQo+ID4gICAxIGZpbGUg
-Y2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYg
-LS1naXQgYS90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9tZW1vcnktaG90cGx1Zy9tZW0tb24tb2Zm
-LXRlc3Quc2gNCj4gYi90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9tZW1vcnktaG90cGx1Zy9tZW0t
-b24tb2ZmLXRlc3Quc2gNCj4gPiBpbmRleCAxZDg3NjExYTdkNTIuLjkxYTc0NTc2MTZiYiAxMDA3
-NTUNCj4gPiAtLS0gYS90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9tZW1vcnktaG90cGx1Zy9tZW0t
-b24tb2ZmLXRlc3Quc2gNCj4gPiArKysgYi90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9tZW1vcnkt
-aG90cGx1Zy9tZW0tb24tb2ZmLXRlc3Quc2gNCj4gPiBAQCAtMTM0LDYgKzEzNCwxNiBAQCBvZmZs
-aW5lX21lbW9yeV9leHBlY3RfZmFpbCgpDQo+ID4gICAJcmV0dXJuIDANCj4gPiAgIH0NCj4gPg0K
-PiA+ICtvbmxpbmVfYWxsX29mZmxpbmVfbWVtb3J5KCkNCj4gPiArew0KPiA+ICsJZm9yIG1lbW9y
-eSBpbiBgaG90cGx1Z2dhYmxlX29mZmxpbmVfbWVtb3J5YDsgZG8NCj4gPiArCQlpZiAhIG9ubGlu
-ZV9tZW1vcnlfZXhwZWN0X3N1Y2Nlc3MgJG1lbW9yeTsgdGhlbg0KPiA+ICsJCQllY2hvICIkRlVO
-Q05BTUUgJG1lbW9yeTogdW5leHBlY3RlZCBmYWlsIiA+JjINCj4gDQo+IERvIHdlIG5lZWQgdGhh
-dCBvdXRwdXQ/DQoNCkluIG15IG9waW5pb24sIGlmIG9ubGluZSBhIG1lbW9yeSBub2RlIGZhaWxl
-ZCAsaXQgc2hvdWxkIGJlIGEga2VybmVsIGJ1ZyBjYXRjaGVkLCBzbywgSSB0aGluayB0aGUgb3V0
-cHV0IGhlcmUgaXMgbmVlZGVkLg0KDQpUaGFua3MhDQoNCkdvbmd5aQ0K
+On Wed 28-09-22 11:09:47, Abel Wu wrote:
+> On 9/27/22 9:58 PM, Michal Hocko wrote:
+> > On Tue 27-09-22 21:07:02, Abel Wu wrote:
+> > > On 9/27/22 6:49 PM, Michal Hocko wrote:
+> > > > On Tue 27-09-22 11:20:54, Abel Wu wrote:
+> > > > [...]
+> > > > > > > Btw.in order to add per-thread-group mempolicy, is it possible to add
+> > > > > > > mempolicy in mm_struct?
+> > > > > > 
+> > > > > > I dunno. This would make the mempolicy interface even more confusing.
+> > > > > > Per mm behavior makes a lot of sense but we already do have per-thread
+> > > > > > semantic so I would stick to it rather than introducing a new semantic.
+> > > > > > 
+> > > > > > Why is this really important?
+> > > > > 
+> > > > > We want soft control on memory footprint of background jobs by applying
+> > > > > NUMA preferences when necessary, so the impact on different NUMA nodes
+> > > > > can be managed to some extent. These NUMA preferences are given by the
+> > > > > control panel, and it might not be suitable to overwrite the tasks with
+> > > > > specific memory policies already (or vice versa).
+> > > > 
+> > > > Maybe the answer is somehow implicit but I do not really see any
+> > > > argument for the per thread-group semantic here. In other words why a
+> > > > new interface has to cover more than the local [sg]et_mempolicy?
+> > > > I can see convenience as one potential argument. Also if there is a
+> > > > requirement to change the policy in atomic way then this would require a
+> > > > single syscall.
+> > > 
+> > > Convenience is not our major concern. A well-tuned workload can have
+> > > specific memory policies for different tasks/vmas in one process, and
+> > > this can be achieved by set_mempolicy()/mbind() respectively. While
+> > > other workloads are not, they don't care where the memory residents,
+> > > so the impact they brought on the co-located workloads might vary in
+> > > different NUMA nodes.
+> > > 
+> > > The control panel, which has a full knowledge of workload profiling,
+> > > may want to interfere the behavior of the non-mempolicied processes
+> > > by giving them NUMA preferences, to better serve the co-located jobs.
+> > > 
+> > > So in this scenario, a process's memory policy can be assigned by two
+> > > objects dynamically:
+> > > 
+> > >   a) the process itself, through set_mempolicy()/mbind()
+> > >   b) the control panel, but API is not available right now
+> > > 
+> > > Considering the two policies should not fight each other, it sounds
+> > > reasonable to introduce a new syscall to assign memory policy to a
+> > > process through struct mm_struct.
+> > 
+> > So you want to allow restoring the original local policy if the external
+> > one is disabled?
+> 
+> Pretty much, but the internal policies are expected to have precedence
+> over the external ones, since they are set for some reason to meet their
+> specific requirements. The external ones are used only when there is no
+> internal policy active.
+
+What does this mean in practice exactly? Will pidfd_set_mempolicy fail
+if there is a local policy in place? If not, how does the monitoring
+know the effect of its call?
+
+TBH I do not think this is a good idea at all. It seems like a very
+confusing semantic to me. The external monitoring tool should be careful
+to not go against implicit memory policies and query the state before
+altering it. Or if this is required to be done atomicaly then add a flag
+to the pidfd call.
+ 
+> > Anyway, pidfd_$FOO behavior should be semantically very similar to the
+> > original $FOO. Moving from per-task to per-mm is a major shift in the
+> > semantic.  I can imagine to have a dedicated flag for the syscall to
+> > enforce the policy to the full thread group. But having a different
+> > semantic is both tricky and also constrained because per-thread binding
+> > is then impossible.
+> 
+> Agreed. What about a syscall only apply to per-mm? There are precedents
+> like process_madvice(2).
+
+Differnt mm operations have different scope. And some of them have
+changed their scope over time (e.g. oom_score_adj). If you really need a
+per-mm functionality then use a flag for pidfd syscal.
+
+-- 
+Michal Hocko
+SUSE Labs
