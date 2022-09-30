@@ -2,118 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0948BC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 20:38:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB3D8C43219
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 21:08:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232211AbiI3UiA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 16:38:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41216 "EHLO
+        id S232311AbiI3VIJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 17:08:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231590AbiI3Uh7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 16:37:59 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A3BF1CE635;
-        Fri, 30 Sep 2022 13:37:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664570277; x=1696106277;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=dQJ+pcysW2VFlAp5bziLeT5jCGvnyB3q28WBZP0NsgM=;
-  b=B6murgglVUVTaIXn/Tui6i32801TVWpMup79vZJ+9dQP/vRpjZIVa+Lf
-   DnF++bYEBBbRSfBdQIJb8UWqmwsLfUPolTrXipp12kq9IthAOG83SqfTv
-   hgRY5YQGaW2j5utupqsjv1M+HX05kgfgpQqcA05pW12Qf9DjSJebY/XxQ
-   7rLBxyNynaFdo/9I5LR+kQ2qoCdSDwgt1OWT0p4fyKrVcV+Q8+uMs33PQ
-   3AaT5Y74wQZGY+KOd8RQ8X19D1SKtkz577splgDwtfc1o7T2qAKp6giBh
-   Taxi87MaHo0OGdOd/bt//HVlQ24DgTCf5fX8Ue0MXnY3h0Yzb5l4dlMFq
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="299883896"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; 
-   d="scan'208";a="299883896"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 13:37:57 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="951683520"
-X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; 
-   d="scan'208";a="951683520"
-Received: from lzearing-mobl.amr.corp.intel.com (HELO [10.209.49.67]) ([10.209.49.67])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 13:37:55 -0700
-Message-ID: <5994adb0-12b7-b8f1-ecdc-ebf56af48947@intel.com>
-Date:   Fri, 30 Sep 2022 13:37:54 -0700
+        with ESMTP id S231420AbiI3VII (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 17:08:08 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC3E61ABFD6;
+        Fri, 30 Sep 2022 14:08:06 -0700 (PDT)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28UKhA7o021100;
+        Fri, 30 Sep 2022 21:08:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=Xu0H5UfpQsFJQrNSTollubi/5t/SW6aJGRMjyCemwpA=;
+ b=kNR1tusqhAP1W9CP1taPxd7sYArCKSfUfYrVWyYg+YF1AVYOj9jw3JbYSun8MgNw2HDF
+ mslmAq9pbD6Lu5V3YnhmrXnxy4V/HERy96CpKFwa3zVFfGf2OWqyDH0gRn2kCiA6hfe0
+ cC7pPjFkUzIX53eFbuEccR0+tvFkJ7Jtj59Mngokxm+2/7MpqByieqCH8fbFC3r20Nad
+ JE/63Fba0BbUGC2G8uGjkBdM1TycFzmFgUbwl1DLuRwajbVgDeDxciMx1BEwT5fyNgOY
+ cQFOXEkvN8InrS7SXHZ93vbscq3gFz8Ms0869QhJhASFgIp7Xa0c8b25B2wDjFv1VbXY Vw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jx7r3ggbq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 30 Sep 2022 21:08:01 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28UKhqhg022803;
+        Fri, 30 Sep 2022 21:08:01 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jx7r3ggb3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 30 Sep 2022 21:08:01 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+        by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28UL5fpM000687;
+        Fri, 30 Sep 2022 21:07:59 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+        by ppma01fra.de.ibm.com with ESMTP id 3jssh8xet8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 30 Sep 2022 21:07:59 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 28UL7uM951249490
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 30 Sep 2022 21:07:56 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 44289A405B;
+        Fri, 30 Sep 2022 21:07:56 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C9B58A405C;
+        Fri, 30 Sep 2022 21:07:55 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri, 30 Sep 2022 21:07:55 +0000 (GMT)
+From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>
+Subject: [PATCH v1 0/9] KVM: s390: Extend MEM_OP ioctl by storage key checked cmpxchg
+Date:   Fri, 30 Sep 2022 23:07:42 +0200
+Message-Id: <20220930210751.225873-1-scgl@linux.ibm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 22/39] mm: Don't allow write GUPs to shadow stack
- memory
-Content-Language: en-US
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-23-rick.p.edgecombe@intel.com>
- <9fed0342-2d02-aaf2-ed66-20ff08bdfd0b@intel.com>
- <44314145f644ab822ac36cc8c78520d5f34d5bd8.camel@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <44314145f644ab822ac36cc8c78520d5f34d5bd8.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: cy6BvvwuhQW2wWK6a76owBHuLw0jFZPQ
+X-Proofpoint-ORIG-GUID: yG4IYyw_GrFQY__GCBnTDXOab8NwZ7ki
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-30_04,2022-09-29_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
+ clxscore=1011 phishscore=0 bulkscore=0 malwarescore=0 spamscore=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
+ mlxlogscore=768 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209300131
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/30/22 13:30, Edgecombe, Rick P wrote:
-> On Fri, 2022-09-30 at 12:16 -0700, Dave Hansen wrote:
->> On 9/29/22 15:29, Rick Edgecombe wrote:
->>> @@ -1633,6 +1633,9 @@ static inline bool
->>> __pte_access_permitted(unsigned long pteval, bool write)
->>>   {
->>>        unsigned long need_pte_bits = _PAGE_PRESENT|_PAGE_USER;
->>>
->>> +     if (write && (pteval & (_PAGE_RW | _PAGE_DIRTY)) ==
->>> _PAGE_DIRTY)
->>> +             return 0;
->> Do we not have a helper for this?  Seems a bit messy to open-code
->> these
->> shadow-stack permissions.  Definitely at least needs a comment.
-> It's because pteval is an unsigned long. We could create a pte_t, and
-> use the helpers, but then we would be using pte_foo() on pmd's, etc. So
-> probably comment is the better option?
+User space can use the MEM_OP ioctl to make storage key checked reads
+and writes to the guest, however, it has no way of performing atomic,
+key checked, accesses to the guest.
+Extend the MEM_OP ioctl in order to allow for this, by adding a cmpxchg
+mode. For now, support this mode for absolute accesses only.
 
-Yeah, a comment is probably best.
+This mode can be use, for example, to set the device-state-change
+indicator and the adapter-local-summary indicator atomically.
 
-This is one of those "generic" page table functions that doesn't work
-well with the p{te,md,ud}_* types.  It's either this or cast over to a
-pteval_t for pmd/pud and pretend this is a pte-only function.
+Janis Schoetterl-Glausch (9):
+  s390/uaccess: Add storage key checked cmpxchg access to user space
+  KVM: s390: Extend MEM_OP ioctl by storage key checked cmpxchg
+  Documentation: KVM: s390: Describe KVM_S390_MEMOP_F_CMPXCHG
+  KVM: s390: selftest: memop: Pass mop_desc via pointer
+  KVM: s390: selftest: memop: Replace macros by functions
+  KVM: s390: selftest: memop: Add bad address test
+  KVM: s390: selftest: memop: Add cmpxchg tests
+  KVM: s390: selftest: memop: Fix typo
+  KVM: s390: selftest: memop: Fix wrong address being used in test
+
+ Documentation/virt/kvm/api.rst            |  18 +-
+ include/uapi/linux/kvm.h                  |   5 +
+ arch/s390/include/asm/uaccess.h           | 187 ++++++
+ arch/s390/kvm/gaccess.h                   |   4 +
+ arch/s390/kvm/gaccess.c                   |  56 ++
+ arch/s390/kvm/kvm-s390.c                  |  50 +-
+ tools/testing/selftests/kvm/s390x/memop.c | 704 +++++++++++++++++-----
+ 7 files changed, 874 insertions(+), 150 deletions(-)
+
+
+base-commit: f76349cf41451c5c42a99f18a9163377e4b364ff
+-- 
+2.34.1
 
