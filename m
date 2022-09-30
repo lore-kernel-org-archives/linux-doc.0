@@ -2,121 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6824C4321E
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 21:08:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50A44C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 22:26:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232591AbiI3VI0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 17:08:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40036 "EHLO
+        id S232406AbiI3WZ6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 18:25:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231266AbiI3VIQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 17:08:16 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 557301ABFD6;
-        Fri, 30 Sep 2022 14:08:14 -0700 (PDT)
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28UKtdCJ005292;
-        Fri, 30 Sep 2022 21:08:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=lBZS4quJVcXGtuq5XVTDI8+2rAA6hPvupU3l89M/Tw4=;
- b=YM7HWOWj5DKKVEYhlz8FcD9+36Rv/7JfYe10otGtbyqdE/F39MB1DKUQbBgUVdsTNHxX
- U82QV1TKohB/9ZhOW+mHsiSateVf7RW4kq7W179wSSJ9LWIPjRNYxDZ0zvwxTJTlpJbf
- 7tPDv+dMfC5UYPhXhxW4ZQI/pwCle48oO+R6dl2MSi9vMpG1CQI1R4FfwbsMAOa8g/qH
- N4vWtFwjzVwZA928POZLvhxKCnYrdNl+Whr1UW2YmdVf2GB3cqjSZ6x8+kRIWL33I9zA
- xtq5AMaY9mmftz/LBcKZ61DYyqoYtbNQtJhHluv48pTj4Budet/r2MhlX6kwn5TUh3tz Ng== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jx7wxra70-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Sep 2022 21:08:05 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28UKvX1R021549;
-        Fri, 30 Sep 2022 21:08:05 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jx7wxra5v-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Sep 2022 21:08:05 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
-        by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28UL72P1009803;
-        Fri, 30 Sep 2022 21:08:02 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
-        by ppma03fra.de.ibm.com with ESMTP id 3jssh96e11-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Sep 2022 21:08:02 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 28UL7xrM852608
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 30 Sep 2022 21:07:59 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 50299A405B;
-        Fri, 30 Sep 2022 21:07:59 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CB7EAA405C;
-        Fri, 30 Sep 2022 21:07:58 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 30 Sep 2022 21:07:58 +0000 (GMT)
-From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>
-Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-Subject: [PATCH v1 6/9] KVM: s390: selftest: memop: Add bad address test
-Date:   Fri, 30 Sep 2022 23:07:48 +0200
-Message-Id: <20220930210751.225873-7-scgl@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220930210751.225873-1-scgl@linux.ibm.com>
-References: <20220930210751.225873-1-scgl@linux.ibm.com>
+        with ESMTP id S232762AbiI3WZo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 18:25:44 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 947DFC6962;
+        Fri, 30 Sep 2022 15:25:43 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id e18so7713173edj.3;
+        Fri, 30 Sep 2022 15:25:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XSB2fgyM7mwVlglUIENBxNasqUhFjmrYfDkQjbr4j8w=;
+        b=IE2kpqaFyz3n9bL5USI7d0A8Dk+IbQxHxoiXT/PgY+dDDJQnrTaL1/MnCWMPi2aYku
+         koYDeuXfM9X1zNqh3dUjLCCNSmd3JyxxsosVAjsB6RTH2tMOy0i+hGGWouH6WWpsBhZw
+         o4FCsVhYZiZRiljwPULzV4gmWTLD/3Skv4io1nmB0/iJ2ndqk9bzy5+rptMnQX/gh/hr
+         a6IFW96Tuzpqghm36zhwCk/EC1kzigQ2WG2SFq0j1FAPSKC625MDowRcStb+LOxc/WAI
+         GK3uJ4vagpku+Or2qxl2SF0ePkDfXzyAfGHj9rm9/be8cSV8P9iEn0ulRHRzu+MYs7/8
+         A3VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XSB2fgyM7mwVlglUIENBxNasqUhFjmrYfDkQjbr4j8w=;
+        b=vPevTsv4M2O1gFtI/fMQZ87VwZuR+h+OqMNdmiNbOVKBrK2nP4xy3Ct8IKXX2CrTDc
+         7o6B18nv2fMq3hU5OE7w+22HSajZM40PAmFeDYlbKabGe0+N6MgpidsnCz4ABTCT+/0j
+         W24FgZw2WgNuiCsK9ji1x/hI+kOZzcb0Tjo85IWpH1qtNFvYxaivLxvZeAEQe3uOjiDI
+         066hpJj2x9BhlJ9RZyb8/JcCIP+0HwJef6ds2CnCL4MVTO1m4Xj8A6Hipssy4V3V3X6i
+         3bF/jDfTAIkXrdaGLv8GmIPIUG+SAYxI+OJWI6fexPb2QXrQSgCeGtZ5xM8GoMC0DUlZ
+         ATVQ==
+X-Gm-Message-State: ACrzQf1MI7JhqTeMlkUie/1Gs31VuzJ0pbVSg5GJy4Hq7qYbCCrnQxaN
+        TpiyKtnRapS0in2pC0rdNRAnCcSKRv+KkWgBDgkEcanr
+X-Google-Smtp-Source: AMsMyM4QZDO+CkV5kLgWMbGQrIZIdEFKYCdjz/MPBAkK3wH/j8CkVxIIxNappnmw2xyqoRBwZBFgMzeMEBUidaMdSDs=
+X-Received: by 2002:a05:6402:3603:b0:451:fdda:dddd with SMTP id
+ el3-20020a056402360300b00451fddaddddmr9177305edb.81.1664576741982; Fri, 30
+ Sep 2022 15:25:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: KVu4CkKwF42xLoWueu6_wGHPGELTkvHA
-X-Proofpoint-ORIG-GUID: USE_noVHJB6zQS2o0N9S8gJURJi8BHUd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-30_04,2022-09-29_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
- mlxlogscore=999 mlxscore=0 lowpriorityscore=0 priorityscore=1501
- impostorscore=0 suspectscore=0 phishscore=0 clxscore=1015 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209300131
+References: <20220922115257.99815-1-donald.hunter@gmail.com>
+ <20220922115257.99815-2-donald.hunter@gmail.com> <87tu4zsfse.fsf@meer.lwn.net>
+ <m2h70y87eh.fsf@gmail.com> <m2wn9l6v7e.fsf@gmail.com>
+In-Reply-To: <m2wn9l6v7e.fsf@gmail.com>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Fri, 30 Sep 2022 15:25:30 -0700
+Message-ID: <CAEf4Bzb8f+Oy5okz38yq+Vm0Pse5gMbWwWrj+6d8-BDaCtHJKg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v4 1/2] Add subdir support to Documentation makefile
+To:     Donald Hunter <donald.hunter@gmail.com>,
+        grantseltzer <grantseltzer@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add test that tries to access, instead of CHECK_ONLY.
+On Fri, Sep 30, 2022 at 2:58 AM Donald Hunter <donald.hunter@gmail.com> wrote:
+>
+> Donald Hunter <donald.hunter@gmail.com> writes:
+>
+> > Jonathan Corbet <corbet@lwn.net> writes:
+> >
+> >> Beyond that, I would *really* like to see more use of Sphinx extensions
+> >> for this kind of special-case build rather than hacking in more
+> >> special-purpose scripts.  Is there a reason why it couldn't be done that
+> >> way?
+> >
+> > I looked at writing the BPF program types as a Sphinx extension but
+> > found that approach problematic for the following reasons:
+> >
+> > - This needs to run both in the kernel tree and the libbpf Github
+> >   project. The tree layouts are different so the relative paths to
+> >   source files are different. I don't see an elegant way to handle this
+> >   inline in a .rst file. This can easily be handled in Makefiles
+> >   that are specific to each project.
+> >
+> > - It makes use of csv-table which does all the heavy lifting to produce
+> >   the desired output.
+> >
+> > - I have zero experience of extending Sphinx.
+> >
+> > I thought about submitting this directly to the libbpf Github project
+> > and then just linking from the kernel docs to the page about program
+> > types in the libbpf project docs. But I think it is preferable to master
+> > the gen-bpf-progtypes.sh script in the kernel tree where it can be
+> > maintained in the same repo as the libbpf.c source file it parses.
+>
+> Given the pushback on Makefile changes and the need for this patch to be
+> compatible with both the kernel tree and the libbpf repo, can I suggest
+> a pragmatic way forward.
+>
+> I suggest that I drop the gen-bpf-progtypes.sh script and Makefile
 
-Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
----
- tools/testing/selftests/kvm/s390x/memop.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+It's way too easy to forget to update this table when adding new
+program type support in libbpf. So if possible I think script is the
+way to go.
 
-diff --git a/tools/testing/selftests/kvm/s390x/memop.c b/tools/testing/selftests/kvm/s390x/memop.c
-index 286185a59238..311cf7d33247 100644
---- a/tools/testing/selftests/kvm/s390x/memop.c
-+++ b/tools/testing/selftests/kvm/s390x/memop.c
-@@ -641,7 +641,9 @@ static void _test_errors_common(struct test_info info, enum mop_target target, i
- 
- 	/* Bad guest address: */
- 	rv = ERR_MOP(info, target, WRITE, mem1, size, GADDR((void *)~0xfffUL), CHECK_ONLY);
--	TEST_ASSERT(rv > 0, "ioctl does not report bad guest memory access");
-+	TEST_ASSERT(rv > 0, "ioctl does not report bad guest memory address");
-+	rv = ERR_MOP(info, target, WRITE, mem1, size, GADDR((void *)~0xfffUL));
-+	TEST_ASSERT(rv > 0, "ioctl does not report bad guest memory address");
- 
- 	/* Bad host address: */
- 	rv = ERR_MOP(info, target, WRITE, 0, size, GADDR_V(mem1));
--- 
-2.34.1
+Jonathan, given the script is really minimal and allows to keep
+documentation in sync with libbpf source code, do you have a strong
+objection? Writing a custom plugin seems like a too high bar for
+something pretty straightforward like this?
 
+Also, should this be routed through your tree or you'd like us to take
+it through bpf-next tree?
+
+
+Donald, if Jonathan is feeling really strongly, then I guess manually
+generated table is ok approach as well, but let's hear from Jonathan
+first.
+
+Also cc Grant about logistics of kernel vs libbpf docs.
+
+
+> changes from the patchset and just submit static documentation contents
+> for the table of BPF program types. This would avoid any downstream
+> breakage when syncing from the kernel tree to the libbpf github
+> repo. The table of BPF program types can be maintained manually which
+> should not be a burden going forward. Another benefit would be that the
+> resulting documentation can be curated more easily than if it were
+> auto-generated.
