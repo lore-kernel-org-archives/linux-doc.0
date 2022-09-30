@@ -2,142 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C90DC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 02:10:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78491C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 02:20:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbiI3CKh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 29 Sep 2022 22:10:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51970 "EHLO
+        id S229734AbiI3CUU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 29 Sep 2022 22:20:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230009AbiI3CKf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 22:10:35 -0400
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D44457E2D
-        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 19:10:34 -0700 (PDT)
-Received: by mail-qk1-x731.google.com with SMTP id o7so2027764qkj.10
-        for <linux-doc@vger.kernel.org>; Thu, 29 Sep 2022 19:10:34 -0700 (PDT)
+        with ESMTP id S229696AbiI3CUN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 29 Sep 2022 22:20:13 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBDAE4D832;
+        Thu, 29 Sep 2022 19:20:12 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id u12so2996910pjj.1;
+        Thu, 29 Sep 2022 19:20:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:from:to:cc:subject:date;
-        bh=xQ1vcv44R7M+xHLcM3UdCcUJ0FmpQ9/QA/hIJR+H2UA=;
-        b=tsMpAMYS9T/aBHCdNULlb4symf7nV2a0qI4uulrb83mI810ItUZOcxgQUmMLsIflWd
-         gIn6QpROC4rtwYoF+fiE7XNB12Uc7sDypXc2V2jPO6+MhbXIoKRCkSZk81T63IiXMF/V
-         nBRElBBq86G8iMEReqfWz+JUsgFXUSwsDpBAg=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=SUa/4+caVBv6PoMoDBL5nY89uKoHKJ97ytgcWCmTBgA=;
+        b=oGOI0B4DEdS7UJlwAlxaA9XlbpPMMInd51a1eupKFk3AP7gTbbVfViq07FEQnbXYTX
+         uCdojtfq7/vNxhuXdaKA0j6fr9AQQrsNarvIZHYSbx6py7t+DAtCvPy+iaNg7JAv3MJP
+         wd0FnTdaCCbmGBTJWG06Bb0dcOEQr7IrCYYup2akoDrKH6vBXYdOERnAnRr6nWzD64hz
+         0U+KnBkLvvSXaG8fS6fadaz01UaZoZYduw6mtvwDhN1+cHVgN0ZVBS9DjiSpjswTAVgl
+         64vF3qLk7jWwOs+Ck9h6/ubxy6HpkWx4gZqZai4wI1RMea3DAxb9+u6lH/rgZnK2cxfN
+         KBmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=xQ1vcv44R7M+xHLcM3UdCcUJ0FmpQ9/QA/hIJR+H2UA=;
-        b=g2xb7/T1kK+Krpcgq9IC8wIU8FVf3FgoXN951vXwAe6axjHfVwA45DJtgupQVecxSw
-         cGe0vo33QHK6u4uTwEKI9rKv6HzKBAIgU2xjxSMJSFiDL8W+X1C1xm9XMayqsSyZVFLh
-         jxP3nk8408vQcl1/UztbiSARdtBn9Ug4H/nO/t+hJMub5VX3ovexBloj7WN8sOsISugD
-         85CcCZg9krHRBsxbyAgYTNspbCyEKV7nTZadOfb5jVDbHwNKVQ9awc/XsUbviX/IhqKs
-         9B8oPVXBzJ0T0IEb2wfYJKWKgURT/NgPRFOuBtTRw7o+4TTV5aeQeHwEGJ1TB6i0DHXE
-         EZ+w==
-X-Gm-Message-State: ACrzQf0EtgakRN/ERQGH0eCCtgEzn0IevGmYk7zlfl2ur3S+hepBrd9s
-        AuJmW+4qF6LhUEd86xc28CG10Q==
-X-Google-Smtp-Source: AMsMyM5MVhaTNr4byx/DEtNI2aaHDknopcbm7jd8BfEuUcdE8O3eotOk8ohaZKJjOUyRx5pCcmzObw==
-X-Received: by 2002:a37:686:0:b0:6ce:3883:5ec7 with SMTP id 128-20020a370686000000b006ce38835ec7mr4471547qkg.301.1664503833083;
-        Thu, 29 Sep 2022 19:10:33 -0700 (PDT)
-Received: from smtpclient.apple (c-73-148-104-166.hsd1.va.comcast.net. [73.148.104.166])
-        by smtp.gmail.com with ESMTPSA id dt35-20020a05620a47a300b006ce3cffa2c8sm1095285qkb.43.2022.09.29.19.10.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 19:10:32 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Joel Fernandes <joel@joelfernandes.org>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v1] locking/memory-barriers.txt: Improve documentation for writel() usage
-Date:   Thu, 29 Sep 2022 22:10:31 -0400
-Message-Id: <CCD8EFA1-D0CF-4E57-905C-E7CA8E4DA56F@joelfernandes.org>
-References: <20220930020355.98534-1-parav@nvidia.com>
-Cc:     bagasdotme@gmail.com, arnd@arndb.de, stern@rowland.harvard.edu,
-        parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org,
-        boqun.feng@gmail.com, npiggin@gmail.com, dhowells@redhat.com,
-        j.alglave@ucl.ac.uk, luc.maranget@inria.fr, paulmck@kernel.org,
-        akiyks@gmail.com, dlustig@nvidia.com, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org
-In-Reply-To: <20220930020355.98534-1-parav@nvidia.com>
-To:     Parav Pandit <parav@nvidia.com>
-X-Mailer: iPhone Mail (19G82)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=SUa/4+caVBv6PoMoDBL5nY89uKoHKJ97ytgcWCmTBgA=;
+        b=n4AuxtUHnqTpRqHUEDxZ9rW5kRpIe69W4XL9rhUuFHRXd4Zy1TNLGif0IqcWgpMDjj
+         tdZYgHVOy8iqKz1RUq24vSUC/CTDcD5s8SdNSKr+VGaxhSZ7coG+Fre/4Ta4oTAmnec5
+         L6jRY86Zwf78E3OJMJl2T/Ub0F33yEHWkDSvOlA18nfEK+2xL+9HBqPIL6lyI2MuIePO
+         zkpDaUqpU1XmnP8r9wfi9JXRY+QssJY2ah1UMMhjDo99mjOXpPWml1bM7SCZ0Qxb6C6C
+         wsQj1S0eXk5pX3MBVyGvSJSn43BETTofOXm3HO02TOoOPJPTy0FfbpVwR1T1ORPziFyF
+         4RVA==
+X-Gm-Message-State: ACrzQf1tR/gRpRTqHOO7ZHt0zZE1uEk7v+B2Ia4DlqlHpeBq9QGUpcmg
+        DZM9pPiXY/DBgNno1bAxVl0=
+X-Google-Smtp-Source: AMsMyM7PJM5JhpuH0U97cNrqaL9X5PhYhGXOy5ysxLg+F33208f72L9z1SaYj2xkIrG8Sftn02LCMA==
+X-Received: by 2002:a17:903:18b:b0:176:afb8:b4ab with SMTP id z11-20020a170903018b00b00176afb8b4abmr6631756plg.80.1664504411667;
+        Thu, 29 Sep 2022 19:20:11 -0700 (PDT)
+Received: from localhost.localdomain (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id o11-20020a62f90b000000b0053b850b17c8sm386115pfh.152.2022.09.29.19.20.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Sep 2022 19:20:11 -0700 (PDT)
+From:   Akira Yokosawa <akiyks@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>
+Subject: [PATCH] docs/howto: Replace abundoned URL of gmane.org
+Date:   Fri, 30 Sep 2022 11:19:36 +0900
+Message-Id: <20220930021936.26238-1-akiyks@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Somehow, there remains a link to gmane.org, which stopped working
+in 2016, in howto.rst. Replace it with the one at lore.kernel.org.
+Do the same changes under translations/ as well.
 
-> On Sep 29, 2022, at 10:04 PM, Parav Pandit <parav@nvidia.com> wrote:
->=20
-> =EF=BB=BFThe cited commit describes that when using writel(), explcit wmb(=
-)
-> is not needed. wmb() is an expensive barrier. writel() uses the needed
-> I/O barrier instead of expensive wmb().
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+Cc: Alex Shi <alexs@kernel.org>
+Cc: Yanteng Si <siyanteng@loongson.cn>
+Cc: Hu Haowen <src.res@email.cn>
+---
+ Documentation/process/howto.rst                    | 2 +-
+ Documentation/translations/it_IT/process/howto.rst | 2 +-
+ Documentation/translations/ja_JP/howto.rst         | 2 +-
+ Documentation/translations/ko_KR/howto.rst         | 2 +-
+ Documentation/translations/zh_CN/process/howto.rst | 2 +-
+ Documentation/translations/zh_TW/process/howto.rst | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-Because you mentioned it in the commit message, Why not mention in the docum=
-entation text as well that writel() has the needed I/O barrier in it?
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index cd6997a9d203..bd15c393ba3c 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -379,7 +379,7 @@ to subscribe and unsubscribe from the list can be found at:
+ There are archives of the mailing list on the web in many different
+ places.  Use a search engine to find these archives.  For example:
+ 
+-	http://dir.gmane.org/gmane.linux.kernel
++	https://lore.kernel.org/lkml/
+ 
+ It is highly recommended that you search the archives about the topic
+ you want to bring up, before you post it to the list. A lot of things
+diff --git a/Documentation/translations/it_IT/process/howto.rst b/Documentation/translations/it_IT/process/howto.rst
+index 16ad5622d549..15c08aea1dfe 100644
+--- a/Documentation/translations/it_IT/process/howto.rst
++++ b/Documentation/translations/it_IT/process/howto.rst
+@@ -394,7 +394,7 @@ trovati al sito:
+ Ci sono diversi archivi della lista di discussione. Usate un qualsiasi motore
+ di ricerca per trovarli. Per esempio:
+ 
+-	http://dir.gmane.org/gmane.linux.kernel
++	https://lore.kernel.org/lkml/
+ 
+ É caldamente consigliata una ricerca in questi archivi sul tema che volete
+ sollevare, prima di pubblicarlo sulla lista. Molte cose sono già state
+diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/translations/ja_JP/howto.rst
+index 649e2ff2a407..b47a682d8ded 100644
+--- a/Documentation/translations/ja_JP/howto.rst
++++ b/Documentation/translations/ja_JP/howto.rst
+@@ -410,7 +410,7 @@ https://bugzilla.kernel.org に行ってください。もし今後のバグレ
+ このメーリングリストのアーカイブは web 上の多数の場所に存在します。こ
+ れらのアーカイブを探すにはサーチエンジンを使いましょう。例えば-
+ 
+-	http://dir.gmane.org/gmane.linux.kernel
++	https://lore.kernel.org/lkml/
+ 
+ リストに投稿する前にすでにその話題がアーカイブに存在するかどうかを検索
+ することを是非やってください。多数の事がすでに詳細に渡って議論されてお
+diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation/translations/ko_KR/howto.rst
+index e43970584ca4..df53fafd1b10 100644
+--- a/Documentation/translations/ko_KR/howto.rst
++++ b/Documentation/translations/ko_KR/howto.rst
+@@ -386,7 +386,7 @@ https://bugzilla.kernel.org 를 체크하고자 할 수도 있다; 소수의 커
+ 웹상의 많은 다른 곳에도 메일링 리스트의 아카이브들이 있다.
+ 이러한 아카이브들을 찾으려면 검색 엔진을 사용하라. 예를 들어:
+ 
+-      http://dir.gmane.org/gmane.linux.kernel
++      https://lore.kernel.org/lkml/
+ 
+ 여러분이 새로운 문제에 관해 리스트에 올리기 전에 말하고 싶은 주제에 관한
+ 것을 아카이브에서 먼저 찾아보기를 강력히 권장한다. 이미 상세하게 토론된 많은
+diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
+index 1455190dc087..5bf953146929 100644
+--- a/Documentation/translations/zh_CN/process/howto.rst
++++ b/Documentation/translations/zh_CN/process/howto.rst
+@@ -306,7 +306,7 @@ bugzilla.kernel.org是Linux内核开发者们用来跟踪内核Bug的网站。
+ 网上很多地方都有这个邮件列表的存档(archive)。可以使用搜索引擎来找到这些
+ 存档。比如：
+ 
+-	http://dir.gmane.org/gmane.linux.kernel
++	https://lore.kernel.org/lkml/
+ 
+ 在发信之前，我们强烈建议你先在存档中搜索你想要讨论的问题。很多已经被详细
+ 讨论过的问题只在邮件列表的存档中可以找到。
+diff --git a/Documentation/translations/zh_TW/process/howto.rst b/Documentation/translations/zh_TW/process/howto.rst
+index 68ae4411285b..86b0d4c6d6f9 100644
+--- a/Documentation/translations/zh_TW/process/howto.rst
++++ b/Documentation/translations/zh_TW/process/howto.rst
+@@ -309,7 +309,7 @@ bugzilla.kernel.org是Linux內核開發者們用來跟蹤內核Bug的網站。
+ 網上很多地方都有這個郵件列表的存檔(archive)。可以使用搜尋引擎來找到這些
+ 存檔。比如：
+ 
+-	http://dir.gmane.org/gmane.linux.kernel
++	https://lore.kernel.org/lkml/
+ 
+ 在發信之前，我們強烈建議你先在存檔中搜索你想要討論的問題。很多已經被詳細
+ 討論過的問題只在郵件列表的存檔中可以找到。
 
->=20
-> Hence update the example to be more accurate that matches the current
-> implementation.
+base-commit: 05fff6ba04eef8b88bb94734b66731bef3d8d34b
+-- 
+2.25.1
 
-That would make it more accurate, since accuracy is your goal.
-
-thanks,
-
- - Joel
-
-
->=20
-> commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO=
- ordering example")
-> Signed-off-by: Parav Pandit <parav@nvidia.com>
->=20
-> ---
-> changelog:
-> v0->v1:
-> - Corrected to mention I/O barrier instead of dma_wmb().
-> - removed numbered references in commit log
-> - corrected typo 'explcit' to 'explicit' in commit log
-> ---
-> Documentation/memory-barriers.txt | 9 +++++----
-> 1 file changed, 5 insertions(+), 4 deletions(-)
->=20
-> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barr=
-iers.txt
-> index 832b5d36e279..2d77a7411e52 100644
-> --- a/Documentation/memory-barriers.txt
-> +++ b/Documentation/memory-barriers.txt
-> @@ -1927,10 +1927,11 @@ There are some more advanced barrier functions:
->      before we read the data from the descriptor, and the dma_wmb() allows=
-
->      us to guarantee the data is written to the descriptor before the devi=
-ce
->      can see it now has ownership.  The dma_mb() implies both a dma_rmb() a=
-nd
-> -     a dma_wmb().  Note that, when using writel(), a prior wmb() is not n=
-eeded
-> -     to guarantee that the cache coherent memory writes have completed be=
-fore
-> -     writing to the MMIO region.  The cheaper writel_relaxed() does not p=
-rovide
-> -     this guarantee and must not be used here.
-> +     a dma_wmb().  Note that, when using writel(), a prior I/O barrier is=
- not
-> +     needed to guarantee that the cache coherent memory writes have compl=
-eted
-> +     before writing to the MMIO region.  The cheaper writel_relaxed() doe=
-s not
-> +     provide this guarantee and must not be used here. Hence, writeX() is=
- always
-> +     preferred.
->=20
->      See the subsection "Kernel I/O barrier effects" for more information o=
-n
->      relaxed I/O accessors and the Documentation/core-api/dma-api.rst file=
- for
-> --=20
-> 2.26.2
->=20
