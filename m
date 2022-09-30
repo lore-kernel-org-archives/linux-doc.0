@@ -2,113 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECBECC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 08:42:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34846C433F5
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 08:52:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229677AbiI3Imh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 04:42:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36840 "EHLO
+        id S230174AbiI3Iwz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 04:52:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbiI3Img (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 04:42:36 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E1A7142E0A
-        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 01:42:34 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id o2so5815861lfc.10
-        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 01:42:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=JNPYcplm2Vx2ZR4Sdm6aXrihBwm9ZJOw/j38yUyeGfY=;
-        b=hAq28dS+UzBSegl8Yce+lYYWsz41viGzbQzt6qhbD+cj4WCMqJ0OV2N33nokZfWpF8
-         Iihrhs5/9Iug926Sc5WIWJe+ybqcJ+UQFMvN2iD3unjqY56+6oycgzx+obisOs76Tg4j
-         v/HfzJIKBBrFB7tkA0GLUtTNsjpJ4Re1L8ctZGpXzg1YCHXye96U0Sa/g88OgzB7Necc
-         BUbXmLFTAulB34OPeplTcvIES1qsVUh5AwZibMVHxPVxtHJu60knvxIjJt8THZ0Lf8uj
-         ZB5sQ2NgPclSd9tYDYKumKNX6MZs5OsEq9u5O4wejA7OYOyyWK67pq8e9FQBeoKPBQm2
-         mIJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=JNPYcplm2Vx2ZR4Sdm6aXrihBwm9ZJOw/j38yUyeGfY=;
-        b=ot/fnUxGAytq0jUf7gj8V0OWJP4adehcYbyTO9hWr+t84oBQ90iIUskTAUvz76KX2b
-         ya6zFtV+knuMHpxaag/7p0oLeLU74XMn3P1dZvCZQ6+6EUuuP8hNv1mkHi5jADyg56hr
-         X3UHqQ7d9S3eAcg9K4usftnv13fhw3M52BecTTdnJdQ4zQby3NqLOpsRFw+Qzz6wa9na
-         zrQwbH0kRTsM9hzCjj97cWW0aH8Gtok9E+8SXklO6zAxMcdN0t91fYowu53R1zRv01ll
-         DK4vGHgvHwRrfdrk8LuasRGwK9VgQexNyfQynxKXvw/qsh/1XPoH8T2jlETPpGT/RM27
-         /V3g==
-X-Gm-Message-State: ACrzQf1ncH3cewPoIs8eXDwlKCAaYDCqvgjSGg0v75YyAkuuwIXnNxss
-        PkVG7+PJOKzKl25Q/k1mbxD+t3x4wd6/nbDSS2U=
-X-Google-Smtp-Source: AMsMyM5jYos6JRITBnJj/9VVvth0oegY5I3ucTMxLac49edoTSIZccH0ax7uwls/oprhQw+1eagXJibL2VYXIKbQj/Q=
-X-Received: by 2002:a05:6512:b08:b0:4a1:d704:fc59 with SMTP id
- w8-20020a0565120b0800b004a1d704fc59mr2823571lfu.629.1664527352859; Fri, 30
- Sep 2022 01:42:32 -0700 (PDT)
+        with ESMTP id S230233AbiI3Iwy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 04:52:54 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFD62166F34;
+        Fri, 30 Sep 2022 01:52:53 -0700 (PDT)
+Received: from canpemm500006.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Mf3mK1dmXzlXSn;
+        Fri, 30 Sep 2022 16:48:33 +0800 (CST)
+Received: from canpemm500005.china.huawei.com (7.192.104.229) by
+ canpemm500006.china.huawei.com (7.192.105.130) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 30 Sep 2022 16:52:52 +0800
+Received: from canpemm500005.china.huawei.com ([7.192.104.229]) by
+ canpemm500005.china.huawei.com ([7.192.104.229]) with mapi id 15.01.2375.031;
+ Fri, 30 Sep 2022 16:52:52 +0800
+From:   zhaogongyi <zhaogongyi@huawei.com>
+To:     David Hildenbrand <david@redhat.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+CC:     "akinobu.mita@gmail.com" <akinobu.mita@gmail.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "osalvador@suse.de" <osalvador@suse.de>,
+        "shuah@kernel.org" <shuah@kernel.org>
+Subject: Re: [PATCH -next v5 2/4] selftests/memory-hotplug: Restore memory
+ before exit
+Thread-Topic: [PATCH -next v5 2/4] selftests/memory-hotplug: Restore memory
+ before exit
+Thread-Index: AdjUqWSTmxHH4sO5SHuE6BL6lEWgMA==
+Date:   Fri, 30 Sep 2022 08:52:51 +0000
+Message-ID: <276cce524b1146119f8a0e9ec00a2ba9@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.67.110.209]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220923040419.3787429-1-siyanteng@loongson.cn> <Yy2qyUoRq5in4Q+w@bobwxc.mipc>
-In-Reply-To: <Yy2qyUoRq5in4Q+w@bobwxc.mipc>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Fri, 30 Sep 2022 16:41:56 +0800
-Message-ID: <CAJy-AmkNaRf5jxjHeYFrcXHdB=1W-5iqQb5Cm-fwUxV91nzauw@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: Fix build warning
-To:     Wu XiangCheng <wu.xiangcheng@linux.dev>
-Cc:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 23, 2022 at 8:47 PM Wu XiangCheng <wu.xiangcheng@linux.dev> wro=
-te:
->
-> > Since commit 702f436ab07b ("docs/zh_CN: add dt changesets translation")
-> > introduce a build warning:
-> >
-> > Warning: Documentation/translations/zh_CN/devicetree/changesets.rst
-> > references a file that doesn't exist:
-> > Documentation/Devicetree/changesets.rst
-> >
-> > Change the first letter of Devicetree to lowercase.
-> >
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
->
-> Better a Fixes: tag.
->
-
-Right.
-
-> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
->
-> Thanks,
->
-> > ---
-> >  Documentation/translations/zh_CN/devicetree/changesets.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/translations/zh_CN/devicetree/changesets.rst=
- b/Documentation/translations/zh_CN/devicetree/changesets.rst
-> > index 2ace05f3c377..3df1b03c5695 100644
-> > --- a/Documentation/translations/zh_CN/devicetree/changesets.rst
-> > +++ b/Documentation/translations/zh_CN/devicetree/changesets.rst
-> > @@ -1,7 +1,7 @@
-> >  .. SPDX-License-Identifier: GPL-2.0
-> >  .. include:: ../disclaimer-zh_CN.rst
-> >
-> > -:Original: Documentation/Devicetree/changesets.rst
-> > +:Original: Documentation/devicetree/changesets.rst
-> >
-> >  :=E7=BF=BB=E8=AF=91:
-> >
-> > --
-> > 2.31.1
-> >
-> >
->
-> --
-> Wu XiangCheng   0x32684A40BCA7AEA7
->
+SGkhDQoNCj4gDQo+IE9uIDMwLjA5LjIyIDA4OjM1LCBaaGFvIEdvbmd5aSB3cm90ZToNCj4gPiBT
+b21lIG1vbW9yeSB3aWxsIGJlIGxlZnQgaW4gb2ZmbGluZSBzdGF0ZSB3aGVuIGNhbGxpbmcNCj4g
+PiBvZmZsaW5lX21lbW9yeV9leHBlY3RfZmFpbCgpIGZhaWxlZC4gUmVzdG9yZSBpdCBiZWZvcmUg
+ZXhpdC4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFpoYW8gR29uZ3lpIDx6aGFvZ29uZ3lpQGh1
+YXdlaS5jb20+DQo+ID4gLS0tDQo+ID4gICAuLi4vbWVtb3J5LWhvdHBsdWcvbWVtLW9uLW9mZi10
+ZXN0LnNoICAgICAgICAgfCAyMQ0KPiArKysrKysrKysrKysrKy0tLS0tDQo+ID4gICAxIGZpbGUg
+Y2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYg
+LS1naXQgYS90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9tZW1vcnktaG90cGx1Zy9tZW0tb24tb2Zm
+LXRlc3Quc2gNCj4gYi90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9tZW1vcnktaG90cGx1Zy9tZW0t
+b24tb2ZmLXRlc3Quc2gNCj4gPiBpbmRleCAxZDg3NjExYTdkNTIuLjkxYTc0NTc2MTZiYiAxMDA3
+NTUNCj4gPiAtLS0gYS90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9tZW1vcnktaG90cGx1Zy9tZW0t
+b24tb2ZmLXRlc3Quc2gNCj4gPiArKysgYi90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9tZW1vcnkt
+aG90cGx1Zy9tZW0tb24tb2ZmLXRlc3Quc2gNCj4gPiBAQCAtMTM0LDYgKzEzNCwxNiBAQCBvZmZs
+aW5lX21lbW9yeV9leHBlY3RfZmFpbCgpDQo+ID4gICAJcmV0dXJuIDANCj4gPiAgIH0NCj4gPg0K
+PiA+ICtvbmxpbmVfYWxsX29mZmxpbmVfbWVtb3J5KCkNCj4gPiArew0KPiA+ICsJZm9yIG1lbW9y
+eSBpbiBgaG90cGx1Z2dhYmxlX29mZmxpbmVfbWVtb3J5YDsgZG8NCj4gPiArCQlpZiAhIG9ubGlu
+ZV9tZW1vcnlfZXhwZWN0X3N1Y2Nlc3MgJG1lbW9yeTsgdGhlbg0KPiA+ICsJCQllY2hvICIkRlVO
+Q05BTUUgJG1lbW9yeTogdW5leHBlY3RlZCBmYWlsIiA+JjINCj4gDQo+IERvIHdlIG5lZWQgdGhh
+dCBvdXRwdXQ/DQoNCkluIG15IG9waW5pb24sIGlmIG9ubGluZSBhIG1lbW9yeSBub2RlIGZhaWxl
+ZCAsaXQgc2hvdWxkIGJlIGEga2VybmVsIGJ1ZyBjYXRjaGVkLCBzbywgSSB0aGluayB0aGUgb3V0
+cHV0IGhlcmUgaXMgbmVlZGVkLg0KDQpUaGFua3MhDQoNCkdvbmd5aQ0K
