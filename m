@@ -2,295 +2,524 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4714FC433F5
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 09:28:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 085E8C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 09:38:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230438AbiI3J2Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 05:28:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46330 "EHLO
+        id S230517AbiI3JiV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 05:38:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231249AbiI3J2L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 05:28:11 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90F01E319C;
-        Fri, 30 Sep 2022 02:28:03 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id d1-20020a17090a6a4100b002095b319b9aso2588909pjm.0;
-        Fri, 30 Sep 2022 02:28:03 -0700 (PDT)
+        with ESMTP id S229620AbiI3JiU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 05:38:20 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7709012CCA0;
+        Fri, 30 Sep 2022 02:38:16 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id u92so3763238pjh.3;
+        Fri, 30 Sep 2022 02:38:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=3IXMulE4oFMGsJB0VDcz6W+21SMNhKUHzpPjIK+JEMc=;
-        b=YLOneGW8Z02gT3eKcFzrAOlWOgEd5Jv6jNt2xbYgjz1qZmSvfcmi1WCtdw9DbxQKTd
-         USUmM7C6VJ6AVyHhRAdWm/lubv8yu7b2c4ZVtRO4Vi/AxVtZs9z986+vbWDnK64I5fGt
-         RDGhXk38uOujQfpoFno9ic7j4mNQ/ljrLsvckqXjS2M6x3qjO6LeF6cvMq5W3+hFCfoJ
-         gDqH+p9tX1Qu0DrAtakDYGsFRoTu/w7EGxwXNpAwIZ3nDj+RPU8RdD1UZSbtCWAzKY/X
-         II5is/EG3kM6IhDz7KDkwxGjpS5qJzxLSacdkptY0o+WCORfOmCTEa+NwcSX4eH3acyF
-         HnTg==
+        bh=vGNPCEtLFhWjfK9IXcgU0eqgNukRg8dBOh1kmfIugDc=;
+        b=TlZV7Yu6bLgOiddHXSBLZd7CK9ZKlbrAxvAPMZDWN30ox2qkD4yR/fW4/s03iMLL8b
+         X8inC57H6O8bNIFUfvBR5jynzAGnLJ2MLRUd0hYevYW7fxT4DW/4R/Q6+wbASf1xXoRI
+         u/xY4KRM2nOLSpNMFhOgjZTadeveyicND3Yc4RnwAmshUYGFkWX9wBqtqHxQ6SfCX1Ux
+         SIi5oUH/8aMd211aS0yr8UJNO3rokwaVMnQKkEXaSE7dkvrBtuQylkjqy57OkAINfqmh
+         TwYLLcCgdwFs+beXEFD4x1npY8suH2CHuYbpFEyQRwyel70SExxFtEzF7USjmYURAbJX
+         kw1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=3IXMulE4oFMGsJB0VDcz6W+21SMNhKUHzpPjIK+JEMc=;
-        b=tINqrsLWiOZHG8g/E8MaWo8bpGzAyglLfIhQkSb4bAn/wa+UM1WY9FZ9AreV7mnBCO
-         PJbeQVz6KY0FknYtUZkYz/579kyJuQpIq23LzpVyfo8LRepPsFc0eB9IUa9YF+pI8JkY
-         gl2rfa7u/b4NUl3af2YJqOXdqTNAnKAtoMdgXhmpP618QRRSp/BsQjYvfYLW35s2lq6O
-         Ly+2v3h3B7kHgF55GVl8O9Lg2/G64x8YPtDJMsMPUqSIe0s8ptbTDEDbeg5H1PSfDRtL
-         IWE+0lDB5niPDPMCuZMcmf08NlYjt6QRoNgawKg6QHD/S8fEISZ5M9UmUYkOPpiraI6n
-         0p9Q==
-X-Gm-Message-State: ACrzQf105eDLbOwPRiwEbJ37eznl4jShKPyixljOxTcSRVmm+EWnvcPB
-        RMdOWmKzwRzcUcou2v9CVwk=
-X-Google-Smtp-Source: AMsMyM5tqchW9FvTPDXBlJifjVF8ehV7gN5OeYKFlTPY4u2M6ro5MhWj/+kT3X5fI0yLOWlUZiOZWA==
-X-Received: by 2002:a17:902:76c7:b0:178:ab0a:19af with SMTP id j7-20020a17090276c700b00178ab0a19afmr7872056plt.164.1664530082627;
-        Fri, 30 Sep 2022 02:28:02 -0700 (PDT)
+        bh=vGNPCEtLFhWjfK9IXcgU0eqgNukRg8dBOh1kmfIugDc=;
+        b=qABTtqtBWvZlCRfvMTqCu3nY0EJsvtQucUAHO61//C2iEKjU9R6+wxFe1tvLX1Evp8
+         VtzrEfltxSixSm49zDaKtBMXfS22LusdPe0N6SnP5rQpruFVGKSjZ1hzEkMwamlgCARG
+         wepp/B5yuIszRS9EaRYos8bkbh5+54g6ozcaA+h/NC58u3w+JIpZir0mCfKh7hel/IAd
+         2B7kCTd/OZh47ndAfSKRh5zoA5sSgM7S+ASeMt6krZ8SJ0cm1QFcEay+l0xlG7NVNPLi
+         FO23zXdCsYSQbkq03To1+uUkPXQjU/EzZZcEyUIBiH480ejmjRrCrVB7Nf9kIEOaUueU
+         59kA==
+X-Gm-Message-State: ACrzQf1uMs3XuLrO2xqWU8w65GI87FZmSBhn4aNmY24MWn5VM1BwqYVH
+        ZztIsbDPy0n44lQW0M7cXCc=
+X-Google-Smtp-Source: AMsMyM6Tysv9I/TfW5N5DdZ3nVlO6jJR0Vkk+lJOnV/5UmqJrpM/rddNW+Vj2qAk9z8Q/RCD2gDi8g==
+X-Received: by 2002:a17:902:d70e:b0:178:2d9d:ba7b with SMTP id w14-20020a170902d70e00b001782d9dba7bmr8014206ply.90.1664530695076;
+        Fri, 30 Sep 2022 02:38:15 -0700 (PDT)
 Received: from debian.me (subs32-116-206-28-35.three.co.id. [116.206.28.35])
-        by smtp.gmail.com with ESMTPSA id u12-20020a170902714c00b00178323e689fsm1384487plm.171.2022.09.30.02.28.01
+        by smtp.gmail.com with ESMTPSA id gm7-20020a17090b100700b0020599274efdsm1252960pjb.0.2022.09.30.02.38.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Sep 2022 02:28:01 -0700 (PDT)
+        Fri, 30 Sep 2022 02:38:14 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id EA57B1005BB; Fri, 30 Sep 2022 16:27:57 +0700 (WIB)
-Date:   Fri, 30 Sep 2022 16:27:57 +0700
+        id 444661005BB; Fri, 30 Sep 2022 16:38:11 +0700 (WIB)
+Date:   Fri, 30 Sep 2022 16:38:11 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] serial: Convert serial_rs485 to kernel doc
-Message-ID: <Yza2nRxJ6MXWy/xa@debian.me>
-References: <20220929093148.9468-1-ilpo.jarvinen@linux.intel.com>
- <20220929093148.9468-2-ilpo.jarvinen@linux.intel.com>
+To:     Quan Nguyen <quan@os.amperecomputing.com>
+Cc:     macro@orcam.me.uk, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thu Nguyen <thu@os.amperecomputing.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        thang@os.amperecomputing.com
+Subject: Re: [PATCH v9 9/9] docs: ABI: testing: Document the Ampere Altra
+ Family's SMpro sysfs interfaces
+Message-ID: <Yza5AyTDyM5yo7HG@debian.me>
+References: <20220929094321.770125-1-quan@os.amperecomputing.com>
+ <20220929094321.770125-10-quan@os.amperecomputing.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="tzHsB+Sj21QVvgtY"
+        protocol="application/pgp-signature"; boundary="kUsQPpaU0BXqgnpI"
 Content-Disposition: inline
-In-Reply-To: <20220929093148.9468-2-ilpo.jarvinen@linux.intel.com>
+In-Reply-To: <20220929094321.770125-10-quan@os.amperecomputing.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---tzHsB+Sj21QVvgtY
+--kUsQPpaU0BXqgnpI
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 29, 2022 at 12:31:45PM +0300, Ilpo J=C3=A4rvinen wrote:
-> diff --git a/Documentation/driver-api/serial/serial-rs485.rst b/Documenta=
-tion/driver-api/serial/serial-rs485.rst
-> index 6ebad75c74ed..264e4b753713 100644
-> --- a/Documentation/driver-api/serial/serial-rs485.rst
-> +++ b/Documentation/driver-api/serial/serial-rs485.rst
-> @@ -29,11 +29,11 @@ RS485 Serial Communications
->  3. Data Structures Already Available in the Kernel
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> =20
-> -   The Linux kernel provides the serial_rs485 structure (see [1]) to han=
-dle
-> -   RS485 communications. This data structure is used to set and configur=
-e RS485
-> +   The Linux kernel provides the serial_rs485 structure to handle RS485
-> +   communications. This data structure is used to set and configure RS485
->     parameters in the platform data and in ioctls.
-> =20
-> -   The device tree can also provide RS485 boot time parameters (see [2]
-> +   The device tree can also provide RS485 boot time parameters (see [1]
->     for bindings). The driver is in charge of filling this data structure=
- from
->     the values given by the device tree.
-> =20
-> @@ -47,6 +47,9 @@ RS485 Serial Communications
->     for the uart_port. TIOCGRS485 ioctl can be used to read back the
->     serial_rs485 structure matching to the current configuration.
-> =20
-> +.. kernel-doc:: include/uapi/linux/serial.h
-> +   :identifiers: serial_rs485
+On Thu, Sep 29, 2022 at 04:43:21PM +0700, Quan Nguyen wrote:
+> diff --git a/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-=
+smpro b/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro
+> new file mode 100644
+> index 000000000000..d8f82a06570d
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro
+> @@ -0,0 +1,125 @@
+> +What:		/sys/bus/platform/devices/smpro-errmon.*/error_[core|mem|pcie|oth=
+er]_[ce|ue]
+> +KernelVersion:	5.18
+> +Contact:	quan@os.amperecomputing.com
+> +Description:
+> +		(RO) Contains the 48-byte Ampere (Vendor-Specific) Error Record printed
+> +		in hex format.
 > +
->  4. Usage from user-level
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> @@ -126,6 +129,4 @@ RS485 Serial Communications
->  6. References
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> - [1]	include/uapi/linux/serial.h
-> -
-> - [2]	Documentation/devicetree/bindings/serial/rs485.txt
-> + [1]	Documentation/devicetree/bindings/serial/rs485.txt
+> +		The detail of each sysfs entries is as below:
+> +		+-------------+-------------------------------------------------------=
+--+
+> +		|   Error     |                   Sysfs entry                         =
+  |
+> +		+-------------+-------------------------------------------------------=
+--+
+> +		| Core's CE   | /sys/bus/platform/devices/smpro-errmon.*/error_core_ce=
+ |
+> +		| Core's UE   | /sys/bus/platform/devices/smpro-errmon.*/error_core_ue=
+ |
+> +		| Memory's CE | /sys/bus/platform/devices/smpro-errmon.*/error_mem_ce =
+ |
+> +		| Memory's UE | /sys/bus/platform/devices/smpro-errmon.*/error_mem_ue =
+ |
+> +		| PCIe's CE   | /sys/bus/platform/devices/smpro-errmon.*/error_pcie_ce=
+ |
+> +		| PCIe's UE   | /sys/bus/platform/devices/smpro-errmon.*/error_pcie_ue=
+ |
+> +		| Other's CE  | /sys/bus/platform/devices/smpro-errmon.*/error_other_c=
+e|
+> +		| Other's UE  | /sys/bus/platform/devices/smpro-errmon.*/error_other_u=
+e|
+> +		+-------------+-------------------------------------------------------=
+--+
+> +		UE: Uncorrect-able Error
+> +		CE: Correct-able Error
+> +
+> +		See section 3.3 Ampere (Vendor-Specific) Error Record Formats,
+> +		Altra Family RAS Supplement.
+> +
+> +
+> +What:		/sys/bus/platform/devices/smpro-errmon.*/overflow_[core|mem|pcie|=
+other]_[ce|ue]
+> +KernelVersion:	5.18
+> +Contact:	quan@os.amperecomputing.com
+> +Description:
+> +		(RO) Return the overflow status of each type HW error reported:
+> +		  0      : No overflow
+> +		  1      : There is an overflow and the oldest HW errors are dropped
+> +
+> +		The detail of each sysfs entries is as below:
+> +		+-------------+-------------------------------------------------------=
+----+
+> +		|   Overflow  |                   Sysfs entry                         =
+    |
+> +		+-------------+-------------------------------------------------------=
+----+
+> +		| Core's CE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_core=
+_ce |
+> +		| Core's UE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_core=
+_ue |
+> +		| Memory's CE | /sys/bus/platform/devices/smpro-errmon.*/overflow_mem_=
+ce  |
+> +		| Memory's UE | /sys/bus/platform/devices/smpro-errmon.*/overflow_mem_=
+ue  |
+> +		| PCIe's CE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_pcie=
+_ce |
+> +		| PCIe's UE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_pcie=
+_ue |
+> +		| Other's CE  | /sys/bus/platform/devices/smpro-errmon.*/overflow_othe=
+r_ce|
+> +		| Other's UE  | /sys/bus/platform/devices/smpro-errmon.*/overflow_othe=
+r_ue|
+> +		+-------------+-------------------------------------------------------=
+----+
+> +		UE: Uncorrect-able Error
+> +		CE: Correct-able Error
+> +
+> +What:           /sys/bus/platform/devices/smpro-errmon.*/[error|warn]_[s=
+mpro|pmpro]
+> +KernelVersion:	5.18
+> +Contact:	quan@os.amperecomputing.com
+> +Description:
+> +		(RO) Contains the internal firmware error/warning printed as hex forma=
+t.
+> +
+> +		The detail of each sysfs entries is as below:
+> +		+---------------+-----------------------------------------------------=
+-+
+> +		|   Error       |                   Sysfs entry                       =
+ |
+> +		+---------------+-----------------------------------------------------=
+-+
+> +		| SMpro error   | /sys/bus/platform/devices/smpro-errmon.*/error_smpro=
+ |
+> +		| SMpro warning | /sys/bus/platform/devices/smpro-errmon.*/warn_smpro =
+ |
+> +		| PMpro error   | /sys/bus/platform/devices/smpro-errmon.*/error_pmpro=
+ |
+> +		| PMpro warning | /sys/bus/platform/devices/smpro-errmon.*/warn_pmpro =
+ |
+> +		+---------------+-----------------------------------------------------=
+-+
+> +		See more details in section 5.10 RAS Internal Error Register Definitio=
+ns,
+> +		Altra Family Soc BMC Interface Specification.
+> +
+> +What:           /sys/bus/platform/devices/smpro-errmon.*/event_[vrd_warn=
+_fault|vrd_hot|dimm_hot]
+> +KernelVersion:	5.18
+> +Contact:	quan@os.amperecomputing.com
+> +Description:
+> +		(RO) Contains the detail information in case of VRD/DIMM warning/hot e=
+vents
+> +		in hex format as below:
+> +
+> +		AAAA
+> +		Where:
+> +		  AAAA: The event detail information data
+> +
+> +		See more details in section 5.7 GPI Status Registers,
+> +		Altra Family Soc BMC Interface Specification.
+> +
+> +
+> +What:		/sys/bus/platform/devices/smpro-misc.*/boot_progress
+> +KernelVersion:	5.18
+> +Contact:	quan@os.amperecomputing.com
+> +Description:
+> +		(RO) Contains the boot stages information in hex as format below:
+> +
+> +		AABBCCCCCCCC
+> +		Where:
+> +		  AA      : The boot stages
+> +		              00: SMpro firmware booting
+> +		              01: PMpro firmware booting
+> +		              02: ATF BL1 firmware booting
+> +		              03: DDR initialization
+> +		              04: DDR training report status
+> +		              05: ATF BL2 firmware booting
+> +		              06: ATF BL31 firmware booting
+> +		              07: ATF BL32 firmware booting
+> +		              08: UEFI firmware booting
+> +		              09: OS booting
+> +		  BB      : Boot status
+> +		              00: Not started
+> +		              01: Started
+> +		              02: Completed without error
+> +		              03: Failed.
+> +		  CCCCCCCC: Boot status information defined for each boot stages
+> +
+> +		See more details in section 5.11 Boot Stage Register Definitions,
+> +		and section 6. Processor Boot Progress Codes, Altra Family Soc BMC
+> +		Interface Specification.
+> +
+> +
+> +What:           /sys/bus/platform/devices/smpro-misc*/soc_power_limit
+> +KernelVersion:	5.18
+> +Contact:	quan@os.amperecomputing.com
+> +Description:
+> +		(RW) Contains the desired SoC power limit in Watt.
+> +		Writes to this sysfs set the desired SoC power limit (W).
+> +		Reads from this register return the current SoC power limit (W).
+> +		The value ranges:
+> +		  Minimum: 120 W
+> +		  Maximum: Socket TDP power
 
-For formatting consistency with kernel-doc comment of the struct below,
-the code keywords should be in inline code samples:
+The documentation above produces htmldocs warnings:
+
+Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro:71: WARNI=
+NG: Unexpected indentation.
+Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro:117: WARN=
+ING: Unexpected indentation.
+Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro:86: WARNI=
+NG: Unexpected indentation.
+Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro:86: WARNI=
+NG: Definition list ends without a blank line; unexpected unindent.
+
+I have applied the fixup (with fixes to technical references):
 
 ---- >8 ----
-diff --git a/Documentation/driver-api/serial/serial-rs485.rst b/Documentati=
-on/driver-api/serial/serial-rs485.rst
-index e53aa291bcd7df..3d48c8b5a3e6f8 100644
---- a/Documentation/driver-api/serial/serial-rs485.rst
-+++ b/Documentation/driver-api/serial/serial-rs485.rst
-@@ -39,15 +39,15 @@ RS485 Serial Communications
-    uart_get_rs485_mode().
+
+diff --git a/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-sm=
+pro b/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro
+index d8f82a06570d88..39cf222fb6510a 100644
+--- a/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro
++++ b/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro
+@@ -6,23 +6,32 @@ Description:
+ 		in hex format.
 =20
-    Any driver for devices capable of working both as RS232 and RS485 should
--   implement the rs485_config callback and provide rs485_supported in the
--   struct uart_port. The serial core calls rs485_config to do the device
--   specific part in response to TIOCSRS485 ioctl (see below). The
--   rs485_config callback receives a pointer to a sanitizated struct
-+   implement the ``rs485_config`` callback and provide ``rs485_supported``=
- in
-+   the ``struct uart_port``. The serial core calls ``rs485_config`` to do =
-the
-+   device specific part in response to TIOCSRS485 ioctl (see below). The
-+   ``rs485_config`` callback receives a pointer to a sanitizated struct
-    serial_rs485. The struct serial_rs485 userspace provides is sanitized
--   before calling rs485_config using rs485_supported that indicates what
--   RS485 features the driver supports for the struct uart_port. TIOCGRS485
--   ioctl can be used to read back the struct serial_rs485 matching to the
--   current configuration.
-+   before calling ``rs485_config`` using ``rs485_supported`` that indicates
-+   what RS485 features the driver supports for the struct uart_port.
-+   TIOCGRS485 ioctl can be used to read back the struct serial_rs485 match=
-ing
-+   to the current configuration.
-=20
- .. kernel-doc:: include/uapi/linux/serial.h
-    :identifiers: serial_rs485 uart_get_rs485_mode
-@@ -108,23 +108,26 @@ RS485 Serial Communications
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
-    The Linux kernel provides addressing mode for multipoint RS-485 serial
--   communications line. The addressing mode is enabled with SER_RS485_ADDRB
-+   communications line. The addressing mode is enabled with ``SER_RS485_AD=
-DRB``
-    flag in struct serial_rs485. The struct serial_rs485 has two additional
-    flags and fields for enabling receive and destination addresses.
-=20
-    Address mode flags:
--	- SER_RS485_ADDRB: Enabled addressing mode (sets also ADDRB in termios).
--	- SER_RS485_ADDR_RECV: Receive (filter) address enabled.
--	- SER_RS485_ADDR_DEST: Set destination address.
-=20
--   Address fields (enabled with corresponding SER_RS485_ADDR_* flag):
--	- addr_recv: Receive address.
--	- addr_dest: Destination address.
-+	- ``SER_RS485_ADDRB``: Enabled addressing mode (sets also ADDRB in
-+          termios).
-+	- ``SER_RS485_ADDR_RECV``: Receive (filter) address enabled.
-+	- ``SER_RS485_ADDR_DEST``: Set destination address.
+ 		The detail of each sysfs entries is as below:
 +
-+   Address fields (enabled with corresponding ``SER_RS485_ADDR_*`` flag):
+ 		+-------------+---------------------------------------------------------+
+ 		|   Error     |                   Sysfs entry                           |
+ 		+-------------+---------------------------------------------------------+
+-		| Core's CE   | /sys/bus/platform/devices/smpro-errmon.*/error_core_ce |
+-		| Core's UE   | /sys/bus/platform/devices/smpro-errmon.*/error_core_ue |
+-		| Memory's CE | /sys/bus/platform/devices/smpro-errmon.*/error_mem_ce  |
+-		| Memory's UE | /sys/bus/platform/devices/smpro-errmon.*/error_mem_ue  |
+-		| PCIe's CE   | /sys/bus/platform/devices/smpro-errmon.*/error_pcie_ce |
+-		| PCIe's UE   | /sys/bus/platform/devices/smpro-errmon.*/error_pcie_ue |
+-		| Other's CE  | /sys/bus/platform/devices/smpro-errmon.*/error_other_ce|
+-		| Other's UE  | /sys/bus/platform/devices/smpro-errmon.*/error_other_ue|
++		| Core's CE   | /sys/bus/platform/devices/smpro-errmon.*/error_core_ce  |
+ 		+-------------+---------------------------------------------------------+
++		| Core's UE   | /sys/bus/platform/devices/smpro-errmon.*/error_core_ue  |
++		+-------------+---------------------------------------------------------+
++		| Memory's CE | /sys/bus/platform/devices/smpro-errmon.*/error_mem_ce   |
++		+-------------+---------------------------------------------------------+
++		| Memory's UE | /sys/bus/platform/devices/smpro-errmon.*/error_mem_ue   |
++		+-------------+---------------------------------------------------------+
++		| PCIe's CE   | /sys/bus/platform/devices/smpro-errmon.*/error_pcie_ce  |
++		+-------------+---------------------------------------------------------+
++		| PCIe's UE   | /sys/bus/platform/devices/smpro-errmon.*/error_pcie_ue  |
++		+-------------+---------------------------------------------------------+
++		| Other's CE  | /sys/bus/platform/devices/smpro-errmon.*/error_other_ce |
++		+-------------+---------------------------------------------------------+
++		| Other's UE  | /sys/bus/platform/devices/smpro-errmon.*/error_other_ue |
++		+-------------+---------------------------------------------------------+
 +
-+	- ``addr_recv``: Receive address.
-+	- ``addr_dest``: Destination address.
+ 		UE: Uncorrect-able Error
+ 		CE: Correct-able Error
 =20
-    Once a receive address is set, the communication can occur only with the
-    particular device and other peers are filtered out. It is left up to the
-    receiver side to enforce the filtering. Receive address will be cleared
--   if SER_RS485_ADDR_RECV is not set.
-+   if ``SER_RS485_ADDR_RECV`` is not set.
+-		See section 3.3 Ampere (Vendor-Specific) Error Record Formats,
+-		Altra Family RAS Supplement.
++		For details, see section `3.3 Ampere (Vendor-Specific) Error Record Form=
+ats,
++		Altra Family RAS Supplement`.
 =20
-    Note: not all devices supporting RS485 support multipoint addressing.
 =20
+ What:		/sys/bus/platform/devices/smpro-errmon.*/overflow_[core|mem|pcie|ot=
+her]_[ce|ue]
+@@ -30,24 +39,36 @@ KernelVersion:	5.18
+ Contact:	quan@os.amperecomputing.com
+ Description:
+ 		(RO) Return the overflow status of each type HW error reported:
+-		  0      : No overflow
+-		  1      : There is an overflow and the oldest HW errors are dropped
++
++		  - 0      : No overflow
++		  - 1      : There is an overflow and the oldest HW errors are dropped
+=20
+ 		The detail of each sysfs entries is as below:
++
+ 		+-------------+---------------------------------------------------------=
+--+
+ 		|   Overflow  |                   Sysfs entry                           =
+  |
+ 		+-------------+---------------------------------------------------------=
+--+
+ 		| Core's CE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_core_c=
+e |
++		+-------------+---------------------------------------------------------=
+--+
+ 		| Core's UE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_core_u=
+e |
++		+-------------+---------------------------------------------------------=
+--+
+ 		| Memory's CE | /sys/bus/platform/devices/smpro-errmon.*/overflow_mem_ce=
+  |
++		+-------------+---------------------------------------------------------=
+--+
+ 		| Memory's UE | /sys/bus/platform/devices/smpro-errmon.*/overflow_mem_ue=
+  |
++		+-------------+---------------------------------------------------------=
+--+
+ 		| PCIe's CE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_pcie_c=
+e |
++		+-------------+---------------------------------------------------------=
+--+
+ 		| PCIe's UE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_pcie_u=
+e |
++		+-------------+---------------------------------------------------------=
+--+
+ 		| Other's CE  | /sys/bus/platform/devices/smpro-errmon.*/overflow_other_=
+ce|
++		+-------------+---------------------------------------------------------=
+--+
+ 		| Other's UE  | /sys/bus/platform/devices/smpro-errmon.*/overflow_other_=
+ue|
+ 		+-------------+---------------------------------------------------------=
+--+
+-		UE: Uncorrect-able Error
+-		CE: Correct-able Error
++
++		where:
++
++		  - UE: Uncorrect-able Error
++		  - CE: Correct-able Error
+=20
+ What:           /sys/bus/platform/devices/smpro-errmon.*/[error|warn]_[smp=
+ro|pmpro]
+ KernelVersion:	5.18
+@@ -56,61 +77,74 @@ Description:
+ 		(RO) Contains the internal firmware error/warning printed as hex format.
+=20
+ 		The detail of each sysfs entries is as below:
++
+ 		+---------------+------------------------------------------------------+
+ 		|   Error       |                   Sysfs entry                        |
+ 		+---------------+------------------------------------------------------+
+ 		| SMpro error   | /sys/bus/platform/devices/smpro-errmon.*/error_smpro |
++		+---------------+------------------------------------------------------+
+ 		| SMpro warning | /sys/bus/platform/devices/smpro-errmon.*/warn_smpro  |
++		+---------------+------------------------------------------------------+
+ 		| PMpro error   | /sys/bus/platform/devices/smpro-errmon.*/error_pmpro |
++		+---------------+------------------------------------------------------+
+ 		| PMpro warning | /sys/bus/platform/devices/smpro-errmon.*/warn_pmpro  |
+ 		+---------------+------------------------------------------------------+
+-		See more details in section 5.10 RAS Internal Error Register Definitions,
+-		Altra Family Soc BMC Interface Specification.
++
++		For details, see section `5.10 RAS Internal Error Register Definitions,
++		Altra Family Soc BMC Interface Specification`.
+=20
+ What:           /sys/bus/platform/devices/smpro-errmon.*/event_[vrd_warn_f=
+ault|vrd_hot|dimm_hot]
+ KernelVersion:	5.18
+ Contact:	quan@os.amperecomputing.com
+ Description:
+ 		(RO) Contains the detail information in case of VRD/DIMM warning/hot eve=
+nts
+-		in hex format as below:
++		in hex format as below::
+=20
+-		AAAA
+-		Where:
+-		  AAAA: The event detail information data
++		    AAAA
+=20
+-		See more details in section 5.7 GPI Status Registers,
+-		Altra Family Soc BMC Interface Specification.
++		where:
++
++		  - ``AAAA``: The event detail information data
++
++		For more details, see section `5.7 GPI Status Registers,
++		Altra Family Soc BMC Interface Specification`.
+=20
+=20
+ What:		/sys/bus/platform/devices/smpro-misc.*/boot_progress
+ KernelVersion:	5.18
+ Contact:	quan@os.amperecomputing.com
+ Description:
+-		(RO) Contains the boot stages information in hex as format below:
++		(RO) Contains the boot stages information in hex as format below::
+=20
+-		AABBCCCCCCCC
+-		Where:
+-		  AA      : The boot stages
+-		              00: SMpro firmware booting
+-		              01: PMpro firmware booting
+-		              02: ATF BL1 firmware booting
+-		              03: DDR initialization
+-		              04: DDR training report status
+-		              05: ATF BL2 firmware booting
+-		              06: ATF BL31 firmware booting
+-		              07: ATF BL32 firmware booting
+-		              08: UEFI firmware booting
+-		              09: OS booting
+-		  BB      : Boot status
+-		              00: Not started
+-		              01: Started
+-		              02: Completed without error
+-		              03: Failed.
+-		  CCCCCCCC: Boot status information defined for each boot stages
++		    AABBCCCCCCCC
+=20
+-		See more details in section 5.11 Boot Stage Register Definitions,
+-		and section 6. Processor Boot Progress Codes, Altra Family Soc BMC
+-		Interface Specification.
++		where:
++
++		  - ``AA``      : The boot stages
++
++		    - 00: SMpro firmware booting
++		    - 01: PMpro firmware booting
++		    - 02: ATF BL1 firmware booting
++		    - 03: DDR initialization
++		    - 04: DDR training report status
++		    - 05: ATF BL2 firmware booting
++		    - 06: ATF BL31 firmware booting
++		    - 07: ATF BL32 firmware booting
++		    - 08: UEFI firmware booting
++		    - 09: OS booting
++
++		  - ``BB``      : Boot status
++
++		    - 00: Not started
++		    - 01: Started
++		    - 02: Completed without error
++		    - 03: Failed.
++
++		  - ``CCCCCCCC``: Boot status information defined for each boot stages
++
++		For details, see section `5.11 Boot Stage Register Definitions`
++		and section `6. Processor Boot Progress Codes, Altra Family Soc BMC
++		Interface Specification`.
+=20
+=20
+ What:           /sys/bus/platform/devices/smpro-misc*/soc_power_limit
+@@ -121,5 +155,6 @@ Description:
+ 		Writes to this sysfs set the desired SoC power limit (W).
+ 		Reads from this register return the current SoC power limit (W).
+ 		The value ranges:
+-		  Minimum: 120 W
+-		  Maximum: Socket TDP power
++
++		  - Minimum: 120 W
++		  - Maximum: Socket TDP power
 
-> diff --git a/include/uapi/linux/serial.h b/include/uapi/linux/serial.h
-> index cea06924b295..4634c913f16a 100644
-> --- a/include/uapi/linux/serial.h
-> +++ b/include/uapi/linux/serial.h
-> @@ -107,33 +107,50 @@ struct serial_icounter_struct {
->  	int reserved[9];
->  };
-> =20
-> -/*
-> +/**
-> + * struct serial_rs485 - serial interface for controlling RS485 settings.
-> + * @flags:			RS485 feature flags.
-> + * @delay_rts_before_send:	Delay before send (milliseconds).
-> + * @delay_rts_after_send:	Delay after send (milliseconds).
-> + * @addr_recv:			Receive filter for RS485 addressing mode
-> + *				(used only when %SER_RS485_ADDR_RECV is set).
-> + * @addr_dest:			Destination address for RS485 addressing mode
-> + *				(used only when %SER_RS485_ADDR_DEST is set).
-> + * @padding0:			Padding (set to zero).
-> + * @padding1:			Padding (set to zero).
-> + * @padding:			Deprecated, use @padding0 and @padding1 instead.
-> + *				Do not use with @addr_recv and @addr_dest (due to
-> + *				overlap).
-> + *
->   * Serial interface for controlling RS485 settings on chips with suitable
->   * support. Set with TIOCSRS485 and get with TIOCGRS485 if supported by =
-your
->   * platform. The set function returns the new state, with any unsupporte=
-d bits
->   * reverted appropriately.
-> + *
-> + * serial_rs485::flags bits are:
-> + *
-
-Maybe better say "The flag bits are:"?
-
-> + * * %SER_RS485_ENABLED		- RS485 enabled.
-> + * * %SER_RS485_RTS_ON_SEND	- Logical level for RTS pin when sending.
-> + * * %SER_RS485_RTS_AFTER_SEND	- Logical level for RTS pin after sent.
-> + * * %SER_RS485_RX_DURING_TX	- Full-duplex RS485 line.
-> + * * %SER_RS485_TERMINATE_BUS	- Enable bus termination (if supported).
-> + * * %SER_RS485_ADDRB		- Enable RS485 addressing mode.
-> + * * %SER_RS485_ADDR_RECV - Receive address filter (enables @addr_recv).=
- Requires %SER_RS485_ADDRB.
-> + * * %SER_RS485_ADDR_DEST - Destination address (enables @addr_dest). Re=
-quires %SER_RS485_ADDRB.
->   */
-> -
->  struct serial_rs485 {
-> -	__u32	flags;			/* RS485 feature flags */
-> -#define SER_RS485_ENABLED		(1 << 0)	/* If enabled */
-> -#define SER_RS485_RTS_ON_SEND		(1 << 1)	/* Logical level for
-> -							   RTS pin when
-> -							   sending */
-> -#define SER_RS485_RTS_AFTER_SEND	(1 << 2)	/* Logical level for
-> -							   RTS pin after sent*/
-> +	__u32	flags;
-> +#define SER_RS485_ENABLED		(1 << 0)
-> +#define SER_RS485_RTS_ON_SEND		(1 << 1)
-> +#define SER_RS485_RTS_AFTER_SEND	(1 << 2)
->  #define SER_RS485_RX_DURING_TX		(1 << 4)
-> -#define SER_RS485_TERMINATE_BUS		(1 << 5)	/* Enable bus
-> -							   termination
-> -							   (if supported) */
-> -
-> -/* RS-485 addressing mode */
-> -#define SER_RS485_ADDRB			(1 << 6)	/* Enable addressing mode */
-> -#define SER_RS485_ADDR_RECV		(1 << 7)	/* Receive address filter */
-> -#define SER_RS485_ADDR_DEST		(1 << 8)	/* Destination address */
-> +#define SER_RS485_TERMINATE_BUS		(1 << 5)
-> +#define SER_RS485_ADDRB			(1 << 6)
-> +#define SER_RS485_ADDR_RECV		(1 << 7)
-> +#define SER_RS485_ADDR_DEST		(1 << 8)
-> =20
-> -	__u32	delay_rts_before_send;	/* Delay before send (milliseconds) */
-> -	__u32	delay_rts_after_send;	/* Delay after send (milliseconds) */
-> +	__u32	delay_rts_before_send;
-> +	__u32	delay_rts_after_send;
-> =20
->  	/* The fields below are defined by flags */
->  	union {
-
-All struct members are described in htmldocs output, thanks.=20
+Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---tzHsB+Sj21QVvgtY
+--kUsQPpaU0BXqgnpI
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYza2lgAKCRD2uYlJVVFO
-o2cZAQDE3tRS/nbiVvgR9eWjEEXbu5ozDBpWZf/ULFFvdygNXgD+LXn3FlB5jZx+
-GEJ8TJwz3a75J120ey+R3f9gCNJC7wI=
-=fkEH
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYza4/wAKCRD2uYlJVVFO
+o5svAQCSZ1OckshjdWjDv7dwUTOOGBgC0fNz9+j2TFy7QR45EwD9GvxlUDr42ysP
+UJgWNqn/Qxi7jKVp1cTlGl86h+PwmQw=
+=bzCY
 -----END PGP SIGNATURE-----
 
---tzHsB+Sj21QVvgtY--
+--kUsQPpaU0BXqgnpI--
