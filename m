@@ -2,78 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0C67C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 11:16:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02E74C43217
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 11:21:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231902AbiI3LP6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 07:15:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46892 "EHLO
+        id S232575AbiI3LV2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 07:21:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231539AbiI3LPf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 07:15:35 -0400
-X-Greylist: delayed 855 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 30 Sep 2022 03:57:06 PDT
-Received: from 3.mo582.mail-out.ovh.net (3.mo582.mail-out.ovh.net [178.33.253.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A741E43E4F
-        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 03:57:06 -0700 (PDT)
-Received: from player157.ha.ovh.net (unknown [10.111.208.192])
-        by mo582.mail-out.ovh.net (Postfix) with ESMTP id 511FD260EA
-        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 10:30:36 +0000 (UTC)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player157.ha.ovh.net (Postfix) with ESMTPSA id B1D552F302B0F;
-        Fri, 30 Sep 2022 10:30:30 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-104R00594ba2c5b-ef7f-4e63-baff-7f9c4463ac6a,
-                    C05B2F2BD13FA39C9993548B485976379164E02D) smtp.auth=steve@sk2.org
-X-OVh-ClientIp: 82.65.25.201
-From:   Stephen Kitt <steve@sk2.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
-Subject: [PATCH v2 4/5] docs: sysctl/fs: remove references to super-max/-nr
-Date:   Fri, 30 Sep 2022 12:29:36 +0200
-Message-Id: <20220930102937.135841-5-steve@sk2.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220930102937.135841-1-steve@sk2.org>
-References: <20220930102937.135841-1-steve@sk2.org>
+        with ESMTP id S231318AbiI3LU4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 07:20:56 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FE83DAE
+        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 04:09:33 -0700 (PDT)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Mf6rH6SmPzHqVT;
+        Fri, 30 Sep 2022 19:07:11 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 30 Sep 2022 19:09:31 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 30 Sep
+ 2022 19:09:30 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-doc@vger.kernel.org>
+CC:     <corbet@lwn.net>, <yangyingliang@huawei.com>
+Subject: [PATCH -next 1/8] Documentation: devres: add missing devm_acpi_dma_controller_free() helper
+Date:   Fri, 30 Sep 2022 19:25:27 +0800
+Message-ID: <20220930112534.861221-2-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220930112534.861221-1-yangyingliang@huawei.com>
+References: <20220930112534.861221-1-yangyingliang@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 14216738124900632198
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeehvddgvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepgefhhfeliefghfetieffleevfefhieduheektdeghfegvdelfffgjefgtdevieegnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrudehjedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheekvd
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-These were removed in 2.4.7.8. Remove references to super-max and
-super-nr in the sysctl documentation.
+Add missing devm_acpi_dma_controller_free() to devres.rst, it's introduced
+by commit 1b2e98bc1e35 ("dma: acpi-dma: introduce ACPI DMA helpers").
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 ---
- Documentation/admin-guide/sysctl/fs.rst | 10 ----------
- 1 file changed, 10 deletions(-)
+ Documentation/driver-api/driver-model/devres.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
-index a61c6aec5e5e..df683c15b098 100644
---- a/Documentation/admin-guide/sysctl/fs.rst
-+++ b/Documentation/admin-guide/sysctl/fs.rst
-@@ -277,16 +277,6 @@ or otherwise protected/tainted binaries. The modes are
- =   ==========  ===============================================================
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index d5d2f16f082c..72c835c3e533 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -436,6 +436,7 @@ SERDEV
  
+ SLAVE DMA ENGINE
+   devm_acpi_dma_controller_register()
++  devm_acpi_dma_controller_free()
  
--super-max & super-nr
----------------------
--
--These numbers control the maximum number of superblocks, and
--thus the maximum number of mounted filesystems the kernel
--can have. You only need to increase super-max if you need to
--mount more filesystems than the current value in super-max
--allows you to.
--
--
- mount-max
- ---------
- 
+ SPI
+   devm_spi_alloc_master()
 -- 
-2.31.1
+2.25.1
 
