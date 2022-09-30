@@ -2,56 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5BF4C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 09:13:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDCC5C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 09:14:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231361AbiI3JNv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 05:13:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59122 "EHLO
+        id S231367AbiI3JOK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 05:14:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231362AbiI3JNt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 05:13:49 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB77E15264B
-        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 02:13:48 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id j24so4142183lja.4
-        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 02:13:48 -0700 (PDT)
+        with ESMTP id S231370AbiI3JOJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 05:14:09 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87F81152667
+        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 02:14:08 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id a10so4179133ljq.0
+        for <linux-doc@vger.kernel.org>; Fri, 30 Sep 2022 02:14:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=tATPWI+YvdlyRPh34ivWOX6mWW1Ax9MaFCGvcqesNfk=;
-        b=dj/1k0IXssRSrkRo6k059S1KVq7obUUDb52BjhTprKk3IEn3HMLA8u0L0daJjvo8d2
-         a86SKxOTlmXIYHildyX9H84kJl8C9o5K87IPztX4tnjVdDa3uNr6aYoYp/DqX3vJRX8Q
-         mEX7VdTGLQPUZeifg1upKlBcr6SSe2T2m86Vd/HIHl7dUsLt83IOuVDtgEulbTl/s6sn
-         0dEjyFrwvIm/NW67Isx/V/W8Zprw0d2/b4oEFo3PMaJnym5uPWFyiwPlrCdeBZsZX1ui
-         b5xs/7mVOitFaOy9lCgCRHAktNkBtf5JtkAkVVtOzAY5nuvzaPiVsZ0zj0cEIakSKhos
-         xrZg==
+        bh=FfQhpjOscWE8qj/FpkL46tn52XxG7ygtTTeLXHgH9hw=;
+        b=e0Db0icyq98AqjHDE4yarsXeqBBCFIWSD1q+zBpoxJAjiwb0rQLlmtVHEtausA9BWS
+         VSDq1r3kq21JH9CywYlxTmSqyHVP57qXweA/UFbtBTQBbVXBmga0OKBxuGOzuHuMDwe8
+         fBA9yACqXCxUx4dRk/O/qB463xqge3wLjrTilq823Ik/yXOJP1SI7YVhgYihUrzvG3P9
+         Em15KnZu1eo/reLgLLXmaa8PCGuv5VxyBBKg7aIu5oQTlmiAeFC0ZaswdIUaV1n0eZXO
+         +KTs77N2uVZbVj/JySc3jivcGmTPgHZkBn+lz+hZ3jxuNkCYNTFhlqvAOOEn1eozWwby
+         PW7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=tATPWI+YvdlyRPh34ivWOX6mWW1Ax9MaFCGvcqesNfk=;
-        b=cVb+i5jgE4WipjG77kHwwzCHsOt+v8Ua2dQavE6NS/jaZqTALU/5UvwVb7PvKEAk/8
-         V/eup6bZeO3rmIYqUuDjSuLQRn9zbGUD+jFRvFd91UhtU/YdtmSra8aHyktfIGS9WKgu
-         OFvQ8hPJuUzwKqq5Hu7q+Qa6d+kYQDmS9hf2xf9gdqm96mlNd77wRr0sf8SxwEy39zVu
-         UKfbw7cnE556qTJk1g9GmalFKmOB8cHVjKecopylk+FBa46B5h+jrRPUkjVUDPNX8zIR
-         xFTBHChd1a1lE6BgJRbu1eUhNQZhPaB5Pt+WmOBX0w43bV917UQ/8eE1e7Iafkn4eP1W
-         le9g==
-X-Gm-Message-State: ACrzQf0oayqK46joBJ1XGw7UAHx+VcuT593xVluHFTf1iMc4EOVVoWQB
-        16Mu2+1uQUjfuJVbatyYZRkVmaqMFMuLmmZihIUvUInMHtXZTzm6
-X-Google-Smtp-Source: AMsMyM7NGo8AMmKLyNZCZDUVRBFBHlPIcANssXIz+OJjKwCDHrPmoTzIRK+Vk4zSyROzIE7a7lds7ouQ3VGu4mQqMDo=
-X-Received: by 2002:a2e:b004:0:b0:26b:3f4f:69a0 with SMTP id
- y4-20020a2eb004000000b0026b3f4f69a0mr2677277ljk.203.1664529226979; Fri, 30
- Sep 2022 02:13:46 -0700 (PDT)
+        bh=FfQhpjOscWE8qj/FpkL46tn52XxG7ygtTTeLXHgH9hw=;
+        b=VqmgHtv57DwxBIiZhFFEYRW8ERD8IIHvh2nL8IbcAkb3GBpnRkFRUblDKggn3KszLK
+         qJzR7XjUSfupa3cjzjvXRf7UmXehFibTBEovF8yLrfkcvQfzu80kw/2CQ4QhWe03vL8d
+         zs2SkVSRv5lJMpwNQRwTwTJ+4THwgNGEXJJCk8+hMEag3G326jhUVTgg1o58bhSLczSS
+         aK+iYsHtMgwdMMXHNfN5nLnR57NIMSUEGoxfQUWk0bB+qUKkqczIAM5DKHmvXN0ZV3qr
+         x4pBiUcsbuX0C9b8WEpdfhegZ/bp47CSUD7YhkFzt3oHEbCxRkZlF6QhLuhIP9AAN69a
+         7d2g==
+X-Gm-Message-State: ACrzQf2u5whS/HvL0F67iGy5Q5uuu3vchuTxb9NQj4kwlE0Ijtai36GP
+        ra7yowTqkxTZQPtFFSXanDGU6CZlEHarY7bAK80=
+X-Google-Smtp-Source: AMsMyM4c76hxtLErlV8cOLanR4Ht09btQczLL2J9eBrKtWbeiES4mybOMo3joBsodlyCEBgVG1gpV8P9PPHSVvmHgkU=
+X-Received: by 2002:a2e:a495:0:b0:26d:8a96:c5c7 with SMTP id
+ h21-20020a2ea495000000b0026d8a96c5c7mr2559070lji.439.1664529246672; Fri, 30
+ Sep 2022 02:14:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1664360331.git.siyanteng@loongson.cn> <60017007349357dc1fd8fa849a5ddb5672f8ab5b.1664360331.git.siyanteng@loongson.cn>
-In-Reply-To: <60017007349357dc1fd8fa849a5ddb5672f8ab5b.1664360331.git.siyanteng@loongson.cn>
+References: <cover.1664360331.git.siyanteng@loongson.cn> <52bc8df87618af951b34759487f05775416cb4d4.1664360331.git.siyanteng@loongson.cn>
+In-Reply-To: <52bc8df87618af951b34759487f05775416cb4d4.1664360331.git.siyanteng@loongson.cn>
 From:   Alex Shi <seakeel@gmail.com>
-Date:   Fri, 30 Sep 2022 17:13:10 +0800
-Message-ID: <CAJy-AmkEvHOBRgiBnQKZ+igFr9CLpbX4QWBMpH4MBeuEpEVeVQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] docs/zh_CN: Update the translation of ksm to 6.0-rc7
+Date:   Fri, 30 Sep 2022 17:13:30 +0800
+Message-ID: <CAJy-AmkPq8u38kqoWFLJiWOWk268tiNY5Q13ReghE9JwSAjkLg@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] docs/zh_CN: Update the translation of page_owner
+ to 6.0-rc7
 To:     Yanteng Si <siyanteng@loongson.cn>
 Cc:     alexs@kernel.org, corbet@lwn.net, bobwxc@email.cn,
         wu.xiangcheng@linux.dev, chenhuacai@kernel.org,
@@ -65,25 +66,33 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 UmV2aWV3ZWQtYnk6IEFsZXggU2hpIDxhbGV4c0BrZXJuZWwub3JnPg0KDQpPbiBXZWQsIFNlcCAy
 OCwgMjAyMiBhdCA2OjMyIFBNIFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4gd3Jv
-dGU6DQo+DQo+IFVwZGF0ZSB0byBjb21taXQgYmM2YTI4MjhhOTYzICgia3NtOiBhZGQgdGhlIGtz
-bSBwcmVmaXgNCj4gdG8gdGhlIG5hbWVzIG9mIHRoZSBrc20gcHJpdmF0ZSBzdHJ1Y3R1cmVzIikN
-Cj4NCj4gU2lnbmVkLW9mZi1ieTogWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPg0K
-PiAtLS0NCj4gIERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL21tL2tzbS5yc3QgfCAy
-ICstDQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4N
-Cj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL21tL2tzbS5y
-c3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9tbS9rc20ucnN0DQo+IGluZGV4
-IGQxZjgyZTg1N2FkNy4uZjBmNDU4NzUzZDBjIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9u
-L3RyYW5zbGF0aW9ucy96aF9DTi9tbS9rc20ucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJh
-bnNsYXRpb25zL3poX0NOL21tL2tzbS5yc3QNCj4gQEAgLTMwLDcgKzMwLDcgQEAgS1NN55qE55So
-5oi356m66Ze055qE5o6l5Y+j5ZyoRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vYWRt
-aW4tZ3VpZGUvbW0va3MNCj4gIEtTTee7tOaKpOedgOeos+WumuagkeS4reeahEtTTemhteeahOmA
-huaYoOWwhOS/oeaBr+OAgg0KPg0KPiAg5b2TS1NN6aG16Z2i55qE5YWx5Lqr5pWw5bCP5LqOIGBg
-bWF4X3BhZ2Vfc2hhcmluZ2BgIOeahOiZmuaLn+WGheWtmOWMuuWfnyhWTUFzKeaXtu+8jOWImeS7
-o+ihqOS6hg0KPiAtS1NN6aG155qE56iz5a6a5qCR5YW25Lit55qE6IqC54K55oyH5ZCR5LqG5LiA
-5Liqcm1hcF9pdGVt57uT5p6E5L2T57G75Z6L55qE5YiX6KGo44CC5ZCM5pe277yM6L+Z5LiqS1NN
-6aG1DQo+ICtLU03pobXnmoTnqLPlrprmoJHlhbbkuK3nmoToioLngrnmjIflkJHkuobkuIDkuKpr
-c21fcm1hcF9pdGVt57uT5p6E5L2T57G75Z6L55qE5YiX6KGo44CC5ZCM5pe277yM6L+Z5LiqS1NN
-6aG1DQo+ICDnmoQgYGBwYWdlLT5tYXBwaW5nYGAg5oyH5ZCR5LqG6K+l56iz5a6a5qCR6IqC54K5
-44CCDQo+DQo+ICDlpoLmnpzlhbHkuqvmlbDotoXov4fkuobpmIjlgLzvvIxLU03lsIbnu5nnqLPl
-rprmoJHmt7vliqDnrKzkuozkuKrnu7TluqbjgILnqLPlrprmoJHlsLHlj5jmiJDpk77mjqXkuIDk
-uKrmiJblpJoNCj4gLS0NCj4gMi4zMS4xDQo+DQo=
+dGU6DQo+DQo+IDEpVXBkYXRlIHRvIGNvbW1pdCA4ZjBlZmE4MWRmYmMgKCJtbS9wYWdlX293bmVy
+LmM6IGFkZA0KPiBsbHNlZWsgZm9yIHBhZ2Vfb3duZXIiKQ0KPg0KPiAyKVRyYW5zbGF0ZSBzb21l
+IHdvcmRzIGludG8gQ2hpbmVzZS4NCj4NCj4gU2lnbmVkLW9mZi1ieTogWWFudGVuZyBTaSA8c2l5
+YW50ZW5nQGxvb25nc29uLmNuPg0KPiAtLS0NCj4gIERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
+L3poX0NOL21tL3BhZ2Vfb3duZXIucnN0IHwgMTAgKysrKysrKy0tLQ0KPiAgMSBmaWxlIGNoYW5n
+ZWQsIDcgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL0Rv
+Y3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL21tL3BhZ2Vfb3duZXIucnN0IGIvRG9jdW1l
+bnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vbW0vcGFnZV9vd25lci5yc3QNCj4gaW5kZXggYjdm
+ODFkN2E2NTg5Li4yMWE2YTA4MzdkNDIgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJh
+bnNsYXRpb25zL3poX0NOL21tL3BhZ2Vfb3duZXIucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24v
+dHJhbnNsYXRpb25zL3poX0NOL21tL3BhZ2Vfb3duZXIucnN0DQo+IEBAIC03NCwxNSArNzQsMTkg
+QEAgcGFnZSBvd25lcuWcqOm7mOiupOaDheWGteS4i+aYr+emgeeUqOeahOOAguaJgOS7pe+8jOWm
+guaenOS9oOaDs+S9v+eUqOWug++8jOS9oA0KPiAgICAgICAgIGNhdCAvc3lzL2tlcm5lbC9kZWJ1
+Zy9wYWdlX293bmVyID4gcGFnZV9vd25lcl9mdWxsLnR4dA0KPiAgICAgICAgIC4vcGFnZV9vd25l
+cl9zb3J0IHBhZ2Vfb3duZXJfZnVsbC50eHQgc29ydGVkX3BhZ2Vfb3duZXIudHh0DQo+DQo+IC0g
+ICBgYHBhZ2Vfb3duZXJfZnVsbC50eHRgYCDnmoTkuIDoiKzovpPlh7rmg4XlhrXlpoLkuIso6L6T
+5Ye65L+h5oGv5peg57+76K+R5Lu35YC8KTo6DQo+ICsgICBgYHBhZ2Vfb3duZXJfZnVsbC50eHRg
+YCDnmoTkuIDoiKzovpPlh7rmg4XlhrXlpoLkuIs6Og0KPg0KPiAgICAgICAgIFBhZ2UgYWxsb2Nh
+dGVkIHZpYSBvcmRlciBYWFgsIC4uLg0KPiAgICAgICAgIFBGTiBYWFggLi4uDQo+IC0gICAgICAg
+Ly8gRGV0YWlsZWQgc3RhY2sNCj4gKyAgICAgICAvLyDmoIjor6bmg4UNCj4NCj4gICAgICAgICBQ
+YWdlIGFsbG9jYXRlZCB2aWEgb3JkZXIgWFhYLCAuLi4NCj4gICAgICAgICBQRk4gWFhYIC4uLg0K
+PiAtICAgICAgIC8vIERldGFpbGVkIHN0YWNrDQo+ICsgICAgICAgLy8g5qCI6K+m5oOFDQo+ICsg
+ICAg6buY6K6k5oOF5Ya15LiL77yM5a6D5bCG5Lul5LiA5Liq57uZ5a6a55qEcGZu5byA5aeL77yM
+5YGa5a6M5pW055qEcGZu6L2s5YKo77yM5LiUcGFnZV9vd25lcuaUr+aMgWZzZWVr44CCDQo+ICsN
+Cj4gKyAgICBGSUxFICpmcCA9IGZvcGVuKCIvc3lzL2tlcm5lbC9kZWJ1Zy9wYWdlX293bmVyIiwg
+InIiKTsNCj4gKyAgICBmc2VlayhmcCwgcGZuX3N0YXJ0LCBTRUVLX1NFVCk7DQo+DQo+ICAgICBg
+YHBhZ2Vfb3duZXJfc29ydGBgIOW3peWFt+W/veeVpeS6hiBgYFBGTmBgIOihjO+8jOWwhuWJqeS9
+meeahOihjOaUvuWcqGJ1ZuS4re+8jOS9v+eUqHJlZ2V4cOaPkA0KPiAgICAg5Y+W6aG15bqP5YC8
+77yM6K6h566XYnVm55qE5qyh5pWw5ZKM6aG15pWw77yM5pyA5ZCO5qC55o2u5Y+C5pWw6L+b6KGM
+5o6S5bqP44CCDQo+IC0tDQo+IDIuMzEuMQ0KPg0K
