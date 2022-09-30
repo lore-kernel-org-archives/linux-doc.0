@@ -2,524 +2,219 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 085E8C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 09:38:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC016C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 09:51:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230517AbiI3JiV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 05:38:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47038 "EHLO
+        id S229700AbiI3JvS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 05:51:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbiI3JiU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 05:38:20 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7709012CCA0;
-        Fri, 30 Sep 2022 02:38:16 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id u92so3763238pjh.3;
-        Fri, 30 Sep 2022 02:38:16 -0700 (PDT)
+        with ESMTP id S230494AbiI3JvP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 05:51:15 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24162E9063;
+        Fri, 30 Sep 2022 02:51:14 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id d11so3533931pll.8;
+        Fri, 30 Sep 2022 02:51:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=vGNPCEtLFhWjfK9IXcgU0eqgNukRg8dBOh1kmfIugDc=;
-        b=TlZV7Yu6bLgOiddHXSBLZd7CK9ZKlbrAxvAPMZDWN30ox2qkD4yR/fW4/s03iMLL8b
-         X8inC57H6O8bNIFUfvBR5jynzAGnLJ2MLRUd0hYevYW7fxT4DW/4R/Q6+wbASf1xXoRI
-         u/xY4KRM2nOLSpNMFhOgjZTadeveyicND3Yc4RnwAmshUYGFkWX9wBqtqHxQ6SfCX1Ux
-         SIi5oUH/8aMd211aS0yr8UJNO3rokwaVMnQKkEXaSE7dkvrBtuQylkjqy57OkAINfqmh
-         TwYLLcCgdwFs+beXEFD4x1npY8suH2CHuYbpFEyQRwyel70SExxFtEzF7USjmYURAbJX
-         kw1A==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=dAI/zB5X3r1p0+6wjY89ucLgBKUEAusottjilwFBw6w=;
+        b=BZ6i7zNjO0iV1zrKwolGYdd4DMx/UCzFxhuvU6ejIDLoHEXU1PAhqhptrsCny8N9OF
+         Q+CKnLYTPWxPEDzx466beXCthImnCLrwOpfRM9CBBCGBuu/8KhzS1EZbzUAXA1VTEcc6
+         jxwGS4PlAzU3IzThJlB3e3eL5dkeDBqi6CGeNqEV4T1h0fUQ6h/z112Yi0raMLbXGUD0
+         jnwWeDQnZ8c75nN12HPv1WJvO1UJajKenf3KGNUfY31kmPpI4O1e3qM+VsActQAHVb6x
+         6GI5i2xhjep1y+kBrAEo+XDU0Q1e+kYxpUDb/ZNrxvrkgSQ19yKTVxHmhGdSGVk/Ysdf
+         ekCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=vGNPCEtLFhWjfK9IXcgU0eqgNukRg8dBOh1kmfIugDc=;
-        b=qABTtqtBWvZlCRfvMTqCu3nY0EJsvtQucUAHO61//C2iEKjU9R6+wxFe1tvLX1Evp8
-         VtzrEfltxSixSm49zDaKtBMXfS22LusdPe0N6SnP5rQpruFVGKSjZ1hzEkMwamlgCARG
-         wepp/B5yuIszRS9EaRYos8bkbh5+54g6ozcaA+h/NC58u3w+JIpZir0mCfKh7hel/IAd
-         2B7kCTd/OZh47ndAfSKRh5zoA5sSgM7S+ASeMt6krZ8SJ0cm1QFcEay+l0xlG7NVNPLi
-         FO23zXdCsYSQbkq03To1+uUkPXQjU/EzZZcEyUIBiH480ejmjRrCrVB7Nf9kIEOaUueU
-         59kA==
-X-Gm-Message-State: ACrzQf1uMs3XuLrO2xqWU8w65GI87FZmSBhn4aNmY24MWn5VM1BwqYVH
-        ZztIsbDPy0n44lQW0M7cXCc=
-X-Google-Smtp-Source: AMsMyM6Tysv9I/TfW5N5DdZ3nVlO6jJR0Vkk+lJOnV/5UmqJrpM/rddNW+Vj2qAk9z8Q/RCD2gDi8g==
-X-Received: by 2002:a17:902:d70e:b0:178:2d9d:ba7b with SMTP id w14-20020a170902d70e00b001782d9dba7bmr8014206ply.90.1664530695076;
-        Fri, 30 Sep 2022 02:38:15 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-35.three.co.id. [116.206.28.35])
-        by smtp.gmail.com with ESMTPSA id gm7-20020a17090b100700b0020599274efdsm1252960pjb.0.2022.09.30.02.38.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Sep 2022 02:38:14 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 444661005BB; Fri, 30 Sep 2022 16:38:11 +0700 (WIB)
-Date:   Fri, 30 Sep 2022 16:38:11 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Quan Nguyen <quan@os.amperecomputing.com>
-Cc:     macro@orcam.me.uk, Lee Jones <lee@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thu Nguyen <thu@os.amperecomputing.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        thang@os.amperecomputing.com
-Subject: Re: [PATCH v9 9/9] docs: ABI: testing: Document the Ampere Altra
- Family's SMpro sysfs interfaces
-Message-ID: <Yza5AyTDyM5yo7HG@debian.me>
-References: <20220929094321.770125-1-quan@os.amperecomputing.com>
- <20220929094321.770125-10-quan@os.amperecomputing.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=dAI/zB5X3r1p0+6wjY89ucLgBKUEAusottjilwFBw6w=;
+        b=ViQnQ/hMpVLZ+vqVbyEHh9SFUMnXTQO0Nsbt/N/pNQnesOjRnCowkfiVQJUQNQYqaN
+         1oKJeT11flm/QoR7fq32wweicwCsfEcYzojhqEwOAe9SFsAZYWSEmSrJzPoWH9R+2O6Q
+         HOKgsCDvCu2fObHbDvaQn7WeZyC2c2FpTwM5pABO9ArMgG97WL5L0h05hQ0gHs1479J8
+         C3TuyCk00f5ZAdAolVT4/dZt7GCq2mT42EbmLcmp3EvyVkP0UvW3TIQ2ggqKCFel8tQ5
+         YhV1fbo7SNNt8mJFDRwkvyt9MuXvg0OAuClqUHdUJ6lJh3VPtMQoW9oIOK0dgZXIGl8v
+         3upw==
+X-Gm-Message-State: ACrzQf1myExE3OpDpaqUyD1xwzNaHeDlUJ8bfJ2OdbG7aWyOOnKtdT3G
+        Z8cfntcid5BVh+eH/v1owb0=
+X-Google-Smtp-Source: AMsMyM69G7WPK/dtK5ih/7WLbCJL0YgY0S/p7hg+S9OB4guCwbNb05zO/lPFd40BBNBJP7dB0W2gyw==
+X-Received: by 2002:a17:902:b705:b0:17a:dd:4c3e with SMTP id d5-20020a170902b70500b0017a00dd4c3emr8042122pls.14.1664531473600;
+        Fri, 30 Sep 2022 02:51:13 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-35.three.co.id. [116.206.28.35])
+        by smtp.gmail.com with ESMTPSA id u15-20020a170903124f00b001709b9d292esm1450485plh.268.2022.09.30.02.51.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Sep 2022 02:51:13 -0700 (PDT)
+Message-ID: <464981b6-d9d7-e656-261f-ef48661deaa2@gmail.com>
+Date:   Fri, 30 Sep 2022 16:51:08 +0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kUsQPpaU0BXqgnpI"
-Content-Disposition: inline
-In-Reply-To: <20220929094321.770125-10-quan@os.amperecomputing.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v2] Documentation: kunit: rewrite writing first test
+ instructions
+Content-Language: en-US
+To:     David Gow <davidgow@google.com>
+Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Khalid Masum <khalid.masum.92@gmail.com>,
+        Sadiya Kazi <sadiyakazi@google.com>
+References: <20220929132549.56452-1-bagasdotme@gmail.com>
+ <CABVgOSkT-EWLqr6R=RvbEgmkMAY0680YbRnEBg1un6h-=TzrUg@mail.gmail.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <CABVgOSkT-EWLqr6R=RvbEgmkMAY0680YbRnEBg1un6h-=TzrUg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 9/30/22 13:42, David Gow wrote:
+> 
+> While I like the idea behind this, the wording probably needs a bit of
+> tweaking. In addition, by describing everything in too much detail, I
+> fear we might just be adding some needless redundancy. My suspicion is
+> that everyone who's going to be writing KUnit tests already knows C
+> (or has access to better learning materials than this), so we're
+> unlikely to need to describe in detail that, e.g., misc_example_add()
+> adds two numbers together when the code is right there,
+> 
 
---kUsQPpaU0BXqgnpI
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We should just say "First, write the driver implementation" (without
+describing writing C code in detail), right?
 
-On Thu, Sep 29, 2022 at 04:43:21PM +0700, Quan Nguyen wrote:
-> diff --git a/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-=
-smpro b/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro
-> new file mode 100644
-> index 000000000000..d8f82a06570d
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro
-> @@ -0,0 +1,125 @@
-> +What:		/sys/bus/platform/devices/smpro-errmon.*/error_[core|mem|pcie|oth=
-er]_[ce|ue]
-> +KernelVersion:	5.18
-> +Contact:	quan@os.amperecomputing.com
-> +Description:
-> +		(RO) Contains the 48-byte Ampere (Vendor-Specific) Error Record printed
-> +		in hex format.
-> +
-> +		The detail of each sysfs entries is as below:
-> +		+-------------+-------------------------------------------------------=
---+
-> +		|   Error     |                   Sysfs entry                         =
-  |
-> +		+-------------+-------------------------------------------------------=
---+
-> +		| Core's CE   | /sys/bus/platform/devices/smpro-errmon.*/error_core_ce=
- |
-> +		| Core's UE   | /sys/bus/platform/devices/smpro-errmon.*/error_core_ue=
- |
-> +		| Memory's CE | /sys/bus/platform/devices/smpro-errmon.*/error_mem_ce =
- |
-> +		| Memory's UE | /sys/bus/platform/devices/smpro-errmon.*/error_mem_ue =
- |
-> +		| PCIe's CE   | /sys/bus/platform/devices/smpro-errmon.*/error_pcie_ce=
- |
-> +		| PCIe's UE   | /sys/bus/platform/devices/smpro-errmon.*/error_pcie_ue=
- |
-> +		| Other's CE  | /sys/bus/platform/devices/smpro-errmon.*/error_other_c=
-e|
-> +		| Other's UE  | /sys/bus/platform/devices/smpro-errmon.*/error_other_u=
-e|
-> +		+-------------+-------------------------------------------------------=
---+
-> +		UE: Uncorrect-able Error
-> +		CE: Correct-able Error
-> +
-> +		See section 3.3 Ampere (Vendor-Specific) Error Record Formats,
-> +		Altra Family RAS Supplement.
-> +
-> +
-> +What:		/sys/bus/platform/devices/smpro-errmon.*/overflow_[core|mem|pcie|=
-other]_[ce|ue]
-> +KernelVersion:	5.18
-> +Contact:	quan@os.amperecomputing.com
-> +Description:
-> +		(RO) Return the overflow status of each type HW error reported:
-> +		  0      : No overflow
-> +		  1      : There is an overflow and the oldest HW errors are dropped
-> +
-> +		The detail of each sysfs entries is as below:
-> +		+-------------+-------------------------------------------------------=
-----+
-> +		|   Overflow  |                   Sysfs entry                         =
-    |
-> +		+-------------+-------------------------------------------------------=
-----+
-> +		| Core's CE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_core=
-_ce |
-> +		| Core's UE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_core=
-_ue |
-> +		| Memory's CE | /sys/bus/platform/devices/smpro-errmon.*/overflow_mem_=
-ce  |
-> +		| Memory's UE | /sys/bus/platform/devices/smpro-errmon.*/overflow_mem_=
-ue  |
-> +		| PCIe's CE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_pcie=
-_ce |
-> +		| PCIe's UE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_pcie=
-_ue |
-> +		| Other's CE  | /sys/bus/platform/devices/smpro-errmon.*/overflow_othe=
-r_ce|
-> +		| Other's UE  | /sys/bus/platform/devices/smpro-errmon.*/overflow_othe=
-r_ue|
-> +		+-------------+-------------------------------------------------------=
-----+
-> +		UE: Uncorrect-able Error
-> +		CE: Correct-able Error
-> +
-> +What:           /sys/bus/platform/devices/smpro-errmon.*/[error|warn]_[s=
-mpro|pmpro]
-> +KernelVersion:	5.18
-> +Contact:	quan@os.amperecomputing.com
-> +Description:
-> +		(RO) Contains the internal firmware error/warning printed as hex forma=
-t.
-> +
-> +		The detail of each sysfs entries is as below:
-> +		+---------------+-----------------------------------------------------=
--+
-> +		|   Error       |                   Sysfs entry                       =
- |
-> +		+---------------+-----------------------------------------------------=
--+
-> +		| SMpro error   | /sys/bus/platform/devices/smpro-errmon.*/error_smpro=
- |
-> +		| SMpro warning | /sys/bus/platform/devices/smpro-errmon.*/warn_smpro =
- |
-> +		| PMpro error   | /sys/bus/platform/devices/smpro-errmon.*/error_pmpro=
- |
-> +		| PMpro warning | /sys/bus/platform/devices/smpro-errmon.*/warn_pmpro =
- |
-> +		+---------------+-----------------------------------------------------=
--+
-> +		See more details in section 5.10 RAS Internal Error Register Definitio=
-ns,
-> +		Altra Family Soc BMC Interface Specification.
-> +
-> +What:           /sys/bus/platform/devices/smpro-errmon.*/event_[vrd_warn=
-_fault|vrd_hot|dimm_hot]
-> +KernelVersion:	5.18
-> +Contact:	quan@os.amperecomputing.com
-> +Description:
-> +		(RO) Contains the detail information in case of VRD/DIMM warning/hot e=
-vents
-> +		in hex format as below:
-> +
-> +		AAAA
-> +		Where:
-> +		  AAAA: The event detail information data
-> +
-> +		See more details in section 5.7 GPI Status Registers,
-> +		Altra Family Soc BMC Interface Specification.
-> +
-> +
-> +What:		/sys/bus/platform/devices/smpro-misc.*/boot_progress
-> +KernelVersion:	5.18
-> +Contact:	quan@os.amperecomputing.com
-> +Description:
-> +		(RO) Contains the boot stages information in hex as format below:
-> +
-> +		AABBCCCCCCCC
-> +		Where:
-> +		  AA      : The boot stages
-> +		              00: SMpro firmware booting
-> +		              01: PMpro firmware booting
-> +		              02: ATF BL1 firmware booting
-> +		              03: DDR initialization
-> +		              04: DDR training report status
-> +		              05: ATF BL2 firmware booting
-> +		              06: ATF BL31 firmware booting
-> +		              07: ATF BL32 firmware booting
-> +		              08: UEFI firmware booting
-> +		              09: OS booting
-> +		  BB      : Boot status
-> +		              00: Not started
-> +		              01: Started
-> +		              02: Completed without error
-> +		              03: Failed.
-> +		  CCCCCCCC: Boot status information defined for each boot stages
-> +
-> +		See more details in section 5.11 Boot Stage Register Definitions,
-> +		and section 6. Processor Boot Progress Codes, Altra Family Soc BMC
-> +		Interface Specification.
-> +
-> +
-> +What:           /sys/bus/platform/devices/smpro-misc*/soc_power_limit
-> +KernelVersion:	5.18
-> +Contact:	quan@os.amperecomputing.com
-> +Description:
-> +		(RW) Contains the desired SoC power limit in Watt.
-> +		Writes to this sysfs set the desired SoC power limit (W).
-> +		Reads from this register return the current SoC power limit (W).
-> +		The value ranges:
-> +		  Minimum: 120 W
-> +		  Maximum: Socket TDP power
+>>
+>> -.. code-block:: c
+>> +   .. code-block:: c
+> 
+> Why are all of these code-block declarations being indented? It
+> doesn't seem to affect the actual documentation build, so I guess it's
+> harmless, but it'd be better not to have it change unnecessarily and
+> clutter up the diff.
+> 
 
-The documentation above produces htmldocs warnings:
+The indentation for code-block directive is required, since the preceding
+paragraph is multiline; otherwise there will be Sphinx warnings.
 
-Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro:71: WARNI=
-NG: Unexpected indentation.
-Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro:117: WARN=
-ING: Unexpected indentation.
-Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro:86: WARNI=
-NG: Unexpected indentation.
-Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro:86: WARNI=
-NG: Definition list ends without a blank line; unexpected unindent.
+>>
+>>         int misc_example_add(int left, int right);
+>>
+>> -2. Create a file ``drivers/misc/example.c``, which includes:
+>> +   Then implement the function in ``drivers/misc/example.c``:
+> 
+>>
+>> -.. code-block:: c
+>> +   .. code-block:: c
+> 
+> Again, code-block indentation?
 
-I have applied the fixup (with fixes to technical references):
+Yes, for consistency.
 
----- >8 ----
+> 
+>>
+>>         #include <linux/errno.h>
+>>
+>> @@ -152,24 +154,25 @@ In your kernel repository, let's add some code that we can test.
+>>                 return left + right;
+>>         }
+>>
+>> -3. Add the following lines to ``drivers/misc/Kconfig``:
+>> +2. Add Kconfig menu entry for the feature to ``drivers/misc/Kconfig``:
+> 
+> This needs rewording to add back an article ("a" or "the"), and we
+> probably want to call this a "Kconfig entry" rather than a "Kconfig
+> menu entry". Maybe "Add a Kconfig entry for the driver..."?
+> 
+>>
+>> -.. code-block:: kconfig
+>> +   .. code-block:: kconfig
+> 
+> Indentation again?
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-sm=
-pro b/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro
-index d8f82a06570d88..39cf222fb6510a 100644
---- a/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro
-+++ b/Documentation/ABI/testing/sysfs-bus-platform-devices-ampere-smpro
-@@ -6,23 +6,32 @@ Description:
- 		in hex format.
-=20
- 		The detail of each sysfs entries is as below:
-+
- 		+-------------+---------------------------------------------------------+
- 		|   Error     |                   Sysfs entry                           |
- 		+-------------+---------------------------------------------------------+
--		| Core's CE   | /sys/bus/platform/devices/smpro-errmon.*/error_core_ce |
--		| Core's UE   | /sys/bus/platform/devices/smpro-errmon.*/error_core_ue |
--		| Memory's CE | /sys/bus/platform/devices/smpro-errmon.*/error_mem_ce  |
--		| Memory's UE | /sys/bus/platform/devices/smpro-errmon.*/error_mem_ue  |
--		| PCIe's CE   | /sys/bus/platform/devices/smpro-errmon.*/error_pcie_ce |
--		| PCIe's UE   | /sys/bus/platform/devices/smpro-errmon.*/error_pcie_ue |
--		| Other's CE  | /sys/bus/platform/devices/smpro-errmon.*/error_other_ce|
--		| Other's UE  | /sys/bus/platform/devices/smpro-errmon.*/error_other_ue|
-+		| Core's CE   | /sys/bus/platform/devices/smpro-errmon.*/error_core_ce  |
- 		+-------------+---------------------------------------------------------+
-+		| Core's UE   | /sys/bus/platform/devices/smpro-errmon.*/error_core_ue  |
-+		+-------------+---------------------------------------------------------+
-+		| Memory's CE | /sys/bus/platform/devices/smpro-errmon.*/error_mem_ce   |
-+		+-------------+---------------------------------------------------------+
-+		| Memory's UE | /sys/bus/platform/devices/smpro-errmon.*/error_mem_ue   |
-+		+-------------+---------------------------------------------------------+
-+		| PCIe's CE   | /sys/bus/platform/devices/smpro-errmon.*/error_pcie_ce  |
-+		+-------------+---------------------------------------------------------+
-+		| PCIe's UE   | /sys/bus/platform/devices/smpro-errmon.*/error_pcie_ue  |
-+		+-------------+---------------------------------------------------------+
-+		| Other's CE  | /sys/bus/platform/devices/smpro-errmon.*/error_other_ce |
-+		+-------------+---------------------------------------------------------+
-+		| Other's UE  | /sys/bus/platform/devices/smpro-errmon.*/error_other_ue |
-+		+-------------+---------------------------------------------------------+
-+
- 		UE: Uncorrect-able Error
- 		CE: Correct-able Error
-=20
--		See section 3.3 Ampere (Vendor-Specific) Error Record Formats,
--		Altra Family RAS Supplement.
-+		For details, see section `3.3 Ampere (Vendor-Specific) Error Record Form=
-ats,
-+		Altra Family RAS Supplement`.
-=20
-=20
- What:		/sys/bus/platform/devices/smpro-errmon.*/overflow_[core|mem|pcie|ot=
-her]_[ce|ue]
-@@ -30,24 +39,36 @@ KernelVersion:	5.18
- Contact:	quan@os.amperecomputing.com
- Description:
- 		(RO) Return the overflow status of each type HW error reported:
--		  0      : No overflow
--		  1      : There is an overflow and the oldest HW errors are dropped
-+
-+		  - 0      : No overflow
-+		  - 1      : There is an overflow and the oldest HW errors are dropped
-=20
- 		The detail of each sysfs entries is as below:
-+
- 		+-------------+---------------------------------------------------------=
---+
- 		|   Overflow  |                   Sysfs entry                           =
-  |
- 		+-------------+---------------------------------------------------------=
---+
- 		| Core's CE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_core_c=
-e |
-+		+-------------+---------------------------------------------------------=
---+
- 		| Core's UE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_core_u=
-e |
-+		+-------------+---------------------------------------------------------=
---+
- 		| Memory's CE | /sys/bus/platform/devices/smpro-errmon.*/overflow_mem_ce=
-  |
-+		+-------------+---------------------------------------------------------=
---+
- 		| Memory's UE | /sys/bus/platform/devices/smpro-errmon.*/overflow_mem_ue=
-  |
-+		+-------------+---------------------------------------------------------=
---+
- 		| PCIe's CE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_pcie_c=
-e |
-+		+-------------+---------------------------------------------------------=
---+
- 		| PCIe's UE   | /sys/bus/platform/devices/smpro-errmon.*/overflow_pcie_u=
-e |
-+		+-------------+---------------------------------------------------------=
---+
- 		| Other's CE  | /sys/bus/platform/devices/smpro-errmon.*/overflow_other_=
-ce|
-+		+-------------+---------------------------------------------------------=
---+
- 		| Other's UE  | /sys/bus/platform/devices/smpro-errmon.*/overflow_other_=
-ue|
- 		+-------------+---------------------------------------------------------=
---+
--		UE: Uncorrect-able Error
--		CE: Correct-able Error
-+
-+		where:
-+
-+		  - UE: Uncorrect-able Error
-+		  - CE: Correct-able Error
-=20
- What:           /sys/bus/platform/devices/smpro-errmon.*/[error|warn]_[smp=
-ro|pmpro]
- KernelVersion:	5.18
-@@ -56,61 +77,74 @@ Description:
- 		(RO) Contains the internal firmware error/warning printed as hex format.
-=20
- 		The detail of each sysfs entries is as below:
-+
- 		+---------------+------------------------------------------------------+
- 		|   Error       |                   Sysfs entry                        |
- 		+---------------+------------------------------------------------------+
- 		| SMpro error   | /sys/bus/platform/devices/smpro-errmon.*/error_smpro |
-+		+---------------+------------------------------------------------------+
- 		| SMpro warning | /sys/bus/platform/devices/smpro-errmon.*/warn_smpro  |
-+		+---------------+------------------------------------------------------+
- 		| PMpro error   | /sys/bus/platform/devices/smpro-errmon.*/error_pmpro |
-+		+---------------+------------------------------------------------------+
- 		| PMpro warning | /sys/bus/platform/devices/smpro-errmon.*/warn_pmpro  |
- 		+---------------+------------------------------------------------------+
--		See more details in section 5.10 RAS Internal Error Register Definitions,
--		Altra Family Soc BMC Interface Specification.
-+
-+		For details, see section `5.10 RAS Internal Error Register Definitions,
-+		Altra Family Soc BMC Interface Specification`.
-=20
- What:           /sys/bus/platform/devices/smpro-errmon.*/event_[vrd_warn_f=
-ault|vrd_hot|dimm_hot]
- KernelVersion:	5.18
- Contact:	quan@os.amperecomputing.com
- Description:
- 		(RO) Contains the detail information in case of VRD/DIMM warning/hot eve=
-nts
--		in hex format as below:
-+		in hex format as below::
-=20
--		AAAA
--		Where:
--		  AAAA: The event detail information data
-+		    AAAA
-=20
--		See more details in section 5.7 GPI Status Registers,
--		Altra Family Soc BMC Interface Specification.
-+		where:
-+
-+		  - ``AAAA``: The event detail information data
-+
-+		For more details, see section `5.7 GPI Status Registers,
-+		Altra Family Soc BMC Interface Specification`.
-=20
-=20
- What:		/sys/bus/platform/devices/smpro-misc.*/boot_progress
- KernelVersion:	5.18
- Contact:	quan@os.amperecomputing.com
- Description:
--		(RO) Contains the boot stages information in hex as format below:
-+		(RO) Contains the boot stages information in hex as format below::
-=20
--		AABBCCCCCCCC
--		Where:
--		  AA      : The boot stages
--		              00: SMpro firmware booting
--		              01: PMpro firmware booting
--		              02: ATF BL1 firmware booting
--		              03: DDR initialization
--		              04: DDR training report status
--		              05: ATF BL2 firmware booting
--		              06: ATF BL31 firmware booting
--		              07: ATF BL32 firmware booting
--		              08: UEFI firmware booting
--		              09: OS booting
--		  BB      : Boot status
--		              00: Not started
--		              01: Started
--		              02: Completed without error
--		              03: Failed.
--		  CCCCCCCC: Boot status information defined for each boot stages
-+		    AABBCCCCCCCC
-=20
--		See more details in section 5.11 Boot Stage Register Definitions,
--		and section 6. Processor Boot Progress Codes, Altra Family Soc BMC
--		Interface Specification.
-+		where:
-+
-+		  - ``AA``      : The boot stages
-+
-+		    - 00: SMpro firmware booting
-+		    - 01: PMpro firmware booting
-+		    - 02: ATF BL1 firmware booting
-+		    - 03: DDR initialization
-+		    - 04: DDR training report status
-+		    - 05: ATF BL2 firmware booting
-+		    - 06: ATF BL31 firmware booting
-+		    - 07: ATF BL32 firmware booting
-+		    - 08: UEFI firmware booting
-+		    - 09: OS booting
-+
-+		  - ``BB``      : Boot status
-+
-+		    - 00: Not started
-+		    - 01: Started
-+		    - 02: Completed without error
-+		    - 03: Failed.
-+
-+		  - ``CCCCCCCC``: Boot status information defined for each boot stages
-+
-+		For details, see section `5.11 Boot Stage Register Definitions`
-+		and section `6. Processor Boot Progress Codes, Altra Family Soc BMC
-+		Interface Specification`.
-=20
-=20
- What:           /sys/bus/platform/devices/smpro-misc*/soc_power_limit
-@@ -121,5 +155,6 @@ Description:
- 		Writes to this sysfs set the desired SoC power limit (W).
- 		Reads from this register return the current SoC power limit (W).
- 		The value ranges:
--		  Minimum: 120 W
--		  Maximum: Socket TDP power
-+
-+		  - Minimum: 120 W
-+		  - Maximum: Socket TDP power
+Yes, see above reply.
 
-Thanks.
+> 
+>>
+>>         config MISC_EXAMPLE
+>>                 bool "My example"
+>>
+>> -4. Add the following lines to ``drivers/misc/Makefile``:
+>> +3. Add the kbuild goal that will build the feature to
+>> +   ``drivers/misc/Makefile``:
+> 
+> Kbuild goal? I've never heard of this being called a Kbuild goal before?
+> 
+> How about a "make target"?
+> 
 
---=20
+At the time of writing this patch, I use terminology in
+Documentation/kbuild/makefiles.rst, which the "make target" is called
+"Kbuild goal".
+
+>>
+>> -.. code-block:: make
+>> +   .. code-block:: make
+> 
+> Indentation?
+
+Yes, for consistency with the first code-block directive.
+
+>>
+>> -.. code-block:: c
+>> +   .. code-block:: c
+> 
+> Indentation.
+> 
+
+See above reply.
+
+>>
+>> -.. code-block:: kconfig
+>> +   .. code-block:: kconfig
+> 
+> Indentation?
+
+See above reply.
+
+>>
+>> -.. code-block:: make
+>> +   .. code-block:: make
+> 
+> Indentation?
+
+See above reply.
+
+>>
+>> -.. code-block:: none
+>> +   .. code-block:: none
+> 
+> Indentation?
+> 
+
+See above reply.
+
+>>
+>>         CONFIG_MISC_EXAMPLE=y
+>>         CONFIG_MISC_EXAMPLE_TEST=y
+>>
+>>  5. Run the test:
+>>
+>> -.. code-block:: bash
+>> +   .. code-block:: bash
+> 
+> Indentation?
+
+See above reply.
+
+Thanks for reviewing.
+
+-- 
 An old man doll... just what I always wanted! - Clara
-
---kUsQPpaU0BXqgnpI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYza4/wAKCRD2uYlJVVFO
-o5svAQCSZ1OckshjdWjDv7dwUTOOGBgC0fNz9+j2TFy7QR45EwD9GvxlUDr42ysP
-UJgWNqn/Qxi7jKVp1cTlGl86h+PwmQw=
-=bzCY
------END PGP SIGNATURE-----
-
---kUsQPpaU0BXqgnpI--
