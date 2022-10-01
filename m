@@ -2,94 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D18C7C4332F
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 20:31:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6A9EC433FE
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 22:46:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbiJAUbA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 Oct 2022 16:31:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45586 "EHLO
+        id S229605AbiJAWqA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Oct 2022 18:46:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbiJAUa6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Oct 2022 16:30:58 -0400
-Received: from conuserg-10.nifty.com (conuserg-10.nifty.com [210.131.2.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36B6D43145;
-        Sat,  1 Oct 2022 13:30:54 -0700 (PDT)
-Received: from zoe.. (133-32-182-133.west.xps.vectant.ne.jp [133.32.182.133]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 291KSpu6001629;
-        Sun, 2 Oct 2022 05:28:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 291KSpu6001629
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1664656132;
-        bh=WVaRutAdMwkgqQFDUdeEzlxZSqRe3cLAvSUNcchojDA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=j6kmEy224q8ZfOfuLzGoOWgSoT8FuglYZUZiuTOOjJZKYSXpgdY6lKAmX77OZOE4G
-         o6TsfYF7eUy3AS0HkiVjztHgf3bXgib2OvhBKj6EC9ISoLCeCpQWfytUknRumCkOHm
-         K8FbecrmhsvMFdUUkBL9QYb2al60AKRp+KHSh5N905HJz1N3Jw28+RsU5cpn6ps4zr
-         u47JKN3lzT7bfMQv0b9osivN1ISqxdkKUM+DqKYVib8rGRrxauoFQlydLEH3TCEJAA
-         wmkwT/y1uuXGcPXBq8w0tTiDJetSclHGnlYwUaidFZWZe/jRhK9Ei7QNLtUXfGH7N8
-         wIjYL+RwFEknQ==
-X-Nifty-SrcIP: [133.32.182.133]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] docs: bump minimal GNU Make version to 3.82
-Date:   Sun,  2 Oct 2022 05:28:35 +0900
-Message-Id: <20221001202836.3110985-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229488AbiJAWp7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Oct 2022 18:45:59 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B0B3FA1F;
+        Sat,  1 Oct 2022 15:45:57 -0700 (PDT)
+Received: from zn.tnic (p200300ea9733e7b3329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e7b3:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1FBFA1EC0657;
+        Sun,  2 Oct 2022 00:45:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1664664352;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=78ArbpS+MX7FxuZXq49R157qE0Wc8Xe7wlyjEwfZans=;
+        b=EddN4d5SoC1sFt620IUcnZsknZ3P+dlpL5H+cYZkJofAn6uB6+nXDQrmbGtY1krLjZhFzf
+        haIm1nyN2qI8dlSKYRlQ1KoqcM+LtkTbU1YAhEZtav1t6Cei0ACeyuVn33GJHirguwBYzP
+        LkLNLlSLb7oHSjnZqQgGnqAdRh+lXQQ=
+Date:   Sun, 2 Oct 2022 00:45:48 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     hpa@zytor.com, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, barebox@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: x86: boot: reserve type_of_loader=13 for
+ barebox
+Message-ID: <YzjDHOWkIoWF+h/R@zn.tnic>
+References: <20220513143039.2065756-1-a.fatoum@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220513143039.2065756-1-a.fatoum@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-GNU Make 3.81 fails in CONFIG_RUST=y builds.
+On Fri, May 13, 2022 at 04:30:39PM +0200, Ahmad Fatoum wrote:
+> barebox built as EFI payload has been booting Linux on x86 with
+> type_of_loader=0xff since v2015.09.0.
 
-  rust/Makefile:105: *** multiple target patterns.  Stop.
-  make[1]: *** [prepare] Error 2
-  make: *** [__sub-make] Error 2
+What is barebox?
 
-The error message looks weird, but the reason is that the 'private'
-keyword is only supported since GNU Make 3.82.
+That https://en.wikipedia.org/wiki/Barebox ?
 
-GNU Make 3.81 is still able to build the kernel if CONFIG_RUST is
-disabled, but it might be a good timing to bump the minimal GNU Make
-version. Perhaps, I am the last person who was testing GNU Make 3.81.
+That version number v2015 - am I to understand it that it has been
+booting Linux since the year 2015?
 
-GNU Make 3.81 was released in 2006, GNU Make 3.82 in 2010.
+In any case, it would be useful to explain a bit what it is here.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+> Reserve 13, the next free id, so this can be used instead.
 
- Documentation/process/changes.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Sure, I guess, why not.
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 19c286c23786..26a7fd875cfa 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -31,7 +31,7 @@ you probably needn't concern yourself with pcmciautils.
- ====================== ===============  ========================================
- GNU C                  5.1              gcc --version
- Clang/LLVM (optional)  11.0.0           clang --version
--GNU make               3.81             make --version
-+GNU make               3.82             make --version
- bash                   4.2              bash --version
- binutils               2.23             ld -v
- flex                   2.5.35           flex --version
-@@ -83,7 +83,7 @@ docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
- Make
- ----
- 
--You will need GNU make 3.81 or later to build the kernel.
-+You will need GNU make 3.82 or later to build the kernel.
- 
- Bash
- ----
+Thx.
+
 -- 
-2.34.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
