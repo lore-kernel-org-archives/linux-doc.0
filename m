@@ -2,115 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A95C433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 02:37:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5ED2C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 03:09:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231298AbiJAChl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 22:37:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43614 "EHLO
+        id S233022AbiJADJr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 23:09:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232254AbiJAChk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 22:37:40 -0400
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CB851ABFE0;
-        Fri, 30 Sep 2022 19:37:38 -0700 (PDT)
-Received: from letrec.thunk.org ([50.224.35.3])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 2912bLTR006816
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 30 Sep 2022 22:37:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-        t=1664591844; bh=z0peX8Psl4TmqPUIRkl+yYsD2eDEDDU+Gc3/CwEQoCg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=nkAMdpLgdd/kjwKRNPZZ4rDWnZOT3Xg/QneaPaV2prt3yud4by6XfluDS8sDs2Wil
-         2dTfSibVzPJHf52XcowMcne7o/mkfhqKHFpc/QUHsLRzIb5OnsMznCKLbBYnwbBlwp
-         bJNtFVzteXcYo/jQaF9Ja3YVCE+zxkJgqt0Z8T/PzvoLUIQRqcrEux0BoP+ZMN3jre
-         C+VIrbJLXeST/nR7oD2ZDLY65BPN5MoCJTC4ATVJbDPICq6UcEoztxhsceYEqlostp
-         HiLxs+XEZe8qCkCbJp5b9uEoSeEfhOckg0OhgSZ5abvoDh4gF8D7OdfEajRoaYnn20
-         FD2eIdUM7CPvw==
-Received: by letrec.thunk.org (Postfix, from userid 15806)
-        id 7BAE38C2AB5; Fri, 30 Sep 2022 22:37:21 -0400 (EDT)
-Date:   Fri, 30 Sep 2022 22:37:21 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc:     Akira Yokosawa <akiyks@gmail.com>, corbet@lwn.net,
-        konstantin@linuxfoundation.org, krzysztof.kozlowski@linaro.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux@leemhuis.info
-Subject: Re: [PATCH v3] Documentation/process: Add text to indicate
- supporters should be mailed
-Message-ID: <Yzen4X1Na0MKXHs9@mit.edu>
-References: <20220930064629.329514-2-bryan.odonoghue@linaro.org>
- <21f8d79a-0ad4-b28b-15d8-f4be0cfd9730@gmail.com>
- <b119fee5-807f-1940-3378-f5ad638794f5@linaro.org>
+        with ESMTP id S232539AbiJADIN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 23:08:13 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1075C18274D;
+        Fri, 30 Sep 2022 20:07:53 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id e129so5595593pgc.9;
+        Fri, 30 Sep 2022 20:07:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=72VbjhRWlgAwdbhThbX1+r5OGqqoZFzDMkMotTN36YI=;
+        b=HKIm8sUWrKr4PCRwaqCH508rlTrKgpYA14FFWn0mw8SVxO2R/FL2ZsxanugF57qv6f
+         hptW1gl+Ytwp9yLquB93l1pJC8+3MbFCSHEvDFUMDycoQcdMSU95h3KatHQtXL/AhGHk
+         z6eMtoULZvFFRXN+zU5GP/Fv+HZCdT36t5gFb1TTbLnH4ovmm3tKU/nugg8yLppTQmfn
+         5KNg622Gq9fX+sA+vzdWU7cZC+Xt+IyJctX9Zky8kQxi/HS2DRi4Dv/c9WAKhEbTaRMK
+         G/epkrnTJkqDXiFPMWxvZbbjMbJZ6xRtYHRW5lp99mjr3DWcQO9S56TVVU2pC2oLOD/g
+         bk7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=72VbjhRWlgAwdbhThbX1+r5OGqqoZFzDMkMotTN36YI=;
+        b=v2ezGjjFTBeD1LYKawGGali3AqJhcnZ/LBtoYWOXObLpa+zbldsJDWnw70QZIzgCUa
+         dAr3guOgw9/BAFAUTyeIXeyCfBRswskmb2JHlAgBiqWFqTcejZ2eUtsJWpcOHS2RUyGq
+         Bn9cwynYQ6iXJBpzXd4qEmYVGIXt4cD8iLuVBWBD4lV3GPcI96PD3uM3pyp/pYEdiY7P
+         3rt2sJYbf9NlwJw9M9P9DuoKt9ctDjbRpfdp0S32Rxzf/1W+JbjQ08qV7eHIO1ZFNXDG
+         SXnp+CszDnbm39VR6LbW7+QydnND451oEl+SBStwi/NNwqlVJpvG+I3A4VA7GRA08yEb
+         8XQQ==
+X-Gm-Message-State: ACrzQf0QethSNPWj4FWqVD+EL++pUm/6vICVUHTs4prtdM+4tQuKk3hx
+        NY+SmbPmWU7xob40f/1ImDZ8VPU9WOyXTQ==
+X-Google-Smtp-Source: AMsMyM5mEoG5OV/d2pEFEPAsELU8L+ViMKV218DSnTkdlbQojzLQ5R2ifp3I5bxIkaIK2UealMmFYQ==
+X-Received: by 2002:a63:4d5b:0:b0:42c:299e:eecc with SMTP id n27-20020a634d5b000000b0042c299eeeccmr9937227pgl.41.1664593673144;
+        Fri, 30 Sep 2022 20:07:53 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-5.three.co.id. [180.214.232.5])
+        by smtp.gmail.com with ESMTPSA id f69-20020a623848000000b0055fd8b687fdsm13563pfa.95.2022.09.30.20.07.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Sep 2022 20:07:52 -0700 (PDT)
+Message-ID: <41fe0989-9157-944d-c796-21e28c8265b9@gmail.com>
+Date:   Sat, 1 Oct 2022 10:07:47 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b119fee5-807f-1940-3378-f5ad638794f5@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v2] Documentation: kunit: rewrite writing first test
+ instructions
+Content-Language: en-US
+To:     David Gow <davidgow@google.com>
+Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Khalid Masum <khalid.masum.92@gmail.com>,
+        Sadiya Kazi <sadiyakazi@google.com>
+References: <20220929132549.56452-1-bagasdotme@gmail.com>
+ <CABVgOSkT-EWLqr6R=RvbEgmkMAY0680YbRnEBg1un6h-=TzrUg@mail.gmail.com>
+ <464981b6-d9d7-e656-261f-ef48661deaa2@gmail.com>
+ <CABVgOSko6kgA_T3LNgTPxQZS8Ab8E+XhMcOGHFx76nd2HN_RBg@mail.gmail.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <CABVgOSko6kgA_T3LNgTPxQZS8Ab8E+XhMcOGHFx76nd2HN_RBg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 30, 2022 at 05:18:52PM +0100, Bryan O'Donoghue wrote:
-> > So the root cause of your confusion was you couldn't figure out
-> > the fact that "supporter" in the output of get_maintainver.pl means
-> > "maintainer of a supported subsystem", wasn't it?
-> > 
-> > I guess all you need would be just a short notice along the lines of:
-> > 
-> >      "supporter" in the output from get_maintainer.pl means "maintainer
-> >      of a supported subsystem".
-> > 
-> > No?
+On 9/30/22 17:32, David Gow wrote:
+>>
+>> The indentation for code-block directive is required, since the preceding
+>> paragraph is multiline; otherwise there will be Sphinx warnings.
+>>
 > 
-> We discussed that a bit earlier.
+> I don't see any such warnings on my machine (which claims to have
+> sphinx-build 4.5.0).
 > 
-> https://lore.kernel.org/lkml/20220928003006.230103-1-bryan.odonoghue@linaro.org/T/#u
-> https://lkml.org/lkml/2022/9/28/1394
-> https://lkml.org/lkml/2022/9/28/1511
-> https://lkml.org/lkml/2022/9/29/188
+> Could you send an example warning, and your sphinx version to me so I
+> can try to reproduce it.
 > 
-> I think its fair to say the consensus so far is to leave the
-> get_maintainer.pl output as is.
+> Regardless, if it's causing warnings, keep these changes. (Though it'd
+> be nice to include the warnings in the commit message, so it's obvious
+> that these are being re-aligned for a reason.)
+> 
 
+I'm using Sphinx 2.4.4 (as installed from pip through
+Documentation/sphinx/requirements.txt).
 
-FWIW, I actually think the output of get_maintainer.pl is pretty
-broken in this regard.  (Then again, I've never thought all that
-highly of get_maintainer.pl, *especially* because of the bogus git
-fallback, but that's another story.)
+Sorry I can't reproduce the warning I mentioned earlier (I forget
+the recipe that triggers it when writing the improv).
 
-Consider:
+In any case, I'd like to keep code block aligning in the separate patch.
+It would be nice to see code blocks aligned to the instructions list.
 
-% ./scripts/get_maintainer.pl --file  drivers/acpi/power.c
-"Rafael J. Wysocki" <rafael@kernel.org> (supporter:ACPI)
-Len Brown <lenb@kernel.org> (reviewer:ACPI)
-linux-acpi@vger.kernel.org (open list:ACPI)
-linux-kernel@vger.kernel.org (open list)
-
-I'm sorry, but that's just *wrong*.  Rafael is the *maintainer* of the
-ACPI subsystem, and the term "supporter" is rarely if ever used
-anywhere in our docs.  As I said earlier, trying to treat S: field to
-say anything about the entitles listed under the M: field of the
-Maintainers file is a category error.
-
-Consider: ACPI subsystem is is "supported".  From a user's
-perspective, what are they supposed to take from that?  That the ACPI
-subsystem is somehow better supported than say, the MM subsystem
-(which is only "maintained"), or all of Linux networking, which is
-also "maintained".  And so Rafel is a "supporter", but David Miller
-and Andrew Morton are "maintainers", respectively. ?!?
-
-I think the original rationale behind the S: field is to help people
-understand, in particular for device drivers, how solid a particular
-device driver might be.  Was it officially supported by the hardware
-manufacturer?  Was it supported by a some random student who hacked
-something together?  Was the still being actively maintained?  But
-even then, just because a driver is "officially" supported by the
-hardware manufacturer doesn't necessarily mean that it is any more
-reliable, or high quality, than something which is being supported by
-someone who supposedly isn't getting paid to support it.  (And there
-are plenty of subsystems listed as "maintained" where the people
-listed under M: are most certainly getting paid to work on it.)
-
-       	     	    	 	   	   - Ted
+-- 
+An old man doll... just what I always wanted! - Clara
