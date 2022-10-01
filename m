@@ -2,110 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C246C433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 10:37:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CDC4C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 11:21:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229507AbiJAKhI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 Oct 2022 06:37:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41682 "EHLO
+        id S229495AbiJALVO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Oct 2022 07:21:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbiJAKhH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Oct 2022 06:37:07 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BF392496D
-        for <linux-doc@vger.kernel.org>; Sat,  1 Oct 2022 03:37:06 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id s14so10359678wro.0
-        for <linux-doc@vger.kernel.org>; Sat, 01 Oct 2022 03:37:06 -0700 (PDT)
+        with ESMTP id S229550AbiJALVN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Oct 2022 07:21:13 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C3517CAA7;
+        Sat,  1 Oct 2022 04:21:12 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id m3so8955126eda.12;
+        Sat, 01 Oct 2022 04:21:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=UGccuhm9cpmtP9WyN3yJuaVY3UI9eJnTZjoYg0v6920=;
-        b=ik1qOwh9yoRWHQfXnGVYeLY9/gjNLCOgtOoa52JqSs8Dd3s305mdkahxiVy2YDHvzy
-         R9JV/91hi6VSyt8C/bIvEdUxLSF6dv+w4uMhg0TgTzcMjrNlOD6NBeyOB7hR5vUE2R5e
-         91ZzawtedcE0a0wiS4h3xkDmvF/UEWwxguI1kaA10BoPCUTTqbOHLDmidjeA15TbLTfN
-         seNnLFrvbMMXFmqesmgMFDNFwB3JAgtKbJXDGLD4qFSYSFPxMWc7UIjdXcT+WtN+JF0M
-         AnXn7CilZB3D3IhYDqSq58zx1x6pMwb3TKhjYoYUDii4TU32gZnli+fMIWTCq5U2djwu
-         /+LA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=TGofqtFHVCa6aXdr7dG+Ot3YJoKyUXFJfoosPaUFSd0=;
+        b=KGmVIWxbnSV8akxMcyUnZxK64cPPh1g5C9vC9i4U7M9QHKjJ8GxEhvkeWjMgprg1ay
+         W9gVi3GNiwAyTH7L1fMh7BDNRGQKYgMvP3bj9rDPOmavETUgM8fH48+KvHcv1P1N52s0
+         3kMJlzNI6OARUQg+kLRjn3hjZS8AXHRGEANM/3sfChe7LEAbZ+kIgHj9zlsuTpE0X4Lg
+         7Z+hwLfwnGi+q5HhUL1yC8J6kPtMCv5vfKrkRt/6tKQkPVfNInhQAQ6L8BOVoS5sJ+rQ
+         qaiSVOuZT1L20rbOuyoSwknUKFDphqZxr3LNtkfjfSQYaY8+H0nzaP3NlX2leYTgbGjc
+         7r4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=UGccuhm9cpmtP9WyN3yJuaVY3UI9eJnTZjoYg0v6920=;
-        b=deDlGQpQs9yO/M6t4gFdA4Ls2NqwSIi4qNiyubC6mmzZUBFWywu0k2HtzDuec7VEZF
-         jat8vCSnD9jO60HajFcvt/y0ntmtDm+rHYTnFh4mqDnABBo+v1HdS7VsnrVW/NIUxKPf
-         FzJ6Z2vULmbX5CmepJFnEEw2geAB4e0Kp0vlW4NPwzFjOb9C0ux76H2l3jfnai+nSjIk
-         ECY/ZC/l93e0LGEDx0z8o08TfXBGL92cqnrM8EfDd8GUoTWbJ+q4rJQQXb6RVjuhRSJM
-         5lkrVi5WrnM1vxXDTxOJhDENyF01uBwNr+kD8QXpl6SwHhUAHUqdA/8/KqelNJDeouYC
-         /uWQ==
-X-Gm-Message-State: ACrzQf0zN92jLBnTOd5UFvyNjKfQSrEZ6gnhCDIjodd3eS8NN2UgwWtj
-        XpZCoIBARsSpI8imbfd6QLy5eQ==
-X-Google-Smtp-Source: AMsMyM4ampmRc3jhx66tJ/hyv+StX86HWv/IAG6zE8Wr3UTy0u6bJRZMf01ZPbe0DDfFlyPiyWDPMA==
-X-Received: by 2002:adf:dd8b:0:b0:22c:ce50:1841 with SMTP id x11-20020adfdd8b000000b0022cce501841mr7966106wrl.44.1664620624866;
-        Sat, 01 Oct 2022 03:37:04 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id s9-20020a5d69c9000000b0022e0580b7a9sm2992945wrw.17.2022.10.01.03.37.04
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=TGofqtFHVCa6aXdr7dG+Ot3YJoKyUXFJfoosPaUFSd0=;
+        b=R8OdlKhlD8yF52Ta2of2fMzGsGOLj6vvo4/OPK46DDga9Di+5Advl50LhO1F1A0aXM
+         NiS8bDPqRL5g/U6hw4ceUbltSi5K/pJdw/4w9zZtIC4niFy1cZZSglPqcPqn4LDb05TA
+         lE3LIxJvFhIgBwnv3SCV4zzphgC9VgDmH8iKTFnodyYKaRdP+0LbPjwr7XqoT+7O9LJa
+         T3QAlRc2YD0V2Z92TEhbumeadX0Rkad0X/mJcULJn5EYtllIIs/7r6Y8BVl3avIP6iB5
+         /TygubKrTg4hYShMHWabCmpBwC8/vL8GuKxvfxJDUfRGAl+FShKyAUP/DwaINsIbsMH1
+         8gcQ==
+X-Gm-Message-State: ACrzQf114GBPgMyi/byWfv8DvdXV/GX6DQjME/iIW53eQ+0U3ocPJHJ0
+        HTMRL5l3LimG56vOjtUC068CMseKb0t/7Q==
+X-Google-Smtp-Source: AMsMyM4h+GLYvSMTjLLXqF9h18fSbGY0wD4IAG+sfT+hUiTwF34GO86YyCvZsYSxUjavsmO5OVebqw==
+X-Received: by 2002:a05:6402:5406:b0:452:1560:f9d4 with SMTP id ev6-20020a056402540600b004521560f9d4mr11424357edb.333.1664623270862;
+        Sat, 01 Oct 2022 04:21:10 -0700 (PDT)
+Received: from localhost (252-168-166-62.ftth.glasoperator.nl. [62.166.168.252])
+        by smtp.gmail.com with UTF8SMTPSA id kw22-20020a170907771600b0078250005a79sm2527776ejc.163.2022.10.01.04.21.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Oct 2022 03:37:04 -0700 (PDT)
-Message-ID: <70759d05-2646-57e5-0b87-3a196488f622@linaro.org>
-Date:   Sat, 1 Oct 2022 11:37:03 +0100
+        Sat, 01 Oct 2022 04:21:10 -0700 (PDT)
+From:   Jouke Witteveen <j.witteveen@gmail.com>
+To:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Jouke Witteveen <j.witteveen@gmail.com>
+Subject: [PATCH] Documentation: update urls to Linux Foundation wiki
+Date:   Sat,  1 Oct 2022 13:20:58 +0200
+Message-Id: <20221001112058.22387-1-j.witteveen@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v3] Documentation/process: Add text to indicate supporters
- should be mailed
-Content-Language: en-US
-To:     Theodore Ts'o <tytso@mit.edu>
-Cc:     Akira Yokosawa <akiyks@gmail.com>, corbet@lwn.net,
-        konstantin@linuxfoundation.org, krzysztof.kozlowski@linaro.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux@leemhuis.info
-References: <20220930064629.329514-2-bryan.odonoghue@linaro.org>
- <21f8d79a-0ad4-b28b-15d8-f4be0cfd9730@gmail.com>
- <b119fee5-807f-1940-3378-f5ad638794f5@linaro.org> <Yzen4X1Na0MKXHs9@mit.edu>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <Yzen4X1Na0MKXHs9@mit.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/10/2022 03:37, Theodore Ts'o wrote:
-> FWIW, I actually think the output of get_maintainer.pl is pretty
-> broken in this regard.  (Then again, I've never thought all that
-> highly of get_maintainer.pl,*especially*  because of the bogus git
-> fallback, but that's another story.)
-> 
-> Consider:
-> 
-> % ./scripts/get_maintainer.pl --file  drivers/acpi/power.c
-> "Rafael J. Wysocki"<rafael@kernel.org>  (supporter:ACPI)
-> Len Brown<lenb@kernel.org>  (reviewer:ACPI)
-> linux-acpi@vger.kernel.org  (open list:ACPI)
-> linux-kernel@vger.kernel.org  (open list)
-> 
-> I'm sorry, but that's just*wrong*.  Rafael is the*maintainer*  of the
-> ACPI subsystem, and the term "supporter" is rarely if ever used
-> anywhere in our docs.  As I said earlier, trying to treat S: field to
-> say anything about the entitles listed under the M: field of the
-> Maintainers file is a category error.
+The redirects from the old urls stopped working recently.
 
-I agree, I made exactly this error.
-
-I wasn't sure how people would necessarily feel about having 
-get_maintainer produce the string 'maintainer' for both Maintained and 
-Supported but, IMO it is more consistent to have it do so, since we 
-refer to maintainers all throughout the doucmentation and as you say 
-above Rafael is the person you *need* to mail there because he's the 
-maintainer.
-
-Lets consider
-
-- maintainer as a string for "S: Supported"
-- Documentation update to reflect Krzysztof's point on git-fallback
-
+Signed-off-by: Jouke Witteveen <j.witteveen@gmail.com>
 ---
-bod
+ Documentation/networking/bridge.rst                           | 2 +-
+ Documentation/networking/dccp.rst                             | 4 ++--
+ .../networking/device_drivers/ethernet/intel/ice.rst          | 2 +-
+ Documentation/networking/generic_netlink.rst                  | 2 +-
+ MAINTAINERS                                                   | 2 +-
+ net/ipv4/Kconfig                                              | 2 +-
+ net/sched/Kconfig                                             | 2 +-
+ 7 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/networking/bridge.rst b/Documentation/networking/bridge.rst
+index 4aef9cddde2f..c859f3c1636e 100644
+--- a/Documentation/networking/bridge.rst
++++ b/Documentation/networking/bridge.rst
+@@ -8,7 +8,7 @@ In order to use the Ethernet bridging functionality, you'll need the
+ userspace tools.
+ 
+ Documentation for Linux bridging is on:
+-   http://www.linuxfoundation.org/collaborate/workgroups/networking/bridge
++   https://wiki.linuxfoundation.org/networking/bridge
+ 
+ The bridge-utilities are maintained at:
+    git://git.kernel.org/pub/scm/linux/kernel/git/shemminger/bridge-utils.git
+diff --git a/Documentation/networking/dccp.rst b/Documentation/networking/dccp.rst
+index 91e5c33ba3ff..cd661509d35d 100644
+--- a/Documentation/networking/dccp.rst
++++ b/Documentation/networking/dccp.rst
+@@ -41,11 +41,11 @@ specified in RFCs 4340...42.
+ 
+ The known bugs are at:
+ 
+-	http://www.linuxfoundation.org/collaborate/workgroups/networking/todo#DCCP
++	https://wiki.linuxfoundation.org/networking/todo#dccp
+ 
+ For more up-to-date versions of the DCCP implementation, please consider using
+ the experimental DCCP test tree; instructions for checking this out are on:
+-http://www.linuxfoundation.org/collaborate/workgroups/networking/dccp_testing#Experimental_DCCP_source_tree
++https://wiki.linuxfoundation.org/networking/dccp_testing#experimental_dccp_source_tree
+ 
+ 
+ Socket options
+diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+index dc2e60ced927..b481b81f3be5 100644
+--- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
++++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
+@@ -819,7 +819,7 @@ NAPI
+ ----
+ This driver supports NAPI (Rx polling mode).
+ For more information on NAPI, see
+-https://www.linuxfoundation.org/collaborate/workgroups/networking/napi
++https://wiki.linuxfoundation.org/networking/napi
+ 
+ 
+ MACVLAN
+diff --git a/Documentation/networking/generic_netlink.rst b/Documentation/networking/generic_netlink.rst
+index 59e04ccf80c1..d960dbd7e80e 100644
+--- a/Documentation/networking/generic_netlink.rst
++++ b/Documentation/networking/generic_netlink.rst
+@@ -6,4 +6,4 @@ Generic Netlink
+ 
+ A wiki document on how to use Generic Netlink can be found here:
+ 
+- * http://www.linuxfoundation.org/collaborate/workgroups/networking/generic_netlink_howto
++ * https://wiki.linuxfoundation.org/networking/generic_netlink_howto
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 17abc6483100..f9eecb2b6a84 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5717,7 +5717,7 @@ F:	drivers/scsi/dc395x.*
+ DCCP PROTOCOL
+ L:	dccp@vger.kernel.org
+ S:	Orphan
+-W:	http://www.linuxfoundation.org/collaborate/workgroups/networking/dccp
++W:	https://wiki.linuxfoundation.org/networking/dccp
+ F:	include/linux/dccp.h
+ F:	include/linux/tfrc.h
+ F:	include/uapi/linux/dccp.h
+diff --git a/net/ipv4/Kconfig b/net/ipv4/Kconfig
+index e983bb0c5012..ce458aba140a 100644
+--- a/net/ipv4/Kconfig
++++ b/net/ipv4/Kconfig
+@@ -419,7 +419,7 @@ config INET_DIAG
+ 	  native Linux tools such as ss. ss is included in iproute2, currently
+ 	  downloadable at:
+ 
+-	    http://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2
++	    https://wiki.linuxfoundation.org/networking/iproute2
+ 
+ 	  If unsure, say Y.
+ 
+diff --git a/net/sched/Kconfig b/net/sched/Kconfig
+index 1e8ab4749c6c..4b63d3fff3ae 100644
+--- a/net/sched/Kconfig
++++ b/net/sched/Kconfig
+@@ -26,7 +26,7 @@ menuconfig NET_SCHED
+ 	  from the package iproute2+tc at
+ 	  <https://www.kernel.org/pub/linux/utils/net/iproute2/>.  That package
+ 	  also contains some documentation; for more, check out
+-	  <http://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2>.
++	  <https://wiki.linuxfoundation.org/networking/iproute2>.
+ 
+ 	  This Quality of Service (QoS) support will enable you to use
+ 	  Differentiated Services (diffserv) and Resource Reservation Protocol
+-- 
+2.37.3
+
