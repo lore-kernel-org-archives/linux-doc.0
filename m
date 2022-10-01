@@ -2,234 +2,461 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42A43C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 30 Sep 2022 23:04:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E766BC43217
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 00:42:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232238AbiI3XE3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 19:04:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32810 "EHLO
+        id S232456AbiJAAmS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 20:42:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbiI3XE0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 19:04:26 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9137F1D8F17;
-        Fri, 30 Sep 2022 16:04:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664579065; x=1696115065;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=vLw3GKgU8I1tsNXyROLZWrBnpZh3tsm+4/KB3wrE12g=;
-  b=gV7ruJWEEMoRTOBjp2sCyWCClJpqnsfFFByOEhTP6qgxVIDdj2mBfuuF
-   sU/AYD8aRdMiXMwDI7+uBoGXvlxaodQEv05HWfU/OE3f/3EGtz2sMXPX5
-   Uav7L2azv4NKzuDKxBhr3oltbkk1yzpo2kGuufrn6cXsO2dXxxWv1t/h/
-   LdSHuxOSUzIqF+lw9neiVTjw0oyRRVZW7jc0P1EYbRmo/N9kYMwhUAT7F
-   GIxITRUjBAmj6mX9YZlTLp/99MSsaDwfGfIP4gnGFuP53Ya84H+grPEsX
-   HXM6AcBC5B0SWsY+rgDDenlWZ1X5AOi718NcZucWNNcdAHiLPOFY8Fm/a
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="302287684"
-X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; 
-   d="scan'208";a="302287684"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 16:04:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10486"; a="765291711"
-X-IronPort-AV: E=Sophos;i="5.93,359,1654585200"; 
-   d="scan'208";a="765291711"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmsmga001.fm.intel.com with ESMTP; 30 Sep 2022 16:04:25 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 30 Sep 2022 16:04:24 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 30 Sep 2022 16:04:24 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Fri, 30 Sep 2022 16:04:24 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.176)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Fri, 30 Sep 2022 16:04:24 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TaxamF4QyAxiQVmyk/w4moUnkFb1H6ppfE0gWivUjFQO1MzsFUI/MAMW5NNJ3WjS38hSqNOHWa/w7qAumKDw2N+VTohFKuczIegRNjzwSGmPq8FW8LFH+j2D4wWT/eHw8+eONrgEniBJrUTfnO3lweKTNLvTj05d7a08M4eY1Z5cT0fDNfn/GzRtVF7wB5vC03Rjb90pvHSZxyV1yZlgG8/gqwS4uF4njQ6x3rlMUfF8ZeAsUZFyJvUHIcIenohWpLW9OwFxWznWNvfoWPIMV4U3dBnSpgk7Uxn6XdpR/T6Doo373dgPlxxEH6ZM6Dl+lKNCm6/ZMPzy0nK0O8+XqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vLw3GKgU8I1tsNXyROLZWrBnpZh3tsm+4/KB3wrE12g=;
- b=ahFvWEeJPS2tacAYCkNR5dmidtva/76yy8jtj6ZKuyKYqWhALjC4UXADgvI/LfA+QVYgpOhrafe2Xi6AeGyJjURhdQuhfnmYQMzdoe4EQabpD05Wkzyh8NSBfcVWu80NZUaSPZBb0tTKF1zo3TqgOvwOJlx23e818Muyve5zTnCcjhpkqLekzfBxtoPDD8HBSW7Cw1nhe0TRMZxJ+2o9xpsmIpTbuG2WsjJoA8gqH210FdGv4D3aN+/ngiWOrmh7ZQNbZ0BbftfIPZRTxSBogR4kfXqdhY4vSWiGB/sVvL8se8jEv6TjlINe0Hyk6RGj0uh7zBOail1MAJRrZ0zXug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com (2603:10b6:300:24::14)
- by CY5PR11MB6437.namprd11.prod.outlook.com (2603:10b6:930:36::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23; Fri, 30 Sep
- 2022 23:04:16 +0000
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::99f8:3b5c:33c9:359a]) by MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::99f8:3b5c:33c9:359a%4]) with mapi id 15.20.5676.023; Fri, 30 Sep 2022
- 23:04:16 +0000
-From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To:     "jannh@google.com" <jannh@google.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>
-CC:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v2 22/39] mm: Don't allow write GUPs to shadow stack
- memory
-Thread-Topic: [PATCH v2 22/39] mm: Don't allow write GUPs to shadow stack
- memory
-Thread-Index: AQHY1FMhyDNj1/XJr0mpEcU+bucxPK34WbiAgAA+lgCAAAD3gA==
-Date:   Fri, 30 Sep 2022 23:04:16 +0000
-Message-ID: <bf4ffda00542b05f7e19073847835464e8227aa5.camel@intel.com>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
-         <20220929222936.14584-23-rick.p.edgecombe@intel.com>
-         <9fed0342-2d02-aaf2-ed66-20ff08bdfd0b@intel.com>
-         <CAG48ez3-dgcrLxKNAs4_K++FXn-9qL=6kjVY=2Cn-AxoML33Vg@mail.gmail.com>
-In-Reply-To: <CAG48ez3-dgcrLxKNAs4_K++FXn-9qL=6kjVY=2Cn-AxoML33Vg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MWHPR11MB1392:EE_|CY5PR11MB6437:EE_
-x-ms-office365-filtering-correlation-id: 8b357d74-b523-479b-46ff-08daa338196f
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: zFKqBMmUAJ1c/BeQUDBefIJvQ5ARyGlle9r8p8VYEVBUGiV83a3Fu15koHEkVFy/KTeGoYpmWHYBOI+9tNAniZAty99GrErp34bHnd/piA491f3Gr4ot6IlTMcD/qX1g0oBoPJJfe7nfixP+903LdxH+cDtHglwKWJCc1hlfnkO0YNwXBmwMtAn6Mp67eZC3y2vrCGUJII7hc3p2pEnpmD/Kiv9FNdheQetunm3dvZK11EjDqc5gBlJztEkZ/UEEfkMuhIOx7W8QKZKbzg0NQnjM5Isaga3EZZ5E6Gr6/qMDwJ9gdoXJV2gKbKxiAi6PA86vwKGTMbGjXVIxd1es0nPQFwzX+EdxX6/hkJTTENT/5+qRckuCQE3NCszS/QZKfMgnfdblQvfYtiqcvoj4lI1FS4T0xRM2BGdRTVlFPbZBKSaN5m5J1DrxWtOjnfWuYL/HMbxisf71NcM6dYAJtKbq4W86+GS+Hg7Ti/nbcuWhUyE8aZwQOCWGzwbuydZGMIeicCR7KsdSRjNxY+7fyVALENCC5NZeUqp8kHZXboh22TTw0f+JierKWW9WlLZUxNiDQzq35H9HTdP29Ne0llQ3lrbXlaPS2L07RTqg8cvBBTJHVt50v1hmCMRGlgwUBvaG+OYRi/v9Ig1FURKYL09uC6t6G7wwodGlTg3+b5MT84ptahMWJkpRsTGaqz44lpt3le7yzCZguFcY28+5EO4XXUjTrGYH7Fh01v3Nd0F+ooDo6LkAYENugZff+QWyjeF4lGlRUbQrDED8Kn3RwUsbZ+vaZC0PG0NTZoTvUc4=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(346002)(376002)(366004)(39860400002)(136003)(451199015)(36756003)(110136005)(54906003)(86362001)(38070700005)(122000001)(7416002)(7406005)(6636002)(83380400001)(186003)(2616005)(66556008)(66476007)(38100700002)(82960400001)(26005)(53546011)(71200400001)(316002)(478600001)(76116006)(66946007)(66446008)(8676002)(64756008)(4326008)(6486002)(6506007)(6512007)(2906002)(41300700001)(8936002)(5660300002)(99106002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NnlXdkVESjJmTXFFdlFGZER6ZW1oK0hTNnA3OUtUN0dVcjN0UHE2V2VBbmUy?=
- =?utf-8?B?UjNhaGxpN01kTXFFNUpMM3o4ZVBXdFRSR29aR3B3OXhua0FSY1VzOUR1ZWFk?=
- =?utf-8?B?VXVKMGtaczdjNDhQYXlyTmxRRHRNOTVxZjVMczhTdWtMVjd5Z0h1UHdqZnVB?=
- =?utf-8?B?L2t6TlIwTFd6MnNpUm9mWjhNWXNZUFN6MGxqTExCRzJ0WkFYblRXUnlRdHZ1?=
- =?utf-8?B?M0Zac1NsUjd5NGhOSE5CUDYrU0MxU2lDalR1UDdybWxCeFFkOS9qd3RRWmFP?=
- =?utf-8?B?WTJUTUFFQzAwOUF5aCthLzVQMHdvOHJZb1Y4RUVTSFRaMitMazJ5N1JFM1VL?=
- =?utf-8?B?dTFtUGRUSVU4V0NXZGJwZi9OSzdVbWI5dWF3a1hpaWR3eHIwMmdJcndkNnVu?=
- =?utf-8?B?VmZVbVlOaU9Od21jamRIUjNUZlkzZ1NYOTllRVI3Skh0N0tqMm5XMTltR2p2?=
- =?utf-8?B?b3YxK0o0Y1RMMkMzOFlBdXozZXpTTHVsZnY1ZHhINU81RVh5S0FsREM1Wkpa?=
- =?utf-8?B?TFlvUy84Q0RWNk5ub0JKSHVZVkRTemxLZ2JjVkZSN255aUxLRk4xWThUbVVY?=
- =?utf-8?B?VU1MS2ZZV0w3WVd0bjdvWWh4aWc0aGdPTHEvbmhGS1dpZVlObWRQdEtJc255?=
- =?utf-8?B?RzdQcnVMcDJFRWNUT0kzWUxOSndVYktMa0FtdkY1R2lOSWZ4aFU3Zzg4TDBN?=
- =?utf-8?B?cU1sMXBIdzJJa3BxRUllamRDdlpYVmNuUjVEdkJIYkV1TkN2bDVZcFBZNHYv?=
- =?utf-8?B?NHF0cFlJakZSV1RrcElQVFREM2pNdUVybHlGYWtTb2JOckRwUy9YbGJNY3E4?=
- =?utf-8?B?bVBja1FITzNvMDhmSTJ4NFJ5NXlvU3BaVnZOaWhuWDVWcG1pREYxZi90eVpB?=
- =?utf-8?B?WXR3YXA1eFpwRHQ0dFBiUFNNeGtobjNhdEw2cSt2SjdJZ20rN1daTEdoZGZ3?=
- =?utf-8?B?RGlZRTdKYVJFNE8yZGNUVysrUm5wWnQ4UWNwaWNrL2xBd3lPd2M1TWwvNlQz?=
- =?utf-8?B?R3Q3WDBzL1lxU0NsYW9PanVSZWZ3SHlGNGdsQ29LVEpmQzRXTmFRUUl1dFhy?=
- =?utf-8?B?SWRaandPMCtFeUlSc242Y2x1UlRDb0d2eFREdEpKRk43VVhBL2Z1TlFkampw?=
- =?utf-8?B?NndUZEZjUDhwZHJYaHBVYStxVEtYRVBGWkQvVGRmM2RyakxvMG5BcVIvdFlL?=
- =?utf-8?B?MmFwbCt2UEV6VVRhbWx5YTJJYzBSSjUwK0l0bnBIb1Z0ZlZWV01rNEIzTmlD?=
- =?utf-8?B?QTMxM1J6TlhEM201c3NVR25aaGJuN1FiSk9QRjRlVHBlaEZIa1NzWEErR0xF?=
- =?utf-8?B?R0RZS2FkT0lXeWdQVmRvK0NCWHhIVFIwYVIvQVg0dTBhWHJnSzgva2pPZkR3?=
- =?utf-8?B?ZDNkd2UrN1doL1hiQitFWWxxb2l1b2tKMXBaaHFMSnpockRrR29qT2tsWjR2?=
- =?utf-8?B?ZGI4ZUJpcDNGUXhaVTg3eWRlNHJVOXJuYnVvOGdXSW9tRWRRalNKZElPbmFD?=
- =?utf-8?B?MmxOdk45SlpSenVvMnBTZ1ZWZ250UWJaYUx0VkI2M2w5UHo0dm1VcTNPaGo0?=
- =?utf-8?B?d3hYbjAyRnMyYlArdmFkSnJSeXF0c29wN29SMWcwWmNsNnBIZjJVTXpPczZ0?=
- =?utf-8?B?WnN1QldoVzJueVZuUmdFdTJ5enAzcG8wVDFCZFVoMXhEclp6MW1NVXp3Njh3?=
- =?utf-8?B?Wi9nQlo5ajJ5Y0l0bjRMYWxQbTYrRFpJampyM25XYU9PMjVtKy9FT3d0enFP?=
- =?utf-8?B?WG83bmdiZ09mbzIxVTBCZHNCRUR6akR0THpwc1o3V1Q3alNuNHZOTXMrTlRm?=
- =?utf-8?B?Vkd1bklXRTh0bGJ6enRNSGRoRXhpY2ppUzJYMXBTWktXbjREZlZqZTM5bU0z?=
- =?utf-8?B?VzFJNm9tbXI2cXhwbjNvdTlySXAvTk5kU2Z2YVhUVDZQem1yclRnNUsyZnJ6?=
- =?utf-8?B?aUYyU3BqQjB4aDhHc2sxTmZZSWN0YkZqRjQ3MVNyaU1sVmR3WjlOS1RFclRs?=
- =?utf-8?B?M25LREIvQ0I2SGhhMmZSV1BnZ3pXNTFGMVFYVE93UmI1MzlZNVI2My84UGhY?=
- =?utf-8?B?WW90KzZoOEszV0JMTXV2bDI4b3RCdS9zQk1RYUxuV1RHZFNTMHM4ekJaTUx0?=
- =?utf-8?B?ZkVlVG1GdzRQR2Z2YlhRV2xScy9NdzF1ak1QdTRqQUdJY2VFajhqeTZua1VZ?=
- =?utf-8?Q?iKNNTHTyEFePUTRLDSTqYM8=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9C0FFB9B60523D4A9A8CFB9AA3CC8E08@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S231540AbiJAAmR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 20:42:17 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 616A31806D6;
+        Fri, 30 Sep 2022 17:42:15 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id f26so3636462qto.11;
+        Fri, 30 Sep 2022 17:42:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=KvgDliJB+w67fuxPgV/YDr4b2ixsUAnMSZw2VwIkDEw=;
+        b=X6w3MORv9DjiAUrKeQqu7h3e113Inn2WYGpvBlEqbfSJVaS42SQdjiz0TvpBfKF/AZ
+         1p62PFKj89feKqtrmp++MePvViJXP/EPLiTMicgkqKp2YtwuYhUrry8qIMMrvHW96lqP
+         3e5JAclNEQ/jxBF+8fdkQrfgs2E7FRolMUcLIcixpuG0IkTRnW+nZqWcNpnbBF2SbPAB
+         rtIpPRi7AHKZ3omxzc4LrRRS2MBS9c9nnf2U+R7ZCdDnSM9TxYdSG3GZ3a3vsXUamq/u
+         zkA/dON2aLf/2PwNtQX+Xn5HH6hm/ZMEztb4yReX3REypOqemh5iFn72aokiPk9PSFha
+         8Iag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=KvgDliJB+w67fuxPgV/YDr4b2ixsUAnMSZw2VwIkDEw=;
+        b=bZ2qcCL0Np0xjWZRJnMaRw23tVhrOdCJiy2vKvr2hyDlQ2JJ4Z00/j1WoM4g/z3bex
+         cfY4PGTyEFDiqy6xkvXKiSKhfr06uhSRIAibPKNck7vsKbgM7auHYMSfodXejq2LGc0c
+         /DupyOU0jlm9OXgVqYm1g3K5floKqoJX8xaw0z4MMNX2oE7rRmSCgz4GtSjCAcYJiPo4
+         L/F3fWwa8NyuE70/D92FDFU+u3hkWMTtYaOyHo0Lyo5z+Eiudne/ErTQesQr0HAofj5X
+         Rthhyejr1Vjg6+kACgisSvu9258POLvRq38JyZEFKiqVKW4ZaXsnY++A5RgKKKVrCp8q
+         vWOA==
+X-Gm-Message-State: ACrzQf1j5PPW9XCM32MW9kjIX18OgpKray0mKRnCuywZjI5ebHVwpWx6
+        wKn9QLtMcIJYs6nA6DbikKg=
+X-Google-Smtp-Source: AMsMyM7BX8sL+32pk5xwVh7ruMl1l1qelS27i0ysUtBW8NT3q+JJf6TFl8Rc3kp+0Da3Ijlm/Qi4vw==
+X-Received: by 2002:a05:622a:1007:b0:35d:1ef4:ed10 with SMTP id d7-20020a05622a100700b0035d1ef4ed10mr8891418qte.525.1664584934204;
+        Fri, 30 Sep 2022 17:42:14 -0700 (PDT)
+Received: from [10.69.53.73] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id fb25-20020a05622a481900b0034035e73be0sm3236323qtb.4.2022.09.30.17.42.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Sep 2022 17:42:13 -0700 (PDT)
+Message-ID: <3af1da5f-6b95-1aab-60f0-d17f141782b4@gmail.com>
+Date:   Fri, 30 Sep 2022 17:42:08 -0700
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b357d74-b523-479b-46ff-08daa338196f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2022 23:04:16.6096
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JpeulMne3a3bHU6BQQstqKz5/DiIdRT07NM6njBg713z1XMXcNCzZmU/Rv8p6LTH7ddPO8X5Fwy12j1JTTbIhWYuml5rodlhcIrSC/k1QnY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6437
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH 00/21] mm: introduce Designated Movable Blocks
+To:     David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Zi Yan <ziy@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+        Hari Bathini <hbathini@linux.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
+        Mel Gorman <mgorman@suse.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-mm@kvack.org, iommu@lists.linux.dev
+References: <20220913195508.3511038-1-opendmb@gmail.com>
+ <b610a7b3-d740-8d45-c270-4c638deb1cfa@redhat.com>
+ <02561695-df44-4df6-c486-1431bf152650@gmail.com>
+ <64c3aea2-331b-e482-bbb0-7fac2340163c@redhat.com>
+Content-Language: en-US
+From:   Doug Berger <opendmb@gmail.com>
+In-Reply-To: <64c3aea2-331b-e482-bbb0-7fac2340163c@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gU2F0LCAyMDIyLTEwLTAxIGF0IDAxOjAwICswMjAwLCBKYW5uIEhvcm4gd3JvdGU6DQo+IE9u
-IEZyaSwgU2VwIDMwLCAyMDIyIGF0IDk6MTYgUE0gRGF2ZSBIYW5zZW4gPGRhdmUuaGFuc2VuQGlu
-dGVsLmNvbT4NCj4gd3JvdGU6DQo+ID4gT24gOS8yOS8yMiAxNToyOSwgUmljayBFZGdlY29tYmUg
-d3JvdGU6DQo+ID4gPiBAQCAtMTYzMyw2ICsxNjMzLDkgQEAgc3RhdGljIGlubGluZSBib29sDQo+
-ID4gPiBfX3B0ZV9hY2Nlc3NfcGVybWl0dGVkKHVuc2lnbmVkIGxvbmcgcHRldmFsLCBib29sIHdy
-aXRlKQ0KPiA+ID4gICB7DQo+ID4gPiAgICAgICAgdW5zaWduZWQgbG9uZyBuZWVkX3B0ZV9iaXRz
-ID0gX1BBR0VfUFJFU0VOVHxfUEFHRV9VU0VSOw0KPiA+ID4gDQo+ID4gPiArICAgICBpZiAod3Jp
-dGUgJiYgKHB0ZXZhbCAmIChfUEFHRV9SVyB8IF9QQUdFX0RJUlRZKSkgPT0NCj4gPiA+IF9QQUdF
-X0RJUlRZKQ0KPiA+ID4gKyAgICAgICAgICAgICByZXR1cm4gMDsNCj4gPiANCj4gPiBEbyB3ZSBu
-b3QgaGF2ZSBhIGhlbHBlciBmb3IgdGhpcz8gIFNlZW1zIGEgYml0IG1lc3N5IHRvIG9wZW4tY29k
-ZQ0KPiA+IHRoZXNlDQo+ID4gc2hhZG93LXN0YWNrIHBlcm1pc3Npb25zLiAgRGVmaW5pdGVseSBh
-dCBsZWFzdCBuZWVkcyBhIGNvbW1lbnQuDQo+IA0KPiBGV0lXLCBpZiB5b3UgbG9vayBhdCBtb3Jl
-IGNvbnRleHQgYXJvdW5kIHRoaXMgZGlmZiwgdGhlIGZ1bmN0aW9uDQo+IGxvb2tzDQo+IGxpa2Ug
-dGhpczoNCj4gDQo+ICBzdGF0aWMgaW5saW5lIGJvb2wgX19wdGVfYWNjZXNzX3Blcm1pdHRlZCh1
-bnNpZ25lZCBsb25nIHB0ZXZhbCwgYm9vbA0KPiB3cml0ZSkNCj4gIHsNCj4gICAgICAgICB1bnNp
-Z25lZCBsb25nIG5lZWRfcHRlX2JpdHMgPSBfUEFHRV9QUkVTRU5UfF9QQUdFX1VTRVI7DQo+IA0K
-PiArICAgICAgIGlmICh3cml0ZSAmJiAocHRldmFsICYgKF9QQUdFX1JXIHwgX1BBR0VfRElSVFkp
-KSA9PQ0KPiBfUEFHRV9ESVJUWSkNCj4gKyAgICAgICAgICAgICAgIHJldHVybiAwOw0KPiArDQo+
-ICAgICAgICAgaWYgKHdyaXRlKQ0KPiAgICAgICAgICAgICAgICAgbmVlZF9wdGVfYml0cyB8PSBf
-UEFHRV9SVzsNCj4gDQo+ICAgICAgICAgaWYgKChwdGV2YWwgJiBuZWVkX3B0ZV9iaXRzKSAhPSBu
-ZWVkX3B0ZV9iaXRzKQ0KPiAgICAgICAgICAgICAgICAgcmV0dXJuIDA7DQo+IA0KPiAgICAgICAg
-IHJldHVybiBfX3BrcnVfYWxsb3dzX3BrZXkocHRlX2ZsYWdzX3BrZXkocHRldmFsKSwgd3JpdGUp
-Ow0KPiAgfQ0KPiANCj4gU28gSSB0aGluayB0aGlzIGNoYW5nZSBpcyBhY3R1YWxseSBhIG5vLW9w
-IC0gdGhlIG9ubHkgdGhpbmcgaXQgZG9lcw0KPiBpcw0KPiB0byByZXR1cm4gMCBpZiB3cml0ZT09
-MSwgIV9QQUdFX1JXLCBhbmQgX1BBR0VfRElSVFkuIEJ1dCB0aGUgY2hlY2sNCj4gYmVsb3cgd2ls
-bCBhbHdheXMgcmV0dXJuIDAgaWYgIV9QQUdFX1JXLCB1bmxlc3MgSSdtIG1pc3JlYWRpbmcgaXQ/
-DQo+IEFuZA0KPiB0aGlzIGlzIHRoZSBvbmx5IHBhdGNoIGluIHRoZSBzZXJpZXMgdGhhdCB0b3Vj
-aGVzIHRoaXMgZnVuY3Rpb24sIHNvDQo+IGl0J3Mgbm90IGxpa2UgdGhpcyBiZWNvbWVzIG5lY2Vz
-c2FyeSB3aXRoIGEgbGF0ZXIgcGF0Y2ggaW4gdGhlIHNlcmllcw0KPiBlaXRoZXIuDQo+IA0KPiBT
-aG91bGQgdGhpcyBjaGVjayBnbyBpbiBhbnl3YXkgZm9yIGNsYXJpdHkgcmVhc29ucywgb3Igc2hv
-dWxkIHRoaXMNCj4gaW5zdGVhZCBiZSBhIGNvbW1lbnQgZXhwbGFpbmluZyB0aGF0IF9fcHRlX2Fj
-Y2Vzc19wZXJtaXR0ZWQoKSBiZWhhdmVzDQo+IGp1c3QgbGlrZSB0aGUgaGFyZHdhcmUgYWNjZXNz
-IGNoZWNrLCB3aGljaCBtZWFucyBzaGFkb3cgcGFnZXMgYXJlDQo+IHRyZWF0ZWQgYXMgcmVhZG9u
-bHk/DQoNClRoYW5rcyBKYW5uLCBJIHdhcyBqdXN0IHJlYWxpemluZyB0aGUgc2FtZSB0aGluZy4g
-WWVzLCBJIHRoaW5rIGl0DQpkb2Vzbid0IGRvIGFueXRoaW5nLiBJIGNhbiBhZGQgYSBjb21tZW50
-IG9mIHdoeSB0aGVyZSBpcyBubyBjaGVjaywgYnV0DQpvdGhlcndpc2UgdGhlIGNoZWNrIHNlZW1z
-IGxpa2UgdW5uZWNlc3Nhcnkgd29yay4NCg==
+On 9/29/2022 2:00 AM, David Hildenbrand wrote:
+> On 20.09.22 03:03, Doug Berger wrote:
+>> On 9/19/2022 2:00 AM, David Hildenbrand wrote:
+>>> Hi Dough,
+>>>
+>>> I have some high-level questions.
+>> Thanks for your interest. I will attempt to answer them.
+>>
+> 
+> Hi Doug,
+> 
+> sorry for the late reply, slowly catching up on mails.
+Thanks for finding the time, and for the thoughtful feedback.
+
+> 
+>>>
+>>>> MOTIVATION:
+>>>> Some Broadcom devices (e.g. 7445, 7278) contain multiple memory
+>>>> controllers with each mapped in a different address range within
+>>>> a Uniform Memory Architecture. Some users of these systems have
+>>>
+>>> How large are these areas typically?
+>>>
+>>> How large are they in comparison to other memory in the system?
+>>>
+>>> How is this memory currently presented to the system?
+>> I'm not certain what is typical because these systems are highly
+>> configurable and Broadcom's customers have different ideas about
+>> application processing.
+>>
+>> The 7278 device has four ARMv8 CPU cores in an SMP cluster and two
+>> memory controllers (MEMCs). Each MEMC is capable of controlling up to
+>> 8GB of DRAM. An example 7278 system might have 1GB on each controller,
+>> so an arm64 kernel might see 1GB on MEMC0 at 0x40000000-0x7FFFFFFF and
+>> 1GB on MEMC1 at 0x300000000-0x33FFFFFFF.
+>>
+>> The Designated Movable Block concept introduced here has the potential
+>> to offer useful services to different constituencies. I tried to
+>> highlight this in my V1 patch set with the hope of attracting some
+>> interest, but it can complicate the overall discussion, so I would like
+>> to maybe narrow the discussion here. It may be good to keep them in mind
+>> when assessing the overall value, but perhaps the "other opportunities"
+>> can be covered as a follow on discussion.
+>>
+>> The base capability described in commits 7-15 of this V1 patch set is to
+>> allow a 'movablecore' block to be created at a particular base address
+>> rather than solely at the end of addressable memory.
+>>
+> 
+> Just so we're on the same page:
+> 
+> Having too much ZONE_MOVABLE memory (ratio compared to !ZONE_MOVABLE 
+> memory) is dangerous. Acceptable ratios highly depend on the target 
+> workload. An extreme example is memory-hungry applications that end up 
+> long-term pinning a lot of memory (e.g., VMs with SR-IO): we can run 
+> easily out of free memory in the !ZONE_MOVABLE zones and might not want 
+> ZONE_MOVABLE at all.
+Definitely. I've had to explain this to application developers myself 
+:). This is fundamentally why the existing 'movablecore' implementation 
+is insufficient for multiple memory controllers. Placing any 
+ZONE_MOVABLE memory on the lower addressed memory controller forces all 
+of the higher addressed memory controller(s) to only contain 
+ZONE_MOVABLE memory, which is generally unacceptable for any workload.
+
+> 
+> So whatever we do, this should in general not be the kernel sole 
+> decision to make this memory any special and let ZONE_MOVABLE manage it.
+I believe you are stating that Designated Movable Blocks should only be 
+created as a result of special configuration (e.g. kernel parameters, 
+devicetree, ...). I would agree with that. Is that what you intended by 
+this statement, or am I missing something?
+
+> 
+> It's the same with CMA. "Heavy" CMA users require special configuration: 
+> hugetlb_cma is one prime example.
+> 
+>>>
+>>>> expressed the desire to locate ZONE_MOVABLE memory on each
+>>>> memory controller to allow user space intensive processing to
+>>>> make better use of the additional memory bandwidth.
+>>>
+>>> Can you share some more how exactly ZONE_MOVABLE would help here to make
+>>> better use of the memory bandwidth?
+>> ZONE_MOVABLE memory is effectively unusable by the kernel. It can be
+>> used by user space applications through both the page allocator and the
+>> Hugetlbfs. If a large 'movablecore' allocation is defined and it can
+> 
+> Hugetlbfs not necessarily by all architectures. Some architectures don't 
+> support placing hugetlb pages on ZONE_MOVABLE (not migratable) and 
+> gigantic pages are special either way.
+That's true.
+
+> 
+>> only be located at the end of addressable memory then it will always be
+>> located on MEMC1 of a 7278 system. This will create a tendency for user
+>> space accesses to consume more bandwidth on the MEMC1 memory controller
+>> and kernel space accesses to consume more bandwidth on MEMC0. A more
+>> even distribution of ZONE_MOVABLE memory between the available memory
+>> controllers in theory makes more memory bandwidth available to user
+>> space intensive loads.
+>>
+> 
+> Sorry to be dense, is this also about different memory access latency or 
+> just memory bandwidth?
+Broadcom memory controllers do support configurable real-time scheduling 
+with bandwidth guarantees for different memory clients so I suppose this 
+is a fair question. However, the expectation here is that the CPUs would 
+have equivalent access latencies, so it is really just about memory 
+bandwidth for the CPUs.
+
+> 
+> Do these memory areas have special/different performance 
+> characteristics? Using dedicated/fake NUMA nodes might be more in line 
+> with what CXL and PMEM are up to.
+> 
+> Using ZONE_MOVABLE for that purpose feels a little bit like an abuse of 
+> the mechanism.
+Current usage intends to have equivalent performance from a CPU 
+perspective. God forbid any Broadcom customers read your questions and 
+start asking for such capabilities :), but if they do I agree that 
+ZONE_MOVABLE for that purpose would be harebrained.
+
+> To be clearer what I mean:
+> 
+> We can place any movable allocations on ZONE_MOVABLE, including kernel 
+> allocations. User space allocations are just one example, and int he 
+> future we'll turn more and more allocations movable to be able to cope 
+> with bigger ZONE_MOVABLE demands due to DAX/CXL. I once looked into 
+> migrating user space page tables, just to give an example.
+That's good to know.
+
+> 
+> 
+>>>
+>>>> Unfortunately, the historical monotonic layout of zones would
+>>>> mean that if the lowest addressed memory controller contains
+>>>> ZONE_MOVABLE memory then all of the memory available from
+>>>> memory controllers at higher addresses must also be in the
+>>>> ZONE_MOVABLE zone. This would force all kernel memory accesses
+>>>> onto the lowest addressed memory controller and significantly
+>>>> reduce the amount of memory available for non-movable
+>>>> allocations.
+>>>
+>>> We do have code that relies on zones during boot to not overlap within a
+>>> single node.
+>> I believe my changes address all such reliance, but if you are aware of
+>> something I missed please let me know.
+>>
+> 
+> One example I'm aware of is drivers/base/memory.c:memory_block_add_nid() 
+> / early_node_zone_for_memory_block().
+> 
+> If we get it wrong, or actually have memory blocks that span multiple 
+> zones, we can no longer offline these memory blocks. We really wanted to 
+> avoid scanning the memmap for now and it seems to get the job done in 
+> environments we care about.
+To the extent that this implementation only supports creating Designated 
+Movable Blocks in boot memory and boot memory does not generally support 
+offlining, I wouldn't expect this to be an issue. However, if for some 
+reason offlining boot memory becomes desirable then we should use 
+dmb_intersects() along with zone_intersects() to take the appropriate 
+action. Based on the current usage of zone_intersects() I'm not entirely 
+sure what the correct action should be.
+
+> 
+>>>
+>>>>
+>>>> The main objective of this patch set is therefore to allow a
+>>>> block of memory to be designated as part of the ZONE_MOVABLE
+>>>> zone where it will always only be used by the kernel page
+>>>> allocator to satisfy requests for movable pages. The term
+>>>> Designated Movable Block is introduced here to represent such a
+>>>> block. The favored implementation allows modification of the
+>>>
+>>> Sorry to say, but that term is rather suboptimal to describe what you
+>>> are doing here. You simply have some system RAM you'd want to have
+>>> managed by ZONE_MOVABLE, no?
+>> That may be true, but I found it superior to the 'sticky' movable
+>> terminology put forth by Mel Gorman ;). I'm happy to entertain
+>> alternatives, but they may not be as easy to find as you think.
+> 
+> Especially the "blocks" part is confusing. Movable pageblocks? Movable 
+> Linux memory blocks?
+> 
+> Note that the sticky movable *pageblocks* were a completely different 
+> concept than simply reusing ZONE_MOVABLE for some memory ranges.
+I would say that is open for debate. The implementations would be 
+"completely different" but the objectives could be quite similar.
+There appear to be a number of people that are interested in the concept 
+of memory that can only contain data that tolerates relocation for 
+various potentially non-competing reasons.
+
+Fundamentally, the concept of MIGRATE_MOVABLE memory is useful to allow 
+competing user space processes to share limited physical memory supplied 
+by the kernel. The data in that memory can be relocated elsewhere by the 
+kernel when the process that owns it is not executing. This movement is 
+typically not observable to the owning process which has its own address 
+space.
+
+The kernel uses MIGRATE_UNMOVABLE memory to protect the integrity of its 
+address space, but of course what the kernel considers unmovable could 
+in fact be moved by a hypervisor in a way that is analogous to what the 
+kernel does for user space.
+
+For maximum flexibility the Linux memory management allows for 
+converting the migratetype of free memory to help satisfy requests to 
+allocate pages of memory through a mechanism I will call "fallback". The 
+concepts of sticky movable pageblocks and ZONE_MOVABLE have the common 
+objective of preventing the migratetype of pageblocks from getting 
+converted to anything other than MIGRATE_MOVABLE, and this is what makes 
+the memory special.
+
+I agree with Mel Gorman that zones are meant to be about address induced 
+limitations, so using a zone for the purpose of breaking the fallback 
+mechanism of the page allocator is a misuse of the concept. A new 
+migratetype would be more appropriate for representing this change in 
+how fallback should apply to the pageblock because the desired behavior 
+has nothing to do with the address at which the memory is located. It is 
+entirely reasonable to desire "sticky" movable behavior for memory in 
+any zone. Such a solution would be directly applicable to our multiple 
+memory controller use case, and is really how Designated Movable Blocks 
+should be imagined.
+
+However, I also recognize the efficiency benefits of using a 
+ZONE_MOVABLE zone to manage the pages that have this "sticky" movable 
+behavior. Introducing a new sticky MIGRATE_MOVABLE migratetype adds a 
+new free_list to every free_area which increases the search space and 
+associated work when trying to allocate a page for all callers. 
+Introducing ZONE_MOVABLE reduces the search space by providing an early 
+separation between searches for movable and non-movable allocations. The 
+classic zone restrictions weren't a good fit for multiple memory 
+controllers, but those restrictions were lifted to overcome similar 
+issues with memory_hotplug. It is not that Designated Movable Blocks 
+want to be in ZONE_MOVABLE, but rather that ZONE_MOVABLE provides a 
+convenience for managing the page allocators use of "sticky" movable 
+memory just like it does for memory hotplug. Dumping the memory in 
+Designated Movable Blocks into the ZONE_MOVABLE zone allows an existing 
+mechanism to be reused, reducing the risk of negatively impacting the 
+page allocator behavior.
+
+There are some subtle distinctions between Designated Movable Blocks and 
+the existing ZONE_MOVABLE zone. Because Designated Movable Blocks are 
+reserved when created they are protected against any early boot time 
+kernel reservations that might place unmovable allocations in them. The 
+implementation continues to track the zone_movable_pfn as the start of 
+the "classic" ZONE_MOVABLE zone on each node. A Designated Movable Block 
+can overlap any other zone including the "classic" ZONE_MOVABLE zone.
+
+> 
+>>
+>>>
+>>>> 'movablecore' kernel parameter to allow specification of a base
+>>>> address and support for multiple blocks. The existing
+>>>> 'movablecore' mechanisms are retained. Other mechanisms based on
+>>>> device tree are also included in this set.
+>>>>
+>>>> BACKGROUND:
+>>>> NUMA architectures support distributing movablecore memory
+>>>> across each node, but it is undesirable to introduce the
+>>>> overhead and complexities of NUMA on systems that don't have a
+>>>> Non-Uniform Memory Architecture.
+>>>
+>>> How exactly would that look like? I think I am missing something :)
+>> The notion would be to consider each memory controller as a separate
+>> node, but as stated it is not desirable.
+>>
+> 
+> Doing it the DAX/CXL way would be to expose these memory ranges as 
+> daxdev instead, and letting the admin decide how to online these memory 
+> ranges when adding them to the buddy via the dax/kmem kernel module.
+> 
+> That could mean that your booting with memory on MC0 only, and expose 
+> memory of MC1 via a daxdev, giving the admin the possibility do decide 
+> to which zone the memory should be onlined too.
+> 
+> That would avoid most kernel code changes.
+I wasn't familiar with these kernel mechanisms and did enjoy reading 
+about the somewhat oxymoronic "volatile-use of persistent memory" that 
+is dax/kmem, but this isn't performance differentiated RAM. It really is 
+just System RAM so this degree of complexity seems unwarranted.
+
+> 
+>>>
+>>> Why can't we simply designate these regions as CMA regions?
+>> We and others have encountered significant performance issues when large
+>> CMA regions are used. There are significant restrictions on the page
+>> allocator's use of MIGRATE_CMA pages and the memory subsystem works very
+>> hard to keep about half of the memory in the CMA region free. There have
+>> been attempts to patch the CMA implementation to alter this behavior
+>> (for example the set I referenced Mel's response to in [1]), but there
+>> are users that desire the current behavior.
+> 
+> Optimizing that would be great, eventually making it configurable or 
+> selecting the behavior based on the actual CMA area sizes.
+> 
+>>
+>>>
+>>> Why do we have to start using ZONE_MOVABLE for them?
+>> One of the "other opportunities" for Designated Movable Blocks is to
+>> allow CMA to allocate from a DMB as an alternative. This would allow
+>> current users to continue using CMA as they want, but would allow users
+>> (e.g. hugetlb_cma) that are not sensitive to the allocation latency to
+>> let the kernel page allocator make more complete use (i.e. waste less)
+>> of the shared memory. ZONE_MOVABLE pageblocks are always MIGRATE_MOVABLE
+>> so the restrictions placed on MIGRATE_CMA pageblocks are lifted within a
+>> DMB.
+> 
+> The whole purpose of ZONE_MOVABLE is that *no* unmovable allocations end 
+> up on it. The biggest difference to CMA is that the CMA *owner* is able 
+> to place unmovable allocations on it.
+I'm not sure that is a wholly fair characterization (or maybe I just 
+hope that's the case :). I would agree that the Linux page allocator 
+can't place any unmovable allocations on it. I expect that people locate 
+memory in ZONE_MOVABLE for different purposes. For example, the memory 
+hotplug users ostensibly place memory their so that any data on the hot 
+plugged memory can be moved off of the memory prior to it being hot 
+unplugged. Unplugging the memory removes the memory from the 
+ZONE_MOVABLE zone, but it is not materially different from allocating 
+the memory for a different purpose (perhaps in a different machine).
+
+Conceptually, allowing a CMA allocator to operate on a Designated 
+Movable Block of memory that it *owns* is also removing that memory from 
+the ZONE_MOVABLE zone. Issues of ownership should be addressed which is 
+why these "other opportunities" are being deferred for now, but I do not 
+believe such use is unreasonable. Again, Designated Movable Blocks are 
+only allowed in boot memory so there shouldn't be a conflict with memory 
+hotplug. I believe the same would apply for hugetlb_cma.
+> 
+> Using ZONE_MOVABLE for unmovable allocations (hugetlb_cma) is not 
+> acceptable as is.
+> 
+> Using ZONE_MOVABLE in different context and calling it DMB is very 
+> confusing TBH.
+Perhaps it is more helpful to think of a Designated Movable Block as a 
+block of memory whose migratetype is not allowed to be changed from 
+MIGRATE_MOVABLE (i.e. "sticky" migrate movable). The fact that 
+ZONE_MOVABLE is being used to achieve that is an implementation detail 
+for this commit set. In the same way that memory hotplug is the concept 
+of adding System RAM during run time, but placing it in ZONE_MOVABLE is 
+an implementation detail to make it easier to unplug.
+
+> 
+> Just a note that I described the idea of a "PREFER_MOVABLE" zone in the 
+> past. In contrast to ZONE_MOVABLE, we cannot run into weird OOM 
+> situations in a ZONE misconfiguration, and we'd end up placing only 
+> movable allocations on it as long as we can. However, especially 
+> gigantic pages could be allocated from it. It sounds kind-of more like 
+> what you want -- and maybe in combination of daxctl to let the user 
+> decide how to online memory ranges.
+Best not let Mel hear you suggesting another zone;).
+
+> 
+> 
+> And just to make it clear again: depending on ZONE_MOVABLE == only user 
+> space allocations is not future proof.
+Understood.
+
+> 
+>>
+>>>
+>> Thanks for your consideration,
+>> Dough Baker ... I mean Doug Berger :).
+> 
+> 
+> :) Thanks Doug!
+> 
+Thank you!
+-Doug
