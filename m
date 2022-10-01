@@ -2,90 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F12FEC433FE
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 19:00:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D18C7C4332F
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 20:31:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229482AbiJATAT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 Oct 2022 15:00:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47840 "EHLO
+        id S229578AbiJAUbA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Oct 2022 16:31:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbiJATAQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Oct 2022 15:00:16 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65C3C2D1C1
-        for <linux-doc@vger.kernel.org>; Sat,  1 Oct 2022 12:00:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1ECB6B80817
-        for <linux-doc@vger.kernel.org>; Sat,  1 Oct 2022 19:00:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 180CDC433D6;
-        Sat,  1 Oct 2022 19:00:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664650811;
-        bh=g4PS4PGQJBvGxQS+muhT3nqQSmiyaQFW9X6VLT0SfSk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LqdQt4CO6xuIv0ntyDctjy7mqYLiWj0Zefm5nOmEcUaaT/fzRksPAKOVL9aZS2iUu
-         GA4v38gxcQATJzoDmz/zyby+B1LoV2n1Yhfr17fISUWUK/WA6z3tXIRu4+xSNuDYTt
-         87SKJWYGMzcuuxDMovwqr6mkhVGwKAQrfbMhNtBF5EMW8RpAOd35xk8ndUMWTkloV2
-         e3kRtJDSpJKBwAWYmM4sB3aEixtxdMIvqtvEUc6oiOqgIYgnGhNZY7f692yCUQhD5s
-         zGtXPx+SGvF2JS9REBkQpuC4/xE4rAEx4qXT4e0KLssQ9usTB+ie9tQe6zIn9ZBSx8
-         cGbJKgfXMqtVg==
-Date:   Sat, 1 Oct 2022 20:00:07 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Liu Shixin <liushixin2@huawei.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH 0/2] riscv: Support HAVE_ARCH_HUGE_VMAP and
- HAVE_ARCH_HUGE_VMALLOC
-Message-ID: <YziON3JMobFOyaqV@spud>
-References: <20220915065027.3501044-1-liushixin2@huawei.com>
+        with ESMTP id S229534AbiJAUa6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Oct 2022 16:30:58 -0400
+Received: from conuserg-10.nifty.com (conuserg-10.nifty.com [210.131.2.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36B6D43145;
+        Sat,  1 Oct 2022 13:30:54 -0700 (PDT)
+Received: from zoe.. (133-32-182-133.west.xps.vectant.ne.jp [133.32.182.133]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 291KSpu6001629;
+        Sun, 2 Oct 2022 05:28:51 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 291KSpu6001629
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1664656132;
+        bh=WVaRutAdMwkgqQFDUdeEzlxZSqRe3cLAvSUNcchojDA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=j6kmEy224q8ZfOfuLzGoOWgSoT8FuglYZUZiuTOOjJZKYSXpgdY6lKAmX77OZOE4G
+         o6TsfYF7eUy3AS0HkiVjztHgf3bXgib2OvhBKj6EC9ISoLCeCpQWfytUknRumCkOHm
+         K8FbecrmhsvMFdUUkBL9QYb2al60AKRp+KHSh5N905HJz1N3Jw28+RsU5cpn6ps4zr
+         u47JKN3lzT7bfMQv0b9osivN1ISqxdkKUM+DqKYVib8rGRrxauoFQlydLEH3TCEJAA
+         wmkwT/y1uuXGcPXBq8w0tTiDJetSclHGnlYwUaidFZWZe/jRhK9Ei7QNLtUXfGH7N8
+         wIjYL+RwFEknQ==
+X-Nifty-SrcIP: [133.32.182.133]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH] docs: bump minimal GNU Make version to 3.82
+Date:   Sun,  2 Oct 2022 05:28:35 +0900
+Message-Id: <20221001202836.3110985-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220915065027.3501044-1-liushixin2@huawei.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 15, 2022 at 02:50:25PM +0800, Liu Shixin wrote:
-> Since riscv64 has already support SATP_MODE_57 by default, it is time to
-> support more hugepage-related features. These two patches will enable
-> HAVE_ARCH_HUGE_VMAP and HAVE_ARCH_HUGE_VMALLOC.
-> 
-> Liu Shixin (2):
->   riscv: Enable HAVE_ARCH_HUGE_VMAP for 64BIT
->   riscv: Enable HAVE_ARCH_HUGE_VMALLOC for 64BIT
+GNU Make 3.81 fails in CONFIG_RUST=y builds.
 
-Hey Liu Shixin,
-As I'm sure you saw earlier today LKP randconfig testing of linux-next*
-found a problem with your patchset, but looks like it should be
-trivially fixable.
+  rust/Makefile:105: *** multiple target patterns.  Stop.
+  make[1]: *** [prepare] Error 2
+  make: *** [__sub-make] Error 2
 
-Thanks,
-Conor.
+The error message looks weird, but the reason is that the 'private'
+keyword is only supported since GNU Make 3.82.
 
-* I accidentally added it to my dt-for-next branch, from which it is now
-dropped.
+GNU Make 3.81 is still able to build the kernel if CONFIG_RUST is
+disabled, but it might be a good timing to bump the minimal GNU Make
+version. Perhaps, I am the last person who was testing GNU Make 3.81.
 
-> 
->  .../features/vm/huge-vmap/arch-support.txt    |  2 +-
->  arch/riscv/Kconfig                            |  2 +
->  arch/riscv/include/asm/vmalloc.h              | 18 ++++
->  arch/riscv/mm/Makefile                        |  1 +
->  arch/riscv/mm/pgtable.c                       | 83 +++++++++++++++++++
->  5 files changed, 105 insertions(+), 1 deletion(-)
->  create mode 100644 arch/riscv/mm/pgtable.c
-> 
-> -- 
-> 2.25.1
-> 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+GNU Make 3.81 was released in 2006, GNU Make 3.82 in 2010.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Documentation/process/changes.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 19c286c23786..26a7fd875cfa 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -31,7 +31,7 @@ you probably needn't concern yourself with pcmciautils.
+ ====================== ===============  ========================================
+ GNU C                  5.1              gcc --version
+ Clang/LLVM (optional)  11.0.0           clang --version
+-GNU make               3.81             make --version
++GNU make               3.82             make --version
+ bash                   4.2              bash --version
+ binutils               2.23             ld -v
+ flex                   2.5.35           flex --version
+@@ -83,7 +83,7 @@ docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
+ Make
+ ----
+ 
+-You will need GNU make 3.81 or later to build the kernel.
++You will need GNU make 3.82 or later to build the kernel.
+ 
+ Bash
+ ----
+-- 
+2.34.1
+
