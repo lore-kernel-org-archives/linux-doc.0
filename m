@@ -2,157 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C59F0C433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 01:28:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A95C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 02:37:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232421AbiJAB2b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 21:28:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53234 "EHLO
+        id S231298AbiJAChl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 30 Sep 2022 22:37:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232459AbiJAB2X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 21:28:23 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17D862E697;
-        Fri, 30 Sep 2022 18:28:19 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id d15so3852653qka.9;
-        Fri, 30 Sep 2022 18:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=NKdvHvQ44i5cKwfP63cHSA4v+56YKGXpXNp8A2uLGk0=;
-        b=FCZdmHTXpzPh+SsHcbqp1NVBPvLVyGUTI1Z1NrHdkhsxdmOLtckQ+AzroORVm1xfbe
-         2AvWitpo2qrn4401punrBuO2gNFE91JNc+rQ1OCv9ksC57ugddx+WD5k81UvZVKyBOKU
-         GcW8Zu1WDE+3ah0ndtw+iZfXjhkMdRQejkPL6LrAAcTuiJScy1cRNcszUY2Yuqxh08qm
-         F+ApvDwF0URuQHgg4L9QcIpp6e8GG2AnZhQyoez77JPvDJKuA0Euu0u0rCPg1oXU0RUz
-         KI4iW7LC4VjML5NNLxTUtt7Vk5ezCWqemRdQpktx9/NvbPWiSanwnpcM1SxTmjYTDyob
-         gv8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=NKdvHvQ44i5cKwfP63cHSA4v+56YKGXpXNp8A2uLGk0=;
-        b=2bKVraubzrYKzdJr0n6se4X8vR6kZQNaTSb8HQahc4e105qcYN77wPtjejAChaj2Ao
-         4V8tcLT+myIIAgGcLgcKkhBw2+y3cYHTT+lKPcNIj4Xe+hDSbCVCgNje3CbgjBLlH2wa
-         3y2iSfOY/PeV+4xKQhP4FIgLnDUBGSf4/iszD9HRBJPY9dSHg4fz7AvSDOidcstmqfUU
-         3Fp9REQLo9D0tZP8cZJXwJ4WpYtMpv7YQDQ1E5YkRpXcABDsuKTv8uuRdKyNnxuy+S6c
-         fG8NUScHVen5sqKMfoFHDqFRhivTLCGccjEYY7jUpUS5pLEuImXhEpSVekirq8chMdLt
-         oTrw==
-X-Gm-Message-State: ACrzQf1eIs7vGOtWHkvTf1rVXfQROHMJPiqUItc5q9tat1uoLbU131eO
-        HkaH5fDDf3bxOLO1Nqrkylk=
-X-Google-Smtp-Source: AMsMyM5yIKxAHMaIcYqUfvWo5dav+HCUqxOsA5j4NLkufoQwILTy6jGJJb9OrwbCTNdnhlkr/R4qGA==
-X-Received: by 2002:a37:a98c:0:b0:6cf:9ca3:b2fd with SMTP id s134-20020a37a98c000000b006cf9ca3b2fdmr8331629qke.118.1664587698484;
-        Fri, 30 Sep 2022 18:28:18 -0700 (PDT)
-Received: from [10.69.53.73] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id a16-20020a05620a16d000b006b58d8f6181sm3814147qkn.72.2022.09.30.18.28.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Sep 2022 18:28:17 -0700 (PDT)
-Message-ID: <b86d90fe-5d57-67ec-49b7-c477924f6438@gmail.com>
-Date:   Fri, 30 Sep 2022 18:28:14 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH v2 2/9] mm/vmstat: show start_pfn when zone spans pages
-Content-Language: en-US
-To:     David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
-        Mel Gorman <mgorman@suse.de>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        with ESMTP id S232254AbiJAChk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 22:37:40 -0400
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CB851ABFE0;
+        Fri, 30 Sep 2022 19:37:38 -0700 (PDT)
+Received: from letrec.thunk.org ([50.224.35.3])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 2912bLTR006816
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 30 Sep 2022 22:37:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1664591844; bh=z0peX8Psl4TmqPUIRkl+yYsD2eDEDDU+Gc3/CwEQoCg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=nkAMdpLgdd/kjwKRNPZZ4rDWnZOT3Xg/QneaPaV2prt3yud4by6XfluDS8sDs2Wil
+         2dTfSibVzPJHf52XcowMcne7o/mkfhqKHFpc/QUHsLRzIb5OnsMznCKLbBYnwbBlwp
+         bJNtFVzteXcYo/jQaF9Ja3YVCE+zxkJgqt0Z8T/PzvoLUIQRqcrEux0BoP+ZMN3jre
+         C+VIrbJLXeST/nR7oD2ZDLY65BPN5MoCJTC4ATVJbDPICq6UcEoztxhsceYEqlostp
+         HiLxs+XEZe8qCkCbJp5b9uEoSeEfhOckg0OhgSZ5abvoDh4gF8D7OdfEajRoaYnn20
+         FD2eIdUM7CPvw==
+Received: by letrec.thunk.org (Postfix, from userid 15806)
+        id 7BAE38C2AB5; Fri, 30 Sep 2022 22:37:21 -0400 (EDT)
+Date:   Fri, 30 Sep 2022 22:37:21 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Cc:     Akira Yokosawa <akiyks@gmail.com>, corbet@lwn.net,
+        konstantin@linuxfoundation.org, krzysztof.kozlowski@linaro.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20220928223301.375229-1-opendmb@gmail.com>
- <20220928223301.375229-3-opendmb@gmail.com>
- <8e61d0f4-0c40-6c2d-da60-fa97e2ee7530@redhat.com>
-From:   Doug Berger <opendmb@gmail.com>
-In-Reply-To: <8e61d0f4-0c40-6c2d-da60-fa97e2ee7530@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        linux@leemhuis.info
+Subject: Re: [PATCH v3] Documentation/process: Add text to indicate
+ supporters should be mailed
+Message-ID: <Yzen4X1Na0MKXHs9@mit.edu>
+References: <20220930064629.329514-2-bryan.odonoghue@linaro.org>
+ <21f8d79a-0ad4-b28b-15d8-f4be0cfd9730@gmail.com>
+ <b119fee5-807f-1940-3378-f5ad638794f5@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b119fee5-807f-1940-3378-f5ad638794f5@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/29/2022 1:15 AM, David Hildenbrand wrote:
-> On 29.09.22 00:32, Doug Berger wrote:
->> A zone that overlaps with another zone may span a range of pages
->> that are not present. In this case, displaying the start_pfn of
->> the zone allows the zone page range to be identified.
->>
+On Fri, Sep 30, 2022 at 05:18:52PM +0100, Bryan O'Donoghue wrote:
+> > So the root cause of your confusion was you couldn't figure out
+> > the fact that "supporter" in the output of get_maintainver.pl means
+> > "maintainer of a supported subsystem", wasn't it?
+> > 
+> > I guess all you need would be just a short notice along the lines of:
+> > 
+> >      "supporter" in the output from get_maintainer.pl means "maintainer
+> >      of a supported subsystem".
+> > 
+> > No?
 > 
-> I don't understand the intention here.
+> We discussed that a bit earlier.
 > 
-> "/* If unpopulated, no other information is useful */"
+> https://lore.kernel.org/lkml/20220928003006.230103-1-bryan.odonoghue@linaro.org/T/#u
+> https://lkml.org/lkml/2022/9/28/1394
+> https://lkml.org/lkml/2022/9/28/1511
+> https://lkml.org/lkml/2022/9/29/188
 > 
-> Why would the start pfn be of any use here?
-> 
-> What is the user visible impact without that change?
-Yes, this is very subtle. I only caught it while testing some 
-pathological cases.
+> I think its fair to say the consensus so far is to leave the
+> get_maintainer.pl output as is.
 
-If you take the example system:
-The 7278 device has four ARMv8 CPU cores in an SMP cluster and two 
-memory controllers (MEMCs). Each MEMC is capable of controlling up to 
-8GB of DRAM. An example 7278 system might have 1GB on each controller, 
-so an arm64 kernel might see 1GB on MEMC0 at 0x40000000-0x7FFFFFFF and 
-1GB on MEMC1 at 0x300000000-0x33FFFFFFF.
 
-Placing a DMB on MEMC0 with 'movablecore=256M@0x70000000' will lead to 
-the ZONE_MOVABLE zone spanning from 0x70000000-0x33fffffff and the 
-ZONE_NORMAL zone spanning from 0x300000000-0x33fffffff.
+FWIW, I actually think the output of get_maintainer.pl is pretty
+broken in this regard.  (Then again, I've never thought all that
+highly of get_maintainer.pl, *especially* because of the bogus git
+fallback, but that's another story.)
 
-If instead you specified 'movablecore=256M@0x70000000,512M' you would 
-get the same ZONE_MOVABLE span, but the ZONE_NORMAL would now span 
-0x300000000-0x32fffffff. The requested 512M of movablecore would be 
-divided into a 256MB DMB at 0x70000000 and a 256MB "classic" movable 
-zone start would be displayed in the bootlog as:
-[    0.000000] Movable zone start for each node
-[    0.000000]   Node 0: 0x000000330000000
+Consider:
 
-Finally, if you specified the pathological 
-'movablecore=256M@0x70000000,1G@12G' you would still have the same 
-ZONE_MOVABLE span, and the ZONE_NORMAL span would go back to 
-0x300000000-0x33fffffff. However, because the second DMB (1G@12G) 
-completely overlaps the ZONE_NORMAL there would be no pages present in 
-ZONE_NORMAL and /proc/zoneinfo would report ZONE_NORMAL 'spanned 
-262144', but not where those pages are. This commit adds the 'start_pfn' 
-back to the /proc/zoneinfo for ZONE_NORMAL so the span has context.
+% ./scripts/get_maintainer.pl --file  drivers/acpi/power.c
+"Rafael J. Wysocki" <rafael@kernel.org> (supporter:ACPI)
+Len Brown <lenb@kernel.org> (reviewer:ACPI)
+linux-acpi@vger.kernel.org (open list:ACPI)
+linux-kernel@vger.kernel.org (open list)
 
-Regards,
-     Doug
+I'm sorry, but that's just *wrong*.  Rafael is the *maintainer* of the
+ACPI subsystem, and the term "supporter" is rarely if ever used
+anywhere in our docs.  As I said earlier, trying to treat S: field to
+say anything about the entitles listed under the M: field of the
+Maintainers file is a category error.
 
-> 
->> Signed-off-by: Doug Berger <opendmb@gmail.com>
->> ---
->>   mm/vmstat.c | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/mm/vmstat.c b/mm/vmstat.c
->> index 90af9a8572f5..e2f19f2b7615 100644
->> --- a/mm/vmstat.c
->> +++ b/mm/vmstat.c
->> @@ -1717,6 +1717,11 @@ static void zoneinfo_show_print(struct seq_file 
->> *m, pg_data_t *pgdat,
->>       /* If unpopulated, no other information is useful */
->>       if (!populated_zone(zone)) {
->> +        /* Show start_pfn for empty overlapped zones */
->> +        if (zone->spanned_pages)
->> +            seq_printf(m,
->> +                   "\n  start_pfn:           %lu",
->> +                   zone->zone_start_pfn);
->>           seq_putc(m, '\n');
->>           return;
->>       }
+Consider: ACPI subsystem is is "supported".  From a user's
+perspective, what are they supposed to take from that?  That the ACPI
+subsystem is somehow better supported than say, the MM subsystem
+(which is only "maintained"), or all of Linux networking, which is
+also "maintained".  And so Rafel is a "supporter", but David Miller
+and Andrew Morton are "maintainers", respectively. ?!?
 
+I think the original rationale behind the S: field is to help people
+understand, in particular for device drivers, how solid a particular
+device driver might be.  Was it officially supported by the hardware
+manufacturer?  Was it supported by a some random student who hacked
+something together?  Was the still being actively maintained?  But
+even then, just because a driver is "officially" supported by the
+hardware manufacturer doesn't necessarily mean that it is any more
+reliable, or high quality, than something which is being supported by
+someone who supposedly isn't getting paid to support it.  (And there
+are plenty of subsystems listed as "maintained" where the people
+listed under M: are most certainly getting paid to work on it.)
+
+       	     	    	 	   	   - Ted
