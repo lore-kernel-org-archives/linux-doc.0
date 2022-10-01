@@ -2,114 +2,366 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA828C433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 03:22:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35C56C4332F
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 04:11:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233202AbiJADW0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 30 Sep 2022 23:22:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38652 "EHLO
+        id S229458AbiJAELi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Oct 2022 00:11:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233218AbiJADVp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 30 Sep 2022 23:21:45 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3E3A3FD56;
-        Fri, 30 Sep 2022 20:15:00 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id d10so5757336pfh.6;
-        Fri, 30 Sep 2022 20:15:00 -0700 (PDT)
+        with ESMTP id S229449AbiJAELg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Oct 2022 00:11:36 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9887515A70B;
+        Fri, 30 Sep 2022 21:11:34 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id d24so5511610pls.4;
+        Fri, 30 Sep 2022 21:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=/j3pQl7KNQD6fZGldj2Yu7/6BAOJombUczMRGLkAS7o=;
-        b=mgl6vSGeFDVKtIaJ2aUUpj5CclceO4fNtR18BDmlhfEpUEeZhZLG+ULT95J6lRoQnK
-         g+lNqrS+HjVBerjmNgsbs9BkOHdbdhtxs19GAwinUnqOK2bEawtu+QQDxRr68amjq7HZ
-         FTh79gXpzCwH3ZX9W1o+hFZfdMFSYvlhPAsQhAMs/BG66hRtM34iInP3wa44BlIdRB22
-         zLOErjpG2LPMicbjC3Rsf3J+aXvST7DD77qO9UxFhJbWGhostrBZKITtjKSBmA78rdKl
-         j/iVkuEI7RYXxWfBnPAOpaef/6tLLde9I5qmr9n+lbvhBTrRZ4IZXdQ/LcveMv00OA2f
-         JDBA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=OSv7SDIGCVEG314+BzEZq4WXeWqQBm4mHIqqx0BP8u0=;
+        b=mwHdTkcA1tHAUfCcwsrvYGERtpdrG4RMnvKmYCTjX15LrwOYgVEtmVMbfqrVfhHakj
+         7g4ftx6CetZsFng+iOI1q36bEhi9Cp6b2zzqkzRWHV0xA/3d4eEvRddPSJcnKPwVanr2
+         z7Om/zQ0sB4VC0OZPjqGhbysth6zx37my4dFgOuPoi0Iwq4CiW+z5OWZR8BNvEY2q7nC
+         cCubav/qpG+PQN5ZHd+r4w4QLSZwxmiP21gxbAz70sgvgjeoeRgqhr+cTjmmTgN4qIzm
+         5sjs9soqW4ai993zQIP0ylhAJ4NcBgB/S6pJ6pYDA8iWLrmemXGwQGRLPgj4lTRHCcM9
+         VwuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=/j3pQl7KNQD6fZGldj2Yu7/6BAOJombUczMRGLkAS7o=;
-        b=2BWYwQeHlduHyC1a+WGtq+YHPR//wrBG1U432niBmAdvD67aBfK3WvjEtJlVguGJMA
-         2lkOVVKDPQScExjLKm315t6Q0tpfXdQ7WSC0TEUR2ZeL6Dqj9FX1q7dfq3JiJsC9lJ4h
-         Gn8yfhthY1ariFzIhzhkD2z+PDO0e8CbXGglQC/K7G8Un0rk2rtN7QakOrbNOehL2ram
-         ops/KodqaN4+GUxYPWaYRxHGtlUVDd0me4T0odF0fmnniCx7gkqBuh5j+6a/vGAh31v8
-         lhAB0mF5R6QnXOFZZXgGRBlQ1N7KDsN2srQsio6l9NFU7kWqIpAPjyTrBBAhdIht5YfE
-         SWUQ==
-X-Gm-Message-State: ACrzQf202djo4kvdAyO0/MmdVNvSHjpucWGnlL1nW1ljKAdZ6yTRTkPB
-        +emUR1pRdrI+DCq9vaRTHAg=
-X-Google-Smtp-Source: AMsMyM5SsMW3MpGDsBSOIP3KV1QTMgg8OOIzN8WJsv6ACc3mas8d/uNS3lU/N70q4OO1X7rCvgwRZA==
-X-Received: by 2002:a05:6a00:2185:b0:520:7276:6570 with SMTP id h5-20020a056a00218500b0052072766570mr12182376pfi.84.1664594031046;
-        Fri, 30 Sep 2022 20:13:51 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-5.three.co.id. [180.214.232.5])
-        by smtp.gmail.com with ESMTPSA id p5-20020a170902e74500b00176ab6a0d5fsm2733794plf.54.2022.09.30.20.13.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Sep 2022 20:13:50 -0700 (PDT)
-Message-ID: <14319427-5239-1b63-b758-5e2d79cdd357@gmail.com>
-Date:   Sat, 1 Oct 2022 10:13:44 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v1 8/9] KVM: s390: selftest: memop: Fix typo
-Content-Language: en-US
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-References: <20220930210751.225873-1-scgl@linux.ibm.com>
- <20220930210751.225873-9-scgl@linux.ibm.com>
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=OSv7SDIGCVEG314+BzEZq4WXeWqQBm4mHIqqx0BP8u0=;
+        b=bV482kxuqVlorcN5NO95aV7vW2pgFRwyHF7AkzZ4xyJieF/KNp/GxcMJUsqZVV+hri
+         2xUB2++8Vxf8HzBP390ZWKa3/SqSjNsnxId44PuAO7YoIs42FnGPvzjoMds0YsuJV6SK
+         R9iZfjjPDH7n9yTRBTr1/v4/tUk98rFsar+bHT/PBKKNEhM/6yfYpouaeBa2Hh2Xd/mX
+         e923alNApqsa0Nle4NEwbOvIM3nZ6dGrMSdtB187HgrUHl9XOYlxKk/qiK7LdexxxiP5
+         qgAg6yyIRZMKEc8nIVgD4Pw6HwTZotmxooyyZeYA517ZHMKpM90ZxIaSlAWlzNuKh11q
+         TTQg==
+X-Gm-Message-State: ACrzQf3rNKfZhCjLznzPIEF2gFK7czid6iaZHXkg9nARQQactGelrZbK
+        ZouLNudpozIMJuh7ab3HwCM=
+X-Google-Smtp-Source: AMsMyM7bN9tAhIY4k9a7/S9pez9PmFy400BkzIrhaakxm4+6Obe+6Nd6DZjTA5R0T/f/fCPIEXJ/tQ==
+X-Received: by 2002:a17:902:a707:b0:178:bd1e:e8be with SMTP id w7-20020a170902a70700b00178bd1ee8bemr11997820plq.167.1664597493786;
+        Fri, 30 Sep 2022 21:11:33 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-5.three.co.id. [180.214.232.5])
+        by smtp.gmail.com with ESMTPSA id z186-20020a6265c3000000b0055fc0a132aasm175757pfb.92.2022.09.30.21.11.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Sep 2022 21:11:32 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 831731005BB; Sat,  1 Oct 2022 11:11:29 +0700 (WIB)
+Date:   Sat, 1 Oct 2022 11:11:28 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220930210751.225873-9-scgl@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     Quan Nguyen <quan@os.amperecomputing.com>
+Cc:     macro@orcam.me.uk, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thu Nguyen <thu@os.amperecomputing.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        thang@os.amperecomputing.com
+Subject: Re: [PATCH v9 6/9] docs: misc-devices: (smpro-misc) Add documentation
+Message-ID: <Yze98CgmGuNA0uGr@debian.me>
+References: <20220929094321.770125-1-quan@os.amperecomputing.com>
+ <20220929094321.770125-7-quan@os.amperecomputing.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="zsOt5hDHQ+A0q34n"
+Content-Disposition: inline
+In-Reply-To: <20220929094321.770125-7-quan@os.amperecomputing.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/1/22 04:07, Janis Schoetterl-Glausch wrote:
-> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> ---
->  tools/testing/selftests/kvm/s390x/memop.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tools/testing/selftests/kvm/s390x/memop.c b/tools/testing/selftests/kvm/s390x/memop.c
-> index 3a160ab0415b..1887685b41d2 100644
-> --- a/tools/testing/selftests/kvm/s390x/memop.c
-> +++ b/tools/testing/selftests/kvm/s390x/memop.c
-> @@ -970,7 +970,7 @@ static void test_errors_key_fetch_prot_override_enabled(void)
->  
->  	/*
->  	 * vcpu, mismatching keys on fetch,
-> -	 * fetch protection override does not apply because memory range acceeded
-> +	 * fetch protection override does not apply because memory range exceeded
->  	 */
->  	CHECK_N_DO(ERR_PROT_MOP, t.vcpu, LOGICAL, READ, mem2, 2048 + 1, GADDR_V(0), KEY(2));
->  	CHECK_N_DO(ERR_PROT_MOP, t.vcpu, LOGICAL, READ, mem2, PAGE_SIZE + 2048 + 1,
 
-No patch description? Seriously?
+--zsOt5hDHQ+A0q34n
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What about this one?:
+On Thu, Sep 29, 2022 at 04:43:18PM +0700, Quan Nguyen wrote:
+> Adds documentation for the Ampere(R)'s Altra(R) SMpro misc driver.
+>=20
 
-```
-The word "acceded" isn't the right word to describe too much memory
-situation. Substitute it with "exceeded".
-```
+s/Adds/Add/
+
+> Signed-off-by: Thu Nguyen <thu@os.amperecomputing.com>
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+
+Does this patch originally authored by Thu? If so, add From: line before
+the patch description.
+
+> diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-de=
+vices/index.rst
+> index b74b3b34a235..b40cd1b402f7 100644
+> --- a/Documentation/misc-devices/index.rst
+> +++ b/Documentation/misc-devices/index.rst
+> @@ -28,6 +28,7 @@ fit into other categories.
+>     oxsemi-tornado
+>     pci-endpoint-test
+>     smpro-errmon
+> +   smpro-misc
+>     spear-pcie-gadget
+>     uacce
+>     xilinx_sdfec
+> diff --git a/Documentation/misc-devices/smpro-misc.rst b/Documentation/mi=
+sc-devices/smpro-misc.rst
+> new file mode 100644
+> index 000000000000..d21be4a09e69
+> --- /dev/null
+> +++ b/Documentation/misc-devices/smpro-misc.rst
+> @@ -0,0 +1,82 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +Kernel driver Ampere(R) Altra(R) SMpro miscellaneous
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> +
+> +Supported chips:
+> +
+> +  * Ampere(R) Altra(R)
+> +
+> +    Prefix: 'smpro'
+> +
+> +    Reference: Altra SoC BMC Interface Specification
+> +
+> +Author: Thu Nguyen <thu@os.amperecomputing.com>
+> +
+> +Description
+> +-----------
+> +
+> +This driver support the monitoring and configuration of various miscella=
+neous
+> +data provided by Ampere(R) Altra(R) SMpro processor.
+> +At this time, these include:
+> +
+> +  * Reading Boot Progress information
+> +  * Configuring SoC Power Limit
+> +
+> +Sysfs entries
+> +-------------
+> +
+> +1) Boot progress
+> +
+> +SMpro misc driver creates the sysfs files ``boot_progress``.
+> +The format of ``boot_progress`` file is as below::
+> +
+> +<boot stage><boot status><boot progress>
+> +
+> +Where:
+> +
+> +* Boot stage::
+> +
+> +    0: SMpro firmware booting.
+> +    1: PMpro firmware booting.
+> +    2: ATF BL1 firmware booting.
+> +    3: DDR initialization.
+> +    4: DDR training report status.
+> +    5: ATF BL2 firmware booting.
+> +    6: ATF BL31 firmware booting.
+> +    7: ATF BL32 firmware booting.
+> +    8: UEFI firmware booting.
+> +    9: OS booting.
+> +
+> +* Boot status::
+> +
+> +    0: Not started.
+> +    1: Started.
+> +    2: Complete without error.
+> +    3: Failure.
+> +
+> +* boot progress: 32 bits boot progress code
+> +
+> +The sysfs ``boot_progress`` only reports the boot state when the host is=
+ booting.
+> +If the host is already booted, it returns latest state.
+> +
+> +Example::
+> +
+> +    #cat boot_progress
+> +    0102808454A8
+> +
+> +2) SoC Power Limit
+> +
+> +SMpro misc driver creates the sysfs file ``soc_power_limit`` to get/set =
+the SoC Power Limit.
+> +
+> +Reading this sysfs return the current setting of SoC Power Limit (W) in =
+decimal string.
+> +Writing the desired value in decimal string to set the SoC Power Limit i=
+n Watt (W).
+> +The range of SoC Power Limit is 90-500(W) and will be ignored if out of =
+range.
+> +
+> +Example::
+> +
+> +    #cat soc_power_limit
+> +    90
+> +    #echo 95 > soc_power_limit
+> +    #cat soc_power_limit
+> +    95
+
+The documentation above can be improved (both grammatical and
+formatting):
+
+---- >8 ----
+
+diff --git a/Documentation/misc-devices/smpro-misc.rst b/Documentation/misc=
+-devices/smpro-misc.rst
+index d21be4a09e69c4..f33466152ac402 100644
+--- a/Documentation/misc-devices/smpro-misc.rst
++++ b/Documentation/misc-devices/smpro-misc.rst
+@@ -7,76 +7,77 @@ Supported chips:
+=20
+   * Ampere(R) Altra(R)
+=20
+-    Prefix: 'smpro'
++    Prefix: ``smpro``
+=20
+-    Reference: Altra SoC BMC Interface Specification
++    Reference: `Altra SoC BMC Interface Specification`
+=20
+ Author: Thu Nguyen <thu@os.amperecomputing.com>
+=20
+ Description
+ -----------
+=20
+-This driver support the monitoring and configuration of various miscellane=
+ous
+-data provided by Ampere(R) Altra(R) SMpro processor.
+-At this time, these include:
++The smpro-misc driver supports monitoring and configuration of various
++miscellaneous data provided by Ampere(R) Altra(R) SMpro processor.
++Currently, the driver supports:
+=20
+-  * Reading Boot Progress information
+-  * Configuring SoC Power Limit
++  * reading boot progress information
++  * configuring SoC power limit
+=20
+ Sysfs entries
+ -------------
+=20
+ 1) Boot progress
+=20
+-SMpro misc driver creates the sysfs files ``boot_progress``.
+-The format of ``boot_progress`` file is as below::
++   The driver creates ``boot_progress`` sysfs file. Its format is described
++   as::
+=20
+-<boot stage><boot status><boot progress>
++     <boot stage><boot status><boot progress>
+=20
+-Where:
++   where:
+=20
+-* Boot stage::
++   * ``<boot stage>`` can be:
+=20
+-    0: SMpro firmware booting.
+-    1: PMpro firmware booting.
+-    2: ATF BL1 firmware booting.
+-    3: DDR initialization.
+-    4: DDR training report status.
+-    5: ATF BL2 firmware booting.
+-    6: ATF BL31 firmware booting.
+-    7: ATF BL32 firmware booting.
+-    8: UEFI firmware booting.
+-    9: OS booting.
++     * 0: SMpro firmware booting.
++     * 1: PMpro firmware booting.
++     * 2: ATF BL1 firmware booting.
++     * 3: DDR initialization.
++     * 4: DDR training report status.
++     * 5: ATF BL2 firmware booting.
++     * 6: ATF BL31 firmware booting.
++     * 7: ATF BL32 firmware booting.
++     * 8: UEFI firmware booting.
++     * 9: OS booting.
+=20
+-* Boot status::
++  * ``<boot status>`` can be:
+=20
+-    0: Not started.
+-    1: Started.
+-    2: Complete without error.
+-    3: Failure.
++     * 0: Not started.
++     * 1: Started.
++     * 2: Complete without error.
++     * 3: Failure.
+=20
+-* boot progress: 32 bits boot progress code
++  * ``<boot progress>``: 32-bit boot progress code
+=20
+-The sysfs ``boot_progress`` only reports the boot state when the host is b=
+ooting.
+-If the host is already booted, it returns latest state.
++  The sysfs file  only reports the boot state when the host is booting. If
++  the host is already booted, it returns the latest state.
+=20
+-Example::
++  Example::
+=20
+     #cat boot_progress
+     0102808454A8
+=20
+-2) SoC Power Limit
++2) SoC power limit
+=20
+-SMpro misc driver creates the sysfs file ``soc_power_limit`` to get/set th=
+e SoC Power Limit.
++   The driver creates ``soc_power_limit`` sysfs file to get/set the SoC
++   power limit.
+=20
+-Reading this sysfs return the current setting of SoC Power Limit (W) in de=
+cimal string.
+-Writing the desired value in decimal string to set the SoC Power Limit in =
+Watt (W).
+-The range of SoC Power Limit is 90-500(W) and will be ignored if out of ra=
+nge.
++   Reading the file returns the current limit. Write the desired value in
++   decimal to set the limit (in watts).  The valid limit range is 90-500 W.
++   If the value is out of range, it will be ignored.
+=20
+-Example::
++   Example::
+=20
+-    #cat soc_power_limit
+-    90
+-    #echo 95 > soc_power_limit
+-    #cat soc_power_limit
+-    95
++     #cat soc_power_limit
++     90
++     #echo 95 > soc_power_limit
++     #cat soc_power_limit
++     95
 
 Thanks.
 
--- 
+--=20
 An old man doll... just what I always wanted! - Clara
+
+--zsOt5hDHQ+A0q34n
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYze96AAKCRD2uYlJVVFO
+owcpAP0SzTkhr29W2c7tfiTwIYHWalYjmZY5EzVRjxQmi/J9sAD/WNg/Verj9bSP
+Po+V7JVmI96xpkLGdOLqpermfOky3Q8=
+=qEoH
+-----END PGP SIGNATURE-----
+
+--zsOt5hDHQ+A0q34n--
