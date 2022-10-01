@@ -2,171 +2,407 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CDC4C433F5
-	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 11:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A00E8C433FE
+	for <linux-doc@archiver.kernel.org>; Sat,  1 Oct 2022 12:57:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229495AbiJALVO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 Oct 2022 07:21:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53910 "EHLO
+        id S229482AbiJAM5E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Oct 2022 08:57:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbiJALVN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Oct 2022 07:21:13 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C3517CAA7;
-        Sat,  1 Oct 2022 04:21:12 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id m3so8955126eda.12;
-        Sat, 01 Oct 2022 04:21:12 -0700 (PDT)
+        with ESMTP id S229453AbiJAM5D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Oct 2022 08:57:03 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B53FAC42;
+        Sat,  1 Oct 2022 05:57:01 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id g130so5900715pfb.8;
+        Sat, 01 Oct 2022 05:57:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=TGofqtFHVCa6aXdr7dG+Ot3YJoKyUXFJfoosPaUFSd0=;
-        b=KGmVIWxbnSV8akxMcyUnZxK64cPPh1g5C9vC9i4U7M9QHKjJ8GxEhvkeWjMgprg1ay
-         W9gVi3GNiwAyTH7L1fMh7BDNRGQKYgMvP3bj9rDPOmavETUgM8fH48+KvHcv1P1N52s0
-         3kMJlzNI6OARUQg+kLRjn3hjZS8AXHRGEANM/3sfChe7LEAbZ+kIgHj9zlsuTpE0X4Lg
-         7Z+hwLfwnGi+q5HhUL1yC8J6kPtMCv5vfKrkRt/6tKQkPVfNInhQAQ6L8BOVoS5sJ+rQ
-         qaiSVOuZT1L20rbOuyoSwknUKFDphqZxr3LNtkfjfSQYaY8+H0nzaP3NlX2leYTgbGjc
-         7r4w==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=xatWhQa95sEQO9lHaRBN6xgiRD2Ax+LJWAymSlu3FTI=;
+        b=f90Cbc68SIIqA/cuWVfRsXTuaXeX3shlX5tOIMTNj3FX8Qbe0TOQGojKuJTxdVf9Y+
+         L1zM7ob1s5uLVTBx3lGwXjnBKu/Lx0OOKjzwTL6QeMphqcFnjNGi46rH0QTNZ9taC5qB
+         N+ZdAjIBIcd7ng3Op+mXY3FxSBxTC6ogbgdv2jCo6Gwc3VkwxmT15Z8mVPbA3eb3Y2LI
+         qexqUXgu6jN19wFllni2LMsAPcXqBLxxgz0lZtAMGNnpMCAe9BS5F7zjCFfESapWxfWi
+         99ANv2A8ApagUsVGGSnck8c6ym9O9sqCN8gRFX1QljmYaRqjUuSLI9TNne0BAgXsNv0j
+         9Zuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=TGofqtFHVCa6aXdr7dG+Ot3YJoKyUXFJfoosPaUFSd0=;
-        b=R8OdlKhlD8yF52Ta2of2fMzGsGOLj6vvo4/OPK46DDga9Di+5Advl50LhO1F1A0aXM
-         NiS8bDPqRL5g/U6hw4ceUbltSi5K/pJdw/4w9zZtIC4niFy1cZZSglPqcPqn4LDb05TA
-         lE3LIxJvFhIgBwnv3SCV4zzphgC9VgDmH8iKTFnodyYKaRdP+0LbPjwr7XqoT+7O9LJa
-         T3QAlRc2YD0V2Z92TEhbumeadX0Rkad0X/mJcULJn5EYtllIIs/7r6Y8BVl3avIP6iB5
-         /TygubKrTg4hYShMHWabCmpBwC8/vL8GuKxvfxJDUfRGAl+FShKyAUP/DwaINsIbsMH1
-         8gcQ==
-X-Gm-Message-State: ACrzQf114GBPgMyi/byWfv8DvdXV/GX6DQjME/iIW53eQ+0U3ocPJHJ0
-        HTMRL5l3LimG56vOjtUC068CMseKb0t/7Q==
-X-Google-Smtp-Source: AMsMyM4h+GLYvSMTjLLXqF9h18fSbGY0wD4IAG+sfT+hUiTwF34GO86YyCvZsYSxUjavsmO5OVebqw==
-X-Received: by 2002:a05:6402:5406:b0:452:1560:f9d4 with SMTP id ev6-20020a056402540600b004521560f9d4mr11424357edb.333.1664623270862;
-        Sat, 01 Oct 2022 04:21:10 -0700 (PDT)
-Received: from localhost (252-168-166-62.ftth.glasoperator.nl. [62.166.168.252])
-        by smtp.gmail.com with UTF8SMTPSA id kw22-20020a170907771600b0078250005a79sm2527776ejc.163.2022.10.01.04.21.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Oct 2022 04:21:10 -0700 (PDT)
-From:   Jouke Witteveen <j.witteveen@gmail.com>
-To:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Jouke Witteveen <j.witteveen@gmail.com>
-Subject: [PATCH] Documentation: update urls to Linux Foundation wiki
-Date:   Sat,  1 Oct 2022 13:20:58 +0200
-Message-Id: <20221001112058.22387-1-j.witteveen@gmail.com>
-X-Mailer: git-send-email 2.37.3
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=xatWhQa95sEQO9lHaRBN6xgiRD2Ax+LJWAymSlu3FTI=;
+        b=SP+ZfN7wRPiVxfUnLeHT0CtRuzShslwP6Vy4Utr0/3MSLheXqSGM7IAReXV4COWC73
+         PAeKHFycnFCap3n1Ld58x4t/1l5+lHNIvg/aEvOw1sWRyarbno9g+a0Q864TnYtwEimd
+         mAoqZT/Jmczhb+OI9w3XwKmaFsuKIgKLSL1WXziGq6OugmKoQF7LLnFd7KJjbEiSxWT2
+         85UTcTyxi2XtfD4IeiWIsQjH/Owf+Xb+t4JPvj9mhch5f9n/WagfS3HUGWoy0fwVN+NS
+         JDOvV0U7MAg6QoXkS3pnMxn9lc4wZUpkMoS/HV5yl7c/N7sCZFsRFbANUeQuAuSAkVl+
+         0upQ==
+X-Gm-Message-State: ACrzQf1hLXDdPYnpx4frlyjxDp7yDYnSHvl2S0C4owQLYp/9jq3n3Rom
+        7b7xMi7Qt9ozDw5O5dlVHsh4DT8elTcmjQ==
+X-Google-Smtp-Source: AMsMyM7RNjg+R3+deXal5waqx+1MgTrOaPQCG2T1snqREO1uIQhuOc7EZq8q4vp/2QSN4axmpLA2SA==
+X-Received: by 2002:a63:a61:0:b0:43c:9d3b:9c8f with SMTP id z33-20020a630a61000000b0043c9d3b9c8fmr11590165pgk.228.1664629021203;
+        Sat, 01 Oct 2022 05:57:01 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-9.three.co.id. [180.214.232.9])
+        by smtp.gmail.com with ESMTPSA id t126-20020a625f84000000b00540e1117c98sm3639598pfb.122.2022.10.01.05.57.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Oct 2022 05:57:00 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 2AEAD1039FA; Sat,  1 Oct 2022 19:56:57 +0700 (WIB)
+Date:   Sat, 1 Oct 2022 19:56:56 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Quan Nguyen <quan@os.amperecomputing.com>
+Cc:     macro@orcam.me.uk, Lee Jones <lee@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thu Nguyen <thu@os.amperecomputing.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        thang@os.amperecomputing.com
+Subject: Re: [PATCH v9 2/9] docs: hwmon: (smpro-hwmon) Add documentation
+Message-ID: <Yzg5GM97kM6/Hw82@debian.me>
+References: <20220929094321.770125-1-quan@os.amperecomputing.com>
+ <20220929094321.770125-3-quan@os.amperecomputing.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="75JGspy+0gCiqm39"
+Content-Disposition: inline
+In-Reply-To: <20220929094321.770125-3-quan@os.amperecomputing.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The redirects from the old urls stopped working recently.
 
-Signed-off-by: Jouke Witteveen <j.witteveen@gmail.com>
----
- Documentation/networking/bridge.rst                           | 2 +-
- Documentation/networking/dccp.rst                             | 4 ++--
- .../networking/device_drivers/ethernet/intel/ice.rst          | 2 +-
- Documentation/networking/generic_netlink.rst                  | 2 +-
- MAINTAINERS                                                   | 2 +-
- net/ipv4/Kconfig                                              | 2 +-
- net/sched/Kconfig                                             | 2 +-
- 7 files changed, 8 insertions(+), 8 deletions(-)
+--75JGspy+0gCiqm39
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/networking/bridge.rst b/Documentation/networking/bridge.rst
-index 4aef9cddde2f..c859f3c1636e 100644
---- a/Documentation/networking/bridge.rst
-+++ b/Documentation/networking/bridge.rst
-@@ -8,7 +8,7 @@ In order to use the Ethernet bridging functionality, you'll need the
- userspace tools.
- 
- Documentation for Linux bridging is on:
--   http://www.linuxfoundation.org/collaborate/workgroups/networking/bridge
-+   https://wiki.linuxfoundation.org/networking/bridge
- 
- The bridge-utilities are maintained at:
-    git://git.kernel.org/pub/scm/linux/kernel/git/shemminger/bridge-utils.git
-diff --git a/Documentation/networking/dccp.rst b/Documentation/networking/dccp.rst
-index 91e5c33ba3ff..cd661509d35d 100644
---- a/Documentation/networking/dccp.rst
-+++ b/Documentation/networking/dccp.rst
-@@ -41,11 +41,11 @@ specified in RFCs 4340...42.
- 
- The known bugs are at:
- 
--	http://www.linuxfoundation.org/collaborate/workgroups/networking/todo#DCCP
-+	https://wiki.linuxfoundation.org/networking/todo#dccp
- 
- For more up-to-date versions of the DCCP implementation, please consider using
- the experimental DCCP test tree; instructions for checking this out are on:
--http://www.linuxfoundation.org/collaborate/workgroups/networking/dccp_testing#Experimental_DCCP_source_tree
-+https://wiki.linuxfoundation.org/networking/dccp_testing#experimental_dccp_source_tree
- 
- 
- Socket options
-diff --git a/Documentation/networking/device_drivers/ethernet/intel/ice.rst b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-index dc2e60ced927..b481b81f3be5 100644
---- a/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-+++ b/Documentation/networking/device_drivers/ethernet/intel/ice.rst
-@@ -819,7 +819,7 @@ NAPI
- ----
- This driver supports NAPI (Rx polling mode).
- For more information on NAPI, see
--https://www.linuxfoundation.org/collaborate/workgroups/networking/napi
-+https://wiki.linuxfoundation.org/networking/napi
- 
- 
- MACVLAN
-diff --git a/Documentation/networking/generic_netlink.rst b/Documentation/networking/generic_netlink.rst
-index 59e04ccf80c1..d960dbd7e80e 100644
---- a/Documentation/networking/generic_netlink.rst
-+++ b/Documentation/networking/generic_netlink.rst
-@@ -6,4 +6,4 @@ Generic Netlink
- 
- A wiki document on how to use Generic Netlink can be found here:
- 
-- * http://www.linuxfoundation.org/collaborate/workgroups/networking/generic_netlink_howto
-+ * https://wiki.linuxfoundation.org/networking/generic_netlink_howto
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 17abc6483100..f9eecb2b6a84 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5717,7 +5717,7 @@ F:	drivers/scsi/dc395x.*
- DCCP PROTOCOL
- L:	dccp@vger.kernel.org
- S:	Orphan
--W:	http://www.linuxfoundation.org/collaborate/workgroups/networking/dccp
-+W:	https://wiki.linuxfoundation.org/networking/dccp
- F:	include/linux/dccp.h
- F:	include/linux/tfrc.h
- F:	include/uapi/linux/dccp.h
-diff --git a/net/ipv4/Kconfig b/net/ipv4/Kconfig
-index e983bb0c5012..ce458aba140a 100644
---- a/net/ipv4/Kconfig
-+++ b/net/ipv4/Kconfig
-@@ -419,7 +419,7 @@ config INET_DIAG
- 	  native Linux tools such as ss. ss is included in iproute2, currently
- 	  downloadable at:
- 
--	    http://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2
-+	    https://wiki.linuxfoundation.org/networking/iproute2
- 
- 	  If unsure, say Y.
- 
-diff --git a/net/sched/Kconfig b/net/sched/Kconfig
-index 1e8ab4749c6c..4b63d3fff3ae 100644
---- a/net/sched/Kconfig
-+++ b/net/sched/Kconfig
-@@ -26,7 +26,7 @@ menuconfig NET_SCHED
- 	  from the package iproute2+tc at
- 	  <https://www.kernel.org/pub/linux/utils/net/iproute2/>.  That package
- 	  also contains some documentation; for more, check out
--	  <http://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2>.
-+	  <https://wiki.linuxfoundation.org/networking/iproute2>.
- 
- 	  This Quality of Service (QoS) support will enable you to use
- 	  Differentiated Services (diffserv) and Resource Reservation Protocol
--- 
-2.37.3
+On Thu, Sep 29, 2022 at 04:43:14PM +0700, Quan Nguyen wrote:
+> diff --git a/Documentation/hwmon/smpro-hwmon.rst b/Documentation/hwmon/sm=
+pro-hwmon.rst
+> new file mode 100644
+> index 000000000000..3a9b14dacf89
+> --- /dev/null
+> +++ b/Documentation/hwmon/smpro-hwmon.rst
+> @@ -0,0 +1,101 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +Kernel driver Ampere(R)'s Altra(R) SMpro hwmon
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Supported chips:
+> +
+> +  * Ampere(R) Altra(R)
+> +
+> +    Prefix: 'smpro'
+> +
+> +    Reference: Altra SoC BMC Interface Specification
+> +
+> +Author: Thu Nguyen <thu@os.amperecomputing.com>
+> +
+> +Description
+> +-----------
+> +This driver supports hardware monitoring for Ampere(R) Altra(R) SoC's ba=
+sed on the
+> +SMpro co-processor (SMpro).
+> +The following sensor types are supported by the driver:
+> +
+> +  * temperature
+> +  * voltage
+> +  * current
+> +  * power
+> +
+> +The SMpro interface provides the registers to query the various sensors =
+and
+> +their values which are then exported to userspace by this driver.
+> +
+> +Usage Notes
+> +-----------
+> +
+> +SMpro hwmon driver creates at least two sysfs files for each sensor.
+> +
+> +* File ``<sensor_type><idx>_label`` reports the sensor label.
+> +* File ``<sensor_type><idx>_input`` returns the sensor value.
+> +
+> +The sysfs files are allocated in the SMpro root fs folder.
+> +There is one root folder for each SMpro instance.
+> +
+> +When the SoC is turned off, the driver will fail to read registers
+> +and return -ENXIO.
+> +
+> +Sysfs entries
+> +-------------
+> +
+> +The following sysfs files are supported:
+> +
+> +* Ampere(R) Altra(R):
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D   =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> +Name            Unit            Perm    Description
+> +temp1_input     milli Celsius   RO      SoC temperature
+> +temp2_input     milli Celsius   RO      Max temperature reported among S=
+oC VRDs
+> +temp2_crit      milli Celsius   RO      SoC VRD HOT Threshold temperature
+> +temp3_input     milli Celsius   RO      Max temperature reported among D=
+IMM VRDs
+> +temp4_input     milli Celsius   RO      Max temperature reported among C=
+ore VRDs
+> +temp5_input     milli Celsius   RO      Temperature of DIMM0 on CH0
+> +temp5_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> +temp6_input     milli Celsius   RO      Temperature of DIMM0 on CH1
+> +temp6_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> +temp7_input     milli Celsius   RO      Temperature of DIMM0 on CH2
+> +temp7_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> +temp8_input     milli Celsius   RO      Temperature of DIMM0 on CH3
+> +temp8_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> +temp9_input     milli Celsius   RO      Temperature of DIMM0 on CH4
+> +temp9_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> +temp10_input    milli Celsius   RO      Temperature of DIMM0 on CH5
+> +temp10_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> +temp11_input    milli Celsius   RO      Temperature of DIMM0 on CH6
+> +temp11_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> +temp12_input    milli Celsius   RO      Temperature of DIMM0 on CH7
+> +temp12_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> +temp13_input    milli Celsius   RO      Max temperature reported among R=
+CA VRDs
+> +in0_input       milli Volts     RO      Core voltage
+> +in1_input       milli Volts     RO      SoC voltage
+> +in2_input       milli Volts     RO      DIMM VRD1 voltage
+> +in3_input       milli Volts     RO      DIMM VRD2 voltage
+> +in4_input       milli Volts     RO      RCA VRD voltage
+> +cur1_input      milli Amperes   RO      Core VRD current
+> +cur2_input      milli Amperes   RO      SoC VRD current
+> +cur3_input      milli Amperes   RO      DIMM VRD1 current
+> +cur4_input      milli Amperes   RO      DIMM VRD2 current
+> +cur5_input      milli Amperes   RO      RCA VRD current
+> +power1_input    micro Watts     RO      Core VRD power
+> +power2_input    micro Watts     RO      SoC VRD power
+> +power3_input    micro Watts     RO      DIMM VRD1 power
+> +power4_input    micro Watts     RO      DIMM VRD2 power
+> +power5_input    micro Watts     RO      RCA VRD power
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D   =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Example::
+> +
+> +    # cat in0_input
+> +    830
+> +    # cat temp1_input
+> +    37000
+> +    # cat curr1_input
+> +    9000
+> +    # cat power5_input
+> +    19500000
+=20
+The documentation above can be improved (both grammar and formatting):
 
+---- >8 ----
+
+diff --git a/Documentation/hwmon/smpro-hwmon.rst b/Documentation/hwmon/smpr=
+o-hwmon.rst
+index 3a9b14dacf8975..fb7b3665735bba 100644
+--- a/Documentation/hwmon/smpro-hwmon.rst
++++ b/Documentation/hwmon/smpro-hwmon.rst
+@@ -7,39 +7,39 @@ Supported chips:
+=20
+   * Ampere(R) Altra(R)
+=20
+-    Prefix: 'smpro'
++    Prefix: ``smpro``
+=20
+-    Reference: Altra SoC BMC Interface Specification
++    Reference: `Altra SoC BMC Interface Specification`
+=20
+ Author: Thu Nguyen <thu@os.amperecomputing.com>
+=20
+ Description
+ -----------
+-This driver supports hardware monitoring for Ampere(R) Altra(R) SoC's base=
+d on the
+-SMpro co-processor (SMpro).
+-The following sensor types are supported by the driver:
++The smpro-hwmon driver supports hardware monitoring for Ampere(R) Altra(R)
++SoCs based on the SMpro co-processor (SMpro).  The following sensor metrics
++are supported by the driver:
+=20
+   * temperature
+   * voltage
+   * current
+   * power
+=20
+-The SMpro interface provides the registers to query the various sensors and
++The interface provides the registers to query the various sensors and
+ their values which are then exported to userspace by this driver.
+=20
+ Usage Notes
+ -----------
+=20
+-SMpro hwmon driver creates at least two sysfs files for each sensor.
++The driver creates at least two sysfs files for each sensor.
+=20
+-* File ``<sensor_type><idx>_label`` reports the sensor label.
+-* File ``<sensor_type><idx>_input`` returns the sensor value.
++* ``<sensor_type><idx>_label`` reports the sensor label.
++* ``<sensor_type><idx>_input`` returns the sensor value.
+=20
+-The sysfs files are allocated in the SMpro root fs folder.
+-There is one root folder for each SMpro instance.
++The sysfs files are allocated in the SMpro rootfs folder, with one root
++directory for each instance.
+=20
+-When the SoC is turned off, the driver will fail to read registers
+-and return -ENXIO.
++When the SoC is turned off, the driver will fail to read registers and
++return ``-ENXIO``.
+=20
+ Sysfs entries
+ -------------
+@@ -48,48 +48,49 @@ The following sysfs files are supported:
+=20
+ * Ampere(R) Altra(R):
+=20
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D   =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+-Name            Unit            Perm    Description
+-temp1_input     milli Celsius   RO      SoC temperature
+-temp2_input     milli Celsius   RO      Max temperature reported among SoC=
+ VRDs
+-temp2_crit      milli Celsius   RO      SoC VRD HOT Threshold temperature
+-temp3_input     milli Celsius   RO      Max temperature reported among DIM=
+M VRDs
+-temp4_input     milli Celsius   RO      Max temperature reported among Cor=
+e VRDs
+-temp5_input     milli Celsius   RO      Temperature of DIMM0 on CH0
+-temp5_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+-temp6_input     milli Celsius   RO      Temperature of DIMM0 on CH1
+-temp6_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+-temp7_input     milli Celsius   RO      Temperature of DIMM0 on CH2
+-temp7_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+-temp8_input     milli Celsius   RO      Temperature of DIMM0 on CH3
+-temp8_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+-temp9_input     milli Celsius   RO      Temperature of DIMM0 on CH4
+-temp9_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+-temp10_input    milli Celsius   RO      Temperature of DIMM0 on CH5
+-temp10_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
+-temp11_input    milli Celsius   RO      Temperature of DIMM0 on CH6
+-temp11_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
+-temp12_input    milli Celsius   RO      Temperature of DIMM0 on CH7
+-temp12_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
+-temp13_input    milli Celsius   RO      Max temperature reported among RCA=
+ VRDs
+-in0_input       milli Volts     RO      Core voltage
+-in1_input       milli Volts     RO      SoC voltage
+-in2_input       milli Volts     RO      DIMM VRD1 voltage
+-in3_input       milli Volts     RO      DIMM VRD2 voltage
+-in4_input       milli Volts     RO      RCA VRD voltage
+-cur1_input      milli Amperes   RO      Core VRD current
+-cur2_input      milli Amperes   RO      SoC VRD current
+-cur3_input      milli Amperes   RO      DIMM VRD1 current
+-cur4_input      milli Amperes   RO      DIMM VRD2 current
+-cur5_input      milli Amperes   RO      RCA VRD current
+-power1_input    micro Watts     RO      Core VRD power
+-power2_input    micro Watts     RO      SoC VRD power
+-power3_input    micro Watts     RO      DIMM VRD1 power
+-power4_input    micro Watts     RO      DIMM VRD2 power
+-power5_input    micro Watts     RO      RCA VRD power
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D   =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
++  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
++  Name            Unit           Perm    Description
++  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
++  temp1_input     millicelsius   RO      SoC temperature
++  temp2_input     millicelsius   RO      Max temperature reported among So=
+C VRDs
++  temp2_crit      millicelsius   RO      SoC VRD HOT Threshold temperature
++  temp3_input     millicelsius   RO      Max temperature reported among DI=
+MM VRDs
++  temp4_input     millicelsius   RO      Max temperature reported among Co=
+re VRDs
++  temp5_input     millicelsius   RO      Temperature of DIMM0 on CH0
++  temp5_crit      millicelsius   RO      MEM HOT Threshold for all DIMMs
++  temp6_input     millicelsius   RO      Temperature of DIMM0 on CH1
++  temp6_crit      millicelsius   RO      MEM HOT Threshold for all DIMMs
++  temp7_input     millicelsius   RO      Temperature of DIMM0 on CH2
++  temp7_crit      millicelsius   RO      MEM HOT Threshold for all DIMMs
++  temp8_input     millicelsius   RO      Temperature of DIMM0 on CH3
++  temp8_crit      millicelsius   RO      MEM HOT Threshold for all DIMMs
++  temp9_input     millicelsius   RO      Temperature of DIMM0 on CH4
++  temp9_crit      millicelsius   RO      MEM HOT Threshold for all DIMMs
++  temp10_input    millicelsius   RO      Temperature of DIMM0 on CH5
++  temp10_crit     millicelsius   RO      MEM HOT Threshold for all DIMMs
++  temp11_input    millicelsius   RO      Temperature of DIMM0 on CH6
++  temp11_crit     millicelsius   RO      MEM HOT Threshold for all DIMMs
++  temp12_input    millicelsius   RO      Temperature of DIMM0 on CH7
++  temp12_crit     millicelsius   RO      MEM HOT Threshold for all DIMMs
++  temp13_input    millicelsius   RO      Max temperature reported among RC=
+A VRDs
++  in0_input       millivolts     RO      Core voltage
++  in1_input       millivolts     RO      SoC voltage
++  in2_input       millivolts     RO      DIMM VRD1 voltage
++  in3_input       millivolts     RO      DIMM VRD2 voltage
++  in4_input       millivolts     RO      RCA VRD voltage
++  cur1_input      milliamperes   RO      Core VRD current
++  cur2_input      milliamperes   RO      SoC VRD current
++  cur3_input      milliamperes   RO      DIMM VRD1 current
++  cur4_input      milliamperes   RO      DIMM VRD2 current
++  cur5_input      milliamperes   RO      RCA VRD current
++  power1_input    microwatts     RO      Core VRD power
++  power2_input    microwatts     RO      SoC VRD power
++  power3_input    microwatts     RO      DIMM VRD1 power
++  power4_input    microwatts     RO      DIMM VRD2 power
++  power5_input    microwatts     RO      RCA VRD power
++  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-Example::
++  Example::
+=20
+     # cat in0_input
+     830
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--75JGspy+0gCiqm39
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYzg5EwAKCRD2uYlJVVFO
+o5dfAP96/iL331XtGwg9sJvCVECx5KZKRZ6Naxp3gwt5uSvvngD9Eh+gCcwfjayp
+8RYXNCo9Nd8HQHoZErC6CABhOYt1KAU=
+=9E6T
+-----END PGP SIGNATURE-----
+
+--75JGspy+0gCiqm39--
