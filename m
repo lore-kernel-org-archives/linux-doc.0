@@ -2,131 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A28CDC433FE
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 23:09:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A534C433F5
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 23:31:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229695AbiJBXJg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Oct 2022 19:09:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52572 "EHLO
+        id S230076AbiJBXbI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Oct 2022 19:31:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbiJBXJG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Oct 2022 19:09:06 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE750491E2;
-        Sun,  2 Oct 2022 16:04:12 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id o59-20020a17090a0a4100b0020a6d5803dfso3764183pjo.4;
-        Sun, 02 Oct 2022 16:04:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=zAw0fVVkmmXAocwS/FBx/4RAeRzhHAr6z6st1vR4ywE=;
-        b=khZbRIT/bthChLI0FdE6CkcXt+dUJCAASmqfgzKlA7ZaxpHQcJHxB8OfM+SjfdZcmA
-         MefLF+sFLCeZlBdWlPrWVuhVfmqVFkfzooIllrVqhWSxleNa/mVfcVZx89h4Td7wdTPW
-         IVROBfiao7Xr9ulFWytB5f1FqffN0hqmrhMRdkO6msmxAkyjudUkky+YmJcdJNmVBN46
-         ILBsHDBRKJGxpA0Nwys2mlkWaUEeWqYlLOjjvqGDbrrzXcjikR7GPXVfuVk+UzjSzyyS
-         /emwt64eZkwbYxc9lnPJZ/70RZqOa7VzA4VN4JCI7EnMqeN40U6x3RD6BRHwLx+9tGcy
-         YmcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=zAw0fVVkmmXAocwS/FBx/4RAeRzhHAr6z6st1vR4ywE=;
-        b=pDEsJ79iQTg44oANr8WcdPtwluTjdjEO4ZFpFzJctBGoMcAUy8tynA2roOz79m0jL9
-         pvUmTQRzIFBFmaRbp7wwg0y5dRUHzXPRA9I0904WGNeIP+OeU0BwEUrWYdY1l9/ECpxi
-         K1d6l/Upl4O7Rcv2ZgVMPVxbTW0CCiYO9Xx6UkbHqKUsXJKfXgYacwN3lCkKOncyG2Oy
-         SR5jEO0EaXIB+3kPe2Og5HsnH+itA/8zVcdUl6mDHZd7Rb+RYXWFlvKD6OCpgVLrUl49
-         rlgDZnkSkDe9ejxqu0sUOX9xAYNTa9VGhdfbuK+BCVCr8yVIllGhGqLFyHv56ftG8BOJ
-         /5TA==
-X-Gm-Message-State: ACrzQf0lEHz11Z8sScNllZNAHRUhy3R0M6gDh1Q/FL3iX0empsOvVDf3
-        RFnywoJGMDO1U+sSbb88sxM=
-X-Google-Smtp-Source: AMsMyM78cbNm24P26f6BhXyWocR9twEA+NbsyH80uQdXHN7DsoDnA/h93AqMAv7zchfQZELBm/Xrsw==
-X-Received: by 2002:a17:90b:4c46:b0:202:b9c5:2f24 with SMTP id np6-20020a17090b4c4600b00202b9c52f24mr8792035pjb.180.1664751851217;
-        Sun, 02 Oct 2022 16:04:11 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id c6-20020a63d146000000b00440507bb7fcsm5431495pgj.31.2022.10.02.16.04.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Oct 2022 16:04:10 -0700 (PDT)
-Message-ID: <de5e732e-4857-dc69-a6c1-f0c1d52f99ef@gmail.com>
-Date:   Mon, 3 Oct 2022 08:04:07 +0900
+        with ESMTP id S229628AbiJBXbH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Oct 2022 19:31:07 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B2A2AE0E;
+        Sun,  2 Oct 2022 16:31:01 -0700 (PDT)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 292NPqoC009416;
+        Sun, 2 Oct 2022 23:30:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=OZzBMFoUgJ5NblhfxO/d/8AT214Y8rmmcdR/ZXi9TKw=;
+ b=Jq/od7vWUFihDbeeAo20GDoXsta2AJkFi18uF1vEzVUb+5z8gqeAiJmvNfSC0hiBeds4
+ tB+6yz5ssZ/kTUnjE50mlc2DSPdvGqvMCP0w9q8WsoSjCX8KApUf2cGjRsX4tiZVLSQA
+ mw1wQvb0PznX7sTvcEa89lhbSq22jAoUiNWSR2VaCP2qfQMqBbvm+tOZXQvSZ9bsswFD
+ KW8jsI5/r+2mluuSRI7rT0l4OamWGtqjrsmBLKb3KTAAi8prQwLszrpv2fDZL5Kzf1fK
+ LLZ8hxZ9A31ONhitHJDsjhisKZbAQzW9LiKjmII6jmEeUdbi8+/cyoYgpYZnQpHBZjB2 Rg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jxb8navvs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 02 Oct 2022 23:30:34 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 292NUX79002687
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 2 Oct 2022 23:30:33 GMT
+Received: from [10.110.51.118] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Sun, 2 Oct 2022
+ 16:30:31 -0700
+Message-ID: <1f599b97-9242-3844-4372-1610948f4baf@quicinc.com>
+Date:   Sun, 2 Oct 2022 16:30:30 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3] Documentation/process: Add text to indicate supporters
- should be mailed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v4 10/14] gunyah: sysfs: Add node to describe supported
+ features
 Content-Language: en-US
-To:     Joe Perches <joe@perches.com>
-Cc:     corbet@lwn.net, konstantin@linuxfoundation.org,
-        Theodore Ts'o <tytso@mit.edu>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux@leemhuis.info, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <20220930064629.329514-2-bryan.odonoghue@linaro.org>
- <21f8d79a-0ad4-b28b-15d8-f4be0cfd9730@gmail.com>
- <b119fee5-807f-1940-3378-f5ad638794f5@linaro.org> <Yzen4X1Na0MKXHs9@mit.edu>
- <70759d05-2646-57e5-0b87-3a196488f622@linaro.org>
- <dabbb4aa-d5e1-10d5-082c-1386f3314fc8@linaro.org>
- <f7f6a67c5ee662f24885579ba09b281a5d597b0a.camel@perches.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <f7f6a67c5ee662f24885579ba09b281a5d597b0a.camel@perches.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Joe Perches <joe@perches.com>,
+        Elliot Berman <quic_eberman@quicinc.com>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        "Mark Rutland" <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
+ <20220928195633.2348848-11-quic_eberman@quicinc.com>
+ <3c02aad6d8bde70964b403a3cb8004de969becc6.camel@perches.com>
+From:   Jeff Johnson <quic_jjohnson@quicinc.com>
+In-Reply-To: <3c02aad6d8bde70964b403a3cb8004de969becc6.camel@perches.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: y-SxWOGjvOMLTZ5hHoe76VMIDI4OrmOO
+X-Proofpoint-GUID: y-SxWOGjvOMLTZ5hHoe76VMIDI4OrmOO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-10-02_04,2022-09-29_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ adultscore=0 spamscore=0 phishscore=0 clxscore=1011 malwarescore=0
+ bulkscore=0 suspectscore=0 impostorscore=0 mlxlogscore=999 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210020155
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Joe,
-
-Thank you for chiming in.
-
-On 2022/10/03 0:49, Joe Perches wrote:
-> On Sun, 2022-10-02 at 09:58 +0200, Krzysztof Kozlowski wrote:
->> The easiest to achieve it is to run with --no-git-fallback and CC entire
->> output. However it does not mean submitter must run with
->> --no-git-fallback. It is only for this generic rule - CC entire output
->> of get_maintainers.pl.
->>
->> If you add such rule "CC entire output of get_maintainers.pl" and do not
->> mention no-git-fallback, some folks will think they need to CC all these
->> people who made one commit to your file...
+On 9/29/2022 12:36 AM, Joe Perches wrote:
+> On Wed, 2022-09-28 at 12:56 -0700, Elliot Berman wrote:
+>> Add a sysfs node to list the features that the Gunyah hypervisor and
+>> Linux supports. For now, Linux support cspace (capability IDs) and
+>> message queues, so only report those..
+> []
+>> diff --git a/drivers/virt/gunyah/sysfs.c b/drivers/virt/gunyah/sysfs.c
+> []
+>> @@ -25,9 +25,24 @@ static ssize_t variant_show(struct kobject *kobj, struct kobj_attribute *attr, c
+>>   }
+>>   static struct kobj_attribute variant_attr = __ATTR_RO(variant);
+>>   
+>> +static ssize_t features_show(struct kobject *kobj, struct kobj_attribute *attr, char *buffer)
+>> +{
+>> +	int len = 0;
+>> +
+>> +	if (GH_IDENTIFY_PARTITION_CSPACE(gunyah_api.flags))
+>> +		len += sysfs_emit_at(buffer, len, "cspace ");
+>> +	if (GH_IDENTIFY_MSGQUEUE(gunyah_api.flags))
+>> +		len += sysfs_emit_at(buffer, len, "message-queue ");
+>> +
+>> +	len += sysfs_emit_at(buffer, len, "\n");
+>> +	return len;
+>> +}
 > 
-> false.
+> It's generally nicer to avoid unnecessary output spaces.
 > 
-> git-fallback is _not_ used when there is a listed maintainer for a
-> specific file.
+> Perhaps:
 > 
-> If there is a use of git-fallback, it's because there is _no_
-> specified maintainer for a specific file.
+> {
+> 	int len = 0;
 > 
->    --git-fallback => use git when no exact MAINTAINERS pattern (default: 1)
+> 	if (GH_IDENTIFY_PARTITION_CSPACE(gunyah_api.flags))
+> 		len += sysfs_emit_at(buffer, len, "cspace");
+> 	if (GH_IDENTIFY_MSGQUEUE(gunyah_api.flags)) {
+> 		if (len)
+> 			len += sysfs_emit_at(buffer, len, " ");
+> 		len += sysfs_emit_at(buffer, len, "message-queue");
+> 	}
 > 
-> i.e.: It's not "your file" if you don't maintain it.
+> 	len += sysfs_emit_at(buffer, len, "\n");
+> 
+> 	return len;
+> }
+> 
 
-Joe, I sometimes see unexpected output WRT --git-fallback.
+that approach seems ok for 2 features, but imo doesn't scale for more.
+I like the original code with one exception:
 
-Example:
+	if (GH_IDENTIFY_PARTITION_CSPACE(gunyah_api.flags))
+		len += sysfs_emit_at(buffer, len, "cspace ");
+	if (GH_IDENTIFY_MSGQUEUE(gunyah_api.flags))
+		len += sysfs_emit_at(buffer, len, "message-queue ");
 
-    $ ./get_maintainer.pl -f Documentation/doc-guide/sphinx.rst
-    Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION,commit_signer:1/1=100%)
-  <-- ???
-    Lukas Bulwahn <lukas.bulwahn@gmail.com> (commit_signer:1/1=100%,authored:1/1=100%,added_lines:2/2=100%,removed_lines:2/2=100%)
-    <-- ???
-    linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+	/* overwrite last trailing space */
+	if (len)
+		len--;
 
-    linux-kernel@vger.kernel.org (open list)
-
-As you see, --git-fallback is used in this case. Why?
-It looks strange to me as Jon is listed as a "maintainer".
-
-Having "F:	Documentation/" in MAINTAINERS does not suffice?
-
-Can you elaborate?
-
-Regards,
-Akira
-
-
+	len += sysfs_emit_at(buffer, len, "\n");
+	return len;
 
