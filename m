@@ -2,68 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8D37C433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 11:29:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4429C43217
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 12:49:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229594AbiJBL3u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Oct 2022 07:29:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58688 "EHLO
+        id S229733AbiJBMt2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Oct 2022 08:49:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229665AbiJBL3r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Oct 2022 07:29:47 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F408CB1EC;
-        Sun,  2 Oct 2022 04:29:42 -0700 (PDT)
-Received: from zn.tnic (p200300ea9733e7b3329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e7b3:329c:23ff:fea6:a903])
+        with ESMTP id S229449AbiJBMt1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Oct 2022 08:49:27 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7245833E24;
+        Sun,  2 Oct 2022 05:49:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 050C61EC0651;
-        Sun,  2 Oct 2022 13:29:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1664710177;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=mXgB1RZ/V6Z/XyTH7eYqcjjpYOHJfmCLuhQbmYcP9NY=;
-        b=kbDs07KIuItGuEwk8YQR5T8RzC8PyRXEJuBnVu5GNiLDiy7/0NF6rLs/CEnNctMs6e25ih
-        Ej5vgpO1X26zd10rcGm4BLXe0+SlEKYQt57x0T/64MLF00MP7b3i8i4woUYiCuhG6LpFDH
-        C5D62J/H83rvv8J/I1TKzu/NkXkxC0g=
-Date:   Sun, 2 Oct 2022 13:29:33 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc:     hpa@zytor.com, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, barebox@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: x86: boot: reserve type_of_loader=13 for
- barebox
-Message-ID: <Yzl2HWIiKPHP9F1I@zn.tnic>
-References: <20220513143039.2065756-1-a.fatoum@pengutronix.de>
- <YzjDHOWkIoWF+h/R@zn.tnic>
- <5da3593c-1607-9075-e1ac-1e384fd62b93@pengutronix.de>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 23A47B80D31;
+        Sun,  2 Oct 2022 12:49:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E65F1C43144;
+        Sun,  2 Oct 2022 12:49:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664714963;
+        bh=Am1RtIdozVCQJlWBrLpQs0UAXpZtMu5QkaEZu9Jo8n8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ab3lfQKiSUTvrOXYqGWt6qI8YNJI2MzUqMMrjuG0kMrlKWOJdZGoIfWGahNixuHuO
+         8Id14ajYOYtN/+MhuKNM6EEtSrcI2DRjjO8OPagxLPb1LxGj6qUfHowrvZnvX/5df5
+         XaokptoPnsqMxdG70zoJfM0pJXVtVsa9PQp80eF3S33pSRrFz0K9Lr5DBOcWHOZscT
+         5tPXxBZl7Sg/aOsoeLySGps0XZOxRsMjgyKvpNzlC6AldEvxMZyYawt95Tkt2AboVF
+         S0LWvB/zeWr4IBnDjarJBQ5mkg0Ne6KyPDFyrY64jncDFKM12LUuS+98fUIbRFQ8ui
+         QVzqRPwb5cDtg==
+Date:   Sun, 2 Oct 2022 13:49:39 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     <linux-doc@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+        <lars@metafoo.de>, <Jonathan.Cameron@huawei.com>, <corbet@lwn.net>
+Subject: Re: [PATCH -next] Documentation: devres: add missing IIO helpers
+Message-ID: <20221002134939.76aa2181@jic23-huawei>
+In-Reply-To: <850dabb9-e62b-2273-9371-1ae1b7535e50@huawei.com>
+References: <20220927074043.942836-1-yangyingliang@huawei.com>
+        <850dabb9-e62b-2273-9371-1ae1b7535e50@huawei.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5da3593c-1607-9075-e1ac-1e384fd62b93@pengutronix.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 02, 2022 at 09:15:09AM +0200, Ahmad Fatoum wrote:
-> Release cadence is monthly. Starting with release v2015.09.0,
-> type_of_loader=0xff was being used. I figured it's about time, we
-> allocate an ID for it.
+On Tue, 27 Sep 2022 16:09:02 +0800
+Yang Yingliang <yangyingliang@huawei.com> wrote:
 
-Right, by "explain a bit what it is here" I meant to explain what it
-is and add some references to the commit message. I.e., leave enough
-breadcrumbs so that people like me can go and find that relevant info
-when doing git archeology.
+> Add Cc: Jonathan Corbet <corbet@lwn.net>
+> 
+> On 2022/9/27 15:40, Yang Yingliang wrote:
+> > Add missing device-managed helpers of iio to devres.rst.
+> >
+> > Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+I'm assuming this will go via the docs tree.
+Thanks for tidying this up.
 
-Thx.
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---
+> >   Documentation/driver-api/driver-model/devres.rst | 4 ++++
+> >   1 file changed, 4 insertions(+)
+> >
+> > diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+> > index 2895f9ea00c4..5154844bc222 100644
+> > --- a/Documentation/driver-api/driver-model/devres.rst
+> > +++ b/Documentation/driver-api/driver-model/devres.rst
+> > @@ -286,12 +286,16 @@ IIO
+> >     devm_iio_device_register()
+> >     devm_iio_dmaengine_buffer_setup()
+> >     devm_iio_kfifo_buffer_setup()
+> > +  devm_iio_kfifo_buffer_setup_ext()
+> >     devm_iio_map_array_register()
+> >     devm_iio_triggered_buffer_setup()
+> > +  devm_iio_triggered_buffer_setup_ext()
+> >     devm_iio_trigger_alloc()
+> >     devm_iio_trigger_register()
+> >     devm_iio_channel_get()
+> >     devm_iio_channel_get_all()
+> > +  devm_iio_hw_consumer_alloc()
+> > +  devm_fwnode_iio_channel_get_by_name()
+> >   
+> >   INPUT
+> >     devm_input_allocate_device()  
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
