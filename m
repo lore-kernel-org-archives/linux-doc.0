@@ -2,80 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5B7AC433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 19:22:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A28CDC433FE
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 23:09:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230084AbiJBTWb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Oct 2022 15:22:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45638 "EHLO
+        id S229695AbiJBXJg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Oct 2022 19:09:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229681AbiJBTWa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Oct 2022 15:22:30 -0400
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F88929813;
-        Sun,  2 Oct 2022 12:22:29 -0700 (PDT)
-Received: by mail-io1-xd32.google.com with SMTP id q83so6782834iod.7;
-        Sun, 02 Oct 2022 12:22:29 -0700 (PDT)
+        with ESMTP id S229534AbiJBXJG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Oct 2022 19:09:06 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE750491E2;
+        Sun,  2 Oct 2022 16:04:12 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id o59-20020a17090a0a4100b0020a6d5803dfso3764183pjo.4;
+        Sun, 02 Oct 2022 16:04:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=lHVZ8hajxDUrSE+HbGsQ29juLRzmP+3OYmThWC7Wxv8=;
-        b=KQ4vBaSlYIP4u1I/BPdJgxVVFPDaagY/zt1RxWx9HY+nT96NppjnXfubKBNOpe6LPq
-         BP7RuWgMB1BCdYjrb2NfTJfBCCv9ue7xXblHxtvMR5jETp5PgzTRU0XzgL4lvXFeTbVl
-         7RmZhD3gCUzzuyGTVPrd+uDXsp/ubrZVv4j6H9ATwf86Hy8Q6WsLZgrTSh/Yf3z/yWPe
-         7Je3R45+zUMfK5XOYuDs7tEeIHBiTbsNH9+sLF/EHB5loe9Ms+YaUT4TfnWuzOPzth+7
-         jpo8GPdJv4I1bb5LVUQTlCujErWqJ4rR5zfbIQbcuwULQi0J0yiXXznxuzI8aOerHfvz
-         R7Vw==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=zAw0fVVkmmXAocwS/FBx/4RAeRzhHAr6z6st1vR4ywE=;
+        b=khZbRIT/bthChLI0FdE6CkcXt+dUJCAASmqfgzKlA7ZaxpHQcJHxB8OfM+SjfdZcmA
+         MefLF+sFLCeZlBdWlPrWVuhVfmqVFkfzooIllrVqhWSxleNa/mVfcVZx89h4Td7wdTPW
+         IVROBfiao7Xr9ulFWytB5f1FqffN0hqmrhMRdkO6msmxAkyjudUkky+YmJcdJNmVBN46
+         ILBsHDBRKJGxpA0Nwys2mlkWaUEeWqYlLOjjvqGDbrrzXcjikR7GPXVfuVk+UzjSzyyS
+         /emwt64eZkwbYxc9lnPJZ/70RZqOa7VzA4VN4JCI7EnMqeN40U6x3RD6BRHwLx+9tGcy
+         YmcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=lHVZ8hajxDUrSE+HbGsQ29juLRzmP+3OYmThWC7Wxv8=;
-        b=loxuUGVDuQGu11lnYbJvWdyg3cdS3K7e9Ir12nH/VUQsQcvstAJyFH+6kmPczZTzjS
-         WPYBJv8cux3yWlkxrpndmYv/BRx7XvSaMH9ymHeuOufDUxHhbVdKvsJrwUd7Jwo/BQmj
-         la/mfzvcKyQGZk9EaaQHAsJeGtHokIRCvzTLE5tX4SdNmPQ3qZLD7Nitb4l/xTBvquCf
-         mscCECM/HfBmoEDDVSdir3TvET7+x8g6pLfoA1s2hogmJTX24jdj7ho7DtlMN/KtjGlY
-         ddrifFRdxHF7IUEMZkIws+sDbqvhHqQmZJ8WJlqZA2eTpPsdC6owVDmNy12wFOmgaQKX
-         YtFg==
-X-Gm-Message-State: ACrzQf1gJabFIG673sqKYxVwJ/y4aGn60tKFoR39a13N7e4c22r7edi2
-        ZyUE0O5KtRVBcpihZEnm1K1pDE5AMIeLfzejBlw=
-X-Google-Smtp-Source: AMsMyM7nDCFxZShox/Abpgr4yMv7bbmXQ24CAd47DFbld3g8JcZrMuD7UAMmEunW/Izg3puGwlGPjCYfYgZqRA1EzB0=
-X-Received: by 2002:a05:6602:2a45:b0:6a4:43dc:40ef with SMTP id
- k5-20020a0566022a4500b006a443dc40efmr7435527iov.64.1664738548708; Sun, 02 Oct
- 2022 12:22:28 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=zAw0fVVkmmXAocwS/FBx/4RAeRzhHAr6z6st1vR4ywE=;
+        b=pDEsJ79iQTg44oANr8WcdPtwluTjdjEO4ZFpFzJctBGoMcAUy8tynA2roOz79m0jL9
+         pvUmTQRzIFBFmaRbp7wwg0y5dRUHzXPRA9I0904WGNeIP+OeU0BwEUrWYdY1l9/ECpxi
+         K1d6l/Upl4O7Rcv2ZgVMPVxbTW0CCiYO9Xx6UkbHqKUsXJKfXgYacwN3lCkKOncyG2Oy
+         SR5jEO0EaXIB+3kPe2Og5HsnH+itA/8zVcdUl6mDHZd7Rb+RYXWFlvKD6OCpgVLrUl49
+         rlgDZnkSkDe9ejxqu0sUOX9xAYNTa9VGhdfbuK+BCVCr8yVIllGhGqLFyHv56ftG8BOJ
+         /5TA==
+X-Gm-Message-State: ACrzQf0lEHz11Z8sScNllZNAHRUhy3R0M6gDh1Q/FL3iX0empsOvVDf3
+        RFnywoJGMDO1U+sSbb88sxM=
+X-Google-Smtp-Source: AMsMyM78cbNm24P26f6BhXyWocR9twEA+NbsyH80uQdXHN7DsoDnA/h93AqMAv7zchfQZELBm/Xrsw==
+X-Received: by 2002:a17:90b:4c46:b0:202:b9c5:2f24 with SMTP id np6-20020a17090b4c4600b00202b9c52f24mr8792035pjb.180.1664751851217;
+        Sun, 02 Oct 2022 16:04:11 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id c6-20020a63d146000000b00440507bb7fcsm5431495pgj.31.2022.10.02.16.04.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Oct 2022 16:04:10 -0700 (PDT)
+Message-ID: <de5e732e-4857-dc69-a6c1-f0c1d52f99ef@gmail.com>
+Date:   Mon, 3 Oct 2022 08:04:07 +0900
 MIME-Version: 1.0
-References: <20221001202836.3110985-1-masahiroy@kernel.org>
-In-Reply-To: <20221001202836.3110985-1-masahiroy@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sun, 2 Oct 2022 21:22:17 +0200
-Message-ID: <CANiq72=GidTB23dH1kXu1jTMSH-7Qe-2NLaD5ChrzLEU3X=O7w@mail.gmail.com>
-Subject: Re: [PATCH] docs: bump minimal GNU Make version to 3.82
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3] Documentation/process: Add text to indicate supporters
+ should be mailed
+Content-Language: en-US
+To:     Joe Perches <joe@perches.com>
+Cc:     corbet@lwn.net, konstantin@linuxfoundation.org,
+        Theodore Ts'o <tytso@mit.edu>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux@leemhuis.info, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <20220930064629.329514-2-bryan.odonoghue@linaro.org>
+ <21f8d79a-0ad4-b28b-15d8-f4be0cfd9730@gmail.com>
+ <b119fee5-807f-1940-3378-f5ad638794f5@linaro.org> <Yzen4X1Na0MKXHs9@mit.edu>
+ <70759d05-2646-57e5-0b87-3a196488f622@linaro.org>
+ <dabbb4aa-d5e1-10d5-082c-1386f3314fc8@linaro.org>
+ <f7f6a67c5ee662f24885579ba09b281a5d597b0a.camel@perches.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <f7f6a67c5ee662f24885579ba09b281a5d597b0a.camel@perches.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 1, 2022 at 10:30 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> The error message looks weird, but the reason is that the 'private'
-> keyword is only supported since GNU Make 3.82.
+Hello Joe,
 
-Sorry about that. Indeed, it was added in 3.82 [1,2]. Given GCC 5.1
-(the current minimum) was released 5 years later, I guess it is OK to
-increase it.
+Thank you for chiming in.
 
-Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+On 2022/10/03 0:49, Joe Perches wrote:
+> On Sun, 2022-10-02 at 09:58 +0200, Krzysztof Kozlowski wrote:
+>> The easiest to achieve it is to run with --no-git-fallback and CC entire
+>> output. However it does not mean submitter must run with
+>> --no-git-fallback. It is only for this generic rule - CC entire output
+>> of get_maintainers.pl.
+>>
+>> If you add such rule "CC entire output of get_maintainers.pl" and do not
+>> mention no-git-fallback, some folks will think they need to CC all these
+>> people who made one commit to your file...
+> 
+> false.
+> 
+> git-fallback is _not_ used when there is a listed maintainer for a
+> specific file.
+> 
+> If there is a use of git-fallback, it's because there is _no_
+> specified maintainer for a specific file.
+> 
+>    --git-fallback => use git when no exact MAINTAINERS pattern (default: 1)
+> 
+> i.e.: It's not "your file" if you don't maintain it.
 
-[1] https://git.savannah.gnu.org/cgit/make.git/commit/?id=5b4d419476e9fbda8ea26017f6ec15956d103ed9
-[2] https://git.savannah.gnu.org/cgit/make.git/tree/ChangeLog?h=3.82#n814
+Joe, I sometimes see unexpected output WRT --git-fallback.
 
-Cheers,
-Miguel
+Example:
+
+    $ ./get_maintainer.pl -f Documentation/doc-guide/sphinx.rst
+    Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION,commit_signer:1/1=100%)
+  <-- ???
+    Lukas Bulwahn <lukas.bulwahn@gmail.com> (commit_signer:1/1=100%,authored:1/1=100%,added_lines:2/2=100%,removed_lines:2/2=100%)
+    <-- ???
+    linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+
+    linux-kernel@vger.kernel.org (open list)
+
+As you see, --git-fallback is used in this case. Why?
+It looks strange to me as Jon is listed as a "maintainer".
+
+Having "F:	Documentation/" in MAINTAINERS does not suffice?
+
+Can you elaborate?
+
+Regards,
+Akira
+
+
+
