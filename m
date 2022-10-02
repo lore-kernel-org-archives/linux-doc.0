@@ -2,85 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9D3AC433FE
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 07:15:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA9BFC433F5
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 07:58:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229657AbiJBHPo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Oct 2022 03:15:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60772 "EHLO
+        id S229766AbiJBH6f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Oct 2022 03:58:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229679AbiJBHPn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Oct 2022 03:15:43 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36D0545048
-        for <linux-doc@vger.kernel.org>; Sun,  2 Oct 2022 00:15:42 -0700 (PDT)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <a.fatoum@pengutronix.de>)
-        id 1oetBv-00021X-Pp; Sun, 02 Oct 2022 09:15:11 +0200
-Message-ID: <5da3593c-1607-9075-e1ac-1e384fd62b93@pengutronix.de>
-Date:   Sun, 2 Oct 2022 09:15:09 +0200
+        with ESMTP id S229668AbiJBH6a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Oct 2022 03:58:30 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05E4E5005F
+        for <linux-doc@vger.kernel.org>; Sun,  2 Oct 2022 00:58:29 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id b2so1731082lfp.6
+        for <linux-doc@vger.kernel.org>; Sun, 02 Oct 2022 00:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=kBWjRRTovg35zU7EoEfXokWME2W+wlj8Ua14x5ihi7Y=;
+        b=zyr3igGdKkgtXY2NI1R+geCbdPTB5GIlHOrot9oUVQg73KMxt1Mc+92vJ9/Nrj30qv
+         CpGEhMcfLc2uDsMUYyeohKJWyu0FY38AsRUBzL/BOn5Uh5ZzQTQpvUG3ZTf8cDNTpFqd
+         fg+XR05rAeyuUkB18mySzUQ5DfINVLmyzfwirDaujWOkj0DEbbiMldIzZdelANyLfeRz
+         iyQbMTGMZDsEINU+046V3a3QU6bUj0nQtIQJyMRbjoo61NeWb0SEY80ZfGEzeW9vWaHa
+         nWWNYBg88hwfxR9nlvtm6hR7FB4dmcHkE5wh7tmmnPQElTvsJlCgC+l/VWWc+JZYFZBH
+         UlPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=kBWjRRTovg35zU7EoEfXokWME2W+wlj8Ua14x5ihi7Y=;
+        b=6DvEUV8266xkr1XDIUm9tkBThgCBv/TCXxUanh30K+DUyBlRLZDxqq/reQQC04N/4m
+         YALsLvBTHRSaaakfqIWhdjbPfuFSDj58lkCSnk6Ue6Aiea4dt6rM5OzsuxdaSPc8o2BI
+         ySkbvZnXMaVVhEFFyf7XvpM2fw59LZNP5S7A54AegvFmUeoTTcMvH9huSkN7KgHWg8F5
+         z3jl6l72IWJiat8Q0rEI0Uph6DfCmTYf5mU0Pzb8dM7DfEL5T94uHJdYATNvtq47MYsG
+         r3mLNRPGWJ/w2CE3IhyYTntXUoK5CUWtOvDop1n4nJliQ/IRx/dfpDRi+LWcox92512r
+         qzaw==
+X-Gm-Message-State: ACrzQf3FYhJJvn6OV7onXPJIOezbQDoYJbozgaDqWpV7rP6KEbMHBkUS
+        XKn+ZeKPF8v+9odeMKrI9O6tTQ==
+X-Google-Smtp-Source: AMsMyM4FWf0nZksW2rIlXQIcJ+DVvjaAGqFh0bmPFJ0z0J26jfQ9VS8bhfx6FvMQz7EEEi1Cn948JA==
+X-Received: by 2002:a05:6512:280c:b0:4a1:e1e7:4455 with SMTP id cf12-20020a056512280c00b004a1e1e74455mr6275422lfb.217.1664697507392;
+        Sun, 02 Oct 2022 00:58:27 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id be43-20020a056512252b00b004994117b0fdsm998862lfb.281.2022.10.02.00.58.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Oct 2022 00:58:26 -0700 (PDT)
+Message-ID: <dabbb4aa-d5e1-10d5-082c-1386f3314fc8@linaro.org>
+Date:   Sun, 2 Oct 2022 09:58:25 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] Documentation: x86: boot: reserve type_of_loader=13 for
- barebox
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v3] Documentation/process: Add text to indicate supporters
+ should be mailed
 Content-Language: en-US
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     hpa@zytor.com, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, barebox@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20220513143039.2065756-1-a.fatoum@pengutronix.de>
- <YzjDHOWkIoWF+h/R@zn.tnic>
-From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <YzjDHOWkIoWF+h/R@zn.tnic>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Theodore Ts'o <tytso@mit.edu>
+Cc:     Akira Yokosawa <akiyks@gmail.com>, corbet@lwn.net,
+        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux@leemhuis.info
+References: <20220930064629.329514-2-bryan.odonoghue@linaro.org>
+ <21f8d79a-0ad4-b28b-15d8-f4be0cfd9730@gmail.com>
+ <b119fee5-807f-1940-3378-f5ad638794f5@linaro.org> <Yzen4X1Na0MKXHs9@mit.edu>
+ <70759d05-2646-57e5-0b87-3a196488f622@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <70759d05-2646-57e5-0b87-3a196488f622@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
-
-On 02.10.22 00:45, Borislav Petkov wrote:
-> On Fri, May 13, 2022 at 04:30:39PM +0200, Ahmad Fatoum wrote:
->> barebox built as EFI payload has been booting Linux on x86 with
->> type_of_loader=0xff since v2015.09.0.
+On 01/10/2022 12:37, Bryan O'Donoghue wrote:
 > 
-> What is barebox?
+> I wasn't sure how people would necessarily feel about having 
+> get_maintainer produce the string 'maintainer' for both Maintained and 
+> Supported but, IMO it is more consistent to have it do so, since we 
+> refer to maintainers all throughout the doucmentation and as you say 
+> above Rafael is the person you *need* to mail there because he's the 
+> maintainer.
 > 
-> That https://en.wikipedia.org/wiki/Barebox ?
-
-Yes.
-
+> Lets consider
 > 
-> That version number v2015 - am I to understand it that it has been
-> booting Linux since the year 2015?
-> 
-> In any case, it would be useful to explain a bit what it is here.
+> - maintainer as a string for "S: Supported"
+> - Documentation update to reflect Krzysztof's point on git-fallback
 
-Release cadence is monthly. Starting with release v2015.09.0,
-type_of_loader=0xff was being used. I figured it's about time, we
-allocate an ID for it.
+Just to clarify my point - one can use git-fallback. The expectation is
+however that submitter CCs all specifically assigned addresses from
+maintainers, this is:
+ - all maintainers
+ - all maintainers-supporters
+ - all reviewers
+ - all dedicated mailing lists
+ - LKML if there is no dedicated mailing list.
 
-> 
->> Reserve 13, the next free id, so this can be used instead.
-> 
-> Sure, I guess, why not.
-> 
-> Thx.
-Cheers,
-Ahmad
+The easiest to achieve it is to run with --no-git-fallback and CC entire
+output. However it does not mean submitter must run with
+--no-git-fallback. It is only for this generic rule - CC entire output
+of get_maintainers.pl.
 
+If you add such rule "CC entire output of get_maintainers.pl" and do not
+mention no-git-fallback, some folks will think they need to CC all these
+people who made one commit to your file...
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Best regards,
+Krzysztof
+
