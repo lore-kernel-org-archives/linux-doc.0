@@ -2,119 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68FA3C433FE
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 03:21:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9D3AC433FE
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 07:15:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229482AbiJBDVp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 Oct 2022 23:21:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58910 "EHLO
+        id S229657AbiJBHPo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Oct 2022 03:15:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbiJBDVn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Oct 2022 23:21:43 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 406AC3498A;
-        Sat,  1 Oct 2022 20:21:31 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id u21so1847002pfc.13;
-        Sat, 01 Oct 2022 20:21:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=oORAsNAjlV+kGub6/vHK5sXENo+dkak9K21Z6qFMibM=;
-        b=WUIDMUnCdiSZ2vk70Uu1Y/5q++VmzOQ4v8ps9ChRXoRdvDO42p8ZrndlEOYgNd+FDg
-         Z9GhVBu04l5+2nN2pxWDHu70MlQJ7CjanierTmWDBHQo8qQZv2B8CtlqZ53aGqFPHmP3
-         ZvvsgmfnJX8KbTrc0RjrtoA52fJBDfKhpDXLE/t/lWMMU98fxpDpw/PE6vELdwhjow9V
-         /BeyaUI5VrYWVY2UPx0TcVAYjW15Bta+HDjgTMc9k18SPlb80JfPYXtNV4BOfUSKb3Z1
-         NluKSAezx4u5AKfU4aaYYtBSE2dHh4gdf66D80lrhEBAZ+V8RNcY4H59I8khzBrRMdQ2
-         gXQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=oORAsNAjlV+kGub6/vHK5sXENo+dkak9K21Z6qFMibM=;
-        b=Tb2kALimbMQmK+zEK7CP0Mlxf+x3LcJdbCuKlTLow0Khe4DxwtOKYiegUONwYxVB6O
-         XFi/r9loMlr4lgTX2BI5hpog335IiJZ+W1jUhhRzfjeXaT0deIFjhbsVWj5qLBazeXhE
-         CmCm5oxYg3DZSiJhpBwS5i8pOsdn24nClGltyHulmRP3oY295TZZSMDMM9r6J1CWrMr5
-         cUq1v/XNqqWy/3Ax2YGoJ9pIghq7B4qN2mGadcHnxBWvYncc+n9fG/SY3a78h4QJZc2O
-         ZLiD0NaSwrxYSJXNZvs0hgOs6I9Kk2YWw665lmMn1hP7WwWkbIx1TcqvrkP0GXwQ36RQ
-         /x9w==
-X-Gm-Message-State: ACrzQf2AfEDCfewHccWASjPHPJgxe5q9BK17h8sfTQ8Q6BUYFcgrlJ/N
-        dKVU+r3blsXvnOsocfLVKjKc0obHygFnog==
-X-Google-Smtp-Source: AMsMyM6zW/0rqYRGVYcWQTKjbD0LCFDqzX6jsFwXGq1kzQEiIIw1bI9y56FOUsRf2i19Yhz0zKO4Fg==
-X-Received: by 2002:a05:6a00:198e:b0:541:f85a:6c27 with SMTP id d14-20020a056a00198e00b00541f85a6c27mr16318317pfl.81.1664680890502;
-        Sat, 01 Oct 2022 20:21:30 -0700 (PDT)
-Received: from debian.. (subs02-180-214-232-82.three.co.id. [180.214.232.82])
-        by smtp.gmail.com with ESMTPSA id a23-20020aa79717000000b0056149203b60sm45921pfg.46.2022.10.01.20.21.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Oct 2022 20:21:30 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, Dave Thaler <dthaler@microsoft.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH bpf-next] Documentation: bpf: Add implementation notes documentations to table of contents
-Date:   Sun,  2 Oct 2022 10:20:23 +0700
-Message-Id: <20221002032022.24693-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.37.2
+        with ESMTP id S229679AbiJBHPn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Oct 2022 03:15:43 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36D0545048
+        for <linux-doc@vger.kernel.org>; Sun,  2 Oct 2022 00:15:42 -0700 (PDT)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <a.fatoum@pengutronix.de>)
+        id 1oetBv-00021X-Pp; Sun, 02 Oct 2022 09:15:11 +0200
+Message-ID: <5da3593c-1607-9075-e1ac-1e384fd62b93@pengutronix.de>
+Date:   Sun, 2 Oct 2022 09:15:09 +0200
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1456; i=bagasdotme@gmail.com; h=from:subject; bh=3FxgODjRXn/aDHCdRj+wx/Y2X1pOJpd+3lE9my6zu8k=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDMmWzPmO74x4pNQuvD7g2DZjr5/c3piggMD2sMdz5m37suvO 6q3uHaUsDGIcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZjIZhdGhoXy7HGHd3OlFC5rvuis/J b54om/a3e8XMGw+Q1P9NWSJ7GMDBuEuQLk577eF9q9/bVr2bIPr6xVLvTZml1k1lvrKbvpPjcA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] Documentation: x86: boot: reserve type_of_loader=13 for
+ barebox
+Content-Language: en-US
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     hpa@zytor.com, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, barebox@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20220513143039.2065756-1-a.fatoum@pengutronix.de>
+ <YzjDHOWkIoWF+h/R@zn.tnic>
+From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
+In-Reply-To: <YzjDHOWkIoWF+h/R@zn.tnic>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx reported warnings on missing implementation notes documentations in the
-table of contents:
+Hello,
 
-Documentation/bpf/clang-notes.rst: WARNING: document isn't included in any toctree
-Documentation/bpf/linux-notes.rst: WARNING: document isn't included in any toctree
+On 02.10.22 00:45, Borislav Petkov wrote:
+> On Fri, May 13, 2022 at 04:30:39PM +0200, Ahmad Fatoum wrote:
+>> barebox built as EFI payload has been booting Linux on x86 with
+>> type_of_loader=0xff since v2015.09.0.
+> 
+> What is barebox?
+> 
+> That https://en.wikipedia.org/wiki/Barebox ?
 
-Add these documentations to the table of contents (index.rst) of BPF
-documentation to fix the warnings.
+Yes.
 
-Link: https://lore.kernel.org/linux-doc/202210020749.yfgDZbRL-lkp@intel.com/
-Fixes: 6c7aaffb24efbd ("bpf, docs: Move Clang notes to a separate file")
-Fixes: 6166da0a02cde2 ("bpf, docs: Move legacy packet instructions to a separate file")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Hi bpf maintainers,
+> 
+> That version number v2015 - am I to understand it that it has been
+> booting Linux since the year 2015?
+> 
+> In any case, it would be useful to explain a bit what it is here.
 
- This is last-minute fix due to upcoming merge window that will be open
- shortly on the next week.
+Release cadence is monthly. Starting with release v2015.09.0,
+type_of_loader=0xff was being used. I figured it's about time, we
+allocate an ID for it.
 
- Documentation/bpf/index.rst | 2 ++
- 1 file changed, 2 insertions(+)
+> 
+>> Reserve 13, the next free id, so this can be used instead.
+> 
+> Sure, I guess, why not.
+> 
+> Thx.
+Cheers,
+Ahmad
 
-diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
-index 1bc2c5c58bdbdc..1b50de1983ee2c 100644
---- a/Documentation/bpf/index.rst
-+++ b/Documentation/bpf/index.rst
-@@ -26,6 +26,8 @@ that goes into great technical depth about the BPF Architecture.
-    classic_vs_extended.rst
-    bpf_licensing
-    test_debug
-+   clang-notes
-+   linux-notes
-    other
- 
- .. only::  subproject and html
 
-base-commit: b502a6fb46d275aa978c1e0655bada2cafc81fea
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
