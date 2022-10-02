@@ -2,128 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ED7FC433FE
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 00:28:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68FA3C433FE
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 03:21:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229598AbiJBA2I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 1 Oct 2022 20:28:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59596 "EHLO
+        id S229482AbiJBDVp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 1 Oct 2022 23:21:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbiJBA2F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Oct 2022 20:28:05 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8176F5721C;
-        Sat,  1 Oct 2022 17:28:04 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id r5so2188618pjq.1;
-        Sat, 01 Oct 2022 17:28:04 -0700 (PDT)
+        with ESMTP id S229472AbiJBDVn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Oct 2022 23:21:43 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 406AC3498A;
+        Sat,  1 Oct 2022 20:21:31 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id u21so1847002pfc.13;
+        Sat, 01 Oct 2022 20:21:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date;
-        bh=WB4sj3vFMJvf9+kFEuhjklnfHLLbja4yM5JLwxCPsi0=;
-        b=FMKmoo6UtOmF7XZLbnTH5fAnwLliuKWtZ2j9KgPR0TUYT6ewiFI35U1TShiL7YW+hF
-         g1SwaZNOfd+lLfyTZUJn9I14HCMibzq0gQpVasPDHQCygBqDvd72HMzvZUxlZpWZwEpn
-         WcW0cK75B+6kXML5Dj4akLsp/StLngRwlyPicXv245wVlsup8dQW//6vK+sZNrcN/hz8
-         +OcFcEvEyvxK6jEa3JkgJsxPtL0K5fS094os5nn6MhuAUDOtTrIxMX73wY7ffWiS/HB8
-         yKAn7teK8OxGM+zvLDJ7xQ9DWIMw8DmquGNsjlSPoZ9jTqJ2qNaf4nMuJClBNTli2CE/
-         vJow==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=oORAsNAjlV+kGub6/vHK5sXENo+dkak9K21Z6qFMibM=;
+        b=WUIDMUnCdiSZ2vk70Uu1Y/5q++VmzOQ4v8ps9ChRXoRdvDO42p8ZrndlEOYgNd+FDg
+         Z9GhVBu04l5+2nN2pxWDHu70MlQJ7CjanierTmWDBHQo8qQZv2B8CtlqZ53aGqFPHmP3
+         ZvvsgmfnJX8KbTrc0RjrtoA52fJBDfKhpDXLE/t/lWMMU98fxpDpw/PE6vELdwhjow9V
+         /BeyaUI5VrYWVY2UPx0TcVAYjW15Bta+HDjgTMc9k18SPlb80JfPYXtNV4BOfUSKb3Z1
+         NluKSAezx4u5AKfU4aaYYtBSE2dHh4gdf66D80lrhEBAZ+V8RNcY4H59I8khzBrRMdQ2
+         gXQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=WB4sj3vFMJvf9+kFEuhjklnfHLLbja4yM5JLwxCPsi0=;
-        b=2IoUH2YQ4zyTA97EJBRo1nhbh4OtPKLmsaQh24OaFGlGwnB2Y5Utjoiuukvk1U+TCL
-         gWwkknXz5TWcLkskLIPI3WBVpzNygBT7jRqNf0DClCaUYkhfJL6f2oJQk9MYCm1TM9kj
-         pAFmiGudiPeQFk4fD5TR0IXjgotzmK1AT8zGU1TH+gpspqWW7MnXmx+3lR60zI2/NU9m
-         +lULa9O0aA9pzAHYbIyxiTDw32ndjLiOxwXa//jeGrWNO4wFzsaQXvdLsmYfHTQNAjv8
-         e0aJnC0fEUqvvGsV2XH67M5BysOfQdfFAVLslrDn0/TT/DaZgdPq2Mnj9AlH+jlXQTNZ
-         kogw==
-X-Gm-Message-State: ACrzQf3mtnYZ9MqUTkMk7AhmBCyXSz2Jg/CmP0evumInuZ+pZvY5sD1E
-        saKlZs4eeR53DhuiIkbT10PRXcbzGFA=
-X-Google-Smtp-Source: AMsMyM7oyuqaIUWyUOPCw9S451fYU00uYjclDsjBDvbJJEs/jb0AMfvI+kHhqoB1TCUPV8yjW3/FPQ==
-X-Received: by 2002:a17:90b:1c0d:b0:202:61d0:33c with SMTP id oc13-20020a17090b1c0d00b0020261d0033cmr5459270pjb.90.1664670484016;
-        Sat, 01 Oct 2022 17:28:04 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id h15-20020aa79f4f000000b0053e75395705sm4303138pfr.127.2022.10.01.17.28.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Oct 2022 17:28:03 -0700 (PDT)
-Message-ID: <71599eac-04ef-66d1-50d5-ebc564a6bf1d@gmail.com>
-Date:   Sun, 2 Oct 2022 09:27:59 +0900
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=oORAsNAjlV+kGub6/vHK5sXENo+dkak9K21Z6qFMibM=;
+        b=Tb2kALimbMQmK+zEK7CP0Mlxf+x3LcJdbCuKlTLow0Khe4DxwtOKYiegUONwYxVB6O
+         XFi/r9loMlr4lgTX2BI5hpog335IiJZ+W1jUhhRzfjeXaT0deIFjhbsVWj5qLBazeXhE
+         CmCm5oxYg3DZSiJhpBwS5i8pOsdn24nClGltyHulmRP3oY295TZZSMDMM9r6J1CWrMr5
+         cUq1v/XNqqWy/3Ax2YGoJ9pIghq7B4qN2mGadcHnxBWvYncc+n9fG/SY3a78h4QJZc2O
+         ZLiD0NaSwrxYSJXNZvs0hgOs6I9Kk2YWw665lmMn1hP7WwWkbIx1TcqvrkP0GXwQ36RQ
+         /x9w==
+X-Gm-Message-State: ACrzQf2AfEDCfewHccWASjPHPJgxe5q9BK17h8sfTQ8Q6BUYFcgrlJ/N
+        dKVU+r3blsXvnOsocfLVKjKc0obHygFnog==
+X-Google-Smtp-Source: AMsMyM6zW/0rqYRGVYcWQTKjbD0LCFDqzX6jsFwXGq1kzQEiIIw1bI9y56FOUsRf2i19Yhz0zKO4Fg==
+X-Received: by 2002:a05:6a00:198e:b0:541:f85a:6c27 with SMTP id d14-20020a056a00198e00b00541f85a6c27mr16318317pfl.81.1664680890502;
+        Sat, 01 Oct 2022 20:21:30 -0700 (PDT)
+Received: from debian.. (subs02-180-214-232-82.three.co.id. [180.214.232.82])
+        by smtp.gmail.com with ESMTPSA id a23-20020aa79717000000b0056149203b60sm45921pfg.46.2022.10.01.20.21.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Oct 2022 20:21:30 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>, Dave Thaler <dthaler@microsoft.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH bpf-next] Documentation: bpf: Add implementation notes documentations to table of contents
+Date:   Sun,  2 Oct 2022 10:20:23 +0700
+Message-Id: <20221002032022.24693-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v3] Documentation/process: Add text to indicate supporters
- should be mailed
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     corbet@lwn.net, konstantin@linuxfoundation.org,
-        krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux@leemhuis.info,
-        Theodore Ts'o <tytso@mit.edu>
-References: <20220930064629.329514-2-bryan.odonoghue@linaro.org>
- <21f8d79a-0ad4-b28b-15d8-f4be0cfd9730@gmail.com>
- <b119fee5-807f-1940-3378-f5ad638794f5@linaro.org> <Yzen4X1Na0MKXHs9@mit.edu>
- <70759d05-2646-57e5-0b87-3a196488f622@linaro.org>
-Content-Language: en-US
-In-Reply-To: <70759d05-2646-57e5-0b87-3a196488f622@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1456; i=bagasdotme@gmail.com; h=from:subject; bh=3FxgODjRXn/aDHCdRj+wx/Y2X1pOJpd+3lE9my6zu8k=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDMmWzPmO74x4pNQuvD7g2DZjr5/c3piggMD2sMdz5m37suvO 6q3uHaUsDGIcDLJiiiyTEvmaTu8yErnQvtYRZg4rE8gQBi5OAZjIZhdGhoXy7HGHd3OlFC5rvuis/J b54om/a3e8XMGw+Q1P9NWSJ7GMDBuEuQLk577eF9q9/bVr2bIPr6xVLvTZml1k1lvrKbvpPjcA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 1 Oct 2022 11:37:03 +0100, Bryan O'Donoghue wrote:
-> On 01/10/2022 03:37, Theodore Ts'o wrote:
->> FWIW, I actually think the output of get_maintainer.pl is pretty
->> broken in this regard.=C2=A0 (Then again, I've never thought all that
->> highly of get_maintainer.pl,*especially*=C2=A0 because of the bogus gi=
-t
->> fallback, but that's another story.)
->>
->> Consider:
->>
->> % ./scripts/get_maintainer.pl --file=C2=A0 drivers/acpi/power.c
->> "Rafael J. Wysocki"<rafael@kernel.org>=C2=A0 (supporter:ACPI)
->> Len Brown<lenb@kernel.org>=C2=A0 (reviewer:ACPI)
->> linux-acpi@vger.kernel.org=C2=A0 (open list:ACPI)
->> linux-kernel@vger.kernel.org=C2=A0 (open list)
->>
->> I'm sorry, but that's just*wrong*.=C2=A0 Rafael is the*maintainer*=C2=A0=
- of the
->> ACPI subsystem, and the term "supporter" is rarely if ever used
->> anywhere in our docs.=C2=A0 As I said earlier, trying to treat S: fiel=
-d to
->> say anything about the entitles listed under the M: field of the
->> Maintainers file is a category error.
->=20
-> I agree, I made exactly this error.
->=20
-> I wasn't sure how people would necessarily feel about having
-> get_maintainer produce the string 'maintainer' for both Maintained and
-> Supported but, IMO it is more consistent to have it do so, since we ref=
-er
-> to maintainers all throughout the doucmentation and as you say above Ra=
-fael
-> is the person you *need* to mail there because he's the maintainer.
+Sphinx reported warnings on missing implementation notes documentations in the
+table of contents:
 
-You'd better CC Joe Perches, who is the maintainer of get_maintainer.pl.
-You might want to start a new thread with a different subject.
-The main point becomes the behavior of get_maintainer.pl.
+Documentation/bpf/clang-notes.rst: WARNING: document isn't included in any toctree
+Documentation/bpf/linux-notes.rst: WARNING: document isn't included in any toctree
 
->=20
-> Lets consider
->=20
-> - maintainer as a string for "S: Supported"
-> - Documentation update to reflect Krzysztof's point on git-fallback
+Add these documentations to the table of contents (index.rst) of BPF
+documentation to fix the warnings.
 
-Sounds reasonable to me.
-Good luck!
+Link: https://lore.kernel.org/linux-doc/202210020749.yfgDZbRL-lkp@intel.com/
+Fixes: 6c7aaffb24efbd ("bpf, docs: Move Clang notes to a separate file")
+Fixes: 6166da0a02cde2 ("bpf, docs: Move legacy packet instructions to a separate file")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Hi bpf maintainers,
 
-Thanks,
-Akira
+ This is last-minute fix due to upcoming merge window that will be open
+ shortly on the next week.
 
->=20
-> ---
-> bod
+ Documentation/bpf/index.rst | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
+index 1bc2c5c58bdbdc..1b50de1983ee2c 100644
+--- a/Documentation/bpf/index.rst
++++ b/Documentation/bpf/index.rst
+@@ -26,6 +26,8 @@ that goes into great technical depth about the BPF Architecture.
+    classic_vs_extended.rst
+    bpf_licensing
+    test_debug
++   clang-notes
++   linux-notes
+    other
+ 
+ .. only::  subproject and html
+
+base-commit: b502a6fb46d275aa978c1e0655bada2cafc81fea
+-- 
+An old man doll... just what I always wanted! - Clara
+
