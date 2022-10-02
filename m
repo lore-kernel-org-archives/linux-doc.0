@@ -2,157 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A534C433F5
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 23:31:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F15C433F5
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 23:55:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230076AbiJBXbI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Oct 2022 19:31:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42858 "EHLO
+        id S229470AbiJBXzO convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Oct 2022 19:55:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbiJBXbH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Oct 2022 19:31:07 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B2A2AE0E;
-        Sun,  2 Oct 2022 16:31:01 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 292NPqoC009416;
-        Sun, 2 Oct 2022 23:30:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=OZzBMFoUgJ5NblhfxO/d/8AT214Y8rmmcdR/ZXi9TKw=;
- b=Jq/od7vWUFihDbeeAo20GDoXsta2AJkFi18uF1vEzVUb+5z8gqeAiJmvNfSC0hiBeds4
- tB+6yz5ssZ/kTUnjE50mlc2DSPdvGqvMCP0w9q8WsoSjCX8KApUf2cGjRsX4tiZVLSQA
- mw1wQvb0PznX7sTvcEa89lhbSq22jAoUiNWSR2VaCP2qfQMqBbvm+tOZXQvSZ9bsswFD
- KW8jsI5/r+2mluuSRI7rT0l4OamWGtqjrsmBLKb3KTAAi8prQwLszrpv2fDZL5Kzf1fK
- LLZ8hxZ9A31ONhitHJDsjhisKZbAQzW9LiKjmII6jmEeUdbi8+/cyoYgpYZnQpHBZjB2 Rg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jxb8navvs-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 02 Oct 2022 23:30:34 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 292NUX79002687
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 2 Oct 2022 23:30:33 GMT
-Received: from [10.110.51.118] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Sun, 2 Oct 2022
- 16:30:31 -0700
-Message-ID: <1f599b97-9242-3844-4372-1610948f4baf@quicinc.com>
-Date:   Sun, 2 Oct 2022 16:30:30 -0700
+        with ESMTP id S229441AbiJBXzN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Oct 2022 19:55:13 -0400
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BDAA17AB8;
+        Sun,  2 Oct 2022 16:55:10 -0700 (PDT)
+Received: from omf07.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay05.hostedemail.com (Postfix) with ESMTP id 262AC406E5;
+        Sun,  2 Oct 2022 23:55:09 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf07.hostedemail.com (Postfix) with ESMTPA id A7B6B20027;
+        Sun,  2 Oct 2022 23:54:58 +0000 (UTC)
+Message-ID: <b5731dab6be760fd226097602cf31c610d69bdac.camel@perches.com>
+Subject: Re: [PATCH v3] Documentation/process: Add text to indicate
+ supporters should be mailed
+From:   Joe Perches <joe@perches.com>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     corbet@lwn.net, konstantin@linuxfoundation.org,
+        Theodore Ts'o <tytso@mit.edu>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux@leemhuis.info, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Sun, 02 Oct 2022 16:55:05 -0700
+In-Reply-To: <de5e732e-4857-dc69-a6c1-f0c1d52f99ef@gmail.com>
+References: <20220930064629.329514-2-bryan.odonoghue@linaro.org>
+         <21f8d79a-0ad4-b28b-15d8-f4be0cfd9730@gmail.com>
+         <b119fee5-807f-1940-3378-f5ad638794f5@linaro.org>
+         <Yzen4X1Na0MKXHs9@mit.edu>
+         <70759d05-2646-57e5-0b87-3a196488f622@linaro.org>
+         <dabbb4aa-d5e1-10d5-082c-1386f3314fc8@linaro.org>
+         <f7f6a67c5ee662f24885579ba09b281a5d597b0a.camel@perches.com>
+         <de5e732e-4857-dc69-a6c1-f0c1d52f99ef@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v4 10/14] gunyah: sysfs: Add node to describe supported
- features
-Content-Language: en-US
-To:     Joe Perches <joe@perches.com>,
-        Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>
-CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
- <20220928195633.2348848-11-quic_eberman@quicinc.com>
- <3c02aad6d8bde70964b403a3cb8004de969becc6.camel@perches.com>
-From:   Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <3c02aad6d8bde70964b403a3cb8004de969becc6.camel@perches.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: y-SxWOGjvOMLTZ5hHoe76VMIDI4OrmOO
-X-Proofpoint-GUID: y-SxWOGjvOMLTZ5hHoe76VMIDI4OrmOO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-02_04,2022-09-29_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 spamscore=0 phishscore=0 clxscore=1011 malwarescore=0
- bulkscore=0 suspectscore=0 impostorscore=0 mlxlogscore=999 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210020155
+X-Stat-Signature: 739ztpsqp9h6cog7crqsg98xs7trgyy1
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: A7B6B20027
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19Zpcgp5sfdCAUOUQAB5sAHQF+3OgtUGCI=
+X-HE-Tag: 1664754898-577980
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/29/2022 12:36 AM, Joe Perches wrote:
-> On Wed, 2022-09-28 at 12:56 -0700, Elliot Berman wrote:
->> Add a sysfs node to list the features that the Gunyah hypervisor and
->> Linux supports. For now, Linux support cspace (capability IDs) and
->> message queues, so only report those..
-> []
->> diff --git a/drivers/virt/gunyah/sysfs.c b/drivers/virt/gunyah/sysfs.c
-> []
->> @@ -25,9 +25,24 @@ static ssize_t variant_show(struct kobject *kobj, struct kobj_attribute *attr, c
->>   }
->>   static struct kobj_attribute variant_attr = __ATTR_RO(variant);
->>   
->> +static ssize_t features_show(struct kobject *kobj, struct kobj_attribute *attr, char *buffer)
->> +{
->> +	int len = 0;
->> +
->> +	if (GH_IDENTIFY_PARTITION_CSPACE(gunyah_api.flags))
->> +		len += sysfs_emit_at(buffer, len, "cspace ");
->> +	if (GH_IDENTIFY_MSGQUEUE(gunyah_api.flags))
->> +		len += sysfs_emit_at(buffer, len, "message-queue ");
->> +
->> +	len += sysfs_emit_at(buffer, len, "\n");
->> +	return len;
->> +}
+On Mon, 2022-10-03 at 08:04 +0900, Akira Yokosawa wrote:
+> Hello Joe,
 > 
-> It's generally nicer to avoid unnecessary output spaces.
+> Thank you for chiming in.
 > 
-> Perhaps:
+> On 2022/10/03 0:49, Joe Perches wrote:
+> > On Sun, 2022-10-02 at 09:58 +0200, Krzysztof Kozlowski wrote:
+> > > The easiest to achieve it is to run with --no-git-fallback and CC entire
+> > > output. However it does not mean submitter must run with
+> > > --no-git-fallback. It is only for this generic rule - CC entire output
+> > > of get_maintainers.pl.
+> > > 
+> > > If you add such rule "CC entire output of get_maintainers.pl" and do not
+> > > mention no-git-fallback, some folks will think they need to CC all these
+> > > people who made one commit to your file...
+> > 
+> > false.
+> > 
+> > git-fallback is _not_ used when there is a listed maintainer for a
+> > specific file.
+> > 
+> > If there is a use of git-fallback, it's because there is _no_
+> > specified maintainer for a specific file.
+> > 
+> >    --git-fallback => use git when no exact MAINTAINERS pattern (default: 1)
+> > 
+> > i.e.: It's not "your file" if you don't maintain it.
 > 
-> {
-> 	int len = 0;
+> Joe, I sometimes see unexpected output WRT --git-fallback.
 > 
-> 	if (GH_IDENTIFY_PARTITION_CSPACE(gunyah_api.flags))
-> 		len += sysfs_emit_at(buffer, len, "cspace");
-> 	if (GH_IDENTIFY_MSGQUEUE(gunyah_api.flags)) {
-> 		if (len)
-> 			len += sysfs_emit_at(buffer, len, " ");
-> 		len += sysfs_emit_at(buffer, len, "message-queue");
-> 	}
+> Example:
 > 
-> 	len += sysfs_emit_at(buffer, len, "\n");
+>     $ ./get_maintainer.pl -f Documentation/doc-guide/sphinx.rst
+>     Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION,commit_signer:1/1=100%)
+>   <-- ???
+>     Lukas Bulwahn <lukas.bulwahn@gmail.com> (commit_signer:1/1=100%,authored:1/1=100%,added_lines:2/2=100%,removed_lines:2/2=100%)
+>     <-- ???
+>     linux-doc@vger.kernel.org (open list:DOCUMENTATION)
 > 
-> 	return len;
-> }
+>     linux-kernel@vger.kernel.org (open list)
 > 
+> As you see, --git-fallback is used in this case. Why?
+> It looks strange to me as Jon is listed as a "maintainer".
+> 
+> Having "F:	Documentation/" in MAINTAINERS does not suffice?
 
-that approach seems ok for 2 features, but imo doesn't scale for more.
-I like the original code with one exception:
+No.  It's not an exact pattern match as the files below the
+top level of Documentation are not specifically matched by
+"F:	Documentation/".
 
-	if (GH_IDENTIFY_PARTITION_CSPACE(gunyah_api.flags))
-		len += sysfs_emit_at(buffer, len, "cspace ");
-	if (GH_IDENTIFY_MSGQUEUE(gunyah_api.flags))
-		len += sysfs_emit_at(buffer, len, "message-queue ");
+Just as David Miller is not the direct maintainer for every
+driver under drivers/net, Jonathan Corbet is not the direct
+maintainer for every file under Documentation.
 
-	/* overwrite last trailing space */
-	if (len)
-		len--;
+There are many specific listed maintainer for files under the
+Documentation directory.  Jonathan would be cc'd though on all
+files in the Documentation directory (save those excluded by
+X: entries in his section)
 
-	len += sysfs_emit_at(buffer, len, "\n");
-	return len;
+Anyway, git-fallback is used because of the lack of specific
+maintainer for many of the files in the Documentation/ tree.
+
+$ git ls-files Documentation | \
+  grep -vP '^(?:Documentation/ABI|Documentation/admin-guide/media|Documentation/devicetree|Documentation/driver-api|Documentation/firmware-guide/acpi|Documentation/i2c|Documentation/power|Documentation/spi|Documentation/userspace-api)' | \
+  wc -l
+2449
+
+Of those ~2.4K files, many are actually maintained by others.
+
+Many are not.  By running a little script, about half are not
+directly maintained by anyone.
+
+and lastly:
+
+Using git-blame on that file, it seems to me that Mauro Carvelo Chehab
+would be a good recipient too.
+
+$ ./scripts/get_maintainer.pl --git-blame Documentation/doc-guide/sphinx.rst
+Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION,commit_signer:8/8=100%,authored:1/8=12%,added_lines:5/42=12%,removed_lines:6/23=26%,modified commits:25/25=100%)
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> (commit_signer:4/8=50%,authored:3/8=38%,added_lines:12/42=29%,modified commits:12/25=48%)
+Akira Yokosawa <akiyks@gmail.com> (commit_signer:3/8=38%,authored:3/8=38%,added_lines:22/42=52%,removed_lines:14/23=61%,modified commits:3/25=12%)
+Randy Dunlap <rdunlap@infradead.org> (commit_signer:2/8=25%,modified commits:3/25=12%)
+Bagas Sanjaya <bagasdotme@gmail.com> (commit_signer:1/8=12%,authored:1/8=12%,added_lines:3/42=7%,removed_lines:2/23=9%)
+Federico Vaga <federico.vaga@vaga.pv.it> (modified commits:2/25=8%)
+linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+linux-kernel@vger.kernel.org (open list)
 
