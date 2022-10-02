@@ -2,87 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D502CC433FE
-	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 12:58:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84ACCC433FE
+	for <linux-doc@archiver.kernel.org>; Sun,  2 Oct 2022 15:49:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229814AbiJBM6z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 2 Oct 2022 08:58:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55402 "EHLO
+        id S229879AbiJBPtc convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 2 Oct 2022 11:49:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229811AbiJBM6x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Oct 2022 08:58:53 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FF953A171
-        for <linux-doc@vger.kernel.org>; Sun,  2 Oct 2022 05:58:52 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <afa@pengutronix.de>)
-        id 1oeyYA-0007qG-4G; Sun, 02 Oct 2022 14:58:30 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <afa@pengutronix.de>)
-        id 1oeyY9-004BTN-WC; Sun, 02 Oct 2022 14:58:28 +0200
-Received: from afa by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <afa@pengutronix.de>)
-        id 1oeyY7-00EGj3-O0; Sun, 02 Oct 2022 14:58:27 +0200
-From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
-To:     hpa@zytor.com, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     barebox@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: [PATCH v2] Documentation: x86: boot: reserve type_of_loader=13 for barebox
-Date:   Sun,  2 Oct 2022 14:57:53 +0200
-Message-Id: <20221002125752.3400831-1-a.fatoum@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S229811AbiJBPtb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 2 Oct 2022 11:49:31 -0400
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9845426ACB;
+        Sun,  2 Oct 2022 08:49:30 -0700 (PDT)
+Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay08.hostedemail.com (Postfix) with ESMTP id 7CF16140A73;
+        Sun,  2 Oct 2022 15:49:28 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf12.hostedemail.com (Postfix) with ESMTPA id A6DB017;
+        Sun,  2 Oct 2022 15:49:18 +0000 (UTC)
+Message-ID: <f7f6a67c5ee662f24885579ba09b281a5d597b0a.camel@perches.com>
+Subject: Re: [PATCH v3] Documentation/process: Add text to indicate
+ supporters should be mailed
+From:   Joe Perches <joe@perches.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Theodore Ts'o <tytso@mit.edu>
+Cc:     Akira Yokosawa <akiyks@gmail.com>, corbet@lwn.net,
+        konstantin@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux@leemhuis.info
+Date:   Sun, 02 Oct 2022 08:49:24 -0700
+In-Reply-To: <dabbb4aa-d5e1-10d5-082c-1386f3314fc8@linaro.org>
+References: <20220930064629.329514-2-bryan.odonoghue@linaro.org>
+         <21f8d79a-0ad4-b28b-15d8-f4be0cfd9730@gmail.com>
+         <b119fee5-807f-1940-3378-f5ad638794f5@linaro.org>
+         <Yzen4X1Na0MKXHs9@mit.edu>
+         <70759d05-2646-57e5-0b87-3a196488f622@linaro.org>
+         <dabbb4aa-d5e1-10d5-082c-1386f3314fc8@linaro.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: afa@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: A6DB017
+X-Stat-Signature: 1o5h1wfjkqypcadoyi7mgbgfsujaedts
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+1XEvdPSa+SxGXSoTRML7cqCBJBbeEkAg=
+X-HE-Tag: 1664725758-931206
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-barebox[1], a bootloader for mostly ARM and MIPS embedded systems,
-can also be built as EFI payload for x86[2] to provide redundant
-power-fail safe, watchdog-supervised boot up.
+On Sun, 2022-10-02 at 09:58 +0200, Krzysztof Kozlowski wrote:
+> The easiest to achieve it is to run with --no-git-fallback and CC entire
+> output. However it does not mean submitter must run with
+> --no-git-fallback. It is only for this generic rule - CC entire output
+> of get_maintainers.pl.
+> 
+> If you add such rule "CC entire output of get_maintainers.pl" and do not
+> mention no-git-fallback, some folks will think they need to CC all these
+> people who made one commit to your file...
 
-Since its v2015.09.0 release, it has been booting Linux on x86 with
-type_of_loader=0xff[3]. Reserve 13, the next free id, so that can be
-used instead in the future.
+false.
 
-[1]: https://www.barebox.org/
-[2]: https://www.barebox.org/doc/latest/boards/efi.html
-[3]: https://elixir.bootlin.com/barebox/v2022.09.0/source/common/efi/payload/image.c#L217
+git-fallback is _not_ used when there is a listed maintainer for a
+specific file.
 
-Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
----
-v1 -> v2:
-  - elaborate on what barebox is and add some links to commit
-    message (Boris)
+If there is a use of git-fallback, it's because there is _no_
+specified maintainer for a specific file.
 
-v1 was here:
-https://lore.kernel.org/all/20220513143039.2065756-1-a.fatoum@pengutronix.de/
----
- Documentation/x86/boot.rst | 1 +
- 1 file changed, 1 insertion(+)
+   --git-fallback => use git when no exact MAINTAINERS pattern (default: 1)
 
-diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
-index 894a19897005..240d084782a6 100644
---- a/Documentation/x86/boot.rst
-+++ b/Documentation/x86/boot.rst
-@@ -455,6 +455,7 @@ Protocol:	2.00+
- 	11 Minimal Linux Bootloader
- 	   <http://sebastian-plotz.blogspot.de>
- 	12 OVMF UEFI virtualization stack
-+	13 barebox
- 	== =======================================
- 
-   Please contact <hpa@zytor.com> if you need a bootloader ID value assigned.
--- 
-2.30.2
-
+i.e.: It's not "your file" if you don't maintain it.
