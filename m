@@ -2,99 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7106C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 18:01:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4B42C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 18:03:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229934AbiJCSBc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Oct 2022 14:01:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38052 "EHLO
+        id S229880AbiJCSDf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Oct 2022 14:03:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229904AbiJCSB2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 14:01:28 -0400
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 336172BE34;
-        Mon,  3 Oct 2022 11:01:21 -0700 (PDT)
-Received: by mail-oo1-f45.google.com with SMTP id c17-20020a4aa4d1000000b0047653e7c5f3so7243432oom.1;
-        Mon, 03 Oct 2022 11:01:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=TFv9P5jQ9zifFnLwFf++mqfW7DNNGIgHHIkwyTFAQZo=;
-        b=eB3d+ky/kQaF5j/LDrE5ZPK2Mm5owR29+IZL9XFvPgjf7fWUgj+1YII/U3YP2l79E2
-         Nr+dwjx3iXtKqhcnU6rfIcijyOVinyZncJFTKvU/09HgL4fKOGx1eWF8YO+6leIVbiHh
-         AkhTbdQckZvcYnqXfz9uAqUWY0rLx4jc10T1wG2IREZ3scKoSOERgg/9eqBz5Ej2sF/9
-         MkpTa1Vz8JgX4YCEF+INwRF6/m/48786RgFvwJ3iZulSlIaNks0LpQS3pEABs+ppz3mr
-         W7XgDymlpsdvHMebhv26uV6puirQDZSWWppCY4wEoLAQg2OHTfythx+GQtURpmaT1ilE
-         dg+w==
-X-Gm-Message-State: ACrzQf0HRGLQSySYtcQKpUryBlw+z/xQzEntu7SFig5+fkH5QdLzrTrk
-        Gb8aqGGXh//NmAVLXyP382Ighu++lA==
-X-Google-Smtp-Source: AMsMyM4NeG/hFaHjh2k/7Qg0r/xi5qa6+tQbM7yB3A0IWWC2dcK/CxPRblA68lN7FiO/OLM0vjHrdg==
-X-Received: by 2002:a9d:4e88:0:b0:654:1012:85bd with SMTP id v8-20020a9d4e88000000b00654101285bdmr8247324otk.136.1664820080360;
-        Mon, 03 Oct 2022 11:01:20 -0700 (PDT)
-Received: from macbook.herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id z11-20020a056830128b00b00639749ef262sm2538200otp.9.2022.10.03.11.01.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 11:01:19 -0700 (PDT)
-Received: (nullmailer pid 2515061 invoked by uid 1000);
-        Mon, 03 Oct 2022 18:01:18 -0000
-Date:   Mon, 3 Oct 2022 13:01:18 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        linux-doc@vger.kernel.org, Luka Perkov <luka.perkov@sartura.hr>,
-        Rob Herring <robh+dt@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
-        David Jander <david@protonic.nl>, linux-kernel@vger.kernel.org,
-        Paolo Abeni <pabeni@redhat.com>, kernel@pengutronix.de,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, Robert Marko <robert.marko@sartura.hr>
-Subject: Re: [PATCH net-next v8 6/7] dt-bindings: net: pse-dt: add bindings
- for regulator based PoDL PSE controller
-Message-ID: <166482007742.2514990.4199800576904693685.robh@kernel.org>
-References: <20221003065202.3889095-1-o.rempel@pengutronix.de>
- <20221003065202.3889095-7-o.rempel@pengutronix.de>
+        with ESMTP id S229637AbiJCSDe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 14:03:34 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D97027FE1;
+        Mon,  3 Oct 2022 11:03:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664820213; x=1696356213;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cjgd5Rwu0UYo06yOUVIVHZGW70aBVle99QVapUa4l8I=;
+  b=kslf2F4yc8fM1brBWQEd4E6mZtGHz8T4UyfkuhtG2ZpzSrhjG/srE1+1
+   MrQ9T9u9nCDpoTGXYwq71ejbAxqqvqgZQL4SOlZeonNxvylvHrzDku/MS
+   rT4gAuPHmodlTpIst7EhX3yiaLimwUn5m9Eetypqy2vZdZmLPfqE0kxMq
+   DVd/ZrPA7dwzL/RHx5H8ujH6kdLWqQZALrpiUeR296y12g8SZqV+BAD5v
+   R+ZUxzubInV3IlBMeZ27wo2UrsY7afupjgYYGN7W57W/zv6pRW50CvP/i
+   4IEeKK4Nf6OHWBpN9Zu1Vn03BUbDYwK1jklAipv2hVZ9Jdn7yGRAIKS6Q
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="285885074"
+X-IronPort-AV: E=Sophos;i="5.93,366,1654585200"; 
+   d="scan'208";a="285885074"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2022 10:43:55 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="574724070"
+X-IronPort-AV: E=Sophos;i="5.93,366,1654585200"; 
+   d="scan'208";a="574724070"
+Received: from bandrei-mobl.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.37.219])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2022 10:43:45 -0700
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id D42D2104CE4; Mon,  3 Oct 2022 20:43:41 +0300 (+03)
+Date:   Mon, 3 Oct 2022 20:43:41 +0300
+From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com, rppt@kernel.org,
+        jamorris@linux.microsoft.com, dethoma@microsoft.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v2 12/39] x86/mm: Update ptep_set_wrprotect() and
+ pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
+Message-ID: <20221003174341.oqpypr4lsdrfga7f@box.shutemov.name>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-13-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221003065202.3889095-7-o.rempel@pengutronix.de>
+In-Reply-To: <20220929222936.14584-13-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 03 Oct 2022 08:52:01 +0200, Oleksij Rempel wrote:
-> Add bindings for the regulator based Ethernet PoDL PSE controller and
-> generic bindings for all PSE controllers.
-> 
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-> ---
-> changes v6:
-> - add description of PSE controller
-> - change "^ethernet-pse(@[a-f0-9]+)?$" to "^ethernet-pse(@.*)?$"
-> changes v5:
-> - rename to podl-pse-regulator.yaml
-> - remove compatible description
-> - remove "-1" on node name
-> - add pse-controller.yaml for common properties
-> changes v4:
-> - rename to PSE regulator
-> - drop currently unused properties
-> - use own compatible for PoDL PSE
-> changes v2:
-> - rename compatible to more generic "ieee802.3-pse"
-> - add class and type properties for PoDL and PoE variants
-> - add pairs property
-> ---
->  .../net/pse-pd/podl-pse-regulator.yaml        | 40 +++++++++++++++++++
->  .../bindings/net/pse-pd/pse-controller.yaml   | 33 +++++++++++++++
->  2 files changed, 73 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/net/pse-pd/podl-pse-regulator.yaml
->  create mode 100644 Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml
-> 
+On Thu, Sep 29, 2022 at 03:29:09PM -0700, Rick Edgecombe wrote:
+> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+> index 2f2963429f48..58c7bf9d7392 100644
+> --- a/arch/x86/include/asm/pgtable.h
+> +++ b/arch/x86/include/asm/pgtable.h
+> @@ -1287,6 +1287,23 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
+>  static inline void ptep_set_wrprotect(struct mm_struct *mm,
+>  				      unsigned long addr, pte_t *ptep)
+>  {
+> +#ifdef CONFIG_X86_SHADOW_STACK
+> +	/*
+> +	 * Avoid accidentally creating shadow stack PTEs
+> +	 * (Write=0,Dirty=1).  Use cmpxchg() to prevent races with
+> +	 * the hardware setting Dirty=1.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		pte_t old_pte, new_pte;
+> +
+> +		old_pte = READ_ONCE(*ptep);
+> +		do {
+> +			new_pte = pte_wrprotect(old_pte);
+> +		} while (!try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
+> +
+> +		return;
+> +	}
+> +#endif
+>  	clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
+>  }
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Okay, this addresses my previous question. The need in cmpxchg is
+unfortunate, but well.
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
