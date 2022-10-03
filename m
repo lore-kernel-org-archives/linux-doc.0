@@ -2,49 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CBB2C4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 23:57:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC14AC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 23:59:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229939AbiJCX5m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Oct 2022 19:57:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39372 "EHLO
+        id S229968AbiJCX7v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Oct 2022 19:59:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229971AbiJCX5d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 19:57:33 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27776B1EE
-        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 16:57:32 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id w2so11611104pfb.0
-        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 16:57:32 -0700 (PDT)
+        with ESMTP id S229886AbiJCX7u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 19:59:50 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E29FA643E
+        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 16:59:45 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id 10so7479665pli.0
+        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 16:59:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=UHb21iKAOr0dixbnKvFOpyl+rdeQazDsJI0KUTcj5+g=;
-        b=KpStkDnnuZCV5Ylx+JpcbSSVcZ5VtJEhUFrVM3vKtPMRB8Q2OY9QojiRRJkwtr68xO
-         78FdHhezN5LHg2lyEeohpeZjvyF+/uATLemjDAhmV66ktRlADy9jiwIKe9pwRbwj5m5y
-         AWYkxxyxNZ3sc1IMKb8B+XVg6xzbZdkYuPpvE=
+        bh=RIJLKN8u3zDyFaSBgpFe42GEBZf7a4VcF4ED49hMdZc=;
+        b=U+gKP1h4Pv9jFJIM8fjrqS3Zno7OwmnOpMAEvlBoaqn2bYimBV48LjwocIwL22pTj/
+         XGCusQxLHKaS1oM8qYA/31YZIM1g4yyqMOyA0EeUSQHwPMu/2406h3E8d5UGens+Sg6R
+         JFsWqk+j7+9V4+Cv11zUIopHfUbO1vKfQtibE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=UHb21iKAOr0dixbnKvFOpyl+rdeQazDsJI0KUTcj5+g=;
-        b=yLO/lA0Yhv1vhp+1SuGxX8z/lbs/TuxdZA5Jz6WgnaLRWYtnHppbsCsMj1xLgIOpFf
-         e7TFvdND9mrpuZAgfedZeSkHXZd6jdYUV/UDK+VruPte+u8amSyPUDaQqRSeWF5Al3hI
-         Gb/RsusCV3poXnpOTXUjCgtIAlg/ca95I59Z/XMZxh/VSyRZ38PEizX4YJSW5wZuJ0zT
-         7mfMHQyaZr4YoDMamOOT8WUBJ37GqBl6Ox5BVYvYHaW1wa7kNhTg8ibU43ViZw9JaxPJ
-         9mDtZBwplU7MGEm1x+dqh3DNBC0ya8tUwtP6tJvR3TjeVH1LKB0v7xamHYW+Shublb20
-         t//w==
-X-Gm-Message-State: ACrzQf38fowlrAItCEguFSFODdSnK4rM0rbnckOvR35zIoGSg4Z4YVGQ
-        u8+DjBxvq8YPySO6fU2Je00N4Q==
-X-Google-Smtp-Source: AMsMyM4miqD1QvaIAofzYNdJ7PobZDSOM4f6o2pYjvzrBRyiOKLNOKFLm/OFeOKRY5a5vyljxQgJow==
-X-Received: by 2002:a63:90c1:0:b0:450:75b5:29fe with SMTP id a184-20020a6390c1000000b0045075b529femr5070949pge.541.1664841451616;
-        Mon, 03 Oct 2022 16:57:31 -0700 (PDT)
+        bh=RIJLKN8u3zDyFaSBgpFe42GEBZf7a4VcF4ED49hMdZc=;
+        b=mcz8AoTmeJ+Lxr8nv+dpauxsCfl4S1iVGQu30MqP7c2CPf+4zTwItK5oM1WfelSyRE
+         dnZaCIeadUoX0Ul0lzf5Bz7nvehnkWUocj4qO+uW+ruL7BKzEGz9yiJ1YeSk8Cw/a7rD
+         GcBz5js+hWzUggCNe/3SBG7wnfS1tlz8CdzgA0DGEo7truvYh3AuepvOpHwfJZPIZ8ql
+         tMpIY6IwrVNz6XfCAoVncwLleDP9/oKj3bKwiGmORP2dSzh5Oj6q8Xsk7uxhEJeiwYQy
+         kUguyfa+VRhtlDafllfEONZf+TvY9PVeKb+TV+QNrNge+oDyqZYPeFSgXPA2+TAG1NsZ
+         4G0g==
+X-Gm-Message-State: ACrzQf3LxSH5ZBHtnZSRnZf/aVFdrc46hypFHhUQzW48oa+4Nzf6Oz4J
+        In0kbV1eR1NneA6WNMHQ9E2L0g==
+X-Google-Smtp-Source: AMsMyM5ug1R6yL4efHcI6RcSe9hN88kwzJ/nJywTthiwC0PYrD9jVlLYOuUXb9T8VVj14hEZ5CWOZA==
+X-Received: by 2002:a17:90a:7c4a:b0:20a:b201:461a with SMTP id e10-20020a17090a7c4a00b0020ab201461amr5640401pjl.181.1664841585370;
+        Mon, 03 Oct 2022 16:59:45 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id k14-20020a6555ce000000b0043057fe66c0sm7263780pgs.48.2022.10.03.16.57.30
+        by smtp.gmail.com with ESMTPSA id mp8-20020a17090b190800b0020ad26fa65dsm284824pjb.56.2022.10.03.16.59.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 16:57:31 -0700 (PDT)
-Date:   Mon, 3 Oct 2022 16:57:30 -0700
+        Mon, 03 Oct 2022 16:59:44 -0700 (PDT)
+Date:   Mon, 3 Oct 2022 16:59:43 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -72,31 +72,27 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         joao.moreira@intel.com, John Allen <john.allen@amd.com>,
         kcc@google.com, eranian@google.com, rppt@kernel.org,
-        jamorris@linux.microsoft.com, dethoma@microsoft.com
-Subject: Re: [PATCH v2 33/39] x86/cpufeatures: Limit shadow stack to Intel
- CPUs
-Message-ID: <202210031656.23FAA3195@keescook>
+        jamorris@linux.microsoft.com, dethoma@microsoft.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [OPTIONAL/RFC v2 37/39] x86/cet: Add PTRACE interface for CET
+Message-ID: <202210031658.EEC88324FD@keescook>
 References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-34-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-38-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220929222936.14584-34-rick.p.edgecombe@intel.com>
+In-Reply-To: <20220929222936.14584-38-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 03:29:30PM -0700, Rick Edgecombe wrote:
-> Shadow stack is supported on newer AMD processors, but the kernel
-> implementation has not been tested on them. Prevent basic issues from
-> showing up for normal users by disabling shadow stack on all CPUs except
-> Intel until it has been tested. At which point the limitation should be
-> removed.
+On Thu, Sep 29, 2022 at 03:29:34PM -0700, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
 > 
-> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Some applications (like GDB and CRIU) would like to tweak CET state via
 
-So running the selftests on an AMD system is sufficient to drop this
-patch?
+Eee. Does GDB really need this? Can we make this whole thing
+CONFIG-depend on CRIU?
 
 -- 
 Kees Cook
