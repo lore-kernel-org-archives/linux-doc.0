@@ -2,114 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7889BC4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 16:13:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49D20C433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 16:20:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229725AbiJCQNi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Oct 2022 12:13:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53322 "EHLO
+        id S229819AbiJCQUZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Oct 2022 12:20:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229749AbiJCQNg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 12:13:36 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2F9C32065
-        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 09:13:35 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id r3-20020a05600c35c300b003b4b5f6c6bdso6105248wmq.2
-        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 09:13:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=V6sEgywP+y9yheTpj3XS7gZeAORICObdhjMK1hQwQH0=;
-        b=pWqhnYP/qEo+YN1EmxWDVoecNDnJujxP9EKyEf5YtiSh4fYKjX5Vs03tCmO/wJG5w0
-         9f61vO9VWYVFdvf0AOJNaP3Tp40tllmpLDQUMIHFhojgUxNAGt4m7SHjsKT6R5M063gg
-         FzLAKetaXGkfmoYZrV7QjjB2aEgRU/eAac5LSL8io0vRp8y8uRKHGyB8mbnYtNdi9M1V
-         PmQuKbXJHY7jkB8KCJUkBSKSCAjmUy0+qgNUhF2d9AL1kUDhv5emEc9ss/F1+j0GtXTU
-         GiTjxpMjKndioUoS2nUd4jtqpq+nr3gTPUz/Z5eK8n32ZTTcaMbdjL5py8DaTXJMi+y6
-         M12Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=V6sEgywP+y9yheTpj3XS7gZeAORICObdhjMK1hQwQH0=;
-        b=Q3FH8CBmeAsLka1GuPahN129xIUhjUzjsfQ8+/Q/Cys+K0LyyKbytS+lA0GIZ61rbt
-         gLIbeo7E2uxvd3T8Gf7wAKoGBw0mSmHwTiXxcub7GRdnzvud2krbF8glHuaYcK68lyG2
-         ZTqWY3FjdSK2sIAjV3kyAjWZUzwI4XvTaIG58V3l/uBaILQjuSQwhRlXRVyqs9hb/II/
-         sQGkw+JSm3+lfJjjKVXdJfoAzitGNll3sNWCRohAyF0psnTQbmYDktQAl70WHUlyIOUQ
-         eGXe7bEh+EPt8+mey0QnYppHvFBMJuBJU144SJ20e0uTGWwagZymCn4AIMS4lfIkJCCX
-         pXzA==
-X-Gm-Message-State: ACrzQf2/Cwcz6TNOaf64cV1E5EavlI9/GKfvq32Fk9lpPv5JcTNNuf6l
-        eNb3Mocctjl80VGSlbQiS2yeZw==
-X-Google-Smtp-Source: AMsMyM6I/ktl+ZwYRao+nj/NL8354oPKCfCXeO8N5GKZgH2GuO2d810BtogmxDxnr34XsrdxGPml9g==
-X-Received: by 2002:a05:600c:1989:b0:3b4:b6b6:737 with SMTP id t9-20020a05600c198900b003b4b6b60737mr7476809wmq.79.1664813614189;
-        Mon, 03 Oct 2022 09:13:34 -0700 (PDT)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id v129-20020a1cac87000000b003a845621c5bsm12111335wme.34.2022.10.03.09.13.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 09:13:33 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     corbet@lwn.net, linux@leemhuis.info,
-        konstantin@linuxfoundation.org, krzysztof.kozlowski@linaro.org,
-        linux-doc@vger.kernel.org, joe@perches.com
-Cc:     linux-kernel@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH v4 2/2] Documentation/process: Be more explicit about who to mail on patch submission
-Date:   Mon,  3 Oct 2022 17:13:29 +0100
-Message-Id: <20221003161329.431107-3-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221003161329.431107-1-bryan.odonoghue@linaro.org>
-References: <20221003161329.431107-1-bryan.odonoghue@linaro.org>
+        with ESMTP id S229816AbiJCQUS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 12:20:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A845915FC8;
+        Mon,  3 Oct 2022 09:20:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 43FE86114A;
+        Mon,  3 Oct 2022 16:20:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 95CD2C433D7;
+        Mon,  3 Oct 2022 16:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664814015;
+        bh=dwtZ7BObBTPWiquhzCO1AxtAGeHx+444b7TsTQk1lo0=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=WEq7hCj9eCDltGUuKPub8wnP8pgjfUo6xszFUjO+XfFecxWRDAKWGpePfCebP6EnU
+         YuG4JGe6NdpAJVdSIO+UFfL9y2Ox2R//0uEySigJOOwkUtklX9Ff3+3xpOI7rin2Mu
+         7J0dfPsXCe8yxVYjUyVF3Jr3jkKHJ7Ppl2R5sCr6UjbFCqcZ9wAbtbg43N6vHhSYTk
+         6i47wPZ5dcTGARMiH1yoJ6zmnHs51xNX6ZkKPMfA80xx6wd12C1yLGVRH4iqAXsvtS
+         VEAJRPFj0OZ2ccEn3ElH7s2VZ+D50ZcgEyTDKdvfmtq5QIFJ4kPNGPQHeLhbGcFinX
+         3GzFvtBrWPFGA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7485BE49FA3;
+        Mon,  3 Oct 2022 16:20:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH bpf-next] Documentation: bpf: Add implementation notes
+ documentations to table of contents
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166481401546.8397.14038744797480125600.git-patchwork-notify@kernel.org>
+Date:   Mon, 03 Oct 2022 16:20:15 +0000
+References: <20221002032022.24693-1-bagasdotme@gmail.com>
+In-Reply-To: <20221002032022.24693-1-bagasdotme@gmail.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev, ast@kernel.org,
+        daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
+        song@kernel.org, yhs@fb.com, john.fastabend@gmail.com,
+        kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
+        jolsa@kernel.org, corbet@lwn.net, nathan@kernel.org,
+        ndesaulniers@google.com, trix@redhat.com, dthaler@microsoft.com,
+        lkp@intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Recently when submitting a yaml change I found that I had omitted the
-maintainer whose tree the change needed to go through.
+Hello:
 
-The reason for that is the path in MAINTAINERS is marked as Supported not
-Maintained. Reading MAINTAINERS we see quote:
+This patch was applied to bpf/bpf-next.git (master)
+by Alexei Starovoitov <ast@kernel.org>:
 
-           Supported:   Someone is actually paid to look after this.
-           Maintained:  Someone actually looks after it.
+On Sun,  2 Oct 2022 10:20:23 +0700 you wrote:
+> Sphinx reported warnings on missing implementation notes documentations in the
+> table of contents:
+> 
+> Documentation/bpf/clang-notes.rst: WARNING: document isn't included in any toctree
+> Documentation/bpf/linux-notes.rst: WARNING: document isn't included in any toctree
+> 
+> Add these documentations to the table of contents (index.rst) of BPF
+> documentation to fix the warnings.
+> 
+> [...]
 
-The current submitting-patches.rst only says to mail maintainers though not
-supporters. Discussing further on the list the suggestion was made to state
-that the following are the right addresses to mail:
+Here is the summary with links:
+  - [bpf-next] Documentation: bpf: Add implementation notes documentations to table of contents
+    https://git.kernel.org/bpf/bpf-next/c/736baae643cb
 
-- Maintainers
-- Supporters
-- Reviewers
-- Dedicated lists
-- LKML as a fallback when there is no dedicated list
-
-Add in a two sentences to capture that statement.
-
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- Documentation/process/submitting-patches.rst | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index be49d8f2601b4..90fda3367a405 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -227,8 +227,11 @@ You should always copy the appropriate subsystem maintainer(s) on any patch
- to code that they maintain; look through the MAINTAINERS file and the
- source code revision history to see who those maintainers are.  The
- script scripts/get_maintainer.pl can be very useful at this step (pass paths to
--your patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
--maintainer for the subsystem you are working on, Andrew Morton
-+your patches as arguments to scripts/get_maintainer.pl).  In the output of
-+get_maintainer.pl the recommendation is to mail every maintainer, supporter,
-+reviewer and dedicated mailing list. If get_maintainer doesn't indicate a
-+dedicated mailing list linux-kernel@vger.kernel.org should be included. If you
-+cannot find a maintainer for the subsystem you are working on, Andrew Morton
- (akpm@linux-foundation.org) serves as a maintainer of last resort.
- 
- You should also normally choose at least one mailing list to receive a copy
+You are awesome, thank you!
 -- 
-2.37.3
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
