@@ -2,49 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76329C43217
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 18:31:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 615FFC433F5
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 18:31:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230018AbiJCSbF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Oct 2022 14:31:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37618 "EHLO
+        id S230026AbiJCSbl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Oct 2022 14:31:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229648AbiJCSbD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 14:31:03 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6036E30F5E
-        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 11:31:02 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id fw14so3570641pjb.3
-        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 11:31:02 -0700 (PDT)
+        with ESMTP id S230090AbiJCSbe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 14:31:34 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41F8443145
+        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 11:31:33 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id gf8so8062119pjb.5
+        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 11:31:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=yWFb7RgESUpR05JgfY3hGQPjFfcU1x/EUhBNi7FjnRo=;
-        b=PheLfVQNZdvrd76w9fTEkeWjqZZ7/2eEa6fQ0EZZSMfVfQPgF+/CqIcflCzBBHUFpw
-         itUFINwrcHRurA8ZI8pf9m7E8cFXP7Qi00SMBeUYc0qkUTk+BhxAbx/wB1yEkS+j8nGw
-         IzJhH5y7YxjK1FQ3v2cmRb2f3dqi1djliUovc=
+        bh=gcdwOpvyFJSGp4cQvt0W+LFd65h9zHXN/GY/Jg8dWAM=;
+        b=gJcwrq+sWxdvlCByPEOgZOCHihrWoRmnR3mww8TjthJtRRBcDm1NOT8dEfj3zPwl3/
+         HsdezaDoUscXjGWYZVZZ9e1w0MI/oGshiG0yfh4722czmPMYeZ/UHIobQ1i9UPyF8U9H
+         nSm1o41vrdbF+umzuEpQcD26W6+yGj/rzsQX0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=yWFb7RgESUpR05JgfY3hGQPjFfcU1x/EUhBNi7FjnRo=;
-        b=20fU2uoSD9vmVqaHK4FHgOCI+K31ZyDS/DjteFT2xTV92ppUVLJKM92XYzolWxmEMB
-         vKgooRs2rHlMsKgZX4CdiU0Z7U+oQuXHmm2fuZlAQGkKZ8e2x2mEM2Y8RbYGxoIw3blH
-         gGVYCMO9QiTmhYE4P8/tXxLZvBleu9yY6awdDIJe+5AmodC2rpIDp5l7xw0XMvbc2GKR
-         UcZxdcNDsgSC2h/7CGyd+KGpjZwd0GDwXT3gmXvhFDA66BXgM7PPqwnPFTW6ZBl4M5VX
-         4e6GDkKPZ49VQSnU0Rw1Sm+PVT2LcablLHLl2wWOt3L7OrMj7rK8/376pa9KWIN5BA2j
-         ysXA==
-X-Gm-Message-State: ACrzQf3XVte9QUdOGm7V9ztiOby61XOQxeO3D5tdymzHI9TE2AJdGDYP
-        wgxkBNgoE6C3g93iqeifQZx+Bw==
-X-Google-Smtp-Source: AMsMyM7uo5Tzw/2Wd31Jjw44SLZYLBYBBrjxbdxXYvJpm9EoFdqt2quPyfPmA35slsvVMZOnqpgYmA==
-X-Received: by 2002:a17:90b:4ad1:b0:20a:b974:19a0 with SMTP id mh17-20020a17090b4ad100b0020ab97419a0mr3479373pjb.178.1664821861874;
-        Mon, 03 Oct 2022 11:31:01 -0700 (PDT)
+        bh=gcdwOpvyFJSGp4cQvt0W+LFd65h9zHXN/GY/Jg8dWAM=;
+        b=msLk1xfa8aemAaWhZPDIxNXHMRauGYqZd/X9/eDASIomLBXyVGyLtvSomWnhTxgXvc
+         6c8AAb5dxjmlLyPRjGexPMQ6tjvlcULPB+YYVC7loGk3lMwoyEI9ao4o6TxZIMfrt0fN
+         27s7TGAsVlsd5ADC/jY2HJTF9i7nM1vKahIJruX3VdXz6+TJk1urvFEInkCYQeH2o/za
+         fFH5JCRK6aoS+jpISAxKc+IJhbFvhMEswKNuPNZ2kvqkELNgQ10jj85ipjbSNirOJA1e
+         xuRhNyE4UINHzJapuxPpNzWb8+nkyy+XcobYpDvlXk/IH6bEaRAeEEx+T3BvAH8vuNwR
+         V4mg==
+X-Gm-Message-State: ACrzQf0cL2q8dylS9pGW5m2sTRx7HvOy8xLNs63zfvxUR0WsXYgZFrkg
+        0FEmCzO6baDvBQF/sXT/HaTYFA==
+X-Google-Smtp-Source: AMsMyM7us4SWa4jI1WB82zn6GmkmuiTqVFRkDe9ir2Snt5g+VtLsgwjxcWuAujRu8O7s3VwmMifIGw==
+X-Received: by 2002:a17:90b:1c12:b0:200:b623:455d with SMTP id oc18-20020a17090b1c1200b00200b623455dmr13305214pjb.88.1664821892754;
+        Mon, 03 Oct 2022 11:31:32 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id m7-20020a170902bb8700b0017bdfbfcf8dsm7500560pls.63.2022.10.03.11.31.00
+        by smtp.gmail.com with ESMTPSA id ij27-20020a170902ab5b00b0016dbaf3ff2esm4262285plb.22.2022.10.03.11.31.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 11:31:00 -0700 (PDT)
-Date:   Mon, 3 Oct 2022 11:30:59 -0700
+        Mon, 03 Oct 2022 11:31:32 -0700 (PDT)
+Date:   Mon, 3 Oct 2022 11:31:31 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -74,90 +74,25 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         kcc@google.com, eranian@google.com, rppt@kernel.org,
         jamorris@linux.microsoft.com, dethoma@microsoft.com,
         Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v2 18/39] mm: Add guard pages around a shadow stack.
-Message-ID: <202210031127.C6CF796@keescook>
+Subject: Re: [PATCH v2 19/39] mm/mmap: Add shadow stack pages to memory
+ accounting
+Message-ID: <202210031131.AC6CF1AB@keescook>
 References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-19-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-20-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220929222936.14584-19-rick.p.edgecombe@intel.com>
+In-Reply-To: <20220929222936.14584-20-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 03:29:15PM -0700, Rick Edgecombe wrote:
-> [...]
-> +unsigned long stack_guard_start_gap(struct vm_area_struct *vma)
-> +{
-> +	if (vma->vm_flags & VM_GROWSDOWN)
-> +		return stack_guard_gap;
-> +
-> +	/*
-> +	 * Shadow stack pointer is moved by CALL, RET, and INCSSP(Q/D).
-> +	 * INCSSPQ moves shadow stack pointer up to 255 * 8 = ~2 KB
-> +	 * (~1KB for INCSSPD) and touches the first and the last element
-> +	 * in the range, which triggers a page fault if the range is not
-> +	 * in a shadow stack. Because of this, creating 4-KB guard pages
-> +	 * around a shadow stack prevents these instructions from going
-> +	 * beyond.
-> +	 *
-> +	 * Creation of VM_SHADOW_STACK is tightly controlled, so a vma
-> +	 * can't be both VM_GROWSDOWN and VM_SHADOW_STACK
-> +	 */
-
-Thank you for the details on how the size choice is made here! :)
-
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index fef14ab3abcb..09458e77bf52 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -2775,15 +2775,16 @@ struct vm_area_struct *vma_lookup(struct mm_struct *mm, unsigned long addr)
->  	return vma;
->  }
->  
-> +unsigned long stack_guard_start_gap(struct vm_area_struct *vma);
-> +
->  static inline unsigned long vm_start_gap(struct vm_area_struct *vma)
->  {
-> +	unsigned long gap = stack_guard_start_gap(vma);
->  	unsigned long vm_start = vma->vm_start;
->  
-> -	if (vma->vm_flags & VM_GROWSDOWN) {
-> -		vm_start -= stack_guard_gap;
-> -		if (vm_start > vma->vm_start)
-> -			vm_start = 0;
-> -	}
-> +	vm_start -= gap;
-> +	if (vm_start > vma->vm_start)
-> +		vm_start = 0;
->  	return vm_start;
->  }
->  
-> diff --git a/mm/mmap.c b/mm/mmap.c
-> index 9d780f415be3..f0d2e9143bd0 100644
-> --- a/mm/mmap.c
-> +++ b/mm/mmap.c
-> @@ -247,6 +247,13 @@ SYSCALL_DEFINE1(brk, unsigned long, brk)
->  	return origbrk;
->  }
->  
-
-I feel like something could be done with this definitions to make them
-inline, instead of __weak:
-
-#ifndef stack_guard_start_gap
-> +unsigned long __weak stack_guard_start_gap(struct vm_area_struct *vma)
-> +{
-> +	if (vma->vm_flags & VM_GROWSDOWN)
-> +		return stack_guard_gap;
-> +	return 0;
-> +}
-#endif
-
-And then move the x86 stack_guard_start_gap to a header?
-
-It's not exactly fast-path, but it feels a little weird. Regardlesss:
+On Thu, Sep 29, 2022 at 03:29:16PM -0700, Rick Edgecombe wrote:
+> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> 
+> Account shadow stack pages to stack memory.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
