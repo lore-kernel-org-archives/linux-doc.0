@@ -2,127 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF56BC4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 11:01:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 701A0C4332F
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 11:21:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbiJCLBm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Oct 2022 07:01:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44452 "EHLO
+        id S229819AbiJCLVp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Oct 2022 07:21:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbiJCLBl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 07:01:41 -0400
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D102711;
-        Mon,  3 Oct 2022 04:01:40 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.west.internal (Postfix) with ESMTP id 1427B2B0693A;
-        Mon,  3 Oct 2022 07:01:36 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 03 Oct 2022 07:01:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm1; t=1664794895; x=1664802095; bh=zW
-        dvG4+iogw6diIyocCUGRkeH6TacYI7IEyT3UtjbNg=; b=XW0tQq+0FScqGFQ+dF
-        EG6F8k62Rsx9LqjjPoMSaTzwILoz+/n7fDSAlh7WYeR96n8T61QlRplQ1RwjHMcl
-        5yeu/5/d9DsmVOkrwscLBOVYwK//hEwVRqSGfyOxvyaN6fDU3U9/Ul0OAyquCK4L
-        zRmP8Y/FYnAIVSX/EEgAEL/OVuR+e1x1q141vTbhzYa4Xr1+1qkB9dSxrZodeJSv
-        47Gsq3Ji5dnuN5ybt15lYTZBO4OY32j0R3nw90tsm7yRM3eI40KVNN4uiQQID7lJ
-        hQ73LO0XlNe44SV2CPb3saKmbWbVBGNI34ILjrBrcE4C2D0m6MgnGajRH8sJJMcx
-        k74Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1664794895; x=1664802095; bh=zWdvG4+iogw6diIyocCUGRkeH6Ta
-        cYI7IEyT3UtjbNg=; b=1sNbOr+reC4ozopaOlqM0nB+iKaIJWlgEvuSnvehqupR
-        +mlBVJgNgylpAZCIvqFPaIK2WPBApah/unlsgtS4kvfqTaq0BXfmuOgDyqL7ZnIQ
-        N4SHAmIclsBSegb6mvH9c6U6qgmglracDnl3H9l2JEzJ06uiMWBbM0OB6YGGTfWD
-        xnzX8C09pcaBkEsrBGKxi6+eppftTXbcrP0y67raFiRetpglM6SEeybTggLt0Jxu
-        nY7ma+CNPCBaDHOqaNh+TyiGfPgg6QbqgPqtYrZHB34i7u4TRk5W/6Bl6YElrJmP
-        flUk+OkuovZLsxzhxLvWeLYpKvAWNhY6chI73rMRtg==
-X-ME-Sender: <xms:DcE6Y6f52k5yy0Jlg1AeQ7dDWJCrmyiSx6kROu3hIkspfTGHK9TTRw>
-    <xme:DcE6Y0Nyco_uRp-K-WwZKELvbqi_T8WM-Zrx3OOkmBhxAu7gSWznB0GrnN29DXbFT
-    2-3FfUfe9_RpTMbUxY>
-X-ME-Received: <xmr:DcE6Y7gwh0050G_SwvT6qpZdBhwZjbBFjdHUuyL-6_rWH_mMo2iv_wfLg4oCQTj36_KCxg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeehledgfeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
-    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
-    grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
-    tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
-X-ME-Proxy: <xmx:DcE6Y3962DbaiPjQuEqjImm6i_1iQb_fS9v9CvfrtqHzYR-gAxDkXQ>
-    <xmx:DcE6Y2sGkiMEPQ8rZ-eMFeI2-zb7XvW71RUslSW8I3M3jgj-wl-pxQ>
-    <xmx:DcE6Y-F5e4wRoyMQiP3Pv56Fi1Qf4Te9r2uZ0-YIquinDsLq-5Ao1w>
-    <xmx:D8E6YzreQvrnUZwE5JTwmdtxSOE-mJJ5MYLVoAkceXUT8tLhySzNUatLQXA>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 3 Oct 2022 07:01:33 -0400 (EDT)
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id 87A6C104CE4; Mon,  3 Oct 2022 14:01:29 +0300 (+03)
-Date:   Mon, 3 Oct 2022 14:01:29 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Fuad Tabba <tabba@google.com>
-Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <20221003110129.bbee7kawhw5ed745@box.shutemov.name>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <CA+EHjTyrexb_LX7Jm9-MGwm4DBvfjCrADH4oumFyAvs2_0oSYw@mail.gmail.com>
- <20220930162301.i226o523teuikygq@box.shutemov.name>
- <CA+EHjTyphrouY1FV2NQOBLDG81JYhiHFGBNKjT1K2j+pVNij+A@mail.gmail.com>
+        with ESMTP id S229816AbiJCLVi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 07:21:38 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 749514B4B1;
+        Mon,  3 Oct 2022 04:21:31 -0700 (PDT)
+Received: from [192.168.10.9] (unknown [39.45.148.204])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: usama.anjum)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 599CA6601AED;
+        Mon,  3 Oct 2022 12:21:26 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1664796089;
+        bh=QjQysDtg/rfCjFri/iGM14++at29jMbV+/m5tzwz0yg=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=ILSxcT+t83n9BjP6pk9g0NC7uAYX/7KBTjTv2Gr3bt0nxGWDer5H+pITpueEVLU7w
+         jvsLqoN+IxRZ6rlYW3ZfK1AvHC8c3X4nODl6RgybJTQ3AXOm72h6N5vq4w2BmqYSwi
+         GtLWNYjG6ZXEPLaKe6ohalW4zemKyV6+eZynl2q0AFJALzQ18rzHwbLbuhEXzycluA
+         vtj86c+OhGkPJTOss8JWOOzEQTpX5sMWsqJDi+9VlMcxomERGxR+Lw1rhZXnUT/vE4
+         jITAOMOf4wQ/3lSggteA1y+GahekEQC9tpS6lyTlbE0ulUl6lbYHwrAwZHUhiLlw3K
+         G+Y8P7KajIbcQ==
+Message-ID: <2e1c33c8-a201-0f7f-17cf-22fec555c7ff@collabora.com>
+Date:   Mon, 3 Oct 2022 16:21:22 +0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTyphrouY1FV2NQOBLDG81JYhiHFGBNKjT1K2j+pVNij+A@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Cc:     usama.anjum@collabora.com, Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:PROC FILESYSTEM" <linux-fsdevel@vger.kernel.org>,
+        "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, kernel@collabora.com,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        David Hildenbrand <david@redhat.com>,
+        Peter Enderborg <peter.enderborg@sony.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v3 0/4] Implement IOCTL to get and clear soft dirty PTE
+Content-Language: en-US
+To:     Andrei Vagin <avagin@gmail.com>
+References: <20220826064535.1941190-1-usama.anjum@collabora.com>
+ <YyiDg79flhWoMDZB@gmail.com>
+ <2c8b7116-56e9-3202-c47e-e42078c85793@collabora.com>
+ <CANaxB-xDiTRCuWxBmrSH1u3e_ADbxCoQKmEoSsYfm4yW7k=v4A@mail.gmail.com>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <CANaxB-xDiTRCuWxBmrSH1u3e_ADbxCoQKmEoSsYfm4yW7k=v4A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 03, 2022 at 08:33:13AM +0100, Fuad Tabba wrote:
-> > I think it is "don't do that" category. inaccessible_register_notifier()
-> > caller has to know what file it operates on, no?
+On 9/28/22 10:24 PM, Andrei Vagin wrote:
+> On Wed, Sep 21, 2022 at 11:26 AM Muhammad Usama Anjum
+> <usama.anjum@collabora.com> wrote:
+>>
+>> Hi,
+>>
+>> Thank you for reviewing.
+>>
+>> On 9/19/22 7:58 PM, Andrei Vagin wrote:
+>>>> This ioctl can be used by the CRIU project and other applications which
+>>>> require soft-dirty PTE bit information. The following operations are
+>>>> supported in this ioctl:
+>>>> - Get the pages that are soft-dirty.
+>>>
+>>> I think this interface doesn't have to be limited by the soft-dirty
+>>> bits only. For example, CRIU needs to know whether file, present and swap bits
+>>> are set or not.
+>> These operations can be performed by pagemap procfs file. Definitely
+>> performing them through IOCTL will be faster. But I'm trying to add a
+>> simple IOCTL by which some specific PTE bit can be read and cleared
+>> atomically. This IOCTL can be extended to include other bits like file,
+>> present and swap bits by keeping the interface simple. The following
+>> mask advice is nice. But if we add that kind of masking, it'll start to
+>> look like a filter on top of pagemap. My intention is to not duplicate
+>> the functionality already provided by the pagemap. One may ask, then why
+>> am I adding "get the soft-dirty pages" functionality? I'm adding it to
+>> complement the get and clear operation. The "get" and "get and clear"
+>> operations with special flag (PAGEMAP_SD_NO_REUSED_REGIONS) can give
+>> results quicker by not splitting the VMAs.
 > 
-> The thing is, you could oops the kernel from userspace. For that, all
-> you have to do is a memfd_create without the MFD_INACCESSIBLE,
-> followed by a KVM_SET_USER_MEMORY_REGION using that as the private_fd.
-> I ran into this using my port of this patch series to arm64.
+> This simple interface is good only for a limited number of use-cases.
+> The interface
+> that I suggest doesn't duplicate more code than this one, but it is much more
+> universal. It will be a big mess if you add a separate API for each
+> specific use-case.
+>
+>
+>>> I mean we should be able to specify for what pages we need to get info
+>>> for. An ioctl argument can have these four fields:
+>>> * required bits (rmask & mask == mask) - all bits from this mask have to be set.
+>>> * any of these bits (amask & mask != 0) - any of these bits is set.
+>>> * exclude masks (emask & mask == 0) = none of these bits are set.
+>>> * return mask - bits that have to be reported to user.
+The required mask (rmask) makes sense to me. At the moment, I only know
+about the practical use case for the required mask. Can you share how
+can any and exclude masks help for the CRIU?
 
-My point is that it has to be handled on a different level. KVM has to
-reject private_fd if it is now inaccessible. It should be trivial by
-checking file->f_inode->i_sb->s_magic.
+>>>
+>>>> - Clear the pages which are soft-dirty.
+>>>> - The optional flag to ignore the VM_SOFTDIRTY and only track per page
+>>>> soft-dirty PTE bit
+>>>>
+>>>> There are two decisions which have been taken about how to get the output
+>>>> from the syscall.
+>>>> - Return offsets of the pages from the start in the vec
+>>>
+>>> We can conside to return regions that contains pages with the same set
+>>> of bits.
+>>>
+>>> struct page_region {
+>>>       void *start;
+>>>       long size;
+>>>       u64 bitmap;
+>>> }
+>>>
+>>> And ioctl returns arrays of page_region-s. I believe it will be more
+>>> compact form for many cases.
+>> Thank you for mentioning this. I'd considered this while development.
+>> But I gave up and used the simple array to return the offsets of the
+>> pages as in the problem I'm trying to solve, the dirty pages may be
+>> present amid non-dirty pages. The range may not be useful in that case.
+> 
+> This is a good example. If we expect more than two consequent pages
+> on average, the "region" interface looks more prefered. I don't know your
+> use-case, but in the case of CRIU, this assumption looks reasonable.
+> 
+>> Also we want to return only a specific number of pages of interest. The
+>> following paragraph explains it.
+>>
+>>>
+>>>> - Stop execution when vec is filled with dirty pages
+>>>> These two arguments doesn't follow the mincore() philosophy where the
+>>>> output array corresponds to the address range in one to one fashion, hence
+>>>> the output buffer length isn't passed and only a flag is set if the page
+>>>> is present. This makes mincore() easy to use with less control. We are
+>>>> passing the size of the output array and putting return data consecutively
+>>>> which is offset of dirty pages from the start. The user can convert these
+>>>> offsets back into the dirty page addresses easily. Suppose, the user want
+>>>> to get first 10 dirty pages from a total memory of 100 pages. He'll
+>>>> allocate output buffer of size 10 and the ioctl will abort after finding the
+>>>> 10 pages. This behaviour is needed to support Windows' getWriteWatch(). The
+>>>> behaviour like mincore() can be achieved by passing output buffer of 100
+>>>> size. This interface can be used for any desired behaviour.
+> 
+> Now, it is more clear where this interface came from. It repeats the interface
+> of Windows' getWriteWatch. I think we have to look wider. The
+> interface that reports
+> regions will be more efficient for many use-cases. As for
+> getWriteWatch, it will require
+> a bit more code in user-space, but this code is trivial.
+> 
+> Thanks,
+> Andrei
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Muhammad Usama Anjum
