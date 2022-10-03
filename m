@@ -2,150 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EAD5C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED875C433F5
 	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 16:13:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbiJCQNg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Oct 2022 12:13:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53288 "EHLO
+        id S229708AbiJCQNh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Oct 2022 12:13:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229708AbiJCQNf (ORCPT
+        with ESMTP id S229725AbiJCQNf (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 12:13:35 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD74931EDA
-        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 09:13:33 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id n40-20020a05600c3ba800b003b49aefc35fso6103910wms.5
-        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 09:13:33 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6D7E32061
+        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 09:13:34 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id ay36so7349490wmb.0
+        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 09:13:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=wCtaWd9v4/NBog3l8CIR/fFSWktSHj6Kal4GrZ4+x+k=;
-        b=E/d9NQ3BFasBlvemdDzG5H/TmIl6HYLPH8ygw5KzcdO/xOvJU2X3v6KaSDAoF+nAjA
-         n4T9QhIDppWGUG2FH50IxAOojUqasy/tefNeUfh3km5/0XMf6AtHfMfBRuykkk1CuNk1
-         EpV5/fDyWXtR0HG8lyz+IMJ5cO89aMpSq7HmbptTaM2IS+2HWlmdJT28TI731kIt4V9d
-         KAoRwSimvUQH0lgrYd5VTzvXVM0C7M/hedWD7SFXIQzKtAPBt1Wue/bCVa+XM+OsrSIw
-         j3Og3y1yhOxoT9kyVk+RZodA6LuPgB3Y9IO7JG53+eSMCEqQmGk6/ed3hEGThRi0zArv
-         4m4A==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=7dQXLQGjmAcl/xcPVLsk1EjIAQGW9LYFw0dKgGXUj4M=;
+        b=b2R3jRKx+U+3OqygRYsWqU7FHxxsZAJlQ90cBgHYqLYttQM/MNQJGP5ihX+D/zm1jY
+         XCwzZvpjXgUSIu3ISJxgnr0GgPSG7UbWUWoAu927D0izLhr99o0ALAsojigTA5eyhKJK
+         ml9/oje5dYmEz9CZDvHlG+wMvU3DsDiqpXOVk0yexebGy/HpcknMfg+Rr9Q9Tpmyar+Q
+         vjrD5YdoBHvFZr81/ssVsx478RM3vxc/KQAoFvlRIqYlOhwBcx2IuYGh7poYcFt3/xFL
+         rdoTgrS44peaBZ2yy0qJH373+kvn1JPJjv3apL/e38xqjE7xlHHLCdelz89Y6lR2noV/
+         GPhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=wCtaWd9v4/NBog3l8CIR/fFSWktSHj6Kal4GrZ4+x+k=;
-        b=UfJmvixq0uviJ1krR5cNOSG/iWtR0COoezVbHxmTQXWblTV8dvhrp2YO4o0r0n6Xp/
-         GdwRVuBIqfh/nK1Dt3zX/7A8B73QGigX3WHtPZEA/UUhBJq/2KQ9Lc4dfRHsyURdcE8Q
-         NtV3La0g0DMJ8A8wad1Bcpcym0KrspVcNI29U9k6wnHv7xUXbTlCo4+2BtN9Lnczsxnx
-         vLZ8UMywBYU82Lyy/BX4oycx4kE46//dWO82a5nLqDiKHWyAWNE1KK8Rn71pfSBBF7P5
-         7TH86Mswpgd/QWUkI+eGXWiUtQx8Z3L5ZsniwjN6YhVqlaAQce7c0nw8dDDMZ/N5Fx03
-         I6/w==
-X-Gm-Message-State: ACrzQf0PZDj2dXAmsC47JOa52cMOGwJzyVtXLAy1smOCa+XJ9HrVCKAp
-        02mmleIw/Q7kwlM3TIGNktSZjg==
-X-Google-Smtp-Source: AMsMyM6leAyWd6eQvVmEx1/WgM2/TazUtw+yr6gzvTDqAgmUWi2mJBiuXrfaJh+90hgvBgUoNjOU8A==
-X-Received: by 2002:a05:600c:4f53:b0:3b4:9aad:7845 with SMTP id m19-20020a05600c4f5300b003b49aad7845mr7442763wmq.159.1664813612220;
-        Mon, 03 Oct 2022 09:13:32 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=7dQXLQGjmAcl/xcPVLsk1EjIAQGW9LYFw0dKgGXUj4M=;
+        b=WK6sqJsM3vYpHIv8g4/U93OugRkaBCGKJ7JWFa0VdhvBPUAmc0WxkEzZfKEnLwe1j+
+         yInve3U7Eoju1A1cUxpxu3shfBXY/Y7TnIoXu+2UbkVuNIdEDJYT5JHa6O05gJq0sgs3
+         beDu8LD0Ep7MZ+KN8AqzWQRj0qOS2G4FqYuMbakX8Z3GvKS6zBqSLBTjftckpuyN4y8p
+         Te7JyOwPkWq2QLpWVNrgH7qw+LRTJVvPIOTI3aoTL45FXqEQuUahc2QKvp6Ek5NYigIv
+         lLUZ3LJKf/VYGv34gSmLJFk98lFhCThnYNo6N+Hu4u9Q4DH+jfNvzLk2SC0Fpdvtt2TT
+         gVWA==
+X-Gm-Message-State: ACrzQf2nQIKq3+A8viVFjz9QFATi00s7wXcX4HdBCowEqiVx3Hwml8Pl
+        0rMJSaDIXotsMOI+F/qs7WIq/Q==
+X-Google-Smtp-Source: AMsMyM47DVIIhlKgvmYj/r0Y7oHp7KVO/2q6/YOFDYvztqyixbC3rZnvTR+boBsjLDsifmwqGUVA5w==
+X-Received: by 2002:a05:600c:1d8f:b0:3b4:90c1:e23a with SMTP id p15-20020a05600c1d8f00b003b490c1e23amr7381633wms.122.1664813613265;
+        Mon, 03 Oct 2022 09:13:33 -0700 (PDT)
 Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id v129-20020a1cac87000000b003a845621c5bsm12111335wme.34.2022.10.03.09.13.31
+        by smtp.gmail.com with ESMTPSA id v129-20020a1cac87000000b003a845621c5bsm12111335wme.34.2022.10.03.09.13.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 09:13:31 -0700 (PDT)
+        Mon, 03 Oct 2022 09:13:32 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     corbet@lwn.net, linux@leemhuis.info,
         konstantin@linuxfoundation.org, krzysztof.kozlowski@linaro.org,
         linux-doc@vger.kernel.org, joe@perches.com
 Cc:     linux-kernel@vger.kernel.org,
         Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH v4 0/2] Fixup instructions around mailing recipients
-Date:   Mon,  3 Oct 2022 17:13:27 +0100
-Message-Id: <20221003161329.431107-1-bryan.odonoghue@linaro.org>
+Subject: [PATCH v4 1/2] get_maintainer: Print maintainer for S: Supported
+Date:   Mon,  3 Oct 2022 17:13:28 +0100
+Message-Id: <20221003161329.431107-2-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221003161329.431107-1-bryan.odonoghue@linaro.org>
+References: <20221003161329.431107-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-V4:
-- Change the subject line of the series
-  Previous: Expand get_maintainer to be explicit about supporters
-  https://lore.kernel.org/all/20220930064629.329514-1-bryan.odonoghue@linaro.org/t/
+Throughout the documentation we make reference to maintainers as the people
+who ought to be mailed when sending patches.
 
-- Update get_maintainer.pl to return "maintainer" for both "S: Supported"
-  and "S: Maintained" - Theodore Tso
-  For the purposes of sending a patch whether or not the maintainer is
-  listed as volunteer or paid is not really useful information.
-  Listing both as "maintainer" is clearer the end user.
+Right now get_maintainer.pl returns "supporter" for maintained files which
+are denoted "S: Supported".
 
-- Incorporate Krzysztof's list of recipients into
-  Documentation/process/submitting-patches.rst.
+Update get_maintainer to output "maintainer" for "S: Supported" the
+differentiation between paid (v) non-paid maintainers doesn't impact who
+needs to be mailed for patch submissions.
 
-- I didn't include the get_mainainter.pl example.
-  Comments from both Akira and Joe suggest to me the example is not that
-  useful.
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+ scripts/get_maintainer.pl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-- get_maintainer will no longer produce "supporter" so one could argue that
-  the documentation shouldn't refer to supporters however not all of the
-  potential output strings are documented and I've opted not to document
-  "chief penguin" either.
-
-  I'd like to focus on the particular case of supporters with some
-  reasonable knock-on documentation tweaks for the obvious gaps we've
-  identified in our discussion because "supporter" really means
-  "maintainer" and you absolutely have to mail that person to get your
-  patch into the right inbox.
-
-V3:
-
-- Drops change to get_maintainer.pl - Theodore
-- Rewords around `get_maintainer --nogit-fallback` and gives an example
-
-I think the document text now is clearer and should be more helpful to
-others in getting their minimum submission list right every time.
-
-V2:
-
-https://lore.kernel.org/lkml/20220928003006.230103-1-bryan.odonoghue@linaro.org/T/#u
-
-- Documentation/process
-  Added in text to also make clear subsystem mailing list should be
-  included - Krzysztof
-
-- Changed get_maintainer.pl to print maintainer[supporter] or
-  maintainer[volunteer] depending on MAINTAINERS file. - Thorsten/Bryan
-
-- Choose supporter and volunteer instead of supported and volunteer
-  Supporter and volunteer describe the role of the person whereas supported
-  and volunteer would describe an activity and a role which isn't
-  consistent. - Thorsten/Bryan
-
-- I didn't change Documentation/process/5.Posting.rst
-  This file doesn't mention get_maintainer.pl and I was mostly aiming to
-  fixup the process around get_maintainer.pl. - Thorsten
-
-- Myself and Thorsten discussed changing get_maintainer.pl, how it seems
-  like a desirable thing to do but also that "it might break scripts for
-  people" and it might.
-
-  I don't know if get_maintainer.pl is or should be considered to be a
-  stable interface and an explicit software contract but, making it clear a
-  supporter is also a maintainer seems like the right thing to do from a
-  transmission of information perspective.
-
-  There is still the option of just updating Documentation/process in
-  isolation.
-
-V1:
-- Sent a standalone change to Documentation/process stating
-  get_maintainer.pl email addresses marked "supporter" should be included
-  in a patch run.
-
-Bryan O'Donoghue (2):
-  get_maintainer: Print maintainer for S: Supported
-  Documentation/process: Be more explicit about who to mail on patch
-    submission
-
- Documentation/process/submitting-patches.rst | 4 +++-
- scripts/get_maintainer.pl                    | 2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
+diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
+index ab123b498fd9b..7a8d2961d948d 100755
+--- a/scripts/get_maintainer.pl
++++ b/scripts/get_maintainer.pl
+@@ -1283,7 +1283,7 @@ sub get_maintainer_role {
+ 
+     $role = lc($role);
+     if      ($role eq "supported") {
+-	$role = "supporter";
++	$role = "maintainer";
+     } elsif ($role eq "maintained") {
+ 	$role = "maintainer";
+     } elsif ($role eq "odd fixes") {
 -- 
 2.37.3
 
