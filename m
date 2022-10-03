@@ -2,311 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A065C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 16:10:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EAD5C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 16:13:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229705AbiJCQKZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Oct 2022 12:10:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49090 "EHLO
+        id S229751AbiJCQNg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Oct 2022 12:13:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbiJCQKX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 12:10:23 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADE482716A;
-        Mon,  3 Oct 2022 09:10:19 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 506552E0;
-        Mon,  3 Oct 2022 16:10:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 506552E0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1664813419; bh=M09kvWUKKyXJT6BItOuZt0NVG4f6vBFUOXolhT1QKRI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=L23NlEY9w6USpgSPhbH6XSEWdOAg96njN+s8zBko5oYsnep+AWzraDxaJy//R+C8l
-         4Q02TL5Kslx+2D/K750RK0idJtC1SmykVL+Tu5ZVpj4H2g8YaHqqW+tn9B9VbIpHxj
-         2Iz+iOEHbYu1sQe1FRZVRK2K1HA/hB7dW2zE3G/n/Gu/OXTutKy0tVxh36nTlMcMa1
-         PV3HSF71xvXzCuXRAVkYCrzhC15LLXNaogdTPyYKp6LLYvGpOyt1w7fyeMAiN76ot+
-         qq2rE9RRPgZPsWX/lmIjZRf/QWNyGzyq4l2+W1nmj4E6SvCRLlKKC//45Zf8hK2iqW
-         EKSsnrL9DHa7A==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [GIT PULL] Documentation changes for 6.0
-Date:   Mon, 03 Oct 2022 10:10:18 -0600
-Message-ID: <87k05gga6t.fsf@meer.lwn.net>
+        with ESMTP id S229708AbiJCQNf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 12:13:35 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD74931EDA
+        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 09:13:33 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id n40-20020a05600c3ba800b003b49aefc35fso6103910wms.5
+        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 09:13:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=wCtaWd9v4/NBog3l8CIR/fFSWktSHj6Kal4GrZ4+x+k=;
+        b=E/d9NQ3BFasBlvemdDzG5H/TmIl6HYLPH8ygw5KzcdO/xOvJU2X3v6KaSDAoF+nAjA
+         n4T9QhIDppWGUG2FH50IxAOojUqasy/tefNeUfh3km5/0XMf6AtHfMfBRuykkk1CuNk1
+         EpV5/fDyWXtR0HG8lyz+IMJ5cO89aMpSq7HmbptTaM2IS+2HWlmdJT28TI731kIt4V9d
+         KAoRwSimvUQH0lgrYd5VTzvXVM0C7M/hedWD7SFXIQzKtAPBt1Wue/bCVa+XM+OsrSIw
+         j3Og3y1yhOxoT9kyVk+RZodA6LuPgB3Y9IO7JG53+eSMCEqQmGk6/ed3hEGThRi0zArv
+         4m4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=wCtaWd9v4/NBog3l8CIR/fFSWktSHj6Kal4GrZ4+x+k=;
+        b=UfJmvixq0uviJ1krR5cNOSG/iWtR0COoezVbHxmTQXWblTV8dvhrp2YO4o0r0n6Xp/
+         GdwRVuBIqfh/nK1Dt3zX/7A8B73QGigX3WHtPZEA/UUhBJq/2KQ9Lc4dfRHsyURdcE8Q
+         NtV3La0g0DMJ8A8wad1Bcpcym0KrspVcNI29U9k6wnHv7xUXbTlCo4+2BtN9Lnczsxnx
+         vLZ8UMywBYU82Lyy/BX4oycx4kE46//dWO82a5nLqDiKHWyAWNE1KK8Rn71pfSBBF7P5
+         7TH86Mswpgd/QWUkI+eGXWiUtQx8Z3L5ZsniwjN6YhVqlaAQce7c0nw8dDDMZ/N5Fx03
+         I6/w==
+X-Gm-Message-State: ACrzQf0PZDj2dXAmsC47JOa52cMOGwJzyVtXLAy1smOCa+XJ9HrVCKAp
+        02mmleIw/Q7kwlM3TIGNktSZjg==
+X-Google-Smtp-Source: AMsMyM6leAyWd6eQvVmEx1/WgM2/TazUtw+yr6gzvTDqAgmUWi2mJBiuXrfaJh+90hgvBgUoNjOU8A==
+X-Received: by 2002:a05:600c:4f53:b0:3b4:9aad:7845 with SMTP id m19-20020a05600c4f5300b003b49aad7845mr7442763wmq.159.1664813612220;
+        Mon, 03 Oct 2022 09:13:32 -0700 (PDT)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id v129-20020a1cac87000000b003a845621c5bsm12111335wme.34.2022.10.03.09.13.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Oct 2022 09:13:31 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     corbet@lwn.net, linux@leemhuis.info,
+        konstantin@linuxfoundation.org, krzysztof.kozlowski@linaro.org,
+        linux-doc@vger.kernel.org, joe@perches.com
+Cc:     linux-kernel@vger.kernel.org,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH v4 0/2] Fixup instructions around mailing recipients
+Date:   Mon,  3 Oct 2022 17:13:27 +0100
+Message-Id: <20221003161329.431107-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868:
+V4:
+- Change the subject line of the series
+  Previous: Expand get_maintainer to be explicit about supporters
+  https://lore.kernel.org/all/20220930064629.329514-1-bryan.odonoghue@linaro.org/t/
 
-  Linux 6.0-rc1 (2022-08-14 15:50:18 -0700)
+- Update get_maintainer.pl to return "maintainer" for both "S: Supported"
+  and "S: Maintained" - Theodore Tso
+  For the purposes of sending a patch whether or not the maintainer is
+  listed as volunteer or paid is not really useful information.
+  Listing both as "maintainer" is clearer the end user.
 
-are available in the Git repository at:
+- Incorporate Krzysztof's list of recipients into
+  Documentation/process/submitting-patches.rst.
 
-  git://git.lwn.net/linux.git tags/docs-6.1
+- I didn't include the get_mainainter.pl example.
+  Comments from both Akira and Joe suggest to me the example is not that
+  useful.
 
-for you to fetch changes up to 69d517e6e21099f81efbd39e47874649ae575804:
+- get_maintainer will no longer produce "supporter" so one could argue that
+  the documentation shouldn't refer to supporters however not all of the
+  potential output strings are documented and I've opted not to document
+  "chief penguin" either.
 
-  checkpatch: warn on usage of VM_BUG_ON() and other BUG variants (2022-09-29 13:20:53 -0600)
+  I'd like to focus on the particular case of supporters with some
+  reasonable knock-on documentation tweaks for the obvious gaps we've
+  identified in our discussion because "supporter" really means
+  "maintainer" and you absolutely have to mail that person to get your
+  patch into the right inbox.
 
-----------------------------------------------------------------
-There's not a huge amount of activity in the docs tree this time around,
-but a few significant changes even so:
+V3:
 
-- A complete rewriting of the top-level index.rst file, which mostly
-  reflects itself in a redone top page in the HTML-rendered docs.  The hope
-  is that the new organization will be a friendlier starting point for
-  both users and developers.
+- Drops change to get_maintainer.pl - Theodore
+- Rewords around `get_maintainer --nogit-fallback` and gives an example
 
-- Some math-rendering improvements.
+I think the document text now is clearer and should be more helpful to
+others in getting their minimum submission list right every time.
 
-- A coding-style.rst update on the use of BUG() and WARN()
+V2:
 
-- A big maintainer-PHP guide update.
+https://lore.kernel.org/lkml/20220928003006.230103-1-bryan.odonoghue@linaro.org/T/#u
 
-- Some code-of-conduct updates
+- Documentation/process
+  Added in text to also make clear subsystem mailing list should be
+  included - Krzysztof
 
-- More Chinese translation work
+- Changed get_maintainer.pl to print maintainer[supporter] or
+  maintainer[volunteer] depending on MAINTAINERS file. - Thorsten/Bryan
 
-Plus the usual pile of typo fixes, corrections, and updates.
+- Choose supporter and volunteer instead of supported and volunteer
+  Supporter and volunteer describe the role of the person whereas supported
+  and volunteer would describe an activity and a role which isn't
+  consistent. - Thorsten/Bryan
 
-CONFLICTS: a Documentation/index.rst thrash could be expected to create a
-lot of conflicts, but there seems to be just one: with the Rust tree.
-Resolution is to take the docs version but add "rust/index" after
-"livepatch/index".
+- I didn't change Documentation/process/5.Posting.rst
+  This file doesn't mention get_maintainer.pl and I was mostly aiming to
+  fixup the process around get_maintainer.pl. - Thorsten
 
-There's also a small conflict with the RCU tree; just take the RCU side
-there.
+- Myself and Thorsten discussed changing get_maintainer.pl, how it seems
+  like a desirable thing to do but also that "it might break scripts for
+  people" and it might.
 
-----------------------------------------------------------------
-Akhil Raj (2):
-      Remove duplicate words inside documentation
-      Delete duplicate words from kernel docs
+  I don't know if get_maintainer.pl is or should be considered to be a
+  stable interface and an explicit software contract but, making it clear a
+  supporter is also a maintainer seems like the right thing to do from a
+  transmission of information perspective.
 
-Akira Yokosawa (3):
-      docs/conf.py: Treat mathjax as fallback math renderer
-      docs/conf.py: Respect env variable SPHINX_IMGMATH
-      docs/doc-guide: Add documentation on SPHINX_IMGMATH
+  There is still the option of just updating Documentation/process in
+  isolation.
 
-Binbin Zhou (4):
-      docs/zh_CN: core-api: Add idr Chinese translation
-      docs/zh_CN: core-api: Add circular-buffers Chinese translation
-      docs/zh_CN: core-api: Add generic-radix-tree Chinese translation
-      docs/zh_CN: core-api: Add packing Chinese translation
+V1:
+- Sent a standalone change to Documentation/process stating
+  get_maintainer.pl email addresses marked "supporter" should be included
+  in a patch run.
 
-David Hildenbrand (2):
-      coding-style.rst: document BUG() and WARN() rules ("do not crash the kernel")
-      checkpatch: warn on usage of VM_BUG_ON() and other BUG variants
+Bryan O'Donoghue (2):
+  get_maintainer: Print maintainer for S: Supported
+  Documentation/process: Be more explicit about who to mail on patch
+    submission
 
-Eric Lin (1):
-      Documentation: irqdomain: Fix typo of "at least once"
+ Documentation/process/submitting-patches.rst | 4 +++-
+ scripts/get_maintainer.pl                    | 2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-Hoi Pok Wu (1):
-      docs: hugetlbpage.rst: fix a typo of hugepage size
+-- 
+2.37.3
 
-Jonathan Corbet (8):
-      docs: promote the title of process/index.rst
-      docs: Rewrite the front page
-      docs: reconfigure the HTML left column
-      docs: remove some index.rst cruft
-      docs: move asm-annotations.rst into core-api
-      docs: put atomic*.txt and memory-barriers.txt into the core-api book
-      docs: add a man-pages link to the front page
-      Merge branch 'fp' into docs-mw
-
-JunChao Sun (1):
-      Documentation: ext4: correct the document about superblock
-
-Konstantin Ryabitsev (5):
-      maintainer-pgp-guide: use key terminology consistent with upstream
-      maintainer-pgp-guide: remove keyserver instructions
-      maintainer-pgp-guide: update ECC support information
-      maintainer-pgp-guide: add a section on PGP-signed patches
-      maintainer-pgp-guide: minor wording tweaks
-
-Kristen Carlson Accardi (1):
-      Documentation/CoC: Reflect current CoC interpretation and practices
-
-Lin Yujun (1):
-      Documentation/hw-vuln: Update spectre doc
-
-Lukas Bulwahn (2):
-      docs: admin-guide: do not mention the 'run a.out user programs' feature
-      docs: admin-guide: for kernel bugs refer to other kernel documentation
-
-Lukasz Luba (1):
-      docs: scheduler: Update new path for the sysctl knobs
-
-Randy Dunlap (6):
-      Documentation/ABI: correct possessive "its" typos
-      Documentation: filesystems: correct possessive "its"
-      Documentation: spufs: correct a duplicate word typo
-      Documentation: fb: udlfb: clean up text and formatting
-      Documentation: W1: minor typo corrections
-      usb: chipidea: clarify Documentation/ABI text
-
-Robert Elliott (1):
-      docs/core-api: expand Fedora instructions for GCC plugins
-
-Rong Tao (1):
-      Documentation: process/submitting-patches: misspelling "mesages"
-
-Salvatore Bonaccorso (1):
-      Documentation: stable: Document alternative for referring upstream commit hash
-
-Shuah Khan (1):
-      docs: update mediator information in CoC docs
-
-Thorsten Leemhuis (1):
-      docs: process/5.Posting.rst: clarify use of Reported-by: tag
-
-Tiezhu Yang (1):
-      docs, kprobes: Fix the wrong location of Kprobes
-
-Tuo Cao (1):
-      docs: x86: replace do_IRQ int the entry_64.rst with common_interrupt()
-
-Vernon Yang (1):
-      Documentation/mm: modify page_referenced to folio_referenced
-
-Wu XiangCheng (7):
-      docs/zh_CN: Update zh_CN/process/email-clients.rst to 5.19
-      docs/zh_CN: Update zh_CN/process/submitting-patches.rst to 5.19
-      docs/zh_CN: Fix two missing labels in zh_CN/process
-      docs/zh_CN: Update zh_CN/process/submit-checklist.rst to 6.0-rc2
-      docs/zh_CN: Update zh_CN/process/coding-style.rst to 6.0-rc2
-      docs/zh_CN: Update zh_CN/admin-guide/README.rst to 6.0-rc2
-      docs/zh_CN: Add new translation of admin-guide/bootconfig.rst
-
-Yang Yingliang (4):
-      Documentation: devres: add missing PINCTRL helpers
-      Documentation: devres: add missing SPI helper
-      Documentation: devres: update IRQ helper
-      Documentation: devres: add missing IO helper
-
-Yanteng Si (9):
-      docs/zh_CN: Update the translation of gpio to 6.0-rc1
-      docs/zh_CN: Update the translation of io_ordering to 6.0-rc2
-      docs/zh_CN: Remove IRQ and oops-tracing
-      docs/zh_TW: Remove oops-tracing
-      docs/zh_CN: add PCI acpi-info translation
-      docs/zh_CN: add dt changesets translation
-      docs/zh_CN: add dt dynamic-resolution-notes translation
-      docs/zh_CN: add dt overlay-notes translation
-      docs/zh_CN: add dt kernel-api translation
-
-Zhao Mengmeng (1):
-      Documentation: filesystems: xfs: update pseudocode and typo fixes
-
- Documentation/ABI/testing/sysfs-bus-bcma           |   2 +-
- Documentation/ABI/testing/sysfs-bus-fcoe           |   2 +-
- Documentation/ABI/testing/sysfs-bus-iio-proximity  |   2 +-
- Documentation/ABI/testing/sysfs-devices-system-cpu |   2 +-
- .../ABI/testing/sysfs-platform-chipidea-usb2       |   6 +-
- Documentation/ABI/testing/sysfs-power              |   2 +-
- Documentation/RCU/checklist.rst                    |   2 +-
- Documentation/RCU/lockdep.rst                      |   2 +-
- Documentation/admin-guide/README.rst               |  91 +--
- Documentation/admin-guide/hw-vuln/spectre.rst      |   1 +
- Documentation/admin-guide/kdump/vmcoreinfo.rst     |   2 +-
- Documentation/admin-guide/mm/hugetlbpage.rst       |   2 +-
- Documentation/bpf/instruction-set.rst              |   2 +-
- Documentation/bpf/map_cgroup_storage.rst           |   4 +-
- Documentation/conf.py                              |  42 +-
- Documentation/{ => core-api}/asm-annotations.rst   |   7 +-
- Documentation/core-api/cpu_hotplug.rst             |   2 +-
- Documentation/core-api/index.rst                   |   4 +
- Documentation/core-api/irq/irq-domain.rst          |   2 +-
- Documentation/core-api/wrappers/atomic_bitops.rst  |  18 +
- Documentation/core-api/wrappers/atomic_t.rst       |  19 +
- .../core-api/wrappers/memory-barriers.rst          |  18 +
- Documentation/doc-guide/sphinx.rst                 |  57 +-
- Documentation/driver-api/driver-model/devres.rst   |   7 +-
- Documentation/driver-api/isa.rst                   |   2 +-
- Documentation/fb/udlfb.rst                         |  23 +-
- Documentation/filesystems/caching/backend-api.rst  |   2 +-
- Documentation/filesystems/ext4/super.rst           |   6 +-
- Documentation/filesystems/f2fs.rst                 |   5 +-
- Documentation/filesystems/idmappings.rst           |   2 +-
- Documentation/filesystems/qnx6.rst                 |   2 +-
- Documentation/filesystems/spufs/spufs.rst          |   2 +-
- .../filesystems/xfs-delayed-logging-design.rst     |  18 +-
- Documentation/index.rst                            | 156 ++---
- Documentation/kbuild/gcc-plugins.rst               |  19 +-
- Documentation/locking/seqlock.rst                  |   2 +-
- Documentation/mm/unevictable-lru.rst               |   6 +-
- Documentation/process/5.Posting.rst                |   6 +-
- .../process/code-of-conduct-interpretation.rst     |  26 +-
- Documentation/process/coding-style.rst             |  62 ++
- Documentation/process/index.rst                    |   1 +
- Documentation/process/maintainer-pgp-guide.rst     | 286 ++++-----
- Documentation/process/stable-kernel-rules.rst      |   6 +
- Documentation/process/submitting-patches.rst       |   4 +-
- Documentation/scheduler/sched-design-CFS.rst       |   2 +-
- Documentation/staging/index.rst                    |  42 --
- Documentation/subsystem-apis.rst                   |  58 ++
- Documentation/trace/histogram.rst                  |   2 +-
- Documentation/trace/kprobes.rst                    |   4 +-
- Documentation/trace/timerlat-tracer.rst            |   2 +-
- Documentation/translations/zh_CN/IRQ.txt           |  39 --
- Documentation/translations/zh_CN/PCI/acpi-info.rst | 139 ++++
- Documentation/translations/zh_CN/PCI/index.rst     |  13 +-
- .../translations/zh_CN/admin-guide/README.rst      | 101 +--
- .../translations/zh_CN/admin-guide/bootconfig.rst  | 293 +++++++++
- .../translations/zh_CN/admin-guide/index.rst       |   2 +-
- .../zh_CN/core-api/circular-buffers.rst            | 210 ++++++
- .../zh_CN/core-api/generic-radix-tree.rst          |  23 +
- Documentation/translations/zh_CN/core-api/idr.rst  |  80 +++
- .../translations/zh_CN/core-api/index.rst          |   8 +-
- .../translations/zh_CN/core-api/packing.rst        | 160 +++++
- .../translations/zh_CN/devicetree/changesets.rst   |  37 ++
- .../zh_CN/devicetree/dynamic-resolution-notes.rst  |  31 +
- .../translations/zh_CN/devicetree/index.rst        |  13 +-
- .../translations/zh_CN/devicetree/kernel-api.rst   |  58 ++
- .../zh_CN/devicetree/overlay-notes.rst             | 140 ++++
- .../translations/zh_CN/driver-api/gpio/index.rst   |  69 ++
- .../zh_CN/{gpio.txt => driver-api/gpio/legacy.rst} | 184 ++++--
- .../translations/zh_CN/driver-api/index.rst        | 132 ++++
- .../translations/zh_CN/driver-api/io_ordering.rst  |  60 ++
- Documentation/translations/zh_CN/index.rst         |   4 +-
- Documentation/translations/zh_CN/io_ordering.txt   |  67 --
- Documentation/translations/zh_CN/oops-tracing.txt  | 212 ------
- .../translations/zh_CN/process/coding-style.rst    | 274 +++++---
- .../translations/zh_CN/process/email-clients.rst   | 265 +++++---
- .../zh_CN/process/submit-checklist.rst             |  84 +--
- .../zh_CN/process/submitting-patches.rst           | 714 ++++++++++-----------
- .../zh_CN/scheduler/sched-design-CFS.rst           |   2 +-
- Documentation/translations/zh_TW/oops-tracing.txt  | 212 ------
- Documentation/virt/kvm/x86/mmu.rst                 |   2 +-
- Documentation/w1/masters/ds2490.rst                |   2 +-
- Documentation/w1/w1-generic.rst                    |   2 +-
- Documentation/x86/entry_64.rst                     |   4 +-
- scripts/checkpatch.pl                              |   8 +-
- 84 files changed, 2957 insertions(+), 1731 deletions(-)
- rename Documentation/{ => core-api}/asm-annotations.rst (97%)
- create mode 100644 Documentation/core-api/wrappers/atomic_bitops.rst
- create mode 100644 Documentation/core-api/wrappers/atomic_t.rst
- create mode 100644 Documentation/core-api/wrappers/memory-barriers.rst
- create mode 100644 Documentation/subsystem-apis.rst
- delete mode 100644 Documentation/translations/zh_CN/IRQ.txt
- create mode 100644 Documentation/translations/zh_CN/PCI/acpi-info.rst
- create mode 100644 Documentation/translations/zh_CN/admin-guide/bootconfig.rst
- create mode 100644 Documentation/translations/zh_CN/core-api/circular-buffers.rst
- create mode 100644 Documentation/translations/zh_CN/core-api/generic-radix-tree.rst
- create mode 100644 Documentation/translations/zh_CN/core-api/idr.rst
- create mode 100644 Documentation/translations/zh_CN/core-api/packing.rst
- create mode 100644 Documentation/translations/zh_CN/devicetree/changesets.rst
- create mode 100644 Documentation/translations/zh_CN/devicetree/dynamic-resolution-notes.rst
- create mode 100644 Documentation/translations/zh_CN/devicetree/kernel-api.rst
- create mode 100644 Documentation/translations/zh_CN/devicetree/overlay-notes.rst
- create mode 100644 Documentation/translations/zh_CN/driver-api/gpio/index.rst
- rename Documentation/translations/zh_CN/{gpio.txt => driver-api/gpio/legacy.rst} (89%)
- create mode 100644 Documentation/translations/zh_CN/driver-api/index.rst
- create mode 100644 Documentation/translations/zh_CN/driver-api/io_ordering.rst
- delete mode 100644 Documentation/translations/zh_CN/io_ordering.txt
- delete mode 100644 Documentation/translations/zh_CN/oops-tracing.txt
- delete mode 100644 Documentation/translations/zh_TW/oops-tracing.txt
