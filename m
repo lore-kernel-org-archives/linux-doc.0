@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF31BC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 06:54:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7607CC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 06:54:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229825AbiJCGyU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Oct 2022 02:54:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38518 "EHLO
+        id S229759AbiJCGyW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Oct 2022 02:54:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229744AbiJCGxv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 02:53:51 -0400
+        with ESMTP id S229760AbiJCGxy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 02:53:54 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A94641518
-        for <linux-doc@vger.kernel.org>; Sun,  2 Oct 2022 23:53:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EB4E3F31F
+        for <linux-doc@vger.kernel.org>; Sun,  2 Oct 2022 23:53:05 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ore@pengutronix.de>)
-        id 1ofFJ9-0000yk-GW; Mon, 03 Oct 2022 08:52:07 +0200
+        id 1ofFJ9-0000ym-GS; Mon, 03 Oct 2022 08:52:07 +0200
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ore@pengutronix.de>)
-        id 1ofFJ7-004K5J-TV; Mon, 03 Oct 2022 08:52:04 +0200
+        id 1ofFJ8-004K5Q-7z; Mon, 03 Oct 2022 08:52:04 +0200
 Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ore@pengutronix.de>)
-        id 1ofFJ5-00GJko-EV; Mon, 03 Oct 2022 08:52:03 +0200
+        id 1ofFJ5-00GJkW-Cr; Mon, 03 Oct 2022 08:52:03 +0200
 From:   Oleksij Rempel <o.rempel@pengutronix.de>
 To:     Andrew Lunn <andrew@lunn.ch>,
         Heiner Kallweit <hkallweit1@gmail.com>,
@@ -43,9 +43,9 @@ Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
         David Jander <david@protonic.nl>,
         Luka Perkov <luka.perkov@sartura.hr>,
         Robert Marko <robert.marko@sartura.hr>
-Subject: [PATCH net-next v8 3/7] net: mdiobus: fwnode_mdiobus_register_phy() rework error handling
-Date:   Mon,  3 Oct 2022 08:51:58 +0200
-Message-Id: <20221003065202.3889095-4-o.rempel@pengutronix.de>
+Subject: [PATCH net-next v8 1/7] dt-bindings: net: phy: add PoDL PSE property
+Date:   Mon,  3 Oct 2022 08:51:56 +0200
+Message-Id: <20221003065202.3889095-2-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221003065202.3889095-1-o.rempel@pengutronix.de>
 References: <20221003065202.3889095-1-o.rempel@pengutronix.de>
@@ -59,67 +59,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rework error handling as preparation for PSE patch. This patch should
-make it easier to extend this function.
+Add property to reference node representing a PoDL Power Sourcing Equipment.
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 ---
-changes v4
-- add Reviewed-by: Andrew Lunn
+changes v5:
+- rename ieee802.3-pse to pses
+- rename phandle-array to phandle
+- add maxItems: 1
 ---
- drivers/net/mdio/fwnode_mdio.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ Documentation/devicetree/bindings/net/ethernet-phy.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/net/mdio/fwnode_mdio.c b/drivers/net/mdio/fwnode_mdio.c
-index 1c1584fca632..7ff7349a27a2 100644
---- a/drivers/net/mdio/fwnode_mdio.c
-+++ b/drivers/net/mdio/fwnode_mdio.c
-@@ -110,8 +110,8 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
- 	else
- 		phy = phy_device_create(bus, addr, phy_id, 0, NULL);
- 	if (IS_ERR(phy)) {
--		unregister_mii_timestamper(mii_ts);
--		return PTR_ERR(phy);
-+		rc = PTR_ERR(phy);
-+		goto clean_mii_ts;
- 	}
+diff --git a/Documentation/devicetree/bindings/net/ethernet-phy.yaml b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+index ed1415a4381f..ad808e9ce5b9 100644
+--- a/Documentation/devicetree/bindings/net/ethernet-phy.yaml
++++ b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+@@ -144,6 +144,12 @@ properties:
+       Mark the corresponding energy efficient ethernet mode as
+       broken and request the ethernet to stop advertising it.
  
- 	if (is_acpi_node(child)) {
-@@ -125,17 +125,13 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
- 		/* All data is now stored in the phy struct, so register it */
- 		rc = phy_device_register(phy);
- 		if (rc) {
--			phy_device_free(phy);
- 			fwnode_handle_put(phy->mdio.dev.fwnode);
--			return rc;
-+			goto clean_phy;
- 		}
- 	} else if (is_of_node(child)) {
- 		rc = fwnode_mdiobus_phy_device_register(bus, phy, child, addr);
--		if (rc) {
--			unregister_mii_timestamper(mii_ts);
--			phy_device_free(phy);
--			return rc;
--		}
-+		if (rc)
-+			goto clean_phy;
- 	}
- 
- 	/* phy->mii_ts may already be defined by the PHY driver. A
-@@ -145,5 +141,12 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
- 	if (mii_ts)
- 		phy->mii_ts = mii_ts;
- 	return 0;
++  pses:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    maxItems: 1
++    description:
++      Specifies a reference to a node representing a Power Sourcing Equipment.
 +
-+clean_phy:
-+	phy_device_free(phy);
-+clean_mii_ts:
-+	unregister_mii_timestamper(mii_ts);
-+
-+	return rc;
- }
- EXPORT_SYMBOL(fwnode_mdiobus_register_phy);
+   phy-is-integrated:
+     $ref: /schemas/types.yaml#/definitions/flag
+     description:
 -- 
 2.30.2
 
