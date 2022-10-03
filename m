@@ -2,200 +2,210 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5BADC433F5
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 07:01:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1101EC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 07:59:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229710AbiJCHBP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Oct 2022 03:01:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56994 "EHLO
+        id S232126AbiJCH7Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Oct 2022 03:59:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229657AbiJCHBH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 03:01:07 -0400
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AAFC183AB;
-        Mon,  3 Oct 2022 00:01:04 -0700 (PDT)
-Received: by mail-wr1-f51.google.com with SMTP id bv17so6306353wrb.10;
-        Mon, 03 Oct 2022 00:01:04 -0700 (PDT)
+        with ESMTP id S232140AbiJCH7D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 03:59:03 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59A0660688
+        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 00:35:31 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id bp15so1863417lfb.13
+        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 00:35:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=cTF3AiWCQzUZJV3DQOd8YpyAQ0uZN+oT26/EmVI5Gno=;
+        b=DvdRFGG3GDv+8INZlnRFdJ/8sk5eEa7AareONRXiJEau+xbhzZax6uLRyfYITFWbZf
+         3NqpZEEzMP/hKmEkCARYJ5G9gzbOE0q7McTWIAngIxaTuYC1o8lT6E0RUJP/MLnLpZ7d
+         Qu+1Vd0FUnf6Z7BDCSiXfOB3Lp6wjhae3evjWtqy1Hvhcufb4H2zsgnTlazKt2OEhd79
+         BA6ZEelvKbFypTSJOPXKwWi6F96cJdE1vUQrd76EmQ0Smui1y+dlW96zT/pi7JhI5c/2
+         8NZeHRiN3xgZc7P9e5p+GcKW4B3xAZ9Q9xeU6JSlAtM3mdUAbXU1rYpnUGpgYkW0Wdos
+         uORw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=QZxEh5TlGS++zfFKZtN1bwu8VZwicVL3B9zKI6Kxkv4=;
-        b=3KSwQDeOnUibGP+tiAG5QhpPMcVZWgJmL2d/3Gx5HTmzObOm1htIMIENHQJG8d+nWp
-         mjNM4eKn+39aemRSi47S6xOyWrqdmxtFS8cum5vFN49LhxXM8dt4RqgKHM9/B5i5Ox32
-         89KDTuXcAFy5IHMD5W1iq/LAOWVsbdKodqlBviXnSBhgWnUKfHsbIx19TzMzJRnjZsv/
-         Y4ZHFmmztXwlTmKSHfC6adf7cKlV6K2CVJr7TUMzCH5P2BOrs+5WwILJqfuSolvSZ47n
-         BG3NLbx7+oAcX1+m3q5Q9TQ69fOwBz2rdEHIoxT231n486juzdsls/uIZChg1VZJMrGC
-         X8Wg==
-X-Gm-Message-State: ACrzQf3efDUFizHa0/GYS5lyimUQW4WjW4hIP5cHbuqwbpuhenTvrkjS
-        k4/e/CaxMgbVE+ajLO6pacL6c92qCkqnvg==
-X-Google-Smtp-Source: AMsMyM7oTmPD9TmDJpCJLB5vx4Vxbpy4WraurpF7b0hIVCUMh3x/LYxkMeo2Z1XcyBUM3+J1f7gZ4w==
-X-Received: by 2002:a5d:6484:0:b0:22e:3456:37fa with SMTP id o4-20020a5d6484000000b0022e345637famr3710653wri.203.1664780462955;
-        Mon, 03 Oct 2022 00:01:02 -0700 (PDT)
-Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id fc9-20020a05600c524900b003b31c560a0csm11376995wmb.12.2022.10.03.00.01.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Oct 2022 00:01:02 -0700 (PDT)
-Message-ID: <bbde3488-be49-371d-3de3-89e759d639f4@kernel.org>
-Date:   Mon, 3 Oct 2022 09:01:00 +0200
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=cTF3AiWCQzUZJV3DQOd8YpyAQ0uZN+oT26/EmVI5Gno=;
+        b=FiSpcCFl5erYpxmIPXOQOuolEYLKTAambrPMumFpeSzV5qrxCo1rp38AvlJ8zsEM/o
+         QDt78HtsNqhQFlP6bcQ6ZkdU0BxPAfbq09xg8/XQTo5rSy5vc97KJxZSC+MBJUqUjXrb
+         BkjH7UxOrAqvSxwivnShkyIIJsVgpTgRkfbA8DjiXC4zJv1U74QETj1ilG0eggm0emYg
+         sk+hzi0ezfdgrI7oC1ey8o3whbtyRjiWv9cBf5g8bNMiXcZ7qojks5D5Ynsc2Lf7pESj
+         2nRiBRlbmlBqVQw3WWHjkfd16+X++GRLyw48MHKpAUG8mMXcuQFUdVdJHObgX/EU5kmK
+         OCEA==
+X-Gm-Message-State: ACrzQf2V8WhQ123MOJmDWxBMQp7JS/7qvQE5fiLD3tKaZZeqqEo55zEy
+        wUWhxWRPCVURTo+Nr03Dnm6ChsBVhRddAXtEwTFO4w==
+X-Google-Smtp-Source: AMsMyM54UDKb/wQylYbThizMTNEzG/N4GHFJjCY1YMNV55ssdwv1emM1/33fLKcW7+Q244fzhfIJ6l3JiIpmQNO4rxw=
+X-Received: by 2002:a05:6512:261b:b0:4a1:abd7:3129 with SMTP id
+ bt27-20020a056512261b00b004a1abd73129mr7271284lfb.637.1664782430012; Mon, 03
+ Oct 2022 00:33:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v4 14/14] tty: gunyah: Add tty console driver for RM
- Console Services
-Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com> <CA+EHjTyrexb_LX7Jm9-MGwm4DBvfjCrADH4oumFyAvs2_0oSYw@mail.gmail.com>
+ <20220930162301.i226o523teuikygq@box.shutemov.name>
+In-Reply-To: <20220930162301.i226o523teuikygq@box.shutemov.name>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Mon, 3 Oct 2022 08:33:13 +0100
+Message-ID: <CA+EHjTyphrouY1FV2NQOBLDG81JYhiHFGBNKjT1K2j+pVNij+A@mail.gmail.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+To:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
- <20220928195633.2348848-15-quic_eberman@quicinc.com>
-From:   Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <20220928195633.2348848-15-quic_eberman@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 28. 09. 22, 21:56, Elliot Berman wrote:
-> --- /dev/null
-> +++ b/drivers/tty/gunyah_tty.c
-> @@ -0,0 +1,409 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#define pr_fmt(fmt) "gh_rsc_mgr_console: " fmt
-> +
-> +#include <linux/gunyah_rsc_mgr.h>
-> +#include <linux/auxiliary_bus.h>
-> +#include <linux/workqueue.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/tty_flip.h>
-> +#include <linux/console.h>
-> +#include <linux/module.h>
-> +#include <linux/kfifo.h>
-> +#include <linux/kref.h>
-> +#include <linux/slab.h>
-> +#include <linux/tty.h>
+Hi
 
-Sort alphabetically, please. Not by inv. xmas tree.
+On Fri, Sep 30, 2022 at 5:23 PM Kirill A . Shutemov
+<kirill.shutemov@linux.intel.com> wrote:
+>
+> On Fri, Sep 30, 2022 at 05:14:00PM +0100, Fuad Tabba wrote:
+> > Hi,
+> >
+> > <...>
+> >
+> > > diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
+> > > new file mode 100644
+> > > index 000000000000..2d33cbdd9282
+> > > --- /dev/null
+> > > +++ b/mm/memfd_inaccessible.c
+> > > @@ -0,0 +1,219 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +#include "linux/sbitmap.h"
+> > > +#include <linux/memfd.h>
+> > > +#include <linux/pagemap.h>
+> > > +#include <linux/pseudo_fs.h>
+> > > +#include <linux/shmem_fs.h>
+> > > +#include <uapi/linux/falloc.h>
+> > > +#include <uapi/linux/magic.h>
+> > > +
+> > > +struct inaccessible_data {
+> > > +       struct mutex lock;
+> > > +       struct file *memfd;
+> > > +       struct list_head notifiers;
+> > > +};
+> > > +
+> > > +static void inaccessible_notifier_invalidate(struct inaccessible_data *data,
+> > > +                                pgoff_t start, pgoff_t end)
+> > > +{
+> > > +       struct inaccessible_notifier *notifier;
+> > > +
+> > > +       mutex_lock(&data->lock);
+> > > +       list_for_each_entry(notifier, &data->notifiers, list) {
+> > > +               notifier->ops->invalidate(notifier, start, end);
+> > > +       }
+> > > +       mutex_unlock(&data->lock);
+> > > +}
+> > > +
+> > > +static int inaccessible_release(struct inode *inode, struct file *file)
+> > > +{
+> > > +       struct inaccessible_data *data = inode->i_mapping->private_data;
+> > > +
+> > > +       fput(data->memfd);
+> > > +       kfree(data);
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static long inaccessible_fallocate(struct file *file, int mode,
+> > > +                                  loff_t offset, loff_t len)
+> > > +{
+> > > +       struct inaccessible_data *data = file->f_mapping->private_data;
+> > > +       struct file *memfd = data->memfd;
+> > > +       int ret;
+> > > +
+> > > +       if (mode & FALLOC_FL_PUNCH_HOLE) {
+> > > +               if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> > > +                       return -EINVAL;
+> > > +       }
+> > > +
+> > > +       ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+> >
+> > I think that shmem_file_operations.fallocate is only set if
+> > CONFIG_TMPFS is enabled (shmem.c). Should there be a check at
+> > initialization that fallocate is set, or maybe a config dependency, or
+> > can we count on it always being enabled?
+>
+> It is already there:
+>
+>         config MEMFD_CREATE
+>                 def_bool TMPFS || HUGETLBFS
+>
+> And we reject inaccessible memfd_create() for HUGETLBFS.
+>
+> But if we go with a separate syscall, yes, we need the dependency.
 
-> +/*
-> + * The Linux TTY code does not support dynamic addition of tty derived devices so we need to know
-> + * how many tty devices we might need when space is allocated for the tty device. Since VMs might be
-> + * added/removed dynamically, we need to make sure we have enough allocated.
-> + */
-> +#define RSC_MGR_TTY_ADAPTERS		16
-> +
-> +/* # of payload bytes that can fit in a 1-fragment CONSOLE_WRITE message */
-> +#define RM_CONS_WRITE_MSG_SIZE	((1 * (GH_MSGQ_MAX_MSG_SIZE - 8)) - 4)
+I missed that, thanks.
 
-"1 *" is kind of superfluous.
+>
+> > > +       inaccessible_notifier_invalidate(data, offset, offset + len);
+> > > +       return ret;
+> > > +}
+> > > +
+> >
+> > <...>
+> >
+> > > +void inaccessible_register_notifier(struct file *file,
+> > > +                                   struct inaccessible_notifier *notifier)
+> > > +{
+> > > +       struct inaccessible_data *data = file->f_mapping->private_data;
+> > > +
+> > > +       mutex_lock(&data->lock);
+> > > +       list_add(&notifier->list, &data->notifiers);
+> > > +       mutex_unlock(&data->lock);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(inaccessible_register_notifier);
+> >
+> > If the memfd wasn't marked as inaccessible, or more generally
+> > speaking, if the file isn't a memfd_inaccessible file, this ends up
+> > accessing an uninitialized pointer for the notifier list. Should there
+> > be a check for that here, and have this function return an error if
+> > that's not the case?
+>
+> I think it is "don't do that" category. inaccessible_register_notifier()
+> caller has to know what file it operates on, no?
 
-"- 8 - 4" -- it's too many magic constants in here. Define macros for them.
+The thing is, you could oops the kernel from userspace. For that, all
+you have to do is a memfd_create without the MFD_INACCESSIBLE,
+followed by a KVM_SET_USER_MEMORY_REGION using that as the private_fd.
+I ran into this using my port of this patch series to arm64.
 
-> +struct rm_cons_port {
-> +	struct tty_port port;
-> +	u16 vmid;
-> +	bool open;
-> +	unsigned int index;
-> +
-> +	DECLARE_KFIFO(put_fifo, char, 1024);
-
-Why is tty_port::xmit_fifo not enough?
-
-> +	spinlock_t fifo_lock;
-> +	struct work_struct put_work;
-> +
-> +	struct rm_cons_data *cons_data;
-> +};
-> +
-> +struct rm_cons_data {
-> +	struct tty_driver *tty_driver;
-
-It looks weird to have a driver per console/device.
-
-> +	struct device *dev;
-> +
-> +	spinlock_t ports_lock;
-> +	struct rm_cons_port *ports[RSC_MGR_TTY_ADAPTERS];
-> +
-> +	struct notifier_block rsc_mgr_notif;
-> +	struct console console;
-> +};
-> +
-> +static void put_work_fn(struct work_struct *ws)
-> +{
-> +	char buf[RM_CONS_WRITE_MSG_SIZE];
-
-Ugh, is this 1024-12? Do not do this on stack!
-
-> +	int count, ret;
-> +	struct rm_cons_port *port = container_of(ws, struct rm_cons_port, put_work);
-> +
-> +	while (!kfifo_is_empty(&port->put_fifo)) {
-> +		count = kfifo_out_spinlocked(&port->put_fifo, buf, sizeof(buf), &port->fifo_lock);
-> +		if (count <= 0)
-> +			continue;
-
-This does not make much sense. 1) kfifo_is_empty() is not locked; 2) 
-it's overly complicated. It can be, IMO:
-while (1) {
-   count = kfifo_out_spinlocked();
-   if (!count)
-     break;
+Cheers,
+/fuad
 
 
-> +static int rsc_mgr_console_notif(struct notifier_block *nb, unsigned long cmd, void *data)
-> +{
-> +	int count, i;
-
-Not unsigned?
-
-> +	struct rm_cons_port *rm_port = NULL;
-> +	struct tty_port *tty_port = NULL;
-> +	struct rm_cons_data *cons_data = container_of(nb, struct rm_cons_data, rsc_mgr_notif);
-> +	const struct gh_rm_notification *notif = data;
-> +	struct gh_rm_notif_vm_console_chars const * const msg = notif->buff;
-
-Interesting mix of inconsistencies. Once you start with const, once you 
-place it after struct. Please make it consistent (start with const).
-
-ANd here, you should apply inv. xmas tree sorting.
-
-> +
-> +	if (cmd != GH_RM_NOTIF_VM_CONSOLE_CHARS ||
-> +		notif->size < sizeof(*msg))
-> +		return NOTIFY_DONE;
-
-Weird indentation. notif->size should start with either 4 spaces less or 
-one more tab.
-
-regards,
--- 
-js
-suse labs
-
+> --
+>   Kiryl Shutsemau / Kirill A. Shutemov
