@@ -2,130 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FCEAC43217
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 01:56:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3F91C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 02:10:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229516AbiJDB4V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Oct 2022 21:56:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48138 "EHLO
+        id S229436AbiJDCKp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Oct 2022 22:10:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbiJDB4U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 21:56:20 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10C932D778;
-        Mon,  3 Oct 2022 18:56:20 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id 70so11570614pjo.4;
-        Mon, 03 Oct 2022 18:56:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date;
-        bh=IUIxHgJYWcHGaS/qJFBxYXjYwMIOrkLEaJu/xQNKfEQ=;
-        b=aKmGtBJE8VNe0EZE7dHTOoTQnKr33h5A4fz5n/RaLhpnf1RHcnEVEG45rGQZjNjY49
-         LrtfZ7iAK6i0asA6CsmDCLH4WSl5WY3+jR0ijHAzLVnO89szKZvyex5xcDNRQQ/REXhX
-         dJx+0CXbZv1hCkrd0Wu6pyaOiOwFnf3LaEtyy0ulvhBkeP/mOMy0Rlu2vXUAJbdXiHAd
-         9+2BQaZ7bEicPlGSagnR8iN7XmX+ADdNKWgr3ti5IsyWD/v2QonYTwPvGAM0p6U8OjJ+
-         r3pJfhJFUcCqo7xt8DNWI1cWyaEGnWYIeXH77kDnjGeXZSE3+6XTDyPE7BnipIZTesB0
-         TSpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=IUIxHgJYWcHGaS/qJFBxYXjYwMIOrkLEaJu/xQNKfEQ=;
-        b=aWgV1PsYbYCZuh7PmRIgJeWvaN/vAtJjENocVd6GIVLkJL060NBgY0/434wiYRqJTx
-         JtYchK7KnqYkQxtJdqODF29wZfm4sViA3wnwBW9y9m+iWZCDSNe25xIwxM2MaGzUtNa+
-         ednVwBx9Reuvtvwa2lOMnAFvjap1pxvqUKju5eXqlhYlckm6uITGmI0/hOFYIyfIDsk9
-         FzlKyDhiUA1CMdwng9s/dfyfLQNSlm3MrUC4lN5+XPNG3tm3/ISS8u3Lw8XzM605HR9h
-         CP9DFa2wHzJxQKWQOC2eP1d76oC2k0MvcDxY+b2tt2wsBi5mflctR/keJjRGOHe0B+5z
-         Ifmg==
-X-Gm-Message-State: ACrzQf2Lt4lyfOJvt0tUlm/Ylae+v/OMdWkLVpVxdQ63MaGvYo0Bx/aW
-        9+jVMO6pFvl9TRz4ZRCbvSw=
-X-Google-Smtp-Source: AMsMyM6BsRvc9pwadnammyxGl8ehM6JvyxAhCPZ142D2t0y8sbOHs4tx8RnG8eFOcCU4x3RllKHJxw==
-X-Received: by 2002:a17:902:a611:b0:178:6b71:2ee5 with SMTP id u17-20020a170902a61100b001786b712ee5mr24393638plq.53.1664848579309;
-        Mon, 03 Oct 2022 18:56:19 -0700 (PDT)
-Received: from smtpclient.apple (c-24-6-216-183.hsd1.ca.comcast.net. [24.6.216.183])
-        by smtp.gmail.com with ESMTPSA id q15-20020a17090ad38f00b00209a12b3879sm6955729pju.37.2022.10.03.18.56.16
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 03 Oct 2022 18:56:18 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: [PATCH v2 17/39] mm: Fixup places that call pte_mkwrite()
- directly
-From:   Nadav Amit <nadav.amit@gmail.com>
-In-Reply-To: <20220929222936.14584-18-rick.p.edgecombe@intel.com>
-Date:   Mon, 3 Oct 2022 18:56:15 -0700
-Cc:     X86 ML <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-        Linux MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com,
-        Mike Rapoport <rppt@kernel.org>, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, Yu-cheng Yu <yu-cheng.yu@intel.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <96BFE665-4A76-4CE0-A22B-A999C4A16FFD@gmail.com>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-18-rick.p.edgecombe@intel.com>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
+        with ESMTP id S229624AbiJDCKn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 22:10:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2B7223153;
+        Mon,  3 Oct 2022 19:10:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D4E7861226;
+        Tue,  4 Oct 2022 02:10:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1E13DC433D7;
+        Tue,  4 Oct 2022 02:10:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664849422;
+        bh=SLkbv2B4JHPRilUVLrjFbn07v1YGDn4jS0ZXUk/n9ag=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=Xgea8fo/9mtanPdV+WOvAU+EovTzkk/JlxO4WTet1r8l0vT0gm2Rs2wbIQATB1ti4
+         w/e30WSlcQCgJA1qyxLGTxy3a0U9v5eFJxUN5fW5/mY/kkZmkicBFkjB6srGEXPJel
+         /zTiBen7vMV+RxteODKZrVnUBF+yDvgpJBwUD4A9azGsNGj2uPirWhNTfx//SpAGGF
+         rkju0YCQ2Zcx4rkPo26QpJUGa+w0xA5QIX04OM0CH7pelQ/7N5IxqeUaFnxKKeIvIZ
+         73e2tFCo8wntpUROVkD4kVLEwpiTYaZVBA5FL1ZoddNpA/cXqKIBNBbp0X90yfw+97
+         10vY4Bq26UoMQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F0F27E4D013;
+        Tue,  4 Oct 2022 02:10:21 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v8 0/7] add generic PSE support 
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166484942198.5153.10769126898481789778.git-patchwork-notify@kernel.org>
+Date:   Tue, 04 Oct 2022 02:10:21 +0000
+References: <20221003065202.3889095-1-o.rempel@pengutronix.de>
+In-Reply-To: <20221003065202.3889095-1-o.rempel@pengutronix.de>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     andrew@lunn.ch, hkallweit1@gmail.com, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        linux@armlinux.org.uk, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net,
+        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, david@protonic.nl,
+        luka.perkov@sartura.hr, robert.marko@sartura.hr
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hopefully I will not waste your time again=E2=80=A6 If it has been =
-discussed in the
-last 26 iterations, just tell me and ignore.
+Hello:
 
-On Sep 29, 2022, at 3:29 PM, Rick Edgecombe <rick.p.edgecombe@intel.com> =
-wrote:
+This series was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-> --- a/mm/migrate_device.c
-> +++ b/mm/migrate_device.c
-> @@ -606,8 +606,7 @@ static void migrate_vma_insert_page(struct =
-migrate_vma *migrate,
-> 			goto abort;
-> 		}
-> 		entry =3D mk_pte(page, vma->vm_page_prot);
-> -		if (vma->vm_flags & VM_WRITE)
-> -			entry =3D pte_mkwrite(pte_mkdirty(entry));
-> +		entry =3D maybe_mkwrite(pte_mkdirty(entry), vma);
-> 	}
+On Mon,  3 Oct 2022 08:51:55 +0200 you wrote:
+> Add generic support for the Ethernet Power Sourcing Equipment.
+> 
+> changes are listed within patches.
+> 
+> Oleksij Rempel (7):
+>   dt-bindings: net: phy: add PoDL PSE property
+>   net: add framework to support Ethernet PSE and PDs devices
+>   net: mdiobus: fwnode_mdiobus_register_phy() rework error handling
+>   net: mdiobus: search for PSE nodes by parsing PHY nodes.
+>   ethtool: add interface to interact with Ethernet Power Equipment
+>   dt-bindings: net: pse-dt: add bindings for regulator based PoDL PSE
+>     controller
+>   net: pse-pd: add regulator based PSE driver
+> 
+> [...]
 
-This is not exactly the same logic. You might dirty read-only pages =
-since
-you call pte_mkdirty() unconditionally. It has been known not to be very
-robust (e.g., dirty-COW and friends). Perhaps it is not dangerous =
-following
-some recent enhancements, but why do you want to take the risk?
+Here is the summary with links:
+  - [net-next,v8,1/7] dt-bindings: net: phy: add PoDL PSE property
+    https://git.kernel.org/netdev/net-next/c/e9554b31aff0
+  - [net-next,v8,2/7] net: add framework to support Ethernet PSE and PDs devices
+    https://git.kernel.org/netdev/net-next/c/3114b075eb25
+  - [net-next,v8,3/7] net: mdiobus: fwnode_mdiobus_register_phy() rework error handling
+    https://git.kernel.org/netdev/net-next/c/cfaa202a73ea
+  - [net-next,v8,4/7] net: mdiobus: search for PSE nodes by parsing PHY nodes.
+    https://git.kernel.org/netdev/net-next/c/5e82147de1cb
+  - [net-next,v8,5/7] ethtool: add interface to interact with Ethernet Power Equipment
+    https://git.kernel.org/netdev/net-next/c/18ff0bcda6d1
+  - [net-next,v8,6/7] dt-bindings: net: pse-dt: add bindings for regulator based PoDL PSE controller
+    https://git.kernel.org/netdev/net-next/c/f05dfdaf567a
+  - [net-next,v8,7/7] net: pse-pd: add regulator based PSE driver
+    https://git.kernel.org/netdev/net-next/c/66741b4e94ca
 
-Instead, although it might seem redundant, the compiler will hopefully =
-would
-make it efficient:
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-		if (vma->vm_flags & VM_WRITE) {
-			entry =3D pte_mkdirty(entry);
-			entry =3D maybe_mkwrite(entry, vma);
-		}
 
