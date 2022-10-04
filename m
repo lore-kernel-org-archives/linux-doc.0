@@ -2,104 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57066C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 14:18:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CDCC433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 14:26:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229662AbiJDOSs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Oct 2022 10:18:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33002 "EHLO
+        id S229807AbiJDO0z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Oct 2022 10:26:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbiJDOSr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 10:18:47 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 976AE2FC2F;
-        Tue,  4 Oct 2022 07:18:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664893125; x=1696429125;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=/ZhcxE23XxY+wRDapL4hQYTPECwVP1wjdbRokWF4C6M=;
-  b=hDxc17rngdiCzrfqOdO0kCB4KrobUCdfwdygSWb6iT21g46hp8EpG7Fc
-   BYfMRpWcIRspHIMcdNeM8UOnm4RUkMa9iZyUDNtnspXfDIpXCltlw/OyY
-   xTHf8pAW0rURgbVN175OhHGCuQnRqXcZloBaaVhgg4Idmne/hdMyx2u4s
-   LgtYTNpffFb5t1gJ1IjfnneApYT99P3VnNL2ktn2VyDX1thVBdlv+DhfW
-   j7yn5WeirC86esm6A8UsPwGj3tBeHbt5iPVqvzzI+TcIdlyJNOI+YE+5o
-   JN3Yu22hPyeID3Pv9wQCq2NpNPlzJrv5UXKV9DPRYny7teMnWkBos4+MY
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="304464657"
-X-IronPort-AV: E=Sophos;i="5.95,158,1661842800"; 
-   d="scan'208";a="304464657"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 07:18:45 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="623945386"
-X-IronPort-AV: E=Sophos;i="5.95,158,1661842800"; 
-   d="scan'208";a="623945386"
-Received: from samrober-mobl.amr.corp.intel.com (HELO [10.209.85.136]) ([10.209.85.136])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 07:18:44 -0700
-Message-ID: <62c6c3a7-3bd2-69ee-36cd-341e11c43978@intel.com>
-Date:   Tue, 4 Oct 2022 07:18:43 -0700
+        with ESMTP id S229775AbiJDO0x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 10:26:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14C30606AF;
+        Tue,  4 Oct 2022 07:26:48 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A0EEE6146F;
+        Tue,  4 Oct 2022 14:26:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDB85C433D6;
+        Tue,  4 Oct 2022 14:26:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664893607;
+        bh=QZ2653spgHjRMR3e6WKRMxQMSlvQSp9fSLVm9Ed6dxQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=bbBTYqnFFFP+dO4enwEkIS+II+AMlCqmZYw1/FCbGBe6WXv6T7M84yS8kkpzcp3b5
+         jD1CPbv61fMxmjVRp14l63Q0eAuQBBH+mtwspfsCf8rtjNAhcUDBDcJdZrX92lDaS9
+         Xxdgt4PAevIrCZr8Se2hMt7c4Afj8IDbd1BWqVrlVa6cuOunXab5w2c9HsmLwRM8eI
+         LgQDDm17ojA0j7ymbyojjZQhPUxTZl1ykYZ7nhCkjZ1HyW2Kc2MER1wclllf9hFnXV
+         X4xazn8WKd3zGjROmQo5EaFUrDdYxMceCmMM9KgnC9CodVCFC+KHr6/NUriOXBr+AQ
+         wrN5GQRhim1Tg==
+Date:   Tue, 4 Oct 2022 07:26:46 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Johannes Berg <johannes@sipsolutions.net>
+Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        linux-wireless@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: doc warnings in *80211
+Message-ID: <20221004072646.64ad2c8c@kernel.org>
+In-Reply-To: <62b8bf6f739d1e6e0320864ed0660c9c52b767c4.camel@sipsolutions.net>
+References: <20221003191128.68bfc844@kernel.org>
+        <62b8bf6f739d1e6e0320864ed0660c9c52b767c4.camel@sipsolutions.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 06/39] x86/fpu: Add helper for modifying xstate
-Content-Language: en-US
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "keescook@chromium.org" <keescook@chromium.org>
-Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-7-rick.p.edgecombe@intel.com>
- <202210031045.419F7DB396@keescook>
- <e0b3662ac478a7d2ae1991e8c674732592c2ea88.camel@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <e0b3662ac478a7d2ae1991e8c674732592c2ea88.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/3/22 13:05, Edgecombe, Rick P wrote:
-> The CET state is xsaves managed. It gets lazily restored before
-> returning to userspace with the rest of the fpu stuff. This function
-> will force restore all the fpu state to the registers early and lock
-> them from being automatically saved/restored. Then the tasks CET state
-> can be modified in the MSRs, before unlocking the fpregs. Last time I
-> tried to modify the state directly in the xsave buffer when it was
-> efficient, but it had issues and Thomas suggested this.
+On Tue, 04 Oct 2022 09:51:07 +0200 Johannes Berg wrote:
+> > doing basic sanity checks before submitting the net-next PR I spotted
+> > that we have these warnings when building documentation on net-next:
+> > 
+> > Documentation/driver-api/80211/cfg80211:48: ./include/net/cfg80211.h:6960: WARNING: Duplicate C declaration, also defined at driver-api/80211/cfg80211:6924.
+> > Declaration is '.. c:function:: void cfg80211_rx_assoc_resp (struct net_device *dev, struct cfg80211_rx_assoc_resp *data)'.  
+> 
+> Hmm. That's interesting. I guess it cannot distinguish between the type
+> of identifier?
+> 
+> struct cfg80211_rx_assoc_resp vs. cfg80211_rx_assoc_resp()
+> 
+> Not sure what do about it - rename one of them?
+> 
+> > Documentation/driver-api/80211/mac80211:109: ./include/net/mac80211.h:5046: WARNING: Duplicate C declaration, also defined at driver-api/80211/mac80211:1065.
+> > Declaration is '.. c:function:: void ieee80211_tx_status (struct ieee80211_hw *hw, struct sk_buff *skb)'.  
+> 
+> Same here actually!
+> 
+> I don't think either of these is new.
 
-Can you get the gist of this in a comment, please?
+Thanks for checking!
 
+Adding linux-doc, but I presume Jon & co are aware if this is not new.
