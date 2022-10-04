@@ -2,40 +2,40 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEC3DC433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 20:12:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0602DC4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 20:12:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229722AbiJDUMk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Oct 2022 16:12:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49382 "EHLO
+        id S229531AbiJDUMl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Oct 2022 16:12:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229643AbiJDUMh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 16:12:37 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D823E25EB6;
-        Tue,  4 Oct 2022 13:12:36 -0700 (PDT)
+        with ESMTP id S229668AbiJDUMi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 16:12:38 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EE02222A9;
+        Tue,  4 Oct 2022 13:12:37 -0700 (PDT)
 Received: from meer.lwn.net (unknown [IPv6:2601:281:8300:73::5f6])
-        by ms.lwn.net (Postfix) with ESMTPA id 63886385;
-        Tue,  4 Oct 2022 20:12:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 63886385
+        by ms.lwn.net (Postfix) with ESMTPA id 384BF7DC;
+        Tue,  4 Oct 2022 20:12:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 384BF7DC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1664914356; bh=HMKtofhzkC0BbHU/AlRiFnMQhJNC5T93PGks81TP6Ho=;
+        t=1664914357; bh=SFg4DeLOFXhMPlmb11hADxqed3o6ZbUJFfnUFY8QYcw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=B0kXIj2yzH2+v28tH5gVYRUd/Sv+6Ui0NsS1sljjsm63BD8uTBNcSz8gBDlRk/Cnb
-         bEvdmdUsuvikFO+WEl1hvunxECwT/DJUmkDlOY0qS4gQj9ZDQXWogZWKADSKwd4WaL
-         aiGzKUbupO5l0T1/nQLSkXZTkpka+COuyp2527hcgIZKRq9++e9y3+zYRp180i+k8t
-         TiY7FOs1YF+SlwRFAbaAaLIghZT5+9LU6qqmy/0Xwt0SxahDH446tz2kooNGS1Pkdh
-         3N3neTzpv/tgJTCkxLD4NACY9sOX60SirXNMhF/g7qzXYpTqcF0elccgCCrY/3UvYv
-         vi4m+oqH5G0Ng==
+        b=K0+Txb0N/fxdI/+iyKeVPBDbXqxcS8GWL0XzB8yFClxAVSNWZ2XCqDuRzgjcwgShH
+         iojoJW+AMUtwEm8dniSUcoISmu+zcRBDBUNDr6n3OywJ656JayR08eVLbJLibarqm/
+         e9LXkLRazlcpLdqgoqRWErCBlqzRgpmHv0WN3Fmr5P6xpmnbBczYJQJ43aATOKLZxp
+         9bQwIizpZeL9FSh21qjNvazVHsbHiPZAzIOsT3Gw3nQZngKkImTZn933vt9LWWi/GU
+         IPeZTm7dAraYUhbatrrLzcwH/rt1U7uKG6CUFmoAWAoXXfikh3/3t26FWbSx/8I8kr
+         Vhs3AnEC6yZeg==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Jani Nikula <jani.nikula@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 3/5] docs: update sphinx.rst to reflect the default theme change
-Date:   Tue,  4 Oct 2022 14:12:20 -0600
-Message-Id: <20221004201222.281845-4-corbet@lwn.net>
+Subject: [PATCH 5/5] docs: improve the HTML formatting of kerneldoc comments
+Date:   Tue,  4 Oct 2022 14:12:22 -0600
+Message-Id: <20221004201222.281845-6-corbet@lwn.net>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20221004201222.281845-1-corbet@lwn.net>
 References: <20221004201222.281845-1-corbet@lwn.net>
@@ -45,47 +45,183 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We don't default to Read The Docs anymore; update the docs to match.
+Make a few changes to cause functions documented by kerneldoc to stand out
+better in the rendered documentation.  Specifically, change kernel-doc to
+put the description section into a ".. container::" section, then add a bit
+of CSS to indent that section relative to the function prototype (or struct
+or enum definition).  Tweak a few other CSS parameters while in the
+neighborhood to improve the formatting.
 
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/doc-guide/sphinx.rst | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+ Documentation/sphinx-static/custom.css | 13 +++++++
+ scripts/kernel-doc                     | 52 ++++++++++++++++----------
+ 2 files changed, 45 insertions(+), 20 deletions(-)
 
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index 1228b85f6f77..d71e0beb11f3 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -130,11 +130,9 @@ section of ``make help``. The generated documentation is placed in
- format-specific subdirectories under ``Documentation/output``.
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index c465251e840a..d8823fbbd27b 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -10,3 +10,16 @@ div.body h3 { font-size: 130%; }
  
- To generate documentation, Sphinx (``sphinx-build``) must obviously be
--installed. For prettier HTML output, the Read the Docs Sphinx theme
--(``sphinx_rtd_theme``) is used if available. For PDF output you'll also need
--``XeLaTeX`` and ``convert(1)`` from ImageMagick
--(https://www.imagemagick.org).\ [#ink]_
--All of these are widely available and packaged in distributions.
-+installed.  For PDF output you'll also need ``XeLaTeX`` and ``convert(1)``
-+from ImageMagick (https://www.imagemagick.org).\ [#ink]_ All of these are
-+widely available and packaged in distributions.
+ /* Tighten up the layout slightly */
+ div.body { padding: 0 15px 0 10px; }
++
++/* Don't force the document width */
++div.document { width: auto; max-width: 60em; }
++
++/*
++ * Parameters for the display of function prototypes and such included
++ * from C source files.
++ */
++dl.function, dl.struct, dl.enum { margin-top: 2em; background-color: #ecf0f3; }
++/* indent lines 2+ of multi-line function prototypes */
++dl.function dt { margin-left: 10em; text-indent: -10em; }
++dt.sig-object { font-size: larger; }
++div.kernelindent { margin-left: 2em; margin-right: 4em; }
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index aea04365bc69..13d42857bce2 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -866,48 +866,53 @@ sub output_function_rst(%) {
+ 	print "\n";
+     }
  
- To pass extra options to Sphinx, you can use the ``SPHINXOPTS`` make
- variable. For example, use ``make SPHINXOPTS=-v htmldocs`` to get more verbose
-@@ -143,12 +141,8 @@ output.
- It is also possible to pass an extra DOCS_CSS overlay file, in order to customize
- the html layout, by using the ``DOCS_CSS`` make variable.
+-    print "**Parameters**\n\n";
++    #
++    # Put our descriptive text into a container (thus an HTML <div> to help
++    # set the function prototypes apart.
++    #
++    print ".. container:: kernelindent\n\n";
+     $lineprefix = "  ";
++    print $lineprefix . "**Parameters**\n\n";
+     foreach $parameter (@{$args{'parameterlist'}}) {
+ 	my $parameter_name = $parameter;
+ 	$parameter_name =~ s/\[.*//;
+ 	$type = $args{'parametertypes'}{$parameter};
  
--By default, the build will try to use the Read the Docs sphinx theme:
+ 	if ($type ne "") {
+-	    print "``$type``\n";
++	    print $lineprefix . "``$type``\n";
+ 	} else {
+-	    print "``$parameter``\n";
++	    print $lineprefix . "``$parameter``\n";
+ 	}
+ 
+         print_lineno($parameterdesc_start_lines{$parameter_name});
+ 
++	$lineprefix = "    ";
+ 	if (defined($args{'parameterdescs'}{$parameter_name}) &&
+ 	    $args{'parameterdescs'}{$parameter_name} ne $undescribed) {
+ 	    output_highlight_rst($args{'parameterdescs'}{$parameter_name});
+ 	} else {
+-	    print "  *undescribed*\n";
++	    print $lineprefix . "*undescribed*\n";
+ 	}
++	$lineprefix = "  ";
+ 	print "\n";
+     }
+ 
+-    $lineprefix = $oldprefix;
+     output_section_rst(@_);
++    $lineprefix = $oldprefix;
+ }
+ 
+ sub output_section_rst(%) {
+     my %args = %{$_[0]};
+     my $section;
+     my $oldprefix = $lineprefix;
+-    $lineprefix = "";
+ 
+     foreach $section (@{$args{'sectionlist'}}) {
+-	print "**$section**\n\n";
++	print $lineprefix . "**$section**\n\n";
+         print_lineno($section_start_lines{$section});
+ 	output_highlight_rst($args{'sections'}{$section});
+ 	print "\n";
+     }
+     print "\n";
+-    $lineprefix = $oldprefix;
+ }
+ 
+ sub output_enum_rst(%) {
+@@ -915,6 +920,7 @@ sub output_enum_rst(%) {
+     my ($parameter);
+     my $oldprefix = $lineprefix;
+     my $count;
++    my $outer;
+ 
+     if ($sphinx_major < 3) {
+ 	my $name = "enum " . $args{'enum'};
+@@ -924,14 +930,17 @@ sub output_enum_rst(%) {
+ 	print "\n\n.. c:enum:: " . $name . "\n\n";
+     }
+     print_lineno($declaration_start_line);
+-    $lineprefix = "   ";
++    $lineprefix = "  ";
+     output_highlight_rst($args{'purpose'});
+     print "\n";
+ 
+-    print "**Constants**\n\n";
+-    $lineprefix = "  ";
++    print ".. container:: kernelindent\n\n";
++    $outer = $lineprefix . "  ";
++    $lineprefix = $outer . "  ";
++    print $outer . "**Constants**\n\n";
+     foreach $parameter (@{$args{'parameterlist'}}) {
+-	print "``$parameter``\n";
++	print $outer . "``$parameter``\n";
++
+ 	if ($args{'parameterdescs'}{$parameter} ne $undescribed) {
+ 	    output_highlight_rst($args{'parameterdescs'}{$parameter});
+ 	} else {
+@@ -939,7 +948,7 @@ sub output_enum_rst(%) {
+ 	}
+ 	print "\n";
+     }
 -
--    https://github.com/readthedocs/sphinx_rtd_theme
--
--If the theme is not available, it will fall-back to the classic one.
--
-+By default, the "Alabaster" theme is used to build the HTML documentation;
-+this theme is bundled with Sphinx and need not be installed separately.
- The Sphinx theme can be overridden by using the ``DOCS_THEME`` make variable.
++    print "\n";
+     $lineprefix = $oldprefix;
+     output_section_rst(@_);
+ }
+@@ -982,18 +991,19 @@ sub output_struct_rst(%) {
+ 	}
+     }
+     print_lineno($declaration_start_line);
+-    $lineprefix = "   ";
++    $lineprefix = "  ";
+     output_highlight_rst($args{'purpose'});
+     print "\n";
  
- There is another make variable ``SPHINXDIRS``, which is useful when test
+-    print "**Definition**\n\n";
+-    print "::\n\n";
++    print ".. container:: kernelindent\n\n";
++    print $lineprefix . "**Definition**::\n\n";
+     my $declaration = $args{'definition'};
+-    $declaration =~ s/\t/  /g;
+-    print "  " . $args{'type'} . " " . $args{'struct'} . " {\n$declaration  };\n\n";
++    $lineprefix = $lineprefix . "  ";
++    $declaration =~ s/\t/$lineprefix/g;
++    print $lineprefix . $args{'type'} . " " . $args{'struct'} . " {\n$declaration" . $lineprefix . "};\n\n";
+ 
+-    print "**Members**\n\n";
+     $lineprefix = "  ";
++    print $lineprefix . "**Members**\n\n";
+     foreach $parameter (@{$args{'parameterlist'}}) {
+ 	($parameter =~ /^#/) && next;
+ 
+@@ -1003,8 +1013,10 @@ sub output_struct_rst(%) {
+ 	($args{'parameterdescs'}{$parameter_name} ne $undescribed) || next;
+ 	$type = $args{'parametertypes'}{$parameter};
+         print_lineno($parameterdesc_start_lines{$parameter_name});
+-	print "``" . $parameter . "``\n";
++	print $lineprefix . "``" . $parameter . "``\n";
++	$lineprefix = "    ";
+ 	output_highlight_rst($args{'parameterdescs'}{$parameter_name});
++	$lineprefix = "  ";
+ 	print "\n";
+     }
+     print "\n";
 -- 
 2.37.2
 
