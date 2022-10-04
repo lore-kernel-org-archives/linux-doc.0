@@ -2,159 +2,207 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53C2EC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 15:17:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8F87C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 15:31:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbiJDPRh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Oct 2022 11:17:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44832 "EHLO
+        id S229551AbiJDPb2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Oct 2022 11:31:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbiJDPRg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 11:17:36 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A781D474C6;
-        Tue,  4 Oct 2022 08:17:34 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id v186so13399685pfv.11;
-        Tue, 04 Oct 2022 08:17:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date;
-        bh=o/Qnk0eNKNJ6ZGt8jGGxdfhWV7waJkX23dqQr5nkoh4=;
-        b=OesP8EiHZWCHqFLyRqZ5gjSWyCtvME+s30p0sZ1nRKtCSN1XDV/BQXDDRrA2jrXnGi
-         TrkihTY8ai4Ur7YL7bBJ9NW9HQEL2CCGls7On1iQeR6of69/38MUV5arD82wtOC/9lgM
-         HACYl2esbgE2Rv3UJvj152PG+sbUR8JfVl5O9PZlr4tgWHhOrHIQGv43Q4b9quyT3brx
-         c817hZSxTHsqFT0qSbzpG0v4CwVbF0tcpTL+GQUBDnZ9uXJoYe6mL8hamYrSI0ob/Diu
-         UVd9uJR8OW2jVC0nZLjY2H5vJjlJ4yu6+AWO7ZV00lIvMkaIIaQoEwub67P7lo9au8yk
-         HCTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=o/Qnk0eNKNJ6ZGt8jGGxdfhWV7waJkX23dqQr5nkoh4=;
-        b=Z5EBAicRNG73bP8AZsPt2oVV9FIDTh48fwEQmUyGdN8IvlwhUzEpwwaRj/MK3frcFv
-         R9HDhBWXCKHbg/ohfbfxBraP/ul/tY91SxGIJDTz+FvbLDnroMkas6kMONlpzB+kpYOe
-         1ykxqlPHXbFLaeikkeaGzoXO0VQGGkDSo+UggyFehDAN5GtmfQdAmPOHk76FYxGqMJJY
-         BHz7t016PMQOFwlNghP4YfHpGLhlpF2MT1ilzP/FjZMPfsxXbJ6vYb33LUoDWLG0AWPl
-         +lZYOnzUVr36tHk8HLmt/lZ2hKdLRSwciY+9NjgUlD+zJCQRrlllykdy1CGo0lJ1ajlR
-         PWEg==
-X-Gm-Message-State: ACrzQf1NvIBzP4AtSsAk8ohup3d66JVI3I3hAsDIqOAmhnuHFeIBA92B
-        q9E1jR8yDeLlk40ghbDCSxc=
-X-Google-Smtp-Source: AMsMyM6aMgZnT0KMf3QlhgV81gcW2qAAxEXRSqOLbzoZyMlNVIPIQjEqkWtDdMi88b4lkoYJ2eemCg==
-X-Received: by 2002:a05:6a00:b41:b0:52f:59dc:75 with SMTP id p1-20020a056a000b4100b0052f59dc0075mr28090537pfo.33.1664896654162;
-        Tue, 04 Oct 2022 08:17:34 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id 66-20020a630945000000b00412a708f38asm8620558pgj.35.2022.10.04.08.17.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Oct 2022 08:17:33 -0700 (PDT)
-Message-ID: <0a154bd0-f380-19ae-00df-5d73c1dc7c8b@gmail.com>
-Date:   Wed, 5 Oct 2022 00:17:30 +0900
+        with ESMTP id S229459AbiJDPb2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 11:31:28 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8A9025E9E;
+        Tue,  4 Oct 2022 08:31:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664897487; x=1696433487;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iFOChYJvoxzaLLOQbDuDmgouBoECtc1KKTUSJu34ImU=;
+  b=cSoz2exaR56+6DewyZYFSazw+rPhjPbGws0VKXp00vkyUuIsSDzpnzHj
+   gCMCyZa4+n0fEbBkVb3coFaxUO0fUmcUBMlDrh7++qA5N3iEaHdfdQbjE
+   oV+JFb2/yEzD0HuY4JYKlUJchaTvN6wFMtN2FtibkpCAeAQ/ppKejwq6t
+   gUavRS4c1kbQxLXN+G4RUQduaI7FFGpyKQlrauHH6KeTme9KJHTIhJZey
+   j+nA91d5AwnTQO7Oz/iu1GPhqMNfqGtmdUatggtxaeW0w63uB5XS0QqYR
+   L5oQgqlCUJLNmkmB4u3sskVlQDqEZCHO3lk3YFkb/ybf+rpR2U+cGHQyC
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="286130565"
+X-IronPort-AV: E=Sophos;i="5.95,158,1661842800"; 
+   d="scan'208";a="286130565"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 08:31:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="799152794"
+X-IronPort-AV: E=Sophos;i="5.95,158,1661842800"; 
+   d="scan'208";a="799152794"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga005.jf.intel.com with ESMTP; 04 Oct 2022 08:31:20 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1ofjt8-0028VQ-28;
+        Tue, 04 Oct 2022 18:31:18 +0300
+Date:   Tue, 4 Oct 2022 18:31:18 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     matthew.gerlach@linux.intel.com
+Cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 4/4] tty: serial: 8250: add DFL bus driver for Altera
+ 16550.
+Message-ID: <YzxRxo8jL7rB1+px@smile.fi.intel.com>
+References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com>
+ <20221004143718.1076710-5-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v5 1/1] Documentation/process: Be more explicit about who
- to mail on patch submission
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net, linux@leemhuis.info,
-        konstantin@linuxfoundation.org, krzysztof.kozlowski@linaro.org,
-        linux-doc@vger.kernel.org, joe@perches.com
-References: <20221004124858.640349-1-bryan.odonoghue@linaro.org>
- <20221004124858.640349-2-bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20221004124858.640349-2-bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221004143718.1076710-5-matthew.gerlach@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bryan,
-
-I'll be silent on the word choice of "supporter" for the time being. :-)
-
-On Tue,  4 Oct 2022 13:48:58 +0100, Bryan O'Donoghue wrote:
-> Recently when submitting a yaml change I found that I had omitted the
-> maintainer whose tree the change needed to go through.
+On Tue, Oct 04, 2022 at 07:37:18AM -0700, matthew.gerlach@linux.intel.com wrote:
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 > 
-> The reason for that is the path in MAINTAINERS is marked as Supported not
-> Maintained. Reading MAINTAINERS we see quote:
-> 
->            Supported:   Someone is actually paid to look after this.
->            Maintained:  Someone actually looks after it.
-> 
-> The current submitting-patches.rst only says to mail maintainers though not
-> supporters. Discussing further on the list the suggestion was made to state
-> that the following are the right addresses to mail:
-> 
-> - Maintainers
-> - Supporters
-> - Reviewers
-> - Dedicated lists
-> - LKML as a fallback when there is no dedicated list
-> 
-> Add in a two sentences to capture that statement.
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  Documentation/process/submitting-patches.rst | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index be49d8f2601b4..90fda3367a405 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -227,8 +227,11 @@ You should always copy the appropriate subsystem maintainer(s) on any patch
->  to code that they maintain; look through the MAINTAINERS file and the
->  source code revision history to see who those maintainers are.  The
->  script scripts/get_maintainer.pl can be very useful at this step (pass paths to
-> -your patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
-> -maintainer for the subsystem you are working on, Andrew Morton
-> +your patches as arguments to scripts/get_maintainer.pl).  In the output of
-> +get_maintainer.pl the recommendation is to mail every maintainer, supporter,
-> +reviewer and dedicated mailing list. If get_maintainer doesn't indicate a
-> +dedicated mailing list linux-kernel@vger.kernel.org should be included. If you
-> +cannot find a maintainer for the subsystem you are working on, Andrew Morton
->  (akpm@linux-foundation.org) serves as a maintainer of last resort.
->  
->  You should also normally choose at least one mailing list to receive a copy
+> Add a Device Feature List (DFL) bus driver for the Altera
+> 16550 implementation of UART.
 
-Quoting subsequent paragraph:
+...
 
-  You should also normally choose at least one mailing list to receive a copy
-  of your patch set.  linux-kernel@vger.kernel.org should be used by default
-  for all patches, but the volume on that list has caused a number of
-  developers to tune it out.  Look in the MAINTAINERS file for a
-  subsystem-specific list; your patch will probably get more attention there.
-  Please do not spam unrelated lists, though.
+> Reported-by: kernel test robot <lkp@intel.com>
 
-The paragraph you updated mentions the maintainers (as persons) to
-send patches.
+https://docs.kernel.org/process/submitting-patches.html?highlight=reported#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
 
-The subsequent paragraph talks about mailing lists.
+"The Reported-by tag gives credit to people who find bugs and report them and it
+hopefully inspires them to help us again in the future. Please note that if the
+bug was reported in private, then ask for permission first before using the
+Reported-by tag. The tag is intended for bugs; please do not use it to credit
+feature requests."
 
-After this patch is applied, they look mostly redundant except for
-an important difference. In your patch, Cc: LKML is recommended only
-when a subsystem-specific list can not be found. In the subsequent
-paragraph, LKML is recommended to be Cc'd by default, in addition
-to subsystem-specific lists. Does my interpretation wrong?
 
-Doesn't the subsequent paragraph (quoted above) work for you?
+...
 
-If it does, you don't need to mention mail lists in your change.
-Otherwise, you also need to tweak/remove the subsequent paragraph.
+> +	if (!dfhv1_has_params(dfh_base)) {
+> +		dev_err(dev, "missing required DFH parameters\n");
+> +		return -EINVAL;
+> +	}
 
-Thoughts?
+Why not use dev_err_probe() everywhere since this is called only at ->probe()
+stage?
 
-Lastly, you submitted v5 within 24 hours from v4. Why so hurry,
-especially in the middle of the 6.1 merge window? Actually, as v5
-is the same as 2/2 in v4, there was no need of v5 in the first
-place.
+...
 
-I'm expecting to see v6 of this patch after the docs-next branch
-gets ready for the next development cycle. Until such time comes,
-let's continue discussing ideas here in this thread.
+> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_CLK_FRQ);
+> +	if (off < 0) {
+> +		dev_err(dev, "missing CLK_FRQ param\n");
 
-        Thanks, Akira
+> +		return -EINVAL;
+
+Why error code is being shadowed?
+
+> +	}
+
+...
+
+> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_FIFO_LEN);
+> +	if (off < 0) {
+> +		dev_err(dev, "missing FIFO_LEN param\n");
+> +		return -EINVAL;
+
+Ditto.
+
+> +	}
+
+...
+
+> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_REG_LAYOUT);
+> +	if (off < 0) {
+> +		dev_err(dev, "missing REG_LAYOUT param\n");
+> +		return -EINVAL;
+> +	}
+
+Ditto.
+
+...
+
+> +	dev_dbg(dev, "UART_LAYOUT_ID width %lld shift %d\n",
+> +		FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v), (int)uart->port.regshift);
+
+Casting in printf() in kernel in 99% shows the wrong specifier in use. Try to
+select the best suitable one.
+
+...
+
+> +	dfh_base = devm_ioremap_resource(dev, &dfl_dev->mmio_res);
+> +	if (IS_ERR(dfh_base))
+> +		return PTR_ERR(dfh_base);
+> +
+> +	res_size = resource_size(&dfl_dev->mmio_res);
+> +
+> +	ret = dfl_uart_get_params(dev, dfh_base, res_size, &uart);
+
+> +	devm_iounmap(dev, dfh_base);
+> +	devm_release_mem_region(dev, dfl_dev->mmio_res.start, res_size);
+
+If it's temporary, may be you shouldn't even consider devm_ioremap_resource()
+to begin with? The devm_* release type of functions in 99% of the cases
+indicate of the abusing devm_.
+
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "failed uart feature walk\n");
+
+...
+
+> +	dev_info(dev, "serial8250_register_8250_port %d\n", dfluart->line);
+
+Why do we need this noise?
+
+...
+
+> +	if (dfluart->line >= 0)
+
+When this can be false?
+
+> +		serial8250_unregister_port(dfluart->line);
+
+...
+
+> +config SERIAL_8250_DFL
+> +	tristate "DFL bus driver for Altera 16550 UART"
+> +	depends on SERIAL_8250 && FPGA_DFL
+> +	help
+> +	  This option enables support for a Device Feature List (DFL) bus
+> +	  driver for the Altera 16650 UART.  One or more Altera 16650 UARTs
+> +	  can be instantiated in a FPGA and then be discovered during
+> +	  enumeration of the DFL bus.
+
+When m, what be the module name?
+
+...
+
+>  obj-$(CONFIG_SERIAL_8250_FOURPORT)	+= 8250_fourport.o
+>  obj-$(CONFIG_SERIAL_8250_ACCENT)	+= 8250_accent.o
+>  obj-$(CONFIG_SERIAL_8250_BOCA)		+= 8250_boca.o
+> +obj-$(CONFIG_SERIAL_8250_DFL)		+= 8250_dfl.o
+
+This group of drivers for the 4 UARTs on the board or so, does FPGA belong to
+it? (Same Q, btw, for the Kconfig section. And yes, I know that some of the
+entries are not properly placed there and in Makefile.)
+
+>  obj-$(CONFIG_SERIAL_8250_EXAR_ST16C554)	+= 8250_exar_st16c554.o
+>  obj-$(CONFIG_SERIAL_8250_HUB6)		+= 8250_hub6.o
+>  obj-$(CONFIG_SERIAL_8250_FSL)		+= 8250_fsl.o
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
