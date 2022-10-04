@@ -2,61 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9153C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 16:27:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65736C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 16:38:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229947AbiJDQ1N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Oct 2022 12:27:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41434 "EHLO
+        id S230163AbiJDQih (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Oct 2022 12:38:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229807AbiJDQ1M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 12:27:12 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA6811EC4F
-        for <linux-doc@vger.kernel.org>; Tue,  4 Oct 2022 09:27:09 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id r3-20020a05600c35c300b003b4b5f6c6bdso7868051wmq.2
-        for <linux-doc@vger.kernel.org>; Tue, 04 Oct 2022 09:27:09 -0700 (PDT)
+        with ESMTP id S230155AbiJDQia (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 12:38:30 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6DD75F23C
+        for <linux-doc@vger.kernel.org>; Tue,  4 Oct 2022 09:38:29 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id o20-20020a05600c4fd400b003b4a516c479so7891637wmq.1
+        for <linux-doc@vger.kernel.org>; Tue, 04 Oct 2022 09:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=giKaBYNrI5DkDrXYEmrl/g92dNRxGEtIM/YpXaYrn04=;
-        b=Zjf4+W9cB4uVXbRQrtQciwmV5lLuWUmpsqHh1KucRHpCnjb9Q38z8nTFouDgTTsAoS
-         Qmwcqk0DcDhxZJvJ3SnKqvo5/fcBWf8wCUJ4qV9cRJGxfYXjhPEZvPo1/QNbF9hIx0kg
-         IdwBdgZs2OPLuHzPdqq7OQ7DJTVP6Yuh6T72P6QVBOIEqPh5kD1bWXC07/RHDSybF1Cf
-         wkW3SuHD00hduF94kvNRptHwCXwL46r9YDfbXzn1+w8qdD9BnO4QveyJKO/GXbkV6Z1E
-         tivM6GMZBEGr2fWFdBeJVvbT+PgNDMoNz8QYe4iVNcw+hkMBjJXyhUiksvYPfztDtUW0
-         Fkfg==
+        bh=DKQpac6G2JzOYLjAcZSv9Jgk1sUieQDvyNd9OPyxgCE=;
+        b=oUGi9B2FR94igkLKdqC03JU59taigRLMG4dquNEZxHpynvoPNvc0Q8peRWwsu9V6nY
+         2DthjusT0iRPf1geGpR1NJR+qIeBbKMTaDSllNC/vr8RgDHZv0DnBUrmxgcu+An5qGor
+         +tz86VS51Q5XsalEQBBfEVGbDJViAWzZMkplhy/ter2PBm2CrOaw+S8sRll728qGBYEg
+         qNf/ntQcd/yGGqZCYg1VfXTmWA3zX7V0cf7yX3tNBpBoKmSK3Vh2V15TfMvzQVmtaMvV
+         TqYnYUktzvS/Odqmzdu09yJz4rh3FtzQkrxeFqHOX5v8T7qlxiJcmC0Zeo0NAZFbiM4Q
+         HSww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=giKaBYNrI5DkDrXYEmrl/g92dNRxGEtIM/YpXaYrn04=;
-        b=AO/PY4Yr+85jvZgNUe5wrX4JmgRKtXiCVIz6pyByQj+QVX/BBnljNXbvqD+3I45tnB
-         hKshkh4uzTYfKkOj6p8RRrYyzBtF79UhrT8jxLYdp9IG3ivgRyGw0UYYimr0QSBS/RLc
-         FXAQUBFEvSujlUDcG88kQ2SOqTKeIRnNnC7Xk9ymjwF0oPkLVzmgrb7vXBRb2wCtG19a
-         dbeW/sWuKGrT4cozJveQeSxHm9M5rGZuXgKpQVThUcxvQTBXqJAwUEWaxCrZSbgfD+sj
-         3jhTgkD/T7FfrlU4tl0+HxtT+i3B8POPxrNeyjrH+gQVckQDSvOxMsdevPOZVKgt7ayq
-         +iDw==
-X-Gm-Message-State: ACrzQf2SCo+oJIiGP/2DczLONy0yS+JT7hAPcdVaXnTcSlpR+VJGA4u2
-        N51CJX/spXHjms7IGZ/pOC022Q==
-X-Google-Smtp-Source: AMsMyM6FTFEVhKnnu6dOZDb7yoMCZon0DvTeQcnmFvVlUZviM6UyaZiTi5Nn+vE/lFe57fh4famKcg==
-X-Received: by 2002:a05:600c:4352:b0:3b4:84c0:2006 with SMTP id r18-20020a05600c435200b003b484c02006mr392536wme.205.1664900828369;
-        Tue, 04 Oct 2022 09:27:08 -0700 (PDT)
+        bh=DKQpac6G2JzOYLjAcZSv9Jgk1sUieQDvyNd9OPyxgCE=;
+        b=47bEiBTY26LpvuyeO76VMYk0/0J3ujgYPffz1ixeJYcI81QSbrKXmUPdzjqwd+iv+7
+         +uztRwMHOsz5eDwPINdKCGrGOrAh7prFAchDeTKs7t5v3PxhM/CR17y+kKa7pPnewXSa
+         eadK8RsZialTntW1MeGbMxp6Oi4LEPXGeoWXuZa5qnm/7gr1QI+iJc5Ul3toUg9kije2
+         BKSJ5KaZh1w8eWBHlkWF/ZLTh8svyONSJOIzLsdEaULm9UGN7NZZEBDgzNVtBK049bUn
+         uf/I5j4Jw2G55vrG0tnJQsFSMkeLXQOGWQZmdXDxuxPMRP4M+0aOdvNsHNF7x99XBOGI
+         IObA==
+X-Gm-Message-State: ACrzQf2PDKw75zyjZ6LgFfDK+AddLrTdF8BBQRTUDDNc/iS7PXEpFdFO
+        f9O1rp0GVv3MIWFZW7gXZjWhsQ==
+X-Google-Smtp-Source: AMsMyM7xO9a29DyAqwG9Py/WIBQk8fM/npfunmpjzeJJMIBnrGHO9dQM1uVrFhDamLp8Lhxm8Kz16g==
+X-Received: by 2002:a05:600c:1c19:b0:3b4:c1cb:d46d with SMTP id j25-20020a05600c1c1900b003b4c1cbd46dmr451737wms.172.1664901508449;
+        Tue, 04 Oct 2022 09:38:28 -0700 (PDT)
 Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id az38-20020a05600c602600b003b4935f04a4sm18745865wmb.5.2022.10.04.09.27.07
+        by smtp.gmail.com with ESMTPSA id bt4-20020a056000080400b0022cd96b3ba6sm16785773wrb.90.2022.10.04.09.38.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Oct 2022 09:27:07 -0700 (PDT)
-Message-ID: <42f15689-d1ad-2be8-5fed-8f72d82402dc@linaro.org>
-Date:   Tue, 4 Oct 2022 17:27:06 +0100
+        Tue, 04 Oct 2022 09:38:28 -0700 (PDT)
+Message-ID: <8042912e-23a8-d32e-1aae-fb766ecb865a@linaro.org>
+Date:   Tue, 4 Oct 2022 17:38:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.0
 Subject: Re: [PATCH v5 1/1] Documentation/process: Be more explicit about who
  to mail on patch submission
 Content-Language: en-US
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     Akira Yokosawa <akiyks@gmail.com>
 Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net, linux@leemhuis.info,
         konstantin@linuxfoundation.org, krzysztof.kozlowski@linaro.org,
@@ -64,111 +65,30 @@ Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net, linux@leemhuis.info,
 References: <20221004124858.640349-1-bryan.odonoghue@linaro.org>
  <20221004124858.640349-2-bryan.odonoghue@linaro.org>
  <0a154bd0-f380-19ae-00df-5d73c1dc7c8b@gmail.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <0a154bd0-f380-19ae-00df-5d73c1dc7c8b@gmail.com>
+ <42f15689-d1ad-2be8-5fed-8f72d82402dc@linaro.org>
+In-Reply-To: <42f15689-d1ad-2be8-5fed-8f72d82402dc@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/10/2022 16:17, Akira Yokosawa wrote:
-> Hi Bryan,
-> 
-> I'll be silent on the word choice of "supporter" for the time being. :-)
-> 
-> On Tue,  4 Oct 2022 13:48:58 +0100, Bryan O'Donoghue wrote:
->> Recently when submitting a yaml change I found that I had omitted the
->> maintainer whose tree the change needed to go through.
->>
->> The reason for that is the path in MAINTAINERS is marked as Supported not
->> Maintained. Reading MAINTAINERS we see quote:
->>
->>             Supported:   Someone is actually paid to look after this.
->>             Maintained:  Someone actually looks after it.
->>
->> The current submitting-patches.rst only says to mail maintainers though not
->> supporters. Discussing further on the list the suggestion was made to state
->> that the following are the right addresses to mail:
->>
->> - Maintainers
->> - Supporters
->> - Reviewers
->> - Dedicated lists
->> - LKML as a fallback when there is no dedicated list
->>
->> Add in a two sentences to capture that statement.
->>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> ---
->>   Documentation/process/submitting-patches.rst | 7 +++++--
->>   1 file changed, 5 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
->> index be49d8f2601b4..90fda3367a405 100644
->> --- a/Documentation/process/submitting-patches.rst
->> +++ b/Documentation/process/submitting-patches.rst
->> @@ -227,8 +227,11 @@ You should always copy the appropriate subsystem maintainer(s) on any patch
->>   to code that they maintain; look through the MAINTAINERS file and the
->>   source code revision history to see who those maintainers are.  The
->>   script scripts/get_maintainer.pl can be very useful at this step (pass paths to
->> -your patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
->> -maintainer for the subsystem you are working on, Andrew Morton
->> +your patches as arguments to scripts/get_maintainer.pl).  In the output of
->> +get_maintainer.pl the recommendation is to mail every maintainer, supporter,
->> +reviewer and dedicated mailing list. If get_maintainer doesn't indicate a
->> +dedicated mailing list linux-kernel@vger.kernel.org should be included. If you
->> +cannot find a maintainer for the subsystem you are working on, Andrew Morton
->>   (akpm@linux-foundation.org) serves as a maintainer of last resort.
->>   
->>   You should also normally choose at least one mailing list to receive a copy
-> 
-> Quoting subsequent paragraph:
-> 
->    You should also normally choose at least one mailing list to receive a copy
->    of your patch set.  linux-kernel@vger.kernel.org should be used by default
->    for all patches, but the volume on that list has caused a number of
->    developers to tune it out.  Look in the MAINTAINERS file for a
->    subsystem-specific list; your patch will probably get more attention there.
->    Please do not spam unrelated lists, though.
-> 
-> The paragraph you updated mentions the maintainers (as persons) to
-> send patches.
-> 
-> The subsequent paragraph talks about mailing lists.
-> 
-> After this patch is applied, they look mostly redundant except for
-> an important difference. In your patch, Cc: LKML is recommended only
-> when a subsystem-specific list can not be found. In the subsequent
-> paragraph, LKML is recommended to be Cc'd by default, in addition
-> to subsystem-specific lists. Does my interpretation wrong?
+On 04/10/2022 17:27, Bryan O'Donoghue wrote:
+> You are not _required_ to run get_maintainer to submit a patch, it is 
+> simply _suggested_ so in my view the output of get_maintainer doesn't 
+> negate the statement that you must mail at least one public mailing list.
 
-Yes I take your point.
+And similarly, saying in a subsequent paragraph that you should always 
+mail at last one public mailing list is unnecessarily disregarding 
+information returned by get_maintainer.
 
-It is probably wiser to drop "dedicated" from the sentence.
+get_maintainer produces a list of text that is very helpful to a 
+developer in deciding where to send a patch. Documenting that output 
+directly is a help.
 
-> Doesn't the subsequent paragraph (quoted above) work for you?
-
-Not especially. I think it is a super-semantic distinction but, the word 
-"normally" implies there is also an abnormal case.
-
-"Always" would be a better world than "normally"
-
-> If it does, you don't need to mention mail lists in your change.
-> Otherwise, you also need to tweak/remove the subsequent paragraph.
-> 
-> Thoughts?
-
-The sentence I'm posting here pertains to the output of 
-"get_maintainer". I think there is value in having a concise statement 
-to say "take the output of get_maintainer and do X"
-
-I also think having a paragraph that says "you must always send to at 
-least one mailing list" is both direct and true.
-
-You are not _required_ to run get_maintainer to submit a patch, it is 
-simply _suggested_ so in my view the output of get_maintainer doesn't 
-negate the statement that you must mail at least one public mailing list.
+But unless/until get_maintainer is _required_ to be run on any given 
+patch, then we should still have a standalone paragraph which explicitly 
+states a public mailing list must receive the patch.
 
 ---
 bod
