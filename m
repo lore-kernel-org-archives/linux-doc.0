@@ -2,121 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFE40C43219
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 10:18:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53679C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 10:30:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229735AbiJDKSH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Oct 2022 06:18:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42180 "EHLO
+        id S229794AbiJDKaO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Oct 2022 06:30:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbiJDKSF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 06:18:05 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A20BB2C11A
-        for <linux-doc@vger.kernel.org>; Tue,  4 Oct 2022 03:18:03 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-234-vpaXn1vgMYacXBGVntZ1PA-1; Tue, 04 Oct 2022 11:18:00 +0100
-X-MC-Unique: vpaXn1vgMYacXBGVntZ1PA-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Tue, 4 Oct
- 2022 11:17:57 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.040; Tue, 4 Oct 2022 11:17:57 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Dave Hansen' <dave.hansen@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>
-CC:     "x86@kernel.org" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, "Jann Horn" <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        "joao.moreira@intel.com" <joao.moreira@intel.com>,
-        John Allen <john.allen@amd.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "eranian@google.com" <eranian@google.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: RE: [PATCH v2 24/39] x86/cet/shstk: Add user-mode shadow stack
- support
-Thread-Topic: [PATCH v2 24/39] x86/cet/shstk: Add user-mode shadow stack
- support
-Thread-Index: AQHY12Njz3/HZpf9jkaO+WwIiUYgJ63+BXng
-Date:   Tue, 4 Oct 2022 10:17:57 +0000
-Message-ID: <4b9c6208d1174c27a795cef487eb97b5@AcuMS.aculab.com>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-25-rick.p.edgecombe@intel.com>
- <202210031203.EB0DC0B7DD@keescook>
- <474d3aca-0cf0-8962-432b-77ac914cc563@intel.com>
-In-Reply-To: <474d3aca-0cf0-8962-432b-77ac914cc563@intel.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S229774AbiJDKaN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 06:30:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32A9D40E1A
+        for <linux-doc@vger.kernel.org>; Tue,  4 Oct 2022 03:30:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1664879411;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8Gu6wQbEujqIoRE5ZXJV+VaDyIac1+RR2QAIq/Gjc6A=;
+        b=Pnsz/IReNfxujhWbOKgSntFRxI0SkyNZw7xHGj9rr4fy4LxMO2ZcTLGB/8oBiW2znAER+k
+        sX/kZiClC/tE28f6iCXXV25v//tvAPOMBpjGDwDWoYuPT6egm8JVbgOWu8xCzReZ7rjoA7
+        UNbf7ZuUjf398vJxL/svVC6j4vOeHWk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-348-McSKosWyMJeV1O4J9MzheQ-1; Tue, 04 Oct 2022 06:30:10 -0400
+X-MC-Unique: McSKosWyMJeV1O4J9MzheQ-1
+Received: by mail-wm1-f72.google.com with SMTP id p24-20020a05600c1d9800b003b4b226903dso10671023wms.4
+        for <linux-doc@vger.kernel.org>; Tue, 04 Oct 2022 03:30:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date;
+        bh=8Gu6wQbEujqIoRE5ZXJV+VaDyIac1+RR2QAIq/Gjc6A=;
+        b=KmWHOK/wqJsB0G2XwanZYUVWcSj+87lkDihSSTBm+JY+0OSkzg6f1YwQT4lpeqj5iG
+         o0YtaZWrhHzZ2p2Hb9m03nvJZb0pI3hjNRzFcLKm7yxhOjzn27om+bCaZ6y6xAiZOd63
+         UYRw6DBdCiV7xOdD+a+SbLxY9wjmw4sb1P8yXQmz8S62fjPhwgJ189JtR0gpqVub7ABV
+         QVF05ShTgGgI04nDg4Um+pShxgWFwKCXwruUQbZGFgBy2AgI4wbC0TUS82p2+qy5uFZE
+         1IJp7I+a6jrPpguBeNCOvjmZT9osoA0rCxvQj3xreZRYMZTJPKiipKrL5FWWWCJBOLVV
+         aW3A==
+X-Gm-Message-State: ACrzQf0rZgClVcMg204orzRVrMO+5E3cNoMKfMMpboTmKkQmk9KM/vVs
+        P1G5AoWTHBpBwn1hxyFNHF0UzGGwyPsL0BdftLfUchUtsNEo58056WWtEih4LU5mSfBdZUgS/Da
+        7B7sE1Rq/hBwhEgLxWUY5
+X-Received: by 2002:a7b:c7d8:0:b0:3b4:5c41:6a6c with SMTP id z24-20020a7bc7d8000000b003b45c416a6cmr9409905wmk.139.1664879408830;
+        Tue, 04 Oct 2022 03:30:08 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6j5K3VsnjhT+M3kCXnWsc9JNCbQ3kkZoXNNwyk58lzbxcU7C7QTm03zt0B+XOBqRTPmdINxw==
+X-Received: by 2002:a7b:c7d8:0:b0:3b4:5c41:6a6c with SMTP id z24-20020a7bc7d8000000b003b45c416a6cmr9409879wmk.139.1664879408568;
+        Tue, 04 Oct 2022 03:30:08 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-97-71.dyn.eolo.it. [146.241.97.71])
+        by smtp.gmail.com with ESMTPSA id bx10-20020a5d5b0a000000b00228fa832b7asm12557473wrb.52.2022.10.04.03.30.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Oct 2022 03:30:08 -0700 (PDT)
+Message-ID: <6645ba3ba389dc6da8d16f063210441337db9249.camel@redhat.com>
+Subject: Re: [PATCH net-next] docs: networking: phy: add missing space
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Casper Andersson <casper.casan@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Date:   Tue, 04 Oct 2022 12:30:06 +0200
+In-Reply-To: <20221004073242.304425-1-casper.casan@gmail.com>
+References: <20221004073242.304425-1-casper.casan@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-RnJvbTogRGF2ZSBIYW5zZW4NCj4gU2VudDogMDMgT2N0b2JlciAyMDIyIDIxOjA1DQo+IA0KPiBP
-biAxMC8zLzIyIDEyOjQzLCBLZWVzIENvb2sgd3JvdGU6DQo+ID4+ICtzdGF0aWMgaW5saW5lIHZv
-aWQgc2V0X2Nscl9iaXRzX21zcmwodTMyIG1zciwgdTY0IHNldCwgdTY0IGNsZWFyKQ0KPiA+PiAr
-ew0KPiA+PiArCXU2NCB2YWwsIG5ld192YWw7DQo+ID4+ICsNCj4gPj4gKwlyZG1zcmwobXNyLCB2
-YWwpOw0KPiA+PiArCW5ld192YWwgPSAodmFsICYgfmNsZWFyKSB8IHNldDsNCj4gPj4gKw0KPiA+
-PiArCWlmIChuZXdfdmFsICE9IHZhbCkNCj4gPj4gKwkJd3Jtc3JsKG1zciwgbmV3X3ZhbCk7DQo+
-ID4+ICt9DQo+ID4gSSBhbHdheXMgZ2V0IHVuY29tZm9ydGFibGUgd2hlbiBJIHNlZSB0aGVzZSBr
-aW5kcyBvZiBnZW5lcmFsaXplZCBoZWxwZXINCj4gPiBmdW5jdGlvbnMgZm9yIHRvdWNoaW5nIGNw
-dSBiaXRzLCBldGMuIEl0IGp1c3QgYmVncyBmb3IgZnV0dXJlIGF0dGFja2VyDQo+ID4gYWJ1c2Ug
-dG8gbXVjayB3aXRoIGFyYml0cmFyeSBiaXRzIC0tIGV2ZW4gbWFya2VkIGlubGluZSB0aGVyZSBp
-cyBhIHJpc2sNCj4gPiB0aGUgY29tcGlsZXIgd2lsbCBpZ25vcmUgdGhhdCBpbiBzb21lIGNpcmN1
-bXN0YW5jZXMgKG5vdCBhcyBjdXJyZW50bHkNCj4gPiB1c2VkIGluIHRoZSBjb2RlLCBidXQgSSdt
-IGltYWdpbmluZyBmdXR1cmUgY2hhbmdlcyBsZWFkaW5nIHRvIHN1Y2ggYQ0KPiA+IGNvbmRpdGlv
-bikuIFdpbGwgeW91IGh1bW9yIG1lIGFuZCBjaGFuZ2UgdGhpcyB0byBhIG1hY3JvIGluc3RlYWQ/
-IFRoYXQnbGwNCj4gPiBmb3JjZSBpdCBhbHdheXMgaW5saW5lIChldmVuIF9fYWx3YXlzX2lubGlu
-ZSBpc24ndCBhbHdheXMgaW5saW5lKToNCj4gDQo+IE9oLCBhcmUgeW91IHRoaW5raW5nIHRoYXQg
-dGhpcyBpcyBkYW5nZXJvdXMgYmVjYXVzZSBpdCdzIHNvIHN1cmdpY2FsIGFuZA0KPiBub24taW50
-cnVzaXZlPyAgSXQncyBldmVuIG1vcmUgcG93ZXJmdWwgdG8gYW4gYXR0YWNrZXIgdGhhbiwgc2F5
-DQo+IHdybXNybCgpLCBiZWNhdXNlIHRoZXJlIHRoZXkgYWN0dWFsbHkgaGF2ZSB0byBrbm93IHdo
-YXQgdGhlIGV4aXN0aW5nDQo+IHZhbHVlIGlzIHRvIHVwZGF0ZSBpdC4gIFdpdGggdGhpcyBoZWxw
-ZXIsIGl0J3MgcXVpdGUgZWFzeSB0byBmbGlwIGFuDQo+IGluZGl2aWR1YWwgYml0IHdpdGhvdXQg
-ZGlzdHVyYmluZyB0aGUgbmVpZ2hib3JpbmcgYml0cy4NCj4gDQo+IElzIHRoYXQgaXQ/DQo+IA0K
-PiBJIGRvbid0IF9saWtlXyB0aGUgI2RlZmluZXMsIGJ1dCBkb2luZyBvbmUgaGVyZSBkb2Vzbid0
-IHNlZW0gdG9vIG9uZXJvdXMNCj4gY29uc2lkZXJpbmcgaG93IGNyaXRpY2FsIE1TUnMgYXJlLg0K
-DQpIb3cgb2Z0ZW4gaXMgdGhlICdtc3InIG51bWJlciBub3QgYSBjb21waWxlLXRpbWUgY29uc3Rh
-bnQ/DQpBZGRpbmcgcmQvd3Jtc3IgdmFyaWFudHMgdGhhdCB2ZXJpZnkgdGhpcyB3b3VsZCByZWR1
-Y2UgdGhlDQphdHRhY2sgc3VyZmFjZSBhcyB3ZWxsLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJl
-ZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXlu
-ZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+On Tue, 2022-10-04 at 09:32 +0200, Casper Andersson wrote:
+> Missing space between "pins'" and "strength"
+> 
+> Signed-off-by: Casper Andersson <casper.casan@gmail.com>
+> ---
+
+The merge window has now started (after Linus tagged 6.0)
+and will last until he tags 6.1-rc1 (two weeks from now). During this
+time we'll not be taking any patches for net-next so
+please repost in around 2 weeks.
+
+Thanks,
+
+Paolo
 
