@@ -2,139 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91B81C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 05:01:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EED15C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 07:32:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229451AbiJDFBM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Oct 2022 01:01:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47508 "EHLO
+        id S229825AbiJDHcz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Oct 2022 03:32:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229464AbiJDFBL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 01:01:11 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE30B248EC
-        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 22:01:09 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id v186so12198562pfv.11
-        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 22:01:09 -0700 (PDT)
+        with ESMTP id S229830AbiJDHcr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 03:32:47 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC3C14D246;
+        Tue,  4 Oct 2022 00:32:45 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id s10so14346926ljp.5;
+        Tue, 04 Oct 2022 00:32:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date;
-        bh=YCIEsQmqe2GU/op8ELVIz10eFCT8qx7jrOh827aE4ak=;
-        b=fdSA9xmIbaXZOFK29VojFiNPE/Ng3cLgMgO04lzffde9cZ0Aj70ulu+cOZLSn4HMID
-         ZcBnoO4BZD2KT85KEtfcmtPUO7G4u94DJbCG9gFWmQE4pvn0lIL6/Lc9NZX3JtjxD3+c
-         pQ6fyzv5HBKm5oOgaBDxztjBkP/mkKSY/Ry5M=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:organization:mime-version:message-id:date
+         :subject:to:from:from:to:cc:subject:date;
+        bh=bSZFC1cY9nLrecV4EA48kyYz5HoUOeNFW38JRZTVhww=;
+        b=Y71rSsGxZZF4I98WfGsuUuEifQ2bIFzz11uLE/+OFkHWKEY1Z0GxBNh1cIlpmKoZ9M
+         hTRkMFPkaC996DS/71Ih2ju6SYsuO56600XeUG926gYcw25aAaWoikIV7L/R+fJ2o63I
+         Oh/arQTl9CiyOJow3bxH6bfr/dNKK2J/dEQGoQzpCZQqEGJ/NAOvD708U7LJ+TRCzgiB
+         +ECVvXRFgvGMR65AzHDL5tUO9NgnJS6ELyl27QtrgiQSqCJ6CaAkq57LUlLPO4KJDpW0
+         hTE35S605lpYiP8/s4FpU3oCF4DkxP9yr8Z9iKZn2k8R78TfG5lInqWUeGICVKpNDVhS
+         DGiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=YCIEsQmqe2GU/op8ELVIz10eFCT8qx7jrOh827aE4ak=;
-        b=ZlPKJ7CxjDZthi2LpD7LLNMM7dnbPV1evRaC3gIU06caRO5LG1TUBWNhGJyaBWIhxE
-         VT6MIaPHLUBqbuiZ2eKCNbu8/OpMNYYJbpin5A0V3il5757FXYIH0wZifuy50PBqiXVu
-         /GwpMYwLdQi6XtZJR0iH/QaVIfhjosGBaX6TSZd8PGQBAX/58TIzfoIywK5nxPD4XP67
-         LQQLqKLxdJSb439Nw9VnfxqqDd0sI43F8AavHw3YGFWns3NeZktu4GRldYJ8JOpIHjj8
-         qFan039Ys68aVe4X+zeCvO+wqnNzcFsbIXM4CB4sO1MBKVIua4FsFdYmkjhILOj61RWD
-         7K2Q==
-X-Gm-Message-State: ACrzQf3h6X7DpXejczhaqRNXspNIz/bOjkmm2e1kYz3sIOWnLVFspRKh
-        T+CDrL7PX+Rm07XRwGH3V1WwXw==
-X-Google-Smtp-Source: AMsMyM5PzL11modUqno6f/hvls5hZpn+KK4uhST+ROirabQr+EJiNbMAuTappoTzvGAyPi9jEbjxMQ==
-X-Received: by 2002:a63:da12:0:b0:43a:18ce:f959 with SMTP id c18-20020a63da12000000b0043a18cef959mr21506613pgh.386.1664859669373;
-        Mon, 03 Oct 2022 22:01:09 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y83-20020a626456000000b005386b58c8a3sm5814207pfb.100.2022.10.03.22.01.08
+        h=content-transfer-encoding:organization:mime-version:message-id:date
+         :subject:to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=bSZFC1cY9nLrecV4EA48kyYz5HoUOeNFW38JRZTVhww=;
+        b=uFV0KSHTueJ2mIQHUar86BDFY/BfotRkYuF8Lo01qF9dbTCKthWLknZD2yHiMryjRS
+         VJA7IOrrZk1Cyo9o79nJCUQRHzxBmSZ2Qm999BvH+WMK278pRlcfRUpamtOa4IDtctQk
+         61+YlesM4BTaA0E+QkqIHqKnlErzPhFn78uwmq+jdrfeCWZ/MkBGJ8hJcsof2aRLh5vs
+         SCxPhN7i12NZZQxYVxGrvPJ6zjS7h538jjwtf2Cy41nqXP66Jr5rw56Vj80/XCSoJEWN
+         Nc682rUOwlMQKNDtJxRRlJC21QAUidI7m7uxsJXjuUsX67d+dfr+g3IBD2Dw6RiVU22t
+         4uSA==
+X-Gm-Message-State: ACrzQf0DY/bm4nwvFfUSW43+rWnsY/FkZByUQaQAacp3x975YO6P17+W
+        DYIrcWxmFXn0XsvCR1LHD2g=
+X-Google-Smtp-Source: AMsMyM4S/YM2hA9QKc1xz5D4NvWaMce/dcV+6cyNywzQ3XCQ9M4R4vKL48euuUitCExphPsOvk7gFQ==
+X-Received: by 2002:a2e:3517:0:b0:26d:e2be:8c41 with SMTP id z23-20020a2e3517000000b0026de2be8c41mr1969365ljz.104.1664868764023;
+        Tue, 04 Oct 2022 00:32:44 -0700 (PDT)
+Received: from wse-c0155.labs.westermo.se (static-193-12-47-89.cust.tele2.se. [193.12.47.89])
+        by smtp.gmail.com with ESMTPSA id i19-20020a056512225300b00499bf7605afsm1800229lfu.143.2022.10.04.00.32.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 22:01:08 -0700 (PDT)
-Date:   Mon, 3 Oct 2022 22:01:07 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Jann Horn <jannh@google.com>
-Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com, rppt@kernel.org,
-        jamorris@linux.microsoft.com, dethoma@microsoft.com
-Subject: Re: [PATCH v2 00/39] Shadowstacks for userspace
-Message-ID: <202210032158.CE0941C4D@keescook>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <202210030946.CB90B94C11@keescook>
- <CAG48ez2TGdwcr-jUPm1EL1D6X2a-wbx+gXLZUq46qxO-FTctHQ@mail.gmail.com>
+        Tue, 04 Oct 2022 00:32:43 -0700 (PDT)
+From:   Casper Andersson <casper.casan@gmail.com>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH net-next] docs: networking: phy: add missing space
+Date:   Tue,  4 Oct 2022 09:32:42 +0200
+Message-Id: <20221004073242.304425-1-casper.casan@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Organization: Westermo Network Technologies AB
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG48ez2TGdwcr-jUPm1EL1D6X2a-wbx+gXLZUq46qxO-FTctHQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 03, 2022 at 07:25:03PM +0200, Jann Horn wrote:
-> On Mon, Oct 3, 2022 at 7:04 PM Kees Cook <keescook@chromium.org> wrote:
-> > On Thu, Sep 29, 2022 at 03:28:57PM -0700, Rick Edgecombe wrote:
-> > > This is an overdue followup to the “Shadow stacks for userspace” CET series.
-> > > Thanks for all the comments on the first version [0]. They drove a decent
-> > > amount of changes for v2. Since it has been awhile, I’ll try to summarize the
-> > > areas that got major changes since last time. Smaller changes are listed in
-> > > each patch.
-> >
-> > Thanks for the write-up!
-> >
-> > > [...]
-> > >         GUP
-> > >         ---
-> > >         Shadow stack memory is generally treated as writable by the kernel, but
-> > >         it behaves differently then other writable memory with respect to GUP.
-> > >         FOLL_WRITE will not GUP shadow stack memory unless FOLL_FORCE is also
-> > >         set. Shadow stack memory is writable from the perspective of being
-> > >         changeable by userspace, but it is also protected memory from
-> > >         userspace’s perspective. So preventing it from being writable via
-> > >         FOLL_WRITE help’s make it harder for userspace to arbitrarily write to
-> > >         it. However, like read-only memory, FOLL_FORCE can still write through
-> > >         it. This means shadow stacks can be written to via things like
-> > >         “/proc/self/mem”. Apps that want extra security will have to prevent
-> > >         access to kernel features that can write with FOLL_FORCE.
-> >
-> > This seems like a problem to me -- the point of SS is that there cannot be
-> > a way to write to them without specific instruction sequences. The fact
-> > that /proc/self/mem bypasses memory protections was an old design mistake
-> > that keeps leading to surprising behaviors. It would be much nicer to
-> > draw the line somewhere and just say that FOLL_FORCE doesn't work on
-> > VM_SHADOW_STACK. Why must FOLL_FORCE be allowed to write to SS?
-> 
-> But once you have FOLL_FORCE, you can also just write over stuff like
-> executable code instead of writing over the stack. I don't think
-> allowing FOLL_FORCE writes over shadow stacks from /proc/$pid/mem is
-> making things worse in any way, and it's probably helpful for stuff
-> like debuggers.
-> 
-> If you don't want /proc/$pid/mem to be able to do stuff like that,
-> then IMO the way to go is to change when /proc/$pid/mem uses
-> FOLL_FORCE, or to limit overall write access to /proc/$pid/mem.
+Missing space between "pins'" and "strength"
 
-Yeah, all reasonable. I just wish we could ditch FOLL_FORCE; it continues
-to weird me out how powerful that fd's side-effects are.
+Signed-off-by: Casper Andersson <casper.casan@gmail.com>
+---
+ Documentation/networking/phy.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/Documentation/networking/phy.rst b/Documentation/networking/phy.rst
+index 06f4fcdb58b6..d11329a08984 100644
+--- a/Documentation/networking/phy.rst
++++ b/Documentation/networking/phy.rst
+@@ -120,7 +120,7 @@ required delays, as defined per the RGMII standard, several options may be
+ available:
+ 
+ * Some SoCs may offer a pin pad/mux/controller capable of configuring a given
+-  set of pins'strength, delays, and voltage; and it may be a suitable
++  set of pins' strength, delays, and voltage; and it may be a suitable
+   option to insert the expected 2ns RGMII delay.
+ 
+ * Modifying the PCB design to include a fixed delay (e.g: using a specifically
 -- 
-Kees Cook
+2.34.1
+
