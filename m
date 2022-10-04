@@ -2,49 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC14AC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  3 Oct 2022 23:59:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64AE2C433F5
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 00:00:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229968AbiJCX7v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Oct 2022 19:59:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42414 "EHLO
+        id S230003AbiJDAAc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Oct 2022 20:00:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229886AbiJCX7u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 19:59:50 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E29FA643E
-        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 16:59:45 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id 10so7479665pli.0
-        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 16:59:45 -0700 (PDT)
+        with ESMTP id S230010AbiJDAA3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 20:00:29 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 074C315FF5
+        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 17:00:25 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id 83so4602728pfw.10
+        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 17:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=RIJLKN8u3zDyFaSBgpFe42GEBZf7a4VcF4ED49hMdZc=;
-        b=U+gKP1h4Pv9jFJIM8fjrqS3Zno7OwmnOpMAEvlBoaqn2bYimBV48LjwocIwL22pTj/
-         XGCusQxLHKaS1oM8qYA/31YZIM1g4yyqMOyA0EeUSQHwPMu/2406h3E8d5UGens+Sg6R
-         JFsWqk+j7+9V4+Cv11zUIopHfUbO1vKfQtibE=
+        bh=o2b6tkTm79Hq7cBFTASISNpumWfJdTPRV3REM28Za+c=;
+        b=RHkLlXama069cxi74bxt00Ik3yKbCp7eqcjpJ+BrwE/1Guzo7yRXeE2Mlwg9/Q1pft
+         FpU8rWJ0zhvXTgdtu5ZrT9wcAMy8omqjXqtd+QnQLb72g+yiqjNZwXumr+AvRy9LNXuJ
+         PhYt7Z/apm2VoEc6VJGKm4Os53iN72KHY4TqU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=RIJLKN8u3zDyFaSBgpFe42GEBZf7a4VcF4ED49hMdZc=;
-        b=mcz8AoTmeJ+Lxr8nv+dpauxsCfl4S1iVGQu30MqP7c2CPf+4zTwItK5oM1WfelSyRE
-         dnZaCIeadUoX0Ul0lzf5Bz7nvehnkWUocj4qO+uW+ruL7BKzEGz9yiJ1YeSk8Cw/a7rD
-         GcBz5js+hWzUggCNe/3SBG7wnfS1tlz8CdzgA0DGEo7truvYh3AuepvOpHwfJZPIZ8ql
-         tMpIY6IwrVNz6XfCAoVncwLleDP9/oKj3bKwiGmORP2dSzh5Oj6q8Xsk7uxhEJeiwYQy
-         kUguyfa+VRhtlDafllfEONZf+TvY9PVeKb+TV+QNrNge+oDyqZYPeFSgXPA2+TAG1NsZ
-         4G0g==
-X-Gm-Message-State: ACrzQf3LxSH5ZBHtnZSRnZf/aVFdrc46hypFHhUQzW48oa+4Nzf6Oz4J
-        In0kbV1eR1NneA6WNMHQ9E2L0g==
-X-Google-Smtp-Source: AMsMyM5ug1R6yL4efHcI6RcSe9hN88kwzJ/nJywTthiwC0PYrD9jVlLYOuUXb9T8VVj14hEZ5CWOZA==
-X-Received: by 2002:a17:90a:7c4a:b0:20a:b201:461a with SMTP id e10-20020a17090a7c4a00b0020ab201461amr5640401pjl.181.1664841585370;
-        Mon, 03 Oct 2022 16:59:45 -0700 (PDT)
+        bh=o2b6tkTm79Hq7cBFTASISNpumWfJdTPRV3REM28Za+c=;
+        b=uU6JZZxRxNTeT7NOTdlqRsO31830jECfzp4/JA3G8nhZQmnMFs9ipwdb6DmnAOmrti
+         kmGYaCds2hKZkMx5pkmHvKRerPp5RJYPBi++lYfTrQhGBET36Ij8qjUjCK8DC4g55fC+
+         yp0axBzYwhNQJJ98iychESjbyg4ZDFeNHSzBtYAYd6jqT3cM730rfzbyaq7gn6bz8v4w
+         jBZllRDJqvUbtRiwwXUbSUHNRL74g1d3wnX7kF2FrpnGat0TLMwDLxtXBbHjzyTrSyRL
+         TYz19UZJXeXr1pjDK32t+QPnhgykt7eB1n/VUKhvNFcvMmYLBTQfnMWJ0VeUHMbt2ucu
+         41BQ==
+X-Gm-Message-State: ACrzQf0CadeZnotKeAq0CiXOlriBHCrUFcIUxGd8jJssRfDqoF8armMj
+        zsV5sGi4+vuKyj27d4hFSknrEg==
+X-Google-Smtp-Source: AMsMyM4XTe6Addd3B3fzFGMr8MXv7g/1myw41iKI39g5lf9c2CLcuvJt36Ijei3dGll/IC1/xnbqFA==
+X-Received: by 2002:a63:5d48:0:b0:43a:390b:2183 with SMTP id o8-20020a635d48000000b0043a390b2183mr20651434pgm.29.1664841624524;
+        Mon, 03 Oct 2022 17:00:24 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id mp8-20020a17090b190800b0020ad26fa65dsm284824pjb.56.2022.10.03.16.59.44
+        by smtp.gmail.com with ESMTPSA id u13-20020a170902e80d00b00178ac4e70dcsm7787131plg.185.2022.10.03.17.00.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 16:59:44 -0700 (PDT)
-Date:   Mon, 3 Oct 2022 16:59:43 -0700
+        Mon, 03 Oct 2022 17:00:23 -0700 (PDT)
+Date:   Mon, 3 Oct 2022 17:00:23 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
 Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
@@ -73,26 +73,29 @@ Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
         joao.moreira@intel.com, John Allen <john.allen@amd.com>,
         kcc@google.com, eranian@google.com, rppt@kernel.org,
         jamorris@linux.microsoft.com, dethoma@microsoft.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [OPTIONAL/RFC v2 37/39] x86/cet: Add PTRACE interface for CET
-Message-ID: <202210031658.EEC88324FD@keescook>
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [OPTIONAL/RFC v2 38/39] x86/cet/shstk: Add ARCH_CET_UNLOCK
+Message-ID: <202210031700.3C9BB219A@keescook>
 References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-38-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-39-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220929222936.14584-38-rick.p.edgecombe@intel.com>
+In-Reply-To: <20220929222936.14584-39-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 03:29:34PM -0700, Rick Edgecombe wrote:
-> From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+On Thu, Sep 29, 2022 at 03:29:35PM -0700, Rick Edgecombe wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
 > 
-> Some applications (like GDB and CRIU) would like to tweak CET state via
+> Userspace loaders may lock features before a CRIU restore operation has
+> the chance to set them to whatever state is required by the process
+> being restored. Allow a way for CRIU to unlock features. Add it as an
+> arch_prctl() like the other CET operations, but restrict it being called
+> by the ptrace arch_pctl() interface.
 
-Eee. Does GDB really need this? Can we make this whole thing
-CONFIG-depend on CRIU?
+Hrm, please make this build-depend on CRIU...
 
 -- 
 Kees Cook
