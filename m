@@ -2,303 +2,222 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF5BC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 16:20:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07260C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 16:22:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbiJDQUO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Oct 2022 12:20:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53714 "EHLO
+        id S230006AbiJDQWe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Oct 2022 12:22:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229801AbiJDQUM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 12:20:12 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D8EB3121A;
-        Tue,  4 Oct 2022 09:20:09 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id iv17so9243171wmb.4;
-        Tue, 04 Oct 2022 09:20:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=8LE8W2mqaAM/yoDLOF9MDrdUP87t6ukTakzjHiQS0ng=;
-        b=l59jIqVs1PVe7xRCb3OD+i+OXNVXagIwzGy00H4kSsnmO/kUc9U8oq0NDPmb7lsY2+
-         UxcmrBm3jZhkNLvuBXtrdVzGNJSmzrQwzp4ZnMt3yujj6Z9g8xyQO5n1rCmsqZO5iaMf
-         gLBvvbrgp9UIEIPOClTa6HYiMHo32wHnOI5sZwM3RHKkznndjlK9D0qp0ZmFVM7tWBUD
-         VKj7hN7/OOhbWd9l790p3NJjub7SI5ex5M6CvPTA8XiVHVwLz+aubel3g6feGIa6Bink
-         8nzD3IDgJc9Z3riMKS0uj3j4x/QULkN6LtRTApfDHaVd8x+1v5ci+o16EPK4iHqp4HJq
-         teQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=8LE8W2mqaAM/yoDLOF9MDrdUP87t6ukTakzjHiQS0ng=;
-        b=bYJAKPYUtcLX5+O+N3bSj/45dNPiLSyp6/RRrIp6LVNkf4BsLlo/vwvddo6FqZnQPh
-         Zz5kpP9g/ZYhSIIWqjy1+yC+xQ6x1WISjl6odecyNN/eq7NYhCVBM1iIVZNbQijMC6y4
-         IsARVxv91Csu1ldPP3dufUPDJUUmsCzO+TeSlJthFGAVp7y0cEl+0GCyv9PQLIisCfoX
-         89mBynmZEuv7O1hARgU08kQMVfrncgLjnxBo1VwG0DQcNiZEjz9TEy3OhTL/+9byZvZ9
-         MOl6OD/vQYpZUfCNPJN8srDCnhFZXEjv4EYg1pvZ80M2lI1Fw/R3asUa9BcMcRBCEH3k
-         IlMg==
-X-Gm-Message-State: ACrzQf2093AqM9MyjBQFZfZYY3F/qZMzzJQHxHbF+QG8cNCKJcNn/fQ6
-        G9FMq+wffmypWtkmCZj9Dc9myvgg4GMyzg==
-X-Google-Smtp-Source: AMsMyM7UclJoe0JzOzlfw3CfWm+fzKvOaGoFVQn0pF1q9bLjhbUjtTO3Ap41NER4apgfUqhbmjXNew==
-X-Received: by 2002:a7b:c4c2:0:b0:3b4:fdc4:6df9 with SMTP id g2-20020a7bc4c2000000b003b4fdc46df9mr374879wmk.123.1664900407437;
-        Tue, 04 Oct 2022 09:20:07 -0700 (PDT)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:80f3:87e5:ec43:c70c])
-        by smtp.gmail.com with ESMTPSA id p26-20020a7bcc9a000000b003bd83d8c0f2sm1245191wma.16.2022.10.04.09.20.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Oct 2022 09:20:06 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     dave@dtucker.co.uk, Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v5 1/1] bpf, docs: document BPF_MAP_TYPE_ARRAY
-Date:   Tue,  4 Oct 2022 17:19:29 +0100
-Message-Id: <20221004161929.52609-2-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221004161929.52609-1-donald.hunter@gmail.com>
-References: <20221004161929.52609-1-donald.hunter@gmail.com>
+        with ESMTP id S230021AbiJDQWL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 12:22:11 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C11126555E;
+        Tue,  4 Oct 2022 09:22:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664900528; x=1696436528;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=PGzav7y+y+iYUYGFI3YYvJEzR/J4oK0N2mrZc6YRrYw=;
+  b=OYdFeteo/oYTDi9egRZ1UqYot/iZ76YOH3LN7+7xIbYSaGk6cl38vN1C
+   RO59NplffKxNVvVopTtY03ndy6ocCmKQmSblm7gCir6P5FKeYuuHNBaOD
+   uro03qGK3gRlNIqQmhWxwtmgXqILtVv5xaWVgtCZgbVk0Y76MVfK9SVmU
+   R4zlstHDzAgdE1yaYHbvWSlMyqN0Xsgts7Sbpczd3ohinyytk7rP/Hcvb
+   Gk/mpB9AIqVQWXqWARZeA7iVPGuDd+1RrmkJrknUcgV37ZaVjuJYmCkzJ
+   l8GpK8wurL3DKDkrHEFa3XB50W1yp+xLFw0JYPZ8Au4QpCUSZMn7MPiLK
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="302932493"
+X-IronPort-AV: E=Sophos;i="5.95,158,1661842800"; 
+   d="scan'208";a="302932493"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 09:22:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="713067921"
+X-IronPort-AV: E=Sophos;i="5.95,158,1661842800"; 
+   d="scan'208";a="713067921"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Oct 2022 09:22:07 -0700
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 4 Oct 2022 09:22:06 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 4 Oct 2022 09:22:06 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Tue, 4 Oct 2022 09:22:06 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.174)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Tue, 4 Oct 2022 09:22:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M+1EtY3kR/8XLP4mwOf04/NiMuUzmZvW/VRrDZZ2W/Q5J27OMu+VBd7JdUktpu6lEy70OJ1Te4kuZLGa3W5cGW3XZkY7fLMToBwFTHkowS8tgtxrbGWUOtT5hpufyUnoHPVz9+BJDrRJYwM3tWZy1WSWuj/WkVDArYdctfuwezhHRAmJ/NZLPxCwSzb0xjac0MTeoCOa+vANYlv4637tWPuAH6q2v0WdMHBX/p554x4U1B246/DTM5PYxy18rTT1uICCj99hjayH9CsmPwhD24Cvspssca55F0my+kSAQAsP5V+gKpJc9Zox1hBgIC8NU3B9oT2gmTIbvNIq6s87Ow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PGzav7y+y+iYUYGFI3YYvJEzR/J4oK0N2mrZc6YRrYw=;
+ b=TkX1I8YNaVBRlTte5rWEhRSSczVWmR45Y3SAaSaibmf9O61UGiLwVpjxIyiFYOyDtgP0bSnPJuPlwxHKO4+Iznkcce41CYBjyGOf9tPcQLu7Z5K0CYkZDcYIsH5ieAEHC5yNI+h0UwVN7yOs4wqF09AtEIk49bUM6Rzl12ovRcnmOiSthRlqJN8GDCIjxvvMnXWH91gHWkrHHs5+DV7TeYkTvmeHP5DopHPNSKZ6bBiFIqqPZbH1d3FW6Q5CuVDCa2IJOuuxRK1zTthRO0KzFqo2WnBaCcsO4Dp+XRPC7lzyzjl49X31VakhcIn9ezwrOCjr9DO3y0FFII4CSjWSgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MWHPR11MB1392.namprd11.prod.outlook.com (2603:10b6:300:24::14)
+ by PH7PR11MB6673.namprd11.prod.outlook.com (2603:10b6:510:1ab::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23; Tue, 4 Oct
+ 2022 16:21:59 +0000
+Received: from MWHPR11MB1392.namprd11.prod.outlook.com
+ ([fe80::99f8:3b5c:33c9:359a]) by MWHPR11MB1392.namprd11.prod.outlook.com
+ ([fe80::99f8:3b5c:33c9:359a%4]) with mapi id 15.20.5676.028; Tue, 4 Oct 2022
+ 16:21:59 +0000
+From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+To:     "nadav.amit@gmail.com" <nadav.amit@gmail.com>
+CC:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v2 17/39] mm: Fixup places that call pte_mkwrite()
+ directly
+Thread-Topic: [PATCH v2 17/39] mm: Fixup places that call pte_mkwrite()
+ directly
+Thread-Index: AQHY1FMa24Mj89j8rEOlmG8UPkMiXa39gFKAgADx4QA=
+Date:   Tue, 4 Oct 2022 16:21:58 +0000
+Message-ID: <2d42e48e16578d8cdfe174b2396382220b81e259.camel@intel.com>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+         <20220929222936.14584-18-rick.p.edgecombe@intel.com>
+         <96BFE665-4A76-4CE0-A22B-A999C4A16FFD@gmail.com>
+In-Reply-To: <96BFE665-4A76-4CE0-A22B-A999C4A16FFD@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MWHPR11MB1392:EE_|PH7PR11MB6673:EE_
+x-ms-office365-filtering-correlation-id: 45c6e0a3-2ff0-4340-3f2d-08daa6248fe1
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: g9gg25mTP7RAQJABJCy/mBNakRlCZXpy4Sd1x809CFJO/685uTZgpVYXuKAM449jh1hKDUxnopVpTtpenomq3w1uO+XDolXRfUGFD3HPA8znX5uKxhTqjqWN2biu3qx18uR2p69OnK8ijtXuSnPQKOgOdoDSPEayBtuxpr2v2iedJBDX1IkdWDCSjJ8/vXDu1FShob7hfyzFrciU0QVn4trWnohsc2RyuHARSWWpVORzFWEixNLrnMDTUx4U6EDwD44sn3VZsztEn+HZbgX01izlLI7KKlFvGjke/kYPvRBWwR/rgktpo7TQ8LEyryzze8UvtZBpKu+gYbZ1LBptYh7Cs01vCHwWcZermgNDsKScTrsDBgRINALkg8V1n1ExID2K9P0gWQP6C0eRccCb4MwvmxFnGm4EJr2PxtdhpKazkrweHl6rOj6QaedVogEwAVe9kcA1jBvHKevtBkWE/LRsmZuQNVu4YY1wWGEZKgNHkLlDfgZfN9FZ7NS8NVUdyfHSBOOHnHzMaj9xIFQb6NRIHDYIsH505iL9IfPz4ZSxsv4qpQjKtBwsqJRf/1NYJUYbQWV3+rD3jIVBxY1nieEEMIXLGZHOsxsZggDc8eVIr3UT5P16V4TN54TF2QD2w845zC2H46cK7AMG8btUBZoGxsUlRQIgd19nobKsR3+8F4a+3C0GyeqE/28GwkWyWsoqZxukCd+uO00gVNfQj6TOrx2DUAYMisD4HM/X/z3B9lBhult0EbqzgGotgWGCxp1fxn9fo+yLnkBWpenEjClaIsJpKoyGHgG6s/t6zcc=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(396003)(376002)(346002)(136003)(366004)(39860400002)(451199015)(64756008)(4326008)(8676002)(66556008)(66446008)(41300700001)(6916009)(71200400001)(316002)(54906003)(53546011)(26005)(6506007)(6512007)(6486002)(478600001)(66476007)(86362001)(91956017)(76116006)(66946007)(36756003)(83380400001)(38100700002)(2616005)(186003)(122000001)(38070700005)(82960400001)(2906002)(7406005)(7416002)(8936002)(5660300002)(99106002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QXdEczJBYlZ2REpQNCtYb0wyM1VyeUIyV2dhc2V1MzBpUmVnQUkrU3k4am15?=
+ =?utf-8?B?amthbXdxS1VSbW1yTmI1STM0SnI5WTA5NlQ2dUd1MGhUc2tsdUc4d3N2Z1pY?=
+ =?utf-8?B?UldxRFdrZWZreU5jU3ZqeWxXNE9PRFMvcVFBeUxoN09PTHRJaDJWbHFEUmxL?=
+ =?utf-8?B?ZERSdzFaOVlYTmJDaVM2UE5QeXo3NUVCa0VmeFp5K29MSm1SMnhlUUY2THYx?=
+ =?utf-8?B?bjdNNG94Nzg3R3ZSYzk0K2kxTjYvNHNZT2JldWFndFIvSkxiK3F3K2RMUnFl?=
+ =?utf-8?B?R2duNDJDazFJbnl0V1MvVE1oZEw0VnJESzE5V3RwUG9RcWFpVEk2cHJDWkEz?=
+ =?utf-8?B?V1BFUkd3cmZQVXFOR051WkRzY0xjSitlMkFnVTJ5bG9Fb1FRZ2l2THdmdzdD?=
+ =?utf-8?B?azRYSmF2alRDU2dBWHd4Tm1LU2J2dGtiR0VpeU1IYmxvclB4MzRvY0lIZkJr?=
+ =?utf-8?B?QmE5b0p2R29VNTJVekxSMldHSm5zSVM2U245U3J4TFllNVBxTmo0UnJQSkVX?=
+ =?utf-8?B?b1hHTmtQempaNUJIWGtmRHVLc25JNkxnUjhZQUhkcFJyMEdTTXZxSzgrMENL?=
+ =?utf-8?B?QU1jWVFRK0c1YnZEK2ZkN0pkN3dOT2l0ZjhZa3l4UHMrbDRodmZBL2NHLzk0?=
+ =?utf-8?B?QXI0V245ZjhwMGFYYlk0ZUJLTzBxMEt6T3FGY0RmdUVZekI1MmRFdStpUGJi?=
+ =?utf-8?B?V2cwUHNvQW1IODgzeFFHZ0pFelNoMHhsb2NhTm4yRUt6U2xJOXRiS21wR2VJ?=
+ =?utf-8?B?dllSR080ZURtZlM5RlI5eGsrRURYOCt2NktUUWplVko5U0lpRUZNTzQzY1hn?=
+ =?utf-8?B?bjlWclkwWU84WGxqZzZSbVk4V3ZkM1pMaFc1Q2RXZDJwK012bGw1VFRZWWZ2?=
+ =?utf-8?B?ay9sSURsM2hrM2ZlR2FGanlJMEFBV01OaTl5bkx5RmVhaWE0Z1FPYmtpcnJT?=
+ =?utf-8?B?eVJmTjlaYlRqa3pYWVBydXFKRVZ3VzNlTGhkcEpvMHlrNU5aMDFNOTc2N0lw?=
+ =?utf-8?B?YXFWdHRLUFY5MDY0Y2plengwSFczVHcrdzJhVXhoWWRTaGpFaXN1bFA2ZStm?=
+ =?utf-8?B?WFVQbzRURjJwQ3Q4cmNoYzI4UDV5MVNidDd2RjI2cXdQaVFNM2cvb3hyekhR?=
+ =?utf-8?B?cEk2MzdEOE9ORDFkQkVZam02WUJySlpPa2dUS3VJMEIwWFNIaXVTSThobjIy?=
+ =?utf-8?B?L2N2SnJwSFhLNGl0T0tNTTQ1V3FzZ0ZmMEpka2diT0cxeDFGbGdqTjJ4UXlS?=
+ =?utf-8?B?Y3NTaTAvYnV0RG9RZzdzV3NuQi9vSnBhVkUvN1IvMWl4VGJ0WU8rckVieVJI?=
+ =?utf-8?B?SGdPUzJzQWdnejFkalY4Tnh6ZC9HU2pTdG1wRDZNZEpJVHVGY1ZmTHc3WGpk?=
+ =?utf-8?B?NUQxYm16YkQ0eFgrblR1L01MUnhrRXFuSHFaNXlqVFk0dGRTNi9NN3NxcCtq?=
+ =?utf-8?B?QmYwdUltZXA4Y2syODhNTkxHSm5HeVlab3FtbjdDdFNhZ09jMURtNmlFcUgr?=
+ =?utf-8?B?dndSZG1KMldUY1pYOWdUdkxKV1BvMllDdDFTcGxBdWkxVWIyd0hsZGIveG9n?=
+ =?utf-8?B?OVJZUzZ3a3V6ZE1kNWxoWWJBQ3dRa2FuWDM4QktubVU1N1A5dXBQdkVBTTNY?=
+ =?utf-8?B?dmt4RnhYM0RTbHZ3ajNTOUpLcitBdmp1cHBhWmd5TUQxNWpwSi9GS2Q1MVhX?=
+ =?utf-8?B?d3lhbGR6V3p6S2dkQisxZk5saFd6Z0oyRkdSL1BoTzdlYXIxeVk4VWREUG13?=
+ =?utf-8?B?bHpVTzY5MmszR1hlTktienQ2blpzOUpCbmRhTUN5cW5KVldhaU9YeGJITGty?=
+ =?utf-8?B?Z0pncElDQ3FxcnM3ODFOcS81ZXAzSHRQUzNPSlJCaTN0U05SZVpFczdwa1ky?=
+ =?utf-8?B?SE1mZmwzV0Q2NTBJMUIyeEhwdUdtTVAzVzA4UnpUMTVDVjVFMTNkS09KejhG?=
+ =?utf-8?B?ODRFYy9aZW5HR0pJMEwzckhqZ1FESEIzQy9rbmxKOE9PMmdzOTZiWmE2cnVW?=
+ =?utf-8?B?SStzZVJURTQwSlhib2xCd3lGdjFpRU5YbnRBVGtKUi8rc0pDVWdkOEFhVEly?=
+ =?utf-8?B?V0FiV2xwdlJNRk9hVG5mYWRqSWNLanNnd2MrQjNiRi9hSUNhQWN1U3VBSFVp?=
+ =?utf-8?B?VGZhQjhDVHJZZnVWb1Z5Ylh2bWVJZHVJN2ZmUjVOWDdZZkt0MHhnL21UbEpn?=
+ =?utf-8?Q?1qt7xYYOWmf4lXwiS76uQHg=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6A62CDBF1DED7B4DB2E9410B3FB04F94@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45c6e0a3-2ff0-4340-3f2d-08daa6248fe1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2022 16:21:58.8814
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NNKsyn6RAZlu6cyN7WkYy5Ib4re3NOAlMezdawTeGVYVSKvDTIOqMx3fDzwH96pMHsJ5LiYrrM5emfHjWf8tuko4MwOe7d0Q03MOnEUid30=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6673
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Dave Tucker <dave@dtucker.co.uk>
-
-Add documentation for the BPF_MAP_TYPE_ARRAY including kernel version
-introduced, usage and examples. Also documents BPF_MAP_TYPE_PERCPU_ARRAY
-since this is similar.
-
-Signed-off-by: Dave Tucker <dave@dtucker.co.uk>
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/bpf/map_array.rst | 217 ++++++++++++++++++++++++++++++++
- 1 file changed, 217 insertions(+)
- create mode 100644 Documentation/bpf/map_array.rst
-
-diff --git a/Documentation/bpf/map_array.rst b/Documentation/bpf/map_array.rst
-new file mode 100644
-index 000000000000..5eec4c99fda5
---- /dev/null
-+++ b/Documentation/bpf/map_array.rst
-@@ -0,0 +1,217 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2022 Red Hat, Inc.
-+
-+================================================
-+BPF_MAP_TYPE_ARRAY and BPF_MAP_TYPE_PERCPU_ARRAY
-+================================================
-+
-+.. note::
-+   - ``BPF_MAP_TYPE_ARRAY`` was introduced in kernel version 3.19
-+   - ``BPF_MAP_TYPE_PERCPU_ARRAY`` was introduced in version 4.6
-+
-+``BPF_MAP_TYPE_ARRAY`` and ``BPF_MAP_TYPE_PERCPU_ARRAY`` provide generic array
-+storage. The key type is an unsigned 32-bit integer (4 bytes) and the map is of
-+constant size. All array elements are pre-allocated and zero initialized when
-+created. ``BPF_MAP_TYPE_PERCPU_ARRAY`` uses a different memory region for each
-+CPU whereas ``BPF_MAP_TYPE_ARRAY`` uses the same memory region. The maximum
-+size of an array, defined in max_entries, is limited to 2^32. The value stored
-+can be of any size, however, small values will be rounded up to 8 bytes.
-+
-+Since kernel 5.5, memory mapping may be enabled for ``BPF_MAP_TYPE_ARRAY`` by
-+setting the flag ``BPF_F_MMAPABLE``. The map definition is page-aligned and
-+starts on the first page. Sufficient page-sized and page-aligned blocks of
-+memory are allocated to store all array values, starting on the second page,
-+which in some cases will result in over-allocation of memory. The benefit of
-+using this is increased performance and ease of use since userspace programs
-+would not be required to use helper functions to access and mutate data.
-+
-+Usage
-+=====
-+
-+.. c:function::
-+   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-+
-+Array elements can be retrieved using the ``bpf_map_lookup_elem()`` helper.
-+This helper returns a pointer into the array element, so to avoid data races
-+with userspace reading the value, the user must use primitives like
-+``__sync_fetch_and_add()`` when updating the value in-place. Access from
-+userspace uses the libbpf API of the same name.
-+
-+.. c:function::
-+   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
-+
-+Array elements can also be added using the ``bpf_map_update_elem()`` helper or
-+libbpf API.
-+
-+``bpf_map_update_elem()`` returns 0 on success, or negative error in case of
-+failure.
-+
-+Since the array is of constant size, ``bpf_map_delete_elem()`` is not supported.
-+To clear an array element, you may use ``bpf_map_update_elem()`` to insert a
-+zero value to that index.
-+
-+Per CPU Array
-+-------------
-+
-+Values stored in ``BPF_MAP_TYPE_ARRAY`` can be accessed by multiple programs
-+across different CPUs. To restrict storage to a single CPU, you may use a
-+``BPF_MAP_TYPE_PERCPU_ARRAY``.
-+
-+When using a ``BPF_MAP_TYPE_PERCPU_ARRAY`` the ``bpf_map_update_elem()`` and
-+``bpf_map_lookup_elem()`` helpers automatically access the hash slot for the
-+current CPU.
-+
-+.. c:function::
-+   void *bpf_map_lookup_percpu_elem(struct bpf_map *map, const void *key, u32 cpu)
-+
-+The ``bpf_map_lookup_percpu_elem()`` helper can be used to lookup the array
-+value for a specific CPU. Returns value on success , or ``NULL`` if no entry was
-+found or ``cpu`` is invalid.
-+
-+Concurrency
-+-----------
-+
-+Since kernel version 5.1, the BPF infrastructure provides ``struct bpf_spin_lock``
-+to synchronize access.
-+
-+Examples
-+========
-+
-+Please see the ``tools/testing/selftests/bpf`` directory for functional
-+examples. The sample code below demonstrates API usage.
-+
-+Kernel
-+------
-+
-+This snippet shows how to declare an array in a BPF program.
-+
-+.. code-block:: c
-+
-+    struct {
-+            __uint(type, BPF_MAP_TYPE_ARRAY);
-+            __type(key, u32);
-+            __type(value, long);
-+            __uint(max_entries, 256);
-+    } my_map SEC(".maps");
-+
-+
-+This example shows how to access an array element.
-+
-+.. code-block:: c
-+
-+    int bpf_prog(struct __sk_buff *skb)
-+    {
-+            int index = load_byte(skb,
-+                                  ETH_HLEN + offsetof(struct iphdr, protocol));
-+            long *value;
-+
-+            if (skb->pkt_type != PACKET_OUTGOING)
-+                    return 0;
-+
-+            value = bpf_map_lookup_elem(&my_map, &index);
-+            if (value)
-+                    __sync_fetch_and_add(value, skb->len);
-+
-+            return 0;
-+    }
-+
-+Userspace
-+---------
-+
-+BPF_MAP_TYPE_ARRAY
-+~~~~~~~~~~~~~~~~~~
-+
-+This example shows array creation, initialisation and lookup from userspace.
-+
-+.. code-block:: c
-+
-+    #include <assert.h>
-+    #include <bpf/libbpf.h>
-+    #include <bpf/bpf.h>
-+
-+    int main(int argc, char **argv)
-+    {
-+	    int fd;
-+	    int ret = 0;
-+	    long value;
-+	    __u32 index = 42;
-+	    __u32 i;
-+
-+	    fd = bpf_map_create(BPF_MAP_TYPE_ARRAY, "example_array",
-+				sizeof(__u32), sizeof(long),
-+				256, 0);
-+	    if (fd < 0)
-+		    return fd;
-+
-+	    /* fill the map with values from 0-255 */
-+	    for (i = 0; i < 256 ; i++) {
-+		    value = i;
-+		    ret = bpf_map_update_elem(fd, &i, &value, BPF_ANY);
-+		    if (ret < 0)
-+			    return ret;
-+	    }
-+
-+	    ret = bpf_map_lookup_elem(fd, &index, &value);
-+	    if (ret < 0)
-+		    return ret;
-+
-+	    assert(value == 42);
-+
-+	    return ret;
-+    }
-+
-+BPF_MAP_TYPE_PERCPU_ARRAY
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+This example shows per CPU array usage.
-+
-+.. code-block:: c
-+
-+    #include <assert.h>
-+    #include <bpf/libbpf.h>
-+    #include <bpf/bpf.h>
-+
-+    int main(int argc, char **argv)
-+    {
-+	    int ncpus = libbpf_num_possible_cpus();
-+	    if (ncpus < 0)
-+		    return ncpus;
-+
-+	    int fd;
-+	    int ret = 0;
-+	    __u32 i, j;
-+	    __u32 index = 42;
-+	    long v[ncpus], value[ncpus];
-+
-+	    fd = bpf_map_create(BPF_MAP_TYPE_PERCPU_ARRAY, "example_percpu",
-+				sizeof(__u32), sizeof(long), 256, 0);
-+	    if (fd < 0)
-+		    return -1;
-+
-+	    /* fill the map with values from 0-255 for each cpu */
-+	    for (i = 0; i < 256 ; i++) {
-+		    for (j = 0; j < ncpus; j++)
-+			    v[j] = i;
-+		    ret = bpf_map_update_elem(fd, &i, &v, BPF_ANY);
-+		    if (ret < 0)
-+			    return ret;
-+	    }
-+
-+	    ret = bpf_map_lookup_elem(fd, &index, &value);
-+	    if (ret < 0)
-+		    return ret;
-+
-+	    for (j = 0; j < ncpus; j++)
-+		    assert(value[j] == 42);
-+
-+	    return ret;
-+    }
-+
-+Semantics
-+=========
-+
-+As shown in the example above, when accessing a ``BPF_MAP_TYPE_PERCPU_ARRAY``
-+in userspace, each value is an array with ``ncpus`` elements.
-+
-+When calling ``bpf_map_update_elem()`` the flag ``BPF_NOEXIST`` can not be used
-+for these maps.
--- 
-2.35.1
-
+T24gTW9uLCAyMDIyLTEwLTAzIGF0IDE4OjU2IC0wNzAwLCBOYWRhdiBBbWl0IHdyb3RlOg0KPiBI
+b3BlZnVsbHkgSSB3aWxsIG5vdCB3YXN0ZSB5b3VyIHRpbWUgYWdhaW7igKYgSWYgaXQgaGFzIGJl
+ZW4gZGlzY3Vzc2VkDQo+IGluIHRoZQ0KPiBsYXN0IDI2IGl0ZXJhdGlvbnMsIGp1c3QgdGVsbCBt
+ZSBhbmQgaWdub3JlLg0KPiANCj4gT24gU2VwIDI5LCAyMDIyLCBhdCAzOjI5IFBNLCBSaWNrIEVk
+Z2Vjb21iZSA8DQo+IHJpY2sucC5lZGdlY29tYmVAaW50ZWwuY29tPiB3cm90ZToNCj4gDQo+ID4g
+LS0tIGEvbW0vbWlncmF0ZV9kZXZpY2UuYw0KPiA+ICsrKyBiL21tL21pZ3JhdGVfZGV2aWNlLmMN
+Cj4gPiBAQCAtNjA2LDggKzYwNiw3IEBAIHN0YXRpYyB2b2lkIG1pZ3JhdGVfdm1hX2luc2VydF9w
+YWdlKHN0cnVjdA0KPiA+IG1pZ3JhdGVfdm1hICptaWdyYXRlLA0KPiA+IAkJCWdvdG8gYWJvcnQ7
+DQo+ID4gCQl9DQo+ID4gCQllbnRyeSA9IG1rX3B0ZShwYWdlLCB2bWEtPnZtX3BhZ2VfcHJvdCk7
+DQo+ID4gLQkJaWYgKHZtYS0+dm1fZmxhZ3MgJiBWTV9XUklURSkNCj4gPiAtCQkJZW50cnkgPSBw
+dGVfbWt3cml0ZShwdGVfbWtkaXJ0eShlbnRyeSkpOw0KPiA+ICsJCWVudHJ5ID0gbWF5YmVfbWt3
+cml0ZShwdGVfbWtkaXJ0eShlbnRyeSksIHZtYSk7DQo+ID4gCX0NCj4gDQo+IFRoaXMgaXMgbm90
+IGV4YWN0bHkgdGhlIHNhbWUgbG9naWMuIFlvdSBtaWdodCBkaXJ0eSByZWFkLW9ubHkgcGFnZXMN
+Cj4gc2luY2UNCj4geW91IGNhbGwgcHRlX21rZGlydHkoKSB1bmNvbmRpdGlvbmFsbHkuIEl0IGhh
+cyBiZWVuIGtub3duIG5vdCB0byBiZQ0KPiB2ZXJ5DQo+IHJvYnVzdCAoZS5nLiwgZGlydHktQ09X
+IGFuZCBmcmllbmRzKS4gUGVyaGFwcyBpdCBpcyBub3QgZGFuZ2Vyb3VzDQo+IGZvbGxvd2luZw0K
+PiBzb21lIHJlY2VudCBlbmhhbmNlbWVudHMsIGJ1dCB3aHkgZG8geW91IHdhbnQgdG8gdGFrZSB0
+aGUgcmlzaz8NCg0KWWVhIHRob3NlIGNoYW5nZXMgbGV0IG1lIGRyb3AgYSBwYXRjaC4gQnV0LCBp
+dCdzIGEgZ29vZCBwb2ludC4NCg0KPiANCj4gSW5zdGVhZCwgYWx0aG91Z2ggaXQgbWlnaHQgc2Vl
+bSByZWR1bmRhbnQsIHRoZSBjb21waWxlciB3aWxsDQo+IGhvcGVmdWxseSB3b3VsZA0KPiBtYWtl
+IGl0IGVmZmljaWVudDoNCj4gDQo+IAkJaWYgKHZtYS0+dm1fZmxhZ3MgJiBWTV9XUklURSkgew0K
+PiAJCQllbnRyeSA9IHB0ZV9ta2RpcnR5KGVudHJ5KTsNCj4gCQkJZW50cnkgPSBtYXliZV9ta3dy
+aXRlKGVudHJ5LCB2bWEpOw0KPiAJCX0NCj4gDQoNClRoYW5rcyBOYWRhdi4gSSB0aGluayB5b3Un
+cmUgcmlnaHQsIGl0IHNob3VsZCBoYXZlIHRoZSBvcGVuIGNvZGVkIGxvZ2ljDQpoZXJlIGFuZCBp
+biB0aGUgZG9fYW5vbnltb3VzX3BhZ2UoKSBjaHVuayB0aGF0IGdvdCBtb3ZlZCB0byB0aGUNCnBy
+ZXZpb3VzIHBhdGNoIG9uIGFjY2lkZW50Lg0K
