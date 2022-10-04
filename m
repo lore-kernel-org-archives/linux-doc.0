@@ -2,109 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D88E4C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 08:36:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08E40C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 08:44:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230168AbiJDIgf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Oct 2022 04:36:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52534 "EHLO
+        id S230167AbiJDIoV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Oct 2022 04:44:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229702AbiJDIgd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 04:36:33 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2499827FF8;
-        Tue,  4 Oct 2022 01:36:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229788AbiJDIoU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 04:44:20 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C94BA3ECD9;
+        Tue,  4 Oct 2022 01:44:15 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D2E90B80D6C;
-        Tue,  4 Oct 2022 08:36:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59C95C433D6;
-        Tue,  4 Oct 2022 08:36:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664872589;
-        bh=Vta9NNBr6nkHrzFHJhf3d1KXNnH13ptRWqXqAZ9UuEA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fd64pqzS0vr1Ay1lpgWB0pzIJx/pan0dcKrQm+bEESTb6QvXN8YvuzOiuxvO9KTVb
-         ek5+IBL+J9KydBy0BbecAAwU/jxjdjCx56Ix+M4Fx5jiW8JCShwS8lw8EgWGDBZ39w
-         imMW7YzBADcIahbEZlNGpHe/fwLHm0MzdExPXLojDaBIOxijF18NtWIpX3cjiXiq14
-         fdUAAFs6aJtZBqP0tmFC061PEhUaAjdIpRo1lbbVrBDU1hH8c4ylTSdv75dGF/t0Pp
-         B31dqnsqa4pOzRFODOizMXWBrH8EJlmGGC1zGaiWCUjHcwYrfuGNdzIQZsvIT/Y5jX
-         31+AYNaAKcBkQ==
-Date:   Tue, 4 Oct 2022 11:36:05 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
+        by smtp-out2.suse.de (Postfix) with ESMTPS id EE5721F906;
+        Tue,  4 Oct 2022 08:44:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1664873053; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=pkvZorSqwy2f71DPO/+7+BS5jmcswx42HigCezR1J2c=;
+        b=htAnD9jVfSLDJkzaPxT31pjcyxBQjj+t59V8w6XLyz8YrjMUa8Vy2EzU84Kq52RaRo6d5n
+        aa0YhuQ/1q9iaLI+0ULaX/7o/9+88FXRcgFgk15Hewr1mj3Kk21JhfWOpbTj2nGhGu/won
+        PXqtACp/oAEAq1Gx8lVJ7ky+TV3sg4A=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9A4D3139D2;
+        Tue,  4 Oct 2022 08:44:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id m9ZEJF3yO2OjVwAAMHmgww
+        (envelope-from <jgross@suse.com>); Tue, 04 Oct 2022 08:44:13 +0000
+From:   Juergen Gross <jgross@suse.com>
+To:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Juergen Gross <jgross@suse.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, Tom Lendacky <thomas.lendacky@amd.com>,
-        "Moger, Babu" <babu.moger@amd.com>
-Subject: Re: [PATCH v2 33/39] x86/cpufeatures: Limit shadow stack to Intel
- CPUs
-Message-ID: <YzvwdSiQeLghucVW@kernel.org>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-34-rick.p.edgecombe@intel.com>
- <202210031656.23FAA3195@keescook>
- <559f937f-cab4-d408-6d95-fc85b4809aa9@intel.com>
+        "H. Peter Anvin" <hpa@zytor.com>, xen-devel@lists.xenproject.org,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 0/3] xen/pv: sanitize xen pv guest msr accesses
+Date:   Tue,  4 Oct 2022 10:43:32 +0200
+Message-Id: <20221004084335.2838-1-jgross@suse.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <559f937f-cab4-d408-6d95-fc85b4809aa9@intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 03, 2022 at 05:09:04PM -0700, Dave Hansen wrote:
-> On 10/3/22 16:57, Kees Cook wrote:
-> > On Thu, Sep 29, 2022 at 03:29:30PM -0700, Rick Edgecombe wrote:
-> >> Shadow stack is supported on newer AMD processors, but the kernel
-> >> implementation has not been tested on them. Prevent basic issues from
-> >> showing up for normal users by disabling shadow stack on all CPUs except
-> >> Intel until it has been tested. At which point the limitation should be
-> >> removed.
-> >>
-> >> Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> > So running the selftests on an AMD system is sufficient to drop this
-> > patch?
-> 
-> Yes, that's enough.
-> 
-> I _thought_ the AMD folks provided some tested-by's at some point in the
-> past.  But, maybe I'm confusing this for one of the other shared
-> features.  Either way, I'm sure no tested-by's were dropped on purpose.
-> 
-> I'm sure Rick is eager to trim down his series and this would be a great
-> patch to drop.  Does anyone want to make that easy for Rick?
+Historically when running as Xen PV guest all MSR accesses have been
+silently swallowing any GP faults, even when the kernel was using not
+the *msr_safe() access functions.
 
-FWIW, I've run CRIU test suite with the previous version of this set on an
-AMD machine.
- 
-> <hint> <hint>
+Change that by making the behavior controllable via kernel config and
+via a boot parameter.
+
+This will help finding paths where MSRs are being accessed under Xen
+which are not emulated by the hypervisor.
+
+Juergen Gross (3):
+  xen/pv: allow pmu msr accesses to cause GP
+  xen/pv: refactor msr access functions to support safe and unsafe
+    accesses
+  xen/pv: support selecting safe/unsafe msr accesses
+
+ .../admin-guide/kernel-parameters.txt         |  6 ++
+ arch/x86/xen/Kconfig                          |  9 ++
+ arch/x86/xen/enlighten_pv.c                   | 99 +++++++++++++------
+ arch/x86/xen/pmu.c                            | 61 ++++++------
+ 4 files changed, 118 insertions(+), 57 deletions(-)
 
 -- 
-Sincerely yours,
-Mike.
+2.35.3
+
