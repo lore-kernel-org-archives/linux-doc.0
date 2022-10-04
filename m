@@ -2,40 +2,40 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C518C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 20:12:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C90CCC43217
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 20:12:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229644AbiJDUMi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Oct 2022 16:12:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49374 "EHLO
+        id S229496AbiJDUMj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Oct 2022 16:12:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbiJDUMh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 16:12:37 -0400
+        with ESMTP id S229660AbiJDUMi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 16:12:38 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5119526126;
-        Tue,  4 Oct 2022 13:12:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61A2B264BA;
+        Tue,  4 Oct 2022 13:12:37 -0700 (PDT)
 Received: from meer.lwn.net (unknown [IPv6:2601:281:8300:73::5f6])
-        by ms.lwn.net (Postfix) with ESMTPA id 873884B0;
-        Tue,  4 Oct 2022 20:12:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 873884B0
+        by ms.lwn.net (Postfix) with ESMTPA id C60B0844;
+        Tue,  4 Oct 2022 20:12:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C60B0844
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1664914355; bh=pTPVZaeeJh0pVq8eQZg8QLde/V+YESX5niUBMm79s9o=;
+        t=1664914357; bh=hJ7ssfMtbgBA0SjAT4Inkea7XgTAme5JsmDhLulk9CQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZuBL3W96SMr+tG6HClnOWvrBUJrR0VDnq8Su03jY/0TbURTi2/7qW3i01/tCeX/ly
-         uxY3WHJzqr23Z85MeXaUIJC9fbV3d4Yx0QquK5ezQX23RxmDhuIYKbUQDEG+NMNgUJ
-         grTjXsBMTe0mK1VG184z5ipcsMGZQ68vV0hWSS4aRsIQgF+5706U0tx+gyxkdhP8xy
-         GOotBOvAhTldlsBSl/6usiSyMFQylKYINYmDg1awwa4ILn1J7Vn4UVjEMKhRJgvtxC
-         /fBpogGscw/fAadq6tFp31RxowRp4kIya1BXF/qODYtJmrbxMzUvWPoxfmQ/2nC2ux
-         xCucCI+wjwE6A==
+        b=kPwPL9q7UNvjRJcURzQx//j/zs5+4QFghxahfteCf+/DO9acKBIJRyYZAeg2Emw8z
+         /pusteuIF/77AtH0mR680+Eb6TAh/rJOI5bNKKf7eYtJPcjOLyAMNJbDyQKuKWLQY+
+         IJdIhGneMGDFVe2sJb5zL9VlksGtZj4BuDFYTAFJ4RHW3xTxyB/TjLEP/hKr4wqxp7
+         Q/6wbRTlS6HmP+D+H2injwHB0MnHvHNpEFwPeBPHcPCQ2kBsPRobv3nQoP1GyOHCEw
+         +CuD46cvwcI65CMtFgtllokN+0YjZfYqB75rMcKwNwPwFzHFw5YEa962DQTH7nlWBK
+         mj3N9eDyDswcA==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Jani Nikula <jani.nikula@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 1/5] docs: Switch the default HTML theme to alabaster
-Date:   Tue,  4 Oct 2022 14:12:18 -0600
-Message-Id: <20221004201222.281845-2-corbet@lwn.net>
+Subject: [PATCH 4/5] docs: sphinx-pre-install: don't require the RTD theme
+Date:   Tue,  4 Oct 2022 14:12:21 -0600
+Message-Id: <20221004201222.281845-5-corbet@lwn.net>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20221004201222.281845-1-corbet@lwn.net>
 References: <20221004201222.281845-1-corbet@lwn.net>
@@ -45,76 +45,92 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The read-the-docs theme is not entirely attractive and doesn't give us
-control over the left column.  "Alabaster" is deemed the default Sphinx
-theme, it is currently maintained and shipped bundled with Sphinx itself,
-so there is no need to install it separately.  Switch over to this theme as
-the default for building kernel documentation; the DOCS_THEME environment
-variable can still be used to select a different theme.
+We don't default to the RTD theme anymore, so sphinx-pre-install need not
+insist on installing it.
 
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/conf.py | 26 ++++++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
+ Documentation/sphinx/requirements.txt | 1 -
+ scripts/sphinx-pre-install            | 8 --------
+ 2 files changed, 9 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 22c9d4df1967..629f4afeb0eb 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -194,6 +194,24 @@ finally:
-     else:
-         version = release = "unknown version"
+diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
+index 2c573541ab71..335b53df35e2 100644
+--- a/Documentation/sphinx/requirements.txt
++++ b/Documentation/sphinx/requirements.txt
+@@ -1,4 +1,3 @@
+ # jinja2>=3.1 is not compatible with Sphinx<4.0
+ jinja2<3.1
+-sphinx_rtd_theme
+ Sphinx==2.4.4
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index ec84fc62774e..1fb88fdceec3 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -362,7 +362,6 @@ sub give_debian_hints()
+ {
+ 	my %map = (
+ 		"python-sphinx"		=> "python3-sphinx",
+-		"sphinx_rtd_theme"	=> "python3-sphinx-rtd-theme",
+ 		"ensurepip"		=> "python3-venv",
+ 		"virtualenv"		=> "virtualenv",
+ 		"dot"			=> "graphviz",
+@@ -397,7 +396,6 @@ sub give_redhat_hints()
+ {
+ 	my %map = (
+ 		"python-sphinx"		=> "python3-sphinx",
+-		"sphinx_rtd_theme"	=> "python3-sphinx_rtd_theme",
+ 		"virtualenv"		=> "python3-virtualenv",
+ 		"dot"			=> "graphviz",
+ 		"convert"		=> "ImageMagick",
+@@ -475,7 +473,6 @@ sub give_opensuse_hints()
+ {
+ 	my %map = (
+ 		"python-sphinx"		=> "python3-sphinx",
+-		"sphinx_rtd_theme"	=> "python3-sphinx_rtd_theme",
+ 		"virtualenv"		=> "python3-virtualenv",
+ 		"dot"			=> "graphviz",
+ 		"convert"		=> "ImageMagick",
+@@ -523,7 +520,6 @@ sub give_mageia_hints()
+ {
+ 	my %map = (
+ 		"python-sphinx"		=> "python3-sphinx",
+-		"sphinx_rtd_theme"	=> "python3-sphinx_rtd_theme",
+ 		"virtualenv"		=> "python3-virtualenv",
+ 		"dot"			=> "graphviz",
+ 		"convert"		=> "ImageMagick",
+@@ -567,7 +563,6 @@ sub give_mageia_hints()
+ sub give_arch_linux_hints()
+ {
+ 	my %map = (
+-		"sphinx_rtd_theme"	=> "python-sphinx_rtd_theme",
+ 		"virtualenv"		=> "python-virtualenv",
+ 		"dot"			=> "graphviz",
+ 		"convert"		=> "imagemagick",
+@@ -598,7 +593,6 @@ sub give_arch_linux_hints()
+ sub give_gentoo_hints()
+ {
+ 	my %map = (
+-		"sphinx_rtd_theme"	=> "dev-python/sphinx_rtd_theme",
+ 		"virtualenv"		=> "dev-python/virtualenv",
+ 		"dot"			=> "media-gfx/graphviz",
+ 		"convert"		=> "media-gfx/imagemagick",
+@@ -895,7 +889,6 @@ sub recommend_sphinx_version($)
+ 	$verbose_warn_install = 0;
  
-+#
-+# HACK: there seems to be no easy way for us to get at the version and
-+# release information passed in from the makefile...so go pawing through the
-+# command-line options and find it for ourselves.
-+#
-+def get_cline_version():
-+    c_version = c_release = ''
-+    for arg in sys.argv:
-+        if arg.startswith('version='):
-+            c_version = arg[8:]
-+        elif arg.startswith('release='):
-+            c_release = arg[8:]
-+    if c_version:
-+        if c_release:
-+            return c_version + '-' + c_release
-+        return c_version
-+    return version # Whatever we came up with before
-+
- # The language for content autogenerated by Sphinx. Refer to documentation
- # for a list of supported languages.
- #
-@@ -247,7 +265,7 @@ highlight_language = 'none'
- # a list of builtin themes.
+ 	add_package("python-sphinx", 0);
+-	check_python_module("sphinx_rtd_theme", 1);
  
- # Default theme
--html_theme = 'sphinx_rtd_theme'
-+html_theme = 'alabaster'
- html_css_files = []
+ 	check_distros();
  
- if "DOCS_THEME" in os.environ:
-@@ -324,6 +342,10 @@ if  html_theme == 'classic':
-         'bodyfont':            "serif",
-         'headfont':            "sans-serif",
-     }
-+else:
-+    html_theme_options = {
-+        'description': get_cline_version(),
-+    }
+@@ -968,7 +961,6 @@ sub check_needs()
+ 	check_perl_module("Pod::Usage", 0);
+ 	check_program("make", 0);
+ 	check_program("gcc", 0);
+-	check_python_module("sphinx_rtd_theme", 1) if (!$virtualenv);
+ 	check_program("dot", 1);
+ 	check_program("convert", 1);
  
- sys.stderr.write("Using %s theme\n" % html_theme)
- 
-@@ -371,7 +393,7 @@ html_use_smartypants = False
- 
- # Custom sidebar templates, maps document names to template names.
- # Note that the RTD theme ignores this
--html_sidebars = { '**': ['searchbox.html', 'localtoc.html', 'sourcelink.html']}
-+html_sidebars = { '**': ["about.html", 'searchbox.html', 'localtoc.html', 'sourcelink.html']}
- 
- # Additional templates that should be rendered to pages, maps page names to
- # template names.
 -- 
 2.37.2
 
