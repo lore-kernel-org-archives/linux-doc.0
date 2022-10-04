@@ -2,57 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB4B5C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 19:24:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20107C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 19:28:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229551AbiJDTYc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Oct 2022 15:24:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41572 "EHLO
+        id S229717AbiJDT2O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Oct 2022 15:28:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbiJDTYb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 15:24:31 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 089F067478
-        for <linux-doc@vger.kernel.org>; Tue,  4 Oct 2022 12:24:30 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id q7so6378028pfl.9
-        for <linux-doc@vger.kernel.org>; Tue, 04 Oct 2022 12:24:30 -0700 (PDT)
+        with ESMTP id S229709AbiJDT2N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 15:28:13 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE43A69197
+        for <linux-doc@vger.kernel.org>; Tue,  4 Oct 2022 12:28:11 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id q9so13490838pgq.8
+        for <linux-doc@vger.kernel.org>; Tue, 04 Oct 2022 12:28:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=TPHGjn63G4Sj8mZqFRVnqMa0MXMfRBRw4erndCFr2yc=;
-        b=N62in1FHINxzmpEMCxU1iYHaOAzaej9i3j46sXOtPXoNR+pnNbuAfgPGOWR0M9aNRx
-         FEybgsaF2Wj0UOJ4KmCZJPR8YXthw0ow2bau2vicE2MOXSf7UQWfApIDbTrlrboQ5js5
-         ZfuVhu1x6EtUT6X3rjEQV1fJMnlg/mTn3ESLE=
+        bh=xjSo2INdaTUjWFOLlUFz9Rasj3EDdp7SsPRO7zAKVVs=;
+        b=AA++EJmO9JQQ6GdYSvziU2tKo81E6app2ZDepTKSIa/VguooGRqwVI5G2F851r0WpO
+         L8yGm6c/8lN9gfZmKfAIWb4cjc15A8YKbAeXGUiyBIN9TldTglijNwWIqlV/U+mALKe2
+         cPNWygdNgkXFxnhba14nlGPOoPwjndmJqGlAc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=TPHGjn63G4Sj8mZqFRVnqMa0MXMfRBRw4erndCFr2yc=;
-        b=2w+GcNjCTrUFjz8haPweiDP4Nu17cRQvsFvwcM5K36WTT/sN/18OVOAqu5yZvS4Ykg
-         jkydZ/a5JMwAq0xOazUAjbUWTIDZkpt9mJNIxiFxdFh6L5OJPKxzTXrSPKICbNcAHvrk
-         E4QXMVeSyDQ9O8DZMGIBD5UZEbdPafAb20XPqcnuG21LTEB5j55DiQ4arK6jb56697m0
-         JMtt6a/VpfiUccHGGXivdExktgn/kP63gFjwe3jPP0kI/h7ep9/C/D6yuKrOyqdWypy2
-         LfP9E+qb84DKZpHMZlY4DDZqeZ67WslxN135gyBj/FBSTbyaVzizoVUoOppzBoBBcQPZ
-         PKnQ==
-X-Gm-Message-State: ACrzQf1BEGmHTm00YLqLCW/vHZaSEtiZfL/XbdvMJxuWGkfe1orjsUlb
-        Vt2Tq2Lsh+Wkhgq4KEnBezJr9A==
-X-Google-Smtp-Source: AMsMyM4HxL0s5qvx/MF11QUaz7zgb8PObZXUvmqkMZ2tOrL2yDra9OycFNKkIhPW7kbGndOV83ZFTg==
-X-Received: by 2002:a63:da03:0:b0:439:dcdd:67f4 with SMTP id c3-20020a63da03000000b00439dcdd67f4mr24551120pgh.27.1664911469526;
-        Tue, 04 Oct 2022 12:24:29 -0700 (PDT)
+        bh=xjSo2INdaTUjWFOLlUFz9Rasj3EDdp7SsPRO7zAKVVs=;
+        b=6gKM12ZVPkqakeyDH5dHMzccEPBi3eLRC5JXjQ5O8U45z5as5HZ2ynKhtCh9RmTb5x
+         DSxwgiH43C3tb2hG+D3o+EO9nxwFtwTknoXtYCxKtRON9/thWRrYdHZviqonCUisvAiX
+         Exf1KKWt9MDKMarKXcn6dRMHHIcOSCyU5FntV7h87CJBpitecxOBQDCxvF90DW2g/lUS
+         ozohNdzZ0bw9vbV/g5VAUGwRX3aEibTVF90FEmy35crB5T8XMhqOw+pYN1Js1+oqL3pz
+         hmgRUVG5Et8ckliJ4yAUR0mh5JWJBCLeAvgBNK2gmWqrYnyiX30vipwNsBxD7J4Ar6Xf
+         TCvg==
+X-Gm-Message-State: ACrzQf2NjEG9oTEoKglmzVMr3lw0Va40c+0mZ6WXoZQvieC+VQ2ZOYYf
+        svFu1zPTam5PIlGVAcSzEi+WUg==
+X-Google-Smtp-Source: AMsMyM7BZ7FoubiMglZTA4Hnux2eE6e+AF4FV9cOawzVfOhytIauVDbq6j9P8ocpr0bZp9iRJ222AQ==
+X-Received: by 2002:a63:b4d:0:b0:454:d8b4:285 with SMTP id a13-20020a630b4d000000b00454d8b40285mr4531547pgl.410.1664911691390;
+        Tue, 04 Oct 2022 12:28:11 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d1-20020a170903230100b00177efb56475sm9328173plh.85.2022.10.04.12.24.28
+        by smtp.gmail.com with ESMTPSA id n3-20020a622703000000b0053e85a4a2c9sm6115840pfn.5.2022.10.04.12.28.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Oct 2022 12:24:28 -0700 (PDT)
-Date:   Tue, 4 Oct 2022 12:24:27 -0700
+        Tue, 04 Oct 2022 12:28:10 -0700 (PDT)
+Date:   Tue, 4 Oct 2022 12:28:09 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
+To:     David Laight <David.Laight@aculab.com>
+Cc:     Jann Horn <jannh@google.com>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
         "H . Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Andy Lutomirski <luto@kernel.org>,
         Balbir Singh <bsingharora@gmail.com>,
@@ -61,7 +66,7 @@ Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
         Dave Hansen <dave.hansen@linux.intel.com>,
         Eugene Syromiatnikov <esyr@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Nadav Amit <nadav.amit@gmail.com>,
@@ -71,40 +76,95 @@ Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
         "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com, jamorris@linux.microsoft.com,
-        dethoma@microsoft.com, Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [OPTIONAL/RFC v2 37/39] x86/cet: Add PTRACE interface for CET
-Message-ID: <202210041224.E4C63B1@keescook>
+        "joao.moreira@intel.com" <joao.moreira@intel.com>,
+        John Allen <john.allen@amd.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "eranian@google.com" <eranian@google.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>
+Subject: Re: [PATCH v2 00/39] Shadowstacks for userspace
+Message-ID: <202210041224.8B7071AAD@keescook>
 References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-38-rick.p.edgecombe@intel.com>
- <202210031658.EEC88324FD@keescook>
- <YzvyYDOg8GZIBtz8@kernel.org>
+ <202210030946.CB90B94C11@keescook>
+ <CAG48ez2TGdwcr-jUPm1EL1D6X2a-wbx+gXLZUq46qxO-FTctHQ@mail.gmail.com>
+ <202210032158.CE0941C4D@keescook>
+ <752d296b68f04c2282bd898cf7ec3f0f@AcuMS.aculab.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YzvyYDOg8GZIBtz8@kernel.org>
+In-Reply-To: <752d296b68f04c2282bd898cf7ec3f0f@AcuMS.aculab.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 04, 2022 at 11:44:16AM +0300, Mike Rapoport wrote:
-> On Mon, Oct 03, 2022 at 04:59:43PM -0700, Kees Cook wrote:
-> > On Thu, Sep 29, 2022 at 03:29:34PM -0700, Rick Edgecombe wrote:
-> > > From: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > > 
-> > > Some applications (like GDB and CRIU) would like to tweak CET state via
+On Tue, Oct 04, 2022 at 09:57:48AM +0000, David Laight wrote:
+> From: Kees Cook <keescook@chromium.org>
+> ...
+> > >
+> > > If you don't want /proc/$pid/mem to be able to do stuff like that,
+> > > then IMO the way to go is to change when /proc/$pid/mem uses
+> > > FOLL_FORCE, or to limit overall write access to /proc/$pid/mem.
 > > 
-> > Eee. Does GDB really need this? Can we make this whole thing
-> > CONFIG-depend on CRIU?
+> > Yeah, all reasonable. I just wish we could ditch FOLL_FORCE; it continues
+> > to weird me out how powerful that fd's side-effects are.
 > 
-> GDB, at least its Intel fork uses this. I don't see how they can jump
-> between frames without an ability to modify shadow stack contents.
+> Could you remove FOLL_FORCE from /proc/$pid/mem and add a
+> /proc/$pid/mem_force that enable FOLL_FORCE but requires root
+> (or similar) access.
 > 
-> Last I looked they used NT_X86_CET to update SSP and ptrace(POKEDATA) to
-> write to the shadow stack.
+> Although I suspect gdb may like to have write access to
+> code?
 
-Okay, thanks! I appreciate having specific examples. :)
+As Jann has reminded me out of band, while FOLL_FORCE is still worrisome,
+it's really /proc/$pid/mem access at all without an active ptrace
+attachment (and to self).
+
+Here's my totally untested idea to require access to /proc/$pid/mem
+having an established ptrace relationship:
+
+diff --git a/include/linux/ptrace.h b/include/linux/ptrace.h
+index c952c5ba8fab..0393741eeabb 100644
+--- a/include/linux/ptrace.h
++++ b/include/linux/ptrace.h
+@@ -64,6 +64,7 @@ extern void exit_ptrace(struct task_struct *tracer, struct list_head *dead);
+ #define PTRACE_MODE_NOAUDIT	0x04
+ #define PTRACE_MODE_FSCREDS	0x08
+ #define PTRACE_MODE_REALCREDS	0x10
++#define PTRACE_MODE_ATTACHED	0x20
+ 
+ /* shorthands for READ/ATTACH and FSCREDS/REALCREDS combinations */
+ #define PTRACE_MODE_READ_FSCREDS (PTRACE_MODE_READ | PTRACE_MODE_FSCREDS)
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 93f7e3d971e4..fadec587d133 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -826,7 +826,7 @@ static int __mem_open(struct inode *inode, struct file *file, unsigned int mode)
+ 
+ static int mem_open(struct inode *inode, struct file *file)
+ {
+-	int ret = __mem_open(inode, file, PTRACE_MODE_ATTACH);
++	int ret = __mem_open(inode, file, PTRACE_MODE_ATTACHED);
+ 
+ 	/* OK to pass negative loff_t, we can catch out-of-range */
+ 	file->f_mode |= FMODE_UNSIGNED_OFFSET;
+diff --git a/kernel/ptrace.c b/kernel/ptrace.c
+index 1893d909e45c..c97e6d734ae5 100644
+--- a/kernel/ptrace.c
++++ b/kernel/ptrace.c
+@@ -304,6 +304,12 @@ static int __ptrace_may_access(struct task_struct *task, unsigned int mode)
+ 	 * or halting the specified task is impossible.
+ 	 */
+ 
++	/*
++	 * If an existing ptrace relationship is required, not even
++	 * introspection is allowed.
++	 */
++	if ((mode & PTRACE_MODE_ATTACHED) && ptrace_parent(task) != current)
++		return -EPERM;
+ 	/* Don't let security modules deny introspection */
+ 	if (same_thread_group(task, current))
+ 		return 0;
 
 -- 
 Kees Cook
