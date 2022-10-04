@@ -2,92 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EED15C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 07:32:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6E03C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 08:02:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229825AbiJDHcz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Oct 2022 03:32:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55846 "EHLO
+        id S229517AbiJDICM convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Oct 2022 04:02:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229830AbiJDHcr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 03:32:47 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC3C14D246;
-        Tue,  4 Oct 2022 00:32:45 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id s10so14346926ljp.5;
-        Tue, 04 Oct 2022 00:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:organization:mime-version:message-id:date
-         :subject:to:from:from:to:cc:subject:date;
-        bh=bSZFC1cY9nLrecV4EA48kyYz5HoUOeNFW38JRZTVhww=;
-        b=Y71rSsGxZZF4I98WfGsuUuEifQ2bIFzz11uLE/+OFkHWKEY1Z0GxBNh1cIlpmKoZ9M
-         hTRkMFPkaC996DS/71Ih2ju6SYsuO56600XeUG926gYcw25aAaWoikIV7L/R+fJ2o63I
-         Oh/arQTl9CiyOJow3bxH6bfr/dNKK2J/dEQGoQzpCZQqEGJ/NAOvD708U7LJ+TRCzgiB
-         +ECVvXRFgvGMR65AzHDL5tUO9NgnJS6ELyl27QtrgiQSqCJ6CaAkq57LUlLPO4KJDpW0
-         hTE35S605lpYiP8/s4FpU3oCF4DkxP9yr8Z9iKZn2k8R78TfG5lInqWUeGICVKpNDVhS
-         DGiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:organization:mime-version:message-id:date
-         :subject:to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=bSZFC1cY9nLrecV4EA48kyYz5HoUOeNFW38JRZTVhww=;
-        b=uFV0KSHTueJ2mIQHUar86BDFY/BfotRkYuF8Lo01qF9dbTCKthWLknZD2yHiMryjRS
-         VJA7IOrrZk1Cyo9o79nJCUQRHzxBmSZ2Qm999BvH+WMK278pRlcfRUpamtOa4IDtctQk
-         61+YlesM4BTaA0E+QkqIHqKnlErzPhFn78uwmq+jdrfeCWZ/MkBGJ8hJcsof2aRLh5vs
-         SCxPhN7i12NZZQxYVxGrvPJ6zjS7h538jjwtf2Cy41nqXP66Jr5rw56Vj80/XCSoJEWN
-         Nc682rUOwlMQKNDtJxRRlJC21QAUidI7m7uxsJXjuUsX67d+dfr+g3IBD2Dw6RiVU22t
-         4uSA==
-X-Gm-Message-State: ACrzQf0DY/bm4nwvFfUSW43+rWnsY/FkZByUQaQAacp3x975YO6P17+W
-        DYIrcWxmFXn0XsvCR1LHD2g=
-X-Google-Smtp-Source: AMsMyM4S/YM2hA9QKc1xz5D4NvWaMce/dcV+6cyNywzQ3XCQ9M4R4vKL48euuUitCExphPsOvk7gFQ==
-X-Received: by 2002:a2e:3517:0:b0:26d:e2be:8c41 with SMTP id z23-20020a2e3517000000b0026de2be8c41mr1969365ljz.104.1664868764023;
-        Tue, 04 Oct 2022 00:32:44 -0700 (PDT)
-Received: from wse-c0155.labs.westermo.se (static-193-12-47-89.cust.tele2.se. [193.12.47.89])
-        by smtp.gmail.com with ESMTPSA id i19-20020a056512225300b00499bf7605afsm1800229lfu.143.2022.10.04.00.32.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Oct 2022 00:32:43 -0700 (PDT)
-From:   Casper Andersson <casper.casan@gmail.com>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH net-next] docs: networking: phy: add missing space
-Date:   Tue,  4 Oct 2022 09:32:42 +0200
-Message-Id: <20221004073242.304425-1-casper.casan@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229445AbiJDICL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 04:02:11 -0400
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C265A2D744;
+        Tue,  4 Oct 2022 01:02:10 -0700 (PDT)
+Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay04.hostedemail.com (Postfix) with ESMTP id 16E761A088F;
+        Tue,  4 Oct 2022 08:02:09 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 9A03B20027;
+        Tue,  4 Oct 2022 08:01:57 +0000 (UTC)
+Message-ID: <30776fe75061951777da8fa6618ae89bea7a8ce4.camel@perches.com>
+Subject: Re: [PATCH RESEND v4 1/2] get_maintainer: Print maintainer for S:
+ Supported
+From:   Joe Perches <joe@perches.com>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, corbet@lwn.net,
+        linux@leemhuis.info, konstantin@linuxfoundation.org,
+        krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
+        akiyks@gmail.com
+Cc:     linux-kernel@vger.kernel.org
+Date:   Tue, 04 Oct 2022 01:02:04 -0700
+In-Reply-To: <20221003162411.431774-2-bryan.odonoghue@linaro.org>
+References: <20221003162411.431774-1-bryan.odonoghue@linaro.org>
+         <20221003162411.431774-2-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-Organization: Westermo Network Technologies AB
-Content-Transfer-Encoding: 8bit
+X-Stat-Signature: iahy6xeopag81t7j4kqcsxtp9n3x4pga
+X-Rspamd-Server: rspamout06
+X-Rspamd-Queue-Id: 9A03B20027
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18i8hBMokZefW1gOqUeSouxeZWu/m4/JRg=
+X-HE-Tag: 1664870517-85405
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Missing space between "pins'" and "strength"
+On Mon, 2022-10-03 at 17:24 +0100, Bryan O'Donoghue wrote:
+> Throughout the documentation we make reference to maintainers as the people
+> who ought to be mailed when sending patches.
+> 
+> Right now get_maintainer.pl returns "supporter" for maintained files which
+> are denoted "S: Supported".
 
-Signed-off-by: Casper Andersson <casper.casan@gmail.com>
----
- Documentation/networking/phy.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+As it should.
 
-diff --git a/Documentation/networking/phy.rst b/Documentation/networking/phy.rst
-index 06f4fcdb58b6..d11329a08984 100644
---- a/Documentation/networking/phy.rst
-+++ b/Documentation/networking/phy.rst
-@@ -120,7 +120,7 @@ required delays, as defined per the RGMII standard, several options may be
- available:
- 
- * Some SoCs may offer a pin pad/mux/controller capable of configuring a given
--  set of pins'strength, delays, and voltage; and it may be a suitable
-+  set of pins' strength, delays, and voltage; and it may be a suitable
-   option to insert the expected 2ns RGMII delay.
- 
- * Modifying the PCB design to include a fixed delay (e.g: using a specifically
--- 
-2.34.1
+I think this patch is misguided and do not agree with the concept.
+
+Either do away with the concept of S: Supported or use it.
+
+As is, it merely hides the actual content of the MAINTAINERS file.
+
+A reader of the MAINTAINERS file would still see the actual value.
+Using other options of get_maintainer.pl like --sections would show
+the actual content.
+
+Other options would still show S:
+> 
+> Update get_maintainer to output "maintainer" for "S: Supported" the
+> differentiation between paid (v) non-paid maintainers doesn't impact who
+> needs to be mailed for patch submissions.
+[]
+> diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
+[]
+> @@ -1283,7 +1283,7 @@ sub get_maintainer_role {
+>  
+>      $role = lc($role);
+>      if      ($role eq "supported") {
+> -	$role = "supporter";
+> +	$role = "maintainer";
+>      } elsif ($role eq "maintained") {
+>  	$role = "maintainer";
+>      } elsif ($role eq "odd fixes") {
 
