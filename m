@@ -2,101 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3F91C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 02:10:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF9C9C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 02:11:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229436AbiJDCKp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 3 Oct 2022 22:10:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35470 "EHLO
+        id S229571AbiJDCLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 3 Oct 2022 22:11:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229624AbiJDCKn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 22:10:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2B7223153;
-        Mon,  3 Oct 2022 19:10:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D4E7861226;
-        Tue,  4 Oct 2022 02:10:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1E13DC433D7;
-        Tue,  4 Oct 2022 02:10:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664849422;
-        bh=SLkbv2B4JHPRilUVLrjFbn07v1YGDn4jS0ZXUk/n9ag=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=Xgea8fo/9mtanPdV+WOvAU+EovTzkk/JlxO4WTet1r8l0vT0gm2Rs2wbIQATB1ti4
-         w/e30WSlcQCgJA1qyxLGTxy3a0U9v5eFJxUN5fW5/mY/kkZmkicBFkjB6srGEXPJel
-         /zTiBen7vMV+RxteODKZrVnUBF+yDvgpJBwUD4A9azGsNGj2uPirWhNTfx//SpAGGF
-         rkju0YCQ2Zcx4rkPo26QpJUGa+w0xA5QIX04OM0CH7pelQ/7N5IxqeUaFnxKKeIvIZ
-         73e2tFCo8wntpUROVkD4kVLEwpiTYaZVBA5FL1ZoddNpA/cXqKIBNBbp0X90yfw+97
-         10vY4Bq26UoMQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F0F27E4D013;
-        Tue,  4 Oct 2022 02:10:21 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S229461AbiJDCLQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Oct 2022 22:11:16 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E552357CF;
+        Mon,  3 Oct 2022 19:11:15 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id p3-20020a17090a284300b0020a85fa3ffcso5538065pjf.2;
+        Mon, 03 Oct 2022 19:11:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qAROThNcWLnchnrLH4CyMrTplboQNIWUIFT7LC3TKeE=;
+        b=AsRFD6xCjFySWU4q02CskBZMpcifUhFdcO/FIDmtO5EDM+UQfnMGtnfiYcnENKDW+j
+         8DElltF0i1zc3fOYg4Q7qPy0QkbFFYilxolECrC+ogRaqov69dYMjqfIXqojlMUz9uCm
+         BBuVjbonsyz9mwkXSnfEJm18ZqfsJlgUJPsYiH6+ORJV06+3Q3/0SuxYwNQ86n5UrcpO
+         TRwI6pFV4Gf7OP5vdkNA6cIPSe03j7iTgdqHIxk7aCeBzIIRO7LQOcSBn/ISc4hxQrg3
+         poyFbBomOX506L3UX4hc2vSi1azQwf3QWtkWXQaRn7R5axYPa00OVBckjGdLkvGlZRWx
+         7mMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qAROThNcWLnchnrLH4CyMrTplboQNIWUIFT7LC3TKeE=;
+        b=EzrIEyMg115EZQIANbdEE0zWE2Ebqg1yqmbWAEKRrRlbbfBPmBGbBZZaX6r6kWb3FF
+         eG1KSDrQ8cEAFFzwJN+HdZul4+XdU2EuMbymL+MYAxTOHSaMY0qe1jjiR6FPuIdLdK98
+         IUrLzUOGLs6zJ6dddX9wqM8cGspecEgIkVNXxDefx8ZBiRtoRTuBjE7tfaZU8lzZk9eI
+         Z3CZAdQ6SLvNRxdjKEJypIkI4TW8PBjkwc/Gi8JJevb4COaVEDE/btKzz22UOyedzTz7
+         5po1L9prhQ0YhCNkwkZcvlDHZFcbFtd4cifspZIlWpZS5lJXDedCghwIZDbg3KmPfg6U
+         gV3w==
+X-Gm-Message-State: ACrzQf1d6pLcmzekrStAqYsHLe7wjA2y2ctIIPNoFFBqXfDZwZfsnP3q
+        wsMvLkL9llMd3Eb9m6f0SHY=
+X-Google-Smtp-Source: AMsMyM7/5G4+4c4GiEU4VK2eK11jIaW9VALQv2+qZIEVPvm6ICVAVbvVZZfcu6D37uM2WVkMhh9Byg==
+X-Received: by 2002:a17:902:d506:b0:178:3599:5e12 with SMTP id b6-20020a170902d50600b0017835995e12mr24668471plg.70.1664849475473;
+        Mon, 03 Oct 2022 19:11:15 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-17.three.co.id. [180.214.232.17])
+        by smtp.gmail.com with ESMTPSA id p3-20020a170902e74300b00176b0dec886sm7963088plf.58.2022.10.03.19.11.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Oct 2022 19:11:14 -0700 (PDT)
+Message-ID: <d2089a89-21a9-1e05-5d58-91b8411f7141@gmail.com>
+Date:   Tue, 4 Oct 2022 09:11:02 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v8 0/7] add generic PSE support 
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166484942198.5153.10769126898481789778.git-patchwork-notify@kernel.org>
-Date:   Tue, 04 Oct 2022 02:10:21 +0000
-References: <20221003065202.3889095-1-o.rempel@pengutronix.de>
-In-Reply-To: <20221003065202.3889095-1-o.rempel@pengutronix.de>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     andrew@lunn.ch, hkallweit1@gmail.com, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        linux@armlinux.org.uk, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net,
-        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, david@protonic.nl,
-        luka.perkov@sartura.hr, robert.marko@sartura.hr
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [RFC UKL 10/10] Kconfig: Add config option for enabling and
+ sample for testing UKL
+Content-Language: en-US
+To:     Ali Raza <aliraza@bu.edu>, linux-kernel@vger.kernel.org
+Cc:     corbet@lwn.net, masahiroy@kernel.org, michal.lkml@markovi.net,
+        ndesaulniers@google.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
+        luto@kernel.org, ebiederm@xmission.com, keescook@chromium.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk, arnd@arndb.de,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com,
+        pbonzini@redhat.com, jpoimboe@kernel.org,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, x86@kernel.org, rjones@redhat.com,
+        munsoner@bu.edu, tommyu@bu.edu, drepper@redhat.com,
+        lwoodman@redhat.com, mboydmcse@gmail.com, okrieg@bu.edu,
+        rmancuso@bu.edu
+References: <20221003222133.20948-1-aliraza@bu.edu>
+ <20221003222133.20948-11-aliraza@bu.edu>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20221003222133.20948-11-aliraza@bu.edu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
-
-This series was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Mon,  3 Oct 2022 08:51:55 +0200 you wrote:
-> Add generic support for the Ethernet Power Sourcing Equipment.
+On 10/4/22 05:21, Ali Raza wrote:
+> Add the KConfig file that will enable building UKL. Documentation
+> introduces the technical details for how UKL works and the motivations
+> behind why it is useful. Sample provides a simple program that still uses
+> the standard system call interface, but does not require a modified C
+> library.
 > 
-> changes are listed within patches.
-> 
-> Oleksij Rempel (7):
->   dt-bindings: net: phy: add PoDL PSE property
->   net: add framework to support Ethernet PSE and PDs devices
->   net: mdiobus: fwnode_mdiobus_register_phy() rework error handling
->   net: mdiobus: search for PSE nodes by parsing PHY nodes.
->   ethtool: add interface to interact with Ethernet Power Equipment
->   dt-bindings: net: pse-dt: add bindings for regulator based PoDL PSE
->     controller
->   net: pse-pd: add regulator based PSE driver
-> 
-> [...]
+<snipped>
+>  Documentation/index.rst   |   1 +
+>  Documentation/ukl/ukl.rst | 104 ++++++++++++++++++++++++++++++++++++++
+>  Kconfig                   |   2 +
+>  kernel/Kconfig.ukl        |  41 +++++++++++++++
+>  samples/ukl/Makefile      |  16 ++++++
+>  samples/ukl/README        |  17 +++++++
+>  samples/ukl/syscall.S     |  28 ++++++++++
+>  samples/ukl/tcp_server.c  |  99 ++++++++++++++++++++++++++++++++++++
+>  8 files changed, 308 insertions(+)
+>  create mode 100644 Documentation/ukl/ukl.rst
+>  create mode 100644 kernel/Kconfig.ukl
+>  create mode 100644 samples/ukl/Makefile
+>  create mode 100644 samples/ukl/README
+>  create mode 100644 samples/ukl/syscall.S
+>  create mode 100644 samples/ukl/tcp_server.c
 
-Here is the summary with links:
-  - [net-next,v8,1/7] dt-bindings: net: phy: add PoDL PSE property
-    https://git.kernel.org/netdev/net-next/c/e9554b31aff0
-  - [net-next,v8,2/7] net: add framework to support Ethernet PSE and PDs devices
-    https://git.kernel.org/netdev/net-next/c/3114b075eb25
-  - [net-next,v8,3/7] net: mdiobus: fwnode_mdiobus_register_phy() rework error handling
-    https://git.kernel.org/netdev/net-next/c/cfaa202a73ea
-  - [net-next,v8,4/7] net: mdiobus: search for PSE nodes by parsing PHY nodes.
-    https://git.kernel.org/netdev/net-next/c/5e82147de1cb
-  - [net-next,v8,5/7] ethtool: add interface to interact with Ethernet Power Equipment
-    https://git.kernel.org/netdev/net-next/c/18ff0bcda6d1
-  - [net-next,v8,6/7] dt-bindings: net: pse-dt: add bindings for regulator based PoDL PSE controller
-    https://git.kernel.org/netdev/net-next/c/f05dfdaf567a
-  - [net-next,v8,7/7] net: pse-pd: add regulator based PSE driver
-    https://git.kernel.org/netdev/net-next/c/66741b4e94ca
+Shouldn't the documentation be split into its own patch?
 
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+An old man doll... just what I always wanted! - Clara
