@@ -2,49 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE9A0C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 04:22:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AE0DC4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 04:37:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229483AbiJDEWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Oct 2022 00:22:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58806 "EHLO
+        id S229552AbiJDEhK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Oct 2022 00:37:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbiJDEWB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 00:22:01 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D56BC2C11A
-        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 21:22:00 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id 10so8043465pli.0
-        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 21:22:00 -0700 (PDT)
+        with ESMTP id S229436AbiJDEhJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 00:37:09 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD6EA2EF3D
+        for <linux-doc@vger.kernel.org>; Mon,  3 Oct 2022 21:37:08 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id v10-20020a17090a634a00b00205e48cf845so17504227pjs.4
+        for <linux-doc@vger.kernel.org>; Mon, 03 Oct 2022 21:37:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=Uece0fM7JiJORIh7QBlH2yQn1WOcaEDf7Srsu/hsgUw=;
-        b=IZPCBJgARGka0cb7Qhti4Q0beiVA8VD+iN0oph+SF1rux57WDNrOg/IH/L2x8sF66T
-         wE1b/47QrbUn/SS4rziRMS8qZhqgjpEkP5cpCXXbtgH5Bo+tSWTz06ERHb+jcyYipBRf
-         Tfqd8ab5NKyZQQkEKz8IN56bLeH1Rh/dfyOqo=
+        bh=xlDrlQKwusKzG3w+2ZOP4CcXq+zZWkgG9x1cLqQziDo=;
+        b=odgDB/DEuXgA+WrZz6TjnUf48uHEz6xVUowwFk90ZSRmN0rDQA5zML6bpuOD7X7GF8
+         /KZHdaswo+8JuDe3Csmn4YdnRd9hgamqnyxLBtwUZ56B68ah76aL6kvE8q0HmB6tVB8W
+         HxbwTxJamv43wu8rKK9RpxGA1mUjcURvDFA0U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=Uece0fM7JiJORIh7QBlH2yQn1WOcaEDf7Srsu/hsgUw=;
-        b=HiuGW+xWnXwTbTfHWkWLYv6cI4u1GOOSnoPF/TfmdZHXnfiIxIZZQv11ZynB/epWWu
-         yl5EeRpK1xswRylNNyPtWP3Bvgjl5MIjTIgVkg3MpvSMud1YKoxrgxqcdZVGiGDky+GD
-         yM1dQbutrDRmrPsf3hBM2sJsqnK0YTjCm0nJm9O+rRUiPTw9ZiUU9sNvHN/XnpySjX/O
-         7EI0kXUlj2tRQ0qUU92kitDAmFrWr/LHW92VvmjO9Db96lr+bTz+PQ5TWM1ML3vwDKes
-         eC1QKCEFbJbU75YhanLr0B46ogjATdfOwa4yyzKKL8wfAKtmcE0W52dvLdlspu88s28j
-         YeEA==
-X-Gm-Message-State: ACrzQf2Q2S65ThvtrDp6FI1WJfER3PnsAEJPOKqT41GpCYomwoJgL8v0
-        XqFWLsU1jujvbXnRzfQQ9Jv9gA==
-X-Google-Smtp-Source: AMsMyM61KNxyPA9BhzyQ+UiKn0Jm9LQ+eZMj7fa8DZwgn3vRmElmfsAwichq5aJoTDxwBEmVW2pxWw==
-X-Received: by 2002:a17:902:7408:b0:17b:546a:17 with SMTP id g8-20020a170902740800b0017b546a0017mr23824925pll.134.1664857320258;
-        Mon, 03 Oct 2022 21:22:00 -0700 (PDT)
+        bh=xlDrlQKwusKzG3w+2ZOP4CcXq+zZWkgG9x1cLqQziDo=;
+        b=v9/YJI4xKbWCc3dCvR4HbHvsrOtyE8qEN6AYbWpaJ/jEi+vi9m00Psho1rsZ0pPmcS
+         z6oH3XyU/lhr9Ij0hgfu9HCvfSIG8///JUbMAZ0tm5QKtTBI/VBPk1QBxT8DLns63Tq0
+         jsxOX0WTkFD37E8T8+U7//p17cs89RnQih5GUlcPP3cT191eqA01zrBTSTFNoSUKkiEi
+         2drE3Vm815rFBHkBTx5xjPIZwUYgoFIQkNcOyNYOoKAwSM0EmT73wL0pceESWM+Lv6k0
+         1TKXoIOxXlvFBLawEiqlMCnMlAym38xEzy/Ql9jmYp7Zom0qhE4R20y3zKLBSaGz+23w
+         X5aQ==
+X-Gm-Message-State: ACrzQf0jDJc8bVC3lboGujqX+Ct2NsWXiuYgi6QFyvEz35pa0zYjd2h6
+        woo2utyRDXcSInTy6XhZFECGQw==
+X-Google-Smtp-Source: AMsMyM4qeEoRKRKBeqFCue+av93c+r/cyDjYIuWyLxLLgIQRMwKE7npwCrHCbEWQqNlsNeNAkq6c/w==
+X-Received: by 2002:a17:90b:4a50:b0:203:1204:5bc4 with SMTP id lb16-20020a17090b4a5000b0020312045bc4mr15770725pjb.79.1664858228262;
+        Mon, 03 Oct 2022 21:37:08 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id e3-20020a17090301c300b001782f94f8ebsm8086293plh.3.2022.10.03.21.21.59
+        by smtp.gmail.com with ESMTPSA id q5-20020a17090a4f8500b001fbb0f0b00fsm10907573pjh.35.2022.10.03.21.37.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 21:21:59 -0700 (PDT)
-Date:   Mon, 3 Oct 2022 21:21:58 -0700
+        Mon, 03 Oct 2022 21:37:07 -0700 (PDT)
+Date:   Mon, 3 Oct 2022 21:37:06 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Andy Lutomirski <luto@kernel.org>
 Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
@@ -73,47 +73,45 @@ Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
         joao.moreira@intel.com, John Allen <john.allen@amd.com>,
         kcc@google.com, eranian@google.com, rppt@kernel.org,
         jamorris@linux.microsoft.com, dethoma@microsoft.com
-Subject: Re: [PATCH v2 22/39] mm: Don't allow write GUPs to shadow stack
- memory
-Message-ID: <202210032119.EF573F9E@keescook>
+Subject: Re: [PATCH v2 29/39] x86/cet/shstk: Support wrss for userspace
+Message-ID: <202210032129.44F6E027D@keescook>
 References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-23-rick.p.edgecombe@intel.com>
- <202210031134.B0B6B37@keescook>
- <bcfca48f-e02a-fc43-fb92-9cc119e2d28f@kernel.org>
+ <20220929222936.14584-30-rick.p.edgecombe@intel.com>
+ <202210031525.78F3FA8@keescook>
+ <6ea0841f-5086-9569-028b-922ec01a9196@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bcfca48f-e02a-fc43-fb92-9cc119e2d28f@kernel.org>
+In-Reply-To: <6ea0841f-5086-9569-028b-922ec01a9196@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 03, 2022 at 03:49:18PM -0700, Andy Lutomirski wrote:
-> On 10/3/22 11:39, Kees Cook wrote:
-> > On Thu, Sep 29, 2022 at 03:29:19PM -0700, Rick Edgecombe wrote:
-> > > [...]
-> > > Still allow FOLL_FORCE to write through shadow stack protections, as it
-> > > does for read-only protections.
+On Mon, Oct 03, 2022 at 04:00:36PM -0700, Andy Lutomirski wrote:
+> On 10/3/22 15:28, Kees Cook wrote:
+> > On Thu, Sep 29, 2022 at 03:29:26PM -0700, Rick Edgecombe wrote:
+> > > For the current shadow stack implementation, shadow stacks contents easily
+> > > be arbitrarily provisioned with data.
 > > 
-> > As I asked in the cover letter: why do we need to add this for shstk? It
-> > was a mistake for general memory. :P
+> > I can't parse this sentence.
+> > 
+> > > This property helps apps protect
+> > > themselves better, but also restricts any potential apps that may want to
+> > > do exotic things at the expense of a little security.
+> > 
+> > Is anything using this right now? Wouldn't thing be safer without WRSS?
+> > (Why can't we skip this patch?)
+> > 
 > 
-> For debuggers, which use FOLL_FORCE, quite intentionally, to modify text.
-> And once a debugger has ptrace write access to a target, shadow stacks
-> provide exactly no protection -- ptrace can modify text and all registers.
+> So that people don't write programs that need either (shstk off) or (shstk
+> on and WRSS on) and crash or otherwise fail on kernels that support shstk
+> but don't support WRSS, perhaps?
 
-i.e. via ptrace? Yeah, I grudgingly accept the ptrace need for
-FOLL_FORCE.
+Right, yes. I meant more "what programs currently need WRSS to operate
+under shstk? (And what is it that they are doing that needs it?)"
 
-> But /proc/.../mem may be a different story, and I'd be okay with having
-> FOLL_PROC_MEM for legacy compatibility via /proc/.../mem and not allowing
-> that to access shadow stacks.  This does seem like it may not be very
-> useful, though.
-
-I *really* don't like the /mem use of FOLL_FORCE, though. I think the
-rationale has been "using PTRACE_POKE is too slow". Again, I can live
-with it, I was just hoping we could avoid expanding that questionable
-behavior, especially since it's a bypass of WRSS.
+All is see currently is compiler self-tests and emulators using it?
+https://codesearch.debian.net/search?q=%5Cb%28wrss%7CWRSS%29%5Cb&literal=0&perpkg=1
 
 -- 
 Kees Cook
