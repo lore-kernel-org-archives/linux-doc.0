@@ -2,93 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65736C433F5
-	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 16:38:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7258C43217
+	for <linux-doc@archiver.kernel.org>; Tue,  4 Oct 2022 17:31:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230163AbiJDQih (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 4 Oct 2022 12:38:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59102 "EHLO
+        id S229941AbiJDRbF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 4 Oct 2022 13:31:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230155AbiJDQia (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 12:38:30 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6DD75F23C
-        for <linux-doc@vger.kernel.org>; Tue,  4 Oct 2022 09:38:29 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id o20-20020a05600c4fd400b003b4a516c479so7891637wmq.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Oct 2022 09:38:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=DKQpac6G2JzOYLjAcZSv9Jgk1sUieQDvyNd9OPyxgCE=;
-        b=oUGi9B2FR94igkLKdqC03JU59taigRLMG4dquNEZxHpynvoPNvc0Q8peRWwsu9V6nY
-         2DthjusT0iRPf1geGpR1NJR+qIeBbKMTaDSllNC/vr8RgDHZv0DnBUrmxgcu+An5qGor
-         +tz86VS51Q5XsalEQBBfEVGbDJViAWzZMkplhy/ter2PBm2CrOaw+S8sRll728qGBYEg
-         qNf/ntQcd/yGGqZCYg1VfXTmWA3zX7V0cf7yX3tNBpBoKmSK3Vh2V15TfMvzQVmtaMvV
-         TqYnYUktzvS/Odqmzdu09yJz4rh3FtzQkrxeFqHOX5v8T7qlxiJcmC0Zeo0NAZFbiM4Q
-         HSww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=DKQpac6G2JzOYLjAcZSv9Jgk1sUieQDvyNd9OPyxgCE=;
-        b=47bEiBTY26LpvuyeO76VMYk0/0J3ujgYPffz1ixeJYcI81QSbrKXmUPdzjqwd+iv+7
-         +uztRwMHOsz5eDwPINdKCGrGOrAh7prFAchDeTKs7t5v3PxhM/CR17y+kKa7pPnewXSa
-         eadK8RsZialTntW1MeGbMxp6Oi4LEPXGeoWXuZa5qnm/7gr1QI+iJc5Ul3toUg9kije2
-         BKSJ5KaZh1w8eWBHlkWF/ZLTh8svyONSJOIzLsdEaULm9UGN7NZZEBDgzNVtBK049bUn
-         uf/I5j4Jw2G55vrG0tnJQsFSMkeLXQOGWQZmdXDxuxPMRP4M+0aOdvNsHNF7x99XBOGI
-         IObA==
-X-Gm-Message-State: ACrzQf2PDKw75zyjZ6LgFfDK+AddLrTdF8BBQRTUDDNc/iS7PXEpFdFO
-        f9O1rp0GVv3MIWFZW7gXZjWhsQ==
-X-Google-Smtp-Source: AMsMyM7xO9a29DyAqwG9Py/WIBQk8fM/npfunmpjzeJJMIBnrGHO9dQM1uVrFhDamLp8Lhxm8Kz16g==
-X-Received: by 2002:a05:600c:1c19:b0:3b4:c1cb:d46d with SMTP id j25-20020a05600c1c1900b003b4c1cbd46dmr451737wms.172.1664901508449;
-        Tue, 04 Oct 2022 09:38:28 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id bt4-20020a056000080400b0022cd96b3ba6sm16785773wrb.90.2022.10.04.09.38.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Oct 2022 09:38:28 -0700 (PDT)
-Message-ID: <8042912e-23a8-d32e-1aae-fb766ecb865a@linaro.org>
-Date:   Tue, 4 Oct 2022 17:38:27 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v5 1/1] Documentation/process: Be more explicit about who
- to mail on patch submission
-Content-Language: en-US
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net, linux@leemhuis.info,
-        konstantin@linuxfoundation.org, krzysztof.kozlowski@linaro.org,
-        linux-doc@vger.kernel.org, joe@perches.com
-References: <20221004124858.640349-1-bryan.odonoghue@linaro.org>
- <20221004124858.640349-2-bryan.odonoghue@linaro.org>
- <0a154bd0-f380-19ae-00df-5d73c1dc7c8b@gmail.com>
- <42f15689-d1ad-2be8-5fed-8f72d82402dc@linaro.org>
-In-Reply-To: <42f15689-d1ad-2be8-5fed-8f72d82402dc@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S229806AbiJDRas (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Oct 2022 13:30:48 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0438F65551;
+        Tue,  4 Oct 2022 10:30:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B508BB81B54;
+        Tue,  4 Oct 2022 17:30:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5818C433C1;
+        Tue,  4 Oct 2022 17:30:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664904644;
+        bh=a1iNRf+UMxlHWdHG1vJfQgc5A3fOfcVJMeUSiTuInao=;
+        h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+        b=i1UrysBgTNEurj+pJZFNIgA0T6322DnBpKcEzJWsznmn/b7iisMWwyUrtXutKOyxS
+         ZNepKS4mkfwo8qZNwIth91rp3WOxfmW6Y8ZcqnB9TeVDkHccLEz1/2KcuHdI/RBexy
+         novzrVc5a1J3wboTgHKpfFbdNaWGj6gVib6vo6yXzKroEnAULgwDffddHT3+S7NV9t
+         gQA3fURP4HjiFESNkGIW7BLQpMkv9BNl0oOCnJJ4EVoDzZsqtu/rKFGVKc/J5WL1x2
+         1Ja5ZiwqClfeWT5ZoF6omEny9HJR7tIfTWtNS58Qsf+lGS7QCl0JWwlsxTtxVWmhPm
+         zo/qiHC6em/AQ==
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailauth.nyi.internal (Postfix) with ESMTP id A383127C005A;
+        Tue,  4 Oct 2022 13:30:41 -0400 (EDT)
+Received: from imap48 ([10.202.2.98])
+  by compute2.internal (MEProxy); Tue, 04 Oct 2022 13:30:41 -0400
+X-ME-Sender: <xms:vm08YxN6-b71-FRbR6Zh9PxJaYD-LBmS35IXWvUC6dXz3UXhYVYpkw>
+    <xme:vm08Yz8oYL8W0xOSKSosZAiYnTjo7w9gFpUFmG0OU8Mwp-C5odk5vPk_f-RAYuwBO
+    msT9FUcGgIoboANwXI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeiuddguddugecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    nhguhicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedvhfeuvddthfdufffhkeekffetgffhledtleegffetheeugeej
+    ffduhefgteeihfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedu
+    keehieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinh
+    hugidrlhhuthhordhush
+X-ME-Proxy: <xmx:v208YwQVjpMC0U8DHLhay1DEyKluYPUMClk8LO-Y7pXrqmbECyKpMw>
+    <xmx:v208Y9v285aZm7jraIHpmPJ2-IzpmnspUWBjl0L61mxyOdKGze1hBw>
+    <xmx:v208Y5eh0C1uhaXbc6a0InoK8bBGzCsA-FrhC-G4tmjYyr8x4VWl_A>
+    <xmx:wW08Y1Av36r8wkFLsNw4ipX3VshL1iDaZhjNDQAQkiUCgrDkkAZn1A>
+Feedback-ID: ieff94742:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id E2FCB31A0062; Tue,  4 Oct 2022 13:30:38 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1015-gaf7d526680-fm-20220929.001-gaf7d5266
+Mime-Version: 1.0
+Message-Id: <cecf0a31-8473-47bc-9af6-8a809267c9e6@app.fastmail.com>
+In-Reply-To: <20221003222133.20948-3-aliraza@bu.edu>
+References: <20221003222133.20948-1-aliraza@bu.edu>
+ <20221003222133.20948-3-aliraza@bu.edu>
+Date:   Tue, 04 Oct 2022 10:30:18 -0700
+From:   "Andy Lutomirski" <luto@kernel.org>
+To:     "Ali Raza" <aliraza@bu.edu>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>
+Cc:     "Jonathan Corbet" <corbet@lwn.net>, masahiroy@kernel.org,
+        michal.lkml@markovi.net,
+        "Nick Desaulniers" <ndesaulniers@google.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Kees Cook" <keescook@chromium.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Al Viro" <viro@zeniv.linux.org.uk>,
+        "Arnd Bergmann" <arnd@arndb.de>, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        "Steven Rostedt" <rostedt@goodmis.org>,
+        "Ben Segall" <bsegall@google.com>, mgorman@suse.de,
+        bristot@redhat.com, vschneid@redhat.com,
+        "Paolo Bonzini" <pbonzini@redhat.com>, jpoimboe@kernel.org,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org,
+        "the arch/x86 maintainers" <x86@kernel.org>, rjones@redhat.com,
+        munsoner@bu.edu, tommyu@bu.edu, drepper@redhat.com,
+        lwoodman@redhat.com, mboydmcse@gmail.com, okrieg@bu.edu,
+        rmancuso@bu.edu
+Subject: Re: [RFC UKL 02/10] x86/boot: Load the PT_TLS segment for Unikernel configs
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/10/2022 17:27, Bryan O'Donoghue wrote:
-> You are not _required_ to run get_maintainer to submit a patch, it is 
-> simply _suggested_ so in my view the output of get_maintainer doesn't 
-> negate the statement that you must mail at least one public mailing list.
+On Mon, Oct 3, 2022, at 3:21 PM, Ali Raza wrote:
+> The kernel normally skips loading this segment as it is not inlcuded in
+> standard builds. However, when linked with an application in the Unikernel
+> configuration the segment will be present. Load PT_TLS when configured as a
+> unikernel.
+>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: "H. Peter Anvin" <hpa@zytor.com>
+> Cc: Andy Lutomirski <luto@kernel.org>
+> Cc: Eric Biederman <ebiederm@xmission.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Juri Lelli <juri.lelli@redhat.com>
+> Cc: Vincent Guittot <vincent.guittot@linaro.org>
+> Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ben Segall <bsegall@google.com>
+> Cc: Mel Gorman <mgorman@suse.de>
+> Cc: Daniel Bristot de Oliveira <bristot@redhat.com>
+> Cc: Valentin Schneider <vschneid@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Josh Poimboeuf <jpoimboe@kernel.org>
+>
+> Signed-off-by: Ali Raza <aliraza@bu.edu>
+> ---
+>  arch/x86/boot/compressed/misc.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/arch/x86/boot/compressed/misc.c b/arch/x86/boot/compressed/misc.c
+> index cf690d8712f4..0d07b5661c9c 100644
+> --- a/arch/x86/boot/compressed/misc.c
+> +++ b/arch/x86/boot/compressed/misc.c
+> @@ -310,6 +310,9 @@ static void parse_elf(void *output)
+>  		phdr = &phdrs[i];
+> 
+>  		switch (phdr->p_type) {
+> +#ifdef CONFIG_UNIKERNEL_LINUX
+> +		case PT_TLS:
+> +#endif
 
-And similarly, saying in a subsequent paragraph that you should always 
-mail at last one public mailing list is unnecessarily disregarding 
-information returned by get_maintainer.
+Can you explain why exactly a Linux boot image would have a TLS segment?  What does it do?
 
-get_maintainer produces a list of text that is very helpful to a 
-developer in deciding where to send a patch. Documenting that output 
-directly is a help.
-
-But unless/until get_maintainer is _required_ to be run on any given 
-patch, then we should still have a standalone paragraph which explicitly 
-states a public mailing list must receive the patch.
-
----
-bod
+>  		case PT_LOAD:
+>  #ifdef CONFIG_X86_64
+>  			if ((phdr->p_align % 0x200000) != 0)
+> -- 
+> 2.21.3
