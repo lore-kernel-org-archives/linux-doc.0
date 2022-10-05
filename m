@@ -2,106 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE17FC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 09:47:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E4B4C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 10:12:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229627AbiJEJrJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 05:47:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34212 "EHLO
+        id S229680AbiJEKMr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 06:12:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbiJEJrI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 05:47:08 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FD016B158;
-        Wed,  5 Oct 2022 02:47:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=ez8YlIIFOv1JcrTvLi176ZFPsOijgCCws1rJsbL1NQQ=; b=JdXR/MxGGX4PGx4m2OjRn4X6Po
-        k8QQ0MTutqeLddcZYHIgdjqIu9wSUdXxHn+8RGQveN7mSyXGTreDfHd38Gw/lPegR2qw8mCHy4ZsL
-        5pyF5a39L0ZJAT/P/sa7bC/ID+FrNRIxtlMrTbaSkYR590RYTPXvKsHAKvvzchWyma3uPY25SNlxn
-        aYIOpFS7GLPObpJmlyHGJ/6iWVp+77owL6fwxhkp5OSnITTdngpp7r9fqNWLBuk8E+9MPIfCIUWUK
-        Q8aNxs50K2rezmF5BicrZ9+vDQMClVyFyUndY7gXL30u1u0YnELjRLv4Ofk+7X/8pNYSUrcrYn9K/
-        su9ecpZQ==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1og0z9-000GTe-JB; Wed, 05 Oct 2022 09:46:39 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C917130007E;
-        Wed,  5 Oct 2022 11:46:34 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id AFEC420C3B653; Wed,  5 Oct 2022 11:46:34 +0200 (CEST)
-Date:   Wed, 5 Oct 2022 11:46:34 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
+        with ESMTP id S229760AbiJEKMp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 06:12:45 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4119726AC;
+        Wed,  5 Oct 2022 03:12:39 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id n12so5625492wrp.10;
+        Wed, 05 Oct 2022 03:12:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=67KhfclQArB26eTbPmndMfSf+46wfLeIvrHvkgdu5rQ=;
+        b=K0SUPm2aJ9U8xpfsX5IDrNt+IGprtpIkm4DZ1tdLPh/F0AHmIa01cW502LHxYgEqHc
+         BQSfIzGiQRMfDWwCbLMvt7rMdpwy8Tz56O8SAxpFr+87n9f/pqUnxPOXDbKeLq/If6Dk
+         yM1eiEosukowjflvpyC5cFi3qmtMhl1qJzQoxzGWyMNc0KyQ77PTCBuEjG/gzPelKXMN
+         GO2vZUOyHq8JToWH3H5KkY7YHM+0AxJudmefvzbBcz2T7kKLTkFgQuXexqff2LeHtd1o
+         nHHrGqH7QHF5IPbyqlXm+d1MLuk7IZPwaTXXy/KQYPokqR1CohngMTcmRDgfoBi1K4GV
+         E9Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=67KhfclQArB26eTbPmndMfSf+46wfLeIvrHvkgdu5rQ=;
+        b=HqrTN8rCM1LsGwv7XRomqIapaZn64CbvG0r7eNiO9rH8VpXMZ/1GAkyklefwajizv9
+         OoZ6ToFMkbr1U1rh7fqAjbin3PpvqsGB/rph8C0jDOqV3rNBlt4FgKWATb5bupn3IKfi
+         EC7KzbPj0M+cIp9wbl7RIgJmaDnjfjDnBeDPcHdOzEJGV+WWxZV5zGCvDehE9sSmiZO2
+         L8ulCC1waw6ETorZs83cGBwnqtPmx7tbKEbD/J2vWGsxOaSwqaM11DbRCXlQbh8rQc3/
+         PShjGlht3sdxxKjN5w66kxM+wI0worqtVqAEXF6Pz7wJ4pZDwCAisqU9VD4AFp7gxvc3
+         +4iQ==
+X-Gm-Message-State: ACrzQf2C9xn+3+kAjlnprbjWRC55izIQmx6AMqtvd/BBE1CIfnRzTYi2
+        YiAkAK5ctkICq+xKg+o8KcQ=
+X-Google-Smtp-Source: AMsMyM5DGoSMWm7UHW+RwJGMAOpb/nggYGj16/6wELeToOUiiSrnM2SX3OiDGQ2WYjBFYHC+0KDSTQ==
+X-Received: by 2002:adf:e6cc:0:b0:22c:e0b9:ef60 with SMTP id y12-20020adfe6cc000000b0022ce0b9ef60mr16344167wrm.404.1664964758179;
+        Wed, 05 Oct 2022 03:12:38 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:b4e1:6c12:775b:a638])
+        by smtp.gmail.com with ESMTPSA id g6-20020a05600c310600b003b47e75b401sm1546142wmo.37.2022.10.05.03.12.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Oct 2022 03:12:37 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
 To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v2 01/39] Documentation/x86: Add CET description
-Message-ID: <Yz1SepywKVcWzV0f@hirez.programming.kicks-ass.net>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-2-rick.p.edgecombe@intel.com>
- <YzZlT7sO56TzXgNc@debian.me>
- <87v8p5f0mg.fsf@meer.lwn.net>
- <0eb358ac-068c-d025-07e3-80a3c51ef39c@gmail.com>
- <5832fa687e6da50697a7627d53453b728ed1b7b7.camel@intel.com>
- <Yz1KFj71T4Q4mFrg@hirez.programming.kicks-ass.net>
- <3f0417cf-a58d-a2bd-7a9a-1d4dabf89970@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, dave@dtucker.co.uk
+Subject: Re: [PATCH bpf-next v5 1/1] bpf, docs: document BPF_MAP_TYPE_ARRAY
+In-Reply-To: <acc73050-f0a4-099d-37c1-5fca6b20136c@gmail.com> (Bagas Sanjaya's
+        message of "Wed, 5 Oct 2022 14:32:24 +0700")
+Date:   Wed, 05 Oct 2022 11:12:19 +0100
+Message-ID: <m2y1tutw8s.fsf@gmail.com>
+References: <20221004161929.52609-1-donald.hunter@gmail.com>
+        <20221004161929.52609-2-donald.hunter@gmail.com>
+        <acc73050-f0a4-099d-37c1-5fca6b20136c@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3f0417cf-a58d-a2bd-7a9a-1d4dabf89970@gmail.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 05, 2022 at 04:25:39PM +0700, Bagas Sanjaya wrote:
-> On 10/5/22 16:10, Peter Zijlstra wrote:
-> > On Mon, Oct 03, 2022 at 04:56:10PM +0000, Edgecombe, Rick P wrote:
-> >> Thanks. Unless anyone has any objections
-> > 
-> > Well, I'll object. I still feel rst should burn in hell. Plain text FTW.
-> > 
-> > 
-> 
-> .txt maybe?
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-We had that, but some idiots went and converted the lot to .rst :-(
+> On 10/4/22 23:19, Donald Hunter wrote:
+>> +Examples
+>> +========
+>> +
+>> +Please see the ``tools/testing/selftests/bpf`` directory for functional
+>> +examples. The sample code below demonstrates API usage.
+>> +
+>
+> Since you have many code snippets, better say "The code samples below".
+
+Good catch.
+
+>> +BPF_MAP_TYPE_ARRAY
+>> +~~~~~~~~~~~~~~~~~~
+>> +
+>> +This example shows array creation, initialisation and lookup from userspace.
+>> +
+>
+> "Initialize the array, set elements, and perform lookup".
+>
+> ...
+>
+>> +BPF_MAP_TYPE_PERCPU_ARRAY
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +This example shows per CPU array usage.
+>> +
+>
+> What is the purpose of above snippet? Give more detailed explanation.
+>
+> Thanks.
+
+I will rework both examples into separate snippets for create, init and
+lookup.
+
+Thanks!
