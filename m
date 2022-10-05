@@ -2,234 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBACDC4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 10:47:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 232A1C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 10:48:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229605AbiJEKrY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 06:47:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57724 "EHLO
+        id S229530AbiJEKsc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 06:48:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbiJEKrV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 06:47:21 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C109926492;
-        Wed,  5 Oct 2022 03:47:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664966838; x=1696502838;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Qvdvm6/Yzu7ojmkolJcq8JM8ELA489o7JaJRUu4mY5U=;
-  b=IuoI0hTa7ArWrespAaoLf+8W3nQQa2Mrlwf2E3ditrFWFx4AysDHUJaC
-   8EmFCUAUJ/Fpfyo4kwpzzY9OS7wttI48w/JBpM26a8sePDJhlY8bATrcb
-   jvFw11O/xA7ux3Vz63CPJu+PhEvx4IJHhhU76Gs/mMpWz4uWxeYA1xw0S
-   XUf76pHoF7IDHI9dU1eiDi/0TC5CE3R+tvDsK8sj+WLhoc2+T48mqdMaK
-   KXq5peKU9Pzc6OUos9DeqWnPMK7PQkd5aGfQmWlFCa56v4OpkntpfGOlj
-   08MC3kHmA554FeV0f06r2NERv01uz0Sjev+Ud50dO6mBBcWBylpNNx9p4
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="329543795"
-X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; 
-   d="scan'208";a="329543795"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 03:47:18 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="869361684"
-X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; 
-   d="scan'208";a="869361684"
-Received: from refaase-mobl1.ger.corp.intel.com ([10.252.39.164])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 03:47:11 -0700
-Date:   Wed, 5 Oct 2022 13:47:08 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, Lukas Wunner <lukas@wunner.de>,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 4/4] tty: serial: 8250: add DFL bus driver for Altera
- 16550.
-In-Reply-To: <20221004143718.1076710-5-matthew.gerlach@linux.intel.com>
-Message-ID: <d75abf9c-e982-563f-b2-d5a376367b1e@linux.intel.com>
-References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com> <20221004143718.1076710-5-matthew.gerlach@linux.intel.com>
+        with ESMTP id S229505AbiJEKsa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 06:48:30 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8286426492;
+        Wed,  5 Oct 2022 03:48:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Mt451qEQ8idnuP9N21nNlasWLqrAU64mMgltya9UmRo8MtIZyL2fXQLqXIWxY4V6kUZ/IpVavqd0uNBqtWM6Yy7yZF16Z5sPVKylUk5ZyEUX3+LTdS8O76OpRMa2hVV7Qz9xbmIQe+JelHK/zwAi/9x5jfPZw6am3SFy8jnMZ12/0RjwWhh5SaEg01IYBBFRuNDi+P9GLrD7wNNr0xjc07/2dOedfs96FM4i3pnVcwRoGylJvqzPz4O/Iz2mCvXJCJuC6wl158EV6Fnkp4s38EizVkM9mwnFpXXYpX56kWn2RIMNb5OuBiuPZv4AKUH35omDrZQ2ODjFKANKTU4JzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DJBPwexMSz65qpShAUDCZzpz97te/1aeuMRvQBgNVf4=;
+ b=aON50kfN0sVr0HqGeK41a/dnHuZr58ItDBKOwJBLRbIs4YPUvCK1jKm0q/LwE8eX5dN/tk8R2eMBE/NjFEUSH1r0tGb9FjXEAOugT/UpC9MjheIGpzSiuOIHlwkhH85uvl+9qnq++2UxEdDUKONNj+L9TKgDT942DZzaSoMdEnsNOgAqywzUjPCllhbmty8HatI3VjUAP7cqjq7MBIq8L/1HdcsQ9ITN93fyw+88CT3k4989kWzyWdpaeuCXWARCgJv2p7b/Iv0c16ILy2dcKIVmdrlh3I3oZDuFnQGu5YKSrhcetO3D6+bAgi51ENtsLrk3bHkWxZ8+qY04BL9rRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DJBPwexMSz65qpShAUDCZzpz97te/1aeuMRvQBgNVf4=;
+ b=q4HKR1k41II6HMZZskOGmj7q3RJ0MSJ6KMSLHMQ0YPd82IUKdxHihPVfOTbdqxMFcRjtLezmp0bl+loPZZ7RKvlKfwy3kA/A/AIxNQBN75XX7QRZBtmN8kNSBidP9PdDYDr/0G4d/4Kjnuq7E7VxodnMJzBDXfKxFoTkZf03aoiskuLhrMkbdlPWl2nJYMt8UCSs+CgY/Kx9U97TidDB1Ulbel6B1zKCYXij3NABqVFrJEA+n1b3rv3OP3sNv/Fgw7oYBUgLh7i9D0vkZ6DdDmQLgUGmltGhOyfoI9nX+Hi8Kpdeq5D3dCG9eGEHKI1y83i7qLZDn4ne/fujEfhxWA==
+Received: from MW4P221CA0016.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::21)
+ by DS0PR12MB6439.namprd12.prod.outlook.com (2603:10b6:8:c9::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5676.15; Wed, 5 Oct 2022 10:48:26 +0000
+Received: from CO1NAM11FT009.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8b:cafe::7a) by MW4P221CA0016.outlook.office365.com
+ (2603:10b6:303:8b::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.32 via Frontend
+ Transport; Wed, 5 Oct 2022 10:48:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CO1NAM11FT009.mail.protection.outlook.com (10.13.175.61) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5709.10 via Frontend Transport; Wed, 5 Oct 2022 10:48:26 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Wed, 5 Oct 2022
+ 03:48:12 -0700
+Received: from sw-mtx-036.mtx.labs.mlnx (10.126.230.35) by
+ rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Wed, 5 Oct 2022 03:48:10 -0700
+From:   Parav Pandit <parav@nvidia.com>
+To:     <bagasdotme@gmail.com>, <arnd@arndb.de>,
+        <stern@rowland.harvard.edu>, <parri.andrea@gmail.com>,
+        <will@kernel.org>, <peterz@infradead.org>, <boqun.feng@gmail.com>,
+        <npiggin@gmail.com>, <dhowells@redhat.com>, <j.alglave@ucl.ac.uk>,
+        <luc.maranget@inria.fr>, <paulmck@kernel.org>, <akiyks@gmail.com>,
+        <dlustig@nvidia.com>, <joel@joelfernandes.org>, <corbet@lwn.net>,
+        <linux-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+CC:     Parav Pandit <parav@nvidia.com>
+Subject: [PATCH v2] locking/memory-barriers.txt: Improve documentation for writel() example
+Date:   Wed, 5 Oct 2022 13:47:49 +0300
+Message-ID: <20221005104749.157444-1-parav@nvidia.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT009:EE_|DS0PR12MB6439:EE_
+X-MS-Office365-Filtering-Correlation-Id: 68e6e44f-440c-4d2a-b8f8-08daa6bf21f1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4cHgTMoQrhp9UvuGc8qTC0kYAxFFCLDP+Et59XdFs6s0Ie/vrSiFdnbTotcSskin/0qt7eQMXl3m0CPbiRLRICmsa6ftcvTxkMQB0nqifqE/XUoPrGd4ULmNLk1f5i9VBOgzG1DF6A4t1TJtLfKimJVX1BNw5POpCCCce5COxTJ7Yi9KNwXIA605gmnJiF64vxPwkCULsvaIrRlw6LAmAZqYaYwfVetDw2HhA5S9N/oVAfulTbsHwHcGUpupQ0IcgUE1Fj1FGvxmqE1WXcRr4pqiw+oqqvBKtLgD1cR/aq+oFDVAf1FOU9wH1ZaHpTD9yPlHUjBbSKtKTv52dqKObn9YNTXwuOwHJ3axMKf4/uj1q3GxgACkMwzGlKIvm1OI/qO7/dWoc5Ws6UOsGYj+p2ySOKHEWsumoJ4aCiAwbG0+GuYxPKkZZzeMug+0Sl6TVjV0gGevHIXHC10iWCp4FxoporN+05Z10P53YAMxQWufWfX5ohrKVZkQzMUWyNN3nRsjjIMeCpesJnGo3U+9ju8zla5sFPnfZtWk0whNm7A2qyUM59g3BpGAPlmd3BBIGLgvjC5vBDcrU+Rf/XW0881/1h6MME4zjjA23e/AH3+Bhk8/ucTjyJuMrcN9PRmcZDKIcqmECmYCQ0o9ISQ+xvMer17ErxSFdCphZuaqTMGDjLWu2VhwFm7ug8l+ur0ULefJ9G0b7oMqqpkMyuBpc9dUpv6Vz3ju9aOI8rgkZyDsaZCwbt235ajIdjCGsmvdDs7tuiNyiHD4YQ44oTmQ9byViZsKMkV+mAgnV0tmBdQ=
+X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(346002)(396003)(39860400002)(451199015)(40470700004)(46966006)(36840700001)(1076003)(107886003)(186003)(36756003)(4326008)(356005)(40460700003)(82740400003)(86362001)(110136005)(316002)(921005)(82310400005)(36860700001)(40480700001)(26005)(7416002)(7636003)(336012)(2616005)(70586007)(426003)(41300700001)(16526019)(6666004)(47076005)(8936002)(70206006)(8676002)(478600001)(2906002)(83380400001)(5660300002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2022 10:48:26.3863
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68e6e44f-440c-4d2a-b8f8-08daa6bf21f1
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT009.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6439
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 4 Oct 2022, matthew.gerlach@linux.intel.com wrote:
+The cited commit describes that when using writel(), explcit wmb()
+is not needed. wmb() is an expensive barrier. writel() uses the needed
+platform specific barrier instead of expensive wmb().
 
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> 
-> Add a Device Feature List (DFL) bus driver for the Altera
-> 16550 implementation of UART.
-> 
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> ---
-> v3: use passed in location of registers
->     use cleaned up functions for parsing parameters
-> 
-> v2: clean up error messages
->     alphabetize header files
->     fix 'missing prototype' error by making function static
->     tried to sort Makefile and Kconfig better
-> ---
->  drivers/tty/serial/8250/8250_dfl.c | 177 +++++++++++++++++++++++++++++
->  drivers/tty/serial/8250/Kconfig    |   9 ++
->  drivers/tty/serial/8250/Makefile   |   1 +
->  3 files changed, 187 insertions(+)
->  create mode 100644 drivers/tty/serial/8250/8250_dfl.c
-> 
-> diff --git a/drivers/tty/serial/8250/8250_dfl.c b/drivers/tty/serial/8250/8250_dfl.c
-> new file mode 100644
-> index 000000000000..110ad3a73459
-> --- /dev/null
-> +++ b/drivers/tty/serial/8250/8250_dfl.c
-> @@ -0,0 +1,177 @@
+Hence update the example to be more accurate that matches the current
+implementation.
 
-> +static int dfl_uart_get_params(struct device *dev, void __iomem *dfh_base, resource_size_t max,
-> +			       struct uart_8250_port *uart)
-> +{
-> +	u64 v, fifo_len, reg_width;
-> +	int off;
-> +
-> +	if (!dfhv1_has_params(dfh_base)) {
-> +		dev_err(dev, "missing required DFH parameters\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_CLK_FRQ);
-> +	if (off < 0) {
-> +		dev_err(dev, "missing CLK_FRQ param\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	uart->port.uartclk = readq(dfh_base + off);
-> +	dev_dbg(dev, "UART_CLK_ID %u Hz\n", uart->port.uartclk);
-> +
-> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_FIFO_LEN);
-> +	if (off < 0) {
-> +		dev_err(dev, "missing FIFO_LEN param\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	fifo_len = readq(dfh_base + off);
-> +	dev_dbg(dev, "UART_FIFO_ID fifo_len %llu\n", fifo_len);
-> +
-> +	switch (fifo_len) {
-> +	case 32:
-> +		uart->port.type = PORT_ALTR_16550_F32;
-> +		break;
-> +
-> +	case 64:
-> +		uart->port.type = PORT_ALTR_16550_F64;
-> +		break;
-> +
-> +	case 128:
-> +		uart->port.type = PORT_ALTR_16550_F128;
-> +		break;
-> +
-> +	default:
-> +		dev_err(dev, "bad fifo_len %llu\n", fifo_len);
+commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
+Signed-off-by: Parav Pandit <parav@nvidia.com>
 
-I'd tell user "unsupported" rather than "bad".
+---
+changelog:
+v1->v2:
+- Further improved description of writel() example
+- changed commit subject from 'usage' to 'example'
+v0->v1:
+- Corrected to mention I/O barrier instead of dma_wmb().
+- removed numbered references in commit log
+- corrected typo 'explcit' to 'explicit' in commit log
+---
+ Documentation/memory-barriers.txt | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-> +		return -EINVAL;
-> +	}
-> +
-> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_REG_LAYOUT);
-> +	if (off < 0) {
-> +		dev_err(dev, "missing REG_LAYOUT param\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	v = readq(dfh_base + off);
-> +	uart->port.regshift = FIELD_GET(DFHv1_PARAM_ID_REG_SHIFT, v);
-> +	reg_width = FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v);
-> +
-> +	dev_dbg(dev, "UART_LAYOUT_ID width %lld shift %d\n",
-> +		FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v), (int)uart->port.regshift);
-
-Why not use reg_width directly?
-
-> +	switch (reg_width) {
-> +	case 4:
-> +		uart->port.iotype = UPIO_MEM32;
-> +		break;
-> +
-> +	case 2:
-> +		uart->port.iotype = UPIO_MEM16;
-> +		break;
-> +
-> +	default:
-> +		dev_err(dev, "invalid reg_width %lld\n", reg_width);
-
-unsupported ?
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dfl_uart_probe(struct dfl_device *dfl_dev)
-> +{
-> +	struct device *dev = &dfl_dev->dev;
-> +	struct uart_8250_port uart;
-> +	struct dfl_uart *dfluart;
-> +	resource_size_t res_size;
-> +	void __iomem *dfh_base;
-> +	int ret;
-> +
-> +	memset(&uart, 0, sizeof(uart));
-> +	uart.port.flags = UPF_IOREMAP;
-> +	uart.port.mapbase = dfl_dev->csr_res.start;
-> +	uart.port.mapsize = resource_size(&dfl_dev->csr_res);
-> +
-> +	dfluart = devm_kzalloc(dev, sizeof(*dfluart), GFP_KERNEL);
-> +	if (!dfluart)
-> +		return -ENOMEM;
-> +
-> +	dfh_base = devm_ioremap_resource(dev, &dfl_dev->mmio_res);
-> +	if (IS_ERR(dfh_base))
-> +		return PTR_ERR(dfh_base);
-> +
-> +	res_size = resource_size(&dfl_dev->mmio_res);
-> +
-> +	ret = dfl_uart_get_params(dev, dfh_base, res_size, &uart);
-> +
-> +	devm_iounmap(dev, dfh_base);
-> +	devm_release_mem_region(dev, dfl_dev->mmio_res.start, res_size);
-> +
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "failed uart feature walk\n");
-> +
-> +	dev_dbg(dev, "nr_irqs %d %p\n", dfl_dev->num_irqs, dfl_dev->irqs);
-> +
-> +	if (dfl_dev->num_irqs == 1)
-> +		uart.port.irq = dfl_dev->irqs[0];
-> +
-> +	/* register the port */
-
-This comment is pretty useless. Just drop it.
-
-> +	dfluart->line = serial8250_register_8250_port(&uart);
-> +	if (dfluart->line < 0)
-> +		return dev_err_probe(dev, dfluart->line, "unable to register 8250 port.\n");
-> +
-> +	dev_info(dev, "serial8250_register_8250_port %d\n", dfluart->line);
-
-This you want to drop too. It seems a debug thing rather than info level 
-stuff.
-
-
+diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+index 832b5d36e279..49e1433db407 100644
+--- a/Documentation/memory-barriers.txt
++++ b/Documentation/memory-barriers.txt
+@@ -1927,10 +1927,12 @@ There are some more advanced barrier functions:
+      before we read the data from the descriptor, and the dma_wmb() allows
+      us to guarantee the data is written to the descriptor before the device
+      can see it now has ownership.  The dma_mb() implies both a dma_rmb() and
+-     a dma_wmb().  Note that, when using writel(), a prior wmb() is not needed
+-     to guarantee that the cache coherent memory writes have completed before
+-     writing to the MMIO region.  The cheaper writel_relaxed() does not provide
+-     this guarantee and must not be used here.
++     a dma_wmb().  Note that, when using writel(), a prior barrier is not
++     needed to guarantee that the cache coherent memory writes have completed
++     before writing to the MMIO region.  The cheaper writel_relaxed() does not
++     provide this guarantee and must not be used here. Hence, writeX() is always
++     preferred which inserts needed platform specific barrier before writing to
++     the specified MMIO region.
+ 
+      See the subsection "Kernel I/O barrier effects" for more information on
+      relaxed I/O accessors and the Documentation/core-api/dma-api.rst file for
 -- 
- i.
+2.26.2
 
