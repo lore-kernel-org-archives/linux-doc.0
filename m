@@ -2,155 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1792C4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 11:05:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D5EC433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 11:16:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229764AbiJELFd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 07:05:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56872 "EHLO
+        id S229796AbiJELQ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 07:16:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229569AbiJELFb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 07:05:31 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1200E66139;
-        Wed,  5 Oct 2022 04:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664967928; x=1696503928;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=jKSBPWh8pDyMYM2pEyLTogv+ZtNNMjV8Mb81U4T14t8=;
-  b=C1TF3srpa5jdAKggnekERRZ7ARNPYPOcP+s8SajzrU4wQyz8ze+tlvWC
-   1OijtlJypxTCjz1Fx+6Z67WRJixGIR3p1OxZmuox4/zcbH6LH39BL/htH
-   OmujMRFj4EL9/YEZeeYLH0crTrGsNHmQewryBZQqEC9saNk0WC7W3iP2D
-   3sOLTJhNtq/8EtoWcbOUpdfPtSOFU07LTBix/ZKROyKk4aZ3Rvk2XY7/9
-   696zqR5tVAEWqjLZncrvj+ZsPEcC1BK6/gWBJlAuN9f/OnGjbc1ZIDtUH
-   dFiBk6OmK7Avi5j45gjdOKP/fAycosZFo0JkhWYUyfsvohJ7RnBRoSg5b
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="286345408"
-X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; 
-   d="scan'208";a="286345408"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 04:05:26 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="575372394"
-X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; 
-   d="scan'208";a="575372394"
-Received: from refaase-mobl1.ger.corp.intel.com ([10.252.39.164])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 04:05:19 -0700
-Date:   Wed, 5 Oct 2022 14:05:16 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH v3 1/4] Documentation: fpga: dfl: Add documentation for
- DFHv1
-In-Reply-To: <20221004143718.1076710-2-matthew.gerlach@linux.intel.com>
-Message-ID: <7ad7491d-4d7f-986b-5d9d-1cfdeabe23c5@linux.intel.com>
-References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com> <20221004143718.1076710-2-matthew.gerlach@linux.intel.com>
+        with ESMTP id S229769AbiJELQ4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 07:16:56 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35EF65815A;
+        Wed,  5 Oct 2022 04:16:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=jlNnOtdLgWp1J9aNwcNLhyUtm43E+rBcw5a9tZw4tKM=; b=jdvZQ1JWuioxO53YHfWyMIlwPO
+        Crt4VyrM4DpQFGABM8ihqD6uCQ9lOmSnu6Vzh+FyURgi5JSApO0rWofMPZ+QiSuRPokJO+4lnLKKP
+        w8oQ7pEDQ3kdIKkejORmZWIrpJAc5JfP6O+8uv9Dg0MZkd7ho74b7BbZ5ARN9R6EJenYFcapm2xiL
+        yat+sxLvMINMLBWuQ7ATpDiS4Z1Kre/qrjly7jJFwPhZhXqksjDWGdEeOoOMcTKlt8HhLvBvmKcCs
+        UC/aAdY8qrxzNlH1LwDNgOtOyOhiMQtjSaPc5HaBMx3+o46qEqgApTLVJs0DRLs/4h7TgkyMODVSv
+        aGglGIUw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1og2Nl-000JVi-9O; Wed, 05 Oct 2022 11:16:09 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8ED00300205;
+        Wed,  5 Oct 2022 13:16:03 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 778D620C48C87; Wed,  5 Oct 2022 13:16:03 +0200 (CEST)
+Date:   Wed, 5 Oct 2022 13:16:03 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Andrew Cooper <Andrew.Cooper3@citrix.com>
+Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        "joao.moreira@intel.com" <joao.moreira@intel.com>,
+        John Allen <john.allen@amd.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "eranian@google.com" <eranian@google.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v2 08/39] x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+Message-ID: <Yz1ncw+up1nRb9Eo@hirez.programming.kicks-ass.net>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-9-rick.p.edgecombe@intel.com>
+ <8d58f57f-cece-c197-2a8b-dd02b4e405bc@citrix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8d58f57f-cece-c197-2a8b-dd02b4e405bc@citrix.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 4 Oct 2022, matthew.gerlach@linux.intel.com wrote:
-
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+On Wed, Oct 05, 2022 at 01:31:28AM +0000, Andrew Cooper wrote:
+> On 29/09/2022 23:29, Rick Edgecombe wrote:
+> > From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> >
+> > Processors sometimes directly create Write=0,Dirty=1 PTEs.
 > 
-> Add documentation describing the extensions provided by Version
-> 1 of the Device Feature Header (DFHv1).
+> Do they? (Rhetorical)
 > 
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> ---
-> v3: no change
+> Yes, this is a relevant anecdote for why CET isn't available on pre-TGL
+> parts, but it one of the more wrong things to have as the first sentence
+> of this commit message.
 > 
-> v2: s/GUILD/GUID/
->     add picture
-> ---
->  Documentation/fpga/dfl.rst | 49 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 49 insertions(+)
+> The point you want to express is that under the CET-SS spec, R/O+Dirty
+> has a new meaning as type=shstk, so stop using this bit combination for
+> existing mappings.
 > 
-> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-> index 15b670926084..7c786b75b498 100644
-> --- a/Documentation/fpga/dfl.rst
-> +++ b/Documentation/fpga/dfl.rst
-> @@ -561,6 +561,55 @@ new DFL feature via UIO direct access, its feature id should be added to the
->  driver's id_table.
->  
->  
-> +Extending the Device Feature Header - DFHv1
-> +===========================================
-> +The current 8 bytes of the Device Feature Header, hereafter referred to as
-> +to DFHv0, provide very little opportunity for the hardware to describe itself
-> +to software. Version 1 of the Device Feature Header (DFHv1) is being introduced
-> +to provide increased flexibility and extensibility to hardware designs using
-> +Device Feature Lists.  The list below describes some of the goals behind the
-> +changes in DFHv1:
-> +
-> +* Provide a standardized mechanism for features to describe
-> +  parameters/capabilities to software.
-> +* Standardize the use of a GUID for all DFHv1 types.
-> +* Decouple the location of the DFH from the register space of the feature itself.
-> +
-> +Modeled after PCI Capabilities, DFHv1 Parameters provide a mechanism to associate
-> +a list of parameter values to a particular feature.
-> +
-> +With DFHv0, not all features types contained a GUID.  DFHv1 makes the GUID standard
-> +across all types.
-> +
-> +With DFHv0, the register map of a given feature is located immediately following
-> +the DFHv0 in the memory space.  With DFHv1, the location of the feature register
-> +map can be specified as an offset to the DFHv1 or as an absolute address.  The DFHv1
-> +structure is shown below:
+> I'm not even sure it's relevant to note that CET capable processors can
+> set D on a R/O mapping, because that depends on !CR0.WP which in turn
+> prohibits CR4.CET being enabled.
 
-I think this is not a good place for be some kind of v1 marketing speak 
-(that said, I think it's fine to include those goals you have there).
+Whilst I agree that the Changelog is 'suboptimal' -- I do think it might
+be good to mention how we ended up at the current state where we
+explicitly set this non-sensical W=0,D=1 state.
 
-I'd restructure this so that this section only talks about DFHv1 w/o 
-any comparing how v1 is better than v0. Don't base the description on 
-how things changed from v0 but just describe v1, that is, like v1 is 
-already there, not only being introduced to supercede/extend v0.
-
-And then create v0 section after this section which focuses solely on v0.
-
--- 
- i.
-
-> +    +-----------------------------------------------------------------------+
-> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0|
-> +    +-----------------------------------------------------------------------+
-> +    |63                                 GUID_L                             0|
-> +    +-----------------------------------------------------------------------+
-> +    |63                                 GUID_H                             0|
-> +    +-----------------------------------------------------------------------+
-> +    |63                 Address/Offset                            1|  Rel  0|
-> +    +-----------------------------------------------------------------------+
-> +    |63 Size of register set  32|Params 31|30 Group    16|15 Instance      0|
-> +    +-----------------------------------------------------------------------+
-> +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID           0|
-> +    +-----------------------------------------------------------------------+
-> +    |63                 Parameter Data                                     0|
-> +    +-----------------------------------------------------------------------+
-> +
-> +                                  ...
-> +
-> +    +-----------------------------------------------------------------------+
-> +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID           0|
-> +    +-----------------------------------------------------------------------+
-> +    |63                 Parameter Data                                     0|
-> +    +-----------------------------------------------------------------------+
-> +
->  Open discussion
->  ===============
->  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
-> 
-
+Looking at the git history this seems to be a bit of a hysterical
+accident, not something done on purpose to 'optimize' for these weird
+CPUs.
