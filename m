@@ -2,105 +2,218 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E4B4C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 10:12:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87512C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 10:30:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229680AbiJEKMr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 06:12:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43266 "EHLO
+        id S229668AbiJEKa5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 06:30:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229760AbiJEKMp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 06:12:45 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4119726AC;
-        Wed,  5 Oct 2022 03:12:39 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id n12so5625492wrp.10;
-        Wed, 05 Oct 2022 03:12:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=67KhfclQArB26eTbPmndMfSf+46wfLeIvrHvkgdu5rQ=;
-        b=K0SUPm2aJ9U8xpfsX5IDrNt+IGprtpIkm4DZ1tdLPh/F0AHmIa01cW502LHxYgEqHc
-         BQSfIzGiQRMfDWwCbLMvt7rMdpwy8Tz56O8SAxpFr+87n9f/pqUnxPOXDbKeLq/If6Dk
-         yM1eiEosukowjflvpyC5cFi3qmtMhl1qJzQoxzGWyMNc0KyQ77PTCBuEjG/gzPelKXMN
-         GO2vZUOyHq8JToWH3H5KkY7YHM+0AxJudmefvzbBcz2T7kKLTkFgQuXexqff2LeHtd1o
-         nHHrGqH7QHF5IPbyqlXm+d1MLuk7IZPwaTXXy/KQYPokqR1CohngMTcmRDgfoBi1K4GV
-         E9Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=67KhfclQArB26eTbPmndMfSf+46wfLeIvrHvkgdu5rQ=;
-        b=HqrTN8rCM1LsGwv7XRomqIapaZn64CbvG0r7eNiO9rH8VpXMZ/1GAkyklefwajizv9
-         OoZ6ToFMkbr1U1rh7fqAjbin3PpvqsGB/rph8C0jDOqV3rNBlt4FgKWATb5bupn3IKfi
-         EC7KzbPj0M+cIp9wbl7RIgJmaDnjfjDnBeDPcHdOzEJGV+WWxZV5zGCvDehE9sSmiZO2
-         L8ulCC1waw6ETorZs83cGBwnqtPmx7tbKEbD/J2vWGsxOaSwqaM11DbRCXlQbh8rQc3/
-         PShjGlht3sdxxKjN5w66kxM+wI0worqtVqAEXF6Pz7wJ4pZDwCAisqU9VD4AFp7gxvc3
-         +4iQ==
-X-Gm-Message-State: ACrzQf2C9xn+3+kAjlnprbjWRC55izIQmx6AMqtvd/BBE1CIfnRzTYi2
-        YiAkAK5ctkICq+xKg+o8KcQ=
-X-Google-Smtp-Source: AMsMyM5DGoSMWm7UHW+RwJGMAOpb/nggYGj16/6wELeToOUiiSrnM2SX3OiDGQ2WYjBFYHC+0KDSTQ==
-X-Received: by 2002:adf:e6cc:0:b0:22c:e0b9:ef60 with SMTP id y12-20020adfe6cc000000b0022ce0b9ef60mr16344167wrm.404.1664964758179;
-        Wed, 05 Oct 2022 03:12:38 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:b4e1:6c12:775b:a638])
-        by smtp.gmail.com with ESMTPSA id g6-20020a05600c310600b003b47e75b401sm1546142wmo.37.2022.10.05.03.12.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 03:12:37 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, dave@dtucker.co.uk
-Subject: Re: [PATCH bpf-next v5 1/1] bpf, docs: document BPF_MAP_TYPE_ARRAY
-In-Reply-To: <acc73050-f0a4-099d-37c1-5fca6b20136c@gmail.com> (Bagas Sanjaya's
-        message of "Wed, 5 Oct 2022 14:32:24 +0700")
-Date:   Wed, 05 Oct 2022 11:12:19 +0100
-Message-ID: <m2y1tutw8s.fsf@gmail.com>
-References: <20221004161929.52609-1-donald.hunter@gmail.com>
-        <20221004161929.52609-2-donald.hunter@gmail.com>
-        <acc73050-f0a4-099d-37c1-5fca6b20136c@gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
+        with ESMTP id S229532AbiJEKa4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 06:30:56 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 865C52D1F0;
+        Wed,  5 Oct 2022 03:30:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664965855; x=1696501855;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=Wezh43SpRoN0/MWvN1oHmzbIRsNAJSzelgJtCEdWV6M=;
+  b=WT2SiHk82pAPVIe/3nKMaBgxsrYgBG7f6ieP27sTDeqnp4ynrObCJokv
+   sW8pjWOoMAyDyx2uMCeJfrdYUxI8fWqIHcgupEJ63NMH9+aTNBeLUaOjd
+   teDde8y+v+/quJrAyX+aodgPe2dupAkQT6QuYKt/gwqhgPtw+BHJEgnOx
+   Ekz7xvdplWrCnJRs2Sm6FHMWqw9c1Oi/YIQSgN3LHKCysOa3Tz2gHBov2
+   Gs18rp7jqZlD1hrb3/i3p/bGwkfynuaLtkNOOzz8HcfSusz46ajwmblmM
+   GiBD9SMkUUckUeupDKzq8gHs0JBLJwN/Z+Odr8zyMRw64kGgO7YtL7ltY
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="304696997"
+X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; 
+   d="scan'208";a="304696997"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 03:30:55 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="619426480"
+X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; 
+   d="scan'208";a="619426480"
+Received: from refaase-mobl1.ger.corp.intel.com ([10.252.39.164])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 03:30:48 -0700
+Date:   Wed, 5 Oct 2022 13:30:45 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-serial <linux-serial@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH v3 3/4] fpga: dfl: add basic support for DFHv1
+In-Reply-To: <20221004143718.1076710-4-matthew.gerlach@linux.intel.com>
+Message-ID: <2ee52b26-d34d-9599-a465-b3cce51f4b45@linux.intel.com>
+References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com> <20221004143718.1076710-4-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Please try to remember cc all people who have commented your patches when 
+sending the next version.
 
-> On 10/4/22 23:19, Donald Hunter wrote:
->> +Examples
->> +========
->> +
->> +Please see the ``tools/testing/selftests/bpf`` directory for functional
->> +examples. The sample code below demonstrates API usage.
->> +
->
-> Since you have many code snippets, better say "The code samples below".
+On Tue, 4 Oct 2022, matthew.gerlach@linux.intel.com wrote:
 
-Good catch.
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> 
+> Add generic support for MSIX interrupts for DFL devices.
+> 
+> The location of a feature's registers is explicitly
+> described in DFHv1 and can be relative to the base of the DFHv1
+> or an absolute address.  Parse the location and pass the information
+> to DFL driver.
+> 
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 
->> +BPF_MAP_TYPE_ARRAY
->> +~~~~~~~~~~~~~~~~~~
->> +
->> +This example shows array creation, initialisation and lookup from userspace.
->> +
->
-> "Initialize the array, set elements, and perform lookup".
->
-> ...
->
->> +BPF_MAP_TYPE_PERCPU_ARRAY
->> +~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +This example shows per CPU array usage.
->> +
->
-> What is the purpose of above snippet? Give more detailed explanation.
->
-> Thanks.
+> @@ -935,55 +948,74 @@ static u16 feature_id(u64 value)
+>  }
+>  
+>  static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+> -			      resource_size_t ofst, u16 fid,
+> -			      unsigned int *irq_base, unsigned int *nr_irqs)
+> +			      resource_size_t ofst, struct dfl_feature_info *finfo)
+>  {
+>  	void __iomem *base = binfo->ioaddr + ofst;
+>  	unsigned int i, ibase, inr = 0;
+>  	enum dfl_id_type type;
+> -	int virq;
+> -	u64 v;
+> -
+> -	type = feature_dev_id_type(binfo->feature_dev);
+> +	u16 fid = finfo->fid;
+> +	u64 v, dfh_ver;
 
-I will rework both examples into separate snippets for create, init and
-lookup.
+Drop dfh_ver.
 
-Thanks!
+> +	int virq, off;
+>  
+>  	/*
+>  	 * Ideally DFL framework should only read info from DFL header, but
+> -	 * current version DFL only provides mmio resources information for
+> +	 * current version, DFHv0, only provides mmio resources information for
+>  	 * each feature in DFL Header, no field for interrupt resources.
+>  	 * Interrupt resource information is provided by specific mmio
+>  	 * registers of each private feature which supports interrupt. So in
+>  	 * order to parse and assign irq resources, DFL framework has to look
+>  	 * into specific capability registers of these private features.
+>  	 *
+> -	 * Once future DFL version supports generic interrupt resource
+> -	 * information in common DFL headers, the generic interrupt parsing
+> -	 * code will be added. But in order to be compatible to old version
+> +	 * DFHv1 supports generic interrupt resource information in DFHv1
+> +	 * parameter blocks. But in order to be compatible to old version
+>  	 * DFL, the driver may still fall back to these quirks.
+
+I'm not convinced this comment is useful as is after the introduction of 
+v1. It feels too focused on v0 limitations.
+
+I suggest you move v0 limitations description to v0 block below and 
+perhaps state in the end of it that comment that v1 is recommended for 
+new things because it doesn't have those limitations. Or something along 
+those lines.
+
+>  	 */
+> -	if (type == PORT_ID) {
+> -		switch (fid) {
+> -		case PORT_FEATURE_ID_UINT:
+> -			v = readq(base + PORT_UINT_CAP);
+> -			ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
+> -			inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
+> +
+> +	switch (finfo->dfh_version) {
+> +	case 0:
+> +		type = feature_dev_id_type(binfo->feature_dev);
+> +		if (type == PORT_ID) {
+> +			switch (fid) {
+> +			case PORT_FEATURE_ID_UINT:
+> +				v = readq(base + PORT_UINT_CAP);
+> +				ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
+> +				inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
+> +				break;
+> +			case PORT_FEATURE_ID_ERROR:
+> +				v = readq(base + PORT_ERROR_CAP);
+> +				ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
+> +				inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
+> +				break;
+> +			}
+> +		} else if (type == FME_ID) {
+> +			if (fid == FME_FEATURE_ID_GLOBAL_ERR) {
+> +				v = readq(base + FME_ERROR_CAP);
+> +				ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
+> +				inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
+> +			}
+> +		}
+> +		break;
+> +
+> +	case 1:
+> +		if (!dfhv1_has_params(base))
+>  			break;
+> -		case PORT_FEATURE_ID_ERROR:
+> -			v = readq(base + PORT_ERROR_CAP);
+> -			ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
+> -			inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
+> +
+> +		off = dfhv1_find_param(base, ofst, DFHv1_PARAM_ID_MSIX);
+> +		if (off < 0)
+>  			break;
+> -		}
+> -	} else if (type == FME_ID) {
+> -		if (fid == FME_FEATURE_ID_GLOBAL_ERR) {
+> -			v = readq(base + FME_ERROR_CAP);
+> -			ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
+> -			inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
+> -		}
+> +
+> +		ibase = readl(base + off + DFHv1_PARAM_MSIX_STARTV);
+> +		inr = readl(base + off + DFHv1_PARAM_MSIX_NUMV);
+> +		break;
+> +
+> +	default:
+> +		dev_warn(binfo->dev, "unexpected DFH version %lld\n", dfh_ver);
+
+dfh_ver is uninitialized here. The compiler shouldn't have been happy with 
+this.
+
+> @@ -1041,21 +1073,33 @@ create_feature_instance(struct build_feature_devs_info *binfo,
+>  	if (binfo->len - ofst < size)
+>  		return -EINVAL;
+>  
+> -	ret = parse_feature_irqs(binfo, ofst, fid, &irq_base, &nr_irqs);
+> -	if (ret)
+> -		return ret;
+> -
+>  	finfo = kzalloc(sizeof(*finfo), GFP_KERNEL);
+>  	if (!finfo)
+>  		return -ENOMEM;
+>  
+>  	finfo->fid = fid;
+>  	finfo->revision = revision;
+> +	finfo->dfh_version = dfh_version;
+>  	finfo->mmio_res.start = binfo->start + ofst;
+>  	finfo->mmio_res.end = finfo->mmio_res.start + size - 1;
+>  	finfo->mmio_res.flags = IORESOURCE_MEM;
+> -	finfo->irq_base = irq_base;
+> -	finfo->nr_irqs = nr_irqs;
+> +
+> +	ret = parse_feature_irqs(binfo, ofst, finfo);
+> +	if (ret)
+> +		return ret;
+
+finfo has to be freed in case of an error.
+
+Thanks for rearranging, it looks more logical now.
+
+--
+ i.
