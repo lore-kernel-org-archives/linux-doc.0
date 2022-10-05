@@ -2,141 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7CEFC4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 06:23:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A573C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 06:27:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229495AbiJEGXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 02:23:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45912 "EHLO
+        id S229671AbiJEG1h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 02:27:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiJEGXF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 02:23:05 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5368E74B94;
-        Tue,  4 Oct 2022 23:23:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 93765B81C48;
-        Wed,  5 Oct 2022 06:23:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2592C433D6;
-        Wed,  5 Oct 2022 06:23:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1664950981;
-        bh=VAMnvAJnxm6F8Ulg+VAsWUC9n6NdVJkfOZIQb8NsMls=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MxbFswYIkHI12aX0RqMUk6N7FZJy+2SlU9+anc7VpwXqL/3THUUJ6kU0qTx2tHIzO
-         VWsjK/qg9syow8a3M0y1/ZleQ1RxkguAiN1W+ZsSM4gBMa9RDYPI0Kno4/sfr3VReD
-         86r0BzUimvI/00N0OkNsHPWrFZUzrHQKdDJxtFkw=
-Date:   Wed, 5 Oct 2022 08:23:41 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 06/14] virt: gunyah: Add sysfs nodes
-Message-ID: <Yz0i7VNc4oK58yh9@kroah.com>
-References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
- <20220928195633.2348848-7-quic_eberman@quicinc.com>
- <Yzbcd0r768pRgRMr@kroah.com>
- <2a8c1752-818d-bf19-5a3a-095b969c5c5a@quicinc.com>
+        with ESMTP id S229608AbiJEG1f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 02:27:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAB2E74BAD
+        for <linux-doc@vger.kernel.org>; Tue,  4 Oct 2022 23:27:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1664951253;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Hzgr+GJhjprVie4kFrMDBNKKq7b6UhoiqIdbK544F4E=;
+        b=V2pcW8pfnK2k0nFcECm0LecMnB3vZkMTRUXdSdYRuetceQK/ToYQUWbSUi/qr0Aiqokysm
+        4bg0TZmEtmnJ7uVAwpaifjqX95qQj9ZSBoQdW1Uwp/gGFkNdZbNZSHt9V5kK/K5xcgN60R
+        qWjjvI+oSWSYja8l3tnVtOxzJeLnVZc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-312-egykInguO5aD2N4bH5GEZg-1; Wed, 05 Oct 2022 02:27:32 -0400
+X-MC-Unique: egykInguO5aD2N4bH5GEZg-1
+Received: by mail-wm1-f72.google.com with SMTP id c2-20020a1c3502000000b003b535aacc0bso536374wma.2
+        for <linux-doc@vger.kernel.org>; Tue, 04 Oct 2022 23:27:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=Hzgr+GJhjprVie4kFrMDBNKKq7b6UhoiqIdbK544F4E=;
+        b=bejPKyn90BwZloAlAD3DuQJLAzesLShv7qbSuDZkT8GhGAPFKWj+QBTgYJuwsF0b/z
+         RiS5+cVRjKaCQX7b9fU77gsU+MgEbimYJy4HmP3moMMa7D7n5nWk5+A9gdPmuHR/9ngd
+         8GiE7mNFN6gEWdGBK7SRdyjrefSjI8RIdaDI1YDGdBpYFS1CGViP3tXni2wD4Npac5Lb
+         Bm/7j85nH6WPbS+4PBdbPf/75vOl/Xff/EL92pKAxjY2iF2tInljNOI7LXJYLyLvpX/u
+         9GL8yr2wEQYS6dgewCOI1hKX4wu68uf/CI4HZcmodrq8Z/aYDP4N49OspjS4FmpAqbE0
+         YGRA==
+X-Gm-Message-State: ACrzQf3QGRJN0yzSIyT5FIlYxlbnNm6QMvk1Sxa8G7+KWdFVgHNZ16Pm
+        +7DYzfcMRNwOIEoiW/mfqF1iei0QTQxX/0maaAvF1864U2toEzXQ33+Ng2hui18k3UXLjKcMnsr
+        qfzKBi0W/xPhlJeH/1FrU
+X-Received: by 2002:a5d:6dac:0:b0:22a:fbff:b2d3 with SMTP id u12-20020a5d6dac000000b0022afbffb2d3mr17477372wrs.543.1664951250884;
+        Tue, 04 Oct 2022 23:27:30 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM51k5PL/MMj9nNisaw28ILfu80lWeQorWwHNn3p0/GD+K8Uowfp7d1JM62SxQHy7Gip404Y4Q==
+X-Received: by 2002:a5d:6dac:0:b0:22a:fbff:b2d3 with SMTP id u12-20020a5d6dac000000b0022afbffb2d3mr17477361wrs.543.1664951250690;
+        Tue, 04 Oct 2022 23:27:30 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-249.web.vodafone.de. [109.43.177.249])
+        by smtp.gmail.com with ESMTPSA id r6-20020a5d4986000000b0022ccae2fa62sm2068711wrq.22.2022.10.04.23.27.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Oct 2022 23:27:29 -0700 (PDT)
+Message-ID: <69854d56-510c-dab0-7cd6-f593ae2bef14@redhat.com>
+Date:   Wed, 5 Oct 2022 08:27:26 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2a8c1752-818d-bf19-5a3a-095b969c5c5a@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>
+References: <20220930210751.225873-1-scgl@linux.ibm.com>
+ <20220930210751.225873-4-scgl@linux.ibm.com>
+ <85399389-9b5a-d72a-5db1-b8418008ad58@redhat.com>
+ <dca9e17ffbe71c76665ba25a6d9cd91d4aa0c329.camel@linux.ibm.com>
+From:   Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v1 3/9] Documentation: KVM: s390: Describe
+ KVM_S390_MEMOP_F_CMPXCHG
+In-Reply-To: <dca9e17ffbe71c76665ba25a6d9cd91d4aa0c329.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 04, 2022 at 04:50:51PM -0700, Elliot Berman wrote:
+On 04/10/2022 20.51, Janis Schoetterl-Glausch wrote:
+> On Tue, 2022-10-04 at 10:16 +0200, Thomas Huth wrote:
+>> On 30/09/2022 23.07, Janis Schoetterl-Glausch wrote:
+>>> Describe the semantics of the new KVM_S390_MEMOP_F_CMPXCHG flag for
+>>> absolute vm write memops which allows user space to perform (storage key
+>>> checked) cmpxchg operations on guest memory.
+>>>
+>>> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+>>> ---
+>>>    Documentation/virt/kvm/api.rst | 18 +++++++++++++++++-
+>>>    1 file changed, 17 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+>>> index abd7c32126ce..0e02d66e38ae 100644
+>>> --- a/Documentation/virt/kvm/api.rst
+>>> +++ b/Documentation/virt/kvm/api.rst
+>>> @@ -3771,6 +3771,7 @@ Parameters are specified via the following structure::
+>>>    		struct {
 > 
-> 
-> On 9/30/2022 5:09 AM, Greg Kroah-Hartman wrote:
-> > On Wed, Sep 28, 2022 at 12:56:25PM -0700, Elliot Berman wrote:
-> > > Add /sys/hypervisor support when detecting that Linux is running in a
-> > > Gunyah environment. Export the version of Gunyah which is reported via
-> > > the hyp_identify hypercall.
-> > > 
-> > > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> > > ---
-> > >   .../ABI/testing/sysfs-hypervisor-gunyah       | 15 ++++
-> > >   MAINTAINERS                                   |  1 +
-> > >   drivers/virt/Makefile                         |  1 +
-> > >   drivers/virt/gunyah/Makefile                  |  2 +
-> > >   drivers/virt/gunyah/sysfs.c                   | 71 +++++++++++++++++++
-> > >   5 files changed, 90 insertions(+)
-> > >   create mode 100644 Documentation/ABI/testing/sysfs-hypervisor-gunyah
-> > >   create mode 100644 drivers/virt/gunyah/Makefile
-> > >   create mode 100644 drivers/virt/gunyah/sysfs.c
-> > > 
-> > > diff --git a/Documentation/ABI/testing/sysfs-hypervisor-gunyah b/Documentation/ABI/testing/sysfs-hypervisor-gunyah
-> > > new file mode 100644
-> > > index 000000000000..7d74e74e9edd
-> > > --- /dev/null
-> > > +++ b/Documentation/ABI/testing/sysfs-hypervisor-gunyah
-> > > @@ -0,0 +1,15 @@
-> > > +What:		/sys/hypervisor/gunyah/api
-> > > +Date:		October 2022
-> > > +KernelVersion:	6.1
-> > > +Contact:	linux-arm-msm@vger.kernel.org
-> > > +Description:	If running under Gunyah:
-> > > +		The Gunyah API version.
-> > 
-> > What does this version mean?  What format is it in?
-> > 
-> 
-> The version is incremented on backwards-incompatible API changes. It's an
-> integer: I've updated the description to mention it's an integer. FYI -- we
-> are still currently at "1" and not aiming to increment this number. I'd like
-> to get it reported in sysfs in case the version is incremented later.
+> What is the reason you initially didn't copy the /* in */ comment here?
 
-If you change it in the future to be backwards incompatible, then you
-have to change your kernel code anyway and userspace still has to keep
-working the same so it would use a totally different interface.
+You mean in commit 41408c28f283b ? Uh, don't ask me, that's more than 7 
+years ago...
 
-So why is this even needed at all?
+Anyway, please be aware that the MEMOP ioctl is defined as IOW only:
 
-> > > +
-> > > +What:		/sys/hypervisor/gunyah/variant
-> > > +Date:		October 2022
-> > > +KernelVersion:	6.1
-> > > +Contact:	linux-arm-msm@vger.kernel.org
-> > > +Description:	If running under Gunyah:
-> > > +		Reports the build variant of Gunyah:
-> > > +		The open source build of Gunyah will report "81".
-> > > +		The Qualcomm build of Gunyah will report "72".
-> > 
-> > So there are only 2 versions variants?  What happens when you get a
-> > third?  And why the odd numbers?
-> > 
-> 
-> The kernel isn't parsing the reported build variant and is passing the
-> reported value up to the sysfs node. If a new third variant comes along, its
-> build variant number would be reported. Would it be preferred to instead
-> link to Gunyah's definitions for the build variant?
+#define KVM_S390_MEM_OP _IOW(KVMIO, 0xb1, struct kvm_s390_mem_op)
 
-Just document what these random numbers mean please and what userspace
-is to do with them.  If nothing, and this is just information, who would
-use that information?  And if no one, why report it at all? 
+... so if you now introduce an "out" field in that struct, this might have 
+some impact, e.g. on Valgrind etc.
 
-thanks,
+  Thomas
 
-greg k-h
