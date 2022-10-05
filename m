@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84AE1C433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 05:14:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9370C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 05:15:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbiJEFOy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 01:14:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56696 "EHLO
+        id S229716AbiJEFPq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 01:15:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229564AbiJEFOx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 01:14:53 -0400
-Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4D62B4AC;
-        Tue,  4 Oct 2022 22:14:51 -0700 (PDT)
-Date:   Wed, 5 Oct 2022 13:14:30 +0800
+        with ESMTP id S229591AbiJEFPp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 01:15:45 -0400
+Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4060A5B7AC;
+        Tue,  4 Oct 2022 22:15:41 -0700 (PDT)
+Date:   Wed, 5 Oct 2022 13:15:20 +0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1664946889;
+        t=1664946939;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=yoNA2Gd94JISVBvKVnRLBjCp4hjbn2DIfYqCzzaFLMY=;
-        b=XM0wORCagIM1TjPjV5B2OhReAKRqdUQ2+8rt4nvOAgim+i5WhWQTGDx2wDEBbDtrkvryyV
-        SsKmECHh1OU+rzEaNlCiGBQGv7b1yx/F3B7T7nUJSTGYNHZRjYKeF29EIqJnKf9OIqEK4E
-        4kzyWA/VvD5DQ9o0HacMReOP56mGZuI=
+        bh=zoBup4w991szcaY2ZysAfm7F7pOzbhyPnsKjuKDbP3Q=;
+        b=EA6DjMyvwiAeLSpZa5fFdy5gkuCknFXJ7gfqlxRtxDIcDKa4r5SfeC39FiNv+4S3sJeWmU
+        HW8MLd4D0OqWOMiYRlowUfz6IMZV3qG5mTuqLH1GcdYRGrXz2+K+YuZSiyFvfB6LUGPEL4
+        AEiHMQ3Ksgs+ktl6AKHglFSUji+vKb8=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
 To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
 Cc:     Jonathan Corbet <corbet@lwn.net>, chenhuacai@kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] docs/zh_CN: promote the title of zh_CN/process/index.rst
-Message-ID: <b74803bbbd8adc0a99dd152de9bf9c9a707caaec.1664945550.git.bobwxc@email.cn>
+Subject: [PATCH 2/4] docs/zh_CN: add zh_CN/arch.rst
+Message-ID: <13b46f164759cb88a8bc56e2e558e534d52523be.1664945550.git.bobwxc@email.cn>
 References: <cover.1664945550.git.bobwxc@email.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -45,26 +45,50 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Wu XiangCheng <bobwxc@email.cn>
 
-update to commit 9d0f5cd16744 ("docs: promote the title of
-process/index.rst")
+Add an entry for all zh arch documents.
 
 Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
 ---
- Documentation/translations/zh_CN/process/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/translations/zh_CN/arch.rst | 30 +++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/arch.rst
 
-diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
-index a683dbea0c83..a1a35f88f4ae 100644
---- a/Documentation/translations/zh_CN/process/index.rst
-+++ b/Documentation/translations/zh_CN/process/index.rst
-@@ -10,6 +10,7 @@
- 
- .. _cn_process_index:
- 
-+========================
- 与Linux 内核社区一起工作
- ========================
- 
+diff --git a/Documentation/translations/zh_CN/arch.rst b/Documentation/translations/zh_CN/arch.rst
+new file mode 100644
+index 000000000000..1603f076b14d
+--- /dev/null
++++ b/Documentation/translations/zh_CN/arch.rst
+@@ -0,0 +1,30 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++处理器体系结构
++==============
++
++以下文档提供了具体架构实现的编程细节。
++
++.. toctree::
++   :maxdepth: 2
++
++   mips/index
++   arm64/index
++   riscv/index
++   openrisc/index
++   parisc/index
++   loongarch/index
++
++TODOList:
++
++* arm/index
++* ia64/index
++* m68k/index
++* nios2/index
++* powerpc/index
++* s390/index
++* sh/index
++* sparc/index
++* x86/index
++* xtensa/index
++
 -- 
 2.30.2
 
