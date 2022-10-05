@@ -2,96 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 857B3C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 14:56:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 507FDC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 15:29:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbiJEO41 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 10:56:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48082 "EHLO
+        id S230390AbiJEP34 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 11:29:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230090AbiJEO40 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 10:56:26 -0400
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AF945722C;
-        Wed,  5 Oct 2022 07:56:19 -0700 (PDT)
-X-QQ-mid: bizesmtp74t1664981753tqxqhqzu
-Received: from wuhui-virtual-machine.localdoma ( [58.60.63.196])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Wed, 05 Oct 2022 22:55:27 +0800 (CST)
-X-QQ-SSF: 01400000002000F0U000B00A0000000
-X-QQ-FEAT: vLOCICHxEeCEfF/1m3dYxSw0cSBxgr+1eS2IgZovlg8fwaP7DrqvylYTmDYZF
-        byryxOB13Zmze9TU4BH6Xv3gPuZS7ljmVyf6tRQYdTvN81pio7LrpNAq8y2ssjZ0d5ZC30G
-        HPXVJHiBqcT2VPaFEVmWNz+teRmVyUAWN6LzAg6thlNCrYub/vQg2jh/1fK+vS51o4kXB6/
-        Yk/orL6q3G/INVic2hQSPI8xeaYyQwXUdw9rhjhOk5wuyiYqVhCG02FmAZ4VS1hHCstdlZ6
-        q22SYmz64vkEn9UksEU9kQkSnVD+gO90R2FTP0jAcyYiDyZ9Ip/ENqKqlIL+5Bk9FnWQpHg
-        8f3sDFYVzdtymvNuXDo8MFUmveViwGDlousZTIi5RxpG/LdxBzHwMvs1iDAS7uxfn6oQPn+
-        PqN6ptO5bLA=
-X-QQ-GoodBg: 2
-From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-To:     akpm@linux-foundation.org
-Cc:     akiyks@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rppt@kernel.org,
-        skhan@linuxfoundation.org, yejiajian2018@email.szu.edu.cn,
-        zhangyinan2019@email.szu.edu.cn,
-        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-Subject: [PATCH v4] Documentation/mm/page_owner.rst: delete frequently changing experimental data
-Date:   Wed,  5 Oct 2022 22:55:25 +0800
-Message-Id: <20221005145525.10359-1-caoyixuan2019@email.szu.edu.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <89aed08f-1e0b-258c-516d-97a30fd02840@gmail.com>
-References: <89aed08f-1e0b-258c-516d-97a30fd02840@gmail.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:email.szu.edu.cn:qybglogicsvr:qybglogicsvr4
+        with ESMTP id S230490AbiJEP3u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 11:29:50 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F07EE03;
+        Wed,  5 Oct 2022 08:29:47 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 31721385;
+        Wed,  5 Oct 2022 15:29:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 31721385
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1664983786; bh=fhWAv3XoJ4MKi2R/EsBnzcg48N1lTjy8sf1fdDB1rzg=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Yflxwk16JAgvC0ItDDpzlPeOb7IoN4akI7urQVYJL3vCtS5riyOkNXUojjfB6cYsq
+         wbxWoXmyj3F2Yy1nURLmwGUnIfZTfcMy/TA3pkYiax1uC0ieJoIFVFAZU6OQbvjICA
+         zVrCJOYm5WY/25d2gAHQ+SC76ylrOGDAa4/kfB0r5L0qpCdyRquvzzP2whkkOK5gYZ
+         kaeTw4DmMl8ruInK+y7vag1MIXKB2pUxF0UdFJbc9X2rxKkEqY4FCgcKtbqPBW/sHO
+         hwd3JreqLR+2gS0uGUunue83dXXbm04B3kymQXx2Si5Kz9+uEfdoP6Pdcj4sCZLPYR
+         ybCckH34l62dQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 5/5] docs: improve the HTML formatting of kerneldoc
+ comments
+In-Reply-To: <20221005065909.33ba2523@sal.lan>
+References: <20221004201222.281845-1-corbet@lwn.net>
+ <20221004201222.281845-6-corbet@lwn.net> <20221005065909.33ba2523@sal.lan>
+Date:   Wed, 05 Oct 2022 09:29:45 -0600
+Message-ID: <87tu4i9tli.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel size changes due to many factors, such as compiler
-version, configuration, and the build environment. This makes
-size comparison figures irrelevant to reader's setup.
+Mauro Carvalho Chehab <mchehab@kernel.org> writes:
 
-Remove these figures and describe the effects of page owner
-to the kernel size in general instead.
+> Nitpick: you forgot to close the parenthesis on your comment ;-)
 
-Thanks for Jonathan Corbet, Bagas Sanjaya and Mike Rapoport's
-constructive suggestions.
+Hey, I gotta provide something for people to complain about :)
 
-Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
----
- Documentation/mm/page_owner.rst | 20 ++++----------------
- 1 file changed, 4 insertions(+), 16 deletions(-)
+>> +    #
+>> +    print ".. container:: kernelindent\n\n";
+>
+> I liked the new alignment: it makes easier to identify what belongs
+> to each definition block.
+>
+> As I didn't test the patches, it sounds worth mentioning that it makes
+> sense to check if this won't badly affect epub and/or LaTeX/PDF outputs.
+>
+> The LaTeX output generator in particular has a problem with long
+> lines with fixed-width lines: if the text doesn't fit into one line, it
+> either truncates it or makes the text go outside the margins.
+>
+> If the container affects the PDF outputs, we need to double-check if
+> this would break its output.
 
-diff --git a/Documentation/mm/page_owner.rst b/Documentation/mm/page_owner.rst
-index f18fd8907049..127514955a5e 100644
---- a/Documentation/mm/page_owner.rst
-+++ b/Documentation/mm/page_owner.rst
-@@ -38,22 +38,10 @@ not affect to allocation performance, especially if the static keys jump
- label patching functionality is available. Following is the kernel's code
- size change due to this facility.
- 
--- Without page owner::
--
--   text    data     bss     dec     hex filename
--   48392   2333     644   51369    c8a9 mm/page_alloc.o
--
--- With page owner::
--
--   text    data     bss     dec     hex filename
--   48800   2445     644   51889    cab1 mm/page_alloc.o
--   6662     108      29    6799    1a8f mm/page_owner.o
--   1025       8       8    1041     411 mm/page_ext.o
--
--Although, roughly, 8 KB code is added in total, page_alloc.o increase by
--520 bytes and less than half of it is in hotpath. Building the kernel with
--page owner and turning it on if needed would be great option to debug
--kernel memory problem.
-+Although enabling page owner increases kernel size by several kilobytes,
-+most of this code is outside page allocator and its hot path. Building
-+the kernel with page owner and turning it on if needed would be great
-+option to debug kernel memory problem.
- 
- There is one notice that is caused by implementation detail. page owner
- stores information into the memory from struct page extension. This memory
--- 
-2.17.1
+The __container:: directive is pretty much defined as contributing a
+<div> do the HTML output, so I do not expect problems.  That said, I've
+not yet tested it, and clearly need to.
 
+> Also, when the container directive was introduced? Does it affect
+> the minimal Sphinx version we support? It seems that this was old
+> enough to not require any changes at the minimal version, but,
+> from https://www.sphinx-doc.org/en/master/changes.html, it seems
+> that LaTeX support for it was added only at Sphinx v4.1 on this PR:
+>
+> 	https://github.com/sphinx-doc/sphinx/pull/9166
+>
+> So, we need to double-check if are there any changes before and after
+> such version at the places container is used - or change the kerneldoc
+> to only emit such tags on PDF depending on the Sphinx version.
+
+I've tested things as far back as 2.4.5, where all is well.  I don't
+currently have a machine that is capable of running earlier versions;
+I'll need to conjure one of those up, I guess.
+
+(Either that or just bite the bullet and move the minimum version
+forward!)
+
+Thanks,
+
+jon
