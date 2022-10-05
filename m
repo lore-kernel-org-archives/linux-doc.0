@@ -2,93 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8FAEC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 11:34:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21484C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 11:51:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230051AbiJELer (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 07:34:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35596 "EHLO
+        id S230418AbiJELvy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 07:51:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229997AbiJELeS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 07:34:18 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45BA8760EC;
-        Wed,  5 Oct 2022 04:33:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=IfD4r/Qnubl/ZXrWJ/hqbcL8YwiA7Xmp7ErQUUoOr/8=; b=gsBoeSTnoX+6nNnHosNB3RX2Wm
-        2KEAZ9IKZ6OFskIwRx4wlx1XDS5f6QKQwxVbR7IEnPXs8WAqjkYjcUmjmD7DHrI27myjjTcWSR4L0
-        EQAO5RE/1ivJ/IS+G684FlDnjJeT7th1V7fEqLtmbqJYWRPwOFtMKBPaRoHUhXV4kgQAlq/yriK+4
-        UJsZvNlFIXt9nSU6fX9RzUOYWIqlF67OhnS4+fd+dfHaR0cwVwcRhMSrnb0Db1/ODuryYNf7oxY0a
-        lUkfz/Efv4zbhc47OmDtOlhzmhj6SttDkG3sf6YcYKhp96HsB/gw3aAUP0iQ00IPapI3xFEkiwYIK
-        NLOHHI1A==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1og2eB-000K0k-A8; Wed, 05 Oct 2022 11:33:07 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AA0493004A1;
-        Wed,  5 Oct 2022 13:33:02 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 90FCA29982FC3; Wed,  5 Oct 2022 13:33:02 +0200 (CEST)
-Date:   Wed, 5 Oct 2022 13:33:02 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com, rppt@kernel.org,
-        jamorris@linux.microsoft.com, dethoma@microsoft.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v2 10/39] x86/mm: Introduce _PAGE_COW
-Message-ID: <Yz1rbqGHOzmu8Hig@hirez.programming.kicks-ass.net>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-11-rick.p.edgecombe@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220929222936.14584-11-rick.p.edgecombe@intel.com>
+        with ESMTP id S230196AbiJELvh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 07:51:37 -0400
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5A76792C1;
+        Wed,  5 Oct 2022 04:49:29 -0700 (PDT)
+X-QQ-mid: bizesmtp72t1664969952t3kp17xq
+Received: from wuhui-virtual-machine.localdoma ( [58.251.166.36])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Wed, 05 Oct 2022 19:38:57 +0800 (CST)
+X-QQ-SSF: 01400000002000F0U000B00A0000000
+X-QQ-FEAT: 7qSgMNbQBGUjypuUavmP2KdNOtELDyO6LIPfB5uuNiVzJRtCqyPMQZY5tvCV7
+        01aK4uZ8fel4KncY1mNGfcF1I7uC0aqetfku6TKyZhAZYSI3E8M7ChGarvttZbCihCvNQBX
+        QyMgXJd8/NcJMl/PAgUUglF0J76jH+W3ZBDKccFrK0KbalRqfgtdWHWpdc0FG43px0anDFr
+        SBGbciJyWeAnjVdFcYxGv170ilJwHwH61Y++maBhlTvR7eNdWsABejYTCykLMZbVXu5Oy8+
+        4JjxTVrJnSE5pKXT5GvvnakrKwHx6F9mXB1K0akcMpsZtpwBZZPxeg7CiMDmHSfX/kgREnL
+        34/qT2cD1s5GkrZ0DiiYmqSjU1ysxmZi9Oko7hI83HaRc+YJKcLB/J1Rc9qymLbxDHhKgE/
+X-QQ-GoodBg: 2
+From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+To:     bagasdotme@gmail.com
+Cc:     akiyks@gmail.com, akpm@linux-foundation.org,
+        caoyixuan2019@email.szu.edu.cn, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rppt@kernel.org, skhan@linuxfoundation.org,
+        yejiajian2018@email.szu.edu.cn, zhangyinan2019@email.szu.edu.cn
+Subject: [PATCH v3] Documentation/mm/page_owner.rst: delete frequently changing experimental data
+Date:   Wed,  5 Oct 2022 19:38:55 +0800
+Message-Id: <20221005113855.8136-1-caoyixuan2019@email.szu.edu.cn>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <89aed08f-1e0b-258c-516d-97a30fd02840@gmail.com>
+References: <89aed08f-1e0b-258c-516d-97a30fd02840@gmail.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:email.szu.edu.cn:qybglogicsvr:qybglogicsvr4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 03:29:07PM -0700, Rick Edgecombe wrote:
+The kernel size changes due to many factors, such as compiler
+version, configuration, and the build environment. This makes
+size comparison figures irrelevant to reader's setup.
 
-Mucho confusion here:
+Remove these figures and describe the effects of page owner
+to the kernel size in general instead.
 
-> (a) (Write=0,Cow=1,Dirty=0) A modified, copy-on-write (COW) page.
-> (b) (Write=0,Cow=1,Dirty=0) A R/O page that has been COW'ed. The user page
-> (d) (Write=0,Cow=1,Dirty=0) A shared shadow stack PTE. When a shadow stack
+Thanks for Jonathan Corbet, Bagas Sanjaya, Mike Rapoport and
+Bagas Sanjaya's constructive suggestions.
 
-are all identical cases;
+Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+---
+ Documentation/mm/page_owner.rst | 20 ++++----------------
+ 1 file changed, 4 insertions(+), 16 deletions(-)
 
-> (c) (Write=0,Cow=0,Dirty=1) A shadow stack PTE.
-> (e) (Write=0,Cow=0,Dirty=1) A Cow PTE created when a processor without
+diff --git a/Documentation/mm/page_owner.rst b/Documentation/mm/page_owner.rst
+index f18fd8907049..127514955a5e 100644
+--- a/Documentation/mm/page_owner.rst
++++ b/Documentation/mm/page_owner.rst
+@@ -38,22 +38,10 @@ not affect to allocation performance, especially if the static keys jump
+ label patching functionality is available. Following is the kernel's code
+ size change due to this facility.
+ 
+-- Without page owner::
+-
+-   text    data     bss     dec     hex filename
+-   48392   2333     644   51369    c8a9 mm/page_alloc.o
+-
+-- With page owner::
+-
+-   text    data     bss     dec     hex filename
+-   48800   2445     644   51889    cab1 mm/page_alloc.o
+-   6662     108      29    6799    1a8f mm/page_owner.o
+-   1025       8       8    1041     411 mm/page_ext.o
+-
+-Although, roughly, 8 KB code is added in total, page_alloc.o increase by
+-520 bytes and less than half of it is in hotpath. Building the kernel with
+-page owner and turning it on if needed would be great option to debug
+-kernel memory problem.
++Although enabling page owner increases kernel size by several kilobytes,
++most of this code is outside page allocator and its hot path. Building
++the kernel with page owner and turning it on if needed would be great
++option to debug kernel memory problem.
+ 
+ There is one notice that is caused by implementation detail. page owner
+ stores information into the memory from struct page extension. This memory
+-- 
+2.17.1
 
-as are these.
 
