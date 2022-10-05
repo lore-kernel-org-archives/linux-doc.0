@@ -2,405 +2,275 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDE0AC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 15:55:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDABDC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 16:58:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229738AbiJEPzO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 11:55:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53810 "EHLO
+        id S230256AbiJEQ6q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 12:58:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbiJEPzM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 11:55:12 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74D6024BE8;
-        Wed,  5 Oct 2022 08:55:11 -0700 (PDT)
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 295EmJGY018962;
-        Wed, 5 Oct 2022 15:55:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=PcX+8XHm3VBlQQzDvifIRNgD0UePIdcWU1z+Fgbz4vI=;
- b=k02Z1b1oLEj5A2CyPJsViXbkQdiyXkLuYgkSaIaDtI9t9xOp3dGQ1YV13PN6Rx0gRBCV
- ZZCJYIXfHHNcuI3X2slC6qP2LfakJb78D6RiwKU1j9/Me/w2yGAYmfc8+hd8m4GFA7ni
- e8YEEG9FzOlHOXFCza+dhz0QtF57wVJ2ub9kVnkzJ0W6MWKu5oYleZ81wEKDrVlN2lUN
- 9Rixskp6h9aZY/x61gI5yrhq5neXd58Ydn6voAyYBVO03py+YgT+PvBOa63sI1wrhi3y
- Gx6rvwgI4ib6/Wha0+iJaUEP94juIM4tF2YV71+ZiFhb/CPUo0nYX8rwRYRhWNqyubMa kA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k1c0v28hf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 05 Oct 2022 15:55:01 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 295Emp5g020413;
-        Wed, 5 Oct 2022 15:55:01 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k1c0v28fw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 05 Oct 2022 15:55:01 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
-        by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 295FpRff002956;
-        Wed, 5 Oct 2022 15:54:58 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
-        by ppma03fra.de.ibm.com with ESMTP id 3jxd68v83b-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 05 Oct 2022 15:54:58 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 295FstOU50135450
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 5 Oct 2022 15:54:55 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 4B39EA4054;
-        Wed,  5 Oct 2022 15:54:55 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 665E8A405B;
-        Wed,  5 Oct 2022 15:54:52 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown [9.171.7.243])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Wed,  5 Oct 2022 15:54:52 +0000 (GMT)
-Message-ID: <6e7e5c938e8de8d0314a7009e253cb372adfbe3c.camel@linux.ibm.com>
-Subject: Re: [PATCH v1 1/9] s390/uaccess: Add storage key checked cmpxchg
- access to user space
-From:   Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To:     Claudio Imbrenda <imbrenda@linux.ibm.com>
-Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-Date:   Wed, 05 Oct 2022 17:54:51 +0200
-In-Reply-To: <20221005161346.3c735249@p-imbrenda>
-References: <20220930210751.225873-1-scgl@linux.ibm.com>
-         <20220930210751.225873-2-scgl@linux.ibm.com>
-         <20221005161346.3c735249@p-imbrenda>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+        with ESMTP id S229754AbiJEQ6p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 12:58:45 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7D5D5FF48;
+        Wed,  5 Oct 2022 09:58:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664989124; x=1696525124;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=SqbizTKYqT68rLHi+AgQ9y3XnriYji1uZnLd2r29nsw=;
+  b=O0H8CDNnUvEI1WHIlAQYNvliS7qipixwqGJSgQGhcBJwiontK6ID841J
+   Voa7rFQablN0FFlGkfb4xklYKiDa3Dn7I33oyUmZvW4Q+CT3yu+XPLIjY
+   fH0oY+B+Dpc33e/2kIDYtbtXQWqGCm8Gb0JXSJMOGcxxrT5rlKwROgyQb
+   nXfKUSnZmN2Lke8QFgGEMySaBqSH8dXFRMUZpQZYufvteI06s7j0WrDIk
+   KQYUl5uv6jFnVbIaKkmcHoPaRl6cpWI9KJOQ+c3YfnDxr9Mosw/2Mpeso
+   ltZw0GHiY/8a33m7dcSzoYkfXm/YyIOeH6we0RdZR1Psv8JXux4xuhcS8
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="300810654"
+X-IronPort-AV: E=Sophos;i="5.95,161,1661842800"; 
+   d="scan'208";a="300810654"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 09:58:43 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="713479829"
+X-IronPort-AV: E=Sophos;i="5.95,161,1661842800"; 
+   d="scan'208";a="713479829"
+Received: from gionescu-mobl2.ger.corp.intel.com (HELO localhost) ([10.252.39.173])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 09:58:41 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 5/5] docs: improve the HTML formatting of kerneldoc
+ comments
+In-Reply-To: <20221004201222.281845-6-corbet@lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221004201222.281845-1-corbet@lwn.net>
+ <20221004201222.281845-6-corbet@lwn.net>
+Date:   Wed, 05 Oct 2022 19:58:39 +0300
+Message-ID: <87r0zmqkao.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: nhAHlB3sYFXrcsS3PrSAH4gubSSE9mA_
-X-Proofpoint-GUID: NwtqdOOtV4RPlq_Cp-fqtUWvebzBmgEq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-05_03,2022-10-05_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- spamscore=0 phishscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
- adultscore=0 bulkscore=0 malwarescore=0 impostorscore=0 clxscore=1015
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210050097
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2022-10-05 at 16:13 +0200, Claudio Imbrenda wrote:
-> On Fri, 30 Sep 2022 23:07:43 +0200
-> Janis Schoetterl-Glausch <scgl@linux.ibm.com> wrote:
-> 
-> > Add cmpxchg functionality similar to that in cmpxchg.h except that the
-> > target is a user space address and that the address' storage key is
-> > matched with the access_key argument in order to honor key-controlled
-> > protection.
-> > The access is performed by changing to the secondary-spaces mode and
-> > setting the PSW key for the duration of the compare and swap.
-> 
-> this whole patch is very complex, I think it can be simplified and made
-> more maintainable (see my comments below)
-> 
-> in the end here we need an atomic compare and swap with key checking,
-> if we are doing a syscall for it, we are clearly not looking for
-> performance.
+On Tue, 04 Oct 2022, Jonathan Corbet <corbet@lwn.net> wrote:
+> Make a few changes to cause functions documented by kerneldoc to stand out
+> better in the rendered documentation.  Specifically, change kernel-doc to
+> put the description section into a ".. container::" section, then add a bit
+> of CSS to indent that section relative to the function prototype (or struct
+> or enum definition).  Tweak a few other CSS parameters while in the
+> neighborhood to improve the formatting.
 
-If you only consider this in the context of KVM you are correct, but
-Heiko wanted me not to specialize this for KVM.
+Way back I tried to keep the formatting changes minimal to avoid opening
+that particular can of worms along with the rest of the Sphinx
+transition.
 
-> > 
-> > Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> > ---
-> > 
-> > 
-> > Possible variations:
-> >   * check the assumptions made in cmpxchg_user_key_size and error out
-> >   * call functions called by copy_to_user
-> >      * access_ok? is a nop
-> >      * should_fail_usercopy?
-> >      * instrument_copy_to_user? doesn't make sense IMO
-> >   * don't be overly strict in cmpxchg_user_key
-> > 
-> > 
-> >  arch/s390/include/asm/uaccess.h | 187 ++++++++++++++++++++++++++++++++
-> >  1 file changed, 187 insertions(+)
-> > 
-> > diff --git a/arch/s390/include/asm/uaccess.h b/arch/s390/include/asm/uaccess.h
-> > index f7038b800cc3..0ce90b7e2b75 100644
-> > --- a/arch/s390/include/asm/uaccess.h
-> > +++ b/arch/s390/include/asm/uaccess.h
-> > @@ -19,6 +19,8 @@
-> >  #include <asm/extable.h>
-> >  #include <asm/facility.h>
-> >  #include <asm-generic/access_ok.h>
-> > +#include <asm/page.h>
-> > +#include <linux/log2.h>
-> >  
-> >  void debug_user_asce(int exit);
-> >  
-> > @@ -390,4 +392,189 @@ do {									\
-> >  		goto err_label;						\
-> >  } while (0)
-> >  
-> > +static __always_inline int __cmpxchg_user_key_small(int size, u64 address,
-> > +						    unsigned __int128 *old_p,
-> > +						    unsigned __int128 new, u8 access_key)
-> > +{
-> 
-> can this whole function be simplified to be a C wrapper for the 4 byte
-> version of compare and swap?
+But I do wonder if people find value in repeating e.g. the struct
+definitions in the documentation. I'd argue the rendered documentation
+is more for an overview, and if you need to know the exact details,
+you'll be in the editor typing code and you can look up the actual
+definition in source. Having the definition feels maybe a bit excessive.
 
-I think so, but all of this is supposed to mirror
-arch/s390/include/asm/cmpxchg.h, although I did depart from that
-somewhat. For one, I changed the decision for retrying the loop,
-but I'll have to undo that since compilation for older machines
-complains about xrk.
-> 
-> > +	u32 shift, mask, old_word, new_word, align_mask, tmp, diff;
-> > +	u64 aligned;
-> > +	int ret = -EFAULT;
-> > +
-> > +	switch (size) {
-> > +	case 2:
-> > +		align_mask = 2;
-> > +		aligned = (address ^ (address & align_mask));
-> > +		shift = (sizeof(u32) - (address & align_mask) - size) * 8;
-> > +		mask = 0xffff << shift;
-> > +		old_word = ((u16)*old_p) << shift;
-> > +		new_word = ((u16)new) << shift;
-> > +		break;
-> > +	case 1:
-> > +		align_mask = 3;
-> > +		aligned = (address ^ (address & align_mask));
-> > +		shift = (sizeof(u32) - (address & align_mask) - size) * 8;
-> > +		mask = 0xff << shift;
-> > +		old_word = ((u8)*old_p) << shift;
-> > +		new_word = ((u8)new) << shift;
-> > +		break;
-> > +	}
-> > +	asm volatile(
-> > +		       "spka	0(%[access_key])\n"
-> > +		"	sacf	256\n"
-> > +		"0:	l	%[tmp],%[aligned]\n"
-> > +		"1:	nr	%[tmp],%[hole_mask]\n"
-> > +		"	or	%[new_word],%[tmp]\n"
-> > +		"	or	%[old_word],%[tmp]\n"
-> > +		"	lr	%[tmp],%[old_word]\n"
-> > +		"2:	cs	%[tmp],%[new_word],%[aligned]\n"
-> > +		"3:	jnl	4f\n"
-> > +		"	xrk	%[diff],%[tmp],%[old_word]\n"
-> > +		"	nr	%[diff],%[hole_mask]\n"
-> > +		"	xr	%[new_word],%[diff]\n"
-> > +		"	xr	%[old_word],%[diff]\n"
-> > +		"	xrk	%[diff],%[tmp],%[old_word]\n"
-> > +		"	jz	2b\n"
-> > +		"4:	ipm	%[ret]\n"
-> > +		"	srl	%[ret],28\n"
-> > +		"5:	sacf	768\n"
-> > +		"	spka	%[default_key]\n"
-> > +		EX_TABLE(0b, 5b) EX_TABLE(1b, 5b)
-> > +		EX_TABLE(2b, 5b) EX_TABLE(3b, 5b)
-> > +		: [old_word] "+&d" (old_word),
-> > +		  [new_word] "+&d" (new_word),
-> > +		  [tmp] "=&d" (tmp),
-> > +		  [aligned] "+Q" (*(u32 *)aligned),
-> > +		  [diff] "=&d" (diff),
-> > +		  [ret] "+d" (ret)
-> > +		: [access_key] "a" (access_key << 4),
-> > +		  [hole_mask] "d" (~mask),
-> > +		  [default_key] "J" (PAGE_DEFAULT_KEY)
-> > +		: "cc"
-> > +	);
-> > +	*old_p = (tmp & mask) >> shift;
-> > +	return ret;
-> > +}
-> > +
-> > +/**
-> > + * cmpxchg_user_key_size() - cmpxchg with user space target, honoring storage keys
-> > + * @size: Size of the value being cmpxchg'ed, one of 1,2,4,8,16.
-> > + * @address: User space address of value to compare to *@old_p and exchange with
-> > + *           *@new. Must be aligned to @size.
-> > + * @old_p: Pointer to old value. Interpreted as a @size byte integer and compared
-> > + *         to the content pointed to by @address in order to determine if the
-> > + *         exchange occurs. The value read from @address is written back to *@old_p.
-> > + * @new: New value to place at @address, interpreted as a @size byte integer.
-> > + * @access_key: Access key to use for checking storage key protection.
-> > + *
-> > + * Perform a cmpxchg on a user space target, honoring storage key protection.
-> > + * @access_key alone determines how key checking is performed, neither
-> > + * storage-protection-override nor fetch-protection-override apply.
-> > + *
-> > + * Return:	0: successful exchange
-> > + *		1: exchange failed
-> > + *		-EFAULT: @address not accessible or not naturally aligned
-> > + *		-EINVAL: invalid @size
-> > + */
-> > +static __always_inline int cmpxchg_user_key_size(int size, void __user *address,
-> > +						 unsigned __int128 *old_p,
-> > +						 unsigned __int128 new, u8 access_key)
-> > +{
-> > +	union {
-> > +		u32 word;
-> > +		u64 doubleword;
-> > +	} old;
-> > +	int ret = -EFAULT;
-> > +
-> > +	/*
-> > +	 * The following assumes that:
-> > +	 *  * the current psw key is the default key
-> > +	 *  * no storage protection overrides are in effect
-> > +	 */
-> > +	might_fault();
-> > +	switch (size) {
-> > +	case 16:
-> > +		asm volatile(
-> > +			       "spka	0(%[access_key])\n"
-> > +			"	sacf	256\n"
-> > +			"0:	cdsg	%[old],%[new],%[target]\n"
-> > +			"1:	ipm	%[ret]\n"
-> > +			"	srl	%[ret],28\n"
-> > +			"2:	sacf	768\n"
-> > +			"	spka	%[default_key]\n"
-> > +			EX_TABLE(0b, 2b) EX_TABLE(1b, 2b)
-> > +			: [old] "+d" (*old_p),
-> > +			  [target] "+Q" (*(unsigned __int128 __user *)address),
-> > +			  [ret] "+d" (ret)
-> > +			: [access_key] "a" (access_key << 4),
-> > +			  [new] "d" (new),
-> > +			  [default_key] "J" (PAGE_DEFAULT_KEY)
-> > +			: "cc"
-> > +		);
-> > +		return ret;
-> > +	case 8:
-> > +		old.doubleword = *old_p;
-> > +		asm volatile(
-> > +			       "spka	0(%[access_key])\n"
-> > +			"	sacf	256\n"
-> > +			"0:	csg	%[old],%[new],%[target]\n"
-> > +			"1:	ipm	%[ret]\n"
-> > +			"	srl	%[ret],28\n"
-> > +			"2:	sacf	768\n"
-> > +			"	spka	%[default_key]\n"
-> > +			EX_TABLE(0b, 2b) EX_TABLE(1b, 2b)
-> > +			: [old] "+d" (old.doubleword),
-> > +			  [target] "+Q" (*(u64 __user *)address),
-> > +			  [ret] "+d" (ret)
-> > +			: [access_key] "a" (access_key << 4),
-> > +			  [new] "d" ((u64)new),
-> > +			  [default_key] "J" (PAGE_DEFAULT_KEY)
-> > +			: "cc"
-> > +		);
-> > +		*old_p = old.doubleword;
-> > +		return ret;
-> > +	case 4:
-> > +		old.word = *old_p;
-> > +		asm volatile(
-> > +			       "spka	0(%[access_key])\n"
-> > +			"	sacf	256\n"
-> > +			"0:	cs	%[old],%[new],%[target]\n"
-> > +			"1:	ipm	%[ret]\n"
-> > +			"	srl	%[ret],28\n"
-> > +			"2:	sacf	768\n"
-> > +			"	spka	%[default_key]\n"
-> > +			EX_TABLE(0b, 2b) EX_TABLE(1b, 2b)
-> > +			: [old] "+d" (old.word),
-> > +			  [target] "+Q" (*(u32 __user *)address),
-> > +			  [ret] "+d" (ret)
-> > +			: [access_key] "a" (access_key << 4),
-> > +			  [new] "d" ((u32)new),
-> > +			  [default_key] "J" (PAGE_DEFAULT_KEY)
-> > +			: "cc"
-> 
-> this is the same code 3 times with only very minimal changes.
-> can you factor it out in macros?
-> 
-> something like this:
-> 
-> #define DO_COMPARE_AND_SWAP(instr, _old, _addr, _ret, _key, _new) \
-> 	asm volatile(
-> 			"spka	0(%[access_key])\n"
-> 		"	sacf	256\n" 
-> 		"0:	" instr "%[old],%[new],%[target]\n"
-> 		"1:	ipm	%[ret]\n"
->  		"	srl 	%[ret],28\n"
-> 		"2:	sacf	768\n"
-> 		"	spka	%[default_key]\n"
-> 		EX_TABLE(0b, 2b) EX_TABLE(1b, 2b)
-> 		: [old] "+d"(_old),
-> 		  [target] "+Q" (*(_addr)),
-> 		  [ret] "+d" (_ret)
-> 		: [access_key] "a" ((_key) << 4),
-> 		  [new] "d" (_new),
-> 		  [default_key] "J" (PAGE_DEFAULT_KEY)
-> 		: "cc"
-> 
-> and then in the code:
-> 
-> DO_COMPARE_AND_SWAP("cs", old.word, (u32 __user *)address, ret, access_key, (u32)new)
-> 
-> this way the code is not duplicated
-> 
-> 
-> or have you tried it already and there are issues I didn't think of?
+We also don't use Sphinx C Domain's ".. c:member::" for struct/union
+members, or ".. c:enumerator::" for enumeration contants. They provide
+arguably nicer rendering out of the box than our stuff.
 
-I'd prefer that, but it's different from how cmpxchg.h does it.
-But then that has simpler asm and needs to special case int128 so the
-benefit isn't as great. I guess Heiko should make that call.
-> 
-> > +		);
-> > +		*old_p = old.word;
-> > +		return ret;
-> > +	case 2:
-> > +	case 1:
-> > +		return __cmpxchg_user_key_small(size, (u64)address, old_p, new, access_key);
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +}
-> > +
-> > +#define cmpxchg_user_key(target_p, old_p, new, access_key)			\
+The Sphinx way to do parameter lists would be field lists i.e. ":param
+foo: description". Ditto for return values ":return: description". (Not
+saying we should convert the comments, but kernel-doc the script could
+emit those.)
 
-Note that this macro isn't being used because I also deviated from the
-functions in cmpxchg.h here. Since we need to return an error in case
-of a fault the return type cannot be void. So we can also return EINVAL
-in case of an invalid size. Then cmpxchg_user_key_size is perfectly
-fine to call directly, which avoids awkwardness in KVM converting the
-numeric size we got from user space into the right types.
-So this macro only exists for other future possible users of key
-checked cmpxchg where the types are fixed at compile time.
-So with your version cmpxchg_user_key_size should just recurse for the
-small sizes.
+Perhaps we'd be better off going towards Sphinx standard usage than
+tweaking our own thing?
 
-> > +({										\
-> > +	__typeof__(old_p) __old_p = (old_p);					\
-> > +	unsigned __int128 __old = *__old_p;					\
-> > +	size_t __size = sizeof(*(target_p));					\
-> > +	int __ret;								\
-> > +										\
-> > +	BUILD_BUG_ON(__size != sizeof(*__old_p));				\
-> > +	BUILD_BUG_ON(__size != sizeof(new));					\
-> > +	BUILD_BUG_ON(__size > 16 || !is_power_of_2(__size));			\
-> 
-> and here an if to see if you need the _small version or the regular
-> one, with the _small version being a wrapper around the regular one
-> 
-> > +	__ret = cmpxchg_user_key_size(__size, (target_p), &__old, (new),	\
-> > +				      (access_key));				\
-> > +	*__old_p = __old;							\
-> > +	__ret;									\
-> > +})
-> > +
-> >  #endif /* __S390_UACCESS_H */
-> 
+I'm afraid I don't have the time to work on this. Talk is cheap and all
+that. My two cents.
 
+Anyway, here are some examples how this might look like: [1].
+
+
+BR,
+Jani.
+
+
+
+[1] https://hawkmoth.readthedocs.io/en/latest/examples.html
+
+
+>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  Documentation/sphinx-static/custom.css | 13 +++++++
+>  scripts/kernel-doc                     | 52 ++++++++++++++++----------
+>  2 files changed, 45 insertions(+), 20 deletions(-)
+>
+> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+> index c465251e840a..d8823fbbd27b 100644
+> --- a/Documentation/sphinx-static/custom.css
+> +++ b/Documentation/sphinx-static/custom.css
+> @@ -10,3 +10,16 @@ div.body h3 { font-size: 130%; }
+>  
+>  /* Tighten up the layout slightly */
+>  div.body { padding: 0 15px 0 10px; }
+> +
+> +/* Don't force the document width */
+> +div.document { width: auto; max-width: 60em; }
+> +
+> +/*
+> + * Parameters for the display of function prototypes and such included
+> + * from C source files.
+> + */
+> +dl.function, dl.struct, dl.enum { margin-top: 2em; background-color: #ecf0f3; }
+> +/* indent lines 2+ of multi-line function prototypes */
+> +dl.function dt { margin-left: 10em; text-indent: -10em; }
+> +dt.sig-object { font-size: larger; }
+> +div.kernelindent { margin-left: 2em; margin-right: 4em; }
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index aea04365bc69..13d42857bce2 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -866,48 +866,53 @@ sub output_function_rst(%) {
+>  	print "\n";
+>      }
+>  
+> -    print "**Parameters**\n\n";
+> +    #
+> +    # Put our descriptive text into a container (thus an HTML <div> to help
+> +    # set the function prototypes apart.
+> +    #
+> +    print ".. container:: kernelindent\n\n";
+>      $lineprefix = "  ";
+> +    print $lineprefix . "**Parameters**\n\n";
+>      foreach $parameter (@{$args{'parameterlist'}}) {
+>  	my $parameter_name = $parameter;
+>  	$parameter_name =~ s/\[.*//;
+>  	$type = $args{'parametertypes'}{$parameter};
+>  
+>  	if ($type ne "") {
+> -	    print "``$type``\n";
+> +	    print $lineprefix . "``$type``\n";
+>  	} else {
+> -	    print "``$parameter``\n";
+> +	    print $lineprefix . "``$parameter``\n";
+>  	}
+>  
+>          print_lineno($parameterdesc_start_lines{$parameter_name});
+>  
+> +	$lineprefix = "    ";
+>  	if (defined($args{'parameterdescs'}{$parameter_name}) &&
+>  	    $args{'parameterdescs'}{$parameter_name} ne $undescribed) {
+>  	    output_highlight_rst($args{'parameterdescs'}{$parameter_name});
+>  	} else {
+> -	    print "  *undescribed*\n";
+> +	    print $lineprefix . "*undescribed*\n";
+>  	}
+> +	$lineprefix = "  ";
+>  	print "\n";
+>      }
+>  
+> -    $lineprefix = $oldprefix;
+>      output_section_rst(@_);
+> +    $lineprefix = $oldprefix;
+>  }
+>  
+>  sub output_section_rst(%) {
+>      my %args = %{$_[0]};
+>      my $section;
+>      my $oldprefix = $lineprefix;
+> -    $lineprefix = "";
+>  
+>      foreach $section (@{$args{'sectionlist'}}) {
+> -	print "**$section**\n\n";
+> +	print $lineprefix . "**$section**\n\n";
+>          print_lineno($section_start_lines{$section});
+>  	output_highlight_rst($args{'sections'}{$section});
+>  	print "\n";
+>      }
+>      print "\n";
+> -    $lineprefix = $oldprefix;
+>  }
+>  
+>  sub output_enum_rst(%) {
+> @@ -915,6 +920,7 @@ sub output_enum_rst(%) {
+>      my ($parameter);
+>      my $oldprefix = $lineprefix;
+>      my $count;
+> +    my $outer;
+>  
+>      if ($sphinx_major < 3) {
+>  	my $name = "enum " . $args{'enum'};
+> @@ -924,14 +930,17 @@ sub output_enum_rst(%) {
+>  	print "\n\n.. c:enum:: " . $name . "\n\n";
+>      }
+>      print_lineno($declaration_start_line);
+> -    $lineprefix = "   ";
+> +    $lineprefix = "  ";
+>      output_highlight_rst($args{'purpose'});
+>      print "\n";
+>  
+> -    print "**Constants**\n\n";
+> -    $lineprefix = "  ";
+> +    print ".. container:: kernelindent\n\n";
+> +    $outer = $lineprefix . "  ";
+> +    $lineprefix = $outer . "  ";
+> +    print $outer . "**Constants**\n\n";
+>      foreach $parameter (@{$args{'parameterlist'}}) {
+> -	print "``$parameter``\n";
+> +	print $outer . "``$parameter``\n";
+> +
+>  	if ($args{'parameterdescs'}{$parameter} ne $undescribed) {
+>  	    output_highlight_rst($args{'parameterdescs'}{$parameter});
+>  	} else {
+> @@ -939,7 +948,7 @@ sub output_enum_rst(%) {
+>  	}
+>  	print "\n";
+>      }
+> -
+> +    print "\n";
+>      $lineprefix = $oldprefix;
+>      output_section_rst(@_);
+>  }
+> @@ -982,18 +991,19 @@ sub output_struct_rst(%) {
+>  	}
+>      }
+>      print_lineno($declaration_start_line);
+> -    $lineprefix = "   ";
+> +    $lineprefix = "  ";
+>      output_highlight_rst($args{'purpose'});
+>      print "\n";
+>  
+> -    print "**Definition**\n\n";
+> -    print "::\n\n";
+> +    print ".. container:: kernelindent\n\n";
+> +    print $lineprefix . "**Definition**::\n\n";
+>      my $declaration = $args{'definition'};
+> -    $declaration =~ s/\t/  /g;
+> -    print "  " . $args{'type'} . " " . $args{'struct'} . " {\n$declaration  };\n\n";
+> +    $lineprefix = $lineprefix . "  ";
+> +    $declaration =~ s/\t/$lineprefix/g;
+> +    print $lineprefix . $args{'type'} . " " . $args{'struct'} . " {\n$declaration" . $lineprefix . "};\n\n";
+>  
+> -    print "**Members**\n\n";
+>      $lineprefix = "  ";
+> +    print $lineprefix . "**Members**\n\n";
+>      foreach $parameter (@{$args{'parameterlist'}}) {
+>  	($parameter =~ /^#/) && next;
+>  
+> @@ -1003,8 +1013,10 @@ sub output_struct_rst(%) {
+>  	($args{'parameterdescs'}{$parameter_name} ne $undescribed) || next;
+>  	$type = $args{'parametertypes'}{$parameter};
+>          print_lineno($parameterdesc_start_lines{$parameter_name});
+> -	print "``" . $parameter . "``\n";
+> +	print $lineprefix . "``" . $parameter . "``\n";
+> +	$lineprefix = "    ";
+>  	output_highlight_rst($args{'parameterdescs'}{$parameter_name});
+> +	$lineprefix = "  ";
+>  	print "\n";
+>      }
+>      print "\n";
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
