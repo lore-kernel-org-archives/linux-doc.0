@@ -2,318 +2,234 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CE5BC4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 10:46:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBACDC4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 10:47:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229492AbiJEKqo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 06:46:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57418 "EHLO
+        id S229605AbiJEKrY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 06:47:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiJEKqo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 06:46:44 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D66A23392;
-        Wed,  5 Oct 2022 03:46:42 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id w18so16600038wro.7;
-        Wed, 05 Oct 2022 03:46:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D95P2l0dTucL7d9vv84t55p3ocxxsCfixlMxJVU5e7s=;
-        b=HJ6C9teJ61vGE8KLt1RMTRt0xyWorhPq2AFS4dGTP5woV19zCKZpjcNDSfSkfxzQOM
-         pw5xK4ij1VMBVMNtAcs/O1cHkcw/dHLlzSsKVWaRs7Lc48STNlF0Ix/nF4ZTTz2wOa62
-         bC0AxvKOsiIG/QGiHUMPpWoc2Ynjb3ybkLnMc+OpMtK00GKJr21HcgQ852mIOQHE5uEy
-         SWIXdcN1kSTC8zIpZkUNpgadQ0BRcpL5Ox/dNIeMJWeZkwjh2K5CbtgMlWKTRnrCEIbN
-         n4N5InuFTVWTEPuXI8eQVNgREyIuHqsyvcCixf5sBlMlmXp8KAJ6G/7lPadjSwsbBnPS
-         17Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=D95P2l0dTucL7d9vv84t55p3ocxxsCfixlMxJVU5e7s=;
-        b=jrKWzqKt8of/9/fFy2E3iMTqsv3U8qMwtQ5sZGE5xQShhpW1pAW16TgNNMaQP6h7u0
-         LTjrOTn9X5aCkqYJ+QhxU8D7Mi017ZttZOPClAB82dRgKjgCpeEL01eOdvu9Qm8/Yvf/
-         NmKc3dgt8hG0XEJLKXE5GV3FgaPG3YzOlvJutDqGjBktdRCcSivjH/wi+4e7T+oVFe/7
-         ucgHqFoIPzO6KxsNQrm1iTr1tPC4fdV0EuGkoZPPRUDyVMh7hni/9iYtac3mCXk08kVJ
-         L/7rKhy5CldSIMBDCOuVxNSP3Fl/UZ0mW+WtzxB1P1KlUIv9UWvEilMQN1DW0m/3xKpP
-         g/jg==
-X-Gm-Message-State: ACrzQf2oXtHCdiFSIoUIgLFNSEFYqpEK1ef/dibRpvAMfh4W3d3xUW1r
-        gOcdQpTWGaP6XZt+zVq6egfFk3o2Ds1YyQ==
-X-Google-Smtp-Source: AMsMyM4eX0ykbCDIdkCOu7TV1d5FvUGd1TH4Gv7hmz35Sntoz8x+EvX+27kJYgOW6c1KQZSqiRm+gw==
-X-Received: by 2002:a05:6000:183:b0:22e:2c5d:fb9f with SMTP id p3-20020a056000018300b0022e2c5dfb9fmr12903229wrx.637.1664966800591;
-        Wed, 05 Oct 2022 03:46:40 -0700 (PDT)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:b4e1:6c12:775b:a638])
-        by smtp.gmail.com with ESMTPSA id w10-20020a05600c474a00b003a5f54e3bbbsm1580959wmo.38.2022.10.05.03.46.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 03:46:40 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     dave@dtucker.co.uk, Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v6 1/1] bpf, docs: document BPF_MAP_TYPE_ARRAY
-Date:   Wed,  5 Oct 2022 11:46:34 +0100
-Message-Id: <20221005104634.66406-2-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221005104634.66406-1-donald.hunter@gmail.com>
-References: <20221005104634.66406-1-donald.hunter@gmail.com>
+        with ESMTP id S229505AbiJEKrV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 06:47:21 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C109926492;
+        Wed,  5 Oct 2022 03:47:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664966838; x=1696502838;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=Qvdvm6/Yzu7ojmkolJcq8JM8ELA489o7JaJRUu4mY5U=;
+  b=IuoI0hTa7ArWrespAaoLf+8W3nQQa2Mrlwf2E3ditrFWFx4AysDHUJaC
+   8EmFCUAUJ/Fpfyo4kwpzzY9OS7wttI48w/JBpM26a8sePDJhlY8bATrcb
+   jvFw11O/xA7ux3Vz63CPJu+PhEvx4IJHhhU76Gs/mMpWz4uWxeYA1xw0S
+   XUf76pHoF7IDHI9dU1eiDi/0TC5CE3R+tvDsK8sj+WLhoc2+T48mqdMaK
+   KXq5peKU9Pzc6OUos9DeqWnPMK7PQkd5aGfQmWlFCa56v4OpkntpfGOlj
+   08MC3kHmA554FeV0f06r2NERv01uz0Sjev+Ud50dO6mBBcWBylpNNx9p4
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="329543795"
+X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; 
+   d="scan'208";a="329543795"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 03:47:18 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="869361684"
+X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; 
+   d="scan'208";a="869361684"
+Received: from refaase-mobl1.ger.corp.intel.com ([10.252.39.164])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 03:47:11 -0700
+Date:   Wed, 5 Oct 2022 13:47:08 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-serial <linux-serial@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, Lukas Wunner <lukas@wunner.de>,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 4/4] tty: serial: 8250: add DFL bus driver for Altera
+ 16550.
+In-Reply-To: <20221004143718.1076710-5-matthew.gerlach@linux.intel.com>
+Message-ID: <d75abf9c-e982-563f-b2-d5a376367b1e@linux.intel.com>
+References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com> <20221004143718.1076710-5-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Dave Tucker <dave@dtucker.co.uk>
+On Tue, 4 Oct 2022, matthew.gerlach@linux.intel.com wrote:
 
-Add documentation for the BPF_MAP_TYPE_ARRAY including kernel version
-introduced, usage and examples. Also document BPF_MAP_TYPE_PERCPU_ARRAY
-which is similar.
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> 
+> Add a Device Feature List (DFL) bus driver for the Altera
+> 16550 implementation of UART.
+> 
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
+> v3: use passed in location of registers
+>     use cleaned up functions for parsing parameters
+> 
+> v2: clean up error messages
+>     alphabetize header files
+>     fix 'missing prototype' error by making function static
+>     tried to sort Makefile and Kconfig better
+> ---
+>  drivers/tty/serial/8250/8250_dfl.c | 177 +++++++++++++++++++++++++++++
+>  drivers/tty/serial/8250/Kconfig    |   9 ++
+>  drivers/tty/serial/8250/Makefile   |   1 +
+>  3 files changed, 187 insertions(+)
+>  create mode 100644 drivers/tty/serial/8250/8250_dfl.c
+> 
+> diff --git a/drivers/tty/serial/8250/8250_dfl.c b/drivers/tty/serial/8250/8250_dfl.c
+> new file mode 100644
+> index 000000000000..110ad3a73459
+> --- /dev/null
+> +++ b/drivers/tty/serial/8250/8250_dfl.c
+> @@ -0,0 +1,177 @@
 
-Signed-off-by: Dave Tucker <dave@dtucker.co.uk>
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/bpf/map_array.rst | 231 ++++++++++++++++++++++++++++++++
- 1 file changed, 231 insertions(+)
- create mode 100644 Documentation/bpf/map_array.rst
+> +static int dfl_uart_get_params(struct device *dev, void __iomem *dfh_base, resource_size_t max,
+> +			       struct uart_8250_port *uart)
+> +{
+> +	u64 v, fifo_len, reg_width;
+> +	int off;
+> +
+> +	if (!dfhv1_has_params(dfh_base)) {
+> +		dev_err(dev, "missing required DFH parameters\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_CLK_FRQ);
+> +	if (off < 0) {
+> +		dev_err(dev, "missing CLK_FRQ param\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	uart->port.uartclk = readq(dfh_base + off);
+> +	dev_dbg(dev, "UART_CLK_ID %u Hz\n", uart->port.uartclk);
+> +
+> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_FIFO_LEN);
+> +	if (off < 0) {
+> +		dev_err(dev, "missing FIFO_LEN param\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	fifo_len = readq(dfh_base + off);
+> +	dev_dbg(dev, "UART_FIFO_ID fifo_len %llu\n", fifo_len);
+> +
+> +	switch (fifo_len) {
+> +	case 32:
+> +		uart->port.type = PORT_ALTR_16550_F32;
+> +		break;
+> +
+> +	case 64:
+> +		uart->port.type = PORT_ALTR_16550_F64;
+> +		break;
+> +
+> +	case 128:
+> +		uart->port.type = PORT_ALTR_16550_F128;
+> +		break;
+> +
+> +	default:
+> +		dev_err(dev, "bad fifo_len %llu\n", fifo_len);
 
-diff --git a/Documentation/bpf/map_array.rst b/Documentation/bpf/map_array.rst
-new file mode 100644
-index 000000000000..9d2da884c41e
---- /dev/null
-+++ b/Documentation/bpf/map_array.rst
-@@ -0,0 +1,231 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2022 Red Hat, Inc.
-+
-+================================================
-+BPF_MAP_TYPE_ARRAY and BPF_MAP_TYPE_PERCPU_ARRAY
-+================================================
-+
-+.. note::
-+   - ``BPF_MAP_TYPE_ARRAY`` was introduced in kernel version 3.19
-+   - ``BPF_MAP_TYPE_PERCPU_ARRAY`` was introduced in version 4.6
-+
-+``BPF_MAP_TYPE_ARRAY`` and ``BPF_MAP_TYPE_PERCPU_ARRAY`` provide generic array
-+storage. The key type is an unsigned 32-bit integer (4 bytes) and the map is of
-+constant size. All array elements are pre-allocated and zero initialized when
-+created. ``BPF_MAP_TYPE_PERCPU_ARRAY`` uses a different memory region for each
-+CPU whereas ``BPF_MAP_TYPE_ARRAY`` uses the same memory region. The maximum
-+size of an array, defined in max_entries, is limited to 2^32. The value stored
-+can be of any size, however, small values will be rounded up to 8 bytes.
-+
-+Since kernel 5.5, memory mapping may be enabled for ``BPF_MAP_TYPE_ARRAY`` by
-+setting the flag ``BPF_F_MMAPABLE``. The map definition is page-aligned and
-+starts on the first page. Sufficient page-sized and page-aligned blocks of
-+memory are allocated to store all array values, starting on the second page,
-+which in some cases will result in over-allocation of memory. The benefit of
-+using this is increased performance and ease of use since userspace programs
-+would not be required to use helper functions to access and mutate data.
-+
-+Usage
-+=====
-+
-+.. c:function::
-+   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-+
-+Array elements can be retrieved using the ``bpf_map_lookup_elem()`` helper.
-+This helper returns a pointer into the array element, so to avoid data races
-+with userspace reading the value, the user must use primitives like
-+``__sync_fetch_and_add()`` when updating the value in-place. Access from
-+userspace uses the libbpf API of the same name.
-+
-+.. c:function::
-+   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
-+
-+Array elements can also be added using the ``bpf_map_update_elem()`` helper or
-+libbpf API.
-+
-+``bpf_map_update_elem()`` returns 0 on success, or negative error in case of
-+failure.
-+
-+Since the array is of constant size, ``bpf_map_delete_elem()`` is not supported.
-+To clear an array element, you may use ``bpf_map_update_elem()`` to insert a
-+zero value to that index.
-+
-+Per CPU Array
-+-------------
-+
-+Values stored in ``BPF_MAP_TYPE_ARRAY`` can be accessed by multiple programs
-+across different CPUs. To restrict storage to a single CPU, you may use a
-+``BPF_MAP_TYPE_PERCPU_ARRAY``.
-+
-+When using a ``BPF_MAP_TYPE_PERCPU_ARRAY`` the ``bpf_map_update_elem()`` and
-+``bpf_map_lookup_elem()`` helpers automatically access the hash slot for the
-+current CPU.
-+
-+.. c:function::
-+   void *bpf_map_lookup_percpu_elem(struct bpf_map *map, const void *key, u32 cpu)
-+
-+The ``bpf_map_lookup_percpu_elem()`` helper can be used to lookup the array
-+value for a specific CPU. Returns value on success , or ``NULL`` if no entry was
-+found or ``cpu`` is invalid.
-+
-+Concurrency
-+-----------
-+
-+Since kernel version 5.1, the BPF infrastructure provides ``struct bpf_spin_lock``
-+to synchronize access.
-+
-+Examples
-+========
-+
-+Please see the ``tools/testing/selftests/bpf`` directory for functional
-+examples. The code samples below demonstrate API usage.
-+
-+Kernel BPF
-+----------
-+
-+This snippet shows how to declare an array in a BPF program.
-+
-+.. code-block:: c
-+
-+    struct {
-+            __uint(type, BPF_MAP_TYPE_ARRAY);
-+            __type(key, u32);
-+            __type(value, long);
-+            __uint(max_entries, 256);
-+    } my_map SEC(".maps");
-+
-+
-+This example BPF program shows how to access an array element.
-+
-+.. code-block:: c
-+
-+    int bpf_prog(struct __sk_buff *skb)
-+    {
-+            int index = load_byte(skb,
-+                                  ETH_HLEN + offsetof(struct iphdr, protocol));
-+            long *value;
-+
-+            if (skb->pkt_type != PACKET_OUTGOING)
-+                    return 0;
-+
-+            value = bpf_map_lookup_elem(&my_map, &index);
-+            if (value)
-+                    __sync_fetch_and_add(value, skb->len);
-+
-+            return 0;
-+    }
-+
-+Userspace
-+---------
-+
-+BPF_MAP_TYPE_ARRAY
-+~~~~~~~~~~~~~~~~~~
-+
-+This snippet shows how to create an array, using ``bpf_map_create_opts`` to
-+set flags.
-+
-+.. code-block:: c
-+
-+    #include <bpf/libbpf.h>
-+    #include <bpf/bpf.h>
-+
-+    int create_array() {
-+            int fd;
-+            LIBBPF_OPTS(bpf_map_create_opts, opts, .map_flags = BPF_F_MMAPABLE);
-+            fd = bpf_map_create(BPF_MAP_TYPE_ARRAY,
-+                                "example_array",       /* name */
-+                                sizeof(__u32),         /* key size */
-+                                sizeof(long),          /* value size */
-+                                256,                   /* max entries */
-+                                &opts);                /* create opts */
-+            return fd;
-+    }
-+
-+This snippet shows how to initialize the elements of an array.
-+
-+.. code-block:: c
-+
-+    int initialize_array(int fd) {
-+            __u32 i;
-+            long value;
-+            int ret;
-+
-+            for (i = 0; i < 256; i++) {
-+                    value = i;
-+                    ret = bpf_map_update_elem(fd, &i, &value, BPF_ANY);
-+                    if (ret < 0)
-+                            return ret;
-+            }
-+
-+            return ret;
-+    }
-+
-+This snippet shows how to retrieve an element value from an array.
-+
-+.. code-block:: c
-+
-+    int lookup(int fd) {
-+            __u32 index = 42;
-+            long value;
-+            int ret = bpf_map_lookup_elem(fd, &index, &value);
-+            if (ret < 0)
-+                    return ret;
-+
-+            /* use value here */
-+            assert(value == 42);
-+
-+            return ret;
-+    }
-+
-+BPF_MAP_TYPE_PERCPU_ARRAY
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+This snippet shows how to initialize the elements of a per CPU array.
-+
-+.. code-block:: c
-+
-+    int initialize_array(int fd) {
-+            int ncpus = libbpf_num_possible_cpus();
-+            long values[ncpus];
-+            __u32 i, j;
-+            int ret;
-+
-+            for (i = 0; i < 256 ; i++) {
-+                    for (j = 0; j < ncpus; j++)
-+                            values[j] = i;
-+                    ret = bpf_map_update_elem(fd, &i, &values, BPF_ANY);
-+                    if (ret < 0)
-+                            return ret;
-+            }
-+
-+            return ret;
-+    }
-+
-+This snippet shows how to access the per CPU elements of an array value.
-+
-+.. code-block:: c
-+
-+    int lookup(int fd) {
-+            int ncpus = libbpf_num_possible_cpus();
-+            __u32 index = 42, j;
-+            long values[ncpus];
-+            int ret = bpf_map_lookup_elem(fd, &index, &values);
-+            if (ret < 0)
-+                    return ret;
-+
-+            for (j = 0; j < ncpus; j++) {
-+                    /* Use per CPU value here */
-+                    assert(values[j] == 42);
-+            }
-+
-+            return ret;
-+    }
-+
-+Semantics
-+=========
-+
-+As shown in the example above, when accessing a ``BPF_MAP_TYPE_PERCPU_ARRAY``
-+in userspace, each value is an array with ``ncpus`` elements.
-+
-+When calling ``bpf_map_update_elem()`` the flag ``BPF_NOEXIST`` can not be used
-+for these maps.
+I'd tell user "unsupported" rather than "bad".
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_REG_LAYOUT);
+> +	if (off < 0) {
+> +		dev_err(dev, "missing REG_LAYOUT param\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	v = readq(dfh_base + off);
+> +	uart->port.regshift = FIELD_GET(DFHv1_PARAM_ID_REG_SHIFT, v);
+> +	reg_width = FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v);
+> +
+> +	dev_dbg(dev, "UART_LAYOUT_ID width %lld shift %d\n",
+> +		FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v), (int)uart->port.regshift);
+
+Why not use reg_width directly?
+
+> +	switch (reg_width) {
+> +	case 4:
+> +		uart->port.iotype = UPIO_MEM32;
+> +		break;
+> +
+> +	case 2:
+> +		uart->port.iotype = UPIO_MEM16;
+> +		break;
+> +
+> +	default:
+> +		dev_err(dev, "invalid reg_width %lld\n", reg_width);
+
+unsupported ?
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int dfl_uart_probe(struct dfl_device *dfl_dev)
+> +{
+> +	struct device *dev = &dfl_dev->dev;
+> +	struct uart_8250_port uart;
+> +	struct dfl_uart *dfluart;
+> +	resource_size_t res_size;
+> +	void __iomem *dfh_base;
+> +	int ret;
+> +
+> +	memset(&uart, 0, sizeof(uart));
+> +	uart.port.flags = UPF_IOREMAP;
+> +	uart.port.mapbase = dfl_dev->csr_res.start;
+> +	uart.port.mapsize = resource_size(&dfl_dev->csr_res);
+> +
+> +	dfluart = devm_kzalloc(dev, sizeof(*dfluart), GFP_KERNEL);
+> +	if (!dfluart)
+> +		return -ENOMEM;
+> +
+> +	dfh_base = devm_ioremap_resource(dev, &dfl_dev->mmio_res);
+> +	if (IS_ERR(dfh_base))
+> +		return PTR_ERR(dfh_base);
+> +
+> +	res_size = resource_size(&dfl_dev->mmio_res);
+> +
+> +	ret = dfl_uart_get_params(dev, dfh_base, res_size, &uart);
+> +
+> +	devm_iounmap(dev, dfh_base);
+> +	devm_release_mem_region(dev, dfl_dev->mmio_res.start, res_size);
+> +
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "failed uart feature walk\n");
+> +
+> +	dev_dbg(dev, "nr_irqs %d %p\n", dfl_dev->num_irqs, dfl_dev->irqs);
+> +
+> +	if (dfl_dev->num_irqs == 1)
+> +		uart.port.irq = dfl_dev->irqs[0];
+> +
+> +	/* register the port */
+
+This comment is pretty useless. Just drop it.
+
+> +	dfluart->line = serial8250_register_8250_port(&uart);
+> +	if (dfluart->line < 0)
+> +		return dev_err_probe(dev, dfluart->line, "unable to register 8250 port.\n");
+> +
+> +	dev_info(dev, "serial8250_register_8250_port %d\n", dfluart->line);
+
+This you want to drop too. It seems a debug thing rather than info level 
+stuff.
+
+
 -- 
-2.35.1
+ i.
 
