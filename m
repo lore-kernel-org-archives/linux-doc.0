@@ -2,110 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5755AC433F5
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 17:28:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7115C433F5
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 17:47:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230143AbiJER2U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 13:28:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44472 "EHLO
+        id S231135AbiJERrt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 13:47:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229593AbiJER2U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 13:28:20 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 690D67E032;
-        Wed,  5 Oct 2022 10:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664990899; x=1696526899;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=J0ixBjZgHg9dB/N4umo0rSQEKiaexvmJgnC4Ny9BMbc=;
-  b=i5QePl049uDvhO+WYGbS60Rj+/B0N7MDREoCdMdZKMZGMYjvlV7BVJmT
-   0TJBV1DWrBY6YSn8+gw4YM5QrxiC/qp7VRmEcaV3LG4YE620gfe6dGhoQ
-   2IkvXs538rAgNG2VE3Zl3r1SFlqc5NE4d4CYM1ZJmTIX/jq2MWga4QNZv
-   keJNEG831suP9aQbvcGgs1ELNs+HZQsQiR2d5XgmyExJhBhOtQpY7Qn7i
-   WP46dLIBrxYpqPbNrIXViDE6f4EpsuEVZYDbDlEgF4KdEJWrZfjeaelF5
-   b+xI7slZzfdS/dC0b476/SPxrqB13QFvaaQEfoVTmg6/uA2UYKSW3rQ4P
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="282934345"
-X-IronPort-AV: E=Sophos;i="5.95,161,1661842800"; 
-   d="scan'208";a="282934345"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 10:28:17 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="602088845"
-X-IronPort-AV: E=Sophos;i="5.95,161,1661842800"; 
-   d="scan'208";a="602088845"
-Received: from gionescu-mobl2.ger.corp.intel.com (HELO localhost) ([10.252.39.173])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 10:28:15 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+        with ESMTP id S231157AbiJERrW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 13:47:22 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D567A7FE4C;
+        Wed,  5 Oct 2022 10:46:37 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id AB05E385;
+        Wed,  5 Oct 2022 17:46:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AB05E385
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1664991996; bh=nQzA5w9oXj1A+jXaVnUuiA57UEAL6+T7Qjr8/MkXPug=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=XHfr4PVRDRU59DFce1L+LjzMepyZPWkxAHB9hS3d+exIGAbcnzDlT9u9MJj3BVSsJ
+         gPbafUXJo67q0mf9KVAk+qM6jLhH3qWhc0BjCte6PHdUI0e8t4+rOp7GZo1oGv9X2f
+         5bdLkQZHs6vkVSUDpY1s0Zn1luHTMQKvPpPmGkKnRShXQRhiVIefgTTCljOqCmgTtu
+         2lMVm8+bwAU8nqFveLYXfA3a8SReGctOYeb1jc6AqDHL3T8bZS6uCBxUzf45rHbOsX
+         wreDKdEYFVf42/XgWwtcSb19CbRk+mclcYxvf97p1IreFNs2PejWnM89GBp8r/PuVY
+         ScqP+CeGYJE9Q==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jani Nikula <jani.nikula@linux.intel.com>,
+        linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
+        Mauro Carvalho Chehab <mchehab@kernel.org>
 Subject: Re: [PATCH 2/5] docs: tweak some Alabaster style parameters
-In-Reply-To: <20221004201222.281845-3-corbet@lwn.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <87lepuqixe.fsf@intel.com>
 References: <20221004201222.281845-1-corbet@lwn.net>
- <20221004201222.281845-3-corbet@lwn.net>
-Date:   Wed, 05 Oct 2022 20:28:13 +0300
-Message-ID: <87lepuqixe.fsf@intel.com>
+ <20221004201222.281845-3-corbet@lwn.net> <87lepuqixe.fsf@intel.com>
+Date:   Wed, 05 Oct 2022 11:46:35 -0600
+Message-ID: <87lepu9n9g.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 04 Oct 2022, Jonathan Corbet <corbet@lwn.net> wrote:
-> This is just the beginning: tighten up the layout a bit to improve the
-> information density in the browser.  To that end, add a custom.css file to
-> tweak Alabaster CSS settings.
+Jani Nikula <jani.nikula@linux.intel.com> writes:
 
-Maybe it's just me, but on the wide 4K screen I have the page_width =
-940px default is silly narrow.
-
-BR,
-Jani.
-
-
-
+> On Tue, 04 Oct 2022, Jonathan Corbet <corbet@lwn.net> wrote:
+>> This is just the beginning: tighten up the layout a bit to improve the
+>> information density in the browser.  To that end, add a custom.css file to
+>> tweak Alabaster CSS settings.
 >
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/conf.py                  |  1 +
->  Documentation/sphinx-static/custom.css | 12 ++++++++++++
->  2 files changed, 13 insertions(+)
->  create mode 100644 Documentation/sphinx-static/custom.css
->
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 629f4afeb0eb..b924b266a70f 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -345,6 +345,7 @@ if  html_theme == 'classic':
->  else:
->      html_theme_options = {
->          'description': get_cline_version(),
-> +        'font_size': '14px',
->      }
->  
->  sys.stderr.write("Using %s theme\n" % html_theme)
-> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-> new file mode 100644
-> index 000000000000..c465251e840a
-> --- /dev/null
-> +++ b/Documentation/sphinx-static/custom.css
-> @@ -0,0 +1,12 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * CSS tweaks for the Alabaster theme
-> + */
-> +
-> +/* Shrink the headers a bit */
-> +div.body h1 { font-size: 180%; }
-> +div.body h2 { font-size: 150%; }
-> +div.body h3 { font-size: 130%; }
-> +
-> +/* Tighten up the layout slightly */
-> +div.body { padding: 0 15px 0 10px; }
+> Maybe it's just me, but on the wide 4K screen I have the page_width =
+> 940px default is silly narrow.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+The real problem, of course, is defining things in terms of pixels to
+begin with.  Redefining those things in resolution-independent units
+(em, for example) would be an improvement.
+
+When we get our CSS person to show up they can certainly fix that up for
+us :)
+
+Thanks,
+
+jon
