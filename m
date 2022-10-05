@@ -2,160 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFE44C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 11:03:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1792C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  5 Oct 2022 11:05:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229803AbiJELDl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 07:03:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51040 "EHLO
+        id S229764AbiJELFd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 07:05:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229819AbiJELDc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 07:03:32 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 559106D9FB;
-        Wed,  5 Oct 2022 04:03:29 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id F0EB21F388;
-        Wed,  5 Oct 2022 11:03:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1664967808; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=j+lb+y1NjPOXtKvMZH/DFSB4E2HI7Wk27OuXyDj7Pes=;
-        b=NeSTlqtefVIhVrpE2j7hWcZujiU0XdWdbPT/yrn5c6+g7S+PnJHPeS8tQSPNLA2J/lIEPJ
-        uUSitahwGL9qaxr4ykGiI9/9i1mis5j9Lmc3xdFGTwSBrzf5TYPd+8y7QNMgkd3Ywx0E5r
-        GzTvyNBQpG77W1on4cRgnKomoFOqbYo=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A31B613345;
-        Wed,  5 Oct 2022 11:03:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id WZ6SJn9kPWMEQwAAMHmgww
-        (envelope-from <jgross@suse.com>); Wed, 05 Oct 2022 11:03:27 +0000
-From:   Juergen Gross <jgross@suse.com>
-To:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     Juergen Gross <jgross@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, xen-devel@lists.xenproject.org
-Subject: [PATCH v3 4/4] xen/pv: support selecting safe/unsafe msr accesses
-Date:   Wed,  5 Oct 2022 13:03:02 +0200
-Message-Id: <20221005110302.13455-5-jgross@suse.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20221005110302.13455-1-jgross@suse.com>
-References: <20221005110302.13455-1-jgross@suse.com>
+        with ESMTP id S229569AbiJELFb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 07:05:31 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1200E66139;
+        Wed,  5 Oct 2022 04:05:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664967928; x=1696503928;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=jKSBPWh8pDyMYM2pEyLTogv+ZtNNMjV8Mb81U4T14t8=;
+  b=C1TF3srpa5jdAKggnekERRZ7ARNPYPOcP+s8SajzrU4wQyz8ze+tlvWC
+   1OijtlJypxTCjz1Fx+6Z67WRJixGIR3p1OxZmuox4/zcbH6LH39BL/htH
+   OmujMRFj4EL9/YEZeeYLH0crTrGsNHmQewryBZQqEC9saNk0WC7W3iP2D
+   3sOLTJhNtq/8EtoWcbOUpdfPtSOFU07LTBix/ZKROyKk4aZ3Rvk2XY7/9
+   696zqR5tVAEWqjLZncrvj+ZsPEcC1BK6/gWBJlAuN9f/OnGjbc1ZIDtUH
+   dFiBk6OmK7Avi5j45gjdOKP/fAycosZFo0JkhWYUyfsvohJ7RnBRoSg5b
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="286345408"
+X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; 
+   d="scan'208";a="286345408"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 04:05:26 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10490"; a="575372394"
+X-IronPort-AV: E=Sophos;i="5.95,159,1661842800"; 
+   d="scan'208";a="575372394"
+Received: from refaase-mobl1.ger.corp.intel.com ([10.252.39.164])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 04:05:19 -0700
+Date:   Wed, 5 Oct 2022 14:05:16 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-serial <linux-serial@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH v3 1/4] Documentation: fpga: dfl: Add documentation for
+ DFHv1
+In-Reply-To: <20221004143718.1076710-2-matthew.gerlach@linux.intel.com>
+Message-ID: <7ad7491d-4d7f-986b-5d9d-1cfdeabe23c5@linux.intel.com>
+References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com> <20221004143718.1076710-2-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instead of always doing the safe variants for reading and writing MSRs
-in Xen PV guests, make the behavior controllable via Kconfig option
-and a boot parameter.
+On Tue, 4 Oct 2022, matthew.gerlach@linux.intel.com wrote:
 
-The default will be the current behavior, which is to always use the
-safe variant.
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> 
+> Add documentation describing the extensions provided by Version
+> 1 of the Device Feature Header (DFHv1).
+> 
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> ---
+> v3: no change
+> 
+> v2: s/GUILD/GUID/
+>     add picture
+> ---
+>  Documentation/fpga/dfl.rst | 49 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 49 insertions(+)
+> 
+> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> index 15b670926084..7c786b75b498 100644
+> --- a/Documentation/fpga/dfl.rst
+> +++ b/Documentation/fpga/dfl.rst
+> @@ -561,6 +561,55 @@ new DFL feature via UIO direct access, its feature id should be added to the
+>  driver's id_table.
+>  
+>  
+> +Extending the Device Feature Header - DFHv1
+> +===========================================
+> +The current 8 bytes of the Device Feature Header, hereafter referred to as
+> +to DFHv0, provide very little opportunity for the hardware to describe itself
+> +to software. Version 1 of the Device Feature Header (DFHv1) is being introduced
+> +to provide increased flexibility and extensibility to hardware designs using
+> +Device Feature Lists.  The list below describes some of the goals behind the
+> +changes in DFHv1:
+> +
+> +* Provide a standardized mechanism for features to describe
+> +  parameters/capabilities to software.
+> +* Standardize the use of a GUID for all DFHv1 types.
+> +* Decouple the location of the DFH from the register space of the feature itself.
+> +
+> +Modeled after PCI Capabilities, DFHv1 Parameters provide a mechanism to associate
+> +a list of parameter values to a particular feature.
+> +
+> +With DFHv0, not all features types contained a GUID.  DFHv1 makes the GUID standard
+> +across all types.
+> +
+> +With DFHv0, the register map of a given feature is located immediately following
+> +the DFHv0 in the memory space.  With DFHv1, the location of the feature register
+> +map can be specified as an offset to the DFHv1 or as an absolute address.  The DFHv1
+> +structure is shown below:
 
-Signed-off-by: Juergen Gross <jgross@suse.com>
----
- .../admin-guide/kernel-parameters.txt         |  6 +++++
- arch/x86/xen/Kconfig                          |  9 +++++++
- arch/x86/xen/enlighten_pv.c                   | 24 +++++++++++--------
- 3 files changed, 29 insertions(+), 10 deletions(-)
+I think this is not a good place for be some kind of v1 marketing speak 
+(that said, I think it's fine to include those goals you have there).
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 426fa892d311..1bda9cf18fae 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6836,6 +6836,12 @@
- 			Crash from Xen panic notifier, without executing late
- 			panic() code such as dumping handler.
- 
-+	xen_msr_safe=	[X86,XEN]
-+			Format: <bool>
-+			Select whether to always use non-faulting (safe) MSR
-+			access functions when running as Xen PV guest. The
-+			default value is controlled by CONFIG_XEN_PV_MSR_SAFE.
-+
- 	xen_nopvspin	[X86,XEN]
- 			Disables the qspinlock slowpath using Xen PV optimizations.
- 			This parameter is obsoleted by "nopvspin" parameter, which
-diff --git a/arch/x86/xen/Kconfig b/arch/x86/xen/Kconfig
-index 85246dd9faa1..9b1ec5d8c99c 100644
---- a/arch/x86/xen/Kconfig
-+++ b/arch/x86/xen/Kconfig
-@@ -92,3 +92,12 @@ config XEN_DOM0
- 	select X86_X2APIC if XEN_PVH && X86_64
- 	help
- 	  Support running as a Xen Dom0 guest.
-+
-+config XEN_PV_MSR_SAFE
-+	bool "Always use safe MSR accesses in PV guests"
-+	default y
-+	depends on XEN_PV
-+	help
-+	  Use safe (not faulting) MSR access functions even if the MSR access
-+	  should not fault anyway.
-+	  The default can be changed by using the "xen_msr_safe" boot parameter.
-diff --git a/arch/x86/xen/enlighten_pv.c b/arch/x86/xen/enlighten_pv.c
-index d5b0844a1b7c..daae454191f2 100644
---- a/arch/x86/xen/enlighten_pv.c
-+++ b/arch/x86/xen/enlighten_pv.c
-@@ -108,6 +108,16 @@ struct tls_descs {
-  */
- static DEFINE_PER_CPU(struct tls_descs, shadow_tls_desc);
- 
-+static __read_mostly bool xen_msr_safe = IS_ENABLED(CONFIG_XEN_PV_MSR_SAFE);
-+
-+static int __init parse_xen_msr_safe(char *str)
-+{
-+	if (str)
-+		return strtobool(str, &xen_msr_safe);
-+	return -EINVAL;
-+}
-+early_param("xen_msr_safe", parse_xen_msr_safe);
-+
- static void __init xen_pv_init_platform(void)
- {
- 	/* PV guests can't operate virtio devices without grants. */
-@@ -1011,22 +1021,16 @@ static int xen_write_msr_safe(unsigned int msr, unsigned int low,
- 
- static u64 xen_read_msr(unsigned int msr)
- {
--	/*
--	 * This will silently swallow a #GP from RDMSR.  It may be worth
--	 * changing that.
--	 */
- 	int err;
- 
--	return xen_read_msr_safe(msr, &err);
-+	return xen_do_read_msr(msr, xen_msr_safe ? &err : NULL);
- }
- 
- static void xen_write_msr(unsigned int msr, unsigned low, unsigned high)
- {
--	/*
--	 * This will silently swallow a #GP from WRMSR.  It may be worth
--	 * changing that.
--	 */
--	xen_write_msr_safe(msr, low, high);
-+	int err;
-+
-+	xen_do_write_msr(msr, low, high, xen_msr_safe ? &err : NULL);
- }
- 
- /* This is called once we have the cpu_possible_mask */
+I'd restructure this so that this section only talks about DFHv1 w/o 
+any comparing how v1 is better than v0. Don't base the description on 
+how things changed from v0 but just describe v1, that is, like v1 is 
+already there, not only being introduced to supercede/extend v0.
+
+And then create v0 section after this section which focuses solely on v0.
+
 -- 
-2.35.3
+ i.
+
+> +    +-----------------------------------------------------------------------+
+> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0|
+> +    +-----------------------------------------------------------------------+
+> +    |63                                 GUID_L                             0|
+> +    +-----------------------------------------------------------------------+
+> +    |63                                 GUID_H                             0|
+> +    +-----------------------------------------------------------------------+
+> +    |63                 Address/Offset                            1|  Rel  0|
+> +    +-----------------------------------------------------------------------+
+> +    |63 Size of register set  32|Params 31|30 Group    16|15 Instance      0|
+> +    +-----------------------------------------------------------------------+
+> +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID           0|
+> +    +-----------------------------------------------------------------------+
+> +    |63                 Parameter Data                                     0|
+> +    +-----------------------------------------------------------------------+
+> +
+> +                                  ...
+> +
+> +    +-----------------------------------------------------------------------+
+> +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID           0|
+> +    +-----------------------------------------------------------------------+
+> +    |63                 Parameter Data                                     0|
+> +    +-----------------------------------------------------------------------+
+> +
+>  Open discussion
+>  ===============
+>  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
+> 
 
