@@ -2,107 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBE88C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 02:53:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A964C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 02:55:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230131AbiJFCxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 22:53:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37890 "EHLO
+        id S230186AbiJFCzj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 22:55:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230110AbiJFCvz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 22:51:55 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E718888DC7;
-        Wed,  5 Oct 2022 19:51:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C87D3B81ED2;
-        Thu,  6 Oct 2022 02:51:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B0C0C433C1;
-        Thu,  6 Oct 2022 02:51:15 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="ZjRINvwJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1665024674;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Mw6mQIkw0EUTS+KZQ2KSjRHdoL9NDRAH5QoihL5z5WY=;
-        b=ZjRINvwJ8Y9RjW9mEsxvsruTRD/kCfvgVCkQ7u/7FdIMuudgLfBeipJujcK5PkA7gRibAE
-        3JueW/NR7m/oXbBMBVnvqYoxLNjKuH/oJSyVnlnwJCBcUbNW9D0yGDKzhSBYRR6jQJKX/l
-        SKoNsI97C5YuUj19TWpVavwkTswS1bY=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id a3526377 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Thu, 6 Oct 2022 02:51:14 +0000 (UTC)
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        brcm80211-dev-list.pdl@broadcom.com, cake@lists.bufferbloat.net,
-        ceph-devel@vger.kernel.org, coreteam@netfilter.org,
-        dccp@vger.kernel.org, dev@openvswitch.org,
-        dmaengine@vger.kernel.org, drbd-dev@lists.linbit.com,
-        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
-        linux-actions@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fbdev@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-hams@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mm@kvack.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-raid@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-sctp@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-xfs@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        lvs-devel@vger.kernel.org, netdev@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, rds-devel@oss.oracle.com,
-        SHA-cyfmac-dev-list@infineon.com, target-devel@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net
-Subject: [PATCH v1 5/5] prandom: remove unused functions
-Date:   Wed,  5 Oct 2022 23:48:44 +0200
-Message-Id: <20221005214844.2699-6-Jason@zx2c4.com>
-In-Reply-To: <20221005214844.2699-1-Jason@zx2c4.com>
-References: <20221005214844.2699-1-Jason@zx2c4.com>
+        with ESMTP id S230213AbiJFCzT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 22:55:19 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3132B8992F;
+        Wed,  5 Oct 2022 19:52:48 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id f193so744533pgc.0;
+        Wed, 05 Oct 2022 19:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=A1VbCAXIYbfneAnNEMFHKQ0qqjQfqURaDKyX/Tusj6A=;
+        b=gwVXdp4WTb32v4iigii12jJNfK/9jLMKDlfHJixd9CUlkpjBiuFYVqly6GDED8ReEP
+         HWmTq5CMeWmsOOZnV8DcyPMDJ0PNDZyTXiTA2ez6FqBJ1tsPtYwfpJ5x9IdqlCbm/bH0
+         bEHcPJiBozmxDbyKyCXxxUz8yM2Nz1fleuA6W8mRUl7WiM9xBZPWK72udVHicgrcS+nd
+         zsUYH75zsP4H06ADpWt/CMP3JD+872gyBBhgCN8ZcfK98OR3XCVf0eQlNOGdZSXjuzC+
+         yiuQ8rB7SZP46Ta2wIYjDpf5qYZXaHGX582RQrWSCWXHqpB2fz7W7hGUpwCGvA+9pv1o
+         JBlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=A1VbCAXIYbfneAnNEMFHKQ0qqjQfqURaDKyX/Tusj6A=;
+        b=3hOxPWj6WNRzHQIq5kySFVdeQwhQf2CgkOhDk9olaE49FR/vDqZvgNfBoPromB7sO6
+         Ehup9lt3I/8pTzCYLJfWO7eRNenttvc5tWYC6Ufysqp0kgGN2ZbXRPDsl5GrRDnvFLQS
+         qUtQafUdl3Mwbo6kbNprD9AR8ZkhwAqIhWzg1v2rb3K7gQAflhvPY54hItXrhdeJaFqp
+         ERxlEaZuvhv0n1ATyhLlAuX6E73swZMNOMuRpo7vyQOOcwRJeAf1lNojr0/Gf/K/sBDX
+         EVqjwRuTG3oEtbGBHy5WIBoej5XHL8e58WAKjLM62zexGAbp6g4XFLcSUCqBAwuT00w0
+         eChQ==
+X-Gm-Message-State: ACrzQf1kXX4OxQRKBtf6gdRJvya+NLBwIk2FBT0P07NfHtx+C7MWkeNd
+        Z60L408R+lo3ANLSWT6DMaU=
+X-Google-Smtp-Source: AMsMyM6Mwheb7z9+PAaDCQ6TpRI278byfyhz9jDEgYn7iFsvcuPIqRaBbejSjNmRCS0L8m/5qnAkhw==
+X-Received: by 2002:a63:5f58:0:b0:458:802:d24b with SMTP id t85-20020a635f58000000b004580802d24bmr2478666pgb.401.1665024755647;
+        Wed, 05 Oct 2022 19:52:35 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id k7-20020a63ff07000000b00439f027789asm496649pgi.59.2022.10.05.19.52.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Oct 2022 19:52:35 -0700 (PDT)
+Message-ID: <fca75232-bf18-e6e8-0072-0906a618ea9c@gmail.com>
+Date:   Thu, 6 Oct 2022 11:52:29 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2] locking/memory-barriers.txt: Improve documentation for
+ writel() example
+Content-Language: en-US
+To:     Parav Pandit <parav@nvidia.com>
+Cc:     bagasdotme@gmail.com, arnd@arndb.de, stern@rowland.harvard.edu,
+        parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org,
+        boqun.feng@gmail.com, npiggin@gmail.com, dhowells@redhat.com,
+        j.alglave@ucl.ac.uk, luc.maranget@inria.fr, paulmck@kernel.org,
+        dlustig@nvidia.com, joel@joelfernandes.org, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <20221005104749.157444-1-parav@nvidia.com>
+ <6a6941fb-53a0-cdd2-9783-590cb959d4e7@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <6a6941fb-53a0-cdd2-9783-590cb959d4e7@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With no callers left of prandom_u32() and prandom_bytes(), remove these
-deprecated wrappers.
+On Thu, 6 Oct 2022 11:48:04 +0900, Akira Yokosawa wrote:
+> Hi,
+> 
+> Maybe I'm too nit-picky, but see below:
+> 
+> On Wed, 5 Oct 2022 13:47:49 +0300, Parav Pandit wrote:
+>> The cited commit describes that when using writel(), explcit wmb()
+>> is not needed. wmb() is an expensive barrier. writel() uses the needed
+>> platform specific barrier instead of expensive wmb().
+>>
+>> Hence update the example to be more accurate that matches the current
+>> implementation.
+>>
+>> commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
+> 
+> You can cite the commit in the Changelog text.
+> Just say:
+> 
+>     Commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs.
+>     MMIO ordering example") describes that when using writel(), ...
+> 
+> Also, a blank line is needed above S-o-b tags as a delimiter.
+> 
+>> Signed-off-by: Parav Pandit <parav@nvidia.com>
+>>
+>> ---
+>> changelog:
+>> v1->v2:
+>> - Further improved description of writel() example
+>> - changed commit subject from 'usage' to 'example'
+>> v0->v1:
+>> - Corrected to mention I/O barrier instead of dma_wmb().
+>> - removed numbered references in commit log
+>> - corrected typo 'explcit' to 'explicit' in commit log
+>> ---
+>>  Documentation/memory-barriers.txt | 10 ++++++----
+>>  1 file changed, 6 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+>> index 832b5d36e279..49e1433db407 100644
+>> --- a/Documentation/memory-barriers.txt
+>> +++ b/Documentation/memory-barriers.txt
+>> @@ -1927,10 +1927,12 @@ There are some more advanced barrier functions:
+>>       before we read the data from the descriptor, and the dma_wmb() allows
+>>       us to guarantee the data is written to the descriptor before the device
+>>       can see it now has ownership.  The dma_mb() implies both a dma_rmb() and
+>> -     a dma_wmb().  Note that, when using writel(), a prior wmb() is not needed
+>> -     to guarantee that the cache coherent memory writes have completed before
+>> -     writing to the MMIO region.  The cheaper writel_relaxed() does not provide
+>> -     this guarantee and must not be used here.
+>> +     a dma_wmb().  Note that, when using writel(), a prior barrier is not
+> If you permit a slightly long line here, this hunk would be much easier to
+> compare:
+> 
+> +     a dma_wmb().  Note that, when using writel(), a prior barrier is not needed
+>       to guarantee that the cache coherent memory writes have completed before
+>       writing to the MMIO region.  The cheaper writel_relaxed() does not provide
+> +     this guarantee and must not be used here. Hence, writeX() is always
+> +     preferred which inserts needed platform specific barrier before writing to
+> +     the specified MMIO region.
+> 
+> That said, I don't feel comfortable with the sentence you added.
+> It looks to me it is redundant because such a guarantee of writeX() is already
+> covered in the section of "KERNEL I/O BARRIER EFFECTS".
+> See the relevant explanation quoted below:
+> 
+> 	3. A writeX() by a CPU thread to the peripheral will first wait for the
+> 	   completion of all prior writes to memory either issued by, or
+> 	   propagated to, the same thread. This ensures that writes by the CPU
+> 	   to an outbound DMA buffer allocated by dma_alloc_coherent() will be
+> 	   visible to a DMA engine when the CPU writes to its MMIO control
+> 	   register to trigger the transfer.
+> 
+> Also please not that this document should not describe any implementation
+I meant       note
 
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- include/linux/prandom.h | 12 ------------
- 1 file changed, 12 deletions(-)
-
-diff --git a/include/linux/prandom.h b/include/linux/prandom.h
-index 78db003bc290..e0a0759dd09c 100644
---- a/include/linux/prandom.h
-+++ b/include/linux/prandom.h
-@@ -12,18 +12,6 @@
- #include <linux/percpu.h>
- #include <linux/random.h>
- 
--/* Deprecated: use get_random_u32 instead. */
--static inline u32 prandom_u32(void)
--{
--	return get_random_u32();
--}
--
--/* Deprecated: use get_random_bytes instead. */
--static inline void prandom_bytes(void *buf, size_t nbytes)
--{
--	return get_random_bytes(buf, nbytes);
--}
--
- struct rnd_state {
- 	__u32 s1, s2, s3, s4;
- };
--- 
-2.37.3
-
+> details of those accessors. This document is not meant as an implementation
+> guide, but a guide for kernel developers who use them. This is clearly
+> mentioned in "DISCLAIMER" at the top of this file.
+> 
+>         Thanks, Akira
+> 
+>> +     needed to guarantee that the cache coherent memory writes have completed
+>> +     before writing to the MMIO region.  The cheaper writel_relaxed() does not
+>> +     provide this guarantee and must not be used here. Hence, writeX() is always
+>> +     preferred which inserts needed platform specific barrier before writing to
+>> +     the specified MMIO region.
+>>  
+>>       See the subsection "Kernel I/O barrier effects" for more information on
+>>       relaxed I/O accessors and the Documentation/core-api/dma-api.rst file for
