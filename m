@@ -2,112 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CA8AC4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 13:32:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89B84C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 13:49:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231329AbiJFNcy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 09:32:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46426 "EHLO
+        id S229936AbiJFNt3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 09:49:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231481AbiJFNcu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 09:32:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9A505FC1;
-        Thu,  6 Oct 2022 06:32:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229540AbiJFNt2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 09:49:28 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2737754B8;
+        Thu,  6 Oct 2022 06:49:27 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 47EBD619B3;
-        Thu,  6 Oct 2022 13:31:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D819C433C1;
-        Thu,  6 Oct 2022 13:31:13 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="dCt1XlLR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1665063067;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=19y9yEzpIVCdXeybhvKA7dJEvUCmehig1gThjjfIZlg=;
-        b=dCt1XlLRhK46o65EhJYBSpRmYOT4n7MeVXGzqEAmpcGdWyuxeH5sPJp8L+8s50v59qatMG
-        Pop9Q+fWN3pqL5OpRxJVaBL/44G7A5DyWYXHpzYYf1aO4M481jtYlUZ2z2P2gTZK51QEX3
-        xI04TaxnmVtdtVX+upl/OVmNZ34Lghg=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 07574342 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Thu, 6 Oct 2022 13:31:07 +0000 (UTC)
-Received: by mail-ua1-f49.google.com with SMTP id p89so623802uap.12;
-        Thu, 06 Oct 2022 06:31:05 -0700 (PDT)
-X-Gm-Message-State: ACrzQf39I0aG5QvIzUh/9qcHBEF1elKF+vF9hNH7v2anSGfBoAICV2EV
-        ngllvXKIEIB5FbGUv+zfb/ab2TbIsHShqQy6ySY=
-X-Google-Smtp-Source: AMsMyM5LOcwlCqLDJ8Sdf5AH9P6p8LW9hstCcin8XnWJVl2TEMHnjzVUue7OZJku+oxVakLrWA9vu3wGp+73FInbltY=
-X-Received: by 2002:ab0:70b9:0:b0:3d7:84d8:35ae with SMTP id
- q25-20020ab070b9000000b003d784d835aemr2699257ual.24.1665063063460; Thu, 06
- Oct 2022 06:31:03 -0700 (PDT)
+        by ms.lwn.net (Postfix) with ESMTPSA id 343975BF;
+        Thu,  6 Oct 2022 13:49:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 343975BF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1665064167; bh=3yOrPKvm0I0vrMoU1xDUguybCRr2Y2rZ9sRGcj/GPVk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=M15Npdr5zFEbg/WWNkF8N2xj7UcbZfJnAEJLjSocyILQCMySxGl730RpoCX/REsgK
+         DWpc8fliCdPbtMTvdl/kMbn1XdjOLDUcmqMh9TO3MYNPx7utf7fL6qKrLMJv8tKzZS
+         MpRhh5h9cCyJdVoAxix2R0clJgwQ/DaJU5xIme1E6X4S/am00CgjQBB6BZJTH6ovNF
+         WF8dgpZ3GpVo9N8UZURMPazjRZKC/oKz3MNNwAIOh6fo6+k9Aw6+eOHSUMSOYYlFU2
+         XLHH/KOypBOs42hjGNQayoDbLXxU4uTChRNs3QNW4rebEHbwDbYR5ajQlhIID6XzDb
+         oB7/IBuoH8sTg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jani Nikula <jani.nikula@linux.intel.com>,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH RFC 0/5] docs: Improvements to our HTML output
+In-Reply-To: <87tu4hp5pg.fsf@intel.com>
+References: <20221004201222.281845-1-corbet@lwn.net> <87tu4hp5pg.fsf@intel.com>
+Date:   Thu, 06 Oct 2022 07:49:26 -0600
+Message-ID: <87k05d83kp.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20221006132510.23374-1-Jason@zx2c4.com>
-In-Reply-To: <20221006132510.23374-1-Jason@zx2c4.com>
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date:   Thu, 6 Oct 2022 07:30:52 -0600
-X-Gmail-Original-Message-ID: <CAHmME9pXuGKNsm3cCOMLSOMJoX2XJnHffpiF_rr32mW2ozShhw@mail.gmail.com>
-Message-ID: <CAHmME9pXuGKNsm3cCOMLSOMJoX2XJnHffpiF_rr32mW2ozShhw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] treewide cleanup of random integer usage
-To:     linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Cc:     Andreas Noever <andreas.noever@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= 
-        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dave Airlie <airlied@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Florian Westphal <fw@strlen.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Hugh Dickins <hughd@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Marco Elver <elver@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Graf <tgraf@suug.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Yury Norov <yury.norov@gmail.com>,
-        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
-        kernel-janitors@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mm@kvack.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org,
-        linux-rdma@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 6, 2022 at 7:25 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> This is a five part treewide cleanup of random integer handling.
-> [...]
-> Please take a look!
+Jani Nikula <jani.nikula@linux.intel.com> writes:
 
-I should add that this patchset probably appears bigger than it
-already is, due in part to that wall of motivational text. Keep in
-mind, though, that the whole thing is only "305 insertions(+), 342
-deletions(-)", so it should be conventionally reviewable.
+> I admit my wish-list replies to this thread may seem a bit obnoxious,
+> when I'm not prepared to contribute. Sorry about that. My intention was
+> not to block any of this, rather muse about what the future direction
+> might be.
 
-Jason
+Wish lists are good.  As noted before, if we're depending on me to come
+up with the web design, we're in trouble...
+
+> Overall I think this is an improvement.
+>
+> There's only two things that I'd like to get addressed, not necessarily
+> now, but eventually:
+>
+> - As mentioned, the main div width as pixels in the alabaster
+>   theme. It's really crappy on wide 4K displays. Only a quarter of the
+>   full screen width is used.
+>
+> - The function/struct/etc. main descriptions are now displayed in the
+>   gray background, along with the "declaration", instead of white
+>   background. Is that an intenational alabaster feature, or is it
+>   something we do to cause that? Seems like the description gets a bit
+>   hidden there.
+
+Both of these should be relatively easily done with CSS overrides, I'll
+look into it.
+
+jon
