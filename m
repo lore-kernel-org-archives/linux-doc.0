@@ -2,245 +2,221 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 605ABC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 17:01:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB641C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 17:21:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230334AbiJFRBM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 13:01:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33372 "EHLO
+        id S229734AbiJFRVc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 13:21:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbiJFRBG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 13:01:06 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64296FAD0;
-        Thu,  6 Oct 2022 10:00:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665075645; x=1696611645;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=2Bqgzrp3vtMupt4HNoMx9Nbs0GAwkw5X72t1qJY7vHg=;
-  b=Y6NmjK4UnG6rTdtWAPjf3xydG5wYirg9Sp/tNv+5VM64+Csqn6p1UWkK
-   4DD+3tFT1Wx57m6pjTygU7OTPQN6MTommb+ohi82ueKpvgFybpELsQOi/
-   kkV2kn5sW0SavEGtlK16O8fhzaFVsUs5nEHUl0/541z4ptQuwLGBndV8h
-   P9Jpw3okGstgEqtgxWncniaSJsfB64BsJ3pXcY7ysex8kWrEWPG6cXZci
-   TahfApy0krFrdc2kJ+SM9XuBI7ctHzIgDFuLizk3lqJA69ZXrEwXTi8rI
-   cxF91/YNenvfAd12DgteAIlXPf/+892wSqSSE4Dxxnl4dPgGNRnE0ZXki
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="303481507"
-X-IronPort-AV: E=Sophos;i="5.95,164,1661842800"; 
-   d="scan'208";a="303481507"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 10:00:32 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="729224224"
-X-IronPort-AV: E=Sophos;i="5.95,164,1661842800"; 
-   d="scan'208";a="729224224"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 10:00:32 -0700
-Date:   Thu, 6 Oct 2022 10:00:43 -0700 (PDT)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 4/4] tty: serial: 8250: add DFL bus driver for Altera
- 16550.
-In-Reply-To: <YzxRxo8jL7rB1+px@smile.fi.intel.com>
-Message-ID: <alpine.DEB.2.22.394.2210060940150.1988353@rhweight-WRK1>
-References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com> <20221004143718.1076710-5-matthew.gerlach@linux.intel.com> <YzxRxo8jL7rB1+px@smile.fi.intel.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S229484AbiJFRVb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 13:21:31 -0400
+Received: from FRA01-PR2-obe.outbound.protection.outlook.com (mail-eopbgr120044.outbound.protection.outlook.com [40.107.12.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEBEAABD7A;
+        Thu,  6 Oct 2022 10:21:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aRoWTW7pFSXDoezeLFWI45o7NPUHlsDL5IAF/y6dQy84WqOvRojWubvIbwFcVn/tLGicLc8o8Vnhk/D2tugHTFG8WumBGMzvjdjzH7wBY8jYzdr6AdoJ7Tyzhs/+e0WA9d3Bhz8E0dXGSAWJhManGyy8D3kWrnoR5iKAK3eDZSaztzFqBMCDlLnIpdQ37QIcCN+10Lc8WTuYEQPwML/W7YaDG7yplpFtxzfY2jhnsdOAZ0K/D/0T3KLg4g0EV17qYRWA6LvNX7QhNTtHo+UAS7XlbckwbOKrzuiMhcEYU6AbvX+Ob8a5lTCsIfmblb6c4BSAMoRODvO0uWjj/+uPhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hjkjH08M4BavjCLQpBhfFzbbLl1J2iit9rB7l3k/q9Y=;
+ b=cXWq0Q7CNJsEuF9NJ93OLaBaz+AhyZnYIF+5wc95uRH2IjSx75ULFSmCBXXgRw/sPDz/PxOwGSF9UDIMcC4ZSLpCOAZwHs+K5i4ULVI/jbm6eXIlhOl+PLQ28f9tHMf1Tsf8qtUkszokwkiyGT+4DEdbwkE/LJ7xPKkhpt78w+7VOq+8PFo71YuqbX93owo3pI8dkLOtxdaGDMXcLfI4XxF/MmJ5rom5lgw6YLe9OWca9zo07022iLhtQYwdW3PI00C+argrXR91v78AsJtmvnd4TnbSjtalFVYmj9wQexDaEalqjKKEeS3/jRDZj9Zdo8mq1nqQMuG8zGbB5E6Lxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=csgroup.eu; dmarc=pass action=none header.from=csgroup.eu;
+ dkim=pass header.d=csgroup.eu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=csgroup.eu;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hjkjH08M4BavjCLQpBhfFzbbLl1J2iit9rB7l3k/q9Y=;
+ b=znWL7iOzXuQKNC2cU0tcAL19esC1EJ4ruvA8EPlVEXxn7qUWvfvzdcHj6zaTHHk/2HLtAJqklrG9x9JHaQ5SjGxPONDo11wVeOKKHYFt6LJbirL3+HLD2iCamrAv3AHvc/AR3FpVUSfFvnKZasn2FWD42wt+3IHxT+3V36Fsgz77LE2gNqtkyyVKj0i+2dNu9mMp9cls7MD25JB+8Go2/b9TKq0C05dHz6vuIJk5iHt+6p5oKHy50b22H2O/BBNH6SV7oOjY9q+hfMjjdX/W6VK5FkvL1DfNCB7v6u42FA+RWY+JzwKUTeVkyT7tEUXZl06VFvUOYQmLqF0bw/IVEA==
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:31::15)
+ by PR0P264MB3324.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:144::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.28; Thu, 6 Oct
+ 2022 17:21:27 +0000
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::c854:380d:c901:45af]) by MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::c854:380d:c901:45af%5]) with mapi id 15.20.5676.036; Thu, 6 Oct 2022
+ 17:21:27 +0000
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>
+CC:     Andreas Noever <andreas.noever@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        =?utf-8?B?Q2hyaXN0b3BoIELDtmhtd2FsZGVy?= 
+        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dave Airlie <airlied@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Florian Westphal <fw@strlen.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        KP Singh <kpsingh@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Marco Elver <elver@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Graf <tgraf@suug.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        =?utf-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@toke.dk>,
+        Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
+Thread-Topic: [PATCH v3 3/5] treewide: use get_random_u32() when possible
+Thread-Index: AQHY2aRLUOmMOiRiqUe6k1BKDHReSa4BnNgA
+Date:   Thu, 6 Oct 2022 17:21:27 +0000
+Message-ID: <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu>
+References: <20221006165346.73159-1-Jason@zx2c4.com>
+ <20221006165346.73159-4-Jason@zx2c4.com>
+In-Reply-To: <20221006165346.73159-4-Jason@zx2c4.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=csgroup.eu;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MRZP264MB2988:EE_|PR0P264MB3324:EE_
+x-ms-office365-filtering-correlation-id: b435e492-bfe5-4766-80db-08daa7bf33c7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: aFKb6j0sF9l/sHpq/IwjAhRbihgR9YM2vTrg9tD8u8O4xs83zA/tlTOlJSQtPnbuBBRuJZ8JpW2RC9YvuOEz6I4z9oR+GKHvPeMMxfcF1I6STjqVgOUxncHVEE6hmVv2OqPVzT8CKvB69n/wDHyXxw1bRB6Eux0E6Id0f8C9BEiyEKy9X6QvkJd1Si0f/bBX6jdbKwiqpupDmd+WFvD/+rWWiMsLgTJwWPH2wGTGwIdCEIdXtJ+PER/OhM7G1QyjkNruT58PBvKsosv0t53rX0QlYlEU9B7LSo+5E1WXZEsjUA/DprtrvD5J8VtazIOkS7mFE+RcQnsbzy+YB17rtmUyLpMP+mp0pYqf6nPhJ/faZMNTA1xZjG9eMb9zFjw5s2m4XeAcOWRMtlIqkLwTdqr88htplPlSqzFtPiy/tjDhE4orewHtSoQP7uBDWSzgHLbZj2PWfv3j7xCMgBsIkeihdW1zUC8OuKY8nELfsKO2dyx5kwMEFh+TJJPhs3HWfLejkS2ZGdliwrCquflClZLwGTZv45DolPMRIlPj4a+XiP60aqwGf6otpH2nNpm3HZI/3ZWDhfuN8+qiEK/sA53iVUkyZVbLBMnGCQ/TSwKUmw2xQOmfyS8Tv1dCTEW3AzyzKoU81pnAIWRxWu+zcRrJTK9VkcsG/SkVfvxeKIFaxCZYk6GJ1TCpBgeG3gX3hgbCpPwToJk6H6xvNTp7P0GbeBAPBTrOeeX+gfRLRTHUYhBoiR/BjQKcgNWkhZ42rdiHMPQMJsXmMvfdvsE8huQB+kVHXnZKE4ZBAZSiAVOwFh3s5UBUomlYBzeGfq0VC5P2MalnhZfAanyxB2Kplw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(366004)(39860400002)(376002)(136003)(396003)(451199015)(316002)(2906002)(122000001)(2616005)(76116006)(7366002)(8936002)(44832011)(38070700005)(7416002)(7336002)(186003)(41300700001)(66446008)(7406005)(5660300002)(26005)(6506007)(38100700002)(66556008)(478600001)(66476007)(6512007)(71200400001)(6486002)(66946007)(8676002)(4326008)(64756008)(31686004)(36756003)(91956017)(86362001)(54906003)(110136005)(31696002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?elpRVEpISzd2QnVpRkVsU1ZtK1Z0YXFYRnIvRVpMa0QvLy9HcWdUZ3dxUXB5?=
+ =?utf-8?B?S2ZETlpJM2lJZTJ4M0pOVjNzODQ5d2hQNlhYMEFjYVBscDFXY2FCVGsxRXRG?=
+ =?utf-8?B?YWNPNTM0bTZkc1pjOHcvN3duTjRMQm92eHIzaVZxRkdwSS9vU0Y0Tmg2UlB4?=
+ =?utf-8?B?L3l4SG1Pdk1SaEtjTmx1bWxCdjNycW0ya3phM1kvNkFhV0lrdmQ1NktlRXF2?=
+ =?utf-8?B?aGNCZ29TN3NJd1pDWjJDamVZTThUSFRMV0JrUi9TalFvNWdhL25RQVlZSkNB?=
+ =?utf-8?B?ZUhHOFFjTmRDVW5qZmhMOWUzV2lqSTIxNUZRZFFIYU91eDRDdll5RTBZTmIv?=
+ =?utf-8?B?b0F0S2Uxcy9sN1NLT25zS3A4N1BqbXhtb082RFN2NFFpbE1tQ3hvdmI4bTM3?=
+ =?utf-8?B?VE9UVTJkSmxhTTJQaU4wV1FtYmlzNHY0NFUrV1p4YVdraCt5SkFoeHBpTkZr?=
+ =?utf-8?B?L0hpdHI5ZmpjTkhqbHF2TFlsQ1NjbEgrTzZ1NjJ5OFVxd2FjZ3ZnM2YyY0dO?=
+ =?utf-8?B?dlptZnJLd1d3MmNOOTJKQWFwOC9BRmpmSmlYTVJCOWJVNzdXMnBVMlg4R3N3?=
+ =?utf-8?B?dlFOUkV4RWRlVThZeFVqUTE0c3RVWFg2TEpuY0kzZzV2STJVdFA1SnE2LzlM?=
+ =?utf-8?B?dlp5bGZCOGRuVVdkak1RelNMTVFNYUY1anRCZUFZS09YTUxkYS9Na2I4OWlE?=
+ =?utf-8?B?cy8wYmNUMDFiODFxcktKbEhvenNrbWRqVThSQ2UzdVdRUE55ek9zaENVVlRm?=
+ =?utf-8?B?c1ltQ05sU01PTnRuWDRTZ3ptTnhPWmNCWDJ6L3k1NElFV05iM1kydk92MEZS?=
+ =?utf-8?B?Y2lBK0J0d1RSc2hFcFl3QkxpU3lmZUYwQ2kyYjBSZUZVZHQzZGYyQXRaUEMw?=
+ =?utf-8?B?MGJMTitsZVBiMlFQTjV2d3N5Zzc4Rzd4MXlybC9ZclJpaUg4djlXcmtjM3gr?=
+ =?utf-8?B?ZnJlWlg0aHVIc2RlVU1DQUJmaVZELzdLZk50Q0NlNlRzc2FtTHJ4NlppdDln?=
+ =?utf-8?B?Y1NXL1hKVHRmVjNuYmF1OU8yWHhVYnFsSkVIZnhyMXMxWGpwR09tOEtoTEIy?=
+ =?utf-8?B?SnFsUTZueUlFN2RwaHNmZmc5STN3VTdpb3VhNHYvaklyVzZONjJhT0JDWGtJ?=
+ =?utf-8?B?a1h3UG9DYjlCZ0VSSTJ4SndFUFdLU2NjMkwweUdVa1IrZzc4bXc2QTlBU0JJ?=
+ =?utf-8?B?SWROSEZVcDdDY2lZMVpTTTMxSlpLRDJPYm9Vcjk5OWdOYUNmMjJTc0x2YW5y?=
+ =?utf-8?B?NGJzdlEyZm5rWW1VRnhJWE1LMDllbDVPRVA4dTJwWFZvMEFLcGxwWU9zV0hn?=
+ =?utf-8?B?VHczbVBXNkhVVHRMZUwrR001ajRZMCtwN0EyN2ZHbTVUUHJKcERFWVoxVzdM?=
+ =?utf-8?B?bGpHbmFKZlJ0YjVTU3lMWTJxZ1JvUkxaZkRMc2gxeFU5SEREbEI5M0lCUlVW?=
+ =?utf-8?B?M3A4VzdWUGZvZ214cWxkSnBrNUlxbTFHZmkzQmxYczYvTTI0QlMwVnlGWW1z?=
+ =?utf-8?B?aG82MllKaHhFcU1mYmIwb3hDL3crc1NoVXdUWHM2YjNxUFdiS3BiVnk1Nk5t?=
+ =?utf-8?B?MUNMc0g5bFZvZDV5NmdldjAxaHpDQk5wQVNFWmtyM2Q4cVpybzRndE1HZE95?=
+ =?utf-8?B?eHVCZk93OTFRd0QyUi9VUVZHV0g5NEZ5dVBVUE85UDlCMzI2S2J2Ryt5cnhD?=
+ =?utf-8?B?RVFCK0tPY1I3blhBQ3duaENNM251bDl3NUZCajQwc09KSytWTTNPOUJKSGor?=
+ =?utf-8?B?UEpjamo1cGRxZkpBdXFxemkvSXErOVhSQ2FraThiTCthTHRNWXVmMkN0dUpi?=
+ =?utf-8?B?QTFGSEV2T2FoMmNPbGM0WC9YbExISklleTU1ZDMzNUN5MGd0MVJDT05kUS9a?=
+ =?utf-8?B?NkVBbzd1SXFBVzFYZ2QxYll0L001YS9sbWdMaFRFVmt6NUxmQzRiUkZMalZs?=
+ =?utf-8?B?NzZsUjlpWE5hSURxTEJvK1FwcW1sZXRlVis5WmJsQnJpZUgvVzIwanlRaEE5?=
+ =?utf-8?B?QytxY0F3dzRGMGEydUt6Z1l6UVpNUE5LS1FQQUNmNThOekxKa3BwY3RzOHNW?=
+ =?utf-8?B?N1A4b0lRQ0tqU1RhUlBlSDVNeWpFYnVWOHgzUkNoQ054LzEwSFpiK1JMcjBN?=
+ =?utf-8?B?ZXBHcEVMSGVMNnkybFozY1BtRHRGbGZ5VVhtSHBhaE1ja0RXaGZKVzZKUUVL?=
+ =?utf-8?Q?bVGw61IQfN57I5nqkFsm1+g=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B07B745AE1A6904EBF61E3986BE3C1D1@FRAP264.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-OriginatorOrg: csgroup.eu
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: b435e492-bfe5-4766-80db-08daa7bf33c7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Oct 2022 17:21:27.5495
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 9914def7-b676-4fda-8815-5d49fb3b45c8
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LyUr5KK+XMmusbQ6YhVGYUYpg2PKOd6bQCvUFRBHYW1Zq91JkHALJ9q3O1VfoqyQV/qNEBNf2qgeOfKWWYBk8HXZNXcwdIKJ3Zm4KWakpb4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR0P264MB3324
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On Tue, 4 Oct 2022, Andy Shevchenko wrote:
-
-> On Tue, Oct 04, 2022 at 07:37:18AM -0700, matthew.gerlach@linux.intel.com wrote:
->> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>
->> Add a Device Feature List (DFL) bus driver for the Altera
->> 16550 implementation of UART.
->
-> ...
->
->> Reported-by: kernel test robot <lkp@intel.com>
->
-> https://docs.kernel.org/process/submitting-patches.html?highlight=reported#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
->
-> "The Reported-by tag gives credit to people who find bugs and report them and it
-> hopefully inspires them to help us again in the future. Please note that if the
-> bug was reported in private, then ask for permission first before using the
-> Reported-by tag. The tag is intended for bugs; please do not use it to credit
-> feature requests."
->
-
-The kernel test robot did find a bug in my v1 submission.  I was missing 
-the static keyword for a function declaration.  Should I remove the tag?
-
->
-> ...
->
->> +	if (!dfhv1_has_params(dfh_base)) {
->> +		dev_err(dev, "missing required DFH parameters\n");
->> +		return -EINVAL;
->> +	}
->
-> Why not use dev_err_probe() everywhere since this is called only at ->probe()
-> stage?
-
-I wasn't sure if using dev_err_probe() was correct, since the usage is 
-technically in a different function.  Since the code is only called from 
-->probe(), and it is much cleaner, I'll switch to dev_err_probe() 
-everywhere
-
-> > ...
->
->> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_CLK_FRQ);
->> +	if (off < 0) {
->> +		dev_err(dev, "missing CLK_FRQ param\n");
->
->> +		return -EINVAL;
->
-> Why error code is being shadowed?
-
-Definitely a mistake.
-
->
->> +	}
->
-> ...
->
->> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_FIFO_LEN);
->> +	if (off < 0) {
->> +		dev_err(dev, "missing FIFO_LEN param\n");
->> +		return -EINVAL;
->
-> Ditto.
->
->> +	}
->
-> ...
->
->> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_REG_LAYOUT);
->> +	if (off < 0) {
->> +		dev_err(dev, "missing REG_LAYOUT param\n");
->> +		return -EINVAL;
->> +	}
->
-> Ditto.
->
-> ...
->
->> +	dev_dbg(dev, "UART_LAYOUT_ID width %lld shift %d\n",
->> +		FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v), (int)uart->port.regshift);
->
-> Casting in printf() in kernel in 99% shows the wrong specifier in use. Try to
-> select the best suitable one.
-
-I will remove the casting and find the correct format specifier.
-
->
-> ...
->
->> +	dfh_base = devm_ioremap_resource(dev, &dfl_dev->mmio_res);
->> +	if (IS_ERR(dfh_base))
->> +		return PTR_ERR(dfh_base);
->> +
->> +	res_size = resource_size(&dfl_dev->mmio_res);
->> +
->> +	ret = dfl_uart_get_params(dev, dfh_base, res_size, &uart);
->
->> +	devm_iounmap(dev, dfh_base);
->> +	devm_release_mem_region(dev, dfl_dev->mmio_res.start, res_size);
->
-> If it's temporary, may be you shouldn't even consider devm_ioremap_resource()
-> to begin with? The devm_* release type of functions in 99% of the cases
-> indicate of the abusing devm_.
-
-I will change the code to call ioremap() and request_mem_region() directly 
-instead of the devm_ versions.
-
->
->> +	if (ret < 0)
->> +		return dev_err_probe(dev, ret, "failed uart feature walk\n");
->
-> ...
->
->> +	dev_info(dev, "serial8250_register_8250_port %d\n", dfluart->line);
->
-> Why do we need this noise?
-
-No, we do not need this noise.
-
->
-> ...
->
->> +	if (dfluart->line >= 0)
->
-> When this can be false?
-
-This can never be false.  I will remove it.
-
->
->> +		serial8250_unregister_port(dfluart->line);
->
-> ...
->
->> +config SERIAL_8250_DFL
->> +	tristate "DFL bus driver for Altera 16550 UART"
->> +	depends on SERIAL_8250 && FPGA_DFL
->> +	help
->> +	  This option enables support for a Device Feature List (DFL) bus
->> +	  driver for the Altera 16650 UART.  One or more Altera 16650 UARTs
->> +	  can be instantiated in a FPGA and then be discovered during
->> +	  enumeration of the DFL bus.
->
-> When m, what be the module name?
-
-I see the file, kernel/drivers/tty/serial/8250/8250_dfl.ko, installed 
-into /lib/modules/...  I also see "alias dfl:t0000f0024* 8250_dfl" in 
-modules.alias
-
-
->
-> ...
->
->>  obj-$(CONFIG_SERIAL_8250_FOURPORT)	+= 8250_fourport.o
->>  obj-$(CONFIG_SERIAL_8250_ACCENT)	+= 8250_accent.o
->>  obj-$(CONFIG_SERIAL_8250_BOCA)		+= 8250_boca.o
->> +obj-$(CONFIG_SERIAL_8250_DFL)		+= 8250_dfl.o
->
-> This group of drivers for the 4 UARTs on the board or so, does FPGA belong to
-> it? (Same Q, btw, for the Kconfig section. And yes, I know that some of the
-> entries are not properly placed there and in Makefile.)
-
-Since 8250_dfl results in its own module, and my kernel config doesn't 
-have FOURPORT, ACCENT, nor BOCA, I guess I don't understand the problem.
-
->
->>  obj-$(CONFIG_SERIAL_8250_EXAR_ST16C554)	+= 8250_exar_st16c554.o
->>  obj-$(CONFIG_SERIAL_8250_HUB6)		+= 8250_hub6.o
->>  obj-$(CONFIG_SERIAL_8250_FSL)		+= 8250_fsl.o
->
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-
-Thanks for the feedback.
-
-
->
->
->
+DQoNCkxlIDA2LzEwLzIwMjIgw6AgMTg6NTMsIEphc29uIEEuIERvbmVuZmVsZCBhIMOpY3JpdMKg
+Og0KPiBUaGUgcHJhbmRvbV91MzIoKSBmdW5jdGlvbiBoYXMgYmVlbiBhIGRlcHJlY2F0ZWQgaW5s
+aW5lIHdyYXBwZXIgYXJvdW5kDQo+IGdldF9yYW5kb21fdTMyKCkgZm9yIHNldmVyYWwgcmVsZWFz
+ZXMgbm93LCBhbmQgY29tcGlsZXMgZG93biB0byB0aGUNCj4gZXhhY3Qgc2FtZSBjb2RlLiBSZXBs
+YWNlIHRoZSBkZXByZWNhdGVkIHdyYXBwZXIgd2l0aCBhIGRpcmVjdCBjYWxsIHRvDQo+IHRoZSBy
+ZWFsIGZ1bmN0aW9uLiBUaGUgc2FtZSBhbHNvIGFwcGxpZXMgdG8gZ2V0X3JhbmRvbV9pbnQoKSwg
+d2hpY2ggaXMNCj4ganVzdCBhIHdyYXBwZXIgYXJvdW5kIGdldF9yYW5kb21fdTMyKCkuDQo+IA0K
+PiBSZXZpZXdlZC1ieTogS2VlcyBDb29rIDxrZWVzY29va0BjaHJvbWl1bS5vcmc+DQo+IEFja2Vk
+LWJ5OiBUb2tlIEjDuGlsYW5kLUrDuHJnZW5zZW4gPHRva2VAdG9rZS5kaz4gIyBmb3Igc2NoX2Nh
+a2UNCj4gQWNrZWQtYnk6IENodWNrIExldmVyIDxjaHVjay5sZXZlckBvcmFjbGUuY29tPiAjIGZv
+ciBuZnNkDQo+IFJldmlld2VkLWJ5OiBKYW4gS2FyYSA8amFja0BzdXNlLmN6PiAjIGZvciBleHQ0
+DQo+IFNpZ25lZC1vZmYtYnk6IEphc29uIEEuIERvbmVuZmVsZCA8SmFzb25AengyYzQuY29tPg0K
+PiAtLS0NCg0KPiBkaWZmIC0tZ2l0IGEvYXJjaC9wb3dlcnBjL2tlcm5lbC9wcm9jZXNzLmMgYi9h
+cmNoL3Bvd2VycGMva2VybmVsL3Byb2Nlc3MuYw0KPiBpbmRleCAwZmJkYTg5Y2QxYmIuLjljNGMx
+NWFmYmJlOCAxMDA2NDQNCj4gLS0tIGEvYXJjaC9wb3dlcnBjL2tlcm5lbC9wcm9jZXNzLmMNCj4g
+KysrIGIvYXJjaC9wb3dlcnBjL2tlcm5lbC9wcm9jZXNzLmMNCj4gQEAgLTIzMDgsNiArMjMwOCw2
+IEBAIHZvaWQgbm90cmFjZSBfX3BwYzY0X3J1bmxhdGNoX29mZih2b2lkKQ0KPiAgIHVuc2lnbmVk
+IGxvbmcgYXJjaF9hbGlnbl9zdGFjayh1bnNpZ25lZCBsb25nIHNwKQ0KPiAgIHsNCj4gICAJaWYg
+KCEoY3VycmVudC0+cGVyc29uYWxpdHkgJiBBRERSX05PX1JBTkRPTUlaRSkgJiYgcmFuZG9taXpl
+X3ZhX3NwYWNlKQ0KPiAtCQlzcCAtPSBnZXRfcmFuZG9tX2ludCgpICYgflBBR0VfTUFTSzsNCj4g
+KwkJc3AgLT0gZ2V0X3JhbmRvbV91MzIoKSAmIH5QQUdFX01BU0s7DQo+ICAgCXJldHVybiBzcCAm
+IH4weGY7DQoNCklzbid0IHRoYXQgYSBjYW5kaWRhdGUgZm9yIHByYW5kb21fdTMyX21heCgpID8N
+Cg0KTm90ZSB0aGF0IHNwIGlzIGRlZW1lZCB0byBiZSAxNiBieXRlcyBhbGlnbmVkIGF0IGFsbCB0
+aW1lLg0KDQoNCkNocmlzdG9waGU=
