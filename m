@@ -2,92 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDB0CC433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 04:07:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C46AEC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 05:04:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229777AbiJFEHq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 00:07:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53592 "EHLO
+        id S229955AbiJFFEq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 01:04:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229729AbiJFEHo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 00:07:44 -0400
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17ED588A20;
-        Wed,  5 Oct 2022 21:07:37 -0700 (PDT)
-X-QQ-mid: bizesmtp78t1665029140tcrfg847
-Received: from wuhui-virtual-machine.localdoma ( [58.251.166.8])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Thu, 06 Oct 2022 12:05:18 +0800 (CST)
-X-QQ-SSF: 01400000000000F0U000000A0000000
-X-QQ-FEAT: DQ0OCu3gog2jS1XCuga4iSoPGUC/H47sfmt8qhHpOqY8NW50ybQYpFP4i3KXM
-        OKbzsNQoFCPP9vmRIpIaVbWqWl2Pyk4mTmvdqFckYH2gdZW2S22GxGrAYV/7o3W2ETszjo/
-        Q2Jqr8wn6xRlVYPokNHAfJECon3BvOsuO1UQFCC2rIzMP0Kk30HqqdneZNP4wLudX0PhB9B
-        Wh3cdGsnUMlE7+f6/7AmCQG8GdrVXSJ1d1opxvSZGwo3YzdUC4NsdjZwAzjb10JnD2EuJFt
-        DgKkdPUbRXHFsPwVT5p4402zB3/F1ZN6PGAtPE3PdflfJFCI06NEdYQBt6PtsU/53DUzFkp
-        3Cs6TTscg97q1y9lIf9nS1z7+rkf9XsQlj4fY9RaJt7U9T6g3s=
-X-QQ-GoodBg: 2
-From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-To:     bagasdotme@gmail.com
-Cc:     akiyks@gmail.com, akpm@linux-foundation.org,
-        caoyixuan2019@email.szu.edu.cn, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rppt@kernel.org, skhan@linuxfoundation.org,
-        yejiajian2018@email.szu.edu.cn, zhangyinan2019@email.szu.edu.cn
-Subject: [PATCH v5] Documentation/mm/page_owner.rst: delete frequently changing experimental data
-Date:   Thu,  6 Oct 2022 12:05:17 +0800
-Message-Id: <20221006040517.19736-1-caoyixuan2019@email.szu.edu.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <bf4b507a-f996-6aef-71e6-d73fcddc6163@gmail.com>
-References: <bf4b507a-f996-6aef-71e6-d73fcddc6163@gmail.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:email.szu.edu.cn:qybglogicsvr:qybglogicsvr4
+        with ESMTP id S229452AbiJFFEq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 01:04:46 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C997AE51;
+        Wed,  5 Oct 2022 22:04:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A07A7B81EC9;
+        Thu,  6 Oct 2022 05:04:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 295E2C433D6;
+        Thu,  6 Oct 2022 05:04:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665032679;
+        bh=M2hkFm3NEhtCTBMuaEz71ajk6MNoytV33Do8Ujc6its=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=i5XeGlgpsnNADXnWvqJGjMfFmKCW50R/sdSCE4HpJx2uNuEU7SxVmSgN+fmUwYGYW
+         TmlBFrPmI35bYLdeRD6vHealSC6Y6uUwLBXnPAsMefSsZ/lh3MLiu9aeUR45Wm0oQn
+         zba63xa+asKrRF9BmXpLsILsKAk/EmBTQBwXStruXUH6U7JipWLBYa45uMCuQs2CWo
+         2FI6XXi/LkBqQ43wUHPg9OoQFo49O+V7oNWRo0NE0f3gjVXh7etVZuHag0cbcAh1Xl
+         E+Pa1q8EbnA87Kw+HYnvRu/P6SN10mqVPC6URuAwX4+P8tdYLio5SmZfqXJ4XF1xwz
+         QKRfNpIG7H3FQ==
+Date:   Thu, 6 Oct 2022 06:04:33 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH RFC 0/5] docs: Improvements to our HTML output
+Message-ID: <20221006060433.38023ecd@sal.lan>
+In-Reply-To: <87pmf69tfn.fsf@meer.lwn.net>
+References: <20221004201222.281845-1-corbet@lwn.net>
+        <20221005064039.2ed74fa9@sal.lan>
+        <87pmf69tfn.fsf@meer.lwn.net>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel size changes due to many factors, such as compiler
-version, configuration, and the build environment. This makes
-size comparison figures irrelevant to reader's setup.
+Em Wed, 05 Oct 2022 09:33:16 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Remove these figures and describe the effects of page owner
-to the kernel size in general instead.
+> Mauro Carvalho Chehab <mchehab@kernel.org> writes:
+> 
+> > I would play with the sidebar options used by Alabaster in order to
+> > try to make the TOC more useful.  
+> 
+> Definitely worth doing; I'm not sure how much flexibility there is
+> there.
+>
+> I'd *really* like to avoid carrying our own theme if at all possible...
 
-Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
----
- Documentation/mm/page_owner.rst | 20 ++++----------------
- 1 file changed, 4 insertions(+), 16 deletions(-)
+Yeah, agreed. 
 
-diff --git a/Documentation/mm/page_owner.rst b/Documentation/mm/page_owner.rst
-index f18fd8907049..127514955a5e 100644
---- a/Documentation/mm/page_owner.rst
-+++ b/Documentation/mm/page_owner.rst
-@@ -38,22 +38,10 @@ not affect to allocation performance, especially if the static keys jump
- label patching functionality is available. Following is the kernel's code
- size change due to this facility.
- 
--- Without page owner::
--
--   text    data     bss     dec     hex filename
--   48392   2333     644   51369    c8a9 mm/page_alloc.o
--
--- With page owner::
--
--   text    data     bss     dec     hex filename
--   48800   2445     644   51889    cab1 mm/page_alloc.o
--   6662     108      29    6799    1a8f mm/page_owner.o
--   1025       8       8    1041     411 mm/page_ext.o
--
--Although, roughly, 8 KB code is added in total, page_alloc.o increase by
--520 bytes and less than half of it is in hotpath. Building the kernel with
--page owner and turning it on if needed would be great option to debug
--kernel memory problem.
-+Although enabling page owner increases kernel size by several kilobytes,
-+most of this code is outside page allocator and its hot path. Building
-+the kernel with page owner and turning it on if needed would be great
-+option to debug kernel memory problem.
- 
- There is one notice that is caused by implementation detail. page owner
- stores information into the memory from struct page extension. This memory
--- 
-2.17.1
+Btw right now if you don't have RTD installed, it will already fallback to 
+classic Sphinx-native theme, on a non-optimized way, as it will be using the
+CSS wrote for RTD.
+
+
+> The right solution might be to actually split the books apart and do the
+> intersphinx thing; I've not really looked into that at all.
+
+Yeah, we've been postponing using intersphinx for quite a while. Perhaps
+we could start supporting it. One expected advantage would be to make
+life easier when building just a single book, as intersphinx should keep
+the cross-references working and it should not produce extra warnings due 
+to references that belong to other books.
+
+> > On a side note, one thing I miss on all default themes is a way to dynamically
+> > use dark mode. That's btw why I ended adding non-default support for 
+> > 'sphinx_rtd_dark_mode' (which also requires an external package). At the time
+> > I added CSS/themes customization support to the build system, this was the only 
+> > theme that allowed to switch to either dark/light mode. It would be really cool 
+> > if Alabaster (or some other default themes) could honor the user's preference
+> > between light/dark modes.  
+> 
+> Yeah, Alabaster doesn't seem to have that.  Providing that ability in
+> conf.py shouldn't be *that* hard to do; it doesn't use that many colors,
+> though there might be a fair amount of CSS to override.
+
+RTD dark mode [1] solves it in runtime using a CSS with:
+
+	html[data-theme='dark'] body {
+	  color: #bfbfbf;
+	}
+
+A JS sets "data-theme" to dark in order to activate it in runtime[1] with:
+
+	    document.documentElement.setAttribute('data-theme', 'dark');
+
+It also comes with a .py file that selects the default.
+
+But yeah, there are a fair amount of CSS to override.
+
+Also, I suspect that maintaining it can be a challenge. Not sure if it
+worth the efforts.
+
+[1] https://github.com/MrDogeBro/sphinx_rtd_dark_mode/tree/main/sphinx_rtd_dark_mode
+
+Regards,
+Mauro
 
