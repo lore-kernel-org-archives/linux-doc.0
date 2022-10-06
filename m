@@ -2,266 +2,219 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 296A5C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 23:16:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32D10C4321E
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 23:37:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232052AbiJFXQT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 19:16:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34234 "EHLO
+        id S232302AbiJFXhL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 19:37:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231871AbiJFXQS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 19:16:18 -0400
-X-Greylist: delayed 3595 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Oct 2022 16:16:15 PDT
-Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A05AA94120;
-        Thu,  6 Oct 2022 16:16:14 -0700 (PDT)
-Received: from [127.0.0.1] ([73.223.250.219])
-        (authenticated bits=0)
-        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 296LRJ1M3706824
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-        Thu, 6 Oct 2022 14:27:19 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 296LRJ1M3706824
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2022090501; t=1665091641;
-        bh=83oafeKZfAlix6QiAi5tyBeuvZ5eUW0hhmVMZremg+o=;
-        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-        b=he58tKmvIQguFWQuXk4StAkobvC4MMRcgWm5oocTjATGRjxGaMUIwUgQuvmY5viZp
-         OdiI5JtB78Nl6Q1Or4ZYxFqSiYbDj5OE1/uFwvcSGRkGH9dGkt9d879hBtR0vH2bGc
-         7aH12+QOMsIw09wrwwGzj2TSdqLbgGqiZuNdlE8L9+qEaqPDRyBgWXppvye9w/e69Z
-         IOaxQKuLoOW8QXyzS/uMpO/UHI9HiQCdbc5SdJmT/mKBZrAn0s6hAWyQl9aY9IVHYZ
-         DtSBH3xBedi5AtXWjOr9sBXBoZLsUc4D7Mvh3VswLI+oqxa63rPjDEAwHeVQp+3PDI
-         GTqTedLcwbnfQ==
-Date:   Thu, 06 Oct 2022 14:27:18 -0700
-From:   "H. Peter Anvin" <hpa@zytor.com>
-To:     Ali Raza <aliraza@bu.edu>, linux-kernel@vger.kernel.org
-CC:     corbet@lwn.net, masahiroy@kernel.org, michal.lkml@markovi.net,
-        ndesaulniers@google.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, luto@kernel.org,
-        ebiederm@xmission.com, keescook@chromium.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, arnd@arndb.de, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, vschneid@redhat.com, pbonzini@redhat.com,
-        jpoimboe@kernel.org, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        x86@kernel.org, rjones@redhat.com, munsoner@bu.edu, tommyu@bu.edu,
-        drepper@redhat.com, lwoodman@redhat.com, mboydmcse@gmail.com,
-        okrieg@bu.edu, rmancuso@bu.edu
-Subject: Re: [RFC UKL 00/10] Unikernel Linux (UKL)
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20221003222133.20948-1-aliraza@bu.edu>
-References: <20221003222133.20948-1-aliraza@bu.edu>
-Message-ID: <85EF9D5D-6DCC-410C-96F5-C16F0E62BF22@zytor.com>
+        with ESMTP id S232217AbiJFXhF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 19:37:05 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F03EEB7E1;
+        Thu,  6 Oct 2022 16:37:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B07B7B821EA;
+        Thu,  6 Oct 2022 23:37:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08300C433C1;
+        Thu,  6 Oct 2022 23:36:59 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="IOQ1bXhF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1665099413;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=eDWvYu+uSvuLU1D2yrcps4Uxg3s4afpQR1DZP1HAENk=;
+        b=IOQ1bXhFd3q9+RqlaN9MoWoMb9hyeq0A9ZZHsjT7H7aJth5PyzgIFsO5RZ+IGkqpoVM4vs
+        G1fhQ2wIq1VD89DBIQN9w7YwWxcZC7kUxAooqITvAEdpg/3zs8L5I8+aGBoP4EPhTcYjjM
+        7a1SFu0rQgOf0f04kGQaSuHs/qYIRR4=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id e1098d12 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Thu, 6 Oct 2022 23:36:53 +0000 (UTC)
+Received: by mail-vs1-f44.google.com with SMTP id h4so3494548vsr.11;
+        Thu, 06 Oct 2022 16:36:52 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1TOlBL9WnO/NrZIZyjGBn5ukDeQw/0ECGPpkR+WaKxQK8erd/2
+        /cQN6L+VjtaxFvYQwZI/iE1XpRFjd/wCVAQO/xs=
+X-Google-Smtp-Source: AMsMyM5tvZWHSrcOLtkY/lX0Q7Qvr/oXlGj5vIRT4adjylKOfvaHnErU8AKkQNdqtGo/HZJDgntpViQRNpApZtsIptY=
+X-Received: by 2002:a05:6102:2908:b0:398:ac40:d352 with SMTP id
+ cz8-20020a056102290800b00398ac40d352mr1292105vsb.55.1665099409449; Thu, 06
+ Oct 2022 16:36:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Received: by 2002:ab0:6ed0:0:b0:3d9:6dfd:499 with HTTP; Thu, 6 Oct 2022
+ 16:36:48 -0700 (PDT)
+In-Reply-To: <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
+References: <20221006165346.73159-1-Jason@zx2c4.com> <20221006165346.73159-4-Jason@zx2c4.com>
+ <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu> <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
+ <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu> <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Thu, 6 Oct 2022 17:36:48 -0600
+X-Gmail-Original-Message-ID: <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
+Message-ID: <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
+To:     Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= 
+        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dave Airlie <airlied@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Florian Westphal <fw@strlen.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        KP Singh <kpsingh@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Marco Elver <elver@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Graf <tgraf@suug.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@toke.dk>,
+        Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On October 3, 2022 3:21:23 PM PDT, Ali Raza <aliraza@bu=2Eedu> wrote:
->Unikernel Linux (UKL) is a research project aimed at integrating
->application specific optimizations to the Linux kernel=2E This RFC aims t=
-o
->introduce this research to the community=2E Any feedback regarding the id=
-ea,
->goals, implementation and research is highly appreciated=2E
+On 10/6/22, Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
 >
->Unikernels are specialized operating systems where an application is link=
-ed
->directly with the kernel and runs in supervisor mode=2E This allows the
->developers to implement application specific optimizations to the kernel,
->which can be directly invoked by the application (without going through t=
-he
->syscall path)=2E An application can control scheduling and resource
->management and directly access the hardware=2E Application and the kernel=
- can
->be co-optimized, e=2Eg=2E, through LTO, PGO, etc=2E All of these optimiza=
-tions,
->and others, provide applications with huge performance benefits over
->general purpose operating systems=2E
 >
->Linux is the de-facto operating system of today=2E Applications depend on=
- its
->battle tested code base, large developer community, support for legacy
->code, a huge ecosystem of tools and utilities, and a wide range of
->compatible hardware and device drivers=2E Linux also allows some degree o=
-f
->application specific optimizations through build time config options,
->runtime configuration, and recently through eBPF=2E But still, there is a
->need for even more fine-grained application specific optimizations, and
->some developers resort to kernel bypass techniques=2E
->
->Unikernel Linux (UKL) aims to get the best of both worlds by bringing
->application specific optimizations to the Linux ecosystem=2E This way,
->unmodified applications can keep getting the benefits of Linux while taki=
-ng
->advantage of the unikernel-style optimizations=2E Optionally, application=
+> Le 06/10/2022 =C3=A0 19:31, Christophe Leroy a =C3=A9crit :
+>>
+>>
+>> Le 06/10/2022 =C3=A0 19:24, Jason A. Donenfeld a =C3=A9crit :
+>>> Hi Christophe,
+>>>
+>>> On Thu, Oct 6, 2022 at 11:21 AM Christophe Leroy
+>>> <christophe.leroy@csgroup.eu> wrote:
+>>>> Le 06/10/2022 =C3=A0 18:53, Jason A. Donenfeld a =C3=A9crit :
+>>>>> The prandom_u32() function has been a deprecated inline wrapper aroun=
+d
+>>>>> get_random_u32() for several releases now, and compiles down to the
+>>>>> exact same code. Replace the deprecated wrapper with a direct call to
+>>>>> the real function. The same also applies to get_random_int(), which i=
 s
->can be modified to invoke deeper optimizations=2E
+>>>>> just a wrapper around get_random_u32().
+>>>>>
+>>>>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>>>>> Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@toke.dk> # for sch_c=
+ake
+>>>>> Acked-by: Chuck Lever <chuck.lever@oracle.com> # for nfsd
+>>>>> Reviewed-by: Jan Kara <jack@suse.cz> # for ext4
+>>>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+>>>>> ---
+>>>>
+>>>>> diff --git a/arch/powerpc/kernel/process.c
+>>>>> b/arch/powerpc/kernel/process.c
+>>>>> index 0fbda89cd1bb..9c4c15afbbe8 100644
+>>>>> --- a/arch/powerpc/kernel/process.c
+>>>>> +++ b/arch/powerpc/kernel/process.c
+>>>>> @@ -2308,6 +2308,6 @@ void notrace __ppc64_runlatch_off(void)
+>>>>>    unsigned long arch_align_stack(unsigned long sp)
+>>>>>    {
+>>>>>        if (!(current->personality & ADDR_NO_RANDOMIZE) &&
+>>>>> randomize_va_space)
+>>>>> -             sp -=3D get_random_int() & ~PAGE_MASK;
+>>>>> +             sp -=3D get_random_u32() & ~PAGE_MASK;
+>>>>>        return sp & ~0xf;
+>>>>
+>>>> Isn't that a candidate for prandom_u32_max() ?
+>>>>
+>>>> Note that sp is deemed to be 16 bytes aligned at all time.
+>>>
+>>> Yes, probably. It seemed non-trivial to think about, so I didn't. But
+>>> let's see here... maybe it's not too bad:
+>>>
+>>> If PAGE_MASK is always ~(PAGE_SIZE-1), then ~PAGE_MASK is
+>>> (PAGE_SIZE-1), so prandom_u32_max(PAGE_SIZE) should yield the same
+>>> thing? Is that accurate? And holds across platforms (this comes up a
+>>> few places)? If so, I'll do that for a v4.
+>>>
+>>
+>> On powerpc it is always (from arch/powerpc/include/asm/page.h) :
+>>
+>> /*
+>>   * Subtle: (1 << PAGE_SHIFT) is an int, not an unsigned long. So if we
+>>   * assign PAGE_MASK to a larger type it gets extended the way we want
+>>   * (i.e. with 1s in the high bits)
+>>   */
+>> #define PAGE_MASK      (~((1 << PAGE_SHIFT) - 1))
+>>
+>> #define PAGE_SIZE        (1UL << PAGE_SHIFT)
+>>
+>>
+>> So it would work I guess.
 >
->There are two steps to unikernel-izing Linux, i=2Ee=2E, first, equip Linu=
-x with
->a unikernel model, and second, actually use that model to implement
->application specific optimizations=2E This patch focuses on the first par=
-t=2E
->Through this patch, unmodified applications can be built as Linux
->unikernels, albeit with only modest performance advantages=2E Like
->unikernels, UKL would allow an application to be statically linked into t=
-he
->kernel and executed in supervisor mode=2E However, UKL preserves most of =
-the
->invariants and design of Linux, including a separate page-able applicatio=
-n
->portion of the address space and a pinned kernel portion, the ability to
->run multiple processes, and distinct execution modes for application and
->kernel code=2E Kernel execution mode and application execution mode are
->different, e=2Eg=2E, the application execution mode allows application th=
-reads
->to be scheduled, handle signals, etc=2E, which do not apply to kernel
->threads=2E Application built as a Linux unikernel will have its text and =
-data
->loaded with the kernel at boot time, while the rest of the address space
->would remain unchanged=2E These applications invoke the system call
->functionality through a function call into the kernel system call entry
->point instead of through the syscall assembly instruction=2E UKL would
->support a normal userspace so the UKL application can be started, managed=
-,
->profiled, etc=2E, using normal command line utilities=2E
+> But taking into account that sp must remain 16 bytes aligned, would it
+> be better to do something like ?
 >
->Once Linux has a unikernel model, different application specific
->optimizations are possible=2E We have tried a few, e=2Eg=2E, fast system =
-call
->transitions, shared stacks to allow LTO, invoking kernel functions
->directly, etc=2E We have seen huge performance benefits, details of which=
- are
->not relevant to this patch and can be found in our paper=2E
->(https://arxiv=2Eorg/pdf/2206=2E00789=2Epdf)
+> 	sp -=3D prandom_u32_max(PAGE_SIZE >> 4) << 4;
 >
->UKL differs significantly from previous projects, e=2Eg=2E, UML, KML and =
-LKL=2E
->User Mode Linux (UML) is a virtual machine monitor implemented on syscall
->interface, a very different goal from UKL=2E Kernel Mode Linux (KML) allo=
-ws
->applications to run in kernel mode and replaces syscalls with function
->calls=2E While KML stops there, UKL goes further=2E UKL links application=
-s and
->kernel together which allows further optimizations e=2Eg=2E, fast system =
-call
->transitions, shared stacks to allow LTO, invoking kernel functions direct=
-ly
->etc=2E Details can be found in the paper linked above=2E Linux Kernel Lib=
-rary
->(LKL) harvests arch independent code from Linux, takes it to userspace as=
- a
->library to be linked with applications=2E A host needs to provide arch
->dependent functionality=2E This model is very different from UKL=2E A det=
-ailed
->discussion of related work is present in the paper linked above=2E
->
->See samples/ukl for a simple TCP echo server example which can be built a=
-s
->a normal user space application and also as a UKL application=2E In the L=
-inux
->config options, a path to the compiled and partially linked application
->binary can be specified=2E Kernel built with UKL enabled will search this
->location for the binary and link with the kernel=2E Applications and requ=
-ired
->libraries need to be compiled with -mno-red-zone -mcmodel=3Dkernel flags
->because kernel mode execution can trample on application red zones and in
->order to link with the kernel and be loaded in the high end of the addres=
-s
->space, application should have the correct memory model=2E Examples of ot=
-her
->applications like Redis, Memcached etc along with glibc and libgcc etc=2E=
-,
->can be found at https://github=2Ecom/unikernelLinux/ukl
->
->List of authors and contributors:
->=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->Ali Raza - aliraza@bu=2Eedu
->Thomas Unger - tommyu@bu=2Eedu
->Matthew Boyd - mboydmcse@gmail=2Ecom
->Eric Munson - munsoner@bu=2Eedu
->Parul Sohal - psohal@bu=2Eedu
->Ulrich Drepper - drepper@redhat=2Ecom
->Richard W=2EM=2E Jones - rjones@redhat=2Ecom
->Daniel Bristot de Oliveira - bristot@kernel=2Eorg
->Larry Woodman - lwoodman@redhat=2Ecom
->Renato Mancuso - rmancuso@bu=2Eedu
->Jonathan Appavoo - jappavoo@bu=2Eedu
->Orran Krieger - okrieg@bu=2Eedu
->
->Ali Raza (9):
->  kbuild: Add sections and symbols to linker script for UKL support
->  x86/boot: Load the PT_TLS segment for Unikernel configs
->  sched: Add task_struct tracking of kernel or application execution
->  x86/entry: Create alternate entry path for system calls
->  x86/uaccess: Make access_ok UKL aware
->  x86/fault: Skip checking kernel mode access to user address space for
->    UKL
->  x86/signal: Adjust signal handler register values and return frame
->  exec: Make exec path for starting UKL application
->  Kconfig: Add config option for enabling and sample for testing UKL
->
->Eric B Munson (1):
->  exec: Give userspace a method for starting UKL process
->
-> Documentation/index=2Erst           |   1 +
-> Documentation/ukl/ukl=2Erst         | 104 +++++++++++++++++++++++
-> Kconfig                           |   2 +
-> Makefile                          |   4 +
-> arch/x86/boot/compressed/misc=2Ec   |   3 +
-> arch/x86/entry/entry_64=2ES         | 133 ++++++++++++++++++++++++++++++
-> arch/x86/include/asm/elf=2Eh        |   9 +-
-> arch/x86/include/asm/uaccess=2Eh    |   8 ++
-> arch/x86/kernel/process=2Ec         |  13 +++
-> arch/x86/kernel/process_64=2Ec      |  49 ++++++++---
-> arch/x86/kernel/signal=2Ec          |  22 +++--
-> arch/x86/kernel/vmlinux=2Elds=2ES     |  98 ++++++++++++++++++++++
-> arch/x86/mm/fault=2Ec               |   7 +-
-> fs/binfmt_elf=2Ec                   |  28 +++++++
-> fs/exec=2Ec                         |  75 +++++++++++++----
-> include/asm-generic/sections=2Eh    |   4 +
-> include/asm-generic/vmlinux=2Elds=2Eh |  32 ++++++-
-> include/linux/sched=2Eh             |  26 ++++++
-> kernel/Kconfig=2Eukl                |  41 +++++++++
-> samples/ukl/Makefile              |  16 ++++
-> samples/ukl/README                |  17 ++++
-> samples/ukl/syscall=2ES             |  28 +++++++
-> samples/ukl/tcp_server=2Ec          |  99 ++++++++++++++++++++++
-> scripts/mod/modpost=2Ec             |   4 +
-> 24 files changed, 785 insertions(+), 38 deletions(-)
-> create mode 100644 Documentation/ukl/ukl=2Erst
-> create mode 100644 kernel/Kconfig=2Eukl
-> create mode 100644 samples/ukl/Makefile
-> create mode 100644 samples/ukl/README
-> create mode 100644 samples/ukl/syscall=2ES
-> create mode 100644 samples/ukl/tcp_server=2Ec
->
->
->base-commit: 4fe89d07dcc2804c8b562f6c7896a45643d34b2f
+> 	return sp;
 
-This is basically taking Linux and turning it into a whole new operating s=
-ystem, while expecting the Linux kernel community to carry the support burd=
-en thereof=2E
+Does this assume that sp is already aligned at the beginning of the
+function? I'd assume from the function's name that this isn't the
+case?
 
-We have seen this before, notably with Xen=2E It is *expensive* and *painf=
-ul* for the maintenance of the mainstream kernel=2E
-
-Linux already has a notion of "kernel mode applications", they are called =
-kernel modules and kernel threads=2E It seems to me that you are trying to =
-introduce a user space compatibility layer into the kernel, with the only b=
-enefit being avoiding the syscall overhead=2E The latter is bigger than we =
-would like, which is why we are changing the x86 hardware architecture to i=
-mprove it=2E
-
-In my opinion, this would require *enormous* justification to put it into =
-mainline=2E
-
-
-
+Jason
