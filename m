@@ -2,150 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45098C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 07:49:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6FA9C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 08:30:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229500AbiJFHtf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 03:49:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52656 "EHLO
+        id S230137AbiJFIa1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 04:30:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229814AbiJFHs3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 03:48:29 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2109.outbound.protection.outlook.com [40.107.94.109])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4EE89080B;
-        Thu,  6 Oct 2022 00:48:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S+10ZXUll4SjG9fDrHbsWT1bdCl+jyCjT3Te20youuzAr1xuXH7t/cZkVsUatT0dqZ7I+rverfXwjtiNaOlLcbxksSo1Q33wuLNu+1lQm6ae5Lzg2+wJ8EniEXnYvHBXN6hTZD7basn/mLggq7+d8OGN6s1erRbwAwgZxPvDu57+IfUYvuu9SIm7M2kWQkM18Gh4thPcSr3j4hgpt+FXr3vISrAd8NPU6T19FhjEFoxd6i4bgjURwhjIEW7KpUYX6jgmS/+q2nQMeIbokcN5N6Xkefj5c1HELB4oHXqhhvRvPDccjleRsPPccA9c0/AYuB8R6UydhNwl3z9jfWcL1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5DQFJF337pgpSJluhEWzNyLHDgStlyO3EmJtGJvKVRw=;
- b=HBESnR1diNEiVeSZnjjSyGseCSwWV5jYGDZkFNOSKTMcztzRmStYTfBEyLTOn0YrXOvK/tzKFRxxxPjrOe689c22WxLx7sG+vVXZvC3PkBnV+h7+egZwNbVBoukzaro7eROq1fE9kdmymHeAJkxAi/qzMSiIQQ0+DtFf/WifKx0qUrtAgxd/XAveJVC1b+r3+xYgA+A5qa6Jk+nIWVqMXlfqttw7+iTSwZdAXjhcS7q/oFjaxhRapEJ2ObFlh38DQWmW0SgSPa8kY8S86QyMuKYJK+gd1BKJlsS6n2JTP2E9W2dTGS4yD30sHGEqc6iUeIIbU482IQxEF3fF/NSz/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5DQFJF337pgpSJluhEWzNyLHDgStlyO3EmJtGJvKVRw=;
- b=ank3adlqPzyDNEHsR1WENjmajKaq/ns/xlncx9vSd1w6atFYgGUEI/eCymISoRdt27R6PU7K+utxWMhFq92EjWObCo0sBtnBVTOw5K4k/cGt9ZkzkLj+5lgkFanCjq/6XVuKyt2C68fJww4oGzsR4ez+orCKS7JfcAAQMvQiNcs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from SJ0PR01MB7282.prod.exchangelabs.com (2603:10b6:a03:3f2::24) by
- BY5PR01MB5796.prod.exchangelabs.com (2603:10b6:a03:1be::33) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5654.20; Thu, 6 Oct 2022 07:48:07 +0000
-Received: from SJ0PR01MB7282.prod.exchangelabs.com
- ([fe80::7d50:e907:8e2e:1ff0]) by SJ0PR01MB7282.prod.exchangelabs.com
- ([fe80::7d50:e907:8e2e:1ff0%3]) with mapi id 15.20.5676.032; Thu, 6 Oct 2022
- 07:48:07 +0000
-Message-ID: <c4b4875d-99d6-fbc8-1b5a-26d090b5bad1@os.amperecomputing.com>
-Date:   Thu, 6 Oct 2022 14:47:55 +0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.0
-Subject: Re: [PATCH v9 1/9] hwmon: smpro: Add Ampere's Altra smpro-hwmon
- driver
-Content-Language: en-CA
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, macro@orcam.me.uk,
-        Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thu Nguyen <thu@os.amperecomputing.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Open Source Submission <patches@amperecomputing.com>
-Cc:     Phong Vo <phong@os.amperecomputing.com>,
-        thang@os.amperecomputing.com
-References: <20220929094321.770125-1-quan@os.amperecomputing.com>
- <20220929094321.770125-2-quan@os.amperecomputing.com>
- <594c4afe-17f7-8670-d5ba-ebdeca6a4b47@gmail.com>
-From:   Quan Nguyen <quan@os.amperecomputing.com>
-In-Reply-To: <594c4afe-17f7-8670-d5ba-ebdeca6a4b47@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SGBP274CA0010.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b0::22)
- To SJ0PR01MB7282.prod.exchangelabs.com (2603:10b6:a03:3f2::24)
+        with ESMTP id S230225AbiJFIaW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 04:30:22 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA373167DE;
+        Thu,  6 Oct 2022 01:30:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665045020; x=1696581020;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=p145ntU9QNRXpDPuVN87WcpkTwAW9lcMxG8ANKDfxXI=;
+  b=U8qFFTBVXDp9gcpV5oF7gsIGjE8BRaKodiT7vCvT5Vaw1NX0YHAmwXgw
+   DVxG2tpObCDboNjROJXATrrjABwPSNHuc1frRWSeOMzwGXcV9W9GEs+4c
+   jW5Ff354e/TvCv/7hKb5pjzrxsBXlW31pwygdi3Z275gUMjd4MRDz6IGy
+   CN06DUwUie9HGRQf3An+fFoErpa0Ijhn7VuuWUeZbsU1wxw3oXNBy8Z/5
+   /hMFI9PTcHeZVWFugaeMPmKkHpaCN2x8jzvwx0rF4R+2iJiVQyRVE1A/N
+   akERyPQyRdqUyVzvVNwDFJV+i3ZDga/FPXsdPGiD13EX0QPy+BDKNf00z
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="304377611"
+X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
+   d="scan'208";a="304377611"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 01:29:43 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="575742350"
+X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
+   d="scan'208";a="575742350"
+Received: from pkastovs-mobl.ger.corp.intel.com (HELO localhost) ([10.252.61.167])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 01:29:41 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/5] docs: improve the HTML formatting of kerneldoc
+ comments
+In-Reply-To: <20221006065329.787c2592@sal.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221004201222.281845-1-corbet@lwn.net>
+ <20221004201222.281845-6-corbet@lwn.net> <87r0zmqkao.fsf@intel.com>
+ <20221006065329.787c2592@sal.lan>
+Date:   Thu, 06 Oct 2022 11:29:40 +0300
+Message-ID: <875ygxqrrf.fsf@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR01MB7282:EE_|BY5PR01MB5796:EE_
-X-MS-Office365-Filtering-Correlation-Id: a3f45a64-0727-48cc-19f5-08daa76f1b3e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: z/7JGEEfm5E7NcDDLXwcjc1yD95HSY2Qxhex6DrWgRD06dS+jHEJ6odiDTJWzj/YkDaL7xzQpAhq8lp+pmCfq2Omu/R9OQ4LuSbA/vhfYERCXewZNTGFww4wJ1dvTwLjUkkJUYvK7d1v5a/f0MdzYYq+MykVLBnvYPkDYt5tIvi+2RG2Z+xcpG5uW4BOj/c1c6MNJEXF83gkn0KQhu+3GTkG1GJJmtotYNqLaUSTX8COVAqRtrZWs/lRvBTdY3fjQHbKumY1aoL6cEGbEFq05p6bwuHH/z7uCvDDY33LmqL31EcugsBYjESJIszhCqGvI+6I3hK2il/++F0/mfoV93ZiZzZWDcxBkA5c2REsYL/3a2rN7D5fxubDbu3wOAYQ6xs7hFFroJALYThf5cejDoH24RvgHfDnMdy+uUZMCS1h3JeMzH0vNNzyOMc4An+Bfd+PJnVGL4JaC9U8AcEpz+lr05NmtRHVhuVrnjMMRHBlI3Xb6i+MnsDgw1z+a3lhczw8dFTHyxOYEagb7Wf23hF5p/RHer49iuQSeWiBIOhzCOL37GXZ+KzUUy+NQGS5IGtpgKfeUJyf8dkYRvQOyeKSnhaZlmtvL8SPBdCxiQYkW0W+q8onMdfFlwDbEFQEYBVW4ZnUiPs8lpwCvTMnmhpUbEPgwI0mUCJA4JPahfPhufiIvU1c2CGVykDMORR8k+AQZLsnnduzUh4P/g/OCndcBV3kH3bGtN0sq9touXzw7Zryh8jFYzsirRDJWBdBuko7/kj8Pk+xunglk/EnSBIkS8GpcQGhXJYdB7TZR1NV6TVi8+vGVCS4JXFirR+G
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR01MB7282.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(346002)(396003)(39850400004)(376002)(366004)(451199015)(38350700002)(31686004)(186003)(478600001)(38100700002)(6486002)(31696002)(921005)(7416002)(4744005)(83380400001)(66556008)(41300700001)(316002)(110136005)(66476007)(2616005)(8676002)(6666004)(107886003)(86362001)(6512007)(8936002)(26005)(5660300002)(53546011)(66946007)(52116002)(4326008)(6506007)(2906002)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MTNudEliSDRtUU05RlVCM1g4bzlaM2tESHgwVjFOWTI1Z2hLRDNKSE1aWE5x?=
- =?utf-8?B?SnJ4RzVBZ1MrOThBZyszWDJwakFqcmd4WW1NZkYvbGlRQ1JZMHBVWWJLeTM3?=
- =?utf-8?B?WEE5OXN0WkdScmtRUGh5UktaaGtRYS92cGU0UnFONlBtcU5GaWFkZGxRbE5n?=
- =?utf-8?B?TEFJL0NSQ1FPOFU3SmdEZTBiVWFFZUR3Y3Iwb2ptbURkY0V5b2tZVXpidzZp?=
- =?utf-8?B?RTN1Z1B0aFA2bjZQeW5CTnhLdjlka2FMWHhsaEVIQ0MrelBOR0pzR3N5OHdk?=
- =?utf-8?B?MTk3bDFhMlRUTkpXWWJWQTZCSHQzcDZrY3hPYkg3NzdhYTZxK1kyUWVOSkpt?=
- =?utf-8?B?YTZROGkvZWVCRnZYb3I1bTNZdmd6Vk9idmkwOXFWY1BESnhTWlhpdHl2UEJH?=
- =?utf-8?B?bVltNG5UMytEN2ExQ2JWZ3BvdFd0TTh1QTdQQlU3MTlIeTZOdTRBRkVuTVdt?=
- =?utf-8?B?a1FwMHVFcUFhVW1GKzJPais0RG1vQUtOTFlYa2krL0tNUTJNTms4dGRLUkRh?=
- =?utf-8?B?emJsZ0dPM09KV2xTQ1pWaDZDMG45R0YrTU4xcWVDNHUxT0RhQUJHWTkvZEdU?=
- =?utf-8?B?NTdnTVhCYmFjVG1BSDdJa2FLaW1OVFZEdnhoRFI1Qk5Wc3lQL3ZWWWYwRTlT?=
- =?utf-8?B?Wm45Rnh2QkRJakk1R0lCSkZyWElCaFpjK1dhcEM2azlYQjBZU052dXJNQ1pX?=
- =?utf-8?B?U0crL1E5ak9wTmNLMlMyZk8zaWc5NGtLN3g4emRxQkdCUThHbUNSRk54ckph?=
- =?utf-8?B?Yk4wYXFMOEl6aTc1YVMxMk5oSWRqeVRWVDB0UmJvdnJWUDgyRldac1I4NFNH?=
- =?utf-8?B?VFExSXNSZURrMVppTVUvVU10N2kxcXMxb2RyQ1pnLzJTM2pLanJ6eTAzLzN2?=
- =?utf-8?B?dEhEa20remdaR2h4RzM2Y2RSSVlnd2dveXA1SjZNZ0lWT28zdm9GanJOMzli?=
- =?utf-8?B?VEU1Zlh3V3MrMmcrdXJiRjNpeWZkRmxINGhaZmZvY0QyWnIwVngzRW5WbXpX?=
- =?utf-8?B?dnhRKzh6RHFSRHF4am5qU3d4dGJEZHR2dVorRStBcXZjR0hCaGlKWUJ5TnI1?=
- =?utf-8?B?SkhzenBBMlpwT09mYm5oV0p5dTd6TE15ZTBITE9NRXUzTjlKVlpMR1JkVWR2?=
- =?utf-8?B?ZWJzQ01oZUR1NklFcndhN3laY0ZRcFN0b0cySzR0REVQWHM3bUw4OHl1a3ZT?=
- =?utf-8?B?Ny9pKytJYlYyR1BkbEFSQjk3OVRRcGRucTVkZDZPd3ZoeUExUWtPL2FBVWNJ?=
- =?utf-8?B?SWVEelBERUtnYlFEdmVxWU5MRE11dGdqSEREeUg0RzJJNVBmaEd6NzRvMXc3?=
- =?utf-8?B?L0plSmhPTmJvV1dSYkNJWXdHMmhZTmh6OFlnK0JhYXovSkx3WmhHcjRRdnlB?=
- =?utf-8?B?dGRJREFWdlBqaE5IUGgwUHQ5c0ZZV2NMZTduMzR3ak52d2VnYWJMM1IyWjRP?=
- =?utf-8?B?MDQyclBsb1ZnUWh6MThNNEZTN1dIL1N2L1RVZk1QWWdWd0huWG40MHdkYUlx?=
- =?utf-8?B?M2VXSGxnSkc1TEdvdjZ5WTg5aXdsVTlIV3RSbHQ4SmZucE9PVno1L1lqVnJI?=
- =?utf-8?B?WGlaekIvaUZpMmk1MW01K05kdW9GL3ROUmhWVzUzTE01S1NLREsxeE1SYVV0?=
- =?utf-8?B?MUtXN3paaWhUbVJEdi9GcVRtUU84dE5tOE8wOWJPKzVYWkQwczVKZ0RGeDZj?=
- =?utf-8?B?TU9ydHh5UWNwSE1LTzdGNDRKekR4Zm1oWUh5ODNWWkFheFdUdGc1L2Nzd3di?=
- =?utf-8?B?NmJOa3FZRS9mMU10U2U0VEVEakEyTXBNRHF3TFVjZkdjeWhCVWg3YWVJQnhD?=
- =?utf-8?B?emFLVG9SNGpKRVZLOHJvbkFIMjc1cTR0SGptMXp0ejQ3UFlPY3BoSTkxYThH?=
- =?utf-8?B?cFhhRk5ORkJPN1lIT0JsTWtrTmlLdkJVSGx4TGYzdFRUcXhIZ3kvWnpUYnIy?=
- =?utf-8?B?ZHFxblpZUWQ2clNHYXc2QzRRR2ZWb0hacm9JcWdzNHRDOTVPTmdjQ2F6Mkcv?=
- =?utf-8?B?MkhsdkNLZ04xb05tVjlyL3haRmx5V0lneUViL0o1bmR4Z2ZJTEhGTVY3UlQ3?=
- =?utf-8?B?anRxYkZCcHpmYkJNdjJWb09FUDQ2cWxJbXdRbmt1RUJQVnREV1BTN2lEMGpz?=
- =?utf-8?B?bjBxOXFMeHZYMS9PbGRva3pGUC9aZmRQL2h5Tk9qbVpiZy9RSW8rNzNER3A1?=
- =?utf-8?Q?v3fpzlkxcqKzU50szOLlexE=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3f45a64-0727-48cc-19f5-08daa76f1b3e
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR01MB7282.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2022 07:48:07.0214
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l3nmv18q+KB/kSN4VbF45i4Tkoq7zrjhaOqSEkoOAO7gZOYXNisPrA+iVGaDciVlZOCPu4+hvn3m0h7LgEyYcriNVRYiJTtPEkzOPPqq1fU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR01MB5796
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 06 Oct 2022, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
+> Em Wed, 05 Oct 2022 19:58:39 +0300
+> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+>
+>> On Tue, 04 Oct 2022, Jonathan Corbet <corbet@lwn.net> wrote:
+>> > Make a few changes to cause functions documented by kerneldoc to stand out
+>> > better in the rendered documentation.  Specifically, change kernel-doc to
+>> > put the description section into a ".. container::" section, then add a bit
+>> > of CSS to indent that section relative to the function prototype (or struct
+>> > or enum definition).  Tweak a few other CSS parameters while in the
+>> > neighborhood to improve the formatting.  
+>> 
+>> Way back I tried to keep the formatting changes minimal to avoid opening
+>> that particular can of worms along with the rest of the Sphinx
+>> transition.
+>> 
+>> But I do wonder if people find value in repeating e.g. the struct
+>> definitions in the documentation. I'd argue the rendered documentation
+>> is more for an overview, and if you need to know the exact details,
+>> you'll be in the editor typing code and you can look up the actual
+>> definition in source. Having the definition feels maybe a bit excessive.
+>
+> I have split thoughts regards to it. The advantage of having the
+> struct definition there is to allow checking the type of each argument,
+> which is useful. It also provide a way to double-check if the parser
+> is dealing well with the argument, but, on the counter-side, the
+> type printed by kernel-doc may not be identical to what's inside the
+> Kernel, on some special cases, as the parse logic for arguments is
+> complex. The same applies on functions and macros.
 
+Two alternatives to removing it come to mind:
 
-On 01/10/2022 19:59, Bagas Sanjaya wrote:
-> On 9/29/22 16:43, Quan Nguyen wrote:
->> This commit adds support for Ampere SMpro hwmon driver. This driver
->> supports accessing various CPU sensors provided by the SMpro co-processor
->> including temperature, power, voltages, and current.
->>
-> 
-> s/This commit adds/Add/
-> 
+- Generating links to git.kernel.org at right version, file and line.
 
-Thanks Bagas and will fix in next version.
-- Quan
+- A collapsible (and collapsed by default) code box. I think this needs
+  html/css hacking, not possible in Sphinx out of the box.
+
+>> 
+>> We also don't use Sphinx C Domain's ".. c:member::" for struct/union
+>> members, 
+>
+> I'm wondering how much extra build time this would impact ;-)
+> If the impact is not huge, I'm in favor of using it.
+>
+>> or ".. c:enumerator::" for enumeration contants. 
+>
+> This one can be more problematic, as it could break existing
+> cross-references.
+
+Certainly.
+
+>
+>> They provide arguably nicer rendering out of the box than our stuff.
+>
+> Agreed.
+>
+>> The Sphinx way to do parameter lists would be field lists i.e. ":param
+>> foo: description". Ditto for return values ":return: description". (Not
+>> saying we should convert the comments, but kernel-doc the script could
+>> emit those.)
+>> 
+>> Perhaps we'd be better off going towards Sphinx standard usage than
+>> tweaking our own thing?
+>> 
+>> I'm afraid I don't have the time to work on this. Talk is cheap and all
+>> that. My two cents.
+>> 
+>> Anyway, here are some examples how this might look like: [1].
+>> 
+>> 
+>> BR,
+>> Jani.
+>> 
+>> 
+>> 
+>> [1] https://hawkmoth.readthedocs.io/en/latest/examples.html
+>
+> It reminds that we're currently lacking a  way to describe non-macro
+> #defines. In special for bit-based defines, it would be nice to have
+> a good way to document them, without needing to convert defines into 
+> enums.
+
+ITYM simple or non-function-like macros. Sphinx supports ".. macro::"
+for that nowadays, but don't know since what version. That's what I use
+in Hawkmoth, and ".. function::" for macros with args.
+
+BR,
+Jani.
+
+>
+> Regards,
+> Mauro
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
