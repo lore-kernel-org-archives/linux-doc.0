@@ -2,131 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6B77C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 12:31:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 758C5C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 12:55:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbiJFMbK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 08:31:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53560 "EHLO
+        id S231432AbiJFMzw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 08:55:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231552AbiJFMaq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 08:30:46 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A8EC2DED;
-        Thu,  6 Oct 2022 05:30:39 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id w191so1902314pfc.5;
-        Thu, 06 Oct 2022 05:30:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:cc:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=mEe5lzHlglZonJ+BkLQU4xHEdjlrL8N/cawq7a3PVpk=;
-        b=kUP3C9oAmiqJcQ7jg1jzD6HIhLsAYzUiaWINWrooDSSDqJI1OOrI1ciyN3nb0XYHUn
-         qqY5dndpvGJmBFpPo/UKiSBVS8P8oJAyjYCsK8wAhgzf36kCFRBnMAXQRPdbLntcBLnh
-         RUM1z3HC1bfC1zHS36piDtdKUWJ2kjvucPok78blmX27D83MsTSNh+eFxjjSvM40ad0O
-         5+KUiKTD1tzdB1WLeDzm/X/F7B1Uu+VGIlf1bPTF4/IREbz5EwJnpV8hETOD+NXIAr7N
-         th6tF+6ThTrSJzdXgOJvuruCfhb3AnFdM0Ex/oHhxEAOTS7bBpb0iyBb6Rwvopzyd+zQ
-         n8Ig==
+        with ESMTP id S231709AbiJFMzc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 08:55:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9AADF586
+        for <linux-doc@vger.kernel.org>; Thu,  6 Oct 2022 05:54:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665060870;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Syg5zIWBvPOX0jJz9joJzjpsGxjICL72fZp42SQwfoM=;
+        b=Da+tPwSXYVNH+L080u9NexWFhgE45S7Ga7vEs0JOox0JfHZ7eO+ACImtaSQiRAv33Q5NEU
+        Cb/3L5DnQgqygczPwPN0kLe94zjvA27frMsTMh/diu8lc6uhgAu3SZLJdknFlCKib+XgFs
+        erSEuRFajYgvlMK0J5ney9PQNRwaBoE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-641-L5KogIr0MXKM_z-vahuTGw-1; Thu, 06 Oct 2022 08:51:13 -0400
+X-MC-Unique: L5KogIr0MXKM_z-vahuTGw-1
+Received: by mail-wm1-f69.google.com with SMTP id g8-20020a05600c4ec800b003b4bcbdb63cso980343wmq.7
+        for <linux-doc@vger.kernel.org>; Thu, 06 Oct 2022 05:51:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:cc:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=mEe5lzHlglZonJ+BkLQU4xHEdjlrL8N/cawq7a3PVpk=;
-        b=Ivvu19OM1ZmFKxt72cWgGjiXZELtZ7AykBJlP1b4wpObSmBK7oT0LYVJdpbnEDejy/
-         v5YcADCEJsqr5Vb3vmtpjZwEjHM2sLtgCk9G6dFf0eUGqstT4jF56wcRI28NNRRkHb7K
-         tV98xaL6IErVdxv55q/l4ovMhrP+1BK9RWncaH8uGs4feP9XJayxDHhzaBHBOgQUNb8D
-         NstvPvM1ek+GysYnEh8TJBBrqxLUN/CLQKr9zKT85y+X3WhPKOrzPhKnbWZ3eptzIL+5
-         c1zG+lKuz+3nYnjogUo8+PYyHbuo9Sy/VPVUI6Uk38dIuwNryCd/bkFy6G0I5Jp0CHk2
-         rFgg==
-X-Gm-Message-State: ACrzQf2Ou3xQhkNtPLdcAkHxsjbcpvPvl6RS2HLzr+Ri6qom/IlWHCk+
-        XtR2HOGcaczetScqW11d7qk=
-X-Google-Smtp-Source: AMsMyM512Cu33EUqlI8KbRRgyMlvRMRb//vnjGjUTibet1JXm3v6iq4C8igpQ30rWuOfRbFdO/Tvqg==
-X-Received: by 2002:a63:e64a:0:b0:439:a99a:47a0 with SMTP id p10-20020a63e64a000000b00439a99a47a0mr4421994pgj.593.1665059438630;
-        Thu, 06 Oct 2022 05:30:38 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id q7-20020a170902a3c700b0017f8290fcc0sm2647337plb.252.2022.10.06.05.30.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Oct 2022 05:30:38 -0700 (PDT)
-Message-ID: <2dedeb9a-279d-8756-cb74-6d0919f0a02e@gmail.com>
-Date:   Thu, 6 Oct 2022 21:30:32 +0900
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=Syg5zIWBvPOX0jJz9joJzjpsGxjICL72fZp42SQwfoM=;
+        b=5w+AJ5tdC41aVDF0Oz4amNEJsvRDIMyPcB2gyrcBR8SOcEMprgeHGJT6RSZnOoh2FB
+         Si3e36rsYw5tVWZ206Y5XamgH606YU/ZNNCHJgxdpAsiuJ3wr4EnFGFTDb+HrnycjAsi
+         QKAut0KEL5/EruCg16COJCOkpNSYqdvMfuIbvIxi8qYpf7DpM+w4Qm1NLPY4Pes2SfP3
+         7//v7UWMeYO9Kv0NB2pWlz0rTkOsCxA+Ej+pudFWrHKLa8UUdXNG4o3Gv2xi20eUNppS
+         jLCFLD/yzcH87gxSPMjH6jtJdDQJ8c0SierkCr0lVZNURIbMPajh1zaE317dOegtoQxs
+         aQ7w==
+X-Gm-Message-State: ACrzQf2A/L897MVwClML4s/fJGdcKfiTCbBp/P+55en4IvgaqPyG2Ncy
+        DjwHTRJjp9SS9t7QGnjUlSG0n2nHQ5uTCNnqATZphnQO2qubbzvT7ePyS8NzYRYMydfVJkzJrLN
+        p81bLshXIEYiSAuiB27Ql
+X-Received: by 2002:a05:6000:982:b0:229:79e5:6a96 with SMTP id by2-20020a056000098200b0022979e56a96mr3013247wrb.469.1665060672557;
+        Thu, 06 Oct 2022 05:51:12 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM58nCSs5milYBn+uz3POtf6SVmsGMBqz64i2N0S1T/ojkzi20QUFO80u17d3tCt4j0XzS5cUQ==
+X-Received: by 2002:a05:6000:982:b0:229:79e5:6a96 with SMTP id by2-20020a056000098200b0022979e56a96mr3013230wrb.469.1665060672376;
+        Thu, 06 Oct 2022 05:51:12 -0700 (PDT)
+Received: from localhost.localdomain ([92.62.32.42])
+        by smtp.gmail.com with ESMTPSA id p16-20020a05600c359000b003bdd2add8fcsm5095484wmq.24.2022.10.06.05.51.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Oct 2022 05:51:11 -0700 (PDT)
+Date:   Thu, 6 Oct 2022 14:51:09 +0200
+From:   Guillaume Nault <gnault@redhat.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, robh@kernel.org, johannes@sipsolutions.net,
+        ecree.xilinx@gmail.com, stephen@networkplumber.org, sdf@google.com,
+        f.fainelli@gmail.com, fw@strlen.de, linux-doc@vger.kernel.org,
+        razor@blackwall.org, nicolas.dichtel@6wind.com
+Subject: Re: [PATCH net-next v2 3/7] net: add basic C code generators for
+ Netlink
+Message-ID: <20221006125109.GE3328@localhost.localdomain>
+References: <20220930023418.1346263-1-kuba@kernel.org>
+ <20220930023418.1346263-4-kuba@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3] locking/memory-barriers.txt: Improve documentation for
- writel() example
-Content-Language: en-US
-To:     Parav Pandit <parav@nvidia.com>
-References: <20221006034457.165878-1-parav@nvidia.com>
-Cc:     bagasdotme@gmail.com, arnd@arndb.de, stern@rowland.harvard.edu,
-        parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org,
-        boqun.feng@gmail.com, npiggin@gmail.com, dhowells@redhat.com,
-        j.alglave@ucl.ac.uk, luc.maranget@inria.fr, paulmck@kernel.org,
-        dlustig@nvidia.com, joel@joelfernandes.org, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20221006034457.165878-1-parav@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220930023418.1346263-4-kuba@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Thu, Sep 29, 2022 at 07:34:14PM -0700, Jakub Kicinski wrote:
+> Code generators to turn Netlink specs into C code.
+> I'm definitely not proud of it.
+> 
+> The main generator is in Python, there's a bash script
+> to regen all code-gen'ed files in tree after making
+> spec changes.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> --
+> v2: - use /* */ comments instead of //
 
-On Thu, 6 Oct 2022 06:44:57 +0300, Parav Pandit wrote:
-> The cited commit describes that when using writel(), explcit wmb()
-> is not needed. wmb() is an expensive barrier. writel() uses the needed
-> platform specific barrier instead of expensive wmb().
-> 
-> Hence update the example to be more accurate that matches the current
-> implementation.
-> 
-> commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
-> 
-> Signed-off-by: Parav Pandit <parav@nvidia.com>
-> 
-> ---
-> changelog:
-> v2->v3:
-> - removed redundant description for writeX()
-> - updated text for alignment and smaller change lines
-> - updated commit log with blank line before signed-off-by line
-> v1->v2:
-> - Further improved description of writel() example
-> - changed commit subject from 'usage' to 'example'
-> v0->v1:
-> - Corrected to mention I/O barrier instead of dma_wmb().
-> - removed numbered references in commit log
-> - corrected typo 'explcit' to 'explicit' in commit log
-> ---
->  Documentation/memory-barriers.txt | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-> index 832b5d36e279..8952fd86c6e6 100644
-> --- a/Documentation/memory-barriers.txt
-> +++ b/Documentation/memory-barriers.txt
-> @@ -1927,10 +1927,11 @@ There are some more advanced barrier functions:
->       before we read the data from the descriptor, and the dma_wmb() allows
->       us to guarantee the data is written to the descriptor before the device
->       can see it now has ownership.  The dma_mb() implies both a dma_rmb() and
-> -     a dma_wmb().  Note that, when using writel(), a prior wmb() is not needed
-> +     a dma_wmb().  Note that, when using writel(), a prior barrier is not needed
->       to guarantee that the cache coherent memory writes have completed before
->       writing to the MMIO region.  The cheaper writel_relaxed() does not provide
-> -     this guarantee and must not be used here.
-> +     this guarantee and must not be used here. Hence, writeX() is always
-> +     preferred.
-So I assumed that this last sentence would be removed altogether.
-Can you explain the intention of adding it?
+Probably not a very interesting feedback, but there
+are still many comments generated in the // style.
 
-IMHO, "preferred" doesn't mean anything in this document.
+For example in this block:
 
-        Thanks, Akira
+> +    if args.mode == "kernel":
+> +        if args.header:
+> +            if parsed.kernel_policy == 'global':
+> +                cw.p(f"// Global operation policy for {parsed.name}")
+> +
+> +                struct = Struct(parsed, parsed.global_policy_set, type_list=parsed.global_policy)
+> +                print_req_policy_fwd(cw, struct)
+> +                cw.nl()
+> +
+> +            for op_name, op in parsed.ops.items():
+> +                if parsed.kernel_policy == 'per-op' and 'do' in op and 'event' not in op:
+> +                    cw.p(f"// {op.enum_name} - do")
+> +                    ri = RenderInfo(cw, parsed, args.mode, op, op_name, "do")
+> +                    print_req_policy_fwd(cw, ri.struct['request'], op=op)
+> +                    cw.nl()
+> +
+> +            print_kernel_op_table_fwd(parsed, cw)
+> +        else:
+> +            if parsed.kernel_policy == 'global':
+> +                cw.p(f"// Global operation policy for {parsed.name}")
+> +
+> +                struct = Struct(parsed, parsed.global_policy_set, type_list=parsed.global_policy)
+> +                print_req_policy(cw, struct)
+> +                cw.nl()
+> +
+> +            for op_name, op in parsed.ops.items():
+> +                if parsed.kernel_policy == 'per-op':
+> +                    for op_mode in {'do', 'dump'}:
+> +                        if op_mode in op and 'request' in op[op_mode]:
+> +                            cw.p(f"// {op.enum_name} - {op_mode}")
+> +                            ri = RenderInfo(cw, parsed, args.mode, op, op_name, op_mode)
+> +                            print_req_policy(cw, ri.struct['request'], op=op)
+> +                            cw.nl()
+> +
+> +            print_kernel_op_table(parsed, cw)
 
->  
->       See the subsection "Kernel I/O barrier effects" for more information on
->       relaxed I/O accessors and the Documentation/core-api/dma-api.rst file for
