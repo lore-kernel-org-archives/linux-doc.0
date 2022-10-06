@@ -2,76 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B97EC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 04:00:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDB0CC433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 04:07:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229540AbiJFEAX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 00:00:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43922 "EHLO
+        id S229777AbiJFEHq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 00:07:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbiJFEAU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 00:00:20 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BFBB5A2D3;
-        Wed,  5 Oct 2022 21:00:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 47212B81FEF;
-        Thu,  6 Oct 2022 04:00:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F1A57C433C1;
-        Thu,  6 Oct 2022 04:00:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665028817;
-        bh=DJLxU4j1X+1uqUatLNAefSLk4w7fStRUBFQ/AJn8sjA=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=anfMgjXKlA3xiJCe0K8bp4tVezkzPLoZkbfhZEu5t6HP3W0ckH0huXq5nd/HkeVRk
-         HVhlvR7/Y8aeQi7TxaUOiLgJtjd+hf5rIZDnmjRwWG2auQABweviCqNfJi63OPhOtr
-         7NCvMQBL52k3u7iaZ/Ch1j9irjTilG2WUeS+HdRTUiaN4h6seXt/gAu9IQkSRNRLDb
-         XP0lqHAsyg//Z9k0Xg9mQ9DWq+CeqM0/hxwHNtTuxGTooaPYuW62FklrfyqNqFBjOg
-         Dp4oeNrW6qRd+12SfykzXeG1XWVZX6PvBcCZ9nNvWalFwYGpmEVb7acYKPBnc8ag0h
-         ex6vtRNpYCFQA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D6123E49F62;
-        Thu,  6 Oct 2022 04:00:16 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] docs: networking: phy: add missing space
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166502881687.31263.6976520056901404265.git-patchwork-notify@kernel.org>
-Date:   Thu, 06 Oct 2022 04:00:16 +0000
-References: <20221004073242.304425-1-casper.casan@gmail.com>
-In-Reply-To: <20221004073242.304425-1-casper.casan@gmail.com>
-To:     Casper Andersson <casper.casan@gmail.com>
-Cc:     andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
+        with ESMTP id S229729AbiJFEHo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 00:07:44 -0400
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17ED588A20;
+        Wed,  5 Oct 2022 21:07:37 -0700 (PDT)
+X-QQ-mid: bizesmtp78t1665029140tcrfg847
+Received: from wuhui-virtual-machine.localdoma ( [58.251.166.8])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Thu, 06 Oct 2022 12:05:18 +0800 (CST)
+X-QQ-SSF: 01400000000000F0U000000A0000000
+X-QQ-FEAT: DQ0OCu3gog2jS1XCuga4iSoPGUC/H47sfmt8qhHpOqY8NW50ybQYpFP4i3KXM
+        OKbzsNQoFCPP9vmRIpIaVbWqWl2Pyk4mTmvdqFckYH2gdZW2S22GxGrAYV/7o3W2ETszjo/
+        Q2Jqr8wn6xRlVYPokNHAfJECon3BvOsuO1UQFCC2rIzMP0Kk30HqqdneZNP4wLudX0PhB9B
+        Wh3cdGsnUMlE7+f6/7AmCQG8GdrVXSJ1d1opxvSZGwo3YzdUC4NsdjZwAzjb10JnD2EuJFt
+        DgKkdPUbRXHFsPwVT5p4402zB3/F1ZN6PGAtPE3PdflfJFCI06NEdYQBt6PtsU/53DUzFkp
+        3Cs6TTscg97q1y9lIf9nS1z7+rkf9XsQlj4fY9RaJt7U9T6g3s=
+X-QQ-GoodBg: 2
+From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+To:     bagasdotme@gmail.com
+Cc:     akiyks@gmail.com, akpm@linux-foundation.org,
+        caoyixuan2019@email.szu.edu.cn, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rppt@kernel.org, skhan@linuxfoundation.org,
+        yejiajian2018@email.szu.edu.cn, zhangyinan2019@email.szu.edu.cn
+Subject: [PATCH v5] Documentation/mm/page_owner.rst: delete frequently changing experimental data
+Date:   Thu,  6 Oct 2022 12:05:17 +0800
+Message-Id: <20221006040517.19736-1-caoyixuan2019@email.szu.edu.cn>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <bf4b507a-f996-6aef-71e6-d73fcddc6163@gmail.com>
+References: <bf4b507a-f996-6aef-71e6-d73fcddc6163@gmail.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:email.szu.edu.cn:qybglogicsvr:qybglogicsvr4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+The kernel size changes due to many factors, such as compiler
+version, configuration, and the build environment. This makes
+size comparison figures irrelevant to reader's setup.
 
-This patch was applied to netdev/net.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+Remove these figures and describe the effects of page owner
+to the kernel size in general instead.
 
-On Tue,  4 Oct 2022 09:32:42 +0200 you wrote:
-> Missing space between "pins'" and "strength"
-> 
-> Signed-off-by: Casper Andersson <casper.casan@gmail.com>
-> ---
->  Documentation/networking/phy.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+---
+ Documentation/mm/page_owner.rst | 20 ++++----------------
+ 1 file changed, 4 insertions(+), 16 deletions(-)
 
-Here is the summary with links:
-  - [net-next] docs: networking: phy: add missing space
-    https://git.kernel.org/netdev/net/c/229a0027591c
-
-You are awesome, thank you!
+diff --git a/Documentation/mm/page_owner.rst b/Documentation/mm/page_owner.rst
+index f18fd8907049..127514955a5e 100644
+--- a/Documentation/mm/page_owner.rst
++++ b/Documentation/mm/page_owner.rst
+@@ -38,22 +38,10 @@ not affect to allocation performance, especially if the static keys jump
+ label patching functionality is available. Following is the kernel's code
+ size change due to this facility.
+ 
+-- Without page owner::
+-
+-   text    data     bss     dec     hex filename
+-   48392   2333     644   51369    c8a9 mm/page_alloc.o
+-
+-- With page owner::
+-
+-   text    data     bss     dec     hex filename
+-   48800   2445     644   51889    cab1 mm/page_alloc.o
+-   6662     108      29    6799    1a8f mm/page_owner.o
+-   1025       8       8    1041     411 mm/page_ext.o
+-
+-Although, roughly, 8 KB code is added in total, page_alloc.o increase by
+-520 bytes and less than half of it is in hotpath. Building the kernel with
+-page owner and turning it on if needed would be great option to debug
+-kernel memory problem.
++Although enabling page owner increases kernel size by several kilobytes,
++most of this code is outside page allocator and its hot path. Building
++the kernel with page owner and turning it on if needed would be great
++option to debug kernel memory problem.
+ 
+ There is one notice that is caused by implementation detail. page owner
+ stores information into the memory from struct page extension. This memory
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.17.1
 
