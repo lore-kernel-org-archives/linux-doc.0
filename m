@@ -2,45 +2,48 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07CAAC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 05:18:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E360C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 05:42:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230125AbiJFFR7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 01:17:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50512 "EHLO
+        id S229703AbiJFFmE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 01:42:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229966AbiJFFR6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 01:17:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B51B870A7;
-        Wed,  5 Oct 2022 22:17:57 -0700 (PDT)
+        with ESMTP id S229491AbiJFFmD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 01:42:03 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF87B89812;
+        Wed,  5 Oct 2022 22:42:01 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D450761825;
-        Thu,  6 Oct 2022 05:17:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAAFEC433D6;
-        Thu,  6 Oct 2022 05:17:54 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 74818B81EA0;
+        Thu,  6 Oct 2022 05:42:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 773AFC433C1;
+        Thu,  6 Oct 2022 05:41:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665033476;
-        bh=Ro9XHlh3/2Vqmy9HNWZSW+8vT6ftNGso62VAtEUozhc=;
+        s=k20201202; t=1665034919;
+        bh=n6c4VvqngC4tq6JMLCIJjyOZ8FbiloEgzYjwG3LxPlo=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=SzkSZIC5HcrTlEdoafqFJ+fiy5xPjY3VHjS7AUAL/4zpMfnEsLtM0iaQJxWwdJi9u
-         GuGll/Wer4VwgcYF2Ah2I8pOzPv09tFaGpqCmVl8/25LvQ5a/mqkI7MzjGFaCR9EFx
-         Nv2DF+uj9wbT6SySAYvIUaIZYdDrZrSWKLYTRI0TOWteiOaApRnXerGrUWdpesdNel
-         bUTUwTkM2tfIITXiv/Mup5GpqsPGf49exc/X2IL6RyS/YVPDpJSI5nEAnLKz6r2edt
-         0LfMsD8dl5ZTDfGeI3fWBw70fx8clb6l6xYtAoFJKZxzVewkzXqNwmMV8QGJXMHJX4
-         jtVoJnFW1YV+A==
-Date:   Thu, 6 Oct 2022 06:17:49 +0100
+        b=IZKWZ8Ktkq2qWRUa7pcHiU/6//pZB+4vJUfPh6MIPWpRAAnAwb/qRA9PxIaCqBj4n
+         IoSAh5YNkcUqvb/pF1oHfzHJhVz71QeoiLJNjfSmAfR7XJG1m+vuylZgh5R26eztJ2
+         m43Ye0rXVjyD01Y4gY+8uNebpysWNd48ub2enqsU95U8pEbAkk2FCXComJtHRWmoFv
+         ggfxFzcY9nBUsjBJjP/HwvRjwp+Cbk46x3rUxRfYfRdk6vt6g+xZWgmyyY8Xw6Z9z1
+         e/9XcHc7Wsqrg6riA7w5O9tRUMrvvtZhjxrrvVLThAaghQVmmQx/GT3229ZI3Th75F
+         GOpY7FuH1fglw==
+Date:   Thu, 6 Oct 2022 06:41:52 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 1/5] docs: Switch the default HTML theme to alabaster
-Message-ID: <20221006061749.18a68d08@sal.lan>
-In-Reply-To: <20221004201222.281845-2-corbet@lwn.net>
+Subject: Re: [PATCH 5/5] docs: improve the HTML formatting of kerneldoc
+ comments
+Message-ID: <20221006064152.0c82a351@sal.lan>
+In-Reply-To: <87tu4i9tli.fsf@meer.lwn.net>
 References: <20221004201222.281845-1-corbet@lwn.net>
-        <20221004201222.281845-2-corbet@lwn.net>
+        <20221004201222.281845-6-corbet@lwn.net>
+        <20221005065909.33ba2523@sal.lan>
+        <87tu4i9tli.fsf@meer.lwn.net>
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -49,117 +52,38 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue,  4 Oct 2022 14:12:18 -0600
+Em Wed, 05 Oct 2022 09:29:45 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> The read-the-docs theme is not entirely attractive and doesn't give us
-> control over the left column.  "Alabaster" is deemed the default Sphinx
-> theme, it is currently maintained and shipped bundled with Sphinx itself,
-> so there is no need to install it separately.  Switch over to this theme as
-> the default for building kernel documentation; the DOCS_THEME environment
-> variable can still be used to select a different theme.
-> 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/conf.py | 26 ++++++++++++++++++++++++--
->  1 file changed, 24 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 22c9d4df1967..629f4afeb0eb 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -194,6 +194,24 @@ finally:
->      else:
->          version = release = "unknown version"
->  
-> +#
-> +# HACK: there seems to be no easy way for us to get at the version and
-> +# release information passed in from the makefile...so go pawing through the
-> +# command-line options and find it for ourselves.
-> +#
-> +def get_cline_version():
-> +    c_version = c_release = ''
-> +    for arg in sys.argv:
-> +        if arg.startswith('version='):
-> +            c_version = arg[8:]
-> +        elif arg.startswith('release='):
-> +            c_release = arg[8:]
-> +    if c_version:
-> +        if c_release:
-> +            return c_version + '-' + c_release
-> +        return c_version
-> +    return version # Whatever we came up with before
-> +
->  # The language for content autogenerated by Sphinx. Refer to documentation
->  # for a list of supported languages.
->  #
-> @@ -247,7 +265,7 @@ highlight_language = 'none'
->  # a list of builtin themes.
->  
->  # Default theme
-> -html_theme = 'sphinx_rtd_theme'
-> +html_theme = 'alabaster'
->  html_css_files = []
+> Mauro Carvalho Chehab <mchehab@kernel.org> writes:
 
-You should probably touch other parts of conf.py as well, folding your
-patch 1 with the enclosed diff - or some variant of it.
+> > Also, when the container directive was introduced? Does it affect
+> > the minimal Sphinx version we support? It seems that this was old
+> > enough to not require any changes at the minimal version, but,
+> > from https://www.sphinx-doc.org/en/master/changes.html, it seems
+> > that LaTeX support for it was added only at Sphinx v4.1 on this PR:
+> >
+> > 	https://github.com/sphinx-doc/sphinx/pull/9166
+> >
+> > So, we need to double-check if are there any changes before and after
+> > such version at the places container is used - or change the kerneldoc
+> > to only emit such tags on PDF depending on the Sphinx version.  
+> 
+> I've tested things as far back as 2.4.5, where all is well.  I don't
+> currently have a machine that is capable of running earlier versions;
+> I'll need to conjure one of those up, I guess.
+> 
+> (Either that or just bite the bullet and move the minimum version
+> forward!)
 
-Basically, the current logic is to try RTD. If not found, fall back to
-classic (which is also a native theme), customizing it a little bit to
-look closer to the way RTD outputs the sidebars, and adjusting some colors
-to make it look nicer.
+I would just set 2.4.4 as the minimal version. This is already
+the minimal version for PDF output anyway:
+
+	my $rec_version = "1.7.9";	# PDF won't build here
+	my $min_pdf_version = "2.4.4";	# Min version where pdf builds
+
+and requirements.txt also sets to it. Yet, it would be nice to
+change requirements to 2.4.5 as the default pip-installed version.
 
 Regards,
 Mauro
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 934727e23e0e..87f821287908 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -241,7 +241,7 @@ if html_theme == 'sphinx_rtd_theme' or html_theme == 'sphinx_rtd_dark_mode':
-                 html_css_files.append('theme_rtd_colors.css')
- 
-     except ImportError:
--        html_theme = 'classic'
-+        html_theme = 'alabaster'
- 
- if "DOCS_CSS" in os.environ:
-     css = os.environ["DOCS_CSS"].split(" ")
-@@ -257,36 +257,6 @@ if major <= 1 and minor < 8:
-     for l in html_css_files:
-         html_context['css_files'].append('_static/' + l)
- 
--if  html_theme == 'classic':
--    html_theme_options = {
--        'rightsidebar':        False,
--        'stickysidebar':       True,
--        'collapsiblesidebar':  True,
--        'externalrefs':        False,
--
--        'footerbgcolor':       "white",
--        'footertextcolor':     "white",
--        'sidebarbgcolor':      "white",
--        'sidebarbtncolor':     "black",
--        'sidebartextcolor':    "black",
--        'sidebarlinkcolor':    "#686bff",
--        'relbarbgcolor':       "#133f52",
--        'relbartextcolor':     "white",
--        'relbarlinkcolor':     "white",
--        'bgcolor':             "white",
--        'textcolor':           "black",
--        'headbgcolor':         "#f2f2f2",
--        'headtextcolor':       "#20435c",
--        'headlinkcolor':       "#c60f0f",
--        'linkcolor':           "#355f7c",
--        'visitedlinkcolor':    "#355f7c",
--        'codebgcolor':         "#3f3f3f",
--        'codetextcolor':       "white",
--
--        'bodyfont':            "serif",
--        'headfont':            "sans-serif",
--    }
--
- sys.stderr.write("Using %s theme\n" % html_theme)
- 
- # Theme options are theme-specific and customize the look and feel of a theme
-
