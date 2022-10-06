@@ -2,183 +2,266 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 290E6C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 22:24:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 296A5C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 23:16:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232273AbiJFWYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 18:24:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60920 "EHLO
+        id S232052AbiJFXQT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 19:16:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232283AbiJFWYB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 18:24:01 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08F2CF1904;
-        Thu,  6 Oct 2022 15:24:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665095040; x=1696631040;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=KfziOm5EbaEsewwxZsiXqYnDBhy0tNb1GQYOUvhzcvs=;
-  b=XWtw4sJVLsOFzafsH1XPKNQ7AWv32ah3pvQ7wYKxAk1yPL4BcK+ST3Y4
-   E2kipGti57kn2Kc2vIqdcU8kW7a2hpdE3BeKovIwupvKK0+9iSu+IZOG6
-   hXvxtJoSW2FDtk/c5G0KnwmUPvHJZpb9lwg6jPG6iF4XJCZk6NBmUjgE8
-   fPRKQmmBbCgMxVWeL44WnqtTxlijcG/cHdhsMPjyrML/TSf1FTiIPTf7/
-   pHU9zb58EJk5ojVQMjFkq5s+fwu0RYLsSydqYIslr2VI/Qr0/fFCnvcst
-   yEBDaoxKZoa3cxwYyl5fh3jNf9xYaPf7xPG75qsfTsTWcgrNUl3NMx0IK
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="286816182"
-X-IronPort-AV: E=Sophos;i="5.95,164,1661842800"; 
-   d="scan'208";a="286816182"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 15:23:59 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="714025046"
-X-IronPort-AV: E=Sophos;i="5.95,164,1661842800"; 
-   d="scan'208";a="714025046"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 15:23:58 -0700
-Date:   Thu, 6 Oct 2022 15:24:16 -0700 (PDT)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 4/4] tty: serial: 8250: add DFL bus driver for Altera
- 16550.
-In-Reply-To: <Yz8T8GdzMLyAKIMb@smile.fi.intel.com>
-Message-ID: <alpine.DEB.2.22.394.2210061517300.1772307@rhweight-WRK1>
-References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com> <20221004143718.1076710-5-matthew.gerlach@linux.intel.com> <YzxRxo8jL7rB1+px@smile.fi.intel.com> <alpine.DEB.2.22.394.2210060940150.1988353@rhweight-WRK1>
- <Yz8T8GdzMLyAKIMb@smile.fi.intel.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S231871AbiJFXQS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 19:16:18 -0400
+X-Greylist: delayed 3595 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Oct 2022 16:16:15 PDT
+Received: from mail.zytor.com (unknown [IPv6:2607:7c80:54:3::138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A05AA94120;
+        Thu,  6 Oct 2022 16:16:14 -0700 (PDT)
+Received: from [127.0.0.1] ([73.223.250.219])
+        (authenticated bits=0)
+        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 296LRJ1M3706824
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Thu, 6 Oct 2022 14:27:19 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 296LRJ1M3706824
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2022090501; t=1665091641;
+        bh=83oafeKZfAlix6QiAi5tyBeuvZ5eUW0hhmVMZremg+o=;
+        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+        b=he58tKmvIQguFWQuXk4StAkobvC4MMRcgWm5oocTjATGRjxGaMUIwUgQuvmY5viZp
+         OdiI5JtB78Nl6Q1Or4ZYxFqSiYbDj5OE1/uFwvcSGRkGH9dGkt9d879hBtR0vH2bGc
+         7aH12+QOMsIw09wrwwGzj2TSdqLbgGqiZuNdlE8L9+qEaqPDRyBgWXppvye9w/e69Z
+         IOaxQKuLoOW8QXyzS/uMpO/UHI9HiQCdbc5SdJmT/mKBZrAn0s6hAWyQl9aY9IVHYZ
+         DtSBH3xBedi5AtXWjOr9sBXBoZLsUc4D7Mvh3VswLI+oqxa63rPjDEAwHeVQp+3PDI
+         GTqTedLcwbnfQ==
+Date:   Thu, 06 Oct 2022 14:27:18 -0700
+From:   "H. Peter Anvin" <hpa@zytor.com>
+To:     Ali Raza <aliraza@bu.edu>, linux-kernel@vger.kernel.org
+CC:     corbet@lwn.net, masahiroy@kernel.org, michal.lkml@markovi.net,
+        ndesaulniers@google.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, luto@kernel.org,
+        ebiederm@xmission.com, keescook@chromium.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, arnd@arndb.de, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        bristot@redhat.com, vschneid@redhat.com, pbonzini@redhat.com,
+        jpoimboe@kernel.org, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        x86@kernel.org, rjones@redhat.com, munsoner@bu.edu, tommyu@bu.edu,
+        drepper@redhat.com, lwoodman@redhat.com, mboydmcse@gmail.com,
+        okrieg@bu.edu, rmancuso@bu.edu
+Subject: Re: [RFC UKL 00/10] Unikernel Linux (UKL)
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20221003222133.20948-1-aliraza@bu.edu>
+References: <20221003222133.20948-1-aliraza@bu.edu>
+Message-ID: <85EF9D5D-6DCC-410C-96F5-C16F0E62BF22@zytor.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On October 3, 2022 3:21:23 PM PDT, Ali Raza <aliraza@bu=2Eedu> wrote:
+>Unikernel Linux (UKL) is a research project aimed at integrating
+>application specific optimizations to the Linux kernel=2E This RFC aims t=
+o
+>introduce this research to the community=2E Any feedback regarding the id=
+ea,
+>goals, implementation and research is highly appreciated=2E
+>
+>Unikernels are specialized operating systems where an application is link=
+ed
+>directly with the kernel and runs in supervisor mode=2E This allows the
+>developers to implement application specific optimizations to the kernel,
+>which can be directly invoked by the application (without going through t=
+he
+>syscall path)=2E An application can control scheduling and resource
+>management and directly access the hardware=2E Application and the kernel=
+ can
+>be co-optimized, e=2Eg=2E, through LTO, PGO, etc=2E All of these optimiza=
+tions,
+>and others, provide applications with huge performance benefits over
+>general purpose operating systems=2E
+>
+>Linux is the de-facto operating system of today=2E Applications depend on=
+ its
+>battle tested code base, large developer community, support for legacy
+>code, a huge ecosystem of tools and utilities, and a wide range of
+>compatible hardware and device drivers=2E Linux also allows some degree o=
+f
+>application specific optimizations through build time config options,
+>runtime configuration, and recently through eBPF=2E But still, there is a
+>need for even more fine-grained application specific optimizations, and
+>some developers resort to kernel bypass techniques=2E
+>
+>Unikernel Linux (UKL) aims to get the best of both worlds by bringing
+>application specific optimizations to the Linux ecosystem=2E This way,
+>unmodified applications can keep getting the benefits of Linux while taki=
+ng
+>advantage of the unikernel-style optimizations=2E Optionally, application=
+s
+>can be modified to invoke deeper optimizations=2E
+>
+>There are two steps to unikernel-izing Linux, i=2Ee=2E, first, equip Linu=
+x with
+>a unikernel model, and second, actually use that model to implement
+>application specific optimizations=2E This patch focuses on the first par=
+t=2E
+>Through this patch, unmodified applications can be built as Linux
+>unikernels, albeit with only modest performance advantages=2E Like
+>unikernels, UKL would allow an application to be statically linked into t=
+he
+>kernel and executed in supervisor mode=2E However, UKL preserves most of =
+the
+>invariants and design of Linux, including a separate page-able applicatio=
+n
+>portion of the address space and a pinned kernel portion, the ability to
+>run multiple processes, and distinct execution modes for application and
+>kernel code=2E Kernel execution mode and application execution mode are
+>different, e=2Eg=2E, the application execution mode allows application th=
+reads
+>to be scheduled, handle signals, etc=2E, which do not apply to kernel
+>threads=2E Application built as a Linux unikernel will have its text and =
+data
+>loaded with the kernel at boot time, while the rest of the address space
+>would remain unchanged=2E These applications invoke the system call
+>functionality through a function call into the kernel system call entry
+>point instead of through the syscall assembly instruction=2E UKL would
+>support a normal userspace so the UKL application can be started, managed=
+,
+>profiled, etc=2E, using normal command line utilities=2E
+>
+>Once Linux has a unikernel model, different application specific
+>optimizations are possible=2E We have tried a few, e=2Eg=2E, fast system =
+call
+>transitions, shared stacks to allow LTO, invoking kernel functions
+>directly, etc=2E We have seen huge performance benefits, details of which=
+ are
+>not relevant to this patch and can be found in our paper=2E
+>(https://arxiv=2Eorg/pdf/2206=2E00789=2Epdf)
+>
+>UKL differs significantly from previous projects, e=2Eg=2E, UML, KML and =
+LKL=2E
+>User Mode Linux (UML) is a virtual machine monitor implemented on syscall
+>interface, a very different goal from UKL=2E Kernel Mode Linux (KML) allo=
+ws
+>applications to run in kernel mode and replaces syscalls with function
+>calls=2E While KML stops there, UKL goes further=2E UKL links application=
+s and
+>kernel together which allows further optimizations e=2Eg=2E, fast system =
+call
+>transitions, shared stacks to allow LTO, invoking kernel functions direct=
+ly
+>etc=2E Details can be found in the paper linked above=2E Linux Kernel Lib=
+rary
+>(LKL) harvests arch independent code from Linux, takes it to userspace as=
+ a
+>library to be linked with applications=2E A host needs to provide arch
+>dependent functionality=2E This model is very different from UKL=2E A det=
+ailed
+>discussion of related work is present in the paper linked above=2E
+>
+>See samples/ukl for a simple TCP echo server example which can be built a=
+s
+>a normal user space application and also as a UKL application=2E In the L=
+inux
+>config options, a path to the compiled and partially linked application
+>binary can be specified=2E Kernel built with UKL enabled will search this
+>location for the binary and link with the kernel=2E Applications and requ=
+ired
+>libraries need to be compiled with -mno-red-zone -mcmodel=3Dkernel flags
+>because kernel mode execution can trample on application red zones and in
+>order to link with the kernel and be loaded in the high end of the addres=
+s
+>space, application should have the correct memory model=2E Examples of ot=
+her
+>applications like Redis, Memcached etc along with glibc and libgcc etc=2E=
+,
+>can be found at https://github=2Ecom/unikernelLinux/ukl
+>
+>List of authors and contributors:
+>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>Ali Raza - aliraza@bu=2Eedu
+>Thomas Unger - tommyu@bu=2Eedu
+>Matthew Boyd - mboydmcse@gmail=2Ecom
+>Eric Munson - munsoner@bu=2Eedu
+>Parul Sohal - psohal@bu=2Eedu
+>Ulrich Drepper - drepper@redhat=2Ecom
+>Richard W=2EM=2E Jones - rjones@redhat=2Ecom
+>Daniel Bristot de Oliveira - bristot@kernel=2Eorg
+>Larry Woodman - lwoodman@redhat=2Ecom
+>Renato Mancuso - rmancuso@bu=2Eedu
+>Jonathan Appavoo - jappavoo@bu=2Eedu
+>Orran Krieger - okrieg@bu=2Eedu
+>
+>Ali Raza (9):
+>  kbuild: Add sections and symbols to linker script for UKL support
+>  x86/boot: Load the PT_TLS segment for Unikernel configs
+>  sched: Add task_struct tracking of kernel or application execution
+>  x86/entry: Create alternate entry path for system calls
+>  x86/uaccess: Make access_ok UKL aware
+>  x86/fault: Skip checking kernel mode access to user address space for
+>    UKL
+>  x86/signal: Adjust signal handler register values and return frame
+>  exec: Make exec path for starting UKL application
+>  Kconfig: Add config option for enabling and sample for testing UKL
+>
+>Eric B Munson (1):
+>  exec: Give userspace a method for starting UKL process
+>
+> Documentation/index=2Erst           |   1 +
+> Documentation/ukl/ukl=2Erst         | 104 +++++++++++++++++++++++
+> Kconfig                           |   2 +
+> Makefile                          |   4 +
+> arch/x86/boot/compressed/misc=2Ec   |   3 +
+> arch/x86/entry/entry_64=2ES         | 133 ++++++++++++++++++++++++++++++
+> arch/x86/include/asm/elf=2Eh        |   9 +-
+> arch/x86/include/asm/uaccess=2Eh    |   8 ++
+> arch/x86/kernel/process=2Ec         |  13 +++
+> arch/x86/kernel/process_64=2Ec      |  49 ++++++++---
+> arch/x86/kernel/signal=2Ec          |  22 +++--
+> arch/x86/kernel/vmlinux=2Elds=2ES     |  98 ++++++++++++++++++++++
+> arch/x86/mm/fault=2Ec               |   7 +-
+> fs/binfmt_elf=2Ec                   |  28 +++++++
+> fs/exec=2Ec                         |  75 +++++++++++++----
+> include/asm-generic/sections=2Eh    |   4 +
+> include/asm-generic/vmlinux=2Elds=2Eh |  32 ++++++-
+> include/linux/sched=2Eh             |  26 ++++++
+> kernel/Kconfig=2Eukl                |  41 +++++++++
+> samples/ukl/Makefile              |  16 ++++
+> samples/ukl/README                |  17 ++++
+> samples/ukl/syscall=2ES             |  28 +++++++
+> samples/ukl/tcp_server=2Ec          |  99 ++++++++++++++++++++++
+> scripts/mod/modpost=2Ec             |   4 +
+> 24 files changed, 785 insertions(+), 38 deletions(-)
+> create mode 100644 Documentation/ukl/ukl=2Erst
+> create mode 100644 kernel/Kconfig=2Eukl
+> create mode 100644 samples/ukl/Makefile
+> create mode 100644 samples/ukl/README
+> create mode 100644 samples/ukl/syscall=2ES
+> create mode 100644 samples/ukl/tcp_server=2Ec
+>
+>
+>base-commit: 4fe89d07dcc2804c8b562f6c7896a45643d34b2f
+
+This is basically taking Linux and turning it into a whole new operating s=
+ystem, while expecting the Linux kernel community to carry the support burd=
+en thereof=2E
+
+We have seen this before, notably with Xen=2E It is *expensive* and *painf=
+ul* for the maintenance of the mainstream kernel=2E
+
+Linux already has a notion of "kernel mode applications", they are called =
+kernel modules and kernel threads=2E It seems to me that you are trying to =
+introduce a user space compatibility layer into the kernel, with the only b=
+enefit being avoiding the syscall overhead=2E The latter is bigger than we =
+would like, which is why we are changing the x86 hardware architecture to i=
+mprove it=2E
+
+In my opinion, this would require *enormous* justification to put it into =
+mainline=2E
 
 
-On Thu, 6 Oct 2022, Andy Shevchenko wrote:
 
-> On Thu, Oct 06, 2022 at 10:00:43AM -0700, matthew.gerlach@linux.intel.com wrote:
->> On Tue, 4 Oct 2022, Andy Shevchenko wrote:
->>> On Tue, Oct 04, 2022 at 07:37:18AM -0700, matthew.gerlach@linux.intel.com wrote:
->
-> ...
->
->>>> Reported-by: kernel test robot <lkp@intel.com>
->>>
->>> https://docs.kernel.org/process/submitting-patches.html?highlight=reported#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
->>>
->>> "The Reported-by tag gives credit to people who find bugs and report them and it
->>> hopefully inspires them to help us again in the future. Please note that if the
->>> bug was reported in private, then ask for permission first before using the
->>> Reported-by tag. The tag is intended for bugs; please do not use it to credit
->>> feature requests."
->>
->> The kernel test robot did find a bug in my v1 submission.  I was missing the
->> static keyword for a function declaration.  Should I remove the tag?
->
-> What's yours take from the above documentation?
->
-
-Since the kernel test robot did find a bug. The tag should stay.
-
-> ...
->
->>>> +	dfh_base = devm_ioremap_resource(dev, &dfl_dev->mmio_res);
->>>> +	if (IS_ERR(dfh_base))
->>>> +		return PTR_ERR(dfh_base);
->>>> +
->>>> +	res_size = resource_size(&dfl_dev->mmio_res);
->>>> +
->>>> +	ret = dfl_uart_get_params(dev, dfh_base, res_size, &uart);
->>>
->>>> +	devm_iounmap(dev, dfh_base);
->>>> +	devm_release_mem_region(dev, dfl_dev->mmio_res.start, res_size);
->>>
->>> If it's temporary, may be you shouldn't even consider devm_ioremap_resource()
->>> to begin with? The devm_* release type of functions in 99% of the cases
->>> indicate of the abusing devm_.
->>
->> I will change the code to call ioremap() and request_mem_region() directly
->> instead of the devm_ versions.
->
-> But why will you need request_mem_region() in that case?
-
-It doesn't seem that I need to call request_mem_regsion; so I will skip 
-it.
-
->
->>>> +	if (ret < 0)
->>>> +		return dev_err_probe(dev, ret, "failed uart feature walk\n");
->
-> ...
->
->>>> +config SERIAL_8250_DFL
->>>> +	tristate "DFL bus driver for Altera 16550 UART"
->>>> +	depends on SERIAL_8250 && FPGA_DFL
->>>> +	help
->>>> +	  This option enables support for a Device Feature List (DFL) bus
->>>> +	  driver for the Altera 16650 UART.  One or more Altera 16650 UARTs
->>>> +	  can be instantiated in a FPGA and then be discovered during
->>>> +	  enumeration of the DFL bus.
->>>
->>> When m, what be the module name?
->>
->> I see the file, kernel/drivers/tty/serial/8250/8250_dfl.ko, installed into
->> /lib/modules/...  I also see "alias dfl:t0000f0024* 8250_dfl" in
->> modules.alias
->
-> My point is that user who will run `make menuconfig` will read this and have
-> no clue after the kernel build if the module was built or not. Look into other
-> (recent) sections of the Kconfig for drivers in the kernel for how they inform
-> user about the module name (this more or less standard pattern you just need
-> to copy'n'paste'n'edit carefully).
->
-> ...
-
-I think this should be added:
-           To compile this driver as a module, chose M here: the
-           module will be called 8250_dfl.
->
->>>>  obj-$(CONFIG_SERIAL_8250_FOURPORT)	+= 8250_fourport.o
->>>>  obj-$(CONFIG_SERIAL_8250_ACCENT)	+= 8250_accent.o
->>>>  obj-$(CONFIG_SERIAL_8250_BOCA)		+= 8250_boca.o
->>>> +obj-$(CONFIG_SERIAL_8250_DFL)		+= 8250_dfl.o
->>>
->>> This group of drivers for the 4 UARTs on the board or so, does FPGA belong to
->>> it? (Same Q, btw, for the Kconfig section. And yes, I know that some of the
->>> entries are not properly placed there and in Makefile.)
->>
->> Since 8250_dfl results in its own module, and my kernel config doesn't have
->> FOURPORT, ACCENT, nor BOCA, I guess I don't understand the problem.
->
-> The Makefile is a bit chaotic, but try to find the sorted (more or less)
-> group of drivers that are not 4 ports and squeeze your entry there
-> (I expect somewhere between the LPSS/MID lines).
->
-> It will help to sort out that mess in the future.
-
-I will move 8250_dfl between LPSS and MID lines in the Makefile.  Should I 
-move the definition in Kconfig to be between LPSS and MID to be consistent?
-
->
->>>>  obj-$(CONFIG_SERIAL_8250_EXAR_ST16C554)	+= 8250_exar_st16c554.o
->>>>  obj-$(CONFIG_SERIAL_8250_HUB6)		+= 8250_hub6.o
->>>>  obj-$(CONFIG_SERIAL_8250_FSL)		+= 8250_fsl.o
->
-> -- 
-> With Best Regards,
-> Andy Shevchenko
->
->
->
