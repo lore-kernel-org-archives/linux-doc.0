@@ -2,116 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B5D9C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 09:56:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58A4FC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 11:11:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231503AbiJFJ4L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 05:56:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41970 "EHLO
+        id S231408AbiJFLLu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 07:11:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231175AbiJFJ4K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 05:56:10 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671D382761;
-        Thu,  6 Oct 2022 02:56:05 -0700 (PDT)
+        with ESMTP id S231390AbiJFLLu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 07:11:50 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AB069C2F1;
+        Thu,  6 Oct 2022 04:11:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665050165; x=1696586165;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ped3EFOSYgP0u/JOGENQgHEAPb1CTPyVsTF/z2bnBqI=;
-  b=L0NHfLuvLkCl1pVQ6S5hUSZA98zGNWlQCSOiIuhwBrK/I7g0NOsaIvHf
-   wHxu3MyGQ0KReGyRupAdmhUW6T47Q2UYdY7U3pXZqwY3EDKqXBLWOdE3/
-   Sk2Rit8pPO3srbjqjEIQQMaoYqQRwAdx33ex6ZN3ulI3IT9RY5BFnrLMR
-   4jxknb0RgGG8DKiNbZfGgeRkWxy92enpwzP10qtckQYbCAnCYRHPtO5lO
-   N5l/eruZfqBdixkxeA+Wgxop052SGJBPsJscwo+yGuV0FcZ6kbAIWyAYN
-   kVcdD5ljijjzby0WZNcznbu9o7CN9AKE2t9x+ku5tuXneJQ/tLXYGwj2I
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="301000600"
+  t=1665054690; x=1696590690;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=+lHjXeTPRFsDwEM2GTjfHhnOPQ/3lTCbvV4Ux6gtyNA=;
+  b=LN/wbYuciK4ef34mXLyat1+4M/Afo51zeowjO8SHRTqYIaDMWXQCNWOi
+   7PvFM1H4NH5r+t9nBcrPhorI3alNW5ZaKjjgIJ0Ym+gI3NjsRaduF9kYY
+   HO20zoYh72PzAzJJCmfgb1W8tTxLaDn8R7W9kAK4FmYBayFrsPC8PnIsY
+   8l8XBneaGLcYlOiJg9JqW7uVvL9Cqnc8E8hb0RojZLDnIn2ipCXIm5qeO
+   /PuE6bYkhbasw9RJDHBojBb4yuT14XtwFLpKDLRsVUnCgh25OeO0d/OYL
+   zZrm9YQrQvlb5l9AF6xDj3vhEjGtmnL6YTy+iYNn+BedON4lNhrfTjQGt
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="365353524"
 X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
-   d="scan'208";a="301000600"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 02:56:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="869785880"
+   d="scan'208";a="365353524"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 04:11:27 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="619813218"
 X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
-   d="scan'208";a="869785880"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by fmsmga006.fm.intel.com with ESMTP; 06 Oct 2022 02:56:00 -0700
-Date:   Thu, 6 Oct 2022 17:47:04 +0800
-From:   Xu Yilun <yilun.xu@intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     matthew.gerlach@linux.intel.com, hao.wu@intel.com,
-        russell.h.weight@intel.com, basheer.ahmed.muddebihal@intel.com,
-        trix@redhat.com, mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de
-Subject: Re: [PATCH v3 3/4] fpga: dfl: add basic support for DFHv1
-Message-ID: <Yz6kGM0qvIF/E2Bp@yilunxu-OptiPlex-7050>
-References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com>
- <20221004143718.1076710-4-matthew.gerlach@linux.intel.com>
- <YzxNCngIuzMqIOHe@smile.fi.intel.com>
+   d="scan'208";a="619813218"
+Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.153])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 04:11:25 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH RFC 0/5] docs: Improvements to our HTML output
+In-Reply-To: <20221004201222.281845-1-corbet@lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221004201222.281845-1-corbet@lwn.net>
+Date:   Thu, 06 Oct 2022 14:11:23 +0300
+Message-ID: <87tu4hp5pg.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YzxNCngIuzMqIOHe@smile.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-10-04 at 18:11:06 +0300, Andy Shevchenko wrote:
-> On Tue, Oct 04, 2022 at 07:37:17AM -0700, matthew.gerlach@linux.intel.com wrote:
-> > From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> > 
-> > Add generic support for MSIX interrupts for DFL devices.
-> 
+On Tue, 04 Oct 2022, Jonathan Corbet <corbet@lwn.net> wrote:
+> For a long time we have rejoiced that our HTML output from Sphinx is far
+> better than what we got from the old DocBook toolchain.  But it still
+> leaves a lot to be desired; the following is an attempt to improve the
+> situation somewhat.
+>
+> Sphinx has a theming mechanism for HTML rendering.  Since the kernel's
+> adoption of Sphinx, we have been using the "Read The Docs" theme =E2=80=
+=94 a choice
+> made in a bit of a hurry to have *something* while figuring out the rest.
+> RTD is OK, but it is not hugely attractive, requires the installation of =
+an
+> extra package, and does not observe all of the Sphinx configuration
+> parameters.  Among other things, that makes it hard to put reasonable
+> contents into the left column in the HTML output.
+>
+> The Alabaster theme is the default for Sphinx installations, and is bundl=
+ed
+> with Sphinx itself.  It has (IMO) nicer output and gives us the control
+> that we need.
+>
+> So: switch to Alabaster.  Additional patches adjust the documentation and
+> remove the RTD references from scripts/sphinx-pre-install.
+>
+> The final patch changes the way that kerneldoc declarations are rendered =
+to
+> (IMO) improve readability.  That requires some changes to kernel-doc to
+> output a new container block and some CSS tweaks to improve things overal=
+l.
+>
+> It should be noted that I have a long history of inflicting ugly web
+> designs on the net; this work is a start, but I think we could do far
+> better yet.  It would be great if somebody who actually enjoys working wi=
+th
+> CSS and such would help to improve what we have.
 
-...
+I admit my wish-list replies to this thread may seem a bit obnoxious,
+when I'm not prepared to contribute. Sorry about that. My intention was
+not to block any of this, rather muse about what the future direction
+might be.
 
-> 
-> > +int dfhv1_find_param(void __iomem *base, resource_size_t max, int param)
-> > +{
-> > +	int off = DFHv1_PARAM_HDR;
-> > +	u64 v, next;
-> > +
-> > +	while (off < max) {
-> > +		v = readq(base + off);
-> > +		if (param == FIELD_GET(DFHv1_PARAM_HDR_ID, v))
-> 
-> > +			return (DFHv1_PARAM_DATA + off);
-> 
-> Too many parentheses.
-> 
-> > +
-> > +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
-> > +		if (!next)
-> > +			break;
-> > +
-> > +		off += next;
-> > +	}
-> > +
-> > +	return -ENOENT;
-> > +}
-> 
-> The entire function seems a bit dangerous to me. You can ask for any max which
-> covers (up to) 64-bit address space and then do MMIO by basically arbitrary
-> address. How do you protect against wrong MMIO window here? (This is FPGA, so
-> anything can be read from HW, i.o.w. it's _untrusted_ source of the data.)
-> 
-> Also, have you tested this with IOMMU enabled? How do they work together (if
-> there is any collision at all between two?)
+Overall I think this is an improvement.
 
-Yeah, again I don't think this API is good to be used across modules,
-even if the parameters got checked. It requires too much details for
-other domain developers.
+There's only two things that I'd like to get addressed, not necessarily
+now, but eventually:
 
-How about:
+- As mentioned, the main div width as pixels in the alabaster
+  theme. It's really crappy on wide 4K displays. Only a quarter of the
+  full screen width is used.
 
-  dfl_find_param(struct dfl_device *ddev, int param_id)
+- The function/struct/etc. main descriptions are now displayed in the
+  gray background, along with the "declaration", instead of white
+  background. Is that an intenational alabaster feature, or is it
+  something we do to cause that? Seems like the description gets a bit
+  hidden there.
 
-Thanks,
-Yilun
+
+BR,
+Jani.
+
+
+>
+> As before, I've put a copy of the rendered docs at:
+>
+>   https://static.lwn.net/kerneldoc/
+>
+> To compare the kerneldoc changes specifically, pick a page that includes a
+> lot of definitions; for example:
+>
+>   https://static.lwn.net/kerneldoc/driver-api/media/drivers/frontends.html
+>   vs.
+>   https://www.kernel.org/doc/html/latest/driver-api/media/drivers/fronten=
+ds.html
+>
+> Jonathan Corbet (5):
+>   docs: Switch the default HTML theme to alabaster
+>   docs: tweak some Alabaster style parameters
+>   docs: update sphinx.rst to reflect the default theme change
+>   docs: sphinx-pre-install: don't require the RTD theme
+>   docs: improve the HTML formatting of kerneldoc comments
+>
+>  Documentation/conf.py                  | 27 ++++++++++++-
+>  Documentation/doc-guide/sphinx.rst     | 16 +++-----
+>  Documentation/sphinx-static/custom.css | 25 +++++++++++++
+>  Documentation/sphinx/requirements.txt  |  1 -
+>  scripts/kernel-doc                     | 52 ++++++++++++++++----------
+>  scripts/sphinx-pre-install             |  8 ----
+>  6 files changed, 87 insertions(+), 42 deletions(-)
+>  create mode 100644 Documentation/sphinx-static/custom.css
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
