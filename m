@@ -2,205 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 956DCC433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 17:43:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B424C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 17:44:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231180AbiJFRnE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 13:43:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43752 "EHLO
+        id S229606AbiJFRo0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 13:44:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230039AbiJFRnD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 13:43:03 -0400
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83E72B40E8;
-        Thu,  6 Oct 2022 10:43:01 -0700 (PDT)
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-        by localhost (Postfix) with ESMTP id 4MjzLB6Ky2z9t0M;
-        Thu,  6 Oct 2022 19:42:58 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-        by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Fq7hDkCWiCvc; Thu,  6 Oct 2022 19:42:58 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase2.c-s.fr (Postfix) with ESMTP id 4MjzLB4vNFz9syB;
-        Thu,  6 Oct 2022 19:42:58 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 84B508B78B;
-        Thu,  6 Oct 2022 19:42:58 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id mbcF0I0xUYNn; Thu,  6 Oct 2022 19:42:58 +0200 (CEST)
-Received: from [192.168.233.27] (po19210.idsi0.si.c-s.fr [192.168.233.27])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 4E53E8B77D;
-        Thu,  6 Oct 2022 19:42:56 +0200 (CEST)
-Message-ID: <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
-Date:   Thu, 6 Oct 2022 19:42:55 +0200
+        with ESMTP id S229683AbiJFRoZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 13:44:25 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BF48B3B3A;
+        Thu,  6 Oct 2022 10:44:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665078264; x=1696614264;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0Algq8hyduIEzy6JYyaOhF1vsvyg3XX+0FRx/6j5o0g=;
+  b=P40ET/E+96MyPWObFb/pj2DToiN71/rWVfNN96w5AcLuw6VBH+/3BMjw
+   w5wJWMId5jSRn3W3bZMxqWa0fLPTN2fF7VWy1LXJ8JTpFTi4WgeHXDSe0
+   +4o1R2C2478UfB7Hz7qSKZKWrVdbxA42OYmXKMpQ7fsiVd1MyzBtf3My8
+   x6rS20cG7vzmpilqERzCht7+0SjIZxFOGAyS8AV2SRGG+Ioq6n9hgasX1
+   UzBcoRr94OLj2m2klPG1Ldiry4DMmxHU4oK6rLpbr9H9PxWXF7OswvIQF
+   FkdjcuBtXGKowFVT3X8Ez+BApVFQH1jrkn8WCi6uKyWuhCzItz/unVmbd
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="367644479"
+X-IronPort-AV: E=Sophos;i="5.95,164,1661842800"; 
+   d="scan'208";a="367644479"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 10:44:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="687529739"
+X-IronPort-AV: E=Sophos;i="5.95,164,1661842800"; 
+   d="scan'208";a="687529739"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga008.fm.intel.com with ESMTP; 06 Oct 2022 10:44:18 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1ogUuu-003HN6-1V;
+        Thu, 06 Oct 2022 20:44:16 +0300
+Date:   Thu, 6 Oct 2022 20:44:16 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     matthew.gerlach@linux.intel.com
+Cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 4/4] tty: serial: 8250: add DFL bus driver for Altera
+ 16550.
+Message-ID: <Yz8T8GdzMLyAKIMb@smile.fi.intel.com>
+References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com>
+ <20221004143718.1076710-5-matthew.gerlach@linux.intel.com>
+ <YzxRxo8jL7rB1+px@smile.fi.intel.com>
+ <alpine.DEB.2.22.394.2210060940150.1988353@rhweight-WRK1>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
-Content-Language: fr-FR
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= 
-        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dave Airlie <airlied@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Florian Westphal <fw@strlen.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Hugh Dickins <hughd@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Marco Elver <elver@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        Russell King <linux@armlinux.org.uk>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Graf <tgraf@suug.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgens?= =?UTF-8?Q?en?= 
-        <toke@toke.dk>, Chuck Lever <chuck.lever@oracle.com>,
-        Jan Kara <jack@suse.cz>
-References: <20221006165346.73159-1-Jason@zx2c4.com>
- <20221006165346.73159-4-Jason@zx2c4.com>
- <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu>
- <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
- <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu>
-In-Reply-To: <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2210060940150.1988353@rhweight-WRK1>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Oct 06, 2022 at 10:00:43AM -0700, matthew.gerlach@linux.intel.com wrote:
+> On Tue, 4 Oct 2022, Andy Shevchenko wrote:
+> > On Tue, Oct 04, 2022 at 07:37:18AM -0700, matthew.gerlach@linux.intel.com wrote:
 
+...
 
-Le 06/10/2022 à 19:31, Christophe Leroy a écrit :
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > 
+> > https://docs.kernel.org/process/submitting-patches.html?highlight=reported#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
+> > 
+> > "The Reported-by tag gives credit to people who find bugs and report them and it
+> > hopefully inspires them to help us again in the future. Please note that if the
+> > bug was reported in private, then ask for permission first before using the
+> > Reported-by tag. The tag is intended for bugs; please do not use it to credit
+> > feature requests."
 > 
-> 
-> Le 06/10/2022 à 19:24, Jason A. Donenfeld a écrit :
->> Hi Christophe,
->>
->> On Thu, Oct 6, 2022 at 11:21 AM Christophe Leroy
->> <christophe.leroy@csgroup.eu> wrote:
->>> Le 06/10/2022 à 18:53, Jason A. Donenfeld a écrit :
->>>> The prandom_u32() function has been a deprecated inline wrapper around
->>>> get_random_u32() for several releases now, and compiles down to the
->>>> exact same code. Replace the deprecated wrapper with a direct call to
->>>> the real function. The same also applies to get_random_int(), which is
->>>> just a wrapper around get_random_u32().
->>>>
->>>> Reviewed-by: Kees Cook <keescook@chromium.org>
->>>> Acked-by: Toke Høiland-Jørgensen <toke@toke.dk> # for sch_cake
->>>> Acked-by: Chuck Lever <chuck.lever@oracle.com> # for nfsd
->>>> Reviewed-by: Jan Kara <jack@suse.cz> # for ext4
->>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
->>>> ---
->>>
->>>> diff --git a/arch/powerpc/kernel/process.c 
->>>> b/arch/powerpc/kernel/process.c
->>>> index 0fbda89cd1bb..9c4c15afbbe8 100644
->>>> --- a/arch/powerpc/kernel/process.c
->>>> +++ b/arch/powerpc/kernel/process.c
->>>> @@ -2308,6 +2308,6 @@ void notrace __ppc64_runlatch_off(void)
->>>>    unsigned long arch_align_stack(unsigned long sp)
->>>>    {
->>>>        if (!(current->personality & ADDR_NO_RANDOMIZE) && 
->>>> randomize_va_space)
->>>> -             sp -= get_random_int() & ~PAGE_MASK;
->>>> +             sp -= get_random_u32() & ~PAGE_MASK;
->>>>        return sp & ~0xf;
->>>
->>> Isn't that a candidate for prandom_u32_max() ?
->>>
->>> Note that sp is deemed to be 16 bytes aligned at all time.
->>
->> Yes, probably. It seemed non-trivial to think about, so I didn't. But
->> let's see here... maybe it's not too bad:
->>
->> If PAGE_MASK is always ~(PAGE_SIZE-1), then ~PAGE_MASK is
->> (PAGE_SIZE-1), so prandom_u32_max(PAGE_SIZE) should yield the same
->> thing? Is that accurate? And holds across platforms (this comes up a
->> few places)? If so, I'll do that for a v4.
->>
-> 
-> On powerpc it is always (from arch/powerpc/include/asm/page.h) :
-> 
-> /*
->   * Subtle: (1 << PAGE_SHIFT) is an int, not an unsigned long. So if we
->   * assign PAGE_MASK to a larger type it gets extended the way we want
->   * (i.e. with 1s in the high bits)
->   */
-> #define PAGE_MASK      (~((1 << PAGE_SHIFT) - 1))
-> 
-> #define PAGE_SIZE        (1UL << PAGE_SHIFT)
-> 
-> 
-> So it would work I guess.
+> The kernel test robot did find a bug in my v1 submission.  I was missing the
+> static keyword for a function declaration.  Should I remove the tag?
 
-But taking into account that sp must remain 16 bytes aligned, would it 
-be better to do something like ?
+What's yours take from the above documentation?
 
-	sp -= prandom_u32_max(PAGE_SIZE >> 4) << 4;
+...
 
-	return sp;
+> > > +	dfh_base = devm_ioremap_resource(dev, &dfl_dev->mmio_res);
+> > > +	if (IS_ERR(dfh_base))
+> > > +		return PTR_ERR(dfh_base);
+> > > +
+> > > +	res_size = resource_size(&dfl_dev->mmio_res);
+> > > +
+> > > +	ret = dfl_uart_get_params(dev, dfh_base, res_size, &uart);
+> > 
+> > > +	devm_iounmap(dev, dfh_base);
+> > > +	devm_release_mem_region(dev, dfl_dev->mmio_res.start, res_size);
+> > 
+> > If it's temporary, may be you shouldn't even consider devm_ioremap_resource()
+> > to begin with? The devm_* release type of functions in 99% of the cases
+> > indicate of the abusing devm_.
+> 
+> I will change the code to call ioremap() and request_mem_region() directly
+> instead of the devm_ versions.
+
+But why will you need request_mem_region() in that case?
+
+> > > +	if (ret < 0)
+> > > +		return dev_err_probe(dev, ret, "failed uart feature walk\n");
+
+...
+
+> > > +config SERIAL_8250_DFL
+> > > +	tristate "DFL bus driver for Altera 16550 UART"
+> > > +	depends on SERIAL_8250 && FPGA_DFL
+> > > +	help
+> > > +	  This option enables support for a Device Feature List (DFL) bus
+> > > +	  driver for the Altera 16650 UART.  One or more Altera 16650 UARTs
+> > > +	  can be instantiated in a FPGA and then be discovered during
+> > > +	  enumeration of the DFL bus.
+> > 
+> > When m, what be the module name?
+> 
+> I see the file, kernel/drivers/tty/serial/8250/8250_dfl.ko, installed into
+> /lib/modules/...  I also see "alias dfl:t0000f0024* 8250_dfl" in
+> modules.alias
+
+My point is that user who will run `make menuconfig` will read this and have
+no clue after the kernel build if the module was built or not. Look into other
+(recent) sections of the Kconfig for drivers in the kernel for how they inform
+user about the module name (this more or less standard pattern you just need
+to copy'n'paste'n'edit carefully).
+
+...
+
+> > >  obj-$(CONFIG_SERIAL_8250_FOURPORT)	+= 8250_fourport.o
+> > >  obj-$(CONFIG_SERIAL_8250_ACCENT)	+= 8250_accent.o
+> > >  obj-$(CONFIG_SERIAL_8250_BOCA)		+= 8250_boca.o
+> > > +obj-$(CONFIG_SERIAL_8250_DFL)		+= 8250_dfl.o
+> > 
+> > This group of drivers for the 4 UARTs on the board or so, does FPGA belong to
+> > it? (Same Q, btw, for the Kconfig section. And yes, I know that some of the
+> > entries are not properly placed there and in Makefile.)
+> 
+> Since 8250_dfl results in its own module, and my kernel config doesn't have
+> FOURPORT, ACCENT, nor BOCA, I guess I don't understand the problem.
+
+The Makefile is a bit chaotic, but try to find the sorted (more or less)
+group of drivers that are not 4 ports and squeeze your entry there
+(I expect somewhere between the LPSS/MID lines).
+
+It will help to sort out that mess in the future.
+
+> > >  obj-$(CONFIG_SERIAL_8250_EXAR_ST16C554)	+= 8250_exar_st16c554.o
+> > >  obj-$(CONFIG_SERIAL_8250_HUB6)		+= 8250_hub6.o
+> > >  obj-$(CONFIG_SERIAL_8250_FSL)		+= 8250_fsl.o
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
