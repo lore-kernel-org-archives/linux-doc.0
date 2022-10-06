@@ -2,76 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF676C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 00:15:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93765C433F5
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 00:19:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229810AbiJFAPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 5 Oct 2022 20:15:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36046 "EHLO
+        id S229665AbiJFATb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 5 Oct 2022 20:19:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbiJFAOz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 20:14:55 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60B6727177;
-        Wed,  5 Oct 2022 17:14:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 8911FB81FC1;
-        Thu,  6 Oct 2022 00:14:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0BFCC433C1;
-        Thu,  6 Oct 2022 00:14:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665015289;
-        bh=RzEHCtYQC/zDpTfA+p0gGFDeA+FKp/h4fMYfMSol3G0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=EKKKQBVl3M3GOnPAz7PM5W/azh6cP1b2bB+FXifCI4l53WpV/2V9YtEsREYDKJ2Gu
-         s1ndfbL/59jNyybKqmds4DsTcewKL6twzaBL8g81feSepna2J2IvpvjgR8W+Kyrlx6
-         b5YC56T9ptqWA7J05UmE9T/sRldrzki66ozSvEWY1dnlaIwVpoh/SYxiFiHWezxZ7L
-         itQo0j96DTPqgNSC63NaMH2/bsIwHiAmCAqYhFlcyydAyA/cqSPblFjQmIiUV+f5r8
-         ILXIsTdDN+A8t38NbiTNHe0H4JALp2jV5UAnlSY8ZxRg83+g7IjSE8C8jjTVzj/h3H
-         srmwmw2/nXMhQ==
-Date:   Wed, 5 Oct 2022 17:14:48 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Casper Andersson <casper.casan@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] docs: networking: phy: add missing space
-Message-ID: <20221005171448.21c8c595@kernel.org>
-In-Reply-To: <8735c2bbqt.fsf@meer.lwn.net>
-References: <20221004073242.304425-1-casper.casan@gmail.com>
-        <6645ba3ba389dc6da8d16f063210441337db9249.camel@redhat.com>
-        <a495dd76-060a-210a-1a11-55333d67180c@gmail.com>
-        <30e3cee2-420b-b2bc-9af0-9f7e9c696c57@gmail.com>
-        <8735c2bbqt.fsf@meer.lwn.net>
+        with ESMTP id S229768AbiJFAT2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Oct 2022 20:19:28 -0400
+Received: from conssluserg-01.nifty.com (conssluserg-01.nifty.com [210.131.2.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4C437A768;
+        Wed,  5 Oct 2022 17:19:26 -0700 (PDT)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 2960J5I8015309;
+        Thu, 6 Oct 2022 09:19:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 2960J5I8015309
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1665015546;
+        bh=itNOCR5gHtTQrdnJYXTJ9ngkBQvQLMn5fhd9zkw7mxE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=EI3lpVwylC1M2wCxCFRUzbXfsMuANn43jr19db5l/53yqpzVUC6+6Z9pCw5edYSsy
+         gv34wuXqw76s9fqJ3sQnWux4NSijZGnKjmjm0e6dBcbO3xNZaYHBfjcpEjxQ2sybrf
+         gfFvEaaXZof+0TxlWHksSbjvOdYjtCh5qqdf0gy91tYCww7SghGngVtwueiTSt5vVf
+         mXny5wVZaPXVDxrZmvBLlh7JE4etreJGeJe0Kfg7y2Trdmdg2Iy1sE737iicBZ9CmW
+         KukSS074jpxrECiXl3XGPYe89wjpTYQTvDRR1MB2+zhpPnpdMHOMZT50tjDby0ohxn
+         l4PxFTskQszlA==
+X-Nifty-SrcIP: [209.85.160.50]
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1326637be6eso480526fac.13;
+        Wed, 05 Oct 2022 17:19:06 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3DMgHDxuoNDEPc72UpuGRO9980cO6xEP2kAwsBrxSuAeQtod7K
+        fFsxXiG/WAxyvKfZtYIQ4Ym8OJS0+/EOLrUkks8=
+X-Google-Smtp-Source: AMsMyM4LZp9IHbDPVhKdcdqhFmwxHOwXb30w+ZDcwdrOF2TcxdbsSMat7DRkf5Zhi/Vp8IfqzcyQM7iEtVyJCnTdfLA=
+X-Received: by 2002:a05:6870:8a09:b0:132:554d:2f3d with SMTP id
+ p9-20020a0568708a0900b00132554d2f3dmr4011406oaq.194.1665015545341; Wed, 05
+ Oct 2022 17:19:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20221001202836.3110985-1-masahiroy@kernel.org> <CANiq72=GidTB23dH1kXu1jTMSH-7Qe-2NLaD5ChrzLEU3X=O7w@mail.gmail.com>
+In-Reply-To: <CANiq72=GidTB23dH1kXu1jTMSH-7Qe-2NLaD5ChrzLEU3X=O7w@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 6 Oct 2022 09:18:29 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQaUh58ou=+ZtqXgkd8AGqXqnzryJXy0201ORrgezwPXw@mail.gmail.com>
+Message-ID: <CAK7LNAQaUh58ou=+ZtqXgkd8AGqXqnzryJXy0201ORrgezwPXw@mail.gmail.com>
+Subject: Re: [PATCH] docs: bump minimal GNU Make version to 3.82
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 05 Oct 2022 08:12:26 -0600 Jonathan Corbet wrote:
-> Bagas Sanjaya <bagasdotme@gmail.com> writes:
-> >> It is a documentation patch, therefore not functionally touching
-> >> code, maybe that could count as an exception?  
+On Mon, Oct 3, 2022 at 4:22 AM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Sat, Oct 1, 2022 at 10:30 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> > I think jon will pick up this patch, maybe as -rc-worthy fixes.  
-> 
-> The networking folks prefer to carry their own documentation patches,
-> so I don't normally do that.  I'd be happy to this time with a
-> suitable ack.
-> 
-> But honestly, there is nothing urgent about this change, I'd say just
-> wait until net-next is open.
+> > The error message looks weird, but the reason is that the 'private'
+> > keyword is only supported since GNU Make 3.82.
+>
+> Sorry about that. Indeed, it was added in 3.82 [1,2]. Given GCC 5.1
+> (the current minimum) was released 5 years later, I guess it is OK to
+> increase it.
+>
+> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+>
+> [1] https://git.savannah.gnu.org/cgit/make.git/commit/?id=5b4d419476e9fbda8ea26017f6ec15956d103ed9
+> [2] https://git.savannah.gnu.org/cgit/make.git/tree/ChangeLog?h=3.82#n814
+>
+> Cheers,
+> Miguel
 
-Sorry for the back and forth, the patch is waiting patchwork, we've 
-just been unusually busy the last two days. We'll apply it soon.
+
+Applied to linux-kbuild.
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
