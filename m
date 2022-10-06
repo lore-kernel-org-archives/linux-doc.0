@@ -2,203 +2,245 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D17C4C433F5
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 16:57:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 605ABC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 17:01:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230202AbiJFQ5U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 12:57:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46858 "EHLO
+        id S230334AbiJFRBM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 13:01:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231897AbiJFQzs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 12:55:48 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26424EA3;
-        Thu,  6 Oct 2022 09:54:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 673E0B82114;
-        Thu,  6 Oct 2022 16:54:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F56C433B5;
-        Thu,  6 Oct 2022 16:54:28 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="FFz7TrE8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1665075266;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=wugUkH0LlLzYfPgynaJ//AEyTMustLSmvE+oyYjIDcM=;
-        b=FFz7TrE8aP9zLhhxK3uSpfoTyzjDq0bxQI30fpdoCXYfWegFK2m6ZPSu3pNQAqVlYDkUIR
-        0CnyABW7SnfNiMi0WXqnYFETeGuwWucMKsJb0WF37vnebsOE58jPV9HKZ30JYEa0G+DgTH
-        izZ6lZm62mnNDAHNsqJ7hn4ygBLXV3o=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 0c028fd9 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Thu, 6 Oct 2022 16:54:26 +0000 (UTC)
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        =?UTF-8?q?Christoph=20B=C3=B6hmwalder?= 
-        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dave Airlie <airlied@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Florian Westphal <fw@strlen.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Hugh Dickins <hughd@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Marco Elver <elver@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        Russell King <linux@armlinux.org.uk>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Graf <tgraf@suug.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
-        kernel-janitors@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-mm@kvack.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        loongarch@lists.linux.dev, netdev@vger.kernel.org,
-        sparclinux@vger.kernel.org, x86@kernel.org
-Subject: [PATCH v3 5/5] prandom: remove unused functions
-Date:   Thu,  6 Oct 2022 10:53:46 -0600
-Message-Id: <20221006165346.73159-6-Jason@zx2c4.com>
-In-Reply-To: <20221006165346.73159-1-Jason@zx2c4.com>
-References: <20221006165346.73159-1-Jason@zx2c4.com>
+        with ESMTP id S229939AbiJFRBG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 13:01:06 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64296FAD0;
+        Thu,  6 Oct 2022 10:00:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665075645; x=1696611645;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=2Bqgzrp3vtMupt4HNoMx9Nbs0GAwkw5X72t1qJY7vHg=;
+  b=Y6NmjK4UnG6rTdtWAPjf3xydG5wYirg9Sp/tNv+5VM64+Csqn6p1UWkK
+   4DD+3tFT1Wx57m6pjTygU7OTPQN6MTommb+ohi82ueKpvgFybpELsQOi/
+   kkV2kn5sW0SavEGtlK16O8fhzaFVsUs5nEHUl0/541z4ptQuwLGBndV8h
+   P9Jpw3okGstgEqtgxWncniaSJsfB64BsJ3pXcY7ysex8kWrEWPG6cXZci
+   TahfApy0krFrdc2kJ+SM9XuBI7ctHzIgDFuLizk3lqJA69ZXrEwXTi8rI
+   cxF91/YNenvfAd12DgteAIlXPf/+892wSqSSE4Dxxnl4dPgGNRnE0ZXki
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="303481507"
+X-IronPort-AV: E=Sophos;i="5.95,164,1661842800"; 
+   d="scan'208";a="303481507"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 10:00:32 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="729224224"
+X-IronPort-AV: E=Sophos;i="5.95,164,1661842800"; 
+   d="scan'208";a="729224224"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 10:00:32 -0700
+Date:   Thu, 6 Oct 2022 10:00:43 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 4/4] tty: serial: 8250: add DFL bus driver for Altera
+ 16550.
+In-Reply-To: <YzxRxo8jL7rB1+px@smile.fi.intel.com>
+Message-ID: <alpine.DEB.2.22.394.2210060940150.1988353@rhweight-WRK1>
+References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com> <20221004143718.1076710-5-matthew.gerlach@linux.intel.com> <YzxRxo8jL7rB1+px@smile.fi.intel.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With no callers left of prandom_u32() and prandom_bytes(), as well as
-get_random_int(), remove these deprecated wrappers, in favor of
-get_random_u32() and get_random_bytes().
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- drivers/char/random.c   | 11 +++++------
- include/linux/prandom.h | 12 ------------
- include/linux/random.h  |  5 -----
- 3 files changed, 5 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/char/random.c b/drivers/char/random.c
-index 01acf235f263..2fe28eeb2f38 100644
---- a/drivers/char/random.c
-+++ b/drivers/char/random.c
-@@ -97,7 +97,7 @@ MODULE_PARM_DESC(ratelimit_disable, "Disable random ratelimit suppression");
-  * Returns whether or not the input pool has been seeded and thus guaranteed
-  * to supply cryptographically secure random numbers. This applies to: the
-  * /dev/urandom device, the get_random_bytes function, and the get_random_{u8,
-- * u16,u32,u64,int,long} family of functions.
-+ * u16,u32,u64,long} family of functions.
-  *
-  * Returns: true if the input pool has been seeded.
-  *          false if the input pool has not been seeded.
-@@ -161,15 +161,14 @@ EXPORT_SYMBOL(wait_for_random_bytes);
-  *	u16 get_random_u16()
-  *	u32 get_random_u32()
-  *	u64 get_random_u64()
-- *	unsigned int get_random_int()
-  *	unsigned long get_random_long()
-  *
-  * These interfaces will return the requested number of random bytes
-  * into the given buffer or as a return value. This is equivalent to
-- * a read from /dev/urandom. The u8, u16, u32, u64, int, and long
-- * family of functions may be higher performance for one-off random
-- * integers, because they do a bit of buffering and do not invoke
-- * reseeding until the buffer is emptied.
-+ * a read from /dev/urandom. The u8, u16, u32, u64, long family of
-+ * functions may be higher performance for one-off random integers,
-+ * because they do a bit of buffering and do not invoke reseeding
-+ * until the buffer is emptied.
-  *
-  *********************************************************************/
- 
-diff --git a/include/linux/prandom.h b/include/linux/prandom.h
-index 78db003bc290..e0a0759dd09c 100644
---- a/include/linux/prandom.h
-+++ b/include/linux/prandom.h
-@@ -12,18 +12,6 @@
- #include <linux/percpu.h>
- #include <linux/random.h>
- 
--/* Deprecated: use get_random_u32 instead. */
--static inline u32 prandom_u32(void)
--{
--	return get_random_u32();
--}
--
--/* Deprecated: use get_random_bytes instead. */
--static inline void prandom_bytes(void *buf, size_t nbytes)
--{
--	return get_random_bytes(buf, nbytes);
--}
--
- struct rnd_state {
- 	__u32 s1, s2, s3, s4;
- };
-diff --git a/include/linux/random.h b/include/linux/random.h
-index 08322f700cdc..147a5e0d0b8e 100644
---- a/include/linux/random.h
-+++ b/include/linux/random.h
-@@ -42,10 +42,6 @@ u8 get_random_u8(void);
- u16 get_random_u16(void);
- u32 get_random_u32(void);
- u64 get_random_u64(void);
--static inline unsigned int get_random_int(void)
--{
--	return get_random_u32();
--}
- static inline unsigned long get_random_long(void)
- {
- #if BITS_PER_LONG == 64
-@@ -100,7 +96,6 @@ declare_get_random_var_wait(u8, u8)
- declare_get_random_var_wait(u16, u16)
- declare_get_random_var_wait(u32, u32)
- declare_get_random_var_wait(u64, u32)
--declare_get_random_var_wait(int, unsigned int)
- declare_get_random_var_wait(long, unsigned long)
- #undef declare_get_random_var
- 
--- 
-2.37.3
+On Tue, 4 Oct 2022, Andy Shevchenko wrote:
 
+> On Tue, Oct 04, 2022 at 07:37:18AM -0700, matthew.gerlach@linux.intel.com wrote:
+>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>
+>> Add a Device Feature List (DFL) bus driver for the Altera
+>> 16550 implementation of UART.
+>
+> ...
+>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>
+> https://docs.kernel.org/process/submitting-patches.html?highlight=reported#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
+>
+> "The Reported-by tag gives credit to people who find bugs and report them and it
+> hopefully inspires them to help us again in the future. Please note that if the
+> bug was reported in private, then ask for permission first before using the
+> Reported-by tag. The tag is intended for bugs; please do not use it to credit
+> feature requests."
+>
+
+The kernel test robot did find a bug in my v1 submission.  I was missing 
+the static keyword for a function declaration.  Should I remove the tag?
+
+>
+> ...
+>
+>> +	if (!dfhv1_has_params(dfh_base)) {
+>> +		dev_err(dev, "missing required DFH parameters\n");
+>> +		return -EINVAL;
+>> +	}
+>
+> Why not use dev_err_probe() everywhere since this is called only at ->probe()
+> stage?
+
+I wasn't sure if using dev_err_probe() was correct, since the usage is 
+technically in a different function.  Since the code is only called from 
+->probe(), and it is much cleaner, I'll switch to dev_err_probe() 
+everywhere
+
+> > ...
+>
+>> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_CLK_FRQ);
+>> +	if (off < 0) {
+>> +		dev_err(dev, "missing CLK_FRQ param\n");
+>
+>> +		return -EINVAL;
+>
+> Why error code is being shadowed?
+
+Definitely a mistake.
+
+>
+>> +	}
+>
+> ...
+>
+>> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_FIFO_LEN);
+>> +	if (off < 0) {
+>> +		dev_err(dev, "missing FIFO_LEN param\n");
+>> +		return -EINVAL;
+>
+> Ditto.
+>
+>> +	}
+>
+> ...
+>
+>> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_REG_LAYOUT);
+>> +	if (off < 0) {
+>> +		dev_err(dev, "missing REG_LAYOUT param\n");
+>> +		return -EINVAL;
+>> +	}
+>
+> Ditto.
+>
+> ...
+>
+>> +	dev_dbg(dev, "UART_LAYOUT_ID width %lld shift %d\n",
+>> +		FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v), (int)uart->port.regshift);
+>
+> Casting in printf() in kernel in 99% shows the wrong specifier in use. Try to
+> select the best suitable one.
+
+I will remove the casting and find the correct format specifier.
+
+>
+> ...
+>
+>> +	dfh_base = devm_ioremap_resource(dev, &dfl_dev->mmio_res);
+>> +	if (IS_ERR(dfh_base))
+>> +		return PTR_ERR(dfh_base);
+>> +
+>> +	res_size = resource_size(&dfl_dev->mmio_res);
+>> +
+>> +	ret = dfl_uart_get_params(dev, dfh_base, res_size, &uart);
+>
+>> +	devm_iounmap(dev, dfh_base);
+>> +	devm_release_mem_region(dev, dfl_dev->mmio_res.start, res_size);
+>
+> If it's temporary, may be you shouldn't even consider devm_ioremap_resource()
+> to begin with? The devm_* release type of functions in 99% of the cases
+> indicate of the abusing devm_.
+
+I will change the code to call ioremap() and request_mem_region() directly 
+instead of the devm_ versions.
+
+>
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "failed uart feature walk\n");
+>
+> ...
+>
+>> +	dev_info(dev, "serial8250_register_8250_port %d\n", dfluart->line);
+>
+> Why do we need this noise?
+
+No, we do not need this noise.
+
+>
+> ...
+>
+>> +	if (dfluart->line >= 0)
+>
+> When this can be false?
+
+This can never be false.  I will remove it.
+
+>
+>> +		serial8250_unregister_port(dfluart->line);
+>
+> ...
+>
+>> +config SERIAL_8250_DFL
+>> +	tristate "DFL bus driver for Altera 16550 UART"
+>> +	depends on SERIAL_8250 && FPGA_DFL
+>> +	help
+>> +	  This option enables support for a Device Feature List (DFL) bus
+>> +	  driver for the Altera 16650 UART.  One or more Altera 16650 UARTs
+>> +	  can be instantiated in a FPGA and then be discovered during
+>> +	  enumeration of the DFL bus.
+>
+> When m, what be the module name?
+
+I see the file, kernel/drivers/tty/serial/8250/8250_dfl.ko, installed 
+into /lib/modules/...  I also see "alias dfl:t0000f0024* 8250_dfl" in 
+modules.alias
+
+
+>
+> ...
+>
+>>  obj-$(CONFIG_SERIAL_8250_FOURPORT)	+= 8250_fourport.o
+>>  obj-$(CONFIG_SERIAL_8250_ACCENT)	+= 8250_accent.o
+>>  obj-$(CONFIG_SERIAL_8250_BOCA)		+= 8250_boca.o
+>> +obj-$(CONFIG_SERIAL_8250_DFL)		+= 8250_dfl.o
+>
+> This group of drivers for the 4 UARTs on the board or so, does FPGA belong to
+> it? (Same Q, btw, for the Kconfig section. And yes, I know that some of the
+> entries are not properly placed there and in Makefile.)
+
+Since 8250_dfl results in its own module, and my kernel config doesn't 
+have FOURPORT, ACCENT, nor BOCA, I guess I don't understand the problem.
+
+>
+>>  obj-$(CONFIG_SERIAL_8250_EXAR_ST16C554)	+= 8250_exar_st16c554.o
+>>  obj-$(CONFIG_SERIAL_8250_HUB6)		+= 8250_hub6.o
+>>  obj-$(CONFIG_SERIAL_8250_FSL)		+= 8250_fsl.o
+>
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+
+Thanks for the feedback.
+
+
+>
+>
+>
