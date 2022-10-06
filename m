@@ -2,438 +2,395 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93D40C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 09:00:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C8F9C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 09:36:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231259AbiJFJAv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 05:00:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38962 "EHLO
+        id S231473AbiJFJg1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 05:36:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231217AbiJFJAu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 05:00:50 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CD3A2E69C
-        for <linux-doc@vger.kernel.org>; Thu,  6 Oct 2022 02:00:46 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id x40so1440974ljq.9
-        for <linux-doc@vger.kernel.org>; Thu, 06 Oct 2022 02:00:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=J5BZq2YLqqWPaOwmpxGseKERUoTY6n8Kp5tCLgez/yI=;
-        b=itoU76FiafC02BwoiMB9QEOPZi0Nyu3AK9aqnfv4zII8heDVgraCd+to4XdDfyhjKV
-         U/s0qrPsW77zIrVcAZssOW1Fvt2NRo4YeV4UeA88CroHEn6Uqmo0WMQcrxJjd/pHsj07
-         9WL798C9R91o77J3bN88odxkrssvl7vtn7l71x0H+7KjooKsuoECLqCqwVhxAnvmsuWt
-         6At/iWIVgNCkZwP1geIdErmrTZKC2RFmaTmOfTeGuG+n7FttTCcjDIGyOjCWZyLOzFqV
-         OjvlK2Uak30N4So4ZfqkvHzNXUSRmZ/WJmhx19I3RSMNbDY3LxYUXv62D+XeXfd3KpSw
-         S81Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=J5BZq2YLqqWPaOwmpxGseKERUoTY6n8Kp5tCLgez/yI=;
-        b=PpqM96ctVnuP+3zhLcZ3pcsKfrvQh4GY/+3RhN0a24vpCVN72rxdit8F2b4CsyIyIr
-         Pgyge09OUNb7c+FtWwze0dOL5SZEtIVIizH5fgvTpXRNr4/GU5qHSEegwpoTTWNPPfvc
-         hmBMjnYIsbnXHzpQrKCNxsfdFNigAcNhtC6TLKqGsWlaL4zUQH/2jkimvdC+uu3I2iU3
-         eVBK/5fxVC+Yg/1LwJ+11eKVo7jhQsvO4FFZX5F4emsJ3rIMtqJ96s0MPpTE1X/MaDnn
-         y+n//vvVY3hz5T87eAl1nNMejC7y1yid9xxqXE4+Vv01eMLEv6M4amDYmkyHwSJVtqbc
-         zGIA==
-X-Gm-Message-State: ACrzQf11xmqDwNmzfbYs8nbZuO3nL/feJG956Q7YuRMF+O+kGw5nbRar
-        sYSeO4+ojIqvrNtsuVMWdvlXXNFnCWfBF1NBBlE5pw==
-X-Google-Smtp-Source: AMsMyM5v65CTMk0Ps8dQNibHgFGHWmHcOE331YOfVRWrJyexxUALITXHFhqZI9Dp9EWkCucUj/qn6tYhiJYMGvkkc50=
-X-Received: by 2002:a05:651c:1508:b0:26c:622e:abe1 with SMTP id
- e8-20020a05651c150800b0026c622eabe1mr1316030ljf.228.1665046844451; Thu, 06
- Oct 2022 02:00:44 -0700 (PDT)
+        with ESMTP id S229630AbiJFJg0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 05:36:26 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0579092F74;
+        Thu,  6 Oct 2022 02:36:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665048985; x=1696584985;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kBJnUa04zLRGFJrFLMeNF1gHmbGv7wGNlPlahwp84QM=;
+  b=S9ms0O7nXKfsOUqkkzza3Z8bT7jstMq/0MT9HEXV/5iqhDySrOsEGy4u
+   91f8UL3/uLA14kB+zYooIilKe8ed8tp9y9vmlLI/H+dUpS7UY3Mt+kWj3
+   DndJrfs12/m0DXVBUxHJCzZgdlWiMe+rvyzkJr/Bpzn1vyA+WlOlh3egF
+   Y4Ke/WCr1X6ARbHz5M1K1PnqJdyQjTwe3PgKwLgHu1slH90UnFwgmA4FS
+   6/Fr3zQGNF50iVzVDTpry0VMDM6PNP0SV3pMV0oSxuqNFaZcorxBl/IV/
+   10uf64aShB7GsR5Ti1Dp5/I7hryYE7sHRoa4bllhQpciu5WqPEucei9aK
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="283765905"
+X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
+   d="scan'208";a="283765905"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 02:36:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="687358537"
+X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
+   d="scan'208";a="687358537"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by fmsmga008.fm.intel.com with ESMTP; 06 Oct 2022 02:36:20 -0700
+Date:   Thu, 6 Oct 2022 17:27:24 +0800
+From:   Xu Yilun <yilun.xu@intel.com>
+To:     matthew.gerlach@linux.intel.com
+Cc:     hao.wu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de
+Subject: Re: [PATCH v3 3/4] fpga: dfl: add basic support for DFHv1
+Message-ID: <Yz6ffEeKZButHw4m@yilunxu-OptiPlex-7050>
+References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com>
+ <20221004143718.1076710-4-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com> <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
-In-Reply-To: <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
-From:   Fuad Tabba <tabba@google.com>
-Date:   Thu, 6 Oct 2022 10:00:08 +0100
-Message-ID: <CA+EHjTyvDXUCv7m4_h9+vZ+ctt1NioOub7aPiNt3wM-iqkPQ-Q@mail.gmail.com>
-Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
- private memory
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221004143718.1076710-4-matthew.gerlach@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-I'm not sure if this patch or the last one might be the best place for
-it, but I think it would be useful to have a KVM_CAP associated with
-this. I am working on getting kvmtool to work with this, and I haven't
-found a clean way of getting it to discover whether mem_private is
-supported.
-
-Thanks.,
-/fuad
-
-On Thu, Sep 15, 2022 at 3:35 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> In memory encryption usage, guest memory may be encrypted with special
-> key and can be accessed only by the VM itself. We call such memory
-> private memory. It's valueless and sometimes can cause problem to allow
-> userspace to access guest private memory. This patch extends the KVM
-> memslot definition so that guest private memory can be provided though
-> an inaccessible_notifier enlightened file descriptor (fd), without being
-> mmaped into userspace.
->
-> This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
-> additional KVM memslot fields private_fd/private_offset to allow
-> userspace to specify that guest private memory provided from the
-> private_fd and guest_phys_addr mapped at the private_offset of the
-> private_fd, spanning a range of memory_size.
->
-> The extended memslot can still have the userspace_addr(hva). When use, a
-> single memslot can maintain both private memory through private
-> fd(private_fd/private_offset) and shared memory through
-> hva(userspace_addr). Whether the private or shared part is visible to
-> guest is maintained by other KVM code.
->
-> Since there is no userspace mapping for private fd so we cannot
-> get_user_pages() to get the pfn in KVM, instead we add a new
-> inaccessible_notifier in the internal memslot structure and rely on it
-> to get pfn by interacting with the memory file systems.
->
-> Together with the change, a new config HAVE_KVM_PRIVATE_MEM is added and
-> right now it is selected on X86_64 for Intel TDX usage.
->
-> To make code maintenance easy, internally we use a binary compatible
-> alias struct kvm_user_mem_region to handle both the normal and the
-> '_ext' variants.
->
-> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+On 2022-10-04 at 07:37:17 -0700, matthew.gerlach@linux.intel.com wrote:
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> 
+> Add generic support for MSIX interrupts for DFL devices.
+> 
+> The location of a feature's registers is explicitly
+> described in DFHv1 and can be relative to the base of the DFHv1
+> or an absolute address.  Parse the location and pass the information
+> to DFL driver.
+> 
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 > ---
->  Documentation/virt/kvm/api.rst | 38 +++++++++++++++++++++-----
->  arch/x86/kvm/Kconfig           |  1 +
->  arch/x86/kvm/x86.c             |  2 +-
->  include/linux/kvm_host.h       | 13 +++++++--
->  include/uapi/linux/kvm.h       | 28 +++++++++++++++++++
->  virt/kvm/Kconfig               |  3 +++
->  virt/kvm/kvm_main.c            | 49 ++++++++++++++++++++++++++++------
->  7 files changed, 116 insertions(+), 18 deletions(-)
->
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index abd7c32126ce..c1fac1e9f820 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -1319,7 +1319,7 @@ yet and must be cleared on entry.
->  :Capability: KVM_CAP_USER_MEMORY
->  :Architectures: all
->  :Type: vm ioctl
-> -:Parameters: struct kvm_userspace_memory_region (in)
-> +:Parameters: struct kvm_userspace_memory_region(_ext) (in)
->  :Returns: 0 on success, -1 on error
->
->  ::
-> @@ -1332,9 +1332,18 @@ yet and must be cleared on entry.
->         __u64 userspace_addr; /* start of the userspace allocated memory */
->    };
->
-> +  struct kvm_userspace_memory_region_ext {
-> +       struct kvm_userspace_memory_region region;
-> +       __u64 private_offset;
-> +       __u32 private_fd;
-> +       __u32 pad1;
-> +       __u64 pad2[14];
-> +  };
-> +
->    /* for kvm_memory_region::flags */
->    #define KVM_MEM_LOG_DIRTY_PAGES      (1UL << 0)
->    #define KVM_MEM_READONLY     (1UL << 1)
-> +  #define KVM_MEM_PRIVATE              (1UL << 2)
->
->  This ioctl allows the user to create, modify or delete a guest physical
->  memory slot.  Bits 0-15 of "slot" specify the slot id and this value
-> @@ -1365,12 +1374,27 @@ It is recommended that the lower 21 bits of guest_phys_addr and userspace_addr
->  be identical.  This allows large pages in the guest to be backed by large
->  pages in the host.
->
-> -The flags field supports two flags: KVM_MEM_LOG_DIRTY_PAGES and
-> -KVM_MEM_READONLY.  The former can be set to instruct KVM to keep track of
-> -writes to memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know how to
-> -use it.  The latter can be set, if KVM_CAP_READONLY_MEM capability allows it,
-> -to make a new slot read-only.  In this case, writes to this memory will be
-> -posted to userspace as KVM_EXIT_MMIO exits.
-> +kvm_userspace_memory_region_ext includes all the kvm_userspace_memory_region
-> +fields. It also includes additional fields for some specific features. See
-> +below description of flags field for more information. It's recommended to use
-> +kvm_userspace_memory_region_ext in new userspace code.
-> +
-> +The flags field supports below flags:
-> +
-> +- KVM_MEM_LOG_DIRTY_PAGES can be set to instruct KVM to keep track of writes to
-> +  memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know how to use it.
-> +
-> +- KVM_MEM_READONLY can be set, if KVM_CAP_READONLY_MEM capability allows it, to
-> +  make a new slot read-only.  In this case, writes to this memory will be posted
-> +  to userspace as KVM_EXIT_MMIO exits.
-> +
-> +- KVM_MEM_PRIVATE can be set to indicate a new slot has private memory backed by
-> +  a file descirptor(fd) and the content of the private memory is invisible to
-> +  userspace. In this case, userspace should use private_fd/private_offset in
-> +  kvm_userspace_memory_region_ext to instruct KVM to provide private memory to
-> +  guest. Userspace should guarantee not to map the same pfn indicated by
-> +  private_fd/private_offset to different gfns with multiple memslots. Failed to
-> +  do this may result undefined behavior.
->
->  When the KVM_CAP_SYNC_MMU capability is available, changes in the backing of
->  the memory region are automatically reflected into the guest.  For example, an
-> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-> index e3cbd7706136..31db64ec0b33 100644
-> --- a/arch/x86/kvm/Kconfig
-> +++ b/arch/x86/kvm/Kconfig
-> @@ -48,6 +48,7 @@ config KVM
->         select SRCU
->         select INTERVAL_TREE
->         select HAVE_KVM_PM_NOTIFIER if PM
-> +       select HAVE_KVM_PRIVATE_MEM if X86_64
->         help
->           Support hosting fully virtualized guest machines using hardware
->           virtualization extensions.  You will need a fairly recent
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index d7374d768296..081f62ccc9a1 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -12183,7 +12183,7 @@ void __user * __x86_set_memory_region(struct kvm *kvm, int id, gpa_t gpa,
->         }
->
->         for (i = 0; i < KVM_ADDRESS_SPACE_NUM; i++) {
-> -               struct kvm_userspace_memory_region m;
-> +               struct kvm_user_mem_region m;
->
->                 m.slot = id | (i << 16);
->                 m.flags = 0;
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index f4519d3689e1..eac1787b899b 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -44,6 +44,7 @@
->
->  #include <asm/kvm_host.h>
->  #include <linux/kvm_dirty_ring.h>
-> +#include <linux/memfd.h>
->
->  #ifndef KVM_MAX_VCPU_IDS
->  #define KVM_MAX_VCPU_IDS KVM_MAX_VCPUS
-> @@ -576,8 +577,16 @@ struct kvm_memory_slot {
->         u32 flags;
->         short id;
->         u16 as_id;
-> +       struct file *private_file;
-> +       loff_t private_offset;
-> +       struct inaccessible_notifier notifier;
->  };
->
-> +static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
-> +{
-> +       return slot && (slot->flags & KVM_MEM_PRIVATE);
-> +}
-> +
->  static inline bool kvm_slot_dirty_track_enabled(const struct kvm_memory_slot *slot)
->  {
->         return slot->flags & KVM_MEM_LOG_DIRTY_PAGES;
-> @@ -1104,9 +1113,9 @@ enum kvm_mr_change {
->  };
->
->  int kvm_set_memory_region(struct kvm *kvm,
-> -                         const struct kvm_userspace_memory_region *mem);
-> +                         const struct kvm_user_mem_region *mem);
->  int __kvm_set_memory_region(struct kvm *kvm,
-> -                           const struct kvm_userspace_memory_region *mem);
-> +                           const struct kvm_user_mem_region *mem);
->  void kvm_arch_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot);
->  void kvm_arch_memslots_updated(struct kvm *kvm, u64 gen);
->  int kvm_arch_prepare_memory_region(struct kvm *kvm,
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index eed0315a77a6..3ef462fb3b2a 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -103,6 +103,33 @@ struct kvm_userspace_memory_region {
->         __u64 userspace_addr; /* start of the userspace allocated memory */
->  };
->
-> +struct kvm_userspace_memory_region_ext {
-> +       struct kvm_userspace_memory_region region;
-> +       __u64 private_offset;
-> +       __u32 private_fd;
-> +       __u32 pad1;
-> +       __u64 pad2[14];
-> +};
-> +
-> +#ifdef __KERNEL__
-> +/*
-> + * kvm_user_mem_region is a kernel-only alias of kvm_userspace_memory_region_ext
-> + * that "unpacks" kvm_userspace_memory_region so that KVM can directly access
-> + * all fields from the top-level "extended" region.
-> + */
-> +struct kvm_user_mem_region {
-> +       __u32 slot;
-> +       __u32 flags;
-> +       __u64 guest_phys_addr;
-> +       __u64 memory_size;
-> +       __u64 userspace_addr;
-> +       __u64 private_offset;
-> +       __u32 private_fd;
-> +       __u32 pad1;
-> +       __u64 pad2[14];
-> +};
-> +#endif
-> +
->  /*
->   * The bit 0 ~ bit 15 of kvm_memory_region::flags are visible for userspace,
->   * other bits are reserved for kvm internal use which are defined in
-> @@ -110,6 +137,7 @@ struct kvm_userspace_memory_region {
+> v3: remove unneeded blank line
+>     use clearer variable name
+>     pass finfo into parse_feature_irqs()
+>     refactor code for better indentation
+>     use switch statement for irq parsing
+>     squash in code parsing register location
+> 
+> v2: fix kernel doc
+>     clarify use of DFH_VERSION field
+> ---
+>  drivers/fpga/dfl.c  | 150 ++++++++++++++++++++++++++++++++------------
+>  drivers/fpga/dfl.h  |   3 +
+>  include/linux/dfl.h |  20 ++++++
+>  3 files changed, 134 insertions(+), 39 deletions(-)
+> 
+> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+> index b9aae85ba930..6a74317e549e 100644
+> --- a/drivers/fpga/dfl.c
+> +++ b/drivers/fpga/dfl.c
+> @@ -380,7 +380,11 @@ dfl_dev_add(struct dfl_feature_platform_data *pdata,
+>  	ddev->type = feature_dev_id_type(pdev);
+>  	ddev->feature_id = feature->id;
+>  	ddev->revision = feature->revision;
+> +	ddev->dfh_version = feature->dfh_version;
+>  	ddev->cdev = pdata->dfl_cdev;
+> +	ddev->csr_res.start = feature->csr_res.start;
+> +	ddev->csr_res.end = feature->csr_res.end;
+> +	ddev->csr_res.flags = IORESOURCE_MEM;
+>  
+>  	/* add mmio resource */
+>  	parent_res = &pdev->resource[feature->resource_index];
+> @@ -708,18 +712,24 @@ struct build_feature_devs_info {
+>   * struct dfl_feature_info - sub feature info collected during feature dev build
+>   *
+>   * @fid: id of this sub feature.
+> + * @revision: revision of this sub feature
+> + * @dfh_version: version of Device Feature Header (DFH)
+>   * @mmio_res: mmio resource of this sub feature.
+>   * @ioaddr: mapped base address of mmio resource.
+>   * @node: node in sub_features linked list.
+> + * @csr_res: resource of DFHv1 feature registers
+> + * @csr_size: DFHv1 size of feature registers
+>   * @irq_base: start of irq index in this sub feature.
+>   * @nr_irqs: number of irqs of this sub feature.
 >   */
->  #define KVM_MEM_LOG_DIRTY_PAGES        (1UL << 0)
->  #define KVM_MEM_READONLY       (1UL << 1)
-> +#define KVM_MEM_PRIVATE                (1UL << 2)
->
->  /* for KVM_IRQ_LINE */
->  struct kvm_irq_level {
-> diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
-> index a8c5c9f06b3c..ccaff13cc5b8 100644
-> --- a/virt/kvm/Kconfig
-> +++ b/virt/kvm/Kconfig
-> @@ -72,3 +72,6 @@ config KVM_XFER_TO_GUEST_WORK
->
->  config HAVE_KVM_PM_NOTIFIER
->         bool
-> +
-> +config HAVE_KVM_PRIVATE_MEM
-> +       bool
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 584a5bab3af3..12dc0dc57b06 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -1526,7 +1526,7 @@ static void kvm_replace_memslot(struct kvm *kvm,
->         }
+>  struct dfl_feature_info {
+>  	u16 fid;
+>  	u8 revision;
+> +	u8 dfh_version;
+>  	struct resource mmio_res;
+>  	void __iomem *ioaddr;
+>  	struct list_head node;
+> +	struct resource csr_res;
+>  	unsigned int irq_base;
+>  	unsigned int nr_irqs;
+>  };
+> @@ -797,6 +807,9 @@ static int build_info_commit_dev(struct build_feature_devs_info *binfo)
+>  		feature->dev = fdev;
+>  		feature->id = finfo->fid;
+>  		feature->revision = finfo->revision;
+> +		feature->dfh_version = finfo->dfh_version;
+> +		feature->csr_res.start = finfo->csr_res.start;
+> +		feature->csr_res.end = finfo->csr_res.end;
+>  
+>  		/*
+>  		 * the FIU header feature has some fundamental functions (sriov
+> @@ -935,55 +948,74 @@ static u16 feature_id(u64 value)
 >  }
->
-> -static int check_memory_region_flags(const struct kvm_userspace_memory_region *mem)
-> +static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
+>  
+>  static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+> -			      resource_size_t ofst, u16 fid,
+> -			      unsigned int *irq_base, unsigned int *nr_irqs)
+> +			      resource_size_t ofst, struct dfl_feature_info *finfo)
 >  {
->         u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
->
-> @@ -1920,7 +1920,7 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
->   * Must be called holding kvm->slots_lock for write.
->   */
->  int __kvm_set_memory_region(struct kvm *kvm,
-> -                           const struct kvm_userspace_memory_region *mem)
-> +                           const struct kvm_user_mem_region *mem)
->  {
->         struct kvm_memory_slot *old, *new;
->         struct kvm_memslots *slots;
-> @@ -2024,7 +2024,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
->  EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
->
->  int kvm_set_memory_region(struct kvm *kvm,
-> -                         const struct kvm_userspace_memory_region *mem)
-> +                         const struct kvm_user_mem_region *mem)
->  {
->         int r;
->
-> @@ -2036,7 +2036,7 @@ int kvm_set_memory_region(struct kvm *kvm,
->  EXPORT_SYMBOL_GPL(kvm_set_memory_region);
->
->  static int kvm_vm_ioctl_set_memory_region(struct kvm *kvm,
-> -                                         struct kvm_userspace_memory_region *mem)
-> +                                         struct kvm_user_mem_region *mem)
->  {
->         if ((u16)mem->slot >= KVM_USER_MEM_SLOTS)
->                 return -EINVAL;
-> @@ -4622,6 +4622,33 @@ static int kvm_vm_ioctl_get_stats_fd(struct kvm *kvm)
->         return fd;
+>  	void __iomem *base = binfo->ioaddr + ofst;
+>  	unsigned int i, ibase, inr = 0;
+>  	enum dfl_id_type type;
+> -	int virq;
+> -	u64 v;
+> -
+> -	type = feature_dev_id_type(binfo->feature_dev);
+> +	u16 fid = finfo->fid;
+> +	u64 v, dfh_ver;
+> +	int virq, off;
+>  
+>  	/*
+>  	 * Ideally DFL framework should only read info from DFL header, but
+> -	 * current version DFL only provides mmio resources information for
+> +	 * current version, DFHv0, only provides mmio resources information for
+>  	 * each feature in DFL Header, no field for interrupt resources.
+>  	 * Interrupt resource information is provided by specific mmio
+>  	 * registers of each private feature which supports interrupt. So in
+>  	 * order to parse and assign irq resources, DFL framework has to look
+>  	 * into specific capability registers of these private features.
+>  	 *
+> -	 * Once future DFL version supports generic interrupt resource
+> -	 * information in common DFL headers, the generic interrupt parsing
+> -	 * code will be added. But in order to be compatible to old version
+> +	 * DFHv1 supports generic interrupt resource information in DFHv1
+> +	 * parameter blocks. But in order to be compatible to old version
+>  	 * DFL, the driver may still fall back to these quirks.
+>  	 */
+> -	if (type == PORT_ID) {
+> -		switch (fid) {
+> -		case PORT_FEATURE_ID_UINT:
+> -			v = readq(base + PORT_UINT_CAP);
+> -			ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
+> -			inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
+> +
+> +	switch (finfo->dfh_version) {
+> +	case 0:
+> +		type = feature_dev_id_type(binfo->feature_dev);
+> +		if (type == PORT_ID) {
+> +			switch (fid) {
+> +			case PORT_FEATURE_ID_UINT:
+> +				v = readq(base + PORT_UINT_CAP);
+> +				ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
+> +				inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
+> +				break;
+> +			case PORT_FEATURE_ID_ERROR:
+> +				v = readq(base + PORT_ERROR_CAP);
+> +				ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
+> +				inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
+> +				break;
+> +			}
+> +		} else if (type == FME_ID) {
+> +			if (fid == FME_FEATURE_ID_GLOBAL_ERR) {
+> +				v = readq(base + FME_ERROR_CAP);
+> +				ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
+> +				inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
+> +			}
+> +		}
+> +		break;
+> +
+> +	case 1:
+> +		if (!dfhv1_has_params(base))
+>  			break;
+> -		case PORT_FEATURE_ID_ERROR:
+> -			v = readq(base + PORT_ERROR_CAP);
+> -			ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
+> -			inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
+> +
+> +		off = dfhv1_find_param(base, ofst, DFHv1_PARAM_ID_MSIX);
+> +		if (off < 0)
+>  			break;
+> -		}
+> -	} else if (type == FME_ID) {
+> -		if (fid == FME_FEATURE_ID_GLOBAL_ERR) {
+> -			v = readq(base + FME_ERROR_CAP);
+> -			ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
+> -			inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
+> -		}
+> +
+> +		ibase = readl(base + off + DFHv1_PARAM_MSIX_STARTV);
+> +		inr = readl(base + off + DFHv1_PARAM_MSIX_NUMV);
+> +		break;
+> +
+> +	default:
+> +		dev_warn(binfo->dev, "unexpected DFH version %lld\n", dfh_ver);
+> +		break;
+>  	}
+>  
+>  	if (!inr) {
+> -		*irq_base = 0;
+> -		*nr_irqs = 0;
+> +		finfo->irq_base = 0;
+> +		finfo->nr_irqs = 0;
+>  		return 0;
+>  	}
+>  
+> @@ -1006,8 +1038,8 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
+>  		}
+>  	}
+>  
+> -	*irq_base = ibase;
+> -	*nr_irqs = inr;
+> +	finfo->irq_base = ibase;
+> +	finfo->nr_irqs = inr;
+>  
+>  	return 0;
 >  }
->
-> +#define SANITY_CHECK_MEM_REGION_FIELD(field)                                   \
-> +do {                                                                           \
-> +       BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=             \
-> +                    offsetof(struct kvm_userspace_memory_region, field));      \
-> +       BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=         \
-> +                    sizeof_field(struct kvm_userspace_memory_region, field));  \
-> +} while (0)
+> @@ -1023,8 +1055,8 @@ static int
+>  create_feature_instance(struct build_feature_devs_info *binfo,
+>  			resource_size_t ofst, resource_size_t size, u16 fid)
+>  {
+> -	unsigned int irq_base, nr_irqs;
+>  	struct dfl_feature_info *finfo;
+> +	u8 dfh_version = 0;
+>  	u8 revision = 0;
+>  	int ret;
+>  	u64 v;
+> @@ -1032,7 +1064,7 @@ create_feature_instance(struct build_feature_devs_info *binfo,
+>  	if (fid != FEATURE_ID_AFU) {
+>  		v = readq(binfo->ioaddr + ofst);
+>  		revision = FIELD_GET(DFH_REVISION, v);
+> -
+> +		dfh_version = FIELD_GET(DFH_VERSION, v);
+>  		/* read feature size and id if inputs are invalid */
+>  		size = size ? size : feature_size(v);
+>  		fid = fid ? fid : feature_id(v);
+> @@ -1041,21 +1073,33 @@ create_feature_instance(struct build_feature_devs_info *binfo,
+>  	if (binfo->len - ofst < size)
+>  		return -EINVAL;
+>  
+> -	ret = parse_feature_irqs(binfo, ofst, fid, &irq_base, &nr_irqs);
+> -	if (ret)
+> -		return ret;
+> -
+>  	finfo = kzalloc(sizeof(*finfo), GFP_KERNEL);
+>  	if (!finfo)
+>  		return -ENOMEM;
+>  
+>  	finfo->fid = fid;
+>  	finfo->revision = revision;
+> +	finfo->dfh_version = dfh_version;
+>  	finfo->mmio_res.start = binfo->start + ofst;
+>  	finfo->mmio_res.end = finfo->mmio_res.start + size - 1;
+>  	finfo->mmio_res.flags = IORESOURCE_MEM;
+> -	finfo->irq_base = irq_base;
+> -	finfo->nr_irqs = nr_irqs;
 > +
-> +#define SANITY_CHECK_MEM_REGION_EXT_FIELD(field)                                       \
-> +do {                                                                                   \
-> +       BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=                     \
-> +                    offsetof(struct kvm_userspace_memory_region_ext, field));          \
-> +       BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=                 \
-> +                    sizeof_field(struct kvm_userspace_memory_region_ext, field));      \
-> +} while (0)
+> +	ret = parse_feature_irqs(binfo, ofst, finfo);
+> +	if (ret)
+> +		return ret;
 > +
-> +static void kvm_sanity_check_user_mem_region_alias(void)
+> +	if (dfh_version == 1) {
+> +		v = readq(binfo->ioaddr + ofst + DFHv1_CSR_ADDR);
+> +		if (v & DFHv1_CSR_ADDR_REL)
+> +			finfo->csr_res.start = FIELD_GET(DFHv1_CSR_ADDR_MASK, v);
+> +		else
+> +			finfo->csr_res.start = binfo->start + ofst
+> +					       + FIELD_GET(DFHv1_CSR_ADDR_MASK, v);
+> +
+> +		v = readq(binfo->ioaddr + ofst + DFHv1_CSR_SIZE_GRP);
+> +		finfo->csr_res.end = finfo->csr_res.start
+> +				     + FIELD_GET(DFHv1_CSR_SIZE_GRP_SIZE, v) - 1;
+> +	}
+>  
+>  	list_add_tail(&finfo->node, &binfo->sub_features);
+>  	binfo->feature_num++;
+> @@ -1879,6 +1923,34 @@ long dfl_feature_ioctl_set_irq(struct platform_device *pdev,
+>  }
+>  EXPORT_SYMBOL_GPL(dfl_feature_ioctl_set_irq);
+>  
+> +int dfhv1_find_param(void __iomem *base, resource_size_t max, int param)
 > +{
-> +       SANITY_CHECK_MEM_REGION_FIELD(slot);
-> +       SANITY_CHECK_MEM_REGION_FIELD(flags);
-> +       SANITY_CHECK_MEM_REGION_FIELD(guest_phys_addr);
-> +       SANITY_CHECK_MEM_REGION_FIELD(memory_size);
-> +       SANITY_CHECK_MEM_REGION_FIELD(userspace_addr);
-> +       SANITY_CHECK_MEM_REGION_EXT_FIELD(private_offset);
-> +       SANITY_CHECK_MEM_REGION_EXT_FIELD(private_fd);
+> +	int off = DFHv1_PARAM_HDR;
+> +	u64 v, next;
+> +
+> +	while (off < max) {
+> +		v = readq(base + off);
+> +		if (param == FIELD_GET(DFHv1_PARAM_HDR_ID, v))
+> +			return (DFHv1_PARAM_DATA + off);
+> +
+> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
+> +		if (!next)
+> +			break;
+> +
+> +		off += next;
+> +	}
+> +
+> +	return -ENOENT;
 > +}
+> +EXPORT_SYMBOL_GPL(dfhv1_find_param);
 > +
->  static long kvm_vm_ioctl(struct file *filp,
->                            unsigned int ioctl, unsigned long arg)
+> +int dfhv1_has_params(void __iomem *dfh_base)
+> +{
+> +	return (FIELD_GET(DFHv1_CSR_SIZE_GRP_HAS_PARAMS,
+> +		readq(dfh_base + DFHv1_CSR_SIZE_GRP)));
+> +}
+> +EXPORT_SYMBOL_GPL(dfhv1_has_params);
+> +
+>  static void __exit dfl_fpga_exit(void)
 >  {
-> @@ -4645,14 +4672,20 @@ static long kvm_vm_ioctl(struct file *filp,
->                 break;
->         }
->         case KVM_SET_USER_MEMORY_REGION: {
-> -               struct kvm_userspace_memory_region kvm_userspace_mem;
-> +               struct kvm_user_mem_region mem;
-> +               unsigned long size = sizeof(struct kvm_userspace_memory_region);
-> +
-> +               kvm_sanity_check_user_mem_region_alias();
->
->                 r = -EFAULT;
-> -               if (copy_from_user(&kvm_userspace_mem, argp,
-> -                                               sizeof(kvm_userspace_mem)))
-> +               if (copy_from_user(&mem, argp, size);
-> +                       goto out;
-> +
-> +               r = -EINVAL;
-> +               if (mem.flags & KVM_MEM_PRIVATE)
->                         goto out;
->
-> -               r = kvm_vm_ioctl_set_memory_region(kvm, &kvm_userspace_mem);
-> +               r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
->                 break;
->         }
->         case KVM_GET_DIRTY_LOG: {
-> --
-> 2.25.1
->
+>  	dfl_chardev_uinit();
+> diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
+> index bd8720bc5320..0423aa8319ed 100644
+> --- a/drivers/fpga/dfl.h
+> +++ b/drivers/fpga/dfl.h
+> @@ -266,6 +266,7 @@ struct dfl_feature_irq_ctx {
+>   *		    this index is used to find its mmio resource from the
+>   *		    feature dev (platform device)'s resources.
+>   * @ioaddr: mapped mmio resource address.
+> + * @csr_res: resource for DFHv1 feature registers
+>   * @irq_ctx: interrupt context list.
+>   * @nr_irqs: number of interrupt contexts.
+>   * @ops: ops of this sub feature.
+> @@ -276,8 +277,10 @@ struct dfl_feature {
+>  	struct platform_device *dev;
+>  	u16 id;
+>  	u8 revision;
+> +	u8 dfh_version;
+>  	int resource_index;
+>  	void __iomem *ioaddr;
+> +	struct resource csr_res;
+>  	struct dfl_feature_irq_ctx *irq_ctx;
+>  	unsigned int nr_irqs;
+>  	const struct dfl_feature_ops *ops;
+> diff --git a/include/linux/dfl.h b/include/linux/dfl.h
+> index 1a1a2b894687..71760c6a25d7 100644
+> --- a/include/linux/dfl.h
+> +++ b/include/linux/dfl.h
+> @@ -39,6 +39,7 @@ enum dfl_id_type {
+>   * @type: type of DFL FIU of the device. See enum dfl_id_type.
+>   * @feature_id: feature identifier local to its DFL FIU type.
+>   * @mmio_res: mmio resource of this dfl device.
+> + * @csr_res: resource for DFHv1 feature registers
+
+I think the combination of mmio_res & csr_res is confusing. Why a
+special csr_res dedicated for DFHv1, and what the mmio_res stands for if
+the csr_res exists? And they may overlap each other.
+
+Could you present some general purpose mmio resource layout which is
+compatible to dfl v0 & v1? People from other domains just need to know
+the basic concept like how many register blocks in the device, what are
+their ranges ...
+
+Thanks,
+Yilun
