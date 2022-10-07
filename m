@@ -2,248 +2,382 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C3B5C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 18:35:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D613C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 20:41:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbiJGSfj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Oct 2022 14:35:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36248 "EHLO
+        id S229865AbiJGUlj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Oct 2022 16:41:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbiJGSfi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 14:35:38 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E08AE6C970;
-        Fri,  7 Oct 2022 11:35:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665167736; x=1696703736;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=GlvynNTlOBH6XOgfhL1iTjczdAntw5tQaathsdAJOFc=;
-  b=Qa/6jdiL5AKBWs853q3VOu6h284uS4nvsdD9TljYfnjJm9W2Pkka5L26
-   UZD+GV1BKIIiPPdP3whN3+pFN/7X3GEIcOdRgpHWhU03YyVFOr6rDMED9
-   3KwtfeDikoxzj9jE1VI5z4S1U/+vCspm/AFwpXZbpic+7x1l9vwbtMGoh
-   nivElqhs+YbhkkJ2cKzXHKBYrcn4BLVLFb9ZUhbqc9kJHk2+h9HW2UOvz
-   rdbUSE1YDIt/2kPdreH3ZQlJltLrtFpK6zs6ngF5+dckpPv8CLHHq0tvK
-   iAAAXgdaqSymKAtVyHsFQHABri5Yu9H9POhqCjeNN5KCOBxk70AVQXiM8
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10493"; a="291077698"
-X-IronPort-AV: E=Sophos;i="5.95,167,1661842800"; 
-   d="scan'208";a="291077698"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2022 11:35:36 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10493"; a="620345979"
-X-IronPort-AV: E=Sophos;i="5.95,167,1661842800"; 
-   d="scan'208";a="620345979"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2022 11:35:34 -0700
-Date:   Fri, 7 Oct 2022 11:35:47 -0700 (PDT)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH v3 3/4] fpga: dfl: add basic support for DFHv1
-In-Reply-To: <2ee52b26-d34d-9599-a465-b3cce51f4b45@linux.intel.com>
-Message-ID: <alpine.DEB.2.22.394.2210071126060.2168979@rhweight-WRK1>
-References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com> <20221004143718.1076710-4-matthew.gerlach@linux.intel.com> <2ee52b26-d34d-9599-a465-b3cce51f4b45@linux.intel.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S229724AbiJGUli (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 16:41:38 -0400
+X-Greylist: delayed 389 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 07 Oct 2022 13:41:36 PDT
+Received: from mail.sf-mail.de (mail.sf-mail.de [IPv6:2a01:4f8:1c17:6fae:616d:6c69:616d:6c69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D00E2EF09
+        for <linux-doc@vger.kernel.org>; Fri,  7 Oct 2022 13:41:36 -0700 (PDT)
+Received: (qmail 32597 invoked from network); 7 Oct 2022 20:34:46 -0000
+Received: from p200300cf07391f0080daf588667072be.dip0.t-ipconnect.de ([2003:cf:739:1f00:80da:f588:6670:72be]:43536 HELO daneel.sf-tec.de) (auth=eike@sf-mail.de)
+        by mail.sf-mail.de (Qsmtpd 0.38dev) with (TLS_AES_256_GCM_SHA384 encrypted) ESMTPSA
+        for <linux-kernel@vger.kernel.org>; Fri, 07 Oct 2022 22:34:46 +0200
+From:   Rolf Eike Beer <eike-kernel@sf-tec.de>
+To:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Jason@zx2c4.com, andreas.noever@gmail.com,
+        akpm@linux-foundation.org, andriy.shevchenko@linux.intel.com,
+        bp@alien8.de, catalin.marinas@arm.com,
+        christoph.boehmwalder@linbit.com, hch@lst.de,
+        christophe.leroy@csgroup.eu, daniel@iogearbox.net,
+        airlied@redhat.com, dave.hansen@linux.intel.com,
+        davem@davemloft.net, edumazet@google.com, fw@strlen.de,
+        gregkh@linuxfoundation.org, hpa@zytor.com, hca@linux.ibm.com,
+        deller@gmx.de, herbert@gondor.apana.org.au, chenhuacai@kernel.org,
+        hughd@google.com, kuba@kernel.org, jejb@linux.ibm.com,
+        jack@suse.com, jgg@ziepe.ca, axboe@kernel.dk,
+        johannes@sipsolutions.net, corbet@lwn.net, kadlec@netfilter.org,
+        kpsingh@kernel.org, keescook@chromium.org, elver@google.com,
+        mchehab@kernel.org, mpe@ellerman.id.au, pablo@netfilter.org,
+        pabeni@redhat.com, peterz@infradead.org, richard@nod.at,
+        linux@armlinux.org.uk
+Cc:     tytso@mit.edu, tsbogend@alpha.franken.de, tglx@linutronix.de,
+        tgraf@suug.ch, ulf.hansson@linaro.org, vigneshr@ti.com,
+        kernel@xen0n.name, will@kernel.org, yury.norov@gmail.com,
+        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
+        kernel-janitors@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mm@kvack.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        loongarch@lists.linux.dev, netdev@vger.kernel.org,
+        sparclinux@vger.kernel.org, x86@kernel.org, toke@toke.dk,
+        chuck.lever@oracle.com, jack@suse.cz,
+        mika.westerberg@linux.intel.com
+Subject: Re: [PATCH v4 4/6] treewide: use get_random_u32() when possible
+Date:   Fri, 07 Oct 2022 22:34:47 +0200
+Message-ID: <3216619.44csPzL39Z@daneel.sf-tec.de>
+In-Reply-To: <20221007180107.216067-5-Jason@zx2c4.com>
+References: <20221007180107.216067-1-Jason@zx2c4.com> <20221007180107.216067-5-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-579534304-1665167753=:2168979"
+Content-Type: multipart/signed; boundary="nextPart8143310.T7Z3S40VBb"; micalg="pgp-sha1"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+--nextPart8143310.T7Z3S40VBb
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Rolf Eike Beer <eike-kernel@sf-tec.de>
+Date: Fri, 07 Oct 2022 22:34:47 +0200
+Message-ID: <3216619.44csPzL39Z@daneel.sf-tec.de>
+In-Reply-To: <20221007180107.216067-5-Jason@zx2c4.com>
 
---8323328-579534304-1665167753=:2168979
-Content-Type: text/plain; charset=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 8BIT
+> diff --git a/arch/parisc/kernel/process.c b/arch/parisc/kernel/process.c
+> index 7c37e09c92da..18c4f0e3e906 100644
+> --- a/arch/parisc/kernel/process.c
+> +++ b/arch/parisc/kernel/process.c
+> @@ -288,7 +288,7 @@ __get_wchan(struct task_struct *p)
+> 
+>  static inline unsigned long brk_rnd(void)
+>  {
+> -	return (get_random_int() & BRK_RND_MASK) << PAGE_SHIFT;
+> +	return (get_random_u32() & BRK_RND_MASK) << PAGE_SHIFT;
+>  }
+
+Can't this be
+
+  prandom_u32_max(BRK_RND_MASK + 1) << PAGE_SHIFT
+
+? More similar code with other masks follows below.
+
+> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c
+> b/drivers/gpu/drm/i915/i915_gem_gtt.c index 329ff75b80b9..7bd1861ddbdf
+> 100644
+> --- a/drivers/gpu/drm/i915/i915_gem_gtt.c
+> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
+> @@ -137,12 +137,12 @@ static u64 random_offset(u64 start, u64 end, u64 len,
+> u64 align) range = round_down(end - len, align) - round_up(start, align);
+>  	if (range) {
+>  		if (sizeof(unsigned long) == sizeof(u64)) {
+> -			addr = get_random_long();
+> +			addr = get_random_u64();
+>  		} else {
+> -			addr = get_random_int();
+> +			addr = get_random_u32();
+>  			if (range > U32_MAX) {
+>  				addr <<= 32;
+> -				addr |= get_random_int();
+> +				addr |= get_random_u32();
+>  			}
+>  		}
+>  		div64_u64_rem(addr, range, &addr);
+
+How about 
+
+ 		if (sizeof(unsigned long) == sizeof(u64) || range > 
+U32_MAX)
+			addr = get_random_u64();
+ 		else
+			addr = get_random_u32();
+
+> diff --git a/drivers/infiniband/hw/cxgb4/cm.c
+> b/drivers/infiniband/hw/cxgb4/cm.c index 14392c942f49..499a425a3379 100644
+> --- a/drivers/infiniband/hw/cxgb4/cm.c
+> +++ b/drivers/infiniband/hw/cxgb4/cm.c
+> @@ -734,7 +734,7 @@ static int send_connect(struct c4iw_ep *ep)
+>  				   &ep->com.remote_addr;
+>  	int ret;
+>  	enum chip_type adapter_type = ep->com.dev->rdev.lldi.adapter_type;
+> -	u32 isn = (prandom_u32() & ~7UL) - 1;
+> +	u32 isn = (get_random_u32() & ~7UL) - 1;
+>  	struct net_device *netdev;
+>  	u64 params;
+> 
+> @@ -2469,7 +2469,7 @@ static int accept_cr(struct c4iw_ep *ep, struct
+> sk_buff *skb, }
+> 
+>  	if (!is_t4(adapter_type)) {
+> -		u32 isn = (prandom_u32() & ~7UL) - 1;
+> +		u32 isn = (get_random_u32() & ~7UL) - 1;
+
+u32 isn = get_random_u32() | 0x7;
+
+Same code comes later again.
+
+> diff --git a/drivers/mtd/nand/raw/nandsim.c b/drivers/mtd/nand/raw/nandsim.c
+> index 50bcf745e816..4bdaf4aa7007 100644
+> --- a/drivers/mtd/nand/raw/nandsim.c
+> +++ b/drivers/mtd/nand/raw/nandsim.c
+> @@ -1402,7 +1402,7 @@ static int ns_do_read_error(struct nandsim *ns, int
+> num)
+> 
+>  static void ns_do_bit_flips(struct nandsim *ns, int num)
+>  {
+> -	if (bitflips && prandom_u32() < (1 << 22)) {
+> +	if (bitflips && get_random_u32() < (1 << 22)) {
+
+Doing "get_random_u16() < (1 << 6)" should have the same probability with only 
+2 bytes of random, no?
+
+> diff --git a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
+> b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c index
+> ac452a0111a9..b71ce6c5b512 100644
+> --- a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
+> +++ b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
+> @@ -1063,7 +1063,7 @@ static void chtls_pass_accept_rpl(struct sk_buff *skb,
+> opt2 |= WND_SCALE_EN_V(WSCALE_OK(tp));
+>  	rpl5->opt0 = cpu_to_be64(opt0);
+>  	rpl5->opt2 = cpu_to_be32(opt2);
+> -	rpl5->iss = cpu_to_be32((prandom_u32() & ~7UL) - 1);
+> +	rpl5->iss = cpu_to_be32((get_random_u32() & ~7UL) - 1);
+>  	set_wr_txq(skb, CPL_PRIORITY_SETUP, csk->port_id);
+>  	t4_set_arp_err_handler(skb, sk, chtls_accept_rpl_arp_failure);
+>  	cxgb4_l2t_send(csk->egress_dev, skb, csk->l2t_entry);
+> diff --git a/drivers/net/ethernet/rocker/rocker_main.c
+> b/drivers/net/ethernet/rocker/rocker_main.c index
+> fc83ec23bd1d..8c3bbafabb07 100644
+> --- a/drivers/net/ethernet/rocker/rocker_main.c
+> +++ b/drivers/net/ethernet/rocker/rocker_main.c
+> @@ -139,9 +139,9 @@ static int rocker_reg_test(const struct rocker *rocker)
+>  		return -EIO;
+>  	}
+> 
+> -	rnd = prandom_u32();
+> +	rnd = get_random_u32();
+>  	rnd <<= 31;
+> -	rnd |= prandom_u32();
+> +	rnd |= get_random_u32();
+
+>  	rocker_write64(rocker, TEST_REG64, rnd);
+>  	test_reg = rocker_read64(rocker, TEST_REG64);
+>  	if (test_reg != rnd * 2) {
+> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pno.c
+> b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pno.c index
+> fabfbb0b40b0..374e1cc07a63 100644
+> --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pno.c
+> +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pno.c
+> @@ -177,7 +177,7 @@ static int brcmf_pno_set_random(struct brcmf_if *ifp,
+> struct brcmf_pno_info *pi) memcpy(pfn_mac.mac, mac_addr, ETH_ALEN);
+>  	for (i = 0; i < ETH_ALEN; i++) {
+>  		pfn_mac.mac[i] &= mac_mask[i];
+> -		pfn_mac.mac[i] |= get_random_int() & ~(mac_mask[i]);
+> +		pfn_mac.mac[i] |= get_random_u32() & ~(mac_mask[i]);
+
+> diff --git a/lib/reed_solomon/test_rslib.c b/lib/reed_solomon/test_rslib.c
+> index 4d241bdc88aa..848e7eb5da92 100644
+> --- a/lib/reed_solomon/test_rslib.c
+> +++ b/lib/reed_solomon/test_rslib.c
+> @@ -164,7 +164,7 @@ static int get_rcw_we(struct rs_control *rs, struct
+> wspace *ws,
+> 
+>  	/* Load c with random data and encode */
+>  	for (i = 0; i < dlen; i++)
+> -		c[i] = prandom_u32() & nn;
+> +		c[i] = get_random_u32() & nn;
+
+> @@ -178,7 +178,7 @@ static int get_rcw_we(struct rs_control *rs, struct
+> wspace *ws, for (i = 0; i < errs; i++) {
+>  		do {
+>  			/* Error value must be nonzero */
+> -			errval = prandom_u32() & nn;
+> +			errval = get_random_u32() & nn;
+>  		} while (errval == 0);
+
+> @@ -206,7 +206,7 @@ static int get_rcw_we(struct rs_control *rs, struct
+> wspace *ws, /* Erasure with corrupted symbol */
+>  			do {
+>  				/* Error value must be nonzero */
+> -				errval = prandom_u32() & nn;
+> +				errval = get_random_u32() & nn;
+>  			} while (errval == 0);
+> 
+
+> diff --git a/lib/test_fprobe.c b/lib/test_fprobe.c
+> index ed70637a2ffa..e0381b3ec410 100644
+> --- a/lib/test_fprobe.c
+> +++ b/lib/test_fprobe.c
+> @@ -145,7 +145,7 @@ static unsigned long get_ftrace_location(void *func)
+>  static int fprobe_test_init(struct kunit *test)
+>  {
+>  	do {
+> -		rand1 = prandom_u32();
+> +		rand1 = get_random_u32();
+>  	} while (rand1 <= div_factor);
+
+> diff --git a/lib/test_kprobes.c b/lib/test_kprobes.c
+> index a5edc2ebc947..eeb1d728d974 100644
+> --- a/lib/test_kprobes.c
+> +++ b/lib/test_kprobes.c
+> @@ -341,7 +341,7 @@ static int kprobes_test_init(struct kunit *test)
+>  	stacktrace_driver = kprobe_stacktrace_driver;
+> 
+>  	do {
+> -		rand1 = prandom_u32();
+> +		rand1 = get_random_u32();
+>  	} while (rand1 <= div_factor);
+>  	return 0;
+>  }
+
+> diff --git a/lib/test_rhashtable.c b/lib/test_rhashtable.c
+> index 5a1dd4736b56..b358a74ed7ed 100644
+> --- a/lib/test_rhashtable.c
+> +++ b/lib/test_rhashtable.c
+> @@ -291,7 +291,7 @@ static int __init test_rhltable(unsigned int entries)
+>  	if (WARN_ON(err))
+>  		goto out_free;
+> 
+> -	k = prandom_u32();
+> +	k = get_random_u32();
+>  	ret = 0;
+>  	for (i = 0; i < entries; i++) {
+>  		rhl_test_objects[i].value.id = k;
+> @@ -369,12 +369,12 @@ static int __init test_rhltable(unsigned int entries)
+>  	pr_info("test %d random rhlist add/delete operations\n", entries);
+>  	for (j = 0; j < entries; j++) {
+>  		u32 i = prandom_u32_max(entries);
+> -		u32 prand = prandom_u32();
+> +		u32 prand = get_random_u32();
+> 
+>  		cond_resched();
+> 
+>  		if (prand == 0)
+> -			prand = prandom_u32();
+> +			prand = get_random_u32();
+> 
+>  		if (prand & 1) {
+>  			prand >>= 1;
+
+> diff --git a/net/ipv4/tcp_cdg.c b/net/ipv4/tcp_cdg.c
+> index ddc7ba0554bd..efcd145f06db 100644
+> --- a/net/ipv4/tcp_cdg.c
+> +++ b/net/ipv4/tcp_cdg.c
+> @@ -243,7 +243,7 @@ static bool tcp_cdg_backoff(struct sock *sk, u32 grad)
+>  	struct cdg *ca = inet_csk_ca(sk);
+>  	struct tcp_sock *tp = tcp_sk(sk);
+> 
+> -	if (prandom_u32() <= nexp_u32(grad * backoff_factor))
+> +	if (get_random_u32() <= nexp_u32(grad * backoff_factor))
+>  		return false;
+> 
+>  	if (use_ineff) {
+
+> diff --git a/net/ipv6/ip6_flowlabel.c b/net/ipv6/ip6_flowlabel.c
+> index ceb85c67ce39..18481eb76a0a 100644
+> --- a/net/ipv6/ip6_flowlabel.c
+> +++ b/net/ipv6/ip6_flowlabel.c
+> @@ -220,7 +220,7 @@ static struct ip6_flowlabel *fl_intern(struct net *net,
+>  	spin_lock_bh(&ip6_fl_lock);
+>  	if (label == 0) {
+>  		for (;;) {
+> -			fl->label = 
+htonl(prandom_u32())&IPV6_FLOWLABEL_MASK;
+> +			fl->label = 
+htonl(get_random_u32())&IPV6_FLOWLABEL_MASK;
+>  			if (fl->label) {
+>  				lfl = __fl_lookup(net, fl-
+>label);
+>  				if (!lfl)
+
+> diff --git a/net/netfilter/ipvs/ip_vs_conn.c
+> b/net/netfilter/ipvs/ip_vs_conn.c index fb67f1ca2495..8c04bb57dd6f 100644
+> --- a/net/netfilter/ipvs/ip_vs_conn.c
+> +++ b/net/netfilter/ipvs/ip_vs_conn.c
+> @@ -1308,7 +1308,7 @@ void ip_vs_random_dropentry(struct netns_ipvs *ipvs)
+>  	 * Randomly scan 1/32 of the whole table every second
+>  	 */
+>  	for (idx = 0; idx < (ip_vs_conn_tab_size>>5); idx++) {
+> -		unsigned int hash = prandom_u32() & 
+ip_vs_conn_tab_mask;
+> +		unsigned int hash = get_random_u32() & 
+ip_vs_conn_tab_mask;
+> 
+>  		hlist_for_each_entry_rcu(cp, &ip_vs_conn_tab[hash], 
+c_list) {
+>  			if (cp->ipvs != ipvs)
+
+> diff --git a/net/rds/bind.c b/net/rds/bind.c
+> index 5b5fb4ca8d3e..052776ddcc34 100644
+> --- a/net/rds/bind.c
+> +++ b/net/rds/bind.c
+> @@ -104,7 +104,7 @@ static int rds_add_bound(struct rds_sock *rs, const
+> struct in6_addr *addr, return -EINVAL;
+>  		last = rover;
+>  	} else {
+> -		rover = max_t(u16, prandom_u32(), 2);
+> +		rover = max_t(u16, get_random_u32(), 2);
+>  		last = rover - 1;
+>  	}
+
+> diff --git a/net/sunrpc/auth_gss/gss_krb5_wrap.c
+> b/net/sunrpc/auth_gss/gss_krb5_wrap.c index 5f96e75f9eec..48337687848c
+> 100644
+> --- a/net/sunrpc/auth_gss/gss_krb5_wrap.c
+> +++ b/net/sunrpc/auth_gss/gss_krb5_wrap.c
+> @@ -130,8 +130,8 @@ gss_krb5_make_confounder(char *p, u32 conflen)
+> 
+>  	/* initialize to random value */
+>  	if (i == 0) {
+> -		i = prandom_u32();
+> -		i = (i << 32) | prandom_u32();
+> +		i = get_random_u32();
+> +		i = (i << 32) | get_random_u32();
+>  	}
+
+--nextPart8143310.T7Z3S40VBb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQSaYVDeqwKa3fTXNeNcpIk+abn8TgUCY0CNZwAKCRBcpIk+abn8
+TrpgAJ4nsyVCsxjHWfs+evNVPSQ5uTLV5QCdGcxIX2E4WNsbKxKWHgs2EVSpciI=
+=UYR+
+-----END PGP SIGNATURE-----
+
+--nextPart8143310.T7Z3S40VBb--
 
 
 
-On Wed, 5 Oct 2022, Ilpo Järvinen wrote:
-
-> Please try to remember cc all people who have commented your patches when
-> sending the next version.
->
-> On Tue, 4 Oct 2022, matthew.gerlach@linux.intel.com wrote:
->
->> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>
->> Add generic support for MSIX interrupts for DFL devices.
->>
->> The location of a feature's registers is explicitly
->> described in DFHv1 and can be relative to the base of the DFHv1
->> or an absolute address.  Parse the location and pass the information
->> to DFL driver.
->>
->> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->
->> @@ -935,55 +948,74 @@ static u16 feature_id(u64 value)
->>  }
->>
->>  static int parse_feature_irqs(struct build_feature_devs_info *binfo,
->> -			      resource_size_t ofst, u16 fid,
->> -			      unsigned int *irq_base, unsigned int *nr_irqs)
->> +			      resource_size_t ofst, struct dfl_feature_info *finfo)
->>  {
->>  	void __iomem *base = binfo->ioaddr + ofst;
->>  	unsigned int i, ibase, inr = 0;
->>  	enum dfl_id_type type;
->> -	int virq;
->> -	u64 v;
->> -
->> -	type = feature_dev_id_type(binfo->feature_dev);
->> +	u16 fid = finfo->fid;
->> +	u64 v, dfh_ver;
->
-> Drop dfh_ver.
-
-I will drop dfh_ver.
-
->
->> +	int virq, off;
->>
->>  	/*
->>  	 * Ideally DFL framework should only read info from DFL header, but
->> -	 * current version DFL only provides mmio resources information for
->> +	 * current version, DFHv0, only provides mmio resources information for
->>  	 * each feature in DFL Header, no field for interrupt resources.
->>  	 * Interrupt resource information is provided by specific mmio
->>  	 * registers of each private feature which supports interrupt. So in
->>  	 * order to parse and assign irq resources, DFL framework has to look
->>  	 * into specific capability registers of these private features.
->>  	 *
->> -	 * Once future DFL version supports generic interrupt resource
->> -	 * information in common DFL headers, the generic interrupt parsing
->> -	 * code will be added. But in order to be compatible to old version
->> +	 * DFHv1 supports generic interrupt resource information in DFHv1
->> +	 * parameter blocks. But in order to be compatible to old version
->>  	 * DFL, the driver may still fall back to these quirks.
->
-> I'm not convinced this comment is useful as is after the introduction of
-> v1. It feels too focused on v0 limitations.
->
-> I suggest you move v0 limitations description to v0 block below and
-> perhaps state in the end of it that comment that v1 is recommended for
-> new things because it doesn't have those limitations. Or something along
-> those lines.
-
-I think I will rework the comment by splitting the descriptions for v0 
-and v1 and focusing on what each supports rather than limitations.
-
->
->>  	 */
->> -	if (type == PORT_ID) {
->> -		switch (fid) {
->> -		case PORT_FEATURE_ID_UINT:
->> -			v = readq(base + PORT_UINT_CAP);
->> -			ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
->> -			inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
->> +
->> +	switch (finfo->dfh_version) {
->> +	case 0:
->> +		type = feature_dev_id_type(binfo->feature_dev);
->> +		if (type == PORT_ID) {
->> +			switch (fid) {
->> +			case PORT_FEATURE_ID_UINT:
->> +				v = readq(base + PORT_UINT_CAP);
->> +				ibase = FIELD_GET(PORT_UINT_CAP_FST_VECT, v);
->> +				inr = FIELD_GET(PORT_UINT_CAP_INT_NUM, v);
->> +				break;
->> +			case PORT_FEATURE_ID_ERROR:
->> +				v = readq(base + PORT_ERROR_CAP);
->> +				ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
->> +				inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
->> +				break;
->> +			}
->> +		} else if (type == FME_ID) {
->> +			if (fid == FME_FEATURE_ID_GLOBAL_ERR) {
->> +				v = readq(base + FME_ERROR_CAP);
->> +				ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
->> +				inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
->> +			}
->> +		}
->> +		break;
->> +
->> +	case 1:
->> +		if (!dfhv1_has_params(base))
->>  			break;
->> -		case PORT_FEATURE_ID_ERROR:
->> -			v = readq(base + PORT_ERROR_CAP);
->> -			ibase = FIELD_GET(PORT_ERROR_CAP_INT_VECT, v);
->> -			inr = FIELD_GET(PORT_ERROR_CAP_SUPP_INT, v);
->> +
->> +		off = dfhv1_find_param(base, ofst, DFHv1_PARAM_ID_MSIX);
->> +		if (off < 0)
->>  			break;
->> -		}
->> -	} else if (type == FME_ID) {
->> -		if (fid == FME_FEATURE_ID_GLOBAL_ERR) {
->> -			v = readq(base + FME_ERROR_CAP);
->> -			ibase = FIELD_GET(FME_ERROR_CAP_INT_VECT, v);
->> -			inr = FIELD_GET(FME_ERROR_CAP_SUPP_INT, v);
->> -		}
->> +
->> +		ibase = readl(base + off + DFHv1_PARAM_MSIX_STARTV);
->> +		inr = readl(base + off + DFHv1_PARAM_MSIX_NUMV);
->> +		break;
->> +
->> +	default:
->> +		dev_warn(binfo->dev, "unexpected DFH version %lld\n", dfh_ver);
->
-> dfh_ver is uninitialized here. The compiler shouldn't have been happy with
-> this.
-
-I am surprised the compiler did not flag this uninitialized variable. 
-Getting rid of the dfh_ver altogether is the best course of action.
-
->
->> @@ -1041,21 +1073,33 @@ create_feature_instance(struct build_feature_devs_info *binfo,
->>  	if (binfo->len - ofst < size)
->>  		return -EINVAL;
->>
->> -	ret = parse_feature_irqs(binfo, ofst, fid, &irq_base, &nr_irqs);
->> -	if (ret)
->> -		return ret;
->> -
->>  	finfo = kzalloc(sizeof(*finfo), GFP_KERNEL);
->>  	if (!finfo)
->>  		return -ENOMEM;
->>
->>  	finfo->fid = fid;
->>  	finfo->revision = revision;
->> +	finfo->dfh_version = dfh_version;
->>  	finfo->mmio_res.start = binfo->start + ofst;
->>  	finfo->mmio_res.end = finfo->mmio_res.start + size - 1;
->>  	finfo->mmio_res.flags = IORESOURCE_MEM;
->> -	finfo->irq_base = irq_base;
->> -	finfo->nr_irqs = nr_irqs;
->> +
->> +	ret = parse_feature_irqs(binfo, ofst, finfo);
->> +	if (ret)
->> +		return ret;
->
-> finfo has to be freed in case of an error.
-
-Good catch.  Thanks.
-
-
->
-> Thanks for rearranging, it looks more logical now.
->
-> --
-> i.
->
---8323328-579534304-1665167753=:2168979--
