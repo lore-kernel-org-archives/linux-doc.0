@@ -2,96 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19BA9C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 14:54:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A963BC433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 14:59:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229849AbiJGOyd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Oct 2022 10:54:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53610 "EHLO
+        id S229731AbiJGO7V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Oct 2022 10:59:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229623AbiJGOyc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 10:54:32 -0400
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8959F66847;
-        Fri,  7 Oct 2022 07:54:31 -0700 (PDT)
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-        by www62.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.3)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1ogok9-0004Ls-Vb; Fri, 07 Oct 2022 16:54:30 +0200
-Received: from [85.1.206.226] (helo=linux.home)
-        by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1ogok9-000BJh-PC; Fri, 07 Oct 2022 16:54:29 +0200
-Subject: Re: [PATCH bpf-next v6 1/1] bpf, docs: document BPF_MAP_TYPE_ARRAY
-To:     Jiri Olsa <olsajiri@gmail.com>,
-        Donald Hunter <donald.hunter@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, dave@dtucker.co.uk,
-        Alexei Starovoitov <ast@kernel.org>
-References: <20221005104634.66406-1-donald.hunter@gmail.com>
- <20221005104634.66406-2-donald.hunter@gmail.com> <Yz69qfI7ZkJPrUt7@krava>
-From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <4b2cc38f-7ea8-56ad-30b3-af91553028ec@iogearbox.net>
-Date:   Fri, 7 Oct 2022 16:54:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        with ESMTP id S229990AbiJGO7C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 10:59:02 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32A79DD8A2
+        for <linux-doc@vger.kernel.org>; Fri,  7 Oct 2022 07:58:59 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id l1so4734052pld.13
+        for <linux-doc@vger.kernel.org>; Fri, 07 Oct 2022 07:58:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ApS1gjiguDXZcZz0fMT7VsMAGGvTEXNN7etXS65aF2E=;
+        b=P9at1gy00LaQ67U9E1PqFxXj/+/Ep5lZ2MxNKcytXi47pMqLiyWzEa/Xe2j6FHWM4y
+         /hs7KujqnFNPAE3jZS5MWMfe3+xQAhIhJuW1dyoA1ekhjNaxULNBuqb/2klgeUPGWkYF
+         5S5WGPJDOLGI8G3dhBrFVznCIwrT7f7u07MoT7kQCn0HddgT1cP9+6D1aAApMjbGxIQJ
+         KQ5lGGS71MMnAnQJ7FClUslBS7YWByNlLuUfhv2PRp7+0dcRnApGUnnJxK061ld3oLrF
+         aqw3+neqPNcUW0v6HArS65p+1L4Mc4p5Eyi3bOlG00rA6Ll3S9qG/ECPlhkMQusT3cha
+         xF/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ApS1gjiguDXZcZz0fMT7VsMAGGvTEXNN7etXS65aF2E=;
+        b=B8OG6Mq/A9zCNQ5iCJbQ/PI1fhCmlu9hDD6Ic6JWd4uPoxLnsHP68dxv4vjarolPNN
+         6h/rmNqF9WQEbAqqz2v2Hdr7LOm0cwqHuPONhQJZgBi6Z0NIt9r9Y+RjI7Uc4GZTM1uB
+         gVKQkyC/X1HfiOlzfP5wXo7BwVPPai0cvcm6b3WoW0KRp62Bv4ztayEoZn5M3bODJJmb
+         RdrRQpB4LG7h7FhreeuTKYiHkMgfDyohoXYgxR1PqnDKbbp5TTQtc2tfn3wWgPPFlZCu
+         8vRkTMuLO9tJXUf+AsE0xYBSrj/kqyuQ2cIOjT0om6F1N6njKToOJknV/0Q8h2QAsfde
+         3ROQ==
+X-Gm-Message-State: ACrzQf2VCS4HY4OZHA0e8pZt2Lbcerth3g59qxfhvpSOJeSUucEHbvpH
+        fCI0OtfZYAMjA4xeke2sGyx+ng==
+X-Google-Smtp-Source: AMsMyM642quwEQBN0ZX14M9u9coJDsTKuGQ1cCzLKA6Dq2TZW06v6vpj0wGS9syx5rD7OWwlzHZvqw==
+X-Received: by 2002:a17:90b:3ec1:b0:202:f490:e508 with SMTP id rm1-20020a17090b3ec100b00202f490e508mr5980841pjb.156.1665154738493;
+        Fri, 07 Oct 2022 07:58:58 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id m22-20020a63ed56000000b0043a0de69c94sm1750587pgk.14.2022.10.07.07.58.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Oct 2022 07:58:57 -0700 (PDT)
+Date:   Fri, 7 Oct 2022 14:58:54 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y0A+rogB6TRDtbyE@google.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <Yz7s+JIexAHJm5dc@kernel.org>
+ <Yz7vHXZmU3EpmI0j@kernel.org>
+ <Yz71ogila0mSHxxJ@google.com>
+ <Y0AJ++m/TxoscOZg@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <Yz69qfI7ZkJPrUt7@krava>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.6/26682/Fri Oct  7 09:58:07 2022)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y0AJ++m/TxoscOZg@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/6/22 1:36 PM, Jiri Olsa wrote:
-> On Wed, Oct 05, 2022 at 11:46:34AM +0100, Donald Hunter wrote:
->> From: Dave Tucker <dave@dtucker.co.uk>
->>
->> Add documentation for the BPF_MAP_TYPE_ARRAY including kernel version
->> introduced, usage and examples. Also document BPF_MAP_TYPE_PERCPU_ARRAY
->> which is similar.
->>
->> Signed-off-by: Dave Tucker <dave@dtucker.co.uk>
->> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
->> ---
->>   Documentation/bpf/map_array.rst | 231 ++++++++++++++++++++++++++++++++
->>   1 file changed, 231 insertions(+)
->>   create mode 100644 Documentation/bpf/map_array.rst
->>
->> diff --git a/Documentation/bpf/map_array.rst b/Documentation/bpf/map_array.rst
->> new file mode 100644
->> index 000000000000..9d2da884c41e
->> --- /dev/null
->> +++ b/Documentation/bpf/map_array.rst
->> @@ -0,0 +1,231 @@
->> +.. SPDX-License-Identifier: GPL-2.0-only
->> +.. Copyright (C) 2022 Red Hat, Inc.
->> +
->> +================================================
->> +BPF_MAP_TYPE_ARRAY and BPF_MAP_TYPE_PERCPU_ARRAY
->> +================================================
->> +
->> +.. note::
->> +   - ``BPF_MAP_TYPE_ARRAY`` was introduced in kernel version 3.19
->> +   - ``BPF_MAP_TYPE_PERCPU_ARRAY`` was introduced in version 4.6
->> +
->> +``BPF_MAP_TYPE_ARRAY`` and ``BPF_MAP_TYPE_PERCPU_ARRAY`` provide generic array
->> +storage. The key type is an unsigned 32-bit integer (4 bytes) and the map is of
->> +constant size. All array elements are pre-allocated and zero initialized when
->> +created. ``BPF_MAP_TYPE_PERCPU_ARRAY`` uses a different memory region for each
->> +CPU whereas ``BPF_MAP_TYPE_ARRAY`` uses the same memory region. The maximum
->> +size of an array, defined in max_entries, is limited to 2^32. The value stored
->> +can be of any size, however, small values will be rounded up to 8 bytes.
+On Fri, Oct 07, 2022, Jarkko Sakkinen wrote:
+> On Thu, Oct 06, 2022 at 03:34:58PM +0000, Sean Christopherson wrote:
+> > On Thu, Oct 06, 2022, Jarkko Sakkinen wrote:
+> > > On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
+> > > > On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> > > > > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> > > > > additional KVM memslot fields private_fd/private_offset to allow
+> > > > > userspace to specify that guest private memory provided from the
+> > > > > private_fd and guest_phys_addr mapped at the private_offset of the
+> > > > > private_fd, spanning a range of memory_size.
+> > > > > 
+> > > > > The extended memslot can still have the userspace_addr(hva). When use, a
+> > > > > single memslot can maintain both private memory through private
+> > > > > fd(private_fd/private_offset) and shared memory through
+> > > > > hva(userspace_addr). Whether the private or shared part is visible to
+> > > > > guest is maintained by other KVM code.
+> > > > 
+> > > > What is anyway the appeal of private_offset field, instead of having just
+> > > > 1:1 association between regions and files, i.e. one memfd per region?
+> > 
+> > Modifying memslots is slow, both in KVM and in QEMU (not sure about Google's VMM).
+> > E.g. if a vCPU converts a single page, it will be forced to wait until all other
+> > vCPUs drop SRCU, which can have severe latency spikes, e.g. if KVM is faulting in
+> > memory.  KVM's memslot updates also hold a mutex for the entire duration of the
+> > update, i.e. conversions on different vCPUs would be fully serialized, exacerbating
+> > the SRCU problem.
+> > 
+> > KVM also has historical baggage where it "needs" to zap _all_ SPTEs when any
+> > memslot is deleted.
+> > 
+> > Taking both a private_fd and a shared userspace address allows userspace to convert
+> > between private and shared without having to manipulate memslots.
 > 
-> I recently hit 32k size limit for per-cpu map value.. it seems to be
-> size limit for generic per cpu allocation, but would be great to have
-> it confirmed by somebody who knows mm better ;-)
+> Right, this was really good explanation, thank you.
+> 
+> Still wondering could this possibly work (or not):
+> 
+> 1. Union userspace_addr and private_fd.
 
-Yes, for percpu the max is PCPU_MIN_UNIT_SIZE which is 32k, see mm/percpu.c +1756.
-In many cases it's implementation specific, so it probably does not make too much
-sense to state limits like 2^32, or at least it should say that its theoretical/uapi
-limit and actual limits may be implementation/config specific.
+No, because userspace needs to be able to provide both userspace_addr (shared
+memory) and private_fd (private memory) for a single memslot.
+
+> 2. Instead of introducing private_offset, use guest_phys_addr as the
+>    offset.
+
+No, because that would force userspace to use a single private_fd for all of guest
+memory since it effectively means private_offset=0.  And userspace couldn't skip
+over holes in guest memory, i.e. the size of the memfd would need to follow the
+max guest gpa.  In other words, dropping private_offset could work, but it'd be
+quite kludgy and not worth saving 8 bytes.
