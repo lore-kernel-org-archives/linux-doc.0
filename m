@@ -2,86 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCFD2C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 16:08:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0D85C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 16:26:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229852AbiJGQIv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Oct 2022 12:08:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52976 "EHLO
+        id S229627AbiJGQ0e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Oct 2022 12:26:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbiJGQIu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 12:08:50 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82904114DC9;
-        Fri,  7 Oct 2022 09:08:49 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id j16so7978323wrh.5;
-        Fri, 07 Oct 2022 09:08:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HDSNhZ4Sfk5K4RF7zJw4ZOJbQhRl9dsVaLFuDO2S9ZI=;
-        b=bxGpn72DZjAT1zrodZHvxysfLGbJVnYR1DwthBl/sqnKJVBCsQ36bEqkGwZYqEIDkR
-         CMf+vlF5Iw3zRC2b04ZkpKhq5kH3mmbgAI/x1Jr/6PoRlFMAaJ7hc9gkj3Nk8FnVEhjJ
-         F0GzK1pqfArUlA6NvGKIdjimBOA/vZGA4wIWBel5jgisjf+zXhYr72OM9SMF1sxN6Np0
-         30FkAvtDwRe1Nov52z3fnU6FaQjV8exL+7EyEpaoH9PiBw3o/bz16bgli3xuFrx44V1N
-         jnaHumfCTImyEmjCfZPQtrU1Q5IFred2c08l6U9Ghgx6YY2fJVjryduz3++oHknU3FU0
-         cTAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HDSNhZ4Sfk5K4RF7zJw4ZOJbQhRl9dsVaLFuDO2S9ZI=;
-        b=RCHN8AkWu5QPX93XffxStM+88RmvfLrztvSKjgirzUpUlJzTLd1fZ9VYrIiI2NvHSB
-         Zr/syCKhG5ZfGrwRNnmg3bGxXX1WLAosj/IkQy4D/S0MinJohv11Xh1BbSgCNEb6bHB+
-         z2TWa8GAg2Eh5Sh0uTYZZQMURshTumWTelVJomoe+HG4ftW3+0tPzBNkBN56PLl445GX
-         luVxRjbwDKmgWmYDKvuO+yntkjQL0JEJjKTESu8jU1T5F22T+vQcfZuUwRaUJs/FC+kI
-         QvD9gTiymy2BwypZ/jNQQ1zT2upSv8F8VOA3H41pNignGd4y0DOPqKJO7NlwQ3HY90xy
-         oGiw==
-X-Gm-Message-State: ACrzQf3/0QvyMi9FOuPO9UR26a2Urw0EkkFlu/+Hbr9h6XlGHp5ePtZ6
-        pA6GL1PlhisElf9pdsjgDcc=
-X-Google-Smtp-Source: AMsMyM6axC1ZKtHZq9J068r/wXG3/9hqe5RUm+1KFmFgbusyaMgPb5sFsSGHWsvutbOPVzGJ4rRfNA==
-X-Received: by 2002:adf:e310:0:b0:22c:c50f:46c8 with SMTP id b16-20020adfe310000000b0022cc50f46c8mr3748524wrj.231.1665158927953;
-        Fri, 07 Oct 2022 09:08:47 -0700 (PDT)
-Received: from imac ([88.97.103.74])
-        by smtp.gmail.com with ESMTPSA id i9-20020a5d5229000000b0022cd59331b2sm2449297wra.95.2022.10.07.09.08.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Oct 2022 09:08:47 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Daniel Borkmann <daniel@iogearbox.net>
-Cc:     Jiri Olsa <olsajiri@gmail.com>, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, dave@dtucker.co.uk,
-        Alexei Starovoitov <ast@kernel.org>
-Subject: Re: [PATCH bpf-next v6 1/1] bpf, docs: document BPF_MAP_TYPE_ARRAY
-In-Reply-To: <4b2cc38f-7ea8-56ad-30b3-af91553028ec@iogearbox.net> (Daniel
-        Borkmann's message of "Fri, 7 Oct 2022 16:54:29 +0200")
-Date:   Fri, 07 Oct 2022 17:07:53 +0100
-Message-ID: <m2fsfzborq.fsf@gmail.com>
-References: <20221005104634.66406-1-donald.hunter@gmail.com>
-        <20221005104634.66406-2-donald.hunter@gmail.com>
-        <Yz69qfI7ZkJPrUt7@krava>
-        <4b2cc38f-7ea8-56ad-30b3-af91553028ec@iogearbox.net>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
+        with ESMTP id S229965AbiJGQ0b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 12:26:31 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18B38C7060;
+        Fri,  7 Oct 2022 09:26:29 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 20EB02E6;
+        Fri,  7 Oct 2022 16:26:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 20EB02E6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1665159989; bh=SJWDWP3PWkWdNb0CSUN6+ab3g+8ViXpo6IKXaPvUwn4=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=PvK9Ai83137s3q/uZSW5RsqUd5Yu8jlqMcEQHEaEmNHhsN7vj3LZRaLnsoFblVgAL
+         u6rXGGZcjHnPSSbtAxppk33f7ntYtLqrFNoRHaEEGkdQvmiOGj1mCzFDCQfM9l/Lr3
+         L1uvru6P2fxxtPXl9kEVUFGMBm8QO/bNiMSiw1S/xIFYRaqZM0S47HEifTqlwBYyf4
+         Oe2RIW5FdxeLN5XlMeUDA2Sag3UYKswjvrsC91HbnX4wKl8wM4KDVwVS3CaRQHUQTK
+         EoiLpjNzgdKUy+0MPFQuxXB7PWxqOQNss4GlJpHsup1w0QY0/O8GobYNMzYEdUfert
+         HbgyL83VovawA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 5/5] docs: improve the HTML formatting of kerneldoc
+ comments
+In-Reply-To: <20221005065909.33ba2523@sal.lan>
+References: <20221004201222.281845-1-corbet@lwn.net>
+ <20221004201222.281845-6-corbet@lwn.net> <20221005065909.33ba2523@sal.lan>
+Date:   Fri, 07 Oct 2022 10:26:28 -0600
+Message-ID: <877d1bmwgb.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Daniel Borkmann <daniel@iogearbox.net> writes:
+Mauro Carvalho Chehab <mchehab@kernel.org> writes:
 
-> On 10/6/22 1:36 PM, Jiri Olsa wrote:
->> I recently hit 32k size limit for per-cpu map value.. it seems to be
->> size limit for generic per cpu allocation, but would be great to have
->> it confirmed by somebody who knows mm better ;-)
+> As I didn't test the patches, it sounds worth mentioning that it makes
+> sense to check if this won't badly affect epub and/or LaTeX/PDF outputs.
 >
-> Yes, for percpu the max is PCPU_MIN_UNIT_SIZE which is 32k, see mm/percpu.c +1756.
-> In many cases it's implementation specific, so it probably does not make too much
-> sense to state limits like 2^32, or at least it should say that its theoretical/uapi
-> limit and actual limits may be implementation/config specific.
+> The LaTeX output generator in particular has a problem with long
+> lines with fixed-width lines: if the text doesn't fit into one line, it
+> either truncates it or makes the text go outside the margins.
+>
+> If the container affects the PDF outputs, we need to double-check if
+> this would break its output.
 
-Yes, good point. I will just drop the 2^32 bit. Same issue was
-raised by Stanislav Fomichev for BPF_MAP_TYPE_HASH here:
+So as far as I can tell, the PDF output is entirely unaffected.  I have
+not read it all, though!  Is there a place in particular that you know
+to be problematic where I should look?
 
-https://patchwork.kernel.org/project/netdevbpf/patch/20220713211612.84782-1-donald.hunter@gmail.com/#24936386
+Thanks,
+
+jon
