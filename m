@@ -2,197 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5315C433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 08:33:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1717CC433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 08:54:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbiJGIdi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Oct 2022 04:33:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52942 "EHLO
+        id S229624AbiJGIyv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Oct 2022 04:54:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229562AbiJGIdg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 04:33:36 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B30C7B97A2;
-        Fri,  7 Oct 2022 01:33:35 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id lx7so3915933pjb.0;
-        Fri, 07 Oct 2022 01:33:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t8AvHLBrW0u0+zP3kVvWPEDq2LuXtLquFKvkRq6GRpw=;
-        b=eLxeatpmAbGEj7/LFEmAhqjqPVqkAxEmu04khoe3lpOsW3/2Vvltp0pSfrLjIiok03
-         M/NpPJ6EveheUFtlMmg50n/GEwcgcYu0M5U0fbiFuYfPXuKFYwVcFYoC60heRUOgafBT
-         xCDEPt735WiC5fjIN0yss8U7P3bWnZmiMS3yvZgcHxjUgSp/0OfqRmYNJdo8eIeByi07
-         pUOL9J5IoOyFOyOC/BSYr3K8HBgpQGx+CyQ3o75zoSDMPqYRupg344TmQ4oIStaHhXR9
-         dZUnNkRzg3ALL6ZbTbTaXZKgqb4s3c1HMhJIapC0h8sPWkdTsQq4uWYuxmdULXzwk7Y1
-         LYHg==
+        with ESMTP id S229547AbiJGIyt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 04:54:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D5F611819
+        for <linux-doc@vger.kernel.org>; Fri,  7 Oct 2022 01:54:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665132880;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=erTMAY0Lz1mBTM5QiEVhhkwV7oze28OkA0csFjC86zk=;
+        b=I6a8ugkvSOCUnReQ3bECFZSeXJip/9ZuzJWf1ItcXtHV9qyoAsGVFc4lS5IYB/EQI7e423
+        dlsvun8v/YQq63+f+aiLIlDPG5bDYEUUZ+ZJC4oiU8N0NnsjzSypBWhvLR4yHXgJiw7aVe
+        v3dDYMXeRJ85PaDCvXZU8tGHSfI7eBQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-237-F0apExtIPtmV-jfiLPeGbQ-1; Fri, 07 Oct 2022 04:54:36 -0400
+X-MC-Unique: F0apExtIPtmV-jfiLPeGbQ-1
+Received: by mail-wm1-f70.google.com with SMTP id n32-20020a05600c3ba000b003b5054c71faso4006126wms.9
+        for <linux-doc@vger.kernel.org>; Fri, 07 Oct 2022 01:54:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t8AvHLBrW0u0+zP3kVvWPEDq2LuXtLquFKvkRq6GRpw=;
-        b=1DIn5r/26VJhVSYS/9hEej5OQcG91kshZsQLj6fbX9c56dk/uZvn4ZTVQoe+0RflKd
-         omjNRsNg5TkSzeCyGR9xW4F8yTkVuH9Cj/voHeNnJOgcimPi/Qg3FhYSYQ6QUyjW+Q97
-         zAzWTdINUVZw2Sq008HIJ3OiDGscmAkwG2TaiMu6tH2OUfsy5hfBlRib8GnoydEOsCbm
-         lrX95S67pRxff40Ch/LWYuIC1tDajTMR9Zx5b2DSnRQHfH4CrPMrFseKZ9Ji1wayCTmA
-         hf6h/WKN9wNIs7kjUwiHzzxUEdHEhbFW+oCpjzyJYazSOgWJZfMBw0Aa6Nnb8it0HYGh
-         v4/Q==
-X-Gm-Message-State: ACrzQf3qcn9MAfDNKOKiVLoHvAYdbZADF8H1No6Sm066MPMt67SosXMa
-        lJbzAhy3t3FZYfUmDc0KkXQ=
-X-Google-Smtp-Source: AMsMyM7MRyd/TxAVuMQJkKWcGMTHmVr7iW4cf58HSCHSQlkDJdVxaoELplBF0CW9NNcCrKJCXnXpCA==
-X-Received: by 2002:a17:90b:3b4b:b0:203:3265:d314 with SMTP id ot11-20020a17090b3b4b00b002033265d314mr15177200pjb.196.1665131615035;
-        Fri, 07 Oct 2022 01:33:35 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-21.three.co.id. [180.214.232.21])
-        by smtp.gmail.com with ESMTPSA id c4-20020a170902d48400b0017f637b3e87sm945231plg.279.2022.10.07.01.33.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Oct 2022 01:33:34 -0700 (PDT)
-Message-ID: <eb7e7927-84b4-a952-e8c7-dec518bfcda9@gmail.com>
-Date:   Fri, 7 Oct 2022 15:33:25 +0700
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=erTMAY0Lz1mBTM5QiEVhhkwV7oze28OkA0csFjC86zk=;
+        b=nbuAL0/+JQzuk1DJ23Yi5XPFg7rqyI/njyE+Ww5SjgSwkQdkGd50Ndhirs0ch/wDvc
+         JcJr8KCfAhxmDW+vVq4LdLOfz8o7vhQe8sxGPI62hHQqVj32YUvZVscNvXwy/WwGLZYG
+         cSaSnPIOiZL4eMu0k4e7Odyau4qSSenQmhVMlsU9G9EPLaSntowyMPPirFinneZq5wFk
+         7FUz0Fjc0ED2TArgxbQvwvQVdv6jsUm1NEo+IKAVW0OE2seyYD02+GTJV4z4+uwDjj+z
+         Rb+/BR6Jsw5/EFwB81isCK1aFGowCQW5pS98sCO72oVJAIifFupPTx4GRWJXshHHzuuU
+         xtPw==
+X-Gm-Message-State: ACrzQf379iPO+TVOmmafbYvVpMUAD2B9BaYQPcdlgVKTLlD/TpK/+cj1
+        ARRK6uXCHiMWS9cMyu2QTtSgDsZhpgqCCk6+Y9TQUM9NHqX0lJzvtkcgkk9WgnNdYRoDgykMR9G
+        lYe1vjdFSkQju3yiqkWX1
+X-Received: by 2002:adf:a3da:0:b0:22c:d73b:38a5 with SMTP id m26-20020adfa3da000000b0022cd73b38a5mr2354748wrb.541.1665132875089;
+        Fri, 07 Oct 2022 01:54:35 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4DF1bSRv8hQLgWk5KKniXnteS+urv1Jd80jb6Ho4Z//modUXSHY7aP8w9k2YsEdsxR69AeaA==
+X-Received: by 2002:adf:a3da:0:b0:22c:d73b:38a5 with SMTP id m26-20020adfa3da000000b0022cd73b38a5mr2354728wrb.541.1665132874854;
+        Fri, 07 Oct 2022 01:54:34 -0700 (PDT)
+Received: from localhost.localdomain ([92.62.32.42])
+        by smtp.gmail.com with ESMTPSA id m3-20020a5d64a3000000b00228cbac7a25sm1505933wrp.64.2022.10.07.01.54.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Oct 2022 01:54:34 -0700 (PDT)
+Date:   Fri, 7 Oct 2022 10:54:31 +0200
+From:   Guillaume Nault <gnault@redhat.com>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, robh@kernel.org, johannes@sipsolutions.net,
+        ecree.xilinx@gmail.com, stephen@networkplumber.org, sdf@google.com,
+        f.fainelli@gmail.com, fw@strlen.de, linux-doc@vger.kernel.org,
+        razor@blackwall.org, nicolas.dichtel@6wind.com
+Subject: Re: [PATCH net-next v2 3/7] net: add basic C code generators for
+ Netlink
+Message-ID: <20221007085431.GA3365@localhost.localdomain>
+References: <20220930023418.1346263-1-kuba@kernel.org>
+ <20220930023418.1346263-4-kuba@kernel.org>
+ <20221006125109.GE3328@localhost.localdomain>
+ <20221006075537.0a3b2bb2@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v5 00/12] x86/resctrl: Support for AMD QoS new features
-Content-Language: en-US
-To:     Babu Moger <babu.moger@amd.com>, corbet@lwn.net,
-        reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de
-Cc:     fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        eranian@google.com
-References: <166431016617.373387.1968875281081252467.stgit@bmoger-ubuntu>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <166431016617.373387.1968875281081252467.stgit@bmoger-ubuntu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221006075537.0a3b2bb2@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/28/22 03:25, Babu Moger wrote:
-> New AMD processors can now support following QoS features.
+On Thu, Oct 06, 2022 at 07:55:37AM -0700, Jakub Kicinski wrote:
+> On Thu, 6 Oct 2022 14:51:09 +0200 Guillaume Nault wrote:
+> > > v2: - use /* */ comments instead of //  
+> > 
+> > Probably not a very interesting feedback, but there
+> > are still many comments generated in the // style.
 > 
-> 1. Slow Memory Bandwidth Allocation (SMBA)
->    With this feature, the QOS enforcement policies can be applied
->    to the external slow memory connected to the host. QOS enforcement
->    is accomplished by assigning a Class Of Service (COS) to a processor
->    and specifying allocations or limits for that COS for each resource
->    to be allocated.
-> 
->    Currently, CXL.memory is the only supported "slow" memory device. With
->    the support of SMBA feature the hardware enables bandwidth allocation
->    on the slow memory devices.
-> 
-> 2. Bandwidth Monitoring Event Configuration (BMEC)
->    The bandwidth monitoring events mbm_total_event and mbm_local_event 
->    are set to count all the total and local reads/writes respectively.
->    With the introduction of slow memory, the two counters are not enough
->    to count all the different types are memory events. With the feature
->    BMEC, the users have the option to configure mbm_total_event and
->    mbm_local_event to count the specific type of events.
-> 
->    Following are the bitmaps of events supported.
->    Bits    Description
->      6       Dirty Victims from the QOS domain to all types of memory
->      5       Reads to slow memory in the non-local NUMA domain
->      4       Reads to slow memory in the local NUMA domain
->      3       Non-temporal writes to non-local NUMA domain
->      2       Non-temporal writes to local NUMA domain
->      1       Reads to memory in the non-local NUMA domain
->      0       Reads to memory in the local NUMA domain
-> 
-> This series adds support for these features.
-> 
-> Feature description is available in the specification, "AMD64 Technology Platform Quality
-> of Service Extensions, Revision: 1.03 Publication # 56375 Revision: 1.03 Issue Date: February 2022".
-> 
-> Link: https://www.amd.com/en/support/tech-docs/amd64-technology-platform-quality-service-extensions
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
-> 
-> ---
-> v5:
->   Summary of changes.
->   1. Split the series into two. The first two patches are bug fixes. So, sent them separate.
->   2. The config files mbm_total_config and mbm_local_config are now under
->      /sys/fs/resctrl/info/L3_MON/. Removed these config files from mon groups.
->   3. Ran "checkpatch --strict --codespell" on all the patches. Looks good with few known exceptions.
->   4. Few minor text changes in resctrl.rst file. 
-> 
-> v4:
->   https://lore.kernel.org/lkml/166257348081.1043018.11227924488792315932.stgit@bmoger-ubuntu/
->   Got numerios of comments from Reinette Chatre. Addressed most of them. 
->   Summary of changes.
->   1. Removed mon_configurable under /sys/fs/resctrl/info/L3_MON/.  
->   2. Updated mon_features texts if the BMEC is supported.
->   3. Added more explanation about the slow memory support.
->   4. Replaced smp_call_function_many with on_each_cpu_mask call.
->   5. Removed arch_has_empty_bitmaps
->   6. Few other text changes.
->   7. Removed Reviewed-by if the patch is modified.
->   8. Rebased the patches to latest tip.
-> 
-> v3:
->   https://lore.kernel.org/lkml/166117559756.6695.16047463526634290701.stgit@bmoger-ubuntu/ 
->   a. Rebased the patches to latest tip. Resolved some conflicts.
->      https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
->   b. Taken care of feedback from Bagas Sanjaya.
->   c. Added Reviewed by from Mingo.
->   Note: I am still looking for comments from Reinette or Fenghua.
-> 
-> v2:
->   https://lore.kernel.org/lkml/165938717220.724959.10931629283087443782.stgit@bmoger-ubuntu/
->   a. Rebased the patches to latest stable tree (v5.18.15). Resolved some conflicts.
->   b. Added the patch to fix CBM issue on AMD. This was originally discussed
->      https://lore.kernel.org/lkml/20220517001234.3137157-1-eranian@google.com/
-> 
-> v1:
->   https://lore.kernel.org/lkml/165757543252.416408.13547339307237713464.stgit@bmoger-ubuntu/
-> 
-> Babu Moger (12):
->       x86/cpufeatures: Add Slow Memory Bandwidth Allocation feature flag
->       x86/resctrl: Add a new resource type RDT_RESOURCE_SMBA
->       x86/cpufeatures: Add Bandwidth Monitoring Event Configuration feature flag
->       x86/resctrl: Include new features in command line options
->       x86/resctrl: Detect and configure Slow Memory Bandwidth allocation
->       x86/resctrl: Introduce data structure to support monitor configuration
->       x86/resctrl: Add sysfs interface to read mbm_total_bytes event configuration
->       x86/resctrl: Add sysfs interface to read mbm_local_bytes event configuration
->       x86/resctrl: Add sysfs interface to write mbm_total_bytes event configuration
->       x86/resctrl: Add sysfs interface to write mbm_local_bytes event configuration
->       x86/resctrl: Replace smp_call_function_many() with on_each_cpu_mask()
->       Documentation/x86: Update resctrl_ui.rst for new features
-> 
-> 
->  .../admin-guide/kernel-parameters.txt         |   2 +-
->  Documentation/x86/resctrl.rst                 | 130 +++++++-
->  arch/x86/include/asm/cpufeatures.h            |   2 +
->  arch/x86/kernel/cpu/cpuid-deps.c              |   1 +
->  arch/x86/kernel/cpu/resctrl/core.c            |  51 ++-
->  arch/x86/kernel/cpu/resctrl/ctrlmondata.c     |   2 +-
->  arch/x86/kernel/cpu/resctrl/internal.h        |  33 +-
->  arch/x86/kernel/cpu/resctrl/monitor.c         |   9 +-
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c        | 298 ++++++++++++++++--
->  arch/x86/kernel/cpu/scattered.c               |   2 +
->  10 files changed, 496 insertions(+), 34 deletions(-)
-> 
+> It's slightly unclear to me what our policy on comments is now.
+> I can fix all up - the motivation for the change in v2 was that
+> in uAPI apparently its completely forbidden to use anything that's 
+> not ANSI C :S
 
-Hi Babu, sorry for having to do public reply to this v5 cover letter
-due to accidentally delete the preview documentation patch for your
-upcoming v6.
+I didn't realise the v2 comment was for uapi headers only. So I was
+surprised to see // comments in the generated files.
 
-Thanks for privately sending me the preview patch. Seeing it at a glance,
-LGTM. Please send the full v6 series for us to review.
+> Gotta keep that compatibility with the all important Borland compiler
+> or something?
 
-Thanks.
+Personnaly, I like the /* */ style, but I don't think my personnal
+taste should influence this patch set. I genuinely thought you wanted
+to convert all comments, hence my feedback. Feel free to ignore it :).
 
--- 
-An old man doll... just what I always wanted! - Clara
