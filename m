@@ -2,170 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2F27C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 09:16:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA936C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 09:26:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229896AbiJGJQM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Oct 2022 05:16:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41116 "EHLO
+        id S229479AbiJGJ0O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Oct 2022 05:26:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229904AbiJGJQJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 05:16:09 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7087604B8;
-        Fri,  7 Oct 2022 02:16:05 -0700 (PDT)
+        with ESMTP id S229559AbiJGJ0M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 05:26:12 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B844F2513;
+        Fri,  7 Oct 2022 02:26:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665134166; x=1696670166;
+  t=1665134771; x=1696670771;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GyaM9hscOs5oX6hGaW6P+tfsLJKjYS0PaLHclmRMdhw=;
-  b=CEdysKroLN70Zizci7hX9RPs/H7k4Sfjz1E/zwEBuVmYSUbiA/v5CNy/
-   vI7bG+OL5AWar2hNPEeN8s1V0aSGtxIgu8hkDe+ElgHbXzmdEHMgQYEmP
-   gJqTa5eVCOUqFLyrYyTVdXD/gYrSKp2bkzKuh0a4iABbuoMfX9nAKhZK2
-   rtniNnIomqz+f7CT6bDryrV28cKNrPpBpmfpOpV4VsneSdng4NKjxaSu6
-   dkMIMxuUTHhjkUqVK2TCbSlVTLUSva3SKUydSYeZkbiv14VYXFi52LvPj
-   JColZo4s14I2c8U7oOMMtuCeuJ6HRQVNfMnxyZgcvv8mhfuctgZewLFfe
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="367820098"
+  bh=YIsvu8HuZoKfT0WBNxjXL2VasbVdSxWppe8Gs3rIq6U=;
+  b=lgV+Escms5zyViBvmedV3BHNjjb3FjjYj3Vz3SzYv4k0JXq+4hjSlm7Z
+   r4wxpTH0Ri9xpOMDvtHwj7d93ePr3ndqye1fjavDVQQ+SETk4itjJWcSm
+   wa8rwMZIT/8eJXO8VmESYry5dyAie8TXc4x4yNV3pM5aWwoQPO3bkgpkS
+   5FwlBOd0Tn2PaEuo4c362qsQW98fTFbIC1/XD4vUU2g+dv369hvJQlOyO
+   kia5cm/CgIT7PszSeLeDt+YUCfvMLXWgB9lh/d1JZONjtIsUmsVYuIlsY
+   aADoUXeW7RL6U688rIGXycyhSIPVhJPCvgocB1YG8oOBtTC77bqJsmGC+
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="302414297"
 X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; 
-   d="scan'208";a="367820098"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2022 02:16:04 -0700
+   d="scan'208";a="302414297"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2022 02:26:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="729536728"
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="658277156"
 X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; 
-   d="scan'208";a="729536728"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Oct 2022 02:15:59 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ogjSX-003Xtt-03;
-        Fri, 07 Oct 2022 12:15:57 +0300
-Date:   Fri, 7 Oct 2022 12:15:56 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     matthew.gerlach@linux.intel.com
-Cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 4/4] tty: serial: 8250: add DFL bus driver for Altera
- 16550.
-Message-ID: <Yz/uTGeNaOP4Btli@smile.fi.intel.com>
-References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com>
- <20221004143718.1076710-5-matthew.gerlach@linux.intel.com>
- <YzxRxo8jL7rB1+px@smile.fi.intel.com>
- <alpine.DEB.2.22.394.2210060940150.1988353@rhweight-WRK1>
- <Yz8T8GdzMLyAKIMb@smile.fi.intel.com>
- <alpine.DEB.2.22.394.2210061517300.1772307@rhweight-WRK1>
+   d="scan'208";a="658277156"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga001.jf.intel.com with ESMTP; 07 Oct 2022 02:26:03 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 6645E17E; Fri,  7 Oct 2022 12:26:23 +0300 (EEST)
+Date:   Fri, 7 Oct 2022 12:26:23 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph B??hmwalder <christoph.boehmwalder@linbit.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dave Airlie <airlied@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Florian Westphal <fw@strlen.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        KP Singh <kpsingh@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Marco Elver <elver@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Graf <tgraf@suug.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
+        kernel-janitors@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mm@kvack.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        loongarch@lists.linux.dev, netdev@vger.kernel.org,
+        sparclinux@vger.kernel.org, x86@kernel.org,
+        Toke H??iland-J??rgensen <toke@toke.dk>,
+        Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
+Message-ID: <Yz/wv0sqBR+J+jy+@black.fi.intel.com>
+References: <20221006165346.73159-1-Jason@zx2c4.com>
+ <20221006165346.73159-4-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2210061517300.1772307@rhweight-WRK1>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20221006165346.73159-4-Jason@zx2c4.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 06, 2022 at 03:24:16PM -0700, matthew.gerlach@linux.intel.com wrote:
-> On Thu, 6 Oct 2022, Andy Shevchenko wrote:
-> > On Thu, Oct 06, 2022 at 10:00:43AM -0700, matthew.gerlach@linux.intel.com wrote:
-> > > On Tue, 4 Oct 2022, Andy Shevchenko wrote:
-> > > > On Tue, Oct 04, 2022 at 07:37:18AM -0700, matthew.gerlach@linux.intel.com wrote:
+On Thu, Oct 06, 2022 at 10:53:44AM -0600, Jason A. Donenfeld wrote:
+>  drivers/thunderbolt/xdomain.c                  |  2 +-
 
-...
-
-> > > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > 
-> > > > https://docs.kernel.org/process/submitting-patches.html?highlight=reported#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
-> > > > 
-> > > > "The Reported-by tag gives credit to people who find bugs and report them and it
-> > > > hopefully inspires them to help us again in the future. Please note that if the
-> > > > bug was reported in private, then ask for permission first before using the
-> > > > Reported-by tag. The tag is intended for bugs; please do not use it to credit
-> > > > feature requests."
-> > > 
-> > > The kernel test robot did find a bug in my v1 submission.  I was missing the
-> > > static keyword for a function declaration.  Should I remove the tag?
-> > 
-> > What's yours take from the above documentation?
-> 
-> Since the kernel test robot did find a bug. The tag should stay.
-
-I suggest otherwise because of the last sentence in the cited excerpt: "please
-do not use it to credit feature requests". To distinguish "feature request" you
-can ask yourself "Am I fixing _existing_ code or adding a new one?" And the
-answer here is crystal clear (at least to me).
-
-...
-
-> > > > > +config SERIAL_8250_DFL
-> > > > > +	tristate "DFL bus driver for Altera 16550 UART"
-> > > > > +	depends on SERIAL_8250 && FPGA_DFL
-> > > > > +	help
-> > > > > +	  This option enables support for a Device Feature List (DFL) bus
-> > > > > +	  driver for the Altera 16650 UART.  One or more Altera 16650 UARTs
-> > > > > +	  can be instantiated in a FPGA and then be discovered during
-> > > > > +	  enumeration of the DFL bus.
-> > > > 
-> > > > When m, what be the module name?
-> > > 
-> > > I see the file, kernel/drivers/tty/serial/8250/8250_dfl.ko, installed into
-> > > /lib/modules/...  I also see "alias dfl:t0000f0024* 8250_dfl" in
-> > > modules.alias
-> > 
-> > My point is that user who will run `make menuconfig` will read this and have
-> > no clue after the kernel build if the module was built or not. Look into other
-> > (recent) sections of the Kconfig for drivers in the kernel for how they inform
-> > user about the module name (this more or less standard pattern you just need
-> > to copy'n'paste'n'edit carefully).
-> 
-> I think this should be added:
->           To compile this driver as a module, chose M here: the
->           module will be called 8250_dfl.
-
-Looks good to me!
-
-
-> > > > >  obj-$(CONFIG_SERIAL_8250_FOURPORT)	+= 8250_fourport.o
-> > > > >  obj-$(CONFIG_SERIAL_8250_ACCENT)	+= 8250_accent.o
-> > > > >  obj-$(CONFIG_SERIAL_8250_BOCA)		+= 8250_boca.o
-> > > > > +obj-$(CONFIG_SERIAL_8250_DFL)		+= 8250_dfl.o
-> > > > 
-> > > > This group of drivers for the 4 UARTs on the board or so, does FPGA belong to
-> > > > it? (Same Q, btw, for the Kconfig section. And yes, I know that some of the
-> > > > entries are not properly placed there and in Makefile.)
-> > > 
-> > > Since 8250_dfl results in its own module, and my kernel config doesn't have
-> > > FOURPORT, ACCENT, nor BOCA, I guess I don't understand the problem.
-> > 
-> > The Makefile is a bit chaotic, but try to find the sorted (more or less)
-> > group of drivers that are not 4 ports and squeeze your entry there
-> > (I expect somewhere between the LPSS/MID lines).
-> > 
-> > It will help to sort out that mess in the future.
-> 
-> I will move 8250_dfl between LPSS and MID lines in the Makefile.  Should I
-> move the definition in Kconfig to be between LPSS and MID to be consistent?
-
-D is not ordered if put between L and M, I meant not to literally put it there
-but think about it a bit.
-
-Kconfig is another story because it has different approach in ordering (seems
-so), try to find the best compromise there.
-
-> > > > >  obj-$(CONFIG_SERIAL_8250_EXAR_ST16C554)	+= 8250_exar_st16c554.o
-> > > > >  obj-$(CONFIG_SERIAL_8250_HUB6)		+= 8250_hub6.o
-> > > > >  obj-$(CONFIG_SERIAL_8250_FSL)		+= 8250_fsl.o
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
