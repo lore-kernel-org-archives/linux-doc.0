@@ -2,219 +2,205 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32D10C4321E
-	for <linux-doc@archiver.kernel.org>; Thu,  6 Oct 2022 23:37:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 846C3C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 02:27:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232302AbiJFXhL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 19:37:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43490 "EHLO
+        id S231984AbiJGC07 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 22:26:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232217AbiJFXhF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 19:37:05 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F03EEB7E1;
-        Thu,  6 Oct 2022 16:37:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B07B7B821EA;
-        Thu,  6 Oct 2022 23:37:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08300C433C1;
-        Thu,  6 Oct 2022 23:36:59 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="IOQ1bXhF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1665099413;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eDWvYu+uSvuLU1D2yrcps4Uxg3s4afpQR1DZP1HAENk=;
-        b=IOQ1bXhFd3q9+RqlaN9MoWoMb9hyeq0A9ZZHsjT7H7aJth5PyzgIFsO5RZ+IGkqpoVM4vs
-        G1fhQ2wIq1VD89DBIQN9w7YwWxcZC7kUxAooqITvAEdpg/3zs8L5I8+aGBoP4EPhTcYjjM
-        7a1SFu0rQgOf0f04kGQaSuHs/qYIRR4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id e1098d12 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Thu, 6 Oct 2022 23:36:53 +0000 (UTC)
-Received: by mail-vs1-f44.google.com with SMTP id h4so3494548vsr.11;
-        Thu, 06 Oct 2022 16:36:52 -0700 (PDT)
-X-Gm-Message-State: ACrzQf1TOlBL9WnO/NrZIZyjGBn5ukDeQw/0ECGPpkR+WaKxQK8erd/2
-        /cQN6L+VjtaxFvYQwZI/iE1XpRFjd/wCVAQO/xs=
-X-Google-Smtp-Source: AMsMyM5tvZWHSrcOLtkY/lX0Q7Qvr/oXlGj5vIRT4adjylKOfvaHnErU8AKkQNdqtGo/HZJDgntpViQRNpApZtsIptY=
-X-Received: by 2002:a05:6102:2908:b0:398:ac40:d352 with SMTP id
- cz8-20020a056102290800b00398ac40d352mr1292105vsb.55.1665099409449; Thu, 06
- Oct 2022 16:36:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:ab0:6ed0:0:b0:3d9:6dfd:499 with HTTP; Thu, 6 Oct 2022
- 16:36:48 -0700 (PDT)
-In-Reply-To: <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
-References: <20221006165346.73159-1-Jason@zx2c4.com> <20221006165346.73159-4-Jason@zx2c4.com>
- <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu> <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
- <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu> <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date:   Thu, 6 Oct 2022 17:36:48 -0600
-X-Gmail-Original-Message-ID: <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
-Message-ID: <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= 
-        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dave Airlie <airlied@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Florian Westphal <fw@strlen.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Hugh Dickins <hughd@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Marco Elver <elver@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        Russell King <linux@armlinux.org.uk>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Graf <tgraf@suug.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@toke.dk>,
-        Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S232057AbiJGC06 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 22:26:58 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3FD0CAE62
+        for <linux-doc@vger.kernel.org>; Thu,  6 Oct 2022 19:26:56 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id v10-20020a17090a634a00b00205e48cf845so5988514pjs.4
+        for <linux-doc@vger.kernel.org>; Thu, 06 Oct 2022 19:26:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NPHVJY2ueAqpNgrqrCrpctoZrug85xo5yVkYEHuY5DY=;
+        b=cQGxp4bwSHS43zhiI265SPL7AYWSJgZGyOzeR3n+hnWt/hsqup8zu1EhS/c4QBwMOg
+         mP1ALztZLHCEgFZIXcg0SWho9i0cFvcFVvmW2qpjt35SZrDfgheW8JdCpHRZhvbbvOCP
+         ZzlqvllxCP80G6nkqQOgOzQjVm/Amcx2DrzAxCcjf7rn7xZQ6xyOyFb+r6t3Ok404J7a
+         tMtY0f0/efymk+Wfcpga4mqTTCLKeDbNuMreR8rBOUAlOnL57KPzHeZEzfQQlTxh2yMA
+         c6/m/ROfyXMyjHT5xnBG0dUs0N+zSTme5icAIA4UhGD7AoHsrZDfUqeZMfYMw7z2Ulcr
+         wwYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NPHVJY2ueAqpNgrqrCrpctoZrug85xo5yVkYEHuY5DY=;
+        b=fBEQqlVtPZWN1VZ0ial+bNqpOzrfzg/MgihGA9iS5WDScVIlVDHfmIqmkyUni8XO2T
+         HuaDKOSGCp9NTL00VgHvAzDIiNqQmfN8Z5v0TJqcegpklpt3IVXilq0wk+r1uLw+H5tZ
+         g5OHLVnkxIRCKcUvFTfPJlTPi4c4Q04RcY40Gy78qLf9mJcWcwu34k/zIHgvX1toTX3W
+         jWAruh+Cp6VvFW/qF9IvuADe+IBBXbAhwr60cCDKZXM7gdxaJ1p//NVVwaUItQQdJYBm
+         WU0h5W7CKFpHQKNlEPGAWZSnWFKJagGWdplBOfnDQMpmbfh/78WSv33eObWWkBhxVpHj
+         UrSA==
+X-Gm-Message-State: ACrzQf24mDLVcu0Lx45fSrN/99u+xGWfKl2mqYbgCKSxx7grM+SBeNR5
+        v1dAeExDWSpybRVSCSXW1WagPA==
+X-Google-Smtp-Source: AMsMyM7B/FaVDCpT0IV4y3wihdJtWVWwBQ1T1WMOxcCTvud3vye7SZz0y4Cr1yFvOA83H6BoKpEIyw==
+X-Received: by 2002:a17:902:b591:b0:178:bb0c:78af with SMTP id a17-20020a170902b59100b00178bb0c78afmr2794721pls.55.1665109616103;
+        Thu, 06 Oct 2022 19:26:56 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id j5-20020a170902da8500b0017f64ab80e5sm306435plx.179.2022.10.06.19.26.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Oct 2022 19:26:54 -0700 (PDT)
+Date:   Thu, 06 Oct 2022 19:26:54 -0700 (PDT)
+X-Google-Original-Date: Thu, 06 Oct 2022 19:26:38 PDT (-0700)
+Subject:     Re: [PATCH] drivers/perf: riscv_pmu_sbi: add perf_user_access sysctl
+In-Reply-To: <20220826151556.1708879-1-heiko@sntech.de>
+CC:     atishp@atishpatra.org, anup@brainfault.org,
+        Will Deacon <will@kernel.org>, mark.rutland@arm.com,
+        aou@eecs.berkeley.edu, Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, cmuellner@linux.com,
+        philipp.tomsich@vrull.eu, heiko@sntech.de
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     heiko@sntech.de
+Message-ID: <mhng-fa9049b7-e36b-4202-bded-11f1ba2ae124@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/6/22, Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
+On Fri, 26 Aug 2022 08:15:56 PDT (-0700), heiko@sntech.de wrote:
+> Add a sysctl similar to the one on arm64 to enable/disable
+> access to counter CSRs from u-mode on RISC-V.
 >
->
-> Le 06/10/2022 =C3=A0 19:31, Christophe Leroy a =C3=A9crit :
->>
->>
->> Le 06/10/2022 =C3=A0 19:24, Jason A. Donenfeld a =C3=A9crit :
->>> Hi Christophe,
->>>
->>> On Thu, Oct 6, 2022 at 11:21 AM Christophe Leroy
->>> <christophe.leroy@csgroup.eu> wrote:
->>>> Le 06/10/2022 =C3=A0 18:53, Jason A. Donenfeld a =C3=A9crit :
->>>>> The prandom_u32() function has been a deprecated inline wrapper aroun=
-d
->>>>> get_random_u32() for several releases now, and compiles down to the
->>>>> exact same code. Replace the deprecated wrapper with a direct call to
->>>>> the real function. The same also applies to get_random_int(), which i=
-s
->>>>> just a wrapper around get_random_u32().
->>>>>
->>>>> Reviewed-by: Kees Cook <keescook@chromium.org>
->>>>> Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@toke.dk> # for sch_c=
-ake
->>>>> Acked-by: Chuck Lever <chuck.lever@oracle.com> # for nfsd
->>>>> Reviewed-by: Jan Kara <jack@suse.cz> # for ext4
->>>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
->>>>> ---
->>>>
->>>>> diff --git a/arch/powerpc/kernel/process.c
->>>>> b/arch/powerpc/kernel/process.c
->>>>> index 0fbda89cd1bb..9c4c15afbbe8 100644
->>>>> --- a/arch/powerpc/kernel/process.c
->>>>> +++ b/arch/powerpc/kernel/process.c
->>>>> @@ -2308,6 +2308,6 @@ void notrace __ppc64_runlatch_off(void)
->>>>>    unsigned long arch_align_stack(unsigned long sp)
->>>>>    {
->>>>>        if (!(current->personality & ADDR_NO_RANDOMIZE) &&
->>>>> randomize_va_space)
->>>>> -             sp -=3D get_random_int() & ~PAGE_MASK;
->>>>> +             sp -=3D get_random_u32() & ~PAGE_MASK;
->>>>>        return sp & ~0xf;
->>>>
->>>> Isn't that a candidate for prandom_u32_max() ?
->>>>
->>>> Note that sp is deemed to be 16 bytes aligned at all time.
->>>
->>> Yes, probably. It seemed non-trivial to think about, so I didn't. But
->>> let's see here... maybe it's not too bad:
->>>
->>> If PAGE_MASK is always ~(PAGE_SIZE-1), then ~PAGE_MASK is
->>> (PAGE_SIZE-1), so prandom_u32_max(PAGE_SIZE) should yield the same
->>> thing? Is that accurate? And holds across platforms (this comes up a
->>> few places)? If so, I'll do that for a v4.
->>>
->>
->> On powerpc it is always (from arch/powerpc/include/asm/page.h) :
->>
->> /*
->>   * Subtle: (1 << PAGE_SHIFT) is an int, not an unsigned long. So if we
->>   * assign PAGE_MASK to a larger type it gets extended the way we want
->>   * (i.e. with 1s in the high bits)
->>   */
->> #define PAGE_MASK      (~((1 << PAGE_SHIFT) - 1))
->>
->> #define PAGE_SIZE        (1UL << PAGE_SHIFT)
->>
->>
->> So it would work I guess.
->
-> But taking into account that sp must remain 16 bytes aligned, would it
-> be better to do something like ?
->
-> 	sp -=3D prandom_u32_max(PAGE_SIZE >> 4) << 4;
->
-> 	return sp;
+> The default is of course set to disabled keeping the current
+> state of access - to only the TIME CSR.
 
-Does this assume that sp is already aligned at the beginning of the
-function? I'd assume from the function's name that this isn't the
-case?
+Sorry for being slow on this one, but IMO this is the wrong way to go: 
+this was pretty clearly described by the PDFs as a non-optional 
+instruction when we committed to uABI stability, and there's userspace 
+binaries that use these instructions.  I know the ISA folks changed 
+their minds about these being in the base, but that doesn't mean we can 
+break userspace.
 
-Jason
+If you're worried about a side channel from the high resolution timers 
+that makes sense, but we can sort that out without breaking userspace: 
+we just trap the counter accesses and handle them in the kernel with 
+less precision.  We'll need to do that in the long run anyway, as 
+there's no way to make sure these are implement.  That all applies to 
+the time counter as well.
+
+I'd also argue this should be a prctl(), as that'll allow users to flip 
+it on/off for specific processes.  We can make it sticky to deal with 
+the side channels, but at least starting with a per-process flag will 
+let us avoid breaking compatibility for everyone.
+
+> Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+> ---
+>  Documentation/admin-guide/sysctl/kernel.rst |  6 +--
+>  drivers/perf/riscv_pmu_sbi.c                | 43 ++++++++++++++++++++-
+>  2 files changed, 44 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index ee6572b1edad..efd4bc385e7a 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -894,15 +894,15 @@ enabled, otherwise writing to this file will return ``-EBUSY``.
+>  The default value is 8.
+>
+>
+> -perf_user_access (arm64 only)
+> -=================================
+> +perf_user_access (arm64 and riscv only)
+> +=======================================
+>
+>  Controls user space access for reading perf event counters. When set to 1,
+>  user space can read performance monitor counter registers directly.
+>
+>  The default value is 0 (access disabled).
+>
+> -See Documentation/arm64/perf.rst for more information.
+> +See Documentation/arm64/perf.rst for more information on arm64
+>
+>
+>  pid_max
+> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
+> index 6f6681bbfd36..7aab8d673357 100644
+> --- a/drivers/perf/riscv_pmu_sbi.c
+> +++ b/drivers/perf/riscv_pmu_sbi.c
+> @@ -41,6 +41,8 @@ static const struct attribute_group *riscv_pmu_attr_groups[] = {
+>  	NULL,
+>  };
+>
+> +static int sysctl_perf_user_access __read_mostly;
+> +
+>  /*
+>   * RISC-V doesn't have hetergenous harts yet. This need to be part of
+>   * per_cpu in case of harts with different pmu counters
+> @@ -640,13 +642,22 @@ static irqreturn_t pmu_sbi_ovf_handler(int irq, void *dev)
+>  	return IRQ_HANDLED;
+>  }
+>
+> +/*
+> + * Depending on the perf_user_access setting, enable the access
+> + * from usermode either for all counters or for TIME csr only.
+> + */
+> +static void riscv_pmu_update_user_access(void *info)
+> +{
+> +	csr_write(CSR_SCOUNTEREN, sysctl_perf_user_access ? GENMASK(31, 0) :
+> +							    0x2);
+> +}
+> +
+>  static int pmu_sbi_starting_cpu(unsigned int cpu, struct hlist_node *node)
+>  {
+>  	struct riscv_pmu *pmu = hlist_entry_safe(node, struct riscv_pmu, node);
+>  	struct cpu_hw_events *cpu_hw_evt = this_cpu_ptr(pmu->hw_events);
+>
+> -	/* Enable the access for TIME csr only from the user mode now */
+> -	csr_write(CSR_SCOUNTEREN, 0x2);
+> +	riscv_pmu_update_user_access(NULL);
+>
+>  	/* Stop all the counters so that they can be enabled from perf */
+>  	pmu_sbi_stop_all(pmu);
+> @@ -785,6 +796,32 @@ static void riscv_pmu_destroy(struct riscv_pmu *pmu)
+>  	cpuhp_state_remove_instance(CPUHP_AP_PERF_RISCV_STARTING, &pmu->node);
+>  }
+>
+> +static int riscv_pmu_proc_user_access_handler(struct ctl_table *table,
+> +			int write, void *buffer, size_t *lenp, loff_t *ppos)
+> +{
+> +	int ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
+> +
+> +	if (ret || !write)
+> +		return ret;
+> +
+> +	on_each_cpu(riscv_pmu_update_user_access, NULL, 1);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct ctl_table sbi_pmu_sysctl_table[] = {
+> +	{
+> +		.procname       = "perf_user_access",
+> +		.data		= &sysctl_perf_user_access,
+> +		.maxlen		= sizeof(unsigned int),
+> +		.mode           = 0644,
+> +		.proc_handler	= riscv_pmu_proc_user_access_handler,
+> +		.extra1		= SYSCTL_ZERO,
+> +		.extra2		= SYSCTL_ONE,
+> +	},
+> +	{ }
+> +};
+> +
+>  static int pmu_sbi_device_probe(struct platform_device *pdev)
+>  {
+>  	struct riscv_pmu *pmu = NULL;
+> @@ -834,6 +871,8 @@ static int pmu_sbi_device_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto out_unregister;
+>
+> +	register_sysctl("kernel", sbi_pmu_sysctl_table);
+> +
+>  	return 0;
+>
+>  out_unregister:
