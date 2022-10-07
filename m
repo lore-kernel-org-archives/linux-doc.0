@@ -2,113 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 263F3C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 07:40:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5315C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 08:33:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229705AbiJGHkO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Oct 2022 03:40:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53724 "EHLO
+        id S229717AbiJGIdi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Oct 2022 04:33:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229611AbiJGHkN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 03:40:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 188253FA16;
-        Fri,  7 Oct 2022 00:40:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A079461C0A;
-        Fri,  7 Oct 2022 07:40:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BCCEC433D6;
-        Fri,  7 Oct 2022 07:40:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1665128411;
-        bh=GKlx4XpC4V4eNmFalCE62eQxE/iy5Kh4EpFqqS1kpA4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GZ9K3KULO5a/jrGADpCK92s3OF1ZGtLpoouHlBzykdZSDl0a2f+PvoVCMOjyp6M1m
-         gRhvzgyze5T4gAMbmuIN2Rbf55/EcfXwHIOLLEBo7YdDr2wCeDU692KjAriyVZTObK
-         bg1lFSw6AE8+Y1jZPiql6aBLW7DexwIQyoABzIrc=
-Date:   Fri, 7 Oct 2022 09:40:52 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 14/14] tty: gunyah: Add tty console driver for RM
- Console Services
-Message-ID: <Yz/YBDqqwBUlswgX@kroah.com>
-References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
- <20220928195633.2348848-15-quic_eberman@quicinc.com>
- <YzbePxTF8hRbWNRU@kroah.com>
- <14d0ff9f-60f3-71cc-ea42-ceee389298ac@quicinc.com>
+        with ESMTP id S229562AbiJGIdg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 04:33:36 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B30C7B97A2;
+        Fri,  7 Oct 2022 01:33:35 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id lx7so3915933pjb.0;
+        Fri, 07 Oct 2022 01:33:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=t8AvHLBrW0u0+zP3kVvWPEDq2LuXtLquFKvkRq6GRpw=;
+        b=eLxeatpmAbGEj7/LFEmAhqjqPVqkAxEmu04khoe3lpOsW3/2Vvltp0pSfrLjIiok03
+         M/NpPJ6EveheUFtlMmg50n/GEwcgcYu0M5U0fbiFuYfPXuKFYwVcFYoC60heRUOgafBT
+         xCDEPt735WiC5fjIN0yss8U7P3bWnZmiMS3yvZgcHxjUgSp/0OfqRmYNJdo8eIeByi07
+         pUOL9J5IoOyFOyOC/BSYr3K8HBgpQGx+CyQ3o75zoSDMPqYRupg344TmQ4oIStaHhXR9
+         dZUnNkRzg3ALL6ZbTbTaXZKgqb4s3c1HMhJIapC0h8sPWkdTsQq4uWYuxmdULXzwk7Y1
+         LYHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=t8AvHLBrW0u0+zP3kVvWPEDq2LuXtLquFKvkRq6GRpw=;
+        b=1DIn5r/26VJhVSYS/9hEej5OQcG91kshZsQLj6fbX9c56dk/uZvn4ZTVQoe+0RflKd
+         omjNRsNg5TkSzeCyGR9xW4F8yTkVuH9Cj/voHeNnJOgcimPi/Qg3FhYSYQ6QUyjW+Q97
+         zAzWTdINUVZw2Sq008HIJ3OiDGscmAkwG2TaiMu6tH2OUfsy5hfBlRib8GnoydEOsCbm
+         lrX95S67pRxff40Ch/LWYuIC1tDajTMR9Zx5b2DSnRQHfH4CrPMrFseKZ9Ji1wayCTmA
+         hf6h/WKN9wNIs7kjUwiHzzxUEdHEhbFW+oCpjzyJYazSOgWJZfMBw0Aa6Nnb8it0HYGh
+         v4/Q==
+X-Gm-Message-State: ACrzQf3qcn9MAfDNKOKiVLoHvAYdbZADF8H1No6Sm066MPMt67SosXMa
+        lJbzAhy3t3FZYfUmDc0KkXQ=
+X-Google-Smtp-Source: AMsMyM7MRyd/TxAVuMQJkKWcGMTHmVr7iW4cf58HSCHSQlkDJdVxaoELplBF0CW9NNcCrKJCXnXpCA==
+X-Received: by 2002:a17:90b:3b4b:b0:203:3265:d314 with SMTP id ot11-20020a17090b3b4b00b002033265d314mr15177200pjb.196.1665131615035;
+        Fri, 07 Oct 2022 01:33:35 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-21.three.co.id. [180.214.232.21])
+        by smtp.gmail.com with ESMTPSA id c4-20020a170902d48400b0017f637b3e87sm945231plg.279.2022.10.07.01.33.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Oct 2022 01:33:34 -0700 (PDT)
+Message-ID: <eb7e7927-84b4-a952-e8c7-dec518bfcda9@gmail.com>
+Date:   Fri, 7 Oct 2022 15:33:25 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <14d0ff9f-60f3-71cc-ea42-ceee389298ac@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v5 00/12] x86/resctrl: Support for AMD QoS new features
+Content-Language: en-US
+To:     Babu Moger <babu.moger@amd.com>, corbet@lwn.net,
+        reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de
+Cc:     fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        eranian@google.com
+References: <166431016617.373387.1968875281081252467.stgit@bmoger-ubuntu>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <166431016617.373387.1968875281081252467.stgit@bmoger-ubuntu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 06, 2022 at 10:59:51PM -0700, Elliot Berman wrote:
-> > > + */
-> > > +#define RSC_MGR_TTY_ADAPTERS		16
-> > 
-> > We can have dynamic tty devices, so I don't understand this comment.
-> > What really is the problem here?
-> > 
+On 9/28/22 03:25, Babu Moger wrote:
+> New AMD processors can now support following QoS features.
 > 
-> Yes, I see the confusion. Dynamic device addition of tty devices is
-> supported. As I understand, you need to know the maximum number of lines
-> that could be added, and that is limitation I was referring to.
-
-What do you mean by "lines"?  That's not a tty kernel term.
-
-> Is this comment better?
+> 1. Slow Memory Bandwidth Allocation (SMBA)
+>    With this feature, the QOS enforcement policies can be applied
+>    to the external slow memory connected to the host. QOS enforcement
+>    is accomplished by assigning a Class Of Service (COS) to a processor
+>    and specifying allocations or limits for that COS for each resource
+>    to be allocated.
 > 
-> The Linux TTY code requires us to know ahead of time how many lines we
-> might need. Each line here corresponds to a VM. 16 seems like a
-> reasonable number of lines for systems that are running Gunyah and using
-> the provided console interface.
-
-Again, line?  Do you mean port?
-
-> > > +	cons_data->tty_driver->driver_name = "gh";
-
-KBUILD_MODNAME?
-
-> > > +	cons_data->tty_driver->name = "ttyGH";
-> > 
-> > Where did you pick this name from?
-> > 
-> > Where is it documented?
-> > 
+>    Currently, CXL.memory is the only supported "slow" memory device. With
+>    the support of SMBA feature the hardware enables bandwidth allocation
+>    on the slow memory devices.
 > 
-> "GH" is the shorthand we've been using for "Gunyah". I didn't find
-> documentation for dynamically assigned char devices, but if it exists, I can
-> add entry for ttyGH.
+> 2. Bandwidth Monitoring Event Configuration (BMEC)
+>    The bandwidth monitoring events mbm_total_event and mbm_local_event 
+>    are set to count all the total and local reads/writes respectively.
+>    With the introduction of slow memory, the two counters are not enough
+>    to count all the different types are memory events. With the feature
+>    BMEC, the users have the option to configure mbm_total_event and
+>    mbm_local_event to count the specific type of events.
+> 
+>    Following are the bitmaps of events supported.
+>    Bits    Description
+>      6       Dirty Victims from the QOS domain to all types of memory
+>      5       Reads to slow memory in the non-local NUMA domain
+>      4       Reads to slow memory in the local NUMA domain
+>      3       Non-temporal writes to non-local NUMA domain
+>      2       Non-temporal writes to local NUMA domain
+>      1       Reads to memory in the non-local NUMA domain
+>      0       Reads to memory in the local NUMA domain
+> 
+> This series adds support for these features.
+> 
+> Feature description is available in the specification, "AMD64 Technology Platform Quality
+> of Service Extensions, Revision: 1.03 Publication # 56375 Revision: 1.03 Issue Date: February 2022".
+> 
+> Link: https://www.amd.com/en/support/tech-docs/amd64-technology-platform-quality-service-extensions
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+> 
+> ---
+> v5:
+>   Summary of changes.
+>   1. Split the series into two. The first two patches are bug fixes. So, sent them separate.
+>   2. The config files mbm_total_config and mbm_local_config are now under
+>      /sys/fs/resctrl/info/L3_MON/. Removed these config files from mon groups.
+>   3. Ran "checkpatch --strict --codespell" on all the patches. Looks good with few known exceptions.
+>   4. Few minor text changes in resctrl.rst file. 
+> 
+> v4:
+>   https://lore.kernel.org/lkml/166257348081.1043018.11227924488792315932.stgit@bmoger-ubuntu/
+>   Got numerios of comments from Reinette Chatre. Addressed most of them. 
+>   Summary of changes.
+>   1. Removed mon_configurable under /sys/fs/resctrl/info/L3_MON/.  
+>   2. Updated mon_features texts if the BMEC is supported.
+>   3. Added more explanation about the slow memory support.
+>   4. Replaced smp_call_function_many with on_each_cpu_mask call.
+>   5. Removed arch_has_empty_bitmaps
+>   6. Few other text changes.
+>   7. Removed Reviewed-by if the patch is modified.
+>   8. Rebased the patches to latest tip.
+> 
+> v3:
+>   https://lore.kernel.org/lkml/166117559756.6695.16047463526634290701.stgit@bmoger-ubuntu/ 
+>   a. Rebased the patches to latest tip. Resolved some conflicts.
+>      https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+>   b. Taken care of feedback from Bagas Sanjaya.
+>   c. Added Reviewed by from Mingo.
+>   Note: I am still looking for comments from Reinette or Fenghua.
+> 
+> v2:
+>   https://lore.kernel.org/lkml/165938717220.724959.10931629283087443782.stgit@bmoger-ubuntu/
+>   a. Rebased the patches to latest stable tree (v5.18.15). Resolved some conflicts.
+>   b. Added the patch to fix CBM issue on AMD. This was originally discussed
+>      https://lore.kernel.org/lkml/20220517001234.3137157-1-eranian@google.com/
+> 
+> v1:
+>   https://lore.kernel.org/lkml/165757543252.416408.13547339307237713464.stgit@bmoger-ubuntu/
+> 
+> Babu Moger (12):
+>       x86/cpufeatures: Add Slow Memory Bandwidth Allocation feature flag
+>       x86/resctrl: Add a new resource type RDT_RESOURCE_SMBA
+>       x86/cpufeatures: Add Bandwidth Monitoring Event Configuration feature flag
+>       x86/resctrl: Include new features in command line options
+>       x86/resctrl: Detect and configure Slow Memory Bandwidth allocation
+>       x86/resctrl: Introduce data structure to support monitor configuration
+>       x86/resctrl: Add sysfs interface to read mbm_total_bytes event configuration
+>       x86/resctrl: Add sysfs interface to read mbm_local_bytes event configuration
+>       x86/resctrl: Add sysfs interface to write mbm_total_bytes event configuration
+>       x86/resctrl: Add sysfs interface to write mbm_local_bytes event configuration
+>       x86/resctrl: Replace smp_call_function_many() with on_each_cpu_mask()
+>       Documentation/x86: Update resctrl_ui.rst for new features
+> 
+> 
+>  .../admin-guide/kernel-parameters.txt         |   2 +-
+>  Documentation/x86/resctrl.rst                 | 130 +++++++-
+>  arch/x86/include/asm/cpufeatures.h            |   2 +
+>  arch/x86/kernel/cpu/cpuid-deps.c              |   1 +
+>  arch/x86/kernel/cpu/resctrl/core.c            |  51 ++-
+>  arch/x86/kernel/cpu/resctrl/ctrlmondata.c     |   2 +-
+>  arch/x86/kernel/cpu/resctrl/internal.h        |  33 +-
+>  arch/x86/kernel/cpu/resctrl/monitor.c         |   9 +-
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c        | 298 ++++++++++++++++--
+>  arch/x86/kernel/cpu/scattered.c               |   2 +
+>  10 files changed, 496 insertions(+), 34 deletions(-)
+> 
 
-Why use a new name at all?  Why not stick with the existing tty names
-and device numbers?
+Hi Babu, sorry for having to do public reply to this v5 cover letter
+due to accidentally delete the preview documentation patch for your
+upcoming v6.
 
-thanks,
+Thanks for privately sending me the preview patch. Seeing it at a glance,
+LGTM. Please send the full v6 series for us to review.
 
-greg k-h
+Thanks.
+
+-- 
+An old man doll... just what I always wanted! - Clara
