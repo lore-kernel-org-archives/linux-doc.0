@@ -2,205 +2,222 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 846C3C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 02:27:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98177C433F5
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 03:04:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231984AbiJGC07 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 6 Oct 2022 22:26:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60978 "EHLO
+        id S229489AbiJGDEB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 6 Oct 2022 23:04:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232057AbiJGC06 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 22:26:58 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3FD0CAE62
-        for <linux-doc@vger.kernel.org>; Thu,  6 Oct 2022 19:26:56 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id v10-20020a17090a634a00b00205e48cf845so5988514pjs.4
-        for <linux-doc@vger.kernel.org>; Thu, 06 Oct 2022 19:26:56 -0700 (PDT)
+        with ESMTP id S229526AbiJGDD7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Oct 2022 23:03:59 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40477B03E0;
+        Thu,  6 Oct 2022 20:03:58 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id f140so3807786pfa.1;
+        Thu, 06 Oct 2022 20:03:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NPHVJY2ueAqpNgrqrCrpctoZrug85xo5yVkYEHuY5DY=;
-        b=cQGxp4bwSHS43zhiI265SPL7AYWSJgZGyOzeR3n+hnWt/hsqup8zu1EhS/c4QBwMOg
-         mP1ALztZLHCEgFZIXcg0SWho9i0cFvcFVvmW2qpjt35SZrDfgheW8JdCpHRZhvbbvOCP
-         ZzlqvllxCP80G6nkqQOgOzQjVm/Amcx2DrzAxCcjf7rn7xZQ6xyOyFb+r6t3Ok404J7a
-         tMtY0f0/efymk+Wfcpga4mqTTCLKeDbNuMreR8rBOUAlOnL57KPzHeZEzfQQlTxh2yMA
-         c6/m/ROfyXMyjHT5xnBG0dUs0N+zSTme5icAIA4UhGD7AoHsrZDfUqeZMfYMw7z2Ulcr
-         wwYw==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2dnBNEJVnli6D71Ymn0JtYVsF8R/SrWka4rQ71ILKc8=;
+        b=IwKhRbZksxUTWls/SveEkPyJyKyHGUhPT3DVSheKM1BO5di4tG2MfU8j+ySXDjDHIj
+         lwU7tH9xZpSjPRG71tGmviIGCUCg4YJk48pT7uriVseEyKVFZnHEqXJjTRRaQrRwHKnJ
+         8hRRMxN5YJQOo4HWGmQf7JA0gKnDMXH2j2MU0SBuna9lTHoJz2yKRkhiR+vx7CmMhdbL
+         Dk8/H21tQlrv6bRF99mkgpqEDxGKmBiAew8zVQw4Et0/19LsvkNJAXf8UZ+aYpE9nWPX
+         iHptgUlmMAriULp5BwujEv+onAiMlR+reiZSHa3mWU8JdhPUY/yV7ZOfpD68ofNDR6aW
+         7q3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NPHVJY2ueAqpNgrqrCrpctoZrug85xo5yVkYEHuY5DY=;
-        b=fBEQqlVtPZWN1VZ0ial+bNqpOzrfzg/MgihGA9iS5WDScVIlVDHfmIqmkyUni8XO2T
-         HuaDKOSGCp9NTL00VgHvAzDIiNqQmfN8Z5v0TJqcegpklpt3IVXilq0wk+r1uLw+H5tZ
-         g5OHLVnkxIRCKcUvFTfPJlTPi4c4Q04RcY40Gy78qLf9mJcWcwu34k/zIHgvX1toTX3W
-         jWAruh+Cp6VvFW/qF9IvuADe+IBBXbAhwr60cCDKZXM7gdxaJ1p//NVVwaUItQQdJYBm
-         WU0h5W7CKFpHQKNlEPGAWZSnWFKJagGWdplBOfnDQMpmbfh/78WSv33eObWWkBhxVpHj
-         UrSA==
-X-Gm-Message-State: ACrzQf24mDLVcu0Lx45fSrN/99u+xGWfKl2mqYbgCKSxx7grM+SBeNR5
-        v1dAeExDWSpybRVSCSXW1WagPA==
-X-Google-Smtp-Source: AMsMyM7B/FaVDCpT0IV4y3wihdJtWVWwBQ1T1WMOxcCTvud3vye7SZz0y4Cr1yFvOA83H6BoKpEIyw==
-X-Received: by 2002:a17:902:b591:b0:178:bb0c:78af with SMTP id a17-20020a170902b59100b00178bb0c78afmr2794721pls.55.1665109616103;
-        Thu, 06 Oct 2022 19:26:56 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id j5-20020a170902da8500b0017f64ab80e5sm306435plx.179.2022.10.06.19.26.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Oct 2022 19:26:54 -0700 (PDT)
-Date:   Thu, 06 Oct 2022 19:26:54 -0700 (PDT)
-X-Google-Original-Date: Thu, 06 Oct 2022 19:26:38 PDT (-0700)
-Subject:     Re: [PATCH] drivers/perf: riscv_pmu_sbi: add perf_user_access sysctl
-In-Reply-To: <20220826151556.1708879-1-heiko@sntech.de>
-CC:     atishp@atishpatra.org, anup@brainfault.org,
-        Will Deacon <will@kernel.org>, mark.rutland@arm.com,
-        aou@eecs.berkeley.edu, Paul Walmsley <paul.walmsley@sifive.com>,
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2dnBNEJVnli6D71Ymn0JtYVsF8R/SrWka4rQ71ILKc8=;
+        b=CzVUBiWwHjyrLCbGJOxauG3sV8wLv6ERsufqt9XKk0wxx83Ho3Mc81piSd2HRQVsF/
+         D0pjfCTChprsE5g5pprvwokSROTGm4hteNoFJvGRUGK8w9u3X7gxFYzLZDxA7Wnx1zO6
+         RE1NUql3IglYbRqa7c+03WivzbckVvyZRNOj9eSsqgCFWI9sekgtKBnRN6SPVukZ8G/u
+         NG2CRHMAWJeinjVDlpPMP1D3SARFNj2yZV++KVLQaySOk2qvlbOsUZDXOTCDCtzDdnoK
+         7U37eWBM2NnFXL+zBq4JSYNjMi40sj7CBbfhf1DgiXTf8KhFIDx+bl4o5cY3hl07/wWe
+         NUOw==
+X-Gm-Message-State: ACrzQf0gkGAHmj3TnwA86Qg1JV3KY6LEiBGSB2ZG+CAHiiLSE38amWdd
+        PFWZ2ODyCIS6jX5k3AzOXnk=
+X-Google-Smtp-Source: AMsMyM78bjLyC4pgj5ZKCpFHSJvV6cXT0bzOjPgmmKFzAFJpTz33QX93YFkodf4SEQDXEmM09+kCog==
+X-Received: by 2002:a05:6a02:205:b0:41b:96dc:bb2a with SMTP id bh5-20020a056a02020500b0041b96dcbb2amr2659594pgb.116.1665111837584;
+        Thu, 06 Oct 2022 20:03:57 -0700 (PDT)
+Received: from [192.168.43.80] (subs28-116-206-12-55.three.co.id. [116.206.12.55])
+        by smtp.gmail.com with ESMTPSA id n9-20020a17090a160900b001f319e9b9e5sm3545870pja.16.2022.10.06.20.03.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Oct 2022 20:03:56 -0700 (PDT)
+Message-ID: <95439cec-5357-0953-8f55-e3486f763345@gmail.com>
+Date:   Fri, 7 Oct 2022 10:03:52 +0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v2] Documentation: kunit: rewrite writing first test
+ instructions
+Content-Language: en-US
+To:     Sadiya Kazi <sadiyakazi@google.com>
+Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-riscv@lists.infradead.org, cmuellner@linux.com,
-        philipp.tomsich@vrull.eu, heiko@sntech.de
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     heiko@sntech.de
-Message-ID: <mhng-fa9049b7-e36b-4202-bded-11f1ba2ae124@palmer-ri-x1c9>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        David Gow <davidgow@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Khalid Masum <khalid.masum.92@gmail.com>
+References: <20220929132549.56452-1-bagasdotme@gmail.com>
+ <CAO2JNKUqkt3p1OcRt9tSa9T=sv8RG+F3LydZfTdVBc0WewhHVg@mail.gmail.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <CAO2JNKUqkt3p1OcRt9tSa9T=sv8RG+F3LydZfTdVBc0WewhHVg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 26 Aug 2022 08:15:56 PDT (-0700), heiko@sntech.de wrote:
-> Add a sysctl similar to the one on arm64 to enable/disable
-> access to counter CSRs from u-mode on RISC-V.
->
-> The default is of course set to disabled keeping the current
-> state of access - to only the TIME CSR.
+On 10/6/22 16:41, Sadiya Kazi wrote:
+> Consider updating this section as below:
+> In this section, you will learn how to write a program to test the addition
+> of two numbers using KUnit. To do so, you must write the addition driver
+> code followed by the test case.
+> 
+> 1.To write the addition driver code, follow the steps given below:
+> 
+>> a.Navigate to the Kernel repository.
+> 
+>     b.Create a file ``drivers/misc/example.h``.
+>     c.In the ``example.h`` file, add the following code to declare the
+> function ``misc_example_add()``:
+> 
+>>
+>> -1. Create a file ``drivers/misc/example.h``, which includes:
+>> +1. Write the feature that will be tested. First, write the declaration
+>> +   for ``misc_example_add()`` in ``drivers/misc/example.h``:
+>>
+>> -.. code-block:: c
+>> +   .. code-block:: c
+>>
+>>         int misc_example_add(int left, int right);
+>>
+>> -2. Create a file ``drivers/misc/example.c``, which includes:
+>> +   Then implement the function in ``drivers/misc/example.c``:
+> 
+> 
+> d. To implement the function, create a file ``drivers/misc/example.c` and
+> add the following code to it:
+> 
+> 
+>>
+>> -.. code-block:: c
+>> +   .. code-block:: c
+>>
+>>         #include <linux/errno.h>
+>>
+>> @@ -152,24 +154,25 @@ In your kernel repository, let's add some code that
+>> we can test.
+>>                 return left + right;
+>>         }
+>>
+>> -3. Add the following lines to ``drivers/misc/Kconfig``:
+>> +2. Add Kconfig menu entry for the feature to ``drivers/misc/Kconfig``:
+>>
+> 
+> e. Update ``drivers/misc/Kconfig`` with the following code to add the
+> driver configuration:
+> 
+> 
+>>
+>> -.. code-block:: kconfig
+>> +   .. code-block:: kconfig
+>>
+>>         config MISC_EXAMPLE
+>>                 bool "My example"
+>>
+>> -4. Add the following lines to ``drivers/misc/Makefile``:
+>> +3. Add the kbuild goal that will build the feature to
+>> +   ``drivers/misc/Makefile``:
+>>
+> f.To build the feature, update ``drivers/misc/Makefile`` with the following
+> code:
+> 
+> 
+>>
+>> -.. code-block:: make
+>> +   .. code-block:: make
+>>
+>>         obj-$(CONFIG_MISC_EXAMPLE) += example.o
+>>
+>>  Now we are ready to write the test cases.
+>>
+> 2. To write the test cases, follow the steps given below:
+> 
+>>
+>> -1. Add the below test case in ``drivers/misc/example_test.c``:
+>> +1. Write the test in ``drivers/misc/example_test.c``:
+>>
+>     a. Write the test in ``drivers/misc/example_test.c``:
+> 
+>>
+>> -.. code-block:: c
+>> +   .. code-block:: c
+>>
+>>         #include <kunit/test.h>
+>>         #include "example.h"
+>> @@ -202,31 +205,32 @@ Now we are ready to write the test cases.
+>>         };
+>>         kunit_test_suite(misc_example_test_suite);
+>>
+>> -2. Add the following lines to ``drivers/misc/Kconfig``:
+>> +2. Add following Kconfig entry for the test to ``drivers/misc/Kconfig``:
+>>
+>     b. Add the following test configuration to ``drivers/misc/Kconfig``:
+> 
+>>
+>> -.. code-block:: kconfig
+>> +   .. code-block:: kconfig
+>>
+>>         config MISC_EXAMPLE_TEST
+>>                 tristate "Test for my example" if !KUNIT_ALL_TESTS
+>>                 depends on MISC_EXAMPLE && KUNIT=y
+>>                 default KUNIT_ALL_TESTS
+>>
+>> -3. Add the following lines to ``drivers/misc/Makefile``:
+>> +3. Add kbuild goal of the test to ``drivers/misc/Makefile``:
+>>
+>   c. Update ``drivers/misc/Makefile`` with the following code:
+> 
+>>
+>> -.. code-block:: make
+>> +   .. code-block:: make
+>>
+>>         obj-$(CONFIG_MISC_EXAMPLE_TEST) += example_test.o
+>>
+>> -4. Add following configuration fragments to ``.kunit/.kunitconfig``:
+>> +4. Add following configuration fragments for the test to
+>> +   ``.kunit/.kunitconfig``:
+>>
+> d. Add the following test configuration to ``.kunit/.kunitconfig``:
+> 
+>>
+>> -.. code-block:: none
+>> +   .. code-block:: none
+>>
+>>         CONFIG_MISC_EXAMPLE=y
+>>         CONFIG_MISC_EXAMPLE_TEST=y
+>>
+>>  5. Run the test:
+>>
+> e. Run the test using the following command:
+> 
+>>
+>> -.. code-block:: bash
+>> +   .. code-block:: bash
+>>
+>>         ./tools/testing/kunit/kunit.py run
+>>
 
-Sorry for being slow on this one, but IMO this is the wrong way to go: 
-this was pretty clearly described by the PDFs as a non-optional 
-instruction when we committed to uABI stability, and there's userspace 
-binaries that use these instructions.  I know the ISA folks changed 
-their minds about these being in the base, but that doesn't mean we can 
-break userspace.
+I think the documentation assumes the knowledge of writing kernel
+code (C language and build infrastructure). This means that the
+instructions should be written for brevity.
 
-If you're worried about a side channel from the high resolution timers 
-that makes sense, but we can sort that out without breaking userspace: 
-we just trap the counter accesses and handle them in the kernel with 
-less precision.  We'll need to do that in the long run anyway, as 
-there's no way to make sure these are implement.  That all applies to 
-the time counter as well.
-
-I'd also argue this should be a prctl(), as that'll allow users to flip 
-it on/off for specific processes.  We can make it sticky to deal with 
-the side channels, but at least starting with a per-process flag will 
-let us avoid breaking compatibility for everyone.
-
-> Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-> ---
->  Documentation/admin-guide/sysctl/kernel.rst |  6 +--
->  drivers/perf/riscv_pmu_sbi.c                | 43 ++++++++++++++++++++-
->  2 files changed, 44 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index ee6572b1edad..efd4bc385e7a 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -894,15 +894,15 @@ enabled, otherwise writing to this file will return ``-EBUSY``.
->  The default value is 8.
->
->
-> -perf_user_access (arm64 only)
-> -=================================
-> +perf_user_access (arm64 and riscv only)
-> +=======================================
->
->  Controls user space access for reading perf event counters. When set to 1,
->  user space can read performance monitor counter registers directly.
->
->  The default value is 0 (access disabled).
->
-> -See Documentation/arm64/perf.rst for more information.
-> +See Documentation/arm64/perf.rst for more information on arm64
->
->
->  pid_max
-> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
-> index 6f6681bbfd36..7aab8d673357 100644
-> --- a/drivers/perf/riscv_pmu_sbi.c
-> +++ b/drivers/perf/riscv_pmu_sbi.c
-> @@ -41,6 +41,8 @@ static const struct attribute_group *riscv_pmu_attr_groups[] = {
->  	NULL,
->  };
->
-> +static int sysctl_perf_user_access __read_mostly;
-> +
->  /*
->   * RISC-V doesn't have hetergenous harts yet. This need to be part of
->   * per_cpu in case of harts with different pmu counters
-> @@ -640,13 +642,22 @@ static irqreturn_t pmu_sbi_ovf_handler(int irq, void *dev)
->  	return IRQ_HANDLED;
->  }
->
-> +/*
-> + * Depending on the perf_user_access setting, enable the access
-> + * from usermode either for all counters or for TIME csr only.
-> + */
-> +static void riscv_pmu_update_user_access(void *info)
-> +{
-> +	csr_write(CSR_SCOUNTEREN, sysctl_perf_user_access ? GENMASK(31, 0) :
-> +							    0x2);
-> +}
-> +
->  static int pmu_sbi_starting_cpu(unsigned int cpu, struct hlist_node *node)
->  {
->  	struct riscv_pmu *pmu = hlist_entry_safe(node, struct riscv_pmu, node);
->  	struct cpu_hw_events *cpu_hw_evt = this_cpu_ptr(pmu->hw_events);
->
-> -	/* Enable the access for TIME csr only from the user mode now */
-> -	csr_write(CSR_SCOUNTEREN, 0x2);
-> +	riscv_pmu_update_user_access(NULL);
->
->  	/* Stop all the counters so that they can be enabled from perf */
->  	pmu_sbi_stop_all(pmu);
-> @@ -785,6 +796,32 @@ static void riscv_pmu_destroy(struct riscv_pmu *pmu)
->  	cpuhp_state_remove_instance(CPUHP_AP_PERF_RISCV_STARTING, &pmu->node);
->  }
->
-> +static int riscv_pmu_proc_user_access_handler(struct ctl_table *table,
-> +			int write, void *buffer, size_t *lenp, loff_t *ppos)
-> +{
-> +	int ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
-> +
-> +	if (ret || !write)
-> +		return ret;
-> +
-> +	on_each_cpu(riscv_pmu_update_user_access, NULL, 1);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct ctl_table sbi_pmu_sysctl_table[] = {
-> +	{
-> +		.procname       = "perf_user_access",
-> +		.data		= &sysctl_perf_user_access,
-> +		.maxlen		= sizeof(unsigned int),
-> +		.mode           = 0644,
-> +		.proc_handler	= riscv_pmu_proc_user_access_handler,
-> +		.extra1		= SYSCTL_ZERO,
-> +		.extra2		= SYSCTL_ONE,
-> +	},
-> +	{ }
-> +};
-> +
->  static int pmu_sbi_device_probe(struct platform_device *pdev)
->  {
->  	struct riscv_pmu *pmu = NULL;
-> @@ -834,6 +871,8 @@ static int pmu_sbi_device_probe(struct platform_device *pdev)
->  	if (ret)
->  		goto out_unregister;
->
-> +	register_sysctl("kernel", sbi_pmu_sysctl_table);
-> +
->  	return 0;
->
->  out_unregister:
+-- 
+An old man doll... just what I always wanted! - Clara
