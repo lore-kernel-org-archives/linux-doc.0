@@ -2,319 +2,241 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED4AFC433F5
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 16:28:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A32EC4167D
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 17:13:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229710AbiJGQ2b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Oct 2022 12:28:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58288 "EHLO
+        id S229741AbiJGRNL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Oct 2022 13:13:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbiJGQ23 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 12:28:29 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2A12DD8B0;
-        Fri,  7 Oct 2022 09:28:28 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id b4so8082050wrs.1;
-        Fri, 07 Oct 2022 09:28:28 -0700 (PDT)
+        with ESMTP id S229713AbiJGRNJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 13:13:09 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34BA2D7E1B
+        for <linux-doc@vger.kernel.org>; Fri,  7 Oct 2022 10:12:46 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id e11-20020a17090a77cb00b00205edbfd646so7780846pjs.1
+        for <linux-doc@vger.kernel.org>; Fri, 07 Oct 2022 10:12:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xkJ10vxvu4gt3zKPaLqKuK3VdidJ6kjfdiu5zrWv4es=;
-        b=MmAOrneJ5PKQZEhbWonlqXrOjarkZqs8XBPBW7uxGCecO69PgQ18EHALOpNP8327wx
-         OLdCM8concCOm6CJIJllMSIMtIAUb0RVxBuR+XDHvdGsu4x9SE1X+5EbIpFuxYcmU6cZ
-         +DPK/Dj64syY2+kcFaHIEqqDgilnMuteP2Jp3xsuEqtOzbweYmKg2s3W0ZOa0A2CzPQ9
-         sDi7Pglz9iXVrKNTOlR/otL+NO6DRGKL3pt1jjiNZ7cgAb2qlJjWTRPG9nG5O7Rr/76Y
-         aXEKCCrN/u4HZgS5hhL6IU1wew3XEA1yRoXYpdjtpIRtgB5Lo8wOUQjqKRxXMoF/Db5r
-         gpxg==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=r+ar3rF5Nifj4ZH0w5BLPJvorwhCPz9FpYPvkQg1fFY=;
+        b=lnyLGuYmjS75CgXIYPygwDolRfcdA6yOcav2EBBasADUNmB+X4q/LGyG3GplPLKF4D
+         kbVVCg/8bBMxcfD9rLKmUEYYLhbyeB5zPm6ZDbYMckDnSVVJGqQeX6zA9l/IbMFC0x6e
+         tEj8qeloPyDPz0HyArmtPjFAzjrVIlk8ES+6Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xkJ10vxvu4gt3zKPaLqKuK3VdidJ6kjfdiu5zrWv4es=;
-        b=cxDMSioLVPCkmlZdzABQ7SCQqsNYL9e9SIb+5bFCuuyHXKH0BhF0riQcX1VmyCyJCg
-         G+8ckianzTlw8lX1z3Ri+R02prwe8OSant2zWysIRYC7Ugol+qPIqksSYH8Svfu5nVBs
-         i3QwOUyOAFZv0q+mKXUPQJW+FdJUQ/NJr/AY5Jn6vuldyd7/qj+mNIz81OmVNWSPhp/k
-         p5S6A/3aIv+Fk97PdAZC/90R+fYZJBk1JlzFuPIP7lSigB0kuo9A3q4OvNMCD71RdE7w
-         XKZzOl1psVSRV8lX+w1p/iInuFnPWAn/oVir0iX6kzn13AfkBIwlc3PPLL7Dbq9FtM1N
-         Tcpg==
-X-Gm-Message-State: ACrzQf1mJPFCmtAerg0F4P+nzxVQsJkj+C/zOyQCEi6aY/AzMPXh1Xpo
-        yGx8OSXlzZH+UgqZozI8uxaRYhTgfNeayQ==
-X-Google-Smtp-Source: AMsMyM5ZklHeMyBWI3yWOTblKLOS4pXK0IBkJMdaMVM+nDTVDu0IbRZTuNPmLx4LvcF0+t1m3oeZew==
-X-Received: by 2002:a5d:52d0:0:b0:21e:4923:fa09 with SMTP id r16-20020a5d52d0000000b0021e4923fa09mr3910348wrv.244.1665160106664;
-        Fri, 07 Oct 2022 09:28:26 -0700 (PDT)
-Received: from imac.redhat.com ([88.97.103.74])
-        by smtp.gmail.com with ESMTPSA id i9-20020a5d5229000000b0022cd59331b2sm2487855wra.95.2022.10.07.09.28.25
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r+ar3rF5Nifj4ZH0w5BLPJvorwhCPz9FpYPvkQg1fFY=;
+        b=Nep35BQcYxlAP4DPE5vIt/Q4ymCt5rmFl4ftP6yLi80SBbtqajZppvuOAnPW8jb4kT
+         kAINwjxTVoolEIjB7JmzpgBATcuSZaS9NSohAk1sDI02CO/PgPP4GQfmcbgfer7oYrBD
+         1XQRJ/a95ZajVsWbr5Oj/wudNKYK6278t6peb+RARGDSxYkpdi0bhG7Kg4yPxd1EUkNv
+         5Tyacw9iMSoyOr6u6+PSjwtyNiAmF17JNwjLHC0OvbrHVL7V4mKYN3Ish7j0kUfAAZyY
+         1w9MDXIHgVeRxNu3TIfTEBJjYljA1BUzDL3QCdfRaO1fJFv8AuBMNjGcAN4lDJf26s1M
+         hquA==
+X-Gm-Message-State: ACrzQf23F1mE3e5zzgP7lKNxn+c1OWzf9lqwpcSpz/atBcVa5wpqENxV
+        lFIL99a91jb1C0KpdqEvKiByGg==
+X-Google-Smtp-Source: AMsMyM5FdSz2fuOhnh7+TfKkWyevTFzVNHatDVk0F2miilQc1NJEc103WmEytUatslzSlAWFEVnJrw==
+X-Received: by 2002:a17:902:f707:b0:17f:8541:c04b with SMTP id h7-20020a170902f70700b0017f8541c04bmr6026417plo.98.1665162764769;
+        Fri, 07 Oct 2022 10:12:44 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q13-20020aa7842d000000b0056234327070sm1944049pfn.95.2022.10.07.10.12.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Oct 2022 09:28:25 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     dave@dtucker.co.uk, Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v7 1/1] bpf, docs: document BPF_MAP_TYPE_ARRAY
-Date:   Fri,  7 Oct 2022 17:27:55 +0100
-Message-Id: <20221007162755.36677-2-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221007162755.36677-1-donald.hunter@gmail.com>
-References: <20221007162755.36677-1-donald.hunter@gmail.com>
+        Fri, 07 Oct 2022 10:12:43 -0700 (PDT)
+Date:   Fri, 7 Oct 2022 10:12:42 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
+        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dave Airlie <airlied@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Florian Westphal <fw@strlen.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        KP Singh <kpsingh@kernel.org>, Marco Elver <elver@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Graf <tgraf@suug.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>,
+        Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
+Message-ID: <202210071010.52C672FA9@keescook>
+References: <20221006165346.73159-1-Jason@zx2c4.com>
+ <20221006165346.73159-4-Jason@zx2c4.com>
+ <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu>
+ <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
+ <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu>
+ <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
+ <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
+ <501b0fc3-6c67-657f-781e-25ee0283bc2e@csgroup.eu>
+ <Y0Ayvov/KQmrIwTS@zx2c4.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y0Ayvov/KQmrIwTS@zx2c4.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Dave Tucker <dave@dtucker.co.uk>
+On Fri, Oct 07, 2022 at 08:07:58AM -0600, Jason A. Donenfeld wrote:
+> On Fri, Oct 07, 2022 at 04:57:24AM +0000, Christophe Leroy wrote:
+> > 
+> > 
+> > Le 07/10/2022 à 01:36, Jason A. Donenfeld a écrit :
+> > > On 10/6/22, Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
+> > >>
+> > >>
+> > >> Le 06/10/2022 à 19:31, Christophe Leroy a écrit :
+> > >>>
+> > >>>
+> > >>> Le 06/10/2022 à 19:24, Jason A. Donenfeld a écrit :
+> > >>>> Hi Christophe,
+> > >>>>
+> > >>>> On Thu, Oct 6, 2022 at 11:21 AM Christophe Leroy
+> > >>>> <christophe.leroy@csgroup.eu> wrote:
+> > >>>>> Le 06/10/2022 à 18:53, Jason A. Donenfeld a écrit :
+> > >>>>>> The prandom_u32() function has been a deprecated inline wrapper around
+> > >>>>>> get_random_u32() for several releases now, and compiles down to the
+> > >>>>>> exact same code. Replace the deprecated wrapper with a direct call to
+> > >>>>>> the real function. The same also applies to get_random_int(), which is
+> > >>>>>> just a wrapper around get_random_u32().
+> > >>>>>>
+> > >>>>>> Reviewed-by: Kees Cook <keescook@chromium.org>
+> > >>>>>> Acked-by: Toke Høiland-Jørgensen <toke@toke.dk> # for sch_cake
+> > >>>>>> Acked-by: Chuck Lever <chuck.lever@oracle.com> # for nfsd
+> > >>>>>> Reviewed-by: Jan Kara <jack@suse.cz> # for ext4
+> > >>>>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > >>>>>> ---
+> > >>>>>
+> > >>>>>> diff --git a/arch/powerpc/kernel/process.c
+> > >>>>>> b/arch/powerpc/kernel/process.c
+> > >>>>>> index 0fbda89cd1bb..9c4c15afbbe8 100644
+> > >>>>>> --- a/arch/powerpc/kernel/process.c
+> > >>>>>> +++ b/arch/powerpc/kernel/process.c
+> > >>>>>> @@ -2308,6 +2308,6 @@ void notrace __ppc64_runlatch_off(void)
+> > >>>>>>     unsigned long arch_align_stack(unsigned long sp)
+> > >>>>>>     {
+> > >>>>>>         if (!(current->personality & ADDR_NO_RANDOMIZE) &&
+> > >>>>>> randomize_va_space)
+> > >>>>>> -             sp -= get_random_int() & ~PAGE_MASK;
+> > >>>>>> +             sp -= get_random_u32() & ~PAGE_MASK;
+> > >>>>>>         return sp & ~0xf;
+> > >>>>>
+> > >>>>> Isn't that a candidate for prandom_u32_max() ?
+> > >>>>>
+> > >>>>> Note that sp is deemed to be 16 bytes aligned at all time.
+> > >>>>
+> > >>>> Yes, probably. It seemed non-trivial to think about, so I didn't. But
+> > >>>> let's see here... maybe it's not too bad:
+> > >>>>
+> > >>>> If PAGE_MASK is always ~(PAGE_SIZE-1), then ~PAGE_MASK is
+> > >>>> (PAGE_SIZE-1), so prandom_u32_max(PAGE_SIZE) should yield the same
+> > >>>> thing? Is that accurate? And holds across platforms (this comes up a
+> > >>>> few places)? If so, I'll do that for a v4.
+> > >>>>
+> > >>>
+> > >>> On powerpc it is always (from arch/powerpc/include/asm/page.h) :
+> > >>>
+> > >>> /*
+> > >>>    * Subtle: (1 << PAGE_SHIFT) is an int, not an unsigned long. So if we
+> > >>>    * assign PAGE_MASK to a larger type it gets extended the way we want
+> > >>>    * (i.e. with 1s in the high bits)
+> > >>>    */
+> > >>> #define PAGE_MASK      (~((1 << PAGE_SHIFT) - 1))
+> > >>>
+> > >>> #define PAGE_SIZE        (1UL << PAGE_SHIFT)
+> > >>>
+> > >>>
+> > >>> So it would work I guess.
+> > >>
+> > >> But taking into account that sp must remain 16 bytes aligned, would it
+> > >> be better to do something like ?
+> > >>
+> > >> 	sp -= prandom_u32_max(PAGE_SIZE >> 4) << 4;
+> > >>
+> > >> 	return sp;
+> > > 
+> > > Does this assume that sp is already aligned at the beginning of the
+> > > function? I'd assume from the function's name that this isn't the
+> > > case?
+> > 
+> > Ah you are right, I overlooked it.
+> 
+> So I think to stay on the safe side, I'm going to go with
+> `prandom_u32_max(PAGE_SIZE)`. Sound good?
 
-Add documentation for the BPF_MAP_TYPE_ARRAY including kernel version
-introduced, usage and examples. Also document BPF_MAP_TYPE_PERCPU_ARRAY
-which is similar.
+Given these kinds of less mechanical changes, it may make sense to split
+these from the "trivial" conversions in a treewide patch. The chance of
+needing a revert from the simple 1:1 conversions is much lower than the
+need to revert by-hand changes.
 
-Signed-off-by: Dave Tucker <dave@dtucker.co.uk>
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/bpf/map_array.rst | 232 ++++++++++++++++++++++++++++++++
- 1 file changed, 232 insertions(+)
- create mode 100644 Documentation/bpf/map_array.rst
+The Cocci script I suggested in my v1 review gets 80% of the first
+patch, for example.
 
-diff --git a/Documentation/bpf/map_array.rst b/Documentation/bpf/map_array.rst
-new file mode 100644
-index 000000000000..c3c56ffe5334
---- /dev/null
-+++ b/Documentation/bpf/map_array.rst
-@@ -0,0 +1,232 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2022 Red Hat, Inc.
-+
-+================================================
-+BPF_MAP_TYPE_ARRAY and BPF_MAP_TYPE_PERCPU_ARRAY
-+================================================
-+
-+.. note::
-+   - ``BPF_MAP_TYPE_ARRAY`` was introduced in kernel version 3.19
-+   - ``BPF_MAP_TYPE_PERCPU_ARRAY`` was introduced in version 4.6
-+
-+``BPF_MAP_TYPE_ARRAY`` and ``BPF_MAP_TYPE_PERCPU_ARRAY`` provide generic array
-+storage. The key type is an unsigned 32-bit integer (4 bytes) and the map is
-+of constant size. The size of the array is defined in ``max_entries`` at
-+creation time. All array elements are pre-allocated and zero initialized when
-+created. ``BPF_MAP_TYPE_PERCPU_ARRAY`` uses a different memory region for each
-+CPU whereas ``BPF_MAP_TYPE_ARRAY`` uses the same memory region. The value
-+stored can be of any size, however, small values will be rounded up to 8
-+bytes.
-+
-+Since kernel 5.5, memory mapping may be enabled for ``BPF_MAP_TYPE_ARRAY`` by
-+setting the flag ``BPF_F_MMAPABLE``. The map definition is page-aligned and
-+starts on the first page. Sufficient page-sized and page-aligned blocks of
-+memory are allocated to store all array values, starting on the second page,
-+which in some cases will result in over-allocation of memory. The benefit of
-+using this is increased performance and ease of use since userspace programs
-+would not be required to use helper functions to access and mutate data.
-+
-+Usage
-+=====
-+
-+.. c:function::
-+   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-+
-+Array elements can be retrieved using the ``bpf_map_lookup_elem()`` helper.
-+This helper returns a pointer into the array element, so to avoid data races
-+with userspace reading the value, the user must use primitives like
-+``__sync_fetch_and_add()`` when updating the value in-place. Access from
-+userspace uses the libbpf API of the same name.
-+
-+.. c:function::
-+   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
-+
-+Array elements can also be added using the ``bpf_map_update_elem()`` helper or
-+libbpf API.
-+
-+``bpf_map_update_elem()`` returns 0 on success, or negative error in case of
-+failure.
-+
-+Since the array is of constant size, ``bpf_map_delete_elem()`` is not supported.
-+To clear an array element, you may use ``bpf_map_update_elem()`` to insert a
-+zero value to that index.
-+
-+Per CPU Array
-+-------------
-+
-+Values stored in ``BPF_MAP_TYPE_ARRAY`` can be accessed by multiple programs
-+across different CPUs. To restrict storage to a single CPU, you may use a
-+``BPF_MAP_TYPE_PERCPU_ARRAY``.
-+
-+When using a ``BPF_MAP_TYPE_PERCPU_ARRAY`` the ``bpf_map_update_elem()`` and
-+``bpf_map_lookup_elem()`` helpers automatically access the hash slot for the
-+current CPU.
-+
-+.. c:function::
-+   void *bpf_map_lookup_percpu_elem(struct bpf_map *map, const void *key, u32 cpu)
-+
-+The ``bpf_map_lookup_percpu_elem()`` helper can be used to lookup the array
-+value for a specific CPU. Returns value on success , or ``NULL`` if no entry was
-+found or ``cpu`` is invalid.
-+
-+Concurrency
-+-----------
-+
-+Since kernel version 5.1, the BPF infrastructure provides ``struct bpf_spin_lock``
-+to synchronize access.
-+
-+Examples
-+========
-+
-+Please see the ``tools/testing/selftests/bpf`` directory for functional
-+examples. The code samples below demonstrate API usage.
-+
-+Kernel BPF
-+----------
-+
-+This snippet shows how to declare an array in a BPF program.
-+
-+.. code-block:: c
-+
-+    struct {
-+            __uint(type, BPF_MAP_TYPE_ARRAY);
-+            __type(key, u32);
-+            __type(value, long);
-+            __uint(max_entries, 256);
-+    } my_map SEC(".maps");
-+
-+
-+This example BPF program shows how to access an array element.
-+
-+.. code-block:: c
-+
-+    int bpf_prog(struct __sk_buff *skb)
-+    {
-+            int index = load_byte(skb,
-+                                  ETH_HLEN + offsetof(struct iphdr, protocol));
-+            long *value;
-+
-+            if (skb->pkt_type != PACKET_OUTGOING)
-+                    return 0;
-+
-+            value = bpf_map_lookup_elem(&my_map, &index);
-+            if (value)
-+                    __sync_fetch_and_add(value, skb->len);
-+
-+            return 0;
-+    }
-+
-+Userspace
-+---------
-+
-+BPF_MAP_TYPE_ARRAY
-+~~~~~~~~~~~~~~~~~~
-+
-+This snippet shows how to create an array, using ``bpf_map_create_opts`` to
-+set flags.
-+
-+.. code-block:: c
-+
-+    #include <bpf/libbpf.h>
-+    #include <bpf/bpf.h>
-+
-+    int create_array() {
-+            int fd;
-+            LIBBPF_OPTS(bpf_map_create_opts, opts, .map_flags = BPF_F_MMAPABLE);
-+            fd = bpf_map_create(BPF_MAP_TYPE_ARRAY,
-+                                "example_array",       /* name */
-+                                sizeof(__u32),         /* key size */
-+                                sizeof(long),          /* value size */
-+                                256,                   /* max entries */
-+                                &opts);                /* create opts */
-+            return fd;
-+    }
-+
-+This snippet shows how to initialize the elements of an array.
-+
-+.. code-block:: c
-+
-+    int initialize_array(int fd) {
-+            __u32 i;
-+            long value;
-+            int ret;
-+
-+            for (i = 0; i < 256; i++) {
-+                    value = i;
-+                    ret = bpf_map_update_elem(fd, &i, &value, BPF_ANY);
-+                    if (ret < 0)
-+                            return ret;
-+            }
-+
-+            return ret;
-+    }
-+
-+This snippet shows how to retrieve an element value from an array.
-+
-+.. code-block:: c
-+
-+    int lookup(int fd) {
-+            __u32 index = 42;
-+            long value;
-+            int ret = bpf_map_lookup_elem(fd, &index, &value);
-+            if (ret < 0)
-+                    return ret;
-+
-+            /* use value here */
-+            assert(value == 42);
-+
-+            return ret;
-+    }
-+
-+BPF_MAP_TYPE_PERCPU_ARRAY
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+This snippet shows how to initialize the elements of a per CPU array.
-+
-+.. code-block:: c
-+
-+    int initialize_array(int fd) {
-+            int ncpus = libbpf_num_possible_cpus();
-+            long values[ncpus];
-+            __u32 i, j;
-+            int ret;
-+
-+            for (i = 0; i < 256 ; i++) {
-+                    for (j = 0; j < ncpus; j++)
-+                            values[j] = i;
-+                    ret = bpf_map_update_elem(fd, &i, &values, BPF_ANY);
-+                    if (ret < 0)
-+                            return ret;
-+            }
-+
-+            return ret;
-+    }
-+
-+This snippet shows how to access the per CPU elements of an array value.
-+
-+.. code-block:: c
-+
-+    int lookup(int fd) {
-+            int ncpus = libbpf_num_possible_cpus();
-+            __u32 index = 42, j;
-+            long values[ncpus];
-+            int ret = bpf_map_lookup_elem(fd, &index, &values);
-+            if (ret < 0)
-+                    return ret;
-+
-+            for (j = 0; j < ncpus; j++) {
-+                    /* Use per CPU value here */
-+                    assert(values[j] == 42);
-+            }
-+
-+            return ret;
-+    }
-+
-+Semantics
-+=========
-+
-+As shown in the example above, when accessing a ``BPF_MAP_TYPE_PERCPU_ARRAY``
-+in userspace, each value is an array with ``ncpus`` elements.
-+
-+When calling ``bpf_map_update_elem()`` the flag ``BPF_NOEXIST`` can not be used
-+for these maps.
 -- 
-2.35.1
-
+Kees Cook
