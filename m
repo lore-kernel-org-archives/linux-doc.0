@@ -2,149 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A963BC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 14:59:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A53C3C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  7 Oct 2022 15:10:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229731AbiJGO7V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 7 Oct 2022 10:59:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34572 "EHLO
+        id S229983AbiJGPK1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 7 Oct 2022 11:10:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229990AbiJGO7C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 10:59:02 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32A79DD8A2
-        for <linux-doc@vger.kernel.org>; Fri,  7 Oct 2022 07:58:59 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id l1so4734052pld.13
-        for <linux-doc@vger.kernel.org>; Fri, 07 Oct 2022 07:58:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ApS1gjiguDXZcZz0fMT7VsMAGGvTEXNN7etXS65aF2E=;
-        b=P9at1gy00LaQ67U9E1PqFxXj/+/Ep5lZ2MxNKcytXi47pMqLiyWzEa/Xe2j6FHWM4y
-         /hs7KujqnFNPAE3jZS5MWMfe3+xQAhIhJuW1dyoA1ekhjNaxULNBuqb/2klgeUPGWkYF
-         5S5WGPJDOLGI8G3dhBrFVznCIwrT7f7u07MoT7kQCn0HddgT1cP9+6D1aAApMjbGxIQJ
-         KQ5lGGS71MMnAnQJ7FClUslBS7YWByNlLuUfhv2PRp7+0dcRnApGUnnJxK061ld3oLrF
-         aqw3+neqPNcUW0v6HArS65p+1L4Mc4p5Eyi3bOlG00rA6Ll3S9qG/ECPlhkMQusT3cha
-         xF/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ApS1gjiguDXZcZz0fMT7VsMAGGvTEXNN7etXS65aF2E=;
-        b=B8OG6Mq/A9zCNQ5iCJbQ/PI1fhCmlu9hDD6Ic6JWd4uPoxLnsHP68dxv4vjarolPNN
-         6h/rmNqF9WQEbAqqz2v2Hdr7LOm0cwqHuPONhQJZgBi6Z0NIt9r9Y+RjI7Uc4GZTM1uB
-         gVKQkyC/X1HfiOlzfP5wXo7BwVPPai0cvcm6b3WoW0KRp62Bv4ztayEoZn5M3bODJJmb
-         RdrRQpB4LG7h7FhreeuTKYiHkMgfDyohoXYgxR1PqnDKbbp5TTQtc2tfn3wWgPPFlZCu
-         8vRkTMuLO9tJXUf+AsE0xYBSrj/kqyuQ2cIOjT0om6F1N6njKToOJknV/0Q8h2QAsfde
-         3ROQ==
-X-Gm-Message-State: ACrzQf2VCS4HY4OZHA0e8pZt2Lbcerth3g59qxfhvpSOJeSUucEHbvpH
-        fCI0OtfZYAMjA4xeke2sGyx+ng==
-X-Google-Smtp-Source: AMsMyM642quwEQBN0ZX14M9u9coJDsTKuGQ1cCzLKA6Dq2TZW06v6vpj0wGS9syx5rD7OWwlzHZvqw==
-X-Received: by 2002:a17:90b:3ec1:b0:202:f490:e508 with SMTP id rm1-20020a17090b3ec100b00202f490e508mr5980841pjb.156.1665154738493;
-        Fri, 07 Oct 2022 07:58:58 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id m22-20020a63ed56000000b0043a0de69c94sm1750587pgk.14.2022.10.07.07.58.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Oct 2022 07:58:57 -0700 (PDT)
-Date:   Fri, 7 Oct 2022 14:58:54 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <Y0A+rogB6TRDtbyE@google.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
- <Yz7s+JIexAHJm5dc@kernel.org>
- <Yz7vHXZmU3EpmI0j@kernel.org>
- <Yz71ogila0mSHxxJ@google.com>
- <Y0AJ++m/TxoscOZg@kernel.org>
+        with ESMTP id S230020AbiJGPKX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Oct 2022 11:10:23 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C53DF688AD;
+        Fri,  7 Oct 2022 08:10:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665155422; x=1696691422;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=ozz4dRjKrdNdv2whvmeTudwuPMNq3KNa5u3HQ0DA55k=;
+  b=fxm0p9vbv2DsUj+QclJeFLNEAVnUabjzLMkecQq8xppr3R4lLRx1TeOU
+   E4eW8yXINhubRyRTrbFXHorhhWAYxkpu1wbbwYDBgICnYBNmd/oopOuk3
+   GTOPpCF7M7K6vNQBlNhZzY8/cByFkjPgjMx95Ua0gLkS3jD9MAKZUALA7
+   sYr4gdTTX5hQx3aIo1sjysSZOEGSaxoSQXCnFqVcF5rYe8awlqOKDNz4A
+   AUQeZy/qpTV3vxTa2RVOXNMkgoiadVo4pD3aIG6oC2Lt2mbvHKRDLNDSJ
+   5AmRzJBqgd6ANRGzbyqiqVHG2t0e+xUBrpCYfnikVGjqq7jINHXrPnOwe
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10493"; a="301357183"
+X-IronPort-AV: E=Sophos;i="5.95,167,1661842800"; 
+   d="scan'208";a="301357183"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2022 08:10:22 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10493"; a="625173439"
+X-IronPort-AV: E=Sophos;i="5.95,167,1661842800"; 
+   d="scan'208";a="625173439"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2022 08:10:21 -0700
+Date:   Fri, 7 Oct 2022 08:10:34 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 4/4] tty: serial: 8250: add DFL bus driver for Altera
+ 16550.
+In-Reply-To: <Yz/uTGeNaOP4Btli@smile.fi.intel.com>
+Message-ID: <alpine.DEB.2.22.394.2210070807340.2155700@rhweight-WRK1>
+References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com> <20221004143718.1076710-5-matthew.gerlach@linux.intel.com> <YzxRxo8jL7rB1+px@smile.fi.intel.com> <alpine.DEB.2.22.394.2210060940150.1988353@rhweight-WRK1> <Yz8T8GdzMLyAKIMb@smile.fi.intel.com>
+ <alpine.DEB.2.22.394.2210061517300.1772307@rhweight-WRK1> <Yz/uTGeNaOP4Btli@smile.fi.intel.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y0AJ++m/TxoscOZg@kernel.org>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 07, 2022, Jarkko Sakkinen wrote:
-> On Thu, Oct 06, 2022 at 03:34:58PM +0000, Sean Christopherson wrote:
-> > On Thu, Oct 06, 2022, Jarkko Sakkinen wrote:
-> > > On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
-> > > > On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
-> > > > > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
-> > > > > additional KVM memslot fields private_fd/private_offset to allow
-> > > > > userspace to specify that guest private memory provided from the
-> > > > > private_fd and guest_phys_addr mapped at the private_offset of the
-> > > > > private_fd, spanning a range of memory_size.
-> > > > > 
-> > > > > The extended memslot can still have the userspace_addr(hva). When use, a
-> > > > > single memslot can maintain both private memory through private
-> > > > > fd(private_fd/private_offset) and shared memory through
-> > > > > hva(userspace_addr). Whether the private or shared part is visible to
-> > > > > guest is maintained by other KVM code.
-> > > > 
-> > > > What is anyway the appeal of private_offset field, instead of having just
-> > > > 1:1 association between regions and files, i.e. one memfd per region?
-> > 
-> > Modifying memslots is slow, both in KVM and in QEMU (not sure about Google's VMM).
-> > E.g. if a vCPU converts a single page, it will be forced to wait until all other
-> > vCPUs drop SRCU, which can have severe latency spikes, e.g. if KVM is faulting in
-> > memory.  KVM's memslot updates also hold a mutex for the entire duration of the
-> > update, i.e. conversions on different vCPUs would be fully serialized, exacerbating
-> > the SRCU problem.
-> > 
-> > KVM also has historical baggage where it "needs" to zap _all_ SPTEs when any
-> > memslot is deleted.
-> > 
-> > Taking both a private_fd and a shared userspace address allows userspace to convert
-> > between private and shared without having to manipulate memslots.
-> 
-> Right, this was really good explanation, thank you.
-> 
-> Still wondering could this possibly work (or not):
-> 
-> 1. Union userspace_addr and private_fd.
 
-No, because userspace needs to be able to provide both userspace_addr (shared
-memory) and private_fd (private memory) for a single memslot.
 
-> 2. Instead of introducing private_offset, use guest_phys_addr as the
->    offset.
+On Fri, 7 Oct 2022, Andy Shevchenko wrote:
 
-No, because that would force userspace to use a single private_fd for all of guest
-memory since it effectively means private_offset=0.  And userspace couldn't skip
-over holes in guest memory, i.e. the size of the memfd would need to follow the
-max guest gpa.  In other words, dropping private_offset could work, but it'd be
-quite kludgy and not worth saving 8 bytes.
+> On Thu, Oct 06, 2022 at 03:24:16PM -0700, matthew.gerlach@linux.intel.com wrote:
+>> On Thu, 6 Oct 2022, Andy Shevchenko wrote:
+>>> On Thu, Oct 06, 2022 at 10:00:43AM -0700, matthew.gerlach@linux.intel.com wrote:
+>>>> On Tue, 4 Oct 2022, Andy Shevchenko wrote:
+>>>>> On Tue, Oct 04, 2022 at 07:37:18AM -0700, matthew.gerlach@linux.intel.com wrote:
+>
+> ...
+>
+>>>>>> Reported-by: kernel test robot <lkp@intel.com>
+>>>>>
+>>>>> https://docs.kernel.org/process/submitting-patches.html?highlight=reported#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
+>>>>>
+>>>>> "The Reported-by tag gives credit to people who find bugs and report them and it
+>>>>> hopefully inspires them to help us again in the future. Please note that if the
+>>>>> bug was reported in private, then ask for permission first before using the
+>>>>> Reported-by tag. The tag is intended for bugs; please do not use it to credit
+>>>>> feature requests."
+>>>>
+>>>> The kernel test robot did find a bug in my v1 submission.  I was missing the
+>>>> static keyword for a function declaration.  Should I remove the tag?
+>>>
+>>> What's yours take from the above documentation?
+>>
+>> Since the kernel test robot did find a bug. The tag should stay.
+>
+> I suggest otherwise because of the last sentence in the cited excerpt: "please
+> do not use it to credit feature requests". To distinguish "feature request" you
+> can ask yourself "Am I fixing _existing_ code or adding a new one?" And the
+> answer here is crystal clear (at least to me).
+>
+> ...
+>
+>>>>>> +config SERIAL_8250_DFL
+>>>>>> +	tristate "DFL bus driver for Altera 16550 UART"
+>>>>>> +	depends on SERIAL_8250 && FPGA_DFL
+>>>>>> +	help
+>>>>>> +	  This option enables support for a Device Feature List (DFL) bus
+>>>>>> +	  driver for the Altera 16650 UART.  One or more Altera 16650 UARTs
+>>>>>> +	  can be instantiated in a FPGA and then be discovered during
+>>>>>> +	  enumeration of the DFL bus.
+>>>>>
+>>>>> When m, what be the module name?
+>>>>
+>>>> I see the file, kernel/drivers/tty/serial/8250/8250_dfl.ko, installed into
+>>>> /lib/modules/...  I also see "alias dfl:t0000f0024* 8250_dfl" in
+>>>> modules.alias
+>>>
+>>> My point is that user who will run `make menuconfig` will read this and have
+>>> no clue after the kernel build if the module was built or not. Look into other
+>>> (recent) sections of the Kconfig for drivers in the kernel for how they inform
+>>> user about the module name (this more or less standard pattern you just need
+>>> to copy'n'paste'n'edit carefully).
+>>
+>> I think this should be added:
+>>           To compile this driver as a module, chose M here: the
+>>           module will be called 8250_dfl.
+>
+> Looks good to me!
+>
+>
+>>>>>>  obj-$(CONFIG_SERIAL_8250_FOURPORT)	+= 8250_fourport.o
+>>>>>>  obj-$(CONFIG_SERIAL_8250_ACCENT)	+= 8250_accent.o
+>>>>>>  obj-$(CONFIG_SERIAL_8250_BOCA)		+= 8250_boca.o
+>>>>>> +obj-$(CONFIG_SERIAL_8250_DFL)		+= 8250_dfl.o
+>>>>>
+>>>>> This group of drivers for the 4 UARTs on the board or so, does FPGA belong to
+>>>>> it? (Same Q, btw, for the Kconfig section. And yes, I know that some of the
+>>>>> entries are not properly placed there and in Makefile.)
+>>>>
+>>>> Since 8250_dfl results in its own module, and my kernel config doesn't have
+>>>> FOURPORT, ACCENT, nor BOCA, I guess I don't understand the problem.
+>>>
+>>> The Makefile is a bit chaotic, but try to find the sorted (more or less)
+>>> group of drivers that are not 4 ports and squeeze your entry there
+>>> (I expect somewhere between the LPSS/MID lines).
+>>>
+>>> It will help to sort out that mess in the future.
+>>
+>> I will move 8250_dfl between LPSS and MID lines in the Makefile.  Should I
+>> move the definition in Kconfig to be between LPSS and MID to be consistent?
+>
+> D is not ordered if put between L and M, I meant not to literally put it there
+> but think about it a bit.
+>
+> Kconfig is another story because it has different approach in ordering (seems
+> so), try to find the best compromise there.
+
+In the Kconfig, I think the driver fits into the section, Misc. 
+options/drivers.  Within this section, I think SERIAL_8250_DFL should go 
+before SERIAL_8250_DW to approximate alphabetical ordering.  Similarly, I 
+think 8250_dfl.o should go above 8250_dw.o in the Makefile.
+
+>
+>>>>>>  obj-$(CONFIG_SERIAL_8250_EXAR_ST16C554)	+= 8250_exar_st16c554.o
+>>>>>>  obj-$(CONFIG_SERIAL_8250_HUB6)		+= 8250_hub6.o
+>>>>>>  obj-$(CONFIG_SERIAL_8250_FSL)		+= 8250_fsl.o
+>
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+>
