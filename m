@@ -2,93 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B823AC433FE
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Oct 2022 17:50:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE196C433F5
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Oct 2022 18:16:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230467AbiJHRuE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 Oct 2022 13:50:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46198 "EHLO
+        id S230441AbiJHSQd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 Oct 2022 14:16:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230428AbiJHRtz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Oct 2022 13:49:55 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D85441BEAA;
-        Sat,  8 Oct 2022 10:49:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6E492B80BAA;
-        Sat,  8 Oct 2022 17:49:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00A0EC43142;
-        Sat,  8 Oct 2022 17:49:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665251392;
-        bh=HGkXZmGeeOn4bl+3SPBqoUb+cj5nTCmJvALDRMHFxws=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=er0or2EPWW5sAqRgkYRBmsA0luyojhJnF5q/26MIm5RyG1qwJLCIlGWo8AjBUie7A
-         PSsfCnQ+4U2o52ghBsFXp3K/MSxbf0KFh7XqI4rt20sBUKaddLX4qq8Hjo1/5es+7b
-         cAw5g4lrkuPpRCOE65UfHV6dTRh/4zq43eE4uOMyPfl2RtCx07Oh7NmWufpY1VP2B+
-         Aw+PPYNDiHgsAOyM2KHPpD74A04Crmpw2o8q4cCq/Giwv5xncDR8cE2Ij7p1P2ItTS
-         zcnm326DWKj1BZvod1v1mE4Q3FB1idVWnNLWLx467AXrPUxZw8cUZVnojPAPYuPwZK
-         3fklFyuj6rjzQ==
-From:   SeongJae Park <sj@kernel.org>
-To:     paulmck@kernel.org, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org, SeongJae Park <sj@kernel.org>
-Subject: [PATCH 3/4] docs/memory-barriers.txt/kokr: Add memory barrier dma_mb()
-Date:   Sat,  8 Oct 2022 10:49:27 -0700
-Message-Id: <20221008174928.13479-4-sj@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20221008174928.13479-1-sj@kernel.org>
-References: <20221008174928.13479-1-sj@kernel.org>
+        with ESMTP id S229916AbiJHSQc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Oct 2022 14:16:32 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 487403A177;
+        Sat,  8 Oct 2022 11:16:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665252991; x=1696788991;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q7YlJwn22ePcF+UsrTEOpg8IcVNJxX9fgtN3uSim9/E=;
+  b=Cy4RrU9t92ztTMzry6jaPaWlZaLIB+yMDteFQq7drWgDpR+tajmRMi64
+   ykD3t070bB43GQAQqvKyud+dBzKSeDr8V9s1IEBmkV0dAcLzqehFOyr7D
+   un7mKVNaVlaMrC5a6GwPw82JHRxcdMaLG+ubeZmMsq+l6ls5ltIZoYNjZ
+   53DwZoCUDNZvtTqD+V3ypiLvmlGZwi67J28TZLHt2ZD7uotZLAc3Az7tf
+   yDSD16lHUMpqwIRCGkVQz2qnC+0rEx1ZaMbO71IBwW04LXG1zegKMQoHN
+   5nZHsTBnhmJHREjKkJp2rp/DM/3J4jmEGia2mk3bRlY0E6RcO+5EIrz0B
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10494"; a="390269218"
+X-IronPort-AV: E=Sophos;i="5.95,170,1661842800"; 
+   d="scan'208";a="390269218"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2022 11:16:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10494"; a="750899918"
+X-IronPort-AV: E=Sophos;i="5.95,170,1661842800"; 
+   d="scan'208";a="750899918"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga004.jf.intel.com with ESMTP; 08 Oct 2022 11:16:23 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1ohEN3-0048ft-0Q;
+        Sat, 08 Oct 2022 21:16:21 +0300
+Date:   Sat, 8 Oct 2022 21:16:20 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
+        kernel-janitors@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mm@kvack.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        loongarch@lists.linux.dev, netdev@vger.kernel.org,
+        sparclinux@vger.kernel.org, x86@kernel.org, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v4 2/6] treewide: use prandom_u32_max() when possible
+Message-ID: <Y0G+dP9uGaYHSa9y@smile.fi.intel.com>
+References: <53DD0148-ED15-4294-8496-9E4B4C7AD061@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <53DD0148-ED15-4294-8496-9E4B4C7AD061@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate this commit to Korean:
+On Fri, Oct 07, 2022 at 08:50:43PM -0700, Kees Cook wrote:
+> On October 7, 2022 7:21:28 PM PDT, "Jason A. Donenfeld" <Jason@zx2c4.com> wrote:
+> >On Fri, Oct 07, 2022 at 03:47:44PM -0700, Kees Cook wrote:
+> >> On Fri, Oct 07, 2022 at 12:01:03PM -0600, Jason A. Donenfeld wrote:
 
-    ed59dfd9509d ("asm-generic: Add memory barrier dma_mb()")
+...
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- .../translations/ko_KR/memory-barriers.txt         | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+> >> These are more fun, but Coccinelle can still do them with a little
+> >> Pythonic help:
+> >> 
+> >> // Find a potential literal
+> >> @literal_mask@
+> >> expression LITERAL;
+> >> identifier randfunc =~ "get_random_int|prandom_u32|get_random_u32";
+> >> position p;
+> >> @@
+> >> 
+> >>         (randfunc()@p & (LITERAL))
+> >> 
+> >> // Add one to the literal.
+> >> @script:python add_one@
+> >> literal << literal_mask.LITERAL;
+> >> RESULT;
+> >> @@
+> >> 
+> >> if literal.startswith('0x'):
+> >>         value = int(literal, 16) + 1
+> >>         coccinelle.RESULT = cocci.make_expr("0x%x" % (value))
+> >> elif literal[0] in '123456789':
+> >>         value = int(literal, 10) + 1
+> >>         coccinelle.RESULT = cocci.make_expr("%d" % (value))
+> >> else:
+> >>         print("I don't know how to handle: %s" % (literal))
 
-diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
-index 1c811b96e8e0..b9be5c08af14 100644
---- a/Documentation/translations/ko_KR/memory-barriers.txt
-+++ b/Documentation/translations/ko_KR/memory-barriers.txt
-@@ -1863,6 +1863,7 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
- 
-  (*) dma_wmb();
-  (*) dma_rmb();
-+ (*) dma_mb();
- 
-      이것들은 CPU 와 DMA 가능한 디바이스에서 모두 액세스 가능한 공유 메모리의
-      읽기, 쓰기 작업들의 순서를 보장하기 위해 consistent memory 에서 사용하기
-@@ -1893,12 +1894,13 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
- 
-      dma_rmb() 는 디스크립터로부터 데이터를 읽어오기 전에 디바이스가 소유권을
-      내려놓았을 것을 보장하고, dma_wmb() 는 디바이스가 자신이 소유권을 다시
--     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  참고로,
--     writel() 을 사용하면 캐시 일관성이 있는 메모리 (cache coherent memory)
--     쓰기가 MMIO 영역에의 쓰기 전에 완료되었을 것을 보장하므로 writel() 앞에
--     wmb() 를 실행할 필요가 없음을 알아두시기 바랍니다.  writel() 보다 비용이
--     저렴한 writel_relaxed() 는 이런 보장을 제공하지 않으므로 여기선 사용되지
--     않아야 합니다.
-+     가졌음을 보기 전에 디스크립터에 데이터가 쓰였을 것을 보장합니다.  dma_mb()
-+     는 dma_rmb() 와 dma_wmb() 를 모두 내포합니다.  참고로, writel() 을
-+     사용하면 캐시 일관성이 있는 메모리 (cache coherent memory) 쓰기가 MMIO
-+     영역에의 쓰기 전에 완료되었을 것을 보장하므로 writel() 앞에 wmb() 를
-+     실행할 필요가 없음을 알아두시기 바랍니다.  writel() 보다 비용이 저렴한
-+     writel_relaxed() 는 이런 보장을 제공하지 않으므로 여기선 사용되지 않아야
-+     합니다.
- 
-      writel_relaxed() 와 같은 완화된 I/O 접근자들에 대한 자세한 내용을 위해서는
-      "커널 I/O 배리어의 효과" 섹션을, consistent memory 에 대한 자세한 내용을
+Wouldn't Python take care about (known) prefixes itself?
+
+	try:
+		x = int(literal)
+	except ValueError as ex:
+		print(..., ex.error)
+
+> >> // Replace the literal mask with the calculated result.
+> >> @plus_one@
+> >> expression literal_mask.LITERAL;
+> >> position literal_mask.p;
+> >> expression add_one.RESULT;
+> >> identifier FUNC;
+> >> @@
+> >> 
+> >> -       (FUNC()@p & (LITERAL))
+> >> +       prandom_u32_max(RESULT)
+> >
+> >Oh that's pretty cool. I can do the saturation check in python, since
+> >`value` holds the parsed result. Neat.
+> 
+> It is (at least how I have it here) just the string, so YMMV.
+
+...
+
+> >Thanks a bunch for the guidance.
+> 
+> Sure thing! I was pleased to figure out how to do the python bit.
+
+I believe it can be optimized
+
 -- 
-2.17.1
+With Best Regards,
+Andy Shevchenko
+
 
