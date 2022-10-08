@@ -2,113 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 138F6C433FE
-	for <linux-doc@archiver.kernel.org>; Sat,  8 Oct 2022 15:37:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F5E5C433FE
+	for <linux-doc@archiver.kernel.org>; Sat,  8 Oct 2022 16:15:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbiJHPhi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 8 Oct 2022 11:37:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56922 "EHLO
+        id S229459AbiJHQPW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 8 Oct 2022 12:15:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbiJHPhh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Oct 2022 11:37:37 -0400
+        with ESMTP id S229609AbiJHQPV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Oct 2022 12:15:21 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6310B3F1EE;
-        Sat,  8 Oct 2022 08:37:36 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED1431DC7;
+        Sat,  8 Oct 2022 09:15:20 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B0D2C60A0F;
-        Sat,  8 Oct 2022 15:37:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6325DC433D6;
-        Sat,  8 Oct 2022 15:37:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1665243455;
-        bh=iZs4LS2c78mWTK7VP9rYv0Gd7Qjrrk7FRFLOtLI7jIE=;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 34BE160A37;
+        Sat,  8 Oct 2022 16:15:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A207C433D6;
+        Sat,  8 Oct 2022 16:15:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665245719;
+        bh=NIgNigZexN067z2ad+UvtpUHM+JSZc0JYM0evS6yNx0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lpPo/FwsRx8A1pEIFq0YgzBE1yJUA/ftclR7pjjmkm3BCTs9ykaCaGipjTgZ2RrqF
-         G0/1Rl4a9+kU2ICW186Oe5J0xg7g1U3glZrfVWobe1UK+MUIqWbN273i1QVNGsmeQ9
-         ddRoAQjkMz3vc5+dmmxBpuMuIV8SZkRQZD25nr8M=
-Date:   Sat, 8 Oct 2022 17:38:15 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
-        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dave Airlie <airlied@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Florian Westphal <fw@strlen.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Hugh Dickins <hughd@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Berg <johannes@sipsolutions.net>,
+        b=VAGeVVDf6KIOhTWVugZOJTuKPzDIFSGBDrGjIzZCQaYbWM1BU4NBt3yHdh/p+QB8Z
+         Mx6iHaLe+DEGh+bDFLK83w/Rr0LUpsfWq5pCWNpvvFsJhEEnvolwGToq7kVMYm16C7
+         QcypgNRE4zg87Wqm9iJT8rOYJDbQxSGv57JHugrmcHqPoIxRdFRiHZJqRPFSyCDMtn
+         VuP1L+Zw3IgC/rMVlFF4fXoapnhUapUQB/vBk7S49rXo0meL1hSUbsDRuB/MFvpsc1
+         IrKiCJ6IemXXuaxmEzEV+cS22e0yEOJl6KXc6pQBJg1bl7a6cOxdRgEbitVsWeCajN
+         r4dGxRV6nD9YQ==
+Date:   Sat, 8 Oct 2022 19:15:13 +0300
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Marco Elver <elver@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        Russell King <linux@armlinux.org.uk>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Graf <tgraf@suug.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
-        kernel-janitors@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-mm@kvack.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        loongarch@lists.linux.dev, netdev@vger.kernel.org,
-        sparclinux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v5 0/7] treewide cleanup of random integer usage
-Message-ID: <Y0GZZ71Ugh9Ev99R@kroah.com>
-References: <20221008055359.286426-1-Jason@zx2c4.com>
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y0GiEW0cYCNx5jyK@kernel.org>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <Yz7s+JIexAHJm5dc@kernel.org>
+ <Yz7vHXZmU3EpmI0j@kernel.org>
+ <Yz71ogila0mSHxxJ@google.com>
+ <Y0AJ++m/TxoscOZg@kernel.org>
+ <Y0A+rogB6TRDtbyE@google.com>
+ <Y0CgFIq6JnHmdWrL@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221008055359.286426-1-Jason@zx2c4.com>
+In-Reply-To: <Y0CgFIq6JnHmdWrL@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 07, 2022 at 11:53:52PM -0600, Jason A. Donenfeld wrote:
-> Changes v4->v5:
-> - Coccinelle is now used for as much mechanical aspects as possible,
->   with mechanical parts split off from non-mechanical parts. This should
->   drastically reduce the amount of code that needs to be reviewed
->   carefully. Each commit mentions now if it was done by hand or is
->   mechanical.
+On Sat, Oct 08, 2022 at 12:54:32AM +0300, Jarkko Sakkinen wrote:
+> On Fri, Oct 07, 2022 at 02:58:54PM +0000, Sean Christopherson wrote:
+> > On Fri, Oct 07, 2022, Jarkko Sakkinen wrote:
+> > > On Thu, Oct 06, 2022 at 03:34:58PM +0000, Sean Christopherson wrote:
+> > > > On Thu, Oct 06, 2022, Jarkko Sakkinen wrote:
+> > > > > On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
+> > > > > > On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> > > > > > > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> > > > > > > additional KVM memslot fields private_fd/private_offset to allow
+> > > > > > > userspace to specify that guest private memory provided from the
+> > > > > > > private_fd and guest_phys_addr mapped at the private_offset of the
+> > > > > > > private_fd, spanning a range of memory_size.
+> > > > > > > 
+> > > > > > > The extended memslot can still have the userspace_addr(hva). When use, a
+> > > > > > > single memslot can maintain both private memory through private
+> > > > > > > fd(private_fd/private_offset) and shared memory through
+> > > > > > > hva(userspace_addr). Whether the private or shared part is visible to
+> > > > > > > guest is maintained by other KVM code.
+> > > > > > 
+> > > > > > What is anyway the appeal of private_offset field, instead of having just
+> > > > > > 1:1 association between regions and files, i.e. one memfd per region?
+> > > > 
+> > > > Modifying memslots is slow, both in KVM and in QEMU (not sure about Google's VMM).
+> > > > E.g. if a vCPU converts a single page, it will be forced to wait until all other
+> > > > vCPUs drop SRCU, which can have severe latency spikes, e.g. if KVM is faulting in
+> > > > memory.  KVM's memslot updates also hold a mutex for the entire duration of the
+> > > > update, i.e. conversions on different vCPUs would be fully serialized, exacerbating
+> > > > the SRCU problem.
+> > > > 
+> > > > KVM also has historical baggage where it "needs" to zap _all_ SPTEs when any
+> > > > memslot is deleted.
+> > > > 
+> > > > Taking both a private_fd and a shared userspace address allows userspace to convert
+> > > > between private and shared without having to manipulate memslots.
+> > > 
+> > > Right, this was really good explanation, thank you.
+> > > 
+> > > Still wondering could this possibly work (or not):
+> > > 
+> > > 1. Union userspace_addr and private_fd.
+> > 
+> > No, because userspace needs to be able to provide both userspace_addr (shared
+> > memory) and private_fd (private memory) for a single memslot.
+> 
+> Got it, thanks for clearing my misunderstandings on this topic, and it
+> is quite obviously visible in 5/8 and 7/8. I.e. if I got it right,
+> memblock can be partially private, and you dig the shared holes with
+> KVM_MEMORY_ENCRYPT_UNREG_REGION. We have (in Enarx) ATM have memblock
+> per host mmap, I was looking into this dilated by that mindset but makes
+> definitely sense to support that.
 
-All look good to me, thanks for the cleanups.
+For me the most useful reference with this feature is kvm_set_phys_mem()
+implementation in privmem-v8 branch. Took while to find it because I did
+not have much experience with QEMU code base. I'd even recommend to mention
+that function in the cover letter because it is really good reference on
+how this feature is supposed to be used.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+BR, Jarkko
