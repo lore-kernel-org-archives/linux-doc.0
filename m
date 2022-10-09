@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 442B6C433FE
-	for <linux-doc@archiver.kernel.org>; Sun,  9 Oct 2022 22:11:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B79DC4332F
+	for <linux-doc@archiver.kernel.org>; Sun,  9 Oct 2022 22:26:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230451AbiJIWLl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Oct 2022 18:11:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40890 "EHLO
+        id S232049AbiJIW0v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Oct 2022 18:26:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230448AbiJIWLM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Oct 2022 18:11:12 -0400
+        with ESMTP id S231840AbiJIWZv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Oct 2022 18:25:51 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87E7E2872E;
-        Sun,  9 Oct 2022 15:09:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79A123DF01;
+        Sun,  9 Oct 2022 15:18:23 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7EB57B80D33;
-        Sun,  9 Oct 2022 22:09:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3340BC433D6;
-        Sun,  9 Oct 2022 22:09:09 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7D87BB80DCD;
+        Sun,  9 Oct 2022 22:16:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58A99C433D6;
+        Sun,  9 Oct 2022 22:16:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665353352;
-        bh=qsJ5r+UWQAT9I+BtLd+LlxD1anjr0Hmry+7Ipw0+Uew=;
+        s=k20201202; t=1665353779;
+        bh=p9/uPrBC7Lu8bZsaakjZjm9RpK1vd5dI6sAFxr8FY58=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Dwx0kEusg4JuWIvGTIp6uoAT7KLmFAAzgQj6jAR1kOHAELljM2DSFA/sJSKD5Qwp6
-         o73jU59DDmOoODVAywFUQymrUVM51hQ1oWFrSKRuHm8UMVUHDL6jAfupRr/O7HMmYa
-         qJ2v4/jsiRhQTqzAkdLGA7MItO2eBsW/GSQoLXOhYCDii15T9asirV3pqzsqE64Dez
-         cQb0VbO0KY8KA+shWxBqQ9nSbWeseEneIkAmlSpyPiI3O5F55Lc7qYSkXg12gZ7cGc
-         rklLrxksqkq0zt9fhZnOUV2mnpi1pjvL27TdJJ/IBS7NT7NB6bsSh7EgEyV00vtVng
-         QK1bCta+Dgsgw==
+        b=fPgdmbOFGviNG/Yxhfqu4MRIS0HTFzpazsd1FMdpiLVIMNv9pGrttX9+rphHUBiDk
+         6L/aUBY1eh2mtbehPYcZJy+YJ8XDAE+yJSi1QucR4QGuVBInKFUIiDZbNms/DmCOcs
+         kayV7BJxHS8AcdwsXJP41eTHhC+4rSfrPYIEHoPaGaO6jQjaMlDpQpClYQsng+deqA
+         IZjYdySrEGu2bP2wO8xepXEng4dEr66UdWGm32rKWtQvV2Ns3RX4DorxdB4KMN3BnJ
+         9n6NLNUKVNJPGNr/tgcEHhVIBCd1P45uqW7llJLEwu58xcgiaGaT837EyN30udElga
+         SJ+Y7q9oJMM7w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Daniel Sneddon <daniel.sneddon@linux.intel.com>,
@@ -43,17 +43,17 @@ Cc:     Daniel Sneddon <daniel.sneddon@linux.intel.com>,
         damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
         peterz@infradead.org, jpoimboe@kernel.org, tony.luck@intel.com,
         jithu.joseph@intel.com, pawan.kumar.gupta@linux.intel.com,
-        adrian.hunter@intel.com, alexander.shishkin@linux.intel.com,
-        ray.huang@amd.com, sathyanarayanan.kuppuswamy@linux.intel.com,
-        pbonzini@redhat.com, mlevitsk@redhat.com,
-        suravee.suthikulpanit@amd.com, ben-linux@fluff.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 22/77] x86/apic: Don't disable x2APIC if locked
-Date:   Sun,  9 Oct 2022 18:06:59 -0400
-Message-Id: <20221009220754.1214186-22-sashal@kernel.org>
+        adrian.hunter@intel.com, pbonzini@redhat.com,
+        alexander.shishkin@linux.intel.com, ray.huang@amd.com,
+        sathyanarayanan.kuppuswamy@linux.intel.com,
+        kirill.shutemov@linux.intel.com, suravee.suthikulpanit@amd.com,
+        ben-linux@fluff.org, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.19 19/73] x86/apic: Don't disable x2APIC if locked
+Date:   Sun,  9 Oct 2022 18:13:57 -0400
+Message-Id: <20221009221453.1216158-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221009220754.1214186-1-sashal@kernel.org>
-References: <20221009220754.1214186-1-sashal@kernel.org>
+In-Reply-To: <20221009221453.1216158-1-sashal@kernel.org>
+References: <20221009221453.1216158-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -106,10 +106,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  5 files changed, 65 insertions(+), 5 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 426fa892d311..2bc11a61c4d0 100644
+index 1b38d0f70677..5ef5d727ca34 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3805,6 +3805,10 @@
+@@ -3765,6 +3765,10 @@
  
  	nox2apic	[X86-64,APIC] Do not enable x2APIC mode.
  
@@ -121,10 +121,10 @@ index 426fa892d311..2bc11a61c4d0 100644
  			This parameter sets the maximum duration, in
  			cycles, each HW thread of the CTOP can run
 diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index f9920f1341c8..159c025ebb03 100644
+index 25e2b8b75e40..1cccedfc2a48 100644
 --- a/arch/x86/Kconfig
 +++ b/arch/x86/Kconfig
-@@ -448,6 +448,11 @@ config X86_X2APIC
+@@ -450,6 +450,11 @@ config X86_X2APIC
  	  This allows 32-bit apic IDs (so it can support very large systems),
  	  and accesses the local apic via MSRs not via mmio.
  
@@ -136,7 +136,7 @@ index f9920f1341c8..159c025ebb03 100644
  	  If you don't know what to do here, say N.
  
  config X86_MPPARSE
-@@ -1919,7 +1924,7 @@ endchoice
+@@ -1930,7 +1935,7 @@ endchoice
  
  config X86_SGX
  	bool "Software Guard eXtensions (SGX)"
@@ -157,7 +157,7 @@ index 8cbf623f0ecf..b472ef76826a 100644
 +
  #endif /* _ASM_X86_CPU_H */
 diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-index 6674bdb096f3..1e086b37a307 100644
+index e057e039173c..9267bfe3c33f 100644
 --- a/arch/x86/include/asm/msr-index.h
 +++ b/arch/x86/include/asm/msr-index.h
 @@ -155,6 +155,11 @@
@@ -172,7 +172,7 @@ index 6674bdb096f3..1e086b37a307 100644
  #define MSR_IA32_FLUSH_CMD		0x0000010b
  #define L1D_FLUSH			BIT(0)	/*
  						 * Writeback and invalidate the
-@@ -1054,4 +1059,12 @@
+@@ -1046,4 +1051,12 @@
  #define MSR_IA32_HW_FEEDBACK_PTR        0x17d0
  #define MSR_IA32_HW_FEEDBACK_CONFIG     0x17d1
  
@@ -186,7 +186,7 @@ index 6674bdb096f3..1e086b37a307 100644
 +
  #endif /* _ASM_X86_MSR_INDEX_H */
 diff --git a/arch/x86/kernel/apic/apic.c b/arch/x86/kernel/apic/apic.c
-index 6d303d1d276c..c6876d3ea4b1 100644
+index 189d3a5e471a..665993b2e80d 100644
 --- a/arch/x86/kernel/apic/apic.c
 +++ b/arch/x86/kernel/apic/apic.c
 @@ -61,6 +61,7 @@
@@ -197,7 +197,7 @@ index 6d303d1d276c..c6876d3ea4b1 100644
  
  unsigned int num_processors;
  
-@@ -1751,11 +1752,26 @@ EXPORT_SYMBOL_GPL(x2apic_mode);
+@@ -1756,11 +1757,26 @@ EXPORT_SYMBOL_GPL(x2apic_mode);
  
  enum {
  	X2APIC_OFF,
@@ -225,7 +225,7 @@ index 6d303d1d276c..c6876d3ea4b1 100644
  static void __x2apic_disable(void)
  {
  	u64 msr;
-@@ -1793,6 +1809,10 @@ static int __init setup_nox2apic(char *str)
+@@ -1798,6 +1814,10 @@ static int __init setup_nox2apic(char *str)
  				apicid);
  			return 0;
  		}
@@ -236,7 +236,7 @@ index 6d303d1d276c..c6876d3ea4b1 100644
  		pr_warn("x2apic already enabled.\n");
  		__x2apic_disable();
  	}
-@@ -1807,10 +1827,18 @@ early_param("nox2apic", setup_nox2apic);
+@@ -1812,10 +1832,18 @@ early_param("nox2apic", setup_nox2apic);
  void x2apic_setup(void)
  {
  	/*
@@ -257,7 +257,7 @@ index 6d303d1d276c..c6876d3ea4b1 100644
  		__x2apic_disable();
  		return;
  	}
-@@ -1831,6 +1859,11 @@ static __init void x2apic_disable(void)
+@@ -1836,6 +1864,11 @@ static __init void x2apic_disable(void)
  	if (x2apic_id >= 255)
  		panic("Cannot disable x2apic, id: %08x\n", x2apic_id);
  
@@ -269,7 +269,7 @@ index 6d303d1d276c..c6876d3ea4b1 100644
  	__x2apic_disable();
  	register_lapic_address(mp_lapic_addr);
  }
-@@ -1889,7 +1922,10 @@ void __init check_x2apic(void)
+@@ -1894,7 +1927,10 @@ void __init check_x2apic(void)
  	if (x2apic_enabled()) {
  		pr_info("x2apic: enabled by BIOS, switching to x2apic ops\n");
  		x2apic_mode = 1;
