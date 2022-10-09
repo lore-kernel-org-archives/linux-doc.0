@@ -2,115 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35151C4332F
-	for <linux-doc@archiver.kernel.org>; Sun,  9 Oct 2022 21:10:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37EA8C433FE
+	for <linux-doc@archiver.kernel.org>; Sun,  9 Oct 2022 21:47:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231408AbiJIVKj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Oct 2022 17:10:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36202 "EHLO
+        id S230164AbiJIVrP convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Oct 2022 17:47:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231225AbiJIVKQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Oct 2022 17:10:16 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9241238697;
-        Sun,  9 Oct 2022 14:04:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1665349471; x=1696885471;
-  h=message-id:date:mime-version:from:subject:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=YEYGFGEhRUF1GvIBQpFpZ4vv7/I8t1gr51UudbUv544=;
-  b=Bs7jzHJRIvuHHpNEGGD1xeqCUt9TOTEHsqX+75/607+77Vnmzr5KzyMF
-   8JJmog56YXTl1O9mnCwoFOykHY6lmiYkCbUT9ErTAspZbZtOUngjoyn8V
-   1ZszqJJKBBsdQ+5uA2j+ZhKp89G/9qgZ0HRvLYOuCKV6zxeqhomYFMXIk
-   4=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 09 Oct 2022 13:59:23 -0700
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2022 13:59:23 -0700
-Received: from [10.110.10.240] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Sun, 9 Oct 2022
- 13:59:22 -0700
-Message-ID: <615493a8-449d-b105-709e-0642dfb5359b@quicinc.com>
-Date:   Sun, 9 Oct 2022 13:59:21 -0700
+        with ESMTP id S230034AbiJIVrO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Oct 2022 17:47:14 -0400
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C39DA25C54;
+        Sun,  9 Oct 2022 14:47:12 -0700 (PDT)
+Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay07.hostedemail.com (Postfix) with ESMTP id 3636E1602A7;
+        Sun,  9 Oct 2022 21:47:11 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf10.hostedemail.com (Postfix) with ESMTPA id 5A2CF2F;
+        Sun,  9 Oct 2022 21:46:37 +0000 (UTC)
+Message-ID: <a3425582d1b1bf4eb3eb5a5813e01b1409ef56cc.camel@perches.com>
+Subject: Re: kernel style preference trivia: '* const' vs '*const' ?
+From:   Joe Perches <joe@perches.com>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>
+Date:   Sun, 09 Oct 2022 14:47:08 -0700
+In-Reply-To: <CANiq72=duGy7Rakm=JG9ifB4D5qufemKvXMfvpW3Ky7wZ4bXcQ@mail.gmail.com>
+References: <9ff662d738612f0ed2cea39266768a2eff21edc3.camel@perches.com>
+         <CANiq72=duGy7Rakm=JG9ifB4D5qufemKvXMfvpW3Ky7wZ4bXcQ@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-From:   Elliot Berman <quic_eberman@quicinc.com>
-Subject: Re: [PATCH v4 14/14] tty: gunyah: Add tty console driver for RM
- Console Services
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Will Deacon" <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Arnd Bergmann" <arnd@arndb.de>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
- <20220928195633.2348848-15-quic_eberman@quicinc.com>
- <YzbePxTF8hRbWNRU@kroah.com>
- <14d0ff9f-60f3-71cc-ea42-ceee389298ac@quicinc.com>
- <Yz/YBDqqwBUlswgX@kroah.com>
-Content-Language: en-US
-In-Reply-To: <Yz/YBDqqwBUlswgX@kroah.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+X-Stat-Signature: 1q8tc4sp6skjdqg5qisoawj4ukmaqwcu
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: 5A2CF2F
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/NsC8X6U5zlkd31K9xW+AJj9cPdq8iGLE=
+X-HE-Tag: 1665351997-648461
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 10/7/2022 12:40 AM, Greg Kroah-Hartman wrote:
-> On Thu, Oct 06, 2022 at 10:59:51PM -0700, Elliot Berman wrote:
->>
->> "GH" is the shorthand we've been using for "Gunyah". I didn't find
->> documentation for dynamically assigned char devices, but if it exists, I can
->> add entry for ttyGH.
+On Sun, 2022-10-09 at 18:52 +0200, Miguel Ojeda wrote:
+> On Sun, Oct 9, 2022 at 6:21 PM Joe Perches <joe@perches.com> wrote:
+> > 
+> > The kernel uses '* const' about 10:1 over '*const'
 > 
-> Why use a new name at all?  Why not stick with the existing tty names
-> and device numbers?
+> Yeah, going with the most commonly used one sounds best.
 > 
+> clang-format will be able to handle either way with
+> `SpaceAroundPointerQualifiers` as soon as the minimum is LLVM 12.
 
-I can use hvc framework, although driver-level buffering is needed on
-both the get_chars/put_chars paths because:
+Perhaps the below.
 
-  - get_chars wants to poll for characters, but Gunyah will push
-    characters to Linux
-  - put_chars can be called in atomic context in the printk console path.
-    Gunyah RM calls can sleep, so we add to buffer and queue work to
-    write the characters.
+Perhaps it should be a --strict only CHK, but the rest of the const
+tests are WARN as well.
 
-I also chose to use new tty driver because the Gunyah hypervisor call to 
-open the console (gh_rm_console_open) can only be done after starting 
-the VM. Gunyah will only forward characters sent from the other VM to 
-Linux after the gh_rm_console_open call is made. When launching a VM, 
-users would want to open console before VM starts so they can get 
-startup messages from the VM. I planned to use the carrier_raised() to 
-hold tty_port_block_until_ready until the VM is started and the 
-gh_rm_console_open() happens.
+---
+ scripts/checkpatch.pl | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Thanks,
-Elliot
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 2737e4ced5745..eccd7940eb18b 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -4605,6 +4605,14 @@ sub process {
+ 			}
+ 		}
+ 
++# check for foo *const, prefer foo * const
++		if ($line =~ /\*const\b/) {
++			if (WARN("POINTER_CONST",
++				 "Prefer * const over *const\n" . $herecurr) &&
++			    $fix) {
++				$fixed[$fixlinenr] =~ s/\*const\b/* const/;
++			}
++		}
+ # check for non-global char *foo[] = {"bar", ...} declarations.
+ 		if ($line =~ /^.\s+(?:static\s+|const\s+)?char\s+\*\s*\w+\s*\[\s*\]\s*=\s*\{/) {
+ 			WARN("STATIC_CONST_CHAR_ARRAY",
