@@ -2,62 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F30E8C433FE
-	for <linux-doc@archiver.kernel.org>; Sun,  9 Oct 2022 16:21:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA616C433F5
+	for <linux-doc@archiver.kernel.org>; Sun,  9 Oct 2022 16:53:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbiJIQVq convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 9 Oct 2022 12:21:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52610 "EHLO
+        id S229605AbiJIQxD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 9 Oct 2022 12:53:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229728AbiJIQVp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Oct 2022 12:21:45 -0400
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7E0C27140;
-        Sun,  9 Oct 2022 09:21:43 -0700 (PDT)
-Received: from omf04.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay04.hostedemail.com (Postfix) with ESMTP id 45D5E1A0930;
-        Sun,  9 Oct 2022 16:21:42 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf04.hostedemail.com (Postfix) with ESMTPA id 1D92720023;
-        Sun,  9 Oct 2022 16:21:13 +0000 (UTC)
-Message-ID: <9ff662d738612f0ed2cea39266768a2eff21edc3.camel@perches.com>
-Subject: kernel style preference trivia: '* const' vs '*const' ?
-From:   Joe Perches <joe@perches.com>
-To:     LKML <linux-kernel@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sun, 09 Oct 2022 09:21:39 -0700
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+        with ESMTP id S229570AbiJIQxC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Oct 2022 12:53:02 -0400
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A59BA1C43A;
+        Sun,  9 Oct 2022 09:53:01 -0700 (PDT)
+Received: by mail-io1-xd35.google.com with SMTP id n73so2136579iod.13;
+        Sun, 09 Oct 2022 09:53:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y4iRO+7/4lIu9eZ1/DziHCBOu7qOC4VfYPHIn9DnoOc=;
+        b=nrCCUazwOwDw4sSzcEOqa+DrH/IPS9Sj1jExEri/AEbvIFPIVmQ9dJoBx5vV/N69tH
+         ltLzNwbWw46/C2xAL5A0V9XcETv7L+zHZSIi/q9VMGYdhyKwohFuwC40gjOrUGPxn+Mu
+         FVYpaPm7qlfDwFaU2fzS4bgkZ5PzuxSZf0IA5FDhNwDZXTsPOQitEy9Q+i8Fz5FMbRgb
+         HooFAYiIDvqQ/ckCOE6bS93X/3EXy/sFbBdKyCv4W6LyJLRsQmEo0iSZQykgKWRdEa40
+         Ep6+uHX4keWxW/4kI6siZkVA6iJ2evFqD9ZpZyy0Mv7LvWJW9ghEp+umOZBZGKMxykqL
+         p47w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y4iRO+7/4lIu9eZ1/DziHCBOu7qOC4VfYPHIn9DnoOc=;
+        b=OUF+jWHdngz7owIS07MzZZa2OVuX4rxpg3bW6J59BPiCYUQXvU14sadc9TJHn/Wpkd
+         kxqDqeLZdaKg6xeoFL7FubFwVVvt3EuPyjwbExKDzTzqKIzYG9z0kZumSSGWct/bUv2G
+         +nZUP7gd74GLRrOFjD7uukpvKhnhxiVfqtcGyZ56mejJLge6Y6Gxcm7LWQ4/EggIZnY9
+         fQBnas2rmYKoN3dXesEJmqpkccnMXc8bDRzlffcNbyj+iGfWBqa4oL4NcWQFVi+v/9CA
+         9qZOQSN08mrurTRCLcF63nnDhGoPC8AGEoggSoNcIss97t8/ZykMhNzJsgLRZeJ6Xtuj
+         /+FA==
+X-Gm-Message-State: ACrzQf07KfX29izhqzPXJEurb+f7C9w0/+HaB4jRrO8cBFisbR/Y0K5O
+        +xC9FuywB8QiIsZWaKngB6rTyJcv16P/F9eXRX8/tf8gt/E=
+X-Google-Smtp-Source: AMsMyM7A0mCGiQ1cLTEfCOgPGFKWaiAE3jrfEEyzpdC9qzYEJa0Hq+MHqt4wf22ILCINwm9i6LakopCdyyLMmtEt8Cc=
+X-Received: by 2002:a02:cc6f:0:b0:363:98f2:347d with SMTP id
+ j15-20020a02cc6f000000b0036398f2347dmr5990583jaq.199.1665334381049; Sun, 09
+ Oct 2022 09:53:01 -0700 (PDT)
 MIME-Version: 1.0
-X-Stat-Signature: f7kky6c3eq77h4mcji14he9g4r95z8eo
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 1D92720023
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/54rzZQ8/w8+gpKyhVqiTMLzTvdQeQyYQ=
-X-HE-Tag: 1665332473-117259
+References: <9ff662d738612f0ed2cea39266768a2eff21edc3.camel@perches.com>
+In-Reply-To: <9ff662d738612f0ed2cea39266768a2eff21edc3.camel@perches.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sun, 9 Oct 2022 18:52:50 +0200
+Message-ID: <CANiq72=duGy7Rakm=JG9ifB4D5qufemKvXMfvpW3Ky7wZ4bXcQ@mail.gmail.com>
+Subject: Re: kernel style preference trivia: '* const' vs '*const' ?
+To:     Joe Perches <joe@perches.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel uses '* const' about 10:1 over '*const'
+On Sun, Oct 9, 2022 at 6:21 PM Joe Perches <joe@perches.com> wrote:
+>
+> The kernel uses '* const' about 10:1 over '*const'
 
-coding_style and checkpatch don't care one way or another.
+Yeah, going with the most commonly used one sounds best.
 
-Does anyone care if there should be some kernel style preference?
+clang-format will be able to handle either way with
+`SpaceAroundPointerQualifiers` as soon as the minimum is LLVM 12.
 
-$ git grep -P -oh '\b(?:char|u8)\s*\*\s*const\b' -- '*.[ch]' | \
-  sort | uniq -c | sort -rn
-  12450 char * const
-   1357 char *const
-     41 u8 * const
-     17 char* const
-      9 u8 *const
-      5 char		*const
-      2 char      * const
-      2 char			*const
-      1 char  * const
-      1 char	*const
-      1 char		* const
-
+Cheers,
+Miguel
