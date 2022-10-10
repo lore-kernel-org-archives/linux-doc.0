@@ -2,135 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E3C8C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 06:54:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA7BAC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 08:29:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230251AbiJJGyZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 02:54:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50612 "EHLO
+        id S231162AbiJJI3z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 04:29:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231345AbiJJGyQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 02:54:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45F9A64F1
-        for <linux-doc@vger.kernel.org>; Sun,  9 Oct 2022 23:54:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665384850;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Pg5G9VL5CpW466Qb5kzC3fS+GraPCe+CdwnleWArycc=;
-        b=PNFekVQGuA62vLlp6U/zz9tj3HY8A5IQx38ls64aF4CZKYjspLtH8hK/aOe075/JGrrblX
-        phMayofjBBMVy8ur0na7cT8oYIsgIRCbPRjWrrYVidpdjQlJiRhuQSZpjQNgxtDphVBONG
-        KxYXK8BnNs9Vo1Z698Q+HGbHoCxI3OQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-621-jAzwFXrFPT2BXR75otvXXQ-1; Mon, 10 Oct 2022 02:54:08 -0400
-X-MC-Unique: jAzwFXrFPT2BXR75otvXXQ-1
-Received: by mail-wr1-f72.google.com with SMTP id n8-20020adf8b08000000b0022e4d3dc8d2so2351557wra.7
-        for <linux-doc@vger.kernel.org>; Sun, 09 Oct 2022 23:54:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Pg5G9VL5CpW466Qb5kzC3fS+GraPCe+CdwnleWArycc=;
-        b=ZWHzXb+9q4Y04U+PItakYI6DnwYbKKAGEaBaNqNOIgwK7JEuXb8eDFzBE2gSphWTQy
-         zeaq5akFvERc8QsuaaxJ1R5qF7FS3EUsufFa2iPII3IM4SbPyHAEUaiIJ+G6MAATUqrO
-         BgKprd4X4zDCZ45Te827zC5MBhdR5Ege+Jehymc8UieuN26iuUlHuNyYCUc+BhpXgJE7
-         n0Jvxe3vFmHZ6iIvGbt9/lMNxrt6DV1voPYOceWqBUJbn5s7Un1QqwFw3iHvEylhqlk9
-         3vobCRatJjBFoJRWVTXCkFDLm1AQyA8Z3qRrX6+pEzMGy0FngEOJhfBEmcfSfumdqQDb
-         obpw==
-X-Gm-Message-State: ACrzQf2KCd9PouVwSenuydlS9rDvdDsSHguHRpmO58M9H431fElZQ94f
-        zTTZyqmB4Y4qJr10bIGxCMnho6ErzX/mkm9c04ar7R9xTvZOYPcCGR6S75saKlj+KW0pEdh7W4s
-        5GzexXUw9oRabxYA11JWn
-X-Received: by 2002:a05:600c:4186:b0:3b4:a660:1d29 with SMTP id p6-20020a05600c418600b003b4a6601d29mr18631484wmh.120.1665384845743;
-        Sun, 09 Oct 2022 23:54:05 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7V2dlW9YbkCCzqACXYKambIlk713mlq6z7oXm6nZyP2WjnrSh/2V7hTzCymmXg6z+PUAe1lg==
-X-Received: by 2002:a05:600c:4186:b0:3b4:a660:1d29 with SMTP id p6-20020a05600c418600b003b4a6601d29mr18631464wmh.120.1665384845488;
-        Sun, 09 Oct 2022 23:54:05 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:e600:3a4a:f000:b085:4839? (p200300cbc704e6003a4af000b0854839.dip0.t-ipconnect.de. [2003:cb:c704:e600:3a4a:f000:b085:4839])
-        by smtp.gmail.com with ESMTPSA id j5-20020a05600c1c0500b003b477532e66sm35460629wms.2.2022.10.09.23.54.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Oct 2022 23:54:05 -0700 (PDT)
-Message-ID: <b0ae9fcc-7e2b-dae9-30be-4b6ee248bf97@redhat.com>
-Date:   Mon, 10 Oct 2022 08:54:03 +0200
+        with ESMTP id S230332AbiJJI3x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 04:29:53 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 605C015FC9;
+        Mon, 10 Oct 2022 01:29:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665390592; x=1696926592;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=5AUxEww8V8qWvvG5bCArmS7RBRQUNOLUMKgyDwR1O0k=;
+  b=mC0prYi4XCb2fnmmDbKr5ZHMRDx9mqzE9wwo9ChA1hExPGhdnHFSz5jJ
+   H3qljG6LEBcGoyP12aVXoN3q6QsrOg0Dze95/twoHjvhdulfwTdeCpkz3
+   2zfiT1ap23hlrgfritrSHLg/F877ePbjRWn5TcW+MXKFq/PJ1kZ48Rghk
+   sAt+AGhkAlcl1ueHyVkobJo5zHiksMZo427qUZhGXJSzDi1uLiVXr9VLD
+   +eMpYrNA2F0o+alTsCtHDL4VAUEelTgSudZfGU1YcoDd3Z9Gauoi5jqoH
+   LKN6SLpquJbRVVf17YvQv3u6Wr4J9rqEKnmIdQzGz2OGxHfA6j11otA1A
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10495"; a="366137263"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="366137263"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 01:29:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10495"; a="656853060"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="656853060"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga008.jf.intel.com with ESMTP; 10 Oct 2022 01:29:40 -0700
+Date:   Mon, 10 Oct 2022 16:25:07 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20221010082507.GA3144879@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <Yz7s+JIexAHJm5dc@kernel.org>
+ <Yz7vHXZmU3EpmI0j@kernel.org>
+ <Yz71ogila0mSHxxJ@google.com>
+ <Y0AJ++m/TxoscOZg@kernel.org>
+ <Y0A+rogB6TRDtbyE@google.com>
+ <Y0CgFIq6JnHmdWrL@kernel.org>
+ <Y0GiEW0cYCNx5jyK@kernel.org>
+ <Y0G085xCmFBxSodG@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH -next v5 2/4] selftests/memory-hotplug: Restore memory
- before exit
-Content-Language: en-US
-To:     zhaogongyi <zhaogongyi@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Cc:     "akinobu.mita@gmail.com" <akinobu.mita@gmail.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "osalvador@suse.de" <osalvador@suse.de>,
-        "shuah@kernel.org" <shuah@kernel.org>
-References: <f83730eec0b1445fa92d4cf0397d886b@huawei.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <f83730eec0b1445fa92d4cf0397d886b@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y0G085xCmFBxSodG@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08.10.22 03:40, zhaogongyi wrote:
-> Hi!
+On Sat, Oct 08, 2022 at 08:35:47PM +0300, Jarkko Sakkinen wrote:
+> On Sat, Oct 08, 2022 at 07:15:17PM +0300, Jarkko Sakkinen wrote:
+> > On Sat, Oct 08, 2022 at 12:54:32AM +0300, Jarkko Sakkinen wrote:
+> > > On Fri, Oct 07, 2022 at 02:58:54PM +0000, Sean Christopherson wrote:
+> > > > On Fri, Oct 07, 2022, Jarkko Sakkinen wrote:
+> > > > > On Thu, Oct 06, 2022 at 03:34:58PM +0000, Sean Christopherson wrote:
+> > > > > > On Thu, Oct 06, 2022, Jarkko Sakkinen wrote:
+> > > > > > > On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
+> > > > > > > > On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> > > > > > > > > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> > > > > > > > > additional KVM memslot fields private_fd/private_offset to allow
+> > > > > > > > > userspace to specify that guest private memory provided from the
+> > > > > > > > > private_fd and guest_phys_addr mapped at the private_offset of the
+> > > > > > > > > private_fd, spanning a range of memory_size.
+> > > > > > > > > 
+> > > > > > > > > The extended memslot can still have the userspace_addr(hva). When use, a
+> > > > > > > > > single memslot can maintain both private memory through private
+> > > > > > > > > fd(private_fd/private_offset) and shared memory through
+> > > > > > > > > hva(userspace_addr). Whether the private or shared part is visible to
+> > > > > > > > > guest is maintained by other KVM code.
+> > > > > > > > 
+> > > > > > > > What is anyway the appeal of private_offset field, instead of having just
+> > > > > > > > 1:1 association between regions and files, i.e. one memfd per region?
+> > > > > > 
+> > > > > > Modifying memslots is slow, both in KVM and in QEMU (not sure about Google's VMM).
+> > > > > > E.g. if a vCPU converts a single page, it will be forced to wait until all other
+> > > > > > vCPUs drop SRCU, which can have severe latency spikes, e.g. if KVM is faulting in
+> > > > > > memory.  KVM's memslot updates also hold a mutex for the entire duration of the
+> > > > > > update, i.e. conversions on different vCPUs would be fully serialized, exacerbating
+> > > > > > the SRCU problem.
+> > > > > > 
+> > > > > > KVM also has historical baggage where it "needs" to zap _all_ SPTEs when any
+> > > > > > memslot is deleted.
+> > > > > > 
+> > > > > > Taking both a private_fd and a shared userspace address allows userspace to convert
+> > > > > > between private and shared without having to manipulate memslots.
+> > > > > 
+> > > > > Right, this was really good explanation, thank you.
+> > > > > 
+> > > > > Still wondering could this possibly work (or not):
+> > > > > 
+> > > > > 1. Union userspace_addr and private_fd.
+> > > > 
+> > > > No, because userspace needs to be able to provide both userspace_addr (shared
+> > > > memory) and private_fd (private memory) for a single memslot.
+> > > 
+> > > Got it, thanks for clearing my misunderstandings on this topic, and it
+> > > is quite obviously visible in 5/8 and 7/8. I.e. if I got it right,
+> > > memblock can be partially private, and you dig the shared holes with
+> > > KVM_MEMORY_ENCRYPT_UNREG_REGION. We have (in Enarx) ATM have memblock
+> > > per host mmap, I was looking into this dilated by that mindset but makes
+> > > definitely sense to support that.
+> > 
+> > For me the most useful reference with this feature is kvm_set_phys_mem()
+> > implementation in privmem-v8 branch. Took while to find it because I did
+> > not have much experience with QEMU code base. I'd even recommend to mention
+> > that function in the cover letter because it is really good reference on
+> > how this feature is supposed to be used.
+
+That's a good point, I can mention that if people find useful. 
+
 > 
->>
->> On 30.09.22 10:52, zhaogongyi wrote:
->>> Hi!
->>>
->>>>
->>>> On 30.09.22 08:35, Zhao Gongyi wrote:
->>>>> Some momory will be left in offline state when calling
->>>>> offline_memory_expect_fail() failed. Restore it before exit.
->>>>>
->>>>> Signed-off-by: Zhao Gongyi <zhaogongyi@huawei.com>
->>>>> ---
->>>>>     .../memory-hotplug/mem-on-off-test.sh         | 21
->>>> ++++++++++++++-----
->>>>>     1 file changed, 16 insertions(+), 5 deletions(-)
->>>>>
->>>>> diff --git a/tools/testing/selftests/memory-hotplug/mem-on-off-test.sh
->>>> b/tools/testing/selftests/memory-hotplug/mem-on-off-test.sh
->>>>> index 1d87611a7d52..91a7457616bb 100755
->>>>> --- a/tools/testing/selftests/memory-hotplug/mem-on-off-test.sh
->>>>> +++ b/tools/testing/selftests/memory-hotplug/mem-on-off-test.sh
->>>>> @@ -134,6 +134,16 @@ offline_memory_expect_fail()
->>>>>     	return 0
->>>>>     }
->>>>>
->>>>> +online_all_offline_memory()
->>>>> +{
->>>>> +	for memory in `hotpluggable_offline_memory`; do
->>>>> +		if ! online_memory_expect_success $memory; then
->>>>> +			echo "$FUNCNAME $memory: unexpected fail" >&2
->>>>
->>>> Do we need that output?
->>>
->>> In my opinion, if online a memory node failed ,it should be a kernel bug
->> catched, so, I think the output here is needed.
->>
->> But online_memory_expect_success() already prints a warning, no?
+> While learning QEMU code, I also noticed bunch of comparison like this:
 > 
-> Yes, online_memory_expect_success() already prints a warning, remove the warning in online_all_offline_memory() seems ok,
+> if (slot->flags | KVM_MEM_PRIVATE)
 > 
-> My previous consideration was that one more log information would make it easier to locate the wrong location.
+> I guess those could be just replaced with unconditional fills as it does
+> not do any harm, if KVM_MEM_PRIVATE is not set.
 
-Let's keep it simple unless there is real reason to warn twice.
+Make sense, thanks.
 
--- 
-Thanks,
-
-David / dhildenb
-
+Chao
+> 
+> BR, Jarkko
