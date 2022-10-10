@@ -2,115 +2,325 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE678C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 19:29:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADD5AC433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 19:42:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229477AbiJJT3T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 15:29:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51558 "EHLO
+        id S229458AbiJJTmB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 15:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiJJT3T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 15:29:19 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1CC1EED5
-        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 12:29:15 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id c24so11216107pls.9
-        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 12:29:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=networkplumber-org.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1rYd5wKmTtTEZzMnTT5DcQpclFJ5bKOFkPhGQYkmSBw=;
-        b=RqTAm/DuxqwDzCmHthDOl9UX9v3KDK9uWW3dB7gJ26kgzCp6X0VUMtZERm5waSuAJp
-         WRwYeIUdSWz+yOsPSDH6pMUkKbBp5ltb6DE46I20hh7n5sfZcr+/UWI/e6JIo+kQ7pAn
-         XmqH/cj8c75Mn9wCipbjMGSHNGvGjHkcJp9XYSiUnt9nvkyBi9hXjxq6aV1bSDVNDMlY
-         3IDCmibgKH3c062sEM4Lw1b/enoGGXVrOYjCOEhSRZKFkfN0FJYor5O5Dbn3dNriRI8V
-         qsTahCejPuFksgdzmV+iCfhVJXFhiqetk/cvxFiNOTSSKl2vnSWYxB0NWJVPOrJszZov
-         ePDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1rYd5wKmTtTEZzMnTT5DcQpclFJ5bKOFkPhGQYkmSBw=;
-        b=IxgTPY/HL6ei8zUjH2nOBpNtd9euPnfzpCferRSr9kCP+WrOMxhR44PHM2GVeP7dol
-         pexwskoOc296DAukn0pBrgQP62Z0qv3TGiCxUer+PXC370SbfOx0tJfyeF2E+bsxxCjs
-         weVLCxYYJZAS3NiiIxSqpfEu9qvuamIfiAZzXut9v0H9tx+FP4DnJ3xGRxmA/8vCbw+N
-         ajEhHPS3TINrBK1sGGld/Ptu4B90IT1W1YR97gVNBq/ZKKANOu+Vsqh+/452ylPOS6aa
-         YhXu4KrEguEJalgZF+co6YvT379ZbkA1Wj14Ak2BslhGGrmT7Ya9eJLFB3AN3uuups1o
-         XVAw==
-X-Gm-Message-State: ACrzQf1z0BQv8kaBr+zyIwkaFRLMevoKRWh/gLPIOM6VgE479AF/sZk8
-        9Q0Ne8xwal8BBeTr0FZKXXZmj8BUri69HQ==
-X-Google-Smtp-Source: AMsMyM7TXibQhFguBkFno2yp6rWxynGT/DZUk5/HtH4gACpcfFw+oDohMV2x5Th9cvxfTdfMTVSHjg==
-X-Received: by 2002:a17:90b:1a8b:b0:20d:4c24:af5 with SMTP id ng11-20020a17090b1a8b00b0020d4c240af5mr5660039pjb.213.1665430155292;
-        Mon, 10 Oct 2022 12:29:15 -0700 (PDT)
-Received: from hermes.local (204-195-120-218.wavecable.com. [204.195.120.218])
-        by smtp.gmail.com with ESMTPSA id q4-20020a170902dac400b001728ac8af94sm7018956plx.248.2022.10.10.12.29.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Oct 2022 12:29:15 -0700 (PDT)
-Date:   Mon, 10 Oct 2022 12:29:13 -0700
-From:   Stephen Hemminger <stephen@networkplumber.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Jouke Witteveen <j.witteveen@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH] Documentation: update urls to Linux Foundation wiki
-Message-ID: <20221010122913.6a91b117@hermes.local>
-In-Reply-To: <87v8orpkda.fsf@meer.lwn.net>
-References: <20221001112058.22387-1-j.witteveen@gmail.com>
-        <87v8orpkda.fsf@meer.lwn.net>
+        with ESMTP id S229517AbiJJTmA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 15:42:00 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B60D65FF48;
+        Mon, 10 Oct 2022 12:41:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665430918; x=1696966918;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=fwc/TV//W0VLule90wp2FfviuoKkw6DMu8Bl1+R9tpY=;
+  b=VvgZpmJPSJZxk/Ewbu0aruas3X4OEyrio/ii/ob8suRSoCod9gyPMiHK
+   tl6RrGy5neLXigl+52tinRBe2mpRv37ErNWg1fvM+qMy9W36x5G7BESo8
+   SZaqDIJuyExyrPZi5X2kiJBxutdN6oct76kW6NpE7YjyDBi3pICMjYZsi
+   tMTNtamczEYj1bJKCKR1+N5cRJdvAdi2wH0JVw6ndRu/f1D7M3CRA+ccj
+   8luWq1+3met2tpaWQ6lbrm03PnHP0EWu9Y3P/fTtsW9z1hhuvxtBd1tiV
+   ldQ3s9Yb9lEI+YTg2W3H1qgft4a2eF/gROVTzpbxXxCudrxkBnd9SN8KZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="303059520"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="303059520"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 12:41:57 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="603850834"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="603850834"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 12:41:57 -0700
+Date:   Mon, 10 Oct 2022 12:42:15 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Marco Pagani <marpagan@redhat.com>
+cc:     andriy.shevchenko@linux.intel.com,
+        basheer.ahmed.muddebihal@intel.com, corbet@lwn.net,
+        geert+renesas@glider.be, gregkh@linuxfoundation.org,
+        hao.wu@intel.com, jirislaby@kernel.org, johan@kernel.org,
+        linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+        lkp@intel.com, lukas@wunner.de, macro@orcam.me.uk, mdf@kernel.org,
+        niklas.soderlund+renesas@ragnatech.se, russell.h.weight@intel.com,
+        tianfei.zhang@intel.com, trix@redhat.com, yilun.xu@intel.com
+Subject: Re: [PATCH v3 4/4] tty: serial: 8250: add DFL bus driver for Altera
+ 16550.
+In-Reply-To: <cfd34b7c-d5eb-5087-5b9f-9577807fc09b@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2210101239360.2404672@rhweight-WRK1>
+References: <20221004143718.1076710-5-matthew.gerlach@linux.intel.com> <cfd34b7c-d5eb-5087-5b9f-9577807fc09b@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 10 Oct 2022 13:08:17 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
 
-> Jouke Witteveen <j.witteveen@gmail.com> writes:
-> 
-> > The redirects from the old urls stopped working recently.
-> >
-> > Signed-off-by: Jouke Witteveen <j.witteveen@gmail.com>  
-> 
-> I see the LF has done its annual web-site replacement; I have no idea
-> why they are so enamored with breaking URLs...
-> 
-> Anyway, This is networking documentation, so it should go to the folks
-> at netdev [CC'd] rather than me.
-> 
-> >  Documentation/networking/bridge.rst                           | 2 +-
-> >  Documentation/networking/dccp.rst                             | 4 ++--
-> >  .../networking/device_drivers/ethernet/intel/ice.rst          | 2 +-
-> >  Documentation/networking/generic_netlink.rst                  | 2 +-
-> >  MAINTAINERS                                                   | 2 +-
-> >  net/ipv4/Kconfig                                              | 2 +-
-> >  net/sched/Kconfig                                             | 2 +-
-> >  7 files changed, 8 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/Documentation/networking/bridge.rst b/Documentation/networking/bridge.rst
-> > index 4aef9cddde2f..c859f3c1636e 100644
-> > --- a/Documentation/networking/bridge.rst
-> > +++ b/Documentation/networking/bridge.rst
-> > @@ -8,7 +8,7 @@ In order to use the Ethernet bridging functionality, you'll need the
-> >  userspace tools.
-> >  
-> >  Documentation for Linux bridging is on:
-> > -   http://www.linuxfoundation.org/collaborate/workgroups/networking/bridge
-> > +   https://wiki.linuxfoundation.org/networking/bridge  
-> 
-> So this page is full of encouraging stuff like:
-> 
-> > The code is updated as part of the 2.4 and 2.6 kernels available at
-> > kernel.org.  
-> 
-> ...and tells us about an encouraging prototype implementation in 2.6.18.
-> I'd apply the patch because working URLs are better than broken ones,
-> but I also question the value of this material at all in 2022... there
-> should be better documents to link to at this point?
 
-This is ancient networking wiki.
-I took old stuff put it on wiki back when I was working at LF
-but never updated since then.
+On Mon, 10 Oct 2022, Marco Pagani wrote:
+
+>
+> On 2022-10-04 16:37, matthew.gerlach@linux.intel.com wrote:
+>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>
+>> Add a Device Feature List (DFL) bus driver for the Altera
+>> 16550 implementation of UART.
+>>
+>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> ---
+>> v3: use passed in location of registers
+>>     use cleaned up functions for parsing parameters
+>>
+>> v2: clean up error messages
+>>     alphabetize header files
+>>     fix 'missing prototype' error by making function static
+>>     tried to sort Makefile and Kconfig better
+>> ---
+>>  drivers/tty/serial/8250/8250_dfl.c | 177 +++++++++++++++++++++++++++++
+>>  drivers/tty/serial/8250/Kconfig    |   9 ++
+>>  drivers/tty/serial/8250/Makefile   |   1 +
+>>  3 files changed, 187 insertions(+)
+>>  create mode 100644 drivers/tty/serial/8250/8250_dfl.c
+>>
+>> diff --git a/drivers/tty/serial/8250/8250_dfl.c b/drivers/tty/serial/8250/8250_dfl.c
+>> new file mode 100644
+>> index 000000000000..110ad3a73459
+>> --- /dev/null
+>> +++ b/drivers/tty/serial/8250/8250_dfl.c
+>> @@ -0,0 +1,177 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Driver for FPGA UART
+>> + *
+>> + * Copyright (C) 2022 Intel Corporation, Inc.
+>> + *
+>> + * Authors:
+>> + *   Ananda Ravuri <ananda.ravuri@intel.com>
+>> + *   Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>> + */
+>> +
+>> +#include <linux/bitfield.h>
+>> +#include <linux/dfl.h>
+>> +#include <linux/io-64-nonatomic-lo-hi.h>
+>> +#include <linux/kernel.h>
+>> +#include <linux/module.h>
+>> +#include <linux/serial.h>
+>> +#include <linux/serial_8250.h>
+>> +
+>> +struct dfl_uart {
+>> +	int line;
+>> +};
+>> +
+>> +static int dfl_uart_get_params(struct device *dev, void __iomem *dfh_base, resource_size_t max,
+>> +			       struct uart_8250_port *uart)
+>> +{
+>> +	u64 v, fifo_len, reg_width;
+>> +	int off;
+>> +
+>> +	if (!dfhv1_has_params(dfh_base)) {
+>> +		dev_err(dev, "missing required DFH parameters\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_CLK_FRQ);
+>> +	if (off < 0) {
+>> +		dev_err(dev, "missing CLK_FRQ param\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	uart->port.uartclk = readq(dfh_base + off);
+>> +	dev_dbg(dev, "UART_CLK_ID %u Hz\n", uart->port.uartclk);
+>> +
+>> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_FIFO_LEN);
+>> +	if (off < 0) {
+>> +		dev_err(dev, "missing FIFO_LEN param\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	fifo_len = readq(dfh_base + off);
+>> +	dev_dbg(dev, "UART_FIFO_ID fifo_len %llu\n", fifo_len);
+>> +
+>> +	switch (fifo_len) {
+>> +	case 32:
+>> +		uart->port.type = PORT_ALTR_16550_F32;
+>> +		break;
+>> +
+>> +	case 64:
+>> +		uart->port.type = PORT_ALTR_16550_F64;
+>> +		break;
+>> +
+>> +	case 128:
+>> +		uart->port.type = PORT_ALTR_16550_F128;
+>> +		break;
+>> +
+>> +	default:
+>> +		dev_err(dev, "bad fifo_len %llu\n", fifo_len);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_REG_LAYOUT);
+>> +	if (off < 0) {
+>> +		dev_err(dev, "missing REG_LAYOUT param\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	v = readq(dfh_base + off);
+>> +	uart->port.regshift = FIELD_GET(DFHv1_PARAM_ID_REG_SHIFT, v);
+>> +	reg_width = FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v);
+>> +
+>> +	dev_dbg(dev, "UART_LAYOUT_ID width %lld shift %d\n",
+>> +		FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v), (int)uart->port.regshift);
+>> +
+>> +	switch (reg_width) {
+>> +	case 4:
+>> +		uart->port.iotype = UPIO_MEM32;
+>> +		break;
+>> +
+>> +	case 2:
+>> +		uart->port.iotype = UPIO_MEM16;
+>> +		break;
+>> +
+>> +	default:
+>> +		dev_err(dev, "invalid reg_width %lld\n", reg_width);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int dfl_uart_probe(struct dfl_device *dfl_dev)
+>> +{
+>> +	struct device *dev = &dfl_dev->dev;
+>> +	struct uart_8250_port uart;
+>> +	struct dfl_uart *dfluart;
+>> +	resource_size_t res_size;
+>> +	void __iomem *dfh_base;
+>> +	int ret;
+>> +
+>> +	memset(&uart, 0, sizeof(uart));
+>> +	uart.port.flags = UPF_IOREMAP;
+>> +	uart.port.mapbase = dfl_dev->csr_res.start;
+>> +	uart.port.mapsize = resource_size(&dfl_dev->csr_res);
+>> +
+>> +	dfluart = devm_kzalloc(dev, sizeof(*dfluart), GFP_KERNEL);
+>> +	if (!dfluart)
+>> +		return -ENOMEM;
+>> +
+>> +	dfh_base = devm_ioremap_resource(dev, &dfl_dev->mmio_res);
+>> +	if (IS_ERR(dfh_base))
+>> +		return PTR_ERR(dfh_base);
+>> +
+>> +	res_size = resource_size(&dfl_dev->mmio_res);
+>> +
+>> +	ret = dfl_uart_get_params(dev, dfh_base, res_size, &uart);
+>
+>
+> It seems to me that the dfl_uart driver supports only DFHv1 headers.
+> So why not checking dfl_dev->dfh_version in dfl_uart_probe() before
+> allocating, mapping, and then checking with dfl_uart_get_params()?
+
+Checking dfl_dev->dfh_version at the top of dfl_uart_probe() is a good 
+suggestion.  I can also move the call to devm_kzalloc until after the call 
+the dfl_uart_get_params.
+
+
+>
+>
+>> +
+>> +	devm_iounmap(dev, dfh_base);
+>> +	devm_release_mem_region(dev, dfl_dev->mmio_res.start, res_size);
+>> +
+>> +	if (ret < 0)
+>> +		return dev_err_probe(dev, ret, "failed uart feature walk\n");
+>> +
+>> +	dev_dbg(dev, "nr_irqs %d %p\n", dfl_dev->num_irqs, dfl_dev->irqs);
+>> +
+>> +	if (dfl_dev->num_irqs == 1)
+>> +		uart.port.irq = dfl_dev->irqs[0];
+>> +
+>> +	/* register the port */
+>> +	dfluart->line = serial8250_register_8250_port(&uart);
+>> +	if (dfluart->line < 0)
+>> +		return dev_err_probe(dev, dfluart->line, "unable to register 8250 port.\n");
+>> +
+>> +	dev_info(dev, "serial8250_register_8250_port %d\n", dfluart->line);
+>> +	dev_set_drvdata(dev, dfluart);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static void dfl_uart_remove(struct dfl_device *dfl_dev)
+>> +{
+>> +	struct dfl_uart *dfluart = dev_get_drvdata(&dfl_dev->dev);
+>> +
+>> +	if (dfluart->line >= 0)
+>> +		serial8250_unregister_port(dfluart->line);
+>> +}
+>> +
+>> +#define FME_FEATURE_ID_UART 0x24
+>> +
+>> +static const struct dfl_device_id dfl_uart_ids[] = {
+>> +	{ FME_ID, FME_FEATURE_ID_UART },
+>> +	{ }
+>> +};
+>> +MODULE_DEVICE_TABLE(dfl, dfl_uart_ids);
+>> +
+>> +static struct dfl_driver dfl_uart_driver = {
+>> +	.drv = {
+>> +		.name = "dfl-uart",
+>> +	},
+>> +	.id_table = dfl_uart_ids,
+>> +	.probe = dfl_uart_probe,
+>> +	.remove = dfl_uart_remove,
+>> +};
+>> +module_dfl_driver(dfl_uart_driver);
+>> +
+>> +MODULE_DESCRIPTION("DFL Intel UART driver");
+>> +MODULE_AUTHOR("Intel Corporation");
+>> +MODULE_LICENSE("GPL");
+>> diff --git a/drivers/tty/serial/8250/Kconfig b/drivers/tty/serial/8250/Kconfig
+>> index d0b49e15fbf5..5c6497ce5c12 100644
+>> --- a/drivers/tty/serial/8250/Kconfig
+>> +++ b/drivers/tty/serial/8250/Kconfig
+>> @@ -361,6 +361,15 @@ config SERIAL_8250_BCM2835AUX
+>>
+>>  	  If unsure, say N.
+>>
+>> +config SERIAL_8250_DFL
+>> +	tristate "DFL bus driver for Altera 16550 UART"
+>> +	depends on SERIAL_8250 && FPGA_DFL
+>> +	help
+>> +	  This option enables support for a Device Feature List (DFL) bus
+>> +	  driver for the Altera 16650 UART.  One or more Altera 16650 UARTs
+>> +	  can be instantiated in a FPGA and then be discovered during
+>> +	  enumeration of the DFL bus.
+>> +
+>>  config SERIAL_8250_FSL
+>>  	bool "Freescale 16550 UART support" if COMPILE_TEST && !(PPC || ARM || ARM64)
+>>  	depends on SERIAL_8250_CONSOLE
+>> diff --git a/drivers/tty/serial/8250/Makefile b/drivers/tty/serial/8250/Makefile
+>> index bee908f99ea0..32006e0982d1 100644
+>> --- a/drivers/tty/serial/8250/Makefile
+>> +++ b/drivers/tty/serial/8250/Makefile
+>> @@ -24,6 +24,7 @@ obj-$(CONFIG_SERIAL_8250_CONSOLE)	+= 8250_early.o
+>>  obj-$(CONFIG_SERIAL_8250_FOURPORT)	+= 8250_fourport.o
+>>  obj-$(CONFIG_SERIAL_8250_ACCENT)	+= 8250_accent.o
+>>  obj-$(CONFIG_SERIAL_8250_BOCA)		+= 8250_boca.o
+>> +obj-$(CONFIG_SERIAL_8250_DFL)		+= 8250_dfl.o
+>>  obj-$(CONFIG_SERIAL_8250_EXAR_ST16C554)	+= 8250_exar_st16c554.o
+>>  obj-$(CONFIG_SERIAL_8250_HUB6)		+= 8250_hub6.o
+>>  obj-$(CONFIG_SERIAL_8250_FSL)		+= 8250_fsl.o
+>
+>
+> Thanks,
+> Marco
+>
+>
