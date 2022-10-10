@@ -2,305 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4277AC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 17:14:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A79C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 17:34:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229563AbiJJRO0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 13:14:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44904 "EHLO
+        id S229464AbiJJReB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 13:34:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbiJJROZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 13:14:25 -0400
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BBF76CF7A
-        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 10:14:24 -0700 (PDT)
-Received: by mail-pj1-x1049.google.com with SMTP id oo18-20020a17090b1c9200b0020bdba475afso5242027pjb.4
-        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 10:14:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cAwntTht7vvV9oxCOBslJVqo2TXDBUk8x9753HYndRc=;
-        b=S5e8XLnL/nAPaZBH4YN/vmrU9/+uwqw+PYHqxhkgSgK/8SJWcE8TesWfseNrwvy9og
-         oX+zn0ive0lco6fIeB5IOdAwv86s9jee0G79Kq3Y9w7f+QqAnvXF97KPA8JtO5GVOPqk
-         4W9uASCWtSnrlcNHj5SNjWHuzrDaBQp8+6igXdeymP2vxlmnepHYiugbSv7DKF8lRksv
-         Cw99O1ympau0w5gcUkV91/6AJjeXEH5fJP3Xc9rr0PAM33EAYTHTrtNgRzWgNEHAc20I
-         NR8hm2BwYa4LEyPNydKvBOb+DpdjeRCWU4wS4FTUn+YBRAK2sTQ5yvdCbqyamTFTQlOx
-         EniA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cAwntTht7vvV9oxCOBslJVqo2TXDBUk8x9753HYndRc=;
-        b=zI2jyOfKXmD3rxTjDudZdUnOf9TAo5mfU+PuScwwfSNcaom2jQjPy5sxp/x8jiypwb
-         AdUkGO6ai88Msflk52vSczr9pUxV4cdRNaavUSNDWHv4U2uxhng8PPcmClMgd+urms9c
-         SIDQaeQyHFtniZSS759AiUiZsZ+vljMlKUvSuwXv0SgzRPkucH4TczSkuc93SlKR3oQO
-         5YFGvKK1K96QharrXpMn15CIrF0ILVOk5DIAv7734a8MAcc6pQZs1AG+O+P3rBhTt3J0
-         54Hm3wKhw8hjN2GBanHORxVZSJ1wkT3fnTr+Zqu5aC3j21l8s6+NYjj+D8bYacm0F1Z6
-         O9HA==
-X-Gm-Message-State: ACrzQf3HZmiOoV11J9Bo80adLBljTJBrXdjZwXS4lrq/Irh1XfVCCoHa
-        Zyu8wOE92b7E4Id065d0L9tkQVPRcZyOdNqi
-X-Google-Smtp-Source: AMsMyM4/KhCeZt7MtQT4H/0WOAC4s2/9IzaROtYHmADdAx7Z/WCoIWYVYcVoGDz3sO9clOrdZB7edA8dVBw/iMsQ
-X-Received: from skazigti.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:411e])
- (user=sadiyakazi job=sendgmr) by 2002:a17:90b:3e81:b0:20a:81b2:bc3 with SMTP
- id rj1-20020a17090b3e8100b0020a81b20bc3mr32327278pjb.60.1665422063531; Mon,
- 10 Oct 2022 10:14:23 -0700 (PDT)
-Date:   Mon, 10 Oct 2022 17:13:53 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
-Message-ID: <20221010171353.1106166-1-sadiyakazi@google.com>
-Subject: [PATCH] Documentation: Kunit: Update architecture.rst for minor fixes
-From:   Sadiya Kazi <sadiyakazi@google.com>
-To:     brendanhiggins@google.com, davidgow@google.com,
-        skhan@linuxfoundation.org, corbet@lwn.net,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Sadiya Kazi <sadiyakazi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229542AbiJJReA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 13:34:00 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC8DA74DFC;
+        Mon, 10 Oct 2022 10:33:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665423239; x=1696959239;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=fdI7AdoT/EczV9CqPPDoXW2AhzdvJXI7YCjk6hGrGUk=;
+  b=ivymJJgFQMt3dK777odQbc17h2fgHhjXw1Z7PqftQaNHTurwX+LFHWDs
+   i7SFF0fihwoYdYdrmZYK29oGgoWULNZI/Hxct7ZTWufht7f9uMsZ5zP3A
+   HZZCPAwvlEuURebDiPPiBBFk8O/UYjkQSQH4Q5l5I1PSMZn031V40UUE+
+   iCrYsg/vfzU0HBhgWOphS/UHJeNvgvfN4PWOjBPVFrn5dOKxZtz9BcaHY
+   aJQ/2tQSysfgYx8MGLX8I6WWeJTbgFz6BAB42F4joWSTPc6xRZWtAtpD0
+   rwanqTOqIRnQRdWsmy5nP4oGeiup9DUWGNUx6AZO4yWfcI2BB/EBCo7Zz
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="303029044"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="303029044"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 10:33:59 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="715183062"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="715183062"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 10:33:58 -0700
+Date:   Mon, 10 Oct 2022 10:34:16 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-serial <linux-serial@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH v3 1/4] Documentation: fpga: dfl: Add documentation for
+ DFHv1
+In-Reply-To: <7ad7491d-4d7f-986b-5d9d-1cfdeabe23c5@linux.intel.com>
+Message-ID: <alpine.DEB.2.22.394.2210101013520.2404672@rhweight-WRK1>
+References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com> <20221004143718.1076710-2-matthew.gerlach@linux.intel.com> <7ad7491d-4d7f-986b-5d9d-1cfdeabe23c5@linux.intel.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="8323328-801287403-1665423257=:2404672"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Updated the architecture.rst page with the following changes:
--Add missing article _the_ across the document.
--Reword content across for style and standard.
--Upate all occurrences of Command Line to Command-line across the document.
--Correct grammatical issues, for example - added _it_wherever missing.
--Update all occurrences of _via_ to either use _through_ or _using_.
--Update the text preceding the external links and pushed the full
-link to a new line for better readability.
--Reword content under the config command to make it more clear and concise.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
----
- .../dev-tools/kunit/architecture.rst          | 86 ++++++++++---------
- 1 file changed, 45 insertions(+), 41 deletions(-)
+--8323328-801287403-1665423257=:2404672
+Content-Type: text/plain; charset=ISO-8859-15; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/Documentation/dev-tools/kunit/architecture.rst b/Documentation=
-/dev-tools/kunit/architecture.rst
-index 8efe792bdcb9..1736c37c33f2 100644
---- a/Documentation/dev-tools/kunit/architecture.rst
-+++ b/Documentation/dev-tools/kunit/architecture.rst
-@@ -4,16 +4,17 @@
- KUnit Architecture
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
--The KUnit architecture can be divided into two parts:
-+The KUnit architecture is divided into two parts:
-=20
- - `In-Kernel Testing Framework`_
--- `kunit_tool (Command Line Test Harness)`_
-+- `kunit_tool (Command-line Test Harness)`_
-=20
- In-Kernel Testing Framework
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-=20
- The kernel testing library supports KUnit tests written in C using
--KUnit. KUnit tests are kernel code. KUnit does several things:
-+KUnit. KUnit tests are written in the kernel code. KUnit performs the foll=
-owing
-+tasks:
-=20
- - Organizes tests
- - Reports test results
-@@ -22,8 +23,8 @@ KUnit. KUnit tests are kernel code. KUnit does several th=
-ings:
- Test Cases
- ----------
-=20
--The fundamental unit in KUnit is the test case. The KUnit test cases are
--grouped into KUnit suites. A KUnit test case is a function with type
-+The test case is the fundamental unit in KUnit. KUnit test cases are organ=
-ised
-+into suites. A KUnit test case is a function with type
- signature ``void (*)(struct kunit *test)``.
- These test case functions are wrapped in a struct called
- struct kunit_case.
-@@ -31,8 +32,8 @@ struct kunit_case.
- .. note:
- 	``generate_params`` is optional for non-parameterized tests.
-=20
--Each KUnit test case gets a ``struct kunit`` context
--object passed to it that tracks a running test. The KUnit assertion
-+Each KUnit test case receives a ``struct kunit`` context object that track=
-s a
-+running test. The KUnit assertion
- macros and other KUnit utilities use the ``struct kunit`` context
- object. As an exception, there are two fields:
-=20
-@@ -77,11 +78,12 @@ Executor
-=20
- The KUnit executor can list and run built-in KUnit tests on boot.
- The Test suites are stored in a linker section
--called ``.kunit_test_suites``. For code, see:
-+called ``.kunit_test_suites``. For code, see the following link:
- https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/in=
-clude/asm-generic/vmlinux.lds.h?h=3Dv5.15#n945.
-+
- The linker section consists of an array of pointers to
- ``struct kunit_suite``, and is populated by the ``kunit_test_suites()``
--macro. To run all tests compiled into the kernel, the KUnit executor
-+macro. To run all the compiled tests into the kernel, the KUnit executor
- iterates over the linker section array.
-=20
- .. kernel-figure:: kunit_suitememorydiagram.svg
-@@ -90,8 +92,8 @@ iterates over the linker section array.
- 	KUnit Suite Memory Diagram
-=20
- On the kernel boot, the KUnit executor uses the start and end addresses
--of this section to iterate over and run all tests. For code, see:
--https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/li=
-b/kunit/executor.c
-+of this section to iterate over and run all tests. For code, see the follo=
-wing link:
-+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/li=
-b/kunit/executor.c.
-=20
- When built as a module, the ``kunit_test_suites()`` macro defines a
- ``module_init()`` function, which runs all the tests in the compilation
-@@ -99,46 +101,48 @@ unit instead of utilizing the executor.
-=20
- In KUnit tests, some error classes do not affect other tests
- or parts of the kernel, each KUnit case executes in a separate thread
--context. For code, see:
-+context. For code, see the following link:
- https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/li=
-b/kunit/try-catch.c?h=3Dv5.15#n58
-=20
- Assertion Macros
- ----------------
-=20
--KUnit tests verify state using expectations/assertions.
-+KUnit tests verify the state using expectations/assertions.
- All expectations/assertions are formatted as:
- ``KUNIT_{EXPECT|ASSERT}_<op>[_MSG](kunit, property[, message])``
-=20
- - ``{EXPECT|ASSERT}`` determines whether the check is an assertion or an
-   expectation.
-=20
--	- For an expectation, if the check fails, marks the test as failed
-+	- For an expectation, if the check fails, it marks the test as failed
- 	  and logs the failure.
-=20
- 	- An assertion, on failure, causes the test case to terminate
- 	  immediately.
-=20
--		- Assertions call function:
-+		- Assertion calls the function:
- 		  ``void __noreturn kunit_abort(struct kunit *)``.
-=20
--		- ``kunit_abort`` calls function:
-+		- ``kunit_abort`` calls the function:
- 		  ``void __noreturn kunit_try_catch_throw(struct kunit_try_catch *try_ca=
-tch)``.
-=20
--		- ``kunit_try_catch_throw`` calls function:
-+		- ``kunit_try_catch_throw`` calls the function:
- 		  ``void kthread_complete_and_exit(struct completion *, long) __noreturn=
-;``
- 		  and terminates the special thread context.
-=20
- - ``<op>`` denotes a check with options: ``TRUE`` (supplied property
--  has the boolean value =E2=80=9Ctrue=E2=80=9D), ``EQ`` (two supplied prop=
-erties are
-+  has the boolean value "true"), ``EQ`` (two supplied properties are
-   equal), ``NOT_ERR_OR_NULL`` (supplied pointer is not null and does not
--  contain an =E2=80=9Cerr=E2=80=9D value).
-+  contain an "err" value).
-=20
- - ``[_MSG]`` prints a custom message on failure.
-=20
- Test Result Reporting
- ---------------------
--KUnit prints test results in KTAP format. KTAP is based on TAP14, see:
-+KUnit prints the test results in KTAP format.
-+KTAP is based on TAP14, see:
- https://github.com/isaacs/testanything.github.io/blob/tap14/tap-version-14=
--specification.md.
-+
- KTAP (yet to be standardized format) works with KUnit and Kselftest.
- The KUnit executor prints KTAP results to dmesg, and debugfs
- (if configured).
-@@ -151,32 +155,32 @@ parameters. The test is invoked multiple times, once =
-for each parameter
- value and the parameter is stored in the ``param_value`` field.
- The test case includes a KUNIT_CASE_PARAM() macro that accepts a
- generator function.
--The generator function is passed the previous parameter and returns the ne=
-xt
--parameter. It also provides a macro to generate common-case generators bas=
-ed on
--arrays.
-+The previous parameter is passed to the generator function, which returns
-+the next parameter. It also includes a macro for generating array-based
-+common-case generators.
-=20
--kunit_tool (Command Line Test Harness)
-+kunit_tool (Command-line Test Harness)
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
--kunit_tool is a Python script ``(tools/testing/kunit/kunit.py)``
--that can be used to configure, build, exec, parse and run (runs other
--commands in order) test results. You can either run KUnit tests using
--kunit_tool or can include KUnit in kernel and parse manually.
-+``kunit_tool`` is a Python script, found in ``tools/testing/kunit/kunit.py=
-``. It
-+is used to configure, build, execute, parse, and run (other commands in or=
-der)
-+test results. You have two options for running KUnit tests: either include=
- KUnit
-+in the kernel and parse manually, or use the ``kunit_tool``.
-=20
- - ``configure`` command generates the kernel ``.config`` from a
-   ``.kunitconfig`` file (and any architecture-specific options).
--  For some architectures, additional config options are specified in the
--  ``qemu_config`` Python script
--  (For example: ``tools/testing/kunit/qemu_configs/powerpc.py``).
-+  The Python script available in ``qemu_configs`` folder
-+  (for example, ``tools/testing/kunit/qemu configs/powerpc.py``) contains
-+  additional configuration options for specific architectures.
-   It parses both the existing ``.config`` and the ``.kunitconfig`` files
--  and ensures that ``.config`` is a superset of ``.kunitconfig``.
--  If this is not the case, it will combine the two and run
--  ``make olddefconfig`` to regenerate the ``.config`` file. It then
--  verifies that ``.config`` is now a superset. This checks if all
--  Kconfig dependencies are correctly specified in ``.kunitconfig``.
--  ``kunit_config.py`` includes the parsing Kconfigs code. The code which
--  runs ``make olddefconfig`` is a part of ``kunit_kernel.py``. You can
--  invoke this command via: ``./tools/testing/kunit/kunit.py config`` and
-+  to ensure that ``.config`` is a superset of ``.kunitconfig``.
-+  If not, it will combine the two and execute ``make olddefconfig`` to reg=
-enerate
-+  the ``.config`` file. It then checks to see if ``.config`` has become a =
-superset.
-+  This verifies that all the Kconfig dependencies are correctly specified =
-in the file
-+  ``.kunitconfig``. The
-+  ``kunit_config.py`` script contains the code for parsing Kconfigs. The c=
-ode which
-+  runs ``make olddefconfig`` is part of the ``kunit_kernel.py`` script. Yo=
-u can
-+  invoke this command through: ``./tools/testing/kunit/kunit.py config`` a=
-nd
-   generate a ``.config`` file.
- - ``build`` runs ``make`` on the kernel tree with required options
-   (depends on the architecture and some options, for example: build_dir)
-@@ -184,8 +188,8 @@ kunit_tool or can include KUnit in kernel and parse man=
-ually.
-   To build a KUnit kernel from the current ``.config``, you can use the
-   ``build`` argument: ``./tools/testing/kunit/kunit.py build``.
- - ``exec`` command executes kernel results either directly (using
--  User-mode Linux configuration), or via an emulator such
--  as QEMU. It reads results from the log via standard
-+  User-mode Linux configuration), or through an emulator such
-+  as QEMU. It reads results from the log using standard
-   output (stdout), and passes them to ``parse`` to be parsed.
-   If you already have built a kernel with built-in KUnit tests,
-   you can run the kernel and display the test results with the ``exec``
---=20
-2.38.0.rc1.362.ged0d419d3c-goog
 
+
+On Wed, 5 Oct 2022, Ilpo Järvinen wrote:
+
+> On Tue, 4 Oct 2022, matthew.gerlach@linux.intel.com wrote:
+>
+>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>
+>> Add documentation describing the extensions provided by Version
+>> 1 of the Device Feature Header (DFHv1).
+>>
+>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>> ---
+>> v3: no change
+>>
+>> v2: s/GUILD/GUID/
+>>     add picture
+>> ---
+>>  Documentation/fpga/dfl.rst | 49 ++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 49 insertions(+)
+>>
+>> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+>> index 15b670926084..7c786b75b498 100644
+>> --- a/Documentation/fpga/dfl.rst
+>> +++ b/Documentation/fpga/dfl.rst
+>> @@ -561,6 +561,55 @@ new DFL feature via UIO direct access, its feature id should be added to the
+>>  driver's id_table.
+>>
+>>
+>> +Extending the Device Feature Header - DFHv1
+>> +===========================================
+>> +The current 8 bytes of the Device Feature Header, hereafter referred to as
+>> +to DFHv0, provide very little opportunity for the hardware to describe itself
+>> +to software. Version 1 of the Device Feature Header (DFHv1) is being introduced
+>> +to provide increased flexibility and extensibility to hardware designs using
+>> +Device Feature Lists.  The list below describes some of the goals behind the
+>> +changes in DFHv1:
+>> +
+>> +* Provide a standardized mechanism for features to describe
+>> +  parameters/capabilities to software.
+>> +* Standardize the use of a GUID for all DFHv1 types.
+>> +* Decouple the location of the DFH from the register space of the feature itself.
+>> +
+>> +Modeled after PCI Capabilities, DFHv1 Parameters provide a mechanism to associate
+>> +a list of parameter values to a particular feature.
+>> +
+>> +With DFHv0, not all features types contained a GUID.  DFHv1 makes the GUID standard
+>> +across all types.
+>> +
+>> +With DFHv0, the register map of a given feature is located immediately following
+>> +the DFHv0 in the memory space.  With DFHv1, the location of the feature register
+>> +map can be specified as an offset to the DFHv1 or as an absolute address.  The DFHv1
+>> +structure is shown below:
+>
+> I think this is not a good place for be some kind of v1 marketing speak
+> (that said, I think it's fine to include those goals you have there).
+
+I understand the need to avoid marketing speak here.  I will update to 
+just state the facts.
+
+>
+> I'd restructure this so that this section only talks about DFHv1 w/o
+> any comparing how v1 is better than v0. Don't base the description on
+> how things changed from v0 but just describe v1, that is, like v1 is
+> already there, not only being introduced to supercede/extend v0.
+>
+> And then create v0 section after this section which focuses solely on v0.
+
+I agree that separate sections simply describing v0 and v1 would be 
+better.  I may describe v0 first since it shares some fields with v1.
+
+>
+> -- 
+> i.
+>
+>> +    +-----------------------------------------------------------------------+
+>> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0|
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                                 GUID_L                             0|
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                                 GUID_H                             0|
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                 Address/Offset                            1|  Rel  0|
+>> +    +-----------------------------------------------------------------------+
+>> +    |63 Size of register set  32|Params 31|30 Group    16|15 Instance      0|
+>> +    +-----------------------------------------------------------------------+
+>> +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID           0|
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                 Parameter Data                                     0|
+>> +    +-----------------------------------------------------------------------+
+>> +
+>> +                                  ...
+>> +
+>> +    +-----------------------------------------------------------------------+
+>> +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID           0|
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                 Parameter Data                                     0|
+>> +    +-----------------------------------------------------------------------+
+>> +
+>>  Open discussion
+>>  ===============
+>>  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
+>>
+>
+>
+--8323328-801287403-1665423257=:2404672--
