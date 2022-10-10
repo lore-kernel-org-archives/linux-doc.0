@@ -2,143 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F95C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 11:13:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 382EEC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 11:22:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232029AbiJJLNU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 07:13:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59474 "EHLO
+        id S232052AbiJJLWJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 07:22:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232004AbiJJLNT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 07:13:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 061BA6565E
-        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 04:13:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665400398;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=cjfm8RmJkrxBn+xSALMff74eWGCgI/d+h1W88CDZ86U=;
-        b=cSvZNVXeuzXb/kcVPzXqeNh520fZx2W4vsXg5Z8EtFIUioLb2jBEwi/yKUm+/58eir4PKd
-        aIX6MCq0UO7KkXc645WZqAFy12lR8Pw1WRMqWIwnj8joe2r7F3iNxZAiSiHqwqRxiGTasA
-        c9bat5lmAwQwUSDYkdFGL1UusMIMy4c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-500-utO26pQtPQSNb1oVWV2XLg-1; Mon, 10 Oct 2022 07:13:16 -0400
-X-MC-Unique: utO26pQtPQSNb1oVWV2XLg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6CCC585A583;
-        Mon, 10 Oct 2022 11:13:14 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.192.124])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 656F2B279E;
-        Mon, 10 Oct 2022 11:13:07 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com, rppt@kernel.org,
-        jamorris@linux.microsoft.com, dethoma@microsoft.com
-Subject: Re: [PATCH v2 28/39] x86/cet/shstk: Introduce map_shadow_stack syscall
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
-        <20220929222936.14584-29-rick.p.edgecombe@intel.com>
-Date:   Mon, 10 Oct 2022 13:13:05 +0200
-In-Reply-To: <20220929222936.14584-29-rick.p.edgecombe@intel.com> (Rick
-        Edgecombe's message of "Thu, 29 Sep 2022 15:29:25 -0700")
-Message-ID: <87r0zg0w5a.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        with ESMTP id S231270AbiJJLWH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 07:22:07 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 239FF6E88C;
+        Mon, 10 Oct 2022 04:22:03 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id a10so16496484wrm.12;
+        Mon, 10 Oct 2022 04:22:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bkapbSOT+6/fphvbAmDdm2HCzoT7orT+K/+StPXsIRQ=;
+        b=Y24H15o8za9OSatPy3nYWkXP58JY80ts9bmGmEBegfjxs1gVYg+AK3xXUhqz427akf
+         BJPwV1WPtcVgjWQATbLCGDBHcxEI9aIM4fgVeCMq2NQxqKdh/4Dwp2TNXzeevNDQ6Ukk
+         tXoleEJCAdCJOiG1nd2BTPQvBzXGcYXf30nBGXwKqIiqIuC0Ipnxn9srQtHiJ8im/+Vi
+         VJF51Kaj5ZKmWXqeUl7AYEstDFo2ZwP2T3bVjcMF1TWiAxa+hWZzO753sEHh+deD6w0O
+         C3N+NKI44CxifDjqEn2Ui12D81UM2fK6uhY97pM1O4grxKH1mKMuKxOXD5Ag+H8uqXMw
+         +dMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bkapbSOT+6/fphvbAmDdm2HCzoT7orT+K/+StPXsIRQ=;
+        b=rF0NESvuZ5PqXtRVDtXjBMzcO5IQ8m/CaoCwBGM8SI2COHUjo9gAC69PDiI9gI6rrv
+         JHiUC8sLyWFZM2O6Nl7gU+kquW2ZMQL/glEd0GC60435sAENzwpoD7fC9MdzlTf/1YJ9
+         fiDonFKZt5O9R0vDWb3i4yQaMkph1vVBxm8UPQP2C8OB9HlQ3u8/rXFEmy9A9UqVz82P
+         rJR2oBnLO/NyMGIDgW6ASDBjbSPdZ4wVM+m7QjXjyv5CykVuRKMFYZPbatKBlvLvjF/O
+         2ZWiKwccI2z2uQTriwSnHe038n4ceqhVRqad3XEu1E7VTWBR6tnheXQ8Ep/g2cZf/qbO
+         XzQA==
+X-Gm-Message-State: ACrzQf227HrAOvIb4aZzPiIwHviHJPecb25fmJ83xY2ssEBAM36Rkxa1
+        iFfJCnqfX6vA4OMJ629MUbeE7JiSmws=
+X-Google-Smtp-Source: AMsMyM70mzf9LQpF1vwNXBHB/f2J0JhP4cBSOobpjJL8/dIVTsAaJCd16JQtIobrT2tq1N0ehnD7VQ==
+X-Received: by 2002:a05:6000:1817:b0:22e:397a:75ff with SMTP id m23-20020a056000181700b0022e397a75ffmr11168464wrh.567.1665400920874;
+        Mon, 10 Oct 2022 04:22:00 -0700 (PDT)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:5977:1129:cb7:b9ae])
+        by smtp.gmail.com with ESMTPSA id k7-20020a05600c1c8700b003c5b790582fsm5824574wms.36.2022.10.10.04.21.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Oct 2022 04:21:59 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH bpf-next v1] bpf, docs: document BPF_MAP_TYPE_ARRAY_OF_MAPS and *_HASH_OF_MAPS
+Date:   Mon, 10 Oct 2022 12:21:54 +0100
+Message-Id: <20221010112154.39494-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Rick Edgecombe:
+Add documentation for the ARRAY_OF_MAPS and HASH_OF_MAPS map types,
+including usage and examples.
 
-> When operating with shadow stacks enabled, the kernel will automatically
-> allocate shadow stacks for new threads, however in some cases userspace
-> will need additional shadow stacks. The main example of this is the
-> ucontext family of functions, which require userspace allocating and
-> pivoting to userspace managed stacks.
->
-> Unlike most other user memory permissions, shadow stacks need to be
-> provisioned with special data in order to be useful. They need to be setup
-> with a restore token so that userspace can pivot to them via the RSTORSSP
-> instruction. But, the security design of shadow stack's is that they
-> should not be written to except in limited circumstances. This presents a
-> problem for userspace, as to how userspace can provision this special
-> data, without allowing for the shadow stack to be generally writable.
->
-> Previously, a new PROT_SHADOW_STACK was attempted, which could be
-> mprotect()ed from RW permissions after the data was provisioned. This was
-> found to not be secure enough, as other thread's could write to the
-> shadow stack during the writable window.
->
-> The kernel can use a special instruction, WRUSS, to write directly to
-> userspace shadow stacks. So the solution can be that memory can be mapped
-> as shadow stack permissions from the beginning (never generally writable
-> in userspace), and the kernel itself can write the restore token.
->
-> First, a new madvise() flag was explored, which could operate on the
-> PROT_SHADOW_STACK memory. This had a couple downsides:
-> 1. Extra checks were needed in mprotect() to prevent writable memory from
->    ever becoming PROT_SHADOW_STACK.
-> 2. Extra checks/vma state were needed in the new madvise() to prevent
->    restore tokens being written into the middle of pre-used shadow stacks.
->    It is ideal to prevent restore tokens being added at arbitrary
->    locations, so the check was to make sure the shadow stack had never been
->    written to.
-> 3. It stood out from the rest of the madvise flags, as more of direct
->    action than a hint at future desired behavior.
->
-> So rather than repurpose two existing syscalls (mmap, madvise) that don't
-> quite fit, just implement a new map_shadow_stack syscall to allow
-> userspace to map and setup new shadow stacks in one step. While ucontext
-> is the primary motivator, userspace may have other unforeseen reasons to
-> setup it's own shadow stacks using the WRSS instruction. Towards this
-> provide a flag so that stacks can be optionally setup securely for the
-> common case of ucontext without enabling WRSS. Or potentially have the
-> kernel set up the shadow stack in some new way.
->
-> The following example demonstrates how to create a new shadow stack with
-> map_shadow_stack:
-> void *shstk = map_shadow_stack(adrr, stack_size, SHADOW_STACK_SET_TOKEN);
+Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+---
+ Documentation/bpf/map_of_maps.rst | 145 ++++++++++++++++++++++++++++++
+ 1 file changed, 145 insertions(+)
+ create mode 100644 Documentation/bpf/map_of_maps.rst
 
-Jason has recently been working on vDSO-based getrandom acceleration.
-It needs a way for a userspace thread to allocate userspace memory in a
-specific way.  Jason proposed to use a vDSO call as the interface, not a
-system call.
-
-Maybe this approach is applicable here as well?  Or we can come up with
-a more general interface for such per-thread allocations?
-
-Thanks,
-Florian
+diff --git a/Documentation/bpf/map_of_maps.rst b/Documentation/bpf/map_of_maps.rst
+new file mode 100644
+index 000000000000..16fcda8720de
+--- /dev/null
++++ b/Documentation/bpf/map_of_maps.rst
+@@ -0,0 +1,145 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++========================================================
++BPF_MAP_TYPE_ARRAY_OF_MAPS and BPF_MAP_TYPE_HASH_OF_MAPS
++========================================================
++
++.. note::
++   - ``BPF_MAP_TYPE_ARRAY_OF_MAPS`` and ``BPF_MAP_TYPE_HASH_OF_MAPS`` were
++     introduced in kernel version 4.12.
++
++``BPF_MAP_TYPE_ARRAY_OF_MAPS`` and ``BPF_MAP_TYPE_HASH_OF_MAPS`` provide general
++purpose support for map in map storage. One level of nesting is supported, where
++an outer map contains instances of a single type of inner map, for example
++``array_of_maps->sock_map``.
++
++When creating an outer map, an inner map instance is used to initialize the
++metadata that the outer map holds about its inner maps. This inner map has a
++separate lifetime from the outer map and can be deleted after the outer map has
++been created.
++
++The outer map supports element update and delete from user space using the
++syscall API. A BPF program is only allowed to do element lookup in the outer
++map.
++
++.. note::
++   - Multi-level nesting is not supported.
++   - Any BPF map type can be used as an inner map, except for
++     ``BPF_MAP_TYPE_PROG_ARRAY``.
++   - A BPF program cannot update or delete outer map entries.
++
++Array of Maps
++-------------
++
++For ``BPF_MAP_TYPE_ARRAY_OF_MAPS`` the key is an unsigned 32-bit integer index
++into the array. The array is a fixed size with `max_entries` elements that are
++zero initialized when created.
++
++Hash of Maps
++------------
++
++For ``BPF_MAP_TYPE_HASH_OF_MAPS`` the key type can be chosen when defining the
++map.
++
++The kernel is responsible for allocating and freeing key/value pairs, up
++to the max_entries limit that you specify. Hash maps use pre-allocation
++of hash table elements by default. The ``BPF_F_NO_PREALLOC`` flag can be
++used to disable pre-allocation when it is too memory expensive.
++
++Usage
++=====
++
++.. c:function::
++   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
++
++Inner maps can be retrieved using the ``bpf_map_lookup_elem()`` helper. This
++helper returns a pointer to the inner map, or ``NULL`` if no entry was found.
++
++Examples
++========
++
++Kernel BPF
++----------
++
++This snippet shows how to create an array of devmaps in a BPF program. Note that
++the outer array can only be modified from user space using the syscall API.
++
++.. code-block:: c
++
++    struct redirect_map {
++            __uint(type, BPF_MAP_TYPE_DEVMAP);
++            __uint(max_entries, 32);
++            __type(key, enum skb_drop_reason);
++            __type(value, __u64);
++    } redirect_map SEC(".maps");
++
++    struct {
++            __uint(type, BPF_MAP_TYPE_ARRAY_OF_MAPS);
++            __uint(max_entries, 2);
++            __uint(key_size, sizeof(int));
++            __uint(value_size, sizeof(int));
++            __array(values, struct redirect_map);
++    } outer_map SEC(".maps");
++
++This snippet shows how to lookup an outer map to retrieve an inner map.
++
++.. code-block:: c
++
++    SEC("xdp")
++    int redirect_by_priority(struct xdp_md *ctx) {
++            struct bpf_map *devmap;
++            int action = XDP_PASS;
++            int index = 0;
++
++            devmap = bpf_map_lookup_elem(&outer_arr, &index);
++            if (!devmap)
++                    return XDP_PASS;
++
++            /* use inner devmap here */
++
++            return action;
++    }
++
++User Space
++----------
++
++This snippet shows how to create an array based outer map:
++
++.. code-block:: c
++
++    int create_outer_array(int inner_fd) {
++            int fd;
++            LIBBPF_OPTS(bpf_map_create_opts, opts);
++            opts.inner_map_fd = inner_fd;
++            fd = bpf_map_create(BPF_MAP_TYPE_ARRAY_OF_MAPS,
++                                "example_array",       /* name */
++                                sizeof(__u32),         /* key size */
++                                sizeof(__u32),         /* value size */
++                                256,                   /* max entries */
++                                &opts);                /* create opts */
++            return fd;
++    }
++
++
++This snippet shows how to add an inner map to an outer map:
++
++.. code-block:: c
++
++    int add_devmap(int outer_fd, int index, const char *name) {
++            int fd, ret;
++
++            fd = bpf_map_create(BPF_MAP_TYPE_DEVMAP, name,
++                                sizeof(__u32), sizeof(__u32), 256, NULL);
++            if (fd < 0)
++                    return fd;
++
++            ret = bpf_map_update_elem(outer_fd, &index, &fd, BPF_NOEXIST);
++            return ret;
++    }
++
++References
++==========
++
++- https://lore.kernel.org/netdev/20170322170035.923581-3-kafai@fb.com/
++- https://lore.kernel.org/netdev/20170322170035.923581-4-kafai@fb.com/
+-- 
+2.35.1
 
