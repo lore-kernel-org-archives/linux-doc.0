@@ -2,72 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD49CC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 18:51:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97FC9C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 18:52:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229651AbiJJSvS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 14:51:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34432 "EHLO
+        id S229612AbiJJSwA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 14:52:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229612AbiJJSvQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 14:51:16 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A572D786C6;
-        Mon, 10 Oct 2022 11:51:10 -0700 (PDT)
+        with ESMTP id S229462AbiJJSv7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 14:51:59 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9B8D1EC46
+        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 11:51:57 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BDFC6299;
-        Mon, 10 Oct 2022 18:51:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BDFC6299
+        by ms.lwn.net (Postfix) with ESMTPSA id 66A0D299;
+        Mon, 10 Oct 2022 18:51:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 66A0D299
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1665427869; bh=+TZRcAwBTYTWC5JRX8AjA6Hqoh2ap6RzLuC/0+B1gD4=;
+        t=1665427917; bh=V3S5vl+gUZhjhJcnKDOJH6I8iTxoqbaoJ5y+dCypAkE=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=sOSqc6y1icXl+IU4Ip+0/4CEIR/pWCrVf8H8zDIYs8gijze9bxn7v8j873BQl74U8
-         cS585CX1XxU/ZP6Jb4ds4tN4R5YN8oEXO8j7Fh3m9S6TObWk20fhsUGQc1S1cZHh3J
-         0BGhxTKnweosCLc8IBJOKVjvZOmziw7QRUG10gnA7ew/eDcN86BDea3rJMhllXdAWj
-         I9cm/hQxjsnqIldMIcRVz6WdTzfe7NheE9M3nmL99FIaMwli+hfyksphwAFuWaQW/S
-         TSzBt1WGuju9w3tWK8OVw/Wk/bu6JYXHBD0bkaUJbPO12GZ4lVuLVZ4XP2moJkiHA9
-         AHa340sLPT0zQ==
+        b=qCfmoOXe88I+dBo0LcHjtN6qNsUT/26mMsM1EJwQ5UeByk1H4jx93G9qCRAh9d9CJ
+         A+JZL04MNVPY9QckKzTbLRw6tMnO1CirrisDUfpQZ8tvp//H//0/rThjq+eXcUdESe
+         uD34Zp9QmX08H0ZX1ZHXuv7MffDUAjPquPQ3Uz3K7ChkOCgI1fv2K5RkdBXz1HulQO
+         b+JJJKIUURHh2hzwME7BlU2tmKndArlH6o5PSOX5ZdfWgnLDTRLJswhm7y31udAlx/
+         MHjcOMRnlBM17wPfmkRb/Tpnsq3x5BeOghg6MXbHuc2+UyPnBS4qHgkTyRsnclICAa
+         QiTbO2txZFUfQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Leo Yan <leo.yan@linaro.org>, Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Leo Yan <leo.yan@linaro.org>
-Subject: Re: [PATCH] docs: ftrace: Correct access mode
-In-Reply-To: <20221008083250.3160-1-leo.yan@linaro.org>
-References: <20221008083250.3160-1-leo.yan@linaro.org>
-Date:   Mon, 10 Oct 2022 12:51:09 -0600
-Message-ID: <87czazqzqa.fsf@meer.lwn.net>
+To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org
+Cc:     wu.xiangcheng@linux.dev, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com, Yanteng Si <siyanteng@loongson.cn>,
+        kernel test robot <lkp@intel.com>,
+        Wu XiangCheng <bobwxc@email.cn>
+Subject: Re: [PATCH v2] docs/zh_CN: Fix build warning
+In-Reply-To: <20221008094139.314151-1-siyanteng@loongson.cn>
+References: <20221008094139.314151-1-siyanteng@loongson.cn>
+Date:   Mon, 10 Oct 2022 12:51:56 -0600
+Message-ID: <878rlnqzoz.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Leo Yan <leo.yan@linaro.org> writes:
+Yanteng Si <siyanteng@loongson.cn> writes:
 
-> The documentation gives an example for opening trace marker with
-> write-only mode, but the flag WR_ONLY is not defined by glibc.
+> Since a patch set in my translation devicetree
+> introduce some build warnings:
 >
-> Use O_WRONLY to replace it.
+> Warning: Documentation/translations/zh_CN/devicetree/changesets.rst
+> references a file that doesn't exist:
+> Documentation/Devicetree/changesets.rst
+> ...
 >
-> Signed-off-by: Leo Yan <leo.yan@linaro.org>
-> ---
->  Documentation/trace/ftrace.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Change the first letter of Devicetree to lowercase.
 >
-> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-> index b37dc19e4d40..60bceb018d6a 100644
-> --- a/Documentation/trace/ftrace.rst
-> +++ b/Documentation/trace/ftrace.rst
-> @@ -564,7 +564,7 @@ of ftrace. Here is a list of some of the key files:
->  
->  	start::
->  
-> -		trace_fd = open("trace_marker", WR_ONLY);
-> +		trace_fd = open("trace_marker", O_WRONLY);
->  
+> Fixes: 9485acfded20 ("docs/zh_CN: add dt kernel-api translation")
+> Fixes: f773455ce59d ("docs/zh_CN: add dt overlay-notes translation")
+> Fixes: 5e38432db8f3 ("docs/zh_CN: add dt dynamic-resolution-notes translation")
+> Fixes: 330f5a300548 ("docs/zh_CN: add dt changesets translation")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
 
 Applied, thanks.
 
