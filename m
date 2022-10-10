@@ -2,135 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35D4FC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 13:40:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47176C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 13:43:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229587AbiJJNkh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 09:40:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42042 "EHLO
+        id S229590AbiJJNnz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 09:43:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbiJJNkg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 09:40:36 -0400
+        with ESMTP id S229699AbiJJNny (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 09:43:54 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5799754667
-        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 06:40:35 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6D9C65258
+        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 06:43:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665409234;
+        s=mimecast20190719; t=1665409433;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=uRewDE0rZn6hJgooSIadeEW16yLPv94UEqowboDO7Tg=;
-        b=OYlPsTshuSM346bpU1F70uOCDx8qrTrkPn96epyVt85lfHRiYAOxXnBe2KrIMWZPrJJ0A1
-        Sl4MLEXeJ7aLKbm7hDDL+nk7jIzzoMdq9ryG6cZ+Vknul5BVKa8u6N5QRq5q2C/drfmVzT
-        K//UT8uDK6pRm9kvZGwl2YxoSC0MC+s=
+        bh=vAce1GTc/xVR4humhuRjKOZBURsP/bzwXLd8EnMO1IM=;
+        b=SIPMWgA73wytnb9eqtTTEZlwTGve6f406Yq1sTtAsZn1DKgGWq26/BRoeN+D3DC611HH/p
+        Uuwu1JveFoUxIuCuMVZ1Tvk2pSDsTKyID0dfQYYDUbmR9sAYN3dlvt4CgCdX7Be2TOEhL1
+        hH095b5GYzklocDcjVXq6yaubluh5d8=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-290-1jG5H1LFPHOCdfbzFg3Vtg-1; Mon, 10 Oct 2022 09:40:29 -0400
-X-MC-Unique: 1jG5H1LFPHOCdfbzFg3Vtg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+ us-mta-320-bdyjq_JnNYmBWs-VnBOx9g-1; Mon, 10 Oct 2022 09:43:50 -0400
+X-MC-Unique: bdyjq_JnNYmBWs-VnBOx9g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A3E01C05157;
-        Mon, 10 Oct 2022 13:40:27 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.192.124])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E2C5EC210E;
-        Mon, 10 Oct 2022 13:40:19 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Andrew Cooper <Andrew.Cooper3@citrix.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        "joao.moreira@intel.com" <joao.moreira@intel.com>,
-        John Allen <john.allen@amd.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "eranian@google.com" <eranian@google.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v2 18/39] mm: Add guard pages around a shadow stack.
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
-        <20220929222936.14584-19-rick.p.edgecombe@intel.com>
-        <202210031127.C6CF796@keescook>
-        <37ef8d93-8bd2-ae5e-4508-9be090231d06@citrix.com>
-        <87bkqj26zp.fsf@oldenburg.str.redhat.com>
-        <6e75eb27-c16b-ccfe-08b9-856edeff51eb@citrix.com>
-Date:   Mon, 10 Oct 2022 15:40:18 +0200
-In-Reply-To: <6e75eb27-c16b-ccfe-08b9-856edeff51eb@citrix.com> (Andrew
-        Cooper's message of "Mon, 10 Oct 2022 13:32:51 +0000")
-Message-ID: <87tu4bztj1.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A01493C11EA0;
+        Mon, 10 Oct 2022 13:43:49 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.147])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 51697404CD91;
+        Mon, 10 Oct 2022 13:43:49 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net, mst@redhat.com,
+        virtualization@lists.linux-foundation.org, jasowang@redhat.com,
+        kernel@collabora.com
+Subject: Re: [RESEND PATCH v5 1/1] docs: driver-api: virtio: virtio on Linux
+In-Reply-To: <Y0QYTq7KW9C731s0@debian.me>
+Organization: Red Hat GmbH
+References: <20221010064359.1324353-1-ricardo.canuelo@collabora.com>
+ <20221010064359.1324353-2-ricardo.canuelo@collabora.com>
+ <Y0QYTq7KW9C731s0@debian.me>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date:   Mon, 10 Oct 2022 15:43:46 +0200
+Message-ID: <877d17n699.fsf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Andrew Cooper:
+On Mon, Oct 10 2022, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
 
-> On 10/10/2022 13:33, Florian Weimer wrote:
->> * Andrew Cooper:
->>
->>> You don't actually need a hole to create a guard.=C2=A0 Any mapping of =
-type
->>> !=3D shstk will do.
->>>
->>> If you've got a load of threads, you can tightly pack stack / shstk /
->>> stack / shstk with no holes, and they each act as each other guard page=
-s.
->> Can userspace read the shadow stack directly?  Writing is obviously
->> blocked, but reading?
+> On Mon, Oct 10, 2022 at 08:43:59AM +0200, Ricardo Ca=C3=B1uelo wrote:
+>> +
+>> +References
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +_`[1]` Virtio Spec v1.2:
+>> +https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html
+>> +
+>> +Check for later versions of the spec as well.
+>> +
 >
-> Yes - regular reads are permitted to shstk memory.
+> The version checking should be made comment (not visible on the output):
 >
-> It's actually a great way to get backtraces with no extra metadata
-> needed.
-
-Indeed, I hope shadow stacks can be used to put the discussion around
-frame pointers to a rest, at least when it comes to profiling. 8-)
-
->> POSIX does not appear to require PROT_NONE mappings
->> for the stack guard region, either.  However, the
->> pthread_attr_setguardsize manual page pretty clearly says that it's got
->> to be unreadable and unwriteable.  Hence my question.
+> ---- >8 ----
+> diff --git a/Documentation/driver-api/virtio/virtio.rst b/Documentation/d=
+river-api/virtio/virtio.rst
+> index 70b3aa6bcf5518..4f3abbec4e8b2c 100644
+> --- a/Documentation/driver-api/virtio/virtio.rst
+> +++ b/Documentation/driver-api/virtio/virtio.rst
+> @@ -134,7 +134,7 @@ References
+>  _`[1]` Virtio Spec v1.2:
+>  https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html
+>=20=20
+> -Check for later versions of the spec as well.
+> +.. Check for later versions of the spec as well.
+>=20=20
+>  _`[2]` Virtqueues and virtio ring: How the data travels
+>  https://www.redhat.com/en/blog/virtqueues-and-virtio-ring-how-data-trave=
+ls
 >
-> Hmm.=C2=A0 If that's what the manuals say, then fine.
+>> diff --git a/Documentation/driver-api/virtio/writing_virtio_drivers.rst =
+b/Documentation/driver-api/virtio/writing_virtio_drivers.rst
+>> new file mode 100644
+>> index 000000000000..e14c58796d25
+>> --- /dev/null
+>> +++ b/Documentation/driver-api/virtio/writing_virtio_drivers.rst
+>> <snipped>...
+>> +References
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +_`[1]` Virtio Spec v1.2:
+>> +https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html
+>> +
+>> +Check for later versions of the spec as well.
 >
-> But honestly, you don't get very far at all without faulting on a
-> read-only stack.
+> Same reply.
 
-I guess we can update the manual page proactively.  It does look like a
-tempting optimization.
-
-Thanks,
-Florian
+I don't think we should hide that in a comment -- unless you want to
+update this file every time a new version of the virtio spec gets
+released.
 
