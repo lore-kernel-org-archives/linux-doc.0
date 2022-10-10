@@ -2,178 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A79C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 17:34:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6B2EC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 18:06:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbiJJReB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 13:34:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56858 "EHLO
+        id S229599AbiJJSGs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 14:06:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbiJJReA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 13:34:00 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC8DA74DFC;
-        Mon, 10 Oct 2022 10:33:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665423239; x=1696959239;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=fdI7AdoT/EczV9CqPPDoXW2AhzdvJXI7YCjk6hGrGUk=;
-  b=ivymJJgFQMt3dK777odQbc17h2fgHhjXw1Z7PqftQaNHTurwX+LFHWDs
-   i7SFF0fihwoYdYdrmZYK29oGgoWULNZI/Hxct7ZTWufht7f9uMsZ5zP3A
-   HZZCPAwvlEuURebDiPPiBBFk8O/UYjkQSQH4Q5l5I1PSMZn031V40UUE+
-   iCrYsg/vfzU0HBhgWOphS/UHJeNvgvfN4PWOjBPVFrn5dOKxZtz9BcaHY
-   aJQ/2tQSysfgYx8MGLX8I6WWeJTbgFz6BAB42F4joWSTPc6xRZWtAtpD0
-   rwanqTOqIRnQRdWsmy5nP4oGeiup9DUWGNUx6AZO4yWfcI2BB/EBCo7Zz
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="303029044"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="303029044"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 10:33:59 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="715183062"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
-   d="scan'208";a="715183062"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 10:33:58 -0700
-Date:   Mon, 10 Oct 2022 10:34:16 -0700 (PDT)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, Lukas Wunner <lukas@wunner.de>
-Subject: Re: [PATCH v3 1/4] Documentation: fpga: dfl: Add documentation for
- DFHv1
-In-Reply-To: <7ad7491d-4d7f-986b-5d9d-1cfdeabe23c5@linux.intel.com>
-Message-ID: <alpine.DEB.2.22.394.2210101013520.2404672@rhweight-WRK1>
-References: <20221004143718.1076710-1-matthew.gerlach@linux.intel.com> <20221004143718.1076710-2-matthew.gerlach@linux.intel.com> <7ad7491d-4d7f-986b-5d9d-1cfdeabe23c5@linux.intel.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S229520AbiJJSGs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 14:06:48 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1802425E6;
+        Mon, 10 Oct 2022 11:06:47 -0700 (PDT)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29AGe0ox019138;
+        Mon, 10 Oct 2022 18:06:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=xsnSaR6uUCBZjp+kEvtpUBOjoyoCrGfxoWHGbQH9hK8=;
+ b=Y2IpNu0x0N92zWMM7xlYwfaoZkveojVZioEmCl8myrbZxOjk4wqxdkAvRjClwk2th4Vm
+ u+hHA2TOysCXrF6ABS49ntiotF7JDRdFZUryZ1kgpHRnyZvGy2zxKb78J3pFvw9r6OpS
+ PRkmwScPtWAX4O+fTAsjMzlZ2PpMyN4CXoPzMP14OiJiuLTbmL3AaFDB4ASjEkebfsuL
+ y+AMa9iOwY4CoPw9gXkjAQpFlEkLSPGfgdCx2Y4lA3fXo3tKVTN+CRRvtlq3LMb+locs
+ xjJc/esTv/LowpeSaxu4gZXvlm9o4gayHr2G8mOQDoN2Q6gnktDNDN5G/HBL3fmFtXAm 3A== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k32csd1m6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 10 Oct 2022 18:06:32 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29AI6Vno019634
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 10 Oct 2022 18:06:31 GMT
+Received: from [10.110.10.240] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 10 Oct
+ 2022 11:06:30 -0700
+Message-ID: <b52e0f1f-0554-e751-fa59-8f129b4b990f@quicinc.com>
+Date:   Mon, 10 Oct 2022 11:06:30 -0700
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-801287403-1665423257=:2404672"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v4 14/14] tty: gunyah: Add tty console driver for RM
+ Console Services
+Content-Language: en-US
+To:     Jiri Slaby <jirislaby@kernel.org>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        "Mark Rutland" <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
+ <20220928195633.2348848-15-quic_eberman@quicinc.com>
+ <bbde3488-be49-371d-3de3-89e759d639f4@kernel.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <bbde3488-be49-371d-3de3-89e759d639f4@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 1vKR6j1K9w1xJaKYNVwGChQ-CHUvk2tO
+X-Proofpoint-ORIG-GUID: 1vKR6j1K9w1xJaKYNVwGChQ-CHUvk2tO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-10-10_12,2022-10-10_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ impostorscore=0 adultscore=0 suspectscore=0 bulkscore=0 mlxlogscore=908
+ priorityscore=1501 clxscore=1011 mlxscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210100106
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323328-801287403-1665423257=:2404672
-Content-Type: text/plain; charset=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-
-
-On Wed, 5 Oct 2022, Ilpo J�rvinen wrote:
-
-> On Tue, 4 Oct 2022, matthew.gerlach@linux.intel.com wrote:
->
->> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>
->> Add documentation describing the extensions provided by Version
->> 1 of the Device Feature Header (DFHv1).
->>
->> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->> ---
->> v3: no change
->>
->> v2: s/GUILD/GUID/
->>     add picture
->> ---
->>  Documentation/fpga/dfl.rst | 49 ++++++++++++++++++++++++++++++++++++++
->>  1 file changed, 49 insertions(+)
->>
->> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
->> index 15b670926084..7c786b75b498 100644
->> --- a/Documentation/fpga/dfl.rst
->> +++ b/Documentation/fpga/dfl.rst
->> @@ -561,6 +561,55 @@ new DFL feature via UIO direct access, its feature id should be added to the
->>  driver's id_table.
->>
->>
->> +Extending the Device Feature Header - DFHv1
->> +===========================================
->> +The current 8 bytes of the Device Feature Header, hereafter referred to as
->> +to DFHv0, provide very little opportunity for the hardware to describe itself
->> +to software. Version 1 of the Device Feature Header (DFHv1) is being introduced
->> +to provide increased flexibility and extensibility to hardware designs using
->> +Device Feature Lists.  The list below describes some of the goals behind the
->> +changes in DFHv1:
+On 10/3/2022 12:01 AM, Jiri Slaby wrote:
+> On 28. 09. 22, 21:56, Elliot Berman wrote:
+>> +struct rm_cons_port {
+>> +    struct tty_port port;
+>> +    u16 vmid;
+>> +    bool open;
+>> +    unsigned int index;
 >> +
->> +* Provide a standardized mechanism for features to describe
->> +  parameters/capabilities to software.
->> +* Standardize the use of a GUID for all DFHv1 types.
->> +* Decouple the location of the DFH from the register space of the feature itself.
->> +
->> +Modeled after PCI Capabilities, DFHv1 Parameters provide a mechanism to associate
->> +a list of parameter values to a particular feature.
->> +
->> +With DFHv0, not all features types contained a GUID.  DFHv1 makes the GUID standard
->> +across all types.
->> +
->> +With DFHv0, the register map of a given feature is located immediately following
->> +the DFHv0 in the memory space.  With DFHv1, the location of the feature register
->> +map can be specified as an offset to the DFHv1 or as an absolute address.  The DFHv1
->> +structure is shown below:
->
-> I think this is not a good place for be some kind of v1 marketing speak
-> (that said, I think it's fine to include those goals you have there).
+>> +    DECLARE_KFIFO(put_fifo, char, 1024);
+> 
+> Why is tty_port::xmit_fifo not enough?
+> 
 
-I understand the need to avoid marketing speak here.  I will update to 
-just state the facts.
+xmit_fifo gave me some inspiration to avoid using KFIFO here and skip 
+extra an extra memcpy into/out of the FIFO.
 
->
-> I'd restructure this so that this section only talks about DFHv1 w/o
-> any comparing how v1 is better than v0. Don't base the description on
-> how things changed from v0 but just describe v1, that is, like v1 is
-> already there, not only being introduced to supercede/extend v0.
->
-> And then create v0 section after this section which focuses solely on v0.
+I've also dropped out the FIFO usage for tty_operations and this 
+buffering is only used for printk console.
 
-I agree that separate sections simply describing v0 and v1 would be 
-better.  I may describe v0 first since it shares some fields with v1.
-
->
-> -- 
-> i.
->
->> +    +-----------------------------------------------------------------------+
->> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0|
->> +    +-----------------------------------------------------------------------+
->> +    |63                                 GUID_L                             0|
->> +    +-----------------------------------------------------------------------+
->> +    |63                                 GUID_H                             0|
->> +    +-----------------------------------------------------------------------+
->> +    |63                 Address/Offset                            1|  Rel  0|
->> +    +-----------------------------------------------------------------------+
->> +    |63 Size of register set  32|Params 31|30 Group    16|15 Instance      0|
->> +    +-----------------------------------------------------------------------+
->> +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID           0|
->> +    +-----------------------------------------------------------------------+
->> +    |63                 Parameter Data                                     0|
->> +    +-----------------------------------------------------------------------+
->> +
->> +                                  ...
->> +
->> +    +-----------------------------------------------------------------------+
->> +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID           0|
->> +    +-----------------------------------------------------------------------+
->> +    |63                 Parameter Data                                     0|
->> +    +-----------------------------------------------------------------------+
->> +
->>  Open discussion
->>  ===============
->>  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
->>
->
->
---8323328-801287403-1665423257=:2404672--
+Thanks,
+Elliot
