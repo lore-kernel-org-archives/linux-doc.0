@@ -2,89 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4475C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 11:48:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27911C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 12:19:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232372AbiJJLsp convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 07:48:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45398 "EHLO
+        id S230344AbiJJMTS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 08:19:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231539AbiJJLsL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 07:48:11 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F0C16F54A
-        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 04:48:07 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-104-_xiXV8pPO3q2P3nNSl8MOQ-1; Mon, 10 Oct 2022 12:48:04 +0100
-X-MC-Unique: _xiXV8pPO3q2P3nNSl8MOQ-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Mon, 10 Oct
- 2022 12:48:02 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.040; Mon, 10 Oct 2022 12:48:02 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Joe Perches' <joe@perches.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>
-CC:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Subject: RE: kernel style preference trivia: '* const' vs '*const' ?
-Thread-Topic: kernel style preference trivia: '* const' vs '*const' ?
-Thread-Index: AQHY2/s8FXznyZAmrEihOrCH1Mc++a4HgnJg
-Date:   Mon, 10 Oct 2022 11:48:01 +0000
-Message-ID: <58121da1f2ec4d04b939a368bba47f02@AcuMS.aculab.com>
-References: <9ff662d738612f0ed2cea39266768a2eff21edc3.camel@perches.com>
-In-Reply-To: <9ff662d738612f0ed2cea39266768a2eff21edc3.camel@perches.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S231282AbiJJMTR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 08:19:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5C1319287
+        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 05:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665404354;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vuVFVTcNy3PvU+4gEYPhzjX6GgrNG/BY4EXShYmdUcQ=;
+        b=gFSOsuIhrtRLHWjL0DS2bVPtrratVW2oTgiPwq6VNbbkUirG6uzIlH9S1hR3viaR0M6C+q
+        eLgCrqbZ/1u0vUNplR+c4BZz0/09jVQjf9RYIpCrnnlj64AlngZsfM7vPjsyqtYcr/S3FB
+        ovlh/V+RbNpIm7WQg6RlH3NIpdE8WJw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-589-cHpdmPekN6WixYccXEvHVw-1; Mon, 10 Oct 2022 08:19:11 -0400
+X-MC-Unique: cHpdmPekN6WixYccXEvHVw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EF8433810D22;
+        Mon, 10 Oct 2022 12:19:09 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.192.124])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FBAE401D45;
+        Mon, 10 Oct 2022 12:19:02 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com, rppt@kernel.org,
+        jamorris@linux.microsoft.com, dethoma@microsoft.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v2 01/39] Documentation/x86: Add CET description
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+        <20220929222936.14584-2-rick.p.edgecombe@intel.com>
+Date:   Mon, 10 Oct 2022 14:19:00 +0200
+In-Reply-To: <20220929222936.14584-2-rick.p.edgecombe@intel.com> (Rick
+        Edgecombe's message of "Thu, 29 Sep 2022 15:28:58 -0700")
+Message-ID: <87ilkr27nv.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Joe Perches
-> Sent: 09 October 2022 17:22
-> 
-> The kernel uses '* const' about 10:1 over '*const'
-> 
-> coding_style and checkpatch don't care one way or another.
-> 
-> Does anyone care if there should be some kernel style preference?
+* Rick Edgecombe:
 
-I see a wave of patches to 'correct' all the uses...
+> +To build a CET-enabled kernel, Binutils v2.31 and GCC v8.1 or LLVM v10.0.1
+> +or later are required. To build a CET-enabled application, GLIBC v2.28 or
+> +later is also required.
 
-> $ git grep -P -oh '\b(?:char|u8)\s*\*\s*const\b' -- '*.[ch]' | \
->   sort | uniq -c | sort -rn
->   12450 char * const
->    1357 char *const
->      41 u8 * const
->      17 char* const
+Uhm, I think we are using binutils 2.30 with extra fixes.  I hope that
+these binaries are still valid.
 
-That one should be an error.
-Consider:
-	char* const foo, bar;
+More importantly, glibc needs to be configured with --enable-cet
+explicitly (unless the compiler defaults to CET).  The default glibc
+build with a default GCC will produce dynamically-linked executables
+that disable CET (when running on later/differently configured glibc
+builds).  The statically linked object files are not marked up for CET
+in that case.
 
-Fortunately the compiler will find those.
+I think the goal is to support the new kernel interface for actually
+switching on SHSTK in glibc 2.37.  But at that point, hopefully all
+those existing binaries can start enjoying the STSTK benefits.
 
-I'd guess 'char* foo' is already an error?
-
-Which makes me think the * ought to be as close as possible
-to the variable/field name.
-So perhaps 'char *const foo' should be ok.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+Thanks,
+Florian
 
