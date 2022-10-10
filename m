@@ -2,115 +2,249 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35D40C433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 12:35:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFCC9C433F5
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 13:04:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231444AbiJJMfH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 08:35:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34902 "EHLO
+        id S229492AbiJJNEW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 09:04:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbiJJMfG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 08:35:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 215FA15A20
-        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 05:35:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665405301;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=QA6f2HlVW1NJBZ3C2GoKq9SiJ7l5EStNIWPvZ+GnIV8=;
-        b=PIon4rHaOshMl+hWKo7mYNaSr8EU69hlP9f/kNJmuh+cjSt0BhvvACNiOHZ5sNcBnankDS
-        +gVaPBywPVGfmJ1dSlweFsow7cyydKR0NuRMMs5qi9AX7iUsNRQgyZfr2YqxEVPCjohUG3
-        5odEjiZ2FKW7txD01+Tv6M1gx8059oY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-2-wRjZH-_IOo-OjcM7dr5rog-1; Mon, 10 Oct 2022 08:33:41 -0400
-X-MC-Unique: wRjZH-_IOo-OjcM7dr5rog-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1E57185A792;
-        Mon, 10 Oct 2022 12:33:39 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.192.124])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B496C2C8D6;
-        Mon, 10 Oct 2022 12:33:32 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Andrew Cooper <Andrew.Cooper3@citrix.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        "joao.moreira@intel.com" <joao.moreira@intel.com>,
-        John Allen <john.allen@amd.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "eranian@google.com" <eranian@google.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v2 18/39] mm: Add guard pages around a shadow stack.
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
-        <20220929222936.14584-19-rick.p.edgecombe@intel.com>
-        <202210031127.C6CF796@keescook>
-        <37ef8d93-8bd2-ae5e-4508-9be090231d06@citrix.com>
-Date:   Mon, 10 Oct 2022 14:33:30 +0200
-In-Reply-To: <37ef8d93-8bd2-ae5e-4508-9be090231d06@citrix.com> (Andrew
-        Cooper's message of "Wed, 5 Oct 2022 02:30:56 +0000")
-Message-ID: <87bkqj26zp.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        with ESMTP id S229542AbiJJNEW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 09:04:22 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14EB16612D
+        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 06:04:21 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id r18so10206582pgr.12
+        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 06:04:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=khea9NZAjPXRJV7TKo4tD/yDvGyL2Zkfe1bcqrQ3rqQ=;
+        b=o3lefu1a1LSLKDxoLFG6Q6Qt+1SwXnNQVQ6zcKRysWUqwN0aFTmoOTJBHkL3QZBhFK
+         2GAcv50ScjcyjYlwUr05ja7r1+LnT5E1XaKjSo8UDyhry1ERthlHqvSHliHHGSq7i/+Q
+         dkI4960/GaHL6omzK1Y5UDo6RLLgSjIKiQwERjOozMcG2wZ94qLtfkpKNfGmJ0t3EyCP
+         KTxyQR3CufFn6bALvmpBuhA2G1okDbMMbCT9rmLBATF7lgFp7yMnKzgIUm2eZDK/nzPN
+         8Nnlf+XE+ii0GitNyOc01y6zvsgaB49/VPJSjiLDD63N52A6RvhVc6akEAKICVhVZL5D
+         uJEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=khea9NZAjPXRJV7TKo4tD/yDvGyL2Zkfe1bcqrQ3rqQ=;
+        b=6ayhtG+QjgvwcZxuOqbTfCY15KX3GUpLxrbhYnfBtSdZvTlM+pJ3wbCIOznx44lEmH
+         5ryZfo1B/iWgdc5WPbJpt3WaoOgo/F4xSAIdvLygbrCgDFZUk1TICLS2qdGwXPzLN6bE
+         dgSkjsp52NhL7hUHDpzFUwdhNdLwiJtNA/gwab3YOK3UA6st3XN3npbWqGbICWvUFQJM
+         hYwzUZEf+xOatwZkkkMnmrtE4NPB2Zg6GVFo+Mw5yi2vJHK0ge5f2wB3zwS4R1mDIQZp
+         2CRcjdlbTiV4DHoOAS3l/qCqS+u+UWIGU2JVGwcFghXTkei+Q1WDXSp/rkySYNBogUuN
+         XcWA==
+X-Gm-Message-State: ACrzQf1UBzpqnVqn8RGmt9NwR+581Nlzl117uZ1IMI6mKlqGajZruVl3
+        9r6P8/YJE6Nw13UzFdmw61Q=
+X-Google-Smtp-Source: AMsMyM75IUXNIPpO0C847IVOArT9hD7e5+5Xik+gWLq6yVhtFsxZnzYLWOUFvcqw+ag0dUyoo8O6Dw==
+X-Received: by 2002:a63:cf4f:0:b0:462:da7a:1ded with SMTP id b15-20020a63cf4f000000b00462da7a1dedmr3241528pgj.605.1665407060392;
+        Mon, 10 Oct 2022 06:04:20 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-11.three.co.id. [180.214.232.11])
+        by smtp.gmail.com with ESMTPSA id h16-20020aa79f50000000b005544229b992sm6849742pfr.22.2022.10.10.06.04.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Oct 2022 06:04:18 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 8C99B103AE2; Mon, 10 Oct 2022 20:04:14 +0700 (WIB)
+Date:   Mon, 10 Oct 2022 20:04:14 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net, mst@redhat.com,
+        cohuck@redhat.com, virtualization@lists.linux-foundation.org,
+        jasowang@redhat.com, kernel@collabora.com
+Subject: Re: [RESEND PATCH v5 1/1] docs: driver-api: virtio: virtio on Linux
+Message-ID: <Y0QYTq7KW9C731s0@debian.me>
+References: <20221010064359.1324353-1-ricardo.canuelo@collabora.com>
+ <20221010064359.1324353-2-ricardo.canuelo@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="XXGRRmljFT8yw/aw"
+Content-Disposition: inline
+In-Reply-To: <20221010064359.1324353-2-ricardo.canuelo@collabora.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Andrew Cooper:
 
-> You don't actually need a hole to create a guard.=C2=A0 Any mapping of ty=
-pe
-> !=3D shstk will do.
->
-> If you've got a load of threads, you can tightly pack stack / shstk /
-> stack / shstk with no holes, and they each act as each other guard pages.
+--XXGRRmljFT8yw/aw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Can userspace read the shadow stack directly?  Writing is obviously
-blocked, but reading?
+On Mon, Oct 10, 2022 at 08:43:59AM +0200, Ricardo Ca=C3=B1uelo wrote:
+> diff --git a/Documentation/driver-api/virtio/virtio.rst b/Documentation/d=
+river-api/virtio/virtio.rst
+> new file mode 100644
+> index 000000000000..921758fc3b23
+> --- /dev/null
+> +++ b/Documentation/driver-api/virtio/virtio.rst
+> @@ -0,0 +1,144 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _virtio:
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Virtio on Linux
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Introduction
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Virtio is an open standard that defines a protocol for communication
+> +between drivers and devices of different types, see Chapter 5 ("Device
+> +Types") of the virtio spec `[1]`_. Originally developed as a standard
+> +for paravirtualized devices implemented by a hypervisor, it can be used
+> +to interface any compliant device (real or emulated) with a driver.
+> <snipped>
+> +The communication between the driver in the guest OS and the device in
+> +the hypervisor is done through shared memory (that's what makes virtio
+> +devices so efficient) using specialized data structures called
+> +virtqueues, which are actually ring buffers [#f1]_ of buffer descriptors
+> +similar to the ones used in a network device:
+> +
+> +.. kernel-doc:: include/uapi/linux/virtio_ring.h
+> +    :identifiers: struct vring_desc
+> +
+> +All the buffers the descriptors point to are allocated by the guest and
+> +used by the host either for reading or for writing but not for both.
+> +
+> +Refer to Chapter 2.5 ("Virtqueues") of the virtio spec `[1]`_ for the
+> +reference definitions of virtqueues and to `[2]`_ for an illustrated
+> +overview of how the host device and the guest driver communicate.
+> +
 
-GCC's stack-clash probing uses OR instructions, so it would be fine with
-a readable mapping.  POSIX does not appear to require PROT_NONE mappings
-for the stack guard region, either.  However, the
-pthread_attr_setguardsize manual page pretty clearly says that it's got
-to be unreadable and unwriteable.  Hence my question.
+What link is for [2]? I think you'll need to spell out the link title.
+Also, the external reference pointers should be parenthesized to indicate
+that these are references:
 
-Thanks,
-Florian
+---- >8 ----
+diff --git a/Documentation/driver-api/virtio/virtio.rst b/Documentation/dri=
+ver-api/virtio/virtio.rst
+index 4f3abbec4e8b2c..07fd2d7c51e689 100644
+--- a/Documentation/driver-api/virtio/virtio.rst
++++ b/Documentation/driver-api/virtio/virtio.rst
+@@ -11,7 +11,7 @@ Introduction
+=20
+ Virtio is an open standard that defines a protocol for communication
+ between drivers and devices of different types, see Chapter 5 ("Device
+-Types") of the virtio spec `[1]`_. Originally developed as a standard
++Types") of the virtio spec (`[1]`_). Originally developed as a standard
+ for paravirtualized devices implemented by a hypervisor, it can be used
+ to interface any compliant device (real or emulated) with a driver.
+=20
+@@ -43,9 +43,10 @@ similar to the ones used in a network device:
+ All the buffers the descriptors point to are allocated by the guest and
+ used by the host either for reading or for writing but not for both.
+=20
+-Refer to Chapter 2.5 ("Virtqueues") of the virtio spec `[1]`_ for the
+-reference definitions of virtqueues and to `[2]`_ for an illustrated
+-overview of how the host device and the guest driver communicate.
++Refer to Chapter 2.5 ("Virtqueues") of the virtio spec (`[1]`_) for the
++reference definitions of virtqueues and "Virtqueues and virtio ring: How
++the data travels" blog post (`[2]`_) for an illustrated overview of how
++the host device and the guest driver communicate.
+=20
+ The :c:type:`vring_virtqueue` struct models a virtqueue, including the
+ ring buffers and management data. Embedded in this struct is the
 
+
+Personally speaking, ReST citations should do the job better (these
+links are external references, right?).
+
+> +It's at this stage that the virtqueues will be allocated and configured
+> +by calling the appropriate ``virtio_find`` helper function, such as
+> +virtio_find_single_vq() or virtio_find_vqs(), which will end up
+> +calling a transport-specific ``find_vqs`` method.
+> +
+
+Looks like the wording at the beginning confuses me, so better say:
+
+---- >8 ----
+diff --git a/Documentation/driver-api/virtio/virtio.rst b/Documentation/dri=
+ver-api/virtio/virtio.rst
+index 07fd2d7c51e689..7947b4ca690efd 100644
+--- a/Documentation/driver-api/virtio/virtio.rst
++++ b/Documentation/driver-api/virtio/virtio.rst
+@@ -123,10 +123,10 @@ When the device is registered to the virtio bus the k=
+ernel will look
+ for a driver in the bus that can handle the device and call that
+ driver's ``probe`` method.
+=20
+-It's at this stage that the virtqueues will be allocated and configured
+-by calling the appropriate ``virtio_find`` helper function, such as
+-virtio_find_single_vq() or virtio_find_vqs(), which will end up
+-calling a transport-specific ``find_vqs`` method.
++At this point, the virtqueues will be allocated and configured by
++calling the appropriate ``virtio_find`` helper function, such as
++virtio_find_single_vq() or virtio_find_vqs(), which will end up calling
++a transport-specific ``find_vqs`` method.
+=20
+=20
+ References
+
+> +
+> +References
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +_`[1]` Virtio Spec v1.2:
+> +https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html
+> +
+> +Check for later versions of the spec as well.
+> +
+
+The version checking should be made comment (not visible on the output):
+
+---- >8 ----
+diff --git a/Documentation/driver-api/virtio/virtio.rst b/Documentation/dri=
+ver-api/virtio/virtio.rst
+index 70b3aa6bcf5518..4f3abbec4e8b2c 100644
+--- a/Documentation/driver-api/virtio/virtio.rst
++++ b/Documentation/driver-api/virtio/virtio.rst
+@@ -134,7 +134,7 @@ References
+ _`[1]` Virtio Spec v1.2:
+ https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html
+=20
+-Check for later versions of the spec as well.
++.. Check for later versions of the spec as well.
+=20
+ _`[2]` Virtqueues and virtio ring: How the data travels
+ https://www.redhat.com/en/blog/virtqueues-and-virtio-ring-how-data-travels
+
+> diff --git a/Documentation/driver-api/virtio/writing_virtio_drivers.rst b=
+/Documentation/driver-api/virtio/writing_virtio_drivers.rst
+> new file mode 100644
+> index 000000000000..e14c58796d25
+> --- /dev/null
+> +++ b/Documentation/driver-api/virtio/writing_virtio_drivers.rst
+> <snipped>...
+> +References
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +_`[1]` Virtio Spec v1.2:
+> +https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html
+> +
+> +Check for later versions of the spec as well.
+
+Same reply.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--XXGRRmljFT8yw/aw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY0QYSgAKCRD2uYlJVVFO
+o6CgAQCEAfbuE4tbkeMS8XYCe7eD2nOJVbeiwPnAkXcoFQvwVAD/Yf+KYvFE8DTP
+3kxueogt3nld+XyddLBIyYrvEzvLdQQ=
+=+HBd
+-----END PGP SIGNATURE-----
+
+--XXGRRmljFT8yw/aw--
