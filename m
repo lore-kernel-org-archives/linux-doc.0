@@ -2,148 +2,334 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03ABCC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 14:19:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F415BC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 14:53:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229451AbiJJOTt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 10:19:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57480 "EHLO
+        id S229591AbiJJOxV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 10:53:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbiJJOTs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 10:19:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C99113CD5;
-        Mon, 10 Oct 2022 07:19:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 19C0460F63;
-        Mon, 10 Oct 2022 14:19:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48EB2C433C1;
-        Mon, 10 Oct 2022 14:19:42 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=fail reason="signature verification failed" (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="k2ZrqZe9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1665411580;
+        with ESMTP id S229599AbiJJOxQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 10:53:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B821840BEB
+        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 07:53:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665413595;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=iw2ZRUonbp01bjCTCictotIIEnbTkDhyNLUSJiCb1ng=;
-        b=k2ZrqZe9Kp/93qCrQj5JRsdxaPZkhnB2j2Z7CzRqpkmKDItzE1NwYG7L3kim9tAX62/ape
-        pLk+YjffGVMXAaGP1efxYOU1AAIykJC+W9cOeqj/SptcZpIAevmCu5Yxc61sIxT4bt9sn4
-        NAEC47XgkJ8NXNDPEFol4xEKUcxcJH8=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id d87b5e13 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Mon, 10 Oct 2022 14:19:39 +0000 (UTC)
-Date:   Mon, 10 Oct 2022 16:19:39 +0200
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Rick Edgecombe <rick.p.edgecombe@intel.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com, rppt@kernel.org,
-        jamorris@linux.microsoft.com, dethoma@microsoft.com
-Subject: Re: [PATCH v2 28/39] x86/cet/shstk: Introduce map_shadow_stack
- syscall
-Message-ID: <Y0Qp+/qBUneyII8b@zx2c4.com>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-29-rick.p.edgecombe@intel.com>
- <87r0zg0w5a.fsf@oldenburg.str.redhat.com>
+        bh=ppdAHziEVuq8s62lKVdmn9/Ee5D1B4rjqScUg9W2iYw=;
+        b=fispVzkhUdejoxAH6vQD2mKV8rmGaglQvkHCdYAtAiuHbizAbyq8OOaYywO5jvz6PgQUwC
+        9SjGFwl+Hv9HWmil+iZiq06evULBLaHU0K3rcpWx3oChZZgsGs41w6P2qs2bYNufreJuEv
+        jmlQ8jWW/XXskEbw+u0dxoJMcMIV+3E=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-456-rJUUK8RFMQmGipyJ_FEorA-1; Mon, 10 Oct 2022 10:53:13 -0400
+X-MC-Unique: rJUUK8RFMQmGipyJ_FEorA-1
+Received: by mail-wm1-f71.google.com with SMTP id fc12-20020a05600c524c00b003b5054c70d3so7099605wmb.5
+        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 07:53:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ppdAHziEVuq8s62lKVdmn9/Ee5D1B4rjqScUg9W2iYw=;
+        b=HxINf4KcepXHI/Elu0fNw3uVDenJgjjMzA49ME4E7spadYXOAfxDUvmjMnAYWFdwU4
+         GtnDdLYkbmPLxasQVUvZpL7t61tB8SZseYWj9t1SVkPb5a3Ec9p7egLB3I2v6JjpbSLG
+         swcutZFLBMi09ntiRsSzHWV0QOY/zBABvFJ1C/EinqZYOTwmM/lve1XwquhNEH1xPu5c
+         bdbcxH0pGusub0w/JL5fAiBiMDPfmP8sZf2lBi3ozzARjuipMKTZEd+tBFSZ7yONTQ3z
+         W0NReMYwT6XuTUD24LzaXOiQSK+aF0848OYmf3P79CUUwDJNSYXu3KAEaq6ffJ7yYb9s
+         pgjg==
+X-Gm-Message-State: ACrzQf1YSk/y/gzMDsvAQYglKRBizGenWjNXBnWkLjsUMPlV4lwtvDYj
+        eqnytQ2DAOem4Zi1HO9TroCLtQ0Kp9lZ3wB699yej3UL/j7vbpmZQB5OGLRmdKEBOVZ9ssTKeuM
+        ePe+I5NT2EW0OjTgIsOg=
+X-Received: by 2002:a05:6000:18c7:b0:22e:5503:9c46 with SMTP id w7-20020a05600018c700b0022e55039c46mr11131495wrq.668.1665413590038;
+        Mon, 10 Oct 2022 07:53:10 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7NHdp4VIhWLIxsicDWsx8OBqC9INB3sSxqTr86oYPzzmBiwkSfLkjUgI1pGYsZXTiYKD1Q1g==
+X-Received: by 2002:a05:6000:18c7:b0:22e:5503:9c46 with SMTP id w7-20020a05600018c700b0022e55039c46mr11131467wrq.668.1665413589815;
+        Mon, 10 Oct 2022 07:53:09 -0700 (PDT)
+Received: from [192.168.9.16] (net-2-34-29-141.cust.vodafonedsl.it. [2.34.29.141])
+        by smtp.gmail.com with ESMTPSA id c8-20020a05600c0a4800b003b4fdbb6319sm18078667wmq.21.2022.10.10.07.53.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Oct 2022 07:53:09 -0700 (PDT)
+Message-ID: <cfd34b7c-d5eb-5087-5b9f-9577807fc09b@redhat.com>
+Date:   Mon, 10 Oct 2022 16:53:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87r0zg0w5a.fsf@oldenburg.str.redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+To:     matthew.gerlach@linux.intel.com
+Cc:     andriy.shevchenko@linux.intel.com,
+        basheer.ahmed.muddebihal@intel.com, corbet@lwn.net,
+        geert+renesas@glider.be, gregkh@linuxfoundation.org,
+        hao.wu@intel.com, jirislaby@kernel.org, johan@kernel.org,
+        linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+        lkp@intel.com, lukas@wunner.de, macro@orcam.me.uk, mdf@kernel.org,
+        niklas.soderlund+renesas@ragnatech.se, russell.h.weight@intel.com,
+        tianfei.zhang@intel.com, trix@redhat.com, yilun.xu@intel.com
+References: <20221004143718.1076710-5-matthew.gerlach@linux.intel.com>
+Subject: Re: [PATCH v3 4/4] tty: serial: 8250: add DFL bus driver for Altera
+ 16550.
+Content-Language: en-US
+From:   Marco Pagani <marpagan@redhat.com>
+In-Reply-To: <20221004143718.1076710-5-matthew.gerlach@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 10, 2022 at 01:13:05PM +0200, Florian Weimer wrote:
-> * Rick Edgecombe:
-> 
-> > When operating with shadow stacks enabled, the kernel will automatically
-> > allocate shadow stacks for new threads, however in some cases userspace
-> > will need additional shadow stacks. The main example of this is the
-> > ucontext family of functions, which require userspace allocating and
-> > pivoting to userspace managed stacks.
-> >
-> > Unlike most other user memory permissions, shadow stacks need to be
-> > provisioned with special data in order to be useful. They need to be setup
-> > with a restore token so that userspace can pivot to them via the RSTORSSP
-> > instruction. But, the security design of shadow stack's is that they
-> > should not be written to except in limited circumstances. This presents a
-> > problem for userspace, as to how userspace can provision this special
-> > data, without allowing for the shadow stack to be generally writable.
-> >
-> > Previously, a new PROT_SHADOW_STACK was attempted, which could be
-> > mprotect()ed from RW permissions after the data was provisioned. This was
-> > found to not be secure enough, as other thread's could write to the
-> > shadow stack during the writable window.
-> >
-> > The kernel can use a special instruction, WRUSS, to write directly to
-> > userspace shadow stacks. So the solution can be that memory can be mapped
-> > as shadow stack permissions from the beginning (never generally writable
-> > in userspace), and the kernel itself can write the restore token.
-> >
-> > First, a new madvise() flag was explored, which could operate on the
-> > PROT_SHADOW_STACK memory. This had a couple downsides:
-> > 1. Extra checks were needed in mprotect() to prevent writable memory from
-> >    ever becoming PROT_SHADOW_STACK.
-> > 2. Extra checks/vma state were needed in the new madvise() to prevent
-> >    restore tokens being written into the middle of pre-used shadow stacks.
-> >    It is ideal to prevent restore tokens being added at arbitrary
-> >    locations, so the check was to make sure the shadow stack had never been
-> >    written to.
-> > 3. It stood out from the rest of the madvise flags, as more of direct
-> >    action than a hint at future desired behavior.
-> >
-> > So rather than repurpose two existing syscalls (mmap, madvise) that don't
-> > quite fit, just implement a new map_shadow_stack syscall to allow
-> > userspace to map and setup new shadow stacks in one step. While ucontext
-> > is the primary motivator, userspace may have other unforeseen reasons to
-> > setup it's own shadow stacks using the WRSS instruction. Towards this
-> > provide a flag so that stacks can be optionally setup securely for the
-> > common case of ucontext without enabling WRSS. Or potentially have the
-> > kernel set up the shadow stack in some new way.
-> >
-> > The following example demonstrates how to create a new shadow stack with
-> > map_shadow_stack:
-> > void *shstk = map_shadow_stack(adrr, stack_size, SHADOW_STACK_SET_TOKEN);
-> 
-> Jason has recently been working on vDSO-based getrandom acceleration.
-> It needs a way for a userspace thread to allocate userspace memory in a
-> specific way.  Jason proposed to use a vDSO call as the interface, not a
-> system call.
 
-Not quite so in the latest revision of that patch:
-https://lore.kernel.org/lkml/20220916125916.652546-1-Jason@zx2c4.com/
+On 2022-10-04 16:37, matthew.gerlach@linux.intel.com wrote:
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> 
+> Add a Device Feature List (DFL) bus driver for the Altera
+> 16550 implementation of UART.
+> 
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
+> v3: use passed in location of registers
+>     use cleaned up functions for parsing parameters
+> 
+> v2: clean up error messages
+>     alphabetize header files
+>     fix 'missing prototype' error by making function static
+>     tried to sort Makefile and Kconfig better
+> ---
+>  drivers/tty/serial/8250/8250_dfl.c | 177 +++++++++++++++++++++++++++++
+>  drivers/tty/serial/8250/Kconfig    |   9 ++
+>  drivers/tty/serial/8250/Makefile   |   1 +
+>  3 files changed, 187 insertions(+)
+>  create mode 100644 drivers/tty/serial/8250/8250_dfl.c
+> 
+> diff --git a/drivers/tty/serial/8250/8250_dfl.c b/drivers/tty/serial/8250/8250_dfl.c
+> new file mode 100644
+> index 000000000000..110ad3a73459
+> --- /dev/null
+> +++ b/drivers/tty/serial/8250/8250_dfl.c
+> @@ -0,0 +1,177 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Driver for FPGA UART
+> + *
+> + * Copyright (C) 2022 Intel Corporation, Inc.
+> + *
+> + * Authors:
+> + *   Ananda Ravuri <ananda.ravuri@intel.com>
+> + *   Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/dfl.h>
+> +#include <linux/io-64-nonatomic-lo-hi.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/serial.h>
+> +#include <linux/serial_8250.h>
+> +
+> +struct dfl_uart {
+> +	int line;
+> +};
+> +
+> +static int dfl_uart_get_params(struct device *dev, void __iomem *dfh_base, resource_size_t max,
+> +			       struct uart_8250_port *uart)
+> +{
+> +	u64 v, fifo_len, reg_width;
+> +	int off;
+> +
+> +	if (!dfhv1_has_params(dfh_base)) {
+> +		dev_err(dev, "missing required DFH parameters\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_CLK_FRQ);
+> +	if (off < 0) {
+> +		dev_err(dev, "missing CLK_FRQ param\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	uart->port.uartclk = readq(dfh_base + off);
+> +	dev_dbg(dev, "UART_CLK_ID %u Hz\n", uart->port.uartclk);
+> +
+> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_FIFO_LEN);
+> +	if (off < 0) {
+> +		dev_err(dev, "missing FIFO_LEN param\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	fifo_len = readq(dfh_base + off);
+> +	dev_dbg(dev, "UART_FIFO_ID fifo_len %llu\n", fifo_len);
+> +
+> +	switch (fifo_len) {
+> +	case 32:
+> +		uart->port.type = PORT_ALTR_16550_F32;
+> +		break;
+> +
+> +	case 64:
+> +		uart->port.type = PORT_ALTR_16550_F64;
+> +		break;
+> +
+> +	case 128:
+> +		uart->port.type = PORT_ALTR_16550_F128;
+> +		break;
+> +
+> +	default:
+> +		dev_err(dev, "bad fifo_len %llu\n", fifo_len);
+> +		return -EINVAL;
+> +	}
+> +
+> +	off = dfhv1_find_param(dfh_base, max, DFHv1_PARAM_ID_REG_LAYOUT);
+> +	if (off < 0) {
+> +		dev_err(dev, "missing REG_LAYOUT param\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	v = readq(dfh_base + off);
+> +	uart->port.regshift = FIELD_GET(DFHv1_PARAM_ID_REG_SHIFT, v);
+> +	reg_width = FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v);
+> +
+> +	dev_dbg(dev, "UART_LAYOUT_ID width %lld shift %d\n",
+> +		FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v), (int)uart->port.regshift);
+> +
+> +	switch (reg_width) {
+> +	case 4:
+> +		uart->port.iotype = UPIO_MEM32;
+> +		break;
+> +
+> +	case 2:
+> +		uart->port.iotype = UPIO_MEM16;
+> +		break;
+> +
+> +	default:
+> +		dev_err(dev, "invalid reg_width %lld\n", reg_width);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int dfl_uart_probe(struct dfl_device *dfl_dev)
+> +{
+> +	struct device *dev = &dfl_dev->dev;
+> +	struct uart_8250_port uart;
+> +	struct dfl_uart *dfluart;
+> +	resource_size_t res_size;
+> +	void __iomem *dfh_base;
+> +	int ret;
+> +
+> +	memset(&uart, 0, sizeof(uart));
+> +	uart.port.flags = UPF_IOREMAP;
+> +	uart.port.mapbase = dfl_dev->csr_res.start;
+> +	uart.port.mapsize = resource_size(&dfl_dev->csr_res);
+> +
+> +	dfluart = devm_kzalloc(dev, sizeof(*dfluart), GFP_KERNEL);
+> +	if (!dfluart)
+> +		return -ENOMEM;
+> +
+> +	dfh_base = devm_ioremap_resource(dev, &dfl_dev->mmio_res);
+> +	if (IS_ERR(dfh_base))
+> +		return PTR_ERR(dfh_base);
+> +
+> +	res_size = resource_size(&dfl_dev->mmio_res);
+> +
+> +	ret = dfl_uart_get_params(dev, dfh_base, res_size, &uart);
 
-Jason
 
-> 
-> Maybe this approach is applicable here as well?  Or we can come up with
-> a more general interface for such per-thread allocations?
-> 
-> Thanks,
-> Florian
-> 
+It seems to me that the dfl_uart driver supports only DFHv1 headers.
+So why not checking dfl_dev->dfh_version in dfl_uart_probe() before
+allocating, mapping, and then checking with dfl_uart_get_params()?
+
+
+> +
+> +	devm_iounmap(dev, dfh_base);
+> +	devm_release_mem_region(dev, dfl_dev->mmio_res.start, res_size);
+> +
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "failed uart feature walk\n");
+> +
+> +	dev_dbg(dev, "nr_irqs %d %p\n", dfl_dev->num_irqs, dfl_dev->irqs);
+> +
+> +	if (dfl_dev->num_irqs == 1)
+> +		uart.port.irq = dfl_dev->irqs[0];
+> +
+> +	/* register the port */
+> +	dfluart->line = serial8250_register_8250_port(&uart);
+> +	if (dfluart->line < 0)
+> +		return dev_err_probe(dev, dfluart->line, "unable to register 8250 port.\n");
+> +
+> +	dev_info(dev, "serial8250_register_8250_port %d\n", dfluart->line);
+> +	dev_set_drvdata(dev, dfluart);
+> +
+> +	return 0;
+> +}
+> +
+> +static void dfl_uart_remove(struct dfl_device *dfl_dev)
+> +{
+> +	struct dfl_uart *dfluart = dev_get_drvdata(&dfl_dev->dev);
+> +
+> +	if (dfluart->line >= 0)
+> +		serial8250_unregister_port(dfluart->line);
+> +}
+> +
+> +#define FME_FEATURE_ID_UART 0x24
+> +
+> +static const struct dfl_device_id dfl_uart_ids[] = {
+> +	{ FME_ID, FME_FEATURE_ID_UART },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(dfl, dfl_uart_ids);
+> +
+> +static struct dfl_driver dfl_uart_driver = {
+> +	.drv = {
+> +		.name = "dfl-uart",
+> +	},
+> +	.id_table = dfl_uart_ids,
+> +	.probe = dfl_uart_probe,
+> +	.remove = dfl_uart_remove,
+> +};
+> +module_dfl_driver(dfl_uart_driver);
+> +
+> +MODULE_DESCRIPTION("DFL Intel UART driver");
+> +MODULE_AUTHOR("Intel Corporation");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/tty/serial/8250/Kconfig b/drivers/tty/serial/8250/Kconfig
+> index d0b49e15fbf5..5c6497ce5c12 100644
+> --- a/drivers/tty/serial/8250/Kconfig
+> +++ b/drivers/tty/serial/8250/Kconfig
+> @@ -361,6 +361,15 @@ config SERIAL_8250_BCM2835AUX
+>  
+>  	  If unsure, say N.
+>  
+> +config SERIAL_8250_DFL
+> +	tristate "DFL bus driver for Altera 16550 UART"
+> +	depends on SERIAL_8250 && FPGA_DFL
+> +	help
+> +	  This option enables support for a Device Feature List (DFL) bus
+> +	  driver for the Altera 16650 UART.  One or more Altera 16650 UARTs
+> +	  can be instantiated in a FPGA and then be discovered during
+> +	  enumeration of the DFL bus.
+> +
+>  config SERIAL_8250_FSL
+>  	bool "Freescale 16550 UART support" if COMPILE_TEST && !(PPC || ARM || ARM64)
+>  	depends on SERIAL_8250_CONSOLE
+> diff --git a/drivers/tty/serial/8250/Makefile b/drivers/tty/serial/8250/Makefile
+> index bee908f99ea0..32006e0982d1 100644
+> --- a/drivers/tty/serial/8250/Makefile
+> +++ b/drivers/tty/serial/8250/Makefile
+> @@ -24,6 +24,7 @@ obj-$(CONFIG_SERIAL_8250_CONSOLE)	+= 8250_early.o
+>  obj-$(CONFIG_SERIAL_8250_FOURPORT)	+= 8250_fourport.o
+>  obj-$(CONFIG_SERIAL_8250_ACCENT)	+= 8250_accent.o
+>  obj-$(CONFIG_SERIAL_8250_BOCA)		+= 8250_boca.o
+> +obj-$(CONFIG_SERIAL_8250_DFL)		+= 8250_dfl.o
+>  obj-$(CONFIG_SERIAL_8250_EXAR_ST16C554)	+= 8250_exar_st16c554.o
+>  obj-$(CONFIG_SERIAL_8250_HUB6)		+= 8250_hub6.o
+>  obj-$(CONFIG_SERIAL_8250_FSL)		+= 8250_fsl.o
+
+
+Thanks,
+Marco
+
