@@ -2,117 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E1CBC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 20:25:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5560C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 20:29:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229861AbiJJUZ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 16:25:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38744 "EHLO
+        id S229669AbiJJU3q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 16:29:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231370AbiJJUYs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 16:24:48 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD0F27C1CD;
-        Mon, 10 Oct 2022 13:23:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0122FB810D2;
-        Mon, 10 Oct 2022 20:22:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36D30C433D6;
-        Mon, 10 Oct 2022 20:22:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1665433365;
-        bh=CHynigbFeyVcxvAoFQLwXJcDP7G6kpYQrKkE1dE9CSc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CF5T9mxCd+XOc59MIW/z3FQPNegwAu9mRPPpzHF5fL/flQaQdxMvVKxG8OhUpN8xI
-         UfJ0RkWL6ObjBUX6G/fCxetSew7VvVCFJkz7zEvBSoqRbb1+TBUhDmHJIOkjEGQLPn
-         eqp3Jak+hwhrFq0IDHhRkWM358HPzOSW21aXse1A=
-Date:   Mon, 10 Oct 2022 22:23:29 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Jiri Slaby <jirislaby@kernel.org>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 14/14] tty: gunyah: Add tty console driver for RM
- Console Services
-Message-ID: <Y0R/QbysXa6ebNd8@kroah.com>
-References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
- <20220928195633.2348848-15-quic_eberman@quicinc.com>
- <YzbePxTF8hRbWNRU@kroah.com>
- <14d0ff9f-60f3-71cc-ea42-ceee389298ac@quicinc.com>
- <Yz/YBDqqwBUlswgX@kroah.com>
- <615493a8-449d-b105-709e-0642dfb5359b@quicinc.com>
+        with ESMTP id S229552AbiJJU33 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 16:29:29 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A93BDB7;
+        Mon, 10 Oct 2022 13:27:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=BMbzY36+8ww6wrsdbaWxNYcMSlmO1bp/yAVsU2BxNyU=; b=ccUta+uyPGpcVmzwBFHJWeZt9R
+        UmW6COD6OsXOF0IqhbYsQjLSMw7qplzfnUtkTL2CrDlKC/FbzzcBUQHd7xi+nO2z2/qXlcRuTko3E
+        I9qcdnObgt92HViBUeNHKcr542o6oGsqE2J8qjuAWgbMxS2QyF6yUcFDpDxBgWLkaADnHagGmoNlw
+        rW9uX/M2Jg8ksd1XU+V1W6vqPRJNds2ZV0G0NEQAvQf6WsRjGT6oUEhV/WSBRfoUuo4yIgfn/I5YS
+        4MWzbiOO+76grXOTYUmwJJADIvfltwszl6/w2LNa9nQxG0ene+/93fzm53dJwDvEB1ZKGuiVgbG7W
+        vK3aZvZQ==;
+Received: from [2601:1c2:d80:3110::a2e7]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1ohzNF-002BCV-0i; Mon, 10 Oct 2022 20:27:41 +0000
+Message-ID: <55ec854a-69a7-8272-e8a7-93b75577ed0a@infradead.org>
+Date:   Mon, 10 Oct 2022 13:27:38 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <615493a8-449d-b105-709e-0642dfb5359b@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH] docs/howto: Replace abundoned URL of gmane.org
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>
+References: <20220930021936.26238-1-akiyks@gmail.com>
+ <87r0zfpkbf.fsf@meer.lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87r0zfpkbf.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 09, 2022 at 01:59:21PM -0700, Elliot Berman wrote:
+
+
+On 10/10/22 12:09, Jonathan Corbet wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
 > 
+>> Somehow, there remains a link to gmane.org, which stopped working
+>> in 2016, in howto.rst. Replace it with the one at lore.kernel.org.
+>> Do the same changes under translations/ as well.
+>>
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+>> Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+>> Cc: Alex Shi <alexs@kernel.org>
+>> Cc: Yanteng Si <siyanteng@loongson.cn>
+>> Cc: Hu Haowen <src.res@email.cn>
+>> ---
+>>  Documentation/process/howto.rst                    | 2 +-
+>>  Documentation/translations/it_IT/process/howto.rst | 2 +-
+>>  Documentation/translations/ja_JP/howto.rst         | 2 +-
+>>  Documentation/translations/ko_KR/howto.rst         | 2 +-
+>>  Documentation/translations/zh_CN/process/howto.rst | 2 +-
+>>  Documentation/translations/zh_TW/process/howto.rst | 2 +-
+>>  6 files changed, 6 insertions(+), 6 deletions(-)
 > 
-> On 10/7/2022 12:40 AM, Greg Kroah-Hartman wrote:
-> > On Thu, Oct 06, 2022 at 10:59:51PM -0700, Elliot Berman wrote:
-> > > 
-> > > "GH" is the shorthand we've been using for "Gunyah". I didn't find
-> > > documentation for dynamically assigned char devices, but if it exists, I can
-> > > add entry for ttyGH.
-> > 
-> > Why use a new name at all?  Why not stick with the existing tty names
-> > and device numbers?
-> > 
-> 
-> I can use hvc framework, although driver-level buffering is needed on
-> both the get_chars/put_chars paths because:
+> Applied, thanks.
 
-I'm not asking about the framework (although that is a good question,
-you need to document why this has to be new.)  I'm asking why pick a new
-name?  You will not have a name conflict in your system with this device
-with any other tty name right?
+Just FYI, news.gmane.io still works via nntp but not the old web interface.
+But lore.kernel.org works either way. :)
 
->  - get_chars wants to poll for characters, but Gunyah will push
->    characters to Linux
->  - put_chars can be called in atomic context in the printk console path.
->    Gunyah RM calls can sleep, so we add to buffer and queue work to
->    write the characters.
-> 
-> I also chose to use new tty driver because the Gunyah hypervisor call to
-> open the console (gh_rm_console_open) can only be done after starting the
-> VM. Gunyah will only forward characters sent from the other VM to Linux
-> after the gh_rm_console_open call is made. When launching a VM, users would
-> want to open console before VM starts so they can get startup messages from
-> the VM. I planned to use the carrier_raised() to hold
-> tty_port_block_until_ready until the VM is started and the
-> gh_rm_console_open() happens.
-
-I'm sorry, but I don't understand this.
-
-Why is this all a new api at all?  What about the virtio api?  Why not
-just use that instead?
-
-thanks,
-
-greg k-h
+-- 
+~Randy
