@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1908AC433F5
-	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 20:30:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA534C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 10 Oct 2022 20:30:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229958AbiJJUaF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 16:30:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33384 "EHLO
+        id S229542AbiJJUaH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 16:30:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbiJJU3l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 16:29:41 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2088.outbound.protection.outlook.com [40.107.93.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 208BC62F1;
-        Mon, 10 Oct 2022 13:28:40 -0700 (PDT)
+        with ESMTP id S229591AbiJJU3n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 16:29:43 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2042.outbound.protection.outlook.com [40.107.237.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 490941EAEE;
+        Mon, 10 Oct 2022 13:28:50 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YQTxWODgRXxCrlpBbRyQjDFF8pnqs0/0XL+3IzJ/YcO8/iZwOwxflT+WgXpsHm0QlsSHK9rQFt2kU5ErVMPPlaaigI6oMjMquXE9dlpACgoBGkPgZpCjslxDhRUNymHVLZWRL3t5s/aaSz40KzzFI4WSrDVFSuM8AAtTrxAypQ+xi6w1V5FqsdkmnPVA2Yz81RWEWKoC4fq6cxTFrs660CBzuB4t7b6joHzOmISYOzy+ey6pbzy4CVy6IKQF0HZSUqsMs/Pb35PAPXfbyesH1L6ZF5KR6+zDh6eMEcvL9n4ZDd1g7TcipBHAJn8wIRlnQdQbEChAC9Fn+LOaW+bWnQ==
+ b=YxzQO9nginFjti2Y5XFBxW3zXKXdNbZ8EqS6ASI+7wQG8EXfhG6qBv+KcLDPqUn8BkY8W4xMgTiJs566ayXFXXj1x/86l1h7vPEp/foGRJVPAZijm+HLIwEIAzvJJE6ICIvA79lsIPgssB5bYc8NZYHLzgr4t75Yi9HVawnMHHDfxxcmE4jBtzPUk9+H2okGs/ucaL9uvq9q5CioTOXH0ryxCwZZ/Ijk+AIaC1000wTUfG1t2eFJ/VMtErsgba37pwYPJlqey4Nr0EZPXxG0chY52Mfkzi+4bOnHj6MIyc9Bc55LOitvzTw3lPXthUqJTWrjTSA/xgHAnx4aP/m+SA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xr9X6Cx8qPUXKUY20vHQnnWV4Z9lT49fGVOTJ90EP1E=;
- b=oXQ1cldC3yCN9pk7cdvx7r1+hcbxkREaKjW1+Dx/ZgApVNzn7vDQkwLbimIBcpS6smX2PmQsJ6vow+zuf+NxwAtyrgV+O/h9snpyTX+LQplkwLzB8IL39inPOV4fnjSB1ArlHL0sRPlsNc+kb6DWP2yxwfNSgVX+4Uu4y9AOH9Gs3V8oXqji8HDkj35n3Ks+BROulktcZLGLViuPjOlaOx0L4rAkDxmRyKvgObKDIu84b7sGdf8vSG4ps7Y/z/1gSZCmrWMBxBVYk3GMJpeBqk4SFsxRqvCEICmqaBKO/2mhdfhK/HRjbdp8DUPHOOjX6ZhAtOysZucVQvDR0MjlrQ==
+ bh=eXUWND517tmbByaWEbc2CT2bAWf2K7vLcbL3Ozw2Fjc=;
+ b=OPgTQ0zYI5175IxE978Svx6X2opMAMXlCgWAp+XHEqXMj79XGycD+0egqcPyQo/XLwzdlT2bj/5QpdlTQYwxMAQWYRm65Hlja0aLcftaWrWncwg7adyJnbnT2yCs0cKntJJtttoTkAbYRVkF5R9DqjF9OuA5p5OkZAFj1XEN9LSWj/m8EJg+QeUD49mlGxH2F/MgFeLnYcC2eRk0kjXQc6sNvK1Bk9/m4sakkNiAzLj2O4ifq/NArWcvrSI4im1KlmitR5w4phtHf8hZV3XiOSrcYxdWXdjemvBtFodtQCzd8RRjva5VzmYZXitlkdGHj36Cdx1I+LnvfihQcKzCnw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=opensource.wdc.com smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xr9X6Cx8qPUXKUY20vHQnnWV4Z9lT49fGVOTJ90EP1E=;
- b=0ztHkXxGVKsSZV7NDgc8jLnz3sGsBBJxWeIhyxXnlJgoHif2ysCjMSblEPJi/WqRqg0XO32bkrrZCMVJR+C5kYqqFpDGB9cG0/mS1Q/Fj+Qdil1qqF/DQkPRzAUL6b7VQ8OBGdBcwLFM5nGrg4VPK2is1xSWXVsVIzdcJH2VTTQ=
-Received: from DM6PR18CA0005.namprd18.prod.outlook.com (2603:10b6:5:15b::18)
- by SN7PR12MB7022.namprd12.prod.outlook.com (2603:10b6:806:261::7) with
+ bh=eXUWND517tmbByaWEbc2CT2bAWf2K7vLcbL3Ozw2Fjc=;
+ b=zn2Bou18Z/a9rLYKw1BmkHfkM+bLadEDbYNvJGjTf842fO8dGzXBlxwH00BU0lIq9kqwXnN0qDwG7VIG9RJcXmzS6pvmyDqjU02yUb8PakBZRQTPS2NIJB5lB9hx6JFFQA15PyPRgDCj1yO3PObdk6Jt8yxnoHTMUnxjAjCOMHs=
+Received: from DS7PR05CA0002.namprd05.prod.outlook.com (2603:10b6:5:3b9::7) by
+ PH7PR12MB6717.namprd12.prod.outlook.com (2603:10b6:510:1b0::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.15; Mon, 10 Oct
- 2022 20:28:38 +0000
-Received: from DM6NAM11FT105.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:15b:cafe::54) by DM6PR18CA0005.outlook.office365.com
- (2603:10b6:5:15b::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.15 via Frontend
- Transport; Mon, 10 Oct 2022 20:28:38 +0000
+ 2022 20:28:47 +0000
+Received: from DM6NAM11FT096.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b9:cafe::4b) by DS7PR05CA0002.outlook.office365.com
+ (2603:10b6:5:3b9::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.10 via Frontend
+ Transport; Mon, 10 Oct 2022 20:28:47 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,14 +46,15 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT105.mail.protection.outlook.com (10.13.173.164) with Microsoft SMTP
+ DM6NAM11FT096.mail.protection.outlook.com (10.13.173.145) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5709.10 via Frontend Transport; Mon, 10 Oct 2022 20:28:38 +0000
+ 15.20.5709.10 via Frontend Transport; Mon, 10 Oct 2022 20:28:47 +0000
 Received: from [127.0.1.1] (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 10 Oct
- 2022 15:28:05 -0500
-Subject: [PATCH v6 00/12] x86/resctrl: Support for AMD QoS new features
+ 2022 15:28:45 -0500
+Subject: [PATCH v6 02/12] x86/resctrl: Add a new resource type
+ RDT_RESOURCE_SMBA
 From:   Babu Moger <babu.moger@amd.com>
 To:     <corbet@lwn.net>, <reinette.chatre@intel.com>,
         <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
@@ -69,8 +70,10 @@ CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
         <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
         <eranian@google.com>
-Date:   Mon, 10 Oct 2022 15:28:00 -0500
-Message-ID: <166543345606.23830.3120625408601531368.stgit@bmoger-ubuntu>
+Date:   Mon, 10 Oct 2022 15:28:44 -0500
+Message-ID: <166543372483.23830.14249332360278807042.stgit@bmoger-ubuntu>
+In-Reply-To: <166543345606.23830.3120625408601531368.stgit@bmoger-ubuntu>
+References: <166543345606.23830.3120625408601531368.stgit@bmoger-ubuntu>
 User-Agent: StGit/1.1.dev103+g5369f4c
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -80,167 +83,73 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT105:EE_|SN7PR12MB7022:EE_
-X-MS-Office365-Filtering-Correlation-Id: c84d4f8c-3ce8-4b85-9fa2-08daaafe0370
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT096:EE_|PH7PR12MB6717:EE_
+X-MS-Office365-Filtering-Correlation-Id: 15f1d1e1-2ee7-4dca-4fc1-08daaafe08f1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 116nGCMb4jDodwk2iaXBY2q2tMM9Uax5RZo+R4FwW6nvZIgyudbfPuPeGY9vX1/NqdEWFLOCvtuutQj9XgK6zHmP6z//I9rBurNvWN8I6El3/O5gAGPGslgez7RezSDmG0tghQbLHPPAgSTXyJagSb2IRMdCGK2U7ibiZ0Y1M0RpckfVvbpJPtHI/BpU2E+3XAgq0QRturo9Rkqxsp360PTprzVD56t1bJSQdV9YOYqtvnIv3O6Mp40LN8fHWpEhtjky3rqDh53JdSrD//VJUeddhY8+QKdJIx83UtErH2YmRjj6I8/bdJ2j71gBcdDPTncarTB0lYOzU8FQ69U4b6/bPnsxxiC8adQa1MUFiEbV9Fv63RNVLPlnWaaoEwxWjanJlKCRLDcFDYU8eLneV+8C8h2TgKh7NLffYcTgKtvTz58SPslI9pysTj5824DvUeGoLioB2wFMjKpxD5Kt492+Z7UPyoZaVkepbhivZ/xUBk99ayIVWNJOXU9hsNsYCsaT1d+yM7Sl0rMCIjmCsI86IAdnAzmXbe6x93rEShJgVVhWhMincpFJJjDlpSXZx8X0lSI43f+CbhPfn7pa/U4POnnZHHKTUaru1lgxsSy8o08VkC07KBK5H+gfWOfdhGEqW2+szuV3NepvTU3hCWUpEvUw23xieOQVzzQgxMXKJ+UPHlllHPyWcPRygVd2YUUlxXqkGPcP4YVgtFU7F+c46doddOMH8kVWWqFxj08Xg5lAZtXOqCwOYf50REod251iIaNOrt0g+YEC8loMSxamK6dAUjHZr09m3D1QlotMaccBApTBsuvbEqCJKbOBAKSNVFhtoPXvONuw16rFJDqn1vIQ7ut4AdoGT09ARP2NXlKqwlV81nGBE0gGWkJc
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(7916004)(4636009)(376002)(136003)(346002)(39860400002)(396003)(451199015)(40470700004)(46966006)(36840700001)(16576012)(47076005)(82310400005)(86362001)(426003)(54906003)(82740400003)(83380400001)(7416002)(2906002)(41300700001)(6666004)(33716001)(40480700001)(103116003)(316002)(9686003)(16526019)(26005)(186003)(81166007)(70206006)(336012)(8676002)(4326008)(356005)(70586007)(110136005)(44832011)(966005)(5660300002)(40460700003)(478600001)(8936002)(36860700001)(71626007)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: KyxVbjfl0utLKVFJaTXpPKUHVpdB/ue4UrofL5Vn25Kr2eLaywmTEFXBRp21FPL5BKljNLIONEY6oj01VIzZPQFaW/dNWV205YqwjN6P36UqMMXm1TL55FE/GEsr6kcyLx1VAqGS+EvoLDs+Or8PszQaEIc+i3XYjyuhnj2C90dj0bbCLMrdNJ0i+VDb1Tg1+KkWwE2eqW54gUtBRFF9EO+uwPlCB7tr1X78msjKyuC79sr3CVEmxol9OAxOYhzAt9zaCKzc1xLKCPETf5lcfK3RXB2XJSHUKU9VUKIWXyYBG6sytnlXw4KkHoczxk/n4W7fEkd73+HSrZUEmPsph1ajk0wJW+9Jxtcj5aNIio3SXQjws4hR1rLlPpxHzWbvP06rbEDohXnz0sUDG3vbH6AKWo6XEV1Lr53e/2p4MHtD29RruyjFFnfUvB3sIchGLrQ+Ein+YdD3+A0ekSabr3bApKZFgfoHlXfOy6/Am1HQAwHxBTl+cAYbx1ULUZU9TNtQNdqVxBjs7iOWINAsd6vLjX+yP/4vyUNvYYtlv6DeDApE1r2Z6R3pmrjDsZh+s6u+c0IGRpW2j1XdUkJ9ewDe/oFs29P7o7LtODmfTT1Y1PMXVmp/9rFKuW4Rf4PomTmNNxNErRPqxSyjFMpGOlBkfkvXkYUsWDZ3W00JMKJeAfcp+QrEP7QypY6i4MHHh4fC7dXv/ZJnoVnO8ueCkrBKbsKENDGmwQ0eZSCXkgSNqjOg0M++4gzbyPa4UbxqiJ+/JYajCo7DZ3homTDUU5r2T8e22P796DY7kL5TGzRYnrKzfUExHQMRZuG+IznSr+DHgvegleA8K6GrbIk97w==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(7916004)(4636009)(39860400002)(396003)(136003)(346002)(376002)(451199015)(36840700001)(46966006)(40470700004)(47076005)(8676002)(8936002)(5660300002)(2906002)(7416002)(36860700001)(41300700001)(40480700001)(110136005)(86362001)(316002)(103116003)(16576012)(70586007)(70206006)(4326008)(44832011)(33716001)(356005)(478600001)(82740400003)(26005)(9686003)(81166007)(426003)(82310400005)(186003)(16526019)(336012)(54906003)(40460700003)(71626007)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2022 20:28:38.1849
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2022 20:28:47.3543
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c84d4f8c-3ce8-4b85-9fa2-08daaafe0370
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15f1d1e1-2ee7-4dca-4fc1-08daaafe08f1
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT105.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT096.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7022
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6717
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-New AMD processors can now support following QoS features.=0A=
+Add a new resource type RDT_RESOURCE_SMBA to handle the QoS=0A=
+enforcement policies on the external slow memory.=0A=
 =0A=
-1. Slow Memory Bandwidth Allocation (SMBA)=0A=
-   With this feature, the QOS enforcement policies can be applied=0A=
-   to the external slow memory connected to the host. QOS enforcement=0A=
-   is accomplished by assigning a Class Of Service (COS) to a processor=0A=
-   and specifying allocations or limits for that COS for each resource=0A=
-   to be allocated.=0A=
-=0A=
-   Currently, CXL.memory is the only supported "slow" memory device. With=
-=0A=
-   the support of SMBA feature the hardware enables bandwidth allocation=0A=
-   on the slow memory devices.=0A=
-=0A=
-2. Bandwidth Monitoring Event Configuration (BMEC)=0A=
-   The bandwidth monitoring events mbm_total_event and mbm_local_event =0A=
-   are set to count all the total and local reads/writes respectively.=0A=
-   With the introduction of slow memory, the two counters are not enough=0A=
-   to count all the different types are memory events. With the feature=0A=
-   BMEC, the users have the option to configure mbm_total_event and=0A=
-   mbm_local_event to count the specific type of events.=0A=
-=0A=
-   Following are the bitmaps of events supported.=0A=
-   Bits    Description=0A=
-     6       Dirty Victims from the QOS domain to all types of memory=0A=
-     5       Reads to slow memory in the non-local NUMA domain=0A=
-     4       Reads to slow memory in the local NUMA domain=0A=
-     3       Non-temporal writes to non-local NUMA domain=0A=
-     2       Non-temporal writes to local NUMA domain=0A=
-     1       Reads to memory in the non-local NUMA domain=0A=
-     0       Reads to memory in the local NUMA domain=0A=
-=0A=
-This series adds support for these features.=0A=
-=0A=
-Feature description is available in the specification, "AMD64 Technology=0A=
-Platform Quality of Service Extensions, Revision: 1.03 Publication # 56375=
-=0A=
-Revision: 1.03 Issue Date: February 2022".=0A=
-=0A=
-Link: https://www.amd.com/en/support/tech-docs/amd64-technology-platform-qu=
-ality-service-extensions=0A=
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D206537=0A=
+Signed-off-by: Babu Moger <babu.moger@amd.com>=0A=
+Reviewed-by: Ingo Molnar <mingo@kernel.org>=0A=
 ---=0A=
-v6:=0A=
- Summary of changes:=0A=
- 1. Rebased on top of lastest tip tree. Fixed few minor conflicts.=0A=
- 2. Fixed format issue with scattered.c.=0A=
- 3. Removed config_name from the structure mon_evt. It is not required.=0A=
- 4. The read/write format for mbm_total_config and mbm_local_config will be=
- same=0A=
-    as schemata format "id0=3Dval0;id1=3Dval1;...". This is comment from Fe=
-nghua.=0A=
- 5. Added more comments MSR_IA32_EVT_CFG_BASE writng.=0A=
- 5. Few text changes in resctrl.rst =0A=
+ arch/x86/kernel/cpu/resctrl/core.c     |   12 ++++++++++++=0A=
+ arch/x86/kernel/cpu/resctrl/internal.h |    1 +=0A=
+ 2 files changed, 13 insertions(+)=0A=
+=0A=
+diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resct=
+rl/core.c=0A=
+index de62b0b87ced..efffce716f3a 100644=0A=
+--- a/arch/x86/kernel/cpu/resctrl/core.c=0A=
++++ b/arch/x86/kernel/cpu/resctrl/core.c=0A=
+@@ -106,6 +106,18 @@ struct rdt_hw_resource rdt_resources_all[] =3D {=0A=
+ 			.fflags			=3D RFTYPE_RES_MB,=0A=
+ 		},=0A=
+ 	},=0A=
++	[RDT_RESOURCE_SMBA] =3D=0A=
++	{=0A=
++		.r_resctrl =3D {=0A=
++			.rid			=3D RDT_RESOURCE_SMBA,=0A=
++			.name			=3D "SMBA",=0A=
++			.cache_level		=3D 3,=0A=
++			.domains		=3D domain_init(RDT_RESOURCE_SMBA),=0A=
++			.parse_ctrlval		=3D parse_bw,=0A=
++			.format_str		=3D "%d=3D%*u",=0A=
++			.fflags			=3D RFTYPE_RES_MB,=0A=
++		},=0A=
++	},=0A=
+ };=0A=
  =0A=
-v5:=0A=
-  https://lore.kernel.org/lkml/166431016617.373387.1968875281081252467.stgi=
-t@bmoger-ubuntu/=0A=
-  Summary of changes.=0A=
-  1. Split the series into two. The first two patches are bug fixes. So, se=
-nt them separate.=0A=
-  2. The config files mbm_total_config and mbm_local_config are now under=
+ /*=0A=
+diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/r=
+esctrl/internal.h=0A=
+index 5f7128686cfd..43d9f6f5a931 100644=0A=
+--- a/arch/x86/kernel/cpu/resctrl/internal.h=0A=
++++ b/arch/x86/kernel/cpu/resctrl/internal.h=0A=
+@@ -419,6 +419,7 @@ enum resctrl_res_level {=0A=
+ 	RDT_RESOURCE_L3,=0A=
+ 	RDT_RESOURCE_L2,=0A=
+ 	RDT_RESOURCE_MBA,=0A=
++	RDT_RESOURCE_SMBA,=0A=
+ =0A=
+ 	/* Must be the last */=0A=
+ 	RDT_NUM_RESOURCES,=0A=
 =0A=
-     /sys/fs/resctrl/info/L3_MON/. Removed these config files from mon grou=
-ps.=0A=
-  3. Ran "checkpatch --strict --codespell" on all the patches. Looks good w=
-ith few known exceptions.=0A=
-  4. Few minor text changes in resctrl.rst file. =0A=
-=0A=
-v4:=0A=
-  https://lore.kernel.org/lkml/166257348081.1043018.11227924488792315932.st=
-git@bmoger-ubuntu/=0A=
-  Got numerios of comments from Reinette Chatre. Addressed most of them. =
-=0A=
-  Summary of changes.=0A=
-  1. Removed mon_configurable under /sys/fs/resctrl/info/L3_MON/.  =0A=
-  2. Updated mon_features texts if the BMEC is supported.=0A=
-  3. Added more explanation about the slow memory support.=0A=
-  4. Replaced smp_call_function_many with on_each_cpu_mask call.=0A=
-  5. Removed arch_has_empty_bitmaps=0A=
-  6. Few other text changes.=0A=
-  7. Removed Reviewed-by if the patch is modified.=0A=
-  8. Rebased the patches to latest tip.=0A=
-=0A=
-v3:=0A=
-  https://lore.kernel.org/lkml/166117559756.6695.16047463526634290701.stgit=
-@bmoger-ubuntu/=0A=
-  a. Rebased the patches to latest tip. Resolved some conflicts.=0A=
-     https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git=0A=
-  b. Taken care of feedback from Bagas Sanjaya.=0A=
-  c. Added Reviewed by from Mingo.=0A=
-  Note: I am still looking for comments from Reinette or Fenghua.=0A=
-=0A=
-v2:=0A=
-  https://lore.kernel.org/lkml/165938717220.724959.10931629283087443782.stg=
-it@bmoger-ubuntu/=0A=
-  a. Rebased the patches to latest stable tree (v5.18.15). Resolved some co=
-nflicts.=0A=
-  b. Added the patch to fix CBM issue on AMD. This was originally discussed=
-=0A=
-     https://lore.kernel.org/lkml/20220517001234.3137157-1-eranian@google.c=
-om/=0A=
-=0A=
-v1:=0A=
-  https://lore.kernel.org/lkml/165757543252.416408.13547339307237713464.stg=
-it@bmoger-ubuntu/=0A=
-=0A=
-Babu Moger (12):=0A=
-      x86/cpufeatures: Add Slow Memory Bandwidth Allocation feature flag=0A=
-      x86/resctrl: Add a new resource type RDT_RESOURCE_SMBA=0A=
-      x86/cpufeatures: Add Bandwidth Monitoring Event Configuration feature=
- flag=0A=
-      x86/resctrl: Include new features in command line options=0A=
-      x86/resctrl: Detect and configure Slow Memory Bandwidth allocation=0A=
-      x86/resctrl: Introduce data structure to support monitor configuratio=
-n=0A=
-      x86/resctrl: Add sysfs interface to read mbm_total_bytes event config=
-uration=0A=
-      x86/resctrl: Add sysfs interface to read mbm_local_bytes event config=
-uration=0A=
-      x86/resctrl: Add sysfs interface to write mbm_total_bytes event confi=
-guration=0A=
-      x86/resctrl: Add sysfs interface to write mbm_local_bytes event confi=
-guration=0A=
-      x86/resctrl: Replace smp_call_function_many() with on_each_cpu_mask()=
-=0A=
-      Documentation/x86: Update resctrl_ui.rst for new features=0A=
-=0A=
-=0A=
- .../admin-guide/kernel-parameters.txt         |   2 +-=0A=
- Documentation/x86/resctrl.rst                 | 136 +++++++-=0A=
- arch/x86/include/asm/cpufeatures.h            |   2 +=0A=
- arch/x86/kernel/cpu/cpuid-deps.c              |   1 +=0A=
- arch/x86/kernel/cpu/resctrl/core.c            |  51 ++-=0A=
- arch/x86/kernel/cpu/resctrl/ctrlmondata.c     |   2 +-=0A=
- arch/x86/kernel/cpu/resctrl/internal.h        |  31 +-=0A=
- arch/x86/kernel/cpu/resctrl/monitor.c         |   7 +-=0A=
- arch/x86/kernel/cpu/resctrl/rdtgroup.c        | 313 ++++++++++++++++--=0A=
- arch/x86/kernel/cpu/scattered.c               |   2 +=0A=
- 10 files changed, 510 insertions(+), 37 deletions(-)=0A=
-=0A=
---=0A=
 
