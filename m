@@ -2,85 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F350C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 12:28:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 956A0C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 12:39:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229541AbiJKM2L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Oct 2022 08:28:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35916 "EHLO
+        id S229484AbiJKMjz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Oct 2022 08:39:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229773AbiJKM1r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 08:27:47 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4E7F761DA9;
-        Tue, 11 Oct 2022 05:27:45 -0700 (PDT)
-Received: from [192.168.100.127] (unknown [223.106.24.89])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8Cxrms7YUVjq+8qAA--.9206S3;
-        Tue, 11 Oct 2022 20:27:40 +0800 (CST)
-Message-ID: <fcc72113-73a1-03be-b873-7da476af9747@loongson.cn>
-Date:   Tue, 11 Oct 2022 20:27:39 +0800
+        with ESMTP id S229819AbiJKMjt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 08:39:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D772A14D0F;
+        Tue, 11 Oct 2022 05:39:48 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 72F7061184;
+        Tue, 11 Oct 2022 12:39:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5397AC433D6;
+        Tue, 11 Oct 2022 12:39:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665491987;
+        bh=kunzchOrNhxJ4TlX1sA1be9vS/JGs0Lekk2gqipkh8Y=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=jW6jtcsL5GXOGod6XfiNRBewRwunQAWa38fQIEmsdAz7o3RJ82VNKWvN+uvZqJ5bn
+         SJ7rX5AGavoVzTI/PcoW4V9Xaeacosk2vmhIgKbBIrDhewNRtxjqh1DeMLI/BXJ6kD
+         LJvgXBB7Vg5ucZevccOuIKKLm0F8hVZSCTgKIDkJoIeh/w5xxbq8s89Ck9zO30vUXC
+         Uy5ui+/BgBsaKXiLgcqCfLh3s4sxuUKtHsi7jyu4MhYH6fWtD4E57TeoyM+C6lUVhw
+         zT/7k9+a3eUPRb91/lZDYp8/Z5IF+MDqpCgWILW8SVBoYgsTgTY3C26/qzRQhCVky1
+         WbCf0qEEbwHTg==
+From:   =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To:     Liu Shixin <liushixin2@huawei.com>,
+        Conor Dooley <conor@kernel.org>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, Liu Shixin <liushixin2@huawei.com>
+Subject: Re: [PATCH v2 0/2] riscv: Support HAVE_ARCH_HUGE_VMAP and
+ HAVE_ARCH_HUGE_VMALLOC
+In-Reply-To: <20221008140506.1066805-1-liushixin2@huawei.com>
+References: <20221008140506.1066805-1-liushixin2@huawei.com>
+Date:   Tue, 11 Oct 2022 14:39:44 +0200
+Message-ID: <87tu4ah6un.fsf@smulpajen.i-did-not-set--mail-host-address--so-tickle-me>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 4/4] docs/zh_CN: add a man-pages link to
- zh_CN/index.rst
-Content-Language: en-US
-To:     Wu XiangCheng <wu.xiangcheng@linux.dev>,
-        Alex Shi <alexs@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, chenhuacai@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1665467392.git.bobwxc@email.cn>
- <6e289528ed1b40c1fcc03ea5e854e7c8ba264e67.1665467392.git.bobwxc@email.cn>
-From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <6e289528ed1b40c1fcc03ea5e854e7c8ba264e67.1665467392.git.bobwxc@email.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cxrms7YUVjq+8qAA--.9206S3
-X-Coremail-Antispam: 1UD129KBjvdXoWrKw4xCFWkGF45JF47tFyUtrb_yoWfCrb_Za
-        93XF4vkF4UJF1Ig3WfCF18Ar409F10kw1kKrn0y398Gw17KwsxJ3WkXws5X3WDWFW3ur15
-        C393Zr4SqF13JjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbxAYjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I
-        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
-        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0
-        cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
-        A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
-        w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r4j6F4UMc
-        vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxkI
-        ecxEwVAFwVW5JwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_
-        Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-        CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
-        6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
-        jFApnUUUUU=
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Liu Shixin <liushixin2@huawei.com> writes:
 
-On 10/11/22 14:03, Wu XiangCheng wrote:
-> From: Wu XiangCheng <bobwxc@email.cn>
+> Since riscv64 has already support SATP_MODE_57 by default, it is time to
+> support more hugepage-related features. These two patches will enable
+> HAVE_ARCH_HUGE_VMAP and HAVE_ARCH_HUGE_VMALLOC.
 >
-> update to commit 489876063fb1 ("docs: add a man-pages link to the front
-> page")
+
+Just a note; The HP support does not require sv57. Pmd/Mega- and
+pud/gigapages work for sv39 and sv48 as well.
+
+> v1->v2: Fix the build error reported by kernel-test.
 >
-> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->   Documentation/translations/zh_CN/index.rst | 2 ++
->   1 file changed, 2 insertions(+)
+> Liu Shixin (2):
+>   riscv: Enable HAVE_ARCH_HUGE_VMAP for 64BIT
+>   riscv: Enable HAVE_ARCH_HUGE_VMALLOC for 64BIT
 >
-> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-> index 7be728bed46d..ec99ef5fe990 100644
-> --- a/Documentation/translations/zh_CN/index.rst
-> +++ b/Documentation/translations/zh_CN/index.rst
-> @@ -97,6 +97,8 @@ TODOList:
->   * 用户空间工具 <tools/index>
->   * userspace-api/index
->   
-> +也可参考独立于内核文档的 `Linux 手册页 <https://www.kernel.org/doc/man-pages/>`_ 。
-> +
->   固件相关文档
->   ------------
->   
+>  .../features/vm/huge-vmap/arch-support.txt    |  2 +-
+>  arch/riscv/Kconfig                            |  2 +
+>  arch/riscv/include/asm/vmalloc.h              | 18 ++++
+>  arch/riscv/mm/Makefile                        |  1 +
+>  arch/riscv/mm/pgtable.c                       | 83 +++++++++++++++++++
+>  5 files changed, 105 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/riscv/mm/pgtable.c
+>
+
+I've taken this series for a spin, and tested huge pud pages via
+ioremap(), and huge pmd pages via vmalloc_huge() on qemu for sv39, sv48,
+and sv57.
+
+Patch 2 have a spelling error in the commit message: "enbale" vs
+"enable".
+
+Fix up the spelling error in patch 2, and after that feel free to add
+for the whole series:
+
+Reviewed-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
+Tested-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
+
+
+Nice work!
+Bj=C3=B6rn
 
