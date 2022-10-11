@@ -2,40 +2,39 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22ADDC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 00:09:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA3C1C43217
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 00:09:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229745AbiJKAJ1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 20:09:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50732 "EHLO
+        id S230132AbiJKAJf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 20:09:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229921AbiJKAJZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 20:09:25 -0400
+        with ESMTP id S230084AbiJKAJa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 20:09:30 -0400
 Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3C5B7B29F;
-        Mon, 10 Oct 2022 17:09:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 620FD7FE6C;
+        Mon, 10 Oct 2022 17:09:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1665446964; x=1696982964;
+  t=1665446969; x=1696982969;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=MrhwlQAfhZGplfbn4CVVzacAfeIm/Sjcv9oTY6XARX4=;
-  b=gAD36LpA+Cq+ePYmwywbdYnk7JiKlZjkRXs3dIYoYSjx8vjBMbuxLusQ
-   /XxoDMdH0EWl9Av3MYGEiVxV+rTumkt9uQi7M6+3dliDdIca0COUfRKVf
-   ROmdWqlH8n+OAOnHocH5Rim0c7bmGme3dVMhjbUQAgaqYoxnuZsxn1PBs
-   o=;
+  bh=Nfzd46oSkcPBuDNBj/hlLZBnD+einRNj+ZW3TWK43hg=;
+  b=BGwfQFJYqrUnMpoTiHyWieJTETnTJU97PVnJf/4sOfPDz4IxlQw0wN2Q
+   56blJIPdWxkmgUlYtPOQ80UlBevXZITkuRkAFOZeKXBHPmDN9g2EKol8s
+   UR/BLC/SVsyzgG/VKwwmnA26g/fMOvjoRrJYb7JmhPtKCj1Sj/yUw6jIn
+   4=;
 Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 10 Oct 2022 17:09:24 -0700
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 10 Oct 2022 17:09:29 -0700
 X-QCInternal: smtphost
 Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 17:09:24 -0700
+  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 17:09:27 -0700
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Mon, 10 Oct 2022 17:09:23 -0700
+ 15.2.986.29; Mon, 10 Oct 2022 17:09:26 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
-To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Arnd Bergmann <arnd@arndb.de>
+To:     Bjorn Andersson <quic_bjorande@quicinc.com>
 CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
@@ -55,12 +54,13 @@ CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Jonathan Corbet <corbet@lwn.net>,
         "Will Deacon" <will@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 03/13] gunyah: Common types and error codes for Gunyah hypercalls
-Date:   Mon, 10 Oct 2022 17:08:30 -0700
-Message-ID: <20221011000840.289033-4-quic_eberman@quicinc.com>
+Subject: [PATCH v5 08/13] virt: gunyah: msgq: Add hypercalls to send and receive messages
+Date:   Mon, 10 Oct 2022 17:08:35 -0700
+Message-ID: <20221011000840.289033-9-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221011000840.289033-1-quic_eberman@quicinc.com>
 References: <20221011000840.289033-1-quic_eberman@quicinc.com>
@@ -74,108 +74,78 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add architecture-independent standard error codes, types, and macros for
-Gunyah hypercalls.
+Add hypercalls to send and receive messages on a Gunyah message queue.
 
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- MAINTAINERS                  |  1 +
- include/asm-generic/gunyah.h | 74 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 75 insertions(+)
- create mode 100644 include/asm-generic/gunyah.h
+ arch/arm64/gunyah/hypercall.c | 33 +++++++++++++++++++++++++++++++++
+ include/asm-generic/gunyah.h  |  5 +++++
+ 2 files changed, 38 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ef6de7599d98..4fe8cec61551 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8886,6 +8886,7 @@ L:	linux-arm-msm@vger.kernel.org
- S:	Supported
- F:	Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
- F:	Documentation/virt/gunyah/
-+F:	include/asm-generic/gunyah.h
+diff --git a/arch/arm64/gunyah/hypercall.c b/arch/arm64/gunyah/hypercall.c
+index 5b08c9d80de0..042cca31879e 100644
+--- a/arch/arm64/gunyah/hypercall.c
++++ b/arch/arm64/gunyah/hypercall.c
+@@ -26,6 +26,8 @@
+ 							| ((fn) & GH_CALL_FUNCTION_NUM_MASK))
  
- HABANALABS PCI DRIVER
- M:	Oded Gabbay <ogabbay@kernel.org>
-diff --git a/include/asm-generic/gunyah.h b/include/asm-generic/gunyah.h
-new file mode 100644
-index 000000000000..64a02dd3b5ad
---- /dev/null
-+++ b/include/asm-generic/gunyah.h
-@@ -0,0 +1,74 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#ifndef _ASM_GUNYAH_H
-+#define _ASM_GUNYAH_H
-+
-+#include <linux/types.h>
-+#include <linux/errno.h>
-+
-+/* Common Gunyah macros */
-+#define GH_CAPID_INVAL	U64_MAX
-+#define GH_VMID_ROOT_VM	0xff
-+
-+#define GH_ERROR_OK			0
-+
-+#define GH_ERROR_UNIMPLEMENTED		-1
-+#define GH_ERROR_RETRY			-2
-+
-+#define GH_ERROR_ARG_INVAL		1
-+#define GH_ERROR_ARG_SIZE		2
-+#define GH_ERROR_ARG_ALIGN		3
-+
-+#define GH_ERROR_NOMEM			10
-+
-+#define GH_ERROR_ADDR_OVFL		20
-+#define GH_ERROR_ADDR_UNFL		21
-+#define GH_ERROR_ADDR_INVAL		22
-+
-+#define GH_ERROR_DENIED			30
-+#define GH_ERROR_BUSY			31
-+#define GH_ERROR_IDLE			32
-+
-+#define GH_ERROR_IRQ_BOUND		40
-+#define GH_ERROR_IRQ_UNBOUND		41
-+
-+#define GH_ERROR_CSPACE_CAP_NULL	50
-+#define GH_ERROR_CSPACE_CAP_REVOKED	51
-+#define GH_ERROR_CSPACE_WRONG_OBJ_TYPE	52
-+#define GH_ERROR_CSPACE_INSUF_RIGHTS	53
-+#define GH_ERROR_CSPACE_FULL		54
-+
-+#define GH_ERROR_MSGQUEUE_EMPTY		60
-+#define GH_ERROR_MSGQUEUE_FULL		61
-+
-+static inline int gh_remap_error(int gh_error)
+ #define GH_HYPERCALL_HYP_IDENTIFY		GH_HYPERCALL(0x0000)
++#define GH_HYPERCALL_MSGQ_SEND			GH_HYPERCALL(0x001B)
++#define GH_HYPERCALL_MSGQ_RECV			GH_HYPERCALL(0x001C)
+ 
+ /**
+  * gh_hypercall_get_uid() - Returns a UID when running under a Gunyah hypervisor.
+@@ -67,5 +69,36 @@ void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identi
+ }
+ EXPORT_SYMBOL_GPL(gh_hypercall_hyp_identify);
+ 
++int gh_hypercall_msgq_send(u64 capid, size_t size, uintptr_t buff, int tx_flags, bool *ready)
 +{
-+	switch (gh_error) {
-+	case GH_ERROR_OK:
-+		return 0;
-+	case GH_ERROR_NOMEM:
-+		return -ENOMEM;
-+	case GH_ERROR_DENIED:
-+	case GH_ERROR_CSPACE_CAP_NULL:
-+	case GH_ERROR_CSPACE_CAP_REVOKED:
-+	case GH_ERROR_CSPACE_WRONG_OBJ_TYPE:
-+	case GH_ERROR_CSPACE_INSUF_RIGHTS:
-+	case GH_ERROR_CSPACE_FULL:
-+		return -EACCES;
-+	case GH_ERROR_BUSY:
-+	case GH_ERROR_IDLE:
-+		return -EBUSY;
-+	case GH_ERROR_IRQ_BOUND:
-+	case GH_ERROR_IRQ_UNBOUND:
-+	case GH_ERROR_MSGQUEUE_FULL:
-+	case GH_ERROR_MSGQUEUE_EMPTY:
-+		return -EPERM;
-+	default:
-+		return -EINVAL;
-+	}
-+}
++	struct arm_smccc_res res;
 +
-+#endif
++	arm_smccc_1_1_hvc(GH_HYPERCALL_MSGQ_SEND, capid, size, buff, tx_flags, 0, &res);
++
++	if (res.a0)
++		return res.a0;
++
++	*ready = res.a1;
++
++	return res.a0;
++}
++EXPORT_SYMBOL_GPL(gh_hypercall_msgq_send);
++
++int gh_hypercall_msgq_recv(u64 capid, uintptr_t buff, size_t size, size_t *recv_size, bool *ready)
++{
++	struct arm_smccc_res res;
++
++	arm_smccc_1_1_hvc(GH_HYPERCALL_MSGQ_RECV, capid, buff, size, 0, &res);
++
++	if (res.a0)
++		return res.a0;
++
++	*recv_size = res.a1;
++	*ready = res.a2;
++
++	return res.a0;
++}
++EXPORT_SYMBOL_GPL(gh_hypercall_msgq_recv);
++
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("Gunyah Hypervisor Hypercalls");
+diff --git a/include/asm-generic/gunyah.h b/include/asm-generic/gunyah.h
+index 8f9d4c649ba8..34c41c8393d0 100644
+--- a/include/asm-generic/gunyah.h
++++ b/include/asm-generic/gunyah.h
+@@ -110,4 +110,9 @@ extern struct gh_hypercall_hyp_identify_resp gunyah_api;
+ void gh_hypercall_get_uid(u32 *uid);
+ void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identity);
+ 
++#define GH_HYPERCALL_MSGQ_TX_FLAGS_PUSH		BIT(0)
++
++int gh_hypercall_msgq_send(u64 capid, size_t size, uintptr_t buff, int tx_flags, bool *ready);
++int gh_hypercall_msgq_recv(u64 capid, uintptr_t buff, size_t size, size_t *recv_size, bool *ready);
++
+ #endif
 -- 
 2.25.1
 
