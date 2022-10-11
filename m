@@ -2,127 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43FA1C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 06:51:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D373C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 07:20:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229698AbiJKGvQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Oct 2022 02:51:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57346 "EHLO
+        id S229506AbiJKHUm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Oct 2022 03:20:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229495AbiJKGvP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 02:51:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 386F67F082
-        for <linux-doc@vger.kernel.org>; Mon, 10 Oct 2022 23:51:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665471073;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=RA9d/CydApg8OyFFovca4PNnFRnqPkAdMHsVOTLNTuQ=;
-        b=RsdGUgAsuiNSUMrXIOJw/nF53NYqm1MspzBaNrKCnI8pytRAUEPiwDudTM9kXjwl9wvUvu
-        elYyO+seYyvoeHGAgwnZn6eO6Gp+NrOcLdIO2T41qmYXLi1lMpWZmGWIUH0yauV4SGWt/c
-        gMpGsr5EHtbMW3AMo4XT+4rUli60t6o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-308-l-IF7wmsM6mXthUIkJOhfw-1; Tue, 11 Oct 2022 02:51:08 -0400
-X-MC-Unique: l-IF7wmsM6mXthUIkJOhfw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S229446AbiJKHUl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 03:20:41 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8037333A2F;
+        Tue, 11 Oct 2022 00:20:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BBF32857F8F;
-        Tue, 11 Oct 2022 06:51:07 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 480D2C15BB1;
-        Tue, 11 Oct 2022 06:51:07 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        virtualization@lists.linux-foundation.org, jasowang@redhat.com,
-        kernel@collabora.com
-Subject: Re: [RESEND PATCH v5 1/1] docs: driver-api: virtio: virtio on Linux
-In-Reply-To: <20221010130951-mutt-send-email-mst@kernel.org>
-Organization: Red Hat GmbH
-References: <20221010064359.1324353-1-ricardo.canuelo@collabora.com>
- <20221010064359.1324353-2-ricardo.canuelo@collabora.com>
- <Y0QYTq7KW9C731s0@debian.me> <877d17n699.fsf@redhat.com>
- <20221010130951-mutt-send-email-mst@kernel.org>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date:   Tue, 11 Oct 2022 08:51:05 +0200
-Message-ID: <8735buetuu.fsf@redhat.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2DEF9B81201;
+        Tue, 11 Oct 2022 07:20:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54C60C433D7;
+        Tue, 11 Oct 2022 07:20:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1665472837;
+        bh=/8HeXdDL44KxP1+8V4r577mz41Pbncg8nfnzpe0Uy+o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UWNzE2f7GJx+sDmABCspUuoQSud9KlR8uPRpFPqVr2JkoWMDNvixagqxNIrtW5UEg
+         WqEVhe4rprezKarJQ+N65K9SlqMd3+4vxSa1TO+2sN3ghNBbjmQ56Q2F9m8usre6xn
+         R4MhKFJ3d7zWSbs7ITCCKyM8njzdaTl4AlTThUTk=
+Date:   Tue, 11 Oct 2022 09:21:20 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 03/13] gunyah: Common types and error codes for Gunyah
+ hypercalls
+Message-ID: <Y0UZcLl20HobX4w3@kroah.com>
+References: <20221011000840.289033-1-quic_eberman@quicinc.com>
+ <20221011000840.289033-4-quic_eberman@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221011000840.289033-4-quic_eberman@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 10 2022, "Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Mon, Oct 10, 2022 at 05:08:30PM -0700, Elliot Berman wrote:
+> Add architecture-independent standard error codes, types, and macros for
+> Gunyah hypercalls.
+> 
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> ---
+>  MAINTAINERS                  |  1 +
+>  include/asm-generic/gunyah.h | 74 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 75 insertions(+)
+>  create mode 100644 include/asm-generic/gunyah.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ef6de7599d98..4fe8cec61551 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8886,6 +8886,7 @@ L:	linux-arm-msm@vger.kernel.org
+>  S:	Supported
+>  F:	Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+>  F:	Documentation/virt/gunyah/
+> +F:	include/asm-generic/gunyah.h
+>  
+>  HABANALABS PCI DRIVER
+>  M:	Oded Gabbay <ogabbay@kernel.org>
+> diff --git a/include/asm-generic/gunyah.h b/include/asm-generic/gunyah.h
+> new file mode 100644
+> index 000000000000..64a02dd3b5ad
+> --- /dev/null
+> +++ b/include/asm-generic/gunyah.h
 
-> On Mon, Oct 10, 2022 at 03:43:46PM +0200, Cornelia Huck wrote:
->> On Mon, Oct 10 2022, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->>=20
->> > On Mon, Oct 10, 2022 at 08:43:59AM +0200, Ricardo Ca=C3=B1uelo wrote:
->> >> +
->> >> +References
->> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> >> +
->> >> +_`[1]` Virtio Spec v1.2:
->> >> +https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html
->> >> +
->> >> +Check for later versions of the spec as well.
->> >> +
->> >
->> > The version checking should be made comment (not visible on the output=
-):
->> >
->> > ---- >8 ----
->> > diff --git a/Documentation/driver-api/virtio/virtio.rst b/Documentatio=
-n/driver-api/virtio/virtio.rst
->> > index 70b3aa6bcf5518..4f3abbec4e8b2c 100644
->> > --- a/Documentation/driver-api/virtio/virtio.rst
->> > +++ b/Documentation/driver-api/virtio/virtio.rst
->> > @@ -134,7 +134,7 @@ References
->> >  _`[1]` Virtio Spec v1.2:
->> >  https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html
->> >=20=20
->> > -Check for later versions of the spec as well.
->> > +.. Check for later versions of the spec as well.
->> >=20=20
->> >  _`[2]` Virtqueues and virtio ring: How the data travels
->> >  https://www.redhat.com/en/blog/virtqueues-and-virtio-ring-how-data-tr=
-avels
->> >
->> >> diff --git a/Documentation/driver-api/virtio/writing_virtio_drivers.r=
-st b/Documentation/driver-api/virtio/writing_virtio_drivers.rst
->> >> new file mode 100644
->> >> index 000000000000..e14c58796d25
->> >> --- /dev/null
->> >> +++ b/Documentation/driver-api/virtio/writing_virtio_drivers.rst
->> >> <snipped>...
->> >> +References
->> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> >> +
->> >> +_`[1]` Virtio Spec v1.2:
->> >> +https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html
->> >> +
->> >> +Check for later versions of the spec as well.
->> >
->> > Same reply.
->>=20
->> I don't think we should hide that in a comment -- unless you want to
->> update this file every time a new version of the virtio spec gets
->> released.
->
-> What do you suggest? Just http://docs.oasis-open.org/virtio/virtio/ ?
+Why not include/linux/gunyah.h?  Why asm-generic?  This is not an
+architecture.
 
-That one is ugly, as it is just a directory listing... my preference is
-to link to the latest version at the time of writing, and mentioning
-that there may be later versions available, i.e. what the patch does
-right now.
+thanks,
 
+greg k-h
