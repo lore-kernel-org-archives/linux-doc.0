@@ -2,73 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D0C7C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 01:48:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86E15C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 02:47:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbiJKBsV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 21:48:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43844 "EHLO
+        id S229520AbiJKCr6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 22:47:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiJKBsU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 21:48:20 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E4F06D578;
-        Mon, 10 Oct 2022 18:48:19 -0700 (PDT)
-Received: from canpemm100007.china.huawei.com (unknown [172.30.72.54])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MmdqD65v0zVhpK;
-        Tue, 11 Oct 2022 09:43:52 +0800 (CST)
-Received: from canpemm500005.china.huawei.com (7.192.104.229) by
- canpemm100007.china.huawei.com (7.192.105.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 11 Oct 2022 09:48:17 +0800
-Received: from canpemm500005.china.huawei.com ([7.192.104.229]) by
- canpemm500005.china.huawei.com ([7.192.104.229]) with mapi id 15.01.2375.031;
- Tue, 11 Oct 2022 09:48:17 +0800
-From:   zhaogongyi <zhaogongyi@huawei.com>
-To:     Shuah Khan <skhan@linuxfoundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-CC:     "akinobu.mita@gmail.com" <akinobu.mita@gmail.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "osalvador@suse.de" <osalvador@suse.de>,
-        "shuah@kernel.org" <shuah@kernel.org>
-Subject: Re: [PATCH -next v5 2/4] selftests/memory-hotplug: Restore memory
- before exit
-Thread-Topic: [PATCH -next v5 2/4] selftests/memory-hotplug: Restore memory
- before exit
-Thread-Index: AdjdE3momxHH4sO5SHuE6BL6lEWgMA==
-Date:   Tue, 11 Oct 2022 01:48:17 +0000
-Message-ID: <004ae09e8f0848cdb993aac309b71ece@huawei.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.67.110.209]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+        with ESMTP id S229507AbiJKCr6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 22:47:58 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A9E98304A;
+        Mon, 10 Oct 2022 19:47:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2FAD4B810D9;
+        Tue, 11 Oct 2022 02:47:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC5F9C433C1;
+        Tue, 11 Oct 2022 02:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665456474;
+        bh=XKiQQSPLSoRP1OB+MswtyNluncEHuM0OAQDxVBUv6MY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:From;
+        b=gRo12+acyI7ztJMKgNsECeF1LLbgcswnt9Imp8bm/n3IftknALaRqLs+vK/VTJ3F+
+         uPjvxP8S/awUObw34yk3Eb3h9xBHxy09aRmmgph4NTl/PdnVxfkmKs3sGX982gNJWE
+         thziDN4BZP+Ugqf2pUndV+6C8oitwMbKFBCg3tlsZ/BenktJlBLqO+1Gf1tN1dGbID
+         GoBiIV14NZLhNvmRZEJwaWf71b8ZwDmZzPMlliw8HBQ7VWnNUW0ak2dfVMGp2eOYsy
+         lDyYQe/y+GL+FNGqbU0Ju/B5aengEwbezLSa2tGsM6f+nkqPjclXkQDt014WGUxFOy
+         IDVBnKW84SMmQ==
+From:   SeongJae Park <sj@kernel.org>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] docs/memory-barriers.txt: Add a missed closing parenthesis
+Date:   Mon, 10 Oct 2022 19:47:38 -0700
+Message-Id: <20221011024738.24510-1-sj@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20221009183723.52037-1-sj@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgU2h1YWgsIERhdmlkLA0KDQpJIGFtIHNvcnJ5IGZvciBteSBzbG93IHJlc3BvbnNlLCBJIGhh
-dmUgc3VibWl0IGEgbmV3IHBhdGNoIHRvIGZpeCBpdC4gUGxlYXNlIHNlZTogaHR0cHM6Ly9wYXRj
-aHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L2xpbnV4LWtzZWxmdGVzdC9wYXRjaC8yMDIyMTAxMTAx
-MzkyNi4yMDA3NzQtMS16aGFvZ29uZ3lpQGh1YXdlaS5jb20vDQoNClRoYW5rcywNCkdvbmd5aQ0K
-DQo+IA0KPiBPbiAxMC8xMC8yMiAwMDo1NCwgRGF2aWQgSGlsZGVuYnJhbmQgd3JvdGU6DQo+ID4g
-T24gMDguMTAuMjIgMDM6NDAsIHpoYW9nb25neWkgd3JvdGU6DQo+IA0KPiA+Pg0KPiA+PiBZZXMs
-IG9ubGluZV9tZW1vcnlfZXhwZWN0X3N1Y2Nlc3MoKSBhbHJlYWR5IHByaW50cyBhIHdhcm5pbmcs
-DQo+IHJlbW92ZQ0KPiA+PiB0aGUgd2FybmluZyBpbiBvbmxpbmVfYWxsX29mZmxpbmVfbWVtb3J5
-KCkgc2VlbXMgb2ssDQo+ID4+DQo+ID4+IE15IHByZXZpb3VzIGNvbnNpZGVyYXRpb24gd2FzIHRo
-YXQgb25lIG1vcmUgbG9nIGluZm9ybWF0aW9uIHdvdWxkDQo+IG1ha2UgaXQgZWFzaWVyIHRvIGxv
-Y2F0ZSB0aGUgd3JvbmcgbG9jYXRpb24uDQo+ID4NCj4gPiBMZXQncyBrZWVwIGl0IHNpbXBsZSB1
-bmxlc3MgdGhlcmUgaXMgcmVhbCByZWFzb24gdG8gd2FybiB0d2ljZS4NCj4gPg0KPiANCj4gemhh
-b2dvbmd5aSwNCj4gDQo+IFBsZWFzZSBub3RlIHRoYXQgSSBhbHJlYWR5IGFwcGxpZWQgdGhlIHBh
-dGNoZXMgdG8gbGludXgta3NlbGZ0ZXN0IG5leHQgZm9yIG15DQo+IHNlY29uZCBwdWxsIHJlcXVl
-c3QgYmVmb3JlIHRoZSBtZXJnZSB3aW5kb3cuIFBsZWFzZSBzZW5kIHRoZSBjaGFuZ2UNCj4gRGF2
-aWQgcmVxdWVzdGVkIGluIGEgc2VwYXJhdGUgcGF0Y2ggb24gdG9wIG9mIG5leHQgYXMgYSBmaXgu
-DQo+IA0KPiB0aGFua3MsDQo+IC0tIFNodWFoDQo=
+On Sun, 9 Oct 2022 18:37:23 +0000 SeongJae Park <sj@kernel.org> wrote:
+
+> Hi Paul,
+> 
+> On Sun, 9 Oct 2022 04:10:00 -0700 "Paul E. McKenney" <paulmck@kernel.org> wrote:
+> 
+> > On Sat, Oct 08, 2022 at 10:49:25AM -0700, SeongJae Park wrote:
+> > > Description of io_stop_wc(), which added by commit d5624bb29f49
+> > > ("asm-generic: introduce io_stop_wc() and add implementation for
+> > > ARM64"), have unclosed parenthesis.  This commit closes it.
+> > > 
+> > > Fixes: d5624bb29f49 ("asm-generic: introduce io_stop_wc() and add implementation for ARM64")
+> > > Signed-off-by: SeongJae Park <sj@kernel.org>
+> > 
+> > I have pulled this in, good eyes, and thank you!
+> 
+> Thank you for quick reply :)
+> 
+> > 
+> > On the other three, we have traditionally asked for an ack from a
+> > Korean speaker.  Do we still feel the need to do this?
+> 
+> I have asked review of the patches to my friend.  I'm unsure if my friend could
+> do that in a timely manner, as my friend could also be busy.  Let's wait and
+> see.
+
+Thankfully, my friend gave me a feedback for improving the patch.  He has some
+mailing tools issue, so I'm saying this instead.  I will post next version of
+the translations patches soon.
+
+
+Thanks,
+SJ
+
+> 
+> IMHO, such review is not essential for this kind of incremental document
+> updates, as I'd prefer making the doc up-to-date even if it contains some
+> trivial errors, as long as the history is well manged and therefore such errors
+> could be fixed later with good explanations.
+> 
+> 
+> Thanks,
+> SJ
+> 
+> [...]
+> 
