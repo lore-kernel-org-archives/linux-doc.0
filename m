@@ -2,96 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8A4DC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 08:31:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F587C433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 08:46:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbiJKIbG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Oct 2022 04:31:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48100 "EHLO
+        id S229492AbiJKIqv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Oct 2022 04:46:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbiJKIbE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 04:31:04 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D73583208
-        for <linux-doc@vger.kernel.org>; Tue, 11 Oct 2022 01:31:03 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id y1so5740683pfr.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Oct 2022 01:31:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GaiSvknCdEAvKQe10hQBBoRlm/BNNMqTFVxB8WvhNGg=;
-        b=ICD/a8CmvouQgm/gCbxCPrSVQwxsHIWR6w+i0KOoDZmGNFGtP+7FbAfxWdQbhcgWdq
-         ZGpLA+cM2BkNSTb1Mv9Nt4+ZUj1swoKsCfR4yMYanTxdgNkBPO2Pytgz3wAJzUlQw7RK
-         JsgSnQ+z3OXfx7bEkpHpqNFWBcw7oTO9LybEObGbAVkq4y4Hz8rtDZlYsgrlBZB2Wd2Z
-         u+PsZ6mC82iJnEYNWurlm8wjQovahyL4OwW86wEPy4c3+RQW33kjbvoz6hTJ1H8ebyUg
-         42ge+QzcoaRVjHvX4VDDwc2YCGoC9FbY6DZEA2N9mB/u3qbdH7zZ4jc86cbPIAJpPQdr
-         vV4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GaiSvknCdEAvKQe10hQBBoRlm/BNNMqTFVxB8WvhNGg=;
-        b=YVGXhMYQ0ZvkgVsD5EXZ4UcZTNVpzVScJ8eoiWnbQl8h0xxcBrqprGO5UXvXowjD7B
-         6UZhCyTr1UaR181b2E3SszMEj0ZqkQoKraeBZVpV0dRZHSGlUVL6kZ5o2H6L8MxXskZp
-         LJ/qknytO+8LLdekfTprAWGIjVdj2nV2sAhPNJmTiD6W4bsOjawXM/I2VT//riIW0Dsi
-         hWgQPjdSUcnFaVsFLxiW2DeTy5TgnsZzYZxaoAdC/WrB+5+doPuEdu0nX/FMKzZDadvM
-         7zyukEG9/O/S6l0u+Emgyt/FnoNG7flXvy02B79onEfbvMPhYGSQvWqSg0iVle8Nu/qN
-         MH6A==
-X-Gm-Message-State: ACrzQf3Mcgoj5hQGDQ/qdj6Ucu+MBuFgs5KxiDw5mrVz9Bx6fCqcJsuE
-        kMVII386Eit6Dc5RRCVP0OwiADKsFcA=
-X-Google-Smtp-Source: AMsMyM63vo7XNRrdeYeiiNo+D1avBefj0cjZbN+cNKrlz+UVWCAreS4WMcPqBtPSvDqNr20Yvi2c+w==
-X-Received: by 2002:a63:4850:0:b0:45d:6ee6:1c18 with SMTP id x16-20020a634850000000b0045d6ee61c18mr20665209pgk.255.1665477062574;
-        Tue, 11 Oct 2022 01:31:02 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-84.three.co.id. [180.214.233.84])
-        by smtp.gmail.com with ESMTPSA id v3-20020a17090ad58300b00209a12b3879sm7137326pju.37.2022.10.11.01.30.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Oct 2022 01:31:02 -0700 (PDT)
-Message-ID: <11fe18cb-61a8-2682-6e2f-116c8bdd4f0a@gmail.com>
-Date:   Tue, 11 Oct 2022 15:30:57 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
+        with ESMTP id S229464AbiJKIqu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 04:46:50 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D9D058147
+        for <linux-doc@vger.kernel.org>; Tue, 11 Oct 2022 01:46:48 -0700 (PDT)
+Received: from localhost (unknown [213.194.152.135])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: rcn)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 21EC46602356;
+        Tue, 11 Oct 2022 09:46:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1665478007;
+        bh=3KO2HxBlF5JKCuTvKYUlgaA7kmIP/w4NQL7SdgZeWn8=;
+        h=From:To:Cc:Subject:References:In-reply-to:Date:From;
+        b=URDhMJ4hgoFFH+EH5GWdVkyApc7nk61sGZo2ToDTUxGX1IGyCM3RjUjIh1npMsuox
+         CLGgZ8vByqmogluBZXWY3d9QeIBPoGOEqgLBiHMMeEXxpiVCC0fxPYutLp/oCMKZ1l
+         EVa01FEe8IVs/LxzXC29hoI4iP/dJhnCElPqDRYlFaOIH34qPp5Boz8osAcsPw0+9r
+         ZWwxzMFNHDvIqPWHlt0bzHZg/7I4sQsEP0BwIPAq3+7WZ1ZKw5/IFZdbwxMRMctA+d
+         IxBBL2ehoPVuwtym1x7omt34VnP4U0FHOcqWuo2uSoy5EOVePHGnRE8tpJjvSQTTGm
+         yGYb4FMTdbnFA==
+From:   Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net, mst@redhat.com,
+        cohuck@redhat.com, virtualization@lists.linux-foundation.org,
+        jasowang@redhat.com, kernel@collabora.com
 Subject: Re: [RESEND PATCH v5 1/1] docs: driver-api: virtio: virtio on Linux
-To:     Cornelia Huck <cohuck@redhat.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     =?UTF-8?Q?Ricardo_Ca=c3=b1uelo?= <ricardo.canuelo@collabora.com>,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        virtualization@lists.linux-foundation.org, jasowang@redhat.com,
-        kernel@collabora.com
-References: <20221010064359.1324353-1-ricardo.canuelo@collabora.com>
- <20221010064359.1324353-2-ricardo.canuelo@collabora.com>
- <Y0QYTq7KW9C731s0@debian.me> <877d17n699.fsf@redhat.com>
- <20221010130951-mutt-send-email-mst@kernel.org> <8735buetuu.fsf@redhat.com>
- <9732990d-f362-fd38-4855-48f226da94a8@gmail.com> <87zge2dc6y.fsf@redhat.com>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <87zge2dc6y.fsf@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221010064359.1324353-1-ricardo.canuelo@collabora.com> <20221010064359.1324353-2-ricardo.canuelo@collabora.com> <Y0QYTq7KW9C731s0@debian.me>
+In-reply-to: <Y0QYTq7KW9C731s0@debian.me>
+Date:   Tue, 11 Oct 2022 10:46:43 +0200
+Message-ID: <87v8oqsq6k.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/11/22 14:57, Cornelia Huck wrote:
->> IMO, we can link to current spec version and update it as newer version
->> becomes public; without adding "check for later version" comment note.
-> 
-> Is it really that important to update? Unless the virtio innards change
-> radically, looking at an older version is likely to be sufficient.
-> 
-> ["We should update it" is likely to become "Oh, we should have updated
-> it some time ago" IME :)]
-> 
+Hi Bagas, thanks for the review, some comments below:
 
-Oh, I mean it's OK to use older spec version as long as the kernel
-implements that version. If we someday decides to bump implementation
-version, the documentation should reflect that.
+On lun, oct 10 2022 at 20:04:14, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
 
-Thanks.
+> What link is for [2]? I think you'll need to spell out the link title.
+> Also, the external reference pointers should be parenthesized to indicate
+> that these are references:
 
--- 
-An old man doll... just what I always wanted! - Clara
+That's a matter of personal opinion and I disagree with it. There's no
+consensus across the kernel docs and I'm using the IEEE style, which is
+fairly standard.
 
+
+>  The :c:type:`vring_virtqueue` struct models a virtqueue, including the
+>  ring buffers and management data. Embedded in this struct is the
+>
+>
+> Personally speaking, ReST citations should do the job better (these
+> links are external references, right?).
+
+I don't want to use a full ReST code reference for that, as that struct
+is not really part of the interface for virtio drivers and its
+definition is an implementation detail. But I still want to have it
+properly formatted in the html and pdf outputs, that's why I'm using
+:c:type: there.
+
+
+>> +It's at this stage that the virtqueues will be allocated and configured
+>> +by calling the appropriate ``virtio_find`` helper function, such as
+>> +virtio_find_single_vq() or virtio_find_vqs(), which will end up
+>> +calling a transport-specific ``find_vqs`` method.
+>> +
+>
+> Looks like the wording at the beginning confuses me, so better say:
+>
+> ---- >8 ----
+> diff --git a/Documentation/driver-api/virtio/virtio.rst b/Documentation/driver-api/virtio/virtio.rst
+> index 07fd2d7c51e689..7947b4ca690efd 100644
+> --- a/Documentation/driver-api/virtio/virtio.rst
+> +++ b/Documentation/driver-api/virtio/virtio.rst
+> @@ -123,10 +123,10 @@ When the device is registered to the virtio bus the kernel will look
+>  for a driver in the bus that can handle the device and call that
+>  driver's ``probe`` method.
+
+I think this is a matter of style as well, maybe a native speaker can
+pitch in about the correctness of it.
+
+Cheers,
+Ricardo
