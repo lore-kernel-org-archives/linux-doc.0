@@ -2,85 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79BB1C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 17:14:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D283C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 17:22:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229840AbiJKROY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Oct 2022 13:14:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57896 "EHLO
+        id S230047AbiJKRWi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Oct 2022 13:22:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229988AbiJKROW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 13:14:22 -0400
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D898AA368
-        for <linux-doc@vger.kernel.org>; Tue, 11 Oct 2022 10:14:20 -0700 (PDT)
-Received: by mail-io1-xd31.google.com with SMTP id l127so11372471iof.12
-        for <linux-doc@vger.kernel.org>; Tue, 11 Oct 2022 10:14:20 -0700 (PDT)
+        with ESMTP id S229867AbiJKRWh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 13:22:37 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BC165AA0A
+        for <linux-doc@vger.kernel.org>; Tue, 11 Oct 2022 10:22:36 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id k2so32964526ejr.2
+        for <linux-doc@vger.kernel.org>; Tue, 11 Oct 2022 10:22:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pDLbMMyVql0t8YQHrpoFb/mrSX/wy9E8ZPnLS8f6/sg=;
-        b=QXHxzennHT0jWhFoHwN6F4UG3DVi7ZCQCmnNa4hVa1YpzqTEJ2H2thcKZZtDII+5Ri
-         Ln3OIwIuzi7P85Z7IaTZwJXP6TiBkUHXzZ+er3QEjKMDrkQdf9n/lAbe7xuOVqvm4bZL
-         IxZZXf4C3hBQzqz76jjrQR75Ds7/2VEhAhUVA=
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=tD9jR7qHoo8YjCPFAxtMgRghcsI0I3euLcmHX/AlDvk=;
+        b=EG3pijXaCZAx0z7+DzNm/ASYYg3E5j3bCUvD9D1vXPg0vGbv7rSmWRFf+49wNrOjPC
+         XgB9u2o/1y2tnzLsdca6ebyRx8nNHH+TcgbL4bosKJZBi3Q6JBHOnWZhuWd3TMiGpK0W
+         qUqplH1WfiIV27fsfHUt9ko6yhHMZp32J6NLnAYkBDd4AQSkHidIiGKvs5DCXkvBO5hF
+         subwyAFDVEt33ulB4j6S8wDFl/z7aH4H73nqR0aPqy/DSs/DCwi98lV5QH3cvDLQMMft
+         zGXv1Z3V2aDk5tyMCO22+B1TZ7WjzVHijfIx/Ek4rbzQXt0uvboaMorpjZHSA/OP/KNt
+         8VNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pDLbMMyVql0t8YQHrpoFb/mrSX/wy9E8ZPnLS8f6/sg=;
-        b=AvPVosRSDYZC0MC4Mc77Lhj64/I++DyFgBj8NuWh8yvUxqEPe1vMb5GkeBcEU1BGHI
-         6Nqyg3iGfPqTyRoYMpBYSzjOP+xp/1QxwdpDuEc0ALg0dDQg6EGOG2+ROpiGKAjXxdc5
-         E1KFL4scGm/vJg0w9mOXletB5u8uMCecT0DjMyRW6N//lomlb5Ps576mMbVIBgwCz6ao
-         wXPei/ua44J5E9C4yj54uU3DHSYrfp2IGCfjEawiWJUKliHb90VYuK8lc/cp/aYsgLyu
-         peT91jYFq6qZaDCXCItyXvo/ZlWbge8bFjqsBsuN7f1ob7Uhp+OLlA/sgEwPQs4ge7IZ
-         V89w==
-X-Gm-Message-State: ACrzQf0aj+Ad4ib0zqzAI+YhP6QgtH9q4CH8Z65KKGwjW5j7NkQ07J/R
-        DA417elTDQS1Iqzt+hYmoIqZHQ==
-X-Google-Smtp-Source: AMsMyM4/OpJoLj6r1F+/wC8QgtHX8DjKlVz9AT1JvWxmVE0aHwN3eNgc+aaDUSRj2vDk34JD7p5pdQ==
-X-Received: by 2002:a05:6638:4782:b0:363:c5a0:2aec with SMTP id cq2-20020a056638478200b00363c5a02aecmr4483441jab.242.1665508459629;
-        Tue, 11 Oct 2022 10:14:19 -0700 (PDT)
-Received: from shuah-tx13.internal ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id g18-20020a056e02131200b002eb3b43cd63sm5088215ilr.18.2022.10.11.10.14.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Oct 2022 10:14:19 -0700 (PDT)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     gregkh@linuxfoundation.org, corbet@lwn.net
-Cc:     Shuah Khan <skhan@linuxfoundation.org>, conduct@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jlee@linuxfoundation.org, stable@vger.kernel.org
-Subject: [PATCH] docs: update mediator contact information in CoC doc
-Date:   Tue, 11 Oct 2022 11:14:17 -0600
-Message-Id: <20221011171417.34286-1-skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+        bh=tD9jR7qHoo8YjCPFAxtMgRghcsI0I3euLcmHX/AlDvk=;
+        b=jPbiLp50+2JsmA4L25hsWnyBx2PUDT/8107vfeo/64fi0oynJEPHi28h+OcoZgfYbH
+         jB9zOjbprHVFdZw7b9oxFengJvLc73PRzW/HR4RYzKwhfcjOSQ6W2+BNeYqto782RTes
+         FG6R4IdcAf6lK2fReiCUasuQ1y/ZOIlczvpJGYGOh9bEb7LXXRyVvJAmNcr2NM/O+KiH
+         PDnF/5Y76MLq9syxwKmbFjkFWtDLX0KJeIGLijDh2wOxV8R58bdXJ/fvBzzCVIERAPyQ
+         a1VTpmANhEKTeoLBUdBEviwdkTRkRjJXrZRngs1uMzvWw9/2LuRSmbq22kPQ9U/sWZcc
+         VgXg==
+X-Gm-Message-State: ACrzQf383V4oQJoYYva2KEKRu5eB6ffCaAWgd3juKY9DvR4ERTsevIu7
+        gJQBekZlUj7q1oRycNDLEuYrhw5BHDlWbRbfVHTj1A==
+X-Google-Smtp-Source: AMsMyM5ZC8bySD0ur+e6jyv+eDlRBwAazeHKoD2ZcGUoZbIE0AMED9AS38/kZXKX5FECDsvvfbQ8I6W0UQAoyEgijY4=
+X-Received: by 2002:a17:906:4fca:b0:78d:b042:eeca with SMTP id
+ i10-20020a1709064fca00b0078db042eecamr9869193ejw.685.1665508955072; Tue, 11
+ Oct 2022 10:22:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221010094842.4123037-1-hezhongkun.hzk@bytedance.com>
+ <CAPTztWYTGOb8ZQzfgThqJn+fyi4ZB8=JQQZi5_rUoDhdftKtvg@mail.gmail.com> <Y0WE/lEiNvl2ljo1@dhcp22.suse.cz>
+In-Reply-To: <Y0WE/lEiNvl2ljo1@dhcp22.suse.cz>
+From:   Frank van der Linden <fvdl@google.com>
+Date:   Tue, 11 Oct 2022 10:22:23 -0700
+Message-ID: <CAPTztWZZOxtzdEm=wbOiL_VDPJuCaW0XVCvsdRpCHE+ph+5eZQ@mail.gmail.com>
+Subject: Re: [RFC] mm: add new syscall pidfd_set_mempolicy()
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Zhongkun He <hezhongkun.hzk@bytedance.com>, corbet@lwn.net,
+        akpm@linux-foundation.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, wuyun.abel@bytedance.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update mediator contact information in CoC interpretation document.
+On Tue, Oct 11, 2022 at 8:00 AM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Mon 10-10-22 09:22:13, Frank van der Linden wrote:
+> > For consistency with process_madvise(), I would suggest calling it
+> > process_set_mempolicy.
+>
+> This operation has per-thread rather than per-process semantic so I do
+> not think your proposed naming is better.
 
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- Documentation/process/code-of-conduct-interpretation.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+True. I suppose you could argue that it should have been
+pidfd_madvise() then for consistency, but that ship has sailed.
 
-diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
-index 4f8a06b00f60..43da2cc2e3b9 100644
---- a/Documentation/process/code-of-conduct-interpretation.rst
-+++ b/Documentation/process/code-of-conduct-interpretation.rst
-@@ -51,7 +51,7 @@ the Technical Advisory Board (TAB) or other maintainers if you're
- uncertain how to handle situations that come up.  It will not be
- considered a violation report unless you want it to be.  If you are
- uncertain about approaching the TAB or any other maintainers, please
--reach out to our conflict mediator, Joanna Lee <joanna.lee@gesmer.com>.
-+reach out to our conflict mediator, Joanna Lee <jlee@linuxfoundation.org>.
- 
- In the end, "be kind to each other" is really what the end goal is for
- everybody.  We know everyone is human and we all fail at times, but the
--- 
-2.34.1
+>
+> > Other than that, this makes sense. To complete
+> > the set, perhaps a process_mbind() should be added as well. What do
+> > you think?
+>
+> Is there any real usecase for this interface? How is the caller supposed
+> to make per-range decisions without a very involved coordination with
+> the target process?
 
+The use case for a potential pidfd_mbind() is basically a combination
+of what is described for in the process_madvise proposal (
+https://lore.kernel.org/lkml/20200901000633.1920247-1-minchan@kernel.org/
+), and what this proposal describes: system management software acting
+as an orchestrator that has a better overview of the system as a whole
+(NUMA nodes, memory tiering), and has knowledge of the layout of the
+processes involved.
+
+pidfd_mbind()  makes sense to me, since the notion of an external
+agent with knowledge of the VM layout is already there with
+process_madvise(). And since set_mempolicy and mbind are closely
+related, it would seem logical to add an mbind variant as well as
+pidfd_set_mempolicy().
+
+Having said that, I'm fine with leaving that discussion for another time.
+
+- Frank
