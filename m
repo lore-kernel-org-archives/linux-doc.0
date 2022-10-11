@@ -2,60 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B61D5C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 21:40:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C511C43217
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 22:04:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229548AbiJKVkn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Oct 2022 17:40:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48438 "EHLO
+        id S229587AbiJKWEF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Oct 2022 18:04:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbiJKVkm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 17:40:42 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A2F030F52;
-        Tue, 11 Oct 2022 14:40:41 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E24957F9;
-        Tue, 11 Oct 2022 21:40:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E24957F9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1665524441; bh=MIuAxRUV7RKGiQyfYAcl6aM18LcMGnxjLzjJ2gmaegk=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=S17sUfoSGF1QknyhOtcxEWkRnsOTVZWUHXBDjz5zCNRgapUXo/GsamKWHxJTSVI0p
-         iO/rHSsQZnB9z03FJyCjX4ijUSz54FgJtIB6KOMzpH6YohI7wI7lj5/Lyete1hB/7x
-         jvT15Gc2FgZEybTbE0E1aWoru/c/omeEltkVqPAlz8nfTjEpA2qI1RLLYe9zIuauCU
-         Xh5Cj7fRQ7vMGyZQf1AatzVWwoNpfDBe5eTZfCUJ9YUw+6V2YG95s5k5cCLsGEBijJ
-         Nr8ltT14/Fu9NlpWl1NghANMwBd8iid5dmNxOXgfSylYXwW/Vo6bxvd6ijUaFFqLz6
-         KWzBCkMMbI3dg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2 0/6] docs: Improvements to our HTML output
-In-Reply-To: <20221011210450.6eb13ec6@sal.lan>
-References: <20221011190047.749145-1-corbet@lwn.net>
- <20221011210450.6eb13ec6@sal.lan>
-Date:   Tue, 11 Oct 2022 15:40:40 -0600
-Message-ID: <875ygqninb.fsf@meer.lwn.net>
+        with ESMTP id S229451AbiJKWEE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 18:04:04 -0400
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 390471C406;
+        Tue, 11 Oct 2022 15:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1665525843; x=1697061843;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=J9/5n4tS46/xKKVi9EpzbSUpnYma+DcmN/Zm80P/0Qc=;
+  b=Uf0lYF4O8xYMI93g59hTYRovW0UMwVFWbfKgTgGvqSzDPrc0pEPq4Wqo
+   Ti8gsj+GpVtjoKOMLgcYsBE6XXMEMcPoA8k/cunN/pQ6fH7tpSYGX0OD1
+   E2E7Fa92Pxg5sif/XgUVOiG5vHb7eP6lKnup4pbEc160/pf0i44j3oZOJ
+   0=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 11 Oct 2022 15:04:02 -0700
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2022 15:04:02 -0700
+Received: from [10.134.65.5] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 11 Oct
+ 2022 15:04:01 -0700
+Message-ID: <bf9d4365-7750-399f-e488-1611eecca13a@quicinc.com>
+Date:   Tue, 11 Oct 2022 15:04:01 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v5 13/13] tty: gunyah: Add tty console driver for RM
+ Console Services
+Content-Language: en-US
+To:     Jiri Slaby <jirislaby@kernel.org>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Will Deacon" <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Arnd Bergmann" <arnd@arndb.de>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20221011000840.289033-1-quic_eberman@quicinc.com>
+ <20221011000840.289033-14-quic_eberman@quicinc.com>
+ <7438406d-b446-201e-0ec3-5cf0a5b9f32c@kernel.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <7438406d-b446-201e-0ec3-5cf0a5b9f32c@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab@kernel.org> writes:
 
-> No objections from my side. Surely more things could be tweaked. In
-> particular, I didn't like having two ToCs at the index (a complete one
-> and a second one pointing to where we are at the docs), but that's a lot
-> better than before, so, I'm OK with that.
 
-Oops...that was actually a leftover from my initial attempts to improve
-the information there.  That's not what the patches create...I've
-updated the rendered docs to reflect the actual output.
+On 10/10/2022 11:02 PM, Jiri Slaby wrote:
+> On 11. 10. 22, 2:08, Elliot Berman wrote:
+>> Gunyah provides a console for each VM using the VM console resource
+>> manager APIs. This driver allows console data from other
+>> VMs to be accessed via a TTY device and exports a console device to dump
+>> Linux's own logs to our console.
+> ...
+>> +struct rm_cons_drv_data {
+>> +    struct tty_driver *tty_driver;
+>> +    struct device *dev;
+>> +
+>> +    spinlock_t ports_lock;
+>> +    struct rm_cons_port *ports[RM_CONS_TTY_ADAPATERS];
+>> +
+>> +    struct notifier_block rm_cons_notif;
+>> +    struct console console;
+>> +
+>> +    /* below are for printk console.
+>> +     * gh_rm_console_* calls will sleep and console_write can be 
+>> called from
+>> +     * atomic ctx. Two xmit buffers are used. The active buffer is 
+>> tracked with
+>> +     * co_xmit_idx. Writes go into the co_xmit_buf[co_xmit_idx] buffer.
+>> +     * A work is scheduled to flush the bytes. The work will swap the 
+>> active buffer
+>> +     * and write out the other buffer.
+>> +     */
+> 
+> Ugh, why? This is too ugly and unnecessary. What about passing the kfifo 
+> to gh_rm_console_write() instead? You do memcpy() there anyway.
+> 
 
-Sorry for the confusion,
-
-jon
+Sure, I can do this instead.
