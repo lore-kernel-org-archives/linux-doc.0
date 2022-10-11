@@ -2,47 +2,46 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3247CC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 00:10:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55061C4167B
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 00:10:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230244AbiJKAJ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 10 Oct 2022 20:09:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52510 "EHLO
+        id S230205AbiJKAKA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 10 Oct 2022 20:10:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230198AbiJKAJs (ORCPT
+        with ESMTP id S230201AbiJKAJs (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Oct 2022 20:09:48 -0400
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F0BD60D9;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC20A6330;
         Mon, 10 Oct 2022 17:09:39 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29B06gDP004946;
-        Tue, 11 Oct 2022 00:09:26 GMT
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29B04nOX021273;
+        Tue, 11 Oct 2022 00:09:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=NdBMegGfQRT3NVnpSimV4eMtuPXioAvn9GAQ6vw5iwE=;
- b=FgnoofQqOf5m8TIpkVMQ0CXQnA5cXmrZzVDzFhs7jEXJ/iYqAWV/Ri7yMikybVQi84dz
- 8zp7h8DNabNDMC2FS6Jn+CVw9oi7T2ZoKH+rCV6k+9zL/QiufEWGFKS1pIfeM4djd/lX
- rVYaoNZO/htpqrFX2WH2FZ34kImVqqbOM4ooH619dM3JTuGoQtnMG2+MKN0FJ9CfgGhl
- cnAaf1Jewv7OZ9ALghAwuXkXMM5enP+hn3fAp5JCXeUYKOPmxxvmSJPNG2h98+Uh5iwj
- tCtBsFRXIkdCFS8iI5JEl9iue4VzphCZUH7/3smNFMvNzyx2hnK0phB1XOGO3x5OhDNx lQ== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k4rxc8j55-1
+ bh=aqnQgx63miVwivntYqrT//nA4Iku+Hti2EEJs7oBSOQ=;
+ b=Z7QMvFuiLbIQPthx1RRVjrrGe0ajc/TpiYVWSt+dkFTTlu9FMl8Aw6+Af7rZmbCuCV/+
+ 0Y5xSlVuY2gHoO4sUI8BbERxRjHs9wn9Jd8NLXJMDLC282ENB5M3PRib6RplE0UO6KwV
+ mXEksOrWolV2OEamLtM2xiqKoDWrQTiF2NLTredw/WExNn7qMU0YHWUVwxZSgkWyP38N
+ r7HIKDVcpBhs/PhKPOJixYjsGnP87pDre8OAbuH1xLzYSrBxJ+KLsNX0MJhrNcN1yvuW
+ 6iZNL1FQ3OGEtfxNHVU/QvN4AzqS4scIRVpmzfhUzMK4ibzOPNDT5aKpyKedHohvIDgu Aw== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k4rxe0hjq-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Oct 2022 00:09:26 +0000
+        Tue, 11 Oct 2022 00:09:25 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29B09PFc026368
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29B09OBn021532
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Oct 2022 00:09:25 GMT
+        Tue, 11 Oct 2022 00:09:24 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Mon, 10 Oct 2022 17:09:24 -0700
+ 15.2.986.29; Mon, 10 Oct 2022 17:09:23 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "Sudeep Holla" <sudeep.holla@arm.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
@@ -53,19 +52,20 @@ CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
         Jassi Brar <jassisinghbrar@gmail.com>,
         <linux-arm-kernel@lists.infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
         Marc Zyngier <maz@kernel.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Will Deacon" <will@kernel.org>,
+        Will Deacon <will@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        "Arnd Bergmann" <arnd@arndb.de>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 04/13] arm64: smccc: Include alternative-macros.h
-Date:   Mon, 10 Oct 2022 17:08:31 -0700
-Message-ID: <20221011000840.289033-5-quic_eberman@quicinc.com>
+Subject: [PATCH v5 02/13] dt-bindings: Add binding for gunyah hypervisor
+Date:   Mon, 10 Oct 2022 17:08:29 -0700
+Message-ID: <20221011000840.289033-3-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221011000840.289033-1-quic_eberman@quicinc.com>
 References: <20221011000840.289033-1-quic_eberman@quicinc.com>
@@ -77,41 +77,142 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: eEPdW6E04Yjqaw7hXiQ57iwYILOeDMaz
-X-Proofpoint-GUID: eEPdW6E04Yjqaw7hXiQ57iwYILOeDMaz
+X-Proofpoint-GUID: ac6btpWz-18PEzqAMWCJ8reXLFeJTfNj
+X-Proofpoint-ORIG-GUID: ac6btpWz-18PEzqAMWCJ8reXLFeJTfNj
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-10-10_12,2022-10-10_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- mlxlogscore=693 priorityscore=1501 bulkscore=0 lowpriorityscore=0
- spamscore=0 mlxscore=0 suspectscore=0 adultscore=0 clxscore=1015
- malwarescore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2209130000 definitions=main-2210100143
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
+ clxscore=1015 phishscore=0 spamscore=0 adultscore=0 suspectscore=0
+ mlxlogscore=999 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210100143
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix build error when CONFIG_ARM64_SVE is selected and
-asm/alternative-macros.h wasn't implicitly included by another header.
+When Linux is booted as a guest under the Gunyah hypervisor, the Gunyah
+Resource Manager applies a devicetree overlay describing the virtual
+platform configuration of the guest VM, such as the message queue
+capability IDs for communicating with the Resource Manager. This
+information is not otherwise discoverable by a VM: the Gunyah hypervisor
+core does not provide a direct interface to discover capability IDs nor
+a way to communicate with RM without having already known the
+corresponding message queue capability ID. Add the DT bindings that
+Gunyah adheres for the hypervisor node and message queues.
 
-Fixes: cfa7ff959a78 ("arm64: smccc: Support SMCCC v1.3 SVE register saving hint")
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- include/linux/arm-smccc.h | 1 +
- 1 file changed, 1 insertion(+)
+ .../bindings/firmware/gunyah-hypervisor.yaml  | 87 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 2 files changed, 88 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
 
-diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
-index 220c8c60e021..6a627cdbbdec 100644
---- a/include/linux/arm-smccc.h
-+++ b/include/linux/arm-smccc.h
-@@ -383,6 +383,7 @@ asmlinkage void __arm_smccc_hvc(unsigned long a0, unsigned long a1,
+diff --git a/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+new file mode 100644
+index 000000000000..f0a14101e2fd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+@@ -0,0 +1,87 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/firmware/gunyah-hypervisor.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Gunyah Hypervisor
++
++maintainers:
++  - Murali Nalajala <quic_mnalajal@quicinc.com>
++  - Elliot Berman <quic_eberman@quicinc.com>
++
++description: |+
++  On systems which support devicetree, Gunyah generates and overlays a deviceetree overlay which
++  describes the basic configuration of the hypervisor. Virtual machines use this information to determine
++  the capability IDs of the message queues used to communicate with the Gunyah Resource Manager.
++  See also: https://github.com/quic/gunyah-resource-manager/blob/develop/src/vm_creation/dto_construct.c
++
++properties:
++  compatible:
++    items:
++      - const: gunyah-hypervisor-1.0
++      - const: gunyah-hypervisor
++
++  "#address-cells":
++    description: Number of cells needed to represent 64-bit capability IDs.
++    const: 2
++
++  "#size-cells":
++    description: must be 0, because capability IDs are not memory address
++                  ranges and do not have a size.
++    const: 0
++
++patternProperties:
++  "^gunyah-resource-mgr(@.*)?":
++    type: object
++    description:
++      Resource Manager node which is required to communicate to Resource
++      Manager VM using Gunyah Message Queues.
++
++    properties:
++      compatible:
++        items:
++          - const: gunyah-resource-manager-1-0
++          - const: gunyah-resource-manager
++
++      reg:
++        items:
++          - description: Gunyah capability ID of the TX message queue
++          - description: Gunyah capability ID of the RX message queue
++
++      interrupts:
++        items:
++          - description: Interrupt for the TX message queue
++          - description: Interrupt for the RX message queue
++
++    additionalProperties: false
++
++    required:
++      - compatible
++      - reg
++      - interrupts
++
++additionalProperties: false
++
++required:
++  - compatible
++  - "#address-cells"
++  - "#size-cells"
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    hypervisor {
++        #address-cells = <2>;
++        #size-cells = <0>;
++        compatible = "gunyah-hypervisor-1.0", "gunyah-hypervisor";
++
++        gunyah-resource-mgr@0 {
++            compatible = "gunyah-resource-manager-1-0", "gunyah-resource-manager";
++            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX full IRQ */
++                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX empty IRQ */
++            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
++                  /* TX, RX cap ids */
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 91d00b00d91c..ef6de7599d98 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8884,6 +8884,7 @@ M:	Elliot Berman <quic_eberman@quicinc.com>
+ M:	Murali Nalajala <quic_mnalajal@quicinc.com>
+ L:	linux-arm-msm@vger.kernel.org
+ S:	Supported
++F:	Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+ F:	Documentation/virt/gunyah/
  
- /* nVHE hypervisor doesn't have a current thread so needs separate checks */
- #if defined(CONFIG_ARM64_SVE) && !defined(__KVM_NVHE_HYPERVISOR__)
-+#include <asm/alternative-macros.h>
- 
- #define SMCCC_SVE_CHECK ALTERNATIVE("nop \n",  "bl __arm_smccc_sve_check \n", \
- 				    ARM64_SVE)
+ HABANALABS PCI DRIVER
 -- 
 2.25.1
 
