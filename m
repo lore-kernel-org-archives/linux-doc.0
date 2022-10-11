@@ -2,89 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51164C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 08:05:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2DBAC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 08:13:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229436AbiJKIFO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Oct 2022 04:05:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50312 "EHLO
+        id S229973AbiJKINZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Oct 2022 04:13:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229710AbiJKIFM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 04:05:12 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F5904D276;
-        Tue, 11 Oct 2022 01:05:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=u50EcsTI9Wk9/nFFcEKJjzHJXjNQpjwE8MEPj/c61bk=; b=jRN7B6Bjxy2MH05q0VSH4fvQvY
-        +TydedfMaV9P6yrvHLi8GPvH4QZqoYXkd0Nu2oZ4lFt2wsdeLOhD6zhyxXHFDg0mjdlmn01cqTeeu
-        KcPMPeOeWFcSILoeKQ61er9iX3EIBXx1gDLuAcu/WeCW634UldSWDwlzIYeGUAiNC6BcGc/gYgHVO
-        ykcKWqOtKkIbA+aYGKQRqzXaINp2SoQO6GNlbGVAGQ2mHB7m8oFFsVdDMmqvYUYEwswJ7V6YeCYlu
-        SWG5BbfQxgPLGVdnp9qp+wQUeQhCYsgrELuKqMkXPb6VIKu9RZHUj+9EpXekIiUE5A6rhA53FIdZH
-        tRibQBQw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oiAFo-002Wc3-Tn; Tue, 11 Oct 2022 08:04:45 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D982D3001CB;
-        Tue, 11 Oct 2022 10:04:43 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id BF85020D7E1AB; Tue, 11 Oct 2022 10:04:43 +0200 (CEST)
-Date:   Tue, 11 Oct 2022 10:04:43 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        David Gow <davidgow@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v10 25/27] x86: enable initial Rust support
-Message-ID: <Y0Ujm6a6bV3+FWM3@hirez.programming.kicks-ass.net>
-References: <20220927131518.30000-1-ojeda@kernel.org>
- <20220927131518.30000-26-ojeda@kernel.org>
- <Y0BfN1BdVCWssvEu@hirez.programming.kicks-ass.net>
- <CABCJKuenkHXtbWOLZ0_isGewxd19qkM7OcLeE2NzM6dSkXS4mQ@mail.gmail.com>
+        with ESMTP id S229939AbiJKINO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 04:13:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86A2989CE2
+        for <linux-doc@vger.kernel.org>; Tue, 11 Oct 2022 01:13:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665475991;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Wd2uHcBEj1+0Ib8C2XV8f8kpv5GXpAIa7u+xFyKcdgM=;
+        b=d2U6L/lECTzgk7u4Dh9sg8sy8jOgGq3xR26I53fYdisQCS9BnHhSKDbKTOoeX/U5XddP9p
+        F8uOKLx0kOvbL7S6qmBjOb2YJZLfrBXXcOr6oDFtakU48rShLGWzjHWW4xWIwGn0/odJLM
+        7tLmsQxUTVLLWyfcg4w1rUd8wTrIw9I=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-599-JiYDvnV6NU-MDQ_atwJcOg-1; Tue, 11 Oct 2022 04:13:09 -0400
+X-MC-Unique: JiYDvnV6NU-MDQ_atwJcOg-1
+Received: by mail-qk1-f197.google.com with SMTP id az32-20020a05620a172000b006ee8ae138a7so4232qkb.4
+        for <linux-doc@vger.kernel.org>; Tue, 11 Oct 2022 01:13:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Wd2uHcBEj1+0Ib8C2XV8f8kpv5GXpAIa7u+xFyKcdgM=;
+        b=ICK9ljXdU+zVz8ni0Y1AWxT25NOkAQB7YKRMUxTU72khYiCzlx1xSHap7PMbBDMQff
+         zQbcJL5d8BJmh9m4I/LFb75IlTDaA82jozCiHMT1tps5qddIb2ZNmekV/OwcwpiFiwiG
+         QJxxEveBmDYEvwA8QQ6Qhko9p/VA3YjUsq0c1qjxrfVBJS1Ezz7h/wD6T6K5kRB3kYGe
+         l+x9FsZ3BoGMhiTVIY6nl/9XCJn32ZGpBYInQ9HBvxzD9WyZ4ho7u2+gEaHA27re8Zqo
+         gF1zH1TW/uYXMcRbB/uEwho3lGzCmT8hHi07bOzHWma5B2pxe1IiQivqvA334A6PJCKk
+         7EZQ==
+X-Gm-Message-State: ACrzQf3HP9fIOC6db8cRlLjz64Ty7PtK+sfsn3h6lEiO5Pl+teK/xpFe
+        Smjy2mUWtHotQtcG0qU/u3U4k8VTql9pSimyik3uuSuDomdO9SHNL3/d/aNIMv7Ku5/3gJYdxj4
+        2fvTdlBh1g9rklLjL671Y
+X-Received: by 2002:ad4:5be7:0:b0:4b3:fe6c:904b with SMTP id k7-20020ad45be7000000b004b3fe6c904bmr7864983qvc.42.1665475989027;
+        Tue, 11 Oct 2022 01:13:09 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6Z50e2zMuPNcTPzKxsIS/IJz6E3Nr+YvNDrK/sslRe4t7ajiwFhtGqot/3OLS2Z/iHAsBzzw==
+X-Received: by 2002:ad4:5be7:0:b0:4b3:fe6c:904b with SMTP id k7-20020ad45be7000000b004b3fe6c904bmr7864978qvc.42.1665475988879;
+        Tue, 11 Oct 2022 01:13:08 -0700 (PDT)
+Received: from nfvsdn-06.testing.baremetal.edge-sites.net (nat-pool-232-132.redhat.com. [66.187.232.132])
+        by smtp.gmail.com with ESMTPSA id q6-20020a05620a0d8600b006bb82221013sm12383261qkl.0.2022.10.11.01.13.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Oct 2022 01:13:08 -0700 (PDT)
+From:   mtahhan@redhat.com
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Maryam Tahhan <mtahhan@redhat.com>
+Subject: [PATCH v1 0/1] doc: BPF_MAP_TYPE_DEVMAP, BPF_MAP_TYPE_DEVMAP_HASH
+Date:   Tue, 11 Oct 2022 05:08:45 -0400
+Message-Id: <20221011090846.752622-1-mtahhan@redhat.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABCJKuenkHXtbWOLZ0_isGewxd19qkM7OcLeE2NzM6dSkXS4mQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 10, 2022 at 04:15:33PM -0700, Sami Tolvanen wrote:
-> On Fri, Oct 7, 2022 at 10:18 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> >
-> > On Tue, Sep 27, 2022 at 03:14:56PM +0200, Miguel Ojeda wrote:
-> > > Note that only x86_64 is covered and not all features nor mitigations
-> > > are handled, but it is enough as a starting point and showcases
-> > > the basics needed to add Rust support for a new architecture.
-> >
-> > Does it fail the build if required options are missing? Specifically are
-> > things like kCFI and IBT enabled? Silently not handling those will
-> > result in an unbootable image.
-> 
-> Rust supports IBT with -Z cf-protection=branch, but I don't see this
-> option being enabled in the kernel yet. Cross-language CFI is going to
-> require a lot more work though because the type systems are not quite
-> compatible:
+From: Maryam Tahhan <mtahhan@redhat.com>
 
-Right; so where does that leave us? Are we going to force disable rust
-when kCFI is selected ?
+Add documentation for BPF_MAP_TYPE_DEVMAP and BPF_MAP_TYPE_DEVMAP_HASH
+including kernel version introduced, usage and examples.
+
+Maryam Tahhan (1):
+  doc: BPF_MAP_TYPE_DEVMAP, BPF_MAP_TYPE_DEVMAP_HASH
+
+ Documentation/bpf/map_devmap.rst | 231 +++++++++++++++++++++++++++++++
+ 1 file changed, 231 insertions(+)
+ create mode 100644 Documentation/bpf/map_devmap.rst
+
+-- 
+2.35.3
+
