@@ -2,152 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59BB1C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 20:05:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B802FC433F5
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 20:06:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229538AbiJKUFF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Oct 2022 16:05:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42460 "EHLO
+        id S229837AbiJKUF6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Oct 2022 16:05:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229606AbiJKUFC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 16:05:02 -0400
+        with ESMTP id S229772AbiJKUF5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 16:05:57 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38ECD1A059;
-        Tue, 11 Oct 2022 13:05:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7244340E10;
+        Tue, 11 Oct 2022 13:05:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CBBAA612A4;
-        Tue, 11 Oct 2022 20:04:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDC19C433D6;
-        Tue, 11 Oct 2022 20:04:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665518699;
-        bh=lZdtachIj4SguIU4KUmVCxArIO0ITnyfMOz4z/5Eny0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=IYv2c9d6TcE9C3a4xz9PSlRD0zfOfnmldeIy5rtOweO9txr0oGX5SFHP0EtZlMOx9
-         xIHZbRP/UuTOb2YwS3lEeo6eLnGMSJG3PKtHwgqhxqHN6y9NsdoHca55T8QXpDRJi3
-         IxGzWMhj5MCFy+tNfngaVly00+KtnBgE2AxdSLDBO0IzzS1tr8010H8EucEx8U0scq
-         4cV7eRXgItc96nGFaxthH6NjkdmdgRWWqsHTVdNF/JLsmbIBPT/0UQXoH6guv9a9jW
-         E+VuONuaozpsmwKlAATrKUIuJLmmH3Ljcm44y8b9B1u9HJTJa+7fvJRt+BnI5pexQV
-         1wI4zGT2bYtRA==
-Date:   Tue, 11 Oct 2022 21:04:50 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2 0/6] docs: Improvements to our HTML output
-Message-ID: <20221011210450.6eb13ec6@sal.lan>
-In-Reply-To: <20221011190047.749145-1-corbet@lwn.net>
-References: <20221011190047.749145-1-corbet@lwn.net>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1A52A6118B;
+        Tue, 11 Oct 2022 20:05:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06638C433C1;
+        Tue, 11 Oct 2022 20:05:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1665518752;
+        bh=BZb9QQ/EFfDQt70QeG7zs/Wcs3AWySfQkWFC7/8GlN8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qU5pednL5iYRFpBcNRyiaJAQ7BQWs2Ta6HZFXgzCwncmZqvvt2qTyX0YJ5Sx3+bxk
+         b7An1+fJ09HRZMSeOMA89zFlg9dXGT7fmea6wneuWBlcLXzxeMSMFl6rOKaDeYy/xY
+         iaU4bHxr9bAn4isZJP4iEmMvDaPDQKHt9FeAheBQ=
+Date:   Tue, 11 Oct 2022 21:53:48 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Michael Grzeschik <mgr@pengutronix.de>
+Cc:     Dan Vacura <w36195@motorola.com>, linux-usb@vger.kernel.org,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] uvc gadget performance issues
+Message-ID: <Y0XJzGW/zlcCfffi@kroah.com>
+References: <20221011183437.298437-1-w36195@motorola.com>
+ <20221011194808.GH27626@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221011194808.GH27626@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 11 Oct 2022 13:00:41 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Tue, Oct 11, 2022 at 09:48:08PM +0200, Michael Grzeschik wrote:
+> I also have an patch in the queue that will limit the sg support for
+> devices with speed > HIGH_SPEED. Because of the overhead of the limited
+> transfer payload of 1024*3 Bytes, it is possible that a simple memcpy
+> will actually be fast enough. But for that patch I still have to make
+> proper measurements. Btw. which USB speed are you transferring with?
 
-> For a long time we have rejoiced that our HTML output from Sphinx is far
-> better than what we got from the old DocBook toolchain.  But it still
-> leaves a lot to be desired; the following is an attempt to improve the
-> situation somewhat.
->=20
-> Sphinx has a theming mechanism for HTML rendering.  Since the kernel's
-> adoption of Sphinx, we have been using the "Read The Docs" theme =E2=80=
-=94 a choice
-> made in a bit of a hurry to have *something* while figuring out the rest.
-> RTD is OK, but it is not hugely attractive, requires the installation of =
-an
-> extra package, and does not observe all of the Sphinx configuration
-> parameters.  Among other things, that makes it hard to put reasonable
-> contents into the left column in the HTML output.
->=20
-> The Alabaster theme is the default for Sphinx installations, and is bundl=
-ed
-> with Sphinx itself.  It has (IMO) nicer output and gives us the control
-> that we need.
->=20
-> So: switch to Alabaster.  Additional patches adjust the documentation and
-> remove the RTD references from scripts/sphinx-pre-install.
->=20
-> The penultimate patch changes the way that kerneldoc declarations are
-> rendered to (IMO) improve readability.  That requires some changes to
-> kernel-doc to output a new container block and some CSS tweaks to improve
-> things overall.
->=20
-> It should be noted that I have a long history of inflicting ugly web
-> designs on the net; this work is a start, but I think we could do far
-> better yet.  It would be great if somebody who actually enjoys working wi=
-th
-> CSS and such would help to improve what we have.
->=20
-> As before, I've put a copy of the rendered docs at:
->=20
->   https://static.lwn.net/kerneldoc/
->=20
-> To compare the kerneldoc changes specifically, pick a page that includes a
-> lot of definitions; for example:
->=20
->   https://static.lwn.net/kerneldoc/driver-api/media/drivers/frontends.html
->   vs.
->   https://www.kernel.org/doc/html/latest/driver-api/media/drivers/fronten=
-ds.html
->=20
-> -------
-> Changes from the initial version:
->=20
-> - Tweak more alabaster style parameters, including the maximum page width.
->   There will surely be disagreement over what the right value should be,
->   but at least it's defined in units independent of screen resolution.
->=20
-> - Remove "classic" theme configuration and a bunch of other conf.py cruft.
->=20
-> - I've tried to answer all of the other comments, but a couple remain.  T=
-he
->   sidebar contents are unchanged; making that more useful will require so=
-me
->   thought and work.  The gray background on function prototypes that Jani
->   pointed out is actually something I did intentionally, with the idea of
->   making each declaration stand out better in the wall of text.  I still
->   think it's better but am not married to it if the world disagrees.
->=20
-> - I've tested PDF and epub builds (no changes) and Sphinx back to v1.7.
->=20
-> In the absence of objections I'll be putting this into docs-next after the
-> merge window closes.  We can (and surely will) tweak this forever, but at
-> least it, I hope, shows a direction in which we can go.
+For a payload that small, yes a memcpy is almost always faster.  I think
+it's only much larger sizes that actually start to help with sg.
 
-No objections from my side. Surely more things could be tweaked. In
-particular, I didn't like having two ToCs at the index (a complete one
-and a second one pointing to where we are at the docs), but that's a lot
-better than before, so, I'm OK with that.
+Can you submit this change now?  Odds are it will help out a lot of
+systems.
 
-Feel free to add my ack to the patches:
+thanks,
 
-Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-Regards,
-Mauro
-
->=20
-> Jonathan Corbet (6):
->   docs: Switch the default HTML theme to alabaster
->   docs: tweak some Alabaster style parameters
->   docs: update sphinx.rst to reflect the default theme change
->   docs: sphinx-pre-install: don't require the RTD theme
->   docs: improve the HTML formatting of kerneldoc comments
->   docs: decruft Documentation/conf.py
->=20
->  Documentation/conf.py                  | 204 ++++---------------------
->  Documentation/doc-guide/sphinx.rst     |  16 +-
->  Documentation/sphinx-static/custom.css |  28 ++++
->  Documentation/sphinx/requirements.txt  |   1 -
->  scripts/kernel-doc                     |  52 ++++---
->  scripts/sphinx-pre-install             |   8 -
->  6 files changed, 91 insertions(+), 218 deletions(-)
->  create mode 100644 Documentation/sphinx-static/custom.css
->=20
+greg k-h
