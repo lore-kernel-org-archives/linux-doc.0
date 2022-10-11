@@ -2,210 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA1CEC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 09:51:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C0CFC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 10:00:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229531AbiJKJv4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Oct 2022 05:51:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56686 "EHLO
+        id S229767AbiJKKAV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Oct 2022 06:00:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbiJKJvz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 05:51:55 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C6AC12D11;
-        Tue, 11 Oct 2022 02:51:50 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id p14so8711680pfq.5;
-        Tue, 11 Oct 2022 02:51:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mCDQTD5Y+nV66C8T+N3XM1jxi8bXdGKiIQYvzLDQz8s=;
-        b=nxdKN0aPRzjLYhg2it7lOi1lDMZfXjvaYXlrrCj0lTvPisF0Xay85zsbSMl4h/T9RE
-         W+nQo++LE1Zg5lo2UAGH6b0D37Z7CKl8cja2Sa/e5G+QyXb7jMhmc50qou5vxEQ1Iq+0
-         NxyNkDohGv9OHwPZyqMyL1qhnOGQycZvlGnaDzUT3xR6/apOtWD3vi4fF4Sokqxe8cTA
-         XZMH00bJgQCiAsPDs6lCn5WmEt9o+ZjfHg+2HJETlCLuxQ9sJkO3lUVYXWrJMbocAotR
-         3pNEIwP1fF9VSSxnU2GVKfhmkvA6p4xRzrGZi3eMveeNU8izynEgllH0NyuUe9yYanq0
-         MYRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mCDQTD5Y+nV66C8T+N3XM1jxi8bXdGKiIQYvzLDQz8s=;
-        b=fp73s8BmIgP3iwkaa/X4uCV/MIFs4W6aN6fgZy4vc+nhQEKPO8w3aEGTDYAN6qdo3Z
-         Quz/tR5LcQb4gG/VW2/S8KJAXL/xPW768t8K0LzfM7+EsBHPARGxBYLGYY/GoJznDgR2
-         Ae1ppDWxBUTSL5j+RYP5Ygnhj0W59Kt7ogOeY1yXSnuhon33p2+ZWlZzoU+1FH/GWATh
-         Gt2LNDnkd339ClzdrbBNhNYQfwOteA1gf4iZFCxFVNkx0VQpELvbTyDCBnNIxUUmQjbY
-         NjEgUXPD6Xb60O2WFbdj/aDGdRCTNlZowsIoC8CUC/m4YkoODQEeBnL58yB2ykxPk5Zm
-         yxww==
-X-Gm-Message-State: ACrzQf2oNVetmWYCHcoXoSoY9N/gTwNIhMtAR3aXhEIJnyWFqduuouts
-        k7chTpZeA9j8FJDH9vvJLLs=
-X-Google-Smtp-Source: AMsMyM5wnvFTpjb3HNpa8Hu6dDL/94wrx8LzNTgoXcPZHasHeNQwOesYKfvS02YPwHxJbXSAnnZHmA==
-X-Received: by 2002:a63:6c84:0:b0:43c:700f:6218 with SMTP id h126-20020a636c84000000b0043c700f6218mr20235234pgc.420.1665481909940;
-        Tue, 11 Oct 2022 02:51:49 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-57.three.co.id. [116.206.28.57])
-        by smtp.gmail.com with ESMTPSA id f8-20020a170902ce8800b00178b77b7e71sm8247582plg.188.2022.10.11.02.51.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Oct 2022 02:51:49 -0700 (PDT)
-Message-ID: <2d174fee-bdd1-a304-c66c-09e957120af1@gmail.com>
-Date:   Tue, 11 Oct 2022 16:51:45 +0700
+        with ESMTP id S229599AbiJKKAU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 06:00:20 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC3C3343A;
+        Tue, 11 Oct 2022 03:00:17 -0700 (PDT)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29B9tIKb006463;
+        Tue, 11 Oct 2022 09:59:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=pp1;
+ bh=rsi++8Kv70P/yyaG5N63ukoqzzaV32xXultfsAN+sgY=;
+ b=b9WrKX6EJhkwDas+5wQJeAb2oflElkQO3Ljn8q8IiYGku406jhrTUM1QFFSYZPFNdFKo
+ QHKpdpz+dy38RreLu0fUmM6qnpOScfAfMCKM/XDDc0eenMPRVJyB1RlO6H/T2c9TEfEu
+ hK0orCiQnVvs2Xeg2cLtK5eQXHPw0hzLK43X6e9sknHM/b0YWS55t+kKmywfWSvUyDye
+ YNyh/te56N5fSc0tbPKKLOp4apFrXLDvZpYTL9AYNeZvLOaJgu6ULqrutiVzLDgBe4AG
+ VodfO95fsMEXeDJoBpykCHBGmpu4cocaq5++1kXg6MVP2WJiWMl8qYN+9OSEl3yDnTVx SA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k569g03km-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 11 Oct 2022 09:59:09 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29B9tmI8010269;
+        Tue, 11 Oct 2022 09:59:08 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k569g03hx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 11 Oct 2022 09:59:08 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29B9oZnZ003829;
+        Tue, 11 Oct 2022 09:59:05 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma04ams.nl.ibm.com with ESMTP id 3k30u9c3hv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 11 Oct 2022 09:59:05 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 29B9sJie47120848
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 11 Oct 2022 09:54:19 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 10739A405B;
+        Tue, 11 Oct 2022 09:59:02 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 30E5BA4054;
+        Tue, 11 Oct 2022 09:59:00 +0000 (GMT)
+Received: from osiris (unknown [9.152.212.239])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Tue, 11 Oct 2022 09:59:00 +0000 (GMT)
+Date:   Tue, 11 Oct 2022 11:58:59 +0200
+From:   Heiko Carstens <hca@linux.ibm.com>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
+        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dave Airlie <airlied@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Florian Westphal <fw@strlen.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, Helge Deller <deller@gmx.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        KP Singh <kpsingh@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Marco Elver <elver@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Graf <tgraf@suug.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
+        kernel-janitors@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mm@kvack.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        loongarch@lists.linux.dev, netdev@vger.kernel.org,
+        sparclinux@vger.kernel.org, x86@kernel.org,
+        Jan Kara <jack@suse.cz>, "Darrick J . Wong" <djwong@kernel.org>
+Subject: Re: [PATCH v6 1/7] treewide: use prandom_u32_max() when possible,
+ part 1
+Message-ID: <Y0U+Y+VBqefDAZRG@osiris>
+References: <20221010230613.1076905-1-Jason@zx2c4.com>
+ <20221010230613.1076905-2-Jason@zx2c4.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH] Documentation: Kunit: Update architecture.rst for minor
- fixes
-Content-Language: en-US
-To:     Sadiya Kazi <sadiyakazi@google.com>, brendanhiggins@google.com,
-        davidgow@google.com, skhan@linuxfoundation.org, corbet@lwn.net,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221010171353.1106166-1-sadiyakazi@google.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20221010171353.1106166-1-sadiyakazi@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221010230613.1076905-2-Jason@zx2c4.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: e2CZuGMXbt8P1Ahw-KHczcjQF2nFCX-z
+X-Proofpoint-ORIG-GUID: wAGriSa-6j8SChamwbK6r6GTq7mVMlOg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-10-11_03,2022-10-10_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
+ malwarescore=0 clxscore=1011 mlxscore=0 spamscore=0 mlxlogscore=427
+ adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210110053
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/11/22 00:13, Sadiya Kazi wrote:
->  The kernel testing library supports KUnit tests written in C using
-> -KUnit. KUnit tests are kernel code. KUnit does several things:
-> +KUnit. KUnit tests are written in the kernel code. KUnit performs the following
-> +tasks:
-> 
+On Mon, Oct 10, 2022 at 05:06:07PM -0600, Jason A. Donenfeld wrote:
+> Rather than incurring a division or requesting too many random bytes for
+> the given range, use the prandom_u32_max() function, which only takes
+> the minimum required bytes from the RNG and avoids divisions. This was
+...
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Yury Norov <yury.norov@gmail.com>
+> Reviewed-by: KP Singh <kpsingh@kernel.org>
+> Reviewed-by: Jan Kara <jack@suse.cz> # for ext4 and sbitmap
+> Reviewed-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com> # for drbd
+> Acked-by: Ulf Hansson <ulf.hansson@linaro.org> # for mmc
+> Acked-by: Darrick J. Wong <djwong@kernel.org> # for xfs
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>  arch/s390/kernel/process.c                    |  2 +-
+>  arch/s390/kernel/vdso.c                       |  2 +-
 
-What about "The kernel testing library supports KUnit tests, which are
-written in ordinary kernel code."?
-
->  - Organizes tests
->  - Reports test results
-> @@ -22,8 +23,8 @@ KUnit. KUnit tests are kernel code. KUnit does several things:
->  Test Cases
->  ----------
->  
-> -The fundamental unit in KUnit is the test case. The KUnit test cases are
-> -grouped into KUnit suites. A KUnit test case is a function with type
-> +The test case is the fundamental unit in KUnit. KUnit test cases are organised
-> +into suites. A KUnit test case is a function with type
-
-"which is organized into a test suite".
-
->  The KUnit executor can list and run built-in KUnit tests on boot.
->  The Test suites are stored in a linker section
-> -called ``.kunit_test_suites``. For code, see:
-> +called ``.kunit_test_suites``. For code, see the following link:
->  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/asm-generic/vmlinux.lds.h?h=v5.15#n945.
-
-Instead of link to torvalds's tree, just say "See ``include/asm-generic/vmlinux.lds.h``
-for the full code".
-
->  On the kernel boot, the KUnit executor uses the start and end addresses
-> -of this section to iterate over and run all tests. For code, see:
-> -https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/lib/kunit/executor.c
-> +of this section to iterate over and run all tests. For code, see the following link:
-> +https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/lib/kunit/executor.c.
->  
-
-Same reply above.
-
->  In KUnit tests, some error classes do not affect other tests
->  or parts of the kernel, each KUnit case executes in a separate thread
-> -context. For code, see:
-> +context. For code, see the following link:
->  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/lib/kunit/try-catch.c?h=v5.15#n58
->  
-
-Same reply above.
-
->  Assertion Macros
->  ----------------
->  
-> -KUnit tests verify state using expectations/assertions.
-> +KUnit tests verify the state using expectations/assertions.
->  All expectations/assertions are formatted as:
->  ``KUNIT_{EXPECT|ASSERT}_<op>[_MSG](kunit, property[, message])``
->  
->  - ``{EXPECT|ASSERT}`` determines whether the check is an assertion or an
->    expectation.
->  
-> -	- For an expectation, if the check fails, marks the test as failed
-> +	- For an expectation, if the check fails, it marks the test as failed
->  	  and logs the failure.
->  
->  	- An assertion, on failure, causes the test case to terminate
->  	  immediately.
-
-Better say:
-
-```
-In case of failure, there are differences on testing flow:
-
-   - For expectations, the test is marked as failed and the failure is logged.
-   - On the other hand, failing assertions cause the test case to be
-     immediately terminated.
-```
-
-> -kunit_tool (Command Line Test Harness)
-> +kunit_tool (Command-line Test Harness)
->  ======================================
->  
-> -kunit_tool is a Python script ``(tools/testing/kunit/kunit.py)``
-> -that can be used to configure, build, exec, parse and run (runs other
-> -commands in order) test results. You can either run KUnit tests using
-> -kunit_tool or can include KUnit in kernel and parse manually.
-> +``kunit_tool`` is a Python script, found in ``tools/testing/kunit/kunit.py``. It
-> +is used to configure, build, execute, parse, and run (other commands in order)
-> +test results. You have two options for running KUnit tests: either include KUnit
-> +in the kernel and parse manually, or use the ``kunit_tool``.
->  >  - ``configure`` command generates the kernel ``.config`` from a
->    ``.kunitconfig`` file (and any architecture-specific options).
-> -  For some architectures, additional config options are specified in the
-> -  ``qemu_config`` Python script
-> -  (For example: ``tools/testing/kunit/qemu_configs/powerpc.py``).
-> +  The Python script available in ``qemu_configs`` folder
-> +  (for example, ``tools/testing/kunit/qemu configs/powerpc.py``) contains
-> +  additional configuration options for specific architectures.
->    It parses both the existing ``.config`` and the ``.kunitconfig`` files
-> -  and ensures that ``.config`` is a superset of ``.kunitconfig``.
-> -  If this is not the case, it will combine the two and run
-> -  ``make olddefconfig`` to regenerate the ``.config`` file. It then
-> -  verifies that ``.config`` is now a superset. This checks if all
-> -  Kconfig dependencies are correctly specified in ``.kunitconfig``.
-> -  ``kunit_config.py`` includes the parsing Kconfigs code. The code which
-> -  runs ``make olddefconfig`` is a part of ``kunit_kernel.py``. You can
-> -  invoke this command via: ``./tools/testing/kunit/kunit.py config`` and
-> +  to ensure that ``.config`` is a superset of ``.kunitconfig``.
-> +  If not, it will combine the two and execute ``make olddefconfig`` to regenerate
-> +  the ``.config`` file. It then checks to see if ``.config`` has become a superset.
-> +  This verifies that all the Kconfig dependencies are correctly specified in the file
-> +  ``.kunitconfig``. The
-> +  ``kunit_config.py`` script contains the code for parsing Kconfigs. The code which
-> +  runs ``make olddefconfig`` is part of the ``kunit_kernel.py`` script. You can
-> +  invoke this command through: ``./tools/testing/kunit/kunit.py config`` and
->    generate a ``.config`` file.
->  - ``build`` runs ``make`` on the kernel tree with required options
->    (depends on the architecture and some options, for example: build_dir)
-> @@ -184,8 +188,8 @@ kunit_tool or can include KUnit in kernel and parse manually.
->    To build a KUnit kernel from the current ``.config``, you can use the
->    ``build`` argument: ``./tools/testing/kunit/kunit.py build``.
->  - ``exec`` command executes kernel results either directly (using
-> -  User-mode Linux configuration), or via an emulator such
-> -  as QEMU. It reads results from the log via standard
-> +  User-mode Linux configuration), or through an emulator such
-> +  as QEMU. It reads results from the log using standard
->    output (stdout), and passes them to ``parse`` to be parsed.
->    If you already have built a kernel with built-in KUnit tests,
->    you can run the kernel and display the test results with the ``exec``
-
-The kunit_tool description above is redundant. Instead, just say "For
-the documentation on using kunit_tool, see
-Documentation/dev-tools/kunit/run_wrapper.rst".
-
-Thanks.
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+For s390:
+Acked-by: Heiko Carstens <hca@linux.ibm.com>
