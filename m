@@ -2,76 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4626FC433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 17:03:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79BB1C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 17:14:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229963AbiJKRDw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Oct 2022 13:03:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35074 "EHLO
+        id S229840AbiJKROY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Oct 2022 13:14:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230027AbiJKRDs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 13:03:48 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24481A8CD6;
-        Tue, 11 Oct 2022 10:03:46 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A10BF7DE;
-        Tue, 11 Oct 2022 17:03:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A10BF7DE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1665507826; bh=7SPpThsSne6HOPQsZvAflcaMv2i/yR+2HVsHav8VrDw=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=fMb/ivf6MO8J3zv1MvYo6s1lrBd/3OCGvar0gnT22FldPpjLE9VcI77v95rpaDqKO
-         I/vSH7RQ/QPRlKHA8ndDcH259gqgDK9qSz55ApzsOe1Na3E7kRSr74Gz+S66lI52T1
-         PE8bFE9ybp8Y0T5bvY1cqTvkSJCcIvHohlxs5ABUauri6p3hqBsP49Gk4CqqOeLrGQ
-         oo5dnQP0V/nCwu8UQxNffiebvqB2QSCNOw+rqO95WcwaVN8yU9gwSgTOlNnNLZDuvh
-         0rcWLwLLHIWfm8aXDspUMQ3tvk7oSY3U4u6XaKFTkyPe7DxCCsf6EOxT92RGj4VuM6
-         kyyan2BONXyqg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Wu XiangCheng <wu.xiangcheng@linux.dev>,
-        Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
-Cc:     chenhuacai@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] docs/zh_CN: Rewrite the zh_CN/index.rst
-In-Reply-To: <cover.1665467392.git.bobwxc@email.cn>
-References: <cover.1665467392.git.bobwxc@email.cn>
-Date:   Tue, 11 Oct 2022 11:03:46 -0600
-Message-ID: <877d16pa19.fsf@meer.lwn.net>
+        with ESMTP id S229988AbiJKROW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 13:14:22 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D898AA368
+        for <linux-doc@vger.kernel.org>; Tue, 11 Oct 2022 10:14:20 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id l127so11372471iof.12
+        for <linux-doc@vger.kernel.org>; Tue, 11 Oct 2022 10:14:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pDLbMMyVql0t8YQHrpoFb/mrSX/wy9E8ZPnLS8f6/sg=;
+        b=QXHxzennHT0jWhFoHwN6F4UG3DVi7ZCQCmnNa4hVa1YpzqTEJ2H2thcKZZtDII+5Ri
+         Ln3OIwIuzi7P85Z7IaTZwJXP6TiBkUHXzZ+er3QEjKMDrkQdf9n/lAbe7xuOVqvm4bZL
+         IxZZXf4C3hBQzqz76jjrQR75Ds7/2VEhAhUVA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pDLbMMyVql0t8YQHrpoFb/mrSX/wy9E8ZPnLS8f6/sg=;
+        b=AvPVosRSDYZC0MC4Mc77Lhj64/I++DyFgBj8NuWh8yvUxqEPe1vMb5GkeBcEU1BGHI
+         6Nqyg3iGfPqTyRoYMpBYSzjOP+xp/1QxwdpDuEc0ALg0dDQg6EGOG2+ROpiGKAjXxdc5
+         E1KFL4scGm/vJg0w9mOXletB5u8uMCecT0DjMyRW6N//lomlb5Ps576mMbVIBgwCz6ao
+         wXPei/ua44J5E9C4yj54uU3DHSYrfp2IGCfjEawiWJUKliHb90VYuK8lc/cp/aYsgLyu
+         peT91jYFq6qZaDCXCItyXvo/ZlWbge8bFjqsBsuN7f1ob7Uhp+OLlA/sgEwPQs4ge7IZ
+         V89w==
+X-Gm-Message-State: ACrzQf0aj+Ad4ib0zqzAI+YhP6QgtH9q4CH8Z65KKGwjW5j7NkQ07J/R
+        DA417elTDQS1Iqzt+hYmoIqZHQ==
+X-Google-Smtp-Source: AMsMyM4/OpJoLj6r1F+/wC8QgtHX8DjKlVz9AT1JvWxmVE0aHwN3eNgc+aaDUSRj2vDk34JD7p5pdQ==
+X-Received: by 2002:a05:6638:4782:b0:363:c5a0:2aec with SMTP id cq2-20020a056638478200b00363c5a02aecmr4483441jab.242.1665508459629;
+        Tue, 11 Oct 2022 10:14:19 -0700 (PDT)
+Received: from shuah-tx13.internal ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id g18-20020a056e02131200b002eb3b43cd63sm5088215ilr.18.2022.10.11.10.14.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Oct 2022 10:14:19 -0700 (PDT)
+From:   Shuah Khan <skhan@linuxfoundation.org>
+To:     gregkh@linuxfoundation.org, corbet@lwn.net
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, conduct@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        jlee@linuxfoundation.org, stable@vger.kernel.org
+Subject: [PATCH] docs: update mediator contact information in CoC doc
+Date:   Tue, 11 Oct 2022 11:14:17 -0600
+Message-Id: <20221011171417.34286-1-skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wu XiangCheng <wu.xiangcheng@linux.dev> writes:
+Update mediator contact information in CoC interpretation document.
 
-> Follow Jonathan's steps[1], rewrite the entry point of kernel's Chinese
-> translation documentation.
->
-> [1]: https://lore.kernel.org/linux-doc/20220927160559.97154-1-corbet@lwn.net/T
->
-> v2:
-> 	* remove blank line
-> 	* fix typo
-> v1:
-> 	https://lore.kernel.org/linux-doc/Y0EHBw9C1UpVA49k@bobwxc.mipc/T/#t
->
-> Thanks,
->
-> Wu XiangCheng (4):
->   docs/zh_CN: promote the title of zh_CN/process/index.rst
->   docs/zh_CN: add zh_CN/arch.rst
->   docs/zh_CN: Rewrite the Chinese translation front page
->   docs/zh_CN: add a man-pages link to zh_CN/index.rst
->
->  Documentation/translations/zh_CN/arch.rst     |  29 +++
->  Documentation/translations/zh_CN/index.rst    | 169 ++++++------------
->  .../translations/zh_CN/process/index.rst      |   1 +
->  3 files changed, 82 insertions(+), 117 deletions(-)
->  create mode 100644 Documentation/translations/zh_CN/arch.rst
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+---
+ Documentation/process/code-of-conduct-interpretation.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Series applied, thanks.
+diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
+index 4f8a06b00f60..43da2cc2e3b9 100644
+--- a/Documentation/process/code-of-conduct-interpretation.rst
++++ b/Documentation/process/code-of-conduct-interpretation.rst
+@@ -51,7 +51,7 @@ the Technical Advisory Board (TAB) or other maintainers if you're
+ uncertain how to handle situations that come up.  It will not be
+ considered a violation report unless you want it to be.  If you are
+ uncertain about approaching the TAB or any other maintainers, please
+-reach out to our conflict mediator, Joanna Lee <joanna.lee@gesmer.com>.
++reach out to our conflict mediator, Joanna Lee <jlee@linuxfoundation.org>.
+ 
+ In the end, "be kind to each other" is really what the end goal is for
+ everybody.  We know everyone is human and we all fail at times, but the
+-- 
+2.34.1
 
-jon
