@@ -2,448 +2,401 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C441C433F5
-	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 13:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BC5FC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 11 Oct 2022 14:40:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229742AbiJKNxZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 11 Oct 2022 09:53:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32894 "EHLO
+        id S229839AbiJKOkZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 11 Oct 2022 10:40:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229736AbiJKNxX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 09:53:23 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2060.outbound.protection.outlook.com [40.107.244.60])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E66077FFB1;
-        Tue, 11 Oct 2022 06:53:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hSdfLeJ0znL8RmJrgaFaAd97R+YRvdftQHerxjnqN2Rkoy6TwNObD0tdqET5JHqD3COrZYcyxbYxZ5BTKObkMhCepTJaX4u4xHgN43N9SNkF2ZyW7CzoPfI0faNhlGEmKwxDbDykGw2g3HOQv/dzle5tclUQGx475jm5Qb2U83YMsSYpzF716tBKFlLgcCYWXzaWWJ4FdfgrZo8IDBGSaj7BLzLCkOO+UbikKS2rrdy+6ok+n1dTq8y5u+X7G949eMUK/eoVUKLHttumPYLHP7QAmWokN14J8TQLmYR3h5IsMB8E9onuPdVWqxq0NCST+WYZlYUfh/ImFdlncEr6oQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cgisbe675RzvTfKdPH2Vrh0ZCeKNYFfLfUm5saWN9xM=;
- b=VMjbUJjbDvxHl2YUbXDxzdE7OsSQxImfVK2D+SFPt2TevruC8uZpKFPkHRsACT/hwaUG4bNxmsdbuvjm1TLzt9c2KAk500blvryIq9dc2pJ5BNnvyVqXJq+YNoBP9CSox/DbOQVRwWk0/Xr/5vPQBY2fz4zbASjLa5cKTh8i/U7SFSWoiu74W0JOfnNxJLvKnM2hyq7Eh0daZahQuGP6rso86wPST8UyzhSOzFyEKHJhWJpK1S80KDnBK4NpGFTEQZZUCkc7cspbbc7AwDUWYUWdk7ZE4UG2NR4Y4Q7vjMi1+heu9DZSIZXhUdV7OE1Uyg3IVd/doF75LZLsd0ffcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cgisbe675RzvTfKdPH2Vrh0ZCeKNYFfLfUm5saWN9xM=;
- b=sC78gnJGTaPVClPOjQbO59pRdXnSNSMygvLKM6pSoUFb1RGHg/dCf70k7zV9y5DkrY2N/+GzLPXgENzQI+CSOU9Ko6yVEvvPDWf7vqjcoPgH8j7hQxlHEKXN11swrIO5qNPQxnhk+TrXw2H9SUR4OEquQ0Fp0AwHlnNZLKWTvGM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by DS7PR12MB5983.namprd12.prod.outlook.com (2603:10b6:8:7e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.31; Tue, 11 Oct
- 2022 13:53:19 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::2d5:77ac:6d39:e57b]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::2d5:77ac:6d39:e57b%7]) with mapi id 15.20.5709.015; Tue, 11 Oct 2022
- 13:53:18 +0000
-Message-ID: <5e160f16-4a85-2d18-90ae-dfd24d41037a@amd.com>
-Date:   Tue, 11 Oct 2022 08:52:28 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v6 12/12] Documentation/x86: Update resctrl_ui.rst for new
- features
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, fenghua.yu@intel.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        eranian@google.com
-References: <166543345606.23830.3120625408601531368.stgit@bmoger-ubuntu>
- <166543384024.23830.1715326237069935949.stgit@bmoger-ubuntu>
- <Y0UyFRJNjqBzCX8Z@debian.me>
-Content-Language: en-US
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <Y0UyFRJNjqBzCX8Z@debian.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0236.namprd03.prod.outlook.com
- (2603:10b6:610:e7::31) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+        with ESMTP id S229846AbiJKOkS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Oct 2022 10:40:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0BD01902E
+        for <linux-doc@vger.kernel.org>; Tue, 11 Oct 2022 07:40:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665499216;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=uZ3v4pjnJDIojWEqppu2PN3XNMeuVy2PS0+WLzDvoJY=;
+        b=TO3OlsZCTzN5CEF7C+6NGAYIek4gyzffQz1ZXnglE09vhCJVKrgjUf0FRe2say/cTSb8J9
+        3EPBqIJ2QmQ0Rz4LVUTrjRbzA9H5ZohurT77ysL7tVgqfdLYfqvSdmwkCjwTAJnPeNANjj
+        3gtGwkhL+HATt38cZ9FUfdYt0Z67Cu0=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-644-NBsr12Y9OaS06gce9NevdQ-1; Tue, 11 Oct 2022 10:40:07 -0400
+X-MC-Unique: NBsr12Y9OaS06gce9NevdQ-1
+Received: by mail-ed1-f71.google.com with SMTP id s17-20020a056402521100b0045bfaaab697so5137095edd.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Oct 2022 07:40:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uZ3v4pjnJDIojWEqppu2PN3XNMeuVy2PS0+WLzDvoJY=;
+        b=BkUe1IPUMoyQ3TneA/70xpK0OTFIiAO9z2SHnlkA1EU7NVYWrdgkq9102XL1/iSI61
+         rAIJBsvKmLvwAgKzEUkZinVDdsFCnfjYFeS9Gx3yT5wMLQNVyInTd5yX8t8c+CC1kTnH
+         fc0YslH4yt1sLyOvFzH9Bcb+AwxRLW21jA2oQfKvdhLfGZVh5EOlycvLS95V+/Bv7niK
+         WVy/WEmMhRyHgdzN8Hk8Lpv9Q+j8jUOQVZhbsfKqflNnqD25oAg6jGtnuaK/2AkRiUsF
+         71OJdMDtqPeZB7BcFGnhwk+I+QztXBrjyvCDfk+ZuU+YB3wovTjNNBZoA5FCbQQxBgts
+         buyQ==
+X-Gm-Message-State: ACrzQf1bBr2ySYzkl5h4nWSoWhQFlhT5jVGGqXHBsvfOVsK/IAVFel9J
+        G5rj38ocDi0KCVWNLpf1ZZze8B2dTdNfEtzYLhb7Ulsnzg3wB8m7mVYNmEHEEdv+mEXTzAWEd5H
+        9XoBZwqWkfjue0XasM5Bq
+X-Received: by 2002:a17:906:5d0f:b0:78d:1bed:890f with SMTP id g15-20020a1709065d0f00b0078d1bed890fmr19408338ejt.594.1665499203383;
+        Tue, 11 Oct 2022 07:40:03 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7F2pHhFMErZLqiL3W/dHKt2lypGiwTU6kTF0fZvUbidfvcUAgdSzaTi516qR3wQRBC7ixilA==
+X-Received: by 2002:a17:906:5d0f:b0:78d:1bed:890f with SMTP id g15-20020a1709065d0f00b0078d1bed890fmr19408271ejt.594.1665499202266;
+        Tue, 11 Oct 2022 07:40:02 -0700 (PDT)
+Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
+        by smtp.gmail.com with ESMTPSA id dn22-20020a05640222f600b00451319a43dasm9451073edb.2.2022.10.11.07.40.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Oct 2022 07:40:01 -0700 (PDT)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id 7808A682D16; Tue, 11 Oct 2022 16:40:00 +0200 (CEST)
+From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     mtahhan@redhat.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Maryam Tahhan <mtahhan@redhat.com>
+Subject: Re: [PATCH v1 1/1] doc: BPF_MAP_TYPE_DEVMAP, BPF_MAP_TYPE_DEVMAP_HASH
+In-Reply-To: <20221011090846.752622-2-mtahhan@redhat.com>
+References: <20221011090846.752622-1-mtahhan@redhat.com>
+ <20221011090846.752622-2-mtahhan@redhat.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date:   Tue, 11 Oct 2022 16:40:00 +0200
+Message-ID: <878rlmqv9b.fsf@toke.dk>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS7PR12MB5983:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9e3d95f9-4582-4cbc-fe81-08daab8ff3b9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oS2rL80vxt9Gh0nqdF/kO9iuVyCRKJHjHtlURhvVGij/Bj1ouYZsqLZ0gqPPg3kECRezcQfIBEzWQvlinlNx5tSbpeCVUlq/4EQywmruLYYo232/uiDzLvJDAIClYm/TzsAlBs8UepBCIZ+rRIeuWloNPbjhMbk9SPY5MKF5Hu/w8zj7/fbsyvHNZUF3wr3P6IaPlaS45InQwx/6gRnWDTW6igeCvIIUxfukfXsxFqIN+truixSE/RLxQGBn5pmnCgKC2EMfca/wtTBFot6bJvnRFKaWYXpLCwzKRT70tavoxhThGzvfmfmgZytzX9LdQilEKmu8vczfe2NGYyWfUHVzsvd+5FIAoEWeQQQGUMVEqzlYE8lY090GQ0cH2QDrOGqBPALo7SCoaDxs4Y2nTGcnjYMWZadpVm95WHK9TDuenVDZv6PEz/qOeD+xfY3piwyf6/XvSH2UbK8j01YVfMT0tFdN1MmdnIuMVQL+X3WiNL7RwBeFFXLcXE2SrclMhlMwljCPZpG25DACon4WJq/qf6+boBAXuBWV+gGexxsTMmWPkQ0fg9yZx1ArCgbC8Bq5zNLu4OJrN0pDcsFYaEfKO+LLq7rbcHHj0qeSQl0ZQlA139Q4fDaPQyZEW0uK4Sg7ozyScFe25h3ScDZ8P2KgML9edDdEjUg66ZMMws7WDU343+MxoTZso2rRrN7kXmUrvF7SaANVdWnhuegHIgwQnSmcEdftAMEalqg8TzctwizbfaNrUWLVNponeE8FZvwlhH/AnLpF2RS1oI0aeSpjcuaq83sUff9j91QEyS8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(136003)(39860400002)(396003)(366004)(451199015)(31686004)(6486002)(478600001)(83380400001)(6666004)(66476007)(186003)(8676002)(53546011)(3450700001)(66946007)(5660300002)(8936002)(36756003)(4326008)(316002)(2616005)(2906002)(6916009)(86362001)(66556008)(7416002)(26005)(6512007)(6506007)(30864003)(31696002)(38100700002)(41300700001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y2ROS1d5S3N4Z3MzcXJ1V3MrVWJXUjRYT3BNUVpxVWFrZy9xWURibVJ6NVZR?=
- =?utf-8?B?QlZhVlNBNkhwWjBDL2ZTVkhMOFZIRWNNWG52aEluUDJtOTZWTkNJYUpZbG9n?=
- =?utf-8?B?RGY4cUpHbFp5WG94Q2t0V2JpZ0VWNk1lNDhhRlJXTUNQUklBbXlzSHB4SFRU?=
- =?utf-8?B?ZGQybC9SaHN6NHFiVnRaakVJQmltOVdxL1BQaVRBcnRlVWFhN0JaWXlsNno4?=
- =?utf-8?B?TlducThoanIxOUx6NUxRd1VmQi80Z2pmOFRNeUxscFMyellJRUpNcjdQMW42?=
- =?utf-8?B?ak1pMVlySEJ4eFlQT1NvNXhsRmZ1TnRJUlViWFRQb2F6aUk4U0YyaVZWdm1B?=
- =?utf-8?B?RmZPUi93Nm9YNE5aTCtoQkFEQW1KRTRtNklwWkx1djJtZ1RoeEdvdnkzV0Nr?=
- =?utf-8?B?c0VscHBDVnNXSnVPN2FBbC9ST1FEU0FBOXpxUkZvOGRDd09Mdlc4Z2RKTHlx?=
- =?utf-8?B?QW9XSU9lbk8rbzZJV0NRTjdXeTY2QVJZbnNnQ0tVUVdKU1NRSEs3S0JkQ0VM?=
- =?utf-8?B?Um1uY3U4WTIxc0wwQ3FpUk9jMTNyTTdpeFNrYmlJN3dZakdJc0Z2RFBNRlF3?=
- =?utf-8?B?eEd5VllObUFkdUtxbCtDY25DVk1sNnkwM25aazBrSkdHUUZwVmV6U3p0WXVD?=
- =?utf-8?B?QTVTKzNLOHpZK2R3UllIVjhTT3lsaEcybk01c0VHZWlka1lvZ0cwcWVOQ3VS?=
- =?utf-8?B?N3NhZFlDRkhLNEpEL2dBbE9IUWdCYVdnRjVKS3BoZmVpV1VpWWFyU0xRby9V?=
- =?utf-8?B?RlAwZFJkTUNyTkw5MlM4V1NyTXl3U25zRWM2RzNsOXZ2UThTeGkra1FFM3lr?=
- =?utf-8?B?NmZPcE9Jc1J6cUNMYktzK29IR2ZQTWdxZUlsckpkbkkzYWhjdU5GN0dvNG40?=
- =?utf-8?B?RDVjTkhhYncvV1VOaTdPYzU3aUNIY3VVWlA1RE9aeGhUOXVzSVgvT0pKMUV5?=
- =?utf-8?B?a1JYMHFYSExPQ05BdFJrSWFmOHVhQ2MrOExSbGZQWHFhQ0pMZWVrUjN4aGg4?=
- =?utf-8?B?VjhtRVB3NFdtSXltS1pFS3ZRaEZvTlY3clBkWm0wcmluMUpOaXBjUmQzZXp6?=
- =?utf-8?B?bFo4eGlQK1FlL3N4Zm1OTHA2dWlxcy9qRGR0K2xwRnFqcEQ1VVFucUQvKzI2?=
- =?utf-8?B?Q2llSHZ6T1NXdHRaU0o1NU1qYjFNZUlwdWUvL2xnVWFwSHpNb0xpMnl6RzRm?=
- =?utf-8?B?VysySktKRjQwYmxmSHdrTzhYVndrRHc1cTI0amlhVCtjWEJScElPNWduTWNq?=
- =?utf-8?B?VlJHYUptNHJDR25TSWY1WUZiWWZWQWFSNVJjYWhFemhoSzVwTG14V3ZvREty?=
- =?utf-8?B?NlZTd2did2JDRjFkYndNR2w2bS9JNGxuZkVDNXJDRjkydVdZbWQyVEQybE40?=
- =?utf-8?B?UWlJZlZvNUM5dW1jek81U2RPRUxBYmQ0cXloVEMwa2NFQUZvWHgyTzMvYnkr?=
- =?utf-8?B?UlBZN2xwN2FnSEQ3MlRXM1QxaklCdHdtSTRzV3ExSEluYiszZjNmL3FjbDd6?=
- =?utf-8?B?WUo0WnUyVFhnTzF3cGhTTVBjcmV5Y1VPWnd6ak9FaFZoQkF6c3BwaXpFblNL?=
- =?utf-8?B?MUFCL2J1RU9JTktVTkdIL2lBYjZhYnU5NkU1SUp6eXNqUzZmbFh5clo3S01a?=
- =?utf-8?B?S3pTbEU1b2FoVmt1NUFVZ0k1RmJ4QzJyQ21EdVpQc0ZjMHRIVHRYWVk0YVc0?=
- =?utf-8?B?ZW5DTWRWMUd3dE1xS3VqbzgrWUdFUTRZQkRUaU5nZnUvUGJESmNEeDBnM0lw?=
- =?utf-8?B?WGxUWjZxb0lxNzJhVldsOEEzdDR2NmFCc29odmIvRlRvYk9nOUd3Sm0zYTZL?=
- =?utf-8?B?SE8ySEhHUFI3c053SGZjY0FMcE0vTHdjaW9LYk5Hdldhc0tCbVhwK3BUZlVB?=
- =?utf-8?B?dkJVNzk3ZkJJOXhiT0JYampMcE13cTBGTnBNZFQ4cEpneDhUakdTckRhbkNR?=
- =?utf-8?B?QTI1bHVKV2hnTzJNc3RWQmZhNnBIZ2U2OTc5MXRXTXBjNnE5czY0QjJ6N0gx?=
- =?utf-8?B?aGtmeXlEeHBUL0s4NlY3ejRqVkI3UmNYanN4R3VJa0poRU12eHlmQXRpUS9D?=
- =?utf-8?B?ZTNPcU1aMnJPbGNKdGJtVTBSeVdPaitobGFDN1lSajNHbTFDZHVOejZKeTFw?=
- =?utf-8?Q?+XTw=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e3d95f9-4582-4cbc-fe81-08daab8ff3b9
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2022 13:53:18.8459
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DdxK5bQjVX66XOdeMJZ1fEv9FYMKoa8X08Op0GSx87liQozM5nsgN35j8hUaTnUk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5983
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Sanjaya,
+mtahhan@redhat.com writes:
 
-On 10/11/22 04:06, Bagas Sanjaya wrote:
-> On Mon, Oct 10, 2022 at 03:30:40PM -0500, Babu Moger wrote:
->> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
->> index 71a531061e4e..e2a59249d183 100644
->> --- a/Documentation/x86/resctrl.rst
->> +++ b/Documentation/x86/resctrl.rst
->> @@ -17,14 +17,16 @@ AMD refers to this feature as AMD Platform Quality of Service(AMD QoS).
->>  This feature is enabled by the CONFIG_X86_CPU_RESCTRL and the x86 /proc/cpuinfo
->>  flag bits:
->>  
->> -=============================================	================================
->> +===============================================	================================
->>  RDT (Resource Director Technology) Allocation	"rdt_a"
->>  CAT (Cache Allocation Technology)		"cat_l3", "cat_l2"
->>  CDP (Code and Data Prioritization)		"cdp_l3", "cdp_l2"
->>  CQM (Cache QoS Monitoring)			"cqm_llc", "cqm_occup_llc"
->>  MBM (Memory Bandwidth Monitoring)		"cqm_mbm_total", "cqm_mbm_local"
->>  MBA (Memory Bandwidth Allocation)		"mba"
->> -=============================================	================================
->> +SMBA (Slow Memory Bandwidth Allocation)         "smba"
->> +BMEC (Bandwidth Monitoring Event Configuration) "bmec"
->> +===============================================	================================
->>  
->>  To use the feature mount the file system::
->>  
->> @@ -161,6 +163,79 @@ with the following files:
->>  "mon_features":
->>  		Lists the monitoring events if
->>  		monitoring is enabled for the resource.
->> +                Example::
->> +
->> +                   # cat /sys/fs/resctrl/info/L3_MON/mon_features
->> +                   llc_occupancy
->> +                   mbm_total_bytes
->> +                   mbm_local_bytes
->> +
->> +                If the system supports Bandwidth Monitoring Event
->> +                Configuration (BMEC), then the bandwidth events will
->> +                be configurable. The output will be::
->> +
->> +                   # cat /sys/fs/resctrl/info/L3_MON/mon_features
->> +                   llc_occupancy
->> +                   mbm_total_bytes
->> +                   mbm_total_config
->> +                   mbm_local_bytes
->> +                   mbm_local_config
->> +
->> +"mbm_total_config", "mbm_local_config":
->> +        These files contain the current event configuration for the events
->> +        mbm_total_bytes and mbm_local_bytes, respectively, when the
->> +        Bandwidth Monitoring Event Configuration (BMEC) feature is supported.
->> +        The event configuration settings are domain specific and will affect
->> +        all the CPUs in the domain.
->> +
->> +        Following are the types of events supported:
->> +
->> +        ====    ========================================================
->> +        Bits    Description
->> +        ====    ========================================================
->> +        6       Dirty Victims from the QOS domain to all types of memory
->> +        5       Reads to slow memory in the non-local NUMA domain
->> +        4       Reads to slow memory in the local NUMA domain
->> +        3       Non-temporal writes to non-local NUMA domain
->> +        2       Non-temporal writes to local NUMA domain
->> +        1       Reads to memory in the non-local NUMA domain
->> +        0       Reads to memory in the local NUMA domain
->> +        ====    ========================================================
->> +
->> +        By default, the mbm_total_bytes configuration is set to 0x7f to count
->> +        all the event types and the mbm_local_bytes configuration is set to
->> +        0x15 to count all the local memory events.
->> +
->> +        Examples:
->> +
->> +        * To view the current configuration::
->> +          ::
->> +
->> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_total_config
->> +            0=0x7f;1=0x7f;2=0x7f;3=0x7f
->> +
->> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_local_config
->> +            0=0x15;1=0x15;3=0x15;4=0x15
->> +
->> +        * To change the mbm_total_bytes to count only reads on domain 0.
->> +          To achieve this, the bits 0, 1, 4 and 5 needs to be set which is
->> +          110011b (in hex 0x33).
->> +          ::
->> +
->> +            # echo  "0=0x33" > /sys/fs/resctrl/info/L3_MON/mbm_total_config
->> +
->> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_total_config
->> +            0=0x33;1=0x7f;2=0x7f;3=0x7f
->> +
->> +        * To change the mbm_local_bytes to count all the slow memory reads
->> +          on domain 1. To achieve this, the bits 4 and 5 needs to be set
->> +          which is 110000b (in hex 0x30).
->> +          ::
->> +
->> +            # echo  "1=0x30" > /sys/fs/resctrl/info/L3_MON/mbm_local_config
->> +
->> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_local_config
->> +            0=0x15;1=0x30;3=0x15;4=0x15
->>  
->>  "max_threshold_occupancy":
->>  		Read/write file provides the largest value (in
->> @@ -464,6 +539,25 @@ Memory bandwidth domain is L3 cache.
->>  
->>  	MB:<cache_id0>=bw_MBps0;<cache_id1>=bw_MBps1;...
->>  
->> +Slow Memory bandwidth Allocation (SMBA)
->> +-------------------------------------------------
->> +AMD hardware can support slow Memory bandwidth Allocation feature.
->> +Currently, CXL.memory is the only supported "slow" memory device.
->> +With the support of SMBA feature the hardware enables bandwidth
->> +allocation on the slow memory devices. If there are multiple slow
->> +memory devices in the system, then the throttling logic groups all
->> +the slow sources together and applies the limit on them as a whole.
->> +
->> +The presence of the SMBA feature(with CXL.memory) is independent
->> +of whether slow memory device is actually present in the system.
->> +If there is no slow memory in the system, then setting a SMBA limit
->> +will have no impact on the performance of the system.
->> +
->> +Slow Memory bandwidth domain is L3 cache.
->> +::
->> +
->> +	SMBA:<cache_id0>=bandwidth0;<cache_id1>=bandwidth1;...
->> +
->>  Reading/writing the schemata file
->>  ---------------------------------
->>  Reading the schemata file will show the state of all resources
->> @@ -479,6 +573,44 @@ which you wish to change.  E.g.
->>    L3DATA:0=fffff;1=fffff;2=3c0;3=fffff
->>    L3CODE:0=fffff;1=fffff;2=fffff;3=fffff
->>  
->> +Reading/writing the schemata file (on AMD systems)
->> +--------------------------------------------------
->> +Reading the schemata file will show the state of all resources
->> +on all domains. When writing the memory bandwidth allocation you
->> +only need to specify those values in an absolute number expressed
->> +in 1/8 GB/s increments. To allocate bandwidth limit of 2GB, you
->> +need to specify the value 16 (16 * 1/8 = 2). For example:
->> +::
->> +
->> +  # cat schemata
->> +    MB:0=2048;1=2048;2=2048;3=2048
->> +    L3:0=ffff;1=ffff;2=ffff;3=ffff
->> +
->> +  # echo "MB:1=16" > schemata
->> +  # cat schemata
->> +    MB:0=2048;1=  16;2=2048;3=2048
->> +    L3:0=ffff;1=ffff;2=ffff;3=ffff
->> +
->> +Reading/writing the schemata file (on AMD systems) with SMBA feature
->> +-------------------------------------------------------------------
-> The heading above produces htmldocs warnings:
+> From: Maryam Tahhan <mtahhan@redhat.com>
 >
-> Documentation/x86/resctrl.rst:595: WARNING: Title underline too short.
->
-> Reading/writing the schemata file (on AMD systems) with SMBA feature
-> -------------------------------------------------------------------
-> Documentation/x86/resctrl.rst:595: WARNING: Title underline too short.
->
-> Reading/writing the schemata file (on AMD systems) with SMBA feature
-> -------------------------------------------------------------------
->
-> I have applied the fixup:
-Thanks
->
-> ---- >8 ----
->
-> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
-> index e2a59249d18322..145916828f2bae 100644
-> --- a/Documentation/x86/resctrl.rst
-> +++ b/Documentation/x86/resctrl.rst
-> @@ -592,7 +592,7 @@ need to specify the value 16 (16 * 1/8 = 2). For example:
->      L3:0=ffff;1=ffff;2=ffff;3=ffff
->  
->  Reading/writing the schemata file (on AMD systems) with SMBA feature
-> --------------------------------------------------------------------
-> +--------------------------------------------------------------------
->  Reading the schemata file will show the state of all resources
->  on all domains. When writing the memory bandwidth allocation you
->  only need to specify those values in an absolute number expressed
->
->> +Reading the schemata file will show the state of all resources
->> +on all domains. When writing the memory bandwidth allocation you
->> +only need to specify those values in an absolute number expressed
->> +in 1/8 GB/s increments. To allocate bandwidth limit of 8GB, you
->> +need to specify the value 64 (64 * 1/8 = 8).  E.g.
->> +::
->> +
->> +  # cat schemata
->> +    SMBA:0=2048;1=2048;2=2048;3=2048
->> +      MB:0=2048;1=2048;2=2048;3=2048
->> +      L3:0=ffff;1=ffff;2=ffff;3=ffff
->> +
->> +  # echo "SMBA:1=64" > schemata
->> +  # cat schemata
->> +    SMBA:0=2048;1=  64;2=2048;3=2048
->> +      MB:0=2048;1=2048;2=2048;3=2048
->> +      L3:0=ffff;1=ffff;2=ffff;3=ffff
->> +
->>  Cache Pseudo-Locking
->>  ====================
->>  CAT enables a user to specify the amount of cache space that an
->>
->>
-> The rest of prose can be improved:
->
-> ---- >8 ----
->
-> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
-> index 145916828f2bae..92b2c4e03a4a26 100644
-> --- a/Documentation/x86/resctrl.rst
-> +++ b/Documentation/x86/resctrl.rst
-> @@ -217,9 +217,9 @@ with the following files:
->              # cat /sys/fs/resctrl/info/L3_MON/mbm_local_config
->              0=0x15;1=0x15;3=0x15;4=0x15
->  
-> -        * To change the mbm_total_bytes to count only reads on domain 0.
-> -          To achieve this, the bits 0, 1, 4 and 5 needs to be set which is
-> -          110011b (in hex 0x33).
-> +        * To change the mbm_total_bytes to count only reads on domain 0
-> +          (the bits 0, 1, 4 and 5 needs to be set, which means 110011b
-> +          {in hex 0x33}):
->            ::
->  
->              # echo  "0=0x33" > /sys/fs/resctrl/info/L3_MON/mbm_total_config
-> @@ -228,8 +228,8 @@ with the following files:
->              0=0x33;1=0x7f;2=0x7f;3=0x7f
->  
->          * To change the mbm_local_bytes to count all the slow memory reads
-> -          on domain 1. To achieve this, the bits 4 and 5 needs to be set
-> -          which is 110000b (in hex 0x30).
-> +          on domain 1 (the bits 4 and 5 needs to be set, which means 110000b
-> +          {in hex 0x30}):
->            ::
->  
->              # echo  "1=0x30" > /sys/fs/resctrl/info/L3_MON/mbm_local_config
-> @@ -540,20 +540,21 @@ Memory bandwidth domain is L3 cache.
->  	MB:<cache_id0>=bw_MBps0;<cache_id1>=bw_MBps1;...
->  
->  Slow Memory bandwidth Allocation (SMBA)
-> --------------------------------------------------
-> -AMD hardware can support slow Memory bandwidth Allocation feature.
-> +---------------------------------------
-> +AMD hardwares support Slow Memory bandwidth Allocation (SMBA) feature.
->  Currently, CXL.memory is the only supported "slow" memory device.
-> -With the support of SMBA feature the hardware enables bandwidth
-> -allocation on the slow memory devices. If there are multiple slow
-> -memory devices in the system, then the throttling logic groups all
-> -the slow sources together and applies the limit on them as a whole.
-> +With the support of SMBA, the hardware enables bandwidth allocation
-> +on the slow memory devices. If there are multiple such devices in the
-> +system, the throttling logic groups all the slow sources together
-> +and applies the limit on them as a whole.
->  
-> -The presence of the SMBA feature(with CXL.memory) is independent
-> -of whether slow memory device is actually present in the system.
-> -If there is no slow memory in the system, then setting a SMBA limit
-> -will have no impact on the performance of the system.
-> +The presence of SMBA (with CXL.memory) is independent of slow memory
-> +devices presence. If there is no such devices on the system, then
-> +setting the configuring SMBA will have no impact on the performance
-> +of the system.
->  
-> -Slow Memory bandwidth domain is L3 cache.
-> +The bandwidth domain for slow memory is L3 cache. Its schemata file
-> +is formatted as:
->  ::
->  
->  	SMBA:<cache_id0>=bandwidth0;<cache_id1>=bandwidth1;...
-> @@ -575,11 +576,13 @@ which you wish to change.  E.g.
->  
->  Reading/writing the schemata file (on AMD systems)
->  --------------------------------------------------
-> -Reading the schemata file will show the state of all resources
-> -on all domains. When writing the memory bandwidth allocation you
-> -only need to specify those values in an absolute number expressed
-> -in 1/8 GB/s increments. To allocate bandwidth limit of 2GB, you
-> -need to specify the value 16 (16 * 1/8 = 2). For example:
-> +Reading the schemata file will show the current bandwidth limit on all
-> +domains. The allocated resources are in multiples of one eighth GB/s.
-> +When writing to the file, you need to specify what cache id you wish to
-> +configure the bandwidth limit.
-> +
-> +For example, to allocate 2GB/s limit on the first cache id:
-> +
->  ::
->  
->    # cat schemata
-> @@ -593,11 +596,11 @@ need to specify the value 16 (16 * 1/8 = 2). For example:
->  
->  Reading/writing the schemata file (on AMD systems) with SMBA feature
->  --------------------------------------------------------------------
-> -Reading the schemata file will show the state of all resources
-> -on all domains. When writing the memory bandwidth allocation you
-> -only need to specify those values in an absolute number expressed
-> -in 1/8 GB/s increments. To allocate bandwidth limit of 8GB, you
-> -need to specify the value 64 (64 * 1/8 = 8).  E.g.
-> +Reading and writing the schemata file is the same as without SMBA in
-> +above section.
-> +
-> +For example, to allocate 8GB/s limit on the first cache id:
-> +
->  ::
->  
->    # cat schemata
->
-Thanks
+> Add documentation for BPF_MAP_TYPE_DEVMAP and
+> BPF_MAP_TYPE_DEVMAP_HASH including kernel version
+> introduced, usage and examples.
 
-Babu Moger
+Thanks for doing this! Some comments below.
+
+>
+> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+> ---
+>  Documentation/bpf/map_devmap.rst | 231 +++++++++++++++++++++++++++++++
+>  1 file changed, 231 insertions(+)
+>  create mode 100644 Documentation/bpf/map_devmap.rst
+>
+> diff --git a/Documentation/bpf/map_devmap.rst b/Documentation/bpf/map_devmap.rst
+> new file mode 100644
+> index 000000000000..ecd2b7b951cc
+> --- /dev/null
+> +++ b/Documentation/bpf/map_devmap.rst
+> @@ -0,0 +1,231 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +.. Copyright (C) 2022 Red Hat, Inc.
+> +
+> +=================================================
+> +BPF_MAP_TYPE_DEVMAP and BPF_MAP_TYPE_DEVMAP_HASH
+> +=================================================
+> +
+> +.. note::
+> +   - ``BPF_MAP_TYPE_DEVMAP`` was introduced in kernel version 4.14
+> +   - ``BPF_MAP_TYPE_DEVMAP_HASH`` was introduced in kernel version 5.4
+> +
+> +``BPF_MAP_TYPE_DEVMAP`` is a BPF map, primarily used as a backend map for the XDP
+> +BPF helper call ``bpf_redirect_map()``. It's backed by an array that uses the key as
+> +the index to lookup a reference to a net device. The user provides <``key``/ ``ifindex``>
+> +pairs to update the map with new net devices.
+
+The TYPE_DEVMAP also takes the bpf_devmap_val struct as its value, not
+just key/ifindex (as is indeed also noted below). Maybe it's better to
+just collapse the description of the two into one paragraph noting that
+they only differ in the "sparseness" of keys?
+
+> +``BPF_MAP_TYPE_DEVMAP_HASH`` is also a backend map for ``bpf_redirect_map()``.
+> +It's backed by a hash table that uses the ``ifindex`` as the key to lookup a reference
+> +to a net device. As it's a hash map, it allows for densely packing the net devices
+> +(compared with the sparsely packed ``BPF_MAP_TYPE_DEVMAP``).
+
+Should we note that the packing comes at the cost of a hash of the key
+when looking up?
+
+> The user provides
+> +<``key``/ ``struct bpf_devmap_val``> pairs to update the map with new net devices.
+> +
+> +The setup and packet enqueue/send code is shared between the two types of
+> +devmap; only the lookup and insertion is different.
+> +
+> +XDP_REDIRECT
+> +============
+> +
+> +XDP_REDIRECT works by a three-step process, implemented as follows:
+> +
+> +1. The ``bpf_redirect()`` and ``bpf_redirect_map()`` helpers will lookup the
+> +   target of the redirect and store it (along with some other metadata) in a
+> +   per-CPU ``struct bpf_redirect_info``. This is where the maps above come into
+> +   play.
+> +
+> +2. When the program returns the ``XDP_REDIRECT`` return code, the driver will
+> +   call ``xdp_do_redirect()`` which will use the information in ``struct
+> +   bpf_redirect_info`` to actually enqueue the frame into a map type-specific
+> +   bulk queue structure.
+> +
+> +3. Before exiting its NAPI poll loop, the driver will call ``xdp_do_flush()``,
+> +   which will flush all the different bulk queues, thus completing the
+> +   redirect.
+
+This is supposed to be user-facing documentation right (i.e., to be read
+by BPF program authors not kernel programmers)? If so, maybe this is a
+tad bit too much detail. I feel it's fine to explain the three-step
+process and bulk queueing, but the function and data structure names are
+maybe superfluous details?
+
+> +Pointers to the map entries will be kept around for this whole sequence of
+> +steps, protected by RCU. However, there is no top-level ``rcu_read_lock()`` in
+> +the core code; instead, the RCU protection relies on everything happening
+> +inside a single NAPI poll sequence, which means it's between a pair of calls
+> +to ``local_bh_disable()`` / ``local_bh_enable()``.
+> +
+> +The map entries are marked as ``__rcu`` and the map code makes sure to dereference
+> +those pointers with ``rcu_dereference_check()`` in a way that works for both
+> +sections that to hold an ``rcu_read_lock()`` and sections that are called from
+> +NAPI without a separate ``rcu_read_lock()``. The code below does not use RCU
+> +annotations, but relies on those in the map code.
+
+This is *definitely* too much detail for user-facing documentation.
+
+> +.. note::
+> +    ``XDP_REDIRECT`` is not fully supported yet for xdp frags since not all XDP
+> +    capable drivers can map a non-linear ``xdp_frame`` in ``ndo_xdp_xmit``.
+
+It's not really "fully supported" for non-frags either (i.e., it still
+depends on driver support). So maybe expand this to say something like
+"not all drivers support transmitting frames after a redirect, and for
+those that do, not all of them support non-linear frames"? Do we explain
+anywhere what a non-linear frame is, BTW?
+
+
+> +Usage
+> +=====
+> +
+> +.. c:function::
+> +   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
+
+Feels a bit weird to include these (generic) helpers into a document on
+the specific map type? Shouldn't they be documented separately (and the
+map type just document the value type)?
+
+> + Net device entries can be added or updated using the ``bpf_map_update_elem()``
+> + helper. This helper replaces existing elements atomically. The ``flags``
+> + parameter can be used to control the update behaviour:
+
+Should probably specify that updates can only be done from userspace
+(not from a BPF program)?
+
+> +
+> + - ``BPF_ANY`` will create a new element or update an existing element
+> + - ``BPF_NOEXIST`` will create a new element only if one did not already
+> +   exist
+> + - ``BPF_EXIST`` will update an existing element
+> +
+> + ``bpf_map_update_elem()`` returns 0 on success, or negative error in
+> + case of failure.
+> +
+> + The value parameter is of type ``struct bpf_devmap_val``:
+
+It's either a bpf_devmap_val struct or just an ifindex (for backwards
+compatibility reasons).
+
+> +
+> + .. code-block:: c
+> +
+> +    struct bpf_devmap_val {
+> +        __u32 ifindex;   /* device index */
+> +        union {
+> +            int   fd;  /* prog fd on map write */
+> +            __u32 id;  /* prog id on map read */
+> +        } bpf_prog;
+> +    };
+> +
+> + DEVMAPs can associate a program with a device entry by adding a ``bpf_prog.fd``
+> + to ``struct bpf_devmap_val``. Programs are run after ``XDP_REDIRECT`` and have
+> + access to both Rx device and Tx device. The  program associated with the ``fd``
+> + must have type XDP with expected attach type ``xdp_devmap``.
+> + When a program is associated with a device index, the program is run on an
+> + ``XDP_REDIRECT`` and before the buffer is added to the per-cpu queue. Examples
+> + of how to attach/use xdp_devmap progs can be found in the kernel selftests:
+> +
+> + - test_xdp_with_devmap_helpers_
+> + - xdp_devmap_attach_
+> +
+> +.. _xdp_devmap_attach: https://github.com/torvalds/linux/blob/master/tools/testing/selftests/bpf/prog_tests/xdp_devmap_attach.c
+> +.. _test_xdp_with_devmap_helpers: https://github.com/torvalds/linux/blob/master/tools/testing/selftests/bpf/progs/test_xdp_with_devmap_helpers.c
+> +
+> +.. c:function::
+> +   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+> +
+> + net device entries can be retrieved using the ``bpf_map_lookup_elem()``
+> + helper. This helper returns a pointer to the value associated with ``key``, or
+> + ``NULL`` if no entry was found.
+> +
+> +.. c:function::
+> +   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
+> +
+> + net device entries can be deleted using the ``bpf_map_delete_elem()``
+> + helper. This helper will return 0 on success, or negative error in case of
+> + failure.
+> +
+> +.. c:function::
+> +     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
+
+This helper makes a bit more sense to have documented here, but I also
+feels like it would make more sense to document thew hole redirect
+facility in one place, along with all the different map types (i.e.,
+also XSK and CPUMAP)?
+
+> + Redirect the packet to the endpoint referenced by map at index
+> ``key``.
+
+s/map/``map``/ ?
+
+> + For ``BPF_MAP_TYPE_DEVMAP`` and ``BPF_MAP_TYPE_DEVMAP_HASH`` this map contains
+> + references to net devices (for forwarding packets through other ports).
+> +
+> + The lower two bits of *flags* are used as the return code if the map lookup
+> + fails. This is so that the return value can be one of the XDP program return
+> + codes up to ``XDP_TX``, as chosen by the caller. The higher bits of ``flags``
+> + can be set to ``BPF_F_BROADCAST`` or ``BPF_F_EXCLUDE_INGRESS`` as defined
+> + below.
+> +
+> + With ``BPF_F_BROADCAST`` the packet will be broadcast to all the interfaces
+> + in the map, with ``BPF_F_EXCLUDE_INGRESS`` the ingress interface will be excluded
+> + from the broadcast.
+> +
+> + This helper will return ``XDP_REDIRECT`` on success, or the value of the two
+> + lower bits of the *flags* argument if the map lookup fails.
+>
+> +Examples
+> +========
+> +
+> +Kernel BPF
+> +----------
+> +
+> +The following code snippet shows how to declare a ``BPF_MAP_TYPE_DEVMAP``
+> +called tx_port.
+> +
+> +.. code-block:: c
+> +
+> +    struct {
+> +        __uint(type, BPF_MAP_TYPE_DEVMAP);
+> +        __uint(key_size, sizeof(int));
+> +        __uint(value_size, sizeof(int));
+
+I think we generally use '__u32' not 'int' as the key and value types;
+also, should this use the '__type(key, __u32)' syntax instead of __uint(key_size..)?
+
+> +        __uint(max_entries, 256);
+> +    } tx_port SEC(".maps");
+> +
+> +The following code snippet shows how to declare a ``BPF_MAP_TYPE_DEVMAP_HASH``
+> +called forward_map.
+> +
+> +.. code-block:: c
+> +
+> +    struct {
+> +        __uint(type, BPF_MAP_TYPE_DEVMAP_HASH);
+> +        __uint(key_size, sizeof(int));
+> +        __uint(value_size, sizeof(struct bpf_devmap_val));
+> +        __uint(max_entries, 32);
+> +    } forward_map SEC(".maps");
+
+As above, and maybe point out that this one is deliberately using the
+struct value while the other isn't?
+
+> +The following code snippet shows a simple xdp_redirect_map program.
+> +
+> +.. code-block:: c
+> +
+> +    SEC("xdp")
+> +    int xdp_redirect_map_func(struct xdp_md *ctx)
+> +    {
+> +        void *data_end = (void *)(long)ctx->data_end;
+> +        void *data = (void *)(long)ctx->data;
+
+Why define the data pointers if they're not used?
+
+> +        int action = XDP_PASS;
+
+Why is this defined as a variable, and why is it initialised (it will
+always be overridden below)?
+
+> +        int index = ctx->ingress_ifindex;
+
+Should probably explain that this works in concert with the userspace
+code to index the devmap on ingress ifindex, yielding a fixed
+destination port for each ingress ifindex?
+
+> +
+> +        action = bpf_redirect_map(&tx_port, index, BPF_F_BROADCAST | BPF_F_EXCLUDE_INGRESS);
+> +
+> +    out:
+
+Unused label?
+
+> +        return action;
+> +    }
+> +
+> +
+> +User space
+> +----------
+> +
+> +The following code snippet shows how to update a devmap called ``tx_port``.
+> +
+> +.. code-block:: c
+> +
+> +    int update_devmap(int ifindex, int redirect_ifindex)
+> +    {
+> +        int ret = -1;
+> +
+> +        ret = bpf_map_update_elem(bpf_map__fd(tx_port), &ifindex, &redirect_ifindex, 0);
+> +        if (ret < 0) {
+> +            fprintf(stderr, "Failed to update devmap_ value: %s\n",
+> +                strerror(errno));
+> +        }
+> +
+> +        return ret;
+> +    }
+> +
+> +The following code snippet shows how to update a hash_devmap called ``forward_map``.
+> +
+> +.. code-block:: c
+> +
+> +    int update_devmap(int ifindex, int redirect_ifindex)
+> +    {
+> +        struct bpf_devmap_val devmap_val;
+
+This should be zero-initialised; maybe just initialise as { .ifindex =
+redirect_ifindex }; ?
+
+> +        int ret = -1;
+> +
+> +        devmap_val.ifindex = redirect_ifindex;
+> +        ret = bpf_map_update_elem(bpf_map__fd(forward_map), &ifindex, &devmap_val, 0);
+> +        if (ret < 0) {
+> +            fprintf(stderr, "Failed to update devmap_ value: %s\n",
+> +                strerror(errno));
+> +        }
+> +        return ret;
+> +    }
+> +
+> +References
+> +===========
+> +
+> +- https://lwn.net/Articles/728146/
+> +- https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/commit/?id=6f9d451ab1a33728adb72d7ff66a7b374d665176
+> +- https://elixir.bootlin.com/linux/latest/source/net/core/filter.c#L4106
+> -- 
+> 2.35.3
 
