@@ -2,79 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 356A1C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 06:16:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3361FC43217
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 06:53:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229621AbiJLGQr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Oct 2022 02:16:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48854 "EHLO
+        id S229517AbiJLGxK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Oct 2022 02:53:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229657AbiJLGQp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 02:16:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00138AA34F;
-        Tue, 11 Oct 2022 23:16:44 -0700 (PDT)
+        with ESMTP id S229541AbiJLGxJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 02:53:09 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CD1DA025C;
+        Tue, 11 Oct 2022 23:53:08 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 34BC3613FB;
-        Wed, 12 Oct 2022 06:16:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 665C3C433D6;
-        Wed, 12 Oct 2022 06:16:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665555403;
-        bh=I6RnW5IpmR7g0+YGxHas+7A6fFvaR/Qzrs1BzkOlIRw=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=u5v/8LidQwH30eIemf1uWspk1VX+z6vdU8BHsiU3NWXnUtGPNX3WY8YlDH5AEv8+M
-         3FKSLWDLv5HXlP7fWBy+wf6+ZJw8VnbS/edEHRH7cLeK4o6kreGQR8jf/Sz7ig65fQ
-         KQKY6jYJ3hpTE2jOL6bUJHRa045kjdgTQOd/wg+c511b3TDJeAlgTA51e2zGG1vkHT
-         k7juB0v98t08ulBVxJy7dQmaYb7/IwghWelH2f/5y+O4v3gte5q9EphjI3c+aY6Kr/
-         R/iT98WoGlfjd2iS6OWqusMIDJ+ouNfWwWGyILq31fEtiyyAaXnBdGIKuNMOCvAFlS
-         +8pfwIs/QnHsA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 8882B5C196D; Tue, 11 Oct 2022 23:16:39 -0700 (PDT)
-Date:   Tue, 11 Oct 2022 23:16:39 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     SeongJae Park <sj@kernel.org>
-Cc:     corbet@lwn.net, lyj7694@gmail.com, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] docs/memory-barriers/kokr: Update the content
-Message-ID: <20221012061639.GK4221@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20221011025809.25821-1-sj@kernel.org>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3D6E5B81981;
+        Wed, 12 Oct 2022 06:53:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64741C433D6;
+        Wed, 12 Oct 2022 06:53:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1665557585;
+        bh=kfeTdt8LgFzpRd1qO+A5KoG7Tuot/w4Ck8QJHAn273s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=x0HW7/m2tSyoFLA3qql8FIicJScZBTHHWTk/xt1rAnuVz2+u+RtSLbMkWsaDyeE+T
+         WqbtrwvSDbljxNm4Fd1SpdW1W8xvlJbPyt5En0oXTZChaUVbkQuGYXErqZoxq+cMyV
+         DbRERVUUjp7aDrTCOQWdVwBJzW2605lWG9H+qxLE=
+Date:   Wed, 12 Oct 2022 08:53:49 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Jiri Slaby <jirislaby@kernel.org>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 14/14] tty: gunyah: Add tty console driver for RM
+ Console Services
+Message-ID: <Y0ZkfT8gSSbKQSI4@kroah.com>
+References: <20220928195633.2348848-1-quic_eberman@quicinc.com>
+ <20220928195633.2348848-15-quic_eberman@quicinc.com>
+ <YzbePxTF8hRbWNRU@kroah.com>
+ <14d0ff9f-60f3-71cc-ea42-ceee389298ac@quicinc.com>
+ <Yz/YBDqqwBUlswgX@kroah.com>
+ <615493a8-449d-b105-709e-0642dfb5359b@quicinc.com>
+ <Y0R/QbysXa6ebNd8@kroah.com>
+ <ca42d89e-9e19-0536-0951-2c123d898892@quicinc.com>
+ <Y0ULqlIMKTc6gdeV@kroah.com>
+ <13eee213-f6c2-d998-ba2e-459509ae7ee7@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221011025809.25821-1-sj@kernel.org>
+In-Reply-To: <13eee213-f6c2-d998-ba2e-459509ae7ee7@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 10, 2022 at 07:58:06PM -0700, SeongJae Park wrote:
-> There are updates to memory-barriers.txt that not applied to the Korean
-> translation.  This patchset applies the changes.
+On Tue, Oct 11, 2022 at 03:04:08PM -0700, Elliot Berman wrote:
 > 
-> Changes from v1
-> (https://lore.kernel.org/all/20221008174928.13479-1-sj@kernel.org/)
-> - Drop first one, which is not for translation and already pulled
-> - Use better expressions for Korean (Yunjae Lee)
-> - Fix a typo (Yunjae Lee)
 > 
-> SeongJae Park (3):
->   docs/memory-barriers.txt/kokr: introduce io_stop_wc() and add
->     implementation for ARM64
->   docs/memory-barriers.txt/kokr: Add memory barrier dma_mb()
->   docs/memory-barriers.txt/kokr: Fix confusing name of 'data dependency
->     barrier'
+> On 10/10/2022 11:22 PM, Greg Kroah-Hartman wrote:
+> > On Mon, Oct 10, 2022 at 01:58:00PM -0700, Elliot Berman wrote:
+> > > 
+> > > 
+> > > On 10/10/2022 1:23 PM, Greg Kroah-Hartman wrote:
+> > > > On Sun, Oct 09, 2022 at 01:59:21PM -0700, Elliot Berman wrote:
+> > > > > 
+> > > > > > > > On 10/7/2022 12:40 AM, Greg Kroah-Hartman wrote:
+> > > > > > On Thu, Oct 06, 2022 at 10:59:51PM -0700, Elliot Berman wrote:
+> > > > > > > 
+> > > > > > > "GH" is the shorthand we've been using for "Gunyah". I didn't find
+> > > > > > > documentation for dynamically assigned char devices, but if it exists, I can
+> > > > > > > add entry for ttyGH.
+> > > > > > 
+> > > > > > Why use a new name at all?  Why not stick with the existing tty names
+> > > > > > and device numbers?
+> > > > > > 
+> > > > > 
+> > > > > I can use hvc framework, although driver-level buffering is needed on
+> > > > > both the get_chars/put_chars paths because:
+> > > > 
+> > > > I'm not asking about the framework (although that is a good question,
+> > > > you need to document why this has to be new.)  I'm asking why pick a new
+> > > > name?  You will not have a name conflict in your system with this device
+> > > > with any other tty name right?
+> > > > 
+> > > 
+> > > That's correct, I didn't see any other instances of "ttyGH" in kernel.
+> > 
+> > Do you see any instances of ttyS?  Any other existing name?  Why pick a
+> > new name at all?
+> > 
+> > And if you do pick a new name, you need to document it really really
+> > well, not bury it downn within the tty driver code.
+> > 
+> 
+> Seems other drivers are adding a comment in Kconfig help text. I can do the
+> same.
 
-Hearing no objections, I pulled these in.  If someone else wants to take
-them, please let me know.
-
-							Thanx, Paul
-
->  .../translations/ko_KR/memory-barriers.txt    | 149 ++++++++++--------
->  1 file changed, 85 insertions(+), 64 deletions(-)
-> 
-> -- 
-> 2.17.1
-> 
+If you really want this, yes.  But again, you have not justified a whole
+new name yet...
