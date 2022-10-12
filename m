@@ -2,271 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47154C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 04:16:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 160D4C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 04:20:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229470AbiJLEQk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Oct 2022 00:16:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39772 "EHLO
+        id S229648AbiJLEU5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Oct 2022 00:20:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiJLEQj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 00:16:39 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0953C1F9C8;
-        Tue, 11 Oct 2022 21:16:38 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id b2so15128399plc.7;
-        Tue, 11 Oct 2022 21:16:38 -0700 (PDT)
+        with ESMTP id S229615AbiJLEU4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 00:20:56 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87B926AEA5;
+        Tue, 11 Oct 2022 21:20:55 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id c24so15171889plo.3;
+        Tue, 11 Oct 2022 21:20:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OJHfxSkAdEzE02kXCOugwTptSZXfoXHK5Lb1A5ICHqE=;
-        b=Rrlze0pGp+8MKXLRlhhIebryFh3ieyIMcB2o/aN8bjOFElKnqhRCzRyHGrM5Ozy7As
-         XhXjKxEggNG5Lq8X0WD11nEVuFKlpRcousRl0vhe9BDA1cQ3rvLIzKYMScw5Z4eWQDiV
-         kkU2o8DvnldcSo7CAhpg17gqnMnuxSzNkSBjav+oezmEK2JTYHvS8CgGOe3YKMHbfvbN
-         ZYWbRgD1IQojFQlnXpywJWIdifq69Fkn1ebFLY2WDVr30lmWm6GK06Wy7ukasO1ixAex
-         rzBeX3Nx/p2r6SDE10qwD7taeC/QpSgCiEajfmS1rQVxcAnLQgman2U5iQSqlAoY8DvT
-         Fndw==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OrQZ7wkvPyfXPn4tQlrkO4jutsFSESCnUHTr1m5jM2w=;
+        b=jPZucRVcWRQhMERl9IZVh0eg7TIEQmvuraV8RToTzaUJc96lrJ9WFRkxYvjDFqcFKr
+         8Gno3FzzV64+/xmWdCXvtPJZdJ5z2Lypb8fp7G43pXxZXcaDeP6gkhUFLDCG/rIqAduk
+         SZAFcXsiLXfsqquWpvAdKI3sWnbAOhb7MmMb4dwD4TzKsOGWnrU6gQ2sNO9JQIzKypUa
+         zjJcWXrkmOMJt6t8Iv3lzWPaQAzEQyhBrRzt1+Y0dTexmmtlcEmIPMCVyDAIMz7TRQiD
+         AVZ65Zu+h9/TfpnqdSOmv351k4u9EvQ7MYsWZp6DEMUmh4ZGIok4YX/jk8qugaQVep88
+         KdrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OJHfxSkAdEzE02kXCOugwTptSZXfoXHK5Lb1A5ICHqE=;
-        b=7k98C08MGr5Hozit3GjEYLwBzd1sCwBH13COdPSj2cFbsOHrDV+AAZavvg7SiME1RD
-         xz+IZHi5UPJN5kMbD0d5pvr2KwolNe4JEnsY5TDUQ52rIoBB4V53bStxcGcDGWQO02sB
-         f2ozvtRF2LugB66Y47fEQ9msbU0jXb8GbTsBufgz4lj3C1EZm9GjOvlMGsWqlokJC+wq
-         QOrwmL2mU9ZFN71h9y64khS0sXxVL0IdBH8yfoD1m7XY3WZshEE1LRoMYzaIk0/VAwAk
-         9gdZCW/eroDjNo5hXGZSRFtkqPw13XW+f0r/qy0HQsEsDyczqbT6yC0W2p5xRLoNzOQ/
-         +HIA==
-X-Gm-Message-State: ACrzQf1ChdfZR/PjFKupCWAu+Qrb4OFARuFn9zbhIJXkzlS/KOgH46Ms
-        L4PBi9qkkW2+WYpZq4GSOjg=
-X-Google-Smtp-Source: AMsMyM7rH8I0S5TWLH2Y55oSGySHBD+eCj3dU5URWQ7rKYl8bkEET6BJVaqQnparD2Ld5bLDcnLWuQ==
-X-Received: by 2002:a17:90a:bd91:b0:20d:2add:96a4 with SMTP id z17-20020a17090abd9100b0020d2add96a4mr2849825pjr.195.1665548197414;
-        Tue, 11 Oct 2022 21:16:37 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-2.three.co.id. [180.214.232.2])
-        by smtp.gmail.com with ESMTPSA id x12-20020aa78f0c000000b0052c849d0886sm9816734pfr.86.2022.10.11.21.16.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Oct 2022 21:16:36 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id D02D41005BB; Wed, 12 Oct 2022 11:16:32 +0700 (WIB)
-Date:   Wed, 12 Oct 2022 11:16:32 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
-Cc:     corbet@lwn.net, mhocko@suse.com, akpm@linux-foundation.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        wuyun.abel@bytedance.com
-Subject: Re: [RFC] mm: add new syscall pidfd_set_mempolicy()
-Message-ID: <Y0Y/oGToVk3ags7h@debian.me>
-References: <20221010094842.4123037-1-hezhongkun.hzk@bytedance.com>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OrQZ7wkvPyfXPn4tQlrkO4jutsFSESCnUHTr1m5jM2w=;
+        b=ZbHNxZGdn3ZdUFDxXfOQO9VoiRK4SIoZuE9u2kDrE1yWF54iXhMEHBrVvztcHbAa27
+         718SejeomD5AoAcDIyI1NGcWfjE57UepsHGc8abP/c+2R9EeZ+NqUraeGLpERDV5PlYM
+         7uYikHBjsQPV/BzsztEKnscaAY3SO8ZddE/TgZhYjNivNOAELSBZCXp9g+H0rtKKMLgK
+         58EJk32aVIpH2BoYvTVwreFm9igD+OVcj4ZMaNeeUBhT8aHJbCn9JmHdM5ONM1dOB2JF
+         CXG5SUuu9j1p2LMcIAOzjsUt5ZtfW6z+rxO7ML4yfCTakeWtg7u7Thp0CJGiO3XnmLiZ
+         xafw==
+X-Gm-Message-State: ACrzQf0dynn3sP5i7n3FnYsOnalmBnlSLG7dqaPikCsB6mJ6KDhNhyie
+        HWEjSPlFscT2os24nYgw078=
+X-Google-Smtp-Source: AMsMyM5ZCf5i1UFSBPBYhnqCdO0wkXA6bx1x+wVk74HOBPEakpPB5LFW+bUd0J9YyVjtYF08GFFGQg==
+X-Received: by 2002:a17:902:ce8f:b0:176:e0b3:cf14 with SMTP id f15-20020a170902ce8f00b00176e0b3cf14mr27323864plg.153.1665548455045;
+        Tue, 11 Oct 2022 21:20:55 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-2.three.co.id. [180.214.232.2])
+        by smtp.gmail.com with ESMTPSA id p14-20020aa79e8e000000b005625f08116esm9840983pfq.68.2022.10.11.21.20.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Oct 2022 21:20:53 -0700 (PDT)
+Message-ID: <6e30cfb2-b69c-b56a-bcd0-e9c12d984fd2@gmail.com>
+Date:   Wed, 12 Oct 2022 11:20:49 +0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kr4kyCS+bdnKay0q"
-Content-Disposition: inline
-In-Reply-To: <20221010094842.4123037-1-hezhongkun.hzk@bytedance.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v2 0/6] docs: Improvements to our HTML output
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20221011190047.749145-1-corbet@lwn.net>
+ <3c65451e-c9bf-55ea-02af-f375346c955a@gmail.com>
+ <254fd34d-a234-7959-2bd2-bbc1ac45629f@infradead.org>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <254fd34d-a234-7959-2bd2-bbc1ac45629f@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 10/12/22 09:25, Randy Dunlap wrote:
+>> Hmm, I can't cleanly apply this patch series on top of either Linus's tree
+>> or linux-next due to conflicts on [1/6]. On what commit this series is based
+>> on?
+> 
+> Normally Jon uses this (from the MAINTAINERS file):
+> 
+> DOCUMENTATION
+> M:	Jonathan Corbet <corbet@lwn.net>
+> L:	linux-doc@vger.kernel.org
+> S:	Maintained
+> P:	Documentation/doc-guide/maintainer-profile.rst
+> T:	git git://git.lwn.net/linux.git docs-next
+> 
+> 
+> Did you try that one?
+> 
 
---kr4kyCS+bdnKay0q
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Randy,
 
-On Mon, Oct 10, 2022 at 05:48:42PM +0800, Zhongkun He wrote:
-> There is usecase that System Management Software(SMS) want to give a
-> memory policy to other processes to make better use of memory.
->=20
+I can't fetch that repo (possibly blocked by my ISP), so I have to apply
+against linux-next instead.
 
-Better say "There are usecases when system management utilities
-want to apply memory policy to processes to make better use of memory".
-
-> The information about how to use memory is not known to the app.
-> Instead, it is known to the userspace daemon(SMS), and that daemon
-> will decide the memory usage policy based on different factors.
->=20
-
-Better say "These utilities doesn't set memory usage policy, but
-rather the job of reporting memory usage and setting the policy is
-offloaded to an userspace daemon."
-
-> To solve the issue, this patch introduces a new syscall
-> pidfd_set_mempolicy(2).  it sets the NUMA memory policy of the thread
-> specified in pidfd.
->=20
-
-Better say "To solve the issue above, introduce new syscall
-pidfd_set_mempolicy(2). The syscall sets NUMA memory policy for the
-thread specified in pidfd".
-
-> In current process context there is no locking because only the process
-> accesses its own memory policy, so task_work is used in
-> pidfd_set_mempolicy() to update the mempolicy of the process specified
-> in pidfd, avoid using locks and race conditions.
->=20
-
-Better say "In current process context there is no locking because
-only processes access their own memory policy. For this reason, task_work
-is used in pidfd_set_mempolicy() to set or update the mempolicy of process
-specified in pid. Thuse, it avoids into race conditions."
-
-> The API is as follows,
->=20
-> 		long pidfd_set_mempolicy(int pidfd, int mode,
->                                      const unsigned long __user *nmask,
->                                      unsigned long maxnode,
->                                      unsigned int flags);
->=20
-> Set's the [pidfd] task's "task/process memory policy". The pidfd argument
-> is a PID file descriptor (see pidfd_open(2) man page) that specifies the
-> process to which the mempolicy is to be applied. The flags argument is
-> reserved for future use; currently, this argument must be specified as 0.
-> Please see the set_mempolicy(2) man page for more details about
-> other's arguments.
->=20
-
-Why duplicating from the Documentation/ below?
-
-> Suggested-by: Michal Hocko <mhocko@suse.com>
-> Signed-off-by: Zhongkun He <hezhongkun.hzk@bytedance.com>
-> ---
->  .../admin-guide/mm/numa_memory_policy.rst     | 21 ++++-
->  arch/alpha/kernel/syscalls/syscall.tbl        |  1 +
->  arch/arm/tools/syscall.tbl                    |  1 +
->  arch/arm64/include/asm/unistd.h               |  2 +-
->  arch/arm64/include/asm/unistd32.h             |  3 +-
->  arch/ia64/kernel/syscalls/syscall.tbl         |  1 +
->  arch/m68k/kernel/syscalls/syscall.tbl         |  1 +
->  arch/microblaze/kernel/syscalls/syscall.tbl   |  1 +
->  arch/mips/kernel/syscalls/syscall_n32.tbl     |  1 +
->  arch/mips/kernel/syscalls/syscall_n64.tbl     |  1 +
->  arch/mips/kernel/syscalls/syscall_o32.tbl     |  1 +
->  arch/parisc/kernel/syscalls/syscall.tbl       |  1 +
->  arch/powerpc/kernel/syscalls/syscall.tbl      |  1 +
->  arch/s390/kernel/syscalls/syscall.tbl         |  1 +
->  arch/sh/kernel/syscalls/syscall.tbl           |  1 +
->  arch/sparc/kernel/syscalls/syscall.tbl        |  1 +
->  arch/x86/entry/syscalls/syscall_32.tbl        |  1 +
->  arch/x86/entry/syscalls/syscall_64.tbl        |  1 +
->  arch/xtensa/kernel/syscalls/syscall.tbl       |  1 +
->  include/linux/mempolicy.h                     | 11 +++
->  include/linux/syscalls.h                      |  4 +
->  include/uapi/asm-generic/unistd.h             |  5 +-
->  kernel/sys_ni.c                               |  1 +
->  mm/mempolicy.c                                | 89 +++++++++++++++++++
->  24 files changed, 146 insertions(+), 6 deletions(-)
->=20
-> diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Docume=
-ntation/admin-guide/mm/numa_memory_policy.rst
-> index 5a6afecbb0d0..b864dd88b2d2 100644
-> --- a/Documentation/admin-guide/mm/numa_memory_policy.rst
-> +++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
-> @@ -408,9 +408,10 @@ follows:
->  Memory Policy APIs
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> -Linux supports 4 system calls for controlling memory policy.  These APIS
-> -always affect only the calling task, the calling task's address space, or
-> -some shared object mapped into the calling task's address space.
-> +Linux supports 5 system calls for controlling memory policy.  The first =
-four
-> +APIS affect only the calling task, the calling task's address space, or =
-some
-> +shared object mapped into the calling task's address space. The last one=
- can
-> +set the mempolicy of task specified in pidfd.
-> =20
->  .. note::
->     the headers that define these APIs and the parameter data types for
-> @@ -473,6 +474,20 @@ closest to which page allocation will come from. Spe=
-cifying the home node overri
->  the default allocation policy to allocate memory close to the local node=
- for an
->  executing CPU.
-> =20
-> +Set [pidfd Task] Memory Policy::
-> +
-> +        long sys_pidfd_set_mempolicy(int pidfd, int mode,
-> +                                     const unsigned long __user *nmask,
-> +                                     unsigned long maxnode,
-> +                                     unsigned int flags);
-> +
-> +Set's the [pidfd] task's "task/process memory policy". The pidfd argumen=
-t is
-> +a PID file descriptor (see pidfd_open(2) man page) that specifies the pr=
-ocess
-> +to which the mempolicy is to be applied. The flags argument is reserved =
-for
-> +future use; currently, this argument must be specified as 0. Please see =
-the
-> +set_mempolicy(2) man page for more details about other's arguments.
-> +
-> +
-> =20
->  Memory Policy Command Line Interface
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-The wording can be improved:
-
----- >8 ----
-
-diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Document=
-ation/admin-guide/mm/numa_memory_policy.rst
-index b864dd88b2d236..6df35bf4f960bd 100644
---- a/Documentation/admin-guide/mm/numa_memory_policy.rst
-+++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
-@@ -410,8 +410,8 @@ Memory Policy APIs
-=20
- Linux supports 5 system calls for controlling memory policy.  The first fo=
-ur
- APIS affect only the calling task, the calling task's address space, or so=
-me
--shared object mapped into the calling task's address space. The last one c=
-an
--set the mempolicy of task specified in pidfd.
-+shared object mapped into the calling task's address space. The last one
-+sets the mempolicy of task specified in the pidfd.
-=20
- .. note::
-    the headers that define these APIs and the parameter data types for
-@@ -481,11 +481,11 @@ Set [pidfd Task] Memory Policy::
-                                      unsigned long maxnode,
-                                      unsigned int flags);
-=20
--Set's the [pidfd] task's "task/process memory policy". The pidfd argument =
-is
--a PID file descriptor (see pidfd_open(2) man page) that specifies the proc=
-ess
--to which the mempolicy is to be applied. The flags argument is reserved for
--future use; currently, this argument must be specified as 0. Please see the
--set_mempolicy(2) man page for more details about other's arguments.
-+Sets the task/process memory policy for the [pidfd] task. The pidfd argume=
-nt
-+is a PID file descriptor (see pidfd_open(2) man page for details) that
-+specifies the process for which the mempolicy is applied to. The flags
-+argument is reserved for future use; currently, it must be specified as 0.
-+For the description of all other arguments, see set_mempolicy(2) man page.
-=20
-=20
-=20
-
-Thanks.
-
---=20
+-- 
 An old man doll... just what I always wanted! - Clara
 
---kr4kyCS+bdnKay0q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY0Y/nAAKCRD2uYlJVVFO
-oy70AP4wEUgCFmmVfoPF+Ih5oXK6spLPS9lHk0Dk31CIgVAE7wEAgMChcWW248/J
-DbLqTdkHQzGWPrcJVo3ID2vm6Zz2MgQ=
-=8XfN
------END PGP SIGNATURE-----
-
---kr4kyCS+bdnKay0q--
