@@ -2,145 +2,327 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30796C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 21:29:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B111EC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 21:31:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229913AbiJLV3b convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Oct 2022 17:29:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59548 "EHLO
+        id S229484AbiJLVbl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Oct 2022 17:31:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230206AbiJLV3S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 17:29:18 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE93D120ED0
-        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 14:29:08 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-269-WPghBqosPyeNkdeVSYELTw-1; Wed, 12 Oct 2022 22:29:04 +0100
-X-MC-Unique: WPghBqosPyeNkdeVSYELTw-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Wed, 12 Oct
- 2022 22:29:02 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.040; Wed, 12 Oct 2022 22:29:02 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Joe Perches' <joe@perches.com>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-sctp@vger.kernel.org" <linux-sctp@vger.kernel.org>,
-        "target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
-        "dev@openvswitch.org" <dev@openvswitch.org>,
-        "rds-devel@oss.oracle.com" <rds-devel@oss.oracle.com>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "dccp@vger.kernel.org" <dccp@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
-        "lvs-devel@vger.kernel.org" <lvs-devel@vger.kernel.org>,
-        "SHA-cyfmac-dev-list@infineon.com" <SHA-cyfmac-dev-list@infineon.com>,
-        "coreteam@netfilter.org" <coreteam@netfilter.org>,
-        "tipc-discussion@lists.sourceforge.net" 
-        <tipc-discussion@lists.sourceforge.net>,
-        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-actions@lists.infradead.org" 
-        <linux-actions@lists.infradead.org>,
-        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "linux-hams@vger.kernel.org" <linux-hams@vger.kernel.org>,
-        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "cake@lists.bufferbloat.net" <cake@lists.bufferbloat.net>,
-        "brcm80211-dev-list.pdl@broadcom.com" 
-        <brcm80211-dev-list.pdl@broadcom.com>,
-        "linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-f2fs-devel@lists.sourceforge.net" 
-        <linux-f2fs-devel@lists.sourceforge.net>,
-        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-        "netfilter-devel@vger.kernel.org" <netfilter-devel@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
-Subject: RE: [PATCH v1 3/5] treewide: use get_random_u32() when possible
-Thread-Topic: [PATCH v1 3/5] treewide: use get_random_u32() when possible
-Thread-Index: AQHY3m9QJDmwhr5XuUa4Hi/RfD23ja4LRXVg
-Date:   Wed, 12 Oct 2022 21:29:02 +0000
-Message-ID: <d45bd258e033453b85a137112e7694e1@AcuMS.aculab.com>
-References: <20221005214844.2699-1-Jason@zx2c4.com>
-         <20221005214844.2699-4-Jason@zx2c4.com>
- <f8ad3ba44d28dec1a5f7626b82c5e9c2aeefa729.camel@perches.com>
-In-Reply-To: <f8ad3ba44d28dec1a5f7626b82c5e9c2aeefa729.camel@perches.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S229569AbiJLVbV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 17:31:21 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A033120ED0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 14:31:12 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id s20so27599320lfi.11
+        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 14:31:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/vtsL+SJW5+Z8e/Kz7maN7WMp4/x7JXeXSoVKvjOpbw=;
+        b=G5aCYdEbuv1EYUsVsGqOuNHw3Cbhvd0hMPjf1I3EgBMwk3Wbc5WVXN4EsjLeeKoOUm
+         s2s0AC53B8ePOA2bvtFQWCQ3vhkRC6YRBsCDOIuazE6qbeF3EtVsF8nBhYNte6JF5PMX
+         d47sqTrLZBJNJe4me9u3O0t5ZF6F7YFFgqWeYr2fCSJo45opEHdNEe3fbZ2vTJ48b2Nu
+         FOsu3KXoaGPv1g2tnm52KHJbq9O3KKfzodHn82M/sF1XJAwAolsfYYObLDObi0Hn3N1L
+         ymsB3OXO+QckKfDqQaYw6L0PsVmJXpwcpfwQrYMeB2FtA6+Ii/FvZLgPA/5td2G0KcBL
+         faSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/vtsL+SJW5+Z8e/Kz7maN7WMp4/x7JXeXSoVKvjOpbw=;
+        b=VVNzOoZpRXDZ8kJgnxhDMGhf1SCOtOcB2DcsDogP8XCwbS9H34+MBsAz+veeyiC9I2
+         eHYjKfewk+N1zIdWqQf0SmT2hyEWoVobupum9lqtR/AoeQQoRewjO51NIi0KMDyk4OuA
+         gEwH4NUmI62j6PBwzZpMATu9I8CX0jlY5kpF1vj5gh53GUidlnrXr8bQ1Alck6UGt/be
+         UOQVmHdNEKMe0290HFzwLYt6xAMKkFCZ0syUyU+1gss94bikYoeraPAMILj8PjgGjHfy
+         IlrJI7WBSVB7fehvzP4OHqmQUZ/ZMUcVK+yiaIgUIFcmN3+86CeSEf6u8Y7cuIoD4XI8
+         dq8A==
+X-Gm-Message-State: ACrzQf0v/7S6L+3w7ZzHypWR3gUn19Ynsw5vPuJgNDKBHCbCxodXH8nV
+        J61cczQ1dcj9cVFj7rNdPVVaWA==
+X-Google-Smtp-Source: AMsMyM4QY82LO0GQ02CQAhrVMgcMaWmZZnVEd3KSEcOD6+H6kGFu/NgT0e9K1tVCDFBPfd4pHHaGhw==
+X-Received: by 2002:ac2:4c82:0:b0:4a0:5825:a0ac with SMTP id d2-20020ac24c82000000b004a05825a0acmr10686645lfl.660.1665610270742;
+        Wed, 12 Oct 2022 14:31:10 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+        by smtp.gmail.com with ESMTPSA id s8-20020a056512202800b00498f3ebffb2sm121400lfs.25.2022.10.12.14.31.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Oct 2022 14:31:10 -0700 (PDT)
+Message-ID: <5d5a4127-cf5e-3fd4-6583-fbeab94b5327@linaro.org>
+Date:   Thu, 13 Oct 2022 00:31:09 +0300
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v5 05/13] virt: gunyah: Add hypercalls to identify Gunyah
+Content-Language: en-GB
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221011000840.289033-1-quic_eberman@quicinc.com>
+ <20221011000840.289033-6-quic_eberman@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20221011000840.289033-6-quic_eberman@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Joe Perches
-> Sent: 12 October 2022 20:17
+On 11/10/2022 03:08, Elliot Berman wrote:
+> Add hypercalls to identify when Linux is running a virtual machine under
+> Gunyah.
 > 
-> On Wed, 2022-10-05 at 23:48 +0200, Jason A. Donenfeld wrote:
-> > The prandom_u32() function has been a deprecated inline wrapper around
-> > get_random_u32() for several releases now, and compiles down to the
-> > exact same code. Replace the deprecated wrapper with a direct call to
-> > the real function.
-> []
-> > diff --git a/drivers/infiniband/hw/cxgb4/cm.c b/drivers/infiniband/hw/cxgb4/cm.c
-> []
-> > @@ -734,7 +734,7 @@ static int send_connect(struct c4iw_ep *ep)
-> >  				   &ep->com.remote_addr;
-> >  	int ret;
-> >  	enum chip_type adapter_type = ep->com.dev->rdev.lldi.adapter_type;
-> > -	u32 isn = (prandom_u32() & ~7UL) - 1;
-> > +	u32 isn = (get_random_u32() & ~7UL) - 1;
+> There are two calls to help identify Gunyah:
 > 
-> trivia:
+> 1. gh_hypercall_get_uid() returns a UID when running under a Gunyah
+>     hypervisor.
+> 2. gh_hypercall_hyp_identify() returns build information and a set of
+>     feature flags that are supported by Gunyah.
 > 
-> There are somewhat odd size mismatches here.
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> ---
+>   MAINTAINERS                   |  2 +
+>   arch/arm64/Kbuild             |  1 +
+>   arch/arm64/gunyah/Makefile    |  2 +
+>   arch/arm64/gunyah/hypercall.c | 71 +++++++++++++++++++++++++++++++++++
+>   drivers/virt/Kconfig          |  1 +
+>   drivers/virt/gunyah/Kconfig   | 13 +++++++
+>   include/asm-generic/gunyah.h  | 36 ++++++++++++++++++
+>   7 files changed, 126 insertions(+)
+>   create mode 100644 arch/arm64/gunyah/Makefile
+>   create mode 100644 arch/arm64/gunyah/hypercall.c
+>   create mode 100644 drivers/virt/gunyah/Kconfig
 > 
-> I had to think a tiny bit if random() returned a value from 0 to 7
-> and was promoted to a 64 bit value then truncated to 32 bit.
-> 
-> Perhaps these would be clearer as ~7U and not ~7UL
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4fe8cec61551..ed2bc98c3818 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8886,6 +8886,8 @@ L:	linux-arm-msm@vger.kernel.org
+>   S:	Supported
+>   F:	Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+>   F:	Documentation/virt/gunyah/
+> +F:	arch/arm64/gunyah/
+> +F:	drivers/virt/gunyah/
+>   F:	include/asm-generic/gunyah.h
+>   
+>   HABANALABS PCI DRIVER
+> diff --git a/arch/arm64/Kbuild b/arch/arm64/Kbuild
+> index 5bfbf7d79c99..e4847ba0e3c9 100644
+> --- a/arch/arm64/Kbuild
+> +++ b/arch/arm64/Kbuild
+> @@ -3,6 +3,7 @@ obj-y			+= kernel/ mm/ net/
+>   obj-$(CONFIG_KVM)	+= kvm/
+>   obj-$(CONFIG_XEN)	+= xen/
+>   obj-$(subst m,y,$(CONFIG_HYPERV))	+= hyperv/
+> +obj-$(CONFIG_GUNYAH)	+= gunyah/
+>   obj-$(CONFIG_CRYPTO)	+= crypto/
+>   
+>   # for cleaning
+> diff --git a/arch/arm64/gunyah/Makefile b/arch/arm64/gunyah/Makefile
+> new file mode 100644
+> index 000000000000..f71a9533c266
+> --- /dev/null
+> +++ b/arch/arm64/gunyah/Makefile
+> @@ -0,0 +1,2 @@
+> +obj-$(CONFIG_GUNYAH) += gunyah_hypercall.o
+> +gunyah_hypercall-y += hypercall.o
 
-That makes no difference - the compiler will generate the same code.
+You don't have to do this. Just rename your source file to 
+gunyah_hypercall.c
 
-The real question is WTF is the code doing?
-The '& ~7u' clears the bottom 3 bits.
-The '- 1' then sets the bottom 3 bits and decrements the
-(random) high bits.
+> diff --git a/arch/arm64/gunyah/hypercall.c b/arch/arm64/gunyah/hypercall.c
+> new file mode 100644
+> index 000000000000..5b08c9d80de0
+> --- /dev/null
+> +++ b/arch/arm64/gunyah/hypercall.c
+> @@ -0,0 +1,71 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include <linux/arm-smccc.h>
+> +#include <linux/module.h>
+> +#include <asm-generic/gunyah.h>
+> +
+> +#define GH_CALL_TYPE_PLATFORM_CALL		0
+> +#define GH_CALL_TYPE_HYPERCALL			2
+> +#define GH_CALL_TYPE_SERVICE			3
+> +#define GH_CALL_TYPE_SHIFT			14
+> +#define GH_CALL_FUNCTION_NUM_MASK		0x3fff
+> +
+> +#define GH_SERVICE(fn)		ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32, \
+> +						   ARM_SMCCC_OWNER_VENDOR_HYP, \
+> +						   (GH_CALL_TYPE_SERVICE << GH_CALL_TYPE_SHIFT) \
+> +							| ((fn) & GH_CALL_FUNCTION_NUM_MASK))
 
-So is the same as get_random_u32() | 7.
-But I bet the coder had something else in mind.
+Add a #define for (GH_CALL_TYPE_SERVICE << GH_CALL_TYPE_SHIFT) | ((fn) & 
+GH_CALL_FUNCTION_NUM_MASK)), then use it here and below.
 
-	David
+> +
+> +#define GH_HYPERCALL_CALL_UID			GH_SERVICE(0x3f01)
+> +
+> +#define GH_HYPERCALL(fn)	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_64, \
+> +						   ARM_SMCCC_OWNER_VENDOR_HYP, \
+> +						   (GH_CALL_TYPE_HYPERCALL << GH_CALL_TYPE_SHIFT) \
+> +							| ((fn) & GH_CALL_FUNCTION_NUM_MASK))
+> +
+> +#define GH_HYPERCALL_HYP_IDENTIFY		GH_HYPERCALL(0x0000)
+> +
+> +/**
+> + * gh_hypercall_get_uid() - Returns a UID when running under a Gunyah hypervisor.
+> + * @uid: An array of 4 u32's (u32 uid[4];)
+> + *
+> + * The UID will be either QC_HYP_UID or GUNYAH_UID defined in include/asm-generic/gunyah.h.
+> + * QC_HYP_UID is returned on platforms using Qualcomm's version of Gunyah.
+> + * GUNYAH_UID is returned on platforms using open source version of Gunyah.
+> + * If the uid is not one of the above two UIDs, then it is assumed that the hypervisor or firmware
+> + * is not Gunyah.
+> + */
+> +void gh_hypercall_get_uid(u32 *uid)
+> +{
+> +	struct arm_smccc_res res;
+> +
+> +	arm_smccc_1_1_hvc(GH_HYPERCALL_CALL_UID, &res);
+> +
+> +	uid[0] = res.a0;
+> +	uid[1] = res.a1;
+> +	uid[2] = res.a2;
+> +	uid[3] = res.a3;
+> +}
+> +EXPORT_SYMBOL_GPL(gh_hypercall_get_uid);
+> +
+> +/**
+> + * gh_hypercall_hyp_identify() - Returns build information and feature flags supported by Gunyah.
+> + * @hyp_identify: filled by the hypercall with the API info and feature flags.
+> + */
+> +void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identity)
+> +{
+> +	struct arm_smccc_res res;
+> +
+> +	arm_smccc_1_1_hvc(GH_HYPERCALL_HYP_IDENTIFY, &res);
+> +
+> +	hyp_identity->api_info = res.a0;
+> +	hyp_identity->flags[0] = res.a1;
+> +	hyp_identity->flags[1] = res.a2;
+> +	hyp_identity->flags[2] = res.a3;
+> +}
+> +EXPORT_SYMBOL_GPL(gh_hypercall_hyp_identify);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("Gunyah Hypervisor Hypercalls");
+> diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
+> index 87ef258cec64..259dc2be6cad 100644
+> --- a/drivers/virt/Kconfig
+> +++ b/drivers/virt/Kconfig
+> @@ -52,4 +52,5 @@ source "drivers/virt/coco/efi_secret/Kconfig"
+>   
+>   source "drivers/virt/coco/sev-guest/Kconfig"
+>   
+> +source "drivers/virt/gunyah/Kconfig"
+>   endif
+> diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
+> new file mode 100644
+> index 000000000000..7ac917e0aa3f
+> --- /dev/null
+> +++ b/drivers/virt/gunyah/Kconfig
+> @@ -0,0 +1,13 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +config GUNYAH
+> +	tristate "Gunyah Virtualization drivers"
+> +	depends on ARM64
+> +	select AUXILIARY_BUS
+> +	help
+> +	  The Gunyah drivers are the helper interfaces that runs in a guest VM
+> +	  such as basic inter-VM IPC and signaling mechanisms, and higher level
+> +	  services such as memory/device sharing, IRQ sharing, and so on.
+> +
+> +	  Say Y/M here to enable the drivers needed to interact in a Gunyah
+> +	  virtual environment.
+> diff --git a/include/asm-generic/gunyah.h b/include/asm-generic/gunyah.h
+> index 64a02dd3b5ad..86eb59e203ef 100644
+> --- a/include/asm-generic/gunyah.h
+> +++ b/include/asm-generic/gunyah.h
+> @@ -71,4 +71,40 @@ static inline int gh_remap_error(int gh_error)
+>   	}
+>   }
+>   
+> +#define QC_HYP_UID0 0x19bd54bd
+> +#define QC_HYP_UID1 0x0b37571b
+> +#define QC_HYP_UID2 0x946f609b
+> +#define QC_HYP_UID3 0x54539de6
+> +
+> +#define GUNYAH_UID0 0x673d5f14
+> +#define GUNYAH_UID1 0x9265ce36
+> +#define GUNYAH_UID2 0xa4535fdb
+> +#define GUNYAH_UID3 0xc1d58fcd
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+It would be better to define them as arrays
+
+> +
+> +#define gh_uid_matches(prefix, uid)	\
+> +	((uid)[0] == prefix ## _UID0 && (uid)[1] == prefix ## _UID1 && \
+> +	 (uid)[2] == prefix ## _UID2 && (uid)[3] == prefix ## _UID3)
+
+... then you could do memcmp() here.
+
+> +
+> +#define GH_API_INFO_API_VERSION(x)	(((x) >> 0) & 0x3fff)
+
+No need to >> 0. And also you can use FIELD_GET to ease review.
+
+> +#define GH_API_INFO_BIG_ENDIAN(x)	(((x) >> 14) & 1)
+> +#define GH_API_INFO_IS_64BIT(x)		(((x) >> 15) & 1)
+> +#define GH_API_INFO_VARIANT(x)		(((x) >> 56) & 0xff)
+
+Use FIELD_GET here.
+
+> +
+> +#define GH_IDENTIFY_PARTITION_CSPACE(flags)	(((flags)[0] >> 0) & 1)
+> +#define GH_IDENTIFY_DOORBELL(flags)		(((flags)[0] >> 1) & 1)
+> +#define GH_IDENTIFY_MSGQUEUE(flags)		(((flags)[0] >> 2) & 1)
+> +#define GH_IDENTIFY_VIC(flags)			(((flags)[0] >> 3) & 1)
+> +#define GH_IDENTIFY_VPM(flags)			(((flags)[0] >> 4) & 1)
+> +#define GH_IDENTIFY_VCPU(flags)			(((flags)[0] >> 5) & 1)
+> +#define GH_IDENTIFY_MEMEXTENT(flags)		(((flags)[0] >> 6) & 1)
+> +#define GH_IDENTIFY_TRACE_CTRL(flags)		(((flags)[0] >> 7) & 1)
+
+Ugh. #define GH_IDENTIFY_DOORBELLflags)  (flags & BIT(1)), etc.
+
+> +
+> +struct gh_hypercall_hyp_identify_resp {
+> +	u64 api_info;
+> +	u64 flags[3];
+> +};
+> +
+> +void gh_hypercall_get_uid(u32 *uid);
+> +void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identity);
+> +
+>   #endif
+
+-- 
+With best wishes
+Dmitry
 
