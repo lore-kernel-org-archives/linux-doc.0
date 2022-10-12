@@ -2,131 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9780C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 16:23:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1FF4C43217
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 16:51:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229964AbiJLQXQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Oct 2022 12:23:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54168 "EHLO
+        id S229908AbiJLQvX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Oct 2022 12:51:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230016AbiJLQXJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 12:23:09 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 886E9F41A5;
-        Wed, 12 Oct 2022 09:22:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AE4426153D;
-        Wed, 12 Oct 2022 16:22:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92F2FC433D7;
-        Wed, 12 Oct 2022 16:22:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1665591767;
-        bh=UjNgOOyW8/JL74ooqVzEOOqGR0npOCxfJs6SbJ73/wI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=l46iHQyNjBQ6EU86JIYM2uyZ18tQwF/6wGiGuRSEzRyPeOOiJday862Gc4rb6DLWs
-         VZiLZ0oE286XiZ9XGG8TvG0FWkLm+BkFQPeIH206m/CCWU5i8m13MNF9ICuNxNz7fw
-         /NVgy9W5SpN3W6kWvx/8RIojMjHSjfAdBJWw5EyQ=
-Date:   Wed, 12 Oct 2022 18:23:31 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v14 1/3] x86/tdx: Make __tdx_module_call() usable in
- driver module
-Message-ID: <Y0bqA8+Xi1kLchxh@kroah.com>
-References: <20220928215535.26527-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220928215535.26527-2-sathyanarayanan.kuppuswamy@linux.intel.com>
- <Y0aUb3n7ouaeAt2a@zn.tnic>
- <acc212d6-782b-a398-825a-212849beba00@linux.intel.com>
- <Y0bOtzlrkKzHmQVZ@zn.tnic>
- <6759025f-fc08-74f0-efd7-2331110dec0c@linux.intel.com>
+        with ESMTP id S229846AbiJLQvX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 12:51:23 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B380E3102
+        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 09:51:21 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id z97so25280130ede.8
+        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 09:51:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fc9aPWwlaDEIemVAkXQodWBJZdXQzUAWkTmFVV68fY0=;
+        b=PPRbtC3X/dWkdaga6/ZZnmIo4zcpZu7mj0OcnoRXqs6WmgIly9BfuRMrykKi5WXuUo
+         zp7G8XeQ5wr7tWraiJqb6btLJG3syUDC/jLP34XdlSXQW9Lm3OdHhCPiyyYF8UK63D4F
+         +yt8q8wn3jWDB9WU56jVz+4tlIgB6VL43rK19Y7R95YF0V6CjN75KIswYQ5ij5VWiH9V
+         ESJNx08v8EVbXB4x/8jSqSVgU0oTzd4OTRzGdf7BYc2uaBlfHGBHWa1628VAXJpY60u7
+         PKtVuXkyUa8hjIsOEJj4cv4d6Q/Erc2WxmOJ5LkB3mjtVl2i0d5cou2SP7beeVmRvLfi
+         dk2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fc9aPWwlaDEIemVAkXQodWBJZdXQzUAWkTmFVV68fY0=;
+        b=CVd7/cdhvZnoTnvIEXQ2pu3fKhoqK+C+4qgxazmMv8NIXWEn6nbrsFdkcyVEtIrcb9
+         76lb8AS9FvXIlYeLTsB0YKp5rHHGgIQ5GFMiE+UuNDEHB++inMmd8yIIU0MyTaL3KLRy
+         G+/ezCWESJS4UbL11u7GI8IJkaKgexjLNeVfQ/sbTyxiPWUqjBhpjreXw1KUU+nBPizP
+         6HocX4MB/cKgrKkoRDmOpwCTQPzBUKA7Q9z+Ll9xbphOW79ILNgBVm0xb7VYZ2lai9Mz
+         mcGkHF9JiSwRj7Sd1gTjJtSAXPl4rCsjmSHE02PudCI+EWpSA8od2cunIAKQv3DNCmAR
+         zAuA==
+X-Gm-Message-State: ACrzQf3nWYLMqxK4Zx/kG8OraL8VKn+nQ8oaZ6PBppcTgXHisvbYlrUI
+        qIkoXOvQ7GWuGoiw0YHTuxiDSXKVBckQsk4Kl2A2Dg==
+X-Google-Smtp-Source: AMsMyM4mL2KbEj1uyd6HS/gLki+zY4bv0j6z+PgMy4GA07O6RzxRDklOcj0SEXaDCbIgjXU1aL+3ME+x2P0sKt5Piqk=
+X-Received: by 2002:a05:6402:d6c:b0:458:ef3d:5926 with SMTP id
+ ec44-20020a0564020d6c00b00458ef3d5926mr28667061edb.54.1665593479938; Wed, 12
+ Oct 2022 09:51:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6759025f-fc08-74f0-efd7-2331110dec0c@linux.intel.com>
+References: <20221010094842.4123037-1-hezhongkun.hzk@bytedance.com>
+ <CAPTztWYTGOb8ZQzfgThqJn+fyi4ZB8=JQQZi5_rUoDhdftKtvg@mail.gmail.com>
+ <Y0WE/lEiNvl2ljo1@dhcp22.suse.cz> <CAPTztWZZOxtzdEm=wbOiL_VDPJuCaW0XVCvsdRpCHE+ph+5eZQ@mail.gmail.com>
+ <Y0XEAUD9Ujcu/j8y@dhcp22.suse.cz> <CAEZ6=UOA6=ikSdxN662xyhT3wauGuqZReKLOb=_9EmSRckNr=Q@mail.gmail.com>
+In-Reply-To: <CAEZ6=UOA6=ikSdxN662xyhT3wauGuqZReKLOb=_9EmSRckNr=Q@mail.gmail.com>
+From:   Frank van der Linden <fvdl@google.com>
+Date:   Wed, 12 Oct 2022 09:51:08 -0700
+Message-ID: <CAPTztWZec=aakACy=1VaKOZ0nTbqvY_D+f2xEy0s+sfHL3wXMQ@mail.gmail.com>
+Subject: Re: [RFC] mm: add new syscall pidfd_set_mempolicy()
+To:     Vinicius Petrucci <vpetrucci@gmail.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Zhongkun He <hezhongkun.hzk@bytedance.com>, corbet@lwn.net,
+        akpm@linux-foundation.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, wuyun.abel@bytedance.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 12, 2022 at 08:44:04AM -0700, Sathyanarayanan Kuppuswamy wrote:
-> 
-> 
-> On 10/12/22 7:27 AM, Borislav Petkov wrote:
-> > On Wed, Oct 12, 2022 at 06:35:56AM -0700, Sathyanarayanan Kuppuswamy wrote:
-> >> So we should create a new wrapper for this use case or use
-> > 
-> > Yes, you got it - a new wrapper pls.
-> 
-> Ok. I will add a new wrapper to get the TDREPORT. 
-> 
-> +/*
-> 
-> + * Add a wrapper for TDG.MR.REPORT TDCALL. It is used in TDX guest
-> 
-> + * driver module to get the TDREPORT.
-> 
-> + */
-> 
-> +long tdx_mcall_get_report(void *reportdata, void *tdreport, u8 subtype)
+On Wed, Oct 12, 2022 at 5:34 AM Vinicius Petrucci <vpetrucci@gmail.com> wrote:
+>
+> > Well, per address range operation is a completely different beast I
+> > would say. External tool would need to a) understand what that range is
+> > used for (e.g. stack/heap ranges, mmaped shared files like libraries or
+> > private mappings) and b) by in sync with memory layout modifications
+> > done by applications (e.g. that an mmap has been issued to back malloc
+> > request). Quite a lot of understanding about the specific process. I
+> > would say that with that intimate knowledge it is quite better to be
+> > part of the process and do those changes from within of the process
+> > itself.
+>
+> Sorry, this may be a digression, but just wanted to mention a
+> particular use case from a project I recently collaborated on (to
+> appear next month at IIWSC 2022:
+> http://www.iiswc.org/iiswc2022/index.html).
+>
+> We carried out a performance analysis of the latest Linux AutoNUMA
+> memory tiering on graph processing applications. We noticed that hot
+> pages cannot be properly identified by the reactive approach used by
+> AutoNUMA due to irregular/random memory access patterns. Thus, as a
+> POC, we implemented and evaluated a simple idea of having an external
+> user-level process/agent that, based on prior profiling results of
+> memory regions, could make more effectively memory chunk/object-based
+> mappings (instead of page-level allocation/migration) in advance on
+> either DRAM or CXL/PMEM (via mbind calls). This kind of tiering
+> solution could deliver up to 2x more performance for graph analytics
+> workloads. We plan to evaluate other workloads as well.
+>
+> Having a feature like "pidfd/process_mbind" would really simplify our
+> user-level agent implementation moving forward, as right now we are
+> adding a LD_PRELOAD wrapper (for signal handler) to listen and execute
+> "mbind" requests from another process. If there's any other
+> alternative solution to this already (via ptrace?), please let me
+> know.
+>
 
-Why "long"?
+Interesting, looking forward to seeing your paper! This is the kind of
+use case I was trying to describe for pidfd_mbind() - a userspace
+orchestrator with some intimate knowledge of the process' memory
+layout (through profiling, like in your case, or otherwise), that can
+direct memory to the right nodes / memory tiers.
 
-Why void *?  Don't you have real types for these?
-
-
-
-> 
-> +{
-> 
-> +       if (subtype || !reportdata || !tdreport)
-> 
-> +               return -EINVAL;
-
-How could that happen if you control all callers?
-
-
-
-> 
-> +
-> 
-> +       /*
-> 
-> +        * Generate TDREPORT using "TDG.MR.REPORT" TDCALL.
-> 
-> +        *
-> 
-> +        * Get the TDREPORT using REPORTDATA as input. Refer to
-> 
-> +        * section 22.3.3 TDG.MR.REPORT leaf in the TDX Module 1.0
-> 
-> +        * specification for detailed information.
-> 
-> +        */
-> 
-> +       return __tdx_module_call(TDX_GET_REPORT, virt_to_phys(tdreport),
-> 
-> +                       virt_to_phys(reportdata), subtype, 0, NULL);
-
-If you check for NULL, why are you not validating that these are valid
-pointers as well?  You can't have it both ways.
-
-thanks,
-
-greg k-h
+- Frank
