@@ -2,106 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB095C43217
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 12:34:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51A10C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 12:38:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229815AbiJLMeu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Oct 2022 08:34:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54722 "EHLO
+        id S229852AbiJLMiy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Oct 2022 08:38:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229676AbiJLMep (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 08:34:45 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F574E099;
-        Wed, 12 Oct 2022 05:34:43 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id z20so16073791plb.10;
-        Wed, 12 Oct 2022 05:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NFBHoOeG3ghGeuO274+7fL8QgYjk7OYjm0X789Rsduk=;
-        b=ea0YD8TEwyHxV2D0ffzgep/rqf+7nMi89namwACoS79RTxlEuwazEaupSaJqkcaIhP
-         W5BWcaB16bI2AalWWeM36/ijmi76MRUFY7aE+d/m83LdlAGuSeOdwL8B2R/V3bBq09D9
-         /p9L55f7HaKlONLqq8N1ZWKJ1q0pPVZalzfB9xgVrbqqbJ2UP80VxhzsQBeZQH8MG8W7
-         tj9vvM6YOCEFNMOLHKTXyAPP2I/jI2I5CkkRJ2eiLYyAO9I1UCsDYvOEbPrH+obRCv6y
-         yxfwjE9IZYrkCpzlbrZ5DKX6wqB79ZqyomP7C1u83f7ty7IfaFl692KGlOqQrxAxxL2x
-         NZCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NFBHoOeG3ghGeuO274+7fL8QgYjk7OYjm0X789Rsduk=;
-        b=Nks8kibAKPMbWVzc5b7e3chQ7QPe9pT5mFf8KpS5nuGkgLZN0Icmc7JP5owG14X3Zo
-         rSBGNVniCtbhID85y8oBQNW3zrWLjNO6C6vZ1kQxTCFkS1wHL+GELY/OP7mcNx9fdTER
-         Bd2gF/pTpDKH4BGkqqYUTMe+umDqC+JEW4WsdMu+eXWTEqSD5YvEktwtIA3q7NWoBkbo
-         bttLygGuTiDPFphhu4703qWl7CM8UcVL8WyQZfOOWV91FkuF9zjc6Kq2KJJQy/jPosNz
-         +sP7xQ703nzPj5ZPBE69YrCMg4eObTQjpB5upvWOZ3yg+8u2HpAGygRTjrvZsO7ltLhB
-         z1eA==
-X-Gm-Message-State: ACrzQf1SZm1d0f8lsSRoZu4zSDciezKRv8bF9YefqLL4oUsX4zqsML2S
-        H5Ojfmpv0JxMlIoC8nePbihqIgKZKhcyr1wW98s=
-X-Google-Smtp-Source: AMsMyM7vomdIe7mnxwPdFaZGIzuDJHCoALDasxWDvWlwqR7qabo9kulZv+0PAH7jr/hGViyB7QrdwnPv3s0QAACNN94=
-X-Received: by 2002:a17:90b:4a4d:b0:20d:4dc7:fa72 with SMTP id
- lb13-20020a17090b4a4d00b0020d4dc7fa72mr4814262pjb.86.1665578083191; Wed, 12
- Oct 2022 05:34:43 -0700 (PDT)
+        with ESMTP id S229823AbiJLMix (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 08:38:53 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3FF0C697F;
+        Wed, 12 Oct 2022 05:38:52 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 462352DC;
+        Wed, 12 Oct 2022 12:38:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 462352DC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1665578332; bh=s8PqmBWF3mBVRrjgZVnrBttlirERX9+rbJQjRKhxk7I=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=oYcK1iX92ua1zn5YXiQ1m0+B/TFTNcCXCX+jMxKzTCxRUkr7mnSN6NTIJmHdgqHMY
+         VGky22OdA1kI3juA3Qq1bOPrNUKPu1NoqUB2OugU4jiguQvbZpAXCesxMWAm5LQil0
+         hZqvU7CAnYVWL7c6XbuF01xAgPq9xso4epjrXalKWpCScv6a49qJMWXQkdbFNUMk+O
+         f8dC8shOQWfHupmnSuJrNOi3l8AkrprEmSS1dE600w7bRCgBMemS6OUrEdqcEnIvGJ
+         wajG8sYeGjnAv3o8s9pAwHVldSu9OG2y5n/+9swUPuKN83Ij3t2rKnwvzjLPJhXwBj
+         NSE0I+1iJUYTw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v2 0/6] docs: Improvements to our HTML output
+In-Reply-To: <3c65451e-c9bf-55ea-02af-f375346c955a@gmail.com>
+References: <20221011190047.749145-1-corbet@lwn.net>
+ <3c65451e-c9bf-55ea-02af-f375346c955a@gmail.com>
+Date:   Wed, 12 Oct 2022 06:38:51 -0600
+Message-ID: <87h709md2c.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20221010094842.4123037-1-hezhongkun.hzk@bytedance.com>
- <CAPTztWYTGOb8ZQzfgThqJn+fyi4ZB8=JQQZi5_rUoDhdftKtvg@mail.gmail.com>
- <Y0WE/lEiNvl2ljo1@dhcp22.suse.cz> <CAPTztWZZOxtzdEm=wbOiL_VDPJuCaW0XVCvsdRpCHE+ph+5eZQ@mail.gmail.com>
- <Y0XEAUD9Ujcu/j8y@dhcp22.suse.cz>
-In-Reply-To: <Y0XEAUD9Ujcu/j8y@dhcp22.suse.cz>
-From:   Vinicius Petrucci <vpetrucci@gmail.com>
-Date:   Wed, 12 Oct 2022 07:34:06 -0500
-Message-ID: <CAEZ6=UOA6=ikSdxN662xyhT3wauGuqZReKLOb=_9EmSRckNr=Q@mail.gmail.com>
-Subject: Re: [RFC] mm: add new syscall pidfd_set_mempolicy()
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Frank van der Linden <fvdl@google.com>,
-        Zhongkun He <hezhongkun.hzk@bytedance.com>, corbet@lwn.net,
-        akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, wuyun.abel@bytedance.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Well, per address range operation is a completely different beast I
-> would say. External tool would need to a) understand what that range is
-> used for (e.g. stack/heap ranges, mmaped shared files like libraries or
-> private mappings) and b) by in sync with memory layout modifications
-> done by applications (e.g. that an mmap has been issued to back malloc
-> request). Quite a lot of understanding about the specific process. I
-> would say that with that intimate knowledge it is quite better to be
-> part of the process and do those changes from within of the process
-> itself.
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-Sorry, this may be a digression, but just wanted to mention a
-particular use case from a project I recently collaborated on (to
-appear next month at IIWSC 2022:
-http://www.iiswc.org/iiswc2022/index.html).
+> Hmm, I can't cleanly apply this patch series on top of either Linus's tree
+> or linux-next due to conflicts on [1/6]. On what commit this series is based
+> on?
 
-We carried out a performance analysis of the latest Linux AutoNUMA
-memory tiering on graph processing applications. We noticed that hot
-pages cannot be properly identified by the reactive approach used by
-AutoNUMA due to irregular/random memory access patterns. Thus, as a
-POC, we implemented and evaluated a simple idea of having an external
-user-level process/agent that, based on prior profiling results of
-memory regions, could make more effectively memory chunk/object-based
-mappings (instead of page-level allocation/migration) in advance on
-either DRAM or CXL/PMEM (via mbind calls). This kind of tiering
-solution could deliver up to 2x more performance for graph analytics
-workloads. We plan to evaluate other workloads as well.
+docs-next, which is still running off the pre-6.0 base until after the
+merge window closes.
 
-Having a feature like "pidfd/process_mbind" would really simplify our
-user-level agent implementation moving forward, as right now we are
-adding a LD_PRELOAD wrapper (for signal handler) to listen and execute
-"mbind" requests from another process. If there's any other
-alternative solution to this already (via ptrace?), please let me
-know.
+If I need to post another round before merging I'll drag everything
+forward to a more current base.
 
-Thank you!
+Thanks,
 
-Vinicius Petrucci
-Principal Performance Engineer
-Micron Technology
+jon
