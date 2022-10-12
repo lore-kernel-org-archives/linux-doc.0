@@ -2,116 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80795C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 16:54:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E37CC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 17:13:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229557AbiJLQyZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Oct 2022 12:54:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59382 "EHLO
+        id S229633AbiJLRNy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Oct 2022 13:13:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbiJLQyW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 12:54:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59604E0729
-        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 09:54:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665593660;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Qoy7AAHiT4kxg+sBg7GCQnX3x7hXvCR1aAfKGHjNP8Q=;
-        b=L7zKK8W5qJEDp205ugfx7NkKXBkqf3BhMiC+iUlFnf/qgDto80ceGQ+ya5XBuzPA1St9KF
-        0eEXI4nsfEqn/ON/ekAia7TtIxGN3WZkqDZ7C5AIa0Yww8K/kyEIHdvxWMMJpupjCDsl00
-        6GKo6+AVUAWNLcjFPP7BUzcg67x6re0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-YWRLYSt9O42ciCepQ4HeNw-1; Wed, 12 Oct 2022 12:54:17 -0400
-X-MC-Unique: YWRLYSt9O42ciCepQ4HeNw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A49E185A792;
-        Wed, 12 Oct 2022 16:54:15 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.39.192.47])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8BB8640FF71C;
-        Wed, 12 Oct 2022 16:54:07 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v2 01/39] Documentation/x86: Add CET description
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
-        <20220929222936.14584-2-rick.p.edgecombe@intel.com>
-        <87ilkr27nv.fsf@oldenburg.str.redhat.com>
-        <62481017bc02b35587dd520ed446a011641aa390.camel@intel.com>
-        <87v8opz0me.fsf@oldenburg.str.redhat.com>
-        <e3c3d68d-ce99-a70a-1026-0ba99520ae57@intel.com>
-Date:   Wed, 12 Oct 2022 18:54:06 +0200
-In-Reply-To: <e3c3d68d-ce99-a70a-1026-0ba99520ae57@intel.com> (Dave Hansen's
-        message of "Wed, 12 Oct 2022 08:59:51 -0700")
-Message-ID: <87y1tlx9sh.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        with ESMTP id S229682AbiJLRNx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 13:13:53 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94A93D01BC;
+        Wed, 12 Oct 2022 10:13:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665594832; x=1697130832;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=5AypYc3AW7F2/JVN1iJBlrdGf41ivSlrbab+mN5eDQk=;
+  b=SgLm+UrzyiIVn0hJvtgLK8yICRdzlpzXJTAoVvaOeDuT4Dlq+jynaAL2
+   OnwRenPLK6caLH4gpBEGX9ZVtn1MYhz8+95rFMup+aQuCJE3jhgo3gaQy
+   9faDBxB9glrwU3g7gG/JHpqx49mQzqF1/w2EspQmy5ah5GIhCvJf+8hmu
+   3+xYXVmgIxo5EzEs1tWgqjYZAcD1+moEyJO67qvaDce4SlsOVdV8L21U3
+   +1/jpHgPOV1mXwLhxzgITsaWO5DTC3n/iBNR4KAhsQ6RaHjIygWZ2IE7y
+   GWPIgudECX948LwQqjILoyt7k+fJop0+UIV4L4Q/D1BNH7aPdFWKV4a+k
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="284580989"
+X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; 
+   d="scan'208";a="284580989"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2022 10:13:52 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="955833736"
+X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; 
+   d="scan'208";a="955833736"
+Received: from jbrolli1-mobl.amr.corp.intel.com (HELO [10.212.174.189]) ([10.212.174.189])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2022 10:13:51 -0700
+Message-ID: <62ef9740-64f0-ee60-71fa-80cc90da435c@linux.intel.com>
+Date:   Wed, 12 Oct 2022 10:13:50 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PATCH v14 1/3] x86/tdx: Make __tdx_module_call() usable in
+ driver module
+Content-Language: en-US
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220928215535.26527-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20220928215535.26527-2-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <Y0aUb3n7ouaeAt2a@zn.tnic>
+ <acc212d6-782b-a398-825a-212849beba00@linux.intel.com>
+ <Y0bOtzlrkKzHmQVZ@zn.tnic>
+ <6759025f-fc08-74f0-efd7-2331110dec0c@linux.intel.com>
+ <Y0bqA8+Xi1kLchxh@kroah.com>
+From:   Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <Y0bqA8+Xi1kLchxh@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Dave Hansen:
+Hi,
 
-> On 10/12/22 05:29, Florian Weimer wrote:
->>> What did you think of the proposal to disable existing binaries and
->>> start from scratch? Elaborated in the coverletter in the section
->>> "Compatibility of Existing Binaries/Enabling Interface".
->> The ABI was finalized around four years ago, and we have shipped several
->> Fedora and Red Hat Enterprise Linux versions with it.  Other
->> distributions did as well.  It's a bit late to make changes now, and
->> certainly not for such trivialities. 
->
-> Just to be clear: You're saying that a user/kernel ABI was "finalized"
-> by glibc shipping the user side of it, before there being an upstream
-> kernel implementation?
+On 10/12/22 9:23 AM, Greg Kroah-Hartman wrote:
+> On Wed, Oct 12, 2022 at 08:44:04AM -0700, Sathyanarayanan Kuppuswamy wrote:
+>>
+>>
+>> On 10/12/22 7:27 AM, Borislav Petkov wrote:
+>>> On Wed, Oct 12, 2022 at 06:35:56AM -0700, Sathyanarayanan Kuppuswamy wrote:
+>>>> So we should create a new wrapper for this use case or use
+>>>
+>>> Yes, you got it - a new wrapper pls.
+>>
+>> Ok. I will add a new wrapper to get the TDREPORT. 
+>>
+>> +/*
+>>
+>> + * Add a wrapper for TDG.MR.REPORT TDCALL. It is used in TDX guest
+>>
+>> + * driver module to get the TDREPORT.
+>>
+>> + */
+>>
+>> +long tdx_mcall_get_report(void *reportdata, void *tdreport, u8 subtype)
+> 
+> Why "long"?
 
-Sorry for being unclear.  I was refering to the x86-64 ELF psABI
-supplement for CET, not the kernel/userspace interface, which still does
-not exist in its final form as of today, as far as I understand it.
+We used long because __tdx_module_call() call returns u64 value.
 
-Thanks,
-Florian
+Alternatively, we can also check for return value of __tdx_module_call() here
+and return 0/-EIO as return values. In this case we can change return value
+to int.
 
+> 
+> Why void *?  Don't you have real types for these?
+
+We use these buffers as an intermediary to transfer data between userspace and
+the TDX module. In the kernel we don't consume these datas. So we did not define
+the type of the data.
+
+> 
+> 
+> 
+>>
+>> +{
+>>
+>> +       if (subtype || !reportdata || !tdreport)
+>>
+>> +               return -EINVAL;
+> 
+> How could that happen if you control all callers?
+
+I have added it as a safety check against any incorrect usage in future. I
+will remove it.
+
+
+> 
+> thanks,
+> 
+> greg k-h
+
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
