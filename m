@@ -2,99 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 160D4C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 04:20:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 356A1C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 06:16:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbiJLEU5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Oct 2022 00:20:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45964 "EHLO
+        id S229621AbiJLGQr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Oct 2022 02:16:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229615AbiJLEU4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 00:20:56 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87B926AEA5;
-        Tue, 11 Oct 2022 21:20:55 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id c24so15171889plo.3;
-        Tue, 11 Oct 2022 21:20:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OrQZ7wkvPyfXPn4tQlrkO4jutsFSESCnUHTr1m5jM2w=;
-        b=jPZucRVcWRQhMERl9IZVh0eg7TIEQmvuraV8RToTzaUJc96lrJ9WFRkxYvjDFqcFKr
-         8Gno3FzzV64+/xmWdCXvtPJZdJ5z2Lypb8fp7G43pXxZXcaDeP6gkhUFLDCG/rIqAduk
-         SZAFcXsiLXfsqquWpvAdKI3sWnbAOhb7MmMb4dwD4TzKsOGWnrU6gQ2sNO9JQIzKypUa
-         zjJcWXrkmOMJt6t8Iv3lzWPaQAzEQyhBrRzt1+Y0dTexmmtlcEmIPMCVyDAIMz7TRQiD
-         AVZ65Zu+h9/TfpnqdSOmv351k4u9EvQ7MYsWZp6DEMUmh4ZGIok4YX/jk8qugaQVep88
-         KdrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OrQZ7wkvPyfXPn4tQlrkO4jutsFSESCnUHTr1m5jM2w=;
-        b=ZbHNxZGdn3ZdUFDxXfOQO9VoiRK4SIoZuE9u2kDrE1yWF54iXhMEHBrVvztcHbAa27
-         718SejeomD5AoAcDIyI1NGcWfjE57UepsHGc8abP/c+2R9EeZ+NqUraeGLpERDV5PlYM
-         7uYikHBjsQPV/BzsztEKnscaAY3SO8ZddE/TgZhYjNivNOAELSBZCXp9g+H0rtKKMLgK
-         58EJk32aVIpH2BoYvTVwreFm9igD+OVcj4ZMaNeeUBhT8aHJbCn9JmHdM5ONM1dOB2JF
-         CXG5SUuu9j1p2LMcIAOzjsUt5ZtfW6z+rxO7ML4yfCTakeWtg7u7Thp0CJGiO3XnmLiZ
-         xafw==
-X-Gm-Message-State: ACrzQf0dynn3sP5i7n3FnYsOnalmBnlSLG7dqaPikCsB6mJ6KDhNhyie
-        HWEjSPlFscT2os24nYgw078=
-X-Google-Smtp-Source: AMsMyM5ZCf5i1UFSBPBYhnqCdO0wkXA6bx1x+wVk74HOBPEakpPB5LFW+bUd0J9YyVjtYF08GFFGQg==
-X-Received: by 2002:a17:902:ce8f:b0:176:e0b3:cf14 with SMTP id f15-20020a170902ce8f00b00176e0b3cf14mr27323864plg.153.1665548455045;
-        Tue, 11 Oct 2022 21:20:55 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-2.three.co.id. [180.214.232.2])
-        by smtp.gmail.com with ESMTPSA id p14-20020aa79e8e000000b005625f08116esm9840983pfq.68.2022.10.11.21.20.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Oct 2022 21:20:53 -0700 (PDT)
-Message-ID: <6e30cfb2-b69c-b56a-bcd0-e9c12d984fd2@gmail.com>
-Date:   Wed, 12 Oct 2022 11:20:49 +0700
+        with ESMTP id S229657AbiJLGQp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 02:16:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00138AA34F;
+        Tue, 11 Oct 2022 23:16:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 34BC3613FB;
+        Wed, 12 Oct 2022 06:16:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 665C3C433D6;
+        Wed, 12 Oct 2022 06:16:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665555403;
+        bh=I6RnW5IpmR7g0+YGxHas+7A6fFvaR/Qzrs1BzkOlIRw=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=u5v/8LidQwH30eIemf1uWspk1VX+z6vdU8BHsiU3NWXnUtGPNX3WY8YlDH5AEv8+M
+         3FKSLWDLv5HXlP7fWBy+wf6+ZJw8VnbS/edEHRH7cLeK4o6kreGQR8jf/Sz7ig65fQ
+         KQKY6jYJ3hpTE2jOL6bUJHRa045kjdgTQOd/wg+c511b3TDJeAlgTA51e2zGG1vkHT
+         k7juB0v98t08ulBVxJy7dQmaYb7/IwghWelH2f/5y+O4v3gte5q9EphjI3c+aY6Kr/
+         R/iT98WoGlfjd2iS6OWqusMIDJ+ouNfWwWGyILq31fEtiyyAaXnBdGIKuNMOCvAFlS
+         +8pfwIs/QnHsA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 8882B5C196D; Tue, 11 Oct 2022 23:16:39 -0700 (PDT)
+Date:   Tue, 11 Oct 2022 23:16:39 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     corbet@lwn.net, lyj7694@gmail.com, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] docs/memory-barriers/kokr: Update the content
+Message-ID: <20221012061639.GK4221@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20221011025809.25821-1-sj@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v2 0/6] docs: Improvements to our HTML output
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20221011190047.749145-1-corbet@lwn.net>
- <3c65451e-c9bf-55ea-02af-f375346c955a@gmail.com>
- <254fd34d-a234-7959-2bd2-bbc1ac45629f@infradead.org>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <254fd34d-a234-7959-2bd2-bbc1ac45629f@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221011025809.25821-1-sj@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/12/22 09:25, Randy Dunlap wrote:
->> Hmm, I can't cleanly apply this patch series on top of either Linus's tree
->> or linux-next due to conflicts on [1/6]. On what commit this series is based
->> on?
+On Mon, Oct 10, 2022 at 07:58:06PM -0700, SeongJae Park wrote:
+> There are updates to memory-barriers.txt that not applied to the Korean
+> translation.  This patchset applies the changes.
 > 
-> Normally Jon uses this (from the MAINTAINERS file):
+> Changes from v1
+> (https://lore.kernel.org/all/20221008174928.13479-1-sj@kernel.org/)
+> - Drop first one, which is not for translation and already pulled
+> - Use better expressions for Korean (Yunjae Lee)
+> - Fix a typo (Yunjae Lee)
 > 
-> DOCUMENTATION
-> M:	Jonathan Corbet <corbet@lwn.net>
-> L:	linux-doc@vger.kernel.org
-> S:	Maintained
-> P:	Documentation/doc-guide/maintainer-profile.rst
-> T:	git git://git.lwn.net/linux.git docs-next
-> 
-> 
-> Did you try that one?
-> 
+> SeongJae Park (3):
+>   docs/memory-barriers.txt/kokr: introduce io_stop_wc() and add
+>     implementation for ARM64
+>   docs/memory-barriers.txt/kokr: Add memory barrier dma_mb()
+>   docs/memory-barriers.txt/kokr: Fix confusing name of 'data dependency
+>     barrier'
 
-Hi Randy,
+Hearing no objections, I pulled these in.  If someone else wants to take
+them, please let me know.
 
-I can't fetch that repo (possibly blocked by my ISP), so I have to apply
-against linux-next instead.
+							Thanx, Paul
 
--- 
-An old man doll... just what I always wanted! - Clara
-
+>  .../translations/ko_KR/memory-barriers.txt    | 149 ++++++++++--------
+>  1 file changed, 85 insertions(+), 64 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
