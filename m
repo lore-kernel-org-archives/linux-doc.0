@@ -2,71 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D188CC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 12:51:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BA87C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 13:07:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229635AbiJLMvu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Oct 2022 08:51:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37262 "EHLO
+        id S229785AbiJLNHy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Oct 2022 09:07:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbiJLMvt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 08:51:49 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AC1BB2D9A;
-        Wed, 12 Oct 2022 05:51:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229808AbiJLNHx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 09:07:53 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B4DECAE4B;
+        Wed, 12 Oct 2022 06:07:50 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DCCA3B81A84;
-        Wed, 12 Oct 2022 12:51:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4C27C433C1;
-        Wed, 12 Oct 2022 12:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665579105;
-        bh=1v6VsgWWJMhTeLPSeZwHMGLzy5xTUH1JKNIjGkBCVoQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=jnbYZgZHF0yUPthRu+mfs2QOAtxbKNLqGFMVZ2gOk0Zhmh6SAZt1CAUUzenUnQmJd
-         6d8t5pGQn0WlQVnHlNvfwH7S66g5GDhDtxnBBg6yFnFUWdTlJ6FsiY4AKVEJ9TxidW
-         dNzAF44lC2FVAhH56TKCwd/WYzINlSjus1deZfYVGiOmQAW5cFupIVqnI25XckvFDC
-         65RjbQh8XiHoHG/UcUf1MBP1Rv65xXJ6FYpZ8lxJ/N7N8Wvn+Ad8ekAth7eWm2gkyh
-         9W9+CdwTZctBb3Y/PxgbVWFN9mF1keu19J88eLJoDbvQ/DQ6eq5WIZyDrgizoDSqTY
-         fknizFIMU/WGg==
-Message-ID: <549e73bb-dcf8-7107-aff0-ff4f80d13db6@kernel.org>
-Date:   Wed, 12 Oct 2022 14:51:41 +0200
+        by smtp-out2.suse.de (Postfix) with ESMTPS id ECC571F381;
+        Wed, 12 Oct 2022 13:07:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1665580068; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=noRw341ciNnXF2Fe3Zu8GlyFJvJlbriboL+oH8utWA8=;
+        b=Hpqv7y7duLf4qQYyRbwbcD9yTwe3/BS2Ob/qn6ah/cL/4k5nGbsLLVJaNvgdka6iCoKHEz
+        HhTrfROTTyzpNtb/vSORr+hLkzWRMgMVxtM+60yAkiUTeqLzLUeYmuElHA14k9rN/neRMG
+        yr7g4hiFxVLMJuR1KQxOvS0QXM9Om+I=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A2C5913ACD;
+        Wed, 12 Oct 2022 13:07:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id WS+OJSS8RmM7cAAAMHmgww
+        (envelope-from <mhocko@suse.com>); Wed, 12 Oct 2022 13:07:48 +0000
+Date:   Wed, 12 Oct 2022 15:07:47 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Vinicius Petrucci <vpetrucci@gmail.com>
+Cc:     Frank van der Linden <fvdl@google.com>,
+        Zhongkun He <hezhongkun.hzk@bytedance.com>, corbet@lwn.net,
+        akpm@linux-foundation.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, wuyun.abel@bytedance.com
+Subject: Re: [RFC] mm: add new syscall pidfd_set_mempolicy()
+Message-ID: <Y0a8IxAXy43unTSb@dhcp22.suse.cz>
+References: <20221010094842.4123037-1-hezhongkun.hzk@bytedance.com>
+ <CAPTztWYTGOb8ZQzfgThqJn+fyi4ZB8=JQQZi5_rUoDhdftKtvg@mail.gmail.com>
+ <Y0WE/lEiNvl2ljo1@dhcp22.suse.cz>
+ <CAPTztWZZOxtzdEm=wbOiL_VDPJuCaW0XVCvsdRpCHE+ph+5eZQ@mail.gmail.com>
+ <Y0XEAUD9Ujcu/j8y@dhcp22.suse.cz>
+ <CAEZ6=UOA6=ikSdxN662xyhT3wauGuqZReKLOb=_9EmSRckNr=Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH] Documentation: rtla: Correct command line example
-To:     Pierre Gondois <pierre.gondois@arm.com>,
-        linux-kernel@vger.kernel.org
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-trace-devel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20221006084409.3882542-1-pierre.gondois@arm.com>
-Content-Language: en-US
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <20221006084409.3882542-1-pierre.gondois@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEZ6=UOA6=ikSdxN662xyhT3wauGuqZReKLOb=_9EmSRckNr=Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/6/22 10:44, Pierre Gondois wrote:
-> The '-t/-T' parameters seem to have been swapped:
-> -t/--trace[=file]: save the stopped trace
-> to [file|timerlat_trace.txt]
-> -T/--thread us: stop trace if the thread latency
-> is higher than the argument in us
-
-I swapped them during the development, but it seems that I got the example
-before swapping them :-).
-
-> Swap them back.
+On Wed 12-10-22 07:34:06, Vinicius Petrucci wrote:
+> > Well, per address range operation is a completely different beast I
+> > would say. External tool would need to a) understand what that range is
+> > used for (e.g. stack/heap ranges, mmaped shared files like libraries or
+> > private mappings) and b) by in sync with memory layout modifications
+> > done by applications (e.g. that an mmap has been issued to back malloc
+> > request). Quite a lot of understanding about the specific process. I
+> > would say that with that intimate knowledge it is quite better to be
+> > part of the process and do those changes from within of the process
+> > itself.
 > 
-> Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
+> Sorry, this may be a digression, but just wanted to mention a
+> particular use case from a project I recently collaborated on (to
+> appear next month at IIWSC 2022:
+> http://www.iiswc.org/iiswc2022/index.html).
+> 
+> We carried out a performance analysis of the latest Linux AutoNUMA
+> memory tiering on graph processing applications. We noticed that hot
+> pages cannot be properly identified by the reactive approach used by
+> AutoNUMA due to irregular/random memory access patterns.
 
-Acked-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+Yes, I can see how a reactive approach might not be the best fit.
+Automatic NUMA balancing can help quite a lot where memory regions
+are accessed consistently. I can imagine situations where the user space
+agent can tell much better what is the best node to place data when the
+access pattern is not obvbious or hard to deduce from local metrics.
 
-Thanks!
--- Daniel
+My main argument is though that those are rather specialized and it is
+much easier to implement the agent as a part of the process as they are
+unlikely to be generic enough to serve many different processes. I might
+be wrong in this of course and I am also not saying that pidfd_mbind is
+a completely unreasonable idea. We just need a strong usecase before
+going that way.
+
+> Thus, as a
+> POC, we implemented and evaluated a simple idea of having an external
+> user-level process/agent that, based on prior profiling results of
+> memory regions, could make more effectively memory chunk/object-based
+> mappings (instead of page-level allocation/migration) in advance on
+> either DRAM or CXL/PMEM (via mbind calls). This kind of tiering
+> solution could deliver up to 2x more performance for graph analytics
+> workloads. We plan to evaluate other workloads as well.
+> 
+> Having a feature like "pidfd/process_mbind" would really simplify our
+> user-level agent implementation moving forward, as right now we are
+> adding a LD_PRELOAD wrapper (for signal handler) to listen and execute
+> "mbind" requests from another process. If there's any other
+> alternative solution to this already (via ptrace?), please let me
+> know.
+
+userfaultfd sounds like the closest match if #PF handling under control
+of an external agent is viable.
+-- 
+Michal Hocko
+SUSE Labs
