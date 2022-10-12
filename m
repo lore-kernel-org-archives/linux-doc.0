@@ -2,147 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2FEDC4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 18:11:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1966FC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 18:20:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229548AbiJLSL6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Oct 2022 14:11:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33586 "EHLO
+        id S229948AbiJLSUu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Oct 2022 14:20:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbiJLSL5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 14:11:57 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87088DED19;
-        Wed, 12 Oct 2022 11:11:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665598316; x=1697134316;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=qgFUurzL+QlDsqQsQhjjS0FK/bFClVnNfpHEO/UpWnk=;
-  b=Yv9XDlHP7vSvIPJW3XoSpZTq90Ho/EuddU+lX21OSN6DUkMEDYC746ap
-   qEdPbKNWOfNbpDDV28S8nR8FHVE/YIz67QTJmw2Gn5fju2lOiwhzkZyPL
-   qcK7/gLrphs+nE0MwhmFHwScW9+x7sqTfkxJBGQMubLJGe3UXbXW+IZ/0
-   EWVV0HOVUlRd+okgC1XOmbO+qYAb8fU937SPyWyertoq6bee0fusk8AoW
-   +exKFcyS4pLTT10buHsqBpdM8oUpoTLu2jwYhCdaZKC6983ZyOP/Yo0/6
-   j5EjKandV/zmLbwIuxlorS/2HbkF7xGvwZ9JvRteSztyP+VTS8x+JTqm1
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="391175717"
-X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; 
-   d="scan'208";a="391175717"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2022 11:11:56 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="689777127"
-X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; 
-   d="scan'208";a="689777127"
-Received: from jbrolli1-mobl.amr.corp.intel.com (HELO [10.212.174.189]) ([10.212.174.189])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2022 11:11:55 -0700
-Message-ID: <f951a29a-edad-89a7-cf04-c87fdfa9ba5e@linux.intel.com>
-Date:   Wed, 12 Oct 2022 11:11:54 -0700
+        with ESMTP id S229930AbiJLSUd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 14:20:33 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3E10B87E;
+        Wed, 12 Oct 2022 11:20:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DAA9CB81B9D;
+        Wed, 12 Oct 2022 18:19:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BA2CC433D6;
+        Wed, 12 Oct 2022 18:19:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665598768;
+        bh=rToApNuA9+wNI2zgDEyjUglKN9v6Lh64lTtKi6m3TBE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=m5lve6/xhs0u5xfmUGO8yjhbagSproghDuqCmE6x4APlXjShXuGUjC4D3YV0L0Xpy
+         YP3Ygi958GeULJj/IB9g8XywkM4E85+aCDHOr9R12JlI6r7SKdnL5CYQBKtTMVaOZ6
+         6VrBaw313J7VlbYOHO8U8Alr7AKOFJ5d6v6YpbVuvnqFPcYu2jt8oUX2DZTU2gCo+Y
+         /JNHuQwWPKMbU0IcADcoFClgcakPTKgN0bp98BJ3uQ3bNGKZMfyIn3m2RbHHO+MDiy
+         ycmw7euW9RLg59UDKovqZl/YncFRbnyQG7lifNICYIwSCEDMeBNnvOVCbALKCR0JCG
+         KTKfRJbcchVjQ==
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org
+Cc:     linux-arch@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation: raise minimum supported version of binutils to 2.25
+Date:   Thu, 13 Oct 2022 03:18:41 +0900
+Message-Id: <20221012181841.333325-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v14 1/3] x86/tdx: Make __tdx_module_call() usable in
- driver module
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220928215535.26527-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220928215535.26527-2-sathyanarayanan.kuppuswamy@linux.intel.com>
- <Y0aUb3n7ouaeAt2a@zn.tnic>
- <acc212d6-782b-a398-825a-212849beba00@linux.intel.com>
- <Y0bOtzlrkKzHmQVZ@zn.tnic>
- <6759025f-fc08-74f0-efd7-2331110dec0c@linux.intel.com>
- <Y0bqA8+Xi1kLchxh@kroah.com>
- <62ef9740-64f0-ee60-71fa-80cc90da435c@linux.intel.com>
- <Y0b4zrOTU6adb0xi@kroah.com>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <Y0b4zrOTU6adb0xi@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Binutils 2.23 was released in 2012. Almost 10 years old.
 
+We already require GCC 5.1, released in 2015.
 
-On 10/12/22 10:26 AM, Greg Kroah-Hartman wrote:
-> On Wed, Oct 12, 2022 at 10:13:50AM -0700, Sathyanarayanan Kuppuswamy wrote:
->> Hi,
->>
->> On 10/12/22 9:23 AM, Greg Kroah-Hartman wrote:
->>> On Wed, Oct 12, 2022 at 08:44:04AM -0700, Sathyanarayanan Kuppuswamy wrote:
->>>>
->>>>
->>>> On 10/12/22 7:27 AM, Borislav Petkov wrote:
->>>>> On Wed, Oct 12, 2022 at 06:35:56AM -0700, Sathyanarayanan Kuppuswamy wrote:
->>>>>> So we should create a new wrapper for this use case or use
->>>>>
->>>>> Yes, you got it - a new wrapper pls.
->>>>
->>>> Ok. I will add a new wrapper to get the TDREPORT. 
->>>>
->>>> +/*
->>>>
->>>> + * Add a wrapper for TDG.MR.REPORT TDCALL. It is used in TDX guest
->>>>
->>>> + * driver module to get the TDREPORT.
->>>>
->>>> + */
->>>>
->>>> +long tdx_mcall_get_report(void *reportdata, void *tdreport, u8 subtype)
->>>
->>> Why "long"?
->>
->> We used long because __tdx_module_call() call returns u64 value.
-> 
-> Great, then use u64 please.  Or if you are returning negative errors,
-> use s64 to be specific.
-> 
->> Alternatively, we can also check for return value of __tdx_module_call() here
->> and return 0/-EIO as return values. In this case we can change return value
->> to int.
-> 
-> That would make more sense, right?
+Bump the binutils version to 2.25, which was released one year before
+GCC 5.1.
 
-Yes. I will change it as mentioned above.
+With this applied, some subsystems can start to clean up code.
+Examples:
+  arch/arm/Kconfig.assembler
+  arch/mips/vdso/Kconfig
+  arch/powerpc/Makefile
+  arch/x86/Kconfig.assembler
 
-> 
->>>
->>> Why void *?  Don't you have real types for these?
->>
->> We use these buffers as an intermediary to transfer data between userspace and
->> the TDX module. In the kernel we don't consume these datas. So we did not define
->> the type of the data.
-> 
-> Then these are userspace pointers?  Why are they not marked as such?
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-They are not userspace pointers. Since we need to pass physical addresses of reportdata
-and tdreport buffers to the TDX Module, we cannot directly use userspace pointers. So
-we allocate these intermediary buffers in the TDX guest driver and use it to copy the
-data from/to user pointers. 
+ Documentation/process/changes.rst | 4 ++--
+ scripts/min-tool-version.sh       | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-> 
-> thanks,
-> 
-> greg k-h
-
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 9844ca3a71a6..ef540865ad22 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -35,7 +35,7 @@ Rust (optional)        1.62.0           rustc --version
+ bindgen (optional)     0.56.0           bindgen --version
+ GNU make               3.82             make --version
+ bash                   4.2              bash --version
+-binutils               2.23             ld -v
++binutils               2.25             ld -v
+ flex                   2.5.35           flex --version
+ bison                  2.0              bison --version
+ pahole                 1.16             pahole --version
+@@ -119,7 +119,7 @@ Bash 4.2 or newer is needed.
+ Binutils
+ --------
+ 
+-Binutils 2.23 or newer is needed to build the kernel.
++Binutils 2.25 or newer is needed to build the kernel.
+ 
+ pkg-config
+ ----------
+diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
+index 8766e248ffbb..4e5b45d9b526 100755
+--- a/scripts/min-tool-version.sh
++++ b/scripts/min-tool-version.sh
+@@ -14,7 +14,7 @@ fi
+ 
+ case "$1" in
+ binutils)
+-	echo 2.23.0
++	echo 2.25.0
+ 	;;
+ gcc)
+ 	echo 5.1.0
 -- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+2.34.1
+
