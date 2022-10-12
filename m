@@ -2,220 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB057C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 15:56:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5944BC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 16:00:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230008AbiJLP4t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Oct 2022 11:56:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35670 "EHLO
+        id S230032AbiJLQAH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Oct 2022 12:00:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbiJLP4s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 11:56:48 -0400
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C844BB7EE1;
-        Wed, 12 Oct 2022 08:56:45 -0700 (PDT)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-12c8312131fso19938096fac.4;
-        Wed, 12 Oct 2022 08:56:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+J5rBH2Ax6+Mtwp/uLP5yn6FuEpFbZJdzQoPclekoRQ=;
-        b=ctZPtJRERHVDgPm29Klngd3867Gz83FJae322phIE8kaS13k7k09DpV9rXFbHFicVL
-         69FII57uCx9FxvvrCAWiSU5E/575K5EkyoF8tVcjf/YzeGqVzBfT+icQuCHz+DLaaQIl
-         UlNoTbQGcuPVcaGsQ9dANS5xYYYYW67L7HNdPnii3h6ScYoSGTNYDZG1GsQT/V3rp2zQ
-         QUX3Y1BxX8DITfPD3i1U073XCE3rdNSaSvSi/sgrijpoM4Hk6SU3m1NBZn6F7v8vBCG7
-         eqiRHTo0/FnuvwBiHsJU0ssQVgfk9k8kWnP1c7J25XB6P0jQXaxyenQKEJF/zzP8alvZ
-         csBg==
-X-Gm-Message-State: ACrzQf18S137FVUrEOPCm8zmHsz8A9RIAUQ6OSa4WpXAxW8m9NRyQbx2
-        RscQq6RLPGouMk42YCJ0TNUGTSiHmw==
-X-Google-Smtp-Source: AMsMyM7eg6DI/M1+ccTCr5c2InEdknfBOftpJQN1uw9+vlHkdneRdNuwICBHaQyeqK5xSUvxtk/P7Q==
-X-Received: by 2002:a05:6870:ac2b:b0:132:f761:8f4c with SMTP id kw43-20020a056870ac2b00b00132f7618f4cmr2730690oab.17.1665590205023;
-        Wed, 12 Oct 2022 08:56:45 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id bi35-20020a05680818a300b00354978180d8sm2981717oib.22.2022.10.12.08.56.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Oct 2022 08:56:44 -0700 (PDT)
-Received: (nullmailer pid 2187963 invoked by uid 1000);
-        Wed, 12 Oct 2022 15:56:45 -0000
-Date:   Wed, 12 Oct 2022 10:56:45 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 02/13] dt-bindings: Add binding for gunyah hypervisor
-Message-ID: <20221012155645.GA2173829-robh@kernel.org>
-References: <20221011000840.289033-1-quic_eberman@quicinc.com>
- <20221011000840.289033-3-quic_eberman@quicinc.com>
+        with ESMTP id S229620AbiJLQAA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 12:00:00 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53A341A83A;
+        Wed, 12 Oct 2022 08:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665590397; x=1697126397;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=x+Vvi8HGhrn79pVpDuauzqv2LPYrdQbCpKoSgkWyCaQ=;
+  b=N7H43qoXTLbxJSfPjHM4NCPeS1rlSqKT03ZpBOZfCc1HCUKHpvN2S7Lc
+   /LWM+V7kffocXoUn8fZCkc0Z7cVyGwDk/Qmaal8Bqzu04A3nbtWoinE6P
+   69fKUtdPsCQA6HW+mZJa17pRGrRd3fUTd+w0ZgxhPDX0PxFXkjyKwO86+
+   V3kK5xp/YaluMUOKgQcpyz1jxamEzBO0mqSyx6ybe7FnAYp3w9cvJ1S/Z
+   63o7Kad+a/GYCNvcEdllfimxNhzEr5FA95UOHelCKBzmqmvyilpYSImZx
+   yz98Lw1AdjlaJFeIZ6hcwx2bnHKijetXcPTFBoa2eOwoNU8cSozsmEXUS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="304818430"
+X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; 
+   d="scan'208";a="304818430"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2022 08:59:56 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="695522374"
+X-IronPort-AV: E=Sophos;i="5.95,179,1661842800"; 
+   d="scan'208";a="695522374"
+Received: from mpatter1-mobl.amr.corp.intel.com (HELO [10.209.53.34]) ([10.209.53.34])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2022 08:59:51 -0700
+Message-ID: <e3c3d68d-ce99-a70a-1026-0ba99520ae57@intel.com>
+Date:   Wed, 12 Oct 2022 08:59:51 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221011000840.289033-3-quic_eberman@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 01/39] Documentation/x86: Add CET description
+Content-Language: en-US
+To:     Florian Weimer <fweimer@redhat.com>,
+        "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "bp@alien8.de" <bp@alien8.de>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>, "arnd@arndb.de" <arnd@arndb.de>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-2-rick.p.edgecombe@intel.com>
+ <87ilkr27nv.fsf@oldenburg.str.redhat.com>
+ <62481017bc02b35587dd520ed446a011641aa390.camel@intel.com>
+ <87v8opz0me.fsf@oldenburg.str.redhat.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <87v8opz0me.fsf@oldenburg.str.redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 10, 2022 at 05:08:29PM -0700, Elliot Berman wrote:
-> When Linux is booted as a guest under the Gunyah hypervisor, the Gunyah
-> Resource Manager applies a devicetree overlay describing the virtual
-> platform configuration of the guest VM, such as the message queue
-> capability IDs for communicating with the Resource Manager. This
-> information is not otherwise discoverable by a VM: the Gunyah hypervisor
-> core does not provide a direct interface to discover capability IDs nor
-> a way to communicate with RM without having already known the
-> corresponding message queue capability ID. Add the DT bindings that
-> Gunyah adheres for the hypervisor node and message queues.
-> 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
->  .../bindings/firmware/gunyah-hypervisor.yaml  | 87 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 88 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-> new file mode 100644
-> index 000000000000..f0a14101e2fd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-> @@ -0,0 +1,87 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/firmware/gunyah-hypervisor.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Gunyah Hypervisor
-> +
-> +maintainers:
-> +  - Murali Nalajala <quic_mnalajal@quicinc.com>
-> +  - Elliot Berman <quic_eberman@quicinc.com>
-> +
-> +description: |+
-> +  On systems which support devicetree, Gunyah generates and overlays a deviceetree overlay which
+On 10/12/22 05:29, Florian Weimer wrote:
+>> What did you think of the proposal to disable existing binaries and
+>> start from scratch? Elaborated in the coverletter in the section
+>> "Compatibility of Existing Binaries/Enabling Interface".
+> The ABI was finalized around four years ago, and we have shipped several
+> Fedora and Red Hat Enterprise Linux versions with it.  Other
+> distributions did as well.  It's a bit late to make changes now, and
+> certainly not for such trivialities. 
 
-How you end up with the node (applying an overlay) is not relavent to 
-the binding.
-
-> +  describes the basic configuration of the hypervisor. Virtual machines use this information to determine
-> +  the capability IDs of the message queues used to communicate with the Gunyah Resource Manager.
-
-Wrap at 80. That is the coding standard still though 100 is deemed 
-allowed. And yamllint only complains at 110 because I didn't care to fix 
-everyones lines over 100.
-
-> +  See also: https://github.com/quic/gunyah-resource-manager/blob/develop/src/vm_creation/dto_construct.c
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: gunyah-hypervisor-1.0
-> +      - const: gunyah-hypervisor
-
-2 compatibles implies a difference between the 2. What's the difference? 
-Where does '1.0' come from?
-
-> +
-> +  "#address-cells":
-> +    description: Number of cells needed to represent 64-bit capability IDs.
-> +    const: 2
-> +
-> +  "#size-cells":
-> +    description: must be 0, because capability IDs are not memory address
-> +                  ranges and do not have a size.
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^gunyah-resource-mgr(@.*)?":
-> +    type: object
-> +    description:
-> +      Resource Manager node which is required to communicate to Resource
-> +      Manager VM using Gunyah Message Queues.
-> +
-> +    properties:
-> +      compatible:
-> +        items:
-> +          - const: gunyah-resource-manager-1-0
-> +          - const: gunyah-resource-manager
-
-Same comment here.
-
-> +
-> +      reg:
-> +        items:
-> +          - description: Gunyah capability ID of the TX message queue
-> +          - description: Gunyah capability ID of the RX message queue
-> +
-> +      interrupts:
-> +        items:
-> +          - description: Interrupt for the TX message queue
-> +          - description: Interrupt for the RX message queue
-> +
-> +    additionalProperties: false
-> +
-> +    required:
-> +      - compatible
-> +      - reg
-> +      - interrupts
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    hypervisor {
-> +        #address-cells = <2>;
-> +        #size-cells = <0>;
-> +        compatible = "gunyah-hypervisor-1.0", "gunyah-hypervisor";
-> +
-> +        gunyah-resource-mgr@0 {
-> +            compatible = "gunyah-resource-manager-1-0", "gunyah-resource-manager";
-> +            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX full IRQ */
-> +                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX empty IRQ */
-> +            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
-> +                  /* TX, RX cap ids */
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 91d00b00d91c..ef6de7599d98 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -8884,6 +8884,7 @@ M:	Elliot Berman <quic_eberman@quicinc.com>
->  M:	Murali Nalajala <quic_mnalajal@quicinc.com>
->  L:	linux-arm-msm@vger.kernel.org
->  S:	Supported
-> +F:	Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
->  F:	Documentation/virt/gunyah/
->  
->  HABANALABS PCI DRIVER
-> -- 
-> 2.25.1
-> 
-> 
+Just to be clear: You're saying that a user/kernel ABI was "finalized"
+by glibc shipping the user side of it, before there being an upstream
+kernel implementation?
