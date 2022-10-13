@@ -2,140 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A66C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 04:13:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0247C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 04:56:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229494AbiJMENo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Oct 2022 00:13:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35936 "EHLO
+        id S229552AbiJME4X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Oct 2022 00:56:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbiJMENn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 00:13:43 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69849127BC6;
-        Wed, 12 Oct 2022 21:13:42 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id e129so558717pgc.9;
-        Wed, 12 Oct 2022 21:13:42 -0700 (PDT)
+        with ESMTP id S229495AbiJME4W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 00:56:22 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E409910D69A
+        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 21:56:20 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id y1so955829pfr.3
+        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 21:56:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yI0iiintCNSYXW3Cl1VzfCO/HumDMQ6YBRetL05i6As=;
-        b=XqWNDHH792o3El1h+l9zC/HzMMGGOxQ3OrTvKYTMuHxcc5g6obaruk8K97+pC/GTmC
-         3y5YtqbgDLWnGoL7vSddk7QYzwyVlKudoIiX8kLapGJMzuCOEAPZ3QyTlZ3GjCyxIVhr
-         yzJ4YmxRnBckgqaRK8/YKFXQdWVAMOpVmSqTCC6lxfgEtAq33StX69omdwFVIUBc6aZb
-         0VfTdjk1Oyc0rhTumw7XTXxoPV9tFRM6npXH/IdLfOYMyWaavuTDdy54s710LPigrFNl
-         YzoWKuKeiEucbeISHy2aZMGSNplmTF4uh6pd/W89wygozn64qTlDILYgXVu+gvII1g5a
-         lAsA==
+        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+        h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=v0UkCHDCpb0SQXipAoNT2TBB6AI57CfyDRGKOFbFDxM=;
+        b=02NaSQwYpacpxD453y5wlUVALaIMnCHleq/eMGjj6MbNnnksjxpiZPh7T/6ivwKs15
+         B6M6NtF5b1z6oHsZkPKWM1Abynf19TqN6F/ymAq5N0DPqFF1DG1x27tOyEpNvae1DzMt
+         OfNxH/H6uPut4s6x9gJ2Iy4tFZK25wLHvIC/9FjD8ErblkFCPHCHyQG5BhFVrGLQk1AP
+         FElSsWsF3y55u22hLcDJAx8nFymW4+EtM8U21ENGEPDB/LCQSj66i0g00zgtocX7NcgV
+         Wq2DDRzMIKLxM1ZW6KX2E9EH2dTb5/2eE13bXd39uP+3JvXQd0ik32n0HYiC4rlBtlEj
+         Yu4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yI0iiintCNSYXW3Cl1VzfCO/HumDMQ6YBRetL05i6As=;
-        b=RXg0pW9TkeWxLzOJ3fY1gZTuuKv/kkjA6UnnPzQhnqabZv+fIZjxGPMovAPNpxdeLg
-         hhs4Bml00NyQiM/lEB7XAaWqow11RSDGG7HgZVNTygeCa2tgbmHkZ4cxlHeBpP9g9f/1
-         7EadGxHgV83LWSp8NmYer/PET50t3r5VIVhN+chWo4I7QgD9iNl1c+/MGBjVx4mod0Vd
-         d2r1c5cFq+uuepti18moIT34wTArCSfitn0ahVYHT3ZhDSDi7JBNuBG/7MXufKBIJD6M
-         Z2EvTuyfR0lQG1d2Sb0DNA5ORE8p+62hs5X/HEZ5Go7JVYP8nDqN8QDKl6akMseuzfv8
-         rg5Q==
-X-Gm-Message-State: ACrzQf0KAHY8ea3+66mfptCRV4lcdzT0ePLnvUrVswXUBIHzlbM7XNtu
-        ZJzEwCoidFSK3LPkjF2tnEk=
-X-Google-Smtp-Source: AMsMyM50wtt32gjG9zlBPe1CVsO5VHjcfmL4ucc2bVT8uu9WdJ70Mv5VN/fKUJcZhJi1vAG90dpUAg==
-X-Received: by 2002:a63:4c23:0:b0:45f:eab4:4f47 with SMTP id z35-20020a634c23000000b0045feab44f47mr23304463pga.532.1665634421741;
-        Wed, 12 Oct 2022 21:13:41 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-21.three.co.id. [180.214.232.21])
-        by smtp.gmail.com with ESMTPSA id c13-20020aa7952d000000b0056323de479bsm700650pfp.120.2022.10.12.21.13.40
+        h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v0UkCHDCpb0SQXipAoNT2TBB6AI57CfyDRGKOFbFDxM=;
+        b=OLI8JJiRvKeZmO6+pI70JrFSClB4yosBM7W6ws7LbGDI2FeGiOEzEgZWgORTBELGNa
+         DoMKf7UEOqY3PlikWxYq9txT1E4Ly87pusAaq11Ae+yHOHBdGgebGCXGWYJrsv4EosiJ
+         gVcb5R35akU5PKlOqzq9fnM170RzemzhmnhpBQ4s3vN35BiVpXv2C0wTLFT3Ds5OFK05
+         /IwL1S2hFLmuWBf+L5/RgwDAIQ9B/wbehN9vPGc24MqgBBjB2v+0AcHGe9vKCtzb4ULu
+         ZPQbkKlmH+tpP9byMAJZTnKTs1/GGDsmDPhQbj1mF2fFc5WSrYs0kv5SmeVi6XSRRF+Q
+         tr8g==
+X-Gm-Message-State: ACrzQf0uYHY+KJV3nZsYQjXSXXX8juyJR1HB/IFtj6ZkhoBILNAayKS9
+        y1Ag46doCaXHZCJLWETqbVKQcg==
+X-Google-Smtp-Source: AMsMyM4xYxfSCrlo5ZD8i7krGTytpwPAaf5IcxrbU4QzjhRLQ4Wzrv7QyLp9p5ewMgSHjQwEongTBA==
+X-Received: by 2002:a05:6a00:f03:b0:563:210a:5ffb with SMTP id cr3-20020a056a000f0300b00563210a5ffbmr24187318pfb.70.1665636980362;
+        Wed, 12 Oct 2022 21:56:20 -0700 (PDT)
+Received: from localhost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id n3-20020a056a00212300b005625d6d2999sm750313pfj.187.2022.10.12.21.56.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Oct 2022 21:13:40 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 39057101314; Thu, 13 Oct 2022 11:13:36 +0700 (WIB)
-Date:   Thu, 13 Oct 2022 11:13:36 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf-next v1] bpf, docs: Reformat BPF maps page to be more
- readable
-Message-ID: <Y0eQcOsbrmBXqdUP@debian.me>
-References: <20221012152715.25073-1-donald.hunter@gmail.com>
+        Wed, 12 Oct 2022 21:56:20 -0700 (PDT)
+Subject: [PATCH v2 0/4] Documentation: RISC-V: patch-acceptance changes
+Date:   Wed, 12 Oct 2022 21:56:15 -0700
+Message-Id: <20221013045619.18906-1-palmer@rivosinc.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="PGIwu2yxln04EdUi"
-Content-Disposition: inline
-In-Reply-To: <20221012152715.25073-1-donald.hunter@gmail.com>
+Content-Transfer-Encoding: 8bit
+Cc:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>, aou@eecs.berkeley.edu,
+        conor.dooley@microchip.com, Atish Patra <atishp@rivosinc.com>,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux@rivosinc.com
+From:   Palmer Dabbelt <palmer@rivosinc.com>
+To:     Conor Dooley <conor@kernel.org>, Atish Patra <atishp@rivosinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+We talked about this during Plumbers and it seems like there was pretty
+minor feedback on the v1.  I don't intend on committing this for the
+current merge window, as it's only been through one round of review and
+I don't see any reason to rush it.  Like last time we're just violating
+this as the status quo, so we can stick with that as we sort out the
+wording.
 
---PGIwu2yxln04EdUi
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes since v1 <https://lore.kernel.org/all/Yyn9FJ4iuzJTfO1T@spud/t/#mcc9b5e547a2ca2b25d7f78a4d2572f39ddc5593e>:
+* Various minor wording changes.
+* "UEFI forum specifications" instead of just "UEFI specifications".
+* New patch 4 with implementor -> implementer
+* Atish and Conor's Reviewed-by.
 
-On Wed, Oct 12, 2022 at 04:27:15PM +0100, Donald Hunter wrote:
-> Add a more complete introduction, with links to man pages.
-> Move toctree of map types above usage notes.
-> Format usage notes to improve readability.
->=20
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> ---
->  Documentation/bpf/maps.rst | 101 ++++++++++++++++++++++++-------------
->  1 file changed, 65 insertions(+), 36 deletions(-)
->=20
-> diff --git a/Documentation/bpf/maps.rst b/Documentation/bpf/maps.rst
-> index f41619e312ac..4906ff0f8382 100644
-> --- a/Documentation/bpf/maps.rst
-> +++ b/Documentation/bpf/maps.rst
-> @@ -1,52 +1,81 @@
-> =20
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -eBPF maps
-> +=3D=3D=3D=3D=3D=3D=3D=3D
-> +BPF maps
-> +=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +BPF 'maps' provide generic storage of different types for sharing data b=
-etween
-> +kernel and user space. There are several storage types available, includ=
-ing
-> +hash, array, bloom filter and radix-tree. Several of the map types exist=
- to
-> +support specific BPF helpers that perform actions based on the map conte=
-nts. The
-> +maps are accessed from BPF programs via BPF helpers which are documented=
- in the
-> +`man-pages`_ for `bpf-helpers(7)`_.
-> +
-> +BPF maps are accessed from user space via the ``bpf`` syscall, which pro=
-vides
-> +commands to create maps, lookup elements, update elements and delete
-> +elements. More details of the BPF syscall are available in
-> +:doc:`/userspace-api/ebpf/syscall` and in the `man-pages`_ for `bpf(2)`_.
-> <snipped>...
-> +.. Links:
-> +.. _man-pages: https://www.kernel.org/doc/man-pages/
-> +.. _bpf(2): https://man7.org/linux/man-pages/man2/bpf.2.html
-> +.. _bpf-helpers(7): https://man7.org/linux/man-pages/man7/bpf-helpers.7.=
-html
 
-I think you can just write "see :manpage:`bpf(2)`" without linking to
-external site.
-
-Otherwise LGTM.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---PGIwu2yxln04EdUi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY0eQawAKCRD2uYlJVVFO
-o1bVAQD5WwbLMw3d422kOy7AsWPETUWqvcKpRKLUrB+XUotXPQD+P4luJGpRfu6A
-B3iAQR5TnVALOqZ2HSXSh6V9yd9oaQg=
-=5tkV
------END PGP SIGNATURE-----
-
---PGIwu2yxln04EdUi--
