@@ -2,78 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E89FAC43219
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 13:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1201C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 13:36:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229507AbiJMNVk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Oct 2022 09:21:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45398 "EHLO
+        id S229775AbiJMNgD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Oct 2022 09:36:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229545AbiJMNVi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 09:21:38 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17CDA24F1E;
-        Thu, 13 Oct 2022 06:21:33 -0700 (PDT)
-Received: from zn.tnic (p200300ea9733e733329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e733:329c:23ff:fea6:a903])
+        with ESMTP id S229733AbiJMNf6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 09:35:58 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 668DDB8C1D;
+        Thu, 13 Oct 2022 06:35:46 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5E0EC1EC054C;
-        Thu, 13 Oct 2022 15:21:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1665667287;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=Qo6+8FjdF5OYwlAv7WYxwDWRkLYYDkW4CdaVk0AWBlc=;
-        b=ez4+evfAyCw8CJwXC5ithv3jA4BbyEI7l/tCwIJvkT3uhCyrd0+xmhFSMG5zvCM/DR1FMA
-        TREUZN2tS4EDk9uZyP0qz+3/DKDCNOel8C3mT1lXjJEY6jvMXwbXuneET1Y2j/egGB/nvH
-        JYvjVOJIdBLEKZk5Mk96dk7NJujljEg=
-Date:   Thu, 13 Oct 2022 15:21:23 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v14 2/3] virt: Add TDX guest driver
-Message-ID: <Y0gQ03m7xT96pg69@zn.tnic>
-References: <20220928215535.26527-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20220928215535.26527-3-sathyanarayanan.kuppuswamy@linux.intel.com>
- <Y0bhkVYfYhzkmrjp@zn.tnic>
- <adc0987a-70f5-4203-c741-978d7d89cf76@linux.intel.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id 260ED7F9;
+        Thu, 13 Oct 2022 13:35:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 260ED7F9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1665668145; bh=gfYhNJG+ASRdf/168GtPQechsmW64l6yj4+IKgpNJqw=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=LpkICErC1A/s79gQ/tFwYbTEN/BvC8liud5rFqz2p5Yr6Ow43WuvZVqDurZBGZyr9
+         QoT3lfizYsUTrgmoeg78iukky6KdoyF+WYuW4pfwIgGuA1r4qS+WHZZfPkRCqCc4hG
+         lNpUg91OFavpYctJqRdng/HR23Gzsujg9bWs+oH1fyGygMV8yum3X/1otyJYSYMhOM
+         0v+bctEJUeXS/BpEwiPo54m1r7cAAAe1zhIsppEXrazeumpNDNA+86g7MDO/U+Ztp3
+         DiIypArAJMBcI0vs00jWzkvFhUAZONcEvAQdb3LyXz49/oMKlpIvpsy4kQqm2Skdi+
+         lcBOzujkR5Bhg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     sndanailov@wired4ever.net
+Cc:     rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sotir Danailov <sndanailov@wired4ever.net>
+Subject: Re: [PATCH] doc: process: add privacy warning when using some SMTP
+ servers
+In-Reply-To: <20221013123115.17419-1-sndanailov@wired4ever.net>
+References: <20221013123115.17419-1-sndanailov@wired4ever.net>
+Date:   Thu, 13 Oct 2022 07:35:44 -0600
+Message-ID: <8735brkfrj.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <adc0987a-70f5-4203-c741-978d7d89cf76@linux.intel.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 12, 2022 at 04:01:31PM -0700, Sathyanarayanan Kuppuswamy wrote:
-> I am fine with adding an error message here. What about the above -EINVAL
-> case? Do you suggest adding it there as well?
+sndanailov@wired4ever.net writes:
 
-Right, you could dump the req.* fields it read from luserspace so that
-one staring at the error message can actually see which of the fields
-failed the check.
+> From: Sotir Danailov <sndanailov@wired4ever.net>
+>
+> Warn the user about "Received" headers and how some
+> SMTP servers use them by attaching the user's IP addresses,
+> when using some email clients. Add suggestion on how to
+> test this behavior and how to avoid it.
+>
+> Signed-off-by: Sotir Danailov <sndanailov@wired4ever.net>
+> ---
+>  Documentation/process/email-clients.rst | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>
+> diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
+> index fc2c46f3f82d..9c49f9b33fdb 100644
+> --- a/Documentation/process/email-clients.rst
+> +++ b/Documentation/process/email-clients.rst
+> @@ -350,3 +350,24 @@ although tab2space problem can be solved with external editor.
+>  
+>  Another problem is that Gmail will base64-encode any message that has a
+>  non-ASCII character. That includes things like European names.
+> +
+> +Privacy/Security
+> +----------------
+> +
+> +Keep in mind, that even if you're using a working email client, the SMTP
+> +server might have configurations you don't like.
+> +
+> +For example, if you decide to use the Gmail SMTP server with the Thunderbird
+> +client, the server will add your private and public IPs into "Received"
+> +headers, which are attached to all of your sent emails. This is done
+> +to avoid spam and to check where in the routing path an error might have
+> +occurred. Gmail's web GUI client doesn't add your IPs, because it's sent from
+> +Google's servers directly, not an external machine. Unfortunately the web
+> +client is not good for sending patches. You can check if your IPs are present
+> +in the headers by reading the raw email source.
+> +
+> +If you do not wish this behavior, you need to find a provider which doesn't
+> +do it or configure and host a SMTP server yourself.
+> +
+> +If you're concerned, always first send an email to yourself, read the email
+> +source and if you see no issues, continue to the mailing lists!
 
-Thx.
+So this seems to be just a description of how email works - the Received
+headers always show the path through the net.  Is this really something
+that we need to cover in the kernel docs?
 
--- 
-Regards/Gruss,
-    Boris.
+Thanks,
 
-https://people.kernel.org/tglx/notes-about-netiquette
+jon
