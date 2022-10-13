@@ -2,87 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9939C43217
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 13:17:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1749BC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 13:18:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229902AbiJMNRt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Oct 2022 09:17:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60500 "EHLO
+        id S229437AbiJMNSr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Oct 2022 09:18:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbiJMNRq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 09:17:46 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1C1CAC4AD;
-        Thu, 13 Oct 2022 06:17:44 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id A2507226AB;
-        Thu, 13 Oct 2022 13:17:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1665667063; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=pQcd7QYBrfrcu/BD1EO4wF8Gr1oJqdtW3FRbiiR9OCI=;
-        b=a8zrA3w+OB8AUhikPpmcrktA7TTbopwkxEHR63dbznsNKrkeiyiGBLxlZmVBO1wwG3sWKy
-        +nY5oD+LL6Ggwu57/D1k0SLfrwVSK76TojCXHaEzoyP1/68hY3w6XYcKArB8zTlF33aOpa
-        26gcGvM8VH03AkwqrMlL84xxfk8C+MM=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 70C9113AAA;
-        Thu, 13 Oct 2022 13:17:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id uN66GfcPSGPeKwAAMHmgww
-        (envelope-from <mhocko@suse.com>); Thu, 13 Oct 2022 13:17:43 +0000
-Date:   Thu, 13 Oct 2022 15:17:42 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Zhongkun He <hezhongkun.hzk@bytedance.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, wuyun.abel@bytedance.com
-Subject: Re: [External] Re: [RFC] mm: add new syscall pidfd_set_mempolicy()
-Message-ID: <Y0gP9i8KZKt4/EcG@dhcp22.suse.cz>
-References: <20221010094842.4123037-1-hezhongkun.hzk@bytedance.com>
- <Y0WEbCqJHjnqsg8n@dhcp22.suse.cz>
- <582cf257-bc0d-c96e-e72e-9164cff4fce1@bytedance.com>
- <Y0aCiYMQ4liL2azT@dhcp22.suse.cz>
- <a0421769-c2b9-d59a-0358-3cc84b2cb2bd@bytedance.com>
- <Y0avztF7QU8P/OoB@dhcp22.suse.cz>
- <e825a27a-646b-9723-f774-947501c04ec2@bytedance.com>
- <Y0f17v1c3aAszlbk@dhcp22.suse.cz>
- <db41c662-19ce-fc1a-21ba-38ecda7d09c8@bytedance.com>
+        with ESMTP id S229685AbiJMNSq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 09:18:46 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2E504E1BE;
+        Thu, 13 Oct 2022 06:18:09 -0700 (PDT)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29DDAHxM008050;
+        Thu, 13 Oct 2022 13:18:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=content-type :
+ mime-version : content-transfer-encoding : in-reply-to : references :
+ subject : from : cc : to : message-id : date; s=pp1;
+ bh=YCz39k3rTNYXgIdLf9gG6gxw2s6Ezilt/cXW0vnF6pM=;
+ b=V9A0hQ2cO0+poJeOCWOVumMcKsBKBst73RnIhetzRjYJtpoNtyVPc7g5F1vwxwaNP/J1
+ lXA1o4hrGXLVKWYq1wfMT7xTC416zByEYOwGc+Ja8kPqwLHhV2x4BIeTmdcZf8recHsr
+ HyRKbs+b8TsEdBBtqRc8qnbs2AggUTV8X2aehrDGuHPDOgQIMRdF4dcpWfrLAvkksH0g
+ Z46JEnIKGEmjMU59KpF76cGym1xlhVgoDdy2aUxVpxBVQ6CGcHQRGfLbwejK/lVbAQQu
+ 2FZ9pY6/0pPyNjFAEkBgD1CbgBYsYnzraxYGpqivFBFDH3a6jFkGQZJ2KkITt+q1fIUc Lg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3k6ht2k6wv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 13 Oct 2022 13:18:05 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29DDAbAN008798;
+        Thu, 13 Oct 2022 13:18:04 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3k6ht2k6vv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 13 Oct 2022 13:18:04 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+        by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29DD5C73030487;
+        Thu, 13 Oct 2022 13:18:02 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+        by ppma05fra.de.ibm.com with ESMTP id 3k30u9nrru-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 13 Oct 2022 13:18:02 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 29DDHxta000620
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 13 Oct 2022 13:17:59 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6E7AD42041;
+        Thu, 13 Oct 2022 13:17:59 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4F8DC4203F;
+        Thu, 13 Oct 2022 13:17:59 +0000 (GMT)
+Received: from t14-nrb (unknown [9.171.21.117])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu, 13 Oct 2022 13:17:59 +0000 (GMT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <db41c662-19ce-fc1a-21ba-38ecda7d09c8@bytedance.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20221012205609.2811294-8-scgl@linux.ibm.com>
+References: <20221012205609.2811294-1-scgl@linux.ibm.com> <20221012205609.2811294-8-scgl@linux.ibm.com>
+Subject: Re: [PATCH v2 7/9] KVM: s390: selftest: memop: Add bad address test
+From:   Nico Boehr <nrb@linux.ibm.com>
+Cc:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sven Schnelle <svens@linux.ibm.com>
+To:     Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Janis Schoetterl-Glausch <scgl@linux.ibm.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>
+Message-ID: <166566707911.10648.802829520163979800@t14-nrb>
+User-Agent: alot/0.8.1
+Date:   Thu, 13 Oct 2022 15:17:59 +0200
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Xi8opACtkfEqpg-jBCFwodMzgwNAmG2U
+X-Proofpoint-GUID: 9sQDnl2irMPwvZnlOpLDMUAeKRxKxjfd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-13_08,2022-10-13_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 spamscore=0
+ mlxlogscore=829 bulkscore=0 adultscore=0 suspectscore=0 mlxscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210130078
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 13-10-22 20:50:48, Zhongkun He wrote:
-> > > Hi Michal
-> > > 
-> > > Could we try to change the MPOL_F_SHARED flag to MPOL_F_STATIC to
-> > > mark static mempolicy which cannot be freed, and mpol_needs_cond_ref
-> > > can use MPOL_F_STATIC to avoid freeing  the static mempolicy.
-> > 
-> > Wouldn't it make more sense to get rid of a different treatment and
-> > treat all memory policies the same way?
-> 
-> I found a case, not sure if it makes sense. If there is no policy
-> in task->mempolicy, the use of atomic_{inc,dec} can be skiped
-> according  to MPOL_F_STATIC. Atomic_{inc,dec} in hot path may reduces
-> performance.
+Quoting Janis Schoetterl-Glausch (2022-10-12 22:56:07)
+> Add test that tries to access, instead of CHECK_ONLY.
+>=20
+> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
 
-I would start with a simple conversion and do any potential
-optimizations on top of that based on actual numbers. Maybe we can
-special case default_policy to avoid reference counting a default (no
-policy case). A simple check for pol == &default_policy should be
-negligible.
--- 
-Michal Hocko
-SUSE Labs
+Reviewed-by: Nico Boehr <nrb@linux.ibm.com>
