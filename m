@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE276C4321E
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 05:09:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3420C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 05:10:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229550AbiJMFJ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Oct 2022 01:09:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46756 "EHLO
+        id S229612AbiJMFKh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Oct 2022 01:10:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbiJMFJ1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 01:09:27 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E049B120057
-        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 22:09:26 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id sc25so1426831ejc.12
-        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 22:09:26 -0700 (PDT)
+        with ESMTP id S229506AbiJMFKf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 01:10:35 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F093564C0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 22:10:31 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a26so1503142ejc.4
+        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 22:10:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=brainfault-org.20210112.gappssmtp.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LsAeT6CaX+I87tuvZVSRCFPqmOJTIZuIRCOfCe3pn5I=;
-        b=tDSjM/hiWDiveEWJwFqstNxQatbsWFAl8ZrR5x0hDFjzOqQkLTEVB7WZlu/5hQyUvJ
-         vp3r3ds6qA8GCUBe+ix49ZyUez7tUvcM4EKz1XcC3fj53v71I7cC5fuNY/ipDvBKiZUE
-         BC3Qvu8na40ricNTGTxK4etM1i810zgJ5XAK+5lrG8AvsW0RtonUM9osISqy9zFJus+l
-         bKUmNNvoT2gYdniXJwLdaN0xUDOQA824TYodbDvmsYYhGj8c9FkzY+f8ffwmuTCdleUL
-         QXOXqfwPOrumqXgdS9/oaHwVDFy+hXygvD/cMN0tgZyweyHl7V7C2OQS41Q8ZrcfNcAd
-         J/dg==
+        bh=H0+8Gcuqu1UfIIg3dEddVHWK5ITU4lYfUd1AQFuGSck=;
+        b=PNlEEsHdwYVg58gMTF3ZhmKzEdrbX4fl9/AhTWGZQ3wfRNAwC7Wsw7fkNz2phgytzu
+         e+315XZJOSxy2j3+clw13RR71xCsdYqaXQghL/M/eGefdJTVAvWHgIYsLLkUBKmLnG4R
+         EKtKs/N7FV0Kw5xV7wtHTA+fEqglQQ7SdaoLrHlwXNwiaBAyhpbsDcKV/6kC+WflfL2u
+         LcL+5sJd7N8pk1geCXWKK+I8b+dCkTiBhnTkrFeMc04YW+ApYOEV8S2WRG0TVsZRpQQT
+         SZ9ZIx+9iH/bvqhjWboqe6QuAUPv32X0LhCUhZ7xDCJYjdactM0WUmKr/GsSkblFwsja
+         9BjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LsAeT6CaX+I87tuvZVSRCFPqmOJTIZuIRCOfCe3pn5I=;
-        b=Td5NLLtjiqbHQ4f733sLsZVms3wmNyuubz7CrNib1N8EbzcQ5Ia2VYO5r2Lt2hFkvl
-         YuQu+47+gsraZLd64bvs5dLO8tMafTN+4CMitcrgCRmcP/aEs0N9uAm9uBkE204yxzDW
-         7PgKdsToBwf2D69j+Ta2CeeeZEeih2fd4hXGVmKRsXes9eV6NJ+q6trLObTn6//Z91IC
-         570SejaN+m/RYCkwH64fuqA1EnfErdV7w+z4+aBjscEM3+jLsxxQFSmNDu9UbMThdRN6
-         N6vHkXN83y4eU1sieLufxBTcJNYH0WIpKscre7UXSsd60XPnzlXxdbjRI8vbl1AW7oT0
-         SZRA==
-X-Gm-Message-State: ACrzQf1G+SYs8xwGB6kFh4GkhN3ZyQIvp12lAegyq3zze57d8G7N9G4a
-        9b8Ey5fZ3/hzHdOC0CTpNYXZSWVAcTd51OQ8uNvECVt+diUKyg==
-X-Google-Smtp-Source: AMsMyM4aD4d3ERHBlF/+CYeDceDj6eV5HxBMOEcrIQkNlmb556eFbXSIJsAAQ/3GgUFXUWh88/GEdRNwWm6wPQl7CCc=
-X-Received: by 2002:a17:907:3e1b:b0:78d:ccd0:c9f8 with SMTP id
- hp27-20020a1709073e1b00b0078dccd0c9f8mr12090519ejc.705.1665637765346; Wed, 12
- Oct 2022 22:09:25 -0700 (PDT)
+        bh=H0+8Gcuqu1UfIIg3dEddVHWK5ITU4lYfUd1AQFuGSck=;
+        b=UkslEJLliTDOEPHrebMBruqFcOS/tdtqHpaffTItfvbqqG15dHEfXuaPKVYPhygsXd
+         Xs8aeEL1JDesa76vSaEaPYYlFz3/u8bV4rj74tkDUq/V40hnOkwl0iMPaodw36iLzpAr
+         OLLLGB+jxsSNcnGAwbcYBEGaF9m64G/e+GLTVr8kNpF9O3GCBY+u+RNCChOyN2SjKP0Y
+         ZL3CCYq6DKp7WUIqKuESEAhNvIQX0SuQbUgHIczOTe+ym+geVMyk/ck1jX9Pg15wpF6y
+         bVUyb8ZNlj9QlH6sKePSNYZ/1CxH/pXrNcRXXxZ59f8MrnAcgMgKhXCrAr7oJ0CDEb1r
+         YFug==
+X-Gm-Message-State: ACrzQf3D+cVGa7W+PQvmAB7PmmbVWG1a9LqXgWVtjfso4F0g5AiIHAEl
+        tUBblyqVJ+xy/ZWliMUDqpN8cHDWzpRmTdjqQiXPdQ==
+X-Google-Smtp-Source: AMsMyM40g7/fYyTpIkB5M0+vGUbqGmA/ZLanWaIjN6oMD37YP60Aj424A3hZfIdLXXMlNOEEi5oEBv93L2VaR5eF/io=
+X-Received: by 2002:a17:907:96a6:b0:78d:b6f6:3886 with SMTP id
+ hd38-20020a17090796a600b0078db6f63886mr15039218ejc.106.1665637829662; Wed, 12
+ Oct 2022 22:10:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221013045619.18906-1-palmer@rivosinc.com> <20221013045619.18906-3-palmer@rivosinc.com>
-In-Reply-To: <20221013045619.18906-3-palmer@rivosinc.com>
+References: <20221013045619.18906-1-palmer@rivosinc.com> <20221013045619.18906-4-palmer@rivosinc.com>
+In-Reply-To: <20221013045619.18906-4-palmer@rivosinc.com>
 From:   Anup Patel <anup@brainfault.org>
-Date:   Thu, 13 Oct 2022 10:39:13 +0530
-Message-ID: <CAAhSdy21Yxpzf09aN6c_=zpe9cTwsr0wqnungHk01ZuWPNHu6w@mail.gmail.com>
-Subject: Re: [PATCH 2/4] Documentation: RISC-V: Allow patches for non-standard behavior
+Date:   Thu, 13 Oct 2022 10:40:17 +0530
+Message-ID: <CAAhSdy3UdPr9EVdKakN3hkBG-eoeDa6uuO1=X3OfKGgdttQUAw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] Documentation: RISC-V: Mention the UEFI Standards
 To:     Palmer Dabbelt <palmer@rivosinc.com>
 Cc:     Conor Dooley <conor@kernel.org>, Atish Patra <atishp@rivosinc.com>,
         corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
@@ -68,18 +68,13 @@ On Thu, Oct 13, 2022 at 10:26 AM Palmer Dabbelt <palmer@rivosinc.com> wrote:
 >
 > From: Palmer Dabbelt <palmer@rivosinc.com>
 >
-> The patch acceptance policy forbids accepting support for non-standard
-> behavior.  This policy was written in order to both steer implementers
-> towards the standards and to avoid coupling the upstream kernel too
-> tightly to vendor-specific features.  Those were good goals, but in
-> practice the policy just isn't working: every RISC-V system we have
-> needs vendor-specific behavior in the kernel and we end up taking that
-> support which violates the policy.  That's confusing for contributors,
-> which is the main reason we have a written policy in the first place.
->
-> So let's just start taking code for vendor-defined behavior.
+> The current patch acceptance policy requires that specifications are
+> approved by the RISC-V foundation, but we rely on external
+> specifications as well.  This explicitly calls out the UEFI
+> specifications that we're starting to depend on.
 >
 > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Atish Patra <atishp@rivosinc.com>
 > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 
 Looks good to me from a KVM RISC-V perspective.
@@ -90,30 +85,33 @@ Regards,
 Anup
 
 > ---
->  Documentation/riscv/patch-acceptance.rst | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
+>  Documentation/riscv/patch-acceptance.rst | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 >
 > diff --git a/Documentation/riscv/patch-acceptance.rst b/Documentation/riscv/patch-acceptance.rst
-> index 5da6f9b273d6..0a6199233ede 100644
+> index 0a6199233ede..9fed6b318b49 100644
 > --- a/Documentation/riscv/patch-acceptance.rst
 > +++ b/Documentation/riscv/patch-acceptance.rst
-> @@ -29,7 +29,12 @@ their own custom extensions.  These custom extensions aren't required
->  to go through any review or ratification process by the RISC-V
->  Foundation.  To avoid the maintenance complexity and potential
->  performance impact of adding kernel code for implementor-specific
-> -RISC-V extensions, we'll only accept patches for extensions that
-> -have been officially frozen or ratified by the RISC-V Foundation.
-> -(Implementors, may, of course, maintain their own Linux kernel trees
-> -containing code for any custom extensions that they wish.)
-> +RISC-V extensions, we'll only accept patches for extensions that either:
-> +
-> +- Have been officially frozen or ratified by the RISC-V Foundation, or
-> +- Have been implemented in hardware that is either widely available or
-> +  for which a timeline for availability has been made public.
-> +
-> +Hardware that does not meet its published timelines may have support
-> +removed.  (Implementors, may, of course, maintain their own Linux kernel
-> +trees containing code for any custom extensions that they wish.)
+> @@ -20,9 +20,11 @@ Submit Checklist Addendum
+>  -------------------------
+>  We'll only accept patches for new modules or extensions if the
+>  specifications for those modules or extensions are listed as being
+> -"Frozen" or "Ratified" by the RISC-V Foundation.  (Developers may, of
+> -course, maintain their own Linux kernel trees that contain code for
+> -any draft extensions that they wish.)
+> +unlikely to be incompatibly changed in the future.  For
+> +specifications from the RISC-V foundation this means "Frozen" or
+> +"Ratified", for the UEFI forum specifications this means a published
+> +ECR.  (Developers may, of course, maintain their own Linux kernel trees
+> +that contain code for any draft extensions that they wish.)
+>
+>  Additionally, the RISC-V specification allows implementors to create
+>  their own custom extensions.  These custom extensions aren't required
 > --
 > 2.38.0
 >
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
