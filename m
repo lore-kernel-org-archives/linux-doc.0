@@ -2,135 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DCA8C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 17:45:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55338C43217
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 18:09:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229598AbiJMRpX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Oct 2022 13:45:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33166 "EHLO
+        id S231149AbiJMSJA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Oct 2022 14:09:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229586AbiJMRpW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 13:45:22 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32E7963363
-        for <linux-doc@vger.kernel.org>; Thu, 13 Oct 2022 10:45:21 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id g8-20020a17090a128800b0020c79f987ceso5569218pja.5
-        for <linux-doc@vger.kernel.org>; Thu, 13 Oct 2022 10:45:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ZkeUyFWIjLvxMFg7brz1pr43wrdZfuQ/bNA+wt0kz0=;
-        b=Oyl3aTOEOtogOBtfUuv1T7whUHgFt3/b5KjJ+KNujD3CVmO9CECkcsWeNZqm2l79Pj
-         7c/GDjpcT7G8wiRhUBB7V0tkoB3v2eQ6bbAAcm3iRIBIivASknKeDN49CgJ1Cw2lmfdJ
-         rLjngG7sy8WYzMgRqA1dphHW+q1jBqkQ1r67mZxIxu/0CZitoIpbTNM0nC/89yxK3S0a
-         Ak+B7SszYIlKZFueImPugmAh1C3IuuKJuqWv/HpWMaQy3faF6gcaexP1r/s7u/xYm7ky
-         VkVt57MuK1ONXSu/dh8cxswOhunxB1Yjz/u17N501OnLF71QurkyfGssa9XBijY5WUW+
-         2FMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9ZkeUyFWIjLvxMFg7brz1pr43wrdZfuQ/bNA+wt0kz0=;
-        b=rCurZx+0XRbil2irX7dP09dyVNIARBeaswvd15Zp/9s0IWlxtHBZs719QVkjSi2KFE
-         /5jjSbpafwmn27ssdsknzfun7hQoMxflSWZUN7wCVjK2913n+7/THavHJTSaJ9m4zPFh
-         1QBErF/zvHFAn9oiJYN61YCOkZHDcczZJwXSY7MPoeLMjMX49Ea46oGtLph4z2Y4tY59
-         H4F0wac03uqM+4MRt+vD1/ICTcSv0dpxol5VGtKX4KNH6/HrQBqRRWsI+km2w91txgzm
-         B8JYUqJTw6ZyFnMtlHD5USBed3PcgG+2ofFUh+ZpmahNzK5mEAJ3XDOR4pIXk2SkrAU1
-         kSqA==
-X-Gm-Message-State: ACrzQf0R9BbUAWVNpe/+J9LZa8HvUMg+7FuEZOH4D99FpJiDHOhNiccH
-        e3iznsk6k4sNkoTRREQBWtJYdYfZTJSG88mVfaKMcg==
-X-Google-Smtp-Source: AMsMyM48uQktZ+YTsNROG9cNsn/6MzYVYWhM8oCuC4mWFtmHh5UhmPWtU9OkeE0rTLc4j03w7LrjDZpeEoLncjJHAKc=
-X-Received: by 2002:a17:90b:3a88:b0:209:f35d:ad53 with SMTP id
- om8-20020a17090b3a8800b00209f35dad53mr12593187pjb.102.1665683120401; Thu, 13
- Oct 2022 10:45:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221012181841.333325-1-masahiroy@kernel.org>
-In-Reply-To: <20221012181841.333325-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 13 Oct 2022 10:45:09 -0700
-Message-ID: <CAKwvOdn-0rp6NCVOrQM9Xe0zcTshKbyorpkx5WzQSTu1o45AcA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: raise minimum supported version of
- binutils to 2.25
-To:     Masahiro Yamada <masahiroy@kernel.org>
+        with ESMTP id S231603AbiJMSIU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 14:08:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1F3160EDA;
+        Thu, 13 Oct 2022 11:05:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E10356194A;
+        Thu, 13 Oct 2022 18:00:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4FD0BC433D6;
+        Thu, 13 Oct 2022 18:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665684015;
+        bh=iqd+0wKdSoxapJMe/zP/C6J5LQt/EdnYeEbMixztd+s=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=pn6/Qs5QRe6KYIsgE605CFxvz07+3SCjk/QQKy1GQjohcWWksPeGD0GNohFsfPsy8
+         dFv99qZdO7di9aUzPFFT+p7pdE/LSbonAOybQPI9gV5WlM99YnwRUBe0y8618vVJ7/
+         FQJdGN6nPSddPxdOKebGuXoAWay0S9DjvX8cW6tAT7UWfRJSw049oGaHWt44T515Wh
+         unH8kfBgePyFLCdF8FUgbRmCPMz80P1dfk1bdxwjh3J3cXA4ZOcg6sUtt+nRODgcra
+         9CcKUmsDcheSgODGix2/StRbOMCobOpkG6+Y3hB50JFpvq8o8wlBEHdBHVdxwdypfB
+         gNKg+0BbNzA8g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 39ED6E29F30;
+        Thu, 13 Oct 2022 18:00:15 +0000 (UTC)
+Subject: Re: [GIT PULL] Documentation fixes
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <87pmevism5.fsf@meer.lwn.net>
+References: <87pmevism5.fsf@meer.lwn.net>
+X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87pmevism5.fsf@meer.lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.1-2
+X-PR-Tracked-Commit-Id: 877d95dcfd0a56102d4b97a9691115f5fb5e9ea3
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: f2b220ef93ea34ff6ce48fec382689cf02099f39
+Message-Id: <166568401523.7515.10351019015327844274.pr-tracker-bot@kernel.org>
+Date:   Thu, 13 Oct 2022 18:00:15 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 12, 2022 at 11:19 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Binutils 2.23 was released in 2012. Almost 10 years old.
->
-> We already require GCC 5.1, released in 2015.
->
-> Bump the binutils version to 2.25, which was released one year before
-> GCC 5.1.
->
-> With this applied, some subsystems can start to clean up code.
-> Examples:
->   arch/arm/Kconfig.assembler
->   arch/mips/vdso/Kconfig
->   arch/powerpc/Makefile
->   arch/x86/Kconfig.assembler
+The pull request you sent on Thu, 13 Oct 2022 10:41:06 -0600:
 
-Thanks for the patch! Indeed, it looks like 2.25 is from 2014.
-https://ftp.gnu.org/gnu/binutils/
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> git://git.lwn.net/linux.git tags/docs-6.1-2
 
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  Documentation/process/changes.rst | 4 ++--
->  scripts/min-tool-version.sh       | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index 9844ca3a71a6..ef540865ad22 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -35,7 +35,7 @@ Rust (optional)        1.62.0           rustc --version
->  bindgen (optional)     0.56.0           bindgen --version
->  GNU make               3.82             make --version
->  bash                   4.2              bash --version
-> -binutils               2.23             ld -v
-> +binutils               2.25             ld -v
->  flex                   2.5.35           flex --version
->  bison                  2.0              bison --version
->  pahole                 1.16             pahole --version
-> @@ -119,7 +119,7 @@ Bash 4.2 or newer is needed.
->  Binutils
->  --------
->
-> -Binutils 2.23 or newer is needed to build the kernel.
-> +Binutils 2.25 or newer is needed to build the kernel.
->
->  pkg-config
->  ----------
-> diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
-> index 8766e248ffbb..4e5b45d9b526 100755
-> --- a/scripts/min-tool-version.sh
-> +++ b/scripts/min-tool-version.sh
-> @@ -14,7 +14,7 @@ fi
->
->  case "$1" in
->  binutils)
-> -       echo 2.23.0
-> +       echo 2.25.0
->         ;;
->  gcc)
->         echo 5.1.0
-> --
-> 2.34.1
->
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/f2b220ef93ea34ff6ce48fec382689cf02099f39
 
+Thank you!
 
 -- 
-Thanks,
-~Nick Desaulniers
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
