@@ -2,180 +2,212 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B26D9C43217
-	for <linux-doc@archiver.kernel.org>; Wed, 12 Oct 2022 23:58:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A344C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 01:02:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229635AbiJLX6B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Oct 2022 19:58:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35326 "EHLO
+        id S230040AbiJMBCJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 12 Oct 2022 21:02:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbiJLX6A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 19:58:00 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5E00437FC;
-        Wed, 12 Oct 2022 16:57:58 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id o2so156439qkk.10;
-        Wed, 12 Oct 2022 16:57:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FmGTt81upNKJCIsUibynyofUcfo56u99EQM7Huk1XAY=;
-        b=CgtNenL/z9CyDUzMXKS8FMIVEYPcOxh4jHQx/8pN6R0+6F7+VW5sS7NklPE7bmXIeQ
-         XlqeopIhYfCMzOFNlev/XbSVskzyfM+wIFWhpM5HxUwVDqsV4n8YGPSvO72n0aXlTjZb
-         pQx8vjEUO+T/W4vYbflHq2m43HAjcE/ipFf0Jwc0UxGVnMEnWJo/hPqEyZ4SQwX3dVXw
-         TTq7+BTvX7xIGQBR5X+0pDLXCcUCgwQ9VglUwTAN+xsGuy9x7mgu0MrPicOHcdqczPe0
-         UYenH3Qnbe+aQXpO2QU13S23tsaJVRGA3Je281PDBV4lb4AmOvyZa+SJrINuVIXyiv/q
-         0wIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FmGTt81upNKJCIsUibynyofUcfo56u99EQM7Huk1XAY=;
-        b=kjK8CPP1/GfvVsq9oc3AyRQK3H81haCPJUiXi9pfwG139I/+D5sdrph4CXkQEMe2P7
-         YdRGToAm+1XuKtflPpT+lPRIiWPrFMYl4yOqKYqu/LBv5mxiZ6e77QIufZyFMWLfLF0A
-         I014yvH9SwgJGsMgnFUSG9qcrsYrHf6vGEEHsPzNRSoz72u7upBsxOZivV4USkcIM9i5
-         u7t64PtLa2NDmWMcjomlGeZlGYzhRBX2vOYMQ54iEN4ZoxCyOGC7iIcaFksidyVRcOAO
-         644bXVC0mr5XfeLZPH2/52bhVYvphJO7eIigKT4rOMhA5HXchRzmdT5X5WQFn6EB/1Z3
-         FiEQ==
-X-Gm-Message-State: ACrzQf1yPnlfnUP+5g008dCnuTtn85CLAOvOhA7gbndpFmv10CAoLBZM
-        ay5gQij2U1B5lQqwHDqEJBM=
-X-Google-Smtp-Source: AMsMyM6sAy/Ash+9v4opTMFFF5CqbSfOxYuzqswsETtOQTHE46P24Et4A6MkmJdYKowAg6hvDglWmw==
-X-Received: by 2002:a05:620a:43a8:b0:6ee:9b14:779e with SMTP id a40-20020a05620a43a800b006ee9b14779emr3519974qkp.343.1665619078010;
-        Wed, 12 Oct 2022 16:57:58 -0700 (PDT)
-Received: from [10.69.53.73] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id h19-20020a05620a401300b006eeb185c209sm1256588qko.50.2022.10.12.16.57.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Oct 2022 16:57:57 -0700 (PDT)
-Message-ID: <0f038010-ed83-55bb-70a5-24f5c6d68666@gmail.com>
-Date:   Wed, 12 Oct 2022 16:57:53 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH v2 2/9] mm/vmstat: show start_pfn when zone spans pages
+        with ESMTP id S232329AbiJMBBw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 21:01:52 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3A3CDFBB;
+        Wed, 12 Oct 2022 17:58:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665622718; x=1697158718;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=LbhMj9BjFiUT2tNOw9SYaWasQFSKcWGpqmUWT6vOhdE=;
+  b=URtXYSZoZ8GVMrPxnPGyESqLkx7+VcRNmLa1gQdwRgsaRPd+FWhkodwZ
+   +OLwV+mUd3Lww7ObSxTAKh9dFmc6G5C4vuTjSH9MGdwaMzKjuo4Qrrklc
+   myQt/wmUctDvqJn+0Z2Oux5Whqc6C+6ng+xuotWBCuObthTJXzGkBaZ+m
+   Sms+tWA8yqwm/lhbu+UzizMGmZkAMmshIX60oRpGJ7fma/Gu+3Bn0yB7f
+   JGiV4ZjqyWYgi3QCSIc5Xoov17sASnal/oVdf+gOkVV16sg5WvDLKzZwQ
+   vSjU5sWlhBAvymy/QsAcGt3R4EhX/70EwI9gErxK3n6urXNZl8f5NaWq+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="391247735"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; 
+   d="scan'208";a="391247735"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2022 17:31:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="626964154"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; 
+   d="scan'208";a="626964154"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga002.jf.intel.com with ESMTP; 12 Oct 2022 17:31:41 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 12 Oct 2022 17:31:40 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Wed, 12 Oct 2022 17:31:40 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Wed, 12 Oct 2022 17:31:40 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YV9QV8ZP9qEaMrwCxQvLSwCURmz+sTH1k/yuCxaUeB4ZYJPuDPt0MerlxY35CwyZynpmK3FFNibElennepZ6OAERbHha177AE0HNZ5jfsSXfyG0e7nTH8YJUg0hYzdw/8bPw2V9o80it0mHDhZ8WDjHRbeCqCKKm9f395majKnpCiT10aYNu/6xFtWDuHVth7StgA1Fqjjc6mu8/+MBhkrRdEThUF2NccpMJpVFlw4CTDTvGcExef78xNLEjHNCaDy9lrzN2Z3vha2uGLRRW+9AVNl5VgCdvPhTIlaH3u46AWtatk5W0hkXXfZ5OcyDOyMdEXm5lfRTdpgKlc4JrgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LbhMj9BjFiUT2tNOw9SYaWasQFSKcWGpqmUWT6vOhdE=;
+ b=JftkirETt+fJ+a7lNm7KwNrGeY1oEQ4bZ7GrhKffhP+Sp6KqXq0QMUOfUvZdto/ZQcIl02N7T+GEcI04d7N2KAKWn5meApBf0NstHILEwSBu4ISsgyZLSdSYTcyGPu6d7Jk+XVPr+xsPjX6YCvYrZOOF0bW1ktp3AKzeijNJa6WU+M86ivPQwNU0rkWNkcwkuy3s9vakjz9pOxSBc2foVTiibxmtFHiXq5EoRA7PC9uJLOpisfOcm5/bYr/OLHioXSIng7Wek8ZzTnCFvYucsC7rTFtun/xmrkF1uknrFvPIIZ9MZkhghXK0cUBpNoZ40tf3vm7zQykSAW85rY50Tg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MWHPR11MB1392.namprd11.prod.outlook.com (2603:10b6:300:24::14)
+ by BL1PR11MB5431.namprd11.prod.outlook.com (2603:10b6:208:315::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.21; Thu, 13 Oct
+ 2022 00:31:38 +0000
+Received: from MWHPR11MB1392.namprd11.prod.outlook.com
+ ([fe80::99f8:3b5c:33c9:359a]) by MWHPR11MB1392.namprd11.prod.outlook.com
+ ([fe80::99f8:3b5c:33c9:359a%4]) with mapi id 15.20.5709.021; Thu, 13 Oct 2022
+ 00:31:38 +0000
+From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+To:     "bp@alien8.de" <bp@alien8.de>
+CC:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
+        "oleg@redhat.com" <oleg@redhat.com>,
+        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "Moreira, Joao" <joao.moreira@intel.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Subject: Re: [PATCH v2 02/39] x86/cet/shstk: Add Kconfig option for Shadow
+ Stack
+Thread-Topic: [PATCH v2 02/39] x86/cet/shstk: Add Kconfig option for Shadow
+ Stack
+Thread-Index: AQHY1FMAO2++jn8eSkiiPpemqAqzVa4LQuwAgABKvIA=
+Date:   Thu, 13 Oct 2022 00:31:38 +0000
+Message-ID: <d2cb7f4d97d05036608c8b4324de17df2e2acfa7.camel@intel.com>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+         <20220929222936.14584-3-rick.p.edgecombe@intel.com>
+         <Y0cduNYq/ml6vtxB@zn.tnic>
+In-Reply-To: <Y0cduNYq/ml6vtxB@zn.tnic>
+Accept-Language: en-US
 Content-Language: en-US
-To:     David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
-        Mel Gorman <mgorman@suse.de>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20220928223301.375229-1-opendmb@gmail.com>
- <20220928223301.375229-3-opendmb@gmail.com>
- <8e61d0f4-0c40-6c2d-da60-fa97e2ee7530@redhat.com>
- <b86d90fe-5d57-67ec-49b7-c477924f6438@gmail.com>
- <84ee3d9e-9579-d3f2-fe5a-ec6ec4a2710a@redhat.com>
-From:   Doug Berger <opendmb@gmail.com>
-In-Reply-To: <84ee3d9e-9579-d3f2-fe5a-ec6ec4a2710a@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MWHPR11MB1392:EE_|BL1PR11MB5431:EE_
+x-ms-office365-filtering-correlation-id: 19fc2c4b-60b8-4535-fcb6-08daacb24a97
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: JyKxNhRe4pg7zkFs9/Ypun8yKYVDbbxQRRmBtuTpppU73brpjTUmJjtqxRC5ghMi0xLfA45+Zl5CE+eurgzJwmNRX6foHGeL5OAAmZliRX8eMHtETzSh163LRxE6Nzr9gKFsOx7hrkznZ4RPIXqtkWlzdeEbUTLxX3TeY2Fs7+AmZvmytLvkLR9JmklBpXHIVuMAcGdhq6xpwNAS0uZEe70WvOy/yOvT6gTf2JGyZuXSbiR7CIU0B5ZiT3DEcmK80N8H8tKODCq2zhPLY/Gy4ZXvU7G+9MeL+B1hKWmNPTjSQVG/dCxE+T/DAGFasnJaJxe59Pu34c7U0XJBgFTZh6r7qYV67HsiH4TX42L4FVqmbxPkVMscotMUgYL/0VyafZS/KfPWFM1YlTVSj9oc/Ca+q8feY2dsZ9j3JtwGTaIu9ZwNxU1V8VuQqWIif6+4w/l+iiEHwj2dNdTEf048NB9sliC9EYBrglrs7o24THoxyLp9vkZVys/6jv3f7A/n+UfBfmSYcZUenk2GfL6/0b8ZAmDRK1CsHjaYv8Hp4NZNcOPuuGlQBMTaXZrwaK+2IhCsxCLv4g03cojnSzaiPNL4oURGP/U+1pDBLy8d+8S3J0ERk9CAYt/aX7dPCvx8+rIcc83pJ6NXcKsMBsmXZuaIbdzFF0EHBo8oWPg80ecYlly+nZmB4GpVI8MtTrz2p9grAckr6sOoC0c5/CRnPtvgaP8jfe1bJrQgLIXNafYw3s72Ff8yVT03WVeMy1gfzF5SmJl+kih34JZCbpMeUcbTwEp58uAt9dWeZ/rY/z0=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(346002)(396003)(39860400002)(376002)(136003)(451199015)(86362001)(36756003)(38100700002)(7416002)(7406005)(5660300002)(82960400001)(4001150100001)(186003)(122000001)(2616005)(38070700005)(6506007)(316002)(71200400001)(8676002)(26005)(91956017)(64756008)(6512007)(54906003)(6916009)(6486002)(76116006)(66946007)(66556008)(66476007)(66446008)(478600001)(2906002)(8936002)(4326008)(41300700001)(99106002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MW15L3E4YUhuU1JaTk5LNWhTNzJLV05oS2E0TElLTk40RkhxdHB1UlRHdEdP?=
+ =?utf-8?B?MW9ldFhHaDF6ZTh0UGc2UFFhSHptbDZrLytWVUhVa1R5c3NqZ09FakFGLzZZ?=
+ =?utf-8?B?WVR4UkZWWnJKOWhqM1BjUWdheFFnb2NRbU9jcWIyZGMwNGIzRmp0bmJ0K25s?=
+ =?utf-8?B?SUMwK1k5bXByZTZaT0tjcS9ma0piTXBZUzZ2UENRQUc4K1R0NGZsUDV3a1JR?=
+ =?utf-8?B?UUNwOHhuQThDZnNEZldQMzRLTEkrSUZDN1ZXcUkyblFHS21MMkRyL2VKclVF?=
+ =?utf-8?B?R3M5TXFESFU3dCtWR3F2N3NrSHdBMDVSTUxXSnZTU2VERXlVcXJJT1V0M2FN?=
+ =?utf-8?B?S056RHRLZVh4UW9iTHdHR2o4TGdGZ3FPYTJ0ZWtBTDBVQWlKQVMzMWNNYkxj?=
+ =?utf-8?B?dVd4Q0Y0OEg2WmZGQndsK2JJVGpnZVNUcENqL2RIbWt0M3dOaW9OYUhmMGta?=
+ =?utf-8?B?SFRnUTZLS1pnZkFqYmk2K3o5YjBWTGZCRXR0SlIyaGZZWWxvdTJhclMwWmUv?=
+ =?utf-8?B?YnJUSWIvQ2J6aW1HcGdONkE4cnJpQU5xa3BOU0lNQ3pDbEhiS3NPODNMQU8r?=
+ =?utf-8?B?eHZBaWhVYkdEZDA4UTJoaERibVVnRzkyNCs3cEs0aHdGZFQ4aXNpREFVVGZx?=
+ =?utf-8?B?aGNQa0Z3d0xDTkg5ODZGVnNlWkxnVzRXQit2TjArdUlvVjVEVU1IelcyeUxk?=
+ =?utf-8?B?N2pROGdGQnM1WXdhRlNsMFJNVnQydVFBRmxGWk9EN3l5TVdzWExLMXU0SEZP?=
+ =?utf-8?B?ZW1ZSkFtRE1VRUVtVUNvSEtqU3NmZzdPa0RxYjFQc2FuaFA5VWhHaGFTN0No?=
+ =?utf-8?B?bmhUZk13WHgzYXVHcGhQMVk2eUhNQUtmYkkxY0tBYnZOc2hETTVqNTBha3pM?=
+ =?utf-8?B?aFQ0dDNZVGlpdWpYSmc5bU01OVJKTW1XeVhLcWZwdnBvNk9KSEJzUVFVZUIw?=
+ =?utf-8?B?VGNzYXdBdWMwMms0REVNZ1UrTUZtcXN2T1hrME45QUdIdU5URytsYkUySGpw?=
+ =?utf-8?B?RCtQVWRqUmlsY2J3QVBRMUJLNGk5NWNlMStxdUFQSGh5aUF0Q2N0V3RIUDMw?=
+ =?utf-8?B?dHlydE1MbnZUcEZlS3I1RkZPVUNJRWw5dkdWTmxwV2V6djIvdW5PV0pQUGdR?=
+ =?utf-8?B?UitZVmNnQjJwbEZaS0U2MlJGVWhoNGZWanZwbHk5OEV0a3ZXaDhyZ3hZUjNs?=
+ =?utf-8?B?WXkxWXFEOGVnRzVWcHlhREZFOWVjdjN2TFp2SUNoS3A4VlBZLzcvejUvSkh6?=
+ =?utf-8?B?ajZCek1zZzJyMzdpMFJGTDU4RGEzV1ZlaElUVmxLQjBGc1dTTk5pMlpGU3h5?=
+ =?utf-8?B?WkV2cVJYdUxUKzkwUDlSSExZRWpBSFJUVnU3YkFLaUxtTTJhL0dsYnkvUUpV?=
+ =?utf-8?B?U3dzMkUyRDNQTXJkVmpMb29ZTVZsZjZFRmZvOVpFM2ZYWlZQMmNSbm1TWkV0?=
+ =?utf-8?B?TkYwZDFWRDJOZVVLd3A3Q2k4dDdHMGlmY3lONkw1TlVnZzVXdzc4UGdmN1J6?=
+ =?utf-8?B?d3dudGhkNmJYZ212QXhFQjN6akUwVlEvTk11MVZ0ZXR1OEtPdnJtam11c0hZ?=
+ =?utf-8?B?VnROMyt6VjN2Ykp4dDBXUWVDdjE0Q244RFRveU52NVlVTW5iUzNVSXY1ZE1m?=
+ =?utf-8?B?YXZ5blhNamhKYVdQWHRQeE1BN2xJMCsrMHBYWEgrQVlRVElGQkpldjF1dkhL?=
+ =?utf-8?B?cEpXRktWZXhJSDV5cjQ3S0l2VnRhUWFPV0IwS0pUWm40RzVlL3lVYU1sOFI5?=
+ =?utf-8?B?UmphMzVzblhrdEdvbEtuUUVoUWdEN0JPeHJld21mVVVnS0cvZGRzZ0U1UDNI?=
+ =?utf-8?B?RHo5VUlkdXFpaTFtQmExcS9VWnNHdFluZW51REN6bWkyWlVPdERMNmlkM3da?=
+ =?utf-8?B?RzFQdTEyTWNPQXBkK1I0QUtmZGg3WUhhT2piZmhrSGRvSmpUL1Y4blhTNEdT?=
+ =?utf-8?B?T0h0MVBxS3BNYU5YTC9LU051VENQclNSYzI3VFBCT2Z2MGtzUkFmdzRGMEp6?=
+ =?utf-8?B?dFliWEhKd2p3OW1MM1NaSVUyWSszVitrK00rbjEraXRJYTJUVmYrVmdjV2ls?=
+ =?utf-8?B?V01XRFhsVTI3TXp6RXdGWXJIS3c4U0lQRSt2dmdXQzBEWHNRNlJqNW9kODZz?=
+ =?utf-8?B?eGZKYUtSVXB2ZVNsRTd0Q0dFV2JJbkNKNHpiczZBNWlsZWNnWEpQT2VvSkxp?=
+ =?utf-8?Q?495K9xy/Df9zhPzFRUOTirw=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <51B7BF74FDFED9419515645F77E616E2@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19fc2c4b-60b8-4535-fcb6-08daacb24a97
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2022 00:31:38.1664
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5xpfO1KveFvdYbzAAW+A57CgSH+j4k/OG7IyblvSqfzTgC6dqSWVV4P1mpzq+v4LkYnnWZBDsoSo4ds6BV2UIbHuJuMFrlWInbXzDHWhUbQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5431
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/5/2022 11:09 AM, David Hildenbrand wrote:
-> On 01.10.22 03:28, Doug Berger wrote:
->> On 9/29/2022 1:15 AM, David Hildenbrand wrote:
->>> On 29.09.22 00:32, Doug Berger wrote:
->>>> A zone that overlaps with another zone may span a range of pages
->>>> that are not present. In this case, displaying the start_pfn of
->>>> the zone allows the zone page range to be identified.
->>>>
->>>
->>> I don't understand the intention here.
->>>
->>> "/* If unpopulated, no other information is useful */"
->>>
->>> Why would the start pfn be of any use here?
->>>
->>> What is the user visible impact without that change?
->> Yes, this is very subtle. I only caught it while testing some
->> pathological cases.
->>
->> If you take the example system:
->> The 7278 device has four ARMv8 CPU cores in an SMP cluster and two
->> memory controllers (MEMCs). Each MEMC is capable of controlling up to
->> 8GB of DRAM. An example 7278 system might have 1GB on each controller,
->> so an arm64 kernel might see 1GB on MEMC0 at 0x40000000-0x7FFFFFFF and
->> 1GB on MEMC1 at 0x300000000-0x33FFFFFFF.
->>
-> 
-> Okay, thanks. You should make it clearer in the patch description -- 
-> especially how this relates to DMB. Having that said, I still have to 
-> digest your examples:
-> 
->> Placing a DMB on MEMC0 with 'movablecore=256M@0x70000000' will lead to
->> the ZONE_MOVABLE zone spanning from 0x70000000-0x33fffffff and the
->> ZONE_NORMAL zone spanning from 0x300000000-0x33fffffff.
-> 
-> Why is ZONE_MOVABLE spanning more than 256M? It should span
-> 
-> 0x70000000-0x80000000
-> 
-> Or what am I missing?
-I was working from the notion that the classic 'movablecore' 
-implementation keeps the ZONE_MOVABLE zone the last zone on System RAM 
-so it always spans the last page on the node (i.e. 0x33ffff000). My 
-implementation moves the start of ZONE_MOVABLE up to the lowest page of 
-any defined DMBs on the node.
-
-I see that memory hotplug does not behave this way, which is probably 
-more intuitive (though less consistent with the classic zone layout). I 
-could attempt to change this in a v3 if desired.
-
-> 
->>
->> If instead you specified 'movablecore=256M@0x70000000,512M' you would
->> get the same ZONE_MOVABLE span, but the ZONE_NORMAL would now span
->> 0x300000000-0x32fffffff. The requested 512M of movablecore would be
->> divided into a 256MB DMB at 0x70000000 and a 256MB "classic" movable
->> zone start would be displayed in the bootlog as:
->> [    0.000000] Movable zone start for each node
->> [    0.000000]   Node 0: 0x000000330000000
-> 
-> 
-> Okay, so that's the movable zone range excluding DMB.
-> 
->>
->> Finally, if you specified the pathological
->> 'movablecore=256M@0x70000000,1G@12G' you would still have the same
->> ZONE_MOVABLE span, and the ZONE_NORMAL span would go back to
->> 0x300000000-0x33fffffff. However, because the second DMB (1G@12G)
->> completely overlaps the ZONE_NORMAL there would be no pages present in
->> ZONE_NORMAL and /proc/zoneinfo would report ZONE_NORMAL 'spanned
->> 262144', but not where those pages are. This commit adds the 'start_pfn'
->> back to the /proc/zoneinfo for ZONE_NORMAL so the span has context.
-> 
-> ... but why? If there are no pages present, there is no ZONE_NORMAL we 
-> care about. The zone span should be 0. Does this maybe rather indicate 
-> that there is a zone span processing issue in your DMB implementation?
-My implementation uses the zones created by the classic 'movablecore' 
-behavior and relocates the pages within DMBs. In this case the 
-ZONE_NORMAL still has a span which gets output but no present pages so 
-the output didn't show where the zone was without this patch. This is a 
-convenience to avoid adding zone resizing and destruction logic outside 
-of memory hotplug support, but I could attempt to add that code in a v3 
-if desired.
-
-> 
-> Special-casing zones based on DMBs feels wrong. But most probably I am 
-> missing something important :)
-> 
-
-Thanks for making me aware of your confusion so I can attempt to make it 
-clearer.
--Doug
+T24gV2VkLCAyMDIyLTEwLTEyIGF0IDIyOjA0ICswMjAwLCBCb3Jpc2xhdiBQZXRrb3Ygd3JvdGU6
+DQo+IE9uIFRodSwgU2VwIDI5LCAyMDIyIGF0IDAzOjI4OjU5UE0gLTA3MDAsIFJpY2sgRWRnZWNv
+bWJlIHdyb3RlOg0KPiA+IEZyb206IFl1LWNoZW5nIFl1IDx5dS1jaGVuZy55dUBpbnRlbC5jb20+
+DQo+ID4gU3ViamVjdDogUmU6IFtQQVRDSCB2MiAwMi8zOV0geDg2L2NldC9zaHN0azogQWRkIEtj
+b25maWcgb3B0aW9uIGZvcg0KPiA+IFNoYWRvdyBTdGFjaw0KPiANCj4gUGxlYXNlIHJlbW92ZSBh
+bGwgIkNFVCIsICJjZXQiLCBldGMgc3RyaW5ncyBmcm9tIHRoZSB0ZXh0IGFzIHRoYXQgaXMNCj4g
+Y29uZnVzaW5nLiBXZSBzaG91bGQgdXNlIGVpdGhlciBzaGFkb3cgc3RhY2sgb3IgSUJUIGFuZCBu
+b3QgQ0VULg0KDQpHb29kIHBvaW50LCBJJ2xsIHJlbW92ZSBpdC4gVGhhbmtzLg0KDQo+IA0KPiA+
+ICtjb25maWcgQVJDSF9IQVNfU0hBRE9XX1NUQUNLDQo+IA0KPiBEbyBJIHNlZSBpdCBjb3JyZWN0
+bHkgdGhhdCB0aGlzIHRoaW5nIGlzIG5lZWRlZCBvbmx5IG9uY2UgaW4NCj4gc2hvd19zbWFwX3Zt
+YV9mbGFncygpPw0KPiANCj4gSWYgc28sIGNhbiB3ZSBkbyBhIGFyY2hfc2hvd19zbWFwX3ZtYV9m
+bGFncygpLCBjYWxsIGl0IGF0IHRoZSBlbmQgb2YNCj4gZm9ybWVyIGZ1bmN0aW9uIGFuZCBhdm9p
+ZCBhZGRpbmcgeWV0IGFub3RoZXIgS2NvbmZpZyBzeW1ib2w/DQoNClllYSwgSSB3YXMgdGhpbmtp
+bmcgdG8gbWF5YmUganVzdCBjaGFuZ2UgaXQgdG8NCkNPTkZJR19YODZfVVNFUl9TSEFET1dfU1RB
+Q0sgaW4gc2hvd19zbWFwX3ZtYV9mbGFncygpLiBJbiB0aGF0IGZ1bmN0aW9uDQp0aGVyZSBpcyBh
+bHJlYWR5IENPTkZJR19BUk02NF9CVEkgYW5kIENPTkZJR19BUk02NF9NVEUuDQoNCkknbSBub3Qg
+c3VyZSBpZiB0aGVyZSBpcyBhbnkgYXZlcnNpb24gdG8gaGF2aW5nIGFyY2ggQ09ORklHcyBpbiBj
+b3JlDQpjb2RlLCBidXQgaXQncyBraW5kIG9mIG5pY2UgdG8gaGF2ZSBhbGwgb2YgdGhlIHBvdGVu
+dGlhbGx5IGNvbmZsaWN0aW5nDQpzdHJpbmdzIGluIG9uY2UgcGxhY2UuDQo=
