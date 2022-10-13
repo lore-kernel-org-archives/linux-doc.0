@@ -2,143 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C02B1C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 14:21:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A178BC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 15:05:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229437AbiJMOVg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Oct 2022 10:21:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53684 "EHLO
+        id S229604AbiJMPFU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Oct 2022 11:05:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230139AbiJMOVc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 10:21:32 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78733DCAEE;
-        Thu, 13 Oct 2022 07:21:30 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id 204so2059067pfx.10;
-        Thu, 13 Oct 2022 07:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VcOtwnIKDIYhDLNa+tjdb7hspR/G57m1UnHPm7nh87c=;
-        b=Sg9P0zLb9j4BU/7R6DGShqJLgQ4ld7/cew4KUXy4Tj0p1wM8y2Q5FEjLwM4wiZoMU1
-         j2QmZSfDfw846N6CakwAqYSXTjBNYBsrMAL3Lf2iujHeWhCgxugLopjWKT33oUKRCNfJ
-         FuaVzroHoFdbsnFfr47qOBW/YKs8gAdl/x8fP4PAg6cNAybD542eOCtvG8T+hawk1yLw
-         ij2K20AUQgWdj6eQNStls1CvB90pF9t980QJ2Y0oZOinszfnhhvGRzhfzvg6dMXQQ5EC
-         vsPkSTGh0K+g7gjvMucYbij/Wr6FrFMsWbmq14a3BamLVtln5paDxmRW3P2a+yhnXA76
-         nrGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VcOtwnIKDIYhDLNa+tjdb7hspR/G57m1UnHPm7nh87c=;
-        b=qevlyPtADjPoC16LDvbnnYe0pD3lyNBHSXDV9kFBu9IFXcWVOQZgSRDIGxUIiXH58d
-         kQHkpf/CYTXifHE7uv1wf1fbdh9d2EXl3yYU8QW1dsDGPMY+sbSQu45puQvsVirgU4C3
-         VCtEjNgHeROAQn0MkKACXOi1GtIXNSd0oxqPcQuSKMMdvN31WvzvkfbXVubIWW9fbGdC
-         ELosy8+jT/LgxhAY+6/BTS+s+gdZMTB7rygheP4h3UwNBgYFdJv9owY69JUSgrLTiTMm
-         4FpTq0XUNVN8d5cvk/Wyw/UHNjCXWePu0dZF2LaGIWBR4+hmSyOFsQJvoUILwW+a20tF
-         H6WQ==
-X-Gm-Message-State: ACrzQf0eFrqtG7WW8MjNZMQQCctCUWXYWZr2eh14RKNiz7uCNgsSHJNk
-        boYSE9Ggt1TlwFj1Ktb+uBs=
-X-Google-Smtp-Source: AMsMyM5ESnJ1JrQczDW0yQRD/dOUJfZnh9/0VlsUVCm8pyVJc6gIkpMp1ylsMCwOI31HHd7iF1LG5g==
-X-Received: by 2002:a65:580a:0:b0:439:befc:d2b0 with SMTP id g10-20020a65580a000000b00439befcd2b0mr121704pgr.302.1665670889890;
-        Thu, 13 Oct 2022 07:21:29 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id r18-20020a170902e3d200b0017f75bc7a61sm12591253ple.166.2022.10.13.07.21.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Oct 2022 07:21:29 -0700 (PDT)
-Message-ID: <89120a24-f622-eb9b-fde9-635caaabb67f@gmail.com>
-Date:   Thu, 13 Oct 2022 23:21:26 +0900
+        with ESMTP id S229598AbiJMPFU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 11:05:20 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A87D6AEBD;
+        Thu, 13 Oct 2022 08:05:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=u/yanSpQBsDeBmQh9RGkX0Jb1t4uGPjofYGMl0NSrBE=; b=DibP47fuq7FMfHRrPVlaGSjQhm
+        C5E5TSowkWHxK95Vr5n8gif18WSiSNP7x2IMnsLGnMxD5JhdxGM2DbDqnwgNqclhu+vaMWayo83i5
+        kTCyuNd8G61OCxOuf/YvgHvQJtP1ocM28FCJGwEJSTa6TEzOxJxRDcuISy2Gm0gZkPVeMUCHtcrEl
+        B4WTT7fVfi6JqsDUeEmktXT/Y0A8yJ5LJliY/xY12YNWK9TGsJsW95SdQCNfw43ryYNsIZLwvwwWX
+        UpB6b0MFjZO2mVIPBLC/YMIED/uyk9+ChNWYXtfSdZXxLBxydfqTpADE3zrzqhgFCo8VieXPDRcQA
+        dBXGWFnA==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oizl5-006nU4-7E; Thu, 13 Oct 2022 15:04:27 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E75713001CB;
+        Thu, 13 Oct 2022 17:04:19 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id AA9922B634088; Thu, 13 Oct 2022 17:04:19 +0200 (CEST)
+Date:   Thu, 13 Oct 2022 17:04:19 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Yu Zhao <yuzhao@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
+Message-ID: <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net>
+References: <20220815071332.627393-1-yuzhao@google.com>
+ <20220815071332.627393-9-yuzhao@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     bagasdotme@gmail.com, jani.nikula@linux.intel.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mchehab@kernel.org, Randy Dunlap <rdunlap@infradead.org>
-References: <87h709md2c.fsf@meer.lwn.net>
-Subject: Re: [PATCH v2 0/6] docs: Improvements to our HTML output
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87h709md2c.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220815071332.627393-9-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
+On Mon, Aug 15, 2022 at 01:13:27AM -0600, Yu Zhao wrote:
+> +	for (i = pmd_index(start), addr = start; addr != end; i++, addr = next) {
+> +		pmd_t val = pmd_read_atomic(pmd + i);
+> +
+> +		/* for pmd_read_atomic() */
+> +		barrier();
 
-On Wed, 12 Oct 2022 06:38:51 -0600, Jonathan Corbet wrote:
-> Bagas Sanjaya <bagasdotme@gmail.com> writes:
-> 
->> Hmm, I can't cleanly apply this patch series on top of either Linus's tree
->> or linux-next due to conflicts on [1/6]. On what commit this series is based
->> on?
-> 
-> docs-next, which is still running off the pre-6.0 base until after the
-> merge window closes.
-Hmm...
+Please clarify the above. This is an entirely inadequate ordering
+comment.
 
-Actually, I can't apply 1/6 cleanly on docs-next, either.
-As I have your tree in my local repo, "git am -3" worked and pointed
-out there is a merge conflict.
-
-It turns out that one of the hunks in 1/6 doesn't match what could be
-applied cleanly.
-
-[From 1/6]:
-
-------------------------------------------------------
-@@ -371,7 +393,7 @@ html_use_smartypants = False
- 
- # Custom sidebar templates, maps document names to template names.
- # Note that the RTD theme ignores this
--html_sidebars = { '**': ['searchbox.html', 'localtoc.html', 'sourcelink.html']}
-+html_sidebars = { '**': ["about.html", 'searchbox.html', 'localtoc.html', 'sourcelink.html']}
- 
- # Additional templates that should be rendered to pages, maps page names to
- # template names.
-------------------------------------------------------
-
-What can be cleanly applied:
-
-------------------------------------------------------
-@@ -371,7 +393,7 @@ html_use_smartypants = False
- 
- # Custom sidebar templates, maps document names to template names.
- # Note that the RTD theme ignores this.
--html_sidebars = { '**': ['searchbox.html', 'localtoc.html', 'sourcelink.html']}
-+html_sidebars = { '**': ["about.html", 'searchbox.html', 'localtoc.html', 'sourcelink.html']}
- 
- # Additional templates that should be rendered to pages, maps page names to
- # template names.
-------------------------------------------------------
-
-There is an additional period at the comment of:
-
-> # Note that the RTD theme ignores this.
-                                        ^
-So if you remove the period first, you should be able to apply the
-patch set cleanly starting from docs-next or linux-next, I guess.
-
-Sidenote: I see this warning when applying 5/6:
-
-  .git/rebase-apply/patch:18: trailing whitespace.
-      margin: 20px 10px 0 10px; 
-  warning: 1 line adds whitespace errors.
-
-Hope this helps.
-
-Akira
-
-> 
-> If I need to post another round before merging I'll drag everything
-> forward to a more current base.
-> 
-> Thanks,
-> 
-> jon
-
+> +
+> +		next = pmd_addr_end(addr, end);
