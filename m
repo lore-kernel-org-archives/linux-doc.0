@@ -2,295 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A195C4167D
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 17:29:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DCA8C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 17:45:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229868AbiJMR3b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Oct 2022 13:29:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48218 "EHLO
+        id S229598AbiJMRpX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Oct 2022 13:45:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229861AbiJMR3a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 13:29:30 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0E61D038E;
-        Thu, 13 Oct 2022 10:29:28 -0700 (PDT)
-Received: from meer.lwn.net (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
-        by ms.lwn.net (Postfix) with ESMTPA id 44F0C7DE;
-        Thu, 13 Oct 2022 17:29:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 44F0C7DE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1665682168; bh=keh3BAATlkR8yDL2srU6MNeKVExwzXPbSFhQxtmEIdk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=s332vN68n3jqb2xYS+ZyYgEsAFrNsqsWuUvhcbLuNPL0CzQXC+PVGOSKII3104BSk
-         l1SzFbQdQGXojU0xubGNluP7x9pCPqnCpf9x2Jf2wuSs9ucB951+ByUhA6n65n6Yge
-         bZJYhrg7rgIKOPue9b882fj8UBGLN1Ll52ZEXq+2WFy1KQgJ6JrWWsJ1vBwf6ByQYU
-         aB4HswMJiJfBXIG6ipVKRzmEEgR5lsQxC0mrOtbFX4UUrs6Tk/HOi3BxXLN2Bs/ad3
-         3yBSA5XOvk4gRhiKgA5ZXHnA/YJobyYqpmQWa4/krZ4VRu8ULQJNuJsJtTR+Yyc22B
-         1InmJOhTu3B5w==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH v3 6/6] docs: decruft Documentation/conf.py
-Date:   Thu, 13 Oct 2022 11:29:18 -0600
-Message-Id: <20221013172918.846856-7-corbet@lwn.net>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20221013172918.846856-1-corbet@lwn.net>
-References: <20221013172918.846856-1-corbet@lwn.net>
+        with ESMTP id S229586AbiJMRpW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 13:45:22 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32E7963363
+        for <linux-doc@vger.kernel.org>; Thu, 13 Oct 2022 10:45:21 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id g8-20020a17090a128800b0020c79f987ceso5569218pja.5
+        for <linux-doc@vger.kernel.org>; Thu, 13 Oct 2022 10:45:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9ZkeUyFWIjLvxMFg7brz1pr43wrdZfuQ/bNA+wt0kz0=;
+        b=Oyl3aTOEOtogOBtfUuv1T7whUHgFt3/b5KjJ+KNujD3CVmO9CECkcsWeNZqm2l79Pj
+         7c/GDjpcT7G8wiRhUBB7V0tkoB3v2eQ6bbAAcm3iRIBIivASknKeDN49CgJ1Cw2lmfdJ
+         rLjngG7sy8WYzMgRqA1dphHW+q1jBqkQ1r67mZxIxu/0CZitoIpbTNM0nC/89yxK3S0a
+         Ak+B7SszYIlKZFueImPugmAh1C3IuuKJuqWv/HpWMaQy3faF6gcaexP1r/s7u/xYm7ky
+         VkVt57MuK1ONXSu/dh8cxswOhunxB1Yjz/u17N501OnLF71QurkyfGssa9XBijY5WUW+
+         2FMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9ZkeUyFWIjLvxMFg7brz1pr43wrdZfuQ/bNA+wt0kz0=;
+        b=rCurZx+0XRbil2irX7dP09dyVNIARBeaswvd15Zp/9s0IWlxtHBZs719QVkjSi2KFE
+         /5jjSbpafwmn27ssdsknzfun7hQoMxflSWZUN7wCVjK2913n+7/THavHJTSaJ9m4zPFh
+         1QBErF/zvHFAn9oiJYN61YCOkZHDcczZJwXSY7MPoeLMjMX49Ea46oGtLph4z2Y4tY59
+         H4F0wac03uqM+4MRt+vD1/ICTcSv0dpxol5VGtKX4KNH6/HrQBqRRWsI+km2w91txgzm
+         B8JYUqJTw6ZyFnMtlHD5USBed3PcgG+2ofFUh+ZpmahNzK5mEAJ3XDOR4pIXk2SkrAU1
+         kSqA==
+X-Gm-Message-State: ACrzQf0R9BbUAWVNpe/+J9LZa8HvUMg+7FuEZOH4D99FpJiDHOhNiccH
+        e3iznsk6k4sNkoTRREQBWtJYdYfZTJSG88mVfaKMcg==
+X-Google-Smtp-Source: AMsMyM48uQktZ+YTsNROG9cNsn/6MzYVYWhM8oCuC4mWFtmHh5UhmPWtU9OkeE0rTLc4j03w7LrjDZpeEoLncjJHAKc=
+X-Received: by 2002:a17:90b:3a88:b0:209:f35d:ad53 with SMTP id
+ om8-20020a17090b3a8800b00209f35dad53mr12593187pjb.102.1665683120401; Thu, 13
+ Oct 2022 10:45:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221012181841.333325-1-masahiroy@kernel.org>
+In-Reply-To: <20221012181841.333325-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 13 Oct 2022 10:45:09 -0700
+Message-ID: <CAKwvOdn-0rp6NCVOrQM9Xe0zcTshKbyorpkx5WzQSTu1o45AcA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: raise minimum supported version of
+ binutils to 2.25
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove the ancient support for the Sphinx "classic" theme; everybody will
-have alabaster, so that fallback is no longer needed.
+On Wed, Oct 12, 2022 at 11:19 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Binutils 2.23 was released in 2012. Almost 10 years old.
+>
+> We already require GCC 5.1, released in 2015.
+>
+> Bump the binutils version to 2.25, which was released one year before
+> GCC 5.1.
+>
+> With this applied, some subsystems can start to clean up code.
+> Examples:
+>   arch/arm/Kconfig.assembler
+>   arch/mips/vdso/Kconfig
+>   arch/powerpc/Makefile
+>   arch/x86/Kconfig.assembler
 
-While in the neighborhood: get rid of lots of useless comment lines.  They
-describe the state of Sphinx options when we first created that file and
-are just clutter now.
+Thanks for the patch! Indeed, it looks like 2.25 is from 2014.
+https://ftp.gnu.org/gnu/binutils/
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/conf.py | 181 +-----------------------------------------
- 1 file changed, 2 insertions(+), 179 deletions(-)
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  Documentation/process/changes.rst | 4 ++--
+>  scripts/min-tool-version.sh       | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> index 9844ca3a71a6..ef540865ad22 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -35,7 +35,7 @@ Rust (optional)        1.62.0           rustc --version
+>  bindgen (optional)     0.56.0           bindgen --version
+>  GNU make               3.82             make --version
+>  bash                   4.2              bash --version
+> -binutils               2.23             ld -v
+> +binutils               2.25             ld -v
+>  flex                   2.5.35           flex --version
+>  bison                  2.0              bison --version
+>  pahole                 1.16             pahole --version
+> @@ -119,7 +119,7 @@ Bash 4.2 or newer is needed.
+>  Binutils
+>  --------
+>
+> -Binutils 2.23 or newer is needed to build the kernel.
+> +Binutils 2.25 or newer is needed to build the kernel.
+>
+>  pkg-config
+>  ----------
+> diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
+> index 8766e248ffbb..4e5b45d9b526 100755
+> --- a/scripts/min-tool-version.sh
+> +++ b/scripts/min-tool-version.sh
+> @@ -14,7 +14,7 @@ fi
+>
+>  case "$1" in
+>  binutils)
+> -       echo 2.23.0
+> +       echo 2.25.0
+>         ;;
+>  gcc)
+>         echo 5.1.0
+> --
+> 2.34.1
+>
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 1dbf3d6a55de..6ab47833ab6c 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -297,7 +297,7 @@ if html_theme == 'sphinx_rtd_theme' or html_theme == 'sphinx_rtd_dark_mode':
-                 html_css_files.append('theme_rtd_colors.css')
- 
-     except ImportError:
--        html_theme = 'classic'
-+        html_theme = 'alabaster'
- 
- if "DOCS_CSS" in os.environ:
-     css = os.environ["DOCS_CSS"].split(" ")
-@@ -313,36 +313,7 @@ if major <= 1 and minor < 8:
-     for l in html_css_files:
-         html_context['css_files'].append('_static/' + l)
- 
--if  html_theme == 'classic':
--    html_theme_options = {
--        'rightsidebar':        False,
--        'stickysidebar':       True,
--        'collapsiblesidebar':  True,
--        'externalrefs':        False,
--
--        'footerbgcolor':       "white",
--        'footertextcolor':     "white",
--        'sidebarbgcolor':      "white",
--        'sidebarbtncolor':     "black",
--        'sidebartextcolor':    "black",
--        'sidebarlinkcolor':    "#686bff",
--        'relbarbgcolor':       "#133f52",
--        'relbartextcolor':     "white",
--        'relbarlinkcolor':     "white",
--        'bgcolor':             "white",
--        'textcolor':           "black",
--        'headbgcolor':         "#f2f2f2",
--        'headtextcolor':       "#20435c",
--        'headlinkcolor':       "#c60f0f",
--        'linkcolor':           "#355f7c",
--        'visitedlinkcolor':    "#355f7c",
--        'codebgcolor':         "#3f3f3f",
--        'codetextcolor':       "white",
--
--        'bodyfont':            "serif",
--        'headfont':            "sans-serif",
--    }
--else:
-+if  html_theme == 'alabaster':
-     html_theme_options = {
-         'description': get_cline_version(),
-         'font_size': '10pt',
-@@ -352,44 +323,11 @@ else:
- 
- sys.stderr.write("Using %s theme\n" % html_theme)
- 
--# Theme options are theme-specific and customize the look and feel of a theme
--# further.  For a list of options available for each theme, see the
--# documentation.
--#html_theme_options = {}
--
--# Add any paths that contain custom themes here, relative to this directory.
--#html_theme_path = []
--
--# The name for this set of Sphinx documents.  If None, it defaults to
--# "<project> v<release> documentation".
--#html_title = None
--
--# A shorter title for the navigation bar.  Default is the same as html_title.
--#html_short_title = None
--
--# The name of an image file (relative to this directory) to place at the top
--# of the sidebar.
--#html_logo = None
--
--# The name of an image file (within the static path) to use as favicon of the
--# docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
--# pixels large.
--#html_favicon = None
--
- # Add any paths that contain custom static files (such as style sheets) here,
- # relative to this directory. They are copied after the builtin static files,
- # so a file named "default.css" will overwrite the builtin "default.css".
- html_static_path = ['sphinx-static']
- 
--# Add any extra paths that contain custom files (such as robots.txt or
--# .htaccess) here, relative to this directory. These files are copied
--# directly to the root of the documentation.
--#html_extra_path = []
--
--# If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
--# using the given strftime format.
--#html_last_updated_fmt = '%b %d, %Y'
--
- # If true, SmartyPants will be used to convert quotes and dashes to
- # typographically correct entities.
- html_use_smartypants = False
-@@ -398,50 +336,6 @@ html_use_smartypants = False
- # Note that the RTD theme ignores this
- html_sidebars = { '**': ["about.html", 'searchbox.html', 'localtoc.html', 'sourcelink.html']}
- 
--# Additional templates that should be rendered to pages, maps page names to
--# template names.
--#html_additional_pages = {}
--
--# If false, no module index is generated.
--#html_domain_indices = True
--
--# If false, no index is generated.
--#html_use_index = True
--
--# If true, the index is split into individual pages for each letter.
--#html_split_index = False
--
--# If true, links to the reST sources are added to the pages.
--#html_show_sourcelink = True
--
--# If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
--#html_show_sphinx = True
--
--# If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
--#html_show_copyright = True
--
--# If true, an OpenSearch description file will be output, and all pages will
--# contain a <link> tag referring to it.  The value of this option must be the
--# base URL from which the finished HTML is served.
--#html_use_opensearch = ''
--
--# This is the file name suffix for HTML files (e.g. ".xhtml").
--#html_file_suffix = None
--
--# Language to be used for generating the HTML full-text search index.
--# Sphinx supports the following languages:
--#   'da', 'de', 'en', 'es', 'fi', 'fr', 'h', 'it', 'ja'
--#   'nl', 'no', 'pt', 'ro', 'r', 'sv', 'tr'
--#html_search_language = 'en'
--
--# A dictionary with options for the search language support, empty by default.
--# Now only 'ja' uses this config value
--#html_search_options = {'type': 'default'}
--
--# The name of a javascript file (relative to the configuration directory) that
--# implements a search results scorer. If empty, the default will be used.
--#html_search_scorer = 'scorer.js'
--
- # Output file base name for HTML help builder.
- htmlhelp_basename = 'TheLinuxKerneldoc'
- 
-@@ -583,19 +477,6 @@ texinfo_documents = [
-      'Miscellaneous'),
- ]
- 
--# Documents to append as an appendix to all manuals.
--#texinfo_appendices = []
--
--# If false, no module index is generated.
--#texinfo_domain_indices = True
--
--# How to display URL addresses: 'footnote', 'no', or 'inline'.
--#texinfo_show_urls = 'footnote'
--
--# If true, do not generate a @detailmenu in the "Top" node's menu.
--#texinfo_no_detailmenu = False
--
--
- # -- Options for Epub output ----------------------------------------------
- 
- # Bibliographic Dublin Core info.
-@@ -604,67 +485,9 @@ epub_author = author
- epub_publisher = author
- epub_copyright = copyright
- 
--# The basename for the epub file. It defaults to the project name.
--#epub_basename = project
--
--# The HTML theme for the epub output. Since the default themes are not
--# optimized for small screen space, using the same theme for HTML and epub
--# output is usually not wise. This defaults to 'epub', a theme designed to save
--# visual space.
--#epub_theme = 'epub'
--
--# The language of the text. It defaults to the language option
--# or 'en' if the language is not set.
--#epub_language = ''
--
--# The scheme of the identifier. Typical schemes are ISBN or URL.
--#epub_scheme = ''
--
--# The unique identifier of the text. This can be a ISBN number
--# or the project homepage.
--#epub_identifier = ''
--
--# A unique identification for the text.
--#epub_uid = ''
--
--# A tuple containing the cover image and cover page html template filenames.
--#epub_cover = ()
--
--# A sequence of (type, uri, title) tuples for the guide element of content.opf.
--#epub_guide = ()
--
--# HTML files that should be inserted before the pages created by sphinx.
--# The format is a list of tuples containing the path and title.
--#epub_pre_files = []
--
--# HTML files that should be inserted after the pages created by sphinx.
--# The format is a list of tuples containing the path and title.
--#epub_post_files = []
--
- # A list of files that should not be packed into the epub file.
- epub_exclude_files = ['search.html']
- 
--# The depth of the table of contents in toc.ncx.
--#epub_tocdepth = 3
--
--# Allow duplicate toc entries.
--#epub_tocdup = True
--
--# Choose between 'default' and 'includehidden'.
--#epub_tocscope = 'default'
--
--# Fix unsupported image types using the Pillow.
--#epub_fix_images = False
--
--# Scale large images.
--#epub_max_image_width = 0
--
--# How to display URL addresses: 'footnote', 'no', or 'inline'.
--#epub_show_urls = 'inline'
--
--# If false, no index is generated.
--#epub_use_index = True
--
- #=======
- # rst2pdf
- #
+
 -- 
-2.37.2
-
+Thanks,
+~Nick Desaulniers
