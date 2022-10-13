@@ -2,89 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 784F4C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 11:44:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5676C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 12:39:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbiJMLof (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Oct 2022 07:44:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37290 "EHLO
+        id S229683AbiJMMjk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Oct 2022 08:39:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbiJMLoe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 07:44:34 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3102DB3B0E;
-        Thu, 13 Oct 2022 04:44:32 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id CE3D01F385;
-        Thu, 13 Oct 2022 11:44:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1665661470; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=BMmSS4AY+rqawWn2v0MRI7PSJAdcG4hyfRiKwMa5Ogw=;
-        b=DWT6zn20CotUlTzz2xVrLPR3wa2YHyYxf9oklHlkMjE8Ok84nJW7owpjekrewoYht9fQFR
-        yp1FjzS2Df62DH6PlkG/sXwvdgM0FO+7X5PdW+p0elIiVAU7/F/9sA2iCAJpQtRqlj4IUv
-        dGiACvcwo1AtxIcvNajqTHyWZrnsTpQ=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9F9EC13AAA;
-        Thu, 13 Oct 2022 11:44:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id lYugJB76R2MZagAAMHmgww
-        (envelope-from <mhocko@suse.com>); Thu, 13 Oct 2022 11:44:30 +0000
-Date:   Thu, 13 Oct 2022 13:44:29 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     Doug Berger <opendmb@gmail.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Rapoport <rppt@kernel.org>, Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
-        Mel Gorman <mgorman@suse.de>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v2 2/9] mm/vmstat: show start_pfn when zone spans pages
-Message-ID: <Y0f6HZN8Z/AcP1+O@dhcp22.suse.cz>
-References: <20220928223301.375229-1-opendmb@gmail.com>
- <20220928223301.375229-3-opendmb@gmail.com>
- <8e61d0f4-0c40-6c2d-da60-fa97e2ee7530@redhat.com>
- <b86d90fe-5d57-67ec-49b7-c477924f6438@gmail.com>
- <84ee3d9e-9579-d3f2-fe5a-ec6ec4a2710a@redhat.com>
- <0f038010-ed83-55bb-70a5-24f5c6d68666@gmail.com>
+        with ESMTP id S229513AbiJMMjk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 08:39:40 -0400
+X-Greylist: delayed 472 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 13 Oct 2022 05:39:36 PDT
+Received: from wilbur.contactoffice.com (wilbur.contactoffice.com [212.3.242.68])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A271D6;
+        Thu, 13 Oct 2022 05:39:36 -0700 (PDT)
+Received: from smtpauth1.co-bxl (smtpauth1.co-bxl [10.2.0.15])
+        by wilbur.contactoffice.com (Postfix) with ESMTP id CC4AF1207;
+        Thu, 13 Oct 2022 14:31:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1665664302;
+        s=20220911-jt8y; d=wired4ever.net; i=sndanailov@wired4ever.net;
+        h=From:Cc:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
+        l=1945; bh=M9N/7nWDqlxLQOR6V0NKYvTK2UrdV1FKuUtNqKoS8Os=;
+        b=iSdfME4dI2biXPD3Zob+E/iABuqzlwyLdEGcO+gCLGr9jseukiO8u8SYFxC3N9IC
+        H+r2KL8tniACXYw4oSoe3yoFFIuYhnloytJaRGlY9EJfqhVVHImnKKdif86dOO3CcWr
+        X3gRTIzMYYVJwIOwhaZdISIsFjsjNvSBaQQZSsIR+IHUwdGCqjG1UEhpwyPvAsWifb3
+        v9XkgPdCVgeDz8FP5nkPGalHy4e8KgbbCk0cln5I1iSZuLSLrRAzV+vEcLitqShft7V
+        lND4cyuhC4B8/mkfInIBYyY1u6VjJCml0Up9r9OwkacYl5jWL9R2Y4v8o5haSUJ11pS
+        fiCpimHfgA==
+Received: by smtp.mailfence.com with ESMTPSA ; Thu, 13 Oct 2022 14:31:40 +0200 (CEST)
+From:   sndanailov@wired4ever.net
+To:     corbet@lwn.net
+Cc:     rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sotir Danailov <sndanailov@wired4ever.net>
+Subject: [PATCH] doc: process: add privacy warning when using some SMTP servers
+Date:   Thu, 13 Oct 2022 14:31:15 +0200
+Message-Id: <20221013123115.17419-1-sndanailov@wired4ever.net>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0f038010-ed83-55bb-70a5-24f5c6d68666@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-ContactOffice-Account: com:378009619
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 12-10-22 16:57:53, Doug Berger wrote:
-[...]
-> I was working from the notion that the classic 'movablecore' implementation
-> keeps the ZONE_MOVABLE zone the last zone on System RAM so it always spans
-> the last page on the node (i.e. 0x33ffff000). My implementation moves the
-> start of ZONE_MOVABLE up to the lowest page of any defined DMBs on the node.
+From: Sotir Danailov <sndanailov@wired4ever.net>
 
-I wouldn't rely on movablecore specific implementation. ZONE_MOVABLE can
-span any physical address range. ZONE_NORMAL usually covers any ranges
-not covered by more specific zones like ZONE_DMA{32}. At least on most
-architectures I am familiar with.
+Warn the user about "Received" headers and how some
+SMTP servers use them by attaching the user's IP addresses,
+when using some email clients. Add suggestion on how to
+test this behavior and how to avoid it.
+
+Signed-off-by: Sotir Danailov <sndanailov@wired4ever.net>
+---
+ Documentation/process/email-clients.rst | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
+index fc2c46f3f82d..9c49f9b33fdb 100644
+--- a/Documentation/process/email-clients.rst
++++ b/Documentation/process/email-clients.rst
+@@ -350,3 +350,24 @@ although tab2space problem can be solved with external editor.
+ 
+ Another problem is that Gmail will base64-encode any message that has a
+ non-ASCII character. That includes things like European names.
++
++Privacy/Security
++----------------
++
++Keep in mind, that even if you're using a working email client, the SMTP
++server might have configurations you don't like.
++
++For example, if you decide to use the Gmail SMTP server with the Thunderbird
++client, the server will add your private and public IPs into "Received"
++headers, which are attached to all of your sent emails. This is done
++to avoid spam and to check where in the routing path an error might have
++occurred. Gmail's web GUI client doesn't add your IPs, because it's sent from
++Google's servers directly, not an external machine. Unfortunately the web
++client is not good for sending patches. You can check if your IPs are present
++in the headers by reading the raw email source.
++
++If you do not wish this behavior, you need to find a provider which doesn't
++do it or configure and host a SMTP server yourself.
++
++If you're concerned, always first send an email to yourself, read the email
++source and if you see no issues, continue to the mailing lists!
 -- 
-Michal Hocko
-SUSE Labs
+2.37.3
+
