@@ -2,69 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6D26C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 15:21:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE432C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 16:21:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229470AbiJMPVT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Oct 2022 11:21:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58988 "EHLO
+        id S229794AbiJMQVe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Oct 2022 12:21:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbiJMPVS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 11:21:18 -0400
-Received: from wilbur.contactoffice.com (wilbur.contactoffice.com [212.3.242.68])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6717510F8A1;
-        Thu, 13 Oct 2022 08:21:17 -0700 (PDT)
-Received: from smtpauth1.co-bxl (smtpauth1.co-bxl [10.2.0.15])
-        by wilbur.contactoffice.com (Postfix) with ESMTP id B84E3D55;
-        Thu, 13 Oct 2022 17:21:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1665674475;
-        s=20220911-jt8y; d=wired4ever.net; i=sndanailov@wired4ever.net;
-        h=Message-ID:Date:MIME-Version:References:Cc:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-        l=747; bh=kgZc3tu2JJFZWYmDuyz5w4nLD0OZb6n0f9H+SCQhHIY=;
-        b=cYTExjZZdbexKtEmSAIkIJrmXWfhg3DlRk8G4pmYviVVOSBahBw/1wCe0IOyxov4
-        YM6LpNcixT1l2kdmVBfckf2YPaii/XuZnzz5PIEu9+WNtSgQSyNM4rGhEOrBqyo+Sor
-        GCT/wQjDKRWDV3iPVMTWnlGU5q0xPFXROvzBUrMCyQPVC4EiHer9OuGe64VG4+ixJ5W
-        eqxjN6bHBkaymbYSeQjN3ssgGZJENCFBCPCKmcFDRVFp6H8RkbwzitYHNc5GtCRJVcH
-        iWzQAKv0E4hkwTxlnyI06T4/t47jVvjqEKCZsNMh6KY4D+ms8j7ehgWCp4tfE2QsHvL
-        CxLcySd0kA==
-Received: by smtp.mailfence.com with ESMTPSA ; Thu, 13 Oct 2022 17:21:12 +0200 (CEST)
-Message-ID: <4ec2697e-ddc6-c87a-49a9-12483186af1d@wired4ever.net>
-Date:   Thu, 13 Oct 2022 17:21:11 +0200
+        with ESMTP id S229534AbiJMQVd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 12:21:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CBCBA3F69;
+        Thu, 13 Oct 2022 09:21:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 182AB6173A;
+        Thu, 13 Oct 2022 16:21:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5671C433D6;
+        Thu, 13 Oct 2022 16:21:28 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="GP4P33Go"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1665678086;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=kPntWr7A6bA616PExnbnx5reDbccdV4V+F7u1oTVbdw=;
+        b=GP4P33GoTZTXwgHWO1z/FqyjryY8qsqfXNBCumID69G06rmzAbuflrmGXm0knLxOwy6AOV
+        r5Se8is8rcJ8teWZq2zoRDvfJGTZawQk7FulxMoGHupIBrT9us1rnRt6jRmg3GIbXoJ/w6
+        20UjSRmQn/6S5nyrDvb7rvSacSvCVHE=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 5f752f1b (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Thu, 13 Oct 2022 16:21:25 +0000 (UTC)
+Date:   Thu, 13 Oct 2022 10:21:18 -0600
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     Rolf Eike Beer <eike-kernel@sf-tec.de>
+Cc:     Florian Westphal <fw@strlen.de>, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Thomas Graf <tgraf@suug.ch>, kasan-dev@googlegroups.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel-janitors@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mm@kvack.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        loongarch@lists.linux.dev, netdev@vger.kernel.org,
+        sparclinux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v6 5/7] treewide: use get_random_u32() when possible
+Message-ID: <Y0g6/sIJMq/JRe6y@zx2c4.com>
+References: <20221010230613.1076905-1-Jason@zx2c4.com>
+ <3026360.ZldQQBzMgz@eto.sf-tec.de>
+ <20221013101635.GB11818@breakpoint.cc>
+ <11986571.xaOnivgMc4@eto.sf-tec.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH] doc: process: add privacy warning when using some SMTP
- servers
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>
-References: <20221013123115.17419-1-sndanailov@wired4ever.net>
- <8735brkfrj.fsf@meer.lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-From:   Sotir Danailov <sndanailov@wired4ever.net>
-In-Reply-To: <8735brkfrj.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ContactOffice-Account: com:378009619
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <11986571.xaOnivgMc4@eto.sf-tec.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 13 10 2022 15:35, Jonathan Corbet wrote:
-> So this seems to be just a description of how email works
+On Thu, Oct 13, 2022 at 01:40:40PM +0200, Rolf Eike Beer wrote:
+> Am Donnerstag, 13. Oktober 2022, 12:16:35 CEST schrieb Florian Westphal:
+> > Rolf Eike Beer <eike-kernel@sf-tec.de> wrote:
+> > > Florian, can you comment and maybe fix it?
+> > 
+> > Can't comment, do not remember -- this was 5 years ago.
+> > 
+> > > Or you wanted to move the variable before the loop and keep the random
+> > > state between the loops and only reseed when all '1' bits have been
+> > > consumed.
+> > Probably.  No clue, best to NOT change it to not block Jasons series and
+> > then just simplify this and remove all the useless shifts.
+> 
+> Sure. Jason, just in case you are going to do a v7 this could move to u8 then.
 
-Well it felt appropriate to warn the user, because many people
-(like myself before) might not realize this is happening even if
-they think they know how email basically works.
+Indeed I think this is one to send individually to netdev@ once the tree
+opens there for 6.2.
 
-> the Received headers always show the path through the net.
-
-Yes, but is also dependent on the SMTP server configuration,
-so someone might not realize that changing the server would
-add such sensitive data to something public.
-
-> Is this really something that we need to cover in the kernel docs?
-
-It's part of the process, is it not? I'm sure many people
-would like to have this information before starting on the
-kernel for the first time.
+Jason
