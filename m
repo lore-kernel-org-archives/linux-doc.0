@@ -2,53 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B17BC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 22:32:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 145CBC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 23:00:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229665AbiJMWcz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Oct 2022 18:32:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60392 "EHLO
+        id S229557AbiJMXAW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Oct 2022 19:00:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229733AbiJMWcy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 18:32:54 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAF3118DA8C;
-        Thu, 13 Oct 2022 15:32:52 -0700 (PDT)
+        with ESMTP id S229485AbiJMXAV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 19:00:21 -0400
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA65B9379F;
+        Thu, 13 Oct 2022 16:00:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1665700372; x=1697236372;
+  t=1665702018; x=1697238018;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=RTXxWrdpwELUsNpFPvvKmLA3EGeoXnl65V4asrrMENg=;
-  b=WS/+Bb7/5vCqjyFN2SmWjoLDcijA9FWqKTNj9mh9Ovf4x9eSMMTLowxm
-   flQpejBLasBqGR7+IfgaYrIzaV2XUJ6hWibzhaKZ/8gLBhMfKzCLFS0Fl
-   ImalCyWM+b9iv+qhVZg97pdSnpXFf9PkQ78sFNnaRir9ElxdERlDO4D4w
-   g=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 13 Oct 2022 15:32:51 -0700
+  bh=j8NPJhobSjrTW6bjQXlYZSYkhG0tbDt3mMbxMdeVS4Q=;
+  b=TOTNMWNj/B9eQCe8iGIiRaNWMgFIcp5XnXU6TqKx/+80u0ooqlaAsHzj
+   sWI9whTdPkgYuRVfmQWhtemmm2+12qp1PB8zRqhykR7SUJCS4Z67HsjEa
+   v6wDFyCiDzyJ5sVooo6M+Q7oov9V4ncC1kjAQcP7KOhHWUeMUCC4RQ3Y6
+   I=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 13 Oct 2022 16:00:12 -0700
 X-QCInternal: smtphost
 Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2022 15:32:50 -0700
+  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2022 16:00:12 -0700
 Received: from [10.110.38.147] (10.80.80.8) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 13 Oct
- 2022 15:32:49 -0700
-Message-ID: <c6c32b15-e32e-4362-00fc-e6710dca2546@quicinc.com>
-Date:   Thu, 13 Oct 2022 15:32:48 -0700
+ 2022 16:00:10 -0700
+Message-ID: <2f313bf8-b366-e094-b5b6-c601458f5cfa@quicinc.com>
+Date:   Thu, 13 Oct 2022 16:00:10 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v5 09/13] mailbox: Add Gunyah message queue mailbox
+Subject: Re: [PATCH v5 06/13] virt: gunyah: Identify hypervisor version
 Content-Language: en-US
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>
-CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
         Carl van Schaik <quic_cvanscha@quicinc.com>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
         Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
         <linux-arm-kernel@lists.infradead.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
@@ -59,17 +60,16 @@ CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Jonathan Corbet <corbet@lwn.net>,
         "Will Deacon" <will@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        "Arnd Bergmann" <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+        "Arnd Bergmann" <arnd@arndb.de>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
 References: <20221011000840.289033-1-quic_eberman@quicinc.com>
- <20221011000840.289033-10-quic_eberman@quicinc.com>
- <38a62751-799d-67ff-68d8-2946f2308e59@linaro.org>
+ <20221011000840.289033-7-quic_eberman@quicinc.com>
+ <Y0UJgcc0+AEbHTIM@kroah.com>
 From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <38a62751-799d-67ff-68d8-2946f2308e59@linaro.org>
+In-Reply-To: <Y0UJgcc0+AEbHTIM@kroah.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
@@ -77,97 +77,102 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 10/10/2022 11:13 PM, Greg Kroah-Hartman wrote:
+> On Mon, Oct 10, 2022 at 05:08:33PM -0700, Elliot Berman wrote:
+> 
+> EXPORT_SYMBOL_GPL()?  I have to ask.
 
+typo only :)
 
-On 10/12/2022 2:47 PM, Dmitry Baryshkov wrote:
-> On 11/10/2022 03:08, Elliot Berman wrote:
+> 
+> But why is it exported at all?  No one is using it in this patch.
+> 
+It's used later in the series by the message queue driver. The idea here 
+now is that gunyah.ko is capable of identifying Gunyah and other drivers 
+can check if they are individually compatible with the reported version 
+of Gunyah.
+
+ From Patch 9:
+
++static int __init gh_msgq_init(void)
++{
++	if (GH_API_INFO_API_VERSION(gunyah_api.api_info) != GUNYAH_API_V1) {
++		pr_warn("Unrecognized gunyah version: %llu. Currently supported: %d\n",
++			GH_API_INFO_API_VERSION(gunyah_api.api_info), GUNYAH_API_V1);
++		return -ENODEV;
++	}
++
++	return 0;
++}
+
 >> +
->> +static irqreturn_t gh_msgq_tx_irq_handler(int irq, void *data)
+>> +static int __init gunyah_init(void)
 >> +{
->> +    struct gunyah_msgq *msgq = data;
+>> +	u32 uid[4];
 >> +
->> +    mbox_chan_txdone(gunyah_msgq_chan(msgq), 0);
+>> +	gh_hypercall_get_uid(uid);
 >> +
->> +    return IRQ_HANDLED;
+>> +	if (!(gh_uid_matches(GUNYAH, uid) || gh_uid_matches(QC_HYP, uid)))
+>> +		return 0;
+> 
+> Why return success if this is not true?  Shouldn't you return an error
+> and fail to load?
+> 
+That's fair -- easy to fix.
+
+>> +
+>> +	gh_hypercall_hyp_identify(&gunyah_api);
+>> +
+>> +	pr_info("Running under Gunyah hypervisor %llx/v%lld\n",
+>> +		  GH_API_INFO_VARIANT(gunyah_api.api_info),
+>> +		  GH_API_INFO_API_VERSION(gunyah_api.api_info));
+>> +
+>> +	return 0;
 >> +}
+>> +arch_initcall(gunyah_init);
 >> +
->> +static void gh_msgq_txdone_tasklet(unsigned long data)
+>> +static void __exit gunyah_exit(void)
 >> +{
->> +    struct gunyah_msgq *msgq = (struct gunyah_msgq *)data;
->> +
->> +    mbox_chan_txdone(gunyah_msgq_chan(msgq), msgq->last_status);
+>> +}
+>> +module_exit(gunyah_exit);
 > 
-> I don't quite get this. Why do you need both an IRQ and a tasklet?
+> Why do you need a module_exit() call?
 > 
 
-I've now tweaked the code comments now as well to explain a bit better.
-
-Gunyah tells us in the hypercall itself whether the message queue is 
-full. Once the the message queue is full, Gunyah will let us know when 
-reader starts draining the queue and we can start adding more messages 
-via the tx_irq.
-
-One point to note: the last message to be sent into the message queue 
-that makes the queue full can be detected. The hypercall reports that 
-the message was sent (GH_ERROR_OK) and the "ready" return value is 
-false. In its current form, the msgq mailbox driver should never make a 
-send hypercall and get GH_ERROR_MSGQUEUE_FULL because the driver 
-properly track when the message queue is full.
-
-When mailbox driver reports txdone, the implication is that more 
-messages can be sent (not just that the message was transmitted). In 
-typical operation, the msgq mailbox driver can immediately report that 
-the message was sent and no tx_irq happens because the hypercall returns 
-GH_ERROR_OK and ready=true. The mailbox framework doesn't allow txdone 
-directly from the send_data callback. To work around that, Jassi 
-recommended we use tasklet [1]. In the "atypical" case where message 
-queue becomes full, we get GH_ERROR_OK and ready=false. In that case, we 
-don't report txdone right away with the tasklet and instead wait for the 
-tx_irq to know when more messages can be sent.
-
-[1]: Tasklet works because send_data is called from mailbox framework 
-with interrupts disabled. Once interrupts are re-enabled, the txdone is 
-allowed to happen which is also when tasklet runs.
+I can remove.
 
 >> +
->> +    /**
->> +     * EAGAIN: message didn't send.
->> +     * ret = 1: message sent, but now the message queue is full and 
->> we can't send any more msgs.
->> +     * Either way, don't report that this message is done.
->> +     */
->> +    if (ret == -EAGAIN || ret == 1)
->> +        return ret;
+>> +MODULE_LICENSE("GPL");
+>> +MODULE_DESCRIPTION("Gunyah Hypervisor Driver");
 > 
-> '1' doesn't seem to be a valid return code for _send_data.
+> What will cause this module to be properly automatically loaded?  I do
+> not see that happening here at all.
 > 
-> Also it would be logical to return any error here, not just -EAGAIN.
+>> diff --git a/include/asm-generic/gunyah.h b/include/asm-generic/gunyah.h
+>> index 86eb59e203ef..8f9d4c649ba8 100644
+>> --- a/include/asm-generic/gunyah.h
+>> +++ b/include/asm-generic/gunyah.h
+>> @@ -85,6 +85,8 @@ static inline int gh_remap_error(int gh_error)
+>>   	((uid)[0] == prefix ## _UID0 && (uid)[1] == prefix ## _UID1 && \
+>>   	 (uid)[2] == prefix ## _UID2 && (uid)[3] == prefix ## _UID3)
+>>   
+>> +#define GUNYAH_API_V1			1
 > 
-
-
-If I return error to mailbox framework, then the message is stuck: 
-clients don't know that there was some underlying transport failure. It 
-would be retried if the client sends another message, but there is no 
-guarantee that either retrying later would work (what would have 
-changed?) nor that client would send another message to trigger retry. 
-If the message is malformed or message queue not correctly set up, 
-client would never know. Client should be told that the message wasn't sent.
-
-
->> +int gunyah_msgq_init(struct device *parent, struct gunyah_msgq *msgq, 
->> struct mbox_client *cl,
->> +             struct gunyah_resource *tx_ghrsc, struct gunyah_resource 
->> *rx_ghrsc)
+> You do not use this define anywhere in this patch.
 > 
-> Are the message queues allocated/created dynamically or statically? If 
-> the later is true, please use devm_request(_threaded)_irq and devm_kzalloc.
 > 
-
-With the exception of resource manager, message queues are created 
-dynamically.
-
-P.S. Thanks for all the other suggestions in this and the other patches, 
-I've applied them.
-
-Thanks,
-Elliot
+>> +
+>>   #define GH_API_INFO_API_VERSION(x)	(((x) >> 0) & 0x3fff)
+>>   #define GH_API_INFO_BIG_ENDIAN(x)	(((x) >> 14) & 1)
+>>   #define GH_API_INFO_IS_64BIT(x)		(((x) >> 15) & 1)
+>> @@ -103,6 +105,7 @@ struct gh_hypercall_hyp_identify_resp {
+>>   	u64 api_info;
+>>   	u64 flags[3];
+>>   };
+>> +extern struct gh_hypercall_hyp_identify_resp gunyah_api;
+> 
+> Again, not used.
+> 
+> thanks,
+> 
+> greg k-h
