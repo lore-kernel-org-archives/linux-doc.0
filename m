@@ -2,123 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 297C9C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 02:35:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A66C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 04:13:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229507AbiJMCf2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 12 Oct 2022 22:35:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47078 "EHLO
+        id S229494AbiJMENo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Oct 2022 00:13:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbiJMCf1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Oct 2022 22:35:27 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A1398285B;
-        Wed, 12 Oct 2022 19:35:26 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id y5so492334lfl.4;
-        Wed, 12 Oct 2022 19:35:26 -0700 (PDT)
+        with ESMTP id S229484AbiJMENn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 00:13:43 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69849127BC6;
+        Wed, 12 Oct 2022 21:13:42 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id e129so558717pgc.9;
+        Wed, 12 Oct 2022 21:13:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kDYDa2ojxUzzkoRcXfBQCdYaE7OWB5IO4iNhZiRH/74=;
-        b=LuMVT3GSBr9/hAJU2xDNoQM0/UPkqOn0/JQsDOxexxuWjUdqyFqIxD1H9YMSlsCzsi
-         o5jfUSHzFpclFNaNtlT7eCRVz9vKKvSkqVFDSRW2ODfpi3bgsY+9LbW6NG3tIHIK5zkP
-         BGqg0iFYJdimA+HtUdSmWwdFyDiBeF8uvRQpT/xnmRCCkSkohUwZxy7vFsF6wbZJlpkW
-         uSWb/bZHbNpih3ICbXtCKuXTqJz9lngOQG5NMhcEV6wL+otrl9fJ5Xo4d9vphPV/kIKo
-         /UJB+WrQyY9iPStK1rffHtwwrKykPjsSK6T7Hdv4rKAaqCIWGMpVSyVhsdNX2m/WXOxg
-         g3MQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yI0iiintCNSYXW3Cl1VzfCO/HumDMQ6YBRetL05i6As=;
+        b=XqWNDHH792o3El1h+l9zC/HzMMGGOxQ3OrTvKYTMuHxcc5g6obaruk8K97+pC/GTmC
+         3y5YtqbgDLWnGoL7vSddk7QYzwyVlKudoIiX8kLapGJMzuCOEAPZ3QyTlZ3GjCyxIVhr
+         yzJ4YmxRnBckgqaRK8/YKFXQdWVAMOpVmSqTCC6lxfgEtAq33StX69omdwFVIUBc6aZb
+         0VfTdjk1Oyc0rhTumw7XTXxoPV9tFRM6npXH/IdLfOYMyWaavuTDdy54s710LPigrFNl
+         YzoWKuKeiEucbeISHy2aZMGSNplmTF4uh6pd/W89wygozn64qTlDILYgXVu+gvII1g5a
+         lAsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kDYDa2ojxUzzkoRcXfBQCdYaE7OWB5IO4iNhZiRH/74=;
-        b=3U7AKQXiqMF1i/+8OWtJn1GTDpaoBKewgyOY/1ht90gFucQ9KUT3xo8Qk6S7MlVLKo
-         yFeZmlEXWIqRBlO36Hh/mmppkiqPPzuo2KDA87r0HWbUGM7Kz0ECSTg3uC2NOG3awcsx
-         YYL4GICDVay0YxfmWRDA3mcZLZh8DBWoEVxrpcHjDCH9s70XlYt9XwuRjNxnVbI4GiTb
-         yhz8n0X8ImOq/qBc/DIWfv/vCd29TBth4/eqS/D7d3+fslVS/rkuqTB+P14v16J2MLy7
-         SJS1bnUjWYSGFCWFDzoPTKiLIPOyWuR2wZa2aOHIxutL/+qPI8HWg3KLHZo03UpUtAkC
-         R1sQ==
-X-Gm-Message-State: ACrzQf2zeL+/KjY9QWv15l9RoY7jdeQJmWByFM1Nh0s/OO/89bVWns6F
-        7SFRDWw734RRTGJF6mOMbbXEPS49a20HbQG3Bag=
-X-Google-Smtp-Source: AMsMyM5BO7jOs2tKkI/jONmwsexNW3mjpkziqPTokYaaa/Zdn7iVI5CFXWjkCmJhqU2AeuKLPGZFa6nGZq5koL79Dfw=
-X-Received: by 2002:a05:6512:110c:b0:4a2:4119:f5c4 with SMTP id
- l12-20020a056512110c00b004a24119f5c4mr10737708lfg.606.1665628524384; Wed, 12
- Oct 2022 19:35:24 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yI0iiintCNSYXW3Cl1VzfCO/HumDMQ6YBRetL05i6As=;
+        b=RXg0pW9TkeWxLzOJ3fY1gZTuuKv/kkjA6UnnPzQhnqabZv+fIZjxGPMovAPNpxdeLg
+         hhs4Bml00NyQiM/lEB7XAaWqow11RSDGG7HgZVNTygeCa2tgbmHkZ4cxlHeBpP9g9f/1
+         7EadGxHgV83LWSp8NmYer/PET50t3r5VIVhN+chWo4I7QgD9iNl1c+/MGBjVx4mod0Vd
+         d2r1c5cFq+uuepti18moIT34wTArCSfitn0ahVYHT3ZhDSDi7JBNuBG/7MXufKBIJD6M
+         Z2EvTuyfR0lQG1d2Sb0DNA5ORE8p+62hs5X/HEZ5Go7JVYP8nDqN8QDKl6akMseuzfv8
+         rg5Q==
+X-Gm-Message-State: ACrzQf0KAHY8ea3+66mfptCRV4lcdzT0ePLnvUrVswXUBIHzlbM7XNtu
+        ZJzEwCoidFSK3LPkjF2tnEk=
+X-Google-Smtp-Source: AMsMyM50wtt32gjG9zlBPe1CVsO5VHjcfmL4ucc2bVT8uu9WdJ70Mv5VN/fKUJcZhJi1vAG90dpUAg==
+X-Received: by 2002:a63:4c23:0:b0:45f:eab4:4f47 with SMTP id z35-20020a634c23000000b0045feab44f47mr23304463pga.532.1665634421741;
+        Wed, 12 Oct 2022 21:13:41 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-21.three.co.id. [180.214.232.21])
+        by smtp.gmail.com with ESMTPSA id c13-20020aa7952d000000b0056323de479bsm700650pfp.120.2022.10.12.21.13.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Oct 2022 21:13:40 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 39057101314; Thu, 13 Oct 2022 11:13:36 +0700 (WIB)
+Date:   Thu, 13 Oct 2022 11:13:36 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Donald Hunter <donald.hunter@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v1] bpf, docs: Reformat BPF maps page to be more
+ readable
+Message-ID: <Y0eQcOsbrmBXqdUP@debian.me>
+References: <20221012152715.25073-1-donald.hunter@gmail.com>
 MIME-Version: 1.0
-References: <cover.1665467392.git.bobwxc@email.cn> <4e9675ac83a06f2597d069f44a94c4e2cbd7ab2b.1665467392.git.bobwxc@email.cn>
- <0ea779eb-d377-e119-616e-9cd8fc44c5ef@loongson.cn>
-In-Reply-To: <0ea779eb-d377-e119-616e-9cd8fc44c5ef@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Thu, 13 Oct 2022 10:34:48 +0800
-Message-ID: <CAJy-Amn0YJao3j_AHyEJXKfeR5oYrL595is09zz-A+XAHda+0A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] docs/zh_CN: add zh_CN/arch.rst
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Wu XiangCheng <wu.xiangcheng@linux.dev>,
-        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        chenhuacai@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="PGIwu2yxln04EdUi"
+Content-Disposition: inline
+In-Reply-To: <20221012152715.25073-1-donald.hunter@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
 
-On Tue, Oct 11, 2022 at 8:27 PM Yanteng Si <siyanteng@loongson.cn> wrote:
->
->
-> On 10/11/22 14:01, Wu XiangCheng wrote:
-> > From: Wu XiangCheng <bobwxc@email.cn>
-> >
-> > Add an entry for all zh arch documents.
-> >
-> > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-> > ---
-> >   Documentation/translations/zh_CN/arch.rst | 29 ++++++++++++++++++++++=
-+
-> >   1 file changed, 29 insertions(+)
-> >   create mode 100644 Documentation/translations/zh_CN/arch.rst
-> >
-> > diff --git a/Documentation/translations/zh_CN/arch.rst b/Documentation/=
-translations/zh_CN/arch.rst
-> > new file mode 100644
-> > index 000000000000..690e173d8b2a
-> > --- /dev/null
-> > +++ b/Documentation/translations/zh_CN/arch.rst
-> > @@ -0,0 +1,29 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +=E5=A4=84=E7=90=86=E5=99=A8=E4=BD=93=E7=B3=BB=E7=BB=93=E6=9E=84
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +=E4=BB=A5=E4=B8=8B=E6=96=87=E6=A1=A3=E6=8F=90=E4=BE=9B=E4=BA=86=E5=85=
-=B7=E4=BD=93=E6=9E=B6=E6=9E=84=E5=AE=9E=E7=8E=B0=E7=9A=84=E7=BC=96=E7=A8=8B=
-=E7=BB=86=E8=8A=82=E3=80=82
-> > +
-> > +.. toctree::
-> > +   :maxdepth: 2
-> > +
-> > +   mips/index
-> > +   arm64/index
-> > +   riscv/index
-> > +   openrisc/index
-> > +   parisc/index
-> > +   loongarch/index
-> > +
-> > +TODOList:
-> > +
-> > +* arm/index
-> > +* ia64/index
-> > +* m68k/index
-> > +* nios2/index
-> > +* powerpc/index
-> > +* s390/index
-> > +* sh/index
-> > +* sparc/index
-> > +* x86/index
-> > +* xtensa/index
->
+--PGIwu2yxln04EdUi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Oct 12, 2022 at 04:27:15PM +0100, Donald Hunter wrote:
+> Add a more complete introduction, with links to man pages.
+> Move toctree of map types above usage notes.
+> Format usage notes to improve readability.
+>=20
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+> ---
+>  Documentation/bpf/maps.rst | 101 ++++++++++++++++++++++++-------------
+>  1 file changed, 65 insertions(+), 36 deletions(-)
+>=20
+> diff --git a/Documentation/bpf/maps.rst b/Documentation/bpf/maps.rst
+> index f41619e312ac..4906ff0f8382 100644
+> --- a/Documentation/bpf/maps.rst
+> +++ b/Documentation/bpf/maps.rst
+> @@ -1,52 +1,81 @@
+> =20
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -eBPF maps
+> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +BPF maps
+> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +BPF 'maps' provide generic storage of different types for sharing data b=
+etween
+> +kernel and user space. There are several storage types available, includ=
+ing
+> +hash, array, bloom filter and radix-tree. Several of the map types exist=
+ to
+> +support specific BPF helpers that perform actions based on the map conte=
+nts. The
+> +maps are accessed from BPF programs via BPF helpers which are documented=
+ in the
+> +`man-pages`_ for `bpf-helpers(7)`_.
+> +
+> +BPF maps are accessed from user space via the ``bpf`` syscall, which pro=
+vides
+> +commands to create maps, lookup elements, update elements and delete
+> +elements. More details of the BPF syscall are available in
+> +:doc:`/userspace-api/ebpf/syscall` and in the `man-pages`_ for `bpf(2)`_.
+> <snipped>...
+> +.. Links:
+> +.. _man-pages: https://www.kernel.org/doc/man-pages/
+> +.. _bpf(2): https://man7.org/linux/man-pages/man2/bpf.2.html
+> +.. _bpf-helpers(7): https://man7.org/linux/man-pages/man7/bpf-helpers.7.=
+html
+
+I think you can just write "see :manpage:`bpf(2)`" without linking to
+external site.
+
+Otherwise LGTM.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--PGIwu2yxln04EdUi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY0eQawAKCRD2uYlJVVFO
+o1bVAQD5WwbLMw3d422kOy7AsWPETUWqvcKpRKLUrB+XUotXPQD+P4luJGpRfu6A
+B3iAQR5TnVALOqZ2HSXSh6V9yd9oaQg=
+=5tkV
+-----END PGP SIGNATURE-----
+
+--PGIwu2yxln04EdUi--
