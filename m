@@ -2,57 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C62EC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 06:00:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9399C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 06:18:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229640AbiJMGAH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Oct 2022 02:00:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56112 "EHLO
+        id S229639AbiJMGS1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Oct 2022 02:18:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229729AbiJMGAH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 02:00:07 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0B996C94D
-        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 23:00:05 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id m19so904345lfq.9
-        for <linux-doc@vger.kernel.org>; Wed, 12 Oct 2022 23:00:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=FD3NjdeSNo5/5F7Nbcmuo3Uoe8u5/BA6ysBOu+6VDuU=;
-        b=i2/AzONJXMP3hK2QQFy+ykUWMtmXC4xM7P9bT1yRjG9kuxYYpY9oyK+9ZI4FLFWMQN
-         PnT5pRRYOvBL3x/RW1vx92eYTfGoNbdnc5HYSxmGLZ1zVGdqPvswgGfRfDWugRXWpN7s
-         XtmA3txAiLXdGXgmLofgFGw0TjJzkReCwB2/cU8Pr0iFW9aWWgJZBUw7vJJuSaT3cTi/
-         lA4bWe2RVWsUJXf3A3LgkWzBLtEnNrgwrg22FIcPZOH8uAF8nFuDz/tk8ehx6CstouUD
-         O5M12KmCUabrKjstssVU9h8crgivB3ZzALkhxv2fOW98E4CXr0d/mmJ63LF+ZQNOrkUx
-         LlcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FD3NjdeSNo5/5F7Nbcmuo3Uoe8u5/BA6ysBOu+6VDuU=;
-        b=lw2PYRBwgDRadZoMM59LlMpokuBlMZdhplbrFxpbUsav9Wdi2bRT0xZ2mLIZgNQQAr
-         5vXZDvzYJCZo4vR8TpiYK1K+bIjt623UdMuSWuP2mjjfxk1n8IQcn29Tl2827icmjTxb
-         rQOqixEmQvu14J24/3wnfMdRKdjJCCypFJbyXLRvQKixmX79twGjbXLy4jd9tw2zGo38
-         jAd28oAFc6Yd4coYNjiG9C6sQe8fVRYphsWp+YGDmce4whEIgNifa81h2sW9KKq7b8+b
-         xkVKk48KY4J+mnO3RDaohbH+NtqEO1wP5nC5GpmbEXD6prBgxAKkN148JETBwVJ+inNB
-         VNjg==
-X-Gm-Message-State: ACrzQf01+lQT+K33CtW8GnIXMznYxqj3sJV+Y4nBEPKutzPdSRbTkv8u
-        HGi504PyQaZY1yM4YY8rxIizuU9Hq8y3MtH332/fENyM
-X-Google-Smtp-Source: AMsMyM78QQ0Ddjv3519Xn4AEnGVY5XpHEhF04oDrtRRaEGS1wRSGyKS8XPBLeIldoVAro1E3OTaFJZ4s6Il98BmC1eQ=
-X-Received: by 2002:ac2:5ca7:0:b0:4a2:680d:4d8d with SMTP id
- e7-20020ac25ca7000000b004a2680d4d8dmr11108201lfq.387.1665640803675; Wed, 12
- Oct 2022 23:00:03 -0700 (PDT)
+        with ESMTP id S229471AbiJMGS0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 02:18:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEDBC11C6C2;
+        Wed, 12 Oct 2022 23:18:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A29761703;
+        Thu, 13 Oct 2022 06:18:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FFA1C433C1;
+        Thu, 13 Oct 2022 06:18:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1665641904;
+        bh=TSm77JhHSOI5WJHsFYrU+vCm1pZiDiibejvje9KTRUo=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=BoC8ZOb3DSCXhEsKSNLk2/bq9Fz7i5hehIkn0E1+3l7nKXMlF5nve+yIRUOp0Y0QT
+         gJ2xNTPsWE0Gz83R4LgWjwUZi4ZvJaccBtoxZHDwLb7i5ewCZXnWqMXerM/KcpfgX8
+         A4Xt3ulFsjeDCSGVWKJ9ED5/XD7LdXihkAL7GWu3DYq4jmxzrTOmxwirX98P1ITa5C
+         vtfFcx1Bm7fsWmyXWCXxInKhjL+EYLdhNPQEP7MVAOT7Sgx1lelF/3jO6g1WQXwn2g
+         kcGi2GHBbuofi7NEpopFk0ig17VZ/iNoQXw81lLwcih98xmrA97Ma/WnftQF4AA5DA
+         Ayw6TFTC3qEnw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id C340A5C0B2D; Wed, 12 Oct 2022 23:18:20 -0700 (PDT)
+Date:   Wed, 12 Oct 2022 23:18:20 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Yunjae Lee <lyj7694@gmail.com>
+Cc:     SeongJae Park <sj@kernel.org>, corbet@lwn.net,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] docs/memory-barriers/kokr: Update the content
+Message-ID: <20221013061820.GW4221@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20221011025809.25821-1-sj@kernel.org>
+ <CAE+zRGXBOyyvDsPYVAVwuKT1NzAKgoR939SUu6X5LnhXOUzqyA@mail.gmail.com>
 MIME-Version: 1.0
-From:   shepherd Lazy <shepherd.lazy@gmail.com>
-Date:   Thu, 13 Oct 2022 13:59:51 +0800
-Message-ID: <CALtAjPVOvKj5RLkH53TM_SXHRv3c_sVa_46B_Tp8YLHCbvxm5A@mail.gmail.com>
-Subject: ttt
-To:     linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAE+zRGXBOyyvDsPYVAVwuKT1NzAKgoR939SUu6X5LnhXOUzqyA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-te
+On Thu, Oct 13, 2022 at 08:30:29AM +0900, Yunjae Lee wrote:
+> Hi, the new patchset looks fine to me.
+> 
+> Reviewed-by: Yunjae Lee <lyj7694@gmail.com>
+
+Applied, thank you both!
+
+							Thanx, Paul
+
+> Regards,
+> Yunjae
+> 
+> On Tue, Oct 11, 2022 at 11:58 SeongJae Park <sj@kernel.org> wrote:
+> 
+> > There are updates to memory-barriers.txt that not applied to the Korean
+> > translation.  This patchset applies the changes.
+> >
+> > Changes from v1
+> > (https://lore.kernel.org/all/20221008174928.13479-1-sj@kernel.org/)
+> > - Drop first one, which is not for translation and already pulled
+> > - Use better expressions for Korean (Yunjae Lee)
+> > - Fix a typo (Yunjae Lee)
+> >
+> > SeongJae Park (3):
+> >   docs/memory-barriers.txt/kokr: introduce io_stop_wc() and add
+> >     implementation for ARM64
+> >   docs/memory-barriers.txt/kokr: Add memory barrier dma_mb()
+> >   docs/memory-barriers.txt/kokr: Fix confusing name of 'data dependency
+> >     barrier'
+> >
+> >  .../translations/ko_KR/memory-barriers.txt    | 149 ++++++++++--------
+> >  1 file changed, 85 insertions(+), 64 deletions(-)
+> >
+> > --
+> > 2.17.1
+> >
+> > --
+> 감사합니다.
+> 이윤재 드림
