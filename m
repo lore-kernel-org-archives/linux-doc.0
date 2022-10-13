@@ -2,67 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55338C43217
-	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 18:09:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7A03C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 13 Oct 2022 18:40:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231149AbiJMSJA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Oct 2022 14:09:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38456 "EHLO
+        id S229894AbiJMSkY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 13 Oct 2022 14:40:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231603AbiJMSIU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 14:08:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1F3160EDA;
-        Thu, 13 Oct 2022 11:05:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E10356194A;
-        Thu, 13 Oct 2022 18:00:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4FD0BC433D6;
-        Thu, 13 Oct 2022 18:00:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665684015;
-        bh=iqd+0wKdSoxapJMe/zP/C6J5LQt/EdnYeEbMixztd+s=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=pn6/Qs5QRe6KYIsgE605CFxvz07+3SCjk/QQKy1GQjohcWWksPeGD0GNohFsfPsy8
-         dFv99qZdO7di9aUzPFFT+p7pdE/LSbonAOybQPI9gV5WlM99YnwRUBe0y8618vVJ7/
-         FQJdGN6nPSddPxdOKebGuXoAWay0S9DjvX8cW6tAT7UWfRJSw049oGaHWt44T515Wh
-         unH8kfBgePyFLCdF8FUgbRmCPMz80P1dfk1bdxwjh3J3cXA4ZOcg6sUtt+nRODgcra
-         9CcKUmsDcheSgODGix2/StRbOMCobOpkG6+Y3hB50JFpvq8o8wlBEHdBHVdxwdypfB
-         gNKg+0BbNzA8g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 39ED6E29F30;
-        Thu, 13 Oct 2022 18:00:15 +0000 (UTC)
-Subject: Re: [GIT PULL] Documentation fixes
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <87pmevism5.fsf@meer.lwn.net>
-References: <87pmevism5.fsf@meer.lwn.net>
-X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87pmevism5.fsf@meer.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.1-2
-X-PR-Tracked-Commit-Id: 877d95dcfd0a56102d4b97a9691115f5fb5e9ea3
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: f2b220ef93ea34ff6ce48fec382689cf02099f39
-Message-Id: <166568401523.7515.10351019015327844274.pr-tracker-bot@kernel.org>
-Date:   Thu, 13 Oct 2022 18:00:15 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+        with ESMTP id S229821AbiJMSjv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 14:39:51 -0400
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524E7CBFEA;
+        Thu, 13 Oct 2022 11:37:49 -0700 (PDT)
+Received: by mail-qt1-f177.google.com with SMTP id h15so2283454qtu.2;
+        Thu, 13 Oct 2022 11:37:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CZmvxazc2sXXNdPho7QU50pFfOmoWil5WJIRMNVjEqw=;
+        b=2y7Tj4TdF4OVWkIvv1oU5YVa2okYkUNOucAgqK+mvA0PdBomdmEcfRpNNOd1xYDBKT
+         jQ++U+nXf4JJ7WDU83qFW3sxnhyEcB2/ZJP6V+P8ssymJ8sFEPZqVJgn1e3LLjle77PH
+         QXFnfvBbCajf6xbvhQtVzZ1lqtNi33H/DBwMidSw1/gH+O7wbfEbwqA4Fzt9nrG2ESaH
+         IvvEYIn0GXwRSBnAz/Yoi195eGIttaPIkH80Kntw4KeYPH17aPhAbobJGUWz/8Tyai3i
+         1LFXCDYWUHlVy/TTErZh57eE7hOh03T/PSFi9QvNza0M9kFRb/WHLUN3wW31D6QRrYee
+         I14g==
+X-Gm-Message-State: ACrzQf1ADNnko6UtqMFPhdDWrBmQC2leS0NsXBWysnbooIMzn29laa1M
+        xbtnPyGmMHRMsPRLy/1ZbFxwemPZ0zs2WPXUCnzI40pW
+X-Google-Smtp-Source: AMsMyM6N+rqJd383wNo0tTFwOWxlQOUXB+NdPnp+xo591oKu26Yb32t9/qC65lbULR/MeM3lMDHuw+Bkc7qA6i6cb8w=
+X-Received: by 2002:a05:620a:468c:b0:6ec:5c7f:8a3d with SMTP id
+ bq12-20020a05620a468c00b006ec5c7f8a3dmr978896qkb.285.1665686194490; Thu, 13
+ Oct 2022 11:36:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20221011122600.620690-1-bagasdotme@gmail.com>
+In-Reply-To: <20221011122600.620690-1-bagasdotme@gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 13 Oct 2022 20:36:23 +0200
+Message-ID: <CAJZ5v0jCX=+XwWRwyVv+VxHQHR2buRNLH5Fw19pR4mVpzi95bQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: ACPI: Prune DSDT override documentation
+ from index
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Thu, 13 Oct 2022 10:41:06 -0600:
+On Tue, Oct 11, 2022 at 2:26 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> Commit d206cef03c4827 ("ACPI: docs: Drop useless DSDT override documentation")
+> removes useless DSDT override documentation. However, the commit forgets
+> to prune the documentation entry from table of contents of ACPI admin
+> guide documentation, hence triggers Sphinx warning:
+>
+> Documentation/admin-guide/acpi/index.rst:8: WARNING: toctree contains reference to nonexisting document 'admin-guide/acpi/dsdt-override'
+>
+> Prune the entry to fix the warning.
+>
+> Fixes: d206cef03c4827 ("ACPI: docs: Drop useless DSDT override documentation")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/admin-guide/acpi/index.rst | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/acpi/index.rst b/Documentation/admin-guide/acpi/index.rst
+> index 71277689ad97f4..b078fdb8f4c934 100644
+> --- a/Documentation/admin-guide/acpi/index.rst
+> +++ b/Documentation/admin-guide/acpi/index.rst
+> @@ -9,7 +9,6 @@ the Linux ACPI support.
+>     :maxdepth: 1
+>
+>     initrd_table_override
+> -   dsdt-override
+>     ssdt-overlays
+>     cppc_sysfs
+>     fan_performance_states
+>
+> base-commit: 27bc50fc90647bbf7b734c3fc306a5e61350da53
+> --
 
-> git://git.lwn.net/linux.git tags/docs-6.1-2
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/f2b220ef93ea34ff6ce48fec382689cf02099f39
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Applied as 6.1-rc material, thanks!
