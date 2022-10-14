@@ -2,141 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09291C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 15:22:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ED9DC43219
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 15:33:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230369AbiJNPWb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Oct 2022 11:22:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57668 "EHLO
+        id S229956AbiJNPdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Oct 2022 11:33:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230430AbiJNPWI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 11:22:08 -0400
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8479EB7F64;
-        Fri, 14 Oct 2022 08:21:29 -0700 (PDT)
-Received: by mail-io1-xd33.google.com with SMTP id n73so4109978iod.13;
-        Fri, 14 Oct 2022 08:21:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SCDNypmMNoD4rk1iAOBzVd/TrsABOXumr1g5KMaJ5tM=;
-        b=b3Liv8cfA/cYjf+fCQ6tUzRam9M5BsPpGTBn2BiJp2CL4wl1Zs9jHNpxnJNqp+uL0o
-         XJOC1WHsKP2k6jqJ5R4bIymSZ5sHkm84jEefRo/0ZJ8PKBlZ5rXuSVXGFzZh4vzd7a3d
-         qilY6nK9jxBwvNvFlecrfn7X922DFIQAHsWb4ER83L/kPlx7mQVLWcOsgk+nPdpXRq5z
-         jBwYut4T8h6LGrA2KUUbb81wjGO9FtX2f0glNDBWZzJoGpWLmf+1CUfcMuPjpRkbt+aq
-         Wy9G07fi1syzFM9ysbvi/9zEPC6TNlkQ8h1PMjRMka8lWSH7unnv7e4Y3k6A9pX2yPxy
-         /TBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SCDNypmMNoD4rk1iAOBzVd/TrsABOXumr1g5KMaJ5tM=;
-        b=RtpeNGzcJ43xptgO4IrQMTDk7dBcxlnMwxNTc8N/xSnRUgd+WrW3wz09b1/5WLI0rB
-         JXwYzmSJKz3iDjYTTM8mXTLbzaeWC5C1M/NItdgteZdjzFzTPVIemEeDH19MeLkXK+w2
-         eqR2cIcx1F6d9PNw/1P1jiWH5z4FjtQblW/KgKq7pZNAqgsq9QAafQLl+9tpY6mT+ui9
-         IcJ1Z2zpXxSG0elyiSi+QXRnpeCdRhD83QiqkJFN2YoeI6ERCbXgFIPaIglryoX191Ti
-         cfIPDsh8XeHP+XBtSXTakurHcVJJgc6Q0D2JqWCwf6pZwxAzhWS198vmOiskOgrYbYuY
-         0QQA==
-X-Gm-Message-State: ACrzQf17IVjtD6zBM/9q0gB74tvBUGEMYPLWsjIn01+wQEeZmH/UsZQ4
-        Jr4jlGVJJeJ7YY77OqG7TVV6nbjuRx9IdB6UugQ=
-X-Google-Smtp-Source: AMsMyM4+Fy6nl+lahIwtdrltwhSd/oNKs4pqSaib3jRIj+2LJxp7D3K7ZCAidFt1h4WSU6xs530VTWfR1wmDVyi9AsM=
-X-Received: by 2002:a05:6602:1509:b0:69b:35ba:4720 with SMTP id
- g9-20020a056602150900b0069b35ba4720mr2513530iow.155.1665760876706; Fri, 14
- Oct 2022 08:21:16 -0700 (PDT)
+        with ESMTP id S231209AbiJNPdj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 11:33:39 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E142B9B86E;
+        Fri, 14 Oct 2022 08:33:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=tcM8guTF51y4dORNbVL0TNPgqKXsDWO1cxQKagb6RpQ=; b=WVap/vaDDQsosYCxpzXStdd50N
+        Xk2922O8Nbnqsjsb7+6hUodsPGVCrgVKrgsn6NfJbcuv4mwas/y+srH7BfoI2LqFrwhgi10jfsRA5
+        BF5HbdvfzMysaPdmw34TGJWtYFtfTuuYzrMdn5E4wZaR/0h+CS+5Lnjj8/qEz9fk+crwilALA5lcd
+        9vyrq/l1kfFZRojAVxnCzyxStxB5YJ4n7DHWVFx7y6nbeh/ctE5/IXQaj3VZTKyKCpdrmYIup4hIp
+        AsBs24qOaZHKyxFCm7DrkIKq/qg/Idd5PdX88EJkUS3LBwmoVyLOnJfA5QcfscgRUwmW1tqkjEaWb
+        ymkHe8ig==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1ojMfw-003RUm-BQ; Fri, 14 Oct 2022 15:32:40 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 248EA30004F;
+        Fri, 14 Oct 2022 17:32:39 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 0D9852C1B0A4D; Fri, 14 Oct 2022 17:32:39 +0200 (CEST)
+Date:   Fri, 14 Oct 2022 17:32:38 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com, rppt@kernel.org,
+        jamorris@linux.microsoft.com, dethoma@microsoft.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v2 16/39] x86/mm: Update maybe_mkwrite() for shadow stack
+Message-ID: <Y0mBFjfOAA+hJcUn@hirez.programming.kicks-ass.net>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-17-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-References: <20221013184816.354278-1-carlos.bilbao@amd.com>
- <20221014142454.871196-1-carlos.bilbao@amd.com> <20221014142454.871196-2-carlos.bilbao@amd.com>
-In-Reply-To: <20221014142454.871196-2-carlos.bilbao@amd.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 14 Oct 2022 17:21:05 +0200
-Message-ID: <CANiq72=DuRw_0AiC7LtWA7n_0Rpsz3cExXj4YX4zu4o8RxugJA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] Documentation: Start translations to Spanish
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bilbao@vt.edu
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220929222936.14584-17-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Carlos,
+On Thu, Sep 29, 2022 at 03:29:13PM -0700, Rick Edgecombe wrote:
 
-Since you Cc'd me, I guess I can give a quick review. :)
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 8cd413c5a329..fef14ab3abcb 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -981,13 +981,25 @@ void free_compound_page(struct page *page);
+>   * servicing faults for write access.  In the normal case, do always want
+>   * pte_mkwrite.  But get_user_pages can cause write faults for mappings
+>   * that do not have writing enabled, when used by access_process_vm.
+> + *
+> + * If a vma is shadow stack (a type of writable memory), mark the pte shadow
+> + * stack.
+>   */
+> +#ifndef maybe_mkwrite
+>  static inline pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
+>  {
+> -	if (likely(vma->vm_flags & VM_WRITE))
+> +	if (!(vma->vm_flags & VM_WRITE))
+> +		goto out;
+> +
+> +	if (vma->vm_flags & VM_SHADOW_STACK)
+> +		pte = pte_mkwrite_shstk(pte);
+> +	else
+>  		pte = pte_mkwrite(pte);
+> +
+> +out:
+>  	return pte;
+>  }
+> +#endif
 
-On Fri, Oct 14, 2022 at 4:40 PM Carlos Bilbao <carlos.bilbao@amd.com> wrote=
-:
->
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Traducci=C3=B3n al espa=C3=B1ol
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Why the #ifndef guard? There is no other implementation, nor does this
+patch introduce one.
 
-I think these should be as long as the title.
+Also, wouldn't it be simpler to write it like:
 
-> +La propagaci=C3=B3n simultanea de la traducci=C3=B3n de una modificaci=
-=C3=B3n en
+static inline pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct *vma)
+{
+	if (!(vma->vm_flags & VM_WRITE))
+		return pte;
 
-"simult=C3=A1nea"
+	if (vma->vm_flags & VM_SHADOW_STACK)
+		return pte_mkwrite_shstk(pte);
 
-> +est=C3=A9 actualizada con las ultimas modificaciones. Si lo que lee en u=
-na
+	return pte_mkwrite(pte);
+}
 
-"=C3=BAltimas"
-
-> +Una traducci=C3=B3n no es una * bifurcaci=C3=B3n * de la documentaci=C3=
-=B3n oficial, por
-
-I am not sure if the spaces are needed.
-
-> +ejemplo, nuevas traducciones, actualizaciones, correcciones).
-
-"...", "etc." or "o"/"y" before  "correcciones"?
-
-> +Las traducciones tratan de ser lo m=C3=A1s precisas posible pero no es p=
-osible
-> +convertir directamente un idioma a otro. Cada idioma tiene su propia
-> +gram=C3=A1tica, y una cultura tras ella, por lo tanto, la traducci=C3=B3=
-n de una
-> +oraci=C3=B3n al ingl=C3=A9s se podr=C3=ADa modificar para adaptarlo al e=
-spa=C3=B1ol. Por esta
-
-"adaptarla"? (if you are referring to "la traducci=C3=B3n" or "una oraci=C3=
-=B3n")
-
-> +la forma, pero todav=C3=ADa transmiten el mensaje original. A pesar de l=
-a gran
-> +difusi=C3=B3n del ingl=C3=A9s en el idioma hablado, cuando sea posible, =
-expresiones
-> +en ingl=C3=A9s ser=C3=A1n reemplazadas por las palabras correspondientes=
- en espa=C3=B1ol.
-
-I think the sentence wants to say it is common (in the community?) to
-use English, but terms will be translated where possible. However, I
-am not sure what "en el idioma hablado" means here.
-
-Also, was this based on the English version or another translation?
-i.e. this sentence does not seem to be in the English one.
-
-> +sientan mas c=C3=B3modos. En principio, estas peque=C3=B1as diferencias =
-no deber=C3=ADan
-
-"m=C3=A1s"
-
-> +La documentaci=C3=B3n del kernel de Linux
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-I think without the last "de" would be more precise, but I have heard
-it this way too.
-
-> +bienvenidas; de modo que, si desea ayudar, =C3=BAnase a la lista de corr=
-eo de
-> +linux-doc en vger.kernel.org.
-
-Ditto.
-
-Cheers,
-Miguel
+? (idem for the pmd version etc..)
