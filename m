@@ -2,180 +2,220 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8938C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 07:53:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 761ADC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 08:49:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229613AbiJNHxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Oct 2022 03:53:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42770 "EHLO
+        id S229708AbiJNItC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Oct 2022 04:49:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbiJNHxQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 03:53:16 -0400
-Received: from out30-45.freemail.mail.aliyun.com (out30-45.freemail.mail.aliyun.com [115.124.30.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1FAF1B6CBC;
-        Fri, 14 Oct 2022 00:53:14 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R391e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=23;SR=0;TI=SMTPD_---0VS6v75N_1665733988;
-Received: from 30.221.98.115(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VS6v75N_1665733988)
-          by smtp.aliyun-inc.com;
-          Fri, 14 Oct 2022 15:53:09 +0800
-Message-ID: <aa17b0b4-ce59-9e4e-e08c-95668d4653ed@linux.alibaba.com>
-Date:   Fri, 14 Oct 2022 15:53:07 +0800
+        with ESMTP id S229657AbiJNItA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 04:49:00 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AC971781D7;
+        Fri, 14 Oct 2022 01:48:59 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 300C121A2C;
+        Fri, 14 Oct 2022 08:48:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1665737338; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=e92DTbDaQNolF7YKNbIS6b3pmt4/q07KdyY56iTEIVM=;
+        b=sJi7T1ThSa1l+g9i6ycsgjAk9iuUOTs7/3izNtA7vQnv0vyYMVFBw41TRBvSfWJEzHS6IV
+        wnNgxagYdYqWzA7MRb7ZVLzFdLK2JgsstbQopXqLeqDtsRUQn9vRzk77wMfrVH+jk3lcJo
+        kIP0bAClmUL/wZxr/KHNYTaw6GxACNc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1665737338;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=e92DTbDaQNolF7YKNbIS6b3pmt4/q07KdyY56iTEIVM=;
+        b=jzHsfiRL+KN0jqgeVZuneNFRQnh63NlQM3eIemKaaGji/7C4arlS9jkiKa/xLFHT23zaB2
+        M5vBQmiEajm4ASDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D1B8513451;
+        Fri, 14 Oct 2022 08:48:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id nC9wMnkiSWMSCQAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Fri, 14 Oct 2022 08:48:57 +0000
+Message-ID: <d9b794ea-ff2f-b1a0-0569-1b7a54136242@suse.cz>
+Date:   Fri, 14 Oct 2022 10:48:57 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH V6 0/6] RISC-V fixups to work with crash tool
-To:     Conor Dooley <conor@kernel.org>,
-        Conor Dooley <conor.dooley@microchip.com>
-Cc:     Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
-        guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net, kexec@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, crash-utility@redhat.com,
-        heinrich.schuchardt@canonical.com, k-hagio-ab@nec.com,
-        hschauhan@nulltrace.org, yixun.lan@gmail.com
-References: <mhng-f5fdaa37-e99a-4214-a297-ec81f0fed0c1@palmer-mbp2014>
- <f8d3ae66-73a8-db89-c4c4-918610fb5f35@linux.alibaba.com>
- <Y0aOcsf06a2+ExrU@wendy>
- <55606b89-13f2-5e3b-9176-bacbec8c36d1@linux.alibaba.com>
- <22AAF52E-8CC8-4D11-99CB-88DE4D113444@kernel.org>
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-In-Reply-To: <22AAF52E-8CC8-4D11-99CB-88DE4D113444@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2] mm: Make failslab writable again
+Content-Language: en-US
+To:     Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        Alexander Atanasov <alexander.atanasov@virtuozzo.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>, kernel@openvz.org,
+        Kees Cook <keescook@chromium.org>,
+        Roman Gushchin <guro@fb.com>, Jann Horn <jannh@google.com>,
+        Vijayanand Jitta <vjitta@codeaurora.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+References: <20220920121111.1792905-1-alexander.atanasov@virtuozzo.com>
+ <Yyr1xONdw8dBgsKr@hyeyoo>
+ <30063d97-69f0-bea2-9d59-108140995bfc@virtuozzo.com>
+ <YzJIsFZQoCEYntvR@hyeyoo>
+ <7640a2d9-a32d-2fd7-8f64-586edb9b781e@virtuozzo.com>
+ <YzRmZlJBFA9HIlSM@hyeyoo>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <YzRmZlJBFA9HIlSM@hyeyoo>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 9/28/22 17:21, Hyeonggon Yoo wrote:
+> On Tue, Sep 27, 2022 at 10:44:20AM +0300, Alexander Atanasov wrote:
+>> Hello,
+>> 
+>> On 27.09.22 3:49, Hyeonggon Yoo wrote:
+>> > On Fri, Sep 23, 2022 at 10:34:28AM +0300, Alexander Atanasov wrote:
+>> > > Hello,
+>> > > 
+>> > > On 21.09.22 14:30, Hyeonggon Yoo wrote:
+>> > > > On Tue, Sep 20, 2022 at 03:11:11PM +0300, Alexander Atanasov wrote:
+>> > > > > In (060807f841ac mm, slub: make remaining slub_debug related attributes
+>> > > > > read-only) failslab was made read-only.
+>> > > > > I think it became a collateral victim to the two other options for which
+>> > > > > the reasons are perfectly valid.
+>> > > > > Here is why:
+>> > > > >    - sanity_checks and trace are slab internal debug options,
+>> > > > >      failslab is used for fault injection.
+>> > > > >    - for fault injections, which by presumption are random, it
+>> > > > >      does not matter if it is not set atomically. And you need to
+>> > > > >      set atleast one more option to trigger fault injection.
+>> > > > >    - in a testing scenario you may need to change it at runtime
+>> > > > >      example: module loading - you test all allocations limited
+>> > > > >      by the space option. Then you move to test only your module's
+>> > > > >      own slabs.
+>> > > > >    - when set by command line flags it effectively disables all
+>> > > > >      cache merges.
+>> > > > 
+>> > > > Maybe we can make failslab= boot parameter to consider cache filtering?
+>> > > > 
+>> > > > With that, just pass something like this:
+>> > > > 	failslab=X,X,X,X,cache_filter slub_debug=A,<cache-name>>
+>> > > 
+>> > > > Users should pass slub_debug=A,<cache-name> anyway to prevent cache merging.
+>> > > 
+>> > > It will be good to have this in case you want to test cache that is used
+>> > > early. But why push something to command line option only when it can be
+>> > > changed at runtime?
+>> > 
+>> > Hmm okay. I'm not against changing it writable. (it looks okay to me.)
+>> 
+>> Okay. Good to know that.
+>> 
+>> > Just wanted to understand your use case!
+>> > Can you please elaborate why booting with slub_debug=A,<your cache name>
+>> > and enabling cache_filter after boot does not work?
+>> 
+>> I didn't say it does not work - it does work but requires reboot. You may
+>> want to test variations of caches for example. Cache A, Cache B ... C and so
+>> on one by one. Reboots might be fast these days with VMs but you may not be
+>> able to test everything in a VM. And ... reboots used to be the signature
+>> move of one Other OS.
+> 
+> Thank you for elaboration!
+> Makes sense.
+> 
+>> 
+>> > Or is it trying to changnig these steps,
+>> > 
+>> > FROM
+>> > 	1. booting with slub_debug=A,<cache name>
+>> > 	2. write to cache_filter to enable cache filtering
+>> > 	3. setup probability, interval, times, size
+>> > 
+>> > TO
+>> > 
+>> > 	1. write to failslab attribute of <cache name> (may fail it has alias)
+>> > 	2. write to cache_filter to enable cache filtering
+>> > 	3. setup probability, interval, times, size
+>> > ?
+>> > 
+>> > as you may know, SLAB_FAILSLAB does nothing whens
+>> > cache_filter is disabled, and you should pass slub_debug=A,<cache name> anyway
+>> 
+>> Okay , i think there awaits another problem:
+>> bool __should_failslab(struct kmem_cache *s, gfp_t gfpflags)
+>> {
+>> ...
+>> 
+>>         if (failslab.cache_filter && !(s->flags & SLAB_FAILSLAB))
+>>                 return false;
+>> ...
+>> 	return should_fail(&failslab.attr, s->object_size);
+>> }
+>> 
+>> So if you do not have cache_filter set ... you go to should_fail for all
+>> slabs.
+> 
+> Yes.
+> 
+>> I've been hit by that and spend a lot of time trying to understand why i got
+>> crashes at random places. And the reason was that i read an old
+>> documentation that said cache_filter is writable and i blindly wrote 1 to
+>> it.
 
-在 2022/10/13 下午1:24, Conor Dooley 写道:
->
-> On 13 October 2022 03:28:09 IST, Xianting Tian <xianting.tian@linux.alibaba.com> wrote:
->> 在 2022/10/12 下午5:52, Conor Dooley 写道:
->>> On Wed, Oct 12, 2022 at 05:42:37PM +0800, Xianting Tian wrote:
->>>> 在 2022/8/12 上午12:17, Palmer Dabbelt 写道:
->>>>> On Thu, 11 Aug 2022 00:41:44 PDT (-0700),
->>>>> xianting.tian@linux.alibaba.com wrote:
->>>>>> I ever sent the patch 1 in the link:
->>>>>> https://patchwork.kernel.org/project/linux-riscv/patch/20220708073150.352830-3-xianting.tian@linux.alibaba.com/
->>>>>>
->>>>>> And patch 2,3 in the link:
->>>>>> https://patchwork.kernel.org/project/linux-riscv/patch/20220714113300.367854-2-xianting.tian@linux.alibaba.com/
->>>>>>
->>>>>> https://patchwork.kernel.org/project/linux-riscv/patch/20220714113300.367854-3-xianting.tian@linux.alibaba.com/
->>>>>>
->>>>>>
->>>>>> This patch set just put these patches together, and with three new
->>>>>> patch 4, 5, 6.
->>>>>> these six patches are the fixups for machine_kexec, kernel mode PC
->>>>>> for vmcore
->>>>>> and improvements for vmcoreinfo, memory layout dump and fixup
->>>>>> schedule out issue
->>>>>> in machine_crash_shutdown().
->>>>>>
->>>>>> The main changes in the six patchs as below,
->>>>>> Patch 1: Fixup use of smp_processor_id() in preemptible context, to
->>>>>> cleanup
->>>>>>            the console prints.
->>>>>> Patch 2: Fixup to get correct kernel mode PC for kernel mode regs
->>>>>> for vmcore.
->>>>>> Patch 3: Fixup schedule out issue in machine_crash_shutdown()
->>>>>> Patch 4: Add modules to virtual kernel memory layout dump.
->>>>>> Patch 5: Add VM layout, va bits, ram base to vmcoreinfo, which can
->>>>>> simplify
->>>>>>            the development of crash tool as ARM64 already did
->>>>>>            (arch/arm64/kernel/crash_core.c).
->>>>>> Patch 6: Updates vmcoreinfo.rst for vmcoreinfo export for RISCV64.
->>>>>>
->>>>>> With these six patches(patch 2 is must), crash tool can work well to
->>>>>> analyze
->>>>>> a vmcore. The patches for crash tool for RISCV64 is in the link:
->>>>>> https://lore.kernel.org/linux-riscv/20220801043040.2003264-1-xianting.tian@linux.alibaba.com/
->>>>>>
->>>>>>
->>>>>> ------
->>>>>> Changes v1 -> v2:
->>>>>>     1, remove the patch "Add a fast call path of crash_kexec()" from
->>>>>> this series
->>>>>>        of patches, as it already applied to riscv git.
->>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git/commit/?h=for-next&id=3f1901110a89b0e2e13adb2ac8d1a7102879ea98
->>>>>>     2, add 'Reviewed-by' based on the comments of v1.
->>>>>> Changes v2 -> v3:
->>>>>>     use "riscv" instead of "riscv64" in patch 5 subject line.
->>>>>> Changes v3 -> v4:
->>>>>>     use "riscv" instead of "riscv64" in the summary of patch 5 subject
->>>>>> line.
->>>>>> Changes v4 -> v5:
->>>>>>     add a new patch "RISC-V: Fixup schedule out issue in
->>>>>> machine_crash_shutdown()"
->>>>>> Changes v5 -> v6:
->>>>>>     1, move "fixup" patches to the start of the patch set.
->>>>>>     2, change patch 1, 2, 6's subject to make it tell more what it's
->>>>>> about.
->>>>>>     3, add Fixes for patch 3.
->>>>>>     4, adjuest the changes format for patch 6.
->>>>>>
->>>>>>
->>>>>> Xianting Tian (6):
->>>>>>     RISC-V: kexec: Fixup use of smp_processor_id() in preemptible context
->>>>>>     RISC-V: Fixup get incorrect user mode PC for kernel mode regs
->>>>>>     RISC-V: Fixup schedule out issue in machine_crash_shutdown()
->>>>>>     RISC-V: Add modules to virtual kernel memory layout dump
->>>>>>     RISC-V: Add arch_crash_save_vmcoreinfo support
->>>>>>     Documentation: kdump: describe VMCOREINFO export for RISCV64
->>>>>>
->>>>>>    .../admin-guide/kdump/vmcoreinfo.rst          | 31 +++++++++++++++++++
->>>>>>    arch/riscv/kernel/Makefile                    |  1 +
->>>>>>    arch/riscv/kernel/crash_core.c                | 29 +++++++++++++++++
->>>>>>    arch/riscv/kernel/crash_save_regs.S           |  2 +-
->>>>>>    arch/riscv/kernel/machine_kexec.c             | 28 ++++++++++++++---
->>>>>>    arch/riscv/mm/init.c                          |  4 +++
->>>>>>    6 files changed, 89 insertions(+), 6 deletions(-)
->>>>>>    create mode 100644 arch/riscv/kernel/crash_core.c
->>>>> Thank.  I've taken the first 4 onto for-next, which is still targeted
->>>>> for 5.20, as they're fixes.  I'm not opposed to taking the documentation
->>>>> patch for this cycle as well, it just needs some going-over as the
->>>>> wording looks very odd (or at least it does to me right now, maybe I'm
->>>>> just still half asleep).  Patch 5 is a new feature, and given that it's
->>>>> being spun during the merge window it's too late.
->>>> Hi Palmer
->>>>
->>>> Do you plan to merge the two patch to Linux 6.1 to support crash tool work?
->>>> thanks
->>>>
->>>>     RISC-V: kexec: Fixup use of smp_processor_id() in preemptible context
->>> 357628e68f5c ("RISC-V: kexec: Fixup use of smp_processor_id() in preemptible context"
->>>
->>>>     RISC-V: Fixup get incorrect user mode PC for kernel mode regs
->>> 59c026c359c3 ("RISC-V: Fixup get incorrect user mode PC for kernel mode regs")
->>>
->>> Hey Xianting, those two commits already seem to have been applied, do
->>> you perhaps instead mean the documentation patch and the addition of
->>> support for arch_crash_save_vmcoreinfo? I recalled asking if you needed
->>> to respin at the time, but do not see a response:
->>> https://lore.kernel.org/linux-riscv/39fdc85e-b2d5-863c-4878-4b3380d76bc4@microchip.com/
->>> IIRC Bagas had some outstanding comments on the documentation change
->>> too. Was I incorrect?
->> Sorry, It is the two patches:
->>
->>    RISC-V: Add arch_crash_save_vmcoreinfo support
->>    Documentation: kdump: describe VMCOREINFO export for RISCV64
->>
->> I saw Palmer already merged the two patches to his riscv-crash branch, it means they are OK?
-> Dunno, but no harm in resending given it's been a while cycle since then.
+I don't understand. It is writable for root, and you can enable it that way, no?
 
-hi Conor
+>> If the intent is to only work with cache filter set - then i will update
+>> the patch to do so.
+> 
+> You mean to set cache_filter to true when writing to 'failslab',
+> or when setting SLAB_FAILSLAB slab flag?
+> 
+> I'm not so confident for that because it's implicitly changing.
+> Maybe more documentation would be proper?
+> 
+> what do you think, Vlastimil?
 
-I submitted the new patch just now, please help review. thanks
+I also don't think we should change cache_filter when writing to a cache's
+failslab attribute.
 
-https://lkml.org/lkml/2022/10/14/150
+>> This is the only place where SLAB_FAILSLAB is explicitly
+>> tested, other places check it as part of SLAB_NEVER_MERGE.
+>> 
+>> But even for all caches it is kind of possible to test with size(space)
+>> which is in turn useful because you need to figure out how you handle
+>> failures from external caches - external to your code under test and you
+>> don't want to keep track for all of them (same goes for too much options in
+>> command line). 
+> 
+> Yeah, we should be able to inject fault in all caches, or a specific
+> cache(s).
+> 
+>> > to prevent doing cache merging with <cache name>.
+>> 
+>> Or you can pass SLAB_FAILSLAB from your module when creating the cache to
+>> prevent merge when under test.
+> 
+> Right. I missed that.
+> 
+>> 
+>> 
+>> -- 
+>> Regards,
+>> Alexander Atanasov
+>> 
+> 
 
->
->> https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git/log/?h=riscv-crash
->>
->> I saw Bagas's comments, I will send new version patch for the two patches, thanks for the reminder.
->>
->>> Thanks,
->>> Conor.
