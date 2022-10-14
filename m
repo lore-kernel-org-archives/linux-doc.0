@@ -2,88 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DD1BC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 02:24:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66E10C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 04:20:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229772AbiJNCYU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 13 Oct 2022 22:24:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37854 "EHLO
+        id S229726AbiJNEU5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Oct 2022 00:20:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbiJNCYT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Oct 2022 22:24:19 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFFB5EA692;
-        Thu, 13 Oct 2022 19:24:18 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id i3so3606166pfc.11;
-        Thu, 13 Oct 2022 19:24:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fd5dEtIK9gdlQcJsAgxFpuieDtoEahg2tk3oqJXbQag=;
-        b=WIlLjg2g+T2t/iFbG7REjo2RVCkfETFGJS9zZzGYEQYZvWkNU++yKB4wvZM6pUIqHe
-         Tllwv32p4i1zrvaJmUoUB73pgi8Sh1aMswRdtQ5RTIqMfgKzlPnI05oCH/NKfpK/aDQy
-         n2oVNfc8uGiYkX1VKwag/ifT2IXimaQI6VF4DuA9AlUWZeLJp30EH708knLvckreylKJ
-         nCjA+J5c/aH161e7l84Zm9hhPuDjDGij3fNLPjGIGjrzbkYmMlqQe37Rmr8kPE82+ffS
-         FAc954D/2VGJeNc5lFfmdmENoub3v2bUjJN9hX+ETafBVgR89WvltCcehVxiKou9wp2M
-         3NGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fd5dEtIK9gdlQcJsAgxFpuieDtoEahg2tk3oqJXbQag=;
-        b=nKD1MXge6CWGpwLT0yf0f2QAnkEB4LE6NRGjpJ17G+iv62YTGhpF1/U4a34T4VgThA
-         O/X32Yq9oxhvoyv0qYi/3fwic8qJUcfDvks5Gx/Z9TmZo15Cd7avx9EPJXMR2oEwFTjc
-         mLfaKeViRcjUgsnxXXifJpZ+iACAsVo8T5rM0ZAWszFU1zvanJF2ZotodpfTShlmfsaU
-         JwprXJr8O9Ud1AfIHEm1wMW8M8rm7PEV+/KQwGn2rfBf4szXuZc2cVGw7Phr8kWtDRrW
-         XY1038UvyL93r2496bY6YdIJNU1GzlvmwFW4vGKlH0KzUPWfQtpmoLx6kbC8t2sn3fDi
-         kwkQ==
-X-Gm-Message-State: ACrzQf0HU3AicFuxuDUJbFMin9ITQ4PUihOC2CuHGJGvYUiYXuO7WwEi
-        uYNifa3RyfnWkhZJjyX4hr0=
-X-Google-Smtp-Source: AMsMyM5iggzZUwiUbEL1aA7rw8qgc2VshWkNw+YcVrWsP4hiPc3fe2X4Wl09lqKaloIkLEzBalK9Rg==
-X-Received: by 2002:a05:6a00:cce:b0:565:cbe0:16c6 with SMTP id b14-20020a056a000cce00b00565cbe016c6mr2637694pfv.56.1665714258307;
-        Thu, 13 Oct 2022 19:24:18 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-5.three.co.id. [180.214.233.5])
-        by smtp.gmail.com with ESMTPSA id o125-20020a62cd83000000b00561c179e17dsm384483pfg.76.2022.10.13.19.24.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Oct 2022 19:24:17 -0700 (PDT)
-Message-ID: <130adb69-ff37-51fd-26a2-674ab78ff044@gmail.com>
-Date:   Fri, 14 Oct 2022 09:24:11 +0700
+        with ESMTP id S229717AbiJNEUy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 00:20:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FA2117653E
+        for <linux-doc@vger.kernel.org>; Thu, 13 Oct 2022 21:20:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665721251;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=HnSURpZm+VRo/jWoSn4Tgay2ffXUBOQESxlPLKKSxGM=;
+        b=Jjpof4RWJnc99MSD1DmewmgoItO9Oyauwvfrbh5OVOWS5OTkbCHnlRu4OsBAwYqHD1SrSX
+        Hgb+GULQ4K64c5FQlBk0aHDTqyk3bV9Bj1027uqwu5/maUJW6Stny461yZTdH78PeqeE3d
+        k1MEmmaV5VAj5ESjj+zgmQ19oeLwjWA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-574-h_Ui7k8wPmmjl_qv7bpchw-1; Fri, 14 Oct 2022 00:20:46 -0400
+X-MC-Unique: h_Ui7k8wPmmjl_qv7bpchw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 30B34185A794;
+        Fri, 14 Oct 2022 04:20:46 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-249.pek2.redhat.com [10.72.12.249])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7ED081121320;
+        Fri, 14 Oct 2022 04:20:39 +0000 (UTC)
+From:   Jason Wang <jasowang@redhat.com>
+To:     mst@redhat.com, jasowang@redhat.com, corbet@lwn.net
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        mikelley@microsoft.com, vkuznets@redhat.com, liuwe@microsoft.com,
+        kkashanjat@microsoft.com, cohuck@redhat.com, otubo@redhat.com,
+        andavis@redhat.com, aadam@redhat.com, stefanha@redhat.com,
+        sgarzare@redhat.com, virtualization@lists.linux-foundation.org
+Subject: [RFC PATCH] virtio: document virtio hardening status and TODO
+Date:   Fri, 14 Oct 2022 12:20:37 +0800
+Message-Id: <20221014042037.23639-1-jasowang@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH] Documentation: process: update the list of current LTS
-To:     Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
-        Sasha Levin <sashal@kernel.org>
-References: <20221013183414.667316-1-ndesaulniers@google.com>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20221013183414.667316-1-ndesaulniers@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/14/22 01:34, Nick Desaulniers wrote:
-> 3.16 was EOL in 2020.
-> 4.4 was EOL in 2022.
-> 
-> 5.10 is new in 2020.
-> 5.15 is new in 2021.
-> 
-> We'll see if 6.1 becomes LTS in 2022.
-> 
+This patch summarizes the status of hardening and TODO of hardening
+virtio core and drivers.
 
-I think the table should be keep updated whenever new LTS is announced
-and oldest LTS become EOL, to be on par with kernel.org homepage.
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ Documentation/security/virtio/core.rst | 49 ++++++++++++++++++++++++++
+ MAINTAINERS                            |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 Documentation/security/virtio/core.rst
 
+diff --git a/Documentation/security/virtio/core.rst b/Documentation/security/virtio/core.rst
+new file mode 100644
+index 000000000000..b8baa104d7c8
+--- /dev/null
++++ b/Documentation/security/virtio/core.rst
+@@ -0,0 +1,49 @@
++================
++Virtio hardening
++================
++
++The virtio core and drivers should not trust the devices. This means
++all kinds of input from the device must be validated before being
++used. This document summarizes the current status and TODO for this
++validation/hardening efforts.
++
++
++Status
++======
++
++The virtio core and drivers has done some basic hardening:
++
++* Config callback hardening: The core makes sure the config interrupt
++  callbacks are enabled after the driver is ready and disable before
++  the driver is removed.
++
++* Descriptor ring hardening: The metadata of a descriptor were copied
++  and stored in a driver private memory that can not be accessed by the
++  device. The eliminates the device triggerable behaviours through the
++  descriptor ring.
++
++* Device configuration space validation: Some of the virtio drivers
++  validates the fields of device configuration space before try to use
++  them.
++
++
++TODO
++====
++
++* Input buffer length validation: The virtio core needs to validate
++  the input buffer length validation before passing them to individual
++  virtio drivers.
++
++* Virtqueue callback hardening: The virtio core (or with the help of
++  the drivers) should guarantee that the virtqueue callbacks should not
++  be triggered before the driver is ready or after the driver is
++  removed.
++
++* Transport specific data validation: The virtio transport driver should
++  validate the virtio transport specific data provided by the device
++  before trying to use them in the probing.
++
++* Device specific validation: Driver should validate the device specific
++  metadata before being used by a specific subsystem.
++
++
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 673b9f9b8d8a..b33cc5c751c1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -21516,6 +21516,7 @@ S:	Maintained
+ F:	Documentation/ABI/testing/sysfs-bus-vdpa
+ F:	Documentation/ABI/testing/sysfs-class-vduse
+ F:	Documentation/devicetree/bindings/virtio/
++F:	Documentation/security/virtio/core.rst
+ F:	drivers/block/virtio_blk.c
+ F:	drivers/crypto/virtio/
+ F:	drivers/net/virtio_net.c
 -- 
-An old man doll... just what I always wanted! - Clara
+2.25.1
 
