@@ -2,129 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25471C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 17:11:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49F82C43217
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 17:12:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231261AbiJNRLG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Oct 2022 13:11:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45446 "EHLO
+        id S231251AbiJNRMz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Oct 2022 13:12:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231260AbiJNRLC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 13:11:02 -0400
-Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEAE11D5579
-        for <linux-doc@vger.kernel.org>; Fri, 14 Oct 2022 10:10:54 -0700 (PDT)
-Received: by mail-pl1-x64a.google.com with SMTP id e10-20020a17090301ca00b00183d123e2a5so3596493plh.14
-        for <linux-doc@vger.kernel.org>; Fri, 14 Oct 2022 10:10:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v9ap2GLZvM/h5WRSh6U8yqJEQTu6U3qmUyyLz0cSVPc=;
-        b=EHXIjcEVaP7GqJu7+/7iwMQnBTtvMzb0JNHXjKS/ZxLiViC57AmLU08ZKnjpnGCP3S
-         YgBZrJcXF0nYt6Oj8HeoePeKbFrCOcPGOd2U0bXoD9U57xmAD1ElzzgboS9ngHKQ6sm3
-         73I+Qo3dmVEV/XMEkXmIZrGDSCYB+hcsKmHvu+LxfAlrWEe9PzzhujoJVskKUavQDINh
-         lpLlENpfUFYBCNdnKtl8qLYecLygj0ue1C/qrZvwaKcPjndqm0v+0ulPPgte2XmrpXF6
-         wfyrFIazoOr/rsFFudAktPdpwATeRmQhaqS6rqXaSYU8F4vAiamH6zZzcxbAPFwaksk5
-         t9Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v9ap2GLZvM/h5WRSh6U8yqJEQTu6U3qmUyyLz0cSVPc=;
-        b=U+KZ7Nn4ilDDj3uyLKzbb9FMs94XqYHaMIdt17a/XuPjN33MeoHYjw6X1RTWxv5v6J
-         vFAagMUUKSL/8dvp+4DLO7nUPcGE0QmhNThq3GvXeu6HSCbJs5ooEXkWP90DOv8O+w/p
-         Ycgbzsitz61hr861wcOBmRPasrUAjwUuVSwNR+Um5G149gREoyLhUSrRDPTuIiUyK0ny
-         idDPPi11z8mltM/CMMsD9ZaOAT2XYOdOFaLV1Q7mKe1hdqYageKIiXCEqISOGgFvj4IL
-         jnUr0qqQHgOcsqwrzW8vP001RM1Vx+nZ6MaAvICjASfgN0hZz6xWlBVgXTIijtf7i4dd
-         9nTQ==
-X-Gm-Message-State: ACrzQf1pQcBQqDyC+Ow0qzz228lFrWfBNJJGmXpZ5kjrqXSPY13/UCLi
-        TArDQQZhXLOu0E5gxXMH4E7QeIPQgTCieib6keI=
-X-Google-Smtp-Source: AMsMyM4YzRBXmzyhCa/4pBcn2mG0C8gX42INaXx++KNjjHjH35AjvdUI0Z61ht5TLtZm4/EMlCQbZM29Psqw2nv0hHA=
-X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:0:100e:712:ff3e:881c:4c2c:b8c9])
- (user=ndesaulniers job=sendgmr) by 2002:a62:1744:0:b0:562:4e9b:3e0c with SMTP
- id 65-20020a621744000000b005624e9b3e0cmr6202729pfx.63.1665767452872; Fri, 14
- Oct 2022 10:10:52 -0700 (PDT)
-Date:   Fri, 14 Oct 2022 10:10:40 -0700
-In-Reply-To: <Y0mSVQCQer7fEKgu@kroah.com>
-Mime-Version: 1.0
-References: <Y0mSVQCQer7fEKgu@kroah.com>
-X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=UIrHvErwpgNbhCkRZAYSX0CFd/XFEwqX3D0xqtqjNug=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1665767440; l=2239;
- i=ndesaulniers@google.com; s=20220923; h=from:subject; bh=kVkxjDQc5kjwHf3srGXAwtiAks3feBD+FzGTuZwcG7s=;
- b=xBNfNpF27rA58YIkIpHdFJ8sCZIZsRqpxhp19dqNIfQZGlYiV1zD8vSBeuNSlVsyMVwkwB4BqEkh
- 8b6o41b2BqirH9MpbAfxx9PHV7mtZTw0Rn5RAqE/2zrNXGHNS2Rt
-X-Mailer: git-send-email 2.38.0.413.g74048e4d9e-goog
-Message-ID: <20221014171040.849726-1-ndesaulniers@google.com>
-Subject: [PATCH v2] Documentation: process: replace outdated LTS table w/ link
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
-        Sasha Levin <sashal@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tyler Hicks <code@tyhicks.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S231248AbiJNRMy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 13:12:54 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DE6F8E782;
+        Fri, 14 Oct 2022 10:12:53 -0700 (PDT)
+Received: from zn.tnic (p200300ea9733e7ed329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e7ed:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 864DA1EC0731;
+        Fri, 14 Oct 2022 19:12:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1665767567;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=+EYBcfkVNy99Prgg508di+96dEqLLAK9qFDJ8Xcfxdg=;
+        b=b22IDJ7VlnTcVzaDIlOVqru2/dYLiTv0JFljcboinwtN21OTqd5okpwv6ZA6heznM/CbCw
+        5fxuDDzM103FZ/4e7f16Ctfe2epR2FIGi+sklkTfwoLxbh57cvMIozN9RlYhlKSUSsOaXi
+        7rlcQcZVUlBm+B9APq8gNrIXtrniSNU=
+Date:   Fri, 14 Oct 2022 19:12:41 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com, rppt@kernel.org,
+        jamorris@linux.microsoft.com, dethoma@microsoft.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v2 04/39] x86/cpufeatures: Enable CET CR4 bit for shadow
+ stack
+Message-ID: <Y0mYib7ygyxbiZ2K@zn.tnic>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-5-rick.p.edgecombe@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220929222936.14584-5-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The existing table was a bit outdated.
+On Thu, Sep 29, 2022 at 03:29:01PM -0700, Rick Edgecombe wrote:
+>  static __always_inline void setup_cet(struct cpuinfo_x86 *c)
+>  {
+> -	u64 msr = CET_ENDBR_EN;
+> +	bool kernel_ibt = HAS_KERNEL_IBT && cpu_feature_enabled(X86_FEATURE_IBT);
 
-3.16 was EOL in 2020.
-4.4 was EOL in 2022.
+So I'd love it if we can get rid of that HAS_KERNEL_IBT thing and use
+the usual ifdeffery with Kconfig symbols. I wouldn't like for yet
+another HAS_XXX feature checking method to proliferate as this is the
+only one:
 
-5.10 is new in 2020.
-5.15 is new in 2021.
+$ git grep -E "\WHAS_" arch/x86/
+arch/x86/include/asm/ibt.h:18: * When all the above are satisfied, HAS_KERNEL_IBT will be 1, otherwise 0.
+arch/x86/include/asm/ibt.h:22:#define HAS_KERNEL_IBT    1
+arch/x86/include/asm/ibt.h:92:#define HAS_KERNEL_IBT    0
+arch/x86/include/asm/ibt.h:114:#define ENDBR_INSN_SIZE          (4*HAS_KERNEL_IBT)
+arch/x86/include/asm/idtentry.h:8:#define IDT_ALIGN     (8 * (1 + HAS_KERNEL_IBT))
+arch/x86/kernel/cpu/common.c:601:       bool kernel_ibt = HAS_KERNEL_IBT && cpu_feature_enabled(X86_FEATURE_IBT);
+arch/x86/kernel/cpu/common.c:1942:      if (HAS_KERNEL_IBT && cpu_feature_enabled(X86_FEATURE_IBT))
 
-We'll see if 6.1 becomes LTS in 2022.
+>  __noendbr void cet_disable(void)
+>  {
+> -	if (cpu_feature_enabled(X86_FEATURE_IBT))
+> -		wrmsrl(MSR_IA32_S_CET, 0);
+> +	if (!(cpu_feature_enabled(X86_FEATURE_IBT) ||
+> +	      cpu_feature_enabled(X86_FEATURE_SHSTK)))
+> +		return;
+> +
+> +	wrmsrl(MSR_IA32_S_CET, 0);
+> +	wrmsrl(MSR_IA32_U_CET, 0);
+>  }
+>  
+> +
 
-Rather than keep this table updated, it does duplicate information from
-multiple kernel.org pages. Make one less duplication site that needs to
-be updated and simply refer to the kernel.org page on releases.
+Stray newline.
 
-Suggested-by: Tyler Hicks <code@tyhicks.com>
-Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
-Changes v1 -> v2:
-* Rather than update table, use a link as per Tyler and Bagas.
-* Carry forward GKH's SB tag.
-
- Documentation/process/2.Process.rst | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
-index e05fb1b8f8b6..6a919cffcbfd 100644
---- a/Documentation/process/2.Process.rst
-+++ b/Documentation/process/2.Process.rst
-@@ -126,17 +126,10 @@ than one development cycle past their initial release. So, for example, the
- 5.2.21 was the final stable update of the 5.2 release.
- 
- Some kernels are designated "long term" kernels; they will receive support
--for a longer period.  As of this writing, the current long term kernels
--and their maintainers are:
--
--	======  ================================	=======================
--	3.16	Ben Hutchings				(very long-term kernel)
--	4.4	Greg Kroah-Hartman & Sasha Levin	(very long-term kernel)
--	4.9	Greg Kroah-Hartman & Sasha Levin
--	4.14	Greg Kroah-Hartman & Sasha Levin
--	4.19	Greg Kroah-Hartman & Sasha Levin
--	5.4	Greg Kroah-Hartman & Sasha Levin
--	======  ================================	=======================
-+for a longer period.  Please refer to the following link for the list of active
-+long term kernel versions and their maintainers:
-+
-+	https://www.kernel.org/category/releases.html
- 
- The selection of a kernel for long-term support is purely a matter of a
- maintainer having the need and the time to maintain that release.  There
-
-base-commit: 9c9155a3509a2ebdb06d77c7a621e9685c802eac
 -- 
-2.38.0.413.g74048e4d9e-goog
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
