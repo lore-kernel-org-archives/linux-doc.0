@@ -2,220 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 761ADC433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 08:49:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADE2BC4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 08:52:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229708AbiJNItC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Oct 2022 04:49:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60450 "EHLO
+        id S229751AbiJNIwp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Oct 2022 04:52:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229657AbiJNItA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 04:49:00 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AC971781D7;
-        Fri, 14 Oct 2022 01:48:59 -0700 (PDT)
+        with ESMTP id S230101AbiJNIwY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 04:52:24 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A73D51C9384;
+        Fri, 14 Oct 2022 01:51:48 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 300C121A2C;
-        Fri, 14 Oct 2022 08:48:58 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id B9FD91F74A;
+        Fri, 14 Oct 2022 08:51:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1665737338; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1665737506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=e92DTbDaQNolF7YKNbIS6b3pmt4/q07KdyY56iTEIVM=;
-        b=sJi7T1ThSa1l+g9i6ycsgjAk9iuUOTs7/3izNtA7vQnv0vyYMVFBw41TRBvSfWJEzHS6IV
-        wnNgxagYdYqWzA7MRb7ZVLzFdLK2JgsstbQopXqLeqDtsRUQn9vRzk77wMfrVH+jk3lcJo
-        kIP0bAClmUL/wZxr/KHNYTaw6GxACNc=
+        bh=Z0VGtJ9Ga07XYW6RtddW9XEl9eF9thFhwKrYGC9xYqU=;
+        b=FgW3g6NEfPtOkVnlFccCNTIrRzixQUE2DOsUwGRoi9uqm4EwT31zzJlTo0MUlsolrFfPOB
+        tTKyOfva/SQdFbKXYyu1MXIMJQedtZV+A4LWksKjz6jqjvmiU4PZuY7qSLIJ+1ouO8cpzk
+        3+PfG/W5BBdQBtWvbB/bYRiVzc6EHBA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1665737338;
+        s=susede2_ed25519; t=1665737506;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=e92DTbDaQNolF7YKNbIS6b3pmt4/q07KdyY56iTEIVM=;
-        b=jzHsfiRL+KN0jqgeVZuneNFRQnh63NlQM3eIemKaaGji/7C4arlS9jkiKa/xLFHT23zaB2
-        M5vBQmiEajm4ASDw==
+        bh=Z0VGtJ9Ga07XYW6RtddW9XEl9eF9thFhwKrYGC9xYqU=;
+        b=V4zn5GhyabVgTunDoDFFROObFcUfUPovZLMIV2Yw7bhMou+dUy2IbmBMTWQCoYzdieLwbH
+        ilCoTsLixeQkqWCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D1B8513451;
-        Fri, 14 Oct 2022 08:48:57 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 720EC13451;
+        Fri, 14 Oct 2022 08:51:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id nC9wMnkiSWMSCQAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Fri, 14 Oct 2022 08:48:57 +0000
-Message-ID: <d9b794ea-ff2f-b1a0-0569-1b7a54136242@suse.cz>
-Date:   Fri, 14 Oct 2022 10:48:57 +0200
+        id XHIBGyIjSWMVCwAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Fri, 14 Oct 2022 08:51:46 +0000
+Message-ID: <d2f861c1-0cfd-fa66-1300-3a2a81d204fd@suse.cz>
+Date:   Fri, 14 Oct 2022 10:51:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
 Subject: Re: [PATCH v2] mm: Make failslab writable again
 Content-Language: en-US
-To:     Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Alexander Atanasov <alexander.atanasov@virtuozzo.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Christoph Lameter <cl@linux.com>,
+To:     Alexander Atanasov <alexander.atanasov@virtuozzo.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Christoph Lameter <cl@linux.com>,
         Pekka Enberg <penberg@kernel.org>,
         David Rientjes <rientjes@google.com>,
         Joonsoo Kim <iamjoonsoo.kim@lge.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>, kernel@openvz.org,
-        Kees Cook <keescook@chromium.org>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc:     kernel@openvz.org, Kees Cook <keescook@chromium.org>,
         Roman Gushchin <guro@fb.com>, Jann Horn <jannh@google.com>,
         Vijayanand Jitta <vjitta@codeaurora.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org
 References: <20220920121111.1792905-1-alexander.atanasov@virtuozzo.com>
- <Yyr1xONdw8dBgsKr@hyeyoo>
- <30063d97-69f0-bea2-9d59-108140995bfc@virtuozzo.com>
- <YzJIsFZQoCEYntvR@hyeyoo>
- <7640a2d9-a32d-2fd7-8f64-586edb9b781e@virtuozzo.com>
- <YzRmZlJBFA9HIlSM@hyeyoo>
 From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <YzRmZlJBFA9HIlSM@hyeyoo>
+In-Reply-To: <20220920121111.1792905-1-alexander.atanasov@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/28/22 17:21, Hyeonggon Yoo wrote:
-> On Tue, Sep 27, 2022 at 10:44:20AM +0300, Alexander Atanasov wrote:
->> Hello,
->> 
->> On 27.09.22 3:49, Hyeonggon Yoo wrote:
->> > On Fri, Sep 23, 2022 at 10:34:28AM +0300, Alexander Atanasov wrote:
->> > > Hello,
->> > > 
->> > > On 21.09.22 14:30, Hyeonggon Yoo wrote:
->> > > > On Tue, Sep 20, 2022 at 03:11:11PM +0300, Alexander Atanasov wrote:
->> > > > > In (060807f841ac mm, slub: make remaining slub_debug related attributes
->> > > > > read-only) failslab was made read-only.
->> > > > > I think it became a collateral victim to the two other options for which
->> > > > > the reasons are perfectly valid.
->> > > > > Here is why:
->> > > > >    - sanity_checks and trace are slab internal debug options,
->> > > > >      failslab is used for fault injection.
->> > > > >    - for fault injections, which by presumption are random, it
->> > > > >      does not matter if it is not set atomically. And you need to
->> > > > >      set atleast one more option to trigger fault injection.
->> > > > >    - in a testing scenario you may need to change it at runtime
->> > > > >      example: module loading - you test all allocations limited
->> > > > >      by the space option. Then you move to test only your module's
->> > > > >      own slabs.
->> > > > >    - when set by command line flags it effectively disables all
->> > > > >      cache merges.
->> > > > 
->> > > > Maybe we can make failslab= boot parameter to consider cache filtering?
->> > > > 
->> > > > With that, just pass something like this:
->> > > > 	failslab=X,X,X,X,cache_filter slub_debug=A,<cache-name>>
->> > > 
->> > > > Users should pass slub_debug=A,<cache-name> anyway to prevent cache merging.
->> > > 
->> > > It will be good to have this in case you want to test cache that is used
->> > > early. But why push something to command line option only when it can be
->> > > changed at runtime?
->> > 
->> > Hmm okay. I'm not against changing it writable. (it looks okay to me.)
->> 
->> Okay. Good to know that.
->> 
->> > Just wanted to understand your use case!
->> > Can you please elaborate why booting with slub_debug=A,<your cache name>
->> > and enabling cache_filter after boot does not work?
->> 
->> I didn't say it does not work - it does work but requires reboot. You may
->> want to test variations of caches for example. Cache A, Cache B ... C and so
->> on one by one. Reboots might be fast these days with VMs but you may not be
->> able to test everything in a VM. And ... reboots used to be the signature
->> move of one Other OS.
+On 9/20/22 14:11, Alexander Atanasov wrote:
+> In (060807f841ac mm, slub: make remaining slub_debug related attributes
+> read-only) failslab was made read-only.
+> I think it became a collateral victim to the two other options for which
+> the reasons are perfectly valid.
+> Here is why:
+>  - sanity_checks and trace are slab internal debug options,
+>    failslab is used for fault injection.
+>  - for fault injections, which by presumption are random, it
+>    does not matter if it is not set atomically. And you need to
+>    set atleast one more option to trigger fault injection.
+>  - in a testing scenario you may need to change it at runtime
+>    example: module loading - you test all allocations limited
+>    by the space option. Then you move to test only your module's
+>    own slabs.
+>  - when set by command line flags it effectively disables all
+>    cache merges.
 > 
-> Thank you for elaboration!
-> Makes sense.
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Roman Gushchin <guro@fb.com>
+> Cc: Christoph Lameter <cl@linux.com>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Vijayanand Jitta <vjitta@codeaurora.org>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+> Cc: Pekka Enberg <penberg@kernel.org>
+> Link: http://lkml.kernel.org/r/20200610163135.17364-5-vbabka@suse.cz
 > 
->> 
->> > Or is it trying to changnig these steps,
->> > 
->> > FROM
->> > 	1. booting with slub_debug=A,<cache name>
->> > 	2. write to cache_filter to enable cache filtering
->> > 	3. setup probability, interval, times, size
->> > 
->> > TO
->> > 
->> > 	1. write to failslab attribute of <cache name> (may fail it has alias)
->> > 	2. write to cache_filter to enable cache filtering
->> > 	3. setup probability, interval, times, size
->> > ?
->> > 
->> > as you may know, SLAB_FAILSLAB does nothing whens
->> > cache_filter is disabled, and you should pass slub_debug=A,<cache name> anyway
->> 
->> Okay , i think there awaits another problem:
->> bool __should_failslab(struct kmem_cache *s, gfp_t gfpflags)
->> {
->> ...
->> 
->>         if (failslab.cache_filter && !(s->flags & SLAB_FAILSLAB))
->>                 return false;
->> ...
->> 	return should_fail(&failslab.attr, s->object_size);
->> }
->> 
->> So if you do not have cache_filter set ... you go to should_fail for all
->> slabs.
-> 
-> Yes.
-> 
->> I've been hit by that and spend a lot of time trying to understand why i got
->> crashes at random places. And the reason was that i read an old
->> documentation that said cache_filter is writable and i blindly wrote 1 to
->> it.
+> Signed-off-by: Alexander Atanasov <alexander.atanasov@virtuozzo.com>
 
-I don't understand. It is writable for root, and you can enable it that way, no?
+Thanks, added to slab.git for-6.2/slub-sysfs
 
->> If the intent is to only work with cache filter set - then i will update
->> the patch to do so.
+> ---
+>  Documentation/mm/slub.rst |  2 ++
+>  mm/slub.c                 | 16 +++++++++++++++-
+>  2 files changed, 17 insertions(+), 1 deletion(-)
 > 
-> You mean to set cache_filter to true when writing to 'failslab',
-> or when setting SLAB_FAILSLAB slab flag?
+> V1->V2: Fixed commit message. Flags are set using WRITE_ONCE.
 > 
-> I'm not so confident for that because it's implicitly changing.
-> Maybe more documentation would be proper?
+> diff --git a/Documentation/mm/slub.rst b/Documentation/mm/slub.rst
+> index 43063ade737a..86837073a39e 100644
+> --- a/Documentation/mm/slub.rst
+> +++ b/Documentation/mm/slub.rst
+> @@ -116,6 +116,8 @@ options from the ``slub_debug`` parameter translate to the following files::
+>  	T	trace
+>  	A	failslab
+>  
+> +failslab file is writable, so writing 1 or 0 will enable or disable
+> +the option at runtime. Write returns -EINVAL if cache is an alias.
+>  Careful with tracing: It may spew out lots of information and never stop if
+>  used on the wrong slab.
+>  
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 862dbd9af4f5..57cf18936526 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -5617,7 +5617,21 @@ static ssize_t failslab_show(struct kmem_cache *s, char *buf)
+>  {
+>  	return sysfs_emit(buf, "%d\n", !!(s->flags & SLAB_FAILSLAB));
+>  }
+> -SLAB_ATTR_RO(failslab);
+> +
+> +static ssize_t failslab_store(struct kmem_cache *s, const char *buf,
+> +				size_t length)
+> +{
+> +	if (s->refcount > 1)
+> +		return -EINVAL;
+> +
+> +	if (buf[0] == '1')
+> +		WRITE_ONCE(s->flags, s->flags | SLAB_FAILSLAB);
+> +	else
+> +		WRITE_ONCE(s->flags, s->flags & ~SLAB_FAILSLAB);
+> +
+> +	return length;
+> +}
+> +SLAB_ATTR(failslab);
+>  #endif
+>  
+>  static ssize_t shrink_show(struct kmem_cache *s, char *buf)
 > 
-> what do you think, Vlastimil?
-
-I also don't think we should change cache_filter when writing to a cache's
-failslab attribute.
-
->> This is the only place where SLAB_FAILSLAB is explicitly
->> tested, other places check it as part of SLAB_NEVER_MERGE.
->> 
->> But even for all caches it is kind of possible to test with size(space)
->> which is in turn useful because you need to figure out how you handle
->> failures from external caches - external to your code under test and you
->> don't want to keep track for all of them (same goes for too much options in
->> command line). 
-> 
-> Yeah, we should be able to inject fault in all caches, or a specific
-> cache(s).
-> 
->> > to prevent doing cache merging with <cache name>.
->> 
->> Or you can pass SLAB_FAILSLAB from your module when creating the cache to
->> prevent merge when under test.
-> 
-> Right. I missed that.
-> 
->> 
->> 
->> -- 
->> Regards,
->> Alexander Atanasov
->> 
-> 
+> base-commit: 80e78fcce86de0288793a0ef0f6acf37656ee4cf
 
