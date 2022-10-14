@@ -2,267 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 827FCC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 17:11:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25471C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 17:11:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231230AbiJNRLD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Oct 2022 13:11:03 -0400
+        id S231261AbiJNRLG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Oct 2022 13:11:06 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231245AbiJNRK6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 13:10:58 -0400
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CE5AAEA2E;
-        Fri, 14 Oct 2022 10:10:44 -0700 (PDT)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-1326637be6eso6530824fac.13;
-        Fri, 14 Oct 2022 10:10:44 -0700 (PDT)
+        with ESMTP id S231260AbiJNRLC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 13:11:02 -0400
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEAE11D5579
+        for <linux-doc@vger.kernel.org>; Fri, 14 Oct 2022 10:10:54 -0700 (PDT)
+Received: by mail-pl1-x64a.google.com with SMTP id e10-20020a17090301ca00b00183d123e2a5so3596493plh.14
+        for <linux-doc@vger.kernel.org>; Fri, 14 Oct 2022 10:10:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lvHkbVkJp6EcnRQi+5PIMElEgmgHrVtQA2UXnyTLJnE=;
-        b=UigVBOMALTsPKNEDJ5HLNuYVHLL3LdbmGKmb7QccsIWD9OUI1M/d4hfnqa4j+dxasl
-         k0mZMczbS3Ed3p7E6US1OI14quCpOgFMt3PF9zrQIQxDuGtqmy1kbvQdyZN7NHtwr7Sw
-         HelkeT8jWTDEHWaqA4m01Vvzh1BBiuEEcQ0XVYxRjNj6DQ80oH+4CusowLliMcMuPnmN
-         8vENjthImk7oxzd9mv15wldxXJgggP0XD1H8yMk5G7D6jl4MqtEVyP5Gknmkh1AaRiH/
-         RkAVsgJ/8aKOvb78eA4Iy+ivCKQP0/Aw4UJElz3I13f9k+4b7h6xV17QjsTTM/W7AzwY
-         8rEg==
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=v9ap2GLZvM/h5WRSh6U8yqJEQTu6U3qmUyyLz0cSVPc=;
+        b=EHXIjcEVaP7GqJu7+/7iwMQnBTtvMzb0JNHXjKS/ZxLiViC57AmLU08ZKnjpnGCP3S
+         YgBZrJcXF0nYt6Oj8HeoePeKbFrCOcPGOd2U0bXoD9U57xmAD1ElzzgboS9ngHKQ6sm3
+         73I+Qo3dmVEV/XMEkXmIZrGDSCYB+hcsKmHvu+LxfAlrWEe9PzzhujoJVskKUavQDINh
+         lpLlENpfUFYBCNdnKtl8qLYecLygj0ue1C/qrZvwaKcPjndqm0v+0ulPPgte2XmrpXF6
+         wfyrFIazoOr/rsFFudAktPdpwATeRmQhaqS6rqXaSYU8F4vAiamH6zZzcxbAPFwaksk5
+         t9Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lvHkbVkJp6EcnRQi+5PIMElEgmgHrVtQA2UXnyTLJnE=;
-        b=eoaLFGpZ0bKuUdu/9Rf4eiwLG2uQqqcQk1CyPySFZaGFFvvy+9hspNYxMsGm20P7oC
-         kga4FR//XnSKeOw9+I7fT06mFqeoTdP4qbd6glGALpaigIIM8abqOzmDAumVtGD4vhg7
-         BgYPN33Y9e91C5LttRppWk61DyUyWrwqtIEPQhBYMmGbizrIrdo28d+1dGP5Xg0lLdvT
-         frg2pBTp6//s9zd6ebirtWqkDPIOKI6pwMJoNFPPd6B17XA2H919s2E4e5QfEFHIjT3L
-         tVHZHagbFzK39cu2WSfF9kagxQexaqgKZ7fpF34MCwrq+qauO9uhX5xrzN5bPReVpwIJ
-         DIXw==
-X-Gm-Message-State: ACrzQf0Tnoxgeu/bZqJCsL1+zP7p/4j5ApmQoWY6QYID206M6luSZxcK
-        6Wk+KskSsXlIwmQWkgZsd1v2fyUVdFku/XBuOqw=
-X-Google-Smtp-Source: AMsMyM5YRJU50ghT4+PK7ZzjpjEuEF0K9MRdSqXqrXv+y3RgpJpGuixHukGTzRdv7CkiKNlLB9FtM4jof+P+XDYdfHA=
-X-Received: by 2002:a05:6870:4286:b0:132:756f:6b97 with SMTP id
- y6-20020a056870428600b00132756f6b97mr3301793oah.38.1665767443808; Fri, 14 Oct
- 2022 10:10:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220909141528.5090-1-tomeu.vizoso@collabora.com> <20220912072903.14626-1-tomeu.vizoso@collabora.com>
-In-Reply-To: <20220912072903.14626-1-tomeu.vizoso@collabora.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Fri, 14 Oct 2022 10:10:50 -0700
-Message-ID: <CAF6AEGsjfHSYwB0q4qKnLeMnpZigBwcFrkkLpxofKizLVArX5A@mail.gmail.com>
-Subject: Re: [PATCH v9] drm: Add initial ci/ subdirectory
-To:     Tomeu Vizoso <tomeu.vizoso@collabora.com>
-Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Carlo Caione <carlo@caione.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, kernel@collabora.com,
-        Neil Armstrong <narmstrong@baylibre.com>
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v9ap2GLZvM/h5WRSh6U8yqJEQTu6U3qmUyyLz0cSVPc=;
+        b=U+KZ7Nn4ilDDj3uyLKzbb9FMs94XqYHaMIdt17a/XuPjN33MeoHYjw6X1RTWxv5v6J
+         vFAagMUUKSL/8dvp+4DLO7nUPcGE0QmhNThq3GvXeu6HSCbJs5ooEXkWP90DOv8O+w/p
+         Ycgbzsitz61hr861wcOBmRPasrUAjwUuVSwNR+Um5G149gREoyLhUSrRDPTuIiUyK0ny
+         idDPPi11z8mltM/CMMsD9ZaOAT2XYOdOFaLV1Q7mKe1hdqYageKIiXCEqISOGgFvj4IL
+         jnUr0qqQHgOcsqwrzW8vP001RM1Vx+nZ6MaAvICjASfgN0hZz6xWlBVgXTIijtf7i4dd
+         9nTQ==
+X-Gm-Message-State: ACrzQf1pQcBQqDyC+Ow0qzz228lFrWfBNJJGmXpZ5kjrqXSPY13/UCLi
+        TArDQQZhXLOu0E5gxXMH4E7QeIPQgTCieib6keI=
+X-Google-Smtp-Source: AMsMyM4YzRBXmzyhCa/4pBcn2mG0C8gX42INaXx++KNjjHjH35AjvdUI0Z61ht5TLtZm4/EMlCQbZM29Psqw2nv0hHA=
+X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:0:100e:712:ff3e:881c:4c2c:b8c9])
+ (user=ndesaulniers job=sendgmr) by 2002:a62:1744:0:b0:562:4e9b:3e0c with SMTP
+ id 65-20020a621744000000b005624e9b3e0cmr6202729pfx.63.1665767452872; Fri, 14
+ Oct 2022 10:10:52 -0700 (PDT)
+Date:   Fri, 14 Oct 2022 10:10:40 -0700
+In-Reply-To: <Y0mSVQCQer7fEKgu@kroah.com>
+Mime-Version: 1.0
+References: <Y0mSVQCQer7fEKgu@kroah.com>
+X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=UIrHvErwpgNbhCkRZAYSX0CFd/XFEwqX3D0xqtqjNug=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1665767440; l=2239;
+ i=ndesaulniers@google.com; s=20220923; h=from:subject; bh=kVkxjDQc5kjwHf3srGXAwtiAks3feBD+FzGTuZwcG7s=;
+ b=xBNfNpF27rA58YIkIpHdFJ8sCZIZsRqpxhp19dqNIfQZGlYiV1zD8vSBeuNSlVsyMVwkwB4BqEkh
+ 8b6o41b2BqirH9MpbAfxx9PHV7mtZTw0Rn5RAqE/2zrNXGHNS2Rt
+X-Mailer: git-send-email 2.38.0.413.g74048e4d9e-goog
+Message-ID: <20221014171040.849726-1-ndesaulniers@google.com>
+Subject: [PATCH v2] Documentation: process: replace outdated LTS table w/ link
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
+        Sasha Levin <sashal@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tyler Hicks <code@tyhicks.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Sep 12, 2022 at 12:29 AM Tomeu Vizoso
-<tomeu.vizoso@collabora.com> wrote:
->
-> And use it to store expectations about what the DRM drivers are
-> supposed to pass in the IGT test suite.
->
-> Also include a configuration file that points to the out-of-tree CI
-> scripts.
->
-> By storing the test expectations along the code we can make sure both
-> stay in sync with each other, and so we can know when a code change
-> breaks those expectations.
->
-> This will allow all contributors to drm to reuse the infrastructure
-> already in gitlab.freedesktop.org to test the driver on several
-> generations of the hardware.
->
-> v2:
->   - Fix names of result expectation files to match SoC
->   - Don't execute tests that are going to skip on all boards
->
-> v3:
->   - Remove tracking of dmesg output during test execution
->
-> v4:
->   - Move up to drivers/gpu/drm
->   - Add support for a bunch of other drivers
->   - Explain how to incorporate fixes for CI from a
->     ${TARGET_BRANCH}-external-fixes branch
->   - Remove tests that pass from expected results file, to reduce the
->     size of in-tree files
->   - Add docs about how to deal with outages in automated testing labs
->   - Specify the exact SHA of the CI scripts to be used
->
-> v5:
->   - Remove unneeded skips from Meson expectations file
->   - Use a more advanced runner that detects flakes automatically
->   - Use a more succint format for the expectations
->   - Run many more tests (and use sharding to finish in time)
->   - Use skip lists to avoid hanging machines
->   - Add some build testing
->   - Build IGT in each pipeline for faster uprevs
->   - List failures in the GitLab UI
->
-> v6:
->   - Rebase on top of latest drm-next
->   - Lower priority of LAVA jobs to not impact Mesa CI as much
->   - Update docs
->
-> v7:
->   - Rebase on top of latest drm-next
->
-> v8:
->   - Move all files specific to testing the kernel into the kernel tree
->     (thus I have dropped the r-bs I had collected so far)
->   - Uprev Gitlab CI infrastructure scripts to the latest from Mesa
->   - Add MAINTAINERS entry
->   - Fix boot on MT8173 by adding some Kconfigs that are now needed
->   - Link to the docs from index.rst and hard-wrap the file
->
-> v9:
->   - Only automatically run the pipelines for merge requests
->   - Switch to zstd for the build artifacts to align with Mesa
->   - Add Qcom USB PHYs to config as they are now =m in the defconfig
->
-> Signed-off-by: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+The existing table was a bit outdated.
 
-Reviewed-by: Rob Clark <robdclark@gmail.com>
+3.16 was EOL in 2020.
+4.4 was EOL in 2022.
 
-> ---
->  Documentation/gpu/automated_testing.rst       |  144 +
->  Documentation/gpu/index.rst                   |    1 +
->  MAINTAINERS                                   |    8 +
->  drivers/gpu/drm/ci/arm.config                 |   57 +
->  drivers/gpu/drm/ci/arm64.config               |  179 ++
->  drivers/gpu/drm/ci/build-igt.sh               |   43 +
->  drivers/gpu/drm/ci/build.sh                   |  158 +
->  drivers/gpu/drm/ci/build.yml                  |  110 +
->  drivers/gpu/drm/ci/check-patch.py             |   57 +
->  drivers/gpu/drm/ci/container.yml              |   54 +
->  drivers/gpu/drm/ci/gitlab-ci.yml              |  225 ++
->  drivers/gpu/drm/ci/igt_runner.sh              |   77 +
->  drivers/gpu/drm/ci/image-tags.yml             |   13 +
->  drivers/gpu/drm/ci/lava-submit.sh             |   53 +
->  drivers/gpu/drm/ci/static-checks.yml          |   12 +
->  drivers/gpu/drm/ci/test.yml                   |  322 ++
->  drivers/gpu/drm/ci/testlist.txt               | 2763 +++++++++++++++++
->  drivers/gpu/drm/ci/x86_64.config              |  105 +
->  .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |   19 +
->  .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |   15 +
->  .../gpu/drm/ci/xfails/amdgpu-stoney-skips.txt |    2 +
->  .../gpu/drm/ci/xfails/i915-amly-flakes.txt    |   32 +
->  drivers/gpu/drm/ci/xfails/i915-amly-skips.txt |    2 +
->  drivers/gpu/drm/ci/xfails/i915-apl-fails.txt  |   29 +
->  drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt |    1 +
->  drivers/gpu/drm/ci/xfails/i915-apl-skips.txt  |    2 +
->  drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |   37 +
->  drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt |   40 +
->  drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  |    2 +
->  drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |    8 +
->  drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt |   25 +
->  drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt  |    2 +
->  drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |   19 +
->  drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt |    5 +
->  drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt  |    8 +
->  drivers/gpu/drm/ci/xfails/i915-whl-fails.txt  |   30 +
->  drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt |    1 +
->  .../drm/ci/xfails/mediatek-mt8173-fails.txt   |   29 +
->  .../drm/ci/xfails/mediatek-mt8183-fails.txt   |   10 +
->  .../drm/ci/xfails/mediatek-mt8183-flakes.txt  |   14 +
->  .../gpu/drm/ci/xfails/meson-g12b-fails.txt    |    5 +
->  .../gpu/drm/ci/xfails/meson-g12b-flakes.txt   |    4 +
->  .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |   15 +
->  .../gpu/drm/ci/xfails/msm-apq8016-flakes.txt  |    4 +
->  .../gpu/drm/ci/xfails/msm-apq8096-fails.txt   |    2 +
->  .../gpu/drm/ci/xfails/msm-apq8096-flakes.txt  |    4 +
->  .../gpu/drm/ci/xfails/msm-apq8096-skips.txt   |    2 +
->  .../gpu/drm/ci/xfails/msm-sc7180-fails.txt    |   21 +
->  .../gpu/drm/ci/xfails/msm-sc7180-flakes.txt   |    6 +
->  .../gpu/drm/ci/xfails/msm-sc7180-skips.txt    |   23 +
->  .../gpu/drm/ci/xfails/msm-sdm845-fails.txt    |   43 +
->  .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   |   11 +
->  .../gpu/drm/ci/xfails/msm-sdm845-skips.txt    |    2 +
->  .../drm/ci/xfails/rockchip-rk3288-fails.txt   |   43 +
->  .../drm/ci/xfails/rockchip-rk3288-flakes.txt  |    2 +
->  .../drm/ci/xfails/rockchip-rk3288-skips.txt   |   49 +
->  .../drm/ci/xfails/rockchip-rk3399-fails.txt   |   29 +
->  .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |   20 +
->  .../drm/ci/xfails/rockchip-rk3399-skips.txt   |    5 +
->  .../drm/ci/xfails/virtio_gpu-none-fails.txt   |   38 +
->  .../drm/ci/xfails/virtio_gpu-none-flakes.txt  |    0
->  .../drm/ci/xfails/virtio_gpu-none-skips.txt   |    6 +
->  62 files changed, 5047 insertions(+)
->  create mode 100644 Documentation/gpu/automated_testing.rst
->  create mode 100644 drivers/gpu/drm/ci/arm.config
->  create mode 100644 drivers/gpu/drm/ci/arm64.config
->  create mode 100644 drivers/gpu/drm/ci/build-igt.sh
->  create mode 100644 drivers/gpu/drm/ci/build.sh
->  create mode 100644 drivers/gpu/drm/ci/build.yml
->  create mode 100755 drivers/gpu/drm/ci/check-patch.py
->  create mode 100644 drivers/gpu/drm/ci/container.yml
->  create mode 100644 drivers/gpu/drm/ci/gitlab-ci.yml
->  create mode 100755 drivers/gpu/drm/ci/igt_runner.sh
->  create mode 100644 drivers/gpu/drm/ci/image-tags.yml
->  create mode 100755 drivers/gpu/drm/ci/lava-submit.sh
->  create mode 100644 drivers/gpu/drm/ci/static-checks.yml
->  create mode 100644 drivers/gpu/drm/ci/test.yml
->  create mode 100644 drivers/gpu/drm/ci/testlist.txt
->  create mode 100644 drivers/gpu/drm/ci/x86_64.config
->  create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/amdgpu-stoney-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-amly-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-apl-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-glk-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/mediatek-mt8183-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/meson-g12b-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-apq8096-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sc7180-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3288-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3399-skips.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-flakes.txt
->  create mode 100644 drivers/gpu/drm/ci/xfails/virtio_gpu-none-skips.txt
->
-[snip]
+5.10 is new in 2020.
+5.15 is new in 2021.
+
+We'll see if 6.1 becomes LTS in 2022.
+
+Rather than keep this table updated, it does duplicate information from
+multiple kernel.org pages. Make one less duplication site that needs to
+be updated and simply refer to the kernel.org page on releases.
+
+Suggested-by: Tyler Hicks <code@tyhicks.com>
+Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+Changes v1 -> v2:
+* Rather than update table, use a link as per Tyler and Bagas.
+* Carry forward GKH's SB tag.
+
+ Documentation/process/2.Process.rst | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
+index e05fb1b8f8b6..6a919cffcbfd 100644
+--- a/Documentation/process/2.Process.rst
++++ b/Documentation/process/2.Process.rst
+@@ -126,17 +126,10 @@ than one development cycle past their initial release. So, for example, the
+ 5.2.21 was the final stable update of the 5.2 release.
+ 
+ Some kernels are designated "long term" kernels; they will receive support
+-for a longer period.  As of this writing, the current long term kernels
+-and their maintainers are:
+-
+-	======  ================================	=======================
+-	3.16	Ben Hutchings				(very long-term kernel)
+-	4.4	Greg Kroah-Hartman & Sasha Levin	(very long-term kernel)
+-	4.9	Greg Kroah-Hartman & Sasha Levin
+-	4.14	Greg Kroah-Hartman & Sasha Levin
+-	4.19	Greg Kroah-Hartman & Sasha Levin
+-	5.4	Greg Kroah-Hartman & Sasha Levin
+-	======  ================================	=======================
++for a longer period.  Please refer to the following link for the list of active
++long term kernel versions and their maintainers:
++
++	https://www.kernel.org/category/releases.html
+ 
+ The selection of a kernel for long-term support is purely a matter of a
+ maintainer having the need and the time to maintain that release.  There
+
+base-commit: 9c9155a3509a2ebdb06d77c7a621e9685c802eac
+-- 
+2.38.0.413.g74048e4d9e-goog
+
