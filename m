@@ -2,101 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB990C43219
-	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 18:35:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2391C43217
+	for <linux-doc@archiver.kernel.org>; Fri, 14 Oct 2022 18:57:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230367AbiJNSfO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Oct 2022 14:35:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53166 "EHLO
+        id S231176AbiJNS52 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 14 Oct 2022 14:57:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230372AbiJNSfM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 14:35:12 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 585C44E1A5
-        for <linux-doc@vger.kernel.org>; Fri, 14 Oct 2022 11:35:09 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id q9so12421799ejd.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Oct 2022 11:35:09 -0700 (PDT)
+        with ESMTP id S229754AbiJNS51 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 14:57:27 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E0C41D3748
+        for <linux-doc@vger.kernel.org>; Fri, 14 Oct 2022 11:57:25 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id 128so5099745pga.1
+        for <linux-doc@vger.kernel.org>; Fri, 14 Oct 2022 11:57:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dlOttIcbfyJ9Meuwl/3DVPLPY7LTZL8V6KpgIWHa/o8=;
-        b=bo+sSeamjV3ogFeVE4woZcjggXzUoZaHSUx6jp0WPOZzpXDNmcc/cEcYdKtM48zH7e
-         Q8hrssyWU3nff+vqi1+2UwgCpwkQ9mNZwhoxtCYtoyOImHoU6sr2EgS5FSVJHeHv72Gx
-         ivMoH1EYL5oEpkIYp3Altv+OuFDnh25XvMft3oq6CAX7Lg1bHdcRUDF5uanM4EvvYYLH
-         ScOMwLnABxganJ5jJ69lPKPQm06FeCCSHiH114ov0w+bi1KMynXHAw6J/ybjpBOkwQ60
-         Njc0xgYtm7geqQcvVxY6MqZQHxUA67w1M6uCS77zWiYeNi3Td5G/+xAI/uKs52rqfCAx
-         VPXA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hp3yAxY8quCRjHZnHuBPErW5fHEohLMFvOXbDGO/GC8=;
+        b=smV3l+b0gPfxsb+cqdrtrWHgL08g1JwC/C9k3qD53pTkH5zIwd+CIdIyQkxG2V3LLQ
+         vr0fhAZDODX1iShv+uzVVoKO2yI7QS7Dpy4QRu2J0zo+aNXAVzvGg9sHUoPxlMruufUT
+         Kd/EU2UsY1bQRGYb9CuGI8JhB7KR+4XGd9bVk3KgrDAwpXMdf9mvoLDt+7277BOEjAQV
+         15NUZRhkPpmEySXzwlsNUL2z1AS+68J/MFJRdyKFhuc1w6rWzoLKg91755NPIspVj/io
+         XF7nOZ5WJqalD97V+ZX9AqmTvPbtx0IjpzWhO5nEiArwNwQFjprucchbkW3wnXB21FW0
+         xdnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dlOttIcbfyJ9Meuwl/3DVPLPY7LTZL8V6KpgIWHa/o8=;
-        b=Q2R6S/ilx0+6nOVJshzCDa7u31gupCD4eYvdRI2+S+7debb8vNy59MCtHqJPUd9KKa
-         x9rAhsr8UY1T9eJn2nVPIR7eqkUB43gZD5Rzq0TBlhAs4zn72oTXI45eFF/74MM5ORDu
-         3DWPm5zS74xEdQZLCf4iP9gwqMhGlq+k5uDN/Q7/u13NDudAntey9ddRaj82RquImwSd
-         hhEB4aFqsql0XX+lTaxRJ8KSYfqjDkeRs1WkwdUS9XFE49tGmGacUideiMqki1qaxEvu
-         Yx3A45yIvZ432XRHn2bWK/TRhNo/OqoqSdC34PGTUcT3iVmr+UrSki3x4hSlQLOIYilI
-         uKzg==
-X-Gm-Message-State: ACrzQf2Rsajj1IOcGqUTPCSwtjr5tnuq6ru0CcHyB+kXwYpi8ItsIL3H
-        Lu6+X1seq417iZbnSWyooZKvjgtD/ijgLx9D8debOQ==
-X-Google-Smtp-Source: AMsMyM5PxvI7q1eLhIz1kRuPl4pgKS5NxzGTkhgVaLLpKkixQpMznDKsv3NsRyMn7CuF+C/HYyOrjzaNom7zJdwX7EI=
-X-Received: by 2002:a17:907:e93:b0:78d:46ae:cf61 with SMTP id
- ho19-20020a1709070e9300b0078d46aecf61mr4483765ejc.579.1665772507710; Fri, 14
- Oct 2022 11:35:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220927131518.30000-1-ojeda@kernel.org> <20220927131518.30000-26-ojeda@kernel.org>
- <Y0BfN1BdVCWssvEu@hirez.programming.kicks-ass.net> <CABCJKuenkHXtbWOLZ0_isGewxd19qkM7OcLeE2NzM6dSkXS4mQ@mail.gmail.com>
- <CANiq72k6s4=0E_AHv7FPsCQhkyxf7c-b+wUtzfjf+Spehe9Fmg@mail.gmail.com>
-In-Reply-To: <CANiq72k6s4=0E_AHv7FPsCQhkyxf7c-b+wUtzfjf+Spehe9Fmg@mail.gmail.com>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Fri, 14 Oct 2022 11:34:30 -0700
-Message-ID: <CABCJKuca0fOAs=E6LeHJiT2LOXEoPvLVKztA=u+ARcw=tbT=tw@mail.gmail.com>
-Subject: Re: [PATCH v10 25/27] x86: enable initial Rust support
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        David Gow <davidgow@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hp3yAxY8quCRjHZnHuBPErW5fHEohLMFvOXbDGO/GC8=;
+        b=aAqldf4maeEdbOTdTe/LxHjp/G3m43VRJwT5qBhrPN6vsifgN/fqumsBUy0Ik2OmS3
+         kRhrSeHIwZb9va4Gszjo52zYWGG93iqli6nGLj3+m/wRXzqxRaDqk0zeLdFa91EuL1Iw
+         GejMKybcdExqjXOW5+TGCz1fQcfmqgIytTiur8r8iQUPuUeD3TG9igH5Szz5Hbofwhvp
+         brWyNfpmO8rYtEK2h5HYukDsRfwbdJK2nNniNm3jiNP/LASwuSJfNQ5Dt4AZTKKqqHQi
+         1hGKj9AXZ9YCCva+aZw3NmkUXos+xyRu3/aQVUGUgm5s7rYkoAfnAKNpojeDmGIFISf8
+         47zA==
+X-Gm-Message-State: ACrzQf2hv1lKm6Q5BpKU63dq453NsWWaHgXaJCkOfZkCc15plMbRjyJy
+        5taa9BcAgSfVvkp3vbeY2s1OZg==
+X-Google-Smtp-Source: AMsMyM4sMMNxa+29AKQJlblJPyT5lnKnzMKJX7jVmbsXLFeWuFqUiTCO3icedQ7T+zlfYZ0ltLMusQ==
+X-Received: by 2002:a63:2483:0:b0:461:ab67:ccfb with SMTP id k125-20020a632483000000b00461ab67ccfbmr5521853pgk.341.1665773844428;
+        Fri, 14 Oct 2022 11:57:24 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id j5-20020a625505000000b00562019b961asm2064125pfb.188.2022.10.14.11.57.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Oct 2022 11:57:23 -0700 (PDT)
+Date:   Fri, 14 Oct 2022 18:57:20 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 7/8] KVM: Handle page fault for private memory
+Message-ID: <Y0mxEFpvS7O96CCD@google.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-8-chao.p.peng@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220915142913.2213336-8-chao.p.peng@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 14, 2022 at 11:05 AM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Tue, Oct 11, 2022 at 1:16 AM Sami Tolvanen <samitolvanen@google.com> wrote:
-> >
-> > Rust supports IBT with -Z cf-protection=branch, but I don't see this
-> > option being enabled in the kernel yet. Cross-language CFI is going to
-> > require a lot more work though because the type systems are not quite
-> > compatible:
-> >
-> > https://github.com/rust-lang/rfcs/pull/3296
->
-> I have pinged Ramon de C Valle as he is the author of the RFC above
-> and implementation work too; since a month or so ago he also leads the
-> Exploit Mitigations Project Group in Rust.
+On Thu, Sep 15, 2022, Chao Peng wrote:
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index a0f198cede3d..81ab20003824 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+> @@ -3028,6 +3028,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
+>  			break;
+>  	}
+>  
+> +	if (kvm_mem_is_private(kvm, gfn))
 
-Thanks, Miguel. I also talked to Ramon about KCFI earlier this week
-and he expressed interest in helping with rustc support for it. In the
-meanwhile, I think we can just add a depends on !CFI_CLANG to avoid
-issues here.
+Rather than reload the Xarray info, which is unnecessary overhead, pass in
+@is_private.  The caller must hold mmu_lock, i.e. invalidations from
+private<->shared conversions will be stalled and will zap the new SPTE if the
+state is changed.
 
-Sami
+E.g.
+
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index d68944f07b4b..44eea47697d8 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -3072,8 +3072,8 @@ void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
+         * Enforce the iTLB multihit workaround after capturing the requested
+         * level, which will be used to do precise, accurate accounting.
+         */
+-       fault->req_level = kvm_mmu_max_mapping_level(vcpu->kvm, slot,
+-                                                    fault->gfn, fault->max_level);
++       fault->req_level = kvm_mmu_max_mapping_level(vcpu->kvm, slot, fault->gfn,
++                                                    fault->max_level, fault->is_private);
+        if (fault->req_level == PG_LEVEL_4K || fault->huge_page_disallowed)
+                return;
+ 
+@@ -6460,7 +6460,7 @@ static bool kvm_mmu_zap_collapsible_spte(struct kvm *kvm,
+                 */
+                if (sp->role.direct &&
+                    sp->role.level < kvm_mmu_max_mapping_level(kvm, slot, sp->gfn,
+-                                                              PG_LEVEL_NUM)) {
++                                                              PG_LEVEL_NUM, false)) {
+                        kvm_zap_one_rmap_spte(kvm, rmap_head, sptep);
+ 
+                        if (kvm_available_flush_tlb_with_range())
+diff --git a/arch/x86/kvm/mmu/spte.h b/arch/x86/kvm/mmu/spte.h
+index 7670c13ce251..9acdf72537ce 100644
+--- a/arch/x86/kvm/mmu/spte.h
++++ b/arch/x86/kvm/mmu/spte.h
+@@ -315,6 +315,12 @@ static inline bool is_dirty_spte(u64 spte)
+        return dirty_mask ? spte & dirty_mask : spte & PT_WRITABLE_MASK;
+ }
+ 
++static inline bool is_private_spte(u64 spte)
++{
++       /* FIXME: Query C-bit/S-bit for SEV/TDX. */
++       return false;
++}
++
+ static inline u64 get_rsvd_bits(struct rsvd_bits_validate *rsvd_check, u64 pte,
+                                int level)
+ {
+diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
+index 672f0432d777..69ba00157e90 100644
+--- a/arch/x86/kvm/mmu/tdp_mmu.c
++++ b/arch/x86/kvm/mmu/tdp_mmu.c
+@@ -1767,8 +1767,9 @@ static void zap_collapsible_spte_range(struct kvm *kvm,
+                if (iter.gfn < start || iter.gfn >= end)
+                        continue;
+ 
+-               max_mapping_level = kvm_mmu_max_mapping_level(kvm, slot,
+-                                                             iter.gfn, PG_LEVEL_NUM);
++               max_mapping_level = kvm_mmu_max_mapping_level(kvm, slot, iter.gfn,
++                                                             PG_LEVEL_NUM,
++                                                             is_private_spte(iter.old_spte));
+                if (max_mapping_level < iter.level)
+                        continue;
+ 
