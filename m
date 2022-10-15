@@ -2,173 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60115C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Oct 2022 09:23:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B752C4332F
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Oct 2022 09:47:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229554AbiJOJXB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Oct 2022 05:23:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49394 "EHLO
+        id S229733AbiJOJrB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Oct 2022 05:47:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbiJOJXA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Oct 2022 05:23:00 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 067974CA08;
-        Sat, 15 Oct 2022 02:23:00 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id f23so6777739plr.6;
-        Sat, 15 Oct 2022 02:23:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QZV6fFcsquYjpRdmdX31xgmTg85v5mjqXVyB1J3bUt8=;
-        b=VfpkPBcQehQY1oW/jKmOZl6f+kkrip67blT+NAdH0Hdsrn3ao5j98BEn+gPEUzm5Wm
-         7nd8s9bHEZwiOAzzOMWMsnnAH+tlh9nehYonWbXIVDvodVj/Nh3YGscmK1AzCRKBT/KM
-         9bVTNjs8wyDE0p9rUrAIA4pH3ceo33OGBvbPWjOf3Qq+x87y8lhVabnsPAXyB6rCusF8
-         D1j2tLuulDX28i5u74vNJzu4FuXNM0CInEsaoXi28pj9g9Dc/piv9xFpUDFUohTIAo5e
-         V7PvprTvsZKfEdLp3ImPKGPKmjQuTmPUZW9cBOli8SWINJdfrZzdGF8D5BNNFq2IKIRL
-         +weA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QZV6fFcsquYjpRdmdX31xgmTg85v5mjqXVyB1J3bUt8=;
-        b=FyWL/2iRxvfxmZJy6+vvQjrwOg/Znz6eNg2i1ibPHym5WzwL1pjYkr1nh6W3n/kgD0
-         sgUJTbrbjzSOqT/dutfeeHDTwVRieMp9yGcSdOLV1cK8ee5OOGG5NUFoO+pg1QQKDsd0
-         VljaR1GVpHJzb6O339WfbAFc3eC2VIFXbXrwu99slsooElwYW4Qc2qi/YI9kwKzU22cH
-         9fyc/XXzBQbvNipC6c65ftiQiF4qJIBjWLf5FQLq7BuOPHOzVI98zq2kY8kFr6eMivy8
-         hLwdT2F4UYbkx4B6INBDY/usXQjmyzYFqGZEK5Fom5JielWMdT9d6CH5bpbFgclq9yNg
-         cnxg==
-X-Gm-Message-State: ACrzQf0MEQZnir1yPKFf56VjXlvLtmPHtiuACeWONf1QeCTnT/+ekEft
-        TnRUltOydJDc/bxEdFTA7i8=
-X-Google-Smtp-Source: AMsMyM4A7bxk+UUZZ6+jWJywTLMOfAprhp7XASLUeD3iC5JIJ6pkwYPt0j20GNMcO2xcI/+MSvlvpw==
-X-Received: by 2002:a17:90b:4b41:b0:20a:fe8f:5a3 with SMTP id mi1-20020a17090b4b4100b0020afe8f05a3mr21948417pjb.120.1665825779472;
-        Sat, 15 Oct 2022 02:22:59 -0700 (PDT)
-Received: from localhost.localdomain (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id v2-20020aa799c2000000b00562a237179esm3076019pfi.131.2022.10.15.02.22.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Oct 2022 02:22:59 -0700 (PDT)
-From:   Akira Yokosawa <akiyks@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>,
+        with ESMTP id S229556AbiJOJrA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Oct 2022 05:47:00 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A9535018D;
+        Sat, 15 Oct 2022 02:46:58 -0700 (PDT)
+Received: from zn.tnic (p200300ea9733e79c329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e79c:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 884F61EC0531;
+        Sat, 15 Oct 2022 11:46:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1665827212;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=mOCTkWac8uVSFd/Mt41ebNXstiZYPl5RE7hElNiS0dc=;
+        b=sPD2w+UBotPMH9OxZPAJ/j+ni1w6/2Kpg4ADVQvVkKo4cdA6FiKWUKduZYVfg6cj4lBKyh
+        OSwthJeo7BAUzmiVrhLmYdZqgLJNw2z+3BzEvRGCCBLrsvPcyhYvykaTOHWL5jGLWADOjI
+        by67HoeKwb/J+fBMhTUX2PSHADzlCO4=
+Date:   Sat, 15 Oct 2022 11:46:49 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
-        Tsugikazu Shibata <shibata@linuxfoundation.org>
-Subject: [PATCH] docs/process/howto: Replace C89 with C11
-Date:   Sat, 15 Oct 2022 18:22:01 +0900
-Message-Id: <20221015092201.32099-1-akiyks@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
+        kcc@google.com, eranian@google.com, rppt@kernel.org,
+        jamorris@linux.microsoft.com, dethoma@microsoft.com,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v2 05/39] x86/fpu/xstate: Introduce CET MSR and XSAVES
+ supervisor states
+Message-ID: <Y0qBiSXdZepd7Is9@zn.tnic>
+References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
+ <20220929222936.14584-6-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220929222936.14584-6-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit e8c07082a810 ("Kbuild: move to -std=gnu11") updated
-process/programming-language.rst, but failed to update
-process/howto.rst.
+On Thu, Sep 29, 2022 at 03:29:02PM -0700, Rick Edgecombe wrote:
+> Both XSAVE state components are supervisor states, even the state
+> controlling user-mode operation. This is a departure from earlier features
+> like protection keys where the PKRU state a normal user (non-supervisor)
+^^^^^
 
-Update howto.rst and resolve the inconsistency.
+A verb is missing in that sentence.
 
-Fixes: e8c07082a810 ("Kbuild: move to -std=gnu11")
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: Alex Shi <alexs@kernel.org>
-Cc: Hu Haowen <src.res@email.cn>
-Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
----
- Documentation/process/howto.rst                    | 2 +-
- Documentation/translations/it_IT/process/howto.rst | 2 +-
- Documentation/translations/ja_JP/howto.rst         | 2 +-
- Documentation/translations/ko_KR/howto.rst         | 2 +-
- Documentation/translations/zh_CN/process/howto.rst | 2 +-
- Documentation/translations/zh_TW/process/howto.rst | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+> +	"x87 floating point registers"			,
+> +	"SSE registers"					,
+> +	"AVX registers"					,
+> +	"MPX bounds registers"				,
+> +	"MPX CSR"					,
+> +	"AVX-512 opmask"				,
+> +	"AVX-512 Hi256"					,
+> +	"AVX-512 ZMM_Hi256"				,
+> +	"Processor Trace (unused)"			,
+> +	"Protection Keys User registers"		,
+> +	"PASID state"					,
+> +	"Control-flow User registers"			,
+> +	"Control-flow Kernel registers (unused)"	,
+> +	"unknown xstate feature"			,
+> +	"unknown xstate feature"			,
+> +	"unknown xstate feature"			,
+> +	"unknown xstate feature"			,
+> +	"AMX Tile config"				,
+> +	"AMX Tile data"					,
+> +	"unknown xstate feature"			,
 
-diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-index bd15c393ba3c..cb6abcb2b6d0 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -36,7 +36,7 @@ experience, the following books are good for, if anything, reference:
-  - "C:  A Reference Manual" by Harbison and Steele [Prentice Hall]
- 
- The kernel is written using GNU C and the GNU toolchain.  While it
--adheres to the ISO C89 standard, it uses a number of extensions that are
-+adheres to the ISO C11 standard, it uses a number of extensions that are
- not featured in the standard.  The kernel is a freestanding C
- environment, with no reliance on the standard C library, so some
- portions of the C standard are not supported.  Arbitrary long long
-diff --git a/Documentation/translations/it_IT/process/howto.rst b/Documentation/translations/it_IT/process/howto.rst
-index 15c08aea1dfe..052f1b3610cb 100644
---- a/Documentation/translations/it_IT/process/howto.rst
-+++ b/Documentation/translations/it_IT/process/howto.rst
-@@ -44,7 +44,7 @@ altro, utili riferimenti:
- - "C:  A Reference Manual" di Harbison and Steele [Prentice Hall]
- 
- Il kernel è stato scritto usando GNU C e la toolchain GNU.
--Sebbene si attenga allo standard ISO C89, esso utilizza una serie di
-+Sebbene si attenga allo standard ISO C11, esso utilizza una serie di
- estensioni che non sono previste in questo standard. Il kernel è un
- ambiente C indipendente, che non ha alcuna dipendenza dalle librerie
- C standard, così alcune parti del C standard non sono supportate.
-diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/translations/ja_JP/howto.rst
-index b47a682d8ded..b8eeb45a02d4 100644
---- a/Documentation/translations/ja_JP/howto.rst
-+++ b/Documentation/translations/ja_JP/howto.rst
-@@ -65,7 +65,7 @@ Linux カーネル開発のやり方
-  - 『新・詳説 C 言語 H&S リファレンス』 (サミュエル P ハービソン/ガイ L スティール共著 斉藤 信男監訳)[ソフトバンク]
- 
- カーネルは GNU C と GNU ツールチェインを使って書かれています。カーネル
--は ISO C89 仕様に準拠して書く一方で、標準には無い言語拡張を多く使って
-+は ISO C11 仕様に準拠して書く一方で、標準には無い言語拡張を多く使って
- います。カーネルは標準 C ライブラリに依存しない、C 言語非依存環境です。
- そのため、C の標準の中で使えないものもあります。特に任意の long long
- の除算や浮動小数点は使えません。カーネルがツールチェインや C 言語拡張
-diff --git a/Documentation/translations/ko_KR/howto.rst b/Documentation/translations/ko_KR/howto.rst
-index df53fafd1b10..969e91a95bb0 100644
---- a/Documentation/translations/ko_KR/howto.rst
-+++ b/Documentation/translations/ko_KR/howto.rst
-@@ -62,7 +62,7 @@ Documentation/process/howto.rst
-  - "Practical C Programming" by Steve Oualline [O'Reilly]
-  - "C:  A Reference Manual" by Harbison and Steele [Prentice Hall]
- 
--커널은 GNU C와 GNU 툴체인을 사용하여 작성되었다. 이 툴들은 ISO C89 표준을
-+커널은 GNU C와 GNU 툴체인을 사용하여 작성되었다. 이 툴들은 ISO C11 표준을
- 따르는 반면 표준에 있지 않은 많은 확장기능도 가지고 있다. 커널은 표준 C
- 라이브러리와는 관계없이 freestanding C 환경이어서 C 표준의 일부는
- 지원되지 않는다. 임의의 long long 나누기나 floating point는 지원되지 않는다.
-diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
-index 5bf953146929..888978a62db3 100644
---- a/Documentation/translations/zh_CN/process/howto.rst
-+++ b/Documentation/translations/zh_CN/process/howto.rst
-@@ -45,7 +45,7 @@ Linux内核大部分是由C语言写成的，一些体系结构相关的代码
-  - "C:  A Reference Manual" by Harbison and Steele [Prentice Hall]
-    《C语言参考手册（原书第5版）》（邱仲潘 等译）[机械工业出版社]
- 
--Linux内核使用GNU C和GNU工具链开发。虽然它遵循ISO C89标准，但也用到了一些
-+Linux内核使用GNU C和GNU工具链开发。虽然它遵循ISO C11标准，但也用到了一些
- 标准中没有定义的扩展。内核是自给自足的C环境，不依赖于标准C库的支持，所以
- 并不支持C标准中的部分定义。比如long long类型的大数除法和浮点运算就不允许
- 使用。有时候确实很难弄清楚内核对工具链的要求和它所使用的扩展，不幸的是目
-diff --git a/Documentation/translations/zh_TW/process/howto.rst b/Documentation/translations/zh_TW/process/howto.rst
-index 86b0d4c6d6f9..8fb8edcaee66 100644
---- a/Documentation/translations/zh_TW/process/howto.rst
-+++ b/Documentation/translations/zh_TW/process/howto.rst
-@@ -48,7 +48,7 @@ Linux內核大部分是由C語言寫成的，一些體系結構相關的代碼
-  - "C:  A Reference Manual" by Harbison and Steele [Prentice Hall]
-    《C語言參考手冊（原書第5版）》（邱仲潘 等譯）[機械工業出版社]
- 
--Linux內核使用GNU C和GNU工具鏈開發。雖然它遵循ISO C89標準，但也用到了一些
-+Linux內核使用GNU C和GNU工具鏈開發。雖然它遵循ISO C11標準，但也用到了一些
- 標準中沒有定義的擴展。內核是自給自足的C環境，不依賴於標準C庫的支持，所以
- 並不支持C標準中的部分定義。比如long long類型的大數除法和浮點運算就不允許
- 使用。有時候確實很難弄清楚內核對工具鏈的要求和它所使用的擴展，不幸的是目
+What Kees said. :)
 
-base-commit: 1eb303dc5fa5967f9e5edc04df1f9cf161614ad0
+> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_YMM,       struct ymmh_struct);
+> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_BNDREGS,   struct mpx_bndreg_state);
+> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_BNDCSR,    struct mpx_bndcsr_state);
+> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_OPMASK,    struct avx_512_opmask_state);
+> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_ZMM_Hi256, struct avx_512_zmm_uppers_state);
+> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_Hi16_ZMM,  struct avx_512_hi16_state);
+> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_PKRU,      struct pkru_state);
+> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_PASID,     struct ia32_pasid_state);
+> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_XTILE_CFG, struct xtile_cfg);
+> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_CET_USER,  struct cet_user_state);
+
+That looks silly. I wonder if you could do:
+
+	switch (nr) {
+	case XFEATURE_YMM:	XCHECK_SZ(sz, XFEATURE_YMM, struct ymmh_struct);	  return;
+	case XFEATURE_BNDREGS:	XCHECK_SZ(sz, XFEATURE_BNDREGS, struct mpx_bndreg_state); return;
+	case ...
+	...
+	default:
+		/* that falls into the WARN etc */
+
+and then you get rid of the if check in the macro itself and leave the
+macro be a dumb, unconditional one.
+
+Hmmm.
+
 -- 
-2.25.1
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
