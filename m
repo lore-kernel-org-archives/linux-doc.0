@@ -2,104 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92571C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Oct 2022 03:40:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84932C4332F
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Oct 2022 04:06:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229459AbiJODkK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 14 Oct 2022 23:40:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35194 "EHLO
+        id S229581AbiJOEGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Oct 2022 00:06:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229548AbiJODkI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Oct 2022 23:40:08 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C36205CB;
-        Fri, 14 Oct 2022 20:40:06 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id q1so5898667pgl.11;
-        Fri, 14 Oct 2022 20:40:06 -0700 (PDT)
+        with ESMTP id S229726AbiJOEGl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Oct 2022 00:06:41 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2595E68CDD;
+        Fri, 14 Oct 2022 21:06:41 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id r18so5931284pgr.12;
+        Fri, 14 Oct 2022 21:06:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TlYSrLiQ2Fck3kmwqGPusY9avwqaM0QIj3WQTctmCKg=;
-        b=JPGrMGILLqfYeZ2/4DQtzQn5vqkFgMHKfVzHFwcK1uB66JY5Q01nYuWc3UTWSJsMWk
-         oRLICppEf5jKW7qbMyWjb51j0QC3B0ki2SBfT2AP8ASPOj986NHJtMY+SWDY0kPJog7e
-         aRN4GTR5Nndm3Lp8UJIoaySYoqy8EDk5jKzsISAFau6512ufP3vkup6Deme9J8Bh9sWE
-         E4sHdeBmiixTGmxCv1HimNwwgqQSeQAUDayA5Ign8CQexd9BplWxU1o7EVEtIQHotQml
-         7MiZm/yNYUHN2jT6CquLCZu0h0dDF3sy0nn7vdr+hU1bwuE08fbqFdhBPClQCiYG4E+J
-         uXEA==
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xCEzpUM47vPP09CX43zJ3a0Bg5dTaQs9xpncOJIeo4g=;
+        b=npVKUFJIIv7iIEM3AXCg3/9lW/iTdihpZBXHmi3ZoU6bhI8ItUv49uFU0TP1Vsz7S3
+         JdZrCoHNQ1B5oKEsu3hAxowenRg/bmircRhikjpEB/EQgRcR2vh0fWWbzYm/qsDAy8Q3
+         kLSnri4+1gdBO8FjGbf0nxuNuBkEXv3VERersWYQWUfSetLwGFQspWaxnWutkWAZKwE9
+         gMLdAdIjqMJt0fB+QI1CmlV/k3WhuI2/5puU6vRMz0/egeIkXlHwIaAx0Ud2LqSwPj/v
+         hNNHzennTWHmks2xnx0DJJ0uoKeTQTpgJWyHwSqYETYKzcLgVdskEGhemLz4mTXim9Qg
+         3Z6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TlYSrLiQ2Fck3kmwqGPusY9avwqaM0QIj3WQTctmCKg=;
-        b=5sD0nMzlfrjF+WScnzRnxLF+guz2+hl0SORQ7DgBP+SnmtBNGpR84k9O/5zXDCQxYW
-         kXC0YEuNJFJOd7+FQtZtt/W8RiYsueofbjojBHs9Db36gc1PmS8uzTeB0Pv3DYEjIue3
-         n0oSaWhD2hhc2M2+owq7Slo8bSAr8bDim3ejsk8eQOoIiWrs0NvJSzMMlNPO7dAcovnQ
-         2nH2wWJhU1WfwseBO7w44eNW4tbf7qcfTYyes1JR+qigWAQA121Dr9gh5ARtvSVCud+t
-         sZbcvJXM/D5+Xt30kkf7PnS3ipqlVrsVCQPMRZdPBOCiVeUANLH6OIc6qxoxMYq997TI
-         9Rdw==
-X-Gm-Message-State: ACrzQf2VS4EZh3/m7l/EmBThw5ysHvCunUu36Qxz+3Td9vXCIfXYloax
-        KoaOLjLvawY+v9JCQtZ1cpbo4Fywga0=
-X-Google-Smtp-Source: AMsMyM45kPh0Dp5bMAXAyte6FO23TitdGjvW4QDpK9nCRie2Gy4DtgNnxG6l7/4URbA5/zAZQ2/7aw==
-X-Received: by 2002:a63:1a60:0:b0:43c:9bcd:6c37 with SMTP id a32-20020a631a60000000b0043c9bcd6c37mr954256pgm.125.1665805206183;
-        Fri, 14 Oct 2022 20:40:06 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-28.three.co.id. [116.206.28.28])
-        by smtp.gmail.com with ESMTPSA id n5-20020a170902e54500b0017f73dc1549sm2362278plf.263.2022.10.14.20.40.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Oct 2022 20:40:05 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 3228A103A91; Sat, 15 Oct 2022 10:40:03 +0700 (WIB)
-Date:   Sat, 15 Oct 2022 10:40:03 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bilbao@vt.edu
-Subject: Re: [PATCH v2 0/2] Documentation: Start Spanish translation and
- include HOWTO
-Message-ID: <Y0ork19pGMhZq8qn@debian.me>
-References: <20221013184816.354278-1-carlos.bilbao@amd.com>
- <20221014142454.871196-1-carlos.bilbao@amd.com>
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xCEzpUM47vPP09CX43zJ3a0Bg5dTaQs9xpncOJIeo4g=;
+        b=CokvkfxiJW4umADyyg/gwGhLXd6MEG1kbUjYSJ20N1ROweRubf3Js8fANp1LFiY+E/
+         Sk5SH7eiDzVWUakMkdzQqWfpJu6t2cRosp0tObfLKPPbGdyeKDVkL+LArBxb7GWWOsHx
+         j1O4UBhBVhHVpjKfN+oz+wX1+CvUjbnQvhp3LSmb61wJB3tsXlTY3fgG+5wA9vniKXRA
+         aawrzVJBlHwkyoq3gE0M9/hDlNqd/EpcT35g2tAcv63uITK7DVpruB33DlTblTSfV5Gh
+         NvTyuED5hbkyqurAFev8ztgvtLpDYJoy1JaF6a5ULCMfjQ9DEU/nb9jqk0WgKmS5votB
+         M4lg==
+X-Gm-Message-State: ACrzQf1/8buipH+8wjntsK7Lb/31yDj1AvQlQjSs7ekug0adDrMnYClG
+        9iA4jRriTSoTn2cam7xF/oBki6JPfMQ=
+X-Google-Smtp-Source: AMsMyM5b8AhQS/7jA+cbMioopBG/liguQofMui2bb+J5Bn/HNRQmYkrNVWdVDxDTSBktgow4niFHZw==
+X-Received: by 2002:a63:6b09:0:b0:453:b1f8:bb3b with SMTP id g9-20020a636b09000000b00453b1f8bb3bmr1121328pgc.36.1665806800570;
+        Fri, 14 Oct 2022 21:06:40 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id w14-20020a170902a70e00b0017c7376ac9csm2406979plq.206.2022.10.14.21.06.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Oct 2022 21:06:40 -0700 (PDT)
+Message-ID: <48b4a5a1-2a52-4159-699b-9db73a012892@gmail.com>
+Date:   Sat, 15 Oct 2022 13:06:36 +0900
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="IVjoyMg6onV0tz3V"
-Content-Disposition: inline
-In-Reply-To: <20221014142454.871196-1-carlos.bilbao@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     bilbao@vt.edu, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
+        miguel.ojeda.sandonis@gmail.com
+References: <20221014142454.871196-2-carlos.bilbao@amd.com>
+Subject: Re: [PATCH v2 1/2] Documentation: Start translations to Spanish
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20221014142454.871196-2-carlos.bilbao@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
+Minor nit on language code.
 
---IVjoyMg6onV0tz3V
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, 14 Oct 2022 09:24:53 -0500, Carlos Bilbao wrote:
+> Start the process of translating kernel documentation to Spanish. Create
+> sp_SP/ and include an index and a disclaimer, following the approach of
+> prior translations. Add Carlos Bilbao as MAINTAINER of this translation
+> effort.
+IIUC, the language code for "Spanish (Spain)" should be "es-ES", as is
+listed at e.g., http://www.lingoes.net/en/translator/langcode.htm.
 
-On Fri, Oct 14, 2022 at 09:24:52AM -0500, Carlos Bilbao wrote:
->   Documentation/translations/index.rst          |   1 +
->   .../translations/sp_SP/disclaimer-sp.rst      |   6 +
->   Documentation/translations/sp_SP/howto.rst    | 617 ++++++++++++++++++
->   Documentation/translations/sp_SP/index.rst    |  80 +++
->   MAINTAINERS                                   |   5 +
->   5 files changed, 709 insertions(+)
->   create mode 100644 Documentation/translations/sp_SP/disclaimer-sp.rst
->   create mode 100644 Documentation/translations/sp_SP/howto.rst
->   create mode 100644 Documentation/translations/sp_SP/index.rst
+The other translations use directory names found in the table, with
+"-" replaced with "_".  It would be better to be consistent.
 
-Why not es_ES locale slug instead?
+Just my two cents.
 
---=20
-An old man doll... just what I always wanted! - Clara
+        Thanks, Akira
 
---IVjoyMg6onV0tz3V
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+> ---
+>  Documentation/translations/index.rst          |  1 +
+>  .../translations/sp_SP/disclaimer-sp.rst      |  6 ++
+>  Documentation/translations/sp_SP/index.rst    | 72 +++++++++++++++++++
+>  MAINTAINERS                                   |  5 ++
+>  4 files changed, 84 insertions(+)
+>  create mode 100644 Documentation/translations/sp_SP/disclaimer-sp.rst
+>  create mode 100644 Documentation/translations/sp_SP/index.rst
+> 
+> diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
+> index 1175a47d07f0..b826c34791c0 100644
+> --- a/Documentation/translations/index.rst
+> +++ b/Documentation/translations/index.rst
+> @@ -12,6 +12,7 @@ Translations
+>     it_IT/index
+>     ko_KR/index
+>     ja_JP/index
+> +   sp_SP/index
+>  
+>  
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY0orkgAKCRD2uYlJVVFO
-ozRxAQDJ5ZunDh/jkq0AUdir4LmxedIjhkJt51ObtdMCBvoiGAD/RBNAUEOoeQ+A
-ov067EkjY2Ph80sXKkT6LPvMtujwqgk=
-=luSw
------END PGP SIGNATURE-----
-
---IVjoyMg6onV0tz3V--
