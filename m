@@ -2,111 +2,220 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84932C4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Oct 2022 04:06:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DDDEC433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Oct 2022 04:20:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229581AbiJOEGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Oct 2022 00:06:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36090 "EHLO
+        id S229608AbiJOEUJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Oct 2022 00:20:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229726AbiJOEGl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Oct 2022 00:06:41 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2595E68CDD;
-        Fri, 14 Oct 2022 21:06:41 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id r18so5931284pgr.12;
-        Fri, 14 Oct 2022 21:06:41 -0700 (PDT)
+        with ESMTP id S229577AbiJOEUI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Oct 2022 00:20:08 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 268232BB3A;
+        Fri, 14 Oct 2022 21:20:04 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id 128so5986906pga.1;
+        Fri, 14 Oct 2022 21:20:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xCEzpUM47vPP09CX43zJ3a0Bg5dTaQs9xpncOJIeo4g=;
-        b=npVKUFJIIv7iIEM3AXCg3/9lW/iTdihpZBXHmi3ZoU6bhI8ItUv49uFU0TP1Vsz7S3
-         JdZrCoHNQ1B5oKEsu3hAxowenRg/bmircRhikjpEB/EQgRcR2vh0fWWbzYm/qsDAy8Q3
-         kLSnri4+1gdBO8FjGbf0nxuNuBkEXv3VERersWYQWUfSetLwGFQspWaxnWutkWAZKwE9
-         gMLdAdIjqMJt0fB+QI1CmlV/k3WhuI2/5puU6vRMz0/egeIkXlHwIaAx0Ud2LqSwPj/v
-         hNNHzennTWHmks2xnx0DJJ0uoKeTQTpgJWyHwSqYETYKzcLgVdskEGhemLz4mTXim9Qg
-         3Z6A==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zs5twK6aXSzYSqUpj1TYqBq1ZXOIV27GhCyY3k0ac0k=;
+        b=IH0vFmrLYChUOJN2QQfxFqSIWCyZwujkYRExcF4YDs6ZelvewH9jNCrI74+PED0xMb
+         UVr6GuiAQrpKc4tNhXJc00AwvNeS6vAUWThIXnxJTEZIXf/M2R8rli2GWNm5QO3LyJy2
+         gK3p44Wye5pz8zINtX0zFpUVSC2anh9ezU/TN4QCTdZBr6m9MoTDOpm8/mSRkddQN65I
+         iNHHOGN6o6pSwRow8JNUnLRnPHoX4Y+ML3zNcM3R1xQi8YI0UpvyqCEeW1d2U6WBStz9
+         3pHEVd+7RTArhmhjzGVAMCuHrrPlxg2i8Pp/Vi9OWd9lI3ByOudYWIvW3lDhjEvMR534
+         q8rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xCEzpUM47vPP09CX43zJ3a0Bg5dTaQs9xpncOJIeo4g=;
-        b=CokvkfxiJW4umADyyg/gwGhLXd6MEG1kbUjYSJ20N1ROweRubf3Js8fANp1LFiY+E/
-         Sk5SH7eiDzVWUakMkdzQqWfpJu6t2cRosp0tObfLKPPbGdyeKDVkL+LArBxb7GWWOsHx
-         j1O4UBhBVhHVpjKfN+oz+wX1+CvUjbnQvhp3LSmb61wJB3tsXlTY3fgG+5wA9vniKXRA
-         aawrzVJBlHwkyoq3gE0M9/hDlNqd/EpcT35g2tAcv63uITK7DVpruB33DlTblTSfV5Gh
-         NvTyuED5hbkyqurAFev8ztgvtLpDYJoy1JaF6a5ULCMfjQ9DEU/nb9jqk0WgKmS5votB
-         M4lg==
-X-Gm-Message-State: ACrzQf1/8buipH+8wjntsK7Lb/31yDj1AvQlQjSs7ekug0adDrMnYClG
-        9iA4jRriTSoTn2cam7xF/oBki6JPfMQ=
-X-Google-Smtp-Source: AMsMyM5b8AhQS/7jA+cbMioopBG/liguQofMui2bb+J5Bn/HNRQmYkrNVWdVDxDTSBktgow4niFHZw==
-X-Received: by 2002:a63:6b09:0:b0:453:b1f8:bb3b with SMTP id g9-20020a636b09000000b00453b1f8bb3bmr1121328pgc.36.1665806800570;
-        Fri, 14 Oct 2022 21:06:40 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id w14-20020a170902a70e00b0017c7376ac9csm2406979plq.206.2022.10.14.21.06.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Oct 2022 21:06:40 -0700 (PDT)
-Message-ID: <48b4a5a1-2a52-4159-699b-9db73a012892@gmail.com>
-Date:   Sat, 15 Oct 2022 13:06:36 +0900
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zs5twK6aXSzYSqUpj1TYqBq1ZXOIV27GhCyY3k0ac0k=;
+        b=thZyvT2zoq2pjVyny7vmg2IIdJDKihRYaOMpkpSkSLUQI+szV2Oe6nnaDq98WeP8z1
+         FTBKzBGuzyhEOV2PEvbbkAKpccbkY3uQcX/Fe8reNa/+lJNB8Oaif82/Tq3/jjpjaQ1d
+         a/NTtPP5gFHTioty0NTixVLj2itWr7LIhKbgOymCATIHCIYp5/YHNNlVRFXToBwUD/S3
+         uUi8EcNgUkmjWNphEz2ak5Nx17mNMX/t3q39xAABIGCrvBbWHZvIwzX3/x82k5fPePxo
+         1RHm2hTxKWn80/hnvIZ6FbAbByeBiSJGhrNGk+g631Oudg4PBCVQ1f6c96VHP8TnyJG/
+         +x9g==
+X-Gm-Message-State: ACrzQf0qAiDKT4nhd7PoLLd6daoIQfHUSHUTY7EzFM4LMW/JgoeQjLWa
+        bVrTIgKsMIUEwXLgotTZ+tYM4BCfU4M=
+X-Google-Smtp-Source: AMsMyM4M2/SaELF6j32JrVfnfNZ5f5JtRDxJXJk/8fi5QBF5youtLVckd6WkGNyuxARh6aWEGpgTSw==
+X-Received: by 2002:a05:6a00:1389:b0:566:1549:c5bc with SMTP id t9-20020a056a00138900b005661549c5bcmr1299287pfg.8.1665807603435;
+        Fri, 14 Oct 2022 21:20:03 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-28.three.co.id. [116.206.28.28])
+        by smtp.gmail.com with ESMTPSA id z14-20020aa79e4e000000b005631a40a00bsm2482248pfq.139.2022.10.14.21.20.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Oct 2022 21:20:02 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 9B225103A91; Sat, 15 Oct 2022 11:19:59 +0700 (WIB)
+Date:   Sat, 15 Oct 2022 11:19:59 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     mtahhan@redhat.com
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v2 1/1] doc: DEVMAPs and XDP_REDIRECT
+Message-ID: <Y0o07w0OguaTIH1e@debian.me>
+References: <20221013111129.401325-1-mtahhan@redhat.com>
+ <20221013111129.401325-2-mtahhan@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     bilbao@vt.edu, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
-        miguel.ojeda.sandonis@gmail.com
-References: <20221014142454.871196-2-carlos.bilbao@amd.com>
-Subject: Re: [PATCH v2 1/2] Documentation: Start translations to Spanish
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20221014142454.871196-2-carlos.bilbao@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="3vAj85k0xYuU7nJ3"
+Content-Disposition: inline
+In-Reply-To: <20221013111129.401325-2-mtahhan@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-Minor nit on language code.
 
-On Fri, 14 Oct 2022 09:24:53 -0500, Carlos Bilbao wrote:
-> Start the process of translating kernel documentation to Spanish. Create
-> sp_SP/ and include an index and a disclaimer, following the approach of
-> prior translations. Add Carlos Bilbao as MAINTAINER of this translation
-> effort.
-IIUC, the language code for "Spanish (Spain)" should be "es-ES", as is
-listed at e.g., http://www.lingoes.net/en/translator/langcode.htm.
+--3vAj85k0xYuU7nJ3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The other translations use directory names found in the table, with
-"-" replaced with "_".  It would be better to be consistent.
+On Thu, Oct 13, 2022 at 07:11:29AM -0400, mtahhan@redhat.com wrote:
+> diff --git a/Documentation/bpf/map_devmap.rst b/Documentation/bpf/map_dev=
+map.rst
+> new file mode 100644
+> index 000000000000..bdba55640f4c
+> --- /dev/null
+> +++ b/Documentation/bpf/map_devmap.rst
+> @@ -0,0 +1,192 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +.. Copyright (C) 2022 Red Hat, Inc.
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +BPF_MAP_TYPE_DEVMAP and BPF_MAP_TYPE_DEVMAP_HASH
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +.. note::
+> +   - ``BPF_MAP_TYPE_DEVMAP`` was introduced in kernel version 4.14
+> +   - ``BPF_MAP_TYPE_DEVMAP_HASH`` was introduced in kernel version 5.4
+> +
+> +``BPF_MAP_TYPE_DEVMAP`` and ``BPF_MAP_TYPE_DEVMAP_HASH`` are BPF maps pr=
+imarily
+> +used as backend maps for the XDP BPF helper call ``bpf_redirect_map()``.
+> +``BPF_MAP_TYPE_DEVMAP`` is backed by an array that uses the key as
+> +the index to lookup a reference to a net device. While ``BPF_MAP_TYPE_DE=
+VMAP_HASH``
+> +is backed by a hash table that uses the ``ifindex`` as the key to lookup=
+ a reference
+> +to a net device. The user provides either <``key``/ ``ifindex``> or
+> +<``key``/ ``struct bpf_devmap_val``> pairs to update the maps with new n=
+et devices.
+> +
+> +.. note::
+> +    While ``BPF_MAP_TYPE_DEVMAP_HASH`` allows for densely packing the ne=
+t devices
+> +    it comes at the cost of a hash of the key when performing a look up.
+> +
+> +The setup and packet enqueue/send code is shared between the two types of
+> +devmap; only the lookup and insertion is different.
+> +
+> +Usage
+> +=3D=3D=3D=3D=3D
+> +
+> +.. c:function::
+> +   long bpf_map_update_elem(struct bpf_map *map, const void *key, const =
+void *value, u64 flags)
+> +
+> + Net device entries can be added or updated using the ``bpf_map_update_e=
+lem()``
+> + helper. This helper replaces existing elements atomically. The ``value`=
+` parameter
+> + can be ``struct bpf_devmap_val`` or a simple ``int ifindex`` for backwa=
+rds
+> + compatibility.
+> +
+> +.. note::
+> +    The maps can only be updated from user space and not from a BPF prog=
+ram.
+> +
 
-Just my two cents.
+Only the sentence above should be in the note directive, so align the
+directive to the surrounding text:
 
-        Thanks, Akira
+---- >8 ----
 
-> 
-> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
-> ---
->  Documentation/translations/index.rst          |  1 +
->  .../translations/sp_SP/disclaimer-sp.rst      |  6 ++
->  Documentation/translations/sp_SP/index.rst    | 72 +++++++++++++++++++
->  MAINTAINERS                                   |  5 ++
->  4 files changed, 84 insertions(+)
->  create mode 100644 Documentation/translations/sp_SP/disclaimer-sp.rst
->  create mode 100644 Documentation/translations/sp_SP/index.rst
-> 
-> diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
-> index 1175a47d07f0..b826c34791c0 100644
-> --- a/Documentation/translations/index.rst
-> +++ b/Documentation/translations/index.rst
-> @@ -12,6 +12,7 @@ Translations
->     it_IT/index
->     ko_KR/index
->     ja_JP/index
-> +   sp_SP/index
->  
->  
+diff --git a/Documentation/bpf/map_devmap.rst b/Documentation/bpf/map_devma=
+p.rst
+index bdba55640f4c7d..b4f2b1a9ef9b09 100644
+--- a/Documentation/bpf/map_devmap.rst
++++ b/Documentation/bpf/map_devmap.rst
+@@ -35,7 +35,7 @@ Usage
+  can be ``struct bpf_devmap_val`` or a simple ``int ifindex`` for backwards
+  compatibility.
+=20
+-.. note::
++ .. note::
+     The maps can only be updated from user space and not from a BPF progra=
+m.
+=20
+  .. code-block:: c
 
+> + When a program is associated with a device index, the program is run on=
+ an
+> + ``XDP_REDIRECT`` and before the buffer is added to the per-cpu queue. E=
+xamples
+> + of how to attach/use xdp_devmap progs can be found in the kernel selfte=
+sts:
+> +
+> + - test_xdp_with_devmap_helpers_
+> + - xdp_devmap_attach_
+> +
+> +.. _xdp_devmap_attach: https://github.com/torvalds/linux/blob/master/too=
+ls/testing/selftests/bpf/prog_tests/xdp_devmap_attach.c
+> +.. _test_xdp_with_devmap_helpers: https://github.com/torvalds/linux/blob=
+/master/tools/testing/selftests/bpf/progs/test_xdp_with_devmap_helpers.c
+> +
+
+Instead of external link to the Linus's tree, just specify the file location
+of these selftests:
+
+---- >8 ----
+
+diff --git a/Documentation/bpf/map_devmap.rst b/Documentation/bpf/map_devma=
+p.rst
+index b4f2b1a9ef9b09..55ad36d4a8dbd5 100644
+--- a/Documentation/bpf/map_devmap.rst
++++ b/Documentation/bpf/map_devmap.rst
+@@ -56,11 +56,8 @@ Usage
+  ``XDP_REDIRECT`` and before the buffer is added to the per-cpu queue. Exa=
+mples
+  of how to attach/use xdp_devmap progs can be found in the kernel selftest=
+s:
+=20
+- - test_xdp_with_devmap_helpers_
+- - xdp_devmap_attach_
+-
+-.. _xdp_devmap_attach: https://github.com/torvalds/linux/blob/master/tools=
+/testing/selftests/bpf/prog_tests/xdp_devmap_attach.c
+-.. _test_xdp_with_devmap_helpers: https://github.com/torvalds/linux/blob/m=
+aster/tools/testing/selftests/bpf/progs/test_xdp_with_devmap_helpers.c
++ - ``test_xdp_with_devmap_helpers`` (in ``tools/testing/selftests/bpf/prog=
+s/test_xdp_with_devmap_helpers.c``)
++ - ``xdp_devmap_attach`` (in ``tools/testing/selftests/bpf/prog_tests/xdp_=
+devmap_attach.c``)
+=20
+ .. c:function::
+    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--3vAj85k0xYuU7nJ3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY0o06wAKCRD2uYlJVVFO
+o2QdAQDQyel5iq1yP2EOXjfVPA7qllBiIbLWvDhiS5QIPlfFLAEAj6IYExWbk740
+kxL/7ts92MtTHmKjuBhho0WxR4pWsAo=
+=F/zR
+-----END PGP SIGNATURE-----
+
+--3vAj85k0xYuU7nJ3--
