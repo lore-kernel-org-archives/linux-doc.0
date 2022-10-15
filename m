@@ -2,134 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B752C4332F
-	for <linux-doc@archiver.kernel.org>; Sat, 15 Oct 2022 09:47:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A3FEC433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 15 Oct 2022 12:41:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbiJOJrB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Oct 2022 05:47:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47570 "EHLO
+        id S229594AbiJOMlk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Oct 2022 08:41:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbiJOJrA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Oct 2022 05:47:00 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A9535018D;
-        Sat, 15 Oct 2022 02:46:58 -0700 (PDT)
-Received: from zn.tnic (p200300ea9733e79c329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e79c:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 884F61EC0531;
-        Sat, 15 Oct 2022 11:46:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1665827212;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=mOCTkWac8uVSFd/Mt41ebNXstiZYPl5RE7hElNiS0dc=;
-        b=sPD2w+UBotPMH9OxZPAJ/j+ni1w6/2Kpg4ADVQvVkKo4cdA6FiKWUKduZYVfg6cj4lBKyh
-        OSwthJeo7BAUzmiVrhLmYdZqgLJNw2z+3BzEvRGCCBLrsvPcyhYvykaTOHWL5jGLWADOjI
-        by67HoeKwb/J+fBMhTUX2PSHADzlCO4=
-Date:   Sat, 15 Oct 2022 11:46:49 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
-Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        joao.moreira@intel.com, John Allen <john.allen@amd.com>,
-        kcc@google.com, eranian@google.com, rppt@kernel.org,
-        jamorris@linux.microsoft.com, dethoma@microsoft.com,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v2 05/39] x86/fpu/xstate: Introduce CET MSR and XSAVES
- supervisor states
-Message-ID: <Y0qBiSXdZepd7Is9@zn.tnic>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-6-rick.p.edgecombe@intel.com>
+        with ESMTP id S229699AbiJOMlk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Oct 2022 08:41:40 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F05A52DD8;
+        Sat, 15 Oct 2022 05:41:39 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id t12-20020a17090a3b4c00b0020b04251529so7076830pjf.5;
+        Sat, 15 Oct 2022 05:41:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K+ScK9lEaYyTa9Kg//6GLnf7yqmnFfT/KA+ti0bjqIo=;
+        b=SwQGmFrLXb7G5MjAgEK8vkizoeofI2QKlXGd60Ot9w1dM6OiO4oIFk51QbvAS+7KAJ
+         IQsjhZxWuQL0hQnaf4tmBXOYYIt7e8UVZJMTMqwalq9nJ6/fZSE06LVxWMHJI1wdEihi
+         6Bi5xqY2HrmmQJhksIM1GAMaAnNWhWsc7k3+9MSVbP1nnc0j3IjnOoNvydlqSCRp4BzV
+         o+yzrOSTNLgTimjlqn797BMrAJe4hbfSBg/LMY3Bhr/UcKqnVI8zaW3jjXti+gn00hcb
+         rPI9/1HUrGOzRfiFVo83/GNFOaTBlyPrfcH2JtcczHkxHjfVPZ3avryijWoYziAuUokF
+         pZlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K+ScK9lEaYyTa9Kg//6GLnf7yqmnFfT/KA+ti0bjqIo=;
+        b=1NogyRP++BJYQAA+3vjAQg/VQyBHX7RtvLOJZeR92C9CBnkz3aZL1tM4U8nluueQDC
+         l3d8jNfQTdujoAwd+cTKXgW/BHkVzIGBXJPOXYLfkWsWEGhrWN+8CZSHH8pk9q08esdw
+         kSyO9UDVvF3B4BIvGeoTUeO7LTR/6S7cDs8swK5xVOQUKgERcPQLKpMEzy/dHvVV6oxG
+         92/1rnsxFR5xFOE5nBsPFYZ0omAu0jTBuG5Za2htKVex8VyHj0kwXONgNrB3IfXJkIIR
+         kkNSlg7UJMmTT2au5BRoWsHOxSJqMYaFPhsrFUENu8WkOYmZc2blD25IoVCFjlMkHU3C
+         k0hg==
+X-Gm-Message-State: ACrzQf0ts0dHoWncLiQ3otZAoeW9rlaU53pth2p+WvvvgwU0h/rZ0Hjr
+        UM0lIB9SMzsEHDUqBZ66TIfDGhGUp6U=
+X-Google-Smtp-Source: AMsMyM6hiqnyVZ16tv07wRgTh/unK+JUYzbF+1BgoTsuqyBy7SjAubEFhX/J6N3WcxTlbbAb8bkPBQ==
+X-Received: by 2002:a17:902:c103:b0:17f:da5:35c2 with SMTP id 3-20020a170902c10300b0017f0da535c2mr2810308pli.20.1665837698822;
+        Sat, 15 Oct 2022 05:41:38 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-19.three.co.id. [116.206.28.19])
+        by smtp.gmail.com with ESMTPSA id p13-20020a170902e74d00b0017854cee6ebsm3389345plf.72.2022.10.15.05.41.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Oct 2022 05:41:38 -0700 (PDT)
+Message-ID: <2f9f1cab-1053-db07-68aa-724741356fbb@gmail.com>
+Date:   Sat, 15 Oct 2022 19:41:35 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220929222936.14584-6-rick.p.edgecombe@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v3 0/6] docs: Improvements to our HTML output
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+References: <20221013172918.846856-1-corbet@lwn.net>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20221013172918.846856-1-corbet@lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 03:29:02PM -0700, Rick Edgecombe wrote:
-> Both XSAVE state components are supervisor states, even the state
-> controlling user-mode operation. This is a departure from earlier features
-> like protection keys where the PKRU state a normal user (non-supervisor)
-^^^^^
+On 10/14/22 00:29, Jonathan Corbet wrote:
+> Sphinx has a theming mechanism for HTML rendering.  Since the kernel's
+> adoption of Sphinx, we have been using the "Read The Docs" theme — a choice
+> made in a bit of a hurry to have *something* while figuring out the rest.
+> RTD is OK, but it is not hugely attractive, requires the installation of an
+> extra package, and does not observe all of the Sphinx configuration
+> parameters.  Among other things, that makes it hard to put reasonable
+> contents into the left column in the HTML output.
+> 
+> The Alabaster theme is the default for Sphinx installations, and is bundled
+> with Sphinx itself.  It has (IMO) nicer output and gives us the control
+> that we need.
+> 
 
-A verb is missing in that sentence.
-
-> +	"x87 floating point registers"			,
-> +	"SSE registers"					,
-> +	"AVX registers"					,
-> +	"MPX bounds registers"				,
-> +	"MPX CSR"					,
-> +	"AVX-512 opmask"				,
-> +	"AVX-512 Hi256"					,
-> +	"AVX-512 ZMM_Hi256"				,
-> +	"Processor Trace (unused)"			,
-> +	"Protection Keys User registers"		,
-> +	"PASID state"					,
-> +	"Control-flow User registers"			,
-> +	"Control-flow Kernel registers (unused)"	,
-> +	"unknown xstate feature"			,
-> +	"unknown xstate feature"			,
-> +	"unknown xstate feature"			,
-> +	"unknown xstate feature"			,
-> +	"AMX Tile config"				,
-> +	"AMX Tile data"					,
-> +	"unknown xstate feature"			,
-
-What Kees said. :)
-
-> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_YMM,       struct ymmh_struct);
-> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_BNDREGS,   struct mpx_bndreg_state);
-> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_BNDCSR,    struct mpx_bndcsr_state);
-> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_OPMASK,    struct avx_512_opmask_state);
-> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_ZMM_Hi256, struct avx_512_zmm_uppers_state);
-> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_Hi16_ZMM,  struct avx_512_hi16_state);
-> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_PKRU,      struct pkru_state);
-> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_PASID,     struct ia32_pasid_state);
-> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_XTILE_CFG, struct xtile_cfg);
-> +	XCHECK_SZ(&chked, sz, nr, XFEATURE_CET_USER,  struct cet_user_state);
-
-That looks silly. I wonder if you could do:
-
-	switch (nr) {
-	case XFEATURE_YMM:	XCHECK_SZ(sz, XFEATURE_YMM, struct ymmh_struct);	  return;
-	case XFEATURE_BNDREGS:	XCHECK_SZ(sz, XFEATURE_BNDREGS, struct mpx_bndreg_state); return;
-	case ...
-	...
-	default:
-		/* that falls into the WARN etc */
-
-and then you get rid of the if check in the macro itself and leave the
-macro be a dumb, unconditional one.
-
-Hmmm.
+I don't see how switching theme will solve the left column problem. Are
+there any customizations on that column that are planned?
 
 -- 
-Regards/Gruss,
-    Boris.
+An old man doll... just what I always wanted! - Clara
 
-https://people.kernel.org/tglx/notes-about-netiquette
