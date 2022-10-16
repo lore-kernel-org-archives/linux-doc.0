@@ -2,100 +2,410 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F71AC4332F
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Oct 2022 13:24:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED428C433FE
+	for <linux-doc@archiver.kernel.org>; Sun, 16 Oct 2022 16:08:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbiJPNX2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Oct 2022 09:23:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44382 "EHLO
+        id S229574AbiJPQIZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Oct 2022 12:08:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229661AbiJPNXM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Oct 2022 09:23:12 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 619C832DBB;
-        Sun, 16 Oct 2022 06:23:11 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id 2EDBE5C0065;
-        Sun, 16 Oct 2022 09:23:08 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sun, 16 Oct 2022 09:23:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        joshtriplett.org; h=cc:cc:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to; s=fm2; t=1665926588; x=
-        1666012988; bh=luOh1+tXqD7JMWO63diGmzw1lVMjKMj3+nXqqj2Jd70=; b=V
-        JKFc1tWmuQAc4v127ngF04vXL5JVjXdfS0zg5lUuQYjC87yz/n+NHZJ3PA3P+swu
-        /sTXP3WN9oxQZXh7mGYkbsK43JMklb7UNDDBh/mmasVfTKKd++Vrp5XCu3w20LYY
-        lJhXiHgwLRBRhbPE2hp+4gtBQluEZ3DSZZcDaAGGx060Mwsg5iUQrmT7U03H2ASc
-        EPpteLYSFDjLuqDXiVos4sWgMOMg+xecoHR+PvSOO+ZcBVbN5ozApw17wxse2nt2
-        +xn7vG0OKHhQradz7iny4eVeNvlqA5voxMDzf31Qq3S3d+EWEjywf4oG46IkBiDa
-        i+Gme8oJ/zPEqXAlBOGpQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1665926588; x=1666012988; bh=luOh1+tXqD7JMWO63diGmzw1lVMj
-        KMj3+nXqqj2Jd70=; b=pWHazTuKjzH67V5VKZSaxNo5eNnpEq19tt0JhIszsFg7
-        W+OLBVTRoT7/E0dNwKPdTlI60ZM+l9JjkfhLqC45UtiliY+WwOJCqoUm8r+9Ou3x
-        RMAyDMNb0ksTbzl4iwKtomOtkq3NH39NJI7uAdUY626QqEVDqrIu0XYU//ts0mVt
-        09LzGnAKAqXpjTD1I5s7mEMiv6w+QdgfenJiSBM2GHS+pn53bWXzNcRPaYcXQUiL
-        hh+H23qvIG3eDjvF9XGocMw5nZRhJA4SobGf0vKpXvfX99ykmqDVkV+pnEFhF0r2
-        teEebRoMa8kKHFkp+/EcvCGTihVclI2VQguqCTrNmQ==
-X-ME-Sender: <xms:uwVMYx5TEhV8OBMN34G-Tu6mFP0LThe1cgep69vCunD7bvdXX-14hw>
-    <xme:uwVMY-5zGFvesB4mJippybwvToIG0TuPTXS-tMdfMSBD0yVS48KqwIIvpEK7qLDlU
-    xvZ0mfPwfNzCDPE3NU>
-X-ME-Received: <xmr:uwVMY4eIWfy-hGyF_9sLbta4RjidQ5cjP9frgd4G1wV5KslxysteAzR2dH90>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeekjedgieegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheplfhoshhh
-    ucfvrhhiphhlvghtthcuoehjohhshhesjhhoshhhthhrihhplhgvthhtrdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeduieegheeijeeuvdetudefvedtjeefgeeufefghfekgfelfeet
-    teelvddtffetgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehjohhshhesjhhoshhhthhrihhplhgvthhtrdhorhhg
-X-ME-Proxy: <xmx:uwVMY6LXHxY8cOTSSJmJXWXP4jo72XYovaS_tr2nDXekK7f3OlHJ-w>
-    <xmx:uwVMY1Ig5og4cX74dxy3dpKrKnWKyY-YFUj9wRzkqK-j2WV2HCYekg>
-    <xmx:uwVMYzwLhHNm-Gu0ZpmaOTHIgL3QDmEOqEXhrGg1aMe18bmOD3mr4w>
-    <xmx:vAVMY8-gp3q3EUNtj94KoCGKsyeL2jm2m97mZYH-VHhxQAGUENnGwA>
-Feedback-ID: i83e94755:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Oct 2022 09:23:06 -0400 (EDT)
-Date:   Sun, 16 Oct 2022 14:23:02 +0100
-From:   Josh Triplett <josh@joshtriplett.org>
-To:     Olliver Schinagl <oliver+list@schinagl.nl>
-Cc:     Gary Guo <gary@garyguo.net>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <Y0wFtj615KqqvGob@localhost>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
- <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
- <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
- <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
- <5c0bb1db-5589-32ca-ac22-4aafb3c15751@schinagl.nl>
- <20220728112114.0000003a@garyguo.net>
- <a4803f2e-2e46-1c7d-0e89-96f5cbb0ad11@schinagl.nl>
- <00604162-9157-3862-b463-de90cb17c69a@schinagl.nl>
+        with ESMTP id S229648AbiJPQIY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Oct 2022 12:08:24 -0400
+Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29D8A32A92
+        for <linux-doc@vger.kernel.org>; Sun, 16 Oct 2022 09:08:22 -0700 (PDT)
+Date:   Mon, 17 Oct 2022 00:07:54 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1665936500;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=tITPhEijqYtlCJzm9Od8NF2WTf6Pl7RhnXoj0qabAIc=;
+        b=Co1hQvXJ2CB/MENjDpm+5VMLcZGdUX9SiGws8tcFrMBz5CMd96aYRqdvQ6/DhE/62y/wLR
+        qiyTlECHCzEOiY8vh2Xtpz+0r7AnkGH7wNEzPVFulQaOza84waVncr+jNAan8WGbMRAVR/
+        Lfs/jeAFeca1wbMhC6gVWt4DxObIoCE=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
+To:     Binbin Zhou <zhoubinbin@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Huacai Chen <chenhuacai@loongson.cn>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] docs/zh_CN: core-api: Add this_cpu_ops Chinese
+ translation
+Message-ID: <Y0wsWoI+BXXCuRbF@bobwxc.mipc>
+References: <cover.1665130536.git.zhoubinbin@loongson.cn>
+ <1e90a5727b8d36508ad9db092b7d6ebefec07fcc.1665130536.git.zhoubinbin@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <00604162-9157-3862-b463-de90cb17c69a@schinagl.nl>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1e90a5727b8d36508ad9db092b7d6ebefec07fcc.1665130536.git.zhoubinbin@loongson.cn>
+X-Generator: review-reply, a very cute ai bot
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 15, 2022 at 04:16:14PM +0200, Olliver Schinagl wrote:
-> +indent_style = "Visual"
+> Translate core-api/this_cpu_ops.rst into Chinese.
+> 
+> Last English version used:
+> 
+> commit c9b54d6f362c ("docs: move other kAPI documents to core-api").
+> 
+> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+> ---
+>  .../translations/zh_CN/core-api/index.rst     |   2 +-
+>  .../zh_CN/core-api/this_cpu_ops.rst           | 281 ++++++++++++++++++
+>  2 files changed, 282 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/this_cpu_ops.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+> index 37756d240b5e..21d0b25bc580 100644
+> --- a/Documentation/translations/zh_CN/core-api/index.rst
+> +++ b/Documentation/translations/zh_CN/core-api/index.rst
+> @@ -48,12 +48,12 @@
+>     circular-buffers
+>     generic-radix-tree
+>     packing
+> +   this_cpu_ops
+>  
+>  Todolist:
+>  
+>  
+>  
+> -   this_cpu_ops
+>     timekeeping
+>     errseq
+>  
+> diff --git a/Documentation/translations/zh_CN/core-api/this_cpu_ops.rst b/Documentation/translations/zh_CN/core-api/this_cpu_ops.rst
+> new file mode 100644
+> index 000000000000..45e2bcb844cb
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/core-api/this_cpu_ops.rst
+> @@ -0,0 +1,281 @@
+> +.. SPDX-License-Identifier: GPL-2.0+
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/core-api/this_cpu_ops.rst
+> +
+> +:翻译:
+> +
+> + 周彬彬 Binbin Zhou <zhoubinbin@loongson.cn>
+> +
+> +============
+> +this_cpu操作
+> +============
+> +
+> +:作者: Christoph Lameter, 2014年8月4日
+> +:作者: Pranith Kumar, 2014年8月2日
+> +
+> +this_cpu操作是一种优化访问与当前执行处理器相关的per cpu变量的方法。这是通过使用段
 
-Without commenting on the rest of this: visual indent style produces a
-*lot* of diff noise, and I'd strongly recommend against it. Because it
-lines things up, a change to one line can change many adjacent lines,
-and make it hard to see what actually changed.
+per cpu -> 逐cpu 或 每cpu
+replace all per cpu/percpu/per-cpu...
+
+see
+loongarch/introduction.rst:51:    存每CPU变量基地址。该寄存器没有ABI命名，不
+
+
+> +寄存器（或专用寄存器，cpu在其中永久存储特定处理器的per cpu区域的起始）来完成的。
+> +
+> +this_cpu操作将per cpu变量的偏移量添加到处理器特定的per cpu基址上，并将该操作编码
+> +到对per cpu变量进行操作的指令中。
+> +
+> +这意味着在偏移量的计算和对数据的操作之间不存在原子性问题。因此，没有必要禁用抢占
+> +或中断来确保处理器在计算地址和数据操作之间不被改变。
+> +
+> +读取-修改-写入操作特别值得关注。通常处理器具有特殊的低延迟指令，可以在没有典型同
+> +步开销的情况下运行，但仍提供某种宽松的原子性保证。例如，x86可以执行RMW（读取，
+> +修改，写入）指令，如inc/dec/cmpxchg，而无需锁前缀和相关的延迟损失。
+
+如 -> 如同
+
+> +
+> +对没有锁前缀的变量的访问是不同步的，也不需要同步，因为我们处理的是当前执行的处理
+> +器所特有的per cpu数据。只有当前的处理器可以访问该变量，因此系统中的其他处理器不存
+> +在并发性问题。
+> +
+> +请注意，远程处理器对per cpu区域的访问是特殊情况，可能会影响通过this_cpu_*的本地
+> +RMW操作的性能和正确性（远程写操作）。
+> +
+> +this_cpu操作的主要用途是优化计数器操作。
+> +
+> +定义了以下具有隐含抢占保护的this_cpu()操作。可以使用这些操作而不用担心抢占和中断::
+> +
+> +	this_cpu_read(pcp)
+> +	this_cpu_write(pcp, val)
+> +	this_cpu_add(pcp, val)
+> +	this_cpu_and(pcp, val)
+> +	this_cpu_or(pcp, val)
+> +	this_cpu_add_return(pcp, val)
+> +	this_cpu_xchg(pcp, nval)
+> +	this_cpu_cmpxchg(pcp, oval, nval)
+> +	this_cpu_cmpxchg_double(pcp1, pcp2, oval1, oval2, nval1, nval2)
+> +	this_cpu_sub(pcp, val)
+> +	this_cpu_inc(pcp)
+> +	this_cpu_dec(pcp)
+> +	this_cpu_sub_return(pcp, val)
+> +	this_cpu_inc_return(pcp)
+> +	this_cpu_dec_return(pcp)
+> +
+> +
+> +this_cpu操作的内部工作
+> +----------------------
+> +
+> +在x86上，fs:或gs:段寄存器包含per cpu区域的基址。这样就可以简单地使用段覆盖，
+> +将per cpu相对地址重定位到处理器适当的per cpu区域。所以对per cpu基址的重定位是通过
+> +段寄存器前缀在指令中编码完成的。
+> +
+> +例如::
+> +
+> +	DEFINE_PER_CPU(int, x);
+> +	int z;
+> +
+> +	z = this_cpu_read(x);
+> +
+> +单指令的结果::
+
+产生的单指令为::
+
+> +
+> +	mov ax, gs:[x]
+> +
+> +而不是像per cpu操作那样，先是一系列的地址计算，然后从该地址获取。在this_cpu_ops
+> +之前，这样的序列还需要先禁用/启用抢占功能，以防止内核在计算过程中将线程移动到不同
+> +的处理器上。
+> +
+> +请思考下面this_cpu操作::
+> +
+> +	this_cpu_inc(x)
+> +
+> +上面的结果是下面的单条指令（无锁前缀！）::
+
+这将产生如下单指令（无锁前缀！）::
+
+> +
+> +	inc gs:[x]
+> +
+> +而不是在没有段寄存器的情况下所需要的以下操作::
+> +
+> +	int *y;
+> +	int cpu;
+> +
+> +	cpu = get_cpu();
+> +	y = per_cpu_ptr(&x, cpu);
+> +	(*y)++;
+> +	put_cpu();
+> +
+> +请注意，这些操作只能用于为特定处理器保留的per cpu数据。如果不在上下文代码中禁用抢
+> +占，this_cpu_inc()将仅保证per cpu的某一个计数器被正确地递增，但不能保证操作系统不
+> +会在this_cpu指令执行的前后直接移动该进程。一般来说，这意味着每个处理器的单个计数
+> +器的值是没有意义的。所有per cpu计数器的总和才是唯一有意义的值。
+> +
+> +per cpu变量的使用是出于性能的考虑。如果多个处理器同时处理相同的代码路径，可以避免
+> +缓存行跳转。由于每个处理器都有自己的per cpu变量，因此不会发生并发缓存行更新。为这
+
+remove 由于
+
+> +种优化必须付出的代价是，当需要计数器的值时要将per cpu计数器相加。
+> +
+> +
+> +特殊的操作
+> +----------
+> +
+> +::
+> +
+> +	y = this_cpu_ptr(&x)
+> +
+> +使用per cpu变量的偏移量(&x!)，并返回属于当前执行处理器的per cpu变量的地址。
+> +this_cpu_ptr避免了通用get_cpu/put_cpu序列所需的多个步骤。没有可用的处理器编号。相
+> +反，本地per cpu区域的偏移量只是简单地添加到per cpu偏移量上。
+> +
+> +请注意，当抢占被禁用时，这个操作通常是在代码段中使用。然后该指针用来访问临界区中
+
+这个操作通常是在抢占被禁用后再在代码段中使用
+"has been disabled"
+
+> +的本地per cpu数据。当重新启用抢占时，此指针通常不再有用，因为它可能不再指向当前处
+> +理器的per cpu数据。
+> +
+> +Per cpu变量和偏移量
+> +-------------------
+> +
+> +per cpu变量相对于per cpu区域的起始点是有偏移的。尽管它们在代码中看起来像那样，
+
+它们没有地址，尽管代码里看起来像有一样。
+
+> +但它们没有地址。 不能直接取消引用偏移量。为了构成有效地址，必须将偏移量添加到处理
+> +器的per cpu区域的基指针。
+
+不能直接对偏移量解引用。必须用处理器每cpu区域基指针加上偏移量，以构成有效地址。
+
+> +
+> +因此，在per cpu操作的上下文之外使用x或&x是无效的，这种行为通常会被当作一个空指针
+> +的解引用来处理。
+> +
+> +::
+> +
+> +	DEFINE_PER_CPU(int, x);
+> +
+> +在per cpu操作的上下文中，上面表达式说明x是一个per cpu变量。大多数this_cpu操作都需
+> +要一个cpu变量。
+> +
+> +::
+> +
+> +	int __percpu *p = &x;
+> +
+> +&x和p是per cpu变量的偏移量。this_cpu_ptr()使用per cpu变量的偏移量，这让它看起来有
+> +点奇怪。
+> +
+> +
+> +per cpu结构体字段的操作
+> +-----------------------
+> +
+> +假设我们有一个percpu结构::
+> +
+> +	struct s {
+> +		int n,m;
+> +	};
+> +
+> +	DEFINE_PER_CPU(struct s, p);
+> +
+> +
+> +这些字段的操作非常简单::
+> +
+> +	this_cpu_inc(p.m)
+> +
+> +	z = this_cpu_cmpxchg(p.m, 0, 1);
+> +
+> +
+> +如果我们有一个相对于结构体s的偏移量::
+> +
+> +	struct s __percpu *ps = &p;
+> +
+> +	this_cpu_dec(ps->m);
+> +
+> +	z = this_cpu_inc_return(ps->n);
+> +
+> +
+> +如果我们后面不使用this_cpu ops来操作字段，则指针的计算可能需要使用this_cpu_ptr()::
+> +
+> +	struct s *pp;
+> +
+> +	pp = this_cpu_ptr(&p);
+> +
+> +	pp->m--;
+> +
+> +	z = pp->n++;
+> +
+> +
+> +this_cpu ops的变体
+> +------------------
+> +
+> +this_cpu的操作是中断安全的。一些架构不支持这些per cpu的本地操作。在这种情况下，该
+> +操作必须被禁用中断的代码所取代，然后做那些保证是原子的操作，再重新启用中断。当然
+> +这样做是很昂贵的。如果有其他原因导致调度器不能改变我们正在执行的处理器，那么就没
+> +有理由禁用中断了。为此，我们提供了以下__this_cpu操作。
+> +
+> +这些操作不能保证并发中断或抢占。如果在中断上下文中不使用per cpu变量并且调度程序无
+> +法抢占，那么它们是安全的。如果在操作进行时仍有中断发生，并且中断也修改了变量，则
+> +无法保证RMW操作是安全的::
+> +
+> +	__this_cpu_read(pcp)
+> +	__this_cpu_write(pcp, val)
+> +	__this_cpu_add(pcp, val)
+> +	__this_cpu_and(pcp, val)
+> +	__this_cpu_or(pcp, val)
+> +	__this_cpu_add_return(pcp, val)
+> +	__this_cpu_xchg(pcp, nval)
+> +	__this_cpu_cmpxchg(pcp, oval, nval)
+> +	__this_cpu_cmpxchg_double(pcp1, pcp2, oval1, oval2, nval1, nval2)
+> +	__this_cpu_sub(pcp, val)
+> +	__this_cpu_inc(pcp)
+> +	__this_cpu_dec(pcp)
+> +	__this_cpu_sub_return(pcp, val)
+> +	__this_cpu_inc_return(pcp)
+> +	__this_cpu_dec_return(pcp)
+> +
+> +
+> +将增加x，并且不会回退到在无法通过地址重定位和同一指令中的读取-修改-写入操作实现原
+> +子性的平台上禁用中断的代码。
+> +
+> +
+> +&this_cpu_ptr(pp)->n 对比 this_cpu_ptr(&pp->n)
+> +----------------------------------------------
+> +
+> +第一个操作使用偏移量并形成一个地址，然后再加上n字段的偏移量。这可能会导致编译器产
+> +生两条加法指令。
+> +
+> +第二个操作先加上两个偏移量，然后进行重定位。恕我直言，第二种形式看起来更干净，而
+> +且更容易与()结合。第二种形式也与this_cpu_read()和大家的使用方式一致。
+> +
+> +
+> +远程访问per cpu数据
+> +-------------------
+> +
+> +per cpu数据结构被设计为由一个CPU独占使用。如果您按预期使用变量，则this_cpu_ops()
+> +保证是“原子的”，因为没有其他CPU可以访问这些数据结构。
+> +
+> +在某些特殊情况下，您可能需要远程访问per cpu数据结构。通常情况下，进行远程读访问是
+> +安全的，这经常是为了统计计数器值。远程写访问可能会出现问题，因为this_cpu操作没有
+> +锁语义。远程写可能会干扰this_cpu RMW操作。
+> +
+> +除非绝对必要，否则强烈建议不要对percpu数据结构进行远程写访问。请考虑使用IPI来唤
+> +醒远程CPU，并对其per cpu区域进行更新。
+> +
+> +要远程访问per-cpu数据结构，通常使用per_cpu_ptr()函数::
+> +
+> +
+> +	DEFINE_PER_CPU(struct data, datap);
+> +
+> +	struct data *p = per_cpu_ptr(&datap, cpu);
+> +
+> +这清楚地表明，我们正准备远程访问percpu区域。
+> +
+> +您还可以执行以下操作以将datap偏移量转换为地址::
+> +
+> +	struct data *p = this_cpu_ptr(&datap);
+> +
+> +但是，将通过this_cpu_ptr计算的指针传递给其他cpu是不寻常的，应该避免。
+> +
+> +远程访问通常只用于读取另一个cpu的per cpu数据状态。由于this_cpu操作宽松的同步要求，
+> +写访问可能会导致独特的问题。
+
+奇特
+
+> +
+> +下面的情况说明了写入操作的一些问题，由于两个per cpu变量共享一个缓存行，但宽松的同
+> +步仅应用于更新缓存行的一个进程。
+> +
+> +考虑以下示例::
+> +
+> +
+> +	struct test {
+> +		atomic_t a;
+> +		int b;
+> +	};
+> +
+> +	DEFINE_PER_CPU(struct test, onecacheline);
+> +
+> +如果一个处理器远程更新字段'a'，而本地处理器将使用this_cpu ops来更新字段b，会发生
+
+``a`` ``b`` or a b or ‘a’ ‘b’
+just use a better style, depend on your mind.
+
+> +什么情况，这一点值得注意。应避免在同一缓存行内同时访问数据。此外，可能还需要进行
+> +代价高昂的同步。在这种情况下，通常建议使用IPI，而不是远程写入另一个处理器的
+> +per cpu区域。
+> +
+> +即使在远程写很少的情况下，请记住远程写将从最有可能访问它的处理器中逐出缓存行。如
+> +果处理器唤醒时发现per cpu区域缺少本地缓存行，其性能和唤醒时间将受到影响。
+> -- 
+> 2.31.1
+> 
+> 
+Thanks,
+	Wu
+
