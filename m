@@ -2,95 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A286C433FE
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Oct 2022 12:26:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F71AC4332F
+	for <linux-doc@archiver.kernel.org>; Sun, 16 Oct 2022 13:24:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229577AbiJPM0c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Oct 2022 08:26:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34976 "EHLO
+        id S229679AbiJPNX2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Oct 2022 09:23:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbiJPM0b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Oct 2022 08:26:31 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFA37357DD;
-        Sun, 16 Oct 2022 05:26:30 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id z20so8534260plb.10;
-        Sun, 16 Oct 2022 05:26:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7pNStEG1FkUfh4Si/j7M8p6afBo9Oypw8Af/t053Cwg=;
-        b=G/hYXwm0CNhdQl6LDzGSNFQiXU1KKYsY02F3Cdrb17AUvBw7cDzlWF36xpSLJ8ZhBS
-         5KBIooQGSXHYLJTZg1ohT5clZzYxVa610jYSoxTFuQfhcY1YbLKGuGKURyvUICoLmoef
-         Rdk7U0KMVyOR/FRkJ/M2pXCBqNy1ImmsRRF6GQKhC19rDrA3HyGHvHtcqjjqExS36Mva
-         RCivXpE0EP4/fzZRFQyI8dDvQCPtLtw+GIRPtyIlrVn1cNAznUgmvH7rCetS8F1KLfJ9
-         A7tWxA/fdjDqFf+LZo4QBr24T3OXmVc33yn6h2xzTd+Ar8ligTodPQMum/PviT6rS2oN
-         wQEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7pNStEG1FkUfh4Si/j7M8p6afBo9Oypw8Af/t053Cwg=;
-        b=eBzggk9GcIsMeo7nfB8E0Egp424ak1zNjlRuSWH2Qn0ldWMde9vuikDY4aHxrH1vqd
-         AaXuZu2ZrTpzU8DCwSea7mspvJLvgOzZu5OjDTskGnijQU3lI0A+E3SXZome/LhNuGR7
-         DDja6vBNqa9Llz/uLDTE4E7utv0BdXofj32QDmr85FDj44TUOnQ20DMLIUh9aXaP3dg6
-         NyfZjRt20l8jS823smgjTItNUZrORx8pIMRFUfXC7fyti49qTRQ5jOk6R18Ca7mJRFuo
-         15kC84SGvVsDIfZrbj/Vr4jEbE1fOFXv5cO3SZST+1beipI94Bhv8MCh0TBFOdUY1Egp
-         LPfQ==
-X-Gm-Message-State: ACrzQf3zUmnNu3yIAJd8D4XBow4OkgBMlMdwrPFxtRibVqBdsn0J5z7B
-        6is2mwYBwBNllJ+/liUNRRrti+nRkJk=
-X-Google-Smtp-Source: AMsMyM5GOyhNgPXUX5ftVQdF4dNSjxOH8qSlzvCgpktEmHmtN+k/5/ergje1cciHWqgY2+hsTA8JNg==
-X-Received: by 2002:a17:902:ced0:b0:17f:92d6:f5ec with SMTP id d16-20020a170902ced000b0017f92d6f5ecmr6703479plg.34.1665923190525;
-        Sun, 16 Oct 2022 05:26:30 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-46.three.co.id. [116.206.28.46])
-        by smtp.gmail.com with ESMTPSA id b3-20020a170903228300b0017f205d91d9sm4739774plh.118.2022.10.16.05.26.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Oct 2022 05:26:30 -0700 (PDT)
-Message-ID: <55fc0cc6-01fc-6b93-ce82-bad5452314d9@gmail.com>
-Date:   Sun, 16 Oct 2022 19:26:22 +0700
+        with ESMTP id S229661AbiJPNXM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Oct 2022 09:23:12 -0400
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 619C832DBB;
+        Sun, 16 Oct 2022 06:23:11 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id 2EDBE5C0065;
+        Sun, 16 Oct 2022 09:23:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Sun, 16 Oct 2022 09:23:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        joshtriplett.org; h=cc:cc:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm2; t=1665926588; x=
+        1666012988; bh=luOh1+tXqD7JMWO63diGmzw1lVMjKMj3+nXqqj2Jd70=; b=V
+        JKFc1tWmuQAc4v127ngF04vXL5JVjXdfS0zg5lUuQYjC87yz/n+NHZJ3PA3P+swu
+        /sTXP3WN9oxQZXh7mGYkbsK43JMklb7UNDDBh/mmasVfTKKd++Vrp5XCu3w20LYY
+        lJhXiHgwLRBRhbPE2hp+4gtBQluEZ3DSZZcDaAGGx060Mwsg5iUQrmT7U03H2ASc
+        EPpteLYSFDjLuqDXiVos4sWgMOMg+xecoHR+PvSOO+ZcBVbN5ozApw17wxse2nt2
+        +xn7vG0OKHhQradz7iny4eVeNvlqA5voxMDzf31Qq3S3d+EWEjywf4oG46IkBiDa
+        i+Gme8oJ/zPEqXAlBOGpQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1665926588; x=1666012988; bh=luOh1+tXqD7JMWO63diGmzw1lVMj
+        KMj3+nXqqj2Jd70=; b=pWHazTuKjzH67V5VKZSaxNo5eNnpEq19tt0JhIszsFg7
+        W+OLBVTRoT7/E0dNwKPdTlI60ZM+l9JjkfhLqC45UtiliY+WwOJCqoUm8r+9Ou3x
+        RMAyDMNb0ksTbzl4iwKtomOtkq3NH39NJI7uAdUY626QqEVDqrIu0XYU//ts0mVt
+        09LzGnAKAqXpjTD1I5s7mEMiv6w+QdgfenJiSBM2GHS+pn53bWXzNcRPaYcXQUiL
+        hh+H23qvIG3eDjvF9XGocMw5nZRhJA4SobGf0vKpXvfX99ykmqDVkV+pnEFhF0r2
+        teEebRoMa8kKHFkp+/EcvCGTihVclI2VQguqCTrNmQ==
+X-ME-Sender: <xms:uwVMYx5TEhV8OBMN34G-Tu6mFP0LThe1cgep69vCunD7bvdXX-14hw>
+    <xme:uwVMY-5zGFvesB4mJippybwvToIG0TuPTXS-tMdfMSBD0yVS48KqwIIvpEK7qLDlU
+    xvZ0mfPwfNzCDPE3NU>
+X-ME-Received: <xmr:uwVMY4eIWfy-hGyF_9sLbta4RjidQ5cjP9frgd4G1wV5KslxysteAzR2dH90>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeekjedgieegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheplfhoshhh
+    ucfvrhhiphhlvghtthcuoehjohhshhesjhhoshhhthhrihhplhgvthhtrdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeduieegheeijeeuvdetudefvedtjeefgeeufefghfekgfelfeet
+    teelvddtffetgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehjohhshhesjhhoshhhthhrihhplhgvthhtrdhorhhg
+X-ME-Proxy: <xmx:uwVMY6LXHxY8cOTSSJmJXWXP4jo72XYovaS_tr2nDXekK7f3OlHJ-w>
+    <xmx:uwVMY1Ig5og4cX74dxy3dpKrKnWKyY-YFUj9wRzkqK-j2WV2HCYekg>
+    <xmx:uwVMYzwLhHNm-Gu0ZpmaOTHIgL3QDmEOqEXhrGg1aMe18bmOD3mr4w>
+    <xmx:vAVMY8-gp3q3EUNtj94KoCGKsyeL2jm2m97mZYH-VHhxQAGUENnGwA>
+Feedback-ID: i83e94755:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 16 Oct 2022 09:23:06 -0400 (EDT)
+Date:   Sun, 16 Oct 2022 14:23:02 +0100
+From:   Josh Triplett <josh@joshtriplett.org>
+To:     Olliver Schinagl <oliver+list@schinagl.nl>
+Cc:     Gary Guo <gary@garyguo.net>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <Y0wFtj615KqqvGob@localhost>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
+ <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
+ <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
+ <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
+ <5c0bb1db-5589-32ca-ac22-4aafb3c15751@schinagl.nl>
+ <20220728112114.0000003a@garyguo.net>
+ <a4803f2e-2e46-1c7d-0e89-96f5cbb0ad11@schinagl.nl>
+ <00604162-9157-3862-b463-de90cb17c69a@schinagl.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH V2] x86/split_lock: Add sysctl to control the misery mode
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        hpa@zytor.com, luto@kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, kernel-dev@igalia.com,
-        kernel@gpiccoli.net, Andre Almeida <andrealmeid@igalia.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Joshua Ashton <joshua@froggi.es>,
-        Melissa Wen <mwen@igalia.com>,
-        Paul Gofman <pgofman@codeweavers.com>,
-        Pavel Machek <pavel@denx.de>,
-        Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Zebediah Figura <zfigura@codeweavers.com>
-References: <20221014180506.211592-1-gpiccoli@igalia.com>
- <Y0tz1/pR/s7+j6s+@debian.me>
-In-Reply-To: <Y0tz1/pR/s7+j6s+@debian.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00604162-9157-3862-b463-de90cb17c69a@schinagl.nl>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/16/22 10:00, Bagas Sanjaya wrote:
->  = ===================================================================
->  0 Disables the misery mode - just warns the split lock on kernel log.
-> -1 Enables the misery mode (this is the default) - penalizes the split
-> -  lockers with intentional performance degradation.
-> +1 Enables the misery mode (default)
->  = ===================================================================
->  
+On Sat, Oct 15, 2022 at 04:16:14PM +0200, Olliver Schinagl wrote:
+> +indent_style = "Visual"
 
-Oops, on the table above, s/Disables/Disable/ and s/Enables/Enable/.
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+Without commenting on the rest of this: visual indent style produces a
+*lot* of diff noise, and I'd strongly recommend against it. Because it
+lines things up, a change to one line can change many adjacent lines,
+and make it hard to see what actually changed.
