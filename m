@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6CEC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4670C433FE
 	for <linux-doc@archiver.kernel.org>; Sun, 16 Oct 2022 07:25:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229665AbiJPHZh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S229721AbiJPHZh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Sun, 16 Oct 2022 03:25:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51690 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbiJPHZg (ORCPT
+        with ESMTP id S229579AbiJPHZg (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Oct 2022 03:25:36 -0400
 Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 68C6432D92
-        for <linux-doc@vger.kernel.org>; Sun, 16 Oct 2022 00:25:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DD7C2326CA
+        for <linux-doc@vger.kernel.org>; Sun, 16 Oct 2022 00:25:33 -0700 (PDT)
 Received: from localhost.localdomain (unknown [112.20.109.239])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxPGvpsUtjHfMvAA--.43218S5;
-        Sun, 16 Oct 2022 15:25:33 +0800 (CST)
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxPGvpsUtjHfMvAA--.43218S4;
+        Sun, 16 Oct 2022 15:25:32 +0800 (CST)
 From:   Binbin Zhou <zhoubinbin@loongson.cn>
 To:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>,
         Wu XiangCheng <bobwxc@email.cn>
 Cc:     Huacai Chen <chenhuacai@loongson.cn>, linux-doc@vger.kernel.org,
         Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH 3/3] docs/zh_CN: core-api: Add errseq Chinese translation
-Date:   Sun, 16 Oct 2022 15:23:58 +0800
-Message-Id: <f33f5c0983d39e22e617673dbcafca5e610bd76d.1665130536.git.zhoubinbin@loongson.cn>
+Subject: [PATCH 2/3] docs/zh_CN: core-api: Add timekeeping Chinese translation
+Date:   Sun, 16 Oct 2022 15:23:57 +0800
+Message-Id: <d52639f0fb22ae941137d5c478cd021799182b5f.1665130536.git.zhoubinbin@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1665130536.git.zhoubinbin@loongson.cn>
 References: <cover.1665130536.git.zhoubinbin@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxPGvpsUtjHfMvAA--.43218S5
-X-Coremail-Antispam: 1UD129KBjvJXoWxtr4DKryrWFy7Cr1DuF43Awb_yoW3ur4kpr
-        nIyryfKF48XryDZrZ7Kr1DJr1kJa48WFs8Ga4xGFySqF1kArW5trs8Aw48Ja4fWry2ya4a
-        vr4FgrySyry2yw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUBq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
-        x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+X-CM-TRANSID: AQAAf8DxPGvpsUtjHfMvAA--.43218S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxuw47Jw48Kw47tF13CFy8Xwb_yoWftr1kpF
+        WSg3s3Gw47ZFW3GF47G398ur17K3ykAF47X3s2ga4Skr18ta48tF4qkryrKry7ArWDCrW0
+        9ayIvF1F9r12vrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBq14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+        x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
         Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
         ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
         e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
@@ -48,188 +48,221 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxtr4DKryrWFy7Cr1DuF43Awb_yoW3ur4kpr
         x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrw
         CI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI
         42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
-        80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbfgA5UUUUU==
+        80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUUJ3ktUUUUU==
 X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate core-api/errseq.rst into Chinese.
+Translate core-api/timekeeping.rst into Chinese.
 
 Last English version used:
 
-commit 14ebc28e07e6 ("errseq: Add to documentation tree").
+commit 3dc6ffae2da2 ("timekeeping: Introduce fast accessor to clock tai").
 
 Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
 ---
- .../translations/zh_CN/core-api/errseq.rst    | 141 ++++++++++++++++++
- .../translations/zh_CN/core-api/index.rst     |   5 -
- 2 files changed, 141 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/errseq.rst
+ .../translations/zh_CN/core-api/index.rst     |   2 +-
+ .../zh_CN/core-api/timekeeping.rst            | 172 ++++++++++++++++++
+ 2 files changed, 173 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/timekeeping.rst
 
-diff --git a/Documentation/translations/zh_CN/core-api/errseq.rst b/Documentation/translations/zh_CN/core-api/errseq.rst
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index 21d0b25bc580..d08091036066 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -49,12 +49,12 @@
+    generic-radix-tree
+    packing
+    this_cpu_ops
++   timekeeping
+ 
+ Todolist:
+ 
+ 
+ 
+-   timekeeping
+    errseq
+ 
+ 并发原语
+diff --git a/Documentation/translations/zh_CN/core-api/timekeeping.rst b/Documentation/translations/zh_CN/core-api/timekeeping.rst
 new file mode 100644
-index 000000000000..1f8d3aef4bbf
+index 000000000000..e7f9adf2525c
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/errseq.rst
-@@ -0,0 +1,141 @@
++++ b/Documentation/translations/zh_CN/core-api/timekeeping.rst
+@@ -0,0 +1,172 @@
 +.. SPDX-License-Identifier: GPL-2.0+
 +
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/core-api/errseq.rst
++:Original: Documentation/core-api/timekeeping.rst
 +
 +:翻译:
 +
 + 周彬彬 Binbin Zhou <zhoubinbin@loongson.cn>
 +
-+================
-+errseq_t数据类型
-+================
++ktime访问器
++===========
 +
-+errseq_t是一种在一个地方记录错误的方法，并允许任意数量的“订阅者”判断自上次采样点
-+以来是否发生了变化。
++设备驱动程序可以使用ktime_get()和linux/timekeeping.h中声明的许多相关函数读取当前
++时间。根据经验，如果两者都同样适合特定用例，则使用名称较短的访问器优于名称较长的
++访问器。
 +
-+最初的用例是跟踪文件同步系统调用（fsync, fdatasync, msync和sync_file_range）的错
-+误，但它也可以用于其他情况。
++基于ktime_t的基础接口
++---------------------
 +
-+它被实现为一个无符号的32位值。低位被指定保存错误代码（在1和MAX_ERRNO之间）。高位
-+用作计数器。这里是用原子操作而不是锁来完成的，因此可以从任何上下文中调用这些函数。
++推荐的最简单形式返回不透明的ktime_t，其变体返回不同时钟参考的时间：
 +
-+请注意，如果频繁记录新错误，则存在冲突风险，因为我们用作计数器的位很少。
++.. c:function:: ktime_t ktime_get( void )
 +
-+为了缓解这种情况，错误值和计数器之间的位被用作一个标志，以判断自记录新值以来是否
-+对该值进行了采样。这使我们能够避免在上次记录错误后没有人取样的情况下碰撞计数器。
++	CLOCK_MONOTONIC
 +
-+因此，我们得到了一个类似这样的值：
++        对可靠的时间戳和准确测量短的时间间隔很有用。在系统启动时启动，但在挂起时
++        停止。
 +
-++--------------------------------------+------+------------------------+
-+| 31..13                               |  12  | 11..0                  |
-++--------------------------------------+------+------------------------+
-+| 计数器                               | 标志 | 错误值                 |
-++--------------------------------------+------+------------------------+
++.. c:function:: ktime_t ktime_get_boottime( void )
 +
-+总体思路是让“观察者”对errseq_t值进行采样，并将其保留为运行游标。该值稍后可用于判
-+断自采样完成后是否发生了任何新错误，并原子地记录检查时的状态。这使得我们能在一个
-+地方记录错误，然后有许多“观察者”可以判断自上次检查以来该值是否发生了变化。
++	CLOCK_BOOTTIME
 +
-+新的errseq_t应始终清零。全零的errseq_t值是从未出现错误的特殊（但常见）情况。因此，
-+如果您希望知道自首次初始化以来是否曾经有过错误集，则全零值被用作“纪元”。
++        与ktime_get()类似，但在挂起时不会停止。这可以用于例如需要在挂起操作中与其
++        他计算机同步的密钥过期时间。
 +
-+API的使用方法
-+=============
++.. c:function:: ktime_t ktime_get_real( void )
 +
-+让我给你们讲一个关于员工drone的故事。现在，他总体上是个好员工，但公司有点...管理
-+繁重。他今天必须向77名主管汇报，明天“大老板”要从外地赶来，他肯定也会考验这个可怜
-+的家伙。
++	CLOCK_REALTIME
 +
-+他们都把工作交给他去做---多到他都记不住谁交给他什么了，但这并不是什么大问题。主管
-+们只想知道他什么时候完成他们迄今为止交给他的所有工作，以及自从他们上次询问以来他
-+是否犯了任何错误。
++        使用协调世界时(UTC)返回相对于1970年开始的UNIX纪元的时间，与用户空间的
++        gettimeofday()相同。该函数用于所有需要在重启时持续存在的时间戳，比如
++        inode时间，但应避免在内部使用，因为它可能由于闰秒更新和来自用户空间的NTP
++        调整settimeofday()操作而向后跳转。
 +
-+他可能在他们实际上并没有交给他的工作上犯了错误，但他无法在那么详细的层面上记录事
-+情，他所能记得的只是他最近犯的错误。
++.. c:function:: ktime_t ktime_get_clocktai( void )
 +
-+下面是我们worker_drone的表达式::
++	 CLOCK_TAI
 +
-+        struct worker_drone {
-+                errseq_t        wd_err; /* 用来记录错误 */
-+        };
++        与ktime_get_real()类似，但使用国际原子时(TAI)作为参考而不是UTC，以避免在
++        闰秒更新时跳转。这在内核中很少有用。
 +
-+每天，worker_drone都是以一张白纸开始的::
++.. c:function:: ktime_t ktime_get_raw( void )
 +
-+        struct worker_drone wd;
++	CLOCK_MONOTONIC_RAW
 +
-+        wd.wd_err = (errseq_t)0;
++        与ktime_get()类似，但以与硬件时钟源相同的速率运行，无需针对时钟漂移进行调
++        整(NTP)。这在内核中也很少需要。
 +
-+主管们进来后对当天的工作进行初步了解。他们并不关心在他们观察开始之前发生的任何事
-+情::
++纳秒，timespec64和秒钟的输出
++----------------------------
 +
-+        struct supervisor {
-+                errseq_t        s_wd_err; /* wd_err的私有“游标” */
-+                spinlock_t      s_wd_err_lock; /* 保护s_wd_err */
-+        }
++对于上述所有情况，以下函数变体会根据用户的要求以不同的格式返回时间：
 +
-+        struct supervisor       su;
++.. c:function:: u64 ktime_get_ns( void )
++		u64 ktime_get_boottime_ns( void )
++		u64 ktime_get_real_ns( void )
++		u64 ktime_get_clocktai_ns( void )
++		u64 ktime_get_raw_ns( void )
 +
-+        su.s_wd_err = errseq_sample(&wd.wd_err);
-+        spin_lock_init(&su.s_wd_err_lock);
++        与普通的ktime_get函数相同，但返回各自时钟参考中的u64纳秒数，这对某些调用
++        者来说可能更方便。
 +
-+现在他们开始给他布置任务。每隔几分钟，他们就要求他完成迄今为止交给他的所有工作。
-+然后问他是否有犯任何错误::
++.. c:function:: void ktime_get_ts64( struct timespec64 * )
++		void ktime_get_boottime_ts64( struct timespec64 * )
++		void ktime_get_real_ts64( struct timespec64 * )
++		void ktime_get_clocktai_ts64( struct timespec64 * )
++		void ktime_get_raw_ts64( struct timespec64 * )
 +
-+        spin_lock(&su.su_wd_err_lock);
-+        err = errseq_check_and_advance(&wd.wd_err, &su.s_wd_err);
-+        spin_unlock(&su.su_wd_err_lock);
++        同上，但返回的是'struct timespec64'中的时间，分为秒和纳秒。这可以避免在打
++        印时间时，或在将其传递到期望有'timespec'或'timeval'结构的外部接口时，进行
++        额外的划分。
 +
-+到目前为止，它只是不断返回0。
++.. c:function:: time64_t ktime_get_seconds( void )
++		time64_t ktime_get_boottime_seconds( void )
++		time64_t ktime_get_real_seconds( void )
++		time64_t ktime_get_clocktai_seconds( void )
++		time64_t ktime_get_raw_seconds( void )
 +
-+现在，这家公司的老板非常吝啬，给了他不合格的设备来完成他的工作。偶尔设备会出现故
-+障，导致他犯错。他重重地叹了一口气，并把它记录下来::
++        将时间的粗粒度版本作为标量time64_t返回。 这避免了访问时钟硬件，并使用相应
++        的参考将秒数舍入到最后一个计时器滴答的完整秒数。
 +
-+        errseq_set(&wd.wd_err, -EIO);
++粗略的和fast_ns访问
++-------------------
 +
-+...然后继续工作。主管们最终会再次检查，他们在下次检查时都会发现这个错误。后续的调
-+用将返回0，直到记录下另一个错误，此时将向每个调用报告一次。
++对于更专业的情况，存在一些额外的变体：
 +
-+请注意，主管们无法知道他们犯了多少错误，只能知道自上次检查以来是否犯了一个错误，
-+以及记录的最新值。
++.. c:function:: ktime_t ktime_get_coarse( void )
++		ktime_t ktime_get_coarse_boottime( void )
++		ktime_t ktime_get_coarse_real( void )
++		ktime_t ktime_get_coarse_clocktai( void )
 +
-+偶尔，大老板会来抽查，要求员工为他做一次性的工作。他并不像主管们那样全职观察员工，
-+但他确实需要知道在他的工作处理过程中是否发生了错误。
++.. c:function:: u64 ktime_get_coarse_ns( void )
++		u64 ktime_get_coarse_boottime_ns( void )
++		u64 ktime_get_coarse_real_ns( void )
++		u64 ktime_get_coarse_clocktai_ns( void )
 +
-+他只需对员工当前的errseq_t进行采样，然后用它来判断后来是否发生了错误::
++.. c:function:: void ktime_get_coarse_ts64( struct timespec64 * )
++		void ktime_get_coarse_boottime_ts64( struct timespec64 * )
++		void ktime_get_coarse_real_ts64( struct timespec64 * )
++		void ktime_get_coarse_clocktai_ts64( struct timespec64 * )
 +
-+        errseq_t since = errseq_sample(&wd.wd_err);
-+        /* 提交一些工作，等待完成 */
-+        err = errseq_check(&wd.wd_err, since);
++        他们比非粗略版本更快，但精度较低，对应于用户空间中的CLOCK_MONOTONIC_COARSE
++        和CLOCK_REALTIME_COARSE，以及用户空间不可用的等效boottime/tai/raw的时间基准。
 +
-+由于他只是要在那个点之后丢弃“since”，所以他不需要在这里推进它。同时他也不需要任何
-+锁，因为它不能被其他人使用。
++        此处返回的时间对应于最后一个计时器滴答，过去可能高达10毫秒（对于CONFIG_HZ=100），
++        与读取'jiffies'变量相同。 这些只有在快速路径中调用时才有用，并且人们仍然
++        期望精度优于秒，但不能轻易使用'jiffies'，例如用于inode时间戳。在大多数具
++        有可靠周期计数器的现代机器上，跳过硬件时钟访问可以节省大约100个CPU周期，
++        但在具有外部时钟源的旧硬件上，最多可以节省几微秒。
 +
-+序列化更新errseq_t游标
-+======================
++.. c:function:: u64 ktime_get_mono_fast_ns( void )
++		u64 ktime_get_raw_fast_ns( void )
++		u64 ktime_get_boot_fast_ns( void )
++		u64 ktime_get_tai_fast_ns( void )
++		u64 ktime_get_real_fast_ns( void )
 +
-+请注意，errseq_t API在check_and_advance_operation期间不保护errseq_t游标。只有典型
-+的错误代码是被原子化处理的。在多任务同时使用同一个errseq_t游标的情况下，对该游标
-+的更新进行序列化是很重要的。
++        这些变体可以安全地从任何上下文中调用，包括在计时器更新期间从不屏蔽中断（NMI）
++        调用，以及当我们在时钟源断电的情况下进入挂起状态时。这在某些跟踪或调试代
++        码以及机器检查报告中很有用，但大多数驱动程序不应调用它们，因为在某些情况
++        下时间是允许跳跃的
 +
-+如果不这样做，那么游标就有可能向后移动。在这种情况下，同一个错误可能被报告多次。
++已废弃的时钟接口
++----------------
 +
-+因此，通常先执行errseq_check检查是否有任何变化，然后在获取锁后才执行
-+errseq_check_and_advance。例如::
++较早的内核使用了一些其他接口，这些接口现在正在逐步被淘汰，但可能会出现在被移植到
++的第三方驱动中。特别是，所有返回"struct timeval"或"struct timespec"的接口都已被替
++换，因为在32位架构上，tv_sec成员会在2038年溢出。下面是推荐的替换函数:
 +
-+        if (errseq_check(&wd.wd_err, READ_ONCE(su.s_wd_err)) {
-+                /* su.s_wd_err被s_wd_err_lock保护 */
-+                spin_lock(&su.s_wd_err_lock);
-+                err = errseq_check_and_advance(&wd.wd_err, &su.s_wd_err);
-+                spin_unlock(&su.s_wd_err_lock);
-+        }
++.. c:function:: void ktime_get_ts( struct timespec * )
 +
-+这就避免了自上次检查以来没有任何变化的常见情况下的自旋锁。
++        用ktime_get()或者ktime_get_ts64()替换。
 +
-+函数
-+====
++.. c:function:: void do_gettimeofday( struct timeval * )
++		void getnstimeofday( struct timespec * )
++		void getnstimeofday64( struct timespec64 * )
++		void ktime_get_real_ts( struct timespec * )
 +
-+该API在以下内核代码中:
++        ktime_get_real_ts64()可以直接替代，但可以考虑使用单调的时间（ktime_get_ts64()）
++        和/或基于ktime_t的接口（ktime_get()/ktime_get_real()）。
 +
-+lib/errseq.c
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index d08091036066..8b19c6ae9704 100644
---- a/Documentation/translations/zh_CN/core-api/index.rst
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -50,11 +50,6 @@
-    packing
-    this_cpu_ops
-    timekeeping
--
--Todolist:
--
--
--
-    errseq
- 
- 并发原语
++.. c:function:: struct timespec current_kernel_time( void )
++		struct timespec64 current_kernel_time64( void )
++		struct timespec get_monotonic_coarse( void )
++		struct timespec64 get_monotonic_coarse64( void )
++
++        这些被ktime_get_coarse_real_ts64()和ktime_get_coarse_ts64()取代。然而，许
++        多需要粗粒度时间的代码可以使用简单的“jiffies”来代替，而现在一些驱动程序实
++        际上可能需要更高分辨率的访问器。
++
++.. c:function:: struct timespec getrawmonotonic( void )
++		struct timespec64 getrawmonotonic64( void )
++		struct timespec timekeeping_clocktai( void )
++		struct timespec64 timekeeping_clocktai64( void )
++		struct timespec get_monotonic_boottime( void )
++		struct timespec64 get_monotonic_boottime64( void )
++
++        这些被ktime_get_raw()/ktime_get_raw_ts64()，
++        ktime_get_clocktai()/ktime_get_clocktai_ts64()
++        以及ktime_get_boottime()/ktime_get_boottime_ts64()取代。但是，如果时钟源
++        的特定选择对用户来说并不重要，请考虑转换为ktime_get()/ktime_get_ts64()以
++        保持一致性。
 -- 
 2.31.1
 
