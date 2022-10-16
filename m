@@ -2,104 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB99DC433FE
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Oct 2022 01:50:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93F45C4332F
+	for <linux-doc@archiver.kernel.org>; Sun, 16 Oct 2022 03:00:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229622AbiJPBuU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 15 Oct 2022 21:50:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51994 "EHLO
+        id S229463AbiJPDAv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 15 Oct 2022 23:00:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbiJPBuT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Oct 2022 21:50:19 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EB063641A;
-        Sat, 15 Oct 2022 18:50:19 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id f193so7660338pgc.0;
-        Sat, 15 Oct 2022 18:50:19 -0700 (PDT)
+        with ESMTP id S229600AbiJPDAt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Oct 2022 23:00:49 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1178330F78;
+        Sat, 15 Oct 2022 20:00:47 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id f140so8300119pfa.1;
+        Sat, 15 Oct 2022 20:00:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q/1BdzxeIg7w9gIlh2BqBXfrVYmSA9tAnQeElbhlBoI=;
-        b=qMqY5heCSen56xVKaV/5wzpUM1FqNEyD3JnmsD6Yr0QpNL4zchlWhWXmEEG6qXkNqB
-         rsIRo6UzWGPM5gyZPwcuv5XMk/BhLjSHoSrJ4Vmx/iR+imJD7dQN6k1dz8WlyLrFetNp
-         1Xq8FpZ7J7ATVRgW5xB4aHvUT6cyFcY7WktQstKrftc2Uk+8QlFSHvFz6XBN8sTs6P2/
-         IBwfXob2A//EO4xdltfYynWnJYSlNpEWJZeK+137p1ufa0bbwZbiZ+6iKVVBVwWuEU/e
-         zfEVhPxBZ+VM5GaqU3tgeqRLu/r+5yjOUlNoE0ydNUDonlmISw4XH9Qp6ZhFkNY7ndub
-         2gkw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wlvcEO+9PuSxbYdnGHPlMieasZnmCuZRr7tjo+EUTZ4=;
+        b=P7NF8G5OgZyMs2lCZSBkOvR/NVRTzKz1T2eYLDHuKbhwtjwonlgFMFWUpADU1c/mMi
+         JGHGKgG2aQagSs4iMMMDWtXoq3M+vrk4ushuFj4L+7MS21sD39vtKXBYu8rJ1vkbR5Jn
+         wTF8hpWtkaB3aU2ruPg1bWgT4S7nQjbjd72zCYDoUgXuQdffGdKaF5bsUaBfI8Igt2Fo
+         oxwBr46LzB845bqeGzK5hxZva1MFWCigVKJ36zMO3/1TN+KmWbOsr7IaKZyttcQ/kBxQ
+         c5ZFTn5UPG3AngP+ADZkP3iRlXl8i7MC7HC7ae4T9TD6QE5XeFXeJZTzmN7ioYdurNdN
+         hZ1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q/1BdzxeIg7w9gIlh2BqBXfrVYmSA9tAnQeElbhlBoI=;
-        b=iYgtgOArt2KGrutmMnM57yQlQbLqhcfxKB58ZPuGQXlZT9OK/dGSfPnW8K8GVB2y7Q
-         oie7a29+gNNg3afo+37pmMFOdApJlby8hYj6AtF+wvMahyPDqMjPmr8Ms5QBdTPdLMGO
-         T0qElHljjw2tzjg0bQXXwGPI/7/zR8aU1Bj9QZyiIGbF2BR5WLhj4CJ5TPgyjSONOoF9
-         w0gviwlHvYqUy/Q+OiZlR3Seyu52zmciDk7Uy1XpV0kVKHxgyjHDLlQ6vE728cioSygM
-         HtlXJqAmBt+nbWuCk/gYOCfJPZVCScF3/4sPBKkKT5A2shE22jPaP9F0Ov5B4mjEQpe9
-         qCGQ==
-X-Gm-Message-State: ACrzQf2Broxeb+NEz/Hp6m+h8faUyY+7d7BKCnTcZIakNWNdGmFxXQX/
-        kRzVo+Z4gY8KCEOUIRNYdn8=
-X-Google-Smtp-Source: AMsMyM6EaDNCx6y52k83yvupZzhX/2k4t/GRJ2q6pnJs+cvSRjSeD6ngwAH4M5tfeXmXuY5twxPGKA==
-X-Received: by 2002:a63:5a08:0:b0:43c:9fcc:cc54 with SMTP id o8-20020a635a08000000b0043c9fcccc54mr4753029pgb.229.1665885018679;
-        Sat, 15 Oct 2022 18:50:18 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-23.three.co.id. [180.214.232.23])
-        by smtp.gmail.com with ESMTPSA id mv6-20020a17090b198600b001f559e00473sm7095864pjb.43.2022.10.15.18.50.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Oct 2022 18:50:18 -0700 (PDT)
-Message-ID: <7c888efc-4b02-3470-8659-9922774f4fa7@gmail.com>
-Date:   Sun, 16 Oct 2022 08:50:14 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Content-Language: en-US
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wlvcEO+9PuSxbYdnGHPlMieasZnmCuZRr7tjo+EUTZ4=;
+        b=Vv2wlhkxeh2rGVWbXCYKqE1Po0DyMJkgdV4A/VSCa25csBgomGszMZLcvYEwSAukbn
+         6lfyk4CikmNRDCY7WuplCEOOjxEDVLN2oYfvK4n8+d1oAw7fsl3eHtIcjqvYVM3Q8o3y
+         vD33y5juOFiA+lPxp4DNzdWWCrI4W+y77iQUY/EZYu+bZPqcifZURHbYpx27gjdg+548
+         G9irr4PNMhwmz6yZqD8zyq7cfmCWkMMkWiNcGJThFaFCsJo2SOkN5q+e9fwiDgjOybuU
+         niL96TAO/TFueC+e3cHzdctq/ejKypQLncIfrm4c3oj8dFxQFYUxzkJvmtFTnmuCxJb9
+         Zj2A==
+X-Gm-Message-State: ACrzQf2GInYH8ukxKEV+8jXt+dKhyl2V/LWLLhuPSk7K7DR/3eNfIdVg
+        UOhvAB2QH1BTFVpXhsu3PzSHRKAwEcmJ/PiL
+X-Google-Smtp-Source: AMsMyM42HQvhN4Qf6kQM8OJ+sUZIakw4oPOV1cPWpFPNK5DdKUsuaswK+xNBZONlOJxGf19T61mezw==
+X-Received: by 2002:a63:4426:0:b0:464:4e1d:80e3 with SMTP id r38-20020a634426000000b004644e1d80e3mr5006879pga.106.1665889246467;
+        Sat, 15 Oct 2022 20:00:46 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-3.three.co.id. [180.214.232.3])
+        by smtp.gmail.com with ESMTPSA id g3-20020a656cc3000000b004588814ca73sm3684189pgw.21.2022.10.15.20.00.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Oct 2022 20:00:45 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 3853010026B; Sun, 16 Oct 2022 10:00:39 +0700 (WIB)
+Date:   Sun, 16 Oct 2022 10:00:39 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Olliver Schinagl <oliver+list@schinagl.nl>,
-        Gary Guo <gary@garyguo.net>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
- <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
- <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
- <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
- <5c0bb1db-5589-32ca-ac22-4aafb3c15751@schinagl.nl>
- <20220728112114.0000003a@garyguo.net>
- <a4803f2e-2e46-1c7d-0e89-96f5cbb0ad11@schinagl.nl>
- <00604162-9157-3862-b463-de90cb17c69a@schinagl.nl>
- <0cd7ad6a-7b70-2b09-9f17-40ffbc17a7fa@gmail.com>
-In-Reply-To: <0cd7ad6a-7b70-2b09-9f17-40ffbc17a7fa@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        hpa@zytor.com, luto@kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, kernel-dev@igalia.com,
+        kernel@gpiccoli.net, Andre Almeida <andrealmeid@igalia.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Joshua Ashton <joshua@froggi.es>,
+        Melissa Wen <mwen@igalia.com>,
+        Paul Gofman <pgofman@codeweavers.com>,
+        Pavel Machek <pavel@denx.de>,
+        Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Zebediah Figura <zfigura@codeweavers.com>
+Subject: Re: [PATCH V2] x86/split_lock: Add sysctl to control the misery mode
+Message-ID: <Y0tz1/pR/s7+j6s+@debian.me>
+References: <20221014180506.211592-1-gpiccoli@igalia.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="he7fAmT252Uv1Vmd"
+Content-Disposition: inline
+In-Reply-To: <20221014180506.211592-1-gpiccoli@igalia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/16/22 08:44, Bagas Sanjaya wrote:
-> 
-> I have to say two advices:
-> 
-> First, don't top-post. I don't know what context you're replying to
-> (in fact I have to cut the reply context below your message).
-> 
-> Second, please post the patch inline, not attached. git format-patch +
-> git send-email should suffice.
-> 
 
-Oh, I forget to mention this. Is it RFC? If so, you need to specify
---subject-prefix="RFC PATCH" to git format-patch.
+--he7fAmT252Uv1Vmd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Oct 14, 2022 at 03:05:06PM -0300, Guilherme G. Piccoli wrote:
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/=
+admin-guide/sysctl/kernel.rst
+> index ee6572b1edad..508952e42914 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -1298,6 +1298,24 @@ watchdog work to be queued by the watchdog timer f=
+unction, otherwise the NMI
+>  watchdog =E2=80=94 if enabled =E2=80=94 can detect a hard lockup conditi=
+on.
+> =20
+> =20
+> +split_lock_mitigate (x86 only)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+
+The heading underline above is too short (doesn't cover the whole text
+length), so I have applied the fixup:
+
+---- >8 ----
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/ad=
+min-guide/sysctl/kernel.rst
+index c733d424d4e830..4824cfed71ab31 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1315,7 +1315,7 @@ watchdog =E2=80=94 if enabled =E2=80=94 can detect a =
+hard lockup condition.
+=20
+=20
+ split_lock_mitigate (x86 only)
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+=20
+ For x86 CPUs supporting the split lock detection mechanism, this parameter
+ allows the users to turn off what is called "the misery mode", which
+
+> +For x86 CPUs supporting the split lock detection mechanism, this paramet=
+er
+> +allows the users to turn off what is called "the misery mode", which
+> +introduces intentional delay in userspace applications that split locks.
+> +The goal of the misery mode is to prevent using such unaligned access to
+> +DoS the system dropping the performance overall, but some of these split
+> +locking programs are legacy and/or proprietary software that cannot be f=
+ixed,
+> +so using this sysctl is a way to allow them to run with a decent perform=
+ance.
+> +
+> +=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +0 Disables the misery mode - just warns the split lock on kernel log.
+> +1 Enables the misery mode (this is the default) - penalizes the split
+> +  lockers with intentional performance degradation.
+> +=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +
+>  stack_erasing
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+
+The wording can be improved:
+
+---- >8 ----
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/ad=
+min-guide/sysctl/kernel.rst
+index 4824cfed71ab31..961c19f4beae51 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1320,15 +1320,15 @@ split_lock_mitigate (x86 only)
+ For x86 CPUs supporting the split lock detection mechanism, this parameter
+ allows the users to turn off what is called "the misery mode", which
+ introduces intentional delay in userspace applications that split locks.
+-The goal of the misery mode is to prevent using such unaligned access to
+-DoS the system dropping the performance overall, but some of these split
+-locking programs are legacy and/or proprietary software that cannot be fix=
+ed,
+-so using this sysctl is a way to allow them to run with a decent performan=
+ce.
++The goal of this mode is to prevent using such unaligned access to
++drop the overall performance (and DoS the system). However, some of progra=
+ms
++which uses split locking are legacy and/or proprietary software that cannot
++be fixed, so disabling this sysctl can allow them to run with a decent
++performance.
+=20
+ =3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ 0 Disables the misery mode - just warns the split lock on kernel log.
+-1 Enables the misery mode (this is the default) - penalizes the split
+-  lockers with intentional performance degradation.
++1 Enables the misery mode (default)
+ =3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+=20
 Thanks.
 
--- 
+--=20
 An old man doll... just what I always wanted! - Clara
 
+--he7fAmT252Uv1Vmd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY0tzzgAKCRD2uYlJVVFO
+o1cgAQDd/HW8c+Qs9uusV20c8oAtnOt6/XUnT+jKgpaIiu/fCAEAmcW8ipB1AlKn
+0Hgwi+pK4l9GDZm9Y85pbhEVqk+mVwQ=
+=fqhd
+-----END PGP SIGNATURE-----
+
+--he7fAmT252Uv1Vmd--
