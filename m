@@ -2,245 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB688C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 03:57:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62E7CC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 06:10:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232927AbiJQD5w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Oct 2022 23:57:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51126 "EHLO
+        id S229837AbiJQGKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 02:10:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232918AbiJQD5t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Oct 2022 23:57:49 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97CC952DE4
-        for <linux-doc@vger.kernel.org>; Sun, 16 Oct 2022 20:57:48 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id o64so10861858oib.12
-        for <linux-doc@vger.kernel.org>; Sun, 16 Oct 2022 20:57:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J2ulezN6n3fW4gIR3MRedZj9xrarrQsVwftkxYuRwq0=;
-        b=IrfIKt+5y/gs6W6ELxgNmFqmXXCX21BkPpZpsiinawkTYbBOqTr8cuBU2GqSLwKgKH
-         nEl7Cd4hWozyq4p65tSBUnR29k9HD0aLGtWQatQs68vp+OS5UI2sQAvQYxyUEaRiFW7X
-         YjFgUEJzhsqE3iOS7LZzHNzEmRldSQvBbtXyI=
+        with ESMTP id S230136AbiJQGKD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 02:10:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFBD52DAB5
+        for <linux-doc@vger.kernel.org>; Sun, 16 Oct 2022 23:10:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665986999;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=v20PsHQp4Qr88/YGRnhqDCcY6Y/q2BfOq83xhjsjfWE=;
+        b=g792YOxNNELLHGMCvgHen3fZ+AAnmOaglvU1UfKi4SO90tifa7JEnG4yDSlpYdmcGLABrW
+        dn6mYSZW2fOm8sgAjXBi/efFPP3eabFe2iay/uXI1S06N3GEYQLjHxorORNb0o63NnDeVS
+        AJH6Z41dc8/5cfpGtGOqlri1VdD0DRA=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-267-CuPYGkwGPxS85oNcuTa7eA-1; Mon, 17 Oct 2022 02:09:57 -0400
+X-MC-Unique: CuPYGkwGPxS85oNcuTa7eA-1
+Received: by mail-ot1-f70.google.com with SMTP id q7-20020a05683022c700b006619497e589so4631447otc.22
+        for <linux-doc@vger.kernel.org>; Sun, 16 Oct 2022 23:09:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J2ulezN6n3fW4gIR3MRedZj9xrarrQsVwftkxYuRwq0=;
-        b=Zu4xgZFb1uNIdUQjKzQKer1hYAlDw2Mf/jRtvl8lXAk7E8VO8R24LYrftMxdUGxYp6
-         VEvNrrhh4jVYeAcoLVOTd4fSJxH3wsGh8dZSz2D57t8bhQVaIQrbyynd5kRp7BFzwQx3
-         GDjBf1q9jhFtx6Bage2S1tnImuDOj+Nq9mQqg58FAcVMrFpN9WZl5GDmMkdcG+5Tm6rE
-         oTEixsizSu/IZg3LvPjZXiCBwhdvIorpfBPyNEfCw87A7bU5otD5NtbzWj0G8ZvTjVjE
-         g0I7nKu4U+3LH7orAdP+dxCfIi8dLw+zztImKsMIYV2i6J0Oqu3KNt0abloTxgf8hQ0D
-         1X2Q==
-X-Gm-Message-State: ACrzQf0ZNZ3KFajsKXABS5FbIruF5Kfq0HrOYWdY3JFR1/Q/j0KTOwC9
-        ZtqT/NoX+m/0T+MAb3PB/nYplYaOkJ16vw==
-X-Google-Smtp-Source: AMsMyM7vddG6dOUiDylAVSCIKgAkDA56A+COZS0XgOWAeI6xldp2N43JIycYvHh7kxOXsmMR4rHQOQ==
-X-Received: by 2002:a17:90b:1a88:b0:20d:8df0:ac63 with SMTP id ng8-20020a17090b1a8800b0020d8df0ac63mr27792670pjb.206.1665979057231;
-        Sun, 16 Oct 2022 20:57:37 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q9-20020a638c49000000b0041cd5ddde6fsm5303878pgn.76.2022.10.16.20.57.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Oct 2022 20:57:36 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] overflow: Fix kern-doc markup for functions
-Date:   Sun, 16 Oct 2022 20:57:32 -0700
-Message-Id: <20221017035732.1968394-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.34.1
+        bh=v20PsHQp4Qr88/YGRnhqDCcY6Y/q2BfOq83xhjsjfWE=;
+        b=dSAj1UnAz49T2klXpw/P29VC5PE/5AR2eRNhkmguXLU7NiVsgOvcQwhEve4DYVffBv
+         8ugqsHbE8XdM6phSy3Sgel+0gUqPE2Vm93NJmzT3CMYVPW1xfWJs+VOehhceXuPaLSDy
+         iPwkRxeoFv9uEk7v8mDvftrAUy0k4q8zzUbiIqogWeR9zqNiNeBgTfrhSQfKhpKgAeWv
+         lK0PO/q6ZdAnlm5tlQ+ac4miCPIVqVLMGXlGSZKUSbwUK896GU2eJLD7wj/IelnVpF4w
+         PHpLnsyO6Ba9JxvIr/+DtGIlkbO4wyrO3R7Ihi3qmkvuEj5N/7hIR/i6iPGZJoe6ZTqy
+         lOwg==
+X-Gm-Message-State: ACrzQf3u4jxjzU1Vut/vxkp6zHS8KkPU+9d/Wz5lp8u0e0mcNrelNzfF
+        avEyyWkKoG346l/34J9QeX8PRm7e3mLnnvaRLGtSH4gPpXS99pMDKK65mRrcqlkL+Ij+KNqQIF6
+        15GY95ZY6ArR8FGVp+QxspZVcGDWMo/JFzlI0
+X-Received: by 2002:a05:6870:c1d3:b0:136:c4f6:53af with SMTP id i19-20020a056870c1d300b00136c4f653afmr14165197oad.35.1665986997263;
+        Sun, 16 Oct 2022 23:09:57 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM41XKqiAwqq1+LJqy0pjBH7CDaaGUaBJECgFukJbjvEBs+g6HV7XQp1KrgniibZS6klAviHK6cZxtQfuDC2mw8=
+X-Received: by 2002:a05:6870:c1d3:b0:136:c4f6:53af with SMTP id
+ i19-20020a056870c1d300b00136c4f653afmr14165187oad.35.1665986997103; Sun, 16
+ Oct 2022 23:09:57 -0700 (PDT)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6343; h=from:subject; bh=7HZx7BtD5Vm36kdgMSNdrMiBfAsCzfUGxVyegNLLZ9E=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjTNKsNIHA2/VImzICGTlQN0giQB5nJcAk3AuFTsUZ jSgIQZKJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCY0zSrAAKCRCJcvTf3G3AJtZIEA CGY/xs8MySMZNcXSPPFAcGiSWNGjSC4m00Deka94ljVZ0wj7SL7P55rmlOEvabeNtbEKG9cK8L8NlA tFY2D6NRbSI6q30yET9Co3+y/9GrrOUppYfW0d11iYlTjPV2Hcuf9BvDiGroirtZq5eeK267YcjRRu wF1TNFaPE2vekP/18x7yLmm3E3/+Wl+I/qDkxKluL2sOZTB1N8tqs0aJ0wbwW/uPM+NwwvfF3sSBdS 4JtCAhZXpFLHEB1Nc7O/vlqghx0ZfNDJfSNSfle42ifAlnrvBUtUB9ZfTMmvYGX68tamoxVWQJ1kTq QJBdi4jWOmyJbI92hGKMaYNs4tVYZNhcvdCVDF+3+w9FzrW+drjHAdHkzPlHTribuO7D4FyEO2pvLj 4PO3E0YNgXLk7Bq7PTB01jHakert4fcaOBhhIXYZwGtf/FVjFAoHWNdYUE3tcJXkPAOu1JeIiwutJO vSppgCtj/G+EwrKXDEWm1F4b4gpTKnQuzgietpXlhKXalf30+A820Fupum6UU1Bl62Slm+0iCZoABT kQ7KY22yuVGKNw+7ckahNs/f9sfEXyQAWpBsN4R1hP0UJonSQQa4U/4qn1HjISVC7/lpvz8mtxg+sG r5Ahm4AChbxjvlNazRn+XBh4LtXCMkG1UJRgGsabG8AT1/CMrKMghRB8rbLA==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+References: <20221014042037.23639-1-jasowang@redhat.com> <87o7ueh5bd.fsf@meer.lwn.net>
+In-Reply-To: <87o7ueh5bd.fsf@meer.lwn.net>
+From:   Jason Wang <jasowang@redhat.com>
+Date:   Mon, 17 Oct 2022 14:09:45 +0800
+Message-ID: <CACGkMEuMX2b6pQwaKMQy+OEFoB7BLs0BmxqORYeP-D7oo5irmA@mail.gmail.com>
+Subject: Re: [RFC PATCH] virtio: document virtio hardening status and TODO
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     mst@redhat.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, mikelley@microsoft.com,
+        vkuznets@redhat.com, liuwe@microsoft.com, kkashanjat@microsoft.com,
+        cohuck@redhat.com, otubo@redhat.com, andavis@redhat.com,
+        aadam@redhat.com, stefanha@redhat.com, sgarzare@redhat.com,
+        virtualization@lists.linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix the kern-doc markings for several of the overflow helpers and move
-their location into the core kernel API documentation, where it belongs
-(it's not driver-specific).
+On Fri, Oct 14, 2022 at 10:02 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> Jason Wang <jasowang@redhat.com> writes:
+>
+> > This patch summarizes the status of hardening and TODO of hardening
+> > virtio core and drivers.
+> >
+> > Signed-off-by: Jason Wang <jasowang@redhat.com>
+> > ---
+> >  Documentation/security/virtio/core.rst | 49 ++++++++++++++++++++++++++
+> >  MAINTAINERS                            |  1 +
+> >  2 files changed, 50 insertions(+)
+> >  create mode 100644 Documentation/security/virtio/core.rst
+>
+> Do you really need to create a new directory for a single file?
+>
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-hardening@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- Documentation/core-api/kernel-api.rst |  6 +++++
- Documentation/driver-api/basics.rst   |  3 ---
- include/linux/overflow.h              | 38 +++++++++++----------------
- 3 files changed, 22 insertions(+), 25 deletions(-)
+Not sure, but I think we can start without a dedicated directory.
 
-diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-index 0793c400d4b0..06f4ab122697 100644
---- a/Documentation/core-api/kernel-api.rst
-+++ b/Documentation/core-api/kernel-api.rst
-@@ -118,6 +118,12 @@ Text Searching
- CRC and Math Functions in Linux
- ===============================
- 
-+Arithmetic Overflow Checking
-+----------------------------
-+
-+.. kernel-doc:: include/linux/overflow.h
-+   :internal:
-+
- CRC Functions
- -------------
- 
-diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
-index 3e2dae954898..4b4d8e28d3be 100644
---- a/Documentation/driver-api/basics.rst
-+++ b/Documentation/driver-api/basics.rst
-@@ -107,9 +107,6 @@ Kernel utility functions
- .. kernel-doc:: kernel/panic.c
-    :export:
- 
--.. kernel-doc:: include/linux/overflow.h
--   :internal:
--
- Device Resource Management
- --------------------------
- 
-diff --git a/include/linux/overflow.h b/include/linux/overflow.h
-index 19dfdd74835e..1d3be1a2204c 100644
---- a/include/linux/overflow.h
-+++ b/include/linux/overflow.h
-@@ -51,8 +51,8 @@ static inline bool __must_check __must_check_overflow(bool overflow)
- 	return unlikely(overflow);
- }
- 
--/** check_add_overflow() - Calculate addition with overflow checking
-- *
-+/**
-+ * check_add_overflow() - Calculate addition with overflow checking
-  * @a: first addend
-  * @b: second addend
-  * @d: pointer to store sum
-@@ -66,8 +66,8 @@ static inline bool __must_check __must_check_overflow(bool overflow)
- #define check_add_overflow(a, b, d)	\
- 	__must_check_overflow(__builtin_add_overflow(a, b, d))
- 
--/** check_sub_overflow() - Calculate subtraction with overflow checking
-- *
-+/**
-+ * check_sub_overflow() - Calculate subtraction with overflow checking
-  * @a: minuend; value to subtract from
-  * @b: subtrahend; value to subtract from @a
-  * @d: pointer to store difference
-@@ -81,8 +81,8 @@ static inline bool __must_check __must_check_overflow(bool overflow)
- #define check_sub_overflow(a, b, d)	\
- 	__must_check_overflow(__builtin_sub_overflow(a, b, d))
- 
--/** check_mul_overflow() - Calculate multiplication with overflow checking
-- *
-+/**
-+ * check_mul_overflow() - Calculate multiplication with overflow checking
-  * @a: first factor
-  * @b: second factor
-  * @d: pointer to store product
-@@ -96,23 +96,24 @@ static inline bool __must_check __must_check_overflow(bool overflow)
- #define check_mul_overflow(a, b, d)	\
- 	__must_check_overflow(__builtin_mul_overflow(a, b, d))
- 
--/** check_shl_overflow() - Calculate a left-shifted value and check overflow
-- *
-+/**
-+ * check_shl_overflow() - Calculate a left-shifted value and check overflow
-  * @a: Value to be shifted
-  * @s: How many bits left to shift
-  * @d: Pointer to where to store the result
-  *
-  * Computes *@d = (@a << @s)
-  *
-- * Returns true if '*d' cannot hold the result or when 'a << s' doesn't
-+ * Returns true if '*@d' cannot hold the result or when '@a << @s' doesn't
-  * make sense. Example conditions:
-- * - 'a << s' causes bits to be lost when stored in *d.
-- * - 's' is garbage (e.g. negative) or so large that the result of
-- *   'a << s' is guaranteed to be 0.
-- * - 'a' is negative.
-- * - 'a << s' sets the sign bit, if any, in '*d'.
-  *
-- * '*d' will hold the results of the attempted shift, but is not
-+ * - '@a << @s' causes bits to be lost when stored in *@d.
-+ * - '@s' is garbage (e.g. negative) or so large that the result of
-+ *   '@a << @s' is guaranteed to be 0.
-+ * - '@a' is negative.
-+ * - '@a << @s' sets the sign bit, if any, in '*@d'.
-+ *
-+ * '*@d' will hold the results of the attempted shift, but is not
-  * considered "safe for use" if true is returned.
-  */
- #define check_shl_overflow(a, s, d) __must_check_overflow(({		\
-@@ -129,7 +130,6 @@ static inline bool __must_check __must_check_overflow(bool overflow)
- 
- /**
-  * size_mul() - Calculate size_t multiplication with saturation at SIZE_MAX
-- *
-  * @factor1: first factor
-  * @factor2: second factor
-  *
-@@ -149,7 +149,6 @@ static inline size_t __must_check size_mul(size_t factor1, size_t factor2)
- 
- /**
-  * size_add() - Calculate size_t addition with saturation at SIZE_MAX
-- *
-  * @addend1: first addend
-  * @addend2: second addend
-  *
-@@ -169,7 +168,6 @@ static inline size_t __must_check size_add(size_t addend1, size_t addend2)
- 
- /**
-  * size_sub() - Calculate size_t subtraction with saturation at SIZE_MAX
-- *
-  * @minuend: value to subtract from
-  * @subtrahend: value to subtract from @minuend
-  *
-@@ -192,7 +190,6 @@ static inline size_t __must_check size_sub(size_t minuend, size_t subtrahend)
- 
- /**
-  * array_size() - Calculate size of 2-dimensional array.
-- *
-  * @a: dimension one
-  * @b: dimension two
-  *
-@@ -205,7 +202,6 @@ static inline size_t __must_check size_sub(size_t minuend, size_t subtrahend)
- 
- /**
-  * array3_size() - Calculate size of 3-dimensional array.
-- *
-  * @a: dimension one
-  * @b: dimension two
-  * @c: dimension three
-@@ -220,7 +216,6 @@ static inline size_t __must_check size_sub(size_t minuend, size_t subtrahend)
- /**
-  * flex_array_size() - Calculate size of a flexible array member
-  *                     within an enclosing structure.
-- *
-  * @p: Pointer to the structure.
-  * @member: Name of the flexible array member.
-  * @count: Number of elements in the array.
-@@ -237,7 +232,6 @@ static inline size_t __must_check size_sub(size_t minuend, size_t subtrahend)
- 
- /**
-  * struct_size() - Calculate size of structure with trailing flexible array.
-- *
-  * @p: Pointer to the structure.
-  * @member: Name of the array member.
-  * @count: Number of elements in the array.
--- 
-2.34.1
+> Regardless of where it sits, you'll need to add this file to an
+> index.rst file so that it becomes part of the docs build.
+
+Yes, I will fix it.
+
+Thanks
+
+>
+> Thanks,
+>
+> jon
+>
 
