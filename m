@@ -2,74 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB64C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 14:41:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE629C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 14:53:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230465AbiJQOl0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 10:41:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56388 "EHLO
+        id S230198AbiJQOx0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 10:53:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230476AbiJQOlY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 10:41:24 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E370653D01;
-        Mon, 17 Oct 2022 07:41:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=qRP0t1fzx0+D6aB4K84CvuiMlWg5VJtwt3tYbeAR3Rs=; b=LNZCt0o5CmXos7ijnk/35sQRaR
-        JMhQ6kHAgRj2JXM2il+tMaZIih8zsfl8XJecXMZsXUm+yukoT2N6RMtHSJlqENdhZ7U9r1e9usGCN
-        AK3V7Cgbx379/Bp3zjXAp9uluOH0c7XtRZzFZhXW6+kCrDCtDyTpaQmB7yoX7abNLKcsUKmxGIozx
-        fx/Hn5Sq8rwKnW9leaSxQyoDi7OssPpX4V/eBZqsQ7Bo9D6hNETJ7K18AQA28ULTm7mFb4A/1j4H4
-        V8C8Ohzv35wj62yT64+I1dRmh3zVN7Ysw9bxUxVxrZhIFxjexApzKF6xWIR79QgAsGA32mHge9SH9
-        i1SuyKow==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1okRIw-009uaN-Rr; Mon, 17 Oct 2022 14:41:22 +0000
-Date:   Mon, 17 Oct 2022 15:41:22 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, bilbao@vt.edu,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, miguel.ojeda.sandonis@gmail.com
-Subject: Re: [PATCH v2 1/2] Documentation: Start translations to Spanish
-Message-ID: <Y01pkubcT7FOwCjL@casper.infradead.org>
-References: <20221014142454.871196-2-carlos.bilbao@amd.com>
- <48b4a5a1-2a52-4159-699b-9db73a012892@gmail.com>
+        with ESMTP id S229949AbiJQOxZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 10:53:25 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C3FB68CD1;
+        Mon, 17 Oct 2022 07:53:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666018398; x=1697554398;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=I4wfniHW10JfPeprn5rTb+kTvRXkxXZTaEZmmRNpMCk=;
+  b=P8R4Dh4olIwXLAjxWflWJ5tLmVFc0gNEIKGdSW0s1WdPBjbDbeK4mdnp
+   IeBEmYrdybRBOeEBW0e3OfTJhuD/BJm+m4xFTNVdgvUGStjGZ/gPyFGmm
+   2fdWUHlHLPk3TAh4PQ7JQ5JOlPwU0VJgXSEsycHLqxDJ2pBw/cLAZb82R
+   Nf9QAqzkIamAMl/vebcQUKjpOC8T7zFi/7nXzwOMw1MhqAVrIOGnwJjNS
+   1kTD9F0XiNbmIFPrBGB5UwNEUhasB1KvuF3vezv9rPu+A2WqTK14lPp9y
+   SPEbJIA0hubiF89W/60ihQzPLn4SMhrZZ3We3+O71Vd73sTL556F2Nrad
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="370008643"
+X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
+   d="scan'208";a="370008643"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 07:53:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="691384101"
+X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
+   d="scan'208";a="691384101"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by fmsmga008.fm.intel.com with ESMTP; 17 Oct 2022 07:53:06 -0700
+Date:   Mon, 17 Oct 2022 22:48:35 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 7/8] KVM: Handle page fault for private memory
+Message-ID: <20221017144835.GA3417432@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-8-chao.p.peng@linux.intel.com>
+ <Y0mxEFpvS7O96CCD@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <48b4a5a1-2a52-4159-699b-9db73a012892@gmail.com>
+In-Reply-To: <Y0mxEFpvS7O96CCD@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 15, 2022 at 01:06:36PM +0900, Akira Yokosawa wrote:
-> Hi,
-> Minor nit on language code.
+On Fri, Oct 14, 2022 at 06:57:20PM +0000, Sean Christopherson wrote:
+> On Thu, Sep 15, 2022, Chao Peng wrote:
+> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> > index a0f198cede3d..81ab20003824 100644
+> > --- a/arch/x86/kvm/mmu/mmu.c
+> > +++ b/arch/x86/kvm/mmu/mmu.c
+> > @@ -3028,6 +3028,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
+> >  			break;
+> >  	}
+> >  
+> > +	if (kvm_mem_is_private(kvm, gfn))
 > 
-> On Fri, 14 Oct 2022 09:24:53 -0500, Carlos Bilbao wrote:
-> > Start the process of translating kernel documentation to Spanish. Create
-> > sp_SP/ and include an index and a disclaimer, following the approach of
-> > prior translations. Add Carlos Bilbao as MAINTAINER of this translation
-> > effort.
-> IIUC, the language code for "Spanish (Spain)" should be "es-ES", as is
-> listed at e.g., http://www.lingoes.net/en/translator/langcode.htm.
+> Rather than reload the Xarray info, which is unnecessary overhead, pass in
+> @is_private.  The caller must hold mmu_lock, i.e. invalidations from
+> private<->shared conversions will be stalled and will zap the new SPTE if the
+> state is changed.
+
+Make sense. TDX/SEV should be easy to query that.
+
+Chao
 > 
-> The other translations use directory names found in the table, with
-> "-" replaced with "_".  It would be better to be consistent.
-
-I don't know what standard we're actually following.  RFC5646 suggests
-simply using "es", with "es-419" for Latin America specialisation or
-"es-ES" for Spain.  I don't know how much variation there is between
-different Spanish dialects for technical documents; as I understand it,
-it's worth supporting two dialects of Chinese, but we merrily mix &
-match en_US and en_GB spellings.  Similarly, I wouldn't suggest that we
-have separate translations for fr_CA, fr_CH, fr_FR, just a single 'fr'
-would be fine.
-
-We do need to be careful here; people are rightfully sensitive about
-being incorrectly grouped together.  If possible we should find a
-standard to follow that's been defined by experts in these matters.
-https://en.wikipedia.org/wiki/IETF_language_tag may be a good place to
-start looking.
+> E.g.
+> 
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index d68944f07b4b..44eea47697d8 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+> @@ -3072,8 +3072,8 @@ void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
+>          * Enforce the iTLB multihit workaround after capturing the requested
+>          * level, which will be used to do precise, accurate accounting.
+>          */
+> -       fault->req_level = kvm_mmu_max_mapping_level(vcpu->kvm, slot,
+> -                                                    fault->gfn, fault->max_level);
+> +       fault->req_level = kvm_mmu_max_mapping_level(vcpu->kvm, slot, fault->gfn,
+> +                                                    fault->max_level, fault->is_private);
+>         if (fault->req_level == PG_LEVEL_4K || fault->huge_page_disallowed)
+>                 return;
+>  
+> @@ -6460,7 +6460,7 @@ static bool kvm_mmu_zap_collapsible_spte(struct kvm *kvm,
+>                  */
+>                 if (sp->role.direct &&
+>                     sp->role.level < kvm_mmu_max_mapping_level(kvm, slot, sp->gfn,
+> -                                                              PG_LEVEL_NUM)) {
+> +                                                              PG_LEVEL_NUM, false)) {
+>                         kvm_zap_one_rmap_spte(kvm, rmap_head, sptep);
+>  
+>                         if (kvm_available_flush_tlb_with_range())
+> diff --git a/arch/x86/kvm/mmu/spte.h b/arch/x86/kvm/mmu/spte.h
+> index 7670c13ce251..9acdf72537ce 100644
+> --- a/arch/x86/kvm/mmu/spte.h
+> +++ b/arch/x86/kvm/mmu/spte.h
+> @@ -315,6 +315,12 @@ static inline bool is_dirty_spte(u64 spte)
+>         return dirty_mask ? spte & dirty_mask : spte & PT_WRITABLE_MASK;
+>  }
+>  
+> +static inline bool is_private_spte(u64 spte)
+> +{
+> +       /* FIXME: Query C-bit/S-bit for SEV/TDX. */
+> +       return false;
+> +}
+> +
+>  static inline u64 get_rsvd_bits(struct rsvd_bits_validate *rsvd_check, u64 pte,
+>                                 int level)
+>  {
+> diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
+> index 672f0432d777..69ba00157e90 100644
+> --- a/arch/x86/kvm/mmu/tdp_mmu.c
+> +++ b/arch/x86/kvm/mmu/tdp_mmu.c
+> @@ -1767,8 +1767,9 @@ static void zap_collapsible_spte_range(struct kvm *kvm,
+>                 if (iter.gfn < start || iter.gfn >= end)
+>                         continue;
+>  
+> -               max_mapping_level = kvm_mmu_max_mapping_level(kvm, slot,
+> -                                                             iter.gfn, PG_LEVEL_NUM);
+> +               max_mapping_level = kvm_mmu_max_mapping_level(kvm, slot, iter.gfn,
+> +                                                             PG_LEVEL_NUM,
+> +                                                             is_private_spte(iter.old_spte));
+>                 if (max_mapping_level < iter.level)
+>                         continue;
+>  
