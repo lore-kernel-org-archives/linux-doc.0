@@ -2,105 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73B59C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 12:11:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 928F0C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 12:47:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229924AbiJQML1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 08:11:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48794 "EHLO
+        id S230200AbiJQMrw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 08:47:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229817AbiJQML0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 08:11:26 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00161616D;
-        Mon, 17 Oct 2022 05:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666008686; x=1697544686;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vw+vsrxvR88sMwvNZcFQAh9PSKUEFTkb+Zwafmh+7Zc=;
-  b=fWOZnyW+oiYTGSuZbbfMz3vA0vqVNmuyt4y769FIYAh6qzXNqEx7ykFf
-   IOiAwtIIYAEbev+TI3Rhlsz6lx7/wDwqV6gjFfT53m/+VV23p5ygT8Tk+
-   7LIlE5FD+f42MAZkXbiPtXh2C3wmxm0kuO/aggOloMoUd5qua4aS21/Jy
-   rtKBM3uLRELeYcC5pzfwERkdGUahEgPqpcCycb2k1RL/Vm69oPVaMqE4S
-   slspkDgAXrVVDSvSW9Ru0AjW/jkHA1tlPihIxTCUaQ6wOh2cxSJ2E4nhs
-   1E9FY6wUB+UNDV6acnwluNZy7LvOjjsA7Z+UT8CJlCwKWTLPqWNMSJJJb
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="306860556"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
-   d="scan'208";a="306860556"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 05:11:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="691335698"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
-   d="scan'208";a="691335698"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Oct 2022 05:11:20 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1okOxh-008mX9-1M;
-        Mon, 17 Oct 2022 15:11:17 +0300
-Date:   Mon, 17 Oct 2022 15:11:17 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Keerthy <j-keerthy@ti.com>, Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Davide Ciminaghi <ciminaghi@gnudd.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>
-Subject: Re: [PATCH v2 0/9] gpio: Get rid of ARCH_NR_GPIOS (v2)
-Message-ID: <Y01GZV/RHezVaGdC@smile.fi.intel.com>
-References: <cover.1662116601.git.christophe.leroy@csgroup.eu>
- <CAMRc=MehcpT84-ucLbYmdVTAjT86bNb9NEfV6npCmPZHqbsArw@mail.gmail.com>
- <b348a306-3043-4ccc-9067-81759ab29143@www.fastmail.com>
- <CACRpkdbazHcUassRMqZ2oHmama3nWEZ3U3bB-y-3dmo3jgFPWg@mail.gmail.com>
- <a7cb856c-8a3f-4737-ae9e-b75c306ad88e@www.fastmail.com>
- <da8e0775-7d3e-d6fa-e1ff-395769d35614@csgroup.eu>
- <CAMRc=MdNnUS72cSARv8dAVUsujkUM9jyjutJsty9o+=LOkOefg@mail.gmail.com>
- <CAMRc=MeZUap-h=NZm1L0BfN2=ms6VeOJA+05HPyLq_hE8kVuEQ@mail.gmail.com>
- <CACRpkdYPCZ9QAwNripOXGuFgvtnC+vzQ5EbYaWJEF1u9E_x4Yw@mail.gmail.com>
+        with ESMTP id S230466AbiJQMrl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 08:47:41 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5ABA556B8F;
+        Mon, 17 Oct 2022 05:47:35 -0700 (PDT)
+Received: from loongson.cn (unknown [112.20.109.239])
+        by gateway (Coremail) with SMTP id _____8DxPdnmTk1j8Q8AAA--.433S3;
+        Mon, 17 Oct 2022 20:47:34 +0800 (CST)
+Received: from [192.168.100.127] (unknown [112.20.109.239])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxPuDjTk1jdh0AAA--.454S3;
+        Mon, 17 Oct 2022 20:47:32 +0800 (CST)
+Message-ID: <9934cfcd-1cad-3f83-17a4-dab47a472e56@loongson.cn>
+Date:   Mon, 17 Oct 2022 20:47:31 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdYPCZ9QAwNripOXGuFgvtnC+vzQ5EbYaWJEF1u9E_x4Yw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v1 3/5] docs/zh_CN: Add rust/general-information Chinese
+ translation
+Content-Language: en-US
+To:     wu.xiangcheng@linux.dev
+Cc:     alexs@kernel.org, seakeel@gmail.com, corbet@lwn.net,
+        ojeda@kernel.org, boqun.feng@gmail.com, wedsonaf@gmail.com,
+        gary@garyguo.net, bjorn3_gh@protonmail.com,
+        rust-for-linux@vger.kernel.org, bobwxc@email.cn,
+        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, siyanteng01@gmail.com
+References: <cover.1665650266.git.siyanteng@loongson.cn>
+ <2354c17a110101de2838766846a5082e6df4ff50.1665650266.git.siyanteng@loongson.cn>
+ <Y0rFRgnzw5Y+oNj+@bobwxc.mipc>
+From:   Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <Y0rFRgnzw5Y+oNj+@bobwxc.mipc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8AxPuDjTk1jdh0AAA--.454S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxuryxXFyUJF1kur4UtFW3GFg_yoWrtrWrpF
+        s7Ca93Ga17Jw1rGrWIkr1jkFnFkryxCF4rGF47Ka4xXr9Ykr4qqrsFqr1rG397ury8CFWU
+        ZFZakFy29w40yrJanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bqkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+        n4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+        ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1DMcIj6I8E
+        87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+        AS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCF
+        s4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI
+        8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41l
+        IxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
+        AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2
+        jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jFApnUUUUU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 17, 2022 at 11:06:49AM +0200, Linus Walleij wrote:
-> On Mon, Oct 17, 2022 at 11:05 AM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 
-...
+On 10/15/22 22:35, wu.xiangcheng@linux.dev wrote:
+>> Translate .../rust/general-information.rst into Chinese.
+>>
+>> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+>> ---
+>>   .../zh_CN/rust/general-information.rst        | 75 +++++++++++++++++++
+>>   .../translations/zh_CN/rust/index.rst         |  2 +-
+>>   2 files changed, 76 insertions(+), 1 deletion(-)
+>>   create mode 100644 Documentation/translations/zh_CN/rust/general-information.rst
+>>
+>> diff --git a/Documentation/translations/zh_CN/rust/general-information.rst b/Documentation/translations/zh_CN/rust/general-information.rst
+>> new file mode 100644
+>> index 000000000000..58a28eb6f01d
+>> --- /dev/null
+>> +++ b/Documentation/translations/zh_CN/rust/general-information.rst
+>> @@ -0,0 +1,75 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +.. include:: ../disclaimer-zh_CN.rst
+>> +
+>> +:Original: Documentation/rust/general-information.rst
+>> +
+>> +:翻译:
+>> +
+>> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
+>> +
+>> +
+>> +基本信息
+>> +========
+>> +
+>> +本文档包含了在内核中使用Rust支持时需要了解的有用信息。
+>> +
+>> +
+>> +代码文档
+>> +--------
+>> +
+>> +Rust内核代码使用其内置的文档生成器 ``rustdoc`` 进行记录。
+>> +
+>> +生成的HTML文档包括集成搜索、链接项（如类型、函数、常量）、源代码等。它们可以在以下地址阅读
+>> +（TODO：当在主线中时链接，与其他文档一起生成）：
+>> +
+>> +	http://kernel.org/
+>> +
+>> +这些文档也可以很容易地在本地生成和阅读。这相当快（与编译代码本身的顺序相同），而且不需要特
+>> +殊的工具或环境。这有一个额外的好处，那就是它们将根据所使用的特定内核配置进行定制。要生成它
+>> +们，请使用 ``rustdoc`` target，并使用编译时使用的相同调用，例如::
+> target -> 目标
+>
+>> +
+>> +	make LLVM=1 rustdoc
+>> +
+>> +要在你的网络浏览器中本地阅读该文档，请运行如::
+>> +
+>> +	xdg-open rust/doc/kernel/index.html
+>> +
+>> +要了解如何编写文档，请看coding-guidelines.rst。
+> 请看 coding-guidelines.rst 。
+ok!
+>
+>> +
+>> +
+>> +额外的lints
+>> +-----------
+>> +
+> Is there any good translation for "lint" ?
+>
+>> +虽然 ``rustc`` 是一个非常有用的编译器，但一些额外的lints和分析可以通过 ``clippy``
+>> +（一个Rust linter）来实现。要启用它，请将CLIPPY=1传递到用于编译的同一调用中，例如::
+>> +
+>> +	make LLVM=1 CLIPPY=1
+>> +
+>> +请注意，Clippy可能会改变代码生成，因此在构建产品内核时不应该启用它。
+>> +
+>> +抽象和绑定
+>> +----------
+>> +
+>> +抽象是Rust代码，用于包装来自C端的内核功能。
+> 抽象是用Rust代码包装来自C端的内核功能。
 
-> Let's test it in linux-next we need wide coverage for this.
+ok
 
-Yes, I believe the best if we can have this in the Linux Next as long as
-possible before going to upstream. This is good change that needs good testing
-coverage.
 
-Speaking of the latter, and a bit of offtopic, I want to send a PR of cleaning
-up the headers in pin control subsystem as soon as possible with the same
-rationale underneath, i.e. testing and new drivers using a cleaned up headers..
+Thanks,
 
--- 
-With Best Regards,
-Andy Shevchenko
+Yanteng
 
+>
+>> +
+>> +为了使用来自C端的函数和类型，需要创建绑定。绑定是Rust对那些来自C端的函数和类型的声明。
+>> +
+>> +例如，人们可以在Rust中写一个 ``Mutex`` 抽象，它从C端包装一个 ``Mutex结构体`` ，并
+>> +通过绑定调用其函数。
+>> +
+>> +抽象并不能用于所有的内核内部API和概念，但随着时间的推移，我们打算扩大覆盖范围。“Leaf”
+>> +模块（例如，驱动程序）不应该直接使用C语言的绑定。相反，子系统应该根据需要提供尽可能安
+>> +全的抽象。
+>> +
+>> +
+>> +有条件的编译
+>> +------------
+>> +
+>> +Rust代码可以访问基于内核配置的条件性编译:
+>> +
+>> +.. code-block:: rust
+>> +
+>> +	#[cfg(CONFIG_X)]       // Enabled               (`y` or `m`)
+>> +	#[cfg(CONFIG_X="y")]   // Enabled as a built-in (`y`)
+>> +	#[cfg(CONFIG_X="m")]   // Enabled as a module   (`m`)
+>> +	#[cfg(not(CONFIG_X))]  // Disabled
+>> diff --git a/Documentation/translations/zh_CN/rust/index.rst b/Documentation/translations/zh_CN/rust/index.rst
+>> index fe884d1da353..c4d773a8a288 100644
+>> --- a/Documentation/translations/zh_CN/rust/index.rst
+>> +++ b/Documentation/translations/zh_CN/rust/index.rst
+>> @@ -16,10 +16,10 @@ Rust
+>>       :maxdepth: 1
+>>   
+>>       quick-start
+>> +    general-information
+>>   
+>>   TODOList:
+>>   
+>> -*    general-information
+>>   *    coding-guidelines
+>>   *    arch-support
+>>   
+>> -- 
+>> 2.31.1
+>>
+>>
+>>
 
