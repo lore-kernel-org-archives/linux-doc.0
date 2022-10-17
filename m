@@ -2,358 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34810C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 07:13:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 816C0C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 08:37:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229992AbiJQHNp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 03:13:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53016 "EHLO
+        id S230010AbiJQIhu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 04:37:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230172AbiJQHNf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 03:13:35 -0400
-Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CF2257E3C
-        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 00:13:32 -0700 (PDT)
-Received: by mail-pj1-x104a.google.com with SMTP id o15-20020a17090a0a0f00b0020ae208febfso5049462pjo.5
-        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 00:13:32 -0700 (PDT)
+        with ESMTP id S230009AbiJQIhs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 04:37:48 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4555E64F0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 01:37:47 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id i17so12094535lja.3
+        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 01:37:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8uo76CIDBaq7HIm/FGI7bEiznO623Zlw58MY8o8i1jQ=;
-        b=JOhG279Pgn76eErTmzecyOat6CvlRRfOLfbJzUkkXMa/roQOzgt6ns7XrcuH5idfxW
-         Pz1VMHhCQ82Bk1MOzgkgCq65CQhqsUPjDlRB4IfvXHe+Pf61lNHwmoUFPym38IUhqT41
-         Td9KgFef1Ig7p6fkSWsV3cWREoPD4LPNEj8CRkHxf2eAEADc+gBjTk8c9mwAS2YjOdDt
-         124eD6Rqsgb8eo7fVr8DwhOMPAhctQkWTPvoDR1gX5sN42kYQisUDdjLg0E8zzhrzneX
-         BWKo06Dj9afzfMy82tSyezGO5aTtV/ZENhXV/Yu9tkHwaAWGR4qS46wPJDoNO709lWNt
-         L8Uw==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2MOsGrPb54psCQ1QJFpQlc3AIz/KkigbI3AX0l8Zs84=;
+        b=ALxyAy8pzannD55LWKsZcE2utLsNDwHOUKhtiRG/lPNJX0ZLo+si5+UuARQhzt9H16
+         22lvSJkYyOxakAMB8HOPIHCRTKxLzP9N1xzZKkmPdcOB/brwscylpqqr5X+qChjnzw71
+         cUVaqJmKi2KcCO6BLWliXqJDSRNdvFk5Y30vj9rF9HtHjhPQioJD8LQzQuy+xeX1vTvZ
+         2zfW6BZRuv+u2BrNKN8J1XU6dFsKFIobeymG6R92PZK2KMu6WH9Wgyd3BCXSmkL1WpnM
+         oEU3Bw4bVmRefPPrmcjzdwd4mGlMvAG69Qg2ePZzf9XfmPirfSnWA0U4ms69HZV79e3k
+         xJKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8uo76CIDBaq7HIm/FGI7bEiznO623Zlw58MY8o8i1jQ=;
-        b=PLlcXbri7On5ebc+hw0yac21hBv4l3jKU8z36cG/oE2/CLr57EWiljXNHL3v/SKy+x
-         H+CSnfA7Gf9qmNXv4dBsqaSYS4vjHWUFdPGmtkvC1sQmm/j4+70Llqp0pzlHBi7cucs1
-         if49FWSsy1KsbR2IkqvDNNWhsxBeTkJqhv3CIZVnDhWe2aXOgkAsPvuFKjfOxhEuXgCm
-         LE1Vlpt38CsXAXVG+vWlZm/OJ4sUdwtpeGOqpi4d/u75k9VfZJF8B8eP2VKhY5nv/KjG
-         yOr69+tmSAq2JCaA7pX9wefZvktng2VUMCW9b3+gHh+jkUavOubJn+xUTBCh46m0NQ3n
-         X9aQ==
-X-Gm-Message-State: ACrzQf0v1AqXggBBOYR9v6AoWliNMM2OztbxU6bQ7lBsOz/XbKZr8uqv
-        Q5zx7PyJMT1x8GCc9LMsQvqrw1iawkVJ/7Qz
-X-Google-Smtp-Source: AMsMyM4qvaqmCe2PiBBHuDGNVCli3vsunB7By1Giq0UKro2EvojwlPjuBMpj6cem2jROOWXYG/YkrUA+Qbm4+gNQ
-X-Received: from skazigti.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:411e])
- (user=sadiyakazi job=sendgmr) by 2002:a17:90a:5408:b0:20a:d6b1:a2a7 with SMTP
- id z8-20020a17090a540800b0020ad6b1a2a7mr1237191pjh.2.1665990811200; Mon, 17
- Oct 2022 00:13:31 -0700 (PDT)
-Date:   Mon, 17 Oct 2022 07:08:21 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.38.0.413.g74048e4d9e-goog
-Message-ID: <20221017070820.2253501-1-sadiyakazi@google.com>
-Subject: [PATCH v3] Documentation: Kunit: Update architecture.rst for minor fixes
-From:   Sadiya Kazi <sadiyakazi@google.com>
-To:     brendanhiggins@google.com, davidgow@google.com,
-        skhan@linuxfoundation.org, corbet@lwn.net, bagasdotme@gmail.com
-Cc:     Sadiya Kazi <sadiyakazi@google.com>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2MOsGrPb54psCQ1QJFpQlc3AIz/KkigbI3AX0l8Zs84=;
+        b=dWny8hhFmUhzhSlqRgATF9MOmCTvBp7T1hTNiPAkyTb3kCCoi3QW9mIBS2A+3HTlQ3
+         V7OaIwFKQA0mcnWkYcH0+l9e62ZWMSVj2DZqOtMQWdIgn/Sbkgro2PnHaN+QY6r5tr+b
+         qa43olopvTt8YCrunjjAg2U2MgRTHRQgyqG+qklPZcqp2MbkeLBvEY183bNef33XOuTX
+         qVe2mmZCcQqDAinCzvjcvx+bExqbiWR5+f6525L1ExM7D4LW9qV59YEZgxZUWdxS83YO
+         HxH3dwAZ9kjdpwpzD3NgOpwLd5lM32YiKcqv1bBNPUxQIX8FNNrmPRQ7kpZ59PiAXUNe
+         aZaQ==
+X-Gm-Message-State: ACrzQf2s+Dp79VzssK3BS/QYSzupT3XhnMbjXuStEGCBKZkwBZUmU0i1
+        SJQmYehiurEUpgqL/sjKqiu9Lg==
+X-Google-Smtp-Source: AMsMyM4GnVMeqPIvzfl5GnZKWItxAUCifHNWN+MyMCMQhIv0vljSHccqiOWHDk4649xEexNvOp+Uyw==
+X-Received: by 2002:a05:651c:178e:b0:25a:4357:49cd with SMTP id bn14-20020a05651c178e00b0025a435749cdmr3718914ljb.123.1665995865527;
+        Mon, 17 Oct 2022 01:37:45 -0700 (PDT)
+Received: from [10.10.15.130] ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id v20-20020a2e9f54000000b0026bca725cd0sm1398961ljk.39.2022.10.17.01.37.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Oct 2022 01:37:45 -0700 (PDT)
+Message-ID: <726d5096-7997-05d2-d095-a349305607dc@linaro.org>
+Date:   Mon, 17 Oct 2022 11:37:44 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v5 10/13] gunyah: rsc_mgr: Add resource manager RPC core
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221011000840.289033-1-quic_eberman@quicinc.com>
+ <20221011000840.289033-11-quic_eberman@quicinc.com>
+ <9a42be23-e035-0944-ba62-f6af6b7acc0d@linaro.org>
+ <c0b57108-38b7-6d86-7dc5-18ab75f48de7@quicinc.com>
+Content-Language: en-GB
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <c0b57108-38b7-6d86-7dc5-18ab75f48de7@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Updated the architecture.rst page with the following changes:
--Add missing article _the_ across the document.
--Reword content across for style and standard.
--Update all occurrences of Command Line to Command-line
- across the document.
--Correct grammatical issues, for example,
- added _it_wherever missing.
--Update all occurrences of =E2=80=9Cvia" to either use
- =E2=80=9Cthrough=E2=80=9D or =E2=80=9Cusing=E2=80=9D.
--Update the text preceding the external links and pushed the full
- link to a new line for better readability.
--Reword content under the config command to make it more clear and concise.
+On 14/10/2022 01:32, Elliot Berman wrote:
+> 
+> 
+> On 10/12/2022 3:52 PM, Dmitry Baryshkov wrote:
+>> On 11/10/2022 03:08, Elliot Berman wrote >> diff --git 
+>>> +static int gh_msgq_platform_probe_direction(struct platform_device 
+>>> *pdev,
+>>> +                u8 gh_type, int idx, struct gunyah_resource *ghrsc)
+>>> +{
+>>> +    int ret;
+>>> +    struct device_node *node = pdev->dev.of_node;
+>>> +
+>>> +    ghrsc->type = gh_type;
+>>> +
+>>> +    ghrsc->irq = platform_get_irq(pdev, idx);
+>>> +    if (ghrsc->irq < 0) {
+>>> +        dev_err(&pdev->dev, "Failed to get irq%d: %d\n", idx, 
+>>> ghrsc->irq);
+>>> +        return ghrsc->irq;
+>>> +    }
+>>> +
+>>> +    ret = of_property_read_u64_index(node, "reg", idx, &ghrsc->capid);
+>>
+>> Is there any reason why can't you use platform_get_resource() here?
+>>
+> 
+> These don't show up as resources because size-cells = 0.
 
-Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
----
-Please Note: The link in the change log in my previous email was broken as =
-it got
-mixed with the next line. I have resent the email.
+Hmm, judging from of_device_alloc() / __of_address_to_resource(), the 
+resources should still be created, unless I miss something.
 
-Thank you Bagas for your detailed comments.=20
-I think the current commit message does convey the right message as it is n=
-ot a complete rewrite, hence retained it.=20
-Also since we talk about the two parts of the architecture, I have retained=
- the it as 'kunit_tool (Command-line Test Harness)' instead of 'Running Tes=
-ts Options'.
-
-Changes since v2:
-https://lore.kernel.org/linux-kselftest/20221013080545.1552573-1-sadiyakazi=
-@google.com/
-
--Updated the link descriptions as per Bagas=E2=80=99s feedback
--Reworded content talking about options to run tests and added links as per=
- Bagas=E2=80=99s feedback
-
-Best Regards,
-Sadiya Kazi
----
- .../dev-tools/kunit/architecture.rst          | 118 +++++++++---------
- 1 file changed, 60 insertions(+), 58 deletions(-)
-
-diff --git a/Documentation/dev-tools/kunit/architecture.rst b/Documentation=
-/dev-tools/kunit/architecture.rst
-index 8efe792bdcb9..52b1a30c9f89 100644
---- a/Documentation/dev-tools/kunit/architecture.rst
-+++ b/Documentation/dev-tools/kunit/architecture.rst
-@@ -4,16 +4,17 @@
- KUnit Architecture
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
--The KUnit architecture can be divided into two parts:
-+The KUnit architecture is divided into two parts:
-=20
- - `In-Kernel Testing Framework`_
--- `kunit_tool (Command Line Test Harness)`_
-+- `kunit_tool (Command-line Test Harness)`_
-=20
- In-Kernel Testing Framework
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-=20
- The kernel testing library supports KUnit tests written in C using
--KUnit. KUnit tests are kernel code. KUnit does several things:
-+KUnit. These KUnit tests are kernel code. KUnit performs the following
-+tasks:
-=20
- - Organizes tests
- - Reports test results
-@@ -22,19 +23,17 @@ KUnit. KUnit tests are kernel code. KUnit does several =
-things:
- Test Cases
- ----------
-=20
--The fundamental unit in KUnit is the test case. The KUnit test cases are
--grouped into KUnit suites. A KUnit test case is a function with type
--signature ``void (*)(struct kunit *test)``.
--These test case functions are wrapped in a struct called
--struct kunit_case.
-+The test case is the fundamental unit in KUnit. KUnit test cases are organ=
-ised
-+into suites. A KUnit test case is a function with type signature
-+``void (*)(struct kunit *test)``. These test case functions are wrapped in=
- a
-+struct called struct kunit_case.
-=20
- .. note:
- 	``generate_params`` is optional for non-parameterized tests.
-=20
--Each KUnit test case gets a ``struct kunit`` context
--object passed to it that tracks a running test. The KUnit assertion
--macros and other KUnit utilities use the ``struct kunit`` context
--object. As an exception, there are two fields:
-+Each KUnit test case receives a ``struct kunit`` context object that track=
-s a
-+running test. The KUnit assertion macros and other KUnit utilities use the
-+``struct kunit`` context object. As an exception, there are two fields:
-=20
- - ``->priv``: The setup functions can use it to store arbitrary test
-   user data.
-@@ -75,14 +74,15 @@ with the KUnit test framework.
- Executor
- --------
-=20
--The KUnit executor can list and run built-in KUnit tests on boot.
-+The KUnit executor can list and run built-in KUnit tests on boot
- The Test suites are stored in a linker section
--called ``.kunit_test_suites``. For code, see:
--https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/in=
-clude/asm-generic/vmlinux.lds.h?h=3Dv5.15#n945.
-+called ``.kunit_test_suites``. For the code, see ``KUNIT_TABLE()`` macro
-+definition in
-+`include/asm-generic/vmlinux.lds.h <https://git.kernel.org/pub/scm/linux/k=
-ernel/git/torvalds/linux.git/tree/include/asm-generic/vmlinux.lds.h?h=3Dv6.=
-0#n950>`_.
- The linker section consists of an array of pointers to
- ``struct kunit_suite``, and is populated by the ``kunit_test_suites()``
--macro. To run all tests compiled into the kernel, the KUnit executor
--iterates over the linker section array.
-+macro. The KUnit executor iterates over the linker section array in order =
-to
-+run all the tests that are compiled into the kernel.
-=20
- .. kernel-figure:: kunit_suitememorydiagram.svg
- 	:alt:	KUnit Suite Memory
-@@ -90,17 +90,18 @@ iterates over the linker section array.
- 	KUnit Suite Memory Diagram
-=20
- On the kernel boot, the KUnit executor uses the start and end addresses
--of this section to iterate over and run all tests. For code, see:
--https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/li=
-b/kunit/executor.c
--
-+of this section to iterate over and run all tests. For the implementation =
-of the
-+executor, see
-+`lib/kunit/executor.c <https://git.kernel.org/pub/scm/linux/kernel/git/tor=
-valds/linux.git/tree/lib/kunit/executor.c>`_.
- When built as a module, the ``kunit_test_suites()`` macro defines a
- ``module_init()`` function, which runs all the tests in the compilation
- unit instead of utilizing the executor.
-=20
- In KUnit tests, some error classes do not affect other tests
- or parts of the kernel, each KUnit case executes in a separate thread
--context. For code, see:
--https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/li=
-b/kunit/try-catch.c?h=3Dv5.15#n58
-+context. For the implememtation details, see ``kunit_try_catch_run()`` fun=
-ction
-+code in
-+`lib/kunit/try-catch.c <https://git.kernel.org/pub/scm/linux/kernel/git/to=
-rvalds/linux.git/tree/lib/kunit/try-catch.c?h=3Dv5.15#n58>`_.
-=20
- Assertion Macros
- ----------------
-@@ -111,37 +112,36 @@ All expectations/assertions are formatted as:
-=20
- - ``{EXPECT|ASSERT}`` determines whether the check is an assertion or an
-   expectation.
-+  In the event of a failure, the testing flow differs as follows:
-=20
--	- For an expectation, if the check fails, marks the test as failed
--	  and logs the failure.
-+	- For expectations, the test is marked as failed and the failure is logge=
-d.
-=20
--	- An assertion, on failure, causes the test case to terminate
--	  immediately.
-+	- Failing assertions, on the other hand, result in the test case being
-+	  terminated immediately.
-=20
--		- Assertions call function:
-+		- Assertions call the function:
- 		  ``void __noreturn kunit_abort(struct kunit *)``.
-=20
--		- ``kunit_abort`` calls function:
-+		- ``kunit_abort`` calls the function:
- 		  ``void __noreturn kunit_try_catch_throw(struct kunit_try_catch *try_ca=
-tch)``.
-=20
--		- ``kunit_try_catch_throw`` calls function:
-+		- ``kunit_try_catch_throw`` calls the function:
- 		  ``void kthread_complete_and_exit(struct completion *, long) __noreturn=
-;``
- 		  and terminates the special thread context.
-=20
- - ``<op>`` denotes a check with options: ``TRUE`` (supplied property
--  has the boolean value =E2=80=9Ctrue=E2=80=9D), ``EQ`` (two supplied prop=
-erties are
-+  has the boolean value "true"), ``EQ`` (two supplied properties are
-   equal), ``NOT_ERR_OR_NULL`` (supplied pointer is not null and does not
--  contain an =E2=80=9Cerr=E2=80=9D value).
-+  contain an "err" value).
-=20
- - ``[_MSG]`` prints a custom message on failure.
-=20
- Test Result Reporting
- ---------------------
--KUnit prints test results in KTAP format. KTAP is based on TAP14, see:
--https://github.com/isaacs/testanything.github.io/blob/tap14/tap-version-14=
--specification.md.
--KTAP (yet to be standardized format) works with KUnit and Kselftest.
--The KUnit executor prints KTAP results to dmesg, and debugfs
--(if configured).
-+KUnit prints the test results in KTAP format. KTAP is based on TAP14, see
-+Documentation/dev-tools/ktap.rst.
-+KTAP works with KUnit and Kselftest. The KUnit executor prints KTAP result=
-s to
-+dmesg, and debugfs (if configured).
-=20
- Parameterized Tests
- -------------------
-@@ -150,33 +150,35 @@ Each KUnit parameterized test is associated with a co=
-llection of
- parameters. The test is invoked multiple times, once for each parameter
- value and the parameter is stored in the ``param_value`` field.
- The test case includes a KUNIT_CASE_PARAM() macro that accepts a
--generator function.
--The generator function is passed the previous parameter and returns the ne=
-xt
--parameter. It also provides a macro to generate common-case generators bas=
-ed on
--arrays.
-+generator function. The generator function is passed the previous paramete=
-r
-+and returns the next parameter. It also includes a macro for generating
-+array-based common-case generators.
-=20
--kunit_tool (Command Line Test Harness)
-+kunit_tool (Command-line Test Harness)
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
--kunit_tool is a Python script ``(tools/testing/kunit/kunit.py)``
--that can be used to configure, build, exec, parse and run (runs other
--commands in order) test results. You can either run KUnit tests using
--kunit_tool or can include KUnit in kernel and parse manually.
-+``kunit_tool`` is a Python script, found in ``tools/testing/kunit/kunit.py=
-``. It
-+is used to configure, build, execute, parse test results and run all of th=
-e
-+previous commands in correct order (i.e., configure, build, execute and pa=
-rse).
-+You have two options for running KUnit tests: either build the kernel with=
- KUnit
-+enabled and manually parse the results (see
-+Documentation/dev-tools/kunit/run_manual.rst) or use ``kunit_tool``
-+(see Documentation/dev-tools/kunit/run_wrapper.rst).
-=20
- - ``configure`` command generates the kernel ``.config`` from a
-   ``.kunitconfig`` file (and any architecture-specific options).
--  For some architectures, additional config options are specified in the
--  ``qemu_config`` Python script
--  (For example: ``tools/testing/kunit/qemu_configs/powerpc.py``).
-+  The Python scripts available in ``qemu_configs`` folder
-+  (for example, ``tools/testing/kunit/qemu configs/powerpc.py``) contains
-+  additional configuration options for specific architectures.
-   It parses both the existing ``.config`` and the ``.kunitconfig`` files
--  and ensures that ``.config`` is a superset of ``.kunitconfig``.
--  If this is not the case, it will combine the two and run
--  ``make olddefconfig`` to regenerate the ``.config`` file. It then
--  verifies that ``.config`` is now a superset. This checks if all
--  Kconfig dependencies are correctly specified in ``.kunitconfig``.
--  ``kunit_config.py`` includes the parsing Kconfigs code. The code which
--  runs ``make olddefconfig`` is a part of ``kunit_kernel.py``. You can
--  invoke this command via: ``./tools/testing/kunit/kunit.py config`` and
-+  to ensure that ``.config`` is a superset of ``.kunitconfig``.
-+  If not, it will combine the two and run ``make olddefconfig`` to regener=
-ate
-+  the ``.config`` file. It then checks to see if ``.config`` has become a =
-superset.
-+  This verifies that all the Kconfig dependencies are correctly specified =
-in the
-+  file ``.kunitconfig``. The ``kunit_config.py`` script contains the code =
-for parsing
-+  Kconfigs. The code which runs ``make olddefconfig`` is part of the
-+  ``kunit_kernel.py`` script. You can invoke this command through:
-+  ``./tools/testing/kunit/kunit.py config`` and
-   generate a ``.config`` file.
- - ``build`` runs ``make`` on the kernel tree with required options
-   (depends on the architecture and some options, for example: build_dir)
-@@ -184,8 +186,8 @@ kunit_tool or can include KUnit in kernel and parse man=
-ually.
-   To build a KUnit kernel from the current ``.config``, you can use the
-   ``build`` argument: ``./tools/testing/kunit/kunit.py build``.
- - ``exec`` command executes kernel results either directly (using
--  User-mode Linux configuration), or via an emulator such
--  as QEMU. It reads results from the log via standard
-+  User-mode Linux configuration), or through an emulator such
-+  as QEMU. It reads results from the log using standard
-   output (stdout), and passes them to ``parse`` to be parsed.
-   If you already have built a kernel with built-in KUnit tests,
-   you can run the kernel and display the test results with the ``exec``
---=20
-2.38.0.413.g74048e4d9e-goog
+-- 
+With best wishes
+Dmitry
 
