@@ -2,180 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83D23C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 13:00:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABC28C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 13:11:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230414AbiJQNA1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 09:00:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53526 "EHLO
+        id S230248AbiJQNLE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 09:11:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230455AbiJQNAZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 09:00:25 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50B98402F7;
-        Mon, 17 Oct 2022 06:00:23 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 6C7EA20628;
-        Mon, 17 Oct 2022 13:00:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1666011622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9MB8IK99devSsbVKuCFsHUWmVzyz2mqfU8Y26jvqzv4=;
-        b=zhssMzsy/2w3OsoMr5WAqLlA15XAps4taHC3oW1kGemgiv5Of9mor6m5UgiloYUrq2u49x
-        uDXT5zpFbYy9NZ0ASsOtsb+1Qs6LN7GNt7HIVECX8kRRRI3VZDkM5TDsZSFVpj/QXQNNwK
-        yanlAR/KhCIc2KkUwCruBQ0yKEZ+4Kg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1666011622;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9MB8IK99devSsbVKuCFsHUWmVzyz2mqfU8Y26jvqzv4=;
-        b=kbo9YyUMH19Ty6ZeoQYYH6O8OBIIOCUsNjK8YY66kGueMJBtfGm21E2ES6nlbGbqGWxjnN
-        LDRgm2Xy/RcUW8Cw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D189713ABE;
-        Mon, 17 Oct 2022 13:00:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id QVZuMuVRTWOhRgAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Mon, 17 Oct 2022 13:00:21 +0000
-Message-ID: <de680280-f6b1-9337-2ae4-4b2faf2b823b@suse.cz>
-Date:   Mon, 17 Oct 2022 15:00:21 +0200
+        with ESMTP id S231168AbiJQNKr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 09:10:47 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 435B55D0ED;
+        Mon, 17 Oct 2022 06:10:15 -0700 (PDT)
+Received: from loongson.cn (unknown [112.20.109.239])
+        by gateway (Coremail) with SMTP id _____8Bx3Ng1VE1jQBEAAA--.521S3;
+        Mon, 17 Oct 2022 21:10:13 +0800 (CST)
+Received: from [192.168.100.127] (unknown [112.20.109.239])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Cxb+I0VE1j+R8AAA--.601S3;
+        Mon, 17 Oct 2022 21:10:13 +0800 (CST)
+Message-ID: <1f184f80-c993-898b-f503-85a52675104b@loongson.cn>
+Date:   Mon, 17 Oct 2022 21:10:12 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v1 5/5] docs/zh_CN: Add rust/arch-support Chinese
+ translation
 Content-Language: en-US
-To:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     wu.xiangcheng@linux.dev
+Cc:     alexs@kernel.org, seakeel@gmail.com, corbet@lwn.net,
+        ojeda@kernel.org, boqun.feng@gmail.com, wedsonaf@gmail.com,
+        gary@garyguo.net, bjorn3_gh@protonmail.com,
+        rust-for-linux@vger.kernel.org, bobwxc@email.cn,
+        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, siyanteng01@gmail.com
+References: <cover.1665650266.git.siyanteng@loongson.cn>
+ <a7e68f6ae3642ef3fcc78fdd84702e48fffb1a7c.1665650266.git.siyanteng@loongson.cn>
+ <Y0rFugAV266rVaYf@bobwxc.mipc>
+From:   Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <Y0rFugAV266rVaYf@bobwxc.mipc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cxb+I0VE1j+R8AAA--.601S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7KFy7ZF45KryDuw15uFyDZFb_yoW5JFW8p3
+        WqkFyfGa1rJryUKr4xKr1UJF47CF18Cw1UJr1xJwn5Xr4kJF1DJr4Utr98Krnrur48AFWU
+        Xr409ry7Cr1UArJanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bqkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+        n4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+        ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E
+        87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+        AS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCF
+        s4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI
+        8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41l
+        IxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIx
+        AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2
+        jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jr9NsUUUUU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/15/22 16:29, Chao Peng wrote:
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> 
-> KVM can use memfd-provided memory for guest memory. For normal userspace
-> accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
-> virtual address space and then tells KVM to use the virtual address to
-> setup the mapping in the secondary page table (e.g. EPT).
-> 
-> With confidential computing technologies like Intel TDX, the
-> memfd-provided memory may be encrypted with special key for special
-> software domain (e.g. KVM guest) and is not expected to be directly
-> accessed by userspace. Precisely, userspace access to such encrypted
-> memory may lead to host crash so it should be prevented.
-> 
-> This patch introduces userspace inaccessible memfd (created with
-> MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
-> ordinary MMU access (e.g. read/write/mmap) but can be accessed via
-> in-kernel interface so KVM can directly interact with core-mm without
-> the need to map the memory into KVM userspace.
-> 
-> It provides semantics required for KVM guest private(encrypted) memory
-> support that a file descriptor with this flag set is going to be used as
-> the source of guest memory in confidential computing environments such
-> as Intel TDX/AMD SEV.
-> 
-> KVM userspace is still in charge of the lifecycle of the memfd. It
-> should pass the opened fd to KVM. KVM uses the kernel APIs newly added
-> in this patch to obtain the physical memory address and then populate
-> the secondary page table entries.
-> 
-> The userspace inaccessible memfd can be fallocate-ed and hole-punched
-> from userspace. When hole-punching happens, KVM can get notified through
-> inaccessible_notifier it then gets chance to remove any mapped entries
-> of the range in the secondary page tables.
-> 
-> The userspace inaccessible memfd itself is implemented as a shim layer
-> on top of real memory file systems like tmpfs/hugetlbfs but this patch
-> only implemented tmpfs. The allocated memory is currently marked as
-> unmovable and unevictable, this is required for current confidential
-> usage. But in future this might be changed.
-> 
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
 
-...
+On 10/15/22 22:37, wu.xiangcheng@linux.dev wrote:
+>> Translate .../rust/arch-support.rst into Chinese.
+>>
+>> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+>> ---
+>>   .../translations/zh_CN/rust/arch-support.rst  | 23 +++++++++++++++++++
+>>   .../translations/zh_CN/rust/index.rst         |  5 +---
+>>   2 files changed, 24 insertions(+), 4 deletions(-)
+>>   create mode 100644 Documentation/translations/zh_CN/rust/arch-support.rst
+>>
+>> diff --git a/Documentation/translations/zh_CN/rust/arch-support.rst b/Documentation/translations/zh_CN/rust/arch-support.rst
+>> new file mode 100644
+>> index 000000000000..f8e3e7b8afe5
+>> --- /dev/null
+>> +++ b/Documentation/translations/zh_CN/rust/arch-support.rst
+>> @@ -0,0 +1,23 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +.. include:: ../disclaimer-zh_CN.rst
+>> +
+>> +:Original: Documentation/rust/arch-support.rst
+>> +
+>> +:翻译:
+>> +
+>> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
+>> +
+>> +架构支持
+>> +========
+>> +
+>> +目前，Rust编译器（``rustc``）使用LLVM进行代码生成，这限制了可以支持的目标架构。此外，对
+>> +使用LLVM/Clang构建内核的支持也有所不同（请参见使用Clang/LLVM构建Linux）。这种支持对于
+> reference?
+Oops! yes, it is.
+>
+>> +使用 ``libclang`` 的bindgen来说是必需的。
+> ``bindgen``
 
-> +static long inaccessible_fallocate(struct file *file, int mode,
-> +				   loff_t offset, loff_t len)
-> +{
-> +	struct inaccessible_data *data = file->f_mapping->private_data;
-> +	struct file *memfd = data->memfd;
-> +	int ret;
-> +
-> +	if (mode & FALLOC_FL_PUNCH_HOLE) {
-> +		if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
-> +			return -EINVAL;
-> +	}
-> +
-> +	ret = memfd->f_op->fallocate(memfd, mode, offset, len);
-> +	inaccessible_notifier_invalidate(data, offset, offset + len);
+ok!
 
-Wonder if invalidate should precede the actual hole punch, otherwise we open
-a window where the page tables point to memory no longer valid?
 
-> +	return ret;
-> +}
-> +
+Thanks,
 
-...
+Yanteng
 
-> +
-> +static struct file_system_type inaccessible_fs = {
-> +	.owner		= THIS_MODULE,
-> +	.name		= "[inaccessible]",
-
-Dunno where exactly is this name visible, but shouldn't it better be
-"[memfd:inaccessible]"?
-
-> +	.init_fs_context = inaccessible_init_fs_context,
-> +	.kill_sb	= kill_anon_super,
-> +};
-> +
+>
+>> +
+>> +下面是目前可以工作的架构的一般总结。支持程度与 ``MAINTAINERS`` 文件中的``S`` 值相对应:
+>> +
+>> +============  ================  ==============================================
+>> +架构          支持水平          限制因素
+>> +============  ================  ==============================================
+>> +``x86``       Maintained        只有 ``x86_64``
+>> +============  ================  ==============================================
+>> diff --git a/Documentation/translations/zh_CN/rust/index.rst b/Documentation/translations/zh_CN/rust/index.rst
+>> index c5507ad488a1..b01f887e7167 100644
+>> --- a/Documentation/translations/zh_CN/rust/index.rst
+>> +++ b/Documentation/translations/zh_CN/rust/index.rst
+>> @@ -18,10 +18,7 @@ Rust
+>>       quick-start
+>>       general-information
+>>       coding-guidelines
+>> -
+>> -TODOList:
+>> -
+>> -*    arch-support
+>> +    arch-support
+>>   
+>>   .. only::  subproject and html
+>>   
+>> -- 
+>> 2.31.1
+>>
+> Thanks,
+> 	Wu
 
