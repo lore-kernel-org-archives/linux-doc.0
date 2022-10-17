@@ -2,410 +2,320 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED428C433FE
-	for <linux-doc@archiver.kernel.org>; Sun, 16 Oct 2022 16:08:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64CFEC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 01:22:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229574AbiJPQIZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 16 Oct 2022 12:08:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56650 "EHLO
+        id S230018AbiJQBWa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 16 Oct 2022 21:22:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229648AbiJPQIY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Oct 2022 12:08:24 -0400
-Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29D8A32A92
-        for <linux-doc@vger.kernel.org>; Sun, 16 Oct 2022 09:08:22 -0700 (PDT)
-Date:   Mon, 17 Oct 2022 00:07:54 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1665936500;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tITPhEijqYtlCJzm9Od8NF2WTf6Pl7RhnXoj0qabAIc=;
-        b=Co1hQvXJ2CB/MENjDpm+5VMLcZGdUX9SiGws8tcFrMBz5CMd96aYRqdvQ6/DhE/62y/wLR
-        qiyTlECHCzEOiY8vh2Xtpz+0r7AnkGH7wNEzPVFulQaOza84waVncr+jNAan8WGbMRAVR/
-        Lfs/jeAFeca1wbMhC6gVWt4DxObIoCE=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
-To:     Binbin Zhou <zhoubinbin@loongson.cn>
+        with ESMTP id S230010AbiJQBW3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 16 Oct 2022 21:22:29 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 74B6B31F98
+        for <linux-doc@vger.kernel.org>; Sun, 16 Oct 2022 18:22:25 -0700 (PDT)
+Received: from mail-il1-f172.google.com (unknown [209.85.166.172])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8CxqmpOrkxjsFgwAA--.35713S3;
+        Mon, 17 Oct 2022 09:22:23 +0800 (CST)
+Received: by mail-il1-f172.google.com with SMTP id g13so5181220ile.0
+        for <linux-doc@vger.kernel.org>; Sun, 16 Oct 2022 18:22:23 -0700 (PDT)
+X-Gm-Message-State: ACrzQf0Wswxp+eWgwOMlxrSaq7gCOceZtnxmx6nAQ89BIU1r2Dw2qzz0
+        CNQGRxzz+piMICHMOtdATxyNzeSFeXYcFkun0V0=
+X-Google-Smtp-Source: AMsMyM6tBYubTOS2F2GVdOtiWgBM1nNmPkeAghmsjWsFe1fUzG8A98N2QEqSSbld61cNDYNP7354anb0kqmrlP4ichQ=
+X-Received: by 2002:a05:6e02:1a4f:b0:2fa:bd75:55a4 with SMTP id
+ u15-20020a056e021a4f00b002fabd7555a4mr3503511ilv.5.1665969741437; Sun, 16 Oct
+ 2022 18:22:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1665130536.git.zhoubinbin@loongson.cn> <1e90a5727b8d36508ad9db092b7d6ebefec07fcc.1665130536.git.zhoubinbin@loongson.cn>
+ <Y0wsWoI+BXXCuRbF@bobwxc.mipc>
+In-Reply-To: <Y0wsWoI+BXXCuRbF@bobwxc.mipc>
+From:   Binbin Zhou <zhoubinbin@loongson.cn>
+Date:   Mon, 17 Oct 2022 09:22:08 +0800
+X-Gmail-Original-Message-ID: <CAMpQs4+nLxn5GPWYW7WoMStBnS7d4VgVSteASCL8hpfLnEUM4Q@mail.gmail.com>
+Message-ID: <CAMpQs4+nLxn5GPWYW7WoMStBnS7d4VgVSteASCL8hpfLnEUM4Q@mail.gmail.com>
+Subject: Re: [PATCH 1/3] docs/zh_CN: core-api: Add this_cpu_ops Chinese translation
+To:     Wu XiangCheng <wu.xiangcheng@linux.dev>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>,
         Huacai Chen <chenhuacai@loongson.cn>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] docs/zh_CN: core-api: Add this_cpu_ops Chinese
- translation
-Message-ID: <Y0wsWoI+BXXCuRbF@bobwxc.mipc>
-References: <cover.1665130536.git.zhoubinbin@loongson.cn>
- <1e90a5727b8d36508ad9db092b7d6ebefec07fcc.1665130536.git.zhoubinbin@loongson.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1e90a5727b8d36508ad9db092b7d6ebefec07fcc.1665130536.git.zhoubinbin@loongson.cn>
-X-Generator: review-reply, a very cute ai bot
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+X-CM-TRANSID: AQAAf8CxqmpOrkxjsFgwAA--.35713S3
+X-Coremail-Antispam: 1UD129KBjvAXoW3tw18Zw47uF15AFWrGr1xKrg_yoW8XrWUGo
+        W3ZrWS9w4vkF45tFn8t3y8J3W2vw1rCryxGw1kKw4ag3W2g3Z8uF18A3W5GFW3uFWYkF1r
+        J3WftFy5Za18AFy5n29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUo97k0a2IF6F4UM7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0
+        x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUGVWUXwA2ocxC64kIII0Yj4
+        1l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0
+        I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4
+        vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAaw2AFwI0_Jrv_JF1lnx0E6VACY4xI67k04243
+        AVACY4xI67k04243AVAKzVAKj4xI6x02cVCv0xWle2I262IYc4CY6c8Ij28IcVAaY2xG8w
+        AqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8I
+        cVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjc
+        xG0xvEwIxGrwACY4xI67k04243AVAKzVAKj4xxM4xvF2IEb7IF0Fy26I8I3I1lc7CjxVAa
+        w2AFwI0_JF0_Jw1lc2xSY4AK6IIF6w4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+        v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
+        jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2I
+        x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK
+        8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
+        0E14v26r1j6r4UMVCEFcxC0VAYjxAxZFUvcSsGvfC2KfnxnUUI43ZEXa7IU0FJmUUUUUU=
+        =
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> Translate core-api/this_cpu_ops.rst into Chinese.
-> 
-> Last English version used:
-> 
-> commit c9b54d6f362c ("docs: move other kAPI documents to core-api").
-> 
-> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
-> ---
->  .../translations/zh_CN/core-api/index.rst     |   2 +-
->  .../zh_CN/core-api/this_cpu_ops.rst           | 281 ++++++++++++++++++
->  2 files changed, 282 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/core-api/this_cpu_ops.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-> index 37756d240b5e..21d0b25bc580 100644
-> --- a/Documentation/translations/zh_CN/core-api/index.rst
-> +++ b/Documentation/translations/zh_CN/core-api/index.rst
-> @@ -48,12 +48,12 @@
->     circular-buffers
->     generic-radix-tree
->     packing
-> +   this_cpu_ops
->  
->  Todolist:
->  
->  
->  
-> -   this_cpu_ops
->     timekeeping
->     errseq
->  
-> diff --git a/Documentation/translations/zh_CN/core-api/this_cpu_ops.rst b/Documentation/translations/zh_CN/core-api/this_cpu_ops.rst
-> new file mode 100644
-> index 000000000000..45e2bcb844cb
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/core-api/this_cpu_ops.rst
-> @@ -0,0 +1,281 @@
-> +.. SPDX-License-Identifier: GPL-2.0+
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/core-api/this_cpu_ops.rst
-> +
-> +:翻译:
-> +
-> + 周彬彬 Binbin Zhou <zhoubinbin@loongson.cn>
-> +
-> +============
-> +this_cpu操作
-> +============
-> +
-> +:作者: Christoph Lameter, 2014年8月4日
-> +:作者: Pranith Kumar, 2014年8月2日
-> +
-> +this_cpu操作是一种优化访问与当前执行处理器相关的per cpu变量的方法。这是通过使用段
-
-per cpu -> 逐cpu 或 每cpu
-replace all per cpu/percpu/per-cpu...
-
-see
-loongarch/introduction.rst:51:    存每CPU变量基地址。该寄存器没有ABI命名，不
-
-
-> +寄存器（或专用寄存器，cpu在其中永久存储特定处理器的per cpu区域的起始）来完成的。
-> +
-> +this_cpu操作将per cpu变量的偏移量添加到处理器特定的per cpu基址上，并将该操作编码
-> +到对per cpu变量进行操作的指令中。
-> +
-> +这意味着在偏移量的计算和对数据的操作之间不存在原子性问题。因此，没有必要禁用抢占
-> +或中断来确保处理器在计算地址和数据操作之间不被改变。
-> +
-> +读取-修改-写入操作特别值得关注。通常处理器具有特殊的低延迟指令，可以在没有典型同
-> +步开销的情况下运行，但仍提供某种宽松的原子性保证。例如，x86可以执行RMW（读取，
-> +修改，写入）指令，如inc/dec/cmpxchg，而无需锁前缀和相关的延迟损失。
-
-如 -> 如同
-
-> +
-> +对没有锁前缀的变量的访问是不同步的，也不需要同步，因为我们处理的是当前执行的处理
-> +器所特有的per cpu数据。只有当前的处理器可以访问该变量，因此系统中的其他处理器不存
-> +在并发性问题。
-> +
-> +请注意，远程处理器对per cpu区域的访问是特殊情况，可能会影响通过this_cpu_*的本地
-> +RMW操作的性能和正确性（远程写操作）。
-> +
-> +this_cpu操作的主要用途是优化计数器操作。
-> +
-> +定义了以下具有隐含抢占保护的this_cpu()操作。可以使用这些操作而不用担心抢占和中断::
-> +
-> +	this_cpu_read(pcp)
-> +	this_cpu_write(pcp, val)
-> +	this_cpu_add(pcp, val)
-> +	this_cpu_and(pcp, val)
-> +	this_cpu_or(pcp, val)
-> +	this_cpu_add_return(pcp, val)
-> +	this_cpu_xchg(pcp, nval)
-> +	this_cpu_cmpxchg(pcp, oval, nval)
-> +	this_cpu_cmpxchg_double(pcp1, pcp2, oval1, oval2, nval1, nval2)
-> +	this_cpu_sub(pcp, val)
-> +	this_cpu_inc(pcp)
-> +	this_cpu_dec(pcp)
-> +	this_cpu_sub_return(pcp, val)
-> +	this_cpu_inc_return(pcp)
-> +	this_cpu_dec_return(pcp)
-> +
-> +
-> +this_cpu操作的内部工作
-> +----------------------
-> +
-> +在x86上，fs:或gs:段寄存器包含per cpu区域的基址。这样就可以简单地使用段覆盖，
-> +将per cpu相对地址重定位到处理器适当的per cpu区域。所以对per cpu基址的重定位是通过
-> +段寄存器前缀在指令中编码完成的。
-> +
-> +例如::
-> +
-> +	DEFINE_PER_CPU(int, x);
-> +	int z;
-> +
-> +	z = this_cpu_read(x);
-> +
-> +单指令的结果::
-
-产生的单指令为::
-
-> +
-> +	mov ax, gs:[x]
-> +
-> +而不是像per cpu操作那样，先是一系列的地址计算，然后从该地址获取。在this_cpu_ops
-> +之前，这样的序列还需要先禁用/启用抢占功能，以防止内核在计算过程中将线程移动到不同
-> +的处理器上。
-> +
-> +请思考下面this_cpu操作::
-> +
-> +	this_cpu_inc(x)
-> +
-> +上面的结果是下面的单条指令（无锁前缀！）::
-
-这将产生如下单指令（无锁前缀！）::
-
-> +
-> +	inc gs:[x]
-> +
-> +而不是在没有段寄存器的情况下所需要的以下操作::
-> +
-> +	int *y;
-> +	int cpu;
-> +
-> +	cpu = get_cpu();
-> +	y = per_cpu_ptr(&x, cpu);
-> +	(*y)++;
-> +	put_cpu();
-> +
-> +请注意，这些操作只能用于为特定处理器保留的per cpu数据。如果不在上下文代码中禁用抢
-> +占，this_cpu_inc()将仅保证per cpu的某一个计数器被正确地递增，但不能保证操作系统不
-> +会在this_cpu指令执行的前后直接移动该进程。一般来说，这意味着每个处理器的单个计数
-> +器的值是没有意义的。所有per cpu计数器的总和才是唯一有意义的值。
-> +
-> +per cpu变量的使用是出于性能的考虑。如果多个处理器同时处理相同的代码路径，可以避免
-> +缓存行跳转。由于每个处理器都有自己的per cpu变量，因此不会发生并发缓存行更新。为这
-
-remove 由于
-
-> +种优化必须付出的代价是，当需要计数器的值时要将per cpu计数器相加。
-> +
-> +
-> +特殊的操作
-> +----------
-> +
-> +::
-> +
-> +	y = this_cpu_ptr(&x)
-> +
-> +使用per cpu变量的偏移量(&x!)，并返回属于当前执行处理器的per cpu变量的地址。
-> +this_cpu_ptr避免了通用get_cpu/put_cpu序列所需的多个步骤。没有可用的处理器编号。相
-> +反，本地per cpu区域的偏移量只是简单地添加到per cpu偏移量上。
-> +
-> +请注意，当抢占被禁用时，这个操作通常是在代码段中使用。然后该指针用来访问临界区中
-
-这个操作通常是在抢占被禁用后再在代码段中使用
-"has been disabled"
-
-> +的本地per cpu数据。当重新启用抢占时，此指针通常不再有用，因为它可能不再指向当前处
-> +理器的per cpu数据。
-> +
-> +Per cpu变量和偏移量
-> +-------------------
-> +
-> +per cpu变量相对于per cpu区域的起始点是有偏移的。尽管它们在代码中看起来像那样，
-
-它们没有地址，尽管代码里看起来像有一样。
-
-> +但它们没有地址。 不能直接取消引用偏移量。为了构成有效地址，必须将偏移量添加到处理
-> +器的per cpu区域的基指针。
-
-不能直接对偏移量解引用。必须用处理器每cpu区域基指针加上偏移量，以构成有效地址。
-
-> +
-> +因此，在per cpu操作的上下文之外使用x或&x是无效的，这种行为通常会被当作一个空指针
-> +的解引用来处理。
-> +
-> +::
-> +
-> +	DEFINE_PER_CPU(int, x);
-> +
-> +在per cpu操作的上下文中，上面表达式说明x是一个per cpu变量。大多数this_cpu操作都需
-> +要一个cpu变量。
-> +
-> +::
-> +
-> +	int __percpu *p = &x;
-> +
-> +&x和p是per cpu变量的偏移量。this_cpu_ptr()使用per cpu变量的偏移量，这让它看起来有
-> +点奇怪。
-> +
-> +
-> +per cpu结构体字段的操作
-> +-----------------------
-> +
-> +假设我们有一个percpu结构::
-> +
-> +	struct s {
-> +		int n,m;
-> +	};
-> +
-> +	DEFINE_PER_CPU(struct s, p);
-> +
-> +
-> +这些字段的操作非常简单::
-> +
-> +	this_cpu_inc(p.m)
-> +
-> +	z = this_cpu_cmpxchg(p.m, 0, 1);
-> +
-> +
-> +如果我们有一个相对于结构体s的偏移量::
-> +
-> +	struct s __percpu *ps = &p;
-> +
-> +	this_cpu_dec(ps->m);
-> +
-> +	z = this_cpu_inc_return(ps->n);
-> +
-> +
-> +如果我们后面不使用this_cpu ops来操作字段，则指针的计算可能需要使用this_cpu_ptr()::
-> +
-> +	struct s *pp;
-> +
-> +	pp = this_cpu_ptr(&p);
-> +
-> +	pp->m--;
-> +
-> +	z = pp->n++;
-> +
-> +
-> +this_cpu ops的变体
-> +------------------
-> +
-> +this_cpu的操作是中断安全的。一些架构不支持这些per cpu的本地操作。在这种情况下，该
-> +操作必须被禁用中断的代码所取代，然后做那些保证是原子的操作，再重新启用中断。当然
-> +这样做是很昂贵的。如果有其他原因导致调度器不能改变我们正在执行的处理器，那么就没
-> +有理由禁用中断了。为此，我们提供了以下__this_cpu操作。
-> +
-> +这些操作不能保证并发中断或抢占。如果在中断上下文中不使用per cpu变量并且调度程序无
-> +法抢占，那么它们是安全的。如果在操作进行时仍有中断发生，并且中断也修改了变量，则
-> +无法保证RMW操作是安全的::
-> +
-> +	__this_cpu_read(pcp)
-> +	__this_cpu_write(pcp, val)
-> +	__this_cpu_add(pcp, val)
-> +	__this_cpu_and(pcp, val)
-> +	__this_cpu_or(pcp, val)
-> +	__this_cpu_add_return(pcp, val)
-> +	__this_cpu_xchg(pcp, nval)
-> +	__this_cpu_cmpxchg(pcp, oval, nval)
-> +	__this_cpu_cmpxchg_double(pcp1, pcp2, oval1, oval2, nval1, nval2)
-> +	__this_cpu_sub(pcp, val)
-> +	__this_cpu_inc(pcp)
-> +	__this_cpu_dec(pcp)
-> +	__this_cpu_sub_return(pcp, val)
-> +	__this_cpu_inc_return(pcp)
-> +	__this_cpu_dec_return(pcp)
-> +
-> +
-> +将增加x，并且不会回退到在无法通过地址重定位和同一指令中的读取-修改-写入操作实现原
-> +子性的平台上禁用中断的代码。
-> +
-> +
-> +&this_cpu_ptr(pp)->n 对比 this_cpu_ptr(&pp->n)
-> +----------------------------------------------
-> +
-> +第一个操作使用偏移量并形成一个地址，然后再加上n字段的偏移量。这可能会导致编译器产
-> +生两条加法指令。
-> +
-> +第二个操作先加上两个偏移量，然后进行重定位。恕我直言，第二种形式看起来更干净，而
-> +且更容易与()结合。第二种形式也与this_cpu_read()和大家的使用方式一致。
-> +
-> +
-> +远程访问per cpu数据
-> +-------------------
-> +
-> +per cpu数据结构被设计为由一个CPU独占使用。如果您按预期使用变量，则this_cpu_ops()
-> +保证是“原子的”，因为没有其他CPU可以访问这些数据结构。
-> +
-> +在某些特殊情况下，您可能需要远程访问per cpu数据结构。通常情况下，进行远程读访问是
-> +安全的，这经常是为了统计计数器值。远程写访问可能会出现问题，因为this_cpu操作没有
-> +锁语义。远程写可能会干扰this_cpu RMW操作。
-> +
-> +除非绝对必要，否则强烈建议不要对percpu数据结构进行远程写访问。请考虑使用IPI来唤
-> +醒远程CPU，并对其per cpu区域进行更新。
-> +
-> +要远程访问per-cpu数据结构，通常使用per_cpu_ptr()函数::
-> +
-> +
-> +	DEFINE_PER_CPU(struct data, datap);
-> +
-> +	struct data *p = per_cpu_ptr(&datap, cpu);
-> +
-> +这清楚地表明，我们正准备远程访问percpu区域。
-> +
-> +您还可以执行以下操作以将datap偏移量转换为地址::
-> +
-> +	struct data *p = this_cpu_ptr(&datap);
-> +
-> +但是，将通过this_cpu_ptr计算的指针传递给其他cpu是不寻常的，应该避免。
-> +
-> +远程访问通常只用于读取另一个cpu的per cpu数据状态。由于this_cpu操作宽松的同步要求，
-> +写访问可能会导致独特的问题。
-
-奇特
-
-> +
-> +下面的情况说明了写入操作的一些问题，由于两个per cpu变量共享一个缓存行，但宽松的同
-> +步仅应用于更新缓存行的一个进程。
-> +
-> +考虑以下示例::
-> +
-> +
-> +	struct test {
-> +		atomic_t a;
-> +		int b;
-> +	};
-> +
-> +	DEFINE_PER_CPU(struct test, onecacheline);
-> +
-> +如果一个处理器远程更新字段'a'，而本地处理器将使用this_cpu ops来更新字段b，会发生
-
-``a`` ``b`` or a b or ‘a’ ‘b’
-just use a better style, depend on your mind.
-
-> +什么情况，这一点值得注意。应避免在同一缓存行内同时访问数据。此外，可能还需要进行
-> +代价高昂的同步。在这种情况下，通常建议使用IPI，而不是远程写入另一个处理器的
-> +per cpu区域。
-> +
-> +即使在远程写很少的情况下，请记住远程写将从最有可能访问它的处理器中逐出缓存行。如
-> +果处理器唤醒时发现per cpu区域缺少本地缓存行，其性能和唤醒时间将受到影响。
-> -- 
-> 2.31.1
-> 
-> 
-Thanks,
-	Wu
+SGkgWGlhbmdDaGVuZzoNCg0KT24gTW9uLCBPY3QgMTcsIDIwMjIgYXQgMTI6MTIgQU0gV3UgWGlh
+bmdDaGVuZyA8d3UueGlhbmdjaGVuZ0BsaW51eC5kZXY+IHdyb3RlOg0KPg0KPiA+IFRyYW5zbGF0
+ZSBjb3JlLWFwaS90aGlzX2NwdV9vcHMucnN0IGludG8gQ2hpbmVzZS4NCj4gPg0KPiA+IExhc3Qg
+RW5nbGlzaCB2ZXJzaW9uIHVzZWQ6DQo+ID4NCj4gPiBjb21taXQgYzliNTRkNmYzNjJjICgiZG9j
+czogbW92ZSBvdGhlciBrQVBJIGRvY3VtZW50cyB0byBjb3JlLWFwaSIpLg0KPiA+DQo+ID4gU2ln
+bmVkLW9mZi1ieTogQmluYmluIFpob3UgPHpob3ViaW5iaW5AbG9vbmdzb24uY24+DQo+ID4gLS0t
+DQo+ID4gIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5kZXgucnN0ICAgICB8ICAg
+MiArLQ0KPiA+ICAuLi4vemhfQ04vY29yZS1hcGkvdGhpc19jcHVfb3BzLnJzdCAgICAgICAgICAg
+fCAyODEgKysrKysrKysrKysrKysrKysrDQo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMjgyIGluc2Vy
+dGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL3RoaXNfY3B1X29wcy5yc3QNCj4gPg0K
+PiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFw
+aS9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9p
+bmRleC5yc3QNCj4gPiBpbmRleCAzNzc1NmQyNDBiNWUuLjIxZDBiMjViYzU4MCAxMDA2NDQNCj4g
+PiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9pbmRleC5y
+c3QNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9p
+bmRleC5yc3QNCj4gPiBAQCAtNDgsMTIgKzQ4LDEyIEBADQo+ID4gICAgIGNpcmN1bGFyLWJ1ZmZl
+cnMNCj4gPiAgICAgZ2VuZXJpYy1yYWRpeC10cmVlDQo+ID4gICAgIHBhY2tpbmcNCj4gPiArICAg
+dGhpc19jcHVfb3BzDQo+ID4NCj4gPiAgVG9kb2xpc3Q6DQo+ID4NCj4gPg0KPiA+DQo+ID4gLSAg
+IHRoaXNfY3B1X29wcw0KPiA+ICAgICB0aW1la2VlcGluZw0KPiA+ICAgICBlcnJzZXENCj4gPg0K
+PiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFw
+aS90aGlzX2NwdV9vcHMucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29y
+ZS1hcGkvdGhpc19jcHVfb3BzLnJzdA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gaW5k
+ZXggMDAwMDAwMDAwMDAwLi40NWUyYmNiODQ0Y2INCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysr
+IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvdGhpc19jcHVfb3Bz
+LnJzdA0KPiA+IEBAIC0wLDAgKzEsMjgxIEBADQo+ID4gKy4uIFNQRFgtTGljZW5zZS1JZGVudGlm
+aWVyOiBHUEwtMi4wKw0KPiA+ICsNCj4gPiArLi4gaW5jbHVkZTo6IC4uL2Rpc2NsYWltZXItemhf
+Q04ucnN0DQo+ID4gKw0KPiA+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRpb24vY29yZS1hcGkvdGhp
+c19jcHVfb3BzLnJzdA0KPiA+ICsNCj4gPiArOue/u+ivkToNCj4gPiArDQo+ID4gKyDlkajlvazl
+vawgQmluYmluIFpob3UgPHpob3ViaW5iaW5AbG9vbmdzb24uY24+DQo+ID4gKw0KPiA+ICs9PT09
+PT09PT09PT0NCj4gPiArdGhpc19jcHXmk43kvZwNCj4gPiArPT09PT09PT09PT09DQo+ID4gKw0K
+PiA+ICs65L2c6ICFOiBDaHJpc3RvcGggTGFtZXRlciwgMjAxNOW5tDjmnIg05pelDQo+ID4gKzrk
+vZzogIU6IFByYW5pdGggS3VtYXIsIDIwMTTlubQ45pyIMuaXpQ0KPiA+ICsNCj4gPiArdGhpc19j
+cHXmk43kvZzmmK/kuIDnp43kvJjljJborr/pl67kuI7lvZPliY3miafooYzlpITnkIblmajnm7jl
+hbPnmoRwZXIgY3B15Y+Y6YeP55qE5pa55rOV44CC6L+Z5piv6YCa6L+H5L2/55So5q61DQo+DQo+
+IHBlciBjcHUgLT4g6YCQY3B1IOaIliDmr49jcHUNCj4gcmVwbGFjZSBhbGwgcGVyIGNwdS9wZXJj
+cHUvcGVyLWNwdS4uLg0KPg0KPiBzZWUNCj4gbG9vbmdhcmNoL2ludHJvZHVjdGlvbi5yc3Q6NTE6
+ICAgIOWtmOavj0NQVeWPmOmHj+WfuuWcsOWdgOOAguivpeWvhOWtmOWZqOayoeaciUFCSeWRveWQ
+je+8jOS4jQ0KDQpPSywgSSB3aWxsIGRvIGl0Lg0KPg0KPg0KPiA+ICvlr4TlrZjlmajvvIjmiJbk
+uJPnlKjlr4TlrZjlmajvvIxjcHXlnKjlhbbkuK3msLjkuYXlrZjlgqjnibnlrprlpITnkIblmajn
+moRwZXIgY3B15Yy65Z+f55qE6LW35aeL77yJ5p2l5a6M5oiQ55qE44CCDQo+ID4gKw0KPiA+ICt0
+aGlzX2NwdeaTjeS9nOWwhnBlciBjcHXlj5jph4/nmoTlgY/np7vph4/mt7vliqDliLDlpITnkIbl
+majnibnlrprnmoRwZXIgY3B15Z+65Z2A5LiK77yM5bm25bCG6K+l5pON5L2c57yW56CBDQo+ID4g
+K+WIsOWvuXBlciBjcHXlj5jph4/ov5vooYzmk43kvZznmoTmjIfku6TkuK3jgIINCj4gPiArDQo+
+ID4gK+i/meaEj+WRs+edgOWcqOWBj+enu+mHj+eahOiuoeeul+WSjOWvueaVsOaNrueahOaTjeS9
+nOS5i+mXtOS4jeWtmOWcqOWOn+WtkOaAp+mXrumimOOAguWboOatpO+8jOayoeacieW/heimgeem
+geeUqOaKouWNoA0KPiA+ICvmiJbkuK3mlq3mnaXnoa7kv53lpITnkIblmajlnKjorqHnrpflnLDl
+nYDlkozmlbDmja7mk43kvZzkuYvpl7TkuI3ooqvmlLnlj5jjgIINCj4gPiArDQo+ID4gK+ivu+WP
+li3kv67mlLkt5YaZ5YWl5pON5L2c54m55Yir5YC85b6X5YWz5rOo44CC6YCa5bi45aSE55CG5Zmo
+5YW35pyJ54m55q6K55qE5L2O5bu26L+f5oyH5Luk77yM5Y+v5Lul5Zyo5rKh5pyJ5YW45Z6L5ZCM
+DQo+ID4gK+atpeW8gOmUgOeahOaDheWGteS4i+i/kOihjO+8jOS9huS7jeaPkOS+m+afkOenjeWu
+veadvueahOWOn+WtkOaAp+S/neivgeOAguS+i+Wmgu+8jHg4NuWPr+S7peaJp+ihjFJNV++8iOiv
+u+WPlu+8jA0KPiA+ICvkv67mlLnvvIzlhpnlhaXvvInmjIfku6TvvIzlpoJpbmMvZGVjL2NtcHhj
+aGfvvIzogIzml6DpnIDplIHliY3nvIDlkoznm7jlhbPnmoTlu7bov5/mjZ/lpLHjgIINCj4NCj4g
+5aaCIC0+IOWmguWQjA0KDQpPSy4uDQo+DQo+ID4gKw0KPiA+ICvlr7nmsqHmnInplIHliY3nvIDn
+moTlj5jph4/nmoTorr/pl67mmK/kuI3lkIzmraXnmoTvvIzkuZ/kuI3pnIDopoHlkIzmraXvvIzl
+m6DkuLrmiJHku6zlpITnkIbnmoTmmK/lvZPliY3miafooYznmoTlpITnkIYNCj4gPiAr5Zmo5omA
+54m55pyJ55qEcGVyIGNwdeaVsOaNruOAguWPquacieW9k+WJjeeahOWkhOeQhuWZqOWPr+S7peiu
+v+mXruivpeWPmOmHj++8jOWboOatpOezu+e7n+S4reeahOWFtuS7luWkhOeQhuWZqOS4jeWtmA0K
+PiA+ICvlnKjlubblj5HmgKfpl67popjjgIINCj4gPiArDQo+ID4gK+ivt+azqOaEj++8jOi/nOeo
+i+WkhOeQhuWZqOWvuXBlciBjcHXljLrln5/nmoTorr/pl67mmK/nibnmrormg4XlhrXvvIzlj6/o
+g73kvJrlvbHlk43pgJrov4d0aGlzX2NwdV8q55qE5pys5ZywDQo+ID4gK1JNV+aTjeS9nOeahOaA
+p+iDveWSjOato+ehruaAp++8iOi/nOeoi+WGmeaTjeS9nO+8ieOAgg0KPiA+ICsNCj4gPiArdGhp
+c19jcHXmk43kvZznmoTkuLvopoHnlKjpgJTmmK/kvJjljJborqHmlbDlmajmk43kvZzjgIINCj4g
+PiArDQo+ID4gK+WumuS5ieS6huS7peS4i+WFt+aciemakOWQq+aKouWNoOS/neaKpOeahHRoaXNf
+Y3B1KCnmk43kvZzjgILlj6/ku6Xkvb/nlKjov5nkupvmk43kvZzogIzkuI3nlKjmi4Xlv4PmiqLl
+jaDlkozkuK3mlq06Og0KPiA+ICsNCj4gPiArICAgICB0aGlzX2NwdV9yZWFkKHBjcCkNCj4gPiAr
+ICAgICB0aGlzX2NwdV93cml0ZShwY3AsIHZhbCkNCj4gPiArICAgICB0aGlzX2NwdV9hZGQocGNw
+LCB2YWwpDQo+ID4gKyAgICAgdGhpc19jcHVfYW5kKHBjcCwgdmFsKQ0KPiA+ICsgICAgIHRoaXNf
+Y3B1X29yKHBjcCwgdmFsKQ0KPiA+ICsgICAgIHRoaXNfY3B1X2FkZF9yZXR1cm4ocGNwLCB2YWwp
+DQo+ID4gKyAgICAgdGhpc19jcHVfeGNoZyhwY3AsIG52YWwpDQo+ID4gKyAgICAgdGhpc19jcHVf
+Y21weGNoZyhwY3AsIG92YWwsIG52YWwpDQo+ID4gKyAgICAgdGhpc19jcHVfY21weGNoZ19kb3Vi
+bGUocGNwMSwgcGNwMiwgb3ZhbDEsIG92YWwyLCBudmFsMSwgbnZhbDIpDQo+ID4gKyAgICAgdGhp
+c19jcHVfc3ViKHBjcCwgdmFsKQ0KPiA+ICsgICAgIHRoaXNfY3B1X2luYyhwY3ApDQo+ID4gKyAg
+ICAgdGhpc19jcHVfZGVjKHBjcCkNCj4gPiArICAgICB0aGlzX2NwdV9zdWJfcmV0dXJuKHBjcCwg
+dmFsKQ0KPiA+ICsgICAgIHRoaXNfY3B1X2luY19yZXR1cm4ocGNwKQ0KPiA+ICsgICAgIHRoaXNf
+Y3B1X2RlY19yZXR1cm4ocGNwKQ0KPiA+ICsNCj4gPiArDQo+ID4gK3RoaXNfY3B15pON5L2c55qE
+5YaF6YOo5bel5L2cDQo+ID4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiArDQo+ID4gK+Wc
+qHg4NuS4iu+8jGZzOuaIlmdzOuauteWvhOWtmOWZqOWMheWQq3BlciBjcHXljLrln5/nmoTln7rl
+nYDjgILov5nmoLflsLHlj6/ku6XnroDljZXlnLDkvb/nlKjmrrXopobnm5bvvIwNCj4gPiAr5bCG
+cGVyIGNwdeebuOWvueWcsOWdgOmHjeWumuS9jeWIsOWkhOeQhuWZqOmAguW9k+eahHBlciBjcHXl
+jLrln5/jgILmiYDku6Xlr7lwZXIgY3B15Z+65Z2A55qE6YeN5a6a5L2N5piv6YCa6L+HDQo+ID4g
+K+auteWvhOWtmOWZqOWJjee8gOWcqOaMh+S7pOS4ree8lueggeWujOaIkOeahOOAgg0KPiA+ICsN
+Cj4gPiAr5L6L5aaCOjoNCj4gPiArDQo+ID4gKyAgICAgREVGSU5FX1BFUl9DUFUoaW50LCB4KTsN
+Cj4gPiArICAgICBpbnQgejsNCj4gPiArDQo+ID4gKyAgICAgeiA9IHRoaXNfY3B1X3JlYWQoeCk7
+DQo+ID4gKw0KPiA+ICvljZXmjIfku6TnmoTnu5Pmnpw6Og0KPg0KPiDkuqfnlJ/nmoTljZXmjIfk
+u6TkuLo6Og0KT0suLg0KPg0KPiA+ICsNCj4gPiArICAgICBtb3YgYXgsIGdzOlt4XQ0KPiA+ICsN
+Cj4gPiAr6ICM5LiN5piv5YOPcGVyIGNwdeaTjeS9nOmCo+agt++8jOWFiOaYr+S4gOezu+WIl+ea
+hOWcsOWdgOiuoeeul++8jOeEtuWQjuS7juivpeWcsOWdgOiOt+WPluOAguWcqHRoaXNfY3B1X29w
+cw0KPiA+ICvkuYvliY3vvIzov5nmoLfnmoTluo/liJfov5jpnIDopoHlhYjnpoHnlKgv5ZCv55So
+5oqi5Y2g5Yqf6IO977yM5Lul6Ziy5q2i5YaF5qC45Zyo6K6h566X6L+H56iL5Lit5bCG57q/56iL
+56e75Yqo5Yiw5LiN5ZCMDQo+ID4gK+eahOWkhOeQhuWZqOS4iuOAgg0KPiA+ICsNCj4gPiAr6K+3
+5oCd6ICD5LiL6Z2idGhpc19jcHXmk43kvZw6Og0KPiA+ICsNCj4gPiArICAgICB0aGlzX2NwdV9p
+bmMoeCkNCj4gPiArDQo+ID4gK+S4iumdoueahOe7k+aenOaYr+S4i+mdoueahOWNleadoeaMh+S7
+pO+8iOaXoOmUgeWJjee8gO+8ge+8iTo6DQo+DQo+IOi/meWwhuS6p+eUn+WmguS4i+WNleaMh+S7
+pO+8iOaXoOmUgeWJjee8gO+8ge+8iTo6DQpPSy4uDQo+DQo+ID4gKw0KPiA+ICsgICAgIGluYyBn
+czpbeF0NCj4gPiArDQo+ID4gK+iAjOS4jeaYr+WcqOayoeacieauteWvhOWtmOWZqOeahOaDheWG
+teS4i+aJgOmcgOimgeeahOS7peS4i+aTjeS9nDo6DQo+ID4gKw0KPiA+ICsgICAgIGludCAqeTsN
+Cj4gPiArICAgICBpbnQgY3B1Ow0KPiA+ICsNCj4gPiArICAgICBjcHUgPSBnZXRfY3B1KCk7DQo+
+ID4gKyAgICAgeSA9IHBlcl9jcHVfcHRyKCZ4LCBjcHUpOw0KPiA+ICsgICAgICgqeSkrKzsNCj4g
+PiArICAgICBwdXRfY3B1KCk7DQo+ID4gKw0KPiA+ICvor7fms6jmhI/vvIzov5nkupvmk43kvZzl
+j6rog73nlKjkuo7kuLrnibnlrprlpITnkIblmajkv53nlZnnmoRwZXIgY3B15pWw5o2u44CC5aaC
+5p6c5LiN5Zyo5LiK5LiL5paH5Luj56CB5Lit56aB55So5oqiDQo+ID4gK+WNoO+8jHRoaXNfY3B1
+X2luYygp5bCG5LuF5L+d6K+BcGVyIGNwdeeahOafkOS4gOS4quiuoeaVsOWZqOiiq+ato+ehruWc
+sOmAkuWinu+8jOS9huS4jeiDveS/neivgeaTjeS9nOezu+e7n+S4jQ0KPiA+ICvkvJrlnKh0aGlz
+X2NwdeaMh+S7pOaJp+ihjOeahOWJjeWQjuebtOaOpeenu+WKqOivpei/m+eoi+OAguS4gOiIrOad
+peivtO+8jOi/meaEj+WRs+edgOavj+S4quWkhOeQhuWZqOeahOWNleS4quiuoeaVsA0KPiA+ICvl
+majnmoTlgLzmmK/msqHmnInmhI/kuYnnmoTjgILmiYDmnIlwZXIgY3B16K6h5pWw5Zmo55qE5oC7
+5ZKM5omN5piv5ZSv5LiA5pyJ5oSP5LmJ55qE5YC844CCDQo+ID4gKw0KPiA+ICtwZXIgY3B15Y+Y
+6YeP55qE5L2/55So5piv5Ye65LqO5oCn6IO955qE6ICD6JmR44CC5aaC5p6c5aSa5Liq5aSE55CG
+5Zmo5ZCM5pe25aSE55CG55u45ZCM55qE5Luj56CB6Lev5b6E77yM5Y+v5Lul6YG/5YWNDQo+ID4g
+K+e8k+WtmOihjOi3s+i9rOOAgueUseS6juavj+S4quWkhOeQhuWZqOmDveacieiHquW3seeahHBl
+ciBjcHXlj5jph4/vvIzlm6DmraTkuI3kvJrlj5HnlJ/lubblj5HnvJPlrZjooYzmm7TmlrDjgILk
+uLrov5kNCj4NCj4gcmVtb3ZlIOeUseS6jg0KT0suLg0KPg0KPiA+ICvnp43kvJjljJblv4Xpobvk
+u5jlh7rnmoTku6Pku7fmmK/vvIzlvZPpnIDopoHorqHmlbDlmajnmoTlgLzml7bopoHlsIZwZXIg
+Y3B16K6h5pWw5Zmo55u45Yqg44CCDQo+ID4gKw0KPiA+ICsNCj4gPiAr54m55q6K55qE5pON5L2c
+DQo+ID4gKy0tLS0tLS0tLS0NCj4gPiArDQo+ID4gKzo6DQo+ID4gKw0KPiA+ICsgICAgIHkgPSB0
+aGlzX2NwdV9wdHIoJngpDQo+ID4gKw0KPiA+ICvkvb/nlKhwZXIgY3B15Y+Y6YeP55qE5YGP56e7
+6YePKCZ4ISnvvIzlubbov5Tlm57lsZ7kuo7lvZPliY3miafooYzlpITnkIblmajnmoRwZXIgY3B1
+5Y+Y6YeP55qE5Zyw5Z2A44CCDQo+ID4gK3RoaXNfY3B1X3B0cumBv+WFjeS6humAmueUqGdldF9j
+cHUvcHV0X2NwdeW6j+WIl+aJgOmcgOeahOWkmuS4quatpemqpOOAguayoeacieWPr+eUqOeahOWk
+hOeQhuWZqOe8luWPt+OAguebuA0KPiA+ICvlj43vvIzmnKzlnLBwZXIgY3B15Yy65Z+f55qE5YGP
+56e76YeP5Y+q5piv566A5Y2V5Zyw5re75Yqg5YiwcGVyIGNwdeWBj+enu+mHj+S4iuOAgg0KPiA+
+ICsNCj4gPiAr6K+35rOo5oSP77yM5b2T5oqi5Y2g6KKr56aB55So5pe277yM6L+Z5Liq5pON5L2c
+6YCa5bi45piv5Zyo5Luj56CB5q615Lit5L2/55So44CC54S25ZCO6K+l5oyH6ZKI55So5p2l6K6/
+6Zeu5Li055WM5Yy65LitDQo+DQo+IOi/meS4quaTjeS9nOmAmuW4uOaYr+WcqOaKouWNoOiiq+em
+geeUqOWQjuWGjeWcqOS7o+eggeauteS4reS9v+eUqA0KPiAiaGFzIGJlZW4gZGlzYWJsZWQiDQo+
+DQo+ID4gK+eahOacrOWcsHBlciBjcHXmlbDmja7jgILlvZPph43mlrDlkK/nlKjmiqLljaDml7bv
+vIzmraTmjIfpkojpgJrluLjkuI3lho3mnInnlKjvvIzlm6DkuLrlroPlj6/og73kuI3lho3mjIfl
+kJHlvZPliY3lpIQNCj4gPiAr55CG5Zmo55qEcGVyIGNwdeaVsOaNruOAgg0KPiA+ICsNCj4gPiAr
+UGVyIGNwdeWPmOmHj+WSjOWBj+enu+mHjw0KPiA+ICstLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4g
+Kw0KPiA+ICtwZXIgY3B15Y+Y6YeP55u45a+55LqOcGVyIGNwdeWMuuWfn+eahOi1t+Wni+eCueaY
+r+acieWBj+enu+eahOOAguWwveeuoeWug+S7rOWcqOS7o+eggeS4reeci+i1t+adpeWDj+mCo+ag
+t++8jA0KPg0KPiDlroPku6zmsqHmnInlnLDlnYDvvIzlsL3nrqHku6PnoIHph4znnIvotbfmnaXl
+g4/mnInkuIDmoLfjgIINCk9LLi4NCj4NCj4gPiAr5L2G5a6D5Lus5rKh5pyJ5Zyw5Z2A44CCIOS4
+jeiDveebtOaOpeWPlua2iOW8leeUqOWBj+enu+mHj+OAguS4uuS6huaehOaIkOacieaViOWcsOWd
+gO+8jOW/hemhu+WwhuWBj+enu+mHj+a3u+WKoOWIsOWkhOeQhg0KPiA+ICvlmajnmoRwZXIgY3B1
+5Yy65Z+f55qE5Z+65oyH6ZKI44CCDQo+DQo+IOS4jeiDveebtOaOpeWvueWBj+enu+mHj+ino+W8
+leeUqOOAguW/hemhu+eUqOWkhOeQhuWZqOavj2NwdeWMuuWfn+WfuuaMh+mSiOWKoOS4iuWBj+en
+u+mHj++8jOS7peaehOaIkOacieaViOWcsOWdgOOAgg0KT0ssDQpJIHdpbGwgcmVvcmdhbml6ZSB0
+aGUgdHJhbnNsYXRpb24gb2YgdGhpcyBwYXJ0Lg0KPg0KPiA+ICsNCj4gPiAr5Zug5q2k77yM5Zyo
+cGVyIGNwdeaTjeS9nOeahOS4iuS4i+aWh+S5i+WkluS9v+eUqHjmiJYmeOaYr+aXoOaViOeahO+8
+jOi/meenjeihjOS4uumAmuW4uOS8muiiq+W9k+S9nOS4gOS4quepuuaMh+mSiA0KPiA+ICvnmoTo
+p6PlvJXnlKjmnaXlpITnkIbjgIINCj4gPiArDQo+ID4gKzo6DQo+ID4gKw0KPiA+ICsgICAgIERF
+RklORV9QRVJfQ1BVKGludCwgeCk7DQo+ID4gKw0KPiA+ICvlnKhwZXIgY3B15pON5L2c55qE5LiK
+5LiL5paH5Lit77yM5LiK6Z2i6KGo6L6+5byP6K+05piOeOaYr+S4gOS4qnBlciBjcHXlj5jph4/j
+gILlpKflpJrmlbB0aGlzX2NwdeaTjeS9nOmDvemcgA0KPiA+ICvopoHkuIDkuKpjcHXlj5jph4/j
+gIINCj4gPiArDQo+ID4gKzo6DQo+ID4gKw0KPiA+ICsgICAgIGludCBfX3BlcmNwdSAqcCA9ICZ4
+Ow0KPiA+ICsNCj4gPiArJnjlkoxw5pivcGVyIGNwdeWPmOmHj+eahOWBj+enu+mHj+OAgnRoaXNf
+Y3B1X3B0cigp5L2/55SocGVyIGNwdeWPmOmHj+eahOWBj+enu+mHj++8jOi/meiuqeWug+eci+i1
+t+adpeaciQ0KPiA+ICvngrnlpYfmgKrjgIINCj4gPiArDQo+ID4gKw0KPiA+ICtwZXIgY3B157uT
+5p6E5L2T5a2X5q6155qE5pON5L2cDQo+ID4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4g
+Kw0KPiA+ICvlgYforr7miJHku6zmnInkuIDkuKpwZXJjcHXnu5PmnoQ6Og0KPiA+ICsNCj4gPiAr
+ICAgICBzdHJ1Y3QgcyB7DQo+ID4gKyAgICAgICAgICAgICBpbnQgbixtOw0KPiA+ICsgICAgIH07
+DQo+ID4gKw0KPiA+ICsgICAgIERFRklORV9QRVJfQ1BVKHN0cnVjdCBzLCBwKTsNCj4gPiArDQo+
+ID4gKw0KPiA+ICvov5nkupvlrZfmrrXnmoTmk43kvZzpnZ7luLjnroDljZU6Og0KPiA+ICsNCj4g
+PiArICAgICB0aGlzX2NwdV9pbmMocC5tKQ0KPiA+ICsNCj4gPiArICAgICB6ID0gdGhpc19jcHVf
+Y21weGNoZyhwLm0sIDAsIDEpOw0KPiA+ICsNCj4gPiArDQo+ID4gK+WmguaenOaIkeS7rOacieS4
+gOS4quebuOWvueS6jue7k+aehOS9k3PnmoTlgY/np7vph486Og0KPiA+ICsNCj4gPiArICAgICBz
+dHJ1Y3QgcyBfX3BlcmNwdSAqcHMgPSAmcDsNCj4gPiArDQo+ID4gKyAgICAgdGhpc19jcHVfZGVj
+KHBzLT5tKTsNCj4gPiArDQo+ID4gKyAgICAgeiA9IHRoaXNfY3B1X2luY19yZXR1cm4ocHMtPm4p
+Ow0KPiA+ICsNCj4gPiArDQo+ID4gK+WmguaenOaIkeS7rOWQjumdouS4jeS9v+eUqHRoaXNfY3B1
+IG9wc+adpeaTjeS9nOWtl+aute+8jOWImeaMh+mSiOeahOiuoeeul+WPr+iDvemcgOimgeS9v+eU
+qHRoaXNfY3B1X3B0cigpOjoNCj4gPiArDQo+ID4gKyAgICAgc3RydWN0IHMgKnBwOw0KPiA+ICsN
+Cj4gPiArICAgICBwcCA9IHRoaXNfY3B1X3B0cigmcCk7DQo+ID4gKw0KPiA+ICsgICAgIHBwLT5t
+LS07DQo+ID4gKw0KPiA+ICsgICAgIHogPSBwcC0+bisrOw0KPiA+ICsNCj4gPiArDQo+ID4gK3Ro
+aXNfY3B1IG9wc+eahOWPmOS9kw0KPiA+ICstLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiArDQo+ID4g
+K3RoaXNfY3B155qE5pON5L2c5piv5Lit5pat5a6J5YWo55qE44CC5LiA5Lqb5p625p6E5LiN5pSv
+5oyB6L+Z5LqbcGVyIGNwdeeahOacrOWcsOaTjeS9nOOAguWcqOi/meenjeaDheWGteS4i++8jOiv
+pQ0KPiA+ICvmk43kvZzlv4XpobvooqvnpoHnlKjkuK3mlq3nmoTku6PnoIHmiYDlj5bku6PvvIzn
+hLblkI7lgZrpgqPkupvkv53or4HmmK/ljp/lrZDnmoTmk43kvZzvvIzlho3ph43mlrDlkK/nlKjk
+uK3mlq3jgILlvZPnhLYNCj4gPiAr6L+Z5qC35YGa5piv5b6I5piC6LS155qE44CC5aaC5p6c5pyJ
+5YW25LuW5Y6f5Zug5a+86Ie06LCD5bqm5Zmo5LiN6IO95pS55Y+Y5oiR5Lus5q2j5Zyo5omn6KGM
+55qE5aSE55CG5Zmo77yM6YKj5LmI5bCx5rKhDQo+ID4gK+acieeQhueUseemgeeUqOS4reaWreS6
+huOAguS4uuatpO+8jOaIkeS7rOaPkOS+m+S6huS7peS4i19fdGhpc19jcHXmk43kvZzjgIINCj4g
+PiArDQo+ID4gK+i/meS6m+aTjeS9nOS4jeiDveS/neivgeW5tuWPkeS4reaWreaIluaKouWNoOOA
+guWmguaenOWcqOS4reaWreS4iuS4i+aWh+S4reS4jeS9v+eUqHBlciBjcHXlj5jph4/lubbkuJTo
+sIPluqbnqIvluo/ml6ANCj4gPiAr5rOV5oqi5Y2g77yM6YKj5LmI5a6D5Lus5piv5a6J5YWo55qE
+44CC5aaC5p6c5Zyo5pON5L2c6L+b6KGM5pe25LuN5pyJ5Lit5pat5Y+R55Sf77yM5bm25LiU5Lit
+5pat5Lmf5L+u5pS55LqG5Y+Y6YeP77yM5YiZDQo+ID4gK+aXoOazleS/neivgVJNV+aTjeS9nOaY
+r+WuieWFqOeahDo6DQo+ID4gKw0KPiA+ICsgICAgIF9fdGhpc19jcHVfcmVhZChwY3ApDQo+ID4g
+KyAgICAgX190aGlzX2NwdV93cml0ZShwY3AsIHZhbCkNCj4gPiArICAgICBfX3RoaXNfY3B1X2Fk
+ZChwY3AsIHZhbCkNCj4gPiArICAgICBfX3RoaXNfY3B1X2FuZChwY3AsIHZhbCkNCj4gPiArICAg
+ICBfX3RoaXNfY3B1X29yKHBjcCwgdmFsKQ0KPiA+ICsgICAgIF9fdGhpc19jcHVfYWRkX3JldHVy
+bihwY3AsIHZhbCkNCj4gPiArICAgICBfX3RoaXNfY3B1X3hjaGcocGNwLCBudmFsKQ0KPiA+ICsg
+ICAgIF9fdGhpc19jcHVfY21weGNoZyhwY3AsIG92YWwsIG52YWwpDQo+ID4gKyAgICAgX190aGlz
+X2NwdV9jbXB4Y2hnX2RvdWJsZShwY3AxLCBwY3AyLCBvdmFsMSwgb3ZhbDIsIG52YWwxLCBudmFs
+MikNCj4gPiArICAgICBfX3RoaXNfY3B1X3N1YihwY3AsIHZhbCkNCj4gPiArICAgICBfX3RoaXNf
+Y3B1X2luYyhwY3ApDQo+ID4gKyAgICAgX190aGlzX2NwdV9kZWMocGNwKQ0KPiA+ICsgICAgIF9f
+dGhpc19jcHVfc3ViX3JldHVybihwY3AsIHZhbCkNCj4gPiArICAgICBfX3RoaXNfY3B1X2luY19y
+ZXR1cm4ocGNwKQ0KPiA+ICsgICAgIF9fdGhpc19jcHVfZGVjX3JldHVybihwY3ApDQo+ID4gKw0K
+PiA+ICsNCj4gPiAr5bCG5aKe5YqgeO+8jOW5tuS4lOS4jeS8muWbnumAgOWIsOWcqOaXoOazlemA
+mui/h+WcsOWdgOmHjeWumuS9jeWSjOWQjOS4gOaMh+S7pOS4reeahOivu+WPli3kv67mlLkt5YaZ
+5YWl5pON5L2c5a6e546w5Y6fDQo+ID4gK+WtkOaAp+eahOW5s+WPsOS4iuemgeeUqOS4reaWreea
+hOS7o+eggeOAgg0KPiA+ICsNCj4gPiArDQo+ID4gKyZ0aGlzX2NwdV9wdHIocHApLT5uIOWvueav
+lCB0aGlzX2NwdV9wdHIoJnBwLT5uKQ0KPiA+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gKw0KPiA+ICvnrKzkuIDkuKrmk43kvZzkvb/nlKjlgY/n
+p7vph4/lubblvaLmiJDkuIDkuKrlnLDlnYDvvIznhLblkI7lho3liqDkuIpu5a2X5q6155qE5YGP
+56e76YeP44CC6L+Z5Y+v6IO95Lya5a+86Ie057yW6K+R5Zmo5LqnDQo+ID4gK+eUn+S4pOadoeWK
+oOazleaMh+S7pOOAgg0KPiA+ICsNCj4gPiAr56ys5LqM5Liq5pON5L2c5YWI5Yqg5LiK5Lik5Liq
+5YGP56e76YeP77yM54S25ZCO6L+b6KGM6YeN5a6a5L2N44CC5oGV5oiR55u06KiA77yM56ys5LqM
+56eN5b2i5byP55yL6LW35p2l5pu05bmy5YeA77yM6ICMDQo+ID4gK+S4lOabtOWuueaYk+S4jigp
+57uT5ZCI44CC56ys5LqM56eN5b2i5byP5Lmf5LiOdGhpc19jcHVfcmVhZCgp5ZKM5aSn5a6255qE
+5L2/55So5pa55byP5LiA6Ie044CCDQo+ID4gKw0KPiA+ICsNCj4gPiAr6L+c56iL6K6/6ZeucGVy
+IGNwdeaVsOaNrg0KPiA+ICstLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gKw0KPiA+ICtwZXIgY3B1
+5pWw5o2u57uT5p6E6KKr6K6+6K6h5Li655Sx5LiA5LiqQ1BV54us5Y2g5L2/55So44CC5aaC5p6c
+5oKo5oyJ6aKE5pyf5L2/55So5Y+Y6YeP77yM5YiZdGhpc19jcHVfb3BzKCkNCj4gPiAr5L+d6K+B
+5piv4oCc5Y6f5a2Q55qE4oCd77yM5Zug5Li65rKh5pyJ5YW25LuWQ1BV5Y+v5Lul6K6/6Zeu6L+Z
+5Lqb5pWw5o2u57uT5p6E44CCDQo+ID4gKw0KPiA+ICvlnKjmn5Dkupvnibnmrormg4XlhrXkuIvv
+vIzmgqjlj6/og73pnIDopoHov5znqIvorr/pl65wZXIgY3B15pWw5o2u57uT5p6E44CC6YCa5bi4
+5oOF5Ya15LiL77yM6L+b6KGM6L+c56iL6K+76K6/6Zeu5pivDQo+ID4gK+WuieWFqOeahO+8jOi/
+mee7j+W4uOaYr+S4uuS6hue7n+iuoeiuoeaVsOWZqOWAvOOAgui/nOeoi+WGmeiuv+mXruWPr+iD
+veS8muWHuueOsOmXrumimO+8jOWboOS4unRoaXNfY3B15pON5L2c5rKh5pyJDQo+ID4gK+mUgeiv
+reS5ieOAgui/nOeoi+WGmeWPr+iDveS8muW5suaJsHRoaXNfY3B1IFJNV+aTjeS9nOOAgg0KPiA+
+ICsNCj4gPiAr6Zmk6Z2e57ud5a+55b+F6KaB77yM5ZCm5YiZ5by654OI5bu66K6u5LiN6KaB5a+5
+cGVyY3B15pWw5o2u57uT5p6E6L+b6KGM6L+c56iL5YaZ6K6/6Zeu44CC6K+36ICD6JmR5L2/55So
+SVBJ5p2l5ZSkDQo+ID4gK+mGkui/nOeoi0NQVe+8jOW5tuWvueWFtnBlciBjcHXljLrln5/ov5vo
+oYzmm7TmlrDjgIINCj4gPiArDQo+ID4gK+imgei/nOeoi+iuv+mXrnBlci1jcHXmlbDmja7nu5Pm
+noTvvIzpgJrluLjkvb/nlKhwZXJfY3B1X3B0cigp5Ye95pWwOjoNCj4gPiArDQo+ID4gKw0KPiA+
+ICsgICAgIERFRklORV9QRVJfQ1BVKHN0cnVjdCBkYXRhLCBkYXRhcCk7DQo+ID4gKw0KPiA+ICsg
+ICAgIHN0cnVjdCBkYXRhICpwID0gcGVyX2NwdV9wdHIoJmRhdGFwLCBjcHUpOw0KPiA+ICsNCj4g
+PiAr6L+Z5riF5qWa5Zyw6KGo5piO77yM5oiR5Lus5q2j5YeG5aSH6L+c56iL6K6/6ZeucGVyY3B1
+5Yy65Z+f44CCDQo+ID4gKw0KPiA+ICvmgqjov5jlj6/ku6XmiafooYzku6XkuIvmk43kvZzku6Xl
+sIZkYXRhcOWBj+enu+mHj+i9rOaNouS4uuWcsOWdgDo6DQo+ID4gKw0KPiA+ICsgICAgIHN0cnVj
+dCBkYXRhICpwID0gdGhpc19jcHVfcHRyKCZkYXRhcCk7DQo+ID4gKw0KPiA+ICvkvYbmmK/vvIzl
+sIbpgJrov4d0aGlzX2NwdV9wdHLorqHnrpfnmoTmjIfpkojkvKDpgJLnu5nlhbbku5ZjcHXmmK/k
+uI3lr7vluLjnmoTvvIzlupTor6Xpgb/lhY3jgIINCj4gPiArDQo+ID4gK+i/nOeoi+iuv+mXrumA
+muW4uOWPqueUqOS6juivu+WPluWPpuS4gOS4qmNwdeeahHBlciBjcHXmlbDmja7nirbmgIHjgILn
+lLHkuo50aGlzX2NwdeaTjeS9nOWuveadvueahOWQjOatpeimgeaxgu+8jA0KPiA+ICvlhpnorr/p
+l67lj6/og73kvJrlr7zoh7Tni6znibnnmoTpl67popjjgIINCj4NCj4g5aWH54m5DQoNCk9LLi4N
+Cj4NCj4gPiArDQo+ID4gK+S4i+mdoueahOaDheWGteivtOaYjuS6huWGmeWFpeaTjeS9nOeahOS4
+gOS6m+mXrumimO+8jOeUseS6juS4pOS4qnBlciBjcHXlj5jph4/lhbHkuqvkuIDkuKrnvJPlrZjo
+oYzvvIzkvYblrr3mnb7nmoTlkIwNCj4gPiAr5q2l5LuF5bqU55So5LqO5pu05paw57yT5a2Y6KGM
+55qE5LiA5Liq6L+b56iL44CCDQo+ID4gKw0KPiA+ICvogIPomZHku6XkuIvnpLrkvos6Og0KPiA+
+ICsNCj4gPiArDQo+ID4gKyAgICAgc3RydWN0IHRlc3Qgew0KPiA+ICsgICAgICAgICAgICAgYXRv
+bWljX3QgYTsNCj4gPiArICAgICAgICAgICAgIGludCBiOw0KPiA+ICsgICAgIH07DQo+ID4gKw0K
+PiA+ICsgICAgIERFRklORV9QRVJfQ1BVKHN0cnVjdCB0ZXN0LCBvbmVjYWNoZWxpbmUpOw0KPiA+
+ICsNCj4gPiAr5aaC5p6c5LiA5Liq5aSE55CG5Zmo6L+c56iL5pu05paw5a2X5q61J2En77yM6ICM
+5pys5Zyw5aSE55CG5Zmo5bCG5L2/55SodGhpc19jcHUgb3Bz5p2l5pu05paw5a2X5q61Yu+8jOS8
+muWPkeeUnw0KPg0KPiBgYGFgYCBgYGJgYCBvciBhIGIgb3Ig4oCYYeKAmSDigJhi4oCZDQo+IGp1
+c3QgdXNlIGEgYmV0dGVyIHN0eWxlLCBkZXBlbmQgb24geW91ciBtaW5kLg0KDQpGb3IgbWUsIGBg
+YWBgIGlzIHByb2JhYmx5IGEgYmV0dGVyIGNob2ljZSwgSSdsbCB1bmlmeSB0aGUgZm9ybWF0Lg0K
+DQpUaGFua3MgZm9yIHlvdXIgcmV2aWV3Lg0KDQpCaW5iaW4NCg0KPg0KPiA+ICvku4DkuYjmg4Xl
+hrXvvIzov5nkuIDngrnlgLzlvpfms6jmhI/jgILlupTpgb/lhY3lnKjlkIzkuIDnvJPlrZjooYzl
+hoXlkIzml7borr/pl67mlbDmja7jgILmraTlpJbvvIzlj6/og73ov5jpnIDopoHov5vooYwNCj4g
+PiAr5Luj5Lu36auY5piC55qE5ZCM5q2l44CC5Zyo6L+Z56eN5oOF5Ya15LiL77yM6YCa5bi45bu6
+6K6u5L2/55SoSVBJ77yM6ICM5LiN5piv6L+c56iL5YaZ5YWl5Y+m5LiA5Liq5aSE55CG5Zmo55qE
+DQo+ID4gK3BlciBjcHXljLrln5/jgIINCj4gPiArDQo+ID4gK+WNs+S9v+WcqOi/nOeoi+WGmeW+
+iOWwkeeahOaDheWGteS4i++8jOivt+iusOS9j+i/nOeoi+WGmeWwhuS7juacgOacieWPr+iDveiu
+v+mXruWug+eahOWkhOeQhuWZqOS4remAkOWHuue8k+WtmOihjOOAguWmgg0KPiA+ICvmnpzlpITn
+kIblmajllKTphpLml7blj5HnjrBwZXIgY3B15Yy65Z+f57y65bCR5pys5Zyw57yT5a2Y6KGM77yM
+5YW25oCn6IO95ZKM5ZSk6YaS5pe26Ze05bCG5Y+X5Yiw5b2x5ZON44CCDQo+ID4gLS0NCj4gPiAy
+LjMxLjENCj4gPg0KPiA+DQo+IFRoYW5rcywNCj4gICAgICAgICBXdQ0KPg0K
 
