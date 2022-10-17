@@ -2,62 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CB3BC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 13:55:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 973B6C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 13:57:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230047AbiJQNzy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 09:55:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36752 "EHLO
+        id S229940AbiJQN5v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 09:57:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229913AbiJQNzw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 09:55:52 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80AB153A78;
-        Mon, 17 Oct 2022 06:55:50 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0FDDF2C0;
-        Mon, 17 Oct 2022 13:55:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0FDDF2C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1666014950; bh=ni6U8G+QmQhAjHliaAr49l5NZ9JoBMlkY5v4Rk3jxCA=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=PKSsJvV+F2XU4UBMkXG4uXdPFyhiHTd41wOWJUcCcffqVA6HTWjw+s5zKXPZdcVoJ
-         K4bxcf7v8Bo/Yfv+bTeuV9mbiuPOoIbELUWIoGugrkJlIUcpffeaoqx40cvoFmrZ4C
-         b75q/vnrDw1hJRmKKQJ9EkYTCpaPi8MpSkz6vG3D7yiCr07KOdgLY0gWZuytoM5fF0
-         vykoESqk/61q3+KISdkClMQt8jyRbmD7C6PXcTn8gwBGpNzS/DGqdCI0GoTH4k5CiY
-         +idG4ubZdyUnKYhrRcesBH6mk0/g7zhwy5nM0UPXmgyth4UPXGAFgrg1UIWmDc175V
-         7nYyGUwuRnBOg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Sadiya Kazi <sadiyakazi@google.com>
-Cc:     brendanhiggins@google.com, davidgow@google.com,
-        skhan@linuxfoundation.org, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] Documentation: Kunit: Update architecture.rst for
- minor fixes
-In-Reply-To: <Y00im2gq9/c5NzVt@debian.me>
-References: <20221017070820.2253501-1-sadiyakazi@google.com>
- <Y00im2gq9/c5NzVt@debian.me>
-Date:   Mon, 17 Oct 2022 07:55:49 -0600
-Message-ID: <87lepeftay.fsf@meer.lwn.net>
+        with ESMTP id S230202AbiJQN5m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 09:57:42 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C14D3642D1;
+        Mon, 17 Oct 2022 06:57:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=6QZ3gapeMS/aSRKE6Bc1zdlguo4AQT7A2NhJ50U8mgk=; b=sWH+XupFFO60xes+EwZS6aJ6/o
+        qjRpjYWRAlGfyttkjnohOP054j5rWeCHxcsnCop9rmvN1ugvH9q1xXi1MfPlzX1fZOrBFhPPOUKAQ
+        CZvyO8HhNVrD/2ymBDo9dMjeRmUKw2or9NVYMG05TtMv/Ze7HFXPP3aG7uC57iBXlEDY/z7USmgHX
+        oxAmDtgqXjmm7/yIBNubAd0/lMa4JKD1jHuCbUNAKrARVHsgeiqqs6VpxZVXS1ot3mQeeodY710Pz
+        26jiD2tsm7SY7aUgc1cB3tFotq4fHciB7EBepLQD0FRttCjQGJjiKyzaDbhjkw6lRwk8WQ9mh/zrS
+        9jkh49AQ==;
+Received: from [179.113.159.85] (helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1okQcM-000Nos-4q; Mon, 17 Oct 2022 15:57:22 +0200
+Message-ID: <0d9d589e-4f6c-02a4-fb00-b4467e75b47f@igalia.com>
+Date:   Mon, 17 Oct 2022 10:57:01 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH V2] x86/split_lock: Add sysctl to control the misery mode
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        hpa@zytor.com, luto@kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, kernel-dev@igalia.com,
+        kernel@gpiccoli.net, Andre Almeida <andrealmeid@igalia.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Joshua Ashton <joshua@froggi.es>,
+        Melissa Wen <mwen@igalia.com>,
+        Paul Gofman <pgofman@codeweavers.com>,
+        Pavel Machek <pavel@denx.de>,
+        Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Zebediah Figura <zfigura@codeweavers.com>
+References: <20221014180506.211592-1-gpiccoli@igalia.com>
+ <Y0tz1/pR/s7+j6s+@debian.me>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <Y0tz1/pR/s7+j6s+@debian.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Thank you Bagas! I see you fixed the documentation in more than one
+place, appreciate that.
 
-> Seems like you ignore my requested changes from v1 and v2 review (code
-> location link and redundant kunit_tool summary), hence NAK until you
-> have addressed them.
+What's the next step then, re-submit with your fixes, or wait more
+feedback perhaps?
 
-Bagas, you are not a maintainer of or contributor to this work; you are
-in no position to "NAK" anything.  I will ask you, yet again, to please
-focus on doing useful work yourself rather than on adding friction for
-others.
+If a maintainer plans to pick this one, maybe they can just apply your
+fix-up on top of it.
+Cheers,
 
-jon
+
+Guilherme
