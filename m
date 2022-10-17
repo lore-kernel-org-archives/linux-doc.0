@@ -2,201 +2,350 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F119C43217
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 08:43:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83049C4167D
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 08:53:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbiJQInr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 04:43:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36508 "EHLO
+        id S230354AbiJQIxN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 04:53:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229822AbiJQInq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 04:43:46 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6ECE2AC7F
-        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 01:43:43 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id a6so13082111ljq.5
-        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 01:43:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=p23jnQNQ6JC6/vxi7zw6GQkHOBG7ZpOlqxBcqeLSsBY=;
-        b=erUNPQmYvqeKh2VbLgBzmizyrnnZC2uQQTGooV4d9SzFHe9PhjXSJP+wx5Q4CsmwAL
-         +L5CkOJnS3sj/u3GC/TAuVjX6bahwzPV/EBPP6DWTEG0zccaEgZHk6uVyfiv8AKjeM/q
-         vdSySjT5io0djVS8dfVGbB5+8ySG2LPhe8zTlFl/nX7UqcqmrUnqM7cImm5BIfSxyaj+
-         OvVBpsAruCn5QZRqcU4h6vQ2cZp/kpoHmDRKodWilfkX6yEuk3Q37L5ILLLKk1GlbBSA
-         dRlEliqqiKHeoLj/BV0q3AnXs2w44pDtYeBV+THjAuYw7phP9D+b7apSaYStTEEjKwsB
-         AxMw==
+        with ESMTP id S230379AbiJQIw6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 04:52:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92CBCDF2F
+        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 01:52:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665996757;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=E8OMF1kfCQL6TSAt19kE2+qhktCG0TKWCuZL2Wdn5gU=;
+        b=DU7iqRkMRSxPIUEZLI88lB6xTCjrYoWy0MOBBey1KLDUVpvlaP2FOG475Rwf3FuhilYjKs
+        Mqu4M78sJEcABpBthiOHIo5ayMIBcedt+kx/zwTc2m3uKE03zTBb+JpZmTgxX51b75D28T
+        hU80Edgl+I9xxeF7hU8SQOP3RZoi7AE=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-440-v2SB9u-NO5-W5UQkuXo20Q-1; Mon, 17 Oct 2022 04:52:36 -0400
+X-MC-Unique: v2SB9u-NO5-W5UQkuXo20Q-1
+Received: by mail-qk1-f198.google.com with SMTP id az32-20020a05620a172000b006ee8ae138a7so9008011qkb.4
+        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 01:52:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p23jnQNQ6JC6/vxi7zw6GQkHOBG7ZpOlqxBcqeLSsBY=;
-        b=U1RLKIyDswN4lxrAGBUjI0SJ5ksFMSj/excJjhOXYaRjRV+UsHfSNsUF1698PrGCYz
-         U6QN6uxkbmJMv5w3qqkSjIb8vNBQXHxliUpyXTtE6A5TFw6HQdg5JqPfcHeLt/1A1uJF
-         +qpTlzKRiva8D0o/okbfWvfRfZTK99x5LdXv1SaWiUKllFkO5FZyaPF1kigyGfAIS4eR
-         4E9/7p+ryF/BHk1G/wlzbQ/mXM5aMcOPhuoOUJEzRuQCVohGM6Ru9ao860fuCLrANQa6
-         It3xk5TryIYg5D5ZfhJHaTq00E/ndwkf/bSZhtKeRnWyGYpm4gleJNHwh8NLK76asMjH
-         CnSA==
-X-Gm-Message-State: ACrzQf2a4rGNAo41e1kSl4ubV/UqamUrz6Zhi2Cv49cMXAHkiG2BMx94
-        UGXVNqHnTvBhcuC3b4n2kRF3pA==
-X-Google-Smtp-Source: AMsMyM4+l6WqvfUjCX8XWsHsk6YAn7bdpDsUTToKjUg99qgXfKxK1XzYx4rgrLg29QGkKJDql77plw==
-X-Received: by 2002:a05:651c:983:b0:26c:1c6b:8473 with SMTP id b3-20020a05651c098300b0026c1c6b8473mr3478239ljq.341.1665996222210;
-        Mon, 17 Oct 2022 01:43:42 -0700 (PDT)
-Received: from [10.10.15.130] ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id r3-20020a2ea383000000b0026faf7bfa62sm1404744lje.76.2022.10.17.01.43.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Oct 2022 01:43:41 -0700 (PDT)
-Message-ID: <a4a8557e-3fe7-356c-9434-01263f6d9771@linaro.org>
-Date:   Mon, 17 Oct 2022 11:43:41 +0300
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E8OMF1kfCQL6TSAt19kE2+qhktCG0TKWCuZL2Wdn5gU=;
+        b=Wf710QQIgnXkHlPuSMQxYONbiNTfSY5jifgc6c3hQyrpzWKIu0utPsc3+mJtLdL6xC
+         1X3/LLD2ULAfYtblW5QG/aCfOsPT0CqhlHfS8CnX0eC1MU3myRH9Ae8IJ43BU8Nlnck9
+         +FTzsvrzbyD/kyCaCSW0LWep4zXADWbscGeYB9kb/o2ScnltO1x0SUn4wP37ICUSrU+D
+         Qg7hnPea0NhBvIIjIifIygp/JFhZSrtt9t0DA9yWRq24SX0W41gkLaxSbm9uu4RnrFCQ
+         6cNs4F4IZf0MTGuj6l7nRsB/BV5uqDsM7gcU/0S2Qs8yTGwfafx6QhYLzu+mVoTY93AJ
+         Uf7A==
+X-Gm-Message-State: ACrzQf1l7jcbqeJTy93S9efcSZuePKoiYSmp3o+fqZo/q/BMalIperxl
+        AtpXH3fq5L5mHvxxxuxIbzFkiANt5vwiX+Gl+foT8p8QDWbNBRRzRruK+h3ELAxOvcVjj5IT//0
+        qGOA7OPFJdF/PhOtRGEm/
+X-Received: by 2002:a05:620a:4311:b0:6d2:6870:c51c with SMTP id u17-20020a05620a431100b006d26870c51cmr6869971qko.566.1665996755505;
+        Mon, 17 Oct 2022 01:52:35 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7VlXtMfA6ydXcgr7c3NSYtetj1r8iYgZrHhC8LYDHToIHRIQYdbiqrHx6ZXc+vmu0tN8pmQA==
+X-Received: by 2002:a05:620a:4311:b0:6d2:6870:c51c with SMTP id u17-20020a05620a431100b006d26870c51cmr6869962qko.566.1665996755165;
+        Mon, 17 Oct 2022 01:52:35 -0700 (PDT)
+Received: from nfvsdn-06.testing.baremetal.edge-sites.net (nat-pool-232-132.redhat.com. [66.187.232.132])
+        by smtp.gmail.com with ESMTPSA id a20-20020a05622a065400b0039853b7b771sm7571591qtb.80.2022.10.17.01.52.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Oct 2022 01:52:34 -0700 (PDT)
+From:   mtahhan@redhat.com
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Maryam Tahhan <mtahhan@redhat.com>
+Subject: [PATCH bpf-next v3 1/1] doc: DEVMAPs and XDP_REDIRECT
+Date:   Mon, 17 Oct 2022 05:47:53 -0400
+Message-Id: <20221017094753.1564273-2-mtahhan@redhat.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20221017094753.1564273-1-mtahhan@redhat.com>
+References: <20221017094753.1564273-1-mtahhan@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v5 09/13] mailbox: Add Gunyah message queue mailbox
-Content-Language: en-GB
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221011000840.289033-1-quic_eberman@quicinc.com>
- <20221011000840.289033-10-quic_eberman@quicinc.com>
- <38a62751-799d-67ff-68d8-2946f2308e59@linaro.org>
- <c6c32b15-e32e-4362-00fc-e6710dca2546@quicinc.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <c6c32b15-e32e-4362-00fc-e6710dca2546@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14/10/2022 01:32, Elliot Berman wrote:
-> 
-> 
-> On 10/12/2022 2:47 PM, Dmitry Baryshkov wrote:
->> On 11/10/2022 03:08, Elliot Berman wrote:
->>> +
->>> +static irqreturn_t gh_msgq_tx_irq_handler(int irq, void *data)
->>> +{
->>> +    struct gunyah_msgq *msgq = data;
->>> +
->>> +    mbox_chan_txdone(gunyah_msgq_chan(msgq), 0);
->>> +
->>> +    return IRQ_HANDLED;
->>> +}
->>> +
->>> +static void gh_msgq_txdone_tasklet(unsigned long data)
->>> +{
->>> +    struct gunyah_msgq *msgq = (struct gunyah_msgq *)data;
->>> +
->>> +    mbox_chan_txdone(gunyah_msgq_chan(msgq), msgq->last_status);
->>
->> I don't quite get this. Why do you need both an IRQ and a tasklet?
->>
-> 
-> I've now tweaked the code comments now as well to explain a bit better.
-> 
-> Gunyah tells us in the hypercall itself whether the message queue is 
-> full. Once the the message queue is full, Gunyah will let us know when 
-> reader starts draining the queue and we can start adding more messages 
-> via the tx_irq.
-> 
-> One point to note: the last message to be sent into the message queue 
-> that makes the queue full can be detected. The hypercall reports that 
-> the message was sent (GH_ERROR_OK) and the "ready" return value is 
-> false. In its current form, the msgq mailbox driver should never make a 
-> send hypercall and get GH_ERROR_MSGQUEUE_FULL because the driver 
-> properly track when the message queue is full.
-> 
-> When mailbox driver reports txdone, the implication is that more 
-> messages can be sent (not just that the message was transmitted). In 
-> typical operation, the msgq mailbox driver can immediately report that 
-> the message was sent and no tx_irq happens because the hypercall returns 
-> GH_ERROR_OK and ready=true. The mailbox framework doesn't allow txdone 
-> directly from the send_data callback. To work around that, Jassi 
-> recommended we use tasklet [1]. In the "atypical" case where message 
-> queue becomes full, we get GH_ERROR_OK and ready=false. In that case, we 
-> don't report txdone right away with the tasklet and instead wait for the 
-> tx_irq to know when more messages can be sent.
+From: Maryam Tahhan <mtahhan@redhat.com>
 
-Can we please get some sort of this information into the comments in the 
-source file?
+Add documentation for BPF_MAP_TYPE_DEVMAP and
+BPF_MAP_TYPE_DEVMAP_HASH including kernel version
+introduced, usage and examples.
 
-> 
-> [1]: Tasklet works because send_data is called from mailbox framework 
-> with interrupts disabled. Once interrupts are re-enabled, the txdone is 
-> allowed to happen which is also when tasklet runs.
-> 
->>> +
->>> +    /**
->>> +     * EAGAIN: message didn't send.
->>> +     * ret = 1: message sent, but now the message queue is full and 
->>> we can't send any more msgs.
->>> +     * Either way, don't report that this message is done.
->>> +     */
->>> +    if (ret == -EAGAIN || ret == 1)
->>> +        return ret;
->>
->> '1' doesn't seem to be a valid return code for _send_data.
->>
->> Also it would be logical to return any error here, not just -EAGAIN.
->>
-> 
-> 
-> If I return error to mailbox framework, then the message is stuck: 
-> clients don't know that there was some underlying transport failure. It 
-> would be retried if the client sends another message, but there is no 
-> guarantee that either retrying later would work (what would have 
-> changed?) nor that client would send another message to trigger retry. 
-> If the message is malformed or message queue not correctly set up, 
-> client would never know. Client should be told that the message wasn't 
-> sent.
+Add documentation that describes XDP_REDIRECT.
 
-I see. msg_submit() doesn't propagate the error.
+Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+---
+ Documentation/bpf/index.rst      |   1 +
+ Documentation/bpf/map_devmap.rst | 189 +++++++++++++++++++++++++++++++
+ Documentation/bpf/redirect.rst   |  46 ++++++++
+ 3 files changed, 236 insertions(+)
+ create mode 100644 Documentation/bpf/map_devmap.rst
+ create mode 100644 Documentation/bpf/redirect.rst
 
-> 
-> 
->>> +int gunyah_msgq_init(struct device *parent, struct gunyah_msgq 
->>> *msgq, struct mbox_client *cl,
->>> +             struct gunyah_resource *tx_ghrsc, struct 
->>> gunyah_resource *rx_ghrsc)
->>
->> Are the message queues allocated/created dynamically or statically? If 
->> the later is true, please use devm_request(_threaded)_irq and 
->> devm_kzalloc.
->>
-> 
-> With the exception of resource manager, message queues are created 
-> dynamically.
-> 
-> P.S. Thanks for all the other suggestions in this and the other patches, 
-> I've applied them.
-> 
-> Thanks,
-> Elliot
-
+diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
+index 1b50de1983ee..1088d44634d6 100644
+--- a/Documentation/bpf/index.rst
++++ b/Documentation/bpf/index.rst
+@@ -29,6 +29,7 @@ that goes into great technical depth about the BPF Architecture.
+    clang-notes
+    linux-notes
+    other
++   redirect
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/bpf/map_devmap.rst b/Documentation/bpf/map_devmap.rst
+new file mode 100644
+index 000000000000..57997cb2b619
+--- /dev/null
++++ b/Documentation/bpf/map_devmap.rst
+@@ -0,0 +1,189 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++=================================================
++BPF_MAP_TYPE_DEVMAP and BPF_MAP_TYPE_DEVMAP_HASH
++=================================================
++
++.. note::
++   - ``BPF_MAP_TYPE_DEVMAP`` was introduced in kernel version 4.14
++   - ``BPF_MAP_TYPE_DEVMAP_HASH`` was introduced in kernel version 5.4
++
++``BPF_MAP_TYPE_DEVMAP`` and ``BPF_MAP_TYPE_DEVMAP_HASH`` are BPF maps primarily
++used as backend maps for the XDP BPF helper call ``bpf_redirect_map()``.
++``BPF_MAP_TYPE_DEVMAP`` is backed by an array that uses the key as
++the index to lookup a reference to a net device. While ``BPF_MAP_TYPE_DEVMAP_HASH``
++is backed by a hash table that uses the ``ifindex`` as the key to lookup a reference
++to a net device. The user provides either <``key``/ ``ifindex``> or
++<``key``/ ``struct bpf_devmap_val``> pairs to update the maps with new net devices.
++
++.. note::
++    While ``BPF_MAP_TYPE_DEVMAP_HASH`` allows for densely packing the net devices
++    it comes at the cost of a hash of the key when performing a look up.
++
++The setup and packet enqueue/send code is shared between the two types of
++devmap; only the lookup and insertion is different.
++
++Usage
++=====
++
++.. c:function::
++   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
++
++ Net device entries can be added or updated using the ``bpf_map_update_elem()``
++ helper. This helper replaces existing elements atomically. The ``value`` parameter
++ can be ``struct bpf_devmap_val`` or a simple ``int ifindex`` for backwards
++ compatibility.
++
++.. note::
++    The maps can only be updated from user space and not from a BPF program.
++
++.. code-block:: c
++
++    struct bpf_devmap_val {
++        __u32 ifindex;   /* device index */
++        union {
++            int   fd;  /* prog fd on map write */
++            __u32 id;  /* prog id on map read */
++        } bpf_prog;
++    };
++
++DEVMAPs can associate a program with a device entry by adding a ``bpf_prog.fd``
++to ``struct bpf_devmap_val``. Programs are run after ``XDP_REDIRECT`` and have
++access to both Rx device and Tx device. The  program associated with the ``fd``
++must have type XDP with expected attach type ``xdp_devmap``.
++When a program is associated with a device index, the program is run on an
++``XDP_REDIRECT`` and before the buffer is added to the per-cpu queue. Examples
++of how to attach/use xdp_devmap progs can be found in the kernel selftests:
++
++- <kernel_src_path>/tools/testing/selftests/bpf/prog_tests/xdp_devmap_attach.c
++- <kernel_src_path>/tools/testing/selftests/bpf/progs/test_xdp_with_devmap_helpers.c
++
++.. c:function::
++   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
++
++net device entries can be retrieved using the ``bpf_map_lookup_elem()``
++helper.
++
++.. c:function::
++   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
++
++net device entries can be deleted using the ``bpf_map_delete_elem()``
++helper. This helper will return 0 on success, or negative error in case of
++failure.
++
++.. c:function::
++     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
++
++Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
++For ``BPF_MAP_TYPE_DEVMAP`` and ``BPF_MAP_TYPE_DEVMAP_HASH`` this map contains
++references to net devices (for forwarding packets through other ports).
++
++The lower two bits of *flags* are used as the return code if the map lookup
++fails. This is so that the return value can be one of the XDP program return
++codes up to ``XDP_TX``, as chosen by the caller. The higher bits of ``flags``
++can be set to ``BPF_F_BROADCAST`` or ``BPF_F_EXCLUDE_INGRESS`` as defined
++below.
++
++With ``BPF_F_BROADCAST`` the packet will be broadcast to all the interfaces
++in the map, with ``BPF_F_EXCLUDE_INGRESS`` the ingress interface will be excluded
++from the broadcast.
++
++This helper will return ``XDP_REDIRECT`` on success, or the value of the two
++lower bits of the *flags* argument if the map lookup fails.
++
++More information about redirection can be found :doc:`redirect`
++
++Examples
++========
++
++Kernel BPF
++----------
++
++The following code snippet shows how to declare a ``BPF_MAP_TYPE_DEVMAP``
++called tx_port.
++
++.. code-block:: c
++
++    struct {
++        __uint(type, BPF_MAP_TYPE_DEVMAP);
++        __type(key, __u32);
++        __type(value, __u32);
++        __uint(max_entries, 256);
++    } tx_port SEC(".maps");
++
++The following code snippet shows how to declare a ``BPF_MAP_TYPE_DEVMAP_HASH``
++called forward_map.
++
++.. code-block:: c
++
++    struct {
++        __uint(type, BPF_MAP_TYPE_DEVMAP_HASH);
++        __type(key, __u32);
++        __type(value, struct bpf_devmap_val);
++        __uint(max_entries, 32);
++    } forward_map SEC(".maps");
++
++.. note::
++
++    The value type in the DEVMAP above is a ``struct bpf_devmap_val``
++
++The following code snippet shows a simple xdp_redirect_map program. This program
++would work with a user space program that populates the devmap ``tx_port`` based
++on ingress ifindexes. The BPF program (below) is redirecting packets using the
++ingress ifindex as the ``key``.
++
++.. code-block:: c
++
++    SEC("xdp")
++    int xdp_redirect_map_func(struct xdp_md *ctx)
++    {
++        int index = ctx->ingress_ifindex;
++
++        return bpf_redirect_map(&tx_port, index, BPF_F_BROADCAST | BPF_F_EXCLUDE_INGRESS);
++    }
++
++
++User space
++----------
++
++The following code snippet shows how to update a devmap called ``tx_port``.
++
++.. code-block:: c
++
++    int update_devmap(int ifindex, int redirect_ifindex)
++    {
++        int ret = -1;
++
++        ret = bpf_map_update_elem(bpf_map__fd(tx_port), &ifindex, &redirect_ifindex, 0);
++        if (ret < 0) {
++            fprintf(stderr, "Failed to update devmap_ value: %s\n",
++                strerror(errno));
++        }
++
++        return ret;
++    }
++
++The following code snippet shows how to update a hash_devmap called ``forward_map``.
++
++.. code-block:: c
++
++    int update_devmap(int ifindex, int redirect_ifindex)
++    {
++        struct bpf_devmap_val devmap_val = { .ifindex = redirect_ifindex };
++        int ret = -1;
++
++        ret = bpf_map_update_elem(bpf_map__fd(forward_map), &ifindex, &devmap_val, 0);
++        if (ret < 0) {
++            fprintf(stderr, "Failed to update devmap_ value: %s\n",
++                strerror(errno));
++        }
++        return ret;
++    }
++
++References
++===========
++
++- https://lwn.net/Articles/728146/
++- https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/commit/?id=6f9d451ab1a33728adb72d7ff66a7b374d665176
++- https://elixir.bootlin.com/linux/latest/source/net/core/filter.c#L4106
+diff --git a/Documentation/bpf/redirect.rst b/Documentation/bpf/redirect.rst
+new file mode 100644
+index 000000000000..5a0377a67ff0
+--- /dev/null
++++ b/Documentation/bpf/redirect.rst
+@@ -0,0 +1,46 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++============
++XDP_REDIRECT
++============
++
++XDP_REDIRECT works by a three-step process, implemented as follows:
++
++1. The ``bpf_redirect()`` and ``bpf_redirect_map()`` helpers will lookup the
++   target of the redirect and store it (along with some other metadata) in a
++   per-CPU ``struct bpf_redirect_info``. This is where the maps above come into
++   play.
++
++2. When the program returns the ``XDP_REDIRECT`` return code, the driver will
++   call ``xdp_do_redirect()`` which will use the information in ``struct
++   bpf_redirect_info`` to actually enqueue the frame into a map type-specific
++   bulk queue structure.
++
++3. Before exiting its NAPI poll loop, the driver will call ``xdp_do_flush()``,
++   which will flush all the different bulk queues, thus completing the
++   redirect.
++
++Pointers to the map entries will be kept around for this whole sequence of
++steps, protected by RCU. However, there is no top-level ``rcu_read_lock()`` in
++the core code; instead, the RCU protection relies on everything happening
++inside a single NAPI poll sequence.
++
++.. note::
++    Not all drivers support transmitting frames after a redirect, and for
++    those that do, not all of them support non-linear frames. Non-linear xdp
++    bufs/frames are bufs/frames that contain more than one fragment.
++
++XDP_REDIRECT works with the following map types:
++
++- BPF_MAP_TYPE_DEVMAP
++- BPF_MAP_TYPE_DEVMAP_HASH
++- BPF_MAP_TYPE_CPUMAP
++- BPF_MAP_TYPE_XSKMAP
++
++For more information on these maps, please see the specific map documentation.
++
++References
++===========
++
++- https://elixir.bootlin.com/linux/latest/source/net/core/filter.c#L4106
 -- 
-With best wishes
-Dmitry
+2.35.3
 
