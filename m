@@ -2,52 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C38EC4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 15:06:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE4EC433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 16:20:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231653AbiJQPGb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 11:06:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46910 "EHLO
+        id S229673AbiJQQUQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 12:20:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231236AbiJQPGF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 11:06:05 -0400
+        with ESMTP id S229675AbiJQQUP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 12:20:15 -0400
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3FFE6D547;
-        Mon, 17 Oct 2022 08:05:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA74B6C119;
+        Mon, 17 Oct 2022 09:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666019141; x=1697555141;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
+  t=1666023614; x=1697559614;
+  h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PvgBjoYyaoMX/iKVZUi6GVXenC/pYD5E0G2UFDGF3Zw=;
-  b=IU3LmUkLVt36rvVKa9l916RfDbpgiRFHzjy57j8VE5wsnRvfpKAlpOZd
-   2brl+HVkkRpDgs7erNYSqncIAX0+BRkq4+tdIRDIMCpISsSX48TyhAIYH
-   VnQbj3GuBSvty8nqptQNxuxmOGH9mbkPpN92Ms9GY9vt6+ScHe/HrJ00Z
-   pcweMnaz1AbVk57r2pqnh1tn46FvqCqDQVdhEXW8NkL0Dwn1vssEQQRbS
-   tNz9bjTm8JYYwuDOLvDpzn4Vr87zueycm4qVj3chWuAC/Mpe720lkbPXY
-   37lO6G2qq5TUIONbfaVt7aKKZKBdMaNwTBawqKECCT8vPiOOYox7upECp
+  bh=K4vrfLL2l6+gAD4B8xJLdJX5MnNTNVmUNPLnkielra0=;
+  b=N7nxCALdyfkB4kjyQpAPG8oGeGiM2N5usrExBdOLiek/UhUGZ31J4gEC
+   VPqthDlBSqaSkqrCooUdR1mvD1mDd4MSxuyXJLeuPKAgAl4v2Mio8HTEQ
+   gMpjfg6sacyM0rcD1iO951v+8UAjHwz79SELDQ/JMvd/rSl06U5wgp88h
+   naGCHhXJmFB1TvRKw5xg6antWgNZZVJTmXgJ026VXgSJBiiDaw5rrDbMy
+   ClrYRkTahv9KmlzDG1fLz1IYVPLK83bObIdKibys1iwAlYr6S5A651JVs
+   fgnyGyE8eRzglyNyJCM/wI1tcXYIf5O6P+bSDA4Wp3/1iXEQP9m+sqlUy
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="370011931"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
-   d="scan'208";a="370011931"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 08:03:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="691387974"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
-   d="scan'208";a="691387974"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Oct 2022 08:03:27 -0700
-Date:   Mon, 17 Oct 2022 22:58:56 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Fuad Tabba <tabba@google.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="370042966"
+X-IronPort-AV: E=Sophos;i="5.95,192,1661842800"; 
+   d="scan'208";a="370042966"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 09:20:12 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="606182872"
+X-IronPort-AV: E=Sophos;i="5.95,192,1661842800"; 
+   d="scan'208";a="606182872"
+Received: from dludovic-mobl1.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.44.179])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 09:19:58 -0700
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id EC9CB1045CA; Mon, 17 Oct 2022 19:19:55 +0300 (+03)
+Date:   Mon, 17 Oct 2022 19:19:55 +0300
+From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
         Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
@@ -62,100 +63,116 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
         Steven Price <steven.price@arm.com>,
         "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
         Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
         dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
 Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <20221017145856.GB3417432@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
- <Yyi+l3+p9lbBAC4M@google.com>
- <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
- <20220926142330.GC2658254@chaop.bj.intel.com>
- <CA+EHjTz5yGhsxUug+wqa9hrBO60Be0dzWeWzX00YtNxin2eYHg@mail.gmail.com>
- <YzN9gYn1uwHopthW@google.com>
- <CA+EHjTw3din891hMUeRW-cn46ktyMWSdoB31pL+zWpXo_=3UVg@mail.gmail.com>
- <20221013133457.GA3263142@chaop.bj.intel.com>
- <CA+EHjTzZ2zsm7Ru_OKCZg9FCYESgZsmB=7ScKRh6ZN4=4OZ3gw@mail.gmail.com>
+Message-ID: <20221017161955.t4gditaztbwijgcn@box.shutemov.name>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <de680280-f6b1-9337-2ae4-4b2faf2b823b@suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+EHjTzZ2zsm7Ru_OKCZg9FCYESgZsmB=7ScKRh6ZN4=4OZ3gw@mail.gmail.com>
+In-Reply-To: <de680280-f6b1-9337-2ae4-4b2faf2b823b@suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 17, 2022 at 11:31:19AM +0100, Fuad Tabba wrote:
-> Hi,
+On Mon, Oct 17, 2022 at 03:00:21PM +0200, Vlastimil Babka wrote:
+> On 9/15/22 16:29, Chao Peng wrote:
+> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > 
+> > KVM can use memfd-provided memory for guest memory. For normal userspace
+> > accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
+> > virtual address space and then tells KVM to use the virtual address to
+> > setup the mapping in the secondary page table (e.g. EPT).
+> > 
+> > With confidential computing technologies like Intel TDX, the
+> > memfd-provided memory may be encrypted with special key for special
+> > software domain (e.g. KVM guest) and is not expected to be directly
+> > accessed by userspace. Precisely, userspace access to such encrypted
+> > memory may lead to host crash so it should be prevented.
+> > 
+> > This patch introduces userspace inaccessible memfd (created with
+> > MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
+> > ordinary MMU access (e.g. read/write/mmap) but can be accessed via
+> > in-kernel interface so KVM can directly interact with core-mm without
+> > the need to map the memory into KVM userspace.
+> > 
+> > It provides semantics required for KVM guest private(encrypted) memory
+> > support that a file descriptor with this flag set is going to be used as
+> > the source of guest memory in confidential computing environments such
+> > as Intel TDX/AMD SEV.
+> > 
+> > KVM userspace is still in charge of the lifecycle of the memfd. It
+> > should pass the opened fd to KVM. KVM uses the kernel APIs newly added
+> > in this patch to obtain the physical memory address and then populate
+> > the secondary page table entries.
+> > 
+> > The userspace inaccessible memfd can be fallocate-ed and hole-punched
+> > from userspace. When hole-punching happens, KVM can get notified through
+> > inaccessible_notifier it then gets chance to remove any mapped entries
+> > of the range in the secondary page tables.
+> > 
+> > The userspace inaccessible memfd itself is implemented as a shim layer
+> > on top of real memory file systems like tmpfs/hugetlbfs but this patch
+> > only implemented tmpfs. The allocated memory is currently marked as
+> > unmovable and unevictable, this is required for current confidential
+> > usage. But in future this might be changed.
+> > 
+> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
 > 
-> > >
-> > > Actually, for pKVM, there is no need for the guest memory to be
-> > > GUP'able at all if we use the new inaccessible_get_pfn().
-> >
-> > If pKVM can use inaccessible_get_pfn() to get pfn and can avoid GUP (I
-> > think that is the major concern?), do you see any other gap from
-> > existing API?
+> ...
 > 
-> Actually for this part no, there aren't any gaps and
-> inaccessible_get_pfn() is sufficient.
+> > +static long inaccessible_fallocate(struct file *file, int mode,
+> > +				   loff_t offset, loff_t len)
+> > +{
+> > +	struct inaccessible_data *data = file->f_mapping->private_data;
+> > +	struct file *memfd = data->memfd;
+> > +	int ret;
+> > +
+> > +	if (mode & FALLOC_FL_PUNCH_HOLE) {
+> > +		if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> > +			return -EINVAL;
+> > +	}
+> > +
+> > +	ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+> > +	inaccessible_notifier_invalidate(data, offset, offset + len);
+> 
+> Wonder if invalidate should precede the actual hole punch, otherwise we open
+> a window where the page tables point to memory no longer valid?
 
-Thanks for the confirmation.
+Yes, you are right. Thanks for catching this.
+
+> > +	return ret;
+> > +}
+> > +
+> 
+> ...
+> 
+> > +
+> > +static struct file_system_type inaccessible_fs = {
+> > +	.owner		= THIS_MODULE,
+> > +	.name		= "[inaccessible]",
+> 
+> Dunno where exactly is this name visible, but shouldn't it better be
+> "[memfd:inaccessible]"?
+
+Maybe. And skip brackets.
 
 > 
-> > > This of
-> > > course goes back to what I'd mentioned before in v7; it seems that
-> > > representing the memslot memory as a file descriptor should be
-> > > orthogonal to whether the memory is shared or private, rather than a
-> > > private_fd for private memory and the userspace_addr for shared
-> > > memory. The host can then map or unmap the shared/private memory using
-> > > the fd, which allows it more freedom in even choosing to unmap shared
-> > > memory when not needed, for example.
-> >
-> > Using both private_fd and userspace_addr is only needed in TDX and other
-> > confidential computing scenarios, pKVM may only use private_fd if the fd
-> > can also be mmaped as a whole to userspace as Sean suggested.
+> > +	.init_fs_context = inaccessible_init_fs_context,
+> > +	.kill_sb	= kill_anon_super,
+> > +};
+> > +
 > 
-> That does work in practice, for now at least, and is what I do in my
-> current port. However, the naming and how the API is defined as
-> implied by the name and the documentation. By calling the field
-> private_fd, it does imply that it should not be mapped, which is also
-> what api.rst says in PATCH v8 5/8. My worry is that in that case pKVM
-> would be mis/ab-using this interface, and that future changes could
-> cause unforeseen issues for pKVM.
 
-That is fairly enough. We can change the naming and the documents.
-
-> 
-> Maybe renaming this to something like "guest_fp", and specifying in
-> the documentation that it can be restricted, e.g., instead of "the
-> content of the private memory is invisible to userspace" something
-> along the lines of  "the content of the guest memory may be restricted
-> to userspace".
-
-Some other candidates in my mind:
-- restricted_fd: to pair with the mm side restricted_memfd
-- protected_fd: as Sean suggested before
-- fd: how it's explained relies on the memslot.flag.
-
-Thanks,
-Chao
-> 
-> What do you think?
-> 
-> Cheers,
-> /fuad
-> 
-> >
-> > Thanks,
-> > Chao
-> > >
-> > > Cheers,
-> > > /fuad
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
