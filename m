@@ -2,70 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7320CC433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 14:13:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48EEAC4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 14:17:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229901AbiJQONh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 10:13:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46986 "EHLO
+        id S230198AbiJQORo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 10:17:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbiJQONg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 10:13:36 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D7305F12A;
-        Mon, 17 Oct 2022 07:13:36 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D877C60C;
-        Mon, 17 Oct 2022 14:13:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D877C60C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1666016016; bh=YgPNMTma5N6dvd1itH4n52kI8dGg/Qktzp1L17N5tB8=;
-        h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=J6n1Qs68GOVpwf7WyDr8M9rCnh/vvcws5Q51Sl2Iv8sN8AYYVwBeJwEBDSNlzn1QM
-         a6htDihddf/AwFjpWgj94GUHy3N4fEMcbQf/lFT295eyEm+6VA8HDMA2MJyNjPFRcH
-         75zc4dVlj+3ina0f2FOiNkRHx4ULG7gC/8859EE7echGz26OCnG4xgiiGiUB0B9MOy
-         wLIJQn9whmilttZ09zIuI2mAhuWhwBSoGyeA3ltP9SY4q5O8UebePoWJ7E1F24hG3P
-         oZQa2LxxFR1kztJmB7CiEtwUPuZkkLZO/yy0Fha/Ym8AMpJJKg46YZosTIubIFLmdd
-         oOzL39Cr3s01g==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Rui Li <me@lirui.org>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        with ESMTP id S229722AbiJQORn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 10:17:43 -0400
+Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15DD662A92;
+        Mon, 17 Oct 2022 07:17:42 -0700 (PDT)
+Message-ID: <2d3ae469-88bc-32e9-56c1-79142633da0c@lirui.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
+        t=1666016260;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nrtIEgsBdYVG+U7/eLdkZfooUmYs1u+mOfxbESahnKE=;
+        b=RyKkensVS80Dm+ggNvPs4bMXzh7BiHlt7jpku/FIchf/sRsoLMlMYhF+Ycj+c9dDORgpCs
+        aRvEckWUBA5EzjYAN+BoI3j8qFPFODZQ0qk5QJzj4ulHTAROrZwQtXtYC3TCF+Ip4vXY1x
+        +/4XENSLhZWQFkIEr36FH7zWQuwtfM310n6S+nbDgmqfaUi7WV3tG7G21JuNM8Qiukbnnd
+        2CNWVaAtEecmHFUYBTN3UDcR+ePjbDNJaomAFNT44GxaZW3eNWpcCed+9zMaFUGtQZ4tuq
+        pPXBxRpN7AnS7YAPF2rWIsnb6+MhbZRQpvaMjs3x8SQdrYFuxyh25Xjh2l22ow==
+Date:   Mon, 17 Oct 2022 22:17:23 +0800
+MIME-Version: 1.0
 Subject: Re: [RESEND PATCH 0/2] docs/zh_CN: Add userspace-api/index and ebpf
  Chinese translation
-In-Reply-To: <b75832fc-67bb-22b9-39b3-c0816b7ca254@lirui.org>
-References: <cover.1666009558.git.me@lirui.org>
- <87pmeqftfw.fsf@meer.lwn.net>
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1666009558.git.me@lirui.org> <87pmeqftfw.fsf@meer.lwn.net>
  <b75832fc-67bb-22b9-39b3-c0816b7ca254@lirui.org>
-Date:   Mon, 17 Oct 2022 08:13:35 -0600
-Message-ID: <87h702fshc.fsf@meer.lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain
+ <87h702fshc.fsf@meer.lwn.net>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Rui Li <me@lirui.org>
+In-Reply-To: <87h702fshc.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rui Li <me@lirui.org> writes:
-
-> So sorry if disturbing. After sending the first patch set, a
-> maintainer contacted me and pointed out my email server
-> is incorrectly handling DKIM and Message-Id. That causes
-> inconvenience for maintainers to review.
+On 2022/10/17 22:13, Jonathan Corbet wrote:
+> Rui Li <me@lirui.org> writes:
 >
-> I changed my email service and hopefully the DKIM check
-> and Message ID won't be wrong. I am not quite sure if I
-> should resend or add PATCH v1 version.
+>> So sorry if disturbing. After sending the first patch set, a
+>> maintainer contacted me and pointed out my email server
+>> is incorrectly handling DKIM and Message-Id. That causes
+>> inconvenience for maintainers to review.
+>>
+>> I changed my email service and hopefully the DKIM check
+>> and Message ID won't be wrong. I am not quite sure if I
+>> should resend or add PATCH v1 version.
+>>
+>> Sorry again if I disturbed anyone.
+> No worries, I was mostly wondering.
 >
-> Sorry again if I disturbed anyone.
+> As a general rule, whenever you resend a patch series, it is good to add
+> a note saying why so that others don't have to try to figure it out on
+> their own.
+>
+> Thanks,
+>
+> jon
 
-No worries, I was mostly wondering.
+Thanks so much for advice. I will pay attention next time.
 
-As a general rule, whenever you resend a patch series, it is good to add
-a note saying why so that others don't have to try to figure it out on
-their own.
+Wish you have a good day.
 
-Thanks,
-
-jon
+Rui
