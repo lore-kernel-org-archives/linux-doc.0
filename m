@@ -2,74 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 973B6C4332F
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 13:57:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 819D4C4332F
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 14:03:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229940AbiJQN5v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 09:57:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38604 "EHLO
+        id S229577AbiJQODs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 10:03:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230202AbiJQN5m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 09:57:42 -0400
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C14D3642D1;
-        Mon, 17 Oct 2022 06:57:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=6QZ3gapeMS/aSRKE6Bc1zdlguo4AQT7A2NhJ50U8mgk=; b=sWH+XupFFO60xes+EwZS6aJ6/o
-        qjRpjYWRAlGfyttkjnohOP054j5rWeCHxcsnCop9rmvN1ugvH9q1xXi1MfPlzX1fZOrBFhPPOUKAQ
-        CZvyO8HhNVrD/2ymBDo9dMjeRmUKw2or9NVYMG05TtMv/Ze7HFXPP3aG7uC57iBXlEDY/z7USmgHX
-        oxAmDtgqXjmm7/yIBNubAd0/lMa4JKD1jHuCbUNAKrARVHsgeiqqs6VpxZVXS1ot3mQeeodY710Pz
-        26jiD2tsm7SY7aUgc1cB3tFotq4fHciB7EBepLQD0FRttCjQGJjiKyzaDbhjkw6lRwk8WQ9mh/zrS
-        9jkh49AQ==;
-Received: from [179.113.159.85] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1okQcM-000Nos-4q; Mon, 17 Oct 2022 15:57:22 +0200
-Message-ID: <0d9d589e-4f6c-02a4-fb00-b4467e75b47f@igalia.com>
-Date:   Mon, 17 Oct 2022 10:57:01 -0300
+        with ESMTP id S230046AbiJQODr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 10:03:47 -0400
+Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC20212A81;
+        Mon, 17 Oct 2022 07:03:45 -0700 (PDT)
+Message-ID: <b75832fc-67bb-22b9-39b3-c0816b7ca254@lirui.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
+        t=1666015423;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=rwkjmSZHT/cg5CxEyPSYVXlGko/3a4QvL9viNdnNJH0=;
+        b=PyCqPJGa9PViula8mn24m3UZtNZkUYf+Iea8i3aTwyl24rULBErv/94hcD6uSM2KGKNix2
+        tMQHtpPd3wy3Ue3qCgTouMhKApRUVLmW9i7gQ70bLq3X504uVQpTBKikObwqp7gdtS/s2g
+        FIPd2TF+2AJsyH469mXwxGcGjkOI3tg5GjTDWX7nRHW8KqH3NCyQH5TgaN6N4e1O9UoOx/
+        nXOofTMfATTJ+DKEpoD4D+AwKj/Y4IjLs0KIHMI//j/cLCI6+dLF4jrEVy4A0O/r0blyOy
+        56/lMt5q2Cmk/mw1bRr8pn5iggVyiNEuEEfosWIYMsHwUWFPlL5owYOUeSa8AA==
+Date:   Mon, 17 Oct 2022 22:03:32 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH V2] x86/split_lock: Add sysctl to control the misery mode
+Subject: Re: [RESEND PATCH 0/2] docs/zh_CN: Add userspace-api/index and ebpf
+ Chinese translation
 Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        hpa@zytor.com, luto@kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, kernel-dev@igalia.com,
-        kernel@gpiccoli.net, Andre Almeida <andrealmeid@igalia.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Joshua Ashton <joshua@froggi.es>,
-        Melissa Wen <mwen@igalia.com>,
-        Paul Gofman <pgofman@codeweavers.com>,
-        Pavel Machek <pavel@denx.de>,
-        Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Zebediah Figura <zfigura@codeweavers.com>
-References: <20221014180506.211592-1-gpiccoli@igalia.com>
- <Y0tz1/pR/s7+j6s+@debian.me>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <Y0tz1/pR/s7+j6s+@debian.me>
+To:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1666009558.git.me@lirui.org> <87pmeqftfw.fsf@meer.lwn.net>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Rui Li <me@lirui.org>
+In-Reply-To: <87pmeqftfw.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thank you Bagas! I see you fixed the documentation in more than one
-place, appreciate that.
+On 2022/10/17 21:52, Jonathan Corbet wrote:
+> Rui Li <me@lirui.org> writes:
+>
+>> Translate the following documents into Chinese:
+>>
+>> - Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
+>> - Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
+>> - Documentation/translations/zh_CN/userspace-api/index.rst
+>>
+>> Add userspace-api into the menu of zh_CN index.
+>>
+>> Rui Li (2):
+>>   docs/zh_CN: Add userspace-api/ebpf Chinese translation
+>>   docs/zh_CN: Add userspace-api/index Chinese translation
+>>
+>>  Documentation/translations/zh_CN/index.rst    |  2 +-
+>>  .../zh_CN/userspace-api/ebpf/index.rst        | 22 ++++++++
+>>  .../zh_CN/userspace-api/ebpf/syscall.rst      | 31 ++++++++++++
+>>  .../zh_CN/userspace-api/index.rst             | 50 +++++++++++++++++++
+>>  4 files changed, 104 insertions(+), 1 deletion(-)
+>>  create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
+>>  create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
+>>  create mode 100644 Documentation/translations/zh_CN/userspace-api/index.rst
+> Why are you resending this patch set after one day?
+>
+> jon
 
-What's the next step then, re-submit with your fixes, or wait more
-feedback perhaps?
+So sorry if disturbing. After sending the first patch set, a
+maintainer contacted me and pointed out my email server
+is incorrectly handling DKIM and Message-Id. That causes
+inconvenience for maintainers to review.
 
-If a maintainer plans to pick this one, maybe they can just apply your
-fix-up on top of it.
-Cheers,
+I changed my email service and hopefully the DKIM check
+and Message ID won't be wrong. I am not quite sure if I
+should resend or add PATCH v1 version.
 
+Sorry again if I disturbed anyone.
 
-Guilherme
+Rui
+
