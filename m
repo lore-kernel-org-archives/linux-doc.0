@@ -2,160 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D0A9C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 19:54:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AC7EC43217
+	for <linux-doc@archiver.kernel.org>; Mon, 17 Oct 2022 20:55:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229765AbiJQTyj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 15:54:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54068 "EHLO
+        id S230148AbiJQUz2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 16:55:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229949AbiJQTyi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 15:54:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9101E10FF6;
-        Mon, 17 Oct 2022 12:54:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2BB6461219;
-        Mon, 17 Oct 2022 19:54:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CF7CC433D7;
-        Mon, 17 Oct 2022 19:54:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666036476;
-        bh=RjBn26b54Qi9hFzWIH/n9PJ/ByfUPuIEutsDV4SvCtQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=r2RTCDdWs6UFggXb3K1bjDM1eF7gIH+o00GFyEI3o6+eiVahUtptyD6IHMINLEsWi
-         0KOmf1XXtv/HDz5Y8qRmDvOD0PbR+4BWl56eNEtKtaYE1XJpviwXu6GuH3XFXGZLW8
-         5U8MxpQVRcXBcheWjwC9vurSJhUxVRho2nEHTREKcAnzJYPQtmeml7BSYRbbgsnA/t
-         DXeOxcX7Cr3ZtI2KOfPkVHZyal9qM0I9dtSczyeyEO2Nt6l0PieRDuQisCVo4Wr3D6
-         MWCBZ00RgKMjIbqmkjrqZ9rc+W81g7lW01kd7jVEHaKDeAkanf99OxClmxj27gyGiy
-         9ZWx0u5faSFWg==
-Date:   Mon, 17 Oct 2022 20:54:29 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Xianting Tian <xianting.tian@linux.alibaba.com>
-Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
-        guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
-        bagasdotme@gmail.com, kexec@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, crash-utility@redhat.com,
-        heinrich.schuchardt@canonical.com, k-hagio-ab@nec.com,
-        hschauhan@nulltrace.org, yixun.lan@gmail.com
-Subject: Re: [PATCH V2 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
-Message-ID: <Y02y9eN1TNJteTw6@spud>
-References: <20221014134139.5151-1-xianting.tian@linux.alibaba.com>
- <20221014134139.5151-2-xianting.tian@linux.alibaba.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221014134139.5151-2-xianting.tian@linux.alibaba.com>
+        with ESMTP id S230234AbiJQUzZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 16:55:25 -0400
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FEC876776;
+        Mon, 17 Oct 2022 13:55:23 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 8813B5C01E6;
+        Mon, 17 Oct 2022 16:55:22 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Mon, 17 Oct 2022 16:55:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1666040122; x=1666126522; bh=+qBFyhMlkS
+        abrrW/8a05Q/4iICjjOB6IvZsreneX9MQ=; b=bNvOlCVpzRp/2uZGEkvUxBx7iZ
+        eU50zC56oAzMKdyPfOBkLM1ONdt0j2ao2ctXZBwDgrG5kS+YZnGDz+Nm+6FCONnO
+        l8lXigm+EqRajvY0YYIRZVofgboZUr6aSdo1zhf7DT1M3Vo7mRQqjgfgi8vSN3Pi
+        Wiy1fIcG5tnzQcKgsocVEB86f7jVVgIslrGkwh8hGZ+WYypHKNdNPjPtLpG/V89g
+        oGBI+uuOzdgfhFPFGJhDWnxFNZQjLRCePyhvzw/QhaLpNpOeKgAzpTnnkB5eDWa0
+        57JhIWRQINgPxXglDvx2i9RHMWLWBZfxl0oX1iIVu3LlnBKbFWPsu5Ah6yIQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1666040122; x=1666126522; bh=+qBFyhMlkSabrrW/8a05Q/4iICjj
+        OB6IvZsreneX9MQ=; b=U6QVu6Zbk9rUuWnTFnnUiT/EfY+n7O+4l3ylSeogS9Lr
+        fZ83IbXktouJ41DegoPQ4HU2G8gJt0NgywqKX2hqaGqSHdzSvQUbJbvT1mt6rsfR
+        jMGDzxfVpt0KvsZ+3PAktkbuuYHmz/D3UCBaU2cRxSYbLMOpJGAKwljhilLusUGv
+        f8B53D9i8+z73IJZjMayu6pB3jsWNcJJxG7JhYriAoWXOIAatCjTw73vbuzTxtA8
+        jjCoFn9plBxcYTnQHPQbQa/loEy6+0DJSBo1YDl07rEYNKZCrSKW0o8DDajIO0L8
+        UU2OeDtOyahFz8emUhXFLUuKZBdn0C3ZH5tvhbzmSQ==
+X-ME-Sender: <xms:OsFNYxTomr2z_mRWZej7qAJhFWOKtF0_BOBMJ5T3_w67u77KOzrN7g>
+    <xme:OsFNY6zk3Hny_4690zfcAy90Nh-Rp4E9PIpU_c52ZpoKl13Pz3ZLBZ4jfEWAbShoH
+    JKUaEt9BTBauq352sE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeekledgudehhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffegffdutddvhefffeeltefhjeejgedvleffjeeigeeuteelvdettddulefg
+    udfgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:OsFNY209cEacU_GyxsjM3yqKiq8MvmUktNw-s0okZt-sIBSv2KvyuQ>
+    <xmx:OsFNY5CBWUDagNmN9tSFrLcPVKf44iT07MEM32klWEiDUSilbb26hQ>
+    <xmx:OsFNY6hOh12A8ZSw9KHcxhSpyHepGe6KnHoN_7X-RJoCZ4RXVfEucA>
+    <xmx:OsFNYxQXrni2pYQ1nilqQl2vvqBSqydOVCTBRazaMQ3VO7FEu6zmng>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 2B047B60086; Mon, 17 Oct 2022 16:55:22 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
+Mime-Version: 1.0
+Message-Id: <d5faaf6f-7de5-49b0-92d6-9989ffbdbf2e@app.fastmail.com>
+In-Reply-To: <20221010101331.29942-1-parav@nvidia.com>
+References: <20221010101331.29942-1-parav@nvidia.com>
+Date:   Mon, 17 Oct 2022 22:55:00 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Parav Pandit" <parav@nvidia.com>, bagasdotme@gmail.com,
+        "Alan Stern" <stern@rowland.harvard.edu>, parri.andrea@gmail.com,
+        "Will Deacon" <will@kernel.org>,
+        "Peter Zijlstra" <peterz@infradead.org>, boqun.feng@gmail.com,
+        "Nicholas Piggin" <npiggin@gmail.com>, dhowells@redhat.com,
+        j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Akira Yokosawa" <akiyks@gmail.com>, dlustig@nvidia.com,
+        "Joel Fernandes" <joel@joelfernandes.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4] locking/memory-barriers.txt: Improve documentation for writel()
+ example
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 14, 2022 at 09:41:38PM +0800, Xianting Tian wrote:
-> Add arch_crash_save_vmcoreinfo(), which exports VM layout(MODULES, VMALLOC,
-> VMEMMAP and KERNEL_LINK_ADDR ranges), va bits and ram base for vmcore.
-> 
-> Default pagetable levels and PAGE_OFFSET aren't same for different kernel
-> version as below. For default pagetable levels, it sets sv57 on defaultly
-> in latest kernel and do fallback to try to set sv48 on boot time if sv57
-> is not supported in current hardware.
+On Mon, Oct 10, 2022, at 12:13 PM, Parav Pandit wrote:
+> The cited commit describes that when using writel(), explcit wmb()
+> is not needed. wmb() is an expensive barrier. writel() uses the needed
+> platform specific barrier instead of expensive wmb().
+>
+> Hence update the example to be more accurate that matches the current
+> implementation.
+>
+> commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. 
+> MMIO ordering example")
+>
+> Signed-off-by: Parav Pandit <parav@nvidia.com>
 
-nit: This would read better as "it sets sv57 by default and falls back
-to setting sv48 at boot time if sv57 is not supported by the hardware".
+I have no objections, though I still don't see a real need to change
+the wording here.
 
-> 
-> For ram base, the default value is 0x80200000 for qemu riscv64 env, 0x200000
-> for riscv64 SoC platform(eg, SoC platform of RISC-V XuanTie 910 CPU).
-
-The second part of this sentence I'm not really sure that that is true,
-I think you should reword it to something like "...for qemu riscv64 and,
-for example, is 0x200000 on the XuanTie 910 CPU." and avoid applying
-that number blanketly for other SoCs.
-> 
->  * Linux Kernel 5.18 ~
->  *      PGTABLE_LEVELS = 5
->  *      PAGE_OFFSET = 0xff60000000000000
->  * Linux Kernel 5.17 ~
->  *      PGTABLE_LEVELS = 4
->  *      PAGE_OFFSET = 0xffffaf8000000000
->  * Linux Kernel 4.19 ~
->  *      PGTABLE_LEVELS = 3
->  *      PAGE_OFFSET = 0xffffffe000000000
-> 
-> Since these configurations change from time to time and version to version,
-> it is preferable to export them via vmcoreinfo than to change the crash's
-> code frequently, it can simplify the development of crash tool.
-> 
-> Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
-> ---
->  arch/riscv/kernel/Makefile     |  1 +
->  arch/riscv/kernel/crash_core.c | 29 +++++++++++++++++++++++++++++
->  2 files changed, 30 insertions(+)
->  create mode 100644 arch/riscv/kernel/crash_core.c
-> 
-> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-> index db6e4b1294ba..4cf303a779ab 100644
-> --- a/arch/riscv/kernel/Makefile
-> +++ b/arch/riscv/kernel/Makefile
-> @@ -81,6 +81,7 @@ obj-$(CONFIG_KGDB)		+= kgdb.o
->  obj-$(CONFIG_KEXEC_CORE)	+= kexec_relocate.o crash_save_regs.o machine_kexec.o
->  obj-$(CONFIG_KEXEC_FILE)	+= elf_kexec.o machine_kexec_file.o
->  obj-$(CONFIG_CRASH_DUMP)	+= crash_dump.o
-> +obj-$(CONFIG_CRASH_CORE)	+= crash_core.o
->  
->  obj-$(CONFIG_JUMP_LABEL)	+= jump_label.o
->  
-> diff --git a/arch/riscv/kernel/crash_core.c b/arch/riscv/kernel/crash_core.c
-> new file mode 100644
-> index 000000000000..8d7f5ff108da
-> --- /dev/null
-> +++ b/arch/riscv/kernel/crash_core.c
-> @@ -0,0 +1,29 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <linux/crash_core.h>
-> +#include <linux/pagemap.h>
-> +
-> +void arch_crash_save_vmcoreinfo(void)
-> +{
-> +	VMCOREINFO_NUMBER(VA_BITS);
-> +	VMCOREINFO_NUMBER(phys_ram_base);
-> +
-> +	vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", PAGE_OFFSET);
-> +	vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
-> +	vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
-> +	vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
-> +	vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
-> +#ifdef CONFIG_64BIT
-> +	vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
-> +	vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
-> +#endif
-> +
-> +	if (IS_ENABLED(CONFIG_64BIT)) {
-
-You've already got a #ifdef CONFIG_64BIT above, is there a reason why
-you'd use the IS_ENABLED here rather than merge this with the above
-section? I'm a big fan of IS_ENABLED but I'm not sure what it adds here,
-maybe you can show me the light :)
-
-Thanks,
-Conor.
-
-
-> +#ifdef CONFIG_KASAN
-> +		vmcoreinfo_append_str("NUMBER(KASAN_SHADOW_START)=0x%lx\n", KASAN_SHADOW_START);
-> +		vmcoreinfo_append_str("NUMBER(KASAN_SHADOW_END)=0x%lx\n", KASAN_SHADOW_END);
-> +#endif
-> +		vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", KERNEL_LINK_ADDR);
-> +		vmcoreinfo_append_str("NUMBER(ADDRESS_SPACE_END)=0x%lx\n", ADDRESS_SPACE_END);
-> +	}
-> +}
-> -- 
-> 2.17.1
-> 
-> 
+Acked-by: Arnd Bergmann <arnd@arndb.de>
