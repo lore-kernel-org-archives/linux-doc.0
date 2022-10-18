@@ -2,89 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01315C43217
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 12:01:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 293B4C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 12:11:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230007AbiJRMA6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 08:00:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60200 "EHLO
+        id S229958AbiJRMLV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 08:11:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230355AbiJRL7q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 07:59:46 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 833A3BE2FB;
-        Tue, 18 Oct 2022 04:58:48 -0700 (PDT)
-Received: from loongson.cn (unknown [112.20.109.239])
-        by gateway (Coremail) with SMTP id _____8Bxfdr3lE5j6mcAAA--.2501S3;
-        Tue, 18 Oct 2022 19:58:47 +0800 (CST)
-Received: from [192.168.100.127] (unknown [112.20.109.239])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxDuL1lE5jGKsAAA--.2828S3;
-        Tue, 18 Oct 2022 19:58:46 +0800 (CST)
-Message-ID: <9af6976e-be07-a065-c248-611549e50662@loongson.cn>
-Date:   Tue, 18 Oct 2022 19:58:45 +0800
+        with ESMTP id S230044AbiJRMLP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 08:11:15 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41EE03AE42
+        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 05:11:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id ECC75B81EBB
+        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 12:11:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1C7BC433B5
+        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 12:11:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666095071;
+        bh=eWdPjOGt6v3LFbGnjlcR8DIptDKq22zly1W7eS556cc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=VQ7G9P3KBKFLfYoLPZvJPZ+W6UzVyIlslNOK0+e4zPQRjtEL6tqX2aAKb+LphghsE
+         JlrIUSrSTyLsTI7CaLPX1v3nHhmnHEVdbzAYahYBHuYbWQuoNQrV4cweFXrUFVFW1I
+         Fc/w2T/cSqLr7xn2QzSSrpzR3PzkBFzTz0HWvK+IxY561vN3tCrqrv2CexYEpOeIiK
+         lQU3lNA5fj75yBYiYpUq5cQoSVAuevQP3CjyKeCIi71d5ewlib+VjjEl2xP5hd7dpy
+         jvhiAaOhmZwa2stWNHU2w27feYQ5mzOhAbbqlEN9rI+bKdf1TKZrR5uohXJK0p6b6D
+         RfRmvZj/kigTw==
+Received: by mail-ed1-f43.google.com with SMTP id b12so20134791edd.6
+        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 05:11:11 -0700 (PDT)
+X-Gm-Message-State: ACrzQf15WvRooK58TIe3Bss5LL5n9rbucggxgacIiNWzUU4WByEP08eZ
+        quC8ZdXhR/Gp0wLO62tA8isZVJxC7pziDGnUhNE=
+X-Google-Smtp-Source: AMsMyM5znqKNjGs3V/OndztvtPb+qT2+rIZS8P7UwXdK6lBdPPeWIPtDkNrkFphiETK8ds13I9RLWCeZmQPziFqCbdk=
+X-Received: by 2002:a05:6402:2285:b0:45c:7c8c:3032 with SMTP id
+ cw5-20020a056402228500b0045c7c8c3032mr2253120edb.78.1666095069812; Tue, 18
+ Oct 2022 05:11:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v1 4/5] docs/zh_CN: Add rust/coding-guidelines Chinese
- translation
-Content-Language: en-US
-To:     Wu XiangCheng <wu.xiangcheng@linux.dev>
-Cc:     alexs@kernel.org, seakeel@gmail.com, corbet@lwn.net,
-        ojeda@kernel.org, boqun.feng@gmail.com, wedsonaf@gmail.com,
-        gary@garyguo.net, bjorn3_gh@protonmail.com,
-        rust-for-linux@vger.kernel.org, bobwxc@email.cn,
-        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com
-References: <cover.1665650266.git.siyanteng@loongson.cn>
- <f74714047c46e64ee21af764c861028ec34beaed.1665650266.git.siyanteng@loongson.cn>
- <Y0rFhfIblFnnGSvW@bobwxc.mipc>
- <9de7877f-4142-2caa-6307-1d2a2c2d2bf0@loongson.cn>
- <Y01o9/24jiHFzfAS@bobwxc.mipc>
-From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <Y01o9/24jiHFzfAS@bobwxc.mipc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxDuL1lE5jGKsAAA--.2828S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvdXoWrZFy8GF1DWrW8CFWUWr4kWFg_yoW3XFb_u3
-        WSvrykW3ZrXr4Ivwn2yr42y34rWw4DtayUWrWxGr15WFWqvFn8Ar17W34Sy3W5Jan0qw4Y
-        kF10qa1xKF9rWjkaLaAFLSUrUUUUeb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
-        xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUO
-        n7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
-        AFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
-        6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7
-        xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAa
-        w2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
-        I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2
-        jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62
-        AI1cAE67vIY487MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCa
-        FVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
-        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI
-        42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42
-        IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280
-        aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8XTm3UUUUU==
+References: <20221018100457.3440691-1-kernel@xen0n.name> <20221018100457.3440691-2-kernel@xen0n.name>
+In-Reply-To: <20221018100457.3440691-2-kernel@xen0n.name>
+From:   Huacai Chen <chenhuacai@kernel.org>
+Date:   Tue, 18 Oct 2022 20:10:57 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4L1kQoY6UOr3v2h6XJ3o6x=bg88JeBP4+x40YVydNACQ@mail.gmail.com>
+Message-ID: <CAAhV-H4L1kQoY6UOr3v2h6XJ3o6x=bg88JeBP4+x40YVydNACQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Documentation: LoongArch: Document the syscall ABI
+To:     WANG Xuerui <kernel@xen0n.name>
+Cc:     linux-doc@vger.kernel.org, WANG Xuerui <git@xen0n.name>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, loongarch@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 10/17/22 22:38, Wu XiangCheng wrote:
-> 2022-10-17 (一) 21:07:25 +0800 Yanteng Si 曰：
->>>> +代码应该使用 ``rustfmt`` 进行格式化。这样一来，一个不时为内核做贡献的人就不需要再去学
->>>> +习和记忆一个样式指南了。更重要的是，审阅者和维护者不需要再花时间指出风格问题，因此可能需
->>>> +要更少的补丁往返来实现改变。
->>> 可以减少补丁落地所需的邮件往返。
->> how about 这样就有可能不用发那么多邮件来实现你的代码修改了。
-> A bit too long, just fine.
-
-Let's use 可以减少补丁落地所需的邮件往返 >_<
-
-
-Thanks,
-
-Yanteng
-
+On Tue, Oct 18, 2022 at 6:05 PM WANG Xuerui <kernel@xen0n.name> wrote:
 >
-> Thanks,
+> From: WANG Xuerui <git@xen0n.name>
 >
+> Signed-off-by: WANG Xuerui <git@xen0n.name>
+> Cc: Huacai Chen <chenhuacai@kernel.org>
+> Cc: Alex Shi <alexs@kernel.org>
+> Cc: Yanteng Si <siyanteng@loongson.cn>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: loongarch@lists.linux.dev
+> ---
+>  Documentation/loongarch/index.rst       |  1 +
+>  Documentation/loongarch/syscall-abi.rst | 36 +++++++++++++++++++++++++
+>  2 files changed, 37 insertions(+)
+>  create mode 100644 Documentation/loongarch/syscall-abi.rst
+>
+> diff --git a/Documentation/loongarch/index.rst b/Documentation/loongarch/index.rst
+> index aaba648db907..5dacd7143d2f 100644
+> --- a/Documentation/loongarch/index.rst
+> +++ b/Documentation/loongarch/index.rst
+> @@ -10,6 +10,7 @@ LoongArch Architecture
+>
+>     introduction
+>     irq-chip-model
+> +   syscall-abi
+>
+>     features
+>
+> diff --git a/Documentation/loongarch/syscall-abi.rst b/Documentation/loongarch/syscall-abi.rst
+> new file mode 100644
+> index 000000000000..6f63aa3cfc64
+> --- /dev/null
+> +++ b/Documentation/loongarch/syscall-abi.rst
+> @@ -0,0 +1,36 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +===============================
+> +Linux/LoongArch system call ABI
+> +===============================
+> +
+> +This document describes the system call ABI of Linux/LoongArch.
+> +As the kernel is 64-bit only for now, the description below assumes an LP64\*
+> +calling convention.
+> +
+> +Syscall numbers and parameters
+> +==============================
+> +
+> +Like with other recent architecture ports, for the most part Linux/LoongArch
+> +reuses the asm-generic syscall numbers and parameters.
+> +There are a few points worth mentioning though.
+> +
+> +* There is no ``renameat``. Use ``renameat2`` instead.
+> +* There is no ``getrlimit`` or ``setrlimit``. Use ``prlimit64`` instead.
+> +* There is no ``fstat`` or ``newfstatat``. Only ``statx`` is provided, and
+You may need list more syscalls:
+Controlled by __ARCH_WANT_OLD_STAT:
+sys_stat()/sys_lstat()/sys_fstat()/sys_fstatat()
+Controlled by __ARCH_WANT_NEW_STAT:
+sys_newstat()/sys_newlstat()/sys_newfstat()/sys_newfstatat()
+Controlled by __ARCH_WANT_STAT64:
+sys_stat64()/sys_lstat64()/sys_fstat64()/sys_fstatat64()
 
+Huacai
+
+> +  low-level components making their own syscalls are expected to be aware of
+> +  this (and provide their own shims if necessary).
+> +
+> +Invocation
+> +==========
+> +
+> +System calls are currently made with the ``syscall 0`` instruction.
+> +Although the immediate field in the instruction is not checked at present,
+> +it is strongly advised to keep it zeroed in case it is to be made meaningful
+> +in the future.
+> +
+> +The system call number is placed in the register ``a7``.
+> +Parameters, if present, are placed from ``a0`` through ``a6`` as needed,
+> +as if calling a function with the respective arguments.
+> +Upon return, ``a0`` contains the return value, and ``t0-t8`` should be
+> +considered clobbered; all other registers are preserved.
+> --
+> 2.38.0
+>
