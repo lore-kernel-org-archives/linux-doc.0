@@ -2,45 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D21CC43219
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 05:00:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B812C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 05:12:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229711AbiJRFAR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 01:00:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59444 "EHLO
+        id S229770AbiJRFMz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 01:12:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230106AbiJRE7l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 00:59:41 -0400
-Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CB164F68F;
-        Mon, 17 Oct 2022 21:59:13 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=ziyangzhang@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0VSTCT4L_1666069150;
-Received: from 30.97.56.241(mailfrom:ZiyangZhang@linux.alibaba.com fp:SMTPD_---0VSTCT4L_1666069150)
-          by smtp.aliyun-inc.com;
-          Tue, 18 Oct 2022 12:59:11 +0800
-Message-ID: <bef81cd9-86a4-a671-2821-0d7021e4d49a@linux.alibaba.com>
-Date:   Tue, 18 Oct 2022 12:59:09 +0800
+        with ESMTP id S229486AbiJRFMy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 01:12:54 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B672989933;
+        Mon, 17 Oct 2022 22:12:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6ECA7B81CD7;
+        Tue, 18 Oct 2022 05:12:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7464DC433D6;
+        Tue, 18 Oct 2022 05:12:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1666069971;
+        bh=2lsr5bXa9CV+Fpw3dmizmkB0iZ/EtjWWsMDb21f9zVE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CTpszAlj+EfckPAQ+wZS1eXAiQXX0cc9rQds7XG+Zc+4omn1mhvrwRQnFWDAqYk9M
+         FyeM70mBCDDGwnswZtkKaFpFHW9/RMPeyx6ynDtfNZXUrylJP2ZqNb4z3/qGyJyf/M
+         Mv5nOqnzOauERimyaOxDNAlEJ6XDlHmMx059WsLA=
+Date:   Tue, 18 Oct 2022 07:13:37 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Dan Vacura <w36195@motorola.com>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-usb@vger.kernel.org,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Jeff Vanhoof <qjv001@motorola.com>, stable@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: uvc: fix dropped frame after missed isoc
+Message-ID: <Y042AZ2iA05no5U5@kroah.com>
+References: <20221017205446.523796-1-w36195@motorola.com>
+ <20221017205446.523796-2-w36195@motorola.com>
+ <f7029f41-4f8c-9ba7-3e3b-268a743998d5@gmail.com>
+ <Y04MT0+jKApYFfcG@p1g3>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH 0/1] Documentation: document ublk user recovery
-Content-Language: en-US
-To:     axboe@kernel.dk
-Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221018045346.99706-1-ZiyangZhang@linux.alibaba.com>
-From:   Ziyang Zhang <ZiyangZhang@linux.alibaba.com>
-In-Reply-To: <20221018045346.99706-1-ZiyangZhang@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y04MT0+jKApYFfcG@p1g3>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jens,
+On Mon, Oct 17, 2022 at 09:15:43PM -0500, Dan Vacura wrote:
+> On Tue, Oct 18, 2022 at 08:50:03AM +0700, Bagas Sanjaya wrote:
+> > On 10/18/22 03:54, Dan Vacura wrote:
+> > > With the re-use of the previous completion status in 0d1c407b1a749
+> > > ("usb: dwc3: gadget: Return proper request status") it could be possible
+> > > that the next frame would also get dropped if the current frame has a
+> > > missed isoc error. Ensure that an interrupt is requested for the start
+> > > of a new frame.
+> > > 
+> > 
+> > Shouldn't the subject line says [PATCH v3 1/6]?
+> 
+> Yes. Clerical error on my side not updating this after resolving a
+> check-patch error... Not sure if it matters as this patch can exist on
+> it's own. Or if I can send this again with fixed subject line, but that
+> may confuse others, since there's no code difference.
 
-This doc patch is resent since user recovery feature of ublk has been merged. 
-Please consider it.
+Our tools (b4) will complain it can not find patch 1 in the series, so
+yes, please resend with them properly numbered so that we can find them
+all when going to apply them to the tree.
 
-Regards,
-Zhang.
+thanks,
+
+greg k-h
