@@ -2,183 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFA9DC4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 08:01:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29DBCC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 08:18:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbiJRIBv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 04:01:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53550 "EHLO
+        id S229584AbiJRISQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 04:18:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230218AbiJRIBu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 04:01:50 -0400
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE37F7CAA2;
-        Tue, 18 Oct 2022 01:01:48 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=24;SR=0;TI=SMTPD_---0VSTkHr-_1666080101;
-Received: from 30.221.96.155(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VSTkHr-_1666080101)
+        with ESMTP id S230122AbiJRISP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 04:18:15 -0400
+Received: from out30-56.freemail.mail.aliyun.com (out30-56.freemail.mail.aliyun.com [115.124.30.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E42C39378B;
+        Tue, 18 Oct 2022 01:18:13 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=24;SR=0;TI=SMTPD_---0VSTz0X5_1666081077;
+Received: from localhost.localdomain(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VSTz0X5_1666081077)
           by smtp.aliyun-inc.com;
-          Tue, 18 Oct 2022 16:01:43 +0800
-Message-ID: <c60b60c0-59ac-6544-186d-9ac79b742734@linux.alibaba.com>
-Date:   Tue, 18 Oct 2022 16:01:41 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH V2 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
-To:     Conor.Dooley@microchip.com, conor@kernel.org
-Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
+          Tue, 18 Oct 2022 16:18:07 +0800
+From:   Xianting Tian <xianting.tian@linux.alibaba.com>
+To:     paul.walmsley@sifive.com, palmer@dabbelt.com,
         aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
         guoren@kernel.org, mick@ics.forth.gr,
         alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net, bagasdotme@gmail.com,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
+        bagasdotme@gmail.com
+Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
         crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
-        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com
-References: <20221014134139.5151-1-xianting.tian@linux.alibaba.com>
- <20221014134139.5151-2-xianting.tian@linux.alibaba.com>
- <Y02y9eN1TNJteTw6@spud>
- <78420277-215f-55d0-67b8-fbf9208b3d22@linux.alibaba.com>
- <642e0529-1df1-86e9-f7de-a6252ba9fd12@microchip.com>
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-In-Reply-To: <642e0529-1df1-86e9-f7de-a6252ba9fd12@microchip.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com,
+        Xianting Tian <xianting.tian@linux.alibaba.com>
+Subject: [PATCH V3 0/2] Support VMCOREINFO export for RISCV64
+Date:   Tue, 18 Oct 2022 16:17:53 +0800
+Message-Id: <20221018081755.6214-1-xianting.tian@linux.alibaba.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+As disscussed in below patch set, the patch of 'describe VMCOREINFO export in Documentation'
+need to update according to Bagas's comments. 
+https://lore.kernel.org/linux-riscv/22AAF52E-8CC8-4D11-99CB-88DE4D113444@kernel.org/
 
-在 2022/10/18 下午3:19, Conor.Dooley@microchip.com 写道:
-> On 18/10/2022 03:28, Xianting Tian wrote:
->> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
->>
->> 在 2022/10/18 上午3:54, Conor Dooley 写道:
->>
->>> On Fri, Oct 14, 2022 at 09:41:38PM +0800, Xianting Tian wrote:
->>>>    * Linux Kernel 5.18 ~
->>>>    *      PGTABLE_LEVELS = 5
->>>>    *      PAGE_OFFSET = 0xff60000000000000
->>>>    * Linux Kernel 5.17 ~
->>>>    *      PGTABLE_LEVELS = 4
->>>>    *      PAGE_OFFSET = 0xffffaf8000000000
->>>>    * Linux Kernel 4.19 ~
->>>>    *      PGTABLE_LEVELS = 3
->>>>    *      PAGE_OFFSET = 0xffffffe000000000
->>>>
->>>> Since these configurations change from time to time and version to version,
->>>> it is preferable to export them via vmcoreinfo than to change the crash's
->>>> code frequently, it can simplify the development of crash tool.
->>>>
->>>> Signed-off-by: Xianting Tian<xianting.tian@linux.alibaba.com>
->>>> ---
->>>>    arch/riscv/kernel/Makefile     |  1 +
->>>>    arch/riscv/kernel/crash_core.c | 29 +++++++++++++++++++++++++++++
->>>>    2 files changed, 30 insertions(+)
->>>>    create mode 100644 arch/riscv/kernel/crash_core.c
->>>>
->>>> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
->>>> index db6e4b1294ba..4cf303a779ab 100644
->>>> --- a/arch/riscv/kernel/Makefile
->>>> +++ b/arch/riscv/kernel/Makefile
->>>> @@ -81,6 +81,7 @@ obj-$(CONFIG_KGDB)		+= kgdb.o
->>>>    obj-$(CONFIG_KEXEC_CORE)	+= kexec_relocate.o crash_save_regs.o machine_kexec.o
->>>>    obj-$(CONFIG_KEXEC_FILE)	+= elf_kexec.o machine_kexec_file.o
->>>>    obj-$(CONFIG_CRASH_DUMP)	+= crash_dump.o
->>>> +obj-$(CONFIG_CRASH_CORE)	+= crash_core.o
->>>>    
->>>>    obj-$(CONFIG_JUMP_LABEL)	+= jump_label.o
->>>>    
->>>> diff --git a/arch/riscv/kernel/crash_core.c b/arch/riscv/kernel/crash_core.c
->>>> new file mode 100644
->>>> index 000000000000..8d7f5ff108da
->>>> --- /dev/null
->>>> +++ b/arch/riscv/kernel/crash_core.c
->>>> @@ -0,0 +1,29 @@
->>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>> +
->>>> +#include <linux/crash_core.h>
->>>> +#include <linux/pagemap.h>
->>>> +
->>>> +void arch_crash_save_vmcoreinfo(void)
->>>> +{
->>>> +	VMCOREINFO_NUMBER(VA_BITS);
->>>> +	VMCOREINFO_NUMBER(phys_ram_base);
->>>> +
->>>> +	vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", PAGE_OFFSET);
->>>> +	vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
->>>> +	vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
->>>> +	vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
->>>> +	vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
->>>> +#ifdef CONFIG_64BIT
->>>> +	vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
->>>> +	vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
->>>> +#endif
->>>> +
->>>> +	if (IS_ENABLED(CONFIG_64BIT)) {
->>> You've already got a #ifdef CONFIG_64BIT above, is there a reason why
->>> you'd use the IS_ENABLED here rather than merge this with the above
->>> section? I'm a big fan of IS_ENABLED but I'm not sure what it adds here,
->>> maybe you can show me the light :)
->> The IS_ENABLED() check prevents the line from getting executed, but
->> unlike an #ifdef it relies on it to be parsable.
-> Hey Xianting,
-> Firstly, neither this nor the other version of this message made it to
-> the mailing list - and since I usually use lei to get my mails that is
-> a bit of a problem :(
+As others patches in above patch set already applied, so this patch set only contains below two
+patches.
 
-Sorry, I don't know why,  I just reply via Thunderbird.
+------
+Changes:
+   Fix commit message in patch 2: use "Document these RISCV64 exports above" instead of
+   "This patch just add the description of VMCOREINFO export for RISCV64."
+V1 -> V2:
+   Remove unnecessary overline above header text in patch 2.
+V2 -> V3:
+   Fix commit message in patch 1,2; 
+   Use 'space' instead of 'region' for vmemmap description in patch 2.
 
-But git send-mail is right, I will send V3 soon.
+Xianting Tian (2):
+  RISC-V: Add arch_crash_save_vmcoreinfo support
+  Documentation: kdump: describe VMCOREINFO export for RISCV64
 
->
-> Yeah, I know that that is what IS_ENABLED() does, it's just in this
-> situation it does not look very intentional & more like disjoint bits
-> of copy-paste. It's fine though, leave it as it is.
-OK, thanks
->
-> Thanks,
-> Conor.
->
->> I wrote this arch_crash_save_vmcoreinfo() func with reference to this: static void __init print_vm_layout(void) // arch/riscv/mm/init.c
->> {
->>           pr_notice("Virtual kernel memory layout:\n");
->>           print_ml("fixmap", (unsigned long)FIXADDR_START,
->>                   (unsigned long)FIXADDR_TOP);
->>           print_ml("pci io", (unsigned long)PCI_IO_START,
->>                   (unsigned long)PCI_IO_END);
->>           print_ml("vmemmap", (unsigned long)VMEMMAP_START,
->>                   (unsigned long)VMEMMAP_END);
->>           print_ml("vmalloc", (unsigned long)VMALLOC_START,
->>                   (unsigned long)VMALLOC_END);
->> #ifdef CONFIG_64BIT
->>           print_ml("modules", (unsigned long)MODULES_VADDR,
->>                   (unsigned long)MODULES_END);
->> #endif
->>           print_ml("lowmem", (unsigned long)PAGE_OFFSET,
->>                   (unsigned long)high_memory);
->>           if (IS_ENABLED(CONFIG_64BIT)) {
->> #ifdef CONFIG_KASAN
->>                   print_ml("kasan", KASAN_SHADOW_START, KASAN_SHADOW_END);
->> #endif
->>
->>                   print_ml("kernel", (unsigned long)KERNEL_LINK_ADDR,
->>                            (unsigned long)ADDRESS_SPACE_END);
->>           }
->> }
->>
->>> Thanks,
->>> Conor.
->>>
->>>
->>>> +#ifdef CONFIG_KASAN
->>>> +		vmcoreinfo_append_str("NUMBER(KASAN_SHADOW_START)=0x%lx\n", KASAN_SHADOW_START);
->>>> +		vmcoreinfo_append_str("NUMBER(KASAN_SHADOW_END)=0x%lx\n", KASAN_SHADOW_END);
->>>> +#endif
->>>> +		vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", KERNEL_LINK_ADDR);
->>>> +		vmcoreinfo_append_str("NUMBER(ADDRESS_SPACE_END)=0x%lx\n", ADDRESS_SPACE_END);
->>>> +	}
->>>> +}
->>>> -- 
->>>> 2.17.1
->>>>
->>>>
+ .../admin-guide/kdump/vmcoreinfo.rst          | 30 ++++++++++++++++++
+ arch/riscv/kernel/Makefile                    |  1 +
+ arch/riscv/kernel/crash_core.c                | 29 +++++++++++++++++
+ 3 files changed, 61 insertions(+)
+ create mode 100644 arch/riscv/kernel/crash_core.c
+
+-- 
+2.17.1
+
