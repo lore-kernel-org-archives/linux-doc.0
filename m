@@ -2,159 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E88C4321E
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 11:11:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3092C43219
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 11:47:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230016AbiJRLLl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 07:11:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60022 "EHLO
+        id S229962AbiJRLro (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 07:47:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229942AbiJRLLj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 07:11:39 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 362639C2CA
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 04:11:38 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id s20so21894832lfi.11
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 04:11:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UsmuVvzUGL/tIXDCMMq9mrTS5g/NHatso0iO2PBAdX8=;
-        b=hWb9clTWPGU/bF/813AdOTEHipmOUGOlMr2CwDFf3xzqyrXgR/WYXA9gGn2hPgOcWk
-         ak4xBbJGG0+EERjIzkWEKFhN6wbpA/RyaosLmxDmfeNFO4te7aoM8V+Vr7g/0g9Mxcia
-         bwg4aDc1NuUpXhRtLOHi+OR4aD9ZF4iKQyO6Oy6oOCeLvZd69ykxCxfZqXoTHTgCqrW+
-         1KseqYoX7CaDuHWaCRII+oWowWc6dzInR8yfBBRNLUlvNpaq0FXbcMUFix9NfAqr8S2+
-         /yBarw4tOK+F1Y7yOz29uRPbK4KJyhjGlV9iMnaSraIvkvFKYW/2tWp8wOlDH/+TTyhk
-         rbmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UsmuVvzUGL/tIXDCMMq9mrTS5g/NHatso0iO2PBAdX8=;
-        b=o+7m4q9EyW+ZM5Quq38J/asXEOv9KzurBvdT5yYaM0vZfWhIwjh6MKRautQFmfNzXm
-         ebAVuhN5xjpTQSpLvekopne6A17W2af5bdo5TeimP9qLgIZHCZhH93H2/Ka3YAqtIt4z
-         HT4yQ4junKrEvd8FU6pfaF8u8TGuF02vDy0ns9QG+HkG/Oi4dClXO42cG2LzrV4cKT05
-         ijN7U6Iph6GyJ/xkbYtyo60W3HgIWqp43npuDmEntbkzdGWGxUwQYF9vfsGI03JZ1EiD
-         lrEzpdGWpO7MkRJ/T4c0E8zInP1YbgXrBXRSc2oC6iWivyoFMlzAF/Wn462+mB752LOt
-         7Seg==
-X-Gm-Message-State: ACrzQf3sZ9iqorosaS9HWTY2ZD/BwUHEpoIXs0+FA7/My6dmZQGBQxdW
-        dMs/FvYqytmnkarnmtaG6/xfHS/o3pr6k+g+qZUVzw==
-X-Google-Smtp-Source: AMsMyM5zbA7ZF2jb5PoA/bKYc2t4oy6VFFv73a9+vbUT3G6aSSPbo59D9h1fv/pw7uv73bg6BtTdL1xm1wa4gqam5/w=
-X-Received: by 2002:ac2:5445:0:b0:4a4:3c5c:f73 with SMTP id
- d5-20020ac25445000000b004a43c5c0f73mr778245lfn.21.1666091496376; Tue, 18 Oct
- 2022 04:11:36 -0700 (PDT)
+        with ESMTP id S229692AbiJRLrn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 07:47:43 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C7FB1BBE0A
+        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 04:47:41 -0700 (PDT)
+Received: from loongson.cn (unknown [10.90.50.23])
+        by gateway (Coremail) with SMTP id _____8CxKdhckk5jEWcAAA--.490S3;
+        Tue, 18 Oct 2022 19:47:40 +0800 (CST)
+Received: from [10.90.50.23] (unknown [10.90.50.23])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Dx_eFbkk5jSKkAAA--.2752S3;
+        Tue, 18 Oct 2022 19:47:39 +0800 (CST)
+Message-ID: <9210a23b-b9cb-24dc-bb5d-6f45caf8d193@loongson.cn>
+Date:   Tue, 18 Oct 2022 19:47:39 +0800
 MIME-Version: 1.0
-References: <Y0T2l3HaH2MU8M9m@gmail.com> <20221014134802.1361436-1-mdanylo@google.com>
- <474513c0-4ff9-7978-9d77-839fe775d04c@collabora.com>
-In-Reply-To: <474513c0-4ff9-7978-9d77-839fe775d04c@collabora.com>
-From:   =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>
-Date:   Tue, 18 Oct 2022 13:11:25 +0200
-Message-ID: <CABb0KFGCm=K2X3-O=y3BJN85sT2C-y+XZRtLxnuabuOg+OrHwQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Implement IOCTL to get and clear soft dirty PTE
-To:     Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc:     Danylo Mocherniuk <mdanylo@google.com>, avagin@gmail.com,
-        linux-mm@kvack.org, akpm@linux-foundation.org,
-        gregkh@linuxfoundation.org, corbet@lwn.net, david@redhat.com,
-        kernel@collabora.com, krisman@collabora.com,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        peter.enderborg@sony.com, shuah@kernel.org,
-        viro@zeniv.linux.org.uk, willy@infradead.org, figiel@google.com,
-        kyurtsever@google.com, Paul Gofman <pgofman@codeweavers.com>,
-        surenb@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 1/2] Documentation: LoongArch: Document the syscall ABI
+To:     Xi Ruoyao <xry111@xry111.site>
+Cc:     WANG Xuerui <git@xen0n.name>, Huacai Chen <chenhuacai@kernel.org>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        loongarch@lists.linux.dev
+References: <20221018100457.3440691-1-kernel@xen0n.name>
+ <20221018100457.3440691-2-kernel@xen0n.name>
+ <3df303d1b0196a62217f6d034c0375855d77e04b.camel@xry111.site>
+Content-Language: en-US
+From:   Qi Hu <huqi@loongson.cn>
+In-Reply-To: <3df303d1b0196a62217f6d034c0375855d77e04b.camel@xry111.site>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8Dx_eFbkk5jSKkAAA--.2752S3
+X-CM-SenderInfo: pkxtxqxorr0wxvrqhubq/1tbiAQADCWNNReEbvwABsk
+X-Coremail-Antispam: 1Uk129KBjvdXoW7XrW8Cw15urWUGF4xury5XFb_yoW3XFX_ur
+        s7Ar1fJws3Jw4aga1qqrZxGrZxGa90kFyYka45Jr43W34DXa4xAw4Skry7CF43G3yIq39x
+        AryYgryxA347ujkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+        xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+        x7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+        AFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+        6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7
+        xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS
+        0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+        AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1l
+        Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42
+        xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
+        GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI4
+        8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4U
+        MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
+        8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j1WlkUUUUU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Oct 2022 at 12:36, Muhammad Usama Anjum
-<usama.anjum@collabora.com> wrote:
-[...]
-> I've included the masks which the CRIU developers have specified.
-> max_out_page is another new optional variable which is needed to
-> terminate the operation without visiting all the pages after finding the
-> max_out_page number of desired pages. There is no way to terminate the
-> operation without this variable.
+
+On 2022/10/18 18:12, Xi Ruoyao wrote:
+> On Tue, 2022-10-18 at 18:04 +0800, WANG Xuerui wrote:
 >
-> How does the interface looks now? Please comment.
+> /* snip */
 >
-> /* PAGEMAP IOCTL */
-> #define PAGEMAP_GET             _IOWR('f', 16, struct pagemap_sd_args)
-> #define PAGEMAP_CLEAR           _IOWR('f', 17, struct pagemap_sd_args)
-> #define PAGEMAP_GET_AND_CLEAR   _IOWR('f', 18, struct pagemap_sd_args)
-
-Why are three IOCTLs needed? Could CLEAR be a flag (like the
-PAGEMAP_NO_REUSED_REGIONS) or 'cmask' and GET be implied when vec !=3D
-NULL?
-
-> /* Bits are set in the bitmap of the page_region and masks in
-> pagemap_sd_args */
-> #define PAGE_IS_SD      1 << 0
-> #define PAGE_IS_FILE    1 << 1
-> #define PAGE_IS_PRESENT 1 << 2
-> #define PAGE_IS_SWAPED  1 << 3
 >
-> /**
->   * struct page_region - Page region with bitmap flags
->   * @start:     Start of the region
->   * @len:       Length of the region
->   * bitmap:     Bits sets for the region
->   */
-> struct page_region {
->         __u64 start;
->         __u64 len;
->         __u64 bitmap;
-> };
-
-Could you explain what units start and len are using? Are they bytes
-or pages (what size)?
-
-> /**
->   * struct pagemap_sd_args - Soft-dirty IOCTL argument
-
-Nit: it's not soft-dirty-specific anymore. Maybe "pagemap_scan_args"?
-
->   * @start:             Starting address
->   * @len:               Length of the region
->   * @vec:               Output page_region struct array
->   * @vec_len:           Length of the page_region struct array
->   * @max_out_page:      Optional max output pages (It must be less than
-> vec_len if specified)
-
-Why is it required to be less than vec_len? vec_len effectively
-specifies max number of ranges to find, and this new additional field
-counts pages, I suppose?
-BTW, if we count pages, then what size of them? Maybe using bytes
-(matching start/len fields) would be more consistent?
-
->   * @flags:             Special flags for the IOCTL
->   * @rmask:             Special flags for the IOCTL
->   * @amask:             Special flags for the IOCTL
->   * @emask:             Special flags for the IOCTL
->   * @__reserved:                Reserved member to preserve data alignmen=
-t. Must be 0.
->   */
-> struct pagemap_sd_args {
->         __u64 __user start;
->         __u64 len;
->         __u64 __user vec; // page_region
->         __u64 vec_len;    // sizeof(page_region)
->         __u32 flags;      // special flags
->         __u32 rmask;
->         __u32 amask;
->         __u32 emask;
->         __u32 max_out_page;
->         __u32 __reserved;
-> };
+>> +The system call number is placed in the register ``a7``.
+>> +Parameters, if present, are placed from ``a0`` through ``a6`` as needed,
+>> +as if calling a function with the respective arguments.
+>> +Upon return, ``a0`` contains the return value, and ``t0-t8`` should be
+>> +considered clobbered; all other registers are preserved.
+> Hmm, are a1-a7 guaranteed to be preserved?
 >
-> /* Special flags */
-> #define PAGEMAP_NO_REUSED_REGIONS       0x1
+Yes, you can find the relevant code here: [1] [2].
 
-What does this flag do?
+Thanks.
 
-Best Regards
-Micha=C5=82 Miros=C5=82aw
+
+[1]: 
+https://github.com/torvalds/linux/blob/master/arch/loongarch/kernel/entry.S#L43-L50
+
+[2]: 
+https://github.com/torvalds/linux/blob/master/arch/loongarch/kernel/entry.S#L68
+
