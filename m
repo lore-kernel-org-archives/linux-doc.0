@@ -2,153 +2,339 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A0FDC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 03:26:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F638C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 03:34:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230327AbiJRD0G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 23:26:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57908 "EHLO
+        id S230071AbiJRDe1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 23:34:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229725AbiJRDZU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 23:25:20 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FF862AE5;
-        Mon, 17 Oct 2022 20:19:26 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id q1so12156698pgl.11;
-        Mon, 17 Oct 2022 20:19:26 -0700 (PDT)
+        with ESMTP id S230387AbiJRDd5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 23:33:57 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 335EE57207;
+        Mon, 17 Oct 2022 20:25:08 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id t10-20020a17090a4e4a00b0020af4bcae10so12760782pjl.3;
+        Mon, 17 Oct 2022 20:25:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=27lM4fsG2VGltbyI+HsR0GNVvFQa8niyfY/IiXC6g9U=;
-        b=KjI9HR/u+WX7XG89cbrIUblYlmumfw6lIxgUY6dfjSZZ5wzG6Wia0bL09yLUAV9xfb
-         a7mxiZDBmoJk5Bucbj/AjxlorzkmoOC03xXSu0VmBzuIgVnR1g5DS2yU0UHVKMfKnYCS
-         /p/Lh529Xc5tUM21xfxM5QcW/4oNcWiT8sO+Yxdf4yJoiAbobNK8YFB3tksk5yU8wAqc
-         uVrNODUp6495s2HoZOWgrzCqwdfx14qbkfhMEmIbAYLUqLpuka58am7ydj2eutrtt2Tc
-         AdAiAv+1Svq1H1JNu8hJ9uRbNQ6y74kQ0zVNldgwq0xoVLdXHUp2A3eJKhgAHlY4sD+Q
-         6u3Q==
+        bh=inxwZbHCosG38Mzi0t/8Jt5QPcVmfrtnyVKQMr/6zMY=;
+        b=D1QWW2AwdELMm3BZnaEEvULxbnvRMyBEA1RKmIWYC0vjPEnKyoYCwy8l1nxeL2TXcm
+         HRPKP9kSTfIEkxD2dlikTAGiF3wdjRmBTzwLvXzsP0nXudITwmbzzA79acSNO6TBCy6x
+         RzCxSiMHnDKjHAZKLEVsDzlyB9rsuGUkozY4WD7ThoA1swBGD/sZVQC9VGshM3TLt6dc
+         JkwnJJbUVNbPcZka426xh7JBx7F5Ar9TlKYUBO3oJVy5tLtqAF8crWCJ/UT7Jm2D2Xpp
+         qimCIsBiDZ6mGMs8/SB0hLKyZatB4WisYCmWWki3Xk+O/mOpJvRjxuT5rDpQq56Z8qfV
+         /3PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=27lM4fsG2VGltbyI+HsR0GNVvFQa8niyfY/IiXC6g9U=;
-        b=WVVKBfG0/s90kpmvOcZbCtzp6fFLy+fNi8GSKUcRxeVqFr8OLB0zvnwnmSbP3cnjlX
-         f9hm6NOwcizW939mNvKLZvgyBZbwXOzqDxNAGaGl0WTA40SOgzWo0e1Sa2oruchSPpMX
-         OKBovB7IAfwBfDkvf+DbSLZWMTCEdofNEzP4kxULGpgwov2/tt+WQ5PBXX5vF6xNR5FX
-         QDdlB6HoGXwpg/l45Rk012n8d9RNt6uf201Vkmfd7KalRx1X5UUU92aUoTmShAjJwSRs
-         PzHAhFDOYWPW6YQ+6lhIb/Olf85rfnU5ss9N/Rw4N0ct5cXJRbO1stIUchiUAnphAgsi
-         W/Sg==
-X-Gm-Message-State: ACrzQf3Ulx4NGiQxBOs7lHy6FhXR5rYfpH8GA+qMpYR9HVUlNuY/0T6h
-        wAx1VqJ1kOA3upGwl//oDmY=
-X-Google-Smtp-Source: AMsMyM6/a5vrznwL4ETCawwT7rzRy/qDKRaxQuif1QLAUCW5m9HXfnhGNCmjaMT71zdnAr9JpvFQBw==
-X-Received: by 2002:a63:4850:0:b0:45d:6ee6:1c18 with SMTP id x16-20020a634850000000b0045d6ee61c18mr880131pgk.255.1666063166087;
-        Mon, 17 Oct 2022 20:19:26 -0700 (PDT)
+        bh=inxwZbHCosG38Mzi0t/8Jt5QPcVmfrtnyVKQMr/6zMY=;
+        b=dObmU6PosM3XR7D5TEo8JkJyIOZByb2JJzw9+eqcDQttfo/s7jOcLtJue2xnrK1xvl
+         3lWzaIhF+UbWv5dchBPFJFtecHwMlcttsgv5q1hsn5qQWTqJO8EzdUtl03eflSVjQ0XO
+         E4MeiBhLQZjcdvoU+0VnUQkS/3DVAuSOPHs8uTdJ5flV7aGYKTq/Fw+Pwv2YOSKRqPx0
+         Z4+cBE7XxwTuQoy0TVVWByyfSNtENj+mXsRMXghSSc7sYmaG2TEbppG030AOUsllzJw1
+         f9i7nJNPc4yHhe0mRHMx+Dyo2Oh42POLA7ig9L3Iu7PigOPWjNWbT34+ytRSFTbTzkr7
+         D0RA==
+X-Gm-Message-State: ACrzQf3HcHkoN2GfVBumhwnfzY6kCNe2zQQJ0SmKW932TVXh6It53w0Q
+        Hzzaxr5a0Dx+36rxBgsD4qM=
+X-Google-Smtp-Source: AMsMyM4tVQl65LZFscZ1skFXl51ahc6l3kWLS4Y1ORVbb9esgJ6ZSO6zO1QxABEWPPqvptnzYTQ4Lw==
+X-Received: by 2002:a17:90b:1242:b0:20a:f75c:de7 with SMTP id gx2-20020a17090b124200b0020af75c0de7mr37880370pjb.70.1666063470857;
+        Mon, 17 Oct 2022 20:24:30 -0700 (PDT)
 Received: from debian.me (subs03-180-214-233-84.three.co.id. [180.214.233.84])
-        by smtp.gmail.com with ESMTPSA id q10-20020a170902f78a00b0017a018221e2sm7317751pln.70.2022.10.17.20.19.25
+        by smtp.gmail.com with ESMTPSA id p13-20020a170902e74d00b0017854cee6ebsm7473486plf.72.2022.10.17.20.24.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Oct 2022 20:19:25 -0700 (PDT)
+        Mon, 17 Oct 2022 20:24:30 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id 03473103AB4; Tue, 18 Oct 2022 10:19:22 +0700 (WIB)
-Date:   Tue, 18 Oct 2022 10:19:22 +0700
+        id A652B103AE0; Tue, 18 Oct 2022 10:24:27 +0700 (WIB)
+Date:   Tue, 18 Oct 2022 10:24:27 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Xianting Tian <xianting.tian@linux.alibaba.com>
-Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
-        guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
-        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com
-Subject: Re: [PATCH V2 2/2] Documentation: kdump: describe VMCOREINFO export
- for RISCV64
-Message-ID: <Y04bOv49sRsauLb6@debian.me>
-References: <20221014134139.5151-1-xianting.tian@linux.alibaba.com>
- <20221014134139.5151-3-xianting.tian@linux.alibaba.com>
+To:     Babu Moger <babu.moger@amd.com>
+Cc:     corbet@lwn.net, reinette.chatre@intel.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, fenghua.yu@intel.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        eranian@google.com
+Subject: Re: [PATCH v7 12/12] Documentation/x86: Update resctrl.rst for new
+ features
+Message-ID: <Y04ca9ZgS44tBsTk@debian.me>
+References: <166604543832.5345.9696970469830919982.stgit@bmoger-ubuntu>
+ <166604565437.5345.14867510739122394750.stgit@bmoger-ubuntu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="mJXlfJec3bfb1DWQ"
+        protocol="application/pgp-signature"; boundary="FTXa/D3TyRNBlERd"
 Content-Disposition: inline
-In-Reply-To: <20221014134139.5151-3-xianting.tian@linux.alibaba.com>
+In-Reply-To: <166604565437.5345.14867510739122394750.stgit@bmoger-ubuntu>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---mJXlfJec3bfb1DWQ
+--FTXa/D3TyRNBlERd
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 14, 2022 at 09:41:39PM +0800, Xianting Tian wrote:
-> The following interrelated definitions and ranges are needed by the kdump
-> crash tool, they are exported by "arch/riscv/kernel/crash_core.c":
-
-Better say "..., which are exported by ..."
-
-> diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentati=
-on/admin-guide/kdump/vmcoreinfo.rst
-> index 6726f439958c..8e2e164cf3db 100644
-> --- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
-> +++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-> @@ -595,3 +595,33 @@ X2TLB
->  -----
+On Mon, Oct 17, 2022 at 05:27:34PM -0500, Babu Moger wrote:
+> Update the documentation for the new features:
+> 1. Slow Memory Bandwidth allocation (SMBA).
+>    With this feature, the QOS  enforcement policies can be applied
+>    to the external slow memory connected to the host. QOS enforcement
+>    is accomplished by assigning a Class Of Service (COS) to a processor
+>    and specifying allocations or limits for that COS for each resource
+>    to be allocated.
+>=20
+> 2. Bandwidth Monitoring Event Configuration (BMEC).
+>    The bandwidth monitoring events mbm_total_bytes and mbm_local_bytes
+>    are set to count all the total and local reads/writes respectively.
+>    With the introduction of slow memory, the two counters are not
+>    enough to count all the different types of memory events. With the
+>    feature BMEC, the users have the option to configure mbm_total_bytes
+>    and mbm_local_bytes to count the specific type of events.
+>=20
+> Also add configuration instructions with examples.
+>=20
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+> ---
+>  Documentation/x86/resctrl.rst |  139 +++++++++++++++++++++++++++++++++++=
++++++-
+>  1 file changed, 137 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
+> index 71a531061e4e..d0b4e1a2cb8d 100644
+> --- a/Documentation/x86/resctrl.rst
+> +++ b/Documentation/x86/resctrl.rst
+> @@ -17,14 +17,16 @@ AMD refers to this feature as AMD Platform Quality of=
+ Service(AMD QoS).
+>  This feature is enabled by the CONFIG_X86_CPU_RESCTRL and the x86 /proc/=
+cpuinfo
+>  flag bits:
 > =20
->  Indicates whether the crashed kernel enabled SH extended mode.
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+>  RDT (Resource Director Technology) Allocation	"rdt_a"
+>  CAT (Cache Allocation Technology)		"cat_l3", "cat_l2"
+>  CDP (Code and Data Prioritization)		"cdp_l3", "cdp_l2"
+>  CQM (Cache QoS Monitoring)			"cqm_llc", "cqm_occup_llc"
+>  MBM (Memory Bandwidth Monitoring)		"cqm_mbm_total", "cqm_mbm_local"
+>  MBA (Memory Bandwidth Allocation)		"mba"
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +SMBA (Slow Memory Bandwidth Allocation)         "smba"
+> +BMEC (Bandwidth Monitoring Event Configuration) "bmec"
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> =20
+>  To use the feature mount the file system::
+> =20
+> @@ -161,6 +163,79 @@ with the following files:
+>  "mon_features":
+>  		Lists the monitoring events if
+>  		monitoring is enabled for the resource.
+> +                Example::
 > +
-> +RISCV64
-> +=3D=3D=3D=3D=3D=3D=3D
+> +                   # cat /sys/fs/resctrl/info/L3_MON/mon_features
+> +                   llc_occupancy
+> +                   mbm_total_bytes
+> +                   mbm_local_bytes
 > +
-> +VA_BITS
-> +-------
+> +                If the system supports Bandwidth Monitoring Event
+> +                Configuration (BMEC), then the bandwidth events will
+> +                be configurable. The output will be::
 > +
-> +The maximum number of bits for virtual addresses. Used to compute the
-> +virtual memory ranges.
+> +                   # cat /sys/fs/resctrl/info/L3_MON/mon_features
+> +                   llc_occupancy
+> +                   mbm_total_bytes
+> +                   mbm_total_config
+> +                   mbm_local_bytes
+> +                   mbm_local_config
 > +
-> +PAGE_OFFSET
-> +-----------
+> +"mbm_total_config", "mbm_local_config":
+> +        These files contain the current event configuration for the even=
+ts
+> +        mbm_total_bytes and mbm_local_bytes, respectively, when the
+> +        Bandwidth Monitoring Event Configuration (BMEC) feature is suppo=
+rted.
+> +        The event configuration settings are domain specific and will af=
+fect
+> +        all the CPUs in the domain.
 > +
-> +Indicates the virtual kernel start address of direct-mapped RAM region.
+> +        Following are the types of events supported:
 > +
-> +phys_ram_base
-> +-------------
+> +        =3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +        Bits    Description
+> +        =3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +        6       Dirty Victims from the QOS domain to all types of memory
+> +        5       Reads to slow memory in the non-local NUMA domain
+> +        4       Reads to slow memory in the local NUMA domain
+> +        3       Non-temporal writes to non-local NUMA domain
+> +        2       Non-temporal writes to local NUMA domain
+> +        1       Reads to memory in the non-local NUMA domain
+> +        0       Reads to memory in the local NUMA domain
+> +        =3D=3D=3D=3D    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > +
-> +Indicates the start physical RAM address.
+> +        By default, the mbm_total_bytes configuration is set to 0x7f to =
+count
+> +        all the event types and the mbm_local_bytes configuration is set=
+ to
+> +        0x15 to count all the local memory events.
 > +
-> +MODULES_VADDR|MODULES_END|VMALLOC_START|VMALLOC_END|VMEMMAP_START|VMEMMA=
-P_END|KASAN_SHADOW_START|KASAN_SHADOW_END|KERNEL_LINK_ADDR|ADDRESS_SPACE_END
-> +------------------------------------------------------------------------=
-----------------------------------------------------------------------------
+> +        Examples:
 > +
-> +Used to get the correct ranges:
+> +        * To view the current configuration::
+> +          ::
 > +
-> +  * MODULES_VADDR ~ MODULES_END : Kernel module space.
-> +  * VMALLOC_START ~ VMALLOC_END : vmalloc() / ioremap() space.
-> +  * VMEMMAP_START ~ VMEMMAP_END : vmemmap region, used for struct page a=
-rray.
-> +  * KASAN_SHADOW_START ~ KASAN_SHADOW_END : kasan shadow space.
-> +  * KERNEL_LINK_ADDR ~ ADDRESS_SPACE_END : Kernel link and BPF space.
+> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_total_config
+> +            0=3D0x7f;1=3D0x7f;2=3D0x7f;3=3D0x7f
+> +
+> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_local_config
+> +            0=3D0x15;1=3D0x15;3=3D0x15;4=3D0x15
+> +
+> +        * To change the mbm_total_bytes to count only reads on domain 0,
+> +          the bits 0, 1, 4 and 5 needs to be set, which is 110011b in bi=
+nary
+> +          (in hexadecimal 0x33):
+> +          ::
+> +
+> +            # echo  "0=3D0x33" > /sys/fs/resctrl/info/L3_MON/mbm_total_c=
+onfig
+> +
+> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_total_config
+> +            0=3D0x33;1=3D0x7f;2=3D0x7f;3=3D0x7f
+> +
+> +        * To change the mbm_local_bytes to count all the slow memory rea=
+ds
+> +          on domain 1, the bits 4 and 5 needs to be set, which is 110000b
+> +          in binary (in hexadecimal 0x30):
+> +          ::
+> +
+> +            # echo  "1=3D0x30" > /sys/fs/resctrl/info/L3_MON/mbm_local_c=
+onfig
+> +
+> +            # cat /sys/fs/resctrl/info/L3_MON/mbm_local_config
+> +            0=3D0x15;1=3D0x30;3=3D0x15;4=3D0x15
+> =20
+>  "max_threshold_occupancy":
+>  		Read/write file provides the largest value (in
+> @@ -464,6 +539,26 @@ Memory bandwidth domain is L3 cache.
+> =20
+>  	MB:<cache_id0>=3Dbw_MBps0;<cache_id1>=3Dbw_MBps1;...
+> =20
+> +Slow Memory bandwidth Allocation (SMBA)
+> +---------------------------------------
+> +AMD hardwares support Slow Memory bandwidth Allocation (SMBA) feature.
+> +Currently, CXL.memory is the only supported "slow" memory device.
+> +With the support of SMBA, the hardware enables bandwidth allocation
+> +on the slow memory devices. If there are multiple such devices in the
+> +system, the throttling logic groups all the slow sources together
+> +and applies the limit on them as a whole.
+> +
+> +The presence of SMBA (with CXL.memory) is independent of slow memory
+> +devices presence. If there is no such devices on the system, then
+> +setting the configuring SMBA will have no impact on the performance
+> +of the system.
+> +
+> +The bandwidth domain for slow memory is L3 cache. Its schemata file
+> +is formatted as:
+> +::
+> +
+> +	SMBA:<cache_id0>=3Dbandwidth0;<cache_id1>=3Dbandwidth1;...
+> +
+>  Reading/writing the schemata file
+>  ---------------------------------
+>  Reading the schemata file will show the state of all resources
+> @@ -479,6 +574,46 @@ which you wish to change.  E.g.
+>    L3DATA:0=3Dfffff;1=3Dfffff;2=3D3c0;3=3Dfffff
+>    L3CODE:0=3Dfffff;1=3Dfffff;2=3Dfffff;3=3Dfffff
+> =20
+> +Reading/writing the schemata file (on AMD systems)
+> +--------------------------------------------------
+> +Reading the schemata file will show the current bandwidth limit on all
+> +domains. The allocated resources are in multiples of one eighth GB/s.
+> +When writing to the file, you need to specify what cache id you wish to
+> +configure the bandwidth limit.
+> +
+> +For example, to allocate 2GB/s limit on the first cache id:
+> +
+> +::
+> +
+> +  # cat schemata
+> +    MB:0=3D2048;1=3D2048;2=3D2048;3=3D2048
+> +    L3:0=3Dffff;1=3Dffff;2=3Dffff;3=3Dffff
+> +
+> +  # echo "MB:1=3D16" > schemata
+> +  # cat schemata
+> +    MB:0=3D2048;1=3D  16;2=3D2048;3=3D2048
+> +    L3:0=3Dffff;1=3Dffff;2=3Dffff;3=3Dffff
+> +
+> +Reading/writing the schemata file (on AMD systems) with SMBA feature
+> +--------------------------------------------------------------------
+> +Reading and writing the schemata file is the same as without SMBA in
+> +above section.
+> +
+> +For example, to allocate 8GB/s limit on the first cache id:
+> +
+> +::
+> +
+> +  # cat schemata
+> +    SMBA:0=3D2048;1=3D2048;2=3D2048;3=3D2048
+> +      MB:0=3D2048;1=3D2048;2=3D2048;3=3D2048
+> +      L3:0=3Dffff;1=3Dffff;2=3Dffff;3=3Dffff
+> +
+> +  # echo "SMBA:1=3D64" > schemata
+> +  # cat schemata
+> +    SMBA:0=3D2048;1=3D  64;2=3D2048;3=3D2048
+> +      MB:0=3D2048;1=3D2048;2=3D2048;3=3D2048
+> +      L3:0=3Dffff;1=3Dffff;2=3Dffff;3=3Dffff
+> +
+>  Cache Pseudo-Locking
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  CAT enables a user to specify the amount of cache space that an
+>=20
+>=20
 
-The documentation LGTM, thanks.
-
-When the patch subject is fixed,
+Finally LGTM, thanks.
 
 Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---mJXlfJec3bfb1DWQ
+--FTXa/D3TyRNBlERd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY04bNgAKCRD2uYlJVVFO
-o9kOAP9AaJtAmveWT2rKBcXBOriMgs2qxe6Fqu9neGo2fj4foQD/UM0HMxKN6GnG
-IlT9w8j9jQUfpIzT4s7r+oaaSOgTJQY=
-=ew2W
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY04cawAKCRD2uYlJVVFO
+o7BnAQCgJ6fV2UoC+hafwMJv87uRNhD2dP9qs+sTb/rsZRQ9iAEAvXjKoArwfGhy
+b1KkOm8x3Sm/BJiOkGIvUjiNBzN3Og4=
+=u4gn
 -----END PGP SIGNATURE-----
 
---mJXlfJec3bfb1DWQ--
+--FTXa/D3TyRNBlERd--
