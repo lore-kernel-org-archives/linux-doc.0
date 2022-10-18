@@ -2,117 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C6D5C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 07:50:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFA9DC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 08:01:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229911AbiJRHuL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 03:50:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55406 "EHLO
+        id S229797AbiJRIBv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 04:01:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229824AbiJRHuC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 03:50:02 -0400
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AF06647EC;
-        Tue, 18 Oct 2022 00:49:58 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.west.internal (Postfix) with ESMTP id 3057D320098D;
-        Tue, 18 Oct 2022 03:49:56 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Tue, 18 Oct 2022 03:49:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1666079395; x=1666165795; bh=7Md4CAXWfA
-        GPDZDdUlTOak4LwDabEftkVgALiP8DKrE=; b=U74au7xDHzjDjkdszgXEg1cw/P
-        rvdynF2GR+Je+9j0iT5jHUlBauKTF+zBFHsHwAaQgTgPXTO6g1lGP75xiKd5Y3iS
-        I8vA98XaJzA+BjhSszgEPPRXVRP6dpl6+aznmFcXRp12ROq2Wzz6PJ363ob8ETWT
-        x+fvGhtUYlJo1K0ltyzIzqYX7gn2PP8clotriYOEyLsfH+rhCYIMgQk9MzPoV8RT
-        1ZxFXg5HSGfG7WCnS5L3VcnF8vLMgFpi7gA576sNZbCe+G8b3tveTLBp5X4zhwP4
-        e2zBuodHzGq8se34I70JZP3WZSyFvTcG1ud5yLC6avr9yL+OuxA5a5BbQQbQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1666079395; x=1666165795; bh=7Md4CAXWfAGPDZDdUlTOak4LwDab
-        EftkVgALiP8DKrE=; b=Mbt5W75fgcE+L6232FNCIHzRDQHGFQqduTwF7BwEkAQW
-        lJKIh0TlhFltcHN+t1N+ROURDqbxaxkW3kH/hU+nkGHvjJpejrtjuva+g34Ult7w
-        sxwdXopO3VA9t+sOX64M+8ttitZQ2qNjUuSaWU4zdZzb/xtFgo8uRRivDVdgil9y
-        ckIiCqMLcG/9FvWoh81ma9wBg1Q0/WHgZxCEtNFbvCb6bcL100ijB53ff1+UzuSs
-        C6oYQcnub7d55Xa2JOMRFphdfvI2PM0xxWnLY7xI0CQSH299JWvA+zTb7Gif4gsv
-        FpWhKNIwqCSH0fa49b/5vjS9Zx1mF6exdcQz3OB61Q==
-X-ME-Sender: <xms:o1pOY2DgnGGxz7HLmlQfe3rzaiEPzexx-f64QVCwEBWTTEM_KuMsnA>
-    <xme:o1pOYwjl1-G0YZAzgsaGF40BdU3OEL8JKiBhbB22Mf5nMl0uMe2EvVULowaM3ZKUu
-    _wq9oCEpOFDK17bnYA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeltddguddviecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:o1pOY5kMciv-8nx_F1AgfiZWtc75JfDfb76Wh9SYa-iDintbSugf5A>
-    <xmx:o1pOY0w_0IbEEBzn3-Nym02WaUh5JDy0zSK9gH8okn6abrRiOe2vqQ>
-    <xmx:o1pOY7T_3P0CBK65BDUnp8AbaZIEUGpwY82ImZ3rE_060cpHAMcYWA>
-    <xmx:o1pOY8Ci9enz_xWGDml7nSw2oJU2GOoUQcKIAekmIgbdjS9jlEeF4A>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 79AC6B60089; Tue, 18 Oct 2022 03:49:55 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
-Mime-Version: 1.0
-Message-Id: <b88e4bd2-5c2e-430a-99f9-18cd43463fd6@app.fastmail.com>
-In-Reply-To: <a91e8216-7767-9126-e1d2-c67846cf32fc@gmail.com>
-References: <20221010101331.29942-1-parav@nvidia.com>
- <d5faaf6f-7de5-49b0-92d6-9989ffbdbf2e@app.fastmail.com>
- <59d99be6-f79e-45bd-203c-17972255cc39@gmail.com>
- <12f51033-1461-43f9-8d8d-cd726fbb4758@app.fastmail.com>
- <a91e8216-7767-9126-e1d2-c67846cf32fc@gmail.com>
-Date:   Tue, 18 Oct 2022 09:49:34 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Akira Yokosawa" <akiyks@gmail.com>,
-        "Parav Pandit" <parav@nvidia.com>
-Cc:     "Bagas Sanjaya" <bagasdotme@gmail.com>,
-        "Alan Stern" <stern@rowland.harvard.edu>, parri.andrea@gmail.com,
-        "Will Deacon" <will@kernel.org>,
-        "Peter Zijlstra" <peterz@infradead.org>, boqun.feng@gmail.com,
-        "Nicholas Piggin" <npiggin@gmail.com>, dhowells@redhat.com,
-        j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
-        "Paul E. McKenney" <paulmck@kernel.org>, dlustig@nvidia.com,
-        "Joel Fernandes" <joel@joelfernandes.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4] locking/memory-barriers.txt: Improve documentation for writel()
- example
-Content-Type: text/plain
+        with ESMTP id S230218AbiJRIBu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 04:01:50 -0400
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE37F7CAA2;
+        Tue, 18 Oct 2022 01:01:48 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045176;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=24;SR=0;TI=SMTPD_---0VSTkHr-_1666080101;
+Received: from 30.221.96.155(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VSTkHr-_1666080101)
+          by smtp.aliyun-inc.com;
+          Tue, 18 Oct 2022 16:01:43 +0800
+Message-ID: <c60b60c0-59ac-6544-186d-9ac79b742734@linux.alibaba.com>
+Date:   Tue, 18 Oct 2022 16:01:41 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH V2 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
+To:     Conor.Dooley@microchip.com, conor@kernel.org
+Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
+        guoren@kernel.org, mick@ics.forth.gr,
+        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
+        dyoung@redhat.com, corbet@lwn.net, bagasdotme@gmail.com,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
+        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com
+References: <20221014134139.5151-1-xianting.tian@linux.alibaba.com>
+ <20221014134139.5151-2-xianting.tian@linux.alibaba.com>
+ <Y02y9eN1TNJteTw6@spud>
+ <78420277-215f-55d0-67b8-fbf9208b3d22@linux.alibaba.com>
+ <642e0529-1df1-86e9-f7de-a6252ba9fd12@microchip.com>
+From:   Xianting Tian <xianting.tian@linux.alibaba.com>
+In-Reply-To: <642e0529-1df1-86e9-f7de-a6252ba9fd12@microchip.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 18, 2022, at 9:40 AM, Akira Yokosawa wrote:
-> On Tue, 18 Oct 2022 08:44:09 +0200, Arnd Bergmann wrote:
->> 
->> Anything weaker than a full "wmb()" probably makes the driver calling
->> the writel() non-portable, so that is both vague and incorrect.
+
+在 2022/10/18 下午3:19, Conor.Dooley@microchip.com 写道:
+> On 18/10/2022 03:28, Xianting Tian wrote:
+>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+>>
+>> 在 2022/10/18 上午3:54, Conor Dooley 写道:
+>>
+>>> On Fri, Oct 14, 2022 at 09:41:38PM +0800, Xianting Tian wrote:
+>>>>    * Linux Kernel 5.18 ~
+>>>>    *      PGTABLE_LEVELS = 5
+>>>>    *      PAGE_OFFSET = 0xff60000000000000
+>>>>    * Linux Kernel 5.17 ~
+>>>>    *      PGTABLE_LEVELS = 4
+>>>>    *      PAGE_OFFSET = 0xffffaf8000000000
+>>>>    * Linux Kernel 4.19 ~
+>>>>    *      PGTABLE_LEVELS = 3
+>>>>    *      PAGE_OFFSET = 0xffffffe000000000
+>>>>
+>>>> Since these configurations change from time to time and version to version,
+>>>> it is preferable to export them via vmcoreinfo than to change the crash's
+>>>> code frequently, it can simplify the development of crash tool.
+>>>>
+>>>> Signed-off-by: Xianting Tian<xianting.tian@linux.alibaba.com>
+>>>> ---
+>>>>    arch/riscv/kernel/Makefile     |  1 +
+>>>>    arch/riscv/kernel/crash_core.c | 29 +++++++++++++++++++++++++++++
+>>>>    2 files changed, 30 insertions(+)
+>>>>    create mode 100644 arch/riscv/kernel/crash_core.c
+>>>>
+>>>> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+>>>> index db6e4b1294ba..4cf303a779ab 100644
+>>>> --- a/arch/riscv/kernel/Makefile
+>>>> +++ b/arch/riscv/kernel/Makefile
+>>>> @@ -81,6 +81,7 @@ obj-$(CONFIG_KGDB)		+= kgdb.o
+>>>>    obj-$(CONFIG_KEXEC_CORE)	+= kexec_relocate.o crash_save_regs.o machine_kexec.o
+>>>>    obj-$(CONFIG_KEXEC_FILE)	+= elf_kexec.o machine_kexec_file.o
+>>>>    obj-$(CONFIG_CRASH_DUMP)	+= crash_dump.o
+>>>> +obj-$(CONFIG_CRASH_CORE)	+= crash_core.o
+>>>>    
+>>>>    obj-$(CONFIG_JUMP_LABEL)	+= jump_label.o
+>>>>    
+>>>> diff --git a/arch/riscv/kernel/crash_core.c b/arch/riscv/kernel/crash_core.c
+>>>> new file mode 100644
+>>>> index 000000000000..8d7f5ff108da
+>>>> --- /dev/null
+>>>> +++ b/arch/riscv/kernel/crash_core.c
+>>>> @@ -0,0 +1,29 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>>> +
+>>>> +#include <linux/crash_core.h>
+>>>> +#include <linux/pagemap.h>
+>>>> +
+>>>> +void arch_crash_save_vmcoreinfo(void)
+>>>> +{
+>>>> +	VMCOREINFO_NUMBER(VA_BITS);
+>>>> +	VMCOREINFO_NUMBER(phys_ram_base);
+>>>> +
+>>>> +	vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", PAGE_OFFSET);
+>>>> +	vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
+>>>> +	vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
+>>>> +	vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
+>>>> +	vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
+>>>> +#ifdef CONFIG_64BIT
+>>>> +	vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
+>>>> +	vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
+>>>> +#endif
+>>>> +
+>>>> +	if (IS_ENABLED(CONFIG_64BIT)) {
+>>> You've already got a #ifdef CONFIG_64BIT above, is there a reason why
+>>> you'd use the IS_ENABLED here rather than merge this with the above
+>>> section? I'm a big fan of IS_ENABLED but I'm not sure what it adds here,
+>>> maybe you can show me the light :)
+>> The IS_ENABLED() check prevents the line from getting executed, but
+>> unlike an #ifdef it relies on it to be parsable.
+> Hey Xianting,
+> Firstly, neither this nor the other version of this message made it to
+> the mailing list - and since I usually use lei to get my mails that is
+> a bit of a problem :(
+
+Sorry, I don't know why,  I just reply via Thunderbird.
+
+But git send-mail is right, I will send V3 soon.
+
 >
-> Do you mean there is a writel() implementation somewhere in the kernel
-> which doesn't guarantee an implicit wmb() before MMIO write?
-
-There are lots of those, but that's not what I meant. E.g. on x86,
-writel() does not imply a full wmb() but still guarantees serialization
-between DMA and the register access.
-
-> Or do you mean my version is confusing because it can imply a weaker
-> write barrier is sufficient before writel_relaxed()?
-
-That's what I meant, yes. On a lot of architectures, it is sufficient
-to have something weaker than wmb() before writel_relaxed(), especially
-on anything that defines writel_relaxed() to be the same as writel(),
-any barrier would technically work. On arm32, using __iowmb() would be
-sufficient, and this can be less than a full wmb() but again it's
-obviously not portable. These details should not be needed in the
-documentation.
-
-      Arnd
+> Yeah, I know that that is what IS_ENABLED() does, it's just in this
+> situation it does not look very intentional & more like disjoint bits
+> of copy-paste. It's fine though, leave it as it is.
+OK, thanks
+>
+> Thanks,
+> Conor.
+>
+>> I wrote this arch_crash_save_vmcoreinfo() func with reference to this: static void __init print_vm_layout(void) // arch/riscv/mm/init.c
+>> {
+>>           pr_notice("Virtual kernel memory layout:\n");
+>>           print_ml("fixmap", (unsigned long)FIXADDR_START,
+>>                   (unsigned long)FIXADDR_TOP);
+>>           print_ml("pci io", (unsigned long)PCI_IO_START,
+>>                   (unsigned long)PCI_IO_END);
+>>           print_ml("vmemmap", (unsigned long)VMEMMAP_START,
+>>                   (unsigned long)VMEMMAP_END);
+>>           print_ml("vmalloc", (unsigned long)VMALLOC_START,
+>>                   (unsigned long)VMALLOC_END);
+>> #ifdef CONFIG_64BIT
+>>           print_ml("modules", (unsigned long)MODULES_VADDR,
+>>                   (unsigned long)MODULES_END);
+>> #endif
+>>           print_ml("lowmem", (unsigned long)PAGE_OFFSET,
+>>                   (unsigned long)high_memory);
+>>           if (IS_ENABLED(CONFIG_64BIT)) {
+>> #ifdef CONFIG_KASAN
+>>                   print_ml("kasan", KASAN_SHADOW_START, KASAN_SHADOW_END);
+>> #endif
+>>
+>>                   print_ml("kernel", (unsigned long)KERNEL_LINK_ADDR,
+>>                            (unsigned long)ADDRESS_SPACE_END);
+>>           }
+>> }
+>>
+>>> Thanks,
+>>> Conor.
+>>>
+>>>
+>>>> +#ifdef CONFIG_KASAN
+>>>> +		vmcoreinfo_append_str("NUMBER(KASAN_SHADOW_START)=0x%lx\n", KASAN_SHADOW_START);
+>>>> +		vmcoreinfo_append_str("NUMBER(KASAN_SHADOW_END)=0x%lx\n", KASAN_SHADOW_END);
+>>>> +#endif
+>>>> +		vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", KERNEL_LINK_ADDR);
+>>>> +		vmcoreinfo_append_str("NUMBER(ADDRESS_SPACE_END)=0x%lx\n", ADDRESS_SPACE_END);
+>>>> +	}
+>>>> +}
+>>>> -- 
+>>>> 2.17.1
+>>>>
+>>>>
