@@ -2,67 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A34C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 21:44:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F02C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 21:46:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229515AbiJRVo6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 17:44:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50174 "EHLO
+        id S229852AbiJRVqH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 17:46:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229682AbiJRVo6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 17:44:58 -0400
+        with ESMTP id S229819AbiJRVpr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 17:45:47 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBBA826497;
-        Tue, 18 Oct 2022 14:44:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3B886E887;
+        Tue, 18 Oct 2022 14:45:46 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9BECD2E5;
-        Tue, 18 Oct 2022 21:44:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9BECD2E5
+        by ms.lwn.net (Postfix) with ESMTPSA id 82A3D2D7;
+        Tue, 18 Oct 2022 21:45:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 82A3D2D7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1666129496; bh=MY+hBC9HFABaPCkP4Q5+2IaoGbZLglpOmW5k2aA3Qek=;
+        t=1666129546; bh=5qsPLMlRPu3rzGNXOt+yBYYV8YcZ8LrTgIKLcbVlcuQ=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=WnorCfT00sbFegkNLmv1QStObP45jqDGNtiKztaQkt51F7BPvV11+PXVe6ywGNqrU
-         g2TfoniDJqcPhybWVvIwRjDVxpA8TAFbHE/jicYlb1lTCKFwseZlg9a6P9H1m7rZyX
-         cDNDC0G8C3+XM0GvQ3iOICHOuvu3UnMER+Xv1jGNzu8vU1+00efqoscGIFuK6xo9a2
-         aAgM+XyapXBzBwmARTNKNIkbIFrvbT8H4ZssWkDHWppQRjGKJpjG2IvJQC7mASMiWe
-         GlHdznU1iaihDC6IyyKN5Z4Q4EZLhk3KP/08cvnVQlslrIozp8qVh1foJgDzxyd9Vl
-         EAWNmpbwpb41g==
+        b=MgRXBj1zoukRMLWqFZfsDl6HbY4inU2YIGvrWjvA4XBo1ICkFMHu4tkQ654aeXpTZ
+         4SsVZz1QxeURXux4p7uTkdNQjwjs6FPQlJsJBoxv/a+n7hsuxuRzieXsKOsFoAOPLu
+         s8DxjVQhHQXPEk+2M/NUTakmvyHRBA57TP5o7YFSz9u4j0cQc3JzmGk9xkfIllc1nA
+         Qm8jUYSsRJ19nrdU37AIYqA/rrzY4HxmKs8BYCVg/v6Ow32XmYKvQzoJuAUXRSR1vJ
+         9wymD9dKYnPtUEH6GI5Vv/fK8FjjAG3wg0xnaBpdDySsrkVQpMbgG5xNiUI1156M1+
+         D+aKfFmtWc1Zg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mushahid Hussain <mushi.shar@gmail.com>
+To:     Akira Yokosawa <akiyks@gmail.com>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mushahid Hussain <mushi.shar@gmail.com>
-Subject: Re: [PATCH] Documentation: Fix spelling mistake in hacking.rst
-In-Reply-To: <20221017112026.88324-1-mushi.shar@gmail.com>
-References: <20221017112026.88324-1-mushi.shar@gmail.com>
-Date:   Tue, 18 Oct 2022 15:44:56 -0600
-Message-ID: <87o7u8dcx3.fsf@meer.lwn.net>
+        Akira Yokosawa <akiyks@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>, Hu Haowen <src.res@email.cn>,
+        Tsugikazu Shibata <shibata@linuxfoundation.org>
+Subject: Re: [PATCH] docs/process/howto: Replace C89 with C11
+In-Reply-To: <20221015092201.32099-1-akiyks@gmail.com>
+References: <20221015092201.32099-1-akiyks@gmail.com>
+Date:   Tue, 18 Oct 2022 15:45:45 -0600
+Message-ID: <87k04wdcvq.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mushahid Hussain <mushi.shar@gmail.com> writes:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> Fix `botton half locks` to `bottom half locks`.
+> Commit e8c07082a810 ("Kbuild: move to -std=gnu11") updated
+> process/programming-language.rst, but failed to update
+> process/howto.rst.
 >
-> Signed-off-by: Mushahid Hussain <mushi.shar@gmail.com>
+> Update howto.rst and resolve the inconsistency.
+>
+> Fixes: e8c07082a810 ("Kbuild: move to -std=gnu11")
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+> Cc: Alex Shi <alexs@kernel.org>
+> Cc: Hu Haowen <src.res@email.cn>
+> Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
 > ---
->  Documentation/kernel-hacking/hacking.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
-> index 9a1f020c8449..1717348a4404 100644
-> --- a/Documentation/kernel-hacking/hacking.rst
-> +++ b/Documentation/kernel-hacking/hacking.rst
-> @@ -120,7 +120,7 @@ You can tell you are in a softirq (or tasklet) using the
->  .. warning::
->  
->      Beware that this will return a false positive if a
-> -    :ref:`botton half lock <local_bh_disable>` is held.
-> +    :ref:`bottom half lock <local_bh_disable>` is held.
+>  Documentation/process/howto.rst                    | 2 +-
+>  Documentation/translations/it_IT/process/howto.rst | 2 +-
+>  Documentation/translations/ja_JP/howto.rst         | 2 +-
+>  Documentation/translations/ko_KR/howto.rst         | 2 +-
+>  Documentation/translations/zh_CN/process/howto.rst | 2 +-
+>  Documentation/translations/zh_TW/process/howto.rst | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
 
 Applied, thanks.
 
