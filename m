@@ -2,101 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E3DBC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 04:24:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5286CC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 04:31:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229711AbiJREY1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 00:24:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51766 "EHLO
+        id S229922AbiJREbk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 00:31:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbiJREYZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 00:24:25 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7FD1EBD;
-        Mon, 17 Oct 2022 21:24:21 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id l4so12688400plb.8;
-        Mon, 17 Oct 2022 21:24:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=i18Ca9h9wygR53zLge2dretL8mFnfQx69h7ZqTbONjI=;
-        b=nihPwZ+TfeVL1yYE34/oNK3CLKVAKQPzjVSc1rC8+/XaIc4igF6VbLJTMbkqVO/Bn0
-         sWLIvKJxJpvulIDrNe2cy0diTgIqli8F4bsXgFCZmTsr3Ll5hGfABzDCyJ6rkDS/nSga
-         8s+PMnJOWZmUbn6l3gH2CZwVMkxdNnv9zHZcawvDRogBRAnDq/X1HhUftrDaoHdCZbgh
-         0/jjwT7LYYSTSHuWqiWBiD5ANfr+FDn0Hqm15Wb+rySHoxOi4AU3YAkktPe5reqjdUl9
-         g7URlas1Zn1mfBEBJd07AFDYMIPoH8Lnc1Xx6IOMF/MqHl042itsgvuY1Nky9TQp/JGb
-         V5YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i18Ca9h9wygR53zLge2dretL8mFnfQx69h7ZqTbONjI=;
-        b=DZ+xfUTCkocPTlgExTJerRvPPL69gLHfbVy+AQ/euSCIHrfiqmDT+x6W3lBGCdpRdp
-         ovM8/qK/T615d2E2fH6uGaJgf1EiIp/wYBsxzxiDKGGalWPKBHRY29DHeC6tFx/1RPIB
-         yzb7XOyR5bE9qcVL6IEhwfQoB3cfsL8UvgAZgGAderuRcUswbRpaLrAtXsPkp2aTGGy5
-         fqYOwPEGMRYdX2rmFIHgdNlqI3CcuN8xlxMCh6HqwZUAe6uI0V2b9L79qNLEm/rzT41C
-         kUxJEBTzQRR3zmIE63GglODntXRL0RnM6gHfU4/pWb1p5SfuE8phxrAGaq6C/8aHyegQ
-         DPIA==
-X-Gm-Message-State: ACrzQf2dAFkDfmWM3lBJCsHttMyZfz8QeBTCtG8Sr+U5HJ2vNo+LfdJ9
-        yYB2dBM+HPyDme8sAzAuF9s=
-X-Google-Smtp-Source: AMsMyM7Cuf3/2MZmZvcomV9tNU1UpFlHnRIBvvWVkwT/zyMsUPlzhZvGdvM+uuoGEWAbPpsj/QgBcg==
-X-Received: by 2002:a17:90b:4a4d:b0:20d:4dc7:fa72 with SMTP id lb13-20020a17090b4a4d00b0020d4dc7fa72mr1356234pjb.86.1666067061297;
-        Mon, 17 Oct 2022 21:24:21 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id q18-20020a170902dad200b0017f8caee944sm7528049plx.147.2022.10.17.21.24.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Oct 2022 21:24:20 -0700 (PDT)
-Message-ID: <62951a8b-bc3c-3f6c-48c2-08f5621142e7@gmail.com>
-Date:   Tue, 18 Oct 2022 13:24:16 +0900
+        with ESMTP id S229751AbiJREbj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 00:31:39 -0400
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF079E2F3;
+        Mon, 17 Oct 2022 21:31:38 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
+        t=1666067496;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=86L+JIh3fg+P1A1DVveV/v2hW3SM8b0TIEUaC6V45UA=;
+        b=lCzYkHSgG1Bn2kyFoe+J1aglizu99WDSBNKWkjotxQweUOr0SUhyBEZS4cg94NdZH1uvmX
+        6Nsa9CFJg77uxNtQZRmzxYqCLPVQS+HDpCcx7UOx060/dLk4UTx2JY+oKvovrVZ8aUjaUx
+        I4jJ5+P/a+GZZYCJK6fs5/DP3TSGh4fRHqtF0SNJx1zdhR2wFoc8SBWdTUfjClfYXscsQO
+        Q8eyULHIGU+t+/wOwnK9g8kLkcxrw1Zs8sBF78mZIlgOwZHRTk0cZITAMwbnT6T4izP2FH
+        uaXn61cTCbYOyU2qIJWeWBT7QPVQ4nLS8CxNddZIEwHEModmw/ASZb5/Uk3+rQ==
+From:   Rui Li <me@lirui.org>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Wu XiangCheng <wu.xiangcheng@linux.dev>, Rui Li <me@lirui.org>
+Subject: [PATCH 0/2] Add staging/index and xz Chinese translation
+Date:   Tue, 18 Oct 2022 12:31:04 +0800
+Message-Id: <cover.1666067195.git.me@lirui.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v2 3/3] docs: kerneldoc-preamble: Test xeCJK.sty before
- loading
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org
-References: <c41cab17-afd6-bc99-56a1-e4e73b8c1ef6@gmail.com>
- <c24c2a87-70b2-5342-bcc9-de467940466e@gmail.com>
-Content-Language: en-US
-In-Reply-To: <c24c2a87-70b2-5342-bcc9-de467940466e@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 8 Aug 2022 17:53:57 +0900, Akira Yokosawa wrote:
-> On distros whose texlive packaging is fine-grained, texlive-xecjk
-> can be installed/removed independently of other texlive packages.
-> Conditionally loading xeCJK depending only on the existence of the
-> "Noto Sans CJK SC" font might end up in xelatex error of
-> "xeCJK.sty not found!".
-> 
-> Improve the situation by testing existence of xeCJK.sty before
-> loading it.
-> 
-> This is useful on RHEL 9 and its clone distros where texlive-xecjk
-> doesn't work at the moment due to a missing dependency [1].
-> "make pdfdocs" for non-CJK contents should work after removing
-> texlive-xecjk.
-> 
-> Link: [1] https://bugzilla.redhat.com/show_bug.cgi?id=2086254
-FWIW, this ticket was closed recently. It took five months. Whew...
+Translate the following files into Chinese:
 
-Now EPEL 9 carries texlive-ctex and its dependencies.
-It is now possible to build pdfdocs with CJK contents within the
-confinement of RHEL 9 and its clones' packages as long as you are
-OK with enabling EPEL 9.
+- Documentation/staging/index.rst
+- Documentation/staging/xz.rst
 
-        Thanks, Akira
+Add staging/index into the menu of zh_CN/index. Also fix one
+translation in the zh_CN/index file.
 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-[...]
+Rui Li (2):
+  docs/zh_CN: Add staging/xz Chinese translation
+  docs/zh_CN: Add staging/index Chinese translation
+
+ Documentation/translations/zh_CN/index.rst    |  8 +-
+ .../translations/zh_CN/staging/index.rst      | 27 +++++
+ .../translations/zh_CN/staging/xz.rst         | 99 +++++++++++++++++++
+ 3 files changed, 130 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/staging/index.rst
+ create mode 100644 Documentation/translations/zh_CN/staging/xz.rst
+
+-- 
+2.30.2
+
