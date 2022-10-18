@@ -2,80 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B812C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 05:12:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10767C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 05:33:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229770AbiJRFMz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 01:12:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36290 "EHLO
+        id S229822AbiJRFdY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 01:33:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbiJRFMy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 01:12:54 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B672989933;
-        Mon, 17 Oct 2022 22:12:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6ECA7B81CD7;
-        Tue, 18 Oct 2022 05:12:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7464DC433D6;
-        Tue, 18 Oct 2022 05:12:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1666069971;
-        bh=2lsr5bXa9CV+Fpw3dmizmkB0iZ/EtjWWsMDb21f9zVE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CTpszAlj+EfckPAQ+wZS1eXAiQXX0cc9rQds7XG+Zc+4omn1mhvrwRQnFWDAqYk9M
-         FyeM70mBCDDGwnswZtkKaFpFHW9/RMPeyx6ynDtfNZXUrylJP2ZqNb4z3/qGyJyf/M
-         Mv5nOqnzOauERimyaOxDNAlEJ6XDlHmMx059WsLA=
-Date:   Tue, 18 Oct 2022 07:13:37 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Dan Vacura <w36195@motorola.com>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-usb@vger.kernel.org,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Jeff Vanhoof <qjv001@motorola.com>, stable@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: uvc: fix dropped frame after missed isoc
-Message-ID: <Y042AZ2iA05no5U5@kroah.com>
-References: <20221017205446.523796-1-w36195@motorola.com>
- <20221017205446.523796-2-w36195@motorola.com>
- <f7029f41-4f8c-9ba7-3e3b-268a743998d5@gmail.com>
- <Y04MT0+jKApYFfcG@p1g3>
+        with ESMTP id S229731AbiJRFdX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 01:33:23 -0400
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B4FD9AF90;
+        Mon, 17 Oct 2022 22:33:00 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=23;SR=0;TI=SMTPD_---0VSTEQpA_1666071173;
+Received: from 30.221.96.155(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VSTEQpA_1666071173)
+          by smtp.aliyun-inc.com;
+          Tue, 18 Oct 2022 13:32:55 +0800
+Message-ID: <f872ec97-89d8-16ca-b0ff-a2d713d72b85@linux.alibaba.com>
+Date:   Tue, 18 Oct 2022 13:32:53 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y04MT0+jKApYFfcG@p1g3>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH V2 2/2] Documentation: kdump: describe VMCOREINFO export
+ for RISCV64
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
+        guoren@kernel.org, mick@ics.forth.gr,
+        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
+        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
+        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com
+References: <20221014134139.5151-1-xianting.tian@linux.alibaba.com>
+ <20221014134139.5151-3-xianting.tian@linux.alibaba.com>
+ <Y04bOv49sRsauLb6@debian.me>
+From:   Xianting Tian <xianting.tian@linux.alibaba.com>
+In-Reply-To: <Y04bOv49sRsauLb6@debian.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 17, 2022 at 09:15:43PM -0500, Dan Vacura wrote:
-> On Tue, Oct 18, 2022 at 08:50:03AM +0700, Bagas Sanjaya wrote:
-> > On 10/18/22 03:54, Dan Vacura wrote:
-> > > With the re-use of the previous completion status in 0d1c407b1a749
-> > > ("usb: dwc3: gadget: Return proper request status") it could be possible
-> > > that the next frame would also get dropped if the current frame has a
-> > > missed isoc error. Ensure that an interrupt is requested for the start
-> > > of a new frame.
-> > > 
-> > 
-> > Shouldn't the subject line says [PATCH v3 1/6]?
-> 
-> Yes. Clerical error on my side not updating this after resolving a
-> check-patch error... Not sure if it matters as this patch can exist on
-> it's own. Or if I can send this again with fixed subject line, but that
-> may confuse others, since there's no code difference.
 
-Our tools (b4) will complain it can not find patch 1 in the series, so
-yes, please resend with them properly numbered so that we can find them
-all when going to apply them to the tree.
+在 2022/10/18 上午11:19, Bagas Sanjaya 写道:
+> On Fri, Oct 14, 2022 at 09:41:39PM +0800, Xianting Tian wrote:
+>> The following interrelated definitions and ranges are needed by the kdump
+>> crash tool, they are exported by "arch/riscv/kernel/crash_core.c":
+> Better say "..., which are exported by ..."
 
-thanks,
+will fix it in v3
 
-greg k-h
+thanks
+
+>
+>> diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+>> index 6726f439958c..8e2e164cf3db 100644
+>> --- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
+>> +++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+>> @@ -595,3 +595,33 @@ X2TLB
+>>   -----
+>>   
+>>   Indicates whether the crashed kernel enabled SH extended mode.
+>> +
+>> +RISCV64
+>> +=======
+>> +
+>> +VA_BITS
+>> +-------
+>> +
+>> +The maximum number of bits for virtual addresses. Used to compute the
+>> +virtual memory ranges.
+>> +
+>> +PAGE_OFFSET
+>> +-----------
+>> +
+>> +Indicates the virtual kernel start address of direct-mapped RAM region.
+>> +
+>> +phys_ram_base
+>> +-------------
+>> +
+>> +Indicates the start physical RAM address.
+>> +
+>> +MODULES_VADDR|MODULES_END|VMALLOC_START|VMALLOC_END|VMEMMAP_START|VMEMMAP_END|KASAN_SHADOW_START|KASAN_SHADOW_END|KERNEL_LINK_ADDR|ADDRESS_SPACE_END
+>> +----------------------------------------------------------------------------------------------------------------------------------------------------
+>> +
+>> +Used to get the correct ranges:
+>> +
+>> +  * MODULES_VADDR ~ MODULES_END : Kernel module space.
+>> +  * VMALLOC_START ~ VMALLOC_END : vmalloc() / ioremap() space.
+>> +  * VMEMMAP_START ~ VMEMMAP_END : vmemmap region, used for struct page array.
+>> +  * KASAN_SHADOW_START ~ KASAN_SHADOW_END : kasan shadow space.
+>> +  * KERNEL_LINK_ADDR ~ ADDRESS_SPACE_END : Kernel link and BPF space.
+> The documentation LGTM, thanks.
+>
+> When the patch subject is fixed,
+>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>
