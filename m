@@ -2,141 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 293B4C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 12:11:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00BB2C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 12:12:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229958AbiJRMLV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 08:11:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41514 "EHLO
+        id S229610AbiJRMMm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 08:12:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230044AbiJRMLP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 08:11:15 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41EE03AE42
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 05:11:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id ECC75B81EBB
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 12:11:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1C7BC433B5
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 12:11:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666095071;
-        bh=eWdPjOGt6v3LFbGnjlcR8DIptDKq22zly1W7eS556cc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=VQ7G9P3KBKFLfYoLPZvJPZ+W6UzVyIlslNOK0+e4zPQRjtEL6tqX2aAKb+LphghsE
-         JlrIUSrSTyLsTI7CaLPX1v3nHhmnHEVdbzAYahYBHuYbWQuoNQrV4cweFXrUFVFW1I
-         Fc/w2T/cSqLr7xn2QzSSrpzR3PzkBFzTz0HWvK+IxY561vN3tCrqrv2CexYEpOeIiK
-         lQU3lNA5fj75yBYiYpUq5cQoSVAuevQP3CjyKeCIi71d5ewlib+VjjEl2xP5hd7dpy
-         jvhiAaOhmZwa2stWNHU2w27feYQ5mzOhAbbqlEN9rI+bKdf1TKZrR5uohXJK0p6b6D
-         RfRmvZj/kigTw==
-Received: by mail-ed1-f43.google.com with SMTP id b12so20134791edd.6
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 05:11:11 -0700 (PDT)
-X-Gm-Message-State: ACrzQf15WvRooK58TIe3Bss5LL5n9rbucggxgacIiNWzUU4WByEP08eZ
-        quC8ZdXhR/Gp0wLO62tA8isZVJxC7pziDGnUhNE=
-X-Google-Smtp-Source: AMsMyM5znqKNjGs3V/OndztvtPb+qT2+rIZS8P7UwXdK6lBdPPeWIPtDkNrkFphiETK8ds13I9RLWCeZmQPziFqCbdk=
-X-Received: by 2002:a05:6402:2285:b0:45c:7c8c:3032 with SMTP id
- cw5-20020a056402228500b0045c7c8c3032mr2253120edb.78.1666095069812; Tue, 18
- Oct 2022 05:11:09 -0700 (PDT)
+        with ESMTP id S229934AbiJRMMk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 08:12:40 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EBDC48A15
+        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 05:12:39 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id n18-20020a17090ade9200b0020b0012097cso1574204pjv.0
+        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 05:12:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mjiYBWHAsq5BSDUVPoLM00mOuS8zKk9l4sbhEAwUt/s=;
+        b=KDo/UelbHK2Lq3B03+qlsYL3E/uP3B71Vws5tjN8etK7bErlH8XeDOs5zjwAGFpxsp
+         bYgtskekf3N1VvG1er141LbEZx2WMVTCzfPAqRmjltHe/uiRK3JbHsroBif0/VNf14Ze
+         aRxWj0hL35j9duPy69YkHXbYa/LTAb9Q83fpryYXrhnmMtgbypkeTADtV8ON9lS6JDOS
+         b5FU5C9ryOyahKqE4pwoIKAHIifV6qSynkBTXe6SfT7s6Ye1xxRvBU//AVm+4dGsc58U
+         7HBlimP6InVqXVD1yQVrLFk5XSjhUzZKPC7KVUkivRpQ+2xkRDTBQWzMQdIEthZ9t1zs
+         rfrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mjiYBWHAsq5BSDUVPoLM00mOuS8zKk9l4sbhEAwUt/s=;
+        b=1+rhfgRL+OrS5x4DTcMQtb889LvVpyUotxSV86tFdCovVnTAgguWQ6sd1UbP6gZIo4
+         GGQx0FVvNGDUodrcTuULj+BbYMX7OMhJ48UeooeIH8vP01G96thaSFl7H8vc0u+ZI3Ek
+         yL765zcu8AhKP3IsM3gF8EnXKSRz8iWdlWX7gfkBm5bUM8xHixsEbxRiHU26KQ5B+Z6n
+         exDkvPaGaC5mv+o6ccT6MdnUgstbXtwSwKIWPNZW6l1PcPJ2AxulAOhdnCI95pKA6wHD
+         H+9QkzWL7tAEE0gLNIXYr4rY7nmDL2sORASWcvOt7rK85AR78Ld0+BFAhK1hJP1xU1ZL
+         SAEA==
+X-Gm-Message-State: ACrzQf2oP7+/5YwyFaWJY3xOyOlIXOZ1YExfC+07cn5WoGjpgoS1Lm/u
+        lV/NwLaYch+uiLwEjWzi0H5DRbuQa2V0G9kz
+X-Google-Smtp-Source: AMsMyM4xhlW1FInjHG7+slvf4Tq0ZfnKswtvVR3OyCmT0DQ4kBYHxlUxg53izEyT2IjoFZqGdCN9sA==
+X-Received: by 2002:a17:90b:1c87:b0:20a:e485:4e21 with SMTP id oo7-20020a17090b1c8700b0020ae4854e21mr3254817pjb.194.1666095158783;
+        Tue, 18 Oct 2022 05:12:38 -0700 (PDT)
+Received: from [127.0.0.1] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
+        by smtp.gmail.com with ESMTPSA id i13-20020a170902c94d00b0017f48a9e2d6sm8580160pla.292.2022.10.18.05.12.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Oct 2022 05:12:38 -0700 (PDT)
+From:   Jens Axboe <axboe@kernel.dk>
+To:     ZiyangZhang <ZiyangZhang@linux.alibaba.com>, ming.lei@redhat.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        xiaoguang.wang@linux.alibaba.com, linux-block@vger.kernel.org,
+        corbet@lwn.net, joseph.qi@linux.alibaba.com
+In-Reply-To: <20221018045346.99706-1-ZiyangZhang@linux.alibaba.com>
+References: <20221018045346.99706-1-ZiyangZhang@linux.alibaba.com>
+Subject: Re: [PATCH 0/1] Documentation: document ublk user recovery
+Message-Id: <166609515777.5284.5366131175827495577.b4-ty@kernel.dk>
+Date:   Tue, 18 Oct 2022 05:12:37 -0700
 MIME-Version: 1.0
-References: <20221018100457.3440691-1-kernel@xen0n.name> <20221018100457.3440691-2-kernel@xen0n.name>
-In-Reply-To: <20221018100457.3440691-2-kernel@xen0n.name>
-From:   Huacai Chen <chenhuacai@kernel.org>
-Date:   Tue, 18 Oct 2022 20:10:57 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4L1kQoY6UOr3v2h6XJ3o6x=bg88JeBP4+x40YVydNACQ@mail.gmail.com>
-Message-ID: <CAAhV-H4L1kQoY6UOr3v2h6XJ3o6x=bg88JeBP4+x40YVydNACQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Documentation: LoongArch: Document the syscall ABI
-To:     WANG Xuerui <kernel@xen0n.name>
-Cc:     linux-doc@vger.kernel.org, WANG Xuerui <git@xen0n.name>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, loongarch@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.11.0-dev-d9ed3
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 18, 2022 at 6:05 PM WANG Xuerui <kernel@xen0n.name> wrote:
->
-> From: WANG Xuerui <git@xen0n.name>
->
-> Signed-off-by: WANG Xuerui <git@xen0n.name>
-> Cc: Huacai Chen <chenhuacai@kernel.org>
-> Cc: Alex Shi <alexs@kernel.org>
-> Cc: Yanteng Si <siyanteng@loongson.cn>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: loongarch@lists.linux.dev
-> ---
->  Documentation/loongarch/index.rst       |  1 +
->  Documentation/loongarch/syscall-abi.rst | 36 +++++++++++++++++++++++++
->  2 files changed, 37 insertions(+)
->  create mode 100644 Documentation/loongarch/syscall-abi.rst
->
-> diff --git a/Documentation/loongarch/index.rst b/Documentation/loongarch/index.rst
-> index aaba648db907..5dacd7143d2f 100644
-> --- a/Documentation/loongarch/index.rst
-> +++ b/Documentation/loongarch/index.rst
-> @@ -10,6 +10,7 @@ LoongArch Architecture
->
->     introduction
->     irq-chip-model
-> +   syscall-abi
->
->     features
->
-> diff --git a/Documentation/loongarch/syscall-abi.rst b/Documentation/loongarch/syscall-abi.rst
-> new file mode 100644
-> index 000000000000..6f63aa3cfc64
-> --- /dev/null
-> +++ b/Documentation/loongarch/syscall-abi.rst
-> @@ -0,0 +1,36 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +===============================
-> +Linux/LoongArch system call ABI
-> +===============================
-> +
-> +This document describes the system call ABI of Linux/LoongArch.
-> +As the kernel is 64-bit only for now, the description below assumes an LP64\*
-> +calling convention.
-> +
-> +Syscall numbers and parameters
-> +==============================
-> +
-> +Like with other recent architecture ports, for the most part Linux/LoongArch
-> +reuses the asm-generic syscall numbers and parameters.
-> +There are a few points worth mentioning though.
-> +
-> +* There is no ``renameat``. Use ``renameat2`` instead.
-> +* There is no ``getrlimit`` or ``setrlimit``. Use ``prlimit64`` instead.
-> +* There is no ``fstat`` or ``newfstatat``. Only ``statx`` is provided, and
-You may need list more syscalls:
-Controlled by __ARCH_WANT_OLD_STAT:
-sys_stat()/sys_lstat()/sys_fstat()/sys_fstatat()
-Controlled by __ARCH_WANT_NEW_STAT:
-sys_newstat()/sys_newlstat()/sys_newfstat()/sys_newfstatat()
-Controlled by __ARCH_WANT_STAT64:
-sys_stat64()/sys_lstat64()/sys_fstat64()/sys_fstatat64()
+On Tue, 18 Oct 2022 12:53:45 +0800, ZiyangZhang wrote:
+> User recovery feature of ublk has been merged. Add documentation for
+> it.
+> 
+> ZiyangZhang (1):
+>   Documentation: document ublk user recovery feature
+> 
+>  Documentation/block/ublk.rst | 36 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+> 
+> [...]
 
-Huacai
+Applied, thanks!
 
-> +  low-level components making their own syscalls are expected to be aware of
-> +  this (and provide their own shims if necessary).
-> +
-> +Invocation
-> +==========
-> +
-> +System calls are currently made with the ``syscall 0`` instruction.
-> +Although the immediate field in the instruction is not checked at present,
-> +it is strongly advised to keep it zeroed in case it is to be made meaningful
-> +in the future.
-> +
-> +The system call number is placed in the register ``a7``.
-> +Parameters, if present, are placed from ``a0`` through ``a6`` as needed,
-> +as if calling a function with the respective arguments.
-> +Upon return, ``a0`` contains the return value, and ``t0-t8`` should be
-> +considered clobbered; all other registers are preserved.
-> --
-> 2.38.0
->
+[1/1] Documentation: document ublk user recovery feature
+      commit: e0539ae012ba5d618eb19665ff990b87b960c643
+
+Best regards,
+-- 
+Jens Axboe
+
+
