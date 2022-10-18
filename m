@@ -2,128 +2,193 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D2C4C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 00:05:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D2D1C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 00:07:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230320AbiJRAFL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 20:05:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60216 "EHLO
+        id S230519AbiJRAH4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 20:07:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230115AbiJRAFK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 20:05:10 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 194072F02E
-        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 17:05:08 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id 78so11845077pgb.13
-        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 17:05:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UbvMCu0XnVUIatC5HjOpWZoBH39srdxVv2oZXv9o6kg=;
-        b=ek41R8j3J6wTdRKFT2MnQ4muQsMMz+T6TNdhkVhnlu8cRmb/CnRGg/YXmcu6scqmCC
-         r3scl4YLlMuMGrLZJPg1LTzFXQDPnQ8ttyHzXFJoXp7gpFIf6yUzrvpiFv3hYiCWIBuE
-         j/1mDG0IoHcBgvUL2mLxt16p55Y+zODpquTYbZld3EmpDWerem0YkwJDan28B2f19SwN
-         hWftzE2O15VP4vgQYWeNZUqWGp3o4yqshTd7bLap1TwroOvIm5FQ/ZqEnK28D88mq2t4
-         43fsWX247vX5Bi6Od37oCunxlm4Qm0pS1aV778oxw8kjl0dYZ9amOQ6FwnMzyMNcK9S7
-         cn3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UbvMCu0XnVUIatC5HjOpWZoBH39srdxVv2oZXv9o6kg=;
-        b=CPPEKY0ZtAC/OEsPjusPYtkr+qFicNpqpAtfWHGKIwyUmPeLrl2/D7ubNcn72Kaq4T
-         mIZakln16zFIY4K+FdUWerPNmlJLjGsyrV561Nb1KsNVw05AahgrvmgCS5J0qBkQ3oD9
-         k43O9R5xBgyeZBSK0OC186nbiAPFkFgQdlPKXLSsbHSd7g/JUT+DDNhujLIeWepY5hTc
-         BEwGe8tGzl3QX96X+Z+q4ZsIqtQjdH7pBwrgxK0SUSR/Fkpl7VGVDL/U8a6VZmPDZy0D
-         dNbLrfp5Xj7aUPLy77lYtOEAkxdzecaS6Ri1YkOMO7bSIehgv69E7C5QGqU3GrPzq0Qq
-         cIkQ==
-X-Gm-Message-State: ACrzQf3b0hgZVYZYq0A23CIwvygLvp71ahmiBwGlv560rFIVvC1s1WYY
-        IN+S13DeQeehA50IdLcfOf7DREPXvDEH+ipx0QwLiiFBEps=
-X-Google-Smtp-Source: AMsMyM6hVsd0XuPZrTHBzn4zdOlZacCWPRU8taK43Sx8zFOnaVmfTWG0mjGTGIJEKfua9jpsDaq/9is3dQ8xuF/d8wI=
-X-Received: by 2002:a62:1a97:0:b0:562:5587:12d6 with SMTP id
- a145-20020a621a97000000b00562558712d6mr333112pfa.37.1666051507409; Mon, 17
- Oct 2022 17:05:07 -0700 (PDT)
+        with ESMTP id S230130AbiJRAHr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 20:07:47 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94BDB82855;
+        Mon, 17 Oct 2022 17:07:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 360ABB81B62;
+        Tue, 18 Oct 2022 00:07:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D7EDC433D6;
+        Tue, 18 Oct 2022 00:07:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666051659;
+        bh=8F8gsq3wEiSLz7ZdSR0nDtrQ/AqYVXz1uWIv+7VrN44=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=h46CXipwJ8kjCjSiCT3vYYbEzGCm0ykTVmCnAnRDJtgQbgGkbQlxeo0HsM81qmJ2B
+         QQtfAGbTCS+nSwVSQ/pCwzec2XkI7Eq0GecQ5RK2ChHfXBT7w6wyercG9JVdjRX1tl
+         /uEAGP3qykWmnoIBuQ9ETDnoeb8k8QzK3MRSZfg22KSTDlWEgWl1IabFRwIk9Xpl53
+         CjKnLUluiBwf0J2kXzoUqHdgU+fpu9GgnTcZDAAKMN2S8c4dzxda/0/Zhx0EDwctZ1
+         xY+Vooczg81kwGWOAcq1rY0PVvVZJDY9iJPPqAg0vj2wYB/2SBaLdoVA1W4d6YiXwq
+         KBMqdK6UJAytA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Jacky Li <jackyli@google.com>, Peter Gonda <pgonda@google.com>,
+        Alper Gun <alpergun@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Sasha Levin <sashal@kernel.org>, pbonzini@redhat.com,
+        corbet@lwn.net, brijesh.singh@amd.com, john.allen@amd.com,
+        davem@davemloft.net, like.xu.linux@gmail.com, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.0 03/32] crypto: ccp - Initialize PSP when reading psp data file failed
+Date:   Mon, 17 Oct 2022 20:07:00 -0400
+Message-Id: <20221018000729.2730519-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221018000729.2730519-1-sashal@kernel.org>
+References: <20221018000729.2730519-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <Y0mSVQCQer7fEKgu@kroah.com> <20221014171040.849726-1-ndesaulniers@google.com>
- <70a859bc-a33b-79f5-6f44-5cccfb394749@gmail.com>
-In-Reply-To: <70a859bc-a33b-79f5-6f44-5cccfb394749@gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 17 Oct 2022 17:04:55 -0700
-Message-ID: <CAKwvOd=L7i6iMZ6CRKWpY1yzg5QZj5FM7Rd1HtVFj-6J-qdPtQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: process: replace outdated LTS table w/ link
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
-        Sasha Levin <sashal@kernel.org>, Tyler Hicks <code@tyhicks.com>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 14, 2022 at 7:06 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> On 10/15/22 00:10, Nick Desaulniers wrote:
-> > The existing table was a bit outdated.
-> >
-> > 3.16 was EOL in 2020.
-> > 4.4 was EOL in 2022.
-> >
-> > 5.10 is new in 2020.
-> > 5.15 is new in 2021.
-> >
-> > We'll see if 6.1 becomes LTS in 2022.
-> >
-> > Rather than keep this table updated, it does duplicate information from
-> > multiple kernel.org pages. Make one less duplication site that needs to
-> > be updated and simply refer to the kernel.org page on releases.
-> >
-> > Suggested-by: Tyler Hicks <code@tyhicks.com>
-> > Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->
-> Should this patch be backported to all stable releases? I see Cc: stable
-> on message header, but not in the patch trailer.
+From: Jacky Li <jackyli@google.com>
 
-I don't think so; unless people read stable versions of the
-documentation rather than HEAD?
-Perhaps I didn't need to cc stable, but I think that's ok for
-notifying people who are interested in stable, not necessarily
-strictly for backports?
-Either way, thanks again for the reviews+suggestions.
+[ Upstream commit d8da2da21fdb1f5964c11c00f0cc84fb0edf31d0 ]
 
->
-> >  Some kernels are designated "long term" kernels; they will receive support
-> > -for a longer period.  As of this writing, the current long term kernels
-> > -and their maintainers are:
-> > -
-> > -     ======  ================================        =======================
-> > -     3.16    Ben Hutchings                           (very long-term kernel)
-> > -     4.4     Greg Kroah-Hartman & Sasha Levin        (very long-term kernel)
-> > -     4.9     Greg Kroah-Hartman & Sasha Levin
-> > -     4.14    Greg Kroah-Hartman & Sasha Levin
-> > -     4.19    Greg Kroah-Hartman & Sasha Levin
-> > -     5.4     Greg Kroah-Hartman & Sasha Levin
-> > -     ======  ================================        =======================
-> > +for a longer period.  Please refer to the following link for the list of active
-> > +long term kernel versions and their maintainers:
-> > +
-> > +     https://www.kernel.org/category/releases.html
-> >
->
-> LGTM, thanks.
->
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
->
-> --
-> An old man doll... just what I always wanted! - Clara
->
+Currently the OS fails the PSP initialization when the file specified at
+'init_ex_path' does not exist or has invalid content. However the SEV
+spec just requires users to allocate 32KB of 0xFF in the file, which can
+be taken care of by the OS easily.
 
+To improve the robustness during the PSP init, leverage the retry
+mechanism and continue the init process:
 
+Before the first INIT_EX call, if the content is invalid or missing,
+continue the process by feeding those contents into PSP instead of
+aborting. PSP will then override it with 32KB 0xFF and return
+SEV_RET_SECURE_DATA_INVALID status code. In the second INIT_EX call,
+this 32KB 0xFF content will then be fed and PSP will write the valid
+data to the file.
+
+In order to do this, sev_read_init_ex_file should only be called once
+for the first INIT_EX call. Calling it again for the second INIT_EX call
+will cause the invalid file content overwriting the valid 32KB 0xFF data
+provided by PSP in the first INIT_EX call.
+
+Co-developed-by: Peter Gonda <pgonda@google.com>
+Signed-off-by: Peter Gonda <pgonda@google.com>
+Signed-off-by: Jacky Li <jackyli@google.com>
+Reported-by: Alper Gun <alpergun@google.com>
+Acked-by: David Rientjes <rientjes@google.com>
+Acked-by: Tom Lendacky <thomas.lendacky@amd.com>
+Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../virt/kvm/x86/amd-memory-encryption.rst    |  5 ++-
+ drivers/crypto/ccp/sev-dev.c                  | 36 +++++++++++--------
+ 2 files changed, 24 insertions(+), 17 deletions(-)
+
+diff --git a/Documentation/virt/kvm/x86/amd-memory-encryption.rst b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+index 2d307811978c..935aaeb97fe6 100644
+--- a/Documentation/virt/kvm/x86/amd-memory-encryption.rst
++++ b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
+@@ -89,9 +89,8 @@ context. In a typical workflow, this command should be the first command issued.
+ 
+ The firmware can be initialized either by using its own non-volatile storage or
+ the OS can manage the NV storage for the firmware using the module parameter
+-``init_ex_path``. The file specified by ``init_ex_path`` must exist. To create
+-a new NV storage file allocate the file with 32KB bytes of 0xFF as required by
+-the SEV spec.
++``init_ex_path``. If the file specified by ``init_ex_path`` does not exist or
++is invalid, the OS will create or override the file with output from PSP.
+ 
+ Returns: 0 on success, -negative on error
+ 
+diff --git a/drivers/crypto/ccp/sev-dev.c b/drivers/crypto/ccp/sev-dev.c
+index b292641c8a99..8512101f0bdf 100644
+--- a/drivers/crypto/ccp/sev-dev.c
++++ b/drivers/crypto/ccp/sev-dev.c
+@@ -211,18 +211,24 @@ static int sev_read_init_ex_file(void)
+ 	if (IS_ERR(fp)) {
+ 		int ret = PTR_ERR(fp);
+ 
+-		dev_err(sev->dev,
+-			"SEV: could not open %s for read, error %d\n",
+-			init_ex_path, ret);
++		if (ret == -ENOENT) {
++			dev_info(sev->dev,
++				"SEV: %s does not exist and will be created later.\n",
++				init_ex_path);
++			ret = 0;
++		} else {
++			dev_err(sev->dev,
++				"SEV: could not open %s for read, error %d\n",
++				init_ex_path, ret);
++		}
+ 		return ret;
+ 	}
+ 
+ 	nread = kernel_read(fp, sev_init_ex_buffer, NV_LENGTH, NULL);
+ 	if (nread != NV_LENGTH) {
+-		dev_err(sev->dev,
+-			"SEV: failed to read %u bytes to non volatile memory area, ret %ld\n",
++		dev_info(sev->dev,
++			"SEV: could not read %u bytes to non volatile memory area, ret %ld\n",
+ 			NV_LENGTH, nread);
+-		return -EIO;
+ 	}
+ 
+ 	dev_dbg(sev->dev, "SEV: read %ld bytes from NV file\n", nread);
+@@ -410,17 +416,12 @@ static int __sev_init_locked(int *error)
+ static int __sev_init_ex_locked(int *error)
+ {
+ 	struct sev_data_init_ex data;
+-	int ret;
+ 
+ 	memset(&data, 0, sizeof(data));
+ 	data.length = sizeof(data);
+ 	data.nv_address = __psp_pa(sev_init_ex_buffer);
+ 	data.nv_len = NV_LENGTH;
+ 
+-	ret = sev_read_init_ex_file();
+-	if (ret)
+-		return ret;
+-
+ 	if (sev_es_tmr) {
+ 		/*
+ 		 * Do not include the encryption mask on the physical
+@@ -439,7 +440,7 @@ static int __sev_platform_init_locked(int *error)
+ {
+ 	struct psp_device *psp = psp_master;
+ 	struct sev_device *sev;
+-	int rc, psp_ret = -1;
++	int rc = 0, psp_ret = -1;
+ 	int (*init_function)(int *error);
+ 
+ 	if (!psp || !psp->sev_data)
+@@ -450,8 +451,15 @@ static int __sev_platform_init_locked(int *error)
+ 	if (sev->state == SEV_STATE_INIT)
+ 		return 0;
+ 
+-	init_function = sev_init_ex_buffer ? __sev_init_ex_locked :
+-			__sev_init_locked;
++	if (sev_init_ex_buffer) {
++		init_function = __sev_init_ex_locked;
++		rc = sev_read_init_ex_file();
++		if (rc)
++			return rc;
++	} else {
++		init_function = __sev_init_locked;
++	}
++
+ 	rc = init_function(&psp_ret);
+ 	if (rc && psp_ret == SEV_RET_SECURE_DATA_INVALID) {
+ 		/*
 -- 
-Thanks,
-~Nick Desaulniers
+2.35.1
+
