@@ -2,157 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2222C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 07:20:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21E0BC433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 07:20:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbiJRHUa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 03:20:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35294 "EHLO
+        id S230117AbiJRHUc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 03:20:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229711AbiJRHU3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 03:20:29 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8798D19C1C;
+        with ESMTP id S230137AbiJRHUa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 03:20:30 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E3D13DF14;
+        Tue, 18 Oct 2022 00:20:29 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id q10-20020a17090a304a00b0020b1d5f6975so13235418pjl.0;
+        Tue, 18 Oct 2022 00:20:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TlUHZSLgyN+Iy2ZHw1iVdzVnrjwNDaODH3GC5m/bHuI=;
+        b=nVrDI3EyMXgMjYivuX8vqyo8cClBAL9BzAKbG9MC7nCPk3K8W/aD/305j/gU8MoM5k
+         6o0KNlqwLB0WS+q0GAwHIYT8kOVOiNK9ydLit6nhzzHh66UwXAH9Ul4NOOAASvr6ySFK
+         YxRvotPrddkdl5lxBP6kNack4WDURB0q2OEvqW+zmEMI7wnypccxUUWvdXjZcNi8FRLQ
+         7pzRGL+aqtbtahk7q8kW5GDwYd5jUUl4u4O1+8CDE4hSJT/opXXCyLlZTWziYm63Y3yT
+         pu/Ttg8cRnlAl7tNi/hFICLvo2+cxAt5BDOVjcaF2PUPKGGky02mR1W5+nH/PTpet41W
+         Lg6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TlUHZSLgyN+Iy2ZHw1iVdzVnrjwNDaODH3GC5m/bHuI=;
+        b=XbSDcf76bBeQDnyecER1woJoB7XL3mplNILD4kHD1ubaitRq04XJpC3aKgWQOJU7rT
+         MWNPSkcfjKIxAqG6xPR9K4bIf2+nbldJq4jRHl3e9tMrgpO08GE2V/bx28Ci3+PgpKC4
+         niphX4SGeC+n6e53+/M+6WoeBdlZTKME/BJ/cb70EVr62XrgyCkJOJv6tnVKEsXpYGKM
+         Q7jgBpbzRIUlBdSOEJUX/d8MUqV02pjqXxiuHn0xdHuSq57HSeAIZtpyLx6Y3JncwLHZ
+         1pu0qzdlzchuiwIRa5HT+O0hpWTSP3kySxHc7YkvASelPaEIfx5rxZ58qI/Eiy+jZk5N
+         ylEw==
+X-Gm-Message-State: ACrzQf3Ftka6nh4AOulTvbCiJ2Bayi9EpJ8456j2DIL1SQ7HHRRkQAhH
+        1M8FLdLOLsXTSU3U7ES2Ki0=
+X-Google-Smtp-Source: AMsMyM4gLlyL+JlYeqJ/Nt61Zrspm7QxgQgNVoXaH5OieEUmOXK+54+b9VK5iwCxH1FfixNqR6eQzw==
+X-Received: by 2002:a17:90b:1c11:b0:20d:459b:ef0e with SMTP id oc17-20020a17090b1c1100b0020d459bef0emr37731813pjb.129.1666077628758;
         Tue, 18 Oct 2022 00:20:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1666077630; x=1697613630;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=d2BCVj64BTYSF36FIoeHkZaQnwzNtVMpJCVSYBSBrSY=;
-  b=vf0ckdCmCEeBnqc2BtUn5NxqU8D5uX5YKU4M6zeC2DY4ElzZ9DC/g1+P
-   RhCvRqbpr11YHx2MGLEYhxymbUK6VyFitvTv6BPFTBmgENHHzjDrBKnO4
-   QAvNNKOdAmfzwgb4pNuxMGukiZNvS1HZOfkmgh7GvwR0RiknMzHW6ipJa
-   Mibo6vShHpUJXxUb3SoZXJsgB1GDc/ii+ikpSn9M82nnuvPzSyUR7i4s3
-   hhZBzcL8XWXJWekJVeimF2T/2h5GskfojGM1zX6NNF2hqD/rZCmBAdRTQ
-   y3avy0Grl/X4S+dicFJslhso+fwdY42LRGgr0Rx/KqrlLQQCSYLUw34Of
-   A==;
-X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; 
-   d="scan'208";a="182673360"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 18 Oct 2022 00:13:28 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Tue, 18 Oct 2022 00:13:28 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
- Transport; Tue, 18 Oct 2022 00:13:24 -0700
-Date:   Tue, 18 Oct 2022 08:13:01 +0100
-From:   Conor Dooley <conor.dooley@microchip.com>
-To:     Xianting Tian <xianting.tian@linux.alibaba.com>
-CC:     Conor Dooley <conor@kernel.org>, <paul.walmsley@sifive.com>,
-        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-        <anup@brainfault.org>, <heiko@sntech.de>, <guoren@kernel.org>,
-        <mick@ics.forth.gr>, <alexandre.ghiti@canonical.com>,
-        <bhe@redhat.com>, <vgoyal@redhat.com>, <dyoung@redhat.com>,
-        <corbet@lwn.net>, <bagasdotme@gmail.com>,
-        <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <crash-utility@redhat.com>, <heinrich.schuchardt@canonical.com>,
-        <k-hagio-ab@nec.com>, <hschauhan@nulltrace.org>,
-        <yixun.lan@gmail.com>
+Received: from [192.168.43.80] (subs03-180-214-233-93.three.co.id. [180.214.233.93])
+        by smtp.gmail.com with ESMTPSA id w186-20020a6262c3000000b00561d79f1064sm8413056pfb.57.2022.10.18.00.20.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Oct 2022 00:20:28 -0700 (PDT)
+Message-ID: <087eb324-a38e-331e-c8fd-033818895ccc@gmail.com>
+Date:   Tue, 18 Oct 2022 14:20:20 +0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
 Subject: Re: [PATCH V2 2/2] Documentation: kdump: describe VMCOREINFO export
  for RISCV64
-Message-ID: <Y05R/WK3cSEmwmYx@wendy>
+To:     Xianting Tian <xianting.tian@linux.alibaba.com>
+Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
+        guoren@kernel.org, mick@ics.forth.gr,
+        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
+        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
+        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com
 References: <20221014134139.5151-1-xianting.tian@linux.alibaba.com>
  <20221014134139.5151-3-xianting.tian@linux.alibaba.com>
- <Y02vm7FrhdEoSXZ+@spud>
- <a4d2dc7e-7f45-00b7-6c31-cc934ba9c1f5@linux.alibaba.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
+ <Y04bOv49sRsauLb6@debian.me>
+ <188e331c-d399-e86d-e894-a2a116deb753@linux.alibaba.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <188e331c-d399-e86d-e894-a2a116deb753@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a4d2dc7e-7f45-00b7-6c31-cc934ba9c1f5@linux.alibaba.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 18, 2022 at 10:41:50AM +0800, Xianting Tian wrote:
+On 10/18/22 13:06, Xianting Tian wrote:
 > 
-> 在 2022/10/18 上午3:40, Conor Dooley 写道:
-> > On Fri, Oct 14, 2022 at 09:41:39PM +0800, Xianting Tian wrote:
-> > > The following interrelated definitions and ranges are needed by the kdump
-> > > crash tool, they are exported by "arch/riscv/kernel/crash_core.c":
-> > >      VA_BITS,
-> > >      PAGE_OFFSET,
-> > >      phys_ram_base,
-> > >      MODULES_VADDR ~ MODULES_END,
-> > >      VMALLOC_START ~ VMALLOC_END,
-> > >      VMEMMAP_START ~ VMEMMAP_END,
-> > >      KASAN_SHADOW_START ~ KASAN_SHADOW_END,
-> > >      KERNEL_LINK_ADDR ~ ADDRESS_SPACE_END
-> > > 
-> > > Document these RISCV64 exports above.
-> > > 
-> > > Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
-> > > ---
-> > >   .../admin-guide/kdump/vmcoreinfo.rst          | 30 +++++++++++++++++++
-> > >   1 file changed, 30 insertions(+)
-> > > 
-> > > diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-> > > index 6726f439958c..8e2e164cf3db 100644
-> > > --- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
-> > > +++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-> > > @@ -595,3 +595,33 @@ X2TLB
-> > >   -----
-> > >   Indicates whether the crashed kernel enabled SH extended mode.
-> > > +
-> > > +RISCV64
-> > > +=======
-> > > +
-> > > +VA_BITS
-> > > +-------
-> > > +
-> > > +The maximum number of bits for virtual addresses. Used to compute the
-> > > +virtual memory ranges.
-> > > +
-> > > +PAGE_OFFSET
-> > > +-----------
-> > > +
-> > > +Indicates the virtual kernel start address of direct-mapped RAM region.
-> > Apologies for not seeing this sooner, but should there not be a "the"
-> > prior to "direct-mapped"?
-> will fix in v3
-> > 
-> > > +
-> > > +phys_ram_base
-> > > +-------------
-> > > +
-> > > +Indicates the start physical RAM address.
-> > > +
-> > > +MODULES_VADDR|MODULES_END|VMALLOC_START|VMALLOC_END|VMEMMAP_START|VMEMMAP_END|KASAN_SHADOW_START|KASAN_SHADOW_END|KERNEL_LINK_ADDR|ADDRESS_SPACE_END
-> > > +----------------------------------------------------------------------------------------------------------------------------------------------------
-> > > +
-> > > +Used to get the correct ranges:
-> > > +
-> > > +  * MODULES_VADDR ~ MODULES_END : Kernel module space.
-> > > +  * VMALLOC_START ~ VMALLOC_END : vmalloc() / ioremap() space.
-> > > +  * VMEMMAP_START ~ VMEMMAP_END : vmemmap region, used for struct page array.
-> > Since I'm in pedant mode, it does look a little odd that you're using
-> > region for vmemmap but space for the others but idc that much.
-> 
-> Sorry, I didn't get your point :(
-> 
-> it contains vmemmap area with reference wth arch/arm64/kernel/crash_core.c.
+> 在 2022/10/18 上午11:19, Bagas Sanjaya 写道:
+>> On Fri, Oct 14, 2022 at 09:41:39PM +0800, Xianting Tian wrote:
+>>> The following interrelated definitions and ranges are needed by the kdump
+>>> crash tool, they are exported by "arch/riscv/kernel/crash_core.c":
+>> Better say "..., which are exported by ..."
+>>
+>>> diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+>>> index 6726f439958c..8e2e164cf3db 100644
+>>> --- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
+>>> +++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+>>> @@ -595,3 +595,33 @@ X2TLB
+>>>   -----
+>>>     Indicates whether the crashed kernel enabled SH extended mode.
+>>> +
+>>> +RISCV64
+>>> +=======
+>>> +
+>>> +VA_BITS
+>>> +-------
+>>> +
+>>> +The maximum number of bits for virtual addresses. Used to compute the
+>>> +virtual memory ranges.
+>>> +
+>>> +PAGE_OFFSET
+>>> +-----------
+>>> +
+>>> +Indicates the virtual kernel start address of direct-mapped RAM region.
+>>> +
+>>> +phys_ram_base
+>>> +-------------
+>>> +
+>>> +Indicates the start physical RAM address.
+>>> +
+>>> +MODULES_VADDR|MODULES_END|VMALLOC_START|VMALLOC_END|VMEMMAP_START|VMEMMAP_END|KASAN_SHADOW_START|KASAN_SHADOW_END|KERNEL_LINK_ADDR|ADDRESS_SPACE_END
+>>> +----------------------------------------------------------------------------------------------------------------------------------------------------
+>>> +
+>>> +Used to get the correct ranges:
+>>> +
+>>> +  * MODULES_VADDR ~ MODULES_END : Kernel module space.
+>>> +  * VMALLOC_START ~ VMALLOC_END : vmalloc() / ioremap() space.
+>>> +  * VMEMMAP_START ~ VMEMMAP_END : vmemmap region, used for struct page array.
+>>> +  * KASAN_SHADOW_START ~ KASAN_SHADOW_END : kasan shadow space.
+>>> +  * KERNEL_LINK_ADDR ~ ADDRESS_SPACE_END : Kernel link and BPF space.
+>> The documentation LGTM, thanks.
+>>
+>> When the patch subject is fixed,
+> Could you tell me what patch subject should be changed to ? thanks
 
-The wording is different, vmemmap uses space and the others use region.
-Not a big deal.
+I mean the description, not subject (as in email). That is, fix the description
+(see above). The subject shouldn't be changed. Sorry for inconvenience.
 
-> 
-> > 
-> > Thanks,
-> > Conor.
-> > 
-> > > +  * KASAN_SHADOW_START ~ KASAN_SHADOW_END : kasan shadow space.
-> > > +  * KERNEL_LINK_ADDR ~ ADDRESS_SPACE_END : Kernel link and BPF space.
-> > > -- 
-> > > 2.17.1
-> > > 
-> > > 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Thanks.
+
+-- 
+An old man doll... just what I always wanted! - Clara
+
