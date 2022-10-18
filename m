@@ -2,227 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77DF9C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 19:13:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47316C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 20:33:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229896AbiJRTNi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 15:13:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45950 "EHLO
+        id S230009AbiJRUdS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 16:33:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbiJRTNh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 15:13:37 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B666B3135D
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 12:13:36 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oks1g-0008Oh-7d; Tue, 18 Oct 2022 21:13:20 +0200
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oks1e-0001MU-LA; Tue, 18 Oct 2022 21:13:18 +0200
-Date:   Tue, 18 Oct 2022 21:13:18 +0200
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     Dan Vacura <w36195@motorola.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Jeff Vanhoof <qjv001@motorola.com>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        with ESMTP id S230077AbiJRUdO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 16:33:14 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2054.outbound.protection.outlook.com [40.107.94.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8B61BA938;
+        Tue, 18 Oct 2022 13:33:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MjFoiozROYhMJyIrZr4zLZwx3KzrHDdWDUZ4gu8YFqmi+HOgBQ6+NgAUI/58YTjAGcBZWB/6jVtVz7O6SH0JnQs8eL7OKsU9aIQ1+GWSCU79Yo4fydC/Vj3hj/iWcQSLzb4XB+I/dah8VvQL/H7aVeQVvMzGfUEJvE1C7T+vF6S9mva5/AAbeeJVeTSMZvlMWzJYUOj49hqe3UawGcGiDuJSkH7hFYIZP+vRP3FLEJ/JFjbgAuoujTqk/k9RjOvbyUamv5NtgoJ7ZsZqFoxGpOJvTjBaOP1rQZFpPG8lmIaM195JA2t+ZjZzz6QWoXgvpb92fZZPmo1RuC5Q/Uob3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eyv8sZW22LRXcosbyImr2bSk42/tWtAnjGKSk7wEXCU=;
+ b=T2SOQJKEXl8egoL7C6tYF0zRKcrTUqlFZ9PYVifi6Pz0DHx+RxyJ+GAX2iXexOHtFTVLk8Im5XL110YVqaxi+VW41Xd07kNNl7Ii2NQzG7eCi7s1yMTheUOlkAawjjNUJk7zOJFM9Fx08bIPW8y6J0aXNQCiNogVh7upR0XmFSGUU/h0z/2DP/TZyURa07mGI5GSE54RdhAC3ITIehc4P9QWpmDKR5hs0zxW6o9gPxn9nnhv5+Xyj6AIaL4fpEUdPebg95x5Y1w2CZnegYEo+HpoWyOzlJIv3UquVlgLSIUzbwK6R1H1CmoxK3L3fzc8n10B5W9Xdmix25BrlZRAVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eyv8sZW22LRXcosbyImr2bSk42/tWtAnjGKSk7wEXCU=;
+ b=jW3zNqlVLDQ36i7vBrhvzljcRYvx/c7FyiNvwzBM1QMnqXNHb8DEqr4KZ9BPjbMshGnk2nTwfVTtLvOOSqSuOuozYj08Q3JOreEB88i8tObxKde0dha39foxe/LzZmnrRSDTTvYV4him4h4sFW6umU2Czpo6pt/dV5mFjhw0GzHzzYhXpRholLVwB7pEtoshmBe+Oxk5CNyJ3irKHBKJnZVhv+4vW0y8BP/MwjP54MRjaCCgA83xgaSIOwFgC5ZzRWzPkYgZGWJdvA1V7R73VBnhR4QwChVEdvhw+ipB2E049MmDgyHDp8h7NkZaW6nEIAJycSc6aYs3hYj+R83X5g==
+Received: from PH0PR12MB5481.namprd12.prod.outlook.com (2603:10b6:510:d4::15)
+ by CH0PR12MB5092.namprd12.prod.outlook.com (2603:10b6:610:bf::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.34; Tue, 18 Oct
+ 2022 20:33:08 +0000
+Received: from PH0PR12MB5481.namprd12.prod.outlook.com
+ ([fe80::d756:c945:3194:629e]) by PH0PR12MB5481.namprd12.prod.outlook.com
+ ([fe80::d756:c945:3194:629e%9]) with mapi id 15.20.5723.033; Tue, 18 Oct 2022
+ 20:33:08 +0000
+From:   Parav Pandit <parav@nvidia.com>
+To:     "paulmck@kernel.org" <paulmck@kernel.org>,
+        Will Deacon <will@kernel.org>
+CC:     Arnd Bergmann <arnd@arndb.de>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "dhowells@redhat.com" <dhowells@redhat.com>,
+        "j.alglave@ucl.ac.uk" <j.alglave@ucl.ac.uk>,
+        "luc.maranget@inria.fr" <luc.maranget@inria.fr>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Dan Lustig <dlustig@nvidia.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Paul Elder <paul.elder@ideasonboard.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 2/6] usb: dwc3: gadget: cancel requests instead of
- release after missed isoc
-Message-ID: <20221018191318.GB9097@pengutronix.de>
-References: <20221017205446.523796-1-w36195@motorola.com>
- <20221017205446.523796-3-w36195@motorola.com>
- <20221017213031.tqb575hdzli7jlbh@synopsys.com>
- <Y04K/HoUigF5FYBA@p1g3>
- <20221018184535.3g3sm35picdeuajs@synopsys.com>
+Subject: RE: [PATCH v4] locking/memory-barriers.txt: Improve documentation for
+ writel() example
+Thread-Topic: [PATCH v4] locking/memory-barriers.txt: Improve documentation
+ for writel() example
+Thread-Index: AQHY3JEEUGpScoYh8UGbpcw6oN0VqK4THE8AgADc+4CAAIFqgIAAJRcw
+Date:   Tue, 18 Oct 2022 20:33:08 +0000
+Message-ID: <PH0PR12MB54810CA260159E805D448375DC289@PH0PR12MB5481.namprd12.prod.outlook.com>
+References: <20221010101331.29942-1-parav@nvidia.com>
+ <d5faaf6f-7de5-49b0-92d6-9989ffbdbf2e@app.fastmail.com>
+ <20221018100554.GA3112@willie-the-truck>
+ <20221018174907.GT5600@paulmck-ThinkPad-P17-Gen-1>
+In-Reply-To: <20221018174907.GT5600@paulmck-ThinkPad-P17-Gen-1>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR12MB5481:EE_|CH0PR12MB5092:EE_
+x-ms-office365-filtering-correlation-id: 4045a575-14ae-493d-670b-08dab147f7de
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: qzMvudGaqBaVrXj7psaThW2R8tSLZ1c2T5PLmDCKMrOubVe3WhWPpfqmAOHiYaLtdvkM5lc4fMsHQO7KgFXkfYKXhZUF5CDidDV+FkP9Sc5HDhmb1Ax+xfL21RBNvJdt4L1T1fJ2nob1S6Vm9zIcfLewGPsma+nHHmZnhylLQrFUaxC2bReg4wiGsnxd9k5SK62TqLVwfJAGPKHb3FabTrK6tQrBzTbUHBoRo43bMgSymEB8k7x2UZS71MZjTrhDMMuLGv3Xz9h3SzgyaUdGneYyfy1DtG0d0eXQfXDkX0kBGkj82w2Hq0ftaS2AzzEKPHgIJiEQcQlkbq8vZzuhIBODK4w5pThqUX1JvL7yiqQlCCk13flXe5aLgPO6zaAebL8xuyQOlSVOtw70v7CaH6A+P0n4I4N6t54SNw2BPmu6KjmiL63UI4lEfqE/VC5Gzmi8W/9214lS4fZqae5LogWvlYxIekITe8KiyRnALk0kXhnLG3kRrjuExAV7LfllpL3I4DYYhZpr2W7BDqmicVlr1YNinRMJodoFd60huyt1m5yrXnUs/7XmkTKWlv1XsyQmNrVjVsdps2tF92kNpvxR3lZWfrCDoKOK14j2qmnm+L5PGKBYIgr+g7Pf2aKP7MGGuCpvegnD4ohF7LvOtfmy1hOALxEelsXx8fiifGYrFSr+/PSptfEuKq44RD9xajEicErcAchN/KDOYgkFwJrHY15wXatygaab3141g0dFqH4Z5sSlFPlvBL8V1ebGBGf+eY6zQZUHyK9EANcCxQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB5481.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(39860400002)(396003)(366004)(136003)(376002)(451199015)(66899015)(86362001)(33656002)(38070700005)(38100700002)(122000001)(2906002)(7416002)(55016003)(5660300002)(7696005)(6506007)(26005)(186003)(9686003)(83380400001)(71200400001)(66556008)(478600001)(316002)(54906003)(110136005)(76116006)(66476007)(66446008)(8676002)(4326008)(64756008)(41300700001)(8936002)(52536014)(66946007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?NRgrqQcd3sHy1qVGHu5/khcBRUKnm2bydwB82wprj/Q7ZMWv9q5TYaxbY2iM?=
+ =?us-ascii?Q?AwqdwEgGvSgyCVJZjVWPiXb/DR+LNrYoT2pEqHybx1qjR2wc4BG14lk4smiI?=
+ =?us-ascii?Q?ilgU+QOlPMyyUEgp3bDyWFDDj7JelzxX85ooQ18pXzOD/n5OCt/HwGuKMnFc?=
+ =?us-ascii?Q?YDfuEt/MSH5ba6IOklEgkcxhbrcLBrW4+bxuhTCyovhCPpD1eYsvMVPNcK7s?=
+ =?us-ascii?Q?KOOAhMbXsm+rfO1Ig6S9xcIrH5LKtGMQrs/k5H5hyZjEF7rc04bNXEWXHwBs?=
+ =?us-ascii?Q?h2hsJnuySYX8A4fq+gmRYTkfdpgGF5o+1hqK3ZNGPJ9dXLvwJLG4mjIiKg/L?=
+ =?us-ascii?Q?wJX1qdWNF/+OM1JXSnksX036ZcpRvxnLBiqh394+LlnZplf30PKxpJ9RT9xV?=
+ =?us-ascii?Q?+P3cfaUAXIeM1slmihapJJaOTJTrVeq+3pe7BK78Qa5nztU7MZhMcoyTrW1s?=
+ =?us-ascii?Q?T1AC/A71bagNHyyZlhm47WHaD96+0W9D25WEX6uVlAOuLfYphQHKtVg3zlfl?=
+ =?us-ascii?Q?NLlfW6n11etfFAcFopDCj8lFNCycgEye77ge/32/fRJ7sHu1hXGA6Agfk+Y2?=
+ =?us-ascii?Q?TFnLpXfOWRTymeuGg2TXYgKwQ/mKMDlRkn2cZlx+mHb4UhMOg4SsQztu0sek?=
+ =?us-ascii?Q?nlCoyKL88Oa9FX6oLFLdtPOEEOEJ0d9iKWUi3ifsJVaepO286/VSajIqKCal?=
+ =?us-ascii?Q?JsF2HufL3L4EuT+D+2S2p2tuGriw1P2S6Hzj/Di9tWWTwk8NPmMwRPTGW7aw?=
+ =?us-ascii?Q?VapEQ9yT7i7l8H8cU54V9QSk5NN7SYVt9o178xP7Wvp243ZGRv6Hrn0VqZtx?=
+ =?us-ascii?Q?D3hyU0n/FKDAyrNaNuPuNyEa/SPR9WBNiWs68hQyNoe3zF06LpElgBQitaLZ?=
+ =?us-ascii?Q?Kzz2qXH5I51QI4pf8h9yiPKrQxbERuerVIlFGv1BDU9MCepr0U+PUu30xND6?=
+ =?us-ascii?Q?lTKpTVVCOVkLt/50t58IiTooZa8K1/NFlOqTeO7F3tGGzZBQUGDVuBdmtfra?=
+ =?us-ascii?Q?/D/LKlWpsQlzMi0qN/Evlogza6x0rdA2msQyheazRdH4yP7KcH58K/MfBkVR?=
+ =?us-ascii?Q?v4hcxcewHRnKFjBbv4zdM1sssS3ij1UaHOMoqy9QvWZDEkK4dEQuQP1IJXFI?=
+ =?us-ascii?Q?QwrLTMC5/5G4SExLXe0SQx/q96mR6Oa0alK2CoX0YxiM1d/kPw5P27DmOZuF?=
+ =?us-ascii?Q?G34mhP7FP8tECUgzK9vGU8k0XUtPd3XLukfTOEcxzDdJvtwKOmB8+b2Pqc/d?=
+ =?us-ascii?Q?Z27C512nR8VxLWdpQZj3RD70OJrDat9F4aL24ceSAaVwB70Cr66+VTw9yKR1?=
+ =?us-ascii?Q?LIEDKhQkV3vt7iy4MpkcHoUZVyMysCZwnhDFXrjjEPIRuzi+8HlzYum9c1eB?=
+ =?us-ascii?Q?nAMyGAf7vMHQ3Gz/B4kLwCqe6beDcXzy4phnEvhEzX97ZlClXE2l37C5tY/g?=
+ =?us-ascii?Q?Gc0ZTv3JXy1OHw/RzKqEA7EWfbQzTb1DEd+F8kN9T3KVCXKam1oWgo6E25RO?=
+ =?us-ascii?Q?LupZsG2m3oebKnRfuhFSA+COlx9v2QFsjBCCza4WSNwYkq774fcMdW7pBYqQ?=
+ =?us-ascii?Q?YtesI2VseN+MORLxCak=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="NDin8bjvE/0mNLFQ"
-Content-Disposition: inline
-In-Reply-To: <20221018184535.3g3sm35picdeuajs@synopsys.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB5481.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4045a575-14ae-493d-670b-08dab147f7de
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2022 20:33:08.5532
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LVoY9OOS2G2H8mb7meE7pDG966Y7Sb+2PK0a/4dkCS2hvsdpMoOIw+Rs0637aQLE+lYEDHF783pHaiAfvI8C5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5092
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Paul, Will,
 
---NDin8bjvE/0mNLFQ
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> From: Paul E. McKenney <paulmck@kernel.org>
+> Sent: Tuesday, October 18, 2022 1:49 PM
+>=20
+> On Tue, Oct 18, 2022 at 11:05:55AM +0100, Will Deacon wrote:
+> > On Mon, Oct 17, 2022 at 10:55:00PM +0200, Arnd Bergmann wrote:
+> > > On Mon, Oct 10, 2022, at 12:13 PM, Parav Pandit wrote:
+> > > > The cited commit describes that when using writel(), explcit wmb()
+> > > > is not needed. wmb() is an expensive barrier. writel() uses the
+> > > > needed platform specific barrier instead of expensive wmb().
+> > > >
+> > > > Hence update the example to be more accurate that matches the
+> > > > current implementation.
+> > > >
+> > > > commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA
+> vs.
+> > > > MMIO ordering example")
+> > > >
+> > > > Signed-off-by: Parav Pandit <parav@nvidia.com>
+> > >
+> > > I have no objections, though I still don't see a real need to change
+> > > the wording here.
+> >
+> > FWIW, I also don't think this change is necessary. If anything, I'd
+> > say we'd be better off _removing_ the text about writel from this
+> > section and extending the reference to the "KERNEL I/O BARRIER
+> > EFFECTS" section, as you could make similar comments about e.g.
+> > readb() and subsequent barriers.
+> >
+> > For example, something like the diff below.
+>=20
+> I do like this change, but we might be dealing with two different groups =
+of
+> readers.  Will and Arnd implemented significant parts of the current
+> MMIO/DMA ordering infrastructure.  It is thus quite possible that wording
+> which suffices to remind them of how things work might or might not help
+> someone new to Linux who is trying to figure out what is required to make
+> their driver work.
+>=20
+> The traditional resolution of this sort of thing is to provide the
+> documentation to a newbie and take any resulting confusion seriously.
+>=20
+> Parav, thoughts?
 
-Hi Thinh,
+I am ok with the change from Will that removes the writel() description.
+However, it removes useful short description from the example of "why" writ=
+el() is used.
+This is useful for newbie and experienced developers both.
 
-On Tue, Oct 18, 2022 at 06:45:40PM +0000, Thinh Nguyen wrote:
->On Mon, Oct 17, 2022, Dan Vacura wrote:
->> On Mon, Oct 17, 2022 at 09:30:38PM +0000, Thinh Nguyen wrote:
->> > On Mon, Oct 17, 2022, Dan Vacura wrote:
->> > > From: Jeff Vanhoof <qjv001@motorola.com>
->> > >
->> > > arm-smmu related crashes seen after a Missed ISOC interrupt when
->> > > no_interrupt=3D1 is used. This can happen if the hardware is still u=
-sing
->> > > the data associated with a TRB after the usb_request's ->complete ca=
-ll
->> > > has been made.  Instead of immediately releasing a request when a Mi=
-ssed
->> > > ISOC interrupt has occurred, this change will add logic to cancel the
->> > > request instead where it will eventually be released when the
->> > > END_TRANSFER command has completed. This logic is similar to some of=
- the
->> > > cleanup done in dwc3_gadget_ep_dequeue.
->> >
->> > This doesn't sound right. How did you determine that the hardware is
->> > still using the data associated with the TRB? Did you check the TRB's
->> > HWO bit?
->>
->> The problem we're seeing was mentioned in the summary of this patch
->> series, issue #1. Basically, with the following patch
->> https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-u=
-sb/patch/20210628155311.16762-6-m.grzeschik@pengutronix.de/__;!!A4F2R9G_pg!=
-aSNZ-IjMcPgL47A4NR5qp9qhVlP91UGTuCxej5NRTv8-FmTrMkKK7CjNToQQVEgtpqbKzLU2HXE=
-T9O226AEN$
->> integrated a smmu panic is occurring on our Android device with the 5.15
->> kernel which is:
->>
->>     <3>[  718.314900][  T803] arm-smmu 15000000.apps-smmu: Unhandled arm=
--smmu context fault from a600000.dwc3!
->>
->> The uvc gadget driver appears to be the first (and only) gadget that
->> uses the no_interrupt=3D1 logic, so this seems to be a new condition for
->> the dwc3 driver. In our configuration, we have up to 64 requests and the
->> no_interrupt=3D1 for up to 15 requests. The list size of dep->started_li=
-st
->> would get up to that amount when looping through to cleanup the
->> completed requests. From testing and debugging the smmu panic occurs
->> when a -EXDEV status shows up and right after
->> dwc3_gadget_ep_cleanup_completed_request() was visited. The conclusion
->> we had was the requests were getting returned to the gadget too early.
->
->As I mentioned, if the status is updated to missed isoc, that means that
->the controller returned ownership of the TRB to the driver. At least for
->the particular request with -EXDEV, its TRBs are completed. I'm not
->clear on your conclusion.
->
->Do we know where did the crash occur? Is it from dwc3 driver or from uvc
->driver, and at what line? It'd great if we can see the driver log.
->
->>
->> >
->> > The dwc3 driver would only give back the requests if the TRBs of the
->> > associated requests are completed or when the device is disconnected.
->> > If the TRB indicated missed isoc, that means that the TRB is completed
->> > and its status was updated.
->>
->> Interesting, the device is not disconnected as we don't get the
->> -ESHUTDOWN status back and with this patch in place things continue
->> after a -EXDEV status is received.
->>
->
->Actually, minor correction here: a recent change
->b44c0e7fef51 ("usb: dwc3: gadget: conditionally remove requests")
->changed -ESHUTDOWN request status to -ECONNRESET when disable endpoint.
->This doesn't look right.
->
->While disabling endpoint may also apply for other cases such as
->switching alternate interface in addition to disconnect, -ESHUTDOWN
->seems more fitting there.
->
->Hi Michael,
->
->Can you help clarify for the change above? This changed the usage of
->requests. Now requests returned by disconnection won't be returned as
->-ESHUTDOWN.
+So how about below additional change on top of Will's change?
+This also aligns to rest of the short C comments in this example pseudo cod=
+e.
 
-When writing the patch, I was looking into
-Documentation/driver-api/usb/error-codes.rst.
+If ok, I will take Will's and mine below change to v5.
 
-After looking into it today, I see that ESHUTDOWN should be send on
-ep_disable (device disable) and ECONNRESET on stop_active_transfer.
-So I probably just mixed them up, while writing the patch. :/
+index 4d24d39f5e42..5939c5e09570 100644
+--- a/Documentation/memory-barriers.txt
++++ b/Documentation/memory-barriers.txt
+@@ -1919,7 +1919,9 @@ There are some more advanced barrier functions:
+                /* assign ownership */
+                desc->status =3D DEVICE_OWN;
 
-The followup patch would then just be to swap the status results of
-__dwc3_gadget_ep_disable and dwc3_stop_active_transfers on the
-dwc3_remove_requests call.
-
-Michael
-
->> >
->> > There's a special case which dwc3 may give back requests early is the
->> > case of the device disconnecting. The requests should be returned with
->> > -ESHUTDOWN, and the gadget driver shouldn't be re-using the requests on
->> > de-initialization anyway.
->> >
->> > We should not issue End Transfer command just because of missed isoc. =
-We
->> > may want issue End Transfer if the gadget driver is too slow and unable
->> > to feed requests in time (causing underrun and missed isoc) to resync
->> > with the host, but we already handle that.
->>
->> Hmm, isn't that what happens when we get into this
->> condition in dwc3_gadget_endpoint_trbs_complete():
->>
->> 	if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
->> 		list_empty(&dep->started_list) &&
->> 		(list_empty(&dep->pending_list) || status =3D=3D -EXDEV))
->> 		dwc3_stop_active_transfer(dep, true, true);
->>
->
->Yes, it's being handled there.
->
->> >
->> > I'm still not clear what's the problem you're seeing. Do you have the
->> > crash log? Tracepoints?
->> >
->>
->> Appreciate the support!
->>
->
->Thanks,
->Thinh
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---NDin8bjvE/0mNLFQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmNO+swACgkQC+njFXoe
-LGRUPA//VdRHN0Y5t4IiSNNGbrT5CuZ98TI8jKfvSy3kwRBw/dRp9DMlC4GKZZNE
-vMCVXuNJT/uO3bsHaH3aYO/0QMNiQV1tloAbiXx/BPyI60+G5ywC+hwxpwS1k2uD
-FUxvYBznY8ZDmHYy6G/gR7EbUNzispDvFzyZTyjrYT50VUv/JZBJd/x/Y/5jpP5/
-Xy7Cbq8I6s88Y1I3ZfzZMPNOtYYLHcPel72j1Wb/zT/azVDgJjgMpUNxCpIutm+1
-3WhKa9PHd2uIIwbSX+tiOpxMrWo31Dut24mTXz/+9fcPgFCLSFHF25c+9nJcZCK+
-xnuPINxRYKDkPkrPqAZAUZa26c7GR8usxeitTZ7nLLfYZfJNRKZ8A4ToVGlldAEs
-v+uJ22LJ0fx8A+G3QGzDlC2uleZRLhYOm0916ZLk4UGkct+3GQqymI0MrAwfT0oq
-D9ByAXyJ8MCIJamwt31oZ/rN53NGT7QMCLOYoojQUiMwJg9vaxk7yiO+HCdApYUx
-tKeCshYSIsELdQNMRFDpAoIzZZ4LwHnP57nlgIC1CoIgCG1d0K/cPmKskNP6jbtk
-s4sa8SfYNW6gFnC09hE2IxI0moaR6+0tQc2LxH2QMDcEfkswuahTj+OXijPZu0Nk
-olG1QdBlLaJAnYlZXcC/k0Vsd4m2T29Rrv/S3hNs4HsHy/0XTGA=
-=PxEq
------END PGP SIGNATURE-----
-
---NDin8bjvE/0mNLFQ--
+-               /* notify device of new descriptors */
++               /* Make descriptor status visible to the device followed by
++                * notify device of new descriptors
++                */
+                writel(DESC_NOTIFY, doorbell);
