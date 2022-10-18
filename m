@@ -2,157 +2,451 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA7E9C43219
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 05:39:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68357C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 06:01:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230220AbiJRFjJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 01:39:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56654 "EHLO
+        id S229896AbiJRGBr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 02:01:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229802AbiJRFjI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 01:39:08 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CA4219E0E4;
-        Mon, 17 Oct 2022 22:39:04 -0700 (PDT)
-Received: from loongson.cn (unknown [112.20.109.239])
-        by gateway (Coremail) with SMTP id _____8DxPdmCV01j_hEAAA--.503S3;
-        Mon, 17 Oct 2022 21:24:18 +0800 (CST)
-Received: from [192.168.100.127] (unknown [112.20.109.239])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8BxTuCBV01jCCEAAA--.545S3;
-        Mon, 17 Oct 2022 21:24:17 +0800 (CST)
-Message-ID: <9784c586-4853-d4f8-c589-bec7037badc9@loongson.cn>
-Date:   Mon, 17 Oct 2022 21:24:17 +0800
+        with ESMTP id S229871AbiJRGBq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 02:01:46 -0400
+Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBDF192F62
+        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 23:01:44 -0700 (PDT)
+Received: by mail-vs1-xe29.google.com with SMTP id h29so13669938vsq.9
+        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 23:01:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hp09wWaunbuYOpLw1ZYu/YSv5no5hhPZqnKpGz3oCn0=;
+        b=tRRmJBCulgBKE2+q/q02pMF4lAB5F4kj8EonzJJIL+OIYLEhG1JoUgV8iknOQKRO3D
+         w+Z+1myYzcMnwe0iedoyxd58SH0VfazZ5yd5A5Sl73c+hZvbahnCQYVaJV+pDs1pzKhF
+         ckm9a1Uy1fV5eQQLPI8Ivd1Liz419TNhdGxndTgt3R0Vj+kr/yq35WTI8kbQF3tTpMAg
+         Eg0E9R6NNp0OdhBk+JEqpIhkRcfPmUPrLw4mDtPKAHlOMbrbeBj5/aOmIvzQ4yzz5oXk
+         Y5jDv6ZsayzI1TCTn4thViCgvA9HyPqwsRNcXmRg11ovEaqfnwOE72xt6BSCDqGkGEEQ
+         Ky7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hp09wWaunbuYOpLw1ZYu/YSv5no5hhPZqnKpGz3oCn0=;
+        b=CGlPqOya+pNoq7jOnbEv0qbGTgUck8OIj4Y5jRpGXsvZttadMDONirN8I/Xm0SdiMU
+         fKJvpk6E2vPKcXzH2zGkFeiKxKr9zsUjZrX9Gm4OCF8LY7mdcj6ma0rG1J6Eswi0TMr0
+         FcZ9msCqDDlq/4UF+sMvgF6+EYuSiYbO2yI4ofITOlNEu51tqhpERwluqJ/MZUqmLaux
+         SwiC/3VbTsUqwwVvMCRfzLUxUxCmsSwvDRbVMfoZ3tEGQESjgWr91zjIa6KpGH3NRqaa
+         4Ahyd7bwQMFq0xLt3mFD0EsezBFs/wH8rdKz8f9pEC7E0HCw7T/Jl1xpdCJ2JAYrM/3D
+         LrvA==
+X-Gm-Message-State: ACrzQf22bMBRtqJetgEj8yBX3Eosz47w5vhCn2GA07nUWJsMVi+r4aWr
+        JBDf+I/KPNTChVW7hw60EDP9gymuay4eJlH815q+Wg==
+X-Google-Smtp-Source: AMsMyM4p+qNggfiKPd9BkaY1HG3VMZkEMOw5quno6LsH/rY0lPzl6YoW6RSFKHB4iDCXfQwq+7pk2dowKa7YcSJB01k=
+X-Received: by 2002:a67:e903:0:b0:3a9:7a04:9f28 with SMTP id
+ c3-20020a67e903000000b003a97a049f28mr587355vso.18.1666072903656; Mon, 17 Oct
+ 2022 23:01:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 2/2] docs/zh_CN: Add userspace-api/index Chinese
- translation
-Content-Language: en-US
-To:     Rui Li <me@lirui.org>, Alex Shi <alexs@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-References: <166592153626.7.4500669936128595360.69288105@lirui.org>
- <166592154155.8.13781703774239604072.69288121@lirui.org>
-From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <166592154155.8.13781703774239604072.69288121@lirui.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxTuCBV01jCCEAAA--.545S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxAr1UJw1rJr15Gr1kKrW7Jwb_yoW5GFWkpr
-        yvkryfK3W7JrW3CrWfWF1UGF1xK3WxZa1UKw4xWw1Fqa4DAF1kArnrKrZxKrnrGrWfAa48
-        JFsYqFW8ury2y3DanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bIAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
-        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
-        IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26F4j6r4U
-        JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8w
-        CF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j
-        6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64
-        vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-        Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42
-        IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUzKZXUUUUU
-X-Gw-Check: b8d9fc5d79e760fb
+References: <20221018040332.2384436-1-sadiyakazi@google.com>
+In-Reply-To: <20221018040332.2384436-1-sadiyakazi@google.com>
+From:   David Gow <davidgow@google.com>
+Date:   Tue, 18 Oct 2022 14:01:31 +0800
+Message-ID: <CABVgOS=xjwiA0cmJQnxF9pFLk7jHaqwXujp8Wq27BZx3UOr=Gw@mail.gmail.com>
+Subject: Re: [PATCH v4] Documentation: Kunit: Update architecture.rst for
+ minor fixes
+To:     Sadiya Kazi <sadiyakazi@google.com>
+Cc:     brendanhiggins@google.com, skhan@linuxfoundation.org,
+        corbet@lwn.net, bagasdotme@gmail.com,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="0000000000009f78d305eb48d321"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+--0000000000009f78d305eb48d321
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/16/22 19:58, Rui Li wrote:
-> Translate userspace-api/index.rst into Chinese, add it into
-> zh_CN/index.rst.
+On Tue, Oct 18, 2022 at 12:04 PM 'Sadiya Kazi' via KUnit Development
+<kunit-dev@googlegroups.com> wrote:
 >
-> Signed-off-by: Rui Li <me@lirui.org>
+> Updated the architecture.rst page with the following changes:
+> -Add missing article _the_ across the document.
+> -Reword content across for style and standard.
+> -Update all occurrences of Command Line to Command-line
+>  across the document.
+> -Correct grammatical issues, for example,
+>  added _it_wherever missing.
+> -Update all occurrences of =E2=80=9Cvia" to either use
+>  =E2=80=9Cthrough=E2=80=9D or =E2=80=9Cusing=E2=80=9D.
+> -Update the text preceding the external links and pushed the full
+>  link to a new line for better readability.
+> -Reword content under the config command to make it more clear and concis=
+e.
+>
+> Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
+> Reviewed-by: David Gow <davidgow@google.com>
 > ---
->   Documentation/translations/zh_CN/index.rst    |  2 +-
->   .../zh_CN/userspace-api/index.rst             | 50 +++++++++++++++++++
->   2 files changed, 51 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/userspace-api/index.rst
+
+Thanks -- this looks good to me. Assuming nothing goes wrong, it
+should be in 6.2.
+
+Cheers,
+-- David
+
+> Thank you David. I have made the changes as per your feedback.
+> Changes since V3:
+> https://lore.kernel.org/linux-kselftest/20221017070820.2253501-1-sadiyaka=
+zi@google.com/
 >
-> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-> index ec99ef5fe990..272414971ce9 100644
-> --- a/Documentation/translations/zh_CN/index.rst
-> +++ b/Documentation/translations/zh_CN/index.rst
-> @@ -90,12 +90,12 @@ TODOList:
->   
->      admin-guide/index
->      admin-guide/reporting-issues.rst
-> +   userspace-api/index
->   
->   TODOList:
->   
->   * 内核构建系统 <kbuild/index>
->   * 用户空间工具 <tools/index>
-> -* userspace-api/index
->   
->   也可参考独立于内核文档的 `Linux 手册页 <https://www.kernel.org/doc/man-pages/>`_ 。
->   
-> diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
-> new file mode 100644
-> index 000000000000..4f5bc5530ebd
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/userspace-api/index.rst
-> @@ -0,0 +1,50 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/userspace-api/index.rst
-> +
-> +:翻译:
-> +
-> + 李睿 Rui Li <me@lirui.org>
-> +
-> +=====================================
-> +Linux 内核用户空间API指南
-> +=====================================
-Alignment required.
-> +
-> +.. _man-pages: https://www.kernel.org/doc/man-pages/
-> +
-> +尽管许多用户空间API的文档被记录在别处（特别是在 man-pages_ 项目中），有关用户
-> +空间的部分信息仍然可以在代码树中被找到。这个手册意在成为这些信息聚集的地方。
+> - Added the missing full stop
+> - Reworded content around the ``kunit_try_catch_run()`` funtion
+>
+> Regards,
+> Sadiya
+>
+> ---
+>  .../dev-tools/kunit/architecture.rst          | 115 +++++++++---------
+>  1 file changed, 58 insertions(+), 57 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kunit/architecture.rst b/Documentati=
+on/dev-tools/kunit/architecture.rst
+> index 8efe792bdcb9..e95ab05342bb 100644
+> --- a/Documentation/dev-tools/kunit/architecture.rst
+> +++ b/Documentation/dev-tools/kunit/architecture.rst
+> @@ -4,16 +4,17 @@
+>  KUnit Architecture
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> -The KUnit architecture can be divided into two parts:
+> +The KUnit architecture is divided into two parts:
+>
+>  - `In-Kernel Testing Framework`_
+> -- `kunit_tool (Command Line Test Harness)`_
+> +- `kunit_tool (Command-line Test Harness)`_
+>
+>  In-Kernel Testing Framework
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+>
+>  The kernel testing library supports KUnit tests written in C using
+> -KUnit. KUnit tests are kernel code. KUnit does several things:
+> +KUnit. These KUnit tests are kernel code. KUnit performs the following
+> +tasks:
+>
+>  - Organizes tests
+>  - Reports test results
+> @@ -22,19 +23,17 @@ KUnit. KUnit tests are kernel code. KUnit does severa=
+l things:
+>  Test Cases
+>  ----------
+>
+> -The fundamental unit in KUnit is the test case. The KUnit test cases are
+> -grouped into KUnit suites. A KUnit test case is a function with type
+> -signature ``void (*)(struct kunit *test)``.
+> -These test case functions are wrapped in a struct called
+> -struct kunit_case.
+> +The test case is the fundamental unit in KUnit. KUnit test cases are org=
+anised
+> +into suites. A KUnit test case is a function with type signature
+> +``void (*)(struct kunit *test)``. These test case functions are wrapped =
+in a
+> +struct called struct kunit_case.
+>
+>  .. note:
+>         ``generate_params`` is optional for non-parameterized tests.
+>
+> -Each KUnit test case gets a ``struct kunit`` context
+> -object passed to it that tracks a running test. The KUnit assertion
+> -macros and other KUnit utilities use the ``struct kunit`` context
+> -object. As an exception, there are two fields:
+> +Each KUnit test case receives a ``struct kunit`` context object that tra=
+cks a
+> +running test. The KUnit assertion macros and other KUnit utilities use t=
+he
+> +``struct kunit`` context object. As an exception, there are two fields:
+>
+>  - ``->priv``: The setup functions can use it to store arbitrary test
+>    user data.
+> @@ -77,12 +76,13 @@ Executor
+>
+>  The KUnit executor can list and run built-in KUnit tests on boot.
+>  The Test suites are stored in a linker section
+> -called ``.kunit_test_suites``. For code, see:
+> -https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+include/asm-generic/vmlinux.lds.h?h=3Dv5.15#n945.
+> +called ``.kunit_test_suites``. For the code, see ``KUNIT_TABLE()`` macro
+> +definition in
+> +`include/asm-generic/vmlinux.lds.h <https://git.kernel.org/pub/scm/linux=
+/kernel/git/torvalds/linux.git/tree/include/asm-generic/vmlinux.lds.h?h=3Dv=
+6.0#n950>`_.
+>  The linker section consists of an array of pointers to
+>  ``struct kunit_suite``, and is populated by the ``kunit_test_suites()``
+> -macro. To run all tests compiled into the kernel, the KUnit executor
+> -iterates over the linker section array.
+> +macro. The KUnit executor iterates over the linker section array in orde=
+r to
+> +run all the tests that are compiled into the kernel.
+>
+>  .. kernel-figure:: kunit_suitememorydiagram.svg
+>         :alt:   KUnit Suite Memory
+> @@ -90,17 +90,17 @@ iterates over the linker section array.
+>         KUnit Suite Memory Diagram
+>
+>  On the kernel boot, the KUnit executor uses the start and end addresses
+> -of this section to iterate over and run all tests. For code, see:
+> -https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+lib/kunit/executor.c
+> -
+> +of this section to iterate over and run all tests. For the implementatio=
+n of the
+> +executor, see
+> +`lib/kunit/executor.c <https://git.kernel.org/pub/scm/linux/kernel/git/t=
+orvalds/linux.git/tree/lib/kunit/executor.c>`_.
+>  When built as a module, the ``kunit_test_suites()`` macro defines a
+>  ``module_init()`` function, which runs all the tests in the compilation
+>  unit instead of utilizing the executor.
+>
+>  In KUnit tests, some error classes do not affect other tests
+>  or parts of the kernel, each KUnit case executes in a separate thread
+> -context. For code, see:
+> -https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+lib/kunit/try-catch.c?h=3Dv5.15#n58
+> +context. See the ``kunit_try_catch_run()`` function in
+> +`lib/kunit/try-catch.c <https://git.kernel.org/pub/scm/linux/kernel/git/=
+torvalds/linux.git/tree/lib/kunit/try-catch.c?h=3Dv5.15#n58>`_.
+>
+>  Assertion Macros
+>  ----------------
+> @@ -111,37 +111,36 @@ All expectations/assertions are formatted as:
+>
+>  - ``{EXPECT|ASSERT}`` determines whether the check is an assertion or an
+>    expectation.
+> +  In the event of a failure, the testing flow differs as follows:
+>
+> -       - For an expectation, if the check fails, marks the test as faile=
+d
+> -         and logs the failure.
+> +       - For expectations, the test is marked as failed and the failure =
+is logged.
+>
+> -       - An assertion, on failure, causes the test case to terminate
+> -         immediately.
+> +       - Failing assertions, on the other hand, result in the test case =
+being
+> +         terminated immediately.
+>
+> -               - Assertions call function:
+> +               - Assertions call the function:
+>                   ``void __noreturn kunit_abort(struct kunit *)``.
+>
+> -               - ``kunit_abort`` calls function:
+> +               - ``kunit_abort`` calls the function:
+>                   ``void __noreturn kunit_try_catch_throw(struct kunit_tr=
+y_catch *try_catch)``.
+>
+> -               - ``kunit_try_catch_throw`` calls function:
+> +               - ``kunit_try_catch_throw`` calls the function:
+>                   ``void kthread_complete_and_exit(struct completion *, l=
+ong) __noreturn;``
+>                   and terminates the special thread context.
+>
+>  - ``<op>`` denotes a check with options: ``TRUE`` (supplied property
+> -  has the boolean value =E2=80=9Ctrue=E2=80=9D), ``EQ`` (two supplied pr=
+operties are
+> +  has the boolean value "true"), ``EQ`` (two supplied properties are
+>    equal), ``NOT_ERR_OR_NULL`` (supplied pointer is not null and does not
+> -  contain an =E2=80=9Cerr=E2=80=9D value).
+> +  contain an "err" value).
+>
+>  - ``[_MSG]`` prints a custom message on failure.
+>
+>  Test Result Reporting
+>  ---------------------
+> -KUnit prints test results in KTAP format. KTAP is based on TAP14, see:
+> -https://github.com/isaacs/testanything.github.io/blob/tap14/tap-version-=
+14-specification.md.
+> -KTAP (yet to be standardized format) works with KUnit and Kselftest.
+> -The KUnit executor prints KTAP results to dmesg, and debugfs
+> -(if configured).
+> +KUnit prints the test results in KTAP format. KTAP is based on TAP14, se=
+e
+> +Documentation/dev-tools/ktap.rst.
+> +KTAP works with KUnit and Kselftest. The KUnit executor prints KTAP resu=
+lts to
+> +dmesg, and debugfs (if configured).
+>
+>  Parameterized Tests
+>  -------------------
+> @@ -150,33 +149,35 @@ Each KUnit parameterized test is associated with a =
+collection of
+>  parameters. The test is invoked multiple times, once for each parameter
+>  value and the parameter is stored in the ``param_value`` field.
+>  The test case includes a KUNIT_CASE_PARAM() macro that accepts a
+> -generator function.
+> -The generator function is passed the previous parameter and returns the =
+next
+> -parameter. It also provides a macro to generate common-case generators b=
+ased on
+> -arrays.
+> +generator function. The generator function is passed the previous parame=
+ter
+> +and returns the next parameter. It also includes a macro for generating
+> +array-based common-case generators.
+>
+> -kunit_tool (Command Line Test Harness)
+> +kunit_tool (Command-line Test Harness)
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> -kunit_tool is a Python script ``(tools/testing/kunit/kunit.py)``
+> -that can be used to configure, build, exec, parse and run (runs other
+> -commands in order) test results. You can either run KUnit tests using
+> -kunit_tool or can include KUnit in kernel and parse manually.
+> +``kunit_tool`` is a Python script, found in ``tools/testing/kunit/kunit.=
+py``. It
+> +is used to configure, build, execute, parse test results and run all of =
+the
+> +previous commands in correct order (i.e., configure, build, execute and =
+parse).
+> +You have two options for running KUnit tests: either build the kernel wi=
+th KUnit
+> +enabled and manually parse the results (see
+> +Documentation/dev-tools/kunit/run_manual.rst) or use ``kunit_tool``
+> +(see Documentation/dev-tools/kunit/run_wrapper.rst).
+>
+>  - ``configure`` command generates the kernel ``.config`` from a
+>    ``.kunitconfig`` file (and any architecture-specific options).
+> -  For some architectures, additional config options are specified in the
+> -  ``qemu_config`` Python script
+> -  (For example: ``tools/testing/kunit/qemu_configs/powerpc.py``).
+> +  The Python scripts available in ``qemu_configs`` folder
+> +  (for example, ``tools/testing/kunit/qemu configs/powerpc.py``) contain=
+s
+> +  additional configuration options for specific architectures.
+>    It parses both the existing ``.config`` and the ``.kunitconfig`` files
+> -  and ensures that ``.config`` is a superset of ``.kunitconfig``.
+> -  If this is not the case, it will combine the two and run
+> -  ``make olddefconfig`` to regenerate the ``.config`` file. It then
+> -  verifies that ``.config`` is now a superset. This checks if all
+> -  Kconfig dependencies are correctly specified in ``.kunitconfig``.
+> -  ``kunit_config.py`` includes the parsing Kconfigs code. The code which
+> -  runs ``make olddefconfig`` is a part of ``kunit_kernel.py``. You can
+> -  invoke this command via: ``./tools/testing/kunit/kunit.py config`` and
+> +  to ensure that ``.config`` is a superset of ``.kunitconfig``.
+> +  If not, it will combine the two and run ``make olddefconfig`` to regen=
+erate
+> +  the ``.config`` file. It then checks to see if ``.config`` has become =
+a superset.
+> +  This verifies that all the Kconfig dependencies are correctly specifie=
+d in the
+> +  file ``.kunitconfig``. The ``kunit_config.py`` script contains the cod=
+e for parsing
+> +  Kconfigs. The code which runs ``make olddefconfig`` is part of the
+> +  ``kunit_kernel.py`` script. You can invoke this command through:
+> +  ``./tools/testing/kunit/kunit.py config`` and
+>    generate a ``.config`` file.
+>  - ``build`` runs ``make`` on the kernel tree with required options
+>    (depends on the architecture and some options, for example: build_dir)
+> @@ -184,8 +185,8 @@ kunit_tool or can include KUnit in kernel and parse m=
+anually.
+>    To build a KUnit kernel from the current ``.config``, you can use the
+>    ``build`` argument: ``./tools/testing/kunit/kunit.py build``.
+>  - ``exec`` command executes kernel results either directly (using
+> -  User-mode Linux configuration), or via an emulator such
+> -  as QEMU. It reads results from the log via standard
+> +  User-mode Linux configuration), or through an emulator such
+> +  as QEMU. It reads results from the log using standard
+>    output (stdout), and passes them to ``parse`` to be parsed.
+>    If you already have built a kernel with built-in KUnit tests,
+>    you can run the kernel and display the test results with the ``exec``
+> --
+> 2.38.0.413.g74048e4d9e-goog
+>
+> --
+> You received this message because you are subscribed to the Google Groups=
+ "KUnit Development" group.
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kunit-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgi=
+d/kunit-dev/20221018040332.2384436-1-sadiyakazi%40google.com.
 
-在代码树中仍然可以找到有关用户空间的部分信息
+--0000000000009f78d305eb48d321
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-
-Thanks,
-Yanteng
-
-> +
-> +.. class:: toc-title
-> +
-> +	   目录
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   ebpf/index
-> +
-> +TODOList:
-> +
-> +* no_new_privs
-> +* seccomp_filter
-> +* landlock
-> +* unshare
-> +* spec_ctrl
-> +* accelerators/ocxl
-> +* ebpf/index
-> +* ioctl/index
-> +* iommu
-> +* media/index
-> +* netlink/index
-> +* sysfs-platform_profile
-> +* vduse
-> +* futex2
-> +
-> +.. only::  subproject and html
-> +
-> +   Indices
-> +   =======
-> +
-> +   * :ref:`genindex`
-> \ No newline at end of file
-
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
+VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
+ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
+OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
+3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
+lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCA2
+tvezTaPNVnGrAN+ny7dlWOKVujTEPYriZgPeUUxkyzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjEwMTgwNjAxNDRaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEACl6rVpG680f0JvEfBAIU
+B4rNlmHrStP91pvvNm3MiT705qPwu1uYmC2VStoOwWdqkycOhX6uVFc4bm1VWDEzeWB2IHnCAIh2
+3YIiWm7+Jo7EqFktBFV9lDx5+XL+LLhPFKYA+xudZ4Nom4X2OFukalOBkt9L1BdCuSJOsPo/CH7f
+Z06SqVYyJFhS0Ts0OQrFZFvErxt9Aq+4mjoClVE8L18LhImwq01zjO//9TEEjg+7PXTz0LCqaj/9
+LpWn7vC+Nd9i5hu2ZrVJ7b6ZcN2f4bhp9dfsDpK/hqnmKHsnvhfYCIysqzcd0Pec3iCDkvM502L1
+O/n2veZNpgUSj77jRA==
+--0000000000009f78d305eb48d321--
