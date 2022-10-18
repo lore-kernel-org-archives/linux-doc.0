@@ -2,91 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22FC7C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 01:50:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF5B3C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 02:10:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230255AbiJRBuL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 21:50:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43656 "EHLO
+        id S230097AbiJRCKy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 22:10:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230215AbiJRBuK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 21:50:10 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A827DF72;
-        Mon, 17 Oct 2022 18:50:09 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id d7-20020a17090a2a4700b0020d268b1f02so15951353pjg.1;
-        Mon, 17 Oct 2022 18:50:08 -0700 (PDT)
+        with ESMTP id S230046AbiJRCKc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 22:10:32 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E09B228714
+        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 19:09:57 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id l1-20020a17090a72c100b0020a6949a66aso12664440pjk.1
+        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 19:09:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qhrY3CdotIZVTMkH6Zcw3PMbIad7eSnddTb5gX5c0Rs=;
-        b=WdfEuiP0y8N6no6jKIXyX7Wa4XqSFBWD5omQ23v7APA451WzXzTZMBNcTl7ZQfstUt
-         VsPKkPqnrW5RE9330oeDZbrJQem4vmCZqHuhSpDadvi6X8DmLfVq7fiVrpNvvp1pi12U
-         WQ1Ig+pWSUW9s8zzk6bAOcEiP3X9JVFxKFc9LaHtjLFrsFTMwDOiUfPRV4FSZknD+CoC
-         ktSUNfZy5dGvZXqNajFy+EQ2I0SSCmeVC865AZ/YuFkssAvR2Cx5RR+Tz/IsH11uV9iA
-         NKBaKlUAu3HvzZDRckYZXrA2bm/JegUzTsIXast1xnzDJMQfCYMezyC5P1M4Afb1ma7b
-         IUEg==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jiyLEWpU5Vr8UNvHaI2P6jWrDxYlYjUoltJSjloVH1I=;
+        b=hX0obQ/EZm8Pl/NdNDUk3PWb0v9ZnyxW4jGAKyYBOMy/QF+aY3BkbN/bFyiU29BdyG
+         0Sft8RgezxoohSYTfnh6tT+8bxHNJK5Z4rvWiLbIS0HLpDqQQ5p1INRGVmM1R+Hfk6xG
+         JtsXhnWrV8oePjEH150pfzyQPEXPJOHPD7a58=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qhrY3CdotIZVTMkH6Zcw3PMbIad7eSnddTb5gX5c0Rs=;
-        b=Iu7NOWKAJHbGO6AFErQv3/KyMfB87Y+689Yy9Ao276gMaZ98JYbUSkjdnE2cKAMeGc
-         dwQ2RvTAm2J79VhJruz3oq6ya0aoW47itfeGkmU9UzTS4fRPvZEOcp3UVKFYwiEOwni9
-         50qJpRlIMlodBoEIMss2D138tKEMdfEZB6kakrIISsvlJf/wbFJwtjiMlRz0TRXTM+/t
-         550gUL6BVWRHnsY7Z32CM91oRbjxyplANFSTCStl2D50Vh4QRVRuWLQ5FhAJaTlrcJM+
-         0Hxp7MzzEsPKzTHv88CWfie0+hhTOvhG6XzwJz/zVzyBon6onoXJMfge/64OM0NpWQhq
-         ecoA==
-X-Gm-Message-State: ACrzQf12pFa28FloIPNPzT2YVxfKtkl5zO4vac97kK0HOqpghD0Y43VV
-        N7gKrdXOlgNkAd/OMhia1sIMEGaY/9v85w==
-X-Google-Smtp-Source: AMsMyM5k6oOkMBOkEAlAtluIlFG2ihNEEjHL5qf9rqGUD0zS3Uq1mFSlHieTdtoLb1QTH/K5FPOeDQ==
-X-Received: by 2002:a17:902:9a07:b0:178:8024:1393 with SMTP id v7-20020a1709029a0700b0017880241393mr578220plp.128.1666057808343;
-        Mon, 17 Oct 2022 18:50:08 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-16.three.co.id. [180.214.232.16])
-        by smtp.gmail.com with ESMTPSA id w29-20020aa7955d000000b0056274716016sm7835206pfq.47.2022.10.17.18.50.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Oct 2022 18:50:07 -0700 (PDT)
-Message-ID: <f7029f41-4f8c-9ba7-3e3b-268a743998d5@gmail.com>
-Date:   Tue, 18 Oct 2022 08:50:03 +0700
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jiyLEWpU5Vr8UNvHaI2P6jWrDxYlYjUoltJSjloVH1I=;
+        b=G9MndEyHXhSNwya6YxvMi8v6BhV5jQtwLEQKkmjnZIRrEzyW905le4T12maLHy62CB
+         d62kMGyjwmvlJjxE5W+Qi7YDX2mfmrf/hdlxU2hhNUYmZ8iMQ7CTV1o/RF2fCTBjG3U8
+         sRDfS5iLjUM9GRpCIdLQjGZs/FXAxDBkEneV0cdcUnfim7kjSsYW6jwq0Foz8d4I/SU2
+         ecRIGk+SoBMmN9T9dRQGzYbgPPPNaQ8frVLrpF5Ge7itUkt8NTSNNVe7U1lLn55J8+U/
+         UdUWZ+g54NbRiUeomGddNYwu+pMWByaPMHQZ7BfjRUz8GOR5Acoq/VIJoXUX6MMqH6Ah
+         ignw==
+X-Gm-Message-State: ACrzQf1mLQKQFGDOKSmBx5fl5/hrGl4pjjclsOQJ74t/I4nMOMNFhm2p
+        MIAclsTGQet2BTarXKCrVmzhyw==
+X-Google-Smtp-Source: AMsMyM76Iwrloo6pXjHpP+l4o1Nu/SlNFgkPEzmA2JfePmZI4bka2pMHfzkcmzlsg/0cbux1EOTczQ==
+X-Received: by 2002:a17:902:8b83:b0:17f:5de5:c5ff with SMTP id ay3-20020a1709028b8300b0017f5de5c5ffmr675629plb.52.1666058986011;
+        Mon, 17 Oct 2022 19:09:46 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id p2-20020a17090a284200b0020dafceec65sm7453398pjf.13.2022.10.17.19.09.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Oct 2022 19:09:45 -0700 (PDT)
+Date:   Mon, 17 Oct 2022 19:09:44 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-hardening@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+        Johannes Thumshirn <johannes.thumshirn@wdc.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] overflow: Fix kern-doc markup for functions
+Message-ID: <202210171909.65FFFB5601@keescook>
+References: <20221017035732.1968394-1-keescook@chromium.org>
+ <6f8aa670-fb4f-3ff9-bcd9-8490e752b349@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH] usb: gadget: uvc: fix dropped frame after missed isoc
-Content-Language: en-US
-To:     Dan Vacura <w36195@motorola.com>, linux-usb@vger.kernel.org
-Cc:     Daniel Scally <dan.scally@ideasonboard.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Jeff Vanhoof <qjv001@motorola.com>, stable@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20221017205446.523796-1-w36195@motorola.com>
- <20221017205446.523796-2-w36195@motorola.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20221017205446.523796-2-w36195@motorola.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6f8aa670-fb4f-3ff9-bcd9-8490e752b349@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/18/22 03:54, Dan Vacura wrote:
-> With the re-use of the previous completion status in 0d1c407b1a749
-> ("usb: dwc3: gadget: Return proper request status") it could be possible
-> that the next frame would also get dropped if the current frame has a
-> missed isoc error. Ensure that an interrupt is requested for the start
-> of a new frame.
+On Tue, Oct 18, 2022 at 10:11:43AM +0900, Akira Yokosawa wrote:
+> Hi,
 > 
+> On Sun, 16 Oct 2022 20:57:32 -0700, Kees Cook wrote:
+> > Fix the kern-doc markings for several of the overflow helpers and move
+> > their location into the core kernel API documentation, where it belongs
+> > (it's not driver-specific).
+> > 
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: Akira Yokosawa <akiyks@gmail.com>
+> LGTM,
+> 
+> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
 
-Shouldn't the subject line says [PATCH v3 1/6]?
+Thanks!
+
+> Kees, which tree do you expect this one to go through?
+
+If the Documentation/* changes look okay, I'd rather carry it in my tree
+since I'm going to be poking at more functions in there soon.
 
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Kees Cook
