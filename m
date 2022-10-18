@@ -2,179 +2,265 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CFD2C43217
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 13:28:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3FAEC43217
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 13:32:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230170AbiJRN2I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 09:28:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53884 "EHLO
+        id S230331AbiJRNc7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 09:32:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230151AbiJRN2E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 09:28:04 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 392C32253A;
-        Tue, 18 Oct 2022 06:27:50 -0700 (PDT)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D63EE8B9;
-        Tue, 18 Oct 2022 15:27:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1666099636;
-        bh=jzN8eIz8nfV4IAKubdOXWfl2DKCD8xooof9mLSHVbeM=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=SROSpwM3/R/mJhaVyzM5rA+pjtAuE+QW8JvNOzt3GwxvC5vGVZDcrSPrNkWgjvAYN
-         xvyfScA7uK4GlXxLhtJsDFknfQS2re6WiBHvzwqMBPzQNiGV+lCcJB7mxpqlsiPk7s
-         IU4jZ+qPF62bAfbM0DpX2bnCrr4Yu7CjT22KyTF0=
-Message-ID: <78c6403a-22d9-903d-f0cf-4205e17962d3@ideasonboard.com>
-Date:   Tue, 18 Oct 2022 14:27:13 +0100
+        with ESMTP id S230238AbiJRNc6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 09:32:58 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D68C8964;
+        Tue, 18 Oct 2022 06:32:56 -0700 (PDT)
+Received: from [192.168.10.9] (unknown [39.45.244.84])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: usama.anjum)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 983EB6602363;
+        Tue, 18 Oct 2022 14:32:50 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1666099975;
+        bh=9HE2WZPSvNU49qDpRaqFqp8qGC5gNQsk9Oe1EJ75fRE=;
+        h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+        b=AU6QgCCTnozJTZYOHSzdaN6QKxqgcm4bTenWTAThn6FWXoeouZ/buqAuMZiK5oleL
+         JdE/h9Vt35NCQAl3pYzytSb5ysdBfMIWNkN7JRS7R7IsR6r4+eaJNheJErvujTYTBn
+         VgeeN5T28tADNk+mPbmqNp0C7YViLw4tb+fjqOiI+fzKwAGoAqFktQ66xbZwMmZiZ/
+         UehONFYGk2DznPVxV5HmdPAeCxqIdORL8ueb2K6DCO8A1wfeLmC5XDHWqluq8YtNHZ
+         okds1bIpz3K8nsOxJ3FzYFKqkOJ2qOhnn2o7+MGllMeKPAeW0OlLDyVKBCXDYMOeO6
+         SIw54ivZuJ4qA==
+Message-ID: <8e6ae988-ae89-9e94-ca05-38a4c2548356@collabora.com>
+Date:   Tue, 18 Oct 2022 18:32:46 +0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
+ Thunderbird/102.3.0
+Cc:     corbet@lwn.net, david@redhat.com, kernel@collabora.com,
+        krisman@collabora.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, peter.enderborg@sony.com,
+        shuah@kernel.org, viro@zeniv.linux.org.uk, willy@infradead.org,
+        emmir@google.com, figiel@google.com, kyurtsever@google.com,
+        Paul Gofman <pgofman@codeweavers.com>, surenb@google.com
+Subject: Re: [PATCH v3 0/4] Implement IOCTL to get and clear soft dirty PTE
 Content-Language: en-US
-To:     Dan Vacura <w36195@motorola.com>, linux-usb@vger.kernel.org
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Jeff Vanhoof <qjv001@motorola.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20221017205446.523796-1-w36195@motorola.com>
- <20221017205446.523796-7-w36195@motorola.com>
-From:   Dan Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH v3 6/6] usb: gadget: uvc: add configfs option for sg
- support
-In-Reply-To: <20221017205446.523796-7-w36195@motorola.com>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+To:     Danylo Mocherniuk <mdanylo@google.com>, avagin@gmail.com,
+        linux-mm@kvack.org, akpm@linux-foundation.org,
+        gregkh@linuxfoundation.org
+References: <Y0T2l3HaH2MU8M9m@gmail.com>
+ <20221014134802.1361436-1-mdanylo@google.com>
+ <474513c0-4ff9-7978-9d77-839fe775d04c@collabora.com>
+In-Reply-To: <474513c0-4ff9-7978-9d77-839fe775d04c@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dan
+On 10/18/22 3:36 PM, Muhammad Usama Anjum wrote:
+>>>>>>> I mean we should be able to specify for what pages we need to get 
+>>>>>>> info
+>>>>>>> for. An ioctl argument can have these four fields:
+>>>>>>> * required bits (rmask & mask == mask) - all bits from this mask 
+>>>>>>> have to be set.
+>>>>>>> * any of these bits (amask & mask != 0) - any of these bits is set.
+>>>>>>> * exclude masks (emask & mask == 0) = none of these bits are set.
+>>>>>>> * return mask - bits that have to be reported to user.
+>>>> The required mask (rmask) makes sense to me. At the moment, I only know
+>>>> about the practical use case for the required mask. Can you share how
+>>>> can any and exclude masks help for the CRIU?
+>>>>
+>>>
+>>> I looked at should_dump_page in the CRIU code:
+>>> https://github.com/checkpoint-restore/criu/blob/45641ab26d7bb78706a6215fdef8f9133abf8d10/criu/mem.c#L102
+>>>
+>>> When CRIU dumps file private mappings, it needs to get pages that have
+>>> PME_PRESENT or PME_SWAP but don't have PME_FILE.
+>>
+>> I would really like to see the mask discussed will be adopted. With it 
+>> CRIU will
+>> be able to migrate huge sparse VMAs assuming that a single hole is 
+>> processed in
+>> O(1) time.
+>>
+>> Use cases for migrating sparse VMAs are binaries sanitized with ASAN, 
+>> MSAN or
+>> TSAN [1]. All of these sanitizers produce sparse mappings of shadow 
+>> memory [2].
+>> Being able to migrate such binaries allows to highly reduce the amount 
+>> of work
+>> needed to identify and fix post-migration crashes, which happen 
+>> constantly.
+>>
+> 
+> Hello all,
+> 
+> I've included the masks which the CRIU developers have specified. 
+> max_out_page is another new optional variable which is needed to 
+> terminate the operation without visiting all the pages after finding the 
+> max_out_page number of desired pages. There is no way to terminate the 
+> operation without this variable.
+> 
+> How does the interface looks now? Please comment.
+> 
+Updated interface with only one IOCTL. If vec is defined, get operation 
+will be performed. If PAGEMAP_SD_CLEAR flag is specified, soft dirty bit 
+will be cleared as well. CLEAR flag can only be specified for clearing 
+soft dirty bit.
 
-On 17/10/2022 21:54, Dan Vacura wrote:
-> The scatter gather support doesn't appear to work well with some UDC hw.
-> Add the ability to turn on the feature depending on the controller in
-> use.
->
-> Signed-off-by: Dan Vacura <w36195@motorola.com>
+/* PAGEMAP IOCTL */
+#define PAGEMAP_SCAN	_IOWR('f', 16, struct pagemap_sd_args)
+
+/* Bits are set in the bitmap of the page_region and masks in 
+pagemap_sd_args */
+#define PAGE_IS_SD	1 << 0
+#define PAGE_IS_FILE	1 << 1
+#define PAGE_IS_PRESENT	1 << 2
+#define PAGE_IS_SWAPED	1 << 3
+
+/**
+  * struct page_region - Page region with bitmap flags
+  * @start:	Start of the region
+  * @len:	Length of the region
+  * bitmap:	Bits sets for the region
+  */
+struct page_region {
+	__u64 start;
+	__u64 len;
+	__u64 bitmap;
+};
+
+/**
+  * struct pagemap_sd_args - Soft-dirty IOCTL argument
+  * @start:		Starting address of the page
+  * @len:		Length of the region (All the pages in this length are included)
+  * @vec:		Output page_region struct array
+  * @vec_len:		Length of the page_region struct array
+  * @max_out_page:	Optional max output pages (It must be less than 
+vec_len if specified)
+  * @flags:		Special flags for the IOCTL
+  * @rmask:		Required mask - All of these bits have to be set
+  * @amask:		Any mask - Any of these bits are set
+  * @emask:		Exclude mask - None of these bits are set
+  * @rmask:		Bits that have to be reported to the user in page_region
+  */
+struct pagemap_scan_args {
+	__u64 __user start;
+	__u64 len;
+	__u64 __user vec;
+	__u64 vec_len;
+	__u32 max_out_page;
+	__u32 flags;
+	__u32 rmask;
+	__u32 amask;
+	__u32 emask;
+	__u32 rmask;
+};
+
+/* Special flags */
+#define PAGEMAP_SD_CLEAR		1 << 0
+#define PAGEMAP_NO_REUSED_REGIONS	1 << 1
 
 
-Nitpick: I would call it use_sg everywhere, but either way:
-
-
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-
-Tested-by: Daniel Scally <dan.scally@ideasonboard.com>
-
-> ---
-> V1 -> V2:
-> - no change, new patch in serie
-> V2 -> V3:
-> - default on, same as baseline
->
->   Documentation/ABI/testing/configfs-usb-gadget-uvc | 1 +
->   Documentation/usb/gadget-testing.rst              | 2 ++
->   drivers/usb/gadget/function/f_uvc.c               | 2 ++
->   drivers/usb/gadget/function/u_uvc.h               | 1 +
->   drivers/usb/gadget/function/uvc_configfs.c        | 2 ++
->   drivers/usb/gadget/function/uvc_queue.c           | 4 ++--
->   6 files changed, 10 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-> index 5dfaa3f7f6a4..839a75fc28ee 100644
-> --- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
-> +++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-> @@ -9,6 +9,7 @@ Description:	UVC function directory
->   		streaming_interval	1..16
->   		function_name		string [32]
->   		req_int_skip_div	unsigned int
-> +		sg_supported		0..1
->   		===================	=============================
->   
->   What:		/config/usb-gadget/gadget/functions/uvc.name/control
-> diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-> index f9b5a09be1f4..8e3072d6a590 100644
-> --- a/Documentation/usb/gadget-testing.rst
-> +++ b/Documentation/usb/gadget-testing.rst
-> @@ -796,6 +796,8 @@ The uvc function provides these attributes in its function directory:
->   	function_name       name of the interface
->   	req_int_skip_div    divisor of total requests to aid in calculating
->   			    interrupt frequency, 0 indicates all interrupt
-> +	sg_supported        allow for scatter gather to be used if the UDC
-> +			    hw supports it
->   	=================== ================================================
->   
->   There are also "control" and "streaming" subdirectories, each of which contain
-> diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-> index e40ca26b9c55..d08ebe3ffeb2 100644
-> --- a/drivers/usb/gadget/function/f_uvc.c
-> +++ b/drivers/usb/gadget/function/f_uvc.c
-> @@ -656,6 +656,7 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
->   			    (opts->streaming_maxburst + 1));
->   
->   	uvc->config_skip_int_div = opts->req_int_skip_div;
-> +	uvc->video.queue.use_sg = opts->sg_supported;
->   
->   	/* Allocate endpoints. */
->   	ep = usb_ep_autoconfig(cdev->gadget, &uvc_control_ep);
-> @@ -875,6 +876,7 @@ static struct usb_function_instance *uvc_alloc_inst(void)
->   	opts->streaming_interval = 1;
->   	opts->streaming_maxpacket = 1024;
->   	opts->req_int_skip_div = 4;
-> +	opts->sg_supported = 1;
->   	snprintf(opts->function_name, sizeof(opts->function_name), "UVC Camera");
->   
->   	ret = uvcg_attach_configfs(opts);
-> diff --git a/drivers/usb/gadget/function/u_uvc.h b/drivers/usb/gadget/function/u_uvc.h
-> index 6f73bd5638ed..5ccced629925 100644
-> --- a/drivers/usb/gadget/function/u_uvc.h
-> +++ b/drivers/usb/gadget/function/u_uvc.h
-> @@ -25,6 +25,7 @@ struct f_uvc_opts {
->   	unsigned int					streaming_maxpacket;
->   	unsigned int					streaming_maxburst;
->   	unsigned int					req_int_skip_div;
-> +	unsigned int					sg_supported;
->   
->   	unsigned int					control_interface;
->   	unsigned int					streaming_interface;
-> diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-> index 419e926ab57e..3784c0e02d01 100644
-> --- a/drivers/usb/gadget/function/uvc_configfs.c
-> +++ b/drivers/usb/gadget/function/uvc_configfs.c
-> @@ -2351,6 +2351,7 @@ UVCG_OPTS_ATTR(streaming_interval, streaming_interval, 16);
->   UVCG_OPTS_ATTR(streaming_maxpacket, streaming_maxpacket, 3072);
->   UVCG_OPTS_ATTR(streaming_maxburst, streaming_maxburst, 15);
->   UVCG_OPTS_ATTR(req_int_skip_div, req_int_skip_div, UINT_MAX);
-> +UVCG_OPTS_ATTR(sg_supported, sg_supported, 1);
->   
->   #undef UVCG_OPTS_ATTR
->   
-> @@ -2401,6 +2402,7 @@ static struct configfs_attribute *uvc_attrs[] = {
->   	&f_uvc_opts_attr_streaming_maxpacket,
->   	&f_uvc_opts_attr_streaming_maxburst,
->   	&f_uvc_opts_attr_req_int_skip_div,
-> +	&f_uvc_opts_attr_sg_supported,
->   	&f_uvc_opts_string_attr_function_name,
->   	NULL,
->   };
-> diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-> index 02559906a55a..3c7aa5c4bba2 100644
-> --- a/drivers/usb/gadget/function/uvc_queue.c
-> +++ b/drivers/usb/gadget/function/uvc_queue.c
-> @@ -149,11 +149,11 @@ int uvcg_queue_init(struct uvc_video_queue *queue, struct device *dev, enum v4l2
->   	queue->queue.buf_struct_size = sizeof(struct uvc_buffer);
->   	queue->queue.ops = &uvc_queue_qops;
->   	queue->queue.lock = lock;
-> -	if (cdev->gadget->sg_supported) {
-> +	if (queue->use_sg && cdev->gadget->sg_supported) {
->   		queue->queue.mem_ops = &vb2_dma_sg_memops;
-> -		queue->use_sg = 1;
->   	} else {
->   		queue->queue.mem_ops = &vb2_vmalloc_memops;
-> +		queue->use_sg = false;
->   	}
->   
->   	queue->queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY
+> /* PAGEMAP IOCTL */
+> #define PAGEMAP_GET        _IOWR('f', 16, struct pagemap_sd_args)
+> #define PAGEMAP_CLEAR        _IOWR('f', 17, struct pagemap_sd_args)
+> #define PAGEMAP_GET_AND_CLEAR    _IOWR('f', 18, struct pagemap_sd_args)
+> 
+> /* Bits are set in the bitmap of the page_region and masks in 
+> pagemap_sd_args */
+> #define PAGE_IS_SD    1 << 0
+> #define PAGE_IS_FILE    1 << 1
+> #define PAGE_IS_PRESENT    1 << 2
+> #define PAGE_IS_SWAPED    1 << 3
+> 
+> /**
+>   * struct page_region - Page region with bitmap flags
+>   * @start:    Start of the region
+>   * @len:    Length of the region
+>   * bitmap:    Bits sets for the region
+>   */
+> struct page_region {
+>      __u64 start;
+>      __u64 len;
+>      __u64 bitmap;
+> };
+> 
+> /**
+>   * struct pagemap_sd_args - Soft-dirty IOCTL argument
+>   * @start:        Starting address
+>   * @len:        Length of the region
+>   * @vec:        Output page_region struct array
+>   * @vec_len:        Length of the page_region struct array
+>   * @max_out_page:    Optional max output pages (It must be less than 
+> vec_len if specified)
+>   * @flags:        Special flags for the IOCTL
+>   * @rmask:        Special flags for the IOCTL
+>   * @amask:        Special flags for the IOCTL
+>   * @emask:        Special flags for the IOCTL
+>   * @__reserved:        Reserved member to preserve data alignment. Must 
+> be 0.
+>   */
+> struct pagemap_sd_args {
+>      __u64 __user start;
+>      __u64 len;
+>      __u64 __user vec; // page_region
+>      __u64 vec_len;    // sizeof(page_region)
+>      __u32 flags;      // special flags
+>      __u32 rmask;
+>      __u32 amask;
+>      __u32 emask;
+>      __u32 max_out_page;
+>      __u32 __reserved;
+> };
+> 
+> /* Special flags */
+> #define PAGEMAP_NO_REUSED_REGIONS    0x1
+> 
+> 
+>>>
+>>>>>>>> - Clear the pages which are soft-dirty.
+>>>>>>>> - The optional flag to ignore the VM_SOFTDIRTY and only track 
+>>>>>>>> per page
+>>>>>>>> soft-dirty PTE bit
+>>>>>>>>
+>>>>>>>> There are two decisions which have been taken about how to get 
+>>>>>>>> the output
+>>>>>>>> from the syscall.
+>>>>>>>> - Return offsets of the pages from the start in the vec
+>>>>>>>
+>>>>>>> We can conside to return regions that contains pages with the 
+>>>>>>> same set
+>>>>>>> of bits.
+>>>>>>>
+>>>>>>> struct page_region {
+>>>>>>>        void *start;
+>>>>>>>        long size;
+>>>>>>>        u64 bitmap;
+>>>>>>> }
+>>>>>>>
+>>>>>>> And ioctl returns arrays of page_region-s. I believe it will be more
+>>>>>>> compact form for many cases.
+>>>>>> Thank you for mentioning this. I'd considered this while development.
+>>>>>> But I gave up and used the simple array to return the offsets of the
+>>>>>> pages as in the problem I'm trying to solve, the dirty pages may be
+>>>>>> present amid non-dirty pages. The range may not be useful in that 
+>>>>>> case.
+>>>>>
+>>>>> This is a good example. If we expect more than two consequent pages
+>>>>> on average, the "region" interface looks more prefered. I don't 
+>>>>> know your
+>>>>> use-case, but in the case of CRIU, this assumption looks reasonable.
+>>
+>> Plus one for page_region data structure. It will make ASAN shadow memory
+>> representation much more compact as well as any other classical use-case.
+>>
+>> [1] https://github.com/google/sanitizers
+>> [2] 
+>> https://github.com/google/sanitizers/wiki/AddressSanitizerAlgorithm#64-bit
+>>
+>> Best,
+>> Danylo
+>>
