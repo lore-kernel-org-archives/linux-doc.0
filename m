@@ -2,138 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21E0BC433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 07:20:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77890C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 07:40:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230117AbiJRHUc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 03:20:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35358 "EHLO
+        id S229983AbiJRHkW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 03:40:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230137AbiJRHUa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 03:20:30 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E3D13DF14;
-        Tue, 18 Oct 2022 00:20:29 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id q10-20020a17090a304a00b0020b1d5f6975so13235418pjl.0;
-        Tue, 18 Oct 2022 00:20:29 -0700 (PDT)
+        with ESMTP id S230299AbiJRHkR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 03:40:17 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAB1530F58;
+        Tue, 18 Oct 2022 00:40:15 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id f23so13048978plr.6;
+        Tue, 18 Oct 2022 00:40:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=TlUHZSLgyN+Iy2ZHw1iVdzVnrjwNDaODH3GC5m/bHuI=;
-        b=nVrDI3EyMXgMjYivuX8vqyo8cClBAL9BzAKbG9MC7nCPk3K8W/aD/305j/gU8MoM5k
-         6o0KNlqwLB0WS+q0GAwHIYT8kOVOiNK9ydLit6nhzzHh66UwXAH9Ul4NOOAASvr6ySFK
-         YxRvotPrddkdl5lxBP6kNack4WDURB0q2OEvqW+zmEMI7wnypccxUUWvdXjZcNi8FRLQ
-         7pzRGL+aqtbtahk7q8kW5GDwYd5jUUl4u4O1+8CDE4hSJT/opXXCyLlZTWziYm63Y3yT
-         pu/Ttg8cRnlAl7tNi/hFICLvo2+cxAt5BDOVjcaF2PUPKGGky02mR1W5+nH/PTpet41W
-         Lg6Q==
+        bh=HOfQD7WV26JdvCO9u7YC2zo8JQP2uvgx0evc5JAvmCQ=;
+        b=KG/nFedhXqMIGHRyrdtJN9vNJh91Pzsy7nl/Y7WeRghoTILU4tAEjKBgWcEYzeUgMc
+         TQQcW91xU5mSOJHYOB2C3Na5bm5qCCU0Hi+l2DxKn3Na5SGZr7PImfSthBLVe/2V1x/K
+         FKAXKuGVjoNVdyJaavdBSnxTPB400yl7ASpE3w9GCgrhGLSCblGCDrgz/MyjQjOJJPwK
+         j49QIkiDzyJRs+tFEZca1b5Y7Ka7bXPgvK/5XAILOrdc7GaJDeN/P/SntGrjHRwfXCCm
+         nHwlthXJs2t66j/LUZOqk6vgasK3w9v0MoNDtLI0W02l/JaIhOkRqA9+zmNGKVZ+dNcd
+         LJqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TlUHZSLgyN+Iy2ZHw1iVdzVnrjwNDaODH3GC5m/bHuI=;
-        b=XbSDcf76bBeQDnyecER1woJoB7XL3mplNILD4kHD1ubaitRq04XJpC3aKgWQOJU7rT
-         MWNPSkcfjKIxAqG6xPR9K4bIf2+nbldJq4jRHl3e9tMrgpO08GE2V/bx28Ci3+PgpKC4
-         niphX4SGeC+n6e53+/M+6WoeBdlZTKME/BJ/cb70EVr62XrgyCkJOJv6tnVKEsXpYGKM
-         Q7jgBpbzRIUlBdSOEJUX/d8MUqV02pjqXxiuHn0xdHuSq57HSeAIZtpyLx6Y3JncwLHZ
-         1pu0qzdlzchuiwIRa5HT+O0hpWTSP3kySxHc7YkvASelPaEIfx5rxZ58qI/Eiy+jZk5N
-         ylEw==
-X-Gm-Message-State: ACrzQf3Ftka6nh4AOulTvbCiJ2Bayi9EpJ8456j2DIL1SQ7HHRRkQAhH
-        1M8FLdLOLsXTSU3U7ES2Ki0=
-X-Google-Smtp-Source: AMsMyM4gLlyL+JlYeqJ/Nt61Zrspm7QxgQgNVoXaH5OieEUmOXK+54+b9VK5iwCxH1FfixNqR6eQzw==
-X-Received: by 2002:a17:90b:1c11:b0:20d:459b:ef0e with SMTP id oc17-20020a17090b1c1100b0020d459bef0emr37731813pjb.129.1666077628758;
-        Tue, 18 Oct 2022 00:20:28 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-93.three.co.id. [180.214.233.93])
-        by smtp.gmail.com with ESMTPSA id w186-20020a6262c3000000b00561d79f1064sm8413056pfb.57.2022.10.18.00.20.22
+        bh=HOfQD7WV26JdvCO9u7YC2zo8JQP2uvgx0evc5JAvmCQ=;
+        b=uduaPBLo3p53QTCMy0AV8LvdXT9zVccpiCiZf8SNj2sI3CNZPf6iqkraSp5ELjCX84
+         WHh7JFJfdPe5iZzVxGLi/OjSPA2tgqFKNqTTjueZubLCviUwpV1CuWO5Selbz9ASldi5
+         Q+K1DM4vCxevlWX3FXVZL3r+FDKY0gLfT4gp8oeY3IcS7A2/iKm1GgPJdMSDKOB7mHJ/
+         Db1O4uPIl01sEsOZgbIPBRVTxXnrTu51CrLBXTsxrb/tl1vSv3jr4O4s9P8p6Xbs928c
+         fI+B0vHke6J974xBNvb0L/4ZxefZ0ddQKFbqDfMU6i0TaL9wcHGo6aB3WRebt/HtAiW6
+         jimQ==
+X-Gm-Message-State: ACrzQf1RFrDzzhpLC80/KWminJPLgWkfiKElMe5pFACdm/qOQsVpBlgC
+        k8mtkUbr++n7kZ++Jxy85H4=
+X-Google-Smtp-Source: AMsMyM5NGsernZyNo6NTm8WlTjWTBAkj4adEi/xXU4fL9BoeS8K4GNEYUKDDzDXzfD29ktWYEtK/fA==
+X-Received: by 2002:a17:90a:f192:b0:20d:2ea6:4b18 with SMTP id bv18-20020a17090af19200b0020d2ea64b18mr2158151pjb.27.1666078812674;
+        Tue, 18 Oct 2022 00:40:12 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id r16-20020a63e510000000b004308422060csm7304780pgh.69.2022.10.18.00.40.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Oct 2022 00:20:28 -0700 (PDT)
-Message-ID: <087eb324-a38e-331e-c8fd-033818895ccc@gmail.com>
-Date:   Tue, 18 Oct 2022 14:20:20 +0700
+        Tue, 18 Oct 2022 00:40:11 -0700 (PDT)
+Message-ID: <a91e8216-7767-9126-e1d2-c67846cf32fc@gmail.com>
+Date:   Tue, 18 Oct 2022 16:40:06 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH V2 2/2] Documentation: kdump: describe VMCOREINFO export
- for RISCV64
-To:     Xianting Tian <xianting.tian@linux.alibaba.com>
-Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
-        guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
-        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com
-References: <20221014134139.5151-1-xianting.tian@linux.alibaba.com>
- <20221014134139.5151-3-xianting.tian@linux.alibaba.com>
- <Y04bOv49sRsauLb6@debian.me>
- <188e331c-d399-e86d-e894-a2a116deb753@linux.alibaba.com>
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v4] locking/memory-barriers.txt: Improve documentation for
+ writel() example
+To:     Arnd Bergmann <arnd@arndb.de>, Parav Pandit <parav@nvidia.com>
+Cc:     bagasdotme@gmail.com, Alan Stern <stern@rowland.harvard.edu>,
+        parri.andrea@gmail.com, Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, boqun.feng@gmail.com,
+        Nicholas Piggin <npiggin@gmail.com>, dhowells@redhat.com,
+        j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
+        "Paul E. McKenney" <paulmck@kernel.org>, dlustig@nvidia.com,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <20221010101331.29942-1-parav@nvidia.com>
+ <d5faaf6f-7de5-49b0-92d6-9989ffbdbf2e@app.fastmail.com>
+ <59d99be6-f79e-45bd-203c-17972255cc39@gmail.com>
+ <12f51033-1461-43f9-8d8d-cd726fbb4758@app.fastmail.com>
 Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <188e331c-d399-e86d-e894-a2a116deb753@linux.alibaba.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <12f51033-1461-43f9-8d8d-cd726fbb4758@app.fastmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/18/22 13:06, Xianting Tian wrote:
+On Tue, 18 Oct 2022 08:44:09 +0200, Arnd Bergmann wrote:
+> On Tue, Oct 18, 2022, at 3:37 AM, Akira Yokosawa wrote:
+>> On 2022/10/18 5:55, Arnd Bergmann wrote:
+>>> On Mon, Oct 10, 2022, at 12:13 PM, Parav Pandit wrote:
+>>
+>> "a barrier" can mean "any barrier", which can include a full barrier
+>> in theory.
+>>
+>> So I'd rather make the substituted text read something like:
+>>
+>>   Note that, when using writel(), a prior wmb() or weaker is not
+>>   needed to guarantee that the cache coherent memory writes have
+>>   completed before writing to the MMIO region.
+>>
+>> In my opinion, "or weaker" is redundant for careful readers who are
+>> well aware of context of this example, but won't do no harm.
 > 
-> 在 2022/10/18 上午11:19, Bagas Sanjaya 写道:
->> On Fri, Oct 14, 2022 at 09:41:39PM +0800, Xianting Tian wrote:
->>> The following interrelated definitions and ranges are needed by the kdump
->>> crash tool, they are exported by "arch/riscv/kernel/crash_core.c":
->> Better say "..., which are exported by ..."
->>
->>> diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
->>> index 6726f439958c..8e2e164cf3db 100644
->>> --- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
->>> +++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
->>> @@ -595,3 +595,33 @@ X2TLB
->>>   -----
->>>     Indicates whether the crashed kernel enabled SH extended mode.
->>> +
->>> +RISCV64
->>> +=======
->>> +
->>> +VA_BITS
->>> +-------
->>> +
->>> +The maximum number of bits for virtual addresses. Used to compute the
->>> +virtual memory ranges.
->>> +
->>> +PAGE_OFFSET
->>> +-----------
->>> +
->>> +Indicates the virtual kernel start address of direct-mapped RAM region.
->>> +
->>> +phys_ram_base
->>> +-------------
->>> +
->>> +Indicates the start physical RAM address.
->>> +
->>> +MODULES_VADDR|MODULES_END|VMALLOC_START|VMALLOC_END|VMEMMAP_START|VMEMMAP_END|KASAN_SHADOW_START|KASAN_SHADOW_END|KERNEL_LINK_ADDR|ADDRESS_SPACE_END
->>> +----------------------------------------------------------------------------------------------------------------------------------------------------
->>> +
->>> +Used to get the correct ranges:
->>> +
->>> +  * MODULES_VADDR ~ MODULES_END : Kernel module space.
->>> +  * VMALLOC_START ~ VMALLOC_END : vmalloc() / ioremap() space.
->>> +  * VMEMMAP_START ~ VMEMMAP_END : vmemmap region, used for struct page array.
->>> +  * KASAN_SHADOW_START ~ KASAN_SHADOW_END : kasan shadow space.
->>> +  * KERNEL_LINK_ADDR ~ ADDRESS_SPACE_END : Kernel link and BPF space.
->> The documentation LGTM, thanks.
->>
->> When the patch subject is fixed,
-> Could you tell me what patch subject should be changed to ? thanks
+> I think that would be more confusing than either of the other variants.
+> 
+> Anything weaker than a full "wmb()" probably makes the driver calling
+> the writel() non-portable, so that is both vague and incorrect.
 
-I mean the description, not subject (as in email). That is, fix the description
-(see above). The subject shouldn't be changed. Sorry for inconvenience.
+Do you mean there is a writel() implementation somewhere in the kernel
+which doesn't guarantee an implicit wmb() before MMIO write?
 
-Thanks.
+Or do you mean my version is confusing because it can imply a weaker
+write barrier is sufficient before writel_relaxed()?
 
--- 
-An old man doll... just what I always wanted! - Clara
+I'm confused...
 
+        Thanks, Akira
+
+> 
+> The current version works because it specifically mentions the correct
+> barrier to use, while Parav's version works because it doesn't
+> make any attempt to name the specific barrier and just states that
+> adding one is a bad idea regardless.
+> 
+>       Arnd
