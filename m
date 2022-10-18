@@ -2,193 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BBF1C43219
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 00:11:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF05AC4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 00:35:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231425AbiJRAL1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 20:11:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36734 "EHLO
+        id S231475AbiJRAfq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 20:35:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230417AbiJRAKe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 20:10:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67D14870B9;
-        Mon, 17 Oct 2022 17:08:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E1B8E612FD;
-        Tue, 18 Oct 2022 00:08:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996F9C433D7;
-        Tue, 18 Oct 2022 00:08:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666051727;
-        bh=8F8gsq3wEiSLz7ZdSR0nDtrQ/AqYVXz1uWIv+7VrN44=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IG1l6ZdYITWzoU/W45fJGOSSiqMkyXyrHt3BG6dWBdNcWlNIlryyvodh8oYjc9+Sd
-         q+/+eSP7su3AvKcXds6yHB2gr1+vbWubRqd6xzuWydQf/PswLNvoYiEE5seoApbJjp
-         jIr9gm/JFaWnPJ/wAF+G4EB5OG3LLJ+dty+RyHkp7AQVU865J0DiK5VSU1OA1CZPmx
-         u+suhPjospsvbFeQL1OCnlqrAV+BHI5gi6qKRaJHL0cDAX1pa6mDyRYcb8Wtx5llfh
-         9kTinbF5EbyfHoiAJGJUiUjyXxueFP64eL7FyYiBKe9wH7rSERRU1AUSEcu9DOb8ol
-         SrvAmsKvhDxpg==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jacky Li <jackyli@google.com>, Peter Gonda <pgonda@google.com>,
-        Alper Gun <alpergun@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Sasha Levin <sashal@kernel.org>, pbonzini@redhat.com,
-        corbet@lwn.net, brijesh.singh@amd.com, john.allen@amd.com,
-        davem@davemloft.net, like.xu.linux@gmail.com, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 03/29] crypto: ccp - Initialize PSP when reading psp data file failed
-Date:   Mon, 17 Oct 2022 20:08:12 -0400
-Message-Id: <20221018000839.2730954-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221018000839.2730954-1-sashal@kernel.org>
-References: <20221018000839.2730954-1-sashal@kernel.org>
+        with ESMTP id S231476AbiJRAfU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 20:35:20 -0400
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 586D51FE
+        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 17:35:15 -0700 (PDT)
+Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-1326637be6eso15137386fac.13
+        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 17:35:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DZFNHgeagPRGpN511S5OVmTVLDSRxzqHSZND+ilItHI=;
+        b=rX/14hxyK+jbBsNmsi6OICKyz6vY8MdAjLpdpmL8Eoa7S9QfTsmtZ2g16772VPAdQ3
+         fyx8viqBFbhwe4fsuILQVTdMHesYZMcl1oUOCmX8b3E05NNXj84+XzmbL1LsDXmL5F1j
+         LMV1n2XU1a76XmxIXhbX/jQLk94Nf9oyipbD0iN/8f2ZIv+JsTvOocrVsgP0HsxvQWOB
+         FV59MeLky59LcmcQNFmf5mPPHgZyPDz4SSGEWvXafNz+jO3Il6nH3aWk0dudbCEewkRL
+         w2EkcpSee8Zn3VXKnm1otN85uvjvLHE28I2YLKCADeFtBWdkawzMyHE1W2n1XGklWzw2
+         7bHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DZFNHgeagPRGpN511S5OVmTVLDSRxzqHSZND+ilItHI=;
+        b=wS32C7tWypaZpL0kwSzcCHv3P50ulOjDKxF55iDJfxiLaue8VuhJ7NwD3NYYiA1FBv
+         CjWO+yn5fxWHWQtYnRHx8JWW2hKv2ZOPZQo7fVNWtVtbbY/NxAr7yJmvK2GT6l2YNCsH
+         d5bezKYc6/mK1jbrHDzoLjc+ny56tENrns1645oQXhiT/pezZBrfzmqvjV3mLsbh5R5C
+         ooz8ObpBhiK3c63uYME69T2dkS4VSd5PE11AzjP6qf0wj5HVpAKqPzPegj+lFZte2LEu
+         4Gp52nT5PxiEKlULQWFgD6kS0IUfm+Kb8gu4LnR9V1l4ROR/BhJSO0fqyK5IJKPJgkto
+         BeiQ==
+X-Gm-Message-State: ACrzQf2fJZRG+lbAmKYgro2McPyJqrCtMM/yzmJEfbsvwy3wOE5ZjH5D
+        GO23+1HSQ7sIGjVk5oOFxdAYFTuWkLOJQw==
+X-Google-Smtp-Source: AMsMyM6GsW9qHuPFp8+B+qhuY2BytXR7EdsQrQz18ZdcSSusgW2PC6Ay30Uig0XRAo3WSxCvao9eLQ==
+X-Received: by 2002:a17:90a:4594:b0:20b:23d5:8ead with SMTP id v20-20020a17090a459400b0020b23d58eadmr35608180pjg.127.1666053232202;
+        Mon, 17 Oct 2022 17:33:52 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id q59-20020a17090a1b4100b001efa9e83927sm9986738pjq.51.2022.10.17.17.33.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Oct 2022 17:33:51 -0700 (PDT)
+Date:   Tue, 18 Oct 2022 00:33:48 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Fuad Tabba <tabba@google.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
+        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Message-ID: <Y030bGhh0mvGS6E1@google.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
+ <Yyi+l3+p9lbBAC4M@google.com>
+ <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
+ <20220926142330.GC2658254@chaop.bj.intel.com>
+ <CA+EHjTz5yGhsxUug+wqa9hrBO60Be0dzWeWzX00YtNxin2eYHg@mail.gmail.com>
+ <YzN9gYn1uwHopthW@google.com>
+ <CA+EHjTw3din891hMUeRW-cn46ktyMWSdoB31pL+zWpXo_=3UVg@mail.gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+EHjTw3din891hMUeRW-cn46ktyMWSdoB31pL+zWpXo_=3UVg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jacky Li <jackyli@google.com>
+On Fri, Sep 30, 2022, Fuad Tabba wrote:
+> > > > > pKVM would also need a way to make an fd accessible again
+> > > > > when shared back, which I think isn't possible with this patch.
+> > > >
+> > > > But does pKVM really want to mmap/munmap a new region at the page-level,
+> > > > that can cause VMA fragmentation if the conversion is frequent as I see.
+> > > > Even with a KVM ioctl for mapping as mentioned below, I think there will
+> > > > be the same issue.
+> > >
+> > > pKVM doesn't really need to unmap the memory. What is really important
+> > > is that the memory is not GUP'able.
+> >
+> > Well, not entirely unguppable, just unguppable without a magic FOLL_* flag,
+> > otherwise KVM wouldn't be able to get the PFN to map into guest memory.
+> >
+> > The problem is that gup() and "mapped" are tied together.  So yes, pKVM doesn't
+> > strictly need to unmap memory _in the untrusted host_, but since mapped==guppable,
+> > the end result is the same.
+> >
+> > Emphasis above because pKVM still needs unmap the memory _somehwere_.  IIUC, the
+> > current approach is to do that only in the stage-2 page tables, i.e. only in the
+> > context of the hypervisor.  Which is also the source of the gup() problems; the
+> > untrusted kernel is blissfully unaware that the memory is inaccessible.
+> >
+> > Any approach that moves some of that information into the untrusted kernel so that
+> > the kernel can protect itself will incur fragmentation in the VMAs.  Well, unless
+> > all of guest memory becomes unguppable, but that's likely not a viable option.
+> 
+> Actually, for pKVM, there is no need for the guest memory to be GUP'able at
+> all if we use the new inaccessible_get_pfn().
 
-[ Upstream commit d8da2da21fdb1f5964c11c00f0cc84fb0edf31d0 ]
+Ya, I was referring to pKVM without UPM / inaccessible memory.
 
-Currently the OS fails the PSP initialization when the file specified at
-'init_ex_path' does not exist or has invalid content. However the SEV
-spec just requires users to allocate 32KB of 0xFF in the file, which can
-be taken care of by the OS easily.
+Jumping back to blocking gup(), what about using the same tricks as secretmem to
+block gup()?  E.g. compare vm_ops to block regular gup() and a_ops to block fast
+gup() on struct page?  With a Kconfig that's selected by pKVM (which would also
+need its own Kconfig), e.g. CONFIG_INACCESSIBLE_MAPPABLE_MEM, there would be zero
+performance overhead for non-pKVM kernels, i.e. hooking gup() shouldn't be
+controversial.
 
-To improve the robustness during the PSP init, leverage the retry
-mechanism and continue the init process:
+I suspect the fast gup() path could even be optimized to avoid the page_mapping()
+lookup by adding a PG_inaccessible flag that's defined iff the TBD Kconfig is
+selected.  I'm guessing pKVM isn't expected to be deployed on massivve NUMA systems
+anytime soon, so there should be plenty of page flags to go around.
 
-Before the first INIT_EX call, if the content is invalid or missing,
-continue the process by feeding those contents into PSP instead of
-aborting. PSP will then override it with 32KB 0xFF and return
-SEV_RET_SECURE_DATA_INVALID status code. In the second INIT_EX call,
-this 32KB 0xFF content will then be fed and PSP will write the valid
-data to the file.
+Blocking gup() instead of trying to play refcount games when converting back to
+private would eliminate the need to put heavy restrictions on mapping, as the goal
+of those were purely to simplify the KVM implementation, e.g. the "one mapping per
+memslot" thing would go away entirely.
 
-In order to do this, sev_read_init_ex_file should only be called once
-for the first INIT_EX call. Calling it again for the second INIT_EX call
-will cause the invalid file content overwriting the valid 32KB 0xFF data
-provided by PSP in the first INIT_EX call.
+> This of course goes back to what I'd mentioned before in v7; it seems that
+> representing the memslot memory as a file descriptor should be orthogonal to
+> whether the memory is shared or private, rather than a private_fd for private
+> memory and the userspace_addr for shared memory.
 
-Co-developed-by: Peter Gonda <pgonda@google.com>
-Signed-off-by: Peter Gonda <pgonda@google.com>
-Signed-off-by: Jacky Li <jackyli@google.com>
-Reported-by: Alper Gun <alpergun@google.com>
-Acked-by: David Rientjes <rientjes@google.com>
-Acked-by: Tom Lendacky <thomas.lendacky@amd.com>
-Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../virt/kvm/x86/amd-memory-encryption.rst    |  5 ++-
- drivers/crypto/ccp/sev-dev.c                  | 36 +++++++++++--------
- 2 files changed, 24 insertions(+), 17 deletions(-)
+I also explored the idea of backing any guest memory with an fd, but came to
+the conclusion that private memory needs a separate handle[1], at least on x86.
 
-diff --git a/Documentation/virt/kvm/x86/amd-memory-encryption.rst b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-index 2d307811978c..935aaeb97fe6 100644
---- a/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-+++ b/Documentation/virt/kvm/x86/amd-memory-encryption.rst
-@@ -89,9 +89,8 @@ context. In a typical workflow, this command should be the first command issued.
- 
- The firmware can be initialized either by using its own non-volatile storage or
- the OS can manage the NV storage for the firmware using the module parameter
--``init_ex_path``. The file specified by ``init_ex_path`` must exist. To create
--a new NV storage file allocate the file with 32KB bytes of 0xFF as required by
--the SEV spec.
-+``init_ex_path``. If the file specified by ``init_ex_path`` does not exist or
-+is invalid, the OS will create or override the file with output from PSP.
- 
- Returns: 0 on success, -negative on error
- 
-diff --git a/drivers/crypto/ccp/sev-dev.c b/drivers/crypto/ccp/sev-dev.c
-index b292641c8a99..8512101f0bdf 100644
---- a/drivers/crypto/ccp/sev-dev.c
-+++ b/drivers/crypto/ccp/sev-dev.c
-@@ -211,18 +211,24 @@ static int sev_read_init_ex_file(void)
- 	if (IS_ERR(fp)) {
- 		int ret = PTR_ERR(fp);
- 
--		dev_err(sev->dev,
--			"SEV: could not open %s for read, error %d\n",
--			init_ex_path, ret);
-+		if (ret == -ENOENT) {
-+			dev_info(sev->dev,
-+				"SEV: %s does not exist and will be created later.\n",
-+				init_ex_path);
-+			ret = 0;
-+		} else {
-+			dev_err(sev->dev,
-+				"SEV: could not open %s for read, error %d\n",
-+				init_ex_path, ret);
-+		}
- 		return ret;
- 	}
- 
- 	nread = kernel_read(fp, sev_init_ex_buffer, NV_LENGTH, NULL);
- 	if (nread != NV_LENGTH) {
--		dev_err(sev->dev,
--			"SEV: failed to read %u bytes to non volatile memory area, ret %ld\n",
-+		dev_info(sev->dev,
-+			"SEV: could not read %u bytes to non volatile memory area, ret %ld\n",
- 			NV_LENGTH, nread);
--		return -EIO;
- 	}
- 
- 	dev_dbg(sev->dev, "SEV: read %ld bytes from NV file\n", nread);
-@@ -410,17 +416,12 @@ static int __sev_init_locked(int *error)
- static int __sev_init_ex_locked(int *error)
- {
- 	struct sev_data_init_ex data;
--	int ret;
- 
- 	memset(&data, 0, sizeof(data));
- 	data.length = sizeof(data);
- 	data.nv_address = __psp_pa(sev_init_ex_buffer);
- 	data.nv_len = NV_LENGTH;
- 
--	ret = sev_read_init_ex_file();
--	if (ret)
--		return ret;
--
- 	if (sev_es_tmr) {
- 		/*
- 		 * Do not include the encryption mask on the physical
-@@ -439,7 +440,7 @@ static int __sev_platform_init_locked(int *error)
- {
- 	struct psp_device *psp = psp_master;
- 	struct sev_device *sev;
--	int rc, psp_ret = -1;
-+	int rc = 0, psp_ret = -1;
- 	int (*init_function)(int *error);
- 
- 	if (!psp || !psp->sev_data)
-@@ -450,8 +451,15 @@ static int __sev_platform_init_locked(int *error)
- 	if (sev->state == SEV_STATE_INIT)
- 		return 0;
- 
--	init_function = sev_init_ex_buffer ? __sev_init_ex_locked :
--			__sev_init_locked;
-+	if (sev_init_ex_buffer) {
-+		init_function = __sev_init_ex_locked;
-+		rc = sev_read_init_ex_file();
-+		if (rc)
-+			return rc;
-+	} else {
-+		init_function = __sev_init_locked;
-+	}
-+
- 	rc = init_function(&psp_ret);
- 	if (rc && psp_ret == SEV_RET_SECURE_DATA_INVALID) {
- 		/*
--- 
-2.35.1
+For SNP and TDX, even though the GPA is the same (ignoring the fact that SNP and
+TDX steal GPA bits to differentiate private vs. shared), the two types need to be
+treated as separate mappings[2].  Post-boot, converting is lossy in both directions,
+so even conceptually they are two disctint pages that just happen to share (some)
+GPA bits.
 
+To allow conversions, i.e. changing which mapping to use, without memslot updates,
+KVM needs to let userspace provide both mappings in a single memslot.  So while
+fd-based memory is an orthogonal concept, e.g. we could add fd-based shared memory,
+KVM would still need a dedicated private handle.
+
+For pKVM, the fd doesn't strictly need to be mutually exclusive with the existing
+userspace_addr, but since the private_fd is going to be added for x86, I think it
+makes sense to use that instead of adding generic fd-based memory for pKVM's use
+case (which is arguably still "private" memory but with special semantics).
+
+[1] https://lore.kernel.org/all/YulTH7bL4MwT5v5K@google.com
+[2] https://lore.kernel.org/all/869622df-5bf6-0fbb-cac4-34c6ae7df119@kernel.org
+
+>  The host can then map or unmap the shared/private memory using the fd, which
+>  allows it more freedom in even choosing to unmap shared memory when not
+>  needed, for example.
