@@ -2,90 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00BB2C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 12:12:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C5C8C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 12:30:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbiJRMMm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 08:12:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42520 "EHLO
+        id S230189AbiJRMai (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 08:30:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229934AbiJRMMk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 08:12:40 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EBDC48A15
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 05:12:39 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id n18-20020a17090ade9200b0020b0012097cso1574204pjv.0
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 05:12:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mjiYBWHAsq5BSDUVPoLM00mOuS8zKk9l4sbhEAwUt/s=;
-        b=KDo/UelbHK2Lq3B03+qlsYL3E/uP3B71Vws5tjN8etK7bErlH8XeDOs5zjwAGFpxsp
-         bYgtskekf3N1VvG1er141LbEZx2WMVTCzfPAqRmjltHe/uiRK3JbHsroBif0/VNf14Ze
-         aRxWj0hL35j9duPy69YkHXbYa/LTAb9Q83fpryYXrhnmMtgbypkeTADtV8ON9lS6JDOS
-         b5FU5C9ryOyahKqE4pwoIKAHIifV6qSynkBTXe6SfT7s6Ye1xxRvBU//AVm+4dGsc58U
-         7HBlimP6InVqXVD1yQVrLFk5XSjhUzZKPC7KVUkivRpQ+2xkRDTBQWzMQdIEthZ9t1zs
-         rfrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mjiYBWHAsq5BSDUVPoLM00mOuS8zKk9l4sbhEAwUt/s=;
-        b=1+rhfgRL+OrS5x4DTcMQtb889LvVpyUotxSV86tFdCovVnTAgguWQ6sd1UbP6gZIo4
-         GGQx0FVvNGDUodrcTuULj+BbYMX7OMhJ48UeooeIH8vP01G96thaSFl7H8vc0u+ZI3Ek
-         yL765zcu8AhKP3IsM3gF8EnXKSRz8iWdlWX7gfkBm5bUM8xHixsEbxRiHU26KQ5B+Z6n
-         exDkvPaGaC5mv+o6ccT6MdnUgstbXtwSwKIWPNZW6l1PcPJ2AxulAOhdnCI95pKA6wHD
-         H+9QkzWL7tAEE0gLNIXYr4rY7nmDL2sORASWcvOt7rK85AR78Ld0+BFAhK1hJP1xU1ZL
-         SAEA==
-X-Gm-Message-State: ACrzQf2oP7+/5YwyFaWJY3xOyOlIXOZ1YExfC+07cn5WoGjpgoS1Lm/u
-        lV/NwLaYch+uiLwEjWzi0H5DRbuQa2V0G9kz
-X-Google-Smtp-Source: AMsMyM4xhlW1FInjHG7+slvf4Tq0ZfnKswtvVR3OyCmT0DQ4kBYHxlUxg53izEyT2IjoFZqGdCN9sA==
-X-Received: by 2002:a17:90b:1c87:b0:20a:e485:4e21 with SMTP id oo7-20020a17090b1c8700b0020ae4854e21mr3254817pjb.194.1666095158783;
-        Tue, 18 Oct 2022 05:12:38 -0700 (PDT)
-Received: from [127.0.0.1] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
-        by smtp.gmail.com with ESMTPSA id i13-20020a170902c94d00b0017f48a9e2d6sm8580160pla.292.2022.10.18.05.12.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Oct 2022 05:12:38 -0700 (PDT)
-From:   Jens Axboe <axboe@kernel.dk>
-To:     ZiyangZhang <ZiyangZhang@linux.alibaba.com>, ming.lei@redhat.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        xiaoguang.wang@linux.alibaba.com, linux-block@vger.kernel.org,
-        corbet@lwn.net, joseph.qi@linux.alibaba.com
-In-Reply-To: <20221018045346.99706-1-ZiyangZhang@linux.alibaba.com>
-References: <20221018045346.99706-1-ZiyangZhang@linux.alibaba.com>
-Subject: Re: [PATCH 0/1] Documentation: document ublk user recovery
-Message-Id: <166609515777.5284.5366131175827495577.b4-ty@kernel.dk>
-Date:   Tue, 18 Oct 2022 05:12:37 -0700
+        with ESMTP id S230099AbiJRMac (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 08:30:32 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C19BB8C21;
+        Tue, 18 Oct 2022 05:30:31 -0700 (PDT)
+Received: from [192.168.10.9] (unknown [39.45.244.84])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: usama.anjum)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9A9C96602363;
+        Tue, 18 Oct 2022 13:30:24 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1666096229;
+        bh=XrK7UDKQ26rBS+50UH9ViTCAxUXkpLoN+e1Isa94oQo=;
+        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+        b=QbVvAvx10uxuWUCVHvhs1nQxY/ad3dXtF4UyVrCk2MXOXAuSEVbcXs9cd73OP4YXr
+         wM7H8NGGpGLD4oUdIseZ3LsUAczfdh9qzrMWaCbkQbmcnKieBM0DVnZ3wQle7DmiXF
+         cHVxJilap0ln6QEcpOPzeNAdG8Q+u/lxwPW6gG6cD+ylvCpiVZa1lESAk4jC9MN3z1
+         4f4af2QTKx/nh7uN7WV1BOygZH2Ic8NOjJXf+0058dY9Y1l98r/u3jhfDziKEAh1rj
+         ho4jNAbFe87KcNnQ9eNp6OzphKzopvg37e9G4FppvyqmfaYkWKQYqHfaN/FjiJWeoE
+         KymKxN3Z6ZMFQ==
+Message-ID: <2f95ed2d-6dba-850c-7ae9-5c0ebc05191c@collabora.com>
+Date:   Tue, 18 Oct 2022 17:30:20 +0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.11.0-dev-d9ed3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        Danylo Mocherniuk <mdanylo@google.com>, avagin@gmail.com,
+        linux-mm@kvack.org, akpm@linux-foundation.org, corbet@lwn.net,
+        david@redhat.com, kernel@collabora.com, krisman@collabora.com,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        peter.enderborg@sony.com, shuah@kernel.org,
+        viro@zeniv.linux.org.uk, willy@infradead.org, emmir@google.com,
+        figiel@google.com, kyurtsever@google.com,
+        Paul Gofman <pgofman@codeweavers.com>, surenb@google.com
+Subject: Re: [PATCH v3 0/4] Implement IOCTL to get and clear soft dirty PTE
+Content-Language: en-US
+To:     Greg KH <gregkh@linuxfoundation.org>
+References: <Y0T2l3HaH2MU8M9m@gmail.com>
+ <20221014134802.1361436-1-mdanylo@google.com>
+ <474513c0-4ff9-7978-9d77-839fe775d04c@collabora.com>
+ <Y06EZNAkLtigZi25@kroah.com>
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <Y06EZNAkLtigZi25@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Oct 2022 12:53:45 +0800, ZiyangZhang wrote:
-> User recovery feature of ublk has been merged. Add documentation for
-> it.
+On 10/18/22 3:48 PM, Greg KH wrote:
+> On Tue, Oct 18, 2022 at 03:36:24PM +0500, Muhammad Usama Anjum wrote:
+>> /**
+>>   * struct pagemap_sd_args - Soft-dirty IOCTL argument
+>>   * @start:		Starting address
+>>   * @len:		Length of the region
+>>   * @vec:		Output page_region struct array
+>>   * @vec_len:		Length of the page_region struct array
+>>   * @max_out_page:	Optional max output pages (It must be less than vec_len if
+>> specified)
+>>   * @flags:		Special flags for the IOCTL
+>>   * @rmask:		Special flags for the IOCTL
+>>   * @amask:		Special flags for the IOCTL
+>>   * @emask:		Special flags for the IOCTL
 > 
-> ZiyangZhang (1):
->   Documentation: document ublk user recovery feature
+> What do you mean exactly by "special flags"?
+Sorry typo in the comments above. Optional flag can be specified in the 
+flag. At the moment, there is only one flag(PAGEMAP_NO_REUSED_REGIONS).
+
+/**
+  * struct pagemap_sd_args - Soft-dirty IOCTL argument
+  * @start:		Starting address
+  * @len:		Length of the region
+  * @vec:		Output page_region struct array
+  * @vec_len:		Length of the page_region struct array
+  * @max_out_page:	Optional max output pages (It must be less than 
+vec_len if specified)
+  * @flags:		Special flags for the IOCTL
+  * @rmask:		Required mask - All of these bits have to be set
+  * @amask:		Any mask - Any of these bits are set
+  * @emask:		Exclude mask - None of these bits are set
+  * @rmask:		Bits that have to be reported to the user in page_region
+  */
+struct pagemap_scan_args {
+	__u64 __user start;
+	__u64 len;
+	__u64 __user vec;
+	__u64 vec_len;
+	__u32 max_out_page;
+	__u32 flags;
+	__u32 rmask;
+	__u32 amask;
+	__u32 emask;
+	__u32 rmask;
+};
+
 > 
->  Documentation/block/ublk.rst | 36 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
+>>   * @__reserved:		Reserved member to preserve data alignment. Must be 0.
+>>   */
+>> struct pagemap_sd_args {
+>> 	__u64 __user start;
+>> 	__u64 len;
+>> 	__u64 __user vec; // page_region
 > 
-> [...]
+> __user is a marking for a pointer, not a u64, right?  Now the fact that
+> you treat it like a pointer later in the kernel is different, but that
+> shouldn't be on the uapi header file.  You can put it in the kerneldoc,
+> which you did not do.
+I'll update.
 
-Applied, thanks!
-
-[1/1] Documentation: document ublk user recovery feature
-      commit: e0539ae012ba5d618eb19665ff990b87b960c643
-
-Best regards,
--- 
-Jens Axboe
-
-
+> 
+> thanks,
+> 
+> greg k-h
