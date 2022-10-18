@@ -2,126 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C5C8C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 12:30:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32606C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 13:06:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230189AbiJRMai (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 08:30:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58882 "EHLO
+        id S230264AbiJRNG2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 09:06:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230099AbiJRMac (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 08:30:32 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C19BB8C21;
-        Tue, 18 Oct 2022 05:30:31 -0700 (PDT)
-Received: from [192.168.10.9] (unknown [39.45.244.84])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: usama.anjum)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9A9C96602363;
-        Tue, 18 Oct 2022 13:30:24 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1666096229;
-        bh=XrK7UDKQ26rBS+50UH9ViTCAxUXkpLoN+e1Isa94oQo=;
-        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-        b=QbVvAvx10uxuWUCVHvhs1nQxY/ad3dXtF4UyVrCk2MXOXAuSEVbcXs9cd73OP4YXr
-         wM7H8NGGpGLD4oUdIseZ3LsUAczfdh9qzrMWaCbkQbmcnKieBM0DVnZ3wQle7DmiXF
-         cHVxJilap0ln6QEcpOPzeNAdG8Q+u/lxwPW6gG6cD+ylvCpiVZa1lESAk4jC9MN3z1
-         4f4af2QTKx/nh7uN7WV1BOygZH2Ic8NOjJXf+0058dY9Y1l98r/u3jhfDziKEAh1rj
-         ho4jNAbFe87KcNnQ9eNp6OzphKzopvg37e9G4FppvyqmfaYkWKQYqHfaN/FjiJWeoE
-         KymKxN3Z6ZMFQ==
-Message-ID: <2f95ed2d-6dba-850c-7ae9-5c0ebc05191c@collabora.com>
-Date:   Tue, 18 Oct 2022 17:30:20 +0500
+        with ESMTP id S229981AbiJRNGT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 09:06:19 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B25BBC4C33;
+        Tue, 18 Oct 2022 06:06:16 -0700 (PDT)
+Received: from loongson.cn (unknown [112.20.109.239])
+        by gateway (Coremail) with SMTP id _____8DxPdnGpE5jw20AAA--.2520S3;
+        Tue, 18 Oct 2022 21:06:14 +0800 (CST)
+Received: from localhost.localdomain (unknown [112.20.109.239])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Dx_1e+pE5jMLQAAA--.2960S3;
+        Tue, 18 Oct 2022 21:06:14 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     alexs@kernel.org, seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
+        ojeda@kernel.org, boqun.feng@gmail.com, wedsonaf@gmail.com,
+        gary@garyguo.net, bjorn3_gh@protonmail.com,
+        rust-for-linux@vger.kernel.org, bobwxc@email.cn,
+        wu.xiangcheng@linux.dev, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com
+Subject: [PATCH v2 1/5] docs/zh_CN: Add rust/index Chinese translation
+Date:   Tue, 18 Oct 2022 21:04:21 +0800
+Message-Id: <ff9b07cc36c3e32b3ee5cd1a04be45851a3272e1.1666097959.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1666097959.git.siyanteng@loongson.cn>
+References: <cover.1666097959.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Danylo Mocherniuk <mdanylo@google.com>, avagin@gmail.com,
-        linux-mm@kvack.org, akpm@linux-foundation.org, corbet@lwn.net,
-        david@redhat.com, kernel@collabora.com, krisman@collabora.com,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        peter.enderborg@sony.com, shuah@kernel.org,
-        viro@zeniv.linux.org.uk, willy@infradead.org, emmir@google.com,
-        figiel@google.com, kyurtsever@google.com,
-        Paul Gofman <pgofman@codeweavers.com>, surenb@google.com
-Subject: Re: [PATCH v3 0/4] Implement IOCTL to get and clear soft dirty PTE
-Content-Language: en-US
-To:     Greg KH <gregkh@linuxfoundation.org>
-References: <Y0T2l3HaH2MU8M9m@gmail.com>
- <20221014134802.1361436-1-mdanylo@google.com>
- <474513c0-4ff9-7978-9d77-839fe775d04c@collabora.com>
- <Y06EZNAkLtigZi25@kroah.com>
-From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <Y06EZNAkLtigZi25@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Dx_1e+pE5jMLQAAA--.2960S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7Aw4UuF48tF4UXr1UGw4fGrg_yoW8Wr1xpF
+        1q9ryfK3WrXw13CrWfGF1UGF17G3Z7Ca15JF42qwnYqF4DJFnYvrsrtrZ0kF92grWrZay5
+        XF4FkFWj9ry0k3DanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bSxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
+        ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr0_GcWl
+        n4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+        ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E
+        87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxV
+        Aaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxY
+        O2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGV
+        WUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_
+        Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rV
+        WUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4U
+        JbIYCTnIWIevJa73UjIFyTuYvjxUcRwZDUUUU
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/18/22 3:48 PM, Greg KH wrote:
-> On Tue, Oct 18, 2022 at 03:36:24PM +0500, Muhammad Usama Anjum wrote:
->> /**
->>   * struct pagemap_sd_args - Soft-dirty IOCTL argument
->>   * @start:		Starting address
->>   * @len:		Length of the region
->>   * @vec:		Output page_region struct array
->>   * @vec_len:		Length of the page_region struct array
->>   * @max_out_page:	Optional max output pages (It must be less than vec_len if
->> specified)
->>   * @flags:		Special flags for the IOCTL
->>   * @rmask:		Special flags for the IOCTL
->>   * @amask:		Special flags for the IOCTL
->>   * @emask:		Special flags for the IOCTL
-> 
-> What do you mean exactly by "special flags"?
-Sorry typo in the comments above. Optional flag can be specified in the 
-flag. At the moment, there is only one flag(PAGEMAP_NO_REUSED_REGIONS).
+Translate .../rust/index.rst into Chinese.
 
-/**
-  * struct pagemap_sd_args - Soft-dirty IOCTL argument
-  * @start:		Starting address
-  * @len:		Length of the region
-  * @vec:		Output page_region struct array
-  * @vec_len:		Length of the page_region struct array
-  * @max_out_page:	Optional max output pages (It must be less than 
-vec_len if specified)
-  * @flags:		Special flags for the IOCTL
-  * @rmask:		Required mask - All of these bits have to be set
-  * @amask:		Any mask - Any of these bits are set
-  * @emask:		Exclude mask - None of these bits are set
-  * @rmask:		Bits that have to be reported to the user in page_region
-  */
-struct pagemap_scan_args {
-	__u64 __user start;
-	__u64 len;
-	__u64 __user vec;
-	__u64 vec_len;
-	__u32 max_out_page;
-	__u32 flags;
-	__u32 rmask;
-	__u32 amask;
-	__u32 emask;
-	__u32 rmask;
-};
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ Documentation/translations/zh_CN/index.rst    |  1 +
+ .../translations/zh_CN/rust/index.rst         | 31 +++++++++++++++++++
+ 2 files changed, 32 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/rust/index.rst
 
-> 
->>   * @__reserved:		Reserved member to preserve data alignment. Must be 0.
->>   */
->> struct pagemap_sd_args {
->> 	__u64 __user start;
->> 	__u64 len;
->> 	__u64 __user vec; // page_region
-> 
-> __user is a marking for a pointer, not a u64, right?  Now the fact that
-> you treat it like a pointer later in the kernel is different, but that
-> shouldn't be on the uapi header file.  You can put it in the kerneldoc,
-> which you did not do.
-I'll update.
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index ec99ef5fe990..0b6e555feeda 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -71,6 +71,7 @@ TODOList:
+    dev-tools/index
+    dev-tools/testing-overview
+    kernel-hacking/index
++   rust/index
+ 
+ TODOList:
+ 
+diff --git a/Documentation/translations/zh_CN/rust/index.rst b/Documentation/translations/zh_CN/rust/index.rst
+new file mode 100644
+index 000000000000..fc6a074841bc
+--- /dev/null
++++ b/Documentation/translations/zh_CN/rust/index.rst
+@@ -0,0 +1,31 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/rust/index.rst
++
++:翻译:
++
++ 司延腾 Yanteng Si <siyanteng@loongson.cn>
++
++Rust
++====
++
++与内核中的Rust有关的文档。若要开始在内核中使用Rust，请阅读quick-start.rst指南。
++
++.. toctree::
++    :maxdepth: 1
++
++
++TODOList:
++
++*    quick-start
++*    general-information
++*    coding-guidelines
++*    arch-support
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+-- 
+2.31.1
 
-> 
-> thanks,
-> 
-> greg k-h
