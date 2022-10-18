@@ -2,165 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 991FFC4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 02:22:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE869C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 02:36:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230185AbiJRCWa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 22:22:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44574 "EHLO
+        id S229775AbiJRCgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 22:36:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230221AbiJRCW2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 22:22:28 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EE4AC923FF
-        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 19:22:19 -0700 (PDT)
-Received: from loongson.cn (unknown [209.85.166.46])
-        by gateway (Coremail) with SMTP id _____8CxLdnXDU5jPj4AAA--.1535S3;
-        Tue, 18 Oct 2022 10:22:16 +0800 (CST)
-Received: from mail-io1-f46.google.com (unknown [209.85.166.46])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8Axf+DVDU5jmmMAAA--.1650S3;
-        Tue, 18 Oct 2022 10:22:14 +0800 (CST)
-Received: by mail-io1-f46.google.com with SMTP id y80so10698821iof.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Oct 2022 19:22:14 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3Rvr5JYLn4TOCEzUgbE3hiljIoUWpBXjGwIkag+hA4sSGRAc5Q
-        n1p4NNWAjU+EwuEQO31Uym9muGY19nOGM80LYsQ=
-X-Google-Smtp-Source: AMsMyM5MiOApcPbQdsJ4fUeXb5CBW1ckWTA1XHKxRr6aW7FzJtI7wcHGy94Qcv4aK3P4T87OIMfjObDkCPy0Q8h/PGU=
-X-Received: by 2002:a05:6638:160d:b0:363:ef26:311d with SMTP id
- x13-20020a056638160d00b00363ef26311dmr764348jas.241.1666059733014; Mon, 17
- Oct 2022 19:22:13 -0700 (PDT)
+        with ESMTP id S229727AbiJRCgS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 22:36:18 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F038418380;
+        Mon, 17 Oct 2022 19:36:17 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id a6-20020a17090abe0600b0020d7c0c6650so16061856pjs.0;
+        Mon, 17 Oct 2022 19:36:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qQsvsKFvIgYktIg/XKnkN+HjvyN+ijqDltwi/tGC1YQ=;
+        b=Olf2nqyyty+JBycOlgJblOjTCAWJTo8Yp3OrQi6+5/7+7XIdlOCSIux3/EUeUEVQXZ
+         +ma530KdOkh0nrg8x32h0il2YvWYTAsr6uMnlrmRLh03difFGXQ1CHbgnFeR9UIyh3d4
+         mAWfRWnwKRyaZHzu//1LIaTyybdCATDD5XcBbAF3mKB8Hp9JHLKbiT94d2Q4viX87enE
+         JIjcUi+1j9k5hC+vrZmTqQSy+amn0LE2M+tWAgCxj0IhXho5Hx4hiQjflZgSRYelCK81
+         fXjJ8AvfNcz81TbOJKN2Jw48ffoyitn9qNyT6Je8ALN4RJuQp6I5VuvO0dbkEumUDTuq
+         GLVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qQsvsKFvIgYktIg/XKnkN+HjvyN+ijqDltwi/tGC1YQ=;
+        b=b5UqV5HKWVQif1Cqar+0vPD0szEoTgmy6+NvU/nHVR+iX5HuOL6ArHqt5kuj0hykIs
+         Wn7nfDKWcg7V1L5l2l8oHQXhUfP8rLaxYErinAzrq0HKCsaKPHldwu2e9PIU2P1CduHZ
+         ACLs59pNHdl0ASvcjZRYib3aHBmSXSd5Gj61RGVg3IboLinZxkqzuYtrXSZc2iX8Xxd7
+         sfJ1vkxPoHN83S9aaVynMrcFNEk3cNpAhxZzH6Kr5NRyiNxMuxvP68ZlhdmvU//PVFFw
+         9BGQ3+eAQmHvnPEPUCPkGQWzy321xsvXQHDBob5N0aR+MWOOBR0KgtlI7GpvSYYOs2XK
+         dCyg==
+X-Gm-Message-State: ACrzQf3K2HNW7R+qkrmIheY4yEpuvIdjAPYIFv6QNCV8v6VlVf+4i7Qh
+        ksa+SuzjIaQo0JRQOkvZFzM=
+X-Google-Smtp-Source: AMsMyM59m/v/Nwrhs3kECx31Bo+s5XUbUhpMtDDJvD3Ta1QQ+hBCIQ9oYq1GgZI/F+S6RIoW6c6www==
+X-Received: by 2002:a17:903:11c4:b0:178:634b:1485 with SMTP id q4-20020a17090311c400b00178634b1485mr709561plh.142.1666060577437;
+        Mon, 17 Oct 2022 19:36:17 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id v8-20020a654608000000b0044046aec036sm6807949pgq.81.2022.10.17.19.36.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Oct 2022 19:36:16 -0700 (PDT)
+Message-ID: <8e2a1da1-2914-b223-85b0-a769339d9c39@gmail.com>
+Date:   Tue, 18 Oct 2022 11:36:12 +0900
 MIME-Version: 1.0
-References: <cover.1665130536.git.zhoubinbin@loongson.cn> <d52639f0fb22ae941137d5c478cd021799182b5f.1665130536.git.zhoubinbin@loongson.cn>
- <Y02EcgD3E0/lML5H@bobwxc.mipc>
-In-Reply-To: <Y02EcgD3E0/lML5H@bobwxc.mipc>
-From:   Binbin Zhou <zhoubinbin@loongson.cn>
-Date:   Tue, 18 Oct 2022 10:22:01 +0800
-X-Gmail-Original-Message-ID: <CAMpQs4K9Xk58rRss13mKz+amDGQjWiwMREQbLJH-H3LoaUApuQ@mail.gmail.com>
-Message-ID: <CAMpQs4K9Xk58rRss13mKz+amDGQjWiwMREQbLJH-H3LoaUApuQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] docs/zh_CN: core-api: Add timekeeping Chinese translation
-To:     Wu XiangCheng <wu.xiangcheng@linux.dev>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Wu XiangCheng <bobwxc@email.cn>,
-        Huacai Chen <chenhuacai@loongson.cn>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-CM-TRANSID: AQAAf8Axf+DVDU5jmmMAAA--.1650S3
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxtrW7ArW8XF1UGrW3JryDGFg_yoW7WF17pa
-        y3Kas3GanFyrW5CF4Igr4DWFnrKrZ7CF4UJ3s2g340kr4qyFyktr4jkryFgryxGrWvyF40
-        vayxtr1a9r12yrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bBkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2vj
-        6VCEFcxC0VAYjxAxZF0EFcxC0VAYjxAxZF0Ew4CEw7xC0VCjxxvEa2IrM2AIxVAIcxkEcV
-        Aq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40E
-        x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-        0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFcxC0VAYjxAxZF0Ew4CEw7xC0wACY4xI67k04243
-        AVC20s07MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-        AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
-        c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
-        AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
-        Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JwCE64xvF2IEb7IF0Fy7YxBIdaVFxhVjvj
-        DU0xZFpf9x07UF9a9UUUUU=
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH v2 1/2] Documentation: Start translations to Spanish
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Carlos Bilbao <carlos.bilbao@amd.com>, bilbao@vt.edu,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, miguel.ojeda.sandonis@gmail.com,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <20221014142454.871196-2-carlos.bilbao@amd.com>
+ <48b4a5a1-2a52-4159-699b-9db73a012892@gmail.com>
+ <Y01pkubcT7FOwCjL@casper.infradead.org>
+Content-Language: en-US
+In-Reply-To: <Y01pkubcT7FOwCjL@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgWGlhbmdDaGVuZzoNCg0KT24gVHVlLCBPY3QgMTgsIDIwMjIgYXQgMTI6MzggQU0gV3UgWGlh
-bmdDaGVuZyA8d3UueGlhbmdjaGVuZ0BsaW51eC5kZXY+IHdyb3RlOg0KPg0KPiA+IFRyYW5zbGF0
-ZSBjb3JlLWFwaS90aW1la2VlcGluZy5yc3QgaW50byBDaGluZXNlLg0KPiA+DQo+ID4gTGFzdCBF
-bmdsaXNoIHZlcnNpb24gdXNlZDoNCj4gPg0KPiA+IGNvbW1pdCAzZGM2ZmZhZTJkYTIgKCJ0aW1l
-a2VlcGluZzogSW50cm9kdWNlIGZhc3QgYWNjZXNzb3IgdG8gY2xvY2sgdGFpIikuDQo+ID4NCj4g
-PiBTaWduZWQtb2ZmLWJ5OiBCaW5iaW4gWmhvdSA8emhvdWJpbmJpbkBsb29uZ3Nvbi5jbj4NCj4g
-PiAtLS0NCj4gPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9pbmRleC5yc3QgICAg
-IHwgICAyICstDQo+ID4gIC4uLi96aF9DTi9jb3JlLWFwaS90aW1la2VlcGluZy5yc3QgICAgICAg
-ICAgICB8IDE3MiArKysrKysrKysrKysrKysrKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAxNzMg
-aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9j
-dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvdGltZWtlZXBpbmcucnN0DQo+
-ID4NCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29y
-ZS1hcGkvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1h
-cGkvaW5kZXgucnN0DQo+ID4gaW5kZXggMjFkMGIyNWJjNTgwLi5kMDgwOTEwMzYwNjYgMTAwNjQ0
-DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvaW5k
-ZXgucnN0DQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1h
-cGkvaW5kZXgucnN0DQo+ID4gQEAgLTQ5LDEyICs0OSwxMiBAQA0KPiA+ICAgICBnZW5lcmljLXJh
-ZGl4LXRyZWUNCj4gPiAgICAgcGFja2luZw0KPiA+ICAgICB0aGlzX2NwdV9vcHMNCj4gPiArICAg
-dGltZWtlZXBpbmcNCj4gPg0KPiA+ICBUb2RvbGlzdDoNCj4gPg0KPiA+DQo+ID4NCj4gPiAtICAg
-dGltZWtlZXBpbmcNCj4gPiAgICAgZXJyc2VxDQo+ID4NCj4gPiAg5bm25Y+R5Y6f6K+tDQo+ID4g
-ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL3Rp
-bWVrZWVwaW5nLnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBp
-L3RpbWVrZWVwaW5nLnJzdA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gaW5kZXggMDAw
-MDAwMDAwMDAwLi5lN2Y5YWRmMjUyNWMNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvRG9j
-dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY29yZS1hcGkvdGltZWtlZXBpbmcucnN0DQo+
-ID4gQEAgLTAsMCArMSwxNzIgQEANCj4gPiArLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQ
-TC0yLjArDQo+ID4gKw0KPiA+ICsuLiBpbmNsdWRlOjogLi4vZGlzY2xhaW1lci16aF9DTi5yc3QN
-Cj4gPiArDQo+ID4gKzpPcmlnaW5hbDogRG9jdW1lbnRhdGlvbi9jb3JlLWFwaS90aW1la2VlcGlu
-Zy5yc3QNCj4gPiArDQo+ID4gKzrnv7vor5E6DQo+ID4gKw0KPiA+ICsg5ZGo5b2s5b2sIEJpbmJp
-biBaaG91IDx6aG91YmluYmluQGxvb25nc29uLmNuPg0KPiA+ICsNCj4gPiAra3RpbWXorr/pl67l
-magNCj4gPiArPT09PT09PT09PT0NCj4gPiArDQo+ID4gK+iuvuWkh+mpseWKqOeoi+W6j+WPr+S7
-peS9v+eUqGt0aW1lX2dldCgp5ZKMbGludXgvdGltZWtlZXBpbmcuaOS4reWjsOaYjueahOiuuOWk
-muebuOWFs+WHveaVsOivu+WPluW9k+WJjQ0KPiA+ICvml7bpl7TjgILmoLnmja7nu4/pqozvvIzl
-poLmnpzkuKTogIXpg73lkIzmoLfpgILlkIjnibnlrprnlKjkvovvvIzliJnkvb/nlKjlkI3np7Do
-voPnn63nmoTorr/pl67lmajkvJjkuo7lkI3np7DovoPplb/nmoQNCj4gPiAr6K6/6Zeu5Zmo44CC
-DQo+DQo+IOWmguaenOS4pOS4quiuv+mXruWZqOmDvemAgueUqOS6juafkOS4gOeUqOS+i++8jOWI
-meS9v+eUqOWQjeensOi+g+efreeahOmCo+S4quOAgg0KT2suLi4uDQo+DQo+ID4gKw0KPiA+ICvl
-n7rkuo5rdGltZV9055qE5Z+656GA5o6l5Y+jDQo+ID4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
-PiA+ICsNCj4gPiAr5o6o6I2Q55qE5pyA566A5Y2V5b2i5byP6L+U5Zue5LiN6YCP5piO55qEa3Rp
-bWVfdO+8jOWFtuWPmOS9k+i/lOWbnuS4jeWQjOaXtumSn+WPguiAg+eahOaXtumXtO+8mg0KPiA+
-ICsNCj4gPiArLi4gYzpmdW5jdGlvbjo6IGt0aW1lX3Qga3RpbWVfZ2V0KCB2b2lkICkNCj4gPiAr
-DQo+ID4gKyAgICAgQ0xPQ0tfTU9OT1RPTklDDQo+ICBeDQo+ICB0YWINCj4NCj4gPiArDQo+ID4g
-KyAgICAgICAg5a+55Y+v6Z2g55qE5pe26Ze05oiz5ZKM5YeG56Gu5rWL6YeP55+t55qE5pe26Ze0
-6Ze06ZqU5b6I5pyJ55So44CC5Zyo57O757uf5ZCv5Yqo5pe25ZCv5Yqo77yM5L2G5Zyo5oyC6LW3
-5pe2DQo+ID4gKyAgICAgICAg5YGc5q2i44CCDQo+ICBeXl5eXl5eXg0KPiAgc3BhY2VzDQo+ICBj
-aGVjayBhbGwgb2YgdGhlbQ0KDQpJIHdpbGwgY2hlY2sgYWxsIG9mIHRoZW0gYW5kIHJlcGxhY2Ug
-c3BhY2VzIHdpdGggdGFicy4NCj4NCj4gPiArDQo+ID4gKy4uIGM6ZnVuY3Rpb246OiBrdGltZV90
-IGt0aW1lX2dldF9ib290dGltZSggdm9pZCApDQo+ID4gKw0KPiA+ICsgICAgIENMT0NLX0JPT1RU
-SU1FDQo+ID4gKw0KPiA+ICsgICAgICAgIOS4jmt0aW1lX2dldCgp57G75Ly877yM5L2G5Zyo5oyC
-6LW35pe25LiN5Lya5YGc5q2i44CC6L+Z5Y+v5Lul55So5LqO5L6L5aaC6ZyA6KaB5Zyo5oyC6LW3
-5pON5L2c5Lit5LiO5YW2DQo+ID4gKyAgICAgICAg5LuW6K6h566X5py65ZCM5q2l55qE5a+G6ZKl
-6L+H5pyf5pe26Ze044CCDQo+ID4gKw0KPiA+ICsuLiBjOmZ1bmN0aW9uOjoga3RpbWVfdCBrdGlt
-ZV9nZXRfcmVhbCggdm9pZCApDQo+ID4gKw0KPiA+ICsgICAgIENMT0NLX1JFQUxUSU1FDQo+ID4g
-Kw0KPiA+ICsgICAgICAgIOS9v+eUqOWNj+iwg+S4lueVjOaXtihVVEMp6L+U5Zue55u45a+55LqO
-MTk3MOW5tOW8gOWni+eahFVOSVjnuqrlhYPnmoTml7bpl7TvvIzkuI7nlKjmiLfnqbrpl7TnmoQN
-Cj4gPiArICAgICAgICBnZXR0aW1lb2ZkYXkoKeebuOWQjOOAguivpeWHveaVsOeUqOS6juaJgOac
-iemcgOimgeWcqOmHjeWQr+aXtuaMgee7reWtmOWcqOeahOaXtumXtOaIs++8jOavlOWmgg0KPiA+
-ICsgICAgICAgIGlub2Rl5pe26Ze077yM5L2G5bqU6YG/5YWN5Zyo5YaF6YOo5L2/55So77yM5Zug
-5Li65a6D5Y+v6IO955Sx5LqO6Zew56eS5pu05paw5ZKM5p2l6Ieq55So5oi356m66Ze055qETlRQ
-DQo+ID4gKyAgICAgICAg6LCD5pW0c2V0dGltZW9mZGF5KCnmk43kvZzogIzlkJHlkI7ot7Povazj
-gIINCj4gPiArDQo+ID4gKy4uIGM6ZnVuY3Rpb246OiBrdGltZV90IGt0aW1lX2dldF9jbG9ja3Rh
-aSggdm9pZCApDQo+ID4gKw0KPiA+ICsgICAgICBDTE9DS19UQUkNCj4gPiArDQo+ID4gKyAgICAg
-ICAg5LiOa3RpbWVfZ2V0X3JlYWwoKeexu+S8vO+8jOS9huS9v+eUqOWbvemZheWOn+WtkOaXtihU
-QUkp5L2c5Li65Y+C6ICD6ICM5LiN5pivVVRD77yM5Lul6YG/5YWN5ZyoDQo+ID4gKyAgICAgICAg
-6Zew56eS5pu05paw5pe26Lez6L2s44CC6L+Z5Zyo5YaF5qC45Lit5b6I5bCR5pyJ55So44CCDQo+
-ID4gKw0KPiA+ICsuLiBjOmZ1bmN0aW9uOjoga3RpbWVfdCBrdGltZV9nZXRfcmF3KCB2b2lkICkN
-Cj4gPiArDQo+ID4gKyAgICAgQ0xPQ0tfTU9OT1RPTklDX1JBVw0KPiA+ICsNCj4gPiArICAgICAg
-ICDkuI5rdGltZV9nZXQoKeexu+S8vO+8jOS9huS7peS4juehrOS7tuaXtumSn+a6kOebuOWQjOea
-hOmAn+eOh+i/kOihjO+8jOaXoOmcgOmSiOWvueaXtumSn+a8guenu+i/m+ihjOiwgw0KPiA+ICsg
-ICAgICAgIOaVtChOVFAp44CC6L+Z5Zyo5YaF5qC45Lit5Lmf5b6I5bCR6ZyA6KaB44CCDQo+DQo+
-IOayoeaciemSiOWvueaXtumSn+a8guenu+i/m+ihjOeahOiwg+aVtChOVFAp44CCDQoNCk9LLi4u
-Lg0KPg0KPiA+ICsNCj4gPiAr57qz56eS77yMdGltZXNwZWM2NOWSjOenkumSn+eahOi+k+WHug0K
-PiA+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gKw0KPiA+ICvlr7nkuo7kuIro
-v7DmiYDmnInmg4XlhrXvvIzku6XkuIvlh73mlbDlj5jkvZPkvJrmoLnmja7nlKjmiLfnmoTopoHm
-sYLku6XkuI3lkIznmoTmoLzlvI/ov5Tlm57ml7bpl7TvvJoNCj4gPiArDQo+ID4gKy4uIGM6ZnVu
-Y3Rpb246OiB1NjQga3RpbWVfZ2V0X25zKCB2b2lkICkNCj4gPiArICAgICAgICAgICAgIHU2NCBr
-dGltZV9nZXRfYm9vdHRpbWVfbnMoIHZvaWQgKQ0KPiA+ICsgICAgICAgICAgICAgdTY0IGt0aW1l
-X2dldF9yZWFsX25zKCB2b2lkICkNCj4gPiArICAgICAgICAgICAgIHU2NCBrdGltZV9nZXRfY2xv
-Y2t0YWlfbnMoIHZvaWQgKQ0KPiA+ICsgICAgICAgICAgICAgdTY0IGt0aW1lX2dldF9yYXdfbnMo
-IHZvaWQgKQ0KPiA+ICsNCj4gPiArICAgICAgICDkuI7mma7pgJrnmoRrdGltZV9nZXTlh73mlbDn
-m7jlkIzvvIzkvYbov5Tlm57lkIToh6rml7bpkp/lj4LogIPkuK3nmoR1NjTnurPnp5LmlbDvvIzo
-v5nlr7nmn5DkupvosIPnlKgNCj4gPiArICAgICAgICDogIXmnaXor7Tlj6/og73mm7Tmlrnkvr/j
-gIINCj4gPiArDQo+ID4gKy4uIGM6ZnVuY3Rpb246OiB2b2lkIGt0aW1lX2dldF90czY0KCBzdHJ1
-Y3QgdGltZXNwZWM2NCAqICkNCj4gPiArICAgICAgICAgICAgIHZvaWQga3RpbWVfZ2V0X2Jvb3R0
-aW1lX3RzNjQoIHN0cnVjdCB0aW1lc3BlYzY0ICogKQ0KPiA+ICsgICAgICAgICAgICAgdm9pZCBr
-dGltZV9nZXRfcmVhbF90czY0KCBzdHJ1Y3QgdGltZXNwZWM2NCAqICkNCj4gPiArICAgICAgICAg
-ICAgIHZvaWQga3RpbWVfZ2V0X2Nsb2NrdGFpX3RzNjQoIHN0cnVjdCB0aW1lc3BlYzY0ICogKQ0K
-PiA+ICsgICAgICAgICAgICAgdm9pZCBrdGltZV9nZXRfcmF3X3RzNjQoIHN0cnVjdCB0aW1lc3Bl
-YzY0ICogKQ0KPiA+ICsNCj4gPiArICAgICAgICDlkIzkuIrvvIzkvYbov5Tlm57nmoTmmK8nc3Ry
-dWN0IHRpbWVzcGVjNjQn5Lit55qE5pe26Ze077yM5YiG5Li656eS5ZKM57qz56eS44CC6L+Z5Y+v
-5Lul6YG/5YWN5Zyo5omTDQo+ID4gKyAgICAgICAg5Y2w5pe26Ze05pe277yM5oiW5Zyo5bCG5YW2
-5Lyg6YCS5Yiw5pyf5pyb5pyJJ3RpbWVzcGVjJ+aIlid0aW1ldmFsJ+e7k+aehOeahOWklumDqOaO
-peWPo+aXtu+8jOi/m+ihjA0KPg0KPiDnu5PmnoQgLT4g57uT5p6E5L2TDQpPSy4uLg0KDQpUaGFu
-a3MgZm9yIHlvdXIgcmV2aWV3Lg0KDQpCaW5iaW4NCj4NCj4gVGhhbmtzLA0KPiAgICAgICAgIFd1
-DQo=
+On 2022/10/17 23:41, Matthew Wilcox wrote:
+> On Sat, Oct 15, 2022 at 01:06:36PM +0900, Akira Yokosawa wrote:
+>> Hi,
+>> Minor nit on language code.
+>>
+>> On Fri, 14 Oct 2022 09:24:53 -0500, Carlos Bilbao wrote:
+>>> Start the process of translating kernel documentation to Spanish. Create
+>>> sp_SP/ and include an index and a disclaimer, following the approach of
+>>> prior translations. Add Carlos Bilbao as MAINTAINER of this translation
+>>> effort.
+>> IIUC, the language code for "Spanish (Spain)" should be "es-ES", as is
+>> listed at e.g., http://www.lingoes.net/en/translator/langcode.htm.
+>>
+>> The other translations use directory names found in the table, with
+>> "-" replaced with "_".  It would be better to be consistent.
+> 
+> I don't know what standard we're actually following.  RFC5646 suggests
+> simply using "es", with "es-419" for Latin America specialisation or
+> "es-ES" for Spain.  I don't know how much variation there is between
+> different Spanish dialects for technical documents; as I understand it,
+> it's worth supporting two dialects of Chinese, but we merrily mix &
+> match en_US and en_GB spellings.  Similarly, I wouldn't suggest that we
+> have separate translations for fr_CA, fr_CH, fr_FR, just a single 'fr'
+> would be fine.
+> 
+> We do need to be careful here; people are rightfully sensitive about
+> being incorrectly grouped together.  If possible we should find a
+> standard to follow that's been defined by experts in these matters.
+> https://en.wikipedia.org/wiki/IETF_language_tag may be a good place to
+> start looking.
 
+I think generic "es" is OK, especially if "es_ES" can have such a
+negative connotation to some. I just wanted to point out "sp_SP"
+looks wrong.
+
+Carlos, if you go the "es" way, it would be better to mention the
+reason of the choice in the Changelog for future reference.
+
+Subdirectories "ja_JP", "ko_KR", and "zh_CN" were added under
+Documentation/ way back in 2007 (v2.6.23).
+
+As you might see, two of the three language codes needed region
+distinction and they were reasonable choices at the time.
+
+        Thanks, Akira
