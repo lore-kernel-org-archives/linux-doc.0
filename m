@@ -2,120 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 332E8C433FE
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 01:37:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22FC7C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 01:50:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbiJRBhd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 17 Oct 2022 21:37:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42548 "EHLO
+        id S230255AbiJRBuL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 17 Oct 2022 21:50:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229772AbiJRBhd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 21:37:33 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBC703E74D;
-        Mon, 17 Oct 2022 18:37:31 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id n83so14098814oif.11;
-        Mon, 17 Oct 2022 18:37:31 -0700 (PDT)
+        with ESMTP id S230215AbiJRBuK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Oct 2022 21:50:10 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A827DF72;
+        Mon, 17 Oct 2022 18:50:09 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id d7-20020a17090a2a4700b0020d268b1f02so15951353pjg.1;
+        Mon, 17 Oct 2022 18:50:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:cc:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lWnmh28h2aLsD/0ANNQ/ycG5csRGVfEzVy619u1CtWY=;
-        b=Q3wgAW6pcf7gEFMG4xEiC7GUskXqWVEz/48HOdsA4QO6rHGXIqYyoMImvJ6OfTY8Sm
-         xTQGtW2+MviyEAtTzMbAf0sxbolFd/rJVWavp1dNWDYUxeI6ca+XTlIHXwRqFedIEpn2
-         rLzQdNB585dqPE5SHxocV+w0EfTkr8tHhZF0TN2dIRdU1Qji1q4LBkaNSNVPsqxFV5eH
-         itGgOs+b/YJwM1wajxX33DYuAiVYQuZwJurPsD3461hLF9z4yZ1MMXGBWeNwLxp37lG9
-         7iA1iwIBi83qJ5UeLeOuiaYUo1iSKbd8vvvAoNDO1mwm2iDjd0WsvxUEE/zzEGR+NfLq
-         BLzA==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qhrY3CdotIZVTMkH6Zcw3PMbIad7eSnddTb5gX5c0Rs=;
+        b=WdfEuiP0y8N6no6jKIXyX7Wa4XqSFBWD5omQ23v7APA451WzXzTZMBNcTl7ZQfstUt
+         VsPKkPqnrW5RE9330oeDZbrJQem4vmCZqHuhSpDadvi6X8DmLfVq7fiVrpNvvp1pi12U
+         WQ1Ig+pWSUW9s8zzk6bAOcEiP3X9JVFxKFc9LaHtjLFrsFTMwDOiUfPRV4FSZknD+CoC
+         ktSUNfZy5dGvZXqNajFy+EQ2I0SSCmeVC865AZ/YuFkssAvR2Cx5RR+Tz/IsH11uV9iA
+         NKBaKlUAu3HvzZDRckYZXrA2bm/JegUzTsIXast1xnzDJMQfCYMezyC5P1M4Afb1ma7b
+         IUEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:cc:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lWnmh28h2aLsD/0ANNQ/ycG5csRGVfEzVy619u1CtWY=;
-        b=TD38xYBXNrd8lje7jnoUbynuhXx/aJ7MyJB6fC+mcNuPJ4J+w9pPWMdt1TgT+/NJn6
-         mGO6BGgxl+5k/0cCTLKGQqlfxEtaX6oxdBUePPUGXfus3Y1I3eQNSAmDYbdH8tf5gr1t
-         2LDmVj/X6h5cUhqn6zT4Ut8EMvem/o8Fu5mTarwqS8f/xPMkOBevNhX6eK9y0v1STvFz
-         RkMJZpFHAeqAV3HR7q9pjH1zliinNz7gffsU4NoAjXHi9/UGkwEzLfFmVQrfIMwbHFqT
-         CKOkprAm9GTID3RAhQdnda2NDY3nDh6DgiDz5EviRe/ZBvS8vDxtYosQatWmhoEHKnsh
-         CPnQ==
-X-Gm-Message-State: ACrzQf04MklsXVe2sorxd0uV1l3hrZ+nkckBWq7lMB6B3WJTVHCIshhi
-        Oi/ZJrZRVq5SFKiDgefbwKvhfocWSzSYFQ==
-X-Google-Smtp-Source: AMsMyM62lbFLtDgzWB25hcG6uvhkrNNyTTE3T3CWrlaD/HteSNE/hKzTuFzt0r1qwSs2qj2fvvGqoQ==
-X-Received: by 2002:a17:90b:4a09:b0:20d:5b67:1496 with SMTP id kk9-20020a17090b4a0900b0020d5b671496mr35679427pjb.67.1666057041099;
-        Mon, 17 Oct 2022 18:37:21 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id f15-20020a17090a664f00b0020d3662cc77sm10019417pjm.48.2022.10.17.18.37.16
+        bh=qhrY3CdotIZVTMkH6Zcw3PMbIad7eSnddTb5gX5c0Rs=;
+        b=Iu7NOWKAJHbGO6AFErQv3/KyMfB87Y+689Yy9Ao276gMaZ98JYbUSkjdnE2cKAMeGc
+         dwQ2RvTAm2J79VhJruz3oq6ya0aoW47itfeGkmU9UzTS4fRPvZEOcp3UVKFYwiEOwni9
+         50qJpRlIMlodBoEIMss2D138tKEMdfEZB6kakrIISsvlJf/wbFJwtjiMlRz0TRXTM+/t
+         550gUL6BVWRHnsY7Z32CM91oRbjxyplANFSTCStl2D50Vh4QRVRuWLQ5FhAJaTlrcJM+
+         0Hxp7MzzEsPKzTHv88CWfie0+hhTOvhG6XzwJz/zVzyBon6onoXJMfge/64OM0NpWQhq
+         ecoA==
+X-Gm-Message-State: ACrzQf12pFa28FloIPNPzT2YVxfKtkl5zO4vac97kK0HOqpghD0Y43VV
+        N7gKrdXOlgNkAd/OMhia1sIMEGaY/9v85w==
+X-Google-Smtp-Source: AMsMyM5k6oOkMBOkEAlAtluIlFG2ihNEEjHL5qf9rqGUD0zS3Uq1mFSlHieTdtoLb1QTH/K5FPOeDQ==
+X-Received: by 2002:a17:902:9a07:b0:178:8024:1393 with SMTP id v7-20020a1709029a0700b0017880241393mr578220plp.128.1666057808343;
+        Mon, 17 Oct 2022 18:50:08 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-16.three.co.id. [180.214.232.16])
+        by smtp.gmail.com with ESMTPSA id w29-20020aa7955d000000b0056274716016sm7835206pfq.47.2022.10.17.18.50.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Oct 2022 18:37:20 -0700 (PDT)
-Message-ID: <59d99be6-f79e-45bd-203c-17972255cc39@gmail.com>
-Date:   Tue, 18 Oct 2022 10:37:15 +0900
+        Mon, 17 Oct 2022 18:50:07 -0700 (PDT)
+Message-ID: <f7029f41-4f8c-9ba7-3e3b-268a743998d5@gmail.com>
+Date:   Tue, 18 Oct 2022 08:50:03 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v4] locking/memory-barriers.txt: Improve documentation for
- writel() example
-To:     Arnd Bergmann <arnd@arndb.de>, Parav Pandit <parav@nvidia.com>
-References: <20221010101331.29942-1-parav@nvidia.com>
- <d5faaf6f-7de5-49b0-92d6-9989ffbdbf2e@app.fastmail.com>
+ Thunderbird/102.3.3
+Subject: Re: [PATCH] usb: gadget: uvc: fix dropped frame after missed isoc
 Content-Language: en-US
-Cc:     bagasdotme@gmail.com, Alan Stern <stern@rowland.harvard.edu>,
-        parri.andrea@gmail.com, Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, boqun.feng@gmail.com,
-        Nicholas Piggin <npiggin@gmail.com>, dhowells@redhat.com,
-        j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
-        "Paul E. McKenney" <paulmck@kernel.org>, dlustig@nvidia.com,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <d5faaf6f-7de5-49b0-92d6-9989ffbdbf2e@app.fastmail.com>
+To:     Dan Vacura <w36195@motorola.com>, linux-usb@vger.kernel.org
+Cc:     Daniel Scally <dan.scally@ideasonboard.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Jeff Vanhoof <qjv001@motorola.com>, stable@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20221017205446.523796-1-w36195@motorola.com>
+ <20221017205446.523796-2-w36195@motorola.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20221017205446.523796-2-w36195@motorola.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/10/18 5:55, Arnd Bergmann wrote:
-> On Mon, Oct 10, 2022, at 12:13 PM, Parav Pandit wrote:
->> The cited commit describes that when using writel(), explcit wmb()
->> is not needed. wmb() is an expensive barrier. writel() uses the needed
->> platform specific barrier instead of expensive wmb().
->>
->> Hence update the example to be more accurate that matches the current
->> implementation.
->>
->> commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. 
->> MMIO ordering example")
->>
->> Signed-off-by: Parav Pandit <parav@nvidia.com>
+On 10/18/22 03:54, Dan Vacura wrote:
+> With the re-use of the previous completion status in 0d1c407b1a749
+> ("usb: dwc3: gadget: Return proper request status") it could be possible
+> that the next frame would also get dropped if the current frame has a
+> missed isoc error. Ensure that an interrupt is requested for the start
+> of a new frame.
 > 
-> I have no objections, though I still don't see a real need to change
-> the wording here.
 
-Parav, I think you need a full rewrite of the Changelog as the change
-has become a simple substitution of s/wmb()/barrier/.
+Shouldn't the subject line says [PATCH v3 1/6]?
 
-In second thought, I'm not sure such a substitution is really safe to
-make.
+-- 
+An old man doll... just what I always wanted! - Clara
 
-"a barrier" can mean "any barrier", which can include a full barrier
-in theory.
-
-So I'd rather make the substituted text read something like:
-
-  Note that, when using writel(), a prior wmb() or weaker is not
-  needed to guarantee that the cache coherent memory writes have
-  completed before writing to the MMIO region.
-
-In my opinion, "or weaker" is redundant for careful readers who are
-well aware of context of this example, but won't do no harm.
-
-Thoughts?
-
-        Thanks, Akira
-
-> 
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
