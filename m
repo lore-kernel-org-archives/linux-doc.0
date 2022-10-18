@@ -2,39 +2,39 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DDA6C4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 11:55:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 992F8C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 11:55:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229885AbiJRLz0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 07:55:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54016 "EHLO
+        id S229935AbiJRLz3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 07:55:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229760AbiJRLzZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 07:55:25 -0400
-Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2200997EF3;
-        Tue, 18 Oct 2022 04:55:24 -0700 (PDT)
+        with ESMTP id S229556AbiJRLz1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 07:55:27 -0400
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 254DE9AFB0;
+        Tue, 18 Oct 2022 04:55:27 -0700 (PDT)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
-        t=1666094122;
+        t=1666094125;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=hupgNoQdpyp2o8IVUE4hcgxanPErrHi/bqHICjKXEEs=;
-        b=mrQkA5WVTIf9mfixRtZIuewlQflouJg2JZZeYBeVsipJEW9MPIkF39gS+adsgBMR+cIHZD
-        Ri1CLhr7Ok+dABjxHV00/Qkgw40ZEKGGcW1IrJfNqvlqdQJKfH/AZU+SAVQOG6A9Ft/Ye3
-        /XkzhfCRPquaROrrmV0KJZXqhVpGIg8AfPdz2S1A82Zwn9101Dut++3PTAozB69agaSNuP
-        lzpyVjuGeJfgutbD09mbqkcqY+vi98zSksWC3oWNYmyGKTa60qw6ZlNIAeHfsWbUjdPLnS
-        FmY/pNs890hOJa7RvROHcYQ8ALUxx1FsFiIJimh2XqpFycTjvB1McmxPRIOjpQ==
+        bh=cgQBXm1dv4ujn38yEqX7tGehxSC+vaQSz42cTrCDBX0=;
+        b=cmkJgAm9Z/g95AzBIckx9+AySMDFOs09DIvHgoRMO0cwmSHUbHBWLut/zsjiJa0zLq/jRg
+        4QF0KlMvu3STax+6Pky0JWJ1Zf4R2XpahP7wnnlmMR2HBe0YZRTpO60drjYC6fFeJWpKyb
+        IKRZWfOBl+KyB2ucsvAghI5zxhpvd9uWLaQ0if/zk1itWq9Nfhh0RfTkzvbdjYDfoiBooB
+        GRRyUtrAfpb4fHh5OXgEbRfRYYOSmY56HLdXgGKKAorMQWM4L/eNDX5dXUDeutw80poyun
+        gokBznO3ehIg2yCi1JgEOiXMVQQCBGsFUOaj4PQGM4zCl3HujVzysFqVPGpnlQ==
 From:   Rui Li <me@lirui.org>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
         Jonathan Corbet <corbet@lwn.net>,
         Wu XiangCheng <wu.xiangcheng@linux.dev>, Rui Li <me@lirui.org>
-Subject: [PATCH v2 1/2] docs/zh_CN: Add userspace-api/ebpf Chinese translation
-Date:   Tue, 18 Oct 2022 19:54:52 +0800
-Message-Id: <8d032bf9a69ac6703260ac91408562c562c03f2d.1666093699.git.me@lirui.org>
+Subject: [PATCH v2 2/2] docs/zh_CN: Add userspace-api/index Chinese translation
+Date:   Tue, 18 Oct 2022 19:54:53 +0800
+Message-Id: <88e6c1390068bff71e16ebd375e684d8e663dee2.1666093699.git.me@lirui.org>
 In-Reply-To: <cover.1666093699.git.me@lirui.org>
 References: <cover.1666093699.git.me@lirui.org>
 MIME-Version: 1.0
@@ -45,89 +45,95 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate the following documents into Chinese:
-
-- userspace-api/ebpf/index.rst
-- userspace-api/ebpf/syscall.rst
+Translate userspace-api/index.rst into Chinese, add it into
+zh_CN/index.rst.
 
 Signed-off-by: Rui Li <me@lirui.org>
 ---
 Changes since v1:
-- Translate bpf subcommand title
 - Align title
-- Add space after doc path
+- Change some translation
 ---
- .../zh_CN/userspace-api/ebpf/index.rst        | 22 +++++++++++++
- .../zh_CN/userspace-api/ebpf/syscall.rst      | 31 +++++++++++++++++++
- 2 files changed, 53 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
- create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
+ Documentation/translations/zh_CN/index.rst    |  2 +-
+ .../zh_CN/userspace-api/index.rst             | 51 +++++++++++++++++++
+ 2 files changed, 52 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/index.rst
 
-diff --git a/Documentation/translations/zh_CN/userspace-api/ebpf/index.rst b/Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index ec99ef5fe990..272414971ce9 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -90,12 +90,12 @@ TODOList:
+ 
+    admin-guide/index
+    admin-guide/reporting-issues.rst
++   userspace-api/index
+ 
+ TODOList:
+ 
+ * 内核构建系统 <kbuild/index>
+ * 用户空间工具 <tools/index>
+-* userspace-api/index
+ 
+ 也可参考独立于内核文档的 `Linux 手册页 <https://www.kernel.org/doc/man-pages/>`_ 。
+ 
+diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
 new file mode 100644
-index 000000000000..d52c7052f101
+index 000000000000..df1e1572e3f4
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
-@@ -0,0 +1,22 @@
++++ b/Documentation/translations/zh_CN/userspace-api/index.rst
+@@ -0,0 +1,51 @@
 +.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../disclaimer-zh_CN.rst
++.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/userspace-api/ebpf/index.rst
++:Original: Documentation/userspace-api/index.rst
 +
 +:翻译:
 +
 + 李睿 Rui Li <me@lirui.org>
 +
-+eBPF 用户空间API
-+================
++=========================
++Linux 内核用户空间API指南
++=========================
 +
-+eBPF是一种在Linux内核中提供沙箱化运行环境的机制，它可以在不改变内核源码或加载
-+内核模块的情况下扩展运行时和编写工具。eBPF程序能够被附加到各种内核子系统中，包
-+括网络，跟踪和Linux安全模块(LSM)等。
++.. _man-pages: https://www.kernel.org/doc/man-pages/
 +
-+关于eBPF的内部内核文档，请查看 Documentation/bpf/index.rst 。
++尽管许多用户空间API的文档被记录在别处（特别是在 man-pages_ 项目中），
++在代码树中仍然可以找到有关用户空间的部分信息。这个手册意在成为这些信息
++聚集的地方。
++
++.. class:: toc-title
++
++	   目录
 +
 +.. toctree::
-+   :maxdepth: 1
++   :maxdepth: 2
 +
-+   syscall
-diff --git a/Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst b/Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
-new file mode 100644
-index 000000000000..17515728f544
---- /dev/null
-+++ b/Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
-@@ -0,0 +1,31 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../disclaimer-zh_CN.rst
++   ebpf/index
 +
-+:Original: Documentation/userspace-api/ebpf/syscall.rst
++TODOList:
 +
-+:翻译:
++* no_new_privs
++* seccomp_filter
++* landlock
++* unshare
++* spec_ctrl
++* accelerators/ocxl
++* ebpf/index
++* ioctl/index
++* iommu
++* media/index
++* netlink/index
++* sysfs-platform_profile
++* vduse
++* futex2
 +
-+ 李睿 Rui Li <me@lirui.org>
++.. only::  subproject and html
 +
-+eBPF Syscall
-+------------
++   Indices
++   =======
 +
-+:作者:
-+    - Alexei Starovoitov <ast@kernel.org>
-+    - Joe Stringer <joe@wand.net.nz>
-+    - Michael Kerrisk <mtk.manpages@gmail.com>
-+
-+bpf syscall的主要信息可以在 `man-pages`_ 中的 `bpf(2)`_ 找到。
-+
-+bpf() 子命令参考
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. kernel-doc:: include/uapi/linux/bpf.h
-+   :doc: eBPF Syscall Preamble
-+
-+.. kernel-doc:: include/uapi/linux/bpf.h
-+   :doc: eBPF Syscall Commands
-+
-+.. Links:
-+.. _man-pages: https://www.kernel.org/doc/man-pages/
-+.. _bpf(2): https://man7.org/linux/man-pages/man2/bpf.2.html
++   * :ref:`genindex`
 -- 
 2.30.2
 
