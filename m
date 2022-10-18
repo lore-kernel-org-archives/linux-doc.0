@@ -2,111 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15EA4C4321E
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 14:32:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71330C433FE
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 14:46:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231517AbiJROcm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 10:32:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53970 "EHLO
+        id S229584AbiJROqa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 10:46:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231542AbiJROck (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 10:32:40 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id F011EC8954
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 07:32:34 -0700 (PDT)
-Received: (qmail 1213921 invoked by uid 1000); 18 Oct 2022 10:32:33 -0400
-Date:   Tue, 18 Oct 2022 10:32:33 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Dan Scally <dan.scally@ideasonboard.com>
-Cc:     Dan Vacura <w36195@motorola.com>, linux-usb@vger.kernel.org,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Jeff Vanhoof <qjv001@motorola.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 6/6] usb: gadget: uvc: add configfs option for sg
- support
-Message-ID: <Y065ASuFhM9bntvd@rowland.harvard.edu>
-References: <20221017205446.523796-1-w36195@motorola.com>
- <20221017205446.523796-7-w36195@motorola.com>
- <78c6403a-22d9-903d-f0cf-4205e17962d3@ideasonboard.com>
+        with ESMTP id S230152AbiJROq3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 10:46:29 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BD56D73DD;
+        Tue, 18 Oct 2022 07:46:27 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id r13so23839793wrj.11;
+        Tue, 18 Oct 2022 07:46:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zoXCniAMsfloF5Adrb7dptYXmfUJcR1MEzuNGWKn9dY=;
+        b=jdOB1y6VTfbcMviKgQjKLZBefTvuG83CiujSpa2qAVF/X20dUMgQHCiBiD7cXPfqYz
+         148g4FIf6eIgCzpb8ba7Es2JreTSJyfEPJ+2MiYqNV2F/mEvz+opY4eSLX57PtLyuB4L
+         ZI3y6oQ3kdfJfFR1wwlGDyIN7hw3SC0oXOU48ZRrNHC8Rfue/E/2Gt0919rpA7td2FLe
+         f3d7cv3fRC0h7FNhjeZlxuPFlNoYr6u0FrYRcMnCsX9LHLQFuvNoHXYkt4RqeCf1sqeD
+         6NrdKjynSriiJBblqOTs0eM7Pmz0gjDIUGUPS1RS1+yg1zkjf2swPMcPLLru5gODRHd1
+         AcyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zoXCniAMsfloF5Adrb7dptYXmfUJcR1MEzuNGWKn9dY=;
+        b=7eEIuBblxPS3DbHda3QW0y7gd7lBtR7Bm/hZZYQ4gJ1jFQtOfDdRoBPCj9tCe8acV1
+         9Q97CKXZV9jZkg0vayB6R/QZbLZ5+gTQ2gFcEylAaFlmJzc0WoCGmF+m4sXyVDrnoyi0
+         PSkHq/D54Nr8Jr+Dw6RsSHE25Fpeb73u9i4TR3iXAc1y/0HWCvhhnErh6W4iqZoMhZWh
+         e20IeJb85TTfYIV1QOsFwbb8vsIo7jjI4/Rw9RcmpHQnl9MxctkUjBZ08K7KfcoSXdO/
+         hEiFZahyIi62oYv0XvbxKrkG8bVMjl4Mr2fqX8WjWT63wuvrRpLCgOxCPLut/ivgrD1q
+         tMCg==
+X-Gm-Message-State: ACrzQf3b9swQ08oi+2tuM+OGmViNoEQvk9Eou8ePRIfQY6h1tVbmoWrI
+        4hLZCDAXM/yKFp+W+76PGdsTLkt7H4c=
+X-Google-Smtp-Source: AMsMyM4Ri2wPP0g8IUZMLsopJBcLquznv0egRyJIec4RMYW/CP/vRXGeOWzNXFvV54hLBI90Ge2Cog==
+X-Received: by 2002:a5d:6d07:0:b0:22f:81f9:9c73 with SMTP id e7-20020a5d6d07000000b0022f81f99c73mr2402211wrq.76.1666104384880;
+        Tue, 18 Oct 2022 07:46:24 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:8008:3928:dd39:56c])
+        by smtp.gmail.com with ESMTPSA id q65-20020a1c4344000000b003a8434530bbsm18840191wma.13.2022.10.18.07.46.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Oct 2022 07:46:23 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v1] bpf, docs: Reformat BPF maps page to be
+ more readable
+In-Reply-To: <Y0eQcOsbrmBXqdUP@debian.me> (Bagas Sanjaya's message of "Thu, 13
+        Oct 2022 11:13:36 +0700")
+Date:   Tue, 18 Oct 2022 15:45:52 +0100
+Message-ID: <m2sfjlur4v.fsf@gmail.com>
+References: <20221012152715.25073-1-donald.hunter@gmail.com>
+        <Y0eQcOsbrmBXqdUP@debian.me>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <78c6403a-22d9-903d-f0cf-4205e17962d3@ideasonboard.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 18, 2022 at 02:27:13PM +0100, Dan Scally wrote:
-> Hi Dan
-> 
-> On 17/10/2022 21:54, Dan Vacura wrote:
-> > The scatter gather support doesn't appear to work well with some UDC hw.
-> > Add the ability to turn on the feature depending on the controller in
-> > use.
-> > 
-> > Signed-off-by: Dan Vacura <w36195@motorola.com>
-> 
-> 
-> Nitpick: I would call it use_sg everywhere, but either way:
-> 
-> 
-> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-> 
-> Tested-by: Daniel Scally <dan.scally@ideasonboard.com>
-> 
-> > ---
-> > V1 -> V2:
-> > - no change, new patch in serie
-> > V2 -> V3:
-> > - default on, same as baseline
-> > 
-> >   Documentation/ABI/testing/configfs-usb-gadget-uvc | 1 +
-> >   Documentation/usb/gadget-testing.rst              | 2 ++
-> >   drivers/usb/gadget/function/f_uvc.c               | 2 ++
-> >   drivers/usb/gadget/function/u_uvc.h               | 1 +
-> >   drivers/usb/gadget/function/uvc_configfs.c        | 2 ++
-> >   drivers/usb/gadget/function/uvc_queue.c           | 4 ++--
-> >   6 files changed, 10 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-> > index 5dfaa3f7f6a4..839a75fc28ee 100644
-> > --- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
-> > +++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
-> > @@ -9,6 +9,7 @@ Description:	UVC function directory
-> >   		streaming_interval	1..16
-> >   		function_name		string [32]
-> >   		req_int_skip_div	unsigned int
-> > +		sg_supported		0..1
-> >   		===================	=============================
-> >   What:		/config/usb-gadget/gadget/functions/uvc.name/control
-> > diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-> > index f9b5a09be1f4..8e3072d6a590 100644
-> > --- a/Documentation/usb/gadget-testing.rst
-> > +++ b/Documentation/usb/gadget-testing.rst
-> > @@ -796,6 +796,8 @@ The uvc function provides these attributes in its function directory:
-> >   	function_name       name of the interface
-> >   	req_int_skip_div    divisor of total requests to aid in calculating
-> >   			    interrupt frequency, 0 indicates all interrupt
-> > +	sg_supported        allow for scatter gather to be used if the UDC
-> > +			    hw supports it
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-Why is a configuration option needed for this?  Why not always use SG 
-when the UDC supports it?  Or at least, make the decision automatically 
-(say, based on the amount of data to be transferred) with no need for 
-any user input?
+> On Wed, Oct 12, 2022 at 04:27:15PM +0100, Donald Hunter wrote:
+>> Add a more complete introduction, with links to man pages.
+>> Move toctree of map types above usage notes.
+>> Format usage notes to improve readability.
+>> 
+>> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+>> ---
+>>  Documentation/bpf/maps.rst | 101 ++++++++++++++++++++++++-------------
+>>  1 file changed, 65 insertions(+), 36 deletions(-)
+>> 
+>> diff --git a/Documentation/bpf/maps.rst b/Documentation/bpf/maps.rst
+>> index f41619e312ac..4906ff0f8382 100644
+>> --- a/Documentation/bpf/maps.rst
+>> +++ b/Documentation/bpf/maps.rst
+>> @@ -1,52 +1,81 @@
+>>  
+>> -=========
+>> -eBPF maps
+>> +========
+>> +BPF maps
+>> +========
+>> +
+>> +BPF 'maps' provide generic storage of different types for sharing data between
+>> +kernel and user space. There are several storage types available, including
+>> +hash, array, bloom filter and radix-tree. Several of the map types exist to
+>> +support specific BPF helpers that perform actions based on the map contents. The
+>> +maps are accessed from BPF programs via BPF helpers which are documented in the
+>> +`man-pages`_ for `bpf-helpers(7)`_.
+>> +
+>> +BPF maps are accessed from user space via the ``bpf`` syscall, which provides
+>> +commands to create maps, lookup elements, update elements and delete
+>> +elements. More details of the BPF syscall are available in
+>> +:doc:`/userspace-api/ebpf/syscall` and in the `man-pages`_ for `bpf(2)`_.
+>> <snipped>...
+>> +.. Links:
+>> +.. _man-pages: https://www.kernel.org/doc/man-pages/
+>> +.. _bpf(2): https://man7.org/linux/man-pages/man2/bpf.2.html
+>> +.. _bpf-helpers(7): https://man7.org/linux/man-pages/man7/bpf-helpers.7.html
+>
+> I think you can just write "see :manpage:`bpf(2)`" without linking to
+> external site.
 
-Is this because the SG support in some UDC drivers is buggy?  In that 
-case the proper approach is to fix the UDC drivers, not add new options 
-that users won't know when to use.
+I tried your suggestion but it just renders italicized text. I think it
+is more helpful to provide a clickable link to the relevant man
+page. Other documentation pages already provide clickable manpage links
+and I followed existing practise from Documentation/bpf/syscall_api.rst
 
-Or is it because the UDC hardware itself is buggy?  In that case the 
-best approach is to fix the UDC drivers so that they don't advertise 
-working SG support when the hardware is unable to handle it.
+I would prefer to keep the clickable links.
 
-Alan Stern
+> Otherwise LGTM.
