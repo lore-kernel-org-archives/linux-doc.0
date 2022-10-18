@@ -2,133 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19C2EC4332F
-	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 17:18:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E349C4332F
+	for <linux-doc@archiver.kernel.org>; Tue, 18 Oct 2022 17:49:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230037AbiJRRSC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 13:18:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60062 "EHLO
+        id S230050AbiJRRtK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 13:49:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230102AbiJRRR5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 13:17:57 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14BCEEF58A
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 10:17:49 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id by36so18855525ljb.4
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 10:17:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mn0g0uPQNgWAIulTAHlL4xKStBrdvYdScpOKFuxEci4=;
-        b=UJmeKnfZ0F5FNYAg1B4ZlTGwoxmU03fABlswDVlVVDgdYKNPZcdY9WwV9GCOovjwDd
-         pr0rk37er31wg/7euIBifdagIniBWY3V0gmHDwx+y5etMY0U3a0nYe+C+MTxtfPZ/5fc
-         1r9Rz5GR/ByFfPvbdaoFylxy8TMIeEtwAFCRNWDfb6Hm8/aafKJks8N+CyJYbwJCL1ow
-         mUYyOmuY/7jxV9fy7uFfgEwwCOG8ZIOG50gL1ZIE/NaVnCDyOk4j9YQLEPwjYgbEiHkP
-         5zLk7o1Cz4NUUL0z/K4cBYl+DvRpVssMkoS1R0RBaGTRoyWBJ0hRzdPNVtmg4vkuYMvW
-         DqvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mn0g0uPQNgWAIulTAHlL4xKStBrdvYdScpOKFuxEci4=;
-        b=kJXKj0iRMWbEFohiGv6ProNZndmFzJfCd7XHtDjRG8lhnObTq6yjewRBHqRv3JTbVd
-         3oXJXKlqF9fN63JQdStRv7/rk4NanbCEqlZ7HcbQjNqmUeZX7V8xx2b68dDVrS6IOnck
-         TLJoY607iAibby/Vc/amjzHevykyWm1TCQKwMT4sipNwb5S73z+yOUPC+f0/XSzkCg2A
-         yhiXHnKqkWY39LBr/2AaTRN2Cd2XE/HdQ8Q78/STNwXVK4PNOOMQ+pfD1axP7B5x+tTV
-         wOGljNOgRbrH1ibH7nT6Zb1n4yYFF4bwvyPPsf5OB5fJquRU/ST6Aa1nVeaHkISu8wNl
-         clAA==
-X-Gm-Message-State: ACrzQf3rXv7oaqX+fTpSaNez/8adbCjFdU/s2lcXjDpFaPjCp7AZ4Vcy
-        PXeW2bHhVuqWOuSb0PnOGaELx84xKks9A+R/A5k7Rw==
-X-Google-Smtp-Source: AMsMyM5Xl/iFuj+/VH/qkFLvtSgyGhPwva9B3V2p0knCNY2j/1i0nJ5N41af6+MwEGFUhgjJzb9tjkAuGpSPlyxwjxI=
-X-Received: by 2002:a2e:92d5:0:b0:26f:a674:94ac with SMTP id
- k21-20020a2e92d5000000b0026fa67494acmr1465830ljh.470.1666113467907; Tue, 18
- Oct 2022 10:17:47 -0700 (PDT)
+        with ESMTP id S229827AbiJRRtJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 13:49:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1882CC82C;
+        Tue, 18 Oct 2022 10:49:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6685D616A0;
+        Tue, 18 Oct 2022 17:49:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF478C433D6;
+        Tue, 18 Oct 2022 17:49:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666115347;
+        bh=h6JE2xNk6lHxh3XrYY63nPsxtKYGE/KNHOKEoSVIx+c=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=mjAl4E7So3NZg7D7R/t7IwcCgoLqJFNf9f0riOu8XrqaW8Lr9oUafZTPJ6gTvp1n8
+         dCgCt2HgYX2DFKTvOMw5oKrRgdPZ75Qg0kQNZK0Qol17QFo5s0FtLx8dcJQLgBt8Qv
+         FTc5HPpxRugBt4RaES2AxV8AJL2knwRS51KKZggQ4/WAESoyZ9+Uuc0yMGxZJ2ba7n
+         pdK5auRINkZjxWT+aXDGKD5OiISIkXIw9m0UoFhBmI1J1AI0ueWPJzAtM90YvIlwfL
+         TtyCWJjQ/jBCg7xud2HmhVLd+bxklrd53+IyOOvQv7vg+4dmwaWZQAy/o69sRd7WF2
+         cPuFh2VL75mkw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 581B05C0528; Tue, 18 Oct 2022 10:49:07 -0700 (PDT)
+Date:   Tue, 18 Oct 2022 10:49:07 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Will Deacon <will@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Parav Pandit <parav@nvidia.com>,
+        bagasdotme@gmail.com, Alan Stern <stern@rowland.harvard.edu>,
+        parri.andrea@gmail.com, Peter Zijlstra <peterz@infradead.org>,
+        boqun.feng@gmail.com, Nicholas Piggin <npiggin@gmail.com>,
+        dhowells@redhat.com, j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
+        Akira Yokosawa <akiyks@gmail.com>, dlustig@nvidia.com,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4] locking/memory-barriers.txt: Improve documentation
+ for writel() example
+Message-ID: <20221018174907.GT5600@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20221010101331.29942-1-parav@nvidia.com>
+ <d5faaf6f-7de5-49b0-92d6-9989ffbdbf2e@app.fastmail.com>
+ <20221018100554.GA3112@willie-the-truck>
 MIME-Version: 1.0
-References: <Y0T2l3HaH2MU8M9m@gmail.com> <20221014134802.1361436-1-mdanylo@google.com>
- <474513c0-4ff9-7978-9d77-839fe775d04c@collabora.com> <CABb0KFGCm=K2X3-O=y3BJN85sT2C-y+XZRtLxnuabuOg+OrHwQ@mail.gmail.com>
- <17d7d6f5-21dc-37e1-6843-29c77a0e14b6@collabora.com>
-In-Reply-To: <17d7d6f5-21dc-37e1-6843-29c77a0e14b6@collabora.com>
-From:   =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>
-Date:   Tue, 18 Oct 2022 19:17:36 +0200
-Message-ID: <CABb0KFFGRgy9D212skxxFMsHV5n3qjqUP9d-bQaWLUmtH46H3A@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Implement IOCTL to get and clear soft dirty PTE
-To:     Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc:     Danylo Mocherniuk <mdanylo@google.com>, avagin@gmail.com,
-        linux-mm@kvack.org, akpm@linux-foundation.org,
-        gregkh@linuxfoundation.org, corbet@lwn.net, david@redhat.com,
-        kernel@collabora.com, krisman@collabora.com,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        peter.enderborg@sony.com, shuah@kernel.org,
-        viro@zeniv.linux.org.uk, willy@infradead.org, figiel@google.com,
-        kyurtsever@google.com, Paul Gofman <pgofman@codeweavers.com>,
-        surenb@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221018100554.GA3112@willie-the-truck>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Oct 2022 at 15:23, Muhammad Usama Anjum
-<usama.anjum@collabora.com> wrote:
->
-> On 10/18/22 4:11 PM, Micha=C5=82 Miros=C5=82aw wrote:
-> > On Tue, 18 Oct 2022 at 12:36, Muhammad Usama Anjum
-> > <usama.anjum@collabora.com> wrote:
-[...]
-> >>    * @start:             Starting address
-> >>    * @len:               Length of the region
-> >>    * @vec:               Output page_region struct array
-> >>    * @vec_len:           Length of the page_region struct array
-> >>    * @max_out_page:      Optional max output pages (It must be less th=
-an
-> >> vec_len if specified)
-> >
-> > Why is it required to be less than vec_len? vec_len effectively
-> > specifies max number of ranges to find, and this new additional field
-> > counts pages, I suppose?
-> > BTW, if we count pages, then what size of them? Maybe using bytes
-> > (matching start/len fields) would be more consistent?
-> Yes, it if for counting pages. As the regions can have multiple pages,
-> user cannot specify through the number of regions that how many pages
-> does he need. Page size is used here as well like the start and len.
-> This is optional argument as this is only needed to emulate the Windows
-> syscall getWriteWatch.
+On Tue, Oct 18, 2022 at 11:05:55AM +0100, Will Deacon wrote:
+> On Mon, Oct 17, 2022 at 10:55:00PM +0200, Arnd Bergmann wrote:
+> > On Mon, Oct 10, 2022, at 12:13 PM, Parav Pandit wrote:
+> > > The cited commit describes that when using writel(), explcit wmb()
+> > > is not needed. wmb() is an expensive barrier. writel() uses the needed
+> > > platform specific barrier instead of expensive wmb().
+> > >
+> > > Hence update the example to be more accurate that matches the current
+> > > implementation.
+> > >
+> > > commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. 
+> > > MMIO ordering example")
+> > >
+> > > Signed-off-by: Parav Pandit <parav@nvidia.com>
+> > 
+> > I have no objections, though I still don't see a real need to change
+> > the wording here.
+> 
+> FWIW, I also don't think this change is necessary. If anything, I'd say
+> we'd be better off _removing_ the text about writel from this section and
+> extending the reference to the "KERNEL I/O BARRIER EFFECTS" section,
+> as you could make similar comments about e.g. readb() and subsequent
+> barriers.
+> 
+> For example, something like the diff below.
 
-I'm wondering about the condition that max_out_page < vec_len. Since
-both count different things (pages vs ranges) I would expect there is
-no strict relation between them and information returned is as much as
-fits both (IOW: at most vec_len ranges spanning not more than
-max_out_page pages). The field's name and description I'd suggest
-improving: maybe 'max_pages' with a comment that 0 =3D unlimited?
+I do like this change, but we might be dealing with two different groups
+of readers.  Will and Arnd implemented significant parts of the current
+MMIO/DMA ordering infrastructure.  It is thus quite possible that wording
+which suffices to remind them of how things work might or might not help
+someone new to Linux who is trying to figure out what is required to make
+their driver work.
 
-[...]
-> >> /* Special flags */
-> >> #define PAGEMAP_NO_REUSED_REGIONS       0x1
-> >
-> > What does this flag do?
-> Some non-dirty pages get marked as dirty because of the kernel's
-> internal activity. The dirty bit of the pages is stored in the VMA flags
-> and in the per page flags. If any of these two bits are set, the page is
-> considered to be dirty. Suppose you have cleared the dirty bit of half
-> of VMA which will be done by splitting the VMA and clearing dirty flag
-> in the half VMA and the pages in it. Now kernel may decide to merge the
-> VMAs again as dirty bit of VMAs isn't considered if the VMAs should be
-> merged. So the half VMA becomes dirty again. This splitting/merging
-> costs performance. The application receives a lot of pages which aren't
-> dirty in reality but marked as dirty. Performance is lost again here.
->
-> This PAGEMAP_NO_REUSED_REGIONS flag is used to don't depend on the dirty
-> flag in the VMA flags. It only depends on the individual page dirty bit.
-> With doing this, the new memory regions which are just created, doesn't
-> look like dirty when seen with the IOCTL, but look dirty when seen from
-> pagemap. This seems okay as the user of this flag know the implication
-> of using it.
+The traditional resolution of this sort of thing is to provide the
+documentation to a newbie and take any resulting confusion seriously.
 
-Thanks for explaining! Could you include this as a comment in the patch?
+Parav, thoughts?
 
-Best Regards
-Micha=C5=82 Miros=C5=82aw
+							Thanx, Paul
+
+> Will
+> 
+> --->8
+> 
+> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+> index 06f80e3785c5..93d9a90b7cfa 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -1910,7 +1910,8 @@ There are some more advanced barrier functions:
+>  
+>       These are for use with consistent memory to guarantee the ordering
+>       of writes or reads of shared memory accessible to both the CPU and a
+> -     DMA capable device.
+> +     DMA capable device. See Documentation/core-api/dma-api.rst file for more
+> +     information about consistent memory.
+>  
+>       For example, consider a device driver that shares memory with a device
+>       and uses a descriptor status value to indicate if the descriptor belongs
+> @@ -1935,18 +1936,15 @@ There are some more advanced barrier functions:
+>                 writel(DESC_NOTIFY, doorbell);
+>         }
+>  
+> -     The dma_rmb() allows us guarantee the device has released ownership
+> +     The dma_rmb() allows us to guarantee that the device has released ownership
+>       before we read the data from the descriptor, and the dma_wmb() allows
+>       us to guarantee the data is written to the descriptor before the device
+> -     can see it now has ownership.  The dma_mb() implies both a dma_rmb() and
+> -     a dma_wmb().  Note that, when using writel(), a prior wmb() is not needed
+> -     to guarantee that the cache coherent memory writes have completed before
+> -     writing to the MMIO region.  The cheaper writel_relaxed() does not provide
+> -     this guarantee and must not be used here.
+> -
+> -     See the subsection "Kernel I/O barrier effects" for more information on
+> -     relaxed I/O accessors and the Documentation/core-api/dma-api.rst file for
+> -     more information on consistent memory.
+> +     can see it now has ownership.  dma_mb() implies both a dma_rmb() and
+> +     a dma_wmb().
+> +
+> +     Note that the dma_*() barriers do not provide any ordering guarantees for
+> +     accesses to MMIO regions.  See the later "KERNEL I/O BARRIER EFFECTS"
+> +     subsection for more information about I/O accessors and MMIO ordering.
+>  
+>   (*) pmem_wmb();
+>  
+> 
