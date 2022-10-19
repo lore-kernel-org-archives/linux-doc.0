@@ -2,73 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D21DDC4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 12:11:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 918E4C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 12:14:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232503AbiJSMLU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 08:11:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46790 "EHLO
+        id S231124AbiJSMOc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 08:14:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232499AbiJSMKl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 08:10:41 -0400
-Received: from out30-54.freemail.mail.aliyun.com (out30-54.freemail.mail.aliyun.com [115.124.30.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73B9810F881;
-        Wed, 19 Oct 2022 04:45:56 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046060;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=25;SR=0;TI=SMTPD_---0VSaNslb_1666175784;
-Received: from localhost.localdomain(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VSaNslb_1666175784)
-          by smtp.aliyun-inc.com;
-          Wed, 19 Oct 2022 18:36:34 +0800
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-To:     paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
-        guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
-        bagasdotme@gmail.com, k-hagio-ab@nec.com, lijiang@redhat.com
-Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
-        hschauhan@nulltrace.org, yixun.lan@gmail.com,
-        Xianting Tian <xianting.tian@linux.alibaba.com>
-Subject: [PATCH V4 0/2] Support VMCOREINFO export for RISCV64
-Date:   Wed, 19 Oct 2022 18:36:21 +0800
-Message-Id: <20221019103623.7008-1-xianting.tian@linux.alibaba.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S232874AbiJSMOA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 08:14:00 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A13331A2086;
+        Wed, 19 Oct 2022 04:50:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Hr6GqhiNot3Wp0AyCg0faopd7+PRJ3WvXflOrKZONA4=; b=YFxyjHqd72qFv1ZmqquSjQj3Ni
+        D3wXXvK6M3WA1rk7s4+NX15Uz6XwiHA8v4FNuggbDx5WYXp54ANzsSwSuOZMgMQbrJixNWjYc5M9Y
+        UIFKPUj4d16f7o4LNoZ2EyKDedNZAK/z6bu5xJpI2vvu2zpyFRVWjrxOjAarxcMzPsvpJ9NDMmblH
+        P7L50yGZjjEqvCOICBap4c2fxBzrest7PZ4oh7k0nYwLCa6lw67T1MJkkxDCIsLXE9o+djXQEx5DX
+        BmUCmODre+YPvgPq0s67x3crjTk2KRr4w0v9FlaReFO11py7jYHZ2DTuIRNfB0VHsgoZlYL3FXxL4
+        zVAJ4jjw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34794)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1ol7ZF-0005bK-1u; Wed, 19 Oct 2022 12:49:02 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1ol7Z9-00027o-Rf; Wed, 19 Oct 2022 12:48:55 +0100
+Date:   Wed, 19 Oct 2022 12:48:55 +0100
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Hector Martin <marcan@marcan.st>, Petr Mladek <pmladek@suse.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH 4/7] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Y0/kJwpbvbeul8n3@shell.armlinux.org.uk>
+References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
+ <E1oVYUS-005CmS-IA@rmk-PC.armlinux.org.uk>
+ <Y0/Kt9CW5vYcxHhK@alley>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y0/Kt9CW5vYcxHhK@alley>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As disscussed in below patch set, the patch of 'describe VMCOREINFO export in Documentation'
-need to update according to Bagas's comments. 
-https://lore.kernel.org/linux-riscv/22AAF52E-8CC8-4D11-99CB-88DE4D113444@kernel.org/
+On Wed, Oct 19, 2022 at 12:00:23PM +0200, Petr Mladek wrote:
+> On Tue 2022-09-06 14:19:44, Russell King wrote:
+> > From: Hector Martin <marcan@marcan.st>
+> > 
+... 
+> > +Generic FourCC code
+> > +-------------------
+> > +
+> > +::
+> > +	%p4c[hnbl]	gP00 (0x67503030)
+> > +
+> > +Print a generic FourCC code, as both ASCII characters and its numerical
+> > +value as hexadecimal.
+> > +
+> > +The additional ``h``, ``r``, ``b``, and ``l`` specifiers are used to specify
+> > +host, reversed, big or little endian order data respectively. Host endian
+> > +order means the data is interpreted as a 32-bit integer and the most
+> > +significant byte is printed first; that is, the character code as printed
+> > +matches the byte order stored in memory on big-endian systems, and is reversed
+> > +on little-endian systems.
+> > +
+> > +Passed by reference.
+> > +
+> > +Examples for a little-endian machine, given &(u32)0x67503030::
+> > +
+> > +	%p4ch	gP00 (0x67503030)
+> > +	%p4cl	gP00 (0x67503030)
+> > +	%p4cb	00Pg (0x30305067)
+> > +	%p4cr	00Pg (0x30305067)
+> 
+> Nit: I would prefer to keep the same order (h,r,b,l) everywhere.
+> 
+>      I guess that you wanted to show exactly the same results next
+>      to each other. But it is not the case on big-endian anyway.
 
-As others patches in above patch set already applied, so this patch set only contains below two
-patches.
+This is straight from the Asahi kernel tree, and is unmodified. I'm
+guessing you're use of "you" here refers to Hector rather than me.
 
-------
-Changes:
-   Fix commit message in patch 2: use "Document these RISCV64 exports above" instead of
-   "This patch just add the description of VMCOREINFO export for RISCV64."
-V1 -> V2:
-   Remove unnecessary overline above header text in patch 2.
-V2 -> V3:
-   Fix commit message in patch 1,2; 
-   Use 'space' instead of 'region' for vmemmap description in patch 2.
-V3 -> V4:
-   Remove unnecessary kernel space export:
-   KASAN_SHADOW_START ~ KASAN_SHADOW_END,
-   ADDRESS_SPACE_END
+So, Hector, any opinions on Petr's comments please?
 
-Xianting Tian (2):
-  RISC-V: Add arch_crash_save_vmcoreinfo support
-  Documentation: kdump: describe VMCOREINFO export for RISCV64
-
- .../admin-guide/kdump/vmcoreinfo.rst          | 30 ++++++++++++++++++
- arch/riscv/kernel/Makefile                    |  1 +
- arch/riscv/kernel/crash_core.c                | 29 +++++++++++++++++
- 3 files changed, 61 insertions(+)
- create mode 100644 arch/riscv/kernel/crash_core.c
+Thanks.
 
 -- 
-2.17.1
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
