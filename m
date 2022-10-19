@@ -2,66 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF40C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 11:05:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B210C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 11:09:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231989AbiJSLFR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 07:05:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48482 "EHLO
+        id S232378AbiJSLJt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 07:09:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234528AbiJSLDl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 07:03:41 -0400
-Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E53E86113A;
-        Wed, 19 Oct 2022 03:32:50 -0700 (PDT)
-Date:   Wed, 19 Oct 2022 16:58:36 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1666169932;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=BaRL+rjTJsmOJb/VyyXV+tNvfFHDLLSD+t7SWsuJOyc=;
-        b=etBwW3ffferd/8DWFXSEAx0VUG+1A7KFvDsM53SyN8Lb8S+QRRdHk+HxkL1Ggs7dmMIDgz
-        KZdzjxqmZw9rSlINpUXdCiNNiqUucXDLqu8TKQfBYPuvgHPWXn6o6AAzdsriRHK0PRCuBE
-        3y9zbsIwMZerUekIaddPratNZYz71e4=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     alexs@kernel.org, seakeel@gmail.com, corbet@lwn.net,
-        ojeda@kernel.org, boqun.feng@gmail.com, wedsonaf@gmail.com,
-        gary@garyguo.net, bjorn3_gh@protonmail.com,
-        rust-for-linux@vger.kernel.org, bobwxc@email.cn,
-        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com
-Subject: Re: [PATCH v2 3/5] docs/zh_CN: Add rust/general-information Chinese
- translation
-Message-ID: <Y0+8PHe2tXp9/sHX@bobwxc.mipc>
-References: <cover.1666097959.git.siyanteng@loongson.cn>
- <59496aa23862c41051836de1121a2fcf2a5f1bc5.1666097959.git.siyanteng@loongson.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <59496aa23862c41051836de1121a2fcf2a5f1bc5.1666097959.git.siyanteng@loongson.cn>
-X-Migadu-Flow: FLOW_OUT
+        with ESMTP id S234038AbiJSLJB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 07:09:01 -0400
+Received: from out30-43.freemail.mail.aliyun.com (out30-43.freemail.mail.aliyun.com [115.124.30.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E1DC17D858;
+        Wed, 19 Oct 2022 03:37:59 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=25;SR=0;TI=SMTPD_---0VSaNstn_1666175796;
+Received: from localhost.localdomain(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VSaNstn_1666175796)
+          by smtp.aliyun-inc.com;
+          Wed, 19 Oct 2022 18:36:37 +0800
+From:   Xianting Tian <xianting.tian@linux.alibaba.com>
+To:     paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
+        guoren@kernel.org, mick@ics.forth.gr,
+        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
+        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
+        bagasdotme@gmail.com, k-hagio-ab@nec.com, lijiang@redhat.com
+Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
+        hschauhan@nulltrace.org, yixun.lan@gmail.com,
+        Xianting Tian <xianting.tian@linux.alibaba.com>
+Subject: [PATCH V4 2/2] Documentation: kdump: describe VMCOREINFO export for RISCV64
+Date:   Wed, 19 Oct 2022 18:36:23 +0800
+Message-Id: <20221019103623.7008-3-xianting.tian@linux.alibaba.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20221019103623.7008-1-xianting.tian@linux.alibaba.com>
+References: <20221019103623.7008-1-xianting.tian@linux.alibaba.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2022-10-18 (二) 21:04:23 +0800 Yanteng Si 曰：
-> Translate .../rust/general-information.rst into Chinese.
-> 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+The following interrelated definitions and ranges are needed by the kdump
+crash tool, which are exported by "arch/riscv/kernel/crash_core.c":
+    VA_BITS,
+    PAGE_OFFSET,
+    phys_ram_base,
+    KERNEL_LINK_ADDR,
+    MODULES_VADDR ~ MODULES_END,
+    VMALLOC_START ~ VMALLOC_END,
+    VMEMMAP_START ~ VMEMMAP_END,
 
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+Document these RISCV64 exports above.
 
-> ---
->  .../zh_CN/rust/general-information.rst        | 75 +++++++++++++++++++
->  .../translations/zh_CN/rust/index.rst         |  2 +-
->  2 files changed, 76 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/rust/general-information.rst
+Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
+---
+ .../admin-guide/kdump/vmcoreinfo.rst          | 29 +++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
+diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+index 6726f439958c..86fd88492870 100644
+--- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
++++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+@@ -595,3 +595,32 @@ X2TLB
+ -----
+ 
+ Indicates whether the crashed kernel enabled SH extended mode.
++
++RISCV64
++=======
++
++VA_BITS
++-------
++
++The maximum number of bits for virtual addresses. Used to compute the
++virtual memory ranges.
++
++PAGE_OFFSET
++-----------
++
++Indicates the virtual kernel start address of the direct-mapped RAM region.
++
++phys_ram_base
++-------------
++
++Indicates the start physical RAM address.
++
++MODULES_VADDR|MODULES_END|VMALLOC_START|VMALLOC_END|VMEMMAP_START|VMEMMAP_END|KERNEL_LINK_ADDR
++----------------------------------------------------------------------------------------------
++
++Used to get the correct ranges:
++
++  * MODULES_VADDR ~ MODULES_END : Kernel module space.
++  * VMALLOC_START ~ VMALLOC_END : vmalloc() / ioremap() space.
++  * VMEMMAP_START ~ VMEMMAP_END : vmemmap space, used for struct page array.
++  * KERNEL_LINK_ADDR : start address of Kernel link and BPF
 -- 
-Wu XiangCheng	0x32684A40BCA7AEA7
+2.17.1
 
