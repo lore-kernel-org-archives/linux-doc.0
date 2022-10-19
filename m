@@ -2,67 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A70CC4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 14:13:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3BEAC43219
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 15:09:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232089AbiJSON3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 10:13:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58098 "EHLO
+        id S229645AbiJSPJo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 11:09:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232097AbiJSONM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 10:13:12 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D43521C77F3;
-        Wed, 19 Oct 2022 06:55:40 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        with ESMTP id S232102AbiJSPIr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 11:08:47 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA4508E0D9;
+        Wed, 19 Oct 2022 08:00:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5CB5260C;
-        Wed, 19 Oct 2022 13:53:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5CB5260C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1666187637; bh=360lzm9U3LeSeoCVdsLfBOUHx/sNrnUrP5/45tJ0mdU=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Eh/fcKBqyBANCHn9MKm5+rqH8Qd9BDycO12Io5w08bmUUJn+G9WobXcTodHtOXpW5
-         NUAGtYVTAgGJci3MTwo/aZIC+nR/dh5xwo+3vAz8H5U8uHzB3EWEJId7Fq2vHw+4iQ
-         YsHo6tfM9Gk+cu041YZhRPqQd8Z9AA0Ap9Mjpe3nfw7sF/fBFrjlwRLCWQU0xlght5
-         VmF+OYeDhfcM1Bq2DGKC4g7iiUD82Ffju7CF04OOJs3Ky8KnoA8JCXVnEkBkKOysC1
-         bpIlByiY2chZJeMtL4JekThXaq1qOw8TuG2rS9w0VIuhdOwlj/lxwZrnwGH6EkkDyu
-         JJATBQs1G8dyw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Alexander Atanasov <alexander.atanasov@virtuozzo.com>
-Cc:     kernel@openvz.org,
-        Alexander Atanasov <alexander.atanasov@virtuozzo.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v5 8/8] documentation: create a document about how
- balloon drivers operate
-In-Reply-To: <20221019095620.124909-9-alexander.atanasov@virtuozzo.com>
-References: <20221019095620.124909-1-alexander.atanasov@virtuozzo.com>
- <20221019095620.124909-9-alexander.atanasov@virtuozzo.com>
-Date:   Wed, 19 Oct 2022 07:53:56 -0600
-Message-ID: <8735bjdimj.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 75E1B61929;
+        Wed, 19 Oct 2022 15:00:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5613EC433C1;
+        Wed, 19 Oct 2022 15:00:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1666191655;
+        bh=7I7sjR3Gz/WEhc33eidz6uHor5l2/Hm/OLxObdG7yG8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Sog1tByziDJHCwjc4iNK++1OQnMnVOsC2tejISrPvGOhBEjRrdAKDbuex/sqNU+HN
+         6elLnkGOLlGv1O1aIfaJ6lcGouACd/05Y6BEIffQG4aIf1+rehV7ZRaE1C6sG7RGRb
+         znSR961sDjRUk3FRLo8+Jokm8Z8lYyfk+P510w/Y=
+Date:   Wed, 19 Oct 2022 17:00:52 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     tglx@linutronix.de, akpm@linux-foundation.org, shuah@kernel.org,
+        keescook@chromium.org, joe@perches.com, rostedt@goodmis.org,
+        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11 0/2] SPDX: add copyleft-next-0.3.1
+Message-ID: <Y1ARJIhR9oldlXr5@kroah.com>
+References: <20221003165849.1658170-1-mcgrof@kernel.org>
+ <Y0/7FZCk7D+ygf2o@bombadil.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y0/7FZCk7D+ygf2o@bombadil.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alexander Atanasov <alexander.atanasov@virtuozzo.com> writes:
+On Wed, Oct 19, 2022 at 06:26:45AM -0700, Luis Chamberlain wrote:
+> On Mon, Oct 03, 2022 at 09:58:47AM -0700, Luis Chamberlain wrote:
+> > As suggested by Thomas Gleixner, I'm following up to move on with
+> > the SPDX tag needed for copyleft-next-0.3.1. I've split this out
+> > from the test_sysfs selftest so to separate review from that.
+> > 
+> > Changes on this v11:
+> >   o Fixed a minor typo on patch #2 as noted by Kees Cook
+> >   o Added Reviewed-by tags by Kees Cook
+> > 
+> > Changes on this v10:
+> >   o embraced paragraph from Thomas Gleixner which helps explain why             
+> >     the OR operator in the SPDX license name
+> >   o dropped the GPL-2.0 and GPL-2.0+ tags as suggested by Thomas Gleixner
+> >     as these are outdated (still valid) in the SPDX spec
+> >   o trimmed the Cc list to remove the test_sysfs / block layer / fs folks as
+> >     the test_sysfs stuff is now dropped from consideration in this series
+> > 
+> > Prior to this the series was at v9 but it also had the test_sysfs and its
+> > changes, its history can be found here:
+> > 
+> > https://lore.kernel.org/all/20211029184500.2821444-1-mcgrof@kernel.org/
+> > 
+> > Luis Chamberlain (2):
+> >   LICENSES: Add the copyleft-next-0.3.1 license
+> >   testing: use the copyleft-next-0.3.1 SPDX tag
+> > 
+> >  LICENSES/dual/copyleft-next-0.3.1        | 236 +++++++++++++++++++++++
+> >  lib/test_kmod.c                          |  12 +-
+> >  lib/test_sysctl.c                        |  12 +-
+> >  tools/testing/selftests/kmod/kmod.sh     |  13 +-
+> >  tools/testing/selftests/sysctl/sysctl.sh |  12 +-
+> >  5 files changed, 240 insertions(+), 45 deletions(-)
+> >  create mode 100644 LICENSES/dual/copyleft-next-0.3.1
+> 
+> *poke*
 
-> Describe ballooning and how it works. Explain the two values
-> and why they are there.
-> Point the places where a user can see more balloon information and
-> how each driver operates.
->
-> Signed-off-by: Alexander Atanasov <alexander.atanasov@virtuozzo.com>
-> ---
->  Documentation/mm/balloon.rst | 138 +++++++++++++++++++++++++++++++++++
->  1 file changed, 138 insertions(+)
->  create mode 100644 Documentation/mm/balloon.rst
+It's been 2 days since the merge window ended.  And my todo queue is:
 
-When you add a new RST file, you also need to add it to index.rst so
-that it becomes part of the docs build.
+	$ mdfrm -c todo/
+	1410 messages in todo/
 
-Thanks,
+Please give me a chance to catch up...
 
-jon
+thanks,
+
+greg k-h
