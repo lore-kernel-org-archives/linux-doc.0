@@ -2,40 +2,40 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20E88C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 13:45:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 946A7C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 13:46:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233157AbiJSNpg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 09:45:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60598 "EHLO
+        id S232801AbiJSNqH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 09:46:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233590AbiJSNob (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 09:44:31 -0400
+        with ESMTP id S232924AbiJSNpA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 09:45:00 -0400
 Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 432A0199886;
-        Wed, 19 Oct 2022 06:31:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D910E11C38;
+        Wed, 19 Oct 2022 06:31:48 -0700 (PDT)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
-        t=1666186257;
+        t=1666186272;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=AjuWJVNhkBvpGyB36JX1wwbKTh+Ncxz/qy06/EtkAxA=;
-        b=JjwMk2ka730u9Fk4Et1ZdFdXTU80c10Qs5qqtXUSf9fROQhlCbPRNA6cQfJqVhkPyzSCXe
-        D4rxGmSexAj0R7lmY2RdqZchJzGMDJvOc8ehTrTSICiYLD5fUOU2bhIeP+d/Dp2vNT7vYL
-        nTBrYUHDgumpRmFVeZBhbxHqoWoDa6xL3lgSBBImoXk7oRou1Bb/l8i1tzHcjY+1cNQ0zc
-        oFvzfb75mK1S1PriJxpuX4pGPNTY4aBPVBpx7QVuks8i3pgmotEW9lOWBR76oFuje57/vH
-        KcTsoBOjPleRsFMJL2W+Me4IcfegXjXQcPUvC4eFbQRAuygsgTz0I7WgFcqNvQ==
+        bh=kLONnTrgE41xLuoR7aINxfaHvykieYVHakm2mQu46pE=;
+        b=KCZ3cXrxe+PB+8Vud62pouWmnw8EOrEex984T5Iqz55u/3CuMNV+j9NEpU0qmBBqMQwwno
+        2kiDr8xHqGnAVtyDZjovRWv0xynLRDYgI2msDGiegwnTNuKz536SnCuyoLj24hxnyyAr2D
+        /qnxY+I1brSoE4oqkqUtTBupqe+KRGPadrgYw+VEbMOQNWJZvtZr58lna8z8kSk38Cswmo
+        Y+XyVQ3WoFbyprmYvjEfITuVJMZZfXmZslH86lkUfJfuxtzmwu1SLSIvwDoySbhb0+epnS
+        BqCzGWNHZiEkOdizwMN6OBUqVj9xtYCxqOTZfMsuOqaTv/7kOdGXP7y9LVO9/A==
 From:   Rui Li <me@lirui.org>
 To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Wu XiangCheng <wu.xiangcheng@linux.dev>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Rui Li <me@lirui.org>
-Subject: [PATCH v3 1/2] docs/zh_CN: Add userspace-api/index Chinese translation
-Date:   Wed, 19 Oct 2022 21:30:21 +0800
-Message-Id: <76b86e687034d5347e1e49c4acfc28e9c45abe47.1666185911.git.me@lirui.org>
+Subject: [PATCH v3 2/2] docs/zh_CN: Add userspace-api/ebpf Chinese translation
+Date:   Wed, 19 Oct 2022 21:30:22 +0800
+Message-Id: <cdd100d92752f76827fa7abfcd9903b857d71044.1666185911.git.me@lirui.org>
 In-Reply-To: <cover.1666185911.git.me@lirui.org>
 References: <cover.1666185911.git.me@lirui.org>
 MIME-Version: 1.0
@@ -46,93 +46,116 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate userspace-api/index.rst into Chinese, add it into
-zh_CN/index.rst.
+Translate the following documents into Chinese:
+
+- userspace-api/ebpf/index.rst
+- userspace-api/ebpf/syscall.rst
 
 Signed-off-by: Rui Li <me@lirui.org>
 ---
 Changes since v2:
-- Change patch set order
+- Remove long English reference
+- Remove ebpf from TODO
 
 Changes since v1:
+- Translate bpf subcommand title
 - Align title
-- Change some translation
+- Add space after doc path
 ---
- Documentation/translations/zh_CN/index.rst    |  2 +-
- .../zh_CN/userspace-api/index.rst             | 46 +++++++++++++++++++
- 2 files changed, 47 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/userspace-api/index.rst
+ .../zh_CN/userspace-api/ebpf/index.rst        | 22 ++++++++++++++
+ .../zh_CN/userspace-api/ebpf/syscall.rst      | 29 +++++++++++++++++++
+ .../zh_CN/userspace-api/index.rst             |  6 +++-
+ 3 files changed, 56 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
 
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index ec99ef5fe990..272414971ce9 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -90,12 +90,12 @@ TODOList:
- 
-    admin-guide/index
-    admin-guide/reporting-issues.rst
-+   userspace-api/index
- 
- TODOList:
- 
- * 内核构建系统 <kbuild/index>
- * 用户空间工具 <tools/index>
--* userspace-api/index
- 
- 也可参考独立于内核文档的 `Linux 手册页 <https://www.kernel.org/doc/man-pages/>`_ 。
- 
-diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
+diff --git a/Documentation/translations/zh_CN/userspace-api/ebpf/index.rst b/Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
 new file mode 100644
-index 000000000000..3b834fe7e33b
+index 000000000000..d52c7052f101
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/userspace-api/index.rst
-@@ -0,0 +1,46 @@
++++ b/Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
+@@ -0,0 +1,22 @@
 +.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
++.. include:: ../../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/userspace-api/index.rst
++:Original: Documentation/userspace-api/ebpf/index.rst
 +
 +:翻译:
 +
 + 李睿 Rui Li <me@lirui.org>
 +
-+=========================
-+Linux 内核用户空间API指南
-+=========================
++eBPF 用户空间API
++================
 +
++eBPF是一种在Linux内核中提供沙箱化运行环境的机制，它可以在不改变内核源码或加载
++内核模块的情况下扩展运行时和编写工具。eBPF程序能够被附加到各种内核子系统中，包
++括网络，跟踪和Linux安全模块(LSM)等。
++
++关于eBPF的内部内核文档，请查看 Documentation/bpf/index.rst 。
++
++.. toctree::
++   :maxdepth: 1
++
++   syscall
+diff --git a/Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst b/Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
+new file mode 100644
+index 000000000000..47e2a59ae45d
+--- /dev/null
++++ b/Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
+@@ -0,0 +1,29 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../../disclaimer-zh_CN.rst
++
++:Original: Documentation/userspace-api/ebpf/syscall.rst
++
++:翻译:
++
++ 李睿 Rui Li <me@lirui.org>
++
++eBPF Syscall
++------------
++
++:作者:
++    - Alexei Starovoitov <ast@kernel.org>
++    - Joe Stringer <joe@wand.net.nz>
++    - Michael Kerrisk <mtk.manpages@gmail.com>
++
++bpf syscall的主要信息可以在 `man-pages`_ 中的 `bpf(2)`_ 找到。
++
++bpf() 子命令参考
++~~~~~~~~~~~~~~~~
++
++子命令在以下内核代码中：
++
++include/uapi/linux/bpf.h
++
++.. Links:
 +.. _man-pages: https://www.kernel.org/doc/man-pages/
++.. _bpf(2): https://man7.org/linux/man-pages/man2/bpf.2.html
+diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
+index 3b834fe7e33b..12c63d81c663 100644
+--- a/Documentation/translations/zh_CN/userspace-api/index.rst
++++ b/Documentation/translations/zh_CN/userspace-api/index.rst
+@@ -21,6 +21,11 @@ Linux 内核用户空间API指南
+ 
+ 	   目录
+ 
++.. toctree::
++   :maxdepth: 2
 +
-+尽管许多用户空间API的文档被记录在别处（特别是在 man-pages_ 项目中），
-+在代码树中仍然可以找到有关用户空间的部分信息。这个手册意在成为这些信息
-+聚集的地方。
++   ebpf/index
 +
-+.. class:: toc-title
-+
-+	   目录
-+
-+TODOList:
-+
-+* no_new_privs
-+* seccomp_filter
-+* landlock
-+* unshare
-+* spec_ctrl
-+* accelerators/ocxl
-+* ebpf/index
-+* ioctl/index
-+* iommu
-+* media/index
-+* netlink/index
-+* sysfs-platform_profile
-+* vduse
-+* futex2
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
+ TODOList:
+ 
+ * no_new_privs
+@@ -29,7 +34,6 @@ TODOList:
+ * unshare
+ * spec_ctrl
+ * accelerators/ocxl
+-* ebpf/index
+ * ioctl/index
+ * iommu
+ * media/index
 -- 
 2.30.2
 
