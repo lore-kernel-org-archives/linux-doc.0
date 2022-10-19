@@ -2,159 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67A81C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 12:37:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 774C2C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 12:38:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233166AbiJSMha (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 08:37:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49858 "EHLO
+        id S230332AbiJSMin (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 08:38:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232619AbiJSMhQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 08:37:16 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DC47E171CE3;
-        Wed, 19 Oct 2022 05:17:32 -0700 (PDT)
-Received: from loongson.cn (unknown [112.20.109.239])
-        by gateway (Coremail) with SMTP id _____8AxDdnR6E9j2b8AAA--.3892S3;
-        Wed, 19 Oct 2022 20:08:49 +0800 (CST)
-Received: from [192.168.100.127] (unknown [112.20.109.239])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxDuLN6E9j7E0BAA--.5393S3;
-        Wed, 19 Oct 2022 20:08:46 +0800 (CST)
-Message-ID: <14a49844-8ac3-630b-bee2-fa9ea422cb52@loongson.cn>
-Date:   Wed, 19 Oct 2022 20:08:45 +0800
+        with ESMTP id S233224AbiJSMiO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 08:38:14 -0400
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AEF115201E;
+        Wed, 19 Oct 2022 05:19:12 -0700 (PDT)
+Message-ID: <410b2536-5cb3-ca1e-17cb-49e9e0324edf@lirui.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
+        t=1666181747;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=rJZwIzOf40cWqYWDcV6d9EHXjGN4IFX3s7oxhx8/EWU=;
+        b=mNpOq7qweHHX6EbM/tFKjzj+f/NS2vm+equnnXnunmGgcdh98I6m+zOolXG0AYw+LRU0XQ
+        4BcKbF4kdzS8zb8xOBgVNQbAAkra7uoQ1bVSGE91JMu8lxrELr/efLlBL1IAGkiieVM3So
+        TPztnbnlKtxriW1LqKJm9SlLw5VewHL426/kRvccLNoCqIQB/M/a4UCFjoJZxG6J/JKA4Q
+        gea7j9uDDxG+P4KFZOPGOL7OcaQOCEpu5AEIhZMcDC0DNKahlTxK96N0SqFGitrgBFAKCT
+        G5Yc5v99a/L2rFoI0tSlZ7LrQk5b2xUeJWEYfF4V8r1Hj8DrB7cNfp7Iq0tV7A==
+Date:   Wed, 19 Oct 2022 20:15:39 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 1/2] docs/zh_CN: Add userspace-api/ebpf Chinese
- translation
-Content-Language: en-US
-To:     Rui Li <me@lirui.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] docs/zh_CN: Add staging/index Chinese translation
+To:     Yanteng Si <siyanteng@loongson.cn>
 Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Wu XiangCheng <wu.xiangcheng@linux.dev>
-References: <cover.1666093699.git.me@lirui.org>
- <8d032bf9a69ac6703260ac91408562c562c03f2d.1666093699.git.me@lirui.org>
-From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <8d032bf9a69ac6703260ac91408562c562c03f2d.1666093699.git.me@lirui.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Wu XiangCheng <wu.xiangcheng@linux.dev>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <cover.1666067195.git.me@lirui.org>
+ <4ef47cfc6c85ad9c778af1f13761e8dd8e410ee8.1666067195.git.me@lirui.org>
+ <ceb6193f-8cd6-15c0-8965-f8496e7732cd@loongson.cn>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Rui Li <me@lirui.org>
+In-Reply-To: <ceb6193f-8cd6-15c0-8965-f8496e7732cd@loongson.cn>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxDuLN6E9j7E0BAA--.5393S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxWF17XrykGrWDAr1fGr18AFb_yoW5CFy5pF
-        nakr1fGayfArW3Crn7Wr1xCFn7CF48WayUCw17J34Syr95tF9Yyr17tFWxGw43JryI9FWv
-        qrsYqFyj934xZaDanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bfAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
-        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAa
-        w2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
-        I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2
-        jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62
-        AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI
-        1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_Jr
-        Wlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j
-        6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr
-        0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUv
-        cSsGvfC2KfnxnUUI43ZEXa7IU8CksDUUUUU==
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 10/18/22 19:54, Rui Li wrote:
-> Translate the following documents into Chinese:
+On 2022/10/19 19:25, Yanteng Si wrote:
 >
-> - userspace-api/ebpf/index.rst
-> - userspace-api/ebpf/syscall.rst
+> On 10/18/22 12:31, Rui Li wrote:
+>> Translate the following files into Chinese:
+>>
+>> - Documentation/staging/index.rst
+>>
+>> Add it into the menu of zh_CN/index. Also fix one translation
+>> in the zh_CN/index file.
+>>
+>> Signed-off-by: Rui Li <me@lirui.org>
+>> ---
+>>   Documentation/translations/zh_CN/index.rst    |  8 +++---
+>>   .../translations/zh_CN/staging/index.rst      | 27 +++++++++++++++++++
+>>   2 files changed, 31 insertions(+), 4 deletions(-)
+>>   create mode 100644 Documentation/translations/zh_CN/staging/index.rst
+>>
+>> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+>> index ec99ef5fe990..3d07b3149afe 100644
+>> --- a/Documentation/translations/zh_CN/index.rst
+>> +++ b/Documentation/translations/zh_CN/index.rst
+>> @@ -124,13 +124,13 @@ TODOList:
+>>   其他文档
+>>   --------
+>>   -有几份未排序的文档似乎不适合放在文档的其他部分，或者可能需要进行一些调整和/或
+>> +有几份未分类的文档似乎不适合放在文档的其他部分，或者可能需要进行一些调整和/或
+>>   转换为reStructureText格式，也有可能太旧。
+>>   -TODOList:
+>> -
+>> -* staging/index
+>> +.. toctree::
+>> +   :maxdepth: 2
+>>   +   staging/index
+>>     索引和表格
+>>   ----------
+>> diff --git a/Documentation/translations/zh_CN/staging/index.rst b/Documentation/translations/zh_CN/staging/index.rst
+>> new file mode 100644
+>> index 000000000000..7d074b34ac97
+>> --- /dev/null
+>> +++ b/Documentation/translations/zh_CN/staging/index.rst
+>> @@ -0,0 +1,27 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +.. include:: ../disclaimer-zh_CN.rst
+>> +
+>> +:Original: Documentation/staging/index.rst
+>> +
+>> +:翻译:
+>> +
+>> + 李睿 Rui Li <me@lirui.org>
+>> +
+>> +未分类文档
+>> +======================
+>> +
+>> +.. toctree::
+>> +   :maxdepth: 2
+>> +
+>> +   xz
 >
-> Signed-off-by: Rui Li <me@lirui.org>
-> ---
-> Changes since v1:
-> - Translate bpf subcommand title
-> - Align title
-> - Add space after doc path
-> ---
->   .../zh_CN/userspace-api/ebpf/index.rst        | 22 +++++++++++++
->   .../zh_CN/userspace-api/ebpf/syscall.rst      | 31 +++++++++++++++++++
->   2 files changed, 53 insertions(+)
->   create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
->   create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
+> The thing of adding xz to the index should be put to patch 1, one patch to do one thing.
 >
-> diff --git a/Documentation/translations/zh_CN/userspace-api/ebpf/index.rst b/Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
-> new file mode 100644
-> index 000000000000..d52c7052f101
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
-> @@ -0,0 +1,22 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/userspace-api/ebpf/index.rst
-> +
-> +:翻译:
-> +
-> + 李睿 Rui Li <me@lirui.org>
-> +
-> +eBPF 用户空间API
-> +================
-> +
-> +eBPF是一种在Linux内核中提供沙箱化运行环境的机制，它可以在不改变内核源码或加载
-> +内核模块的情况下扩展运行时和编写工具。eBPF程序能够被附加到各种内核子系统中，包
-> +括网络，跟踪和Linux安全模块(LSM)等。
-> +
-> +关于eBPF的内部内核文档，请查看 Documentation/bpf/index.rst 。
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   syscall
-> diff --git a/Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst b/Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
-> new file mode 100644
-> index 000000000000..17515728f544
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
-> @@ -0,0 +1,31 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/userspace-api/ebpf/syscall.rst
-> +
-> +:翻译:
-> +
-> + 李睿 Rui Li <me@lirui.org>
-> +
-> +eBPF Syscall
-> +------------
-> +
-> +:作者:
-> +    - Alexei Starovoitov <ast@kernel.org>
-> +    - Joe Stringer <joe@wand.net.nz>
-> +    - Michael Kerrisk <mtk.manpages@gmail.com>
-> +
-> +bpf syscall的主要信息可以在 `man-pages`_ 中的 `bpf(2)`_ 找到。
-> +
-> +bpf() 子命令参考
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +.. kernel-doc:: include/uapi/linux/bpf.h
-> +   :doc: eBPF Syscall Preamble
-> +
-> +.. kernel-doc:: include/uapi/linux/bpf.h
-> +   :doc: eBPF Syscall Commands
+>
+> Logically, this patch should be used as patch 1, otherwise xz will be homeless at some point.
+>
+>
+> Thanks,
+>
+> Yanteng
+>
+>> +
+>> +TODOList:
+>> +
+>> +* crc32
+>> +* lzo
+>> +* remoteproc
+>> +* rpmsg
+>> +* speculation
+>> +* static-keys
+>> +* tee
+>> +* xz
+>
 
-This generates a lot of documentation in English.
+Thanks a lot! I made changes in PATCH v2.
 
-
-See Documentation/translations/zh_CN/core-api/kernel-api.rst
-
-
-Thanks,
-
-Yanteng
-
-> +
-> +.. Links:
-> +.. _man-pages: https://www.kernel.org/doc/man-pages/
-> +.. _bpf(2): https://man7.org/linux/man-pages/man2/bpf.2.html
+-- 
+Rui Li
 
