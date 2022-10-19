@@ -2,96 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A674C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 10:04:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BACAAC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 10:23:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231394AbiJSKEP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 06:04:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52004 "EHLO
+        id S230164AbiJSKXh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 06:23:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234408AbiJSKDo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 06:03:44 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7679AF53DB
-        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 02:41:43 -0700 (PDT)
-Received: from loongson.cn (unknown [112.20.109.239])
-        by gateway (Coremail) with SMTP id _____8AxDdmXxE9jMbQAAA--.3705S3;
-        Wed, 19 Oct 2022 17:34:15 +0800 (CST)
-Received: from localhost.localdomain (unknown [112.20.109.239])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8BxTuCVxE9jJD0BAA--.5274S2;
-        Wed, 19 Oct 2022 17:34:13 +0800 (CST)
-From:   Binbin Zhou <zhoubinbin@loongson.cn>
-To:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Wu XiangCheng <bobwxc@email.cn>
-Cc:     Huacai Chen <chenhuacai@loongson.cn>, linux-doc@vger.kernel.org,
-        Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH V2 0/3] docs/zh_CN: core-api: Add some translations for the "Data structures" section(Part 2)
-Date:   Wed, 19 Oct 2022 17:32:34 +0800
-Message-Id: <cover.1666171735.git.zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S230009AbiJSKW7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 06:22:59 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27E65C8950;
+        Wed, 19 Oct 2022 03:02:34 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id CF34633924;
+        Wed, 19 Oct 2022 10:00:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1666173625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=iR8uS4Gx4LUrjoOa7cKkotplZsy+7+DUm7VXca8j8Vk=;
+        b=qk52itcPxIK0JYJIi3Lrj54e+dtHIlQeHi6ZYF0FDwxWlMQhelJJNQhmNUS1f86htn1Xka
+        3pgdL7jeDWGAv/Xsx519Lwgtk5IQgrsiiCt87uyBNDUZYcXKpnvAr+ZVrDQofc7P5ldqj4
+        6qPVodH8VgXZUIZ4NmbL7RdzPT2GDiM=
+Received: from suse.cz (unknown [10.100.201.202])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id 3E4AF2C142;
+        Wed, 19 Oct 2022 10:00:24 +0000 (UTC)
+Date:   Wed, 19 Oct 2022 12:00:23 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Russell King <rmk+kernel@armlinux.org.uk>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
+        devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH 4/7] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Y0/Kt9CW5vYcxHhK@alley>
+References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
+ <E1oVYUS-005CmS-IA@rmk-PC.armlinux.org.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxTuCVxE9jJD0BAA--.5274S2
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7ZFyDWFy7Wr1kWr1xGF4kZwb_yoW8GF45pF
-        ZFkr1fGFnrCF17Cws3WrZrAF15AayxW3yYg34xXw1SvF45JF1rtrsYyryagFWUZryvqF1F
-        vrs3Kr98u34jyrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        b7AYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
-        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
-        IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
-        McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCFx2
-        IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v2
-        6r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67
-        AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IY
-        s7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr
-        0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1EksDUUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <E1oVYUS-005CmS-IA@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all:
+On Tue 2022-09-06 14:19:44, Russell King wrote:
+> From: Hector Martin <marcan@marcan.st>
+> 
+> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+> it's useful to be able to print generic 4-character codes formatted as
+> an integer. Extend it to add format specifiers for printing generic
+> 32-bit FOURCCs with various endian semantics:
+> 
+> %p4ch   Host-endian
+> %p4cl	Little-endian
+> %p4cb	Big-endian
+> %p4cr	Reverse-endian
+> 
+> The endianness determines how bytes are interpreted as a u32, and the
+> FOURCC is then always printed MSByte-first (this is the opposite of
+> V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
+> allow printing LSByte-first FOURCCs stored in host endian order
+> (other than the hex form being in character order, not the integer
+> value).
+> 
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -625,6 +625,38 @@ Passed by reference.
+>  	%p4cc	Y10  little-endian (0x20303159)
+>  	%p4cc	NV12 big-endian (0xb231564e)
+>  
+> +Generic FourCC code
+> +-------------------
+> +
+> +::
+> +	%p4c[hnbl]	gP00 (0x67503030)
+> +
+> +Print a generic FourCC code, as both ASCII characters and its numerical
+> +value as hexadecimal.
+> +
+> +The additional ``h``, ``r``, ``b``, and ``l`` specifiers are used to specify
+> +host, reversed, big or little endian order data respectively. Host endian
+> +order means the data is interpreted as a 32-bit integer and the most
+> +significant byte is printed first; that is, the character code as printed
+> +matches the byte order stored in memory on big-endian systems, and is reversed
+> +on little-endian systems.
+> +
+> +Passed by reference.
+> +
+> +Examples for a little-endian machine, given &(u32)0x67503030::
+> +
+> +	%p4ch	gP00 (0x67503030)
+> +	%p4cl	gP00 (0x67503030)
+> +	%p4cb	00Pg (0x30305067)
+> +	%p4cr	00Pg (0x30305067)
 
-As a continuation of the previous patchset
-(https://lore.kernel.org/all/cover.1660881950.git.zhoubinbin@loongson.cn/),
-this patchset contains the Chinese translations of the remaining three files.
+Nit: I would prefer to keep the same order (h,r,b,l) everywhere.
 
-As follows:
+     I guess that you wanted to show exactly the same results next
+     to each other. But it is not the case on big-endian anyway.
 
-this_cpu_ops.rst
-timekeeping.rst
-errseq.rst
+> +
+> +Examples for a big-endian machine, given &(u32)0x67503030::
+> +
+> +	%p4ch	gP00 (0x67503030)
+> +	%p4cl	00Pg (0x30305067)
+> +	%p4cb	gP00 (0x67503030)
+> +	%p4cr	00Pg (0x30305067)
 
-So far, the docs for section "Data structures and low-level utilities" of
-the core-api has been translated completely.
+Same here.
 
-Thanks.
+> +
+>  Thanks
+>  ======
+>  
+> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> index 3c1853a9d1c0..31707499f90f 100644
+> --- a/lib/vsprintf.c
+> +++ b/lib/vsprintf.c
+> @@ -1757,27 +1757,50 @@ char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+>  	char output[sizeof("0123 little-endian (0x01234567)")];
+>  	char *p = output;
+>  	unsigned int i;
+> +	bool pix_fmt = false;
 
-Changes since V1:
-- Take Xiangcheng's advices, thanks.
+Nit: I would prefer "pixel_fmt". I am not a graphics guy and wondered
+     what "pix" did stands for ;-)
 
-Details: 
-https://lore.kernel.org/all/Y0wsWoI+BXXCuRbF@bobwxc.mipc/
-https://lore.kernel.org/all/Y02EcgD3E0%2FlML5H@bobwxc.mipc/
+>  	u32 orig, val;
+>  
+> -	if (fmt[1] != 'c' || fmt[2] != 'c')
+> +	if (fmt[1] != 'c')
+>  		return error_string(buf, end, "(%p4?)", spec);
+>  
+>  	if (check_pointer(&buf, end, fourcc, spec))
+>  		return buf;
+>  
+>  	orig = get_unaligned(fourcc);
+> -	val = orig & ~BIT(31);
+> +	switch (fmt[2]) {
+> +	case 'h':
+> +		val = orig;
+> +		break;
+> +	case 'r':
+> +		val = orig = swab32(orig);
+> +		break;
+> +	case 'l':
+> +		val = orig = le32_to_cpu(orig);
+> +		break;
+> +	case 'b':
+> +		val = orig = be32_to_cpu(orig);
+> +		break;
+> +	case 'c':
+> +		/* Pixel formats are printed LSB-first */
+> +		val = swab32(orig & ~BIT(31));
+> +		pix_fmt = true;
+> +		break;
+> +	default:
+> +		return error_string(buf, end, "(%p4?)", spec);
+> +	}
+>  
+>  	for (i = 0; i < sizeof(u32); i++) {
+> -		unsigned char c = val >> (i * 8);
+> +		unsigned char c = val >> ((3 - i) * 8);
 
-Binbin Zhou (3):
-  docs/zh_CN: core-api: Add this_cpu_ops Chinese translation
-  docs/zh_CN: core-api: Add timekeeping Chinese translation
-  docs/zh_CN: core-api: Add errseq Chinese translation
+This hardcodes '3' but the for-cycle uses i < sizeof(u32).
+We should be consistent.
 
- .../translations/zh_CN/core-api/errseq.rst    | 145 +++++++++
- .../translations/zh_CN/core-api/index.rst     |   5 -
- .../zh_CN/core-api/this_cpu_ops.rst           | 285 ++++++++++++++++++
- .../zh_CN/core-api/timekeeping.rst            | 177 +++++++++++
- 4 files changed, 607 insertions(+), 5 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/errseq.rst
- create mode 100644 Documentation/translations/zh_CN/core-api/this_cpu_ops.rst
- create mode 100644 Documentation/translations/zh_CN/core-api/timekeeping.rst
+A solution would be:
 
--- 
-2.31.1
+	int i;
 
+	for (i = sizeof(u32); --i >= 0;) {
+		unsigned char c = val >> (i * 8);
+
+
+>  		/* Print non-control ASCII characters as-is, dot otherwise */
+>  		*p++ = isascii(c) && isprint(c) ? c : '.';
+>  	}
+>  
+> -	*p++ = ' ';
+> -	strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+> -	p += strlen(p);
+> +	if (pix_fmt) {
+> +		*p++ = ' ';
+> +		strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+> +		p += strlen(p);
+> +	}
+>  
+>  	*p++ = ' ';
+>  	*p++ = '(';
+
+Best Regards,
+Petr
