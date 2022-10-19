@@ -2,188 +2,220 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12277C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 03:17:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A83E6C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 03:29:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229587AbiJSDR3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 23:17:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53912 "EHLO
+        id S229680AbiJSD3i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 23:29:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbiJSDR1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 23:17:27 -0400
-Received: from out199-8.us.a.mail.aliyun.com (out199-8.us.a.mail.aliyun.com [47.90.199.8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E046E1941;
-        Tue, 18 Oct 2022 20:17:24 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R281e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=24;SR=0;TI=SMTPD_---0VSYahCs_1666149436;
-Received: from 30.221.97.167(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VSYahCs_1666149436)
-          by smtp.aliyun-inc.com;
-          Wed, 19 Oct 2022 11:17:18 +0800
-Message-ID: <811bdf09-be38-ce2a-a1d3-ada9f7c85b97@linux.alibaba.com>
-Date:   Wed, 19 Oct 2022 11:17:16 +0800
+        with ESMTP id S229926AbiJSD3d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 23:29:33 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9946212618;
+        Tue, 18 Oct 2022 20:29:29 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id i21so17585898ljh.12;
+        Tue, 18 Oct 2022 20:29:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dvzc90YqgpdFnYUM4wOAbJGrJxP9XPQFzprzhmScQh4=;
+        b=HEIDgFYPDAr1w7qvR5d+epzMdX3ZJBeIDdhl/3ZRBrUMXVHNjTrlEAauV/BmU7dQqu
+         aSPEjwpgs7yJDO8j+91M6Sq4HSOyQRg9SEmupr+Itz8mnuUtixCDULvvkXL3nljXi0yZ
+         SEDBLq4Lqa+BZgFdqmNDSQD5ZGWa4buTEyDi71sRF7RgaDvzsMArwOCbn7dMTMSPkoyA
+         bRPstliMerzc1nJpYeJ0FjtXnVlnSmJipBGjiy8CHMgrTBnhzy1YjTXf+aC8PzIODhmn
+         YFzwRyI3psr+QWEOJUmLfW86TVdY4/25RbwRtWXfe6CQSiGHkUzACK0XVrWeMe+Ew/S5
+         OlFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Dvzc90YqgpdFnYUM4wOAbJGrJxP9XPQFzprzhmScQh4=;
+        b=bn/+wscWzbkbSCxpNSOrsQQYXFkopX/KUy+r8+Hvm48RWOy8k1RGINO9wnVOruk0pH
+         iOIUXUyq9fDoFtYkD9z4k5ygftfibEEFVApS5f47CfFN0eGvA+ON/XncqflwyPeXS7DN
+         Tb+9bBfMCnXbyPy2iqNwtjTlpUqqavOD71Ep9sVAsuOKAyyRgVSEq0c11k39OrHx587m
+         bdZLDjNdcnyMmGxJP3xxhIzl81q9RCzYx0BzWY6swf+WW3B5a32TiC0DV7JYN59nC/dk
+         7sEnDYd0hyitXeMoAPz8/ZBkL6tZGW1QSA9sLKyCYHVrJMPtvSL10ZymhQBLkhAU21uq
+         YQpQ==
+X-Gm-Message-State: ACrzQf0XE9tPhCB6INwALElJ+V6igbkMwyVYEt1K2c00F3bPc0jZvKRJ
+        bpntQ0jM8P1l5c7WxhvO5JhfJ4/nSY8pOy8r046mvD4CEXkHUQ==
+X-Google-Smtp-Source: AMsMyM5b5QvnOhgrGLXyeqFYYigpwIdsTJDnH81meiwVxG9VKGWPmxh1eHDPdekViv2ZS8xQJvtm+2l46ybYMJVmBzw=
+X-Received: by 2002:a2e:92d5:0:b0:26f:a674:94ac with SMTP id
+ k21-20020a2e92d5000000b0026fa67494acmr2120324ljh.470.1666150167790; Tue, 18
+ Oct 2022 20:29:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH V3 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
-To:     =?UTF-8?B?SEFHSU8gS0FaVUhJVE8o6JCp5bC+IOS4gOS7gSk=?= 
-        <k-hagio-ab@nec.com>, Baoquan He <bhe@redhat.com>,
-        lijiang <lijiang@redhat.com>
-Cc:     "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-        "palmer@dabbelt.com" <palmer@dabbelt.com>,
-        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-        "anup@brainfault.org" <anup@brainfault.org>,
-        "heiko@sntech.de" <heiko@sntech.de>,
-        "guoren@kernel.org" <guoren@kernel.org>,
-        "mick@ics.forth.gr" <mick@ics.forth.gr>,
-        "alexandre.ghiti@canonical.com" <alexandre.ghiti@canonical.com>,
-        "vgoyal@redhat.com" <vgoyal@redhat.com>,
-        "dyoung@redhat.com" <dyoung@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Conor.Dooley@microchip.com" <Conor.Dooley@microchip.com>,
-        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "crash-utility@redhat.com" <crash-utility@redhat.com>,
-        "heinrich.schuchardt@canonical.com" 
-        <heinrich.schuchardt@canonical.com>,
-        "hschauhan@nulltrace.org" <hschauhan@nulltrace.org>,
-        "yixun.lan@gmail.com" <yixun.lan@gmail.com>
-References: <20221018081755.6214-1-xianting.tian@linux.alibaba.com>
- <20221018081755.6214-2-xianting.tian@linux.alibaba.com>
- <Y05tfxRenMs5d+bt@MiWiFi-R3L-srv>
- <049ec19e-60c3-2854-5f5e-9850231108b4@linux.alibaba.com>
- <Y05540td7lLz+0BY@MiWiFi-R3L-srv>
- <a66a5b16-5f1f-3d80-3cdc-4b82d38d604f@linux.alibaba.com>
- <0f0a77a9-c824-8aa4-77de-a75c2139d791@nec.com>
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-In-Reply-To: <0f0a77a9-c824-8aa4-77de-a75c2139d791@nec.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <cover.1666097959.git.siyanteng@loongson.cn> <82a36881a46eb8afcc754f81f196982ac3f6c735.1666097959.git.siyanteng@loongson.cn>
+In-Reply-To: <82a36881a46eb8afcc754f81f196982ac3f6c735.1666097959.git.siyanteng@loongson.cn>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Wed, 19 Oct 2022 11:28:51 +0800
+Message-ID: <CAJy-Am=g_En1dkkpzoh6wkwh0c3oJpxTd1Dxo+s4Y22SnxKq9A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] docs/zh_CN: Add rust/quick-start Chinese translation
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     alexs@kernel.org, corbet@lwn.net, ojeda@kernel.org,
+        boqun.feng@gmail.com, wedsonaf@gmail.com, gary@garyguo.net,
+        bjorn3_gh@protonmail.com, rust-for-linux@vger.kernel.org,
+        bobwxc@email.cn, wu.xiangcheng@linux.dev, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-在 2022/10/19 上午10:50, HAGIO KAZUHITO(萩尾 一仁) 写道:
-> On 2022/10/19 10:50, Xianting Tian wrote:
->> 在 2022/10/18 下午6:03, Baoquan He 写道:
->>> On 10/18/22 at 05:25pm, Xianting Tian wrote:
->>>> 在 2022/10/18 下午5:10, Baoquan He 写道:
->>>>> On 10/18/22 at 04:17pm, Xianting Tian wrote:
->>>>>> Add arch_crash_save_vmcoreinfo(), which exports VM layout(MODULES, VMALLOC,
->>>>>> VMEMMAP and KERNEL_LINK_ADDR ranges), va bits and ram base for vmcore.
->>>>>>
->>>>>> Default pagetable levels and PAGE_OFFSET aren't same for different kernel
->>>>>> version as below. For pagetable levels, it sets sv57 by default and falls
->>>>>> back to setting sv48 at boot time if sv57 is not supported by the hardware.
->>>>>>
->>>>>> For ram base, the default value is 0x80200000 for qemu riscv64 env and,
->>>>>> for example, is 0x200000 on the XuanTie 910 CPU.
->>>>>>
->>>>>>     * Linux Kernel 5.18 ~
->>>>>>     *      PGTABLE_LEVELS = 5
->>>>>>     *      PAGE_OFFSET = 0xff60000000000000
->>>>>>     * Linux Kernel 5.17 ~
->>>>>>     *      PGTABLE_LEVELS = 4
->>>>>>     *      PAGE_OFFSET = 0xffffaf8000000000
->>>>>>     * Linux Kernel 4.19 ~
->>>>>>     *      PGTABLE_LEVELS = 3
->>>>>>     *      PAGE_OFFSET = 0xffffffe000000000
->>>>>>
->>>>>> Since these configurations change from time to time and version to version,
->>>>>> it is preferable to export them via vmcoreinfo than to change the crash's
->>>>>> code frequently, it can simplify the development of crash tool.
->>>>>>
->>>>>> Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
->>>>>> ---
->>>>>>     arch/riscv/kernel/Makefile     |  1 +
->>>>>>     arch/riscv/kernel/crash_core.c | 29 +++++++++++++++++++++++++++++
->>>>>>     2 files changed, 30 insertions(+)
->>>>>>     create mode 100644 arch/riscv/kernel/crash_core.c
->>>>>>
->>>>>> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
->>>>>> index db6e4b1294ba..4cf303a779ab 100644
->>>>>> --- a/arch/riscv/kernel/Makefile
->>>>>> +++ b/arch/riscv/kernel/Makefile
->>>>>> @@ -81,6 +81,7 @@ obj-$(CONFIG_KGDB)        += kgdb.o
->>>>>>     obj-$(CONFIG_KEXEC_CORE)    += kexec_relocate.o crash_save_regs.o machine_kexec.o
->>>>>>     obj-$(CONFIG_KEXEC_FILE)    += elf_kexec.o machine_kexec_file.o
->>>>>>     obj-$(CONFIG_CRASH_DUMP)    += crash_dump.o
->>>>>> +obj-$(CONFIG_CRASH_CORE)    += crash_core.o
->>>>>>     obj-$(CONFIG_JUMP_LABEL)    += jump_label.o
->>>>>> diff --git a/arch/riscv/kernel/crash_core.c b/arch/riscv/kernel/crash_core.c
->>>>>> new file mode 100644
->>>>>> index 000000000000..8d7f5ff108da
->>>>>> --- /dev/null
->>>>>> +++ b/arch/riscv/kernel/crash_core.c
->>>>>> @@ -0,0 +1,29 @@
->>>>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>>>> +
->>>>>> +#include <linux/crash_core.h>
->>>>>> +#include <linux/pagemap.h>
->>>>>> +
->>>>>> +void arch_crash_save_vmcoreinfo(void)
->>>>>> +{
->>>>>> +    VMCOREINFO_NUMBER(VA_BITS);
->>>>>> +    VMCOREINFO_NUMBER(phys_ram_base);
->>>>>> +
->>>>>> +    vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", PAGE_OFFSET);
->>>>>> +    vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
->>>>>> +    vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
->>>>>> +    vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
->>>>>> +    vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
->>>>>> +#ifdef CONFIG_64BIT
->>>>>> +    vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
->>>>>> +    vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
->>>>>> +#endif
->>>>>> +
->>>>>> +    if (IS_ENABLED(CONFIG_64BIT)) {
->>>>>> +#ifdef CONFIG_KASAN
->>>>>> +        vmcoreinfo_append_str("NUMBER(KASAN_SHADOW_START)=0x%lx\n", KASAN_SHADOW_START);
->>>>>> +        vmcoreinfo_append_str("NUMBER(KASAN_SHADOW_END)=0x%lx\n", KASAN_SHADOW_END);
->>>>>> +#endif
->>>>>> +        vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", KERNEL_LINK_ADDR);
->>>>>> +        vmcoreinfo_append_str("NUMBER(ADDRESS_SPACE_END)=0x%lx\n", ADDRESS_SPACE_END);
->>>>> Seems this is the firsr ARCH where kasan and kernel link/bpf space are
->>>>> added to dump and analyze. Just curious, have you got code change to
->>>>> make use of them to do dumping and analyze?
->>>> KASAN_SHADOW_START is not used, KERNEL_LINK_ADDR is used in the crash patch set:
->>>> https://patchwork.kernel.org/project/linux-riscv/cover/20220813031753.3097720-1-xianting.tian@linux.alibaba.com/
->>> Oh, I would say please no. Sometime we got tons of objection when adding an
->>> necessary one, we definitely should not add one for possible future
->>> use.
->>>
->>> For this kind of newly added one, we need get ack from
->>> makedumpfile/crash utility maintainer so that we know they are necessary
->>> to have. At least they don't oppose.
->> Hi Kazu, Li Jiang
->>
->> Could you help comment whether we need KASAN_SHADOW_START and KERNEL_LINK_ADDR area export for vmcore from crash point of view？
->>
->> In my crash patch set, I don't use KASAN_SHADOW_START,
->> And only get the value of KERNEL_LINK_ADDR, not realy use it.
->> https://patchwork.kernel.org/project/linux-riscv/cover/20220813031753.3097720-1-xianting.tian@linux.alibaba.com/
-> In your crash patch set, KERNEL_LINK_ADDR is used in VTOP() and looks
-> necessary to me.
->
-> The others (KASAN_SHADOW_START, KASAN_SHADOW_END and ADDRESS_SPACE_END)
-> are not currently used.  It may be better to add them when they are
-> really used.
-
-I am very sorry, I missed it , KERNEL_LINK_ADDR is used indeed.
-
-KASAN_SHADOW_START is not used, so I don't need to send crash patch set 
-again. only need to remove KASAN_SHADOW_END in kernel patch set.
-
->
-> Thanks,
-> Kazu
->
->> If we need to remove the two areas, I will resend the crash patch set and kernel patch set.
->> thanks
->>
->>>> I add it in case of using in furture.
->>>>
->>>>> Thanks
->>>>> Baoquan
+TEdUTQ0KUmV2aWV3ZWQtYnk6IEFsZXggU2hpIDxhbGV4c0BrZXJuZWwub3JnPg0KDQpPbiBUdWUs
+IE9jdCAxOCwgMjAyMiBhdCA5OjA2IFBNIFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5j
+bj4gd3JvdGU6DQo+DQo+IFRyYW5zbGF0ZSAuLi4vcnVzdC9xdWljay1zdGFydC5yc3QgaW50byBD
+aGluZXNlLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdz
+b24uY24+DQo+IC0tLQ0KPiAgLi4uL3RyYW5zbGF0aW9ucy96aF9DTi9ydXN0L2luZGV4LnJzdCAg
+ICAgICAgIHwgICAyICstDQo+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL3J1c3QvcXVpY2stc3Rh
+cnQucnN0ICAgfCAyMTEgKysrKysrKysrKysrKysrKysrDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDIx
+MiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9j
+dW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcnVzdC9xdWljay1zdGFydC5yc3QNCj4NCj4g
+ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3J1c3QvaW5kZXgu
+cnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vcnVzdC9pbmRleC5yc3QNCj4g
+aW5kZXggZmM2YTA3NDg0MWJjLi5mZTg4NGQxZGEzNTMgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3J1c3QvaW5kZXgucnN0DQo+ICsrKyBiL0RvY3VtZW50
+YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3J1c3QvaW5kZXgucnN0DQo+IEBAIC0xNSwxMCArMTUs
+MTAgQEAgUnVzdA0KPiAgLi4gdG9jdHJlZTo6DQo+ICAgICAgOm1heGRlcHRoOiAxDQo+DQo+ICsg
+ICAgcXVpY2stc3RhcnQNCj4NCj4gIFRPRE9MaXN0Og0KPg0KPiAtKiAgICBxdWljay1zdGFydA0K
+PiAgKiAgICBnZW5lcmFsLWluZm9ybWF0aW9uDQo+ICAqICAgIGNvZGluZy1ndWlkZWxpbmVzDQo+
+ICAqICAgIGFyY2gtc3VwcG9ydA0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xh
+dGlvbnMvemhfQ04vcnVzdC9xdWljay1zdGFydC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0
+aW9ucy96aF9DTi9ydXN0L3F1aWNrLXN0YXJ0LnJzdA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0K
+PiBpbmRleCAwMDAwMDAwMDAwMDAuLjc0Nzg3M2IxZGE2YQ0KPiAtLS0gL2Rldi9udWxsDQo+ICsr
+KyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3J1c3QvcXVpY2stc3RhcnQucnN0
+DQo+IEBAIC0wLDAgKzEsMjExIEBADQo+ICsuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BM
+LTIuMA0KPiArLi4gaW5jbHVkZTo6IC4uL2Rpc2NsYWltZXItemhfQ04ucnN0DQo+ICsNCj4gKzpP
+cmlnaW5hbDogRG9jdW1lbnRhdGlvbi9ydXN0L3F1aWNrLXN0YXJ0LnJzdA0KPiArDQo+ICs657+7
+6K+ROg0KPiArDQo+ICsg5Y+45bu26IW+IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5j
+bj4NCj4gKw0KPiArDQo+ICvlv6vpgJ/lhaXpl6gNCj4gKz09PT09PT09DQo+ICsNCj4gK+acrOaW
+h+S7i+e7jeS6huWmguS9leW8gOWni+S9v+eUqFJ1c3Tov5vooYzlhoXmoLjlvIDlj5HjgIINCj4g
+Kw0KPiArDQo+ICvmnoTlu7rkvp3otZYNCj4gKy0tLS0tLS0tDQo+ICsNCj4gK+acrOiKguaPj+i/
+sOS6huWmguS9leiOt+WPluaehOW7uuaJgOmcgOeahOW3peWFt+OAgg0KPiArDQo+ICvlhbbkuK3k
+uIDkupvkvp3otZbkuZ/orrjlj6/ku6Xku45MaW51eOWPkeihjOeJiOS4reiOt+W+l++8jOWMheWQ
+jeWPr+iDveaYryBgYHJ1c3RjYGAgLCBgYHJ1c3Qtc3JjYGAgLA0KPiArYGBydXN0LWJpbmRnZW5g
+YCDnrYnjgILnhLbogIzvvIzlnKjlhpnov5nnr4fmlofnq6DnmoTml7blgJnvvIzlroPku6zlvojl
+j6/og73ov5jkuI3lpJ/mlrDvvIzpmaTpnZ7lj5HooYzniYjot5/ouKrmnIANCj4gK+aWsOeahOeJ
+iOacrOOAgg0KPiArDQo+ICvkuLrkuobmlrnkvr/mo4Dmn6XmmK/lkKbmu6HotrPopoHmsYLvvIzl
+j6/ku6Xkvb/nlKjku6XkuIvnm67moIc6Og0KPiArDQo+ICsgICAgICAgbWFrZSBMTFZNPTEgcnVz
+dGF2YWlsYWJsZQ0KPiArDQo+ICvov5nkvJrop6blj5HkuI5LY29uZmln55So5p2l56Gu5a6a5piv
+5ZCm5bqU6K+l5ZCv55SoIGBgUlVTVF9JU19BVkFJTEFCTEVgYCDnm7jlkIznmoTpgLvovpHvvJvk
+uI3ov4flroPkuZ8NCj4gK+S8muWIl+WHuuacqua7oei2s+eahOadoeS7tuOAgg0KPiArDQo+ICsN
+Cj4gK3J1c3RjDQo+ICsqKioqKg0KPiArDQo+ICvpnIDopoHkuIDkuKrnibnlrprniYjmnKznmoRS
+dXN057yW6K+R5Zmo44CC6L6D5paw55qE54mI5pys5Y+v6IO95Lya5Lmf5Y+v6IO95LiN5Lya5bel
+5L2c77yM5Zug5Li65bCx55uu5YmN6ICM6KiA77yM5YaF5qC45L6d6LWWDQo+ICvkuo7kuIDkupvk
+uI3nqLPlrprnmoRSdXN054m55oCn44CCDQo+ICsNCj4gK+WmguaenOS9v+eUqOeahOaYryBgYHJ1
+c3R1cGBgIO+8jOivt+i/m+WFpeajgOWHuueahOa6kOS7o+eggeebruW9leW5tui/kOihjDo6DQo+
+ICsNCj4gKyAgICAgICBydXN0dXAgb3ZlcnJpZGUgc2V0ICQoc2NyaXB0cy9taW4tdG9vbC12ZXJz
+aW9uLnNoIHJ1c3RjKQ0KPiArDQo+ICvmiJbogIXku47ku6XkuIvnvZHlnYDojrflj5bkuIDkuKrn
+i6znq4vnmoTlronoo4XnqIvluo/miJblronoo4UgYGBydXN0dXBgYCDvvJoNCj4gKw0KPiArICAg
+ICAgIGh0dHBzOi8vd3d3LnJ1c3QtbGFuZy5vcmcNCj4gKw0KPiArDQo+ICtSdXN05qCH5YeG5bqT
+5rqQ5Luj56CBDQo+ICsqKioqKioqKioqKioqKioqDQo+ICsNCj4gK1J1c3TmoIflh4blupPnmoTm
+upDku6PnoIHmmK/lv4XpnIDnmoTvvIzlm6DkuLrmnoTlu7rns7vnu5/kvJrkuqTlj4nnvJbor5Eg
+YGBjb3JlYGAg5ZKMIGBgYWxsb2NgYCDjgIINCj4gKw0KPiAr5aaC5p6c5q2j5Zyo5L2/55SoIGBg
+cnVzdHVwYGAg77yM6K+36L+Q6KGMOjoNCj4gKw0KPiArICAgICAgIHJ1c3R1cCBjb21wb25lbnQg
+YWRkIHJ1c3Qtc3JjDQo+ICsNCj4gK+i/meS6m+e7hOS7tuaYr+aMieW3peWFt+mTvuWuieijheea
+hO+8jOWboOatpOS7peWQjuWNh+e6p1J1c3TnvJbor5HlmajniYjmnKzpnIDopoHph43mlrDmt7vl
+iqDnu4Tku7bjgIINCj4gKw0KPiAr5ZCm5YiZ77yM5aaC5p6c5L2/55So54us56uL55qE5a6J6KOF
+56iL5bqP77yM5Y+v5Lul5bCGUnVzdOS7k+W6k+WFi+mahuWIsOW3peWFt+mTvueahOWuieijheaW
+h+S7tuWkueS4rTo6DQo+ICsNCj4gKyAgICAgICBnaXQgY2xvbmUgLS1yZWN1cnNlLXN1Ym1vZHVs
+ZXMgXA0KPiArICAgICAgICAgICAgICAgLS1icmFuY2ggJChzY3JpcHRzL21pbi10b29sLXZlcnNp
+b24uc2ggcnVzdGMpIFwNCj4gKyAgICAgICAgICAgICAgIGh0dHBzOi8vZ2l0aHViLmNvbS9ydXN0
+LWxhbmcvcnVzdCBcDQo+ICsgICAgICAgICAgICAgICAkKHJ1c3RjIC0tcHJpbnQgc3lzcm9vdCkv
+bGliL3J1c3RsaWIvc3JjL3J1c3QNCj4gKw0KPiAr5Zyo6L+Z56eN5oOF5Ya15LiL77yM5Lul5ZCO
+5Y2H57qnUnVzdOe8luivkeWZqOeJiOacrOmcgOimgeaJi+WKqOabtOaWsOi/meS4quWFi+mahuea
+hOS7k+W6k+OAgg0KPiArDQo+ICsNCj4gK2xpYmNsYW5nDQo+ICsqKioqKioqKg0KPiArDQo+ICtg
+YGJpbmRnZW5gYCDkvb/nlKggYGBsaWJjbGFuZ2BgIO+8iExMVk3nmoTkuIDpg6jliIbvvInmnaXn
+kIbop6PlhoXmoLjkuK3nmoRD5Luj56CB77yM6L+Z5oSP5ZGz552A6ZyA6KaB5a6JDQo+ICvoo4VM
+TFZN77yb5ZCM5Zyo5byA5ZCvIGBgQ0M9Y2xhbmdgYCDmiJYgYGBMTFZNPTFgYCDml7bnvJbor5Hl
+hoXmoLjkuIDmoLfjgIINCj4gKw0KPiArTGludXjlj5HooYzniYjkuK3lj6/og73kvJrmnInlkIjp
+gILnmoTljIXvvIzmiYDku6XmnIDlpb3lhYjmo4Dmn6XkuIDkuIvjgIINCj4gKw0KPiAr6YCC55So
+5LqO6YOo5YiG57O757uf5ZKM5p625p6E55qE5LqM6L+b5Yi25paH5Lu25Lmf5Y+v5Yiw5Lul5LiL
+572R5Z2A5LiL6L2977yaDQo+ICsNCj4gKyAgICAgICBodHRwczovL3JlbGVhc2VzLmxsdm0ub3Jn
+L2Rvd25sb2FkLmh0bWwNCj4gKw0KPiAr5oiW6ICF6Ieq6KGM5p6E5bu6TExWTe+8jOi/memcgOim
+geebuOW9k+mVv+eahOaXtumXtO+8jOS9huW5tuS4jeaYr+S4gOS4quWkjeadgueahOi/h+eoi++8
+mg0KPiArDQo+ICsgICAgICAgaHR0cHM6Ly9sbHZtLm9yZy9kb2NzL0dldHRpbmdTdGFydGVkLmh0
+bWwjZ2V0dGluZy10aGUtc291cmNlLWNvZGUtYW5kLWJ1aWxkaW5nLWxsdm0NCj4gKw0KPiAr6K+3
+5Y+C6ZiFIERvY3VtZW50YXRpb24va2J1aWxkL2xsdm0ucnN0IOS6huino+abtOWkmuS/oeaBr++8
+jOS7peWPiuiOt+WPlumihOaehOW7uueJiOacrOWSjOWPkeihjOWMhQ0KPiAr55qE6L+b5LiA5q2l
+5pa55rOV44CCDQo+ICsNCj4gKw0KPiArYmluZGdlbg0KPiArKioqKioqKg0KPiArDQo+ICvlhoXm
+oLjnmoRD56uv57uR5a6a5piv5Zyo5p6E5bu65pe25L2/55SoIGBgYmluZGdlbmBgIOW3peWFt+eU
+n+aIkOeahOOAgui/memcgOimgeeJueWumueahOeJiOacrOOAgg0KPiArDQo+ICvpgJrov4fku6Xk
+uIvmlrnlvI/lronoo4XlroPvvIjms6jmhI/vvIzov5nlsIbku47mupDnoIHkuIvovb3lubbmnoTl
+u7ror6Xlt6XlhbfvvIk6Og0KPiArDQo+ICsgICAgICAgY2FyZ28gaW5zdGFsbCAtLWxvY2tlZCAt
+LXZlcnNpb24gJChzY3JpcHRzL21pbi10b29sLXZlcnNpb24uc2ggYmluZGdlbikgYmluZGdlbg0K
+PiArDQo+ICsNCj4gK+W8gOWPkeS+nei1lg0KPiArLS0tLS0tLS0NCj4gKw0KPiAr5pys6IqC6Kej
+6YeK5LqG5aaC5L2V6I635Y+W5byA5Y+R5omA6ZyA55qE5bel5YW344CC5Lmf5bCx5piv6K+077yM
+5Zyo5p6E5bu65YaF5qC45pe25LiN6ZyA6KaB6L+Z5Lqb5bel5YW344CCDQo+ICsNCj4gKw0KPiAr
+cnVzdGZtdA0KPiArKioqKioqKg0KPiArDQo+ICtgYHJ1c3RmbXRgYCDlt6XlhbfooqvnlKjmnaXo
+h6rliqjmoLzlvI/ljJbmiYDmnInnmoRSdXN05YaF5qC45Luj56CB77yM5YyF5ous55Sf5oiQ55qE
+Q+e7keWumu+8iOivpuaDheivt+ingQ0KPiArY29kaW5nLWd1aWRlbGluZXMucnN0IO+8ieOAgg0K
+PiArDQo+ICvlpoLmnpzkvb/nlKjnmoTmmK8gYGBydXN0dXBgYCDvvIzlroPnmoQgYGDpu5jorqRg
+YCDphY3nva7mlofku7blt7Lnu4/lronoo4Xkuobov5nkuKrlt6XlhbfvvIzlm6DmraTkuI3pnIDo
+poHlgZrku4DkuYjjgIINCj4gK+WmguaenOS9v+eUqOeahOaYr+WFtuS7lumFjee9ruaWh+S7tu+8
+jOWPr+S7peaJi+WKqOWuieijheivpee7hOS7tjo6DQo+ICsNCj4gKyAgICAgICBydXN0dXAgY29t
+cG9uZW50IGFkZCBydXN0Zm10DQo+ICsNCj4gK+eLrOeri+eahOWuieijheeoi+W6j+S5n+W4puac
+iSBgYHJ1c3RmbXRgYCDjgIINCj4gKw0KPiArDQo+ICtjbGlwcHkNCj4gKyoqKioqKg0KPiArDQo+
+ICtgYGNsaXBweWBgIOaYr+S4gOS4qlJ1c3QgbGludGVy44CC6L+Q6KGM5a6D5Y+v5Lul5Li6UnVz
+dOS7o+eggeaPkOS+m+mineWklueahOitpuWRiuOAguWug+WPr+S7pemAmui/h+WQkSBgYG1ha2Vg
+YA0KPiAr5Lyg6YCSIGBgQ0xJUFBZPTFgYCDmnaXov5DooYzvvIjlhbPkuo7nu4boioLvvIzor6bo
+p4EgZ2VuZXJhbC1pbmZvcm1hdGlvbi5yc3Qg77yJ44CCDQo+ICsNCj4gK+WmguaenOato+WcqOS9
+v+eUqCBgYHJ1c3R1cGBgIO+8jOWug+eahCBgYOm7mOiupGBgIOmFjee9ruaWh+S7tuW3sue7j+Wu
+ieijheS6hui/meS4quW3peWFt++8jOWboOatpOS4jemcgOimgeWBmuS7gOS5iOOAgg0KPiAr5aaC
+5p6c5L2/55So55qE5piv5Y+m5LiA5Liq6YWN572u5paH5Lu277yM6K+l57uE5Lu25Y+v5Lul6KKr
+5omL5Yqo5a6J6KOFOjoNCj4gKw0KPiArICAgICAgIHJ1c3R1cCBjb21wb25lbnQgYWRkIGNsaXBw
+eQ0KPiArDQo+ICvni6znq4vnmoTlronoo4XnqIvluo/kuZ/luKbmnIkgYGBjbGlwcHlgYCDjgIIN
+Cj4gKw0KPiArDQo+ICtjYXJnbw0KPiArKioqKioNCj4gKw0KPiArYGBjYXJnb2BgIOaYr1J1c3Tn
+moTmnKzlnLDmnoTlu7rns7vnu5/jgILnm67liY3pnIDopoHlroPmnaXov5DooYzmtYvor5XvvIzl
+m6DkuLrlroPooqvnlKjmnaXmnoTlu7rkuIDkuKroh6rlrprkuYnnmoTmoIflh4YNCj4gK+W6k++8
+jOWFtuS4reWMheWQq+S6huWGheaguOS4reiHquWumuS5iSBgYGFsbG9jYGAg5omA5o+Q5L6b55qE
+6K6+5pa944CC5rWL6K+V5Y+v5Lul5L2/55SoIGBgcnVzdHRlc3RgYCBNYWtlIOebruaghw0KPiAr
+5p2l6L+Q6KGM44CCDQo+ICsNCj4gK+WmguaenOS9v+eUqOeahOaYryBgYHJ1c3R1cGBgIO+8jOaJ
+gOacieeahOmFjee9ruaWh+S7tumDveW3sue7j+WuieijheS6huivpeW3peWFt++8jOWboOatpOS4
+jemcgOimgeWGjeWBmuS7gOS5iOOAgg0KPiArDQo+ICvni6znq4vnmoTlronoo4XnqIvluo/kuZ/l
+uKbmnIkgYGBjYXJnb2BgIOOAgg0KPiArDQo+ICsNCj4gK3J1c3Rkb2MNCj4gKyoqKioqKioNCj4g
+Kw0KPiArYGBydXN0ZG9jYGAg5pivUnVzdOeahOaWh+aho+W3peWFt+OAguWug+S4ulJ1c3Tku6Pn
+oIHnlJ/miJDmvILkuq7nmoRIVE1M5paH5qGj77yI6K+m5oOF6K+36KeBIGdlbmVyYWwtaW5mb3Jt
+YXRpb24ucnN0IO+8ieOAgg0KPiArDQo+ICtgYHJ1c3Rkb2NgYCDkuZ/ooqvnlKjmnaXmtYvor5Xm
+lofmoaPljJbnmoRSdXN05Luj56CB5Lit5o+Q5L6b55qE5L6L5a2Q77yI56ew5Li6ZG9jdGVzdHPm
+iJbmlofmoaPmtYvor5XvvInjgIINCj4gK2BgcnVzdHRlc3RgYCDmmK/mnKzlip/og73nmoRNYWtl
+55uu5qCH44CCDQo+ICsNCj4gK+WmguaenOS9v+eUqOeahOaYryBgYHJ1c3R1cGBgIO+8jOaJgOac
+ieeahOmFjee9ruaWh+S7tumDveW3sue7j+WuieijheS6hui/meS4quW3peWFt++8jOWboOatpOS4
+jemcgOimgeWBmuS7gOS5iOOAgg0KPiArDQo+ICvni6znq4vnmoTlronoo4XnqIvluo/kuZ/luKbm
+nIkgYGBydXN0ZG9jYGAg44CCDQo+ICsNCj4gKw0KPiArcnVzdC1hbmFseXplcg0KPiArKioqKioq
+KioqKioqKg0KPiArDQo+ICtgcnVzdC1hbmFseXplciA8aHR0cHM6Ly9ydXN0LWFuYWx5emVyLmdp
+dGh1Yi5pby8+YF8g6K+t6KiA5pyN5Yqh5Zmo5Y+v5Lul5ZKM6K645aSa57yW6L6R5ZmoDQo+ICvk
+uIDotbfkvb/nlKjvvIzku6Xlrp7njrDor63ms5Xpq5jkuq7jgIHooaXlhajjgIHovazliLDlrprk
+uYnlkozlhbbku5blip/og73jgIINCj4gKw0KPiArYGBydXN0LWFuYWx5emVyYGAg6ZyA6KaB5LiA
+5Liq6YWN572u5paH5Lu277yMIGBgcnVzdC1wcm9qZWN0Lmpzb25gYCwg5a6D5Y+v5Lul55SxIGBg
+cnVzdC1hbmFseXplcmBgDQo+ICtNYWtlIOebruagh+eUn+aIkOOAgg0KPiArDQo+ICsNCj4gK+mF
+jee9rg0KPiArLS0tLQ0KPiArDQo+ICtSdXN05pSv5oyB77yIQ09ORklHX1JVU1TvvInpnIDopoHl
+nKggYGBHZW5lcmFsIHNldHVwYGAg6I+c5Y2V5Lit5ZCv55So44CC5Zyo5YW25LuW6KaB5rGC5b6X
+5Yiw5ruh6Laz55qE5oOFDQo+ICvlhrXkuIvvvIzor6XpgInpobnlj6rmnInlnKjmib7liLDlkIjp
+gILnmoRSdXN05bel5YW36ZO+5pe25omN5Lya5pi+56S677yI6KeB5LiK5paH77yJ44CC55u45bqU
+55qE77yM6L+Z5bCG5L2/5L6d6LWWUnVzdOeahOWFtg0KPiAr5LuW6YCJ6aG55Y+v6KeB44CCDQo+
+ICsNCj4gK+S5i+WQju+8jOi/m+WFpTo6DQo+ICsNCj4gKyAgICAgICBLZXJuZWwgaGFja2luZw0K
+PiArICAgICAgICAgICAtPiBTYW1wbGUga2VybmVsIGNvZGUNCj4gKyAgICAgICAgICAgICAgIC0+
+IFJ1c3Qgc2FtcGxlcw0KPiArDQo+ICvlubblkK/nlKjkuIDkupvlhoXnva7miJblj6/liqDovb3n
+moTmoLfkvovmqKHlnZfjgIINCj4gKw0KPiArDQo+ICvmnoTlu7oNCj4gKy0tLS0NCj4gKw0KPiAr
+55So5a6M5pW055qETExWTeW3peWFt+mTvuaehOW7uuWGheaguOaYr+ebruWJjeaUr+aMgeeahOac
+gOS9s+iuvue9ruOAguWNszo6DQo+ICsNCj4gKyAgICAgICBtYWtlIExMVk09MQ0KPiArDQo+ICvl
+r7nkuo7kuI3mlK/mjIHlrozmlbRMTFZN5bel5YW36ZO+55qE5p625p6E77yM5L2/55SoOjoNCj4g
+Kw0KPiArICAgICAgIG1ha2UgQ0M9Y2xhbmcNCj4gKw0KPiAr5L2/55SoR0ND5a+55p+Q5Lqb6YWN
+572u5Lmf5piv5Y+v6KGM55qE77yM5L2G55uu5YmN5a6D5piv6Z2e5bi46K+V6aqM5oCn55qE44CC
+DQo+ICsNCj4gKw0KPiAr5oqY6IW+DQo+ICstLS0tDQo+ICsNCj4gK+imgeaDs+a3seWFpeS6huin
+o++8jOivt+eciyBgYHNhbXBsZXMvcnVzdC9gYCDkuIvnmoTmoLfkvovmupDku6PnoIHjgIEgYGBy
+dXN0L2BgIOS4i+eahFJ1c3TmlK/mjIHku6PnoIHlkowNCj4gK2BgS2VybmVsIGhhY2tpbmdgYCDk
+uIvnmoQgYGBSdXN0IGhhY2tpbmdgYCDoj5zljZXjgIINCj4gKw0KPiAr5aaC5p6c5L2/55So55qE
+5pivR0RCL0JpbnV0aWxz77yM6ICMUnVzdOespuWPt+ayoeacieiiq+aLhuWIhu+8jOWOn+WboOaY
+r+W3peWFt+mTvui/mOS4jeaUr+aMgVJ1c3TnmoTmlrB2MOaLhuWIhuaWueahiOOAgg0KPiAr5pyJ
+5Yeg5Liq5Yqe5rOV5Y+v5Lul6Kej5Yaz77yaDQo+ICsNCj4gKyAgLSDlronoo4XkuIDkuKrovoPm
+lrDnmoTniYjmnKzvvIhHREIgPj0gMTAuMiwgQmludXRpbHMgPj0gMi4zNu+8ieOAgg0KPiArDQo+
+ICsgIC0g5LiA5Lqb54mI5pys55qER0RC77yI5L6L5aaCdmFuaWxsYSBHREIgMTAuMe+8ieiDveWk
+n+S9v+eUqOW1jOWFpeWcqOiwg+ivleS/oeaBryhgYENPTkZJR19ERUJVR19JTkZPYGApDQo+ICsg
+ICAg5Lit55qE6aKE5YWI6L+Y5Y6f5Ye95pWw55qE5ZCN5a2X44CCDQo+IC0tDQo+IDIuMzEuMQ0K
+Pg0K
