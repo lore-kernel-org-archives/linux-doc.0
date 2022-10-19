@@ -2,116 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAC8FC43217
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 11:10:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0793BC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 11:29:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233075AbiJSLKK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 07:10:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44438 "EHLO
+        id S232114AbiJSL3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 07:29:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234758AbiJSLJK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 07:09:10 -0400
-Received: from out30-56.freemail.mail.aliyun.com (out30-56.freemail.mail.aliyun.com [115.124.30.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B4817FD5D;
-        Wed, 19 Oct 2022 03:37:59 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=25;SR=0;TI=SMTPD_---0VSaNssl_1666175795;
-Received: from localhost.localdomain(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VSaNssl_1666175795)
-          by smtp.aliyun-inc.com;
-          Wed, 19 Oct 2022 18:36:36 +0800
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-To:     paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
-        guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
-        bagasdotme@gmail.com, k-hagio-ab@nec.com, lijiang@redhat.com
-Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
-        hschauhan@nulltrace.org, yixun.lan@gmail.com,
-        Xianting Tian <xianting.tian@linux.alibaba.com>
-Subject: [PATCH V4 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
-Date:   Wed, 19 Oct 2022 18:36:22 +0800
-Message-Id: <20221019103623.7008-2-xianting.tian@linux.alibaba.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20221019103623.7008-1-xianting.tian@linux.alibaba.com>
-References: <20221019103623.7008-1-xianting.tian@linux.alibaba.com>
+        with ESMTP id S233269AbiJSL3Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 07:29:24 -0400
+Received: from relay.virtuozzo.com (relay.virtuozzo.com [130.117.225.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07BE316C211;
+        Wed, 19 Oct 2022 04:03:32 -0700 (PDT)
+Received: from dev011.ch-qa.sw.ru ([172.29.1.16])
+        by relay.virtuozzo.com with esmtp (Exim 4.95)
+        (envelope-from <alexander.atanasov@virtuozzo.com>)
+        id 1ol5li-00B8K8-3z;
+        Wed, 19 Oct 2022 11:56:36 +0200
+From:   Alexander Atanasov <alexander.atanasov@virtuozzo.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     kernel@openvz.org,
+        Alexander Atanasov <alexander.atanasov@virtuozzo.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH v5 8/8] documentation: create a document about how balloon drivers operate
+Date:   Wed, 19 Oct 2022 12:56:20 +0300
+Message-Id: <20221019095620.124909-9-alexander.atanasov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20221019095620.124909-1-alexander.atanasov@virtuozzo.com>
+References: <20221019095620.124909-1-alexander.atanasov@virtuozzo.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add arch_crash_save_vmcoreinfo(), which exports VM layout(MODULES, VMALLOC,
-VMEMMAP ranges and KERNEL_LINK_ADDR), va bits and ram base for vmcore.
+Describe ballooning and how it works. Explain the two values
+and why they are there.
+Point the places where a user can see more balloon information and
+how each driver operates.
 
-Default pagetable levels and PAGE_OFFSET aren't same for different kernel
-version as below. For pagetable levels, it sets sv57 by default and falls
-back to setting sv48 at boot time if sv57 is not supported by the hardware.
-
-For ram base, the default value is 0x80200000 for qemu riscv64 env and,
-for example, is 0x200000 on the XuanTie 910 CPU.
-
- * Linux Kernel 5.18 ~
- *      PGTABLE_LEVELS = 5
- *      PAGE_OFFSET = 0xff60000000000000
- * Linux Kernel 5.17 ~
- *      PGTABLE_LEVELS = 4
- *      PAGE_OFFSET = 0xffffaf8000000000
- * Linux Kernel 4.19 ~
- *      PGTABLE_LEVELS = 3
- *      PAGE_OFFSET = 0xffffffe000000000
-
-Since these configurations change from time to time and version to version,
-it is preferable to export them via vmcoreinfo than to change the crash's
-code frequently, it can simplify the development of crash tool.
-
-Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
+Signed-off-by: Alexander Atanasov <alexander.atanasov@virtuozzo.com>
 ---
- arch/riscv/kernel/Makefile     |  1 +
- arch/riscv/kernel/crash_core.c | 23 +++++++++++++++++++++++
- 2 files changed, 24 insertions(+)
- create mode 100644 arch/riscv/kernel/crash_core.c
+ Documentation/mm/balloon.rst | 138 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 138 insertions(+)
+ create mode 100644 Documentation/mm/balloon.rst
 
-diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-index db6e4b1294ba..4cf303a779ab 100644
---- a/arch/riscv/kernel/Makefile
-+++ b/arch/riscv/kernel/Makefile
-@@ -81,6 +81,7 @@ obj-$(CONFIG_KGDB)		+= kgdb.o
- obj-$(CONFIG_KEXEC_CORE)	+= kexec_relocate.o crash_save_regs.o machine_kexec.o
- obj-$(CONFIG_KEXEC_FILE)	+= elf_kexec.o machine_kexec_file.o
- obj-$(CONFIG_CRASH_DUMP)	+= crash_dump.o
-+obj-$(CONFIG_CRASH_CORE)	+= crash_core.o
- 
- obj-$(CONFIG_JUMP_LABEL)	+= jump_label.o
- 
-diff --git a/arch/riscv/kernel/crash_core.c b/arch/riscv/kernel/crash_core.c
+diff --git a/Documentation/mm/balloon.rst b/Documentation/mm/balloon.rst
 new file mode 100644
-index 000000000000..3e889d0ed7bd
+index 000000000000..9fe9e7b228de
 --- /dev/null
-+++ b/arch/riscv/kernel/crash_core.c
-@@ -0,0 +1,23 @@
-+// SPDX-License-Identifier: GPL-2.0-only
++++ b/Documentation/mm/balloon.rst
+@@ -0,0 +1,138 @@
++===========================================
++Balloon: usage information visible by guest
++===========================================
++Background:
++===========
++The ballooning mechanism allows VM guests to reduce their memory size
++(thus relinquishing memory to the Host) and to increase it back (thus
++taking back memory from the Host).
++During OOM guest issues or guest low-performance issues
++investigations it is important to know if the Host has grabbed some of the
++Guest memory via the ballooning mechanism.
 +
-+#include <linux/crash_core.h>
-+#include <linux/pagemap.h>
++Implementation description:
++===========================
++/proc/meminfo::
 +
-+void arch_crash_save_vmcoreinfo(void)
-+{
-+	VMCOREINFO_NUMBER(VA_BITS);
-+	VMCOREINFO_NUMBER(phys_ram_base);
++  InflatedTotal:   2097152 kB
++  InflatedFree:          0 kB
 +
-+	vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", PAGE_OFFSET);
-+	vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
-+	vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
-+	vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
-+	vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
-+#ifdef CONFIG_64BIT
-+	vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
-+	vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
-+#endif
++The difference comes from the way drivers account for inflated memory:
++ - Drivers that call adjust_managed_page_count InflateTotal
++ - Drivers that do NOT call adjust_managed_page_count InflateFree
 +
-+	if (IS_ENABLED(CONFIG_64BIT))
-+		vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", KERNEL_LINK_ADDR);
-+}
++ * It is possible for one driver to operate in both modes depending on config options.
++
++
++The balloon statistics are also printed by show_mem() function, which
++is called on OOM condition or Alt+SysRQ+m is pressed.
++The show_mem() string is similar to /proc/meminfo and it is like::
++
++  Balloon InflatedTotal:XXXkB InflatedFree:YYYkB
++
++Additional balloon information is available via debugfs:
++ - KVM          features file: /sys/devices/pci\*/\*/virtio\*/features
++ - Hyper-V balloon guest file: /sys/kernel/debug/hv-balloon
++ - VMware  balloon guest file: /sys/kernel/debug/vmmemctl
++
++KVM balloon
++-----------
++The ballooning is implemented via virtio balloon device.
++Depending on the options the ballooned memory is accounted for in two ways:
++
++1. If deflate on OOM is enabled - ballooned memory is accounted as used.
++2. If deflate on OOM is not enabled - ballooned memory is subtracted
++   from total RAM.
++
++Q: How to check if "deflate on OOM" feature is enabled?
++A: Check balloon "features" file content.
++To decipher balloon bits are defined in include/uapi/linux/virtio_balloon.h
++Currently "deflate on OOM" feature is stored in the 2nd bit::
++  #define VIRTIO_BALLOON_F_DEFLATE_ON_OOM 2 /* Deflate balloon on OOM */
++Examples::
++
++  Without deflate on OOM:
++  # cat /sys/devices/pci0000:00/0000:00:03.0/virtio0/features
++  0100000000000000000000000000110010000000000000000000000000000000
++  With deflate on OOM:
++  # cat /sys/devices/pci0000:00/0000:00:03.0/virtio0/features
++  0110000000000000000000000000110010000000000000000000000000000000
++How to find virtio balloon device among other virtio devices?
++(check if the "virtio_balloon" module is loaded)::
++  # ls -l /sys/bus/virtio/drivers/virtio_balloon/virtio*
++    /sys/bus/virtio/drivers/virtio_balloon/virtio3 ->
++        ../../../../devices/pci0000:00/0000:00:07.0/virtio3
++
++To check virtio_balloon features::
++
++  # cat /sys/bus/virtio/drivers/virtio_balloon/virtio*/features
++  0110000000000000000000000000110010000000000000000000000000000000
++Balloon guest statistics output example::
++
++  # cat /sys/kernel/debug/virtio-balloon
++  InflatedTotal: 0 kB
++  InflatedFree: 0 kB
++
++- If "InflatedTotal" is not zero, it means the "deflate on OOM" feature is
++  **not** set and the provided amount of memory is subtracted from the total RAM
++  inside the Guest.
++- If "InflatedFree" is not zero, it means "deflate on OOM" feature is set and
++  the provided amount of memory is accounted as "used" inside the Guest.
++- Both "InflatedTotal" and "InflatedFree" cannot be non-zero at the same time.
++
++Hyper-V balloon
++---------------
++Balloon guest statistics output example::
++
++  # cat /sys/kernel/debug/hv-balloon
++  host_version : 2.0                // Hyper-V version the Guest is running under
++  capabilities : enabled hot_add
++  state : 1 (Initialized)
++  page_size : 4096
++  pages_added : 0                   // pages that are hot_add-ed to the Guest
++  pages_onlined : 0                 // pages that are added and then put online
++                                    // as available/used
++  pages_ballooned_out : 0           // pages the Host have taken back
++  vm_pages_commited : 795365        // total pages used by the Guest userspace
++  total_pages_commited : 977790     // total pages used by the Guest user+kernel
++  max_dynamic_page_count: 268435456 // maximum pages the Guest can have added
++                                    // via hot_add
++Hyper-V balloon driver changes the total RAM size reported by the Guest,
++thus the "InflatedTotal" counter will be non-zero in memory statistic
++reported during OOM or upon Alt+SysRQ+m.
++
++VMWare balloon
++---------------
++Balloon guest statistics output example::
++
++  # cat /sys/kernel/debug/vmmemctl
++  balloon capabilities: 0x1e
++  used capabilities: 0x6
++  is resetting: n
++  target: 0 pages
++  current: 0 pages
++  rateSleepAlloc: 2048 pages/sec
++  timer: 118
++  doorbell: 0
++  start: 1 ( 0 failed)
++  guestType: 1 ( 0 failed)
++  2m-lock: 0 ( 0 failed)
++  lock: 0 ( 0 failed)
++  2m-unlock: 0 ( 0 failed)
++  unlock: 0 ( 0 failed)
++  target: 118 ( 0 failed)
++  prim2mAlloc: 0 ( 0 failed)
++  primNoSleepAlloc: 0 ( 0 failed)
++  primCanSleepAlloc: 0 ( 0 failed)
++  prim2mFree: 0
++  primFree: 0
++  err2mAlloc: 0
++  errAlloc: 0
++  err2mFree: 0
++  errFree: 0
++  doorbellSet: 0
++  doorbellUnset: 1
++
++VMware balloon driver makes ballooned pages accounted as "used" in the
++Guest OS thus the "InflatedFree" counter will be non-zero in memory
++the statistic reported during OOM or upon Alt+SysRQ+m.
 -- 
-2.17.1
+2.31.1
 
