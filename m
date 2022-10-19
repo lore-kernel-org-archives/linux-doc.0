@@ -2,133 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F2A4C43217
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 11:47:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C12E3C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 11:47:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231740AbiJSLrO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 07:47:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34756 "EHLO
+        id S231779AbiJSLrn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 07:47:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231187AbiJSLqh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 07:46:37 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADD3619B67B;
-        Wed, 19 Oct 2022 04:26:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666178770; x=1697714770;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=sDkxUdt2JahFUf77AGEqjEY+CeposhXLpl0kIeK4m2o=;
-  b=huGddRKGBlIobxOltBsBk0I4fA+/mfdPkpENu+1+oaqAlzBzsEa2l9WN
-   RThC+67lxIbsTmBay7JfhxQFDPOQWIab09zG9q+sgN+kaf6bgMzYLEXKV
-   OviYbu+MvnFRMOUwAcrOMj14CK5UbU2Bl/Y+vmn7P13hAsVwvhx98e+NC
-   7FPCQdP9+zTl/+YEtJ4rJRBpclp9F97NK8CzV/f0jY4K0H1HkuMDjcSD/
-   cBhJ09PtX4ylOozBpEKMwhRLsZsTHGqH/hnOu3Ki2+0MWZ1cSwu+M6jVh
-   7M+eJI111Kc6946uoUhkm4Mv4keb42VW9khBPBYBqKUAoFdAYsaZ2KUQC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="392661926"
-X-IronPort-AV: E=Sophos;i="5.95,195,1661842800"; 
-   d="scan'208";a="392661926"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2022 02:34:20 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10504"; a="734127975"
-X-IronPort-AV: E=Sophos;i="5.95,195,1661842800"; 
-   d="scan'208";a="734127975"
-Received: from sponnura-mobl1.amr.corp.intel.com (HELO ijarvine-MOBL2.ger.corp.intel.com) ([10.251.214.35])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2022 02:34:17 -0700
-From:   =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     linux-serial@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v5 5/5] Documentation: Make formatting consistent for rs485 docs
-Date:   Wed, 19 Oct 2022 12:33:43 +0300
-Message-Id: <20221019093343.9546-6-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221019093343.9546-1-ilpo.jarvinen@linux.intel.com>
-References: <20221019093343.9546-1-ilpo.jarvinen@linux.intel.com>
+        with ESMTP id S231181AbiJSLrN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 07:47:13 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D135E122BCC;
+        Wed, 19 Oct 2022 04:26:35 -0700 (PDT)
+Received: from loongson.cn (unknown [112.20.109.239])
+        by gateway (Coremail) with SMTP id _____8Bx3NiX3k9jf70AAA--.3927S3;
+        Wed, 19 Oct 2022 19:25:11 +0800 (CST)
+Received: from [192.168.100.127] (unknown [112.20.109.239])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8CxLuKW3k9jnUkBAA--.5369S3;
+        Wed, 19 Oct 2022 19:25:11 +0800 (CST)
+Message-ID: <ceb6193f-8cd6-15c0-8965-f8496e7732cd@loongson.cn>
+Date:   Wed, 19 Oct 2022 19:25:10 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 2/2] docs/zh_CN: Add staging/index Chinese translation
+Content-Language: en-US
+To:     Rui Li <me@lirui.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Wu XiangCheng <wu.xiangcheng@linux.dev>
+References: <cover.1666067195.git.me@lirui.org>
+ <4ef47cfc6c85ad9c778af1f13761e8dd8e410ee8.1666067195.git.me@lirui.org>
+From:   Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <4ef47cfc6c85ad9c778af1f13761e8dd8e410ee8.1666067195.git.me@lirui.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxLuKW3k9jnUkBAA--.5369S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7ur4ruF1DXry5Cry3Kw43Awb_yoW8tF15pF
+        1kKr97KF1fXw43C34fWF17Wr1rCF4xGa18GF42qwnYqr1DJF40yrn8trZ8K34fWrWfZay8
+        ZF4rKFWj9w4jy3DanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bfAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAa
+        w2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
+        I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2
+        jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62
+        AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI
+        1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_Jr
+        Wlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I
+        6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr
+        0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUv
+        cSsGvfC2KfnxnUUI43ZEXa7IU8EeHDUUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tweak styling of names that come directly from the code.
 
-Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
- .../driver-api/serial/serial-rs485.rst        | 37 ++++++++++---------
- 1 file changed, 19 insertions(+), 18 deletions(-)
+On 10/18/22 12:31, Rui Li wrote:
+> Translate the following files into Chinese:
+>
+> - Documentation/staging/index.rst
+>
+> Add it into the menu of zh_CN/index. Also fix one translation
+> in the zh_CN/index file.
+>
+> Signed-off-by: Rui Li <me@lirui.org>
+> ---
+>   Documentation/translations/zh_CN/index.rst    |  8 +++---
+>   .../translations/zh_CN/staging/index.rst      | 27 +++++++++++++++++++
+>   2 files changed, 31 insertions(+), 4 deletions(-)
+>   create mode 100644 Documentation/translations/zh_CN/staging/index.rst
+>
+> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+> index ec99ef5fe990..3d07b3149afe 100644
+> --- a/Documentation/translations/zh_CN/index.rst
+> +++ b/Documentation/translations/zh_CN/index.rst
+> @@ -124,13 +124,13 @@ TODOList:
+>   其他文档
+>   --------
+>   
+> -有几份未排序的文档似乎不适合放在文档的其他部分，或者可能需要进行一些调整和/或
+> +有几份未分类的文档似乎不适合放在文档的其他部分，或者可能需要进行一些调整和/或
+>   转换为reStructureText格式，也有可能太旧。
+>   
+> -TODOList:
+> -
+> -* staging/index
+> +.. toctree::
+> +   :maxdepth: 2
+>   
+> +   staging/index
+>   
+>   索引和表格
+>   ----------
+> diff --git a/Documentation/translations/zh_CN/staging/index.rst b/Documentation/translations/zh_CN/staging/index.rst
+> new file mode 100644
+> index 000000000000..7d074b34ac97
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/staging/index.rst
+> @@ -0,0 +1,27 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/staging/index.rst
+> +
+> +:翻译:
+> +
+> + 李睿 Rui Li <me@lirui.org>
+> +
+> +未分类文档
+> +======================
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +
+> +   xz
 
-diff --git a/Documentation/driver-api/serial/serial-rs485.rst b/Documentation/driver-api/serial/serial-rs485.rst
-index e53aa291bcd7..dce061ef7647 100644
---- a/Documentation/driver-api/serial/serial-rs485.rst
-+++ b/Documentation/driver-api/serial/serial-rs485.rst
-@@ -39,15 +39,15 @@ RS485 Serial Communications
-    uart_get_rs485_mode().
- 
-    Any driver for devices capable of working both as RS232 and RS485 should
--   implement the rs485_config callback and provide rs485_supported in the
--   struct uart_port. The serial core calls rs485_config to do the device
--   specific part in response to TIOCSRS485 ioctl (see below). The
--   rs485_config callback receives a pointer to a sanitizated struct
-+   implement the ``rs485_config`` callback and provide ``rs485_supported``
-+   in the ``struct uart_port``. The serial core calls ``rs485_config`` to do
-+   the device specific part in response to TIOCSRS485 ioctl (see below). The
-+   ``rs485_config`` callback receives a pointer to a sanitizated struct
-    serial_rs485. The struct serial_rs485 userspace provides is sanitized
--   before calling rs485_config using rs485_supported that indicates what
--   RS485 features the driver supports for the struct uart_port. TIOCGRS485
--   ioctl can be used to read back the struct serial_rs485 matching to the
--   current configuration.
-+   before calling ``rs485_config`` using ``rs485_supported`` that indicates
-+   what RS485 features the driver supports for the ``struct uart_port``.
-+   TIOCGRS485 ioctl can be used to read back the struct serial_rs485
-+   matching to the current configuration.
- 
- .. kernel-doc:: include/uapi/linux/serial.h
-    :identifiers: serial_rs485 uart_get_rs485_mode
-@@ -108,23 +108,24 @@ RS485 Serial Communications
- ========================
- 
-    The Linux kernel provides addressing mode for multipoint RS-485 serial
--   communications line. The addressing mode is enabled with SER_RS485_ADDRB
--   flag in struct serial_rs485. The struct serial_rs485 has two additional
--   flags and fields for enabling receive and destination addresses.
-+   communications line. The addressing mode is enabled with
-+   ``SER_RS485_ADDRB`` flag in struct serial_rs485. The struct serial_rs485
-+   has two additional flags and fields for enabling receive and destination
-+   addresses.
- 
-    Address mode flags:
--	- SER_RS485_ADDRB: Enabled addressing mode (sets also ADDRB in termios).
--	- SER_RS485_ADDR_RECV: Receive (filter) address enabled.
--	- SER_RS485_ADDR_DEST: Set destination address.
-+	- ``SER_RS485_ADDRB``: Enabled addressing mode (sets also ADDRB in termios).
-+	- ``SER_RS485_ADDR_RECV``: Receive (filter) address enabled.
-+	- ``SER_RS485_ADDR_DEST``: Set destination address.
- 
--   Address fields (enabled with corresponding SER_RS485_ADDR_* flag):
--	- addr_recv: Receive address.
--	- addr_dest: Destination address.
-+   Address fields (enabled with corresponding ``SER_RS485_ADDR_*`` flag):
-+	- ``addr_recv``: Receive address.
-+	- ``addr_dest``: Destination address.
- 
-    Once a receive address is set, the communication can occur only with the
-    particular device and other peers are filtered out. It is left up to the
-    receiver side to enforce the filtering. Receive address will be cleared
--   if SER_RS485_ADDR_RECV is not set.
-+   if ``SER_RS485_ADDR_RECV`` is not set.
- 
-    Note: not all devices supporting RS485 support multipoint addressing.
- 
--- 
-2.30.2
+The thing of adding xz to the index should be put to patch 1, one patch 
+to do one thing.
+
+
+Logically, this patch should be used as patch 1, otherwise xz will be 
+homeless at some point.
+
+
+Thanks,
+
+Yanteng
+
+> +
+> +TODOList:
+> +
+> +* crc32
+> +* lzo
+> +* remoteproc
+> +* rpmsg
+> +* speculation
+> +* static-keys
+> +* tee
+> +* xz
 
