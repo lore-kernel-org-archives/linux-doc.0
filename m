@@ -2,44 +2,40 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 946A7C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 13:46:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5AEBC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 13:46:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232801AbiJSNqH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 09:46:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48842 "EHLO
+        id S233270AbiJSNqK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 09:46:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232924AbiJSNpA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 09:45:00 -0400
-Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D910E11C38;
-        Wed, 19 Oct 2022 06:31:48 -0700 (PDT)
+        with ESMTP id S233002AbiJSNpX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 09:45:23 -0400
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D804613CE0;
+        Wed, 19 Oct 2022 06:31:51 -0700 (PDT)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
-        t=1666186272;
+        t=1666186249;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kLONnTrgE41xLuoR7aINxfaHvykieYVHakm2mQu46pE=;
-        b=KCZ3cXrxe+PB+8Vud62pouWmnw8EOrEex984T5Iqz55u/3CuMNV+j9NEpU0qmBBqMQwwno
-        2kiDr8xHqGnAVtyDZjovRWv0xynLRDYgI2msDGiegwnTNuKz536SnCuyoLj24hxnyyAr2D
-        /qnxY+I1brSoE4oqkqUtTBupqe+KRGPadrgYw+VEbMOQNWJZvtZr58lna8z8kSk38Cswmo
-        Y+XyVQ3WoFbyprmYvjEfITuVJMZZfXmZslH86lkUfJfuxtzmwu1SLSIvwDoySbhb0+epnS
-        BqCzGWNHZiEkOdizwMN6OBUqVj9xtYCxqOTZfMsuOqaTv/7kOdGXP7y9LVO9/A==
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=mofHzRnefxgzenZ91HNuKSlbNCOFeQU/hBtnHuhh+WY=;
+        b=lF2SMX7wbwATWEz2q2A4gwDstK0rjcqu+9I+k9SaKoKWbS8RgF0g2wlE0MxWFycR31ufUT
+        QRCogiHrVRUA6A1SZSSAFUPFk30VI3NtmNuxRTp3rq4T1LbKjUXQFS6oHn9Gd9OGBT9cVW
+        cAnihMry1lBlQk4z8yqpm26oPQQgI7XMo9qdbfvThWFd7fQZUI7BtrqIlp+/jYydsJXf3d
+        g3g76L6nXJaPV2l5K8CdwpEzOiELzWjBUmDxUY34bGpR2seicWi2h8sn7FZEc2ye0vkQmv
+        c329NdRez+jRU0834MMOqTk2WuHmm5/9ya1UYS7El1JmNJLnWU3BK0sbYWIrfQ==
 From:   Rui Li <me@lirui.org>
 To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Wu XiangCheng <wu.xiangcheng@linux.dev>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Rui Li <me@lirui.org>
-Subject: [PATCH v3 2/2] docs/zh_CN: Add userspace-api/ebpf Chinese translation
-Date:   Wed, 19 Oct 2022 21:30:22 +0800
-Message-Id: <cdd100d92752f76827fa7abfcd9903b857d71044.1666185911.git.me@lirui.org>
-In-Reply-To: <cover.1666185911.git.me@lirui.org>
-References: <cover.1666185911.git.me@lirui.org>
+Subject: [PATCH v3 0/2] docs/zh_CN: Add userspace-api/index and ebpf Chinese translation
+Date:   Wed, 19 Oct 2022 21:30:20 +0800
+Message-Id: <cover.1666185911.git.me@lirui.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
@@ -48,114 +44,25 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Translate the following documents into Chinese:
 
-- userspace-api/ebpf/index.rst
-- userspace-api/ebpf/syscall.rst
+- Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
+- Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
+- Documentation/translations/zh_CN/userspace-api/index.rst
 
-Signed-off-by: Rui Li <me@lirui.org>
----
-Changes since v2:
-- Remove long English reference
-- Remove ebpf from TODO
+Add userspace-api into the menu of zh_CN index.
 
-Changes since v1:
-- Translate bpf subcommand title
-- Align title
-- Add space after doc path
----
- .../zh_CN/userspace-api/ebpf/index.rst        | 22 ++++++++++++++
- .../zh_CN/userspace-api/ebpf/syscall.rst      | 29 +++++++++++++++++++
- .../zh_CN/userspace-api/index.rst             |  6 +++-
- 3 files changed, 56 insertions(+), 1 deletion(-)
+Rui Li (2):
+  docs/zh_CN: Add userspace-api/index Chinese translation
+  docs/zh_CN: Add userspace-api/ebpf Chinese translation
+
+ Documentation/translations/zh_CN/index.rst    |  2 +-
+ .../zh_CN/userspace-api/ebpf/index.rst        | 22 ++++++++
+ .../zh_CN/userspace-api/ebpf/syscall.rst      | 29 +++++++++++
+ .../zh_CN/userspace-api/index.rst             | 50 +++++++++++++++++++
+ 4 files changed, 102 insertions(+), 1 deletion(-)
  create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
  create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/index.rst
 
-diff --git a/Documentation/translations/zh_CN/userspace-api/ebpf/index.rst b/Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
-new file mode 100644
-index 000000000000..d52c7052f101
---- /dev/null
-+++ b/Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
-@@ -0,0 +1,22 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/userspace-api/ebpf/index.rst
-+
-+:翻译:
-+
-+ 李睿 Rui Li <me@lirui.org>
-+
-+eBPF 用户空间API
-+================
-+
-+eBPF是一种在Linux内核中提供沙箱化运行环境的机制，它可以在不改变内核源码或加载
-+内核模块的情况下扩展运行时和编写工具。eBPF程序能够被附加到各种内核子系统中，包
-+括网络，跟踪和Linux安全模块(LSM)等。
-+
-+关于eBPF的内部内核文档，请查看 Documentation/bpf/index.rst 。
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   syscall
-diff --git a/Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst b/Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
-new file mode 100644
-index 000000000000..47e2a59ae45d
---- /dev/null
-+++ b/Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
-@@ -0,0 +1,29 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/userspace-api/ebpf/syscall.rst
-+
-+:翻译:
-+
-+ 李睿 Rui Li <me@lirui.org>
-+
-+eBPF Syscall
-+------------
-+
-+:作者:
-+    - Alexei Starovoitov <ast@kernel.org>
-+    - Joe Stringer <joe@wand.net.nz>
-+    - Michael Kerrisk <mtk.manpages@gmail.com>
-+
-+bpf syscall的主要信息可以在 `man-pages`_ 中的 `bpf(2)`_ 找到。
-+
-+bpf() 子命令参考
-+~~~~~~~~~~~~~~~~
-+
-+子命令在以下内核代码中：
-+
-+include/uapi/linux/bpf.h
-+
-+.. Links:
-+.. _man-pages: https://www.kernel.org/doc/man-pages/
-+.. _bpf(2): https://man7.org/linux/man-pages/man2/bpf.2.html
-diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
-index 3b834fe7e33b..12c63d81c663 100644
---- a/Documentation/translations/zh_CN/userspace-api/index.rst
-+++ b/Documentation/translations/zh_CN/userspace-api/index.rst
-@@ -21,6 +21,11 @@ Linux 内核用户空间API指南
- 
- 	   目录
- 
-+.. toctree::
-+   :maxdepth: 2
-+
-+   ebpf/index
-+
- TODOList:
- 
- * no_new_privs
-@@ -29,7 +34,6 @@ TODOList:
- * unshare
- * spec_ctrl
- * accelerators/ocxl
--* ebpf/index
- * ioctl/index
- * iommu
- * media/index
 -- 
 2.30.2
 
