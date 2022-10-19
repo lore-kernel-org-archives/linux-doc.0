@@ -2,128 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6505FC43217
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 13:41:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20E88C4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 13:45:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231786AbiJSNlp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 09:41:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32816 "EHLO
+        id S233157AbiJSNpg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 09:45:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231907AbiJSNlX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 09:41:23 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABFE6155DA9;
-        Wed, 19 Oct 2022 06:29:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666186147; x=1697722147;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=maPvHabENdJbu0SifYloWSh+XeE9JeazxOD/pHHB/rU=;
-  b=ePpJqt9a4rYoKf3f12FBETQeEqSJKEclKShJ3msgjKvjAPf7WfCLI1pf
-   v/r7NAhjqY+sXAHXt5vodSFw96vWkPNKLGRhe0pahKlQlXpL++/LXbVpr
-   kNF5fTwmx4O6rTERYAPEXWBuIeLmNoYU6Tlpzm1LBIOP0KgEb9AtLbeRg
-   lXM3vlo4Mpb1lJJLLQrQOUqcZ58JEi7L+HUI+yhK30BgKRuvvCNoUeqa6
-   5FLxBsKLf7t2mkQ0630JT7P1FhtIjFThhPj7EVrXK7QHE0WXRcnU+wSfV
-   ZPYEcaJ0VotbFFJVd34yECs4DH8tU9SCPoxaizR7DvaQXGAc9rZe7bvqv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="293803646"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; 
-   d="scan'208";a="293803646"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2022 06:27:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="624134706"
-X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; 
-   d="scan'208";a="624134706"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga007.jf.intel.com with ESMTP; 19 Oct 2022 06:27:39 -0700
-Date:   Wed, 19 Oct 2022 21:23:08 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 5/8] KVM: Register/unregister the guest private memory
- regions
-Message-ID: <20221019132308.GA3496045@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-6-chao.p.peng@linux.intel.com>
- <CA+EHjTxukqBfaN6D+rPOiX83zkGknHEQ16J0k6GQSdL_-e9C6g@mail.gmail.com>
- <20221012023516.GA3218049@chaop.bj.intel.com>
- <CA+EHjTyGyGL+ox81=jdtoHERtHPV=P7wJub=3j7chdijyq-AgA@mail.gmail.com>
- <Y03UiYYioV+FQIpx@google.com>
+        with ESMTP id S233590AbiJSNob (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 09:44:31 -0400
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 432A0199886;
+        Wed, 19 Oct 2022 06:31:41 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
+        t=1666186257;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=AjuWJVNhkBvpGyB36JX1wwbKTh+Ncxz/qy06/EtkAxA=;
+        b=JjwMk2ka730u9Fk4Et1ZdFdXTU80c10Qs5qqtXUSf9fROQhlCbPRNA6cQfJqVhkPyzSCXe
+        D4rxGmSexAj0R7lmY2RdqZchJzGMDJvOc8ehTrTSICiYLD5fUOU2bhIeP+d/Dp2vNT7vYL
+        nTBrYUHDgumpRmFVeZBhbxHqoWoDa6xL3lgSBBImoXk7oRou1Bb/l8i1tzHcjY+1cNQ0zc
+        oFvzfb75mK1S1PriJxpuX4pGPNTY4aBPVBpx7QVuks8i3pgmotEW9lOWBR76oFuje57/vH
+        KcTsoBOjPleRsFMJL2W+Me4IcfegXjXQcPUvC4eFbQRAuygsgTz0I7WgFcqNvQ==
+From:   Rui Li <me@lirui.org>
+To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Wu XiangCheng <wu.xiangcheng@linux.dev>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rui Li <me@lirui.org>
+Subject: [PATCH v3 1/2] docs/zh_CN: Add userspace-api/index Chinese translation
+Date:   Wed, 19 Oct 2022 21:30:21 +0800
+Message-Id: <76b86e687034d5347e1e49c4acfc28e9c45abe47.1666185911.git.me@lirui.org>
+In-Reply-To: <cover.1666185911.git.me@lirui.org>
+References: <cover.1666185911.git.me@lirui.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y03UiYYioV+FQIpx@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Oct 17, 2022 at 10:17:45PM +0000, Sean Christopherson wrote:
-> On Mon, Oct 17, 2022, Fuad Tabba wrote:
-> > Hi,
-> > 
-> > > > > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> > > > > +#define KVM_MEM_ATTR_SHARED    0x0001
-> > > > > +static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
-> > > > > +                                    bool is_private)
-> > > > > +{
-> > > >
-> > > > I wonder if this ioctl should be implemented as an arch-specific
-> > > > ioctl. In this patch it performs some actions that pKVM might not need
-> > > > or might want to do differently.
-> > >
-> > > I think it's doable. We can provide the mem_attr_array kind thing in
-> > > common code and let arch code decide to use it or not. Currently
-> > > mem_attr_array is defined in the struct kvm, if those bytes are
-> > > unnecessary for pKVM it can even be moved to arch definition, but that
-> > > also loses the potential code sharing for confidential usages in other
-> > > non-architectures, e.g. if ARM also supports such usage. Or it can be
-> > > provided through a different CONFIG_ instead of
-> > > CONFIG_HAVE_KVM_PRIVATE_MEM.
-> > 
-> > This sounds good. Thank you.
-> 
-> I like the idea of a separate Kconfig, e.g. CONFIG_KVM_GENERIC_PRIVATE_MEM or
-> something.  I highly doubt there will be any non-x86 users for multiple years,
-> if ever, but it would allow testing the private memory stuff on ARM (and any other
-> non-x86 arch) without needing full pKVM support and with only minor KVM
-> modifications, e.g. the x86 support[*] to test UPM without TDX is shaping up to be
-> trivial.
+Translate userspace-api/index.rst into Chinese, add it into
+zh_CN/index.rst.
 
-CONFIG_KVM_GENERIC_PRIVATE_MEM looks good to me.
+Signed-off-by: Rui Li <me@lirui.org>
+---
+Changes since v2:
+- Change patch set order
 
-Thanks,
-Chao
-> 
-> [*] https://lore.kernel.org/all/Y0mu1FKugNQG5T8K@google.com
+Changes since v1:
+- Align title
+- Change some translation
+---
+ Documentation/translations/zh_CN/index.rst    |  2 +-
+ .../zh_CN/userspace-api/index.rst             | 46 +++++++++++++++++++
+ 2 files changed, 47 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/index.rst
+
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index ec99ef5fe990..272414971ce9 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -90,12 +90,12 @@ TODOList:
+ 
+    admin-guide/index
+    admin-guide/reporting-issues.rst
++   userspace-api/index
+ 
+ TODOList:
+ 
+ * 内核构建系统 <kbuild/index>
+ * 用户空间工具 <tools/index>
+-* userspace-api/index
+ 
+ 也可参考独立于内核文档的 `Linux 手册页 <https://www.kernel.org/doc/man-pages/>`_ 。
+ 
+diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
+new file mode 100644
+index 000000000000..3b834fe7e33b
+--- /dev/null
++++ b/Documentation/translations/zh_CN/userspace-api/index.rst
+@@ -0,0 +1,46 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/userspace-api/index.rst
++
++:翻译:
++
++ 李睿 Rui Li <me@lirui.org>
++
++=========================
++Linux 内核用户空间API指南
++=========================
++
++.. _man-pages: https://www.kernel.org/doc/man-pages/
++
++尽管许多用户空间API的文档被记录在别处（特别是在 man-pages_ 项目中），
++在代码树中仍然可以找到有关用户空间的部分信息。这个手册意在成为这些信息
++聚集的地方。
++
++.. class:: toc-title
++
++	   目录
++
++TODOList:
++
++* no_new_privs
++* seccomp_filter
++* landlock
++* unshare
++* spec_ctrl
++* accelerators/ocxl
++* ebpf/index
++* ioctl/index
++* iommu
++* media/index
++* netlink/index
++* sysfs-platform_profile
++* vduse
++* futex2
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+-- 
+2.30.2
+
