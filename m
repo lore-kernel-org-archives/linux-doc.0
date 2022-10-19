@@ -2,95 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3BEAC43219
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 15:09:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE025C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 15:10:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229645AbiJSPJo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 11:09:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49138 "EHLO
+        id S231764AbiJSPKO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 11:10:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232102AbiJSPIr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 11:08:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA4508E0D9;
-        Wed, 19 Oct 2022 08:00:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 75E1B61929;
-        Wed, 19 Oct 2022 15:00:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5613EC433C1;
-        Wed, 19 Oct 2022 15:00:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1666191655;
-        bh=7I7sjR3Gz/WEhc33eidz6uHor5l2/Hm/OLxObdG7yG8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Sog1tByziDJHCwjc4iNK++1OQnMnVOsC2tejISrPvGOhBEjRrdAKDbuex/sqNU+HN
-         6elLnkGOLlGv1O1aIfaJ6lcGouACd/05Y6BEIffQG4aIf1+rehV7ZRaE1C6sG7RGRb
-         znSR961sDjRUk3FRLo8+Jokm8Z8lYyfk+P510w/Y=
-Date:   Wed, 19 Oct 2022 17:00:52 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     tglx@linutronix.de, akpm@linux-foundation.org, shuah@kernel.org,
-        keescook@chromium.org, joe@perches.com, rostedt@goodmis.org,
-        linux-spdx@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v11 0/2] SPDX: add copyleft-next-0.3.1
-Message-ID: <Y1ARJIhR9oldlXr5@kroah.com>
-References: <20221003165849.1658170-1-mcgrof@kernel.org>
- <Y0/7FZCk7D+ygf2o@bombadil.infradead.org>
+        with ESMTP id S232629AbiJSPJc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 11:09:32 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3CB4371A2
+        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 08:03:00 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id r14so28604178lfm.2
+        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 08:03:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8uws4B5WgtxEQQPonRBN7dDm57mj+TMYZwg9NWMF6uE=;
+        b=GNoRQIq9JKVsi3NBMOHtxRxaA+HyiSRxEbQwKROCIdQN7YeQVvkeCL/tBfTJ0rFShS
+         wLv+OMed6GKtlzQERAvDIH0fS9RwWNLH1iDzg8iIFUBsQUCTCUR56HEIdBHp5w6KeZ+i
+         ed0p1SeRI6LjurmDyBxbuv8clbnocReb3YyBgtI/ebogw01dMtsK7A/KD1lbcyPsqtH5
+         TaWyyc8eNama/1dRhNwUMQO8P85tBb+QCcPLfYt81cuF60S21NuSTt9ENjFqtPiqHbYW
+         QbAZcIWW265YqQ7fQmjB0etPPuYGAVxyYuBBwAInvDjayuW/S/xhDX/aqG8lWy7/HjYu
+         bNlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8uws4B5WgtxEQQPonRBN7dDm57mj+TMYZwg9NWMF6uE=;
+        b=31iRujsN41+YoGRnPc+HCdHGcjTiTaf/r8nAtonh2w53io//vAFEEqOWjGjyecnBxF
+         +gt/I66eDzVT/1ZGPkLsUuR3aXd+GuCRRPao1ndcR3u7QDrhVSubofXJ5PnusbrRKS/z
+         kAhd+a+NDKSKDb6fzM+U7iFSx13uvbWHNvGd6vGrAgSoO2Piv7MkgZK16IGDiCOw0TpW
+         A2nh9CsV2voXUIWyOHY8l/w3LRcnSpRivtnFPDsIpLcr7wG/6PUhvjg6maPVifUh79I+
+         gTkDJd5Ty2nBYQXAt27FO4/rCiVARITeYVxjXRaxSp1eSq2xtWx/NHqrBnz8B33CViJ6
+         v/SA==
+X-Gm-Message-State: ACrzQf2tYbZ6rek+6pRoFqFwScakjCCx2XdaI6qS7LCkcei/2NuzrlO9
+        jezXktkkLHFi4MzZN35nd8rVudA5OOgHXyFq+DRkbw==
+X-Google-Smtp-Source: AMsMyM73/Iz2UA6hD6VnKREmVWKox8T+CDDwCUSlKn0rjft7dc92r9M4EXDXMPFumhxI7Ld+a4+gjwQViVOGvFn4W+A=
+X-Received: by 2002:a05:6512:4cb:b0:4a2:25b6:9e73 with SMTP id
+ w11-20020a05651204cb00b004a225b69e73mr3205357lfq.30.1666191778897; Wed, 19
+ Oct 2022 08:02:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y0/7FZCk7D+ygf2o@bombadil.infradead.org>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-6-chao.p.peng@linux.intel.com> <CA+EHjTxukqBfaN6D+rPOiX83zkGknHEQ16J0k6GQSdL_-e9C6g@mail.gmail.com>
+ <20221012023516.GA3218049@chaop.bj.intel.com> <CA+EHjTyGyGL+ox81=jdtoHERtHPV=P7wJub=3j7chdijyq-AgA@mail.gmail.com>
+ <Y03UiYYioV+FQIpx@google.com> <20221019132308.GA3496045@chaop.bj.intel.com>
+In-Reply-To: <20221019132308.GA3496045@chaop.bj.intel.com>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Wed, 19 Oct 2022 16:02:22 +0100
+Message-ID: <CA+EHjTytCEup0m-nhnVHsuQ1xjaCxXNHO_Oxe+QbpwqaewpfKQ@mail.gmail.com>
+Subject: Re: [PATCH v8 5/8] KVM: Register/unregister the guest private memory regions
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 19, 2022 at 06:26:45AM -0700, Luis Chamberlain wrote:
-> On Mon, Oct 03, 2022 at 09:58:47AM -0700, Luis Chamberlain wrote:
-> > As suggested by Thomas Gleixner, I'm following up to move on with
-> > the SPDX tag needed for copyleft-next-0.3.1. I've split this out
-> > from the test_sysfs selftest so to separate review from that.
-> > 
-> > Changes on this v11:
-> >   o Fixed a minor typo on patch #2 as noted by Kees Cook
-> >   o Added Reviewed-by tags by Kees Cook
-> > 
-> > Changes on this v10:
-> >   o embraced paragraph from Thomas Gleixner which helps explain why             
-> >     the OR operator in the SPDX license name
-> >   o dropped the GPL-2.0 and GPL-2.0+ tags as suggested by Thomas Gleixner
-> >     as these are outdated (still valid) in the SPDX spec
-> >   o trimmed the Cc list to remove the test_sysfs / block layer / fs folks as
-> >     the test_sysfs stuff is now dropped from consideration in this series
-> > 
-> > Prior to this the series was at v9 but it also had the test_sysfs and its
-> > changes, its history can be found here:
-> > 
-> > https://lore.kernel.org/all/20211029184500.2821444-1-mcgrof@kernel.org/
-> > 
-> > Luis Chamberlain (2):
-> >   LICENSES: Add the copyleft-next-0.3.1 license
-> >   testing: use the copyleft-next-0.3.1 SPDX tag
-> > 
-> >  LICENSES/dual/copyleft-next-0.3.1        | 236 +++++++++++++++++++++++
-> >  lib/test_kmod.c                          |  12 +-
-> >  lib/test_sysctl.c                        |  12 +-
-> >  tools/testing/selftests/kmod/kmod.sh     |  13 +-
-> >  tools/testing/selftests/sysctl/sysctl.sh |  12 +-
-> >  5 files changed, 240 insertions(+), 45 deletions(-)
-> >  create mode 100644 LICENSES/dual/copyleft-next-0.3.1
-> 
-> *poke*
+> > > This sounds good. Thank you.
+> >
+> > I like the idea of a separate Kconfig, e.g. CONFIG_KVM_GENERIC_PRIVATE_MEM or
+> > something.  I highly doubt there will be any non-x86 users for multiple years,
+> > if ever, but it would allow testing the private memory stuff on ARM (and any other
+> > non-x86 arch) without needing full pKVM support and with only minor KVM
+> > modifications, e.g. the x86 support[*] to test UPM without TDX is shaping up to be
+> > trivial.
+>
+> CONFIG_KVM_GENERIC_PRIVATE_MEM looks good to me.
 
-It's been 2 days since the merge window ended.  And my todo queue is:
+That sounds good to me, and just keeping the xarray isn't really an
+issue for pKVM. We could end up using it instead of some of the other
+structures we use for tracking.
 
-	$ mdfrm -c todo/
-	1410 messages in todo/
+Cheers,
+/fuad
 
-Please give me a chance to catch up...
-
-thanks,
-
-greg k-h
+> Thanks,
+> Chao
+> >
+> > [*] https://lore.kernel.org/all/Y0mu1FKugNQG5T8K@google.com
