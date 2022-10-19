@@ -2,125 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67168C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 16:10:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4977C43217
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 17:32:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230071AbiJSQKG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 12:10:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51646 "EHLO
+        id S230522AbiJSRcY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 13:32:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230114AbiJSQKC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 12:10:02 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07AE272699
-        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 09:09:40 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id 10so17758950pli.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 09:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ypkvL3yaAxMPxurJS0uFGqCkiFZ+RyzOnuF9leoHMPg=;
-        b=h+1KlUYCjsRVvRZom/eZaqVVZPwLNuYTzVtc/yfchg/FVn3f5I4RUVC9fB77Ol9VGf
-         HgCK8mY6Nv+Xq72Fx81Po6YrtpzWxQ53rseaDQp3xO+NUuzg/Q/QlKyJ26MY8whFSFB9
-         Yz/rDhSdBT3TPLIrEG1lXL4xKfi0GT6oeGR8n8SqA7rIg+ZhIQiSL6k7+pVB5ukZ64kF
-         kVFFiLi2o9zlE+Zz99wb/PPKOZvfE8v4DtNHoGGtu9prsA4BZL7zqk0frRY/JGZwwNq7
-         g2L2w4CVrM6EQ0r7EXNj734PT3xgw2/P2uRLexg59HxYszjKm2su2n+onT/oKpMmOXgw
-         qJ9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ypkvL3yaAxMPxurJS0uFGqCkiFZ+RyzOnuF9leoHMPg=;
-        b=eBhTZkMKH9TJQC0vnQKzFcGyebj7QqIiquieH62vR59K3CvpG9FrSJQd7AhHAenpQS
-         QmQonfAF5Ln+tHKtZn2mlFqrbRYf71IrkjTlPFSD70uTLm1wlaJ2i6vn8rRqmyion+VY
-         w+U6hzeucM5fXj6K5n9vEaTOSw7+hzAVJiBKhaZAvss9UWwl1m+shr3QFDzt+SHM0tkM
-         tKvG0DEqz7IQN3ON9gWbcssux9aEcLJkCl+rMDHEbEfCRuoSFMLoLFKL6wc+yneEyown
-         bBkfMXOwHu48BnMotUq6e5hws6sDIzF3MfbSMgtvoJsHgf69Mxkbze9ORJKrdkJrCtEG
-         ynJw==
-X-Gm-Message-State: ACrzQf1rS4uP8Fy7NODiUYl/32AwX4qVy5RsBVbZoGLv7Kxjv1EAS62a
-        Miu+V89G4PQfpMeaMF5QkMVCEw==
-X-Google-Smtp-Source: AMsMyM5J8mv9XBDJfNSTMwrJGznqodpAH+vWLTNt9JpHQACwNEqu56e3wBHUQ6hekV2SylbV5oa2BA==
-X-Received: by 2002:a17:903:248b:b0:17d:ea45:d76a with SMTP id p11-20020a170903248b00b0017dea45d76amr9440949plw.97.1666195779474;
-        Wed, 19 Oct 2022 09:09:39 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id d13-20020aa797ad000000b00553d573222fsm11558997pfq.199.2022.10.19.09.09.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Oct 2022 09:09:38 -0700 (PDT)
-Date:   Wed, 19 Oct 2022 16:09:35 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Fuad Tabba <tabba@google.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 5/8] KVM: Register/unregister the guest private memory
- regions
-Message-ID: <Y1AhP0dlRSgTCObX@google.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-6-chao.p.peng@linux.intel.com>
- <CA+EHjTxukqBfaN6D+rPOiX83zkGknHEQ16J0k6GQSdL_-e9C6g@mail.gmail.com>
- <20221012023516.GA3218049@chaop.bj.intel.com>
- <CA+EHjTyGyGL+ox81=jdtoHERtHPV=P7wJub=3j7chdijyq-AgA@mail.gmail.com>
- <Y03UiYYioV+FQIpx@google.com>
- <20221019132308.GA3496045@chaop.bj.intel.com>
- <CA+EHjTytCEup0m-nhnVHsuQ1xjaCxXNHO_Oxe+QbpwqaewpfKQ@mail.gmail.com>
+        with ESMTP id S231167AbiJSRcV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 13:32:21 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA74D1C841F;
+        Wed, 19 Oct 2022 10:32:10 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id F39EFB824A5;
+        Wed, 19 Oct 2022 17:32:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34240C433D6;
+        Wed, 19 Oct 2022 17:32:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666200727;
+        bh=j5op88tCtQJYSZcABrjvuLNqEi5MZTKsnk+JdLArf+s=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=lTrDtmlVNr2LSm472A9vSFy+P198V/su8VSou661enLYiKL6DuiO149uM0dMiVxvF
+         SKyZGXElT56ETi2brFrQ423OU3OvSt43WSC8uxFVGHb2tsZOgsSckx5DUa4YFQ8Tzg
+         gAbURZVeiO7egr1c1Q05I2hulDFa9RrZJe05vuKii2/XfXz/g/ofg8w7hS1skw5ul6
+         1JgClGV12xcOh1l1z1HlGKNphUiYP4MgnFcMR7LmuclRdDrvDbT6D6cCqQSOk6rg+n
+         83pEhULHUBZNfahhCfqFEJlWSQuQxjC3tVDKoNBlBAXbzVwvzyewkVYBR76/V+26uX
+         PtGRmNbchL1AQ==
+From:   SeongJae Park <sj@kernel.org>
+To:     SeongJae Park <sj@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, damon@lists.linux.dev,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 00/18] efficiently expose damos action tried regions information
+Date:   Wed, 19 Oct 2022 17:32:05 +0000
+Message-Id: <20221019173205.85216-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221019001317.104270-1-sj@kernel.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTytCEup0m-nhnVHsuQ1xjaCxXNHO_Oxe+QbpwqaewpfKQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 19, 2022, Fuad Tabba wrote:
-> > > > This sounds good. Thank you.
-> > >
-> > > I like the idea of a separate Kconfig, e.g. CONFIG_KVM_GENERIC_PRIVATE_MEM or
-> > > something.  I highly doubt there will be any non-x86 users for multiple years,
-> > > if ever, but it would allow testing the private memory stuff on ARM (and any other
-> > > non-x86 arch) without needing full pKVM support and with only minor KVM
-> > > modifications, e.g. the x86 support[*] to test UPM without TDX is shaping up to be
-> > > trivial.
-> >
-> > CONFIG_KVM_GENERIC_PRIVATE_MEM looks good to me.
+On Wed, 19 Oct 2022 00:12:59 +0000 SeongJae Park <sj@kernel.org> wrote:
+
+> DAMON users can retrieve the monitoring results via 'after_aggregation'
+> callbacks if the user is using the kernel API, or 'damon_aggregated'
+> tracepoint if the user is in the user space.  Those are useful if full
+> monitoring results are necessary.  However, if the user has interest in
+> only some regions having specific access pattern, the interfaces could
+> be inefficient.  For example, some DAMOS users might want to know
+> exactly what regions were identified as fulfilling the access pattern of
+> the scheme, for a debugging or a tuning.
 > 
-> That sounds good to me, and just keeping the xarray isn't really an
-> issue for pKVM.
+> This patchset implements DAMON kernel API callbacks and sysfs directory
+> for efficient exposure of the information.  The new callback will be
+> called for each region before specific DAMOS action is gonna tried to be
+> applied.  The sysfs directory will be called 'tried_regions' and placed
+> under each scheme sysfs directory.  User can write a special keyworkd,
+> 'update_schemes_regions' to the 'state' file of a kdamond sysfs
+> directory.  Then, DAMON sysfs interface will fill the directory with the
+> information of regions that corresponding scheme action was tried to be
+> applied for one aggregation interval.
+> 
+> Patches Sequence
+> ----------------
+> 
+> First five patches (1-5) clean up and refactor code that following patch
+> will touch, and the following one (patch 6) implements the DAMON
+> callback for DAMON kernel API users.
+> 
+> Following six patches (7-12) clean up and refactor the sysfs interface
+> before the new sysfs directory introduction.  Following two patches (13
+> and 14) implement the sysfs directories, and successing two patches (15
+> and 16) implement the special keyword for 'state' to fill and clean up
+> the directories.
+> 
+> Finally, two more patches (17 and 18) for the documentation of the usage
+> and ABI follow.
 
-The xarray won't exist for pKVM if the #ifdefs in this patch are changed from
-CONFIG_HAVE_KVM_PRIVATE_MEM => CONFIG_KVM_GENERIC_PRIVATE_MEM.
+I think this patchset is unnecessarily big due to the cleanups and
+refactorings.  I added them in this patchset mainly because I found the messy
+code while working for the feature.  However, now it looks like it would make
+more sense to split them out into separate patchsets.
 
-> We could end up using it instead of some of the other
-> structures we use for tracking.
+Just thinking loudly, but any input is welcome.
 
-I don't think pKVM should hijack the xarray for other purposes.  At best, it will
-be confusing, at worst we'll end up with a mess if ARM ever supports the "generic"
-implementation.  
+
+Thanks,
+SJ
+[...]
