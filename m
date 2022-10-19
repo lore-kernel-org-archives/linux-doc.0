@@ -2,45 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 774C2C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 12:38:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB3BEC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 12:41:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230332AbiJSMin (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 08:38:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48710 "EHLO
+        id S233273AbiJSMlg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 08:41:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233224AbiJSMiO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 08:38:14 -0400
-Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AEF115201E;
-        Wed, 19 Oct 2022 05:19:12 -0700 (PDT)
-Message-ID: <410b2536-5cb3-ca1e-17cb-49e9e0324edf@lirui.org>
+        with ESMTP id S231524AbiJSMlS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 08:41:18 -0400
+Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772EA1BF842;
+        Wed, 19 Oct 2022 05:23:23 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
-        t=1666181747;
+        t=1666181577;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=rJZwIzOf40cWqYWDcV6d9EHXjGN4IFX3s7oxhx8/EWU=;
-        b=mNpOq7qweHHX6EbM/tFKjzj+f/NS2vm+equnnXnunmGgcdh98I6m+zOolXG0AYw+LRU0XQ
-        4BcKbF4kdzS8zb8xOBgVNQbAAkra7uoQ1bVSGE91JMu8lxrELr/efLlBL1IAGkiieVM3So
-        TPztnbnlKtxriW1LqKJm9SlLw5VewHL426/kRvccLNoCqIQB/M/a4UCFjoJZxG6J/JKA4Q
-        gea7j9uDDxG+P4KFZOPGOL7OcaQOCEpu5AEIhZMcDC0DNKahlTxK96N0SqFGitrgBFAKCT
-        G5Yc5v99a/L2rFoI0tSlZ7LrQk5b2xUeJWEYfF4V8r1Hj8DrB7cNfp7Iq0tV7A==
-Date:   Wed, 19 Oct 2022 20:15:39 +0800
-MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] docs/zh_CN: Add staging/index Chinese translation
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Wu XiangCheng <wu.xiangcheng@linux.dev>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <cover.1666067195.git.me@lirui.org>
- <4ef47cfc6c85ad9c778af1f13761e8dd8e410ee8.1666067195.git.me@lirui.org>
- <ceb6193f-8cd6-15c0-8965-f8496e7732cd@loongson.cn>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+        bh=prsMPQlFUjZf3npQTejTZi81JsFUNaBGuTGmrPp5+r8=;
+        b=gHAEleqIr7vWxOqz5mTU72nPgVMFDAUqTsWIO786EAU5VaZyrrSL5kd61VSpwoeaD053eJ
+        C6EVYjDpG15t2xVS00ggBZmP6k6tEse83PvIM5ERgWFCc1gWZkiX3k2FJgQnV+8n2espqV
+        4JjreL2NgYdOZSju/QF4RfIl/aOb75sy7xxKe9Ie5DDT1PlGcSxxr0eoBNE5T6A2dBqcJP
+        W6MRnXsSKoNwbJVtHXkYMyKfbEzaGiGe6s/wMIxlrJdSQGqgaUW1hZ6n14bYNOIx5ionz6
+        Ptj7LXWRd77rbYJ8wC9pQSQXOxugxb0FPYLGwxR4gUqs1hKSp1+pb77Z9lC9hw==
 From:   Rui Li <me@lirui.org>
-In-Reply-To: <ceb6193f-8cd6-15c0-8965-f8496e7732cd@loongson.cn>
+To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Wu XiangCheng <wu.xiangcheng@linux.dev>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rui Li <me@lirui.org>
+Subject: [PATCH v2 1/2] docs/zh_CN: Add staging/index Chinese translation
+Date:   Wed, 19 Oct 2022 20:11:56 +0800
+Message-Id: <1c72e7c95d0ad2f01e1787f87c49bba2ab3e899c.1666181295.git.me@lirui.org>
+In-Reply-To: <cover.1666181295.git.me@lirui.org>
+References: <cover.1666181295.git.me@lirui.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -48,89 +46,73 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/10/19 19:25, Yanteng Si wrote:
->
-> On 10/18/22 12:31, Rui Li wrote:
->> Translate the following files into Chinese:
->>
->> - Documentation/staging/index.rst
->>
->> Add it into the menu of zh_CN/index. Also fix one translation
->> in the zh_CN/index file.
->>
->> Signed-off-by: Rui Li <me@lirui.org>
->> ---
->>   Documentation/translations/zh_CN/index.rst    |  8 +++---
->>   .../translations/zh_CN/staging/index.rst      | 27 +++++++++++++++++++
->>   2 files changed, 31 insertions(+), 4 deletions(-)
->>   create mode 100644 Documentation/translations/zh_CN/staging/index.rst
->>
->> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
->> index ec99ef5fe990..3d07b3149afe 100644
->> --- a/Documentation/translations/zh_CN/index.rst
->> +++ b/Documentation/translations/zh_CN/index.rst
->> @@ -124,13 +124,13 @@ TODOList:
->>   其他文档
->>   --------
->>   -有几份未排序的文档似乎不适合放在文档的其他部分，或者可能需要进行一些调整和/或
->> +有几份未分类的文档似乎不适合放在文档的其他部分，或者可能需要进行一些调整和/或
->>   转换为reStructureText格式，也有可能太旧。
->>   -TODOList:
->> -
->> -* staging/index
->> +.. toctree::
->> +   :maxdepth: 2
->>   +   staging/index
->>     索引和表格
->>   ----------
->> diff --git a/Documentation/translations/zh_CN/staging/index.rst b/Documentation/translations/zh_CN/staging/index.rst
->> new file mode 100644
->> index 000000000000..7d074b34ac97
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/staging/index.rst
->> @@ -0,0 +1,27 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/staging/index.rst
->> +
->> +:翻译:
->> +
->> + 李睿 Rui Li <me@lirui.org>
->> +
->> +未分类文档
->> +======================
->> +
->> +.. toctree::
->> +   :maxdepth: 2
->> +
->> +   xz
->
-> The thing of adding xz to the index should be put to patch 1, one patch to do one thing.
->
->
-> Logically, this patch should be used as patch 1, otherwise xz will be homeless at some point.
->
->
-> Thanks,
->
-> Yanteng
->
->> +
->> +TODOList:
->> +
->> +* crc32
->> +* lzo
->> +* remoteproc
->> +* rpmsg
->> +* speculation
->> +* static-keys
->> +* tee
->> +* xz
->
+Translate the following files into Chinese:
 
-Thanks a lot! I made changes in PATCH v2.
+- Documentation/staging/index.rst
 
+Add it into the menu of zh_CN/index. Also fix one translation
+in the zh_CN/index file.
+
+Signed-off-by: Rui Li <me@lirui.org>
+---
+Changes since v1:
+- Add xz into menu later
+---
+ Documentation/translations/zh_CN/index.rst    |  8 +++----
+ .../translations/zh_CN/staging/index.rst      | 22 +++++++++++++++++++
+ 2 files changed, 26 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/staging/index.rst
+
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index ec99ef5fe990..3d07b3149afe 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -124,13 +124,13 @@ TODOList:
+ 其他文档
+ --------
+ 
+-有几份未排序的文档似乎不适合放在文档的其他部分，或者可能需要进行一些调整和/或
++有几份未分类的文档似乎不适合放在文档的其他部分，或者可能需要进行一些调整和/或
+ 转换为reStructureText格式，也有可能太旧。
+ 
+-TODOList:
+-
+-* staging/index
++.. toctree::
++   :maxdepth: 2
+ 
++   staging/index
+ 
+ 索引和表格
+ ----------
+diff --git a/Documentation/translations/zh_CN/staging/index.rst b/Documentation/translations/zh_CN/staging/index.rst
+new file mode 100644
+index 000000000000..e26603892a6f
+--- /dev/null
++++ b/Documentation/translations/zh_CN/staging/index.rst
+@@ -0,0 +1,22 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/staging/index.rst
++
++:翻译:
++
++ 李睿 Rui Li <me@lirui.org>
++
++未分类文档
++==========
++
++TODOList:
++
++* crc32
++* lzo
++* remoteproc
++* rpmsg
++* speculation
++* static-keys
++* tee
++* xz
 -- 
-Rui Li
+2.30.2
 
