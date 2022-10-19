@@ -2,205 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A29FCC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 01:41:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDABDC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 01:50:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229623AbiJSBlQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 21:41:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44458 "EHLO
+        id S229751AbiJSBu2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 18 Oct 2022 21:50:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbiJSBlO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 21:41:14 -0400
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1821D57EA;
-        Tue, 18 Oct 2022 18:41:13 -0700 (PDT)
-Received: by mail-io1-xd2a.google.com with SMTP id r142so13295951iod.11;
-        Tue, 18 Oct 2022 18:41:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tKSPSLWh3lKtgottX7koWWNj7uJi/W00v9wlnG0fWII=;
-        b=lUQfQJ3emy3JvBLVmqv0nHukPMyIUX+g2ZqRZk8Bl7GcsSNMZi9pqnyozGxs9Z/mPl
-         GSgql8GYvXR3DAeVWyhl2+WLDLZLUbK76Imfobj7e9TQ4xeuZO3goL1WdvTO3b2kj3q+
-         4ybDTb0x6mIPOB2KiscAGN3NcSjPxZF7gi+MwCoy/zgVx+kpOZgwWJdlgtHJT6iQvRIS
-         z7edqCvBPrcozi9kzpwiqccZIGx+wN9qY880lY9SUpytLcUiN5KtJVlIIgeWHMi20Hcn
-         jMGR/weZPPo0WrOKrus5QQMmLZ3AYc67VFtm94zwKKXvyWVtEJHC9gntLrk58MtyL8Zi
-         iiyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tKSPSLWh3lKtgottX7koWWNj7uJi/W00v9wlnG0fWII=;
-        b=4Yfm5dk4vWtFe+fvWqpSwdHBuyxDNxcwtvnigcFWmJgBLwayy+4tlJu5s9XCgX+L4f
-         du8qE8Sbf9T5BbuQpSi+ioHuYWpUh5auBposXDe5IYXlEof06vtkgzaW3T+303O6ERiE
-         PHNCj1AH1DtQDGjBfcYSHasLAqvj8WvQiPaLGzDoNM6mfEXoa8EZYm4T5Kppycn08JhU
-         nWZcxRjIGvrok1y15BlT+JNZlUddsnUirvHHBow8nqFssty5jJVxh/QO8rWOTA2y097E
-         37HRxOWeoRD5rhPawmoUUBaIFTWj+/WloBaKAXhfIteK1p1+MIfAYT6R2pdGKQgHlPLo
-         t7nQ==
-X-Gm-Message-State: ACrzQf1BKI7bHEkPsclBGnuXNBGlSKoY/95I7wx60LVd0ZsjLbEVXeMV
-        xvE0bNHyWMX0VoBuicOwssU=
-X-Google-Smtp-Source: AMsMyM4VUeUEv/h8zHv7wnlYMiwfhzRcqdRhDu7rZwQUg8wIkmj59U64CtpGUCIhiZcj15Azmj+OPw==
-X-Received: by 2002:a05:6602:140d:b0:68b:1bd1:1c54 with SMTP id t13-20020a056602140d00b0068b1bd11c54mr3739825iov.9.1666143673085;
-        Tue, 18 Oct 2022 18:41:13 -0700 (PDT)
-Received: from qjv001-XeonWs (c-67-167-199-249.hsd1.il.comcast.net. [67.167.199.249])
-        by smtp.gmail.com with ESMTPSA id j9-20020a056e02014900b002f86a153f42sm1509414ilr.65.2022.10.18.18.41.12
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 18 Oct 2022 18:41:12 -0700 (PDT)
-Date:   Tue, 18 Oct 2022 20:41:10 -0500
-From:   Jeff Vanhoof <jdv1029@gmail.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     Jeffrey Vanhoof <jvanhoof@motorola.com>,
-        "balbi@kernel.org" <balbi@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "m.grzeschik@pengutronix.de" <m.grzeschik@pengutronix.de>,
-        "paul.elder@ideasonboard.com" <paul.elder@ideasonboard.com>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        Dan Vacura <W36195@motorola.com>
-Subject: Re: [PATCH v3 2/6] usb: dwc3: gadget: cancel requests instead of
- release after missed isoc
-Message-ID: <20221019014108.GA5732@qjv001-XeonWs>
-References: <PUZPR03MB613101A170B0034F55401121A1289@PUZPR03MB6131.apcprd03.prod.outlook.com>
- <20221018223521.ytiwqsxmxoen5iyt@synopsys.com>
+        with ESMTP id S229454AbiJSBu1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 21:50:27 -0400
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1797A8F964;
+        Tue, 18 Oct 2022 18:50:24 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046060;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=24;SR=0;TI=SMTPD_---0VSYFzlh_1666144217;
+Received: from 30.221.97.167(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VSYFzlh_1666144217)
+          by smtp.aliyun-inc.com;
+          Wed, 19 Oct 2022 09:50:19 +0800
+Message-ID: <a66a5b16-5f1f-3d80-3cdc-4b82d38d604f@linux.alibaba.com>
+Date:   Wed, 19 Oct 2022 09:50:17 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221018223521.ytiwqsxmxoen5iyt@synopsys.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH V3 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
+To:     Baoquan He <bhe@redhat.com>, Kazuhito Hagio <k-hagio-ab@nec.com>,
+        lijiang <lijiang@redhat.com>
+Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
+        guoren@kernel.org, mick@ics.forth.gr,
+        alexandre.ghiti@canonical.com, vgoyal@redhat.com,
+        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
+        bagasdotme@gmail.com, kexec@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, crash-utility@redhat.com,
+        heinrich.schuchardt@canonical.com, hschauhan@nulltrace.org,
+        yixun.lan@gmail.com
+References: <20221018081755.6214-1-xianting.tian@linux.alibaba.com>
+ <20221018081755.6214-2-xianting.tian@linux.alibaba.com>
+ <Y05tfxRenMs5d+bt@MiWiFi-R3L-srv>
+ <049ec19e-60c3-2854-5f5e-9850231108b4@linux.alibaba.com>
+ <Y05540td7lLz+0BY@MiWiFi-R3L-srv>
+From:   Xianting Tian <xianting.tian@linux.alibaba.com>
+In-Reply-To: <Y05540td7lLz+0BY@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thinh,
 
-On Tue, Oct 18, 2022 at 10:35:30PM +0000, Thinh Nguyen wrote:
-> On Tue, Oct 18, 2022, Jeffrey Vanhoof wrote:
-> > Hi Thinh,
-> > 
-> > On Tue, Oct 18, 2022 at 06:45:40PM +0000, Thinh Nguyen wrote:
-> > > Hi Dan,
-> > > 
-> > > On Mon, Oct 17, 2022, Dan Vacura wrote:
-> > > > Hi Thinh,
-> > > > 
-> > > > On Mon, Oct 17, 2022 at 09:30:38PM +0000, Thinh Nguyen wrote:
-> > > > > On Mon, Oct 17, 2022, Dan Vacura wrote:
-> > > > > > From: Jeff Vanhoof <qjv001@motorola.com>
-> > > > > > 
-> > > > > > arm-smmu related crashes seen after a Missed ISOC interrupt when
-> > > > > > no_interrupt=1 is used. This can happen if the hardware is still using
-> > > > > > the data associated with a TRB after the usb_request's ->complete call
-> > > > > > has been made.  Instead of immediately releasing a request when a Missed
-> > > > > > ISOC interrupt has occurred, this change will add logic to cancel the
-> > > > > > request instead where it will eventually be released when the
-> > > > > > END_TRANSFER command has completed. This logic is similar to some of the
-> > > > > > cleanup done in dwc3_gadget_ep_dequeue.
-> > > > > 
-> > > > > This doesn't sound right. How did you determine that the hardware is
-> > > > > still using the data associated with the TRB? Did you check the TRB's
-> > > > > HWO bit?
-> > > > 
-> > > > The problem we're seeing was mentioned in the summary of this patch
-> > > > series, issue #1. Basically, with the following patch
-> > > > https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-usb/patch/20210628155311.16762-6-m.grzeschik@pengutronix.de/__;!!A4F2R9G_pg!aSNZ-IjMcPgL47A4NR5qp9qhVlP91UGTuCxej5NRTv8-FmTrMkKK7CjNToQQVEgtpqbKzLU2HXET9O226AEN$  
-> > > > integrated a smmu panic is occurring on our Android device with the 5.15
-> > > > kernel which is:
-> > > > 
-> > > >     <3>[  718.314900][  T803] arm-smmu 15000000.apps-smmu: Unhandled arm-smmu context fault from a600000.dwc3!
-> > > > 
-> > > > The uvc gadget driver appears to be the first (and only) gadget that
-> > > > uses the no_interrupt=1 logic, so this seems to be a new condition for
-> > > > the dwc3 driver. In our configuration, we have up to 64 requests and the
-> > > > no_interrupt=1 for up to 15 requests. The list size of dep->started_list
-> > > > would get up to that amount when looping through to cleanup the
-> > > > completed requests. From testing and debugging the smmu panic occurs
-> > > > when a -EXDEV status shows up and right after
-> > > > dwc3_gadget_ep_cleanup_completed_request() was visited. The conclusion
-> > > > we had was the requests were getting returned to the gadget too early.
-> > > 
-> > > As I mentioned, if the status is updated to missed isoc, that means that
-> > > the controller returned ownership of the TRB to the driver. At least for
-> > > the particular request with -EXDEV, its TRBs are completed. I'm not
-> > > clear on your conclusion.
-> > > 
-> > > Do we know where did the crash occur? Is it from dwc3 driver or from uvc
-> > > driver, and at what line? It'd great if we can see the driver log.
-> > >
-> > 
-> > To interject, what should happen in dwc3_gadget_ep_reclaim_completed_trb if the
-> > IOC bit is not set (but the IMI bit is) and -EXDEV status is passed into it?
-> 
-> Hm... we may have overlooked this case for no_interrupt scenario. If IMI
-> is set, then there will be an interrupt when there's missed isoc
-> regardless of whether no_interrupt is set by the gadget driver.
-> 
-> > If the function returns 0, another attempt to reclaim may occur. If this
-> > happens and the next request did have the HWO bit set, the function would
-> > return 1 but dwc3_gadget_ep_cleanup_completed_request would still call
-> > dwc3_gadget_giveback.
-> > 
-> > As a test (without this patch), I added a check to see if HWO bit was set in
-> > dwc3_gadget_ep_cleanup_completed_requests(). If the usecase was ISOC and the
-> > HWO bit was set I avoided calling dwc3_gadget_ep_cleanup_completed_request().
-> > This seemed to also avoid the iommu related crash being seen.
-> > 
-> > Is there an issue in this area that needs to be corrected instead? Not having
-> > interrupts set for each request may be causing some new issues to be uncovered.
-> > 
-> > As far as the crash seen without this patch, no good stacktrace is given. Line
-> > provided for crash varied a bit, but tended to appear towards the end of
-> > dwc3_stop_active_transfer() or dwc3_gadget_endpoint_trbs_complete().
-> > 
-> > Since dwc3_gadget_endpoint_trbs_complete() can be called from multiple
-> > locations, I duplicated the function to help identify which path it was likely
-> > being called from. At the time of the crashes seen,
-> > dwc3_gadget_endpoint_transfer_in_progress() appeared to be the caller.
-> > 
-> > dwc3_gadget_endpoint_transfer_in_progress()
-> > ->dwc3_gadget_endpoint_trbs_complete() (crashed towards end of here)
-> > ->dwc3_stop_active_transfer() (sometimes crashed towards end of here)
-> > 
-> > I hope this clarifies things a bit.
-> >  
-> 
-> Can we try this? Let me know if it resolves your issue.
-> 
-> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> index 61fba2b7389b..8352f4b5dd9f 100644
-> --- a/drivers/usb/dwc3/gadget.c
-> +++ b/drivers/usb/dwc3/gadget.c
-> @@ -3657,6 +3657,10 @@ static int dwc3_gadget_ep_reclaim_completed_trb(struct dwc3_ep *dep,
->  	if (event->status & DEPEVT_STATUS_SHORT && !chain)
->  		return 1;
->  
-> +	if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
-> +	    (event->status & DEPEVT_STATUS_MISSED_ISOC) && !chain)
-> +		return 1;
-> +
->  	if ((trb->ctrl & DWC3_TRB_CTRL_IOC) ||
->  	    (trb->ctrl & DWC3_TRB_CTRL_LST))
->  		return 1;
+在 2022/10/18 下午6:03, Baoquan He 写道:
+> On 10/18/22 at 05:25pm, Xianting Tian wrote:
+>> 在 2022/10/18 下午5:10, Baoquan He 写道:
+>>> On 10/18/22 at 04:17pm, Xianting Tian wrote:
+>>>> Add arch_crash_save_vmcoreinfo(), which exports VM layout(MODULES, VMALLOC,
+>>>> VMEMMAP and KERNEL_LINK_ADDR ranges), va bits and ram base for vmcore.
+>>>>
+>>>> Default pagetable levels and PAGE_OFFSET aren't same for different kernel
+>>>> version as below. For pagetable levels, it sets sv57 by default and falls
+>>>> back to setting sv48 at boot time if sv57 is not supported by the hardware.
+>>>>
+>>>> For ram base, the default value is 0x80200000 for qemu riscv64 env and,
+>>>> for example, is 0x200000 on the XuanTie 910 CPU.
+>>>>
+>>>>    * Linux Kernel 5.18 ~
+>>>>    *      PGTABLE_LEVELS = 5
+>>>>    *      PAGE_OFFSET = 0xff60000000000000
+>>>>    * Linux Kernel 5.17 ~
+>>>>    *      PGTABLE_LEVELS = 4
+>>>>    *      PAGE_OFFSET = 0xffffaf8000000000
+>>>>    * Linux Kernel 4.19 ~
+>>>>    *      PGTABLE_LEVELS = 3
+>>>>    *      PAGE_OFFSET = 0xffffffe000000000
+>>>>
+>>>> Since these configurations change from time to time and version to version,
+>>>> it is preferable to export them via vmcoreinfo than to change the crash's
+>>>> code frequently, it can simplify the development of crash tool.
+>>>>
+>>>> Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
+>>>> ---
+>>>>    arch/riscv/kernel/Makefile     |  1 +
+>>>>    arch/riscv/kernel/crash_core.c | 29 +++++++++++++++++++++++++++++
+>>>>    2 files changed, 30 insertions(+)
+>>>>    create mode 100644 arch/riscv/kernel/crash_core.c
+>>>>
+>>>> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+>>>> index db6e4b1294ba..4cf303a779ab 100644
+>>>> --- a/arch/riscv/kernel/Makefile
+>>>> +++ b/arch/riscv/kernel/Makefile
+>>>> @@ -81,6 +81,7 @@ obj-$(CONFIG_KGDB)		+= kgdb.o
+>>>>    obj-$(CONFIG_KEXEC_CORE)	+= kexec_relocate.o crash_save_regs.o machine_kexec.o
+>>>>    obj-$(CONFIG_KEXEC_FILE)	+= elf_kexec.o machine_kexec_file.o
+>>>>    obj-$(CONFIG_CRASH_DUMP)	+= crash_dump.o
+>>>> +obj-$(CONFIG_CRASH_CORE)	+= crash_core.o
+>>>>    obj-$(CONFIG_JUMP_LABEL)	+= jump_label.o
+>>>> diff --git a/arch/riscv/kernel/crash_core.c b/arch/riscv/kernel/crash_core.c
+>>>> new file mode 100644
+>>>> index 000000000000..8d7f5ff108da
+>>>> --- /dev/null
+>>>> +++ b/arch/riscv/kernel/crash_core.c
+>>>> @@ -0,0 +1,29 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>>> +
+>>>> +#include <linux/crash_core.h>
+>>>> +#include <linux/pagemap.h>
+>>>> +
+>>>> +void arch_crash_save_vmcoreinfo(void)
+>>>> +{
+>>>> +	VMCOREINFO_NUMBER(VA_BITS);
+>>>> +	VMCOREINFO_NUMBER(phys_ram_base);
+>>>> +
+>>>> +	vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", PAGE_OFFSET);
+>>>> +	vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
+>>>> +	vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
+>>>> +	vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
+>>>> +	vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
+>>>> +#ifdef CONFIG_64BIT
+>>>> +	vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
+>>>> +	vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
+>>>> +#endif
+>>>> +
+>>>> +	if (IS_ENABLED(CONFIG_64BIT)) {
+>>>> +#ifdef CONFIG_KASAN
+>>>> +		vmcoreinfo_append_str("NUMBER(KASAN_SHADOW_START)=0x%lx\n", KASAN_SHADOW_START);
+>>>> +		vmcoreinfo_append_str("NUMBER(KASAN_SHADOW_END)=0x%lx\n", KASAN_SHADOW_END);
+>>>> +#endif
+>>>> +		vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", KERNEL_LINK_ADDR);
+>>>> +		vmcoreinfo_append_str("NUMBER(ADDRESS_SPACE_END)=0x%lx\n", ADDRESS_SPACE_END);
+>>> Seems this is the firsr ARCH where kasan and kernel link/bpf space are
+>>> added to dump and analyze. Just curious, have you got code change to
+>>> make use of them to do dumping and analyze?
+>> KASAN_SHADOW_START is not used, KERNEL_LINK_ADDR is used in the crash patch set:
+>> https://patchwork.kernel.org/project/linux-riscv/cover/20220813031753.3097720-1-xianting.tian@linux.alibaba.com/
+> Oh, I would say please no. Sometime we got tons of objection when adding an
+> necessary one, we definitely should not add one for possible future
+> use.
 >
+> For this kind of newly added one, we need get ack from
+> makedumpfile/crash utility maintainer so that we know they are necessary
+> to have. At least they don't oppose.
 
-With this change it doesn't seem to crash but unfortunately the output
-completely hangs after the first missed isoc. At the moment I do not understand
-why this might happen. 
+Hi Kazu, Li Jiang
 
-> Thanks,
-> Thinh
+Could you help comment whether we need KASAN_SHADOW_START and 
+KERNEL_LINK_ADDR area export for vmcore from crash point of view？
 
-Note that I haven't quite learned correctly how to reply correct to the mailing
-list.  I appologize for messing up the thread a bit.
+In my crash patch set, I don't use KASAN_SHADOW_START,
+And only get the value of KERNEL_LINK_ADDR, not realy use it.
+https://patchwork.kernel.org/project/linux-riscv/cover/20220813031753.3097720-1-xianting.tian@linux.alibaba.com/
 
-Regards,
-Jeff
+If we need to remove the two areas, I will resend the crash patch set and kernel patch set.
+thanks
 
+>
+>> I add it in case of using in furture.
+>>
+>>> Thanks
+>>> Baoquan
