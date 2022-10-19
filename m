@@ -2,121 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB5EC433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 05:51:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F643C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 06:47:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229756AbiJSFvj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 01:51:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52588 "EHLO
+        id S229584AbiJSGrL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 02:47:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbiJSFvi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 01:51:38 -0400
-Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C486A5509A
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 22:51:37 -0700 (PDT)
-Received: by mail-vk1-xa2c.google.com with SMTP id b81so7887720vkf.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 22:51:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mFGd93jrtvQiqJNlNhKuSpttJ7R1kimxCliY9JMGiO8=;
-        b=rJov42dEZxyrkHBKooMuGFtyzEjE4ZBDyIxL72lQMhBaeYY6i92BmHDEPO0B0wqlwm
-         aHK68k7QphWmEUwpaLnaps9i4e3xGcwIIfdVeqpqI4bwpxCvaJ6jyRCjyxHdJj23NVqh
-         kk3/vJ/JyO2IT5LGQcCJVw4BXWRWy1cVROSxF1Xx+u/d83nJLOT6iVZVMttVgUQdV/NM
-         dCxMC78eZgziUDScLpEiAcir1junGES6X7m/KrNQaxvtB0F9K7ZcETXi6YtMinZhkTTk
-         3XHZ9UpInXF+eLXMQU8g3z4I165lKqAAsi+inDQCuy6iOSF5zZ2fq/E3OttwUDjXVOR3
-         vFBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mFGd93jrtvQiqJNlNhKuSpttJ7R1kimxCliY9JMGiO8=;
-        b=WpcGUkku+ZLITiGOZWtcCM800u6hlwJTbixMAk8hHdHZMcoqn4SeyFLHfBFsWAsR8N
-         k1j82MPyTspJx0edKK39SxVqChfe1kACXAM7BBMEea/N8Asr2bSdhopOKjiMIOkSGIxg
-         nZburdSFEAoLHxBC6ZPP0NzpOtTWj5AQL4fLEcTJY/70MTbN+P6aDDIgIYqfp4hkOUgf
-         gepamtj4kcJeiWMsSxFrIVwT6pQyQ93H33X1gmyKtT9G/Uy4apXtTdNfsn2pMDzR8zRK
-         7xAmaw11leUT7aRu6IOhDagCM25l6TQ3UHlfTFKDooZUp6Eyd6jlIh+HEHHaGQ7solOe
-         4wZA==
-X-Gm-Message-State: ACrzQf0b8Y8gHl5hABV7149JNnVULNwGCgsBbyX6WOoj2Wb7am/cJxtU
-        4BhSEKoEcwnWyi+9ssMBSxWtiPxYLqdJyMPjJ9Mx5g==
-X-Google-Smtp-Source: AMsMyM4guPNgQoa7KlximIDZAmk9KlZ4Y4bJcH4mqoVFcaNoTZPJTr8XAHHByaU++HZ+c2XUuSu3ELrJpZlkGkFLxYw=
-X-Received: by 2002:a1f:988c:0:b0:3aa:cf0a:e0f7 with SMTP id
- a134-20020a1f988c000000b003aacf0ae0f7mr3164429vke.24.1666158696774; Tue, 18
- Oct 2022 22:51:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220815071332.627393-1-yuzhao@google.com> <20220815071332.627393-9-yuzhao@google.com>
- <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net>
-In-Reply-To: <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Tue, 18 Oct 2022 23:51:00 -0600
-Message-ID: <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com>
-Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        with ESMTP id S230037AbiJSGrI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 02:47:08 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C91DA5FF43
+        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 23:47:07 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1ol2qo-0007bV-U5; Wed, 19 Oct 2022 08:46:50 +0200
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1ol2qm-0006qh-Pw; Wed, 19 Oct 2022 08:46:48 +0200
+Date:   Wed, 19 Oct 2022 08:46:48 +0200
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     Dan Vacura <w36195@motorola.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Jeff Vanhoof <qjv001@motorola.com>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
-        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 2/6] usb: dwc3: gadget: cancel requests instead of
+ release after missed isoc
+Message-ID: <20221019064648.GC9097@pengutronix.de>
+References: <20221017205446.523796-1-w36195@motorola.com>
+ <20221017205446.523796-3-w36195@motorola.com>
+ <20221017213031.tqb575hdzli7jlbh@synopsys.com>
+ <Y04K/HoUigF5FYBA@p1g3>
+ <20221018184535.3g3sm35picdeuajs@synopsys.com>
+ <20221018191318.GB9097@pengutronix.de>
+ <20221018224506.g7qv632fznfbprhz@synopsys.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Fig2xvG2VGoz8o/s"
+Content-Disposition: inline
+In-Reply-To: <20221018224506.g7qv632fznfbprhz@synopsys.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 13, 2022 at 9:04 AM Peter Zijlstra <peterz@infradead.org> wrote:
+
+--Fig2xvG2VGoz8o/s
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Thinh,
+
+On Tue, Oct 18, 2022 at 10:45:16PM +0000, Thinh Nguyen wrote:
+>On Tue, Oct 18, 2022, Michael Grzeschik wrote:
+>> On Tue, Oct 18, 2022 at 06:45:40PM +0000, Thinh Nguyen wrote:
+>> > On Mon, Oct 17, 2022, Dan Vacura wrote:
+>> > > On Mon, Oct 17, 2022 at 09:30:38PM +0000, Thinh Nguyen wrote:
+>> > > > On Mon, Oct 17, 2022, Dan Vacura wrote:
+>> > > > > From: Jeff Vanhoof <qjv001@motorola.com>
+>> > > > >
+>> > > > > arm-smmu related crashes seen after a Missed ISOC interrupt when
+>> > > > > no_interrupt=3D1 is used. This can happen if the hardware is sti=
+ll using
+>> > > > > the data associated with a TRB after the usb_request's ->complet=
+e call
+>> > > > > has been made.  Instead of immediately releasing a request when =
+a Missed
+>> > > > > ISOC interrupt has occurred, this change will add logic to cance=
+l the
+>> > > > > request instead where it will eventually be released when the
+>> > > > > END_TRANSFER command has completed. This logic is similar to som=
+e of the
+>> > > > > cleanup done in dwc3_gadget_ep_dequeue.
+>> > > >
+>> > > > This doesn't sound right. How did you determine that the hardware =
+is
+>> > > > still using the data associated with the TRB? Did you check the TR=
+B's
+>> > > > HWO bit?
+>> > >
+>> > > The problem we're seeing was mentioned in the summary of this patch
+>> > > series, issue #1. Basically, with the following patch
+>> > > https://urldefense.com/v3/__https://patchwork.kernel.org/project/lin=
+ux-usb/patch/20210628155311.16762-6-m.grzeschik@pengutronix.de/__;!!A4F2R9G=
+_pg!aSNZ-IjMcPgL47A4NR5qp9qhVlP91UGTuCxej5NRTv8-FmTrMkKK7CjNToQQVEgtpqbKzLU=
+2HXET9O226AEN$
+>> > > integrated a smmu panic is occurring on our Android device with the =
+5.15
+>> > > kernel which is:
+>> > >
+>> > >     <3>[  718.314900][  T803] arm-smmu 15000000.apps-smmu: Unhandled=
+ arm-smmu context fault from a600000.dwc3!
+>> > >
+>> > > The uvc gadget driver appears to be the first (and only) gadget that
+>> > > uses the no_interrupt=3D1 logic, so this seems to be a new condition=
+ for
+>> > > the dwc3 driver. In our configuration, we have up to 64 requests and=
+ the
+>> > > no_interrupt=3D1 for up to 15 requests. The list size of dep->starte=
+d_list
+>> > > would get up to that amount when looping through to cleanup the
+>> > > completed requests. From testing and debugging the smmu panic occurs
+>> > > when a -EXDEV status shows up and right after
+>> > > dwc3_gadget_ep_cleanup_completed_request() was visited. The conclusi=
+on
+>> > > we had was the requests were getting returned to the gadget too earl=
+y.
+>> >
+>> > As I mentioned, if the status is updated to missed isoc, that means th=
+at
+>> > the controller returned ownership of the TRB to the driver. At least f=
+or
+>> > the particular request with -EXDEV, its TRBs are completed. I'm not
+>> > clear on your conclusion.
+>> >
+>> > Do we know where did the crash occur? Is it from dwc3 driver or from u=
+vc
+>> > driver, and at what line? It'd great if we can see the driver log.
+>> >
+>> > >
+>> > > >
+>> > > > The dwc3 driver would only give back the requests if the TRBs of t=
+he
+>> > > > associated requests are completed or when the device is disconnect=
+ed.
+>> > > > If the TRB indicated missed isoc, that means that the TRB is compl=
+eted
+>> > > > and its status was updated.
+>> > >
+>> > > Interesting, the device is not disconnected as we don't get the
+>> > > -ESHUTDOWN status back and with this patch in place things continue
+>> > > after a -EXDEV status is received.
+>> > >
+>> >
+>> > Actually, minor correction here: a recent change
+>> > b44c0e7fef51 ("usb: dwc3: gadget: conditionally remove requests")
+>> > changed -ESHUTDOWN request status to -ECONNRESET when disable endpoint.
+>> > This doesn't look right.
+>> >
+>> > While disabling endpoint may also apply for other cases such as
+>> > switching alternate interface in addition to disconnect, -ESHUTDOWN
+>> > seems more fitting there.
+>> >
+>> > Hi Michael,
+>> >
+>> > Can you help clarify for the change above? This changed the usage of
+>> > requests. Now requests returned by disconnection won't be returned as
+>> > -ESHUTDOWN.
+>>
+>> When writing the patch, I was looking into
+>> Documentation/driver-api/usb/error-codes.rst.
+>>
+>> After looking into it today, I see that ESHUTDOWN should be send on
+>> ep_disable (device disable) and ECONNRESET on stop_active_transfer.
+>> So I probably just mixed them up, while writing the patch. :/
+>>
 >
-> On Mon, Aug 15, 2022 at 01:13:27AM -0600, Yu Zhao wrote:
-> > +     for (i = pmd_index(start), addr = start; addr != end; i++, addr = next) {
-> > +             pmd_t val = pmd_read_atomic(pmd + i);
-> > +
-> > +             /* for pmd_read_atomic() */
-> > +             barrier();
+>I think you mean ECONNRESET for ep_dequeue()?
+>dwc3_stop_active_transfer() is called for both scenarios.
+
+No, I meant dwc3_stop_active_transfer*s*.
+On ep_dequeue the request status is already ECONNRESET.
+
+>> The followup patch would then just be to swap the status results of
+>> __dwc3_gadget_ep_disable and dwc3_stop_active_transfers on the
+>> dwc3_remove_requests call.
+>>
+>> Michael
 >
-> Please clarify the above. This is an entirely inadequate ordering
-> comment.
+>Can you help make a fix?
 
-If it's acceptable, I'll copy what we have in
-pmd_none_or_clear_bad_unless_trans_huge():
+Sure, I will write a patch.
 
-        pmd_t pmdval = pmd_read_atomic(pmd);
+Thanks,
+Michael
 
-       /* See pmd_none_or_trans_huge_or_clear_bad for info on barrier */
-#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-        barrier();
-#endif
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
-        if (pmd_none(pmdval))
-                return 1;
+--Fig2xvG2VGoz8o/s
+Content-Type: application/pgp-signature; name="signature.asc"
 
-pmd_read_atomic() should have a built-in READ_ONCE() in the first
-place. If we have to use pmd_read_atomic(), it means we are not under
-PMD PTL. So we can also race with pte_alloc(), regardless of THP
-split. In this case, compiler reordering probably won't cause any real
-damage, but technically not having barrier() is still a bug and will
-trigger KCSAN warnings, I think.
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmNPnVUACgkQC+njFXoe
+LGQkqRAAu2iyKbF8RymKARg3wnUIl8Ow90HwXa7iCjwDRDG17qrO0We7kgao/OMH
+ujPosvtWywssQhmiyfYEhQuT1A1pDSu5xLPLw7wDFrBXCL8DlJx5R+x6vHBhXzuT
+F99vnjgcYYDHKclu5sGAbKI5K25/+pxaqTN6qrN6DIdEoUKQ+cJBtOZdi2TD80jT
+1gVTpWG9pmk22ecqy+b19HQs01ZwQ/gD0L1U/+7rEMeyJDYvK8SrfkYvljz0a8lr
+q/9MpbhgkaofpdDfMO+1m2T682FbZGLHTDuLbgVZuq3fARhh1xDLWzeRDVD8+EjQ
+Nnl9Y+BSS9VofukR0JNYPVWAY7wjR3kuVGGaj5L/Kxw8n1unkBzu19Wu/DkrOL7b
+WIuPaJ78/B7+K8GHnx3vnpX2vbqJ9Z/Nn7/SideEYIjqf6gOp/gdVtvTgRP4FkK6
+FcF5lxri08hcR374b5vf4d52fVPoC695xz5pdo1C8CT6gtXn4+zOA4RWLtifqQw3
+aXLq3MMGWt0A5Gol8HINuKq+R5CaNlkoeZOF0FS+zzfhOE8uBzfQkzApu+hNZg1j
+0QRqaGZBUPiTuSl26a76nenpgpPZXSHdLXSXpOXNfIexxyPVKM+W7Cf89hck1Sf2
+6LPVgQesVcJh7An+8Z9U9YNvtnFg0Mm1sEWFTMdzrhRhF1NYsyQ=
+=4NAm
+-----END PGP SIGNATURE-----
+
+--Fig2xvG2VGoz8o/s--
