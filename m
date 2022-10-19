@@ -2,125 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C13C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 17:41:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5FD7C43219
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 18:33:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231223AbiJSRlO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 13:41:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32872 "EHLO
+        id S229795AbiJSSdD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 14:33:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231299AbiJSRlL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 13:41:11 -0400
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED8A81B8679
-        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 10:41:09 -0700 (PDT)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-132b8f6f1b2so21491603fac.11
-        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 10:41:09 -0700 (PDT)
+        with ESMTP id S229657AbiJSSdC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 14:33:02 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E2E31BFB85
+        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 11:33:00 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id b1so29575442lfs.7
+        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 11:33:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
+        d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=o7oESz5tomQbWcoWEgo0/iqd576fd8JG2PTmQCWKHUY=;
-        b=LhnaCxQkYe9bL+uXUquBP284q0FFjCfp0v3tEE3Ew7ycTxf8ce+iI79qb3MGCCRuuU
-         zjTJ8I9g99kNf5YqHMJEIgBBUDmx8TSibPKQcCCydysOcjqO4Oy0SigG4t1dTfmwSk9p
-         Q8Xw+hnWgAzZpeoedADsV2vwGfcmjwBSuWbS8=
+        bh=VPr6UAOpmN1/gMX0ewomaOCJg5YtZQmOBncflHxMDjk=;
+        b=LwRPgs44Xx9fZBCWVguQMsygec+a76lxS9ASG3VWi6VBR4o+JOMKkdn5tTnapNhNbx
+         FCagxAT3CfEM6YSuiTVMbPHaJojgG9FhVAFnQbxsBultlVUY0pF/BJ7Pb1rCsoLbQEMZ
+         Tsz/eakulZFZMoaUwgMl+Q1Q2Mo6Ja/eO1XGRRJI1TLh6z4IE3uaaC2a1iSmaS0U4Sg7
+         StbFJsC36uGNihltZfZ/naEuTHBMd0aKRn0MseX2AD4OY2VEwCn3xL3Np44L+mr8bSRa
+         xewHLuoL2hqyU3VemdfwUsM41M+NZMYII6+iUpJITWhnfKF5ZBr0cRMrYzrFp5Hl4kbC
+         lg5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=o7oESz5tomQbWcoWEgo0/iqd576fd8JG2PTmQCWKHUY=;
-        b=EWA1swWFUxlD1PcJK6wcxfj4M+lhB9sX79EVFxzwJv6QZSVqPPYhL/JctFat+DfSbo
-         D5Yv9ORBju7NzH0e172V6Vszg9nF/od/NlKPCdwH0yOq+lIC54ytHakUq60EwEFa42VD
-         bLFgZoRznuTo2vcJLlBbsQ6X2mZ9K2noekrnufPAIF5HYMAGMkiOEnUz+1UDQXoDqzPU
-         o5ELhGodXEsnmZ3Sn3X1T/DthB+PTYNxq0YRfAInfyA9CBZcIXks0rx733xGLTAHz4os
-         FfAnibYxC8lWdG8DMWegLiOIJZ+FlrI4FhDOPH6Y6xcWVCAoWPX4ypY0d++nHmjhB05e
-         GZ9A==
-X-Gm-Message-State: ACrzQf3lt3HIyqV47jyzfbYcT6nzoixvrqdpy02Uq6VXqGnCxUTzmzKW
-        TaZWT2mGLjL/KweXaAjVVft0rklMk6UJfg==
-X-Google-Smtp-Source: AMsMyM4xIq/dQbAeWF7d7cGgvf32Lr5qLGT2YoLgyiOGAfxC8nOLZ3EGKxMx3Nj+ALZISzxpT235hA==
-X-Received: by 2002:a05:6870:3321:b0:136:c56b:626 with SMTP id x33-20020a056870332100b00136c56b0626mr5858352oae.271.1666201268965;
-        Wed, 19 Oct 2022 10:41:08 -0700 (PDT)
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com. [209.85.160.47])
-        by smtp.gmail.com with ESMTPSA id k25-20020a056830151900b00661ac94f187sm7462685otp.42.2022.10.19.10.41.07
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Oct 2022 10:41:08 -0700 (PDT)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-131dda37dddso21599563fac.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 10:41:07 -0700 (PDT)
-X-Received: by 2002:a05:6870:c0c9:b0:127:c4df:5b50 with SMTP id
- e9-20020a056870c0c900b00127c4df5b50mr6076270oad.126.1666201256175; Wed, 19
- Oct 2022 10:40:56 -0700 (PDT)
+        bh=VPr6UAOpmN1/gMX0ewomaOCJg5YtZQmOBncflHxMDjk=;
+        b=rFLdsLe+XgKwH3jvN6wx8A8Uh+GFYtG5cDXiQx579I/rtHhj7uUYHLOVqiFVfWvPVK
+         RiLEYZ+8jTavCHWmt9/FYWHcEWdnY/5Hdq4P1NFmEjWYoDBV1MTPP/7GylFbOXYiWke7
+         UvygfPu5NAk3tqPGvtzRk3cI/1UA4iGrAlHdpwCKANNhq13LINQ139sOn3sk1ItE6vez
+         eSkzqo2BzhDTSWieM9i9gJe3Hil2Ep1jG1sNmPtYdK65LGqwPEeuKgJjF29ohal+PtMe
+         Kqup8StZbzgOXosRU3i9SbYyC07zj43371Q5EscKIbzYVPSyP/xp4u9I0TweiUSKrA5Z
+         S7Dg==
+X-Gm-Message-State: ACrzQf2v96jWwWJrC66/oAzd5femR/siBg15Xga6cwZs8u5VEs20Iq/8
+        Anp2nu3CXf5z8LoWs/MRffEtFefKa1AmZYiupXHC1w==
+X-Google-Smtp-Source: AMsMyM4EBV5NPiqUSsGoH76d60Oj4XtTNKzmBM3XB8zcFOXHmexalPNeyd2MnHJenC/4Cf4QA3Wt+/yC+VCqwQatWHo=
+X-Received: by 2002:a05:6512:3119:b0:4a2:d749:ff82 with SMTP id
+ n25-20020a056512311900b004a2d749ff82mr3531001lfb.637.1666204378020; Wed, 19
+ Oct 2022 11:32:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220815071332.627393-1-yuzhao@google.com> <20220815071332.627393-9-yuzhao@google.com>
- <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net> <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com>
-In-Reply-To: <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 19 Oct 2022 10:40:40 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
-Message-ID: <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
-Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
-To:     Yu Zhao <yuzhao@google.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-6-chao.p.peng@linux.intel.com> <CA+EHjTxukqBfaN6D+rPOiX83zkGknHEQ16J0k6GQSdL_-e9C6g@mail.gmail.com>
+ <20221012023516.GA3218049@chaop.bj.intel.com> <CA+EHjTyGyGL+ox81=jdtoHERtHPV=P7wJub=3j7chdijyq-AgA@mail.gmail.com>
+ <Y03UiYYioV+FQIpx@google.com> <20221019132308.GA3496045@chaop.bj.intel.com>
+ <CA+EHjTytCEup0m-nhnVHsuQ1xjaCxXNHO_Oxe+QbpwqaewpfKQ@mail.gmail.com> <Y1AhP0dlRSgTCObX@google.com>
+In-Reply-To: <Y1AhP0dlRSgTCObX@google.com>
+From:   Fuad Tabba <tabba@google.com>
+Date:   Wed, 19 Oct 2022 19:32:21 +0100
+Message-ID: <CA+EHjTzR6DwU950gud1opEGCNqCfiEvA4-JFtyJ0NBgTD-uHNg@mail.gmail.com>
+Subject: Re: [PATCH v8 5/8] KVM: Register/unregister the guest private memory regions
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
         Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
-        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 18, 2022 at 10:51 PM Yu Zhao <yuzhao@google.com> wrote:
+On Wed, Oct 19, 2022 at 5:09 PM Sean Christopherson <seanjc@google.com> wrote:
 >
-> pmd_read_atomic() should have a built-in READ_ONCE() in the first
-> place.
+> On Wed, Oct 19, 2022, Fuad Tabba wrote:
+> > > > > This sounds good. Thank you.
+> > > >
+> > > > I like the idea of a separate Kconfig, e.g. CONFIG_KVM_GENERIC_PRIVATE_MEM or
+> > > > something.  I highly doubt there will be any non-x86 users for multiple years,
+> > > > if ever, but it would allow testing the private memory stuff on ARM (and any other
+> > > > non-x86 arch) without needing full pKVM support and with only minor KVM
+> > > > modifications, e.g. the x86 support[*] to test UPM without TDX is shaping up to be
+> > > > trivial.
+> > >
+> > > CONFIG_KVM_GENERIC_PRIVATE_MEM looks good to me.
+> >
+> > That sounds good to me, and just keeping the xarray isn't really an
+> > issue for pKVM.
+>
+> The xarray won't exist for pKVM if the #ifdefs in this patch are changed from
+> CONFIG_HAVE_KVM_PRIVATE_MEM => CONFIG_KVM_GENERIC_PRIVATE_MEM.
+>
+> > We could end up using it instead of some of the other
+> > structures we use for tracking.
+>
+> I don't think pKVM should hijack the xarray for other purposes.  At best, it will
+> be confusing, at worst we'll end up with a mess if ARM ever supports the "generic"
+> implementation.
 
-I really think that is the right thing to do. Let's just move the
-barrier in *there* instead.
+Definitely wasn't referring to hijacking it for other purposes, which
+is the main reason I wanted to clarify the documentation and the
+naming of private_fd. Anyway, I'm glad to see that we're in agreement.
+Once I've tightened the screws, I'll share the pKVM port as an RFC as
+well.
 
-It really should use 'READ_ONCE()', but it sadly cannot do that
-portably, because 'pmd_t' may be a multi-word structure.
-
-Of course, the x86-32 code does this all *almost* right, and
-implements its own version of pmd_read_atomic(), but then sadly does
-it _without_ actually using READ_ONCE() there.
-
-So even when we could do it right, we don't.
-
-But the x86-32 implementation of pmd_read_atomic() would be trivial to
-fix to just use READ_ATOMIC, and the generic implementation should
-just have a "barrier()" in it so that we wouldn't need crazy barriers
-in the users.
-
-Because as you say, the function is already called "read_atomic", and
-it should damn well *act* that way then.
-
-Hmm?
-
-                 Linus
+Cheers,
+/fuad
