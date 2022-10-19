@@ -2,109 +2,218 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63B1FC4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 03:32:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EF0BC433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 04:13:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229944AbiJSDcF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 18 Oct 2022 23:32:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46776 "EHLO
+        id S229559AbiJSENV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 00:13:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230059AbiJSDbk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Oct 2022 23:31:40 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 825509AC04;
-        Tue, 18 Oct 2022 20:31:29 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id b2so25999518lfp.6;
-        Tue, 18 Oct 2022 20:31:29 -0700 (PDT)
+        with ESMTP id S229489AbiJSENU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 00:13:20 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D81E5659F3
+        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 21:13:18 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id e129so15143946pgc.9
+        for <linux-doc@vger.kernel.org>; Tue, 18 Oct 2022 21:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xXOdD4jFNBnSt3r5PCST29/B2GnaAaZyf2g7ZsPfqSg=;
-        b=HwCN+lEH0pfda/YrtNXTSmj0s3TBNGh1o1QXt0PVw4hxT9JuSwZtM9zEyfoaBt8IqF
-         zhTnsaiSPSS646dF8LcWv2DkwYYh6MScIeCKVSZ5sg6+tRhR2HVgaCaUs6Q0ITfSt8/l
-         L+/qnv17yt6tDyz+VzU1PbxkY5Yxarb8Jc/23nxfGJXSyoLgHn7fXSlG4lTMhahMdahW
-         AtpTGP3nmzFPRY75Ibsa9T8Immlkmfld0Rap9jSP1wgURCU80LQ04uKqQomAiDsdw/F4
-         grKh3FMSP1DxWO4n1otIwNSJMIClCfUDIrK8KIT5Tl9Le25vwdrndAUYvgLjAl+0mYGp
-         VCjw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=05myh31oMr/q2J5BJn593JOYwoX0tzfWg7ohUct7D5A=;
+        b=YflIaczlCY9WKyaxEUxTSTFp5SQEgE5/lvpGzv1EJ0s5GzPMCU8/P/5D9c5NyhXp8J
+         2DRhFvfOZviWnm3Zsx1lrqhtLuHKljlI+Ws7xMW/wLt+8b9HNRXrBB+KO9mHtbA1kgqu
+         ECHd88+a1WZC6moWpAElwy2ZxE9VAaMYo2R17vybtNPYlM2usvA9FBYzO6OHasjNE+4M
+         01+Q2STtfAweZrTYPBwxX1E9jZ8UrSIxp00BH3bJYUlmix2h+aEIgN/H5Zcvu4tKpWHl
+         PqaGtufpb94uXGiJVukXkkWx2UagdF7byTQQjq/0vWmWTojIlGlPgyUy3ZiQ52xYwhfp
+         K+Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xXOdD4jFNBnSt3r5PCST29/B2GnaAaZyf2g7ZsPfqSg=;
-        b=TdQ5H01xawW6yf8wJpzU0Nmrw0qmBxCw1sTRG+zuU4S3sKryTbQJ93H276acvd8bh8
-         Lvj/GDsMtKx6JOcS167dYbT6z/IbVjYIA2Td2monF+5C/H5WofK057Ka2rVWt3j/nvEm
-         dnZFBg6ZKoKh3eDlnwoMZKJWQSW+NoK9xUlEdi3QeProHm14slCN/1HB3eREP1vG3e4c
-         5s+JcLfIIwTONY495mi0B8KIo0Ivt9US97pNIEsvU142b3dFZPdd2AfGO5Jq5jQth26L
-         mU83RQLrN3ZFaJ5udV8zPwPGQeG8Yjz6T8GPUwVzuYimdETOLq5gBy19HTDY9MLc51ja
-         JOdg==
-X-Gm-Message-State: ACrzQf1gzj4VhW+ZZa9lh8mwnlli4yG3OYzqnMHAvJhMT62deOXyNvxl
-        QHjylGnwkzSC9aTJu5u7cUs0KQXtpxKN21aDVzU=
-X-Google-Smtp-Source: AMsMyM72Sboh+4jtIH93MkU/ntW0FesNrj8LSfBzzwwcx14XyIb0Rn6s0bBOND/yKEAECkfDQqYrl1nKbvGUHq7kNEg=
-X-Received: by 2002:a05:6512:31c9:b0:4a2:5349:7103 with SMTP id
- j9-20020a05651231c900b004a253497103mr2022881lfe.497.1666150287940; Tue, 18
- Oct 2022 20:31:27 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=05myh31oMr/q2J5BJn593JOYwoX0tzfWg7ohUct7D5A=;
+        b=FFhb/qBES6p8Fbzq6Lo7oaqhnTJsxwr5cXrIrfqdoaWmezxV6p3z/wx+gcEx7+xSfu
+         Ao+pWzSh+LKkcqbp35EpMpWLIY8BIlVFyQxkGztVIjULUvjgyDrlbV046Cc/DJ3a0QQ3
+         uJJVTQ3DeNuQkgdoOsfQ1CaTPkBrJpnoG6gAAbCmtO7O78tMti6fgSjngQPapI2BxKmp
+         vkOIe+d+G9c9SDwjwcaDTZsIfF247y+9Cq5MHCffTrD0N7O/8Qd5+Sco9PgrJrBzHjOX
+         ru9e5vBoKn0ph+7XIHEXQt1VQr0cC3nSRWh/S4wSYLgZN4WNauTlvGkByCJOC2hhTe0U
+         /c9A==
+X-Gm-Message-State: ACrzQf3t8alp7f7ofuBDdns3+YNTMLy3bEcYLiXAfXQk/CbRxXM19mBT
+        Ab12mm7HwZKWnvbMinmzFIQtYaAJMT4Kfg==
+X-Google-Smtp-Source: AMsMyM7PVGan+RHqzkCNfLmfIEcYPPU2SCyyNgOkjvyGlZJSW5qSXCZKTGjoqhBy2dUk+F703Q87Fg==
+X-Received: by 2002:a05:6a00:1884:b0:562:6536:4844 with SMTP id x4-20020a056a00188400b0056265364844mr6639752pfh.2.1666152798231;
+        Tue, 18 Oct 2022 21:13:18 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-77.three.co.id. [180.214.233.77])
+        by smtp.gmail.com with ESMTPSA id v3-20020a170902e8c300b00176b3d7db49sm9578499plg.0.2022.10.18.21.13.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Oct 2022 21:13:17 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 709A41012EB; Wed, 19 Oct 2022 11:13:14 +0700 (WIB)
+Date:   Wed, 19 Oct 2022 11:13:13 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     WANG Xuerui <kernel@xen0n.name>
+Cc:     linux-doc@vger.kernel.org, WANG Xuerui <git@xen0n.name>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, loongarch@lists.linux.dev
+Subject: Re: [PATCH 1/2] Documentation: LoongArch: Document the syscall ABI
+Message-ID: <Y095WSk6brB2li/O@debian.me>
+References: <20221018100457.3440691-1-kernel@xen0n.name>
+ <20221018100457.3440691-2-kernel@xen0n.name>
 MIME-Version: 1.0
-References: <cover.1666097959.git.siyanteng@loongson.cn> <69462d6bf842950080c56d1e51adc318e79c9a19.1666097959.git.siyanteng@loongson.cn>
-In-Reply-To: <69462d6bf842950080c56d1e51adc318e79c9a19.1666097959.git.siyanteng@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Date:   Wed, 19 Oct 2022 11:30:51 +0800
-Message-ID: <CAJy-AmmfEfA7h8a3seMz7fafg4CSd5Cgx8oBKpo-cZJUGX2JqA@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] docs/zh_CN: Add rust/arch-support Chinese translation
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     alexs@kernel.org, corbet@lwn.net, ojeda@kernel.org,
-        boqun.feng@gmail.com, wedsonaf@gmail.com, gary@garyguo.net,
-        bjorn3_gh@protonmail.com, rust-for-linux@vger.kernel.org,
-        bobwxc@email.cn, wu.xiangcheng@linux.dev, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        siyanteng01@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="pP58CdA786Rjnrv3"
+Content-Disposition: inline
+In-Reply-To: <20221018100457.3440691-2-kernel@xen0n.name>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-UmV2aWV3ZWQtYnk6IEFsZXggU2hpIDxhbGV4c0BrZXJuZWwub3JnPg0KDQpPbiBUdWUsIE9jdCAx
-OCwgMjAyMiBhdCA5OjA5IFBNIFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4gd3Jv
-dGU6DQo+DQo+IFRyYW5zbGF0ZSAuLi4vcnVzdC9hcmNoLXN1cHBvcnQucnN0IGludG8gQ2hpbmVz
-ZS4NCj4NCj4gU2lnbmVkLW9mZi1ieTogWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNu
-Pg0KPiAtLS0NCj4gIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vcnVzdC9hcmNoLXN1cHBvcnQucnN0
-ICB8IDIzICsrKysrKysrKysrKysrKysrKysNCj4gIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vcnVz
-dC9pbmRleC5yc3QgICAgICAgICB8ICA1ICstLS0NCj4gIDIgZmlsZXMgY2hhbmdlZCwgMjQgaW5z
-ZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVu
-dGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9ydXN0L2FyY2gtc3VwcG9ydC5yc3QNCj4NCj4gZGlm
-ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3J1c3QvYXJjaC1zdXBw
-b3J0LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3J1c3QvYXJjaC1zdXBw
-b3J0LnJzdA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwMDAuLmFm
-YmQwMmFmZWM0NQ0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNs
-YXRpb25zL3poX0NOL3J1c3QvYXJjaC1zdXBwb3J0LnJzdA0KPiBAQCAtMCwwICsxLDIzIEBADQo+
-ICsuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiArLi4gaW5jbHVkZTo6IC4u
-L2Rpc2NsYWltZXItemhfQ04ucnN0DQo+ICsNCj4gKzpPcmlnaW5hbDogRG9jdW1lbnRhdGlvbi9y
-dXN0L2FyY2gtc3VwcG9ydC5yc3QNCj4gKw0KPiArOue/u+ivkToNCj4gKw0KPiArIOWPuOW7tuiF
-viBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ICsNCj4gK+aetuaehOaUr+aM
-gQ0KPiArPT09PT09PT0NCj4gKw0KPiAr55uu5YmN77yMUnVzdOe8luivkeWZqO+8iGBgcnVzdGNg
-YO+8ieS9v+eUqExMVk3ov5vooYzku6PnoIHnlJ/miJDvvIzov5npmZDliLbkuoblj6/ku6XmlK/m
-jIHnmoTnm67moIfmnrbmnoTjgILmraTlpJbvvIzlr7kNCj4gK+S9v+eUqExMVk0vQ2xhbmfmnoTl
-u7rlhoXmoLjnmoTmlK/mjIHkuZ/mnInmiYDkuI3lkIzvvIjor7flj4Lop4EgRG9jdW1lbnRhdGlv
-bi9rYnVpbGQvbGx2bS5yc3Qg77yJ44CC6L+ZDQo+ICvnp43mlK/mjIHlr7nkuo7kvb/nlKggYGBs
-aWJjbGFuZ2BgIOeahCBgYGJpbmRnZW5gYCDmnaXor7TmmK/lv4XpnIDnmoTjgIINCj4gKw0KPiAr
-5LiL6Z2i5piv55uu5YmN5Y+v5Lul5bel5L2c55qE5p625p6E55qE5LiA6Iis5oC757uT44CC5pSv
-5oyB56iL5bqm5LiOIGBgTUFJTlRBSU5FUlNgYCDmlofku7bkuK3nmoRgYFNgYCDlgLznm7jlr7nl
-upQ6DQo+ICsNCj4gKz09PT09PT09PT09PSAgPT09PT09PT09PT09PT09PSAgPT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiAr5p625p6EICAgICAgICAgIOaU
-r+aMgeawtOW5syAgICAgICAgICDpmZDliLblm6DntKANCj4gKz09PT09PT09PT09PSAgPT09PT09
-PT09PT09PT09PSAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PQ0KPiArYGB4ODZgYCAgICAgICBNYWludGFpbmVkICAgICAgICDlj6rmnIkgYGB4ODZfNjRgYA0K
-PiArPT09PT09PT09PT09ICA9PT09PT09PT09PT09PT09ICA9PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3Ry
-YW5zbGF0aW9ucy96aF9DTi9ydXN0L2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRp
-b25zL3poX0NOL3J1c3QvaW5kZXgucnN0DQo+IGluZGV4IGM1NTA3YWQ0ODhhMS4uYjAxZjg4N2U3
-MTY3IDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9ydXN0
-L2luZGV4LnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9ydXN0
-L2luZGV4LnJzdA0KPiBAQCAtMTgsMTAgKzE4LDcgQEAgUnVzdA0KPiAgICAgIHF1aWNrLXN0YXJ0
-DQo+ICAgICAgZ2VuZXJhbC1pbmZvcm1hdGlvbg0KPiAgICAgIGNvZGluZy1ndWlkZWxpbmVzDQo+
-IC0NCj4gLVRPRE9MaXN0Og0KPiAtDQo+IC0qICAgIGFyY2gtc3VwcG9ydA0KPiArICAgIGFyY2gt
-c3VwcG9ydA0KPg0KPiAgLi4gb25seTo6ICBzdWJwcm9qZWN0IGFuZCBodG1sDQo+DQo+IC0tDQo+
-IDIuMzEuMQ0KPg0K
+
+--pP58CdA786Rjnrv3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 18, 2022 at 06:04:56PM +0800, WANG Xuerui wrote:
+> From: WANG Xuerui <git@xen0n.name>
+>=20
+
+What description?
+
+> diff --git a/Documentation/loongarch/syscall-abi.rst b/Documentation/loon=
+garch/syscall-abi.rst
+> new file mode 100644
+> index 000000000000..6f63aa3cfc64
+> --- /dev/null
+> +++ b/Documentation/loongarch/syscall-abi.rst
+> @@ -0,0 +1,36 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> +Linux/LoongArch system call ABI
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> +
+> +This document describes the system call ABI of Linux/LoongArch.
+> +As the kernel is 64-bit only for now, the description below assumes an L=
+P64\*
+> +calling convention.
+> +
+> +Syscall numbers and parameters
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +
+> +Like with other recent architecture ports, for the most part Linux/Loong=
+Arch
+> +reuses the asm-generic syscall numbers and parameters.
+> +There are a few points worth mentioning though.
+> +
+> +* There is no ``renameat``. Use ``renameat2`` instead.
+> +* There is no ``getrlimit`` or ``setrlimit``. Use ``prlimit64`` instead.
+> +* There is no ``fstat`` or ``newfstatat``. Only ``statx`` is provided, a=
+nd
+> +  low-level components making their own syscalls are expected to be awar=
+e of
+> +  this (and provide their own shims if necessary).
+> +
+> +Invocation
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +System calls are currently made with the ``syscall 0`` instruction.
+> +Although the immediate field in the instruction is not checked at presen=
+t,
+> +it is strongly advised to keep it zeroed in case it is to be made meanin=
+gful
+> +in the future.
+> +
+> +The system call number is placed in the register ``a7``.
+> +Parameters, if present, are placed from ``a0`` through ``a6`` as needed,
+> +as if calling a function with the respective arguments.
+> +Upon return, ``a0`` contains the return value, and ``t0-t8`` should be
+> +considered clobbered; all other registers are preserved.
+
+The wording can be improved:
+
+---- >8 ----
+
+diff --git a/Documentation/loongarch/syscall-abi.rst b/Documentation/loonga=
+rch/syscall-abi.rst
+index 6f63aa3cfc64e5..d05fa2e0211bbf 100644
+--- a/Documentation/loongarch/syscall-abi.rst
++++ b/Documentation/loongarch/syscall-abi.rst
+@@ -5,32 +5,32 @@ Linux/LoongArch system call ABI
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+=20
+ This document describes the system call ABI of Linux/LoongArch.
+-As the kernel is 64-bit only for now, the description below assumes an LP6=
+4\*
+-calling convention.
++As the kernel currently only supports 64-bit LoongArch architecture, the
++description below assumes LP64\* calling convention.
+=20
+ Syscall numbers and parameters
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+=20
+-Like with other recent architecture ports, for the most part Linux/LoongAr=
+ch
++Like ther recent architecture ports, for the most part Linux/LoongArch
+ reuses the asm-generic syscall numbers and parameters.
+-There are a few points worth mentioning though.
++There are a few limitations worth mentioning though.
+=20
+ * There is no ``renameat``. Use ``renameat2`` instead.
+ * There is no ``getrlimit`` or ``setrlimit``. Use ``prlimit64`` instead.
+-* There is no ``fstat`` or ``newfstatat``. Only ``statx`` is provided, and
+-  low-level components making their own syscalls are expected to be aware =
+of
+-  this (and provide their own shims if necessary).
++* There is no ``fstat`` or ``newfstatat``. Only ``statx`` is provided and
++  low-level components invoking their own syscalls are expected to be aware
++  of this (and provide their own shims if necessary).
+=20
+ Invocation
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-System calls are currently made with the ``syscall 0`` instruction.
++System calls are currently invoked with the ``syscall 0`` instruction.
+ Although the immediate field in the instruction is not checked at present,
+-it is strongly advised to keep it zeroed in case it is to be made meaningf=
+ul
++it is strongly advised to keep it zeroed in case the field has purposes
+ in the future.
+=20
+-The system call number is placed in the register ``a7``.
+-Parameters, if present, are placed from ``a0`` through ``a6`` as needed,
+-as if calling a function with the respective arguments.
+-Upon return, ``a0`` contains the return value, and ``t0-t8`` should be
+-considered clobbered; all other registers are preserved.
++The system call number is placed in the register ``a7``. Parameters, if
++present, are placed from ``a0`` through ``a6`` as needed, as if calling
++a function with respective arguments. Upon return, the return value is pla=
+ced
++in ``a0`` and ``t0-t8`` should be considered clobbered; all other registers
++are preserved.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--pP58CdA786Rjnrv3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY095VAAKCRD2uYlJVVFO
+o5fFAQCtJdqR+Euwsb9nvjdIt/dLpS21ZxAQz6P2lyHgYsLqEQEArJcNI2Rd6XJ7
+vDMZn/Jl/mZrA7i9pOweOtD2NlRm5gg=
+=3HRU
+-----END PGP SIGNATURE-----
+
+--pP58CdA786Rjnrv3--
