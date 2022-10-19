@@ -2,178 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82825C4332F
-	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 12:02:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8531EC4332F
+	for <linux-doc@archiver.kernel.org>; Wed, 19 Oct 2022 12:10:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229840AbiJSMCD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 08:02:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36204 "EHLO
+        id S232625AbiJSMKo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 08:10:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231681AbiJSMBj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 08:01:39 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EEBD42E57
-        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 04:38:43 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id m6so16996308pfb.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 04:38:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lctdt7xKU2W5w8gZ0ZmMK8o6iNtjlEm1kVR6gDr/Tqs=;
-        b=azz7whhIofhV6dNq+IvcUJPAUjbCNfvl3vKJyPjW72wvWGyw6jPg/RkDpwHAbCv3W9
-         94AnUE69DuI7RM7xKmSYYooKJpF5y/N8mX2vGj4N5BGTM8LkQSI2lq+RrsvMv+4HE0PK
-         5WR3deCHsMafGs7KLtXai79FiSkJjtKLr3lTapM3hALcVr0S8/eG72ZDZbhfXk2WKqwJ
-         hVkomDg6F8zd3d5N0fltw4sn1YLzVwu+Z7udqrLY0Mj0s53vNEq1xo5r+8rZ2IGoVus9
-         txu7TDUHmcflBVcTFAoglOSpL1Xv3XFf8K96Qva2ybjItMKC4TmwHS2xnRyPkK1DPICQ
-         WvCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lctdt7xKU2W5w8gZ0ZmMK8o6iNtjlEm1kVR6gDr/Tqs=;
-        b=AX92krYZ1GuNVllCEhhHICJHUEp/lLI0xqft6TWLuA+T6BtlLiv32sNeowC5pIbWTB
-         kRHxvWYI0XHfegUCsrBV+hvE+yvmifR2bR21dZnuq9wr6YSjB+9zJX8/PRclF+S1vbYC
-         EJFyAjJjpqAsftRapYLsQQSynAFNg6zG/a2bUNMTz5AEsUOKk4+1S87ORaUCSBSW+d6/
-         a7DICFK3sSYHBOkbbaLY4n1TKnCF7x3qAQ7yzo/B2r/1Q13KA2kDkENQC9HtNrLbS8Q2
-         rPrFGb+YWeMiDrUK9E67OCaJmqGb4oa1+wXZJaznkLZhJbJDsbKcMOfv8MWj4ejjtljq
-         NlQg==
-X-Gm-Message-State: ACrzQf1LorsPjlfgZ9v5Ij4ss0qvplP+vH9EZDlt6ZnSFHj+0We2gfKw
-        NM+lL5d0hg1kl6j3IoDqSak3WvPhTRspIA==
-X-Google-Smtp-Source: AMsMyM58iub7ESHfa48FrgnOmzaMcWvkgwmAW8caBAentKFSof8Duq0VF1bxr5JfnFXxxIIBSFqH5A==
-X-Received: by 2002:a65:62c7:0:b0:463:9c67:5fe2 with SMTP id m7-20020a6562c7000000b004639c675fe2mr6419990pgv.443.1666171791791;
-        Wed, 19 Oct 2022 02:29:51 -0700 (PDT)
-Received: from C02FG34NMD6R.bytedance.net ([139.177.225.247])
-        by smtp.gmail.com with ESMTPSA id x1-20020a170902ec8100b0017da2798025sm10364877plg.295.2022.10.19.02.29.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Oct 2022 02:29:51 -0700 (PDT)
-From:   Albert Huang <huangjie.albert@bytedance.com>
-To:     mike.kravetz@oracle.com
-Cc:     "huangjie.albert" <huangjie.albert@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: [PATCH v2] mm: hugetlb: support for shared memory policy
-Date:   Wed, 19 Oct 2022 17:29:25 +0800
-Message-Id: <20221019092928.44146-1-huangjie.albert@bytedance.com>
-X-Mailer: git-send-email 2.37.0 (Apple Git-136)
-In-Reply-To: <Y0mUt84TctGP3BtT@monkey>
-References: <Y0mUt84TctGP3BtT@monkey>
+        with ESMTP id S233245AbiJSMJh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 08:09:37 -0400
+Received: from relay.virtuozzo.com (relay.virtuozzo.com [130.117.225.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF4F93C16D;
+        Wed, 19 Oct 2022 04:45:43 -0700 (PDT)
+Received: from dev011.ch-qa.sw.ru ([172.29.1.16])
+        by relay.virtuozzo.com with esmtp (Exim 4.95)
+        (envelope-from <alexander.atanasov@virtuozzo.com>)
+        id 1ol5lb-00B8K8-Cj;
+        Wed, 19 Oct 2022 11:56:29 +0200
+From:   Alexander Atanasov <alexander.atanasov@virtuozzo.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     kernel@openvz.org,
+        Alexander Atanasov <alexander.atanasov@virtuozzo.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [RFC PATCH v5 3/8] mm: Display inflated memory to users
+Date:   Wed, 19 Oct 2022 12:56:15 +0300
+Message-Id: <20221019095620.124909-4-alexander.atanasov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20221019095620.124909-1-alexander.atanasov@virtuozzo.com>
+References: <20221019095620.124909-1-alexander.atanasov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "huangjie.albert" <huangjie.albert@bytedance.com>
+Add InflatedTotal and InflatedFree to /proc/meminfo
 
-implement get/set_policy for hugetlb_vm_ops to support the shared policy
-This ensures that the mempolicy of all processes sharing this huge page
-file is consistent.
-
-In some scenarios where huge pages are shared:
-if we need to limit the memory usage of vm within node0, so I set qemu's
-mempilciy bind to node0, but if there is a process (such as virtiofsd)
-shared memory with the vm, in this case. If the page fault is triggered
-by virtiofsd, the allocated memory may go to node1 which depends on
-virtiofsd. Although we can use the memory prealloc provided by qemu to
-avoid this issue, but this method will significantly increase the
-creation time of the vm(a few seconds, depending on memory size).
-
-after we hooked up hugetlb_vm_ops(set/get_policy):
-both the shared memory segments created by shmget() with SHM_HUGETLB flag
-and the mmap(MAP_SHARED|MAP_HUGETLB), also support shared policy.
-
-v1->v2:
-1、hugetlb share the memory policy when the vma with the VM_SHARED flag.
-2、update the documentation.
-
-Signed-off-by: huangjie.albert <huangjie.albert@bytedance.com>
+Signed-off-by: Alexander Atanasov <alexander.atanasov@virtuozzo.com>
 ---
- .../admin-guide/mm/numa_memory_policy.rst     | 20 +++++++++------
- mm/hugetlb.c                                  | 25 +++++++++++++++++++
- 2 files changed, 37 insertions(+), 8 deletions(-)
+ Documentation/filesystems/proc.rst |  6 ++++++
+ fs/proc/meminfo.c                  | 10 ++++++++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Documentation/admin-guide/mm/numa_memory_policy.rst
-index 5a6afecbb0d0..5672a6c2d2ef 100644
---- a/Documentation/admin-guide/mm/numa_memory_policy.rst
-+++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
-@@ -133,14 +133,18 @@ Shared Policy
- 	the object share the policy, and all pages allocated for the
- 	shared object, by any task, will obey the shared policy.
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 898c99eae8e4..d88828a27383 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -992,6 +992,8 @@ Example output. You may not have all of these fields.
+     VmallocUsed:       40444 kB
+     VmallocChunk:          0 kB
+     Percpu:            29312 kB
++    InflatedTotal:   2097152 kB
++    InflatedFree:          0 kB
+     HardwareCorrupted:     0 kB
+     AnonHugePages:   4149248 kB
+     ShmemHugePages:        0 kB
+@@ -1142,6 +1144,10 @@ VmallocChunk
+ Percpu
+               Memory allocated to the percpu allocator used to back percpu
+               allocations. This stat excludes the cost of metadata.
++InflatedTotal and InflatedFree
++               Amount of memory that is inflated by the balloon driver.
++               Due to differences among the drivers inflated memory
++               is subtracted from TotalRam or from MemFree.
+ HardwareCorrupted
+               The amount of RAM/memory in KB, the kernel identifies as
+               corrupted.
+diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+index 5101131e6047..d9e059b0b25d 100644
+--- a/fs/proc/meminfo.c
++++ b/fs/proc/meminfo.c
+@@ -16,6 +16,9 @@
+ #ifdef CONFIG_CMA
+ #include <linux/cma.h>
+ #endif
++#ifdef CONFIG_MEMORY_BALLOON
++#include <linux/balloon.h>
++#endif
+ #include <asm/page.h>
+ #include "internal.h"
  
--	As of 2.6.22, only shared memory segments, created by shmget() or
--	mmap(MAP_ANONYMOUS|MAP_SHARED), support shared policy.  When shared
--	policy support was added to Linux, the associated data structures were
--	added to hugetlbfs shmem segments.  At the time, hugetlbfs did not
--	support allocation at fault time--a.k.a lazy allocation--so hugetlbfs
--	shmem segments were never "hooked up" to the shared policy support.
--	Although hugetlbfs segments now support lazy allocation, their support
--	for shared policy has not been completed.
-+	As of 2.6.22, only shared memory segments, created by shmget() without
-+	SHM_HUGETLB flag or mmap(MAP_ANONYMOUS|MAP_SHARED) without MAP_HUGETLB
-+	flag, support shared policy. When shared policy support was added to Linux,
-+	the associated data structures were added to hugetlbfs shmem segments.
-+	At the time, hugetlbfs did not support allocation at fault time--a.k.a
-+	lazy allocation--so hugetlbfs shmem segments were never "hooked up" to
-+	the shared policy support. Although hugetlbfs segments now support lazy
-+	allocation, their support for shared policy has not been completed.
-+
-+	after we hooked up hugetlb_vm_ops(set/get_policy):
-+	both the shared memory segments created by shmget() with SHM_HUGETLB flag
-+	and mmap(MAP_SHARED|MAP_HUGETLB), also support shared policy.
+@@ -155,6 +158,13 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+ 		    global_zone_page_state(NR_FREE_CMA_PAGES));
+ #endif
  
- 	As mentioned above in :ref:`VMA policies <vma_policy>` section,
- 	allocations of page cache pages for regular files mmap()ed
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 87d875e5e0a9..fc7038931832 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -4632,6 +4632,27 @@ static vm_fault_t hugetlb_vm_op_fault(struct vm_fault *vmf)
- 	return 0;
- }
- 
-+#ifdef CONFIG_NUMA
-+int hugetlb_vm_op_set_policy(struct vm_area_struct *vma, struct mempolicy *mpol)
-+{
-+	struct inode *inode = file_inode(vma->vm_file);
-+
-+	if (!(vma->vm_flags & VM_SHARED))
-+		return 0;
-+
-+	return mpol_set_shared_policy(&HUGETLBFS_I(inode)->policy, vma, mpol);
-+}
-+
-+struct mempolicy *hugetlb_vm_op_get_policy(struct vm_area_struct *vma, unsigned long addr)
-+{
-+	struct inode *inode = file_inode(vma->vm_file);
-+	pgoff_t index;
-+
-+	index = ((addr - vma->vm_start) >> PAGE_SHIFT) + vma->vm_pgoff;
-+	return mpol_shared_policy_lookup(&HUGETLBFS_I(inode)->policy, index);
-+}
++#ifdef CONFIG_MEMORY_BALLOON
++	seq_printf(m,  "InflatedTotal:  %8ld kB\n",
++		atomic_long_read(&mem_balloon_inflated_total_kb));
++	seq_printf(m,  "InflatedFree:   %8ld kB\n",
++		atomic_long_read(&mem_balloon_inflated_free_kb));
 +#endif
 +
- /*
-  * When a new function is introduced to vm_operations_struct and added
-  * to hugetlb_vm_ops, please consider adding the function to shm_vm_ops.
-@@ -4645,6 +4666,10 @@ const struct vm_operations_struct hugetlb_vm_ops = {
- 	.close = hugetlb_vm_op_close,
- 	.may_split = hugetlb_vm_op_split,
- 	.pagesize = hugetlb_vm_op_pagesize,
-+#ifdef CONFIG_NUMA
-+	.set_policy = hugetlb_vm_op_set_policy,
-+	.get_policy = hugetlb_vm_op_get_policy,
-+#endif
- };
+ 	hugetlb_report_meminfo(m);
  
- static pte_t make_huge_pte(struct vm_area_struct *vma, struct page *page,
+ 	arch_report_meminfo(m);
 -- 
-2.37.0 (Apple Git-136)
+2.31.1
 
