@@ -2,110 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB2F3C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 18:56:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1584C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 19:01:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230094AbiJTS4h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 14:56:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43240 "EHLO
+        id S229832AbiJTTBY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 15:01:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230018AbiJTS4g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 14:56:36 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4808117D280;
-        Thu, 20 Oct 2022 11:56:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Ge9twkFFihum2Lbs+cWlgSqO0pZ1W0PUTEw5qgoaO+o=; b=KpgIGHglzljXeIcCMpjutMwoHi
-        cCLcWbEhLQrKU/DA5gx8Aq1WMWARgHkCsaz2saXqstk/OBUMrFwh1ZB5DWM8oXsBdjUvL1xy6nPfr
-        MqYob4kPnoTm3TGqhcr4Z1LXB7CXCr+K51Dup8KmwvHeU+UOD4hp9BqtkS2U/eIQ4EHkmpdjuL2Pe
-        tLLgZuwHiCIvPhoN+vJw9JwvUf2Ug64gpGhfJmZVeABP3B9/2HRvqcqvkGVRp4SGl4cixpq9uhVHl
-        7C+DwHGe98ksWbXMqfYeea36zYPQ05e+hhgzYlkPM3afn4V2d02zpOAAWCYnKB+nHjvGqqKvSywPh
-        7KWmKkkw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1olahD-00567r-T6; Thu, 20 Oct 2022 18:55:16 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9825730017D;
-        Thu, 20 Oct 2022 20:55:08 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 7B98B2C189950; Thu, 20 Oct 2022 20:55:08 +0200 (CEST)
-Date:   Thu, 20 Oct 2022 20:55:08 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Yu Zhao <yuzhao@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
-        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
-Message-ID: <Y1GZjPO+szk7X0wP@hirez.programming.kicks-ass.net>
-References: <20220815071332.627393-1-yuzhao@google.com>
- <20220815071332.627393-9-yuzhao@google.com>
- <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net>
- <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com>
- <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
- <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net>
- <CAHk-=whQchubuDpRGFabhmcZuzdt13OOF8wznXb+Dbi3GzBQhQ@mail.gmail.com>
+        with ESMTP id S229484AbiJTTBW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 15:01:22 -0400
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DAA518C418
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 12:01:20 -0700 (PDT)
+Received: by mail-qt1-x832.google.com with SMTP id bb5so207221qtb.11
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 12:01:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XGP70LIojmiBdpWyY18Ji96dZrMFDXretdATsr1AZcY=;
+        b=NWO+rqeS7dhX43MQjgRg4fiqteF99/HlBWBg3L01vDu7MG2Wud+a9nJfABHAExLr5M
+         Hi9OMw0I7yWgUjemerWxh3IJnv4YzM5rga/BpU34Z4j1pbGB5q/fm7tKbXMCC/5GRNvS
+         /hfQXQHqUWejoJafdDdM1iiDuclnsLSzyVnlecv89XpB6G32GQElASu7fAS0xN2GZ9vd
+         fWqm3l8uHCbHc+qpGMMQgSRF+Gfk6JU921o8QtJqcSmSOhFP8w6P6+BmTNsA3GNNYvNH
+         3/uzYShpyckbXN+cu68ddhWMcPsglpQNkNeazR7qiSuKQ/HigTMyayLFyyXb5tSeF0/4
+         hFjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XGP70LIojmiBdpWyY18Ji96dZrMFDXretdATsr1AZcY=;
+        b=1qdiPx8cl1VelitULjf+XM15TvR37WFXp4U1wFoRQ3YCaBpGkfIKjU9Tw/BCZhVnk/
+         us3dtrLIjD8Kgs8OY2vObYx0cu1CeHBvK8tARw/0ATP90QD2hI7SnIwLkHXGFgwkxc7A
+         rEgnGv7WuqZ/zQNyRqmMUln7F//So0AP2SmWZuqh/1xpWA9KnJAzuVUjV5dEV5CEjmnK
+         SHLNlxkEC4itHlcCYs/OcadoDL2DNOZS9607GPffRDoYvfiePALLyEcCjZ9gyF+oMF6K
+         Lc0QySZVtA/qqwfXeWGATuSYY5isqeJxXkE2m46TJe0+dGRifHTL8FcpXtwwmvZvDQ5X
+         M4tA==
+X-Gm-Message-State: ACrzQf17v2sQUsneYBZ4pXVXrQUekWsinxQTF8ReJvW0nQIAr80KG0tL
+        2nx7YIWNbdDGnEZXDLwIMmjD+I07y9pWLPzyu2Q=
+X-Google-Smtp-Source: AMsMyM7pRtQAcuQfcpM2PgAMubFXqpQhRb1r00K3+Mci5PPhA6uivzscz5DWGeA61iiWIXSmgIpmYLLGLp27ixXFZWQ=
+X-Received: by 2002:ac8:7c46:0:b0:39c:fa92:a27a with SMTP id
+ o6-20020ac87c46000000b0039cfa92a27amr10208723qtv.61.1666292479731; Thu, 20
+ Oct 2022 12:01:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=whQchubuDpRGFabhmcZuzdt13OOF8wznXb+Dbi3GzBQhQ@mail.gmail.com>
+References: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com> <20221020175334.1820519-5-maciej.kwapulinski@linux.intel.com>
+In-Reply-To: <20221020175334.1820519-5-maciej.kwapulinski@linux.intel.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 20 Oct 2022 22:00:43 +0300
+Message-ID: <CAHp75VeFDYjmoJzbC5z8Kf=xYxsVASxjwGBB3OPvBMMPsQDjtw@mail.gmail.com>
+Subject: Re: [PATCH v5 04/10] gna: initialize MMU
+To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Olof Johansson <olof@lixom.net>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+        Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
+        Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 20, 2022 at 10:35:28AM -0700, Linus Torvalds wrote:
-> On Thu, Oct 20, 2022 at 7:14 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> >
-> > So I've been sitting on these here patches (and never having time to
-> > repost them), which is how I noticed in the first place:
-> >
-> >   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/log/?h=x86/mm.pae
-> 
-> Well, that seems an improvement. I don't love how GUP_GET_PTE_LOW_HIGH
-> now affects the PMD too, but if it's ok for all the three users, I
-> guess it's ok. Maybe rename it now that it's not just the PTE?
-> 
-> That said, I reacted to that cmpxchg loop:
-> 
->         } while (cmpxchg64(&pmdp->pmd, old.pmd, 0ULL) != old.pmd);
-> 
-> is this series just so old (but rebased) that it doesn't use "try_cmpxchg64()"?
+On Thu, Oct 20, 2022 at 8:57 PM Maciej Kwapulinski
+<maciej.kwapulinski@linux.intel.com> wrote:
+>
+> From: Tomasz Jankowski <tomasz1.jankowski@intel.com>
+>
+> Setup MMU in the driver with a new memory component.
 
-Yep -- it's *that* old :-/ You're not in fact the first to point that
-out.
+...
 
-I'll make time tomorrow to fix it up and respin and send out. This is as
-good a time as any to get rid of carrying these patches myself.
+> +#define GNA_FEATURES                                           \
+> +       .max_hw_mem = 256 * 1024 * 1024,                        \
+
+SZ_256M ?
+
+> +               .num_pagetables = 64,                           \
+> +               .num_page_entries = PAGE_SIZE / sizeof(u32),    \
+> +               /* desc_info all in bytes */                    \
+> +               .desc_info = {                                  \
+> +               .rsvd_size = 256,                               \
+> +               .cfg_size = 256,                                \
+> +               .desc_size = 784,                               \
+> +               .mmu_info = {                                   \
+> +                       .vamax_size = 4,                        \
+> +                       .rsvd_size = 12,                        \
+> +                       .pd_size = 4 * 64,                      \
+> +               },                                              \
+
+> +       }
+
+Broken indentation?
+
+...
+
+> +#define GNA_DEV_HWID_CNL       0x5A11
+> +#define GNA_DEV_HWID_EHL       0x4511
+> +#define GNA_DEV_HWID_GLK       0x3190
+> +#define GNA_DEV_HWID_ICL       0x8A11
+> +#define GNA_DEV_HWID_JSL       0x4E11
+> +#define GNA_DEV_HWID_TGL       0x9A11
+> +#define GNA_DEV_HWID_RKL       0x4C11
+> +#define GNA_DEV_HWID_ADL       0x464F
+> +#define GNA_DEV_HWID_RPL       0xA74F
+> +#define GNA_DEV_HWID_MTL       0x7E4C
+
+Keep them sorted?
+
+...
+
+> +       for (i = 0; i < mmu->num_pagetables; i++) {
+> +               pagetable_dma = mmu->pagetables_dma[i];
+> +               pgdirn[i] = pagetable_dma >> PAGE_SHIFT;
+
+PFN_DOWN()
+
+> +       }
+
+...
+
+> +       desc_size = round_up(gna_priv->info.desc_info.desc_size, PAGE_SIZE);
+
+PFN_UP() ?
+
+...
+
+> +       mmu->pagetables = drmm_kmalloc_array(&gna_priv->drm, mmu->num_pagetables, sizeof(*mmu->pagetables), GFP_KERNEL);
+
+> +
+
+Redundant blank line.
+
+> +       if (!mmu->pagetables)
+> +               return -ENOMEM;
+
+...
+
+> +static const struct gna_dev_info cnl_dev_info = {
+> +       .hwid = GNA_DEV_HWID_CNL,
+> +       GNA_GEN1_FEATURES
+
+Leave a comma at the end. Same for all similar declarations.
+
+> +};
+
+...
+
+> +#define INTEL_GNA_DEVICE(hwid, info)                           \
+> +       { PCI_VDEVICE(INTEL, hwid), (kernel_ulong_t)(info) }
+
+Drop this and use PCI_DEVICE_DATA() instead.
+
+-- 
+With Best Regards,
+Andy Shevchenko
