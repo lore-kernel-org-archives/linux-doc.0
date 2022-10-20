@@ -2,199 +2,219 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2A7EC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 21:55:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1D37C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 22:07:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230171AbiJTVzy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 17:55:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55120 "EHLO
+        id S230013AbiJTWHN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 18:07:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230172AbiJTVzU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 17:55:20 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18522AF180;
-        Thu, 20 Oct 2022 14:54:49 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id j21so866144qkk.9;
-        Thu, 20 Oct 2022 14:54:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ea/3nCCOnpBrAub9VWj+VXkTFR+eMwl9pcvHopG8Sl4=;
-        b=jHO9VXRMOgdapG/UgLZpqe+Gt5pAn7UO5fZglesQLnrsJyUhoJnB3qHY4gaLpiyFOy
-         bUH75Aj62S7L5f3ngX4qS9txpVrLZd93mjdMBZQ0U7flk0sQPbYTCS7mQ7RIXxkvnq+x
-         jZEhV0P3om90L4r12ay7KkkDquUuCss1I8xiwWwxRyQvMekR87gzk1POzYfJyWllelOY
-         t3uQ+y3KkAhEZ1RY6johTUnoMIIbx77+Xuo9N2Y/I+jQ6VcUfI2jAsKkEsTB9FyFs08b
-         ORM6yLBHqPM6zcCt7XPaHUmhLZp0rubUzkkslI1uggLXAFRo3Mk+qOGm9V0JvNMvR1uL
-         F9Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ea/3nCCOnpBrAub9VWj+VXkTFR+eMwl9pcvHopG8Sl4=;
-        b=lXKdRarQ0RF70oHNuKjanvtRUgerT5b3h6DAejk2oh/5jNbu1kCiVvu3DMFhIqShb/
-         OgS1PxqTuxc5exHrRpxNXJAQSMEgPwESBLn9Rz+VhZKVte3uOYuv6EiinnnYNbapbVby
-         YVdrtt+VDG9ewwqCBRz0vVTk3Jxlq3DTiuJfXe2x3mE/Vyzp1CE2+t2e0JGqDsclSUsj
-         46QJP74af1/DMDiCIvw/cC2/eKMxQWxbWz4jN6RVqj+BDjdyl9ygsa2+VET5C6AZBSu2
-         c0VzpTv4zo8pDdwIbXri2BzUwUl4WRAEJ39piGIkW5Tzb/HOSF8uHEUVVUiIBdzAz9X0
-         Xupw==
-X-Gm-Message-State: ACrzQf26CfXnuQtsYSLY2NY2pyYC8DuK4NnEGJYIC3c+4voxLBfvifOg
-        03y+dXrEhw6+WVoVMxPidFk=
-X-Google-Smtp-Source: AMsMyM4pzFRAGr5Df27Tt7JSy+ztbl+cUDOBbNs8UPvLwkFRB8ksm3avZsXosGl3xlV877vJr3B/0g==
-X-Received: by 2002:a05:620a:4250:b0:6cf:a822:7c7e with SMTP id w16-20020a05620a425000b006cfa8227c7emr11637421qko.503.1666302888216;
-        Thu, 20 Oct 2022 14:54:48 -0700 (PDT)
-Received: from stbirv-lnx-3.igp.broadcom.net ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id bj41-20020a05620a192900b006bb29d932e1sm8121067qkb.105.2022.10.20.14.54.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Oct 2022 14:54:47 -0700 (PDT)
-From:   Doug Berger <opendmb@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Michal Hocko <mhocko@suse.com>,
-        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
-        Mel Gorman <mgorman@suse.de>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        with ESMTP id S230029AbiJTWHL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 18:07:11 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D10421129A;
+        Thu, 20 Oct 2022 15:07:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666303631; x=1697839631;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+94sJoPVgFoSr/c+TPQoj87dXcPRQ88d4O59CyxLYHA=;
+  b=M66Czo4eumZ8BooJxHs83fpCoOZK4jQQrSlqJVWncMifstqdHsI/R40x
+   WjktrMQfYd92aN1kXhv/hEibOjNyRCKNkKTys1C5GuBoJe2IR8DCaYe4i
+   zI7zLaw4w4sp5HEBfoADmeo97Z1r3u5biVtXS9wUZrf/TDRHx2zSb0kcw
+   LkcIFQcQurT0+YqCI7kfgUcscDG+Td7Me31rx38L3dpiLVxVbHbL7/NKK
+   akM+FwyX/0p9BgDqG2ShGCla6GFyZw/mMGz7psLqEfs5XkI92bZJg/Lqv
+   gWR4ygpqHuIT6SMS5KgXcyQEhg3rlanECQTsL6xrbm/pAzIVMk713JYeB
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="290154108"
+X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; 
+   d="scan'208";a="290154108"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2022 15:07:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="663332863"
+X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; 
+   d="scan'208";a="663332863"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga001.jf.intel.com with ESMTP; 20 Oct 2022 15:07:04 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1oldgs-00AnCf-0F;
+        Fri, 21 Oct 2022 01:07:02 +0300
+Date:   Fri, 21 Oct 2022 01:07:01 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     matthew.gerlach@linux.intel.com
+Cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, Doug Berger <opendmb@gmail.com>
-Subject: [PATCH v3 9/9] mm/page_alloc: allow base for movablecore
-Date:   Thu, 20 Oct 2022 14:53:18 -0700
-Message-Id: <20221020215318.4193269-10-opendmb@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221020215318.4193269-1-opendmb@gmail.com>
-References: <20221020215318.4193269-1-opendmb@gmail.com>
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com
+Subject: Re: [PATCH v4 3/4] fpga: dfl: add basic support DFHv1
+Message-ID: <Y1HGhT5+Nxv6anw5@smile.fi.intel.com>
+References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com>
+ <20221020212610.697729-4-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221020212610.697729-4-matthew.gerlach@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A Designated Movable Block can be created by including the base
-address of the block when specifying a movablecore range on the
-kernel command line.
+On Thu, Oct 20, 2022 at 02:26:09PM -0700, matthew.gerlach@linux.intel.com wrote:
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> 
+> Add generic support for MSI-X interrupts for DFL devices.
+> 
+> The location of a feature's registers is explicitly
+> described in DFHv1 and can be relative to the base of the DFHv1
+> or an absolute address.  Parse the location and pass the information
+> to DFL driver.
 
-Signed-off-by: Doug Berger <opendmb@gmail.com>
----
- .../admin-guide/kernel-parameters.txt         | 14 ++++++-
- mm/page_alloc.c                               | 38 ++++++++++++++++---
- 2 files changed, 45 insertions(+), 7 deletions(-)
+...
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a465d5242774..f4f783cd683e 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3325,7 +3325,7 @@
- 			reporting absolute coordinates, such as tablets
- 
- 	movablecore=	[KNL,X86,IA-64,PPC]
--			Format: nn[KMGTPE] | nn%
-+			Format: nn[KMGTPE] | nn[KMGTPE]@ss[KMGTPE] | nn%
- 			This parameter is the complement to kernelcore=, it
- 			specifies the amount of memory used for migratable
- 			allocations.  If both kernelcore and movablecore is
-@@ -3335,6 +3335,18 @@
- 			that the amount of memory usable for all allocations
- 			is not too small.
- 
-+			If @ss[KMGTPE] is included, memory within the region
-+			from ss to ss+nn will be designated as a movable block
-+			and included in ZONE_MOVABLE. Designated Movable Blocks
-+			must be aligned to pageblock_order. Designated Movable
-+			Blocks take priority over values of kernelcore= and are
-+			considered part of any memory specified by more general
-+			movablecore= values.
-+			Multiple Designated Movable Blocks may be specified,
-+			comma delimited.
-+			Example:
-+				movablecore=100M@2G,100M@3G,1G@1024G
-+
- 	movable_node	[KNL] Boot-time switch to make hotplugable memory
- 			NUMA nodes to be movable. This means that the memory
- 			of such nodes will be usable only for movable
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index a39eca3bc01b..385fc9082945 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -8461,9 +8461,9 @@ void __init free_area_init(unsigned long *max_zone_pfn)
- }
- 
- static int __init cmdline_parse_core(char *p, unsigned long *core,
--				     unsigned long *percent)
-+				     unsigned long *percent, bool movable)
- {
--	unsigned long long coremem;
-+	unsigned long long coremem, address;
- 	char *endptr;
- 
- 	if (!p)
-@@ -8478,6 +8478,17 @@ static int __init cmdline_parse_core(char *p, unsigned long *core,
- 		*percent = coremem;
- 	} else {
- 		coremem = memparse(p, &p);
-+		if (movable && *p == '@') {
-+			address = memparse(++p, &p);
-+			if (*p != '\0' ||
-+			    !memblock_is_region_memory(address, coremem) ||
-+			    memblock_is_region_reserved(address, coremem))
-+				return -EINVAL;
-+			memblock_reserve(address, coremem);
-+			return dmb_reserve(address, coremem, NULL);
-+		} else if (*p != '\0') {
-+			return -EINVAL;
-+		}
- 		/* Paranoid check that UL is enough for the coremem value */
- 		WARN_ON((coremem >> PAGE_SHIFT) > ULONG_MAX);
- 
-@@ -8500,17 +8511,32 @@ static int __init cmdline_parse_kernelcore(char *p)
- 	}
- 
- 	return cmdline_parse_core(p, &required_kernelcore,
--				  &required_kernelcore_percent);
-+				  &required_kernelcore_percent, false);
- }
- 
- /*
-  * movablecore=size sets the amount of memory for use for allocations that
-- * can be reclaimed or migrated.
-+ * can be reclaimed or migrated. movablecore=size@base defines a Designated
-+ * Movable Block.
-  */
- static int __init cmdline_parse_movablecore(char *p)
- {
--	return cmdline_parse_core(p, &required_movablecore,
--				  &required_movablecore_percent);
-+	int ret = -EINVAL;
-+
-+	while (p) {
-+		char *k = strchr(p, ',');
-+
-+		if (k)
-+			*k++ = 0;
-+
-+		ret = cmdline_parse_core(p, &required_movablecore,
-+					 &required_movablecore_percent, true);
-+		if (ret)
-+			break;
-+		p = k;
-+	}
-+
-+	return ret;
- }
- 
- early_param("kernelcore", cmdline_parse_kernelcore);
+> +static void *find_param(void *base, resource_size_t max, int param)
+
+Why base can't be u64 * to begin with?
+
+> +{
+> +	int off = 0;
+> +	u64 v, next;
+> +
+> +	while (off < max) {
+
+Maybe you need a comment somewhere to tell that the caller guarantees that max
+won't provoke OOB accesses.
+
+> +		v = *(u64 *)(base + off);
+
+Okay, if offset is not multiple of at least 4, how do you guarantee no
+exception on the architectures with disallowed misaligned accesses?
+
+Making base to be u64 * solves this, but you need to take care to provide
+offset in terms of u64 words.
+
+> +		if (param == FIELD_GET(DFHv1_PARAM_HDR_ID, v))
+> +			return base + off + DFHv1_PARAM_DATA;
+> +
+> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
+> +		off += next & ~DFHv1_PARAM_HDR_NEXT_MASK;
+> +		if (next & DFHv1_PARAM_HDR_NEXT_EOL)
+> +			break;
+> +
+> +	}
+> +
+> +	return NULL;
+> +}
+
+...
+
+> +		/*
+> +		 * DFHv0 only provides mmio resource information for each feature
+
+MMIO
+
+> +		 * in the DFL header.  There is no generic interrupt information.
+> +		 * Instead, features with interrupt functionality provide
+> +		 * the information in feature specific registers.
+> +		 */
+
+...
+
+> +		if (!finfo->param_size)
+>  			break;
+
+This is redundant as it's implied by find_param().
+
+> +		p = find_param(params, finfo->param_size, DFHv1_PARAM_ID_MSI_X);
+> +		if (!p)
+>  			break;
+
+...
+
+> +static int dfh_get_psize(void __iomem *dfh_base, resource_size_t max)
+> +{
+> +	int size = 0;
+> +	u64 v, next;
+> +
+> +	if (!FIELD_GET(DFHv1_CSR_SIZE_GRP_HAS_PARAMS,
+> +		       readq(dfh_base + DFHv1_CSR_SIZE_GRP)))
+> +		return 0;
+> +
+> +	while (size + DFHv1_PARAM_HDR < max) {
+> +		v = readq(dfh_base + DFHv1_PARAM_HDR + size);
+> +
+> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
+> +		if (!(next & ~DFHv1_PARAM_HDR_NEXT_MASK))
+> +			return -EINVAL;
+> +
+> +		size += next & ~DFHv1_PARAM_HDR_NEXT_MASK;
+> +
+> +		if (next & DFHv1_PARAM_HDR_NEXT_EOL)
+> +			return size;
+
+These 3 looks like they deserve different fields and hence separate FIELD_GET()
+will return exactly what we need without additional masking, right?
+
+> +	}
+> +
+> +	return -ENOENT;
+> +}
+
+...
+
+> +	if (dfh_psize > 0) {
+
+Isn't this implied by memcpy_fromio()? I mean if it's 0, nothing bad will
+happen if you call the above directly.
+
+> +		memcpy_fromio(finfo->params,
+> +			      binfo->ioaddr + ofst + DFHv1_PARAM_HDR, dfh_psize);
+> +		finfo->param_size = dfh_psize;
+> +	}
+
+...
+
+>  	finfo->mmio_res.flags = IORESOURCE_MEM;
+> +	if (dfh_ver == 1) {
+> +		v = readq(binfo->ioaddr + ofst + DFHv1_CSR_ADDR);
+> +		if (v & DFHv1_CSR_ADDR_REL)
+> +			finfo->mmio_res.start = v & ~DFHv1_CSR_ADDR_REL;
+> +		else
+> +			finfo->mmio_res.start = binfo->start + ofst +
+> +					       FIELD_GET(DFHv1_CSR_ADDR_MASK, v);
+> +
+> +		v = readq(binfo->ioaddr + ofst + DFHv1_CSR_SIZE_GRP);
+> +		finfo->mmio_res.end = finfo->mmio_res.start +
+> +				      FIELD_GET(DFHv1_CSR_SIZE_GRP_SIZE, v) - 1;
+> +	} else {
+> +		finfo->mmio_res.start = binfo->start + ofst;
+> +		finfo->mmio_res.end = finfo->mmio_res.start + size - 1;
+> +	}
+
+You may define
+
+	resource_size_t start, end;
+
+locally and simplify above quite a bit.
+
+...
+
+> +void *dfh_find_param(struct dfl_device *dfl_dev, int param);
+
++ Blank line.
+
+>  #endif /* __LINUX_DFL_H */
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
