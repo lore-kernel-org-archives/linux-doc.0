@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E13DFC43217
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 22:55:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC3D1C43217
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 22:57:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229862AbiJTWy7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 18:54:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46620 "EHLO
+        id S229897AbiJTW50 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 18:57:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229664AbiJTWy4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 18:54:56 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F9E468CD3
-        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 15:54:51 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id h13so890319pfr.7
-        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 15:54:51 -0700 (PDT)
+        with ESMTP id S229808AbiJTW5Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 18:57:25 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A514A22E0E5
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 15:57:23 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id c24so675845plo.3
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 15:57:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XWJxeWTUeSOc8Yughfud6jj7osnbJGAbeWyZP3k0hEY=;
-        b=cGhvA8iP7rFaXRFGd2R3CI8wKqWii9PAuPYhya6Pr4bKI8Jufzi+cTh5OP14yjnmJ7
-         ClbX/F9BejWHlmzE560ksS0K69mPV1K4eJCkpRW5nyuATHeI8ai1DFXcbnOPOd+csOMt
-         sClbbYCNFvi7t9Pqc0L8/IlFjfcZDUsQiv8ng=
+        bh=TMshH9biaVXQs7+fRI1qPbg8/Vmgf41zzdE8Ax9DFYA=;
+        b=UxXF8cbs/icsMsb/bPq8qttNDmiXRbLXaFp21el0sK2dq1lWLpxMZFArsRK0mkWhEU
+         yH4Std6R7RGYgzqSZ9NFNY44SR/8k2wJ6QyM+mBSFV9D+hNdowYlrtXHMJQwwC6UoW6B
+         hzj2LHb7fOguUuRiCYaSJ8vUl7YrNcGUVd+Us=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XWJxeWTUeSOc8Yughfud6jj7osnbJGAbeWyZP3k0hEY=;
-        b=dPOM022kvOCG2DRKVcm4QTsnX4g7J15KqIlwHKFEf7/FTQ8tOVQkdSytINFOvKZQFJ
-         TgHWVJNULGx6B3Uzn6rcih9UViWwnrgWGiZW0e3JSV8eOgIVkQpGIO/ogh+RTlmgTkyN
-         33mx2ky8ICg4K0ThCCWi66VfKnZCZBlH3y1Daz7sbSI1GOuM3FhrJk6EkhBIWEy0hYln
-         Qri6wE/FiUa1793LuzlxfL8cj/U84bjNLlT6bk2XSugAKgJEUOxlTKyvC/9cVZ3ReowM
-         sCopIsq270/L67yeZPj6vAHhT0tp+T4wcuq+9vjXZm5rKbGRdsUUX1eIihqzwTal1Pcb
-         tlUg==
-X-Gm-Message-State: ACrzQf3gnHM0BnAhu1mvWA9pgbXK6FgE5U86O9dyfQAyrKSO+qMHo7hv
-        +xirlNBdpoiPgAC31OAGWV8qHQ==
-X-Google-Smtp-Source: AMsMyM5emkUOqmzPNcgzNrTa89ewSotrbfmttSTIhPsGGLHnEWLFyH8YwEsVl1fjDMyZFpPl+BA2zQ==
-X-Received: by 2002:a62:ea09:0:b0:562:a86f:63af with SMTP id t9-20020a62ea09000000b00562a86f63afmr16613837pfh.71.1666306491075;
-        Thu, 20 Oct 2022 15:54:51 -0700 (PDT)
+        bh=TMshH9biaVXQs7+fRI1qPbg8/Vmgf41zzdE8Ax9DFYA=;
+        b=4vMbN282AMSG9pXA1Ok9kjwGxMiX5hGZXumfdU/L+pnWCB8KEQKcU/Z845hJcGtT9E
+         rkTGvFV1PzdbaY+TvSrsBy9XWmD77gKJKmcs81alX2u+WaWv2eZt5yqhQZGOhH2YIJqI
+         +b8Yhkuq1as4jXXpSRwdGZEXZv9OlMqVDJH9GipYbHgzxCDIpVPYHXHq5/hkfkqlVWOd
+         G/Nff6ffpI+Qp9xlnwg3ULKHftkqihOEBm1KEDouWYTGNbD9ETQ4O0iEe6uD6fFBAmV/
+         dUYyItHdZHkLTKSlpxRTWMMvuUIDhrU9zRyy2N6cyZdKgUUowWgztxBcoZM1ktknInEE
+         ymcw==
+X-Gm-Message-State: ACrzQf1ESB9HBGSV2x0pbkDerRemUuAEPUU4h3h94H7a6jrTk2tze2tC
+        Gwi5Nm82NsEdXJXHw/6TLCTZ4A==
+X-Google-Smtp-Source: AMsMyM5lZ4Dia253exhcKwnxHFmBcVrokulHdGNf45q/7BqKwj7LyyrZSMwZCU9ocNupwEMC8xBjeQ==
+X-Received: by 2002:a17:902:b708:b0:184:3921:df30 with SMTP id d8-20020a170902b70800b001843921df30mr16498236pls.43.1666306642632;
+        Thu, 20 Oct 2022 15:57:22 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id ix6-20020a170902f80600b0017691eb7e17sm13273549plb.239.2022.10.20.15.54.49
+        by smtp.gmail.com with ESMTPSA id cp15-20020a170902e78f00b00176dc67df44sm3361025plb.132.2022.10.20.15.57.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Oct 2022 15:54:50 -0700 (PDT)
-Date:   Thu, 20 Oct 2022 15:54:49 -0700
+        Thu, 20 Oct 2022 15:57:21 -0700 (PDT)
+Date:   Thu, 20 Oct 2022 15:57:21 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
 Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
@@ -83,29 +83,26 @@ Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
         "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v2 24/39] x86/cet/shstk: Add user-mode shadow stack
- support
-Message-ID: <202210201553.8CE1524C5@keescook>
+Subject: Re: [PATCH v2 27/39] x86/cet/shstk: Handle signals for shadow stack
+Message-ID: <202210201556.EF52D322@keescook>
 References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
- <20220929222936.14584-25-rick.p.edgecombe@intel.com>
- <202210031203.EB0DC0B7DD@keescook>
- <d555c95554996acaf22c407e11a3daca5db141f7.camel@intel.com>
+ <20220929222936.14584-28-rick.p.edgecombe@intel.com>
+ <202210031347.6DBE61199@keescook>
+ <56095eac64e95b79ea04e84909d8ba0ab49d9246.camel@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d555c95554996acaf22c407e11a3daca5db141f7.camel@intel.com>
+In-Reply-To: <56095eac64e95b79ea04e84909d8ba0ab49d9246.camel@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 20, 2022 at 09:29:38PM +0000, Edgecombe, Rick P wrote:
-> The code used to use shstk->base and shstk->size to keep track of if
-> shadow stack was enabled. I'm not sure why to zero it now. Just
-> defensively or did you see a concrete issue?
+On Thu, Oct 20, 2022 at 10:08:17PM +0000, Edgecombe, Rick P wrote:
+> Kees, sorry for the delayed response. There was so much feedback, I
+> missed responding to some.
 
-Just to be defensive. It's not fast path by any means, to better to
-have values that make a bit of sense there. *shrug* It just stood out
-as feeling "missing" while I was reading the code.
+No worries! Most of my feedback was just to get help filling gaps in my
+understanding. :) I appreciate the replies -- I'm looking forward to v3!
 
 -- 
 Kees Cook
