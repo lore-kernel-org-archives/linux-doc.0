@@ -2,104 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B49BAC433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 18:11:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FBBAC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 18:31:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230341AbiJTSLS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 14:11:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42634 "EHLO
+        id S229911AbiJTSbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 14:31:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbiJTSLE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 14:11:04 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68BF51217DD
-        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 11:10:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666289454; x=1697825454;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ll9VpcmSRSS3DIgxTB+BtrbvfZxh0/dVfygp8On4h6g=;
-  b=cBzXQZukoKZdh0hBGD7M7gtKQWfSktvILWe/L/jIU44cF9L7sjFGDegn
-   nwhnRKLbsLVei1K1JvcsBr0GyV6tYaNalkkC+WFMzqcUrzjCJaqwr52xl
-   FgV3PEihIxMzFL5ws73hL06Hr2YUPnETVyTWwT6+u1nSfhixRhEBtECvf
-   mYaEF9S2HJhRFt2fCJFAxH6KHmiz/nXbjuvQla38Yztk+gJLbmRmNJZeL
-   YvjPQRsls19STJMOtMIENq6rpDeyM3+evxg7ITMjeTAI8pU05sGCqWHVM
-   5KGR7pJK+u8AlJPq39cZZ2jsnT4YUgN6jl1kvjVmMUbXepfEsa64PE1GO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="287197811"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; 
-   d="scan'208";a="287197811"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2022 11:10:27 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="629982135"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; 
-   d="scan'208";a="629982135"
-Received: from mkwapuli-mobl.ger.corp.intel.com (HELO [10.213.28.120]) ([10.213.28.120])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2022 11:10:21 -0700
-Message-ID: <788ba9fe-534e-8fc9-aa40-c7a1217d0fb1@linux.intel.com>
-Date:   Thu, 20 Oct 2022 20:10:18 +0200
+        with ESMTP id S229491AbiJTSbW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 14:31:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CDE11FAE43;
+        Thu, 20 Oct 2022 11:31:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 548B861C14;
+        Thu, 20 Oct 2022 18:30:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6508AC433C1;
+        Thu, 20 Oct 2022 18:30:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666290656;
+        bh=LidB1smPJLiSNxSiSTWkVKWdSRC18cTLNqF64oUkfHE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=azjdQmvVop6YiLzTrQi8TsKUZ/7QxA9UJU9hniriVRdmYQKs0Kr45m/eZyfjnnIp7
+         tVRAX4Sni6RDHmISP4DV5y22UqZDN+0BzClbPJ02ZgYpvak8uif5J/Ake4kifp4a08
+         T/8r30MLbpNA83fPAW+J4SAaHUuiGyybkotMkhQTRYtVPt1VZKzCdt4Zam/kwqDdQo
+         o2M/tjJlu+SSh7f2g/xJO48QO9RbyfjY2x6KTtTUtWn65M8uojg9aSU8A+dRMX0DpD
+         No8Sy0uTdgcwWpaxd30iebnWaKf333ZjQPf9xMjnwZMZoVbg3NduHZ7xiSm4XHb5ZH
+         wQ5juq379qtdw==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        bpf@vger.kernel.org, jesse.brandeburg@intel.com,
+        linux-doc@vger.kernel.org, corbet@lwn.net,
+        Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH net] docs: netdev: offer performance feedback to contributors
+Date:   Thu, 20 Oct 2022 11:30:31 -0700
+Message-Id: <20221020183031.1245964-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v4 01/10] gna: add PCI driver module
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Olof Johansson <olof@lixom.net>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>,
-        maciej.kwapulinski@linux.intel.com
-References: <20221020133525.1810728-1-maciej.kwapulinski@intel.com>
- <20221020133525.1810728-2-maciej.kwapulinski@intel.com>
- <Y1FcCDhWiQG2p3wW@kroah.com>
- <f3e777c5-c61c-4820-83dd-9bc33932e9c8@linux.intel.com>
- <Y1GMwP1OUlhwAp03@kroah.com>
-From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-In-Reply-To: <Y1GMwP1OUlhwAp03@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Some of us gotten used to producing large quantities of peer feedback
+at work, every 3 or 6 months. Extending the same courtesy to community
+members seems like a logical step. It may be hard for some folks to
+get validation of how important their work is internally, especially
+at smaller companies which don't employ many kernel experts.
 
-On 10/20/2022 8:00 PM, Greg Kroah-Hartman wrote:
-> On Thu, Oct 20, 2022 at 06:11:49PM +0200, Maciej Kwapulinski wrote:
->> On 10/20/2022 4:32 PM, Greg Kroah-Hartman wrote:
->>> On Thu, Oct 20, 2022 at 03:35:16PM +0200, Kwapulinski, Maciej wrote:
->>>> Ta wiadomosc wraz z zalacznikami jest przeznaczona dla okreslonego adresata i moze zawierac informacje poufne. W razie przypadkowego otrzymania tej wiadomosci, prosimy o powiadomienie nadawcy oraz trwale jej usuniecie; jakiekolwiek przegladanie lub rozpowszechnianie jest zabronione.
->>>> This e-mail and any attachments may contain confidential material for the sole use of the intended recipient(s). If you are not the intended recipient, please contact the sender and delete all copies; any review or distribution by others is strictly prohibited.
->>> This ensures that we can not do anything with these patches.
->>>
->>> Now deleted.
->>>
->>> greg k-h
->>
->> indeed,
->>
->> sorry about that. When I'm done with smtp server footer I'll send 'PATCH v5' unless you have other suggestion for best practice in this case.
-> I am not even allowed to look at any of this at the moment with that
-> footer.  Actually I wasn't even supposed to tell you this, I should have
-> been forced to just delete it and move on to contributions that don't
-> have legal entraptments in them :(
->
-> greg k-h
+The concept of "peer feedback" may be a hyperscaler / silicon valley
+thing so YMMV. Hopefully we can build more context as we go.
 
-I understand your point.
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ Documentation/process/maintainer-netdev.rst | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-I also appreciate that you decided to tell it to me. I didn't receive these footers, so without your note it would be quite difficult to me to 'debug' it.
-
-thank you
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index d14007081595..1fa5ab8754d3 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -319,3 +319,13 @@ unpatched tree to confirm infrastructure didn't mangle it.
+ Finally, go back and read
+ :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
+ to be sure you are not repeating some common mistake documented there.
++
++My company uses peer feedback in employee performance reviews. Can I ask netdev maintainers for feedback?
++---------------------------------------------------------------------------------------------------------
++
++Yes, especially if you spend significant amount of time reviewing code
++and go out of your way to improve shared infrastructure.
++
++The feedback must be requested by you, the contributor, and will always
++be shared with you (even if you request for it to be submitted to your
++manager).
+-- 
+2.37.3
 
