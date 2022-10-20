@@ -2,99 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1341C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 19:08:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D8CAC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 20:53:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbiJTTIk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 15:08:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42490 "EHLO
+        id S229615AbiJTUxQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 16:53:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbiJTTIj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 15:08:39 -0400
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DA1D1D1031
-        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 12:08:38 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id s3so219382qtn.12
-        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 12:08:38 -0700 (PDT)
+        with ESMTP id S229535AbiJTUxP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 16:53:15 -0400
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE4CB21F97E;
+        Thu, 20 Oct 2022 13:53:13 -0700 (PDT)
+Received: by mail-io1-xd35.google.com with SMTP id q196so645516iod.8;
+        Thu, 20 Oct 2022 13:53:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MtUDTErrWnMJNcxFkOcVTiq3wwaZ7wUEahic3MCoPRA=;
-        b=iPLIUcSlm2SYaVOvBnk4lByH4wiVLGuGA7VRBSLFmyNcvSBZnfv25t2OkFPcAHIL4w
-         +ONV7odWh8FPUPGS0jZzGCsIqxBD2F5q6nuIzhPlkRKCGn90rh7LE8YPGUJPoKXgh6eV
-         n3JdBvj4I1QkievkaAuVQ47EwgW86b3x4d9so11WB8CkqNao1dy+9AuRPOUEQAqgG85K
-         VJye77e4OaoaDfv23FVKrcJGu4JY8WMzqi0+qj4K3mLy4dNr695MO2VtoWmGjyZdnwxI
-         I2iiJHtLCX83/J0CZs9YhatTwdI6NW+ka//1b2O2yYUM5BTGB1L0MfXsfUh7/onZUsvT
-         Pdvw==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eRXB8z1wA0QYGeZ71IIj5sPC7n+lzP9BStTEcmN0Y6I=;
+        b=dT6fUrbtU/cwXDCGhloC9Wc8fgDHAXwGtizMyhGBISi5a5p4RL5E43UXmHKEu50RRC
+         siv9w+OEPnHz3nzTeiWdjZSxSDbTtwerrsz+HxdokVmSToWIPr9Lncb3u0poVz//2Ofg
+         xOKwvUuWhfNZGu7ByWL1lpwwojBPkTHnclKL137KoZ0cupkL/rE0+mVsdR4eV6CNJFWO
+         GNNOMMchB5mn+x//tLNJK9cdMl4G/GPVsZ44PGbTCvnJYXmCAXUS3iLW922JFRLrwa7T
+         uhpOE4hPc0r88uql6xiay0Tz4KeCGHmf+dJ7UlYCGIZ2a88Mca6Ze3Vq2Jzg3oPEsur3
+         5r0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MtUDTErrWnMJNcxFkOcVTiq3wwaZ7wUEahic3MCoPRA=;
-        b=YaNvgHICcNYPuSgs5Hu/gHGXkID5S/EmU7ngHei8G7DFSXEF89j7JhVeeEGm6RS4W0
-         1x/ZnSfDQwZPhAysnJzBZLjIVABIGGjlMdue6OAN2UGh2WILbEQ2AXbp/4/zEi1TdgNu
-         WJYLXxR599kYkaz12Du2rdHUotkVuPsx7L7TTg6T6mvLEmE3VMUDI/qWyWd0+gdysFwa
-         0ycocLGbk6uB2lhk6aRYHuqj/ECKRLcxbyol6leWFRxUL+PWoU/3031/Mavk5mLReev+
-         Nl0wF8Kngm0jHcXJI/0kX/n6Y862jaqov2p+ShScSGzKk8/NU8qY7wnRCNoo0PNq25J9
-         /XQg==
-X-Gm-Message-State: ACrzQf17kJXUc5qafy5HEskR5nU0zNLrcSsw8f+fHRZbG8s/dklTakaY
-        e+5d2WV8GoGkIIssURYFJVpSoCCwnghP4g3a47A=
-X-Google-Smtp-Source: AMsMyM5hOJrmcCOp09h4PvvYxc6yqG6pw/ScnnkTkQgBKTlH6j6sZpgOEcOOJ1me4PzlRL9Xo6DhNaBxdEyRHYnYU+M=
-X-Received: by 2002:ac8:7c46:0:b0:39c:fa92:a27a with SMTP id
- o6-20020ac87c46000000b0039cfa92a27amr10252651qtv.61.1666292917399; Thu, 20
- Oct 2022 12:08:37 -0700 (PDT)
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eRXB8z1wA0QYGeZ71IIj5sPC7n+lzP9BStTEcmN0Y6I=;
+        b=jvhQMCLeo61xSB/LiJpOtuZybc8i1H60E6t6RtIkMZIJL1y+qjfQ9OPPNRfWmsuKCf
+         Lxj8miLJEJXx1vSmLcW4efairlIXmFazGIlECYfshEIHrD2tNfOKjIVh+pHamhhb2NT7
+         drAHeEA76013y5JtZGoq83+E2I2V7N4uhLUGksueKMfM6SLXAiZlys5uCs7AnUec0YdD
+         K3BcOdGNBntbKwMk2SUbyTqE39hhAsGMvaQ0ZjIkpHRw/IknYEOaV8pXwwRHH/2sYHRo
+         JDCmi44fljD0cDGAlH3Dyhvrra4Qclz9V88HM93t2tWm8IPTps4k2H4VE+brvysmAPoQ
+         /KBQ==
+X-Gm-Message-State: ACrzQf2kXHFMd1vg9a9X6OK7Uq8vIuP3I9GOVYKt/Emjl/nWWJCz4770
+        pxS+aUtU+U+lLm2RnCOdnIjnl6Js0k+ydSAm
+X-Google-Smtp-Source: AMsMyM4fYpJLq83Xs6AM6+hJFRwiP0pC3bRijtZSGdRJCQyTCuqQW1UeY80460TTg5M5amU/ebn/tg==
+X-Received: by 2002:a05:6602:2d08:b0:6bc:15d8:3445 with SMTP id c8-20020a0566022d0800b006bc15d83445mr10268455iow.96.1666299193185;
+        Thu, 20 Oct 2022 13:53:13 -0700 (PDT)
+Received: from qjv001-XeonWs (c-67-167-199-249.hsd1.il.comcast.net. [67.167.199.249])
+        by smtp.gmail.com with ESMTPSA id n35-20020a056602342300b006bbf0466587sm3693514ioz.49.2022.10.20.13.53.12
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 20 Oct 2022 13:53:12 -0700 (PDT)
+Date:   Thu, 20 Oct 2022 15:53:10 -0500
+From:   Jeff Vanhoof <jdv1029@gmail.com>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     Jeffrey Vanhoof <jvanhoof@motorola.com>,
+        "balbi@kernel.org" <balbi@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "m.grzeschik@pengutronix.de" <m.grzeschik@pengutronix.de>,
+        "paul.elder@ideasonboard.com" <paul.elder@ideasonboard.com>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Dan Vacura <W36195@motorola.com>
+Subject: Re: [PATCH v3 2/6] usb: dwc3: gadget: cancel requests instead of
+ release after missed isoc
+Message-ID: <20221020205308.GA6319@qjv001-XeonWs>
+References: <PUZPR03MB613101A170B0034F55401121A1289@PUZPR03MB6131.apcprd03.prod.outlook.com>
+ <20221018223521.ytiwqsxmxoen5iyt@synopsys.com>
+ <20221019014108.GA5732@qjv001-XeonWs>
+ <20221019020240.exujmo7uvae4xfdi@synopsys.com>
+ <20221019074043.GA19727@qjv001-XeonWs>
+ <20221019190819.m35ai5fm3g5qpgqj@synopsys.com>
+ <20221019213410.GA17789@qjv001-XeonWs>
+ <20221019230555.gwovdtmnopwacirt@synopsys.com>
+ <20221020164732.GA25496@qjv001-XeonWs>
 MIME-Version: 1.0
-References: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com>
-In-Reply-To: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 20 Oct 2022 22:08:01 +0300
-Message-ID: <CAHp75VfqKF9ZR7L5tZhv8BZ1hzvAOpSt6QNJv1=mkd6K94UFag@mail.gmail.com>
-Subject: Re: [PATCH v5 00/10] Driver of Intel(R) Gaussian & Neural Accelerator
-To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Olof Johansson <olof@lixom.net>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221020164732.GA25496@qjv001-XeonWs>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 20, 2022 at 8:57 PM Maciej Kwapulinski
-<maciej.kwapulinski@linux.intel.com> wrote:
->
-> Dear kernel maintainers,
->
-> This submission is a kernel driver to support Intel(R) Gaussian & Neural
-> Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
-> available on multiple Intel platforms. AI developers and users can offload
-> continuous inference workloads to an Intel(R) GNA device in order to free
-> processor resources and save power. Noise reduction and speech recognition
-> are the examples of the workloads Intel(R) GNA deals with while its usage
-> is not limited to the two.
->
-> For a list of processors equipped with Intel(R) GNA device, please refer to
-> this link:
-> https://docs.openvinotoolkit.org/latest/openvino_docs_IE_DG_supported_plugins_GNA.html
->
-> We think contributing this driver to the upstream kernel project is the
-> best way for developers and users to get the latest Intel(R) GNA support in
-> a Linux kernel, through the mainline to any Linux distributions installed
-> on their systems. Upstreaming also enables contribution from developers
-> around the world to the driver once it is merged.
+Hi Thinh,
 
-Can you replace all those dev_dbg():s by trace events/points?
+> On Wed, Oct 19, 2022 at 11:06:08PM +0000, Thinh Nguyen wrote:
+> > Hi,
+> >
 
--- 
-With Best Regards,
-Andy Shevchenko
+<snip>
+
+> > > 
+> > > > The logic to detect underrun doesn't trigger because the queued list is
+> > > > always non-empty, but the queued requests are expected to be missed
+> > > > already. So you keep seeing missed isoc.
+> > > > 
+> > > > There are a few things you can mitigate this issue:
+> > > > 1) Don't set IMI if the request indicates no_interrupt. This reduces the
+> > > >    time software needs to handle interrupts.
+> > > 
+> > > 
+> > > > 2) Improve the underrun detection logic.
+> > > 
+> > > 
+> > > > 3) Increase the queuing frequency from the uvc to keep the request queue
+> > > >    full. Note that reduce/avoid setting no_interrupt will allow the
+> > > >    controller driver to update uvc often to keep requeuing new requests.
+> > > > 
+> > > > Best option is 3), but maybe we can do all 3.
+> > > >
+> > >
+
+I forgot about your option 2. Will start looking into it.
+
+Thanks,
+Jeff
+
