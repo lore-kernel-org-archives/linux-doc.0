@@ -2,154 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D82C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 03:05:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53FC0C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 03:54:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230125AbiJTDFk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 23:05:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36814 "EHLO
+        id S229785AbiJTDys (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 23:54:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229933AbiJTDFi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 23:05:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 853AE162508
-        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 20:05:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666235134;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=M+xXE+hLfnStgrhavEiF+uB0bvcu9Rc/vs92lJ9VfFU=;
-        b=dSBmk8rqwtXGL4/xAF9qyK7TqDGsJYJ4tKMPUc3+C5Fswd2EGh9EAGg31sXywriWxEjdg4
-        h5KUD/jxAE3ZeC+n8He+IEfN4eUE3qoIydW3Drk77wPWAEwDzwC+R9faCZikHE4F6LoNyA
-        lNKbvTZjThWDLtCSc66g3CA4GVDDLm4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-573-LPQxcEDxNeOKlFqcJKKYRA-1; Wed, 19 Oct 2022 23:05:29 -0400
-X-MC-Unique: LPQxcEDxNeOKlFqcJKKYRA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E664C811E75;
-        Thu, 20 Oct 2022 03:05:27 +0000 (UTC)
-Received: from localhost (ovpn-12-35.pek2.redhat.com [10.72.12.35])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B0A40140EBF3;
-        Thu, 20 Oct 2022 03:05:26 +0000 (UTC)
-Date:   Thu, 20 Oct 2022 11:05:23 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Xianting Tian <xianting.tian@linux.alibaba.com>
-Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
-        guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
-        bagasdotme@gmail.com, k-hagio-ab@nec.com, lijiang@redhat.com,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
-        hschauhan@nulltrace.org, yixun.lan@gmail.com
-Subject: Re: [PATCH V4 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
-Message-ID: <Y1C681H2mlxX+zqf@MiWiFi-R3L-srv>
-References: <20221019103623.7008-1-xianting.tian@linux.alibaba.com>
- <20221019103623.7008-2-xianting.tian@linux.alibaba.com>
- <Y1CtreAKT/SEh4vN@MiWiFi-R3L-srv>
- <30621b3b-47ba-d612-cfb0-583d779691a3@linux.alibaba.com>
+        with ESMTP id S229736AbiJTDyq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 23:54:46 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92CBB29C92;
+        Wed, 19 Oct 2022 20:54:44 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id x31-20020a17090a38a200b0020d2afec803so1863807pjb.2;
+        Wed, 19 Oct 2022 20:54:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cls9hPD2bbrQKC1wtXrkJF4y2UlILPEIkviM6fS1b4M=;
+        b=opDupmmzU/oD8a1/HD/V48st6LXQIvxaLoJxuqnkFZaIAYnnxph8RJ5qGQCg5CfU2p
+         P6yEivAwEpoMS6Omy3YHbgYnNPP90Z2WJu4+9cM4zSdPl/STf1y5qitqxogaqg3ZkVLr
+         NUIpIjJTGxVNg2I0ufEztP2yjINBis1s+TaLtuHQLWgyKRSKJpmyHx09HHlWYP5OH+rT
+         pZGARW/SnfgTvIquFWUaUw9/4I0gCOrOUdSPumsMVVHtX3IWIZhj0ju0hUForAxSX1NP
+         4BeGtfcuB7qdEv7SRROIFDBc+Tgsp2Elk6RNB3+3bzYNzFLtmOS2snWNuP3gyJTJV5F7
+         X2zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cls9hPD2bbrQKC1wtXrkJF4y2UlILPEIkviM6fS1b4M=;
+        b=T1AgHpre7vX8xh7Qq6ZR6ILvW64Jk11Jnx+E5rm/BID3wZ+gaH2LtIXYMwA1qCEJtG
+         Qar8Z3ZD8hsJipHdkYp8CAWNExOWcU/7G6anqbkNVgAvtTPjKaeRhSm4aP6zzClH1EeS
+         qYDEHlaeFe69G0fUOGdbj6m8okK13nBfimqaDQBfKMy8xCebRgUQbfBSjrKMQ0FIQK86
+         BGdGRU/RHrQWai1/yQwA7adpYHLDqPZFNu/pKBEvgu8h+WnUdgSW5MG/+LiCAGSw7lVR
+         h/rbDEHptqv5KbrN7XySeSZufIZCw/DXnZmgU5wY2mZgAZx6UndB0J44JmjWUWcC/pkG
+         jFjQ==
+X-Gm-Message-State: ACrzQf3JVNHoxRDDP+UJLP25q8pUAkkmMDMYmILoB5LaEU83M3pgdxlg
+        VBlNQsf/DNVl5ryCQ49uLTQ=
+X-Google-Smtp-Source: AMsMyM7C8fvckchyhYqiVeDNIPQxtK5440sc5fzIo9KHDa6ah0cFoiiDd/OYzTOAAozoOBHcUBLpdw==
+X-Received: by 2002:a17:90a:930b:b0:20b:a5d:35d6 with SMTP id p11-20020a17090a930b00b0020b0a5d35d6mr48789899pjo.146.1666238084014;
+        Wed, 19 Oct 2022 20:54:44 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-92.three.co.id. [180.214.233.92])
+        by smtp.gmail.com with ESMTPSA id w14-20020a17090a5e0e00b0020ad53b5883sm722300pjf.14.2022.10.19.20.54.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Oct 2022 20:54:43 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 509B11032B1; Thu, 20 Oct 2022 10:54:39 +0700 (WIB)
+Date:   Thu, 20 Oct 2022 10:54:38 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
+Cc:     linux-serial@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/5] serial: RS485 kerneldoc/documentation improvements
+Message-ID: <Y1DGfq8mNI5dc8Hz@debian.me>
+References: <20221019093343.9546-1-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="g0j7Qa5xVl5Dx7IW"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <30621b3b-47ba-d612-cfb0-583d779691a3@linux.alibaba.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+In-Reply-To: <20221019093343.9546-1-ilpo.jarvinen@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/20/22 at 10:17am, Xianting Tian wrote:
-> 
-> 在 2022/10/20 上午10:08, Baoquan He 写道:
-> > On 10/19/22 at 06:36pm, Xianting Tian wrote:
-> > > Add arch_crash_save_vmcoreinfo(), which exports VM layout(MODULES, VMALLOC,
-> > > VMEMMAP ranges and KERNEL_LINK_ADDR), va bits and ram base for vmcore.
-> > > 
-> > > Default pagetable levels and PAGE_OFFSET aren't same for different kernel
-> > > version as below. For pagetable levels, it sets sv57 by default and falls
-> > > back to setting sv48 at boot time if sv57 is not supported by the hardware.
-> > > 
-> > > For ram base, the default value is 0x80200000 for qemu riscv64 env and,
-> > > for example, is 0x200000 on the XuanTie 910 CPU.
-> > > 
-> > >   * Linux Kernel 5.18 ~
-> > >   *      PGTABLE_LEVELS = 5
-> > >   *      PAGE_OFFSET = 0xff60000000000000
-> > >   * Linux Kernel 5.17 ~
-> > >   *      PGTABLE_LEVELS = 4
-> > >   *      PAGE_OFFSET = 0xffffaf8000000000
-> > >   * Linux Kernel 4.19 ~
-> > >   *      PGTABLE_LEVELS = 3
-> > >   *      PAGE_OFFSET = 0xffffffe000000000
-> > > 
-> > > Since these configurations change from time to time and version to version,
-> > > it is preferable to export them via vmcoreinfo than to change the crash's
-> > > code frequently, it can simplify the development of crash tool.
-> > > 
-> > > Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
-> > > ---
-> > >   arch/riscv/kernel/Makefile     |  1 +
-> > >   arch/riscv/kernel/crash_core.c | 23 +++++++++++++++++++++++
-> > >   2 files changed, 24 insertions(+)
-> > >   create mode 100644 arch/riscv/kernel/crash_core.c
-> > > 
-> > > diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
-> > > index db6e4b1294ba..4cf303a779ab 100644
-> > > --- a/arch/riscv/kernel/Makefile
-> > > +++ b/arch/riscv/kernel/Makefile
-> > > @@ -81,6 +81,7 @@ obj-$(CONFIG_KGDB)		+= kgdb.o
-> > >   obj-$(CONFIG_KEXEC_CORE)	+= kexec_relocate.o crash_save_regs.o machine_kexec.o
-> > >   obj-$(CONFIG_KEXEC_FILE)	+= elf_kexec.o machine_kexec_file.o
-> > >   obj-$(CONFIG_CRASH_DUMP)	+= crash_dump.o
-> > > +obj-$(CONFIG_CRASH_CORE)	+= crash_core.o
-> > >   obj-$(CONFIG_JUMP_LABEL)	+= jump_label.o
-> > > diff --git a/arch/riscv/kernel/crash_core.c b/arch/riscv/kernel/crash_core.c
-> > > new file mode 100644
-> > > index 000000000000..3e889d0ed7bd
-> > > --- /dev/null
-> > > +++ b/arch/riscv/kernel/crash_core.c
-> > > @@ -0,0 +1,23 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +
-> > > +#include <linux/crash_core.h>
-> > > +#include <linux/pagemap.h>
-> > > +
-> > > +void arch_crash_save_vmcoreinfo(void)
-> > > +{
-> > > +	VMCOREINFO_NUMBER(VA_BITS);
-> > > +	VMCOREINFO_NUMBER(phys_ram_base);
-> > > +
-> > > +	vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", PAGE_OFFSET);
-> > > +	vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
-> > > +	vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
-> > > +	vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
-> > > +	vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
-> > > +#ifdef CONFIG_64BIT
-> > > +	vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
-> > > +	vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
-> > > +#endif
-> > > +
-> > > +	if (IS_ENABLED(CONFIG_64BIT))
-> > > +		vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", KERNEL_LINK_ADDR);
-> > Wondering why you don't put KERNEL_LINK_ADDR exporting into the above
-> > ifdeffery scope, with that you can save one line of "IS_ENABLED(CONFIG_64BIT)".
-> I followed the rule in print_vm_layout() of arch/riscv/mm/init.c, which used
-> IS_ENABLED when print the value of KERNEL_LINK_ADDR.
-> 
 
-I see. There's PAGE_OFFSET in the middle. Thanks.
+--g0j7Qa5xVl5Dx7IW
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-        print_ml("lowmem", (unsigned long)PAGE_OFFSET,
-                (unsigned long)high_memory)
+On Wed, Oct 19, 2022 at 12:33:38PM +0300, Ilpo J=C3=A4rvinen wrote:
+> RS485 documentation improvements. While doing the kerneldoc conversion,
+> a few other items came up so they're now included in this series.
+>=20
+> v5:
+> - Make formatting of names more consistent
+> - serial_rs485::flags bits are: -> The flag bits are:
+>=20
+> v4:
+> - Remove wrong private: markers
+> - Fix grammar problems
+>=20
+> v3:
+> - More fixes to kernel doc formatting (thanks to Jiri)
+> - Added a few other related improvements
+>=20
+> v2:
+> - Include serial_rs485 into documentation
+> - Add * to multi-line flag descriptions
+>=20
+> Ilpo J=C3=A4rvinen (5):
+>   serial: Convert serial_rs485 to kernel doc
+>   Documentation: rs485: Link reference properly
+>   Documentation: rs485: Mention uart_get_rs485_mode()
+>   Documentation: rs485: Fix struct referencing
+>   Documentation: Make formatting consistent for rs485 docs
+>=20
+>  .../driver-api/serial/serial-rs485.rst        | 56 ++++++++++---------
+>  include/uapi/linux/serial.h                   | 55 +++++++++++-------
+>  2 files changed, 66 insertions(+), 45 deletions(-)
+>=20
 
-So now, do you think if it's necessary to have another
-IS_ENABLED(CONFIG_64BIT) in the current arch_crash_save_vmcoreinfo()?
+The doc LGTM, thanks.
 
+For the series,
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--g0j7Qa5xVl5Dx7IW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY1DGdQAKCRD2uYlJVVFO
+oyQtAP4pvAC4qMzXjOMlbzC8eFOqbfWjfJv2EMaZN2YpLeWp4AEA8Iz1+qEtNz6Y
+3N7RWNuRZQZBsT1WkSK5QjKukLQW0AU=
+=9D5b
+-----END PGP SIGNATURE-----
+
+--g0j7Qa5xVl5Dx7IW--
