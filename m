@@ -2,57 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB62C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 18:50:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C383CC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 18:53:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229832AbiJTSuR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 14:50:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50732 "EHLO
+        id S229585AbiJTSxd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 14:53:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229691AbiJTSuP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 14:50:15 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 291EFC1DA4
-        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 11:50:11 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id o22so531351qkl.8
-        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 11:50:11 -0700 (PDT)
+        with ESMTP id S229552AbiJTSxc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 14:53:32 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A51D820C9A6
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 11:53:27 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id g11so229833qts.1
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 11:53:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KR3+5kKvHDC9BOMnROlxG5MOfJS2Lys60n7JFJ+BFo8=;
-        b=mhBsn6E6rtdaqvrsjBCKkElm6NPFr/Nvs9Ej/o3pCKoTTluJNxHO0gwQcnhLQJa5dy
-         cYND0YLoo4DXoAiDK6EtFvlf0uaGxw1ki2i4KGkeacWtx67VX0xrRNVVOG6r+mU66lcu
-         bfTfd5JahyoitdHLGh5fUDzbSCrtEnFDjGosp/3hmQUl1kRUsAQiJhZj9Io8idCfaAeQ
-         SOns5amLoac6fOcfncpHy4p5wFyyGdbNb+46tGNwto6WD0v2skFyq5ahVz8au9S2QOju
-         DE2OjLqhPBS1f92bSdS/q1u6WAlKJX+HHkVDCES280ySAHAb6sGkCIn4lYYwaMrEGspu
-         Cb9w==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1JJWeDPGrjc6twvc1sU1a1ThiN/IA10seg8oNdbjvjI=;
+        b=DeJppYcSpwlWLv2NVFavB0TAVXQhVMhj8SjxiMnDKBIqKRHMTrXwwMsyzG+8ai7lp9
+         rxyYVcmUFiMltVnqpMXKzxkvVy60EBBKT2a9wI8qe1dNMHNc1gbAPkCLDpLXIMHVlgd2
+         GyzI1621AkXTvdkWr0ojLpM6pckbj8XqXedTx4SEJjedEwZkCUwGqgtLsCow4K+tQFBR
+         W0wIV0L/YviN5IWI5FVXxWU55BonGX91p2wXP6TDECsjjE3XnIHeRIL7Zp9VXzmweTfk
+         YfittqKi1ujRnMH5RVbokHQRK6vX3YaK6XsvHyM+QfSQa3N3MPlHbDP/kXfuyUH/JRXS
+         /S4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KR3+5kKvHDC9BOMnROlxG5MOfJS2Lys60n7JFJ+BFo8=;
-        b=2o9JjOEHeSc6Nn7pVS4gdy5bG43e9AW4aCvgwUh/kyAKc9Mi2wzyGkWFTsMwOIEgVo
-         x0Ll2pKs/5S3Ab+ebtHA8FM5Pu4V4KokcNu8LXckS57fk/F5k7/AagG4zo6y9moKJICL
-         4SlynntnEfP+Uqs7SCYqCMuE64Ss7OW3PlytdXW9xzbSGctFqLadM+u3d1zz0WD5iiMu
-         aVLcSkzGmPasnua7GCTNubvZDnXl/tU9I74LiTqdvuVmvbg2wizjzzw1v01F8If/cSOY
-         Y5RpNPeT74u4e8mNvikbFOxz1DDOhLBMXknu7rPsM7MEgxwxR+CWXRXLz4fWbxdxkLq3
-         OnhQ==
-X-Gm-Message-State: ACrzQf02dVLE35XJYBHpmfKnndLLlBOuMBW/yXph98rr/Y0ffItah6XJ
-        NmjB8HKyX/wOBd+Id3qvTy8aWb3XTzblwmFJCBA=
-X-Google-Smtp-Source: AMsMyM5HzpiqT5Zi4u1f+qSsbgkOcKt56VuNKFX0yb70xpsBLz+QgXKuu0JrIpEffdsFSqFg9t+I9b+P1Xyy9ePidoE=
-X-Received: by 2002:a05:620a:d58:b0:6df:ba25:4f5e with SMTP id
- o24-20020a05620a0d5800b006dfba254f5emr10589902qkl.320.1666291810707; Thu, 20
- Oct 2022 11:50:10 -0700 (PDT)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1JJWeDPGrjc6twvc1sU1a1ThiN/IA10seg8oNdbjvjI=;
+        b=Unk7jgEdFQbW6sTZB3P+sOxX8UgO8hAjwaI6GfLKEyiWde3geXJuVg+qz1bXwjkrPl
+         vCcDB5wS/r3nz3q3v2GMlOALcTWlfD5ydBwedK16dJ9efYXuRDsiUBBFGIHob8cf8C+e
+         wy0URKpBComIBHIJQcean2HBAJWNQGS5c/xquKqrS+jx616O7HDSXSFgQDUBcfMZhVvh
+         OjACm8DkUlvwuotCcGtnQcbmAJ0xWOLTutuVIS1NE8CjZVkP7wkQswJszadL3GS77TIf
+         TvVQVnW0KERFp1iVQGtMF+RHaDtidEAT0QubJXcpZ1j38Q/usPHJocPx5VBl4AES8D9w
+         OSgw==
+X-Gm-Message-State: ACrzQf37iCqAEvfIWvJFz+JCJyWOC6ogUYNBbjsaE5FBbkqEsmk7i0rj
+        HEUpsLNvMYtDq/lO2+kVsbPa8spr4ByKM9fNhlQ=
+X-Google-Smtp-Source: AMsMyM7qetifndVf5M+f66BoiYZd2meYfYXmvSjmkw7GZFK+cZvcVsEdMDLmr3D9nN5HnEN3krGs/1hlJ2qDJ5mgHWg=
+X-Received: by 2002:ac8:5751:0:b0:39c:b848:198f with SMTP id
+ 17-20020ac85751000000b0039cb848198fmr12650276qtx.429.1666292006071; Thu, 20
+ Oct 2022 11:53:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com> <20221020175334.1820519-2-maciej.kwapulinski@linux.intel.com>
-In-Reply-To: <20221020175334.1820519-2-maciej.kwapulinski@linux.intel.com>
+References: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com> <20221020175334.1820519-3-maciej.kwapulinski@linux.intel.com>
+In-Reply-To: <20221020175334.1820519-3-maciej.kwapulinski@linux.intel.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 20 Oct 2022 21:49:34 +0300
-Message-ID: <CAHp75VeLbZ6AWf5yyxc+QyzOOqmBd0jdyJ1m=eiQpep5wuEmoA@mail.gmail.com>
-Subject: Re: [PATCH v5 01/10] gna: add PCI driver module
+Date:   Thu, 20 Oct 2022 21:52:50 +0300
+Message-ID: <CAHp75Vdb-bCR+E2zzrSULCoxhWqfJTzF38FCxCfKFx3D3vddVg@mail.gmail.com>
+Subject: Re: [PATCH v5 02/10] gna: add GNA DRM device
 To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 Cc:     Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -66,71 +65,57 @@ Cc:     Daniel Vetter <daniel@ffwll.ch>,
         Linus Walleij <linus.walleij@linaro.org>,
         Olof Johansson <olof@lixom.net>,
         dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
+        Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Oct 20, 2022 at 8:57 PM Maciej Kwapulinski
 <maciej.kwapulinski@linux.intel.com> wrote:
->
-> Add a new PCI driver for Intel(R) Gaussian & Neural Accelerator
-> with basic support like module loading and unloading. The full
-> function of the driver will be added by further changes.
+
+Missed commit message.
+
+> Signed-off-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+> Tested-by: Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>
 
 ...
 
-> +GNA_GEM_NEW acquires new 4KB page aligned memory region ready for DMA op=
-erations.
+> +       if (!(sizeof(dma_addr_t) > 4) ||
 
-a new
+Do you really need this?
 
-...
+> +               dma_set_mask(parent, DMA_BIT_MASK(64))) {
 
-> +GNA Library can allocate any number of memory regions for GNA usage. Its=
- number and total
-> +capacity are limited by the OSs=E2=80=99 resources. Due to GNA MMU restr=
-ictions, even when using
+> +               err = dma_set_mask(parent, DMA_BIT_MASK(32));
+> +               if (err)
+> +                       return err;
 
-OSes' ?
+IIRC if the 64-bit dma_set_mask() fails, there is no need to check
+32-bit, i.e. it will fail.
 
-> +multiple memory regions, the sum of all the memory regions used within a=
- single inference
-> +request must be no larger than 256MB.
+> +       }
 
 ...
 
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -403,6 +403,8 @@ source "drivers/gpu/drm/solomon/Kconfig"
->
->  source "drivers/gpu/drm/sprd/Kconfig"
->
-> +source "drivers/gpu/drm/gna/Kconfig"
+> +#define DRIVER_DATE            "20211201"
 
-It looks to me that you broke the order here.
+Really?
 
 ...
 
-> @@ -147,3 +147,4 @@ obj-y                       +=3D gud/
->  obj-$(CONFIG_DRM_HYPERV) +=3D hyperv/
->  obj-y                  +=3D solomon/
->  obj-$(CONFIG_DRM_SPRD) +=3D sprd/
-> +obj-$(CONFIG_DRM_GNA) +=3D gna/
+> +#include <linux/mm_types.h>
 
-Ditto.
+Are you sure?
 
-...
+> +struct gna_dev_info {
+> +       u32 hwid;
+> +       u32 num_pagetables;
+> +       u32 num_page_entries;
+> +       u32 max_layer_count;
+> +       u64 max_hw_mem;
+> +};
 
-> +config DRM_GNA
-> +       tristate "Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA)"
-> +       depends on X86 && PCI
-
-No compile test for the rest of possible options?
-
---=20
+-- 
 With Best Regards,
 Andy Shevchenko
