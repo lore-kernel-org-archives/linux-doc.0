@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D35C9C43219
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 21:26:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77F9AC43217
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 21:26:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229795AbiJTV0A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 17:26:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38584 "EHLO
+        id S229732AbiJTVZ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 17:25:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbiJTVZ6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 17:25:58 -0400
+        with ESMTP id S229484AbiJTVZ5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 17:25:57 -0400
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E0BA180597;
-        Thu, 20 Oct 2022 14:25:57 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A09117E23B;
+        Thu, 20 Oct 2022 14:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666301157; x=1697837157;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=RX2JNyvAov8v89XYF6H5UlH6Cd9vaxEM+damP0WRpBM=;
-  b=kSmsRe053I1hTu7EHDjVe5xbu6eKTOg9hpeIAzWvWmNeoM6bPBqXgWz3
-   1r3MhyTyr24c/TIQJHekuq53JbQP3ohEXmrbOZp3rq7qxQYZDbNE1W0yP
-   bYiHT86xsbeSryJ2RJMIEautxd2H5PZHuGiWXo2LyN53zhIXamj0vw44+
-   NKv7Cy6CQGaQhU4k6RLsZyQaBPYC9aVNC8eG5oTgzuzsMEjwO+pHCGs3s
-   3h0DwUs6BjOnt0bsh0wVrRyPsmBH/55UHDrCXrqFj2N2oOHU9jLCvIAk2
-   k38gdJpSCYG+DE/lwsHPkvPLO5aLfl6JTIkQ6jyLpfrusmOHht+fGum6r
+  t=1666301156; x=1697837156;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=U1DYLh1b+Wg7DObvnlquUyu7vJlxjG15w2qXKEefn3s=;
+  b=RTpYZTuJS9JpHLhxzdQwvlx1YQoDAi2Vg83pWoRkv7KOowfbrSwV7dJu
+   IvG3sCHdQJTd+E93ZA8aA3aWj9fuxdrMdm9nnpqt0MOTJ1HJu6/wICLt1
+   erYIf5/PRpCRqEFsij0hBhW+f1Zw8mPrdlJ0tL5+Gupfgi5SG9Pds9cef
+   uZwA1M0gzQZCplpt4ZwHPDdzRDl+nYcRqzS/wnihqwnzvzHDky61VbN8b
+   C5ett6Q9tChnxnXm7IsNP0EXFbDuPOJe/nqs8XElFF7H8rVrXdEZsNUQ/
+   5CnmGy/54RJ/AQN9upK9Wm/7iD7UF4XZ1L4BqZUU3ovOGgWQWAJG+oHUZ
    g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="333412435"
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="333412429"
 X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; 
-   d="scan'208";a="333412435"
+   d="scan'208";a="333412429"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2022 14:25:56 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="693260674"
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2022 14:25:55 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="693260664"
 X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; 
-   d="scan'208";a="693260674"
+   d="scan'208";a="693260664"
 Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2022 14:25:56 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2022 14:25:55 -0700
 From:   matthew.gerlach@linux.intel.com
 To:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
         basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
@@ -49,118 +49,52 @@ To:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
         niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
         johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
         marpagan@redhat.com
-Cc:     Basheer Ahmed Muddebihal 
-        <basheer.ahmed.muddebihal@linux.intel.com>,
-        Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: [PATCH v4 2/4] fpga: dfl: Add DFHv1 Register Definitions
-Date:   Thu, 20 Oct 2022 14:26:08 -0700
-Message-Id: <20221020212610.697729-3-matthew.gerlach@linux.intel.com>
+Cc:     Matthew Gerlach <matthew.gerlach@intel.com>
+Subject: [PATCH v4 0/4] Enhance definition of DFH and use enhancements for uart driver
+Date:   Thu, 20 Oct 2022 14:26:06 -0700
+Message-Id: <20221020212610.697729-1-matthew.gerlach@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221020212610.697729-1-matthew.gerlach@linux.intel.com>
-References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Basheer Ahmed Muddebihal <basheer.ahmed.muddebihal@linux.intel.com>
+From: Matthew Gerlach <matthew.gerlach@intel.com>
 
-This patch adds the definitions for DFHv1 header and related register
-bitfields.
+This patchset enhances the definition of the Device Feature Header (DFH) used by
+the Device Feature List (DFL) bus and then uses the new enhancements in a uart
+driver.
 
-Signed-off-by: Basheer Ahmed Muddebihal <basheer.ahmed.muddebihal@linux.intel.com>
-Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
----
-v4: s/MSIX/MSI_X/g
-    move kerneldoc to implementation
-    don't change copyright date
+Patch 1 updates the DFL documentation to provide the motivation behind the 
+enhancements to the definition of the DFH.
 
-v3:
-    keep DFHv1 definitions "hidden" in drivers/fpga/dfl.h
+Patch 2 adds the definitions for DFHv1.
 
-v2: clean up whitespace and one line comments
-    remove extra space in commit
-    use uniform number of digits in constants
-    don't change copyright date because of removed content
+Patch 3 adds basic support DFHv1. It provides a generic mechanism for
+describing MSIX interrupts used by a particular feature instance, and
+it gets the location and size of the feature's register set from DFHv1.
 
-dfl.h s/MSIX/MSI_X/g move kerneldoc
----
- drivers/fpga/dfl.h  | 33 +++++++++++++++++++++++++++++++++
- include/linux/dfl.h | 11 +++++++++++
- 2 files changed, 44 insertions(+)
+Patch 4 adds a DFL uart driver that makes use of the new features of DFHv1.
 
-diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
-index 06cfcd5e84bb..45e6e1359a67 100644
---- a/drivers/fpga/dfl.h
-+++ b/drivers/fpga/dfl.h
-@@ -74,11 +74,44 @@
- #define DFH_REVISION		GENMASK_ULL(15, 12)	/* Feature revision */
- #define DFH_NEXT_HDR_OFST	GENMASK_ULL(39, 16)	/* Offset to next DFH */
- #define DFH_EOL			BIT_ULL(40)		/* End of list */
-+#define DFH_VERSION		GENMASK_ULL(59, 52)	/* DFH version */
- #define DFH_TYPE		GENMASK_ULL(63, 60)	/* Feature type */
- #define DFH_TYPE_AFU		1
- #define DFH_TYPE_PRIVATE	3
- #define DFH_TYPE_FIU		4
- 
-+/*
-+ * DFHv1 Register Offset definitons
-+ * In DHFv1, DFH + GUID + CSR_START + CSR_SIZE_GROUP + PARAM_HDR + PARAM_DATA
-+ * as common header registers
-+ */
-+#define DFHv1_CSR_ADDR		0x18  /* CSR Register start address */
-+#define DFHv1_CSR_SIZE_GRP	0x20  /* Size of Reg Block and Group/tag */
-+#define DFHv1_PARAM_HDR		0x28  /* Optional First Param header */
-+
-+/*
-+ * CSR Rel Bit, 1'b0 = relative (offset from feature DFH start),
-+ * 1'b1 = absolute (ARM or other non-PCIe use)
-+ */
-+#define DFHv1_CSR_ADDR_REL	BIT_ULL(0)
-+
-+/* CSR Header Register Bit Definitions */
-+#define DFHv1_CSR_ADDR_MASK       GENMASK_ULL(63, 1)  /* 63:1 of CSR address */
-+
-+/* CSR SIZE Goup Register Bit Definitions */
-+#define DFHv1_CSR_SIZE_GRP_INSTANCE_ID	GENMASK_ULL(15, 0)	/* Enumeration instantiated IP */
-+#define DFHv1_CSR_SIZE_GRP_GROUPING_ID	GENMASK_ULL(30, 16)	/* Group Features/interfaces */
-+#define DFHv1_CSR_SIZE_GRP_HAS_PARAMS	BIT_ULL(31)		/* Presence of Parameters */
-+#define DFHv1_CSR_SIZE_GRP_SIZE		GENMASK_ULL(63, 32)	/* Size of CSR Block in bytes */
-+
-+/* PARAM Header Register Bit Definitions */
-+#define DFHv1_PARAM_HDR_ID		GENMASK_ULL(15, 0) /* Id of this Param  */
-+#define DFHv1_PARAM_HDR_VERSION		GENMASK_ULL(31, 16) /* Version Param */
-+#define DFHv1_PARAM_HDR_NEXT_OFFSET	GENMASK_ULL(63, 32) /* Offset of next Param */
-+#define DFHv1_PARAM_HDR_NEXT_EOL	BIT_ULL(0)
-+#define DFHv1_PARAM_HDR_NEXT_MASK	GENMASK_ULL(1, 0)
-+#define DFHv1_PARAM_DATA		0x08  /* Offset of Param data from Param header */
-+
- /* Next AFU Register Bitfield */
- #define NEXT_AFU_NEXT_DFH_OFST	GENMASK_ULL(23, 0)	/* Offset to next AFU */
- 
-diff --git a/include/linux/dfl.h b/include/linux/dfl.h
-index 431636a0dc78..fea9e16d35b6 100644
---- a/include/linux/dfl.h
-+++ b/include/linux/dfl.h
-@@ -11,6 +11,17 @@
- #include <linux/device.h>
- #include <linux/mod_devicetable.h>
- 
-+#define DFHv1_PARAM_ID_MSI_X		0x1
-+#define DFHv1_PARAM_MSI_X_STARTV	0x0
-+#define DFHv1_PARAM_MSI_X_NUMV		0x4
-+
-+#define DFHv1_PARAM_ID_CLK_FRQ    0x2
-+#define DFHv1_PARAM_ID_FIFO_LEN   0x3
-+
-+#define DFHv1_PARAM_ID_REG_LAYOUT 0x4
-+#define DFHv1_PARAM_ID_REG_WIDTH  GENMASK_ULL(63, 32)
-+#define DFHv1_PARAM_ID_REG_SHIFT  GENMASK_ULL(31, 0)
-+
- /**
-  * enum dfl_id_type - define the DFL FIU types
-  */
+Basheer Ahmed Muddebihal (1):
+  fpga: dfl: Add DFHv1 Register Definitions
+
+Matthew Gerlach (3):
+  Documentation: fpga: dfl: Add documentation for DFHv1
+  fpga: dfl: add basic support DFHv1
+  tty: serial: 8250: add DFL bus driver for Altera 16550.
+
+ Documentation/fpga/dfl.rst         |  96 ++++++++++++
+ drivers/fpga/dfl.c                 | 234 +++++++++++++++++++++++------
+ drivers/fpga/dfl.h                 |  38 +++++
+ drivers/tty/serial/8250/8250_dfl.c | 149 ++++++++++++++++++
+ drivers/tty/serial/8250/Kconfig    |  12 ++
+ drivers/tty/serial/8250/Makefile   |   1 +
+ include/linux/dfl.h                |  15 ++
+ 7 files changed, 496 insertions(+), 49 deletions(-)
+ create mode 100644 drivers/tty/serial/8250/8250_dfl.c
+
 -- 
 2.25.1
 
