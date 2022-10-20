@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFEB6C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 21:55:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A759EC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 21:55:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230090AbiJTVy7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 17:54:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54322 "EHLO
+        id S230160AbiJTVzJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 17:55:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230116AbiJTVyw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 17:54:52 -0400
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D30A501A6;
-        Thu, 20 Oct 2022 14:54:33 -0700 (PDT)
-Received: by mail-qv1-xf31.google.com with SMTP id mx8so611407qvb.8;
-        Thu, 20 Oct 2022 14:54:33 -0700 (PDT)
+        with ESMTP id S230086AbiJTVyx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 17:54:53 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBBF05FCA;
+        Thu, 20 Oct 2022 14:54:40 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id x15so640365qvp.1;
+        Thu, 20 Oct 2022 14:54:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3QVy7NAfSopf+Iij2pw0HKI71t//u6xehpjVOpbyUMY=;
-        b=J+iDN/3M1v4SmMv54h7rTzpz0LCv5/XHzg8ewdpWRJK70RuAF16mbixTaMb/vBat51
-         /mOQLg5Lg+eWwblMvbeXIjCw6c7NGBNFeD/y4PUno/X8AVsvp3cN9kuMppVqjdsN5kl6
-         orFfq4ybTrc/U75TOFffbD2FHq/yB8TQdUCF4W5zgxsL4RtZssN3wgMFfKwcAq4UKdf8
-         F8nDYyOYiinRzsKsyxRooF/HEUiIjI0N0PbTdoyDCvkE5xiCtErgJjWuKYBHcuAzQd0V
-         2rntUIgntvNQWYugXRMQ7XaB2yU5azO8RSIVC6neC4mThi5qsxjgKAfWCPpzvk9W2R02
-         HrBw==
+        bh=k0ZvpnVNYZiRg/rCuSdzxC9eb6lzs9TieDFdQySZsn8=;
+        b=SZ1PlrYOPpSqmq/vLnLZafqj76vcgQtuklt87DwVjrckcKo++SoYbWCoXH2RuEmcb6
+         4y4tJhiFfNsKAYGCDqNldMQv8ggfF9el1/DuGHGyFTTgGJTgBB1ub2t8TJn/8VQ/0njh
+         x9PBzyecXTaH7sPHGenWV53OQv2MF6VIv7XIRqYd6awOmsAXwfizyl7Pvu/dtb12NoEI
+         FmlTxSQ26E38t9VXc438mbDPBM+Nsfx1gqnxiKl0224bwHFJKJ36YENdqiT+aCbkxIGU
+         QeFvaN4zOD3HePcbtw0ZaU1yZSvLexZNzQIPkdE25F5wKPOiXAjcD1OSAUZXG39Xan4S
+         LqVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3QVy7NAfSopf+Iij2pw0HKI71t//u6xehpjVOpbyUMY=;
-        b=ocMfqTiz6oX3NxL7xt0SKGqssbXi0f1nZlSmdC/NmNavzkIN52JNTz85Uc27gx03AT
-         gvHTxMdVcrdS4myKzlan3dVMc6uuDFW2gO35SXk1q8IpV21QxSL68duwfmZ92WeOHXMo
-         ZvcRQwLvEDd0AVIHJ1bUongy1qV7YH7RplZilLYv6bcOrw+sorNDfIPbaXor0L2fx37Y
-         eKEI8fQTdEdAZU9QMwy9rwODhGlQs8z1h4NH1VS/dazseBuhQV2DfgapSbav3gW6RreW
-         5c1XzE1L1Id9rC+2p48sZPmUcfRSY1xWHetVJHYl+cNO7GzSMeKyJsF9VJQ4EXeJKDN0
-         1G4g==
-X-Gm-Message-State: ACrzQf05uB3vs+8tWhitFQj4qDFgmC0W/+7fbwhUD9t3Phdd2EKQeH1O
-        qkbiD1txxL2Dekof2bdLTok=
-X-Google-Smtp-Source: AMsMyM5aXseEnbCth+1erHFOC0l1o/oiEp9CjvS4tO2sP+AMndswz+RDyF7PQHIu1wmG8A/x1Oi+0g==
-X-Received: by 2002:ad4:5949:0:b0:4b4:8535:97a4 with SMTP id eo9-20020ad45949000000b004b4853597a4mr13776300qvb.101.1666302872827;
-        Thu, 20 Oct 2022 14:54:32 -0700 (PDT)
+        bh=k0ZvpnVNYZiRg/rCuSdzxC9eb6lzs9TieDFdQySZsn8=;
+        b=S4uFdewn95nKOBfbiI6JPdHxZ6TaB3LIdEoxikXMwVjzoaX9vOdeNeHBKge5q++Bvy
+         RQSMWzqfQSsp52Xx/ztM+JGrKnVBLhQASGHysyOL0A1BoPiOy0yVTZeULNKjbrwGO+Zm
+         06ibPrp3imh0NVKcANbXyCNkjQvXrLZO8mUlduiAxlgcqIKokZSr5qGrL8Slq4ujobUy
+         Co1xms4BuijitPMxcS1w8TzWZwxj/1W72dU0OicVvnf8iopLZTydy+CT2LR/LUMEmYsK
+         NL7k/4kvLpVExK3R39gxBLr+RDW47A8swhSRpJ08Ux6BjAJVgrTvfE3JNmCzZ0rX2n2f
+         5eUg==
+X-Gm-Message-State: ACrzQf1BF3pmwIx8hf7H8MsXWFbMYMHok+xqoG97PAIMj7FzHjdFqFnp
+        tuGWHTzyUVpQAprFHrpCVOQ=
+X-Google-Smtp-Source: AMsMyM7a38TE8ilGlotanmpyp3rhbuPFqLEEes3huL7M5Q8qh4Xm+gSlVT2+xpnn07tUAZEUhQLqSA==
+X-Received: by 2002:a05:6214:29ef:b0:4b4:5d8c:637c with SMTP id jv15-20020a05621429ef00b004b45d8c637cmr13527095qvb.77.1666302879221;
+        Thu, 20 Oct 2022 14:54:39 -0700 (PDT)
 Received: from stbirv-lnx-3.igp.broadcom.net ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id bj41-20020a05620a192900b006bb29d932e1sm8121067qkb.105.2022.10.20.14.54.30
+        by smtp.gmail.com with ESMTPSA id bj41-20020a05620a192900b006bb29d932e1sm8121067qkb.105.2022.10.20.14.54.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Oct 2022 14:54:32 -0700 (PDT)
+        Thu, 20 Oct 2022 14:54:38 -0700 (PDT)
 From:   Doug Berger <opendmb@gmail.com>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>,
@@ -70,9 +70,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>,
         Joonsoo Kim <iamjoonsoo.kim@lge.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, Doug Berger <opendmb@gmail.com>
-Subject: [PATCH v3 4/9] mm/page_alloc.c: allow oversized movablecore
-Date:   Thu, 20 Oct 2022 14:53:13 -0700
-Message-Id: <20221020215318.4193269-5-opendmb@gmail.com>
+Subject: [PATCH v3 6/9] memblock: introduce MEMBLOCK_MOVABLE flag
+Date:   Thu, 20 Oct 2022 14:53:15 -0700
+Message-Id: <20221020215318.4193269-7-opendmb@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221020215318.4193269-1-opendmb@gmail.com>
 References: <20221020215318.4193269-1-opendmb@gmail.com>
@@ -82,49 +82,83 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now that the error in computation of corepages has been corrected
-by commit 9fd745d450e7 ("mm: fix overflow in
-find_zone_movable_pfns_for_nodes()"), oversized specifications of
-movablecore will result in a zero value for required_kernelcore if
-it is not also specified.
-
-It is unintuitive for such a request to lead to no ZONE_MOVABLE
-memory when the kernel parameters are clearly requesting some.
-
-The current behavior when requesting an oversized kernelcore is to
-classify all of the pages in movable_zone as kernelcore. The new
-behavior when requesting an oversized movablecore (when not also
-specifying kernelcore) is to similarly classify all of the pages
-in movable_zone as movablecore.
+The MEMBLOCK_MOVABLE flag is introduced to designate a memblock
+as only supporting movable allocations by the page allocator.
 
 Signed-off-by: Doug Berger <opendmb@gmail.com>
 ---
- mm/page_alloc.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ include/linux/memblock.h |  8 ++++++++
+ mm/memblock.c            | 24 ++++++++++++++++++++++++
+ 2 files changed, 32 insertions(+)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 2f7b88d78bc2..a4c2c157bacf 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -8121,13 +8121,13 @@ static void __init find_zone_movable_pfns_for_nodes(void)
- 		corepages = totalpages - required_movablecore;
+diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+index 50ad19662a32..8eb3ca32dfa7 100644
+--- a/include/linux/memblock.h
++++ b/include/linux/memblock.h
+@@ -47,6 +47,7 @@ enum memblock_flags {
+ 	MEMBLOCK_MIRROR		= 0x2,	/* mirrored region */
+ 	MEMBLOCK_NOMAP		= 0x4,	/* don't add to kernel direct mapping */
+ 	MEMBLOCK_DRIVER_MANAGED = 0x8,	/* always detected via a driver */
++	MEMBLOCK_MOVABLE	= 0x10,	/* designated movable block */
+ };
  
- 		required_kernelcore = max(required_kernelcore, corepages);
-+	} else if (!required_kernelcore) {
-+		/* If kernelcore was not specified, there is no ZONE_MOVABLE */
-+		goto out;
- 	}
+ /**
+@@ -125,6 +126,8 @@ int memblock_clear_hotplug(phys_addr_t base, phys_addr_t size);
+ int memblock_mark_mirror(phys_addr_t base, phys_addr_t size);
+ int memblock_mark_nomap(phys_addr_t base, phys_addr_t size);
+ int memblock_clear_nomap(phys_addr_t base, phys_addr_t size);
++int memblock_mark_movable(phys_addr_t base, phys_addr_t size);
++int memblock_clear_movable(phys_addr_t base, phys_addr_t size);
  
--	/*
--	 * If kernelcore was not specified or kernelcore size is larger
--	 * than totalpages, there is no ZONE_MOVABLE.
--	 */
--	if (!required_kernelcore || required_kernelcore >= totalpages)
-+	/* If kernelcore size exceeds totalpages, there is no ZONE_MOVABLE */
-+	if (required_kernelcore >= totalpages)
- 		goto out;
+ void memblock_free_all(void);
+ void memblock_free(void *ptr, size_t size);
+@@ -265,6 +268,11 @@ static inline bool memblock_is_driver_managed(struct memblock_region *m)
+ 	return m->flags & MEMBLOCK_DRIVER_MANAGED;
+ }
  
- 	/* usable_startpfn is the lowest possible pfn ZONE_MOVABLE can be at */
++static inline bool memblock_is_movable(struct memblock_region *m)
++{
++	return m->flags & MEMBLOCK_MOVABLE;
++}
++
+ int memblock_search_pfn_nid(unsigned long pfn, unsigned long *start_pfn,
+ 			    unsigned long  *end_pfn);
+ void __next_mem_pfn_range(int *idx, int nid, unsigned long *out_start_pfn,
+diff --git a/mm/memblock.c b/mm/memblock.c
+index 511d4783dcf1..46a4deb07d92 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -979,6 +979,30 @@ int __init_memblock memblock_clear_nomap(phys_addr_t base, phys_addr_t size)
+ 	return memblock_setclr_flag(base, size, 0, MEMBLOCK_NOMAP);
+ }
+ 
++/**
++ * memblock_mark_movable - Mark designated movable block with MEMBLOCK_MOVABLE.
++ * @base: the base phys addr of the region
++ * @size: the size of the region
++ *
++ * Return: 0 on success, -errno on failure.
++ */
++int __init_memblock memblock_mark_movable(phys_addr_t base, phys_addr_t size)
++{
++	return memblock_setclr_flag(base, size, 1, MEMBLOCK_MOVABLE);
++}
++
++/**
++ * memblock_clear_movable - Clear flag MEMBLOCK_MOVABLE for a specified region.
++ * @base: the base phys addr of the region
++ * @size: the size of the region
++ *
++ * Return: 0 on success, -errno on failure.
++ */
++int __init_memblock memblock_clear_movable(phys_addr_t base, phys_addr_t size)
++{
++	return memblock_setclr_flag(base, size, 0, MEMBLOCK_MOVABLE);
++}
++
+ static bool should_skip_region(struct memblock_type *type,
+ 			       struct memblock_region *m,
+ 			       int nid, int flags)
 -- 
 2.25.1
 
