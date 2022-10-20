@@ -2,124 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC4CC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 11:18:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 416F6C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 13:38:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbiJTLSu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 07:18:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49018 "EHLO
+        id S229494AbiJTNiX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 09:38:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229678AbiJTLSt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 07:18:49 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D34991ACAAD;
-        Thu, 20 Oct 2022 04:18:48 -0700 (PDT)
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29KBEhqM015308;
-        Thu, 20 Oct 2022 11:18:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=m0/zDB9esedN1FeU0NeS+vO2OMMH7WbilvlrNoZH0qs=;
- b=QLHcOiT99zePR8dQgIgQ6vEEZzAXVakIevLJo3CS4goC2W2Pq8GaR3o4USXlPI+ANvLr
- UEW+B9TxpdfWwODw04ZIgO+t2aPqBV/xtXehaa/5HiWc5l9xOQOgo2YRMod7ZJ/7fK3s
- qYNd8jnpfGfhYrm+JJ3ZYr3Vsk1eM7DfJuwO1SNjmmqQ+vfhNTPiEbdZ0x9U/ZG6kb31
- FKiq36GDbNKLL41l4t0f0Xu4PGGM0LUPY3MP9LmN9myUmayZfN1nuretOaUBwgC8oHEq
- Fcc9mo9mTEVoe5SgrwZjjLuZuY0racxPHSuRFyrFBPevE8FSqfAZ66SKkO6sLeuzIQe7 lg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3kb59jg381-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 20 Oct 2022 11:18:43 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29KBICNq031838;
-        Thu, 20 Oct 2022 11:18:43 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3kb59jg377-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 20 Oct 2022 11:18:42 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29KB6PB0014031;
-        Thu, 20 Oct 2022 11:18:41 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
-        by ppma06ams.nl.ibm.com with ESMTP id 3kajmrsh0c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 20 Oct 2022 11:18:41 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 29KBIcwL1704660
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 20 Oct 2022 11:18:38 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id EBF495204F;
-        Thu, 20 Oct 2022 11:18:37 +0000 (GMT)
-Received: from osiris (unknown [9.152.212.239])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 82DCC5204E;
-        Thu, 20 Oct 2022 11:18:37 +0000 (GMT)
-Date:   Thu, 20 Oct 2022 13:18:37 +0200
-From:   Heiko Carstens <hca@linux.ibm.com>
-To:     Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sven Schnelle <svens@linux.ibm.com>
-Subject: Re: [PATCH v2 1/9] s390/uaccess: Add storage key checked cmpxchg
- access to user space
-Message-ID: <Y1EujYeiDjy43wUN@osiris>
-References: <20221012205609.2811294-1-scgl@linux.ibm.com>
- <20221012205609.2811294-2-scgl@linux.ibm.com>
+        with ESMTP id S229935AbiJTNiW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 09:38:22 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C6B31A2E23
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 06:38:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666273101; x=1697809101;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nNa39/5lml3fae1V2WjoeWQNtiHsTMRGBjRzq9rF1cc=;
+  b=h0xuOOxAjY4GKdi+dnCNRpMA4R3w3h0mnBD0slNGz9LxVlSFMht6o6Zg
+   AvzKwdXyIVap725nbz9tEfc8L0naczE66J21vAhDBxTpIUqKK1s8w+rtW
+   oLmivv0nUIphiDCev+dtX9qETFIrKGLW7+lPS5o4p1qRfEO8ZikBejcxa
+   wZ0jNyxx6cUnSWCfEsIuNuuO31XQClYUqDEtpX28GO9z9U7yTPYuvmR7R
+   qYlQEj4PHLf9U2Go9UCV7usJJLq3kUNUdIELJhPjnDLZmlkOjYC4ZKj+V
+   W8yWxmU+zZkrjif6fGlMRjBn4FCatHjM19aIIp4X0B3ydz8QuiplHzm3M
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="307805919"
+X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; 
+   d="scan'208";a="307805919"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2022 06:38:20 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="719064408"
+X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; 
+   d="scan'208";a="719064408"
+Received: from gna-nuc-dev34.igk.intel.com ([10.102.80.34])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2022 06:38:17 -0700
+From:   "Kwapulinski, Maciej" <maciej.kwapulinski@intel.com>
+To:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Olof Johansson <olof@lixom.net>
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+Subject: [PATCH v4 00/10] Driver of Intel(R) Gaussian & Neural Accelerator
+Date:   Thu, 20 Oct 2022 15:35:15 +0200
+Message-Id: <20221020133525.1810728-1-maciej.kwapulinski@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221012205609.2811294-2-scgl@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: DXiud5lnz0qHz52hmUW7aLhhFFDzz_2e
-X-Proofpoint-ORIG-GUID: MPFyuwfdOx1UFPeLiaJTnXuSSB6tM1Tf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-20_03,2022-10-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
- mlxlogscore=696 lowpriorityscore=0 suspectscore=0 mlxscore=0 bulkscore=0
- adultscore=0 impostorscore=0 spamscore=0 priorityscore=1501 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2210200066
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Janis,
+From: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 
-On Wed, Oct 12, 2022 at 10:56:01PM +0200, Janis Schoetterl-Glausch wrote:
-> Add cmpxchg functionality similar to that in cmpxchg.h except that the
-> target is a user space address and that the address' storage key is
-> matched with the access_key argument in order to honor key-controlled
-> protection.
-> The access is performed by changing to the secondary-spaces mode and
-> setting the PSW key for the duration of the compare and swap.
-> 
-> Signed-off-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-> ---
-> 
-> 
-> Possible variations:
->   * check the assumptions made in cmpxchg_user_key_size and error out
->   * call functions called by copy_to_user
->      * access_ok? is a nop
->      * should_fail_usercopy?
->      * instrument_copy_to_user? doesn't make sense IMO
->   * don't be overly strict in cmpxchg_user_key
-> 
-> 
->  arch/s390/include/asm/uaccess.h | 189 ++++++++++++++++++++++++++++++++
->  1 file changed, 189 insertions(+)
+Dear kernel maintainers,
 
-This not how I would have expected something that would be
-symmetrical/consistent with what we already have. However instead of
-spending several iterations I'll send something for this.
+This submission is a kernel driver to support Intel(R) Gaussian & Neural
+Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
+available on multiple Intel platforms. AI developers and users can offload
+continuous inference workloads to an Intel(R) GNA device in order to free
+processor resources and save power. Noise reduction and speech recognition
+are the examples of the workloads Intel(R) GNA deals with while its usage
+is not limited to the two.
 
-This might take a bit due to my limited time. So please be patient.
+For a list of processors equipped with Intel(R) GNA device, please refer to
+this link:
+https://docs.openvinotoolkit.org/latest/openvino_docs_IE_DG_supported_plugins_GNA.html
+
+We think contributing this driver to the upstream kernel project is the
+best way for developers and users to get the latest Intel(R) GNA support in
+a Linux kernel, through the mainline to any Linux distributions installed
+on their systems. Upstreaming also enables contribution from developers
+around the world to the driver once it is merged.
+
+The driver works with Intel(R) libraries in user space. The Intel(R) driver
+exposes a few IOCTL interfaces for use by libraries in user space. The
+libraries are open sourced and are available at:
+https://github.com/intel/gna
+
+---
+
+Changelogs:
+
+ v1->v2:
+ - driver's new layout:
+   - driver name: gna -> intel_gna
+   - module name: gna -> intel_gna
+   - device file name: /dev/gnaN -> /dev/intel_gnaN
+   - driver's source directory: drivers/misc/gna/ -> drivers/misc/intel/gna/
+   - UAPI: include/uapi/misc/gna.h -> include/uapi/misc/intel/gna.h
+   - DOC: Documentation/misc-devices/gna.rst ->
+       Documentation/misc-devices/intel/gna.rst
+ - 'MISC' device framework used
+ - fixes throughout GNA device's PCI management
+ - header files' includes and forward declarations cleanup
+ - ISR made static
+ - unused comments cleanup
+ - "_priv_" segment removed from function names
+ - tested: v5.11-rc3 -> v5.11
+ - number of other/minor fixes
+
+ v2->v3:
+ - PCI glue driver part split.
+ - GNA probe fail path made fully implicit.
+ - 'recovery_timeout' module parameter present under 'CONFIG_DEBUG_INTEL_GNA' flag only.
+ - build for X86_32 enabled.
+ - module initialization through 'module_pci_driver()'.
+ - gna_priv->file_list cleanup.
+ - 'gna_' prefix removed from source files' names.
+ - power management handling added.
+ - number of other/minor fixes
+ - tests performed on kernel v5.12
+
+ v3->v4:
+ - GNA driver adapted to DRM framework (+userspace GNA library adapted to use the driver)
+   - drm_managed (drmm) feature is used for objects lifetime management
+   - GNA memory objects use ~drm_gem_shmem_object~ objects as a base
+ - patches reorganized to meet symbols' usage with their declarations/definitions
+ - 'recovery_timeout' module parameter removed
+ - number of other/minor fixes from v3 review
+ - tests performed on kernel v6.0
+
+Maciej Kwapulinski (4):
+  gna: add PCI driver module
+  gna: add GNA DRM device
+  gna: add GNA_GEM_NEW and GNA_GEM_FREE ioctls
+  gna: add power management
+
+Tomasz Jankowski (6):
+  gna: read hardware info
+  gna: initialize MMU
+  gna: add GNA_GET_PARAMETER ioctl
+  gna: add GNA_COMPUTE ioctl
+  gna: add GNA_WAIT ioctl
+  gna: add open and close operations on GNA device
+
+ Documentation/gpu/drivers.rst     |   1 +
+ Documentation/gpu/gna.rst         |  64 +++++
+ MAINTAINERS                       |   7 +
+ drivers/gpu/drm/Kconfig           |   2 +
+ drivers/gpu/drm/Makefile          |   1 +
+ drivers/gpu/drm/gna/Kbuild        |   5 +
+ drivers/gpu/drm/gna/Kconfig       |  15 +
+ drivers/gpu/drm/gna/gna_device.c  | 317 +++++++++++++++++++++
+ drivers/gpu/drm/gna/gna_device.h  | 114 ++++++++
+ drivers/gpu/drm/gna/gna_gem.h     |  22 ++
+ drivers/gpu/drm/gna/gna_hw.c      | 110 ++++++++
+ drivers/gpu/drm/gna/gna_hw.h      | 107 ++++++++
+ drivers/gpu/drm/gna/gna_ioctl.c   | 208 ++++++++++++++
+ drivers/gpu/drm/gna/gna_mem.c     | 249 +++++++++++++++++
+ drivers/gpu/drm/gna/gna_mem.h     |  58 ++++
+ drivers/gpu/drm/gna/gna_pci.c     | 148 ++++++++++
+ drivers/gpu/drm/gna/gna_pci.h     |  12 +
+ drivers/gpu/drm/gna/gna_request.c | 441 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/gna/gna_request.h |  64 +++++
+ drivers/gpu/drm/gna/gna_score.c   | 222 +++++++++++++++
+ drivers/gpu/drm/gna/gna_score.h   |  11 +
+ include/uapi/drm/gna_drm.h        | 169 ++++++++++++
+ 22 files changed, 2347 insertions(+)
+ create mode 100644 Documentation/gpu/gna.rst
+ create mode 100644 drivers/gpu/drm/gna/Kbuild
+ create mode 100644 drivers/gpu/drm/gna/Kconfig
+ create mode 100644 drivers/gpu/drm/gna/gna_device.c
+ create mode 100644 drivers/gpu/drm/gna/gna_device.h
+ create mode 100644 drivers/gpu/drm/gna/gna_gem.h
+ create mode 100644 drivers/gpu/drm/gna/gna_hw.c
+ create mode 100644 drivers/gpu/drm/gna/gna_hw.h
+ create mode 100644 drivers/gpu/drm/gna/gna_ioctl.c
+ create mode 100644 drivers/gpu/drm/gna/gna_mem.c
+ create mode 100644 drivers/gpu/drm/gna/gna_mem.h
+ create mode 100644 drivers/gpu/drm/gna/gna_pci.c
+ create mode 100644 drivers/gpu/drm/gna/gna_pci.h
+ create mode 100644 drivers/gpu/drm/gna/gna_request.c
+ create mode 100644 drivers/gpu/drm/gna/gna_request.h
+ create mode 100644 drivers/gpu/drm/gna/gna_score.c
+ create mode 100644 drivers/gpu/drm/gna/gna_score.h
+ create mode 100644 include/uapi/drm/gna_drm.h
+
+-- 
+2.25.1
+
+---------------------------------------------------------------------
+Intel Technology Poland sp. z o.o.
+ul. Slowackiego 173 | 80-298 Gdansk | Sad Rejonowy Gdansk Polnoc | VII Wydzial Gospodarczy Krajowego Rejestru Sadowego - KRS 101882 | NIP 957-07-52-316 | Kapital zakladowy 200.000 PLN.
+Spolka oswiadcza, ze posiada status duzego przedsiebiorcy w rozumieniu ustawy z dnia 8 marca 2013 r. o przeciwdzialaniu nadmiernym opoznieniom w transakcjach handlowych.
+
+Ta wiadomosc wraz z zalacznikami jest przeznaczona dla okreslonego adresata i moze zawierac informacje poufne. W razie przypadkowego otrzymania tej wiadomosci, prosimy o powiadomienie nadawcy oraz trwale jej usuniecie; jakiekolwiek przegladanie lub rozpowszechnianie jest zabronione.
+This e-mail and any attachments may contain confidential material for the sole use of the intended recipient(s). If you are not the intended recipient, please contact the sender and delete all copies; any review or distribution by others is strictly prohibited.
+
