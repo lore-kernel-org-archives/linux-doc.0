@@ -2,138 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15E83C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 04:40:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62DEAC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 04:59:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbiJTEkf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 00:40:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56294 "EHLO
+        id S229587AbiJTE7i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 00:59:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229730AbiJTEke (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 00:40:34 -0400
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39F96160EDB;
-        Wed, 19 Oct 2022 21:40:31 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R601e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045168;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=24;SR=0;TI=SMTPD_---0VSdd-XS_1666240825;
-Received: from 30.221.97.125(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VSdd-XS_1666240825)
-          by smtp.aliyun-inc.com;
-          Thu, 20 Oct 2022 12:40:27 +0800
-Message-ID: <6af05838-fa58-8197-f3ce-ca95457077a7@linux.alibaba.com>
-Date:   Thu, 20 Oct 2022 12:40:24 +0800
+        with ESMTP id S229497AbiJTE7h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 00:59:37 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D462D186C0;
+        Wed, 19 Oct 2022 21:59:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666241976; x=1697777976;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ZeManeh8urWZwWabFCHDLXg+rU167WQjv7MnROaoT+c=;
+  b=iZKnrB6Mzh4kRxAmhhdNmiO4mrkgsfbBHx3M2gxMvuErDEoWgkuNc9PB
+   Y5HMaS7+aWNv2biveH5WB2PCnavgiSYkAXX5i7/g46KMF3ZHbLHEe0tib
+   mNLYVzQXL4ewrXj17NiPzPdL0+lx5mWbASnlSOCSUGL69rIEJtFk2G0Bg
+   Z2/NvyEu7z7VJgP9Kl7m1U7t+95eQwRLdNonunwvGe7+XmH5j2/nydEpC
+   zT5VfFQk3HzPs6tIqHMzB6JA3Lcp2VvqLQuIqFs7bprXqy3wifFS4YAjy
+   tqNVBBcNFTPcZA6zf58j3hKaIJDSYAQOCGmOrXuE2Bq4nKr64P3FKUUEM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="293997446"
+X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; 
+   d="scan'208";a="293997446"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2022 21:59:31 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="660690252"
+X-IronPort-AV: E=Sophos;i="5.95,198,1661842800"; 
+   d="scan'208";a="660690252"
+Received: from srnaisha-mobl.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.209.25.189])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2022 21:59:30 -0700
+From:   Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     "H . Peter Anvin" <hpa@zytor.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v15 0/3]] Add TDX Guest Attestation support
+Date:   Wed, 19 Oct 2022 21:58:25 -0700
+Message-Id: <20221020045828.2354731-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH V4 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
-To:     Baoquan He <bhe@redhat.com>
-Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
-        guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
-        bagasdotme@gmail.com, k-hagio-ab@nec.com, lijiang@redhat.com,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
-        hschauhan@nulltrace.org, yixun.lan@gmail.com
-References: <20221019103623.7008-1-xianting.tian@linux.alibaba.com>
- <20221019103623.7008-2-xianting.tian@linux.alibaba.com>
- <Y1CtreAKT/SEh4vN@MiWiFi-R3L-srv>
- <30621b3b-47ba-d612-cfb0-583d779691a3@linux.alibaba.com>
- <Y1C681H2mlxX+zqf@MiWiFi-R3L-srv>
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-In-Reply-To: <Y1C681H2mlxX+zqf@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi All,
 
-在 2022/10/20 上午11:05, Baoquan He 写道:
-> On 10/20/22 at 10:17am, Xianting Tian wrote:
->> 在 2022/10/20 上午10:08, Baoquan He 写道:
->>> On 10/19/22 at 06:36pm, Xianting Tian wrote:
->>>> Add arch_crash_save_vmcoreinfo(), which exports VM layout(MODULES, VMALLOC,
->>>> VMEMMAP ranges and KERNEL_LINK_ADDR), va bits and ram base for vmcore.
->>>>
->>>> Default pagetable levels and PAGE_OFFSET aren't same for different kernel
->>>> version as below. For pagetable levels, it sets sv57 by default and falls
->>>> back to setting sv48 at boot time if sv57 is not supported by the hardware.
->>>>
->>>> For ram base, the default value is 0x80200000 for qemu riscv64 env and,
->>>> for example, is 0x200000 on the XuanTie 910 CPU.
->>>>
->>>>    * Linux Kernel 5.18 ~
->>>>    *      PGTABLE_LEVELS = 5
->>>>    *      PAGE_OFFSET = 0xff60000000000000
->>>>    * Linux Kernel 5.17 ~
->>>>    *      PGTABLE_LEVELS = 4
->>>>    *      PAGE_OFFSET = 0xffffaf8000000000
->>>>    * Linux Kernel 4.19 ~
->>>>    *      PGTABLE_LEVELS = 3
->>>>    *      PAGE_OFFSET = 0xffffffe000000000
->>>>
->>>> Since these configurations change from time to time and version to version,
->>>> it is preferable to export them via vmcoreinfo than to change the crash's
->>>> code frequently, it can simplify the development of crash tool.
->>>>
->>>> Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
->>>> ---
->>>>    arch/riscv/kernel/Makefile     |  1 +
->>>>    arch/riscv/kernel/crash_core.c | 23 +++++++++++++++++++++++
->>>>    2 files changed, 24 insertions(+)
->>>>    create mode 100644 arch/riscv/kernel/crash_core.c
->>>>
->>>> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
->>>> index db6e4b1294ba..4cf303a779ab 100644
->>>> --- a/arch/riscv/kernel/Makefile
->>>> +++ b/arch/riscv/kernel/Makefile
->>>> @@ -81,6 +81,7 @@ obj-$(CONFIG_KGDB)		+= kgdb.o
->>>>    obj-$(CONFIG_KEXEC_CORE)	+= kexec_relocate.o crash_save_regs.o machine_kexec.o
->>>>    obj-$(CONFIG_KEXEC_FILE)	+= elf_kexec.o machine_kexec_file.o
->>>>    obj-$(CONFIG_CRASH_DUMP)	+= crash_dump.o
->>>> +obj-$(CONFIG_CRASH_CORE)	+= crash_core.o
->>>>    obj-$(CONFIG_JUMP_LABEL)	+= jump_label.o
->>>> diff --git a/arch/riscv/kernel/crash_core.c b/arch/riscv/kernel/crash_core.c
->>>> new file mode 100644
->>>> index 000000000000..3e889d0ed7bd
->>>> --- /dev/null
->>>> +++ b/arch/riscv/kernel/crash_core.c
->>>> @@ -0,0 +1,23 @@
->>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>> +
->>>> +#include <linux/crash_core.h>
->>>> +#include <linux/pagemap.h>
->>>> +
->>>> +void arch_crash_save_vmcoreinfo(void)
->>>> +{
->>>> +	VMCOREINFO_NUMBER(VA_BITS);
->>>> +	VMCOREINFO_NUMBER(phys_ram_base);
->>>> +
->>>> +	vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", PAGE_OFFSET);
->>>> +	vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
->>>> +	vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
->>>> +	vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
->>>> +	vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
->>>> +#ifdef CONFIG_64BIT
->>>> +	vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
->>>> +	vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
->>>> +#endif
->>>> +
->>>> +	if (IS_ENABLED(CONFIG_64BIT))
->>>> +		vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", KERNEL_LINK_ADDR);
->>> Wondering why you don't put KERNEL_LINK_ADDR exporting into the above
->>> ifdeffery scope, with that you can save one line of "IS_ENABLED(CONFIG_64BIT)".
->> I followed the rule in print_vm_layout() of arch/riscv/mm/init.c, which used
->> IS_ENABLED when print the value of KERNEL_LINK_ADDR.
->>
-> I see. There's PAGE_OFFSET in the middle. Thanks.
->
->          print_ml("lowmem", (unsigned long)PAGE_OFFSET,
->                  (unsigned long)high_memory)
->
-> So now, do you think if it's necessary to have another
-> IS_ENABLED(CONFIG_64BIT) in the current arch_crash_save_vmcoreinfo()?
+Intel's Trust Domain Extensions (TDX) protect guest VMs from malicious
+hosts and some physical attacks. VM guest with TDX support is called
+as a TDX Guest.
 
-For which MACRO?  I think current code for PAGE_OFFSET is OK.
+In TDX guest, attestation process is used to verify the TDX guest
+trustworthiness to other entities before provisioning secrets to the
+guest. For example, a key server may request for attestation before
+releasing the encryption keys to mount the encrypted rootfs or
+secondary drive.
+
+This patch set adds attestation support for the TDX guest. Details
+about the TDX attestation process and the steps involved are explained
+in Documentation/x86/tdx.rst (added by patch 2/3).
+
+Following are the details of the patch set:
+
+Patch 1/3 -> Preparatory patch for adding attestation support.
+Patch 2/3 -> Adds user interface driver to support attestation.
+Patch 3/3 -> Adds selftest support for TDREPORT feature.
+
+Commit log history is maintained in the individual patches.
+
+Kuppuswamy Sathyanarayanan (3):
+  x86/tdx: Add a wrapper to get TDREPORT from the TDX Module
+  virt: Add TDX guest driver
+  selftests: tdx: Test TDX attestation GetReport support
+
+ Documentation/virt/coco/tdx-guest.rst        |  42 +++++
+ Documentation/virt/index.rst                 |   1 +
+ Documentation/x86/tdx.rst                    |  43 +++++
+ arch/x86/coco/tdx/tdx.c                      |  31 ++++
+ arch/x86/include/asm/tdx.h                   |   2 +
+ drivers/virt/Kconfig                         |   2 +
+ drivers/virt/Makefile                        |   1 +
+ drivers/virt/coco/tdx-guest/Kconfig          |  10 ++
+ drivers/virt/coco/tdx-guest/Makefile         |   2 +
+ drivers/virt/coco/tdx-guest/tdx-guest.c      | 131 ++++++++++++++
+ include/uapi/linux/tdx-guest.h               |  51 ++++++
+ tools/testing/selftests/Makefile             |   1 +
+ tools/testing/selftests/tdx/Makefile         |   7 +
+ tools/testing/selftests/tdx/config           |   1 +
+ tools/testing/selftests/tdx/tdx_guest_test.c | 175 +++++++++++++++++++
+ 15 files changed, 500 insertions(+)
+ create mode 100644 Documentation/virt/coco/tdx-guest.rst
+ create mode 100644 drivers/virt/coco/tdx-guest/Kconfig
+ create mode 100644 drivers/virt/coco/tdx-guest/Makefile
+ create mode 100644 drivers/virt/coco/tdx-guest/tdx-guest.c
+ create mode 100644 include/uapi/linux/tdx-guest.h
+ create mode 100644 tools/testing/selftests/tdx/Makefile
+ create mode 100644 tools/testing/selftests/tdx/config
+ create mode 100644 tools/testing/selftests/tdx/tdx_guest_test.c
+
+-- 
+2.34.1
 
