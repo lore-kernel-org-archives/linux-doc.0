@@ -2,108 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06DA1C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 01:56:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92627C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 02:09:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229683AbiJTB4n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 21:56:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60624 "EHLO
+        id S229803AbiJTCJB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 22:09:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230498AbiJTB4m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 21:56:42 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EF601C20B5;
-        Wed, 19 Oct 2022 18:56:41 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id h185so17895956pgc.10;
-        Wed, 19 Oct 2022 18:56:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mjHLcYUUjhD+PtF02a4WQB8SZ/341O9Yc/tHe2HDPA4=;
-        b=F5RH8irn44aJjAZHV3wVq491Nl7s92REmThxweLm4GWBtRUzg4v9r+EoEy9pAru0P7
-         K7VvXdWGEDeLvfxiTzkCintYU7h5P2mai4DDSLjIp+T5AyHBHOWjosP24juf1HF8Rk4t
-         UM+yTHQzwYjyftCF06T5ggtczDcXdp2FVWjqzKj5GJIgrh7LhA5JavNXMEn0pftwFoRb
-         OHvkJZ6Mbjp00tf9ITgPgMLYkLes3k6viq/jMOnPC4HVAEMwkJ/ccdwLMkvFKwEBfj6S
-         e8SEizAh+V6sGyQAeUOtduJNkqy+QqQfJcUV8AU0DuFpS+N5TO5v+qRRJ3hdVZx5vi37
-         4smA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mjHLcYUUjhD+PtF02a4WQB8SZ/341O9Yc/tHe2HDPA4=;
-        b=6TbbwBFPM3Q3UTCFGKO5Et6MC0K4YSu+YR78R+a52bW1lOtaN9+xQwsgmWhLqUuHiw
-         /7e/+lims/ynxezpaP/ikI01hn3H5Pr9lnsjyj1TtzxKjuwP/aWsMggFS23QL9FI+07e
-         ULKA48QOKLB9TyZCONs2zf233fByHWmlXLVRjKSB/FEdkeVzbeurovNKG2NapX6T6NrQ
-         fAUxKIIAJacbxhUuCoFuhih/aAg/4+k3xozDLzTAFKQf7mMvFZyyURVeYR746RoglR+G
-         Ko7iJ2LFkzQessjD1UrUqMZQP2r0wF1LeNPfWRzVEP0cG2G6Bj/I782j6/4cUVzVZd1s
-         wR+Q==
-X-Gm-Message-State: ACrzQf0PaaYq/SETiJXC+hGZrghwsvGqKaWZagb90sst340zvZb3laPx
-        mqOUuhDhRcqyEqxzu98vefI=
-X-Google-Smtp-Source: AMsMyM4B1uBb8ajk8x/Mn2+V3BSzPBcPMUsMeSaNFcXAAvNysaiNa7XcKIpUbv3aBeb3PaFJ96acJA==
-X-Received: by 2002:a05:6a00:805:b0:563:6e88:896 with SMTP id m5-20020a056a00080500b005636e880896mr11466728pfk.57.1666231000780;
-        Wed, 19 Oct 2022 18:56:40 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-16.three.co.id. [180.214.232.16])
-        by smtp.gmail.com with ESMTPSA id y16-20020a63e250000000b0046aff3ce339sm10455823pgj.23.2022.10.19.18.56.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Oct 2022 18:56:40 -0700 (PDT)
-Message-ID: <26810115-1325-faf2-0f6e-0d7ff164982d@gmail.com>
-Date:   Thu, 20 Oct 2022 08:56:32 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH V4 2/2] Documentation: kdump: describe VMCOREINFO export
- for RISCV64
-Content-Language: en-US
-To:     Xianting Tian <xianting.tian@linux.alibaba.com>,
-        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        with ESMTP id S230327AbiJTCI7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 22:08:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B150515B300
+        for <linux-doc@vger.kernel.org>; Wed, 19 Oct 2022 19:08:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666231738;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Ba5NE9Dt+mVGgzTdquEVzfX/7nF3Hbru1aJHQKnQt9M=;
+        b=VBS2ZEEUwYJmZ4F5skzJTW3/HVClVUwZsLvTeElp1rto2BQ7zVsIquxi2Nx98og5p0nhG+
+        BL1SaHL/OgMkLkZaGmnCD+Uc7uyPUToRZ1i24CqAdhA/AH51zqJOclk3JWdtIw9EOZutEL
+        gKKHAyphNV8aBV7JUEg/OIE+NVixN4c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-220-kT1rBtH6NWe_Eb20E9SHwA-1; Wed, 19 Oct 2022 22:08:51 -0400
+X-MC-Unique: kT1rBtH6NWe_Eb20E9SHwA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1BA121C068C2;
+        Thu, 20 Oct 2022 02:08:51 +0000 (UTC)
+Received: from localhost (ovpn-12-35.pek2.redhat.com [10.72.12.35])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id F0D58140EBF3;
+        Thu, 20 Oct 2022 02:08:48 +0000 (UTC)
+Date:   Thu, 20 Oct 2022 10:08:45 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Xianting Tian <xianting.tian@linux.alibaba.com>
+Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
         aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
         guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
+        alexandre.ghiti@canonical.com, vgoyal@redhat.com,
         dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
-        k-hagio-ab@nec.com, lijiang@redhat.com
-Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        bagasdotme@gmail.com, k-hagio-ab@nec.com, lijiang@redhat.com,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
         crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
         hschauhan@nulltrace.org, yixun.lan@gmail.com
+Subject: Re: [PATCH V4 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
+Message-ID: <Y1CtreAKT/SEh4vN@MiWiFi-R3L-srv>
 References: <20221019103623.7008-1-xianting.tian@linux.alibaba.com>
- <20221019103623.7008-3-xianting.tian@linux.alibaba.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20221019103623.7008-3-xianting.tian@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20221019103623.7008-2-xianting.tian@linux.alibaba.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221019103623.7008-2-xianting.tian@linux.alibaba.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/19/22 17:36, Xianting Tian wrote:
-> The following interrelated definitions and ranges are needed by the kdump
-> crash tool, which are exported by "arch/riscv/kernel/crash_core.c":
->     VA_BITS,
->     PAGE_OFFSET,
->     phys_ram_base,
->     KERNEL_LINK_ADDR,
->     MODULES_VADDR ~ MODULES_END,
->     VMALLOC_START ~ VMALLOC_END,
->     VMEMMAP_START ~ VMEMMAP_END,
+On 10/19/22 at 06:36pm, Xianting Tian wrote:
+> Add arch_crash_save_vmcoreinfo(), which exports VM layout(MODULES, VMALLOC,
+> VMEMMAP ranges and KERNEL_LINK_ADDR), va bits and ram base for vmcore.
 > 
-> Document these RISCV64 exports above.
+> Default pagetable levels and PAGE_OFFSET aren't same for different kernel
+> version as below. For pagetable levels, it sets sv57 by default and falls
+> back to setting sv48 at boot time if sv57 is not supported by the hardware.
+> 
+> For ram base, the default value is 0x80200000 for qemu riscv64 env and,
+> for example, is 0x200000 on the XuanTie 910 CPU.
+> 
+>  * Linux Kernel 5.18 ~
+>  *      PGTABLE_LEVELS = 5
+>  *      PAGE_OFFSET = 0xff60000000000000
+>  * Linux Kernel 5.17 ~
+>  *      PGTABLE_LEVELS = 4
+>  *      PAGE_OFFSET = 0xffffaf8000000000
+>  * Linux Kernel 4.19 ~
+>  *      PGTABLE_LEVELS = 3
+>  *      PAGE_OFFSET = 0xffffffe000000000
+> 
+> Since these configurations change from time to time and version to version,
+> it is preferable to export them via vmcoreinfo than to change the crash's
+> code frequently, it can simplify the development of crash tool.
 > 
 > Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
+> ---
+>  arch/riscv/kernel/Makefile     |  1 +
+>  arch/riscv/kernel/crash_core.c | 23 +++++++++++++++++++++++
+>  2 files changed, 24 insertions(+)
+>  create mode 100644 arch/riscv/kernel/crash_core.c
+> 
+> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+> index db6e4b1294ba..4cf303a779ab 100644
+> --- a/arch/riscv/kernel/Makefile
+> +++ b/arch/riscv/kernel/Makefile
+> @@ -81,6 +81,7 @@ obj-$(CONFIG_KGDB)		+= kgdb.o
+>  obj-$(CONFIG_KEXEC_CORE)	+= kexec_relocate.o crash_save_regs.o machine_kexec.o
+>  obj-$(CONFIG_KEXEC_FILE)	+= elf_kexec.o machine_kexec_file.o
+>  obj-$(CONFIG_CRASH_DUMP)	+= crash_dump.o
+> +obj-$(CONFIG_CRASH_CORE)	+= crash_core.o
+>  
+>  obj-$(CONFIG_JUMP_LABEL)	+= jump_label.o
+>  
+> diff --git a/arch/riscv/kernel/crash_core.c b/arch/riscv/kernel/crash_core.c
+> new file mode 100644
+> index 000000000000..3e889d0ed7bd
+> --- /dev/null
+> +++ b/arch/riscv/kernel/crash_core.c
+> @@ -0,0 +1,23 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <linux/crash_core.h>
+> +#include <linux/pagemap.h>
+> +
+> +void arch_crash_save_vmcoreinfo(void)
+> +{
+> +	VMCOREINFO_NUMBER(VA_BITS);
+> +	VMCOREINFO_NUMBER(phys_ram_base);
+> +
+> +	vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", PAGE_OFFSET);
+> +	vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
+> +	vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
+> +	vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
+> +	vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
+> +#ifdef CONFIG_64BIT
+> +	vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
+> +	vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
+> +#endif
+> +
+> +	if (IS_ENABLED(CONFIG_64BIT))
+> +		vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", KERNEL_LINK_ADDR);
 
-Hi Xianting,
-
-Seems like you forgot to keep carrying my Reviewed-by from v3 [1].
-Anyway, here it goes...
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
-Thanks.
-
-[1]: https://lore.kernel.org/linux-doc/20221018081755.6214-3-xianting.tian@linux.alibaba.com/
-
--- 
-An old man doll... just what I always wanted! - Clara
+Wondering why you don't put KERNEL_LINK_ADDR exporting into the above
+ifdeffery scope, with that you can save one line of "IS_ENABLED(CONFIG_64BIT)".
 
