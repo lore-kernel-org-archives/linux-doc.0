@@ -2,77 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81545C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 14:17:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12E09C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 14:18:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230126AbiJTORd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 10:17:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52766 "EHLO
+        id S229610AbiJTOSm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 10:18:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229997AbiJTORc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 10:17:32 -0400
-Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A4635BC83;
-        Thu, 20 Oct 2022 07:17:30 -0700 (PDT)
-Message-ID: <296210f9-95a7-8935-bb8a-4f5dc0f99096@lirui.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
-        t=1666275448;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=v2/a2A9H+jPByfqm3ebdbhb9+vJ417kQVx5ZVEKwnYc=;
-        b=Ya2eHkVFdlaoVhARMEyGd0rl+n+NynG+7ITzvRUNm8zq6gr7YEoyDpG0C4Ly5jOXu1bfz9
-        AsrLuQSxq0uq3FkTkYrdH+Y6AfGCIVtkdQu/Rna9eqVv/EsXHuRjlOtcf1g0Z8wxYunYpi
-        623obQ1ZoImUVERZkDtTFwPf8F+1zqz7jsq4FigOCFgvRiKGoiESJv5guibBg66pyKDWr5
-        iKCB/mZB42et67Z3uXi6yEuO+4bgiu/+wROhbBen/uIb5Tv51DQwbL/BUAiac+J+9p8PtE
-        8PyH9h2NgnlBlxvq/wVn7FWBrcRvYIK5JxK6IZohVH+SNsaZn3bugaHUTpK/Cg==
-Date:   Thu, 20 Oct 2022 22:17:20 +0800
+        with ESMTP id S229915AbiJTOSk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 10:18:40 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35A3E16A4E1;
+        Thu, 20 Oct 2022 07:18:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=AzH2a4QXGz+eTNIZ5k3/P8jk/sAl3fN5pfERFMiCaGI=; b=jrdaHGMwT8rIg0f5wDQi0KOC+J
+        iQjLh+Ip24wmMVh8GSFzWcelTLoD74kUuoZDjUWuicbHm3GIo8OwU5H9zACRf675jBrD85/5tRA+/
+        FBh0RIiF/4V+e45hHBKpixufUXdsVCfbNBY1uZGTabjE5na/CMoRTZwg3fb9WonaeSaNVSz23BppC
+        v2Qlo7mw2yyHnG552uESl/zWzco2W0a+CLOGERPmVhem6U4y2V1p7OZTmD+i2MBq5AnHPkQ7Bgvzo
+        fQbfYIrl0KuvOfRnD1bVZtTAMzRG7LTLmw8FGczXbcvoNopQPfjWdSNN3vfsOA1JROhVH1WEN2I0f
+        8HnjU3aA==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1olWJ8-0053JC-Nj; Thu, 20 Oct 2022 14:14:03 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E644930045D;
+        Thu, 20 Oct 2022 16:13:56 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id B99432C08F539; Thu, 20 Oct 2022 16:13:56 +0200 (CEST)
+Date:   Thu, 20 Oct 2022 16:13:56 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Yu Zhao <yuzhao@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
+Message-ID: <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net>
+References: <20220815071332.627393-1-yuzhao@google.com>
+ <20220815071332.627393-9-yuzhao@google.com>
+ <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net>
+ <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com>
+ <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/2] docs/zh_CN: Add staging/xz Chinese translation
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>
-Cc:     Wu XiangCheng <wu.xiangcheng@linux.dev>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1666181295.git.me@lirui.org>
- <52f8c1c138d0c2d799c57bba1b7c4cac4c0bf899.1666181295.git.me@lirui.org>
- <804134df-e984-6ebe-6fb2-c52d91974f8b@loongson.cn>
- <63950114-5716-4de6-3c5f-1910c2c628be@lirui.org>
- <87pmembng6.fsf@meer.lwn.net>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Rui Li <me@lirui.org>
-In-Reply-To: <87pmembng6.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Oct 19, 2022 at 10:40:40AM -0700, Linus Torvalds wrote:
 
+> Because as you say, the function is already called "read_atomic", and
+> it should damn well *act* that way then.
 
-On 2022/10/20 22:04, Jonathan Corbet wrote:
-> Rui Li <me@lirui.org> writes:
->
->> Thanks for your reminding. I ran the check patch script before sending
->> this patch.  However, the original file Documentation/staging/xz.rst
->> seems not has SPDX-License-Identifier header.
-> You cannot know what the license of the source file is, since it hasn't
-> been declared there.  What you *do* know, though, is that it must be
-> GPLv2 compatible.  Your translation can thus be strictly GPLv2.  My
-> suggestion in such cases would be to put:
->
-> .. SPDX-License-Identifier: GPL-2.0
->
-> into translations of documents that lack an SPDX line of their own.
->
-> Thanks,
->
-> jon
-Thanks for your advice. I will add the GPLv2 license if the file lacks of license
-declaration.
+So I've been sitting on these here patches (and never having time to
+repost them), which is how I noticed in the first place:
 
--- 
-Rui Li    0x77E6D821D7AE84FE
+  https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/log/?h=x86/mm.pae
+
 
