@@ -2,96 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12E09C433FE
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 14:18:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B320C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 14:32:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbiJTOSm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 10:18:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55024 "EHLO
+        id S229895AbiJTOcw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 10:32:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229915AbiJTOSk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 10:18:40 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35A3E16A4E1;
-        Thu, 20 Oct 2022 07:18:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=AzH2a4QXGz+eTNIZ5k3/P8jk/sAl3fN5pfERFMiCaGI=; b=jrdaHGMwT8rIg0f5wDQi0KOC+J
-        iQjLh+Ip24wmMVh8GSFzWcelTLoD74kUuoZDjUWuicbHm3GIo8OwU5H9zACRf675jBrD85/5tRA+/
-        FBh0RIiF/4V+e45hHBKpixufUXdsVCfbNBY1uZGTabjE5na/CMoRTZwg3fb9WonaeSaNVSz23BppC
-        v2Qlo7mw2yyHnG552uESl/zWzco2W0a+CLOGERPmVhem6U4y2V1p7OZTmD+i2MBq5AnHPkQ7Bgvzo
-        fQbfYIrl0KuvOfRnD1bVZtTAMzRG7LTLmw8FGczXbcvoNopQPfjWdSNN3vfsOA1JROhVH1WEN2I0f
-        8HnjU3aA==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1olWJ8-0053JC-Nj; Thu, 20 Oct 2022 14:14:03 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E644930045D;
-        Thu, 20 Oct 2022 16:13:56 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id B99432C08F539; Thu, 20 Oct 2022 16:13:56 +0200 (CEST)
-Date:   Thu, 20 Oct 2022 16:13:56 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Yu Zhao <yuzhao@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        with ESMTP id S229535AbiJTOcv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 10:32:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D471147061
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 07:32:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 941C861BB8
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 14:32:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72901C433C1;
+        Thu, 20 Oct 2022 14:32:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1666276362;
+        bh=l8mRlTyl0UO/IhFQDUDiO4/SvJneie6Cel0aRrpGM6s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dGI4ZnofU2dmARIN0zCaYY8XtQv9NQ6+q9NIVGIdRY8IJ6BUDR64kRjVxRsOQbqEZ
+         E6GBImv39BbsEWc54f1r/94GgHVdWl94F3OxKIf61hTfmd5ln5A7vYGfROatRSpjTZ
+         tXBp2Fqj/K+vzXbkYGDuWuksr1hm4aYrY2zEnYbI=
+Date:   Thu, 20 Oct 2022 16:32:40 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "Kwapulinski, Maciej" <maciej.kwapulinski@intel.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Arnd Bergmann <arnd@arndb.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
-        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        Holger =?iso-8859-1?Q?Hoffst=E4tte?= 
-        <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
-Message-ID: <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net>
-References: <20220815071332.627393-1-yuzhao@google.com>
- <20220815071332.627393-9-yuzhao@google.com>
- <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net>
- <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com>
- <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Olof Johansson <olof@lixom.net>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+        Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
+        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+        Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Subject: Re: [PATCH v4 01/10] gna: add PCI driver module
+Message-ID: <Y1FcCDhWiQG2p3wW@kroah.com>
+References: <20221020133525.1810728-1-maciej.kwapulinski@intel.com>
+ <20221020133525.1810728-2-maciej.kwapulinski@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
+In-Reply-To: <20221020133525.1810728-2-maciej.kwapulinski@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 19, 2022 at 10:40:40AM -0700, Linus Torvalds wrote:
+On Thu, Oct 20, 2022 at 03:35:16PM +0200, Kwapulinski, Maciej wrote:
+> Ta wiadomosc wraz z zalacznikami jest przeznaczona dla okreslonego adresata i moze zawierac informacje poufne. W razie przypadkowego otrzymania tej wiadomosci, prosimy o powiadomienie nadawcy oraz trwale jej usuniecie; jakiekolwiek przegladanie lub rozpowszechnianie jest zabronione.
+> This e-mail and any attachments may contain confidential material for the sole use of the intended recipient(s). If you are not the intended recipient, please contact the sender and delete all copies; any review or distribution by others is strictly prohibited.
 
-> Because as you say, the function is already called "read_atomic", and
-> it should damn well *act* that way then.
+This ensures that we can not do anything with these patches.
 
-So I've been sitting on these here patches (and never having time to
-repost them), which is how I noticed in the first place:
+Now deleted.
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/log/?h=x86/mm.pae
-
+greg k-h
 
