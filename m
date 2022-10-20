@@ -2,229 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 330CCC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 05:37:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E9DEC433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 06:52:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbiJTFh4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 01:37:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58390 "EHLO
+        id S229604AbiJTGwo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 02:52:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbiJTFhz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 01:37:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5467929C8E;
-        Wed, 19 Oct 2022 22:37:53 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D419F619EC;
-        Thu, 20 Oct 2022 05:37:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9759DC433D6;
-        Thu, 20 Oct 2022 05:37:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1666244272;
-        bh=7qQ3XDyP2adNDj7pP5DtvvhD4V7ZaPBw70AnqPlrap8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VVayT6V0V9cNqBeZJus2oRNv36kxRXRv8EMmwkfPA7Kyj1h6nUgIlWC1DDZdrgNn9
-         5hq+7bSUqg2kVLkLtvEqXLpL05knjDNVZCT79FFQFmOrvaXg0eEe8e+m8SZ982s8Oh
-         Jpf8eOrqecKQLmBJ5FuO99A4dB7mCzjYyuXRwIB4=
-Date:   Thu, 20 Oct 2022 07:38:40 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v15 2/3] virt: Add TDX guest driver
-Message-ID: <Y1De4IyAB6n2qs4V@kroah.com>
-References: <20221020045828.2354731-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20221020045828.2354731-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+        with ESMTP id S229484AbiJTGwn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 02:52:43 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 45A7E112A80;
+        Wed, 19 Oct 2022 23:52:41 -0700 (PDT)
+Received: from loongson.cn (unknown [112.20.109.239])
+        by gateway (Coremail) with SMTP id _____8Dxvrc38FBjivYAAA--.3S3;
+        Thu, 20 Oct 2022 14:52:39 +0800 (CST)
+Received: from [192.168.100.127] (unknown [112.20.109.239])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8AxDuI28FBjWMMBAA--.7300S3;
+        Thu, 20 Oct 2022 14:52:39 +0800 (CST)
+Message-ID: <f5fac251-5112-f0a2-190a-201e0e952671@loongson.cn>
+Date:   Thu, 20 Oct 2022 14:52:38 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221020045828.2354731-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 1/2] docs/zh_CN: Add staging/index Chinese translation
+Content-Language: en-US
+To:     Rui Li <me@lirui.org>, Alex Shi <alexs@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Wu XiangCheng <wu.xiangcheng@linux.dev>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1666181295.git.me@lirui.org>
+ <1c72e7c95d0ad2f01e1787f87c49bba2ab3e899c.1666181295.git.me@lirui.org>
+From:   Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <1c72e7c95d0ad2f01e1787f87c49bba2ab3e899c.1666181295.git.me@lirui.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8AxDuI28FBjWMMBAA--.7300S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7uw4DKFW8ur15uF18Jw17GFg_yoW8urWxpF
+        1kKr97KF1fXw13CryfGF17WF1rCF4xGa18Ga12qwnYqr1DJF40vr1Dtr95KryfJrWfZay8
+        ZF4rKFWj9w4jy3DanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bfAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
+        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+        n4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+        ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E
+        87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+        AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km
+        07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
+        1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWU
+        JVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r
+        1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUv
+        cSsGvfC2KfnxnUUI43ZEXa7IU8hiSPUUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 19, 2022 at 09:58:27PM -0700, Kuppuswamy Sathyanarayanan wrote:
-> +static long tdx_get_report(void __user *argp)
-> +{
-> +	u8 *reportdata, *tdreport;
-> +	struct tdx_report_req req;
-> +	long ret;
-> +
-> +	if (copy_from_user(&req, argp, sizeof(req)))
-> +		return -EFAULT;
-> +
-> +	/*
-> +	 * Per TDX Module 1.0 specification, section titled
-> +	 * "TDG.MR.REPORT", REPORTDATA length is fixed as
-> +	 * TDX_REPORTDATA_LEN, TDREPORT length is fixed as
-> +	 * TDX_REPORT_LEN, and TDREPORT subtype is fixed as 0.
-> +	 */
-> +	if (req.subtype || req.rpd_len != TDX_REPORTDATA_LEN ||
-> +	    req.tdr_len != TDX_REPORT_LEN) {
-> +		pr_err("TDX_CMD_GET_REPORT: invalid req: subtype:%u rpd_len:%u tdr_len:%u\n",
-> +		       req.subtype, req.rpd_len, req.tdr_len);
 
-You are allowing userspace to spam the kernel logs, please do not do
-that.
+On 10/19/22 20:11, Rui Li wrote:
+> Translate the following files into Chinese:
+>
+> - Documentation/staging/index.rst
+>
+> Add it into the menu of zh_CN/index. Also fix one translation
+> in the zh_CN/index file.
+>
+> Signed-off-by: Rui Li <me@lirui.org>
 
-Also, you have a real device here, use it and call dev_*() instead of
-pr_*().  Your code should not have any pr_* calls.
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 
 
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (memchr_inv(req.reserved, 0, sizeof(req.reserved))) {
-> +		pr_err("TDX_CMD_GET_REPORT: Non zero value in reserved field\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	reportdata = kmalloc(req.rpd_len, GFP_KERNEL);
-> +	if (!reportdata)
-> +		return -ENOMEM;
-> +
-> +	tdreport = kzalloc(req.tdr_len, GFP_KERNEL);
-> +	if (!tdreport) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	if (copy_from_user(reportdata, u64_to_user_ptr(req.reportdata),
-> +			   req.rpd_len)) {
-> +		ret = -EFAULT;
-> +		goto out;
-> +	}
-> +
-> +	/* Generate TDREPORT using "TDG.MR.REPORT" TDCALL */
-> +	ret = tdx_mcall_get_report(reportdata, tdreport, req.subtype);
-> +	if (ret) {
-> +		pr_err("TDX_CMD_GET_REPORT: TDCALL failed\n");
-> +		goto out;
-> +	}
-> +
-> +	if (copy_to_user(u64_to_user_ptr(req.tdreport), tdreport, req.tdr_len))
-> +		ret = -EFAULT;
-> +
-> +out:
-> +	kfree(reportdata);
-> +	kfree(tdreport);
-> +
-> +	return ret;
-> +}
-> +
-> +static long tdx_guest_ioctl(struct file *file, unsigned int cmd,
-> +			    unsigned long arg)
-> +{
-> +	switch (cmd) {
-> +	case TDX_CMD_GET_REPORT:
-> +		return tdx_get_report((void __user *)arg);
-> +	default:
-> +		return -ENOTTY;
-> +	}
-> +}
-> +
-> +static const struct file_operations tdx_guest_fops = {
-> +	.owner = THIS_MODULE,
-> +	.unlocked_ioctl = tdx_guest_ioctl,
-> +	.llseek = no_llseek,
-> +};
-> +
-> +static struct miscdevice tdx_misc_dev = {
-> +	.name = KBUILD_MODNAME,
-> +	.minor = MISC_DYNAMIC_MINOR,
-> +	.fops = &tdx_guest_fops,
-> +};
-> +
-> +static int __init tdx_guest_init(void)
-> +{
-> +	if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-> +		return -ENODEV;
-> +
-> +	return misc_register(&tdx_misc_dev);
-> +}
-> +module_init(tdx_guest_init);
-> +
-> +static void __exit tdx_guest_exit(void)
-> +{
-> +	misc_deregister(&tdx_misc_dev);
-> +}
-> +module_exit(tdx_guest_exit);
-> +
-> +#ifdef MODULE
-> +static const struct x86_cpu_id tdx_guest_ids[] = {
-> +	X86_MATCH_FEATURE(X86_FEATURE_TDX_GUEST, NULL),
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(x86cpu, tdx_guest_ids);
-> +#endif
+Thanks,
 
-Why the #ifdef?  Should not be needed, right?
+Yanteng
 
-> +
-> +MODULE_AUTHOR("Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>");
-> +MODULE_DESCRIPTION("TDX Guest Driver");
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/uapi/linux/tdx-guest.h b/include/uapi/linux/tdx-guest.h
+> ---
+> Changes since v1:
+> - Add xz into menu later
+> ---
+>   Documentation/translations/zh_CN/index.rst    |  8 +++----
+>   .../translations/zh_CN/staging/index.rst      | 22 +++++++++++++++++++
+>   2 files changed, 26 insertions(+), 4 deletions(-)
+>   create mode 100644 Documentation/translations/zh_CN/staging/index.rst
+>
+> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+> index ec99ef5fe990..3d07b3149afe 100644
+> --- a/Documentation/translations/zh_CN/index.rst
+> +++ b/Documentation/translations/zh_CN/index.rst
+> @@ -124,13 +124,13 @@ TODOList:
+>   其他文档
+>   --------
+>   
+> -有几份未排序的文档似乎不适合放在文档的其他部分，或者可能需要进行一些调整和/或
+> +有几份未分类的文档似乎不适合放在文档的其他部分，或者可能需要进行一些调整和/或
+>   转换为reStructureText格式，也有可能太旧。
+>   
+> -TODOList:
+> -
+> -* staging/index
+> +.. toctree::
+> +   :maxdepth: 2
+>   
+> +   staging/index
+>   
+>   索引和表格
+>   ----------
+> diff --git a/Documentation/translations/zh_CN/staging/index.rst b/Documentation/translations/zh_CN/staging/index.rst
 > new file mode 100644
-> index 000000000000..fd71774a90ac
+> index 000000000000..e26603892a6f
 > --- /dev/null
-> +++ b/include/uapi/linux/tdx-guest.h
-> @@ -0,0 +1,51 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +#ifndef _UAPI_LINUX_TDX_GUEST_H_
-> +#define _UAPI_LINUX_TDX_GUEST_H_
-
-No Intel copyright notice?  Are you sure you ran this code through
-internal Intel review properly?
-
-{sigh}
-
-
+> +++ b/Documentation/translations/zh_CN/staging/index.rst
+> @@ -0,0 +1,22 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
 > +
-> +#include <linux/ioctl.h>
-> +#include <linux/types.h>
+> +:Original: Documentation/staging/index.rst
 > +
-> +/* Length of the REPORTDATA used in TDG.MR.REPORT TDCALL */
-> +#define TDX_REPORTDATA_LEN              64
+> +:翻译:
 > +
-> +/* Length of TDREPORT used in TDG.MR.REPORT TDCALL */
-> +#define TDX_REPORT_LEN                  1024
+> + 李睿 Rui Li <me@lirui.org>
 > +
-> +/**
-> + * struct tdx_report_req - Get TDREPORT using REPORTDATA as input.
-> + *
-> + * @reportdata: User-defined REPORTDATA to be included into TDREPORT.
-> + *              Typically it can be some nonce provided by attestation
-> + *              service, so the generated TDREPORT can be uniquely verified.
-> + * @tdreport: TDREPORT output from TDCALL[TDG.MR.REPORT].
-> + * @rpd_len: Length of the REPORTDATA (fixed as 64 bytes by the TDX Module
-> + *           specification, but a parameter is added to handle future
-> + *           extension).
-> + * @tdr_len: Length of the TDREPORT (fixed as 1024 bytes by the TDX Module
-> + *           specification, but a parameter is added to accommodate future
-> + *           extension).
-> + * @subtype: Subtype of TDREPORT (fixed as 0 by the TDX Module specification,
-> + *           but added a parameter to handle future extension).
-> + * @reserved: Reserved entries to handle future requirements. Should be
+> +未分类文档
+> +==========
+> +
+> +TODOList:
+> +
+> +* crc32
+> +* lzo
+> +* remoteproc
+> +* rpmsg
+> +* speculation
+> +* static-keys
+> +* tee
+> +* xz
 
-s/Should/Must/
-
-thanks,
-
-greg k-h
