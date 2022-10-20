@@ -2,126 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74301C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 01:52:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06DA1C4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 01:56:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230498AbiJTBwr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 19 Oct 2022 21:52:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50608 "EHLO
+        id S229683AbiJTB4n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 19 Oct 2022 21:56:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230397AbiJTBwq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 21:52:46 -0400
-Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1947E16EA39;
-        Wed, 19 Oct 2022 18:52:43 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R941e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=24;SR=0;TI=SMTPD_---0VScdp8u_1666230756;
-Received: from 30.221.97.125(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VScdp8u_1666230756)
-          by smtp.aliyun-inc.com;
-          Thu, 20 Oct 2022 09:52:38 +0800
-Message-ID: <5fa1f75a-1641-771e-3670-2d8978c99d2a@linux.alibaba.com>
-Date:   Thu, 20 Oct 2022 09:52:36 +0800
+        with ESMTP id S230498AbiJTB4m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Oct 2022 21:56:42 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EF601C20B5;
+        Wed, 19 Oct 2022 18:56:41 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id h185so17895956pgc.10;
+        Wed, 19 Oct 2022 18:56:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mjHLcYUUjhD+PtF02a4WQB8SZ/341O9Yc/tHe2HDPA4=;
+        b=F5RH8irn44aJjAZHV3wVq491Nl7s92REmThxweLm4GWBtRUzg4v9r+EoEy9pAru0P7
+         K7VvXdWGEDeLvfxiTzkCintYU7h5P2mai4DDSLjIp+T5AyHBHOWjosP24juf1HF8Rk4t
+         UM+yTHQzwYjyftCF06T5ggtczDcXdp2FVWjqzKj5GJIgrh7LhA5JavNXMEn0pftwFoRb
+         OHvkJZ6Mbjp00tf9ITgPgMLYkLes3k6viq/jMOnPC4HVAEMwkJ/ccdwLMkvFKwEBfj6S
+         e8SEizAh+V6sGyQAeUOtduJNkqy+QqQfJcUV8AU0DuFpS+N5TO5v+qRRJ3hdVZx5vi37
+         4smA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mjHLcYUUjhD+PtF02a4WQB8SZ/341O9Yc/tHe2HDPA4=;
+        b=6TbbwBFPM3Q3UTCFGKO5Et6MC0K4YSu+YR78R+a52bW1lOtaN9+xQwsgmWhLqUuHiw
+         /7e/+lims/ynxezpaP/ikI01hn3H5Pr9lnsjyj1TtzxKjuwP/aWsMggFS23QL9FI+07e
+         ULKA48QOKLB9TyZCONs2zf233fByHWmlXLVRjKSB/FEdkeVzbeurovNKG2NapX6T6NrQ
+         fAUxKIIAJacbxhUuCoFuhih/aAg/4+k3xozDLzTAFKQf7mMvFZyyURVeYR746RoglR+G
+         Ko7iJ2LFkzQessjD1UrUqMZQP2r0wF1LeNPfWRzVEP0cG2G6Bj/I782j6/4cUVzVZd1s
+         wR+Q==
+X-Gm-Message-State: ACrzQf0PaaYq/SETiJXC+hGZrghwsvGqKaWZagb90sst340zvZb3laPx
+        mqOUuhDhRcqyEqxzu98vefI=
+X-Google-Smtp-Source: AMsMyM4B1uBb8ajk8x/Mn2+V3BSzPBcPMUsMeSaNFcXAAvNysaiNa7XcKIpUbv3aBeb3PaFJ96acJA==
+X-Received: by 2002:a05:6a00:805:b0:563:6e88:896 with SMTP id m5-20020a056a00080500b005636e880896mr11466728pfk.57.1666231000780;
+        Wed, 19 Oct 2022 18:56:40 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-16.three.co.id. [180.214.232.16])
+        by smtp.gmail.com with ESMTPSA id y16-20020a63e250000000b0046aff3ce339sm10455823pgj.23.2022.10.19.18.56.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Oct 2022 18:56:40 -0700 (PDT)
+Message-ID: <26810115-1325-faf2-0f6e-0d7ff164982d@gmail.com>
+Date:   Thu, 20 Oct 2022 08:56:32 +0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH V3 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
-To:     =?UTF-8?B?SEFHSU8gS0FaVUhJVE8o6JCp5bC+IOS4gOS7gSk=?= 
-        <k-hagio-ab@nec.com>, Baoquan He <bhe@redhat.com>,
-        lijiang <lijiang@redhat.com>
-Cc:     "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-        "palmer@dabbelt.com" <palmer@dabbelt.com>,
-        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-        "anup@brainfault.org" <anup@brainfault.org>,
-        "heiko@sntech.de" <heiko@sntech.de>,
-        "guoren@kernel.org" <guoren@kernel.org>,
-        "mick@ics.forth.gr" <mick@ics.forth.gr>,
-        "alexandre.ghiti@canonical.com" <alexandre.ghiti@canonical.com>,
-        "vgoyal@redhat.com" <vgoyal@redhat.com>,
-        "dyoung@redhat.com" <dyoung@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "Conor.Dooley@microchip.com" <Conor.Dooley@microchip.com>,
-        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "crash-utility@redhat.com" <crash-utility@redhat.com>,
-        "heinrich.schuchardt@canonical.com" 
-        <heinrich.schuchardt@canonical.com>,
-        "hschauhan@nulltrace.org" <hschauhan@nulltrace.org>,
-        "yixun.lan@gmail.com" <yixun.lan@gmail.com>
-References: <20221018081755.6214-1-xianting.tian@linux.alibaba.com>
- <20221018081755.6214-2-xianting.tian@linux.alibaba.com>
- <Y05tfxRenMs5d+bt@MiWiFi-R3L-srv>
- <049ec19e-60c3-2854-5f5e-9850231108b4@linux.alibaba.com>
- <Y05540td7lLz+0BY@MiWiFi-R3L-srv>
- <a66a5b16-5f1f-3d80-3cdc-4b82d38d604f@linux.alibaba.com>
- <0f0a77a9-c824-8aa4-77de-a75c2139d791@nec.com>
- <811bdf09-be38-ce2a-a1d3-ada9f7c85b97@linux.alibaba.com>
- <52023285-172a-97cc-bad4-4ab4e709885c@nec.com>
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-In-Reply-To: <52023285-172a-97cc-bad4-4ab4e709885c@nec.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH V4 2/2] Documentation: kdump: describe VMCOREINFO export
+ for RISCV64
+Content-Language: en-US
+To:     Xianting Tian <xianting.tian@linux.alibaba.com>,
+        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
+        guoren@kernel.org, mick@ics.forth.gr,
+        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
+        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
+        k-hagio-ab@nec.com, lijiang@redhat.com
+Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
+        hschauhan@nulltrace.org, yixun.lan@gmail.com
+References: <20221019103623.7008-1-xianting.tian@linux.alibaba.com>
+ <20221019103623.7008-3-xianting.tian@linux.alibaba.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20221019103623.7008-3-xianting.tian@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 10/19/22 17:36, Xianting Tian wrote:
+> The following interrelated definitions and ranges are needed by the kdump
+> crash tool, which are exported by "arch/riscv/kernel/crash_core.c":
+>     VA_BITS,
+>     PAGE_OFFSET,
+>     phys_ram_base,
+>     KERNEL_LINK_ADDR,
+>     MODULES_VADDR ~ MODULES_END,
+>     VMALLOC_START ~ VMALLOC_END,
+>     VMEMMAP_START ~ VMEMMAP_END,
+> 
+> Document these RISCV64 exports above.
+> 
+> Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
 
-在 2022/10/20 上午9:35, HAGIO KAZUHITO(萩尾 一仁) 写道:
-> On 2022/10/19 12:17, Xianting Tian wrote:
->
->>>>>>>> +    if (IS_ENABLED(CONFIG_64BIT)) {
->>>>>>>> +#ifdef CONFIG_KASAN
->>>>>>>> +        vmcoreinfo_append_str("NUMBER(KASAN_SHADOW_START)=0x%lx\n", KASAN_SHADOW_START);
->>>>>>>> +        vmcoreinfo_append_str("NUMBER(KASAN_SHADOW_END)=0x%lx\n", KASAN_SHADOW_END);
->>>>>>>> +#endif
->>>>>>>> +        vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", KERNEL_LINK_ADDR);
->>>>>>>> +        vmcoreinfo_append_str("NUMBER(ADDRESS_SPACE_END)=0x%lx\n", ADDRESS_SPACE_END);
->>>>>>> Seems this is the firsr ARCH where kasan and kernel link/bpf space are
->>>>>>> added to dump and analyze. Just curious, have you got code change to
->>>>>>> make use of them to do dumping and analyze?
->>>>>> KASAN_SHADOW_START is not used, KERNEL_LINK_ADDR is used in the crash patch set:
->>>>>> https://patchwork.kernel.org/project/linux-riscv/cover/20220813031753.3097720-1-xianting.tian@linux.alibaba.com/
->>>>> Oh, I would say please no. Sometime we got tons of objection when adding an
->>>>> necessary one, we definitely should not add one for possible future
->>>>> use.
->>>>>
->>>>> For this kind of newly added one, we need get ack from
->>>>> makedumpfile/crash utility maintainer so that we know they are necessary
->>>>> to have. At least they don't oppose.
->>>> Hi Kazu, Li Jiang
->>>>
->>>> Could you help comment whether we need KASAN_SHADOW_START and KERNEL_LINK_ADDR area export for vmcore from crash point of view？
->>>>
->>>> In my crash patch set, I don't use KASAN_SHADOW_START,
->>>> And only get the value of KERNEL_LINK_ADDR, not realy use it.
->>>> https://patchwork.kernel.org/project/linux-riscv/cover/20220813031753.3097720-1-xianting.tian@linux.alibaba.com/
->>> In your crash patch set, KERNEL_LINK_ADDR is used in VTOP() and looks
->>> necessary to me.
->>>
->>> The others (KASAN_SHADOW_START, KASAN_SHADOW_END and ADDRESS_SPACE_END)
->>> are not currently used.  It may be better to add them when they are
->>> really used.
->> I am very sorry, I missed it , KERNEL_LINK_ADDR is used indeed.
->>
->> KASAN_SHADOW_START is not used, so I don't need to send crash patch set> again. only need to remove KASAN_SHADOW_END in kernel patch set.
-> I see that your v4 kernel patch set does not have ADDRESS_SPACE_END,
-> so it seems there would be need to change this part and related ones
-> at crash side.
->
->           if ((string = pc->read_vmcoreinfo("NUMBER(ADDRESS_SPACE_END)"))) {
->                   ms->address_space_end = htol(string, QUIET, NULL);
->                   free(string);
->           } else
->                   goto error;
-> ...
-> error:
->           error(FATAL, "cannot get vm layout\n");
+Hi Xianting,
 
-thanks,
+Seems like you forgot to keep carrying my Reviewed-by from v3 [1].
+Anyway, here it goes...
 
-I just send V4 of crash patch set, the issue is also fixed in V4.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
->
-> Thanks,
-> Kazu
+Thanks.
+
+[1]: https://lore.kernel.org/linux-doc/20221018081755.6214-3-xianting.tian@linux.alibaba.com/
+
+-- 
+An old man doll... just what I always wanted! - Clara
+
