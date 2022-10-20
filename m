@@ -2,233 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57519C4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 21:52:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B8B3C43217
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 21:54:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbiJTVwF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 17:52:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51094 "EHLO
+        id S229726AbiJTVy3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 17:54:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230033AbiJTVwE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 17:52:04 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E70E41A7A1A;
-        Thu, 20 Oct 2022 14:52:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666302723; x=1697838723;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=Jlzp7yT9m5pst0yVMNv830N7wlmV/berVd97PM4GZVQ=;
-  b=avqZPz0QcY9oH1492i3myxxxluMLzeF8eCfP1aC6nSQ1sPWH0mgQ4PLC
-   IuJK7TRrrLjjsQnL1b9FR2vAonvO95NJOYIH9xA+pZjXQer54K6LCqSmP
-   1gchUmAWsFybJaqb5LIW43hp0iLHKSr8fRHSVc3tDldsMYz5dJuiY2abu
-   QLWSxwnp+rFFcDUBMGGtuV3zXJJJiqDWUXVYmtejaMkhAAqNP4DWCNFzE
-   Ts/jLULKzPRCn8QCFTZU9VMk+GX9BqdBHbVLbfMX8w6cNBhxcN9K8iqX6
-   w2BRUaOOY4K8cwAxAPqpn7OmHnWQF/ky+bwgdpgPaHMcvk5DgtZRtWTqi
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="305582629"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; 
-   d="scan'208";a="305582629"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2022 14:51:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="632516150"
-X-IronPort-AV: E=Sophos;i="5.95,199,1661842800"; 
-   d="scan'208";a="632516150"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Oct 2022 14:51:59 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 20 Oct 2022 14:51:59 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 20 Oct 2022 14:51:58 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 20 Oct 2022 14:51:58 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.171)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 20 Oct 2022 14:51:58 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dvL8nLHZb3fXEfZdzC0zqJTQuU6m0xll9Hljt/wzjx0Ev6vatH2pk2vVCzzqyotRCmFq7IpoR8TQYiQJzN99uChaZy4vX3EjxW7hrQL1Xj9EmXrH3upsV3ltXjFbqOle2YId/LC/jegvvAqMC9YrHB7wHm6B3B+uD3h3fQMEIiIzK1vYDIYAf/rhHPBqVk8lkfF8KLsm+WlKLICUEJN/USdpuzxUahDcjYVq/m893qGvMl3OgAoLnMC9cDzjJu4bQFxCfifxhX2vFySRDjdCsXhZQddxph0HTnTnBJ3MeAh9rq79CZuEm0kCn9WimcpgJOVLMmbXLLV7Nnd43hKBfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jlzp7yT9m5pst0yVMNv830N7wlmV/berVd97PM4GZVQ=;
- b=LkMboP2+xPWzQvNFVrVd7vRgjn9xH57M87LOwy9tTIdwPYPTjJqfSyjWfRXTBtlz7r780CIm77RtPdwlPF41KusUW3QiTi7EIbv7BNk0A8UOMwgD8VPpJ/l5jj+5sooLkZexRKfwFrDSru7wXIGKlyPkHuIugqZl3KSmxfCaom8iv+iiyoH9RynWVPj0QTa6BgPQLOU0yrULiTK7pQXI2+R2pKLFPgPFDgBQlBYcixrdRK8E+61xP+Shm8MH1vNCFpUU8f3QYJcspGF9HZnuzUua1UeqiHueJtQqFwXPWCBAnMY4PE0aObmoD0LpogqGM1XuA0bkG9Z4KJ7wTHpsWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com (2603:10b6:300:24::14)
- by PH0PR11MB5928.namprd11.prod.outlook.com (2603:10b6:510:144::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.32; Thu, 20 Oct
- 2022 21:51:56 +0000
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::99f8:3b5c:33c9:359a]) by MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::99f8:3b5c:33c9:359a%4]) with mapi id 15.20.5723.034; Thu, 20 Oct 2022
- 21:51:55 +0000
-From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-CC:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Subject: Re: [PATCH v2 26/39] x86/cet/shstk: Introduce routines modifying
- shstk
-Thread-Topic: [PATCH v2 26/39] x86/cet/shstk: Introduce routines modifying
- shstk
-Thread-Index: AQHY1FMi0mGJj2nvSk6XePU1fP3/w63/H8cAgAFQYoCAAAMLgIAXgHsA
-Date:   Thu, 20 Oct 2022 21:51:55 +0000
-Message-ID: <1d9c6497405eb66f687f7f640b33f5c61e62b83a.camel@intel.com>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
-         <20220929222936.14584-27-rick.p.edgecombe@intel.com>
-         <052e3e8c-0bb0-fd2d-9f67-08801a72261c@citrix.com>
-         <fe5d52cebe4aaca0234856f789b3153f202eb9cf.camel@intel.com>
-         <8031fb5f-ca53-d89e-1e29-262514552708@citrix.com>
-In-Reply-To: <8031fb5f-ca53-d89e-1e29-262514552708@citrix.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MWHPR11MB1392:EE_|PH0PR11MB5928:EE_
-x-ms-office365-filtering-correlation-id: 13c68b75-87fb-4d72-54e7-08dab2e54e48
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: WLB9g5BDHsuD3ftwKOx8twMDnNf1R30HoZ0pihuD+n0pQRjJqBsBA52zjVgyR7bX0CZYN5Eat3tCS1pw20dtMxrtZzZBDlc7gtC/8xgmodfTuBQtiMz83AAi58/H0EJV44K7oWndqcsUMtnMyhdgns6p0iB9fXbYOBhK7byhQgepMccYionAcIEG1ISe4WrjgqwW1m9kpTI1Gb4PYsegpBBVoIkj6+V5yYFLbyW3/FeNVN4avuY/nquC8EYdHAXLmfRTbW8BtrWGDn5ZIJxOXwPqkttqqo+G6QOyJjM/cob8fberP+CCT6iLah/6rDjBWjeL71yeqaTOVJ5Fl+MpFlBj9Xse44ZTAFPtiX5i6Fp4S2UHJYTYP8I6Z5HwK8teUAqcfR+qdAPCl+tnllgX6naurRN6iXrxjbynG8Y+cQsX9hg49U+WkpbNLKjBNy3Ze55EQn/6ZQqdq5EAd0v6FihRYndpc/IX5i0KCHcCtXIar1TqJyN7ieCUGxKtswCBsumiV5ChyF0dTq/CyCCtovsoRRuuRHFcmbJv9+Eo7F5hFAPCcKPE0/CDc8Pwe+wtfKAajx0Q04XRvmbH+Ktkm2QEmNrMD9scetxREpudhkPrNTonuLi70gMMa3sXsEjRdzM3s77O66r4T2bxZHRXkXmQouEF2O7EQA6uVxnWaCUk+p1THtQb9UElklTadozsWjfb/BKznOIVA09CANF5XARPwUP3KeotYP6OqT84alXIszIAA/2bkWz6vUjRp5hGFCcOR0608lb1bjOAYAz0pgJ4JpXEIYDu0QgPJ6MFcfL+k9NY+HaB7eSqI/bwK7odZedaaO+DLtsKX/mfw3h6Wg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(366004)(39860400002)(346002)(396003)(376002)(136003)(451199015)(53546011)(6506007)(82960400001)(4326008)(5660300002)(8676002)(91956017)(76116006)(8936002)(66946007)(66476007)(66556008)(64756008)(66446008)(38100700002)(86362001)(2906002)(122000001)(110136005)(6512007)(2616005)(316002)(36756003)(26005)(186003)(478600001)(921005)(7406005)(7416002)(71200400001)(41300700001)(6486002)(38070700005)(99106002)(17423001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MVR5UEpTeDlvUDZsRVNnZTZmSFFrQWJMVThwYkJSV0RpNFpLNlNLQ1RNK00r?=
- =?utf-8?B?d1F4MlZWVU9aRnRIL0UzTXhhdVM4SURKWDB6L0tZNWYvK1VXMEc4cTNYeWJo?=
- =?utf-8?B?ZGxOdW00VlQxWThUMERyMG9TeldYL21zQ3UraGFxNEJ0NVZNMGMzQmlqazVO?=
- =?utf-8?B?OXJPcDNQUU54VUgrUVhkajhSNEZ0ejZwa3huSHhmNGJJTkdpYjhpc0pXYmMy?=
- =?utf-8?B?VmFVVkdidWtPVnN4SEZ0aGpQSzVtVDBxYkZzckp1eDdLSkViVHc0czRKS212?=
- =?utf-8?B?Z1ptY1lQb29FdEltclJMMytweE02cUhidU1OaitJOHhZdlRheFZaMkZSMnhx?=
- =?utf-8?B?cm5LMUpFS3pZUXA1RXV6VC9iZVBmbElIUkJVKzhFWGxPRU1qQXdjY1dPcFRB?=
- =?utf-8?B?OVVaWDhzS0tsR1VwcjVlSVFwQjZQWTVpYlE4ZFlEa1lVQk0wU0dtVXQ0ak9s?=
- =?utf-8?B?NmpCUkQ1bkxPY2J4ckE5UWNsOWNjZWVta2JRRFp2cnZFa0lTZUJoOGNpQTNz?=
- =?utf-8?B?dkpPTlNpTXJEOTd6TDZBdXhpSERQcWJZWXBPWlJiMzBZT0NrM2NZcXc4TGtS?=
- =?utf-8?B?MXp6c0hTTlNGbm9CeWN5b3AvTEhYaURPRGNiUUwrSlhjcENFMTQvQ0xYKzVj?=
- =?utf-8?B?azFOUXlTY09rZHlSY3lPUFFrSCt0c1hFTVA3SEpFeEI3VXNYekhMWkVoNkJv?=
- =?utf-8?B?QzgwNHQ4ZllYQ2tpMDJpMm5XdnpOeDJhdnRwcUJuN1doRGhVVm43RksxWmRo?=
- =?utf-8?B?TVR6Tnl5NlJrSlcvblhqMzJ4NlZYUERrOUd5RGN0Y0xheDVqd3oyMG12SnYr?=
- =?utf-8?B?VHB1WnFpeEkyNU9hZjc3TTM0L2dRbUYxMHJoOHRhSDhiVDZ4THYrRzMxY3Nj?=
- =?utf-8?B?d09XMXhraXZjVHlOMDhWeVJGVzVjWnRLSW5mU0N3SUNLTU1zQmdmajFSN2hY?=
- =?utf-8?B?UDZqUzJMWVY2dlhOYkg4MmM4bGNXMTRqNS9UNUdmWm9McXp1cFhaYU9vR3BF?=
- =?utf-8?B?OHprblRGbG44b0JURWNYZjY2YzNlRUtYUm02SDZnUjIxQjNkRm84VmQxaTBM?=
- =?utf-8?B?NEFWZENkUE8rLzdrc0p6UURUWDhjbzZLaXZ5REJyWUxXNCtKcnN3YlFwajVC?=
- =?utf-8?B?YVBQOTRHMmUzVk5XYldMZjVyT1l5dEc5TlhNM3NtT3UwRXFtaENtV1lFUVk3?=
- =?utf-8?B?aDRNMUZWTlpwdGpKMnNHWkhYaGtWWTVHaUhSVzZ5dEVYRTh2VFJjZUxubVBo?=
- =?utf-8?B?Z2s2dUpHRHhWK0lkdVZmV2g5VnNMMWpvaXZNQmtKRitKMmZYTnR0Mzh1eHQw?=
- =?utf-8?B?L2tSY3NmMmwremh2RmF4SC9JU25MazBCZEVSZi95ZnNzNFVORjUxdEx5VDNJ?=
- =?utf-8?B?SDVnUU5iUGtUYkR5cm9uQ2dqYWc1RDBsL2pSVkxxZGt6RzlFYUdPZURrbWJj?=
- =?utf-8?B?UmN3UWFSNU9va3hYS0JuWVRub0JJaXF6QVROK3dHUnJra1VLQzIyRDcvempT?=
- =?utf-8?B?c29VUXphTFE0Zm5XVUg4azhYYk9qaG1kOXNLNitqN3I3KzdJOGc0bFAyNlNy?=
- =?utf-8?B?TVNINEh6MHZHRjlVNWYyemdONTlmelRwTngyamJMTk9wdmt0WktmRmtqU3Ur?=
- =?utf-8?B?UEg2ckhlMHBTTkZpeDlJZXFKR3RkK1l2WXF4M0d5OUkzM1ZnR1VJcnJLLzVN?=
- =?utf-8?B?dlNTMHlDejJxNjlacndFMXoxbjZWazdEMzNLUmswWUVDcEp0anE2WDB3SG9I?=
- =?utf-8?B?MFJpaytkMm5FUXZlc0JVbXRDVVVhdHBOeGlyM2FyUFpMMm1xYTRUbW1DcTRv?=
- =?utf-8?B?eFZaUm9Ka1VheDIwczVPZzdlOHZnaDVBYnhXQ3Y2eUNFdk9KS25MRnpFdzZQ?=
- =?utf-8?B?Tk1BSUgvblpTaE9BM2dnV0pBOHc2dE0vYUx1RmV1Q0xpM29QTFh5TmRXV2hi?=
- =?utf-8?B?eklkOUE3OGtKQmwxc3A3UGxQV05NbW5Xa1lEZE9hcDdsOWpPbDgrYzk2ckp5?=
- =?utf-8?B?NUkzRys5TlJFQzZ4NlZESHpZT2haa0U4bjl6UHNVRTc0eHRXalV1TFBvWFJI?=
- =?utf-8?B?MzRPSUdBOERWK0xLZkxrUVhyMDRlWWlsbHU4dG1SRXZYYXI2WmxmMDhqaW1Y?=
- =?utf-8?B?Q09KTU9BS0FWOTFGM2d2ZkQzSFl5ZnBQU2JkSGFjQkt5dXdYTDNkbGNEK1g5?=
- =?utf-8?Q?JVrK1yYwKNN3F81vOOwZy9o=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AF36AFF72190924BA5C0B72182EBFB6E@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S229576AbiJTVy2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 17:54:28 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F596438;
+        Thu, 20 Oct 2022 14:54:21 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id a18so924518qko.0;
+        Thu, 20 Oct 2022 14:54:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XJV3aFcijl0Rz0XlRnZF5dclSHM+OiKYXagTECOXWUs=;
+        b=mhSDba1z9+BM+IWhMevt2Zop1ZxgI5vtmX5lEIxyybt5IFnrl63bEj9L06UWGe4Qyj
+         Xh/VFcCdOIlTEXPIAuLMElK/9X2NLL8Xzxgxx0JErorvkGNAIpD6am2MMcie+7j5b5vO
+         f1MRedrX5cqtmrOkuu8sxdcuN0Hwe6AP38s1kkny9SdIMjdyEfTXrbkZ6bO8KyxtESCx
+         Mkt9SAKXBXsE89tXA+vISzKSht45tmKyLvFcnC2QPmatgyY3BBRkC/Fc+BNFns+IuIDL
+         f3NjTc8DIXlDssWaLdR05AHBxi1y/lzgM+XYwxZOBTzai43oKzRsI7ysCjgZ6PHgXyRN
+         rT2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XJV3aFcijl0Rz0XlRnZF5dclSHM+OiKYXagTECOXWUs=;
+        b=pjCUd8U4AsJ6E2akOt5hGNNNTOQcCQIczpckBC0VrzwKC0rgjqrdQk7zAzIO5PRNqZ
+         CJe8X4FHeHqT6LLL5P9UEjmRBFxWhVeAidoIL/hB7DYkGTOzbSNP/ZpyG6S2ss/J1c+a
+         PIHGb0oQ8I1AKTqn6QswFNU7/uQYxckVmJGQ2iWju3B1ALlq3fRSGSEHyjKN1cixb6od
+         e/Sk/iM16Hg4D3ynBFQZp4zIhcp+wC1zmq1VxYBvjk7zQXaTg3q0iEJEntvmy8U/Twwz
+         P+FbEy6Wt4aaccezy1hDbI9AkRCVJucg8b3r+8E3hKhFqCV7jMcH8DQEfHMYfVoo1IGp
+         0DfA==
+X-Gm-Message-State: ACrzQf3NuhvHoeQH4MMUWGm+7fUKKeehmkf+T48WnMV9XaT41o7wmYOO
+        5subbbPsrD3qCOZvkEZyQC8=
+X-Google-Smtp-Source: AMsMyM7xID6F9ahsV93JiJpkQl+rEA4HCAjdi0ex+QQUchYb7mrjkbkktbo/sbZ+jGyVQLZZ2jhgBQ==
+X-Received: by 2002:a05:620a:2697:b0:6cf:33cd:2bd2 with SMTP id c23-20020a05620a269700b006cf33cd2bd2mr11114790qkp.341.1666302861044;
+        Thu, 20 Oct 2022 14:54:21 -0700 (PDT)
+Received: from stbirv-lnx-3.igp.broadcom.net ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id bj41-20020a05620a192900b006bb29d932e1sm8121067qkb.105.2022.10.20.14.54.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Oct 2022 14:54:20 -0700 (PDT)
+From:   Doug Berger <opendmb@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@suse.com>,
+        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, Doug Berger <opendmb@gmail.com>
+Subject: [PATCH v3 0/9] mm: introduce Designated Movable Blocks
+Date:   Thu, 20 Oct 2022 14:53:09 -0700
+Message-Id: <20221020215318.4193269-1-opendmb@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13c68b75-87fb-4d72-54e7-08dab2e54e48
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2022 21:51:55.6808
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bUcgU5jY1kyfOrUgX5AcT3a5+xU1IbWpT/6FGQtWC7D3FTy+2orVkagwhqEIt9kabK0cnCFjaQ8Yq/dW5Hwfm0QhrX4/dB9liD/IQEFAxfc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5928
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gV2VkLCAyMDIyLTEwLTA1IGF0IDIyOjU4ICswMDAwLCBBbmRyZXcgQ29vcGVyIHdyb3RlOg0K
-PiBPbiAwNS8xMC8yMDIyIDIzOjQ3LCBFZGdlY29tYmUsIFJpY2sgUCB3cm90ZToNCj4gPiBPbiBX
-ZWQsIDIwMjItMTAtMDUgYXQgMDI6NDMgKzAwMDAsIEFuZHJldyBDb29wZXIgd3JvdGU6DQo+ID4g
-PiBPbiAyOS8wOS8yMDIyIDIzOjI5LCBSaWNrIEVkZ2Vjb21iZSB3cm90ZToNCj4gPiA+ID4gZGlm
-ZiAtLWdpdCBhL2FyY2gveDg2L2luY2x1ZGUvYXNtL3NwZWNpYWxfaW5zbnMuaA0KPiA+ID4gPiBi
-L2FyY2gveDg2L2luY2x1ZGUvYXNtL3NwZWNpYWxfaW5zbnMuaA0KPiA+ID4gPiBpbmRleCAzNWY3
-MDlmNjE5ZmIuLmYwOTZmNTJiZDA1OSAxMDA2NDQNCj4gPiA+ID4gLS0tIGEvYXJjaC94ODYvaW5j
-bHVkZS9hc20vc3BlY2lhbF9pbnNucy5oDQo+ID4gPiA+ICsrKyBiL2FyY2gveDg2L2luY2x1ZGUv
-YXNtL3NwZWNpYWxfaW5zbnMuaA0KPiA+ID4gPiBAQCAtMjIzLDYgKzIyMywxOSBAQCBzdGF0aWMg
-aW5saW5lIHZvaWQgY2x3Yih2b2xhdGlsZSB2b2lkDQo+ID4gPiA+ICpfX3ApDQo+ID4gPiA+ICAg
-ICAgICAgICAgICAgICA6IFtwYXhdICJhIiAocCkpOw0KPiA+ID4gPiAgICB9DQo+ID4gPiA+ICAg
-IA0KPiA+ID4gPiArI2lmZGVmIENPTkZJR19YODZfU0hBRE9XX1NUQUNLDQo+ID4gPiA+ICtzdGF0
-aWMgaW5saW5lIGludCB3cml0ZV91c2VyX3Noc3RrXzY0KHU2NCBfX3VzZXIgKmFkZHIsIHU2NA0K
-PiA+ID4gPiB2YWwpDQo+ID4gPiA+ICt7DQo+ID4gPiA+ICsgICAgIGFzbV92b2xhdGlsZV9nb3Rv
-KCIxOiB3cnVzc3EgJVt2YWxdLCAoJVthZGRyXSlcbiINCj4gPiA+ID4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgX0FTTV9FWFRBQkxFKDFiLCAlbFtmYWlsXSkNCj4gPiA+ID4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgOjogW2FkZHJdICJyIiAoYWRkciksIFt2YWxdICJyIiAodmFsKQ0KPiA+ID4g
-PiArICAgICAgICAgICAgICAgICAgICAgICA6OiBmYWlsKTsNCj4gPiA+IA0KPiA+ID4gIjE6IHdy
-c3NxICVbdmFsXSwgJVthZGRyXVxuIg0KPiA+ID4gX0FTTV9FWFRBQkxFKDFiLCAlbFtmYWlsXSkN
-Cj4gPiA+IDogW2FkZHJdICIrbSIgKCphZGRyKQ0KPiA+ID4gOiBbdmFsXSAiciIgKHZhbCkNCj4g
-PiA+IDo6IGZhaWwNCj4gPiA+IA0KPiA+ID4gT3RoZXJ3aXNlIHlvdSd2ZSBmYWlsZWQgdG8gdGVs
-bCB0aGUgY29tcGlsZXIgdGhhdCB5b3Ugd3JvdGUgdG8NCj4gPiA+ICphZGRyLg0KPiA+ID4gDQo+
-ID4gPiBXaXRoIHRoYXQgZml4ZWQsIGl0J3Mgbm90IHZvbGF0aWxlIGJlY2F1c2UgdGhlcmUgYXJl
-IG5vDQo+ID4gPiB1bmV4cHJlc3NlZA0KPiA+ID4gc2lkZQ0KPiA+ID4gZWZmZWN0cy4NCj4gPiAN
-Cj4gPiBPaywgdGhhbmtzIQ0KPiANCj4gT24gZnVydGhlciBjb25zaWRlcmF0aW9uLCBpdCBzaG91
-bGQgYmUgIj1tIiBub3QgIittIiwgd2hpY2ggaXMgZXZlbg0KPiBsZXNzDQo+IGNvbnN0cmFpbmVk
-LCBhbmQgZXZlbiBlYXNpZXIgZm9yIGFuIGVudGVycHJpc2luZyBvcHRpbWlzZXIgdG8gdHJ5IGFu
-ZA0KPiBkbw0KPiBzb21ldGhpbmcgdXNlZnVsIHdpdGguDQoNCkFGQUlDVCB0aGlzIHdvbid0IHdv
-cmsgb24gYWxsIGdjY3MuIEFzbSBnb3RvJ3MgdXNlZCB0byBub3Qgc3VwcG9ydA0KaGF2aW5nIG91
-dHB1dHMuIFRoZXkgYXJlIGFsc28gaW1wbGljaXRseSB2b2xhdGlsZSBhbnl3YXkuIFNvIEkgdGhp
-bmsNCkknbGwgaGF2ZSB0byBsZWF2ZSBpdC4gQnV0IEkgY2FuIGNoYW5nZSB0aGUgd3JzcyBvbmUg
-aW4gdGhlIHNlbGZ0ZXN0IHRvDQoiPW0iLg0K
+MOTIVATION:
+Some Broadcom devices (e.g. 7445, 7278) contain multiple memory
+controllers with each mapped in a different address range within
+a Uniform Memory Architecture. Some users of these systems have
+expressed the desire to locate ZONE_MOVABLE memory on each
+memory controller to allow user space intensive processing to
+make better use of the additional memory bandwidth.
+Unfortunately, the historical monotonic layout of zones would
+mean that if the lowest addressed memory controller contains
+ZONE_MOVABLE memory then all of the memory available from
+memory controllers at higher addresses must also be in the
+ZONE_MOVABLE zone. This would force all kernel memory accesses
+onto the lowest addressed memory controller and significantly
+reduce the amount of memory available for non-movable
+allocations.
+
+The main objective of this patch set is therefore to allow a
+block of memory to be designated as part of the ZONE_MOVABLE
+zone where it will always only be used by the kernel page
+allocator to satisfy requests for movable pages. The term
+Designated Movable Block is introduced here to represent such a
+block. The favored implementation allows extension of the
+'movablecore' kernel parameter to allow specification of a base
+address and support for multiple blocks. The existing
+'movablecore' mechanisms are retained.
+
+BACKGROUND:
+NUMA architectures support distributing movablecore memory
+across each node, but it is undesirable to introduce the
+overhead and complexities of NUMA on systems that don't have a
+Non-Uniform Memory Architecture.
+
+Commit 342332e6a925 ("mm/page_alloc.c: introduce kernelcore=mirror option")
+also depends on zone overlap to support sytems with multiple
+mirrored ranges.
+
+Commit c6f03e2903c9 ("mm, memory_hotplug: remove zone restrictions")
+embraced overlapped zones for memory hotplug.
+
+This commit set follows their lead to allow the ZONE_MOVABLE
+zone to overlap other zones. Designated Movable Blocks are made
+absent from overlapping zones and present within the
+ZONE_MOVABLE zone.
+
+I initially investigated an implementation using a Designated
+Movable migrate type in line with comments[1] made by Mel Gorman
+regarding a "sticky" MIGRATE_MOVABLE type to avoid using
+ZONE_MOVABLE. However, this approach was riskier since it was
+much more instrusive on the allocation paths. Ultimately, the
+progress made by the memory hotplug folks to expand the
+ZONE_MOVABLE functionality convinced me to follow this approach.
+
+Changes in v3:
+  - removed OTHER OPPORTUNITIES and NOTES from this cover letter.
+  - prevent the creation of empty zones instead of adding extra
+    info to zoneinfo.
+  - size the ZONE_MOVABLE span to the minimum necessary to cover
+    pages within the zone to be more intuitive.
+  - removed "real" from variable names that were consolidated.
+  - rebased to akpm-mm/master (i.e. Linux 6.1-rc1).
+
+Changes in v2:
+  - first three commits upstreamed separately [3], [4], and [5].
+  - commits 04-06 submitted separately [6].
+  - Corrected errors "Reported-by: kernel test robot <lkp@intel.com>"
+  - Deferred commits after 15 to simplify review of the base
+    functionality.
+  - minor reorganization of commit 13.
+
+v2: https://lore.kernel.org/linux-mm/20220928223301.375229-1-opendmb@gmail.com/ 
+v1: https://lore.kernel.org/linux-mm/20220913195508.3511038-1-opendmb@gmail.com/
+
+[1] https://lore.kernel.org/lkml/20160428103927.GM2858@techsingularity.net/
+[2] https://lore.kernel.org/lkml/1401260672-28339-1-git-send-email-iamjoonsoo.kim@lge.com
+[3] https://lore.kernel.org/linux-mm/20220914023913.1855924-1-zi.yan@sent.com
+[4] https://lore.kernel.org/linux-mm/20220823030209.57434-2-linmiaohe@huawei.com
+[5] https://lore.kernel.org/linux-mm/20220914190917.3517663-1-opendmb@gmail.com
+[6] https://lore.kernel.org/linux-mm/20220921223639.1152392-1-opendmb@gmail.com/
+
+Doug Berger (9):
+  lib/show_mem.c: display MovableOnly
+  mm/page_alloc: calculate node_spanned_pages from pfns
+  mm/page_alloc: prevent creation of empty zones
+  mm/page_alloc.c: allow oversized movablecore
+  mm/page_alloc: introduce init_reserved_pageblock()
+  memblock: introduce MEMBLOCK_MOVABLE flag
+  mm/dmb: Introduce Designated Movable Blocks
+  mm/page_alloc: make alloc_contig_pages DMB aware
+  mm/page_alloc: allow base for movablecore
+
+ .../admin-guide/kernel-parameters.txt         |  14 +-
+ include/linux/dmb.h                           |  29 +++
+ include/linux/gfp.h                           |   5 +-
+ include/linux/memblock.h                      |   8 +
+ lib/show_mem.c                                |   2 +-
+ mm/Kconfig                                    |  12 ++
+ mm/Makefile                                   |   1 +
+ mm/cma.c                                      |  15 +-
+ mm/dmb.c                                      |  91 +++++++++
+ mm/memblock.c                                 |  30 ++-
+ mm/page_alloc.c                               | 188 +++++++++++++-----
+ 11 files changed, 338 insertions(+), 57 deletions(-)
+ create mode 100644 include/linux/dmb.h
+ create mode 100644 mm/dmb.c
+
+-- 
+2.25.1
+
