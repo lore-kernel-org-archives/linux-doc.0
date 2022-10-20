@@ -2,60 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B79AFC4332F
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 17:30:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A299AC4332F
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 17:36:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229819AbiJTRaM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 13:30:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35588 "EHLO
+        id S229887AbiJTRgC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 13:36:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbiJTRaI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 13:30:08 -0400
-Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 601117E80D
-        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 10:30:05 -0700 (PDT)
-Received: by mail-ua1-x92f.google.com with SMTP id y20so19863uao.8
-        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 10:30:05 -0700 (PDT)
+        with ESMTP id S229629AbiJTRgB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 13:36:01 -0400
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00177FBCF9
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 10:35:58 -0700 (PDT)
+Received: by mail-oi1-x22c.google.com with SMTP id y72so425206oia.3
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 10:35:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=linux-foundation.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/3I182d8OS7x64S+BRqz8kKKkjGoMeVc6W9/b71l3sw=;
-        b=bhSI7PYNE96zmlTK54HcXVXMKa4MpE9a0d4dT9ZRpfu7bAo4nZ0dY8odSDsuC0n4qb
-         A0NFcoTa7mQMvE/GIp2fGxlNaTyc1xC+mJpWpkZHWApIZlZJ3laViyURgnGhUU5MCAVQ
-         R3aA1LAKm6EK2SR5YSOJpLv5cUBKXKHSdX9JwmOWekAiv9N1om5ege3SRcktdGKMdNHh
-         yQxvjQIOk/8YjZxrQSoJxslmTSutFc7m1L57zkygsaoPAhvYWKzOjOUDMOzSKj1eBDTZ
-         3L9UfmjsSMrcHEGhKK7d6tV0FEY6U+aSuevH+4xHLmsKF38KDErViXZa+bXzVBaq/OfH
-         BBaw==
+        bh=VWECp01B4Xx6nEq/eutNw6SLXu9E/6fw2YNROX2OzQ0=;
+        b=P6c+wo34AHTMfodvTE1hZyTqBtPJJ77PhKMVQAaKwNRySnWfFI9yAQGjHMkEVJisdj
+         9fZvZ6fEOePG9WvMJeKEpcZto4/3bQvN3pJJFTtHOOlxLef94+44CI9Iv65zXqL4gIi8
+         UgfZkHMq6og8I2COhZV0d/QiI51DItYR6+vNA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/3I182d8OS7x64S+BRqz8kKKkjGoMeVc6W9/b71l3sw=;
-        b=trIdzK4MuC+VtrTFItW0Ga6QWk2GeO+MD+UX8C8pfYGxEMlTqvDWRc6XKcOesgkfg2
-         B9HVcSc62WO64GF+OWKV00Xylppjw/VDElx2IsEV7Zkts+u7qQBbb9tXXB8xscqn2VEp
-         PWGURhlvmrpR1F1cLzx3mQjkjKwd7zqxqd+6pLzpwfNeaI8DX+iCH9mD/ix+xdUW53jg
-         QgBLSTcoPe/KZRevqN7fxBdnEUfi0ub4jCU2cWpCeVe9AY477jNYJNKNYNgP6TZulHtC
-         +jwZp8Rb33EgnCMeV0o6UiniQr8KBNB5OvL21E+CzjYlxHdS1b3KSsf5/v+j1Yy6Fmjf
-         BrMA==
-X-Gm-Message-State: ACrzQf1U5S9CUz41i7i8DUN4tAwzDzMbd+L8dFzr1dPC7HXfMgpULX2P
-        WxeBjcqXtra7GfFbgwOtlyiyB1zsLtvtPJWlIixhfA==
-X-Google-Smtp-Source: AMsMyM7ZtK1yZD880885vt34ACfB0CnhggaIUmZIRNZa/OsjpdJn+CuCLZLquEgbn0ZGbfEfVGjcWZp2RLOvSEDhDfQ=
-X-Received: by 2002:ab0:6f94:0:b0:3d1:d6e5:5de6 with SMTP id
- f20-20020ab06f94000000b003d1d6e55de6mr7915486uav.51.1666287004714; Thu, 20
- Oct 2022 10:30:04 -0700 (PDT)
+        bh=VWECp01B4Xx6nEq/eutNw6SLXu9E/6fw2YNROX2OzQ0=;
+        b=gWkUxpHXIBWhUuNtORo3NTYsVbrKbZ3085n+Bt9uhbjDPU1D1CNw0n1wrW9xp0K+wh
+         evHTj6zeXA2rQpBI2I8zNW2uTwkToUTLT/Tkqfe9J+F5cBj7CG+wfscMGtwRPypxggfu
+         VvvHX81G0u2PIKrDob/yqYQCteC30wS75LOuuiN7av6+eOu1fiUp/AskpBneCWAEL8fz
+         3N0ysC5CnAktICCT7bPY3CCnv7QpeD8cUziaMQ7hpT4mUcl/bYX8NpzYArsJgWJE0/+6
+         rznkn2GOG3Qc9Hn8GL3s8L7kE2Ov719tqoPTQhknc/iP6UXfzT9wFf2Q1eaUTtorf4zq
+         9Maw==
+X-Gm-Message-State: ACrzQf1Qh1Xr/xACp5S66h8Z449xPojOiHC4cZgzouR8TVJkwpLS24Gu
+        NnG+B1egV3WazuIr+9KMtXATeC/B8neyWw==
+X-Google-Smtp-Source: AMsMyM4yDSH+4FlBxDfg8krMREhtTMPdSQkVR1Aea8CTonL9wSGdFYE1ul6P02d+EduXKC7Tt48QZg==
+X-Received: by 2002:a05:6808:1ab0:b0:354:f6e9:f6c5 with SMTP id bm48-20020a0568081ab000b00354f6e9f6c5mr20671475oib.155.1666287358067;
+        Thu, 20 Oct 2022 10:35:58 -0700 (PDT)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com. [209.85.210.47])
+        by smtp.gmail.com with ESMTPSA id 96-20020a9d0869000000b00661e7a16700sm130980oty.74.2022.10.20.10.35.55
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Oct 2022 10:35:56 -0700 (PDT)
+Received: by mail-ot1-f47.google.com with SMTP id cb2-20020a056830618200b00661b6e5dcd8so294226otb.8
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 10:35:55 -0700 (PDT)
+X-Received: by 2002:a25:bb44:0:b0:6bb:a336:7762 with SMTP id
+ b4-20020a25bb44000000b006bba3367762mr11999002ybk.501.1666287344812; Thu, 20
+ Oct 2022 10:35:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220815071332.627393-1-yuzhao@google.com> <20220815071332.627393-9-yuzhao@google.com>
  <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net> <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com>
  <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com> <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net>
 In-Reply-To: <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Thu, 20 Oct 2022 11:29:28 -0600
-Message-ID: <CAOUHufaEMt6oiaw7pj+eGLTK4y7CaiYO0BSf13vrE27JqQiAzw@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 20 Oct 2022 10:35:28 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whQchubuDpRGFabhmcZuzdt13OOF8wznXb+Dbi3GzBQhQ@mail.gmail.com>
+Message-ID: <CAHk-=whQchubuDpRGFabhmcZuzdt13OOF8wznXb+Dbi3GzBQhQ@mail.gmail.com>
 Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
 To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+Cc:     Yu Zhao <yuzhao@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Andi Kleen <ak@linux.intel.com>,
         Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
@@ -90,17 +97,22 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 20, 2022 at 8:14 AM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Wed, Oct 19, 2022 at 10:40:40AM -0700, Linus Torvalds wrote:
->
-> > Because as you say, the function is already called "read_atomic", and
-> > it should damn well *act* that way then.
+On Thu, Oct 20, 2022 at 7:14 AM Peter Zijlstra <peterz@infradead.org> wrote:
 >
 > So I've been sitting on these here patches (and never having time to
 > repost them), which is how I noticed in the first place:
 >
 >   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/log/?h=x86/mm.pae
 
-This looks good to me. It'll help get rid of all those open-coded
-barrier()s and fix a couple of missing barrier()s.
+Well, that seems an improvement. I don't love how GUP_GET_PTE_LOW_HIGH
+now affects the PMD too, but if it's ok for all the three users, I
+guess it's ok. Maybe rename it now that it's not just the PTE?
+
+That said, I reacted to that cmpxchg loop:
+
+        } while (cmpxchg64(&pmdp->pmd, old.pmd, 0ULL) != old.pmd);
+
+is this series just so old (but rebased) that it doesn't use "try_cmpxchg64()"?
+
+
+               Linus
