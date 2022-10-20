@@ -2,196 +2,318 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A59EDC43217
-	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 14:42:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94715C43217
+	for <linux-doc@archiver.kernel.org>; Thu, 20 Oct 2022 15:32:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230164AbiJTOmb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 10:42:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34398 "EHLO
+        id S230256AbiJTPc4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 11:32:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230111AbiJTOm3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 10:42:29 -0400
-Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15A40157F41;
-        Thu, 20 Oct 2022 07:42:28 -0700 (PDT)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
-        t=1666276946;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HaokKNjTlhG1x6gJmoBwjqx6K1/rVFpkVE+Oghg0w3M=;
-        b=XeMTU0SE1rks0U1gxboL20jB+2GoOxq9mjAWWpj8x8LUFXxwF8X2y/rsoIsiK2w3tzgjH1
-        x6k0KYwWoigV/xjAvsUDn0yk6lUJNzMp1nYx8sOs6xYuf8vO1wPjmRHTTwDIHc8YySqA1D
-        l6yq4HCs0vQfwTXBP0pJ7SpGU7ea/HTqluhNzTqF7zzWojfaHpCy2qi2gmJTSKZQzyhD/K
-        eao/LDHp35E8G7wcehKt1SquvdOM1ukqPTUzBDCQeYoKgs+wDF8zFG3zdDn7CHeUlon8bz
-        21DDlibWSYMvKBOUeeJO4yHt3/sU2/1cAsSUt7VWXe5qL0NbNSViGq4Lmp1ILA==
-From:   Rui Li <me@lirui.org>
-To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Wu XiangCheng <wu.xiangcheng@linux.dev>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rui Li <me@lirui.org>
-Subject: [PATCH v3 2/2] docs/zh_CN: Add staging/xz Chinese translation
-Date:   Thu, 20 Oct 2022 22:42:14 +0800
-Message-Id: <73796d27e13e2f479bad6e80e41f44b09fc1702b.1666275798.git.me@lirui.org>
-In-Reply-To: <cover.1666275798.git.me@lirui.org>
-References: <cover.1666275798.git.me@lirui.org>
+        with ESMTP id S230100AbiJTPcn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 11:32:43 -0400
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2068.outbound.protection.outlook.com [40.107.22.68])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECB581B155C;
+        Thu, 20 Oct 2022 08:32:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hfv6eGFVaJ1py2DbHZKt5L97xTqPsZWp2ZpuUhVUNdpYGGFHZgcfu5xQdxN6nabu/Azzr8Sj63FVe9RcZXA7Lm0r6HOo6c7M59s8U4LWW9RoA144siyTrNdMqPQCpBjyI57rJHgm03JCLB9Old46nKETJlPN1suJ7VTTuXdKdLFfUfDY569CX9IcY6xf/plh5vCE6V2aA6E4ZTzACLET4FY1T3XY3KFdksLnynh7khMcLE5ors908Xv2EWLbL8xasxmyyeX/8OBB+X7rmf9SCSwftNUbGiXL0kBhnU91DJZvNEz4DxukUXrEk1a2Mq+UiLyl6hM1AWcOB7joIKKYJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D+BTwRJWckk7ikaIiXlUZkorDkr06XrlGz+AFCZLdIs=;
+ b=P1n3sziy0b3eS2Vq46JX0NuaUg8Wwfb6UkecdhNZFIQKD1Be2sweM8Nq0oULg55x0JdSVudYe9cbBPXhmtCA3xISfskKm7Hs6qTP+Lj3jijezUlMi1gdqpd/o5iqsjqIfKJz3/OTiykajBvvNdaRUcWtBRM7J4zPgVRZBho9AgoB185tuPvi6lWpdM5/2bshDl1h7eCn+48lSWvPgXRHUGF+8fSJAp1mE7BzCHNQjLx63a7D+G/ek7YNU0eJ1Jo5U3wDOcX+IhCwSlFkRQMm1cp4Xtf9EDt3hCitsBujD/8aC/jed36GUelNCTwTc0CPx2ZD9hTQ6zX4EWdS0Pj74A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D+BTwRJWckk7ikaIiXlUZkorDkr06XrlGz+AFCZLdIs=;
+ b=DxIC4V1z0GsYZxan290sgx74wjLBSihd6Oy8kssRKyaqcQg9hMneQRNCfOqhpRz5OBwYrGLvk2H50SHpLw+jBLiZA/9S5GwY+UW05Yuaiejf6l0qHf18EYmSri9dpkEUhRTz4uTli5x5uNyZk3XoFNg4XdRMkygeWnlAyLdEYjORiwLrvjnZp1In5bfaOAEmQLyreBt6+MP6VLJUsannXBRc5/+Je+zJ6j01pEBXg8LFCl87klEOjtMukIrhgjwCrAtcxj3sEya+ioGeXVROe9bEXzQNRYEc6Pod9Jalg+06NxhoxhVVeWKUxunB/R0hGT7Dgm4oghITz89ofK73BA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB7PR03MB4972.eurprd03.prod.outlook.com (2603:10a6:10:7d::22)
+ by DB4PR03MB9601.eurprd03.prod.outlook.com (2603:10a6:10:3f3::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.26; Thu, 20 Oct
+ 2022 15:32:36 +0000
+Received: from DB7PR03MB4972.eurprd03.prod.outlook.com
+ ([fe80::204a:de22:b651:f86d]) by DB7PR03MB4972.eurprd03.prod.outlook.com
+ ([fe80::204a:de22:b651:f86d%6]) with mapi id 15.20.5723.034; Thu, 20 Oct 2022
+ 15:32:36 +0000
+Subject: Re: [PATCH v7 0/8] phy: Add support for Lynx 10G SerDes
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        linux-phy@lists.infradead.org
+Cc:     Camelia Alexandra Groza <camelia.groza@nxp.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20221018231112.2142074-1-sean.anderson@seco.com>
+ <12c8c3c1-eb17-8e44-8906-05e2e3e92acc@gmail.com>
+From:   Sean Anderson <sean.anderson@seco.com>
+Message-ID: <f6d42cd0-1a2a-16c3-ba08-d2258b225b29@seco.com>
+Date:   Thu, 20 Oct 2022 11:32:28 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <12c8c3c1-eb17-8e44-8906-05e2e3e92acc@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BLAPR03CA0042.namprd03.prod.outlook.com
+ (2603:10b6:208:32d::17) To DB7PR03MB4972.eurprd03.prod.outlook.com
+ (2603:10a6:10:7d::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB7PR03MB4972:EE_|DB4PR03MB9601:EE_
+X-MS-Office365-Filtering-Correlation-Id: 36803702-6bfc-4281-5803-08dab2b05035
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IV482d5M4Waio6+8utUjLXHRT1gkTt+cCQIjVTmiDSuGWYJ2V524icNjxwnb6rIlpO9DBfCXztvdjfh7vUWAJfVblGBYfz8HEoRTRrrCNztWObHK4yWcKPqjEj/xvpcgl/6foXI7i4FOZuWh0g6qe3g74IQPM6jSX9roZoZtzhDea+IXwQ5U8EADGTIqrBwPnpdFFljOaxn6s+Y6ejJfvI0JjAni2kTy+iOXP5IrzBlyrI07vspkMGjGocFzwJ3Fpz9t5NbAPCStrHVt1vcV9aA+RqnbQhr4TO1V+iHxLu90TULGcoBSYBLNSchjaHOfF9UJxw51EYGKAH4DsO3bHPa0n/2sl3/xqhK29BldMlqscXDnlRPce1lH3dc7AFziu8twTSdxpG5LlfRWJAV2HxV7q30ak5p632iGUa0So13mf+PA3xZ/t7VaUzVxbDZbEMXkSW0eNF19yJB6Dd/42XPy6/ETyw9AW5k0I94GK6jS7Inbzu3pZtgXViQ/yQXMgt0FFs0XeSeXSYDRI7LBCh/yMf3E453ta8V2irhW0Ruq3PhWO++fmqIXzCh47u50yGcCgYus7rZTobfTD8hwZz5p10fWdDM6nNLxQXji0SROkoI5rQtvtcwDeDq9PaB/pbuROmNz04Tpy7UEIOFHeVFND/B6Z2C4rz7BkLLFVMdBUSLga/gwkBlHbRnn39guTO/QVXMebExX4i8XmNbHWT9bbMckNFj7U4Dhta+yxwYVI0Ks58T53nq9/02POa6/qsyFyNFkCygdpoX7Lxlg3ucVIeF+wKE2eazNt2XtDt7emq0jMc7LVspHx6L04pJyPluQstxJLr5nfgBkWl8qpGC+qwd1wFETjgeztObsgE0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4972.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(39840400004)(396003)(376002)(136003)(346002)(366004)(451199015)(66946007)(66556008)(66476007)(5660300002)(54906003)(110136005)(4326008)(316002)(2906002)(7416002)(6506007)(8676002)(6666004)(38350700002)(38100700002)(8936002)(53546011)(186003)(2616005)(26005)(41300700001)(6486002)(52116002)(6512007)(966005)(86362001)(83380400001)(31696002)(478600001)(44832011)(31686004)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SjJ2dHhZdDVWbm1wUFJaMUh0V0JOUkpnblN4MmlGR240TDEyNldkNHFDaC9N?=
+ =?utf-8?B?bVFOQ3RkWC91ODdFSU5kVVp6bktrck5qTStTaDRRWkhIRHFZOVF6amFjdlU3?=
+ =?utf-8?B?QmVLUUxEQ2FMWGlXYVROajUwRmRoZDFzRXBlV2xKL1pvOEl1QUxmdy9QUXZQ?=
+ =?utf-8?B?VmhlRGsrOENLL3RlaHhVdFVvaXpqbVQ1N2UwRWM1QXFwTnlCdm9Mb3BkZnlU?=
+ =?utf-8?B?ZktrODRrUndmTVRHVk1DTkRqa1ZleUNJSVRRYTZ1eEZ6Q3NUNGRNN3ZVVVkr?=
+ =?utf-8?B?ZzZHRjZ4MlBvNFVYbTF1MDZIWUorQlVubkx6QmFNa3RjazhhMzVCNUs0aENL?=
+ =?utf-8?B?SDJrZEdNWXRnTWt0TUJ4Q3d1TkxYNkt2eWxDOE9iSWtqZEo1ellWYWV6QjVa?=
+ =?utf-8?B?V1pDK0N0VVlXbWMvTTg3Yk5nb0RibFJFZDlWWG1uK2d4WVo2ZWRTbXBhbDh6?=
+ =?utf-8?B?cjhxNjVabHhDZ0xwVStXQ1pQMVlSWFFGUVZuTWNVWWpnVGw0WGM1ZnBUaHdD?=
+ =?utf-8?B?cjR1NE4reFhGU1NwR3o3MC91QUVVeWo1RUNYelhoU1Njc1Z4WEoxQWZnUm1G?=
+ =?utf-8?B?NmVTOEVad3VrcVk1ZjF6N3NhV0tLb1N2dDVCSnZ6cjI2S2RsNnJlV1BSbjRw?=
+ =?utf-8?B?cjRIc2I2ME9jTzFqelhnVlBGUjB0UTd3UG95Y0o5QnVCQ0hIcnpRLzdwNDJz?=
+ =?utf-8?B?bm9BeWlNc2dYZWdOelBlN1RvczZKMXNuc3pmancvaEw3TEFNN2YyUXBHT2dF?=
+ =?utf-8?B?ZTlWQlRob2o5Z3UzSWJiQlpuN3hBb01teXBUaDhpaE5CSzR4QWl5ejdHY2ZG?=
+ =?utf-8?B?UG1CUDdIMlZsRmhCczBzTkszLzZpdUpZUmpIRzB4UEE2bmdwV0FLa1VmSHow?=
+ =?utf-8?B?dytHMGVDUjZJenMwUlUrUkxEb3A3N1VqZVNET0NBMlNoUktkY1VDR0tsL2xK?=
+ =?utf-8?B?ZFpIb1NsTDNIci9ENE1BdC91eDlEK0lsUHhqSGJDanptamc1dWJiYjVhbE5m?=
+ =?utf-8?B?cGFXZjhXV0tLMFNPRStTK25GMFd1UVZ6NVRrczRacUlhNUtjeStZc0F1S1Ft?=
+ =?utf-8?B?ZXhpZTJ2R2FJdVZZNHo2QWhULzhhZ2QrUENzcGRxbjlzYzFZSHFwdGxsNTUx?=
+ =?utf-8?B?ZmlqUGdIZ1BWMjZlVVZDYzFIMWlqQUFCYXpRbHQ1T2FmWHJydFB4SW9rbVM5?=
+ =?utf-8?B?NUZIQ1gxQjJ5cmN1NkhiVjlleEZoZFdsR21ER2FvZE1SVGU0cDdFMHEyZ1du?=
+ =?utf-8?B?MFVacHVkK2JGYThTZ2lCelhYN2NKek5BV3FrME13QyswMnlsSlE5bWkzcCtD?=
+ =?utf-8?B?ZU5TKzlhSUZqcG5kK25CUlRwdzdXNjVlM0RjUFlaeEtuV0NUOGEzZ053Y3Ez?=
+ =?utf-8?B?dTFmZUNicVMvZFFuWEl4K3BrODQrcXdxclJ3cWs2S1hCNTlWTWtOc1ZDUlVr?=
+ =?utf-8?B?REJicUs0eGhCOGVyd3cyV25LMGNkWUpwcXQvUWtXUGJXYnFsUHMxVzBvY2dO?=
+ =?utf-8?B?OTNuU0hvcGZYNkMxZXpteXlFRzBwSHFtbnRQanNGSi93cVo5TUFibGtCKzhX?=
+ =?utf-8?B?R3ZkOU1oTWVORWRxWUZUeEg0UVBldElUczhTelZ2SmVXbVRCUzE2U243eTdj?=
+ =?utf-8?B?M0JpenFwQ2V0allOQlhBUk1rYnJBTjNIakNqS1hJVFZoanllQmxDS0ZYY094?=
+ =?utf-8?B?ZThYNjVDcXdmZjN5WkVHYVkzMDlON2JxN0hPMUpHVjdzRFpJL2VuSWhlUi80?=
+ =?utf-8?B?NDBWM1FnTFpNbFRBa3RIOUdaTlhrcmk1M2pzbkNXcysyRjJUeUQreDFSSVFX?=
+ =?utf-8?B?eGFGSjNNUzcyZUl4MWxveE1hcXpIZWNlTlROc1BNY2s2cU5BRk5EK250a2ZY?=
+ =?utf-8?B?VXErclhqWWpPTGFTdnVmVXlVVkxZRXdDenBiKzc0NklnTlg2TGNjZ2paUEtX?=
+ =?utf-8?B?YU15TjFsbWl1eURqYkJrL3JrSGgwRU1Cb0NSSHFOOUlsZkVZMlVlY0VBa1R6?=
+ =?utf-8?B?SmNvY1dFS1F3b014dHVUdDVFNHhybEVDM2kvYzZBRjNQTTJMNDdLZU1xYm43?=
+ =?utf-8?B?SmplSXlWcVp6SDVsRmhJOFpzYm9JZkhtWHhKVDlVQVFCUXFEamZub3R3TTZT?=
+ =?utf-8?B?RGVYRGl6bWczVjc5TXBYOG1VYmFQWXlNVHZUT3pnblMwc3h5VC9QaUhQYWFR?=
+ =?utf-8?B?b3c9PQ==?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 36803702-6bfc-4281-5803-08dab2b05035
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4972.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2022 15:32:35.8195
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5cVNUG/uMXjwMmzRVC9C8XB8/0fYbv56CXmsccmB+aPMJv6F+gE1yKwntdgUbjq7uvZgapU6KDlbkmgslp5gNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR03MB9601
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate the following files into Chinese:
 
-- Documentation/staging/xz.rst
 
-Signed-off-by: Rui Li <me@lirui.org>
----
-Changes since v2:
-- Add GPLv2 declaration for xz.rst
+On 10/19/22 10:44 PM, Bagas Sanjaya wrote:
+> On 10/19/22 06:11, Sean Anderson wrote:
+>> This adds support for the Lynx 10G SerDes found on the QorIQ T-series
+>> and Layerscape series. Due to limited time and hardware, only support
+>> for the LS1046ARDB is added in this initial series. There is a sketch
+>> for LS1088ARDB support, but it is incomplete.
+>> 
+>> Dynamic reconfiguration does not work. That is, the configuration must
+>> match what is set in the RCW. From my testing, SerDes register settings
+>> appear identical. The issue appears to be between the PCS and the MAC.
+>> The link itself comes up at both ends, and a mac loopback succeeds.
+>> However, a PCS loopback results in dropped packets. Perhaps there is
+>> some undocumented register in the PCS?
+>> 
+>> I suspect this driver is around 95% complete, but, unfortunately, I no
+>> longer have time to investigate this further. At the very least it is
+>> useful for two cases:
+>> - Although this is untested, it should support 2.5G SGMII as well as
+>>   1000BASE-KX. The latter needs MAC and PCS support, but the former
+>>   should work out of the box.
+>> - It allows for clock configurations not supported by the RCW. This is
+>>   very useful if you want to use e.g. SRDS_PRTCL_S1=0x3333 and =0x1133
+>>   on the same board. This is because the former setting will use PLL1
+>>   as the 1G reference, but the latter will use PLL1 as the 10G
+>>   reference. Because we can reconfigure the PLLs, it is possible to
+>>   always use PLL1 as the 1G reference.
+>> 
+>> Changes in v7:
+>> - Use double quotes everywhere in yaml
+>> - Break out call order into generic documentation
+>> - Refuse to switch "major" protocols
+>> - Update Kconfig to reflect restrictions
+>> - Remove set/clear of "pcs reset" bit, since it doesn't seem to fix
+>>   anything.
+>> 
+>> Changes in v6:
+>> - Bump PHY_TYPE_2500BASEX to 13, since PHY_TYPE_USXGMII was added in the
+>>   meantime
+>> - fsl,type -> phy-type
+>> - frequence -> frequency
+>> - Update MAINTAINERS to include new files
+>> - Include bitfield.h and slab.h to allow compilation on non-arm64
+>>   arches.
+>> - Depend on COMMON_CLK and either layerscape/ppc
+>> - XGI.9 -> XFI.9
+>> 
+>> Changes in v5:
+>> - Update commit description
+>> - Dual id header
+>> - Remove references to PHY_INTERFACE_MODE_1000BASEKX to allow this
+>>   series to be applied directly to linux/master.
+>> - Add fsl,lynx-10g.h to MAINTAINERS
+>> 
+>> Changes in v4:
+>> - Add 2500BASE-X and 10GBASE-R phy types
+>> - Use subnodes to describe lane configuration, instead of describing
+>>   PCCRs. This is the same style used by phy-cadence-sierra et al.
+>> - Add ids for Lynx 10g PLLs
+>> - Rework all debug statements to remove use of __func__. Additional
+>>   information has been provided as necessary.
+>> - Consider alternative parent rates in round_rate and not in set_rate.
+>>   Trying to modify out parent's rate in set_rate will deadlock.
+>> - Explicitly perform a stop/reset sequence in set_rate. This way we
+>>   always ensure that the PLL is properly stopped.
+>> - Set the power-down bit when disabling the PLL. We can do this now that
+>>   enable/disable aren't abused during the set rate sequence.
+>> - Fix typos in QSGMII_OFFSET and XFI_OFFSET
+>> - Rename LNmTECR0_TEQ_TYPE_PRE to LNmTECR0_TEQ_TYPE_POST to better
+>>   reflect its function (adding post-cursor equalization).
+>> - Use of_clk_hw_onecell_get instead of a custom function.
+>> - Return struct clks from lynx_clks_init instead of embedding lynx_clk
+>>   in lynx_priv.
+>> - Rework PCCR helper functions; T-series SoCs differ from Layerscape SoCs
+>>   primarily in the layout and offset of the PCCRs. This will help bring a
+>>   cleaner abstraction layer. The caps have been removed, since this handles the
+>>   only current usage.
+>> - Convert to use new binding format. As a result of this, we no longer need to
+>>   have protocols for PCIe or SATA. Additionally, modes now live in lynx_group
+>>   instead of lynx_priv.
+>> - Remove teq from lynx_proto_params, since it can be determined from
+>>   preq_ratio/postq_ratio.
+>> - Fix an early return from lynx_set_mode not releasing serdes->lock.
+>> - Rename lynx_priv.conf to .cfg, since I kept mistyping it.
+>> 
+>> Changes in v3:
+>> - Manually expand yaml references
+>> - Add mode configuration to device tree
+>> - Rename remaining references to QorIQ SerDes to Lynx 10G
+>> - Fix PLL enable sequence by waiting for our reset request to be cleared
+>>   before continuing. Do the same for the lock, even though it isn't as
+>>   critical. Because we will delay for 1.5ms on average, use prepare
+>>   instead of enable so we can sleep.
+>> - Document the status of each protocol
+>> - Fix offset of several bitfields in RECR0
+>> - Take into account PLLRST_B, SDRST_B, and SDEN when considering whether
+>>   a PLL is "enabled."
+>> - Only power off unused lanes.
+>> - Split mode lane mask into first/last lane (like group)
+>> - Read modes from device tree
+>> - Use caps to determine whether KX/KR are supported
+>> - Move modes to lynx_priv
+>> - Ensure that the protocol controller is not already in-use when we try
+>>   to configure a new mode. This should only occur if the device tree is
+>>   misconfigured (e.g. when QSGMII is selected on two lanes but there is
+>>   only one QSGMII controller).
+>> - Split PLL drivers off into their own file
+>> - Add clock for "ext_dly" instead of writing the bit directly (and
+>>   racing with any clock code).
+>> - Use kasprintf instead of open-coding the snprintf dance
+>> - Support 1000BASE-KX in lynx_lookup_proto. This still requires PCS
+>>   support, so nothing is truly "enabled" yet.
+>> - Describe modes in device tree
+>> - ls1088a: Add serdes bindings
+>> 
+>> Changes in v2:
+>> - Rename to fsl,lynx-10g.yaml
+>> - Refer to the device in the documentation, rather than the binding
+>> - Move compatible first
+>> - Document phy cells in the description
+>> - Allow a value of 1 for phy-cells. This allows for compatibility with
+>>   the similar (but according to Ioana Ciornei different enough) lynx-28g
+>>   binding.
+>> - Remove minItems
+>> - Use list for clock-names
+>> - Fix example binding having too many cells in regs
+>> - Add #clock-cells. This will allow using assigned-clocks* to configure
+>>   the PLLs.
+>> - Document the structure of the compatible strings
+>> - Rename driver to Lynx 10G (etc.)
+>> - Fix not clearing group->pll after disabling it
+>> - Support 1 and 2 phy-cells
+>> - Power off lanes during probe
+>> - Clear SGMIIaCR1_PCS_EN during probe
+>> - Rename LYNX_PROTO_UNKNOWN to LYNX_PROTO_NONE
+>> - Handle 1000BASE-KX in lynx_proto_mode_prep
+>> - Use one phy cell for SerDes1, since no lanes can be grouped
+>> - Disable SerDes by default to prevent breaking boards inadvertently.
+>> 
+>> Sean Anderson (8):
+>>   dt-bindings: phy: Add 2500BASE-X and 10GBASE-R
+>>   dt-bindings: phy: Add Lynx 10G phy binding
+>>   dt-bindings: clock: Add ids for Lynx 10g PLLs
+>>   phy: fsl: Add Lynx 10G SerDes driver
+>>   arm64: dts: ls1046a: Add serdes bindings
+>>   arm64: dts: ls1088a: Add serdes bindings
+>>   arm64: dts: ls1046ardb: Add serdes bindings
+>>   [WIP] arm64: dts: ls1088ardb: Add serdes bindings
+>> 
+>>  .../devicetree/bindings/phy/fsl,lynx-10g.yaml |  236 ++++
+>>  Documentation/driver-api/phy/index.rst        |    1 +
+>>  Documentation/driver-api/phy/lynx_10g.rst     |   58 +
+>>  MAINTAINERS                                   |    7 +
+>>  .../boot/dts/freescale/fsl-ls1046a-rdb.dts    |  112 ++
+>>  .../arm64/boot/dts/freescale/fsl-ls1046a.dtsi |   18 +
+>>  .../boot/dts/freescale/fsl-ls1088a-rdb.dts    |  161 +++
+>>  .../arm64/boot/dts/freescale/fsl-ls1088a.dtsi |   18 +
+>>  drivers/phy/freescale/Kconfig                 |   23 +
+>>  drivers/phy/freescale/Makefile                |    3 +
+>>  drivers/phy/freescale/lynx-10g.h              |   16 +
+>>  drivers/phy/freescale/phy-fsl-lynx-10g-clk.c  |  503 +++++++
+>>  drivers/phy/freescale/phy-fsl-lynx-10g.c      | 1167 +++++++++++++++++
+>>  include/dt-bindings/clock/fsl,lynx-10g.h      |   14 +
+>>  include/dt-bindings/phy/phy.h                 |    2 +
+>>  15 files changed, 2339 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/phy/fsl,lynx-10g.yaml
+>>  create mode 100644 Documentation/driver-api/phy/lynx_10g.rst
+>>  create mode 100644 drivers/phy/freescale/lynx-10g.h
+>>  create mode 100644 drivers/phy/freescale/phy-fsl-lynx-10g-clk.c
+>>  create mode 100644 drivers/phy/freescale/phy-fsl-lynx-10g.c
+>>  create mode 100644 include/dt-bindings/clock/fsl,lynx-10g.h
+>> 
+> 
+> I can't cleanly apply this series either on arm64 tree or linux-next.
+> On what tree and commit the series is based on?
+> 
 
-Changes since v1:
-- Align title
-- Adjust patch set order
-- Add xz into index here
----
- .../translations/zh_CN/staging/index.rst      |   6 +-
- .../translations/zh_CN/staging/xz.rst         | 100 ++++++++++++++++++
- 2 files changed, 105 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/staging/xz.rst
+It's based on net-next/master, since I was testing it with [1]. Last
+time I rebased onto phy/next, but I forgot to do so this time. I can
+resend based on that tree or on linux-next/master, whatever is suitable.
 
-diff --git a/Documentation/translations/zh_CN/staging/index.rst b/Documentation/translations/zh_CN/staging/index.rst
-index e26603892a6f..bb55c81c84a3 100644
---- a/Documentation/translations/zh_CN/staging/index.rst
-+++ b/Documentation/translations/zh_CN/staging/index.rst
-@@ -10,6 +10,11 @@
- 未分类文档
- ==========
- 
-+.. toctree::
-+   :maxdepth: 2
-+
-+   xz
-+
- TODOList:
- 
- * crc32
-@@ -19,4 +24,3 @@ TODOList:
- * speculation
- * static-keys
- * tee
--* xz
-diff --git a/Documentation/translations/zh_CN/staging/xz.rst b/Documentation/translations/zh_CN/staging/xz.rst
-new file mode 100644
-index 000000000000..211c487bcb62
---- /dev/null
-+++ b/Documentation/translations/zh_CN/staging/xz.rst
-@@ -0,0 +1,100 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/staging/xz.rst
-+
-+:翻译:
-+
-+ 李睿 Rui Li <me@lirui.org>
-+
-+===================
-+Linux中的XZ数据压缩
-+===================
-+
-+介绍
-+====
-+
-+XZ是一种通用的数据压缩格式，其具有高压缩率和相对快的解压速度。主要的压缩算法（
-+过滤器）是LZMA2。额外的过滤器可以被用来进一步提高压缩率，比如用来提高可执行数据
-+压缩率的Branch/Call/Jump (BCJ)过滤器。
-+
-+XZ解压器在Linux中被称作XZ Embedded。它支持LZMA2过滤器和可选的BCJ过滤器，并支持
-+CRC32完整性校验。你可以在XZ Embedded的主页<https://tukaani.org/xz/embedded.html>
-+中找到最新版本和关于在Linux内核之外使用源码的信息。
-+
-+对于用户空间来说，XZ Utils提供了类似于zlib的压缩库和类似于gzip的命令行工具。
-+XZ Utils可以从<https://tukaani.org/xz/>下载。
-+
-+内核中的XZ相关组件
-+==================
-+
-+xz_dec模块为XZ解压器提供了单次调用（缓冲区到缓冲区）和多次调用（有状态）的
-+API。xz_dec模块的用法记录在include/linux/xz.h中。
-+
-+xz_dec_test模块用于测试xz_dec。除非你想魔改XZ解压器，否则xz_dec_test是
-+没有用的。xz_dec_test会动态分配一个字符设备主设备号，你可以从用户空间向它
-+写入.xz文件，解压的输出会被丢弃。关注dmesg可以找到xz_dec_test输出的诊断信息。
-+详细内容请查看xz_dec_test的源码。
-+
-+为了解压内核镜像、初始ram文件系统和初始ram磁盘，lib/decompress_unxz.c实现
-+了一个包装函数。它的API与其他 decompress_*.c 文件相同，那些API定义在
-+include/linux/decompress/generic.h中。
-+
-+scripts/xz_wrap.sh是一个XZ Utils中的xz命令行工具包装器。这个包装器会
-+设置合适的压缩选项来压缩内核镜像。
-+
-+在内核的makefiles中，提供了使用$(call if_needed)的两个命令。内核镜像应该
-+使用$(call if_needed,xzkern)来压缩，它会使用BCJ过滤器和一个大LZMA2字典。
-+它还会附加一个四字节的包含源文件大小的预告，这会在启动代码中被用到。其他文件
-+应该使用$(call if_needed,xzmisc)来压缩，它会使用1 MiB的LZMA2字典并禁用
-+BCJ过滤器。
-+
-+关于压缩选项的说明
-+==================
-+
-+因为XZ Embedded只支持没有完整性校验的数据流或者CRC32，请确保你在编码未来将被
-+内核解码的文件时没有使用其他完整性校验方式。使用liblzma时，你需要使用LZMA_CHECK_NONE
-+或LZMA_CHECK_CRC32。使用xz命令行工具时，使用--check=none或--check=crc32。
-+
-+除非有其他环节会验证解压数据的完整性，否则强烈使用CRC32。双重验证可能会浪费
-+CPU周期。请注意头部总是会包含用于解压器验证的CRC32，你只能修改或禁用解压后数据
-+的完整性校验方式。
-+
-+在用户中间中，LZMA2通常使用几兆字节大小的字典。解码器需要在RAM中放置字典，
-+因此大字典不能被用于那些意在被内核解码的文件。1 MiB在内核中大概是可接受的最大
-+字典大小（可能对初始ram文件系统也适用）。XZ Utils中的预设值可能并不适合创建
-+内核文件，所以请别犹豫使用自定义设置。比如::
-+
-+	xz --check=crc32 --lzma2=dict=512KiB inputfile
-+
-+使用上面字典大小的一个例外是在单一调用模式下使用解码器。解压内核自身就是一个例
-+子。在单一调用模式下，内存用量并不和字典大小有关，这种情况就是使用大字典的好地
-+方：为了最大化压缩，字典至少应该和解压后的数据一样大。
-+
-+未来计划
-+========
-+
-+如果有人认为有用的话，可能会考虑创建一个受限的XZ编码器。LZMA2的压缩速率比Deflate
-+或LZO等要慢，即使在最快的配置选项下。所以并不清楚LZMA2编码器是否需要并入内核。
-+
-+有计划在解压代码中支持有限的随机访问读数据。不知道这能否在内核中有任何用，但是我
-+知道这会在一些Linux内核以外的嵌入式项目中有用。
-+
-+.xz文件格式规范的一致性
-+=======================
-+
-+在一些边缘情况下，为了简化事情牺牲了尽早地检测错误。因为并不会导致安全问题，实际
-+上是没有关系的。但在测试代码的时候知道这一点很好，比如测试来自XZ Utils的文件。
-+
-+报告错误
-+========
-+
-+请在报告错误前确认是否已经在上游修复。可以从<https://tukaani.org/xz/embedded.html>
-+获取最新的源码。
-+
-+可以通过联系<lasse.collin@tukaani.org>或者访问Freenode上的#tukaani
-+联系Larhzu。我并不经常阅读LKML或者其他内核相关的邮件列表，所以如果要告知我什么事情
-+，你应该通过我的私人邮箱或者IRC联系我。
-+
-+请不要因为内核中XZ的实现或关于XZ Utils的问题打扰Igor Pavlov。虽然这两种实现
-+包含了建立在Igor Pavlov的代码上的重要源码，但并不由他维护和提供支持。
--- 
-2.30.2
+--Sean
 
+[1] https://lore.kernel.org/netdev/20221017202241.1741671-1-sean.anderson@seco.com/
