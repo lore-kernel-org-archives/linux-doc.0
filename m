@@ -2,257 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE83C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 08:36:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A36C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 08:36:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230026AbiJUIgW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Oct 2022 04:36:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44724 "EHLO
+        id S230244AbiJUIgv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Oct 2022 04:36:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230198AbiJUIgP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 04:36:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B6C24CC8B
-        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 01:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666341343;
+        with ESMTP id S230212AbiJUIgg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 04:36:36 -0400
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4745BC3560;
+        Fri, 21 Oct 2022 01:36:23 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
+        t=1666341366;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding;
-        bh=tbFeBX32l+yge7/Aih1kg+kLlJEAu6ZHtL5mIDt4umE=;
-        b=iZQNDc0/hsnRjmnLOc3JPG/qqWZ2rF8L8svaYl2FL0c1d1BHFZ5gavA6Z1OPftfTy+f2mF
-        cKQxcUY4guznU3OY1+BK964gb42awIdogkzIItVGTvg9FtS8gIxxLWz/ng77SoPyoiNqzy
-        YtTnaUZ7eEyw/+xwxYMwDu2D61Weqtc=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-648-_MWQ3OJRNciiqJNeeMLGTA-1; Fri, 21 Oct 2022 04:35:41 -0400
-X-MC-Unique: _MWQ3OJRNciiqJNeeMLGTA-1
-Received: by mail-qv1-f70.google.com with SMTP id q17-20020a056214019100b004b1d3c9f3acso1842437qvr.0
-        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 01:35:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tbFeBX32l+yge7/Aih1kg+kLlJEAu6ZHtL5mIDt4umE=;
-        b=7fIWtmSG1Z9BbrS5qM/e4WxORuqRBh67bbXti/EyixgvhCZklnhKE/Cby5F1EDOqLa
-         TBWDHOXbtihLC120V1RVAmRZyZJ9IjA/P8m4UKRV8kzfWi47LstN/uH4nXHIndC/+RFD
-         r3Mvi3jL5JL7BMkdvuiRINFcpHHDZcq17GYmlq01nouiXxi81N9imN1lSwNo/Mt7EBxg
-         QF8aWmk/2V+dGwFp2WQVAFWwuYXgkKpd0bw57x3EIaoiWVkShVZBNteYr4x7mrLIWSIn
-         sO8OroQsMnTM9xwG2kQvj7PEe/Lhx2qJrVt9J72KNtt7ljQhR76oV7OOMx5e15Yos7y6
-         jiag==
-X-Gm-Message-State: ACrzQf1m5SRJlEl3uBSDS5+S6IpwGAzFAS8W3B78l9nnZmDLnI+iayKi
-        Ssd4s9LiHQkHBRLwcq3V/iwCz+3129hw3aVeUXB+JRW98eYmJ+TGM1wofGH7uj6QJN1nnzSFY9M
-        K/M5e3ksITybTE6z63AJv
-X-Received: by 2002:a05:622a:1015:b0:39c:be69:bf2d with SMTP id d21-20020a05622a101500b0039cbe69bf2dmr15775609qte.85.1666341340426;
-        Fri, 21 Oct 2022 01:35:40 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7SJEz9an/JHrJkcQgSTe2mAkdY80/iaHsDALyyjropkfe4mxW3DCsvB3LxY6yWUMy5NivL6A==
-X-Received: by 2002:a05:622a:1015:b0:39c:be69:bf2d with SMTP id d21-20020a05622a101500b0039cbe69bf2dmr15775591qte.85.1666341340102;
-        Fri, 21 Oct 2022 01:35:40 -0700 (PDT)
-Received: from nfvsdn-06.testing.baremetal.edge-sites.net (nat-pool-232-132.redhat.com. [66.187.232.132])
-        by smtp.gmail.com with ESMTPSA id cb23-20020a05622a1f9700b0039cc22a2c49sm7693863qtb.47.2022.10.21.01.35.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Oct 2022 01:35:39 -0700 (PDT)
-From:   mtahhan@redhat.com
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Maryam Tahhan <mtahhan@redhat.com>,
-        Lorenzo Bianconi <lorenzo@kernel.org>
-Subject: [PATCH bpf-next v1 1/1] docs: BPF_MAP_TYPE_CPUMAP
-Date:   Fri, 21 Oct 2022 05:30:50 -0400
-Message-Id: <20221021093050.2711300-1-mtahhan@redhat.com>
-X-Mailer: git-send-email 2.35.3
+        bh=eHVJEOZ4ET+hU/ulp5QMblIs5IlHC0UEzv7fN95cwQ4=;
+        b=Zcd+og4D0v6a3AJ0bF1sf7CxXN+tAgG4ie+AqfzUqW3d2Q1hYJMXE3yUqPx15ChZGkinqv
+        +6vSXEO1EBlGJIQucDYYlB6LbMyoxBzdER2J4WfWTaKGs5ayIPNaZfB20ueaxvSi8J2beg
+        Euqt2jz/7QkrXT2xdTIEsF1PzZ4hnxNLApURFFbnWvGzXe+TheDbhpwGKNgPomZEdAFylD
+        7ou8+XeLYLFaJiqjK0JTakrDYnYSgdynoSc8WsMNtBm+C620spvEfjCODhBTIu+cHE1nP4
+        5o+p6hVV26SFIPLlwmdWZK12Q83x8L4UqGQ8zqNGl1hnMecOydGqiHtqqm7kAA==
+From:   Rui Li <me@lirui.org>
+To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Wu XiangCheng <wu.xiangcheng@linux.dev>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rui Li <me@lirui.org>
+Subject: [PATCH] docs/zh_CN: Add subsystem-apis Chinese translation
+Date:   Fri, 21 Oct 2022 16:35:01 +0800
+Message-Id: <20221021083501.347066-1-me@lirui.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Maryam Tahhan <mtahhan@redhat.com>
+Translate subsystem-apis.rst into Chinese.
 
-Add documentation for BPF_MAP_TYPE_CPUMAP including
-kernel version introduced, usage and examples.
-
-Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
-Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
-Co-developed-by: Lorenzo Bianconi <lorenzo@kernel.org>
+Signed-off-by: Rui Li <me@lirui.org>
 ---
- Documentation/bpf/map_cpumap.rst | 166 +++++++++++++++++++++++++++++++
- 1 file changed, 166 insertions(+)
- create mode 100644 Documentation/bpf/map_cpumap.rst
+ Documentation/translations/zh_CN/index.rst    |  5 +-
+ .../translations/zh_CN/subsystem-apis.rst     | 66 +++++++++++++++++++
+ 2 files changed, 67 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/subsystem-apis.rst
 
-diff --git a/Documentation/bpf/map_cpumap.rst b/Documentation/bpf/map_cpumap.rst
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index ec99ef5fe990..1250f2afd928 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -53,10 +53,7 @@
+    core-api/index
+    driver-api/index
+    内核中的锁 <locking/index>
+-
+-TODOList:
+-
+-* subsystem-apis
++   subsystem-apis
+ 
+ 开发工具和流程
+ --------------
+diff --git a/Documentation/translations/zh_CN/subsystem-apis.rst b/Documentation/translations/zh_CN/subsystem-apis.rst
 new file mode 100644
-index 000000000000..63e203f5a5da
+index 000000000000..5ceca6c3ca1b
 --- /dev/null
-+++ b/Documentation/bpf/map_cpumap.rst
-@@ -0,0 +1,166 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2022 Red Hat, Inc.
++++ b/Documentation/translations/zh_CN/subsystem-apis.rst
+@@ -0,0 +1,66 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ./disclaimer-zh_CN.rst
 +
-+===================
-+BPF_MAP_TYPE_CPUMAP
-+===================
++:Original: Documentation/subsystem-apis.rst
 +
-+.. note::
-+   - ``BPF_MAP_TYPE_CPUMAP`` was introduced in kernel version 4.15
++:翻译:
 +
-+``BPF_MAP_TYPE_CPUMAP`` is primarily used as a backend map for the XDP BPF helpers
-+``bpf_redirect_map()`` and ``XDP_REDIRECT`` action. This map type redirects raw
-+XDP frames to another CPU.
++  李睿 Rui Li <me@lirui.org>
 +
-+A CPUMAP is a scalability and isolation mechanism, that allows separating the driver
-+network XDP layer, from the rest of the network stack, and assigning dedicated
-+CPUs for this stage. An example use case for this map type is software based Receive
-+Side Scaling (RSS) at the XDP layer.
++==============
++内核子系统文档
++==============
 +
-+The CPUMAP represents the CPUs in the system indexed as the map-key, and the
-+map-value is the config setting (per CPUMAP entry). Each CPUMAP entry has a dedicated
-+kernel thread bound to the given CPU to represent the remote CPU execution unit.
++这些文档会从一个内核开发者的角度去深入讲述一些内核子系统的运行细节。这里
++的许多信息直接来源于内核源码，加上一些必要的补充材料（或者至少是我们人为
++加上的——尽管有些并 *不* 必要）。
 +
-+The CPUMAP entry represents a multi-producer single-consumer (MPSC) queue
-+(implemented via ``ptr_ring`` in the kernel). The single consumer is the CPUMAP
-+``kthread`` that can access the ``ptr_ring`` queue without taking any lock. It also
-+tries to bulk dequeue eight xdp_frame objects, as they represent one cache line.
-+The multi-producers can be RX IRQ line CPUs queuing up packets simultaneously for
-+the remote CPU. To avoid queue lock contention for each producer CPU, there is a
-+small eight-object queue to generate bulk enqueueing into the cross-CPU queue.
-+This careful queue usage means that each cache line transfers eight frames across
-+the CPUs.
++**Fixme**: 需要更多文档组织工作。
 +
-+.. note::
++.. toctree::
++   :maxdepth: 1
 +
-+    XDP packets getting XDP redirected to another CPU, will maximum be stored/queued
-+    for one ``driver ->poll()`` call. Queueing the frame and the flush operation
-+    are guaranteed to happen on same CPU. Thus, ``cpu_map_flush`` operation can deduce
-+    via ``this_cpu_ptr()`` which queue in bpf_cpu_map_entry contains packets.
++   driver-api/index
++   core-api/index
++   locking/index
++   accounting/index
++   cpu-freq/index
++   iio/index
++   infiniband/index
++   power/index
++   virt/index
++   sound/index
++   filesystems/index
++   mm/index
++   PCI/index
++   scheduler/index
++   peci/index
 +
-+Usage
-+=====
++TODOList:
 +
-+.. c:function::
-+   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
-+
-+ CPU entries can be added or updated using the ``bpf_map_update_elem()``
-+ helper. This helper replaces existing elements atomically. The ``value`` parameter
-+ can be ``struct bpf_cpumap_val``.
-+
-+ .. note::
-+    The maps can only be updated from user space and not from a BPF program.
-+
-+ .. code-block:: c
-+
-+    struct bpf_cpumap_val {
-+        __u32 qsize;  /* queue size to remote target CPU */
-+        union {
-+            int   fd; /* prog fd on map write */
-+            __u32 id; /* prog id on map read */
-+        } bpf_prog;
-+    };
-+
-+ Starting from Linux kernel version 5.9 the CPUMAP can run a second XDP program
-+ on the remote CPU. This helps with scalability as the receive CPU should spend
-+ as few cycles as possible processing packets. The remote CPU (to which the packet is
-+ directed) can afford to spend more cycles processing the frame. For example, packets
-+ are received on a CPU to which the IRQ of the NIC RX queue is steered. This CPU
-+ is the one that initially sees the packets. This is where the XDP redirect program
-+ is executed. Because the objective is to scale the CPU usage across multiple CPUs,
-+ the eBPF program should use as few cycles as possible on this initial CPU; just
-+ enough to determine which remote CPU to send the packet to, and then move the
-+ packet to a remote CPU for continued processing. The remote CPUMAP ``kthread``
-+ receives raw XDP frame (``xdp_frame``) objects. If the frames are to be passed
-+ to the networking stack, the SKB objects are allocated by the remote CPU, and
-+ the SKBs are passed to the networking stack.
-+
-+.. c:function::
-+   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-+
-+ CPU entries can be retrieved using the ``bpf_map_lookup_elem()``
-+ helper.
-+
-+.. c:function::
-+   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
-+
-+ CPU entries can be deleted using the ``bpf_map_delete_elem()``
-+ helper. This helper will return 0 on success, or negative error in case of
-+ failure.
-+
-+.. c:function::
-+     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
-+
-+ Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
-+ For ``BPF_MAP_TYPE_CPUMAP`` this map contains references to CPUs.
-+
-+ The lower two bits of *flags* are used as the return code if the map lookup
-+ fails. This is so that the return value can be one of the XDP program return
-+ codes up to ``XDP_TX``, as chosen by the caller.
-+
-+Examples
-+========
-+Kernel
-+------
-+
-+The following code snippet shows how to declare a BPF_MAP_TYPE_CPUMAP called cpu_map.
-+
-+.. code-block:: c
-+
-+   struct {
-+        __uint(type, BPF_MAP_TYPE_CPUMAP);
-+        __type(key, u32);
-+        __type(value, struct bpf_cpumap_val);
-+    } cpu_map SEC(".maps");
-+
-+The following code snippet shows how to redirect packets to a remote CPU.
-+
-+.. code-block:: c
-+
-+    struct {
-+        __uint(type, BPF_MAP_TYPE_ARRAY);
-+        __type(key, u32);
-+        __type(value, u32);
-+    } cpus_available SEC(".maps"); /* Map populated by user space program as selectable redirect CPUs*/
-+
-+    SEC("xdp")
-+    int  xdp_redir_cpu(struct xdp_md *ctx)
-+    {
-+        u32 key = bpf_get_smp_processor_id();
-+        u32 *cpu_selected;
-+        u32 cpu_dest = 0;
-+
-+        cpu_selected = bpf_map_lookup_elem(&cpus_available, &key);
-+        if (!cpu_selected)
-+            return XDP_ABORTED;
-+        cpu_dest = *cpu_selected;
-+
-+        if (cpu_dest >= bpf_num_possible_cpus()) {
-+            return XDP_ABORTED;
-+        }
-+        return bpf_redirect_map(&cpu_map, cpu_dest, 0);
-+    }
-+
-+User Space
-+----------
-+
-+The following code snippet shows how to update a CPUMAP called cpumap.
-+
-+.. code-block:: c
-+
-+    static int create_cpu_entry(__u32 cpu, struct bpf_cpumap_val *value)
-+    {
-+        int ret;
-+
-+        ret = bpf_map_update_elem(bpf_map__fd(cpu_map), &cpu, value, 0);
-+        if (ret < 0)
-+            fprintf(stderr, "Create CPU entry failed: %s\n", strerror(errno));
-+
-+        return ret;
-+    }
-+
-+References
-+===========
-+
-+- https://elixir.bootlin.com/linux/v6.0.1/source/kernel/bpf/cpumap.c
-+- https://developers.redhat.com/blog/2021/05/13/receive-side-scaling-rss-with-ebpf-and-cpumap#redirecting_into_a_cpumap
++* block/index
++* cdrom/index
++* fb/index
++* fpga/index
++* hid/index
++* i2c/index
++* isdn/index
++* leds/index
++* netlabel/index
++* networking/index
++* pcmcia/index
++* target/index
++* timers/index
++* spi/index
++* w1/index
++* watchdog/index
++* input/index
++* hwmon/index
++* gpu/index
++* security/index
++* crypto/index
++* bpf/index
++* usb/index
++* scsi/index
++* misc-devices/index
++* mhi/index
 -- 
-2.35.3
+2.30.2
 
