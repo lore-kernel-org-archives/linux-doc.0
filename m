@@ -2,86 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D3F1C43219
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 11:57:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 128CBC433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 13:38:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229833AbiJUL5d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Oct 2022 07:57:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51976 "EHLO
+        id S229734AbiJUNiB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Oct 2022 09:38:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230203AbiJUL5a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 07:57:30 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C66BC263951
-        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 04:57:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666353449; x=1697889449;
-  h=message-id:date:mime-version:subject:from:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=/S5sbckmBratQj0/GUalMmZBADiH48Uig1Bx5YjGDE0=;
-  b=FpO/bPHq1uqizHLlNJGuTK3Bpc+Uy15mJXQ3D4fWwCSpzwKXCBa+ZhMu
-   k+pcpH4CbCPbls/8WY4YvOvKe1uDwtvMxNsksWj/J92rlQ9EQwZVWrT0j
-   rGm3LOuPI5abmIoojHd1zCgzv5whVoNmFIT/3efMigYmeVjXHNCOtPiQp
-   woiBF3P0WKK/DXCke6s6QsVbajwI1cMxJRS9MbkfR0W8C9ylgfgIgdRrX
-   q8jSeY+hjkW/u8PtCcrZIyUKaGKIc92m2+0qctqcVmcwimEA2HW5Eujud
-   JRfRErCEWvUT/YSxBRQ7aVwEqGQRvJOvw0cFYM1Dh7Zzm6bDeW6/r7iKG
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="369033706"
-X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
-   d="scan'208";a="369033706"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 04:57:28 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="773010716"
-X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
-   d="scan'208";a="773010716"
-Received: from mkwapuli-mobl.ger.corp.intel.com (HELO [10.213.29.238]) ([10.213.29.238])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 04:57:23 -0700
-Message-ID: <babed2a4-5d8d-1c2b-d8f3-7db123bf134b@linux.intel.com>
-Date:   Fri, 21 Oct 2022 13:57:20 +0200
+        with ESMTP id S229690AbiJUNiA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 09:38:00 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A8342565F8;
+        Fri, 21 Oct 2022 06:37:59 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id m29-20020a05600c3b1d00b003c6bf423c71so5054623wms.0;
+        Fri, 21 Oct 2022 06:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PgF3erMvkQ/nPTqAM5KhZUMocLuItW+UzQkK48NYCD8=;
+        b=K8jPLGL63Olt1F7lCbQ3UoyvbJzrlSn0DT9M2HXdMxJfG00nf8CL5piElNVBAHol7X
+         YGMjKMIViUxW0He6lJvEdMwcGa8rLsAcetT4E21ee5j3VxcYhozjamFO0L9agSwHlDvy
+         ExsENlfCbL6KJYMQVTAVCYKu96teeQCwipCiImB9eLYzK1WJY4ksSTOqkFggAzzN94i6
+         QL4pfNqxOM04Szhc5Q4QGTEagdCRYCj2HmBr0NhRfnHF33VV3D78WIuLHJ8kusMD5QMU
+         rPxHmbm7paK/rv/VoJo6qOaEKfhW9jxgLPuVJTs5puzOdvs4NsuK5/QEMBigWH2r7B1e
+         16cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PgF3erMvkQ/nPTqAM5KhZUMocLuItW+UzQkK48NYCD8=;
+        b=f6NketbLltXSUXhXw0KwN9kPDvIIdNhPLLIcb2e+V08uGpVnLtJx2aFzZ5zydOmOQx
+         cdv4WLogHgHcDgjy2G4sb+kTFNI64vNp8AzmX5IkHzZriWpqh9z02Ho6E0J/7kJVG+bl
+         CthHP3dpIEFzzeBK84MK0kkD/K5W+daXv/CB83FTqK7aNf9ws47xyPdT0/Gn+2fToaoy
+         L7Frikr+NPlQ42h9V5GWvQGFJP9+EAcJcHkmtQslUeftvo/Ird9pqJWOm7aLQYJLMN4o
+         OT0SnU1GgR7krmmz4/90n22O1DR8TjlqkXHXR5hZhaBDKOCLcqEPImGV5h/gOpTBB/sT
+         AMiQ==
+X-Gm-Message-State: ACrzQf0qc0IglFg+CQQWD46FIE6NdrxslmdJg51lJnEzn5Qkp1D1lSf8
+        YCMBFaIZ7pZcD1Bksc312LU=
+X-Google-Smtp-Source: AMsMyM6FTDgQU5Wss7fI1bkRxVh0HeeWO6FzGMbf4dgxE5NXB2hH7qmsm0xZwT//hruLWB525wnBDw==
+X-Received: by 2002:a7b:cc0c:0:b0:3c5:a58f:afbc with SMTP id f12-20020a7bcc0c000000b003c5a58fafbcmr13323181wmh.169.1666359477416;
+        Fri, 21 Oct 2022 06:37:57 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:cc4f:5367:93c1:b0d5])
+        by smtp.gmail.com with ESMTPSA id 1-20020a1c1901000000b003bf3fe1d0c4sm2520459wmz.22.2022.10.21.06.37.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Oct 2022 06:37:56 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     bpf <bpf@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        dave@dtucker.co.uk
+Subject: Re: [PATCH bpf-next v7 1/1] bpf, docs: document BPF_MAP_TYPE_ARRAY
+In-Reply-To: <CAADnVQLRyP2hgvmLubnCdZuPHofQ8CGRiGq_a2FQy_ZzRimiEw@mail.gmail.com>
+        (Alexei Starovoitov's message of "Wed, 19 Oct 2022 17:05:32 -0700")
+Date:   Fri, 21 Oct 2022 14:37:38 +0100
+Message-ID: <m2fsfhuwkd.fsf@gmail.com>
+References: <20221007162755.36677-1-donald.hunter@gmail.com>
+        <20221007162755.36677-2-donald.hunter@gmail.com>
+        <CAADnVQLRyP2hgvmLubnCdZuPHofQ8CGRiGq_a2FQy_ZzRimiEw@mail.gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v5 07/10] gna: add GNA_COMPUTE ioctl
-Content-Language: en-US
-From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Olof Johansson <olof@lixom.net>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
-        Anisha Dattatraya Kulkarni 
-        <anisha.dattatraya.kulkarni@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-References: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com>
- <20221020175334.1820519-8-maciej.kwapulinski@linux.intel.com>
- <CACRpkdYDYUEx-hWNrUB5cXbH_2oXzRYc2pwn=4u5mivGn14eVw@mail.gmail.com>
- <f72f1d2d-b0cc-6130-05d6-4ec5f5c9d914@linux.intel.com>
-In-Reply-To: <f72f1d2d-b0cc-6130-05d6-4ec5f5c9d914@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
 
-On 10/21/2022 1:52 PM, Maciej Kwapulinski wrote:
-> On 10/21/2022 11:30 AM, Linus Walleij wrote:
->> Hi Maciej,
-> Hi Walleij
+> On Fri, Oct 7, 2022 at 9:39 AM Donald Hunter <donald.hunter@gmail.com> wrote:
+>
+> Actually all values are rounded up to 8.
+> Maybe we should say that all array elements are aligned to 8
+> instead of values are rounded?
+> Because values_size=4 stays as 4 from bpf prog pov.
+> The progs cannot access bytes 5,6,7,8 though that memory is consumed.
 
-oo sorry,  hi Linus
+Agreed, I will reword to mention alignment instead of rounding.
 
-I should say
+>> +When using a ``BPF_MAP_TYPE_PERCPU_ARRAY`` the ``bpf_map_update_elem()`` and
+>> +``bpf_map_lookup_elem()`` helpers automatically access the hash slot for the
+>> +current CPU.
+>
+> hash slot?
+> the copy paste went wrong? :)
 
+Good catch.
 
+>> +    int bpf_prog(struct __sk_buff *skb)
+>> +    {
+>> +            int index = load_byte(skb,
+>> +                                  ETH_HLEN + offsetof(struct iphdr, protocol));
+>> +            long *value;
+>
+> Please avoid using deprecated instructions like load_byte in examples.
+
+Will rewrite to use bpf_skb_load_bytes.
+
+>> +    int create_array() {
+>> +            int fd;
+>> +            LIBBPF_OPTS(bpf_map_create_opts, opts, .map_flags = BPF_F_MMAPABLE);
+>
+> Add empty line pls.
+
+Ack.
+
+>> +    int lookup(int fd) {
+>> +            __u32 index = 42;
+>> +            long value;
+>> +            int ret = bpf_map_lookup_elem(fd, &index, &value);
+>
+> Empty line pls.
+> Or better yet do 'int ret;'
+> and ret = bpf_map... on a separate line.
+
+Ack.
+
+>> +    int lookup(int fd) {
+>> +            int ncpus = libbpf_num_possible_cpus();
+>> +            __u32 index = 42, j;
+>> +            long values[ncpus];
+>> +            int ret = bpf_map_lookup_elem(fd, &index, &values);
+>
+> same here.
+
+Ack. Thansk for the review!
