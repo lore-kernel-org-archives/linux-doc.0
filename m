@@ -2,225 +2,257 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 748F0C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 08:32:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE83C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 08:36:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230256AbiJUIcG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Oct 2022 04:32:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47256 "EHLO
+        id S230026AbiJUIgW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Oct 2022 04:36:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230111AbiJUIbx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 04:31:53 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 927E921CD65;
-        Fri, 21 Oct 2022 01:30:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666341042; x=1697877042;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=iStXbW6utP2Sr5Eu3lyDBrnn9cA6vtUAUyNGvoK3NtY=;
-  b=Uf7JYtBywDSGtclTl8KAQ32yCvKAI6TjiFi3YDrgVn+NbIQonDa/x7cM
-   RUodL6IlY5VTHVBrSiaNAPYzwIYJTz+6H1rQTjYTaTDNnTTvYmQg2pSjY
-   AGms6hD1nAtvJa/GVDiXltS9jmysp0w9U5tTfo3UkT5r0H4x/fmU5fowY
-   Q7oH6qmKghprkhHWQFWRNuRgzjjoYYmFm9EqvaTu4Pb4ngRAxe+c2oXfn
-   OTywvp46gsgOKiVlEoiDtwUoVFJUalwkKSpMEH9qLMP/Vt5omXZY1Tvi/
-   Gjw8dowt0DsZZ2NpXKZ3ZKxml0Mrymw+jH5Tp12Uup1SV18d9C0PdeqhO
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="371162339"
-X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
-   d="scan'208";a="371162339"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 01:29:05 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="719594843"
-X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
-   d="scan'208";a="719594843"
-Received: from lramir2-mobl1.ger.corp.intel.com ([10.252.44.179])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 01:29:00 -0700
-Date:   Fri, 21 Oct 2022 11:28:58 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, Lukas Wunner <lukas@wunner.de>,
-        marpagan@redhat.com
-Subject: Re: [PATCH v4 1/4] Documentation: fpga: dfl: Add documentation for
- DFHv1
-In-Reply-To: <20221020212610.697729-2-matthew.gerlach@linux.intel.com>
-Message-ID: <d265dae0-fe4b-8ac0-fb9e-2a7345b279a2@linux.intel.com>
-References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com> <20221020212610.697729-2-matthew.gerlach@linux.intel.com>
+        with ESMTP id S230198AbiJUIgP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 04:36:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B6C24CC8B
+        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 01:35:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666341343;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=tbFeBX32l+yge7/Aih1kg+kLlJEAu6ZHtL5mIDt4umE=;
+        b=iZQNDc0/hsnRjmnLOc3JPG/qqWZ2rF8L8svaYl2FL0c1d1BHFZ5gavA6Z1OPftfTy+f2mF
+        cKQxcUY4guznU3OY1+BK964gb42awIdogkzIItVGTvg9FtS8gIxxLWz/ng77SoPyoiNqzy
+        YtTnaUZ7eEyw/+xwxYMwDu2D61Weqtc=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-648-_MWQ3OJRNciiqJNeeMLGTA-1; Fri, 21 Oct 2022 04:35:41 -0400
+X-MC-Unique: _MWQ3OJRNciiqJNeeMLGTA-1
+Received: by mail-qv1-f70.google.com with SMTP id q17-20020a056214019100b004b1d3c9f3acso1842437qvr.0
+        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 01:35:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tbFeBX32l+yge7/Aih1kg+kLlJEAu6ZHtL5mIDt4umE=;
+        b=7fIWtmSG1Z9BbrS5qM/e4WxORuqRBh67bbXti/EyixgvhCZklnhKE/Cby5F1EDOqLa
+         TBWDHOXbtihLC120V1RVAmRZyZJ9IjA/P8m4UKRV8kzfWi47LstN/uH4nXHIndC/+RFD
+         r3Mvi3jL5JL7BMkdvuiRINFcpHHDZcq17GYmlq01nouiXxi81N9imN1lSwNo/Mt7EBxg
+         QF8aWmk/2V+dGwFp2WQVAFWwuYXgkKpd0bw57x3EIaoiWVkShVZBNteYr4x7mrLIWSIn
+         sO8OroQsMnTM9xwG2kQvj7PEe/Lhx2qJrVt9J72KNtt7ljQhR76oV7OOMx5e15Yos7y6
+         jiag==
+X-Gm-Message-State: ACrzQf1m5SRJlEl3uBSDS5+S6IpwGAzFAS8W3B78l9nnZmDLnI+iayKi
+        Ssd4s9LiHQkHBRLwcq3V/iwCz+3129hw3aVeUXB+JRW98eYmJ+TGM1wofGH7uj6QJN1nnzSFY9M
+        K/M5e3ksITybTE6z63AJv
+X-Received: by 2002:a05:622a:1015:b0:39c:be69:bf2d with SMTP id d21-20020a05622a101500b0039cbe69bf2dmr15775609qte.85.1666341340426;
+        Fri, 21 Oct 2022 01:35:40 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7SJEz9an/JHrJkcQgSTe2mAkdY80/iaHsDALyyjropkfe4mxW3DCsvB3LxY6yWUMy5NivL6A==
+X-Received: by 2002:a05:622a:1015:b0:39c:be69:bf2d with SMTP id d21-20020a05622a101500b0039cbe69bf2dmr15775591qte.85.1666341340102;
+        Fri, 21 Oct 2022 01:35:40 -0700 (PDT)
+Received: from nfvsdn-06.testing.baremetal.edge-sites.net (nat-pool-232-132.redhat.com. [66.187.232.132])
+        by smtp.gmail.com with ESMTPSA id cb23-20020a05622a1f9700b0039cc22a2c49sm7693863qtb.47.2022.10.21.01.35.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Oct 2022 01:35:39 -0700 (PDT)
+From:   mtahhan@redhat.com
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Maryam Tahhan <mtahhan@redhat.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>
+Subject: [PATCH bpf-next v1 1/1] docs: BPF_MAP_TYPE_CPUMAP
+Date:   Fri, 21 Oct 2022 05:30:50 -0400
+Message-Id: <20221021093050.2711300-1-mtahhan@redhat.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 20 Oct 2022, matthew.gerlach@linux.intel.com wrote:
+From: Maryam Tahhan <mtahhan@redhat.com>
 
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> 
-> Add documentation describing the extensions provided by Version
-> 1 of the Device Feature Header (DFHv1).
-> 
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> ---
-> v4: Remove marketing speak and separate v0 and v1 descriptions.
->     Fix errors reported by "make htmldocs".
-> 
-> v3: no change
-> 
-> v2: s/GUILD/GUID/
->     add picture
-> ---
->  Documentation/fpga/dfl.rst | 96 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 96 insertions(+)
-> 
-> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-> index 15b670926084..12365be435a8 100644
-> --- a/Documentation/fpga/dfl.rst
-> +++ b/Documentation/fpga/dfl.rst
-> @@ -561,6 +561,102 @@ new DFL feature via UIO direct access, its feature id should be added to the
->  driver's id_table.
->  
->  
-> +Device Feature Header - Version 0
-> +===========================================
-> +The format of Version 0 of a Device Feature Header (DFH) is shown below::
-> +
-> +    +-----------------------------------------------------------------------+
-> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0| 0x00
-> +    +-----------------------------------------------------------------------+
-> +    |63                                 GUID_L                             0| 0x08
-> +    +-----------------------------------------------------------------------+
-> +    |63                                 GUID_H                             0| 0x10
-> +    +-----------------------------------------------------------------------+
-> +
-> +Offset 0x00
-> +Type - The type of DFH (e.g. FME, AFU, or private feature).
-> +DFH VER - The version of the DFH.
-> +Rsvd - Currently unused.
-> +EOL - Set if this DFH is the end of the Device Feature List (DFL).
-> +Next - The offset of the next DFH in the DFL from the start of the DFH.
-> +If EOL is set, Next refers to size of mmio for last feature in the list.
-> +ID - If Type field is 'private feature', then ID of the private feature.
-> +
-> +Offset 0x08
-> +GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier
-> +if Type is FME or AFU.
-> +
-> +Offset 0x10
-> +GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier
-> +if Type is FME or AFU.
-> +
-> +
-> +Device Feature Header - Version 1
-> +===========================================
+Add documentation for BPF_MAP_TYPE_CPUMAP including
+kernel version introduced, usage and examples.
 
-While this is structurally better than the previous one. I'd still include
-at least one paragraph about the purpose. Something along these lines 
-(picked from v3 + edited the marketing speak/v0 compare away from it):
+Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
+Co-developed-by: Lorenzo Bianconi <lorenzo@kernel.org>
+---
+ Documentation/bpf/map_cpumap.rst | 166 +++++++++++++++++++++++++++++++
+ 1 file changed, 166 insertions(+)
+ create mode 100644 Documentation/bpf/map_cpumap.rst
 
-Version 1 of the Device Feature Header (DFHv1) provides flexibility and 
-extensibility to hardware designs using Device Feature Lists. It is a
-standardized mechanism for features to describe parameters/capabilities to 
-software.
-
-With DFHv1:
-* GUID is mandatory for all types
-* The register space of the feature is decoupled from the location of the DFH
-* A list of parameter values associates to a particular feature.
-
-After that, the header itself makes much more sense already.
-
-> +The format of Version 1 of a Device Feature Header (DFH) is shown below::
-> +
-> +    +-----------------------------------------------------------------------+
-> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0| 0x00
-> +    +-----------------------------------------------------------------------+
-> +    |63                                 GUID_L                             0| 0x08
-> +    +-----------------------------------------------------------------------+
-> +    |63                                 GUID_H                             0| 0x10
-> +    +-----------------------------------------------------------------------+
-> +    |63                 Address/Offset                            1|  Rel  0| 0x18
-
-Should this mention it's addr/offs of registers? As is it's bit hard to 
-figure out from the diagram w/o the extra description. I think you have 
-plenty of space for adding that extra bit of info.
-
-> +    +-----------------------------------------------------------------------+
-> +    |63        Reg Size       32|Params 31|30 Group    16|15 Instance      0| 0x20
-> +    +-----------------------------------------------------------------------+
-> +    |63 Next      34|RSV33|EOP32|31 Param Version 16|15 Param ID           0| 0x28
-> +    +-----------------------------------------------------------------------+
-> +    |63                 Parameter Data                                     0| 0x30
-> +    +-----------------------------------------------------------------------+
-> +
-> +                                  ...
-> +
-> +    +-----------------------------------------------------------------------+
-> +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID           0|
-> +    +-----------------------------------------------------------------------+
-> +    |63                 Parameter Data                                     0|
-> +    +-----------------------------------------------------------------------+
-> +
-> +Offset 0x00
-> +Type - The type of DFH (e.g. FME, AFU, or private feature).
-> +DFH VER - The version of the DFH.
-> +Rsvd - Currently unused.
-> +EOL - Set if this DFH is the end of the Device Feature List (DFL).
-> +Next - The offset of the next DFH in the DFL from the start of the DFH.
-> +If EOL is set, Next refers to size of mmio for last feature in the list.
-> +ID - If Type field is 'private feature', then ID of the private feature.
-> +
-> +Offset 0x08
-> +GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier.
-> +
-> +Offset 0x10
-> +GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier
-> +if Type is FME or AFU.
-
-A copy-paste error?
-
-> +
-> +Offset 0x18
-> +Address/Offset - If Rel bit is set, then high 63 bits of a 16 bit aligned
-> +absolute address for the location of the feature's registers.
-> +If Rel bit is clear, then the feature's registers start at the
-> +offset from the start of the DFH.
-> +
-> +Offset 0x20
-> +Reg Size - Size of feature's register set.
-> +Params - Set if DFH has one or more parameter blocks.
-> +Group - Id of group if feature is part of a group.
-> +Instance - Id of instance of feature within a group.
-> +
-> +Offset 0x28 if feature has parameters
-> +Next - High 30 bits of a 32 bit aligned offset to the next parameter block.
-> +If EOP set, size of last parameter.
-> +Param Version - Version of Param ID.
-> +Param ID - ID of parameter.
-> +
-> +Offset 0x30
-> +Parameter Data - Parameter data whose size and format is defined by version
-> +and ID of the parameter.
-
-I'd reverse the order and say "ID and version" (kind of major thing 
-first).
-
-> +
->  Open discussion
->  ===============
->  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
-> 
-
+diff --git a/Documentation/bpf/map_cpumap.rst b/Documentation/bpf/map_cpumap.rst
+new file mode 100644
+index 000000000000..63e203f5a5da
+--- /dev/null
++++ b/Documentation/bpf/map_cpumap.rst
+@@ -0,0 +1,166 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++===================
++BPF_MAP_TYPE_CPUMAP
++===================
++
++.. note::
++   - ``BPF_MAP_TYPE_CPUMAP`` was introduced in kernel version 4.15
++
++``BPF_MAP_TYPE_CPUMAP`` is primarily used as a backend map for the XDP BPF helpers
++``bpf_redirect_map()`` and ``XDP_REDIRECT`` action. This map type redirects raw
++XDP frames to another CPU.
++
++A CPUMAP is a scalability and isolation mechanism, that allows separating the driver
++network XDP layer, from the rest of the network stack, and assigning dedicated
++CPUs for this stage. An example use case for this map type is software based Receive
++Side Scaling (RSS) at the XDP layer.
++
++The CPUMAP represents the CPUs in the system indexed as the map-key, and the
++map-value is the config setting (per CPUMAP entry). Each CPUMAP entry has a dedicated
++kernel thread bound to the given CPU to represent the remote CPU execution unit.
++
++The CPUMAP entry represents a multi-producer single-consumer (MPSC) queue
++(implemented via ``ptr_ring`` in the kernel). The single consumer is the CPUMAP
++``kthread`` that can access the ``ptr_ring`` queue without taking any lock. It also
++tries to bulk dequeue eight xdp_frame objects, as they represent one cache line.
++The multi-producers can be RX IRQ line CPUs queuing up packets simultaneously for
++the remote CPU. To avoid queue lock contention for each producer CPU, there is a
++small eight-object queue to generate bulk enqueueing into the cross-CPU queue.
++This careful queue usage means that each cache line transfers eight frames across
++the CPUs.
++
++.. note::
++
++    XDP packets getting XDP redirected to another CPU, will maximum be stored/queued
++    for one ``driver ->poll()`` call. Queueing the frame and the flush operation
++    are guaranteed to happen on same CPU. Thus, ``cpu_map_flush`` operation can deduce
++    via ``this_cpu_ptr()`` which queue in bpf_cpu_map_entry contains packets.
++
++Usage
++=====
++
++.. c:function::
++   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
++
++ CPU entries can be added or updated using the ``bpf_map_update_elem()``
++ helper. This helper replaces existing elements atomically. The ``value`` parameter
++ can be ``struct bpf_cpumap_val``.
++
++ .. note::
++    The maps can only be updated from user space and not from a BPF program.
++
++ .. code-block:: c
++
++    struct bpf_cpumap_val {
++        __u32 qsize;  /* queue size to remote target CPU */
++        union {
++            int   fd; /* prog fd on map write */
++            __u32 id; /* prog id on map read */
++        } bpf_prog;
++    };
++
++ Starting from Linux kernel version 5.9 the CPUMAP can run a second XDP program
++ on the remote CPU. This helps with scalability as the receive CPU should spend
++ as few cycles as possible processing packets. The remote CPU (to which the packet is
++ directed) can afford to spend more cycles processing the frame. For example, packets
++ are received on a CPU to which the IRQ of the NIC RX queue is steered. This CPU
++ is the one that initially sees the packets. This is where the XDP redirect program
++ is executed. Because the objective is to scale the CPU usage across multiple CPUs,
++ the eBPF program should use as few cycles as possible on this initial CPU; just
++ enough to determine which remote CPU to send the packet to, and then move the
++ packet to a remote CPU for continued processing. The remote CPUMAP ``kthread``
++ receives raw XDP frame (``xdp_frame``) objects. If the frames are to be passed
++ to the networking stack, the SKB objects are allocated by the remote CPU, and
++ the SKBs are passed to the networking stack.
++
++.. c:function::
++   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
++
++ CPU entries can be retrieved using the ``bpf_map_lookup_elem()``
++ helper.
++
++.. c:function::
++   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
++
++ CPU entries can be deleted using the ``bpf_map_delete_elem()``
++ helper. This helper will return 0 on success, or negative error in case of
++ failure.
++
++.. c:function::
++     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
++
++ Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
++ For ``BPF_MAP_TYPE_CPUMAP`` this map contains references to CPUs.
++
++ The lower two bits of *flags* are used as the return code if the map lookup
++ fails. This is so that the return value can be one of the XDP program return
++ codes up to ``XDP_TX``, as chosen by the caller.
++
++Examples
++========
++Kernel
++------
++
++The following code snippet shows how to declare a BPF_MAP_TYPE_CPUMAP called cpu_map.
++
++.. code-block:: c
++
++   struct {
++        __uint(type, BPF_MAP_TYPE_CPUMAP);
++        __type(key, u32);
++        __type(value, struct bpf_cpumap_val);
++    } cpu_map SEC(".maps");
++
++The following code snippet shows how to redirect packets to a remote CPU.
++
++.. code-block:: c
++
++    struct {
++        __uint(type, BPF_MAP_TYPE_ARRAY);
++        __type(key, u32);
++        __type(value, u32);
++    } cpus_available SEC(".maps"); /* Map populated by user space program as selectable redirect CPUs*/
++
++    SEC("xdp")
++    int  xdp_redir_cpu(struct xdp_md *ctx)
++    {
++        u32 key = bpf_get_smp_processor_id();
++        u32 *cpu_selected;
++        u32 cpu_dest = 0;
++
++        cpu_selected = bpf_map_lookup_elem(&cpus_available, &key);
++        if (!cpu_selected)
++            return XDP_ABORTED;
++        cpu_dest = *cpu_selected;
++
++        if (cpu_dest >= bpf_num_possible_cpus()) {
++            return XDP_ABORTED;
++        }
++        return bpf_redirect_map(&cpu_map, cpu_dest, 0);
++    }
++
++User Space
++----------
++
++The following code snippet shows how to update a CPUMAP called cpumap.
++
++.. code-block:: c
++
++    static int create_cpu_entry(__u32 cpu, struct bpf_cpumap_val *value)
++    {
++        int ret;
++
++        ret = bpf_map_update_elem(bpf_map__fd(cpu_map), &cpu, value, 0);
++        if (ret < 0)
++            fprintf(stderr, "Create CPU entry failed: %s\n", strerror(errno));
++
++        return ret;
++    }
++
++References
++===========
++
++- https://elixir.bootlin.com/linux/v6.0.1/source/kernel/bpf/cpumap.c
++- https://developers.redhat.com/blog/2021/05/13/receive-side-scaling-rss-with-ebpf-and-cpumap#redirecting_into_a_cpumap
 -- 
- i.
+2.35.3
 
