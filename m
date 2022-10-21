@@ -2,105 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC927C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 08:10:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31241C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 08:10:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230036AbiJUIK0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Oct 2022 04:10:26 -0400
+        id S230048AbiJUIK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Oct 2022 04:10:29 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230024AbiJUIKY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 04:10:24 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 530FC1213C1
-        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 01:10:16 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id pq16so1798514pjb.2
-        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 01:10:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lXzKjs0QuMJFHhHxqVj+9SnjfrHwM3NF7YIpt7TNTaI=;
-        b=Mys3W+v6NhbOdm7NK0w/s1vYs/tSmZ9FEvVzZmbw6YJc//vUdLNLAE6ZH2f35RE+1F
-         gPEDc9WjHtuOxTpj1+IrzWgUObf4K3kneIO9OE8z5a2ndn0U5sXu8UbVyxR70Pd7pIPo
-         rAr4qbDHfPu/RSlFI5p3AyhkdVbFatymvOUxjquprgHcdi5UAvqc4Qx99rbZq0qyZTdY
-         KwJO9pgLRPE/YA49BxLSXCPZcRnXKe1aCWmKmxLtoY6glHeVvY2BR4ubrAx40DDW574j
-         OqMGYuaSqT2k0oK+Xvcclc96aSkwxK/nln9vF58um4Y7Z4MTvv4ERaS7rs+iLY4cMeiu
-         kn5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lXzKjs0QuMJFHhHxqVj+9SnjfrHwM3NF7YIpt7TNTaI=;
-        b=Nl8jI8wAIUsLw+pIV1zNP+TNnD9gWpHmQmGozEoUiVcpO+x2RVZz7A7+QnnK08u8RW
-         ajRIJH+DxNJkOch6PUOiC/MbzBQKgec3Yfx9MAoQPpUTLGA8MstyLEPWhFavK0b/OjK7
-         aT3eFt4+QaCSaCGrkewIx7Uo7HaNzDvohJ7McbZJUSXWZXK7iloElOmVU0L1AlO8MnAx
-         V5l3tFBZZ5tajY+k5jIC0Y4dLSgYqOpc63xYxsyl+46ogZHAEhVLl4/9ZfAkpM4VkvBD
-         yPU2emf1kKhespVhCk8JmwzZLHZrCdZt3EJ4Qd9qXtyTa5H4KKQYi6AD+y55Dw2gFCLf
-         sHjA==
-X-Gm-Message-State: ACrzQf3ZMM1k2B9SG/urdyPo/vo/4p+FFhK2k4/bUkMF+Xregtzlt2lB
-        XBjMGDF3Zyzm240LMRtQzbw=
-X-Google-Smtp-Source: AMsMyM5sAFDn2m7eU1IO1HLR+Dj5DRv48PD66GqVJlKBjSno4da6VVojeRmW/AHTGunJwekUL3XgVA==
-X-Received: by 2002:a17:90b:350d:b0:20d:5438:f594 with SMTP id ls13-20020a17090b350d00b0020d5438f594mr57585559pjb.216.1666339815632;
-        Fri, 21 Oct 2022 01:10:15 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-84.three.co.id. [180.214.232.84])
-        by smtp.gmail.com with ESMTPSA id 33-20020a17090a09a400b0020647f279fbsm1108879pjo.29.2022.10.21.01.10.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Oct 2022 01:10:15 -0700 (PDT)
-Message-ID: <12aeed77-081c-ac40-4b6e-0415d551804e@gmail.com>
-Date:   Fri, 21 Oct 2022 15:10:06 +0700
+        with ESMTP id S229484AbiJUIK0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 04:10:26 -0400
+X-Greylist: delayed 607 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 21 Oct 2022 01:10:21 PDT
+Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::119])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 137DE143A7A;
+        Fri, 21 Oct 2022 01:10:19 -0700 (PDT)
+Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
+        by mail.avm.de (Postfix) with ESMTPS;
+        Fri, 21 Oct 2022 10:00:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+        t=1666339207; bh=Abfw+d2JGvnwL2wwS4MezKuSIAL3W5ixCmweLNw8/zA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KJdcCwutEZJ1VDisr+lxjtWwBjpacrE+GkIPq8Yasox0+9oe740wHRtilQrPIKQrL
+         WRzG6si/TIhPvhMIDZudcqUJytOCCYk/qsfw0X7Fs99+2wUXFWpkA1ZbBFN/o8cVUQ
+         82VFqlsY/umLZAULx7PwUx2/QPBleB3EuXQFeNxE=
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+        by mail-auth.avm.de (Postfix) with ESMTPA id DCE86802E1;
+        Fri, 21 Oct 2022 10:00:06 +0200 (CEST)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+        id CF890181FCA; Fri, 21 Oct 2022 10:00:06 +0200 (CEST)
+Date:   Fri, 21 Oct 2022 10:00:06 +0200
+From:   Nicolas Schier <n.schier@avm.de>
+To:     Dan Li <ashimida@linux.alibaba.com>
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, masahiroy@kernel.org,
+        michal.lkml@markovi.net, ndesaulniers@google.com, corbet@lwn.net,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC] Documentation: kbuild: Add description of git for
+ reproducible builds
+Message-ID: <Y1JRhiAQ1bV/Dh7h@buildd.core.avm.de>
+References: <20221020103823.31001-1-ashimida@linux.alibaba.com>
+ <Y1FVphEyu23U0jho@debian.me>
+ <8b2864bd-30b1-254f-ebd6-79967249da9b@linux.alibaba.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v5 01/10] gna: add PCI driver module
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Olof Johansson <olof@lixom.net>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-References: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com>
- <20221020175334.1820519-2-maciej.kwapulinski@linux.intel.com>
- <Y1IeJplXNHM+VvCJ@kroah.com>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <Y1IeJplXNHM+VvCJ@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <8b2864bd-30b1-254f-ebd6-79967249da9b@linux.alibaba.com>
+X-purgate-ID: 149429::1666339206-2C7E6AFC-1139E621/0/0
+X-purgate-type: clean
+X-purgate-size: 2773
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/21/22 11:20, Greg Kroah-Hartman wrote:
-> On Thu, Oct 20, 2022 at 07:53:25PM +0200, Maciej Kwapulinski wrote:
->> Add a new PCI driver for Intel(R) Gaussian & Neural Accelerator
+On Thu, Oct 20, 2022 at 06:48:20PM -0700, Dan Li wrote:
 > 
-> Please drop all of the (R) stuff in here, and in the Kconfig file and in
-> the .c files.  If your lawyers insist on it, please point them at me and
-> I will be glad to discuss it with them.
 > 
->>  Documentation/gpu/drivers.rst    |  1 +
->>  Documentation/gpu/gna.rst        | 64 ++++++++++++++++++++++++++++++++
+> On 10/20/22 07:05, Bagas Sanjaya wrote:
+> > On Thu, Oct 20, 2022 at 03:38:23AM -0700, Dan Li wrote:
+> > > diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
+> > > index 071f0151a7a4..13397f38c358 100644
+> > > --- a/Documentation/kbuild/reproducible-builds.rst
+> > > +++ b/Documentation/kbuild/reproducible-builds.rst
+> > > @@ -119,6 +119,16 @@ To avoid this, you can make the vDSO different for different
+> > >   kernel versions by including an arbitrary string of "salt" in it.
+> > >   This is specified by the Kconfig symbol ``CONFIG_BUILD_SALT``.
+> > > +Git
+> > > +-----------------------
+> > > +
+> > > +Uncommitted changes or different commit ids in git can also lead
+> > > +to different compilation results. For example, after executing
+> > > +``git reset HEAD^``, even if the code is the same, the
+> > > +``include/config/kernel.release`` generated during compilation
+> > > +will be different, which will eventually lead to binary differences.
+> > > +See ``scripts/setlocalversion`` for details.
+> > > +
+> > 
+> > Briefly read the script, I don't see what the correlation between git
+> > reset with LOCALVERSION thing is. Also, does the exact state of git
+> > repository required for reproducible builds?
+> > 
 > 
-> Why not just put the tiny documentation file in the .c code itself?
-> That way it stays up to date and might actually be noticed?
+> Hi Bagas,
 > 
+> The Makefile has the following code:
+> filechk_kernel.release = \
+>         echo "$(KERNELVERSION)$$($(CONFIG_SHELL) $(srctree)/scripts/setlocalversion $(srctree))"
+> 
+> The output of setlocalversion affects kernel.release, while the output
+> of setlocalversion is related to the state of git when the git repository
+> exists (see function scm_version).
+> 
+> So changes in git state will result in changes to kernel.release, and
+> this information will be included in the final output vmlinux/modules
+> and in turn affect reproducible builds.
+> 
+> For example:
+> $ git log
+> commit 4cd155a93eec......
+> $ make ...
+> $ cat include/config/kernel.release
+> 6.0.0-rc4-00025-g4cd155a93eec
+> 
+> $ git reset HEAD^
+> $ git log
+> commit 7b4d266b0c41......
+> $ make ...
+> $ cat include/config/kernel.release
+> 6.0.0-rc4-00024-g7b4d266b0c41-dirty
+> 
+> 
+> AFAICT, in the presence of a git repository, we can compile a reproducible
+> build kernel in any git state, but we need to ensure that the git state is
+> always the same between compilations (or the same from the perspective of
+> the scm_version function).
 
-I think the documentation should be on separate patch.
+yes, that definitely true.  Absence or presence of git tags can change
+the output of setlocalversion even more drastically.
 
--- 
-An old man doll... just what I always wanted! - Clara
+I think it is sensible to add a stanza about git in
+Documentation/kbuild/reproducible-builds.rst.
 
+
+Kind regards,
+Nicolas
