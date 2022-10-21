@@ -2,146 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9927FA373D
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 16:50:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4AD6FA373F
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 16:53:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230318AbiJUQuj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Oct 2022 12:50:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43698 "EHLO
+        id S231292AbiJUQx5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Oct 2022 12:53:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230363AbiJUQuh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 12:50:37 -0400
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BDE432D93
-        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 09:50:30 -0700 (PDT)
-Received: by mail-qt1-x82c.google.com with SMTP id cr19so2046870qtb.0
-        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 09:50:30 -0700 (PDT)
+        with ESMTP id S230029AbiJUQxg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 12:53:36 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED5B12906A6
+        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 09:53:21 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id f8-20020a17090a664800b00212464cd49fso3424245pjm.4
+        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 09:53:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=K4hKno/aL4Bg3771FP97RAk5vH0GViKpS0EoTFQiXAc=;
-        b=QLOUBa61SZHZELYuNpmzZwTNuHX9WWmk2yK/KTPOBV/MohvWeTpdvKV+If+Gt00dLR
-         HDpP7VpVW3lZbNB5dJ1RnNqyztGfGm1VPhetkX0w9W5qnsLXrfzEi66whylia5hRH4q3
-         y/EzFsN0ohUolFYNwuS9CZuiefP2XPX9gNCzY=
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xrysGx55UenjRLyS1DI8lWgE85TWYqrMWgtnLZZFAkc=;
+        b=RHWZQBLe9HXVngD3tJPBIAxrqGbPxOHUi+EuoMf2wh8wAVWCUykhVBw5M4bpHipxKX
+         AQrvUqN4owfPyZqdyzULb7AFBCSDE+f4NUKYHAYIddpZR67VGGUvvxapOtY3ozT/Ml4t
+         aiXuSjYrXY3eVMT1GbVbskQFgGxypZbRWqNEOhCm30Zif46drkOhIOZelqHekwQwUk43
+         bnuW3YgCEoukR20OzDrDD/o7UY7n/fRCHqej35doY178zBweJ3IoeGQQs9hPHYSo3Ohx
+         OqzLxanZHEvXOsNtWfWWxGtsKOFGJnejx5vYFgdKqN5Vb6+SO3aa9cMSKsUkIyd4p5eH
+         sJHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K4hKno/aL4Bg3771FP97RAk5vH0GViKpS0EoTFQiXAc=;
-        b=WMn8uU17eJGgLLvNEJEwUdHSCJQLCcTWy6KkUgoO7aYfbPsaGhoAk28rYuOAtS9p/3
-         EvrIMRQi4cJsNoBJBqBANakOrQIMVnsyPajuIu07ivk1tC6fiPRwSET8oDpHv9h0QEnH
-         lNHupU6eopvDC7TY7n5bv8Hinn7VnhoDWHxL0u/c7zjzAxtrltMEyvdPFkPhWZxUXey7
-         RRhZnYKPMnD6ND4lqk1UCSICosYEMZdVqsjtZiSA8YSxlYYdMoR/lM3R9rybQM6LhISu
-         d3EdKq0x33gJ0pUvhivbu60tXcXhT2nch+G2CuqURMYG4mjLpaOkjCZOIcwdAicy9Cpf
-         Pmyg==
-X-Gm-Message-State: ACrzQf28mbpvJdnEZLCB6cCTu5+HUBLwS0EQU0BlYvP+du0HbsxvtuYx
-        q5bm7bpu9XfBxmknXgRvp9e9WxtJTmYW2A==
-X-Google-Smtp-Source: AMsMyM5AfouZd21mOxiol2R/6NScARErSYxJ/UzD2p9cUNCQIQYv32QNgtux2AzX7EkHXfC4GNFDLw==
-X-Received: by 2002:a05:622a:1809:b0:39c:c7b5:b3ed with SMTP id t9-20020a05622a180900b0039cc7b5b3edmr17773862qtc.140.1666371029389;
-        Fri, 21 Oct 2022 09:50:29 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id y13-20020a05620a25cd00b006bbf85cad0fsm10111762qko.20.2022.10.21.09.50.28
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Oct 2022 09:50:28 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-36ad4cf9132so263347b3.6
-        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 09:50:28 -0700 (PDT)
-X-Received: by 2002:a81:6088:0:b0:361:52e4:dec8 with SMTP id
- u130-20020a816088000000b0036152e4dec8mr17473482ywb.352.1666371017990; Fri, 21
- Oct 2022 09:50:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220815071332.627393-1-yuzhao@google.com> <20220815071332.627393-9-yuzhao@google.com>
- <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net> <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com>
- <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
- <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net> <CAHk-=whQchubuDpRGFabhmcZuzdt13OOF8wznXb+Dbi3GzBQhQ@mail.gmail.com>
- <Y1GZjPO+szk7X0wP@hirez.programming.kicks-ass.net> <CAHk-=wikUaRM5H_y1Bc+QyvGi40dKDL8fnCTyz7ECbwK7aHNPQ@mail.gmail.com>
- <Y1IUMDJFScAMrCS5@casper.infradead.org>
-In-Reply-To: <Y1IUMDJFScAMrCS5@casper.infradead.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 21 Oct 2022 09:50:01 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjrpH1+6cQQjTO6p-96ndBMiOnNH098vhS2jLybxD+7gA@mail.gmail.com>
-Message-ID: <CAHk-=wjrpH1+6cQQjTO6p-96ndBMiOnNH098vhS2jLybxD+7gA@mail.gmail.com>
-Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
-To:     Matthew Wilcox <willy@infradead.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Yu Zhao <yuzhao@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xrysGx55UenjRLyS1DI8lWgE85TWYqrMWgtnLZZFAkc=;
+        b=s/VF02NHcREFHS1IVjEPeiLzgABmS4gfSx0/6JUVVF6pKakVp6yVzYdXhmTmJSuiBq
+         lHea0YpbNQbQGJF8BmP6fcL8SEMjgRYCMsMTVHLXxh/YjTAZwnSORucagM/h2a8oDAcB
+         nfeQZfDTm1BvdzunFsMNppbwOjGZVMfPu01boVRRMYDvXoTnOnmsiU5vU2AsjCfOBb5V
+         DcwqXhGL6uVs+DzIwEHe/1q87ZLJ2JJQA/sJggASrOnq8jjmjnKz5h13WcRQmLPJtGTZ
+         rGvZxTNdKycrnWxGdFD0HCByq80Vb/URUPYGk3xiXxCuP+w3XKrm4pMhHUIKhyuDc3Ix
+         VqSg==
+X-Gm-Message-State: ACrzQf1C+qB9AOP4h8ncu44njrep+jCBQ2ASkE9IYIbK25/hGVJsy7u2
+        tVYSekrE8xPa+EYM0EIQSectCw==
+X-Google-Smtp-Source: AMsMyM4X0ByBcSID7/aMrdZ0mivytsG1EHhlrHnS2og4yoaJvAdKT/AGmOFlcmS9yqzFtIJMO1ZXxQ==
+X-Received: by 2002:a17:90b:2651:b0:20a:daaf:75f0 with SMTP id pa17-20020a17090b265100b0020adaaf75f0mr22464873pjb.142.1666371200475;
+        Fri, 21 Oct 2022 09:53:20 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id b14-20020a170903228e00b00176e8f85147sm15298020plh.83.2022.10.21.09.53.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Oct 2022 09:53:19 -0700 (PDT)
+Date:   Fri, 21 Oct 2022 16:53:15 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Vishal Annapurve <vannapurve@google.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        "Gupta, Pankaj" <pankaj.gupta@amd.com>,
+        Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Message-ID: <Y1LOe4JvnTbFNs4u@google.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <de680280-f6b1-9337-2ae4-4b2faf2b823b@suse.cz>
+ <20221017161955.t4gditaztbwijgcn@box.shutemov.name>
+ <c63ad0cd-d517-0f1e-59e9-927d8ae15a1a@amd.com>
+ <20221017215640.hobzcz47es7dq2bi@box.shutemov.name>
+ <CAGtprH8xEdgATjQdhi2b_KqUuSOZHUM-Lh+O-ZtcFKbHf2_75g@mail.gmail.com>
+ <20221019153225.njvg45glehlnjgc7@box.shutemov.name>
+ <CAGtprH-8y9iTyVZ+EYW2t=zGqz7fVgPu-3wVm0Wgv5134NU6WQ@mail.gmail.com>
+ <20221021135434.GB3607894@chaop.bj.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221021135434.GB3607894@chaop.bj.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 20, 2022 at 8:38 PM Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Thu, Oct 20, 2022 at 07:10:46PM -0700, Linus Torvalds wrote:
-> >
-> > We got rid of i386 support back in 2012. Maybe it's time to get rid of
-> > i486 support in 2022?
->
-> Arnd suggested removing i486 last year and got a bit of pushback.
-> The most convincing to my mind was Maciej:
+On Fri, Oct 21, 2022, Chao Peng wrote:
+> On Thu, Oct 20, 2022 at 04:20:58PM +0530, Vishal Annapurve wrote:
+> > On Wed, Oct 19, 2022 at 9:02 PM Kirill A . Shutemov <kirill.shutemov@linux.intel.com> wrote:
+> > >
+> > > On Tue, Oct 18, 2022 at 07:12:10PM +0530, Vishal Annapurve wrote:
+> > > > I think moving this notifier_invalidate before fallocate may not solve
+> > > > the problem completely. Is it possible that between invalidate and
+> > > > fallocate, KVM tries to handle the page fault for the guest VM from
+> > > > another vcpu and uses the pages to be freed to back gpa ranges? Should
+> > > > hole punching here also update mem_attr first to say that KVM should
+> > > > consider the corresponding gpa ranges to be no more backed by
+> > > > inaccessible memfd?
+> > >
+> > > We rely on external synchronization to prevent this. See code around
+> > > mmu_invalidate_retry_hva().
+> > >
+> > > --
+> > >   Kiryl Shutsemau / Kirill A. Shutemov
+> > 
+> > IIUC, mmu_invalidate_retry_hva/gfn ensures that page faults on gfn
+> > ranges that are being invalidated are retried till invalidation is
+> > complete. In this case, is it possible that KVM tries to serve the
+> > page fault after inaccessible_notifier_invalidate is complete but
+> > before fallocate could punch hole into the files?
 
-Hmm. Maciej added to the cc.
+It's not just the page fault edge case.  In the more straightforward scenario
+where the memory is already mapped into the guest, freeing pages back to the kernel
+before they are removed from the guest will lead to use-after-free.
 
-I suspect we can just say "oh, well, use LTS kernels".
+> > e.g.
+> > inaccessible_notifier_invalidate(...)
+> > ... (system event preempting this control flow, giving a window for
+> > the guest to retry accessing the gfn range which was invalidated)
+> > fallocate(.., PUNCH_HOLE..)
+> 
+> Looks this is something can happen.
+> And sounds to me the solution needs
+> just follow the mmu_notifier's way of using a invalidate_start/end pair.
+> 
+>   invalidate_start()  --> kvm->mmu_invalidate_in_progress++;
+>                           zap KVM page table entries;
+>   fallocate()
+>   invalidate_end()  --> kvm->mmu_invalidate_in_progress--;
+> 
+> Then during invalidate_start/end time window mmu_invalidate_retry_gfn
+> checks 'mmu_invalidate_in_progress' and prevent repopulating the same
+> page in KVM page table.
 
-> but you can see a few other responses indicating that people have
-> shipped new 486-class hardware within the last few years (!)
+Yes, if it's not safe to invalidate after making the change (fallocate()), then
+the change needs to be bookended by a start+end pair.  The mmu_notifier's unpaired
+invalidate() hook works by zapping the primary MMU's PTEs before invalidate(), but
+frees the underlying physical page _after_ invalidate().
 
-Hmm.. I can only find references to PC104 boards with Bay Trail
-(Pentium-class Atom core, iirc), and some possible FPGA
-implementations through MISTer.
+And the only reason the unpaired invalidate() exists is because there are secondary
+MMUs that reuse the primary MMU's page tables, e.g. shared virtual addressing, in
+which case bookending doesn't work because the secondary MMU can't remove PTEs, it
+can only flush its TLBs.
 
-There's apparently also a Vortex86DX board too, and I don't know what
-core that is based off, but judging from the fact that it has a
-dual-core version, it had *better* support cmpxchg8b anyway, because
-without that our 64-bit atomics aren't actually atomic.
+For this case, the whole point is to not create PTEs in the primary MMU, so there
+should never be a use case that _needs_ an unpaired invalidate().
 
-(Trying to google around, it looks like the older Vortex86SX was a
-486-class CPU and did indeed lack CX8)
-
-Intel had some embedded cores (Quark) that were based on the i486
-pipeline (as can be seen from the timings), but they actually reported
-themselves as Pentium-class and supported all the classic (pre-MMX)
-Pentium features.
-
-So I *really* don't think i486 class hardware is relevant any more.
-Yes, I'm sure it exists (Maciej being an example), but from a kernel
-development standpoint I don't think they are really relevant.
-
-At some point, people have them as museum pieces. They might as well
-run museum kernels.
-
-Moving up to requiring cmpxchg8b doesn't sound unreasonable to me.
-
-            Linus
+TL;DR: a start+end pair is likely the simplest solution.
