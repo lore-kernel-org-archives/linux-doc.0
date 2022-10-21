@@ -2,174 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1080AC43217
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 08:06:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC927C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 08:10:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbiJUIGS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Oct 2022 04:06:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42434 "EHLO
+        id S230036AbiJUIK0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Oct 2022 04:10:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229930AbiJUIGQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 04:06:16 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5133E249884;
-        Fri, 21 Oct 2022 01:06:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666339575; x=1697875575;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=LrCEQpcLNEI0YFE1k8Q6HnH866BTswZ72JmMZMcO21g=;
-  b=TON6GNZ4cHA8oyx1+/QXMDYe6F/wKM8ScDTvThRHcyKsVuv6M2/dgDZZ
-   sk18QUORzRrppvGehP/pQkkWAmAdXp9TZnqrNNs1VUzOAHsSAFIQvi6PG
-   P2jP9TGwxah3XL7EgrhzUcZ9WMSX6/76AqHf0Xbf3rJBe2NrdDxeFn+WU
-   U0hfm+m4Cgtz/CJam6Z5c29dELaxFmhLJpRMY6tOuIJx2o0ItOEmUcnyh
-   uTbWvy3pNryF6CDiwPQyNYT4mvmeJDzzPTPsg+0bPBzk9ZNF/vbmjQN36
-   /af7uftG7J/PteY3lzRtPDHPjfD2BKZCCefHvzcnqKca8ruH0ar14NL9C
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="304559154"
-X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
-   d="scan'208";a="304559154"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 01:06:14 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="608236633"
-X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
-   d="scan'208";a="608236633"
-Received: from lramir2-mobl1.ger.corp.intel.com ([10.252.44.179])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 01:06:08 -0700
-Date:   Fri, 21 Oct 2022 11:06:02 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, Lukas Wunner <lukas@wunner.de>,
-        marpagan@redhat.com,
-        Basheer Ahmed Muddebihal 
-        <basheer.ahmed.muddebihal@linux.intel.com>
-Subject: Re: [PATCH v4 2/4] fpga: dfl: Add DFHv1 Register Definitions
-In-Reply-To: <20221020212610.697729-3-matthew.gerlach@linux.intel.com>
-Message-ID: <4d609218-508f-6025-e99-71aac2b01369@linux.intel.com>
-References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com> <20221020212610.697729-3-matthew.gerlach@linux.intel.com>
+        with ESMTP id S230024AbiJUIKY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 04:10:24 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 530FC1213C1
+        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 01:10:16 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id pq16so1798514pjb.2
+        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 01:10:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lXzKjs0QuMJFHhHxqVj+9SnjfrHwM3NF7YIpt7TNTaI=;
+        b=Mys3W+v6NhbOdm7NK0w/s1vYs/tSmZ9FEvVzZmbw6YJc//vUdLNLAE6ZH2f35RE+1F
+         gPEDc9WjHtuOxTpj1+IrzWgUObf4K3kneIO9OE8z5a2ndn0U5sXu8UbVyxR70Pd7pIPo
+         rAr4qbDHfPu/RSlFI5p3AyhkdVbFatymvOUxjquprgHcdi5UAvqc4Qx99rbZq0qyZTdY
+         KwJO9pgLRPE/YA49BxLSXCPZcRnXKe1aCWmKmxLtoY6glHeVvY2BR4ubrAx40DDW574j
+         OqMGYuaSqT2k0oK+Xvcclc96aSkwxK/nln9vF58um4Y7Z4MTvv4ERaS7rs+iLY4cMeiu
+         kn5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lXzKjs0QuMJFHhHxqVj+9SnjfrHwM3NF7YIpt7TNTaI=;
+        b=Nl8jI8wAIUsLw+pIV1zNP+TNnD9gWpHmQmGozEoUiVcpO+x2RVZz7A7+QnnK08u8RW
+         ajRIJH+DxNJkOch6PUOiC/MbzBQKgec3Yfx9MAoQPpUTLGA8MstyLEPWhFavK0b/OjK7
+         aT3eFt4+QaCSaCGrkewIx7Uo7HaNzDvohJ7McbZJUSXWZXK7iloElOmVU0L1AlO8MnAx
+         V5l3tFBZZ5tajY+k5jIC0Y4dLSgYqOpc63xYxsyl+46ogZHAEhVLl4/9ZfAkpM4VkvBD
+         yPU2emf1kKhespVhCk8JmwzZLHZrCdZt3EJ4Qd9qXtyTa5H4KKQYi6AD+y55Dw2gFCLf
+         sHjA==
+X-Gm-Message-State: ACrzQf3ZMM1k2B9SG/urdyPo/vo/4p+FFhK2k4/bUkMF+Xregtzlt2lB
+        XBjMGDF3Zyzm240LMRtQzbw=
+X-Google-Smtp-Source: AMsMyM5sAFDn2m7eU1IO1HLR+Dj5DRv48PD66GqVJlKBjSno4da6VVojeRmW/AHTGunJwekUL3XgVA==
+X-Received: by 2002:a17:90b:350d:b0:20d:5438:f594 with SMTP id ls13-20020a17090b350d00b0020d5438f594mr57585559pjb.216.1666339815632;
+        Fri, 21 Oct 2022 01:10:15 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-84.three.co.id. [180.214.232.84])
+        by smtp.gmail.com with ESMTPSA id 33-20020a17090a09a400b0020647f279fbsm1108879pjo.29.2022.10.21.01.10.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Oct 2022 01:10:15 -0700 (PDT)
+Message-ID: <12aeed77-081c-ac40-4b6e-0415d551804e@gmail.com>
+Date:   Fri, 21 Oct 2022 15:10:06 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v5 01/10] gna: add PCI driver module
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Olof Johansson <olof@lixom.net>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
+        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+        Jianxun Zhang <jianxun.zhang@linux.intel.com>
+References: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com>
+ <20221020175334.1820519-2-maciej.kwapulinski@linux.intel.com>
+ <Y1IeJplXNHM+VvCJ@kroah.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <Y1IeJplXNHM+VvCJ@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 20 Oct 2022, matthew.gerlach@linux.intel.com wrote:
+On 10/21/22 11:20, Greg Kroah-Hartman wrote:
+> On Thu, Oct 20, 2022 at 07:53:25PM +0200, Maciej Kwapulinski wrote:
+>> Add a new PCI driver for Intel(R) Gaussian & Neural Accelerator
+> 
+> Please drop all of the (R) stuff in here, and in the Kconfig file and in
+> the .c files.  If your lawyers insist on it, please point them at me and
+> I will be glad to discuss it with them.
+> 
+>>  Documentation/gpu/drivers.rst    |  1 +
+>>  Documentation/gpu/gna.rst        | 64 ++++++++++++++++++++++++++++++++
+> 
+> Why not just put the tiny documentation file in the .c code itself?
+> That way it stays up to date and might actually be noticed?
+> 
 
-> From: Basheer Ahmed Muddebihal <basheer.ahmed.muddebihal@linux.intel.com>
-> 
-> This patch adds the definitions for DFHv1 header and related register
-> bitfields.
-> 
-> Signed-off-by: Basheer Ahmed Muddebihal <basheer.ahmed.muddebihal@linux.intel.com>
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> ---
-> v4: s/MSIX/MSI_X/g
->     move kerneldoc to implementation
->     don't change copyright date
-> 
-> v3:
->     keep DFHv1 definitions "hidden" in drivers/fpga/dfl.h
-> 
-> v2: clean up whitespace and one line comments
->     remove extra space in commit
->     use uniform number of digits in constants
->     don't change copyright date because of removed content
-> 
-> dfl.h s/MSIX/MSI_X/g move kerneldoc
-> ---
->  drivers/fpga/dfl.h  | 33 +++++++++++++++++++++++++++++++++
->  include/linux/dfl.h | 11 +++++++++++
->  2 files changed, 44 insertions(+)
-> 
-> diff --git a/drivers/fpga/dfl.h b/drivers/fpga/dfl.h
-> index 06cfcd5e84bb..45e6e1359a67 100644
-> --- a/drivers/fpga/dfl.h
-> +++ b/drivers/fpga/dfl.h
-> @@ -74,11 +74,44 @@
->  #define DFH_REVISION		GENMASK_ULL(15, 12)	/* Feature revision */
->  #define DFH_NEXT_HDR_OFST	GENMASK_ULL(39, 16)	/* Offset to next DFH */
->  #define DFH_EOL			BIT_ULL(40)		/* End of list */
-> +#define DFH_VERSION		GENMASK_ULL(59, 52)	/* DFH version */
->  #define DFH_TYPE		GENMASK_ULL(63, 60)	/* Feature type */
->  #define DFH_TYPE_AFU		1
->  #define DFH_TYPE_PRIVATE	3
->  #define DFH_TYPE_FIU		4
->  
-> +/*
-> + * DFHv1 Register Offset definitons
-> + * In DHFv1, DFH + GUID + CSR_START + CSR_SIZE_GROUP + PARAM_HDR + PARAM_DATA
-> + * as common header registers
-> + */
-> +#define DFHv1_CSR_ADDR		0x18  /* CSR Register start address */
-> +#define DFHv1_CSR_SIZE_GRP	0x20  /* Size of Reg Block and Group/tag */
-> +#define DFHv1_PARAM_HDR		0x28  /* Optional First Param header */
-> +
-> +/*
-> + * CSR Rel Bit, 1'b0 = relative (offset from feature DFH start),
-> + * 1'b1 = absolute (ARM or other non-PCIe use)
-> + */
-> +#define DFHv1_CSR_ADDR_REL	BIT_ULL(0)
-> +
-> +/* CSR Header Register Bit Definitions */
-> +#define DFHv1_CSR_ADDR_MASK       GENMASK_ULL(63, 1)  /* 63:1 of CSR address */
-> +
-> +/* CSR SIZE Goup Register Bit Definitions */
-> +#define DFHv1_CSR_SIZE_GRP_INSTANCE_ID	GENMASK_ULL(15, 0)	/* Enumeration instantiated IP */
-> +#define DFHv1_CSR_SIZE_GRP_GROUPING_ID	GENMASK_ULL(30, 16)	/* Group Features/interfaces */
-> +#define DFHv1_CSR_SIZE_GRP_HAS_PARAMS	BIT_ULL(31)		/* Presence of Parameters */
-> +#define DFHv1_CSR_SIZE_GRP_SIZE		GENMASK_ULL(63, 32)	/* Size of CSR Block in bytes */
-
-SIZE -> SZ would remove two letters w/o loss of info (remember to 
-rename the offset too if you make this change).
-
-> +/* PARAM Header Register Bit Definitions */
-> +#define DFHv1_PARAM_HDR_ID		GENMASK_ULL(15, 0) /* Id of this Param  */
-> +#define DFHv1_PARAM_HDR_VERSION		GENMASK_ULL(31, 16) /* Version Param */
-> +#define DFHv1_PARAM_HDR_NEXT_OFFSET	GENMASK_ULL(63, 32) /* Offset of next Param */
-> +#define DFHv1_PARAM_HDR_NEXT_EOL	BIT_ULL(0)
-> +#define DFHv1_PARAM_HDR_NEXT_MASK	GENMASK_ULL(1, 0)
-> +#define DFHv1_PARAM_DATA		0x08  /* Offset of Param data from Param header */
-> +
->  /* Next AFU Register Bitfield */
->  #define NEXT_AFU_NEXT_DFH_OFST	GENMASK_ULL(23, 0)	/* Offset to next AFU */
->  
-> diff --git a/include/linux/dfl.h b/include/linux/dfl.h
-> index 431636a0dc78..fea9e16d35b6 100644
-> --- a/include/linux/dfl.h
-> +++ b/include/linux/dfl.h
-> @@ -11,6 +11,17 @@
->  #include <linux/device.h>
->  #include <linux/mod_devicetable.h>
->  
-> +#define DFHv1_PARAM_ID_MSI_X		0x1
-> +#define DFHv1_PARAM_MSI_X_STARTV	0x0
-> +#define DFHv1_PARAM_MSI_X_NUMV		0x4
-> +
-> +#define DFHv1_PARAM_ID_CLK_FRQ    0x2
-> +#define DFHv1_PARAM_ID_FIFO_LEN   0x3
-> +
-> +#define DFHv1_PARAM_ID_REG_LAYOUT 0x4
-> +#define DFHv1_PARAM_ID_REG_WIDTH  GENMASK_ULL(63, 32)
-> +#define DFHv1_PARAM_ID_REG_SHIFT  GENMASK_ULL(31, 0)
-
-Any particular reason why MSI_X parameters are given as offsets and 
-these REG_LAYOUT ones as bitfields (both are 32-bit)?
-
-The naming here would indicate that DFHv1_PARAM_ID_REG_WIDTH is one of the 
-parameters but it's part of param data instead. I suppose you'd want 
-DFHv1_PARAM_REG_LAYOUT_WIDTH instead.
+I think the documentation should be on separate patch.
 
 -- 
- i.
+An old man doll... just what I always wanted! - Clara
 
