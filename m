@@ -2,120 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A955AC4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 13:39:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44752C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 13:52:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229954AbiJUNjw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Oct 2022 09:39:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40686 "EHLO
+        id S231163AbiJUNv6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Oct 2022 09:51:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229685AbiJUNjv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 09:39:51 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B4D93742A;
-        Fri, 21 Oct 2022 06:39:47 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id bk15so4822623wrb.13;
-        Fri, 21 Oct 2022 06:39:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wk3DFh2aXt0pn/EmnsKS4Q5onFCF2pDUj7gYrd6sEz8=;
-        b=eZ3WncTtALXBUfa3mu+i/dmTh0pMCd9GmnAtULYRHlkBXppmIclk8MO242aYbIFUNn
-         V7BZiUZFmxuzRsnqsczrNeTj1DTgdL0dvnKaKcXGTJDNPdr399D2K/YpU9I92ZoIBUHV
-         ixmqoaZsLCl0+jITVCsdjOXX+VR20bQNzh/gae3Wp3N5bPB6u0lbvzW6C7YNZu4zC88x
-         xqZSXfU7X2o1sHf+mJtmTcxh/hKjtnbldRQY9Jx9kwBGEKio1uyuElEBF2ld2N+f674o
-         +v7UEhtk9uZeVuUclK8UCqC/bFrBBWHFhfu+5pcO3HoJ0+jjk3rqmsV796bcc6EbtS1e
-         9lPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wk3DFh2aXt0pn/EmnsKS4Q5onFCF2pDUj7gYrd6sEz8=;
-        b=hnhqLmGTqv3SX8pTv62SJToX39bSEeeKlAUVw4USrc2/HXKilRVkTE2SgoQ7fSNM0W
-         2csDi2dSyaVuaZn+51ZkIxLXtgYF7F8o+DL/rbehR/UI5s15XvzWCelG3bA6OYH76rli
-         ef7BhLsIMmz/qD5F9tq2pMBnyOngPtbvVQEexTasjuoHxiXytlvQnBlJDdv1ZP6QRjrw
-         4b77G9PXMSyjJquZ0XupKV1bhGHNWwH31Y+LA76lKEdB+gpnX65umamV+WTYqXDHSzGO
-         wh5M7DoOg+wwTD9B99R8xKuD+iGuAAfz+Xt5PR41ZXVsvRkTeTrirCpiRFEE8WdPYjIj
-         MnLw==
-X-Gm-Message-State: ACrzQf1+fdkHfSowCaJwFooSATv9EpQDcg7J+ogOMkXaR55AxvQ2eyhV
-        g5+aOnuRKoThq0ZSXIv6EfXaWA9X51Q76g==
-X-Google-Smtp-Source: AMsMyM6YR6yXeWJkNp489hmHbntM/G4gxSfif/6uF2QsH9qoG0KrKZ2A4NHQ39dul1Pi0C/ekyH2TQ==
-X-Received: by 2002:a05:6000:1cf:b0:22e:3ef1:a268 with SMTP id t15-20020a05600001cf00b0022e3ef1a268mr12329492wrx.43.1666359584935;
-        Fri, 21 Oct 2022 06:39:44 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:cc4f:5367:93c1:b0d5])
-        by smtp.gmail.com with ESMTPSA id f18-20020a05600c155200b003b3365b38f9sm3104820wmg.10.2022.10.21.06.39.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Oct 2022 06:39:44 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     mtahhan@redhat.com
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf-next v3 1/1] doc: DEVMAPs and XDP_REDIRECT
-Date:   Fri, 21 Oct 2022 14:39:33 +0100
-Message-ID: <m24jvxuwh6.fsf@gmail.com>
-References: <20221017094753.1564273-1-mtahhan@redhat.com>
-        <20221017094753.1564273-2-mtahhan@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
+        with ESMTP id S230446AbiJUNvy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 09:51:54 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D35D5277099;
+        Fri, 21 Oct 2022 06:51:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666360312; x=1697896312;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=DaWZG1/RJ5yq5HjRGu08lgshjmm5vbZXlRwrj8iUEyQ=;
+  b=UhpLSBbzCwnl8MpjzDPT1/5gwzSO7dJ0nn/hotq4zUIC4OrXvPniCmQa
+   qCuG3vE1YOSlh1S8gcgwiBp6qMsMfPioGkHhidLAm6nTtvsKhyyPmgTz+
+   R4dpbGwOHbF/nvyLyj/r6XQLCp0MuBC3pc4U+qBhdYLTc/IngCjbGIz8B
+   suEEeFHUpNPzPitQ+jV8Tq7GNS9/+jNm3/nkHSVAEojLHUK965vp47AMM
+   9OiH1DzHcdNIO99blsW9HbyIj7VVLXD5cF9SzAwpTNlzG6Ci4TBp4TdR5
+   6leqzRPqbYahWvuhthY3VnlNO36yC2jPn/jaOoAxfJc0TKup8IB6+qfvq
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="286725182"
+X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
+   d="scan'208";a="286725182"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 06:51:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="625348380"
+X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
+   d="scan'208";a="625348380"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga007.jf.intel.com with ESMTP; 21 Oct 2022 06:51:41 -0700
+Date:   Fri, 21 Oct 2022 21:47:11 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Vishal Annapurve <vannapurve@google.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Message-ID: <20221021134711.GA3607894@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <CAGtprH_MiCxT2xSxD2UrM4M+ghL0V=XEZzEX4Fo5wQKV4fAL4w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGtprH_MiCxT2xSxD2UrM4M+ghL0V=XEZzEX4Fo5wQKV4fAL4w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-mtahhan@redhat.com writes:
+> 
+> In the context of userspace inaccessible memfd, what would be a
+> suggested way to enforce NUMA memory policy for physical memory
+> allocation? mbind[1] won't work here in absence of virtual address
+> range.
 
-> diff --git a/Documentation/bpf/redirect.rst b/Documentation/bpf/redirect.rst
-> new file mode 100644
-> index 000000000000..5a0377a67ff0
-> --- /dev/null
-> +++ b/Documentation/bpf/redirect.rst
-> @@ -0,0 +1,46 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2022 Red Hat, Inc.
-> +
-> +============
-> +XDP_REDIRECT
-> +============
-> +
-> +XDP_REDIRECT works by a three-step process, implemented as follows:
-> +
-> +1. The ``bpf_redirect()`` and ``bpf_redirect_map()`` helpers will lookup the
-> +   target of the redirect and store it (along with some other metadata) in a
-> +   per-CPU ``struct bpf_redirect_info``. This is where the maps above come into
-> +   play.
+How about set_mempolicy():
+https://www.man7.org/linux/man-pages/man2/set_mempolicy.2.html
 
-Can you remove the last sentence above. Instead, maybe mention that the lookup
-happens in the provided map which has to be one of the supported map types.
-
-> +2. When the program returns the ``XDP_REDIRECT`` return code, the driver will
-> +   call ``xdp_do_redirect()`` which will use the information in ``struct
-> +   bpf_redirect_info`` to actually enqueue the frame into a map type-specific
-> +   bulk queue structure.
-> +
-> +3. Before exiting its NAPI poll loop, the driver will call ``xdp_do_flush()``,
-> +   which will flush all the different bulk queues, thus completing the
-> +   redirect.
-> +
-> +Pointers to the map entries will be kept around for this whole sequence of
-> +steps, protected by RCU. However, there is no top-level ``rcu_read_lock()`` in
-> +the core code; instead, the RCU protection relies on everything happening
-> +inside a single NAPI poll sequence.
-> +
-> +.. note::
-> +    Not all drivers support transmitting frames after a redirect, and for
-> +    those that do, not all of them support non-linear frames. Non-linear xdp
-> +    bufs/frames are bufs/frames that contain more than one fragment.
-> +
-> +XDP_REDIRECT works with the following map types:
-> +
-> +- BPF_MAP_TYPE_DEVMAP
-> +- BPF_MAP_TYPE_DEVMAP_HASH
-> +- BPF_MAP_TYPE_CPUMAP
-> +- BPF_MAP_TYPE_XSKMAP
-> +
-> +For more information on these maps, please see the specific map documentation.
-> +
-> +References
-> +===========
-> +
-> +- https://elixir.bootlin.com/linux/latest/source/net/core/filter.c#L4106
+Chao
+> 
+> [1] https://github.com/chao-p/qemu/blob/privmem-v8/backends/hostmem.c#L382
