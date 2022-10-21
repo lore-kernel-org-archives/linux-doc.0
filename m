@@ -2,104 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F6A1C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 02:00:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26793C43217
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 02:00:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229954AbiJUCAw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 22:00:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36502 "EHLO
+        id S229959AbiJUCAy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 20 Oct 2022 22:00:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229902AbiJUB7z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 21:59:55 -0400
+        with ESMTP id S229757AbiJUCAu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 22:00:50 -0400
 Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B9AC157DF2
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B9D9C58046
         for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 18:59:51 -0700 (PDT)
 Received: from loongson.cn (unknown [112.20.109.239])
-        by gateway (Coremail) with SMTP id _____8AxDdkW_VFjnEcBAA--.5876S3;
-        Fri, 21 Oct 2022 09:59:50 +0800 (CST)
+        by gateway (Coremail) with SMTP id _____8DxPdkX_VFjoEcBAA--.5807S3;
+        Fri, 21 Oct 2022 09:59:51 +0800 (CST)
 Received: from localhost.localdomain (unknown [112.20.109.239])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8BxtuMT_VFjBloCAA--.9805S3;
-        Fri, 21 Oct 2022 09:59:49 +0800 (CST)
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8BxtuMT_VFjBloCAA--.9805S4;
+        Fri, 21 Oct 2022 09:59:50 +0800 (CST)
 From:   Binbin Zhou <zhoubinbin@loongson.cn>
 To:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>,
         Wu XiangCheng <bobwxc@email.cn>
 Cc:     Huacai Chen <chenhuacai@loongson.cn>, linux-doc@vger.kernel.org,
         Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH RESEND V2 1/3] docs/zh_CN: core-api: Add this_cpu_ops Chinese translation
-Date:   Fri, 21 Oct 2022 09:58:07 +0800
-Message-Id: <f9a8cb188bc35811d7f074f9d5f607f5a48c6503.1666171735.git.zhoubinbin@loongson.cn>
+Subject: [PATCH RESEND V2 2/3] docs/zh_CN: core-api: Add timekeeping Chinese translation
+Date:   Fri, 21 Oct 2022 09:58:08 +0800
+Message-ID: <8d15ff60aaadd53065b3bc2da7d53a520cf01c53.1666171735.git.zhoubinbin@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1666171735.git.zhoubinbin@loongson.cn>
 References: <cover.1666171735.git.zhoubinbin@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxtuMT_VFjBloCAA--.9805S3
+X-CM-TRANSID: AQAAf8BxtuMT_VFjBloCAA--.9805S4
 X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBjvAXoWfGr48Cry5Kr1UKryktF1rXrb_yoW8Jw17Ko
-        Z8ur1a9rnFyF45tas8Jw4UXr1jqr1rCFyxurZ7KF4agw17WF1Y93Wjkr43GFyruFW5KFyf
-        JF1I9a43W3W8Za4Un29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
-        J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
-        UU92b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s
-        0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
-        8EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4U
-        JwAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4
-        CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0E
-        x4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04
-        k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUXVWUAwC2
-        0s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI
-        0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv2
-        0xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2js
-        IE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZF
-        pf9x07jFE__UUUUU=
+X-Coremail-Antispam: 1Uk129KBjvJXoWxuw4rurWUuF1UKr1DuF4rKrg_yoWfKFyUpF
+        Wag34fGr47AFWrJF47G398ur17K3ykAF47X3s2ga4Skr18tFy8JF4DCryrKry7ArWDCrW0
+        yayIvF1Y9r12vrUanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        ba8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
+        ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
+        M2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zV
+        CFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2
+        z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw2
+        8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1Y6r17MI8I
+        3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxV
+        WUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8I
+        cVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
+        AFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZE
+        Xa7IU8EeHDUUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
+Message-ID: <20221021015808.LKFaEZiwndjnYYpmFrzIIMg-poK4625w1Gqlj_IITSg@z>
 
-Translate core-api/this_cpu_ops.rst into Chinese.
+Translate core-api/timekeeping.rst into Chinese.
 
 Last English version used:
 
-commit c9b54d6f362c ("docs: move other kAPI documents to core-api").
+commit 3dc6ffae2da2 ("timekeeping: Introduce fast accessor to clock tai").
 
 Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
 ---
  .../translations/zh_CN/core-api/index.rst     |   2 +-
- .../zh_CN/core-api/this_cpu_ops.rst           | 285 ++++++++++++++++++
- 2 files changed, 286 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/this_cpu_ops.rst
+ .../zh_CN/core-api/timekeeping.rst            | 177 ++++++++++++++++++
+ 2 files changed, 178 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/timekeeping.rst
 
 diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index 37756d240b5e..21d0b25bc580 100644
+index 21d0b25bc580..d08091036066 100644
 --- a/Documentation/translations/zh_CN/core-api/index.rst
 +++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -48,12 +48,12 @@
-    circular-buffers
+@@ -49,12 +49,12 @@
     generic-radix-tree
     packing
-+   this_cpu_ops
+    this_cpu_ops
++   timekeeping
  
  Todolist:
  
  
  
--   this_cpu_ops
-    timekeeping
+-   timekeeping
     errseq
  
-diff --git a/Documentation/translations/zh_CN/core-api/this_cpu_ops.rst b/Documentation/translations/zh_CN/core-api/this_cpu_ops.rst
+ 并发原语
+diff --git a/Documentation/translations/zh_CN/core-api/timekeeping.rst b/Documentation/translations/zh_CN/core-api/timekeeping.rst
 new file mode 100644
-index 000000000000..bea5ee8eb8a0
+index 000000000000..9af04a1d5e39
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/this_cpu_ops.rst
-@@ -0,0 +1,285 @@
++++ b/Documentation/translations/zh_CN/core-api/timekeeping.rst
+@@ -0,0 +1,177 @@
 +.. SPDX-License-Identifier: GPL-2.0+
 +
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/core-api/this_cpu_ops.rst
++:Original: Documentation/core-api/timekeeping.rst
 +
 +:翻译:
 +
@@ -109,277 +110,169 @@ index 000000000000..bea5ee8eb8a0
 +
 + 吴想成 Wu Xiangcheng <bobwxc@email.cn>
 +
-+============
-+this_cpu操作
-+============
++ktime访问器
++===========
 +
-+:作者: Christoph Lameter, 2014年8月4日
-+:作者: Pranith Kumar, 2014年8月2日
++设备驱动程序可以使用 ``ktime_get()`` 和 ``linux/timekeeping.h`` 中声明的许多相关
++函数读取当前时间。根据经验，如果两个访问器都适用于某一用例，则使用名称较短的那个。
 +
-+this_cpu操作是一种优化访问与当前执行处理器相关的每CPU变量的方法。这是通过使用段寄
-+存器（或专用寄存器，cpu在其中永久存储特定处理器的每CPU区域的起始）来完成的。
-+
-+this_cpu操作将每CPU变量的偏移量添加到处理器特定的每CPU基址上，并将该操作编码到对
-+每CPU变量进行操作的指令中。
-+
-+这意味着在偏移量的计算和对数据的操作之间不存在原子性问题。因此，没有必要禁用抢占
-+或中断来确保处理器在计算地址和数据操作之间不被改变。
-+
-+读取-修改-写入操作特别值得关注。通常处理器具有特殊的低延迟指令，可以在没有典型同
-+步开销的情况下运行，但仍提供某种宽松的原子性保证。例如，x86可以执行RMW（读取，
-+修改，写入）指令，如同inc/dec/cmpxchg，而无需锁前缀和相关的延迟损失。
-+
-+对没有锁前缀的变量的访问是不同步的，也不需要同步，因为我们处理的是当前执行的处理
-+器所特有的每CPU数据。只有当前的处理器可以访问该变量，因此系统中的其他处理器不存在
-+并发性问题。
-+
-+请注意，远程处理器对每CPU区域的访问是特殊情况，可能会影响通过 ``this_cpu_*`` 的本
-+地RMW操作的性能和正确性（远程写操作）。
-+
-+this_cpu操作的主要用途是优化计数器操作。
-+
-+定义了以下具有隐含抢占保护的this_cpu()操作。可以使用这些操作而不用担心抢占和中断::
-+
-+	this_cpu_read(pcp)
-+	this_cpu_write(pcp, val)
-+	this_cpu_add(pcp, val)
-+	this_cpu_and(pcp, val)
-+	this_cpu_or(pcp, val)
-+	this_cpu_add_return(pcp, val)
-+	this_cpu_xchg(pcp, nval)
-+	this_cpu_cmpxchg(pcp, oval, nval)
-+	this_cpu_cmpxchg_double(pcp1, pcp2, oval1, oval2, nval1, nval2)
-+	this_cpu_sub(pcp, val)
-+	this_cpu_inc(pcp)
-+	this_cpu_dec(pcp)
-+	this_cpu_sub_return(pcp, val)
-+	this_cpu_inc_return(pcp)
-+	this_cpu_dec_return(pcp)
-+
-+
-+this_cpu操作的内部工作
-+----------------------
-+
-+在x86上，fs:或gs:段寄存器包含每CPU区域的基址。这样就可以简单地使用段覆盖，将每CPU
-+相对地址重定位到处理器适当的每CPU区域。所以对每CPU基址的重定位是通过段寄存器前缀
-+在指令中编码完成的。
-+
-+例如::
-+
-+	DEFINE_PER_CPU(int, x);
-+	int z;
-+
-+	z = this_cpu_read(x);
-+
-+产生的单指令为::
-+
-+	mov ax, gs:[x]
-+
-+而不是像每CPU操作那样，先是一系列的地址计算，然后从该地址获取。在this_cpu_ops之前，
-+这样的序列还需要先禁用/启用抢占功能，以防止内核在计算过程中将线程移动到不同的处理
-+器上。
-+
-+请思考下面this_cpu操作::
-+
-+	this_cpu_inc(x)
-+
-+这将产生如下单指令（无锁前缀！）::
-+
-+	inc gs:[x]
-+
-+而不是在没有段寄存器的情况下所需要的以下操作::
-+
-+	int *y;
-+	int cpu;
-+
-+	cpu = get_cpu();
-+	y = per_cpu_ptr(&x, cpu);
-+	(*y)++;
-+	put_cpu();
-+
-+请注意，这些操作只能用于为特定处理器保留的每CPU数据。如果不在上下文代码中禁用抢占，
-+``this_cpu_inc()`` 将仅保证每CPU的某一个计数器被正确地递增，但不能保证操作系统不
-+会在this_cpu指令执行的前后直接移动该进程。一般来说，这意味着每个处理器的单个计数
-+器的值是没有意义的。所有每CPU计数器的总和才是唯一有意义的值。
-+
-+每CPU变量的使用是出于性能的考虑。如果多个处理器同时处理相同的代码路径，可以避免缓
-+存行跳转。每个处理器都有自己的每CPU变量，因此不会发生并发缓存行更新。为这种优化必
-+须付出的代价是，当需要计数器的值时要将每CPU计数器相加。
-+
-+
-+特殊的操作
-+----------
-+
-+::
-+
-+	y = this_cpu_ptr(&x)
-+
-+使用每CPU变量的偏移量(&x!)，并返回属于当前执行处理器的每CPU变量的地址。
-+``this_cpu_ptr`` 避免了通用 ``get_cpu``/``put_cpu`` 序列所需的多个步骤。没有可用
-+的处理器编号。相反，本地每CPU区域的偏移量只是简单地添加到每CPU偏移量上。
-+
-+请注意，这个操作通常是在抢占被禁用后再在代码段中使用。然后该指针用来访问临界区中
-+的本地每CPU数据。当重新启用抢占时，此指针通常不再有用，因为它可能不再指向当前处理
-+器的每CPU数据。
-+
-+每CPU变量和偏移量
-+-----------------
-+
-+每CPU变量相对于每CPU区域的起始点是有偏移的。它们没有地址，尽管代码里看起来像有一
-+样。不能直接对偏移量解引用，必须用处理器每CPU区域基指针加上偏移量，以构成有效地址。
-+
-+因此，在每CPU操作的上下文之外使用x或&x是无效的，这种行为通常会被当作一个空指针的
-+解引用来处理。
-+
-+::
-+
-+	DEFINE_PER_CPU(int, x);
-+
-+在每CPU操作的上下文中，上面表达式说明x是一个每CPU变量。大多数this_cpu操作都需要一
-+个cpu变量。
-+
-+::
-+
-+	int __percpu *p = &x;
-+
-+&x和p是每CPU变量的偏移量。 ``this_cpu_ptr()`` 使用每CPU变量的偏移量，这让它看起来
-+有点奇怪。
-+
-+
-+每CPU结构体字段的操作
++基于ktime_t的基础接口
 +---------------------
 +
-+假设我们有一个每CPU结构::
++推荐的最简单形式返回不透明的 ``ktime_t`` ，其变体返回不同时钟参考的时间：
 +
-+	struct s {
-+		int n,m;
-+	};
++.. c:function:: ktime_t ktime_get( void )
 +
-+	DEFINE_PER_CPU(struct s, p);
++	CLOCK_MONOTONIC
 +
++	对可靠的时间戳和准确测量短的时间间隔很有用。在系统启动时启动，但在挂起时
++	停止。
 +
-+这些字段的操作非常简单::
++.. c:function:: ktime_t ktime_get_boottime( void )
 +
-+	this_cpu_inc(p.m)
++	CLOCK_BOOTTIME
 +
-+	z = this_cpu_cmpxchg(p.m, 0, 1);
++	与 ``ktime_get()`` 类似，但在挂起时不会停止。这可以用于例如需要在挂起操作
++	中与其他计算机同步的密钥过期时间。
 +
++.. c:function:: ktime_t ktime_get_real( void )
 +
-+如果我们有一个相对于结构体s的偏移量::
++	CLOCK_REALTIME
 +
-+	struct s __percpu *ps = &p;
++	使用协调世界时(UTC)返回相对于1970年开始的UNIX纪元的时间，与用户空间的
++	``gettimeofday()`` 相同。该函数用于所有需要在重启时持续存在的时间戳，比如
++	inode时间，但应避免在内部使用，因为它可能由于闰秒更新和来自用户空间的NTP
++	调整 ``settimeofday()`` 操作而向后跳转。
 +
-+	this_cpu_dec(ps->m);
++.. c:function:: ktime_t ktime_get_clocktai( void )
 +
-+	z = this_cpu_inc_return(ps->n);
++	CLOCK_TAI
 +
++	与 ``ktime_get_real()`` 类似，但使用国际原子时(TAI)作为参考而不是UTC，以
++	避免在闰秒更新时跳转。这在内核中很少有用。
 +
-+如果我们后面不使用 ``this_cpu ops`` 来操作字段，则指针的计算可能需要使用
-+``this_cpu_ptr()``::
++.. c:function:: ktime_t ktime_get_raw( void )
 +
-+	struct s *pp;
++	CLOCK_MONOTONIC_RAW
 +
-+	pp = this_cpu_ptr(&p);
++	与 ``ktime_get()`` 类似，但以与硬件时钟源相同的速率运行，没有针对时钟漂移
++	进行调整(NTP)。这在内核中也很少需要。
 +
-+	pp->m--;
++纳秒，timespec64和秒钟的输出
++----------------------------
 +
-+	z = pp->n++;
++对于上述所有情况，以下函数变体会根据用户的要求以不同的格式返回时间：
 +
++.. c:function:: u64 ktime_get_ns( void )
++		u64 ktime_get_boottime_ns( void )
++		u64 ktime_get_real_ns( void )
++		u64 ktime_get_clocktai_ns( void )
++		u64 ktime_get_raw_ns( void )
 +
-+this_cpu ops的变体
-+------------------
++	与普通的ktime_get函数相同，但返回各自时钟参考中的u64纳秒数，这对某些调用
++	者来说可能更方便。
 +
-+this_cpu的操作是中断安全的。一些架构不支持这些每CPU的本地操作。在这种情况下，该操
-+作必须被禁用中断的代码所取代，然后做那些保证是原子的操作，再重新启用中断。当然这
-+样做是很昂贵的。如果有其他原因导致调度器不能改变我们正在执行的处理器，那么就没有
-+理由禁用中断了。为此，我们提供了以下__this_cpu操作。
++.. c:function:: void ktime_get_ts64( struct timespec64 * )
++		void ktime_get_boottime_ts64( struct timespec64 * )
++		void ktime_get_real_ts64( struct timespec64 * )
++		void ktime_get_clocktai_ts64( struct timespec64 * )
++		void ktime_get_raw_ts64( struct timespec64 * )
 +
-+这些操作不能保证并发中断或抢占。如果在中断上下文中不使用每CPU变量并且调度程序无法
-+抢占，那么它们是安全的。如果在操作进行时仍有中断发生，并且中断也修改了变量，则无
-+法保证RMW操作是安全的::
++	同上，但返回的是 ``struct timespec64`` 中的时间，分为秒和纳秒。这可以避免
++	在打印时间时，或在将其传递到期望有 ``timespec`` 或 ``timeval`` 结构体的外
++	部接口时，进行额外的划分。
 +
-+	__this_cpu_read(pcp)
-+	__this_cpu_write(pcp, val)
-+	__this_cpu_add(pcp, val)
-+	__this_cpu_and(pcp, val)
-+	__this_cpu_or(pcp, val)
-+	__this_cpu_add_return(pcp, val)
-+	__this_cpu_xchg(pcp, nval)
-+	__this_cpu_cmpxchg(pcp, oval, nval)
-+	__this_cpu_cmpxchg_double(pcp1, pcp2, oval1, oval2, nval1, nval2)
-+	__this_cpu_sub(pcp, val)
-+	__this_cpu_inc(pcp)
-+	__this_cpu_dec(pcp)
-+	__this_cpu_sub_return(pcp, val)
-+	__this_cpu_inc_return(pcp)
-+	__this_cpu_dec_return(pcp)
++.. c:function:: time64_t ktime_get_seconds( void )
++		time64_t ktime_get_boottime_seconds( void )
++		time64_t ktime_get_real_seconds( void )
++		time64_t ktime_get_clocktai_seconds( void )
++		time64_t ktime_get_raw_seconds( void )
 +
++	将时间的粗粒度版本作为标量 ``time64_t`` 返回。 这避免了访问时钟硬件，并使
++	用相应的参考将秒数舍入到最后一个计时器滴答的完整秒数。
 +
-+将增加x，并且不会回退到在无法通过地址重定位和同一指令中的读取-修改-写入操作实现原
-+子性的平台上禁用中断的代码。
++粗略的和fast_ns访问
++-------------------
 +
++对于更专业的情况，存在一些额外的变体：
 +
-+&this_cpu_ptr(pp)->n 对比 this_cpu_ptr(&pp->n)
-+----------------------------------------------
++.. c:function:: ktime_t ktime_get_coarse( void )
++		ktime_t ktime_get_coarse_boottime( void )
++		ktime_t ktime_get_coarse_real( void )
++		ktime_t ktime_get_coarse_clocktai( void )
 +
-+第一个操作使用偏移量并形成一个地址，然后再加上n字段的偏移量。这可能会导致编译器产
-+生两条加法指令。
++.. c:function:: u64 ktime_get_coarse_ns( void )
++		u64 ktime_get_coarse_boottime_ns( void )
++		u64 ktime_get_coarse_real_ns( void )
++		u64 ktime_get_coarse_clocktai_ns( void )
 +
-+第二个操作先加上两个偏移量，然后进行重定位。恕我直言，第二种形式看起来更干净，而
-+且更容易与 ``()`` 结合。第二种形式也与 ``this_cpu_read()`` 和大家的使用方式一致。
++.. c:function:: void ktime_get_coarse_ts64( struct timespec64 * )
++		void ktime_get_coarse_boottime_ts64( struct timespec64 * )
++		void ktime_get_coarse_real_ts64( struct timespec64 * )
++		void ktime_get_coarse_clocktai_ts64( struct timespec64 * )
 +
++	他们比非粗略版本更快，但精度较低，对应于用户空间中的 ``CLOCK_MONOTONIC_COARSE``
++	和 ``CLOCK_REALTIME_COARSE`` ，以及用户空间不可用的等效boottime/tai/raw的
++	时间基准。
 +
-+远程访问每CPU数据
-+-----------------
++	此处返回的时间对应于最后一个计时器滴答，过去可能高达10毫秒（对于CONFIG_HZ=100），
++	与读取 ``jiffies`` 变量相同。 这些只有在快速路径中调用时才有用，并且人们
++	仍然期望精度优于秒，但不能轻易使用 ``jiffies`` ，例如用于inode时间戳。在
++	大多数具有可靠周期计数器的现代机器上，跳过硬件时钟访问可以节省大约100个
++	CPU周期，但在具有外部时钟源的旧硬件上，最多可以节省几微秒。
 +
-+每CPU数据结构被设计为由一个CPU独占使用。如果您按预期使用变量，则 ``this_cpu_ops()``
-+保证是 ``原子的`` ，因为没有其他CPU可以访问这些数据结构。
++.. c:function:: u64 ktime_get_mono_fast_ns( void )
++		u64 ktime_get_raw_fast_ns( void )
++		u64 ktime_get_boot_fast_ns( void )
++		u64 ktime_get_tai_fast_ns( void )
++		u64 ktime_get_real_fast_ns( void )
 +
-+在某些特殊情况下，您可能需要远程访问每CPU数据结构。通常情况下，进行远程读访问是安
-+全的，这经常是为了统计计数器值。远程写访问可能会出现问题，因为this_cpu操作没有锁
-+语义。远程写可能会干扰this_cpu RMW操作。
++	这些变体可以安全地从任何上下文中调用，包括在计时器更新期间从不屏蔽中断（NMI）
++	调用，以及当我们在时钟源断电的情况下进入挂起状态时。这在某些跟踪或调试代
++	码以及机器检查报告中很有用，但大多数驱动程序不应调用它们，因为在某些情况
++	下时间是允许跳跃的
 +
-+除非绝对必要，否则强烈建议不要对每CPU数据结构进行远程写访问。请考虑使用IPI来唤醒
-+远程CPU，并对其每CPU区域进行更新。
++已废弃的时钟接口
++----------------
 +
-+要远程访问每CPU数据结构，通常使用 ``per_cpu_ptr()`` 函数::
++较早的内核使用了一些其他接口，这些接口现在正在逐步被淘汰，但可能会出现在被移植到
++的第三方驱动中。特别是，所有返回 ``struct timeval`` 或 ``struct timespec`` 的接口
++都已被替换，因为在32位架构上，tv_sec成员会在2038年溢出。下面是推荐的替换函数:
 +
++.. c:function:: void ktime_get_ts( struct timespec * )
 +
-+	DEFINE_PER_CPU(struct data, datap);
++	用 ``ktime_get()`` 或者 ``ktime_get_ts64()`` 替换。
 +
-+	struct data *p = per_cpu_ptr(&datap, cpu);
++.. c:function:: void do_gettimeofday( struct timeval * )
++		void getnstimeofday( struct timespec * )
++		void getnstimeofday64( struct timespec64 * )
++		void ktime_get_real_ts( struct timespec * )
 +
-+这清楚地表明，我们正准备远程访问每CPU区域。
++	``ktime_get_real_ts64()`` 可以直接替代，但可以考虑使用单调的时间
++	（ ``ktime_get_ts64()`` ）和/或基于 ``ktime_t`` 的接口
++	（ ``ktime_get()`` / ``ktime_get_real()`` ）。
 +
-+您还可以执行以下操作以将datap偏移量转换为地址::
++.. c:function:: struct timespec current_kernel_time( void )
++		struct timespec64 current_kernel_time64( void )
++		struct timespec get_monotonic_coarse( void )
++		struct timespec64 get_monotonic_coarse64( void )
 +
-+	struct data *p = this_cpu_ptr(&datap);
++	这些被 ``ktime_get_coarse_real_ts64()`` 和 ``ktime_get_coarse_ts64()`` 取
++	代。然而，许多需要粗粒度时间的代码可以使用简单的 ``jiffies`` 来代替，而现
++	在一些驱动程序实际上可能需要更高分辨率的访问器。
 +
-+但是，将通过this_cpu_ptr计算的指针传递给其他cpu是不寻常的，应该避免。
++.. c:function:: struct timespec getrawmonotonic( void )
++		struct timespec64 getrawmonotonic64( void )
++		struct timespec timekeeping_clocktai( void )
++		struct timespec64 timekeeping_clocktai64( void )
++		struct timespec get_monotonic_boottime( void )
++		struct timespec64 get_monotonic_boottime64( void )
 +
-+远程访问通常只用于读取另一个cpu的每CPU数据状态。由于this_cpu操作宽松的同步要求，
-+写访问可能会导致奇特的问题。
-+
-+下面的情况说明了写入操作的一些问题，由于两个每CPU变量共享一个缓存行，但宽松的同步
-+仅应用于更新缓存行的一个进程。
-+
-+考虑以下示例::
-+
-+
-+	struct test {
-+		atomic_t a;
-+		int b;
-+	};
-+
-+	DEFINE_PER_CPU(struct test, onecacheline);
-+
-+如果一个处理器远程更新字段 ``a`` ，而本地处理器将使用this_cpu ops来更新字段 ``b`` ，
-+会发生什么情况，这一点值得注意。应避免在同一缓存行内同时访问数据。此外，可能还需
-+要进行代价高昂的同步。在这种情况下，通常建议使用IPI，而不是远程写入另一个处理器的
-+每CPU区域。
-+
-+即使在远程写很少的情况下，请记住远程写将从最有可能访问它的处理器中逐出缓存行。如
-+果处理器唤醒时发现每CPU区域缺少本地缓存行，其性能和唤醒时间将受到影响。
++	这些被 ``ktime_get_raw()`` / ``ktime_get_raw_ts64()`` ，
++	``ktime_get_clocktai()`` / ``ktime_get_clocktai_ts64()``
++	以及 ``ktime_get_boottime()`` / ``ktime_get_boottime_ts64()`` 取代。但是，
++	如果时钟源的特定选择对用户来说并不重要，请考虑转换为
++	``ktime_get()`` / ``ktime_get_ts64()`` 以保持一致性。
 -- 
 2.31.1
 
