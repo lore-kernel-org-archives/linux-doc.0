@@ -2,81 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2AC0C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 08:27:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 748F0C4332F
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 08:32:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbiJUI1d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Oct 2022 04:27:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45076 "EHLO
+        id S230256AbiJUIcG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Oct 2022 04:32:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230005AbiJUI1Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 04:27:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27D6F170DE4
-        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 01:27:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0F36A61DFB
-        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 08:27:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E66C3C433D7;
-        Fri, 21 Oct 2022 08:27:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1666340840;
-        bh=7ZxoYK8HOALCQPoUSmoOdfoXqPofWoWwhh5tzgb9b0o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U61pf1Ot4LFYA+cDK/4uMCPCBBHBEJTkaU2P+3nrvxzox5krMLmha7yTJRlx/ZjOf
-         qHXQDggo1ZuYibhGWMIuLOr8zd7y72bhyLr8Xbsqz1ux2xkoYPn8Zi2pUf2l8scQlo
-         dKMKz9R4HNmIOPU/xYFTf2U5xOV1Dt/8VHxMh8EM=
-Date:   Fri, 21 Oct 2022 10:27:17 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Olof Johansson <olof@lixom.net>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: Re: [PATCH v5 01/10] gna: add PCI driver module
-Message-ID: <Y1JX5WlGm218/TOk@kroah.com>
-References: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com>
- <20221020175334.1820519-2-maciej.kwapulinski@linux.intel.com>
- <Y1IeJplXNHM+VvCJ@kroah.com>
- <12aeed77-081c-ac40-4b6e-0415d551804e@gmail.com>
+        with ESMTP id S230111AbiJUIbx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 04:31:53 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 927E921CD65;
+        Fri, 21 Oct 2022 01:30:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666341042; x=1697877042;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=iStXbW6utP2Sr5Eu3lyDBrnn9cA6vtUAUyNGvoK3NtY=;
+  b=Uf7JYtBywDSGtclTl8KAQ32yCvKAI6TjiFi3YDrgVn+NbIQonDa/x7cM
+   RUodL6IlY5VTHVBrSiaNAPYzwIYJTz+6H1rQTjYTaTDNnTTvYmQg2pSjY
+   AGms6hD1nAtvJa/GVDiXltS9jmysp0w9U5tTfo3UkT5r0H4x/fmU5fowY
+   Q7oH6qmKghprkhHWQFWRNuRgzjjoYYmFm9EqvaTu4Pb4ngRAxe+c2oXfn
+   OTywvp46gsgOKiVlEoiDtwUoVFJUalwkKSpMEH9qLMP/Vt5omXZY1Tvi/
+   Gjw8dowt0DsZZ2NpXKZ3ZKxml0Mrymw+jH5Tp12Uup1SV18d9C0PdeqhO
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="371162339"
+X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
+   d="scan'208";a="371162339"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 01:29:05 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10506"; a="719594843"
+X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; 
+   d="scan'208";a="719594843"
+Received: from lramir2-mobl1.ger.corp.intel.com ([10.252.44.179])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 01:29:00 -0700
+Date:   Fri, 21 Oct 2022 11:28:58 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-serial <linux-serial@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, Lukas Wunner <lukas@wunner.de>,
+        marpagan@redhat.com
+Subject: Re: [PATCH v4 1/4] Documentation: fpga: dfl: Add documentation for
+ DFHv1
+In-Reply-To: <20221020212610.697729-2-matthew.gerlach@linux.intel.com>
+Message-ID: <d265dae0-fe4b-8ac0-fb9e-2a7345b279a2@linux.intel.com>
+References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com> <20221020212610.697729-2-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <12aeed77-081c-ac40-4b6e-0415d551804e@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 21, 2022 at 03:10:06PM +0700, Bagas Sanjaya wrote:
-> On 10/21/22 11:20, Greg Kroah-Hartman wrote:
-> > On Thu, Oct 20, 2022 at 07:53:25PM +0200, Maciej Kwapulinski wrote:
-> >> Add a new PCI driver for Intel(R) Gaussian & Neural Accelerator
-> > 
-> > Please drop all of the (R) stuff in here, and in the Kconfig file and in
-> > the .c files.  If your lawyers insist on it, please point them at me and
-> > I will be glad to discuss it with them.
-> > 
-> >>  Documentation/gpu/drivers.rst    |  1 +
-> >>  Documentation/gpu/gna.rst        | 64 ++++++++++++++++++++++++++++++++
-> > 
-> > Why not just put the tiny documentation file in the .c code itself?
-> > That way it stays up to date and might actually be noticed?
-> > 
-> 
-> I think the documentation should be on separate patch.
+On Thu, 20 Oct 2022, matthew.gerlach@linux.intel.com wrote:
 
-Not if it is in the .c file.
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> 
+> Add documentation describing the extensions provided by Version
+> 1 of the Device Feature Header (DFHv1).
+> 
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> ---
+> v4: Remove marketing speak and separate v0 and v1 descriptions.
+>     Fix errors reported by "make htmldocs".
+> 
+> v3: no change
+> 
+> v2: s/GUILD/GUID/
+>     add picture
+> ---
+>  Documentation/fpga/dfl.rst | 96 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 96 insertions(+)
+> 
+> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> index 15b670926084..12365be435a8 100644
+> --- a/Documentation/fpga/dfl.rst
+> +++ b/Documentation/fpga/dfl.rst
+> @@ -561,6 +561,102 @@ new DFL feature via UIO direct access, its feature id should be added to the
+>  driver's id_table.
+>  
+>  
+> +Device Feature Header - Version 0
+> +===========================================
+> +The format of Version 0 of a Device Feature Header (DFH) is shown below::
+> +
+> +    +-----------------------------------------------------------------------+
+> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0| 0x00
+> +    +-----------------------------------------------------------------------+
+> +    |63                                 GUID_L                             0| 0x08
+> +    +-----------------------------------------------------------------------+
+> +    |63                                 GUID_H                             0| 0x10
+> +    +-----------------------------------------------------------------------+
+> +
+> +Offset 0x00
+> +Type - The type of DFH (e.g. FME, AFU, or private feature).
+> +DFH VER - The version of the DFH.
+> +Rsvd - Currently unused.
+> +EOL - Set if this DFH is the end of the Device Feature List (DFL).
+> +Next - The offset of the next DFH in the DFL from the start of the DFH.
+> +If EOL is set, Next refers to size of mmio for last feature in the list.
+> +ID - If Type field is 'private feature', then ID of the private feature.
+> +
+> +Offset 0x08
+> +GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier
+> +if Type is FME or AFU.
+> +
+> +Offset 0x10
+> +GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier
+> +if Type is FME or AFU.
+> +
+> +
+> +Device Feature Header - Version 1
+> +===========================================
+
+While this is structurally better than the previous one. I'd still include
+at least one paragraph about the purpose. Something along these lines 
+(picked from v3 + edited the marketing speak/v0 compare away from it):
+
+Version 1 of the Device Feature Header (DFHv1) provides flexibility and 
+extensibility to hardware designs using Device Feature Lists. It is a
+standardized mechanism for features to describe parameters/capabilities to 
+software.
+
+With DFHv1:
+* GUID is mandatory for all types
+* The register space of the feature is decoupled from the location of the DFH
+* A list of parameter values associates to a particular feature.
+
+After that, the header itself makes much more sense already.
+
+> +The format of Version 1 of a Device Feature Header (DFH) is shown below::
+> +
+> +    +-----------------------------------------------------------------------+
+> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0| 0x00
+> +    +-----------------------------------------------------------------------+
+> +    |63                                 GUID_L                             0| 0x08
+> +    +-----------------------------------------------------------------------+
+> +    |63                                 GUID_H                             0| 0x10
+> +    +-----------------------------------------------------------------------+
+> +    |63                 Address/Offset                            1|  Rel  0| 0x18
+
+Should this mention it's addr/offs of registers? As is it's bit hard to 
+figure out from the diagram w/o the extra description. I think you have 
+plenty of space for adding that extra bit of info.
+
+> +    +-----------------------------------------------------------------------+
+> +    |63        Reg Size       32|Params 31|30 Group    16|15 Instance      0| 0x20
+> +    +-----------------------------------------------------------------------+
+> +    |63 Next      34|RSV33|EOP32|31 Param Version 16|15 Param ID           0| 0x28
+> +    +-----------------------------------------------------------------------+
+> +    |63                 Parameter Data                                     0| 0x30
+> +    +-----------------------------------------------------------------------+
+> +
+> +                                  ...
+> +
+> +    +-----------------------------------------------------------------------+
+> +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID           0|
+> +    +-----------------------------------------------------------------------+
+> +    |63                 Parameter Data                                     0|
+> +    +-----------------------------------------------------------------------+
+> +
+> +Offset 0x00
+> +Type - The type of DFH (e.g. FME, AFU, or private feature).
+> +DFH VER - The version of the DFH.
+> +Rsvd - Currently unused.
+> +EOL - Set if this DFH is the end of the Device Feature List (DFL).
+> +Next - The offset of the next DFH in the DFL from the start of the DFH.
+> +If EOL is set, Next refers to size of mmio for last feature in the list.
+> +ID - If Type field is 'private feature', then ID of the private feature.
+> +
+> +Offset 0x08
+> +GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier.
+> +
+> +Offset 0x10
+> +GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier
+> +if Type is FME or AFU.
+
+A copy-paste error?
+
+> +
+> +Offset 0x18
+> +Address/Offset - If Rel bit is set, then high 63 bits of a 16 bit aligned
+> +absolute address for the location of the feature's registers.
+> +If Rel bit is clear, then the feature's registers start at the
+> +offset from the start of the DFH.
+> +
+> +Offset 0x20
+> +Reg Size - Size of feature's register set.
+> +Params - Set if DFH has one or more parameter blocks.
+> +Group - Id of group if feature is part of a group.
+> +Instance - Id of instance of feature within a group.
+> +
+> +Offset 0x28 if feature has parameters
+> +Next - High 30 bits of a 32 bit aligned offset to the next parameter block.
+> +If EOP set, size of last parameter.
+> +Param Version - Version of Param ID.
+> +Param ID - ID of parameter.
+> +
+> +Offset 0x30
+> +Parameter Data - Parameter data whose size and format is defined by version
+> +and ID of the parameter.
+
+I'd reverse the order and say "ID and version" (kind of major thing 
+first).
+
+> +
+>  Open discussion
+>  ===============
+>  FME driver exports one ioctl (DFL_FPGA_FME_PORT_PR) for partial reconfiguration
+> 
+
+-- 
+ i.
+
