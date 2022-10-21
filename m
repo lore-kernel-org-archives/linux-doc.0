@@ -2,386 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A236C4332F
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 03:55:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76800C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 04:02:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229454AbiJUDzs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 20 Oct 2022 23:55:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33516 "EHLO
+        id S229441AbiJUECL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Oct 2022 00:02:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbiJUDzr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Oct 2022 23:55:47 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8525410B7B0;
-        Thu, 20 Oct 2022 20:55:46 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id f140so1466491pfa.1;
-        Thu, 20 Oct 2022 20:55:46 -0700 (PDT)
+        with ESMTP id S229454AbiJUECL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 00:02:11 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 965231C7D64
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 21:02:09 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id y1so1464956pfr.3
+        for <linux-doc@vger.kernel.org>; Thu, 20 Oct 2022 21:02:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ydW8idriKNC2qWZ2NNP9E3hFkvUES86aIgZ4PhkNNUM=;
-        b=ZVRli+EnuCBFlDVMIp+vggd7bUU/grcJ5d0hzX+7ywWFNaNEgvBERDCmX7zoYAgoqM
-         969TML8Zg0UNXlfdQFyV7WHRWWRTDAPEyVYXGDT4+5KphQ+vg4PFf00jGIfBAUA20SuE
-         ynW6lbel7JgscEDCQv7IXpnilVXgRl6loHONE8rYuwGHK3Y2nqhhtBLC609SEY34Yxn/
-         sEgQ0ht4FMNigYhDtQk0f8jcBuKcns9GLV6M1aawTEqtBmWuzKyfBM5/MY+ltCj8Uq93
-         lqvpVyd4KXLiNgvkn2lCzc2ol+vv6uWA0QKgpSaVWHptBTKf0WqjpM2Q6ymHEcf7x+Ci
-         62qQ==
+        bh=1RpcIZo66JMtewPhjTBMsb5uhNiT3sGHHU564md5F9U=;
+        b=iGeYQwtgCrVsBH5053B8wrlKozKfbx++/XyczKFcCboda7l5fSQuFEBoiWZd7X6nwx
+         GRdGIjvhoY7jVgHKiEaraet5U5pCK3ZxNrwEIld3mNa8s0nO+ETRUexTgJ/9NO8PZMnN
+         e9eSDRy5E/uK3Q3Uh0EqZ7uNh5APrXdfeP/xAbgJdxQ4PqnNogI07TeUG0pn/iRyepnf
+         92E5dwe5k55w71+kKeWPUD4DHwDRLHB/1QKvuSxua3bnFMHs4xTz6TUIFEDsG+j8RiAY
+         wnKBZ8nzSdTomRUNHCapZqR81k1cDWh+Bh7nME5IDGE83fFqltdU1Bw6PNc2PiKf2+Ar
+         t5VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ydW8idriKNC2qWZ2NNP9E3hFkvUES86aIgZ4PhkNNUM=;
-        b=Hj/p93B4shCav3Ok7MreJyD6JqwI9qb3N+K/LA+Lsz8kn6ywjigOOgQUgUxtrS2mmh
-         fQ9aip7kdKmQAlXk6FA2zefWhYXM4bukbFtxHI1a70ms3c2WB4DlLHjl8hfo9N+b31B2
-         aoykT7M3NYXHEhiaHGLV7G4ZbbGAlGkfg06NtnoNw+EiUsEL/zfPpqjci1KTua+183Me
-         OsOp4BqxsKI/HXA3WoehGxnhNK0cWpfbiYFnSxUwl8tyFy82+WWfQQWlwARq7b/5kbWI
-         ZJa0RMcAK4QLTYStXeqh1B+BCwBam7l4JWsx8XpOLbt8QT+1pKUqbLF9G+Ex+gF21Nqs
-         ZXlQ==
-X-Gm-Message-State: ACrzQf3avDTcEdN5QfkHftUmdkIh6AoVCCYCYLPbWDYFNXFeGhjz/zyB
-        pml17MQzARyUHTcVvpaFMrE=
-X-Google-Smtp-Source: AMsMyM5DZiwM8N03fPJHH3U57Az3fKRX1q6ewEIeXynjcd5SgtSK3pqAB77bFRHqKdmAkNc35ca3bQ==
-X-Received: by 2002:a05:6a00:238d:b0:563:b212:9257 with SMTP id f13-20020a056a00238d00b00563b2129257mr17182333pfc.21.1666324545714;
-        Thu, 20 Oct 2022 20:55:45 -0700 (PDT)
+        bh=1RpcIZo66JMtewPhjTBMsb5uhNiT3sGHHU564md5F9U=;
+        b=5J0RtS1CCrIxPCA5zFGOg3g05q7n3kq8FL63ZzLryC7m8Sot7Omivor+UbAWmfPCBT
+         MjCfxIHUMqMi0Vhgwqu4OS1pp2++OHuPr0BVxCALmMTRggIIvlAI0Z6fv7OLVPzakgr0
+         pn6hzxTRHPYmsepKo962bv7tHqVZxethFqjossL14+g5hEky7DO65/i5/sZ1cvrjr/Pv
+         RpCz8luu1OMGKTGKqydLAVMVF0Pwn2R/5Z+p5+ABDxbDcxuC9ekWUqxd1g3OcfOvaHF2
+         uTxK22isAD0g/kxZTBzq2U2XpbRHtECu6D7gD6oYaqKAGK6oeovKVUSUAJfdaV1u8z+y
+         oHZQ==
+X-Gm-Message-State: ACrzQf1IAoeFMF4WEazN+iiPAHNPAXMdOt2BSDNfP1gBmXt9xjOT8iOg
+        arKvsjy+Oap4cdcq2uDGSF4=
+X-Google-Smtp-Source: AMsMyM61LeaaEl78jhPAxT3RI0G+K6iMAgxIz6dw1EEg90qQOr18ygLimrLNS0+2tCYRw/tquK/DNA==
+X-Received: by 2002:a63:1b5d:0:b0:461:7362:e8b5 with SMTP id b29-20020a631b5d000000b004617362e8b5mr14402119pgm.83.1666324929036;
+        Thu, 20 Oct 2022 21:02:09 -0700 (PDT)
 Received: from debian.me (subs28-116-206-12-47.three.co.id. [116.206.12.47])
-        by smtp.gmail.com with ESMTPSA id ge12-20020a17090b0e0c00b0020aa1bd91e4sm621709pjb.4.2022.10.20.20.55.44
+        by smtp.gmail.com with ESMTPSA id o3-20020a17090a3d4300b0020ddea12227sm653907pjf.55.2022.10.20.21.02.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Oct 2022 20:55:45 -0700 (PDT)
+        Thu, 20 Oct 2022 21:02:08 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id 5F01E103FE6; Fri, 21 Oct 2022 10:55:41 +0700 (WIB)
-Date:   Fri, 21 Oct 2022 10:55:41 +0700
+        id 9261C103AB4; Fri, 21 Oct 2022 11:02:05 +0700 (WIB)
+Date:   Fri, 21 Oct 2022 11:02:05 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     matthew.gerlach@linux.intel.com
-Cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com
-Subject: Re: [PATCH v4 1/4] Documentation: fpga: dfl: Add documentation for
- DFHv1
-Message-ID: <Y1IYPTOJaxTfLDQe@debian.me>
-References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com>
- <20221020212610.697729-2-matthew.gerlach@linux.intel.com>
+To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Olof Johansson <olof@lixom.net>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        Mikolaj Grzybowski <mikolajx.grzybowski@intel.com>,
+        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+        Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Subject: Re: [PATCH v5 01/10] gna: add PCI driver module
+Message-ID: <Y1IZvWFE5kRSLYCc@debian.me>
+References: <20221020175334.1820519-1-maciej.kwapulinski@linux.intel.com>
+ <20221020175334.1820519-2-maciej.kwapulinski@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="icZ6/z54STqGtU0x"
+        protocol="application/pgp-signature"; boundary="e6A21joJI11IlZjq"
 Content-Disposition: inline
-In-Reply-To: <20221020212610.697729-2-matthew.gerlach@linux.intel.com>
+In-Reply-To: <20221020175334.1820519-2-maciej.kwapulinski@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---icZ6/z54STqGtU0x
+--e6A21joJI11IlZjq
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 20, 2022 at 02:26:07PM -0700, matthew.gerlach@linux.intel.com w=
-rote:
-> +Device Feature Header - Version 0
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +The format of Version 0 of a Device Feature Header (DFH) is shown below::
+On Thu, Oct 20, 2022 at 07:53:25PM +0200, Maciej Kwapulinski wrote:
+> +IOCTL
+> +-----
+> +Intel(R) GNA driver controls the device through IOCTL interfaces.
+> +Following IOCTL commands - handled by DRM framework - are supported:
 > +
-> +    +-------------------------------------------------------------------=
-----+
-> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 =
-ID 0| 0x00
-> +    +-------------------------------------------------------------------=
-----+
-> +    |63                                 GUID_L                          =
-   0| 0x08
-> +    +-------------------------------------------------------------------=
-----+
-> +    |63                                 GUID_H                          =
-   0| 0x10
-> +    +-------------------------------------------------------------------=
-----+
+> +GNA_GET_PARAMETER gets driver and device capabilities.
 > +
-> +Offset 0x00
-> +Type - The type of DFH (e.g. FME, AFU, or private feature).
-> +DFH VER - The version of the DFH.
-> +Rsvd - Currently unused.
-> +EOL - Set if this DFH is the end of the Device Feature List (DFL).
-> +Next - The offset of the next DFH in the DFL from the start of the DFH.
-> +If EOL is set, Next refers to size of mmio for last feature in the list.
-> +ID - If Type field is 'private feature', then ID of the private feature.
+> +GNA_GEM_NEW acquires new 4KB page aligned memory region ready for DMA op=
+erations.
 > +
-> +Offset 0x08
-> +GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifi=
-er
-> +if Type is FME or AFU.
+> +GNA_GEM_FREE frees memory region back to system.
 > +
-> +Offset 0x10
-> +GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier
-> +if Type is FME or AFU.
+> +GNA_COMPUTE submits a request to the device queue.
+> +            Memory regions acquired by GNA_GEM_NEW are part of request.
 > +
-> +
-> +Device Feature Header - Version 1
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +The format of Version 1 of a Device Feature Header (DFH) is shown below::
-> +
-> +    +-------------------------------------------------------------------=
-----+
-> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 =
-ID 0| 0x00
-> +    +-------------------------------------------------------------------=
-----+
-> +    |63                                 GUID_L                          =
-   0| 0x08
-> +    +-------------------------------------------------------------------=
-----+
-> +    |63                                 GUID_H                          =
-   0| 0x10
-> +    +-------------------------------------------------------------------=
-----+
-> +    |63                 Address/Offset                            1|  Re=
-l  0| 0x18
-> +    +-------------------------------------------------------------------=
-----+
-> +    |63        Reg Size       32|Params 31|30 Group    16|15 Instance   =
-   0| 0x20
-> +    +-------------------------------------------------------------------=
-----+
-> +    |63 Next      34|RSV33|EOP32|31 Param Version 16|15 Param ID        =
-   0| 0x28
-> +    +-------------------------------------------------------------------=
-----+
-> +    |63                 Parameter Data                                  =
-   0| 0x30
-> +    +-------------------------------------------------------------------=
-----+
-> +
-> +                                  ...
-> +
-> +    +-------------------------------------------------------------------=
-----+
-> +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID        =
-   0|
-> +    +-------------------------------------------------------------------=
-----+
-> +    |63                 Parameter Data                                  =
-   0|
-> +    +-------------------------------------------------------------------=
-----+
-> +
-> +Offset 0x00
-> +Type - The type of DFH (e.g. FME, AFU, or private feature).
-> +DFH VER - The version of the DFH.
-> +Rsvd - Currently unused.
-> +EOL - Set if this DFH is the end of the Device Feature List (DFL).
-> +Next - The offset of the next DFH in the DFL from the start of the DFH.
-> +If EOL is set, Next refers to size of mmio for last feature in the list.
-> +ID - If Type field is 'private feature', then ID of the private feature.
-> +
-> +Offset 0x08
-> +GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifi=
-er.
-> +
-> +Offset 0x10
-> +GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier
-> +if Type is FME or AFU.
-> +
-> +Offset 0x18
-> +Address/Offset - If Rel bit is set, then high 63 bits of a 16 bit aligned
-> +absolute address for the location of the feature's registers.
-> +If Rel bit is clear, then the feature's registers start at the
-> +offset from the start of the DFH.
-> +
-> +Offset 0x20
-> +Reg Size - Size of feature's register set.
-> +Params - Set if DFH has one or more parameter blocks.
-> +Group - Id of group if feature is part of a group.
-> +Instance - Id of instance of feature within a group.
-> +
-> +Offset 0x28 if feature has parameters
-> +Next - High 30 bits of a 32 bit aligned offset to the next parameter blo=
-ck.
-> +If EOP set, size of last parameter.
-> +Param Version - Version of Param ID.
-> +Param ID - ID of parameter.
-> +
-> +Offset 0x30
-> +Parameter Data - Parameter data whose size and format is defined by vers=
-ion
-> +and ID of the parameter.
+> +GNA_WAIT blocks and waits on the submitted request.
 > +
 
-The offset fields list should be formatted with nested list (with
-prose improv):
+Use bullet lists for ioctl list above (with minor wording improv on
+the whole section):
 
 ---- >8 ----
 
-diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-index 12365be435a812..9c19ee62d4ac44 100644
---- a/Documentation/fpga/dfl.rst
-+++ b/Documentation/fpga/dfl.rst
-@@ -573,22 +573,27 @@ The format of Version 0 of a Device Feature Header (D=
-FH) is shown below::
-     |63                                 GUID_H                            =
- 0| 0x10
-     +---------------------------------------------------------------------=
---+
+diff --git a/Documentation/gpu/gna.rst b/Documentation/gpu/gna.rst
+index 7f3b7ce7e8f722..9a896664a3c29f 100644
+--- a/Documentation/gpu/gna.rst
++++ b/Documentation/gpu/gna.rst
+@@ -32,21 +32,22 @@ Multiple processes can independently file many requests=
+ to the driver. These req
+ processed in a FIFO manner. The hardware can process one request at a time=
+ by using a FIFO
+ queue.
 =20
--Offset 0x00
--Type - The type of DFH (e.g. FME, AFU, or private feature).
--DFH VER - The version of the DFH.
--Rsvd - Currently unused.
--EOL - Set if this DFH is the end of the Device Feature List (DFL).
--Next - The offset of the next DFH in the DFL from the start of the DFH.
--If EOL is set, Next refers to size of mmio for last feature in the list.
--ID - If Type field is 'private feature', then ID of the private feature.
-+The fields are:
+-IOCTL
++ioctl
+ -----
+-Intel(R) GNA driver controls the device through IOCTL interfaces.
+-Following IOCTL commands - handled by DRM framework - are supported:
++Intel(R) GNA driver controls the device through ioctl interfaces.
++The following commands (handled by DRM framework) are supported:
 =20
--Offset 0x08
--GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier
--if Type is FME or AFU.
-+  * Offset 0x00
+-GNA_GET_PARAMETER gets driver and device capabilities.
++  * GNA_GET_PARAMETER gets driver and device capabilities.
 =20
--Offset 0x10
--GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier
--if Type is FME or AFU.
-+    * Type - The type of DFH (e.g. FME, AFU, or private feature).
-+    * DFH VER - The version of the DFH.
-+    * Rsvd - Currently unused.
-+    * EOL - Set if this DFH is the end of the Device Feature List (DFL).
-+
-+    * Next - The offset of the next DFH in the DFL from the start of the D=
-FH.
-+      If EOL is set, Next refers to size of mmio for last feature in the l=
-ist.
-+
-+    * ID - Private feature ID if Type is private feature.
-+
-+  * Offset 0x08
-+
-+    * GUID_L - Least significant half of a 128-bit GUID if Type is FME or =
-AFU.
-+
-+  * Offset 0x10
-+
-+    * GUID_H - Most significant half of a 128-bit GUID if Type if FME or A=
-FU.
+-GNA_GEM_NEW acquires new 4KB page aligned memory region ready for DMA oper=
+ations.
++  * GNA_GEM_NEW allocates new 4KB page of aligned memory region ready for =
+DMA
++    operations.
 =20
+-GNA_GEM_FREE frees memory region back to system.
++  * GNA_GEM_FREE frees memory region back to system.
 =20
- Device Feature Header - Version 1
-@@ -619,43 +624,53 @@ The format of Version 1 of a Device Feature Header (D=
-FH) is shown below::
-     |63                 Parameter Data                                    =
- 0|
-     +---------------------------------------------------------------------=
---+
+-GNA_COMPUTE submits a request to the device queue.
+-            Memory regions acquired by GNA_GEM_NEW are part of request.
++  * GNA_COMPUTE submits a request to the device queue. Memory regions allo=
+cated
++    by GNA_GEM_NEW become part of the request payload.
 =20
--Offset 0x00
--Type - The type of DFH (e.g. FME, AFU, or private feature).
--DFH VER - The version of the DFH.
--Rsvd - Currently unused.
--EOL - Set if this DFH is the end of the Device Feature List (DFL).
--Next - The offset of the next DFH in the DFL from the start of the DFH.
--If EOL is set, Next refers to size of mmio for last feature in the list.
--ID - If Type field is 'private feature', then ID of the private feature.
-+The fields are:
+-GNA_WAIT blocks and waits on the submitted request.
++  * GNA_WAIT blocks and waits on the submitted request.
 =20
--Offset 0x08
--GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier.
-+  * Offset 0x00
-=20
--Offset 0x10
--GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier
--if Type is FME or AFU.
-+    * Type - The type of DFH (e.g. FME, AFU, or private feature).
-+    * DFH VER - The version of the DFH.
-+    * Rsvd - Currently unused.
-+    * EOL - Set if this DFH is the end of the Device Feature List (DFL).
-=20
--Offset 0x18
--Address/Offset - If Rel bit is set, then high 63 bits of a 16 bit aligned
--absolute address for the location of the feature's registers.
--If Rel bit is clear, then the feature's registers start at the
--offset from the start of the DFH.
-+    * Next - The offset of the next DFH in the DFL from the start of the D=
-FH.
-+      If EOL is set, Next refers to size of mmio for last feature in the l=
-ist.
-=20
--Offset 0x20
--Reg Size - Size of feature's register set.
--Params - Set if DFH has one or more parameter blocks.
--Group - Id of group if feature is part of a group.
--Instance - Id of instance of feature within a group.
-+    * ID - Private feature ID if Type is private feature.
-=20
--Offset 0x28 if feature has parameters
--Next - High 30 bits of a 32 bit aligned offset to the next parameter block.
--If EOP set, size of last parameter.
--Param Version - Version of Param ID.
--Param ID - ID of parameter.
-+  * Offset 0x08
-=20
--Offset 0x30
--Parameter Data - Parameter data whose size and format is defined by version
--and ID of the parameter.
-+    * GUID_L - Least significant half of a 128-bit GUID if Type is FME or =
-APU.
-+
-+  * Offset 0x10
-+
-+    * GUID_H - Most significant half of a 128-bit GUID if Type is FME or A=
-FU.
-+
-+  * Offset 0x18
-+
-+    * Address/Offset - If Rel bit is set, upper 63 bits of a 16-bit aligned
-+      absolute address for the location of feature registers; otherwise
-+      registers of the feature start at the offset from the start of the D=
-FH.
-+
-+  * Offset 0x20
-+
-+    * Reg Size - Size of register set of the feature.
-+    * Params - Set if DFH has one or more parameter blocks.
-+    * Group - ID of group if the feature is part of a group.
-+    * Instance - ID of instance of the feature within a group.
-+
-+  * Offset 0x28 (if the feature has parameters)
-+
-+    * Next - Upper 30 bits of a 32-bit aligned offset to the next parameter
-+      block. If EOP is set, size of last parameter.
-+
-+    * Param Version - Version of Param ID.
-+    * Param ID - ID of parameter.
-+
-+  * Offset 0x30 (if the feature has parameters)
-+
-+    * Parameter Data - Parameter data whose size and format is defined by
-+      version and ID of the parameter.
-=20
- Open discussion
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ GNA MMU
+ -------
 
 Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---icZ6/z54STqGtU0x
+--e6A21joJI11IlZjq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY1IYNAAKCRD2uYlJVVFO
-o3gUAP0Yh1JTkSmxymEiX2a1plGuyODDSuooDcM31Zbjx/rM6gD+O4gO7+nGen0R
-QssNkcBsppgvjIM+IZHfdiAYu6Qa9A0=
-=1io5
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY1IZvQAKCRD2uYlJVVFO
+o3SoAP45nF2ujb/ow1o/K//SEOHtVdUg5ZvP0rUgUsOQM0+ieQD+P/aRDnjlcuh0
+1qJ1v7sm8amaCXdaL+Bqhug38QR9LQ0=
+=BFyj
 -----END PGP SIGNATURE-----
 
---icZ6/z54STqGtU0x--
+--e6A21joJI11IlZjq--
