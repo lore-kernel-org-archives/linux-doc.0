@@ -2,458 +2,205 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E9A4C433FE
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 18:29:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C04A5C433FE
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 19:04:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230257AbiJUS2y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Oct 2022 14:28:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42440 "EHLO
+        id S229779AbiJUTET (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Oct 2022 15:04:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230091AbiJUS2u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 14:28:50 -0400
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 733F3285B5C;
-        Fri, 21 Oct 2022 11:28:47 -0700 (PDT)
-Received: by mail-il1-x130.google.com with SMTP id u10so2093017ilm.5;
-        Fri, 21 Oct 2022 11:28:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+77dB5QEYN7EKEY9tZSHaU2iIjE2ua9xcyG0qk2TXaQ=;
-        b=V7C0xKGTF9YRFwGz2KxL3sZyop3MnZGkHSm/SpgH7bZLKKapB/QD7lEs132mMuFv3O
-         sAbuLCtfkAr9BEH6qc/yX5cJaYRIt5x85924iNut1KScUcHIUU0PpTaGhEPB8TyK76oS
-         n/Ettic26IJlsv/IOHmjuSDk/4fJBBJf5zxC+opYh4WSHoj4/fkdQKey+EuUXSYs6Kd+
-         FWiZDVZbu0aJcjUrXTwx9DYAB98pXjXOUayNlXUl0/JgJts/TPkQk2eLp4RqdYxBYVyn
-         UJsLC8xe3NhaKNFF4H1Oloxb5YpAbtkWN5hGAcjlLT9r1ZhZ6StS5a9MC1dn14DtFYil
-         aLnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+77dB5QEYN7EKEY9tZSHaU2iIjE2ua9xcyG0qk2TXaQ=;
-        b=GoRQCAWh0IkCzOlePwNGgCPlnyP9mnuFUj+LsaASVKmUZerDJxu20MHJAege/rxmze
-         lBvgYaz+xxhRIT87OaZ11iYrddTFQJM1c6OnSBV7CmboOHUik6wDTjqq3tK+15uj7GOu
-         X0kfFvSVMQlgf7VYJhz5XeO2un3N+68i+E9tpJMZiU8I85jU29ILUdeRVTp/fcTX5nVW
-         dpkW8Rqfq/IqqwDRFXi1rQjJjywnE5NHkBBLHvR3SNpAIGlM2Tj73Qk9AVxRHgPLrDy7
-         IqUA6zZXIInvw9YrrDPu6H6Ln3V1Md8vE3HugLLPfwB1uwBZWddi7UspDG6fMDToScwC
-         DSYQ==
-X-Gm-Message-State: ACrzQf1j6BvWAAODJCO7I34KSAIMfwza1oSNDYNKs/+6Wo3ojCg+F2kJ
-        bx9dedBpzv+g4vuIcfPWvvo=
-X-Google-Smtp-Source: AMsMyM42N8lU6JOn2nF1SVxM4MQ5gwSptbHpAcTLkLQkFEvN3F3KRl78UCVMkVJasASakeXMhQovYg==
-X-Received: by 2002:a92:c24e:0:b0:2fc:3482:a438 with SMTP id k14-20020a92c24e000000b002fc3482a438mr15445100ilo.145.1666376926518;
-        Fri, 21 Oct 2022 11:28:46 -0700 (PDT)
-Received: from qjv001-XeonWs (c-67-167-199-249.hsd1.il.comcast.net. [67.167.199.249])
-        by smtp.gmail.com with ESMTPSA id p8-20020a92d688000000b002fa40226722sm4261538iln.84.2022.10.21.11.28.45
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 21 Oct 2022 11:28:46 -0700 (PDT)
-Date:   Fri, 21 Oct 2022 13:28:43 -0500
-From:   Jeff Vanhoof <jdv1029@gmail.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     Jeffrey Vanhoof <jvanhoof@motorola.com>,
-        "balbi@kernel.org" <balbi@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "m.grzeschik@pengutronix.de" <m.grzeschik@pengutronix.de>,
-        "paul.elder@ideasonboard.com" <paul.elder@ideasonboard.com>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        Dan Vacura <W36195@motorola.com>
-Subject: Re: [PATCH v3 2/6] usb: dwc3: gadget: cancel requests instead of
- release after missed isoc
-Message-ID: <20221021182841.GA25288@qjv001-XeonWs>
-References: <20221019020240.exujmo7uvae4xfdi@synopsys.com>
- <20221019074043.GA19727@qjv001-XeonWs>
- <20221019190819.m35ai5fm3g5qpgqj@synopsys.com>
- <20221019213410.GA17789@qjv001-XeonWs>
- <20221019230555.gwovdtmnopwacirt@synopsys.com>
- <20221020164732.GA25496@qjv001-XeonWs>
- <20221020224714.6v7djacqvl5xkc2w@synopsys.com>
- <20221021005537.3vbtair35umh6vo2@synopsys.com>
- <20221021093956.GA25599@qjv001-XeonWs>
- <20221021164349.fft4yqnxuztsqdeu@synopsys.com>
+        with ESMTP id S229941AbiJUTES (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 15:04:18 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 093D127B54D;
+        Fri, 21 Oct 2022 12:04:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=G4K9k1zNE9wxg5828SFlibbq6Y2lTTow4KwI+UrsdMs=; b=EjIsHayOJjShOqKbuvRNg/BfVx
+        wGxcDLK4fKQSgrsiJm0Z8OfXu3P+B58c3VK44khdWVFq/k0C8fgiHt2HMaHlSy0ohymnOlWBEsnVn
+        M6gk2uE4QGjZ0KuksYvMuxl4whA+vt8ASJlalPiEggT2PBxR9z/Z15WmGideNgD3FTdoNVulTuDFx
+        4THpItlFE1rgBL6PEg8yIJOQij4FHIRZk+iRG0KHx6ZR2bVSeo/VYighKVtqpcw+2twjhWzbkHhh1
+        Qczxk1geIN6dLty3kyHbZtuw4a5ghdXQZDv7oJ1w3GOj3yzpukrN6MdSMIupaSnN4EC4ryKKXiF8x
+        zIbBi/AQ==;
+Received: from [179.113.159.85] (helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1olxJ6-0031Wf-RA; Fri, 21 Oct 2022 21:03:49 +0200
+Message-ID: <267fb708-9fae-f651-d8c6-e34a873d668f@igalia.com>
+Date:   Fri, 21 Oct 2022 16:03:41 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221021164349.fft4yqnxuztsqdeu@synopsys.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH V2] x86/split_lock: Add sysctl to control the misery mode
+Content-Language: en-US
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, hpa@zytor.com, luto@kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org, kernel-dev@igalia.com,
+        kernel@gpiccoli.net, Andre Almeida <andrealmeid@igalia.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Joshua Ashton <joshua@froggi.es>,
+        Melissa Wen <mwen@igalia.com>,
+        Paul Gofman <pgofman@codeweavers.com>,
+        Pavel Machek <pavel@denx.de>,
+        Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Zebediah Figura <zfigura@codeweavers.com>
+References: <20221014180506.211592-1-gpiccoli@igalia.com>
+ <44b41091-d474-9f80-fcf1-93c8d1316272@intel.com>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <44b41091-d474-9f80-fcf1-93c8d1316272@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thinh,
+Hi Dave, thanks for the thorough review!
+Comments inline below:
 
-On Fri, Oct 21, 2022 at 04:43:52PM +0000, Thinh Nguyen wrote:
-> On Fri, Oct 21, 2022, Jeff Vanhoof wrote:
-> > Hi Thinh,
-> > 
-> > On Fri, Oct 21, 2022 at 12:55:51AM +0000, Thinh Nguyen wrote:
-> > > On Thu, Oct 20, 2022, Thinh Nguyen wrote:
-> > > > On Thu, Oct 20, 2022, Jeff Vanhoof wrote:
-> > > > > Hi Thinh,
-> > > > > 
-> > > > > On Wed, Oct 19, 2022 at 11:06:08PM +0000, Thinh Nguyen wrote:
-> > > > > > Hi,
-> > > > > > 
-> > > > > > On Wed, Oct 19, 2022, Jeff Vanhoof wrote:
-> > > > > > > Hi Thinh,
-> > > > > > > On Wed, Oct 19, 2022 at 07:08:27PM +0000, Thinh Nguyen wrote:
-> > > > > > > > On Wed, Oct 19, 2022, Jeff Vanhoof wrote:
-> > > > > > 
-> > > > > > <snip>
-> > > > > > 
-> > > > > > > > > 
-> > > > > > > > > From what I can gather from the log, with the current changes it seems that
-> > > > > > > > > after a missed isoc event few requests are staying longer than expected in the
-> > > > > > > > > started_list (not getting reclaimed) and this is preventing the transmission
-> > > > > > > > > from stopping/starting again, and opening the door for continuous stream of
-> > > > > > > > > missed isoc events that cause what appears to the user as a frozen video.
-> > > > > > > > > 
-> > > > > > > > > So one thought, if IOC bit is not set every frame, but IMI bit is, when a
-> > > > > > > > > missed isoc related interrupt occurs it seems likely that more than one trb
-> > > > > > > > > request will need to be reclaimed, but the current set of changes is not
-> > > > > > > > > handling this.
-> > > > > > > > > 
-> > > > > > > > > In the good transfer case this issue seems to be taken care of since the IOC
-> > > > > > > > > bit is not set every frame and the reclaimation will loop through every item in
-> > > > > > > > > the started_list and only stop if there are no additional trbs or if one has
-> > > > > > > > 
-> > > > > > > > It should stop at the request that associated with the interrupt event,
-> > > > > > > > whether it's because of IMI or IOC.
-> > > > > > > 
-> > > > > > > In this case I was concerned that if multipled queued reqs did not have IOC bit
-> > > > > > > set, but there was a missed isoc on one of the last reqs, whether or not we would
-> > > > > > > reclaim all of the requests up to the missed isoc related req. I'm not sure if
-> > > > > > > my concern is valid or not.
-> > > > > > > 
-> > > > > > 
-> > > > > > There should be no problem. If there's an interrupt event indicating a
-> > > > > > TRB completion, the driver will give back all the requests up to the
-> > > > > > request associated with the interrupt event, and the controller will
-> > > > > > continue processing the remaining TRBs. On the next TRB completion
-> > > > > > event, the driver will again give back all the requests up to the
-> > > > > > request associated with that event.
-> > > > > >
-> > > > > 
-> > > > > I was testing with the following patch you suggested:
-> > > > > 
-> > > > > > diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> > > > > > index 61fba2b7389b..8352f4b5dd9f 100644
-> > > > > > --- a/drivers/usb/dwc3/gadget.c
-> > > > > > +++ b/drivers/usb/dwc3/gadget.c
-> > > > > > @@ -3657,6 +3657,10 @@ static int dwc3_gadget_ep_reclaim_completed_trb(struct dwc3_ep *dep,
-> > > > > >  	if (event->status & DEPEVT_STATUS_SHORT && !chain)
-> > > > > >  		return 1;
-> > > > > >  
-> > > > > > +	if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
-> > > > > > +	    (event->status & DEPEVT_STATUS_MISSED_ISOC) && !chain)
-> > > > > > +		return 1;
-> > > > > > +
-> > > > > >  	if ((trb->ctrl & DWC3_TRB_CTRL_IOC) ||
-> > > > > >  	    (trb->ctrl & DWC3_TRB_CTRL_LST))
-> > > > > >  		return 1;
-> > > > > >
-> > > > > 
-> > > > > At this time the IMI bit was set for every frame. With these changes it
-> > > > > appeared in case of missed isoc that sometimes not all requests would be
-> > > > > reclaimed (enqueued != dequeued even 100ms after the last interrupt was
-> > > > > handled). If the 1st req in the started_list was fine (IMI set, but not IOC),
-> > > > > and a later req was the one actually missed, because of this status check the
-> > > > > reclaimation could stop early and not clean up to the appropriate req. As
-> > > > 
-> > > > Oops. You're right.
-> > > > 
-> > > > > suggested yesterday, I also tried only setting the IMI bit when no_interrupt is
-> > > > > not set, however I was still seeing the complete freezes. After analyzing this
-> > > > > issue a bit, I have updated the diff to look more like this:
-> > > > > 
-> > > > > diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> > > > > index dfaf9ac24c4f..bb800a81815b 100644
-> > > > > --- a/drivers/usb/dwc3/gadget.c
-> > > > > +++ b/drivers/usb/dwc3/gadget.c
-> > > > > @@ -1230,8 +1230,9 @@ static void __dwc3_prepare_one_trb(struct dwc3_ep *dep, struct dwc3_trb *trb,
-> > > > >  			trb->ctrl = DWC3_TRBCTL_ISOCHRONOUS;
-> > > > >  		}
-> > > > >  
-> > > > > -		/* always enable Interrupt on Missed ISOC */
-> > > > > -		trb->ctrl |= DWC3_TRB_CTRL_ISP_IMI;
-> > > > > +		/* enable Interrupt on Missed ISOC */
-> > > > > +		if ((!no_interrupt && !chain) || must_interrupt)
-> > > > > +		    trb->ctrl |= DWC3_TRB_CTRL_ISP_IMI;
-> > > > >  		break;
-> > > > 
-> > > > Either all or none of the TRBs of a request is set with IMI, and not
-> > > > some.
-> > > > 
-> > > > >  
-> > > > >  	case USB_ENDPOINT_XFER_BULK:
-> > > > > @@ -3195,6 +3196,11 @@ static int dwc3_gadget_ep_reclaim_completed_trb(struct dwc3_ep *dep,
-> > > > >  	if (event->status & DEPEVT_STATUS_SHORT && !chain)
-> > > > >  		return 1;
-> > > > >  
-> > > > > +	if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
-> > > > > +		(event->status & DEPEVT_STATUS_MISSED_ISOC) && !chain
-> > > > > +		&& (trb->ctrl & DWC3_TRB_CTRL_ISP_IMI))
-> > > > > +		return 1;
-> > > > > +
-> > > > >  	if ((trb->ctrl & DWC3_TRB_CTRL_IOC) ||
-> > > > >  	    (trb->ctrl & DWC3_TRB_CTRL_LST))
-> > > > >  		return 1;
-> > > > > 
-> > > > > Where the trb must have the IMI set before returning early. This seemed to make
-> > > > > the freezes recoverable.
-> > > > 
-> > > > Can you try this revised change:
-> > > > 
-> > > > diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> > > > index 61fba2b7389b..a69d8c28d86b 100644
-> > > > --- a/drivers/usb/dwc3/gadget.c
-> > > > +++ b/drivers/usb/dwc3/gadget.c
-> > > > @@ -3654,7 +3654,7 @@ static int dwc3_gadget_ep_reclaim_completed_trb(struct dwc3_ep *dep,
-> > > >  	if ((trb->ctrl & DWC3_TRB_CTRL_HWO) && status != -ESHUTDOWN)
-> > > >  		return 1;
-> > > >  
-> > > > -	if (event->status & DEPEVT_STATUS_SHORT && !chain)
-> > > 
-> > > I accidentally deleted a couple of lines here.
-> > > 
-> > > > +	if (DWC3_TRB_SIZE_TRBSTS(trb->size) == DWC3_TRBSTS_MISSED_ISOC && !chain)
-> > > >  		return 1;
-> > > >  
-> > > >  	if ((trb->ctrl & DWC3_TRB_CTRL_IOC) ||
-> > > 
-> > > I meant to do this:
-> > > 
-> > > diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> > > index 61fba2b7389b..cb65371572ee 100644
-> > > --- a/drivers/usb/dwc3/gadget.c
-> > > +++ b/drivers/usb/dwc3/gadget.c
-> > > @@ -3657,6 +3657,9 @@ static int dwc3_gadget_ep_reclaim_completed_trb(struct dwc3_ep *dep,
-> > >  	if (event->status & DEPEVT_STATUS_SHORT && !chain)
-> > >  		return 1;
-> > >  
-> > > +	if (DWC3_TRB_SIZE_TRBSTS(trb->size) == DWC3_TRBSTS_MISSED_ISOC && !chain)
-> > > +		return 1;
-> > > +
-> > >  	if ((trb->ctrl & DWC3_TRB_CTRL_IOC) ||
-> > >  	    (trb->ctrl & DWC3_TRB_CTRL_LST))
-> > >  		return 1;
-> > > @@ -3673,6 +3676,7 @@ static int dwc3_gadget_ep_reclaim_trb_sg(struct dwc3_ep *dep,
-> > >  	struct scatterlist *s;
-> > >  	unsigned int num_queued = req->num_queued_sgs;
-> > >  	unsigned int i;
-> > > +	bool missed_isoc = false;
-> > >  	int ret = 0;
-> > >  
-> > >  	for_each_sg(sg, s, num_queued, i) {
-> > > @@ -3681,12 +3685,18 @@ static int dwc3_gadget_ep_reclaim_trb_sg(struct dwc3_ep *dep,
-> > >  		req->sg = sg_next(s);
-> > >  		req->num_queued_sgs--;
-> > >  
-> > > +		if (DWC3_TRB_SIZE_TRBSTS(trb->size) == DWC3_TRBSTS_MISSED_ISOC)
-> > > +			missed_isoc = true;
-> > > +
-> > >  		ret = dwc3_gadget_ep_reclaim_completed_trb(dep, req,
-> > >  				trb, event, status, true);
-> > >  		if (ret)
-> > >  			break;
-> > >  	}
-> > >  
-> > > +	if (missed_isoc)
-> > > +		ret = 1;
-> > > +
-> > >  	return ret;
-> > >  }
-> > >  
-> > > 
-> > > BR,
-> > > Thinh
-> > 
-> > I tried out the following patch diff you provided and I did not see any iommu
-> > related crashes with these changes:
-> > 
-> > diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> > index dfaf9ac24c4f..50287437d6de 100644
-> > --- a/drivers/usb/dwc3/gadget.c
-> > +++ b/drivers/usb/dwc3/gadget.c
-> > @@ -3195,6 +3195,9 @@ static int dwc3_gadget_ep_reclaim_completed_trb(struct dwc3_ep *dep,
-> >         if (event->status & DEPEVT_STATUS_SHORT && !chain)
-> >                 return 1;
-> >  
-> > +       if (DWC3_TRB_SIZE_TRBSTS(trb->size) == DWC3_TRBSTS_MISSED_ISOC && !chain)
-> > +               return 1;
-> > +
-> >         if ((trb->ctrl & DWC3_TRB_CTRL_IOC) ||
-> >             (trb->ctrl & DWC3_TRB_CTRL_LST))
-> >                 return 1;
-> > @@ -3211,6 +3214,7 @@ static int dwc3_gadget_ep_reclaim_trb_sg(struct dwc3_ep *dep,
-> >         struct scatterlist *s;
-> >         unsigned int num_queued = req->num_queued_sgs;
-> >         unsigned int i;
-> > +       bool missed_isoc = false;
-> >         int ret = 0;
-> >  
-> >         for_each_sg(sg, s, num_queued, i) {
-> > @@ -3219,12 +3223,18 @@ static int dwc3_gadget_ep_reclaim_trb_sg(struct dwc3_ep *dep,
-> >                 req->sg = sg_next(s);
-> >                 req->num_queued_sgs--;
-> >  
-> > +               if (DWC3_TRB_SIZE_TRBSTS(trb->size) == DWC3_TRBSTS_MISSED_ISOC)
-> > +                       missed_isoc = true;
-> > +
-> >                 ret = dwc3_gadget_ep_reclaim_completed_trb(dep, req,
-> >                                 trb, event, status, true);
-> >                 if (ret)
-> >                         break;
-> >         }
-> >  
-> > +       if (missed_isoc)
-> > +               ret = 1;
-> > +
-> >         return ret;
-> >  }
-> >  
-> > 
-> > As we discussed earlier, when uvc's complete function is called, if an -EXDEV
-> > is returned in the request's status, the uvc driver will begin to cancel its
-> > queue. With the current skip interrupt implementation in the uvc driver, if
-> > this occurs while the uvc driver is pumping the current frame, then there is no
-> > guarentee that the last request(s) will have had 'no_interrupt=0'. If the last
-> > requests passed to dwc3 had 'no_interrupt=1', these requests would eventually
-> > be placed at the end of the started_list. Since the IOC bit will not be set,
-> > and if no missed isoc event occurs on these requests, then the dwc3 driver will
-> > not be interrupted, leaving those remaining requests sitting in the
-> > started_list, and dwc3 will not perform an 'End Transfer' as expected. Once the
-> > uvc driver begins to pump the requests for the next frame, then it most likely
-> > will result in additional missed isoc events, with the result being an extended
-> > video freeze seen by the user.
-> > 
-> > I hope that other uvc driver maintainers can chime in here to help determine the
-> > correct path forward. With the skip interrupt implementation, the uvc driver should
-> > guarentee that the last request sent to dwc3 has 'no_interrupt=0', otherwise
+On 21/10/2022 14:27, Dave Hansen wrote:
+> [...]
+>> +For x86 CPUs supporting the split lock detection mechanism, this parameter
+>> +allows the users to turn off what is called "the misery mode", which
+>> +introduces intentional delay in userspace applications that split locks.
+>> +The goal of the misery mode is to prevent using such unaligned access to
+>> +DoS the system dropping the performance overall, but some of these split
+>> +locking programs are legacy and/or proprietary software that cannot be fixed,
+>> +so using this sysctl is a way to allow them to run with a decent performance.
 > 
-> Rather than guarenteeing no_interrupt or not, it's more important that
-> the UVC maintains a constant queue of requests to the controller driver.
-> Isoc transfers are meant to be sent at a constant rate which the
-> endpoint is configured.
->
-
-I agree with you on this, but it will probably always be a race with uvc
-queuing up one req at a time and dwc3 starting to transmit almost immediately.
-We can configure the streaming_interval on a product to kind of slow down or
-delay the usb transfers, but between dwc3 and uvc driver it would be nice to
-have an interface that would allow pre-queuing a certain number of reqs before
-the transfer is actually started. If that is not possible, then uvc could
-instead prepare a number of reqs ahead of time and attempt to queue them each
-as fast a possible in a very tight loop.
- 
-> I recalled Dan mentioned that UVC gadget driver can queue up to 64
-> requests with no_interrupt=1 up to 15 requests. But I keep seeing that
-> the gadget driver only "pumps" 16 requests and doesn't continue until
-> they are completed. We can almost guarantee that it's going to be
-> underrun. Can UVC "pumps" multiple times at once?
+> I think this is missing a lot of context.  End users looking here won't
+> even know what a split lock *is*.  Please either refer over to the real
+> documentation on this issue or write a brief description about what's
+> going on.
+> 
+> How about this?
+> 
+> 	On x86, each "split lock" imposes a system-wide performance
+> 	penalty.  On larger systems, large numbers of split locks from
+> 	unprivileged users can result in denials of service to well-
+> 	behaved and potentially more important users.
+> 
+> 	The kernel mitigates these bad users by detecting split locks
+> 	and imposing penalties: forcing them to wait and only allowing
+> 	one core to execute split locks at a time.
+> 
+> 	These mitigations can make those bad applications unbearably
+> 	slow.  Setting split_lock_mitigate=0 may restore some
+> 	application performance, but will also increase system exposure
+> 	to denial of service attacks from split lock users.
+> 
+>> += ===================================================================
+>> +0 Disables the misery mode - just warns the split lock on kernel log.
+> 
+> ... and exposes the system to Denial-of-Service attacks.  That's an
+> awfully big side-effect to not mention.
+> 
+>> +1 Enables the misery mode (this is the default) - penalizes the split
+>> +  lockers with intentional performance degradation.
+>> += ===================================================================
+> 
+> As much as I love the misery terminology, let's try to use one term.
+> Let's either call it "misery" *or* "mitigations", not both.
 > 
 
-uvc will usually pump when new frames comes in or when a req's complete gets
-called. uvc should fill up front all the reqs required to transfer a frame (up
-to 64), but once the available reqs are filled or the frame completely queued
-up, it would take a new incoming frame or a kick via the complete call to have
-it attempt to fill any remaining reqs in the queue again. To me this looks
-ok to do, but for heavy transfers we have a somewhat smaller queue as a buffer,
-48 reqs vs 64 reqs (64 - 16).
+OK, regarding the documentation, I'll follow your suggestion in the V3,
+good stuff.
 
-To note, for the very last request of a frame/buffer (the end of it) the uvc
-driver does set the no_interrupt to 0 for this request.
 
-> > if a missed isoc error occurs, it becomes very likely that the next immediate set of
-> > frames could be dropped/cancelled because the dwc3 driver could not perform a timely
-> > 'End Transfer'.
-> > 
-> > For testing I implemented the following changes to see what I could do for this
-> > issue. Note that I am on an older implementation and it's missing a lot of the
+>> [...]
+>> -static void __split_lock_reenable(struct work_struct *work)
+>> +static void __split_lock_reenable_sem(struct work_struct *work)
+>>  {
 > 
-> Please use the latest kernel, there are a lot of fixes/improvement to
-> dwc3 every kernel version.
->
-
-I've been debugging the sg implementation and the skip interrupt implementation
-seperately, backporting what can be backported. I'm working off of a 5.10
-kernel debugging various issues Dan Vacura was seeing on a 5.15 kernel on a
-newer product. What we had on our 5.10 based kernel was stable for uvc/dwc3, so
-we needed to understand what came in since that time that broke stability.
- 
-> > sg related implementation. The idea here is that if the queue is empty, and that
-> > req_int_count is non-zero then the last request likely had 'no_interrupt=1' set.
-> > And if this is the case then we will want to send some dummy request to dwc3 with
-> > 'no_interrupt=0' set to make sure that no requests get stuck in its started_list.
+> "sem" is a pretty crummy name.  Wouldn't
 > 
-> This is not efficient and unnecessary.
->
-
-Agree, but to fix this in the uvc driver the correct way seemed a bit more
-complicated at first. I was thinking that the driver would always send one last
-request of the frame buffer once an error is seen, but I'm now thinking of a
-simpler solution. If we can update the uvc pump to prepare a number of requests
-and make sure that the last request has no_interrupt set to 0 before queuing
-them all up in a tight loop to the dwc3 driver, this would effectively solve
-this problem too. A bit of extra smarts this area might also address some
-of your concerns about uvc not pumping a lot of data at once (especially for
-the beginning of a frame). I believe we should prepare more reqs up front
-if the req queue is empty and less reqs if its already busy.
-
-I'm hoping that someone can step up to help here :). If not, then this will be
-my next activity.
- 
-> <snip>
+> 	__split_lock_reenable_unlock()
 > 
-> > 
-> > 
-> > Alternatively we may just not want to cancel the queue upon receiving -EXDEV
-> > and this could solve the problem too, but I don't think that it's such a great
-> > idea, especially if things start falling behind.
-> > 
-> > I hope that someone more fluent in this area of code can take a crack at
-> > improving/fixing this issue. 
-> > 
-> > The changes above do seem to help dwc3 timely end its transfers, but mainly for
-> > cases where some requests are missed but the next immediate ones are not (i'm
-> > talking within a couple of hundred microseconds). Most of the time if missed
-> > isocs occurs for a frame that the remaining reqs in the started_list will
-> > likely also error out and the list will be emptied and dwc3 will still timely
-> > send 'End Transfer'. In reality this is to cover a corner case that can
-> > adversely affect the quality of the video being watched. Just wanted to be
-> > upfront with these details.
-> > 
-> > Thinh, any pointers on how we should proceed from here? It looks like your
-> > changes are working well.
-> > 
-> 
-> You can add the underrun detection check to dwc3 whenever it receives a
-> new request.
-> 
-> ie. When the new request comes, check if the last prepared TRB's HWO bit
-> is cleared and if the endpoint is started, send End Transfer command to
-> reschedule the isoc transfers for the incoming requests.
-> 
-> This is probably the simpler workaround to the underrun issue of UVC.
+> be much more clear?
 > 
 
-This sounds like a good optimization too by itself. Would it be possible for
-you to implement something here to help get me started? Even if it's not
-perfect, I'll take what I can get. We are running up against the clock for
-trying to close things out (changes must be released to mainline and backported
-to 5.15 for Android).
+Agreed...
 
-> BR,
-> Thinh
 
-Thanks,
-Jeff
+>> [...]
+> Better yet, do you *really* need two functions and two
+> DECLARE_DELAYED_WORK()'s?
+> 
+> You could have a single delayed_work, and then just do:
+> 
+> static void split_lock_warn(unsigned long ip)
+> {
+> 	bool need_release_sem = false;
+> 	...
+> 
+> 	if (down_interruptible(&buslock_sem) == -EINTR)
+> 		return;
+> 	need_release_sem = true;
+> 
+> 
+> Then, farther down, you do:
+> 
+> 	split_lock_reenable->data = need_release_sem;
+> 	schedule_delayed_work_on(cpu, &split_lock_reenable);
+> 
+> Then, in the work func:
+> 	
+> 	bool need_release_sem = work->data;
+> 
+> 	if (need_release_sem)
+> 		up(...);
+> 
+> That's nice and compact.  It's also logically easy to follow because you
+> can see how the need_release_sem gets set only after the
+> down_interruptible().  It's also nice to have both sites share the
+> 'need_release_sem' naming for grepping.
+> 
 
+...but, this is a very good suggestion, and will eliminate the need for
+two delayed_works, right?
+
+
+>> [...]
+
+>> +	struct delayed_work *wk;
+> 
+> I think we can spare two bytes to make this "work".
+> 
+>> [...]
+> 
+> It's a little confusing to set:
+> 
+> 	wk = &split_lock_reenable_sem;
+> 
+> and then not use it.
+> 
+> I'd probably set it below the lock check and return.
+> 
+>> +	} else
+>> +		wk = &split_lock_reenable;
+> 
+> Brackets, please:
+> 
+> 	} else {
+> 		wk = &split_lock_reenable;
+> 	}
+> 
+> (if you keep this hunk).
+> 
+
+But then we're back to discussing the approach of multiple delayed works.
+
+I guess I prefer your idea of passing the state and have a single one,
+will do this in V3 OK? If you or anybody else disagrees and prefer the
+approach of 2 workers, let me know.
+
+Cheers,
+
+
+Guilherme
