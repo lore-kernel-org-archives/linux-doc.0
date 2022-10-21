@@ -2,350 +2,319 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FD05FA373D
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 17:27:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02DDAFA373D
+	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 17:49:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229959AbiJUR1Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Oct 2022 13:27:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47080 "EHLO
+        id S229802AbiJURtP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Oct 2022 13:49:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229608AbiJUR1Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 13:27:24 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AEE3256423;
-        Fri, 21 Oct 2022 10:27:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666373243; x=1697909243;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Yppm1glbNgAHRD2YCTGWJOZ7YZvAQtdedMjfPqB8im4=;
-  b=mlp9b52OBi/DV+22GWsaWVUYKKaL1t7Hkg5zcknoKT/sXakOLr9uBVBm
-   9tsQCeo5wXuoM35e5Jg7+ARN1CMtrEucR0qKmQDw3tOsIVXdTvuXEmXFn
-   JY6OIp2NG87cq41CsZOonaw7z4nVSf0xWQDJ8xwjLKFD8aAYO73cPKz1F
-   wMbfGFq0X81wY5+59MTneJ29rPMFnheWJrnEzWw+S7XwHJPpngGu/W7Rn
-   3upuHzaObNc63LN2A8HdQdHf7/TXQRnW7vV9JTLRW/n12BjChn4+ktXBP
-   mBcdlNTcUXXszJN+cdkALX+fW9qMjRfARFcn2GCcq/rEL8Y/W9V03ed88
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="307050358"
-X-IronPort-AV: E=Sophos;i="5.95,202,1661842800"; 
-   d="scan'208";a="307050358"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 10:27:22 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="581685486"
-X-IronPort-AV: E=Sophos;i="5.95,202,1661842800"; 
-   d="scan'208";a="581685486"
-Received: from thnguy1-mobl2.amr.corp.intel.com (HELO [10.209.91.210]) ([10.209.91.210])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 10:27:21 -0700
-Message-ID: <44b41091-d474-9f80-fcf1-93c8d1316272@intel.com>
-Date:   Fri, 21 Oct 2022 10:27:21 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH V2] x86/split_lock: Add sysctl to control the misery mode
-Content-Language: en-US
-To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>, x86@kernel.org,
+        with ESMTP id S230302AbiJURtD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 13:49:03 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F7A412D3E;
+        Fri, 21 Oct 2022 10:49:02 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id u21so8660454edi.9;
+        Fri, 21 Oct 2022 10:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=y8DWF+UF8EVkd6v92FWoTJD5DkJphqAj6oypteWXvQ8=;
+        b=bgq1HW5smypWPkPeGG40imnhVGvYodzpi9FVkSeDN1ZJnB4gLGe0zQlLW3PCcKy8ws
+         Ql17nikI8SGYJL9YLMyHM0MwUL/bsHWO+qfkCer5aDQpBw410qrRPo9sqYcdWdMpCFxZ
+         d73hCFh9F1ExHiZJ/ucw5DdztEzm3Qqtl7FQ7KQWra3QP9cmagwBU3ltWdyKxNlYWXpf
+         JOnArhIgOqH6FYrOrIdFBD6odZveL1LAVlIHpaTvVmmCHZahXoJA8WjPTTQsq6pjWDC8
+         TVzdyR/0Mf5gu9Ptp3dd5Sv6C6SZmCZ7SXKuhXZ6YSUWwMt8HeVf6hUbcAHblBMojydI
+         FiQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=y8DWF+UF8EVkd6v92FWoTJD5DkJphqAj6oypteWXvQ8=;
+        b=vFZq6IMTJSNGsKjHoFiKa+r7VsVvmOpsjnU9QOtpcXesaUwlJsD2SkTfDyMTINQri9
+         cSGtqLteXXXM5VmABuUVIivW4pB1CzwCOLs53FxKtCubG8U539B9QCQYl+TnF//DGXr7
+         kG7PAppoizIt5Ab9BH+zQfo4OnSdCjOhShhkIIt1iuca2jmHgPxTPlTOfC6ODI4/ihfo
+         5SlAIz/i/TBuWnZ1eTbgKIcJv2qAYingGPv22QiVqYJ1Bagk9fmd97Hidxw6qgaJ3Xg9
+         nzofVqlYuRX2VWRfZN9cGEcnYiPPGCdXbpiUxqXqt4a0ELBSoyWQP8p///CIXI8ojN74
+         rOng==
+X-Gm-Message-State: ACrzQf0t5hwxjsjLYWck+9aYMUq6i0Vu+1rpes/o0Ahy/Jrb3/8w5Bxo
+        IWC2kTQ0jpIPMUNI4QtNdflzV/KTBY8EcA==
+X-Google-Smtp-Source: AMsMyM5zMmpNj7aFia7CO9XmwKtDQ3kKJlxeK2NztpW2FsjSipSqf0xUheMp3fXBmBEWQgZHzg1azg==
+X-Received: by 2002:aa7:dd45:0:b0:458:7474:1fbe with SMTP id o5-20020aa7dd45000000b0045874741fbemr18742848edw.334.1666374540733;
+        Fri, 21 Oct 2022 10:49:00 -0700 (PDT)
+Received: from fedora.. ([87.116.164.153])
+        by smtp.gmail.com with ESMTPSA id gl22-20020a170906e0d600b0078d3f96d293sm11921148ejb.30.2022.10.21.10.48.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Oct 2022 10:49:00 -0700 (PDT)
+From:   Aleksa Savic <savicaleksa83@gmail.com>
+To:     linux-hwmon@vger.kernel.org
+Cc:     leonard.anderweit@gmail.com,
+        Aleksa Savic <savicaleksa83@gmail.com>,
+        Jack Doan <me@jackdoan.com>, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, hpa@zytor.com, luto@kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org, kernel-dev@igalia.com,
-        kernel@gpiccoli.net, Andre Almeida <andrealmeid@igalia.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Joshua Ashton <joshua@froggi.es>,
-        Melissa Wen <mwen@igalia.com>,
-        Paul Gofman <pgofman@codeweavers.com>,
-        Pavel Machek <pavel@denx.de>,
-        Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Zebediah Figura <zfigura@codeweavers.com>
-References: <20221014180506.211592-1-gpiccoli@igalia.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <20221014180506.211592-1-gpiccoli@igalia.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: [PATCH] hwmon: (aquacomputer_d5next) Add support for temperature sensor offsets
+Date:   Fri, 21 Oct 2022 19:48:34 +0200
+Message-Id: <20221021174834.736930-1-savicaleksa83@gmail.com>
+X-Mailer: git-send-email 2.37.3
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/14/22 11:05, Guilherme G. Piccoli wrote:
-> Commit b041b525dab9 ("x86/split_lock: Make life miserable for split lockers")
-> changed the way the split lock detector works when in "warn" mode;
-> basically, not only it shows the warn message, but also intentionally
-> introduces a slowdown (through sleeping plus serialization mechanism)
-> on such task. Based on discussions in [0], seems the warning alone
-> wasn't enough motivation for userspace developers to fix their
-> applications.
-> 
-> Happens that originally the proposal in [0] was to add a new mode
-> which would warns + slowdown the "split locking" task, keeping the
-> old warn mode untouched. In the end, that idea was discarded and
-> the regular/default "warn" mode now slowdowns the applications. This
-> is quite aggressive with regards proprietary/legacy programs that
-> basically are unable to properly run in kernel with this change.
-> While is understandable that a malicious application could try a DoS
-> by split locking, it seems unacceptable to regress old/proprietary
-> userspace programs through a default configuration that previously
-> worked. An example of such breakage was reported in [1].
-> 
-> So let's add a sysctl to allow controlling the "misery mode" behavior,
-> as per Thomas suggestion on [2]. This way, users running legacy and/or
-> proprietary software are allowed to still execute them with a decent
-> performance while still observe the warning messages on kernel log.
-> 
-> [0] https://lore.kernel.org/lkml/20220217012721.9694-1-tony.luck@intel.com/
-> 
-> [1] https://github.com/doitsujin/dxvk/issues/2938
-> 
-> [2] https://lore.kernel.org/lkml/87pmf4bter.ffs@tglx/
-> 
-> Fixes: b041b525dab9 ("x86/split_lock: Make life miserable for split lockers")
-> Cc: Andre Almeida <andrealmeid@igalia.com>
-> Cc: Fenghua Yu <fenghua.yu@intel.com>
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: Melissa Wen <mwen@igalia.com>
-> Cc: Paul Gofman <pgofman@codeweavers.com>
-> Cc: Pavel Machek <pavel@denx.de>
-> Cc: Pierre-Loup Griffais <pgriffais@valvesoftware.com>
-> Cc: Tony Luck <tony.luck@intel.com>
-> Cc: Zebediah Figura <zfigura@codeweavers.com>
-> Suggested-by: Thomas Gleixner <tglx@linutronix.de>
-> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> ---
-> 
-> 
-> V2:
-> - Switched to sysctl approach following Thomas' suggestion (thanks!).
-> 
-> Andre tested the patch and will comment in this thread - seems everything is
-> working as expected and we can enable/disable that, affecting the misery mode
-> as one expects.
-> 
-> I've tried to keep the semaphore's up()/down() calls in-sync/paired, hence
-> my approach of two delayed tasks, with and without misery.
-> 
-> Reviews / comments are greatly appreciated.
-> Thanks,
-> 
-> 
-> Guilherme
-> 
-> 
->  Documentation/admin-guide/sysctl/kernel.rst | 18 ++++++
->  arch/x86/kernel/cpu/intel.c                 | 61 +++++++++++++++++----
->  2 files changed, 69 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index ee6572b1edad..508952e42914 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -1298,6 +1298,24 @@ watchdog work to be queued by the watchdog timer function, otherwise the NMI
->  watchdog — if enabled — can detect a hard lockup condition.
->  
->  
-> +split_lock_mitigate (x86 only)
-> +=============
-> +
-> +For x86 CPUs supporting the split lock detection mechanism, this parameter
-> +allows the users to turn off what is called "the misery mode", which
-> +introduces intentional delay in userspace applications that split locks.
-> +The goal of the misery mode is to prevent using such unaligned access to
-> +DoS the system dropping the performance overall, but some of these split
-> +locking programs are legacy and/or proprietary software that cannot be fixed,
-> +so using this sysctl is a way to allow them to run with a decent performance.
+Add support for reading and writing temperature sensor offsets
+on the Aquacomputer D5 Next, Farbwerk 360, Octo and Quadro,
+for which the needed offsets are known. Implemented by
+Leonard Anderweit [1].
 
-I think this is missing a lot of context.  End users looking here won't
-even know what a split lock *is*.  Please either refer over to the real
-documentation on this issue or write a brief description about what's
-going on.
+[1] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/pull/22
 
-How about this?
+Originally-from: Leonard Anderweit <leonard.anderweit@gmail.com>
+Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
+---
+ Documentation/hwmon/aquacomputer_d5next.rst |  1 +
+ drivers/hwmon/aquacomputer_d5next.c         | 91 ++++++++++++++++++---
+ 2 files changed, 79 insertions(+), 13 deletions(-)
 
-	On x86, each "split lock" imposes a system-wide performance
-	penalty.  On larger systems, large numbers of split locks from
-	unprivileged users can result in denials of service to well-
-	behaved and potentially more important users.
-
-	The kernel mitigates these bad users by detecting split locks
-	and imposing penalties: forcing them to wait and only allowing
-	one core to execute split locks at a time.
-
-	These mitigations can make those bad applications unbearably
-	slow.  Setting split_lock_mitigate=0 may restore some
-	application performance, but will also increase system exposure
-	to denial of service attacks from split lock users.
-
-> += ===================================================================
-> +0 Disables the misery mode - just warns the split lock on kernel log.
-
-... and exposes the system to Denial-of-Service attacks.  That's an
-awfully big side-effect to not mention.
-
-> +1 Enables the misery mode (this is the default) - penalizes the split
-> +  lockers with intentional performance degradation.
-> += ===================================================================
-
-As much as I love the misery terminology, let's try to use one term.
-Let's either call it "misery" *or* "mitigations", not both.
-
-> diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/intel.c
-> index 2d7ea5480ec3..2aacf9d6c723 100644
-> --- a/arch/x86/kernel/cpu/intel.c
-> +++ b/arch/x86/kernel/cpu/intel.c
-> @@ -1034,8 +1034,32 @@ static const struct {
->  
->  static struct ratelimit_state bld_ratelimit;
->  
-> +static unsigned int sysctl_sld_mitigate = 1;
->  static DEFINE_SEMAPHORE(buslock_sem);
->  
-> +#ifdef CONFIG_PROC_SYSCTL
-> +static struct ctl_table sld_sysctls[] = {
-> +	{
-> +		.procname       = "split_lock_mitigate",
-> +		.data           = &sysctl_sld_mitigate,
-> +		.maxlen         = sizeof(unsigned int),
-> +		.mode           = 0644,
-> +		.proc_handler	= proc_douintvec_minmax,
-> +		.extra1         = SYSCTL_ZERO,
-> +		.extra2         = SYSCTL_ONE,
-> +	},
-> +	{}
-> +};
-> +
-> +static int __init sld_mitigate_sysctl_init(void)
-> +{
-> +	register_sysctl_init("kernel", sld_sysctls);
-> +	return 0;
-> +}
-> +
-> +late_initcall(sld_mitigate_sysctl_init);
-> +#endif
-> +
->  static inline bool match_option(const char *arg, int arglen, const char *opt)
->  {
->  	int len = strlen(opt), ratelimit;
-> @@ -1146,11 +1170,18 @@ static void split_lock_init(void)
->  		split_lock_verify_msr(sld_state != sld_off);
->  }
->  
-> -static void __split_lock_reenable(struct work_struct *work)
-> +static void __split_lock_reenable_sem(struct work_struct *work)
->  {
-
-"sem" is a pretty crummy name.  Wouldn't
-
-	__split_lock_reenable_unlock()
-
-be much more clear?
-
->  	sld_update_msr(true);
->  	up(&buslock_sem);
->  }
-> +static DECLARE_DELAYED_WORK(split_lock_reenable_sem, __split_lock_reenable_sem);
-> +
-> +static void __split_lock_reenable(struct work_struct *work)
-> +{
-> +	sld_update_msr(true);
-> +}
-> +static DECLARE_DELAYED_WORK(split_lock_reenable, __split_lock_reenable);
-
-Better yet, do you *really* need two functions and two
-DECLARE_DELAYED_WORK()'s?
-
-You could have a single delayed_work, and then just do:
-
-static void split_lock_warn(unsigned long ip)
-{
-	bool need_release_sem = false;
-	...
-
-	if (down_interruptible(&buslock_sem) == -EINTR)
-		return;
-	need_release_sem = true;
-
-
-Then, farther down, you do:
-
-	split_lock_reenable->data = need_release_sem;
-	schedule_delayed_work_on(cpu, &split_lock_reenable);
-
-Then, in the work func:
-	
-	bool need_release_sem = work->data;
-
-	if (need_release_sem)
-		up(...);
-
-That's nice and compact.  It's also logically easy to follow because you
-can see how the need_release_sem gets set only after the
-down_interruptible().  It's also nice to have both sites share the
-'need_release_sem' naming for grepping.
-
->  /*
->   * If a CPU goes offline with pending delayed work to re-enable split lock
-> @@ -1169,10 +1200,9 @@ static int splitlock_cpu_offline(unsigned int cpu)
->  	return 0;
->  }
->  
-> -static DECLARE_DELAYED_WORK(split_lock_reenable, __split_lock_reenable);
-> -
->  static void split_lock_warn(unsigned long ip)
->  {
-> +	struct delayed_work *wk;
-
-I think we can spare two bytes to make this "work".
-
->  	int cpu;
->  
->  	if (!current->reported_split_lock)
-> @@ -1180,14 +1210,25 @@ static void split_lock_warn(unsigned long ip)
->  				    current->comm, current->pid, ip);
->  	current->reported_split_lock = 1;
->  
-> -	/* misery factor #1, sleep 10ms before trying to execute split lock */
-> -	if (msleep_interruptible(10) > 0)
-> -		return;
-> -	/* Misery factor #2, only allow one buslocked disabled core at a time */
-> -	if (down_interruptible(&buslock_sem) == -EINTR)
-> -		return;
-> +	if (sysctl_sld_mitigate) {
-> +		/*
-> +		 * misery factor #1:
-> +		 * sleep 10ms before trying to execute split lock.
-> +		 */
-> +		if (msleep_interruptible(10) > 0)
-> +			return;
-> +		/*
-> +		 * Misery factor #2:
-> +		 * only allow one buslocked disabled core at a time.
-> +		 */
-> +		wk = &split_lock_reenable_sem;
-> +		if (down_interruptible(&buslock_sem) == -EINTR)
-> +			return;
-
-It's a little confusing to set:
-
-	wk = &split_lock_reenable_sem;
-
-and then not use it.
-
-I'd probably set it below the lock check and return.
-
-> +	} else
-> +		wk = &split_lock_reenable;
-
-Brackets, please:
-
-	} else {
-		wk = &split_lock_reenable;
-	}
-
-(if you keep this hunk).
-
->  	cpu = get_cpu();
-> -	schedule_delayed_work_on(cpu, &split_lock_reenable, 2);
-> +	schedule_delayed_work_on(cpu, wk, 2);
->  
->  	/* Disable split lock detection on this CPU to make progress */
->  	sld_update_msr(false);
+diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
+index e238533b5fe0..15226346434d 100644
+--- a/Documentation/hwmon/aquacomputer_d5next.rst
++++ b/Documentation/hwmon/aquacomputer_d5next.rst
+@@ -62,6 +62,7 @@ Sysfs entries
+ 
+ ================ ==============================================================
+ temp[1-20]_input Physical/virtual temperature sensors (in millidegrees Celsius)
++temp[1-4]_offset Temperature sensor correction offset (in millidegrees Celsius)
+ fan[1-8]_input   Pump/fan speed (in RPM) / Flow speed (in dL/h)
+ power[1-8]_input Pump/fan power (in micro Watts)
+ in[0-7]_input    Pump/fan voltage (in milli Volts)
+diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
+index c51a2678f0eb..862d6c284e83 100644
+--- a/drivers/hwmon/aquacomputer_d5next.c
++++ b/drivers/hwmon/aquacomputer_d5next.c
+@@ -80,6 +80,7 @@ static u8 secondary_ctrl_report[] = {
+ #define D5NEXT_5V_VOLTAGE		0x39
+ #define D5NEXT_12V_VOLTAGE		0x37
+ #define D5NEXT_CTRL_REPORT_SIZE		0x329
++#define D5NEXT_TEMP_CTRL_OFFSET		0x2D
+ static u8 d5next_sensor_fan_offsets[] = { D5NEXT_PUMP_OFFSET, D5NEXT_FAN_OFFSET };
+ 
+ /* Pump and fan speed registers in D5 Next control report (from 0-100%) */
+@@ -94,6 +95,8 @@ static u16 d5next_ctrl_fan_offsets[] = { 0x97, 0x42 };
+ #define FARBWERK360_SENSOR_START		0x32
+ #define FARBWERK360_NUM_VIRTUAL_SENSORS		16
+ #define FARBWERK360_VIRTUAL_SENSORS_START	0x3a
++#define FARBWERK360_CTRL_REPORT_SIZE		0x682
++#define FARBWERK360_TEMP_CTRL_OFFSET		0x8
+ 
+ /* Register offsets for the Octo fan controller */
+ #define OCTO_POWER_CYCLES		0x18
+@@ -103,6 +106,7 @@ static u16 d5next_ctrl_fan_offsets[] = { 0x97, 0x42 };
+ #define OCTO_NUM_VIRTUAL_SENSORS	16
+ #define OCTO_VIRTUAL_SENSORS_START	0x45
+ #define OCTO_CTRL_REPORT_SIZE		0x65F
++#define OCTO_TEMP_CTRL_OFFSET		0xA
+ static u8 octo_sensor_fan_offsets[] = { 0x7D, 0x8A, 0x97, 0xA4, 0xB1, 0xBE, 0xCB, 0xD8 };
+ 
+ /* Fan speed registers in Octo control report (from 0-100%) */
+@@ -117,6 +121,7 @@ static u16 octo_ctrl_fan_offsets[] = { 0x5B, 0xB0, 0x105, 0x15A, 0x1AF, 0x204, 0
+ #define QUADRO_VIRTUAL_SENSORS_START	0x3c
+ #define QUADRO_CTRL_REPORT_SIZE		0x3c1
+ #define QUADRO_FLOW_SENSOR_OFFSET	0x6e
++#define QUADRO_TEMP_CTRL_OFFSET		0xA
+ static u8 quadro_sensor_fan_offsets[] = { 0x70, 0x7D, 0x8A, 0x97 };
+ 
+ /* Fan speed registers in Quadro control report (from 0-100%) */
+@@ -282,6 +287,7 @@ struct aqc_data {
+ 	int temp_sensor_start_offset;
+ 	int num_virtual_temp_sensors;
+ 	int virtual_temp_sensor_start_offset;
++	u16 temp_ctrl_offset;
+ 	u16 power_cycle_count_offset;
+ 	u8 flow_sensor_offset;
+ 
+@@ -365,8 +371,8 @@ static int aqc_send_ctrl_data(struct aqc_data *priv)
+ 	return ret;
+ }
+ 
+-/* Refreshes the control buffer and returns value at offset */
+-static int aqc_get_ctrl_val(struct aqc_data *priv, int offset)
++/* Refreshes the control buffer and stores value at offset in val */
++static int aqc_get_ctrl_val(struct aqc_data *priv, int offset, long *val)
+ {
+ 	int ret;
+ 
+@@ -376,7 +382,7 @@ static int aqc_get_ctrl_val(struct aqc_data *priv, int offset)
+ 	if (ret < 0)
+ 		goto unlock_and_return;
+ 
+-	ret = get_unaligned_be16(priv->buffer + offset);
++	*val = (s16)get_unaligned_be16(priv->buffer + offset);
+ 
+ unlock_and_return:
+ 	mutex_unlock(&priv->mutex);
+@@ -393,7 +399,7 @@ static int aqc_set_ctrl_val(struct aqc_data *priv, int offset, long val)
+ 	if (ret < 0)
+ 		goto unlock_and_return;
+ 
+-	put_unaligned_be16((u16)val, priv->buffer + offset);
++	put_unaligned_be16((s16)val, priv->buffer + offset);
+ 
+ 	ret = aqc_send_ctrl_data(priv);
+ 
+@@ -408,8 +414,28 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
+ 
+ 	switch (type) {
+ 	case hwmon_temp:
++		if (channel < priv->num_temp_sensors) {
++			switch (attr) {
++			case hwmon_temp_label:
++			case hwmon_temp_input:
++				return 0444;
++			case hwmon_temp_offset:
++				if (priv->temp_ctrl_offset != 0)
++					return 0644;
++				break;
++			default:
++				break;
++			}
++		}
++
+ 		if (channel < priv->num_temp_sensors + priv->num_virtual_temp_sensors)
+-			return 0444;
++			switch (attr) {
++			case hwmon_temp_label:
++			case hwmon_temp_input:
++				return 0444;
++			default:
++				break;
++			}
+ 		break;
+ 	case hwmon_pwm:
+ 		if (priv->fan_ctrl_offsets && channel < priv->num_fans) {
+@@ -492,10 +518,26 @@ static int aqc_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
+ 
+ 	switch (type) {
+ 	case hwmon_temp:
+-		if (priv->temp_input[channel] == -ENODATA)
+-			return -ENODATA;
++		switch (attr) {
++		case hwmon_temp_input:
++			if (priv->temp_input[channel] == -ENODATA)
++				return -ENODATA;
++
++			*val = priv->temp_input[channel];
++			break;
++		case hwmon_temp_offset:
++			ret =
++			    aqc_get_ctrl_val(priv,
++					     priv->temp_ctrl_offset +
++					     channel * AQC_TEMP_SENSOR_SIZE, val);
++			if (ret < 0)
++				return ret;
+ 
+-		*val = priv->temp_input[channel];
++			*val *= 10;
++			break;
++		default:
++			break;
++		}
+ 		break;
+ 	case hwmon_fan:
+ 		*val = priv->speed_input[channel];
+@@ -505,7 +547,7 @@ static int aqc_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
+ 		break;
+ 	case hwmon_pwm:
+ 		if (priv->fan_ctrl_offsets) {
+-			ret = aqc_get_ctrl_val(priv, priv->fan_ctrl_offsets[channel]);
++			ret = aqc_get_ctrl_val(priv, priv->fan_ctrl_offsets[channel], val);
+ 			if (ret < 0)
+ 				return ret;
+ 
+@@ -563,6 +605,22 @@ static int aqc_write(struct device *dev, enum hwmon_sensor_types type, u32 attr,
+ 	struct aqc_data *priv = dev_get_drvdata(dev);
+ 
+ 	switch (type) {
++	case hwmon_temp:
++		switch (attr) {
++		case hwmon_temp_offset:
++			/* Limit temp offset to +/- 15K as in the official software */
++			val = clamp_val(val, -15000, 15000) / 10;
++			ret =
++			    aqc_set_ctrl_val(priv,
++					     priv->temp_ctrl_offset +
++					     channel * AQC_TEMP_SENSOR_SIZE, val);
++			if (ret < 0)
++				return ret;
++			break;
++		default:
++			return -EOPNOTSUPP;
++		}
++		break;
+ 	case hwmon_pwm:
+ 		switch (attr) {
+ 		case hwmon_pwm_input:
+@@ -597,10 +655,10 @@ static const struct hwmon_ops aqc_hwmon_ops = {
+ 
+ static const struct hwmon_channel_info *aqc_info[] = {
+ 	HWMON_CHANNEL_INFO(temp,
+-			   HWMON_T_INPUT | HWMON_T_LABEL,
+-			   HWMON_T_INPUT | HWMON_T_LABEL,
+-			   HWMON_T_INPUT | HWMON_T_LABEL,
+-			   HWMON_T_INPUT | HWMON_T_LABEL,
++			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_OFFSET,
++			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_OFFSET,
++			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_OFFSET,
++			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_OFFSET,
+ 			   HWMON_T_INPUT | HWMON_T_LABEL,
+ 			   HWMON_T_INPUT | HWMON_T_LABEL,
+ 			   HWMON_T_INPUT | HWMON_T_LABEL,
+@@ -853,6 +911,7 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		priv->virtual_temp_sensor_start_offset = D5NEXT_VIRTUAL_SENSORS_START;
+ 		priv->power_cycle_count_offset = D5NEXT_POWER_CYCLES;
+ 		priv->buffer_size = D5NEXT_CTRL_REPORT_SIZE;
++		priv->temp_ctrl_offset = D5NEXT_TEMP_CTRL_OFFSET;
+ 
+ 		priv->temp_label = label_d5next_temp;
+ 		priv->virtual_temp_label = label_virtual_temp_sensors;
+@@ -867,6 +926,8 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		priv->num_fans = 0;
+ 		priv->num_temp_sensors = FARBWERK_NUM_SENSORS;
+ 		priv->temp_sensor_start_offset = FARBWERK_SENSOR_START;
++		priv->temp_ctrl_offset = 0;
++
+ 		priv->temp_label = label_temp_sensors;
+ 		break;
+ 	case USB_PRODUCT_ID_FARBWERK360:
+@@ -877,6 +938,8 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		priv->temp_sensor_start_offset = FARBWERK360_SENSOR_START;
+ 		priv->num_virtual_temp_sensors = FARBWERK360_NUM_VIRTUAL_SENSORS;
+ 		priv->virtual_temp_sensor_start_offset = FARBWERK360_VIRTUAL_SENSORS_START;
++		priv->buffer_size = FARBWERK360_CTRL_REPORT_SIZE;
++		priv->temp_ctrl_offset = FARBWERK360_TEMP_CTRL_OFFSET;
+ 
+ 		priv->temp_label = label_temp_sensors;
+ 		priv->virtual_temp_label = label_virtual_temp_sensors;
+@@ -893,6 +956,7 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		priv->virtual_temp_sensor_start_offset = OCTO_VIRTUAL_SENSORS_START;
+ 		priv->power_cycle_count_offset = OCTO_POWER_CYCLES;
+ 		priv->buffer_size = OCTO_CTRL_REPORT_SIZE;
++		priv->temp_ctrl_offset = OCTO_TEMP_CTRL_OFFSET;
+ 
+ 		priv->temp_label = label_temp_sensors;
+ 		priv->virtual_temp_label = label_virtual_temp_sensors;
+@@ -914,6 +978,7 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		priv->power_cycle_count_offset = QUADRO_POWER_CYCLES;
+ 		priv->buffer_size = QUADRO_CTRL_REPORT_SIZE;
+ 		priv->flow_sensor_offset = QUADRO_FLOW_SENSOR_OFFSET;
++		priv->temp_ctrl_offset = QUADRO_TEMP_CTRL_OFFSET;
+ 
+ 		priv->temp_label = label_temp_sensors;
+ 		priv->virtual_temp_label = label_virtual_temp_sensors;
+-- 
+2.37.3
 
