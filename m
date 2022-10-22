@@ -2,86 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2235CC433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 17:01:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5145C04A95
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 19:48:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229460AbiJVRBK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Oct 2022 13:01:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60024 "EHLO
+        id S229900AbiJVTsv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Oct 2022 15:48:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229720AbiJVRBJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Oct 2022 13:01:09 -0400
-Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12A6E9526C;
-        Sat, 22 Oct 2022 10:01:03 -0700 (PDT)
-X-QQ-mid: bizesmtp85t1666458045tm8bz186
-Received: from wuhui-virtual-machine.localdoma ( [58.251.166.8])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Sun, 23 Oct 2022 01:00:36 +0800 (CST)
-X-QQ-SSF: 00400000002000F0V000B00A0000000
-X-QQ-FEAT: DoD8xN2rKoxv9XYHxCitxjjL/t7Y0Mna03sGCJd9y8ACyAsHyTSv4Wr1tBiuv
-        hBl9n4oeKq2c0os46RyIHXgmIGbgnCzhcClOC4hkKkDeYnMsNyIAt0jX+C3jSnNcatw2+Cd
-        ABjtsLjHj98A6zlz78Fs/igvPVRuGSmhe7rplBMSIQ1ATBZANc/ny/Cmf0zhlUCJf7lWT0+
-        sl4PoU/CaHaQxUiaYMVxYUidRBduWcpkwqSvIHNaTaIRV1fn6kXW7uad3+iHMcFGdVejthj
-        s8QmZFsrRVCB/4Po8fA2u/eouGv+Gl5Nnymfz4cecRAuUX910GGo5en7BrwK+5LL0edKWli
-        +In7xfbci9M5NXwKECHpTFK5PUIlKB2nUllAKf74YRn/kmH/Z+7LxiGGjWrcwA1j3aflxAP
-        nG3yii5zyMw=
-X-QQ-GoodBg: 2
-From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-To:     alexs@kernel.org
-Cc:     siyanteng@loongson.cn, corbet@lwn.net, bobwxc@email.cn,
-        rppt@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-Subject: [PATCH] docs/zh_CN: Update the translation of page_owner
-Date:   Sun, 23 Oct 2022 01:00:33 +0800
-Message-Id: <20221022170033.27123-1-caoyixuan2019@email.szu.edu.cn>
-X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:email.szu.edu.cn:qybglogicsvr:qybglogicsvr4
+        with ESMTP id S229847AbiJVTsq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Oct 2022 15:48:46 -0400
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F5412D80A;
+        Sat, 22 Oct 2022 12:48:44 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 6AD1458012A;
+        Sat, 22 Oct 2022 15:48:41 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Sat, 22 Oct 2022 15:48:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1666468121; x=1666475321; bh=UGS1Mg1RbR
+        rjg7l/C4uODk6tRvKSFxQmBze4CDiRUok=; b=R769R20cvAUvCJzdLxBnDkwPBp
+        EbTpyCnh90ePwkW/W271GgnujcaxKPNlKUZTD1QiMzbOX6UUmX5GBGQy5YnoG3Hz
+        7bIbm4GGSebbV6RK2kBgjxCEhVjRMxNaLgKsw+7i5e4f4W2C2HsQFTmKv8S+gZdE
+        jcEJHfdX99rjFuuQuzOPTEkJYLvC3gJ1f7jx+9U6cwktdP6NSfqNvxTgarEWxD1c
+        GFRrikCndHmtZnFVFspin0GH0nBuno9DFl/vX1YEuWJJ1DmabcJBI+QgW+pFl13L
+        PUlTUh21czWS+IFSiTNJyGJ4p7ipLzCb7UJepNPQ1EVgfsLevgq5To41FFEw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1666468121; x=1666475321; bh=UGS1Mg1RbRrjg7l/C4uODk6tRvKS
+        FxQmBze4CDiRUok=; b=DZdlxJQ1/OPf/Y6KDYWPfdC+mu56NzIOlbXghWxjCj9D
+        9CPMuzFO6wSIpYXaVVKO5ogBmtK5zrRUpai6gPg5qF7aq51p1Tf8zgVV+aEGQIpg
+        Le7lvLJR+05feR3Q+7owk4RsmE3rzpsqGg/UOGa7xGgp5BzvreC3G8OxhZ0WzoTZ
+        kHVkLu1P+KTSJm4dYCrODRLVTVeSHwuFqAuyI9eyO0UD5B3tL3/NipBn2AFumQvr
+        +xjvFjLrJEOmbNOFedB+o0knlGPPR7li0EwNxPvDXhDL0DJhj4plmQqEZJg8uEWZ
+        ljUtVQj8llXCVqwnpTmY8Mpk0y+FjFMyLlNEuZEfiA==
+X-ME-Sender: <xms:GElUY9vt3ItviEp5AJXQjYcX0YyV47YTITTgtkGjjNw0aSie0vzYkg>
+    <xme:GElUY2cknoJTeDpYvjbC4RFS-FtPGbyfFDbbyjNFIChdDqrc0xYFVavFYI99vu8kl
+    0KtHqNspAg1e6vBhwY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedttddgudegtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:GElUYwxiXoqPMILm1SZ_32__qu1Q5l_zrlV4KYN9jBrAlex9SwSKIg>
+    <xmx:GElUY0PzOcbbrTlSQkCZ5j1lrS1Cnv1p6FZXhLQlA1lHQyiDXRQGng>
+    <xmx:GElUY9-JQg9pRkXJG00aarf_3pC2T4jG_plPdMl-YxzKsRcEtsxZ9g>
+    <xmx:GUlUYyKFp-5FR5wwM3xl6nutJeKlKU0pfMGHX_pxDvaIG8i-amMB_w>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 90C24B60086; Sat, 22 Oct 2022 15:48:40 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
+Mime-Version: 1.0
+Message-Id: <7c4531b8-a296-4ea3-9564-b094704d10b2@app.fastmail.com>
+In-Reply-To: <e7ace68a-98e5-63c8-7dd7-a35d0eba1c6e@linaro.org>
+References: <20221021202254.4142411-1-arnd@kernel.org>
+ <e7ace68a-98e5-63c8-7dd7-a35d0eba1c6e@linaro.org>
+Date:   Sat, 22 Oct 2022 21:48:19 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+        "Arnd Bergmann" <arnd@kernel.org>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     linux-kernel@vger.kernel.org, "Ben Dooks" <ben-linux@fluff.org>,
+        "Simtec Linux Team" <linux@simtec.co.uk>,
+        linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-pm@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
+        linux-mtd@lists.infradead.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 00/21] ARM: s3c: clean out obsolete platforms
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update to commit 0719fdba5483 ("Documentation/mm/page_owner.rst:
-delete frequently changing experimental data").
+On Sat, Oct 22, 2022, at 17:18, Krzysztof Kozlowski wrote:
+> On 21/10/2022 16:22, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> 
+>> The s3c24xx platform was marked as deprecated a while ago,
+>> and for the s3c64xx platform, we marked all except one legacy
+>> board file as unused.
+>> 
+>> This series removes all of those, leaving only s3c64xx support
+>> for DT based boots as well as the cragg6410 board file.
+>> 
+>> About half of the s3c specific drivers were only used on
+>> the now removed machines, so these drivers can be retired
+>> as well. I can either merge the driver removal patches through
+>> the soc tree along with the board file patches, or subsystem
+>> maintainers can pick them up into their own trees, whichever
+>> they prefer.
+>
+> Just to be sure - do you expect me to ack the series, or rather as usual
+> pick them up?
 
-Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
----
- .../translations/zh_CN/mm/page_owner.rst        | 17 +++--------------
- 1 file changed, 3 insertions(+), 14 deletions(-)
+I think in this case it is easier if I pick them up with your
+Ack along with the other platforms I posted, as there are
+some minor conflicts between Makefile/Kconfig changes where
+I remove adjacent lines.
 
-diff --git a/Documentation/translations/zh_CN/mm/page_owner.rst b/Documentation/translations/zh_CN/mm/page_owner.rst
-index 21a6a0837d42..2c4c02aab120 100644
---- a/Documentation/translations/zh_CN/mm/page_owner.rst
-+++ b/Documentation/translations/zh_CN/mm/page_owner.rst
-@@ -34,20 +34,9 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
- 一样进行。这两个不可能的分支应该不会影响到分配的性能，特别是在静态键跳转标签修补
- 功能可用的情况下。以下是由于这个功能而导致的内核代码大小的变化。
- 
--- 没有page owner::
--
--   text    data     bss     dec     hex filename
--   48392   2333     644   51369    c8a9 mm/page_alloc.o
--
--- 有page owner::
--
--   text    data     bss     dec     hex filename
--   48800   2445     644   51889    cab1 mm/page_alloc.o
--   6662     108      29    6799    1a8f mm/page_owner.o
--   1025       8       8    1041     411 mm/page_ext.o
--
--虽然总共增加了8KB的代码，但page_alloc.o增加了520字节，其中不到一半是在hotpath
--中。构建带有page owner的内核，并在需要时打开它，将是调试内核内存问题的最佳选择。
-+尽管启用page owner增加了几千字节的代码，但是这些代码的大部分都不在页分配器和它
-+的热路径中。构建带有page owner的内核，并在需要时打开它，将是调试内核内存问题的
-+最佳选择。
- 
- 有一个问题是由实现细节引起的。页所有者将信息存储到struct page扩展的内存中。这
- 个内存的初始化时间比稀疏内存系统中的页面分配器启动的时间要晚一些，所以，在初始化
--- 
-2.17.1
-
+       Arnd
