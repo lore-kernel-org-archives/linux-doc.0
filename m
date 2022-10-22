@@ -2,110 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F577ECDFA1
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 15:48:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F245C433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 16:59:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229877AbiJVPsf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Oct 2022 11:48:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34276 "EHLO
+        id S229535AbiJVQ7L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Oct 2022 12:59:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229894AbiJVPsd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Oct 2022 11:48:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61DB824F7AB
-        for <linux-doc@vger.kernel.org>; Sat, 22 Oct 2022 08:48:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666453708;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=i+xYh4ED8NY+eSwwcDjW7bMv+eHis2lS261cJxu7qzg=;
-        b=CZgOp/Rx10BA42ASxMKapDvLpj8fDMB+QecDc9iaU2zT3bMoxG/KWg+c0G7SJnVGnjjDgl
-        GZnQ98kbHuN1AVI97ihZcHqkpG2RTgIG3otWMidp36L9/GTRTJcYXfv/UVVmbd7tb7jwGu
-        HhJuAxilknplp/RyGNUvxUhK0Q2egok=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-63-cSLsb5qPObusKCwipu1UWA-1; Sat, 22 Oct 2022 11:48:23 -0400
-X-MC-Unique: cSLsb5qPObusKCwipu1UWA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3122F85A59D;
-        Sat, 22 Oct 2022 15:48:23 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C65FD4A9279;
-        Sat, 22 Oct 2022 15:48:22 +0000 (UTC)
-From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To:     kvm@vger.kernel.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+        with ESMTP id S229587AbiJVQ65 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Oct 2022 12:58:57 -0400
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C418644B;
+        Sat, 22 Oct 2022 09:58:51 -0700 (PDT)
+X-QQ-mid: bizesmtp87t1666457439tnrfffrl
+Received: from wuhui-virtual-machine.localdoma ( [58.60.63.196])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Sun, 23 Oct 2022 00:49:58 +0800 (CST)
+X-QQ-SSF: 02400000000000F0V000B00A0000000
+X-QQ-FEAT: iVzOovY9ZxLI57ptDEI/2/CstWdqqB6ILnew/GcYIEneYn6AIk9dnlMFDvvDI
+        aFLij5lGAvRo8yMnUJvwzJhr4wSPZKRm+RCmPk2bp9PxcOMEQfaXWbb3UpuSDY6qRVgfjhG
+        Rj7oZLvxkm+FdKe5NaS/yIYzZyicKAFIUQZEdgN7Dvvzh6c+IDoMj7h8GK+vTxPmpSJhRNu
+        SisLdLITX/ZXEZIs1+fNc6arEN2A6Wt2wTRi+Pq19UrhL3ZI/Gbv9R3heThOwffrO7fmVgE
+        7RaIBGln8uB+MGH4TQPYmdAW3JVaZVlMi2plEwie895izckkhJgEGM+Xi2xJJA4mR5vW/MY
+        uFXRWaWJqp6edlCSd6eMV0ZjRzZUxQtdIv2jB3u
+X-QQ-GoodBg: 2
+From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+To:     alexs@kernel.org
+Cc:     siyanteng@loongson.cn, corbet@lwn.net, bobwxc@email.cn,
+        rppt@kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH 3/4] KVM: introduce memory transaction semaphore
-Date:   Sat, 22 Oct 2022 11:48:18 -0400
-Message-Id: <20221022154819.1823133-4-eesposit@redhat.com>
-In-Reply-To: <20221022154819.1823133-1-eesposit@redhat.com>
-References: <20221022154819.1823133-1-eesposit@redhat.com>
+        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+Subject: [PATCH] docs/zh_CN: Update the translation of page_owner
+Date:   Sun, 23 Oct 2022 00:49:51 +0800
+Message-Id: <20221022164951.26679-1-caoyixuan2019@email.szu.edu.cn>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:email.szu.edu.cn:qybglogicsvr:qybglogicsvr4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now the semaphore is only used to signal that a vcpu
-entered KVM_RUN (not necessarly in guest mode, could be also
-blocked/halted).
-Later it will be used by specific ioctls (writers) to wait that
-all vcpus (readers) exit from KVM_RUN.
+Update to commit 0719fdba5483 ("Documentation/mm/page_owner.rst:
+delete frequently changing experimental data").
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
 ---
- virt/kvm/kvm_main.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ .../translations/zh_CN/mm/page_owner.rst        | 17 +++--------------
+ 1 file changed, 3 insertions(+), 14 deletions(-)
 
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index c080b93edc0d..ae0240928a4a 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -119,6 +119,8 @@ static const struct file_operations stat_fops_per_vm;
+diff --git a/Documentation/translations/zh_CN/mm/page_owner.rst b/Documentation/translations/zh_CN/mm/page_owner.rst
+index 21a6a0837d42..2c4c02aab120 100644
+--- a/Documentation/translations/zh_CN/mm/page_owner.rst
++++ b/Documentation/translations/zh_CN/mm/page_owner.rst
+@@ -34,20 +34,9 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
+ 一样进行。这两个不可能的分支应该不会影响到分配的性能，特别是在静态键跳转标签修补
+ 功能可用的情况下。以下是由于这个功能而导致的内核代码大小的变化。
  
- static struct file_operations kvm_chardev_ops;
+-- 没有page owner::
+-
+-   text    data     bss     dec     hex filename
+-   48392   2333     644   51369    c8a9 mm/page_alloc.o
+-
+-- 有page owner::
+-
+-   text    data     bss     dec     hex filename
+-   48800   2445     644   51889    cab1 mm/page_alloc.o
+-   6662     108      29    6799    1a8f mm/page_owner.o
+-   1025       8       8    1041     411 mm/page_ext.o
+-
+-虽然总共增加了8KB的代码，但page_alloc.o增加了520字节，其中不到一半是在hotpath
+-中。构建带有page owner的内核，并在需要时打开它，将是调试内核内存问题的最佳选择。
++尽管启用page owner增加了几千字节的代码，但是这些代码的大部分都不在页分配器和它
++的热路径中。构建带有page owner的内核，并在需要时打开它，将是调试内核内存问题的
++最佳选择。
  
-+static DECLARE_RWSEM(memory_transaction);
-+
- static long kvm_vcpu_ioctl(struct file *file, unsigned int ioctl,
- 			   unsigned long arg);
- #ifdef CONFIG_KVM_COMPAT
-@@ -4074,7 +4076,19 @@ static long kvm_vcpu_ioctl(struct file *filp,
- 				synchronize_rcu();
- 			put_pid(oldpid);
- 		}
-+		/*
-+		 * Notify that a vcpu wants to run, and thus could be reading
-+		 * memslots.
-+		 * If KVM_KICK_ALL_RUNNING_VCPUS runs afterwards, it will have
-+		 * to wait that KVM_RUN exited and up_read() is called.
-+		 * If KVM_KICK_ALL_RUNNING_VCPUS already returned but
-+		 * KVM_RESUME_ALL_KICKED_VCPUS didn't start yet, then there
-+		 * is a request pending for the vcpu that will cause it to
-+		 * exit KVM_RUN.
-+		 */
-+		down_read(&memory_transaction);
- 		r = kvm_arch_vcpu_ioctl_run(vcpu);
-+		up_read(&memory_transaction);
- 		trace_kvm_userspace_exit(vcpu->run->exit_reason, r);
- 		break;
- 	}
+ 有一个问题是由实现细节引起的。页所有者将信息存储到struct page扩展的内存中。这
+ 个内存的初始化时间比稀疏内存系统中的页面分配器启动的时间要晚一些，所以，在初始化
 -- 
-2.31.1
+2.17.1
 
