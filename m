@@ -2,137 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDC33C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 12:06:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F2DC433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 13:35:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229597AbiJVMGd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Oct 2022 08:06:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45602 "EHLO
+        id S229588AbiJVNft (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Oct 2022 09:35:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbiJVMGc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Oct 2022 08:06:32 -0400
-Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A34B3237FB5;
-        Sat, 22 Oct 2022 05:06:27 -0700 (PDT)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
-        t=1666440385;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Nc63P9hRTQ/Z/eSeuCo+wraUic53v2hR6RRkGzpw6/o=;
-        b=FH8LkjeN6X1aOippPiAt6lAMO3BdihGUSOP+TV97NxowGjFjYf9IbCytf+g4W7DTGULDe6
-        SPZqgu7QkS151ixVQ6Lw5zHnCZnu8mh/6bOGuTKi5kb5A8E+xiGnpsIlVD0dz7M3MY7ZfR
-        N7li2ZQLnQMn5pEV7ZOMYraFg4Je9fDekAaQWgVgUfRAYy11DW0B9MXvOtbKebCoe0qjTa
-        bbrOvJxjtHG0ND5SmsJ02hCreeO+6Q3jEjJEqkboZm/LwjJhLFdNkQ21BaRp2ijVyuHVnW
-        I5vtEK6juPKFwGm0TqrzuYbvrM2x6N12vectSwDlhaPb33kFBfXf63HjsSyJWg==
-From:   Rui Li <me@lirui.org>
-To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Wu XiangCheng <wu.xiangcheng@linux.dev>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rui Li <me@lirui.org>
-Subject: [PATCH] docs/zh_CN: Add userspace-api/no_new_privs Chinese translation
-Date:   Sat, 22 Oct 2022 20:05:57 +0800
-Message-Id: <20221022120557.381115-1-me@lirui.org>
+        with ESMTP id S229652AbiJVNfs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Oct 2022 09:35:48 -0400
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF9F9B0B28;
+        Sat, 22 Oct 2022 06:35:46 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id h203so4467181iof.1;
+        Sat, 22 Oct 2022 06:35:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FLFJLqlhGPX1tCC+C1NWXqzTL8afrRkDZh5VaUzSxpI=;
+        b=KXqRlbioEBoTo29NGQ75QoQRir4Z3F61DvWf5DzwnsTgBPhXFZ6cJG6cFuqeRSkTZE
+         4RzlqxvaXfB+nLdb0DoLJPsqhAp6jT+YVB+NlbmMdRz8E08uIDBTfsGEfLLhssyvdbGm
+         87WJWNFz1O6BHrmNQhHr3ig0rTsI+QAdIyFImaWk4wLF9uzhRuZEo4HuloKTNpPDkv1O
+         g3PSv2/dOFOxYHpCHftebRB7y3fgzD86fDvJtNbYEjp1nba8D1lNJDEd/Swtbc2DnSBT
+         Y+9xW2z/g3LG24xwE1+P8C68kJ7SZ50XEYTq8E2cEJe/HhvNziHcJOo4QiZnwXqpax2z
+         iFqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FLFJLqlhGPX1tCC+C1NWXqzTL8afrRkDZh5VaUzSxpI=;
+        b=XDnIItE3bcqnfRlE64cRF7/eUhEON69hieywd21FBK0KtGMFr8ESpR3/x2nghPkSM3
+         0KEhhocvRX6gNbyESH0eNvhOACw3gvtiZOgk++DJRxeq5QhTryqd8/h9m0SyUJv0bMPY
+         qWx03tdXvuYt/ANNL682Yj7pyl/T61PInYPJ9cTpbx0MOhmmNMWtNt61NJg/666bXxJ3
+         iez/Qps2apRItGedTZ+ixfrc7AcrOP7UT7Md3MeHMMrdtFzjvLmUHYD5T74igKW54bmj
+         de4LC8r+sGi6/q+MJtSBbVkWvd0KcY6fmYgmfc4NlrIQFbq+/OjAViF8uGMzpQgSYufM
+         NU/g==
+X-Gm-Message-State: ACrzQf2pNiLbrWoScVdpTqBwyTA2DErFJunRjyhus++B2AYZEcljSMra
+        dOATaHkgj13hmm/n/HftboQ=
+X-Google-Smtp-Source: AMsMyM4obJwtc8x2liWuHgZ0A3FTLPLGffRFQwNkxV6RQNcbuXkeJoHP3RVt+CBh2Pt2CAOtTEvX+A==
+X-Received: by 2002:a05:6638:32a2:b0:364:de6:cdbe with SMTP id f34-20020a05663832a200b003640de6cdbemr15731069jav.73.1666445746092;
+        Sat, 22 Oct 2022 06:35:46 -0700 (PDT)
+Received: from qjv001-XeonWs (c-67-167-199-249.hsd1.il.comcast.net. [67.167.199.249])
+        by smtp.gmail.com with ESMTPSA id y20-20020a056638229400b00363dee286edsm5386977jas.60.2022.10.22.06.35.45
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 22 Oct 2022 06:35:45 -0700 (PDT)
+Date:   Sat, 22 Oct 2022 08:35:43 -0500
+From:   Jeff Vanhoof <jdv1029@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Dan Vacura <w36195@motorola.com>, linux-usb@vger.kernel.org,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Jeff Vanhoof <qjv001@motorola.com>, stable@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 2/6] usb: dwc3: gadget: cancel requests instead of
+ release after missed isoc
+Message-ID: <20221022133541.GA26431@qjv001-XeonWs>
+References: <20221018215044.765044-1-w36195@motorola.com>
+ <20221018215044.765044-3-w36195@motorola.com>
+ <Y1PUjO99fcgaN0tc@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y1PUjO99fcgaN0tc@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate the following documents into Chinese:
+Hi Greg,
 
-- userspace-api/no_new_privs.rst
+On Sat, Oct 22, 2022 at 01:31:24PM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Oct 18, 2022 at 04:50:38PM -0500, Dan Vacura wrote:
+> > From: Jeff Vanhoof <qjv001@motorola.com>
+> > 
+> > arm-smmu related crashes seen after a Missed ISOC interrupt when
+> > no_interrupt=1 is used. This can happen if the hardware is still using
+> > the data associated with a TRB after the usb_request's ->complete call
+> > has been made.  Instead of immediately releasing a request when a Missed
+> > ISOC interrupt has occurred, this change will add logic to cancel the
+> > request instead where it will eventually be released when the
+> > END_TRANSFER command has completed. This logic is similar to some of the
+> > cleanup done in dwc3_gadget_ep_dequeue.
+> > 
+> > Fixes: 6d8a019614f3 ("usb: dwc3: gadget: check for Missed Isoc from event status")
+> > Cc: <stable@vger.kernel.org>
+> > Signed-off-by: Jeff Vanhoof <qjv001@motorola.com>
+> > Co-developed-by: Dan Vacura <w36195@motorola.com>
+> > Signed-off-by: Dan Vacura <w36195@motorola.com>
+> > ---
+> > V1 -> V3:
+> > - no change, new patch in series
+> > V3 -> V4:
+> > - no change
+> 
+> I need an ack from the dwc3 maintainer before I can take this one.
+> 
+> thanks,
+> 
+> greg k-h
 
-Signed-off-by: Rui Li <me@lirui.org>
----
- .../zh_CN/userspace-api/index.rst             |  2 +-
- .../zh_CN/userspace-api/no_new_privs.rst      | 57 +++++++++++++++++++
- 2 files changed, 58 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/userspace-api/no_new_privs.rst
+Thinh has rejected this version of the patch. He has provided an alternative
+implementation which has been testing well for us so far. Either Thinh or Dan
+will formalize this patch within the next few days.
+The latest proposed changes are:
 
-diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
-index 12c63d81c663..6a7e82ac16b9 100644
---- a/Documentation/translations/zh_CN/userspace-api/index.rst
-+++ b/Documentation/translations/zh_CN/userspace-api/index.rst
-@@ -25,10 +25,10 @@ Linux 内核用户空间API指南
-    :maxdepth: 2
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index dfaf9ac24c4f..50287437d6de 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -3195,6 +3195,9 @@ static int dwc3_gadget_ep_reclaim_completed_trb(struct dwc3_ep *dep,
+        if (event->status & DEPEVT_STATUS_SHORT && !chain)
+                return 1;
  
-    ebpf/index
-+   no_new_privs
++       if (DWC3_TRB_SIZE_TRBSTS(trb->size) == DWC3_TRBSTS_MISSED_ISOC && !chain)
++               return 1;
++
+        if ((trb->ctrl & DWC3_TRB_CTRL_IOC) ||
+            (trb->ctrl & DWC3_TRB_CTRL_LST))
+                return 1;
+@@ -3211,6 +3214,7 @@ static int dwc3_gadget_ep_reclaim_trb_sg(struct dwc3_ep *dep,
+        struct scatterlist *s;
+        unsigned int num_queued = req->num_queued_sgs;
+        unsigned int i;
++       bool missed_isoc = false;
+        int ret = 0;
  
- TODOList:
+        for_each_sg(sg, s, num_queued, i) {
+@@ -3219,12 +3223,18 @@ static int dwc3_gadget_ep_reclaim_trb_sg(struct dwc3_ep *dep,
+                req->sg = sg_next(s);
+                req->num_queued_sgs--;
  
--* no_new_privs
- * seccomp_filter
- * landlock
- * unshare
-diff --git a/Documentation/translations/zh_CN/userspace-api/no_new_privs.rst b/Documentation/translations/zh_CN/userspace-api/no_new_privs.rst
-new file mode 100644
-index 000000000000..81bd16ce3ad2
---- /dev/null
-+++ b/Documentation/translations/zh_CN/userspace-api/no_new_privs.rst
-@@ -0,0 +1,57 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
++               if (DWC3_TRB_SIZE_TRBSTS(trb->size) == DWC3_TRBSTS_MISSED_ISOC)
++                       missed_isoc = true;
 +
-+:Original: Documentation/userspace-api/no_new_privs.rst
+                ret = dwc3_gadget_ep_reclaim_completed_trb(dep, req,
+                                trb, event, status, true);
+                if (ret)
+                        break;
+        }
+ 
++       if (missed_isoc)
++               ret = 1;
 +
-+:翻译:
-+
-+ 李睿 Rui Li <me@lirui.org>
-+
-+============
-+无新权限标志
-+============
-+
-+execve系统调用可以给一个新启动的程序授予它的父程序本没有的权限。最明显的两个
-+例子就是setuid/setgid控制程序和文件的能力。为了避免父程序也获得这些权限，内
-+核和用户代码必须小心避免任何父程序可以颠覆子程序的情况。比如：
-+
-+ - 程序在setuid后，动态装载器处理 ``LD_*`` 环境变量的不同方式。
-+
-+ - 对于非特权程序，chroot是不允许的，因为这会允许 ``/etc/passwd`` 在继承
-+   chroot的程序眼中被替换。
-+
-+ - 执行代码对ptrace有特殊处理。
-+
-+这些都是临时性的修复。 ``no_new_privs`` 位（从 Linux 3.5 起）是一个新的通
-+用的机制来保证一个进程安全地修改其执行环境并跨execve持久化。任何任务都可以设
-+置 ``no_new_privs`` 。一旦该位被设置，它会在fork、clone和execve中继承下去
-+，并且不能被撤销。在 ``no_new_privs`` 被设置的情况下， ``execve()`` 将保证
-+不会授予权限去做任何没有execve调用就不能做的事情。比如， setuid 和 setgid
-+位不会再改变 uid 或 gid；文件能力不会被添加到授权集合中，并且Linux安全模块（
-+LSM）不会在execve调用后放松限制。
-+
-+设置 ``no_new_privs`` 使用::
-+
-+    prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
-+
-+不过要小心，Linux安全模块（LSM）也可能不会在 ``no_new_privs`` 模式下收紧约束。
-+（这意味着一个一般的服务启动器在执行守护进程前就去设置 ``no_new_privs`` 可能
-+会干扰基于LSM的沙箱。）
-+
-+请注意， ``no_new_privs`` 并不能阻止不涉及 ``execve()`` 的权限变化。一个拥有
-+适当权限的任务仍然可以调用 ``setuid(2)`` 并接收 SCM_RIGHTS 数据报。
-+
-+目前来说， ``no_new_privs`` 有两大使用场景：
-+
-+ - 为seccomp模式2沙箱安装的过滤器会跨execve持久化，并能够改变新执行程序的行为。
-+   非特权用户因此在 ``no_new_privs`` 被设置的情况下只允许安装这样的过滤器。
-+
-+ - ``no_new_privs`` 本身就能被用于减少非特权用户的攻击面。如果所有以某个 uid
-+   运行的程序都设置了 ``no_new_privs`` ，那么那个 uid 将无法通过攻击 setuid，
-+   setgid 和使用文件能力的二进制来提权；它需要先攻击一些没有被设置 ``no_new_privs``
-+   位的东西。
-+
-+将来，其他潜在的危险的内核特性可能被非特权任务利用，即使 ``no_new_privs`` 被置位。
-+原则上，当 ``no_new_privs`` 被置位时， ``unshare(2)`` 和 ``clone(2)`` 的几个选
-+项将是安全的，并且 ``no_new_privs`` 加上 ``chroot`` 是可以被认为比 chroot本身危
-+险性小得多的。
--- 
-2.30.2
+        return ret;
+ }
+
+
+Thanks,
+Jeff
 
