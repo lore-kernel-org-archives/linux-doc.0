@@ -2,113 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EC95C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 00:17:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73152C433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 03:28:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229695AbiJVARa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Oct 2022 20:17:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45678 "EHLO
+        id S229585AbiJVD2C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Oct 2022 23:28:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbiJVAR3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 20:17:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 603C4E09AF
-        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 17:17:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666397847;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ffLPQLNndW2qNqcG85lW2feB+QGegvpDWXA/1PXL/o8=;
-        b=WR1X9Vj0MxZft0qVNWf2mDA+Ili+XUzJUevdUOs8kV2uCnOoJu4DrFHouMUYG27dDTVDe0
-        k7t2un6ogUuOApjq706mraKei5/Xlqs8lDxrE4gvpjDsXzbpixwi9zcMF5MQGvmuXQYHly
-        gZ99rHsteA9USEAKr0TWyi8uouENGuA=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-488-k6q9g7DbPWGQAOIkSNpHHQ-1; Fri, 21 Oct 2022 20:17:26 -0400
-X-MC-Unique: k6q9g7DbPWGQAOIkSNpHHQ-1
-Received: by mail-ed1-f70.google.com with SMTP id z11-20020a056402274b00b0045ca9510fc8so4184609edd.23
-        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 17:17:26 -0700 (PDT)
+        with ESMTP id S229619AbiJVD1y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 23:27:54 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E55AD280EED;
+        Fri, 21 Oct 2022 20:27:52 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id i3so4321660pfk.9;
+        Fri, 21 Oct 2022 20:27:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=evDyrZvW0IfCxc1+01iWdtPlpzJLnkrTY0s2L4OXBJA=;
+        b=AJDEn76aswgcPWRKPmzeERLpZ6DM+GCj4tC9CiE46gecf7aHdF6h88bfTL0/ZVENIB
+         3dfksj1YN4vMDT2eW6K4bsVby57GZkSqYlr4FjQdmF5ivO2OfcfguHoD97w0bnKuQ6ds
+         4MfT7BRR4b6nWxrIRgeE8rHU1E9TJaD5CPYpDXrDKHwDvBZXzogzjRIumnn4ibO8XS2u
+         oFrqohRRPxyIJZCnPwCjty/r1PcAZWCJ7MF9PtXK0NRwU31C+MJ3oIIr5cAQ8mReFR8x
+         tjsvOQhBI0qsE9IcF7LpnUZYvAaywuBvmaOTYqf+dFJglcR1cOTBVaQgUBXWUp8hzgiu
+         7ngg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ffLPQLNndW2qNqcG85lW2feB+QGegvpDWXA/1PXL/o8=;
-        b=5yuLn33XQo2QqOKPe3MDDC9kpW9efiIgLQ9b+Q03dzuqAM1Dgrkc4JgZ/8GJgyFxNX
-         lRRWQNZvVuadS+DNGCmqynRpbMEvySG2iLrB6hdJ/bcM1AYGF9WzsKG+6ZBN+Y5OXwf+
-         kucEumoE88PnBWE0xnrznWCCoek5x0W+psRdJy5ZWcYV/vFt0Ggbe7jZqW3T95AtK+gb
-         i3jWqh6ddhDOlDySgNEw/XAWSUQ0t9MAW2D7QutE48InimqJLkZjrOqUWBitttE3pFNY
-         rG23NUkxukSgO3PeexV0PGMw3FF5IFlLCKKkEQYMnq4EWVfKzF6cCsbRoPGfTJX5S/db
-         J0Zw==
-X-Gm-Message-State: ACrzQf1AYr8Y/8h0cNscwa0qaJE8h7vyozw4chBICrw7dm6JFatUNk31
-        O1w5Iug7TfkCQ8mjF6oYPHf6qOnFQNtXoIdb3aCbzEPOU0KJVl80S3NEoGvhRj+/FDx38bc95e1
-        auRyKmlvRY8aTjzUnthGT
-X-Received: by 2002:a05:6402:280a:b0:45d:19e8:c7ad with SMTP id h10-20020a056402280a00b0045d19e8c7admr19320285ede.44.1666397844055;
-        Fri, 21 Oct 2022 17:17:24 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7RkKTesKjUts48gOVA6eAd7VenRhjjBJPu5k58JMgOB9rIwxtj/GLog2O5gHtldiRolHFfBA==
-X-Received: by 2002:a05:6402:280a:b0:45d:19e8:c7ad with SMTP id h10-20020a056402280a00b0045d19e8c7admr19320251ede.44.1666397843182;
-        Fri, 21 Oct 2022 17:17:23 -0700 (PDT)
-Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
-        by smtp.gmail.com with ESMTPSA id 1-20020a170906200100b007a03313a78esm329655ejo.20.2022.10.21.17.17.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Oct 2022 17:17:22 -0700 (PDT)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-        id 1F72B6EE715; Sat, 22 Oct 2022 02:17:22 +0200 (CEST)
-From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To:     mtahhan@redhat.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Maryam Tahhan <mtahhan@redhat.com>
-Subject: Re: [PATCH bpf-next v4 1/1] doc: DEVMAPs and XDP_REDIRECT
-In-Reply-To: <20221021165919.509652-2-mtahhan@redhat.com>
-References: <20221021165919.509652-1-mtahhan@redhat.com>
- <20221021165919.509652-2-mtahhan@redhat.com>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date:   Sat, 22 Oct 2022 02:17:22 +0200
-Message-ID: <877d0su2y5.fsf@toke.dk>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=evDyrZvW0IfCxc1+01iWdtPlpzJLnkrTY0s2L4OXBJA=;
+        b=VSxAjQCZc+QrONqpiaqG5YVdsm10DDnMe0+vbvzX4BpfzPDHp/sv0y9chBsL+xn+Bk
+         C3DbWthLV0wsX7uVxySUiinIHO577laU+KifK72gp4CQbwlPis7hjM4/ZJLiE6Of0X01
+         THCDYnXySDe5eOXcnvh7JQyfNLz0pPFrysPD3+pAovhFECbAeLxNbohPcNqF4NHMAwnE
+         qphTElmZURXBytnvtuuyzY6ugdI77JIgj6/bntM7A/ByA8lOtv1YbRZKlwOO3cqSA7pf
+         66+LQQE9VxSTrh/2yXaXMCvCZkqdA6KECSK70+1zB+5M6VPR9r86tzUAT9r2izuKYyNO
+         nk3g==
+X-Gm-Message-State: ACrzQf3hD8X5723xCKj+5p+AuqSscLW173zgPKCye8uqEmUvXFis4NnE
+        2OAwN85aWiNVnUOHjyOT9Pk=
+X-Google-Smtp-Source: AMsMyM4DUiDp7gRKhpmyoG1aOqzHCbB/wgVcFTWOYnC2NSZI1sdOIt5ZCYLIe3krXF22iP1xLyXNTw==
+X-Received: by 2002:a63:540b:0:b0:43c:8ce9:2800 with SMTP id i11-20020a63540b000000b0043c8ce92800mr18614299pgb.481.1666409272419;
+        Fri, 21 Oct 2022 20:27:52 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-74.three.co.id. [180.214.232.74])
+        by smtp.gmail.com with ESMTPSA id r26-20020aa7989a000000b00565d35cd658sm15727108pfl.217.2022.10.21.20.27.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Oct 2022 20:27:51 -0700 (PDT)
+Message-ID: <ce764f98-52ae-60b5-79f6-55d107eeef9a@gmail.com>
+Date:   Sat, 22 Oct 2022 10:27:48 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v2] Documentation: process: replace outdated LTS table w/
+ link
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
+        Sasha Levin <sashal@kernel.org>, Tyler Hicks <code@tyhicks.com>
+References: <Y0mSVQCQer7fEKgu@kroah.com>
+ <20221014171040.849726-1-ndesaulniers@google.com>
+ <87sfjkdcyc.fsf@meer.lwn.net>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <87sfjkdcyc.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-mtahhan@redhat.com writes:
+On 10/19/22 04:44, Jonathan Corbet wrote:
+> Nick Desaulniers <ndesaulniers@google.com> writes:
+> 
+>> The existing table was a bit outdated.
+>>
+>> 3.16 was EOL in 2020.
+>> 4.4 was EOL in 2022.
+>>
+>> 5.10 is new in 2020.
+>> 5.15 is new in 2021.
+>>
+>> We'll see if 6.1 becomes LTS in 2022.
+>>
+>> Rather than keep this table updated, it does duplicate information from
+>> multiple kernel.org pages. Make one less duplication site that needs to
+>> be updated and simply refer to the kernel.org page on releases.
+>>
+>> Suggested-by: Tyler Hicks <code@tyhicks.com>
+>> Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+> Applied, thanks.
+> 
+> jon
 
-> From: Maryam Tahhan <mtahhan@redhat.com>
->
-> Add documentation for BPF_MAP_TYPE_DEVMAP and
-> BPF_MAP_TYPE_DEVMAP_HASH including kernel version
-> introduced, usage and examples.
->
-> Add documentation that describes XDP_REDIRECT.
->
-> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+Hi jon,
 
-With one small nit below:
+I noticed extraneous Rule: tag (as carried from kernel test robot [1])
+in the applied patch:
 
-Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@redhat.com>
+commit 394df0afde11fa77c27e671ea91f74cb6440f86e
+Author: Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri Oct 14 10:10:40 2022 -0700
 
-[...]
+    Documentation: process: replace outdated LTS table w/ link
+    
+    The existing table was a bit outdated.
+    
+    3.16 was EOL in 2020.
+    4.4 was EOL in 2022.
+    
+    5.10 is new in 2020.
+    5.15 is new in 2021.
+    
+    We'll see if 6.1 becomes LTS in 2022.
+    
+    Rather than keep this table updated, it does duplicate information from
+    multiple kernel.org pages. Make one less duplication site that needs to
+    be updated and simply refer to the kernel.org page on releases.
+    
+    Suggested-by: Tyler Hicks <code@tyhicks.com>
+    Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+    Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+    Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+    Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+    Link: https://lore.kernel.org/stable/20221014171040.849726-1-ndesaulniers%40google.com
+    Reviewed-by: Tyler Hicks (Microsoft) <code@tyhicks.com>
+    Link: https://lore.kernel.org/r/20221014171040.849726-1-ndesaulniers@google.com
+    Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
-> +The following code snippet shows a BPF program that is broadcasting pack=
-ets to
-> +all the interfaces in the ``tx_port`` devmap.
-> +
-> +.. code-block:: c
-> +
-> +    SEC("xdp")
-> +    int xdp_redirect_map_func(struct xdp_md *ctx)
-> +    {
-> +        int index =3D ctx->ingress_ifindex;
+The tag doesn't have any purposes, so please drop it.
 
-Let's get rid of this index variable (it's not used).
+Thanks.
 
-> +        return bpf_redirect_map(&tx_port, 0, BPF_F_BROADCAST | BPF_F_EXC=
-LUDE_INGRESS);
-> +    }
+[1]: https://lore.kernel.org/stable/Y0y8IqEr0SIxHNvl@cbc4ca7ce717/
 
-
--Toke
+-- 
+An old man doll... just what I always wanted! - Clara
 
