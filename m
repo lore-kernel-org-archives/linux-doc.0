@@ -2,109 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D873C04A95
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 15:19:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 441FEC04A95
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 15:48:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbiJVPTG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Oct 2022 11:19:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42582 "EHLO
+        id S229815AbiJVPs3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Oct 2022 11:48:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbiJVPS7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Oct 2022 11:18:59 -0400
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6E1C9A2A5
-        for <linux-doc@vger.kernel.org>; Sat, 22 Oct 2022 08:18:55 -0700 (PDT)
-Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-1324e7a1284so7065949fac.10
-        for <linux-doc@vger.kernel.org>; Sat, 22 Oct 2022 08:18:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gz0LxUsOUlJDcIAW5bPu+WDjpQGro2FyWxGKpu7r8bo=;
-        b=gWrs34NeTJPV2fQ1MVoQY+zpFojHR3D/A6fVxaEOoPyaG1lz86TK/RINtSik3ihs6m
-         epr6PhFlnoD33CCeTfWoNQCRee99kzlwRupaR937A3VU5HU4OTIvs/zluF82SMnywl6D
-         HdEJ7m7PbwxapFaNOFa9ppWW4y91iGtKkwoLpnocgDPBTYKE8ItremNKc8YrHhceRIZp
-         h3VMtehI1AqTwZwEWQcTgFOjDVRQQngjmAnbv2gz4Ef/Bbck+zcB6GCOTs8PKUKrqPeL
-         49sPdfcCEYUyqTEphtRdJczJc984b2NmTshEFvs/XiFALWDOPilFuaMHYm7NR6Fhz+qX
-         X9nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gz0LxUsOUlJDcIAW5bPu+WDjpQGro2FyWxGKpu7r8bo=;
-        b=6CyYvV+1bYmDZt5g8SR83gfAZ02f+XduClercpiPtlvYHRvQUXmziNBETuBc5XkCiJ
-         30P0NGWEigbBYugCB/3XLT7oLY3wS6EuBhSvInrCBBsfLrSCGg1QiUhGujxQHUrolSvE
-         6OgDcPIxTlH0a735amQzYeIJYJfBVIY2+/2pMGnRfJO0BF/nr0TBN95hxYhxyS3i6Xbe
-         zYeGsJw+Z0oZgownMzB31b/BynzjfC8GZtsCEyp3bnJKF7SlE1KGUUSkbjkBBRwhl/CC
-         5K4a6Kvt4k4zHbsAe8FQQAYazK2h+aXudXWEC0Yc70E4kTtbbL96montxag+ZZaNWiKV
-         eEjQ==
-X-Gm-Message-State: ACrzQf1AAwPRLvFA2lsBm643geJoDj3VxW+5CT3HgQYmHjGfupOXrYsn
-        c4IIC2n2fMTo5zNy2VQx23DGjA==
-X-Google-Smtp-Source: AMsMyM4Ums0et6AQMZox+xdB7Wz2plUu78klbaMd0EOzV1OnnwGbhhl8/BymyNDqbBFL+Y+cBT/t0g==
-X-Received: by 2002:a05:6870:f288:b0:131:de71:3eb6 with SMTP id u8-20020a056870f28800b00131de713eb6mr31239483oap.63.1666451935002;
-        Sat, 22 Oct 2022 08:18:55 -0700 (PDT)
-Received: from [10.203.8.70] ([205.153.95.177])
-        by smtp.gmail.com with ESMTPSA id v5-20020a056870310500b00136c20b1c59sm11538284oaa.43.2022.10.22.08.18.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 22 Oct 2022 08:18:54 -0700 (PDT)
-Message-ID: <e7ace68a-98e5-63c8-7dd7-a35d0eba1c6e@linaro.org>
-Date:   Sat, 22 Oct 2022 11:18:49 -0400
+        with ESMTP id S229752AbiJVPs2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Oct 2022 11:48:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E02AC24F165
+        for <linux-doc@vger.kernel.org>; Sat, 22 Oct 2022 08:48:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666453705;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=ubaULjUrByYJfUfr92/n81pA5XqiKjFVYnSXLbaGMQI=;
+        b=WDr2tYd3p2cD3Klk+7vcl4XYlVrRMdZUfp3J2/LJDfgiFT6H2I0dK1khz6aXPQHEDOiwtD
+        iCzdhnI79uVgqsJS237R9dP5M9B+9lZ75NF0+MFgfOdN228wjfs9PyEKqcQAo9LIGxKcAI
+        dTViswD+/s7hMd5vvmoURyagLNA7Vn4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-140-N3ZNxMu6NdSkX-ZcmhlpQw-1; Sat, 22 Oct 2022 11:48:22 -0400
+X-MC-Unique: N3ZNxMu6NdSkX-ZcmhlpQw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E44E2862FDF;
+        Sat, 22 Oct 2022 15:48:21 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 287BB49BB60;
+        Sat, 22 Oct 2022 15:48:21 +0000 (UTC)
+From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To:     kvm@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH 0/4] KVM: API to block and resume all running vcpus in a vm
+Date:   Sat, 22 Oct 2022 11:48:15 -0400
+Message-Id: <20221022154819.1823133-1-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH 00/21] ARM: s3c: clean out obsolete platforms
-To:     Arnd Bergmann <arnd@kernel.org>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     linux-kernel@vger.kernel.org, Ben Dooks <ben-linux@fluff.org>,
-        Simtec Linux Team <linux@simtec.co.uk>,
-        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        patches@opensource.cirrus.com,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-pm@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-watchdog@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-pwm@vger.kernel.org
-References: <20221021202254.4142411-1-arnd@kernel.org>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221021202254.4142411-1-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 21/10/2022 16:22, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The s3c24xx platform was marked as deprecated a while ago,
-> and for the s3c64xx platform, we marked all except one legacy
-> board file as unused.
-> 
-> This series removes all of those, leaving only s3c64xx support
-> for DT based boots as well as the cragg6410 board file.
-> 
-> About half of the s3c specific drivers were only used on
-> the now removed machines, so these drivers can be retired
-> as well. I can either merge the driver removal patches through
-> the soc tree along with the board file patches, or subsystem
-> maintainers can pick them up into their own trees, whichever
-> they prefer.
+This new API allows the userspace to stop all running
+vcpus using KVM_KICK_ALL_RUNNING_VCPUS ioctl, and resume them with
+KVM_RESUME_ALL_KICKED_VCPUS.
+A "running" vcpu is a vcpu that is executing the KVM_RUN ioctl.
 
-Just to be sure - do you expect me to ack the series, or rather as usual
-pick them up?
+This serie is especially helpful to userspace hypervisors like
+QEMU when they need to perform operations on memslots without the
+risk of having a vcpu reading them in the meanwhile.
+With "memslots operations" we mean grow, shrink, merge and split
+memslots, which are not "atomic" because there is a time window
+between the DELETE memslot operation and the CREATE one.
+Currently, each memslot operation is performed with one or more
+ioctls.
+For example, merging two memslots into one would imply:
+DELETE(m1)
+DELETE(m2)
+CREATE(m1+m2)
 
+And a vcpu could attempt to read m2 right after it is deleted, but
+before the new one is created.
 
-Best regards,
-Krzysztof
+Therefore the simplest solution is to pause all vcpus in the kvm
+side, so that:
+- userspace just needs to call the new API before making memslots
+changes, keeping modifications to the minimum
+- dirty page updates are also performed when vcpus are blocked, so
+there is no time window between the dirty page ioctl and memslots
+modifications, since vcpus are all stopped.
+- no need to modify the existing memslots API
+
+Emanuele Giuseppe Esposito (4):
+  linux-headers/linux/kvm.h: introduce kvm_userspace_memory_region_list
+    ioctl
+  KVM: introduce kvm_clear_all_cpus_request
+  KVM: introduce memory transaction semaphore
+  KVM: use signals to abort enter_guest/blocking and retry
+
+ Documentation/virt/kvm/vcpu-requests.rst |  3 ++
+ arch/x86/include/asm/kvm_host.h          |  2 ++
+ arch/x86/kvm/x86.c                       |  8 +++++
+ include/uapi/linux/kvm.h                 |  3 ++
+ virt/kvm/kvm_main.c                      | 45 ++++++++++++++++++++++++
+ 5 files changed, 61 insertions(+)
+
+-- 
+2.31.1
 
