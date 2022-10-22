@@ -2,29 +2,30 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F245C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 16:59:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2235CC433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 17:01:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229535AbiJVQ7L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Oct 2022 12:59:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51802 "EHLO
+        id S229460AbiJVRBK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Oct 2022 13:01:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbiJVQ65 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Oct 2022 12:58:57 -0400
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C418644B;
-        Sat, 22 Oct 2022 09:58:51 -0700 (PDT)
-X-QQ-mid: bizesmtp87t1666457439tnrfffrl
-Received: from wuhui-virtual-machine.localdoma ( [58.60.63.196])
+        with ESMTP id S229720AbiJVRBJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Oct 2022 13:01:09 -0400
+Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12A6E9526C;
+        Sat, 22 Oct 2022 10:01:03 -0700 (PDT)
+X-QQ-mid: bizesmtp85t1666458045tm8bz186
+Received: from wuhui-virtual-machine.localdoma ( [58.251.166.8])
         by bizesmtp.qq.com (ESMTP) with 
-        id ; Sun, 23 Oct 2022 00:49:58 +0800 (CST)
-X-QQ-SSF: 02400000000000F0V000B00A0000000
-X-QQ-FEAT: iVzOovY9ZxLI57ptDEI/2/CstWdqqB6ILnew/GcYIEneYn6AIk9dnlMFDvvDI
-        aFLij5lGAvRo8yMnUJvwzJhr4wSPZKRm+RCmPk2bp9PxcOMEQfaXWbb3UpuSDY6qRVgfjhG
-        Rj7oZLvxkm+FdKe5NaS/yIYzZyicKAFIUQZEdgN7Dvvzh6c+IDoMj7h8GK+vTxPmpSJhRNu
-        SisLdLITX/ZXEZIs1+fNc6arEN2A6Wt2wTRi+Pq19UrhL3ZI/Gbv9R3heThOwffrO7fmVgE
-        7RaIBGln8uB+MGH4TQPYmdAW3JVaZVlMi2plEwie895izckkhJgEGM+Xi2xJJA4mR5vW/MY
-        uFXRWaWJqp6edlCSd6eMV0ZjRzZUxQtdIv2jB3u
+        id ; Sun, 23 Oct 2022 01:00:36 +0800 (CST)
+X-QQ-SSF: 00400000002000F0V000B00A0000000
+X-QQ-FEAT: DoD8xN2rKoxv9XYHxCitxjjL/t7Y0Mna03sGCJd9y8ACyAsHyTSv4Wr1tBiuv
+        hBl9n4oeKq2c0os46RyIHXgmIGbgnCzhcClOC4hkKkDeYnMsNyIAt0jX+C3jSnNcatw2+Cd
+        ABjtsLjHj98A6zlz78Fs/igvPVRuGSmhe7rplBMSIQ1ATBZANc/ny/Cmf0zhlUCJf7lWT0+
+        sl4PoU/CaHaQxUiaYMVxYUidRBduWcpkwqSvIHNaTaIRV1fn6kXW7uad3+iHMcFGdVejthj
+        s8QmZFsrRVCB/4Po8fA2u/eouGv+Gl5Nnymfz4cecRAuUX910GGo5en7BrwK+5LL0edKWli
+        +In7xfbci9M5NXwKECHpTFK5PUIlKB2nUllAKf74YRn/kmH/Z+7LxiGGjWrcwA1j3aflxAP
+        nG3yii5zyMw=
 X-QQ-GoodBg: 2
 From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
 To:     alexs@kernel.org
@@ -33,11 +34,11 @@ Cc:     siyanteng@loongson.cn, corbet@lwn.net, bobwxc@email.cn,
         linux-kernel@vger.kernel.org,
         Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
 Subject: [PATCH] docs/zh_CN: Update the translation of page_owner
-Date:   Sun, 23 Oct 2022 00:49:51 +0800
-Message-Id: <20221022164951.26679-1-caoyixuan2019@email.szu.edu.cn>
+Date:   Sun, 23 Oct 2022 01:00:33 +0800
+Message-Id: <20221022170033.27123-1-caoyixuan2019@email.szu.edu.cn>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:email.szu.edu.cn:qybglogicsvr:qybglogicsvr4
