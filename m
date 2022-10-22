@@ -2,154 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E79B1C38A2D
-	for <linux-doc@archiver.kernel.org>; Fri, 21 Oct 2022 23:51:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EC95C433FE
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 00:17:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229719AbiJUXvj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Oct 2022 19:51:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48098 "EHLO
+        id S229695AbiJVARa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 21 Oct 2022 20:17:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229847AbiJUXvi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 19:51:38 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0EB0F53DF;
-        Fri, 21 Oct 2022 16:51:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666396296; x=1697932296;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=FfuVcGdiPTAK5k1d7MIsjDwLmLyP3F5o7OxDOtjkzOg=;
-  b=XI8w6OGEH+vAHed6PvoGTPGplssGn4XPr+oOG0s6bV/oisw4hUuxcqtv
-   xDD1C3UVXjvc5/5ps1Ys7fswxf76Zs/KQfVCGgiQvor2BXOZ3qRq9f9zH
-   xKAHkRnKPMNr0optV8dmKZ7InHPRh8DcQINs84p9wlJ0cifdqI19XKMax
-   HwlKR4D6IuT7nFgID+IFJ1sAMRGSCS/J5k4DUNjHU7AEcLYqPssl5D135
-   CQvDfkoJwr/0sc1fXt4KO6UCOUjZRzPTq6ooUTJmnO3hl5J5UaDt3/L/b
-   Maf2dy3TUkLmvaeBWHFDnuznWDKzCiz8zEm1N/6eOMiYJ+wPp+ulp2KFa
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="307122256"
-X-IronPort-AV: E=Sophos;i="5.95,203,1661842800"; 
-   d="scan'208";a="307122256"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 16:51:35 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="693913352"
-X-IronPort-AV: E=Sophos;i="5.95,203,1661842800"; 
-   d="scan'208";a="693913352"
-Received: from sabravo-mobl.amr.corp.intel.com (HELO [10.209.25.112]) ([10.209.25.112])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2022 16:51:35 -0700
-Message-ID: <13adfc8d-8118-2fd7-3a66-98dfbf8037a9@linux.intel.com>
-Date:   Fri, 21 Oct 2022 16:51:34 -0700
+        with ESMTP id S229535AbiJVAR3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 20:17:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 603C4E09AF
+        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 17:17:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666397847;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ffLPQLNndW2qNqcG85lW2feB+QGegvpDWXA/1PXL/o8=;
+        b=WR1X9Vj0MxZft0qVNWf2mDA+Ili+XUzJUevdUOs8kV2uCnOoJu4DrFHouMUYG27dDTVDe0
+        k7t2un6ogUuOApjq706mraKei5/Xlqs8lDxrE4gvpjDsXzbpixwi9zcMF5MQGvmuXQYHly
+        gZ99rHsteA9USEAKr0TWyi8uouENGuA=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-488-k6q9g7DbPWGQAOIkSNpHHQ-1; Fri, 21 Oct 2022 20:17:26 -0400
+X-MC-Unique: k6q9g7DbPWGQAOIkSNpHHQ-1
+Received: by mail-ed1-f70.google.com with SMTP id z11-20020a056402274b00b0045ca9510fc8so4184609edd.23
+        for <linux-doc@vger.kernel.org>; Fri, 21 Oct 2022 17:17:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ffLPQLNndW2qNqcG85lW2feB+QGegvpDWXA/1PXL/o8=;
+        b=5yuLn33XQo2QqOKPe3MDDC9kpW9efiIgLQ9b+Q03dzuqAM1Dgrkc4JgZ/8GJgyFxNX
+         lRRWQNZvVuadS+DNGCmqynRpbMEvySG2iLrB6hdJ/bcM1AYGF9WzsKG+6ZBN+Y5OXwf+
+         kucEumoE88PnBWE0xnrznWCCoek5x0W+psRdJy5ZWcYV/vFt0Ggbe7jZqW3T95AtK+gb
+         i3jWqh6ddhDOlDySgNEw/XAWSUQ0t9MAW2D7QutE48InimqJLkZjrOqUWBitttE3pFNY
+         rG23NUkxukSgO3PeexV0PGMw3FF5IFlLCKKkEQYMnq4EWVfKzF6cCsbRoPGfTJX5S/db
+         J0Zw==
+X-Gm-Message-State: ACrzQf1AYr8Y/8h0cNscwa0qaJE8h7vyozw4chBICrw7dm6JFatUNk31
+        O1w5Iug7TfkCQ8mjF6oYPHf6qOnFQNtXoIdb3aCbzEPOU0KJVl80S3NEoGvhRj+/FDx38bc95e1
+        auRyKmlvRY8aTjzUnthGT
+X-Received: by 2002:a05:6402:280a:b0:45d:19e8:c7ad with SMTP id h10-20020a056402280a00b0045d19e8c7admr19320285ede.44.1666397844055;
+        Fri, 21 Oct 2022 17:17:24 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7RkKTesKjUts48gOVA6eAd7VenRhjjBJPu5k58JMgOB9rIwxtj/GLog2O5gHtldiRolHFfBA==
+X-Received: by 2002:a05:6402:280a:b0:45d:19e8:c7ad with SMTP id h10-20020a056402280a00b0045d19e8c7admr19320251ede.44.1666397843182;
+        Fri, 21 Oct 2022 17:17:23 -0700 (PDT)
+Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
+        by smtp.gmail.com with ESMTPSA id 1-20020a170906200100b007a03313a78esm329655ejo.20.2022.10.21.17.17.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Oct 2022 17:17:22 -0700 (PDT)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id 1F72B6EE715; Sat, 22 Oct 2022 02:17:22 +0200 (CEST)
+From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     mtahhan@redhat.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Maryam Tahhan <mtahhan@redhat.com>
+Subject: Re: [PATCH bpf-next v4 1/1] doc: DEVMAPs and XDP_REDIRECT
+In-Reply-To: <20221021165919.509652-2-mtahhan@redhat.com>
+References: <20221021165919.509652-1-mtahhan@redhat.com>
+ <20221021165919.509652-2-mtahhan@redhat.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date:   Sat, 22 Oct 2022 02:17:22 +0200
+Message-ID: <877d0su2y5.fsf@toke.dk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.2.2
-Subject: Re: [PATCH v15 2/3] virt: Add TDX guest driver
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20221020045828.2354731-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20221020045828.2354731-3-sathyanarayanan.kuppuswamy@linux.intel.com>
- <Y1De4IyAB6n2qs4V@kroah.com>
- <34ef18d6-69f8-853a-d1ba-7023822e17ff@linux.intel.com>
- <Y1Iimg0WItgIGq6/@kroah.com>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <Y1Iimg0WItgIGq6/@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Greg,
+mtahhan@redhat.com writes:
 
-On 10/20/22 9:39 PM, Greg Kroah-Hartman wrote:
->>>> +#ifdef MODULE
->>>> +static const struct x86_cpu_id tdx_guest_ids[] = {
->>>> +	X86_MATCH_FEATURE(X86_FEATURE_TDX_GUEST, NULL),
->>>> +	{}
->>>> +};
->>>> +MODULE_DEVICE_TABLE(x86cpu, tdx_guest_ids);
->>>> +#endif
->>> Why the #ifdef?  Should not be needed, right?
->> I have added it to fix the following warning reported by 0-day.
->>
->> https://lore.kernel.org/lkml/202209211607.tCtTWKbV-lkp@intel.com/
->>
->> It is related to nullifying the MODULE_DEVICE_TABLE in #ifndef MODULE
->> case in linux/module.h.
-> Then fix it properly, by correctly using that structure no matter what.
-> You don't do that here...
+> From: Maryam Tahhan <mtahhan@redhat.com>
+>
+> Add documentation for BPF_MAP_TYPE_DEVMAP and
+> BPF_MAP_TYPE_DEVMAP_HASH including kernel version
+> introduced, usage and examples.
+>
+> Add documentation that describes XDP_REDIRECT.
+>
+> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
 
-I think we can use __maybe_unused attribute to fix this warning like
-mentioned below. Are you fine with it?
+With one small nit below:
 
---- a/drivers/virt/coco/tdx-guest/tdx-guest.c
-+++ b/drivers/virt/coco/tdx-guest/tdx-guest.c
-@@ -118,13 +118,11 @@ static void __exit tdx_guest_exit(void)
- }
- module_exit(tdx_guest_exit);
- 
--#ifdef MODULE
--static const struct x86_cpu_id tdx_guest_ids[] = {
-+static const struct x86_cpu_id __maybe_unused tdx_guest_ids[] = {
-        X86_MATCH_FEATURE(X86_FEATURE_TDX_GUEST, NULL),
-        {}
- };
- MODULE_DEVICE_TABLE(x86cpu, tdx_guest_ids);
--#endif
+Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@redhat.com>
 
-Solution 2:
------------
+[...]
 
-We can also modify the code to use this structure in all cases like
-below. But it requires me to use slower x86_match_cpu() in place of 
-cpu_feature_enabled() which I think is unnecessary.
+> +The following code snippet shows a BPF program that is broadcasting pack=
+ets to
+> +all the interfaces in the ``tx_port`` devmap.
+> +
+> +.. code-block:: c
+> +
+> +    SEC("xdp")
+> +    int xdp_redirect_map_func(struct xdp_md *ctx)
+> +    {
+> +        int index =3D ctx->ingress_ifindex;
 
---- a/drivers/virt/coco/tdx-guest/tdx-guest.c
-+++ b/drivers/virt/coco/tdx-guest/tdx-guest.c
-@@ -103,9 +103,15 @@ static struct miscdevice tdx_misc_dev = {
-        .fops = &tdx_guest_fops,
- };
- 
-+static const struct x86_cpu_id tdx_guest_ids[] = {
-+       X86_MATCH_FEATURE(X86_FEATURE_TDX_GUEST, NULL),
-+       {}
-+};
-+MODULE_DEVICE_TABLE(x86cpu, tdx_guest_ids);
-+
- static int __init tdx_guest_init(void)
- {
--       if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
-+       if (!x86_match_cpu(tdx_guest_ids))
-                return -ENODEV;
- 
-        return misc_register(&tdx_misc_dev);
-@@ -118,14 +124,6 @@ static void __exit tdx_guest_exit(void)
- }
- module_exit(tdx_guest_exit);
- 
--#ifdef MODULE
--static const struct x86_cpu_id tdx_guest_ids[] = {
--       X86_MATCH_FEATURE(X86_FEATURE_TDX_GUEST, NULL),
--       {}
--};
--MODULE_DEVICE_TABLE(x86cpu, tdx_guest_ids);
--#endif
+Let's get rid of this index variable (it's not used).
 
--- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+> +        return bpf_redirect_map(&tx_port, 0, BPF_F_BROADCAST | BPF_F_EXC=
+LUDE_INGRESS);
+> +    }
+
+
+-Toke
+
