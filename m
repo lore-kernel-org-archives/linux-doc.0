@@ -2,145 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73152C433FE
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 03:28:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0FE5ECDFA1
+	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 06:04:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbiJVD2C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 21 Oct 2022 23:28:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53854 "EHLO
+        id S229520AbiJVGEd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 22 Oct 2022 02:04:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229619AbiJVD1y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Oct 2022 23:27:54 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E55AD280EED;
-        Fri, 21 Oct 2022 20:27:52 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id i3so4321660pfk.9;
-        Fri, 21 Oct 2022 20:27:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=evDyrZvW0IfCxc1+01iWdtPlpzJLnkrTY0s2L4OXBJA=;
-        b=AJDEn76aswgcPWRKPmzeERLpZ6DM+GCj4tC9CiE46gecf7aHdF6h88bfTL0/ZVENIB
-         3dfksj1YN4vMDT2eW6K4bsVby57GZkSqYlr4FjQdmF5ivO2OfcfguHoD97w0bnKuQ6ds
-         4MfT7BRR4b6nWxrIRgeE8rHU1E9TJaD5CPYpDXrDKHwDvBZXzogzjRIumnn4ibO8XS2u
-         oFrqohRRPxyIJZCnPwCjty/r1PcAZWCJ7MF9PtXK0NRwU31C+MJ3oIIr5cAQ8mReFR8x
-         tjsvOQhBI0qsE9IcF7LpnUZYvAaywuBvmaOTYqf+dFJglcR1cOTBVaQgUBXWUp8hzgiu
-         7ngg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=evDyrZvW0IfCxc1+01iWdtPlpzJLnkrTY0s2L4OXBJA=;
-        b=VSxAjQCZc+QrONqpiaqG5YVdsm10DDnMe0+vbvzX4BpfzPDHp/sv0y9chBsL+xn+Bk
-         C3DbWthLV0wsX7uVxySUiinIHO577laU+KifK72gp4CQbwlPis7hjM4/ZJLiE6Of0X01
-         THCDYnXySDe5eOXcnvh7JQyfNLz0pPFrysPD3+pAovhFECbAeLxNbohPcNqF4NHMAwnE
-         qphTElmZURXBytnvtuuyzY6ugdI77JIgj6/bntM7A/ByA8lOtv1YbRZKlwOO3cqSA7pf
-         66+LQQE9VxSTrh/2yXaXMCvCZkqdA6KECSK70+1zB+5M6VPR9r86tzUAT9r2izuKYyNO
-         nk3g==
-X-Gm-Message-State: ACrzQf3hD8X5723xCKj+5p+AuqSscLW173zgPKCye8uqEmUvXFis4NnE
-        2OAwN85aWiNVnUOHjyOT9Pk=
-X-Google-Smtp-Source: AMsMyM4DUiDp7gRKhpmyoG1aOqzHCbB/wgVcFTWOYnC2NSZI1sdOIt5ZCYLIe3krXF22iP1xLyXNTw==
-X-Received: by 2002:a63:540b:0:b0:43c:8ce9:2800 with SMTP id i11-20020a63540b000000b0043c8ce92800mr18614299pgb.481.1666409272419;
-        Fri, 21 Oct 2022 20:27:52 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-74.three.co.id. [180.214.232.74])
-        by smtp.gmail.com with ESMTPSA id r26-20020aa7989a000000b00565d35cd658sm15727108pfl.217.2022.10.21.20.27.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Oct 2022 20:27:51 -0700 (PDT)
-Message-ID: <ce764f98-52ae-60b5-79f6-55d107eeef9a@gmail.com>
-Date:   Sat, 22 Oct 2022 10:27:48 +0700
+        with ESMTP id S229449AbiJVGEc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Oct 2022 02:04:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFD352BD1;
+        Fri, 21 Oct 2022 23:04:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 12A92601C6;
+        Sat, 22 Oct 2022 06:04:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3FA1C433D6;
+        Sat, 22 Oct 2022 06:04:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1666418668;
+        bh=Juz5LjJbSCNynnLDYD7GXdYfa161RW8vLJD4JA2tHS0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LLBwCPBC927P7PqXScUSO95lyXe13Iior2iKmUfeh/0S8b28HUBRC9vsN9D7r4NbF
+         aR/fuvZamZwjZA+ZGfdwdhtNWe8HImdVYsJvYkrhqqhCcepXvLYee0jlYfM03UbpCz
+         QqR5aSH7MyEeDGcr1FgTQAoJnzKX+K8Y6sbA0etQ=
+Date:   Sat, 22 Oct 2022 08:05:18 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v15 2/3] virt: Add TDX guest driver
+Message-ID: <Y1OIHjFp2r58fDPI@kroah.com>
+References: <20221020045828.2354731-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20221020045828.2354731-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <Y1De4IyAB6n2qs4V@kroah.com>
+ <34ef18d6-69f8-853a-d1ba-7023822e17ff@linux.intel.com>
+ <Y1Iimg0WItgIGq6/@kroah.com>
+ <13adfc8d-8118-2fd7-3a66-98dfbf8037a9@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v2] Documentation: process: replace outdated LTS table w/
- link
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
-        Sasha Levin <sashal@kernel.org>, Tyler Hicks <code@tyhicks.com>
-References: <Y0mSVQCQer7fEKgu@kroah.com>
- <20221014171040.849726-1-ndesaulniers@google.com>
- <87sfjkdcyc.fsf@meer.lwn.net>
-Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <87sfjkdcyc.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <13adfc8d-8118-2fd7-3a66-98dfbf8037a9@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/19/22 04:44, Jonathan Corbet wrote:
-> Nick Desaulniers <ndesaulniers@google.com> writes:
+On Fri, Oct 21, 2022 at 04:51:34PM -0700, Sathyanarayanan Kuppuswamy wrote:
+> Hi Greg,
 > 
->> The existing table was a bit outdated.
->>
->> 3.16 was EOL in 2020.
->> 4.4 was EOL in 2022.
->>
->> 5.10 is new in 2020.
->> 5.15 is new in 2021.
->>
->> We'll see if 6.1 becomes LTS in 2022.
->>
->> Rather than keep this table updated, it does duplicate information from
->> multiple kernel.org pages. Make one less duplication site that needs to
->> be updated and simply refer to the kernel.org page on releases.
->>
->> Suggested-by: Tyler Hicks <code@tyhicks.com>
->> Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
->> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
->> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> On 10/20/22 9:39 PM, Greg Kroah-Hartman wrote:
+> >>>> +#ifdef MODULE
+> >>>> +static const struct x86_cpu_id tdx_guest_ids[] = {
+> >>>> +	X86_MATCH_FEATURE(X86_FEATURE_TDX_GUEST, NULL),
+> >>>> +	{}
+> >>>> +};
+> >>>> +MODULE_DEVICE_TABLE(x86cpu, tdx_guest_ids);
+> >>>> +#endif
+> >>> Why the #ifdef?  Should not be needed, right?
+> >> I have added it to fix the following warning reported by 0-day.
+> >>
+> >> https://lore.kernel.org/lkml/202209211607.tCtTWKbV-lkp@intel.com/
+> >>
+> >> It is related to nullifying the MODULE_DEVICE_TABLE in #ifndef MODULE
+> >> case in linux/module.h.
+> > Then fix it properly, by correctly using that structure no matter what.
+> > You don't do that here...
 > 
-> Applied, thanks.
+> I think we can use __maybe_unused attribute to fix this warning like
+> mentioned below. Are you fine with it?
 > 
-> jon
+> --- a/drivers/virt/coco/tdx-guest/tdx-guest.c
+> +++ b/drivers/virt/coco/tdx-guest/tdx-guest.c
+> @@ -118,13 +118,11 @@ static void __exit tdx_guest_exit(void)
+>  }
+>  module_exit(tdx_guest_exit);
+>  
+> -#ifdef MODULE
+> -static const struct x86_cpu_id tdx_guest_ids[] = {
+> +static const struct x86_cpu_id __maybe_unused tdx_guest_ids[] = {
+>         X86_MATCH_FEATURE(X86_FEATURE_TDX_GUEST, NULL),
+>         {}
+>  };
+>  MODULE_DEVICE_TABLE(x86cpu, tdx_guest_ids);
+> -#endif
+> 
+> Solution 2:
+> -----------
+> 
+> We can also modify the code to use this structure in all cases like
+> below. But it requires me to use slower x86_match_cpu() in place of 
+> cpu_feature_enabled() which I think is unnecessary.
+> 
+> --- a/drivers/virt/coco/tdx-guest/tdx-guest.c
+> +++ b/drivers/virt/coco/tdx-guest/tdx-guest.c
+> @@ -103,9 +103,15 @@ static struct miscdevice tdx_misc_dev = {
+>         .fops = &tdx_guest_fops,
+>  };
+>  
+> +static const struct x86_cpu_id tdx_guest_ids[] = {
+> +       X86_MATCH_FEATURE(X86_FEATURE_TDX_GUEST, NULL),
+> +       {}
+> +};
+> +MODULE_DEVICE_TABLE(x86cpu, tdx_guest_ids);
+> +
+>  static int __init tdx_guest_init(void)
+>  {
+> -       if (!cpu_feature_enabled(X86_FEATURE_TDX_GUEST))
+> +       if (!x86_match_cpu(tdx_guest_ids))
 
-Hi jon,
+Please use this as it's what all other users of the x86cpu module device
+table code uses, right?
 
-I noticed extraneous Rule: tag (as carried from kernel test robot [1])
-in the applied patch:
+And what is the "speed" difference here?  Is is measurable and where
+does it matter?
 
-commit 394df0afde11fa77c27e671ea91f74cb6440f86e
-Author: Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri Oct 14 10:10:40 2022 -0700
+thanks,
 
-    Documentation: process: replace outdated LTS table w/ link
-    
-    The existing table was a bit outdated.
-    
-    3.16 was EOL in 2020.
-    4.4 was EOL in 2022.
-    
-    5.10 is new in 2020.
-    5.15 is new in 2021.
-    
-    We'll see if 6.1 becomes LTS in 2022.
-    
-    Rather than keep this table updated, it does duplicate information from
-    multiple kernel.org pages. Make one less duplication site that needs to
-    be updated and simply refer to the kernel.org page on releases.
-    
-    Suggested-by: Tyler Hicks <code@tyhicks.com>
-    Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
-    Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-    Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-    Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-    Link: https://lore.kernel.org/stable/20221014171040.849726-1-ndesaulniers%40google.com
-    Reviewed-by: Tyler Hicks (Microsoft) <code@tyhicks.com>
-    Link: https://lore.kernel.org/r/20221014171040.849726-1-ndesaulniers@google.com
-    Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-
-The tag doesn't have any purposes, so please drop it.
-
-Thanks.
-
-[1]: https://lore.kernel.org/stable/Y0y8IqEr0SIxHNvl@cbc4ca7ce717/
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+greg k-h
