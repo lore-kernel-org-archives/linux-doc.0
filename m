@@ -2,123 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5145C04A95
-	for <linux-doc@archiver.kernel.org>; Sat, 22 Oct 2022 19:48:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 310F9C433FE
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Oct 2022 12:55:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229900AbiJVTsv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 22 Oct 2022 15:48:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41718 "EHLO
+        id S230258AbiJWMzT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Oct 2022 08:55:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229847AbiJVTsq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Oct 2022 15:48:46 -0400
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F5412D80A;
-        Sat, 22 Oct 2022 12:48:44 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 6AD1458012A;
-        Sat, 22 Oct 2022 15:48:41 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Sat, 22 Oct 2022 15:48:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1666468121; x=1666475321; bh=UGS1Mg1RbR
-        rjg7l/C4uODk6tRvKSFxQmBze4CDiRUok=; b=R769R20cvAUvCJzdLxBnDkwPBp
-        EbTpyCnh90ePwkW/W271GgnujcaxKPNlKUZTD1QiMzbOX6UUmX5GBGQy5YnoG3Hz
-        7bIbm4GGSebbV6RK2kBgjxCEhVjRMxNaLgKsw+7i5e4f4W2C2HsQFTmKv8S+gZdE
-        jcEJHfdX99rjFuuQuzOPTEkJYLvC3gJ1f7jx+9U6cwktdP6NSfqNvxTgarEWxD1c
-        GFRrikCndHmtZnFVFspin0GH0nBuno9DFl/vX1YEuWJJ1DmabcJBI+QgW+pFl13L
-        PUlTUh21czWS+IFSiTNJyGJ4p7ipLzCb7UJepNPQ1EVgfsLevgq5To41FFEw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1666468121; x=1666475321; bh=UGS1Mg1RbRrjg7l/C4uODk6tRvKS
-        FxQmBze4CDiRUok=; b=DZdlxJQ1/OPf/Y6KDYWPfdC+mu56NzIOlbXghWxjCj9D
-        9CPMuzFO6wSIpYXaVVKO5ogBmtK5zrRUpai6gPg5qF7aq51p1Tf8zgVV+aEGQIpg
-        Le7lvLJR+05feR3Q+7owk4RsmE3rzpsqGg/UOGa7xGgp5BzvreC3G8OxhZ0WzoTZ
-        kHVkLu1P+KTSJm4dYCrODRLVTVeSHwuFqAuyI9eyO0UD5B3tL3/NipBn2AFumQvr
-        +xjvFjLrJEOmbNOFedB+o0knlGPPR7li0EwNxPvDXhDL0DJhj4plmQqEZJg8uEWZ
-        ljUtVQj8llXCVqwnpTmY8Mpk0y+FjFMyLlNEuZEfiA==
-X-ME-Sender: <xms:GElUY9vt3ItviEp5AJXQjYcX0YyV47YTITTgtkGjjNw0aSie0vzYkg>
-    <xme:GElUY2cknoJTeDpYvjbC4RFS-FtPGbyfFDbbyjNFIChdDqrc0xYFVavFYI99vu8kl
-    0KtHqNspAg1e6vBhwY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedttddgudegtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:GElUYwxiXoqPMILm1SZ_32__qu1Q5l_zrlV4KYN9jBrAlex9SwSKIg>
-    <xmx:GElUY0PzOcbbrTlSQkCZ5j1lrS1Cnv1p6FZXhLQlA1lHQyiDXRQGng>
-    <xmx:GElUY9-JQg9pRkXJG00aarf_3pC2T4jG_plPdMl-YxzKsRcEtsxZ9g>
-    <xmx:GUlUYyKFp-5FR5wwM3xl6nutJeKlKU0pfMGHX_pxDvaIG8i-amMB_w>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 90C24B60086; Sat, 22 Oct 2022 15:48:40 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
-Mime-Version: 1.0
-Message-Id: <7c4531b8-a296-4ea3-9564-b094704d10b2@app.fastmail.com>
-In-Reply-To: <e7ace68a-98e5-63c8-7dd7-a35d0eba1c6e@linaro.org>
-References: <20221021202254.4142411-1-arnd@kernel.org>
- <e7ace68a-98e5-63c8-7dd7-a35d0eba1c6e@linaro.org>
-Date:   Sat, 22 Oct 2022 21:48:19 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
-        "Arnd Bergmann" <arnd@kernel.org>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     linux-kernel@vger.kernel.org, "Ben Dooks" <ben-linux@fluff.org>,
-        "Simtec Linux Team" <linux@simtec.co.uk>,
-        linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-pm@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
-        linux-mtd@lists.infradead.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH 00/21] ARM: s3c: clean out obsolete platforms
-Content-Type: text/plain
+        with ESMTP id S229973AbiJWMzS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Oct 2022 08:55:18 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B735240B3;
+        Sun, 23 Oct 2022 05:55:17 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id 4so431895pli.0;
+        Sun, 23 Oct 2022 05:55:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uiLHH4HmmDSJ4LoQq8jN2oE3+rIP/zMvk55vgBOOIY4=;
+        b=d8v3eJTEVqCuE1QUxaY+QcoCte4KoXhLMhKc2Ejku84o4osZANd8HOHHw+3CsZhULf
+         5Df3REzFQebxzvJ7XIbT4RJInW2G1KnPkaVAN0LmGT/D6yw0VuFhtSWnkcZviv252L5o
+         Xx8hV4TptLwiSbsVvl8X+E+kKRkjbhbQEBEXCreMDnDTplxFGqYBIlvrjEdebqAEP9ue
+         404swaQDhw6zaWbNT2LSOUCIPU4YboL1utpKC8idBuCUkk7GYeJpoLgt/kFC6gIazl/X
+         Df7lvGCcj82cMjaau9e03Ex0DrglOXt/JgoYI9DERAFN7mwz77arpT81/vQEv3JKK5do
+         yYSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uiLHH4HmmDSJ4LoQq8jN2oE3+rIP/zMvk55vgBOOIY4=;
+        b=jEkGt60DJ3ONdINQPW25Guq2O87RnJ70nUQRRsA+0RIn+XGrJtPVFwclCo2oQTCLGD
+         Q0d7QweIpqAgTRuUm3eRHnZBEGQqdg7RIka7kQAy9wQNnBGhA2g7wX2HxcYQH/BsSlk0
+         rA/bx7SR0xra1ACb1iM5PK4GZUI1wn7QUGG6y4hMGrqG8IOABsZh3Ix9/cS31FJlU0W9
+         sqNa3vvkANYQ4ztWI0kUqEtDhW4OXeZpFgpMpEEh0Dbv5Et9GQcm8XBeZcDvH7YXk7Lf
+         6PJB+nVYmka5qPs9YTTEibw9gqN1jUk5RWKSNbLq+yazT0tW5N83Wd75H6YIDIokwVH7
+         KBzw==
+X-Gm-Message-State: ACrzQf3Z/d2ofLIPpRyziNkDi/eX0UmR6wI3mKvjuigj64xFdTvTLLV6
+        wegwH4yEa1wmDLevgdoj+5Ff8gHUfnhlQg==
+X-Google-Smtp-Source: AMsMyM6rUwktSUfv180VhKrLW7U7jefGkFrGuD3K+t0SCmJyI2cNWlxWN6shCcec5Ifo8SS8VbSBgA==
+X-Received: by 2002:a17:902:c643:b0:186:9efc:67a1 with SMTP id s3-20020a170902c64300b001869efc67a1mr2641162pls.30.1666529716450;
+        Sun, 23 Oct 2022 05:55:16 -0700 (PDT)
+Received: from debian.. (subs02-180-214-232-1.three.co.id. [180.214.232.1])
+        by smtp.gmail.com with ESMTPSA id om10-20020a17090b3a8a00b00212daa68b7csm2670639pjb.44.2022.10.23.05.55.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Oct 2022 05:55:16 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        David Gow <davidgow@google.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Khalid Masum <khalid.masum.92@gmail.com>,
+        Sadiya Kazi <sadiyakazi@google.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH 0/7] KUnit documentation rewording
+Date:   Sun, 23 Oct 2022 19:54:07 +0700
+Message-Id: <20221023125414.60961-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1832; i=bagasdotme@gmail.com; h=from:subject; bh=920H77gA/3sst95b5QYKX9NICudXq9PBuoArUOb1oP4=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDMmhlmnKvRsCGTbWSKSGTknL9t3V/8D3XmVXQ62YjL2AKjtn 5++OUhYGMQ4GWTFFlkmJfE2ndxmJXGhf6wgzh5UJZAgDF6cATGTbUob/4U3ltxaf0F44p4lF1Hr7gm 9d6o2RDMqu165fWhnoHfRvI8P/Uk2Hv2/t70znsKicdHpBWl1uVuDJucbi6tzS1vf2CR/kBgA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Oct 22, 2022, at 17:18, Krzysztof Kozlowski wrote:
-> On 21/10/2022 16:22, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->> 
->> The s3c24xx platform was marked as deprecated a while ago,
->> and for the s3c64xx platform, we marked all except one legacy
->> board file as unused.
->> 
->> This series removes all of those, leaving only s3c64xx support
->> for DT based boots as well as the cragg6410 board file.
->> 
->> About half of the s3c specific drivers were only used on
->> the now removed machines, so these drivers can be retired
->> as well. I can either merge the driver removal patches through
->> the soc tree along with the board file patches, or subsystem
->> maintainers can pick them up into their own trees, whichever
->> they prefer.
->
-> Just to be sure - do you expect me to ack the series, or rather as usual
-> pick them up?
+The proses written in KUnit documentation are IMO incomprehensible (my
+brain has to process what the meaning of words used) and different from
+wordings that I normally read from technical writings. Thus, rewrite these
+using clearer words.
 
-I think in this case it is easier if I pick them up with your
-Ack along with the other platforms I posted, as there are
-some minor conflicts between Makefile/Kconfig changes where
-I remove adjacent lines.
+Anyway, it's great to see native English speakers help reviewing this
+series.
 
-       Arnd
+The first two patches are v3 of rewriting "Writing Your First Test"
+section of "Getting Started" patch [1], which was submitted about a
+month ago. The rest are actual documentation rewriting.
+
+Note that this series only rewrites intro, test writing and running docs.
+
+[1]: https://lore.kernel.org/lkml/20220929132549.56452-1-bagasdotme@gmail.com/
+
+Bagas Sanjaya (7):
+  Documentation: kunit: rewrite "Writing Your First Test" section
+  Documentation: kunit: align instruction code blocks
+  Documentation: kunit: rewrite the rest of "Getting Started"
+    documentation
+  Documentation: kunit: move introduction to its own document
+  Documentation: kunit: rewrite "Running tests with kunit_tool"
+  Documentation: kunit: rewrite "Run Tests without kunit_tool"
+  Documentation: kunit: rewrite "Writing tests"
+
+ Documentation/admin-guide/README.rst          |   2 +
+ Documentation/dev-tools/kunit/index.rst       |  93 +----
+ Documentation/dev-tools/kunit/intro.rst       |  61 ++++
+ Documentation/dev-tools/kunit/run_manual.rst  |  68 ++--
+ Documentation/dev-tools/kunit/run_wrapper.rst | 302 ++++++----------
+ Documentation/dev-tools/kunit/start.rst       | 264 +++++++-------
+ Documentation/dev-tools/kunit/usage.rst       | 322 ++++++++++--------
+ 7 files changed, 483 insertions(+), 629 deletions(-)
+ create mode 100644 Documentation/dev-tools/kunit/intro.rst
+
+
+base-commit: de3ee3f63400a23954e7c1ad1cb8c20f29ab6fe3
+-- 
+An old man doll... just what I always wanted! - Clara
+
