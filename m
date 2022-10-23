@@ -2,140 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 649D9C3A59D
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Oct 2022 15:01:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B712FA373E
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Oct 2022 16:09:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229460AbiJWPBL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Oct 2022 11:01:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48600 "EHLO
+        id S230136AbiJWQJr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Oct 2022 12:09:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229728AbiJWPBK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Oct 2022 11:01:10 -0400
-X-Greylist: delayed 599 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 23 Oct 2022 08:01:05 PDT
-Received: from sphereful.davidgow.net (sphereful.davidgow.net [IPv6:2404:9400:4:0:216:3eff:fee2:5328])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11ADE6DFB9;
-        Sun, 23 Oct 2022 08:01:04 -0700 (PDT)
-Received: by sphereful.davidgow.net (Postfix, from userid 119)
-        id DDD841C034B; Sun, 23 Oct 2022 22:44:31 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
-        s=201606; t=1666536271;
-        bh=0N3kW6+aW6yf731DNq7Jvf9k5028oUiR6Y+A1mOBVuM=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=qZQMZXNJVI8cu2fqJ8s+VifEjTH7T+mB7MZIvCMXHV/StTln2AnZaPhSEDAc1k2t7
-         UN3GwmE4P48z8HXtfUt/F7uhCZ0o/FLz58Zso+Wd61BZYmmy8kivq5SNlSb2xDFKoG
-         gADKguUBGhzY5AyEwQnGdwMB3c2VzeJLZhYg0gyc8vr4U2FoHush59qAyAXy7CMjFH
-         efZ2g9yySnZI8P9XuOftRSHN3/5lcoKphDyCSyIM0U1r5B1Hw3r7FF3dXhsnxxpb6S
-         C81CPnIqYghAzvknZWIWMnTxWA0umNsttWzA91SOWRTOVTN4eZwrJPNUz90UV52Euh
-         528fAt44KzE8I/kOLDfoElLPg+f9aaY5VCTMfCZwMZ7NBbVQM/OnlXyBR2R6T0lGt9
-         C3gWiGmdJcdZnfzv+HiWzYL8VaMQLXfsT4F8nzDz5GaE/6sBk85rXTSf2O+imZxMyK
-         Dl4I6XjgvmRjgmG57vn75g7ss4ogXT6KynLOnLJC4Ns0lKPDFUyY0vdduKiQtHFA02
-         I8jLb2K5yRij+04jE7jhEyt9/MVk+mSZwnxW+YzgypQADGBQOlo1uqH4fMp0UFvUI+
-         7YcWlgoqk+Hhu5BYMkTRJoicvLfGWSCYutKBhzUSFzedo+zSxwDs4dppNpVIJqq4qO
-         5s/6YivG5sKDuefiPG+s4rqg=
-Received: from [IPV6:2001:8003:8d1e:3000::a57] (unknown [IPv6:2001:8003:8d1e:3000::a57])
-        by sphereful.davidgow.net (Postfix) with ESMTPSA id 9108C1C032E;
-        Sun, 23 Oct 2022 22:44:26 +0800 (AWST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
-        s=201606; t=1666536266;
-        bh=0N3kW6+aW6yf731DNq7Jvf9k5028oUiR6Y+A1mOBVuM=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=J1AOaqB/mQVVbj4/+5Cemtg6Iksw+0uW+e/SPZ0sD7G9xudOd6WV0NctrHT9LKsuN
-         WGEYXbQLI+p/3ArcshYYjJkdMys8iHcL4zVc3hESxSYOCHceSk9eJU4NiTW77rXwWK
-         lqyymSi7n7SOB3Rm+RdjCvi/C3c0SksUYfwop0nzgrvpKp8KQB/icLPNl8+z332T2x
-         U0uNM/C6sGhd5dvlvJ0VfJhXstm/JPZ3pdm3FgV27pUlLmEd09hVMh8BeizDn6frQg
-         5W+bK15gzCMIhopvDlCeZeOWDyuP09Vx2qviCZ7acHWL+LVl8iyMgJiI6foZe9FTHx
-         LXEbt9jaUekl4vA+kdB0m3vKEsushptELPPmz4lAbSy6M9eezsl0wGVkXc7Kv64sg9
-         LZrUhi9AqtvYReZBKU2FFxJIiOz2WMvIrifxOajkdcTRl3yt1vdLH+aGdpQzZ3fdMr
-         Rw1eCf2T0FiozSqekcDZelbUnUNZj3FI6jSc89yVgdWP7Ed+yQQQ6Y4jAdxPFj0IUv
-         Ino5abpnEbe0OTA3FotIj/TjafZ3rT+abac6Ks68xMOVkGZLaydFU9E7/0X8t32CD+
-         SRVZr3AW/dQSO3/5LZQK0U3Y5zEp592DDa3bIdh0lFhZDaVaRfqYtL5gfq7NRh/j+A
-         1aID6ZM69pPk+Bf6akmP+ilw=
-Message-ID: <98a8be05-0882-fa8f-846d-b8f74f141041@davidgow.net>
-Date:   Sun, 23 Oct 2022 22:44:22 +0800
+        with ESMTP id S230371AbiJWQJp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Oct 2022 12:09:45 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C06F713DF4;
+        Sun, 23 Oct 2022 09:09:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666541381; x=1698077381;
+  h=message-id:date:mime-version:from:subject:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=5sJjgPYURVkJ7M7Maes4lTmD0dci9fN0izGbeTfmFjU=;
+  b=QH/eohGO2V3eifAeOeblyl8vHXNJMw3uaMPHN+GgNqBsvLmygZ9V6JHO
+   QTVSxfiwd5yFvTduB6Jwf02HqNqH1fXXmPUTc6nxYtIgPmL0I1bdVJZJ5
+   qURJH3ttj8XyWt3No0eekpvA59WiB6s50zijHF87USUUSkcKihQLgmkdf
+   n/hYIX8G1AhYHDog7519RCRLvDg3eh90IiLBbbE0CkiZaz8Om3TkchcBW
+   BgoMe2r8YizkUxRJetwmAuonGWucdleXdF1lmj36sK0ztdkW8bm9z2t4n
+   DrBCTHLvorJ13uLFtbSIonIGNXIzb8FndYDuq3HqZXer01u0yVaeNJqzv
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10509"; a="286998045"
+X-IronPort-AV: E=Sophos;i="5.95,207,1661842800"; 
+   d="scan'208";a="286998045"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2022 09:09:41 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10509"; a="720250850"
+X-IronPort-AV: E=Sophos;i="5.95,207,1661842800"; 
+   d="scan'208";a="720250850"
+Received: from supriya-m-ravichandran.amr.corp.intel.com (HELO [10.212.253.138]) ([10.212.253.138])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2022 09:09:40 -0700
+Message-ID: <5868a82b-aeba-d465-2471-b8058c7afed0@linux.intel.com>
+Date:   Sun, 23 Oct 2022 09:09:39 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
+ Firefox/102.0 Thunderbird/102.2.2
+From:   Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Subject: Re: [PATCH v15 0/3]] Add TDX Guest Attestation support
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     "H . Peter Anvin" <hpa@zytor.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20221020045828.2354731-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <95240a74-0c49-d051-a609-775c48b22bf5@intel.com>
 Content-Language: en-US
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Yu Zhao <yuzhao@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-References: <20220815071332.627393-1-yuzhao@google.com>
- <20220815071332.627393-9-yuzhao@google.com>
- <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net>
- <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com>
- <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
- <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net>
- <CAHk-=whQchubuDpRGFabhmcZuzdt13OOF8wznXb+Dbi3GzBQhQ@mail.gmail.com>
- <Y1GZjPO+szk7X0wP@hirez.programming.kicks-ass.net>
- <CAHk-=wikUaRM5H_y1Bc+QyvGi40dKDL8fnCTyz7ECbwK7aHNPQ@mail.gmail.com>
- <Y1IUMDJFScAMrCS5@casper.infradead.org>
- <CAHk-=wjrpH1+6cQQjTO6p-96ndBMiOnNH098vhS2jLybxD+7gA@mail.gmail.com>
-From:   David Gow <david@davidgow.net>
-Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
-In-Reply-To: <CAHk-=wjrpH1+6cQQjTO6p-96ndBMiOnNH098vhS2jLybxD+7gA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <95240a74-0c49-d051-a609-775c48b22bf5@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Le 22/10/22 à 00:50, Linus Torvalds a écrit :
-> On Thu, Oct 20, 2022 at 8:38 PM Matthew Wilcox<willy@infradead.org>  wrote:
->> On Thu, Oct 20, 2022 at 07:10:46PM -0700, Linus Torvalds wrote:
->>> We got rid of i386 support back in 2012. Maybe it's time to get rid of
->>> i486 support in 2022?
->> Arnd suggested removing i486 last year and got a bit of pushback.
->> The most convincing to my mind was Maciej:
-> Hmm. Maciej added to the cc.
+Hi Dave,
+
+On 10/20/22 10:08 AM, Dave Hansen wrote:
+> On 10/19/22 21:58, Kuppuswamy Sathyanarayanan wrote:
+>> Following are the details of the patch set:
+>>
+>> Patch 1/3 -> Preparatory patch for adding attestation support.
+>> Patch 2/3 -> Adds user interface driver to support attestation.
+>> Patch 3/3 -> Adds selftest support for TDREPORT feature.
+>>
+>> Commit log history is maintained in the individual patches.
 > 
-> I suspect we can just say "oh, well, use LTS kernels".
-> 
+> I really appreciate when folks come out and say what they think should
+> be done with the series.  Is this ready to be applied?  Or, is it just
 
-To jump in early on the inevitable pile-on, I'm doing my occasional 
-32-bit x86 KUnit test runs on an old 486 DX/2. Now, this is _mostly_ 
-just a party trick -- and there are lots of people running 32-bit builds 
-under QEMU et al -- but personally, the only non-amd64-capable x86 
-machines I have lying around are all 486 class (including a new Vortex86 
-board).
+There are some minor changes suggested by Greg in this version. I will
+address them in the next version. IMO, the next version can be considered
+for the merge.
 
-(But, at the very least, I can confirm that the latest torvalds/master 
-does build, run, and pass KUnit tests on a real 486 at the moment.)
+> being thrown over the fence in the general direction of the maintainers
+> with the hope that they'll divine its true purpose?
 
-So while dropping i486 wouldn't affect anything particularly important 
-for me, it'd be a minor inconvenience and make me a bit sad.
-
-That being said, I have no objection to dropping support for 486SX CPUs 
-and CONFIG_MATH_EMULATION.
-
-Cheers,
--- David
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
