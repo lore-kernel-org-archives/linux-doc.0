@@ -2,245 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44BDDECAAA1
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Oct 2022 17:17:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D4E0ECAAA1
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Oct 2022 17:49:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230031AbiJWRRb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Oct 2022 13:17:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43486 "EHLO
+        id S230355AbiJWRtA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Oct 2022 13:49:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229882AbiJWRR3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Oct 2022 13:17:29 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C03D5B710;
-        Sun, 23 Oct 2022 10:17:28 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id z24so75165ljn.4;
-        Sun, 23 Oct 2022 10:17:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jYyIMbJso6jJB2RiGcHZvZOyCs4ou0B3R3oCqDLm7rE=;
-        b=CZvtGR0W/Pw6pZm3dlwnotlIk5lvCjLfXTrWAIPW/O5oe0OdbD32iDzA/a69FZ/ryz
-         FtfNsjP/ngnNYwKCS/M4X1JpSFvqVfnF66HI8/owL6JJB9xlNIbmhi7oQxHtktWAzmAY
-         EhzkV2wnzQKWy3iTP2ENgD4fmOuUbHGLqbfw5BCuOZafu33Q0rjErimvx8jalHH187EI
-         qvUCUq0Qvj62yoRnTZOATIoz5RGjgd25D7KEUDaM9/jdAddIVnMF/s6SrHajA+Dy/RkG
-         j9Fgm9okzXGhRsItjJzMBlpc2+2uBBQ4gSVR5wThN35xvrnoGD08SCCmtZeUtLXTkqXA
-         cJ5Q==
+        with ESMTP id S230266AbiJWRsy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Oct 2022 13:48:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23771606BB
+        for <linux-doc@vger.kernel.org>; Sun, 23 Oct 2022 10:48:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666547332;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vEfdKErJsUmUR1/yos9QP+bNAkmXMZOsQ2d8ha8BHWU=;
+        b=eA+bk085fs22a6z9cRRCaOguYxH43SynmQReYqhkIh1fpQNbgQ/vAaTMpFzsZ4IDmbaziK
+        AOlUd3NKRMexwItwAuC11bkF2RgLOSMmnvVJcbZykGcyTkRPCh3H0/z9aaboUOK16bewvj
+        K+SxTInU0zxqYAJbuAVr9G8Pb0Bo9ls=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-658-WQ5-BKvnO4meSHkI2hnkwQ-1; Sun, 23 Oct 2022 13:48:50 -0400
+X-MC-Unique: WQ5-BKvnO4meSHkI2hnkwQ-1
+Received: by mail-ed1-f72.google.com with SMTP id c9-20020a05640227c900b0045d4a88c750so7240841ede.12
+        for <linux-doc@vger.kernel.org>; Sun, 23 Oct 2022 10:48:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jYyIMbJso6jJB2RiGcHZvZOyCs4ou0B3R3oCqDLm7rE=;
-        b=YdH20TxRPS0uamm/9em4kB+GX738hCLwB/kkCqbjMGnemD3x5sHNO7mLhTGqNHTXmF
-         vD9DdM4hJL6OaqHXtztmOqctQvHVhSYLtagIkKflXqaapnC/CPqWysjDGUkOgpVMC6ue
-         nnzCKMdRMjekLF5YSCQvelDR0tJvzs+uU2fv9uowSrn/W+io4VWmWVHgYg+Jh6SWe3Af
-         RBeZGQHlfFCGBzMuSHSX/QVoDlVkUXYWFPBo3aLSbtog4tG8ubB7GtFEgAker3N8qxd1
-         +YGSGLgpd01ZgvOxZ1zXD0h5KQyHwZNswDalonhefS4NoSOTVxQwSZqf6kbu1cFPPUqL
-         6FvA==
-X-Gm-Message-State: ACrzQf0suvWu7Jy5v+fOqSuq96W3+spCSytFyPFudUSMOZ0EyruPwHTx
-        BSZzzRqM7qu1zSDIHEsGGHQ=
-X-Google-Smtp-Source: AMsMyM71qpqHAKBESCsgtbqB0echO6ZUSOpiCCuZi5nGsKe/8HY5OQoeeIGSbdh11laACPSKb4USHw==
-X-Received: by 2002:a2e:83c6:0:b0:26c:3550:bc14 with SMTP id s6-20020a2e83c6000000b0026c3550bc14mr10323785ljh.43.1666545446297;
-        Sun, 23 Oct 2022 10:17:26 -0700 (PDT)
-Received: from Michaels-MBP.home (188-177-109-202-dynamic.dk.customer.tdc.net. [188.177.109.202])
-        by smtp.gmail.com with ESMTPSA id s13-20020a056512314d00b00494a11c5f52sm1309886lfi.256.2022.10.23.10.17.24
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 23 Oct 2022 10:17:25 -0700 (PDT)
-From:   Michael Lilja <michael.lilja@gmail.com>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        Florian Westphal <fw@strlen.de>
-Cc:     michael.lilja@gmail.com, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Subject: [PATCH] Periodically flow expire from flow offload tables
-Date:   Sun, 23 Oct 2022 19:16:58 +0200
-Message-Id: <20221023171658.69761-1-michael.lilja@gmail.com>
-X-Mailer: git-send-email 2.37.2
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vEfdKErJsUmUR1/yos9QP+bNAkmXMZOsQ2d8ha8BHWU=;
+        b=DQbbLe1KiKLrR2eJrhDcKgpFL22R6hah0NWdauWTKF3KFwi7QHqU/t1JrOlHaO3IGo
+         qoFL0hQ6mWU0mmkHzrXODjeeYYYvrVAhXbV9Vd5NqddwKqfvcZNs6m+WEWR9sT0j+Jb/
+         QpgFSghQPGkmQPRvoMkvNzmJOSdJl+1TCUgdSCa6WHe29tkyeI0tewbTeengrEa8/dju
+         ARcrxR7nbd0dy1n6VXVFJjl939E9t8o/djdpQ+HS1TEz8HD5ohHiSMgt5AiEgl+vBleo
+         pzNxSf1JdKDG88VkTVVdlyjkkLXTAZUKBSoGBglYFXhIg8SdNA2flaUL4I5ztjtuWhD0
+         jSYg==
+X-Gm-Message-State: ACrzQf3f2x55nufWN/isLWhPaCBjHvl4hFfzIVsCsHlWtIBYU90xwR00
+        xcjITRwaO9+pbbKhnznI63CSpsNS2SyeqJ9Bh64N3jJE3SRcO80tmeFXWfnIUpqRELJ3nLIDiN/
+        /w3j9ko/yMXJetOP+RczI
+X-Received: by 2002:a17:907:168e:b0:7a1:6786:f16 with SMTP id hc14-20020a170907168e00b007a167860f16mr6419715ejc.590.1666547329195;
+        Sun, 23 Oct 2022 10:48:49 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6mUSKfu9T6DkHEU5jtf2+fA27CrmXJC26pSFEwAcm+BNpJmvPPw8rKJG5A939hZ5MB5VCcgg==
+X-Received: by 2002:a17:907:168e:b0:7a1:6786:f16 with SMTP id hc14-20020a170907168e00b007a167860f16mr6419696ejc.590.1666547328896;
+        Sun, 23 Oct 2022 10:48:48 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e? ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+        by smtp.googlemail.com with ESMTPSA id w5-20020a17090649c500b007789e7b47besm14238632ejv.25.2022.10.23.10.48.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Oct 2022 10:48:47 -0700 (PDT)
+Message-ID: <5ee4eeb8-4d61-06fc-f80d-06efeeffe902@redhat.com>
+Date:   Sun, 23 Oct 2022 19:48:46 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 4/4] KVM: use signals to abort enter_guest/blocking and
+ retry
+Content-Language: en-US
+To:     Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+        kvm@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20221022154819.1823133-1-eesposit@redhat.com>
+ <20221022154819.1823133-5-eesposit@redhat.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20221022154819.1823133-5-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When a flow is added to a flow table for offload SW/HW-offload
-the user has no means of controlling the flow once it has
-been offloaded. If a number of firewall rules has been made using
-time schedules then these rules doesn't apply for the already
-offloaded flows. Adding new firewall rules also doesn't affect
-already offloaded flows.
+On 10/22/22 17:48, Emanuele Giuseppe Esposito wrote:
+> Once a vcpu exectues KVM_RUN, it could enter two states:
+> enter guest mode, or block/halt.
+> Use a signal to allow a vcpu to exit the guest state or unblock,
+> so that it can exit KVM_RUN and release the read semaphore,
+> allowing a pending KVM_KICK_ALL_RUNNING_VCPUS to continue.
+> 
+> Note that the signal is not deleted and used to propagate the
+> exit reason till vcpu_run(). It will be clearead only by
+> KVM_RESUME_ALL_KICKED_VCPUS. This allows the vcpu to keep try
+> entering KVM_RUN and perform again all checks done in
+> kvm_arch_vcpu_ioctl_run() before entering the guest state,
+> where it will return again if the request is still set.
+> 
+> However, the userspace hypervisor should also try to avoid
+> continuously calling KVM_RUN after invoking KVM_KICK_ALL_RUNNING_VCPUS,
+> because such call will just translate in a back-to-back down_read()
+> and up_read() (thanks to the signal).
 
-This patch handle flow table retirement giving the user the option
-to at least periodically get the flow back into control of the
-firewall rules so already offloaded flows can be dropped or be
-pushed back to flow offload tables.
+Since the userspace should anyway avoid going into this effectively-busy 
+wait, what about clearing the request after the first exit?  The 
+cancellation ioctl can be kept for vCPUs that are never entered after 
+KVM_KICK_ALL_RUNNING_VCPUS.  Alternatively, kvm_clear_all_cpus_request 
+could be done right before up_write().
 
-The flow retirement is disabled by default and can be set in seconds
-using sysctl -w net.netfilter.nf_flowtable_retire
+Paolo
 
-Signed-off-by: Michael Lilja <michael.lilja@gmail.com>
----
- .../networking/nf_conntrack-sysctl.rst        |  7 ++++++
- include/net/netfilter/nf_flow_table.h         |  1 +
- include/net/netns/conntrack.h                 |  3 +++
- net/netfilter/nf_conntrack_standalone.c       | 17 ++++++++++++++
- net/netfilter/nf_flow_table_core.c            | 23 +++++++++++++++----
- 5 files changed, 47 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/networking/nf_conntrack-sysctl.rst b/Documentation/networking/nf_conntrack-sysctl.rst
-index 1120d71f28d7..ab4071bc64c1 100644
---- a/Documentation/networking/nf_conntrack-sysctl.rst
-+++ b/Documentation/networking/nf_conntrack-sysctl.rst
-@@ -201,3 +201,10 @@ nf_flowtable_udp_timeout - INTEGER (seconds)
-         Control offload timeout for udp connections.
-         UDP connections may be offloaded from nf conntrack to nf flow table.
-         Once aged, the connection is returned to nf conntrack with udp pickup timeout.
-+
-+nf_flowtable_retire - INTEGER (seconds)
-+	- 0 - disabled (default)
-+	- not 0 - enabled and set the number of seconds a flow is offloaded
-+
-+	If this option is enabled offloaded flows retire periodically and return the
-+	control of the flow to conntrack/netfilter.
-diff --git a/include/net/netfilter/nf_flow_table.h b/include/net/netfilter/nf_flow_table.h
-index cd982f4a0f50..f5643c24fb55 100644
---- a/include/net/netfilter/nf_flow_table.h
-+++ b/include/net/netfilter/nf_flow_table.h
-@@ -177,6 +177,7 @@ struct flow_offload {
- 	unsigned long				flags;
- 	u16					type;
- 	u32					timeout;
-+	u32					retire;
- 	struct rcu_head				rcu_head;
- };
- 
-diff --git a/include/net/netns/conntrack.h b/include/net/netns/conntrack.h
-index e1290c159184..7567d5fa8220 100644
---- a/include/net/netns/conntrack.h
-+++ b/include/net/netns/conntrack.h
-@@ -110,5 +110,8 @@ struct netns_ct {
- #if defined(CONFIG_NF_CONNTRACK_LABELS)
- 	unsigned int		labels_used;
- #endif
-+#if IS_ENABLED(CONFIG_NF_FLOW_TABLE)
-+	unsigned int		sysctl_flowtable_retire;
-+#endif
- };
- #endif
-diff --git a/net/netfilter/nf_conntrack_standalone.c b/net/netfilter/nf_conntrack_standalone.c
-index 4ffe84c5a82c..92ed07b93846 100644
---- a/net/netfilter/nf_conntrack_standalone.c
-+++ b/net/netfilter/nf_conntrack_standalone.c
-@@ -620,6 +620,9 @@ enum nf_ct_sysctl_index {
- #ifdef CONFIG_LWTUNNEL
- 	NF_SYSCTL_CT_LWTUNNEL,
- #endif
-+#if IS_ENABLED(CONFIG_NF_FLOW_TABLE)
-+	NF_SYSCTL_CT_FLOWTABLE_RETIRE,
-+#endif
- 
- 	__NF_SYSCTL_CT_LAST_SYSCTL,
- };
-@@ -967,6 +970,15 @@ static struct ctl_table nf_ct_sysctl_table[] = {
- 		.mode		= 0644,
- 		.proc_handler	= nf_hooks_lwtunnel_sysctl_handler,
- 	},
-+#endif
-+#if IS_ENABLED(CONFIG_NF_FLOW_TABLE)
-+	[NF_SYSCTL_CT_FLOWTABLE_RETIRE] = {
-+		.procname	= "nf_flowtable_retire",
-+		.maxlen		= sizeof(unsigned int),
-+		.mode		= 0644,
-+		.data   = &init_net.ct.sysctl_flowtable_retire,
-+		.proc_handler	= proc_dointvec_jiffies,
-+	},
- #endif
- 	{}
- };
-@@ -1111,6 +1123,11 @@ static int nf_conntrack_standalone_init_sysctl(struct net *net)
- 	nf_conntrack_standalone_init_dccp_sysctl(net, table);
- 	nf_conntrack_standalone_init_gre_sysctl(net, table);
- 
-+#if IS_ENABLED(CONFIG_NF_FLOW_TABLE)
-+	/* Disable retire per default */
-+	net->ct.sysctl_flowtable_retire = 0;
-+#endif
-+
- 	/* Don't allow non-init_net ns to alter global sysctls */
- 	if (!net_eq(&init_net, net)) {
- 		table[NF_SYSCTL_CT_MAX].mode = 0444;
-diff --git a/net/netfilter/nf_flow_table_core.c b/net/netfilter/nf_flow_table_core.c
-index 81c26a96c30b..0a449dec8565 100644
---- a/net/netfilter/nf_flow_table_core.c
-+++ b/net/netfilter/nf_flow_table_core.c
-@@ -285,6 +285,12 @@ int flow_offload_add(struct nf_flowtable *flow_table, struct flow_offload *flow)
- 	int err;
- 
- 	flow->timeout = nf_flowtable_time_stamp + flow_offload_get_timeout(flow);
-+	if (nf_ct_net(flow->ct)->ct.sysctl_flowtable_retire) {
-+		flow->retire = nf_flowtable_time_stamp +
-+			nf_ct_net(flow->ct)->ct.sysctl_flowtable_retire;
-+	} else {
-+		flow->retire = 0;
-+	}
- 
- 	err = rhashtable_insert_fast(&flow_table->rhashtable,
- 				     &flow->tuplehash[0].node,
-@@ -313,6 +319,11 @@ int flow_offload_add(struct nf_flowtable *flow_table, struct flow_offload *flow)
- }
- EXPORT_SYMBOL_GPL(flow_offload_add);
- 
-+static inline bool nf_flow_has_retired(const struct flow_offload *flow)
-+{
-+	return flow->retire && nf_flow_timeout_delta(flow->retire) <= 0;
-+}
-+
- void flow_offload_refresh(struct nf_flowtable *flow_table,
- 			  struct flow_offload *flow)
- {
-@@ -327,7 +338,8 @@ void flow_offload_refresh(struct nf_flowtable *flow_table,
- 	if (likely(!nf_flowtable_hw_offload(flow_table)))
- 		return;
- 
--	nf_flow_offload_add(flow_table, flow);
-+	if (!nf_flow_has_retired(flow))
-+		nf_flow_offload_add(flow_table, flow);
- }
- EXPORT_SYMBOL_GPL(flow_offload_refresh);
- 
-@@ -339,6 +351,7 @@ static inline bool nf_flow_has_expired(const struct flow_offload *flow)
- static void flow_offload_del(struct nf_flowtable *flow_table,
- 			     struct flow_offload *flow)
- {
-+	clear_bit(IPS_OFFLOAD_BIT, &flow->ct->status);
- 	rhashtable_remove_fast(&flow_table->rhashtable,
- 			       &flow->tuplehash[FLOW_OFFLOAD_DIR_ORIGINAL].node,
- 			       nf_flow_offload_rhash_params);
-@@ -423,12 +436,14 @@ static void nf_flow_offload_gc_step(struct nf_flowtable *flow_table,
- 	    nf_ct_is_dying(flow->ct))
- 		flow_offload_teardown(flow);
- 
--	if (test_bit(NF_FLOW_TEARDOWN, &flow->flags)) {
-+	if (test_bit(NF_FLOW_TEARDOWN, &flow->flags) || nf_flow_has_retired(flow)) {
- 		if (test_bit(NF_FLOW_HW, &flow->flags)) {
--			if (!test_bit(NF_FLOW_HW_DYING, &flow->flags))
-+			if (!test_bit(NF_FLOW_HW_DYING, &flow->flags)) {
- 				nf_flow_offload_del(flow_table, flow);
--			else if (test_bit(NF_FLOW_HW_DEAD, &flow->flags))
-+			} else if (test_bit(NF_FLOW_HW_DEAD, &flow->flags)) {
-+				clear_bit(NF_FLOW_HW, &flow->flags);
- 				flow_offload_del(flow_table, flow);
-+			}
- 		} else {
- 			flow_offload_del(flow_table, flow);
- 		}
--- 
-2.37.2
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>   arch/x86/include/asm/kvm_host.h |  2 ++
+>   arch/x86/kvm/x86.c              |  8 ++++++++
+>   virt/kvm/kvm_main.c             | 21 +++++++++++++++++++++
+>   3 files changed, 31 insertions(+)
+> 
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index aa381ab69a19..d5c37f344d65 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -108,6 +108,8 @@
+>   	KVM_ARCH_REQ_FLAGS(30, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+>   #define KVM_REQ_MMU_FREE_OBSOLETE_ROOTS \
+>   	KVM_ARCH_REQ_FLAGS(31, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+> +#define KVM_REQ_USERSPACE_KICK		\
+> +	KVM_ARCH_REQ_FLAGS(32, KVM_REQUEST_WAIT)
+>   
+>   #define CR0_RESERVED_BITS                                               \
+>   	(~(unsigned long)(X86_CR0_PE | X86_CR0_MP | X86_CR0_EM | X86_CR0_TS \
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index b0c47b41c264..2af5f427b4e9 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -10270,6 +10270,10 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
+>   	}
+>   
+>   	if (kvm_request_pending(vcpu)) {
+> +		if (kvm_test_request(KVM_REQ_USERSPACE_KICK, vcpu)) {
+> +			r = -EINTR;
+> +			goto out;
+> +		}
+>   		if (kvm_check_request(KVM_REQ_VM_DEAD, vcpu)) {
+>   			r = -EIO;
+>   			goto out;
+> @@ -10701,6 +10705,10 @@ static int vcpu_run(struct kvm_vcpu *vcpu)
+>   			r = vcpu_block(vcpu);
+>   		}
+>   
+> +		/* vcpu exited guest/unblocked because of this request */
+> +		if (kvm_test_request(KVM_REQ_USERSPACE_KICK, vcpu))
+> +			return -EINTR;
+> +
+>   		if (r <= 0)
+>   			break;
+>   
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index ae0240928a4a..13fa7229b85d 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -3431,6 +3431,8 @@ static int kvm_vcpu_check_block(struct kvm_vcpu *vcpu)
+>   		goto out;
+>   	if (kvm_check_request(KVM_REQ_UNBLOCK, vcpu))
+>   		goto out;
+> +	if (kvm_test_request(KVM_REQ_USERSPACE_KICK, vcpu))
+> +		goto out;
+>   
+>   	ret = 0;
+>   out:
+> @@ -4668,6 +4670,25 @@ static long kvm_vm_ioctl(struct file *filp,
+>   		r = kvm_vm_ioctl_enable_cap_generic(kvm, &cap);
+>   		break;
+>   	}
+> +	case KVM_KICK_ALL_RUNNING_VCPUS: {
+> +		/*
+> +		 * Notify all running vcpus that they have to stop.
+> +		 * Caught in kvm_arch_vcpu_ioctl_run()
+> +		 */
+> +		kvm_make_all_cpus_request(kvm, KVM_REQ_USERSPACE_KICK);
+> +
+> +		/*
+> +		 * Use wr semaphore to wait for all vcpus to exit from KVM_RUN.
+> +		 */
+> +		down_write(&memory_transaction);
+> +		up_write(&memory_transaction);
+> +		break;
+> +	}
+> +	case KVM_RESUME_ALL_KICKED_VCPUS: {
+> +		/* Remove all requests sent with KVM_KICK_ALL_RUNNING_VCPUS */
+> +		kvm_clear_all_cpus_request(kvm, KVM_REQ_USERSPACE_KICK);
+> +		break;
+> +	}
+>   	case KVM_SET_USER_MEMORY_REGION: {
+>   		struct kvm_userspace_memory_region kvm_userspace_mem;
+>   
 
