@@ -2,114 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D16D5ECAAA1
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Oct 2022 14:21:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 649D9C3A59D
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Oct 2022 15:01:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230131AbiJWOVZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Oct 2022 10:21:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42740 "EHLO
+        id S229460AbiJWPBL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Oct 2022 11:01:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230125AbiJWOVY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Oct 2022 10:21:24 -0400
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600BE50708;
-        Sun, 23 Oct 2022 07:21:23 -0700 (PDT)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-13ba86b5ac0so636672fac.1;
-        Sun, 23 Oct 2022 07:21:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZTAAkkj/PEqEYXCHWGmASpbHjy0heS6WaXHLTcNNRCQ=;
-        b=c5LDdOqLDCIMz+hCtZ8Owc1PLjcqMDkHRloTKXi50u5M5blkov+LBRqMLilT02pSgI
-         AhJyQizNqnNEtQvsUUay4+PkblK+Es0xSgH/TF6V3LjAkkOvOsfWT46CLc8epx5dGXry
-         G5vAtRLLu6D/wR8M5jW1b4jbhb6yTPwFvdjhD/O+8qKyPyseVTQkirg/509O+wZ5YTP0
-         eDjiaLW93Jzydpakl26NeGO9jqDyT+9fgDsDKcEsUCMq4rDvLNm5Z+90qk2E9N0mDlkk
-         TRv+sEz2tTqodsZxRcqg8axZGlV15FTUUQJxKI2pPQmQGItPBL8zhgHjL/xp3Um3ivcF
-         rQNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZTAAkkj/PEqEYXCHWGmASpbHjy0heS6WaXHLTcNNRCQ=;
-        b=A9rUBZj9N7x2idb1aVFoTuMsjKvzWOhnEbfdK0pzca+5Y3stBx0VJIymrL6o8C44oI
-         1JwyPqmL2QLUiRA1FF8ngEfOZMDbZstnO9XdmmChWJuxsle4O0cWH8ord12/bSoGRl7n
-         fFngr+6ehAVeAsUFDSGLt0vbdxZFDcjO/9HV/OURJrBaYF9zUCikanZ7Myjm4yPUxS9H
-         A9gImn6/IVHDL19nNn35lRb937FQ0RoJ1T7KFowajWRIik9KotM7JMrA+5cubzitsYiN
-         8jX4gqUyhIvT4X8qdW90SyYiNV2JkgqSys57f5Fy7pDH3mgzRCKTWIZJ1d5+fexIJEQJ
-         IhUA==
-X-Gm-Message-State: ACrzQf2hDphTmDBnX/Cn4DLMNwMx/uE8E9V0HtvIzTG5z4OWOcvF0EQB
-        EQhmVz98saeHBnmmbavq1Og=
-X-Google-Smtp-Source: AMsMyM5YuD6L0l9a4P5ALqEGY/7htBU57fOqiFG3zRJqI/Q/kVmMIK+fuKVNidojQsn9n7VKGgREuA==
-X-Received: by 2002:a05:6870:3126:b0:132:7416:cb31 with SMTP id v38-20020a056870312600b001327416cb31mr18368629oaa.140.1666534882683;
-        Sun, 23 Oct 2022 07:21:22 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id w21-20020acaad15000000b00354932bae03sm2565450oie.10.2022.10.23.07.21.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Oct 2022 07:21:21 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <1d052998-9ac2-2d4b-927a-06e0318eaef4@roeck-us.net>
-Date:   Sun, 23 Oct 2022 07:21:19 -0700
+        with ESMTP id S229728AbiJWPBK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Oct 2022 11:01:10 -0400
+X-Greylist: delayed 599 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 23 Oct 2022 08:01:05 PDT
+Received: from sphereful.davidgow.net (sphereful.davidgow.net [IPv6:2404:9400:4:0:216:3eff:fee2:5328])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11ADE6DFB9;
+        Sun, 23 Oct 2022 08:01:04 -0700 (PDT)
+Received: by sphereful.davidgow.net (Postfix, from userid 119)
+        id DDD841C034B; Sun, 23 Oct 2022 22:44:31 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+        s=201606; t=1666536271;
+        bh=0N3kW6+aW6yf731DNq7Jvf9k5028oUiR6Y+A1mOBVuM=;
+        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+        b=qZQMZXNJVI8cu2fqJ8s+VifEjTH7T+mB7MZIvCMXHV/StTln2AnZaPhSEDAc1k2t7
+         UN3GwmE4P48z8HXtfUt/F7uhCZ0o/FLz58Zso+Wd61BZYmmy8kivq5SNlSb2xDFKoG
+         gADKguUBGhzY5AyEwQnGdwMB3c2VzeJLZhYg0gyc8vr4U2FoHush59qAyAXy7CMjFH
+         efZ2g9yySnZI8P9XuOftRSHN3/5lcoKphDyCSyIM0U1r5B1Hw3r7FF3dXhsnxxpb6S
+         C81CPnIqYghAzvknZWIWMnTxWA0umNsttWzA91SOWRTOVTN4eZwrJPNUz90UV52Euh
+         528fAt44KzE8I/kOLDfoElLPg+f9aaY5VCTMfCZwMZ7NBbVQM/OnlXyBR2R6T0lGt9
+         C3gWiGmdJcdZnfzv+HiWzYL8VaMQLXfsT4F8nzDz5GaE/6sBk85rXTSf2O+imZxMyK
+         Dl4I6XjgvmRjgmG57vn75g7ss4ogXT6KynLOnLJC4Ns0lKPDFUyY0vdduKiQtHFA02
+         I8jLb2K5yRij+04jE7jhEyt9/MVk+mSZwnxW+YzgypQADGBQOlo1uqH4fMp0UFvUI+
+         7YcWlgoqk+Hhu5BYMkTRJoicvLfGWSCYutKBhzUSFzedo+zSxwDs4dppNpVIJqq4qO
+         5s/6YivG5sKDuefiPG+s4rqg=
+Received: from [IPV6:2001:8003:8d1e:3000::a57] (unknown [IPv6:2001:8003:8d1e:3000::a57])
+        by sphereful.davidgow.net (Postfix) with ESMTPSA id 9108C1C032E;
+        Sun, 23 Oct 2022 22:44:26 +0800 (AWST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+        s=201606; t=1666536266;
+        bh=0N3kW6+aW6yf731DNq7Jvf9k5028oUiR6Y+A1mOBVuM=;
+        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+        b=J1AOaqB/mQVVbj4/+5Cemtg6Iksw+0uW+e/SPZ0sD7G9xudOd6WV0NctrHT9LKsuN
+         WGEYXbQLI+p/3ArcshYYjJkdMys8iHcL4zVc3hESxSYOCHceSk9eJU4NiTW77rXwWK
+         lqyymSi7n7SOB3Rm+RdjCvi/C3c0SksUYfwop0nzgrvpKp8KQB/icLPNl8+z332T2x
+         U0uNM/C6sGhd5dvlvJ0VfJhXstm/JPZ3pdm3FgV27pUlLmEd09hVMh8BeizDn6frQg
+         5W+bK15gzCMIhopvDlCeZeOWDyuP09Vx2qviCZ7acHWL+LVl8iyMgJiI6foZe9FTHx
+         LXEbt9jaUekl4vA+kdB0m3vKEsushptELPPmz4lAbSy6M9eezsl0wGVkXc7Kv64sg9
+         LZrUhi9AqtvYReZBKU2FFxJIiOz2WMvIrifxOajkdcTRl3yt1vdLH+aGdpQzZ3fdMr
+         Rw1eCf2T0FiozSqekcDZelbUnUNZj3FI6jSc89yVgdWP7Ed+yQQQ6Y4jAdxPFj0IUv
+         Ino5abpnEbe0OTA3FotIj/TjafZ3rT+abac6Ks68xMOVkGZLaydFU9E7/0X8t32CD+
+         SRVZr3AW/dQSO3/5LZQK0U3Y5zEp592DDa3bIdh0lFhZDaVaRfqYtL5gfq7NRh/j+A
+         1aID6ZM69pPk+Bf6akmP+ilw=
+Message-ID: <98a8be05-0882-fa8f-846d-b8f74f141041@davidgow.net>
+Date:   Sun, 23 Oct 2022 22:44:22 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] hwmon: (aquacomputer_d5next) Add support for temperature
- sensor offsets
+ Thunderbird/102.3.3
 Content-Language: en-US
-To:     Aleksa Savic <savicaleksa83@gmail.com>
-Cc:     linux-hwmon@vger.kernel.org, leonard.anderweit@gmail.com,
-        Jack Doan <me@jackdoan.com>, Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221021174834.736930-1-savicaleksa83@gmail.com>
- <20221022135720.GA739650@roeck-us.net>
- <6ef88c2c-3435-8847-0f4f-53e81cd3af5d@gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <6ef88c2c-3435-8847-0f4f-53e81cd3af5d@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Yu Zhao <yuzhao@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+References: <20220815071332.627393-1-yuzhao@google.com>
+ <20220815071332.627393-9-yuzhao@google.com>
+ <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net>
+ <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com>
+ <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
+ <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net>
+ <CAHk-=whQchubuDpRGFabhmcZuzdt13OOF8wznXb+Dbi3GzBQhQ@mail.gmail.com>
+ <Y1GZjPO+szk7X0wP@hirez.programming.kicks-ass.net>
+ <CAHk-=wikUaRM5H_y1Bc+QyvGi40dKDL8fnCTyz7ECbwK7aHNPQ@mail.gmail.com>
+ <Y1IUMDJFScAMrCS5@casper.infradead.org>
+ <CAHk-=wjrpH1+6cQQjTO6p-96ndBMiOnNH098vhS2jLybxD+7gA@mail.gmail.com>
+From:   David Gow <david@davidgow.net>
+Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
+In-Reply-To: <CAHk-=wjrpH1+6cQQjTO6p-96ndBMiOnNH098vhS2jLybxD+7gA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/23/22 06:15, Aleksa Savic wrote:
-> On 2022-10-22 15:57:20 GMT+02:00, Guenter Roeck wrote:
->> Please go up to 100 columns to avoid excessive line splits.
+Le 22/10/22 à 00:50, Linus Torvalds a écrit :
+> On Thu, Oct 20, 2022 at 8:38 PM Matthew Wilcox<willy@infradead.org>  wrote:
+>> On Thu, Oct 20, 2022 at 07:10:46PM -0700, Linus Torvalds wrote:
+>>> We got rid of i386 support back in 2012. Maybe it's time to get rid of
+>>> i486 support in 2022?
+>> Arnd suggested removing i486 last year and got a bit of pushback.
+>> The most convincing to my mind was Maciej:
+> Hmm. Maciej added to the cc.
 > 
-> Will fix this and other comments in v2.
-> 
->> Is it really necessary to re-read the control buffer repeatedly
->> to report this value ? I don't know how costly that is, but unlike
->> the pwm value I would not expect the number to change.
-> 
-> Yes, aside from the driver userspace can also change settings on the
-> device using hidraw and we'd end up with stale data. Reading it is
-> very fast, it takes about 4ms in my testing.
-> 
->> Also, is this number indeed not included in the regular reports
->> sent from the controller ?
-> 
-> Unfortunately, it's not. The sensor report only includes final (calculated)
-> sensor readings.
-> 
->> The driver doesn't distinguish between offsets in the control buffer
->> (pwm, and now temperature sensor offset) and offsets in the report buffer,
->> making it a bit difficult to determine if those are the same or not.
->> Some explanation in the driver would be nice if someone finds the time
->> to provide one. If the control buffer offsets are in a different number
->> space, they should really be marked accordingly (for example with a
->> _CTRL in the define).
-> 
-> I can see how it can be confusing. After this, I can send a patch to
-> reorder the macros & initializations and add more comments regarding
-> what is what.
+> I suspect we can just say "oh, well, use LTS kernels".
 > 
 
-Please do.
+To jump in early on the inevitable pile-on, I'm doing my occasional 
+32-bit x86 KUnit test runs on an old 486 DX/2. Now, this is _mostly_ 
+just a party trick -- and there are lots of people running 32-bit builds 
+under QEMU et al -- but personally, the only non-amd64-capable x86 
+machines I have lying around are all 486 class (including a new Vortex86 
+board).
 
-Thanks,
-Guenter
+(But, at the very least, I can confirm that the latest torvalds/master 
+does build, run, and pass KUnit tests on a real 486 at the moment.)
 
+So while dropping i486 wouldn't affect anything particularly important 
+for me, it'd be a minor inconvenience and make me a bit sad.
+
+That being said, I have no objection to dropping support for 486SX CPUs 
+and CONFIG_MATH_EMULATION.
+
+Cheers,
+-- David
