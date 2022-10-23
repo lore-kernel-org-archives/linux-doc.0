@@ -2,97 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45F9CC3A59D
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Oct 2022 17:51:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71CB5ECAAA1
+	for <linux-doc@archiver.kernel.org>; Sun, 23 Oct 2022 17:55:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230230AbiJWRvF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Oct 2022 13:51:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35680 "EHLO
+        id S230338AbiJWRzT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Oct 2022 13:55:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230007AbiJWRvE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Oct 2022 13:51:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0305466F01
-        for <linux-doc@vger.kernel.org>; Sun, 23 Oct 2022 10:51:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666547463;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=D09MWv0UvzUmBKDXwZPzEI59Y82igwH0mMVX8RFHjcA=;
-        b=EpW2aYsSLlwNjDIRbfNdXxyD42LuGvVfxHF8SEZGhbVAeccFpXDNbN9lCMWPN709ATiT8E
-        9uizsGZO2kYnud2mTi8wJvj1dxiXdzE24ld+GvqGJHHh1MvBGb5FCWbxRIfwODFY2l1NAt
-        2WhP+MWbOqD/v16lV6XWnYlTHu10Wpc=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-375-xCN4m6N4Py-VSpl5Dj-9KQ-1; Sun, 23 Oct 2022 13:51:01 -0400
-X-MC-Unique: xCN4m6N4Py-VSpl5Dj-9KQ-1
-Received: by mail-lf1-f72.google.com with SMTP id i9-20020ac25229000000b004a24f6e0f78so2113497lfl.23
-        for <linux-doc@vger.kernel.org>; Sun, 23 Oct 2022 10:51:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D09MWv0UvzUmBKDXwZPzEI59Y82igwH0mMVX8RFHjcA=;
-        b=grAYguUJdVJUk0i290WAhAOUns5RghSLsA6u+UdlIIdeIXUqTrQBT4X/vpK5tcnlp3
-         0DbKy4kiVyw5LiYmiY1Au2r96cbjkb7gW3ZGZ4nbEg8vg6NfFsM9gfMYV2WGExVI/IDT
-         s9cl6APm/P00//GYWV/16lsmdLuvRuUQW55IgD+h3MUx7cSfg01dQzjPHfTnPsRP7ltD
-         KohXzJmP0swuEV7pfYQJDLTn6T5+oAIWffe5ipvDDwOgm4ZS4yrdCEopA5HFi2yzrCUe
-         GfaFD9OeqNVcSRSV1lmwdK69Wtf2IVivMJL9/Ia596VMILaHhcgq+b6UnJi/d29Nfpkh
-         i4wg==
-X-Gm-Message-State: ACrzQf019p3LlkhHQynefs8bK/AbAB8y6a09KKi3EL9JonoGByS0DtNQ
-        a1ckGONRXNPPvScnCaDmQPHpH7mF2tRPAYs249cOP/+1mGZAwsQuEa4bMRNw4RbrNlGDR8OU3PM
-        SEl1Ko/N6QwROL3NpGpeg
-X-Received: by 2002:a19:740b:0:b0:4a6:4e23:f1a1 with SMTP id v11-20020a19740b000000b004a64e23f1a1mr6704609lfe.648.1666547458778;
-        Sun, 23 Oct 2022 10:50:58 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4lselhb4mBLW2XIV0vJT8VL/BMXi1ZtLK17hfsJ/qDg+TASFANunS0l1JbfqLOFrZxQJtg7g==
-X-Received: by 2002:a17:907:9611:b0:78d:bb06:90a3 with SMTP id gb17-20020a170907961100b0078dbb0690a3mr24419521ejc.233.1666547448280;
-        Sun, 23 Oct 2022 10:50:48 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e? ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
-        by smtp.googlemail.com with ESMTPSA id d14-20020a170906304e00b0078250005a79sm14429105ejd.163.2022.10.23.10.50.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Oct 2022 10:50:47 -0700 (PDT)
-Message-ID: <62500f94-b95b-1e16-4aa2-f67905fab01a@redhat.com>
-Date:   Sun, 23 Oct 2022 19:50:45 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 3/4] KVM: introduce memory transaction semaphore
-Content-Language: en-US
-To:     Emanuele Giuseppe Esposito <eesposit@redhat.com>,
-        kvm@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        with ESMTP id S230007AbiJWRzS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Oct 2022 13:55:18 -0400
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [IPv6:2001:4190:8020::34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9CB0C43609
+        for <linux-doc@vger.kernel.org>; Sun, 23 Oct 2022 10:55:13 -0700 (PDT)
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+        id 1094C92009C; Sun, 23 Oct 2022 19:55:04 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by angie.orcam.me.uk (Postfix) with ESMTP id 0010B92009B;
+        Sun, 23 Oct 2022 18:55:04 +0100 (BST)
+Date:   Sun, 23 Oct 2022 18:55:04 +0100 (BST)
+From:   "Maciej W. Rozycki" <macro@orcam.me.uk>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+cc:     Matthew Wilcox <willy@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Yu Zhao <yuzhao@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221022154819.1823133-1-eesposit@redhat.com>
- <20221022154819.1823133-4-eesposit@redhat.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20221022154819.1823133-4-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
+In-Reply-To: <CAHk-=wjrpH1+6cQQjTO6p-96ndBMiOnNH098vhS2jLybxD+7gA@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.2210211911390.50489@angie.orcam.me.uk>
+References: <20220815071332.627393-1-yuzhao@google.com> <20220815071332.627393-9-yuzhao@google.com> <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net> <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com> <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
+ <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net> <CAHk-=whQchubuDpRGFabhmcZuzdt13OOF8wznXb+Dbi3GzBQhQ@mail.gmail.com> <Y1GZjPO+szk7X0wP@hirez.programming.kicks-ass.net> <CAHk-=wikUaRM5H_y1Bc+QyvGi40dKDL8fnCTyz7ECbwK7aHNPQ@mail.gmail.com>
+ <Y1IUMDJFScAMrCS5@casper.infradead.org> <CAHk-=wjrpH1+6cQQjTO6p-96ndBMiOnNH098vhS2jLybxD+7gA@mail.gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/22/22 17:48, Emanuele Giuseppe Esposito wrote:
-> +static DECLARE_RWSEM(memory_transaction);
+On Fri, 21 Oct 2022, Linus Torvalds wrote:
 
-This cannot be global, it must be per-struct kvm.  Otherwise one VM can 
-keep the rwsem indefinitely while a second VM hangs in 
-KVM_KICK_ALL_RUNNING_VCPUS.
+> > > We got rid of i386 support back in 2012. Maybe it's time to get rid of
+> > > i486 support in 2022?
+> >
+> > Arnd suggested removing i486 last year and got a bit of pushback.
+> > The most convincing to my mind was Maciej:
+> 
+> Hmm. Maciej added to the cc.
 
-It can also be changed to an SRCU (with the down_write+up_write sequence 
-changed to synchronize_srcu_expedited) which has similar characteristics 
-to your use of the rwsem.
+ Thanks!
 
-Paolo
+> So I *really* don't think i486 class hardware is relevant any more.
+> Yes, I'm sure it exists (Maciej being an example), but from a kernel
+> development standpoint I don't think they are really relevant.
+> 
+> At some point, people have them as museum pieces. They might as well
+> run museum kernels.
+> 
+> Moving up to requiring cmpxchg8b doesn't sound unreasonable to me.
 
+ But is it really a problem?  I mean unlike MIPS R2000/R3000 class gear 
+that has no atomics at all at the CPU level (SMP R3000 machines did exist 
+and necessarily had atomics, actually via gating storage implemented by 
+board hardware in systems we have never had support for even for UP) we 
+have had atomics in x86 since forever.  Just not 64-bit ones.
+
+ Given the presence of generic atomics we can emulate CMPXCHG8B easily 
+LL/SC-style using a spinlock with XCHG even on SMP let alone UP.  So all 
+the kernel code can just assume the presence of CMPXCHG8B, but any 
+invocations of CMPXCHG8B would be diverted to the emulation, perhaps even 
+at the assembly level via a GAS macro called `cmpxchg8b' (why not?).  All 
+the maintenance burden is then shifted to that macro and said emulation 
+code.
+
+ Proof of concept wrapper:
+
+#define LOCK_PREFIX ""
+
+#define CC_SET(c) "\n\t/* output condition code " #c "*/\n"
+#define CC_OUT(c) "=@cc" #c
+
+#define unlikely(x) __builtin_expect(!!(x), 0)
+
+__extension__ typedef unsigned long long __u64;
+typedef unsigned int __u32;
+typedef __u64 u64;
+typedef __u32 u32;
+
+typedef _Bool bool;
+
+__asm__(
+	".macro		cmpxchg8b arg\n\t"
+	"pushl		%eax\n\t"
+	"leal		\\arg, %eax\n\t"
+	"xchgl		%eax, (%esp)\n\t"
+	"call		cmpxchg8b_emu\n\t"
+	".endm\n\t");
+
+bool __try_cmpxchg64(volatile u64 *ptr, u64 *pold, u64 new)
+{
+	bool success;
+	u64 old = *pold;
+	asm volatile(LOCK_PREFIX "cmpxchg8b %[ptr]"
+		     CC_SET(z)
+		     : CC_OUT(z) (success),
+		       [ptr] "+m" (*ptr),
+		       "+A" (old)
+		     : "b" ((u32)new),
+		       "c" ((u32)(new >> 32))
+		     : "memory");
+
+	if (unlikely(!success))
+		*pold = old;
+	return success;
+}
+
+This assembles to:
+
+cmpxchg8b.o:     file format elf32-i386
+
+Disassembly of section .text:
+
+00000000 <__try_cmpxchg64>:
+   0:	55                   	push   %ebp
+   1:	89 e5                	mov    %esp,%ebp
+   3:	57                   	push   %edi
+   4:	56                   	push   %esi
+   5:	89 d7                	mov    %edx,%edi
+   7:	53                   	push   %ebx
+   8:	89 c6                	mov    %eax,%esi
+   a:	8b 4d 0c             	mov    0xc(%ebp),%ecx
+   d:	8b 02                	mov    (%edx),%eax
+   f:	8b 5d 08             	mov    0x8(%ebp),%ebx
+  12:	8b 52 04             	mov    0x4(%edx),%edx
+  15:	50                   	push   %eax
+  16:	8d 06                	lea    (%esi),%eax
+  18:	87 04 24             	xchg   %eax,(%esp)
+  1b:	e8 fc ff ff ff       	call   1c <__try_cmpxchg64+0x1c>
+			1c: R_386_PC32	cmpxchg8b_emu
+  20:	0f 94 c1             	sete   %cl
+  23:	75 0b                	jne    30 <__try_cmpxchg64+0x30>
+  25:	5b                   	pop    %ebx
+  26:	88 c8                	mov    %cl,%al
+  28:	5e                   	pop    %esi
+  29:	5f                   	pop    %edi
+  2a:	5d                   	pop    %ebp
+  2b:	c3                   	ret    
+  2c:	8d 74 26 00          	lea    0x0(%esi,%eiz,1),%esi
+  30:	5b                   	pop    %ebx
+  31:	89 07                	mov    %eax,(%edi)
+  33:	5e                   	pop    %esi
+  34:	89 57 04             	mov    %edx,0x4(%edi)
+  37:	5f                   	pop    %edi
+  38:	88 c8                	mov    %cl,%al
+  3a:	5d                   	pop    %ebp
+  3b:	c3                   	ret    
+
+Of course there's a minor ABI nit for `cmpxchg8b_emu' to return a result 
+in ZF and the wrapper relies on CONFIG_FRAME_POINTER for correct `arg' 
+evaluation in all cases.  But that shouldn't be a big deal, should it?
+
+ Then long-term maintenance would be minimal to nil and all the code 
+except for the wrapper and the emulation handler need not be concerned 
+about the 486 obscurity.  I can volunteer to maintain said wrapper and 
+emulation (and for that matter generic 486 support) if that helped to keep 
+the 486 alive.
+
+ Eventually we may choose to drop 486 support after all, but CMPXCHG8B 
+alone seems too small a reason to me for that to happen right now.
+
+ NB MIPS R2000 dates back to 1985, solid 4 years before the 486, and we 
+continue supporting it with minimal effort.  We do have atomic emulation 
+for userland of course.
+
+  Maciej
