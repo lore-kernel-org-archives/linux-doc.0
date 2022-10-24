@@ -2,94 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C29DC38A2D
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 16:37:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B9F6FA3741
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 16:47:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232662AbiJXQhO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 12:37:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40362 "EHLO
+        id S233255AbiJXQrU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 12:47:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233801AbiJXQgv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 12:36:51 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65176F5B9;
-        Mon, 24 Oct 2022 08:24:31 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        with ESMTP id S234999AbiJXQqb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 12:46:31 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528F319E931;
+        Mon, 24 Oct 2022 08:31:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 55F78536;
-        Mon, 24 Oct 2022 15:22:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 55F78536
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1666624957; bh=ub/NiVzLa6HBZJJBiSAa2GMcLMcYmZckslwWQlmrqy4=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=JHIqJ8EJG3tdXg4Ys9d25wmZIms7d+6PwhrAmVSPfB8UVpEKtxcGwHSI3SSw5bM4H
-         ogsSPqmQ4R0j+5SwNGzogEO9e9CW1xt7xuUYDhDLuLMPN0HKXxZuFYq2+QRQG/VU4Z
-         xFC6wE9tz1GNBDiTT1G38IKx+s6WZgoHl3EeS26e19A6qZNCKWoo05ASboRTycu+Wz
-         ZssUP6b9cBUlrApTsiC1s0jtxTu1Y+c5uALYJfParh05aMoyqWmvivK2VQET6MZ8lZ
-         uaNtLaTVt3C45gk8ME8gQQOwsdxbZV7Q8ezLu94Zl+1odwntlybZvjmnA7a9t+ZJVz
-         mSz+KeYAAcEyQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Matthew Wilcox <willy@infradead.org>,
-        Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     Akira Yokosawa <akiyks@gmail.com>, bilbao@vt.edu,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        miguel.ojeda.sandonis@gmail.com,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.com>, Yanteng Si <siyanteng@loongson.cn>
-Subject: Re: [PATCH v2 1/2] Documentation: Start translations to Spanish
-In-Reply-To: <Y1aovvn7dAyo1nuW@casper.infradead.org>
-References: <20221014142454.871196-2-carlos.bilbao@amd.com>
- <48b4a5a1-2a52-4159-699b-9db73a012892@gmail.com>
- <Y01pkubcT7FOwCjL@casper.infradead.org>
- <8e2a1da1-2914-b223-85b0-a769339d9c39@gmail.com>
- <9e65ba16-68d3-8d11-c6ac-c35c29026688@amd.com>
- <Y1aovvn7dAyo1nuW@casper.infradead.org>
-Date:   Mon, 24 Oct 2022 09:22:36 -0600
-Message-ID: <87a65lfdqb.fsf@meer.lwn.net>
+        by ams.source.kernel.org (Postfix) with ESMTPS id E61DDB818F8;
+        Mon, 24 Oct 2022 12:39:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDFB3C433B5;
+        Mon, 24 Oct 2022 12:39:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666615185;
+        bh=Cqr4+bBL7oNYcnofbEaCz0+7Ljp5GAyhgX+SKELtivc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bqEaMY22acfVwNO2wynM6QjybdGs+CcFDoBsFM3cDIFU+RP3TyvzA9RsAFav3wVTu
+         fCRe1dwk2kiMRIO5Ao/IrtkhHYYGlJzWO8Pul3X1IzNMmvh+7dp2GDlSanQ5yy7kxG
+         Qupf6JuPrH7u++Wi8dsEFNu8BEJ32qaEm9C4WFQaj0f8h4n0LHxZWimIuPMwh21oqa
+         pKZ27Ct2kTlPgXe8xLjFHs7HJtN10XyF+NgZ5jpBYH6zS3mhn/M2K0LTYugV/ohsBm
+         n1xxFcHrQL/A+8paIvPns1Ve66DGcIQqGm6H9ts6ILKrjVj1N69rWXth72FsxaHBEk
+         /HIzltdBcepow==
+Date:   Mon, 24 Oct 2022 13:39:37 +0100
+From:   Lee Jones <lee@kernel.org>
+To:     Quan Nguyen <quan@os.amperecomputing.com>
+Cc:     macro@orcam.me.uk, Bagas Sanjaya <bagasdotme@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thu Nguyen <thu@os.amperecomputing.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        thang@os.amperecomputing.com
+Subject: Re: [PATCH v9 8/9] mfd: Add Ampere's Altra SMpro MFD driver
+Message-ID: <Y1aHiaZ1OpHZIzS9@google.com>
+References: <20220929094321.770125-1-quan@os.amperecomputing.com>
+ <20220929094321.770125-9-quan@os.amperecomputing.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220929094321.770125-9-quan@os.amperecomputing.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[Adding some of the other folks interested in translations]
+On Thu, 29 Sep 2022, Quan Nguyen wrote:
 
-Matthew Wilcox <willy@infradead.org> writes:
+> Adds Multi-function devices driver for SMpro co-processor found on the
+> Mt.Jade hardware reference platform with Ampere's Altra processor family.
+> 
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+> ---
+> 
+> Changes in v9:
+>   + Rename smpro-mfd.c to smpro-core.c                   [Lee Jones]
+>   + Fix include files in alphabetical order              [Lee Jones]
+>   + Add defines to avoid using magic numbers             [Lee Jones]
+>   + Return -EINVAL if device does not match              [Lee Jones]
+>   + Remove unneccessary comment                          [Lee Jones]
+>   + Refactor error path handling in smpro_core_read/write()   [Quan]
+> 
+> Changes in v8:
+>   + None
+> 
+> Changes in v7:
+>   + Smpro-mfd now significant changes in compare with simple-mfd-i2c
+>     driver, remove the copyright note about simple-mfd-i2c    [Quan]
+>   + Install bus->read/write()  to handle multiple types of bus
+>     access.                                                   [Quan]
+>   + Update license to MODULE_LICENSE("GPL")                   [Quan]
+>   + Add others minor refactor the code                        [Quan]
+> 
+> Changes in v6:
+>   + Update license part to reflect that this driver is clone from
+>   simple-mfd-i2c driver [Quan]
+> 
+> Changes in v5:
+>   + Dropped the use of simple-mfd-i2c driver [Quan]
+>   + Introduced drivers/mfd/smpro-mfd.c driver to instantiate
+>   sub-devices. This is to avoid DT nodes without resource issue [Quan]
+>   + Revised commit message [Quan]
+> 
+> Changes in v4:
+>   + Add "depends on I2C" to fix build issue found by kernel test
+>   robot [Guenter]
+> 
+> Changes in v3:
+>   + None
+> 
+> Changes in v2:
+>   + Used 'struct of_device_id's .data attribute [Lee Jones]
+> 
+>  drivers/mfd/Kconfig      |  12 ++++
+>  drivers/mfd/Makefile     |   1 +
+>  drivers/mfd/smpro-core.c | 138 +++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 151 insertions(+)
+>  create mode 100644 drivers/mfd/smpro-core.c
 
-> I think we're better off following BCP 47:
-> https://www.rfc-editor.org/info/bcp47 rather than the libc locale format.
-> That will imply renaming it_IT to simply "it", ja_JP to "ja" and
-> ko_KR to "ko".  The two Chinese translations we have might be called
-> "zh-Hant" and "zh-Hans", if the distinction is purely Traditional vs
-> Simplified script.  If they really are region based, then they'd be
-> zh-CN and zh-TW.
->
-> I think you're right to conflate all dialects of Spanish together, just
-> as we do all dialects of English.
->
-> Jon, this feels like policy you should be setting.  Are you on board
-> with this, or do you want to retain the mandatory geography tag that
-> we've been using up to now?
+Applied, thanks.
 
-I want to go hide somewhere :)
-
-I'd kind of prefer to avoid renaming the existing translations, as that
-is sure to create a certain amount of short-term pain.  But I guess we
-could do that if the benefit somehow seems worth it.
-
-Of course, if we're thrashing things, we could also just call them
-"Italian" (or "Italiano"), "Chinese", and so on.  I don't *think*
-there's a need for the names to be machine-readable.  We should stick
-with ASCII for these names just to help those of us who can't type in
-other scripts.
-
-If asked to set a policy today, my kneejerk reaction would be to leave
-things as they are just to avoid a bunch of churn.  But I don't have a
-strong opinion on how this naming should actually be done, as long as we
-can pick something and be happy with it thereafter.  What do the
-translation maintainers think?
-
-Thanks,
-
-jon
+-- 
+Lee Jones [李琼斯]
