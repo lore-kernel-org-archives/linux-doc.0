@@ -2,70 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69664C38A2D
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 07:49:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEDE1C38A2D
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 07:57:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229968AbiJXHtr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 03:49:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58914 "EHLO
+        id S229824AbiJXH5Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 03:57:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230008AbiJXHtp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 03:49:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D785F614A
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 00:49:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666597780;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=hTXcuxXaRWJo+QWiUsGFLWlPsijUBF5y61S7CoQKJ+g=;
-        b=P/hjjeOi+aikjK9t9s5eeSxFt2uhLkebDA2zIY8yqyAXlZnwbwq82yilOrEPmJD5aXQOOE
-        EEG3i3BAj/u94JLsLer1Ci51dtih+/A5TDCf5avM59OFkgHHKJDIIMBlGLqDK/MG8yfxJi
-        ckS4BK4WNMlpE+q63KXvNTR0Q/lVX4A=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-8-S8ZJuYCAPJaUM-uWEABwPg-1; Mon, 24 Oct 2022 03:49:38 -0400
-X-MC-Unique: S8ZJuYCAPJaUM-uWEABwPg-1
-Received: by mail-qv1-f70.google.com with SMTP id mo15-20020a056214330f00b004b96d712bccso4847653qvb.22
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 00:49:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hTXcuxXaRWJo+QWiUsGFLWlPsijUBF5y61S7CoQKJ+g=;
-        b=PiUcCYXlKs/E3mFP1QjvM8LAYGtV6ADwdHsXf88XfbpNWOUuQ5ZfYeMfkoMRY4LQu6
-         m4u/HK0WPeEBa8423TFnsoD2HitxT1+Mvh0B3/nI5H2teFT/aOeqNw5vfJ5eS8gwQs+h
-         02kfNUX2duQzhfGZuhn6uUcq0tYxiV3gpJnUenV7dU/J1awGddNKiVLfW7s8WmDXMTM6
-         ykT6LpupmKM2/vO16i3zGn3R9DPQuopDXrAtT4GsvJoRT7pRUKJUZnmmTmB3PiYUe2I9
-         EDF3nX4+5RNfkP8FdrQFtcZPza+y8MuLm3CsXGaI8UIn1XSkTiPELe86H2FCJwyJ+LYq
-         xD1A==
-X-Gm-Message-State: ACrzQf0PLXJSjt2pUO7nZ5HehBIEwisDQneRFmNVy1d3CRF/rzfwGP6Q
-        ZPV/K/NgiQcSgAw1FDZzm1us/PuBxXDAh4JrVF7FnwyRkbcvFAVCEu77rVqDMnTlBYhRndHaoWB
-        NbLEXW3Iv++MixDYhofUi
-X-Received: by 2002:a05:622a:4cc:b0:39c:bfb1:8a45 with SMTP id q12-20020a05622a04cc00b0039cbfb18a45mr26104977qtx.647.1666597777842;
-        Mon, 24 Oct 2022 00:49:37 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM42uYz07Bby0ZO6+SEobL92Tz9k1kX6G3Tj2qNlGA0BZtOZOgF7K5QRbwlEvLDlM/ObENXC/A==
-X-Received: by 2002:a05:622a:4cc:b0:39c:bfb1:8a45 with SMTP id q12-20020a05622a04cc00b0039cbfb18a45mr26104970qtx.647.1666597777593;
-        Mon, 24 Oct 2022 00:49:37 -0700 (PDT)
-Received: from [192.168.149.123] (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
-        by smtp.gmail.com with ESMTPSA id bm2-20020a05620a198200b006ce7d9dea7asm14815613qkb.13.2022.10.24.00.49.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 00:49:36 -0700 (PDT)
-Message-ID: <2bd40960-e65e-db2b-ae8f-1109cb9f3fa0@redhat.com>
-Date:   Mon, 24 Oct 2022 09:49:33 +0200
+        with ESMTP id S230197AbiJXH5S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 03:57:18 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3D5A5D0CA;
+        Mon, 24 Oct 2022 00:57:17 -0700 (PDT)
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29O7rSaW022223;
+        Mon, 24 Oct 2022 07:56:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=vRy4JKi2hiTPU6DEDzc32msUDXB+qNaYLMEsipZS9SY=;
+ b=EY31qLY/PqBufnOGMFbpjWZmdhz0XxXOZx1N/aTcfgxBgZ83qR+/D7wryNRpm4bf31bD
+ ZF+JI/ZvhrJ18BUESG4K0ocOzkfgJx2EcQFotwMjtikMXaqmj1ZX7Ajymn1Q5TBqXvJQ
+ +pxMW6KAccFjU7JbgDIWy49PEfdj8p4fUlISZSE4YnweaCDjzvEe55Vpm2BDQtr8e8d4
+ aogXfFF+/oioUQA7JzcvtluXe9e631wxU9V2KLNtwzVxnL3bRvpzHlJCN/EXwjEAzWD3
+ MMp3+knyRbf8G2kz9wBgkuvxrUt4bhf5H/SYuPW0xJ56VfCnUVqU+BByn3Ix3D4bGbiV WQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kdpq2g340-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 24 Oct 2022 07:56:37 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29O7t3In027839;
+        Mon, 24 Oct 2022 07:56:36 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kdpq2g338-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 24 Oct 2022 07:56:36 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+        by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29O7pRxM029295;
+        Mon, 24 Oct 2022 07:56:34 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+        by ppma01fra.de.ibm.com with ESMTP id 3kc85925uh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 24 Oct 2022 07:56:34 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 29O7uWT42556580
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 24 Oct 2022 07:56:32 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 66A854203F;
+        Mon, 24 Oct 2022 07:56:32 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B9BF642042;
+        Mon, 24 Oct 2022 07:56:31 +0000 (GMT)
+Received: from [9.171.39.85] (unknown [9.171.39.85])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon, 24 Oct 2022 07:56:31 +0000 (GMT)
+Message-ID: <a2e16531-5522-a334-40a1-2b0e17663800@linux.ibm.com>
+Date:   Mon, 24 Oct 2022 09:56:31 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 4/4] KVM: use signals to abort enter_guest/blocking and
- retry
-Content-Language: en-US
-From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH 0/4] KVM: API to block and resume all running vcpus in a
+ vm
+To:     Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+        kvm@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         Sean Christopherson <seanjc@google.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -75,150 +77,56 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20221022154819.1823133-1-eesposit@redhat.com>
- <20221022154819.1823133-5-eesposit@redhat.com>
- <5ee4eeb8-4d61-06fc-f80d-06efeeffe902@redhat.com>
- <4ef882c2-1535-d7df-d474-e5fab2975f53@redhat.com>
-In-Reply-To: <4ef882c2-1535-d7df-d474-e5fab2975f53@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+From:   Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20221022154819.1823133-1-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: twODhqbGT2UU-N8Mp1M7h0N9oMDxLJZl
+X-Proofpoint-ORIG-GUID: pQs1VJ42LLQhwKBIkWJY-SPS8htoU3jF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-24_01,2022-10-21_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 spamscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 mlxlogscore=783 adultscore=0 clxscore=1011 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2210240047
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-Am 24/10/2022 um 09:43 schrieb Emanuele Giuseppe Esposito:
+Am 22.10.22 um 17:48 schrieb Emanuele Giuseppe Esposito:
+> This new API allows the userspace to stop all running
+> vcpus using KVM_KICK_ALL_RUNNING_VCPUS ioctl, and resume them with
+> KVM_RESUME_ALL_KICKED_VCPUS.
+> A "running" vcpu is a vcpu that is executing the KVM_RUN ioctl.
 > 
+> This serie is especially helpful to userspace hypervisors like
+> QEMU when they need to perform operations on memslots without the
+> risk of having a vcpu reading them in the meanwhile.
+> With "memslots operations" we mean grow, shrink, merge and split
+> memslots, which are not "atomic" because there is a time window
+> between the DELETE memslot operation and the CREATE one.
+> Currently, each memslot operation is performed with one or more
+> ioctls.
+> For example, merging two memslots into one would imply:
+> DELETE(m1)
+> DELETE(m2)
+> CREATE(m1+m2)
 > 
-> Am 23/10/2022 um 19:48 schrieb Paolo Bonzini:
->> On 10/22/22 17:48, Emanuele Giuseppe Esposito wrote:
->>> Once a vcpu exectues KVM_RUN, it could enter two states:
->>> enter guest mode, or block/halt.
->>> Use a signal to allow a vcpu to exit the guest state or unblock,
->>> so that it can exit KVM_RUN and release the read semaphore,
->>> allowing a pending KVM_KICK_ALL_RUNNING_VCPUS to continue.
->>>
->>> Note that the signal is not deleted and used to propagate the
->>> exit reason till vcpu_run(). It will be clearead only by
->>> KVM_RESUME_ALL_KICKED_VCPUS. This allows the vcpu to keep try
->>> entering KVM_RUN and perform again all checks done in
->>> kvm_arch_vcpu_ioctl_run() before entering the guest state,
->>> where it will return again if the request is still set.
->>>
->>> However, the userspace hypervisor should also try to avoid
->>> continuously calling KVM_RUN after invoking KVM_KICK_ALL_RUNNING_VCPUS,
->>> because such call will just translate in a back-to-back down_read()
->>> and up_read() (thanks to the signal).
->>
->> Since the userspace should anyway avoid going into this effectively-busy
->> wait, what about clearing the request after the first exit?  The
->> cancellation ioctl can be kept for vCPUs that are never entered after
->> KVM_KICK_ALL_RUNNING_VCPUS.  Alternatively, kvm_clear_all_cpus_request
->> could be done right before up_write().
+> And a vcpu could attempt to read m2 right after it is deleted, but
+> before the new one is created.
 > 
-> Clearing makes sense, but should we "trust" the userspace not to go into
-> busy wait?
-
-Actually since this change is just a s/test/check, I would rather keep
-test. If userspace does things wrong, this mechanism would still work
-properly.
-
-> What's the typical "contract" between KVM and the userspace? Meaning,
-> should we cover the basic usage mistakes like forgetting to busy wait on
-> KVM_RUN?
-> 
-> If we don't, I can add a comment when clearing and of course also
-> mention it in the API documentation (that I forgot to update, sorry :D)
-> 
-> Emanuele
-> 
->>
->> Paolo
->>
->>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>> ---
->>>   arch/x86/include/asm/kvm_host.h |  2 ++
->>>   arch/x86/kvm/x86.c              |  8 ++++++++
->>>   virt/kvm/kvm_main.c             | 21 +++++++++++++++++++++
->>>   3 files changed, 31 insertions(+)
->>>
->>> diff --git a/arch/x86/include/asm/kvm_host.h
->>> b/arch/x86/include/asm/kvm_host.h
->>> index aa381ab69a19..d5c37f344d65 100644
->>> --- a/arch/x86/include/asm/kvm_host.h
->>> +++ b/arch/x86/include/asm/kvm_host.h
->>> @@ -108,6 +108,8 @@
->>>       KVM_ARCH_REQ_FLAGS(30, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
->>>   #define KVM_REQ_MMU_FREE_OBSOLETE_ROOTS \
->>>       KVM_ARCH_REQ_FLAGS(31, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
->>> +#define KVM_REQ_USERSPACE_KICK        \
->>> +    KVM_ARCH_REQ_FLAGS(32, KVM_REQUEST_WAIT)
->>>     #define
->>> CR0_RESERVED_BITS                                               \
->>>       (~(unsigned long)(X86_CR0_PE | X86_CR0_MP | X86_CR0_EM |
->>> X86_CR0_TS \
->>> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
->>> index b0c47b41c264..2af5f427b4e9 100644
->>> --- a/arch/x86/kvm/x86.c
->>> +++ b/arch/x86/kvm/x86.c
->>> @@ -10270,6 +10270,10 @@ static int vcpu_enter_guest(struct kvm_vcpu
->>> *vcpu)
->>>       }
->>>         if (kvm_request_pending(vcpu)) {
->>> +        if (kvm_test_request(KVM_REQ_USERSPACE_KICK, vcpu)) {
->>> +            r = -EINTR;
->>> +            goto out;
->>> +        }
->>>           if (kvm_check_request(KVM_REQ_VM_DEAD, vcpu)) {
->>>               r = -EIO;
->>>               goto out;
->>> @@ -10701,6 +10705,10 @@ static int vcpu_run(struct kvm_vcpu *vcpu)
->>>               r = vcpu_block(vcpu);
->>>           }
->>>   +        /* vcpu exited guest/unblocked because of this request */
->>> +        if (kvm_test_request(KVM_REQ_USERSPACE_KICK, vcpu))
->>> +            return -EINTR;
->>> +
->>>           if (r <= 0)
->>>               break;
->>>   diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
->>> index ae0240928a4a..13fa7229b85d 100644
->>> --- a/virt/kvm/kvm_main.c
->>> +++ b/virt/kvm/kvm_main.c
->>> @@ -3431,6 +3431,8 @@ static int kvm_vcpu_check_block(struct kvm_vcpu
->>> *vcpu)
->>>           goto out;
->>>       if (kvm_check_request(KVM_REQ_UNBLOCK, vcpu))
->>>           goto out;
->>> +    if (kvm_test_request(KVM_REQ_USERSPACE_KICK, vcpu))
->>> +        goto out;
->>>         ret = 0;
->>>   out:
->>> @@ -4668,6 +4670,25 @@ static long kvm_vm_ioctl(struct file *filp,
->>>           r = kvm_vm_ioctl_enable_cap_generic(kvm, &cap);
->>>           break;
->>>       }
->>> +    case KVM_KICK_ALL_RUNNING_VCPUS: {
->>> +        /*
->>> +         * Notify all running vcpus that they have to stop.
->>> +         * Caught in kvm_arch_vcpu_ioctl_run()
->>> +         */
->>> +        kvm_make_all_cpus_request(kvm, KVM_REQ_USERSPACE_KICK);
->>> +
->>> +        /*
->>> +         * Use wr semaphore to wait for all vcpus to exit from KVM_RUN.
->>> +         */
->>> +        down_write(&memory_transaction);
->>> +        up_write(&memory_transaction);
->>> +        break;
->>> +    }
->>> +    case KVM_RESUME_ALL_KICKED_VCPUS: {
->>> +        /* Remove all requests sent with KVM_KICK_ALL_RUNNING_VCPUS */
->>> +        kvm_clear_all_cpus_request(kvm, KVM_REQ_USERSPACE_KICK);
->>> +        break;
->>> +    }
->>>       case KVM_SET_USER_MEMORY_REGION: {
->>>           struct kvm_userspace_memory_region kvm_userspace_mem;
->>>   
->>
-
+> Therefore the simplest solution is to pause all vcpus in the kvm
+> side, so that:
+> - userspace just needs to call the new API before making memslots
+> changes, keeping modifications to the minimum
+> - dirty page updates are also performed when vcpus are blocked, so
+> there is no time window between the dirty page ioctl and memslots
+> modifications, since vcpus are all stopped.
+> - no need to modify the existing memslots API
+Isnt QEMU able to achieve the same goal today by forcing all vCPUs
+into userspace with a signal? Can you provide some rationale why this
+is better in the cover letter or patch description?
