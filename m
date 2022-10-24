@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0B90FA373E
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 11:41:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB193ECAAA1
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 11:41:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231214AbiJXLlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 07:41:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50276 "EHLO
+        id S231361AbiJXLlx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 07:41:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231482AbiJXLjX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 07:39:23 -0400
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A1AE6E8A3
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:38:33 -0700 (PDT)
-Received: by mail-pj1-f50.google.com with SMTP id z5-20020a17090a8b8500b00210a3a2364fso8865087pjn.0
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:38:32 -0700 (PDT)
+        with ESMTP id S231365AbiJXLkT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 07:40:19 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2050D5A
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:39:21 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id s196so8468595pgs.3
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:39:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=daynix-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gF1+dr0UmSLKg5C/+t+S2XzPWm1zDrjsbQX8+igR+aM=;
-        b=TUaer4HdAj1V1/KvIiqeuDXfW6xDWwEMoGs5n4ogyUIGkys9QMhjDQ+bVY0ELC/Zv7
-         bWVD8iLyFzbkfcDLx8DVuEuAt6agWLfXnGroETWUA/WUAxEudlmKwVrZP9YEJ60SqpQO
-         uEgVtlcZHMdUxEmxBez2o4LXL4xr7pLMNs2npVpTCCV+56sUo0X53wm7kZWeulN1UxgY
-         mJboZRkxMVHWvPMsPje9/uDltkPOywQSfMmTJicM2HoXPo4wyYb1scm4m6G+r2+bzHd8
-         Sbxk521dG9VmXqWc9Od5r0OBVoSlAsHO2hUBuwny+NvTx3MjpnZ1sqjNKvam6yq5PSwk
-         iKPQ==
+        bh=s3OBF2k1WWtiu/9/W0b3fBEExfrwFAb3nrGZKspwFWo=;
+        b=ytZxwj2KO7mqmejMHz4K1suZIYKgKIzkLd7EE+hEIaFueculEZeXax0rPFi0rtL4lr
+         7+UX9MXWjbBbOQgBjauyeX2QMEOfr0yZCF6Yw3NwAEtLYr/AzMr4Ggz7FIpB/9yGq8Ci
+         CeNajiFIEw4FF3iTA4CXFtGn9bA7DoprnQKeIA0r/AGyzUh0lUH+M9A0yNAdx4uOwaCJ
+         5pnLw55cfyxjSf2H2FfT7iT6gF3REqCaachB0bZ+Y5p8FvjdHYs2Vj4mZ7V1Pkvhp4jO
+         2xvAEzb4JSHAaQiHka7I4JxM52qtVtkqOhQWV7jRFiYQ4mE4otcRDd17QUh9/ZoY/MYV
+         r1bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gF1+dr0UmSLKg5C/+t+S2XzPWm1zDrjsbQX8+igR+aM=;
-        b=TiS28wjSRj8+rW6wgHT/mCO8m/ehKYzpezQqsXe2sxMOt0ZLqUcz9gynv5QeJydDzT
-         7O6leW4S7b3RuhxxLT4oz+p/zijRDkdCe8fXPAUZ/5HdBVEUlSgg0buCpt1lZmwAZFJ6
-         FaZRgHglLjuGRh2qnsSq6cT3wdMLOMzPLV2Z1qFfiMRqif2ic/zI/I/y6IgwpHS4QaGs
-         kyDu7JmjVZeolFH7v5NeMUluADPaeHaZugboRWHRh/y4DoH+2YFtBHhI0AtB7ADE4wjj
-         IICX3LZvQ10aIF0if6SW5lj98IhMlK25r1DEXUbLhPNYUf1jX4DZZGgs/6YK80hIu5JS
-         NHYg==
-X-Gm-Message-State: ACrzQf2ET8ClnJHIk7L/NO48aPp98yjY9qyQojLoUCdbyhMswoU4rK6h
-        Sa3lqrstbz7anJv/nTrekO5t2z7EUcugV5Z2
-X-Google-Smtp-Source: AMsMyM4Z73PEbmFjby7RYhtWBADc72izt8nSu6NGLKgrb37LXlsr13MXJ1blMej/gKuQKEFJb7DSAA==
-X-Received: by 2002:a17:90a:29e4:b0:20a:f9d5:c10e with SMTP id h91-20020a17090a29e400b0020af9d5c10emr75009289pjd.132.1666611391524;
-        Mon, 24 Oct 2022 04:36:31 -0700 (PDT)
+        bh=s3OBF2k1WWtiu/9/W0b3fBEExfrwFAb3nrGZKspwFWo=;
+        b=SyjwqXV9B0lsMAwZOS3n/Eh5cQEreb6HDfU4n2YKAzJSDDiHplpzBdK04aV1RkW5Ni
+         fRaWSbM7AKo1UfLaIgx3RCdnmt9qsMjcvKaql1zdIiqp/0HRvtfMsHEZRaN52Jehsm+5
+         4f+F7+NqIiVIbBa+z82jty14Nu8zJRkChlXlMfqXi0iZQwWIQAeXW4ldk+IW0K+SMHNz
+         8J1LjtTZCkSTY6UfFtW5m9b0QkceKMbXVFsB58kn2DYwNcjW1Jwt6cceU69ahXJhUG4L
+         l0JVe0d56sEnxyX4SpGdpJ2z8JUY2ileAETOWFV/dfX0d3LvcZ8OlmSx5R1ILd7IiSQe
+         Z8ag==
+X-Gm-Message-State: ACrzQf2wwzDcdrvcyZdxo/zii1Rp8VuFNUgPy35x4exNAuxEFGvpKEl5
+        ayQZf0RoZU5vk3X+X6PMb/z8+Q==
+X-Google-Smtp-Source: AMsMyM7gLd2Xh0sfa+tFaHscQUkpHnvkLJ1d0xqmrVl3HqwBIbYxynI67Kp0nGZCTrOWZta1N0QtUA==
+X-Received: by 2002:a05:6a00:2288:b0:56b:fe9d:b4b7 with SMTP id f8-20020a056a00228800b0056bfe9db4b7mr1191782pfe.79.1666611475639;
+        Mon, 24 Oct 2022 04:37:55 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
-        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.36.23
+        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.37.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 04:36:30 -0700 (PDT)
+        Mon, 24 Oct 2022 04:37:55 -0700 (PDT)
 From:   Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -87,9 +87,9 @@ Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         acpi4asus-user@lists.sourceforge.net,
         ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
         devel@acpica.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 06/22] platform/x86: asus-wmi: Use acpi_video_get_backlight_types()
-Date:   Mon, 24 Oct 2022 20:34:57 +0900
-Message-Id: <20221024113513.5205-7-akihiko.odaki@daynix.com>
+Subject: [PATCH 16/22] platform/x86: sony-laptop: Use acpi_video_get_backlight_types()
+Date:   Mon, 24 Oct 2022 20:35:07 +0900
+Message-Id: <20221024113513.5205-17-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
 References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
@@ -104,31 +104,22 @@ acpi_video_get_backlight_type() is now deprecated.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- drivers/platform/x86/asus-wmi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/platform/x86/sony-laptop.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/asus-wmi.c b/drivers/platform/x86/asus-wmi.c
-index 6e8e093f96b3..55cca068f783 100644
---- a/drivers/platform/x86/asus-wmi.c
-+++ b/drivers/platform/x86/asus-wmi.c
-@@ -3259,7 +3259,7 @@ static void asus_wmi_handle_event_code(int code, struct asus_wmi *asus)
- 		code = ASUS_WMI_BRN_DOWN;
+diff --git a/drivers/platform/x86/sony-laptop.c b/drivers/platform/x86/sony-laptop.c
+index 765fcaba4d12..987942719ba6 100644
+--- a/drivers/platform/x86/sony-laptop.c
++++ b/drivers/platform/x86/sony-laptop.c
+@@ -3201,7 +3201,7 @@ static int sony_nc_add(struct acpi_device *device)
+ 			sony_nc_function_setup(device, sony_pf_device);
+ 	}
  
- 	if (code == ASUS_WMI_BRN_DOWN || code == ASUS_WMI_BRN_UP) {
--		if (acpi_video_get_backlight_type() == acpi_backlight_vendor) {
-+		if ((acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
- 			asus_wmi_backlight_notify(asus, orig_code);
- 			return;
- 		}
-@@ -3802,7 +3802,7 @@ static int asus_wmi_add(struct platform_device *pdev)
- 	if (asus->driver->quirks->xusb2pr)
- 		asus_wmi_set_xusb2pr(asus);
+-	if (acpi_video_get_backlight_type() == acpi_backlight_vendor)
++	if ((acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR))
+ 		sony_nc_backlight_setup();
  
--	if (acpi_video_get_backlight_type() == acpi_backlight_vendor) {
-+	if ((acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
- 		err = asus_wmi_backlight_init(asus);
- 		if (err && err != -ENODEV)
- 			goto fail_backlight;
+ 	/* create sony_pf sysfs attributes related to the SNC device */
 -- 
 2.37.3
 
