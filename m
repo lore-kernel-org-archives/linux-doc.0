@@ -2,62 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CD91C38A2D
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 19:26:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D88DFA3744
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 19:44:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233096AbiJXT0J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 15:26:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48820 "EHLO
+        id S232216AbiJXTov (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 15:44:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233428AbiJXTYU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 15:24:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F02757E14;
-        Mon, 24 Oct 2022 10:58:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 53906614D8;
-        Mon, 24 Oct 2022 17:46:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33B9CC433C1;
-        Mon, 24 Oct 2022 17:46:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666633586;
-        bh=PjLDsGG9crxmIrge5tQBGVpiRonP33a0QfLWaQ4qI7g=;
-        h=From:To:Cc:Subject:Date:From;
-        b=gYX/LiZ3Lr73zV1e42zxKeoHgEJozqNpnu0/FNcvnWjQXOJC/ktCQ7CAw2B6FiX1K
-         5Wo3sWhxuwPA6cfpC613ATo3GVxyr2R9QS4+TTRDVss65kqyekDlbd7DJfCWgira4l
-         4juhnvqPp5G8f5/updbTtJM6oy6e3xc51HNfE+BGptjs8aRW2vIZ5yLQ0xDaqmnRX0
-         wBFxvsh60IK72PhwMuaxNOJtsBcL9qHM/y8TFLB6Zwd6rgAZs9m+T6ShWDLh+LVGuF
-         0omlIHd+7/3e/6J8NL8Gs/7lWwjVrCW3wR89V1AJ96gMwKeRU1PoPjj9ZsL07pbT4+
-         UyW5sGDWO0iXg==
-From:   SeongJae Park <sj@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        damon@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH 0/2] Docs/admin-buide/mm/damon/usage: minor fixes
-Date:   Mon, 24 Oct 2022 17:46:17 +0000
-Message-Id: <20221024174619.15600-1-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S233507AbiJXToE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 15:44:04 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4CA7194219;
+        Mon, 24 Oct 2022 11:12:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666635141; x=1698171141;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=5z5J6hyo+xzhPJHRSqQ2l3yOfGRRo8+TjXETgVVrD8A=;
+  b=CTreJ/NTlalPXaOM+VYIQ30+UirYB0cafgqkos+0j5oy3cgHWYw7LuOZ
+   H46KTgzh4inW7Y4JY3enkMEmQ4/H1dlplhzmigdzxecUwDWqD/4ENtikS
+   MwoRzhj3NtFCfUMVT/oxF71d3HPGerykryaksqMgcFQu2btBXj5aOtubb
+   r3ZCCUugQ8xKTDDKAyn6oX7tNUDDmhZoOb/2OveaOVrnDCMEx1Q6+khI0
+   ptZhdXud2mHLmsXw48XlobER/BC++TMPpW/sLVwCZb4bmjteJ3B+Hi932
+   krtHztMHY9HLvk4quni6YmhdKxT/cHBkDkI8PeiJz+gE47LrRq+5qUkuz
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="393805616"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
+   d="scan'208";a="393805616"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 11:11:22 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="609286400"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
+   d="scan'208";a="609286400"
+Received: from emontau-mobl2.ger.corp.intel.com (HELO localhost) ([10.252.52.221])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 11:11:11 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Akihiko Odaki <akihiko.odaki@daynix.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        "Lee, Chun-Yi" <jlee@suse.com>, Mark Gross <markgross@kernel.org>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Pali =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>,
+        Jonathan Woithe <jwoithe@just42.net>,
+        Ike Panhc <ike.pan@canonical.com>,
+        Daniel Dadap <ddadap@nvidia.com>,
+        Kenneth Chan <kenneth.t.chan@gmail.com>,
+        Mattia Dongili <malattia@linux.it>,
+        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+        Azael Avalos <coproscefalo@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Robert Moore <robert.moore@intel.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org,
+        platform-driver-x86@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net,
+        ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
+        devel@acpica.org
+Subject: Re: [PATCH 00/22] Fallback to native backlight
+In-Reply-To: <78ad5d7b-4078-0b8e-f4aa-6c8113631359@daynix.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
+ <746e5cc6-516f-8f69-9d4b-8fe237de8fd6@redhat.com>
+ <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
+ <60672af8-05d2-113c-12b9-d635608be0dd@redhat.com>
+ <ea69242c-0bc8-c7bb-9602-c7489bb69684@daynix.com>
+ <7373e258-f7cc-4416-9b1c-c8c9dab59ada@daynix.com>
+ <ae3497ed-b68d-c36a-6b6f-f7b9771d9238@redhat.com>
+ <78ad5d7b-4078-0b8e-f4aa-6c8113631359@daynix.com>
+Date:   Mon, 24 Oct 2022 21:11:08 +0300
+Message-ID: <87o7u1drcz.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DAMON usage document contains an unclear description and a wrong usage
-example.  This patchset fixes the two minor problems.
+On Tue, 25 Oct 2022, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+> That aside, the first patch in this series can be applied without the 
+> later patches so you may have a look at it. It's fine if you don't merge 
+> it though since it does not fix really a pragmatic bug as its message says.
 
-SeongJae Park (2):
-  Docs/admin-guide/mm/damon/usage: describe the rules of sysfs region
-    directories
-  Docs/admin-guide/mm/damon/usage: Fix wrong usage example of
-    init_regions file
+I think it's problematic because it needlessly ties i915 backlight
+operation to existence of backlight devices that may not be related to
+Intel GPU at all. The direction should be multiple supported backlight
+devices, across GPUs and connectors, but only one per display.
 
- Documentation/admin-guide/mm/damon/usage.rst | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+BR,
+Jani.
+
 
 -- 
-2.25.1
-
+Jani Nikula, Intel Open Source Graphics Center
