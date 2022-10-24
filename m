@@ -2,103 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71AAEECAAA1
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 17:41:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81EC2ECAAA1
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 18:12:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230405AbiJXRlf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 13:41:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55312 "EHLO
+        id S231699AbiJXSMT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 14:12:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233942AbiJXRk7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 13:40:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E53A5144E2D
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 09:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666628049;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=7yug/hLUQCw7qYq1gKwXHE2PBRB1KoHvO1djMcyNbXQ=;
-        b=EdimM0u+n/PuLMQiJeGTuB8nvYPh6JVsItQnfOs7QgIz9e3HbnjkbJNYsOpIMUxBH3Ozdd
-        vIIAOpABxA+2OUcDii6Onr1JHIMddf29ukH1JTAZNiHgGNQfIIcirlWSpptYWqvEclESns
-        2YLGZtBeqYKnt86p4U4w4roP9ydO6hc=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-580-Zmd4tcYOMl67naSzwho6OA-1; Mon, 24 Oct 2022 07:48:39 -0400
-X-MC-Unique: Zmd4tcYOMl67naSzwho6OA-1
-Received: by mail-qv1-f72.google.com with SMTP id e13-20020ad450cd000000b004bb49d98da4so3930744qvq.9
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:48:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7yug/hLUQCw7qYq1gKwXHE2PBRB1KoHvO1djMcyNbXQ=;
-        b=XbJw3sSoz0mO5TRRJ2XqNGns12R4AeIVHjn91c38Kp5h29h4K5bRbEPE8fXEy3sFeE
-         Fma+L8AGjNPYAnVISclPwyvYrO80vnlqQZsO00QgXn5MTo/8pmbLRGZixsIkBS/2gDAa
-         vOS9ti2rxYXlWxs2PZZEL7U3B+bbmzOo5yu2d/lhYpfZhjtWzigg6UUeT9U+roblrWUT
-         YDajX7Nx40t7JjkiLpkezdpUfeYTCnGepzGYVkI3N3j1qCoJM4+4Gq/MlTs1rOPdvVjR
-         tdv1zGr/RV4dWuax6Os6sn4Jr+np/H9fX/LGRb9r8fJGQ+Aw2WOFMF8xYP4fbIQO0Shi
-         WRhw==
-X-Gm-Message-State: ACrzQf1LpqzeWzYTqwk3NxtUs2cx5VaNjJRt3wiMqBH0KjBB7oNuJmuy
-        9QsHt7Mw1eYmZ2uvNd1CNL+DvVnRHs2UzSBrBJ6metXKlZMhDOvERxxp+3HHX1z66KpbfoNjp0Z
-        GFW6V9eiXkIdbPoxo0ZGx
-X-Received: by 2002:a05:622a:1015:b0:39c:be69:bf2d with SMTP id d21-20020a05622a101500b0039cbe69bf2dmr27865540qte.85.1666612119361;
-        Mon, 24 Oct 2022 04:48:39 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4+ASXME3U+PSmVa7jxRPX3J3GOgBErk2ndsbpTfCWuYTw+fxoM9+sZu/lt7RYI7zXlyo9vNA==
-X-Received: by 2002:a05:622a:1015:b0:39c:be69:bf2d with SMTP id d21-20020a05622a101500b0039cbe69bf2dmr27865531qte.85.1666612119158;
-        Mon, 24 Oct 2022 04:48:39 -0700 (PDT)
-Received: from nfvsdn-06.testing.baremetal.edge-sites.net (nat-pool-232-132.redhat.com. [66.187.232.132])
-        by smtp.gmail.com with ESMTPSA id m15-20020a05620a13af00b006ee949b8051sm14653564qki.51.2022.10.24.04.48.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 04:48:38 -0700 (PDT)
-From:   mtahhan@redhat.com
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Maryam Tahhan <mtahhan@redhat.com>
-Subject: [PATCH bpf-next v5 0/1] doc: DEVMAPs and XDP_REDIRECT
-Date:   Mon, 24 Oct 2022 08:43:40 -0400
-Message-Id: <20221024124341.2157865-1-mtahhan@redhat.com>
-X-Mailer: git-send-email 2.35.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S231805AbiJXSMC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 14:12:02 -0400
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E4B626C44E;
+        Mon, 24 Oct 2022 09:53:44 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.west.internal (Postfix) with ESMTP id 382C32B066F1;
+        Mon, 24 Oct 2022 10:27:54 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Mon, 24 Oct 2022 10:27:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm2; t=1666621673; x=
+        1666628873; bh=j5Xmm1hIOnDXfjVvOH1nBH2jD1dezyQFcZOvqExQy/Q=; b=R
+        FOCrFIiTxT4VVyc9mEDQdkEn+wGl6bgl85vYTnOHs9SmkuBXihbN449jNzacB8jI
+        rTTZjSbMHEkOE6lva8OK7H+tWMs7X8EpOfrjmtb6/oVOGDu9QbZ0yoFBmwCcqV/f
+        OY2S9hiS5k+xnEniFrSzWv69cVnlbB0lhSbJ9CqHWVp9ya8AIfEqbYesbuFRq9Qd
+        PSVVASHWixWTm4BTrueGRqrr2qoyHEcyvUm2O9mtgTacw1X/e4TGUOI7spwRF4k8
+        NrLH6dKrsa3XnjqeccrXYuGDRxoUwvp7+h9Ls1LReoWuxJMTQSMuUwY2jFO3D+Jm
+        dHiTM/iSZCKnRNoHbTlJQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666621673; x=
+        1666628873; bh=j5Xmm1hIOnDXfjVvOH1nBH2jD1dezyQFcZOvqExQy/Q=; b=j
+        bQ9YG0M5QUfhAMC5KcxlBfNv3OPZ3dcPqvAHDAkHJFJBtkG/oKiHEgB/CGkfd5D4
+        4WXIXCvh3vM6V7jLlWzrMUTV4Fpaa7SNUDAMOjP9/s26EtfpqJpXHuJvjncEf/Hb
+        l2A1rrOSEilHAzFog8P4c885b26rzqZmcbf/q5PoNykrPcDsbeuOwk+rlSf/XLVe
+        pO9o+yifsE2IWF0Wd9xtiS41jAXVVz31C3ZyF1314cL/e+AOiNL9MtukAPZEZ2j8
+        gZbNNP84mt+QmazljsROIuA11JsXMnAQOzsIvfqse5ElLjsQWYAznhJvSftlDiy8
+        UDnTIRgLvHwK0iMEY12aQ==
+X-ME-Sender: <xms:6KBWY_gwmdA9MhV8F7kI-IAT6RjoV8UyoY8vJd_im8nzMhPr-w5SEg>
+    <xme:6KBWY8DFzu_H1NXJNLoNcdftX0Fccg83xmP1gZ_Oo0PjdmKShBDqthVvsAPur-jjx
+    nKKucVvJWn2dHOfBYM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgedgjedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpefgkeeuleegieeghfduudeltdekfeffjeeuleehleefudettddtgfevueef
+    feeigeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:6KBWY_EKFaUSxfmbFq4u45xHq3kzkmlHX7APZxOrmpX4NKAPPIVhLw>
+    <xmx:6KBWY8Sa2YoRcKoTYZV4cAVrgo3XWvtPHJE_rauldYzUHnGUJcpV8g>
+    <xmx:6KBWY8zBpoCDaeX7eS6StOnrb6kSgFjb8QNDCQkjBv4w_fjHvPPK9g>
+    <xmx:6aBWY7iVKZZZeLJhXB65ARrCr06Q6ReuiHPabu10swOp_0SKXFR2BwSFrZk>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id F38B1B60086; Mon, 24 Oct 2022 10:27:51 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
+Mime-Version: 1.0
+Message-Id: <8d6ddb0d-98be-4c4d-9523-f024c339c8d0@app.fastmail.com>
+In-Reply-To: <2204103.iZASKD2KPV@diego>
+References: <20221021202254.4142411-1-arnd@kernel.org>
+ <20221021203329.4143397-1-arnd@kernel.org> <2204103.iZASKD2KPV@diego>
+Date:   Mon, 24 Oct 2022 16:27:31 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        linux-arm-kernel@lists.infradead.org,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+        "Arnd Bergmann" <arnd@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, "Ben Dooks" <ben-linux@fluff.org>,
+        "Simtec Linux Team" <linux@simtec.co.uk>,
+        "Arnaud Patard" <arnaud.patard@rtp-net.org>,
+        "Christer Weinigel" <christer@weinigel.se>,
+        "Guillaume GOURAT" <guillaume.gourat@nexvision.tv>,
+        openmoko-kernel@lists.openmoko.org,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Alim Akhtar" <alim.akhtar@samsung.com>,
+        "Olof Johansson" <olof@lixom.net>, soc@kernel.org,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Sylwester Nawrocki" <s.nawrocki@samsung.com>,
+        "Tomasz Figa" <tomasz.figa@gmail.com>,
+        "Chanwoo Choi" <cw00.choi@samsung.com>,
+        "Michael Turquette" <mturquette@baylibre.com>,
+        "Stephen Boyd" <sboyd@kernel.org>, linux-doc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com, linux-clk@vger.kernel.org
+Subject: Re: [PATCH 01/21] ARM: s3c: remove all s3c24xx support
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Maryam Tahhan <mtahhan@redhat.com>
+On Sat, Oct 22, 2022, at 22:56, Heiko St=C3=BCbner wrote:
+> Am Freitag, 21. Oktober 2022, 22:27:34 CEST schrieb Arnd Bergmann:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>>=20
+>> The platform was deprecated in commit 6a5e69c7ddea ("ARM: s3c: mark
+>> as deprecated and schedule removal") and can be removed. This includes
+>> all files that are exclusively for s3c24xx and not shared with s3c64x=
+x,
+>> as well as the glue logic in Kconfig and the maintainer file entries.
+>>=20
+>> Cc: Arnaud Patard <arnaud.patard@rtp-net.org>
+>> Cc: Ben Dooks <ben-linux@fluff.org>
+>> Cc: Christer Weinigel <christer@weinigel.se>
+>> Cc: Guillaume GOURAT <guillaume.gourat@nexvision.tv>
+>> Cc: Heiko Stuebner <heiko@sntech.de>
+>> Cc: Simtec Linux Team <linux@simtec.co.uk>
+>> Cc: openmoko-kernel@lists.openmoko.org
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>
+> So many memories of me starting out in the kernel on s3c24xx.
+> But it's no use trying to keep stuff around that nobody will likely
+> ever use again. So with a sad face
+>
+> Acked-by: Heiko Stuebner <heiko@sntech.de>
+>
+>
+> though you might want to also include
+> 	drivers/dma/s3c24xx-dma.c
 
-Add documentation for BPF_MAP_TYPE_DEVMAP and
-BPF_MAP_TYPE_DEVMAP_HASH including kernel version
-introduced, usage and examples.
+This was in a separate patch that removes the driver:
 
-Add documentation that describes XDP_REDIRECT.
+https://lore.kernel.org/linux-arm-kernel/20221021203329.4143397-14-arnd@=
+kernel.org/
 
-v4->v5:
-- Remove unused 'index' variable in example.
+In the first patch, I only include references to removed
+Kconfig symbols that would not make sense to split out into
+separate patches.
 
-v3->v4:
-- Prepend supported map section for XDP_REDIRECT documentation.
-
-v2->v3:
-- Fixed indentations in usage section to exclude non note text.
-- Replace links to selftest with actual paths.
-
-v1->v2:
-- Separate xdp_redirect documentation to its own file.
-- Clean up and simplify examples and usage function descriptions.
-
-Maryam Tahhan (1):
-  doc: DEVMAPs and XDP_REDIRECT
-
- Documentation/bpf/index.rst      |   1 +
- Documentation/bpf/map_devmap.rst | 203 +++++++++++++++++++++++++++++++
- Documentation/bpf/redirect.rst   |  45 +++++++
- 3 files changed, 249 insertions(+)
- create mode 100644 Documentation/bpf/map_devmap.rst
- create mode 100644 Documentation/bpf/redirect.rst
-
--- 
-2.35.3
-
+    Arnd
