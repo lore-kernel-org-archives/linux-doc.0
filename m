@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2389DFA3741
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 11:55:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF8FDC38A2D
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 12:00:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232034AbiJXLzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 07:55:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53408 "EHLO
+        id S232168AbiJXMAG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 08:00:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232553AbiJXLy7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 07:54:59 -0400
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B119F79EF3
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:46:16 -0700 (PDT)
-Received: by mail-qv1-xf2c.google.com with SMTP id t16so6296690qvm.9
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:46:16 -0700 (PDT)
+        with ESMTP id S232490AbiJXL7F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 07:59:05 -0400
+Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com [IPv6:2607:f8b0:4864:20::a30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52C0E7C1EF
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:47:51 -0700 (PDT)
+Received: by mail-vk1-xa30.google.com with SMTP id t85so3757867vkb.7
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:47:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=daynix-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XqmnVvhO9UyNXVHf0JsSwhtfQtP7FaZ6t+IS8pLhYe4=;
-        b=s196kKLMLpzulXUS4BLxdjP3PZud7xTpKqpKruF8CPkUOnlKaR/90Xeg2YiBo1lxHt
-         0phPGBaGv8xL/2sJqtVjolNPplrc2gMArMrd38Fp4QY7w8IhO1gtyxxMyGg93VGpm0MM
-         j/H+7JqUU0uyU9EbCNWGW0hSXVYMoeFxaVahwQmC5a0ogDrEldzdfFhw1y5wfPbeoDyv
-         hhwAFpQRAr0P5gUGNLn3NAYvFzK96KUpTxDG6A6mcGTvTgwIFrZjd1qq4rg87X1gcrgv
-         qVb+qSNOeTlneVvekKPumnA2sWUZNn6pea2DrTamA/nt4dzQ8wvTNCAad1chJdFMPTZm
-         71eQ==
+        bh=3flgEAolZn9kn5oClvgduggco3LU3Kao58cYVj8GoE4=;
+        b=LFNGam9y4Mzo/GmaRHBG21OM1uk0hOommk74KXR9Ca3TMfQryGTVdhVU5ltrLDq2eZ
+         02Sufh/O0mf9igu5dzzr9xfFTvUVJnusR47enfl8COOjleX5fwL6eAZaOwUFpStJHUJi
+         hCLqEFuFEiStB87OEfhilZId7gmp5XPzc8feF2PYyJiV+KGbmtv9V+IgrRH+2aqz3DHV
+         M+0XmnIQ2XPB2CwxIkAbGWu2tAx/w1WMTphoADzrca9LYFwO0Tc5zvTS7ycemczGbZdY
+         uWICIlA0YHCEjqWRpSdtI+n8c9TyFLANwWLT4ZFSjfGAycLhmE5YxuD4ntG1ulSCg1AF
+         sMBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XqmnVvhO9UyNXVHf0JsSwhtfQtP7FaZ6t+IS8pLhYe4=;
-        b=VqrU3vwrxChS+jFEGS5btMqpV6nP4qxBDWpO2GCUuRtnNqmgw0ctpSgC3hQPVDsHbW
-         oYDoDrTO296syLMYTrolZUhJ37aLFDZYv6Snc7Yd5jmyd8X/CjCNnSnAHbiHCfzfuU2j
-         ncayBJCEUgrR3YhCWuw0r6Z+NOn8+786LORq1m53Atvp0cLAmiOxPMviijcsMeXt+xSy
-         C0zqQPy8AImnUsLbPHeSFxjf54rea1Zllq4K+eB3ADzZHveWtOb3aBd2YgdHRWOV2QFb
-         ciXDd077xGC8SPRM6R1LQgx3twRtnFOKihwrhU/pk6FtMADSnws2omC2IWAvhPlqiPgc
-         lfig==
-X-Gm-Message-State: ACrzQf0dUZJCY1+XopcSG9EKP2NWnxtsvYHH95xiP+YFZbFykfKOoXaU
-        JFx7s3Z6D7EFXqF63ljysOSEOJAPZONg5lWY
-X-Google-Smtp-Source: AMsMyM4bQCnNONbcQRCLJnNp3+V9paAm7JCDcLdkyq7fRJSwz3Z4S1McoGfU9dqTYLitGtEw6cnCGg==
-X-Received: by 2002:a17:903:2014:b0:186:8937:28a6 with SMTP id s20-20020a170903201400b00186893728a6mr11907681pla.39.1666611357909;
-        Mon, 24 Oct 2022 04:35:57 -0700 (PDT)
+        bh=3flgEAolZn9kn5oClvgduggco3LU3Kao58cYVj8GoE4=;
+        b=gVGQAS9BNHL2fa90pCtqMQpiHz6mAfzq+bRJCxYt4Mb64mj899RL6Fd9+umMvr9Br/
+         swEbTnOsRETsuV2EXvsn30r8aIqREpFciiQIVL43Vnozw1YWEgUmH7tKqKvKBUKs1LNW
+         KpFESTbjInzD3QuM+MK/R9ZWSEfHV1TCQQrE7nKyMC4y+d9DpgNjS1kEu9+zfPaQmgWS
+         npyMZyMj3Zek7HmTfD53nz0aG/6KLjcMmq3/fzqjAV028NoGxaYqN8j7bsQmCVPp8+qD
+         q6qhDPuPmc0mdKFNeoDdqD7/ZyDx7RuJY248OnPLj66sUSwTmjldwqNMnEVDbqTAoso4
+         x7mg==
+X-Gm-Message-State: ACrzQf3ZB1nt3nMOQewhpk60dWN03oXP+myv6Ki48IkDkYd0QmdPN5SX
+        4M5dsuMt7KfrN0Pm9BAbT95dsBvbpfyANFOU
+X-Google-Smtp-Source: AMsMyM5su6ApWtiy+J/kwO/a0HneChUBGcY0XEPNt6nciHQoDPKXFdF+gj0Vs4qmtnJ6gx8k4rNCKg==
+X-Received: by 2002:a17:902:ec8a:b0:185:5462:261a with SMTP id x10-20020a170902ec8a00b001855462261amr32981480plg.160.1666611509068;
+        Mon, 24 Oct 2022 04:38:29 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
-        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.35.49
+        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.38.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 04:35:57 -0700 (PDT)
+        Mon, 24 Oct 2022 04:38:28 -0700 (PDT)
 From:   Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -87,9 +87,9 @@ Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         acpi4asus-user@lists.sourceforge.net,
         ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
         devel@acpica.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 02/22] ACPI: video: Introduce acpi_video_get_backlight_types()
-Date:   Mon, 24 Oct 2022 20:34:53 +0900
-Message-Id: <20221024113513.5205-3-akihiko.odaki@daynix.com>
+Subject: [PATCH 20/22] platform/x86: intel_oaktrail: Use acpi_video_get_backlight_types()
+Date:   Mon, 24 Oct 2022 20:35:11 +0900
+Message-Id: <20221024113513.5205-21-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
 References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
@@ -100,84 +100,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This deprecates acpi_video_get_backlight_type().
+acpi_video_get_backlight_type() is now deprecated.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- drivers/acpi/acpi_video.c   |  2 +-
- drivers/acpi/video_detect.c |  6 +++---
- include/acpi/video.h        | 12 ++++++++++++
- 3 files changed, 16 insertions(+), 4 deletions(-)
+ drivers/platform/x86/intel/oaktrail.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/acpi/acpi_video.c b/drivers/acpi/acpi_video.c
-index 32953646caeb..63e41aac71bd 100644
---- a/drivers/acpi/acpi_video.c
-+++ b/drivers/acpi/acpi_video.c
-@@ -1823,7 +1823,7 @@ static int acpi_video_bus_register_backlight(struct acpi_video_bus *video)
- 	if (video->backlight_registered)
- 		return 0;
+diff --git a/drivers/platform/x86/intel/oaktrail.c b/drivers/platform/x86/intel/oaktrail.c
+index 7c5c623630c1..f44a51dad16a 100644
+--- a/drivers/platform/x86/intel/oaktrail.c
++++ b/drivers/platform/x86/intel/oaktrail.c
+@@ -330,7 +330,7 @@ static int __init oaktrail_init(void)
+ 		goto err_device_add;
+ 	}
  
--	if (acpi_video_get_backlight_type() != acpi_backlight_video)
-+	if (!(acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VIDEO))
- 		return 0;
- 
- 	mutex_lock(&video->device_list_lock);
-diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
-index 0d9064a9804c..9cb12e4f06f7 100644
---- a/drivers/acpi/video_detect.c
-+++ b/drivers/acpi/video_detect.c
-@@ -17,13 +17,13 @@
-  * Otherwise vendor specific drivers like thinkpad_acpi, asus-laptop,
-  * sony_acpi,... can take care about backlight brightness.
-  *
-- * Backlight drivers can use acpi_video_get_backlight_type() to determine which
-+ * Backlight drivers can use acpi_video_get_backlight_types() to determine which
-  * driver should handle the backlight. RAW/GPU-driver backlight drivers must
-  * use the acpi_video_backlight_use_native() helper for this.
-  *
-  * If CONFIG_ACPI_VIDEO is neither set as "compiled in" (y) nor as a module (m)
-- * this file will not be compiled and acpi_video_get_backlight_type() will
-- * always return acpi_backlight_vendor.
-+ * this file will not be compiled and acpi_video_get_backlight_types() will
-+ * always return ACPI_BACKLIGHT_VENDOR.
-  */
- 
- #include <linux/export.h>
-diff --git a/include/acpi/video.h b/include/acpi/video.h
-index a275c35e5249..a565ba27fae0 100644
---- a/include/acpi/video.h
-+++ b/include/acpi/video.h
-@@ -2,6 +2,7 @@
- #ifndef __ACPI_VIDEO_H
- #define __ACPI_VIDEO_H
- 
-+#include <linux/bits.h> /* for BIT */
- #include <linux/errno.h> /* for ENODEV */
- #include <linux/types.h> /* for bool */
- 
-@@ -52,6 +53,12 @@ enum acpi_backlight_type {
- 	acpi_backlight_apple_gmux,
- };
- 
-+#define ACPI_BACKLIGHT_VIDEO BIT(acpi_backlight_video)
-+#define ACPI_BACKLIGHT_VENDOR BIT(acpi_backlight_vendor)
-+#define ACPI_BACKLIGHT_NATIVE BIT(acpi_backlight_native)
-+#define ACPI_BACKLIGHT_NVIDIA_WMI_EC BIT(acpi_backlight_nvidia_wmi_ec)
-+#define ACPI_BACKLIGHT_APPLE_GMUX BIT(acpi_backlight_apple_gmux)
-+
- #if IS_ENABLED(CONFIG_ACPI_VIDEO)
- extern int acpi_video_register(void);
- extern void acpi_video_unregister(void);
-@@ -97,4 +104,9 @@ static inline int acpi_video_get_levels(struct acpi_device *device,
- }
- #endif
- 
-+static inline int acpi_video_get_backlight_types(void)
-+{
-+	return BIT(acpi_video_get_backlight_type());
-+}
-+
- #endif
+-	if (acpi_video_get_backlight_type() == acpi_backlight_vendor) {
++	if ((acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
+ 		ret = oaktrail_backlight_init();
+ 		if (ret)
+ 			goto err_backlight;
 -- 
 2.37.3
 
