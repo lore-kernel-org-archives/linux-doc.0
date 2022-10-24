@@ -2,150 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 013DBC38A2D
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 07:33:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB5C3FA3740
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 07:44:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229727AbiJXHdP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 03:33:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38460 "EHLO
+        id S229930AbiJXHou (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 03:44:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229716AbiJXHdO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 03:33:14 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF980606A9;
-        Mon, 24 Oct 2022 00:33:12 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 1A1AC5C00CC;
-        Mon, 24 Oct 2022 03:33:12 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Mon, 24 Oct 2022 03:33:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1666596792; x=1666683192; bh=MLgwl6qVQ1
-        d5bswGgDHxIEJUCPcVEho8D9vRKEmhmk8=; b=GHgwqBJ1of6xGRv2pG2BGEt8rE
-        CewjyOnqG3XsUJOJdIk9/EbkQKJtPGc71OXxQ4Z85kQPLrrlOL0rB4lnZl8HLVjy
-        sL64F831eIsoYiZOo9PjdNOjd/BjBYFBj0PwZ+n2IZJFws6958OvauvdcTUbj6Xb
-        YAr94iVFFIJYpN29b+cbjGpjOzma0LABf7WPmoe6PS7PhnXuRNopy5RMTG593Hgg
-        gC+TxNaBT5kVJmUi4kU685zxWc3+UhLrKi4h4866RCchEH0Z1ZbwAMPl9AvZHg4T
-        IbIzj1S+xFoxWGl1Qx84pJSZC4X7ZgG1vE97hMqp9xPwuDUPFO/cqI1jZSHA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1666596792; x=1666683192; bh=MLgwl6qVQ1d5bswGgDHxIEJUCPcV
-        Eho8D9vRKEmhmk8=; b=aESBKGu4MQ+NP6k7XUxbGLXgLZBIv/NbQmZz+8PUdEom
-        ILy9GBFMOeowzyFjolQsKijHfCfiVos8c0zu+vkmwlQWvTcDdD6BFEhIp/2U1Yos
-        bIAJH+c5iJIVrIkfMwKXqKyjouaiKQW3I0qJq3FfWw0SpunlPNXb6qvLGyyr9wwE
-        d/kpCfcJNwKUY3aqbNLYQS/8BfdYoC3sUo6yZRhq8GH6pCxa0k5z1eXTIgTBLTwW
-        SIGHrfH57n/mXNmD2rMjKfviyRsXWh9aCSbhFoovg0BxFrWNcctSNq/zlL2dztRW
-        s6jgP5GqVavI7irhlwP5PZ7WRz8bRvFoFhIwhe8xZw==
-X-ME-Sender: <xms:tT9WY9-5vUjqBRClSOb2LUQsndEg3k1PTMeFg3PnUWGVF0QNYslDsA>
-    <xme:tT9WYxuaUHG11IOgzybvIygtbj-_H-OyYMuqbPf8PNfqqDdVaZYgqX00beELv8GSE
-    RP2l_mm6QeihXcqr74>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtfedguddvfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeeivdeutdetiefgffdvteehtdegkeehvdelueetheeggeelkedutdfggeeg
-    vedtheenucffohhmrghinheprhgvrggtthhoshdrohhrghenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:tT9WY7A3ChyT71AUD7f1miMNi0q7evkD_qnhGmqNWFbkDx2ZJHvTkw>
-    <xmx:tT9WYxdChVkxjAnL6_v5P5DCQ1iDQl2cjseazrjj5Lnzv9sJKr5UWQ>
-    <xmx:tT9WYyOSlfIubF34VFwb26LVW9aELgrlq47PkToWPe_Yfc-H7eMvUg>
-    <xmx:uD9WY6OYxMpe-JEqo9gKZJLODnRbZPxnb_f0gNPc3UdsGAUOSlqM1A>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 89108B60086; Mon, 24 Oct 2022 03:33:09 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
-Mime-Version: 1.0
-Message-Id: <ddb4a078-4d81-4124-8da0-6d7fbd3cd5c7@app.fastmail.com>
-In-Reply-To: <CAHk-=wgNZNNd4t004x0ehXm=DA+JmYY=0MgVNDXUtoV4ApyXvQ@mail.gmail.com>
-References: <20220815071332.627393-1-yuzhao@google.com>
- <20220815071332.627393-9-yuzhao@google.com>
- <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net>
- <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com>
- <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
- <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net>
- <CAHk-=whQchubuDpRGFabhmcZuzdt13OOF8wznXb+Dbi3GzBQhQ@mail.gmail.com>
- <Y1GZjPO+szk7X0wP@hirez.programming.kicks-ass.net>
- <CAHk-=wikUaRM5H_y1Bc+QyvGi40dKDL8fnCTyz7ECbwK7aHNPQ@mail.gmail.com>
- <Y1IUMDJFScAMrCS5@casper.infradead.org>
- <CAHk-=wjrpH1+6cQQjTO6p-96ndBMiOnNH098vhS2jLybxD+7gA@mail.gmail.com>
- <alpine.DEB.2.21.2210211911390.50489@angie.orcam.me.uk>
- <CAHk-=wgNZNNd4t004x0ehXm=DA+JmYY=0MgVNDXUtoV4ApyXvQ@mail.gmail.com>
-Date:   Mon, 24 Oct 2022 09:30:09 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Linus Torvalds" <torvalds@linux-foundation.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc:     "Matthew Wilcox" <willy@infradead.org>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        "Yu Zhao" <yuzhao@google.com>,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "Andi Kleen" <ak@linux.intel.com>,
-        "Aneesh Kumar" <aneesh.kumar@linux.ibm.com>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "Hillf Danton" <hdanton@sina.com>, "Jens Axboe" <axboe@kernel.dk>,
-        "Johannes Weiner" <hannes@cmpxchg.org>,
-        "Jonathan Corbet" <corbet@lwn.net>, "Mel Gorman" <mgorman@suse.de>,
-        "Michael Larabel" <Michael@michaellarabel.com>,
-        "Michal Hocko" <mhocko@kernel.org>,
-        "Mike Rapoport" <rppt@kernel.org>, "Tejun Heo" <tj@kernel.org>,
-        "Vlastimil Babka" <vbabka@suse.cz>,
-        "Will Deacon" <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, "Brian Geffon" <bgeffon@google.com>,
-        "Jan Alexander Steffens" <heftig@archlinux.org>,
-        "Oleksandr Natalenko" <oleksandr@natalenko.name>,
-        "Steven Barrett" <steven@liquorix.net>,
-        "Suleiman Souhlal" <suleiman@google.com>,
-        "Daniel Byrne" <djbyrne@mtu.edu>,
-        "Donald Carr" <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        "Konstantin Kharlamov" <Hi-Angel@yandex.ru>,
-        "Shuang Zhai" <szhai2@cs.rochester.edu>,
-        "Sofia Trinh" <sofia.trinh@edi.works>,
-        "Vaibhav Jain" <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
-Content-Type: text/plain
+        with ESMTP id S229933AbiJXHoY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 03:44:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCA5162911
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 00:43:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666597402;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZIv2r2dWkEokiNFPkjqlVbo9H7afruyUMoFYLJNwyjU=;
+        b=OpPfwG4KmKerPJOoKNRGJ/UXbXiTTiHJpBbRaOqhxeHBqTZuweIKFTo48g/UcxspX2VaVt
+        xGp6aN7cFNs1DZP3Fx01EWikL9YOkkN9YUILZKs71/bMWxulDk0lbzB5RYeNq5U783Z3nX
+        Z1ODY0OGMR5DnhceJPAK2PohJmWC7lM=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-37-DErLBQkQNhSAW-us8y8VUA-1; Mon, 24 Oct 2022 03:43:11 -0400
+X-MC-Unique: DErLBQkQNhSAW-us8y8VUA-1
+Received: by mail-qv1-f70.google.com with SMTP id q16-20020a0ce210000000b004ba8976d3aaso4514731qvl.5
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 00:43:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZIv2r2dWkEokiNFPkjqlVbo9H7afruyUMoFYLJNwyjU=;
+        b=BJTSLdmVSiuUbxSsTz053rjPGskNVHNyFgLMAiOu2FnwmM2UISrvRQoviriNgjgcH1
+         yoBncYRMY26IWZUb4/NGluG78KPuWowusi5F9xVOoCvWsG9cUUsbDBYcJ8gBaGoq15tM
+         ulHDTVRfbyNixVk91KcLOgcUXj3al3Rsg2Y7msupGBXnAEO5u8YgyNhnRvEnv8zNUz6i
+         xNa+dPbT1eSMLsYOXrPjEOFmoYVgZSoGna5DS2vnzrOoQfx4ifRSg8EIaBPfcVSFF0Dp
+         q8er3ZvABEG1qJiP/PhkonTJDdku/bj8BtxR5HuI3tvoiWWdPN96K0xmIdsz+Mdvoyv/
+         qcLw==
+X-Gm-Message-State: ACrzQf3RYG3QFpiUUe9qPqiWlOAg4qERh/QiFip8jERnWn1NfMUq2dbA
+        4UnS30zPvmqRb+XbtWkdc98dUPEOQtHhaPcHCVzm84+dhlVzChAVY7KofD6+MJj3TSSPr2eOSvt
+        s2ddT6sk83aBReb0yv4eq
+X-Received: by 2002:a05:620a:22aa:b0:6ef:a22:f164 with SMTP id p10-20020a05620a22aa00b006ef0a22f164mr14256278qkh.697.1666597390493;
+        Mon, 24 Oct 2022 00:43:10 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM56ffpk5LHX1u7kc6YRwKSsol+j2ZCZ1+6tHhrTU4K+2HzRICzk+0ehzcxld8f1R1vpFng9YA==
+X-Received: by 2002:a05:620a:22aa:b0:6ef:a22:f164 with SMTP id p10-20020a05620a22aa00b006ef0a22f164mr14256262qkh.697.1666597390198;
+        Mon, 24 Oct 2022 00:43:10 -0700 (PDT)
+Received: from [192.168.149.123] (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+        by smtp.gmail.com with ESMTPSA id h6-20020ac85846000000b0039a9b55b829sm12647888qth.29.2022.10.24.00.43.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Oct 2022 00:43:09 -0700 (PDT)
+Message-ID: <4ef882c2-1535-d7df-d474-e5fab2975f53@redhat.com>
+Date:   Mon, 24 Oct 2022 09:43:04 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 4/4] KVM: use signals to abort enter_guest/blocking and
+ retry
+Content-Language: en-US
+To:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20221022154819.1823133-1-eesposit@redhat.com>
+ <20221022154819.1823133-5-eesposit@redhat.com>
+ <5ee4eeb8-4d61-06fc-f80d-06efeeffe902@redhat.com>
+From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <5ee4eeb8-4d61-06fc-f80d-06efeeffe902@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Oct 23, 2022, at 20:35, Linus Torvalds wrote:
->
-> Honestly, I wouldn't mind upgrading the minimum requirements to at
-> least M586TSC - leaving some of those early "fake Pentium" clones
-> behind too. Because 'rdtsc' is probably an even worse issue than
-> CMPXCHG8B.
 
-Kconfig treats X86_CMPXCHG64 as a strict subset of X86_TSC (except
-when enabling X86_PAE, which relies on cx8), so requiring both
-sounds like a good idea.
 
-From the Kconfig history, I see you initially only enabled
-cx8 unconditionally for a couple of CPUs in 982d007a6eec ("x86:
-Optimize cmpxchg64() at build-time some more"), and Matthew
-Whitehead extended that list in f960cfd12650 ("x86/Kconfig:
-Add missing i586-class CPUs to the X86_CMPXCHG64 Kconfig group").
+Am 23/10/2022 um 19:48 schrieb Paolo Bonzini:
+> On 10/22/22 17:48, Emanuele Giuseppe Esposito wrote:
+>> Once a vcpu exectues KVM_RUN, it could enter two states:
+>> enter guest mode, or block/halt.
+>> Use a signal to allow a vcpu to exit the guest state or unblock,
+>> so that it can exit KVM_RUN and release the read semaphore,
+>> allowing a pending KVM_KICK_ALL_RUNNING_VCPUS to continue.
+>>
+>> Note that the signal is not deleted and used to propagate the
+>> exit reason till vcpu_run(). It will be clearead only by
+>> KVM_RESUME_ALL_KICKED_VCPUS. This allows the vcpu to keep try
+>> entering KVM_RUN and perform again all checks done in
+>> kvm_arch_vcpu_ioctl_run() before entering the guest state,
+>> where it will return again if the request is still set.
+>>
+>> However, the userspace hypervisor should also try to avoid
+>> continuously calling KVM_RUN after invoking KVM_KICK_ALL_RUNNING_VCPUS,
+>> because such call will just translate in a back-to-back down_read()
+>> and up_read() (thanks to the signal).
+> 
+> Since the userspace should anyway avoid going into this effectively-busy
+> wait, what about clearing the request after the first exit?  The
+> cancellation ioctl can be kept for vCPUs that are never entered after
+> KVM_KICK_ALL_RUNNING_VCPUS.  Alternatively, kvm_clear_all_cpus_request
+> could be done right before up_write().
 
-There are still a handful of CPUs that according to [1] 
-claim cx8 support that we leave disabled, specifically the
-Kconfig symbols for MWINCHIP3D, MCRUSOE, MEFFICEON, MCYRIXIII,
-MVIAC3_2 and MVIAC7 should have both tsc and cx8, while the
-older MWINCHIPC6 and a small subset of M586 (Cyrix 6x86mx, C-II
-and AMD K5) apparently have cx8 but not tsc.
+Clearing makes sense, but should we "trust" the userspace not to go into
+busy wait?
+What's the typical "contract" between KVM and the userspace? Meaning,
+should we cover the basic usage mistakes like forgetting to busy wait on
+KVM_RUN?
 
-Would you drop support for the 686-class chips that currently
-don't use cmpxchg8b, or just remove CONFIG_X86_CMPXCHG64 and
-assume they work after all?
+If we don't, I can add a comment when clearing and of course also
+mention it in the API documentation (that I forgot to update, sorry :D)
 
-       Arnd
+Emanuele
 
-[1] https://reactos.org/wiki/Supported_Hardware/CPU
+> 
+> Paolo
+> 
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   arch/x86/include/asm/kvm_host.h |  2 ++
+>>   arch/x86/kvm/x86.c              |  8 ++++++++
+>>   virt/kvm/kvm_main.c             | 21 +++++++++++++++++++++
+>>   3 files changed, 31 insertions(+)
+>>
+>> diff --git a/arch/x86/include/asm/kvm_host.h
+>> b/arch/x86/include/asm/kvm_host.h
+>> index aa381ab69a19..d5c37f344d65 100644
+>> --- a/arch/x86/include/asm/kvm_host.h
+>> +++ b/arch/x86/include/asm/kvm_host.h
+>> @@ -108,6 +108,8 @@
+>>       KVM_ARCH_REQ_FLAGS(30, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+>>   #define KVM_REQ_MMU_FREE_OBSOLETE_ROOTS \
+>>       KVM_ARCH_REQ_FLAGS(31, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+>> +#define KVM_REQ_USERSPACE_KICK        \
+>> +    KVM_ARCH_REQ_FLAGS(32, KVM_REQUEST_WAIT)
+>>     #define
+>> CR0_RESERVED_BITS                                               \
+>>       (~(unsigned long)(X86_CR0_PE | X86_CR0_MP | X86_CR0_EM |
+>> X86_CR0_TS \
+>> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+>> index b0c47b41c264..2af5f427b4e9 100644
+>> --- a/arch/x86/kvm/x86.c
+>> +++ b/arch/x86/kvm/x86.c
+>> @@ -10270,6 +10270,10 @@ static int vcpu_enter_guest(struct kvm_vcpu
+>> *vcpu)
+>>       }
+>>         if (kvm_request_pending(vcpu)) {
+>> +        if (kvm_test_request(KVM_REQ_USERSPACE_KICK, vcpu)) {
+>> +            r = -EINTR;
+>> +            goto out;
+>> +        }
+>>           if (kvm_check_request(KVM_REQ_VM_DEAD, vcpu)) {
+>>               r = -EIO;
+>>               goto out;
+>> @@ -10701,6 +10705,10 @@ static int vcpu_run(struct kvm_vcpu *vcpu)
+>>               r = vcpu_block(vcpu);
+>>           }
+>>   +        /* vcpu exited guest/unblocked because of this request */
+>> +        if (kvm_test_request(KVM_REQ_USERSPACE_KICK, vcpu))
+>> +            return -EINTR;
+>> +
+>>           if (r <= 0)
+>>               break;
+>>   diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+>> index ae0240928a4a..13fa7229b85d 100644
+>> --- a/virt/kvm/kvm_main.c
+>> +++ b/virt/kvm/kvm_main.c
+>> @@ -3431,6 +3431,8 @@ static int kvm_vcpu_check_block(struct kvm_vcpu
+>> *vcpu)
+>>           goto out;
+>>       if (kvm_check_request(KVM_REQ_UNBLOCK, vcpu))
+>>           goto out;
+>> +    if (kvm_test_request(KVM_REQ_USERSPACE_KICK, vcpu))
+>> +        goto out;
+>>         ret = 0;
+>>   out:
+>> @@ -4668,6 +4670,25 @@ static long kvm_vm_ioctl(struct file *filp,
+>>           r = kvm_vm_ioctl_enable_cap_generic(kvm, &cap);
+>>           break;
+>>       }
+>> +    case KVM_KICK_ALL_RUNNING_VCPUS: {
+>> +        /*
+>> +         * Notify all running vcpus that they have to stop.
+>> +         * Caught in kvm_arch_vcpu_ioctl_run()
+>> +         */
+>> +        kvm_make_all_cpus_request(kvm, KVM_REQ_USERSPACE_KICK);
+>> +
+>> +        /*
+>> +         * Use wr semaphore to wait for all vcpus to exit from KVM_RUN.
+>> +         */
+>> +        down_write(&memory_transaction);
+>> +        up_write(&memory_transaction);
+>> +        break;
+>> +    }
+>> +    case KVM_RESUME_ALL_KICKED_VCPUS: {
+>> +        /* Remove all requests sent with KVM_KICK_ALL_RUNNING_VCPUS */
+>> +        kvm_clear_all_cpus_request(kvm, KVM_REQ_USERSPACE_KICK);
+>> +        break;
+>> +    }
+>>       case KVM_SET_USER_MEMORY_REGION: {
+>>           struct kvm_userspace_memory_region kvm_userspace_mem;
+>>   
+> 
+
