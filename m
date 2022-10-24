@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 304F6FA3744
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 11:37:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48CBBC38A2D
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 11:38:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229838AbiJXLhh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 07:37:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57638 "EHLO
+        id S229988AbiJXLif (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 07:38:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230041AbiJXLhZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 07:37:25 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CD265A16C
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:37:22 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id g62so4704757pfb.10
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:37:21 -0700 (PDT)
+        with ESMTP id S230497AbiJXLhu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 07:37:50 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B68875F9B6
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:37:38 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id ez6so7944654pjb.1
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:37:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=daynix-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nh284RfbKTKjVZ53xc/BjYmJT2KbUvj6smXua/Y15lg=;
-        b=wKxhR+PYREmRgVKkasTw0GfLrz2v/WYReVJQ30eu6x7i4eVQgdnhuAzGFkfXj43osX
-         iAXkQ9aOTTvoovjS5IAKs+vGwyfg/3OtbGuKU/dCjSKPeCgfec8HUoDEQ74hMGKLlidw
-         xopGpztVbn+H0pgQsRhyf7RQzg47xJ12vGdWkiLpV1wmLs/HSBYTp0CLCI3VpboZfYoK
-         OVdGvVz64lio5FjIFDglJN+RSxy4l6GjXQ4rIatNLGAan07rIxYhnoljN8p8kyn4jRRy
-         crr47iBoKn1Bk8Y506uKaUb06iRU9mYdDjzttWDNXRDmwZYfgtsJrKYIzOgRriRarrJF
-         6iww==
+        bh=jd6ACh5yshC3v+wpibDWDf3qgLlWAznCMtTQxn1zcTM=;
+        b=BWB1bsRo1D1/5aG2HUlQshwnot5GiQEKVcgQhO+OxWk4Yv6RJGjGc0+BnbVcAU1ilB
+         NhLxiTmmJgpEWvIeGzC5nj6mZ2YWuafNwN+o0OYaPM29MksvUZTfQAH1/K+UrZCFM6bR
+         i7w9/In5jUCFaBvu+D1VTFv7mFYSrjvbVqaokCOIPR/VUAMFVxjnDdpJCpz7bMR/BSkg
+         Jq+u8O9YrnPI/nP0nolD9ycK218e8OEhDyBgyhXa6WYV51n2uaBY0GhjjlonI341V0zm
+         ZR6a6kMTVC2I54CmN/XhCqU+xMvNbG8LWMhVeF721NMtiIvmVm8HCmwl7f0mofuKqBvv
+         T6qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nh284RfbKTKjVZ53xc/BjYmJT2KbUvj6smXua/Y15lg=;
-        b=erRZMH/Rl5POTeIJrIFBqbRhrfbVgpYlnniSAY9p1HTRP3iUG6IOhikMj62IeoTkUK
-         J0+pFB8v8wZQ9H/As1Qo9ERhaob1AVd162+SfZ8sfGlVqipcwazGX/goMLw/MWQPtEGA
-         Z6suBMyAXKC0jP3XL6gebFS8VlvfCY5f0Fx8fSsFNH3IYotbZsy1eJbjqgT8BiAvoEby
-         w5/nqBkOKxg/OZHYwoy/bjumbPU2cgTqELLKYhwmIAqwREXLPO6dIj/8thlG9ZrNDoH9
-         kUv9CevyJepw/TBfkVUkIY4NxjN0eVBRxAJ0B1jXbjbLXhbjEMjEqU/rJ0Ke8HhHhl9S
-         E7Rg==
-X-Gm-Message-State: ACrzQf2VtZDUQ/TT5q24fnL0b4rCpGao/b5rrJB+3xMFth8wPnM3oMrP
-        jnZexNBlI+fgBMhphycMi3WtKQ==
-X-Google-Smtp-Source: AMsMyM5qFqNKIQCrH6nqN3yVGbGf1IzcRlrs4UvsvzXwRIAC8cYkTRMstnrFzu4g/FRXgW5McIN7zw==
-X-Received: by 2002:a05:6a00:114c:b0:528:2c7a:6302 with SMTP id b12-20020a056a00114c00b005282c7a6302mr33351690pfm.37.1666611349588;
-        Mon, 24 Oct 2022 04:35:49 -0700 (PDT)
+        bh=jd6ACh5yshC3v+wpibDWDf3qgLlWAznCMtTQxn1zcTM=;
+        b=D89ee/aJYcVZcLObz7c+upYWIu1rx9c1pNzRMAGUAKIK3SdxcXCYbiVO3+YaiEtace
+         42YCkXcYXyd2nQSwBjPmBhLRzKthIcDgOjy1swhQZwzWPKm+do+yrOu3MbSYKgV4GHoO
+         XdD049hU/a9DENofkIT89MfUnBmdSHAG6ZxxGcbab/EummhNbltqFrGErw6sWorVsHn+
+         kujnTBqNyW1kSDuKA4rAm8IEDbCx3MYrsAJSltmR4ZWjHxbfqzmsXACaD4hyYMsq91IG
+         NX6aT6v2Z0o7PJbblHFV6tQfLZg1nNCaRnDhhEGf7mdn+6tLrYwyAFqjdl2Y385QAqXr
+         FU1A==
+X-Gm-Message-State: ACrzQf33yvQ+XVArYRsUCOe9R+WuaPqR3QHA73lrlozxpBnIPU4WtBku
+        La82Q9cMVlHYW9Ot4cFaXaeYVA==
+X-Google-Smtp-Source: AMsMyM73/rjifhWGMHa1zueK60XfZjEW5Vq3d/GPCr3Dh4GubkmNIV3imNkhOdeBYtsFWNdeZJSquQ==
+X-Received: by 2002:a17:902:da90:b0:185:5537:f388 with SMTP id j16-20020a170902da9000b001855537f388mr34408779plx.113.1666611366225;
+        Mon, 24 Oct 2022 04:36:06 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
-        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.35.41
+        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.35.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 04:35:49 -0700 (PDT)
+        Mon, 24 Oct 2022 04:36:05 -0700 (PDT)
 From:   Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -87,9 +87,9 @@ Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         acpi4asus-user@lists.sourceforge.net,
         ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
         devel@acpica.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 01/22] drm/i915/opregion: Improve backlight request condition
-Date:   Mon, 24 Oct 2022 20:34:52 +0900
-Message-Id: <20221024113513.5205-2-akihiko.odaki@daynix.com>
+Subject: [PATCH 03/22] LoongArch: Use acpi_video_get_backlight_types()
+Date:   Mon, 24 Oct 2022 20:34:54 +0900
+Message-Id: <20221024113513.5205-4-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
 References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
@@ -100,95 +100,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-asle_set_backlight() needs to accept backlight request only if the
-firmware controls the backlight. It used the following expression for
-this purpose:
-acpi_video_get_backlight_type() == acpi_backlight_native
-
-This expression works well in practice, but has two semantic problems.
-One is that it actually determines if a backlight device which directly
-modifies hardware registers ("native backlight") exists. It is possible
-that a device which does not have backlight at all incorrectly triggers
-asle_set_backlight(), and the expression does not cover such a case.
-
-Another problem is that acpi_video_get_backlight_type() always return
-acpi_backlight_vendor in reality if CONFIG_ACPI_VIDEO is unset. It
-means even its ability to determine the existence of native backlight is
-somewhat limited.
-
-This change introduces a new function backlight_device_non_raw_exists(),
-which returns if the firmware is controlling the backlight, and is
-always available if backlight support is enabled.
+acpi_video_get_backlight_type() is now deprecated.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- drivers/gpu/drm/i915/display/intel_opregion.c |  3 ++-
- drivers/video/backlight/backlight.c           | 18 ++++++++++++++++++
- include/linux/backlight.h                     |  1 +
- 3 files changed, 21 insertions(+), 1 deletion(-)
+ drivers/platform/loongarch/loongson-laptop.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
-index caa07ef34f21..82ea02ab94c2 100644
---- a/drivers/gpu/drm/i915/display/intel_opregion.c
-+++ b/drivers/gpu/drm/i915/display/intel_opregion.c
-@@ -26,6 +26,7 @@
-  */
+diff --git a/drivers/platform/loongarch/loongson-laptop.c b/drivers/platform/loongarch/loongson-laptop.c
+index f0166ad5d2c2..3b54b4cefedb 100644
+--- a/drivers/platform/loongarch/loongson-laptop.c
++++ b/drivers/platform/loongarch/loongson-laptop.c
+@@ -454,9 +454,9 @@ static int __init event_init(struct generic_sub_driver *sub_driver)
  
- #include <linux/acpi.h>
-+#include <linux/backlight.h>
- #include <linux/dmi.h>
- #include <linux/firmware.h>
- #include <acpi/video.h>
-@@ -467,7 +468,7 @@ static u32 asle_set_backlight(struct drm_i915_private *dev_priv, u32 bclp)
- 
- 	drm_dbg(&dev_priv->drm, "bclp = 0x%08x\n", bclp);
- 
--	if (acpi_video_get_backlight_type() == acpi_backlight_native) {
-+	if (!backlight_device_non_raw_exists()) {
- 		drm_dbg_kms(&dev_priv->drm,
- 			    "opregion backlight request ignored\n");
- 		return 0;
-diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-index b788ff3d0f45..4f0ce463e250 100644
---- a/drivers/video/backlight/backlight.c
-+++ b/drivers/video/backlight/backlight.c
-@@ -516,6 +516,24 @@ struct backlight_device *backlight_device_get_by_name(const char *name)
- }
- EXPORT_SYMBOL(backlight_device_get_by_name);
- 
-+bool backlight_device_non_raw_exists(void)
-+{
-+	bool found = false;
-+	struct backlight_device *bd;
-+
-+	mutex_lock(&backlight_dev_list_mutex);
-+	list_for_each_entry(bd, &backlight_dev_list, entry) {
-+		if (bd->props.type != BACKLIGHT_RAW) {
-+			found = true;
-+			break;
-+		}
-+	}
-+	mutex_unlock(&backlight_dev_list_mutex);
-+
-+	return found;
-+}
-+EXPORT_SYMBOL(backlight_device_non_raw_exists);
-+
- /* deprecated - use devm_backlight_device_unregister() */
- void backlight_device_unregister(struct backlight_device *bd)
- {
-diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index 614653e07e3a..364ef6f99a9e 100644
---- a/include/linux/backlight.h
-+++ b/include/linux/backlight.h
-@@ -444,6 +444,7 @@ int backlight_register_notifier(struct notifier_block *nb);
- int backlight_unregister_notifier(struct notifier_block *nb);
- struct backlight_device *backlight_device_get_by_name(const char *name);
- struct backlight_device *backlight_device_get_by_type(enum backlight_type type);
-+bool backlight_device_non_raw_exists(void);
- int backlight_device_set_brightness(struct backlight_device *bd,
- 				    unsigned long brightness);
- 
+ 	/*
+ 	 * This hotkey driver handle backlight event when
+-	 * acpi_video_get_backlight_type() gets acpi_backlight_vendor
++	 * acpi_video_get_backlight_types() gets ACPI_BACKLIGHT_VENDOR
+ 	 */
+-	if (acpi_video_get_backlight_type() == acpi_backlight_vendor)
++	if ((acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR))
+ 		hotkey_backlight_set(true);
+ 	else
+ 		hotkey_backlight_set(false);
 -- 
 2.37.3
 
