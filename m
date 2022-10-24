@@ -2,140 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E3CFA3743
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 16:05:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F9B9FA3740
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 16:10:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232198AbiJXQFY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 12:05:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37758 "EHLO
+        id S232918AbiJXQKf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 12:10:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232972AbiJXQEH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 12:04:07 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2062b.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eaa::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8DA62B26A;
-        Mon, 24 Oct 2022 07:56:18 -0700 (PDT)
+        with ESMTP id S233477AbiJXQIj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 12:08:39 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on20601.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eae::601])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B21A3442;
+        Mon, 24 Oct 2022 07:59:21 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fjAI6F/0AfbSEfrnseMKEMsfSX1/mrYID3DxmYjDlMb2mj91w87fsiTOfs72s/McL5iXrol6Agid+8GlH3uKvggFXejXKYPtbuTRiozGnhOZeCWHCPqkRKDgI/e9R44P7+vzPkWApF7l6rDyLWlpO9dfjzbZiQcAW+KfcyvyyPx8wVmpOlB/khW8350b4dTqMHHBT+7s2i5G14OQkfJKNKPR2qILM6ErRRnUbSbMO68ZVK+/euFQvCya+BaIlzxIQrdyJhdIKu64WDJ9UMnxneLH51JUtrQ+Iwvk87VPsAjsvnuNM3LOmZta70gb53dTHFWj95bAP1LGBneHkzVnZw==
+ b=VGuVE/mJooH8IrnmpGzo6QJAn+5GOpknLSgRghSzl/bjmXMaurvCHbQL1b47g5Sxw9gi8LeU+G1Y6jqwy8Uf3Vc+4Mg/zT5oYd90FmFg1sx4hoswUejYgVZHXjygPYpazmZuMoKUzeYyNfgRwNcoiKn1F6WDmEqeY2b3kVQr00XqpycmVDHkkNpW+zwyTLy6uG2XJZKULMd8n/Bd44ei07foZd022MmFNKzHLxOlPp1Lp/J4DsEPHghzuPr/XuLYfwOe338oEERPnQnXjzkpsoTR/WID2Iey/k9p62CJDmoBhdkbMmlfv4PMRC25Mh6G5JoGYvl0Hca8wyIhFneSJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ioittwS6gWcR7E4dED06JPZpwbkV9n4ItMsNPU0tgYE=;
- b=Er10R5cNuhSCvVakX4wVINY8EOBVsRLjVd8T4p8IGN/BlIGAhGDwP2MKI4GblUxiCAZWYLdZSw71gcZgZoE4Vg8tb9JVR7pP9vozz9BFJqUIof2iNkqZFt6xA4qF3TdjhvTpMEh6usZ2pG7qytGHTQjMbHpzrFVB6aqrucVZrlZh3oeWsQS8M4ZlvY4SobUz9HPXqHDgHuEKFXF1sL6RNdM8ZRxIiGPPu3xrA8gjQhxoAwmtyhE3crNYyImVHvb0N/2xdnPAY8uVtCEWQ1b0zTbhCeqKCW9lflM7miBSAHXh7+0RqTwLMW4S2bsJLek+FFhQ+7ggHrf+viQrE9WuLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+ bh=VesB2xX4veSjSHsHKaAEVjrYKKt6Vf6NxhiwSMHnnsA=;
+ b=SqKpjtELADMLVhQtES4Dp0d0R6GI0Widdgb+2xIPVelXeL+DqsRHfi9uFbAFWg9KRgZ4D/9ea9ipi0UAqlorTfwGUAgMbhP8/Bh64HnZ0H8iDJqrFMuovoktFyNjOY7K6W2eWw9btmhWMVFnAC6wUDvSH/sw89QacnAef6hBGOzSMwOHb8VeRyVqZZh9fQeE8yuZmjemqqb0BheufTJVjmbZhe8uNXGM1i+7B/jeBEfGxca8t8RdtrTubsqHOM3rNwACyXqT+kRfXPOxSSonZ4fR5nvdGwEs0R81AjqGJFV/T8NGu41rKk/pN+p7ZXNMJS1DFUJ3vUuaNNDgnEwuYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ioittwS6gWcR7E4dED06JPZpwbkV9n4ItMsNPU0tgYE=;
- b=qZNc7l0nVGolGi2KcCUjYC0tiodH4XP7f05m7CoFr27MOlu40pb2mM8bWYX123ESqN5ilfAS3yld087xpatY8Kqapko1oXPS38YrYmTJ/Fd/rf3F9JM7WVG5SWaf0f+eSZW+SWIunzm19uEwDY5nNiDQCMUFbhbd3na8VX7CiB4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
- by CH2PR12MB4216.namprd12.prod.outlook.com (2603:10b6:610:a8::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.23; Mon, 24 Oct
- 2022 14:53:42 +0000
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::9eca:d454:d407:7ba2]) by BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::9eca:d454:d407:7ba2%3]) with mapi id 15.20.5746.026; Mon, 24 Oct 2022
- 14:53:42 +0000
-Message-ID: <7be10c0d-4006-639c-0fc9-5537b2390714@amd.com>
-Date:   Mon, 24 Oct 2022 09:53:40 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 0/2] Documentation: Start Spanish translation and
- include HOWTO
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bilbao@vt.edu
-References: <20221013184816.354278-1-carlos.bilbao@amd.com>
- <20221014142454.871196-1-carlos.bilbao@amd.com> <Y0ork19pGMhZq8qn@debian.me>
+ bh=VesB2xX4veSjSHsHKaAEVjrYKKt6Vf6NxhiwSMHnnsA=;
+ b=1uKvdEnoIo33q9ScdkuQs/ib804RB7gztrpXXSpBFppAOFBWDJ0uLPll8m+pwLmjzVqC9kMCSEk/QgrvnX3tqRtvkIUq9ankI/CcI/4xKxVn5rh0qWJ3ONNvjsVOoQyr+2ySZG2Rm/67tKsxlSg+5T2X/j7mm47BnFAngun8IOU=
+Received: from DM6PR05CA0037.namprd05.prod.outlook.com (2603:10b6:5:335::6) by
+ IA1PR12MB7544.namprd12.prod.outlook.com (2603:10b6:208:42c::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5723.33; Mon, 24 Oct 2022 14:55:23 +0000
+Received: from DM6NAM11FT038.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:335:cafe::6b) by DM6PR05CA0037.outlook.office365.com
+ (2603:10b6:5:335::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.8 via Frontend
+ Transport; Mon, 24 Oct 2022 14:55:22 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT038.mail.protection.outlook.com (10.13.173.137) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5746.16 via Frontend Transport; Mon, 24 Oct 2022 14:55:22 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 24 Oct
+ 2022 09:55:22 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 24 Oct
+ 2022 09:55:22 -0500
+Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.31 via Frontend
+ Transport; Mon, 24 Oct 2022 09:55:21 -0500
 From:   Carlos Bilbao <carlos.bilbao@amd.com>
-In-Reply-To: <Y0ork19pGMhZq8qn@debian.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR12CA0018.namprd12.prod.outlook.com
- (2603:10b6:610:57::28) To BL1PR12MB5874.namprd12.prod.outlook.com
- (2603:10b6:208:396::17)
+To:     <corbet@lwn.net>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <bilbao@vt.edu>, <bagasdotme@gmail.com>, <willy@infradead.org>,
+        <akiyks@gmail.com>, <miguel.ojeda.sandonis@gmail.com>,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Subject: [PATCH v3 0/2] Documentation: Start Spanish translation and include HOWTO
+Date:   Mon, 24 Oct 2022 09:55:19 -0500
+Message-ID: <20221024145521.69465-1-carlos.bilbao@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|CH2PR12MB4216:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2ea0938f-ce04-401d-3439-08dab5cf8b14
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT038:EE_|IA1PR12MB7544:EE_
+X-MS-Office365-Filtering-Correlation-Id: b5407909-f4d6-4e4e-0818-08dab5cfc6f9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XFtU2XYkH/R9dD3uiVXbDl+6PtVbS0JOWQ44b1kSjzHRj4vrc9v/a9v+lr3x7ddXA2cWEEIpfV2Ji/yeV2d8AKQ+tGYf+OveCvC1MFxJyUhA0rabftDqfkxX4pPS/YCHCyWn41vYl2k2lPP6MA9WQTQKrlYe5PDQYcvyXwkw1fUmZ0NrHzWvKddtHE5QwZVrfFVWAhT1tYvm2qNcnQc32bwI6yxTdGvxqexCmD9fxnYqu+flmLdCWLpqeT+bA3Vm99ayWHTPUCc9EWjGAK8SDNh1/tDNxYnjtsL20xVy+gbYSLRYOO61JIyVXdjnBiWWMmGbQ8jP7i9u/8ABIZa4cBR39JcMFt6fPgDjxyk4fQMGltoQPxWkojr1RVc/4UFVB9dd6rk0QqwlTivzaHPq3VBZtstSQB8yA7if63Jj3mXzXVWLljJ01KQaX7hOd/E2J9mO3/MtWzYP4JdrS1abdkipPh4JOmuiyNlAtWiTQSBDzgZ4pz4W9BwQT96UxyQrdcClKI3LHFNjmwKnhACBEMOtRx17BHoGz6XZ7H9aYJJ2bQACHgAH+fx7M+Nq1gfE/8ExMrxfHQZ4B4RhFKmPSK2Cgyrr30aASxlpcPr07pGFW06HGXefeuUooecOddaGfrclPGo37jBU5LEhSw4/cTSxTpPH4X4bw1t3UhkwJQtpKfT/Geczvr0F03JDE2jQ6R76GpjVrp9pXzcrGglDFNSCj1LKSkpK8h/DTc+Xex6c1vIDoCEPvJhOs2ylxW9HkkeyjznZRjhA7c2yPOAdpQ8pgt7MRZOCSVT7Ybe7D50=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(366004)(396003)(39860400002)(376002)(451199015)(31686004)(2906002)(41300700001)(4744005)(2616005)(8936002)(186003)(6506007)(36756003)(53546011)(4326008)(31696002)(44832011)(86362001)(5660300002)(26005)(6512007)(66476007)(66556008)(8676002)(66946007)(6916009)(38100700002)(478600001)(316002)(6486002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WExZS1lyYm40MDZZZ2MxYkM0ZEhPY25FcEJKKzYzamFVaGk1c0RoQk1SMWlO?=
- =?utf-8?B?V2lwUnBJazJTV0xoSXQrN2ZjWmN2Q3M0Rmt0Vk0xUnMvbW9KV2t6UzJGWjA5?=
- =?utf-8?B?V3k0Y2g1OUFIMEhzTDFKODVBaEVMWVVVcTN5SStXL0tBLzlSQUJQSDlETW9U?=
- =?utf-8?B?QlVIb2dKT2pqK1NjbGZhbUVOdjVLUmMyOWZDcS81SDMwelFsaUVNN1ZYaVVm?=
- =?utf-8?B?VlN2ajFKUi9wNVlUY0VwOUl4Z1lGcHF0ZWpxNktmd1hwT0U5N2JnMWpZcmpv?=
- =?utf-8?B?NXhsZkQwN0ZnRkxpbHlraWxpTjg0ZWl1SnFUVStCbFhSWFhsdU9Yb0Nwem9R?=
- =?utf-8?B?amVpcUpDRmEwMWZTMmprYSs0Z3FBQjRhSkgzQWdZUnRNRE5tRlNUOVk2QUM4?=
- =?utf-8?B?NGVsbzgvczFwQTNPZ1Vxa0gyMlRnSUsrUHlYZExoMDFCUWsyc2xaNW9mVmZW?=
- =?utf-8?B?UTU2NDljRytGaVRxUFVOWm13YW0xSUFjczlzMVIzWERkTWlFdmJvZzdvYmNx?=
- =?utf-8?B?MWNXVlpKaXF5cFJCamxMaXhsVFlIR2lxWksreitCNUtOOThEcDZlM1Jtd0po?=
- =?utf-8?B?OXhlUEdGSVlIaDVQWVlLMUd0dUV1azFvRGhmVDNtY0syV1MrTllMTjZwUkx1?=
- =?utf-8?B?dmVxVWQ1NWFxZjJaWjJ0WEs4ZnRtV3k2c0NleVdPNmJBdDl2UWVrUEtsVmMr?=
- =?utf-8?B?NCt6MkRZWHNzWE9CRitQaVZnN0JxV1dHSmZKU3B0ZVR4QjhlTkM1c1d6UE1W?=
- =?utf-8?B?Rzd0ekV4azRwRHptQ0ltYVRsMlVsWDVqYjBGOFFPKzViRFVwenpYdUMvOFU3?=
- =?utf-8?B?RVFzaTZaY2JlNU9kSll4VkF5Wm81VXJaNmFNdGNTcjlrVGM4bzR0QVByR0Nn?=
- =?utf-8?B?cjF2OGJhSmZzQTZ3dEM5cEw1L3pRdnJpTXliSWVKUzd2dThKR25Ka09yOUVH?=
- =?utf-8?B?dEpqbkcxM25FTG8xMzFBd1V6YzJnTVRWSTlaZklrS3pEQzM4M3RHUHNieTlZ?=
- =?utf-8?B?YnNBSXNyNEFxSGt1WmQzeFdEMDZLbW9lWC8xUlZGNUJyQ0tPRis5aExYMzEy?=
- =?utf-8?B?cG9VM2JURXBlNlFXYlZKcnNid1kzcERxbWJDVGFQbjEyS1FrYkJWNi8rREpj?=
- =?utf-8?B?SGVtZnBDbStRMEptL3JZTnJYNHE1OHhsODBNL1JlUmtiWktSZ0dscit2VTdK?=
- =?utf-8?B?eXlveCtwelhpWmtTblc0L2NnVXJGelJGMjZ6MFhBeFdSMlEzaFVramNraitk?=
- =?utf-8?B?L0Z6WWxwUGZRZ0tWMGNSbTgxOU5ZWGgzRDhmbXB2Y1daS3pIckx3a2p1K2I3?=
- =?utf-8?B?U2Rsc0Vubkx3dFYxQTlNaEFla1NobHBoaTJKeFVzeUp6WEt4alhtQXNkMzZU?=
- =?utf-8?B?YVdCbU0waTk0bm0yQ1RCNzB5NURxSFEyRERTTWJzYXdMTUZlb0FTb2hrb001?=
- =?utf-8?B?b29FWDRPa0NuTVdIMXhFZWpoL3JleW1BNTJuY1dZVU1LcEMrU095SUZudWNq?=
- =?utf-8?B?dVFpeTlOUklMcUxwWjBzWUc2RDkyZTJsb25CVWNtM1gvSVlJRXFLV2pVeURh?=
- =?utf-8?B?UHRSSStuWlMyV0FpUWdFQ0xXbEgrZSsrUERMdEp6aXdhTUxRaWFFU2FEVGdy?=
- =?utf-8?B?TXRQMEJmU2pkMU0wYi95SEgwUDdQTDZqaDQxZy9iTHFYcFpUblFla1R4RmYx?=
- =?utf-8?B?N1djY282M3REcllIeWlQVFhjaXlHa0w3WG1JY1I5VTM3VlZkUHhuN1V4RHNT?=
- =?utf-8?B?aE1UUTJzZGlKNkN5TlZrc3dkbUtyOUdaUGc0RVdpaWNmTldiTUNHUGZGRWJn?=
- =?utf-8?B?K0dBNVo3NEw4Rzc4V1FrUktDekcvampyc3ZnanJRODBuOGdlY01DaDVhSDVu?=
- =?utf-8?B?TUZJY1dURnlYVlEwOHBjeUt4UXhZVXIrMGw3ODNTL0VPWmtxT1dTWEVXY0tD?=
- =?utf-8?B?d2JVL0ViUFpFN0x0dFpxR3I4L25aWFRRSkVNaGZmbGpjRDdBdUVoUmUvZnYw?=
- =?utf-8?B?N3FmOTFhMlU4bENNZWhtT0NKOGswREZBanZ0UFNBeGhTMUJUbmhkZkk2L3lr?=
- =?utf-8?B?bi91SkJFbVlZRUV3TDZ4aVV6Q0NKRXNYTTh5VVRJNFcyRkM4L093cWFTcDRT?=
- =?utf-8?Q?Z6htWARQVSjzX0E0UnNRqFwuu?=
+X-Microsoft-Antispam-Message-Info: 9YB1oaUeCzVJfcadI8t4QDeJm5Vf5F5iH6MXV3S5KO4HwSyG+HXdf0YTENbi3U9ZcC5ZnrcvGbPsr2fm3qZpZdCuK3VrPKcfPPZ043crdw6Gy+5e8pXyxZTcfRZ0cNQGiqw0BMDMZE2d/YfcH1gVvehKl4dewDTcEIfJsMKsm7N8mK2kPrQlji2K1eK5zHRF3Zv6Qi1eWEIW5Hi+O3JeZS40nSYsxV2dMuuBTWcIPt3RS3q2mUjnqXt3BDlW4XZhGcP6Om9w7aHaZeqtaW/Mui6qEeCfOGnlXD29ACfK9mFYmDWsWiJ91z7tiPrJXCvOasZflz8pyfveZ1npV46eN2OR64E2Ia0jSQZIpnqOi8qKAkWkaYbaN9LPOJApvz6aSyfQ0iWc2GOzJIREmW9iQDfVyviEysc2fW7gV/fJ+o2OqIKmr72GeNDVMxbXEfsRPQm/pN7kCDn9In35wsLzRF3Y8ohL+R9kzBQdsMmwn/BH6pI+YVDhu0Ii9USicri/HKL68z/muf0X10y+Km9V4LtAPE2/a2HCmmwrcLh7I151nWqrVdzicqJdoBO8TXbIomqEVgYzYcXGD/ONC7t9//oGJaJ7YaYqLMSyTi09l86hOJX3SE5ugyBuCELKZhSVoTNZRZhJ5nQxgIRnxsaaUAoTCNwISO1sB7arbeOtmrOQWPX/rtiWTWfumuoFQCKW0zYdjix7J8smbCqxIU8Qetr8+zdXJhH5iEPS6RFmxoezzrYXiRu25bVcVVD7rUaYMvo7I+4asRaEU+MhpeEmxLEu1u/oOGtVEcxIzTwVq5xiXJD3AS2wyO3DwF4btNqYC8bgQVJCya2LFlAbVFaCpg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(39860400002)(376002)(136003)(451199015)(40470700004)(36840700001)(46966006)(186003)(70206006)(356005)(1076003)(81166007)(47076005)(70586007)(336012)(83380400001)(2616005)(40460700003)(426003)(5660300002)(41300700001)(7696005)(26005)(966005)(86362001)(44832011)(316002)(40480700001)(54906003)(82740400003)(4326008)(8676002)(82310400005)(36756003)(8936002)(478600001)(6916009)(2906002)(36860700001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ea0938f-ce04-401d-3439-08dab5cf8b14
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 14:53:42.4123
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 14:55:22.6788
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Network-Message-Id: b5407909-f4d6-4e4e-0818-08dab5cfc6f9
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VcFrXHqc4kYm+4nxUpV79/5r1HSTpa9vEtbamKZQw1MfnwteisL2tRpbVcRrEkgm3LrmCS6zH1Hm9JpRGzk7Sg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4216
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT038.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7544
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/14/22 22:40, Bagas Sanjaya wrote:
+Spanish is the second most spoken language in the world. This patch set
+starts the process of translating critical kernel documentation into the
+Spanish language.
 
-> On Fri, Oct 14, 2022 at 09:24:52AM -0500, Carlos Bilbao wrote:
->>    Documentation/translations/index.rst          |   1 +
->>    .../translations/sp_SP/disclaimer-sp.rst      |   6 +
->>    Documentation/translations/sp_SP/howto.rst    | 617 ++++++++++++++++++
->>    Documentation/translations/sp_SP/index.rst    |  80 +++
->>    MAINTAINERS                                   |   5 +
->>    5 files changed, 709 insertions(+)
->>    create mode 100644 Documentation/translations/sp_SP/disclaimer-sp.rst
->>    create mode 100644 Documentation/translations/sp_SP/howto.rst
->>    create mode 100644 Documentation/translations/sp_SP/index.rst
-> Why not es_ES locale slug instead?
+Link to v2: https://lkml.org/lkml/2022/10/13/866
+Changes since v2:
+  - Apply improvements proposed by Miguel Ojeda
+  - Added Reviewed-By of Miguel Ojeda for first commit
+  - Added Reviwed-By of Bagas Sanjaya for second commit
 
-Just answered to this in different thread within patch set :)
+Changes since v1:
+  - Added me as MAINTAINER
+  - Fixed warnings of kernel test robot
+  - Use imperative form in second commit
+  - Improved minor translation details
 
-Cheers,
+Carlos Bilbao (2):
+  Documentation: Start translations to Spanish
+  Documentation: Add HOWTO Spanish translation into rst based build system
 
-Carlos
-
+  Documentation/translations/index.rst          |   1 +
+  .../translations/sp_SP/disclaimer-sp.rst      |   6 +
+  Documentation/translations/sp_SP/howto.rst    | 617 ++++++++++++++++++
+  Documentation/translations/sp_SP/index.rst    |  80 +++
+  MAINTAINERS                                   |   5 +
+  5 files changed, 709 insertions(+)
+  create mode 100644 Documentation/translations/sp_SP/disclaimer-sp.rst
+  create mode 100644 Documentation/translations/sp_SP/howto.rst
+  create mode 100644 Documentation/translations/sp_SP/index.rst
