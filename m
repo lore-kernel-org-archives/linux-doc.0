@@ -2,124 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AACA3ECAAA1
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 15:50:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E3CFA3743
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 16:05:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231701AbiJXPuG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 11:50:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39856 "EHLO
+        id S232198AbiJXQFY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 12:05:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231736AbiJXPtl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 11:49:41 -0400
-Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 588806CF5A
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 07:43:50 -0700 (PDT)
-Received: by mail-vs1-xe32.google.com with SMTP id d187so8070523vsd.6
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 07:43:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mHmQPHH9zZ+33MZuRep7mHnwYbLIC54t+fSNOg5Y268=;
-        b=RqE7F5MvPhA2qPYcGDMg2WC36c/ya8S0CaGTkCLFCoNSy0LYw2pEJBOB/IKoaCEWaV
-         b6+79fB4tTanoZBjY7Fo2X/0NYabUzhBlMuelQGTz957EVppUy7uLHG6QaZSla3B9yXQ
-         6OXhn032XHxg5QRkvk/FCqxh1nFf72KOtez39VVtVU2ZobrTkzAarpAdLc1MHIUicZ7x
-         9IrA8KyX2n1Wc8SGkUaFWVryKzby7j8MCVQOn4hgQjEY8G1/JwHmHTRLpbfS7RTYinzr
-         NNc6x9W1fERMFC/C80tkaVI7MUT/2fXwRFpEdbUrqzdctaRtNeCvR6lKd2fKNhihIYhG
-         3RWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mHmQPHH9zZ+33MZuRep7mHnwYbLIC54t+fSNOg5Y268=;
-        b=kqbqzn7LIjz7k3WeM9fVszM/JHdPnwWzoX8kvOZmqCgginMeoH5BJhnX1uEng3KYXN
-         7+iDMgdh9P76f43M6SCx4Xj08DvX7KVasCjWlpeqe53KjXlyzXcLFBrv3Y42XKUviEjD
-         O1ouVDwzyzkcAZgphoA0XHbgmdxfN/e5hBN68FkBNw74ql+Ubi0U6/L43g71aquTH2TH
-         c7KyyI0WvZD817QE+I6SdPzmze/ESIbAXZZ6OgRDR8vpw9VwucgTVxI5OezSEZuCJ/Z2
-         tTIfW4EopdKTeKoG7GClauA6us37yD02tOZ7hPIprXMrsXla3wr0bwgs5LeAEJLVtRJT
-         fi6w==
-X-Gm-Message-State: ACrzQf1FsmS+gCP61IjSsrfj7Em128t4cf27J5z+01Z4/zf/XJljF/ta
-        mwMDZX8AxFMBeCK41J2CRoveD3ZPv27z1pbp
-X-Google-Smtp-Source: AMsMyM6IswFjqEAoVVX0inb+Y9m4C23pNohtdcPX0MoJFcRCefFyK5dlJjEhoQdRFZzuZeVMFsM+Yw==
-X-Received: by 2002:a17:902:7c8c:b0:17f:7565:4a2d with SMTP id y12-20020a1709027c8c00b0017f75654a2dmr33857671pll.65.1666611374702;
-        Mon, 24 Oct 2022 04:36:14 -0700 (PDT)
-Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
-        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.36.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 04:36:14 -0700 (PDT)
-From:   Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        "Lee, Chun-Yi" <jlee@suse.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
-        Jonathan Woithe <jwoithe@just42.net>,
-        Ike Panhc <ike.pan@canonical.com>,
-        Daniel Dadap <ddadap@nvidia.com>,
-        Kenneth Chan <kenneth.t.chan@gmail.com>,
-        Mattia Dongili <malattia@linux.it>,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Azael Avalos <coproscefalo@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        Robert Moore <robert.moore@intel.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org,
-        platform-driver-x86@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net,
-        ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
-        devel@acpica.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 04/22] platform/x86: acer-wmi: Use acpi_video_get_backlight_types()
-Date:   Mon, 24 Oct 2022 20:34:55 +0900
-Message-Id: <20221024113513.5205-5-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
-References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
+        with ESMTP id S232972AbiJXQEH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 12:04:07 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2062b.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eaa::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8DA62B26A;
+        Mon, 24 Oct 2022 07:56:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fjAI6F/0AfbSEfrnseMKEMsfSX1/mrYID3DxmYjDlMb2mj91w87fsiTOfs72s/McL5iXrol6Agid+8GlH3uKvggFXejXKYPtbuTRiozGnhOZeCWHCPqkRKDgI/e9R44P7+vzPkWApF7l6rDyLWlpO9dfjzbZiQcAW+KfcyvyyPx8wVmpOlB/khW8350b4dTqMHHBT+7s2i5G14OQkfJKNKPR2qILM6ErRRnUbSbMO68ZVK+/euFQvCya+BaIlzxIQrdyJhdIKu64WDJ9UMnxneLH51JUtrQ+Iwvk87VPsAjsvnuNM3LOmZta70gb53dTHFWj95bAP1LGBneHkzVnZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ioittwS6gWcR7E4dED06JPZpwbkV9n4ItMsNPU0tgYE=;
+ b=Er10R5cNuhSCvVakX4wVINY8EOBVsRLjVd8T4p8IGN/BlIGAhGDwP2MKI4GblUxiCAZWYLdZSw71gcZgZoE4Vg8tb9JVR7pP9vozz9BFJqUIof2iNkqZFt6xA4qF3TdjhvTpMEh6usZ2pG7qytGHTQjMbHpzrFVB6aqrucVZrlZh3oeWsQS8M4ZlvY4SobUz9HPXqHDgHuEKFXF1sL6RNdM8ZRxIiGPPu3xrA8gjQhxoAwmtyhE3crNYyImVHvb0N/2xdnPAY8uVtCEWQ1b0zTbhCeqKCW9lflM7miBSAHXh7+0RqTwLMW4S2bsJLek+FFhQ+7ggHrf+viQrE9WuLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ioittwS6gWcR7E4dED06JPZpwbkV9n4ItMsNPU0tgYE=;
+ b=qZNc7l0nVGolGi2KcCUjYC0tiodH4XP7f05m7CoFr27MOlu40pb2mM8bWYX123ESqN5ilfAS3yld087xpatY8Kqapko1oXPS38YrYmTJ/Fd/rf3F9JM7WVG5SWaf0f+eSZW+SWIunzm19uEwDY5nNiDQCMUFbhbd3na8VX7CiB4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
+ by CH2PR12MB4216.namprd12.prod.outlook.com (2603:10b6:610:a8::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.23; Mon, 24 Oct
+ 2022 14:53:42 +0000
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::9eca:d454:d407:7ba2]) by BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::9eca:d454:d407:7ba2%3]) with mapi id 15.20.5746.026; Mon, 24 Oct 2022
+ 14:53:42 +0000
+Message-ID: <7be10c0d-4006-639c-0fc9-5537b2390714@amd.com>
+Date:   Mon, 24 Oct 2022 09:53:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 0/2] Documentation: Start Spanish translation and
+ include HOWTO
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bilbao@vt.edu
+References: <20221013184816.354278-1-carlos.bilbao@amd.com>
+ <20221014142454.871196-1-carlos.bilbao@amd.com> <Y0ork19pGMhZq8qn@debian.me>
+From:   Carlos Bilbao <carlos.bilbao@amd.com>
+In-Reply-To: <Y0ork19pGMhZq8qn@debian.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH2PR12CA0018.namprd12.prod.outlook.com
+ (2603:10b6:610:57::28) To BL1PR12MB5874.namprd12.prod.outlook.com
+ (2603:10b6:208:396::17)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|CH2PR12MB4216:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ea0938f-ce04-401d-3439-08dab5cf8b14
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XFtU2XYkH/R9dD3uiVXbDl+6PtVbS0JOWQ44b1kSjzHRj4vrc9v/a9v+lr3x7ddXA2cWEEIpfV2Ji/yeV2d8AKQ+tGYf+OveCvC1MFxJyUhA0rabftDqfkxX4pPS/YCHCyWn41vYl2k2lPP6MA9WQTQKrlYe5PDQYcvyXwkw1fUmZ0NrHzWvKddtHE5QwZVrfFVWAhT1tYvm2qNcnQc32bwI6yxTdGvxqexCmD9fxnYqu+flmLdCWLpqeT+bA3Vm99ayWHTPUCc9EWjGAK8SDNh1/tDNxYnjtsL20xVy+gbYSLRYOO61JIyVXdjnBiWWMmGbQ8jP7i9u/8ABIZa4cBR39JcMFt6fPgDjxyk4fQMGltoQPxWkojr1RVc/4UFVB9dd6rk0QqwlTivzaHPq3VBZtstSQB8yA7if63Jj3mXzXVWLljJ01KQaX7hOd/E2J9mO3/MtWzYP4JdrS1abdkipPh4JOmuiyNlAtWiTQSBDzgZ4pz4W9BwQT96UxyQrdcClKI3LHFNjmwKnhACBEMOtRx17BHoGz6XZ7H9aYJJ2bQACHgAH+fx7M+Nq1gfE/8ExMrxfHQZ4B4RhFKmPSK2Cgyrr30aASxlpcPr07pGFW06HGXefeuUooecOddaGfrclPGo37jBU5LEhSw4/cTSxTpPH4X4bw1t3UhkwJQtpKfT/Geczvr0F03JDE2jQ6R76GpjVrp9pXzcrGglDFNSCj1LKSkpK8h/DTc+Xex6c1vIDoCEPvJhOs2ylxW9HkkeyjznZRjhA7c2yPOAdpQ8pgt7MRZOCSVT7Ybe7D50=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(366004)(396003)(39860400002)(376002)(451199015)(31686004)(2906002)(41300700001)(4744005)(2616005)(8936002)(186003)(6506007)(36756003)(53546011)(4326008)(31696002)(44832011)(86362001)(5660300002)(26005)(6512007)(66476007)(66556008)(8676002)(66946007)(6916009)(38100700002)(478600001)(316002)(6486002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WExZS1lyYm40MDZZZ2MxYkM0ZEhPY25FcEJKKzYzamFVaGk1c0RoQk1SMWlO?=
+ =?utf-8?B?V2lwUnBJazJTV0xoSXQrN2ZjWmN2Q3M0Rmt0Vk0xUnMvbW9KV2t6UzJGWjA5?=
+ =?utf-8?B?V3k0Y2g1OUFIMEhzTDFKODVBaEVMWVVVcTN5SStXL0tBLzlSQUJQSDlETW9U?=
+ =?utf-8?B?QlVIb2dKT2pqK1NjbGZhbUVOdjVLUmMyOWZDcS81SDMwelFsaUVNN1ZYaVVm?=
+ =?utf-8?B?VlN2ajFKUi9wNVlUY0VwOUl4Z1lGcHF0ZWpxNktmd1hwT0U5N2JnMWpZcmpv?=
+ =?utf-8?B?NXhsZkQwN0ZnRkxpbHlraWxpTjg0ZWl1SnFUVStCbFhSWFhsdU9Yb0Nwem9R?=
+ =?utf-8?B?amVpcUpDRmEwMWZTMmprYSs0Z3FBQjRhSkgzQWdZUnRNRE5tRlNUOVk2QUM4?=
+ =?utf-8?B?NGVsbzgvczFwQTNPZ1Vxa0gyMlRnSUsrUHlYZExoMDFCUWsyc2xaNW9mVmZW?=
+ =?utf-8?B?UTU2NDljRytGaVRxUFVOWm13YW0xSUFjczlzMVIzWERkTWlFdmJvZzdvYmNx?=
+ =?utf-8?B?MWNXVlpKaXF5cFJCamxMaXhsVFlIR2lxWksreitCNUtOOThEcDZlM1Jtd0po?=
+ =?utf-8?B?OXhlUEdGSVlIaDVQWVlLMUd0dUV1azFvRGhmVDNtY0syV1MrTllMTjZwUkx1?=
+ =?utf-8?B?dmVxVWQ1NWFxZjJaWjJ0WEs4ZnRtV3k2c0NleVdPNmJBdDl2UWVrUEtsVmMr?=
+ =?utf-8?B?NCt6MkRZWHNzWE9CRitQaVZnN0JxV1dHSmZKU3B0ZVR4QjhlTkM1c1d6UE1W?=
+ =?utf-8?B?Rzd0ekV4azRwRHptQ0ltYVRsMlVsWDVqYjBGOFFPKzViRFVwenpYdUMvOFU3?=
+ =?utf-8?B?RVFzaTZaY2JlNU9kSll4VkF5Wm81VXJaNmFNdGNTcjlrVGM4bzR0QVByR0Nn?=
+ =?utf-8?B?cjF2OGJhSmZzQTZ3dEM5cEw1L3pRdnJpTXliSWVKUzd2dThKR25Ka09yOUVH?=
+ =?utf-8?B?dEpqbkcxM25FTG8xMzFBd1V6YzJnTVRWSTlaZklrS3pEQzM4M3RHUHNieTlZ?=
+ =?utf-8?B?YnNBSXNyNEFxSGt1WmQzeFdEMDZLbW9lWC8xUlZGNUJyQ0tPRis5aExYMzEy?=
+ =?utf-8?B?cG9VM2JURXBlNlFXYlZKcnNid1kzcERxbWJDVGFQbjEyS1FrYkJWNi8rREpj?=
+ =?utf-8?B?SGVtZnBDbStRMEptL3JZTnJYNHE1OHhsODBNL1JlUmtiWktSZ0dscit2VTdK?=
+ =?utf-8?B?eXlveCtwelhpWmtTblc0L2NnVXJGelJGMjZ6MFhBeFdSMlEzaFVramNraitk?=
+ =?utf-8?B?L0Z6WWxwUGZRZ0tWMGNSbTgxOU5ZWGgzRDhmbXB2Y1daS3pIckx3a2p1K2I3?=
+ =?utf-8?B?U2Rsc0Vubkx3dFYxQTlNaEFla1NobHBoaTJKeFVzeUp6WEt4alhtQXNkMzZU?=
+ =?utf-8?B?YVdCbU0waTk0bm0yQ1RCNzB5NURxSFEyRERTTWJzYXdMTUZlb0FTb2hrb001?=
+ =?utf-8?B?b29FWDRPa0NuTVdIMXhFZWpoL3JleW1BNTJuY1dZVU1LcEMrU095SUZudWNq?=
+ =?utf-8?B?dVFpeTlOUklMcUxwWjBzWUc2RDkyZTJsb25CVWNtM1gvSVlJRXFLV2pVeURh?=
+ =?utf-8?B?UHRSSStuWlMyV0FpUWdFQ0xXbEgrZSsrUERMdEp6aXdhTUxRaWFFU2FEVGdy?=
+ =?utf-8?B?TXRQMEJmU2pkMU0wYi95SEgwUDdQTDZqaDQxZy9iTHFYcFpUblFla1R4RmYx?=
+ =?utf-8?B?N1djY282M3REcllIeWlQVFhjaXlHa0w3WG1JY1I5VTM3VlZkUHhuN1V4RHNT?=
+ =?utf-8?B?aE1UUTJzZGlKNkN5TlZrc3dkbUtyOUdaUGc0RVdpaWNmTldiTUNHUGZGRWJn?=
+ =?utf-8?B?K0dBNVo3NEw4Rzc4V1FrUktDekcvampyc3ZnanJRODBuOGdlY01DaDVhSDVu?=
+ =?utf-8?B?TUZJY1dURnlYVlEwOHBjeUt4UXhZVXIrMGw3ODNTL0VPWmtxT1dTWEVXY0tD?=
+ =?utf-8?B?d2JVL0ViUFpFN0x0dFpxR3I4L25aWFRRSkVNaGZmbGpjRDdBdUVoUmUvZnYw?=
+ =?utf-8?B?N3FmOTFhMlU4bENNZWhtT0NKOGswREZBanZ0UFNBeGhTMUJUbmhkZkk2L3lr?=
+ =?utf-8?B?bi91SkJFbVlZRUV3TDZ4aVV6Q0NKRXNYTTh5VVRJNFcyRkM4L093cWFTcDRT?=
+ =?utf-8?Q?Z6htWARQVSjzX0E0UnNRqFwuu?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ea0938f-ce04-401d-3439-08dab5cf8b14
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 14:53:42.4123
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VcFrXHqc4kYm+4nxUpV79/5r1HSTpa9vEtbamKZQw1MfnwteisL2tRpbVcRrEkgm3LrmCS6zH1Hm9JpRGzk7Sg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4216
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-acpi_video_get_backlight_type() is now deprecated.
+On 10/14/22 22:40, Bagas Sanjaya wrote:
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- drivers/platform/x86/acer-wmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Fri, Oct 14, 2022 at 09:24:52AM -0500, Carlos Bilbao wrote:
+>>    Documentation/translations/index.rst          |   1 +
+>>    .../translations/sp_SP/disclaimer-sp.rst      |   6 +
+>>    Documentation/translations/sp_SP/howto.rst    | 617 ++++++++++++++++++
+>>    Documentation/translations/sp_SP/index.rst    |  80 +++
+>>    MAINTAINERS                                   |   5 +
+>>    5 files changed, 709 insertions(+)
+>>    create mode 100644 Documentation/translations/sp_SP/disclaimer-sp.rst
+>>    create mode 100644 Documentation/translations/sp_SP/howto.rst
+>>    create mode 100644 Documentation/translations/sp_SP/index.rst
+> Why not es_ES locale slug instead?
 
-diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
-index 18224f9a5bc0..10d0819e48ff 100644
---- a/drivers/platform/x86/acer-wmi.c
-+++ b/drivers/platform/x86/acer-wmi.c
-@@ -2421,7 +2421,7 @@ static int __init acer_wmi_init(void)
- 
- 	set_quirks();
- 
--	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
-+	if (!(acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR))
- 		interface->capability &= ~ACER_CAP_BRIGHTNESS;
- 
- 	if (wmi_has_guid(WMID_GUID3))
--- 
-2.37.3
+Just answered to this in different thread within patch set :)
+
+Cheers,
+
+Carlos
 
