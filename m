@@ -2,336 +2,312 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F1FFECAAA1
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 16:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39E74FA373F
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 16:23:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230270AbiJXQVi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 12:21:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33642 "EHLO
+        id S231808AbiJXQXD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 12:23:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233931AbiJXQVU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 12:21:20 -0400
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E55E6BE511
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 08:06:51 -0700 (PDT)
-Received: by mail-oi1-f172.google.com with SMTP id y67so11151303oiy.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 08:06:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wkknqfE8N8iJl5XEQQmyIBiDl6R0jV4HGlicMSZl2gQ=;
-        b=L0/1RRlkmYmA8CLIifUuUlVJ74Kz+AS0tmR8KIQvxLhzv2mfq4GRaFSzf6y7ExNPMt
-         0JMZA7nNRAT//74v5qJU7bQBu9l+wJClqFc6pDeSKQ+AYJN+EOAUDDNv6XD3AjR9AOaH
-         woTW5Wvk4jghdUjKZn0Szj7uOj8nN2IpQjXF9jr/bA963Cnftma2v/vygHFtKVZjQRh8
-         2nGaht+ZSPBBxljf4ve53oU6E/u+s0bGvW8WQ+rw1qYeRn33wNMm3GPyocuKQd6eLN0X
-         tvkX/rZlb+YA+EpML8EgckKck+AwIrn6gKUISkLAzey62Co2gw5l77imQVOsx3pNb9sY
-         BwXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wkknqfE8N8iJl5XEQQmyIBiDl6R0jV4HGlicMSZl2gQ=;
-        b=HXJANPkAyV20sr59y4oGZYRgbSO9q80GHhqGiIB+ZKcFu9lW/L1QOvAqCU33jrannj
-         OpoBnRs+dVOmdQXSmYPWmg8cXspLLy4yZC6wYYY+KzgKbuTwlpm2AJKWSANV+FwfaJha
-         MiuljCr8ulP9TMJBRvImNQNNOmKlxrin2L/e/8GQYq9bnVAT0bwqi/BViDwOJ+fAFa/0
-         GddwWfWir7z+2S0X4vfmjqZrbh6NE1D3sU6rg4xI3c6w5YnZTJIoiHrICnqblVFZcqnk
-         wLZNIV7alb/gZIL2Hd6Xa4y62eYILICRRPgUSkpATai1mefFnz2j7pp0JtFlvizcO7bK
-         eNUw==
-X-Gm-Message-State: ACrzQf3IFzqGpMvxw1/vFL+NgdIep/3gLThNGG2sPEqXvQFTvMXyVmye
-        1w3VTlbFzwOOsqzi6OZJ2ss5IEboyW9ULJq8
-X-Google-Smtp-Source: AMsMyM6L4EimJuPN+RegX8YJLfERy+lfPY4csYLFUl7zZWPrHXhB+m+qxFaDBRxxyqG4MIlhTWivBg==
-X-Received: by 2002:a17:90a:b28d:b0:20d:6790:19fa with SMTP id c13-20020a17090ab28d00b0020d679019famr73827828pjr.68.1666621885509;
-        Mon, 24 Oct 2022 07:31:25 -0700 (PDT)
-Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419? ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
-        by smtp.gmail.com with ESMTPSA id l3-20020a170903244300b00174f7d107c8sm19771856pls.293.2022.10.24.07.31.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 07:31:24 -0700 (PDT)
-Message-ID: <7373e258-f7cc-4416-9b1c-c8c9dab59ada@daynix.com>
-Date:   Mon, 24 Oct 2022 23:31:16 +0900
+        with ESMTP id S234133AbiJXQWr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 12:22:47 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D822A17999D;
+        Mon, 24 Oct 2022 08:08:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666624103; x=1698160103;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=Z0suAyxf1/ZAu8tFjbvLacyB7CnvbP884nhki9jkwsc=;
+  b=FGJoRQ2A+k+xu3St7RQ+seN6ScpaYuJMhLr1DbZnH1xxAFEYv3dUwOpi
+   1wT/8rToMSqhwW9wv3+nGKnqbVipYUXcXTfcwTfKzyeQXMUREyzazYvYs
+   myPvupTfF3tMFDushDtwJtGhHaZviJrl8IJrBkkF6Evvh90q6HJEpJq6P
+   rpLR0yvQtUm+Gs8+bSdm6D9O41qHrZEbl1+O5FY7UB3EuZ/Gc77WYGLDB
+   YdzubdPISe/CGy0ZL6EsxRNe2IEJa8N1UG3hjxBQYSv47+3eX6TW1TFmR
+   Y3YUPrrgrGl4pA/x7T5i1RbXZV0iypXZBPrLCMZtMcEhuE+W5bolTvFgC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="371655874"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
+   d="scan'208";a="371655874"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 08:01:42 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="662458157"
+X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
+   d="scan'208";a="662458157"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 08:01:42 -0700
+Date:   Mon, 24 Oct 2022 08:01:59 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
+        jirislaby@kernel.org, geert+renesas@glider.be,
+        andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com
+Subject: Re: [PATCH v4 1/4] Documentation: fpga: dfl: Add documentation for
+ DFHv1
+In-Reply-To: <Y1IYPTOJaxTfLDQe@debian.me>
+Message-ID: <alpine.DEB.2.22.394.2210240801360.2070724@rhweight-WRK1>
+References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com> <20221020212610.697729-2-matthew.gerlach@linux.intel.com> <Y1IYPTOJaxTfLDQe@debian.me>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH 00/22] Fallback to native backlight
-Content-Language: en-US
-From:   Akihiko Odaki <akihiko.odaki@daynix.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        "Lee, Chun-Yi" <jlee@suse.com>, Mark Gross <markgross@kernel.org>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
-        Jonathan Woithe <jwoithe@just42.net>,
-        Ike Panhc <ike.pan@canonical.com>,
-        Daniel Dadap <ddadap@nvidia.com>,
-        Kenneth Chan <kenneth.t.chan@gmail.com>,
-        Mattia Dongili <malattia@linux.it>,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Azael Avalos <coproscefalo@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        Robert Moore <robert.moore@intel.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org,
-        platform-driver-x86@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net,
-        ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
-        devel@acpica.org
-References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
- <746e5cc6-516f-8f69-9d4b-8fe237de8fd6@redhat.com>
- <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
- <60672af8-05d2-113c-12b9-d635608be0dd@redhat.com>
- <ea69242c-0bc8-c7bb-9602-c7489bb69684@daynix.com>
-In-Reply-To: <ea69242c-0bc8-c7bb-9602-c7489bb69684@daynix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/10/24 23:06, Akihiko Odaki wrote:
-> On 2022/10/24 22:21, Hans de Goede wrote:
->> Hi,
->>
->> On 10/24/22 14:58, Akihiko Odaki wrote:
->>> On 2022/10/24 20:53, Hans de Goede wrote:
->>>> Hi Akihiko,
->>>>
->>>> On 10/24/22 13:34, Akihiko Odaki wrote:
->>>>> Commit 2600bfa3df99 ("ACPI: video: Add 
->>>>> acpi_video_backlight_use_native()
->>>>> helper") and following commits made native backlight unavailable if
->>>>> CONFIG_ACPI_VIDEO is set and the backlight feature of ACPI video is
->>>>> unavailable, which broke the backlight functionality on Lenovo 
->>>>> ThinkPad
->>>>> C13 Yoga Chromebook. Allow to fall back to native backlight in such
->>>>> cases.
->>>>
->>>> I appreciate your work on this, but what this in essence does is
->>>> it allows 2 backlight drivers (vendor + native) to get registered
->>>> for the same panel again. While the whole goal of the backlight 
->>>> refactor
->>>> series landing in 6.1 was to make it so that there always is only
->>>> *1* backlight device registered instead of (possibly) registering
->>>> multiple and letting userspace figure it out. It is also important
->>>> to only always have 1 backlight device per panel for further
->>>> upcoming changes.
->>>>
->>>> So nack for this solution, sorry.
->>>>
->>>> I am aware that this breaks backlight control on some Chromebooks,
->>>> this was already reported and I wrote a long reply explaining why
->>>> things are done the way they are done now and also suggesting
->>>> 2 possible (much simpler) fixes, see:
->>>> https://lore.kernel.org/linux-acpi/42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com/
->>>>
->>>> Unfortunately the reported has not followed-up on this and
->>>> I don't have the hardware to test this myself.
->>>>
->>>> Can you please try implementing 1 of the fixes suggested there
->>>> and then submit that upstream ?
->>>>
->>>> Regards,
->>>>
->>>> Hans
->>>>
->>>
->>> Hi Hans,
->>>
->>> Thanks for reviewing and letting me know the prior attempt.
->>>
->>> In this case, there is only a native backlight device and no vendor 
->>> backlight device so the duplication of backlight devices does not 
->>> happen. I think it is better to handle such a case without quirks.
->>
->> Adding a single heuristic for all chromebooks is something completely 
->> different
->> then adding per model quirks which indeed ideally should be avoided 
->> (but this
->> is not always possible).
->>
->>> I understand it is still questionable to cover the case by allowing 
->>> duplication when both of a vendor backlight device and native one. To 
->>> explain my understanding and reasoning for *not* trying to apply the 
->>> de-duplication rule to the vendor/native combination, let me first 
->>> describe that the de-duplication which happens in 
->>> acpi_video_get_backlight_type() is a heuristics and limited.
->>>
->>> As the background of acpi_video_get_backlight_type(), there is an 
->>> assumption that it should be common that both of the firmware, 
->>> implementing ACPI, and the kernel have code to drive backlight. In 
->>> the case, the more reliable one should be picked instead of using 
->>> both, and that is what the statements in `if (video_caps & 
->>> ACPI_VIDEO_BACKLIGHT)` does.
->>>
->>> However, the method has two limitations:
->>> 1. It does not cover the case where two backlight devices with the 
->>> same type exist.
->>
->> This only happens when there are 2 panels; or 2 gpus driving a single 
->> panel
->> which are both special cases where we actually want 2 backlight devices.
->>
->>> 2. The underlying assumption does not apply to vendor/native 
->>> combination.
->>>
->>> Regarding the second limitation, I don't even understand the 
->>> difference between vendor and native. My guess is that a vendor 
->>> backlight device uses vendor-specific ACPI interface, and a native 
->>> one directly uses hardware registers. If my guess is correct, the 
->>> difference between vendor and native does not imply that both of them 
->>> are likely to exist at the same time. As the conclusion, there is no 
->>> more motivation to try to de-duplicate the vendor/native combination 
->>> than to try to de-duplicate combination of devices with a single type.
->>>
->>> Of course, it is better if we could also avoid registering two 
->>> devices with one type for one physical device. Possibly we can do so 
->>> by providing a parameter to indicate that it is for the same 
->>> "internal" backlight to devm_backlight_device_register(), and let the 
->>> function check for the duplication. However, this rule may be too 
->>> restrict, or may have problems I missed.
->>>
->>> Based on the discussion above, we can deduce three possibilities:
->>> a. There is no reason to distinguish vendor and native in this case, 
->>> and we can stick to my current proposal.
->>> b. There is a valid reason to distinguish vendor and native, and we 
->>> can adopt the same strategy that already adopted for ACPI 
->>> video/vendor combination.
->>> c. We can implement de-duplication in devm_backlight_device_register().
->>> d. The other possible options are not worth, and we can just 
->>> implement quirks specific to Chromebook/coreboot.
->>>
->>> In case b, it should be noted that vendor and native backlight device 
->>> do not require ACPI video, and CONFIG_ACPI_VIDEO may not be enabled. 
->>> In the case, the de-duplication needs to be implemented in backlight 
->>> class device.
->>
->> I have been working on the ACPI/x86 backlight detection code since 
->> 2015, please trust
->> me when I say that allowing both vendor + native backlight devices at 
->> the same time
->> is a bad idea.
->>
->> I'm currently in direct contact with the ChromeOS team about fixing 
->> the Chromebook
->> backlight issue introduced in 6.1-rc1.
->>
->> If you wan to help, please read:
->>
->> https://lore.kernel.org/linux-acpi/42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com/
->>
->> And try implementing 1 if the 2 solutions suggested there.
->>
->> Regards,
->>
->> Hans
-> 
-> Hi,
-> 
-> I just wanted to confirm your intention that we should distinguish 
-> vendor and native. In the case I think it is better to modify 
-> __acpi_video_get_backlight_type() and add "native_available" check in 
-> case of no ACPI video as already done for the ACPI video/native 
-> combination.
-> 
-> Unfortunately this has one pitfall though: it does not work if 
-> CONFIG_ACPI_VIDEO is disabled. If it is, acpi_video_get_backlight_type() 
-> always return acpi_backlight_vendor, and 
-> acpi_video_backlight_use_native() always returns true. It is not a 
-> regression but the current behavior. Fixing it requires also refactoring 
-> touching both of ACPI video and backlight class driver so I guess I'm 
-> not an appropriate person to do that, and I should just add 
-> "native_available" check to __acpi_video_get_backlight_type().
-> 
-> Does that sound good?
 
-Well, it would not be that easy since just adding native_available 
-cannot handle the case where the vendor driver gets registered first. 
-Checking with "native_available" was possible for ACPI video/vendor 
-combination because ACPI video registers its backlight after some delay. 
-I still think it does not overcomplicate things to modify 
-__acpi_video_get_backlight_type() so that it can use both of vendor and 
-native as fallback while preventing duplicate registration.
 
-Regards,
-Akihiko Odaki
+On Fri, 21 Oct 2022, Bagas Sanjaya wrote:
 
-> 
-> Regards,
-> Akihiko Odaki
-> 
->>  >
->>
->>>>> Akihiko Odaki (22):
->>>>>     drm/i915/opregion: Improve backlight request condition
->>>>>     ACPI: video: Introduce acpi_video_get_backlight_types()
->>>>>     LoongArch: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: acer-wmi: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: asus-laptop: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: asus-wmi: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: compal-laptop: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: eeepc-laptop: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: fujitsu-laptop: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: ideapad-laptop: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: msi-laptop: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: msi-wmi: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: nvidia-wmi-ec-backlight: Use
->>>>>       acpi_video_get_backlight_types()
->>>>>     platform/x86: panasonic-laptop: Use 
->>>>> acpi_video_get_backlight_types()
->>>>>     platform/x86: samsung-laptop: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: sony-laptop: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: thinkpad_acpi: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: toshiba_acpi: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: dell-laptop: Use acpi_video_get_backlight_types()
->>>>>     platform/x86: intel_oaktrail: Use acpi_video_get_backlight_types()
->>>>>     ACPI: video: Remove acpi_video_get_backlight_type()
->>>>>     ACPI: video: Fallback to native backlight
->>>>>
->>>>>    Documentation/gpu/todo.rst                    |  8 +--
->>>>>    drivers/acpi/acpi_video.c                     |  2 +-
->>>>>    drivers/acpi/video_detect.c                   | 54 
->>>>> ++++++++++---------
->>>>>    drivers/gpu/drm/i915/display/intel_opregion.c |  3 +-
->>>>>    drivers/platform/loongarch/loongson-laptop.c  |  4 +-
->>>>>    drivers/platform/x86/acer-wmi.c               |  2 +-
->>>>>    drivers/platform/x86/asus-laptop.c            |  2 +-
->>>>>    drivers/platform/x86/asus-wmi.c               |  4 +-
->>>>>    drivers/platform/x86/compal-laptop.c          |  2 +-
->>>>>    drivers/platform/x86/dell/dell-laptop.c       |  2 +-
->>>>>    drivers/platform/x86/eeepc-laptop.c           |  2 +-
->>>>>    drivers/platform/x86/fujitsu-laptop.c         |  4 +-
->>>>>    drivers/platform/x86/ideapad-laptop.c         |  2 +-
->>>>>    drivers/platform/x86/intel/oaktrail.c         |  2 +-
->>>>>    drivers/platform/x86/msi-laptop.c             |  2 +-
->>>>>    drivers/platform/x86/msi-wmi.c                |  2 +-
->>>>>    .../platform/x86/nvidia-wmi-ec-backlight.c    |  2 +-
->>>>>    drivers/platform/x86/panasonic-laptop.c       |  2 +-
->>>>>    drivers/platform/x86/samsung-laptop.c         |  2 +-
->>>>>    drivers/platform/x86/sony-laptop.c            |  2 +-
->>>>>    drivers/platform/x86/thinkpad_acpi.c          |  4 +-
->>>>>    drivers/platform/x86/toshiba_acpi.c           |  2 +-
->>>>>    drivers/video/backlight/backlight.c           | 18 +++++++
->>>>>    include/acpi/video.h                          | 21 ++++----
->>>>>    include/linux/backlight.h                     |  1 +
->>>>>    25 files changed, 85 insertions(+), 66 deletions(-)
->>>>>
->>>>
->>>
->>
+> On Thu, Oct 20, 2022 at 02:26:07PM -0700, matthew.gerlach@linux.intel.com wrote:
+>> +Device Feature Header - Version 0
+>> +===========================================
+>> +The format of Version 0 of a Device Feature Header (DFH) is shown below::
+>> +
+>> +    +-----------------------------------------------------------------------+
+>> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0| 0x00
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                                 GUID_L                             0| 0x08
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                                 GUID_H                             0| 0x10
+>> +    +-----------------------------------------------------------------------+
+>> +
+>> +Offset 0x00
+>> +Type - The type of DFH (e.g. FME, AFU, or private feature).
+>> +DFH VER - The version of the DFH.
+>> +Rsvd - Currently unused.
+>> +EOL - Set if this DFH is the end of the Device Feature List (DFL).
+>> +Next - The offset of the next DFH in the DFL from the start of the DFH.
+>> +If EOL is set, Next refers to size of mmio for last feature in the list.
+>> +ID - If Type field is 'private feature', then ID of the private feature.
+>> +
+>> +Offset 0x08
+>> +GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier
+>> +if Type is FME or AFU.
+>> +
+>> +Offset 0x10
+>> +GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier
+>> +if Type is FME or AFU.
+>> +
+>> +
+>> +Device Feature Header - Version 1
+>> +===========================================
+>> +The format of Version 1 of a Device Feature Header (DFH) is shown below::
+>> +
+>> +    +-----------------------------------------------------------------------+
+>> +    |63 Type 60|59 DFH VER 52|51 Rsvd 41|40 EOL|39 Next 16|15 VER 12|11 ID 0| 0x00
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                                 GUID_L                             0| 0x08
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                                 GUID_H                             0| 0x10
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                 Address/Offset                            1|  Rel  0| 0x18
+>> +    +-----------------------------------------------------------------------+
+>> +    |63        Reg Size       32|Params 31|30 Group    16|15 Instance      0| 0x20
+>> +    +-----------------------------------------------------------------------+
+>> +    |63 Next      34|RSV33|EOP32|31 Param Version 16|15 Param ID           0| 0x28
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                 Parameter Data                                     0| 0x30
+>> +    +-----------------------------------------------------------------------+
+>> +
+>> +                                  ...
+>> +
+>> +    +-----------------------------------------------------------------------+
+>> +    |63 Next parameter offset 32|31 Param Version 16|15 Param ID           0|
+>> +    +-----------------------------------------------------------------------+
+>> +    |63                 Parameter Data                                     0|
+>> +    +-----------------------------------------------------------------------+
+>> +
+>> +Offset 0x00
+>> +Type - The type of DFH (e.g. FME, AFU, or private feature).
+>> +DFH VER - The version of the DFH.
+>> +Rsvd - Currently unused.
+>> +EOL - Set if this DFH is the end of the Device Feature List (DFL).
+>> +Next - The offset of the next DFH in the DFL from the start of the DFH.
+>> +If EOL is set, Next refers to size of mmio for last feature in the list.
+>> +ID - If Type field is 'private feature', then ID of the private feature.
+>> +
+>> +Offset 0x08
+>> +GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier.
+>> +
+>> +Offset 0x10
+>> +GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier
+>> +if Type is FME or AFU.
+>> +
+>> +Offset 0x18
+>> +Address/Offset - If Rel bit is set, then high 63 bits of a 16 bit aligned
+>> +absolute address for the location of the feature's registers.
+>> +If Rel bit is clear, then the feature's registers start at the
+>> +offset from the start of the DFH.
+>> +
+>> +Offset 0x20
+>> +Reg Size - Size of feature's register set.
+>> +Params - Set if DFH has one or more parameter blocks.
+>> +Group - Id of group if feature is part of a group.
+>> +Instance - Id of instance of feature within a group.
+>> +
+>> +Offset 0x28 if feature has parameters
+>> +Next - High 30 bits of a 32 bit aligned offset to the next parameter block.
+>> +If EOP set, size of last parameter.
+>> +Param Version - Version of Param ID.
+>> +Param ID - ID of parameter.
+>> +
+>> +Offset 0x30
+>> +Parameter Data - Parameter data whose size and format is defined by version
+>> +and ID of the parameter.
+>> +
+>
+> The offset fields list should be formatted with nested list (with
+> prose improv):
+>
+> ---- >8 ----
+
+Thanks for the good suggestion.
+
+>
+> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
+> index 12365be435a812..9c19ee62d4ac44 100644
+> --- a/Documentation/fpga/dfl.rst
+> +++ b/Documentation/fpga/dfl.rst
+> @@ -573,22 +573,27 @@ The format of Version 0 of a Device Feature Header (DFH) is shown below::
+>     |63                                 GUID_H                             0| 0x10
+>     +-----------------------------------------------------------------------+
+>
+> -Offset 0x00
+> -Type - The type of DFH (e.g. FME, AFU, or private feature).
+> -DFH VER - The version of the DFH.
+> -Rsvd - Currently unused.
+> -EOL - Set if this DFH is the end of the Device Feature List (DFL).
+> -Next - The offset of the next DFH in the DFL from the start of the DFH.
+> -If EOL is set, Next refers to size of mmio for last feature in the list.
+> -ID - If Type field is 'private feature', then ID of the private feature.
+> +The fields are:
+>
+> -Offset 0x08
+> -GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier
+> -if Type is FME or AFU.
+> +  * Offset 0x00
+>
+> -Offset 0x10
+> -GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier
+> -if Type is FME or AFU.
+> +    * Type - The type of DFH (e.g. FME, AFU, or private feature).
+> +    * DFH VER - The version of the DFH.
+> +    * Rsvd - Currently unused.
+> +    * EOL - Set if this DFH is the end of the Device Feature List (DFL).
+> +
+> +    * Next - The offset of the next DFH in the DFL from the start of the DFH.
+> +      If EOL is set, Next refers to size of mmio for last feature in the list.
+> +
+> +    * ID - Private feature ID if Type is private feature.
+> +
+> +  * Offset 0x08
+> +
+> +    * GUID_L - Least significant half of a 128-bit GUID if Type is FME or AFU.
+> +
+> +  * Offset 0x10
+> +
+> +    * GUID_H - Most significant half of a 128-bit GUID if Type if FME or AFU.
+>
+>
+> Device Feature Header - Version 1
+> @@ -619,43 +624,53 @@ The format of Version 1 of a Device Feature Header (DFH) is shown below::
+>     |63                 Parameter Data                                     0|
+>     +-----------------------------------------------------------------------+
+>
+> -Offset 0x00
+> -Type - The type of DFH (e.g. FME, AFU, or private feature).
+> -DFH VER - The version of the DFH.
+> -Rsvd - Currently unused.
+> -EOL - Set if this DFH is the end of the Device Feature List (DFL).
+> -Next - The offset of the next DFH in the DFL from the start of the DFH.
+> -If EOL is set, Next refers to size of mmio for last feature in the list.
+> -ID - If Type field is 'private feature', then ID of the private feature.
+> +The fields are:
+>
+> -Offset 0x08
+> -GUID_L - Least significant 64 bits of a 128 bit Globally Unique Identifier.
+> +  * Offset 0x00
+>
+> -Offset 0x10
+> -GUID_H - Most significant 64 bits of a 128 bit Globally Unique Identifier
+> -if Type is FME or AFU.
+> +    * Type - The type of DFH (e.g. FME, AFU, or private feature).
+> +    * DFH VER - The version of the DFH.
+> +    * Rsvd - Currently unused.
+> +    * EOL - Set if this DFH is the end of the Device Feature List (DFL).
+>
+> -Offset 0x18
+> -Address/Offset - If Rel bit is set, then high 63 bits of a 16 bit aligned
+> -absolute address for the location of the feature's registers.
+> -If Rel bit is clear, then the feature's registers start at the
+> -offset from the start of the DFH.
+> +    * Next - The offset of the next DFH in the DFL from the start of the DFH.
+> +      If EOL is set, Next refers to size of mmio for last feature in the list.
+>
+> -Offset 0x20
+> -Reg Size - Size of feature's register set.
+> -Params - Set if DFH has one or more parameter blocks.
+> -Group - Id of group if feature is part of a group.
+> -Instance - Id of instance of feature within a group.
+> +    * ID - Private feature ID if Type is private feature.
+>
+> -Offset 0x28 if feature has parameters
+> -Next - High 30 bits of a 32 bit aligned offset to the next parameter block.
+> -If EOP set, size of last parameter.
+> -Param Version - Version of Param ID.
+> -Param ID - ID of parameter.
+> +  * Offset 0x08
+>
+> -Offset 0x30
+> -Parameter Data - Parameter data whose size and format is defined by version
+> -and ID of the parameter.
+> +    * GUID_L - Least significant half of a 128-bit GUID if Type is FME or APU.
+> +
+> +  * Offset 0x10
+> +
+> +    * GUID_H - Most significant half of a 128-bit GUID if Type is FME or AFU.
+> +
+> +  * Offset 0x18
+> +
+> +    * Address/Offset - If Rel bit is set, upper 63 bits of a 16-bit aligned
+> +      absolute address for the location of feature registers; otherwise
+> +      registers of the feature start at the offset from the start of the DFH.
+> +
+> +  * Offset 0x20
+> +
+> +    * Reg Size - Size of register set of the feature.
+> +    * Params - Set if DFH has one or more parameter blocks.
+> +    * Group - ID of group if the feature is part of a group.
+> +    * Instance - ID of instance of the feature within a group.
+> +
+> +  * Offset 0x28 (if the feature has parameters)
+> +
+> +    * Next - Upper 30 bits of a 32-bit aligned offset to the next parameter
+> +      block. If EOP is set, size of last parameter.
+> +
+> +    * Param Version - Version of Param ID.
+> +    * Param ID - ID of parameter.
+> +
+> +  * Offset 0x30 (if the feature has parameters)
+> +
+> +    * Parameter Data - Parameter data whose size and format is defined by
+> +      version and ID of the parameter.
+>
+> Open discussion
+> ===============
+>
+> Thanks.
+>
+> -- 
+> An old man doll... just what I always wanted! - Clara
+>
