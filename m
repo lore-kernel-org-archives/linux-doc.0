@@ -2,94 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B24FFFA3743
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 00:52:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E4E6C38A2D
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 01:03:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231256AbiJYAw5 convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 20:52:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42878 "EHLO
+        id S231131AbiJYBC7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 21:02:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230422AbiJYAwk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 20:52:40 -0400
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ACE115994D;
-        Mon, 24 Oct 2022 16:34:13 -0700 (PDT)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=diego.localnet)
-        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <heiko@sntech.de>)
-        id 1omzeK-00031R-RG; Mon, 24 Oct 2022 17:46:00 +0200
-From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To:     linux-arm-kernel@lists.infradead.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Arnd Bergmann <arnd@kernel.org>, Arnd Bergmann <arnd@arndb.de>
-Cc:     linux-kernel@vger.kernel.org, Ben Dooks <ben-linux@fluff.org>,
-        Simtec Linux Team <linux@simtec.co.uk>,
-        Arnaud Patard <arnaud.patard@rtp-net.org>,
-        Christer Weinigel <christer@weinigel.se>,
-        Guillaume GOURAT <guillaume.gourat@nexvision.tv>,
-        openmoko-kernel@lists.openmoko.org,
+        with ESMTP id S231144AbiJYBC3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 21:02:29 -0400
+X-Greylist: delayed 1503 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 24 Oct 2022 16:58:37 PDT
+Received: from server.atrad.com.au (server.atrad.com.au [150.101.241.2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C59917252B;
+        Mon, 24 Oct 2022 16:58:31 -0700 (PDT)
+Received: from marvin.atrad.com.au (marvin.atrad.com.au [192.168.0.2])
+        by server.atrad.com.au (8.17.1/8.17.1) with ESMTPS id 29OMOeVe015083
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+        Tue, 25 Oct 2022 08:54:42 +1030
+Date:   Tue, 25 Oct 2022 08:54:40 +1030
+From:   Jonathan Woithe <jwoithe@just42.net>
+To:     Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Olof Johansson <olof@lixom.net>, soc@kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-doc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 01/21] ARM: s3c: remove all s3c24xx support
-Date:   Mon, 24 Oct 2022 17:45:59 +0200
-Message-ID: <2120112.irdbgypaU6@diego>
-In-Reply-To: <8d6ddb0d-98be-4c4d-9523-f024c339c8d0@app.fastmail.com>
-References: <20221021202254.4142411-1-arnd@kernel.org> <2204103.iZASKD2KPV@diego> <8d6ddb0d-98be-4c4d-9523-f024c339c8d0@app.fastmail.com>
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        "Lee, Chun-Yi" <jlee@suse.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+        Ike Panhc <ike.pan@canonical.com>,
+        Daniel Dadap <ddadap@nvidia.com>,
+        Kenneth Chan <kenneth.t.chan@gmail.com>,
+        Mattia Dongili <malattia@linux.it>,
+        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+        Azael Avalos <coproscefalo@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Robert Moore <robert.moore@intel.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org,
+        platform-driver-x86@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net,
+        ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
+        devel@acpica.org
+Subject: Re: [PATCH 09/22] platform/x86: fujitsu-laptop: Use
+ acpi_video_get_backlight_types()
+Message-ID: <Y1cQqG2eiISdKv0S@marvin.atrad.com.au>
+References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
+ <20221024113513.5205-10-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221024113513.5205-10-akihiko.odaki@daynix.com>
+X-MIMEDefang-action: accept
+X-Scanned-By: MIMEDefang 2.86 on 192.168.0.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am Montag, 24. Oktober 2022, 16:27:31 CEST schrieb Arnd Bergmann:
-> On Sat, Oct 22, 2022, at 22:56, Heiko Stübner wrote:
-> > Am Freitag, 21. Oktober 2022, 22:27:34 CEST schrieb Arnd Bergmann:
-> >> From: Arnd Bergmann <arnd@arndb.de>
-> >> 
-> >> The platform was deprecated in commit 6a5e69c7ddea ("ARM: s3c: mark
-> >> as deprecated and schedule removal") and can be removed. This includes
-> >> all files that are exclusively for s3c24xx and not shared with s3c64xx,
-> >> as well as the glue logic in Kconfig and the maintainer file entries.
-> >> 
-> >> Cc: Arnaud Patard <arnaud.patard@rtp-net.org>
-> >> Cc: Ben Dooks <ben-linux@fluff.org>
-> >> Cc: Christer Weinigel <christer@weinigel.se>
-> >> Cc: Guillaume GOURAT <guillaume.gourat@nexvision.tv>
-> >> Cc: Heiko Stuebner <heiko@sntech.de>
-> >> Cc: Simtec Linux Team <linux@simtec.co.uk>
-> >> Cc: openmoko-kernel@lists.openmoko.org
-> >> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> >
-> > So many memories of me starting out in the kernel on s3c24xx.
-> > But it's no use trying to keep stuff around that nobody will likely
-> > ever use again. So with a sad face
-> >
-> > Acked-by: Heiko Stuebner <heiko@sntech.de>
-> >
-> >
-> > though you might want to also include
-> > 	drivers/dma/s3c24xx-dma.c
+On Mon, Oct 24, 2022 at 08:35:00PM +0900, Akihiko Odaki wrote:
+> acpi_video_get_backlight_type() is now deprecated.
+
+The practical impact of this patch series on fujitsu-laptop is obviously
+very minor assuming the new acpi_video_get_backlight_types() function
+functions as advertised.  Accordingly, as maintainer of fujitsu-laptop I
+will defer to the opinions of others who maintain the lower level
+infrastructure which is more substantially affected by the bulk of the
+changes in this series.
+
+I note that Hans has naked the series and I'm happy to go along with that.
+
+Regards
+  jonathan
+
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>  drivers/platform/x86/fujitsu-laptop.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> This was in a separate patch that removes the driver:
-> 
-> https://lore.kernel.org/linux-arm-kernel/20221021203329.4143397-14-arnd@kernel.org/
-
-ah ok, I guess git-send-email didn't want to send me that patch.
-So all is good in that part then :-)
-
-
-Heiko
-
-
+> diff --git a/drivers/platform/x86/fujitsu-laptop.c b/drivers/platform/x86/fujitsu-laptop.c
+> index b543d117b12c..e820de39cb68 100644
+> --- a/drivers/platform/x86/fujitsu-laptop.c
+> +++ b/drivers/platform/x86/fujitsu-laptop.c
+> @@ -387,7 +387,7 @@ static int acpi_fujitsu_bl_add(struct acpi_device *device)
+>  	struct fujitsu_bl *priv;
+>  	int ret;
+>  
+> -	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
+> +	if (!(acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR))
+>  		return -ENODEV;
+>  
+>  	priv = devm_kzalloc(&device->dev, sizeof(*priv), GFP_KERNEL);
+> @@ -819,7 +819,7 @@ static int acpi_fujitsu_laptop_add(struct acpi_device *device)
+>  
+>  	/* Sync backlight power status */
+>  	if (fujitsu_bl && fujitsu_bl->bl_device &&
+> -	    acpi_video_get_backlight_type() == acpi_backlight_vendor) {
+> +	    (acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
+>  		if (call_fext_func(fext, FUNC_BACKLIGHT, 0x2,
+>  				   BACKLIGHT_PARAM_POWER, 0x0) == BACKLIGHT_OFF)
+>  			fujitsu_bl->bl_device->props.power = FB_BLANK_POWERDOWN;
+> -- 
+> 2.37.3
