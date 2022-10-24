@@ -2,110 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D88DFA3744
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 19:44:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54BBAFA3744
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 19:59:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232216AbiJXTov (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 15:44:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48342 "EHLO
+        id S233202AbiJXT7v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 15:59:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233507AbiJXToE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 15:44:04 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4CA7194219;
-        Mon, 24 Oct 2022 11:12:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666635141; x=1698171141;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=5z5J6hyo+xzhPJHRSqQ2l3yOfGRRo8+TjXETgVVrD8A=;
-  b=CTreJ/NTlalPXaOM+VYIQ30+UirYB0cafgqkos+0j5oy3cgHWYw7LuOZ
-   H46KTgzh4inW7Y4JY3enkMEmQ4/H1dlplhzmigdzxecUwDWqD/4ENtikS
-   MwoRzhj3NtFCfUMVT/oxF71d3HPGerykryaksqMgcFQu2btBXj5aOtubb
-   r3ZCCUugQ8xKTDDKAyn6oX7tNUDDmhZoOb/2OveaOVrnDCMEx1Q6+khI0
-   ptZhdXud2mHLmsXw48XlobER/BC++TMPpW/sLVwCZb4bmjteJ3B+Hi932
-   krtHztMHY9HLvk4quni6YmhdKxT/cHBkDkI8PeiJz+gE47LrRq+5qUkuz
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="393805616"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
-   d="scan'208";a="393805616"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 11:11:22 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="609286400"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
-   d="scan'208";a="609286400"
-Received: from emontau-mobl2.ger.corp.intel.com (HELO localhost) ([10.252.52.221])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 11:11:11 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Akihiko Odaki <akihiko.odaki@daynix.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        "Lee, Chun-Yi" <jlee@suse.com>, Mark Gross <markgross@kernel.org>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Pali =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>,
-        Jonathan Woithe <jwoithe@just42.net>,
-        Ike Panhc <ike.pan@canonical.com>,
-        Daniel Dadap <ddadap@nvidia.com>,
-        Kenneth Chan <kenneth.t.chan@gmail.com>,
-        Mattia Dongili <malattia@linux.it>,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Azael Avalos <coproscefalo@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        Robert Moore <robert.moore@intel.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org,
-        platform-driver-x86@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net,
-        ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
-        devel@acpica.org
-Subject: Re: [PATCH 00/22] Fallback to native backlight
-In-Reply-To: <78ad5d7b-4078-0b8e-f4aa-6c8113631359@daynix.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
- <746e5cc6-516f-8f69-9d4b-8fe237de8fd6@redhat.com>
- <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
- <60672af8-05d2-113c-12b9-d635608be0dd@redhat.com>
- <ea69242c-0bc8-c7bb-9602-c7489bb69684@daynix.com>
- <7373e258-f7cc-4416-9b1c-c8c9dab59ada@daynix.com>
- <ae3497ed-b68d-c36a-6b6f-f7b9771d9238@redhat.com>
- <78ad5d7b-4078-0b8e-f4aa-6c8113631359@daynix.com>
-Date:   Mon, 24 Oct 2022 21:11:08 +0300
-Message-ID: <87o7u1drcz.fsf@intel.com>
+        with ESMTP id S234113AbiJXT7H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 15:59:07 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A4EE2920F5;
+        Mon, 24 Oct 2022 11:21:48 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id g11so6128941qts.1;
+        Mon, 24 Oct 2022 11:21:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3e5bcd0fb6c5RJaPgWruO5Vk2zsN7icPcp93djWHt/s=;
+        b=F5nJ/Bc+bRFj9LwhKX1gk5ThOebVMr12gFf+CjNAVy/5LlZCtkzLRc/CdHxVnwbKsy
+         13fiSRWGBeYwgC2Nu0RIytUMxha/lHYG6umKqf8un9okKzbCmMD0mcXnSNhQM0m4PYCh
+         YFE0yu1r55s58fSkyiZBJ4MsWFtSgG+lCoXUZ+1oo+IRC/9Q54xk0z5h+9ZfKxlKmgWM
+         2BCZImF8NS2fL0VuEttvE5oQ2Xf8ChwtSypIcMcoA/lOMvL/ZjGVLC/47akKKY/Utz+h
+         iPJcP06mJnUhTrlbLwnBteO0cKiULJiZm8isLlWqPBWS3nun03LbkFVDpx5kLcbMHhkc
+         BhuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3e5bcd0fb6c5RJaPgWruO5Vk2zsN7icPcp93djWHt/s=;
+        b=xKoz47cvjavX6ZzenAfwfaX0TUOHo7ekVriYQDGpvTecGTsN6+IUbzmJ0mMkBmtlmM
+         iBKc2rYGpBowKCQx3WapXxJSAc4rYH+Y/w9V3KkKa+OQMtGaiJ3yWw14pOVaSqOaBsB2
+         iV/H0NNPLYPa/2QKMKvpGDgdjGaqBDXmgTYsmHdqW/fqf6kzwBQrdN3ttDAag+Nt22dX
+         eS5jfkrzQ3MVvV3aAj1bzk+tAMuf1dJ9R44Hf5l6g0xoSTjvn47pVJkgoplho2LshT7I
+         AFY6QsYZNUZUdLH6/feW+HYxuJoSt2uwajo835BozbrJt3O6uoQYF3IFGam+/wOv1cES
+         JLeQ==
+X-Gm-Message-State: ACrzQf02btBgolEgi3NIDPMbvLuE9Clb8c+5z+qR0K8d6ThoY5lBtxxe
+        rEKLsAivHW3xPRDe9gw8l2o=
+X-Google-Smtp-Source: AMsMyM7e65kEVnIeUYCrfmvWNo9dZ+ObUX4E4SNnQ+nehPwZRGWFzRSiGcGOC1G+tPc5sgfC/s5SwQ==
+X-Received: by 2002:ac8:5783:0:b0:39c:f52f:ab41 with SMTP id v3-20020ac85783000000b0039cf52fab41mr28510433qta.343.1666635658979;
+        Mon, 24 Oct 2022 11:20:58 -0700 (PDT)
+Received: from [192.168.0.24] (bras-base-toroon3514w-grc-28-142-114-225-85.dsl.bell.ca. [142.114.225.85])
+        by smtp.gmail.com with ESMTPSA id gb12-20020a05622a598c00b0039a55f78792sm284511qtb.89.2022.10.24.11.20.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Oct 2022 11:20:58 -0700 (PDT)
+Message-ID: <11616e14-f8a6-e0fe-3e11-9b884fe4ce33@gmail.com>
+Date:   Mon, 24 Oct 2022 15:20:55 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
+Content-Language: en-US
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        the arch/x86 maintainers <x86@kernel.org>
+Cc:     Yu Zhao <yuzhao@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=c3=a4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+References: <20220815071332.627393-1-yuzhao@google.com>
+ <20220815071332.627393-9-yuzhao@google.com>
+ <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net>
+ <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com>
+ <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
+ <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net>
+ <CAHk-=whQchubuDpRGFabhmcZuzdt13OOF8wznXb+Dbi3GzBQhQ@mail.gmail.com>
+ <Y1GZjPO+szk7X0wP@hirez.programming.kicks-ass.net>
+ <CAHk-=wikUaRM5H_y1Bc+QyvGi40dKDL8fnCTyz7ECbwK7aHNPQ@mail.gmail.com>
+From:   Gareth Poole <girpoole@gmail.com>
+In-Reply-To: <CAHk-=wikUaRM5H_y1Bc+QyvGi40dKDL8fnCTyz7ECbwK7aHNPQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 25 Oct 2022, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
-> That aside, the first patch in this series can be applied without the 
-> later patches so you may have a look at it. It's fine if you don't merge 
-> it though since it does not fix really a pragmatic bug as its message says.
+As someone who still regularly uses hardware from this era, and often 
+runs Linux on it, this would definitely be a blow to which machines I 
+can actively use. Linux support is a big part of how I use these 
+machines, since DOS and Windows 95 really can’t keep up with modern 
+networking standards.
 
-I think it's problematic because it needlessly ties i915 backlight
-operation to existence of backlight devices that may not be related to
-Intel GPU at all. The direction should be multiple supported backlight
-devices, across GPUs and connectors, but only one per display.
+I would be very disappointed, and impacted, if Linux dropped 486 support.
 
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+On 10/20/22 23:10, Linus Torvalds wrote:
+> On Thu, Oct 20, 2022 at 11:55 AM Peter Zijlstra <peterz@infradead.org> wrote:
+>> On Thu, Oct 20, 2022 at 10:35:28AM -0700, Linus Torvalds wrote:
+>>> That said, I reacted to that cmpxchg loop:
+>>>
+>>>          } while (cmpxchg64(&pmdp->pmd, old.pmd, 0ULL) != old.pmd);
+>>>
+>>> is this series just so old (but rebased) that it doesn't use "try_cmpxchg64()"?
+>> Yep -- it's *that* old :-/ You're not in fact the first to point that
+>> out.
+>>
+>> I'll make time tomorrow to fix it up and respin and send out. This is as
+>> good a time as any to get rid of carrying these patches myself.
+> Hmm. Thinking some more about it, even if you do it as a
+> try_cmpxchg64() loop, it ends up being duplicated twice.
+>
+> Maybe we should just bite the bullet, and say that we only support
+> x86-32 with 'cmpxchg8b' (ie Pentium and later).
+>
+> Get rid of all the "emulate 64-bit atomics with cli/sti, knowing that
+> nobody has SMP on those CPU's anyway", and implement a generic x86-32
+> xchg() setup using that try_cmpxchg64 loop.
+>
+> I think most (all?) distros already enable X86_PAE anyway, which makes
+> that X86_CMPXCHG64 be part of the base requirement.
+>
+> Not that I'm convinced most distros even do 32-bit development anyway
+> these days.
+>
+> (Of course, if we require X86_CMPXCHG64, we'll also hit some of the
+> odd clone CPU's that actually *do* support the instruction, but do not
+> report it in cpuid due to an odd old Windows NT bug. IOW, things like
+> the Cyrix and Transmeta CPU's did support the instruction, but had the
+> CX8 bit clear because otherwise NT wouldn't boot. We may or may not
+> get those cases right, but I doubt anybody really has any of those old
+> CPUs).
+>
+> We got rid of i386 support back in 2012. Maybe it's time to get rid of
+> i486 support in 2022?
+>
+> That way we could finally get rid of CONFIG_MATH_EMULATION too.
+>
+>                 Linus
+>
