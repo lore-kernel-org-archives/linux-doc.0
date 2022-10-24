@@ -2,119 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57B3EC38A2D
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 17:22:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D0A7FA373F
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 17:23:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230080AbiJXRWH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 13:22:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40818 "EHLO
+        id S232363AbiJXRXX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 13:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232458AbiJXRVg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 13:21:36 -0400
+        with ESMTP id S232569AbiJXRXD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 13:23:03 -0400
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1481E12275A;
-        Mon, 24 Oct 2022 08:56:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2930B10D695;
+        Mon, 24 Oct 2022 08:58:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666626978; x=1698162978;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=R6eLt+eaBNx47iW0+GZUQaBnxc2a9sA6IRLpogRPtC8=;
-  b=huyA2vr67ohtqIw0SkvIn0jAuo8wl6H2UCld9XAq0Okyy5NGfZQkefAc
-   RPArSrIcAK6FQkYx1kiph6YFf7MPc4RclGCoN8XeplZuv9Xq+LJ9NePuJ
-   a/oZqVmGQ0wV+FEJmSelHq6x3tVbJJkMnxiSkU5imVWnI8GiNIP65RhPi
-   zHTM81Z6E6/2pMGshkNL3fy/C9/bG3BtFqauWqzSkTslqVnBG02iNKDgb
-   yLMXHnSx8a+P1FiTXk+Jg0O3YFlaxy8ZNUREPlGCcHxRIT/ZoUJc+QBhP
-   Z0j5Xx3j/I1/2t5IOh9N/P5RrywrE9OPVB3l/8P4kNrGYOPb3ikmIt6sq
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="287822959"
+  t=1666627090; x=1698163090;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=KF8Fkwnt0swwTeTSQoG35DuMH7urFi84yTD7/k3447s=;
+  b=iWcf2MUMOWojkBMgaMng4oDsQaCoa4ey+XKqlKbxAMVfkMf+T64lJbQd
+   w/x95mYR5gWyqnZxHASCkARdEz5jIeAEwyqc65fkb+qK++twUZIe3Clgk
+   CmPpruVORq6oqDWCHqgt2csSRza/a59A/YFZ9HIs44UZ74fbIWubsj6iQ
+   IB1lqQBS1A39oOSo4OCRiumrTE0aKCtusMMq8kA4g7LVNJEfVFArHR0bS
+   o2AflkoayInpGluuQetlhYhWpjXhoC/YHOB+cw5sCnFotN58nA9TSl8b6
+   QVsQmMdyRwy58+vSon45wK+2Uohol+G0jkQp/9RfTu7TfROZvUXEc+SVg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="287840235"
 X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
-   d="scan'208";a="287822959"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 07:17:24 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="876448167"
+   d="scan'208";a="287840235"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 08:09:18 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="773850887"
 X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
-   d="scan'208";a="876448167"
-Received: from csun9-mobl.amr.corp.intel.com (HELO [10.209.104.152]) ([10.209.104.152])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 07:17:23 -0700
-Message-ID: <f03f1db3-5e55-9606-1d0d-4d51213a0b1a@intel.com>
-Date:   Mon, 24 Oct 2022 07:17:22 -0700
+   d="scan'208";a="773850887"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 08:09:17 -0700
+Date:   Mon, 24 Oct 2022 08:09:34 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-serial <linux-serial@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, Lukas Wunner <lukas@wunner.de>,
+        marpagan@redhat.com
+Subject: Re: [PATCH v4 3/4] fpga: dfl: add basic support DFHv1
+In-Reply-To: <97f6047-e364-8ae7-195c-4cf33c4b3ec7@linux.intel.com>
+Message-ID: <alpine.DEB.2.22.394.2210240808400.2070724@rhweight-WRK1>
+References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com> <20221020212610.697729-4-matthew.gerlach@linux.intel.com> <97f6047-e364-8ae7-195c-4cf33c4b3ec7@linux.intel.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v15 2/3] virt: Add TDX guest driver
-Content-Language: en-US
-To:     Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20221020045828.2354731-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20221020045828.2354731-3-sathyanarayanan.kuppuswamy@linux.intel.com>
- <Y1De4IyAB6n2qs4V@kroah.com>
- <34ef18d6-69f8-853a-d1ba-7023822e17ff@linux.intel.com>
- <Y1Iimg0WItgIGq6/@kroah.com>
- <c09184e3-ac15-b230-6dea-d6718f6f0ab0@linux.intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <c09184e3-ac15-b230-6dea-d6718f6f0ab0@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="8323328-2044127639-1666624175=:2070724"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/23/22 09:13, Sathyanarayanan Kuppuswamy wrote:
-> On 10/20/22 9:39 PM, Greg Kroah-Hartman wrote:
->>>> You are allowing userspace to spam the kernel logs, please do not do
->>>> that.
->>> Added it to help userspace understand the reason for the failure (only for
->>> the cases like request param issues and TDCALL failure). Boris recommended
->>> adding it in the previous review.
->> Again, you just created a vector for userspace to spam the kernel log.
->> No kernel driver should ever do that.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323328-2044127639-1666624175=:2070724
+Content-Type: text/plain; charset=ISO-8859-15; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+
+
+On Fri, 21 Oct 2022, Ilpo Järvinen wrote:
+
+> On Thu, 20 Oct 2022, matthew.gerlach@linux.intel.com wrote:
+>
+>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
 >>
-> Brois, any comments? Do you also agree?
-...
-> +	if (req.subtype || req.rpd_len != TDX_REPORTDATA_LEN ||
-> +	    req.tdr_len != TDX_REPORT_LEN) {
-> +		pr_err("TDX_CMD_GET_REPORT: invalid req: subtype:%u rpd_len:%u tdr_len:%u\n",
-> +		       req.subtype, req.rpd_len, req.tdr_len);
+>> Add generic support for MSI-X interrupts for DFL devices.
+>>
+>> The location of a feature's registers is explicitly
+>> described in DFHv1 and can be relative to the base of the DFHv1
+>> or an absolute address.  Parse the location and pass the information
+>> to DFL driver.
+>>
+>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>> ---
+>> v4: s/MSIX/MSI_X
+>>     move kernel doc to implementation
+>>     use structure assignment
+>>     fix decode of absolute address
+>>     clean up comment in parse_feature_irqs
+>>     remove use of csr_res
+>>
+>> v3: remove unneeded blank line
+>>     use clearer variable name
+>>     pass finfo into parse_feature_irqs()
+>>     refactor code for better indentation
+>>     use switch statement for irq parsing
+>>     squash in code parsing register location
+>>
+>> v2: fix kernel doc
+>>     clarify use of DFH_VERSION field
+>> ---
+>
+>> +static int dfh_get_psize(void __iomem *dfh_base, resource_size_t max)
+>> +{
+>> +	int size = 0;
+>> +	u64 v, next;
+>> +
+>> +	if (!FIELD_GET(DFHv1_CSR_SIZE_GRP_HAS_PARAMS,
+>> +		       readq(dfh_base + DFHv1_CSR_SIZE_GRP)))
+>> +		return 0;
+>> +
+>> +	while (size + DFHv1_PARAM_HDR < max) {
+>> +		v = readq(dfh_base + DFHv1_PARAM_HDR + size);
+>> +
+>> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
+>> +		if (!(next & ~DFHv1_PARAM_HDR_NEXT_MASK))
+>
+> In general, try to not use inverse logic for defining masks. However here,
+> just change DFHv1_PARAM_HDR_NEXT_OFFSET to not include any extra bits
+> (no rsvd nor eop) and you no longer need this extra masking.
 
-This is _clearly_ debugging code.  There are a billion if(foo){return
--EINVAL;}'s in the kernel, and very few of them have printk()'s to go
-along with them.
+I agree that defining the fields better and using FIELD_GET would make 
+this code cleaner.
 
-They do help figure out what happened when userspace sees an -EINVAL and
-can't figure out what it did to cause it.  But, if the kernel spammed
-dmesg for every time userspace does something stupid, it'd be filled up
-with noise.
+>
+>> +			return -EINVAL;
+>> +
+>> +		size += next & ~DFHv1_PARAM_HDR_NEXT_MASK;
+>
+> ...Then you can drop this anding too.
+>
+>> +
+>> +		if (next & DFHv1_PARAM_HDR_NEXT_EOL)
+>
+> Your docs say EOP, but here you use EOL.
 
-There are other ways to debug stuff like this if userspace gets confused.
+Thanks for catching the inconsistency.
 
-If folks are OK with dev_dbg(), then I'd move over to that.  But,
-frankly, I don't think this rises to the level of needing its own error
-message.
-
-Heck, I'm not even sure why this code exits in the first place.  I guess
-we don't want userspace making random requests to the host.  But, of
-course, none of _that_ information about what the code is actually there
-for made it into the patch, and it just consumes comment space
-regurgitating the TDX spec.
-
-This branch of the thread frankly isn't about a pr_err().  It's about
-nobody really knowing (or caring) why that line of code is there, when
-it might happen, and what precise function it serves.
+>
+> Change DFHv1_PARAM_HDR_NEXT_EOL such that this is extracted directly from
+> v.
+>
+> -- 
+> i.
+>
+--8323328-2044127639-1666624175=:2070724--
