@@ -2,238 +2,371 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2C55FA373F
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 16:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81A81ECAAA1
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 16:25:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232435AbiJXQXi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 12:23:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56710 "EHLO
+        id S230483AbiJXQZP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 12:25:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232443AbiJXQXS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 12:23:18 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 353AF4B0E4;
-        Mon, 24 Oct 2022 08:09:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666624140; x=1698160140;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=2aq6bJvZs/INx2TIs6FczB9jmb8q3tRqCcz8AIvKGzQ=;
-  b=J+JCyiVWb5CkeN8MYnca/S4XA2nP9R2RotbIipWevSAAC4v66c++jFLG
-   xnJlVO/DH9NjzQQjAL7KtoV+t7FS0W2oXfLsoP7hRjtvMxDJ4EDMHaZlo
-   HwUC98rjqnaQT8ocPkC+0gVoatTgMMkHuCUekbqr7TVNV7pvs/X7ZRiRW
-   vSU60SXplbbl9VvV1tLi/XUYBBZfVaM4nmLGba1mJ0lqjVCqnJazVaEWS
-   ZLfLZJeNSN5Z6wgdU4PtUXiBk4iKt6XWHdDibSQ1DCpOK0hagHfpRbC5a
-   0N6xqDBOr7ZpKh2RiTR6WJ+IMk9WPvxOEMrYrwzBRhB5Y8/h1uSdRhzz6
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="287155496"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
-   d="scan'208";a="287155496"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 07:55:59 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="626092623"
-X-IronPort-AV: E=Sophos;i="5.95,209,1661842800"; 
-   d="scan'208";a="626092623"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 07:55:58 -0700
-Date:   Mon, 24 Oct 2022 07:56:11 -0700 (PDT)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-cc:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com
-Subject: Re: [PATCH v4 3/4] fpga: dfl: add basic support DFHv1
-In-Reply-To: <Y1HGhT5+Nxv6anw5@smile.fi.intel.com>
-Message-ID: <alpine.DEB.2.22.394.2210240746570.2070724@rhweight-WRK1>
-References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com> <20221020212610.697729-4-matthew.gerlach@linux.intel.com> <Y1HGhT5+Nxv6anw5@smile.fi.intel.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S234100AbiJXQXh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 12:23:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69263140CC
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 08:09:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666624051;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=hcc9Sl5VWnSbLa3wj196AJrJmz0s6R/mrqufXCIozGw=;
+        b=ACroi9fuCBUIv02FG0OC5Cx+zIkLCYrpy+0kJQD0K2g0qB0mQqRbeF0QXJU1Vz9yty8mbW
+        BuLMu/6R1Zk79eisT8eOeP0yz7xtFmkCysjd/g+e+aw5QEwk+/Ggl6s2ZbwTw/PpCLeWjU
+        SJK6dzcq8/kqH+bmM9zRgryhTmxvA+E=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-120-kyIpSHW8OWqMzVJPXU0cIQ-1; Mon, 24 Oct 2022 07:48:41 -0400
+X-MC-Unique: kyIpSHW8OWqMzVJPXU0cIQ-1
+Received: by mail-qt1-f197.google.com with SMTP id d25-20020ac847d9000000b0039d0dd90182so6897824qtr.3
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:48:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hcc9Sl5VWnSbLa3wj196AJrJmz0s6R/mrqufXCIozGw=;
+        b=ZfiVMc+v3tbooxxLK3VAN92L9bKoEXCEPv0tp9HGnlh9pdR7zXDPh66WfaJgcTyXBU
+         CZwYBtobOKwl280Bzf8a3ftkZP9VmKXQ8rTxa4a3W4swP9PN/YtvbdGQis2oM7je1wLb
+         1W1MBytvtUXfaNX7GePQn7jNqmXnAgxQJ22pd+98fiiaKGb+ADlZmCqSUuvKCeSXYpDg
+         mgt/4tN33TGSZ/ebgkIvo798Lk4LBi/frQa6bqwM75gKU9oQ2CRFbKOdMI/bSADN3r74
+         vOuLjtC6mpFcsD5/7kSUFEL5qPAdAQzClwytuSrdcCD9lGdPtozyDnhLHAZzCJ4uTz7/
+         daYg==
+X-Gm-Message-State: ACrzQf0qrXUfOvTOrw8Wu9iHUTQP7CrUoeOJ/4fIYhKeMtCdu9SLu3BU
+        LrhjkdUKTTKm+1UxkeDunOHiylFI+CGuVNMmpumc7gzYIKuPgNOjnyz6uMHNW+ASk9Pvxw9yPK+
+        hKKuNm7LWCo9HTc0c2zj7
+X-Received: by 2002:a05:622a:8cf:b0:39c:dc9b:b3d4 with SMTP id i15-20020a05622a08cf00b0039cdc9bb3d4mr27187072qte.41.1666612121181;
+        Mon, 24 Oct 2022 04:48:41 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4wWNlbK8kiLw+TCAOwXLHhnIqkGp9iFae8JoBf4IYnBsVj9PLSY0/ko1X91ulVAffKrMrmmw==
+X-Received: by 2002:a05:622a:8cf:b0:39c:dc9b:b3d4 with SMTP id i15-20020a05622a08cf00b0039cdc9bb3d4mr27187052qte.41.1666612120847;
+        Mon, 24 Oct 2022 04:48:40 -0700 (PDT)
+Received: from nfvsdn-06.testing.baremetal.edge-sites.net (nat-pool-232-132.redhat.com. [66.187.232.132])
+        by smtp.gmail.com with ESMTPSA id m15-20020a05620a13af00b006ee949b8051sm14653564qki.51.2022.10.24.04.48.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Oct 2022 04:48:40 -0700 (PDT)
+From:   mtahhan@redhat.com
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Maryam Tahhan <mtahhan@redhat.com>,
+        =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
+        Donald Hunter <donald.hunter@gmail.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH bpf-next v5 1/1] doc: DEVMAPs and XDP_REDIRECT
+Date:   Mon, 24 Oct 2022 08:43:41 -0400
+Message-Id: <20221024124341.2157865-2-mtahhan@redhat.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20221024124341.2157865-1-mtahhan@redhat.com>
+References: <20221024124341.2157865-1-mtahhan@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Maryam Tahhan <mtahhan@redhat.com>
 
+Add documentation for BPF_MAP_TYPE_DEVMAP and
+BPF_MAP_TYPE_DEVMAP_HASH including kernel version
+introduced, usage and examples.
 
-On Fri, 21 Oct 2022, Andy Shevchenko wrote:
+Add documentation that describes XDP_REDIRECT.
 
-> On Thu, Oct 20, 2022 at 02:26:09PM -0700, matthew.gerlach@linux.intel.com wrote:
->> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>
->> Add generic support for MSI-X interrupts for DFL devices.
->>
->> The location of a feature's registers is explicitly
->> described in DFHv1 and can be relative to the base of the DFHv1
->> or an absolute address.  Parse the location and pass the information
->> to DFL driver.
->
-> ...
->
->> +static void *find_param(void *base, resource_size_t max, int param)
->
-> Why base can't be u64 * to begin with?
+Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+Reviewed-by: Toke Høiland-Jørgensen <toke@redhat.com>
+Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Acked-by: Toke Høiland-Jørgensen <toke@redhat.com>
+---
+ Documentation/bpf/index.rst      |   1 +
+ Documentation/bpf/map_devmap.rst | 203 +++++++++++++++++++++++++++++++
+ Documentation/bpf/redirect.rst   |  45 +++++++
+ 3 files changed, 249 insertions(+)
+ create mode 100644 Documentation/bpf/map_devmap.rst
+ create mode 100644 Documentation/bpf/redirect.rst
 
-It can be u64, and I will consider it for the next iteration.
->
->> +{
->> +	int off = 0;
->> +	u64 v, next;
->> +
->> +	while (off < max) {
->
-> Maybe you need a comment somewhere to tell that the caller guarantees that max
-> won't provoke OOB accesses.
->
->> +		v = *(u64 *)(base + off);
->
-> Okay, if offset is not multiple of at least 4, how do you guarantee no
-> exception on the architectures with disallowed misaligned accesses?
->
-> Making base to be u64 * solves this, but you need to take care to provide
-> offset in terms of u64 words.
+diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
+index 1b50de1983ee..1088d44634d6 100644
+--- a/Documentation/bpf/index.rst
++++ b/Documentation/bpf/index.rst
+@@ -29,6 +29,7 @@ that goes into great technical depth about the BPF Architecture.
+    clang-notes
+    linux-notes
+    other
++   redirect
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/bpf/map_devmap.rst b/Documentation/bpf/map_devmap.rst
+new file mode 100644
+index 000000000000..1c6025ea5fdc
+--- /dev/null
++++ b/Documentation/bpf/map_devmap.rst
+@@ -0,0 +1,203 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++=================================================
++BPF_MAP_TYPE_DEVMAP and BPF_MAP_TYPE_DEVMAP_HASH
++=================================================
++
++.. note::
++   - ``BPF_MAP_TYPE_DEVMAP`` was introduced in kernel version 4.14
++   - ``BPF_MAP_TYPE_DEVMAP_HASH`` was introduced in kernel version 5.4
++
++``BPF_MAP_TYPE_DEVMAP`` and ``BPF_MAP_TYPE_DEVMAP_HASH`` are BPF maps primarily
++used as backend maps for the XDP BPF helper call ``bpf_redirect_map()``.
++``BPF_MAP_TYPE_DEVMAP`` is backed by an array that uses the key as
++the index to lookup a reference to a net device. While ``BPF_MAP_TYPE_DEVMAP_HASH``
++is backed by a hash table that uses a key to lookup a reference to a net device.
++The user provides either <``key``/ ``ifindex``> or <``key``/ ``struct bpf_devmap_val``>
++pairs to update the maps with new net devices.
++
++.. note::
++    - The key to a hash map doesn't have to be an ``ifindex``.
++    - While ``BPF_MAP_TYPE_DEVMAP_HASH`` allows for densely packing the net devices
++      it comes at the cost of a hash of the key when performing a look up.
++
++The setup and packet enqueue/send code is shared between the two types of
++devmap; only the lookup and insertion is different.
++
++Usage
++=====
++
++.. c:function::
++   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
++
++ Net device entries can be added or updated using the ``bpf_map_update_elem()``
++ helper. This helper replaces existing elements atomically. The ``value`` parameter
++ can be ``struct bpf_devmap_val`` or a simple ``int ifindex`` for backwards
++ compatibility.
++
++.. note::
++    The maps can only be updated from user space and not from a BPF program.
++
++.. code-block:: c
++
++    struct bpf_devmap_val {
++        __u32 ifindex;   /* device index */
++        union {
++            int   fd;  /* prog fd on map write */
++            __u32 id;  /* prog id on map read */
++        } bpf_prog;
++    };
++
++DEVMAPs can associate a program with a device entry by adding a ``bpf_prog.fd``
++to ``struct bpf_devmap_val``. Programs are run after ``XDP_REDIRECT`` and have
++access to both Rx device and Tx device. The  program associated with the ``fd``
++must have type XDP with expected attach type ``xdp_devmap``.
++When a program is associated with a device index, the program is run on an
++``XDP_REDIRECT`` and before the buffer is added to the per-cpu queue. Examples
++of how to attach/use xdp_devmap progs can be found in the kernel selftests:
++
++- ``tools/testing/selftests/bpf/prog_tests/xdp_devmap_attach.c``
++- ``tools/testing/selftests/bpf/progs/test_xdp_with_devmap_helpers.c``
++
++.. c:function::
++   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
++
++net device entries can be retrieved using the ``bpf_map_lookup_elem()``
++helper.
++
++.. c:function::
++   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
++
++net device entries can be deleted using the ``bpf_map_delete_elem()``
++helper. This helper will return 0 on success, or negative error in case of
++failure.
++
++.. c:function::
++     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
++
++Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
++For ``BPF_MAP_TYPE_DEVMAP`` and ``BPF_MAP_TYPE_DEVMAP_HASH`` this map contains
++references to net devices (for forwarding packets through other ports).
++
++The lower two bits of *flags* are used as the return code if the map lookup
++fails. This is so that the return value can be one of the XDP program return
++codes up to ``XDP_TX``, as chosen by the caller. The higher bits of ``flags``
++can be set to ``BPF_F_BROADCAST`` or ``BPF_F_EXCLUDE_INGRESS`` as defined
++below.
++
++With ``BPF_F_BROADCAST`` the packet will be broadcast to all the interfaces
++in the map, with ``BPF_F_EXCLUDE_INGRESS`` the ingress interface will be excluded
++from the broadcast.
++
++.. note::
++    The key is ignored if BPF_F_BROADCAST is set.
++
++This helper will return ``XDP_REDIRECT`` on success, or the value of the two
++lower bits of the *flags* argument if the map lookup fails.
++
++More information about redirection can be found :doc:`redirect`
++
++Examples
++========
++
++Kernel BPF
++----------
++
++The following code snippet shows how to declare a ``BPF_MAP_TYPE_DEVMAP``
++called tx_port.
++
++.. code-block:: c
++
++    struct {
++        __uint(type, BPF_MAP_TYPE_DEVMAP);
++        __type(key, __u32);
++        __type(value, __u32);
++        __uint(max_entries, 256);
++    } tx_port SEC(".maps");
++
++The following code snippet shows how to declare a ``BPF_MAP_TYPE_DEVMAP_HASH``
++called forward_map.
++
++.. code-block:: c
++
++    struct {
++        __uint(type, BPF_MAP_TYPE_DEVMAP_HASH);
++        __type(key, __u32);
++        __type(value, struct bpf_devmap_val);
++        __uint(max_entries, 32);
++    } forward_map SEC(".maps");
++
++.. note::
++
++    The value type in the DEVMAP above is a ``struct bpf_devmap_val``
++
++The following code snippet shows a simple xdp_redirect_map program. This program
++would work with a user space program that populates the devmap ``forward_map`` based
++on ingress ifindexes. The BPF program (below) is redirecting packets using the
++ingress ``ifindex`` as the ``key``.
++
++.. code-block:: c
++
++    SEC("xdp")
++    int xdp_redirect_map_func(struct xdp_md *ctx)
++    {
++        int index = ctx->ingress_ifindex;
++
++        return bpf_redirect_map(&forward_map, index, 0);
++    }
++
++The following code snippet shows a BPF program that is broadcasting packets to
++all the interfaces in the ``tx_port`` devmap.
++
++.. code-block:: c
++
++    SEC("xdp")
++    int xdp_redirect_map_func(struct xdp_md *ctx)
++    {
++        return bpf_redirect_map(&tx_port, 0, BPF_F_BROADCAST | BPF_F_EXCLUDE_INGRESS);
++    }
++
++User space
++----------
++
++The following code snippet shows how to update a devmap called ``tx_port``.
++
++.. code-block:: c
++
++    int update_devmap(int ifindex, int redirect_ifindex)
++    {
++        int ret = -1;
++
++        ret = bpf_map_update_elem(bpf_map__fd(tx_port), &ifindex, &redirect_ifindex, 0);
++        if (ret < 0) {
++            fprintf(stderr, "Failed to update devmap_ value: %s\n",
++                strerror(errno));
++        }
++
++        return ret;
++    }
++
++The following code snippet shows how to update a hash_devmap called ``forward_map``.
++
++.. code-block:: c
++
++    int update_devmap(int ifindex, int redirect_ifindex)
++    {
++        struct bpf_devmap_val devmap_val = { .ifindex = redirect_ifindex };
++        int ret = -1;
++
++        ret = bpf_map_update_elem(bpf_map__fd(forward_map), &ifindex, &devmap_val, 0);
++        if (ret < 0) {
++            fprintf(stderr, "Failed to update devmap_ value: %s\n",
++                strerror(errno));
++        }
++        return ret;
++    }
++
++References
++===========
++
++- https://lwn.net/Articles/728146/
++- https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/commit/?id=6f9d451ab1a33728adb72d7ff66a7b374d665176
++- https://elixir.bootlin.com/linux/latest/source/net/core/filter.c#L4106
+diff --git a/Documentation/bpf/redirect.rst b/Documentation/bpf/redirect.rst
+new file mode 100644
+index 000000000000..ff49a0698707
+--- /dev/null
++++ b/Documentation/bpf/redirect.rst
+@@ -0,0 +1,45 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++============
++XDP_REDIRECT
++============
++Supported maps
++--------------
++
++XDP_REDIRECT works with the following map types:
++
++- ``BPF_MAP_TYPE_DEVMAP``
++- ``BPF_MAP_TYPE_DEVMAP_HASH``
++- ``BPF_MAP_TYPE_CPUMAP``
++- ``BPF_MAP_TYPE_XSKMAP``
++
++For more information on these maps, please see the specific map documentation.
++
++Process
++-------
++
++XDP_REDIRECT is a three-step process, implemented as follows:
++
++1. The ``bpf_redirect()`` and ``bpf_redirect_map()`` helpers will lookup the
++   target of the redirect (from the supported map types) and store it (along with
++   some other metadata) in a per-CPU ``struct bpf_redirect_info``.
++
++2. When the program returns the ``XDP_REDIRECT`` return code, the driver will
++   call ``xdp_do_redirect()`` which will use the information in ``struct
++   bpf_redirect_info`` to actually enqueue the frame into a map type-specific
++   bulk queue structure.
++
++3. Before exiting its NAPI poll loop, the driver will call ``xdp_do_flush()``,
++   which will flush all the different bulk queues, thus completing the
++   redirect.
++
++.. note::
++    Not all drivers support transmitting frames after a redirect, and for
++    those that do, not all of them support non-linear frames. Non-linear xdp
++    bufs/frames are bufs/frames that contain more than one fragment.
++
++References
++===========
++
++- https://elixir.bootlin.com/linux/latest/source/net/core/filter.c#L4106
+-- 
+2.35.3
 
-The masking of next below ensures that the offset it at least 4 byte 
-aligned, but it might make sense to define the next field in terms of 8 
-byte words.
-
->
->> +		if (param == FIELD_GET(DFHv1_PARAM_HDR_ID, v))
->> +			return base + off + DFHv1_PARAM_DATA;
->> +
->> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
->> +		off += next & ~DFHv1_PARAM_HDR_NEXT_MASK;
->> +		if (next & DFHv1_PARAM_HDR_NEXT_EOL)
->> +			break;
->> +
->> +	}
->> +
->> +	return NULL;
->> +}
->
-> ...
->
->> +		/*
->> +		 * DFHv0 only provides mmio resource information for each feature
->
-> MMIO
-
-I'll change mmio to MMIO here and a place in the documentation that I 
-noticed.
-
->
->> +		 * in the DFL header.  There is no generic interrupt information.
->> +		 * Instead, features with interrupt functionality provide
->> +		 * the information in feature specific registers.
->> +		 */
->
-> ...
->
->> +		if (!finfo->param_size)
->>  			break;
->
-> This is redundant as it's implied by find_param().
-
-I will remove the redundant code.
-
->
->> +		p = find_param(params, finfo->param_size, DFHv1_PARAM_ID_MSI_X);
->> +		if (!p)
->>  			break;
->
-> ...
->
->> +static int dfh_get_psize(void __iomem *dfh_base, resource_size_t max)
->> +{
->> +	int size = 0;
->> +	u64 v, next;
->> +
->> +	if (!FIELD_GET(DFHv1_CSR_SIZE_GRP_HAS_PARAMS,
->> +		       readq(dfh_base + DFHv1_CSR_SIZE_GRP)))
->> +		return 0;
->> +
->> +	while (size + DFHv1_PARAM_HDR < max) {
->> +		v = readq(dfh_base + DFHv1_PARAM_HDR + size);
->> +
->> +		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
->> +		if (!(next & ~DFHv1_PARAM_HDR_NEXT_MASK))
->> +			return -EINVAL;
->> +
->> +		size += next & ~DFHv1_PARAM_HDR_NEXT_MASK;
->> +
->> +		if (next & DFHv1_PARAM_HDR_NEXT_EOL)
->> +			return size;
->
-> These 3 looks like they deserve different fields and hence separate FIELD_GET()
-> will return exactly what we need without additional masking, right?
-
-I agree separate FIELD_GET() calls will be cleaner.
-
->
->> +	}
->> +
->> +	return -ENOENT;
->> +}
->
-> ...
->
->> +	if (dfh_psize > 0) {
->
-> Isn't this implied by memcpy_fromio()? I mean if it's 0, nothing bad will
-> happen if you call the above directly.
->
->> +		memcpy_fromio(finfo->params,
->> +			      binfo->ioaddr + ofst + DFHv1_PARAM_HDR, dfh_psize);
->> +		finfo->param_size = dfh_psize;
->> +	}
->
-> ...
->
->>  	finfo->mmio_res.flags = IORESOURCE_MEM;
->> +	if (dfh_ver == 1) {
->> +		v = readq(binfo->ioaddr + ofst + DFHv1_CSR_ADDR);
->> +		if (v & DFHv1_CSR_ADDR_REL)
->> +			finfo->mmio_res.start = v & ~DFHv1_CSR_ADDR_REL;
->> +		else
->> +			finfo->mmio_res.start = binfo->start + ofst +
->> +					       FIELD_GET(DFHv1_CSR_ADDR_MASK, v);
->> +
->> +		v = readq(binfo->ioaddr + ofst + DFHv1_CSR_SIZE_GRP);
->> +		finfo->mmio_res.end = finfo->mmio_res.start +
->> +				      FIELD_GET(DFHv1_CSR_SIZE_GRP_SIZE, v) - 1;
->> +	} else {
->> +		finfo->mmio_res.start = binfo->start + ofst;
->> +		finfo->mmio_res.end = finfo->mmio_res.start + size - 1;
->> +	}
->
-> You may define
->
-> 	resource_size_t start, end;
->
-> locally and simplify above quite a bit.
-
-That is a good suggestion that should clean up the code quite a bit.
-
->
-> ...
->
->> +void *dfh_find_param(struct dfl_device *dfl_dev, int param);
->
-> + Blank line.
->
->>  #endif /* __LINUX_DFL_H */
->
-> -- 
-> With Best Regards,
-> Andy Shevchenko
->
->
->
