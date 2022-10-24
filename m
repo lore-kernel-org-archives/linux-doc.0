@@ -2,188 +2,302 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84FB4C38A2D
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 16:57:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4D15FA373F
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 17:05:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232676AbiJXQ5o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 12:57:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44586 "EHLO
+        id S233181AbiJXRF1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 13:05:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236146AbiJXQzl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 12:55:41 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93F4A3FA2C;
-        Mon, 24 Oct 2022 08:36:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wncv/52i5uwf6ZjHQw9RA1G8hCQgZIzZj9b0hclImJmz0EOw+gB2GadFRb/1TNB4UxLUQI8Mt6fbTc0SWEta0WpWgf4Zegg64B/rBh1u6K/6YUM2FTHM8URcUXd65vb8AFvo/Me35aAPpGGNp2kWF3FCucX/8jGdNkve1gaIsH466I20zFWKWAwHdFXpCMYW2Xxi08XUucLMqE5VW9KK8jycrUj4v/K4YlFS72cbailZtQrLdymqpwoj26FbF0r9jaiIhgL1j4UppNCJxxh8EaOtVm0e8BfIYJPFWCOOZp/x2oNkhj5Cw+nGToAc88kfZdApoRyrCFsq7sTY6Bxmpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ihmx/YPpcZwD7PuLvZCp9yIm+KGilDKfSzSjAIO6KBE=;
- b=VLT4jIyTHUjravSl7rclR9JeJXEitP2cz9Xu0n5FWhbnsH57Od9a1kdLpxf5V0hqhk9nSFKB8URsC0Oqo+gLY56tUwHWpBt4mYpgF6XjkcB3E33k04Q7a5KhipuUar3mzKzDqTc9nBvAzkb+rsxluhQrNKzj5kG2g55BxMBqMvB7J2RP1t18wDAnVF6p1LENptBTxD7xDJDHDvFHBxRWcyLuHjtVQKvqUu+9gml5TPj67DIZ5LFzcLI8tR4YTyzd6RjxueS7mmHYcmN5EcoWt1n4hpGFI8S9kCWrMduK5dArdp9+xfl2Ik/DmvITtm5AvwJ4/I70/STEe0vvMb5vDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ihmx/YPpcZwD7PuLvZCp9yIm+KGilDKfSzSjAIO6KBE=;
- b=Kz0xw7CWDROuEIY5j7I8LGi+bQKApLwkU1rCVr1K35pJEX8LZ8GQzvkIoMYHrC5j05QF35dSrWVHlDHFIlxFbiXbkPf+kT+b0aZ2cHnWEUZ0fliexYyi6vS3VJ9MDqmIbYDFR5XEsclh/lAE9ynaPymuIGVXHb9RZs7If1e+GAE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
- by CH3PR12MB7762.namprd12.prod.outlook.com (2603:10b6:610:151::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.34; Mon, 24 Oct
- 2022 15:33:59 +0000
-Received: from BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::9eca:d454:d407:7ba2]) by BL1PR12MB5874.namprd12.prod.outlook.com
- ([fe80::9eca:d454:d407:7ba2%3]) with mapi id 15.20.5746.026; Mon, 24 Oct 2022
- 15:33:59 +0000
-Message-ID: <c4abb4f2-dfa7-e343-7567-8e7bf5f2223f@amd.com>
-Date:   Mon, 24 Oct 2022 10:33:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 1/2] Documentation: Start translations to Spanish
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Matthew Wilcox <willy@infradead.org>
-Cc:     Akira Yokosawa <akiyks@gmail.com>, bilbao@vt.edu,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        miguel.ojeda.sandonis@gmail.com,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
-References: <20221014142454.871196-2-carlos.bilbao@amd.com>
- <48b4a5a1-2a52-4159-699b-9db73a012892@gmail.com>
- <Y01pkubcT7FOwCjL@casper.infradead.org>
- <8e2a1da1-2914-b223-85b0-a769339d9c39@gmail.com>
- <9e65ba16-68d3-8d11-c6ac-c35c29026688@amd.com>
- <Y1aovvn7dAyo1nuW@casper.infradead.org> <87a65lfdqb.fsf@meer.lwn.net>
- <875yg9fdbm.fsf@meer.lwn.net>
-From:   Carlos Bilbao <carlos.bilbao@amd.com>
-In-Reply-To: <875yg9fdbm.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0448.namprd03.prod.outlook.com
- (2603:10b6:610:10e::11) To BL1PR12MB5874.namprd12.prod.outlook.com
- (2603:10b6:208:396::17)
+        with ESMTP id S235752AbiJXRFI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 13:05:08 -0400
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D65E0D6B9B
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 08:40:55 -0700 (PDT)
+Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-13bd19c3b68so1588655fac.7
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 08:40:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oUQJnoiVcjmiMscuWttpHv+zHGY2MfyL7+ONIPh7x0c=;
+        b=ZOVjhMxzWHLNLunugrJ+SECAAXLWsf7AdLqkh+K7UNjlaUGQ9T2vB5C1CqvSyz5voW
+         bguPwKRzm/d8Nc2tvHEhPSDIQzvuWtsgD76Q/qYilldT8A9N6UkUnxvuSJDxx+vTvE5o
+         2wEHu1Ri6xBOStR4aLMOYkidCez0B+QKB5Gjb1/7yy9AVQO65fUF1zxcv/Y3e5YiV1+W
+         poVwgnoe6oH0RiJlDMLgz9IaGKxX8b/8Q8eYaqr1/wtwkiyiEjjVSRhacLaxo5ldxl3i
+         VwCVp598YWRBTePj+MBn0nF3yxfpV30BK9THLsARcWwXtz5SWeF5ah3JcJvdPHFdxBai
+         s3Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oUQJnoiVcjmiMscuWttpHv+zHGY2MfyL7+ONIPh7x0c=;
+        b=HcEzhOyus8gfYq2+xSQTwwFS8jevzf45Z+HLe8aUcQTAXBimafxQO/Mrz+D5HIw9TA
+         bvthPdOOU3RmWxzXGZh4aGNgAdLSADbCdzqZb77bhDIe6M5RcYmmcaLoruld6mAl5Ex2
+         i3VveGNHb1j103/kYnVCotghQQQFmQA7fNUIsMC0qR8OXLEbvs/vxJphMWhPD/4dxOcT
+         6oofHjsOftYmBAVZ+cXdeiAY6mKPacMAayyygyySzaJSSqnUc3tHJgFNPHlqV6yhTdrQ
+         yW+mPq1OU8PU0rpTeCUC+QT+M8RYrkaifLAGYEN4D8rrDm2D8RNWcq35GkyEWjQC794F
+         zlNw==
+X-Gm-Message-State: ACrzQf2zJRc8TEKgqY6qGFaG7kcLJLgdv2xh1ILMP4MpK28SRn60cE4g
+        y+UwVl/P+KGFINvQhwLvJtUB48wzZ/7fAqBm
+X-Google-Smtp-Source: AMsMyM7lilCtHTTMSwA5VWVUapmiwGzvoSOUrpXDvYfOl0lDSGsKoMB/yl+OOPDcRF0udOxMB24knQ==
+X-Received: by 2002:a17:90b:1e46:b0:20a:f9d8:1ff7 with SMTP id pi6-20020a17090b1e4600b0020af9d81ff7mr76442318pjb.34.1666623666090;
+        Mon, 24 Oct 2022 08:01:06 -0700 (PDT)
+Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419? ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+        by smtp.gmail.com with ESMTPSA id i19-20020a63e453000000b00434760ee36asm17045962pgk.16.2022.10.24.08.00.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Oct 2022 08:01:05 -0700 (PDT)
+Message-ID: <78ad5d7b-4078-0b8e-f4aa-6c8113631359@daynix.com>
+Date:   Tue, 25 Oct 2022 00:00:56 +0900
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|CH3PR12MB7762:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a78501c-b418-4050-1f81-08dab5d52bf2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xAAqUHkfeX+ajilB0alUHIb/gxkdEbMj6n7FWXcZc7YfEbA3olZ9pXrbozaAyY9iAg2mr5EBIUuxlprSTVnkY7iQsU6j8lSetMIbN+sQOUtyQFnZoHpEIHvu78Bit9vtuJdcnmR94P5/eTM3mnzfweRCL+ol1yjuXVcPD+FqVI1N+vSHY5Ildz+poGu2NH2S0sZkiNvNx3EhJTdb95Vv3CMXmrtMlomzRPrhwDZHF/ylgCzKa/NRg8zRUyoyuX7gWTWV2CbHaN5IXVUDBW1SzKTSRiVJKp2ywnPilEcS0E8y8lIHjyR4/mUQpebZ/JRHaK9oMX6f+xRT19ht5d1ueHcHPmMqcuFohO/2ou0Y7uRn6T6COyZwAjU+knxF+ZWJCXLLZuhbGxz32quJdxveeFq3j1emNKP/87K1YL7NId9CZ8SKMLy+3jpiHv1rVjERDt/TQETLA7/nMplDU1MBeHSvVXchnv7Jgdq+MQiTj/x4UeEGQdnC9J4OjCEv8kULWS0amZOljkcVA82wDsJN2kkIMR8viWtneV7S08Ser90XFPQcQ/ogmmAHDE1d0ZgxPkZpimmMOHsMC4LFfAQ9MgD95xem5URfvC3fck1PPUkzn39EDfDXyjQS+Yat4yqUIaqgQqqDU8WzFfeVDUSMYRDkoc7UdMegHR2s7HjPeVAuwMG4vBswCd0m+XJcJO7yS/2Y1USKG1XsKHzwFU62IgTrWrKe3Ql+6IjVhamQT4VP4LkF0KPtRYGKf2DDkp0YamWQVR0zoIK1cCmmve3BXH7u+fWCxp+1WgwEWbqOIop/+MfhSPfAiV5vpJ7RWjbPcnv+r7pr5ir+1So06M53Mg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(396003)(136003)(376002)(366004)(39860400002)(451199015)(31696002)(6512007)(26005)(316002)(86362001)(2616005)(66946007)(4326008)(8676002)(44832011)(53546011)(186003)(6506007)(66556008)(66476007)(6486002)(5660300002)(36756003)(38100700002)(31686004)(7416002)(41300700001)(110136005)(2906002)(54906003)(966005)(8936002)(478600001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZmFOUFVTZ2cxR25CNGpvNEhBdWI2dVBtRGswUFg3YVpVQ2FhNHVIYTZlTVhj?=
- =?utf-8?B?MUVtRmNXcmlMbm4ycU5UVXI3akpYVmZUQjZGcnZxdGF2dFR5TTlXOGlKQVZi?=
- =?utf-8?B?K1VqUzU5Z2VhWmhEdTQ0alpyRzdobDcwVEM2QjJQWGFWY1pqYXZCandxLzJR?=
- =?utf-8?B?YWRWMlU5UWl2ZDMrUkluS2pCWWlRckJxUVVwSFR5Y1R6cXhCUHV4QjJwMWlQ?=
- =?utf-8?B?NDlsem1kemEwY0pldjFkYTRETDRoZ3crQUNPODQvbUpIeXdDc3dOT3FOdVl5?=
- =?utf-8?B?eUV4Y3BPcHZzdGxJaG53NzJvV0hqS0pxYkJFZHpQZnRwUEJlL2JOZnRTR0J2?=
- =?utf-8?B?N1pSaWtDQi9vY1VvakZIQUNremVlTDVCK0dJVFd0Y1NXN1JJMFJYL2xHQ3Zq?=
- =?utf-8?B?eXRvVjdlcTdaa3RmOVF5eDFFOE9FMm1nVWQ0b1RJZE4zRW96aVp3WW5pM0Z1?=
- =?utf-8?B?eFFNZXh1YWRWVGtFSGx5ek5lUjY1Uy9LTlFyOFN5eXZvOEpjZUg5aXlFR3lr?=
- =?utf-8?B?dGx0T1gyU0VFTVNPU2dVU0RRZjJWN29YRHowWm9wdXBOcTRaUTVhUENPbDZU?=
- =?utf-8?B?M2N1Z0lPWjZ5QnpwM3VqUGlOWTNYbDJEd3lJa1cwV2p1OENvdWRuU1F3akZB?=
- =?utf-8?B?ZUFGQzFDa0pvUXJzMmI1dWFsU0FUQlU4WE9Ec2ZsemcvdkgxVXViSG1mZFVn?=
- =?utf-8?B?VnJaOTZvcTYrNWE5R2NhSEtYeWZkUWpvM1lMMlc4Q2dQY0xIMTVmM2p4eUpH?=
- =?utf-8?B?Wlk3cUdHTkFkamtUem9jUTZVYitSMU1RTnEyL0V2aDNhb0VHczRSaWZscFkw?=
- =?utf-8?B?bzljZkdoYkloc1ZxbDVjYjFCYXJjYUM0TW5RUmhrdjdmcDhQZ3JsRElabWEv?=
- =?utf-8?B?V1JkbmZqTlQ1UGdnbE9jV00wKzRoMkM5TTc0UVVFVFpGYUhMZXA0VHY3NFhL?=
- =?utf-8?B?L0huWnU4cFRsY2xmMjdZUU1wVmtEV016NXVkTjNBNEtUelRDTzkvTElEMFJa?=
- =?utf-8?B?c3lGUnJIRFZFQnFtd1lXS1BKVGdhY2lIc285MHUzanlLVlFlNzJpazAzeUhO?=
- =?utf-8?B?b1hHN1BSYXdFUVNUcVRhSXo5QjMwRGZoTDIvR0JLNTRjcEtuK0pneWtnY1c4?=
- =?utf-8?B?K3RxbXhPN3lKWTk4SmlOaHhQMjJjMnFmeEhxTDFJZmd4MkloZFZQRlJIVTND?=
- =?utf-8?B?bUdUN1ZkcEFHSHhWTU1GWFljRFVTU0tDVUkrODhhaUpiNTJ0T0E5dUxsbVMw?=
- =?utf-8?B?M0ZTYnlkZWtYVTdkN0haZVVLdUxhc2tnektzRVRUUEFyK2l4UVYvL2dHTXlT?=
- =?utf-8?B?YnZld0lBYlRaMk5PZTVjVUVxTTJaaUdTUUVLcXpTUHdtTWYxVVpCYlM3QUlZ?=
- =?utf-8?B?bnVpUTV4VUovOEZnR0h6TW9xS2F2anpWZlFhMy9UNmJpWWk3dFMvQnYzWTBq?=
- =?utf-8?B?UDVxSWxuaTRQOFNLeHVyWW1XdWgyejhobzU4K2ZxNFQ3RzlUUFd5RjJjMW5z?=
- =?utf-8?B?TEFmTFZQaTZ6dXRkS1Y0ZHlnTGFUVFBnWjVaTlEwcGg0Mk1vRTV3Yi9LTlNp?=
- =?utf-8?B?czFtUkNvMzBlSUZSdS93K2NrRUtSUkdFOGhwRzBrMVloT0ZMemdJWXIzd29k?=
- =?utf-8?B?UDJ5eEpMTGdzbnZEeEI1aFFnQk1uTjFaQ2paZSs0cUlHTVR0YkFTTlJMMUdy?=
- =?utf-8?B?ekJraDU1dzBNSDZ0TnVlYmFlNnozcFBKMjZoZWdhSU42VDBFUXB4ZHNJZGx1?=
- =?utf-8?B?YUlVajMwNTJ5MnJLOUI4Qk1ZVmlYb0kxOG54a09VdTliS0hUQ3I1Z2dFa2x0?=
- =?utf-8?B?TUd5M3NacG12U3ZTZ1h5YmN6NUcrdzVMaUs4U1BML1JDODNVdGZGd1R2WkdE?=
- =?utf-8?B?WjJhS2lQMFQ2ejFyWE1tUUNMVXN2NW04REFtaitETHFCdC93REJiYlEvSmNy?=
- =?utf-8?B?V0pac1hocGlrb1lWWVVRMmVFb0R3WG5YVzhFNllaY2xiaEZJc1VncjlBVlB4?=
- =?utf-8?B?aXkxS3lOMnIzVzR0ZDFCQmVZNnZ3VHVQMlRpb2JzQjZkbVQxTG8yd1lZeU4r?=
- =?utf-8?B?TzZqTmM1RzZMaUFlU1pyS0dQZWV6SlZHanVRUm9MSW5ad09wRUwrMDdWL1ll?=
- =?utf-8?Q?VarVDnGQrjAcAjNxphbUxztq7?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a78501c-b418-4050-1f81-08dab5d52bf2
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 15:33:59.7702
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dfb9Xt618o/wKTfawZhsNhL1ZPWa37zoqoKZ2VRhXJIgK0fgyY3VCkqdpI3+heF0bnHPT/41UynzNZCXyxvCAA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7762
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 00/22] Fallback to native backlight
+Content-Language: en-US
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        "Lee, Chun-Yi" <jlee@suse.com>, Mark Gross <markgross@kernel.org>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        Jonathan Woithe <jwoithe@just42.net>,
+        Ike Panhc <ike.pan@canonical.com>,
+        Daniel Dadap <ddadap@nvidia.com>,
+        Kenneth Chan <kenneth.t.chan@gmail.com>,
+        Mattia Dongili <malattia@linux.it>,
+        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+        Azael Avalos <coproscefalo@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Robert Moore <robert.moore@intel.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org,
+        platform-driver-x86@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net,
+        ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
+        devel@acpica.org
+References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
+ <746e5cc6-516f-8f69-9d4b-8fe237de8fd6@redhat.com>
+ <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
+ <60672af8-05d2-113c-12b9-d635608be0dd@redhat.com>
+ <ea69242c-0bc8-c7bb-9602-c7489bb69684@daynix.com>
+ <7373e258-f7cc-4416-9b1c-c8c9dab59ada@daynix.com>
+ <ae3497ed-b68d-c36a-6b6f-f7b9771d9238@redhat.com>
+From:   Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <ae3497ed-b68d-c36a-6b6f-f7b9771d9238@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/24/22 10:31, Jonathan Corbet wrote:
-> Resending without the screwy address that my mailer decided to put in
-> for Alex, sorry for the noise.
->
-> Jonathan Corbet <corbet@lwn.net> writes:
->
->> [Adding some of the other folks interested in translations]
->>
->> Matthew Wilcox <willy@infradead.org> writes:
->>
->>> I think we're better off following BCP 47:
->>> https://www.rfc-editor.org/info/bcp47 rather than the libc locale format.
->>> That will imply renaming it_IT to simply "it", ja_JP to "ja" and
->>> ko_KR to "ko".  The two Chinese translations we have might be called
->>> "zh-Hant" and "zh-Hans", if the distinction is purely Traditional vs
->>> Simplified script.  If they really are region based, then they'd be
->>> zh-CN and zh-TW.
+
+
+On 2022/10/24 23:37, Hans de Goede wrote:
+> Hi,
+> 
+> On 10/24/22 16:31, Akihiko Odaki wrote:
+>> On 2022/10/24 23:06, Akihiko Odaki wrote:
+>>> On 2022/10/24 22:21, Hans de Goede wrote:
+>>>> Hi,
+>>>>
+>>>> On 10/24/22 14:58, Akihiko Odaki wrote:
+>>>>> On 2022/10/24 20:53, Hans de Goede wrote:
+>>>>>> Hi Akihiko,
+>>>>>>
+>>>>>> On 10/24/22 13:34, Akihiko Odaki wrote:
+>>>>>>> Commit 2600bfa3df99 ("ACPI: video: Add acpi_video_backlight_use_native()
+>>>>>>> helper") and following commits made native backlight unavailable if
+>>>>>>> CONFIG_ACPI_VIDEO is set and the backlight feature of ACPI video is
+>>>>>>> unavailable, which broke the backlight functionality on Lenovo ThinkPad
+>>>>>>> C13 Yoga Chromebook. Allow to fall back to native backlight in such
+>>>>>>> cases.
+>>>>>>
+>>>>>> I appreciate your work on this, but what this in essence does is
+>>>>>> it allows 2 backlight drivers (vendor + native) to get registered
+>>>>>> for the same panel again. While the whole goal of the backlight refactor
+>>>>>> series landing in 6.1 was to make it so that there always is only
+>>>>>> *1* backlight device registered instead of (possibly) registering
+>>>>>> multiple and letting userspace figure it out. It is also important
+>>>>>> to only always have 1 backlight device per panel for further
+>>>>>> upcoming changes.
+>>>>>>
+>>>>>> So nack for this solution, sorry.
+>>>>>>
+>>>>>> I am aware that this breaks backlight control on some Chromebooks,
+>>>>>> this was already reported and I wrote a long reply explaining why
+>>>>>> things are done the way they are done now and also suggesting
+>>>>>> 2 possible (much simpler) fixes, see:
+>>>>>> https://lore.kernel.org/linux-acpi/42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com/
+>>>>>>
+>>>>>> Unfortunately the reported has not followed-up on this and
+>>>>>> I don't have the hardware to test this myself.
+>>>>>>
+>>>>>> Can you please try implementing 1 of the fixes suggested there
+>>>>>> and then submit that upstream ?
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>> Hans
+>>>>>>
+>>>>>
+>>>>> Hi Hans,
+>>>>>
+>>>>> Thanks for reviewing and letting me know the prior attempt.
+>>>>>
+>>>>> In this case, there is only a native backlight device and no vendor backlight device so the duplication of backlight devices does not happen. I think it is better to handle such a case without quirks.
+>>>>
+>>>> Adding a single heuristic for all chromebooks is something completely different
+>>>> then adding per model quirks which indeed ideally should be avoided (but this
+>>>> is not always possible).
+>>>>
+>>>>> I understand it is still questionable to cover the case by allowing duplication when both of a vendor backlight device and native one. To explain my understanding and reasoning for *not* trying to apply the de-duplication rule to the vendor/native combination, let me first describe that the de-duplication which happens in acpi_video_get_backlight_type() is a heuristics and limited.
+>>>>>
+>>>>> As the background of acpi_video_get_backlight_type(), there is an assumption that it should be common that both of the firmware, implementing ACPI, and the kernel have code to drive backlight. In the case, the more reliable one should be picked instead of using both, and that is what the statements in `if (video_caps & ACPI_VIDEO_BACKLIGHT)` does.
+>>>>>
+>>>>> However, the method has two limitations:
+>>>>> 1. It does not cover the case where two backlight devices with the same type exist.
+>>>>
+>>>> This only happens when there are 2 panels; or 2 gpus driving a single panel
+>>>> which are both special cases where we actually want 2 backlight devices.
+>>>>
+>>>>> 2. The underlying assumption does not apply to vendor/native combination.
+>>>>>
+>>>>> Regarding the second limitation, I don't even understand the difference between vendor and native. My guess is that a vendor backlight device uses vendor-specific ACPI interface, and a native one directly uses hardware registers. If my guess is correct, the difference between vendor and native does not imply that both of them are likely to exist at the same time. As the conclusion, there is no more motivation to try to de-duplicate the vendor/native combination than to try to de-duplicate combination of devices with a single type.
+>>>>>
+>>>>> Of course, it is better if we could also avoid registering two devices with one type for one physical device. Possibly we can do so by providing a parameter to indicate that it is for the same "internal" backlight to devm_backlight_device_register(), and let the function check for the duplication. However, this rule may be too restrict, or may have problems I missed.
+>>>>>
+>>>>> Based on the discussion above, we can deduce three possibilities:
+>>>>> a. There is no reason to distinguish vendor and native in this case, and we can stick to my current proposal.
+>>>>> b. There is a valid reason to distinguish vendor and native, and we can adopt the same strategy that already adopted for ACPI video/vendor combination.
+>>>>> c. We can implement de-duplication in devm_backlight_device_register().
+>>>>> d. The other possible options are not worth, and we can just implement quirks specific to Chromebook/coreboot.
+>>>>>
+>>>>> In case b, it should be noted that vendor and native backlight device do not require ACPI video, and CONFIG_ACPI_VIDEO may not be enabled. In the case, the de-duplication needs to be implemented in backlight class device.
+>>>>
+>>>> I have been working on the ACPI/x86 backlight detection code since 2015, please trust
+>>>> me when I say that allowing both vendor + native backlight devices at the same time
+>>>> is a bad idea.
+>>>>
+>>>> I'm currently in direct contact with the ChromeOS team about fixing the Chromebook
+>>>> backlight issue introduced in 6.1-rc1.
+>>>>
+>>>> If you wan to help, please read:
+>>>>
+>>>> https://lore.kernel.org/linux-acpi/42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com/
+>>>>
+>>>> And try implementing 1 if the 2 solutions suggested there.
+>>>>
+>>>> Regards,
+>>>>
+>>>> Hans
 >>>
->>> I think you're right to conflate all dialects of Spanish together, just
->>> as we do all dialects of English.
+>>> Hi,
 >>>
->>> Jon, this feels like policy you should be setting.  Are you on board
->>> with this, or do you want to retain the mandatory geography tag that
->>> we've been using up to now?
->> I want to go hide somewhere :)
+>>> I just wanted to confirm your intention that we should distinguish vendor and native. In the case I think it is better to modify __acpi_video_get_backlight_type() and add "native_available" check in case of no ACPI video as already done for the ACPI video/native combination.
+>>>
+>>> Unfortunately this has one pitfall though: it does not work if CONFIG_ACPI_VIDEO is disabled. If it is, acpi_video_get_backlight_type() always return acpi_backlight_vendor, and acpi_video_backlight_use_native() always returns true. It is not a regression but the current behavior. Fixing it requires also refactoring touching both of ACPI video and backlight class driver so I guess I'm not an appropriate person to do that, and I should just add "native_available" check to __acpi_video_get_backlight_type().
+>>>
+>>> Does that sound good?
 >>
->> I'd kind of prefer to avoid renaming the existing translations, as that
->> is sure to create a certain amount of short-term pain.  But I guess we
->> could do that if the benefit somehow seems worth it.
+>> Well, it would not be that easy since just adding native_available cannot handle the case where the vendor driver gets registered first. Checking with "native_available" was possible for ACPI video/vendor combination because ACPI video registers its backlight after some delay. I still think it does not overcomplicate things to modify __acpi_video_get_backlight_type() so that it can use both of vendor and native as fallback while preventing duplicate registration.
+> 
+> In the mean time this has already been fixed by a single patch of just a few
+> lines, rather then requiring 22 patches, see:
+> 
+> https://lore.kernel.org/dri-devel/20221024141210.67784-1-dmitry.osipenko@collabora.com/
+> 
+> Regards,
+> 
+> Hans
+
+It should be the smaller indeed. Modifying 
+__acpi_video_get_backlight_type() so that it can fall back to either of 
+vendor and native requires all of the vendor drivers to use something 
+like acpi_video_backlight_use_native() but for vendor. It certainly 
+requires 22 patches.
+
+That aside, the first patch in this series can be applied without the 
+later patches so you may have a look at it. It's fine if you don't merge 
+it though since it does not fix really a pragmatic bug as its message says.
+
+Regards,
+Akihiko Odaki
+
+> 
+> 
+> 
+> 
+>>>>>>> Akihiko Odaki (22):
+>>>>>>>      drm/i915/opregion: Improve backlight request condition
+>>>>>>>      ACPI: video: Introduce acpi_video_get_backlight_types()
+>>>>>>>      LoongArch: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: acer-wmi: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: asus-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: asus-wmi: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: compal-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: eeepc-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: fujitsu-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: ideapad-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: msi-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: msi-wmi: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: nvidia-wmi-ec-backlight: Use
+>>>>>>>        acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: panasonic-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: samsung-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: sony-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: thinkpad_acpi: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: toshiba_acpi: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: dell-laptop: Use acpi_video_get_backlight_types()
+>>>>>>>      platform/x86: intel_oaktrail: Use acpi_video_get_backlight_types()
+>>>>>>>      ACPI: video: Remove acpi_video_get_backlight_type()
+>>>>>>>      ACPI: video: Fallback to native backlight
+>>>>>>>
+>>>>>>>     Documentation/gpu/todo.rst                    |  8 +--
+>>>>>>>     drivers/acpi/acpi_video.c                     |  2 +-
+>>>>>>>     drivers/acpi/video_detect.c                   | 54 ++++++++++---------
+>>>>>>>     drivers/gpu/drm/i915/display/intel_opregion.c |  3 +-
+>>>>>>>     drivers/platform/loongarch/loongson-laptop.c  |  4 +-
+>>>>>>>     drivers/platform/x86/acer-wmi.c               |  2 +-
+>>>>>>>     drivers/platform/x86/asus-laptop.c            |  2 +-
+>>>>>>>     drivers/platform/x86/asus-wmi.c               |  4 +-
+>>>>>>>     drivers/platform/x86/compal-laptop.c          |  2 +-
+>>>>>>>     drivers/platform/x86/dell/dell-laptop.c       |  2 +-
+>>>>>>>     drivers/platform/x86/eeepc-laptop.c           |  2 +-
+>>>>>>>     drivers/platform/x86/fujitsu-laptop.c         |  4 +-
+>>>>>>>     drivers/platform/x86/ideapad-laptop.c         |  2 +-
+>>>>>>>     drivers/platform/x86/intel/oaktrail.c         |  2 +-
+>>>>>>>     drivers/platform/x86/msi-laptop.c             |  2 +-
+>>>>>>>     drivers/platform/x86/msi-wmi.c                |  2 +-
+>>>>>>>     .../platform/x86/nvidia-wmi-ec-backlight.c    |  2 +-
+>>>>>>>     drivers/platform/x86/panasonic-laptop.c       |  2 +-
+>>>>>>>     drivers/platform/x86/samsung-laptop.c         |  2 +-
+>>>>>>>     drivers/platform/x86/sony-laptop.c            |  2 +-
+>>>>>>>     drivers/platform/x86/thinkpad_acpi.c          |  4 +-
+>>>>>>>     drivers/platform/x86/toshiba_acpi.c           |  2 +-
+>>>>>>>     drivers/video/backlight/backlight.c           | 18 +++++++
+>>>>>>>     include/acpi/video.h                          | 21 ++++----
+>>>>>>>     include/linux/backlight.h                     |  1 +
+>>>>>>>     25 files changed, 85 insertions(+), 66 deletions(-)
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>
 >>
->> Of course, if we're thrashing things, we could also just call them
->> "Italian" (or "Italiano"), "Chinese", and so on.  I don't *think*
->> there's a need for the names to be machine-readable.  We should stick
->> with ASCII for these names just to help those of us who can't type in
->> other scripts.
->>
->> If asked to set a policy today, my kneejerk reaction would be to leave
->> things as they are just to avoid a bunch of churn.  But I don't have a
->> strong opinion on how this naming should actually be done, as long as we
->> can pick something and be happy with it thereafter.  What do the
->> translation maintainers think?
->>
->> Thanks,
->>
->> jon
-
- From the perspective of the target audience (someone that wants to read
-translated documentation) the name of the directories do not make any
-difference; index.rst lists them in human readable format (e.g. "Traduzione
-italiana").
-
-It would make sense renaming if there was confusion among developers, but
-there isn't.
-
-For these reasons, and for the obvious inconvenience of renaming things back
-and forth, I would say do not worry about it, Jon.
-
-Thanks,
-Carlos
-
+> 
