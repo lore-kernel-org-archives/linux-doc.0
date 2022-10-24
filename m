@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FE42FA3740
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 11:40:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CD51FA3741
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 11:40:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231311AbiJXLkC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 07:40:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50646 "EHLO
+        id S231336AbiJXLkG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 07:40:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231429AbiJXLjM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 07:39:12 -0400
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B8CB101FB
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:38:38 -0700 (PDT)
-Received: by mail-pj1-f53.google.com with SMTP id f5-20020a17090a4a8500b002131bb59d61so1106005pjh.1
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:38:37 -0700 (PDT)
+        with ESMTP id S231448AbiJXLjS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 07:39:18 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 045816B656
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:38:42 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id r61-20020a17090a43c300b00212f4e9cccdso3625098pjg.5
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:38:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=daynix-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KbqonL6UPx/BgRTH41ccNpqLV1dBbzKless8fMVmEfU=;
-        b=MHRUNtmu2bH7itJpyD63dUo0Q4dAeka1jBDdBQwUZ46L2hC+5C3pV19AGUh2yem6BA
-         Aox5GrL2l4ZqarXcjL7UuZADrEnI+vX23xzpAk3ap+KEjjko3B1qwsiz3zwNkeq8wHvQ
-         fajz9N6SRidlKuqi7F8UUPfGYGUnQLvBa+vPlzN1KGzSeulYFZ+p5TSnOa6m66VtgdXg
-         p5QIR3d/Uqoe8wL8tF8u9h5RGFSalS4e8/GHkYA/e++G+454hg6bwulubJihe3MrArBF
-         3kAAPdSFP0h1ZDk44C89iP616NgBd/NPxYuDLqwxHKvVPr9IykzR6Ta+FQqWrt7TEJuf
-         fViA==
+        bh=XAyFJiVGXrC/KZsleNIpi2nk4bcxYAI8Wjviz1KFor4=;
+        b=ZPJNNmG2CfyinfqrhsHlV+g/2spcGsRR6OA3gQWYXOOaD6Gsxx/0ZTZ/2WSEOwyYxr
+         EDCpJh40XMtG2OTdgXJL02/X5omijLCV9JB2NHXHkDrLv9wNx5a9fXGjfKUy3F0lhTEe
+         hmnXBdrKvxVeJ2M5hNGsU2bRRaZU/yeF/d2yhPBZ/vbo5qMU7Pf/Zeu4xzQd/tILMGUf
+         9wVa7xUimRQsMhs8I2ooWhyIiW91jtGl8d73AU5DZCPbAW2aJV7S8knDGzccvSCFIAGK
+         XYYnZNcK+zvSZs4S+oTEJp9GvLNjfNv3+EpEB1BBZw+e91dYFNlfBeXNg4N+ATQRyNH9
+         j2NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KbqonL6UPx/BgRTH41ccNpqLV1dBbzKless8fMVmEfU=;
-        b=Ol1YZBdz1M8wwpwmG9HOtUOv0arLpZSLBfWWTzaCbGgQ0z3/lSlpIarAq2KN1jE5Ht
-         y4GaSr2KTisbmDHFOO0OcAKhRGl98XSJVbsPFCtUkf18z+MFpcDTKuVECd5rKhN+u5Gv
-         SmR8lEsIJeVLNwL/8ZOZaS1EjAuL23INBmbs/uDARcCdfX+4prCmRapVA+qg9tr3hvcF
-         2nJpDZSFbSD52CJjp3HTMDoDQjrJynpKLsyhC1EWpJjOHNo4K2m69MktAAzn6rV80zc1
-         qsnqmOWq9w60cRr/fdKdn9hzIPO/iw/uwmERNq/0hpUEZDsi58aSXuOvjph6V2bfm6sZ
-         5bgw==
-X-Gm-Message-State: ACrzQf2d9T/cAZTUgxoVLbcz8IcJaPykbSwDMzV0c6riqzh6um8ifFh7
-        t+9VwodSuno0CMr6xgsILi3f6Q==
-X-Google-Smtp-Source: AMsMyM7atKAS6Y/8LFmnWncoMM8zZUNzHVrglSR0fG3EM+hND7a88LYrk4FvnqEjUJwtq1jKX5wlaA==
-X-Received: by 2002:a17:902:8e84:b0:178:71f2:113c with SMTP id bg4-20020a1709028e8400b0017871f2113cmr32724371plb.79.1666611517605;
-        Mon, 24 Oct 2022 04:38:37 -0700 (PDT)
+        bh=XAyFJiVGXrC/KZsleNIpi2nk4bcxYAI8Wjviz1KFor4=;
+        b=Z1ijgsClU4p4UH2lmt0W+0sfT9IrO6KiOlZBt5po9BtNJMVY4c2gC9pCwtilJyOEK+
+         qo3PAppk35O6kklcgWSvvSPcAjK8BcKDPzPws3qzEp1PLKLPQneO7ThIia9uQImEz/lG
+         g7e3Z3RwNwTOq2NYwILCe4fe8ocL9Z5jZtumRXi9PTALhFjRNEEtG8tMZJi2uJPSNc5Y
+         YH1a1R8xpVNY3uVWSb3xtHPcqVfbNPnfXQOmQx37UaaXSePVAydj5KtsGNw3/oanr8fb
+         JDC0Y6vfrfNZ/sK4XKvqzRih3e+6R5d6R44fx7bogUDKmS7UJKqkkMM9yuJJzjkR3kDu
+         t5Uw==
+X-Gm-Message-State: ACrzQf3QfpFnLcUIDBu1WOlIyLz2hcQiXQuxkoOwThrj38L/GxJRPHat
+        ifDjBZsWeFPL8xQ0GZ91rQkIJf8AKf8zzLYY
+X-Google-Smtp-Source: AMsMyM7j6rudLQ3oDGLiRJvO3ouLKzXkm11wgePZ/bzYxd0/dczcHVPABhvm+nv5ewjBPX37znVsPw==
+X-Received: by 2002:a17:903:1c6:b0:185:47ce:f4f0 with SMTP id e6-20020a17090301c600b0018547cef4f0mr33699248plh.132.1666611442110;
+        Mon, 24 Oct 2022 04:37:22 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
-        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.38.29
+        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.37.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 04:38:36 -0700 (PDT)
+        Mon, 24 Oct 2022 04:37:21 -0700 (PDT)
 From:   Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -87,9 +87,9 @@ Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         acpi4asus-user@lists.sourceforge.net,
         ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
         devel@acpica.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 21/22] ACPI: video: Remove acpi_video_get_backlight_type()
-Date:   Mon, 24 Oct 2022 20:35:12 +0900
-Message-Id: <20221024113513.5205-22-akihiko.odaki@daynix.com>
+Subject: [PATCH 12/22] platform/x86: msi-wmi: Use acpi_video_get_backlight_types()
+Date:   Mon, 24 Oct 2022 20:35:03 +0900
+Message-Id: <20221024113513.5205-13-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
 References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
@@ -100,240 +100,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-acpi_video_get_backlight_type() is deprecated and now there is
-no user of it.
+acpi_video_get_backlight_type() is now deprecated.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- Documentation/gpu/todo.rst  |  8 +++----
- drivers/acpi/video_detect.c | 46 +++++++++++++++++++------------------
- include/acpi/video.h        | 31 +++++++------------------
- 3 files changed, 36 insertions(+), 49 deletions(-)
+ drivers/platform/x86/msi-wmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 393d218e4a0c..39e2ff2beb29 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -687,7 +687,7 @@ On x86/ACPI devices there can be multiple backlight firmware interfaces:
- register programming by the KMS driver.
- 
- To deal with this backlight drivers used on x86/ACPI call
--acpi_video_get_backlight_type() which has heuristics (+quirks) to select
-+acpi_video_get_backlight_types() which has heuristics (+quirks) to select
- which backlight interface to use; and backlight drivers which do not match
- the returned type will not register themselves, so that only one backlight
- device gets registered (in a single GPU setup, see below).
-@@ -696,7 +696,7 @@ At the moment this more or less assumes that there will only
- be 1 (internal) panel on a system.
- 
- On systems with 2 panels this may be a problem, depending on
--what interface acpi_video_get_backlight_type() selects:
-+what interface acpi_video_get_backlight_types() selects:
- 
- 1. native: in this case the KMS driver is expected to know which backlight
-    device belongs to which output so everything should just work.
-@@ -708,11 +708,11 @@ Things will break on systems with multiple panels where the 2 panels need
- a different type of control. E.g. one panel needs ACPI video backlight control,
- where as the other is using native backlight control. Currently in this case
- only one of the 2 required backlight devices will get registered, based on
--the acpi_video_get_backlight_type() return value.
-+the acpi_video_get_backlight_types() return value.
- 
- If this (theoretical) case ever shows up, then supporting this will need some
- work. A possible solution here would be to pass a device and connector-name
--to acpi_video_get_backlight_type() so that it can deal with this.
-+to acpi_video_get_backlight_types() so that it can deal with this.
- 
- Note in a way we already have a case where userspace sees 2 panels,
- in dual GPU laptop setups with a mux. On those systems we may see
-diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
-index 9cb12e4f06f7..88462f2fb8cc 100644
---- a/drivers/acpi/video_detect.c
-+++ b/drivers/acpi/video_detect.c
-@@ -38,19 +38,21 @@
- #include <linux/workqueue.h>
- #include <acpi/video.h>
- 
--static enum acpi_backlight_type acpi_backlight_cmdline = acpi_backlight_undef;
--static enum acpi_backlight_type acpi_backlight_dmi = acpi_backlight_undef;
-+#define ACPI_BACKLIGHT_UNDEF (-1)
-+
-+static int acpi_backlight_cmdline = ACPI_BACKLIGHT_UNDEF;
-+static int acpi_backlight_dmi = ACPI_BACKLIGHT_UNDEF;
- 
- static void acpi_video_parse_cmdline(void)
- {
- 	if (!strcmp("vendor", acpi_video_backlight_string))
--		acpi_backlight_cmdline = acpi_backlight_vendor;
-+		acpi_backlight_cmdline = ACPI_BACKLIGHT_VENDOR;
- 	if (!strcmp("video", acpi_video_backlight_string))
--		acpi_backlight_cmdline = acpi_backlight_video;
-+		acpi_backlight_cmdline = ACPI_BACKLIGHT_VIDEO;
- 	if (!strcmp("native", acpi_video_backlight_string))
--		acpi_backlight_cmdline = acpi_backlight_native;
-+		acpi_backlight_cmdline = ACPI_BACKLIGHT_NATIVE;
- 	if (!strcmp("none", acpi_video_backlight_string))
--		acpi_backlight_cmdline = acpi_backlight_none;
-+		acpi_backlight_cmdline = 0;
- }
- 
- static acpi_status
-@@ -109,25 +111,25 @@ static bool nvidia_wmi_ec_supported(void)
-  * buggy */
- static int video_detect_force_vendor(const struct dmi_system_id *d)
- {
--	acpi_backlight_dmi = acpi_backlight_vendor;
-+	acpi_backlight_dmi = ACPI_BACKLIGHT_VENDOR;
- 	return 0;
- }
- 
- static int video_detect_force_video(const struct dmi_system_id *d)
- {
--	acpi_backlight_dmi = acpi_backlight_video;
-+	acpi_backlight_dmi = ACPI_BACKLIGHT_VIDEO;
- 	return 0;
- }
- 
- static int video_detect_force_native(const struct dmi_system_id *d)
- {
--	acpi_backlight_dmi = acpi_backlight_native;
-+	acpi_backlight_dmi = ACPI_BACKLIGHT_NATIVE;
- 	return 0;
- }
- 
- static int video_detect_force_none(const struct dmi_system_id *d)
- {
--	acpi_backlight_dmi = acpi_backlight_none;
-+	acpi_backlight_dmi = 0;
- 	return 0;
- }
- 
-@@ -672,7 +674,7 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
-  * Determine which type of backlight interface to use on this system,
-  * First check cmdline, then dmi quirks, then do autodetect.
-  */
--static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
-+static int __acpi_video_get_backlight_types(bool native)
- {
- 	static DEFINE_MUTEX(init_mutex);
- 	static bool nvidia_wmi_ec_present;
-@@ -699,19 +701,19 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
- 	 * The below heuristics / detection steps are in order of descending
- 	 * presedence. The commandline takes presedence over anything else.
- 	 */
--	if (acpi_backlight_cmdline != acpi_backlight_undef)
-+	if (acpi_backlight_cmdline != ACPI_BACKLIGHT_UNDEF)
- 		return acpi_backlight_cmdline;
- 
- 	/* DMI quirks override any autodetection. */
--	if (acpi_backlight_dmi != acpi_backlight_undef)
-+	if (acpi_backlight_dmi != ACPI_BACKLIGHT_UNDEF)
- 		return acpi_backlight_dmi;
- 
- 	/* Special cases such as nvidia_wmi_ec and apple gmux. */
- 	if (nvidia_wmi_ec_present)
--		return acpi_backlight_nvidia_wmi_ec;
-+		return ACPI_BACKLIGHT_NVIDIA_WMI_EC;
- 
- 	if (apple_gmux_present())
--		return acpi_backlight_apple_gmux;
-+		return ACPI_BACKLIGHT_APPLE_GMUX;
- 
- 	/* On systems with ACPI video use either native or ACPI video. */
- 	if (video_caps & ACPI_VIDEO_BACKLIGHT) {
-@@ -725,23 +727,23 @@ static enum acpi_backlight_type __acpi_video_get_backlight_type(bool native)
- 		 * is usually not the best choice.
- 		 */
- 		if (acpi_osi_is_win8() && native_available)
--			return acpi_backlight_native;
-+			return ACPI_BACKLIGHT_NATIVE;
- 		else
--			return acpi_backlight_video;
-+			return ACPI_BACKLIGHT_VIDEO;
+diff --git a/drivers/platform/x86/msi-wmi.c b/drivers/platform/x86/msi-wmi.c
+index fd318cdfe313..3a74f0135fae 100644
+--- a/drivers/platform/x86/msi-wmi.c
++++ b/drivers/platform/x86/msi-wmi.c
+@@ -309,7 +309,7 @@ static int __init msi_wmi_init(void)
  	}
  
- 	/* No ACPI video (old hw), use vendor specific fw methods. */
--	return acpi_backlight_vendor;
-+	return ACPI_BACKLIGHT_VENDOR;
- }
- 
--enum acpi_backlight_type acpi_video_get_backlight_type(void)
-+int acpi_video_get_backlight_types(void)
- {
--	return __acpi_video_get_backlight_type(false);
-+	return __acpi_video_get_backlight_types(false);
- }
--EXPORT_SYMBOL(acpi_video_get_backlight_type);
-+EXPORT_SYMBOL(acpi_video_get_backlight_types);
- 
- bool acpi_video_backlight_use_native(void)
- {
--	return __acpi_video_get_backlight_type(true) == acpi_backlight_native;
-+	return !!(__acpi_video_get_backlight_types(true) & ACPI_BACKLIGHT_NATIVE);
- }
- EXPORT_SYMBOL(acpi_video_backlight_use_native);
-diff --git a/include/acpi/video.h b/include/acpi/video.h
-index a565ba27fae0..5b748fdb606e 100644
---- a/include/acpi/video.h
-+++ b/include/acpi/video.h
-@@ -43,21 +43,11 @@ struct acpi_device;
- #define ACPI_VIDEO_NOTIFY_ZERO_BRIGHTNESS	0x88
- #define ACPI_VIDEO_NOTIFY_DISPLAY_OFF		0x89
- 
--enum acpi_backlight_type {
--	acpi_backlight_undef = -1,
--	acpi_backlight_none = 0,
--	acpi_backlight_video,
--	acpi_backlight_vendor,
--	acpi_backlight_native,
--	acpi_backlight_nvidia_wmi_ec,
--	acpi_backlight_apple_gmux,
--};
--
--#define ACPI_BACKLIGHT_VIDEO BIT(acpi_backlight_video)
--#define ACPI_BACKLIGHT_VENDOR BIT(acpi_backlight_vendor)
--#define ACPI_BACKLIGHT_NATIVE BIT(acpi_backlight_native)
--#define ACPI_BACKLIGHT_NVIDIA_WMI_EC BIT(acpi_backlight_nvidia_wmi_ec)
--#define ACPI_BACKLIGHT_APPLE_GMUX BIT(acpi_backlight_apple_gmux)
-+#define ACPI_BACKLIGHT_VIDEO BIT(0)
-+#define ACPI_BACKLIGHT_VENDOR BIT(1)
-+#define ACPI_BACKLIGHT_NATIVE BIT(2)
-+#define ACPI_BACKLIGHT_NVIDIA_WMI_EC BIT(3)
-+#define ACPI_BACKLIGHT_APPLE_GMUX BIT(4)
- 
- #if IS_ENABLED(CONFIG_ACPI_VIDEO)
- extern int acpi_video_register(void);
-@@ -65,7 +55,7 @@ extern void acpi_video_unregister(void);
- extern void acpi_video_register_backlight(void);
- extern int acpi_video_get_edid(struct acpi_device *device, int type,
- 			       int device_id, void **edid);
--extern enum acpi_backlight_type acpi_video_get_backlight_type(void);
-+extern int acpi_video_get_backlight_types(void);
- extern bool acpi_video_backlight_use_native(void);
- /*
-  * Note: The value returned by acpi_video_handles_brightness_key_presses()
-@@ -84,9 +74,9 @@ static inline int acpi_video_get_edid(struct acpi_device *device, int type,
- {
- 	return -ENODEV;
- }
--static inline enum acpi_backlight_type acpi_video_get_backlight_type(void)
-+static inline int acpi_video_get_backlight_types(void)
- {
--	return acpi_backlight_vendor;
-+	return ACPI_BACKLIGHT_VENDOR;
- }
- static inline bool acpi_video_backlight_use_native(void)
- {
-@@ -104,9 +94,4 @@ static inline int acpi_video_get_levels(struct acpi_device *device,
- }
- #endif
- 
--static inline int acpi_video_get_backlight_types(void)
--{
--	return BIT(acpi_video_get_backlight_type());
--}
--
- #endif
+ 	if (wmi_has_guid(MSIWMI_BIOS_GUID) &&
+-	    acpi_video_get_backlight_type() == acpi_backlight_vendor) {
++	    (acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
+ 		err = msi_wmi_backlight_setup();
+ 		if (err) {
+ 			pr_err("Unable to setup backlight device\n");
 -- 
 2.37.3
 
