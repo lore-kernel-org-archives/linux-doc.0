@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2650FA3743
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 12:00:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47188ECAAA1
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 12:03:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232192AbiJXMAH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 08:00:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46550 "EHLO
+        id S232583AbiJXMDt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 08:03:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232649AbiJXL71 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 07:59:27 -0400
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB6787655C
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:48:33 -0700 (PDT)
-Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-13b6c1c89bdso5635795fac.13
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:48:33 -0700 (PDT)
+        with ESMTP id S232514AbiJXMCF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 08:02:05 -0400
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9157C1658D
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:49:36 -0700 (PDT)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-12c8312131fso11525750fac.4
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 04:49:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=daynix-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UAzZQL5seIJutOYUjJgcTz5SIcJNiVaULVY/vxMxJ7M=;
-        b=bWAkfym/IuAYQQDsk1OCfdE9w9yWPE3crZCufatlU3uyFhSD2FLPPyi4EZX0XKPNNN
-         TsT1Mn93d8yM/JN1r6KstPaSr0v2lhHNLAttfYUvsrYDknwH7khxwfUrEhoUBDF6QNvT
-         2AoTMSr1l1S7qOR5wF4oY1dCDKpWYBJ8RPjoWCYtuPhEghyQHHePilHd/NADV54vZIGq
-         6rdvlz9HJM3z9wu+pJUiXEGORc6v7pwvQYHXmPP9HS48eXejuQAX3z/RDPWeO6o44bSX
-         c9msf1NsRp6QE7dLwlbW0UvYtPhluL4+JoPCees4u24dLHSpN6Uh4AbxJOiXkAJfcDlq
-         GsGQ==
+        bh=H9DD2Qn9ukDVbti7MaHb2ytvRgr63Gh+pODc8Oxcvp0=;
+        b=mRQRZRI1N0fXR6ZhdjhBkiy9z0C8EnLK6gYwGYjqDkMwRaxlGNaP5gg/S/OvakJsTG
+         j3MIV/2byA9qIHOxO3TCYFuxurjFmMwHfitpAimtA/68MM/VooXLqLsYsaKwrvgYMTyB
+         6Z4pVEOBs5IqlX0BIZsa0XK+RYo2qG4L7wS6XkghOIRzy97bYyCuS6T2RVuWBkoNAZsp
+         5OAXJzzDB82KI6oAxhG3ADEUNMHcMWzihVTgmK2hw0ruNAkoMfJvZ4SJ61OJTiGkE4ET
+         XCl94Jv3FdldMl8SzpJhvBf/CL22EaB8WxpQl53oozj1okCtaLCSvY5Rm5InOnDmci1D
+         XpzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UAzZQL5seIJutOYUjJgcTz5SIcJNiVaULVY/vxMxJ7M=;
-        b=5n6HIyfPU52k2fE3ErPMVlJWx0KEfN47Z2gBNUwDpRAcBv/f8TXj+mMJjHiiVbHfA+
-         HiDRMO/SRANhwO17L3hC8tLHd+GOImK87zXQRZYKdFT0tJSAaoEEOyswvKSPoYEmOEcb
-         OtQ6LmQnlDz+LR6siBGBOpHWgll3YJyndZJBPCuj9Nc+KbHDbZ5Mh9Ekp/MxI1N8vhsQ
-         WSgtLj6MztwbTUBLUNzfsWLxnwOaauqhNitTg/SDVpPMhDHI9LEer18Rvk1Nov0sVxwU
-         r5MO6FbEXs2lOkY0n5WpXzNOlXKphwYhU0F7G4IzB+LDoLHmfeaE2Llk+87tdk3BmhaV
-         QDeA==
-X-Gm-Message-State: ACrzQf2lZvKWJBfNg1UJcDYiZTg+dvktW8NLg5KHbCNPEX7xz8pTCyMD
-        G8+LtRFWhWiNarQIJNH9CoSrHmfeJ9l8I6Ql
-X-Google-Smtp-Source: AMsMyM518/+LX9D2Z710rX+ZGWrNfx22tav+R9okHqn5RhyI0izm5Jqv1jyaCGbAfBxBtougO+lAKQ==
-X-Received: by 2002:a17:90b:4b8f:b0:213:95f:9515 with SMTP id lr15-20020a17090b4b8f00b00213095f9515mr6350162pjb.82.1666611500759;
-        Mon, 24 Oct 2022 04:38:20 -0700 (PDT)
+        bh=H9DD2Qn9ukDVbti7MaHb2ytvRgr63Gh+pODc8Oxcvp0=;
+        b=bwfq2Sq4f74ZmKI4Td9CF53HBu0jZBPLCAFVB4L0y+vXvCk68mosh9LKNXiqlqILXh
+         CE6oO0HkOrdsLXcezjXnOn18quDdRXttwo26i1KqGriUBC1d9DUwgvMe8Dztv+aP3n2+
+         TEfA18Wds4cqBD8Ci/rb90d3JCHMVnHk17jhuSo+Wrw3/Z6cUa1vi7eCLKbz/7jtKxuA
+         nVYBxS1HKK0BHNpix9O1MRN2MGEG9SmtqEhfR2HwX/9ho/Sn1RNJjWLCnnlGO/pRqXfM
+         0thg1o4/0TSJfeYe3IlnVxXgEQGW66o2FGuoKOt582rohtezraQmEjU+nVFPVVmchYBI
+         /nyg==
+X-Gm-Message-State: ACrzQf3j3QrOvCY4aWYbtXX1d4yqcSENGQqrATmdBVImdUvS5WjBerIG
+        miybI2oS6qiBGriDuhGSlQY/QWm9ykZlw7o5
+X-Google-Smtp-Source: AMsMyM4qEtYfk/brrspCDfsAk/ohN0i2+YSG3igNC8b1bqKv4WrKEdbaz330QILDZfX2MHi6JDfWfw==
+X-Received: by 2002:a17:90b:3912:b0:20d:4151:1b65 with SMTP id ob18-20020a17090b391200b0020d41511b65mr74871319pjb.233.1666611458874;
+        Mon, 24 Oct 2022 04:37:38 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
-        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.38.12
+        by smtp.gmail.com with ESMTPSA id b8-20020a170903228800b001830ed575c3sm19475075plh.117.2022.10.24.04.37.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 04:38:20 -0700 (PDT)
+        Mon, 24 Oct 2022 04:37:38 -0700 (PDT)
 From:   Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -87,9 +87,9 @@ Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
         acpi4asus-user@lists.sourceforge.net,
         ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
         devel@acpica.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 19/22] platform/x86: dell-laptop: Use acpi_video_get_backlight_types()
-Date:   Mon, 24 Oct 2022 20:35:10 +0900
-Message-Id: <20221024113513.5205-20-akihiko.odaki@daynix.com>
+Subject: [PATCH 14/22] platform/x86: panasonic-laptop: Use acpi_video_get_backlight_types()
+Date:   Mon, 24 Oct 2022 20:35:05 +0900
+Message-Id: <20221024113513.5205-15-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221024113513.5205-1-akihiko.odaki@daynix.com>
 References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
@@ -104,22 +104,22 @@ acpi_video_get_backlight_type() is now deprecated.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- drivers/platform/x86/dell/dell-laptop.c | 2 +-
+ drivers/platform/x86/panasonic-laptop.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/dell/dell-laptop.c b/drivers/platform/x86/dell/dell-laptop.c
-index e92c3ad06d69..9cfffbe2bd95 100644
---- a/drivers/platform/x86/dell/dell-laptop.c
-+++ b/drivers/platform/x86/dell/dell-laptop.c
-@@ -2230,7 +2230,7 @@ static int __init dell_init(void)
- 		micmute_led_registered = true;
+diff --git a/drivers/platform/x86/panasonic-laptop.c b/drivers/platform/x86/panasonic-laptop.c
+index ad3083f9946d..eaf9469fabb3 100644
+--- a/drivers/platform/x86/panasonic-laptop.c
++++ b/drivers/platform/x86/panasonic-laptop.c
+@@ -999,7 +999,7 @@ static int acpi_pcc_hotkey_add(struct acpi_device *device)
+ 		goto out_input;
  	}
  
--	if (acpi_video_get_backlight_type() != acpi_backlight_vendor)
-+	if (!(acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR))
- 		return 0;
- 
- 	token = dell_smbios_find_token(BRIGHTNESS_TOKEN);
+-	if (acpi_video_get_backlight_type() == acpi_backlight_vendor) {
++	if ((acpi_video_get_backlight_types() & ACPI_BACKLIGHT_VENDOR)) {
+ 		/* initialize backlight */
+ 		memset(&props, 0, sizeof(struct backlight_properties));
+ 		props.type = BACKLIGHT_PLATFORM;
 -- 
 2.37.3
 
