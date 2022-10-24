@@ -2,76 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30E54C38A2D
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 21:24:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0057C38A2D
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 21:51:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbiJXVYV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 17:24:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58182 "EHLO
+        id S229970AbiJXVvw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 17:51:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234208AbiJXVXv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 17:23:51 -0400
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0FB0E9850;
-        Mon, 24 Oct 2022 12:30:18 -0700 (PDT)
-Received: by mail-qk1-x732.google.com with SMTP id z30so6683358qkz.13;
-        Mon, 24 Oct 2022 12:30:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PblChHtfw1S0go3t7WQnQiBCMoL2Al1+nyURPxA1TFc=;
-        b=pVgwI/qNobIFyNsTNyK1DM1nXPNJKIJg0NQd3DSCBVXEDuGq3PSRMiBcrOmUmgNC2t
-         r08RlVIreaIsjJFLehRvmZghm0dzS/xKGvp3xn/aRD2k9m+7ymCUTeBxbGGQ9YkY0iep
-         Ebcou5EMVqjiWqf3djGIWhIOm2vNGzhOTnsCO3Y7kWLSsT7LUy6UgRhQKcTkJoMtv+B0
-         a2L7a986B//XhylsbOADmew4tsadzzn+XrPG2fEfjAnp4azR3Bg3YPXqc0SAQUMzsuum
-         C1FuSaqyda5y8RaCivnahNU1TuLkoMDt0pPpiOMo5wVa6k/f1zEmdtSJjy5H/zdL34XH
-         MWmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PblChHtfw1S0go3t7WQnQiBCMoL2Al1+nyURPxA1TFc=;
-        b=MOsyfeMf4B/6Zwgk9Ytm9V63QS9WOo9xynwRYRdGZoZioQnEK8c+RVaopKL5R/CKXS
-         /ODo3+I7wTHRulRe7snU89RzetlkX+sKxKqz/Yz4ilBFhefH5slgLq4PqFhHsLjI6poh
-         W1lAFhNt6NWNd5EAAbX47umYrs6RHd44PWJH2QtnGVyt/Ec9ObSGqU/XadIu95EirUwn
-         mtcbVEEY8+wECsofJWhDA2vFuvzrGZNluqLnMz7oHrhgZRSnL6uNDjhAYCtB5xwcacRh
-         c4k6BjIw19A4/I4krAuWKNCojHJf/RkzGqLw7eRkRBX11VmtPAZoNDlFp6SFZRQoPRYy
-         VfeA==
-X-Gm-Message-State: ACrzQf3V1EXYCSp1xbd0LhQL8cprruXV1RzUoRiRIsir08fjJfJWFjAC
-        KZmA3FQBo6AgkIiL9xuB2Nc=
-X-Google-Smtp-Source: AMsMyM7QmKJLyxQqYLHdF1N2eaPHhvOCUXQoyoecmLGObHbifNpUoWsjfMl3upC4fAgtOMENY6GFiQ==
-X-Received: by 2002:a05:620a:c4a:b0:6f6:3b26:1576 with SMTP id u10-20020a05620a0c4a00b006f63b261576mr2820579qki.410.1666639713282;
-        Mon, 24 Oct 2022 12:28:33 -0700 (PDT)
-Received: from localhost.localdomain (bras-base-toroon3514w-grc-28-142-114-225-85.dsl.bell.ca. [142.114.225.85])
-        by smtp.gmail.com with ESMTPSA id bz26-20020a05622a1e9a00b0039c7b9522ecsm422650qtb.35.2022.10.24.12.28.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 12:28:32 -0700 (PDT)
-From:   Serentty <girpoole@gmail.com>
-X-Google-Original-From: Serentty <noname422@gmail.com>
-To:     torvalds@linux-foundation.org
-Cc:     Hi-Angel@yandex.ru, Michael@michaellarabel.com, ak@linux.intel.com,
-        akpm@linux-foundation.org, aneesh.kumar@linux.ibm.com,
-        axboe@kernel.dk, bgeffon@google.com, catalin.marinas@arm.com,
-        corbet@lwn.net, d@chaos-reins.com, dave.hansen@linux.intel.com,
-        djbyrne@mtu.edu, hannes@cmpxchg.org, hdanton@sina.com,
-        heftig@archlinux.org, holger@applied-asynchrony.com,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, mgorman@suse.de,
-        mhocko@kernel.org, oleksandr@natalenko.name,
-        page-reclaim@google.com, peterz@infradead.org, rppt@kernel.org,
-        sofia.trinh@edi.works, steven@liquorix.net, suleiman@google.com,
-        szhai2@cs.rochester.edu, tj@kernel.org, vaibhav@linux.ibm.com,
-        vbabka@suse.cz, will@kernel.org, willy@infradead.org,
-        x86@kernel.org, yuzhao@google.com
-Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
-Date:   Mon, 24 Oct 2022 16:28:16 -0300
-Message-Id: <20221024192816.11527-1-noname422@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <CAHk-=wikUaRM5H_y1Bc+QyvGi40dKDL8fnCTyz7ECbwK7aHNPQ@mail.gmail.com>
-References: <CAHk-=wikUaRM5H_y1Bc+QyvGi40dKDL8fnCTyz7ECbwK7aHNPQ@mail.gmail.com>
+        with ESMTP id S230430AbiJXVvg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 17:51:36 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F136DED0E;
+        Mon, 24 Oct 2022 13:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+        Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=qzoRiBxsD+qzFWYFum3VpbABI9ghvm/TlfdcFLi9wIE=; b=XgLmtQFEMuH4e5ywrLhakYcA+R
+        lhXWQKueSu0SjOkoyeNjsyfxNKngfjsVqxJteFN+nyuVn9VpGvHB7v9+KM5QE7j0GCFM8dt3nRFzE
+        nA8sPxhlIY2Coc4Ps66zewhg5QiWV0txxO0I83fbCjpJ21WJWSjVFmydXkXAts5weVEGGUk7dm4ac
+        nRjqtO6kJ07oKi6QvFnkTr8CGzbXdASpASG1qaEBlALecWZBRQZcsz7FCLMy5zgoGcweDRIPEVgyp
+        lOnbvBCTDf6Hoe+iy0ycEU74ZbCWcoiZa7sfKHKg3EOG+gAKXZj0xxkTm8Y4ZxOgTU3yDHCKo1pcJ
+        obT2NTFA==;
+Received: from [177.95.16.195] (helo=localhost)
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+        id 1on3fC-004pcT-3U; Mon, 24 Oct 2022 22:03:10 +0200
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+To:     x86@kernel.org, linux-kernel@vger.kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, hpa@zytor.com, luto@kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org, bagasdotme@gmail.com,
+        kernel-dev@igalia.com, kernel@gpiccoli.net,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Joshua Ashton <joshua@froggi.es>,
+        Melissa Wen <mwen@igalia.com>,
+        Paul Gofman <pgofman@codeweavers.com>,
+        Pavel Machek <pavel@denx.de>,
+        Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Zebediah Figura <zfigura@codeweavers.com>,
+        Andre Almeida <andrealmeid@igalia.com>
+Subject: [PATCH V3] x86/split_lock: Add sysctl to control the misery mode
+Date:   Mon, 24 Oct 2022 17:02:54 -0300
+Message-Id: <20221024200254.635256-1-gpiccoli@igalia.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -79,6 +57,210 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Trying sending again since I am not sure if it went through the first time. I’m not used to the mailing list.
+Commit b041b525dab9 ("x86/split_lock: Make life miserable for split lockers")
+changed the way the split lock detector works when in "warn" mode;
+basically, not only it shows the warn message, but also intentionally
+introduces a slowdown (through sleeping plus serialization mechanism)
+on such task. Based on discussions in [0], seems the warning alone
+wasn't enough motivation for userspace developers to fix their
+applications.
 
-As someone who still regularly uses hardware from this era, and often runs Linux on it, this would definitely be a blow to which machines I can actively use. Linux support is a big part of how I use these machines, since I usually have them connected to my LAN and the internet, and networking support on MS-DOS and Windows 9x rots more each year in terms of support for modern protocols and security. I would be very disappointed, and impacted, if Linux dropped 486 support.
+Happens that originally the proposal in [0] was to add a new mode
+which would warns + slowdown the "split locking" task, keeping the
+old warn mode untouched. In the end, that idea was discarded and
+the regular/default "warn" mode now slowdowns the applications. This
+is quite aggressive with regards proprietary/legacy programs that
+basically are unable to properly run in kernel with this change.
+While it is understandable that a malicious application could DoS
+by split locking, it seems unacceptable to regress old/proprietary
+userspace programs through a default configuration that previously
+worked. An example of such breakage was reported in [1].
+
+So let's add a sysctl to allow controlling the "misery mode" behavior,
+as per Thomas suggestion on [2]. This way, users running legacy and/or
+proprietary software are allowed to still execute them with a decent
+performance while still observe the warning messages on kernel log.
+
+[0] https://lore.kernel.org/lkml/20220217012721.9694-1-tony.luck@intel.com/
+
+[1] https://github.com/doitsujin/dxvk/issues/2938
+
+[2] https://lore.kernel.org/lkml/87pmf4bter.ffs@tglx/
+
+Fixes: b041b525dab9 ("x86/split_lock: Make life miserable for split lockers")
+Cc: Fenghua Yu <fenghua.yu@intel.com>
+Cc: Joshua Ashton <joshua@froggi.es>
+Cc: Melissa Wen <mwen@igalia.com>
+Cc: Paul Gofman <pgofman@codeweavers.com>
+Cc: Pavel Machek <pavel@denx.de>
+Cc: Pierre-Loup Griffais <pgriffais@valvesoftware.com>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: Zebediah Figura <zfigura@codeweavers.com>
+Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+Tested-by: Andre Almeida <andrealmeid@igalia.com>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+---
+
+
+V3:
+- Reworked with the suggestions from Bagas and Dave - thanks!
+- Rebased to v6.1-rc2.
+
+Dave, in the end I kept the 2 delayed workers, seems easier than
+encompass the worker in a new struct and have a bool embedded there
+(we can't use data directly in the work struct, since it keeps the
+workqueue state). Lemme know if you (or others) really prefer the
+other approach and I can rework if required.
+
+Thanks again for comments/reviews!
+Cheers,
+
+Guilherme
+
+
+ Documentation/admin-guide/sysctl/kernel.rst | 23 ++++++++
+ arch/x86/kernel/cpu/intel.c                 | 63 +++++++++++++++++----
+ 2 files changed, 76 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 98d1b198b2b4..c2c64c1b706f 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1314,6 +1314,29 @@ watchdog work to be queued by the watchdog timer function, otherwise the NMI
+ watchdog — if enabled — can detect a hard lockup condition.
+ 
+ 
++split_lock_mitigate (x86 only)
++==============================
++
++On x86, each "split lock" imposes a system-wide performance penalty. On larger
++systems, large numbers of split locks from unprivileged users can result in
++denials of service to well-behaved and potentially more important users.
++
++The kernel mitigates these bad users by detecting split locks and imposing
++penalties: forcing them to wait and only allowing one core to execute split
++locks at a time.
++
++These mitigations can make those bad applications unbearably slow. Setting
++split_lock_mitigate=0 may restore some application performance, but will also
++increase system exposure to denial of service attacks from split lock users.
++
++= ===================================================================
++0 Disable the mitigation mode - just warns the split lock on kernel log
++  and exposes the system to denials of service from the split lockers.
++1 Enable the mitigation mode (this is the default) - penalizes the split
++  lockers with intentional performance degradation.
++= ===================================================================
++
++
+ stack_erasing
+ =============
+ 
+diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/intel.c
+index 2d7ea5480ec3..427899650483 100644
+--- a/arch/x86/kernel/cpu/intel.c
++++ b/arch/x86/kernel/cpu/intel.c
+@@ -1034,8 +1034,32 @@ static const struct {
+ 
+ static struct ratelimit_state bld_ratelimit;
+ 
++static unsigned int sysctl_sld_mitigate = 1;
+ static DEFINE_SEMAPHORE(buslock_sem);
+ 
++#ifdef CONFIG_PROC_SYSCTL
++static struct ctl_table sld_sysctls[] = {
++	{
++		.procname       = "split_lock_mitigate",
++		.data           = &sysctl_sld_mitigate,
++		.maxlen         = sizeof(unsigned int),
++		.mode           = 0644,
++		.proc_handler	= proc_douintvec_minmax,
++		.extra1         = SYSCTL_ZERO,
++		.extra2         = SYSCTL_ONE,
++	},
++	{}
++};
++
++static int __init sld_mitigate_sysctl_init(void)
++{
++	register_sysctl_init("kernel", sld_sysctls);
++	return 0;
++}
++
++late_initcall(sld_mitigate_sysctl_init);
++#endif
++
+ static inline bool match_option(const char *arg, int arglen, const char *opt)
+ {
+ 	int len = strlen(opt), ratelimit;
+@@ -1146,12 +1170,20 @@ static void split_lock_init(void)
+ 		split_lock_verify_msr(sld_state != sld_off);
+ }
+ 
+-static void __split_lock_reenable(struct work_struct *work)
++static void __split_lock_reenable_unlock(struct work_struct *work)
+ {
+ 	sld_update_msr(true);
+ 	up(&buslock_sem);
+ }
+ 
++static DECLARE_DELAYED_WORK(sl_reenable_unlock, __split_lock_reenable_unlock);
++
++static void __split_lock_reenable(struct work_struct *work)
++{
++	sld_update_msr(true);
++}
++static DECLARE_DELAYED_WORK(sl_reenable, __split_lock_reenable);
++
+ /*
+  * If a CPU goes offline with pending delayed work to re-enable split lock
+  * detection then the delayed work will be executed on some other CPU. That
+@@ -1169,10 +1201,9 @@ static int splitlock_cpu_offline(unsigned int cpu)
+ 	return 0;
+ }
+ 
+-static DECLARE_DELAYED_WORK(split_lock_reenable, __split_lock_reenable);
+-
+ static void split_lock_warn(unsigned long ip)
+ {
++	struct delayed_work *work;
+ 	int cpu;
+ 
+ 	if (!current->reported_split_lock)
+@@ -1180,14 +1211,26 @@ static void split_lock_warn(unsigned long ip)
+ 				    current->comm, current->pid, ip);
+ 	current->reported_split_lock = 1;
+ 
+-	/* misery factor #1, sleep 10ms before trying to execute split lock */
+-	if (msleep_interruptible(10) > 0)
+-		return;
+-	/* Misery factor #2, only allow one buslocked disabled core at a time */
+-	if (down_interruptible(&buslock_sem) == -EINTR)
+-		return;
++	if (sysctl_sld_mitigate) {
++		/*
++		 * misery factor #1:
++		 * sleep 10ms before trying to execute split lock.
++		 */
++		if (msleep_interruptible(10) > 0)
++			return;
++		/*
++		 * Misery factor #2:
++		 * only allow one buslocked disabled core at a time.
++		 */
++		if (down_interruptible(&buslock_sem) == -EINTR)
++			return;
++		work = &sl_reenable_unlock;
++	} else {
++		work = &sl_reenable;
++	}
++
+ 	cpu = get_cpu();
+-	schedule_delayed_work_on(cpu, &split_lock_reenable, 2);
++	schedule_delayed_work_on(cpu, work, 2);
+ 
+ 	/* Disable split lock detection on this CPU to make progress */
+ 	sld_update_msr(false);
+-- 
+2.38.0
+
