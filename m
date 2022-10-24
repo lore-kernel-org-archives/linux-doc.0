@@ -2,260 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D986FA3741
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 17:05:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56661C38A2D
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 17:09:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233418AbiJXRF3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 13:05:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37024 "EHLO
+        id S231843AbiJXRJm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 13:09:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235229AbiJXRES (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 13:04:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88548E713
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 08:40:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666625892;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=bZe1w3EPaVA+CN/q+Lt0jOZyvsYbOMnl65HsFpxBLe8=;
-        b=NouWvSjZknluReJuka33au5kpr5SW1C4Ognfh8h1UV6VnPCBkRKmxIPx/91ub8UixzMiCL
-        p5XAlSDgfzEpJYfuOQjB+IoiO6fWOYG7XvnoTUacCiFkNSvLyM1a89Q92Igs3Bz0keIibq
-        ZV7XX2f6DVuP9dIT1KwFFfhWXV6Gquo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-362-T5943xBFPpuwKdeI7wrlvQ-1; Mon, 24 Oct 2022 09:21:29 -0400
-X-MC-Unique: T5943xBFPpuwKdeI7wrlvQ-1
-Received: by mail-ed1-f71.google.com with SMTP id w17-20020a056402269100b00461e28a75ccso1915899edd.8
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 06:21:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bZe1w3EPaVA+CN/q+Lt0jOZyvsYbOMnl65HsFpxBLe8=;
-        b=OtqgxutW4UuyELfGQlxGak1DqdmjclGI9Zrz8nMuUareP2j3NRSVHbfWDhUhq5G8Ah
-         fStmPpL02pHqyuqPApaqcdLkgrsY/9LlX2+0HAshJWxiPhYGlYQPGhCi/pT04gz0mU3U
-         kWW9IyodbWJ0iuYYU8Igtqxv5n33fE0DNFiVLMFI+Jhz/V9L+AhEUGlhzjCWbagyVfcK
-         yr4plwbC6ghKj7HgLL6vB5K4uczjJ45ZxlqRNotVBfqAWedBBspENoRl2RJ7PmKoHAKr
-         THW4jT5YjNE3YhCoDWcsEWLpw6VfFE3xEqz0FwATrzKggRdZSxVpi9pRWyVMd/wfMk86
-         0l/Q==
-X-Gm-Message-State: ACrzQf1Dg7Rg9fZYqB3KHbQIbL3nnL6tvJj2jdV1s5QQ9RxIHKnwTdQS
-        Unf1OZr2Z2tp3+911phxRxsVt9iNYtXYSyoUWZJC2PVqpJ1ALUkrlHQMZg+K1f/owUQAKX3RlL2
-        sVDhCGo8NMm52P8c7D/2v
-X-Received: by 2002:a17:907:7627:b0:78d:b6f5:9f15 with SMTP id jy7-20020a170907762700b0078db6f59f15mr27908057ejc.149.1666617688157;
-        Mon, 24 Oct 2022 06:21:28 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5eVoX3Zdsw3dT2G3BRaFLKO7Cw6SDF7Gj5r0DB42X2PLxNRQiYtexmaaMeTBVnA50ta6oFDw==
-X-Received: by 2002:a17:907:7627:b0:78d:b6f5:9f15 with SMTP id jy7-20020a170907762700b0078db6f59f15mr27908007ejc.149.1666617687840;
-        Mon, 24 Oct 2022 06:21:27 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id l17-20020a1709060cd100b00783c545544fsm15509207ejh.215.2022.10.24.06.21.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 06:21:27 -0700 (PDT)
-Message-ID: <60672af8-05d2-113c-12b9-d635608be0dd@redhat.com>
-Date:   Mon, 24 Oct 2022 15:21:25 +0200
+        with ESMTP id S235477AbiJXRJN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 13:09:13 -0400
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2057.outbound.protection.outlook.com [40.107.93.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 048DB6D846;
+        Mon, 24 Oct 2022 08:43:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a5Z+bKqasqiSNSYIhQ2uF43WpC5Xep+0GOv3ubqjy8DOm2ng6k2yykChiTX3NzSYImMSwPGRnz4vTxbANIPEFCQ++hVhFVdR1pqKc3uQ3yLrdWS6JhszAnU2e7LndDxmEvXu3gsCVxUAFL9AlhxG39hUr9i4GGzugIdAuI5BuW9rrS6vQUlYpXNRW7NKWAs6sKKuKvy9BFJEvjp5XxuJlm5mBG8nRZv94nNx2SvnPVQrXnlp6Wca42tPrm/L5+h99vv0mes+oDYUgs4p3dJAr5LbHswn4bztTX8f7leAlfag/Iq+kYeMbTUS5tcjH+26rj+hymSO1xI3c6Qr/BTP9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I2mCYqfBBDAugC8cCXLUUYfOmdLBYWlKwlOaB2ClQIY=;
+ b=MQZDi6sBdaU+G+5FHHej+GO8jkDpEim8zEBFOtY2aJ2I8fperBkYO30OmrJWaRDPU43ahwtS7ZiLN1i9g1dkJm4GFItj48ys3JpbRiykJ/BTmD0aoGcCyiks4FESY8RD75kTCY+y3ZfMSrQn7OGxwt3FhMMkRkoEK6O1aPZJCYrWzcZChO7xWQFoV4nyCQwuxc+8ILwQgBJGxPhH+73z0DdVpdyMiFGR1AlfGL7XKFNMQ4iNZ9C454liVhWh1vWBH+kOqZQpVskwjIeNSpx5xJSzPJkST9dga262Zi7x/iJJlLSWvJ8H5WHeNtyMmtbUK+pahXrq/vpE/Alwxh5bUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
+ is 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com;
+ dmarc=temperror action=none header.from=amd.com; dkim=none (message not
+ signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I2mCYqfBBDAugC8cCXLUUYfOmdLBYWlKwlOaB2ClQIY=;
+ b=MS8HptJlbrAekuiB2UJT2ptTTPInXaCOncW0O+C5aT6Shy8325tLNCxWhM9yI1zusYCykXAUm6pNNKsPLhcH3iIoDqsFgh6EZxMzvPo+OmYcOhuhv7ziah9oPqHigpVDeCCfHh5cQTc+GjSCe3Oum6II+Vt30r37cCa/NFC8y28=
+Received: from BN9PR03CA0212.namprd03.prod.outlook.com (2603:10b6:408:f8::7)
+ by BL0PR12MB4947.namprd12.prod.outlook.com (2603:10b6:208:17d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.32; Mon, 24 Oct
+ 2022 14:55:24 +0000
+Received: from BN8NAM11FT080.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:f8:cafe::bb) by BN9PR03CA0212.outlook.office365.com
+ (2603:10b6:408:f8::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.27 via Frontend
+ Transport; Mon, 24 Oct 2022 14:55:24 +0000
+X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is
+ 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=temperror action=none header.from=amd.com;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of amd.com: DNS Timeout)
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ BN8NAM11FT080.mail.protection.outlook.com (10.13.176.82) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5746.16 via Frontend Transport; Mon, 24 Oct 2022 14:55:23 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 24 Oct
+ 2022 09:55:22 -0500
+Received: from iron-maiden.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.31 via Frontend
+ Transport; Mon, 24 Oct 2022 09:55:22 -0500
+From:   Carlos Bilbao <carlos.bilbao@amd.com>
+To:     <corbet@lwn.net>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <bilbao@vt.edu>, <bagasdotme@gmail.com>, <willy@infradead.org>,
+        <akiyks@gmail.com>, <miguel.ojeda.sandonis@gmail.com>,
+        Carlos Bilbao <carlos.bilbao@amd.com>,
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: [PATCH v3 1/2] Documentation: Start translations to Spanish
+Date:   Mon, 24 Oct 2022 09:55:20 -0500
+Message-ID: <20221024145521.69465-2-carlos.bilbao@amd.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221024145521.69465-1-carlos.bilbao@amd.com>
+References: <20221024145521.69465-1-carlos.bilbao@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 00/22] Fallback to native backlight
-Content-Language: en-US
-To:     Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        "Lee, Chun-Yi" <jlee@suse.com>, Mark Gross <markgross@kernel.org>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
-        Jonathan Woithe <jwoithe@just42.net>,
-        Ike Panhc <ike.pan@canonical.com>,
-        Daniel Dadap <ddadap@nvidia.com>,
-        Kenneth Chan <kenneth.t.chan@gmail.com>,
-        Mattia Dongili <malattia@linux.it>,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Azael Avalos <coproscefalo@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        Robert Moore <robert.moore@intel.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org,
-        platform-driver-x86@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net,
-        ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
-        devel@acpica.org
-References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
- <746e5cc6-516f-8f69-9d4b-8fe237de8fd6@redhat.com>
- <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT080:EE_|BL0PR12MB4947:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f180ad9-bc0d-44e8-b1ab-08dab5cfc72b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: z/bvsMLIJFzjGYewMq/PQjeSlmcZi0aPWouIGsLQ0MgtAygFUndsUkbrUe+0vXK5ygQbQXQRzXxqZ6j/JpdjiQC/FTyLv1qCHsdxg5YdfnnnMuQ9pt8cdrM9aLC7ftN1T9VSQSQE4cxnsrxum2EB178C/+YxaOy6Tm8bnLVv/FiWg2cfST5b2J93qwcCeKmnho33icR3JjY0SA6zY4/FYEiRwpx5fL1ffNqFaEMo1T5+qPkJUNSCucWnvdfhs48wM8plgNBZpcWfJTIUCSc7EP0uY9HismwnphbgnOAHls5004z8edjkn3Jek01+Vy1m+EuUNmGb5R740E5t2cpdnFtMEiU1jRpd+AsA/gYwaSBzP1ol0Dhshv1YOCURcfDdPMp/E826TrN7m2m3Dyx8ucN1rvwWjF/onpQH1ubyfpTws1caVWQwUl/ccpzJ8jB8M5g00Chy72BB2KtIPO7HD7Nfb2/oT26rigwtZUu2VBhZcuDZBzn6nmIibvdwbxwx//k7JKGDubRJfrtfyfbzdZYnQedazj6beWEMvBrH7e++xV8027WyuGYyI8BPWyfR8j2YzEnbOveCzyX4Qnh25spTKqPGNnlbchcnAxI3qehp+qBLE/SUfPKyaOvYTuwEy5Idc6EkPH4ebdSsjpYQaZ8VEB0lM4qSoSi2GGCwYFSywcznZvqqX/ZD7zbI3dETSTV4EvR/DLWX0xlJfx2+VxsaR14VdNDowZXlmXuoEDnEKiGoSFPNPHP0TVqCqRv+JC+wtBkLx5se2Y12UEzsRX34qH/Ijly1riH0jlfAn8NBnNpL7UcH7bz3qCSxfT3GiqPG6C01CQdY1XBLhl6cjg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:es;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(376002)(396003)(39860400002)(451199015)(36840700001)(40470700004)(46966006)(426003)(316002)(2616005)(40460700003)(44832011)(54906003)(70586007)(4326008)(36756003)(8936002)(83380400001)(63350400001)(2906002)(63370400001)(66574015)(86362001)(41300700001)(7696005)(336012)(1076003)(26005)(5660300002)(47076005)(6916009)(40480700001)(8676002)(70206006)(186003)(82310400005)(36860700001)(81166007)(82740400003)(966005)(478600001)(356005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 14:55:23.0265
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f180ad9-bc0d-44e8-b1ab-08dab5cfc72b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT080.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4947
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Start the process of translating kernel documentation to Spanish. Create
+directory sp_SP/ instead of es_ES/ (diverging from format of prior
+translated directories) since this directory should accept any dialects of
+Spanish. Include an index and a disclaimer, following the approach of
+prior translations. Add Carlos Bilbao as MAINTAINER of this effort.
 
-On 10/24/22 14:58, Akihiko Odaki wrote:
-> On 2022/10/24 20:53, Hans de Goede wrote:
->> Hi Akihiko,
->>
->> On 10/24/22 13:34, Akihiko Odaki wrote:
->>> Commit 2600bfa3df99 ("ACPI: video: Add acpi_video_backlight_use_native()
->>> helper") and following commits made native backlight unavailable if
->>> CONFIG_ACPI_VIDEO is set and the backlight feature of ACPI video is
->>> unavailable, which broke the backlight functionality on Lenovo ThinkPad
->>> C13 Yoga Chromebook. Allow to fall back to native backlight in such
->>> cases.
->>
->> I appreciate your work on this, but what this in essence does is
->> it allows 2 backlight drivers (vendor + native) to get registered
->> for the same panel again. While the whole goal of the backlight refactor
->> series landing in 6.1 was to make it so that there always is only
->> *1* backlight device registered instead of (possibly) registering
->> multiple and letting userspace figure it out. It is also important
->> to only always have 1 backlight device per panel for further
->> upcoming changes.
->>
->> So nack for this solution, sorry.
->>
->> I am aware that this breaks backlight control on some Chromebooks,
->> this was already reported and I wrote a long reply explaining why
->> things are done the way they are done now and also suggesting
->> 2 possible (much simpler) fixes, see:
->> https://lore.kernel.org/linux-acpi/42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com/
->>
->> Unfortunately the reported has not followed-up on this and
->> I don't have the hardware to test this myself.
->>
->> Can you please try implementing 1 of the fixes suggested there
->> and then submit that upstream ?
->>
->> Regards,
->>
->> Hans
->>
-> 
-> Hi Hans,
-> 
-> Thanks for reviewing and letting me know the prior attempt.
-> 
-> In this case, there is only a native backlight device and no vendor backlight device so the duplication of backlight devices does not happen. I think it is better to handle such a case without quirks.
+Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+---
+ Documentation/translations/index.rst          |  1 +
+ .../translations/sp_SP/disclaimer-sp.rst      |  6 ++
+ Documentation/translations/sp_SP/index.rst    | 72 +++++++++++++++++++
+ MAINTAINERS                                   |  5 ++
+ 4 files changed, 84 insertions(+)
+ create mode 100644 Documentation/translations/sp_SP/disclaimer-sp.rst
+ create mode 100644 Documentation/translations/sp_SP/index.rst
 
-Adding a single heuristic for all chromebooks is something completely different
-then adding per model quirks which indeed ideally should be avoided (but this
-is not always possible).
-
-> I understand it is still questionable to cover the case by allowing duplication when both of a vendor backlight device and native one. To explain my understanding and reasoning for *not* trying to apply the de-duplication rule to the vendor/native combination, let me first describe that the de-duplication which happens in acpi_video_get_backlight_type() is a heuristics and limited.
-> 
-> As the background of acpi_video_get_backlight_type(), there is an assumption that it should be common that both of the firmware, implementing ACPI, and the kernel have code to drive backlight. In the case, the more reliable one should be picked instead of using both, and that is what the statements in `if (video_caps & ACPI_VIDEO_BACKLIGHT)` does.
-> 
-> However, the method has two limitations:
-> 1. It does not cover the case where two backlight devices with the same type exist.
-
-This only happens when there are 2 panels; or 2 gpus driving a single panel
-which are both special cases where we actually want 2 backlight devices.
-
-> 2. The underlying assumption does not apply to vendor/native combination.
-> 
-> Regarding the second limitation, I don't even understand the difference between vendor and native. My guess is that a vendor backlight device uses vendor-specific ACPI interface, and a native one directly uses hardware registers. If my guess is correct, the difference between vendor and native does not imply that both of them are likely to exist at the same time. As the conclusion, there is no more motivation to try to de-duplicate the vendor/native combination than to try to de-duplicate combination of devices with a single type.
-> 
-> Of course, it is better if we could also avoid registering two devices with one type for one physical device. Possibly we can do so by providing a parameter to indicate that it is for the same "internal" backlight to devm_backlight_device_register(), and let the function check for the duplication. However, this rule may be too restrict, or may have problems I missed.
-> 
-> Based on the discussion above, we can deduce three possibilities:
-> a. There is no reason to distinguish vendor and native in this case, and we can stick to my current proposal.
-> b. There is a valid reason to distinguish vendor and native, and we can adopt the same strategy that already adopted for ACPI video/vendor combination.
-> c. We can implement de-duplication in devm_backlight_device_register().
-> d. The other possible options are not worth, and we can just implement quirks specific to Chromebook/coreboot.
-> 
-> In case b, it should be noted that vendor and native backlight device do not require ACPI video, and CONFIG_ACPI_VIDEO may not be enabled. In the case, the de-duplication needs to be implemented in backlight class device.
-
-I have been working on the ACPI/x86 backlight detection code since 2015, please trust
-me when I say that allowing both vendor + native backlight devices at the same time
-is a bad idea.
-
-I'm currently in direct contact with the ChromeOS team about fixing the Chromebook
-backlight issue introduced in 6.1-rc1.
-
-If you wan to help, please read:
-
-https://lore.kernel.org/linux-acpi/42a5f2c9-a1dc-8fc0-7334-fe6c390ecfbb@redhat.com/
-
-And try implementing 1 if the 2 solutions suggested there.
-
-Regards,
-
-Hans
-
-
-
->>> Akihiko Odaki (22):
->>>    drm/i915/opregion: Improve backlight request condition
->>>    ACPI: video: Introduce acpi_video_get_backlight_types()
->>>    LoongArch: Use acpi_video_get_backlight_types()
->>>    platform/x86: acer-wmi: Use acpi_video_get_backlight_types()
->>>    platform/x86: asus-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: asus-wmi: Use acpi_video_get_backlight_types()
->>>    platform/x86: compal-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: eeepc-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: fujitsu-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: ideapad-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: msi-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: msi-wmi: Use acpi_video_get_backlight_types()
->>>    platform/x86: nvidia-wmi-ec-backlight: Use
->>>      acpi_video_get_backlight_types()
->>>    platform/x86: panasonic-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: samsung-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: sony-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: thinkpad_acpi: Use acpi_video_get_backlight_types()
->>>    platform/x86: toshiba_acpi: Use acpi_video_get_backlight_types()
->>>    platform/x86: dell-laptop: Use acpi_video_get_backlight_types()
->>>    platform/x86: intel_oaktrail: Use acpi_video_get_backlight_types()
->>>    ACPI: video: Remove acpi_video_get_backlight_type()
->>>    ACPI: video: Fallback to native backlight
->>>
->>>   Documentation/gpu/todo.rst                    |  8 +--
->>>   drivers/acpi/acpi_video.c                     |  2 +-
->>>   drivers/acpi/video_detect.c                   | 54 ++++++++++---------
->>>   drivers/gpu/drm/i915/display/intel_opregion.c |  3 +-
->>>   drivers/platform/loongarch/loongson-laptop.c  |  4 +-
->>>   drivers/platform/x86/acer-wmi.c               |  2 +-
->>>   drivers/platform/x86/asus-laptop.c            |  2 +-
->>>   drivers/platform/x86/asus-wmi.c               |  4 +-
->>>   drivers/platform/x86/compal-laptop.c          |  2 +-
->>>   drivers/platform/x86/dell/dell-laptop.c       |  2 +-
->>>   drivers/platform/x86/eeepc-laptop.c           |  2 +-
->>>   drivers/platform/x86/fujitsu-laptop.c         |  4 +-
->>>   drivers/platform/x86/ideapad-laptop.c         |  2 +-
->>>   drivers/platform/x86/intel/oaktrail.c         |  2 +-
->>>   drivers/platform/x86/msi-laptop.c             |  2 +-
->>>   drivers/platform/x86/msi-wmi.c                |  2 +-
->>>   .../platform/x86/nvidia-wmi-ec-backlight.c    |  2 +-
->>>   drivers/platform/x86/panasonic-laptop.c       |  2 +-
->>>   drivers/platform/x86/samsung-laptop.c         |  2 +-
->>>   drivers/platform/x86/sony-laptop.c            |  2 +-
->>>   drivers/platform/x86/thinkpad_acpi.c          |  4 +-
->>>   drivers/platform/x86/toshiba_acpi.c           |  2 +-
->>>   drivers/video/backlight/backlight.c           | 18 +++++++
->>>   include/acpi/video.h                          | 21 ++++----
->>>   include/linux/backlight.h                     |  1 +
->>>   25 files changed, 85 insertions(+), 66 deletions(-)
->>>
->>
-> 
+diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
+index 1175a47d07f0..b826c34791c0 100644
+--- a/Documentation/translations/index.rst
++++ b/Documentation/translations/index.rst
+@@ -12,6 +12,7 @@ Translations
+    it_IT/index
+    ko_KR/index
+    ja_JP/index
++   sp_SP/index
+ 
+ 
+ .. _translations_disclaimer:
+diff --git a/Documentation/translations/sp_SP/disclaimer-sp.rst b/Documentation/translations/sp_SP/disclaimer-sp.rst
+new file mode 100644
+index 000000000000..a400034e95f9
+--- /dev/null
++++ b/Documentation/translations/sp_SP/disclaimer-sp.rst
+@@ -0,0 +1,6 @@
++:orphan:
++
++.. warning::
++   Si tiene alguna duda sobre la exactitud del contenido de esta
++   traducción, la única referencia válida es la documentación oficial en
++   inglés.
+diff --git a/Documentation/translations/sp_SP/index.rst b/Documentation/translations/sp_SP/index.rst
+new file mode 100644
+index 000000000000..816d45e081e9
+--- /dev/null
++++ b/Documentation/translations/sp_SP/index.rst
+@@ -0,0 +1,72 @@
++.. _sp_linux_doc:
++
++=====================
++Traducción al español
++=====================
++
++.. raw:: latex
++
++	\kerneldocCJKoff
++
++:maintainer: Carlos Bilbao <carlos.bilbao@amd.com>
++
++.. _sp_disclaimer:
++
++Advertencia
++===========
++
++El objetivo de esta traducción es facilitar la lectura y comprensión para
++aquellos que no entiendan inglés o duden de sus interpretaciones, o
++simplemente para aquellos que prefieran leer en el idioma español. Sin
++embargo, tenga en cuenta que la *única* documentación oficial es la que
++está en inglés: :ref:`linux_doc`
++
++La propagación simultánea de la traducción de una modificación en
++:ref:`linux_doc` es altamente improbable. Los maintainers y colaboradores
++de la traducción intentan mantener sus traducciones al día, en tanto les
++es posible. Por tanto, no existe ninguna garantía de que una traducción
++esté actualizada con las últimas modificaciones. Si lo que lee en una
++traducción no se corresponde con lo que ve en el código fuente, informe
++al maintainer de la traducción y, si puede, consulte la documentación en
++inglés.
++
++Una traducción no es una * bifurcación * de la documentación oficial, por
++lo que los usuarios no encontrarán aquí ninguna información que no sea la
++versión oficial. Cualquier adición, supresión o modificación de los
++contenidos deberá ser realizada anteriormente en los documentos en inglés.
++Posteriormente, y cuando sea posible, dicho cambio debería aplicarse
++también a las traducciones. Los maintainers de las traducciones aceptan
++contribuciones que son puramente de interés relativo a la traducción (por
++ejemplo, nuevas traducciones, actualizaciones, correcciones, etc.).
++
++Las traducciones tratan de ser lo más precisas posible pero no es posible
++convertir directamente un idioma a otro. Cada idioma tiene su propia
++gramática, y una cultura tras ella, por lo tanto, la traducción de una
++oración al inglés se podría modificar para adaptarla al español. Por esta
++razón, cuando lea esta traducción, puede encontrar algunas diferencias en
++la forma, pero todavía transmiten el mensaje original. A pesar de la gran
++difusión del inglés en el idioma hablado, cuando sea posible, expresiones
++en inglés serán reemplazadas por las palabras correspondientes en español.
++
++Si necesita ayuda para comunicarse con la comunidad de Linux pero no se
++siente cómodo escribiendo en inglés, puede pedir ayuda al maintainer para
++obtener una traducción.
++
++Muchos países hablan español, cada uno con su propia cultura, expresiones,
++y diferencias gramaticales en ocasiones significativas. Las traducciones de
++los maintainers pueden utilizar el español con el que dichos maintainers se
++sientan más cómodos. En principio, estas pequeñas diferencias no deberían
++suponer una gran barrera para hablantes de distintas versiones del español,
++pero en caso de duda se puede consultar a los maintainers.
++
++La documentación del kernel Linux
++=================================
++
++Este es el nivel superior de la documentación del kernel en idioma español.
++La traducción es incompleta, y podría encontrar advertencias que indiquen
++la falta de una traducción o de un grupo de traducciones.
++
++En términos más generales, la documentación, como el kernel mismo, están en
++constante desarrollo. Las mejoras en la documentación siempre son
++bienvenidas; de modo que, si desea ayudar, únase a la lista de correo
++linux-doc en vger.kernel.org.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 944dc265b64d..b3133f013efb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19150,6 +19150,11 @@ W:	https://linuxtv.org
+ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
+ F:	drivers/media/dvb-frontends/sp2*
+ 
++SPANISH DOCUMENTATION
++M:	Carlos Bilbao <carlos.bilbao@amd.com>
++S:	Maintained
++F:	Documentation/translations/sp_SP/
++
+ SPARC + UltraSPARC (sparc/sparc64)
+ M:	"David S. Miller" <davem@davemloft.net>
+ L:	sparclinux@vger.kernel.org
+-- 
+2.34.1
 
