@@ -2,45 +2,45 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE97C38A2D
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 00:49:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F048C67871
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 00:51:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbiJYAtd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 20:49:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39134 "EHLO
+        id S230271AbiJYAvj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 20:51:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230292AbiJYAsy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 20:48:54 -0400
-Received: from GBR01-LO2-obe.outbound.protection.outlook.com (mail-lo2gbr01on2139.outbound.protection.outlook.com [40.107.10.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2810D6B82;
-        Mon, 24 Oct 2022 16:25:17 -0700 (PDT)
+        with ESMTP id S231228AbiJYAv2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 20:51:28 -0400
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01on2117.outbound.protection.outlook.com [40.107.11.117])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A7991C19DE;
+        Mon, 24 Oct 2022 16:31:26 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KE9yPLhUcE7KijGYqA52HffhJkwv2YF/N57WeoXhY29mTmUDwDNthqB3f2el93eyznmVVNMYPXe8E8eq38vpfQ8Ib/+fMjGOfPbGlJc7QY6PvAGFJiscFdkxs+pw6AjDNDn4rjLQWBiKRUYEJSlzk39aKtcwapVZTC1XFEHeZXVvM2IozPo8BkBLzaP2MnvybNKBEk+XQHItBVxEmmm0FXbAexSlqbTiTV2YuTXRhdHFgJoGAWU9sB9kfd3Rq0QC2igs3z3zk46yvf111a10+Ai70esZLvV6CyuCo7uwzHnC6Gkq8m6T+jI/5jLnrNlC5iUOxbuwPIP3RK47To5PEQ==
+ b=MSTMwFzquBCt7Ux/0s0pv0u/0GvKq3MDS/ivHes6K0cyAnpGB/AjDrKSHtd2TJpZNRhu99nCsO83gnTggp3/kH49nlZ/rGGOAsYVxf9GoZWQ3mKxgEWHX/oUbW5aCV8h2ILzCkrQwc1230d09awGVavQVcSbrq4OjMWh8C7dLOj5GgCWQU5vaaCgvh/nR9v5a3il4TpAY09qJHKQ7S2HYCS447aO/nPbRlWBl6BZRvxKwxTwnby9P7dxhQ6CWtketqhRRYzPVrZrKb7s7+lWj886J1+Nw5CrJpDSaVMteSV7wC08QJ+v13a9t55OhIpRnkvvF0BbMrFx3vwQ+Kk7mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+Gvu34jrmS8dFzCWkRyo8iBrk0vs/zcGtn6g3gXKt5Y=;
- b=QFr0mDNsY73mLQRI7UV2KTgb8BAKRtKDxFhodWP9Nz3gTo9lLvag48MRY5jEocEKBb6r+sBhZ6BwblNS0U+J8ATzhhWfjBr1giOb1xyfIUQ0k7tTt5eZ2YZBVjifMzOxZ5T2pwWTPfrrgeMC9ENXJo+m7ogYZ5DNYDSG16SbMb+EswG81UTHUvky9iqgcpxghV6iyfhPpAfMK0+yu/C4PV00RseoiouIx0C/9/1ccj75lYmK3czZvx5STvZ8pupZGxrQFvyOvRPqfq4PW8rAxrNmVvRKrM2reRhb7/1MqGsV5iMCqVraB+EQ9sYCmRXuqSuZ7Hp93rjhRYNJpaaOEQ==
+ bh=w8vWng6n1DStMz7i3hXdK4jmQQWwd6o5hsP3FsLq7o8=;
+ b=FIn4SM6oJPckTGGCQ3r6T5hEja4856HVxFqjwZ4aek9RqP/7f7xN9QgzyfqEfpBoolkmsjJxhG2v+u03vgjj7qGa26WfPdLVGr7Ja9TQZyYz7H9ZBVPqGRZPwmNJAHglYFm/b1tQgOmuJdfl2kGA4xlZmBOMcLsAMbCCO34vdu9v+XyxfGpy6cT9gwDzpWm9/Iegsx0ijGaoZd7dR3WTLPIRCU3efovuwHuMnZkN3gprgsqPfuMCXJVVFgz2kBlLnksRSPalhVscJrftV0bmOffx3Q0IAfAnlNWHUfwM91yIaI8yBLq3HBSiHmcnfAFj00q/zBucdshh5D73VjtKMw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+Gvu34jrmS8dFzCWkRyo8iBrk0vs/zcGtn6g3gXKt5Y=;
- b=Sc2/NDHAIUQ9K3Ie9NXGsj9zGiva8nhzhMn/0NF3gEfRZ3dsko3pJyvkhlP8uRGyraTXupNENce8GAgzDoD6dSPVWGhDyFCNTsz9d0nAaVB6hjd5aVcA4BcIExFjsKxOavKQg1uvMxB2AK789Dkdgg+tBvgwK7zlBeSubxduuKY=
+ bh=w8vWng6n1DStMz7i3hXdK4jmQQWwd6o5hsP3FsLq7o8=;
+ b=EGBp9JLHuTwXiImwZ4yrjMVv/3NaMuxbHSbbfOtktYnAki9JWkO0BsB9KmDcSBg0bDdQX5jC3p2m1Z1dYJXB4HyuKKABZt0xhx9dTBIvamZan727Zn7QuyA7dBUMbox2kXBm5bYtfxFuHjp/w0QD6wRu3seDSs95Q4ObxK8uJvw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
- by CWXP265MB2071.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:86::11) with
+ by LNXP265MB2539.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:126::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.26; Mon, 24 Oct
- 2022 23:25:15 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Mon, 24 Oct
+ 2022 23:31:24 +0000
 Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  ([fe80::cf2b:281:50ee:3304]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  ([fe80::cf2b:281:50ee:3304%6]) with mapi id 15.20.5746.026; Mon, 24 Oct 2022
- 23:25:15 +0000
-Date:   Tue, 25 Oct 2022 00:25:13 +0100
+ 23:31:24 +0000
+Date:   Tue, 25 Oct 2022 00:31:21 +0100
 From:   Gary Guo <gary@garyguo.net>
 To:     Yanteng Si <siyanteng@loongson.cn>
 Cc:     alexs@kernel.org, seakeel@gmail.com, corbet@lwn.net,
@@ -49,132 +49,81 @@ Cc:     alexs@kernel.org, seakeel@gmail.com, corbet@lwn.net,
         bobwxc@email.cn, wu.xiangcheng@linux.dev, chenhuacai@kernel.org,
         jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
         siyanteng01@gmail.com
-Subject: Re: [PATCH v2 2/5] docs/zh_CN: Add rust/quick-start Chinese
+Subject: Re: [PATCH v2 4/5] docs/zh_CN: Add rust/coding-guidelines Chinese
  translation
-Message-ID: <20221025002513.49f1eb2d@GaryWorkstation>
-In-Reply-To: <82a36881a46eb8afcc754f81f196982ac3f6c735.1666097959.git.siyanteng@loongson.cn>
+Message-ID: <20221025003121.527b872c@GaryWorkstation>
+In-Reply-To: <c2795f10c65b4ff11c028a1f1f3cc9e2a55e520e.1666097959.git.siyanteng@loongson.cn>
 References: <cover.1666097959.git.siyanteng@loongson.cn>
-        <82a36881a46eb8afcc754f81f196982ac3f6c735.1666097959.git.siyanteng@loongson.cn>
+        <c2795f10c65b4ff11c028a1f1f3cc9e2a55e520e.1666097959.git.siyanteng@loongson.cn>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO2P265CA0117.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:c::33) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO6P265CA0030.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ff::20) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:600:253::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|CWXP265MB2071:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6954016c-9caa-45eb-3332-08dab61701b9
+X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|LNXP265MB2539:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5ee7341b-4e0f-418b-1b7e-08dab617dd50
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Cuc4/Vg1yZIblUovFDqoAuTA4UePX7Fvne4TshfNEZlgOIEzoRs6QFzrI4tvRDp1e1yBFCRddmsY7TQNPDKu7t6hNyVxSdd2EeZnAVQc8O+3EBwWrTF3K5wqlbFD1mMvyRSTi5ForY80iHxoQYiULBxBIJAiI8BmivnaHX0G6VjYxI4gktIvjyL9m4uNmWU3OFgKd2xQTa0HdX4y7NJlhiuMT+uA5g8VrfIdPO5UkHfnEtNzOtySnyh8alH7TgxQ747z/+D+3mwUfi+CtOF23qLVep60OCXHRsd0pkPLEAKO8UvpT1glB9ovy2dx5UL9F1yVV+b2wB4isfRAzUVWuInMS0cULNGRjIYIU+o2xIUb/LmeBncRzNGmKQsyJOhbPteanTt8i0cjRVii43J+Kr50iJDjVSp4pGew2G0OIFiWu823rkNOIyvYkiF5fA8dXd5y19+YMEZDDcHWO/GglyVS7NRsOddQM5meilJq1O5PdQI1g1h1w2rcjVIJYjajCJ1Q2CAQBzI7Iy6Lf3j1jFxvNtdXgNuwXSC8pbuOg9q8WEZpWiBbIcJ2xlz1rvwscSL6O+PErO2G1azopLElpYM5294GvPysurYLDqVHn7oQZzyzBiTSBccU20FXTbBgM3WTXIJD+3IoLx+BhPSxd3uks4XkfcHNYGUrhBIpWj+8AnBxOH6akMSqlrz50cqAsoPVGUAfoIA92upOykZn0Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(7916004)(376002)(39830400003)(366004)(136003)(396003)(346002)(451199015)(86362001)(38100700002)(66476007)(8936002)(5660300002)(4744005)(66946007)(66556008)(7416002)(8676002)(41300700001)(4326008)(2906002)(33716001)(6506007)(1076003)(6512007)(9686003)(6916009)(6486002)(316002)(478600001)(186003);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: wuZe2iYvcI4OTYlsbteIl4KIYmQUxTOe7fZVyPbLADvL1exzYjzClOmesPbXImqaDwiJuXmQKbmMbXHdW2fPNuf/6LeuKM0AvJ84bw6rlSKkc+sMPsaAwZ9ASpZ3PUD1gcv5W6OCmNgDY+Y8NzU31v9LAxoBE2hKn2UyIe8Hyq9uZqLEVFcujmJrhJ4jmlU8+XX1+tePpZGfnSMai0kbf9xawdM15jrTWMuA2dYeXnn7FwGQeVBbCAFVjqTkVHuAWUg7/My8/n/l2Dj4d7SsJ1wXOihyGQ+OqScnq+LbIJaIkDJALN1urFth/jN/p2PL1s8LO1agO5TesDNnrBCF6RhWWmB3ykmHNqw9O6U0mvjw0f8iX2/A2GRdn1cpdMkO5oK+lxAGeaJtE36qyDPpnx8uCxPodzoxGuZNRm5lWNXCrhuu34I/XoDs3GlrhNNbE2nv9X+877qG66UpRU0FcO9afwwTQrDabUKsWGcCenCleD6MRnip8otGwZZ/ucYcVn28Kyh5ugYjXmpb3R2TCbkFk8CkbOke6MLmf4XcWDGrSZDIt77WCqlkNmvszQgKczsEJQ2l1SET9iExnvlseX6NPQcJouMEALjXNS24JvhA4jL60l9jhql5FT6znBW0zG448DNyUsSF2XyQdjyGtQ7/PpzgbY3ZaWS8ELFCEIsuMl5ppTnatHj7LOiXLxH2
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(7916004)(346002)(39830400003)(136003)(376002)(396003)(366004)(451199015)(4326008)(6506007)(66556008)(6666004)(8676002)(66476007)(66946007)(316002)(6916009)(86362001)(7416002)(4744005)(2906002)(41300700001)(1076003)(5660300002)(9686003)(186003)(83380400001)(6512007)(8936002)(6486002)(478600001)(33716001)(38100700002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MURrRmhFWnEyM2U2VjVBVjlpTCtSWm9KdnE5S3p4VHhyV3hQdlovWTBuSWNZ?=
- =?utf-8?B?aXV2WUFDWkJsdjM3aEM0WjV2SGZVdFFLWkVrSmdmaVpQM2J6TlpPREdYSXQw?=
- =?utf-8?B?Vk4rTXVOT1NEeUUrTWZUUEQ0UUt0SVV4amhIWHl6eGYyUXBxVVhGcm5INi9t?=
- =?utf-8?B?T1g2UGovSjV5Y01uSGk2b1J6cHN6aWJpUERwYTBEa24yWWdvUkR3TjhObzNQ?=
- =?utf-8?B?cmRrckVwQW80d01laWZSdG9FMEMzdWdaQUdwYnlCbnVwSENHOWRGb3RraWpM?=
- =?utf-8?B?U2JVcXpNbG0zd3JQSTNqb2VNeDhIQWtBRm53bHJLOHdiUnF3c1c0VFE5a3di?=
- =?utf-8?B?WklnNjZxN3lJS3pIYlBXM2hWVU1RVURHRmFwaitNVVFTRmo1b0hWMkk2QTN2?=
- =?utf-8?B?YzloRGpBK1BONTJRMUVwOGxETkRUMnNFMGhPdnc0UG5mN25xa0x0Y01rVTFh?=
- =?utf-8?B?VHNLUy9aUVhNeGVHWUtmVVp2TlBqM1l1SlBXNVV6QVQ1bVdhTy94bUZ0a1RH?=
- =?utf-8?B?NVJIYVdMaWF3UFFCRW85Uzhmay9HQlprN2ttTjUwaWUvbmpjUExyT2hMNG92?=
- =?utf-8?B?YWJmTm5WS3ZGRk0vRlRUQkdidmpENTdWRkUyUU94ejkyV2lNWUhCcGZhL28y?=
- =?utf-8?B?VWhRdFg3c3JqeFlFQ3pGUWh6VDJIeVdRVjNJeGkxU0FLY3lTSVA5TXlNSVBL?=
- =?utf-8?B?NEwzbEsxRjBuSG11SmYwMlNxMndoRzR1UnBtTU5BUEM5YWNVT2E0c2tXSTRj?=
- =?utf-8?B?cWsrUFNxcmFGd3pNYjJDU2oyMmNLSHc2Vk5yclB6alUxMEw4TjFyNit6TGwz?=
- =?utf-8?B?RWQyV0llQmgyeHFIUzk2bDdwN205bi81aXpjb0Q1dHU5aDJKUDFPMWdqMzlr?=
- =?utf-8?B?MjZ1WGNYUEhMeStTeHVsNlBta1pRaVh2cFh4Q3JVV1NPTXBYaW9jUGxSeXRD?=
- =?utf-8?B?SHhoTEc0cXdvSXpXN0ozaVdjMUpFVUpUY3pJTkFpK3J2TGFST2lVTS8yVjcv?=
- =?utf-8?B?Q3JOWkNncE14azQrMFp4cW5UWGU5eE1ka1ZaSnFueTQ2RHJSWlQ3TmNSRTZL?=
- =?utf-8?B?NnZJci82SERUdjY4VjVMVFpyQnFmSlRyS00xMWpRNWlWelA2ekx4L0RiTDRn?=
- =?utf-8?B?QWhsaHpaMFUrWWkvd2w0amVNQ1lEd2tZWUZ3U29IY3FUaEQyaHlpZkhQQWpZ?=
- =?utf-8?B?em94WjNuUUpqWi9RMVhGVnJLM05sRFpkT2QydGRueVo5Zkd5aWhIM04rTG84?=
- =?utf-8?B?S1MySkY0TE1adENmdlFSRWNtQ2hycGFJcm5CR2VJd29sQlc0NjNrWWFpQnZM?=
- =?utf-8?B?cmJpQWQzLy9QamQ0eWFvaytTT21aK1ZCYUY1dklVRERqWlo4YmVZbThuSXcr?=
- =?utf-8?B?OUZCNjRsQUpNZG1nNENuaFk2cTZFU3Y4dDRNanNXSjk0M0tGMGpPZTZWcHR4?=
- =?utf-8?B?MVBtb1J6cTNyc0pKYkQ1UWhoOE8raWN1ZHRJRDltSnE3MjY0d2ZtamxrcndG?=
- =?utf-8?B?OUJrdzJiRWx4d1NLMGx6NU94cUhoL2RxNmlQaWw1SnI2dWdWTGFzbWVienVF?=
- =?utf-8?B?QldSUDZJTnFuejBRWlZ1Q3dmRzRlTWN4SjQxdzlXSll6aW55bFJoWUlqbi9T?=
- =?utf-8?B?ZytxaDU0N1FBaWM1K0ZMQ3ltYWtZNGtwK2ZZbVlndVZDaTluM2s5UUNwVXFC?=
- =?utf-8?B?Y3R0MFJIWFo1a3c4UUh4WE9ybEtnNTl5dzBtWE9sWW52MSszMmVOaUxROUFa?=
- =?utf-8?B?bm9zSVFSVUR5SjlxWkFPNXk3RjhLVkE1M1dkT2oxdWN4c3Y0ODh6aVhqRmxX?=
- =?utf-8?B?N3BDSmxoNzcyUG5hTG1MSnJSeTBSL0E0WXlJQkpBYXRGdTA2WkJaN2pHTXNL?=
- =?utf-8?B?amxSNE54ZGRlRmZlNDQ3Zm0vM0ZwVGlyRG4xUDR2TWFmZ3Jkb2lZZFoxYU9U?=
- =?utf-8?B?dEdCZ29pbXVGSkx2WE5tc2sxeXk4ekh4NTJveWh6RUh1RThGYlozSGl6YkFC?=
- =?utf-8?B?VDhqdjJGNnZ1OEVtdTFzY2NBOGZFM0tES1RMNE0xOS9nem9QYWJYOVhMaFdU?=
- =?utf-8?B?ZW94RktjZ2lWY3dzd1NiZmZDSHUrdXVyM1ROTTlkb2VZT25xV3F2WDFOTjFI?=
- =?utf-8?B?b1FaL09sbGk2a3l5cGFYOEtMQ1lubVR1NzlDQ2MwSmVmZkJJbjNKRVk3MHlm?=
- =?utf-8?Q?xpfYDqm171ltuJjpP/8OseJzFKUewyUt27ql4ptzDZQc?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TOiGUT7W4XZtibvpKSZqKFniohTZblYOzXL0DAID5bcLNokq+p9GobLwGjxs?=
+ =?us-ascii?Q?NdHoQz2kturSOCcqLOxQOAvwMusOMMU6mkTUFHdFLveEdzerlW6gMCTrBsZk?=
+ =?us-ascii?Q?18kLIm5pkM+kkUC73ocUP1S+dyB8spIjd/EL4VlPGl1FqRVLCWukUG7ZsOLI?=
+ =?us-ascii?Q?tWdifDIY2AmcjuDHyBQmRBERKXiYlVhOBY6Hx13QNaXiGjRkZ35R3SDIp926?=
+ =?us-ascii?Q?K6SJHR1YaZ0SZZXcVxIY3Sfd+V6YRBOmyJyrJM4OW/19s+Wp6rtRo5DDIKCt?=
+ =?us-ascii?Q?IQqeogldOg63g4caU54UJUJxQHObXLzA//pUb3+RuN0PdRYBb7vqmL1oG1xq?=
+ =?us-ascii?Q?BxJV07S6fQYBBldHH2jc9tQqohzGShs7AS/wwE0ppUynfPbZ9Puhoc2RP7zK?=
+ =?us-ascii?Q?i+hheo27Q3xcuq72CymeyzMBfGY5AyRlc44Quvlusz/ywWEydrAj3sH3BrK9?=
+ =?us-ascii?Q?edN5/OQlwdSoMaj7U6Z39iyTTFdngzFG86qKZl9CGeY8QRw4DuNMabTtWNiv?=
+ =?us-ascii?Q?Mno6X2fC84WHZQHbp4O99tYVFIknUmOFixXWGe3cz3o29vu2eIylkecrpKHH?=
+ =?us-ascii?Q?lGj7d2ZOr4jZxUlvrLYMxBDw9Cv6efn3PRncIQurLD6EGTZsTwojiWwTjoeG?=
+ =?us-ascii?Q?wSbhVUCU/JYSyl5XbVmdnGiJAcve6vnNzxNhwCyFENnIwHhAUGfMaXmThYAX?=
+ =?us-ascii?Q?G7isetaoSA6INd4+8t/zeHjZGtBhcWIktifHoUpHY4gtpj4hWdo3hG/9L80a?=
+ =?us-ascii?Q?hRtx9VlTRaOZp5P4FRE6YCbqbBJt5MbwWS0q7j/tF241JBAMUthEDcreKRKF?=
+ =?us-ascii?Q?DEQV09SNN0h3wkm5+sJhVddCctnDmpP/7wgCcVBN6dPk4G7wRXnNR4H7GTTJ?=
+ =?us-ascii?Q?4SzOO8O86zIe0W01Xrrim5BOcS9+PHUTRgyBv4CsuDjfH2GsC15X/JRgkOSn?=
+ =?us-ascii?Q?7UBavpAq7F2XDh8ILxX4VUbHU2kfbuVoJMXo82tWqADkTPkdbQvPSiAtUgxO?=
+ =?us-ascii?Q?6yHVOenCkP0ml6Mw317jrcY7Uuqd52T+bwMRL7BxDib5sipouRkvjIA4YDnR?=
+ =?us-ascii?Q?1YPMUp40yFweGO8SDxxyIcDhq7g12e+MlbigkqILn18FP9IDEXczkW56qJoH?=
+ =?us-ascii?Q?MqIxQA3a6tm+eTxKXtsZ8riWVKSf42Gfe2mwnI17Te83A0mSwbzQujRpTP96?=
+ =?us-ascii?Q?/mrws6oncSFvAni9oem2NIMIHFGZmlt4m1DbagQ+FNJx0zjZ3u2q7kZfPfLn?=
+ =?us-ascii?Q?FsRRY4WT9wZ9HqTBOwsCtKdDnGvDaAfJ9THbv21cWCI5T+yfuz3fTkequ4R/?=
+ =?us-ascii?Q?XFhgA9+oqUrNQDkPUycMDJLtcgMAf3cdpQd11URKmccZq0FcfDhJKHWoGRdN?=
+ =?us-ascii?Q?BcPaQKatIYeSscvuPt9GvASGwC4JznktfFWmZ2D+HeI8+CL+oDu02ZVLcU39?=
+ =?us-ascii?Q?bRNgGKjRLvrfuwFtM2BGqfh/iBFltPNkj15zF00quC3q1W5ZHCQHtcA2vb6M?=
+ =?us-ascii?Q?XMHatX2K1Rb/f15u4BDEqooUDiAMG2T6Rl3ZaAqXU2n1bg23+iT8/6E8zKR4?=
+ =?us-ascii?Q?U8yQlugZ+cUZGxKIURUCUGLZKxffe+ox+FFas8AEF1sO/Z6nGq2/Cb5idMmd?=
+ =?us-ascii?Q?QlRmXKnddl8Q4xO4y9MjHXmMbb7Nk4163FYm9nLlQKxA?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6954016c-9caa-45eb-3332-08dab61701b9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ee7341b-4e0f-418b-1b7e-08dab617dd50
 X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 23:25:15.6545
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 23:31:24.0801
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7FLbeigzXz4sxQ/LOgpwmG06LCTEZ0+U6GjNdp/k016ogqYvdZiMveXdM4YwM4N8ankklxRKO5aeUYUNrtFFJg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB2071
+X-MS-Exchange-CrossTenant-UserPrincipalName: HjgPa1PKFEr3ZrguDmdVgGvLs4fB6zomJnlUOsxXG4mn4/Xx59mOKr6da+pxyrLDGAKiM427KieDQEczZowzhw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LNXP265MB2539
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Oct 2022 21:04:22 +0800
+On Tue, 18 Oct 2022 21:07:00 +0800
 Yanteng Si <siyanteng@loongson.cn> wrote:
 
-> +=E8=BF=99=E4=BC=9A=E8=A7=A6=E5=8F=91=E4=B8=8EKconfig=E7=94=A8=E6=9D=A5=
-=E7=A1=AE=E5=AE=9A=E6=98=AF=E5=90=A6=E5=BA=94=E8=AF=A5=E5=90=AF=E7=94=A8 ``=
-RUST_IS_AVAILABLE`` =E7=9B=B8=E5=90=8C=E7=9A=84=E9=80=BB=E8=BE=91=EF=BC=9B=
-=E4=B8=8D=E8=BF=87=E5=AE=83=E4=B9=9F
-> +=E4=BC=9A=E5=88=97=E5=87=BA=E6=9C=AA=E6=BB=A1=E8=B6=B3=E7=9A=84=E6=9D=A1=
-=E4=BB=B6=E3=80=82
+> Translate .../rust/coding-guidelines.rst into Chinese.
+> 
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 
-Would "=E4=B8=8D=E8=BF=87=EF=BC=8C=E5=A6=82=E6=9E=9CKconfig=E8=AE=A4=E4=B8=
-=BA=E4=B8=8D=E8=AF=A5=E5=90=AF=E7=94=A8=EF=BC=8C=E5=AE=83=E4=BC=9A=E5=88=97=
-=E5=87=BA=E6=9C=AA=E6=BB=A1=E8=B6=B3=E7=9A=84=E6=9D=A1=E4=BB=B6=E3=80=82" b=
-e better?
+Reviewed-by: Gary Guo <gary@garyguo.net>
 
-> +=E6=8A=98=E8=85=BE
-> +----
-> +
-> +=E8=A6=81=E6=83=B3=E6=B7=B1=E5=85=A5=E4=BA=86=E8=A7=A3=EF=BC=8C=E8=AF=B7=
-=E7=9C=8B ``samples/rust/`` =E4=B8=8B=E7=9A=84=E6=A0=B7=E4=BE=8B=E6=BA=90=
-=E4=BB=A3=E7=A0=81=E3=80=81 ``rust/`` =E4=B8=8B=E7=9A=84Rust=E6=94=AF=E6=8C=
-=81=E4=BB=A3=E7=A0=81=E5=92=8C
-> +``Kernel hacking`` =E4=B8=8B=E7=9A=84 ``Rust hacking`` =E8=8F=9C=E5=8D=
-=95=E3=80=82
-> +
-> +=E5=A6=82=E6=9E=9C=E4=BD=BF=E7=94=A8=E7=9A=84=E6=98=AFGDB/Binutils=EF=BC=
-=8C=E8=80=8CRust=E7=AC=A6=E5=8F=B7=E6=B2=A1=E6=9C=89=E8=A2=AB=E6=8B=86=E5=
-=88=86=EF=BC=8C=E5=8E=9F=E5=9B=A0=E6=98=AF=E5=B7=A5=E5=85=B7=E9=93=BE=E8=BF=
-=98=E4=B8=8D=E6=94=AF=E6=8C=81Rust=E7=9A=84=E6=96=B0v0=E6=8B=86=E5=88=86=E6=
-=96=B9=E6=A1=88=E3=80=82
-> +=E6=9C=89=E5=87=A0=E4=B8=AA=E5=8A=9E=E6=B3=95=E5=8F=AF=E4=BB=A5=E8=A7=A3=
-=E5=86=B3=EF=BC=9A
-
-I am not sure how to translate mangle/demangling in Chinese, but "=E6=8B=86=
-=E5=88=86"
-definitely sounds awkward.=20
-
-> +
-> +  - =E5=AE=89=E8=A3=85=E4=B8=80=E4=B8=AA=E8=BE=83=E6=96=B0=E7=9A=84=E7=
-=89=88=E6=9C=AC=EF=BC=88GDB >=3D 10.2, Binutils >=3D 2.36=EF=BC=89=E3=80=82
-> +
-> +  - =E4=B8=80=E4=BA=9B=E7=89=88=E6=9C=AC=E7=9A=84GDB=EF=BC=88=E4=BE=8B=
-=E5=A6=82vanilla GDB 10.1=EF=BC=89=E8=83=BD=E5=A4=9F=E4=BD=BF=E7=94=A8=E5=
-=B5=8C=E5=85=A5=E5=9C=A8=E8=B0=83=E8=AF=95=E4=BF=A1=E6=81=AF(``CONFIG_DEBUG=
-_INFO``)
-> +    =E4=B8=AD=E7=9A=84=E9=A2=84=E5=85=88=E8=BF=98=E5=8E=9F=E5=87=BD=E6=
-=95=B0=E7=9A=84=E5=90=8D=E5=AD=97=E3=80=82
-
-Demangle has been translated to "=E8=BF=98=E5=8E=9F" here while it's "=E6=
-=8B=86=E5=88=86" above,
-which is inconsistent.
-
-Best,
-Gary
-
+> ---
+>  .../zh_CN/rust/coding-guidelines.rst          | 192 ++++++++++++++++++
+>  .../translations/zh_CN/rust/index.rst         |   2 +-
+>  2 files changed, 193 insertions(+), 1 deletion(-)
