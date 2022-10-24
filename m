@@ -2,110 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01631FA373D
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 04:54:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 013DBC38A2D
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 07:33:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230133AbiJXEyL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 00:54:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58536 "EHLO
+        id S229727AbiJXHdP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 03:33:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230107AbiJXEyG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 00:54:06 -0400
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B2537A529;
-        Sun, 23 Oct 2022 21:54:04 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: marcan@marcan.st)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id 458AD42137;
-        Mon, 24 Oct 2022 04:53:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-        t=1666587242; bh=hTIfI1TimkoQbe2AR20uYjLSCpdXcrxx7IELqXaCqFI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=G/m7gCvhKw9O2d4cKPN8jwXyzQPu/KeSr3SYbUo6bVg+Oc7LD7hcdnqzKXNwA/cP5
-         Qz9x4YelwUF/VzZFsJ9Qeb3Ui+QDgPj78zpYR4PPUvJP0N//apKkmjK8FJy4HG+Rx+
-         5fUD3ddBvsbrgiyA3hASpBcafQWQa+61My4P3hQP4B7PxvoGvBLwZy5F8Q/0Kfu/CI
-         ISv0P89RnaK6V3BMrUkY9M3Q3tXMdE/lguht1NqUUwjes45NkbdkHkWQWB9pONzRiD
-         QQNHGIzejzGkPHtGlXVySnxh5l9tvR81LcOeD+oniSTfP4YQx6Qfja+mUj9m67HMA/
-         XKNm0Id5540Aw==
-Message-ID: <62ac9899-477e-8181-3b31-4afae9a9c3df@marcan.st>
-Date:   Mon, 24 Oct 2022 13:53:50 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 4/7] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-Content-Language: en-US
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
-        Petr Mladek <pmladek@suse.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
-        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        with ESMTP id S229716AbiJXHdO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 03:33:14 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF980606A9;
+        Mon, 24 Oct 2022 00:33:12 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 1A1AC5C00CC;
+        Mon, 24 Oct 2022 03:33:12 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Mon, 24 Oct 2022 03:33:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1666596792; x=1666683192; bh=MLgwl6qVQ1
+        d5bswGgDHxIEJUCPcVEho8D9vRKEmhmk8=; b=GHgwqBJ1of6xGRv2pG2BGEt8rE
+        CewjyOnqG3XsUJOJdIk9/EbkQKJtPGc71OXxQ4Z85kQPLrrlOL0rB4lnZl8HLVjy
+        sL64F831eIsoYiZOo9PjdNOjd/BjBYFBj0PwZ+n2IZJFws6958OvauvdcTUbj6Xb
+        YAr94iVFFIJYpN29b+cbjGpjOzma0LABf7WPmoe6PS7PhnXuRNopy5RMTG593Hgg
+        gC+TxNaBT5kVJmUi4kU685zxWc3+UhLrKi4h4866RCchEH0Z1ZbwAMPl9AvZHg4T
+        IbIzj1S+xFoxWGl1Qx84pJSZC4X7ZgG1vE97hMqp9xPwuDUPFO/cqI1jZSHA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1666596792; x=1666683192; bh=MLgwl6qVQ1d5bswGgDHxIEJUCPcV
+        Eho8D9vRKEmhmk8=; b=aESBKGu4MQ+NP6k7XUxbGLXgLZBIv/NbQmZz+8PUdEom
+        ILy9GBFMOeowzyFjolQsKijHfCfiVos8c0zu+vkmwlQWvTcDdD6BFEhIp/2U1Yos
+        bIAJH+c5iJIVrIkfMwKXqKyjouaiKQW3I0qJq3FfWw0SpunlPNXb6qvLGyyr9wwE
+        d/kpCfcJNwKUY3aqbNLYQS/8BfdYoC3sUo6yZRhq8GH6pCxa0k5z1eXTIgTBLTwW
+        SIGHrfH57n/mXNmD2rMjKfviyRsXWh9aCSbhFoovg0BxFrWNcctSNq/zlL2dztRW
+        s6jgP5GqVavI7irhlwP5PZ7WRz8bRvFoFhIwhe8xZw==
+X-ME-Sender: <xms:tT9WY9-5vUjqBRClSOb2LUQsndEg3k1PTMeFg3PnUWGVF0QNYslDsA>
+    <xme:tT9WYxuaUHG11IOgzybvIygtbj-_H-OyYMuqbPf8PNfqqDdVaZYgqX00beELv8GSE
+    RP2l_mm6QeihXcqr74>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtfedguddvfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeeivdeutdetiefgffdvteehtdegkeehvdelueetheeggeelkedutdfggeeg
+    vedtheenucffohhmrghinheprhgvrggtthhoshdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:tT9WY7A3ChyT71AUD7f1miMNi0q7evkD_qnhGmqNWFbkDx2ZJHvTkw>
+    <xmx:tT9WYxdChVkxjAnL6_v5P5DCQ1iDQl2cjseazrjj5Lnzv9sJKr5UWQ>
+    <xmx:tT9WYyOSlfIubF34VFwb26LVW9aELgrlq47PkToWPe_Yfc-H7eMvUg>
+    <xmx:uD9WY6OYxMpe-JEqo9gKZJLODnRbZPxnb_f0gNPc3UdsGAUOSlqM1A>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 89108B60086; Mon, 24 Oct 2022 03:33:09 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
+Mime-Version: 1.0
+Message-Id: <ddb4a078-4d81-4124-8da0-6d7fbd3cd5c7@app.fastmail.com>
+In-Reply-To: <CAHk-=wgNZNNd4t004x0ehXm=DA+JmYY=0MgVNDXUtoV4ApyXvQ@mail.gmail.com>
+References: <20220815071332.627393-1-yuzhao@google.com>
+ <20220815071332.627393-9-yuzhao@google.com>
+ <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net>
+ <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com>
+ <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
+ <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net>
+ <CAHk-=whQchubuDpRGFabhmcZuzdt13OOF8wznXb+Dbi3GzBQhQ@mail.gmail.com>
+ <Y1GZjPO+szk7X0wP@hirez.programming.kicks-ass.net>
+ <CAHk-=wikUaRM5H_y1Bc+QyvGi40dKDL8fnCTyz7ECbwK7aHNPQ@mail.gmail.com>
+ <Y1IUMDJFScAMrCS5@casper.infradead.org>
+ <CAHk-=wjrpH1+6cQQjTO6p-96ndBMiOnNH098vhS2jLybxD+7gA@mail.gmail.com>
+ <alpine.DEB.2.21.2210211911390.50489@angie.orcam.me.uk>
+ <CAHk-=wgNZNNd4t004x0ehXm=DA+JmYY=0MgVNDXUtoV4ApyXvQ@mail.gmail.com>
+Date:   Mon, 24 Oct 2022 09:30:09 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Linus Torvalds" <torvalds@linux-foundation.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc:     "Matthew Wilcox" <willy@infradead.org>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        "Yu Zhao" <yuzhao@google.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Andi Kleen" <ak@linux.intel.com>,
+        "Aneesh Kumar" <aneesh.kumar@linux.ibm.com>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
+        "Hillf Danton" <hdanton@sina.com>, "Jens Axboe" <axboe@kernel.dk>,
+        "Johannes Weiner" <hannes@cmpxchg.org>,
+        "Jonathan Corbet" <corbet@lwn.net>, "Mel Gorman" <mgorman@suse.de>,
+        "Michael Larabel" <Michael@michaellarabel.com>,
+        "Michal Hocko" <mhocko@kernel.org>,
+        "Mike Rapoport" <rppt@kernel.org>, "Tejun Heo" <tj@kernel.org>,
+        "Vlastimil Babka" <vbabka@suse.cz>,
+        "Will Deacon" <will@kernel.org>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sven Peter <sven@svenpeter.dev>
-References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
- <E1oVYUS-005CmS-IA@rmk-PC.armlinux.org.uk> <Y0/Kt9CW5vYcxHhK@alley>
- <Y0/kJwpbvbeul8n3@shell.armlinux.org.uk>
-From:   Hector Martin <marcan@marcan.st>
-In-Reply-To: <Y0/kJwpbvbeul8n3@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, "Brian Geffon" <bgeffon@google.com>,
+        "Jan Alexander Steffens" <heftig@archlinux.org>,
+        "Oleksandr Natalenko" <oleksandr@natalenko.name>,
+        "Steven Barrett" <steven@liquorix.net>,
+        "Suleiman Souhlal" <suleiman@google.com>,
+        "Daniel Byrne" <djbyrne@mtu.edu>,
+        "Donald Carr" <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        "Konstantin Kharlamov" <Hi-Angel@yandex.ru>,
+        "Shuang Zhai" <szhai2@cs.rochester.edu>,
+        "Sofia Trinh" <sofia.trinh@edi.works>,
+        "Vaibhav Jain" <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19/10/2022 20.48, Russell King (Oracle) wrote:
-> On Wed, Oct 19, 2022 at 12:00:23PM +0200, Petr Mladek wrote:
->> On Tue 2022-09-06 14:19:44, Russell King wrote:
->>> From: Hector Martin <marcan@marcan.st>
->>>
-> ... 
->>> +Generic FourCC code
->>> +-------------------
->>> +
->>> +::
->>> +	%p4c[hnbl]	gP00 (0x67503030)
->>> +
->>> +Print a generic FourCC code, as both ASCII characters and its numerical
->>> +value as hexadecimal.
->>> +
->>> +The additional ``h``, ``r``, ``b``, and ``l`` specifiers are used to specify
->>> +host, reversed, big or little endian order data respectively. Host endian
->>> +order means the data is interpreted as a 32-bit integer and the most
->>> +significant byte is printed first; that is, the character code as printed
->>> +matches the byte order stored in memory on big-endian systems, and is reversed
->>> +on little-endian systems.
->>> +
->>> +Passed by reference.
->>> +
->>> +Examples for a little-endian machine, given &(u32)0x67503030::
->>> +
->>> +	%p4ch	gP00 (0x67503030)
->>> +	%p4cl	gP00 (0x67503030)
->>> +	%p4cb	00Pg (0x30305067)
->>> +	%p4cr	00Pg (0x30305067)
->>
->> Nit: I would prefer to keep the same order (h,r,b,l) everywhere.
->>
->>      I guess that you wanted to show exactly the same results next
->>      to each other. But it is not the case on big-endian anyway.
-> 
-> This is straight from the Asahi kernel tree, and is unmodified. I'm
-> guessing you're use of "you" here refers to Hector rather than me.
-> 
-> So, Hector, any opinions on Petr's comments please?
+On Sun, Oct 23, 2022, at 20:35, Linus Torvalds wrote:
+>
+> Honestly, I wouldn't mind upgrading the minimum requirements to at
+> least M586TSC - leaving some of those early "fake Pentium" clones
+> behind too. Because 'rdtsc' is probably an even worse issue than
+> CMPXCHG8B.
 
-Fine with me, feel free to make the changes :)
+Kconfig treats X86_CMPXCHG64 as a strict subset of X86_TSC (except
+when enabling X86_PAE, which relies on cx8), so requiring both
+sounds like a good idea.
 
-- Hector
+From the Kconfig history, I see you initially only enabled
+cx8 unconditionally for a couple of CPUs in 982d007a6eec ("x86:
+Optimize cmpxchg64() at build-time some more"), and Matthew
+Whitehead extended that list in f960cfd12650 ("x86/Kconfig:
+Add missing i586-class CPUs to the X86_CMPXCHG64 Kconfig group").
+
+There are still a handful of CPUs that according to [1] 
+claim cx8 support that we leave disabled, specifically the
+Kconfig symbols for MWINCHIP3D, MCRUSOE, MEFFICEON, MCYRIXIII,
+MVIAC3_2 and MVIAC7 should have both tsc and cx8, while the
+older MWINCHIPC6 and a small subset of M586 (Cyrix 6x86mx, C-II
+and AMD K5) apparently have cx8 but not tsc.
+
+Would you drop support for the 686-class chips that currently
+don't use cmpxchg8b, or just remove CONFIG_X86_CMPXCHG64 and
+assume they work after all?
+
+       Arnd
+
+[1] https://reactos.org/wiki/Supported_Hardware/CPU
