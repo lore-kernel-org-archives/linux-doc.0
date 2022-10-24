@@ -2,106 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9801C433FE
-	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 02:36:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01631FA373D
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 04:54:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230025AbiJXCgP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Oct 2022 22:36:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49578 "EHLO
+        id S230133AbiJXEyL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 00:54:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229631AbiJXCgP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Oct 2022 22:36:15 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 57A1D5D713;
-        Sun, 23 Oct 2022 19:36:11 -0700 (PDT)
-Received: from loongson.cn (unknown [112.20.109.239])
-        by gateway (Coremail) with SMTP id _____8CxbbcY+lVj7PIBAA--.2975S3;
-        Mon, 24 Oct 2022 10:36:08 +0800 (CST)
-Received: from [192.168.100.127] (unknown [112.20.109.239])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8CxXuAX+lVjrA4EAA--.15509S3;
-        Mon, 24 Oct 2022 10:36:08 +0800 (CST)
-Message-ID: <c1e392fe-ea42-0677-bff2-4d13f8170933@loongson.cn>
-Date:   Mon, 24 Oct 2022 10:36:07 +0800
+        with ESMTP id S230107AbiJXEyG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 00:54:06 -0400
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B2537A529;
+        Sun, 23 Oct 2022 21:54:04 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: marcan@marcan.st)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id 458AD42137;
+        Mon, 24 Oct 2022 04:53:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+        t=1666587242; bh=hTIfI1TimkoQbe2AR20uYjLSCpdXcrxx7IELqXaCqFI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=G/m7gCvhKw9O2d4cKPN8jwXyzQPu/KeSr3SYbUo6bVg+Oc7LD7hcdnqzKXNwA/cP5
+         Qz9x4YelwUF/VzZFsJ9Qeb3Ui+QDgPj78zpYR4PPUvJP0N//apKkmjK8FJy4HG+Rx+
+         5fUD3ddBvsbrgiyA3hASpBcafQWQa+61My4P3hQP4B7PxvoGvBLwZy5F8Q/0Kfu/CI
+         ISv0P89RnaK6V3BMrUkY9M3Q3tXMdE/lguht1NqUUwjes45NkbdkHkWQWB9pONzRiD
+         QQNHGIzejzGkPHtGlXVySnxh5l9tvR81LcOeD+oniSTfP4YQx6Qfja+mUj9m67HMA/
+         XKNm0Id5540Aw==
+Message-ID: <62ac9899-477e-8181-3b31-4afae9a9c3df@marcan.st>
+Date:   Mon, 24 Oct 2022 13:53:50 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] docs/zh_CN: Update the translation of page_owner
-To:     Yixuan Cao <caoyixuan2019@email.szu.edu.cn>, alexs@kernel.org
-Cc:     corbet@lwn.net, bobwxc@email.cn, rppt@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221022170033.27123-1-caoyixuan2019@email.szu.edu.cn>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 4/7] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
 Content-Language: en-US
-From:   Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <20221022170033.27123-1-caoyixuan2019@email.szu.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxXuAX+lVjrA4EAA--.15509S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7uF1fury7Xr1rJFWfAF1UJrb_yoW8tFWUpF
-        ZIv34xWF1fAr15u34xC39Fyr18CF4fJF48KF4UJ3s7uw1DA395A39rKa409ay7XryvvrZr
-        JF4SyFyvywn2v37anT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bfAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
-        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
-        n4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
-        ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E
-        87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
-        AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km
-        07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
-        1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWU
-        JVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r
-        1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUv
-        cSsGvfC2KfnxnUUI43ZEXa7IU8hiSPUUUUU==
+To:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
+        Petr Mladek <pmladek@suse.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
+        devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sven Peter <sven@svenpeter.dev>
+References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
+ <E1oVYUS-005CmS-IA@rmk-PC.armlinux.org.uk> <Y0/Kt9CW5vYcxHhK@alley>
+ <Y0/kJwpbvbeul8n3@shell.armlinux.org.uk>
+From:   Hector Martin <marcan@marcan.st>
+In-Reply-To: <Y0/kJwpbvbeul8n3@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 19/10/2022 20.48, Russell King (Oracle) wrote:
+> On Wed, Oct 19, 2022 at 12:00:23PM +0200, Petr Mladek wrote:
+>> On Tue 2022-09-06 14:19:44, Russell King wrote:
+>>> From: Hector Martin <marcan@marcan.st>
+>>>
+> ... 
+>>> +Generic FourCC code
+>>> +-------------------
+>>> +
+>>> +::
+>>> +	%p4c[hnbl]	gP00 (0x67503030)
+>>> +
+>>> +Print a generic FourCC code, as both ASCII characters and its numerical
+>>> +value as hexadecimal.
+>>> +
+>>> +The additional ``h``, ``r``, ``b``, and ``l`` specifiers are used to specify
+>>> +host, reversed, big or little endian order data respectively. Host endian
+>>> +order means the data is interpreted as a 32-bit integer and the most
+>>> +significant byte is printed first; that is, the character code as printed
+>>> +matches the byte order stored in memory on big-endian systems, and is reversed
+>>> +on little-endian systems.
+>>> +
+>>> +Passed by reference.
+>>> +
+>>> +Examples for a little-endian machine, given &(u32)0x67503030::
+>>> +
+>>> +	%p4ch	gP00 (0x67503030)
+>>> +	%p4cl	gP00 (0x67503030)
+>>> +	%p4cb	00Pg (0x30305067)
+>>> +	%p4cr	00Pg (0x30305067)
+>>
+>> Nit: I would prefer to keep the same order (h,r,b,l) everywhere.
+>>
+>>      I guess that you wanted to show exactly the same results next
+>>      to each other. But it is not the case on big-endian anyway.
+> 
+> This is straight from the Asahi kernel tree, and is unmodified. I'm
+> guessing you're use of "you" here refers to Hector rather than me.
+> 
+> So, Hector, any opinions on Petr's comments please?
 
-On 10/23/22 01:00, Yixuan Cao wrote:
-> Update to commit 0719fdba5483 ("Documentation/mm/page_owner.rst:
-> delete frequently changing experimental data").
->
-> Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+Fine with me, feel free to make the changes :)
 
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-
-
-Thanks,
-
-Yanteng
-
-> ---
->   .../translations/zh_CN/mm/page_owner.rst        | 17 +++--------------
->   1 file changed, 3 insertions(+), 14 deletions(-)
->
-> diff --git a/Documentation/translations/zh_CN/mm/page_owner.rst b/Documentation/translations/zh_CN/mm/page_owner.rst
-> index 21a6a0837d42..2c4c02aab120 100644
-> --- a/Documentation/translations/zh_CN/mm/page_owner.rst
-> +++ b/Documentation/translations/zh_CN/mm/page_owner.rst
-> @@ -34,20 +34,9 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
->   一样进行。这两个不可能的分支应该不会影响到分配的性能，特别是在静态键跳转标签修补
->   功能可用的情况下。以下是由于这个功能而导致的内核代码大小的变化。
->   
-> -- 没有page owner::
-> -
-> -   text    data     bss     dec     hex filename
-> -   48392   2333     644   51369    c8a9 mm/page_alloc.o
-> -
-> -- 有page owner::
-> -
-> -   text    data     bss     dec     hex filename
-> -   48800   2445     644   51889    cab1 mm/page_alloc.o
-> -   6662     108      29    6799    1a8f mm/page_owner.o
-> -   1025       8       8    1041     411 mm/page_ext.o
-> -
-> -虽然总共增加了8KB的代码，但page_alloc.o增加了520字节，其中不到一半是在hotpath
-> -中。构建带有page owner的内核，并在需要时打开它，将是调试内核内存问题的最佳选择。
-> +尽管启用page owner增加了几千字节的代码，但是这些代码的大部分都不在页分配器和它
-> +的热路径中。构建带有page owner的内核，并在需要时打开它，将是调试内核内存问题的
-> +最佳选择。
->   
->   有一个问题是由实现细节引起的。页所有者将信息存储到struct page扩展的内存中。这
->   个内存的初始化时间比稀疏内存系统中的页面分配器启动的时间要晚一些，所以，在初始化
-
+- Hector
