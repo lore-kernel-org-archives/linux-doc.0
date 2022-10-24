@@ -2,142 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B26D4C3A59D
-	for <linux-doc@archiver.kernel.org>; Sun, 23 Oct 2022 20:03:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9801C433FE
+	for <linux-doc@archiver.kernel.org>; Mon, 24 Oct 2022 02:36:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230416AbiJWUDg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 23 Oct 2022 16:03:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59942 "EHLO
+        id S230025AbiJXCgP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 23 Oct 2022 22:36:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230235AbiJWUDf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Oct 2022 16:03:35 -0400
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27DAF6566D;
-        Sun, 23 Oct 2022 13:03:34 -0700 (PDT)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 29NK3J4k022655;
-        Mon, 24 Oct 2022 05:03:19 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 29NK3J4k022655
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1666555400;
-        bh=M3ZxNAiBcIlFjCWFQwnzBKBdtwWozx3fquXatda9+ts=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=0I0T256zWWV6zA2tgsOvWc6x3ZTfoc8ge+22LIO39gjCgS/km2BA1jIrEhtn+r9GO
-         4UIsFHoVZxN9MqakWGBwi4/fzQo0jv0KHjD62NVW/XEGkWVKyERtJZZgppSN3cOOo9
-         YQA7byhXHWmkTLFDgcesP6xuJWoAdf+96F4nVvHQlwvBh+TulXgOjYa+eWq8vkbapv
-         wdU2blx2tKlpUWnJDLaTyx/+pHvNGX9PkRtMkP7BvYaRJ8REDgJyHE55hy8Mo1iZYf
-         Jl4b9ElC3Qq53iVZDAXnjnjBHNDSGNVojDatXwf3QRn/8DN6KCrcQlXDjWhvz/lbr/
-         0/hqY1a95lJCg==
-X-Nifty-SrcIP: [209.85.167.182]
-Received: by mail-oi1-f182.google.com with SMTP id y67so9026768oiy.1;
-        Sun, 23 Oct 2022 13:03:19 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2Nq7sFo/dXBb7tNAQ+Sh+1PMRhek/XISXMbBMztBfhUvKyY1Gs
-        prc0XRw58ukZH5C0fULUOx7G4XklFJfbskGVXfs=
-X-Google-Smtp-Source: AMsMyM4LQgSLuv2/57yI1HYPJBmkgqay9G85DXbIyd+aQEe7R0SyF7lqhnkbn17ye/olVzl4x7cdZReGeE+6xhU6J6A=
-X-Received: by 2002:aca:bbd4:0:b0:353:f167:6fd3 with SMTP id
- l203-20020acabbd4000000b00353f1676fd3mr15510922oif.287.1666555398536; Sun, 23
- Oct 2022 13:03:18 -0700 (PDT)
+        with ESMTP id S229631AbiJXCgP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Oct 2022 22:36:15 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 57A1D5D713;
+        Sun, 23 Oct 2022 19:36:11 -0700 (PDT)
+Received: from loongson.cn (unknown [112.20.109.239])
+        by gateway (Coremail) with SMTP id _____8CxbbcY+lVj7PIBAA--.2975S3;
+        Mon, 24 Oct 2022 10:36:08 +0800 (CST)
+Received: from [192.168.100.127] (unknown [112.20.109.239])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8CxXuAX+lVjrA4EAA--.15509S3;
+        Mon, 24 Oct 2022 10:36:08 +0800 (CST)
+Message-ID: <c1e392fe-ea42-0677-bff2-4d13f8170933@loongson.cn>
+Date:   Mon, 24 Oct 2022 10:36:07 +0800
 MIME-Version: 1.0
-References: <20221020103823.31001-1-ashimida@linux.alibaba.com>
- <Y1FVphEyu23U0jho@debian.me> <8b2864bd-30b1-254f-ebd6-79967249da9b@linux.alibaba.com>
- <Y1JRhiAQ1bV/Dh7h@buildd.core.avm.de>
-In-Reply-To: <Y1JRhiAQ1bV/Dh7h@buildd.core.avm.de>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 24 Oct 2022 05:02:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATo3+CTpRzKQEtdOxVSU4qvj2+-BOEQr8z8_Yj7eW9p4Q@mail.gmail.com>
-Message-ID: <CAK7LNATo3+CTpRzKQEtdOxVSU4qvj2+-BOEQr8z8_Yj7eW9p4Q@mail.gmail.com>
-Subject: Re: [RFC] Documentation: kbuild: Add description of git for
- reproducible builds
-To:     Nicolas Schier <n.schier@avm.de>
-Cc:     Dan Li <ashimida@linux.alibaba.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>, michal.lkml@markovi.net,
-        ndesaulniers@google.com, corbet@lwn.net,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] docs/zh_CN: Update the translation of page_owner
+To:     Yixuan Cao <caoyixuan2019@email.szu.edu.cn>, alexs@kernel.org
+Cc:     corbet@lwn.net, bobwxc@email.cn, rppt@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221022170033.27123-1-caoyixuan2019@email.szu.edu.cn>
+Content-Language: en-US
+From:   Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <20221022170033.27123-1-caoyixuan2019@email.szu.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxXuAX+lVjrA4EAA--.15509S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7uF1fury7Xr1rJFWfAF1UJrb_yoW8tFWUpF
+        ZIv34xWF1fAr15u34xC39Fyr18CF4fJF48KF4UJ3s7uw1DA395A39rKa409ay7XryvvrZr
+        JF4SyFyvywn2v37anT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bfAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+        n4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+        ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E
+        87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+        AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km
+        07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
+        1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWU
+        JVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r
+        1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUv
+        cSsGvfC2KfnxnUUI43ZEXa7IU8hiSPUUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 21, 2022 at 5:00 PM Nicolas Schier <n.schier@avm.de> wrote:
+
+On 10/23/22 01:00, Yixuan Cao wrote:
+> Update to commit 0719fdba5483 ("Documentation/mm/page_owner.rst:
+> delete frequently changing experimental data").
 >
-> On Thu, Oct 20, 2022 at 06:48:20PM -0700, Dan Li wrote:
-> >
-> >
-> > On 10/20/22 07:05, Bagas Sanjaya wrote:
-> > > On Thu, Oct 20, 2022 at 03:38:23AM -0700, Dan Li wrote:
-> > > > diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-> > > > index 071f0151a7a4..13397f38c358 100644
-> > > > --- a/Documentation/kbuild/reproducible-builds.rst
-> > > > +++ b/Documentation/kbuild/reproducible-builds.rst
-> > > > @@ -119,6 +119,16 @@ To avoid this, you can make the vDSO different for different
-> > > >   kernel versions by including an arbitrary string of "salt" in it.
-> > > >   This is specified by the Kconfig symbol ``CONFIG_BUILD_SALT``.
-> > > > +Git
-> > > > +-----------------------
-> > > > +
-> > > > +Uncommitted changes or different commit ids in git can also lead
-> > > > +to different compilation results. For example, after executing
-> > > > +``git reset HEAD^``, even if the code is the same, the
-> > > > +``include/config/kernel.release`` generated during compilation
-> > > > +will be different, which will eventually lead to binary differences.
-> > > > +See ``scripts/setlocalversion`` for details.
-> > > > +
-> > >
-> > > Briefly read the script, I don't see what the correlation between git
-> > > reset with LOCALVERSION thing is. Also, does the exact state of git
-> > > repository required for reproducible builds?
-> > >
-> >
-> > Hi Bagas,
-> >
-> > The Makefile has the following code:
-> > filechk_kernel.release = \
-> >         echo "$(KERNELVERSION)$$($(CONFIG_SHELL) $(srctree)/scripts/setlocalversion $(srctree))"
-> >
-> > The output of setlocalversion affects kernel.release, while the output
-> > of setlocalversion is related to the state of git when the git repository
-> > exists (see function scm_version).
-> >
-> > So changes in git state will result in changes to kernel.release, and
-> > this information will be included in the final output vmlinux/modules
-> > and in turn affect reproducible builds.
-> >
-> > For example:
-> > $ git log
-> > commit 4cd155a93eec......
-> > $ make ...
-> > $ cat include/config/kernel.release
-> > 6.0.0-rc4-00025-g4cd155a93eec
-> >
-> > $ git reset HEAD^
-> > $ git log
-> > commit 7b4d266b0c41......
-> > $ make ...
-> > $ cat include/config/kernel.release
-> > 6.0.0-rc4-00024-g7b4d266b0c41-dirty
-> >
-> >
-> > AFAICT, in the presence of a git repository, we can compile a reproducible
-> > build kernel in any git state, but we need to ensure that the git state is
-> > always the same between compilations (or the same from the perspective of
-> > the scm_version function).
+> Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+
+
+Thanks,
+
+Yanteng
+
+> ---
+>   .../translations/zh_CN/mm/page_owner.rst        | 17 +++--------------
+>   1 file changed, 3 insertions(+), 14 deletions(-)
 >
-> yes, that definitely true.  Absence or presence of git tags can change
-> the output of setlocalversion even more drastically.
->
-> I think it is sensible to add a stanza about git in
-> Documentation/kbuild/reproducible-builds.rst.
+> diff --git a/Documentation/translations/zh_CN/mm/page_owner.rst b/Documentation/translations/zh_CN/mm/page_owner.rst
+> index 21a6a0837d42..2c4c02aab120 100644
+> --- a/Documentation/translations/zh_CN/mm/page_owner.rst
+> +++ b/Documentation/translations/zh_CN/mm/page_owner.rst
+> @@ -34,20 +34,9 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
+>   一样进行。这两个不可能的分支应该不会影响到分配的性能，特别是在静态键跳转标签修补
+>   功能可用的情况下。以下是由于这个功能而导致的内核代码大小的变化。
+>   
+> -- 没有page owner::
+> -
+> -   text    data     bss     dec     hex filename
+> -   48392   2333     644   51369    c8a9 mm/page_alloc.o
+> -
+> -- 有page owner::
+> -
+> -   text    data     bss     dec     hex filename
+> -   48800   2445     644   51889    cab1 mm/page_alloc.o
+> -   6662     108      29    6799    1a8f mm/page_owner.o
+> -   1025       8       8    1041     411 mm/page_ext.o
+> -
+> -虽然总共增加了8KB的代码，但page_alloc.o增加了520字节，其中不到一半是在hotpath
+> -中。构建带有page owner的内核，并在需要时打开它，将是调试内核内存问题的最佳选择。
+> +尽管启用page owner增加了几千字节的代码，但是这些代码的大部分都不在页分配器和它
+> +的热路径中。构建带有page owner的内核，并在需要时打开它，将是调试内核内存问题的
+> +最佳选择。
+>   
+>   有一个问题是由实现细节引起的。页所有者将信息存储到struct page扩展的内存中。这
+>   个内存的初始化时间比稀疏内存系统中的页面分配器启动的时间要晚一些，所以，在初始化
 
-
-
-
-Make sense.
-Applied to linux-kbuild.
-Thanks.
-
-
-
--- 
-Best Regards
-Masahiro Yamada
