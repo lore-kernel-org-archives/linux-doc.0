@@ -2,293 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8CC0C04A95
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 05:59:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A3C4C04A95
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 06:18:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229894AbiJYF7A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 01:59:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54310 "EHLO
+        id S229824AbiJYGST (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 02:18:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229763AbiJYF67 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 01:58:59 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561D7CBFC0
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 22:58:58 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-36ba0287319so60725207b3.3
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 22:58:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=43JnGaSmU9P6ZBvWvLMP1pUgKjTWqRmMdR5LIqZN3qg=;
-        b=S4FIphM9prlXum6vIeOxIroffCESQSRcZaH1GLxXGbFjzWXf5cVkCAX/ZJI4yvFKTT
-         xDPrNs3PZNw5pJwiU0acuDKRIgeX6NgSLdt4cs+fet+U64zGJ4m1heu32GvM7uFo6r9g
-         PtCAUcB1+VklxsDRWWP7SuaKsincZvhUrpcbFQxZEGbxk2Pt2gf5f78DMqPnnc6kpSGy
-         0UQfNnzOcWLBFz2rxFs4CFlV9EZW+4ht16MqF7aZ82uiSafHSch+X7Z3WkJvEX5PR7sx
-         H26rXP+ptqi38PrmryrSLFhVrcOSBsELuhBKJMj89iMhaRTDAAS+VhMWjT3qVQKGOLqE
-         zNpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=43JnGaSmU9P6ZBvWvLMP1pUgKjTWqRmMdR5LIqZN3qg=;
-        b=jlC3z2TKiyXZzbb+uN6oGTLRabHWoeSpNfpmmD4q5lcBirhxG1Y4DZlkv5KrACYf9E
-         CANOyLWx/wWz6l8H6z+hf82pqMRQN69IkZiiMdqmZgDdg57Rmw4xBAqBViI289rqO/zW
-         P15MwlDVCeA2xD5YNkKjWqD6DzL++z5hjRDC2tvpUiOzEeEEwpA2s7eE/VMXB0Fimsd/
-         WgwFdbfyPS/mPdNKVg2nUf5/mJ01eCs/6Ybweopl1lLkDWQBpGy6GoXBeACD3f1hF9yw
-         z+YJ/exM8k0TD9CMvw6RRoGH/3itzWpeWjbfpuulTQldRJsir9Wn6litnps3VnIYJp0w
-         6qJw==
-X-Gm-Message-State: ACrzQf0b06fJDOncerau6FEo+rMdJ/k37pNvEvCUWlKSNgn3rrWkA+Z7
-        FK4CwtYXvXBw3botqnHrr5CaWK7OMfLhcA==
-X-Google-Smtp-Source: AMsMyM5gXQvSYyq6afqFjQhWPqDHR2nuVKuscFng+2bBfPawO5G4cc1QmSa2SlQS5PeHLKJfYvBFnGMRYmpJVQ==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a25:9c01:0:b0:6af:4a89:26b3 with SMTP id
- c1-20020a259c01000000b006af4a8926b3mr34164356ybo.190.1666677537630; Mon, 24
- Oct 2022 22:58:57 -0700 (PDT)
-Date:   Tue, 25 Oct 2022 13:58:45 +0800
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.38.0.135.g90850a2211-goog
-Message-ID: <20221025055844.1231592-1-davidgow@google.com>
-Subject: [PATCH] Documentation: kunit: Remove redundant 'tips.rst' page
-From:   David Gow <davidgow@google.com>
-To:     Brendan Higgins <brendan.higgins@linux.dev>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sadiya Kazi <sadiyakazi@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     David Gow <davidgow@google.com>, linux-kselftest@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S230057AbiJYGSR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 02:18:17 -0400
+Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D96A43179;
+        Mon, 24 Oct 2022 23:18:15 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
+        t=1666678694;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=PfHEfbX+rpdt9GZNuVQDrplmUUgJamTim3fW50Ttv3M=;
+        b=kgYJ+qw6Qz3M1VxF16vT1IgrIpJW6lcr34V3/QpN4VMQynlbDeoklvXGY9TZ18uLd8qotL
+        wGTESYjDN0ayReISW5OxuiRvQNUpat/ayMW3lJyQiiBbLOxOWszmzls9XRTTcbamXfoZi6
+        Vw6Xwioq9RMzOtVU8yYwm3sufZMN0fNCgBQGnWwpNpflKtACN+/4gZ32DSBZwjKjYNBzsA
+        1DSFfuAx2JmbUds5fv6GWn3TfBBz8uzp5BRXfwrdZ1xDsTlD74AsSIQPEP053WLM2U2NlU
+        Pd2jlwtBb3hVMrEWB0aSpHCTM/ZGc23PkSad11QDeAv68r8w9x8EzboifNucIA==
+From:   Rui Li <me@lirui.org>
+To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Wu XiangCheng <wu.xiangcheng@linux.dev>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rui Li <me@lirui.org>
+Subject: [PATCH] docs/zh_CN: Add userspace-api/sysfs-platform_profile Chinese translation
+Date:   Tue, 25 Oct 2022 14:18:04 +0800
+Message-Id: <20221025061804.35801-1-me@lirui.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The contents of 'tips.rst' was included in 'usage.rst' way back in
-commit 953574390634 ("Documentation: KUnit: Rework writing page to focus on writing tests"),
-but the tips page remained behind as well.
+Translate the following documents into Chinese:
 
-Therefore, delete 'tips.rst'
+- userspace-api/sysfs-platform_profile.rst
 
-While I regret breaking any links to 'tips' which might exist
-externally, it's confusing to have two subtly different versions of the
-same content around.
-
-Signed-off-by: David Gow <davidgow@google.com>
+Signed-off-by: Rui Li <me@lirui.org>
 ---
- Documentation/dev-tools/kunit/index.rst |   1 -
- Documentation/dev-tools/kunit/tips.rst  | 190 ------------------------
- 2 files changed, 191 deletions(-)
- delete mode 100644 Documentation/dev-tools/kunit/tips.rst
+ .../zh_CN/userspace-api/index.rst             |  2 +-
+ .../userspace-api/sysfs-platform_profile.rst  | 40 +++++++++++++++++++
+ 2 files changed, 41 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
 
-diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-tools/kunit/index.rst
-index f5d13f1d37be..d5629817cd72 100644
---- a/Documentation/dev-tools/kunit/index.rst
-+++ b/Documentation/dev-tools/kunit/index.rst
-@@ -16,7 +16,6 @@ KUnit - Linux Kernel Unit Testing
- 	api/index
- 	style
- 	faq
--	tips
- 	running_tips
+diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
+index 6a7e82ac16b9..0f3483a46fa2 100644
+--- a/Documentation/translations/zh_CN/userspace-api/index.rst
++++ b/Documentation/translations/zh_CN/userspace-api/index.rst
+@@ -26,6 +26,7 @@ Linux 内核用户空间API指南
  
- This section details the kernel unit testing framework.
-diff --git a/Documentation/dev-tools/kunit/tips.rst b/Documentation/dev-tools/kunit/tips.rst
-deleted file mode 100644
-index 492d2ded2f5a..000000000000
---- a/Documentation/dev-tools/kunit/tips.rst
-+++ /dev/null
-@@ -1,190 +0,0 @@
--.. SPDX-License-Identifier: GPL-2.0
--
--============================
--Tips For Writing KUnit Tests
--============================
--
--Exiting early on failed expectations
--------------------------------------
--
--``KUNIT_EXPECT_EQ`` and friends will mark the test as failed and continue
--execution.  In some cases, it's unsafe to continue and you can use the
--``KUNIT_ASSERT`` variant to exit on failure.
--
--.. code-block:: c
--
--	void example_test_user_alloc_function(struct kunit *test)
--	{
--		void *object = alloc_some_object_for_me();
--
--		/* Make sure we got a valid pointer back. */
--		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, object);
--		do_something_with_object(object);
--	}
--
--Allocating memory
-------------------
--
--Where you would use ``kzalloc``, you should prefer ``kunit_kzalloc`` instead.
--KUnit will ensure the memory is freed once the test completes.
--
--This is particularly useful since it lets you use the ``KUNIT_ASSERT_EQ``
--macros to exit early from a test without having to worry about remembering to
--call ``kfree``.
--
--Example:
--
--.. code-block:: c
--
--	void example_test_allocation(struct kunit *test)
--	{
--		char *buffer = kunit_kzalloc(test, 16, GFP_KERNEL);
--		/* Ensure allocation succeeded. */
--		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buffer);
--
--		KUNIT_ASSERT_STREQ(test, buffer, "");
--	}
--
--
--Testing static functions
--------------------------
--
--If you don't want to expose functions or variables just for testing, one option
--is to conditionally ``#include`` the test file at the end of your .c file, e.g.
--
--.. code-block:: c
--
--	/* In my_file.c */
--
--	static int do_interesting_thing();
--
--	#ifdef CONFIG_MY_KUNIT_TEST
--	#include "my_kunit_test.c"
--	#endif
--
--Injecting test-only code
--------------------------
--
--Similarly to the above, it can be useful to add test-specific logic.
--
--.. code-block:: c
--
--	/* In my_file.h */
--
--	#ifdef CONFIG_MY_KUNIT_TEST
--	/* Defined in my_kunit_test.c */
--	void test_only_hook(void);
--	#else
--	void test_only_hook(void) { }
--	#endif
--
--This test-only code can be made more useful by accessing the current kunit
--test, see below.
--
--Accessing the current test
----------------------------
--
--In some cases, you need to call test-only code from outside the test file, e.g.
--like in the example above or if you're providing a fake implementation of an
--ops struct.
--There is a ``kunit_test`` field in ``task_struct``, so you can access it via
--``current->kunit_test``.
--
--Here's a slightly in-depth example of how one could implement "mocking":
--
--.. code-block:: c
--
--	#include <linux/sched.h> /* for current */
--
--	struct test_data {
--		int foo_result;
--		int want_foo_called_with;
--	};
--
--	static int fake_foo(int arg)
--	{
--		struct kunit *test = current->kunit_test;
--		struct test_data *test_data = test->priv;
--
--		KUNIT_EXPECT_EQ(test, test_data->want_foo_called_with, arg);
--		return test_data->foo_result;
--	}
--
--	static void example_simple_test(struct kunit *test)
--	{
--		/* Assume priv is allocated in the suite's .init */
--		struct test_data *test_data = test->priv;
--
--		test_data->foo_result = 42;
--		test_data->want_foo_called_with = 1;
--
--		/* In a real test, we'd probably pass a pointer to fake_foo somewhere
--		 * like an ops struct, etc. instead of calling it directly. */
--		KUNIT_EXPECT_EQ(test, fake_foo(1), 42);
--	}
--
--
--Note: here we're able to get away with using ``test->priv``, but if you wanted
--something more flexible you could use a named ``kunit_resource``, see
--Documentation/dev-tools/kunit/api/test.rst.
--
--Failing the current test
--------------------------
--
--But sometimes, you might just want to fail the current test. In that case, we
--have ``kunit_fail_current_test(fmt, args...)`` which is defined in ``<kunit/test-bug.h>`` and
--doesn't require pulling in ``<kunit/test.h>``.
--
--E.g. say we had an option to enable some extra debug checks on some data structure:
--
--.. code-block:: c
--
--	#include <kunit/test-bug.h>
--
--	#ifdef CONFIG_EXTRA_DEBUG_CHECKS
--	static void validate_my_data(struct data *data)
--	{
--		if (is_valid(data))
--			return;
--
--		kunit_fail_current_test("data %p is invalid", data);
--
--		/* Normal, non-KUnit, error reporting code here. */
--	}
--	#else
--	static void my_debug_function(void) { }
--	#endif
--
--
--Customizing error messages
----------------------------
--
--Each of the ``KUNIT_EXPECT`` and ``KUNIT_ASSERT`` macros have a ``_MSG`` variant.
--These take a format string and arguments to provide additional context to the automatically generated error messages.
--
--.. code-block:: c
--
--	char some_str[41];
--	generate_sha1_hex_string(some_str);
--
--	/* Before. Not easy to tell why the test failed. */
--	KUNIT_EXPECT_EQ(test, strlen(some_str), 40);
--
--	/* After. Now we see the offending string. */
--	KUNIT_EXPECT_EQ_MSG(test, strlen(some_str), 40, "some_str='%s'", some_str);
--
--Alternatively, one can take full control over the error message by using ``KUNIT_FAIL()``, e.g.
--
--.. code-block:: c
--
--	/* Before */
--	KUNIT_EXPECT_EQ(test, some_setup_function(), 0);
--
--	/* After: full control over the failure message. */
--	if (some_setup_function())
--		KUNIT_FAIL(test, "Failed to setup thing for testing");
--
--Next Steps
--==========
--*   Optional: see the Documentation/dev-tools/kunit/usage.rst page for a more
--    in-depth explanation of KUnit.
+    ebpf/index
+    no_new_privs
++   sysfs-platform_profile
+ 
+ TODOList:
+ 
+@@ -38,7 +39,6 @@ TODOList:
+ * iommu
+ * media/index
+ * netlink/index
+-* sysfs-platform_profile
+ * vduse
+ * futex2
+ 
+diff --git a/Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst b/Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
+new file mode 100644
+index 000000000000..6e861f911424
+--- /dev/null
++++ b/Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
+@@ -0,0 +1,40 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/userspace-api/sysfs-platform_profile.rst
++
++:翻译:
++
++ 李睿 Rui Li <me@lirui.org>
++
++==========================================================
++平台配置文件选择（如 /sys/firmware/acpi/platform_profile）
++==========================================================
++
++现代系统中平台性能、温度、风扇和其他硬件相关的特性通常是可以动态配置的。平台
++配置通常会根据当前的状态由一些自动机制（很可能存在于内核之外）来自动调整。
++
++这些平台自动调整机制通常能够被配置成多个平台配置文件中的一个，要么偏向低功率
++工作，要么偏向性能。
++
++platform_profile属性的目的是提供一个通用的sysfs API来选择这些平台自动配置
++机制的配置文件。
++
++需要注意的是，这个API只能用作选择平台配置文件。其目的并不是为了监测改变所致
++的性能特征。监测性能最好使用设备/供应商提供的工具，比如turbostat。
++
++具体来说，当选择高性能配置文件时，真实能达到的性能可能受制于多种因素，比如：
++其他组件的发热，房间温度，笔记本底部的自由空气流动等。这个API的目的明显不是让
++用户空间知道任何阻碍达到要求性能等级的欠佳条件。
++
++由于数字本身并不能代表一个配置文件会调整的多个变量（功耗，发热等），这个API使
++用字符串来描述多种配置文件。为了保证用户空间能够获得一致的体验，
++sysfs-platform_profile ABI 文档定义了一个固定的配置文件名集合。驱动程序
++*必须* 将它们内置的配置文件表示映射到这个固定的集合中。
++
++如果映射时没有很好的匹配，可以添加一个新的配置文件名称。驱动希望引入的新配置文
++件名称时必须：
++
++ 1. 解释为什么无法使用已有的配置文件名称。
++ 2. 添加一个新的配置文件名称，以及预期行为的清晰描述，保存到
++    sysfs-platform_profile ABI文档中。
 -- 
-2.38.0.135.g90850a2211-goog
+2.30.2
 
