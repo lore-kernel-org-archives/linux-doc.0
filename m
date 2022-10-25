@@ -2,279 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE3F6C04A95
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 15:54:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3716C38A2D
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 15:55:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231341AbiJYPyw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 11:54:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45588 "EHLO
+        id S231368AbiJYPzs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 11:55:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231492AbiJYPyv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 11:54:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7B54BD2C
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 08:54:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666713289;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Sh73iIjXnQemIscr00dFPxF/F3ceA44MvSFM2YQRfI8=;
-        b=ibEwYYdQPaFH6Hm8l6dANRFs6OhP9sL95Y/B7XIv2hF5LxmGQwTGhN3x2iB/OZfLm6QLWj
-        7Is/UyvNtGhg/eKinG6qEmb1Q++k1BDGju2kmrlaliUCT4zqMjcx4L8CB2DzrbQigESARD
-        /CVphKgebf+lsm/uk/D2x7rMaBTVeCg=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-663-tv9Kq8UcMzKwl7Edi_uGAQ-1; Tue, 25 Oct 2022 11:54:47 -0400
-X-MC-Unique: tv9Kq8UcMzKwl7Edi_uGAQ-1
-Received: by mail-ej1-f72.google.com with SMTP id gt15-20020a1709072d8f00b007aaac7973fbso1927263ejc.23
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 08:54:46 -0700 (PDT)
+        with ESMTP id S230410AbiJYPzs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 11:55:48 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 177D011540C
+        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 08:55:47 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id e4so8300661pfl.2
+        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 08:55:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=V0ERmtJH8Y8ohiV20nUYLWYgRYkI81zx7wLU2s7JOh8=;
+        b=L903+97rjrcROLjG979Ms+HuOfnSZrQdCTDdbZl0Hi1jUoGMfLZPFvAAOKpj0xzsYH
+         RejbrZr1bARGt7nRG7PDkRibySyxcOiQI6+E0KYfbTXo/3gZf/CMaYKJ8wrxG2ecJprm
+         ZX2YMJXPgOVzyyDpUMGsk9NCIvx5g0iCLvQxOjVDZp0Mb2jn/djRVRpMRG/+2iZhbbw6
+         Pthp5wAHHLpVz0WfZkrLT/tkX+l5tb8Sv+HnFa5ArzK3+3WRJph+IR/Oh50/VMfOYonp
+         0+iF3HcjxWeHoIFK62f8nZ8T3g8ifmnLdUUgUt3XgVaXZBayr9dk1Fka9Ae3gQ7O5UWH
+         6zpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:to
-         :content-language:subject:cc:user-agent:mime-version:date:message-id
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sh73iIjXnQemIscr00dFPxF/F3ceA44MvSFM2YQRfI8=;
-        b=xUG2jheUVrkIC3YnfYr5mJQga0JcuiQjSv/NjdYsfMVBPGIqNWOEvwp1Ko9skJcGiI
-         4SfbO+147P861H7enTXYoboeyqnfVpULwiHdSj9Wq4SmsBEuRyRxcdYVt8dULE0VMb1Y
-         WC9V4VtyEZRISv9zymwjYdCh0LzEVQE9THx8XY1S5W1wT9zjrKBhRzfEISHmFL+TfDdR
-         CnBisfVYuU0Cf8bQMLshPO9x8U0AdLS/uOQL9Nnxl9tiRngOU8giFqKqPe79XpX4CiNp
-         RlQWDYWAZmOTjnDbpgcHt9r5DGUoPmRVmaMkcFXanyTlqT57raC+q7/2IT85sOfSetKK
-         wdPg==
-X-Gm-Message-State: ACrzQf1s5ReGQQQYl2oWO0/jZeVPyKOk4L/8K2G6ynpX/218R0aywUyT
-        cjp7dqFEj2KkRExugl3EODSE56EVPskaAMKkUBGdosr5a06yVYUJ/xifx1aF/yi06FepVtjcGYb
-        IV3zO0mIKR3M/cPGXjzuP
-X-Received: by 2002:a17:907:60c7:b0:78e:1cc:57de with SMTP id hv7-20020a17090760c700b0078e01cc57demr33369878ejc.33.1666713285825;
-        Tue, 25 Oct 2022 08:54:45 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4ygIxsWrEQ0mlwlF0eweaLRyaHmsZWKINCGfvLKssazUXwuU7EZKkh9U55gC7bPImPHvCo0Q==
-X-Received: by 2002:a17:907:60c7:b0:78e:1cc:57de with SMTP id hv7-20020a17090760c700b0078e01cc57demr33369863ejc.33.1666713285555;
-        Tue, 25 Oct 2022 08:54:45 -0700 (PDT)
-Received: from [192.168.41.200] (83-90-141-187-cable.dk.customer.tdc.net. [83.90.141.187])
-        by smtp.gmail.com with ESMTPSA id 1-20020a170906200100b00780f6071b5dsm1571716ejo.188.2022.10.25.08.54.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Oct 2022 08:54:44 -0700 (PDT)
-From:   Jesper Dangaard Brouer <jbrouer@redhat.com>
-X-Google-Original-From: Jesper Dangaard Brouer <brouer@redhat.com>
-Message-ID: <82a712d1-e83e-b9ac-4c93-d5979a3b93db@redhat.com>
-Date:   Tue, 25 Oct 2022 17:54:43 +0200
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V0ERmtJH8Y8ohiV20nUYLWYgRYkI81zx7wLU2s7JOh8=;
+        b=5YwJWyM8moSbzAzEUNh8/WoL542XnE8zBc5/vslLgMJVt8NMh99HIXkMyWPYlP6i9T
+         SP8PwE2Jib2yOIbywYg1JJjzAkT8u9T8hkSRKZ9pT9d1Q37NJ4cVnq0c6gN0B0VHyKtU
+         UbwvTKeGwRty+cLcOpeoqm8LW0YjjvgTWuVQEMJ2yNY9FBgMVSUmq44kggwFrt0MqQG5
+         c4V7h+9zGbAJd5iSJI8EIPGdIBl5ziHeVBjAl2KaCWqWg73JeA1OEycKhVWSFHEn1jIP
+         CuTOkqTHcZee5g9+AMvWRGPXliqx3yY81X/DsUirIwM32tgCszxTNa1T0uDzQzBOHOe7
+         4rhg==
+X-Gm-Message-State: ACrzQf0qyhuV39N3QzB08xfa9j8hJL6GV6jHnUja4/mlbDZIbwanzSeD
+        rosc5AyMM1B08qaQpdIh0RRDjw==
+X-Google-Smtp-Source: AMsMyM4Sai6RhMhUGNWZVOaRyrMNrlOgH0M4FAHNS0khMEZ9FNFWv49Yl91SIz2JYKvdnH5Ky5e1cQ==
+X-Received: by 2002:aa7:83cd:0:b0:563:5f54:d78c with SMTP id j13-20020aa783cd000000b005635f54d78cmr40623601pfn.66.1666713346386;
+        Tue, 25 Oct 2022 08:55:46 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id i20-20020aa796f4000000b0056c063dd4cfsm1545927pfq.66.2022.10.25.08.55.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Oct 2022 08:55:45 -0700 (PDT)
+Date:   Tue, 25 Oct 2022 15:55:41 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+        kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] KVM: API to block and resume all running vcpus in a
+ vm
+Message-ID: <Y1gG/W/q/VIydpMu@google.com>
+References: <20221022154819.1823133-1-eesposit@redhat.com>
+ <a2e16531-5522-a334-40a1-2b0e17663800@linux.ibm.com>
+ <2701ce67-bfff-8c0c-4450-7c4a281419de@redhat.com>
+ <384b2622-8d7f-ce02-1452-84a86e3a5697@linux.ibm.com>
+ <Y1cVfECAAfmp5XqA@google.com>
+ <5a26c107-9ab5-60ee-0e9c-a9955dfe313d@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Cc:     brouer@redhat.com,
-        =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@redhat.com>,
-        Donald Hunter <donald.hunter@gmail.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH bpf-next v5 1/1] doc: DEVMAPs and XDP_REDIRECT
-Content-Language: en-US
-To:     mtahhan@redhat.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20221024124341.2157865-1-mtahhan@redhat.com>
- <20221024124341.2157865-2-mtahhan@redhat.com>
-In-Reply-To: <20221024124341.2157865-2-mtahhan@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5a26c107-9ab5-60ee-0e9c-a9955dfe313d@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 24/10/2022 14.43, mtahhan@redhat.com wrote:
-> From: Maryam Tahhan <mtahhan@redhat.com>
+On Tue, Oct 25, 2022, Paolo Bonzini wrote:
+> On 10/25/22 00:45, Sean Christopherson wrote:
+> > > Yes that helps and should be part of the cover letter for the next iterations.
+> > But that doesn't explain why KVM needs to get involved, it only explains why QEMU
+> > can't use its existing pause_all_vcpus().  I do not understand why this is a
+> > problem QEMU needs KVM's help to solve.
 > 
-> Add documentation for BPF_MAP_TYPE_DEVMAP and
-> BPF_MAP_TYPE_DEVMAP_HASH including kernel version
-> introduced, usage and examples.
+> I agree that it's not KVM's problem that QEMU cannot use pause_all_vcpus().
+> Having a ioctl in KVM, rather than coding the same in QEMU, is *mostly* a
+> matter of programmer and computer efficiency because the code is pretty
+> simple.
 > 
-> Add documentation that describes XDP_REDIRECT.
-> 
-> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
-> Reviewed-by: Toke Høiland-Jørgensen <toke@redhat.com>
-> Reviewed-by: Donald Hunter <donald.hunter@gmail.com>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Acked-by: Toke Høiland-Jørgensen <toke@redhat.com>
-> ---
->   Documentation/bpf/index.rst      |   1 +
->   Documentation/bpf/map_devmap.rst | 203 +++++++++++++++++++++++++++++++
->   Documentation/bpf/redirect.rst   |  45 +++++++
->   3 files changed, 249 insertions(+)
->   create mode 100644 Documentation/bpf/map_devmap.rst
->   create mode 100644 Documentation/bpf/redirect.rst
-> 
-> diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
-> index 1b50de1983ee..1088d44634d6 100644
-> --- a/Documentation/bpf/index.rst
-> +++ b/Documentation/bpf/index.rst
-> @@ -29,6 +29,7 @@ that goes into great technical depth about the BPF Architecture.
->      clang-notes
->      linux-notes
->      other
-> +   redirect
->   
->   .. only::  subproject and html
->   
-> diff --git a/Documentation/bpf/map_devmap.rst b/Documentation/bpf/map_devmap.rst
-> new file mode 100644
-> index 000000000000..1c6025ea5fdc
-> --- /dev/null
-> +++ b/Documentation/bpf/map_devmap.rst
-> @@ -0,0 +1,203 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2022 Red Hat, Inc.
-> +
-> +=================================================
-> +BPF_MAP_TYPE_DEVMAP and BPF_MAP_TYPE_DEVMAP_HASH
-> +=================================================
-> +
-> +.. note::
-> +   - ``BPF_MAP_TYPE_DEVMAP`` was introduced in kernel version 4.14
-> +   - ``BPF_MAP_TYPE_DEVMAP_HASH`` was introduced in kernel version 5.4
-> +
-> +``BPF_MAP_TYPE_DEVMAP`` and ``BPF_MAP_TYPE_DEVMAP_HASH`` are BPF maps primarily
-> +used as backend maps for the XDP BPF helper call ``bpf_redirect_map()``.
-> +``BPF_MAP_TYPE_DEVMAP`` is backed by an array that uses the key as
-> +the index to lookup a reference to a net device. While ``BPF_MAP_TYPE_DEVMAP_HASH``
-> +is backed by a hash table that uses a key to lookup a reference to a net device.
-> +The user provides either <``key``/ ``ifindex``> or <``key``/ ``struct bpf_devmap_val``>
-> +pairs to update the maps with new net devices.
-> +
-> +.. note::
-> +    - The key to a hash map doesn't have to be an ``ifindex``.
-> +    - While ``BPF_MAP_TYPE_DEVMAP_HASH`` allows for densely packing the net devices
-> +      it comes at the cost of a hash of the key when performing a look up.
-> +
-> +The setup and packet enqueue/send code is shared between the two types of
-> +devmap; only the lookup and insertion is different.
-> +
-> +Usage
-> +=====
+> That said, I believe the limited memslot API makes it more than just a QEMU
+> problem.  Because KVM_GET_DIRTY_LOG cannot be combined atomically with
+> KVM_SET_USER_MEMORY_REGION(MR_DELETE), any VMM that uses dirty-log regions
+> while the VM is running is liable to losing the dirty status of some pages.
 
-Again is this usage section describing BPF-prog kernel-side API or 
-userspace syscall API ?
+... and doesn't already do the sane thing and pause vCPUs _and anything else that
+can touch guest memory_ before modifying memslots.  I honestly think QEMU is the
+only VMM that would ever use this API.
 
-> +
-> +.. c:function::
-> +   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
-> +
-> + Net device entries can be added or updated using the ``bpf_map_update_elem()``
-> + helper. This helper replaces existing elements atomically. The ``value`` parameter
+> That's also a reason to provide this API in KVM.
 
-IMHO if we consistently call "helper" for "BPF-helper" the reader will
-know this is BPF-prog code.  (Feel free to disagree with me on this)
+It's frankly a terrible API though.  Providing a way to force vCPUs out of KVM_RUN
+is at best half of the solution.  
 
-> + can be ``struct bpf_devmap_val`` or a simple ``int ifindex`` for backwards
-> + compatibility.
-> +
-> +.. note::
-> +    The maps can only be updated from user space and not from a BPF program.
+Userspace still needs:
 
-So, we cannot update this from a BPF-prog, but above API doesn't take a
-file-descriptor so it must be the BPF-prog API being describe.  That
-seems strange, as note says we cannot use this from a BPF-prog...
+  - a refcounting scheme to track the number of "holds" put on the system
+  - serialization to ensure KVM_RESUME_ALL_KICKED_VCPUS completes before a new
+    KVM_KICK_ALL_RUNNING_VCPUS is initiated
+  - to prevent _all_ ioctls() because it's not just KVM_RUN that consumes memslots
+  - to stop anything else in the system that consumes KVM memslots, e.g. KVM GT
+  - to signal vCPU tasks so that the system doesn't livelock if a vCPU is stuck
+    outside of KVM, e.g. in get_user_pages_unlocked() (Peter Xu's series)
 
-
-> +.. code-block:: c
-> +
-> +    struct bpf_devmap_val {
-> +        __u32 ifindex;   /* device index */
-> +        union {
-> +            int   fd;  /* prog fd on map write */
-> +            __u32 id;  /* prog id on map read */
-> +        } bpf_prog;
-> +    };
-> +
-> +DEVMAPs can associate a program with a device entry by adding a ``bpf_prog.fd``
-> +to ``struct bpf_devmap_val``. Programs are run after ``XDP_REDIRECT`` and have
-> +access to both Rx device and Tx device. The  program associated with the ``fd``
-> +must have type XDP with expected attach type ``xdp_devmap``.
-> +When a program is associated with a device index, the program is run on an
-> +``XDP_REDIRECT`` and before the buffer is added to the per-cpu queue. Examples
-> +of how to attach/use xdp_devmap progs can be found in the kernel selftests:
-> +
-> +- ``tools/testing/selftests/bpf/prog_tests/xdp_devmap_attach.c``
-> +- ``tools/testing/selftests/bpf/progs/test_xdp_with_devmap_helpers.c``
-> +
-> +.. c:function::
-> +   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-> +
-
-This must be BPF-prog code as userspace bpf_map_lookup_elem() have other
-parameters.  IIRC we did open up for BPF-prog being able to do this
-lookup from BPF-prog code, but it doesn't make much sense to do the
-lookup (from a performance perspective).
-For these map types the bpf_redirect_map() BPF-helper call will (in
-recent kernels) do the lookup in the context of the BPF-prog and return
-code from bpf_redirect_map() indicate if the element in the map was
-available and redirect possible.  This API detail should likely also be
-documented here (note it is documented in man bpf-helpers(7)).
-
-
-> +net device entries can be retrieved using the ``bpf_map_lookup_elem()``
-> +helper.
-> +
-> +.. c:function::
-> +   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
-> +
-> +net device entries can be deleted using the ``bpf_map_delete_elem()``
-> +helper. This helper will return 0 on success, or negative error in case of
-> +failure.
-
-Hmm... again this must be BPF-prog code given that API have a map
-pointer.  I would recommend against changing these maps types from the
-packet data-plane code, IMHO this should be left up to the userspace
-control-plane.
-
-> +
-> +.. c:function::
-> +     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
-> +
-> +Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
-> +For ``BPF_MAP_TYPE_DEVMAP`` and ``BPF_MAP_TYPE_DEVMAP_HASH`` this map contains
-> +references to net devices (for forwarding packets through other ports).
-> +
-> +The lower two bits of *flags* are used as the return code if the map lookup
-> +fails. This is so that the return value can be one of the XDP program return
-> +codes up to ``XDP_TX``, as chosen by the caller. The higher bits of ``flags``
-> +can be set to ``BPF_F_BROADCAST`` or ``BPF_F_EXCLUDE_INGRESS`` as defined
-> +below.
-
-Sorry, I see that you already *have* documented the "hidden" lookup in
-the bpf_redirect_map() call.
-
-> +
-> +With ``BPF_F_BROADCAST`` the packet will be broadcast to all the interfaces
-> +in the map, with ``BPF_F_EXCLUDE_INGRESS`` the ingress interface will be excluded
-> +from the broadcast.
-> +
-
-Nice that we get documented that XDP can do broadcasting, and via 
-multiple devmap's also multicast.
-
-> +.. note::
-> +    The key is ignored if BPF_F_BROADCAST is set.
-> +
-> +This helper will return ``XDP_REDIRECT`` on success, or the value of the two
-> +lower bits of the *flags* argument if the map lookup fails.
-
-The "lower two bits" is kind of an implementation detail (which is kind 
-of a co-incidence as the xdp_action's are not bit fields.)
-I made sure that BPF_F_BROADCAST uses value 8, which would allow us to 
-add more xdp_action's later
-
-$ pahole xdp_action
-enum xdp_action {
-	XDP_ABORTED  = 0,
-	XDP_DROP     = 1,
-	XDP_PASS     = 2,
-	XDP_TX       = 3,
-	XDP_REDIRECT = 4,
-};
-
-
-> +More information about redirection can be found :doc:`redirect`
-
-I cannot remember the effect of this :doc:`redirect`, does it link to 
-redirect.rst file?
-
---Jesper
-
+And because of the nature of KVM, to support this API on all architectures, KVM
+needs to make change on all architectures, whereas userspace should be able to
+implement a generic solution.
