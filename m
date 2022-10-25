@@ -2,145 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 575B1C38A2D
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 08:03:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B18AEC04A95
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 08:09:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231872AbiJYIDa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 04:03:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43586 "EHLO
+        id S231267AbiJYIJn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 04:09:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230138AbiJYID2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 04:03:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E946D10DE71;
-        Tue, 25 Oct 2022 01:03:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 79519617B9;
-        Tue, 25 Oct 2022 08:03:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72758C433C1;
-        Tue, 25 Oct 2022 08:03:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1666685006;
-        bh=p8P0GS3FIpwPpYKwBDEQTqKude0DJCIEmUZ9yV9u+t8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JOZmhhCaFcnVG0iHvZ91XDZY6ypIvUKqk7uiGWNCdmRNP4seoPWpI2HegtTcV3o7D
-         TgJxFm6O13/jp0sCsSy6+2FmA1TwoouNLbycU3VUWM8iMB8nQyFrMbCSmQ9hw1R0/s
-         98WKKqs6hWYjwmt5P7/pCiiJO9B3sCOdwqR+OtdE=
-Date:   Tue, 25 Oct 2022 10:04:19 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jeff Vanhoof <jdv1029@gmail.com>
-Cc:     linux-usb@vger.kernel.org,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: uvc gadget performance issues with skip interrupt impl
-Message-ID: <Y1eYg1ESBtLJFQ20@kroah.com>
-References: <20221025063359.GA19049@qjv001-XeonWs>
+        with ESMTP id S231197AbiJYIJn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 04:09:43 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8912991;
+        Tue, 25 Oct 2022 01:09:41 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id s196so10824073pgs.3;
+        Tue, 25 Oct 2022 01:09:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nVjQky+pk196r9RAv5o1rMy3whlIn85hqQF7J4WAiDw=;
+        b=onxmJibQwYDVAIZGOfUPTaB8KLWOtRORkXGQlqwOynS5capo9LY5BFYOHaMX/ODSHU
+         KM2P9fJv7Q4ciG2QH0jartbrZEhhl8IO6X0mSJAVby6PqPMGznw/yoMpWPYOcC12hfLB
+         t2OGj5+uxth2k/Z4yf4kMQGiFPdoTgWr5YoCA4dTb8K3CicByvuLZkn34kTNqQvocrmo
+         oJ3i66W11yeG4H+V9c8qo6pz9faNRE9V4cB+aNFywEw+daZFZJ4FlHIyc+osbQ0waUTE
+         Bz2cxqYa9gd4iSRdVgN9qa0rMBTR3D1jYUmI7dN6Cn0OePhzPsYdvaB9cgX5wF3CgCS4
+         hXcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nVjQky+pk196r9RAv5o1rMy3whlIn85hqQF7J4WAiDw=;
+        b=d8syaudAyyahoZON6TZpPNyMp3WflGLcMm/Hq4H3w/1Gm4E/8e2S+JMXoBK9dYh5ho
+         8HjLEwjiGXsG5hBzCOt3myXbJ/Z6o7sdSRF4sGIaoxblIRFxU5+dKMxbLi7ebQuBTAdG
+         jkt6pOBis2XIEyPSre6vvt5DX9wM0kjXv4jXuCX+I2ZIbDV8X4smQqLiLunzoA6+GjRh
+         uWFMUMsPF0XObJ1fZ0YPjIdax+lxtzPCKGVT+vGN/8bm27iDvLdS2E3ELZUNC75/GS/l
+         IwksEu8k78xVwpLiOfBNNqtdjqo6HO2YBWe0A+4RWLj/BRMl4zDqs+DPCm1KEbD51qUi
+         OXFg==
+X-Gm-Message-State: ACrzQf3avNhhQ+E09pa6QK+Bmhp9/6iaOX9tC4MUZxx/6Ai/xCqJG6Lj
+        ckQk49WTKqR/5inENYRpEHs=
+X-Google-Smtp-Source: AMsMyM7QWK2kbqsmB7W4+9pJuo9rJAkHf2RQ6ytrKvKalRlv591T44kYht/TuIdByUPI7YnbZqV95w==
+X-Received: by 2002:aa7:88c4:0:b0:563:9fe9:5da9 with SMTP id k4-20020aa788c4000000b005639fe95da9mr37503966pff.41.1666685380910;
+        Tue, 25 Oct 2022 01:09:40 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-21.three.co.id. [180.214.232.21])
+        by smtp.gmail.com with ESMTPSA id h23-20020aa796d7000000b00562677968aesm577851pfq.72.2022.10.25.01.09.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Oct 2022 01:09:40 -0700 (PDT)
+Message-ID: <97ed229f-9411-2741-f5b6-28be4259420c@gmail.com>
+Date:   Tue, 25 Oct 2022 15:09:25 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221025063359.GA19049@qjv001-XeonWs>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH V3] x86/split_lock: Add sysctl to control the misery mode
+To:     Dave Hansen <dave.hansen@intel.com>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        hpa@zytor.com, luto@kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, kernel-dev@igalia.com,
+        kernel@gpiccoli.net, Fenghua Yu <fenghua.yu@intel.com>,
+        Joshua Ashton <joshua@froggi.es>,
+        Melissa Wen <mwen@igalia.com>,
+        Paul Gofman <pgofman@codeweavers.com>,
+        Pavel Machek <pavel@denx.de>,
+        Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Zebediah Figura <zfigura@codeweavers.com>,
+        Andre Almeida <andrealmeid@igalia.com>
+References: <20221024200254.635256-1-gpiccoli@igalia.com>
+ <Y1dcDmmIu8gSX4Rb@debian.me> <7db9c3a5-2120-5ede-eb4e-077e3ed6c1f7@intel.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <7db9c3a5-2120-5ede-eb4e-077e3ed6c1f7@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 25, 2022 at 01:34:01AM -0500, Jeff Vanhoof wrote:
-> Hi,
+On 10/25/22 11:10, Dave Hansen wrote:
+> On 10/24/22 20:46, Bagas Sanjaya wrote:
+>> The prose can be improved:
 > 
-> During the queuing up of requests from the UVC Gadget Driver to DWC3 for one
-> frame, if a missed isoc event occurs then it is possible for the next
-> consecutive frame(s) to also see missed isoc related errors as a result,
-> presenting to the user as a large video stall.
-> 
-> This issue appears to have come in with the skip interrupt implementation in
-> the UVC Gadget Driver:
-> 
-> usb: gadget: uvc: decrease the interrupt load to a quarter
-> https://lore.kernel.org/r/20210628155311.16762-6-m.grzeschik@pengutronix.de
-> 
-> Below is an example flow of how the issue can occur (and why).
-> 
-> For example (ISOC use case):
-> 1) DWC3 driver has 4 requests queued up from the UVC Gadget Driver.
-> 
-> 2) First request has IOC bit set due to no_interrupt=0 also being set, and IMI
-> bit is set to detect missed ISOC.
-> 
-> 3) Requests 2,3,4 do not have IOC bit set due to no_interrupt=1 being set for
-> them. (Note: Whether or not the IMI bit is set for these requests does not
-> matter, issue can still crop up as there is no guarantee that request 2,3,4
-> will see a missed isoc event)
-> 
-> 4) First request gets a missed isoc event and DWC3 returns the req and error to
-> UVC Gadget Driver.
-> 
-> 5) UVC Gadget Driver, in uvc_video_complete, proceeds to cancel the queue by
-> calling uvcg_queue_cancel.
-> 
-> 6) UVC Gadget Driver stops sending additional requests for the current frame.
-> 
-> 7) DWC3 will still have requests 2,3,4 queued up and sitting in its
-> started_list as these requests are not given back to the UVC gadget driver
-> because they each have no_interrupt=1 set, and the DWC3 driver will not have
-> any additional interrupts triggered for them as a result.
-> 
-> 8) Approximately 30-100ms later a new frame enters the UVC Gadget Driver (from
-> V4L2), and it proceeds to send additional requests to the DWC3 driver.
-> 
-> 9) Because requests 2,3,4 are still sitting in the started_list of the dwc3
-> driver, the driver does not stop and restart the transmission that normally
-> helps it recover from the missed isoc situation (this usually happens in
-> between frames).
-> 
-> 10) Some of the requests from the new frame will have no_interrupt=0 set, but
-> these requests will be considered missed/late by the DWC3 controller.
-> 
-> 11) Because these new requests have the IOC bit set (and possibly IMI),
-> interrupts will be triggered causing the DWC3 Driver to return the req and
-> error to the UVC Gadget Driver.
-> 
-> 12) And if the last set of requests sent by the UVC Gadget Driver have
-> "no_interrupt=1" set, then DWC3 may not interrupt further until new requests
-> come in, and the cycle of frame drops/errors will continue.
-> 
-> I have briefly mentioned this issue in another conversation with Thinh. At the
-> time he mentioned that 3 things could possibly be done to help resolve this
-> issue:
-> 
-> 1) The UVC Gadget Driver should ensure that the last requests queued to DWC3
-> must always have "no_interrupt=0" set.
-> 
-> 2) DWC3 can detect stale requests, stop the transmission and give back the
-> requests to the UVC Gadget Driver, and restart the transmission for the new set
-> of requests.
-> 
-> 3) Set "no_interrupt=0" for each request.
->  
-> I have tested out various implementations for all 3 possibilities and they each
-> seem to work ok. Note that these test implementations are not ready for prime
-> time, but served as a way to prove that potential changes in these areas could
-> help to resolve this issue.
-> 
-> I believe that a change for the UVC Gadget Driver should be made, but it also
-> makes sense for the DWC3 driver to also attempt to recover from this situation
-> if possible.
-> 
-> Does anyone have an opinion on the best way to proceed?
+> I'm not sure that's a universal improvement.  It chops out some valuable
+> context.
 
-Please see this set of patches and the discussion around them:
-	https://lore.kernel.org/r/20221018215044.765044-1-w36195@motorola.com
+Seems like you forgot to quote my suggested diff.
 
-Some of them are already queued up in my tree and in linux-next, can you
-try that?  There are others for the dwc3 driver on the mailing list as
-well, testing those would be wonderful if you could do that.
+-- 
+An old man doll... just what I always wanted! - Clara
 
-thanks,
-
-greg k-h
