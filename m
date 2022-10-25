@@ -2,342 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AFEDC38A2D
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 19:12:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 791CFFA373E
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 21:34:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229995AbiJYTMc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 15:12:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53238 "EHLO
+        id S232240AbiJYVeV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 17:34:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232572AbiJYTMZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 15:12:25 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62355D57E1;
-        Tue, 25 Oct 2022 12:12:23 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id v130-20020a1cac88000000b003bcde03bd44so12328675wme.5;
-        Tue, 25 Oct 2022 12:12:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q5mA6B8WvGapDTnIGlDHj8efg2/R54u+VU6mGyAAGUA=;
-        b=Tuj+3A5pNgXG/cwxs9osT4Q3Za1B8a4h8sk5Zmc6FEAK15SxBe2l553AZoEyU5e3wl
-         1GB2aukzqZkbm6jRV5fKMBzUA3z92WtDmVlrF398Qp1Y3Uvsx1GwBbmsmW3cZvEgXvrd
-         q0s9Oehkss1XiAGCpnSeVI4H0mNwL4eLvq4AyZaz2HQRhfwieQhwJ80+I6BBF2Z+DDBe
-         +vi8yPYHtTdALNe7EkE02uDenIn412om71oOTpcXL3PxMavOYj7KcygrFHKgjmBptfTz
-         ocAX2AbCo8EmBPHu5yFIDrBSmepUq+EyGpNhqOk/8EqUXgnOS5+Scg0Qq3+szA0eSgbl
-         Dahw==
+        with ESMTP id S232411AbiJYVeU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 17:34:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F62810B79E
+        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 14:34:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666733658;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=yXHwc88zoXy5niySo4vHvgYx00FvBOSVxmx9o0lebKk=;
+        b=YAR+Z5r2tqFvbNXEySzh5Hog6NaE7UZaYhq7sVZAA+s1Ex1t05g7kxDFfl5SrNA21R3p20
+        E+42BM5aYLY4o8S940EClfy+8/NG5wziRaNNarLVZbkbmp0ICVaNowavzhTTR8Diw+4UQE
+        bNXTkNOJCvXpanwjYi9xbqFd5/bRfq0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-299-mTLNkVSPOwSyV693VOAAyA-1; Tue, 25 Oct 2022 17:34:16 -0400
+X-MC-Unique: mTLNkVSPOwSyV693VOAAyA-1
+Received: by mail-wr1-f69.google.com with SMTP id d23-20020adfa417000000b002364a31b7c9so5221415wra.15
+        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 14:34:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q5mA6B8WvGapDTnIGlDHj8efg2/R54u+VU6mGyAAGUA=;
-        b=XpTnDJjQ40KdaRp8AE07qNd4nhs1SWIS+kaBoI9Pi/nXLRDqoANs0zj07xVNSnnmbo
-         C3le7DHg7owxQQsm6Td5z8sbfQwqBIJjPrmUibV4d84OndFATvg19G/z5+7cx1IbBmkx
-         guBS8BCPhYeCC0Hy//X50vusHDDIPjItLPhnvjdesNOUkjnNxBRucnutEyyGHe2ezWSK
-         4FJQZYpG+ftiD2224FJyVmGTrxk7Qyc3TYjzVSw5IkZ+Sc1foKX5MiXcLp9QYj/j/0Gp
-         SUi3qRoXEGNYzf2gS7G+KNkwLc7uS/NlX31r6WjzfsyYZGJEWHhv9JuPXKNkN1AVTAZe
-         txBQ==
-X-Gm-Message-State: ACrzQf011M614+iPO7e33Z0aISW6g5XEghG8718PSCt9BVUNhulnTBxy
-        QpMlhtM0rgCdRxXxFBKJKutjANzbzmri0w==
-X-Google-Smtp-Source: AMsMyM4zaSkpYR1r+4XycfpvgHA3ogdC/4GA32ykIbmx7o8zm9v1cZxH2+vkJC7QcA2v6sbR39xJ7A==
-X-Received: by 2002:a05:600c:3b1a:b0:3c7:132f:eb7f with SMTP id m26-20020a05600c3b1a00b003c7132feb7fmr18417544wms.49.1666725141272;
-        Tue, 25 Oct 2022 12:12:21 -0700 (PDT)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:d0eb:e336:b451:acd2])
-        by smtp.gmail.com with ESMTPSA id n16-20020a05600c501000b003cf4006a9casm2640061wmr.39.2022.10.25.12.12.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 12:12:20 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     dave@dtucker.co.uk, "Jesper D. Brouer" <netdev@brouer.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v9 1/1] bpf, docs: document BPF_MAP_TYPE_ARRAY
-Date:   Tue, 25 Oct 2022 20:12:06 +0100
-Message-Id: <20221025191206.95584-2-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221025191206.95584-1-donald.hunter@gmail.com>
-References: <20221025191206.95584-1-donald.hunter@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yXHwc88zoXy5niySo4vHvgYx00FvBOSVxmx9o0lebKk=;
+        b=iKJMM9Q43LAOe+QVPd70R2MhcEgNrwn7EHszy4kAMgI/E1UALUyAqLTnB119Gpjp6g
+         YxAaTKF6hNGwbTDas73GqzxVYMEgUAYoZnUOJXneMCpzoubeE26x4/3ISmZ5OWsaqTZz
+         tvAghuWJlgpNnnexn9NdKtgVkomOJc8PMoubz8FqxWoFdxkbyD1Afxtto4kP/pbvO+Qp
+         WS2TZjTVQFpC5V3q1qx5y5C/4muIm2Qn6gfI2TPR8qwPDGVtPCxFRD8VxRIOgXxJm8YZ
+         cWC0eilHXBVx662TylV9SM8IDCKgbYWqFyQnTFeKib2mAn172Nsot3kxMLUNiI0yGq6T
+         XXZQ==
+X-Gm-Message-State: ACrzQf2S2A+TfdJIIZroxPQIN/WoeRamTeDeySVNldW2JKCV8+IQpNDw
+        MhZxRWkSOB8Nd/7QSZQmLuOZ1jZi7lIJyswWvAj2lDjlI3QUQjlJpDDUnFK0wiQJFzVelf3gbLD
+        QZ2vqJj+rl/HHwKv9srTC
+X-Received: by 2002:a5d:64cd:0:b0:236:6d1c:c1a2 with SMTP id f13-20020a5d64cd000000b002366d1cc1a2mr10411530wri.360.1666733655638;
+        Tue, 25 Oct 2022 14:34:15 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7Hl+RX0kZAcgsB+yOz64CtotYs1n5NnSCZiP2ZgHwiy2s2f79AAZHBEylZPdYcfSzcxH9V3A==
+X-Received: by 2002:a5d:64cd:0:b0:236:6d1c:c1a2 with SMTP id f13-20020a5d64cd000000b002366d1cc1a2mr10411518wri.360.1666733655418;
+        Tue, 25 Oct 2022 14:34:15 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:e3ec:5559:7c5c:1928? ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
+        by smtp.googlemail.com with ESMTPSA id p2-20020a5d6382000000b002368a6deaf8sm389470wru.57.2022.10.25.14.34.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Oct 2022 14:34:14 -0700 (PDT)
+Message-ID: <02c910bb-3ea0-fa84-7a1c-92fb9e8b03de@redhat.com>
+Date:   Tue, 25 Oct 2022 23:34:10 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 0/4] KVM: API to block and resume all running vcpus in a
+ vm
+Content-Language: en-US
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+        kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20221022154819.1823133-1-eesposit@redhat.com>
+ <a2e16531-5522-a334-40a1-2b0e17663800@linux.ibm.com>
+ <2701ce67-bfff-8c0c-4450-7c4a281419de@redhat.com>
+ <384b2622-8d7f-ce02-1452-84a86e3a5697@linux.ibm.com>
+ <Y1cVfECAAfmp5XqA@google.com>
+ <5a26c107-9ab5-60ee-0e9c-a9955dfe313d@redhat.com>
+ <Y1gG/W/q/VIydpMu@google.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Y1gG/W/q/VIydpMu@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Dave Tucker <dave@dtucker.co.uk>
+On 10/25/22 17:55, Sean Christopherson wrote:
+> On Tue, Oct 25, 2022, Paolo Bonzini wrote:
+>> That said, I believe the limited memslot API makes it more than just a QEMU
+>> problem.  Because KVM_GET_DIRTY_LOG cannot be combined atomically with
+>> KVM_SET_USER_MEMORY_REGION(MR_DELETE), any VMM that uses dirty-log regions
+>> while the VM is running is liable to losing the dirty status of some pages.
+> 
+> ... and doesn't already do the sane thing and pause vCPUs _and anything else that
+> can touch guest memory_ before modifying memslots. I honestly think QEMU is the > only VMM that would ever use this API. Providing a way to force vCPUs 
+out of KVM_RUN> is at best half of the solution.
 
-Add documentation for the BPF_MAP_TYPE_ARRAY including kernel version
-introduced, usage and examples. Also document BPF_MAP_TYPE_PERCPU_ARRAY
-which is similar.
+I agree this is not a full solution (and I do want to remove 
+KVM_RESUME_ALL_KICKED_VCPUS).
 
-Signed-off-by: Dave Tucker <dave@dtucker.co.uk>
-Co-developed-by: Donald Hunter <donald.hunter@gmail.com>
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/bpf/map_array.rst | 250 ++++++++++++++++++++++++++++++++
- 1 file changed, 250 insertions(+)
- create mode 100644 Documentation/bpf/map_array.rst
+>    - a refcounting scheme to track the number of "holds" put on the system
+>    - serialization to ensure KVM_RESUME_ALL_KICKED_VCPUS completes before a new
+>      KVM_KICK_ALL_RUNNING_VCPUS is initiated
 
-diff --git a/Documentation/bpf/map_array.rst b/Documentation/bpf/map_array.rst
-new file mode 100644
-index 000000000000..97bb80333254
---- /dev/null
-+++ b/Documentation/bpf/map_array.rst
-@@ -0,0 +1,250 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2022 Red Hat, Inc.
-+
-+================================================
-+BPF_MAP_TYPE_ARRAY and BPF_MAP_TYPE_PERCPU_ARRAY
-+================================================
-+
-+.. note::
-+   - ``BPF_MAP_TYPE_ARRAY`` was introduced in kernel version 3.19
-+   - ``BPF_MAP_TYPE_PERCPU_ARRAY`` was introduced in version 4.6
-+
-+``BPF_MAP_TYPE_ARRAY`` and ``BPF_MAP_TYPE_PERCPU_ARRAY`` provide generic array
-+storage. The key type is an unsigned 32-bit integer (4 bytes) and the map is
-+of constant size. The size of the array is defined in ``max_entries`` at
-+creation time. All array elements are pre-allocated and zero initialized when
-+created. ``BPF_MAP_TYPE_PERCPU_ARRAY`` uses a different memory region for each
-+CPU whereas ``BPF_MAP_TYPE_ARRAY`` uses the same memory region. The value
-+stored can be of any size, however, all array elements are aligned to 8
-+bytes.
-+
-+Since kernel 5.5, memory mapping may be enabled for ``BPF_MAP_TYPE_ARRAY`` by
-+setting the flag ``BPF_F_MMAPABLE``. The map definition is page-aligned and
-+starts on the first page. Sufficient page-sized and page-aligned blocks of
-+memory are allocated to store all array values, starting on the second page,
-+which in some cases will result in over-allocation of memory. The benefit of
-+using this is increased performance and ease of use since userspace programs
-+would not be required to use helper functions to access and mutate data.
-+
-+Usage
-+=====
-+
-+Kernel BPF
-+----------
-+
-+.. c:function::
-+   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-+
-+Array elements can be retrieved using the ``bpf_map_lookup_elem()`` helper.
-+This helper returns a pointer into the array element, so to avoid data races
-+with userspace reading the value, the user must use primitives like
-+``__sync_fetch_and_add()`` when updating the value in-place.
-+
-+.. c:function::
-+   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
-+
-+Array elements can be updated using the ``bpf_map_update_elem()`` helper.
-+
-+``bpf_map_update_elem()`` returns 0 on success, or negative error in case of
-+failure.
-+
-+Since the array is of constant size, ``bpf_map_delete_elem()`` is not supported.
-+To clear an array element, you may use ``bpf_map_update_elem()`` to insert a
-+zero value to that index.
-+
-+Per CPU Array
-+~~~~~~~~~~~~~
-+
-+Values stored in ``BPF_MAP_TYPE_ARRAY`` can be accessed by multiple programs
-+across different CPUs. To restrict storage to a single CPU, you may use a
-+``BPF_MAP_TYPE_PERCPU_ARRAY``.
-+
-+When using a ``BPF_MAP_TYPE_PERCPU_ARRAY`` the ``bpf_map_update_elem()`` and
-+``bpf_map_lookup_elem()`` helpers automatically access the slot for the current
-+CPU.
-+
-+.. c:function::
-+   void *bpf_map_lookup_percpu_elem(struct bpf_map *map, const void *key, u32 cpu)
-+
-+The ``bpf_map_lookup_percpu_elem()`` helper can be used to lookup the array
-+value for a specific CPU. Returns value on success , or ``NULL`` if no entry was
-+found or ``cpu`` is invalid.
-+
-+Concurrency
-+-----------
-+
-+Since kernel version 5.1, the BPF infrastructure provides ``struct bpf_spin_lock``
-+to synchronize access.
-+
-+Userspace
-+---------
-+
-+Access from userspace uses libbpf APIs with the same names as above, with
-+the map identified by its ``fd``.
-+
-+Examples
-+========
-+
-+Please see the ``tools/testing/selftests/bpf`` directory for functional
-+examples. The code samples below demonstrate API usage.
-+
-+Kernel BPF
-+----------
-+
-+This snippet shows how to declare an array in a BPF program.
-+
-+.. code-block:: c
-+
-+    struct {
-+            __uint(type, BPF_MAP_TYPE_ARRAY);
-+            __type(key, u32);
-+            __type(value, long);
-+            __uint(max_entries, 256);
-+    } my_map SEC(".maps");
-+
-+
-+This example BPF program shows how to access an array element.
-+
-+.. code-block:: c
-+
-+    int bpf_prog(struct __sk_buff *skb)
-+    {
-+            struct iphdr ip;
-+            int index;
-+            long *value;
-+
-+            if (bpf_skb_load_bytes(skb, ETH_HLEN, &ip, sizeof(ip)) < 0)
-+                    return 0;
-+
-+            index = ip.protocol;
-+            value = bpf_map_lookup_elem(&my_map, &index);
-+            if (value)
-+                    __sync_fetch_and_add(value, skb->len);
-+
-+            return 0;
-+    }
-+
-+Userspace
-+---------
-+
-+BPF_MAP_TYPE_ARRAY
-+~~~~~~~~~~~~~~~~~~
-+
-+This snippet shows how to create an array, using ``bpf_map_create_opts`` to
-+set flags.
-+
-+.. code-block:: c
-+
-+    #include <bpf/libbpf.h>
-+    #include <bpf/bpf.h>
-+
-+    int create_array()
-+    {
-+            int fd;
-+            LIBBPF_OPTS(bpf_map_create_opts, opts, .map_flags = BPF_F_MMAPABLE);
-+
-+            fd = bpf_map_create(BPF_MAP_TYPE_ARRAY,
-+                                "example_array",       /* name */
-+                                sizeof(__u32),         /* key size */
-+                                sizeof(long),          /* value size */
-+                                256,                   /* max entries */
-+                                &opts);                /* create opts */
-+            return fd;
-+    }
-+
-+This snippet shows how to initialize the elements of an array.
-+
-+.. code-block:: c
-+
-+    int initialize_array(int fd)
-+    {
-+            __u32 i;
-+            long value;
-+            int ret;
-+
-+            for (i = 0; i < 256; i++) {
-+                    value = i;
-+                    ret = bpf_map_update_elem(fd, &i, &value, BPF_ANY);
-+                    if (ret < 0)
-+                            return ret;
-+            }
-+
-+            return ret;
-+    }
-+
-+This snippet shows how to retrieve an element value from an array.
-+
-+.. code-block:: c
-+
-+    int lookup(int fd)
-+    {
-+            __u32 index = 42;
-+            long value;
-+            int ret;
-+
-+            ret = bpf_map_lookup_elem(fd, &index, &value);
-+            if (ret < 0)
-+                    return ret;
-+
-+            /* use value here */
-+            assert(value == 42);
-+
-+            return ret;
-+    }
-+
-+BPF_MAP_TYPE_PERCPU_ARRAY
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+This snippet shows how to initialize the elements of a per CPU array.
-+
-+.. code-block:: c
-+
-+    int initialize_array(int fd)
-+    {
-+            int ncpus = libbpf_num_possible_cpus();
-+            long values[ncpus];
-+            __u32 i, j;
-+            int ret;
-+
-+            for (i = 0; i < 256 ; i++) {
-+                    for (j = 0; j < ncpus; j++)
-+                            values[j] = i;
-+                    ret = bpf_map_update_elem(fd, &i, &values, BPF_ANY);
-+                    if (ret < 0)
-+                            return ret;
-+            }
-+
-+            return ret;
-+    }
-+
-+This snippet shows how to access the per CPU elements of an array value.
-+
-+.. code-block:: c
-+
-+    int lookup(int fd)
-+    {
-+            int ncpus = libbpf_num_possible_cpus();
-+            __u32 index = 42, j;
-+            long values[ncpus];
-+            int ret;
-+
-+            ret = bpf_map_lookup_elem(fd, &index, &values);
-+            if (ret < 0)
-+                    return ret;
-+
-+            for (j = 0; j < ncpus; j++) {
-+                    /* Use per CPU value here */
-+                    assert(values[j] == 42);
-+            }
-+
-+            return ret;
-+    }
-+
-+Semantics
-+=========
-+
-+As shown in the example above, when accessing a ``BPF_MAP_TYPE_PERCPU_ARRAY``
-+in userspace, each value is an array with ``ncpus`` elements.
-+
-+When calling ``bpf_map_update_elem()`` the flag ``BPF_NOEXIST`` can not be used
-+for these maps.
--- 
-2.35.1
+Both of these can be just a mutex, the others are potentially more 
+interesting but I'm not sure I understand them:
+
+>    - to prevent _all_ ioctls() because it's not just KVM_RUN that consumes memslots
+
+This is perhaps an occasion to solve another disagreement: I still think 
+that accessing memory outside KVM_RUN (for example KVM_SET_NESTED_STATE 
+loading the APICv pages from VMCS12) is a bug, on the other hand we 
+disagreed on that and you wanted to kill KVM_REQ_GET_NESTED_STATE_PAGES.
+
+>    - to stop anything else in the system that consumes KVM memslots, e.g. KVM GT
+
+Is this true if you only look at the KVM_GET_DIRTY_LOG case and consider 
+it a guest bug to access the memory (i.e. ignore the strange read-only 
+changes which only happen at boot, and which I agree are QEMU-specific)?
+
+>    - to signal vCPU tasks so that the system doesn't livelock if a vCPU is stuck
+>      outside of KVM, e.g. in get_user_pages_unlocked() (Peter Xu's series)
+
+This is the more important one but why would it livelock?
+
+> And because of the nature of KVM, to support this API on all architectures, KVM
+> needs to make change on all architectures, whereas userspace should be able to
+> implement a generic solution.
+
+Yes, I agree that this is essentially just a more efficient kill(). 
+Emanuele, perhaps you can put together a patch to x86/vmexit.c in 
+kvm-unit-tests, where CPU0 keeps changing memslots and the other CPUs 
+are in a for(;;) busy wait, to measure the various ways to do it?
+
+Paolo
 
