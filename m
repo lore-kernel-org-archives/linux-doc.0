@@ -2,135 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EB6FFA373F
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 01:11:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F06CEFA373F
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 03:23:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231348AbiJYBLX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 21:11:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41172 "EHLO
+        id S231217AbiJYDXw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 23:23:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231356AbiJYBKs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 21:10:48 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BC766554C;
-        Mon, 24 Oct 2022 17:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666657256; x=1698193256;
-  h=message-id:date:mime-version:from:subject:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=/1uaQ+xco441pDsJRiEwU9iBCQ5+D+oqZxL5Lt+sTaE=;
-  b=ArS8VSBKMNyJufwQQ38yigOc7LfBwJHNRcfxKkWBoKkBecBzmzwhK4hD
-   cRAsU7CeZyybsCoTYptqsxAEpAgBnuhKDE1BC8zP9YpC1QBie5pJ/+e8U
-   qfR2vq/waV3e+C2VFVGJklm0D/9Pjf3gtqvQKTjzRaQ4G7DJSrWlrayn9
-   tAD9zUkwpV78e9VOAptcF/tNU6MxxoInZy6ATQReGiRTCrfLuOtGgpgFA
-   ZiEAROrj1LIX/kHU6zS+Q05qKkJOdWjmctgjOrgWotbceTxnTJdHP9cj7
-   JKb0SQMz0cys3LnpFUQiOQOCGEm2mMSm6NYfwZ35MEhLfmnc04Tlmxqq+
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="290854992"
-X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; 
-   d="scan'208";a="290854992"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 17:20:55 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="720664409"
-X-IronPort-AV: E=Sophos;i="5.95,210,1661842800"; 
-   d="scan'208";a="720664409"
-Received: from bmahadev-mobl.amr.corp.intel.com (HELO [10.212.216.245]) ([10.212.216.245])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2022 17:20:54 -0700
-Message-ID: <0f4d9817-6a8a-225e-5322-db4fd9a4aabb@linux.intel.com>
-Date:   Mon, 24 Oct 2022 17:20:53 -0700
+        with ESMTP id S230342AbiJYDXv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 23:23:51 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CFB54A836
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 20:23:49 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id jo13so6526263plb.13
+        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 20:23:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=f9FEmbC5xpjHJg/2O8DNlMMB4H4G84Faq1RNdC5/70Y=;
+        b=J6AoKAQCxSkBd/sowbwPCi6ub1mPxV0qlHWX0WF7X3NIlYQn4YHES82Srn6p4epgIr
+         I/r34Cbt1RAn8twGDRZkfGNfzOPw/CE/lQ3d8KKm/xk0O0byOMZgfEBxXin8xMsH6Ae4
+         OYdMDc09gEwKmklQ38eKDQ1EP/Ifp9975kI3vOWpMT2+B7APWMDg1HWdHh6RDm2IhmZp
+         nFlQWBQ5LXCjatGUOm0Nssz0irDhTOK5bRfoLWDBGVjr3x7Zn+3TjCCDg34vvNahoMXf
+         /GTBMcEoPm5pkxKRsBe/cZklokeE7OuhvhWmNxe9o2BV3Dg9u2aHkD+tP04uQVNOH6VR
+         XDtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f9FEmbC5xpjHJg/2O8DNlMMB4H4G84Faq1RNdC5/70Y=;
+        b=X13ao73OpNPKgyOr4+Lq7cAzZqqW4BzoCm/ym01wmJNdU2rUQqhVUVr9liqB/DXQ7o
+         CXoXnUJb0hv3RPObONAcGf1f2pL55vAveRVZMhZ2GGqox0/NIIwMBztn9ik2WIXNjzNw
+         FXvufNQ2JQuBGj72bHO1BGgwnWf3tI6rCHDbh7AAz1IS/r86Zt9oODl+biLfZ93TZtDu
+         laJlVuLzGLUSlmif2c9lFxSkXQ2UW7ChhWgEkCrMatriMU/AoeDv/VJQf2tQHSuvF4Jd
+         nekaHlrgKWV3SsjXw+n7+VuuUgB52XGRGrxD3stPlgSeHX6XLErbHbCFghYK79Iyexgv
+         ig/Q==
+X-Gm-Message-State: ACrzQf2Lkk61Ysccm0q5i3a6fYqViJ+29QjyIIK1ThvJAZMr5Rhc4fba
+        B3FV0nN8zPB8Ys/Mv6bwgnlFHw==
+X-Google-Smtp-Source: AMsMyM6T9pbgn5kWI4AmOtmghV7rd1u8oseHmlwr+2DnuT3VwNTxi88zyEHreGyjv+o07wkD42j/iQ==
+X-Received: by 2002:a17:90b:4a47:b0:212:f7ef:1bd6 with SMTP id lb7-20020a17090b4a4700b00212f7ef1bd6mr13717346pjb.79.1666668229127;
+        Mon, 24 Oct 2022 20:23:49 -0700 (PDT)
+Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419? ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+        by smtp.gmail.com with ESMTPSA id n16-20020a170903111000b001868d4600b8sm397270plh.158.2022.10.24.20.23.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Oct 2022 20:23:48 -0700 (PDT)
+Message-ID: <8ed65e3e-e0b9-05ae-b113-db9d649a1e5a@daynix.com>
+Date:   Tue, 25 Oct 2022 12:23:39 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.2.2
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: Re: [PATCH v15 2/3] virt: Add TDX guest driver
-To:     Dave Hansen <dave.hansen@intel.com>, Borislav Petkov <bp@alien8.de>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 00/22] Fallback to native backlight
+To:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20221020045828.2354731-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20221020045828.2354731-3-sathyanarayanan.kuppuswamy@linux.intel.com>
- <Y1De4IyAB6n2qs4V@kroah.com>
- <34ef18d6-69f8-853a-d1ba-7023822e17ff@linux.intel.com>
- <Y1Iimg0WItgIGq6/@kroah.com>
- <c09184e3-ac15-b230-6dea-d6718f6f0ab0@linux.intel.com>
- <f03f1db3-5e55-9606-1d0d-4d51213a0b1a@intel.com>
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Len Brown <lenb@kernel.org>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        "Lee, Chun-Yi" <jlee@suse.com>, Mark Gross <markgross@kernel.org>,
+        Corentin Chary <corentin.chary@gmail.com>,
+        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
+        Matthew Garrett <mjg59@srcf.ucam.org>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        Jonathan Woithe <jwoithe@just42.net>,
+        Ike Panhc <ike.pan@canonical.com>,
+        Daniel Dadap <ddadap@nvidia.com>,
+        Kenneth Chan <kenneth.t.chan@gmail.com>,
+        Mattia Dongili <malattia@linux.it>,
+        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+        Azael Avalos <coproscefalo@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Robert Moore <robert.moore@intel.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org,
+        platform-driver-x86@vger.kernel.org,
+        acpi4asus-user@lists.sourceforge.net,
+        ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
+        devel@acpica.org
+References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
+ <746e5cc6-516f-8f69-9d4b-8fe237de8fd6@redhat.com>
+ <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
+ <60672af8-05d2-113c-12b9-d635608be0dd@redhat.com>
+ <ea69242c-0bc8-c7bb-9602-c7489bb69684@daynix.com>
+ <7373e258-f7cc-4416-9b1c-c8c9dab59ada@daynix.com>
+ <ae3497ed-b68d-c36a-6b6f-f7b9771d9238@redhat.com>
+ <78ad5d7b-4078-0b8e-f4aa-6c8113631359@daynix.com> <87o7u1drcz.fsf@intel.com>
 Content-Language: en-US
-In-Reply-To: <f03f1db3-5e55-9606-1d0d-4d51213a0b1a@intel.com>
-Content-Type: text/plain; charset=UTF-8
+From:   Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <87o7u1drcz.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Dave,
+On 2022/10/25 3:11, Jani Nikula wrote:
+> On Tue, 25 Oct 2022, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>> That aside, the first patch in this series can be applied without the
+>> later patches so you may have a look at it. It's fine if you don't merge
+>> it though since it does not fix really a pragmatic bug as its message says.
+> 
+> I think it's problematic because it needlessly ties i915 backlight
+> operation to existence of backlight devices that may not be related to
+> Intel GPU at all. The direction should be multiple supported backlight
+> devices, across GPUs and connectors, but only one per display.
+> 
+> BR,
+> Jani.
+> 
+> 
 
-On 10/24/22 7:17 AM, Dave Hansen wrote:
-> On 10/23/22 09:13, Sathyanarayanan Kuppuswamy wrote:
->> On 10/20/22 9:39 PM, Greg Kroah-Hartman wrote:
->>>>> You are allowing userspace to spam the kernel logs, please do not do
->>>>> that.
->>>> Added it to help userspace understand the reason for the failure (only for
->>>> the cases like request param issues and TDCALL failure). Boris recommended
->>>> adding it in the previous review.
->>> Again, you just created a vector for userspace to spam the kernel log.
->>> No kernel driver should ever do that.
->>>
->> Brois, any comments? Do you also agree?
-> ...
->> +	if (req.subtype || req.rpd_len != TDX_REPORTDATA_LEN ||
->> +	    req.tdr_len != TDX_REPORT_LEN) {
->> +		pr_err("TDX_CMD_GET_REPORT: invalid req: subtype:%u rpd_len:%u tdr_len:%u\n",
->> +		       req.subtype, req.rpd_len, req.tdr_len);
-> 
-> This is _clearly_ debugging code.  There are a billion if(foo){return
-> -EINVAL;}'s in the kernel, and very few of them have printk()'s to go
-> along with them.
-> 
-> They do help figure out what happened when userspace sees an -EINVAL and
-> can't figure out what it did to cause it.  But, if the kernel spammed
-> dmesg for every time userspace does something stupid, it'd be filled up
-> with noise.
-> 
-> There are other ways to debug stuff like this if userspace gets confused.
-> 
-> If folks are OK with dev_dbg(), then I'd move over to that.  But,
-> frankly, I don't think this rises to the level of needing its own error
-> message.
-> 
-> Heck, I'm not even sure why this code exits in the first place.  I guess
-> we don't want userspace making random requests to the host.  But, of
-> course, none of _that_ information about what the code is actually there
-> for made it into the patch, and it just consumes comment space
-> regurgitating the TDX spec.
-> 
-> This branch of the thread frankly isn't about a pr_err().  It's about
-> nobody really knowing (or caring) why that line of code is there, when
-> it might happen, and what precise function it serves.
+Unfortunately it is the current situation (even without this patch), and 
+this patch is not meant to fix the particular issue.
 
-It is added to ensure the user does not make random requests and the user
-input aligns with the defined IOCTL ABI. Returning -EINVAL for the input
-parameter error will help userspace better understand the reason for the
-failure than failing after making the TDCALL request.
+This patch replaces the following expression:
+acpi_video_get_backlight_type() == acpi_backlight_native
 
-I have added the spec reference mainly for the reader to understand the
-origin of the checks involved. Would you prefer a comment like "Check for
-valid user input"?
+As you can see, acpi_video_get_backlight_type() doesn't take a parameter 
+which represents the backlight currently being operated. The problem is 
+known and documented in "Brightness handling on devices with multiple 
+internal panels" section of Documentation/gpu/todo.rst.
 
--- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+The exiting solution is based on the assumption that no device with i915 
+and multiple internal backlights.
+
+Regards,
+Akihiko Odaki
