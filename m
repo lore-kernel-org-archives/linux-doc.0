@@ -2,141 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F06CEFA373F
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 03:23:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7003FC04A95
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 03:46:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231217AbiJYDXw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 24 Oct 2022 23:23:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33462 "EHLO
+        id S229588AbiJYDqa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 24 Oct 2022 23:46:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230342AbiJYDXv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 23:23:51 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CFB54A836
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 20:23:49 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id jo13so6526263plb.13
-        for <linux-doc@vger.kernel.org>; Mon, 24 Oct 2022 20:23:49 -0700 (PDT)
+        with ESMTP id S229727AbiJYDq3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Oct 2022 23:46:29 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2446E13DDF;
+        Mon, 24 Oct 2022 20:46:27 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id 3-20020a17090a0f8300b00212d5cd4e5eso9284712pjz.4;
+        Mon, 24 Oct 2022 20:46:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=f9FEmbC5xpjHJg/2O8DNlMMB4H4G84Faq1RNdC5/70Y=;
-        b=J6AoKAQCxSkBd/sowbwPCi6ub1mPxV0qlHWX0WF7X3NIlYQn4YHES82Srn6p4epgIr
-         I/r34Cbt1RAn8twGDRZkfGNfzOPw/CE/lQ3d8KKm/xk0O0byOMZgfEBxXin8xMsH6Ae4
-         OYdMDc09gEwKmklQ38eKDQ1EP/Ifp9975kI3vOWpMT2+B7APWMDg1HWdHh6RDm2IhmZp
-         nFlQWBQ5LXCjatGUOm0Nssz0irDhTOK5bRfoLWDBGVjr3x7Zn+3TjCCDg34vvNahoMXf
-         /GTBMcEoPm5pkxKRsBe/cZklokeE7OuhvhWmNxe9o2BV3Dg9u2aHkD+tP04uQVNOH6VR
-         XDtw==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PQa2XbdoWOe8eLkhZL1464PTK/1SKONGLnog+Alr8n4=;
+        b=ePRePWJAH6OEEbCx78aGDx9EputeX5MnDTAcOh5BbsNeRqZ+eBRc2Du66WK2+u+61t
+         GoRpgNY1k8lXU4ALP0pIFwm9pUQJ6psuUsEA3EoPzCxvoR+1qooZg/At6PBcqSXciILD
+         QGNXRy9l1iVHZYiitVYuYfJ+xOtWRXoeWsiiZiswHHiyv47IS13Y+82kHPDdyi/ZvyHV
+         lLHnDyDZBwYba1AwQbcA44LMTme2XAwGdSmmEd1OEhO2HXGTtfywV8QSmZNxhT0Iukbf
+         huyEAeRAbRsaLc877EaBYWyUmeXbWnNeFqMwsEp6uxB9qfmUJaq8d7604BfpI3jZVVKb
+         sgDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f9FEmbC5xpjHJg/2O8DNlMMB4H4G84Faq1RNdC5/70Y=;
-        b=X13ao73OpNPKgyOr4+Lq7cAzZqqW4BzoCm/ym01wmJNdU2rUQqhVUVr9liqB/DXQ7o
-         CXoXnUJb0hv3RPObONAcGf1f2pL55vAveRVZMhZ2GGqox0/NIIwMBztn9ik2WIXNjzNw
-         FXvufNQ2JQuBGj72bHO1BGgwnWf3tI6rCHDbh7AAz1IS/r86Zt9oODl+biLfZ93TZtDu
-         laJlVuLzGLUSlmif2c9lFxSkXQ2UW7ChhWgEkCrMatriMU/AoeDv/VJQf2tQHSuvF4Jd
-         nekaHlrgKWV3SsjXw+n7+VuuUgB52XGRGrxD3stPlgSeHX6XLErbHbCFghYK79Iyexgv
-         ig/Q==
-X-Gm-Message-State: ACrzQf2Lkk61Ysccm0q5i3a6fYqViJ+29QjyIIK1ThvJAZMr5Rhc4fba
-        B3FV0nN8zPB8Ys/Mv6bwgnlFHw==
-X-Google-Smtp-Source: AMsMyM6T9pbgn5kWI4AmOtmghV7rd1u8oseHmlwr+2DnuT3VwNTxi88zyEHreGyjv+o07wkD42j/iQ==
-X-Received: by 2002:a17:90b:4a47:b0:212:f7ef:1bd6 with SMTP id lb7-20020a17090b4a4700b00212f7ef1bd6mr13717346pjb.79.1666668229127;
-        Mon, 24 Oct 2022 20:23:49 -0700 (PDT)
-Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419? ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
-        by smtp.gmail.com with ESMTPSA id n16-20020a170903111000b001868d4600b8sm397270plh.158.2022.10.24.20.23.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 20:23:48 -0700 (PDT)
-Message-ID: <8ed65e3e-e0b9-05ae-b113-db9d649a1e5a@daynix.com>
-Date:   Tue, 25 Oct 2022 12:23:39 +0900
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PQa2XbdoWOe8eLkhZL1464PTK/1SKONGLnog+Alr8n4=;
+        b=FWsj8+dbC9cJyFvUN1B3ChJy7J1n+LG/lSJt96a+/C0eYXV+oH3ROVmqyJeS402uFO
+         WKgZg0dF0qviHdqeKpx7DpkmSvSUER2EPJh2Ra4SKVmZBYmp66WBTJD173YYPD4YUX4S
+         WB5ZGM7vbQlGEePVSPPQAENV+1noXfBSYP4SFR46LIylI2xlRHc2Ii5uQ5zHSdWgzGn0
+         NXNUzijc95zwZW7vxjNhEegPAJ/uQTZUd5vCdABoAhayNOqPyE/ggBCltcqGFoLmKcEo
+         T9D5g1/E6HZKO7hyTvSWU7hjfmmLP7oNVs5l30T1ZNCDueWWFLcL+pozTo3e8q08D+yr
+         qS+Q==
+X-Gm-Message-State: ACrzQf2N2j8UygqM9y6mIlZwpJ2YboBw4KlkC0Ql64VdBQXXRnnVBRGN
+        Gdr59AQVDZ0RmakY961/iH8=
+X-Google-Smtp-Source: AMsMyM7VS1IZg3JqFMCzc/CNgaTyd/cEs0WsDJIMzIUscUv6eT5Vdd2nTWP8JVLDH79qQH0Y5fxvTA==
+X-Received: by 2002:a17:902:e552:b0:179:e796:b432 with SMTP id n18-20020a170902e55200b00179e796b432mr36074043plf.21.1666669586600;
+        Mon, 24 Oct 2022 20:46:26 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-7.three.co.id. [180.214.232.7])
+        by smtp.gmail.com with ESMTPSA id w8-20020a63f508000000b00462612c2699sm445722pgh.86.2022.10.24.20.46.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Oct 2022 20:46:26 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id ED14A1002B9; Tue, 25 Oct 2022 10:46:22 +0700 (WIB)
+Date:   Tue, 25 Oct 2022 10:46:22 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        hpa@zytor.com, luto@kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, kernel-dev@igalia.com,
+        kernel@gpiccoli.net, Fenghua Yu <fenghua.yu@intel.com>,
+        Joshua Ashton <joshua@froggi.es>,
+        Melissa Wen <mwen@igalia.com>,
+        Paul Gofman <pgofman@codeweavers.com>,
+        Pavel Machek <pavel@denx.de>,
+        Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Zebediah Figura <zfigura@codeweavers.com>,
+        Andre Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH V3] x86/split_lock: Add sysctl to control the misery mode
+Message-ID: <Y1dcDmmIu8gSX4Rb@debian.me>
+References: <20221024200254.635256-1-gpiccoli@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH 00/22] Fallback to native backlight
-To:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Len Brown <lenb@kernel.org>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        "Lee, Chun-Yi" <jlee@suse.com>, Mark Gross <markgross@kernel.org>,
-        Corentin Chary <corentin.chary@gmail.com>,
-        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
-        Jonathan Woithe <jwoithe@just42.net>,
-        Ike Panhc <ike.pan@canonical.com>,
-        Daniel Dadap <ddadap@nvidia.com>,
-        Kenneth Chan <kenneth.t.chan@gmail.com>,
-        Mattia Dongili <malattia@linux.it>,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Azael Avalos <coproscefalo@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Helge Deller <deller@gmx.de>,
-        Robert Moore <robert.moore@intel.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org,
-        platform-driver-x86@vger.kernel.org,
-        acpi4asus-user@lists.sourceforge.net,
-        ibm-acpi-devel@lists.sourceforge.net, linux-fbdev@vger.kernel.org,
-        devel@acpica.org
-References: <20221024113513.5205-1-akihiko.odaki@daynix.com>
- <746e5cc6-516f-8f69-9d4b-8fe237de8fd6@redhat.com>
- <edec5950-cec8-b647-ccb1-ba48f9b3bbb0@daynix.com>
- <60672af8-05d2-113c-12b9-d635608be0dd@redhat.com>
- <ea69242c-0bc8-c7bb-9602-c7489bb69684@daynix.com>
- <7373e258-f7cc-4416-9b1c-c8c9dab59ada@daynix.com>
- <ae3497ed-b68d-c36a-6b6f-f7b9771d9238@redhat.com>
- <78ad5d7b-4078-0b8e-f4aa-6c8113631359@daynix.com> <87o7u1drcz.fsf@intel.com>
-Content-Language: en-US
-From:   Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <87o7u1drcz.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="xfEdKcxEziDo6DYw"
+Content-Disposition: inline
+In-Reply-To: <20221024200254.635256-1-gpiccoli@igalia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/10/25 3:11, Jani Nikula wrote:
-> On Tue, 25 Oct 2022, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->> That aside, the first patch in this series can be applied without the
->> later patches so you may have a look at it. It's fine if you don't merge
->> it though since it does not fix really a pragmatic bug as its message says.
-> 
-> I think it's problematic because it needlessly ties i915 backlight
-> operation to existence of backlight devices that may not be related to
-> Intel GPU at all. The direction should be multiple supported backlight
-> devices, across GPUs and connectors, but only one per display.
-> 
-> BR,
-> Jani.
-> 
-> 
 
-Unfortunately it is the current situation (even without this patch), and 
-this patch is not meant to fix the particular issue.
+--xfEdKcxEziDo6DYw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This patch replaces the following expression:
-acpi_video_get_backlight_type() == acpi_backlight_native
+On Mon, Oct 24, 2022 at 05:02:54PM -0300, Guilherme G. Piccoli wrote:
+> +split_lock_mitigate (x86 only)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +
+> +On x86, each "split lock" imposes a system-wide performance penalty. On =
+larger
+> +systems, large numbers of split locks from unprivileged users can result=
+ in
+> +denials of service to well-behaved and potentially more important users.
+> +
 
-As you can see, acpi_video_get_backlight_type() doesn't take a parameter 
-which represents the backlight currently being operated. The problem is 
-known and documented in "Brightness handling on devices with multiple 
-internal panels" section of Documentation/gpu/todo.rst.
+DoS which harms legitimate users?
 
-The exiting solution is based on the assumption that no device with i915 
-and multiple internal backlights.
+> +The kernel mitigates these bad users by detecting split locks and imposi=
+ng
+> +penalties: forcing them to wait and only allowing one core to execute sp=
+lit
+> +locks at a time.
+> +
+> +These mitigations can make those bad applications unbearably slow. Setti=
+ng
+> +split_lock_mitigate=3D0 may restore some application performance, but wi=
+ll also
+> +increase system exposure to denial of service attacks from split lock us=
+ers.
+> +
+> +=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +0 Disable the mitigation mode - just warns the split lock on kernel log
+> +  and exposes the system to denials of service from the split lockers.
+> +1 Enable the mitigation mode (this is the default) - penalizes the split
+> +  lockers with intentional performance degradation.
+> +=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +
 
-Regards,
-Akihiko Odaki
+The prose can be improved:
+
+---- >8 ----
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/ad=
+min-guide/sysctl/kernel.rst
+index c2c64c1b706ff6..cdc5b75adb4633 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -1319,22 +1319,21 @@ split_lock_mitigate (x86 only)
+=20
+ On x86, each "split lock" imposes a system-wide performance penalty. On la=
+rger
+ systems, large numbers of split locks from unprivileged users can result in
+-denials of service to well-behaved and potentially more important users.
++denials of service attack.
+=20
+-The kernel mitigates these bad users by detecting split locks and imposing
++The kernel mitigates that condition by detecting split locks and imposing
+ penalties: forcing them to wait and only allowing one core to execute split
+ locks at a time.
+=20
+-These mitigations can make those bad applications unbearably slow. Setting
+-split_lock_mitigate=3D0 may restore some application performance, but will=
+ also
+-increase system exposure to denial of service attacks from split lock user=
+s.
++These mitigations can make applications which rely on split locks unbearab=
+ly
++slow. Setting split_lock_mitigate=3D0 may restore performance, but will al=
+so
++increase likelihood of DoS caused by split locks.
+=20
+-=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-0 Disable the mitigation mode - just warns the split lock on kernel log
+-  and exposes the system to denials of service from the split lockers.
+-1 Enable the mitigation mode (this is the default) - penalizes the split
+-  lockers with intentional performance degradation.
+-=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++0 Disable the mitigation - just warns the split lock on kernel log.
++1 Enable the mitigation (default) - penalizes the split lockers with
++  intentional performance degradation.
++=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+=20
+ stack_erasing
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--xfEdKcxEziDo6DYw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY1dcCQAKCRD2uYlJVVFO
+o+EtAP9+GTeOxlKLSNzv4wuEwiXF7IthCm5gIYEbzimGdYpnZAD+Mma/tg4Q/zsz
+nTOX7YKvlDMna74Q1+RjoOqF/lvUtwI=
+=Hrez
+-----END PGP SIGNATURE-----
+
+--xfEdKcxEziDo6DYw--
