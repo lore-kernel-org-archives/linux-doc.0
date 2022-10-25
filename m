@@ -2,154 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74110C38A2D
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 22:52:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB850ECDFA1
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 23:07:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231829AbiJYWwZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 18:52:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52068 "EHLO
+        id S232445AbiJYXHR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 19:07:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231646AbiJYWwY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 18:52:24 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B6A4237F6;
-        Tue, 25 Oct 2022 15:52:23 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id 192so6277108pfx.5;
-        Tue, 25 Oct 2022 15:52:23 -0700 (PDT)
+        with ESMTP id S231844AbiJYXHQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 19:07:16 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74664E8C50
+        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 16:07:15 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id k22so1795277pfd.3
+        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 16:07:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dscgs+ydXpa+zSr9O18VpmGVPw+9ObsVjtPwWI+z0tQ=;
-        b=YpEuvcynWg6m4SNXhwiG02g9kX1rwoHcG5XAO5DXI5N1CjhuOjLvY2ZDo2dBun5MYl
-         DpQkxtb+C4v0TiMyk3xrsZKr94rK6c1LoKqDTURSIOzNw1JwLhfvQMyQwaUQlZfZyKqL
-         eqayQ8KDxmUAqbZxoAYiu7dZQCcPmiX1IX1jbFtOcbcpMIO202acV54izcEUekE0Th5b
-         PFXfqYsIThxQcVU6KgoooAr7KoXWR2cA6IhxGupbPZTRogPhNcVsLLDS0ReUN65sqPDF
-         ls9rufg6MPOe2epBvJMi0I5IZkvvW/hXL6EJ4B4/Q5jB1Pf7ldQqH0sU2jyCUaW4ao7U
-         +pJw==
+        bh=A7kKcrW8+Rtrlgds+v4H23IM/wohgMjvlalkGtkGE48=;
+        b=i9+bLN5FonRCnXyaeAZ/jEHxOllBLcuLRG6g7djDO2ymq1eoILB4dhajH6DdkL9Ypw
+         dWBExwNgYe7L3rF6XlQLTuNRvlRhUlKYjHp/L1iVjmBzSGExzuACU05FIwWhOkZaZxhW
+         SlFEj6y2aedc8tdZPGfzSyQiWabdMrxN8vyn13231CbpBxAP9sT5+IQhyoFu0+oYUWQp
+         PhX+L5oqnTXUtVtqktZxw/YivgWoFURGH7AMjlXoM6O1hKn1gn0MTGBodUdfBHCYYrk0
+         knLwhuacFx5zJW48cTVCrNO9wqrHItHkkxk/aDLvtlYfLl6DtxNw1JoLy41IaidlmKLW
+         zOMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dscgs+ydXpa+zSr9O18VpmGVPw+9ObsVjtPwWI+z0tQ=;
-        b=oOT0CeH6AZvHoylZL7WUR9Lr37K5Hu6hYb4yc9IiFOdWBCa9QI8vf8ByRRxoize5Yd
-         YAtVg5iriwmjJLDmxv5UJ1vBhUCZ7JEQLkN66qOUX81igzUu7xhl1rP37nSk1D6mh0Kx
-         Pex/kWHPZdRFRXcJm5mzHig+uLZOYct9/C0FdKj4G4UXKZLup8/rVkXz8gurtON5PvQg
-         V8z4oxkaM9KjEMeTR2CTfWq0FodWde3Gyqrd/6DzTdjzE9+UQ4v7vE+mwePKI/mQZSKQ
-         IlSuz8yJd3iSjOranFjwiHySDpT7K/p9BGKclgm2GKOZUEodn8GvJ29FYo4PXD9bin4N
-         9q/A==
-X-Gm-Message-State: ACrzQf1uCK4gq3rymIfXd2zj7n7ZTkN723S7wDdaLy9+TSOyJBb8dMFr
-        wEqGlLpiLS9s6/E7jehQ9oI=
-X-Google-Smtp-Source: AMsMyM7p6gWAuxiYfm8U+Y/0FXoYG7KaQBMzcSl5jlvs7QKCqfk4eaNintgPpBQGcNis1bmNDJ/VsQ==
-X-Received: by 2002:a05:6a00:234d:b0:561:f0c3:cde1 with SMTP id j13-20020a056a00234d00b00561f0c3cde1mr41159268pfj.34.1666738342857;
-        Tue, 25 Oct 2022 15:52:22 -0700 (PDT)
-Received: from macbook-pro-4.dhcp.thefacebook.com ([2620:10d:c090:500::5:9233])
-        by smtp.gmail.com with ESMTPSA id 131-20020a621989000000b00561cf757749sm1834754pfz.183.2022.10.25.15.52.20
+        bh=A7kKcrW8+Rtrlgds+v4H23IM/wohgMjvlalkGtkGE48=;
+        b=LlsBk4N9NoxntfCE/ifsOehfglUVjEk47kS3y8j9wn6eALHg/0PL6YwBK3iJ8c5PY9
+         uIBmf9Qmztcxe5Gw/ojAeVH7iLwkTx5fbGEx54ZHyhLymz+Jrxsmj6/S5JCI5TR/YwWS
+         2MFKiZWOvdnB7MSDauQQJsxiYjJXafN0q9mV128tTFPMllhjMRdumc9XJX2TSsfMrVoi
+         wU9hhW6uZppTz2bfMTp7BOsdQLos8S5Wm7mvtwcLFOSBFPVl/B8oalt0gsAVIAZHStlF
+         rUiDHW+dUyEYiS0XRiQz1GReKd3ywsIAI0CIV8n0NnbT4xql3xiEBMzV9G9I9x4Q520B
+         m4NQ==
+X-Gm-Message-State: ACrzQf3NWcYQipG8a8Pmt4PNS6pPeSRPk5tFjfJLMIqWp0hH0S+4t6wj
+        Y8UVmEyMoKXhgpRZUMFSmDrQHw==
+X-Google-Smtp-Source: AMsMyM6XTCEyWvCDFpHQ+LBlReUY4pzPnEC3X0btKX861SIHcsajyGNCB7SZ3Rkpde+LhaSv6L5iPg==
+X-Received: by 2002:a63:85c6:0:b0:46e:ffdb:2e77 with SMTP id u189-20020a6385c6000000b0046effdb2e77mr11866913pgd.439.1666739234843;
+        Tue, 25 Oct 2022 16:07:14 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id x1-20020aa79a41000000b0056c32be99dcsm1164090pfj.117.2022.10.25.16.07.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 15:52:22 -0700 (PDT)
-Date:   Tue, 25 Oct 2022 15:52:19 -0700
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH hid v11 02/14] HID: initial BPF implementation
-Message-ID: <20221025225219.i3pi7ewue6xqeig4@macbook-pro-4.dhcp.thefacebook.com>
-References: <20221025093458.457089-1-benjamin.tissoires@redhat.com>
- <20221025093458.457089-3-benjamin.tissoires@redhat.com>
+        Tue, 25 Oct 2022 16:07:14 -0700 (PDT)
+Date:   Tue, 25 Oct 2022 23:07:10 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+        kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] KVM: API to block and resume all running vcpus in a
+ vm
+Message-ID: <Y1hsHjPuZfrREulV@google.com>
+References: <20221022154819.1823133-1-eesposit@redhat.com>
+ <a2e16531-5522-a334-40a1-2b0e17663800@linux.ibm.com>
+ <2701ce67-bfff-8c0c-4450-7c4a281419de@redhat.com>
+ <384b2622-8d7f-ce02-1452-84a86e3a5697@linux.ibm.com>
+ <Y1cVfECAAfmp5XqA@google.com>
+ <5a26c107-9ab5-60ee-0e9c-a9955dfe313d@redhat.com>
+ <Y1gG/W/q/VIydpMu@google.com>
+ <02c910bb-3ea0-fa84-7a1c-92fb9e8b03de@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221025093458.457089-3-benjamin.tissoires@redhat.com>
+In-Reply-To: <02c910bb-3ea0-fa84-7a1c-92fb9e8b03de@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 25, 2022 at 11:34:46AM +0200, Benjamin Tissoires wrote:
->  include/linux/hid.h                           |   5 +
->  include/linux/hid_bpf.h                       | 102 +++
->  include/uapi/linux/hid_bpf.h                  |  25 +
->  tools/include/uapi/linux/hid.h                |  62 ++
->  tools/include/uapi/linux/hid_bpf.h            |  25 +
+On Tue, Oct 25, 2022, Paolo Bonzini wrote:
+> On 10/25/22 17:55, Sean Christopherson wrote:
+> > On Tue, Oct 25, 2022, Paolo Bonzini wrote:
+> >    - to prevent _all_ ioctls() because it's not just KVM_RUN that consumes memslots
+> 
+> This is perhaps an occasion to solve another disagreement: I still think
+> that accessing memory outside KVM_RUN (for example KVM_SET_NESTED_STATE
+> loading the APICv pages from VMCS12) is a bug, on the other hand we
+> disagreed on that and you wanted to kill KVM_REQ_GET_NESTED_STATE_PAGES.
 
-...
+I don't think it's realistic to make accesses outside of KVM_RUN go away, e.g.
+see the ARM ITS discussion in the dirty ring thread.  kvm_xen_set_evtchn() also
+explicitly depends on writing guest memory without going through KVM_RUN (and
+apparently can be invoked from a kernel thread?!?).
 
-> +++ b/include/linux/hid_bpf.h
-> @@ -0,0 +1,102 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +
-> +#ifndef __HID_BPF_H
-> +#define __HID_BPF_H
-> +
-> +#include <linux/spinlock.h>
-> +#include <uapi/linux/hid.h>
-> +#include <uapi/linux/hid_bpf.h>
-> +
-> +struct hid_device;
-> +
-> +/*
-> + * The following is the HID BPF API.
-> + *
-> + * It should be treated as UAPI, so extra care is required
-> + * when making change to this file.
-> + */
+In theory, I do actually like the idea of restricting memory access to KVM_RUN,
+but in reality I just think that forcing everything into KVM_RUN creates far more
+problems than it solves.  E.g. my complaint with KVM_REQ_GET_NESTED_STATE_PAGES
+is that instead of syncrhonously telling userspace it has a problem, KVM chugs
+along as if everything is fine and only fails at later point in time.  I doubt
+userspace would actually do anything differently, i.e. the VM is likely hosed no
+matter what, but deferring work adds complexity in KVM and makes it more difficult
+to debug problems when they occur.
 
-I thought at the maintainer summit we discussed that it shouldn't be
-treated as uapi. There is no need to draw this line right now.
-If the whole concept turns out to be useful and api is stable
-then promote it.
+> >    - to stop anything else in the system that consumes KVM memslots, e.g. KVM GT
+> 
+> Is this true if you only look at the KVM_GET_DIRTY_LOG case and consider it
+> a guest bug to access the memory (i.e. ignore the strange read-only changes
+> which only happen at boot, and which I agree are QEMU-specific)?
 
-> +++ b/include/uapi/linux/hid_bpf.h
-> @@ -0,0 +1,25 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +
-> +#ifndef _UAPI_HID_BPF_H
-> +#define _UAPI_HID_BPF_H
-> +
-> +#include <linux/const.h>
-> +#include <linux/hid.h>
-> +
-> +/**
-> + * enum hid_bpf_attach_flags - flags used when attaching a HIF-BPF program
-> + *
-> + * @HID_BPF_FLAG_NONE: no specific flag is used, the kernel choses where to
-> + *                     insert the program
-> + * @HID_BPF_FLAG_INSERT_HEAD: insert the given program before any other program
-> + *                            currently attached to the device. This doesn't
-> + *                            guarantee that this program will always be first
-> + * @HID_BPF_FLAG_MAX: sentinel value, not to be used by the callers
-> + */
-> +enum hid_bpf_attach_flags {
-> +	HID_BPF_FLAG_NONE = 0,
-> +	HID_BPF_FLAG_INSERT_HEAD = _BITUL(0),
-> +	HID_BPF_FLAG_MAX,
-> +};
-> +
-> +#endif /* _UAPI_HID_BPF_H */
+Yes?  I don't know exactly what "the KVM_GET_DIRTY_LOG case" is. 
+ 
+> >    - to signal vCPU tasks so that the system doesn't livelock if a vCPU is stuck
+> >      outside of KVM, e.g. in get_user_pages_unlocked() (Peter Xu's series)
+> 
+> This is the more important one but why would it livelock?
 
-Not sure what is the purpose of this uapi file.
-Since it's enum the progs can get it from vmlinux.h.
+Livelock may not be the right word.  Peter's series is addressing a scenario where
+a vCPU gets stuck faulting in a page because the page never arrives over the
+network.  The solution is to recognize non-fatal signals while trying to fault in
+the page.
 
-> diff --git a/tools/include/uapi/linux/hid.h b/tools/include/uapi/linux/hid.h
-> new file mode 100644
-> index 000000000000..3e63bea3b3e2
-> --- /dev/null
-> +++ b/tools/include/uapi/linux/hid.h
-> @@ -0,0 +1,62 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
-> +/*
-> + *  Copyright (c) 1999 Andreas Gal
-> + *  Copyright (c) 2000-2001 Vojtech Pavlik
-> + *  Copyright (c) 2006-2007 Jiri Kosina
-> + */
-> +#ifndef _UAPI__HID_H
-> +#define _UAPI__HID_H
+KVM_KICK_ALL_RUNNING_VCPUS doesn't handle that case because it's obviously not
+realistic to check for pending KVM requests while buried deep in mm/ code.  I.e.
+userspace also needs to send SIGUSR1 or whatever to ensure all vCPUs get kicked
+out of non-KVM code.
 
-This is a copy of include/uapi/linux/hid.h ?
-Probably should be a separate commit to make it obvious.
+That's not the end of the world, and they probably end up being orthogonal things
+in userspace code, but it yields a weird API because KVM_KICK_ALL_RUNNING_VCPUS
+ends up with the caveat of "oh, by the way, userspace also needs to signal all
+vCPU tasks too, otherwise KVM_KICK_ALL_RUNNING_VCPUS might hang".
+
+> > And because of the nature of KVM, to support this API on all architectures, KVM
+> > needs to make change on all architectures, whereas userspace should be able to
+> > implement a generic solution.
+> 
+> Yes, I agree that this is essentially just a more efficient kill().
+> Emanuele, perhaps you can put together a patch to x86/vmexit.c in
+> kvm-unit-tests, where CPU0 keeps changing memslots and the other CPUs are in
+> a for(;;) busy wait, to measure the various ways to do it?
+
+I'm a bit confused.  Is the goal of this to simplify QEMU, dedup VMM code, provide
+a more performant solution, something else entirely?  I.e. why measure the
+performance of x86/vmexit.c?  I have a hard time believing the overhead of pausing
+vCPUs is going to be the long pole when it comes to memslot changes.  I assume
+rebuilding KVM's page tables because of the "zap all" behavior seems like would
+completely dwarf any overhead from pausing vCPUs.
