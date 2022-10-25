@@ -2,145 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF83FC04A95
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 07:32:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 575B1C38A2D
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 08:03:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231680AbiJYHcj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 03:32:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58528 "EHLO
+        id S231872AbiJYIDa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 04:03:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230522AbiJYHcj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 03:32:39 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563C38E79B
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 00:32:37 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id a15so10999305ljb.7
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 00:32:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+r3Ej5MJ+sN5EgIN4UbB8uiEPUjhfnn1clmg3no9TJA=;
-        b=dHEXI2+TslzzCiyCa1KMcE47r1HtIoMwtoBUvkYBvqpP87fm4EUvpXQfRQ6MXO6AuC
-         9xeO4KO3F0T+tFK/WMcBGLd+yq4Fw4c2AXe1ISkqTIDMK654s+kSbgEVGoLARnx3uoJW
-         aD0U5w1Q9U2FxNEaud2UGBpkhZQnjHh9Yln5I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+r3Ej5MJ+sN5EgIN4UbB8uiEPUjhfnn1clmg3no9TJA=;
-        b=Z28iHwLEm/mwrj18eGiWQKpi+1IaJxt+YMdl7JHXfqeitrqbWhF0X70fqfITg2xHrO
-         wl7fJAVFJrUHkk8r4EEkbbSke0bzoqYUFXmp2b/Gf++QLemjcA7gom4cBHJjiOgGbPDk
-         5tXk28hyhOcRqMJ1wnk4vblqVQHyzTcjq5Uc1UfIhCmKprHc6+nD+E99HvnSyWAYxe1G
-         NN3YGj2RKN7qjigkIezZeDiQEI1H4XbdyjWKBnKVKM8xL51UrYnR3oXR6QsbjsI+kzNA
-         Lu7kP10xLxBMZ+5fgClCEwS60bqcxgZra4lAIyYpLCxfUzNDGQlbpF9tvHA9xWSmmqKG
-         oE1A==
-X-Gm-Message-State: ACrzQf0WPOpv03aFL/qbfDM0J3PcZTWbVsd6psGflLoEtipdwWZpS90Y
-        2NJxjBkeSZv928SNjwSFvEOXTl/RAB5NIAfmdqTxAw==
-X-Google-Smtp-Source: AMsMyM7I2ND3r5rWOu78x2UxeUO/s4RiLWEaBOmN4MFRAA0t4abyOutiAaFD3Hl5qHMnJY+WWxw8umC0FhsMF7F5Qq0=
-X-Received: by 2002:a2e:b055:0:b0:277:a98:aac0 with SMTP id
- d21-20020a2eb055000000b002770a98aac0mr3617068ljl.480.1666683155618; Tue, 25
- Oct 2022 00:32:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220829093141.45583-1-tomeu.vizoso@collabora.com>
- <20220909141528.5090-1-tomeu.vizoso@collabora.com> <CAPj87rMYW1xZdacZ1Y0qk+D9xpqsqE+cwbQ1j1nZ7S+RKpzOoQ@mail.gmail.com>
-In-Reply-To: <CAPj87rMYW1xZdacZ1Y0qk+D9xpqsqE+cwbQ1j1nZ7S+RKpzOoQ@mail.gmail.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Tue, 25 Oct 2022 09:32:24 +0200
-Message-ID: <CAKMK7uGkFP1jSNQzv37PvSqvOtt1FnbfbNyYEf99WM=_2AszSw@mail.gmail.com>
-Subject: Re: [PATCH v8] drm: Add initial ci/ subdirectory
-To:     Daniel Stone <daniel@fooishbar.org>
-Cc:     Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        David Airlie <airlied@linux.ie>,
+        with ESMTP id S230138AbiJYID2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 04:03:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E946D10DE71;
+        Tue, 25 Oct 2022 01:03:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 79519617B9;
+        Tue, 25 Oct 2022 08:03:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72758C433C1;
+        Tue, 25 Oct 2022 08:03:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1666685006;
+        bh=p8P0GS3FIpwPpYKwBDEQTqKude0DJCIEmUZ9yV9u+t8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JOZmhhCaFcnVG0iHvZ91XDZY6ypIvUKqk7uiGWNCdmRNP4seoPWpI2HegtTcV3o7D
+         TgJxFm6O13/jp0sCsSy6+2FmA1TwoouNLbycU3VUWM8iMB8nQyFrMbCSmQ9hw1R0/s
+         98WKKqs6hWYjwmt5P7/pCiiJO9B3sCOdwqR+OtdE=
+Date:   Tue, 25 Oct 2022 10:04:19 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jeff Vanhoof <jdv1029@gmail.com>
+Cc:     linux-usb@vger.kernel.org,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Carlo Caione <carlo@caione.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Clark <robdclark@chromium.org>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, kernel@collabora.com,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: uvc gadget performance issues with skip interrupt impl
+Message-ID: <Y1eYg1ESBtLJFQ20@kroah.com>
+References: <20221025063359.GA19049@qjv001-XeonWs>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221025063359.GA19049@qjv001-XeonWs>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 9 Sept 2022 at 19:18, Daniel Stone <daniel@fooishbar.org> wrote:
->
+On Tue, Oct 25, 2022 at 01:34:01AM -0500, Jeff Vanhoof wrote:
 > Hi,
->
-> On Fri, 9 Sept 2022 at 15:15, Tomeu Vizoso <tomeu.vizoso@collabora.com> w=
-rote:
->>
->> Also include a configuration file that points to the out-of-tree CI
->> scripts.
->
->
->  I think this para is outdated given ...
->
->> v8:
->>   - Move all files specific to testing the kernel into the kernel tree
->>     (thus I have dropped the r-bs I had collected so far)
->>   - Uprev Gitlab CI infrastructure scripts to the latest from Mesa
->
->
-> But equally - and sorry for not jumping on the IRC (?) discussion as I wa=
-s in the middle of other stuff when it came up - I'm don't think this is th=
-e right plan.
->
-> Mesa having all its CI in-tree makes sense, because merges happen rapidly=
- to a single canonical tree. If the scripts need to be changed for whatever=
- reason, we can merge something in under an hour and everyone immediately g=
-ets it. DRM is quite different though, given the forest of trees we have an=
-d the long merge paths between them. I worry that merging the CI scripts in=
--tree - especially for our initial attempt at it, when we're likely to need=
- to make quite a lot of changes before it settles down to become a stable s=
-ystem that works for everyone - is shooting ourselves in the foot by limiti=
-ng our flexibility.
+> 
+> During the queuing up of requests from the UVC Gadget Driver to DWC3 for one
+> frame, if a missed isoc event occurs then it is possible for the next
+> consecutive frame(s) to also see missed isoc related errors as a result,
+> presenting to the user as a large video stall.
+> 
+> This issue appears to have come in with the skip interrupt implementation in
+> the UVC Gadget Driver:
+> 
+> usb: gadget: uvc: decrease the interrupt load to a quarter
+> https://lore.kernel.org/r/20210628155311.16762-6-m.grzeschik@pengutronix.de
+> 
+> Below is an example flow of how the issue can occur (and why).
+> 
+> For example (ISOC use case):
+> 1) DWC3 driver has 4 requests queued up from the UVC Gadget Driver.
+> 
+> 2) First request has IOC bit set due to no_interrupt=0 also being set, and IMI
+> bit is set to detect missed ISOC.
+> 
+> 3) Requests 2,3,4 do not have IOC bit set due to no_interrupt=1 being set for
+> them. (Note: Whether or not the IMI bit is set for these requests does not
+> matter, issue can still crop up as there is no guarantee that request 2,3,4
+> will see a missed isoc event)
+> 
+> 4) First request gets a missed isoc event and DWC3 returns the req and error to
+> UVC Gadget Driver.
+> 
+> 5) UVC Gadget Driver, in uvc_video_complete, proceeds to cancel the queue by
+> calling uvcg_queue_cancel.
+> 
+> 6) UVC Gadget Driver stops sending additional requests for the current frame.
+> 
+> 7) DWC3 will still have requests 2,3,4 queued up and sitting in its
+> started_list as these requests are not given back to the UVC gadget driver
+> because they each have no_interrupt=1 set, and the DWC3 driver will not have
+> any additional interrupts triggered for them as a result.
+> 
+> 8) Approximately 30-100ms later a new frame enters the UVC Gadget Driver (from
+> V4L2), and it proceeds to send additional requests to the DWC3 driver.
+> 
+> 9) Because requests 2,3,4 are still sitting in the started_list of the dwc3
+> driver, the driver does not stop and restart the transmission that normally
+> helps it recover from the missed isoc situation (this usually happens in
+> between frames).
+> 
+> 10) Some of the requests from the new frame will have no_interrupt=0 set, but
+> these requests will be considered missed/late by the DWC3 controller.
+> 
+> 11) Because these new requests have the IOC bit set (and possibly IMI),
+> interrupts will be triggered causing the DWC3 Driver to return the req and
+> error to the UVC Gadget Driver.
+> 
+> 12) And if the last set of requests sent by the UVC Gadget Driver have
+> "no_interrupt=1" set, then DWC3 may not interrupt further until new requests
+> come in, and the cycle of frame drops/errors will continue.
+> 
+> I have briefly mentioned this issue in another conversation with Thinh. At the
+> time he mentioned that 3 things could possibly be done to help resolve this
+> issue:
+> 
+> 1) The UVC Gadget Driver should ensure that the last requests queued to DWC3
+> must always have "no_interrupt=0" set.
+> 
+> 2) DWC3 can detect stale requests, stop the transmission and give back the
+> requests to the UVC Gadget Driver, and restart the transmission for the new set
+> of requests.
+> 
+> 3) Set "no_interrupt=0" for each request.
+>  
+> I have tested out various implementations for all 3 possibilities and they each
+> seem to work ok. Note that these test implementations are not ready for prime
+> time, but served as a way to prove that potential changes in these areas could
+> help to resolve this issue.
+> 
+> I believe that a change for the UVC Gadget Driver should be made, but it also
+> makes sense for the DWC3 driver to also attempt to recover from this situation
+> if possible.
+> 
+> Does anyone have an opinion on the best way to proceed?
 
-So the entire "we have multiple trees" is why I want at least the
-gitlab-ci.yaml in tree, to force people to collaborate more on one
-thing instead of everyone rolling their own fun and hacking stuff up.
-And there's still tons of stuff outside in the separate repo, like the
-lab status so Linus doesn't get a silly history of lab flapping.
+Please see this set of patches and the discussion around them:
+	https://lore.kernel.org/r/20221018215044.765044-1-w36195@motorola.com
 
-Also wrt "developers don't get the update right away due to
-backmerge/pull delays", that's why integration trees like drm-tip or
-linux-next exist. So maybe initially we should make sure the ci
-patches go in through drm-misc, to maximize how many people see it.
-And even for mesa it's not fully automatic, you still have the rebase
-your branch if you picked a bad one for development (but yeah marge
-does that if the MR is ready). If you're doing kernel development on a
-linear tree instead of an integration tree, you're doing it very
-wrong.
+Some of them are already queued up in my tree and in linux-next, can you
+try that?  There are others for the dwc3 driver on the mailing list as
+well, testing those would be wonderful if you could do that.
 
-What I think everyone agrees on is that we probably get the split
-wrong and need to shuffle some files back&forth, and that's something
-we need to warn Linus about I guess. But somewhere we do need a split
-between internal and external stuff, and personally I'd like if at
-least the pure sw testing (build and virtual stuff) could be all in
-upstream.
+thanks,
 
-> Given that it's currently very dependent on fd.o infrastructure (publishe=
-d ci-templates, the registry, the specific-tag runners for Collabora/CrOS D=
-UTs, etc), there isn't much of a portability gain in bringing the scripts i=
-nto the tree either. It's a good goal, but not where we are today.
-
-I don't think there's huge chances for any non-fdo gitlab anytime
-soon. Once we get there we might need to figure out how to standardize
-the hw lab interfacing, and if we have all the sw targets in upstream
-that should help with shuffling stuff around for a hypothetical LF
-gitlab CI (or whatever it is).
--Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+greg k-h
