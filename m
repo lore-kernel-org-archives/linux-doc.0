@@ -2,148 +2,239 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB850ECDFA1
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 23:07:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55F94ECDFA1
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 23:44:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232445AbiJYXHR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 19:07:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52160 "EHLO
+        id S232706AbiJYXoF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 19:44:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231844AbiJYXHQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 19:07:16 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74664E8C50
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 16:07:15 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id k22so1795277pfd.3
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 16:07:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A7kKcrW8+Rtrlgds+v4H23IM/wohgMjvlalkGtkGE48=;
-        b=i9+bLN5FonRCnXyaeAZ/jEHxOllBLcuLRG6g7djDO2ymq1eoILB4dhajH6DdkL9Ypw
-         dWBExwNgYe7L3rF6XlQLTuNRvlRhUlKYjHp/L1iVjmBzSGExzuACU05FIwWhOkZaZxhW
-         SlFEj6y2aedc8tdZPGfzSyQiWabdMrxN8vyn13231CbpBxAP9sT5+IQhyoFu0+oYUWQp
-         PhX+L5oqnTXUtVtqktZxw/YivgWoFURGH7AMjlXoM6O1hKn1gn0MTGBodUdfBHCYYrk0
-         knLwhuacFx5zJW48cTVCrNO9wqrHItHkkxk/aDLvtlYfLl6DtxNw1JoLy41IaidlmKLW
-         zOMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A7kKcrW8+Rtrlgds+v4H23IM/wohgMjvlalkGtkGE48=;
-        b=LlsBk4N9NoxntfCE/ifsOehfglUVjEk47kS3y8j9wn6eALHg/0PL6YwBK3iJ8c5PY9
-         uIBmf9Qmztcxe5Gw/ojAeVH7iLwkTx5fbGEx54ZHyhLymz+Jrxsmj6/S5JCI5TR/YwWS
-         2MFKiZWOvdnB7MSDauQQJsxiYjJXafN0q9mV128tTFPMllhjMRdumc9XJX2TSsfMrVoi
-         wU9hhW6uZppTz2bfMTp7BOsdQLos8S5Wm7mvtwcLFOSBFPVl/B8oalt0gsAVIAZHStlF
-         rUiDHW+dUyEYiS0XRiQz1GReKd3ywsIAI0CIV8n0NnbT4xql3xiEBMzV9G9I9x4Q520B
-         m4NQ==
-X-Gm-Message-State: ACrzQf3NWcYQipG8a8Pmt4PNS6pPeSRPk5tFjfJLMIqWp0hH0S+4t6wj
-        Y8UVmEyMoKXhgpRZUMFSmDrQHw==
-X-Google-Smtp-Source: AMsMyM6XTCEyWvCDFpHQ+LBlReUY4pzPnEC3X0btKX861SIHcsajyGNCB7SZ3Rkpde+LhaSv6L5iPg==
-X-Received: by 2002:a63:85c6:0:b0:46e:ffdb:2e77 with SMTP id u189-20020a6385c6000000b0046effdb2e77mr11866913pgd.439.1666739234843;
-        Tue, 25 Oct 2022 16:07:14 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id x1-20020aa79a41000000b0056c32be99dcsm1164090pfj.117.2022.10.25.16.07.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 16:07:14 -0700 (PDT)
-Date:   Tue, 25 Oct 2022 23:07:10 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Emanuele Giuseppe Esposito <eesposit@redhat.com>,
-        kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] KVM: API to block and resume all running vcpus in a
- vm
-Message-ID: <Y1hsHjPuZfrREulV@google.com>
-References: <20221022154819.1823133-1-eesposit@redhat.com>
- <a2e16531-5522-a334-40a1-2b0e17663800@linux.ibm.com>
- <2701ce67-bfff-8c0c-4450-7c4a281419de@redhat.com>
- <384b2622-8d7f-ce02-1452-84a86e3a5697@linux.ibm.com>
- <Y1cVfECAAfmp5XqA@google.com>
- <5a26c107-9ab5-60ee-0e9c-a9955dfe313d@redhat.com>
- <Y1gG/W/q/VIydpMu@google.com>
- <02c910bb-3ea0-fa84-7a1c-92fb9e8b03de@redhat.com>
+        with ESMTP id S232920AbiJYXoE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 19:44:04 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98DDE18B16;
+        Tue, 25 Oct 2022 16:44:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666741442; x=1698277442;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=X37EWywejJrvvmBszHU4p+IfUrQ671TZHYam/MHZXBg=;
+  b=gEuJE7HyE7zHFz2w49bY0+mH8cZJForoJDwXKezMKDhKrhQK4AxkA/il
+   64KEQc6qWfiabWieujMQULcBYgsk/9e1isD7kfcnitCIOnkPuCzOuaW8I
+   u9c5rjuHMZmfKgEiwWt8jR99lrH7npAlxO8P5YbpteL/mr+i3ImRkJlwg
+   RxptQjSjflbCId++3w3NLjcCpGZnBzWCfhmLItKdRBohSIo+tpXXP4W6s
+   dXsztJG6fa/7Lro1l1W5mki7Eon3ltP/CkRdwscCaplxhWEDiC6rFvo8s
+   IhFTDyzPWmLC9xIdc7rBegLN9uzU/V72iEghyZxqpcQwWgbUL4SE+4QXf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="334428444"
+X-IronPort-AV: E=Sophos;i="5.95,213,1661842800"; 
+   d="scan'208";a="334428444"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 16:44:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="582961991"
+X-IronPort-AV: E=Sophos;i="5.95,213,1661842800"; 
+   d="scan'208";a="582961991"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orsmga003.jf.intel.com with ESMTP; 25 Oct 2022 16:44:01 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 25 Oct 2022 16:44:01 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 25 Oct 2022 16:44:00 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Tue, 25 Oct 2022 16:44:00 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.49) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Tue, 25 Oct 2022 16:44:00 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SnEvtboyps3M/aJAqI4ospYqsExpFbW5tUjBsXtoNstTeNyatWW5G4fTEt5wzpdzxLuGvCAacGdD9CLEcHHUa7s7ZK+JqxrnknaJaSAGkqB6meLuHdoK48PH9xW3R1KxlwXb7cgwIO9TwKycB5iR7nuiaq269j1/t0yph0BIluhVVTR4BT8bH267M+fxn8aKXTqvQoPFONMhIvEiqZIlnZikyxU32ruVK0HBfzpSLUDHgJOfVYDEO07lbp/gN3zcyJd9m8TcRMyewtpJaNzkb3AacHur6yY7gtz0joU/wIHo68f4sDANdXkcbcpfE6E5vfmH6d90dh+QGRWsp5w3sg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8ySb5UWbAVlH/sYVxMb22m9kpmxXbJ/S5KlPbPhh1i0=;
+ b=cKx7aJMl2ngJhxmBXDnWNGTYUOuMXE3T1DxKaUiYAKtHvH4OudOyoUvGDFff0EDNO1KA9ATWfUbhEFHFYl6AaRtYnBTvPQ/yJ+Ev90rMwIAjrSBnxTJ7JdM5wT5hZQY1oyyB78ZpWV/VXUeK/gK6SeyasogwIK9GOuxXIwZXmB81w307wa0BJc4m5OW65R9pSyXMHHpxky15mu/GEcQE6NtwRCzAAOZb+8lq4NOSJkcn78YJaT+twTOJzXUSoHsnu+cri40H2EFjGbNLJkLw9q+el7Xzz1NjpwQaN5QxiBK4tK90HFSl+ZolJn4etDvidtUztjL/kc6OpEebZmnS+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
+ by CH3PR11MB7201.namprd11.prod.outlook.com (2603:10b6:610:143::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.23; Tue, 25 Oct
+ 2022 23:43:55 +0000
+Received: from CY4PR11MB1862.namprd11.prod.outlook.com
+ ([fe80::207e:ab0b:9e29:6a4b]) by CY4PR11MB1862.namprd11.prod.outlook.com
+ ([fe80::207e:ab0b:9e29:6a4b%12]) with mapi id 15.20.5746.028; Tue, 25 Oct
+ 2022 23:43:55 +0000
+Message-ID: <c999a7f8-b083-72a6-ff07-201369339c92@intel.com>
+Date:   Tue, 25 Oct 2022 16:43:50 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.4.0
+Subject: Re: [PATCH v7 05/12] x86/resctrl: Detect and configure Slow Memory
+ Bandwidth allocation
+Content-Language: en-US
+To:     Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
+        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
+CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
+        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
+        <songmuchun@bytedance.com>, <peterz@infradead.org>,
+        <jpoimboe@kernel.org>, <pbonzini@redhat.com>,
+        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
+        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
+        <sandipan.das@amd.com>, <tony.luck@intel.com>,
+        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
+        <eranian@google.com>
+References: <166604543832.5345.9696970469830919982.stgit@bmoger-ubuntu>
+ <166604559954.5345.14619487558472213422.stgit@bmoger-ubuntu>
+From:   Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <166604559954.5345.14619487558472213422.stgit@bmoger-ubuntu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR05CA0193.namprd05.prod.outlook.com
+ (2603:10b6:a03:330::18) To CY4PR11MB1862.namprd11.prod.outlook.com
+ (2603:10b6:903:124::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <02c910bb-3ea0-fa84-7a1c-92fb9e8b03de@redhat.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PR11MB1862:EE_|CH3PR11MB7201:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0114b6d5-384b-4ac3-60e2-08dab6e2c755
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NhPbqqs3GGtXEZspZu1lHhzYpEHF/p8pBBaAe0v3DR12aPA93Gf1MbmScpKJ/fHx0g9BzegI1KAVpMFrwaYq7kFtrMfVKgJgCSrd9cHrKWcLoA+/aOhx3G7v/nI7ynsc/AsSu5kCR6xxEQssWUOFthXWDbw2nnWAYTjg0MetAVdkbT3AiIOK6IG/aobFuODX/miScR+yffusQxDd2KDLzy5lwln473i7e+CMjzg7BvJLR2AtyxSxm3WnxuVXx4t5n8rXzhHW5sy54sNmI4ECKJqYqWHLgVfrFPrea/qWD+A2UClD25iqm0bM4Pn+WdJMEx+WoVBZEFUwRXrxTq5NtDRpy382wG1xfZi/kdf5WOmM8ZiaSBQ2EVymtdPrF+QVsTAiustKN/cvVObsFRbJBBIhJXK9peJKw+rCZWziUx6pUVmkTu9YvX7vzJ7Jjcn2ZvDbR/8OfJME/ETHMKB0DqVoatuN1FGPiAR5WuPsrGZJYVlX2xZN4Shbw0xtBzqTEZqJszXeb5xup6VAeSLFaDPiO9xGnhD2aLgv+GC8dJkGx0As4IzEyzE4bLe1Xa7Vieu/9ikXRZwtdCDO2+AVgqa0fhRAf/lkiEF7izjlLrw28z7K7XRkR2l+GyPrkt+8Yj+O/EjYOGpd4ZfEiUhf7oheLwxKX/34JtSI6Uo8hcCdcTgKyTFw0GZQsSMuAAZJK+9eFKpMtfLO1VIUB3KdwB32wM1vveusNTFVOEse1n/g+U3PmTkCnBoRxGhsPYNRF3BcKP0AVCNls9vy6sgzm+95QYbYhhKFC7qS850VjgA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(366004)(346002)(396003)(39860400002)(136003)(451199015)(8676002)(82960400001)(83380400001)(478600001)(6666004)(4326008)(36756003)(6486002)(44832011)(41300700001)(316002)(26005)(6512007)(86362001)(8936002)(38100700002)(31696002)(2906002)(31686004)(2616005)(7416002)(186003)(5660300002)(53546011)(6506007)(66476007)(66556008)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T3ladm40ZVBDbFdGbE5wSUozUlRGNkN4UGQ3WWd6RUs5ZkN6Z1VIL21va2pF?=
+ =?utf-8?B?MFhvMmpDa3NFcFJVdCsvdGtwaktoWkhKU0ozM1N1OWQvdTBqemJIWms2TEpr?=
+ =?utf-8?B?Z1R2alZMUWJ3cUlBNmlsL0xoYlFGZmwyaE9LMGE0blJkeUpRNjlEQTdzV250?=
+ =?utf-8?B?TzR1L3JOSFVuRHdzai9WclJ6dnczK1BjMU16OXoxclc2NFRacGViejRrZWtL?=
+ =?utf-8?B?R1FjcVlkMm02WGdQVUdoN2VZMWdBa2F1by9lejFEcW91bDRtV1kyakJLS3FD?=
+ =?utf-8?B?dGpxVWFJQXdKVVVQWldFcGJWUXZiN0E2MHJZUU9qekllTSs1V3hkS0tQWERw?=
+ =?utf-8?B?djc0RXRleHdyNVFpS25qMS9uNFRqa1FROFg5bU9FNzE0L2Foai9LMWM0OXRK?=
+ =?utf-8?B?YUszV2xDRTFETkdGR1JuTFVkZUc4V0pSRXdJTVdNeXJaZEx2cm9nNzhBM1pT?=
+ =?utf-8?B?cXljT01GNjhpclhtWUlNRGkvRlRTMFRXUlFUV3hNSmJnM2FuYUpZZ0t1Wmxq?=
+ =?utf-8?B?RVMzUzZidHVQNno5bm9SWmhQTzVEZ1MvRG84c1l0ZWVERFY4WGNjMVRpZEpa?=
+ =?utf-8?B?NlkwR2F1MlE5Q0JLSWRDNVFzb1FQdWNvUlVjblNyVURNSXo4ZS9vdnBkcTl6?=
+ =?utf-8?B?TlVCdmJoSnFjc2xya2pRSU90WmhjUE9SdEpKYnFqMWcvS0dvd0tMS0NBR2g3?=
+ =?utf-8?B?aXJzRmZLL3A4YnI0QzNWVU8wUnB6T0N2T1k5b1lOd21wMnpRcVg3akJrTEZq?=
+ =?utf-8?B?Ymg4K1ZHdUZwVXNMN3RIcGJ5bmJEMGRZT2kzSFFBbGxocVhqSUJCcklYY2pO?=
+ =?utf-8?B?WStSMmdXWGVSZzBNVElNdUFyS2lIdUt0b0NkOUtPWGdjanM3WWdNRFRxT1l0?=
+ =?utf-8?B?L1FjUmhBQzJqcStZREYvVFhQQjcybFdJRkErVGhqaGtuOWRTVFVtWEI0amZa?=
+ =?utf-8?B?MzVGK21EdDdMcXN3VEVSWGxXTWoydVo4TXFVNi9xc0RBckVFMGhlVWlheUV5?=
+ =?utf-8?B?Ni9TYU0wUGNPalNnbXpsbTNDMHIzTXZxdGhBRTViQlFsSklIOWJjTzQwZUkr?=
+ =?utf-8?B?YUxFVUJZVk02cVV3U0tzUWVURDlXQUlJckZVbzJiY1dBQ25jM3hrWGYzYWRP?=
+ =?utf-8?B?MEJ5SGNXTjluaERhZU5UU3FkK3lkZXJadEdiYzZlRFplUHBxaWRxcXBNNzZC?=
+ =?utf-8?B?cnAvYXFqbVJWUUdINmppeENyV3VoQWZuRXo4Zmxsck1ranZ4akJQcTVGbXZr?=
+ =?utf-8?B?SWhpVXdwQ0RPRi8wcmg5Vk9sbVZmc3BXdUpKUnVZTTJ2RkVCSE9DazNEclcy?=
+ =?utf-8?B?UjJZc0FaV2xRNVZVUUQ5SmZlUjBXOXphc3hORWpMUlBZK2cwdHcwL1BjRDg2?=
+ =?utf-8?B?cE9qM1FKeXphVyt3ZmFIcXJUa0tURGxGc2pwd0pKZzBwMlB5UTRVT3F2bUg5?=
+ =?utf-8?B?eXArNHg1QmMveHFZbWJJL0tiZ3NSZmVucFhGUFdzZlFPSkg3cmZXZkhzNTZU?=
+ =?utf-8?B?bXpRNXBtOG9uVXdoUmdla2prVXcrSEZSOEZLNVdnVm01T3E4VXVMV0hXaFpU?=
+ =?utf-8?B?VUpmeTZJOE1QdlZ5YnEvVmU4TENLTDZzelJkaVFoUENDakJ3dU1XVGxBNUJF?=
+ =?utf-8?B?ZGlvWjIwSkxqR2FxQjRtSUUxWTRva0xkVy9MazRTVXRLQTBWa1MxZnc0d1Zl?=
+ =?utf-8?B?VWQ3QU9SbnJKVkx2U0VqUktBaVEyKzk1WURKUEJJTVdMTE1YSFA1enRBb21Q?=
+ =?utf-8?B?QTMwY0NEYW50QkZKMldreG1qR2pTMjQvcVRIVk5iV0xPTFE1bGt0TEYrNTNq?=
+ =?utf-8?B?cStjaWR5aEtTRkxJcHN6R2hoeW8wY25pejdaYzUxS1k4ZUpob3p1OGY3U1BK?=
+ =?utf-8?B?L0kxcGx6YUxEbUROa0Q0dkpDeGVtdXNDNTlnTGFpL20wQ2pnQ2RqejBpbVRQ?=
+ =?utf-8?B?Q0ZsVndWTHNXYzI2RGJGb0ZjaXZiSy9QU0xDMlRqMVdERUdDM254cnB6eHRU?=
+ =?utf-8?B?S05YZUtXTUZTK2l6eHJKS1ozN0pyR29NZUozZkxLOVdKSGpvUmE1bTgvdGxC?=
+ =?utf-8?B?UnplZ2JVS3ozWml1bkFkU3JLSGlqM0RreHpRR3dYMXBzRVk2QkcwUEdBalVF?=
+ =?utf-8?B?cnlYYUgxSTdwYWRNd1FUM081R2Mzd0puVDZlMmo5SnFHRWYxc21EL25IV2NQ?=
+ =?utf-8?B?c3c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0114b6d5-384b-4ac3-60e2-08dab6e2c755
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2022 23:43:55.1815
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4jVv+pt7gqnNUHjAjw28OeXPjQG4Rzva4mfN+2yEx1fokgDEH3Euyjnbf4IdqETZeTUBFJj+3TEYG+IeapQ3H+YXALL3OkuDcEbgJdjP6o4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7201
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 25, 2022, Paolo Bonzini wrote:
-> On 10/25/22 17:55, Sean Christopherson wrote:
-> > On Tue, Oct 25, 2022, Paolo Bonzini wrote:
-> >    - to prevent _all_ ioctls() because it's not just KVM_RUN that consumes memslots
+Hi Babu,
+
+Nitpick in Subject ... "allocation" -> "Allocation"?
+
+On 10/17/2022 3:26 PM, Babu Moger wrote:
+
+...
+
+> @@ -2845,7 +2846,8 @@ static int rdtgroup_init_alloc(struct rdtgroup *rdtgrp)
+>  
+>  	list_for_each_entry(s, &resctrl_schema_all, list) {
+>  		r = s->res;
+> -		if (r->rid == RDT_RESOURCE_MBA) {
+> +		if (r->rid == RDT_RESOURCE_MBA ||
+> +		    r->rid == RDT_RESOURCE_SMBA) {
+>  			rdtgroup_init_mba(r, rdtgrp->closid);
+>  			if (is_mba_sc(r))
+>  				continue;
+
+The above hunk and the ones that follow are unexpected.
+
+Note that the software controller, when resctrl is mounted with "mba_MBps", is 
+only supported by RDT_RESOURCE_MBA. At this time this really is hard coded all
+over the place, for example:
+
+static int set_mba_sc(bool mba_sc)
+{
+	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
+	...
+
+}
+
+Since SMBA hardcodes "delay_linear = false" I do not expect it to support the software
+controller ... but these hunks appear to treat SMBA as though it does. It is the "MBA software
+controller", not "SMBA software controller". Why does it check above if the MBA software
+controller is enabled on SMBA?			
+
+> @@ -3287,7 +3289,8 @@ void resctrl_offline_domain(struct rdt_resource *r, struct rdt_domain *d)
+>  {
+>  	lockdep_assert_held(&rdtgroup_mutex);
+>  
+> -	if (supports_mba_mbps() && r->rid == RDT_RESOURCE_MBA)
+> +	if (supports_mba_mbps() &&
+> +	    (r->rid == RDT_RESOURCE_MBA || r->rid == RDT_RESOURCE_SMBA))
+>  		mba_sc_domain_destroy(r, d);
+>  
+>  	if (!r->mon_capable)
+> @@ -3354,8 +3357,9 @@ int resctrl_online_domain(struct rdt_resource *r, struct rdt_domain *d)
+>  
+>  	lockdep_assert_held(&rdtgroup_mutex);
+>  
+> -	if (supports_mba_mbps() && r->rid == RDT_RESOURCE_MBA)
+> -		/* RDT_RESOURCE_MBA is never mon_capable */
+> +	if (supports_mba_mbps() &&
+> +	    (r->rid == RDT_RESOURCE_MBA || r->rid == RDT_RESOURCE_MBA))
+> +		/* RDT_RESOURCE_MBA (or SMBA) is never mon_capable */
+
+What does this change do? Did you mean to add a r->rid == RDT_RESOURCE_SMBA check?
+
+>  		return mba_sc_domain_allocate(r, d);
+>  
+>  	if (!r->mon_capable)
 > 
-> This is perhaps an occasion to solve another disagreement: I still think
-> that accessing memory outside KVM_RUN (for example KVM_SET_NESTED_STATE
-> loading the APICv pages from VMCS12) is a bug, on the other hand we
-> disagreed on that and you wanted to kill KVM_REQ_GET_NESTED_STATE_PAGES.
-
-I don't think it's realistic to make accesses outside of KVM_RUN go away, e.g.
-see the ARM ITS discussion in the dirty ring thread.  kvm_xen_set_evtchn() also
-explicitly depends on writing guest memory without going through KVM_RUN (and
-apparently can be invoked from a kernel thread?!?).
-
-In theory, I do actually like the idea of restricting memory access to KVM_RUN,
-but in reality I just think that forcing everything into KVM_RUN creates far more
-problems than it solves.  E.g. my complaint with KVM_REQ_GET_NESTED_STATE_PAGES
-is that instead of syncrhonously telling userspace it has a problem, KVM chugs
-along as if everything is fine and only fails at later point in time.  I doubt
-userspace would actually do anything differently, i.e. the VM is likely hosed no
-matter what, but deferring work adds complexity in KVM and makes it more difficult
-to debug problems when they occur.
-
-> >    - to stop anything else in the system that consumes KVM memslots, e.g. KVM GT
 > 
-> Is this true if you only look at the KVM_GET_DIRTY_LOG case and consider it
-> a guest bug to access the memory (i.e. ignore the strange read-only changes
-> which only happen at boot, and which I agree are QEMU-specific)?
 
-Yes?  I don't know exactly what "the KVM_GET_DIRTY_LOG case" is. 
- 
-> >    - to signal vCPU tasks so that the system doesn't livelock if a vCPU is stuck
-> >      outside of KVM, e.g. in get_user_pages_unlocked() (Peter Xu's series)
-> 
-> This is the more important one but why would it livelock?
+Why are the MBA software controller resources allocated/destroyed for a SMBA resource? If
+you want to support the software controller for SMBA then there are a lot of other changes
+missing.
 
-Livelock may not be the right word.  Peter's series is addressing a scenario where
-a vCPU gets stuck faulting in a page because the page never arrives over the
-network.  The solution is to recognize non-fatal signals while trying to fault in
-the page.
-
-KVM_KICK_ALL_RUNNING_VCPUS doesn't handle that case because it's obviously not
-realistic to check for pending KVM requests while buried deep in mm/ code.  I.e.
-userspace also needs to send SIGUSR1 or whatever to ensure all vCPUs get kicked
-out of non-KVM code.
-
-That's not the end of the world, and they probably end up being orthogonal things
-in userspace code, but it yields a weird API because KVM_KICK_ALL_RUNNING_VCPUS
-ends up with the caveat of "oh, by the way, userspace also needs to signal all
-vCPU tasks too, otherwise KVM_KICK_ALL_RUNNING_VCPUS might hang".
-
-> > And because of the nature of KVM, to support this API on all architectures, KVM
-> > needs to make change on all architectures, whereas userspace should be able to
-> > implement a generic solution.
-> 
-> Yes, I agree that this is essentially just a more efficient kill().
-> Emanuele, perhaps you can put together a patch to x86/vmexit.c in
-> kvm-unit-tests, where CPU0 keeps changing memslots and the other CPUs are in
-> a for(;;) busy wait, to measure the various ways to do it?
-
-I'm a bit confused.  Is the goal of this to simplify QEMU, dedup VMM code, provide
-a more performant solution, something else entirely?  I.e. why measure the
-performance of x86/vmexit.c?  I have a hard time believing the overhead of pausing
-vCPUs is going to be the long pole when it comes to memslot changes.  I assume
-rebuilding KVM's page tables because of the "zap all" behavior seems like would
-completely dwarf any overhead from pausing vCPUs.
+Reinette
