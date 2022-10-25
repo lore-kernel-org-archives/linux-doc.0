@@ -2,87 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87162FA373E
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 17:50:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8DD3C38A2D
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 17:53:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230499AbiJYRuM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 13:50:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46214 "EHLO
+        id S231838AbiJYRxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 13:53:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230025AbiJYRuK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 13:50:10 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBDAE2BB0C;
-        Tue, 25 Oct 2022 10:50:09 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id bp11so21847637wrb.9;
-        Tue, 25 Oct 2022 10:50:09 -0700 (PDT)
+        with ESMTP id S231869AbiJYRxP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 13:53:15 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AAE08B2EB
+        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 10:53:15 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id r12so7319703lfp.1
+        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 10:53:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vLgvf8+jcLueS2m85FZOCCTl0+pu+RRqs5gE7k132Ew=;
-        b=JesPhdpAnA8vBsbE+8g8h4vUgBwbQOeUCvia+Anqhk8ccJsGcGpS4l8LcCehXZNW7Y
-         aDA7rrvzvssliRjx1JrzbaDryWrmfGV6+sP3WP7GpGRRyrUMy675wYumSseYTzlOInru
-         aWukOOgBaQiUMH6I03DQMcqRRP/gTqxyI4NIWKsBYOIC0cNT1NbbGnbg2/B4GN4kWXGI
-         y9S3BP+zvYRx1kXafgHjqKmqt9II6Mp+IK5varHgymFOBs2xgUD9CuALx/hMXOecbb8a
-         lv3KrRdMyHWAZArvzsUZ+BUjjMXEHhtGoX3gcaXe9ewrn2CJb2rYnRxudriMrFtyF5o6
-         /RCQ==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/DWO3XKLTp/RYRFQfFYnsNn2htt+v/ieqDvCyvnXiVM=;
+        b=TqH2uoUkCVrhd9uLjpamZt/nVfT65rs02gzJAxp+t13bbBmtERJGOuGl8r8fNNCspv
+         vJgVufxhc2tTRx8xJZQp0ua3toPexWB9IpoqOSMWXyXUdNJgFw6CKbxENzfGaFxE/09W
+         4EK1bQUoWd/DiRGPyZ5uXcYlb6IlKHU+xHax9OvsmGlyRIaDSe/gs66ynnxFDwUiMKDB
+         bH/3SbVo235sim6CVIeZOgGD3uPL54dAxBKch2KLRuYFQm2LUBOGj4Im5L+gM6Vjsy3P
+         gRS7ZEGTk4pgt7uKnQz7LV0Z0XmT4+fHDaAEnjw5D/OyouTKA9JBQdf+YGMqUBgVUz2+
+         fhmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vLgvf8+jcLueS2m85FZOCCTl0+pu+RRqs5gE7k132Ew=;
-        b=KlK5kHMxPWdgfbMc2gVuTqDutEuhqZmKLpYoEBCHtFxhQHaRHcqWa+VI9BZJmByLiL
-         Xid4e41L5JuytNeqiXlxk2QsVNsiGlqlKRuAJcQeMQ5asLmR+0MJp/gpeNhCBfpZYhza
-         +I22NpeZuIRqhFf4DCLoZTeRhTy4m5vQodM1Vx8solf47/DfNeRvrz/o4zs6tRNoa9rf
-         +I7ph/mDBCK7FWPqXON+py0uB3Rnn8AsPmlsuzI3pU6ft7Okzka56J7WN3eT0d+P306f
-         GsdfbD2Jas3EvWkHprrkZ0TZ6aUBSqlKN35fAS3Q95y9gz4Zygys4CA4mw9wE9eLkc6I
-         HZ3A==
-X-Gm-Message-State: ACrzQf2LBuWqQljBrHm24o2F/FNRfTdq0AhT4JwC3My4YdVxJcH45hrZ
-        fDWcWs+vo6qVrQP54zq0+iw=
-X-Google-Smtp-Source: AMsMyM650VMDeHz/oyedkIfA0SO9XAmtCZaDAdiHusW2JIVCdHayXiaELMUEBZHqYZtWKNaK5I3/LQ==
-X-Received: by 2002:a05:6000:1d93:b0:22e:5d8a:c8f8 with SMTP id bk19-20020a0560001d9300b0022e5d8ac8f8mr26190005wrb.324.1666720207977;
-        Tue, 25 Oct 2022 10:50:07 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:d0eb:e336:b451:acd2])
-        by smtp.gmail.com with ESMTPSA id c1-20020adfe741000000b00236883f2f5csm801740wrn.94.2022.10.25.10.50.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 10:50:07 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     "Jesper D. Brouer" <netdev@brouer.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, brouer@redhat.com,
-        dave@dtucker.co.uk, Toke Hoiland Jorgensen <toke@redhat.com>
-Subject: Re: [PATCH bpf-next v8 1/1] bpf, docs: document BPF_MAP_TYPE_ARRAY
-In-Reply-To: <5cd2d8ee-a0aa-070f-17c8-dacd816f0927@brouer.com> (Jesper
-        D. Brouer's message of "Tue, 25 Oct 2022 15:57:47 +0200")
-Date:   Tue, 25 Oct 2022 17:47:47 +0100
-Message-ID: <m2pmefyhn0.fsf@gmail.com>
-References: <20221021142259.18093-1-donald.hunter@gmail.com>
-        <20221021142259.18093-2-donald.hunter@gmail.com>
-        <5cd2d8ee-a0aa-070f-17c8-dacd816f0927@brouer.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/DWO3XKLTp/RYRFQfFYnsNn2htt+v/ieqDvCyvnXiVM=;
+        b=D58kvb1+gigWuYYnOpjcQfY4MnklTlRScm+SQDXi/XGQcvgIs0s5JU0Y179poDob5V
+         bXlWAk46wEevsS02CYF5u5p/SaZW4GFTZbHy2gTxsGq1xkpLZHXHarMheEmVPdd/StqA
+         cJqiQIqx0CEQ72fR0CZcACgjm6qIR1XVMbrEVImZupUhY3TJswHCWom8fpA8cDsAPAgO
+         Ldw9FFrh+YjpzXRKbzYKK+BRdz7jrjavmqtj4LXLNJdkFr/0FqNGYvIZczmlO0iya1Sp
+         VcDcTPMYe2ZNVdTwtuprcfNmy41Em6TbHywpEs3Cfh5kK9jA0VDMKvkx0LzIEXsWqteo
+         nwYA==
+X-Gm-Message-State: ACrzQf2KKasKoBXGruVOBLIGHlDkNfoSrZ3SO1zwF5A4WoYZHTY8xU+U
+        mA4rL+X74/sEe2jqJAfoIJp9X4ejSywyelMqqaYbfg==
+X-Google-Smtp-Source: AMsMyM4VvdU86oQkaUGC9uoWzsnwbya9LrfRLDNv+7Yhr3KVP+2bVahni0JjeA8Bqw9zA2D/Xq5Ht8t/mqjlM4Ns+Co=
+X-Received: by 2002:ac2:5195:0:b0:4a2:bd54:90cf with SMTP id
+ u21-20020ac25195000000b004a2bd5490cfmr14836939lfi.486.1666720392960; Tue, 25
+ Oct 2022 10:53:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20221025055844.1231592-1-davidgow@google.com>
+In-Reply-To: <20221025055844.1231592-1-davidgow@google.com>
+From:   Daniel Latypov <dlatypov@google.com>
+Date:   Tue, 25 Oct 2022 10:53:01 -0700
+Message-ID: <CAGS_qxpwfpa-d9FAsVFORDH5eu3_ezu7s6Xen3WdeVnC3_wTBw@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: kunit: Remove redundant 'tips.rst' page
+To:     David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendan.higgins@linux.dev>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sadiya Kazi <sadiyakazi@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"Jesper D. Brouer" <netdev@brouer.com> writes:
-
-> On 21/10/2022 16.22, Donald Hunter wrote:
->> +
->> +Usage
->> +=====
+On Mon, Oct 24, 2022 at 10:58 PM David Gow <davidgow@google.com> wrote:
 >
-> Can we make it more clear, that below refers to usage from BPF programs.
-> E.g. changing title "Usage" to something else, or create a sub-section.
-> Below we have subsections "Kernel BPF" and "Userspace", do set aside
-> kernel-side and userspace API users.
+> The contents of 'tips.rst' was included in 'usage.rst' way back in
+> commit 953574390634 ("Documentation: KUnit: Rework writing page to focus on writing tests"),
+> but the tips page remained behind as well.
 >
-> Sorry for bringing this up so late (v8), but I think it is important
-> that the documentation makes it easy for the reader to quickly grasp
-> which section is BPF-prog code and which is userspace libbpf APIs.
-> IMHO this should then be consistent across out docs.
+> Therefore, delete 'tips.rst'
+>
+> While I regret breaking any links to 'tips' which might exist
+> externally, it's confusing to have two subtly different versions of the
+> same content around.
+>
+> Signed-off-by: David Gow <davidgow@google.com>
 
-Agreed. I will add "Kernel BPF" and "Userspace" subsections consistently
-for both Usage and Examples.
+I liked tips.rst, but I agree we should probably remove it for the
+sake of deduping.
+
+The only blocker in my mind is we're missing an equivalent of:
+https://www.kernel.org/doc/html/latest/dev-tools/kunit/tips.html#customizing-error-messages
+
+Non-blocker: we have a duplicate section on assertion vs expectations:
+https://www.kernel.org/doc/html/latest/dev-tools/kunit/usage.html#assertions
+https://www.kernel.org/doc/html/latest/dev-tools/kunit/usage.html#exiting-early-on-failed-expectations
+
+Daniel
