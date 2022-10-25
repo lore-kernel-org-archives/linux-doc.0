@@ -2,72 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEB2DECDFA1
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 13:01:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A7E9C38A2D
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 13:03:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232712AbiJYNBN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 09:01:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46322 "EHLO
+        id S232706AbiJYNDL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 09:03:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232266AbiJYNAu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 09:00:50 -0400
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 288A1192A6;
-        Tue, 25 Oct 2022 05:58:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=4upcEUNCFEu3hk4JtYzdLpibVWwDGGjBVwHjdTMXMTk=; b=ZOZzbBhTSmMZDGiPnG6DUV06bL
-        l5GBrzGw8a9xBkvd5Vox2vP8B9UYG+YNE1oYr5Rpey2BmS9rPnr1rNPScQIwd5g/8wPo6JvY+5c/B
-        hIZwB0og4hI1qUvg/uKsK7DGbJ4Ya4ayRuCgKzs4Ho2BMZPQZMIDv3J/ZNr10M3wkpGXUlQAdmAIE
-        uKAs+9pKGwzAH22oDcBxzRoFPwOXem7D6I3WMo2Wk/DtMRwFDEqSL+W5gapk4wWhID92qFB+bjKen
-        JprE/SjPB30EjBM6fFXDg8OeUGxlpp/+EL/Bn4mcnYK5YBVPwLqJmy/4ewMierOfdPfEMgjkydMbZ
-        FeVsohEw==;
-Received: from [177.95.16.195] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1onJVB-005DXf-RJ; Tue, 25 Oct 2022 14:57:54 +0200
-Message-ID: <db3183ee-df61-a9fd-abdf-92df6d578ec6@igalia.com>
-Date:   Tue, 25 Oct 2022 09:57:42 -0300
+        with ESMTP id S232600AbiJYNCX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 09:02:23 -0400
+Received: from mail.netfilter.org (mail.netfilter.org [217.70.188.207])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 757FBA8356;
+        Tue, 25 Oct 2022 06:00:45 -0700 (PDT)
+Date:   Tue, 25 Oct 2022 15:00:40 +0200
+From:   Pablo Neira Ayuso <pablo@netfilter.org>
+To:     Michael Lilja <michael.lilja@gmail.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Subject: Re: [PATCH] Periodically flow expire from flow offload tables
+Message-ID: <Y1fd+DEPZ8xM2x5B@salvia>
+References: <20221023171658.69761-1-michael.lilja@gmail.com>
+ <Y1fC5K0EalIYuB7Y@salvia>
+ <381FF5B6-4FEF-45E9-92D6-6FE927A5CC2D@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH V3] x86/split_lock: Add sysctl to control the misery mode
-Content-Language: en-US
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        hpa@zytor.com, luto@kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, kernel-dev@igalia.com,
-        kernel@gpiccoli.net, Fenghua Yu <fenghua.yu@intel.com>,
-        Joshua Ashton <joshua@froggi.es>,
-        Melissa Wen <mwen@igalia.com>,
-        Paul Gofman <pgofman@codeweavers.com>,
-        Pavel Machek <pavel@denx.de>,
-        Pierre-Loup Griffais <pgriffais@valvesoftware.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Zebediah Figura <zfigura@codeweavers.com>,
-        Andre Almeida <andrealmeid@igalia.com>
-References: <20221024200254.635256-1-gpiccoli@igalia.com>
- <Y1dcDmmIu8gSX4Rb@debian.me> <7db9c3a5-2120-5ede-eb4e-077e3ed6c1f7@intel.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <7db9c3a5-2120-5ede-eb4e-077e3ed6c1f7@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="1rcC1yEX000eNPzk"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <381FF5B6-4FEF-45E9-92D6-6FE927A5CC2D@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Other than that, is this version good enough in your opinion Dave?
 
-Personally I think Bagas could submit a patch later and propose the
-changes to the docs as well.
+--1rcC1yEX000eNPzk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Cheers,
+Hi,
 
+On Tue, Oct 25, 2022 at 02:36:35PM +0200, Michael Lilja wrote:
+> Hi,
+> 
+> No problem. Here is a snippet of the rulesets in play. I simplified it because there are a lot of devices and a lot of schedules per device. The ‘mark’ is set by userspace so not all flow types are offloaded, that is controlled by userspace:
+> 
+> - - - - snip start - - - - 
+> table inet fw4 {
+> 	flowtable ft {
+> 	hook ingress priority filter
+> 	devices = { lan1, lan2, wan }
+> 	flags offload
+> }
+> 
+>  chain mangle_forward {
+> 	type filter hook forward priority mangle; policy
+> 	meta mark set ct mark
+> 	meta mark 0x00000000/16 queue flags bypass to 0
+>  }
+> 
+> 
+> chain my_devices_rules {
+> 	ether saddr 96:68:97:a7:e8:a7 jump fw_p0_dev0 comment “Device match”
+> }
+> 
+> chain fw_p0_dev0 {
+> 	meta time >= "2022-10-09 18:46:50" meta time < "2022-10-09 19:16:50" counter packets 0 bytes 0 drop comment "!Schedule OFFLINE override"
+> 	meta day “Tuesday" meta hour >= "06:00" meta hour < "07:00" drop
+> }
+> 
+> chain forward {
+> 	 type filter hook forward priority filter; policy accept;
+> 	jump my_devices_rules
+> }
+> 
+> chain my_forward_offload {
+> 	type filter hook forward priority filter + 1; policy accept;
+> 	meta mark != 0x00000000/16 meta l4proto { tcp, udp } flow add @ft
+> }
+> 
+> chain mangle_postrouting {
+> 	type filter hook postrouting priority mangle; policy accept;
+> 	ct mark set meta mark
+> }
+> - - - - snip end - - - -
+> 
+> The use case is that I have schedules per device to control when
+> they are allowed access to the internet and if the flows are
+> offloaded they will not get dropped once the schedule kicks in.
 
-Guilherme
+Thanks for explaining.
+
+I suggest to move your 'forward' chain to netdev/ingress using priority
+
+      filter - 1
+
+so the time schedule evaluation is always done before the flowtable
+lookup, that is, schedules rules will be always evaluated.
+
+In your example, you are using a linear ruleset, which might defeat
+the purpose of the flowtable. So I'm attaching a new ruleset
+transformed to use maps and the ingress chain as suggested.
+
+--1rcC1yEX000eNPzk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: attachment; filename="schedules.nft"
+
+table netdev filter {
+	map ether_to_chain {
+		typeof ether saddr : verdict
+		elements = { 96:68:97:a7:e8:a7 comment "Device match" : jump fw_p0_dev0 }
+	}
+
+	map schedule_time {
+		typeof meta time : verdict
+		flags interval
+		counter
+		elements = { "2022-10-09 18:46:50" - "2022-10-09 19:16:50" comment "!Schedule OFFLINE override" : drop }
+	}
+
+	map schedule_day {
+		typeof meta day . meta hour : verdict
+		flags interval
+		counter
+		elements = { "Tuesday" . "06:00" - "07:00" : drop }
+	}
+
+	chain fw_p0_dev0 {
+		meta time vmap @schedule_time
+		meta day . meta hour vmap @schedule_day
+	}
+
+	chain my_devices_rules {
+		ether saddr vmap @ether_to_chain
+	}
+
+	chain ingress {
+		type filter hook ingress device eth0 priority filter; policy accept;
+		jump my_devices_rules
+	}
+}
+
+--1rcC1yEX000eNPzk--
