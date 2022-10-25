@@ -2,200 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB8ABC04A95
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 08:32:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1546BC38A2D
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 08:46:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229652AbiJYIcO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 04:32:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59816 "EHLO
+        id S230481AbiJYIqg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 04:46:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232160AbiJYIcM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 04:32:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B71559B878
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 01:32:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666686730;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=vI19L+Wyz3SmxlOUmvxXkSqYI58k5J89otQKSgEB9hY=;
-        b=EB34QMh0il4WLGE8iaiBX+k5YFiRgv95DTfJvd/E7sFEfNar3uzOvX6C6VgOlNVEnoZEs6
-        dTjtMsKpt2T1XNk5VoCdyuAc9lzwRcRMmvjd379eiEoAKPWBJxmuPR0RStAFcURTi9zt6E
-        L4LV3Ew4tTTc4dYu/78D+Pq5/QHTZ+U=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-187-3gAFMD7_MTqt3PCV7aBjmQ-1; Tue, 25 Oct 2022 04:32:05 -0400
-X-MC-Unique: 3gAFMD7_MTqt3PCV7aBjmQ-1
-Received: by mail-wm1-f72.google.com with SMTP id o18-20020a05600c4fd200b003c6ceb1339bso345066wmq.1
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 01:32:05 -0700 (PDT)
+        with ESMTP id S229777AbiJYIqf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 04:46:35 -0400
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE8C765246;
+        Tue, 25 Oct 2022 01:46:33 -0700 (PDT)
+Received: by mail-il1-x131.google.com with SMTP id e19so3798488ili.4;
+        Tue, 25 Oct 2022 01:46:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zVJzdvRrckYl+6uw766hou4RRx69jQK8xN0BAui+beM=;
+        b=OqaowXZBvOvx2bK6X7sLgVHuAra4t0D/Y6UoVMergSpT97H/7zFyE+hYIqDgCo5OJJ
+         i5QIR3Kk5DPTrlj3kcWHt8UstcmxNy7sC4jHo0XN5yCCYiB/+1DS6vGbQdTLQW37ZWGq
+         FS3Wwvr2D1R1skA4eTKirbXrHNVfPibmQKlGSsBkPeBvPL+0XTsPukYCfAfixWfJFZ9y
+         0NDzMGtqhzOwsMSXzsAtuvX+UV/9Oz/ttQR3b0/ZcwcxxHAQVsRpnLrewP9Do2GY0W5s
+         Nh8vBZhXXZAh43YkVRBAVASIeWTAIIVYzyDo9qXrzNIgQrrKCd+ar7Cjf/NWDdd/ANBC
+         RLhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vI19L+Wyz3SmxlOUmvxXkSqYI58k5J89otQKSgEB9hY=;
-        b=CUjw6xn4q3nxTQ5T3MxRXeJodhEQaHz0BEsD8AvO3T3mvLOtd0NKl+fy5LslZl0WPc
-         DzkhdEEQeTbuVrlBGzcJztaK0AVNmNoPcXbMQ6GLa5juyULCXIzhw+Dp1DpalY0rIWe+
-         fIN5VGuzXainQhjITIA929pdsLdO2sDRGSUiJQNqLWr3oCEqh3ILni3aCqGs1HzrpsIO
-         sf/bDFQWNPescgw03Vq+tF21drqrTS96+8ksgkwGq94m+4FNsIl5rQGYU8CDdALew0tQ
-         svGH0VVeVJFP3m5NQPestpcGzH6X1/4dfodQXJ9X7S8GrcpHrWv0TQOd1LfnCAMvWkRe
-         hx3g==
-X-Gm-Message-State: ACrzQf2JK7tKxBas6qQWqXi5ogOlcnJnBQUN/nZukYriBvLzYPmLVEf8
-        cn1wl27NM6Vup8I6Q0R9N7Xlv+jI0mnyv6to78H9ikZ63hwMbcep5JGsK29GvdjwGwb6wkiGUMm
-        ZEgqtplS6QAVCzY34oBxm
-X-Received: by 2002:a05:6000:1b85:b0:230:3652:335 with SMTP id r5-20020a0560001b8500b0023036520335mr23926360wru.467.1666686724755;
-        Tue, 25 Oct 2022 01:32:04 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6n/99R+3jgCVQqtk86ipmjKyrKefyZqABmfW2gR3xga7MiiY/0BITq9gZbQxBIar2Bc5hWMQ==
-X-Received: by 2002:a05:6000:1b85:b0:230:3652:335 with SMTP id r5-20020a0560001b8500b0023036520335mr23926336wru.467.1666686724408;
-        Tue, 25 Oct 2022 01:32:04 -0700 (PDT)
-Received: from [192.168.0.4] ([78.19.70.238])
-        by smtp.gmail.com with ESMTPSA id k7-20020a7bc407000000b003a83ca67f73sm1936596wmi.3.2022.10.25.01.32.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Oct 2022 01:32:03 -0700 (PDT)
-Message-ID: <da45c2cb-72a0-066c-019e-c6f3f01c2093@redhat.com>
-Date:   Tue, 25 Oct 2022 09:32:02 +0100
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zVJzdvRrckYl+6uw766hou4RRx69jQK8xN0BAui+beM=;
+        b=QunKWjHG48f/Vp3nInnU2F5i8/JcvJRJXWE2E7j4ukxJ1lpqsk8LJpgTdsTBoWrz6b
+         BNyWMXSOOMs7U1t/5P07DGkLvEAdmFyceXS+X2/ykv4k1cHcFfdrU+V2vRgaeQ7os2rZ
+         OmOov97hZQHAtkjG7fGW0diQ+FBqGxb+Lj92SSZC91abcSgIayFF9VOmGQ3TWFB/ENDa
+         JfXceZFIVLbwlYPVdZ8ZOybU72aiTP1tXjC/WUv+eOg/RoahhR9BHYekC5/aspUD1Hw5
+         FbwpNb06Ts52V7RDTS5MMB1+8oBxZmxqFLNmmTb1I4HaKH0HxQcAUdDG8njqWOfhzq81
+         zv3w==
+X-Gm-Message-State: ACrzQf147lVs7vajfB2WWOMYyjxHxu2dbKz076n+OqYIf4Ab0llsvRCf
+        Qau9/gBwL/s0IxKem0gaq58=
+X-Google-Smtp-Source: AMsMyM75UVxCs7Ray+F+74gVi2DU0nU9xjOz/NT9qhM9L9HCB3TarxvfQElL6ffiJ4jDswRxq4uLDw==
+X-Received: by 2002:a05:6e02:1a69:b0:2fa:970:70f2 with SMTP id w9-20020a056e021a6900b002fa097070f2mr22603800ilv.204.1666687592969;
+        Tue, 25 Oct 2022 01:46:32 -0700 (PDT)
+Received: from qjv001-XeonWs (c-67-167-199-249.hsd1.il.comcast.net. [67.167.199.249])
+        by smtp.gmail.com with ESMTPSA id d32-20020a0285a3000000b00372bbd04b75sm140779jai.87.2022.10.25.01.46.32
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 25 Oct 2022 01:46:32 -0700 (PDT)
+Date:   Tue, 25 Oct 2022 03:46:30 -0500
+From:   Jeff Vanhoof <jdv1029@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: uvc gadget performance issues with skip interrupt impl
+Message-ID: <20221025084628.GA31171@qjv001-XeonWs>
+References: <20221025063359.GA19049@qjv001-XeonWs>
+ <Y1eYg1ESBtLJFQ20@kroah.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH bpf-next v3 1/1] doc: DEVMAPs and XDP_REDIRECT
-Content-Language: en-US
-To:     Jesper Dangaard Brouer <jbrouer@redhat.com>, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     brouer@redhat.com
-References: <20221017094753.1564273-1-mtahhan@redhat.com>
- <20221017094753.1564273-2-mtahhan@redhat.com>
- <afc6d835-3988-0b4a-afd6-496f392324dd@redhat.com>
-From:   Maryam Tahhan <mtahhan@redhat.com>
-In-Reply-To: <afc6d835-3988-0b4a-afd6-496f392324dd@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y1eYg1ESBtLJFQ20@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 24/10/2022 13:12, Jesper Dangaard Brouer wrote:
-> 
-> First of all, I'm super happy that we are getting documentation added 
-> for this.
-> 
-> Comments inlined below.
-> 
-> On 17/10/2022 11.47, mtahhan@redhat.com wrote:
->> diff --git a/Documentation/bpf/redirect.rst 
->> b/Documentation/bpf/redirect.rst
->> new file mode 100644
->> index 000000000000..5a0377a67ff0
->> --- /dev/null
->> +++ b/Documentation/bpf/redirect.rst
-> 
-> Naming the file 'redirect.rst' is that in anticipating that TC-BPF also 
-> support invoking the bpf_redirect helper?
-> 
-> IMHO we should remember to *also* promote TC-BPF redirect, and it would 
-> likely be good to have this in same file with XDP-redirect so end-users 
-> see this.
-> 
+Hi Greg,
 
-So I will leave the name as is...
+On Tue, Oct 25, 2022 at 10:04:19AM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Oct 25, 2022 at 01:34:01AM -0500, Jeff Vanhoof wrote:
+> > Hi,
+> > 
+> > During the queuing up of requests from the UVC Gadget Driver to DWC3 for one
+> > frame, if a missed isoc event occurs then it is possible for the next
+> > consecutive frame(s) to also see missed isoc related errors as a result,
+> > presenting to the user as a large video stall.
+> > 
+> > This issue appears to have come in with the skip interrupt implementation in
+> > the UVC Gadget Driver:
+> > 
+> > usb: gadget: uvc: decrease the interrupt load to a quarter
+> > https://lore.kernel.org/r/20210628155311.16762-6-m.grzeschik@pengutronix.de
+> > 
+> > Below is an example flow of how the issue can occur (and why).
+> > 
+> > For example (ISOC use case):
+> > 1) DWC3 driver has 4 requests queued up from the UVC Gadget Driver.
+> > 
+> > 2) First request has IOC bit set due to no_interrupt=0 also being set, and IMI
+> > bit is set to detect missed ISOC.
+> > 
+> > 3) Requests 2,3,4 do not have IOC bit set due to no_interrupt=1 being set for
+> > them. (Note: Whether or not the IMI bit is set for these requests does not
+> > matter, issue can still crop up as there is no guarantee that request 2,3,4
+> > will see a missed isoc event)
+> > 
+> > 4) First request gets a missed isoc event and DWC3 returns the req and error to
+> > UVC Gadget Driver.
+> > 
+> > 5) UVC Gadget Driver, in uvc_video_complete, proceeds to cancel the queue by
+> > calling uvcg_queue_cancel.
+> > 
+> > 6) UVC Gadget Driver stops sending additional requests for the current frame.
+> > 
+> > 7) DWC3 will still have requests 2,3,4 queued up and sitting in its
+> > started_list as these requests are not given back to the UVC gadget driver
+> > because they each have no_interrupt=1 set, and the DWC3 driver will not have
+> > any additional interrupts triggered for them as a result.
+> > 
+> > 8) Approximately 30-100ms later a new frame enters the UVC Gadget Driver (from
+> > V4L2), and it proceeds to send additional requests to the DWC3 driver.
+> > 
+> > 9) Because requests 2,3,4 are still sitting in the started_list of the dwc3
+> > driver, the driver does not stop and restart the transmission that normally
+> > helps it recover from the missed isoc situation (this usually happens in
+> > between frames).
+> > 
+> > 10) Some of the requests from the new frame will have no_interrupt=0 set, but
+> > these requests will be considered missed/late by the DWC3 controller.
+> > 
+> > 11) Because these new requests have the IOC bit set (and possibly IMI),
+> > interrupts will be triggered causing the DWC3 Driver to return the req and
+> > error to the UVC Gadget Driver.
+> > 
+> > 12) And if the last set of requests sent by the UVC Gadget Driver have
+> > "no_interrupt=1" set, then DWC3 may not interrupt further until new requests
+> > come in, and the cycle of frame drops/errors will continue.
+> > 
+> > I have briefly mentioned this issue in another conversation with Thinh. At the
+> > time he mentioned that 3 things could possibly be done to help resolve this
+> > issue:
+> > 
+> > 1) The UVC Gadget Driver should ensure that the last requests queued to DWC3
+> > must always have "no_interrupt=0" set.
+> > 
+> > 2) DWC3 can detect stale requests, stop the transmission and give back the
+> > requests to the UVC Gadget Driver, and restart the transmission for the new set
+> > of requests.
+> > 
+> > 3) Set "no_interrupt=0" for each request.
+> >  
+> > I have tested out various implementations for all 3 possibilities and they each
+> > seem to work ok. Note that these test implementations are not ready for prime
+> > time, but served as a way to prove that potential changes in these areas could
+> > help to resolve this issue.
+> > 
+> > I believe that a change for the UVC Gadget Driver should be made, but it also
+> > makes sense for the DWC3 driver to also attempt to recover from this situation
+> > if possible.
+> > 
+> > Does anyone have an opinion on the best way to proceed?
+> 
+> Please see this set of patches and the discussion around them:
+> 	https://lore.kernel.org/r/20221018215044.765044-1-w36195@motorola.com
+> 
+> Some of them are already queued up in my tree and in linux-next, can you
+> try that?  There are others for the dwc3 driver on the mailing list as
+> well, testing those would be wonderful if you could do that.
+> 
+> thanks,
+> 
+> greg k-h
 
-> 
->> @@ -0,0 +1,46 @@
->> +.. SPDX-License-Identifier: GPL-2.0-only
->> +.. Copyright (C) 2022 Red Hat, Inc.
->> +
->> +============
->> +XDP_REDIRECT
->> +============
->> +
->> +XDP_REDIRECT works by a three-step process, implemented as follows:
->> +
->> +1. The ``bpf_redirect()`` and ``bpf_redirect_map()`` helpers will 
->> lookup the
->> +   target of the redirect and store it (along with some other 
->> metadata) in a
->> +   per-CPU ``struct bpf_redirect_info``. This is where the maps above 
->> come into
->> +   play.
->> +
->> +2. When the program returns the ``XDP_REDIRECT`` return code, the 
->> driver will
->> +   call ``xdp_do_redirect()`` which will use the information in ``struct
->> +   bpf_redirect_info`` to actually enqueue the frame into a map 
->> type-specific
->> +   bulk queue structure.
->> +
->> +3. Before exiting its NAPI poll loop, the driver will call 
->> ``xdp_do_flush()``,
->> +   which will flush all the different bulk queues, thus completing the
->> +   redirect.
-> 
-> Is this text more or less copied from net/core/filter.c ?
-> 
-> I will suggest directly including this from the code via the DOC text
-> trick.  (note I've added these DOC tags in other XDP + page_pool code,
-> but not fully utilized these yet).
-> 
+I've been working with the submitter of those patches (Dan) to debug various
+crashes and performance issues being seen. I believe that the issue I've
+described above is unique and am not aware of any current fixes targetting a
+fix for it. This issue will primarily appear for users experiencing frame drops
+due to missed isoc issues when the skip interrupt implementation in uvc is
+enabled (usb: gadget: uvc: decrease the interrupt load to a quarter).
 
-Ok, I will update this. I had the v5 sent in before I saw your email.
+Thanks,
+Jeff
 
-> 
->> +Pointers to the map entries will be kept around for this whole 
->> sequence of
->> +steps, protected by RCU. However, there is no top-level 
->> ``rcu_read_lock()`` in
->> +the core code; instead, the RCU protection relies on everything 
->> happening
->> +inside a single NAPI poll sequence.
->> +
->> +.. note::
->> +    Not all drivers support transmitting frames after a redirect, and 
->> for
->> +    those that do, not all of them support non-linear frames. 
->> Non-linear xdp
->> +    bufs/frames are bufs/frames that contain more than one fragment.
->> +
-> 
-> I would like for us to extend this redirect.rst document with
-> information on how to troubleshoot when XDP-redirect "silently" drops
-> packets.
-> 
-> Above note it one issue (but not visible to readers).
-> Plus we should describe how to catch these silent drops, via tracepoints
-> and even point to xdpdump tool.
-> 
-> I recently helped someone on Slack debug a XDP redirect issue.
-> During this session I wrote some bpftrace oneliners, that I added to 
-> XDP-tutorial sub-README[1]
-> 
-> [1] 
-> https://github.com/xdp-project/xdp-tutorial/blob/master/tracing02-xdp-monitor/README.org
-> 
-Ok, I will see what I can do.
 
-> 
->> +XDP_REDIRECT works with the following map types:
->> +
->> +- BPF_MAP_TYPE_DEVMAP
->> +- BPF_MAP_TYPE_DEVMAP_HASH
->> +- BPF_MAP_TYPE_CPUMAP
->> +- BPF_MAP_TYPE_XSKMAP
->> +
->> +For more information on these maps, please see the specific map 
->> documentation.
->> +
->> +References
->> +===========
->> +
->> +-https://elixir.bootlin.com/linux/latest/source/net/core/filter.c#L4106
-> 
-> I don't think this reference with a line-number will be stable.
-
-Yep, will move to the doc reference as you suggested earlier.
-
-> 
-> --Jesper
-> 
 
