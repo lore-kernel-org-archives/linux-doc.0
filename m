@@ -2,25 +2,25 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65306C04A95
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 11:33:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9030CC04A95
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 11:33:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231982AbiJYLdW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 07:33:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39658 "EHLO
+        id S229949AbiJYLdX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 07:33:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231838AbiJYLdV (ORCPT
+        with ESMTP id S231921AbiJYLdV (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 07:33:21 -0400
 Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C239122BED;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD3A6123454;
         Tue, 25 Oct 2022 04:33:20 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MxV7G5MD2zmVFx;
-        Tue, 25 Oct 2022 19:28:26 +0800 (CST)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.57])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MxV7H1q3QzmVJ8;
+        Tue, 25 Oct 2022 19:28:27 +0800 (CST)
 Received: from localhost.localdomain (10.67.164.66) by
  canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 25 Oct 2022 19:33:18 +0800
+ 15.1.2375.31; Tue, 25 Oct 2022 19:33:19 +0800
 From:   Yicong Yang <yangyicong@huawei.com>
 To:     Shaokun Zhang <zhangshaokun@hisilicon.com>, <liuqi6124@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -32,10 +32,12 @@ CC:     <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
         <f.fangjian@huawei.com>, <prime.zeng@huawei.com>
-Subject: [PATCH 0/3] Add TLP filter support and some fixes for HiSilicon PCIe PMU
-Date:   Tue, 25 Oct 2022 19:32:39 +0800
-Message-ID: <20221025113242.58271-1-yangyicong@huawei.com>
+Subject: [PATCH 2/3] docs: perf: Fix PMU instance name of hisi-pcie-pmu
+Date:   Tue, 25 Oct 2022 19:32:41 +0800
+Message-ID: <20221025113242.58271-3-yangyicong@huawei.com>
 X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20221025113242.58271-1-yangyicong@huawei.com>
+References: <20221025113242.58271-1-yangyicong@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -49,23 +51,84 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Yicong Yang <yangyicong@hisilicon.com>
 
-HiSilicon PCIe PMU support count the bandwidth of TLP headers, TLP payloads
-or both. Add support for it. User can set this through perf tool's
-'len_mode' like:
+The PMU instance will be called hisi_pcie<sicl>_core<core> rather than
+hisi_pcie<sicl>_<core>. Fix this in the documentation.
 
-  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,len_mode=0x1/ sleep 5
+Fixes: c8602008e247 ("docs: perf: Add description for HiSilicon PCIe PMU driver")
+Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+---
+ .../admin-guide/perf/hisi-pcie-pmu.rst        | 22 +++++++++----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-Also includes 2 fixes of both driver and documentation in this series.
-
-Yicong Yang (3):
-  drivers/perf: hisi: Fix some event id for hisi-pcie-pmu
-  docs: perf: Fix PMU instance name of hisi-pcie-pmu
-  drivers/perf: hisi: Add TLP filter support
-
- .../admin-guide/perf/hisi-pcie-pmu.rst        | 42 ++++++++++++++-----
- drivers/perf/hisilicon/hisi_pcie_pmu.c        | 22 +++++++---
- 2 files changed, 48 insertions(+), 16 deletions(-)
-
+diff --git a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst b/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
+index 294ebbdb22af..bbe66480ff85 100644
+--- a/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
++++ b/Documentation/admin-guide/perf/hisi-pcie-pmu.rst
+@@ -15,10 +15,10 @@ HiSilicon PCIe PMU driver
+ The PCIe PMU driver registers a perf PMU with the name of its sicl-id and PCIe
+ Core id.::
+ 
+-  /sys/bus/event_source/hisi_pcie<sicl>_<core>
++  /sys/bus/event_source/hisi_pcie<sicl>_core<core>
+ 
+ PMU driver provides description of available events and filter options in sysfs,
+-see /sys/bus/event_source/devices/hisi_pcie<sicl>_<core>.
++see /sys/bus/event_source/devices/hisi_pcie<sicl>_core<core>.
+ 
+ The "format" directory describes all formats of the config (events) and config1
+ (filter options) fields of the perf_event_attr structure. The "events" directory
+@@ -33,13 +33,13 @@ monitored by PMU.
+ Example usage of perf::
+ 
+   $# perf list
+-  hisi_pcie0_0/rx_mwr_latency/ [kernel PMU event]
+-  hisi_pcie0_0/rx_mwr_cnt/ [kernel PMU event]
++  hisi_pcie0_core0/rx_mwr_latency/ [kernel PMU event]
++  hisi_pcie0_core0/rx_mwr_cnt/ [kernel PMU event]
+   ------------------------------------------
+ 
+-  $# perf stat -e hisi_pcie0_0/rx_mwr_latency/
+-  $# perf stat -e hisi_pcie0_0/rx_mwr_cnt/
+-  $# perf stat -g -e hisi_pcie0_0/rx_mwr_latency/ -e hisi_pcie0_0/rx_mwr_cnt/
++  $# perf stat -e hisi_pcie0_core0/rx_mwr_latency/
++  $# perf stat -e hisi_pcie0_core0/rx_mwr_cnt/
++  $# perf stat -g -e hisi_pcie0_core0/rx_mwr_latency/ -e hisi_pcie0_core0/rx_mwr_cnt/
+ 
+ The current driver does not support sampling. So "perf record" is unsupported.
+ Also attach to a task is unsupported for PCIe PMU.
+@@ -64,7 +64,7 @@ bit8 is set, port=0x100; if these two Root Ports are both monitored, port=0x101.
+ 
+ Example usage of perf::
+ 
+-  $# perf stat -e hisi_pcie0_0/rx_mwr_latency,port=0x1/ sleep 5
++  $# perf stat -e hisi_pcie0_core0/rx_mwr_latency,port=0x1/ sleep 5
+ 
+ -bdf
+ 
+@@ -76,7 +76,7 @@ For example, "bdf=0x3900" means BDF of target Endpoint is 0000:39:00.0.
+ 
+ Example usage of perf::
+ 
+-  $# perf stat -e hisi_pcie0_0/rx_mrd_flux,bdf=0x3900/ sleep 5
++  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,bdf=0x3900/ sleep 5
+ 
+ 2. Trigger filter
+ Event statistics start when the first time TLP length is greater/smaller
+@@ -90,7 +90,7 @@ means start when TLP length < condition.
+ 
+ Example usage of perf::
+ 
+-  $# perf stat -e hisi_pcie0_0/rx_mrd_flux,trig_len=0x4,trig_mode=1/ sleep 5
++  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,trig_len=0x4,trig_mode=1/ sleep 5
+ 
+ 3. Threshold filter
+ Counter counts when TLP length within the specified range. You can set the
+@@ -103,4 +103,4 @@ when TLP length < threshold.
+ 
+ Example usage of perf::
+ 
+-  $# perf stat -e hisi_pcie0_0/rx_mrd_flux,thr_len=0x4,thr_mode=1/ sleep 5
++  $# perf stat -e hisi_pcie0_core0/rx_mrd_flux,thr_len=0x4,thr_mode=1/ sleep 5
 -- 
 2.24.0
 
