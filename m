@@ -2,157 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F549C04A95
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 06:34:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15663C04A95
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 07:19:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230491AbiJYGeH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 02:34:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57974 "EHLO
+        id S231624AbiJYHTW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 03:19:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229728AbiJYGeF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 02:34:05 -0400
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D407211D985;
-        Mon, 24 Oct 2022 23:34:04 -0700 (PDT)
-Received: by mail-il1-x12a.google.com with SMTP id z9so3305003ilu.10;
-        Mon, 24 Oct 2022 23:34:04 -0700 (PDT)
+        with ESMTP id S231610AbiJYHTV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 03:19:21 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C17CC14D1F3
+        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 00:19:20 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id y65-20020a25c844000000b006bb773548d5so11171199ybf.5
+        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 00:19:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VY4uiQINAn+QNKqNLYdLuvR39IkMOW5yKvxvg9QwqI8=;
-        b=C0wIa3MBCs9h8r8BMk85NhUmB32niC0FVJGtBwWms81UchyTqsnlKS5jKvVy3mn9Gy
-         nH0aE8XFkvHnRzp/7hgfcTQ6jirQYxZ7Qkj+5OjoHNJO7JwJMQmMgKLfSF6DvULMqK97
-         mVBc4sX+lNL3TYNcN2G34nz54GKuUQ3DEKpTAnxi5s+y7AAu+C+sBO7RDo+ibv2eMy3W
-         WULgOJPlPOR+HqrCok++V/8fiimeb6aKKUmic8vzFbdF3sBKhN6+JnKzLk407JT7MDe2
-         x0e2IGnUb7w33fiEJEJ3K51CL9YW6WnDuJXHIKEN2WRnsjkvP/JJeCmayKMAIhOJrvdA
-         903Q==
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Tg+2eIYV8Ht6XVdDxVGWgiFGyJrz8FeDTVg6oxA83to=;
+        b=N20hIBljO9B2x5fTp2LgIWIJ6EaOGsk8PztwvAmRhr/ICL8s2SDtYc8Xej+kchGmum
+         RO8n9j1w+WKDCz7oFgqPc2IdvBYxzjByNjkm4hxwVX+FcssRWGWyfKDGaBXlpNHd/ESd
+         w53SmUZL8Apz9MpYSTDJwmcgtyACqeyETGmVKhgDL1+oWIiKfB8MKRr+LXaBk3NwQMSq
+         S59QO27GUgYRSNVlxuBn8eg+5y6oeZVK8xiN8MecuKy51E1BGP8PDElLUtQgOdAZ3oz6
+         M198xDTBoLYhZB6crv2JTgJMdFBDEkWmU+VOD3su3teMa0VAyK1zEM0iSqeyadiML47h
+         /9QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=user-agent:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VY4uiQINAn+QNKqNLYdLuvR39IkMOW5yKvxvg9QwqI8=;
-        b=nqkQMji4i3s07QwiyKFMaQoUQF5/0z4WUnKYVWxiUTSnV2zPsHL79MoQbM5/myHyAS
-         x1JLX/wwmXvQRv43GTA0oglQDQ38OYvlJcsvEKda3sVlplCozJh5/3+EpgHtiafdVgaB
-         dQiMSks/0GCb9iNBrn7dVPiXG7bMiUrfbp9lM5j43OElDwl0hlVcfK9G48kvWlZHvM0t
-         /Ik/xI1SKILRl+xwiJQuysffhW0Va+/AQJE35qj1Ge8gZnq538ATo5tnavf//EVPeN64
-         +VE3hNBkpoNyhcAEBQtFadPy9GfhPCg+NWbnOwIcIUqCW4r3ZANZ5g+KsnI98OwKdEkN
-         t96g==
-X-Gm-Message-State: ACrzQf02o/Vw3GsEcZQjYogAVGahcw7HR2EB/8b/UA9UCk72e2nBQGM/
-        ce+d4d6zJ0g+e0CbHC26XukvODQBT3Jw60WG
-X-Google-Smtp-Source: AMsMyM5zXTToXYbLlKJbBRDvjmuwz3yZyM7RxL75VowagP7nYR4QUVprUwv8Vft8Vs7331NuJhN3gg==
-X-Received: by 2002:a05:6e02:12ec:b0:2fa:9024:b513 with SMTP id l12-20020a056e0212ec00b002fa9024b513mr22462669iln.120.1666679643900;
-        Mon, 24 Oct 2022 23:34:03 -0700 (PDT)
-Received: from qjv001-XeonWs (c-67-167-199-249.hsd1.il.comcast.net. [67.167.199.249])
-        by smtp.gmail.com with ESMTPSA id o12-20020a0566022e0c00b006a102cb4900sm786751iow.39.2022.10.24.23.34.02
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 24 Oct 2022 23:34:03 -0700 (PDT)
-Date:   Tue, 25 Oct 2022 01:34:01 -0500
-From:   Jeff Vanhoof <jdv1029@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-usb@vger.kernel.org,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: uvc gadget performance issues with skip interrupt impl
-Message-ID: <20221025063359.GA19049@qjv001-XeonWs>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Tg+2eIYV8Ht6XVdDxVGWgiFGyJrz8FeDTVg6oxA83to=;
+        b=yq2NhKcGMUxEW3kYg8R56KnRMXXN/zZhTgv17LFYxKyjXY7ZUNlfr2SexY//V1osMp
+         RUFYFpHzKQRwDmLSc0nScQ8TCiNw5m29ZNbh2sAnbVWdMStNFuY1XbglbrYbFNq53ekU
+         5nYAeNnc22jLnzZNGEzD88YmcdwA6UFBWeVCXae/5Bptg5uzo/5BUy8zcAs9Iezbcslk
+         eKVcLMRJfLHYsJCrnuSrCSs3fVurBn+oLEkLgchCb5geHmHo3HKNaWB85DYvTZjtM1uX
+         eHS7pt9I/OaeLruwNPBbSJPg35eQGIZgRjA6xb+v7wA2mur+VoO/ShJSs8+DmDN15Gz+
+         cFOA==
+X-Gm-Message-State: ACrzQf0w0S8XC+NaQ1CE84pl4EMkDbfZJsCDnVEI5cKxTgRLsvvyZtWb
+        OPI+iE9Wkt8Fl60b5lMiAJqY1Y9Fv/lbaA==
+X-Google-Smtp-Source: AMsMyM4EBhOMZUTQa08gGVH5ZMe4v1UYMJ1yyiUBna1Fp9X+01+i+YQcjjUKRz2D67kIhfv/nu3VhoLywHoY0A==
+X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
+ (user=davidgow job=sendgmr) by 2002:a25:b749:0:b0:68f:171f:96bd with SMTP id
+ e9-20020a25b749000000b0068f171f96bdmr34115629ybm.137.1666682360070; Tue, 25
+ Oct 2022 00:19:20 -0700 (PDT)
+Date:   Tue, 25 Oct 2022 15:19:05 +0800
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.38.0.135.g90850a2211-goog
+Message-ID: <20221025071907.1251820-1-davidgow@google.com>
+Subject: [PATCH v2 1/3] kunit: Provide a static key to check if KUnit is
+ actively running tests
+From:   David Gow <davidgow@google.com>
+To:     Brendan Higgins <brendan.higgins@linux.dev>,
+        Daniel Latypov <dlatypov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Cc:     David Gow <davidgow@google.com>, kunit-dev@googlegroups.com,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+KUnit does a few expensive things when enabled. This hasn't been a
+problem because KUnit was only enabled on test kernels, but with a few
+people enabling (but not _using_) KUnit on production systems, we need a
+runtime way of handling this.
 
-During the queuing up of requests from the UVC Gadget Driver to DWC3 for one
-frame, if a missed isoc event occurs then it is possible for the next
-consecutive frame(s) to also see missed isoc related errors as a result,
-presenting to the user as a large video stall.
+Provide a 'kunit_running' static key (defaulting to false), which allows
+us to hide any KUnit code behind a static branch. This should reduce the
+performance impact (on other code) of having KUnit enabled to a single
+NOP when no tests are running.
 
-This issue appears to have come in with the skip interrupt implementation in
-the UVC Gadget Driver:
+Note that, while it looks unintuitive, tests always run entirely within
+__kunit_test_suites_init(), so it's safe to decrement the static key at
+the end of this function, rather than in __kunit_test_suites_exit(),
+which is only there to clean up results in debugfs.
 
-usb: gadget: uvc: decrease the interrupt load to a quarter
-https://lore.kernel.org/r/20210628155311.16762-6-m.grzeschik@pengutronix.de
+Signed-off-by: David Gow <davidgow@google.com>
+---
 
-Below is an example flow of how the issue can occur (and why).
+This should be a no-op (other than a possible performance improvement)
+functionality-wise, and lays the groundwork for a more optimised static
+stub implementation.
 
-For example (ISOC use case):
-1) DWC3 driver has 4 requests queued up from the UVC Gadget Driver.
+The remaining patches in the series add a kunit_get_current_test()
+function which is a more friendly and performant wrapper around
+current->kunit_test, and use this in the slub test. They also improve
+the documentation a bit.
 
-2) First request has IOC bit set due to no_interrupt=0 also being set, and IMI
-bit is set to detect missed ISOC.
+If there are no objections, we'll take the whole series via the KUnit
+tree.
 
-3) Requests 2,3,4 do not have IOC bit set due to no_interrupt=1 being set for
-them. (Note: Whether or not the IMI bit is set for these requests does not
-matter, issue can still crop up as there is no guarantee that request 2,3,4
-will see a missed isoc event)
+Changes since v1:
+https://lore.kernel.org/linux-kselftest/20221021072854.333010-1-davidgow@google.com/
+- No changes in this patch.
+- Patch 2/3 is reworked, patch 3/3 is new.
 
-4) First request gets a missed isoc event and DWC3 returns the req and error to
-UVC Gadget Driver.
+---
+ include/kunit/test.h | 4 ++++
+ lib/kunit/test.c     | 6 ++++++
+ 2 files changed, 10 insertions(+)
 
-5) UVC Gadget Driver, in uvc_video_complete, proceeds to cancel the queue by
-calling uvcg_queue_cancel.
-
-6) UVC Gadget Driver stops sending additional requests for the current frame.
-
-7) DWC3 will still have requests 2,3,4 queued up and sitting in its
-started_list as these requests are not given back to the UVC gadget driver
-because they each have no_interrupt=1 set, and the DWC3 driver will not have
-any additional interrupts triggered for them as a result.
-
-8) Approximately 30-100ms later a new frame enters the UVC Gadget Driver (from
-V4L2), and it proceeds to send additional requests to the DWC3 driver.
-
-9) Because requests 2,3,4 are still sitting in the started_list of the dwc3
-driver, the driver does not stop and restart the transmission that normally
-helps it recover from the missed isoc situation (this usually happens in
-between frames).
-
-10) Some of the requests from the new frame will have no_interrupt=0 set, but
-these requests will be considered missed/late by the DWC3 controller.
-
-11) Because these new requests have the IOC bit set (and possibly IMI),
-interrupts will be triggered causing the DWC3 Driver to return the req and
-error to the UVC Gadget Driver.
-
-12) And if the last set of requests sent by the UVC Gadget Driver have
-"no_interrupt=1" set, then DWC3 may not interrupt further until new requests
-come in, and the cycle of frame drops/errors will continue.
-
-I have briefly mentioned this issue in another conversation with Thinh. At the
-time he mentioned that 3 things could possibly be done to help resolve this
-issue:
-
-1) The UVC Gadget Driver should ensure that the last requests queued to DWC3
-must always have "no_interrupt=0" set.
-
-2) DWC3 can detect stale requests, stop the transmission and give back the
-requests to the UVC Gadget Driver, and restart the transmission for the new set
-of requests.
-
-3) Set "no_interrupt=0" for each request.
+diff --git a/include/kunit/test.h b/include/kunit/test.h
+index b1ab6b32216d..450a778a039e 100644
+--- a/include/kunit/test.h
++++ b/include/kunit/test.h
+@@ -16,6 +16,7 @@
+ #include <linux/container_of.h>
+ #include <linux/err.h>
+ #include <linux/init.h>
++#include <linux/jump_label.h>
+ #include <linux/kconfig.h>
+ #include <linux/kref.h>
+ #include <linux/list.h>
+@@ -27,6 +28,9 @@
  
-I have tested out various implementations for all 3 possibilities and they each
-seem to work ok. Note that these test implementations are not ready for prime
-time, but served as a way to prove that potential changes in these areas could
-help to resolve this issue.
-
-I believe that a change for the UVC Gadget Driver should be made, but it also
-makes sense for the DWC3 driver to also attempt to recover from this situation
-if possible.
-
-Does anyone have an opinion on the best way to proceed?
-
-Thanks,
-Jeff
+ #include <asm/rwonce.h>
+ 
++/* Static key: true if any KUnit tests are currently running */
++extern struct static_key_false kunit_running;
++
+ struct kunit;
+ 
+ /* Size of log associated with test. */
+diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+index 90640a43cf62..314717b63080 100644
+--- a/lib/kunit/test.c
++++ b/lib/kunit/test.c
+@@ -20,6 +20,8 @@
+ #include "string-stream.h"
+ #include "try-catch-impl.h"
+ 
++DEFINE_STATIC_KEY_FALSE(kunit_running);
++
+ #if IS_BUILTIN(CONFIG_KUNIT)
+ /*
+  * Fail the current test and print an error message to the log.
+@@ -612,10 +614,14 @@ int __kunit_test_suites_init(struct kunit_suite * const * const suites, int num_
+ 		return 0;
+ 	}
+ 
++	static_branch_inc(&kunit_running);
++
+ 	for (i = 0; i < num_suites; i++) {
+ 		kunit_init_suite(suites[i]);
+ 		kunit_run_tests(suites[i]);
+ 	}
++
++	static_branch_dec(&kunit_running);
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(__kunit_test_suites_init);
+-- 
+2.38.0.135.g90850a2211-goog
 
