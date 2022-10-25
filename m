@@ -2,160 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5353CC04A95
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 12:37:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89FC8C04A95
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 12:59:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231877AbiJYMg6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 08:36:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55500 "EHLO
+        id S229574AbiJYM7y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 08:59:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231869AbiJYMgy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 08:36:54 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AAE9188A95;
-        Tue, 25 Oct 2022 05:36:49 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id r12so5441773lfp.1;
-        Tue, 25 Oct 2022 05:36:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aN0HUd/KgdtdxIcVM/vKgUbuOtmAYYeHHt78w+aGgt8=;
-        b=aBIuiwmv8MKm72HVyQhGu5WmoBtAmK3XF/1PTz0bzUU25A25s8Y5i0ItMqk6lRYdVH
-         YV5y+EijhyMyuMew0RWl/OmZQnFfkvGCldxDFIjWJ7qSvti/EbuHtHUHOPbd627uWer4
-         LuYPIphGZM38WcXgaCsRv4okvvyEEd2dWEIIPg8sZU8Rw46hMovTJSa1nB2tPRc4gqr1
-         824l0BE4MehGzfSLqLoiwpK4h+jyz9Gm1J8ven5v03tBbHJpMjwmg0nbqFdahyicksVy
-         ImlgpQvBcnThc91pdWbWQ0POZGO6hNk4GhKkeRj0HVtk3t2cGkkuyyV6ioRdp6S0bTWa
-         90vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aN0HUd/KgdtdxIcVM/vKgUbuOtmAYYeHHt78w+aGgt8=;
-        b=O15ZBmApGkvN4WdgXEg7F+6LaUc4dpzwrqZo/IybkWEdCM5j4Udj3T5NP7OGMT3CT8
-         +J5g3Y1SOL5W/V/5V8YtXXrZ/+Cz1lsl1uExHI0XQgRMZv0tBbMOzl1cuzARFlBJabsO
-         dYIvHYo7Lz61VJyp1l1D5FBUnuZqEQD9grINI8L9EEwrwxc5kVqUqbzxsemoJKyf118w
-         +XR8CLF/3D8/R75qUg4WVyTYH7qSs1ls1yWoY/6UYnfFbAuHB0D5TGw9z7B5Y+nXJxve
-         R9ibBaXAEEpTOtWI+N1Kt5pFRMxqH1LfvScDW47XpeE/QAnDFFBDLyjQxEkkfTCN5Phm
-         fERw==
-X-Gm-Message-State: ACrzQf1DXqAhMO+G4dr1tm6kDr6Mzpmz2peuPETTNGVdifC8eE7HMf39
-        p482n4KjZITxJ1iXrVP53sMAhAF5XPHTFw==
-X-Google-Smtp-Source: AMsMyM7h0NPWCWOmu+/lzjO76zWSA+WPzlrK1l1KOvhtU9YeqQqpJXOhYDnbXvle5a0Lk+y1HMyhiQ==
-X-Received: by 2002:a05:6512:3dac:b0:4a4:8044:9c3 with SMTP id k44-20020a0565123dac00b004a4804409c3mr13225634lfv.145.1666701407419;
-        Tue, 25 Oct 2022 05:36:47 -0700 (PDT)
-Received: from smtpclient.apple (188-177-109-202-dynamic.dk.customer.tdc.net. [188.177.109.202])
-        by smtp.gmail.com with ESMTPSA id r2-20020a19da02000000b0049f9799d349sm395131lfg.187.2022.10.25.05.36.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 25 Oct 2022 05:36:46 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
-Subject: Re: [PATCH] Periodically flow expire from flow offload tables
-From:   Michael Lilja <michael.lilja@gmail.com>
-In-Reply-To: <Y1fC5K0EalIYuB7Y@salvia>
-Date:   Tue, 25 Oct 2022 14:36:35 +0200
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        Florian Westphal <fw@strlen.de>, netdev@vger.kernel.org,
+        with ESMTP id S232620AbiJYM67 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 08:58:59 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B955B1BFB94;
+        Tue, 25 Oct 2022 05:54:11 -0700 (PDT)
+Received: from loongson.cn (unknown [112.20.109.239])
+        by gateway (Coremail) with SMTP id _____8Bx3Nhu3FdjP2UCAA--.9536S3;
+        Tue, 25 Oct 2022 20:54:06 +0800 (CST)
+Received: from [192.168.100.8] (unknown [112.20.109.239])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Cxn+Bq3FdjueYEAA--.19001S3;
+        Tue, 25 Oct 2022 20:54:02 +0800 (CST)
+Message-ID: <4123dfce-d5f9-80aa-cbba-d8dfbf197953@loongson.cn>
+Date:   Tue, 25 Oct 2022 20:53:34 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v2 1/2] Documentation: Start translations to Spanish
+To:     Alex Shi <seakeel@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Carlos Bilbao <carlos.bilbao@amd.com>,
+        Akira Yokosawa <akiyks@gmail.com>, bilbao@vt.edu,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <381FF5B6-4FEF-45E9-92D6-6FE927A5CC2D@gmail.com>
-References: <20221023171658.69761-1-michael.lilja@gmail.com>
- <Y1fC5K0EalIYuB7Y@salvia>
-To:     Pablo Neira Ayuso <pablo@netfilter.org>
-X-Mailer: Apple Mail (2.3731.200.110.1.12)
+        miguel.ojeda.sandonis@gmail.com,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>
+References: <20221014142454.871196-2-carlos.bilbao@amd.com>
+ <48b4a5a1-2a52-4159-699b-9db73a012892@gmail.com>
+ <Y01pkubcT7FOwCjL@casper.infradead.org>
+ <8e2a1da1-2914-b223-85b0-a769339d9c39@gmail.com>
+ <9e65ba16-68d3-8d11-c6ac-c35c29026688@amd.com>
+ <Y1aovvn7dAyo1nuW@casper.infradead.org> <87a65lfdqb.fsf@meer.lwn.net>
+ <875yg9fdbm.fsf@meer.lwn.net>
+ <CAJy-AmnskpBqTspQ-krCi66S960CowqqTfnrnbPeS_JnCoa2Vg@mail.gmail.com>
+From:   YanTeng Si <siyanteng@loongson.cn>
+In-Reply-To: <CAJy-AmnskpBqTspQ-krCi66S960CowqqTfnrnbPeS_JnCoa2Vg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cxn+Bq3FdjueYEAA--.19001S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7tw1UXFWfJFyxKw1xtr1fWFg_yoW8tw1xpF
+        WYgas7KFyktr92kFn2vw48XrWFqw1SyryYqr1DKr1kCwnYgFyfKr45KryYkasxur4xGr1j
+        v3yYqFW3XF1qyaDanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bDAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2kK
+        e7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
+        0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280
+        aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
+        xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC
+        6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
+        026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
+        0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0x
+        vE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
+        6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jFApnUUUUU=
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
 
-No problem. Here is a snippet of the rulesets in play. I simplified it =
-because there are a lot of devices and a lot of schedules per device. =
-The =E2=80=98mark=E2=80=99 is set by userspace so not all flow types are =
-offloaded, that is controlled by userspace:
+在 2022/10/25 19:05, Alex Shi 写道:
+> On Mon, Oct 24, 2022 at 11:31 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>>
+>> Resending without the screwy address that my mailer decided to put in
+>> for Alex, sorry for the noise.
+> Thanks for having me.
+> I am neutral about the change, and prefer less churn for code.
+> But if we have to, zh_hant/hans is better then CN and TW to comfort
+> other regions, like zh_SG, zh_HK etc.
 
-- - - - snip start - - - -=20
-table inet fw4 {
-	flowtable ft {
-	hook ingress priority filter
-	devices =3D { lan1, lan2, wan }
-	flags offload
-}
+Same here!
 
- chain mangle_forward {
-	type filter hook forward priority mangle; policy
-	meta mark set ct mark
-	meta mark 0x00000000/16 queue flags bypass to 0
- }
+ >_<
 
 
-chain my_devices_rules {
-	ether saddr 96:68:97:a7:e8:a7 jump fw_p0_dev0 comment =E2=80=9CDev=
-ice match=E2=80=9D
-}
+Thanks,
 
-chain fw_p0_dev0 {
-	meta time >=3D "2022-10-09 18:46:50" meta time < "2022-10-09 =
-19:16:50" counter packets 0 bytes 0 drop comment "!Schedule OFFLINE =
-override"
-	meta day =E2=80=9CTuesday" meta hour >=3D "06:00" meta hour < =
-"07:00" drop
-}
+Yanteng
 
-chain forward {
-	 type filter hook forward priority filter; policy accept;
-	jump my_devices_rules
-}
-
-chain my_forward_offload {
-	type filter hook forward priority filter + 1; policy accept;
-	meta mark !=3D 0x00000000/16 meta l4proto { tcp, udp } flow add =
-@ft
-}
-
-chain mangle_postrouting {
-	type filter hook postrouting priority mangle; policy accept;
-	ct mark set meta mark
-}
-- - - - snip end - - - -
-
-The use case is that I have schedules per device to control when they =
-are allowed access to the internet and if the flows are offloaded they =
-will not get dropped once the schedule kicks in.
-
-Thanks
-
-> On 25 Oct 2022, at 13.05, Pablo Neira Ayuso <pablo@netfilter.org> =
-wrote:
->=20
-> Hi,
->=20
-> On Sun, Oct 23, 2022 at 07:16:58PM +0200, Michael Lilja wrote:
->> When a flow is added to a flow table for offload SW/HW-offload
->> the user has no means of controlling the flow once it has
->> been offloaded. If a number of firewall rules has been made using
->> time schedules then these rules doesn't apply for the already
->> offloaded flows. Adding new firewall rules also doesn't affect
->> already offloaded flows.
->>=20
->> This patch handle flow table retirement giving the user the option
->> to at least periodically get the flow back into control of the
->> firewall rules so already offloaded flows can be dropped or be
->> pushed back to flow offload tables.
->>=20
->> The flow retirement is disabled by default and can be set in seconds
->> using sysctl -w net.netfilter.nf_flowtable_retire
->=20
-> How does your ruleset look like? Could you detail your usecase?
->=20
-> Thanks.
-
+>
+> Thanks
+> Alex
+>
+>> Jonathan Corbet <corbet@lwn.net> writes:
+>>
+>>> [Adding some of the other folks interested in translations]
+>>>
+>>> Matthew Wilcox <willy@infradead.org> writes:
+>>>
+>>>> I think we're better off following BCP 47:
+>>>> https://www.rfc-editor.org/info/bcp47 rather than the libc locale format.
+>>>> That will imply renaming it_IT to simply "it", ja_JP to "ja" and
+>>>> ko_KR to "ko".  The two Chinese translations we have might be called
+>>>> "zh-Hant" and "zh-Hans", if the distinction is purely Traditional vs
+>>>> Simplified script.  If they really are region based, then they'd be
+>>>> zh-CN and zh-TW.
+>>>>
+>>>> I think you're right to conflate all dialects of Spanish together, just
+>>>> as we do all dialects of English.
+>>>>
+>>>> Jon, this feels like policy you should be setting.  Are you on board
+>>>> with this, or do you want to retain the mandatory geography tag that
+>>>> we've been using up to now?
+>>> I want to go hide somewhere :)
+>>>
+>>> I'd kind of prefer to avoid renaming the existing translations, as that
+>>> is sure to create a certain amount of short-term pain.  But I guess we
+>>> could do that if the benefit somehow seems worth it.
+>>>
+>>> Of course, if we're thrashing things, we could also just call them
+>>> "Italian" (or "Italiano"), "Chinese", and so on.  I don't *think*
+>>> there's a need for the names to be machine-readable.  We should stick
+>>> with ASCII for these names just to help those of us who can't type in
+>>> other scripts.
+>>>
+>>> If asked to set a policy today, my kneejerk reaction would be to leave
+>>> things as they are just to avoid a bunch of churn.  But I don't have a
+>>> strong opinion on how this naming should actually be done, as long as we
+>>> can pick something and be happy with it thereafter.  What do the
+>>> translation maintainers think?
+>>>
+>>> Thanks,
+>>>
+>>> jon
 
