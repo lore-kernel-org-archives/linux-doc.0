@@ -2,98 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFC7DC38A2D
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 12:01:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5353CC04A95
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 12:37:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230324AbiJYMBc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 08:01:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51062 "EHLO
+        id S231877AbiJYMg6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 08:36:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230040AbiJYMBa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 08:01:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A2267D792
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 05:01:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666699288;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3NP8R3IYLYmihDVV7WTD3Rj7jwPsio2DD4wfaKkI+8g=;
-        b=JSV+/cRzYuIgiYjc3qbQkkYSmv96f3VvT/diGYSkUjjqH8hEYzlCW7rHr9qbcsJjZCyA20
-        Uyge91VgeY3ZzmdPbHGT0OvG7Hc8TUbPMXDLeprW62o07XFY6TuM0uaFKe4DfnWxJiukmt
-        u2yO4IA48DWRX8FygQwlOfJJSotC6Pk=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-160-hQf31lrKPfaxYzCqk0ZGgQ-1; Tue, 25 Oct 2022 08:01:27 -0400
-X-MC-Unique: hQf31lrKPfaxYzCqk0ZGgQ-1
-Received: by mail-ej1-f71.google.com with SMTP id hr26-20020a1709073f9a00b007a20c586f1eso1536289ejc.20
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 05:01:27 -0700 (PDT)
+        with ESMTP id S231869AbiJYMgy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 08:36:54 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AAE9188A95;
+        Tue, 25 Oct 2022 05:36:49 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id r12so5441773lfp.1;
+        Tue, 25 Oct 2022 05:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aN0HUd/KgdtdxIcVM/vKgUbuOtmAYYeHHt78w+aGgt8=;
+        b=aBIuiwmv8MKm72HVyQhGu5WmoBtAmK3XF/1PTz0bzUU25A25s8Y5i0ItMqk6lRYdVH
+         YV5y+EijhyMyuMew0RWl/OmZQnFfkvGCldxDFIjWJ7qSvti/EbuHtHUHOPbd627uWer4
+         LuYPIphGZM38WcXgaCsRv4okvvyEEd2dWEIIPg8sZU8Rw46hMovTJSa1nB2tPRc4gqr1
+         824l0BE4MehGzfSLqLoiwpK4h+jyz9Gm1J8ven5v03tBbHJpMjwmg0nbqFdahyicksVy
+         ImlgpQvBcnThc91pdWbWQ0POZGO6hNk4GhKkeRj0HVtk3t2cGkkuyyV6ioRdp6S0bTWa
+         90vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:to
-         :content-language:subject:cc:user-agent:mime-version:date:message-id
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3NP8R3IYLYmihDVV7WTD3Rj7jwPsio2DD4wfaKkI+8g=;
-        b=UaF2mtNwNUtT3XAGLhgGvCNJA/rsQmnaR7Fqm4DBYUncGNLpsF748++ZyV8JQaUMNM
-         3idGcBme47aRl2vlP8opRGX5vFkBmRNc4vc4mfx7Gonn2BzGEEBq4JpTmDIoTz+Ipr0j
-         K1ZzfbdOuIJqibyp2GJFq8qyDM9PBKM2n758iPqZuYsDLfQTvYFcbmIAqjgBkO3Ay0Gj
-         c5P2qscMi0rVShUvU8j7EqOoNrHryfuQAfBgPCheuTr9qNV2gl1O/6WNfU11/3DqsJe5
-         9YQLurGh1cInc6fE6kRBYGBJJU/D+CynzACX/6g32p/EvTR3YgtWnIM8bzsmBZbyhlTy
-         VbZw==
-X-Gm-Message-State: ACrzQf0M24rhOVGwSoFKYbh5GukJzuXrYXGGPDecctiLsh+Yl8Wxaf2O
-        7QR4AxCp+wp7mvnTm54HDca12YD1IX6W0gbLaL63mDL1N5Yj+12Qws8HEjt/pF1dbIVrj3eRgPl
-        dMC1xrqr1bynABYcSoFAz
-X-Received: by 2002:a05:6402:371b:b0:460:ff7d:f511 with SMTP id ek27-20020a056402371b00b00460ff7df511mr25245229edb.148.1666699285911;
-        Tue, 25 Oct 2022 05:01:25 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4ByvT9CqolkhMMGCNXFGUXy8yFRrjzmrcPaD532k849sniIIwZYUM7s8f6bl8PHwOomnxrwg==
-X-Received: by 2002:a05:6402:371b:b0:460:ff7d:f511 with SMTP id ek27-20020a056402371b00b00460ff7df511mr25245210edb.148.1666699285731;
-        Tue, 25 Oct 2022 05:01:25 -0700 (PDT)
-Received: from [192.168.41.200] (83-90-141-187-cable.dk.customer.tdc.net. [83.90.141.187])
-        by smtp.gmail.com with ESMTPSA id d25-20020aa7d699000000b00461c375d88csm1473403edr.97.2022.10.25.05.01.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Oct 2022 05:01:24 -0700 (PDT)
-From:   Jesper Dangaard Brouer <jbrouer@redhat.com>
-X-Google-Original-From: Jesper Dangaard Brouer <brouer@redhat.com>
-Message-ID: <62d3043f-51cc-b003-1a43-43550641cfd9@redhat.com>
-Date:   Tue, 25 Oct 2022 14:01:23 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Cc:     brouer@redhat.com, Lorenzo Bianconi <lorenzo@kernel.org>
-Subject: Re: [PATCH bpf-next v1 1/1] docs: BPF_MAP_TYPE_CPUMAP
-Content-Language: en-US
-To:     mtahhan@redhat.com, bpf@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20221021093050.2711300-1-mtahhan@redhat.com>
-In-Reply-To: <20221021093050.2711300-1-mtahhan@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aN0HUd/KgdtdxIcVM/vKgUbuOtmAYYeHHt78w+aGgt8=;
+        b=O15ZBmApGkvN4WdgXEg7F+6LaUc4dpzwrqZo/IybkWEdCM5j4Udj3T5NP7OGMT3CT8
+         +J5g3Y1SOL5W/V/5V8YtXXrZ/+Cz1lsl1uExHI0XQgRMZv0tBbMOzl1cuzARFlBJabsO
+         dYIvHYo7Lz61VJyp1l1D5FBUnuZqEQD9grINI8L9EEwrwxc5kVqUqbzxsemoJKyf118w
+         +XR8CLF/3D8/R75qUg4WVyTYH7qSs1ls1yWoY/6UYnfFbAuHB0D5TGw9z7B5Y+nXJxve
+         R9ibBaXAEEpTOtWI+N1Kt5pFRMxqH1LfvScDW47XpeE/QAnDFFBDLyjQxEkkfTCN5Phm
+         fERw==
+X-Gm-Message-State: ACrzQf1DXqAhMO+G4dr1tm6kDr6Mzpmz2peuPETTNGVdifC8eE7HMf39
+        p482n4KjZITxJ1iXrVP53sMAhAF5XPHTFw==
+X-Google-Smtp-Source: AMsMyM7h0NPWCWOmu+/lzjO76zWSA+WPzlrK1l1KOvhtU9YeqQqpJXOhYDnbXvle5a0Lk+y1HMyhiQ==
+X-Received: by 2002:a05:6512:3dac:b0:4a4:8044:9c3 with SMTP id k44-20020a0565123dac00b004a4804409c3mr13225634lfv.145.1666701407419;
+        Tue, 25 Oct 2022 05:36:47 -0700 (PDT)
+Received: from smtpclient.apple (188-177-109-202-dynamic.dk.customer.tdc.net. [188.177.109.202])
+        by smtp.gmail.com with ESMTPSA id r2-20020a19da02000000b0049f9799d349sm395131lfg.187.2022.10.25.05.36.46
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 25 Oct 2022 05:36:46 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: [PATCH] Periodically flow expire from flow offload tables
+From:   Michael Lilja <michael.lilja@gmail.com>
+In-Reply-To: <Y1fC5K0EalIYuB7Y@salvia>
+Date:   Tue, 25 Oct 2022 14:36:35 +0200
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <381FF5B6-4FEF-45E9-92D6-6FE927A5CC2D@gmail.com>
+References: <20221023171658.69761-1-michael.lilja@gmail.com>
+ <Y1fC5K0EalIYuB7Y@salvia>
+To:     Pablo Neira Ayuso <pablo@netfilter.org>
+X-Mailer: Apple Mail (2.3731.200.110.1.12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
-On 21/10/2022 11.30, mtahhan@redhat.com wrote:
-> From: Maryam Tahhan <mtahhan@redhat.com>
-> 
-> Add documentation for BPF_MAP_TYPE_CPUMAP including
-> kernel version introduced, usage and examples.
-> 
-> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
-> Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> Co-developed-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> ---
->   Documentation/bpf/map_cpumap.rst | 166 +++++++++++++++++++++++++++++++
->   1 file changed, 166 insertions(+)
->   create mode 100644 Documentation/bpf/map_cpumap.rst
+No problem. Here is a snippet of the rulesets in play. I simplified it =
+because there are a lot of devices and a lot of schedules per device. =
+The =E2=80=98mark=E2=80=99 is set by userspace so not all flow types are =
+offloaded, that is controlled by userspace:
 
-I was about to complain that this needed to be linked in file 
-Documentation/bpf/maps.rst, but it seems it gets wildcard included.
+- - - - snip start - - - -=20
+table inet fw4 {
+	flowtable ft {
+	hook ingress priority filter
+	devices =3D { lan1, lan2, wan }
+	flags offload
+}
 
-I see Toke already gave you some feedback to address, so I'll wait for 
-the next version to review.
+ chain mangle_forward {
+	type filter hook forward priority mangle; policy
+	meta mark set ct mark
+	meta mark 0x00000000/16 queue flags bypass to 0
+ }
 
---Jesper
+
+chain my_devices_rules {
+	ether saddr 96:68:97:a7:e8:a7 jump fw_p0_dev0 comment =E2=80=9CDev=
+ice match=E2=80=9D
+}
+
+chain fw_p0_dev0 {
+	meta time >=3D "2022-10-09 18:46:50" meta time < "2022-10-09 =
+19:16:50" counter packets 0 bytes 0 drop comment "!Schedule OFFLINE =
+override"
+	meta day =E2=80=9CTuesday" meta hour >=3D "06:00" meta hour < =
+"07:00" drop
+}
+
+chain forward {
+	 type filter hook forward priority filter; policy accept;
+	jump my_devices_rules
+}
+
+chain my_forward_offload {
+	type filter hook forward priority filter + 1; policy accept;
+	meta mark !=3D 0x00000000/16 meta l4proto { tcp, udp } flow add =
+@ft
+}
+
+chain mangle_postrouting {
+	type filter hook postrouting priority mangle; policy accept;
+	ct mark set meta mark
+}
+- - - - snip end - - - -
+
+The use case is that I have schedules per device to control when they =
+are allowed access to the internet and if the flows are offloaded they =
+will not get dropped once the schedule kicks in.
+
+Thanks
+
+> On 25 Oct 2022, at 13.05, Pablo Neira Ayuso <pablo@netfilter.org> =
+wrote:
+>=20
+> Hi,
+>=20
+> On Sun, Oct 23, 2022 at 07:16:58PM +0200, Michael Lilja wrote:
+>> When a flow is added to a flow table for offload SW/HW-offload
+>> the user has no means of controlling the flow once it has
+>> been offloaded. If a number of firewall rules has been made using
+>> time schedules then these rules doesn't apply for the already
+>> offloaded flows. Adding new firewall rules also doesn't affect
+>> already offloaded flows.
+>>=20
+>> This patch handle flow table retirement giving the user the option
+>> to at least periodically get the flow back into control of the
+>> firewall rules so already offloaded flows can be dropped or be
+>> pushed back to flow offload tables.
+>>=20
+>> The flow retirement is disabled by default and can be set in seconds
+>> using sysctl -w net.netfilter.nf_flowtable_retire
+>=20
+> How does your ruleset look like? Could you detail your usecase?
+>=20
+> Thanks.
+
 
