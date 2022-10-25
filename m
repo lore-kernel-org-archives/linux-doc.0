@@ -2,153 +2,232 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47DDCFA373F
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 16:17:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F418C04A95
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 16:28:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232376AbiJYQRk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 12:17:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40574 "EHLO
+        id S230397AbiJYQ2d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 12:28:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233034AbiJYQRf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 12:17:35 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00474FF247
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 09:17:34 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id l6so7735514pjj.0
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 09:17:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0XpehjN5/x0DVN6iNfQRcpwLRiHoknqSMi2DnBppXC4=;
-        b=VTegWoMotPt2w65LyX5l1RfBFsrVct34KfNYTQclV1Ej8EpD0Aka6DhRqFqKKPkKYF
-         dx/pMAu3a28hbLyvQafo+3Wa+3mCeMIJhF5AVwXriBoAuAKBIFTkfyEZGt3R9F9Nhi41
-         fj+nZajeXUNM6G2OtS9Tq69y8zmBsHay0qJIu6C8XDsQnxvChs2zKzG+iHzQM3CemyK7
-         rQ1rbv2xpfwgbK/hJO81F9yW0YMzSmbw6UXv81EZOUicFWm2Vd2NYV/mOhEHD+opJjML
-         IMkSJQctzTXXbBbp4cSFHMIFqYkomesQTa0hCcAW0LxBYbC7hn0bynG64p0PfcuPbXmb
-         uofw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0XpehjN5/x0DVN6iNfQRcpwLRiHoknqSMi2DnBppXC4=;
-        b=r2we4+VOT/Tn/eVgWOLjPGGB0vN29mmf+IBUAFFLRkEiFN7LligWwrNC+YVe7qBpc4
-         ofcjbsmFpXVCb9Gs8W20RJ4igH/6p4qVBqj+cRw+pyYEoc8LjQJLBHY4EkEI3F4VaTHo
-         L3kXnnjbbLm2A60hIbX3qdctykKJOz8rwyDo/Gvxg1xHTwMyJGiUA1CL/v2EGXYlkeBe
-         1yJlsLvL2xbvLxhjeQWpdFoxO/FvQCvA8fmp3TbPzTD9lfHSdfOIaa1b3eeMIF5hlU8G
-         AlVtDaxEKgkrznjBcwl8J4lQqw/+8bOYYEP3KcpwSiqZRGuck3p/0e6sZ0sQEjipUhC0
-         wbvg==
-X-Gm-Message-State: ACrzQf0blnkA2z9Hs3vugzo4PnW8piSBxsah4qem77Uah/Um2c5kUs6a
-        kQG5qquCUeWs+d1HOSJT+FMRUQ==
-X-Google-Smtp-Source: AMsMyM738RdpBPHm9pvc30fi3c2/lYdgFkQc2nwAzBbq52uGbxkdpRe8GUTzQNa3Uoldv8m3HWsH3Q==
-X-Received: by 2002:a17:903:41c7:b0:182:a32f:4db5 with SMTP id u7-20020a17090341c700b00182a32f4db5mr39384792ple.22.1666714654279;
-        Tue, 25 Oct 2022 09:17:34 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id b3-20020a1709027e0300b00186881e1feasm1399643plm.112.2022.10.25.09.17.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 09:17:33 -0700 (PDT)
-Date:   Tue, 25 Oct 2022 16:17:30 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Peter Maydell <peter.maydell@linaro.org>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
+        with ESMTP id S229995AbiJYQ2c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 12:28:32 -0400
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [IPv6:2001:4190:8020::34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D14EFBA257;
+        Tue, 25 Oct 2022 09:28:30 -0700 (PDT)
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+        id 98E2992009C; Tue, 25 Oct 2022 18:28:28 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by angie.orcam.me.uk (Postfix) with ESMTP id 9129092009B;
+        Tue, 25 Oct 2022 17:28:28 +0100 (BST)
+Date:   Tue, 25 Oct 2022 17:28:28 +0100 (BST)
+From:   "Maciej W. Rozycki" <macro@orcam.me.uk>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+cc:     Matthew Wilcox <willy@infradead.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Yu Zhao <yuzhao@google.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>, Tejun Heo <tj@kernel.org>,
         Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Message-ID: <Y1gMGpWpzzA/AC//@google.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <CAFEAcA-=Sc9Sc4oLq13HAFW49ZBw8u6DtN7bf_vjVYX_AAaKSg@mail.gmail.com>
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
+In-Reply-To: <CAHk-=wgNZNNd4t004x0ehXm=DA+JmYY=0MgVNDXUtoV4ApyXvQ@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.2210240054280.50489@angie.orcam.me.uk>
+References: <20220815071332.627393-1-yuzhao@google.com> <20220815071332.627393-9-yuzhao@google.com> <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net> <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com> <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
+ <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net> <CAHk-=whQchubuDpRGFabhmcZuzdt13OOF8wznXb+Dbi3GzBQhQ@mail.gmail.com> <Y1GZjPO+szk7X0wP@hirez.programming.kicks-ass.net> <CAHk-=wikUaRM5H_y1Bc+QyvGi40dKDL8fnCTyz7ECbwK7aHNPQ@mail.gmail.com>
+ <Y1IUMDJFScAMrCS5@casper.infradead.org> <CAHk-=wjrpH1+6cQQjTO6p-96ndBMiOnNH098vhS2jLybxD+7gA@mail.gmail.com> <alpine.DEB.2.21.2210211911390.50489@angie.orcam.me.uk> <CAHk-=wgNZNNd4t004x0ehXm=DA+JmYY=0MgVNDXUtoV4ApyXvQ@mail.gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-=Sc9Sc4oLq13HAFW49ZBw8u6DtN7bf_vjVYX_AAaKSg@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 25, 2022, Peter Maydell wrote:
-> On Tue, 25 Oct 2022 at 16:21, Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> > index f3fa75649a78..975688912b8c 100644
-> > --- a/Documentation/virt/kvm/api.rst
-> > +++ b/Documentation/virt/kvm/api.rst
-> > @@ -6537,6 +6537,29 @@ array field represents return values. The userspace should update the return
-> >  values of SBI call before resuming the VCPU. For more details on RISC-V SBI
-> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
-> >
-> > +::
-> > +
-> > +               /* KVM_EXIT_MEMORY_FAULT */
-> > +               struct {
-> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE (1 << 0)
-> > +                       __u32 flags;
-> > +                       __u32 padding;
-> > +                       __u64 gpa;
-> > +                       __u64 size;
-> > +               } memory;
-> > +
-> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VCPU has
-> > +encountered a memory error which is not handled by KVM kernel module and
-> > +userspace may choose to handle it. The 'flags' field indicates the memory
-> > +properties of the exit.
-> > +
-> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
-> > +   private memory access when the bit is set. Otherwise the memory error is
-> > +   caused by shared memory access when the bit is clear.
-> > +
-> > +'gpa' and 'size' indicate the memory range the error occurs at. The userspace
-> > +may handle the error and return to KVM to retry the previous memory access.
-> > +
+On Sun, 23 Oct 2022, Linus Torvalds wrote:
+
+> >  Given the presence of generic atomics we can emulate CMPXCHG8B easily
+> > LL/SC-style using a spinlock with XCHG even on SMP let alone UP.
 > 
-> What's the difference between this and a plain old MMIO exit ?
-> Just that we can specify a wider size and some flags ?
+> We already do that (admittedly badly - it's not SMP safe, but
+> 486-class SMP machines have never been supported even if they
+> technically did exist), see
+> 
+>   arch/x86/lib/cmpxchg8b_emu.S
+>   arch/x86/lib/atomic64_386_32.S
+> 
+> for some pretty disgusting code.
 
-KVM_EXIT_MMIO is purely for cases where there is no memslot.  KVM_EXIT_MEMORY_FAULT
-will be used for scenarios where there is a valid memslot for a GPA, but for
-whatever reason KVM cannot map the memslot into the guest.
+ I skimmed over these, yeah, before writing my previous reply and hence 
+my proposal to make the approach somewhat less disgusting.
 
-In this series, the new exit type is use to handle guest-initiated conversions
-between shared and private memory.  By design, conversion requires explicit action
-from userspace, and so even though KVM has a valid memslot, KVM needs to exit to
-userspace to effectively forward the conversion request to userspace.
+ FWIW Intel talks about 486 SMP systems in their MP spec, but even back 25
+years ago I was unable to track down a single mention of a product name 
+for an APIC-based 486 SMP system let alone a specimen.  I guess the MP 
+spec and the APIC simply came too late in the game for the 486.
 
-Long term, I also hope to convert all guest-triggered -EFAULT paths to instead
-return KVM_EXIT_MEMORY_FAULT.  At minimum, returning KVM_EXIT_MEMORY_FAULT instead
-of -EFAULT will allow KVM to provide userspace with the "bad" GPA when something
-goes sideways, e.g. if faulting in the page failed because there's no valid
-userspace mapping.
+ Compaq did however make 486 SMP systems based on their proprietary 
+solution (I can't remember the name offhand), which they also propagated 
+to their later Pentium products, some of which could be switched into the 
+APIC mode instead via a BIOS setting.  ISTR a 16-way brand new Xeon box 
+still using the Compaq solution in early 2000s.  Compaq never bothered to 
+publish the spec for their solution and nobody was determined enough to 
+reverse-engineer it, so we never had support for it.
 
-There have also been two potential use cases[1][2], though they both appear to have
-been abandoned, where userspace would do something more than just kill the guest
-in response to KVM_EXIT_MEMORY_FAULT.
+> But it's all the other infrastructure to support this that is just an
+> unnecessary weight. Grep for CONFIG_X86_CMPXCHG64 and X86_FEATURE_CX8.
 
-[1] https://lkml.kernel.org/r/20200617230052.GB27751@linux.intel.com
-[2] https://lore.kernel.org/all/YKxJLcg%2FWomPE422@google.com
+ Some of these are syntactic sugar really, but I agree there seem to be 
+too many of them and I guess even that perhaps could be simplified at the 
+expense of some performance loss with 486 systems, by assuming universal 
+presence of CMPXCHG8B and emulating the instruction in #UD handler where 
+unavailable.  I could live with that, and that could get away with no 
+conditionals (except maybe one to have the emulation handler optimised 
+away where not needed based on a single CONFIG_X86_CMPXCHG64 instance).
+
+> We already have increasingly bad coverage testing for x86-32 - and
+> your example of MIPS really doesn't strengthen your argument all that
+> much, because MIPS has never been very widely used in the first place,
+> and doesn't affect any mainline development.
+
+ TBH by the number of pieces of hardware I am fairly sure there have been 
+significantly more MIPS Linux deployments in the world than x86 ones, and
+second only to ARM ones, though indeed the diversity of configurations may 
+have been smaller.  And all of them seem to have survived having ancient 
+MIPS CPU support alongside.
+
+> The odd features and CPU selection really do not help.
+> 
+> Honestly, I wouldn't mind upgrading the minimum requirements to at
+> least M586TSC - leaving some of those early "fake Pentium" clones
+> behind too. Because 'rdtsc' is probably an even worse issue than
+> CMPXCHG8B.
+> 
+> In fact, I don't understand how current kernels work on an i486 at
+> all, since it looks like
+> 
+>   exit_to_user_mode_prepare ->
+>     arch_exit_to_user_mode_prepare
+> 
+> ends up having an unconditional 'rdtsc' instruction in it.
+> 
+> I'm guessing that you don't have RANDOMIZE_KSTACK_OFFSET enabled?
+
+ I have checked and I have not moved past 5.11.0 yet for my 486 box, and 
+that's before the addition of RANDOMIZE_KSTACK_OFFSET.
+
+ Sigh, time flies by and there's been too much breakage around for me to 
+deal with to schedule an upgrade of what has been mostly a stable 
+trouble-free configuration for me.  E.g. after three unrelated bug fixes 
+the parport_pc driver still does not work with my RISC-V box, and that's 
+of course only once I figured out how to work around a hardware erratum 
+with a pair of upstream PCIe switches that let the PCIe parallel port 
+option card to be reachable in the first place.  So I gave those issues 
+priority over upgrading the 486 kernel, though obviously I'll get to it 
+sooner or later.
+
+ The fix here is obviously and trivially:
+
+	select HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET if !M486SX && !M486
+
+Not all features have to be available everywhere and there are compromises 
+to make.  I can live with my 486 box being less secure: I don't intend to 
+hand out accounts to people I don't trust or run a web server there.
+
+ I don't know offhand how much we rely on RDTSC and if necessary how much 
+a trivial emulation referring to jiffies plus maybe reading the 8254 PIT
+counter would suck.  Maybe it's not a big deal.  Again, it all depends on 
+the application.
+
+ NB I have seen this in the logs appearing since a while ago with my dual
+Pentium-MMX box:
+
+clocksource: timekeeping watchdog on CPU0: Marking clocksource 'tsc-early' as unstable because the skew is too large:
+clocksource:                       'refined-jiffies' wd_nsec: 500000000 wd_now:ffff8b3e wd_last: ffff8b0c mask: ffffffff
+clocksource:                       'tsc-early' cs_nsec: 829966007 cs_now: 6049e0005 cs_last: 5f91b3cff mask: ffffffffffffffff
+clocksource:                       No current clocksource.
+tsc: Marking TSC unstable due to clocksource watchdog
+
+so I guess this system would qualify as one without RDTSC too (even though 
+it's M586MMX, i.e. a superset of M586TSC, so hardly early "fake Pentium"), 
+right?  It's interesting to see how we can't (anymore) make use of any of 
+the various timers this system has (i.e. the PIT, the TSC, the APIC timer) 
+for timekeeping.
+
+> In other words, our non-Pentium support is ACTIVELY BUGGY AND BROKEN 
+> right now.
+
+ We have plenty of bugs elsewhere too.  I hit them all the time and try to 
+fix as my time permits; I guess other people do too.  I think it's just a 
+matter of willing to deal with issues.  And we won't ever fix all the bugs 
+we have.  There will always be some remaining even if the exact set 
+changes.
+
+> This is not some theoretical issue, but very much a "look, ma, this
+> has never been tested, and cannot actually work" issue, that nobody
+> has ever noticed because nobody really cares.
+
+ Same with parport_pc on RISC-V.  That just happens with more rarely used 
+features, even if it's brand new hardware (I bought both pieces new in 
+retail boxes last year or so).
+
+> It took me a couple of minutes of "let's go hunting" to find that
+> thing, and it's just an example of how broken our current support is.
+> That RANDOMIZE_KSTACK_OFFSET code *compiles* just fine. It just
+> doesn't actually work.
+
+ Nobody tried it, and that's just it.  We may have bots building random 
+configs, but not all will ever be tried at run time.  Bugs creep in all 
+the time, because nobody has the ability to foresee all the scenarios, or 
+sometimes they are genuine human errors.
+
+> That's the kind of maintenance burden we simply shouldn't have - no
+> developer actually cares (correctly), nobody really tests that
+> situation (also correctly - it's old and irrelevant hardware), but it
+> also means that code just randomly doesn't actually work.
+
+ I think this is a strawman's argument really.  For various reasons there 
+are always combinations of hardware that do not work just because one 
+cannot verify everything and the age of hardware may or may not be the 
+culprit.  It's more about the user base.  Niche use gets less coverage.  
+If something doesn't work and someone actually cares about it, they will 
+come and fix it.
+
+ The only argument I buy is extra maintenance burden caused *elsewhere*, 
+so if support for old 486 systems staying around causes extra work for 
+mainstream x86-64 systems, only then I will consider it a valid concern.
+
+ So what's the actual burden from keeping this support around?  Would my 
+proposal to emulate CMPXCHG8B (and possibly RDTSC) in #UD handler help?  
+
+ Getting the decoding of x86 address modes in software right is a pain and 
+tedious (I've seen fixes to get the corner cases right in the disassembler 
+in binutils fly by quite recently, after so many years), but I guess we 
+can try if we don't have it implemented already for another purpose (I 
+haven't checked; I've been hardly involved with x86 recently).
+
+ Thoughts?
+
+  Maciej
