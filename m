@@ -2,124 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A3C4C04A95
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 06:18:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F549C04A95
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 06:34:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229824AbiJYGST (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 02:18:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37046 "EHLO
+        id S230491AbiJYGeH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 02:34:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230057AbiJYGSR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 02:18:17 -0400
-Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D96A43179;
-        Mon, 24 Oct 2022 23:18:15 -0700 (PDT)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
-        t=1666678694;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=PfHEfbX+rpdt9GZNuVQDrplmUUgJamTim3fW50Ttv3M=;
-        b=kgYJ+qw6Qz3M1VxF16vT1IgrIpJW6lcr34V3/QpN4VMQynlbDeoklvXGY9TZ18uLd8qotL
-        wGTESYjDN0ayReISW5OxuiRvQNUpat/ayMW3lJyQiiBbLOxOWszmzls9XRTTcbamXfoZi6
-        Vw6Xwioq9RMzOtVU8yYwm3sufZMN0fNCgBQGnWwpNpflKtACN+/4gZ32DSBZwjKjYNBzsA
-        1DSFfuAx2JmbUds5fv6GWn3TfBBz8uzp5BRXfwrdZ1xDsTlD74AsSIQPEP053WLM2U2NlU
-        Pd2jlwtBb3hVMrEWB0aSpHCTM/ZGc23PkSad11QDeAv68r8w9x8EzboifNucIA==
-From:   Rui Li <me@lirui.org>
-To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Wu XiangCheng <wu.xiangcheng@linux.dev>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rui Li <me@lirui.org>
-Subject: [PATCH] docs/zh_CN: Add userspace-api/sysfs-platform_profile Chinese translation
-Date:   Tue, 25 Oct 2022 14:18:04 +0800
-Message-Id: <20221025061804.35801-1-me@lirui.org>
+        with ESMTP id S229728AbiJYGeF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 02:34:05 -0400
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D407211D985;
+        Mon, 24 Oct 2022 23:34:04 -0700 (PDT)
+Received: by mail-il1-x12a.google.com with SMTP id z9so3305003ilu.10;
+        Mon, 24 Oct 2022 23:34:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=user-agent:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VY4uiQINAn+QNKqNLYdLuvR39IkMOW5yKvxvg9QwqI8=;
+        b=C0wIa3MBCs9h8r8BMk85NhUmB32niC0FVJGtBwWms81UchyTqsnlKS5jKvVy3mn9Gy
+         nH0aE8XFkvHnRzp/7hgfcTQ6jirQYxZ7Qkj+5OjoHNJO7JwJMQmMgKLfSF6DvULMqK97
+         mVBc4sX+lNL3TYNcN2G34nz54GKuUQ3DEKpTAnxi5s+y7AAu+C+sBO7RDo+ibv2eMy3W
+         WULgOJPlPOR+HqrCok++V/8fiimeb6aKKUmic8vzFbdF3sBKhN6+JnKzLk407JT7MDe2
+         x0e2IGnUb7w33fiEJEJ3K51CL9YW6WnDuJXHIKEN2WRnsjkvP/JJeCmayKMAIhOJrvdA
+         903Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VY4uiQINAn+QNKqNLYdLuvR39IkMOW5yKvxvg9QwqI8=;
+        b=nqkQMji4i3s07QwiyKFMaQoUQF5/0z4WUnKYVWxiUTSnV2zPsHL79MoQbM5/myHyAS
+         x1JLX/wwmXvQRv43GTA0oglQDQ38OYvlJcsvEKda3sVlplCozJh5/3+EpgHtiafdVgaB
+         dQiMSks/0GCb9iNBrn7dVPiXG7bMiUrfbp9lM5j43OElDwl0hlVcfK9G48kvWlZHvM0t
+         /Ik/xI1SKILRl+xwiJQuysffhW0Va+/AQJE35qj1Ge8gZnq538ATo5tnavf//EVPeN64
+         +VE3hNBkpoNyhcAEBQtFadPy9GfhPCg+NWbnOwIcIUqCW4r3ZANZ5g+KsnI98OwKdEkN
+         t96g==
+X-Gm-Message-State: ACrzQf02o/Vw3GsEcZQjYogAVGahcw7HR2EB/8b/UA9UCk72e2nBQGM/
+        ce+d4d6zJ0g+e0CbHC26XukvODQBT3Jw60WG
+X-Google-Smtp-Source: AMsMyM5zXTToXYbLlKJbBRDvjmuwz3yZyM7RxL75VowagP7nYR4QUVprUwv8Vft8Vs7331NuJhN3gg==
+X-Received: by 2002:a05:6e02:12ec:b0:2fa:9024:b513 with SMTP id l12-20020a056e0212ec00b002fa9024b513mr22462669iln.120.1666679643900;
+        Mon, 24 Oct 2022 23:34:03 -0700 (PDT)
+Received: from qjv001-XeonWs (c-67-167-199-249.hsd1.il.comcast.net. [67.167.199.249])
+        by smtp.gmail.com with ESMTPSA id o12-20020a0566022e0c00b006a102cb4900sm786751iow.39.2022.10.24.23.34.02
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 24 Oct 2022 23:34:03 -0700 (PDT)
+Date:   Tue, 25 Oct 2022 01:34:01 -0500
+From:   Jeff Vanhoof <jdv1029@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-usb@vger.kernel.org,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: uvc gadget performance issues with skip interrupt impl
+Message-ID: <20221025063359.GA19049@qjv001-XeonWs>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate the following documents into Chinese:
+Hi,
 
-- userspace-api/sysfs-platform_profile.rst
+During the queuing up of requests from the UVC Gadget Driver to DWC3 for one
+frame, if a missed isoc event occurs then it is possible for the next
+consecutive frame(s) to also see missed isoc related errors as a result,
+presenting to the user as a large video stall.
 
-Signed-off-by: Rui Li <me@lirui.org>
----
- .../zh_CN/userspace-api/index.rst             |  2 +-
- .../userspace-api/sysfs-platform_profile.rst  | 40 +++++++++++++++++++
- 2 files changed, 41 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
+This issue appears to have come in with the skip interrupt implementation in
+the UVC Gadget Driver:
 
-diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
-index 6a7e82ac16b9..0f3483a46fa2 100644
---- a/Documentation/translations/zh_CN/userspace-api/index.rst
-+++ b/Documentation/translations/zh_CN/userspace-api/index.rst
-@@ -26,6 +26,7 @@ Linux 内核用户空间API指南
+usb: gadget: uvc: decrease the interrupt load to a quarter
+https://lore.kernel.org/r/20210628155311.16762-6-m.grzeschik@pengutronix.de
+
+Below is an example flow of how the issue can occur (and why).
+
+For example (ISOC use case):
+1) DWC3 driver has 4 requests queued up from the UVC Gadget Driver.
+
+2) First request has IOC bit set due to no_interrupt=0 also being set, and IMI
+bit is set to detect missed ISOC.
+
+3) Requests 2,3,4 do not have IOC bit set due to no_interrupt=1 being set for
+them. (Note: Whether or not the IMI bit is set for these requests does not
+matter, issue can still crop up as there is no guarantee that request 2,3,4
+will see a missed isoc event)
+
+4) First request gets a missed isoc event and DWC3 returns the req and error to
+UVC Gadget Driver.
+
+5) UVC Gadget Driver, in uvc_video_complete, proceeds to cancel the queue by
+calling uvcg_queue_cancel.
+
+6) UVC Gadget Driver stops sending additional requests for the current frame.
+
+7) DWC3 will still have requests 2,3,4 queued up and sitting in its
+started_list as these requests are not given back to the UVC gadget driver
+because they each have no_interrupt=1 set, and the DWC3 driver will not have
+any additional interrupts triggered for them as a result.
+
+8) Approximately 30-100ms later a new frame enters the UVC Gadget Driver (from
+V4L2), and it proceeds to send additional requests to the DWC3 driver.
+
+9) Because requests 2,3,4 are still sitting in the started_list of the dwc3
+driver, the driver does not stop and restart the transmission that normally
+helps it recover from the missed isoc situation (this usually happens in
+between frames).
+
+10) Some of the requests from the new frame will have no_interrupt=0 set, but
+these requests will be considered missed/late by the DWC3 controller.
+
+11) Because these new requests have the IOC bit set (and possibly IMI),
+interrupts will be triggered causing the DWC3 Driver to return the req and
+error to the UVC Gadget Driver.
+
+12) And if the last set of requests sent by the UVC Gadget Driver have
+"no_interrupt=1" set, then DWC3 may not interrupt further until new requests
+come in, and the cycle of frame drops/errors will continue.
+
+I have briefly mentioned this issue in another conversation with Thinh. At the
+time he mentioned that 3 things could possibly be done to help resolve this
+issue:
+
+1) The UVC Gadget Driver should ensure that the last requests queued to DWC3
+must always have "no_interrupt=0" set.
+
+2) DWC3 can detect stale requests, stop the transmission and give back the
+requests to the UVC Gadget Driver, and restart the transmission for the new set
+of requests.
+
+3) Set "no_interrupt=0" for each request.
  
-    ebpf/index
-    no_new_privs
-+   sysfs-platform_profile
- 
- TODOList:
- 
-@@ -38,7 +39,6 @@ TODOList:
- * iommu
- * media/index
- * netlink/index
--* sysfs-platform_profile
- * vduse
- * futex2
- 
-diff --git a/Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst b/Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
-new file mode 100644
-index 000000000000..6e861f911424
---- /dev/null
-+++ b/Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
-@@ -0,0 +1,40 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/userspace-api/sysfs-platform_profile.rst
-+
-+:翻译:
-+
-+ 李睿 Rui Li <me@lirui.org>
-+
-+==========================================================
-+平台配置文件选择（如 /sys/firmware/acpi/platform_profile）
-+==========================================================
-+
-+现代系统中平台性能、温度、风扇和其他硬件相关的特性通常是可以动态配置的。平台
-+配置通常会根据当前的状态由一些自动机制（很可能存在于内核之外）来自动调整。
-+
-+这些平台自动调整机制通常能够被配置成多个平台配置文件中的一个，要么偏向低功率
-+工作，要么偏向性能。
-+
-+platform_profile属性的目的是提供一个通用的sysfs API来选择这些平台自动配置
-+机制的配置文件。
-+
-+需要注意的是，这个API只能用作选择平台配置文件。其目的并不是为了监测改变所致
-+的性能特征。监测性能最好使用设备/供应商提供的工具，比如turbostat。
-+
-+具体来说，当选择高性能配置文件时，真实能达到的性能可能受制于多种因素，比如：
-+其他组件的发热，房间温度，笔记本底部的自由空气流动等。这个API的目的明显不是让
-+用户空间知道任何阻碍达到要求性能等级的欠佳条件。
-+
-+由于数字本身并不能代表一个配置文件会调整的多个变量（功耗，发热等），这个API使
-+用字符串来描述多种配置文件。为了保证用户空间能够获得一致的体验，
-+sysfs-platform_profile ABI 文档定义了一个固定的配置文件名集合。驱动程序
-+*必须* 将它们内置的配置文件表示映射到这个固定的集合中。
-+
-+如果映射时没有很好的匹配，可以添加一个新的配置文件名称。驱动希望引入的新配置文
-+件名称时必须：
-+
-+ 1. 解释为什么无法使用已有的配置文件名称。
-+ 2. 添加一个新的配置文件名称，以及预期行为的清晰描述，保存到
-+    sysfs-platform_profile ABI文档中。
--- 
-2.30.2
+I have tested out various implementations for all 3 possibilities and they each
+seem to work ok. Note that these test implementations are not ready for prime
+time, but served as a way to prove that potential changes in these areas could
+help to resolve this issue.
+
+I believe that a change for the UVC Gadget Driver should be made, but it also
+makes sense for the DWC3 driver to also attempt to recover from this situation
+if possible.
+
+Does anyone have an opinion on the best way to proceed?
+
+Thanks,
+Jeff
 
