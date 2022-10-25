@@ -2,142 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEADCC38A2D
-	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 07:19:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF83FC04A95
+	for <linux-doc@archiver.kernel.org>; Tue, 25 Oct 2022 07:32:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231659AbiJYHTf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 25 Oct 2022 03:19:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58086 "EHLO
+        id S231680AbiJYHcj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 25 Oct 2022 03:32:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231648AbiJYHTc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 03:19:32 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4CD42BB30
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 00:19:30 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-36772c0c795so111125687b3.23
-        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 00:19:30 -0700 (PDT)
+        with ESMTP id S230522AbiJYHcj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Oct 2022 03:32:39 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563C38E79B
+        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 00:32:37 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id a15so10999305ljb.7
+        for <linux-doc@vger.kernel.org>; Tue, 25 Oct 2022 00:32:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KA5AmQjfCAbtpdHkGDjwVts9T7CuDkkry+0zPgKF0lM=;
-        b=ho9NvHEqLfDplAjRx3uXKJiU3DoSROQtKqQ8jRhFd0Ck3bp2UOpw8N9lYdxjatKuYv
-         co/P5Nk6CLcK/+U9EK4lL66rumOXMbWTwndY1+zqeBCGNIjWtMZexvP1r8fzZLGhIbkU
-         URsp7CuLP4czyMYdx7nshdoj5wFvyKDgBctnpRho0U/7PipKMJWU+msjlZHwvoClSw6O
-         EvgkK+rfUfDrf/fynysJgKuFNt/SnjNJ/7x0wc8t7u3GvmcbGHIzDOGamTDQO4RMxpdU
-         hh8nQ1fXv3LVNN0nD4AItp5Or8XNWSODER0ITRmk2Az9YLODBHDSLXNZo3mhj/LYKCQs
-         eyxw==
+        d=ffwll.ch; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+r3Ej5MJ+sN5EgIN4UbB8uiEPUjhfnn1clmg3no9TJA=;
+        b=dHEXI2+TslzzCiyCa1KMcE47r1HtIoMwtoBUvkYBvqpP87fm4EUvpXQfRQ6MXO6AuC
+         9xeO4KO3F0T+tFK/WMcBGLd+yq4Fw4c2AXe1ISkqTIDMK654s+kSbgEVGoLARnx3uoJW
+         aD0U5w1Q9U2FxNEaud2UGBpkhZQnjHh9Yln5I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KA5AmQjfCAbtpdHkGDjwVts9T7CuDkkry+0zPgKF0lM=;
-        b=w/CcyHUaXXYUksNG79XG7sy60ClwN2lOKA/TsVUZJQhhvKiOEwVF5zqYy9Ga8//JM4
-         CKVDJu88xQfqkcYK8VStCxhbrweZmrIDKgcX5Ll5rew5ntirhGzQZWp4AcFaF6p7lKFp
-         3V2M3UbLBVcb3mSD709oDwqNH1L8yIBXdfaJIugXDoyx2mt4SbsG7weB4NyagMONY95G
-         CgJFmPMYA9aauK4J2eUwOwaXB20dfYqkZGT6cXH5TqNyDXSBTS3tSkDaHKsj23cwAtB9
-         A3xOAxaLiTbzyj1lvqNMHTiMRP1ETtxbPJXNvXlMEWgbIp23s60NedhZoDWsfMjeFDH/
-         RIOg==
-X-Gm-Message-State: ACrzQf1mAiePDDJJifmG0aRy0b5IFg5rnttzINX5fzLxWfD57VRLpBwc
-        ustOxImpxMC3ebUSzU/pstjnShIbPZur/g==
-X-Google-Smtp-Source: AMsMyM6F8n0cf6ZN6EOjJAyPYC15rg0ifDjy+Yi3k90H65/ao6P/DBifaGO+L8XRdtun64inb2rPoXzES3FOCQ==
-X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
- (user=davidgow job=sendgmr) by 2002:a81:6907:0:b0:34a:51ce:3b38 with SMTP id
- e7-20020a816907000000b0034a51ce3b38mr32787158ywc.151.1666682369948; Tue, 25
- Oct 2022 00:19:29 -0700 (PDT)
-Date:   Tue, 25 Oct 2022 15:19:07 +0800
-In-Reply-To: <20221025071907.1251820-1-davidgow@google.com>
-Mime-Version: 1.0
-References: <20221025071907.1251820-1-davidgow@google.com>
-X-Mailer: git-send-email 2.38.0.135.g90850a2211-goog
-Message-ID: <20221025071907.1251820-3-davidgow@google.com>
-Subject: [PATCH v2 3/3] mm: slub: test: Use the kunit_get_current_test() function
-From:   David Gow <davidgow@google.com>
-To:     Brendan Higgins <brendan.higgins@linux.dev>,
-        Daniel Latypov <dlatypov@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     David Gow <davidgow@google.com>, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, Oliver Glitta <glittao@gmail.com>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Christoph Lameter <cl@linux.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        David Rientjes <rientjes@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+r3Ej5MJ+sN5EgIN4UbB8uiEPUjhfnn1clmg3no9TJA=;
+        b=Z28iHwLEm/mwrj18eGiWQKpi+1IaJxt+YMdl7JHXfqeitrqbWhF0X70fqfITg2xHrO
+         wl7fJAVFJrUHkk8r4EEkbbSke0bzoqYUFXmp2b/Gf++QLemjcA7gom4cBHJjiOgGbPDk
+         5tXk28hyhOcRqMJ1wnk4vblqVQHyzTcjq5Uc1UfIhCmKprHc6+nD+E99HvnSyWAYxe1G
+         NN3YGj2RKN7qjigkIezZeDiQEI1H4XbdyjWKBnKVKM8xL51UrYnR3oXR6QsbjsI+kzNA
+         Lu7kP10xLxBMZ+5fgClCEwS60bqcxgZra4lAIyYpLCxfUzNDGQlbpF9tvHA9xWSmmqKG
+         oE1A==
+X-Gm-Message-State: ACrzQf0WPOpv03aFL/qbfDM0J3PcZTWbVsd6psGflLoEtipdwWZpS90Y
+        2NJxjBkeSZv928SNjwSFvEOXTl/RAB5NIAfmdqTxAw==
+X-Google-Smtp-Source: AMsMyM7I2ND3r5rWOu78x2UxeUO/s4RiLWEaBOmN4MFRAA0t4abyOutiAaFD3Hl5qHMnJY+WWxw8umC0FhsMF7F5Qq0=
+X-Received: by 2002:a2e:b055:0:b0:277:a98:aac0 with SMTP id
+ d21-20020a2eb055000000b002770a98aac0mr3617068ljl.480.1666683155618; Tue, 25
+ Oct 2022 00:32:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220829093141.45583-1-tomeu.vizoso@collabora.com>
+ <20220909141528.5090-1-tomeu.vizoso@collabora.com> <CAPj87rMYW1xZdacZ1Y0qk+D9xpqsqE+cwbQ1j1nZ7S+RKpzOoQ@mail.gmail.com>
+In-Reply-To: <CAPj87rMYW1xZdacZ1Y0qk+D9xpqsqE+cwbQ1j1nZ7S+RKpzOoQ@mail.gmail.com>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Tue, 25 Oct 2022 09:32:24 +0200
+Message-ID: <CAKMK7uGkFP1jSNQzv37PvSqvOtt1FnbfbNyYEf99WM=_2AszSw@mail.gmail.com>
+Subject: Re: [PATCH v8] drm: Add initial ci/ subdirectory
+To:     Daniel Stone <daniel@fooishbar.org>
+Cc:     Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Carlo Caione <carlo@caione.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Clark <robdclark@chromium.org>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, kernel@collabora.com,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Rob Clark <robdclark@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use the newly-added function kunit_get_current_test() instead of
-accessing current->kunit_test directly. This function uses a static key
-to return more quickly when KUnit is enabled, but no tests are actively
-running. There should therefore be a negligible performance impact to
-enabling the slub KUnit tests.
+On Fri, 9 Sept 2022 at 19:18, Daniel Stone <daniel@fooishbar.org> wrote:
+>
+> Hi,
+>
+> On Fri, 9 Sept 2022 at 15:15, Tomeu Vizoso <tomeu.vizoso@collabora.com> w=
+rote:
+>>
+>> Also include a configuration file that points to the out-of-tree CI
+>> scripts.
+>
+>
+>  I think this para is outdated given ...
+>
+>> v8:
+>>   - Move all files specific to testing the kernel into the kernel tree
+>>     (thus I have dropped the r-bs I had collected so far)
+>>   - Uprev Gitlab CI infrastructure scripts to the latest from Mesa
+>
+>
+> But equally - and sorry for not jumping on the IRC (?) discussion as I wa=
+s in the middle of other stuff when it came up - I'm don't think this is th=
+e right plan.
+>
+> Mesa having all its CI in-tree makes sense, because merges happen rapidly=
+ to a single canonical tree. If the scripts need to be changed for whatever=
+ reason, we can merge something in under an hour and everyone immediately g=
+ets it. DRM is quite different though, given the forest of trees we have an=
+d the long merge paths between them. I worry that merging the CI scripts in=
+-tree - especially for our initial attempt at it, when we're likely to need=
+ to make quite a lot of changes before it settles down to become a stable s=
+ystem that works for everyone - is shooting ourselves in the foot by limiti=
+ng our flexibility.
 
-Other than the performance improvement, this should be a no-op.
+So the entire "we have multiple trees" is why I want at least the
+gitlab-ci.yaml in tree, to force people to collaborate more on one
+thing instead of everyone rolling their own fun and hacking stuff up.
+And there's still tons of stuff outside in the separate repo, like the
+lab status so Linus doesn't get a silly history of lab flapping.
 
-Cc: Oliver Glitta <glittao@gmail.com>
-Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Cc: Christoph Lameter <cl@linux.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: David Rientjes <rientjes@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: David Gow <davidgow@google.com>
----
+Also wrt "developers don't get the update right away due to
+backmerge/pull delays", that's why integration trees like drm-tip or
+linux-next exist. So maybe initially we should make sure the ci
+patches go in through drm-misc, to maximize how many people see it.
+And even for mesa it's not fully automatic, you still have the rebase
+your branch if you picked a bad one for development (but yeah marge
+does that if the MR is ready). If you're doing kernel development on a
+linear tree instead of an integration tree, you're doing it very
+wrong.
 
-This is intended as an example use of the new function. Other users
-(such as KASAN) will be updated separately, as there would otherwise be
-conflicts.
+What I think everyone agrees on is that we probably get the split
+wrong and need to shuffle some files back&forth, and that's something
+we need to warn Linus about I guess. But somewhere we do need a split
+between internal and external stuff, and personally I'd like if at
+least the pure sw testing (build and virtual stuff) could be all in
+upstream.
 
-Assuming there are no objections, we'll take this whole series via the
-kselftest/kunit tree.
+> Given that it's currently very dependent on fd.o infrastructure (publishe=
+d ci-templates, the registry, the specific-tag runners for Collabora/CrOS D=
+UTs, etc), there isn't much of a portability gain in bringing the scripts i=
+nto the tree either. It's a good goal, but not where we are today.
 
-There was no v1 of this patch. v1 of the series can be found here:
-https://lore.kernel.org/linux-kselftest/20221021072854.333010-1-davidgow@google.com/T/#u
-
----
- lib/slub_kunit.c | 1 +
- mm/slub.c        | 5 +++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/lib/slub_kunit.c b/lib/slub_kunit.c
-index 7a0564d7cb7a..8fd19c8301ad 100644
---- a/lib/slub_kunit.c
-+++ b/lib/slub_kunit.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- #include <kunit/test.h>
-+#include <kunit/test-bug.h>
- #include <linux/mm.h>
- #include <linux/slab.h>
- #include <linux/module.h>
-diff --git a/mm/slub.c b/mm/slub.c
-index 157527d7101b..15d10d250ef2 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -39,6 +39,7 @@
- #include <linux/memcontrol.h>
- #include <linux/random.h>
- #include <kunit/test.h>
-+#include <kunit/test-bug.h>
- #include <linux/sort.h>
- 
- #include <linux/debugfs.h>
-@@ -603,10 +604,10 @@ static bool slab_add_kunit_errors(void)
- {
- 	struct kunit_resource *resource;
- 
--	if (likely(!current->kunit_test))
-+	if (likely(!kunit_get_current_test()))
- 		return false;
- 
--	resource = kunit_find_named_resource(current->kunit_test, "slab_errors");
-+	resource = kunit_find_named_resource(kunit_get_current_test(), "slab_errors");
- 	if (!resource)
- 		return false;
- 
--- 
-2.38.0.135.g90850a2211-goog
-
+I don't think there's huge chances for any non-fdo gitlab anytime
+soon. Once we get there we might need to figure out how to standardize
+the hw lab interfacing, and if we have all the sw targets in upstream
+that should help with shuffling stuff around for a hypothetical LF
+gitlab CI (or whatever it is).
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
