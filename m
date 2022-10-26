@@ -2,50 +2,50 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2195FA3743
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 19:09:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60F37C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 19:26:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234853AbiJZTJs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 15:09:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50212 "EHLO
+        id S233491AbiJZT0E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 15:26:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235075AbiJZTJW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 15:09:22 -0400
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2048.outbound.protection.outlook.com [40.107.102.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A3A52B609;
-        Wed, 26 Oct 2022 12:07:52 -0700 (PDT)
+        with ESMTP id S233983AbiJZT0D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 15:26:03 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2086.outbound.protection.outlook.com [40.107.94.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 091244C006;
+        Wed, 26 Oct 2022 12:25:53 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=It46jjlQOsPDFiVOvU6e9Ch3Ld7XkBPnrwvpTl354/C2eQZop+kUt5nX92F5YwBOFpnaS32btoDA6Ht5tJz0GexWg/g8lt/1nR/901SYkGhhG1GzKkuZxORxr/0zin+iS0WSjJYdGQiwM1cJdnuGTw+2vbEBo+QChuX2o7OZJ2/KZgFxfrcVTZhjAmdegOfPdwn3YIO3UE+NiEVOoLS3dR87RsXgOcJmJf32folHuO610EKCv8Pbavd4Hb1PdS1lknvssO3K8uva3ECAXAHeW8yQNB0nRAOeB4rDzamoFnKjRJHAjrtG11dtJXQ9rN926+WIwFnFM8G++nx/P9xH8A==
+ b=mwtNBvNw7afASUklGuvL7iigE5BsXi9HsyEitNXPrc/u4pxmsYTuri5CAw8snropbWKkdDGMYnU5mlCIDBrlqC+5dW8IokilwH9Vl6SDgjslvQirRUY6h7pRcS9K8QHBD8LXAmW4hAHWoRBzEvPQTnHkVnh7PmpQEuuJzGrhLrMoB2ZUTonz5btPyUEWuj+BxhEBFi1s+Ty07x8Ij+Ziz68yS2g2cjYEGt4oVqea7H9akDavB++k7w5W1HaaGD9tp5fezYl679sa8qv3nWzPLzOe4jOMYDPiw4RpMUFgmjoQ9t8f6PML1B06MEq/VUvNrL+Q8vIF+F/4mhs1p8A4bA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SU8OOrqmVfFVG5LTa4ogeuMTt4MvQEm7tT15i6Csttw=;
- b=cNzd+Itp5W4AqBh/qBa35hDilMouLQinNO9QX0CjkYgNlM7/7j5GTfYM6W1B1Y7+D7zq0oEgsu30X46Ai0KQjzVP2wn1THyqw/QycU3x+F33FiRZATrmPYGhgVlEsnEC949n129FEtKPIs6rwF2WIdBUeXUefhCwjYOtP0AUH5NkRQmkxiBKolppI2hG2+sc1cylLilzpABcPIPxUrFpzx/AfuZzLTj7Qzni1R3gXgGJZjqkwpnA7NPTsXjMQv+Qrw9f4e+NJoOplXsJrCzXkzpvEWEQZg1Ui/snvjJam3kBdbs7U3Gj0wmSq+9Mwy4yPnJcF0AhRkEXe93ExWTt/w==
+ bh=/tg7R0ejhvwRH/Rw/iGt5IVJQmgoLF4zxOxMR+qanFQ=;
+ b=BlH2DtAMGLF2FECIMK/EPB7z8QmK4D8xlxPZsRNxWt+nibYx6jumdznLOQ8rbPT+Gd+4uIiLfZGXGVvaK7+8KulvoyHAqsR9mzYB2Dn8KokZya+W8ND0xTFg9X7sBPWNaHSFHre3vFip4dkmKFZqkwvRU3wNQgaA4bZaTsx6sSfC2SfbDkMh7iAuevIECRNePMra3Gao5jxwXvKf6R3WeyfDipB6kkzk8jFMFaYu0rDSKVBI3rdp5bqGG0bOKdUSYAIrL5x3H8OSzhhyqy57No69v/PqELPG8mWI93eMOHO6Fq9WWFhH20DesP9b6P9eT8TvW30QX4DAOOf40bxtRQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SU8OOrqmVfFVG5LTa4ogeuMTt4MvQEm7tT15i6Csttw=;
- b=YYrMMVR0zmH9WRYiGoq+AOerRbLf9lXqidPWTo9CpGmipELxbQbXCWXfY8ZTXqcxFxUxhIZQyCSEbIvgZckyd3z+MMl6oV2ipRl/JtbLptAbrhQqaBDBW75Mp1lF03qlHt2J/WzFqx0zDZ1D7+o/nxMJdX1yXFSh5njQJsXr+4w=
+ bh=/tg7R0ejhvwRH/Rw/iGt5IVJQmgoLF4zxOxMR+qanFQ=;
+ b=wgWlqECdhIDiXooELq71Fd6K6vfuvExG1qMVk0vZhzpLJ0+V/OR+L5suuGohsnRcSz1IQcMlY1zzSGEbMopZg2yc3WKgfP5dpMb4lngvwOmz9+iJ97YktoO7MFfHCOi45UlJP5HAhr5g7g8t1MmbPc4oOy9qsJ/BbQbYSYHpw9Y=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by SJ0PR12MB5501.namprd12.prod.outlook.com (2603:10b6:a03:304::15) with
+ by BL0PR12MB4915.namprd12.prod.outlook.com (2603:10b6:208:1c9::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.23; Wed, 26 Oct
- 2022 19:07:48 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.26; Wed, 26 Oct
+ 2022 19:25:51 +0000
 Received: from MW3PR12MB4553.namprd12.prod.outlook.com
  ([fe80::2d5:77ac:6d39:e57b]) by MW3PR12MB4553.namprd12.prod.outlook.com
  ([fe80::2d5:77ac:6d39:e57b%9]) with mapi id 15.20.5746.028; Wed, 26 Oct 2022
- 19:07:48 +0000
-Message-ID: <ef734fc1-8a51-4c60-f73f-2d71fcc54b30@amd.com>
-Date:   Wed, 26 Oct 2022 14:07:43 -0500
+ 19:25:51 +0000
+Message-ID: <bdf90b2a-7f92-8f82-f1a6-225d7938cfb9@amd.com>
+Date:   Wed, 26 Oct 2022 14:25:45 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
 Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v7 05/12] x86/resctrl: Detect and configure Slow Memory
- Bandwidth allocation
+Subject: Re: [PATCH v7 06/12] x86/resctrl: Introduce data structure to support
+ monitor configuration
 Content-Language: en-US
 To:     Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
         tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
@@ -60,165 +60,233 @@ Cc:     fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         bagasdotme@gmail.com, eranian@google.com
 References: <166604543832.5345.9696970469830919982.stgit@bmoger-ubuntu>
- <166604559954.5345.14619487558472213422.stgit@bmoger-ubuntu>
- <c999a7f8-b083-72a6-ff07-201369339c92@intel.com>
+ <166604560666.5345.17936133716540279017.stgit@bmoger-ubuntu>
+ <8cb913f4-feee-de7d-60d0-055e234c6501@intel.com>
 From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <c999a7f8-b083-72a6-ff07-201369339c92@intel.com>
+In-Reply-To: <8cb913f4-feee-de7d-60d0-055e234c6501@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH0P221CA0033.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:610:11d::16) To MW3PR12MB4553.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR13CA0051.namprd13.prod.outlook.com
+ (2603:10b6:610:b2::26) To MW3PR12MB4553.namprd12.prod.outlook.com
  (2603:10b6:303:2c::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SJ0PR12MB5501:EE_
-X-MS-Office365-Filtering-Correlation-Id: e8ea276a-e6a2-4ad4-4ff0-08dab7855f4e
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|BL0PR12MB4915:EE_
+X-MS-Office365-Filtering-Correlation-Id: 51f9e297-d108-4485-8a38-08dab787e493
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4195SmXLZWf1hNn9g/vgi5WH3m68luSi0unPhNsl7aZohzeaitTjcSz62a5E1ouqA7TvgHUIyB4+Bdvn5f7AAeRk1d5FuXh1Jnu5fS7vHzI5lk2AuTeVkoMag9M+f1RG0ODSTz/8kqtiojp2N09JMejfYAQskdS+iT3DP3GTEoPn7ynBKIbZEvZ5W5mobiTWzUBRdYed97YehshIyDDXuh+vU4ziFUXEHqEstgCnbGvON7gZdNbfQdsfvkBVGMPR14gKlKB2Y4hQcRrsQB+MQxaowCnDPSGhqUED4Mvok5iR8SIxCZdGMtw2crJhEMird2RxZUmI7xda5bsEhvQ+9+aftf5TwG31ybovvXHyeF6Dy2I5bNHUEPx2dvkvi6teNW3oeHFfqNu4lx5lfRu2mTbNrM74aS91DuMXMspyoBQ7QeGrYB5ZHucVPfnFMfzcoEZmD27mW9KqF6qkC5BkoMZDFHJTA95aZO5q0Yyx84P/s0wQc2UoQxOdsUI10Z8YNfEiZA5eRDRyjP+civLhQ0B+2oxF5qxJQ06qAtKZo3zTkVGJrYIshw90V+AuTVlC9QbFWbR/vP0Q9SKhYn6IqmWYGI+puktv9gwlHvHK8i+qoPHy2OThR0h9fQGaf4hAsV84vq6yMxGaeXdaQSNn1V6w1rtsQqphmr7rdcMOfhOauM1tP4KEAC0/Ro3Dm6Cr/yhqr6mWuNqKH70dORZdLd5FPXE8B4iGLVyAzOsvse8DrHLffxHTfkqm2qnGjBJ7cg4eA6ZCAew32w4FXTrCv17tk0DIjgVsu37S81AhDMA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(366004)(346002)(39860400002)(396003)(451199015)(36756003)(26005)(31686004)(8676002)(86362001)(31696002)(3450700001)(186003)(2616005)(2906002)(5660300002)(83380400001)(38100700002)(53546011)(6666004)(6506007)(6512007)(4326008)(6486002)(66556008)(66476007)(316002)(66946007)(8936002)(41300700001)(478600001)(7416002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 0Rk9Rk0z0gWGCnpNKZmmTP5DlWvX7A6qndL9+ctpCYUGD/DSoAjmOXk6dT/Aiwi0Q4iR9nufB17ZvHQgw/2iuTpFQTJ45CdTbFvaaF2d567qwBK7XHfyRKMUqm0QWOzxyCjyez3RDrs1UzyFjTkgdDg9qZ9woe5nkvih7mbF28MVPJRL3k245FUH/KggzHHPuVWXyUFuK1ro8NLrODAO2NE+wnHWQuKLeYxRaYnvP2py8tab2JTGuoX9H1JQ8lWKfXcKnbl59+A8Yha79oBqDNLlBTxTihHZCzXrcinuyBIE57r+2NPKV+YIFov6fYBP3gD9OlTwJVr7TCzTo+LoahK3Y8vuLcV1pGHAtWKSf+B2EBiV/xbsVgPVlS+jmW68vmIghbH8tPB0QfrKZQvkcomdRg0aJJlUlw0ON7Q0pQN3q9E747hyA0xpWjiIG49mApOVe78x10FhOfT1pdiKBKpYL23r/5S9S/KHrd94LBzaBTNyAScTn8QQMw90HKyM92MSq8VRRF0ao9Ye33AJjRe5lBOMgc3I2InzrS8XfzzbrHCuvcOImdvDk1t5qZduvZPHYRzTN1W0O5dwSzFlwMYwms973hyqa7zoq1oPyVrC1RnGp3PowhlxOnDLsdDgSErNfs26vN6RPpR2HiIOy9Lh4H+G5V0V3SXvqgdEQSSP2K/OfdXu2iMCT1A6tyEyc1RlUXYpACjTVPm95qiPGIcFootYe1v0VVp02OrtRnYTgRrBk47vHzXYUlWu4x/pv9np7m5dDjYmgm02XkKqk0K2K3rjz6r2du6WmBOMNOg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(39860400002)(346002)(136003)(366004)(396003)(451199015)(66556008)(2906002)(5660300002)(3450700001)(8936002)(31696002)(8676002)(41300700001)(4326008)(26005)(66946007)(86362001)(7416002)(316002)(36756003)(53546011)(6512007)(66476007)(6506007)(38100700002)(2616005)(186003)(83380400001)(478600001)(6666004)(6486002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHF4ckszb0x5azVhNS93YWFVTjY5SSt1cEZaWFcxQWJlT3JJZklHNkNja3NK?=
- =?utf-8?B?QWdvTXprZXZXek4zUmxTUjVxTGxkWHRaVVozUk01VzEzc3Vrd09IQ1RqTXRs?=
- =?utf-8?B?NnZWdFVuVHlycGZPa29IYlBLeVBCZWNSdkFMZE5hZEtiQ1NBUWZQRnNKMDJV?=
- =?utf-8?B?VTU4dGNCR2hGaWYrWUFWNHdOMjZrcWFLYUNsWVBMS1VJb1RWcCs4RDVxUjRP?=
- =?utf-8?B?c0hrWmU3dmwwWENoZG1EMC9DRHdmczVPWlRMNUNiRkJuWXFOS3hWb1lFVFUw?=
- =?utf-8?B?ZzVCWFRXV2NPczBJL3I4blpjUXdTSEJXWUdpTjgya1REWGpQSkZUZDZnbGRv?=
- =?utf-8?B?dzZEcGxkd2Z6WXBkYUVvQ3FYekFlRStsZEhHcnlFNlNEd3FLK2YyTDkxSTFT?=
- =?utf-8?B?UDkvMWIvTE1JVXcyVlRDNEkxeFRVRDN4Y2dOYWxSVTlPb1hEY3RHazQydVRI?=
- =?utf-8?B?Q1J4YWw5WW55eGlQNUlXYUQ3TVRSSlFvWDZ0UWJNNlFpMTFPdUlLM1gxOTN1?=
- =?utf-8?B?VHMzd0tZMStKakZOajNGblJ1RVVkMGRwQUQ0VTFIMGVwQ0M5Q2dCNVpjbzJF?=
- =?utf-8?B?ZzRMYm8rNjZJR3JQZlluOUxwR0M5WlR1Z0tSdHlpTkl4V1JoOGpQUUsvb0dG?=
- =?utf-8?B?aVBSeUZ1Snc1M3FaRFltcTBhM1VTcWdNT3kzZlY5Tnp0V2MxakExSm0zTnI1?=
- =?utf-8?B?SGFJNkhFbytpRkY3aVkzZytQMkZhMWt3a1YyVys4N3FnZXd5QlVrNS91SENT?=
- =?utf-8?B?RWc3Smk3eXJ1WFlYdW13SElXU1gvUS9QWUFOQXAxS2w0OTVNTlkvWGNVL1dS?=
- =?utf-8?B?UGRTM25HY2txQ0I0NVV1TnZRY0FSUitlL2h1QlJJWmtLeDdwNDlWYTN4OE9D?=
- =?utf-8?B?aGp2LzlUSVJVRnY5aUQ3ZG1CcGtYempldyszNkNhYnVVdHE5UU81RXlVMERT?=
- =?utf-8?B?c1NYZjdrTXBBb2wvQjZtb2lQTThZeDQxcGNsaFRGeXl2ZVM4UVp2WFlNUWg0?=
- =?utf-8?B?WjNrdWhOT1kwUDdoZkd6MHNVamhaNTMyUStmUjg1ODdzYmxDWVk5dHJnQncy?=
- =?utf-8?B?Y2l1VHJ2ODdLTTZmYm9HSFpoMFp4MU9WUUcrZHJkR2w2WnVCUnZxNFFhVUV5?=
- =?utf-8?B?YUhnQXNIcVBWNGJCVDlyWFlmT2JsYnIvSEJvVjRSUmtWOTRhK1llNUY2dzFq?=
- =?utf-8?B?eXl4NmtNdjM1WUhlZHVYaEgzYWhJVFRhajFIZ1E2UTk4RWpsYWdqREd6SFBH?=
- =?utf-8?B?a0xXbDZiQW02anNJYlZWODlESGdqUUR6ajFWRWZhYTRzLzgzMElqZlVnRlJC?=
- =?utf-8?B?d0JLYU1VUzdCc3ZLZHJLWlZ0alV2MXBkQUZSYmxFY0Q5bFQwWkNwUEtHUWRs?=
- =?utf-8?B?eW92R245YmYwdzFsN0tSSXR5Rzg1VUd6ZzBHZ2RlYjB1NnIyM3FnQUVyazJv?=
- =?utf-8?B?YTloMTV6b0RUK1hlbFVnNHNneElPQ1JoYjVleXdzY05LcEpzSTF5Q0duV20y?=
- =?utf-8?B?OVFhSnNLNjkxOU1BY1VldTQvcVA4V1cyeHRzbUE2SFJhcmZ6L05WampPMzds?=
- =?utf-8?B?Uk9VeUVlaHBqamljOVNhanJkd3crU0lkbk5yNUtUK2tjcmloQklqNVR4VTAz?=
- =?utf-8?B?ZTJRalFoUlRpL0dHWllmRFRLNktONHBNbExlTFMrZXZLdmhYcWVKS3VPTGxC?=
- =?utf-8?B?YXpER2lxWXdmYzlZb08yWUc3MEM1OTNzR2tob3R3SjQ5Y05VWW90REtQT0w5?=
- =?utf-8?B?MENZVjV2Z0MyR1pMZmxYcC81QmlHOU5YZDBFU3hVemsrbjAwN1J5TmMyQjNt?=
- =?utf-8?B?cmJ1U3BlUEx3SU94cCtlWmFRblF1M2t5ZHU2NTdKUHpUK3R2TjBYNVFrL015?=
- =?utf-8?B?RnBrcmxaQ2Z0bzJ2WDA1bmJWWUpsQzN6RCtYTHZlNjE2Um5ENGd3K0sxK051?=
- =?utf-8?B?QUJOd1JhZUpadVVhcjRScVYyekIrelFDUHBKSHdHb3A0dGQzOTlwRkhSV1lR?=
- =?utf-8?B?Y2JYSmovUnhuTWlFRlNzdUZ5dFczaHB2V1NOa0hBNWxweWZUUGUzTlVNSzNM?=
- =?utf-8?B?YzRadzFBRU9KdE5xMU5KLzRMZ2tISnA0OFYzT2pCMi9yREhtOTd1ZVhGbFIv?=
- =?utf-8?Q?QNjAP6n9exGS4Zgp0uZR7WvAv?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RnQ5RTVDNmtiNVBDcWFHSTMrOWloL2V6OTFva29qNW9VVWQwcFV4djlUbFhE?=
+ =?utf-8?B?aFRHeElLNGtkNmFyU0tEb0RtcjlYb0IxekRnQXl3RTJoK1Z6amptaERlZFVC?=
+ =?utf-8?B?N204cWZBeXEwOXFmbXR0UlV6eVZBd3lSdlo5bUFCdEc3T1V6ejFvM2d3OHc3?=
+ =?utf-8?B?TTRuM3JvZXYwRHVGcmlqOHBIY0VTeXJnVXFMd2pMK2RVTE81b2FrUTdZejJh?=
+ =?utf-8?B?UWt1akNIY08yTUMvZG5ETkdjNmJYaDJwRGlNUGlFaC8wZU9MRmxmZlVST2pX?=
+ =?utf-8?B?YU5OUStmWFd6Zlg4QVdtMEdOWTFJWHNWMlhlRVJzVytRLzk4TGNmUzhkU0NL?=
+ =?utf-8?B?ZytpcDl4cVhLUGIrb3lTd3VSQzk0aVBQR2x1RUJWR1JUZ05MYzIvT1hHMmEy?=
+ =?utf-8?B?a09rcUt4YTliUitNc3BmQVJVY0ZCWVJLVXdrcC9YNmNWSzlRcXlIVWI4RTZr?=
+ =?utf-8?B?WUZyU2hrL3poM0lzNXNjVUgvRkpkRlpNZTlEMXNYYWE3VDk5T3NITjY4NzJX?=
+ =?utf-8?B?QmVSWmdOdWpoMEdCR09ZUERGOFc1WGRvOUtsSEFIbjUrN21wK0Y3bE5aa2dT?=
+ =?utf-8?B?VDBhSzFQVHdPMUkrUlBVMUxVNEo4UjYrNHg5ckMwU0p1aHN0azlyYmlBR2Y2?=
+ =?utf-8?B?bi9XMVhub3JUcWJ0UmJTL3gwdnRsaFBUVmNGbHR5ZS9uRHdsKzhQSWY5RUt5?=
+ =?utf-8?B?NmNTcG9EVFlhVWNadXZNcTdyd2lKWlM4ZVZJTVkrNVhrdGNiTU1SaEpkODg0?=
+ =?utf-8?B?Y29SdW03eXNmLzB0akkycmwrN1h1SWVHK2pkU2dvelhrTjJyZklpTVJIM1JG?=
+ =?utf-8?B?KzF4YXJ4VEdabXA1eUZ5WS8xc1ZXdW5tNUliVVd0ZEF0bFU4WFJmSGJPa3px?=
+ =?utf-8?B?SndKT3JxY3lDemVWMENaazB4VVEyeGNNNkZjWEw3SlozTzZUK0lXRThsYVht?=
+ =?utf-8?B?WVZ2Zkp1UEhOYlNIR0NzSlh4K3gxbGlOZkl6UXlIbkhUeVM5NkR0cGRuUldI?=
+ =?utf-8?B?VVdsRFdTalRzVDU1RHVCVHAydWp5K3grc3A5bTNFTlZVOThtUDN0c3FIWjdK?=
+ =?utf-8?B?alFhejNxQUNjWjhOWGtSMzRpakVlQ3U5aEVnLzlXK055RjNvWkdKUVcxdXpo?=
+ =?utf-8?B?KzgxbUZ5VkJYd0hKQlRwZWk5S1NrS0VCNkc1akdlRzJiL0x2MGJwWUI1VFhZ?=
+ =?utf-8?B?OW14UFpUeHJyK0IrL2U1RW5xVWJWd2VqVFZRUUFzWDFialZaMDE2bEh4VENq?=
+ =?utf-8?B?QmNZOUd3TUk1N1hPOW1wSCtXQ2t2Vmpua3R5eUl1V3hORHNHK09XZ2E2Smds?=
+ =?utf-8?B?TlBMeTlqbzVpdDBqTkVPa2hieEc2czhHTTY1Wk9FY01RdjRPbHdZWUNNdnl0?=
+ =?utf-8?B?cFRCLzh2TUN1OENWUWZTR09yWmZFajFDZDBKLzM4Z0cxSHVSNnpzZjJaK3RY?=
+ =?utf-8?B?OS9CNFFZMnp4NkVJQ1kwZUNTS0NuV2FNNUpDOUhGRkhGaEl0dmtNUUZMbG5N?=
+ =?utf-8?B?MUtDa3NRVjVEUUJVaTVkRkxGUllncmJETVdTT1lTZHB1dm1KeDRDT29RUHZP?=
+ =?utf-8?B?WHpOd0lOS3R5OFlJVHQzYWUwU29QYjNidmZFaHo3QmNpQzFxbzdZajgwVERY?=
+ =?utf-8?B?UnRsME1wbFk4T3Z4RTIrZGRqVUVnVkJVVW0wdHh0Tmlxb0hOcFkvdnhrOUZY?=
+ =?utf-8?B?bzhJVU5Pa1Axb3Ava3JIVTdkSzlIU2NGOG9sWERvbHhQY1NkdGt2SE1Yb2hU?=
+ =?utf-8?B?blF2TDgyOEpxWWdjemVTZ3AzZThQemowaDE1RzJpU2l5L281NmxTVm0vMGV0?=
+ =?utf-8?B?OVlMUXBwd3ZkWXg0ZDlVUm9HcXJLSkN6U0l4dlBhR0cxOGJsSERzRWtzRERC?=
+ =?utf-8?B?cWlQakdNdW0zNTM3M2EybG9WSkdHYUNBNGpZUlZhRTVQTEtFamh3L2hxazZw?=
+ =?utf-8?B?bHpOVGZ5bGZ1MVE2THBtemVYU1ZzVUNUYWFoNFFrTmR2N3htQkw0bStqcDRy?=
+ =?utf-8?B?dHViV09BWURyUWZzNm5PNzIySUdTZ2F6c1lHTUNOVC9MNGx2YXdhYk9ZZ0wv?=
+ =?utf-8?B?S2NUVWZYWjN4Yll0dGFubG9Pb1hVaS9GQ0dSWmhKSFR4RXdycXVlQU5tYW5K?=
+ =?utf-8?Q?q6SbnN3ogWY/c26fAttjlCb1z?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8ea276a-e6a2-4ad4-4ff0-08dab7855f4e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51f9e297-d108-4485-8a38-08dab787e493
 X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2022 19:07:48.5721
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2022 19:25:51.1563
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5xU18vLoy+++GUh7pcA44uhuj+i7gNYPSXsJGXjqHKSToFH9N8mYoblx0d3WFm4J
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5501
+X-MS-Exchange-CrossTenant-UserPrincipalName: dmWAjsa6dCneXZBi/y3cwCg7FFoCgbSA8VsjtnwMqpA5cdHzGq6yjf9/fXmL9q9b
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4915
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi Reinette,
 
-On 10/25/22 18:43, Reinette Chatre wrote:
+On 10/25/22 18:45, Reinette Chatre wrote:
 > Hi Babu,
 >
-> Nitpick in Subject ... "allocation" -> "Allocation"?
-Sure.
->
 > On 10/17/2022 3:26 PM, Babu Moger wrote:
->
-> ...
->
->> @@ -2845,7 +2846,8 @@ static int rdtgroup_init_alloc(struct rdtgroup *rdtgrp)
->>  
->>  	list_for_each_entry(s, &resctrl_schema_all, list) {
->>  		r = s->res;
->> -		if (r->rid == RDT_RESOURCE_MBA) {
->> +		if (r->rid == RDT_RESOURCE_MBA ||
->> +		    r->rid == RDT_RESOURCE_SMBA) {
->>  			rdtgroup_init_mba(r, rdtgrp->closid);
->>  			if (is_mba_sc(r))
->>  				continue;
-> The above hunk and the ones that follow are unexpected.
+>> Add a new field in mon_evt to support Bandwidth Monitoring Event
+>> Configuration(BMEC) and also update the "mon_features" display.
+>>
+>> The sysfs file "mon_features" will display the monitor configuration
+>> if supported.
+>>
+>> Before the change.
+>> 	$cat /sys/fs/resctrl/info/L3_MON/mon_features
+>> 	llc_occupancy
+>> 	mbm_total_bytes
+>> 	mbm_local_bytes
+>>
+>> After the change if BMEC is supported.
+>> 	$cat /sys/fs/resctrl/info/L3_MON/mon_features
+>> 	llc_occupancy
+>> 	mbm_total_bytes
+>> 	mbm_total_config
+>> 	mbm_local_bytes
+>> 	mbm_local_config
+> This does not seem to be what the code in this patch does.
 
-I am thinking the above check is required, It is updating the
-staged_config with default values. Right now, the default value for SMBA
-is same as MBA default value. So, I used this code to initialize.
+You are right. it is
 
-Did I miss something?
+# cat /sys/fs/resctrl/info/L3_MON/mon_features
+llc_occupancy
+mbm_total_bytes
+mbm_total_bytes_config
+mbm_local_bytes
+mbm_local_bytes_config
 
 >
-> Note that the software controller, when resctrl is mounted with "mba_MBps", is 
-> only supported by RDT_RESOURCE_MBA. At this time this really is hard coded all
-> over the place, for example:
->
-> static int set_mba_sc(bool mba_sc)
-> {
-> 	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
-> 	...
->
-> }
->
-> Since SMBA hardcodes "delay_linear = false" I do not expect it to support the software
-> controller ... but these hunks appear to treat SMBA as though it does. It is the "MBA software
-> controller", not "SMBA software controller". Why does it check above if the MBA software
-> controller is enabled on SMBA?
-
-There is no plan to support SMBA software controller. Yes, I think below
-checks are not required.
-
-
-> 			
->
->> @@ -3287,7 +3289,8 @@ void resctrl_offline_domain(struct rdt_resource *r, struct rdt_domain *d)
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+>>  arch/x86/kernel/cpu/resctrl/core.c     |    3 ++-
+>>  arch/x86/kernel/cpu/resctrl/internal.h |    4 +++-
+>>  arch/x86/kernel/cpu/resctrl/monitor.c  |    7 ++++++-
+>>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |    5 ++++-
+>>  4 files changed, 15 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+>> index d79f494a4e91..46813b1c50c2 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/core.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/core.c
+>> @@ -814,6 +814,7 @@ static __init bool get_rdt_alloc_resources(void)
+>>  static __init bool get_rdt_mon_resources(void)
 >>  {
->>  	lockdep_assert_held(&rdtgroup_mutex);
+>>  	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+>> +	bool mon_configurable = rdt_cpu_has(X86_FEATURE_BMEC);
 >>  
->> -	if (supports_mba_mbps() && r->rid == RDT_RESOURCE_MBA)
->> +	if (supports_mba_mbps() &&
->> +	    (r->rid == RDT_RESOURCE_MBA || r->rid == RDT_RESOURCE_SMBA))
->>  		mba_sc_domain_destroy(r, d);
-This check is not required.
+>>  	if (rdt_cpu_has(X86_FEATURE_CQM_OCCUP_LLC))
+>>  		rdt_mon_features |= (1 << QOS_L3_OCCUP_EVENT_ID);
+>> @@ -825,7 +826,7 @@ static __init bool get_rdt_mon_resources(void)
+>>  	if (!rdt_mon_features)
+>>  		return false;
 >>  
->>  	if (!r->mon_capable)
->> @@ -3354,8 +3357,9 @@ int resctrl_online_domain(struct rdt_resource *r, struct rdt_domain *d)
->>  
->>  	lockdep_assert_held(&rdtgroup_mutex);
->>  
->> -	if (supports_mba_mbps() && r->rid == RDT_RESOURCE_MBA)
->> -		/* RDT_RESOURCE_MBA is never mon_capable */
->> +	if (supports_mba_mbps() &&
->> +	    (r->rid == RDT_RESOURCE_MBA || r->rid == RDT_RESOURCE_MBA))
->> +		/* RDT_RESOURCE_MBA (or SMBA) is never mon_capable */
-> What does this change do? Did you mean to add a r->rid == RDT_RESOURCE_SMBA check?
+>> -	return !rdt_get_mon_l3_config(r);
+>> +	return !rdt_get_mon_l3_config(r, mon_configurable);
+>>  }
+> This seems to do a portion of configuration in the calling function, pass the
+> results of to the actual configuration function where the rest of the configuration is
+> done. Determining "mon_configurable" really looks like it belongs in 
+> rdt_get_mon_l3_config(). Is it availability of rdt_cpu_has() that prevented
+> that change? Why not make it available internally to all resctrl code?
 
-Good catch. I meant  r->rid == RDT_RESOURCE_SMBA.
+Yes. It is because of rdt_cpu_has availability. Also, it is __init routine.
 
-But this check is not required at all.
+Yes. I can make it available.
 
 >
->>  		return mba_sc_domain_allocate(r, d);
+> Patch 7's mbm_config_rftype_init() can also be moved to rdt_get_mon_l3_config()
+> to match how other related configs (thread_throttle_mode_init()) are done.
+Sure. Will do.
+>
 >>  
->>  	if (!r->mon_capable)
+>>  static __init void __check_quirks_intel(void)
+>> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+>> index 16e3c6e03c79..b458f768f30c 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+>> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+>> @@ -63,11 +63,13 @@ DECLARE_STATIC_KEY_FALSE(rdt_mon_enable_key);
+>>   * struct mon_evt - Entry in the event list of a resource
+>>   * @evtid:		event id
+>>   * @name:		name of the event
+>> + * @configurable:	true if the event is configurable
+>>   * @list:		entry in &rdt_resource->evt_list
+>>   */
+>>  struct mon_evt {
+>>  	enum resctrl_event_id	evtid;
+>>  	char			*name;
+>> +	bool			configurable;
+>>  	struct list_head	list;
+>>  };
+>>  
+>> @@ -522,7 +524,7 @@ int closids_supported(void);
+>>  void closid_free(int closid);
+>>  int alloc_rmid(void);
+>>  void free_rmid(u32 rmid);
+>> -int rdt_get_mon_l3_config(struct rdt_resource *r);
+>> +int rdt_get_mon_l3_config(struct rdt_resource *r, bool configurable);
+>>  void mon_event_count(void *info);
+>>  int rdtgroup_mondata_show(struct seq_file *m, void *arg);
+>>  void mon_event_read(struct rmid_read *rr, struct rdt_resource *r,
+>> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+>> index efe0c30d3a12..4b8adb7f1c5c 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+>> @@ -746,7 +746,7 @@ static void l3_mon_evt_init(struct rdt_resource *r)
+>>  		list_add_tail(&mbm_local_event.list, &r->evt_list);
+>>  }
+>>  
+>> -int rdt_get_mon_l3_config(struct rdt_resource *r)
+>> +int rdt_get_mon_l3_config(struct rdt_resource *r, bool configurable)
+>>  {
+>>  	unsigned int mbm_offset = boot_cpu_data.x86_cache_mbm_width_offset;
+>>  	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
+>> @@ -783,6 +783,11 @@ int rdt_get_mon_l3_config(struct rdt_resource *r)
+>>  	if (ret)
+>>  		return ret;
+>>  
+>> +	if (configurable) {
+>> +		mbm_total_event.configurable = true;
+>> +		mbm_local_event.configurable = true;
+>> +	}
+>> +
+>>  	l3_mon_evt_init(r);
+>>  
+>>  	r->mon_capable = true;
+>> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> index 1271fd1ae2f3..5f0ef1bf4c78 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> @@ -1001,8 +1001,11 @@ static int rdt_mon_features_show(struct kernfs_open_file *of,
+>>  	struct rdt_resource *r = of->kn->parent->priv;
+>>  	struct mon_evt *mevt;
+>>  
+>> -	list_for_each_entry(mevt, &r->evt_list, list)
+>> +	list_for_each_entry(mevt, &r->evt_list, list) {
+>>  		seq_printf(seq, "%s\n", mevt->name);
+>> +		if (mevt->configurable)
+>> +			seq_printf(seq, "%s_config\n", mevt->name);
+>> +	}
+>>  
+>>  	return 0;
+>>  }
 >>
->>
-> Why are the MBA software controller resources allocated/destroyed for a SMBA resource? If
-> you want to support the software controller for SMBA then there are a lot of other changes
+> If mevt->name is "mbm_total_bytes", then would this not
+> print "mbm_total_bytes_config"? This is different from "mbm_total_config"
+> in the changelog and does not match the actual files created in later
+> patches..
 
-No..There is no plan to support software controller for SMBA.
+Sure. Will update the changelog,
 
 Thanks
 
