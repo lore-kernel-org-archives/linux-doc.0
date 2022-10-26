@@ -2,145 +2,245 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43D11C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 20:40:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E3F3FA373E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 20:46:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234433AbiJZUkC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 16:40:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58184 "EHLO
+        id S234015AbiJZUqZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 16:46:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234030AbiJZUj6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 16:39:58 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67A601789B
-        for <linux-doc@vger.kernel.org>; Wed, 26 Oct 2022 13:39:53 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id 63so20569271ybq.4
-        for <linux-doc@vger.kernel.org>; Wed, 26 Oct 2022 13:39:53 -0700 (PDT)
+        with ESMTP id S234241AbiJZUqY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 16:46:24 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04ED2792F4;
+        Wed, 26 Oct 2022 13:46:23 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id u8-20020a17090a5e4800b002106dcdd4a0so3976145pji.1;
+        Wed, 26 Oct 2022 13:46:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=daYBwE/xgD9h3LwP3sciyNnst9YWMODARklElncCAU0=;
-        b=g+XJ8M3/27LzItdcyttOglsv/BP41vBwfOCU5njWntm42Cna4B84KFt9JxXFA81WGW
-         oHv2ipaiOxp9I8LqN3D7Awo6fBugGJBbVkfVkTbVqaZ/3actbpgSe7WtHoh8jZPrJTn+
-         /u6dDMcBuT8Td/kDRfiqCeWPMgCJxS4jWwmyIPOFaly/4MYdhJsau0a8W6BGFBnebJRr
-         HYclJfR/ZmJF863HTkF6qPjFk4ffS4z686Uy0HyGzJx9Y6Y0XX+Z36wSJ7HVnf892Dab
-         0pISkacDQ38x7TqCs6phTjrqCKgsq2G3l85DAXYkZhLR7LuU5KrHdMx2ndDyo5T0K0E2
-         tD9A==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=osbqX8leV6g/SkiEHlFgEuxy7LRzWU2Y7Uh+l7tX15w=;
+        b=jpYjPBLG06J9WOn/bBWpwBCbAYRsRYqGtpSJMTFmnFYTA2ZFnazgRXI8p//toCQ2TJ
+         y0spJgx5cSlhzZ3SljvtDIADHdIjucdfN8NSuX9QNmLHoPzorq79XbjryWXjfHFl30lq
+         a+yGNHUmONi8/9fjz20oKzw3ydyHBmBZfyBBhDMaJiuRleHwSAzhKieuIBUJl+OaRWkx
+         J8ePiRgrp1obhqOjSj/zBR/mn+zZs1yFys+iRMsX91dPwar3019jAkA21DzvD4AEs3Ci
+         EqQhVJdb++3PMZsV4Ve+oth/VTO9h3hSFBdHXErMhMsb9uXlU65Dc3fy+9wGFc3kxwVE
+         7xyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=daYBwE/xgD9h3LwP3sciyNnst9YWMODARklElncCAU0=;
-        b=JxiCUbI3HfYBn5RI1oB+BqzPdf0gZAuqFJeoOAqOxv0AvJCH7rN71f0xEH9AncJRe0
-         APqahmscmyjkQPpmgHNe+ghipH7r9BJ5fUizlf96neozkAYJIL2Vfzfy7kgeZLz24/Hc
-         oC24uM9PG2kqI0p6GEFtimvz1a5EzXNjq/yhl7ygQgln+P5VRNzIon6vcJ/Fskd6vaa0
-         uqYpjd6B71w4JOnl6L7OPgj8x8I550F/0psqU01wFTnNejysYe+0KB/MYSIeznVyct3b
-         9m7dPVDcGDMmlDNelDn0PcXpkD1Owy8YCUxXNch6/nYX8cE7Lw7A4mjnP3JUaB7Y3zlo
-         KDJw==
-X-Gm-Message-State: ACrzQf0AdiBzOFSrqoaWIdkJZGobZmYFP99uYOZxhmkj6/e59Nq4lGIP
-        mK4Rv+M0cxpLBR1df1AQW4eCcveGoNQ19Mq+4mG9Ww==
-X-Google-Smtp-Source: AMsMyM6NoeDMXQ0P7X/sORDu/SfdbmYsySWoMWI2VrXjhxme//k9u7J+bBBfL+Ts1do43c7CJ2map1JSsuDKLkwe6Yw=
-X-Received: by 2002:a05:6902:724:b0:6c0:1784:b6c7 with SMTP id
- l4-20020a056902072400b006c01784b6c7mr40939021ybt.15.1666816792883; Wed, 26
- Oct 2022 13:39:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-5-quic_eberman@quicinc.com> <56a47a6c-29b9-b8f3-e39b-a5841ddf7394@linaro.org>
- <e79513b9-3bbb-851c-6e46-92c043c8d1e7@quicinc.com>
-In-Reply-To: <e79513b9-3bbb-851c-6e46-92c043c8d1e7@quicinc.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Wed, 26 Oct 2022 23:39:41 +0300
-Message-ID: <CAA8EJpoE5LPD531bCYT02zhUXH-6b59MkmQ=jwCHCqebEZ=75A@mail.gmail.com>
-Subject: Re: [PATCH v6 04/21] arm64: smccc: Include alternative-macros.h
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=osbqX8leV6g/SkiEHlFgEuxy7LRzWU2Y7Uh+l7tX15w=;
+        b=pWmAG25EI2ueXl0IeDbrrmorANO51zg96TsFc9GR9OutZa1SD+xCY0aiXmSYs+KU3s
+         y5tDb4/IHsUcOdKEhIsKqDmj1Ifj66lYr0E8M9+fKX7sXhV8LYV9kJFQKCQ5SDgyacO4
+         HUm4KWW9Z1dg0axMoJWVpVhr3d0R7gdaRSTj/VVh/kFU7Z8g1m6Pjjsqb1REAtFgB6Ng
+         nkgLO1Fz6w1JjWypm7K4Pe3oizY3otijOI4D/Gw2dvVnt8/R4/4tnn9rDLSdBCbaJO34
+         DZbE7t2DO0CLDVSBk1+tFw5eU3KHCHowrWnY+NSdpipC8HxqHU3rEakdZBBQq2490C5f
+         whxg==
+X-Gm-Message-State: ACrzQf0DqPeWIXYkG2Zift1zj+gIF4S7nUEcWUKObQKS860e5uRKzLqC
+        +4lB2rLiD/7q4bcHvhDZg9o=
+X-Google-Smtp-Source: AMsMyM7NaRTKclIWYEWcxpgdPdqgRZFy22OSD7N8p45NptTu2RyVSV2oujVK1I0Ov2AG9q7XgNRCoQ==
+X-Received: by 2002:a17:902:7b95:b0:178:ab50:76b5 with SMTP id w21-20020a1709027b9500b00178ab5076b5mr46490591pll.161.1666817182250;
+        Wed, 26 Oct 2022 13:46:22 -0700 (PDT)
+Received: from localhost ([192.55.54.55])
+        by smtp.gmail.com with ESMTPSA id a8-20020a170902710800b00172973d3cd9sm3308650pll.55.2022.10.26.13.46.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Oct 2022 13:46:21 -0700 (PDT)
+Date:   Wed, 26 Oct 2022 13:46:20 -0700
+From:   Isaku Yamahata <isaku.yamahata@gmail.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
+        isaku.yamahata@gmail.com
+Subject: Re: [PATCH v9 6/8] KVM: Update lpage info when private/shared memory
+ are mixed
+Message-ID: <20221026204620.GB3819453@ls.amr.corp.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-7-chao.p.peng@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221025151344.3784230-7-chao.p.peng@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 26 Oct 2022 at 23:24, Elliot Berman <quic_eberman@quicinc.com> wrot=
-e:
->
->
-> On 10/26/2022 12:46 PM, Dmitry Baryshkov wrote:
-> > On 26/10/2022 21:58, Elliot Berman wrote:
-> >> Fix build error when CONFIG_ARM64_SVE is selected and
-> >> asm/alternative-macros.h wasn't implicitly included by another header.
-> >
-> > Please include the build error into the commit message to help anybody
-> > looking for the solution for the same issue.
-> >
->
-> Now that the gunyah_hypercall implementation has been moved to its own
-> module, this change isn't needed because asm/alternative-macros.h got
-> implicitly included now. I can drop this, although not sure if we think
-> it's still correct to have it?
->
-> After I got rid of the other header files, for reference:
->
-> In file included from arch/arm64/gunyah/gunyah_hypercall.c:6:
-> arch/arm64/gunyah/gunyah_hypercall.c: In function =E2=80=98gh_hypercall_m=
-sgq_send=E2=80=99:
-> ./include/linux/arm-smccc.h:387:25: error: expected string literal
-> before =E2=80=98ALTERNATIVE=E2=80=99
->    387 | #define SMCCC_SVE_CHECK ALTERNATIVE("nop \n",  "bl
-> __arm_smccc_sve_check \n", \
+On Tue, Oct 25, 2022 at 11:13:42PM +0800,
+Chao Peng <chao.p.peng@linux.intel.com> wrote:
 
-Please add this message to the commit log.
+> When private/shared memory are mixed in a large page, the lpage_info may
+> not be accurate and should be updated with this mixed info. A large page
+> has mixed pages can't be really mapped as large page since its
+> private/shared pages are from different physical memory.
+> 
+> Update lpage_info when private/shared memory attribute is changed. If
+> both private and shared pages are within a large page region, it can't
+> be mapped as large page. It's a bit challenge to track the mixed
+> info in a 'count' like variable, this patch instead reserves a bit in
+> 'disallow_lpage' to indicate a large page has mixed private/share pages.
+> 
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>  arch/x86/include/asm/kvm_host.h |   8 +++
+>  arch/x86/kvm/mmu/mmu.c          | 112 +++++++++++++++++++++++++++++++-
+>  arch/x86/kvm/x86.c              |   2 +
+>  include/linux/kvm_host.h        |  19 ++++++
+>  virt/kvm/kvm_main.c             |  16 +++--
+>  5 files changed, 152 insertions(+), 5 deletions(-)
+> 
+...
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index 33b1aec44fb8..67a9823a8c35 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+...
+> @@ -6910,3 +6915,108 @@ void kvm_mmu_pre_destroy_vm(struct kvm *kvm)
+>  	if (kvm->arch.nx_lpage_recovery_thread)
+>  		kthread_stop(kvm->arch.nx_lpage_recovery_thread);
+>  }
+> +
+> +static inline bool linfo_is_mixed(struct kvm_lpage_info *linfo)
+> +{
+> +	return linfo->disallow_lpage & KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> +}
+> +
+> +static inline void linfo_update_mixed(struct kvm_lpage_info *linfo, bool mixed)
+> +{
+> +	if (mixed)
+> +		linfo->disallow_lpage |= KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> +	else
+> +		linfo->disallow_lpage &= ~KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> +}
+> +
+> +static bool mem_attr_is_mixed_2m(struct kvm *kvm, unsigned int attr,
+> +				 gfn_t start, gfn_t end)
+> +{
+> +	XA_STATE(xas, &kvm->mem_attr_array, start);
+> +	gfn_t gfn = start;
+> +	void *entry;
+> +	bool shared = attr == KVM_MEM_ATTR_SHARED;
+> +	bool mixed = false;
+> +
+> +	rcu_read_lock();
+> +	entry = xas_load(&xas);
+> +	while (gfn < end) {
+> +		if (xas_retry(&xas, entry))
+> +			continue;
+> +
+> +		KVM_BUG_ON(gfn != xas.xa_index, kvm);
+> +
+> +		if ((entry && !shared) || (!entry && shared)) {
+> +			mixed = true;
+> +			goto out;
 
->
-> >>
-> >> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> >> ---
-> >>   include/linux/arm-smccc.h | 1 +
-> >>   1 file changed, 1 insertion(+)
-> >>
-> >> diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
-> >> index 220c8c60e021..6a627cdbbdec 100644
-> >> --- a/include/linux/arm-smccc.h
-> >> +++ b/include/linux/arm-smccc.h
-> >> @@ -383,6 +383,7 @@ asmlinkage void __arm_smccc_hvc(unsigned long a0,
-> >> unsigned long a1,
-> >>   /* nVHE hypervisor doesn't have a current thread so needs separate
-> >> checks */
-> >>   #if defined(CONFIG_ARM64_SVE) && !defined(__KVM_NVHE_HYPERVISOR__)
-> >> +#include <asm/alternative-macros.h>
-> >>   #define SMCCC_SVE_CHECK ALTERNATIVE("nop \n",  "bl
-> >> __arm_smccc_sve_check \n", \
-> >>                       ARM64_SVE)
-> >
+nitpick: goto isn't needed. break should work.
+
+> +		}
+> +
+> +		entry = xas_next(&xas);
+> +		gfn++;
+> +	}
+> +out:
+> +	rcu_read_unlock();
+> +	return mixed;
+> +}
+> +
+> +static bool mem_attr_is_mixed(struct kvm *kvm, struct kvm_memory_slot *slot,
+> +			      int level, unsigned int attr,
+> +			      gfn_t start, gfn_t end)
+> +{
+> +	unsigned long gfn;
+> +	void *entry;
+> +
+> +	if (level == PG_LEVEL_2M)
+> +		return mem_attr_is_mixed_2m(kvm, attr, start, end);
+> +
+> +	entry = xa_load(&kvm->mem_attr_array, start);
+> +	for (gfn = start; gfn < end; gfn += KVM_PAGES_PER_HPAGE(level - 1)) {
+> +		if (linfo_is_mixed(lpage_info_slot(gfn, slot, level - 1)))
+> +			return true;
+> +		if (xa_load(&kvm->mem_attr_array, gfn) != entry)
+> +			return true;
+> +	}
+> +	return false;
+> +}
+> +
+> +void kvm_arch_update_mem_attr(struct kvm *kvm, struct kvm_memory_slot *slot,
+> +			      unsigned int attr, gfn_t start, gfn_t end)
+> +{
+> +
+> +	unsigned long lpage_start, lpage_end;
+> +	unsigned long gfn, pages, mask;
+> +	int level;
+> +
+> +	WARN_ONCE(!(attr & (KVM_MEM_ATTR_PRIVATE | KVM_MEM_ATTR_SHARED)),
+> +			"Unsupported mem attribute.\n");
+> +
+> +	/*
+> +	 * The sequence matters here: we update the higher level basing on the
+> +	 * lower level's scanning result.
+> +	 */
+> +	for (level = PG_LEVEL_2M; level <= KVM_MAX_HUGEPAGE_LEVEL; level++) {
+> +		pages = KVM_PAGES_PER_HPAGE(level);
+> +		mask = ~(pages - 1);
+
+nitpick: KVM_HPAGE_MASK(level).  Maybe matter of preference.
 
 
+> +		lpage_start = max(start & mask, slot->base_gfn);
+> +		lpage_end = (end - 1) & mask;
+> +
+> +		/*
+> +		 * We only need to scan the head and tail page, for middle pages
+> +		 * we know they are not mixed.
+> +		 */
+> +		linfo_update_mixed(lpage_info_slot(lpage_start, slot, level),
+> +				   mem_attr_is_mixed(kvm, slot, level, attr,
+> +						     lpage_start, start));
+> +
+> +		if (lpage_start == lpage_end)
+> +			return;
+> +
+> +		for (gfn = lpage_start + pages; gfn < lpage_end; gfn += pages)
+> +			linfo_update_mixed(lpage_info_slot(gfn, slot, level),
+> +					   false);
+> +
+> +		linfo_update_mixed(lpage_info_slot(lpage_end, slot, level),
+> +				   mem_attr_is_mixed(kvm, slot, level, attr,
+> +						     end, lpage_end + pages));
+> +	}
+> +}
 
---=20
-With best wishes
-Dmitry
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
