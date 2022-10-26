@@ -2,99 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF14BFA3741
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 14:42:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A40F7C38A2D
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 15:00:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233525AbiJZOmh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 10:42:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41740 "EHLO
+        id S234243AbiJZPAH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 11:00:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233767AbiJZOmg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 10:42:36 -0400
-Received: from out199-18.us.a.mail.aliyun.com (out199-18.us.a.mail.aliyun.com [47.90.199.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3716EE1979;
-        Wed, 26 Oct 2022 07:42:34 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=24;SR=0;TI=SMTPD_---0VT7dcpZ_1666795345;
-Received: from localhost.localdomain(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VT7dcpZ_1666795345)
-          by smtp.aliyun-inc.com;
-          Wed, 26 Oct 2022 22:42:26 +0800
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-To:     paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
-        guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
-        bagasdotme@gmail.com
-Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
-        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com,
-        Xianting Tian <xianting.tian@linux.alibaba.com>
-Subject: [PATCH V5 2/2] Documentation: kdump: describe VMCOREINFO export for RISCV64
-Date:   Wed, 26 Oct 2022 22:42:08 +0800
-Message-Id: <20221026144208.373504-3-xianting.tian@linux.alibaba.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20221026144208.373504-1-xianting.tian@linux.alibaba.com>
-References: <20221026144208.373504-1-xianting.tian@linux.alibaba.com>
+        with ESMTP id S229726AbiJZPAG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 11:00:06 -0400
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 434DF2BB22;
+        Wed, 26 Oct 2022 08:00:03 -0700 (PDT)
+Received: by mail-oi1-x230.google.com with SMTP id r187so1912610oia.8;
+        Wed, 26 Oct 2022 08:00:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=txXT/wKuP7e6vmu341lu5ocYQu6nOYOzPylEPZrz0ao=;
+        b=eUKReRdPe5/6Wf1hvfzbtzHbxaDKbWabbo7VhS5Mw0W4Oyb7vlrOoUuM1n4Ccjs41i
+         CnEVqPzAY3qS/QzZgNB9cilk2SC2d1QODWsOijmjWRqKtPEhBVJHlCT/madDQQ/Njsil
+         OC4yvePxJKytlrH/4z8aN62RcP556W9jOz7sedI12lhEvtPRE+9F1qmwjTj3bRj6pCfT
+         oV7UrOISfNJUtn74TjL/bBnq/8o5/KamvzmV+5yG0vtb/sfcBoBnmDjoZ9safWks4SsL
+         rUBPIGatBcJx3vffkAFxWztkVN4RD1PutoreQEZxIqwIJ/qD/B580LX8JaSjBRuRCEuA
+         EKJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=txXT/wKuP7e6vmu341lu5ocYQu6nOYOzPylEPZrz0ao=;
+        b=SKBFJVpFug8/jZN9KAcS2bvYfdcqWuAownP1Y7m7DQ9ixV3HPHTbm1MQkf4CqoD10b
+         AeRHUmMVX2V+7ya5W9+UP3cMRWFDbsLtyxWuBSx05i7Ek7HcslKUT+tNwcXdsEOlWt4m
+         Ja/9jDiWoZle7+nqv3MTkXpcxYGlgxxVlsOdNn+CFyPHDTh6goIQolXdIk0FVsyccU0Z
+         Qf0qdJ3K/ajU8/Pjz2UYVbri9ZG2m/Up0Ql41ZLaQj0Q7vUvrnvEVWncV/Ag9KRJwFYl
+         ZSnYWUZwkHXnsO9MCeHbPHTQpN0olA9NpzFROkQSnjW4pcL1Da/BiajE8FeQ4OkuGuic
+         FGVA==
+X-Gm-Message-State: ACrzQf12ugGpx6EXA3yZBhBxa/8HDYidFttHwpLdeM+5rcKho3EmwVyD
+        6EnpJzMjgC0AL5t+vJVTcL8=
+X-Google-Smtp-Source: AMsMyM7Boz8EiNGrugjMh/1o3LveBg7F50E5TXO7Q+5hoDFb4+nzDkAPU6DBuPcT107b8EUDsqUkQA==
+X-Received: by 2002:a05:6808:23d4:b0:354:e81a:12a8 with SMTP id bq20-20020a05680823d400b00354e81a12a8mr2083674oib.78.1666796403179;
+        Wed, 26 Oct 2022 08:00:03 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id w110-20020a9d3677000000b0066227572ee3sm2265814otb.52.2022.10.26.08.00.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Oct 2022 08:00:02 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Wed, 26 Oct 2022 08:00:01 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Quan Nguyen <quan@os.amperecomputing.com>
+Cc:     macro@orcam.me.uk, Lee Jones <lee@kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thu Nguyen <thu@os.amperecomputing.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        thang@os.amperecomputing.com
+Subject: Re: [PATCH v9 1/9] hwmon: smpro: Add Ampere's Altra smpro-hwmon
+ driver
+Message-ID: <20221026150001.GA2545504@roeck-us.net>
+References: <20220929094321.770125-1-quan@os.amperecomputing.com>
+ <20220929094321.770125-2-quan@os.amperecomputing.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220929094321.770125-2-quan@os.amperecomputing.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following interrelated definitions and ranges are needed by the kdump
-crash tool, which are exported by "arch/riscv/kernel/crash_core.c":
-    VA_BITS,
-    PAGE_OFFSET,
-    phys_ram_base,
-    KERNEL_LINK_ADDR,
-    MODULES_VADDR ~ MODULES_END,
-    VMALLOC_START ~ VMALLOC_END,
-    VMEMMAP_START ~ VMEMMAP_END,
+On Thu, Sep 29, 2022 at 04:43:13PM +0700, Quan Nguyen wrote:
+> This commit adds support for Ampere SMpro hwmon driver. This driver
+> supports accessing various CPU sensors provided by the SMpro co-processor
+> including temperature, power, voltages, and current.
+> 
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-Document these RISCV64 exports above.
+I see that the mfd patch was accepted into the mfd subsystem,
+so I'll apply this and the next patch in the series to hwmon-next.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
----
- .../admin-guide/kdump/vmcoreinfo.rst          | 29 +++++++++++++++++++
- 1 file changed, 29 insertions(+)
-
-diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-index 6726f439958c..86fd88492870 100644
---- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
-+++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-@@ -595,3 +595,32 @@ X2TLB
- -----
- 
- Indicates whether the crashed kernel enabled SH extended mode.
-+
-+RISCV64
-+=======
-+
-+VA_BITS
-+-------
-+
-+The maximum number of bits for virtual addresses. Used to compute the
-+virtual memory ranges.
-+
-+PAGE_OFFSET
-+-----------
-+
-+Indicates the virtual kernel start address of the direct-mapped RAM region.
-+
-+phys_ram_base
-+-------------
-+
-+Indicates the start physical RAM address.
-+
-+MODULES_VADDR|MODULES_END|VMALLOC_START|VMALLOC_END|VMEMMAP_START|VMEMMAP_END|KERNEL_LINK_ADDR
-+----------------------------------------------------------------------------------------------
-+
-+Used to get the correct ranges:
-+
-+  * MODULES_VADDR ~ MODULES_END : Kernel module space.
-+  * VMALLOC_START ~ VMALLOC_END : vmalloc() / ioremap() space.
-+  * VMEMMAP_START ~ VMEMMAP_END : vmemmap space, used for struct page array.
-+  * KERNEL_LINK_ADDR : start address of Kernel link and BPF
--- 
-2.17.1
-
+Thanks,
+Guenter
