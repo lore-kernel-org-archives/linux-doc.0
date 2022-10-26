@@ -2,172 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFE66C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 17:52:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72419FA373E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 18:46:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234291AbiJZRwb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 13:52:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56056 "EHLO
+        id S234111AbiJZSq5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 14:46:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234310AbiJZRwZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 13:52:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D90E108DD9
-        for <linux-doc@vger.kernel.org>; Wed, 26 Oct 2022 10:52:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666806735;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=geniLJHmWq3kpgcGVKm4jCdheUxhYshUAvvdO1yrzTQ=;
-        b=ZpTEV4cgsSVP+VR8YE55RSluSXq6vh4I+E1yE1h4L9pY9cE+TseMiinFgIK12NqSABPq0G
-        XVU1D3LjR5JvXI/frmS2ULsFyR0eLMWPSkSW4I64aguFROyPbnrO1v2KcLK6SV6ONX/07X
-        vJtzpJGPTY8ygmugu91VBoJDRSWXiJA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-575-y4kVx0t6NJyqlZF8fJDZHw-1; Wed, 26 Oct 2022 13:52:13 -0400
-X-MC-Unique: y4kVx0t6NJyqlZF8fJDZHw-1
-Received: by mail-wm1-f70.google.com with SMTP id v191-20020a1cacc8000000b003bdf7b78dccso6478704wme.3
-        for <linux-doc@vger.kernel.org>; Wed, 26 Oct 2022 10:52:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=geniLJHmWq3kpgcGVKm4jCdheUxhYshUAvvdO1yrzTQ=;
-        b=XllSqnm3EJly7q2stVNp2fq3zaxRCdJSo3KugakMjLAVn8tdSm7u1vta43QXJYXmp0
-         CCl882AR9U5dczplBl6WfXaRVp7cbI9yikXbgtCg+N24yElDlU0C4HeAjExwNdKCtG5W
-         jKCmBQWxsWO1+OfvFnocCZqaUhB1RpoxVDdkpDm08ygouodGv4hd3ZCm0/X2Mdd8yTb5
-         brxxxgeLt1WeUbLDffxFkSBDWBvWKCvx3EDG4XXWzg1xQHACSXYPZHWviXCco7Sr9Bys
-         fBR+mkydewOqSDu6G/RHumIE0OA8Jl5uVaD3V6YrBXNLdgE0KNgrpyp4Y3rEbN37uqt4
-         4hyQ==
-X-Gm-Message-State: ACrzQf0lWJuz+DafIjxvKOD0c01E/CWMLlGR7F61LMl8x8gDrJ99C029
-        AE6IRPP/Mb69/iw5d0b1keQPqprEARH1e5Ur32Mpbjpbjc/tnbkLBJmyLJQpGWH1N2uDRq3FMR2
-        loPSTG47juLeliC4ueQrl
-X-Received: by 2002:a05:6000:1ac7:b0:232:b68c:9e0 with SMTP id i7-20020a0560001ac700b00232b68c09e0mr30940570wry.54.1666806732604;
-        Wed, 26 Oct 2022 10:52:12 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5H8nSmRGc8ubFmwlY72dw0Lzn/Wbclbz9oiRnT7h3ncFdTKq7AZYYBKQFrVTm3HA3Rxq8Ucw==
-X-Received: by 2002:a05:6000:1ac7:b0:232:b68c:9e0 with SMTP id i7-20020a0560001ac700b00232b68c09e0mr30940544wry.54.1666806732335;
-        Wed, 26 Oct 2022 10:52:12 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c? ([2001:b07:6468:f312:1c09:f536:3de6:228c])
-        by smtp.googlemail.com with ESMTPSA id g12-20020a05600c310c00b003b4cba4ef71sm2448055wmo.41.2022.10.26.10.52.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Oct 2022 10:52:11 -0700 (PDT)
-Message-ID: <d3e2dd2b-9520-32ef-6785-94164a834adf@redhat.com>
-Date:   Wed, 26 Oct 2022 19:52:10 +0200
+        with ESMTP id S233783AbiJZSq4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 14:46:56 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D962B7F4D;
+        Wed, 26 Oct 2022 11:46:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J49TSxb8nK+6swWScrucYIz/vaZKy2nl/I2DY6qlP6nBuuyb6YhilUTuae2JyJApAQdPJ+mN0Fgdv9ltGlIaSf0ijHVzo1S94NgkRb1pDbzZhBGZ3ktjzYvbftfH9OVm/0qd/fDgAa9L+SIZ266vff4lbDY7qdhNB1Fa7ToqRQfk3l7CciqaLbs0+Cc0zzmpwb+8my+qOecc34iTpg3zbXJjfkqP7MLVxrMbIRbcNuJ7JfxEFiziWYSSawrYO244gxnlBAijIZm4bc9tsN07UHZLWRGhVstRIw6tQb+IEMSa8wrtX5K/SWK5Sl1vA+G86uplG5Y2p//laSral6hsnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KN/VOE7OOWZ1MdP03KCPKUztW/RWtNVzFlmJ2qseu2c=;
+ b=GFvB34umPQ6klSB+FL2Za5pAQ/E9xg53nLIdXqJghv2foS+gK2zUZmD07Ywze4InGekLAEOGaMEjioahjXhjU7Cd8wD3Eupc4gaxqy0fWVtuEcyMBBD29gMoZmbTK80Nd87qHBeU2dhrQd9buzb0VLYez64G5eIpAp3ASyAjlOrRlnIBvWrFoxmcxLv2dLKcxI0JF4XTMWkFHxMskV1dVlOBGTTCi/oBFd8wRI85vGgaG/UImF72u/SaIEXd61c0HoVOGPzNbWYbWoTHRbnC2RGdWsLMdJeHIgQO1H53RsgGNN+04guuCqzkPYbENJyyV4lkBQmenSXqC2Y/l4V1bQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KN/VOE7OOWZ1MdP03KCPKUztW/RWtNVzFlmJ2qseu2c=;
+ b=dxX87Fj366FIh+EDmowSphppOwhhxU6SCpNiBDxMM6HhkdeMAMtat0/pWoA0v2PeKJeKpd82Ux0R2wMS2K8QW3XeylmkUcEXb5MP4xUz/9mZ+pTNsa5Ub7Ll/tFK/bZtLu+9QaRyWNw7yM8Pta13qa+mKPJNS3jeDxKFQQA3YwQ5JqDBqbgNKenlMgpS/lJ+RQ7D76MtOSQfu3+B1Uo1CSG8DJPeYW8bmothxAGpolYN/q4duILzS+pSo2pMdVHVPzXqpyWd6H1P/drNfSkfZ/p1SxlDb2KRTN/DG1UvEnDybQGHcJSCPV0vc4/ELLSHRafTa04JGjjabIRU4eNkIQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by SN7PR12MB7346.namprd12.prod.outlook.com (2603:10b6:806:299::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.28; Wed, 26 Oct
+ 2022 18:46:51 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5746.021; Wed, 26 Oct 2022
+ 18:46:51 +0000
+Date:   Wed, 26 Oct 2022 15:46:50 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Lu Baolu <baolu.lu@linux.intel.com>, bpf@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v3 9/15] iommufd: Data structure to provide IOVA to PFN
+ mapping
+Message-ID: <Y1mAmivnEyQCMwO9@nvidia.com>
+References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <9-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+X-ClientProxiedBy: BL1P223CA0009.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c4::14) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Hyper-V VTLs, permission bitmaps and userspace exits (was Re: [PATCH
- 0/4] KVM: API to block and resume all running vcpus in a vm)
-Content-Language: en-US
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Emanuele Giuseppe Esposito <eesposit@redhat.com>,
-        kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221022154819.1823133-1-eesposit@redhat.com>
- <a2e16531-5522-a334-40a1-2b0e17663800@linux.ibm.com>
- <2701ce67-bfff-8c0c-4450-7c4a281419de@redhat.com>
- <384b2622-8d7f-ce02-1452-84a86e3a5697@linux.ibm.com>
- <Y1cVfECAAfmp5XqA@google.com>
- <5a26c107-9ab5-60ee-0e9c-a9955dfe313d@redhat.com>
- <Y1gG/W/q/VIydpMu@google.com>
- <02c910bb-3ea0-fa84-7a1c-92fb9e8b03de@redhat.com>
- <Y1hsHjPuZfrREulV@google.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Y1hsHjPuZfrREulV@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SN7PR12MB7346:EE_
+X-MS-Office365-Filtering-Correlation-Id: f1b7dc55-69f0-47ff-0658-08dab7827201
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IkOVNlb93KzYciqujqQC4nKi634vmucVeyz28St+qIYgy3l/Q2kKH/wL0yZHEQO75R0d2qsGAa1tudaO1aiL7tyyp4Jqx079Oa+yhx4xE0g3h9Ojiqjtj4KIwPXFp2yNr4s3tNnYv1MZrMBtrcsFhdsJoXnTDtBGBBPNdhfmgIhQ+lgC2hWOnz2SIifcFaohxU0GyvjRFRcPK8zX7E6x5agO7bvbgQFM/5sze28IOuF7EgyD9sb61hKLOUN19TnID/Z6jO08tyT2yj4zlYCk08sWVbuH06G4b2GFfZaPxtoDA+46XVGgER18IDeMpxSgQHDZ1WgWEkF2lKsEFgPIX/m5iuJV4QpswX+1fRNA1GvC0KMCYz8uYb/0KplHsdOxVl27wznEZLCaPX/VTb+5nZjHwz0L9dy4QSPHQstKiuVjqIJh/DpjJNF/YAgcgCOdlx6oWbF+2i/SNg6Nupaj75bmGjJR7iwHZfTZFFC/IeSKc+JDvSLzhZFDpskwJ7Q1FOrvQKmf7/vkQmRTVFQIOcN3Zs19/Itr8wpXRS7zWROPjaQ2GChH/pBt9B3wiEkKmfPCuVCeIhalrwlyDU32bZMtLwksbZvdj1e/AMEfReOP0JCO/RttGZtQVb4TV8NMnFBbsaFL3PQtv33o0cBMb770doKbBstKNrOrn0Z+XTNPRKbmjgBaH2b3chD9YmLypnxr/z84ixjL07esoBvmvWFG3vvxraVryjrDquMAdKmNrtluflvWQEua2V4w5FEZ
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(396003)(376002)(136003)(366004)(346002)(451199015)(921005)(8676002)(36756003)(86362001)(41300700001)(26005)(66946007)(6512007)(4326008)(66476007)(66556008)(7416002)(7406005)(2616005)(5660300002)(4744005)(8936002)(478600001)(6486002)(54906003)(110136005)(316002)(38100700002)(6506007)(2906002)(83380400001)(186003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?j5C2jDPpHx6/xb6kt74wXVMB0PT2KWZj84fYVLdr3uxxurJg7hDICEsLvxOw?=
+ =?us-ascii?Q?U0sTPRIPAqzWm9W/+zMQkXKUw35Jhb0ruWmktClElhfCSs+W6gF5zySsop15?=
+ =?us-ascii?Q?mt7R2PgQ5ajMOO5WgQpJnzZSU2bEW+GKaaaTvO9hojqS1mGkxQIdxnq9nlci?=
+ =?us-ascii?Q?7eI3oKB2A24GBxRbg6TLv3Ersoi1/TsqkW1lr7lwv2rDJYTIgwQXHzAclu+O?=
+ =?us-ascii?Q?8BaNFQp4FpfnXxoZbim3NWnYPsgrE+mQHL7UY+rbQVdbKvrL7qTMCOYDGAMf?=
+ =?us-ascii?Q?bHrVz2wnHqWpvtMmX3gqsG8zC5Th0OyNgfFQpOfznxO/rg7tZs5f5uBU4gbz?=
+ =?us-ascii?Q?f9hUdfqm7DKvEgYH2SJ2lF/1wCfxhEpXvp2jcc0syn9oiKC9ntGVH6WpDPcI?=
+ =?us-ascii?Q?6tK4WuvjburgWoLgfpTt84+vmCb6aTX6pq1qADWNnpTImpulT9BQbJEP9EKY?=
+ =?us-ascii?Q?RZkYomHXBSv1J0FQ7DWcXpRJgeOYpryQSPSSsO9owG5oy/raMP6mEl17i3s/?=
+ =?us-ascii?Q?mC8KE5VhG1sk69DR2p9SRzBk0mA3IO30n9yBbUOfnxGj0xH7J33nqwnFYk9D?=
+ =?us-ascii?Q?Gat4ZaNQgwk3FmspZPmAwIbJ+aleODfFyv5Ms103Es8MMCmbnYPQjYU2DUKw?=
+ =?us-ascii?Q?rmW0aI8EB4SdYo432NOjqz0dpiY/arWMk77fn1sN4VXcaEXyUdm49CZqjjFR?=
+ =?us-ascii?Q?6Inu36zp9zbIYxJ5KLKihcNPzfQoQrbRtZdAtQ+ZChhTXJzyy69yGqvRV6qu?=
+ =?us-ascii?Q?IbxjlOEdaPnabaYqGGMDw1Jal3+nYeclxVeKmEaEY/JC55pMK1OcvpqNu72y?=
+ =?us-ascii?Q?pNsSqq7qVctaQRJHoUf5GaglVvfCfWICL8vHDm6t1mQzK0nRSU9rYz6bME9U?=
+ =?us-ascii?Q?yuARbFeC29bplawVzZE4c9oeMNe6RfQUyxQ38ZLEgCTxLG+IcMs4HZ4CJ7c3?=
+ =?us-ascii?Q?mBjLCvcA3bvpaV6o/rUGBkFoJv2/fbEcTqdt9DlIXmP/lN9fAI22rjNQmPU9?=
+ =?us-ascii?Q?r2bv2i8bRv345rEwghOWw0myaSlvkpP51t6nRdr8fdS1JS2UW71TuqhtAaQh?=
+ =?us-ascii?Q?FRAJ01SJx/UblK2IHRA9SKVpNQ1Tkk6eRtOH2A+2Petpu2hEnhhTxPLF+up7?=
+ =?us-ascii?Q?/yDuM8MM7JRXL7x8+z2jjM82HznubKezw/uLy148lZSz3ZLCbSbxWM2NiQS+?=
+ =?us-ascii?Q?sqKGxy7b+s6t6sC+oBXMn2hl1ghtSJwrm/+6Y3mftSaJ34Hr1/wzV2vwAxc2?=
+ =?us-ascii?Q?sLkrgX4bs706OtKEFKadlLP6BdqbBQjpWq59PGFghQENJPZO0YID4wHkw/7w?=
+ =?us-ascii?Q?beBuyfm9qv/4v21+aswYpOqw4I5zlIwJot+R0leuNSI6j4cL1ky/PQBau2fR?=
+ =?us-ascii?Q?Aspta6odLUGyVStmEcbjJswnXuLBabf2YzqH4IsS22M6Mfd7e24SRvbp+xfM?=
+ =?us-ascii?Q?LDZtlJTBSPq5tAbYutydXJSnWvG9D6Yfnq0t74QBcZVcc554LUoLsXX33TAm?=
+ =?us-ascii?Q?YrqzJXGvvWd9jEDCB9QfSDsctYrbofNkp/54EnIWJnnA9hojQVfw1NkkCPIS?=
+ =?us-ascii?Q?TzqWbGdwBBkQ1LlPDO4=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1b7dc55-69f0-47ff-0658-08dab7827201
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2022 18:46:51.3897
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9mCSQLuKm/N3VJtlGuSWEoPyydaX4iyLBgC8pTeTilqB1LQRCn8L0vPMC9bFH7RV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7346
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/26/22 01:07, Sean Christopherson wrote:
-> I don't think it's realistic to make accesses outside of KVM_RUN go away, e.g.
-> see the ARM ITS discussion in the dirty ring thread.  kvm_xen_set_evtchn() also
-> explicitly depends on writing guest memory without going through KVM_RUN (and
-> apparently can be invoked from a kernel thread?!?).
+On Tue, Oct 25, 2022 at 03:12:18PM -0300, Jason Gunthorpe wrote:
 
-Yeah, those are the pages that must be considered dirty when using the 
-dirty ring.
+> +int iopt_unmap_all(struct io_pagetable *iopt, unsigned long *unmapped)
+> +{
+> +	return iopt_unmap_iova_range(iopt, 0, ULONG_MAX, unmapped);
+> +}
 
-> In theory, I do actually like the idea of restricting memory access to KVM_RUN,
-> but in reality I just think that forcing everything into KVM_RUN creates far more
-> problems than it solves.  E.g. my complaint with KVM_REQ_GET_NESTED_STATE_PAGES
-> is that instead of syncrhonously telling userspace it has a problem, KVM chugs
-> along as if everything is fine and only fails at later point in time.  I doubt
-> userspace would actually do anything differently, i.e. the VM is likely hosed no
-> matter what, but deferring work adds complexity in KVM and makes it more difficult
-> to debug problems when they occur.
->
->>>     - to stop anything else in the system that consumes KVM memslots, e.g. KVM GT
->>
->> Is this true if you only look at the KVM_GET_DIRTY_LOG case and consider it
->> a guest bug to access the memory (i.e. ignore the strange read-only changes
->> which only happen at boot, and which I agree are QEMU-specific)?
-> 
-> Yes?  I don't know exactly what "the KVM_GET_DIRTY_LOG case" is.
+syzkaller indirectly noticed that unmap all of an empty IOAS returns
+ENOENT, it makes more sense it should succeed:
 
-It is not possible to atomically read the dirty bitmap and delete a 
-memslot.  When you delete a memslot, the bitmap is gone.  In this case 
-however memory accesses to the deleted memslot are a guest bug, so 
-stopping KVM-GT would not be necessary.
+-       return iopt_unmap_iova_range(iopt, 0, ULONG_MAX, unmapped);
++       int rc;
++
++       rc = iopt_unmap_iova_range(iopt, 0, ULONG_MAX, unmapped);
++       /* If the IOVAs are empty then unmap all succeeds */
++       if (rc == -ENOENT)
++               return 0;
++       return rc;
 
-So while I'm being slowly convinced that QEMU should find a way to pause 
-its vCPUs around memslot changes, I'm not sure that pausing everything 
-is needed in general.
+Plus a selftest to cover it
 
->>> And because of the nature of KVM, to support this API on all architectures, KVM
->>> needs to make change on all architectures, whereas userspace should be able to
->>> implement a generic solution.
->>
->> Yes, I agree that this is essentially just a more efficient kill().
->> Emanuele, perhaps you can put together a patch to x86/vmexit.c in
->> kvm-unit-tests, where CPU0 keeps changing memslots and the other CPUs are in
->> a for(;;) busy wait, to measure the various ways to do it?
-> 
-> I'm a bit confused.  Is the goal of this to simplify QEMU, dedup VMM code, provide
-> a more performant solution, something else entirely?
-
-Well, a bit of all of them and perhaps that's the problem.  And while 
-the issues at hand *are* self-inflicted wounds on part of QEMU, it seems 
-to me that the underlying issues are general.
-
-For example, Alex Graf and I looked back at your proposal of a userspace 
-exit for "bad" accesses to memory, wondering if it could help with 
-Hyper-V VTLs too.  To recap, the "higher privileged" code at VTL1 can 
-set up VM-wide restrictions on access to some pages through a hypercall 
-(HvModifyVtlProtectionMask).  After the hypercall, VTL0 would not be 
-able to access those pages.  The hypercall would be handled in userspace 
-and would invoke a KVM_SET_MEMORY_REGION_PERM ioctl to restrict the RWX 
-permissions, and this ioctl would set up a VM-wide permission bitmap 
-that would be used when building page tables.
-
-Using such a bitmap instead of memslots makes it possible to cause 
-userspace vmexits on VTL mapping violations with efficient data 
-structures.  And it would also be possible to use this mechanism around 
-KVM_GET_DIRTY_LOG, to read the KVM dirty bitmap just before removing a 
-memslot.
-
-However, external accesses to the regions (ITS, Xen, KVM-GT, non KVM_RUN 
-ioctls) would not be blocked, due to the lack of a way to report the 
-exit.  The intersection of these features with VTLs should be very small 
-(sometimes zero since VTLs are x86 only), but the ioctls would be a 
-problem so I'm wondering what your thoughts are on this.
-
-Also, while the exit API could be the same, it is not clear to me that 
-the permission bitmap would be a good match for entirely "void" memslots 
-used to work around non-atomic memslot changes.  So for now let's leave 
-this aside and only consider the KVM_GET_DIRTY_LOG case.
-
-Paolo
-
+Jason
