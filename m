@@ -2,97 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A40F7C38A2D
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 15:00:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26BC1C38A2D
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 15:05:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234243AbiJZPAH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 11:00:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36740 "EHLO
+        id S234458AbiJZPFK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 11:05:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229726AbiJZPAG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 11:00:06 -0400
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 434DF2BB22;
-        Wed, 26 Oct 2022 08:00:03 -0700 (PDT)
-Received: by mail-oi1-x230.google.com with SMTP id r187so1912610oia.8;
-        Wed, 26 Oct 2022 08:00:03 -0700 (PDT)
+        with ESMTP id S234104AbiJZPFF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 11:05:05 -0400
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 625E271BFC;
+        Wed, 26 Oct 2022 08:05:02 -0700 (PDT)
+Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-13bef14ea06so6596435fac.3;
+        Wed, 26 Oct 2022 08:05:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=txXT/wKuP7e6vmu341lu5ocYQu6nOYOzPylEPZrz0ao=;
-        b=eUKReRdPe5/6Wf1hvfzbtzHbxaDKbWabbo7VhS5Mw0W4Oyb7vlrOoUuM1n4Ccjs41i
-         CnEVqPzAY3qS/QzZgNB9cilk2SC2d1QODWsOijmjWRqKtPEhBVJHlCT/madDQQ/Njsil
-         OC4yvePxJKytlrH/4z8aN62RcP556W9jOz7sedI12lhEvtPRE+9F1qmwjTj3bRj6pCfT
-         oV7UrOISfNJUtn74TjL/bBnq/8o5/KamvzmV+5yG0vtb/sfcBoBnmDjoZ9safWks4SsL
-         rUBPIGatBcJx3vffkAFxWztkVN4RD1PutoreQEZxIqwIJ/qD/B580LX8JaSjBRuRCEuA
-         EKJg==
+        bh=MZ7K9c/DhvA3ULMMun0jLi/og1DertsN4XABD8/KyjY=;
+        b=EYk28o/biKU2YVqqaYQpWv1EveGWLGPZ87M0sCOrsphee60eFxn4SI3TY+rZW4nGqj
+         lCigbB0P9z1A1E0+/e+IGWIcvBSuvDJS1iyptl93MVHuda3AEOoQG4WMsbH285U4o9bR
+         VryT/UVC1eP7/pzFHkIwoWsDt6seiiEIPjZzySUcgGK6zmxnc1z0C6IWDzB0J5scBRWz
+         Usb7co73sSqu/19GPpN7vIqe+lOoj/IcdPgIG9LJk3a9lGh76GpN9MQrT/5ADt2wdWRy
+         7bWDwbmcaGmB24oa37dJ9N6pU9oqDV3hM2a8zTY4Ag//EbPfm5JFWMNh49omycESMnQn
+         aiKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=txXT/wKuP7e6vmu341lu5ocYQu6nOYOzPylEPZrz0ao=;
-        b=SKBFJVpFug8/jZN9KAcS2bvYfdcqWuAownP1Y7m7DQ9ixV3HPHTbm1MQkf4CqoD10b
-         AeRHUmMVX2V+7ya5W9+UP3cMRWFDbsLtyxWuBSx05i7Ek7HcslKUT+tNwcXdsEOlWt4m
-         Ja/9jDiWoZle7+nqv3MTkXpcxYGlgxxVlsOdNn+CFyPHDTh6goIQolXdIk0FVsyccU0Z
-         Qf0qdJ3K/ajU8/Pjz2UYVbri9ZG2m/Up0Ql41ZLaQj0Q7vUvrnvEVWncV/Ag9KRJwFYl
-         ZSnYWUZwkHXnsO9MCeHbPHTQpN0olA9NpzFROkQSnjW4pcL1Da/BiajE8FeQ4OkuGuic
-         FGVA==
-X-Gm-Message-State: ACrzQf12ugGpx6EXA3yZBhBxa/8HDYidFttHwpLdeM+5rcKho3EmwVyD
-        6EnpJzMjgC0AL5t+vJVTcL8=
-X-Google-Smtp-Source: AMsMyM7Boz8EiNGrugjMh/1o3LveBg7F50E5TXO7Q+5hoDFb4+nzDkAPU6DBuPcT107b8EUDsqUkQA==
-X-Received: by 2002:a05:6808:23d4:b0:354:e81a:12a8 with SMTP id bq20-20020a05680823d400b00354e81a12a8mr2083674oib.78.1666796403179;
-        Wed, 26 Oct 2022 08:00:03 -0700 (PDT)
+        bh=MZ7K9c/DhvA3ULMMun0jLi/og1DertsN4XABD8/KyjY=;
+        b=gw6xn5yaKj6hKefx7V9RREIKQEFH5HDdpjjIVL62t0Co+YZKt3MyBmpRDxp+pH29cF
+         LRYpm7QL9fuziWuu72naPaDdw9XCYZfSNlrxXIDt3QVoGHNp75Zikk2bqVl1oZOiMC2Y
+         62kU7DJV2WEprI+7A6NrhyZwkQdYRnq9u9nn678gv9xTC7V9BnCDdMH1njbQMJIPDDSq
+         e2iyAlUW19atu1qDdatlakehCe3R25uVw0UYhMFhET+N7Bah11Xp1xxMrj58Z/cQgMPt
+         5Wt4PTG4dvuWSPnzrhrDwYQzQv+T+WRHRpIqLi6MdRpxnaEVGGkmM2mjs2PLhPfZJ9n2
+         VhIQ==
+X-Gm-Message-State: ACrzQf1pPuYhlA+dmOSMI8wf66SYpH+dVooW5+6qAshoWEqBf02rtxzX
+        ZUAgW/OYoECaa0EdHFabXvvOAaMLLWM=
+X-Google-Smtp-Source: AMsMyM7j+pvR/AINPyg0/WuDkBDZdG1TX/POVx/pzR6NDVfhn03EqbpG1ODcDrEDTVnVovhjTzYTDw==
+X-Received: by 2002:a05:6870:5388:b0:132:dbd1:219e with SMTP id h8-20020a056870538800b00132dbd1219emr2436570oan.87.1666796701714;
+        Wed, 26 Oct 2022 08:05:01 -0700 (PDT)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id w110-20020a9d3677000000b0066227572ee3sm2265814otb.52.2022.10.26.08.00.02
+        by smtp.gmail.com with ESMTPSA id b20-20020a05687061d400b0013b1301ce42sm949003oah.47.2022.10.26.08.05.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Oct 2022 08:00:02 -0700 (PDT)
+        Wed, 26 Oct 2022 08:05:01 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Wed, 26 Oct 2022 08:00:01 -0700
+Date:   Wed, 26 Oct 2022 08:05:00 -0700
 From:   Guenter Roeck <linux@roeck-us.net>
-To:     Quan Nguyen <quan@os.amperecomputing.com>
-Cc:     macro@orcam.me.uk, Lee Jones <lee@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thu Nguyen <thu@os.amperecomputing.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
-        Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        thang@os.amperecomputing.com
-Subject: Re: [PATCH v9 1/9] hwmon: smpro: Add Ampere's Altra smpro-hwmon
- driver
-Message-ID: <20221026150001.GA2545504@roeck-us.net>
-References: <20220929094321.770125-1-quan@os.amperecomputing.com>
- <20220929094321.770125-2-quan@os.amperecomputing.com>
+To:     Aleksa Savic <savicaleksa83@gmail.com>
+Cc:     linux-hwmon@vger.kernel.org, leonard.anderweit@gmail.com,
+        Jack Doan <me@jackdoan.com>, Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] hwmon: (aquacomputer_d5next) Add support for
+ temperature sensor offsets
+Message-ID: <20221026150500.GA2546211@roeck-us.net>
+References: <20221024151039.7222-1-savicaleksa83@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220929094321.770125-2-quan@os.amperecomputing.com>
+In-Reply-To: <20221024151039.7222-1-savicaleksa83@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 29, 2022 at 04:43:13PM +0700, Quan Nguyen wrote:
-> This commit adds support for Ampere SMpro hwmon driver. This driver
-> supports accessing various CPU sensors provided by the SMpro co-processor
-> including temperature, power, voltages, and current.
+On Mon, Oct 24, 2022 at 05:10:39PM +0200, Aleksa Savic wrote:
+> Add support for reading and writing temperature sensor offsets
+> on the Aquacomputer D5 Next, Farbwerk 360, Octo and Quadro,
+> for which the needed offsets are known. Implemented by
+> Leonard Anderweit [1].
 > 
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+> [1] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/pull/22
+> 
+> Originally-from: Leonard Anderweit <leonard.anderweit@gmail.com>
+> Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
 
-I see that the mfd patch was accepted into the mfd subsystem,
-so I'll apply this and the next patch in the series to hwmon-next.
+Applied to hwmon-next.
 
 Thanks,
 Guenter
