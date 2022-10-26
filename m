@@ -2,141 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E7D3C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 12:23:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F65BFA373E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 12:31:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232903AbiJZMXK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 08:23:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38066 "EHLO
+        id S233473AbiJZMbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 08:31:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232748AbiJZMXJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 08:23:09 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4F1908F240;
-        Wed, 26 Oct 2022 05:23:08 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F022623A;
-        Wed, 26 Oct 2022 05:23:13 -0700 (PDT)
-Received: from [10.57.2.24] (unknown [10.57.2.24])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2B3563F71A;
-        Wed, 26 Oct 2022 05:23:05 -0700 (PDT)
-Message-ID: <62a7cafc-13d6-5341-0128-420db7d5da8c@arm.com>
-Date:   Wed, 26 Oct 2022 13:23:03 +0100
+        with ESMTP id S233245AbiJZMbQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 08:31:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE7CE6D9D8;
+        Wed, 26 Oct 2022 05:31:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 69D8B61E97;
+        Wed, 26 Oct 2022 12:31:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08690C433C1;
+        Wed, 26 Oct 2022 12:31:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666787471;
+        bh=UAxsV8P09WzkrdPNh08BKdHmn8oLfrTBFNapEM78kNo=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=fA/JWXasghCxaVHDLrB09Gj+o5/sS7Vje1jkXLO2S/yEjho4rL6nmuxnnIkYUBiqR
+         MbLJbWk72GBvHeg5ZddQinU8XxKTanNhq8lqwFRHxfjten4w5xZ8xA4TNVEi3svDBM
+         MkmJe/0pmK2JSI3NtJsEasiO3wd5ne/F/a9YzRv4QoINnDra+sx7nUGbBcw5XcfesK
+         cEH3THbvY6Vp2WpH0aBF8ntwlKgl3td+8X9CKPE0ORCnR4f1XbC+qS4BdJecVsNG2R
+         LAC9zxhXoxE/A3Xw2gnujpC+nyJxeaRB83MkspXOVDv35cNGpZGZ5qXs1DcX0I6iqU
+         wSddhUgyEcwVQ==
+Message-ID: <dec2d423-9f22-e172-abe7-29a9dad8cf12@kernel.org>
+Date:   Wed, 26 Oct 2022 14:31:07 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] sched/topology: Remove EM_MAX_COMPLEXITY limit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH 2/3] tools/rv: Add in-kernel monitor interface
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        linux-trace-devel@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1666776642.git.bristot@kernel.org>
+ <d52a15b93acb15142551b8e84ff4bcd934de22ce.1666776642.git.bristot@kernel.org>
 Content-Language: en-US
-To:     Pierre Gondois <pierre.gondois@arm.com>
-Cc:     Ionela.Voinescu@arm.com, Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220812101620.627838-1-pierre.gondois@arm.com>
-From:   Lukasz Luba <lukasz.luba@arm.com>
-In-Reply-To: <20220812101620.627838-1-pierre.gondois@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+In-Reply-To: <d52a15b93acb15142551b8e84ff4bcd934de22ce.1666776642.git.bristot@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Pierre,
+On 10/26/22 12:44, Daniel Bristot de Oliveira wrote:
+> Add the ability to control and trace in-kernel monitors. This is
+> a generic interface, it will check for existing monitors and enable
+> standard setup, like enabling reactors.
 
-On 8/12/22 11:16, Pierre Gondois wrote:
-> From: Pierre Gondois <Pierre.Gondois@arm.com>
-> 
-> The Energy Aware Scheduler (EAS) estimates the energy consumption
-> of placing a task on different CPUs. The goal is to minimize this
-> energy consumption. Estimating the energy of different task placements
-> is increasingly complex with the size of the platform. To avoid having
-> a slow wake-up path, EAS is only enabled if this complexity is low
-> enough.
-> 
-> The current complexity limit was set in:
-> commit b68a4c0dba3b1 ("sched/topology: Disable EAS on inappropriate
-> platforms").
-> base on the first implementation of EAS, which was re-computing
-> the power of the whole platform for each task placement scenario, cf:
-> commit 390031e4c309 ("sched/fair: Introduce an energy estimation helper
-> function").
-> but the complexity of EAS was reduced in:
-> commit eb92692b2544d ("sched/fair: Speed-up energy-aware wake-ups")
-> and find_energy_efficient_cpu() (feec) algorithm was updated in:
-> commit 3e8c6c9aac42 ("sched/fair: Remove task_util from effective
-> utilization in feec()")
-> 
-> find_energy_efficient_cpu() (feec) is now doing:
-> feec()
-> \_ for_each_pd(pd) [0]
->    // get max_spare_cap_cpu and compute_prev_delta
->    \_ for_each_cpu(pd) [1]
-> 
->    \_ get_pd_busy_time(pd) [2]
->      \_ for_each_cpu(pd)
-> 
->    // evaluate pd energy without the task
->    \_ get_pd_max_util(pd, -1) [3.0]
->      \_ for_each_cpu(pd)
->    \_ compute_energy(pd, -1)
->      \_ for_each_ps(pd)
-> 
->    // evaluate pd energy with the task on prev_cpu
->    \_ get_pd_max_util(pd, prev_cpu) [3.1]
->      \_ for_each_cpu(pd)
->    \_ compute_energy(pd, prev_cpu)
->      \_ for_each_ps(pd)
-> 
->    // evaluate pd energy with the task on max_spare_cap_cpu
->    \_ get_pd_max_util(pd, max_spare_cap_cpu) [3.2]
->      \_ for_each_cpu(pd)
->    \_ compute_energy(pd, max_spare_cap_cpu)
->      \_ for_each_ps(pd)
-> 
-> [3.1] happens only once since prev_cpu is unique. To have an upper
-> bound of the complexity, [3.1] is taken into account for all pds.
-> So with the same definitions for nr_pd, nr_cpus and nr_ps,
-> the complexity is of:
-> nr_pd * (2 * [nr_cpus in pd] + 3 * ([nr_cpus in pd] + [nr_ps in pd]))
->   [0]  * (     [1] + [2]      +       [3.0] + [3.1] + [3.2]          )
-> = 5 * nr_cpus + 3 * nr_ps
-> 
-> The complexity limit was set to 2048 in:
-> commit b68a4c0dba3b1 ("sched/topology: Disable EAS on inappropriate
-> platforms")
-> to make "EAS usable up to 16 CPUs with per-CPU DVFS and less than 8
-> performance states each". For the same platform, the complexity would
-> actually be of:
-> 5 * 16 + 3 * 7 = 101
-> 
-> Since the EAS complexity was greatly reduced, bigger platforms can
-> handle EAS. For instance, a platform with 256 CPUs with 256
-> performance states each would reach it. To reflect this improvement,
-> remove the EAS complexity check.
-> 
-> Signed-off-by: Pierre Gondois <Pierre.Gondois@arm.com>
-> ---
->   Documentation/scheduler/sched-energy.rst | 37 ++--------------------
->   kernel/sched/topology.c                  | 39 ++----------------------
->   2 files changed, 6 insertions(+), 70 deletions(-)
+Oops, forgot to add spaces before #
+
+> For example:
 > 
 
-The patch looks good for both: documentation bit and code removal.
+ # rv list
+> wip                      wakeup in preemptive per-cpu testing monitor. [OFF]
+> wwnr                     wakeup while not running per-task testing model. [OFF]
 
-We have a new safety checks inside the Energy Model during the setup
-of EM for perf domian, even a more strict and precised (32bit arch or
-64bit arch) to no overflow in our calculations (when we estimate
-energy). This is documented in the Energy Model, so IMO you can easily
-drop this paragraph as the patch does. The same applies to the checks
-in the code.
+ # rv mon wip --help
+> 
+>   help:
+> 
+>   usage: rv mon wwnr [-h] [-q] [-r reactor] [-s] [-v]
+> 	-h/--help: print this menu and the reactor list
+> 	-r/--reactor 'reactor': enables the 'reactor'
+> 	-s/--self: when tracing (-t), also trace rv command
+> 	-t/--trace: trace monitor's event
+> 	-v/--verbose: print debug messages
+> 
+>   available reactors: nop printk panic
 
-Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
+ # rv mon wip --trace
+>           <TASK>-PID      [CPU]  TYPE       ID                    STATE x EVENT                    -> NEXT_STATE               FINAL
+>               |   |          |     |        |                        |     |                           |                       |
+>               rv-3613     [001] event     3613                  running x switch_out               -> not_running              Y
+>             sshd-1248     [005] event     1248                  running x switch_out               -> not_running              Y
+>           <idle>-0        [005] event       71              not_running x wakeup                   -> not_running              Y
+>           <idle>-0        [005] event       71              not_running x switch_in                -> running                  N
+>       kcompactd0-71       [005] event       71                  running x switch_out               -> not_running              Y
+>           <idle>-0        [000] event      860              not_running x wakeup                   -> not_running              Y
+>           <idle>-0        [000] event      860              not_running x switch_in                -> running                  N
+>     systemd-oomd-860      [000] event      860                  running x switch_out               -> not_running              Y
+>           <idle>-0        [000] event      860              not_running x wakeup                   -> not_running              Y
+>           <idle>-0        [000] event      860              not_running x switch_in                -> running                  N
+>     systemd-oomd-860      [000] event      860                  running x switch_out               -> not_running              Y
+>           <idle>-0        [005] event       71              not_running x wakeup                   -> not_running              Y
+>           <idle>-0        [005] event       71              not_running x switch_in                -> running                  N
+>       kcompactd0-71       [005] event       71                  running x switch_out               -> not_running              Y
+>           <idle>-0        [000] event      860              not_running x wakeup                   -> not_running              Y
+>           <idle>-0        [000] event      860              not_running x switch_in                -> running                  N
+>     systemd-oomd-860      [000] event      860                  running x switch_out               -> not_running              Y
+>           <idle>-0        [001] event     3613              not_running x wakeup                   -> not_running              Y
+> 
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
 
+I will fix this log to in the next version.
 
+-- Daniel
