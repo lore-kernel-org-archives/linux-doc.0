@@ -2,259 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09BADC38A2D
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 10:02:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 335FBFA3740
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 10:45:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232733AbiJZKCp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 06:02:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54094 "EHLO
+        id S233362AbiJZKpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 06:45:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229995AbiJZKCp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 06:02:45 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E25052D752;
-        Wed, 26 Oct 2022 03:02:40 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id a14so22656729wru.5;
-        Wed, 26 Oct 2022 03:02:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rVpJP2G232YzJan8ctsofYi/4ncJIo4/PSfjZAJDSTY=;
-        b=R2L5kL4Y33qiTCWRGheBoktUNkZ24o4/vH4CpCbcHF47iNPeICYH/cmvfcqpt4qKwM
-         rZaEl1mjHPxG9MbrBi9/AuH5Yum5a1QeVR6K0cFSHzNGQUuCvtavv0P6+STwkCBCM7HE
-         p4uqxPRM4rG1+UOOPuo4UtQeaFTkYPttgXexs5ClKAXutBAWY6J0vcZmIB0VNeKJUnID
-         80jaWx6gT4gl3RwXLmjIMrYnFMxJyPlH5FyFzEgb6qH6qcrF28aeXU7UIAethdVlm46z
-         LLP787OOBl7PzmIxjDHpuzKiSD1yWaf3wFOwlw4lND8ohKrdZj9UoRKXXVqPzaBV5iSL
-         sCRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rVpJP2G232YzJan8ctsofYi/4ncJIo4/PSfjZAJDSTY=;
-        b=ByJsLM6WvKIkidNxboF6cEJgbV9vr4c4iss8CBKOM2RSybuSQ+eh7IZ3FfL1eyl6en
-         N3CV+Y6p3bs82HF62tsk6Y8gbrDKdvXzSvKRN8VPDLUFrsh0iNSvFb7lqacRgWEqwlUf
-         /c+YiNDQ6y9M8nGKJkXPdOQgVTEj2r070wvi1XamwCGiuUiuBGM9dV658alcUVtc0qKp
-         IZr9qT/nnAXSJpPTAbD3K5REW71b9/izRMCXv+12Bi7pQhNArUnzRSm0mAPhW6nalVil
-         o30CZvk5p/gsefE3juhns/WTfCgIPzghr3YlNSp0F1qsa/e7sZQ3wRnd8OldGvfT0tSt
-         0paw==
-X-Gm-Message-State: ACrzQf1NTR1ySJxN7NtLsh3LfUjAKnvUZm/URIwNutXykhKnvv00JTkk
-        i4H7BqT6PkvfZrg0DRGMDBRruAcuSBmBrQ==
-X-Google-Smtp-Source: AMsMyM6+u+qq9wwXX7w+Dr6FU6phxomipB3qqwajl/KEumrWIzyDEslKiLTcPw2uqUDi1RCa0L+kMw==
-X-Received: by 2002:adf:e3cc:0:b0:235:95b1:2124 with SMTP id k12-20020adfe3cc000000b0023595b12124mr22707170wrm.693.1666778558807;
-        Wed, 26 Oct 2022 03:02:38 -0700 (PDT)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:d0eb:e336:b451:acd2])
-        by smtp.gmail.com with ESMTPSA id j24-20020a05600c1c1800b003b49ab8ff53sm1530352wms.8.2022.10.26.03.02.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Oct 2022 03:02:38 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v1] Document BPF_MAP_TYPE_LPM_TRIE
-Date:   Wed, 26 Oct 2022 11:02:32 +0100
-Message-Id: <20221026100232.49181-1-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S233439AbiJZKo6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 06:44:58 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 525424AD71;
+        Wed, 26 Oct 2022 03:44:56 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C340DB82189;
+        Wed, 26 Oct 2022 10:44:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F7E2C433C1;
+        Wed, 26 Oct 2022 10:44:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666781093;
+        bh=U82//oUDhaVje5b0sUsZV8SSFolQg4Jy8YYSsA3q5Ew=;
+        h=From:To:Cc:Subject:Date:From;
+        b=uFq7Oc1SDyKqkgr6vxDa6I06tknv7JNntEqWuqHzhBEJlNkgPf0B9CDnhjJOmcVN5
+         6+3WI2CAym9pFj+teebjNYIDcmHTw4LtaxcHh0f+wXI3++Wmt4IKWpBjOhqKqxORlN
+         7b1RvOB0qWQhFnGXyq3Al/vM9r8BK/eJi483T178M9y0WVzoCGB8b49b9cLMzrQyAy
+         3h6wSd9cv1BxhSaChn7HHVKE4yBYBDEuML4KEHdEFheT+i2KhrwNBFQx28ukOp3g3+
+         8xZZuN6Afa7rCar+SthYyGxv3mFB26F9Q/tw4zHODc9hBEQ8gMIGbwq6yOdYxTiOVB
+         Oa2xf1IR9XYVQ==
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>,
+        linux-trace-devel@vger.kernel.org
+Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] verification/rv: Add rv tool
+Date:   Wed, 26 Oct 2022 12:44:38 +0200
+Message-Id: <cover.1666776642.git.bristot@kernel.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for BPF_MAP_TYPE_LPM_TRIE including kernel
-BPF helper usage, userspace usage and examples.
+This is the (user-space) runtime verification tool named rv.
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/bpf/map_lpm_trie.rst | 179 +++++++++++++++++++++++++++++
- 1 file changed, 179 insertions(+)
- create mode 100644 Documentation/bpf/map_lpm_trie.rst
+This tool aims to be the interface for in-kernel rv monitors, as
+well as the home for user-space controlled monitors.
 
-diff --git a/Documentation/bpf/map_lpm_trie.rst b/Documentation/bpf/map_lpm_trie.rst
-new file mode 100644
-index 000000000000..d57c967d11d0
---- /dev/null
-+++ b/Documentation/bpf/map_lpm_trie.rst
-@@ -0,0 +1,179 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2022 Red Hat, Inc.
-+
-+=====================
-+BPF_MAP_TYPE_LPM_TRIE
-+=====================
-+
-+.. note::
-+   - ``BPF_MAP_TYPE_LPM_TRIE`` was introduced in kernel version 4.11
-+
-+``BPF_MAP_TYPE_LPM_TRIE`` provides a longest prefix match algorithm that
-+can be used to match IP addresses to a stored set of prefixes.
-+Internally, data is stored in an unbalanced trie of nodes that uses
-+``prefixlen,data`` pairs as its keys. The ``data`` is interpreted in
-+network byte order, i.e. big endian, so ``data[0]`` stores the most
-+significant byte.
-+
-+LPM tries may be created with a maximum prefix length that is a multiple
-+of 8, in the range from 8 to 2048. The key used for lookup and update
-+operations is a ``struct bpf_lpm_trie_key``, extended by
-+``max_prefixlen/8`` bytes.
-+
-+- For IPv4 addresses the data length is 4 bytes
-+- For IPv6 addresses the data length is 16 bytes
-+
-+The value type stored in the LPM trie can be any user defined type.
-+
-+.. note::
-+   When creating a map of type ``BPF_MAP_TYPE_LPM_TRIE`` you must set the
-+   ``BPF_F_NO_PREALLOC`` flag.
-+
-+Usage
-+=====
-+
-+Kernel BPF
-+----------
-+
-+.. c:function::
-+   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-+
-+The longest prefix entry for a given data value can be found using the
-+``bpf_map_lookup_elem()`` helper. This helper returns a pointer to the
-+value associated with the longest matching ``key``, or ``NULL`` if no
-+entry was found.
-+
-+The ``key`` should have ``prefixlen`` set to ``max_prefixlen`` when
-+performing longest prefix lookups. For example, when searching for the
-+longest prefix match for an IPv4 address, ``prefixlen`` should be set to
-+``32``.
-+
-+.. c:function::
-+   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
-+
-+Prefix entries can be added or updated using the ``bpf_map_update_elem()``
-+helper. This helper replaces existing elements atomically.
-+
-+``bpf_map_update_elem()`` returns ``0`` on success, or negative error in
-+case of failure.
-+
-+ .. note::
-+    The flags parameter must be one of BPF_ANY, BPF_NOEXIST or BPF_EXIST,
-+    but the value is ignored, giving BPF_ANY semantics.
-+
-+.. c:function::
-+   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
-+
-+Prefix entries can be deleted using the ``bpf_map_delete_elem()``
-+helper. This helper will return 0 on success, or negative error in case
-+of failure.
-+
-+Userspace
-+---------
-+
-+Access from userspace uses libbpf APIs with the same names as above, with
-+the map identified by ``fd``.
-+
-+.. c:function::
-+   int bpf_map_get_next_key (int fd, const void *cur_key, void *next_key)
-+
-+A userspace program can iterate through the entries in an LPM trie using
-+libbpf's ``bpf_map_get_next_key()`` function. The first key can be
-+fetched by calling ``bpf_map_get_next_key()`` with ``cur_key`` set to
-+``NULL``. Subsequent calls will fetch the next key that follows the
-+current key. ``bpf_map_get_next_key()`` returns ``0`` on success,
-+``-ENOENT`` if cur_key is the last key in the hash, or negative error in
-+case of failure.
-+
-+``bpf_map_get_next_key()`` will iterate through the LPM trie elements
-+from leftmost leaf first. This means that iteration will return more
-+specific keys before less specific ones.
-+
-+Examples
-+========
-+
-+Please see ``tools/samples/bpf/xdp_router_ipv4_user.c`` and
-+``xdp_router_ipv4.bpf.c`` for a functional example. The code snippets
-+below demonstrates API usage.
-+
-+Kernel BPF
-+----------
-+
-+The following BPF code snippet shows how to declare a new LPM trie for IPv4
-+address prefixes:
-+
-+.. code-block:: c
-+
-+    #include <linux/bpf.h>
-+    #include <bpf/bpf_helpers.h>
-+
-+    struct ipv4_lpm_key {
-+            __u32 prefixlen;
-+            __u32 data;
-+    };
-+
-+    struct {
-+            __uint(type, BPF_MAP_TYPE_LPM_TRIE);
-+            __type(key, struct ipv4_lpm_key);
-+            __type(value, __u32);
-+            __uint(map_flags, BPF_F_NO_PREALLOC);
-+            __uint(max_entries, 255);
-+    } ipv4_lpm_map SEC(".maps");
-+
-+The following BPF code snippet shows how to lookup by IPv4 address:
-+
-+.. code-block:: c
-+
-+    void *lookup(__u32 ipaddr)
-+    {
-+            struct ipv4_lpm_key key = {
-+                    .prefixlen = 32,
-+                    .data = ipaddr
-+            };
-+
-+            return bpf_map_lookup_elem(&ipv4_lpm_map, &key);
-+    }
-+
-+Userspace
-+---------
-+
-+The following snippet shows how to insert an IPv4 prefix entry into an LPM trie:
-+
-+.. code-block:: c
-+
-+    int add_prefix_entry(int lpm_fd, __u32 addr, __u32 prefixlen, struct value *value)
-+    {
-+            struct ipv4_lpm_key ipv4_key = {
-+                    .prefixlen = prefixlen,
-+                    .data = addr
-+            };
-+            return bpf_map_update_elem(lpm_fd, &ipv4_key, value, BPF_ANY);
-+    }
-+
-+The following snippet shows a userspace program walking through LPM trie
-+entries:
-+
-+.. code-block:: c
-+
-+    #include <bpf/libbpf.h>
-+    #include <bpf/bpf.h>
-+
-+    void iterate_lpm_trie(int map_fd)
-+    {
-+            struct ipv4_lpm_key *cur_key = NULL;
-+            struct ipv4_lpm_key next_key;
-+            struct value value;
-+            int err;
-+
-+            for (;;) {
-+                    err = bpf_map_get_next_key(map_fd, cur_key, &next_key);
-+                    if (err)
-+                            break;
-+
-+                    bpf_map_lookup_elem(map_fd, &next_key, &value);
-+
-+                    /* Use key and value here */
-+
-+                    cur_key = &next_key;
-+            }
-+    }
+The tool receives a command as the first argument, the current
+commands are:
+
+  list	- list all available monitors
+  mon	- run a given monitor
+
+Each monitor is an independent piece of software inside the
+tool and can have their own arguments.
+
+Daniel Bristot de Oliveira (3):
+  rv: Add rv tool
+  tools/rv: Add in-kernel monitor interface
+  Documentation/rv: Add verification/rv man pages
+
+ Documentation/tools/index.rst              |   1 +
+ Documentation/tools/rv/Makefile            |  52 ++
+ Documentation/tools/rv/common_appendix.rst |  13 +
+ Documentation/tools/rv/common_ikm.rst      |  21 +
+ Documentation/tools/rv/index.rst           |  24 +
+ Documentation/tools/rv/rv-list.rst         |  39 ++
+ Documentation/tools/rv/rv-mon-wip.rst      |  40 ++
+ Documentation/tools/rv/rv-mon-wwnr.rst     |  39 ++
+ Documentation/tools/rv/rv-mon.rst          |  51 ++
+ Documentation/tools/rv/rv.rst              |  57 ++
+ tools/verification/rv/Makefile             | 141 +++++
+ tools/verification/rv/README.txt           |  38 ++
+ tools/verification/rv/include/in_kernel.h  |   3 +
+ tools/verification/rv/include/rv.h         |  12 +
+ tools/verification/rv/include/trace.h      |  16 +
+ tools/verification/rv/include/utils.h      |   8 +
+ tools/verification/rv/src/in_kernel.c      | 698 +++++++++++++++++++++
+ tools/verification/rv/src/rv.c             | 177 ++++++
+ tools/verification/rv/src/trace.c          | 128 ++++
+ tools/verification/rv/src/utils.c          |  46 ++
+ 20 files changed, 1604 insertions(+)
+ create mode 100644 Documentation/tools/rv/Makefile
+ create mode 100644 Documentation/tools/rv/common_appendix.rst
+ create mode 100644 Documentation/tools/rv/common_ikm.rst
+ create mode 100644 Documentation/tools/rv/index.rst
+ create mode 100644 Documentation/tools/rv/rv-list.rst
+ create mode 100644 Documentation/tools/rv/rv-mon-wip.rst
+ create mode 100644 Documentation/tools/rv/rv-mon-wwnr.rst
+ create mode 100644 Documentation/tools/rv/rv-mon.rst
+ create mode 100644 Documentation/tools/rv/rv.rst
+ create mode 100644 tools/verification/rv/Makefile
+ create mode 100644 tools/verification/rv/README.txt
+ create mode 100644 tools/verification/rv/include/in_kernel.h
+ create mode 100644 tools/verification/rv/include/rv.h
+ create mode 100644 tools/verification/rv/include/trace.h
+ create mode 100644 tools/verification/rv/include/utils.h
+ create mode 100644 tools/verification/rv/src/in_kernel.c
+ create mode 100644 tools/verification/rv/src/rv.c
+ create mode 100644 tools/verification/rv/src/trace.c
+ create mode 100644 tools/verification/rv/src/utils.c
+
 -- 
-2.35.1
+2.37.3
 
