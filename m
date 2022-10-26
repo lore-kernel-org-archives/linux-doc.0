@@ -2,192 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1C82C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 17:14:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7888DFA373E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 17:31:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233951AbiJZROK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 13:14:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59938 "EHLO
+        id S232201AbiJZRbw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 13:31:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234139AbiJZROF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 13:14:05 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2068.outbound.protection.outlook.com [40.107.243.68])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC15FC1F8;
-        Wed, 26 Oct 2022 10:14:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gg4wBAFtEwfN+z8gwbuZF2AYbp/bkadao1HwHEJ7OHdwkRtEQjNA2CUCO/jn8QNECshByI84icAUyjXij5e76eFlK4Z5qJxJvTQ8+QiuX0Lg6p8xq3nAuTLgN5XmaQeyoBqaq08EFkceUnlCvyfaZm1U7B3BvvnF5+fAxeXVdN4oaJJGp5ZEtm5jgvZVRXAqVW3MIns1/JENsQgH9ZL+XG6KJ8C9fXiD6Yppuya7fbMBvwAtAYNHL1EgHCOOAgR7cmwHwLPRrgdGLekCmqhb9FLon6pu+Z3/z4NNSz5iUbKXO8wPpiiYsQko4TCDXXqcTLhxxeEAMilWDfQAORKlzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z4xGXL0pBYsCq5GPJtn9/cJkpo+m2GMnLEIbpWEh+gI=;
- b=XnuIuPt8exKd9P/AtQDTjTebtOQswCqaYVMzhAOK+0OR6+v+ulX7TZlnqYeF0QACD39fALXNGay9xWRnIkCxaiHaSA33Wypd6GI2V6V2cbT4YmpqzI6rHK0aT4QQ9fXxG3fP7FEOTtwF4zlqhrjz7Iz6AK4w0FLSSATXN1QQ4tqjiIYFR9wtTsTOzULE2o5fI4JGwAWTPR1aeyPI+keq5sM+SZTcnPAF9SQLMG0lJHGI081hliOzHfAwPqBkwVexabYUGYqO2DxisdGabutOWEnRGiGYJLtRLdBXD51GVpT/3gN4FxI5rpeF6mSXJNsNNAvGF5jT6wx+xSTH+9hvtg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z4xGXL0pBYsCq5GPJtn9/cJkpo+m2GMnLEIbpWEh+gI=;
- b=k0w0U5r7mbQeVpb4U9d4Wtzlt+MYx0oSF1tT2wCMjNHSllXrIZU7+JuAMjUofw9o7B4+D7VuwQrZeF+kGP+mw6TO+e7F1jSUi8yUSi+ppArDniWWdHkiwOjRR9KOEzI0EC+eprdRG4/KYsBYJ5XLhpTFSVo4bcv3jqrVHGijJ5zFQ5jWTEj3eLkZ85Nsl5DCkhD5xBIqF7YE2FYy1vkjKxBPHUp9zkHpN+kjwCiJAEQG8oo3cG1rs13TvbTvyHJQ1MC+r45EAKIt6ByRYe8wh47AksfYtzDHv9uzC87DIL8cPQ7zAFbHI9dVGCzOBNZQA1m5qb5+9jyEqITWOq7a5w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by LV2PR12MB5774.namprd12.prod.outlook.com (2603:10b6:408:17a::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Wed, 26 Oct
- 2022 17:14:02 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5746.021; Wed, 26 Oct 2022
- 17:14:01 +0000
-Date:   Wed, 26 Oct 2022 14:14:00 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Baolu Lu <baolu.lu@linux.intel.com>
-Cc:     bpf@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+        with ESMTP id S233466AbiJZRbu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 13:31:50 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72E04DFB7A;
+        Wed, 26 Oct 2022 10:31:48 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id c15-20020a17090a1d0f00b0021365864446so984287pjd.4;
+        Wed, 26 Oct 2022 10:31:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0KEX8H9AH+VpJzTG5dP3lIPlij9N0zbSJwy+i7UPqHg=;
+        b=cGCfgC4hjmQQkF1Pxvr7cLXhW9PwDG011Q1yYpkKlGkU1OdLX/EXJIuLnwqbTCMenA
+         qQcxLWZcGJwon4OZ/EY7D/3JZcT+CmJYRc+SMzVP+aoV5fpH0LlOcHeQ5Rvu5/TVKZfu
+         7zs0vqSrqvQhdjoUVr9e4w8kyQepA7Bh73nOUhsTf8dbXvD5yNraTKvL9vXLLNDXcIk3
+         PFw+FqKwfN6Qkd1BQoOhVO/0zCAaQKI7rU5r6TuvH7WyVvQZUdOUIhL0305Fdfo6F+7N
+         bwu2wgky+pRe17X5czHVGnuD+R53XZYyqR79oq0bSJ8jTMTnfmqG7ITY+PjsZzrUcEcH
+         Fu2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0KEX8H9AH+VpJzTG5dP3lIPlij9N0zbSJwy+i7UPqHg=;
+        b=7ypswvZG8t3K3PB90TPAMabnAdWl5E0oLmOqVH3DSCT1QnzC06x4zCL9lvG+p9sw7M
+         jBNpHfNpmIoMS2g8eahVdn/bFZ+lo5TExu5S4ozhHF3uoiZDzoTfoblKdqa/DKj1l58u
+         jjtJ1I9bDL8+cBR53lNTWlL6y5MLt1eHfkkyeCaw02gervxnGMGZrOG7QTo9beXHA8eD
+         0wMyMSRK8Ywk993blLmcHxmA7ftCeTGOyaiilTWtUR8pBqhqed9SjpSmtMNFAjDC8EAn
+         bLaia/25LHdatSeHU4GftXCW8hea2qJH7awPCuyiWZ90Wn7BXzRW3Wjpr4cHhkBw2xNX
+         pAJQ==
+X-Gm-Message-State: ACrzQf3PcyQPtIDlE1XGDQwS4jJybPeYw+eZg5x/JOb9/1V3pAODpJk1
+        3TA1zWwaPCGTxB0N706UMmw=
+X-Google-Smtp-Source: AMsMyM5iyIsTFBeWCWiI/ZizQ3W6VbjiybP1poF7CjbEgG2VkVSvkP2kgtm+tVjWT4X2rpwsf2fFIQ==
+X-Received: by 2002:a17:902:6542:b0:172:95d8:a777 with SMTP id d2-20020a170902654200b0017295d8a777mr45124260pln.61.1666805507753;
+        Wed, 26 Oct 2022 10:31:47 -0700 (PDT)
+Received: from localhost ([192.55.54.55])
+        by smtp.gmail.com with ESMTPSA id y7-20020aa78f27000000b0056c814a501dsm436498pfr.10.2022.10.26.10.31.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Oct 2022 10:31:47 -0700 (PDT)
+Date:   Wed, 26 Oct 2022 10:31:45 -0700
+From:   Isaku Yamahata <isaku.yamahata@gmail.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
         Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Shameerali Kolothum Thodi 
-        <shameerali.kolothum.thodi@huawei.com>,
-        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH v3 05/15] iommufd: File descriptor, context, kconfig and
- makefiles
-Message-ID: <Y1lq2JJt1yLrzNjs@nvidia.com>
-References: <5-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
- <9a837538-6333-0973-c6f4-229064026330@linux.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9a837538-6333-0973-c6f4-229064026330@linux.intel.com>
-X-ClientProxiedBy: BL0PR05CA0023.namprd05.prod.outlook.com
- (2603:10b6:208:91::33) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
+        isaku.yamahata@gmail.com
+Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20221026173145.GA3819453@ls.amr.corp.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|LV2PR12MB5774:EE_
-X-MS-Office365-Filtering-Correlation-Id: 46cb1728-9e7b-4244-ec74-08dab7757a39
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: quhSKI/2GWbX2amtsFAkGGnthLsvjI+ivvR0cLBa7tpy/998m8OiZSuhNzCR4VUNY3Gc5sF3IiaWuhpOcv7K7460b1QZeYXvE1XnIrHHQdKqpQP52LsrVhnXyINE7sZAAHhpcpNiQC5jd/M1NTJl+scnRrsZ/koDX7rRywqkdg0+Uuol+65y5EsaT2npNGZ06/fk0HnX0OJ99uWcFFKsdr6xsexu9THWeirG+vHzW/KTLWilGordwfchjkSl76U0V1jzqk9jkavXYRaMy20zmkcjWABp+R4ioO1yYxEATqcpWi3aTR1o/LPsgYS8wGTMuBnHbEACxtuG/LZE5+IVsSK6YYQkWEnXaZKu7BXwZ05jAReOM6V2shLX4fJwdCb9x59kMFQyxlhonpmkU/rTJRiVWQKghuABrmbxjQCJwCAgXfB5keuHtfhyfeD/myDdUllxQ8OB9QvVaPoW1+EYaI+Hs7HNk+t62BrsNFpZWoQ9dXfY186muFLUQxFjMy1iYcXwgPjz82Vj99UJywXOU+vMq9UQz/ctTZijpUMbR4FyaUuFdSK1GL3eh0R9AioWEThFNraKlW9oCnMPHXJm22LcnGEgaGYQk15kZLD56V3M+e2pdUJSwSvjP5urUcccKugvTv9F0VLOnYjQ/MqyVP5huEoEFDnqiabxnLFP4oQiTmA01jH2acTau9rKdiqW
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(396003)(366004)(376002)(136003)(39860400002)(451199015)(5660300002)(6512007)(7406005)(7416002)(2906002)(26005)(186003)(2616005)(41300700001)(8936002)(86362001)(38100700002)(36756003)(6916009)(54906003)(66476007)(66556008)(316002)(66946007)(8676002)(478600001)(4326008)(6486002)(6506007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?O85C84wldiTUPi32VT69aju42FgC1yfSPrgJUGwbJDoIuktRfLWudtO1SVer?=
- =?us-ascii?Q?+GFh4q5snylzBTRy5QfuF9dvpxKI4PpcDEbir9f+88u75k76Tw2FKlH2a3cY?=
- =?us-ascii?Q?gzCuUF0N2FbQo/7V5SppdJA/7fY/S9JDHud7gHuphyCLVJ5aPvU4JaxSefmJ?=
- =?us-ascii?Q?uVKcwNUY8k1UUhPyM5dDk5yEDjZiFqNjzp5+BjETWXKe7+uaoglUa5H4Eszr?=
- =?us-ascii?Q?1KT+H7Qrs4j4QxAkuR7vmSNxoLonqHo+/zMDx2k3T7WWsaKpYMUsQ63o6Jdj?=
- =?us-ascii?Q?ELCXsgU4WrSNGvpOCWokj5aShrNqj52pvWh9ylWHUN1GDv0oUwsw1kC1s/hd?=
- =?us-ascii?Q?3E2KtqOSIuFZy8ZejL/5WPEf8r9nKHdp2Dq19yRKQ3Cv86CrNkxKltYtlQRr?=
- =?us-ascii?Q?kXJ5kVnDGCuPYyuLj4Uhske3bJ1+lVRRXIwMjVZpmTt2lPvabw+hUApQpt4l?=
- =?us-ascii?Q?yEoblK1ZnSvAyaYPxTFLb6J/pieswm3KDpIAzGNfz9twPka1JvHMjQEz2f4K?=
- =?us-ascii?Q?YryHHMP6SK24isURDpTO4djIB0mN77X7SWB/+UaJfYbiPLWbqv5pfxxBhkgj?=
- =?us-ascii?Q?nVGHjGQRE2jgkiWptThMPbEX3PorjW4s97CbHvrI7CJLY/tYOKZH50wAvpl+?=
- =?us-ascii?Q?I337gSPKz/c3GYylTxZAskGxhTXwCiOexjuKPUulTgxcUPONcjqeRvqYWeM+?=
- =?us-ascii?Q?tN7bMVmk8+TODf1f+2pMP7dT5wipXXLSLvkxy1wQzp8C5pBlOe8gSQb1OCS5?=
- =?us-ascii?Q?qTBtRLvb3uKy/46HV3Oq9Pqisvma4EVDTfk/yOHcQyzYBkABpRNoient3eg3?=
- =?us-ascii?Q?qylgScGjs7V7i7BCM3mJr7CpFPTT49736KSs7ZwObXFlFFpQOX5trQ4c05Bh?=
- =?us-ascii?Q?uq3tY2unuAuvc+7xlF30On+q9b7U6ffPsN0bq4pcDrOrRw7URncTz3u9I/B7?=
- =?us-ascii?Q?Jr1dSjOJvynhX9r26CpZIx1XRllywMmuxS9sgJlwnfOazNAvnpPuc0mg9P5V?=
- =?us-ascii?Q?ZNnUhK1xzi5V3kgRAGckx6R52+XIyQXA6+YeyIwGigGs8/skQyD6YB7qCtJj?=
- =?us-ascii?Q?Z7jxLzYtiX8EvLpltEILgrcp0sMxvuyqMGMwIkz8MG79quCJsk5YGWJy/BTq?=
- =?us-ascii?Q?aRiQNl/UvRqU+rW7/J7cC453BeuNehsewro0M8QNwQWEbnidAoGcAc42KLuI?=
- =?us-ascii?Q?94LuvGP1ghQe1KlZMhHI7OqT/ry2yJGlN5IJGkvYufkD9C1CqyAjel7vP4UT?=
- =?us-ascii?Q?aBXhrVNrKmg7zuib+KiYOWly19+80iknLNtBCdio/VYd6NArLxu3CUffSDV6?=
- =?us-ascii?Q?XvSmm1+yn/dJr/yLol+spd1P0Y02zYMx/pBC+cAN1aDoNgJKY21Kym8NvXhv?=
- =?us-ascii?Q?xkLzQkDTR9GC8yCFsCsbQDmYJBOEiTI4Rpnqg6FcCatLlqFlf/xl0jYycqQL?=
- =?us-ascii?Q?uwlorTD1yYsYRpL1WUfnKUXsS7XLEiy3KpgkqJnMEJ9Ig1zn6GlqB1G57CHG?=
- =?us-ascii?Q?L/slBOcb2DbM2YFyWukIETHSGYakJQPJ+AdF18QxuBxkQkM78DTteGZQ4s3B?=
- =?us-ascii?Q?1JqLfIcz04wd0epzT78=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46cb1728-9e7b-4244-ec74-08dab7757a39
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2022 17:14:01.7269
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XRp9C6QGkd0h6eAayNPcxBoAvkBFq2s+BE4MG29VvLYDapy5MXezwNllFc3j7SNA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5774
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 26, 2022 at 08:58:23PM +0800, Baolu Lu wrote:
-> > +	[_IOC_NR(_ioctl) - IOMMUFD_CMD_BASE] = {                               \
-> > +		.size = sizeof(_struct) +                                      \
-> > +			BUILD_BUG_ON_ZERO(sizeof(union ucmd_buffer) <          \
-> > +					  sizeof(_struct)),                    \
-> > +		.min_size = offsetofend(_struct, _last),                       \
-> > +		.ioctl_num = _ioctl,                                           \
-> > +		.execute = _fn,                                                \
-> > +	}
-> > +static struct iommufd_ioctl_op iommufd_ioctl_ops[] = {
-> 
-> How about making the ops "static const"?
+On Tue, Oct 25, 2022 at 11:13:37PM +0800,
+Chao Peng <chao.p.peng@linux.intel.com> wrote:
 
-Yes both const's were missed
+> +int restrictedmem_get_page(struct file *file, pgoff_t offset,
+> +			   struct page **pagep, int *order)
+> +{
+> +	struct restrictedmem_data *data = file->f_mapping->private_data;
+> +	struct file *memfd = data->memfd;
+> +	struct page *page;
+> +	int ret;
+> +
+> +	ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
 
-> > +static void __exit iommufd_exit(void)
-> > +{
-> > +	misc_deregister(&iommu_misc_dev);
-> > +}
-> > +
-> > +module_init(iommufd_init);
-> > +module_exit(iommufd_exit);
-> > +
-> > +MODULE_DESCRIPTION("I/O Address Space Management for passthrough devices");
-> > +MODULE_LICENSE("GPL");
-> 
-> Could above be "GPL v2"?
+shmem_getpage() was removed.
+https://lkml.kernel.org/r/20220902194653.1739778-34-willy@infradead.org
 
-It should be just "GPL", see Documentation/process/license-rules.rst:
+I needed the following fix to compile.
 
-    "GPL v2"                      Same as "GPL". It exists for historic
+thanks,
 
-> > --- /dev/null
-> > +++ b/include/uapi/linux/iommufd.h
-> > @@ -0,0 +1,55 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > +/* Copyright (c) 2021-2022, NVIDIA CORPORATION & AFFILIATES.
-> > + */
-> > +#ifndef _UAPI_IOMMUFD_H
-> > +#define _UAPI_IOMMUFD_H
-> > +
-> > +#include <linux/types.h>
-> > +#include <linux/ioctl.h>
-> > +
-> > +#define IOMMUFD_TYPE (';')
-> > +
-> > +/**
-> > + * DOC: General ioctl format
-> > + *
-> > + * The ioctl mechanims follows a general format to allow for extensibility. Each
->                 ^^^^^^^^^ mechanism?
-
-How about "interface" ?
-
-Thanks,
-Jason
+diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+index e5bf8907e0f8..4694dd5609d6 100644
+--- a/mm/restrictedmem.c
++++ b/mm/restrictedmem.c
+@@ -231,13 +231,15 @@ int restrictedmem_get_page(struct file *file, pgoff_t offset,
+ {
+        struct restrictedmem_data *data = file->f_mapping->private_data;
+        struct file *memfd = data->memfd;
++       struct folio *folio = NULL;
+        struct page *page;
+        int ret;
+ 
+-       ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
++       ret = shmem_get_folio(file_inode(memfd), offset, &folio, SGP_WRITE);
+        if (ret)
+                return ret;
+ 
++       page = folio_file_page(folio, offset);
+        *pagep = page;
+        if (order)
+                *order = thp_order(compound_head(page));
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
