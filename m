@@ -2,44 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C78C38A2D
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 19:01:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8FBBFA3744
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 19:01:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234560AbiJZTBM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 15:01:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38226 "EHLO
+        id S234604AbiJZTBN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 15:01:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234556AbiJZTAw (ORCPT
+        with ESMTP id S234607AbiJZTAw (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 15:00:52 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E703A13F89;
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E71BE13F8C;
         Wed, 26 Oct 2022 11:59:53 -0700 (PDT)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29QIps1N001934;
-        Wed, 26 Oct 2022 18:59:38 GMT
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29QIotnQ009288;
+        Wed, 26 Oct 2022 18:59:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=6YwSUwMcVDMg5THw4DKg7KN4EZmOMtJ4XVI/qBW5/FY=;
- b=LAh2jUe+PRFY59CVW3XDLx3gD9OcT+wZESlNjZ7x4Vh8C1Yd+jeYH7aWOoNjHd9lzNpr
- fDBYD8unLNaR1hAHEuNw8H166r86xiRuIIb5dYpsPEyOcpxZzA2qMkDlv/pmgLkO/E+9
- Xtscyee9XgBxFo3NFxS5Oj0D9zOhkx64PQfZ652MKWj8bkCik/Te123MNZ1O/TWgbff6
- z7c0H/ih3opFInv7q0god8Zh5MO+YuPEfeb306a5Xvj3RwdbO7AzclUw+YDp/SOuUeTi
- OPl7vzk7q8e/dSiuQ4qQj7yi4uhrR9SoN8eLgQBz2g7BaTke00SRcxHLYSYVM+uvbu+V oQ== 
+ bh=BoPytWAElSjHQUeWKc8wfSZM6peYRaE/DSCCQMcMD54=;
+ b=evYKJbEQMPBeFjYeKLds0vTUbeBSxbq0LGXyFCL7QqXXN4u2zKqVQDFqxXgsAZxyaYrl
+ x/QxfS4L1yrfpqys6UAFrVVMe+hX3IFFtpbckItw/z7fW2cYqfXHPHRZKS1DLUi1j2x7
+ 32wbFro8FUtsgcbSDFUP09W4cE4K6VHbHxSVclQ16mtRsEwawz6FDIFEV5rzrCDesF3V
+ VZHs56oobdVQal/iAlGetdYoB76UPfi2K/p3GGi//dnV4IVlSxCepXMGK/vwDtwIVsCp
+ 9tgaUvEMFUNqIq8nz7GZcMv4EH12NjcXHWQSEYosHHcEhkW2n0jwFmRcnirIAlXpQdhE 0Q== 
 Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kfahu80r5-1
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kfaheg0q0-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 26 Oct 2022 18:59:38 +0000
+        Wed, 26 Oct 2022 18:59:40 +0000
 Received: from nasanex01b.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29QIxbOn010691
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29QIxdAF011572
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 26 Oct 2022 18:59:37 GMT
+        Wed, 26 Oct 2022 18:59:39 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Wed, 26 Oct 2022 11:59:36 -0700
+ 15.2.986.29; Wed, 26 Oct 2022 11:59:38 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
-To:     Bjorn Andersson <quic_bjorande@quicinc.com>
+To:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Kalle Valo <kvalo@kernel.org>
 CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
@@ -61,14 +64,11 @@ CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         "Arnd Bergmann" <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 16/21] gunyah: vm_mgr: Add ioctls to support basic non-proxy VM boot
-Date:   Wed, 26 Oct 2022 11:58:41 -0700
-Message-ID: <20221026185846.3983888-17-quic_eberman@quicinc.com>
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v6 19/21] firmware: qcom_scm: Use fixed width src vm bitmap
+Date:   Wed, 26 Oct 2022 11:58:44 -0700
+Message-ID: <20221026185846.3983888-20-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221026185846.3983888-1-quic_eberman@quicinc.com>
 References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
@@ -80,285 +80,181 @@ X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: stP8UsQ1cDlSfEITL95jvwkivOkcSyQV
-X-Proofpoint-ORIG-GUID: stP8UsQ1cDlSfEITL95jvwkivOkcSyQV
+X-Proofpoint-GUID: mZAo_33j87wIMWQeFwkYk4l6iUNfA-Qw
+X-Proofpoint-ORIG-GUID: mZAo_33j87wIMWQeFwkYk4l6iUNfA-Qw
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-10-26_07,2022-10-26_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
- suspectscore=0 malwarescore=0 bulkscore=0 mlxscore=0 mlxlogscore=999
- lowpriorityscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2210260105
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ impostorscore=0 clxscore=1015 malwarescore=0 spamscore=0 phishscore=0
+ adultscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2210260107
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add remaining ioctls to support non-proxy VM boot:
+The maximum VMID for assign_mem is 63. Use a u64 to represent this
+bitmap instead of architecture-dependent "unsigned int" which varies in
+size on 32-bit and 64-bit platforms.
 
- - Gunyah Resource Manager uses the VM's devicetree to configure the
-   virtual machine. The location of the devicetree in the guest's
-   virtual memory can be declared via the SET_DTB_CONFIG ioctl.
- - Trigger start of the virtual machine with VM_START ioctl.
-
-Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- arch/arm64/include/uapi/asm/gunyah.h | 17 ++++++
- drivers/virt/gunyah/vm_mgr.c         | 91 ++++++++++++++++++++++++++++
- drivers/virt/gunyah/vm_mgr.h         |  9 +++
- drivers/virt/gunyah/vm_mgr_mm.c      | 29 +++++++--
- include/uapi/linux/gunyah.h          |  8 +++
- 5 files changed, 149 insertions(+), 5 deletions(-)
- create mode 100644 arch/arm64/include/uapi/asm/gunyah.h
+ drivers/firmware/qcom_scm.c           | 12 +++++++-----
+ drivers/misc/fastrpc.c                |  6 ++++--
+ drivers/net/wireless/ath/ath10k/qmi.c |  4 ++--
+ drivers/remoteproc/qcom_q6v5_mss.c    |  8 ++++----
+ drivers/soc/qcom/rmtfs_mem.c          |  2 +-
+ include/linux/qcom_scm.h              |  2 +-
+ 6 files changed, 19 insertions(+), 15 deletions(-)
 
-diff --git a/arch/arm64/include/uapi/asm/gunyah.h b/arch/arm64/include/uapi/asm/gunyah.h
-new file mode 100644
-index 000000000000..54986f075ef5
---- /dev/null
-+++ b/arch/arm64/include/uapi/asm/gunyah.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
-+/*
-+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#ifndef _UAPI_ASM_GUNYAH
-+#define _UAPI_ASM_GUNYAH
-+
-+#define GH_REG_GENERAL	0x10000
-+#define GH_REG_X_MASK	0x1f
-+#define GH_REG_SPECIAL	0x20000
-+
-+#define GH_REG_X(n)	(GH_REG_GENERAL | (n & GH_REG_X_MASK))
-+#define GH_REG_PC	(GH_REG_SPECIAL)
-+#define GH_REG_SP_EL1	(GH_REG_SPECIAL + 1)
-+
-+#endif
-diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
-index a993e81a20e2..3dae2fd9e412 100644
---- a/drivers/virt/gunyah/vm_mgr.c
-+++ b/drivers/virt/gunyah/vm_mgr.c
-@@ -9,6 +9,7 @@
- #include <linux/file.h>
- #include <linux/gunyah_rsc_mgr.h>
- #include <linux/miscdevice.h>
-+#include <linux/mm.h>
- #include <linux/module.h>
- 
- #include <uapi/linux/gunyah.h>
-@@ -32,10 +33,79 @@ static __must_check struct gunyah_vm *gunyah_vm_alloc(void)
- 
- 	mutex_init(&ghvm->mm_lock);
- 	INIT_LIST_HEAD(&ghvm->memory_mappings);
-+	init_rwsem(&ghvm->status_lock);
- 
- 	return ghvm;
- }
- 
-+static int gh_vm_start(struct gunyah_vm *ghvm)
-+{
-+	struct gunyah_vm_memory_mapping *mapping;
-+	u64 dtb_offset;
-+	u32 mem_handle;
-+	int ret;
-+
-+	down_write(&ghvm->status_lock);
-+	if (ghvm->vm_status != GH_RM_VM_STATUS_NO_STATE) {
-+		up_write(&ghvm->status_lock);
-+		return 0;
-+	}
-+
-+	mapping = gh_vm_mem_mapping_find_mapping(ghvm,
-+			ghvm->dtb_config.gpa, ghvm->dtb_config.size);
-+	if (!mapping) {
-+		pr_warn("Failed to find the memory_handle for DTB\n");
-+		ret = -EINVAL;
-+		goto err;
-+	}
-+
-+	mem_handle = mapping->parcel.mem_handle;
-+	dtb_offset = ghvm->dtb_config.gpa - mapping->guest_phys_addr;
-+
-+	ret = gh_rm_vm_configure(ghvm->vmid, ghvm->auth, mem_handle,
-+				0, 0, dtb_offset, ghvm->dtb_config.size);
-+	if (ret) {
-+		pr_warn("Failed to configure VM: %d\n", ret);
-+		goto err;
-+	}
-+
-+	ret = gh_rm_vm_init(ghvm->vmid);
-+	if (ret) {
-+		pr_warn("Failed to initialize VM: %d\n", ret);
-+		goto err;
-+	}
-+
-+	ret = gh_rm_vm_start(ghvm->vmid);
-+	if (ret) {
-+		pr_warn("Failed to start VM: %d\n", ret);
-+		goto err;
-+	}
-+
-+	ghvm->vm_status = GH_RM_VM_STATUS_READY;
-+
-+	up_write(&ghvm->status_lock);
-+	return ret;
-+err:
-+	ghvm->vm_status = GH_RM_VM_STATUS_INIT_FAILED;
-+	up_write(&ghvm->status_lock);
-+	return ret;
-+}
-+
-+static void gh_vm_stop(struct gunyah_vm *ghvm)
-+{
-+	int ret;
-+
-+	down_write(&ghvm->status_lock);
-+	if (ghvm->vm_status == GH_RM_VM_STATUS_READY) {
-+		ret = gh_rm_vm_stop(ghvm->vmid);
-+		if (ret)
-+			pr_warn("Failed to stop VM: %d\n", ret);
-+	}
-+
-+	ghvm->vm_status = GH_RM_VM_STATUS_EXITED;
-+	up_write(&ghvm->status_lock);
-+}
-+
- static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+diff --git a/drivers/firmware/qcom_scm.c b/drivers/firmware/qcom_scm.c
+index cdbfe54c8146..92763dce6477 100644
+--- a/drivers/firmware/qcom_scm.c
++++ b/drivers/firmware/qcom_scm.c
+@@ -898,7 +898,7 @@ static int __qcom_scm_assign_mem(struct device *dev, phys_addr_t mem_region,
+  * Return negative errno on failure or 0 on success with @srcvm updated.
+  */
+ int qcom_scm_assign_mem(phys_addr_t mem_addr, size_t mem_sz,
+-			unsigned int *srcvm,
++			u64 *srcvm,
+ 			const struct qcom_scm_vmperm *newvm,
+ 			unsigned int dest_cnt)
  {
- 	struct gunyah_vm *ghvm = filp->private_data;
-@@ -79,6 +149,25 @@ static long gh_vm_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
- 		}
- 		break;
- 	}
-+	case GH_VM_SET_DTB_CONFIG: {
-+		struct gh_vm_dtb_config dtb_config;
-+
-+		r = -EFAULT;
-+		if (copy_from_user(&dtb_config, argp, sizeof(dtb_config)))
-+			break;
-+
-+		dtb_config.size = PAGE_ALIGN(dtb_config.size);
-+		ghvm->dtb_config = dtb_config;
-+
-+		r = 0;
-+		break;
+@@ -915,9 +915,9 @@ int qcom_scm_assign_mem(phys_addr_t mem_addr, size_t mem_sz,
+ 	__le32 *src;
+ 	void *ptr;
+ 	int ret, i, b;
+-	unsigned long srcvm_bits = *srcvm;
++	u64 srcvm_bits = *srcvm;
+ 
+-	src_sz = hweight_long(srcvm_bits) * sizeof(*src);
++	src_sz = hweight64(srcvm_bits) * sizeof(*src);
+ 	mem_to_map_sz = sizeof(*mem_to_map);
+ 	dest_sz = dest_cnt * sizeof(*destvm);
+ 	ptr_sz = ALIGN(src_sz, SZ_64) + ALIGN(mem_to_map_sz, SZ_64) +
+@@ -930,8 +930,10 @@ int qcom_scm_assign_mem(phys_addr_t mem_addr, size_t mem_sz,
+ 	/* Fill source vmid detail */
+ 	src = ptr;
+ 	i = 0;
+-	for_each_set_bit(b, &srcvm_bits, BITS_PER_LONG)
+-		src[i++] = cpu_to_le32(b);
++	for (b = 0; b < BITS_PER_TYPE(u64); b++) {
++		if (srcvm_bits & BIT(b))
++			src[i++] = cpu_to_le32(b);
 +	}
-+	case GH_VM_START: {
-+		r = gh_vm_start(ghvm);
-+		if (r)
-+			r = -EINVAL;
-+		break;
-+	}
- 	default:
- 		r = -ENOTTY;
- 		break;
-@@ -92,6 +181,8 @@ static int gh_vm_release(struct inode *inode, struct file *filp)
- 	struct gunyah_vm *ghvm = filp->private_data;
- 	struct gunyah_vm_memory_mapping *mapping, *tmp;
  
-+	gh_vm_stop(ghvm);
-+
- 	list_for_each_entry_safe(mapping, tmp, &ghvm->memory_mappings, list) {
- 		gh_vm_mem_mapping_reclaim(ghvm, mapping);
- 	}
-diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
-index ab1f0cb0758a..38ce3a2d9329 100644
---- a/drivers/virt/gunyah/vm_mgr.h
-+++ b/drivers/virt/gunyah/vm_mgr.h
-@@ -9,6 +9,7 @@
- #include <linux/gunyah_rsc_mgr.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
-+#include <linux/rwsem.h>
+ 	/* Fill details of mem buff to map */
+ 	mem_to_map = ptr + ALIGN(src_sz, SZ_64);
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index 7ff0b63c25e3..2ad388f99fe1 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -299,11 +299,13 @@ static void fastrpc_free_map(struct kref *ref)
+ 		if (map->attr & FASTRPC_ATTR_SECUREMAP) {
+ 			struct qcom_scm_vmperm perm;
+ 			int err = 0;
++			u64 src;
  
- #include <uapi/linux/gunyah.h>
++			src = BIT(map->fl->cctx->vmperms[0].vmid);
+ 			perm.vmid = QCOM_SCM_VMID_HLOS;
+ 			perm.perm = QCOM_SCM_PERM_RWX;
+ 			err = qcom_scm_assign_mem(map->phys, map->size,
+-				&(map->fl->cctx->vmperms[0].vmid), &perm, 1);
++				&src, &perm, 1);
+ 			if (err) {
+ 				dev_err(map->fl->sctx->dev, "Failed to assign memory phys 0x%llx size 0x%llx err %d",
+ 						map->phys, map->size, err);
+@@ -744,7 +746,7 @@ static int fastrpc_map_create(struct fastrpc_user *fl, int fd,
+ 		 * If subsystem VMIDs are defined in DTSI, then do
+ 		 * hyp_assign from HLOS to those VM(s)
+ 		 */
+-		unsigned int perms = BIT(QCOM_SCM_VMID_HLOS);
++		u64 perms = BIT(QCOM_SCM_VMID_HLOS);
  
-@@ -31,6 +32,12 @@ struct gunyah_vm_memory_mapping {
- struct gunyah_vm {
- 	u16 vmid;
+ 		map->attr = attr;
+ 		err = qcom_scm_assign_mem(map->phys, (u64)map->size, &perms,
+diff --git a/drivers/net/wireless/ath/ath10k/qmi.c b/drivers/net/wireless/ath/ath10k/qmi.c
+index 66cb7a1e628a..6d1d87e1cdde 100644
+--- a/drivers/net/wireless/ath/ath10k/qmi.c
++++ b/drivers/net/wireless/ath/ath10k/qmi.c
+@@ -28,7 +28,7 @@ static int ath10k_qmi_map_msa_permission(struct ath10k_qmi *qmi,
+ {
+ 	struct qcom_scm_vmperm dst_perms[3];
+ 	struct ath10k *ar = qmi->ar;
+-	unsigned int src_perms;
++	u64 src_perms;
+ 	u32 perm_count;
+ 	int ret;
  
-+	enum gh_rm_vm_auth_mechanism auth;
-+	struct gh_vm_dtb_config dtb_config;
-+
-+	enum gh_rm_vm_status vm_status;
-+	struct rw_semaphore status_lock;
-+
- 	struct mutex mm_lock;
- 	struct list_head memory_mappings;
+@@ -60,7 +60,7 @@ static int ath10k_qmi_unmap_msa_permission(struct ath10k_qmi *qmi,
+ {
+ 	struct qcom_scm_vmperm dst_perms;
+ 	struct ath10k *ar = qmi->ar;
+-	unsigned int src_perms;
++	u64 src_perms;
+ 	int ret;
+ 
+ 	src_perms = BIT(QCOM_SCM_VMID_MSS_MSA) | BIT(QCOM_SCM_VMID_WLAN);
+diff --git a/drivers/remoteproc/qcom_q6v5_mss.c b/drivers/remoteproc/qcom_q6v5_mss.c
+index fddb63cffee0..9e8bde7a7ec4 100644
+--- a/drivers/remoteproc/qcom_q6v5_mss.c
++++ b/drivers/remoteproc/qcom_q6v5_mss.c
+@@ -227,8 +227,8 @@ struct q6v5 {
+ 	bool has_qaccept_regs;
+ 	bool has_ext_cntl_regs;
+ 	bool has_vq6;
+-	int mpss_perm;
+-	int mba_perm;
++	u64 mpss_perm;
++	u64 mba_perm;
+ 	const char *hexagon_mdt_image;
+ 	int version;
  };
-@@ -39,5 +46,7 @@ struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_alloc(struct gunyah_vm *ghvm,
- 							struct gh_userspace_memory_region *region);
- void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct gunyah_vm_memory_mapping *mapping);
- struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct gunyah_vm *ghvm, u32 label);
-+struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find_mapping(struct gunyah_vm *ghvm,
-+								u64 gpa, u32 size);
- 
- #endif
-diff --git a/drivers/virt/gunyah/vm_mgr_mm.c b/drivers/virt/gunyah/vm_mgr_mm.c
-index a5a57a38ee09..a7ca9a2e1627 100644
---- a/drivers/virt/gunyah/vm_mgr_mm.c
-+++ b/drivers/virt/gunyah/vm_mgr_mm.c
-@@ -34,11 +34,6 @@ void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct gunyah_vm_memory_m
- 	int i, ret = 0;
- 
- 	if (mapping->parcel.mem_handle != GH_MEM_HANDLE_INVAL) {
--		down_read(&ghvm->status_lock);
--		if (mapping->parcel.mem_handle == ghvm->primary_mem_handle &&
--			ghvm->vm_status == GH_RM_VM_STATUS_NO_STATE)
--			ghvm->primary_mem_handle = 0;
--		up_read(&ghvm->status_lock);
- 		ret = gh_rm_mem_reclaim(&mapping->parcel);
- 		if (ret)
- 			pr_warn("Failed to reclaim memory parcel for label %d: %d\n",
-@@ -58,6 +53,30 @@ void gh_vm_mem_mapping_reclaim(struct gunyah_vm *ghvm, struct gunyah_vm_memory_m
- 	mutex_unlock(&ghvm->mm_lock);
+@@ -404,7 +404,7 @@ static void q6v5_pds_disable(struct q6v5 *qproc, struct device **pds,
+ 	}
  }
  
-+struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find_mapping(struct gunyah_vm *ghvm,
-+								u64 gpa, u32 size)
-+{
-+	struct gunyah_vm_memory_mapping *mapping = NULL;
-+	int ret;
-+
-+	ret = mutex_lock_interruptible(&ghvm->mm_lock);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	list_for_each_entry(mapping, &ghvm->memory_mappings, list) {
-+		if (gpa >= mapping->guest_phys_addr &&
-+			(gpa + size <= mapping->guest_phys_addr +
-+			(mapping->npages << PAGE_SHIFT))) {
-+			goto unlock;
-+		}
-+	}
-+
-+	mapping = NULL;
-+unlock:
-+	mutex_unlock(&ghvm->mm_lock);
-+	return mapping;
-+}
-+
- struct gunyah_vm_memory_mapping *gh_vm_mem_mapping_find(struct gunyah_vm *ghvm, u32 label)
+-static int q6v5_xfer_mem_ownership(struct q6v5 *qproc, int *current_perm,
++static int q6v5_xfer_mem_ownership(struct q6v5 *qproc, u64 *current_perm,
+ 				   bool local, bool remote, phys_addr_t addr,
+ 				   size_t size)
  {
- 	struct gunyah_vm_memory_mapping *mapping;
-diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
-index 93f4b99fcaf6..575cb1cbd215 100644
---- a/include/uapi/linux/gunyah.h
-+++ b/include/uapi/linux/gunyah.h
-@@ -42,4 +42,12 @@ struct gh_userspace_memory_region {
- #define GH_VM_SET_USER_MEM_REGION	_IOW(GH_IOCTL_TYPE, 0x41, \
- 						struct gh_userspace_memory_region)
+@@ -939,7 +939,7 @@ static int q6v5_mpss_init_image(struct q6v5 *qproc, const struct firmware *fw,
+ 	struct page *page;
+ 	dma_addr_t phys;
+ 	void *metadata;
+-	int mdata_perm;
++	u64 mdata_perm;
+ 	int xferop_ret;
+ 	size_t size;
+ 	void *vaddr;
+diff --git a/drivers/soc/qcom/rmtfs_mem.c b/drivers/soc/qcom/rmtfs_mem.c
+index 0feaae357821..69991e47aa23 100644
+--- a/drivers/soc/qcom/rmtfs_mem.c
++++ b/drivers/soc/qcom/rmtfs_mem.c
+@@ -30,7 +30,7 @@ struct qcom_rmtfs_mem {
  
-+struct gh_vm_dtb_config {
-+	__u64 gpa;
-+	__u64 size;
-+};
-+#define GH_VM_SET_DTB_CONFIG	_IOW(GH_IOCTL_TYPE, 0x42, struct gh_vm_dtb_config)
-+
-+#define GH_VM_START		_IO(GH_IOCTL_TYPE, 0x45)
-+
- #endif
+ 	unsigned int client_id;
+ 
+-	unsigned int perms;
++	u64 perms;
+ };
+ 
+ static ssize_t qcom_rmtfs_mem_show(struct device *dev,
+diff --git a/include/linux/qcom_scm.h b/include/linux/qcom_scm.h
+index f8335644a01a..77f7b5837216 100644
+--- a/include/linux/qcom_scm.h
++++ b/include/linux/qcom_scm.h
+@@ -96,7 +96,7 @@ extern int qcom_scm_mem_protect_video_var(u32 cp_start, u32 cp_size,
+ 					  u32 cp_nonpixel_start,
+ 					  u32 cp_nonpixel_size);
+ extern int qcom_scm_assign_mem(phys_addr_t mem_addr, size_t mem_sz,
+-			       unsigned int *src,
++			       u64 *src,
+ 			       const struct qcom_scm_vmperm *newvm,
+ 			       unsigned int dest_cnt);
+ 
 -- 
 2.25.1
 
