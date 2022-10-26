@@ -2,109 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F65BFA373E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 12:31:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F3C1C38A2D
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 12:45:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233473AbiJZMbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 08:31:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60824 "EHLO
+        id S233445AbiJZMpc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 08:45:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233245AbiJZMbQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 08:31:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE7CE6D9D8;
-        Wed, 26 Oct 2022 05:31:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 69D8B61E97;
-        Wed, 26 Oct 2022 12:31:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08690C433C1;
-        Wed, 26 Oct 2022 12:31:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666787471;
-        bh=UAxsV8P09WzkrdPNh08BKdHmn8oLfrTBFNapEM78kNo=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=fA/JWXasghCxaVHDLrB09Gj+o5/sS7Vje1jkXLO2S/yEjho4rL6nmuxnnIkYUBiqR
-         MbLJbWk72GBvHeg5ZddQinU8XxKTanNhq8lqwFRHxfjten4w5xZ8xA4TNVEi3svDBM
-         MkmJe/0pmK2JSI3NtJsEasiO3wd5ne/F/a9YzRv4QoINnDra+sx7nUGbBcw5XcfesK
-         cEH3THbvY6Vp2WpH0aBF8ntwlKgl3td+8X9CKPE0ORCnR4f1XbC+qS4BdJecVsNG2R
-         LAC9zxhXoxE/A3Xw2gnujpC+nyJxeaRB83MkspXOVDv35cNGpZGZ5qXs1DcX0I6iqU
-         wSddhUgyEcwVQ==
-Message-ID: <dec2d423-9f22-e172-abe7-29a9dad8cf12@kernel.org>
-Date:   Wed, 26 Oct 2022 14:31:07 +0200
+        with ESMTP id S233473AbiJZMpa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 08:45:30 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 374508BB8A;
+        Wed, 26 Oct 2022 05:45:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666788329; x=1698324329;
+  h=message-id:date:mime-version:cc:subject:to:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=ABNx+msEoxiE0Up/NA4YUsZE1sxvOirm9dovIGgVQBY=;
+  b=eH7reX7OgdEIT5Us9JYkZEdF4sVa4hzCT/kGcwmvGEpz8F9+x0h+5/jj
+   bB4YWbEJ87gOTVQDueRtYOjzOxcRKCGd99ATT0H3U9UPi5Hz2fUE6LJO9
+   uMdVxscTqtkmpzRXafPvWKoiEZQcKw43VtLYQhH8VXa3R18Xi+n9kn7Dz
+   0sO5p7IJndkH8WjkJPNBAYz/60ZBMjVokhpzOfR6Xbw2ZdB1dkWCd+Xjg
+   i+Z515Zz56T/bfDxjmsmq+ayuynOxkg3Jy0tUw0AHpNBSOyEvxavh86+K
+   taypGzJzpP7yQMWzONHvVNInx+ZYGvzHKUso5+K82aLoHP+14/3EwOftd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="334552548"
+X-IronPort-AV: E=Sophos;i="5.95,214,1661842800"; 
+   d="scan'208";a="334552548"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2022 05:45:25 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="609938092"
+X-IronPort-AV: E=Sophos;i="5.95,214,1661842800"; 
+   d="scan'208";a="609938092"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.213.188]) ([10.254.213.188])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2022 05:45:17 -0700
+Message-ID: <2bcba1f1-e142-a752-eae5-69249f5a1021@linux.intel.com>
+Date:   Wed, 26 Oct 2022 20:45:15 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.0
-Subject: Re: [PATCH 2/3] tools/rv: Add in-kernel monitor interface
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        linux-trace-devel@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1666776642.git.bristot@kernel.org>
- <d52a15b93acb15142551b8e84ff4bcd934de22ce.1666776642.git.bristot@kernel.org>
+Cc:     baolu.lu@linux.intel.com,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v3 01/15] iommu: Add IOMMU_CAP_ENFORCE_CACHE_COHERENCY
 Content-Language: en-US
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <d52a15b93acb15142551b8e84ff4bcd934de22ce.1666776642.git.bristot@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+To:     Jason Gunthorpe <jgg@nvidia.com>, bpf@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
+References: <1-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+From:   Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <1-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/26/22 12:44, Daniel Bristot de Oliveira wrote:
-> Add the ability to control and trace in-kernel monitors. This is
-> a generic interface, it will check for existing monitors and enable
-> standard setup, like enabling reactors.
-
-Oops, forgot to add spaces before #
-
-> For example:
+On 2022/10/26 2:12, Jason Gunthorpe wrote:
+> This queries if a domain linked to a device should expect to support
+> enforce_cache_coherency() so iommufd can negotiate the rules for when a
+> domain should be shared or not.
 > 
-
- # rv list
-> wip                      wakeup in preemptive per-cpu testing monitor. [OFF]
-> wwnr                     wakeup while not running per-task testing model. [OFF]
-
- # rv mon wip --help
+> For iommufd a device that declares IOMMU_CAP_ENFORCE_CACHE_COHERENCY will
+> not be attached to a domain that does not support it.
 > 
->   help:
-> 
->   usage: rv mon wwnr [-h] [-q] [-r reactor] [-s] [-v]
-> 	-h/--help: print this menu and the reactor list
-> 	-r/--reactor 'reactor': enables the 'reactor'
-> 	-s/--self: when tracing (-t), also trace rv command
-> 	-t/--trace: trace monitor's event
-> 	-v/--verbose: print debug messages
-> 
->   available reactors: nop printk panic
+> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
 
- # rv mon wip --trace
->           <TASK>-PID      [CPU]  TYPE       ID                    STATE x EVENT                    -> NEXT_STATE               FINAL
->               |   |          |     |        |                        |     |                           |                       |
->               rv-3613     [001] event     3613                  running x switch_out               -> not_running              Y
->             sshd-1248     [005] event     1248                  running x switch_out               -> not_running              Y
->           <idle>-0        [005] event       71              not_running x wakeup                   -> not_running              Y
->           <idle>-0        [005] event       71              not_running x switch_in                -> running                  N
->       kcompactd0-71       [005] event       71                  running x switch_out               -> not_running              Y
->           <idle>-0        [000] event      860              not_running x wakeup                   -> not_running              Y
->           <idle>-0        [000] event      860              not_running x switch_in                -> running                  N
->     systemd-oomd-860      [000] event      860                  running x switch_out               -> not_running              Y
->           <idle>-0        [000] event      860              not_running x wakeup                   -> not_running              Y
->           <idle>-0        [000] event      860              not_running x switch_in                -> running                  N
->     systemd-oomd-860      [000] event      860                  running x switch_out               -> not_running              Y
->           <idle>-0        [005] event       71              not_running x wakeup                   -> not_running              Y
->           <idle>-0        [005] event       71              not_running x switch_in                -> running                  N
->       kcompactd0-71       [005] event       71                  running x switch_out               -> not_running              Y
->           <idle>-0        [000] event      860              not_running x wakeup                   -> not_running              Y
->           <idle>-0        [000] event      860              not_running x switch_in                -> running                  N
->     systemd-oomd-860      [000] event      860                  running x switch_out               -> not_running              Y
->           <idle>-0        [001] event     3613              not_running x wakeup                   -> not_running              Y
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 
-I will fix this log to in the next version.
-
--- Daniel
+Best regards,
+baolu
