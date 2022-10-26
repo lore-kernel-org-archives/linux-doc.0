@@ -2,104 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF3CEC38A2D
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 17:36:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFE66C433FE
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 17:52:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233961AbiJZRgj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 13:36:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59204 "EHLO
+        id S234291AbiJZRwb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 13:52:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233672AbiJZRgi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 13:36:38 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13DB36567;
-        Wed, 26 Oct 2022 10:36:37 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id o12so30192016lfq.9;
-        Wed, 26 Oct 2022 10:36:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GOBxO2vTj4pQ4aIbyzSDDJOcDDeM1TEViOD8cCWt4BY=;
-        b=YJ/QJUMubvUEs1kkmB6WihInHwiD6FV3O6Ifh2QzAVOjzezDSzxfJaTKgNMNDwLMys
-         Kz2vIYoYk8dgxtvyDC4LG08oOCwqHN3+gMG03ZUh/0YNSXHkO/2CAEkE0mlkUoDiQUaq
-         goBalu2lRkjO5rGdTuyGLGWkViMOJvy40eVncP5EroDYj/D82rZhIrX/0qCvX6TyDYGM
-         6kONH+kWwAgIIGvK/gHX5BS/68BAMEaR8zLf/KE6AnS2R/ROydwimiNKLrQWUz7+YLSl
-         YYeQoZyooY+uclKbVkxI21Da5qQw6TlRSzQPv+cZIeDTPKQf3KEf1npycUj9yUgdkTHY
-         mIkA==
+        with ESMTP id S234310AbiJZRwZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 13:52:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D90E108DD9
+        for <linux-doc@vger.kernel.org>; Wed, 26 Oct 2022 10:52:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666806735;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=geniLJHmWq3kpgcGVKm4jCdheUxhYshUAvvdO1yrzTQ=;
+        b=ZpTEV4cgsSVP+VR8YE55RSluSXq6vh4I+E1yE1h4L9pY9cE+TseMiinFgIK12NqSABPq0G
+        XVU1D3LjR5JvXI/frmS2ULsFyR0eLMWPSkSW4I64aguFROyPbnrO1v2KcLK6SV6ONX/07X
+        vJtzpJGPTY8ygmugu91VBoJDRSWXiJA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-575-y4kVx0t6NJyqlZF8fJDZHw-1; Wed, 26 Oct 2022 13:52:13 -0400
+X-MC-Unique: y4kVx0t6NJyqlZF8fJDZHw-1
+Received: by mail-wm1-f70.google.com with SMTP id v191-20020a1cacc8000000b003bdf7b78dccso6478704wme.3
+        for <linux-doc@vger.kernel.org>; Wed, 26 Oct 2022 10:52:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GOBxO2vTj4pQ4aIbyzSDDJOcDDeM1TEViOD8cCWt4BY=;
-        b=1ih6LN/A0v3K4BISmeb2GP+06Ltf5Fb8KAZ7vifXLj4WwkNxJnBy1ObY6wl23lTOyO
-         v9yFONbQyuaMOLCDKboLBtxGjknQlgzOGucjLl4POWjkRgYBYOeWuEMUYv+2NME/qetn
-         jaoxsj3GS5/6ou2FE4svUgIe6s8qyIbNUONDXvpGygW+IllZZtG6TE4QIPbJvmEFXxNH
-         28huO5TOUcfIR2YUNEvdRorIt2Nibhot3Z25t86DtMMv/YQ2ErpAWR089SJIyrEeQ2kc
-         IdY9pSzvAtIzmblNUlTpXORfQei3N/0ip4/cCqcFhLnTe4CEt3vVBgwu8724znC0cUet
-         CT2A==
-X-Gm-Message-State: ACrzQf08dv2H8E6HXv1YzgpcGnguG5Gm0fkU4shoLMBfjazrGlGWxIBu
-        GFHI5dZGes4V0gAecvmK9oI=
-X-Google-Smtp-Source: AMsMyM7graN5LI/64DZqEGICp6VHlD/7djtr6oZe2CFM3fq1Ao1iFbuJbwrbvjpRuB0qFhw2Z3Emng==
-X-Received: by 2002:ac2:4c82:0:b0:4a0:5825:a0ac with SMTP id d2-20020ac24c82000000b004a05825a0acmr15859970lfl.660.1666805795020;
-        Wed, 26 Oct 2022 10:36:35 -0700 (PDT)
-Received: from smtpclient.apple (188-177-109-202-dynamic.dk.customer.tdc.net. [188.177.109.202])
-        by smtp.gmail.com with ESMTPSA id a11-20020a19e30b000000b0048a757d1303sm911652lfh.217.2022.10.26.10.36.33
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 26 Oct 2022 10:36:34 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
-Subject: Re: [PATCH] Periodically flow expire from flow offload tables
-From:   Michael Lilja <michael.lilja@gmail.com>
-In-Reply-To: <Y1kQ9FhrwxCKIdoe@salvia>
-Date:   Wed, 26 Oct 2022 19:36:22 +0200
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        Florian Westphal <fw@strlen.de>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <25246B91-B5BE-43CA-9D98-67950F17F0A1@gmail.com>
-References: <20221023171658.69761-1-michael.lilja@gmail.com>
- <Y1fC5K0EalIYuB7Y@salvia> <381FF5B6-4FEF-45E9-92D6-6FE927A5CC2D@gmail.com>
- <Y1fd+DEPZ8xM2x5B@salvia> <F754AC3A-D89A-4CF7-97AE-CA59B18A758E@gmail.com>
- <Y1kQ9FhrwxCKIdoe@salvia>
-To:     Pablo Neira Ayuso <pablo@netfilter.org>
-X-Mailer: Apple Mail (2.3731.200.110.1.12)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=geniLJHmWq3kpgcGVKm4jCdheUxhYshUAvvdO1yrzTQ=;
+        b=XllSqnm3EJly7q2stVNp2fq3zaxRCdJSo3KugakMjLAVn8tdSm7u1vta43QXJYXmp0
+         CCl882AR9U5dczplBl6WfXaRVp7cbI9yikXbgtCg+N24yElDlU0C4HeAjExwNdKCtG5W
+         jKCmBQWxsWO1+OfvFnocCZqaUhB1RpoxVDdkpDm08ygouodGv4hd3ZCm0/X2Mdd8yTb5
+         brxxxgeLt1WeUbLDffxFkSBDWBvWKCvx3EDG4XXWzg1xQHACSXYPZHWviXCco7Sr9Bys
+         fBR+mkydewOqSDu6G/RHumIE0OA8Jl5uVaD3V6YrBXNLdgE0KNgrpyp4Y3rEbN37uqt4
+         4hyQ==
+X-Gm-Message-State: ACrzQf0lWJuz+DafIjxvKOD0c01E/CWMLlGR7F61LMl8x8gDrJ99C029
+        AE6IRPP/Mb69/iw5d0b1keQPqprEARH1e5Ur32Mpbjpbjc/tnbkLBJmyLJQpGWH1N2uDRq3FMR2
+        loPSTG47juLeliC4ueQrl
+X-Received: by 2002:a05:6000:1ac7:b0:232:b68c:9e0 with SMTP id i7-20020a0560001ac700b00232b68c09e0mr30940570wry.54.1666806732604;
+        Wed, 26 Oct 2022 10:52:12 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5H8nSmRGc8ubFmwlY72dw0Lzn/Wbclbz9oiRnT7h3ncFdTKq7AZYYBKQFrVTm3HA3Rxq8Ucw==
+X-Received: by 2002:a05:6000:1ac7:b0:232:b68c:9e0 with SMTP id i7-20020a0560001ac700b00232b68c09e0mr30940544wry.54.1666806732335;
+        Wed, 26 Oct 2022 10:52:12 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c? ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+        by smtp.googlemail.com with ESMTPSA id g12-20020a05600c310c00b003b4cba4ef71sm2448055wmo.41.2022.10.26.10.52.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Oct 2022 10:52:11 -0700 (PDT)
+Message-ID: <d3e2dd2b-9520-32ef-6785-94164a834adf@redhat.com>
+Date:   Wed, 26 Oct 2022 19:52:10 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Hyper-V VTLs, permission bitmaps and userspace exits (was Re: [PATCH
+ 0/4] KVM: API to block and resume all running vcpus in a vm)
+Content-Language: en-US
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+        kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20221022154819.1823133-1-eesposit@redhat.com>
+ <a2e16531-5522-a334-40a1-2b0e17663800@linux.ibm.com>
+ <2701ce67-bfff-8c0c-4450-7c4a281419de@redhat.com>
+ <384b2622-8d7f-ce02-1452-84a86e3a5697@linux.ibm.com>
+ <Y1cVfECAAfmp5XqA@google.com>
+ <5a26c107-9ab5-60ee-0e9c-a9955dfe313d@redhat.com>
+ <Y1gG/W/q/VIydpMu@google.com>
+ <02c910bb-3ea0-fa84-7a1c-92fb9e8b03de@redhat.com>
+ <Y1hsHjPuZfrREulV@google.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Y1hsHjPuZfrREulV@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On 10/26/22 01:07, Sean Christopherson wrote:
+> I don't think it's realistic to make accesses outside of KVM_RUN go away, e.g.
+> see the ARM ITS discussion in the dirty ring thread.  kvm_xen_set_evtchn() also
+> explicitly depends on writing guest memory without going through KVM_RUN (and
+> apparently can be invoked from a kernel thread?!?).
 
-I will look to use the flowable netlink interface. I have not yet, but =
-does this possible give the option of doing something like this:
+Yeah, those are the pages that must be considered dirty when using the 
+dirty ring.
 
-flowtable ft {
-	hook ingress priority filter
-	devices =3D { lan1, lan2, wan }
-	flags offload, timeout
-}
+> In theory, I do actually like the idea of restricting memory access to KVM_RUN,
+> but in reality I just think that forcing everything into KVM_RUN creates far more
+> problems than it solves.  E.g. my complaint with KVM_REQ_GET_NESTED_STATE_PAGES
+> is that instead of syncrhonously telling userspace it has a problem, KVM chugs
+> along as if everything is fine and only fails at later point in time.  I doubt
+> userspace would actually do anything differently, i.e. the VM is likely hosed no
+> matter what, but deferring work adds complexity in KVM and makes it more difficult
+> to debug problems when they occur.
+>
+>>>     - to stop anything else in the system that consumes KVM memslots, e.g. KVM GT
+>>
+>> Is this true if you only look at the KVM_GET_DIRTY_LOG case and consider it
+>> a guest bug to access the memory (i.e. ignore the strange read-only changes
+>> which only happen at boot, and which I agree are QEMU-specific)?
+> 
+> Yes?  I don't know exactly what "the KVM_GET_DIRTY_LOG case" is.
 
+It is not possible to atomically read the dirty bitmap and delete a 
+memslot.  When you delete a memslot, the bitmap is gone.  In this case 
+however memory accesses to the deleted memslot are a guest bug, so 
+stopping KVM-GT would not be necessary.
 
-I would say the above it the most flexible, I just didn=E2=80=99t =
-explore that, it would kinda be like with =E2=80=99sets=E2=80=99 where =
-you can specify a timeout on when the entries should expire?
+So while I'm being slowly convinced that QEMU should find a way to pause 
+its vCPUs around memslot changes, I'm not sure that pausing everything 
+is needed in general.
 
+>>> And because of the nature of KVM, to support this API on all architectures, KVM
+>>> needs to make change on all architectures, whereas userspace should be able to
+>>> implement a generic solution.
+>>
+>> Yes, I agree that this is essentially just a more efficient kill().
+>> Emanuele, perhaps you can put together a patch to x86/vmexit.c in
+>> kvm-unit-tests, where CPU0 keeps changing memslots and the other CPUs are in
+>> a for(;;) busy wait, to measure the various ways to do it?
+> 
+> I'm a bit confused.  Is the goal of this to simplify QEMU, dedup VMM code, provide
+> a more performant solution, something else entirely?
 
-With regards to the IPS_OPPLOAD clear in flow_offload_del() then I added =
-that because I saw some weird timeout side effects due to =
-flow_offload_fixup_ct(), but I can re-investigate, it could be that it =
-was early in my investigations and some of the other changes I made has =
-made it obsolete.
+Well, a bit of all of them and perhaps that's the problem.  And while 
+the issues at hand *are* self-inflicted wounds on part of QEMU, it seems 
+to me that the underlying issues are general.
 
-Thanks
-Michael
+For example, Alex Graf and I looked back at your proposal of a userspace 
+exit for "bad" accesses to memory, wondering if it could help with 
+Hyper-V VTLs too.  To recap, the "higher privileged" code at VTL1 can 
+set up VM-wide restrictions on access to some pages through a hypercall 
+(HvModifyVtlProtectionMask).  After the hypercall, VTL0 would not be 
+able to access those pages.  The hypercall would be handled in userspace 
+and would invoke a KVM_SET_MEMORY_REGION_PERM ioctl to restrict the RWX 
+permissions, and this ioctl would set up a VM-wide permission bitmap 
+that would be used when building page tables.
+
+Using such a bitmap instead of memslots makes it possible to cause 
+userspace vmexits on VTL mapping violations with efficient data 
+structures.  And it would also be possible to use this mechanism around 
+KVM_GET_DIRTY_LOG, to read the KVM dirty bitmap just before removing a 
+memslot.
+
+However, external accesses to the regions (ITS, Xen, KVM-GT, non KVM_RUN 
+ioctls) would not be blocked, due to the lack of a way to report the 
+exit.  The intersection of these features with VTLs should be very small 
+(sometimes zero since VTLs are x86 only), but the ioctls would be a 
+problem so I'm wondering what your thoughts are on this.
+
+Also, while the exit API could be the same, it is not clear to me that 
+the permission bitmap would be a good match for entirely "void" memslots 
+used to work around non-atomic memslot changes.  So for now let's leave 
+this aside and only consider the KVM_GET_DIRTY_LOG case.
+
+Paolo
 
