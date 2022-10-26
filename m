@@ -2,212 +2,259 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCFA5C38A2D
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 09:45:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09BADC38A2D
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 10:02:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233158AbiJZJpJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 05:45:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37098 "EHLO
+        id S232733AbiJZKCp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 06:02:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233427AbiJZJpH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 05:45:07 -0400
-Received: from out199-12.us.a.mail.aliyun.com (out199-12.us.a.mail.aliyun.com [47.90.199.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F00E210553;
-        Wed, 26 Oct 2022 02:45:01 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R901e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=24;SR=0;TI=SMTPD_---0VT6jFsX_1666777492;
-Received: from 30.221.97.58(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VT6jFsX_1666777492)
-          by smtp.aliyun-inc.com;
-          Wed, 26 Oct 2022 17:44:55 +0800
-Message-ID: <3c8beab1-3ca7-c3d7-6f31-c28a0ae008a3@linux.alibaba.com>
-Date:   Wed, 26 Oct 2022 17:44:52 +0800
+        with ESMTP id S229995AbiJZKCp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 06:02:45 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E25052D752;
+        Wed, 26 Oct 2022 03:02:40 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id a14so22656729wru.5;
+        Wed, 26 Oct 2022 03:02:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rVpJP2G232YzJan8ctsofYi/4ncJIo4/PSfjZAJDSTY=;
+        b=R2L5kL4Y33qiTCWRGheBoktUNkZ24o4/vH4CpCbcHF47iNPeICYH/cmvfcqpt4qKwM
+         rZaEl1mjHPxG9MbrBi9/AuH5Yum5a1QeVR6K0cFSHzNGQUuCvtavv0P6+STwkCBCM7HE
+         p4uqxPRM4rG1+UOOPuo4UtQeaFTkYPttgXexs5ClKAXutBAWY6J0vcZmIB0VNeKJUnID
+         80jaWx6gT4gl3RwXLmjIMrYnFMxJyPlH5FyFzEgb6qH6qcrF28aeXU7UIAethdVlm46z
+         LLP787OOBl7PzmIxjDHpuzKiSD1yWaf3wFOwlw4lND8ohKrdZj9UoRKXXVqPzaBV5iSL
+         sCRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rVpJP2G232YzJan8ctsofYi/4ncJIo4/PSfjZAJDSTY=;
+        b=ByJsLM6WvKIkidNxboF6cEJgbV9vr4c4iss8CBKOM2RSybuSQ+eh7IZ3FfL1eyl6en
+         N3CV+Y6p3bs82HF62tsk6Y8gbrDKdvXzSvKRN8VPDLUFrsh0iNSvFb7lqacRgWEqwlUf
+         /c+YiNDQ6y9M8nGKJkXPdOQgVTEj2r070wvi1XamwCGiuUiuBGM9dV658alcUVtc0qKp
+         IZr9qT/nnAXSJpPTAbD3K5REW71b9/izRMCXv+12Bi7pQhNArUnzRSm0mAPhW6nalVil
+         o30CZvk5p/gsefE3juhns/WTfCgIPzghr3YlNSp0F1qsa/e7sZQ3wRnd8OldGvfT0tSt
+         0paw==
+X-Gm-Message-State: ACrzQf1NTR1ySJxN7NtLsh3LfUjAKnvUZm/URIwNutXykhKnvv00JTkk
+        i4H7BqT6PkvfZrg0DRGMDBRruAcuSBmBrQ==
+X-Google-Smtp-Source: AMsMyM6+u+qq9wwXX7w+Dr6FU6phxomipB3qqwajl/KEumrWIzyDEslKiLTcPw2uqUDi1RCa0L+kMw==
+X-Received: by 2002:adf:e3cc:0:b0:235:95b1:2124 with SMTP id k12-20020adfe3cc000000b0023595b12124mr22707170wrm.693.1666778558807;
+        Wed, 26 Oct 2022 03:02:38 -0700 (PDT)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:d0eb:e336:b451:acd2])
+        by smtp.gmail.com with ESMTPSA id j24-20020a05600c1c1800b003b49ab8ff53sm1530352wms.8.2022.10.26.03.02.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Oct 2022 03:02:38 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH bpf-next v1] Document BPF_MAP_TYPE_LPM_TRIE
+Date:   Wed, 26 Oct 2022 11:02:32 +0100
+Message-Id: <20221026100232.49181-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.12.0
-Subject: Re: [PATCH V4 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     Baoquan He <bhe@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
-        paul.walmsley@sifive.com, aou@eecs.berkeley.edu,
-        anup@brainfault.org, heiko@sntech.de, guoren@kernel.org,
-        mick@ics.forth.gr, alexandre.ghiti@canonical.com,
-        vgoyal@redhat.com, dyoung@redhat.com, corbet@lwn.net,
-        bagasdotme@gmail.com, k-hagio-ab@nec.com, lijiang@redhat.com,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
-        hschauhan@nulltrace.org, yixun.lan@gmail.com
-References: <20221019103623.7008-1-xianting.tian@linux.alibaba.com>
- <20221019103623.7008-2-xianting.tian@linux.alibaba.com>
- <Y1CtreAKT/SEh4vN@MiWiFi-R3L-srv>
- <30621b3b-47ba-d612-cfb0-583d779691a3@linux.alibaba.com>
- <Y1C681H2mlxX+zqf@MiWiFi-R3L-srv>
- <6af05838-fa58-8197-f3ce-ca95457077a7@linux.alibaba.com>
- <5df30e57-88ae-0a3b-2c1a-b962363d8670@linux.alibaba.com>
- <Y1j9AAhJXpoCx48N@wendy>
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-In-Reply-To: <Y1j9AAhJXpoCx48N@wendy>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Add documentation for BPF_MAP_TYPE_LPM_TRIE including kernel
+BPF helper usage, userspace usage and examples.
 
-在 2022/10/26 下午5:25, Conor Dooley 写道:
-> On Wed, Oct 26, 2022 at 05:08:11PM +0800, Xianting Tian wrote:
->> Hi Palmer, Conor
->>
->> Is this version OK for you?
-> The weird ifdef/IS_ENABLED thing was the only comment I had. It's a bit
-> odd & I notice Baoquan brought it up too. I didn't (and won't) give you
-> a reviewed by on these patches because I don't understand the area well
-> enough. The general nitpickery seems to be sorted though.
+Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+---
+ Documentation/bpf/map_lpm_trie.rst | 179 +++++++++++++++++++++++++++++
+ 1 file changed, 179 insertions(+)
+ create mode 100644 Documentation/bpf/map_lpm_trie.rst
 
-I checked the KERNEL_LINK_ADDR definition of riscv,  it is valid for 
-CONFIG_64BIT and !CONFIG_64BIT.
+diff --git a/Documentation/bpf/map_lpm_trie.rst b/Documentation/bpf/map_lpm_trie.rst
+new file mode 100644
+index 000000000000..d57c967d11d0
+--- /dev/null
++++ b/Documentation/bpf/map_lpm_trie.rst
+@@ -0,0 +1,179 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++=====================
++BPF_MAP_TYPE_LPM_TRIE
++=====================
++
++.. note::
++   - ``BPF_MAP_TYPE_LPM_TRIE`` was introduced in kernel version 4.11
++
++``BPF_MAP_TYPE_LPM_TRIE`` provides a longest prefix match algorithm that
++can be used to match IP addresses to a stored set of prefixes.
++Internally, data is stored in an unbalanced trie of nodes that uses
++``prefixlen,data`` pairs as its keys. The ``data`` is interpreted in
++network byte order, i.e. big endian, so ``data[0]`` stores the most
++significant byte.
++
++LPM tries may be created with a maximum prefix length that is a multiple
++of 8, in the range from 8 to 2048. The key used for lookup and update
++operations is a ``struct bpf_lpm_trie_key``, extended by
++``max_prefixlen/8`` bytes.
++
++- For IPv4 addresses the data length is 4 bytes
++- For IPv6 addresses the data length is 16 bytes
++
++The value type stored in the LPM trie can be any user defined type.
++
++.. note::
++   When creating a map of type ``BPF_MAP_TYPE_LPM_TRIE`` you must set the
++   ``BPF_F_NO_PREALLOC`` flag.
++
++Usage
++=====
++
++Kernel BPF
++----------
++
++.. c:function::
++   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
++
++The longest prefix entry for a given data value can be found using the
++``bpf_map_lookup_elem()`` helper. This helper returns a pointer to the
++value associated with the longest matching ``key``, or ``NULL`` if no
++entry was found.
++
++The ``key`` should have ``prefixlen`` set to ``max_prefixlen`` when
++performing longest prefix lookups. For example, when searching for the
++longest prefix match for an IPv4 address, ``prefixlen`` should be set to
++``32``.
++
++.. c:function::
++   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
++
++Prefix entries can be added or updated using the ``bpf_map_update_elem()``
++helper. This helper replaces existing elements atomically.
++
++``bpf_map_update_elem()`` returns ``0`` on success, or negative error in
++case of failure.
++
++ .. note::
++    The flags parameter must be one of BPF_ANY, BPF_NOEXIST or BPF_EXIST,
++    but the value is ignored, giving BPF_ANY semantics.
++
++.. c:function::
++   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
++
++Prefix entries can be deleted using the ``bpf_map_delete_elem()``
++helper. This helper will return 0 on success, or negative error in case
++of failure.
++
++Userspace
++---------
++
++Access from userspace uses libbpf APIs with the same names as above, with
++the map identified by ``fd``.
++
++.. c:function::
++   int bpf_map_get_next_key (int fd, const void *cur_key, void *next_key)
++
++A userspace program can iterate through the entries in an LPM trie using
++libbpf's ``bpf_map_get_next_key()`` function. The first key can be
++fetched by calling ``bpf_map_get_next_key()`` with ``cur_key`` set to
++``NULL``. Subsequent calls will fetch the next key that follows the
++current key. ``bpf_map_get_next_key()`` returns ``0`` on success,
++``-ENOENT`` if cur_key is the last key in the hash, or negative error in
++case of failure.
++
++``bpf_map_get_next_key()`` will iterate through the LPM trie elements
++from leftmost leaf first. This means that iteration will return more
++specific keys before less specific ones.
++
++Examples
++========
++
++Please see ``tools/samples/bpf/xdp_router_ipv4_user.c`` and
++``xdp_router_ipv4.bpf.c`` for a functional example. The code snippets
++below demonstrates API usage.
++
++Kernel BPF
++----------
++
++The following BPF code snippet shows how to declare a new LPM trie for IPv4
++address prefixes:
++
++.. code-block:: c
++
++    #include <linux/bpf.h>
++    #include <bpf/bpf_helpers.h>
++
++    struct ipv4_lpm_key {
++            __u32 prefixlen;
++            __u32 data;
++    };
++
++    struct {
++            __uint(type, BPF_MAP_TYPE_LPM_TRIE);
++            __type(key, struct ipv4_lpm_key);
++            __type(value, __u32);
++            __uint(map_flags, BPF_F_NO_PREALLOC);
++            __uint(max_entries, 255);
++    } ipv4_lpm_map SEC(".maps");
++
++The following BPF code snippet shows how to lookup by IPv4 address:
++
++.. code-block:: c
++
++    void *lookup(__u32 ipaddr)
++    {
++            struct ipv4_lpm_key key = {
++                    .prefixlen = 32,
++                    .data = ipaddr
++            };
++
++            return bpf_map_lookup_elem(&ipv4_lpm_map, &key);
++    }
++
++Userspace
++---------
++
++The following snippet shows how to insert an IPv4 prefix entry into an LPM trie:
++
++.. code-block:: c
++
++    int add_prefix_entry(int lpm_fd, __u32 addr, __u32 prefixlen, struct value *value)
++    {
++            struct ipv4_lpm_key ipv4_key = {
++                    .prefixlen = prefixlen,
++                    .data = addr
++            };
++            return bpf_map_update_elem(lpm_fd, &ipv4_key, value, BPF_ANY);
++    }
++
++The following snippet shows a userspace program walking through LPM trie
++entries:
++
++.. code-block:: c
++
++    #include <bpf/libbpf.h>
++    #include <bpf/bpf.h>
++
++    void iterate_lpm_trie(int map_fd)
++    {
++            struct ipv4_lpm_key *cur_key = NULL;
++            struct ipv4_lpm_key next_key;
++            struct value value;
++            int err;
++
++            for (;;) {
++                    err = bpf_map_get_next_key(map_fd, cur_key, &next_key);
++                    if (err)
++                            break;
++
++                    bpf_map_lookup_elem(map_fd, &next_key, &value);
++
++                    /* Use key and value here */
++
++                    cur_key = &next_key;
++            }
++    }
+-- 
+2.35.1
 
-Maybe we can remove IS_ENABLED(CONFIG_64BIT)
-
-arch/riscv/include/asm/pgtable.h
-#define ADDRESS_SPACE_END       (UL(-1))
-#ifdef CONFIG_64BIT
-/* Leave 2GB for kernel and BPF at the end of the address space */
-#define KERNEL_LINK_ADDR        (ADDRESS_SPACE_END - SZ_2G + 1)
-#else
-#define KERNEL_LINK_ADDR        PAGE_OFFSET
-#endif
-
-arch/riscv/include/asm/page.h
-#ifdef CONFIG_64BIT
-#ifdef CONFIG_MMU
-#define PAGE_OFFSET             kernel_map.page_offset
-#else
-#define PAGE_OFFSET             _AC(CONFIG_PAGE_OFFSET, UL)
-#endif
-/*
-  * By default, CONFIG_PAGE_OFFSET value corresponds to SV48 address 
-space so
-  * define the PAGE_OFFSET value for SV39.
-  */
-#define PAGE_OFFSET_L4          _AC(0xffffaf8000000000, UL)
-#define PAGE_OFFSET_L3          _AC(0xffffffd800000000, UL)
-#else
-#define PAGE_OFFSET             _AC(CONFIG_PAGE_OFFSET, UL)
-#endif /* CONFIG_64BIT */
-
->
-> Thanks,
-> Conor.
->
->> 在 2022/10/20 下午12:40, Xianting Tian 写道:
->>> 在 2022/10/20 上午11:05, Baoquan He 写道:
->>>> On 10/20/22 at 10:17am, Xianting Tian wrote:
->>>>> 在 2022/10/20 上午10:08, Baoquan He 写道:
->>>>>> On 10/19/22 at 06:36pm, Xianting Tian wrote:
->>>>>>> Add arch_crash_save_vmcoreinfo(), which exports VM
->>>>>>> layout(MODULES, VMALLOC,
->>>>>>> VMEMMAP ranges and KERNEL_LINK_ADDR), va bits and ram
->>>>>>> base for vmcore.
->>>>>>>
->>>>>>> Default pagetable levels and PAGE_OFFSET aren't same for
->>>>>>> different kernel
->>>>>>> version as below. For pagetable levels, it sets sv57 by
->>>>>>> default and falls
->>>>>>> back to setting sv48 at boot time if sv57 is not
->>>>>>> supported by the hardware.
->>>>>>>
->>>>>>> For ram base, the default value is 0x80200000 for qemu
->>>>>>> riscv64 env and,
->>>>>>> for example, is 0x200000 on the XuanTie 910 CPU.
->>>>>>>
->>>>>>>     * Linux Kernel 5.18 ~
->>>>>>>     *      PGTABLE_LEVELS = 5
->>>>>>>     *      PAGE_OFFSET = 0xff60000000000000
->>>>>>>     * Linux Kernel 5.17 ~
->>>>>>>     *      PGTABLE_LEVELS = 4
->>>>>>>     *      PAGE_OFFSET = 0xffffaf8000000000
->>>>>>>     * Linux Kernel 4.19 ~
->>>>>>>     *      PGTABLE_LEVELS = 3
->>>>>>>     *      PAGE_OFFSET = 0xffffffe000000000
->>>>>>>
->>>>>>> Since these configurations change from time to time and
->>>>>>> version to version,
->>>>>>> it is preferable to export them via vmcoreinfo than to
->>>>>>> change the crash's
->>>>>>> code frequently, it can simplify the development of crash tool.
->>>>>>>
->>>>>>> Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
->>>>>>> ---
->>>>>>>     arch/riscv/kernel/Makefile     |  1 +
->>>>>>>     arch/riscv/kernel/crash_core.c | 23 +++++++++++++++++++++++
->>>>>>>     2 files changed, 24 insertions(+)
->>>>>>>     create mode 100644 arch/riscv/kernel/crash_core.c
->>>>>>>
->>>>>>> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
->>>>>>> index db6e4b1294ba..4cf303a779ab 100644
->>>>>>> --- a/arch/riscv/kernel/Makefile
->>>>>>> +++ b/arch/riscv/kernel/Makefile
->>>>>>> @@ -81,6 +81,7 @@ obj-$(CONFIG_KGDB)        += kgdb.o
->>>>>>>     obj-$(CONFIG_KEXEC_CORE)    += kexec_relocate.o
->>>>>>> crash_save_regs.o machine_kexec.o
->>>>>>>     obj-$(CONFIG_KEXEC_FILE)    += elf_kexec.o machine_kexec_file.o
->>>>>>>     obj-$(CONFIG_CRASH_DUMP)    += crash_dump.o
->>>>>>> +obj-$(CONFIG_CRASH_CORE)    += crash_core.o
->>>>>>>     obj-$(CONFIG_JUMP_LABEL)    += jump_label.o
->>>>>>> diff --git a/arch/riscv/kernel/crash_core.c
->>>>>>> b/arch/riscv/kernel/crash_core.c
->>>>>>> new file mode 100644
->>>>>>> index 000000000000..3e889d0ed7bd
->>>>>>> --- /dev/null
->>>>>>> +++ b/arch/riscv/kernel/crash_core.c
->>>>>>> @@ -0,0 +1,23 @@
->>>>>>> +// SPDX-License-Identifier: GPL-2.0-only
->>>>>>> +
->>>>>>> +#include <linux/crash_core.h>
->>>>>>> +#include <linux/pagemap.h>
->>>>>>> +
->>>>>>> +void arch_crash_save_vmcoreinfo(void)
->>>>>>> +{
->>>>>>> +    VMCOREINFO_NUMBER(VA_BITS);
->>>>>>> +    VMCOREINFO_NUMBER(phys_ram_base);
->>>>>>> +
->>>>>>> +
->>>>>>> vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n",
->>>>>>> PAGE_OFFSET);
->>>>>>> + vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n",
->>>>>>> VMALLOC_START);
->>>>>>> +
->>>>>>> vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n",
->>>>>>> VMALLOC_END);
->>>>>>> + vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n",
->>>>>>> VMEMMAP_START);
->>>>>>> +
->>>>>>> vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n",
->>>>>>> VMEMMAP_END);
->>>>>>> +#ifdef CONFIG_64BIT
->>>>>>> + vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n",
->>>>>>> MODULES_VADDR);
->>>>>>> +
->>>>>>> vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n",
->>>>>>> MODULES_END);
->>>>>>> +#endif
->>>>>>> +
->>>>>>> +    if (IS_ENABLED(CONFIG_64BIT))
->>>>>>> +
->>>>>>> vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n",
->>>>>>> KERNEL_LINK_ADDR);
->>>>>> Wondering why you don't put KERNEL_LINK_ADDR exporting into the above
->>>>>> ifdeffery scope, with that you can save one line of
->>>>>> "IS_ENABLED(CONFIG_64BIT)".
->>>>> I followed the rule in print_vm_layout() of
->>>>> arch/riscv/mm/init.c, which used
->>>>> IS_ENABLED when print the value of KERNEL_LINK_ADDR.
->>>>>
->>>> I see. There's PAGE_OFFSET in the middle. Thanks.
->>>>
->>>>           print_ml("lowmem", (unsigned long)PAGE_OFFSET,
->>>>                   (unsigned long)high_memory)
->>>>
->>>> So now, do you think if it's necessary to have another
->>>> IS_ENABLED(CONFIG_64BIT) in the current arch_crash_save_vmcoreinfo()?
->>> For which MACRO?  I think current code for PAGE_OFFSET is OK.
->>>
