@@ -2,138 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1370FA373D
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 07:41:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEEFDC38A2D
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 09:08:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233305AbiJZHlN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 03:41:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37226 "EHLO
+        id S232748AbiJZJIV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 05:08:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233319AbiJZHlA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 03:41:00 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5596261748
-        for <linux-doc@vger.kernel.org>; Wed, 26 Oct 2022 00:40:58 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1onb1f-0006ye-HE; Wed, 26 Oct 2022 09:40:35 +0200
-Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1onb1c-0003YL-O6; Wed, 26 Oct 2022 09:40:32 +0200
-Date:   Wed, 26 Oct 2022 09:40:32 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, andrew@lunn.ch, saeedm@nvidia.com,
-        corbet@lwn.net, michael.chan@broadcom.com,
-        huangguangbin2@huawei.com, chenhao288@hisilicon.com,
-        moshet@nvidia.com, linux@rempel-privat.de,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] ethtool: linkstate: add a statistic for PHY
- down events
-Message-ID: <20221026074032.GF8675@pengutronix.de>
-References: <20221026020948.1913777-1-kuba@kernel.org>
+        with ESMTP id S232488AbiJZJIV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 05:08:21 -0400
+Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E40449B851;
+        Wed, 26 Oct 2022 02:08:18 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=24;SR=0;TI=SMTPD_---0VT6dyvZ_1666775291;
+Received: from 30.221.97.58(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VT6dyvZ_1666775291)
+          by smtp.aliyun-inc.com;
+          Wed, 26 Oct 2022 17:08:13 +0800
+Message-ID: <5df30e57-88ae-0a3b-2c1a-b962363d8670@linux.alibaba.com>
+Date:   Wed, 26 Oct 2022 17:08:11 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221026020948.1913777-1-kuba@kernel.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH V4 1/2] RISC-V: Add arch_crash_save_vmcoreinfo support
+From:   Xianting Tian <xianting.tian@linux.alibaba.com>
+To:     Baoquan He <bhe@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+        Conor Dooley <Conor.Dooley@microchip.com>
+Cc:     paul.walmsley@sifive.com, aou@eecs.berkeley.edu,
+        anup@brainfault.org, heiko@sntech.de, guoren@kernel.org,
+        mick@ics.forth.gr, alexandre.ghiti@canonical.com,
+        vgoyal@redhat.com, dyoung@redhat.com, corbet@lwn.net,
+        bagasdotme@gmail.com, k-hagio-ab@nec.com, lijiang@redhat.com,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
+        hschauhan@nulltrace.org, yixun.lan@gmail.com
+References: <20221019103623.7008-1-xianting.tian@linux.alibaba.com>
+ <20221019103623.7008-2-xianting.tian@linux.alibaba.com>
+ <Y1CtreAKT/SEh4vN@MiWiFi-R3L-srv>
+ <30621b3b-47ba-d612-cfb0-583d779691a3@linux.alibaba.com>
+ <Y1C681H2mlxX+zqf@MiWiFi-R3L-srv>
+ <6af05838-fa58-8197-f3ce-ca95457077a7@linux.alibaba.com>
+In-Reply-To: <6af05838-fa58-8197-f3ce-ca95457077a7@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jakub,
+Hi Palmer, Conor
 
-On Tue, Oct 25, 2022 at 07:09:48PM -0700, Jakub Kicinski wrote:
-> The previous attempt to augment carrier_down (see Link)
-> was not met with much enthusiasm so let's do the simple
-> thing of exposing what some devices already maintain.
-> Add a common ethtool statistic for link going down.
-> Currently users have to maintain per-driver mapping
-> to extract the right stat from the vendor-specific ethtool -S
-> stats. carrier_down does not fit the bill because it counts
-> a lot of software related false positives.
-> 
-> Add the statistic to the extended link state API to steer
-> vendors towards implementing all of it.
-> 
-> Implement for bnxt. mlx5 and (possibly) enic also have
-> a counter for this but I leave the implementation to their
-> maintainers.
-> 
-> Link: https://lore.kernel.org/r/20220520004500.2250674-1-kuba@kernel.org
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> CC: corbet@lwn.net
-> CC: michael.chan@broadcom.com
-> CC: huangguangbin2@huawei.com
-> CC: chenhao288@hisilicon.com
-> CC: moshet@nvidia.com
-> CC: linux@rempel-privat.de
-> CC: linux-doc@vger.kernel.org
-> ---
->  Documentation/networking/ethtool-netlink.rst  |  1 +
->  .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 15 +++++++++++++++
->  include/linux/ethtool.h                       | 14 ++++++++++++++
->  include/uapi/linux/ethtool_netlink.h          |  2 ++
->  net/ethtool/linkstate.c                       | 19 ++++++++++++++++++-
->  5 files changed, 50 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-> index d578b8bcd8a4..5454aa6c013c 100644
-> --- a/Documentation/networking/ethtool-netlink.rst
-> +++ b/Documentation/networking/ethtool-netlink.rst
-> @@ -491,6 +491,7 @@ any attributes.
->    ``ETHTOOL_A_LINKSTATE_SQI_MAX``       u32     Max support SQI value
->    ``ETHTOOL_A_LINKSTATE_EXT_STATE``     u8      link extended state
->    ``ETHTOOL_A_LINKSTATE_EXT_SUBSTATE``  u8      link extended substate
-> +  ``ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT``  u64     count of link down events
->    ====================================  ======  ============================
->  
->  For most NIC drivers, the value of ``ETHTOOL_A_LINKSTATE_LINK`` returns
-> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-> index cc89e5eabcb9..d5957ed00759 100644
-> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-> @@ -4112,6 +4112,20 @@ static void bnxt_get_rmon_stats(struct net_device *dev,
->  	*ranges = bnxt_rmon_ranges;
->  }
->  
-> +static void bnxt_get_link_ext_stats(struct net_device *dev,
-> +				    struct ethtool_link_ext_stats *stats)
-> +{
-> +	struct bnxt *bp = netdev_priv(dev);
-> +	u64 *rx;
-> +
-> +	if (BNXT_VF(bp) || !(bp->flags & BNXT_FLAG_PORT_STATS_EXT))
-> +		return;
-> +
-> +	rx = bp->rx_port_stats_ext.sw_stats;
-> +	stats->LinkDownEvents =
-> +		*(rx + BNXT_RX_STATS_EXT_OFFSET(link_down_events));
-> +}
-> +
+Is this version OK for you? Do you plan to apply this patch set? thanks
 
-s/LinkDownEvents/link_down_events.
-
-What is the best way to implement it on devices without dedicated HW
-counter? I assume in most cases only PHY driver would not real state of
-link.
-
-Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+在 2022/10/20 下午12:40, Xianting Tian 写道:
+>
+> 在 2022/10/20 上午11:05, Baoquan He 写道:
+>> On 10/20/22 at 10:17am, Xianting Tian wrote:
+>>> 在 2022/10/20 上午10:08, Baoquan He 写道:
+>>>> On 10/19/22 at 06:36pm, Xianting Tian wrote:
+>>>>> Add arch_crash_save_vmcoreinfo(), which exports VM layout(MODULES, 
+>>>>> VMALLOC,
+>>>>> VMEMMAP ranges and KERNEL_LINK_ADDR), va bits and ram base for 
+>>>>> vmcore.
+>>>>>
+>>>>> Default pagetable levels and PAGE_OFFSET aren't same for different 
+>>>>> kernel
+>>>>> version as below. For pagetable levels, it sets sv57 by default 
+>>>>> and falls
+>>>>> back to setting sv48 at boot time if sv57 is not supported by the 
+>>>>> hardware.
+>>>>>
+>>>>> For ram base, the default value is 0x80200000 for qemu riscv64 env 
+>>>>> and,
+>>>>> for example, is 0x200000 on the XuanTie 910 CPU.
+>>>>>
+>>>>>    * Linux Kernel 5.18 ~
+>>>>>    *      PGTABLE_LEVELS = 5
+>>>>>    *      PAGE_OFFSET = 0xff60000000000000
+>>>>>    * Linux Kernel 5.17 ~
+>>>>>    *      PGTABLE_LEVELS = 4
+>>>>>    *      PAGE_OFFSET = 0xffffaf8000000000
+>>>>>    * Linux Kernel 4.19 ~
+>>>>>    *      PGTABLE_LEVELS = 3
+>>>>>    *      PAGE_OFFSET = 0xffffffe000000000
+>>>>>
+>>>>> Since these configurations change from time to time and version to 
+>>>>> version,
+>>>>> it is preferable to export them via vmcoreinfo than to change the 
+>>>>> crash's
+>>>>> code frequently, it can simplify the development of crash tool.
+>>>>>
+>>>>> Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
+>>>>> ---
+>>>>>    arch/riscv/kernel/Makefile     |  1 +
+>>>>>    arch/riscv/kernel/crash_core.c | 23 +++++++++++++++++++++++
+>>>>>    2 files changed, 24 insertions(+)
+>>>>>    create mode 100644 arch/riscv/kernel/crash_core.c
+>>>>>
+>>>>> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+>>>>> index db6e4b1294ba..4cf303a779ab 100644
+>>>>> --- a/arch/riscv/kernel/Makefile
+>>>>> +++ b/arch/riscv/kernel/Makefile
+>>>>> @@ -81,6 +81,7 @@ obj-$(CONFIG_KGDB)        += kgdb.o
+>>>>>    obj-$(CONFIG_KEXEC_CORE)    += kexec_relocate.o 
+>>>>> crash_save_regs.o machine_kexec.o
+>>>>>    obj-$(CONFIG_KEXEC_FILE)    += elf_kexec.o machine_kexec_file.o
+>>>>>    obj-$(CONFIG_CRASH_DUMP)    += crash_dump.o
+>>>>> +obj-$(CONFIG_CRASH_CORE)    += crash_core.o
+>>>>>    obj-$(CONFIG_JUMP_LABEL)    += jump_label.o
+>>>>> diff --git a/arch/riscv/kernel/crash_core.c 
+>>>>> b/arch/riscv/kernel/crash_core.c
+>>>>> new file mode 100644
+>>>>> index 000000000000..3e889d0ed7bd
+>>>>> --- /dev/null
+>>>>> +++ b/arch/riscv/kernel/crash_core.c
+>>>>> @@ -0,0 +1,23 @@
+>>>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>>>> +
+>>>>> +#include <linux/crash_core.h>
+>>>>> +#include <linux/pagemap.h>
+>>>>> +
+>>>>> +void arch_crash_save_vmcoreinfo(void)
+>>>>> +{
+>>>>> +    VMCOREINFO_NUMBER(VA_BITS);
+>>>>> +    VMCOREINFO_NUMBER(phys_ram_base);
+>>>>> +
+>>>>> +    vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", 
+>>>>> PAGE_OFFSET);
+>>>>> + vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", 
+>>>>> VMALLOC_START);
+>>>>> +    vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", 
+>>>>> VMALLOC_END);
+>>>>> + vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", 
+>>>>> VMEMMAP_START);
+>>>>> +    vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", 
+>>>>> VMEMMAP_END);
+>>>>> +#ifdef CONFIG_64BIT
+>>>>> + vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", 
+>>>>> MODULES_VADDR);
+>>>>> +    vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", 
+>>>>> MODULES_END);
+>>>>> +#endif
+>>>>> +
+>>>>> +    if (IS_ENABLED(CONFIG_64BIT))
+>>>>> + vmcoreinfo_append_str("NUMBER(KERNEL_LINK_ADDR)=0x%lx\n", 
+>>>>> KERNEL_LINK_ADDR);
+>>>> Wondering why you don't put KERNEL_LINK_ADDR exporting into the above
+>>>> ifdeffery scope, with that you can save one line of 
+>>>> "IS_ENABLED(CONFIG_64BIT)".
+>>> I followed the rule in print_vm_layout() of arch/riscv/mm/init.c, 
+>>> which used
+>>> IS_ENABLED when print the value of KERNEL_LINK_ADDR.
+>>>
+>> I see. There's PAGE_OFFSET in the middle. Thanks.
+>>
+>>          print_ml("lowmem", (unsigned long)PAGE_OFFSET,
+>>                  (unsigned long)high_memory)
+>>
+>> So now, do you think if it's necessary to have another
+>> IS_ENABLED(CONFIG_64BIT) in the current arch_crash_save_vmcoreinfo()?
+>
+> For which MACRO?  I think current code for PAGE_OFFSET is OK.
+>
