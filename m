@@ -2,527 +2,226 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75994ECDFA1
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 19:01:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2195FA3743
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 19:09:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234763AbiJZTBo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 15:01:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35682 "EHLO
+        id S234853AbiJZTJs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 15:09:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234561AbiJZTAx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 15:00:53 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11DBE14082;
-        Wed, 26 Oct 2022 11:59:53 -0700 (PDT)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29QIq9Vx003322;
-        Wed, 26 Oct 2022 18:59:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=e8SAS8T/dx4CIWMccyd889Fukx/CDYyGFVTcfu9zQeQ=;
- b=JuKUd8iiCJ3wdMHNcww5e2yNhUCTDqQv84dhfksK8yxjriwbEKVSLHUeoheCqWVt2Agg
- IFHWwEQHU+i4i/oC8vpDrR2e8ZOhmiMpI1fGQJvQvkeCnvcRKiIqSbiAcfHl3YqPGGvl
- DKWX6/SAmTqF8NMQeA6Tc4Rq3v18KNRuEKIZ/5HqBor6RrY0YxcxClGaPYizPDAsMIwa
- duEEx/NGsiziLCBvUBTz73w1UcX91WhfpykY1cwL/9gi6QYkk6192xrOgGf7HVvdhGPk
- 3U+hJZHDgK2xzbAmZV5owmZ4NO4DQOcw1YudbVgW8TR+AygqZvWPQFSeB8/Jw6qPi182 mw== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kfahu80r7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 26 Oct 2022 18:59:39 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29QIxcfk003209
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 26 Oct 2022 18:59:38 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Wed, 26 Oct 2022 11:59:37 -0700
-From:   Elliot Berman <quic_eberman@quicinc.com>
-To:     Bjorn Andersson <quic_bjorande@quicinc.com>
-CC:     Elliot Berman <quic_eberman@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Will Deacon" <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Arnd Bergmann" <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 17/21] samples: Add sample userspace Gunyah VM Manager
-Date:   Wed, 26 Oct 2022 11:58:42 -0700
-Message-ID: <20221026185846.3983888-18-quic_eberman@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221026185846.3983888-1-quic_eberman@quicinc.com>
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
-MIME-Version: 1.0
+        with ESMTP id S235075AbiJZTJW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 15:09:22 -0400
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2048.outbound.protection.outlook.com [40.107.102.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A3A52B609;
+        Wed, 26 Oct 2022 12:07:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=It46jjlQOsPDFiVOvU6e9Ch3Ld7XkBPnrwvpTl354/C2eQZop+kUt5nX92F5YwBOFpnaS32btoDA6Ht5tJz0GexWg/g8lt/1nR/901SYkGhhG1GzKkuZxORxr/0zin+iS0WSjJYdGQiwM1cJdnuGTw+2vbEBo+QChuX2o7OZJ2/KZgFxfrcVTZhjAmdegOfPdwn3YIO3UE+NiEVOoLS3dR87RsXgOcJmJf32folHuO610EKCv8Pbavd4Hb1PdS1lknvssO3K8uva3ECAXAHeW8yQNB0nRAOeB4rDzamoFnKjRJHAjrtG11dtJXQ9rN926+WIwFnFM8G++nx/P9xH8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SU8OOrqmVfFVG5LTa4ogeuMTt4MvQEm7tT15i6Csttw=;
+ b=cNzd+Itp5W4AqBh/qBa35hDilMouLQinNO9QX0CjkYgNlM7/7j5GTfYM6W1B1Y7+D7zq0oEgsu30X46Ai0KQjzVP2wn1THyqw/QycU3x+F33FiRZATrmPYGhgVlEsnEC949n129FEtKPIs6rwF2WIdBUeXUefhCwjYOtP0AUH5NkRQmkxiBKolppI2hG2+sc1cylLilzpABcPIPxUrFpzx/AfuZzLTj7Qzni1R3gXgGJZjqkwpnA7NPTsXjMQv+Qrw9f4e+NJoOplXsJrCzXkzpvEWEQZg1Ui/snvjJam3kBdbs7U3Gj0wmSq+9Mwy4yPnJcF0AhRkEXe93ExWTt/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SU8OOrqmVfFVG5LTa4ogeuMTt4MvQEm7tT15i6Csttw=;
+ b=YYrMMVR0zmH9WRYiGoq+AOerRbLf9lXqidPWTo9CpGmipELxbQbXCWXfY8ZTXqcxFxUxhIZQyCSEbIvgZckyd3z+MMl6oV2ipRl/JtbLptAbrhQqaBDBW75Mp1lF03qlHt2J/WzFqx0zDZ1D7+o/nxMJdX1yXFSh5njQJsXr+4w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by SJ0PR12MB5501.namprd12.prod.outlook.com (2603:10b6:a03:304::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.23; Wed, 26 Oct
+ 2022 19:07:48 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::2d5:77ac:6d39:e57b]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::2d5:77ac:6d39:e57b%9]) with mapi id 15.20.5746.028; Wed, 26 Oct 2022
+ 19:07:48 +0000
+Message-ID: <ef734fc1-8a51-4c60-f73f-2d71fcc54b30@amd.com>
+Date:   Wed, 26 Oct 2022 14:07:43 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v7 05/12] x86/resctrl: Detect and configure Slow Memory
+ Bandwidth allocation
+Content-Language: en-US
+To:     Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
+Cc:     fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
+        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
+        jmattson@google.com, daniel.sneddon@linux.intel.com,
+        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bagasdotme@gmail.com, eranian@google.com
+References: <166604543832.5345.9696970469830919982.stgit@bmoger-ubuntu>
+ <166604559954.5345.14619487558472213422.stgit@bmoger-ubuntu>
+ <c999a7f8-b083-72a6-ff07-201369339c92@intel.com>
+From:   "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <c999a7f8-b083-72a6-ff07-201369339c92@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: w6QGb4_abtLw_RBObGSevM2ggdRyxZvI
-X-Proofpoint-ORIG-GUID: w6QGb4_abtLw_RBObGSevM2ggdRyxZvI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-26_07,2022-10-26_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
- suspectscore=0 malwarescore=0 bulkscore=0 mlxscore=0 mlxlogscore=999
- lowpriorityscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2210260105
+X-ClientProxiedBy: CH0P221CA0033.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:610:11d::16) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SJ0PR12MB5501:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8ea276a-e6a2-4ad4-4ff0-08dab7855f4e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4195SmXLZWf1hNn9g/vgi5WH3m68luSi0unPhNsl7aZohzeaitTjcSz62a5E1ouqA7TvgHUIyB4+Bdvn5f7AAeRk1d5FuXh1Jnu5fS7vHzI5lk2AuTeVkoMag9M+f1RG0ODSTz/8kqtiojp2N09JMejfYAQskdS+iT3DP3GTEoPn7ynBKIbZEvZ5W5mobiTWzUBRdYed97YehshIyDDXuh+vU4ziFUXEHqEstgCnbGvON7gZdNbfQdsfvkBVGMPR14gKlKB2Y4hQcRrsQB+MQxaowCnDPSGhqUED4Mvok5iR8SIxCZdGMtw2crJhEMird2RxZUmI7xda5bsEhvQ+9+aftf5TwG31ybovvXHyeF6Dy2I5bNHUEPx2dvkvi6teNW3oeHFfqNu4lx5lfRu2mTbNrM74aS91DuMXMspyoBQ7QeGrYB5ZHucVPfnFMfzcoEZmD27mW9KqF6qkC5BkoMZDFHJTA95aZO5q0Yyx84P/s0wQc2UoQxOdsUI10Z8YNfEiZA5eRDRyjP+civLhQ0B+2oxF5qxJQ06qAtKZo3zTkVGJrYIshw90V+AuTVlC9QbFWbR/vP0Q9SKhYn6IqmWYGI+puktv9gwlHvHK8i+qoPHy2OThR0h9fQGaf4hAsV84vq6yMxGaeXdaQSNn1V6w1rtsQqphmr7rdcMOfhOauM1tP4KEAC0/Ro3Dm6Cr/yhqr6mWuNqKH70dORZdLd5FPXE8B4iGLVyAzOsvse8DrHLffxHTfkqm2qnGjBJ7cg4eA6ZCAew32w4FXTrCv17tk0DIjgVsu37S81AhDMA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(136003)(366004)(346002)(39860400002)(396003)(451199015)(36756003)(26005)(31686004)(8676002)(86362001)(31696002)(3450700001)(186003)(2616005)(2906002)(5660300002)(83380400001)(38100700002)(53546011)(6666004)(6506007)(6512007)(4326008)(6486002)(66556008)(66476007)(316002)(66946007)(8936002)(41300700001)(478600001)(7416002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHF4ckszb0x5azVhNS93YWFVTjY5SSt1cEZaWFcxQWJlT3JJZklHNkNja3NK?=
+ =?utf-8?B?QWdvTXprZXZXek4zUmxTUjVxTGxkWHRaVVozUk01VzEzc3Vrd09IQ1RqTXRs?=
+ =?utf-8?B?NnZWdFVuVHlycGZPa29IYlBLeVBCZWNSdkFMZE5hZEtiQ1NBUWZQRnNKMDJV?=
+ =?utf-8?B?VTU4dGNCR2hGaWYrWUFWNHdOMjZrcWFLYUNsWVBMS1VJb1RWcCs4RDVxUjRP?=
+ =?utf-8?B?c0hrWmU3dmwwWENoZG1EMC9DRHdmczVPWlRMNUNiRkJuWXFOS3hWb1lFVFUw?=
+ =?utf-8?B?ZzVCWFRXV2NPczBJL3I4blpjUXdTSEJXWUdpTjgya1REWGpQSkZUZDZnbGRv?=
+ =?utf-8?B?dzZEcGxkd2Z6WXBkYUVvQ3FYekFlRStsZEhHcnlFNlNEd3FLK2YyTDkxSTFT?=
+ =?utf-8?B?UDkvMWIvTE1JVXcyVlRDNEkxeFRVRDN4Y2dOYWxSVTlPb1hEY3RHazQydVRI?=
+ =?utf-8?B?Q1J4YWw5WW55eGlQNUlXYUQ3TVRSSlFvWDZ0UWJNNlFpMTFPdUlLM1gxOTN1?=
+ =?utf-8?B?VHMzd0tZMStKakZOajNGblJ1RVVkMGRwQUQ0VTFIMGVwQ0M5Q2dCNVpjbzJF?=
+ =?utf-8?B?ZzRMYm8rNjZJR3JQZlluOUxwR0M5WlR1Z0tSdHlpTkl4V1JoOGpQUUsvb0dG?=
+ =?utf-8?B?aVBSeUZ1Snc1M3FaRFltcTBhM1VTcWdNT3kzZlY5Tnp0V2MxakExSm0zTnI1?=
+ =?utf-8?B?SGFJNkhFbytpRkY3aVkzZytQMkZhMWt3a1YyVys4N3FnZXd5QlVrNS91SENT?=
+ =?utf-8?B?RWc3Smk3eXJ1WFlYdW13SElXU1gvUS9QWUFOQXAxS2w0OTVNTlkvWGNVL1dS?=
+ =?utf-8?B?UGRTM25HY2txQ0I0NVV1TnZRY0FSUitlL2h1QlJJWmtLeDdwNDlWYTN4OE9D?=
+ =?utf-8?B?aGp2LzlUSVJVRnY5aUQ3ZG1CcGtYempldyszNkNhYnVVdHE5UU81RXlVMERT?=
+ =?utf-8?B?c1NYZjdrTXBBb2wvQjZtb2lQTThZeDQxcGNsaFRGeXl2ZVM4UVp2WFlNUWg0?=
+ =?utf-8?B?WjNrdWhOT1kwUDdoZkd6MHNVamhaNTMyUStmUjg1ODdzYmxDWVk5dHJnQncy?=
+ =?utf-8?B?Y2l1VHJ2ODdLTTZmYm9HSFpoMFp4MU9WUUcrZHJkR2w2WnVCUnZxNFFhVUV5?=
+ =?utf-8?B?YUhnQXNIcVBWNGJCVDlyWFlmT2JsYnIvSEJvVjRSUmtWOTRhK1llNUY2dzFq?=
+ =?utf-8?B?eXl4NmtNdjM1WUhlZHVYaEgzYWhJVFRhajFIZ1E2UTk4RWpsYWdqREd6SFBH?=
+ =?utf-8?B?a0xXbDZiQW02anNJYlZWODlESGdqUUR6ajFWRWZhYTRzLzgzMElqZlVnRlJC?=
+ =?utf-8?B?d0JLYU1VUzdCc3ZLZHJLWlZ0alV2MXBkQUZSYmxFY0Q5bFQwWkNwUEtHUWRs?=
+ =?utf-8?B?eW92R245YmYwdzFsN0tSSXR5Rzg1VUd6ZzBHZ2RlYjB1NnIyM3FnQUVyazJv?=
+ =?utf-8?B?YTloMTV6b0RUK1hlbFVnNHNneElPQ1JoYjVleXdzY05LcEpzSTF5Q0duV20y?=
+ =?utf-8?B?OVFhSnNLNjkxOU1BY1VldTQvcVA4V1cyeHRzbUE2SFJhcmZ6L05WampPMzds?=
+ =?utf-8?B?Uk9VeUVlaHBqamljOVNhanJkd3crU0lkbk5yNUtUK2tjcmloQklqNVR4VTAz?=
+ =?utf-8?B?ZTJRalFoUlRpL0dHWllmRFRLNktONHBNbExlTFMrZXZLdmhYcWVKS3VPTGxC?=
+ =?utf-8?B?YXpER2lxWXdmYzlZb08yWUc3MEM1OTNzR2tob3R3SjQ5Y05VWW90REtQT0w5?=
+ =?utf-8?B?MENZVjV2Z0MyR1pMZmxYcC81QmlHOU5YZDBFU3hVemsrbjAwN1J5TmMyQjNt?=
+ =?utf-8?B?cmJ1U3BlUEx3SU94cCtlWmFRblF1M2t5ZHU2NTdKUHpUK3R2TjBYNVFrL015?=
+ =?utf-8?B?RnBrcmxaQ2Z0bzJ2WDA1bmJWWUpsQzN6RCtYTHZlNjE2Um5ENGd3K0sxK051?=
+ =?utf-8?B?QUJOd1JhZUpadVVhcjRScVYyekIrelFDUHBKSHdHb3A0dGQzOTlwRkhSV1lR?=
+ =?utf-8?B?Y2JYSmovUnhuTWlFRlNzdUZ5dFczaHB2V1NOa0hBNWxweWZUUGUzTlVNSzNM?=
+ =?utf-8?B?YzRadzFBRU9KdE5xMU5KLzRMZ2tISnA0OFYzT2pCMi9yREhtOTd1ZVhGbFIv?=
+ =?utf-8?Q?QNjAP6n9exGS4Zgp0uZR7WvAv?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8ea276a-e6a2-4ad4-4ff0-08dab7855f4e
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2022 19:07:48.5721
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5xU18vLoy+++GUh7pcA44uhuj+i7gNYPSXsJGXjqHKSToFH9N8mYoblx0d3WFm4J
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5501
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a sample Gunyah VMM capable of launching a non-proxy scheduled VM.
+Hi Reinette,
 
-Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
----
- MAINTAINERS                  |   1 +
- samples/Kconfig              |  10 ++
- samples/Makefile             |   1 +
- samples/gunyah/.gitignore    |   2 +
- samples/gunyah/Makefile      |   6 +
- samples/gunyah/gunyah_vmm.c  | 270 +++++++++++++++++++++++++++++++++++
- samples/gunyah/sample_vm.dts |  69 +++++++++
- 7 files changed, 359 insertions(+)
- create mode 100644 samples/gunyah/.gitignore
- create mode 100644 samples/gunyah/Makefile
- create mode 100644 samples/gunyah/gunyah_vmm.c
- create mode 100644 samples/gunyah/sample_vm.dts
+On 10/25/22 18:43, Reinette Chatre wrote:
+> Hi Babu,
+>
+> Nitpick in Subject ... "allocation" -> "Allocation"?
+Sure.
+>
+> On 10/17/2022 3:26 PM, Babu Moger wrote:
+>
+> ...
+>
+>> @@ -2845,7 +2846,8 @@ static int rdtgroup_init_alloc(struct rdtgroup *rdtgrp)
+>>  
+>>  	list_for_each_entry(s, &resctrl_schema_all, list) {
+>>  		r = s->res;
+>> -		if (r->rid == RDT_RESOURCE_MBA) {
+>> +		if (r->rid == RDT_RESOURCE_MBA ||
+>> +		    r->rid == RDT_RESOURCE_SMBA) {
+>>  			rdtgroup_init_mba(r, rdtgrp->closid);
+>>  			if (is_mba_sc(r))
+>>  				continue;
+> The above hunk and the ones that follow are unexpected.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e072a0d2e553..907a2267f0ab 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8946,6 +8946,7 @@ F:	arch/arm64/gunyah/
- F:	drivers/mailbox/gunyah-msgq.c
- F:	drivers/virt/gunyah/
- F:	include/linux/gunyah*.h
-+F:	samples/gunyah/
- 
- HABANALABS PCI DRIVER
- M:	Oded Gabbay <ogabbay@kernel.org>
-diff --git a/samples/Kconfig b/samples/Kconfig
-index 0d81c00289ee..197c8a3610e7 100644
---- a/samples/Kconfig
-+++ b/samples/Kconfig
-@@ -263,6 +263,16 @@ config SAMPLE_CORESIGHT_SYSCFG
- 	  This demonstrates how a user may create their own CoreSight
- 	  configurations and easily load them into the system at runtime.
- 
-+config SAMPLE_GUNYAH
-+	bool "Build example Gunyah Virtual Machine Manager"
-+	depends on CC_CAN_LINK && HEADERS_INSTALL
-+	depends on GUNYAH_VM_MANAGER
-+	help
-+	  Build an example Gunyah VMM userspace program capable of launching
-+	  a basic virtual machine under the Gunyah hypervisor.
-+	  This demonstrates how to create a virtual machine under the Gunyah
-+	  hypervisor.
-+
- source "samples/rust/Kconfig"
- 
- endif # SAMPLES
-diff --git a/samples/Makefile b/samples/Makefile
-index 9832ef3f8fcb..2600bd4b82f8 100644
---- a/samples/Makefile
-+++ b/samples/Makefile
-@@ -36,3 +36,4 @@ obj-$(CONFIG_DEBUG_KMEMLEAK_TEST)	+= kmemleak/
- obj-$(CONFIG_SAMPLE_CORESIGHT_SYSCFG)	+= coresight/
- obj-$(CONFIG_SAMPLE_FPROBE)		+= fprobe/
- obj-$(CONFIG_SAMPLES_RUST)		+= rust/
-+obj-$(CONFIG_SAMPLE_GUNYAH)		+= gunyah/
-diff --git a/samples/gunyah/.gitignore b/samples/gunyah/.gitignore
-new file mode 100644
-index 000000000000..adc7d1589fde
---- /dev/null
-+++ b/samples/gunyah/.gitignore
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0
-+/gunyah_vmm
-diff --git a/samples/gunyah/Makefile b/samples/gunyah/Makefile
-new file mode 100644
-index 000000000000..faf14f9bb337
---- /dev/null
-+++ b/samples/gunyah/Makefile
-@@ -0,0 +1,6 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+userprogs-always-y += gunyah_vmm
-+dtb-y += sample_vm.dtb
-+
-+userccflags += -I usr/include
-diff --git a/samples/gunyah/gunyah_vmm.c b/samples/gunyah/gunyah_vmm.c
-new file mode 100644
-index 000000000000..ccc1786051f2
---- /dev/null
-+++ b/samples/gunyah/gunyah_vmm.c
-@@ -0,0 +1,270 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/types.h>
-+#include <sys/stat.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <getopt.h>
-+#include <limits.h>
-+#include <stdint.h>
-+#include <fcntl.h>
-+#include <string.h>
-+#include <sys/sysmacros.h>
-+#define __USE_GNU
-+#include <sys/mman.h>
-+
-+#include <linux/gunyah.h>
-+
-+struct vm_config {
-+	int image_fd;
-+	int dtb_fd;
-+	int ramdisk_fd;
-+
-+	uint64_t guest_base;
-+	uint64_t guest_size;
-+
-+	uint64_t image_offset;
-+	off_t image_size;
-+	uint64_t dtb_offset;
-+	off_t dtb_size;
-+	uint64_t ramdisk_offset;
-+	off_t ramdisk_size;
-+};
-+
-+static struct option options[] = {
-+	{ "help", no_argument, NULL, 'h' },
-+	{ "image", required_argument, NULL, 'i' },
-+	{ "dtb", required_argument, NULL, 'd' },
-+	{ "ramdisk", optional_argument, NULL, 'r' },
-+	{ "base", optional_argument, NULL, 'B' },
-+	{ "size", optional_argument, NULL, 'S' },
-+	{ "image_offset", optional_argument, NULL, 'I' },
-+	{ "dtb_offset", optional_argument, NULL, 'D' },
-+	{ "ramdisk_offset", optional_argument, NULL, 'R' },
-+	{ }
-+};
-+
-+static void print_help(char *cmd)
-+{
-+	printf("gunyah_vmm, a sample tool to launch Gunyah VMs\n"
-+	       "Usage: %s <options>\n"
-+	       "       --help,    -h  this menu\n"
-+	       "       --image,   -i <image> VM image file to load (e.g. a kernel Image) [Required]\n"
-+	       "       --dtb,     -d <dtb>   Devicetree to load [Required]\n"
-+	       "       --ramdisk, -r <ramdisk>  Ramdisk to load\n"
-+	       "       --base,    -B <address>  Set the base address of guest's memory [Default: 0x80000000]\n"
-+	       "       --size,    -S <number>   The number of bytes large to make the guest's memory [Default: 0x6400000 (100 MB)]\n"
-+	       "       --image_offset, -I <number>  Offset into guest memory to load the VM image file [Default: 0x10000]\n"
-+	       "        --dtb_offset,  -D <number>  Offset into guest memory to load the DTB [Default: 0]\n"
-+	       "        --ramdisk_offset, -R <number>  Offset into guest memory to load a ramdisk [Default: 0x4600000]\n"
-+	       , cmd);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	int gunyah_fd, vm_fd, guest_fd;
-+	struct gh_userspace_memory_region guest_mem_desc = { 0 };
-+	struct gh_vm_dtb_config dtb_config = { 0 };
-+	char *guest_mem;
-+	struct vm_config config = {
-+		/* Defaults good enough to boot static kernel and a basic ramdisk */
-+		.ramdisk_fd = -1,
-+		.guest_base = 0x80000000,
-+		.guest_size = 104857600, /* 100 MB */
-+		.image_offset = 0,
-+		.dtb_offset = 0x45f0000,
-+		.ramdisk_offset = 0x4600000, /* put at +70MB (30MB for ramdisk) */
-+	};
-+	struct stat st;
-+	int opt, optidx, ret = 0;
-+	long int l;
-+
-+	while ((opt = getopt_long(argc, argv, "hi:d:r:B:S:I:D:R:c:", options, &optidx)) != -1) {
-+		switch (opt) {
-+		case 'i':
-+			config.image_fd = open(optarg, O_RDONLY | O_CLOEXEC);
-+			if (config.image_fd < 0) {
-+				perror("Failed to open image");
-+				return -1;
-+			}
-+			if (stat(optarg, &st) < 0) {
-+				perror("Failed to stat image");
-+				return -1;
-+			}
-+			config.image_size = st.st_size;
-+			break;
-+		case 'd':
-+			config.dtb_fd = open(optarg, O_RDONLY | O_CLOEXEC);
-+			if (config.dtb_fd < 0) {
-+				perror("Failed to open dtb");
-+				return -1;
-+			}
-+			if (stat(optarg, &st) < 0) {
-+				perror("Failed to stat dtb");
-+				return -1;
-+			}
-+			config.dtb_size = st.st_size;
-+			break;
-+		case 'r':
-+			config.ramdisk_fd = open(optarg, O_RDONLY | O_CLOEXEC);
-+			if (config.ramdisk_fd < 0) {
-+				perror("Failed to open ramdisk");
-+				return -1;
-+			}
-+			if (stat(optarg, &st) < 0) {
-+				perror("Failed to stat ramdisk");
-+				return -1;
-+			}
-+			config.ramdisk_size = st.st_size;
-+			break;
-+		case 'B':
-+			l = strtol(optarg, NULL, 0);
-+			if (l == LONG_MIN) {
-+				perror("Failed to parse base address");
-+				return -1;
-+			}
-+			config.guest_base = l;
-+			break;
-+		case 'S':
-+			l = strtol(optarg, NULL, 0);
-+			if (l == LONG_MIN) {
-+				perror("Failed to parse memory size");
-+				return -1;
-+			}
-+			config.guest_size = l;
-+			break;
-+		case 'I':
-+			l = strtol(optarg, NULL, 0);
-+			if (l == LONG_MIN) {
-+				perror("Failed to parse image offset");
-+				return -1;
-+			}
-+			config.image_offset = l;
-+			break;
-+		case 'D':
-+			l = strtol(optarg, NULL, 0);
-+			if (l == LONG_MIN) {
-+				perror("Failed to parse dtb offset");
-+				return -1;
-+			}
-+			config.dtb_offset = l;
-+			break;
-+		case 'R':
-+			l = strtol(optarg, NULL, 0);
-+			if (l == LONG_MIN) {
-+				perror("Failed to parse ramdisk offset");
-+				return -1;
-+			}
-+			config.ramdisk_offset = l;
-+			break;
-+		case 'h':
-+			print_help(argv[0]);
-+			return 0;
-+		default:
-+			print_help(argv[0]);
-+			return -1;
-+		}
-+	}
-+
-+	if (!config.image_fd || !config.dtb_fd) {
-+		print_help(argv[0]);
-+		return -1;
-+	}
-+
-+	if (config.image_offset + config.image_size > config.guest_size) {
-+		fprintf(stderr, "Image offset and size puts it outside guest memory. Make image smaller or increase guest memory size.\n");
-+		return -1;
-+	}
-+
-+	if (config.dtb_offset + config.dtb_size > config.guest_size) {
-+		fprintf(stderr, "DTB offset and size puts it outside guest memory. Make dtb smaller or increase guest memory size.\n");
-+		return -1;
-+	}
-+
-+	if (config.ramdisk_fd == -1 &&
-+		config.ramdisk_offset + config.ramdisk_size > config.guest_size) {
-+		fprintf(stderr, "Ramdisk offset and size puts it outside guest memory. Make ramdisk smaller or increase guest memory size.\n");
-+		return -1;
-+	}
-+
-+	gunyah_fd = open("/dev/gunyah", O_RDWR | O_CLOEXEC);
-+	if (gunyah_fd < 0) {
-+		perror("Failed to open /dev/gunyah");
-+		return -1;
-+	}
-+
-+	vm_fd = ioctl(gunyah_fd, GH_CREATE_VM, 0);
-+	if (vm_fd < 0) {
-+		perror("Failed to create vm");
-+		return -1;
-+	}
-+
-+	guest_fd = memfd_create("guest_memory", MFD_CLOEXEC);
-+	if (guest_fd < 0) {
-+		perror("Failed to create guest memfd");
-+		return -1;
-+	}
-+
-+	if (ftruncate(guest_fd, config.guest_size) < 0) {
-+		perror("Failed to grow guest memory");
-+		return -1;
-+	}
-+
-+	guest_mem = mmap(NULL, config.guest_size, PROT_READ | PROT_WRITE, MAP_SHARED, guest_fd, 0);
-+	if (guest_mem == MAP_FAILED) {
-+		perror("Not enough memory");
-+		return -1;
-+	}
-+
-+	if (read(config.image_fd, guest_mem + config.image_offset, config.image_size) < 0) {
-+		perror("Failed to read image into guest memory");
-+		return -1;
-+	}
-+
-+	if (read(config.dtb_fd, guest_mem + config.dtb_offset, config.dtb_size) < 0) {
-+		perror("Failed to read dtb into guest memory");
-+		return -1;
-+	}
-+
-+	if (config.ramdisk_fd > 0 &&
-+		read(config.ramdisk_fd, guest_mem + config.ramdisk_offset,
-+			config.ramdisk_size) < 0) {
-+		perror("Failed to read ramdisk into guest memory");
-+		return -1;
-+	}
-+
-+	guest_mem_desc.label = 0;
-+	guest_mem_desc.flags = GH_MEM_ALLOW_READ | GH_MEM_ALLOW_WRITE | GH_MEM_ALLOW_EXEC;
-+	guest_mem_desc.guest_phys_addr = config.guest_base;
-+	guest_mem_desc.memory_size = config.guest_size;
-+	guest_mem_desc.userspace_addr = (__u64)guest_mem;
-+
-+	if (ioctl(vm_fd, GH_VM_SET_USER_MEM_REGION, &guest_mem_desc) < 0) {
-+		perror("Failed to register guest memory with VM");
-+		return -1;
-+	}
-+
-+	dtb_config.gpa = config.dtb_offset;
-+	dtb_config.size = config.dtb_size;
-+	if (ioctl(vm_fd, GH_VM_SET_DTB_CONFIG, &dtb_config) < 0) {
-+		perror("Failed to set DTB configuration for VM");
-+		return -1;
-+	}
-+
-+	ret = ioctl(vm_fd, GH_VM_START);
-+	if (ret) {
-+		perror("GH_VM_START failed");
-+		return -1;
-+	}
-+
-+	while (1)
-+		sleep(10);
-+
-+	return 0;
-+}
-diff --git a/samples/gunyah/sample_vm.dts b/samples/gunyah/sample_vm.dts
-new file mode 100644
-index 000000000000..1c410d58c298
---- /dev/null
-+++ b/samples/gunyah/sample_vm.dts
-@@ -0,0 +1,69 @@
-+// SPDX-License-Identifier: BSD-3-Clause
-+/*
-+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+/dts-v1/;
-+
-+/ {
-+	#address-cells = <2>;
-+	#size-cells = <2>;
-+	interrupt-parent = <&intc>;
-+
-+	chosen {
-+		bootargs = "nokaslr";
-+	};
-+
-+	cpus {
-+		#address-cells = <0x2>;
-+		#size-cells = <0>;
-+
-+		cpu@0 {
-+			device_type = "cpu";
-+			compatible = "arm,armv8";
-+			reg = <0 0>;
-+		};
-+	};
-+
-+	intc: interrupt-controller@3FFF0000 {
-+		compatible = "arm,gic-v3";
-+		#interrupt-cells = <3>;
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+		interrupt-controller;
-+		reg = <0 0x3FFF0000 0 0x10000>,
-+		      <0 0x3FFD0000 0 0x20000>;
-+	};
-+
-+	timer {
-+		compatible = "arm,armv8-timer";
-+		always-on;
-+		interrupts = <1 13 0x108>,
-+			     <1 14 0x108>,
-+			     <1 11 0x108>,
-+			     <1 10 0x108>;
-+		clock-frequency = <19200000>;
-+	};
-+
-+	gunyah-vm-config {
-+		image-name = "linux_vm_0";
-+		os-type = "linux";
-+
-+		memory {
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+
-+			base-address = <0 0x80000000>;
-+		};
-+
-+		interrupts {
-+			config = <&intc>;
-+		};
-+
-+		vcpus {
-+			affinity-map = < 0 >;
-+			sched-priority = < (-1) >;
-+			sched-timeslice = < 2000 >;
-+		};
-+	};
-+};
--- 
-2.25.1
+I am thinking the above check is required, It is updating the
+staged_config with default values. Right now, the default value for SMBA
+is same as MBA default value. So, I used this code to initialize.
+
+Did I miss something?
+
+>
+> Note that the software controller, when resctrl is mounted with "mba_MBps", is 
+> only supported by RDT_RESOURCE_MBA. At this time this really is hard coded all
+> over the place, for example:
+>
+> static int set_mba_sc(bool mba_sc)
+> {
+> 	struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl;
+> 	...
+>
+> }
+>
+> Since SMBA hardcodes "delay_linear = false" I do not expect it to support the software
+> controller ... but these hunks appear to treat SMBA as though it does. It is the "MBA software
+> controller", not "SMBA software controller". Why does it check above if the MBA software
+> controller is enabled on SMBA?
+
+There is no plan to support SMBA software controller. Yes, I think below
+checks are not required.
+
+
+> 			
+>
+>> @@ -3287,7 +3289,8 @@ void resctrl_offline_domain(struct rdt_resource *r, struct rdt_domain *d)
+>>  {
+>>  	lockdep_assert_held(&rdtgroup_mutex);
+>>  
+>> -	if (supports_mba_mbps() && r->rid == RDT_RESOURCE_MBA)
+>> +	if (supports_mba_mbps() &&
+>> +	    (r->rid == RDT_RESOURCE_MBA || r->rid == RDT_RESOURCE_SMBA))
+>>  		mba_sc_domain_destroy(r, d);
+This check is not required.
+>>  
+>>  	if (!r->mon_capable)
+>> @@ -3354,8 +3357,9 @@ int resctrl_online_domain(struct rdt_resource *r, struct rdt_domain *d)
+>>  
+>>  	lockdep_assert_held(&rdtgroup_mutex);
+>>  
+>> -	if (supports_mba_mbps() && r->rid == RDT_RESOURCE_MBA)
+>> -		/* RDT_RESOURCE_MBA is never mon_capable */
+>> +	if (supports_mba_mbps() &&
+>> +	    (r->rid == RDT_RESOURCE_MBA || r->rid == RDT_RESOURCE_MBA))
+>> +		/* RDT_RESOURCE_MBA (or SMBA) is never mon_capable */
+> What does this change do? Did you mean to add a r->rid == RDT_RESOURCE_SMBA check?
+
+Good catch. I meant  r->rid == RDT_RESOURCE_SMBA.
+
+But this check is not required at all.
+
+>
+>>  		return mba_sc_domain_allocate(r, d);
+>>  
+>>  	if (!r->mon_capable)
+>>
+>>
+> Why are the MBA software controller resources allocated/destroyed for a SMBA resource? If
+> you want to support the software controller for SMBA then there are a lot of other changes
+
+No..There is no plan to support software controller for SMBA.
+
+Thanks
+
+Babu
+
 
