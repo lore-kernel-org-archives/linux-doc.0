@@ -2,140 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7888DFA373E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 17:31:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF3CEC38A2D
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 17:36:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232201AbiJZRbw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 13:31:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48610 "EHLO
+        id S233961AbiJZRgj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 13:36:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233466AbiJZRbu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 13:31:50 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72E04DFB7A;
-        Wed, 26 Oct 2022 10:31:48 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id c15-20020a17090a1d0f00b0021365864446so984287pjd.4;
-        Wed, 26 Oct 2022 10:31:48 -0700 (PDT)
+        with ESMTP id S233672AbiJZRgi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 13:36:38 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13DB36567;
+        Wed, 26 Oct 2022 10:36:37 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id o12so30192016lfq.9;
+        Wed, 26 Oct 2022 10:36:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0KEX8H9AH+VpJzTG5dP3lIPlij9N0zbSJwy+i7UPqHg=;
-        b=cGCfgC4hjmQQkF1Pxvr7cLXhW9PwDG011Q1yYpkKlGkU1OdLX/EXJIuLnwqbTCMenA
-         qQcxLWZcGJwon4OZ/EY7D/3JZcT+CmJYRc+SMzVP+aoV5fpH0LlOcHeQ5Rvu5/TVKZfu
-         7zs0vqSrqvQhdjoUVr9e4w8kyQepA7Bh73nOUhsTf8dbXvD5yNraTKvL9vXLLNDXcIk3
-         PFw+FqKwfN6Qkd1BQoOhVO/0zCAaQKI7rU5r6TuvH7WyVvQZUdOUIhL0305Fdfo6F+7N
-         bwu2wgky+pRe17X5czHVGnuD+R53XZYyqR79oq0bSJ8jTMTnfmqG7ITY+PjsZzrUcEcH
-         Fu2g==
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GOBxO2vTj4pQ4aIbyzSDDJOcDDeM1TEViOD8cCWt4BY=;
+        b=YJ/QJUMubvUEs1kkmB6WihInHwiD6FV3O6Ifh2QzAVOjzezDSzxfJaTKgNMNDwLMys
+         Kz2vIYoYk8dgxtvyDC4LG08oOCwqHN3+gMG03ZUh/0YNSXHkO/2CAEkE0mlkUoDiQUaq
+         goBalu2lRkjO5rGdTuyGLGWkViMOJvy40eVncP5EroDYj/D82rZhIrX/0qCvX6TyDYGM
+         6kONH+kWwAgIIGvK/gHX5BS/68BAMEaR8zLf/KE6AnS2R/ROydwimiNKLrQWUz7+YLSl
+         YYeQoZyooY+uclKbVkxI21Da5qQw6TlRSzQPv+cZIeDTPKQf3KEf1npycUj9yUgdkTHY
+         mIkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0KEX8H9AH+VpJzTG5dP3lIPlij9N0zbSJwy+i7UPqHg=;
-        b=7ypswvZG8t3K3PB90TPAMabnAdWl5E0oLmOqVH3DSCT1QnzC06x4zCL9lvG+p9sw7M
-         jBNpHfNpmIoMS2g8eahVdn/bFZ+lo5TExu5S4ozhHF3uoiZDzoTfoblKdqa/DKj1l58u
-         jjtJ1I9bDL8+cBR53lNTWlL6y5MLt1eHfkkyeCaw02gervxnGMGZrOG7QTo9beXHA8eD
-         0wMyMSRK8Ywk993blLmcHxmA7ftCeTGOyaiilTWtUR8pBqhqed9SjpSmtMNFAjDC8EAn
-         bLaia/25LHdatSeHU4GftXCW8hea2qJH7awPCuyiWZ90Wn7BXzRW3Wjpr4cHhkBw2xNX
-         pAJQ==
-X-Gm-Message-State: ACrzQf3PcyQPtIDlE1XGDQwS4jJybPeYw+eZg5x/JOb9/1V3pAODpJk1
-        3TA1zWwaPCGTxB0N706UMmw=
-X-Google-Smtp-Source: AMsMyM5iyIsTFBeWCWiI/ZizQ3W6VbjiybP1poF7CjbEgG2VkVSvkP2kgtm+tVjWT4X2rpwsf2fFIQ==
-X-Received: by 2002:a17:902:6542:b0:172:95d8:a777 with SMTP id d2-20020a170902654200b0017295d8a777mr45124260pln.61.1666805507753;
-        Wed, 26 Oct 2022 10:31:47 -0700 (PDT)
-Received: from localhost ([192.55.54.55])
-        by smtp.gmail.com with ESMTPSA id y7-20020aa78f27000000b0056c814a501dsm436498pfr.10.2022.10.26.10.31.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Oct 2022 10:31:47 -0700 (PDT)
-Date:   Wed, 26 Oct 2022 10:31:45 -0700
-From:   Isaku Yamahata <isaku.yamahata@gmail.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GOBxO2vTj4pQ4aIbyzSDDJOcDDeM1TEViOD8cCWt4BY=;
+        b=1ih6LN/A0v3K4BISmeb2GP+06Ltf5Fb8KAZ7vifXLj4WwkNxJnBy1ObY6wl23lTOyO
+         v9yFONbQyuaMOLCDKboLBtxGjknQlgzOGucjLl4POWjkRgYBYOeWuEMUYv+2NME/qetn
+         jaoxsj3GS5/6ou2FE4svUgIe6s8qyIbNUONDXvpGygW+IllZZtG6TE4QIPbJvmEFXxNH
+         28huO5TOUcfIR2YUNEvdRorIt2Nibhot3Z25t86DtMMv/YQ2ErpAWR089SJIyrEeQ2kc
+         IdY9pSzvAtIzmblNUlTpXORfQei3N/0ip4/cCqcFhLnTe4CEt3vVBgwu8724znC0cUet
+         CT2A==
+X-Gm-Message-State: ACrzQf08dv2H8E6HXv1YzgpcGnguG5Gm0fkU4shoLMBfjazrGlGWxIBu
+        GFHI5dZGes4V0gAecvmK9oI=
+X-Google-Smtp-Source: AMsMyM7graN5LI/64DZqEGICp6VHlD/7djtr6oZe2CFM3fq1Ao1iFbuJbwrbvjpRuB0qFhw2Z3Emng==
+X-Received: by 2002:ac2:4c82:0:b0:4a0:5825:a0ac with SMTP id d2-20020ac24c82000000b004a05825a0acmr15859970lfl.660.1666805795020;
+        Wed, 26 Oct 2022 10:36:35 -0700 (PDT)
+Received: from smtpclient.apple (188-177-109-202-dynamic.dk.customer.tdc.net. [188.177.109.202])
+        by smtp.gmail.com with ESMTPSA id a11-20020a19e30b000000b0048a757d1303sm911652lfh.217.2022.10.26.10.36.33
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 26 Oct 2022 10:36:34 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: [PATCH] Periodically flow expire from flow offload tables
+From:   Michael Lilja <michael.lilja@gmail.com>
+In-Reply-To: <Y1kQ9FhrwxCKIdoe@salvia>
+Date:   Wed, 26 Oct 2022 19:36:22 +0200
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
-        isaku.yamahata@gmail.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221026173145.GA3819453@ls.amr.corp.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <25246B91-B5BE-43CA-9D98-67950F17F0A1@gmail.com>
+References: <20221023171658.69761-1-michael.lilja@gmail.com>
+ <Y1fC5K0EalIYuB7Y@salvia> <381FF5B6-4FEF-45E9-92D6-6FE927A5CC2D@gmail.com>
+ <Y1fd+DEPZ8xM2x5B@salvia> <F754AC3A-D89A-4CF7-97AE-CA59B18A758E@gmail.com>
+ <Y1kQ9FhrwxCKIdoe@salvia>
+To:     Pablo Neira Ayuso <pablo@netfilter.org>
+X-Mailer: Apple Mail (2.3731.200.110.1.12)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 25, 2022 at 11:13:37PM +0800,
-Chao Peng <chao.p.peng@linux.intel.com> wrote:
+Hi,
 
-> +int restrictedmem_get_page(struct file *file, pgoff_t offset,
-> +			   struct page **pagep, int *order)
-> +{
-> +	struct restrictedmem_data *data = file->f_mapping->private_data;
-> +	struct file *memfd = data->memfd;
-> +	struct page *page;
-> +	int ret;
-> +
-> +	ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
+I will look to use the flowable netlink interface. I have not yet, but =
+does this possible give the option of doing something like this:
 
-shmem_getpage() was removed.
-https://lkml.kernel.org/r/20220902194653.1739778-34-willy@infradead.org
+flowtable ft {
+	hook ingress priority filter
+	devices =3D { lan1, lan2, wan }
+	flags offload, timeout
+}
 
-I needed the following fix to compile.
 
-thanks,
+I would say the above it the most flexible, I just didn=E2=80=99t =
+explore that, it would kinda be like with =E2=80=99sets=E2=80=99 where =
+you can specify a timeout on when the entries should expire?
 
-diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
-index e5bf8907e0f8..4694dd5609d6 100644
---- a/mm/restrictedmem.c
-+++ b/mm/restrictedmem.c
-@@ -231,13 +231,15 @@ int restrictedmem_get_page(struct file *file, pgoff_t offset,
- {
-        struct restrictedmem_data *data = file->f_mapping->private_data;
-        struct file *memfd = data->memfd;
-+       struct folio *folio = NULL;
-        struct page *page;
-        int ret;
- 
--       ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
-+       ret = shmem_get_folio(file_inode(memfd), offset, &folio, SGP_WRITE);
-        if (ret)
-                return ret;
- 
-+       page = folio_file_page(folio, offset);
-        *pagep = page;
-        if (order)
-                *order = thp_order(compound_head(page));
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+
+With regards to the IPS_OPPLOAD clear in flow_offload_del() then I added =
+that because I saw some weird timeout side effects due to =
+flow_offload_fixup_ct(), but I can re-investigate, it could be that it =
+was early in my investigations and some of the other changes I made has =
+made it obsolete.
+
+Thanks
+Michael
+
