@@ -2,206 +2,244 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12F16C38A2D
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 21:59:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADC2FFA373D
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 22:42:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233040AbiJZV7g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 17:59:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56102 "EHLO
+        id S233487AbiJZWmr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 18:42:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233160AbiJZV7e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 17:59:34 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39B03270E;
-        Wed, 26 Oct 2022 14:59:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666821573; x=1698357573;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=tlG5sdvuZ5ZKe0jpbm36GuBCWoJXGHGl2a7+gow4d3E=;
-  b=QsjhdZ0b4UAVvAr8zubgza4n90I0xL+14lpGnk+L8XwoZcYcJAEyycyt
-   UEtTm/0alzACvFq540So4RJnjCEUH6vUv/fwLENd2cOHg521XaltofOIp
-   2tVpqejl1SGQhTSLB2x+VjPqPa4fXLUWoW7waDc4n6/e24DdeWHmnBJsu
-   jj44KdFC6QEFXZ/kdtCEvwZeBVX6jHOacYzwvCNzoine0vieROpOtmr8i
-   eAP/EStbUO8iuAVMaM0RxpObGSWirIor2q1agta8oda1NzIaK1TpDad0q
-   solL1zRsZ8k/vVDbWT/TdzLOxoZWJXVdAmS9V3gjyeY+cSNq9EF5xhtjQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="306800215"
-X-IronPort-AV: E=Sophos;i="5.95,215,1661842800"; 
-   d="scan'208";a="306800215"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2022 14:59:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="695547881"
-X-IronPort-AV: E=Sophos;i="5.95,215,1661842800"; 
-   d="scan'208";a="695547881"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmsmga008.fm.intel.com with ESMTP; 26 Oct 2022 14:59:30 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 26 Oct 2022 14:59:30 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 26 Oct 2022 14:59:29 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 26 Oct 2022 14:59:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=We/zM9OqwluaKh/Ez5rsoV71Pbk3td3gQg8sl//MF77UaoM10E64v/OajKE3fN9rT9LsUFL9vbKVB1/VpScvpaRRCc61g6YNEfcudxuK/mptEMfK8qqKRWxsxPrSn4ZM1wx9obDKlgZWETAugFJwoqx8eiteZCaPYuJ1J66tXA5niG6k0w8O35ozjyTq/RyglKvE+rPhwUd2iT23qVZXcWojLlCivlLc8DWwwwSTZIVEzZUMjgoGg3UxfuTTsoJQf2G7lJX+QWMuzngkosoHqP+7w2kZcGl/ySRqlZUBIwqb8DNfaGgRLxU3uO0+A0y9FwGRfvHV/gVUwb0cz1oCyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tlG5sdvuZ5ZKe0jpbm36GuBCWoJXGHGl2a7+gow4d3E=;
- b=UYGaKqWvP/tSgqGVh7BiaxVDQvJ8g9SdjWwgPawZe3nGAHTsD3BHylxpzC+3H2SOrW8Nfv+mvK7VXF1WEj79KlD9dQmOQFOBI1kq5Rm2hL//qzvKOcPZLoeScs8ZphpX1g6nSDzOkXFNpbk+ntU4TSzi8ZidPpcNmGE5RgQW8BGAz9GU7XrxQfGD9LdZzP39L5rOSl8WRRTYkTPeWSuWm2l1HsZwI0GFYb11R6ubifLD6rcRWdbytkSfL2/K+C4EPYcEglMAysuFp1coRVA5KwByUpOyWSUJgVnNXNGAa0Y3moqFZ6Cl6FTA+rrB+lcGDkZzikhL7evDLK8Ecl4nSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com (2603:10b6:300:24::14)
- by MW4PR11MB6788.namprd11.prod.outlook.com (2603:10b6:303:208::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.28; Wed, 26 Oct
- 2022 21:59:27 +0000
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::99f8:3b5c:33c9:359a]) by MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::99f8:3b5c:33c9:359a%4]) with mapi id 15.20.5746.028; Wed, 26 Oct 2022
- 21:59:27 +0000
-From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To:     "fweimer@redhat.com" <fweimer@redhat.com>
-CC:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "Moreira, Joao" <joao.moreira@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [PATCH v2 01/39] Documentation/x86: Add CET description
-Thread-Topic: [PATCH v2 01/39] Documentation/x86: Add CET description
-Thread-Index: AQHY1FL/9ZOrfh44YkS3ARV6MT/4g64HnGzRgABKE4CAAt11coACKNeAgBR2/AA=
-Date:   Wed, 26 Oct 2022 21:59:27 +0000
-Message-ID: <d780cf636f78688435fa943c2c1d9655c9c33365.camel@intel.com>
-References: <20220929222936.14584-1-rick.p.edgecombe@intel.com>
-         <20220929222936.14584-2-rick.p.edgecombe@intel.com>
-         <87ilkr27nv.fsf@oldenburg.str.redhat.com>
-         <62481017bc02b35587dd520ed446a011641aa390.camel@intel.com>
-         <87v8opz0me.fsf@oldenburg.str.redhat.com>
-         <cc1838888e9da64415331e6f7d83965b553daae7.camel@intel.com>
-In-Reply-To: <cc1838888e9da64415331e6f7d83965b553daae7.camel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MWHPR11MB1392:EE_|MW4PR11MB6788:EE_
-x-ms-office365-filtering-correlation-id: 47a182df-8f8d-442f-9ea1-08dab79d5a10
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: tTvfzivdSAMaV2LVXsCEaWXvsNZEX1BJnUpgQL3D++n0N7jgXpgXvF3dltGVpaZ2ebS7PIxY9Yv7V087nV+vEGmrmLgcC0RUequOJeOMjbBZ75QCOy1TVYDJavevX2ywGgv1t836UFrCIs5DqqXOjhQ3praxayZ/NvEBy9a7okZ+NkOPkAVpft+Suc9zw27M3nrnHO82tWoITUqoJ7ymw4LYPyo1UQvBTQx4GNtkvu4q1jTUDBeCa9t0B+TuRzEXAFjycs27y06odJuH7dBi8YUM8yUEC+UFZ9TYmh/VGUUpfInzS7jWPnPcK8npLgg2a0TnuImfiXpN0enuDWZci56RVln3UMVkSQDtEJLPer84ejSU4Ws+zmjUZNbHqh8DURjVZaR/t5dS10u1p0LleuwYg5dwBrqnt0rYD0i/8NOUxwMOYHbaS+Lv3jo21ThFc+g2T2wNKP+jOLBc1IXWT0mb/eH1WF7JNdHKGInPrIsBVTkTiM1VivrM8hNniQWr7dWsPxCNiLFse4Le+DRxcmlOSgobsVurA7iP6J5eY5RG8R39/6Ro++l6L/RH9WZTpjnzWmjaPNbt7qtqpfaJuga0eBK9xkNvsuqUPW1oQoQgGeJQVUkN8iT8I/Pst9g04kGPR6KGlG28Wq35IAzBiGYH4ESA//OHeBk1en2MbNDaGUW8YewLPePd3rpa5WMKX8oYeapimwjxaLwG8DpsTRF95ZnxUyipQNLQUmSp/TPLx3O4aZKFK+XSsDExquqIUWrRMkaMxrssOarC22R0OhmiVp7yOi+UQeZ3j9yIpls=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(366004)(39860400002)(396003)(346002)(136003)(451199015)(38070700005)(54906003)(71200400001)(6916009)(82960400001)(5660300002)(38100700002)(122000001)(316002)(76116006)(66946007)(91956017)(66476007)(6506007)(8676002)(8936002)(41300700001)(86362001)(66446008)(66556008)(4326008)(6512007)(26005)(478600001)(186003)(83380400001)(2616005)(64756008)(6486002)(4001150100001)(7416002)(7406005)(2906002)(4744005)(36756003)(99106002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MVBNTFNMd2ZtSHFtc1lLeDk2cFRKWEpXM2o2WTJBNFh5ODZBSjliUWRzRlFL?=
- =?utf-8?B?OG9EUE9UM3Z4WWIwQWlldHpyWm05SHUyK2h0SDgwYmwxZ250UEZybzgzVzBQ?=
- =?utf-8?B?VERyM3Z2KzJDMnVDTWJlYm9XOEU5MjZBNml0SndVeTdCUFQ1TnBmWnRUK2Rp?=
- =?utf-8?B?bDZVS0o4TE1uNUxHZnZuVkVYUld2NGhsL1Ztb1dYNlRWVDVENUJTWW5ZMWNU?=
- =?utf-8?B?SWJwbXlJQVU5OTJTemVVMEdtZDFQSHA4U1FsWGE2S3h5b2ViVFJSWE0ycitm?=
- =?utf-8?B?SERyWDNRV2RObzVpekEyRjh0Ukt5REpWZXNISUxjclpmVVdoUklkdGFZeElj?=
- =?utf-8?B?UXVnRWpNVXFHY3RKTjFHR0RGYWVzRlB5NmZBeFR2U3htLzFnRFNYZ01SbFhJ?=
- =?utf-8?B?TWYwbkFTUlk3WEgvVkYvaDlpWEpuT0p3ZnJDbmExaXMrWUp2VUlBZ3RKZVdE?=
- =?utf-8?B?bTYzNFBEVENyYTNZTjFFYTNvSzFkUTdJcFh4NWtHak5lQ3dpN3MwK25WNG9S?=
- =?utf-8?B?bjNoMnlBVEdQSSsxMkZJc1R1WmNSWmNGSDFEdkVFQjRrZDRCak4rUEZ2VVNs?=
- =?utf-8?B?Q25oSHROc1I5aG1acTVScUNjRmk4d003TE5XRzJUN2tPSjhHcWtrY0U3b3ZE?=
- =?utf-8?B?QjdkcTRBalVYaEp0aXpNNXJMMWhOVHkrNXVkMi9wd1N5TkF1aUdkNmQ4MVA3?=
- =?utf-8?B?STlTd05TYW0rMGhuOWlsbG9EL2MxNnNLZUkxbXgzZVZRRTBmN2ZZcEd1elp2?=
- =?utf-8?B?c2Fkc1BXR2dIdzF5OFN6dXFIbzRyTUYxS1I0YWhzYzI2WGJjQmtEbWVkOGlu?=
- =?utf-8?B?THMvVE8xdERlTmg4V0U3bXYwNDhlaG1xL2ZYRTJkTHFjVDVHdW9FVi9WbXNS?=
- =?utf-8?B?c3pVVzZQbWxFeWFVMmJHay9tL2RZU2ZnVEtXYXFZaWRrWGRnWnlzZHptNUFu?=
- =?utf-8?B?UEpjQjFScnFhT3FwSTl2WlJ0TlZSOENZYURxOUV1U2hvcmp5MkQvSEhINWZJ?=
- =?utf-8?B?aUJLNlRMckhoYXc4YlhJSzlRSHlJVkRhM3RtSklsY1YyL1Qwcm1jRGNaMjI2?=
- =?utf-8?B?WEtadHNudDVBNFdjL2EvNUJUQW9mWXh6SU5jOUZzdDM5YXRTcXhQZDMwV0ZF?=
- =?utf-8?B?MDVXRml5SDlTa1pWZ3F4eGlYYnY5ZUtXVUxybGpGOU1wcUdIQmNFY1JNSWVS?=
- =?utf-8?B?R0JYNi9admFtVGMxNmZ2TnRWU2RPS0FNMEF0NmJzTVNoV2JIV0xhdzhFSjRu?=
- =?utf-8?B?RDR4VVROWGpLRHdHSEFpUjN6ZCtjcGFGRzBHeDQrcUkzNElXY1BXZ3Y3M2h2?=
- =?utf-8?B?Sk5Ibld1citnWko2bExHYUt2M25uNnpBazJRRWd3V1hEQnV0dVpPUWNLY3JF?=
- =?utf-8?B?NkR1ZWVGNmViL1ZCdkFMVWJSVzFaMlZmTXkyT2tPbEVoVGhKL0h4NXhvdmhn?=
- =?utf-8?B?K095ZlpHWWxqTWhJd1VxN3pHM1Z4R3VEUHVnY3p5NVh5aXJVMjE1ZzRKQ1RU?=
- =?utf-8?B?TFhPaDVjQ2cySVNhZmordnp6OEZRSmpDZUQzZitWemthZGJuUHY4K0xISTNO?=
- =?utf-8?B?Q2RodFpSN3FFYldOSmJ4K2xuZEhmZGUzVndOR2FnQmcxa3RHOFpNT08yVFBY?=
- =?utf-8?B?VkJUZDdGN1FsNzZ1ekpROHNndnU3QmV5K2I4L3VhZUM5ejdSaW5wSStlRkI1?=
- =?utf-8?B?N293Ykl6d2h4SS9BSkZLQm9QZjR1anJuQ0hBa1dkVzVRYjBQZlNkQWhIdXJZ?=
- =?utf-8?B?bmg3UHExS1BUdHBMUDB4WStDS0U3eEFIWm5pcHJEZUlPUW9EOFZSenNFYmx5?=
- =?utf-8?B?dVorNzNFcWJrbTVpRWpkZTdhRXhKNXJWVDNsWXJ0Yytid3NLMTdrUG4xVjRZ?=
- =?utf-8?B?Zmp4SkRMQTAyVFpFdXhWeXE3cmlaOHN5SjZGeDBBOXo2UzgyYmY0Qk56b3dT?=
- =?utf-8?B?L0tMVitmL3NmUzRxUnpyZmxBL0d2Z0Z6em9iUVdyTEEvSHhNaHJwS1NoUmxl?=
- =?utf-8?B?RUxWT3BxRlNRMHowZS9nL0I1UldybWRCYVFuS0h6d3AxVDhlRHVVb1E2MjQz?=
- =?utf-8?B?UzFLbGZhWVhac0dsNjVveUhpMjdsZkJ2M0ZTWE1KMjJnUWdwYW91RXFselRr?=
- =?utf-8?B?R1pNcERMcDlXb2ZmMzZPVWZwU0prTVBiZU9UdnE3ZGRGVmw3SUNNSzBndm9D?=
- =?utf-8?Q?C+nTMSYDCUtOVSd4uSgy5Fw=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <72DA8DB2B6A9A84FAA7DCBBA8D742202@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S229456AbiJZWmq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 18:42:46 -0400
+Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 584DD15FC9;
+        Wed, 26 Oct 2022 15:42:45 -0700 (PDT)
+Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
+        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 8C76C489A;
+        Thu, 27 Oct 2022 00:42:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
+        s=202205; t=1666824164;
+        bh=jNoxRVdm3VuLTQW8ZXbhrbrxzP5u0X1eFmEP42xyPEw=;
+        h=Date:From:Cc:Subject:References:In-Reply-To:From;
+        b=Haqz2ZBzsh+Jl1+IFXYjMl5ZH9zqy6r2e9vFJ/0gASL2UmeLSV76EJGhSqdvsZCQC
+         tylCmVInrFF13IwmNkkeQUYX7SunAbTq+mkP5gJiYJd8wUJZkZjwG2NagF80f842TC
+         PhCyizqgHCE4F/i1Sy12+84rETqN7uWVBfKoiEAXGXdBrl4WAyp0nKEAjsno5Osl7f
+         HgfB94NpgOIGSaqFVqDLnCK9v5oKk+ZioSzh40y0mDxmah4ECxUrILygeSvCA3q0HP
+         /uF5hGjOu/a/lSKcSeRMGt3ooCRBdG24vnibiglDFeV4rJUTwnGWEuyu+YPdL9Gn9K
+         bTDkeB+1iWh5XcR2l1Umd2/zi8wSnNrFDtnIDcseWnxaAoAArdj5SVp7aADvFKoRAw
+         bt9704/LqzxScH+b52PUCPzVai1SbeamrfsI0Q8y1ea1eVfBY7l7BRx0DFw5DKpykm
+         41ZVdmmWpJNC+vfEd0Fifk1554D87zlggjrYSwArkKk9V5pWG+lJtsx+pXfXUPNbdd
+         NfEjiDsHAUfQoPWOQhYt9Nb3FEH+BZjlWQWYRuy9heJ9+IcLfMpYvcrCr0QDf8Ri3e
+         OSglN2vyNpph+KPYVJHMP9NTAtodk9boQ4hCA87krHpqL0sRKWQd6n1sPadXMbiLh2
+         QWLUCT7y7EYZ0A0MQkmAUsos=
+Date:   Thu, 27 Oct 2022 00:42:43 +0200
+From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Jean-Paul Roubelat <jpr@f6fbb.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub =?utf-8?B?S2ljacWEc2tp?= <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-hams@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH 02/15] hamradio: yam: remove YAM_MAGIC
+Message-ID: <e12d4648a757b613a2ecf09886116900fba1c154.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
+References: <9a453437b5c3b4b1887c1bd84455b0cc3d1c40b2.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47a182df-8f8d-442f-9ea1-08dab79d5a10
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Oct 2022 21:59:27.4508
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: goRrcB6ypeoOBa5BjMUbux1AjSP5Kbf/Y8V5ndLnaVH8ZL8sa8usFjd8o0zFhaCpuBAmJ/5Ta6MFOT9vhRstTwNraRHg3e2Bc0iwDg1Y1x4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6788
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6vptsdzoc53t6szb"
+Content-Disposition: inline
+In-Reply-To: <9a453437b5c3b4b1887c1bd84455b0cc3d1c40b2.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
+User-Agent: NeoMutt/20220429
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gVGh1LCAyMDIyLTEwLTEzIGF0IDE0OjI4IC0wNzAwLCBSaWNrIEVkZ2Vjb21iZSB3cm90ZToN
-Cj4gSW4gdGhlIG1lYW50aW1lIHdlIGNvdWxkIGhhdmUgYSBuZXcgYml0IHNoc3RrX3N0cmljdCwN
-Cj4gdGhhdCByZXF1ZXN0cyBiZWhhdmlvciBsaWtlIHRoZXNlIHBhdGNoZXMgaW1wbGVtZW50LCBh
-bmQga2lsbHMgdGhlDQo+IHByb2Nlc3Mgb24gdmlvbGF0aW9uLiBHbGliYy90b29scyBjb3VsZCBh
-ZGQgc3VwcG9ydCBmb3IgdGhpcyBzdHJpY3QNCj4gYml0DQo+IGFuZCBhbnlvbmUgdGhhdCB3YW50
-cyB0byBtb3JlIGNhcmVmdWxseSBjb21waWxlIHdpdGggaXQgY291bGQgZmluYWxseQ0KPiBnZXQg
-c2hhZG93IHN0YWNrIHRvZGF5LiBUaGVuIHRoZSBpbXBsZW1lbnRhdGlvbiBvZiB0aGUgd2FybiBh
-bmQNCj4gY29udGludWUgbW9kZSBjb3VsZCBmb2xsb3cgdGhhdCwgYW5kIGdsaWJjIGNvdWxkIG1h
-cCB0aGUgb3JpZ2luYWwNCj4gc2hzdGsNCj4gYml0IHRvIHRoYXQga2VybmVsIG1vZGUuIFNvIHRo
-ZSBvbGQgYmluYXJpZXMgd291bGQgZ2V0IHRoZXJlDQo+IGV2ZW50dWFsbHksIHdoaWNoIGlzIGJl
-dHRlciB0aGFuIHRoZSBjb250aW51aW5nIG5vdGhpbmcgdGhleSBoYXZlDQo+IHRvZGF5Lg0KDQpI
-aSwNCg0KQW55IHRob3VnaHRzIG9uIHRoaXMgcHJvcG9zYWw/DQoNClRoYW5rcywNCg0KUmljaw0K
+
+--6vptsdzoc53t6szb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+This is checked inconsistently, only in contexts following directly
+=66rom the module init, and returns an error to userspace/ignores
+the condition entirely, rather than yielding remotely-useful diagnostics
+
+This is cruft, and we have better debugging tooling nowadays: kill it
+
+Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
+Ref: https://lore.kernel.org/linux-doc/YyMlovoskUcHLEb7@kroah.com/
+---
+ Documentation/process/magic-number.rst                    | 1 -
+ Documentation/translations/it_IT/process/magic-number.rst | 1 -
+ Documentation/translations/zh_CN/process/magic-number.rst | 1 -
+ Documentation/translations/zh_TW/process/magic-number.rst | 1 -
+ drivers/net/hamradio/yam.c                                | 8 +-------
+ 5 files changed, 1 insertion(+), 11 deletions(-)
+
+diff --git a/Documentation/process/magic-number.rst b/Documentation/process=
+/magic-number.rst
+index 87353e0207c1..a4414b7e15aa 100644
+--- a/Documentation/process/magic-number.rst
++++ b/Documentation/process/magic-number.rst
+@@ -76,7 +76,6 @@ MGSLPC_MAGIC          0x5402           mgslpc_info       =
+       ``drivers/char/p
+ HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
+linux/hdlcdrv.h``
+ KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
+s/include/asm/sn/klkernvars.h``
+ CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+coda_fs_i.h``
+-YAM_MAGIC             0xF10A7654       yam_port                 ``drivers/=
+net/hamradio/yam.c``
+ CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
+scsi/ncr53c8xx.c``
+ QUEUE_MAGIC_FREE      0xf7e1c9a3       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+ QUEUE_MAGIC_USED      0xf7e1cc33       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+diff --git a/Documentation/translations/it_IT/process/magic-number.rst b/Do=
+cumentation/translations/it_IT/process/magic-number.rst
+index a96712bd8a68..f51c5ef9d93f 100644
+--- a/Documentation/translations/it_IT/process/magic-number.rst
++++ b/Documentation/translations/it_IT/process/magic-number.rst
+@@ -82,7 +82,6 @@ MGSLPC_MAGIC          0x5402           mgslpc_info       =
+       ``drivers/char/p
+ HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
+linux/hdlcdrv.h``
+ KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
+s/include/asm/sn/klkernvars.h``
+ CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+coda_fs_i.h``
+-YAM_MAGIC             0xF10A7654       yam_port                 ``drivers/=
+net/hamradio/yam.c``
+ CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
+scsi/ncr53c8xx.c``
+ QUEUE_MAGIC_FREE      0xf7e1c9a3       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+ QUEUE_MAGIC_USED      0xf7e1cc33       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Do=
+cumentation/translations/zh_CN/process/magic-number.rst
+index 44f3a29fce57..3b53bd67e41b 100644
+--- a/Documentation/translations/zh_CN/process/magic-number.rst
++++ b/Documentation/translations/zh_CN/process/magic-number.rst
+@@ -65,7 +65,6 @@ MGSLPC_MAGIC          0x5402           mgslpc_info       =
+       ``drivers/char/p
+ HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
+linux/hdlcdrv.h``
+ KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
+s/include/asm/sn/klkernvars.h``
+ CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+coda_fs_i.h``
+-YAM_MAGIC             0xF10A7654       yam_port                 ``drivers/=
+net/hamradio/yam.c``
+ CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
+scsi/ncr53c8xx.c``
+ QUEUE_MAGIC_FREE      0xf7e1c9a3       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+ QUEUE_MAGIC_USED      0xf7e1cc33       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Do=
+cumentation/translations/zh_TW/process/magic-number.rst
+index 0fde3183e82a..7d176a87ec3c 100644
+--- a/Documentation/translations/zh_TW/process/magic-number.rst
++++ b/Documentation/translations/zh_TW/process/magic-number.rst
+@@ -68,7 +68,6 @@ MGSLPC_MAGIC          0x5402           mgslpc_info       =
+       ``drivers/char/p
+ HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
+linux/hdlcdrv.h``
+ KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
+s/include/asm/sn/klkernvars.h``
+ CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+coda_fs_i.h``
+-YAM_MAGIC             0xF10A7654       yam_port                 ``drivers/=
+net/hamradio/yam.c``
+ CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
+scsi/ncr53c8xx.c``
+ QUEUE_MAGIC_FREE      0xf7e1c9a3       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+ QUEUE_MAGIC_USED      0xf7e1cc33       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+diff --git a/drivers/net/hamradio/yam.c b/drivers/net/hamradio/yam.c
+index 2ed2f836f09a..0f43411a6ca5 100644
+--- a/drivers/net/hamradio/yam.c
++++ b/drivers/net/hamradio/yam.c
+@@ -73,7 +73,6 @@ static const char yam_drvinfo[] __initconst =3D KERN_INFO=
+ \
+ #define YAM_1200	2
+=20
+ #define NR_PORTS	4
+-#define YAM_MAGIC	0xF10A7654
+=20
+ /* Transmitter states */
+=20
+@@ -94,7 +93,6 @@ static const char yam_drvinfo[] __initconst =3D KERN_INFO=
+ \
+ #define DEFAULT_PERS	64			/* 0->255 */
+=20
+ struct yam_port {
+-	int magic;
+ 	int bitrate;
+ 	int baudrate;
+ 	int iobase;
+@@ -604,7 +602,7 @@ static void yam_arbitrate(struct net_device *dev)
+ {
+ 	struct yam_port *yp =3D netdev_priv(dev);
+=20
+-	if (yp->magic !=3D YAM_MAGIC || yp->tx_state !=3D TX_OFF ||
++	if (yp->tx_state !=3D TX_OFF ||
+ 	    skb_queue_empty(&yp->send_queue))
+ 		return;
+ 	/* tx_state is TX_OFF and there is data to send */
+@@ -930,9 +928,6 @@ static int yam_siocdevprivate(struct net_device *dev, s=
+truct ifreq *ifr, void __
+ 	if (copy_from_user(&ioctl_cmd, data, sizeof(int)))
+ 		return -EFAULT;
+=20
+-	if (yp->magic !=3D YAM_MAGIC)
+-		return -EINVAL;
+-
+ 	if (!capable(CAP_NET_ADMIN))
+ 		return -EPERM;
+=20
+@@ -1079,7 +1074,6 @@ static void yam_setup(struct net_device *dev)
+ {
+ 	struct yam_port *yp =3D netdev_priv(dev);
+=20
+-	yp->magic =3D YAM_MAGIC;
+ 	yp->bitrate =3D DEFAULT_BITRATE;
+ 	yp->baudrate =3D DEFAULT_BITRATE * 2;
+ 	yp->iobase =3D 0;
+--=20
+2.30.2
+
+--6vptsdzoc53t6szb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmNZt+MACgkQvP0LAY0m
+WPHSjxAAqUOuJNgFbm6yxmZX4x3lfPDr7jH7/7TeA8dIiNd4xpe2deT4KjHFX5f5
+7B4gduLHp8p5uBxOct3tqVxWmR3WUZKQq74PHlkH9kzjQGqnXen7jiVtMhTOv7ly
+gfiOVXYFH6PNfjM8RnhIA705exsDq8s+wVF7ryRIjajPYBXQpPW3Szrhvym6z1NO
+f6Sw4WormDbYTBViSNhM6VW0+p/jZeICliVa/TcDtvD1Orsq7Ez4CNQs6GfcXf+S
+O7B0yx+tZaJJ2xWfooF7Zdi4Qs0SkIJbLmhJpW+o25DphP9oO5/qmgmG/iQhqqxE
+6BQRVM/IXOWFbrEqSJ6Ip97BkYgJlJjDFIINXmDVIjgo0K+DNRr7/HvmehJz7Kst
+XmHeAi9wK51y1a5DNxfKg/ZnzKvEHGqxPb+wv4VATtEPy3PzNbf3bDjHsy62uN3G
+WVgdWAFyM/asGOJl2YEWvRSkwgdaVm3VEP6+jMlpDeBnbi1CvPBSy6mtAv4Eu8pv
+ag91Xx7sZdWAGAFJWWXwZjs9xT8SqaM5A6RmPesaLJwU1DTpiyxlizVMZ0PXEpYK
+fT6lTove5vqUlgLvOOjWY+I2QBlhVWz5CluKAeuKCR4q0jEFxj39trnvN+biDpBZ
+fRotkeEq2cy3orDHiTgE2S1W+PIuQcihMsPzbomgBWnOq6XXHfU=
+=KfbL
+-----END PGP SIGNATURE-----
+
+--6vptsdzoc53t6szb--
