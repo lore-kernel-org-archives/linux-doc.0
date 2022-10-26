@@ -2,65 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC418FA3742
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 19:47:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 570DBECDFA1
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 19:47:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235264AbiJZTrV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 15:47:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54136 "EHLO
+        id S235283AbiJZTrv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 15:47:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235159AbiJZTrH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 15:47:07 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CA0F11CB6B
-        for <linux-doc@vger.kernel.org>; Wed, 26 Oct 2022 12:46:21 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id bp15so30874700lfb.13
-        for <linux-doc@vger.kernel.org>; Wed, 26 Oct 2022 12:46:21 -0700 (PDT)
+        with ESMTP id S235150AbiJZTrU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 15:47:20 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 286D6E196E
+        for <linux-doc@vger.kernel.org>; Wed, 26 Oct 2022 12:47:04 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id b8so17078452ljf.0
+        for <linux-doc@vger.kernel.org>; Wed, 26 Oct 2022 12:47:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=WFjZUwg9kkHrdeWfJ5ahCLFcRDkAGeHiMWgq9vVh9Ps=;
-        b=PkYZcfy5WMquWospUQFh7cJpJo4V6wkPaXLJ+W6HivXj3w49ZeLEO8i24izYjxeJzG
-         zRJ/RCfo8mUZzDqGtvoSKR9JZ9RKUY7AEh/cic+6wn7MtLZ7PzFTsJTz4KFzOI+rnz8B
-         BjE8MjFSCSjl+Arttw6PQIqvVmdd0X2q+bNb7LjStezGyMy5ya9RCS1rJm5e5f1vt4hH
-         l3hPWeD3i/dkNIaGPGCsVKuYAQWepXoaYL8QnKpGpEgWpwMoOmNdaq5XQGq4UjIv/zOR
-         /ubN28kFhv9jFCj/bYUHXt4GiyEOS8sE7BVj8K/E5hohb+ch+uNU1PNfAMw4RRQ7mO+F
-         A0lw==
+        bh=VJjRsujDl/3v+9Mf/eSBWkfplDNIchatoDdNLqZcg1w=;
+        b=RhCNpnDflZSD5XHtPqzpeSJCPwFGlzWnDqMozcUdrOPtYCP9AE4ouqssPyrSh9lzG9
+         3QRKJf6pRNYx/wUp0OI5LVpSIseeLcvvpriFJS53HP11SH8GQ6q9vczrrVykiXJZJG/Q
+         W7qzYAaZJznwkkj7vHwVDLr6Wkbvl+WG6f1m889cBG8MhQqcwjprcx09r04HxP+Zo4nF
+         ut+axCQ8T4q6i93I36aid/D5/SchNdcdXLFbpPfj4GVFkaMkLv8YAUK/3j4GDxwQUyue
+         Rxix78k3GKPg1isz0CpMwfV66KvXkI26KsMoNI+DkYfGhFS2zS93CJVA0Ps4DlXzX7fB
+         jv2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WFjZUwg9kkHrdeWfJ5ahCLFcRDkAGeHiMWgq9vVh9Ps=;
-        b=iZX++ELgtc88rC1mvGoQ+ziaXfCWpVtm4Nmti+nXTCXCofWpVTQP5h3Km5PntMV8s/
-         nTnk1S7DLU4Ory6iscgs5zHAoj5Un+MqlGMzbWMrTDCWRUkDOeKa/vpQRWwXiUpYZG9S
-         snytDersp/cJw9Ob0mKOfLdzVVWxdcQD4jIpgLOO23NTZm0W3SfprC8VF21GkHUnEn8J
-         ODtOA4OpANgEVupdHEIjah7oMbegrQmFZLgzpsPbvMUY7bBJBGXV5u7wbMiBeOnutW6V
-         W38DMBrLaX/cgp+iLadxbPgvZM4c3vFC7vOsaPmPQmVBZzxWdWThf9o76e5kaNRcr43r
-         e0pA==
-X-Gm-Message-State: ACrzQf3biaMyrG5yisHZf+URQLGVNLCiQ66M05rE25B2o3k7t+ZoRJG9
-        dK80ehdbJ/9CXy9FLwhR0OVhkg==
-X-Google-Smtp-Source: AMsMyM7Sc9bm+ICPknqGgF6givhaCtNofBIUTNotmKABmE9Zv5ip/cKuOpnhFd8xARGFACdSOJBk1Q==
-X-Received: by 2002:a05:6512:3f8c:b0:4a1:8d5:d75b with SMTP id x12-20020a0565123f8c00b004a108d5d75bmr18369184lfa.670.1666813579744;
-        Wed, 26 Oct 2022 12:46:19 -0700 (PDT)
+        bh=VJjRsujDl/3v+9Mf/eSBWkfplDNIchatoDdNLqZcg1w=;
+        b=TC+y/HCpmCxJdTj1fPb4z4gzkl1I90Q05vXmR9AlgNnwGSZPNLm1VNRj2DbfRFTZ0q
+         Z1WvdIyEOCz66Mr7QFLRPC/nSlRa0qkvWuQ3T5Brr2uiK95qr+XMJ6g7AkMN5Q5VlvSV
+         bR/zug2NzZdi/qIsMa2oYhN4iI0e0NNyhtzMjbp9r9ZPDXHWiGYPcQTZPrqODqdX3oml
+         1xO2lug5xYj60PPajEFDdLlSmjsne37XfuL82jVTQfdfuqwhmOAf6EOU1zpto8I302Pk
+         bIhqedenSIEcPAuUl6r75f3xE4bzEwBsmBIj0yapriawxYZFmQ9upPpg36amV32oW2OS
+         5HOw==
+X-Gm-Message-State: ACrzQf1ursKUeE3XfskiqjpdgMEdB51TxssMjF6L+8zp6OWH+cAvkfgY
+        SfU4xpVLs+J5qEh+ZpqO0f8Afg==
+X-Google-Smtp-Source: AMsMyM7U2yFByXQb4uotUhiQB0V/tO2+T+0Nol8A0/pMBDv1DjnXOhYEv4jUgj9ioEH6sA3z+XGReg==
+X-Received: by 2002:a05:651c:a12:b0:26f:db13:4bd8 with SMTP id k18-20020a05651c0a1200b0026fdb134bd8mr17533154ljq.354.1666813622554;
+        Wed, 26 Oct 2022 12:47:02 -0700 (PDT)
 Received: from [10.27.10.248] ([195.165.23.90])
-        by smtp.gmail.com with ESMTPSA id s5-20020a05651c048500b002770e531535sm1051653ljc.55.2022.10.26.12.46.18
+        by smtp.gmail.com with ESMTPSA id h2-20020a05651211c200b004acd6e441cesm942826lfr.205.2022.10.26.12.47.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Oct 2022 12:46:19 -0700 (PDT)
-Message-ID: <56a47a6c-29b9-b8f3-e39b-a5841ddf7394@linaro.org>
-Date:   Wed, 26 Oct 2022 22:46:17 +0300
+        Wed, 26 Oct 2022 12:47:02 -0700 (PDT)
+Message-ID: <71c3fdf1-b03d-391d-a731-de8a5a66fdca@linaro.org>
+Date:   Wed, 26 Oct 2022 22:47:00 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH v6 04/21] arm64: smccc: Include alternative-macros.h
+Subject: Re: [PATCH v6 03/21] gunyah: Common types and error codes for Gunyah
+ hypercalls
 Content-Language: en-GB
 To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>
+        Bjorn Andersson <quic_bjorande@quicinc.com>
 Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
         Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
@@ -69,6 +67,9 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         Andy Gross <agross@kernel.org>,
         Jassi Brar <jassisinghbrar@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
         Marc Zyngier <maz@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -83,9 +84,9 @@ Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
         linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-5-quic_eberman@quicinc.com>
+ <20221026185846.3983888-4-quic_eberman@quicinc.com>
 From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20221026185846.3983888-5-quic_eberman@quicinc.com>
+In-Reply-To: <20221026185846.3983888-4-quic_eberman@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -93,30 +94,17 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 26/10/2022 21:58, Elliot Berman wrote:
-> Fix build error when CONFIG_ARM64_SVE is selected and
-> asm/alternative-macros.h wasn't implicitly included by another header.
-
-Please include the build error into the commit message to help anybody 
-looking for the solution for the same issue.
-
+> Add architecture-independent standard error codes, types, and macros for
+> Gunyah hypercalls.
 > 
 > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 > ---
->   include/linux/arm-smccc.h | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
-> index 220c8c60e021..6a627cdbbdec 100644
-> --- a/include/linux/arm-smccc.h
-> +++ b/include/linux/arm-smccc.h
-> @@ -383,6 +383,7 @@ asmlinkage void __arm_smccc_hvc(unsigned long a0, unsigned long a1,
->   
->   /* nVHE hypervisor doesn't have a current thread so needs separate checks */
->   #if defined(CONFIG_ARM64_SVE) && !defined(__KVM_NVHE_HYPERVISOR__)
-> +#include <asm/alternative-macros.h>
->   
->   #define SMCCC_SVE_CHECK ALTERNATIVE("nop \n",  "bl __arm_smccc_sve_check \n", \
->   				    ARM64_SVE)
+>   MAINTAINERS            |  1 +
+>   include/linux/gunyah.h | 74 ++++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 75 insertions(+)
+>   create mode 100644 include/linux/gunyah.h
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
