@@ -2,56 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA5BFA373E
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 22:42:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32A22C38A2D
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 22:43:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233381AbiJZWmy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 18:42:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53860 "EHLO
+        id S233696AbiJZWnS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 18:43:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233542AbiJZWmv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 18:42:51 -0400
+        with ESMTP id S233705AbiJZWnB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 18:43:01 -0400
 Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 062DE1F9D5;
-        Wed, 26 Oct 2022 15:42:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AE2E5BE2FF;
+        Wed, 26 Oct 2022 15:42:59 -0700 (PDT)
 Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 4B735489C;
-        Thu, 27 Oct 2022 00:42:49 +0200 (CEST)
+        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id C253B48A0;
+        Thu, 27 Oct 2022 00:42:58 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
-        s=202205; t=1666824169;
-        bh=z+Ch54k+gmevbiInJZ+ZMJKFOWNNhIeKTNXpceivE7M=;
+        s=202205; t=1666824178;
+        bh=KJDVdPnwAEb9wGIso9S8xIg1kNqM2rqj1xsBTAC4c84=;
         h=Date:From:Cc:Subject:References:In-Reply-To:From;
-        b=eInDpVGunEUvT6dYehv5m3C8ThSDrmXAle8/b0GhcaOXgnk8vOBUNu9XLZb8+pek+
-         kfdbYHXD6YjL29PPocHeAJlf72Q93tsvXtk++Mm0aOJh3VLtbSYPxD5vAkRjVvEISA
-         W6dwoMyhg/uj4PVn43oBdbDNZJ4zH39CJLjQiF/hVij0Mq9wrQs3JSyVF0dYU4lIqQ
-         9uP4CdzWQGvhkpvj0qBg2/LE0tKDEjkcIx1mYp3aY6t4Bo90fNr/TFzF0RkImh7jbg
-         zzW2hD6nRo4DezdHay25upYcBvroLH5ob4rGsWuXijYxriKyo88uCyGbBvMzBqq7/p
-         5e5lNipu/ItOeddN2EdDKYUvdwHyTOdkB9rtn+roh7K0ivwPftz9BeLaszEygqGwzK
-         E0Y7wEvdr1Kw2X8soctrl8sQHoSrsK4/qADBC7r1sKWudwn0CqQ+BiDVGiOATekxyy
-         /jt362ZP/qYm58AmF/4X9bmnLFspedhKOSvOtcVbgycFY6q/bIWoYAEGppF5AzJ6kl
-         8jE7Krr/5WnxpvtTAHRA5wYE/Qv4+oxU3VLD9JBV0W3Ku7jW4xHNGE/fxv7isAf7h3
-         hp/LETvRJpptE3Agk+qeft2GSVtkoxZgCDD8xT8yWqDLDjnykmJEtrJGkPs1nFN0LP
-         /0mpI/ZPHJZmMuBoXpOZNvhQ=
-Date:   Thu, 27 Oct 2022 00:42:48 +0200
+        b=Ljrgv533fOq0Ozbfo+BjELxBUX0sRag6Wt/YaMEZb2uSVDHOGNtg3JBmuqaaKD2Rh
+         fpU5iwAOjZlWqvTn85xF+A326d0gr1K8PPKYXtBpf3xTktT5dGkOdmRCnTS7H2kPmc
+         5/ylmcotlKRTG02cjUN5mU+yoaOAKZdNI0aoC2eQS8douQiroPBrbX5Y5blye7Mcem
+         Kn8pKp6dPD8FGnP4bD9wqsePORnpvk27VRNoJrsSuIRQb+Awl3+mPeoUiS3ozoYhyy
+         x8yjC56ZTGSkFOOg3ZpI9K+LSK4Vjsv7PH9UiNQ6vN4A2dtXssnEiwa5arGt/+VaW3
+         w0/4r1FRbKKJgIrkF5PHIepJGTppmhJw9y+QbxqEjRkz5yAgNL6B85fEcxmXGPu2WH
+         VREB/N+d1bUPWv51x+6viOybX2vTxWb5YmQU2UQTvIGiinbGViS1KCxwBpPs2Qgk5i
+         /9GWGb0Gt4zpNVXwD1ljW8Cx3qg+n/QCbVVAW+LM1yPddLWY5IVsU7CJsbVkB9UUq6
+         ZV5FRaWvI8iBhVquNGyK4sy9CfybtDBCtQgLbGyTWhWiSc13OEP+yQdPH+vkiIj83z
+         VX1V9bulmzeb8NmhGQBC0ouyP1gYnZq+6ZPYPFI349lK54YTw2I2o3FSwyb/yYMrK/
+         yzINNG2FyAI2o5BttB1/gaqo=
+Date:   Thu, 27 Oct 2022 00:42:57 +0200
 From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
         Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-        Johan Hovold <johan@kernel.org>,
-        Haowen Bai <baihaowen@meizu.com>, linux-doc@vger.kernel.org,
+        Hu Haowen <src.res@email.cn>, Jan Harkes <jaharkes@cs.cmu.edu>,
+        coda@cs.cmu.edu, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net
-Subject: [PATCH 03/15] pcmcia: synclink_cs: remove MGSLPC_MAGIC
-Message-ID: <c909c36218b0d4b5888b41f9af18e763a5b36dcf.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        codalist@coda.cs.cmu.edu
+Subject: [PATCH 05/15] coda: remove CODA_MAGIC
+Message-ID: <a6eb2dae62abf49b351760a4f55031d1c6f4ea01.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
 References: <9a453437b5c3b4b1887c1bd84455b0cc3d1c40b2.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="giavft5aq6szb66s"
+        protocol="application/pgp-signature"; boundary="icrr2cdkyzfpiibe"
 Content-Disposition: inline
 In-Reply-To: <9a453437b5c3b4b1887c1bd84455b0cc3d1c40b2.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
 User-Agent: NeoMutt/20220429
@@ -61,185 +59,171 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---giavft5aq6szb66s
+--icrr2cdkyzfpiibe
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-MGSLPC_PARANOIA_CHECK has never been defined automatically,
-and in the context of magic numbers as defined in magic-number.rst,
-"the tty layer should not need this"
-
-This is 100% dead cruft, and we have better debugging tooling nowadays:
-kill it
+We have largely moved away from this approach,
+and we have better debugging tooling nowadays: kill it
 
 Ref: https://lore.kernel.org/linux-doc/YyMlovoskUcHLEb7@kroah.com/
 Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
 ---
- Documentation/process/magic-number.rst                 |  1 -
- .../translations/it_IT/process/magic-number.rst        |  1 -
- .../translations/zh_CN/process/magic-number.rst        |  1 -
- .../translations/zh_TW/process/magic-number.rst        |  1 -
- drivers/char/pcmcia/synclink_cs.c                      | 10 ----------
- 5 files changed, 14 deletions(-)
+ Documentation/process/magic-number.rst                    | 1 -
+ Documentation/translations/it_IT/process/magic-number.rst | 1 -
+ Documentation/translations/zh_CN/process/magic-number.rst | 1 -
+ Documentation/translations/zh_TW/process/magic-number.rst | 1 -
+ fs/coda/cnode.c                                           | 2 +-
+ fs/coda/coda_fs_i.h                                       | 2 --
+ fs/coda/file.c                                            | 1 -
+ 7 files changed, 1 insertion(+), 8 deletions(-)
 
 diff --git a/Documentation/process/magic-number.rst b/Documentation/process=
 /magic-number.rst
-index a4414b7e15aa..18f8b1e3a993 100644
+index 18f8b1e3a993..335169e43be1 100644
 --- a/Documentation/process/magic-number.rst
 +++ b/Documentation/process/magic-number.rst
-@@ -72,7 +72,6 @@ PG_MAGIC              'P'              pg_{read,write}_hd=
-r      ``include/linux/
- APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86=
-/kernel/apm_32.c``
- FASYNC_MAGIC          0x4601           fasync_struct            ``include/=
-linux/fs.h``
+@@ -74,7 +74,6 @@ FASYNC_MAGIC          0x4601           fasync_struct     =
+       ``include/linux/
  SLIP_MAGIC            0x5302           slip                     ``drivers/=
 net/slip.h``
--MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
-char/pcmcia/synclink_cs.c``
  HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
 linux/hdlcdrv.h``
  KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
 s/include/asm/sn/klkernvars.h``
- CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+-CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
 coda_fs_i.h``
+ CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
+scsi/ncr53c8xx.c``
+ QUEUE_MAGIC_FREE      0xf7e1c9a3       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+ QUEUE_MAGIC_USED      0xf7e1cc33       queue_entry              ``drivers/=
+scsi/arm/queue.c``
 diff --git a/Documentation/translations/it_IT/process/magic-number.rst b/Do=
 cumentation/translations/it_IT/process/magic-number.rst
-index f51c5ef9d93f..827167b18f15 100644
+index 827167b18f15..699b681088ac 100644
 --- a/Documentation/translations/it_IT/process/magic-number.rst
 +++ b/Documentation/translations/it_IT/process/magic-number.rst
-@@ -78,7 +78,6 @@ PG_MAGIC              'P'              pg_{read,write}_hd=
-r      ``include/linux/
- APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86=
-/kernel/apm_32.c``
- FASYNC_MAGIC          0x4601           fasync_struct            ``include/=
-linux/fs.h``
+@@ -80,7 +80,6 @@ FASYNC_MAGIC          0x4601           fasync_struct     =
+       ``include/linux/
  SLIP_MAGIC            0x5302           slip                     ``drivers/=
 net/slip.h``
--MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
-char/pcmcia/synclink_cs.c``
  HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
 linux/hdlcdrv.h``
  KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
 s/include/asm/sn/klkernvars.h``
- CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+-CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
 coda_fs_i.h``
+ CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
+scsi/ncr53c8xx.c``
+ QUEUE_MAGIC_FREE      0xf7e1c9a3       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+ QUEUE_MAGIC_USED      0xf7e1cc33       queue_entry              ``drivers/=
+scsi/arm/queue.c``
 diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Do=
 cumentation/translations/zh_CN/process/magic-number.rst
-index 3b53bd67e41b..9553475e9867 100644
+index 9553475e9867..d1ede86944f1 100644
 --- a/Documentation/translations/zh_CN/process/magic-number.rst
 +++ b/Documentation/translations/zh_CN/process/magic-number.rst
-@@ -61,7 +61,6 @@ PG_MAGIC              'P'              pg_{read,write}_hd=
-r      ``include/linux/
- APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86=
-/kernel/apm_32.c``
- FASYNC_MAGIC          0x4601           fasync_struct            ``include/=
-linux/fs.h``
+@@ -63,7 +63,6 @@ FASYNC_MAGIC          0x4601           fasync_struct     =
+       ``include/linux/
  SLIP_MAGIC            0x5302           slip                     ``drivers/=
 net/slip.h``
--MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
-char/pcmcia/synclink_cs.c``
  HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
 linux/hdlcdrv.h``
  KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
 s/include/asm/sn/klkernvars.h``
- CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+-CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
 coda_fs_i.h``
+ CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
+scsi/ncr53c8xx.c``
+ QUEUE_MAGIC_FREE      0xf7e1c9a3       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+ QUEUE_MAGIC_USED      0xf7e1cc33       queue_entry              ``drivers/=
+scsi/arm/queue.c``
 diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Do=
 cumentation/translations/zh_TW/process/magic-number.rst
-index 7d176a87ec3c..8a64f56ae267 100644
+index 8a64f56ae267..1dd01f1e1c17 100644
 --- a/Documentation/translations/zh_TW/process/magic-number.rst
 +++ b/Documentation/translations/zh_TW/process/magic-number.rst
-@@ -64,7 +64,6 @@ PG_MAGIC              'P'              pg_{read,write}_hd=
-r      ``include/linux/
- APM_BIOS_MAGIC        0x4101           apm_user                 ``arch/x86=
-/kernel/apm_32.c``
- FASYNC_MAGIC          0x4601           fasync_struct            ``include/=
-linux/fs.h``
+@@ -66,7 +66,6 @@ FASYNC_MAGIC          0x4601           fasync_struct     =
+       ``include/linux/
  SLIP_MAGIC            0x5302           slip                     ``drivers/=
 net/slip.h``
--MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
-char/pcmcia/synclink_cs.c``
  HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
 linux/hdlcdrv.h``
  KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
 s/include/asm/sn/klkernvars.h``
- CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+-CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
 coda_fs_i.h``
-diff --git a/drivers/char/pcmcia/synclink_cs.c b/drivers/char/pcmcia/syncli=
-nk_cs.c
-index b2735be81ab2..262f087bfc01 100644
---- a/drivers/char/pcmcia/synclink_cs.c
-+++ b/drivers/char/pcmcia/synclink_cs.c
-@@ -137,7 +137,6 @@ struct _input_signal_events {
- typedef struct _mgslpc_info {
- 	struct tty_port		port;
- 	void *if_ptr;	/* General purpose pointer (used by SPPP) */
--	int			magic;
- 	int			line;
-=20
- 	struct mgsl_icount	icount;
-@@ -228,8 +227,6 @@ typedef struct _mgslpc_info {
-=20
- } MGSLPC_INFO;
-=20
--#define MGSLPC_MAGIC 0x5402
--
- /*
-  * The size of the serial xmit buffer is 1 page, or 4096 bytes
-  */
-@@ -525,7 +522,6 @@ static int mgslpc_probe(struct pcmcia_device *link)
- 		return -ENOMEM;
- 	}
-=20
--	info->magic =3D MGSLPC_MAGIC;
- 	tty_port_init(&info->port);
- 	info->port.ops =3D &mgslpc_port_ops;
- 	INIT_WORK(&info->task, bh_handler);
-@@ -652,8 +648,6 @@ static inline bool mgslpc_paranoia_check(MGSLPC_INFO *i=
-nfo,
- 					char *name, const char *routine)
+ CCB_MAGIC             0xf2691ad2       ccb                      ``drivers/=
+scsi/ncr53c8xx.c``
+ QUEUE_MAGIC_FREE      0xf7e1c9a3       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+ QUEUE_MAGIC_USED      0xf7e1cc33       queue_entry              ``drivers/=
+scsi/arm/queue.c``
+diff --git a/fs/coda/cnode.c b/fs/coda/cnode.c
+index 62a3d2565c26..e217cca338bd 100644
+--- a/fs/coda/cnode.c
++++ b/fs/coda/cnode.c
+@@ -157,7 +157,7 @@ struct coda_file_info *coda_ftoc(struct file *file)
  {
- #ifdef MGSLPC_PARANOIA_CHECK
--	static const char *badmagic =3D
--		"Warning: bad magic number for mgsl struct (%s) in %s\n";
- 	static const char *badinfo =3D
- 		"Warning: null mgslpc_info for (%s) in %s\n";
+ 	struct coda_file_info *cfi =3D file->private_data;
 =20
-@@ -661,10 +655,6 @@ static inline bool mgslpc_paranoia_check(MGSLPC_INFO *=
-info,
- 		printk(badinfo, name, routine);
- 		return true;
- 	}
--	if (info->magic !=3D MGSLPC_MAGIC) {
--		printk(badmagic, name, routine);
--		return true;
--	}
- #else
- 	if (!info)
- 		return true;
+-	BUG_ON(!cfi || cfi->cfi_magic !=3D CODA_MAGIC);
++	BUG_ON(!cfi);
+=20
+ 	return cfi;
+=20
+diff --git a/fs/coda/coda_fs_i.h b/fs/coda/coda_fs_i.h
+index 1763ff95d865..9e4b54dbe7d7 100644
+--- a/fs/coda/coda_fs_i.h
++++ b/fs/coda/coda_fs_i.h
+@@ -35,9 +35,7 @@ struct coda_inode_info {
+ /*
+  * coda fs file private data
+  */
+-#define CODA_MAGIC 0xC0DAC0DA
+ struct coda_file_info {
+-	int		   cfi_magic;	  /* magic number */
+ 	struct file	  *cfi_container; /* container file for this cnode */
+ 	unsigned int	   cfi_mapcount;  /* nr of times this file is mapped */
+ 	bool		   cfi_access_intent; /* is access intent supported */
+diff --git a/fs/coda/file.c b/fs/coda/file.c
+index 3f3c81e6b1ab..c23f846bf206 100644
+--- a/fs/coda/file.c
++++ b/fs/coda/file.c
+@@ -222,7 +222,6 @@ int coda_open(struct inode *coda_inode, struct file *co=
+da_file)
+=20
+ 	host_file->f_flags |=3D coda_file->f_flags & (O_APPEND | O_SYNC);
+=20
+-	cfi->cfi_magic =3D CODA_MAGIC;
+ 	cfi->cfi_mapcount =3D 0;
+ 	cfi->cfi_container =3D host_file;
+ 	/* assume access intents are supported unless we hear otherwise */
 --=20
 2.30.2
 
---giavft5aq6szb66s
+--icrr2cdkyzfpiibe
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmNZt+cACgkQvP0LAY0m
-WPGU2g//ealvvVdNSk/+j901xtE1Cn9QAl98lXslGQsYfilZkbInrouwago5FJ12
-w0A4HDWLv06lawk1BcZof2bpTkVK3oyLs/zy94ZwTi8WOC1HkKArulk0w4YHe0AE
-jt/tA+FMQAYzcMBdtkKfsQZ+YYNjyUCVWW4xHwak6/tndMEtEnnPuHQbWcRvi6Kw
-iyt3C28j3hnRq8ZkRmSnbNc1IHmuo/ULgROhn83SuX5OUnHIIRn8EoMvSg44CpUP
-3c1nJNjv3GW32/8EDumTFGKpGVFr6kqHqX8x8AZd+EpuVBaLuQ+LyxJs52ByE3lL
-q3CFT0VmsCVf8JMqXyqMbJl1oSo4EeF2RI494nsiR4vduDtWbr2lg6qqPfvzXl7C
-iECR1OfZ9svLjyQ3INqG1GL0Tw46P5HGkqtl+ScoAdDoxgsXKFyA+VhEoVlyII3n
-FBKaBDsv6J89fU5w+tdwnvl/dybLgUICigUCGQupyGpXFgf2ruCOGiBPPf3uXH4F
-V82MdEiTDXaihwbRN3K5kxoO4B4krANkjRmUlGlHtvtki6q/fMNs3/cby9+/WFjb
-mYpBBrPS0sG0+Abtf5s4qOhxvidFMv0gz1zHoqwQB9uR6awbNop5tIuiCorE/tsY
-VRVUBF3LeYei5ykJydNDratNNzzab4KgMNQX7FqCobk3VBCmOpg=
-=Eazf
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmNZt/EACgkQvP0LAY0m
+WPFUsw//TDjVp8bnKAfL6Nm55qPtO4J5E3pMtrOErW48McV3Sf7yLh3qbsPLAGZC
+T+Lq6ymN/uKPAbS60kVQOcE97tR/8kvvWbGTo1bc07t54sWcujMN5EEyGwyEWoV7
+7qkVzq0Xeew3ENLjoVQYXMplIKPjmAugofbqTFoFUG5MvolJVxVOV0t+U2wpmwuU
+jehwmvOQYlHsB0QGnBp24nyRAUZv5DZJflr+VnoEll4UuUG8ymEJPcwtVaflN3Fh
+APSCOVNvTVvvhSH9GzE/C1k6V+sp4wO5voCrrx8K44Z+BRPEqapgU3OpQ1wcI3jC
+KCjCBH06xc/4PJd0fnVOMnBql+1Bb5PnAMjQrTifk96ok4ba/bZEDpnaEVN+5M+e
+dmFQzBmsGtzzY2rpZBaKaPw6BDf10JMsPj7/nzKuClfmk6rldWTNJPbcOXlEgCzA
+/XFAT8AgmDAyqEvbo+ROuJizrTZ/TX1gI5enlsdQW/X/lYiErOCMnEyyYMrSDhey
+qDp+ryf20s6we8CbZjOOnJfgLgGNlbw76aLLOcNLpd3MDhfYWYKVe0sY4YaLR9+5
+57lm+8aRRLyxK/OECu/i48V4IrhIyQDzm2VWoAeGgdEVgPzFhr5PlNQ21/3BUdxj
+eHr4Hffl+VsjPnbn8kWJ38EBrR0U3gwJTos+BP4ghNjuBAv66sc=
+=/6gY
 -----END PGP SIGNATURE-----
 
---giavft5aq6szb66s--
+--icrr2cdkyzfpiibe--
