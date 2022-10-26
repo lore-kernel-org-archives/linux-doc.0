@@ -2,646 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01AF9C433FE
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 22:45:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6781FA373E
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 23:18:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233760AbiJZWpY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 18:45:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54772 "EHLO
+        id S234210AbiJZXSa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 19:18:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233835AbiJZWoI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 18:44:08 -0400
-Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 94E17137297;
-        Wed, 26 Oct 2022 15:43:49 -0700 (PDT)
-Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id E13B645F6;
-        Thu, 27 Oct 2022 00:43:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
-        s=202205; t=1666824228;
-        bh=13bJ3PGATBe6m6ipAKsYnwQ+WdgCATcYlf6DlHJtLe0=;
-        h=Date:From:Cc:Subject:References:In-Reply-To:From;
-        b=F1q8fx42/AZmbNHtLuFj/dM5113GxOWGW5pwkcODKYo2qaQO7gSQMR/M/DX4beNbr
-         X0aHe5+oEsuiEsDgfniB341hoBb6jyXW5D708FGtHxBIERKIIRFM1YuNvBl1+W1RJM
-         OBPCVq0L3g7HNykUTgotrb1VgUMXN5tB/WzWbfx9XhybzJxr7+PX14w1QSet8PfTeS
-         4CB8GtwZ15gZMVpQvgZuriPZYCF3176PETuL/cCvDNsqkqAim5I8uSke1+xigj2TTm
-         KUy1c0A0TYT8UdXc/gmzwnMKa2Ub5o/qa6We43t43qRegD+K8bUXlpJcYEKOLYJ0nd
-         nZFL/G5QNNmB8cuhF8ijHJQKpx3zWObRDKU0KSEzyV6qU3mQKyCjavVSpODyzo/n7z
-         tocntLoA3HVEECFAyd0tZ17RfZaTimCNR2rSIeEklDtOaZfzikVOvq0E4t9AnX8+3h
-         eY2tbWZ0952k4XZv5E6EuNRSArQljdORXL2rKYX8vgl4r2ujl1xvOUu+IpivR7TiQ8
-         esNyExYD6ZEXnJV3vF8LzOxzC3oyJeav9WB38/sa0yp1gGKVQixAzoqcZUE/d4dsXP
-         u6LsPqNl2LToe/v9OUlKE7jfeu73E58qh9RCLyyArNs3H+E8hrNoaCyuJlcm0Qi0QR
-         3CYkiLn/PS2T80cqDgOcl7Uc=
-Date:   Thu, 27 Oct 2022 00:43:47 +0200
-From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Kees Cook <keescook@chromium.org>,
-        Stefano Zacchiroli <zack@upsilon.cc>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Wu XiangCheng <bobwxc@email.cn>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net
-Subject: [PATCH 15/15] Documentation: bury magic-number, now devoid of content
-Message-ID: <83bd024a7f81492be259a531c407cb017186d745.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
-References: <9a453437b5c3b4b1887c1bd84455b0cc3d1c40b2.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="fuomk4bg4wfovgwo"
+        with ESMTP id S233844AbiJZXSE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 19:18:04 -0400
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2078.outbound.protection.outlook.com [40.107.95.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72702B8C0F;
+        Wed, 26 Oct 2022 16:17:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j8U1rgEqoBQDM5RGYrZmspJMhXqz3A4SfeQmwwPVkz4zFL9rplxqdqpbtX994ZcbZ11z2tO9YvwtS3UyfnpsO3qaTulOKzXuCbNJYXfraJ+39kCdTmLAG5laIOuyhyEMXtAafZm92O1Uwa/LxqTsHf4VnYI0J0/Qp/MrjSbVoL/6hg7U2X1srQhbkzPK58j6NNHYe/kU2cgZC8Fpo+aT+PR8ruPP7QVrtUUCuJzaKuJGypZREkuZAcV5p5fHQOu4FXMa2cT8Agv+RO7KcuYAi1wMC1a45MIFWIADLehdbKr+fbzlpkQemQc7eHcZ1No/dP2zB90Bg/H1hZpUlZzEWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WGNiizTFcUwCN/L1ZiKc5QLrDNWfMbQatWehMkc23Kc=;
+ b=dnNGS/xXTlwxawfFPdTBX0OE4rpPWukMZ7A9if+6l9vNQqJy9Is3abaK7tCfeSYuRfnNSfHNiSEcLXYf4H7KWzd9LPh1kCjt0T098E6UvVJlV13E49S3owvcPY2LiIasYfhsjtX01w0iVM914uoEKMF/kU1gix7vJfO7cFEP4MnAR0Zld5k2wl41qOgQo9movwKdnTOaagJaca3wSdGkDZ34f4VPNliqhFObNY8uCPCPWj3wxOSUmyprY4z85JjzQ0M72MBC3RNI5w8hXZwDGOEtnlZq5PVS2rL6BukhCy24TGYC3jFfr7OuP+hxfAERDW2M+uYLwYEzftTVbn1xSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WGNiizTFcUwCN/L1ZiKc5QLrDNWfMbQatWehMkc23Kc=;
+ b=eABlgKZAgTC0PGVr8VfgnJ/VNOepNuAYt4a9BALH+fzdcVkRfbZ+DmHaKA77Y30jAbZrVIEMrjDiHWYfkzRHIIt9uczQWqnNjoYQJlOp/oMcHZ7uThiQPOSzcOd1+ZeVvX/DVor/JzqyXe5kLQ680eMy84Mi6dMBpOdgZd73cvQ4eAh8+kt/FVyiDJ6C0DGAwLy6AO/JckA5FVdPkPBkxvZyAC+bLRX8n/tHbLGCLJo5PFMlOOTgAn3QiFBV6HIhPOQldpt+bjx1k+gVGE6Ahm/BC1EHW1E23EWWhCEMVryRYn4rsiRTtO1ARBd5ccrB81WMLIc72fabLvl3VOKA1A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by IA1PR12MB7493.namprd12.prod.outlook.com (2603:10b6:208:41b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Wed, 26 Oct
+ 2022 23:17:38 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5746.021; Wed, 26 Oct 2022
+ 23:17:38 +0000
+Date:   Wed, 26 Oct 2022 20:17:37 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Lu Baolu <baolu.lu@linux.intel.com>, bpf@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v3 10/15] iommufd: IOCTLs for the io_pagetable
+Message-ID: <Y1nAEfNBYMswuqiM@nvidia.com>
+References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <10-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9a453437b5c3b4b1887c1bd84455b0cc3d1c40b2.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
-User-Agent: NeoMutt/20220429
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <10-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+X-ClientProxiedBy: YT1PR01CA0112.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::21) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|IA1PR12MB7493:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52103476-c604-4e6a-9645-08dab7a845f5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YRIGgkrslRYmykmLkVqpIis9Q5bddhHJ/aajie6Gwu/oD6sPUdFv5qmjWa+eDqmWrYYwasTb2Q1NYf+wYUH7CcbB0yR0PRlHMJH0irtG1il4OChKeLwV4igCXRyzNE7wS4g5pVzHAmF3Rr11o/CgCMfOSbTAt5d3Vhyc47cJQF1C5ujptbMpfOXQU1JE9OMsbJ+zGMKUFvLiNVcKnczj3A4TIGq9lYMFcEEYTNf/aL2NgE8KvUcqprLORIjD54rzsRBc/MkQulYDDTZzSP+0rhJqp/qj9uFdYtYpheKRg18Bobj4knOo7I3UckFM+SHmS8HQfuf9xnBZJKEQjzJqgJn+MB/gMI9m1whcAe5UNIKCW/C4HeEAvtWjLQCVo6hQDFvZ1VuGEGFzGECVvUxAi7FEHSK9M0kpIeM1MwGp2RkTuv6A+m12fDvC5A8b4mNzswqQshmC1OfMbcIEfGmlHh2lrRy0FLuyuzTAlO5K+k0LfjuxgOCXIjoq6ssN7itBtM020q7Cy5HxEFk94Y2LaUzLy1CaSOHbC1F/UkfPgYSUK0aOL3sIF6ThyxG8MkZ9rGui+uKm5QcEmpVJI/EdKK4PIctmQysHj3eussWHPH98joTJLnpj5LVENHOnYsM4cWtVmqCC1MKaOjLDocsPhnsHMg6qtmq2pqVEZAmmp5BC1Kuz9Zjn88zsv3ZtCNKKgl4UKOiQ1el9uRHQ+mPulK95MyUbsRZ3L5bjVRgIMIM5XGNYeHmmlYSB0gRJH0z/
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(376002)(136003)(366004)(346002)(396003)(451199015)(36756003)(2906002)(54906003)(5660300002)(921005)(110136005)(4326008)(66476007)(66946007)(7416002)(66556008)(41300700001)(8676002)(7406005)(8936002)(316002)(4744005)(2616005)(6512007)(83380400001)(6506007)(38100700002)(86362001)(186003)(26005)(6486002)(478600001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+VG9NLWHAzftHcCdcBU3VT297rcpkFdFleRh/83AFwecWpEh4s3dDGUbvZUg?=
+ =?us-ascii?Q?zdKja430W+9dhmVHHoq0n1wnwRS4rn18k5mSiEMgAdaR1PLVyB+zDqKF/Q7U?=
+ =?us-ascii?Q?K6X+ZgxvCYsOkO3ODm2/5mordrWUg63bio+ZFrsYtMzf4TtOimzMrb5lIEpM?=
+ =?us-ascii?Q?amk2X4teemGHYzxV+LToqgP0oETjZfUlqvl3KqBPS47GC/jXqDGlbygIfijk?=
+ =?us-ascii?Q?2VhyfilQJVeUiJd3AUst3uWnMCeCvYUc/Q04aLVaSsvsV8+uilmZIEQzIVwN?=
+ =?us-ascii?Q?EwQJldI+F32HubhhqfOzb7Av/XTWXOffSVhedKCc/yH42/gAkcGy1rAPvjtb?=
+ =?us-ascii?Q?QLiEOlJGAARuYeSGVtZwfuHUZKGGJ/bfVPOzymdy7+bf4g+1I7cjEGBPcUxw?=
+ =?us-ascii?Q?o4Id7N2PgEi/z7S3nPQ19YHGXm5CNlwaYq5BAPk4wxiEjdqbBUlJ6JhW7PIg?=
+ =?us-ascii?Q?LQN2oNBlyKh/ZG65bEZpVP4dOxxPpBA/uxRkuU4A/3wL/bFfdLkm2zIZyI2X?=
+ =?us-ascii?Q?0ouFJQE1/cM6RsjANyEI3XXG2dzBr7dgGYrnSC7BewwVOTyQrxTw9mO6YMak?=
+ =?us-ascii?Q?Ub/MJHZQ57/xN6BlgUOLdCgU6QuvWNRe3WHjWpZRmk4Tcl7nRENHpI18Icyh?=
+ =?us-ascii?Q?F/aMTzRIQfO7gpuUX+eSZYAoUj/P3fmynO5+LU8KdMDqNVrKLV/Vq9/aYYTv?=
+ =?us-ascii?Q?zHvM95oLRW/RUy0masVB9Nf+XTG8Tl1q9qHCa/MdscmjUv5WENiTjjUHvt1c?=
+ =?us-ascii?Q?viEnlMJCR6/fRzPaYfcgFmUwJAsexdJtadlaF9keskK94uX6bz0eYiKtzVBj?=
+ =?us-ascii?Q?cBSqiRjGyS+NET+ugHlYaHkiaDt9ThXcYa2tQRdHza8aeCcW6UtQlxtjC8xq?=
+ =?us-ascii?Q?ORcEIG/GPLENg7phS+9WEY/2QdamE23n8d4WKIa2djkpIOqHxQFaFn4ukneh?=
+ =?us-ascii?Q?i+OaEZPgLpq7oEanhNxBTEXqDZM0Wt2zZVcCjYjjrAt6msUj5cF22ZMBfvq4?=
+ =?us-ascii?Q?uIxahLKePbi+xyvELFjFmDKilZuWEk8GAEVrPJGCzSXe1f49A8OV6CAkb59P?=
+ =?us-ascii?Q?Nk0YwPAqYNXgvEYzUUZEINDH/Xqtobbu/OEufW4RRs3GbeTH8wZuZuU120qY?=
+ =?us-ascii?Q?wBtRwNpAoMbZ4SwiXI713MQwERu+XvyPlUGWglJdKrnIgjcT/vjXxhUWp27D?=
+ =?us-ascii?Q?RLI5PnL6MsNUmaBVHtSU1m7WG99KcbSTbycyMrhhjafAM5T6tVHuiLJShOap?=
+ =?us-ascii?Q?U7yUSHUiNzFW5AFhJrmKDvvebESXX5KpfAafTJYYUcYZc2lzJgaIv5RBmind?=
+ =?us-ascii?Q?pUG9Xk23+54Dc+6lbG7ebNwPK5jH7qJNoF22lDITekNuXhFRLb+PscwyzQJZ?=
+ =?us-ascii?Q?ruzrkd39LBEV9ipgd1W2/fuW0u7HeRs6iQqMGtUcoxbpsMtc8qanRLqyWUGp?=
+ =?us-ascii?Q?1e9g8jUqeXlfsF7pFofHSycNrcoZTZF2fq+9Of1vYXrAdjRSUNkck4rCOtZ/?=
+ =?us-ascii?Q?Pz7NgyFfu5B/jSmDfsMmvK9+ygE+aRxRR8iSevIMMEwqUEGJF/ZKVchrStYc?=
+ =?us-ascii?Q?TYMk2lwNzCps7zIomTYQHxORkNd1/Qavdayvs2aI?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52103476-c604-4e6a-9645-08dab7a845f5
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2022 23:17:38.4957
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /LOFoOFWi3WHuIlXKV9yr0iUfVZMGQ12CLwrPS8WoKgfOdY8rOZdoKLXfoHzzWnY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7493
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Oct 25, 2022 at 03:12:19PM -0300, Jason Gunthorpe wrote:
+>  static struct iommufd_ioctl_op iommufd_ioctl_ops[] = {
+>  	IOCTL_OP(IOMMU_DESTROY, iommufd_destroy, struct iommu_destroy, id),
+> +	IOCTL_OP(IOMMU_IOAS_ALLOC, iommufd_ioas_alloc_ioctl,
+> +		 struct iommu_ioas_alloc, out_ioas_id),
+> +	IOCTL_OP(IOMMU_IOAS_ALLOW_IOVAS, iommufd_ioas_allow_iovas,
+> +		 struct iommu_ioas_allow_iovas, allowed_iovas),
+> +	IOCTL_OP(IOMMU_IOAS_COPY, iommufd_ioas_copy, struct iommu_ioas_copy,
+> +		 src_iova),
+> +	IOCTL_OP(IOMMU_IOAS_IOVA_RANGES, iommufd_ioas_iova_ranges,
+> +		 struct iommu_ioas_iova_ranges, out_iova_alignment),
+> +	IOCTL_OP(IOMMU_IOAS_MAP, iommufd_ioas_map, struct iommu_ioas_map,
+> +		 __reserved),
 
---fuomk4bg4wfovgwo
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Syzkaller indirectly noticed that __reserved is no longer the last
+item in this struct:
 
-The list is now empty, and we've largely moved away from this approach,
-and we have better debugging instrumentation nowadays
+        IOCTL_OP(IOMMU_IOAS_MAP, iommufd_ioas_map, struct iommu_ioas_map,
+-                __reserved),
++                iova),
 
-Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
----
- Documentation/process/index.rst               |  1 -
- Documentation/process/magic-number.rst        | 71 -----------------
- .../translations/it_IT/process/index.rst      |  1 -
- .../it_IT/process/magic-number.rst            | 77 -------------------
- .../translations/zh_CN/process/index.rst      |  1 -
- .../zh_CN/process/magic-number.rst            | 60 ---------------
- .../translations/zh_TW/process/index.rst      |  1 -
- .../zh_TW/process/magic-number.rst            | 63 ---------------
- 8 files changed, 275 deletions(-)
- delete mode 100644 Documentation/process/magic-number.rst
- delete mode 100644 Documentation/translations/it_IT/process/magic-number.r=
-st
- delete mode 100644 Documentation/translations/zh_CN/process/magic-number.r=
-st
- delete mode 100644 Documentation/translations/zh_TW/process/magic-number.r=
-st
+Also added a test to cover basic struct extensibility on all the ioctls.
 
-diff --git a/Documentation/process/index.rst b/Documentation/process/index.=
-rst
-index d4b6217472b0..a8c0c4bffa47 100644
---- a/Documentation/process/index.rst
-+++ b/Documentation/process/index.rst
-@@ -59,7 +59,6 @@ lack of a better place.
-=20
-    applying-patches
-    adding-syscalls
--   magic-number
-    volatile-considered-harmful
-    botching-up-ioctls
-    clang-format
-diff --git a/Documentation/process/magic-number.rst b/Documentation/process=
-/magic-number.rst
-deleted file mode 100644
-index 5a8c2755ac9c..000000000000
---- a/Documentation/process/magic-number.rst
-+++ /dev/null
-@@ -1,71 +0,0 @@
--.. _magicnumbers:
--
--Linux magic numbers
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
--
--This file is a registry of magic numbers which are in use.  When you
--add a magic number to a structure, you should also add it to this
--file, since it is best if the magic numbers used by various structures
--are unique.
--
--It is a **very** good idea to protect kernel data structures with magic
--numbers.  This allows you to check at run time whether (a) a structure
--has been clobbered, or (b) you've passed the wrong structure to a
--routine.  This last is especially useful --- particularly when you are
--passing pointers to structures via a void * pointer.  The tty code,
--for example, does this frequently to pass driver-specific and line
--discipline-specific structures back and forth.
--
--The way to use magic numbers is to declare them at the beginning of
--the structure, like so::
--
--	struct tty_ldisc {
--		int	magic;
--		...
--	};
--
--Please follow this discipline when you are adding future enhancements
--to the kernel!  It has saved me countless hours of debugging,
--especially in the screwy cases where an array has been overrun and
--structures following the array have been overwritten.  Using this
--discipline, these cases get detected quickly and safely.
--
--Changelog::
--
--					Theodore Ts'o
--					31 Mar 94
--
--  The magic table is current to Linux 2.1.55.
--
--					Michael Chastain
--					<mailto:mec@shout.net>
--					22 Sep 1997
--
--  Now it should be up to date with Linux 2.1.112. Because
--  we are in feature freeze time it is very unlikely that
--  something will change before 2.2.x. The entries are
--  sorted by number field.
--
--					Krzysztof G. Baranowski
--					<mailto: kgb@knm.org.pl>
--					29 Jul 1998
--
--  Updated the magic table to Linux 2.5.45. Right over the feature freeze,
--  but it is possible that some new magic numbers will sneak into the
--  kernel before 2.6.x yet.
--
--					Petr Baudis
--					<pasky@ucw.cz>
--					03 Nov 2002
--
--  Updated the magic table to Linux 2.5.74.
--
--					Fabian Frederick
--					<ffrederick@users.sourceforge.net>
--					09 Jul 2003
--
--
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
--Magic Name            Number           Structure                File
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-diff --git a/Documentation/translations/it_IT/process/index.rst b/Documenta=
-tion/translations/it_IT/process/index.rst
-index 8d4e36a07ff4..71adf53bc297 100644
---- a/Documentation/translations/it_IT/process/index.rst
-+++ b/Documentation/translations/it_IT/process/index.rst
-@@ -56,7 +56,6 @@ perch=C3=A9 non si =C3=A8 trovato un posto migliore.
-=20
-    applying-patches
-    adding-syscalls
--   magic-number
-    volatile-considered-harmful
-    clang-format
-    ../riscv/patch-acceptance
-diff --git a/Documentation/translations/it_IT/process/magic-number.rst b/Do=
-cumentation/translations/it_IT/process/magic-number.rst
-deleted file mode 100644
-index 2fbc1876534a..000000000000
---- a/Documentation/translations/it_IT/process/magic-number.rst
-+++ /dev/null
-@@ -1,77 +0,0 @@
--.. include:: ../disclaimer-ita.rst
--
--:Original: :ref:`Documentation/process/magic-number.rst <magicnumbers>`
--:Translator: Federico Vaga <federico.vaga@vaga.pv.it>
--
--.. _it_magicnumbers:
--
--I numeri magici di Linux
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
--
--Questo documento =C3=A8 un registro dei numeri magici in uso.  Quando
--aggiungete un numero magico ad una struttura, dovreste aggiungerlo anche
--a questo documento; la cosa migliore =C3=A8 che tutti i numeri magici usati
--dalle varie strutture siano unici.
--
--=C3=88 **davvero** un'ottima idea proteggere le strutture dati del kernel =
-con
--dei numeri magici.  Questo vi permette in fase d'esecuzione di (a) verific=
-are
--se una struttura =C3=A8 stata malmenata, o (b) avete passato a una procedu=
-ra la
--struttura errata.  Quest'ultimo =C3=A8 molto utile - particolarmente quand=
-o si passa
--una struttura dati tramite un puntatore void \*.  Il codice tty, per esemp=
-io,
--effettua questa operazione con regolarit=C3=A0 passando avanti e indietro =
-le
--strutture specifiche per driver e discipline.
--
--Per utilizzare un numero magico, dovete dichiararlo all'inizio della strut=
-tura
--dati, come di seguito::
--
--	struct tty_ldisc {
--		int	magic;
--		...
--	};
--
--Per favore, seguite questa direttiva quando aggiungerete migliorie al kern=
-el!
--Mi ha risparmiato un numero illimitato di ore di debug, specialmente nei c=
-asi
--pi=C3=B9 ostici dove si =C3=A8 andati oltre la dimensione di un vettore e =
-la struttura
--dati che lo seguiva in memoria =C3=A8 stata sovrascritta.  Seguendo questa
--direttiva, questi casi vengono identificati velocemente e in sicurezza.
--
--Registro dei cambiamenti::
--
--					Theodore Ts'o
--					31 Mar 94
--
--  La tabella magica =C3=A8 aggiornata a Linux 2.1.55.
--
--					Michael Chastain
--					<mailto:mec@shout.net>
--					22 Sep 1997
--
--  Ora dovrebbe essere aggiornata a Linux 2.1.112. Dato che
--  siamo in un momento di congelamento delle funzionalit=C3=A0
--  (*feature freeze*) =C3=A8 improbabile che qualcosa cambi prima
--  della versione 2.2.x.  Le righe sono ordinate secondo il
--  campo numero.
--
--					Krzysztof G. Baranowski
--					<mailto: kgb@knm.org.pl>
--					29 Jul 1998
--
--  Aggiornamento della tabella a Linux 2.5.45. Giusti nel congelamento
--  delle funzionalit=C3=A0 ma =C3=A8 comunque possibile che qualche nuovo
--  numero magico s'intrufoli prima del kernel 2.6.x.
--
--					Petr Baudis
--					<pasky@ucw.cz>
--					03 Nov 2002
--
--  Aggiornamento della tabella magica a Linux 2.5.74.
--
--					Fabian Frederick
--					<ffrederick@users.sourceforge.net>
--					09 Jul 2003
--
--
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
--Nome magico           Numero           Struttura                File
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documenta=
-tion/translations/zh_CN/process/index.rst
-index a1a35f88f4ae..300d579b3ad0 100644
---- a/Documentation/translations/zh_CN/process/index.rst
-+++ b/Documentation/translations/zh_CN/process/index.rst
-@@ -52,7 +52,6 @@
- .. toctree::
-    :maxdepth: 1
-=20
--   magic-number
-    volatile-considered-harmful
-=20
- .. only::  subproject and html
-diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Do=
-cumentation/translations/zh_CN/process/magic-number.rst
-deleted file mode 100644
-index f8ec4767bc4e..000000000000
---- a/Documentation/translations/zh_CN/process/magic-number.rst
-+++ /dev/null
-@@ -1,60 +0,0 @@
--.. _cn_magicnumbers:
--
--.. include:: ../disclaimer-zh_CN.rst
--
--:Original: :ref:`Documentation/process/magic-number.rst <magicnumbers>`
--
--=E5=A6=82=E6=9E=9C=E6=83=B3=E8=AF=84=E8=AE=BA=E6=88=96=E6=9B=B4=E6=96=B0=
-=E6=9C=AC=E6=96=87=E7=9A=84=E5=86=85=E5=AE=B9=EF=BC=8C=E8=AF=B7=E7=9B=B4=E6=
-=8E=A5=E5=8F=91=E4=BF=A1=E5=88=B0LKML=E3=80=82=E5=A6=82=E6=9E=9C=E4=BD=A0=
-=E4=BD=BF=E7=94=A8=E8=8B=B1=E6=96=87=E4=BA=A4=E6=B5=81=E6=9C=89=E5=9B=B0=E9=
-=9A=BE=E7=9A=84=E8=AF=9D=EF=BC=8C=E4=B9=9F=E5=8F=AF
--=E4=BB=A5=E5=90=91=E4=B8=AD=E6=96=87=E7=89=88=E7=BB=B4=E6=8A=A4=E8=80=85=
-=E6=B1=82=E5=8A=A9=E3=80=82=E5=A6=82=E6=9E=9C=E6=9C=AC=E7=BF=BB=E8=AF=91=E6=
-=9B=B4=E6=96=B0=E4=B8=8D=E5=8F=8A=E6=97=B6=E6=88=96=E8=80=85=E7=BF=BB=E8=AF=
-=91=E5=AD=98=E5=9C=A8=E9=97=AE=E9=A2=98=EF=BC=8C=E8=AF=B7=E8=81=94=E7=B3=BB=
-=E4=B8=AD=E6=96=87=E7=89=88=E7=BB=B4=E6=8A=A4=E8=80=85::
--
--        =E4=B8=AD=E6=96=87=E7=89=88=E7=BB=B4=E6=8A=A4=E8=80=85=EF=BC=9A =
-=E8=B4=BE=E5=A8=81=E5=A8=81 Jia Wei Wei <harryxiyou@gmail.com>
--        =E4=B8=AD=E6=96=87=E7=89=88=E7=BF=BB=E8=AF=91=E8=80=85=EF=BC=9A =
-=E8=B4=BE=E5=A8=81=E5=A8=81 Jia Wei Wei <harryxiyou@gmail.com>
--        =E4=B8=AD=E6=96=87=E7=89=88=E6=A0=A1=E8=AF=91=E8=80=85=EF=BC=9A =
-=E8=B4=BE=E5=A8=81=E5=A8=81 Jia Wei Wei <harryxiyou@gmail.com>
--
--Linux =E9=AD=94=E6=9C=AF=E6=95=B0
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
--
--=E8=BF=99=E4=B8=AA=E6=96=87=E4=BB=B6=E6=98=AF=E6=9C=89=E5=85=B3=E5=BD=93=
-=E5=89=8D=E4=BD=BF=E7=94=A8=E7=9A=84=E9=AD=94=E6=9C=AF=E5=80=BC=E6=B3=A8=E5=
-=86=8C=E8=A1=A8=E3=80=82=E5=BD=93=E4=BD=A0=E7=BB=99=E4=B8=80=E4=B8=AA=E7=BB=
-=93=E6=9E=84=E6=B7=BB=E5=8A=A0=E4=BA=86=E4=B8=80=E4=B8=AA=E9=AD=94=E6=9C=AF=
-=E5=80=BC=EF=BC=8C=E4=BD=A0=E4=B9=9F=E5=BA=94=E8=AF=A5=E6=8A=8A=E8=BF=99=E4=
-=B8=AA=E9=AD=94=E6=9C=AF=E5=80=BC=E6=B7=BB=E5=8A=A0=E5=88=B0=E8=BF=99=E4=B8=
-=AA=E6=96=87=E4=BB=B6=EF=BC=8C=E5=9B=A0=E4=B8=BA=E6=88=91=E4=BB=AC=E6=9C=80=
-=E5=A5=BD=E6=8A=8A=E7=94=A8=E4=BA=8E=E5=90=84=E7=A7=8D=E7=BB=93=E6=9E=84=E7=
-=9A=84=E9=AD=94=E6=9C=AF=E5=80=BC=E7=BB=9F=E4=B8=80=E8=B5=B7=E6=9D=A5=E3=80=
-=82
--
--=E4=BD=BF=E7=94=A8=E9=AD=94=E6=9C=AF=E5=80=BC=E6=9D=A5=E4=BF=9D=E6=8A=A4=
-=E5=86=85=E6=A0=B8=E6=95=B0=E6=8D=AE=E7=BB=93=E6=9E=84=E6=98=AF=E4=B8=80=E4=
-=B8=AA=E9=9D=9E=E5=B8=B8=E5=A5=BD=E7=9A=84=E4=B8=BB=E6=84=8F=E3=80=82=E8=BF=
-=99=E5=B0=B1=E5=85=81=E8=AE=B8=E4=BD=A0=E5=9C=A8=E8=BF=90=E8=A1=8C=E6=9C=9F=
-=E6=A3=80=E6=9F=A5(a)=E4=B8=80=E4=B8=AA=E7=BB=93=E6=9E=84=E6=98=AF=E5=90=A6=
-=E5=B7=B2=E7=BB=8F=E8=A2=AB=E6=94=BB=E5=87=BB=EF=BC=8C=E6=88=96=E8=80=85(b)=
-=E4=BD=A0=E5=B7=B2=E7=BB=8F=E7=BB=99=E4=B8=80=E4=B8=AA=E4=BE=8B=E8=A1=8C=E7=
-=A8=8B=E5=BA=8F=E9=80=9A=E8=BF=87=E4=BA=86=E4=B8=80=E4=B8=AA=E9=94=99=E8=AF=
-=AF=E7=9A=84=E7=BB=93=E6=9E=84=E3=80=82=E5=90=8E=E4=B8=80=E7=A7=8D=E6=83=85=
-=E5=86=B5=E7=89=B9=E5=88=AB=E5=9C=B0=E6=9C=89=E7=94=A8---=E7=89=B9=E5=88=AB=
-=E6=98=AF=E5=BD=93=E4=BD=A0=E9=80=9A=E8=BF=87=E4=B8=80=E4=B8=AA=E7=A9=BA=E6=
-=8C=87=E9=92=88=E6=8C=87=E5=90=91=E7=BB=93=E6=9E=84=E4=BD=93=E7=9A=84=E6=97=
-=B6=E5=80=99=E3=80=82tty=E6=BA=90=E7=A0=81=EF=BC=8C=E4=BE=8B=E5=A6=82=EF=BC=
-=8C=E7=BB=8F=E5=B8=B8=E9=80=9A=E8=BF=87=E7=89=B9=E5=AE=9A=E9=A9=B1=E5=8A=A8=
-=E4=BD=BF=E7=94=A8=E8=BF=99=E7=A7=8D=E6=96=B9=E6=B3=95=E5=B9=B6=E4=B8=94=E5=
-=8F=8D=E5=A4=8D=E5=9C=B0=E6=8E=92=E5=88=97=E7=89=B9=E5=AE=9A=E6=96=B9=E9=9D=
-=A2=E7=9A=84=E7=BB=93=E6=9E=84=E3=80=82
--
--=E4=BD=BF=E7=94=A8=E9=AD=94=E6=9C=AF=E5=80=BC=E7=9A=84=E6=96=B9=E6=B3=95=
-=E6=98=AF=E5=9C=A8=E7=BB=93=E6=9E=84=E7=9A=84=E5=BC=80=E5=A7=8B=E5=A4=84=E5=
-=A3=B0=E6=98=8E=E7=9A=84=EF=BC=8C=E5=A6=82=E4=B8=8B::
--
--        struct tty_ldisc {
--	        int	magic;
--        	...
--        };
--
--=E5=BD=93=E4=BD=A0=E4=BB=A5=E5=90=8E=E7=BB=99=E5=86=85=E6=A0=B8=E6=B7=BB=
-=E5=8A=A0=E5=A2=9E=E5=BC=BA=E5=8A=9F=E8=83=BD=E7=9A=84=E6=97=B6=E5=80=99=EF=
-=BC=8C=E8=AF=B7=E9=81=B5=E5=AE=88=E8=BF=99=E6=9D=A1=E8=A7=84=E5=88=99=EF=BC=
-=81=E8=BF=99=E6=A0=B7=E5=B0=B1=E4=BC=9A=E8=8A=82=E7=9C=81=E6=95=B0=E4=B8=8D=
-=E6=B8=85=E7=9A=84=E8=B0=83=E8=AF=95=E6=97=B6=E9=97=B4=EF=BC=8C=E7=89=B9=E5=
-=88=AB=E6=98=AF=E4=B8=80=E4=BA=9B=E5=8F=A4=E6=80=AA=E7=9A=84=E6=83=85=E5=86=
-=B5=EF=BC=8C=E4=BE=8B=E5=A6=82=EF=BC=8C=E6=95=B0=E7=BB=84=E8=B6=85=E5=87=BA=
-=E8=8C=83=E5=9B=B4=E5=B9=B6=E4=B8=94=E9=87=8D=E6=96=B0=E5=86=99=E4=BA=86=E8=
-=B6=85=E5=87=BA=E9=83=A8=E5=88=86=E3=80=82=E9=81=B5=E5=AE=88=E8=BF=99=E4=B8=
-=AA=E8=A7=84=E5=88=99=EF=BC=8C=E2=80=AA=E8=BF=99=E4=BA=9B=E6=83=85=E5=86=B5=
-=E5=8F=AF=E4=BB=A5=E8=A2=AB=E5=BF=AB=E9=80=9F=E5=9C=B0=EF=BC=8C=E5=AE=89=E5=
-=85=A8=E5=9C=B0=E9=81=BF=E5=85=8D=E3=80=82
--
--		Theodore Ts'o
--		  31 Mar 94
--
--=E7=BB=99=E5=BD=93=E5=89=8D=E7=9A=84Linux 2.1.55=E6=B7=BB=E5=8A=A0=E9=AD=
-=94=E6=9C=AF=E8=A1=A8=E3=80=82
--
--		Michael Chastain
--		<mailto:mec@shout.net>
--		22 Sep 1997
--
--=E7=8E=B0=E5=9C=A8=E5=BA=94=E8=AF=A5=E6=9C=80=E6=96=B0=E7=9A=84Linux 2.1.1=
-12.=E5=9B=A0=E4=B8=BA=E5=9C=A8=E7=89=B9=E6=80=A7=E5=86=BB=E7=BB=93=E6=9C=9F=
-=E9=97=B4=EF=BC=8C=E4=B8=8D=E8=83=BD=E5=9C=A82.2.x=E5=89=8D=E6=94=B9=E5=8F=
-=98=E4=BB=BB=E4=BD=95=E4=B8=9C=E8=A5=BF=E3=80=82=E8=BF=99=E4=BA=9B=E6=9D=A1=
-=E7=9B=AE=E8=A2=AB=E6=95=B0=E5=9F=9F=E6=89=80=E6=8E=92=E5=BA=8F=E3=80=82
--
--		Krzysztof G.Baranowski
--	        <mailto: kgb@knm.org.pl>
--		29 Jul 1998
--
--=E6=9B=B4=E6=96=B0=E9=AD=94=E6=9C=AF=E8=A1=A8=E5=88=B0Linux 2.5.45=E3=80=
-=82=E5=88=9A=E5=A5=BD=E8=B6=8A=E8=BF=87=E7=89=B9=E6=80=A7=E5=86=BB=E7=BB=93=
-=EF=BC=8C=E4=BD=86=E6=98=AF=E6=9C=89=E5=8F=AF=E8=83=BD=E8=BF=98=E4=BC=9A=E6=
-=9C=89=E4=B8=80=E4=BA=9B=E6=96=B0=E7=9A=84=E9=AD=94=E6=9C=AF=E5=80=BC=E5=9C=
-=A82.6.x=E4=B9=8B=E5=89=8D=E8=9E=8D=E5=85=A5=E5=88=B0=E5=86=85=E6=A0=B8=E4=
-=B8=AD=E3=80=82
--
--		Petr Baudis
--		<pasky@ucw.cz>
--		03 Nov 2002
--
--=E6=9B=B4=E6=96=B0=E9=AD=94=E6=9C=AF=E8=A1=A8=E5=88=B0Linux 2.5.74=E3=80=82
--
--		Fabian Frederick
--                <ffrederick@users.sourceforge.net>
--		09 Jul 2003
--
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
--=E9=AD=94=E6=9C=AF=E6=95=B0=E5=90=8D              =E6=95=B0=E5=AD=97      =
-       =E7=BB=93=E6=9E=84                     =E6=96=87=E4=BB=B6
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documenta=
-tion/translations/zh_TW/process/index.rst
-index c5c59b4fd595..cb3dea0b78ab 100644
---- a/Documentation/translations/zh_TW/process/index.rst
-+++ b/Documentation/translations/zh_TW/process/index.rst
-@@ -54,7 +54,6 @@
- .. toctree::
-    :maxdepth: 1
-=20
--   magic-number
-    volatile-considered-harmful
-=20
- .. only::  subproject and html
-diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Do=
-cumentation/translations/zh_TW/process/magic-number.rst
-deleted file mode 100644
-index 0ccc60bee3d6..000000000000
---- a/Documentation/translations/zh_TW/process/magic-number.rst
-+++ /dev/null
-@@ -1,63 +0,0 @@
--.. SPDX-License-Identifier: GPL-2.0
--
--.. _tw_magicnumbers:
--
--.. include:: ../disclaimer-zh_TW.rst
--
--:Original: :ref:`Documentation/process/magic-number.rst <magicnumbers>`
--
--=E5=A6=82=E6=9E=9C=E6=83=B3=E8=A9=95=E8=AB=96=E6=88=96=E6=9B=B4=E6=96=B0=
-=E6=9C=AC=E6=96=87=E7=9A=84=E5=85=A7=E5=AE=B9=EF=BC=8C=E8=AB=8B=E7=9B=B4=E6=
-=8E=A5=E7=99=BC=E4=BF=A1=E5=88=B0LKML=E3=80=82=E5=A6=82=E6=9E=9C=E4=BD=A0=
-=E4=BD=BF=E7=94=A8=E8=8B=B1=E6=96=87=E4=BA=A4=E6=B5=81=E6=9C=89=E5=9B=B0=E9=
-=9B=A3=E7=9A=84=E8=A9=B1=EF=BC=8C=E4=B9=9F=E5=8F=AF
--=E4=BB=A5=E5=90=91=E4=B8=AD=E6=96=87=E7=89=88=E7=B6=AD=E8=AD=B7=E8=80=85=
-=E6=B1=82=E5=8A=A9=E3=80=82=E5=A6=82=E6=9E=9C=E6=9C=AC=E7=BF=BB=E8=AD=AF=E6=
-=9B=B4=E6=96=B0=E4=B8=8D=E5=8F=8A=E6=99=82=E6=88=96=E8=80=85=E7=BF=BB=E8=AD=
-=AF=E5=AD=98=E5=9C=A8=E5=95=8F=E9=A1=8C=EF=BC=8C=E8=AB=8B=E8=81=AF=E7=B9=AB=
-=E4=B8=AD=E6=96=87=E7=89=88=E7=B6=AD=E8=AD=B7=E8=80=85::
--
--        =E4=B8=AD=E6=96=87=E7=89=88=E7=B6=AD=E8=AD=B7=E8=80=85=EF=BC=9A =
-=E8=B3=88=E5=A8=81=E5=A8=81 Jia Wei Wei <harryxiyou@gmail.com>
--        =E4=B8=AD=E6=96=87=E7=89=88=E7=BF=BB=E8=AD=AF=E8=80=85=EF=BC=9A =
-=E8=B3=88=E5=A8=81=E5=A8=81 Jia Wei Wei <harryxiyou@gmail.com>
--        =E4=B8=AD=E6=96=87=E7=89=88=E6=A0=A1=E8=AD=AF=E8=80=85=EF=BC=9A =
-=E8=B3=88=E5=A8=81=E5=A8=81 Jia Wei Wei <harryxiyou@gmail.com>
--                      =E8=83=A1=E7=9A=93=E6=96=87 Hu Haowen <src.res@email=
-=2Ecn>
--
--Linux =E9=AD=94=E8=A1=93=E6=95=B8
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
--
--=E9=80=99=E5=80=8B=E6=96=87=E4=BB=B6=E6=98=AF=E6=9C=89=E9=97=9C=E7=95=B6=
-=E5=89=8D=E4=BD=BF=E7=94=A8=E7=9A=84=E9=AD=94=E8=A1=93=E5=80=BC=E8=A8=BB=E5=
-=86=8A=E8=A1=A8=E3=80=82=E7=95=B6=E4=BD=A0=E7=B5=A6=E4=B8=80=E5=80=8B=E7=B5=
-=90=E6=A7=8B=E6=B7=BB=E5=8A=A0=E4=BA=86=E4=B8=80=E5=80=8B=E9=AD=94=E8=A1=93=
-=E5=80=BC=EF=BC=8C=E4=BD=A0=E4=B9=9F=E6=87=89=E8=A9=B2=E6=8A=8A=E9=80=99=E5=
-=80=8B=E9=AD=94=E8=A1=93=E5=80=BC=E6=B7=BB=E5=8A=A0=E5=88=B0=E9=80=99=E5=80=
-=8B=E6=96=87=E4=BB=B6=EF=BC=8C=E5=9B=A0=E7=88=B2=E6=88=91=E5=80=91=E6=9C=80=
-=E5=A5=BD=E6=8A=8A=E7=94=A8=E6=96=BC=E5=90=84=E7=A8=AE=E7=B5=90=E6=A7=8B=E7=
-=9A=84=E9=AD=94=E8=A1=93=E5=80=BC=E7=B5=B1=E4=B8=80=E8=B5=B7=E4=BE=86=E3=80=
-=82
--
--=E4=BD=BF=E7=94=A8=E9=AD=94=E8=A1=93=E5=80=BC=E4=BE=86=E4=BF=9D=E8=AD=B7=
-=E5=85=A7=E6=A0=B8=E6=95=B8=E6=93=9A=E7=B5=90=E6=A7=8B=E6=98=AF=E4=B8=80=E5=
-=80=8B=E9=9D=9E=E5=B8=B8=E5=A5=BD=E7=9A=84=E4=B8=BB=E6=84=8F=E3=80=82=E9=80=
-=99=E5=B0=B1=E5=85=81=E8=A8=B1=E4=BD=A0=E5=9C=A8=E9=81=8B=E8=A1=8C=E6=9C=9F=
-=E6=AA=A2=E6=9F=A5(a)=E4=B8=80=E5=80=8B=E7=B5=90=E6=A7=8B=E6=98=AF=E5=90=A6=
-=E5=B7=B2=E7=B6=93=E8=A2=AB=E6=94=BB=E6=93=8A=EF=BC=8C=E6=88=96=E8=80=85(b)=
-=E4=BD=A0=E5=B7=B2=E7=B6=93=E7=B5=A6=E4=B8=80=E5=80=8B=E4=BE=8B=E8=A1=8C=E7=
-=A8=8B=E5=BA=8F=E9=80=9A=E9=81=8E=E4=BA=86=E4=B8=80=E5=80=8B=E9=8C=AF=E8=AA=
-=A4=E7=9A=84=E7=B5=90=E6=A7=8B=E3=80=82=E5=BE=8C=E4=B8=80=E7=A8=AE=E6=83=85=
-=E6=B3=81=E7=89=B9=E5=88=A5=E5=9C=B0=E6=9C=89=E7=94=A8---=E7=89=B9=E5=88=A5=
-=E6=98=AF=E7=95=B6=E4=BD=A0=E9=80=9A=E9=81=8E=E4=B8=80=E5=80=8B=E7=A9=BA=E6=
-=8C=87=E9=87=9D=E6=8C=87=E5=90=91=E7=B5=90=E6=A7=8B=E9=AB=94=E7=9A=84=E6=99=
-=82=E5=80=99=E3=80=82tty=E6=BA=90=E7=A2=BC=EF=BC=8C=E4=BE=8B=E5=A6=82=EF=BC=
-=8C=E7=B6=93=E5=B8=B8=E9=80=9A=E9=81=8E=E7=89=B9=E5=AE=9A=E9=A9=85=E5=8B=95=
-=E4=BD=BF=E7=94=A8=E9=80=99=E7=A8=AE=E6=96=B9=E6=B3=95=E4=B8=A6=E4=B8=94=E5=
-=8F=8D=E8=A6=86=E5=9C=B0=E6=8E=92=E5=88=97=E7=89=B9=E5=AE=9A=E6=96=B9=E9=9D=
-=A2=E7=9A=84=E7=B5=90=E6=A7=8B=E3=80=82
--
--=E4=BD=BF=E7=94=A8=E9=AD=94=E8=A1=93=E5=80=BC=E7=9A=84=E6=96=B9=E6=B3=95=
-=E6=98=AF=E5=9C=A8=E7=B5=90=E6=A7=8B=E7=9A=84=E9=96=8B=E5=A7=8B=E8=99=95=E8=
-=81=B2=E6=98=8E=E7=9A=84=EF=BC=8C=E5=A6=82=E4=B8=8B::
--
--        struct tty_ldisc {
--	        int	magic;
--        	...
--        };
--
--=E7=95=B6=E4=BD=A0=E4=BB=A5=E5=BE=8C=E7=B5=A6=E5=85=A7=E6=A0=B8=E6=B7=BB=
-=E5=8A=A0=E5=A2=9E=E5=BC=B7=E5=8A=9F=E8=83=BD=E7=9A=84=E6=99=82=E5=80=99=EF=
-=BC=8C=E8=AB=8B=E9=81=B5=E5=AE=88=E9=80=99=E6=A2=9D=E8=A6=8F=E5=89=87=EF=BC=
-=81=E9=80=99=E6=A8=A3=E5=B0=B1=E6=9C=83=E7=AF=80=E7=9C=81=E6=95=B8=E4=B8=8D=
-=E6=B8=85=E7=9A=84=E8=AA=BF=E8=A9=A6=E6=99=82=E9=96=93=EF=BC=8C=E7=89=B9=E5=
-=88=A5=E6=98=AF=E4=B8=80=E4=BA=9B=E5=8F=A4=E6=80=AA=E7=9A=84=E6=83=85=E6=B3=
-=81=EF=BC=8C=E4=BE=8B=E5=A6=82=EF=BC=8C=E6=95=B8=E7=B5=84=E8=B6=85=E5=87=BA=
-=E7=AF=84=E5=9C=8D=E4=B8=A6=E4=B8=94=E9=87=8D=E6=96=B0=E5=AF=AB=E4=BA=86=E8=
-=B6=85=E5=87=BA=E9=83=A8=E5=88=86=E3=80=82=E9=81=B5=E5=AE=88=E9=80=99=E5=80=
-=8B=E8=A6=8F=E5=89=87=EF=BC=8C=E2=80=AA=E9=80=99=E4=BA=9B=E6=83=85=E6=B3=81=
-=E5=8F=AF=E4=BB=A5=E8=A2=AB=E5=BF=AB=E9=80=9F=E5=9C=B0=EF=BC=8C=E5=AE=89=E5=
-=85=A8=E5=9C=B0=E9=81=BF=E5=85=8D=E3=80=82
--
--		Theodore Ts'o
--		  31 Mar 94
--
--=E7=B5=A6=E7=95=B6=E5=89=8D=E7=9A=84Linux 2.1.55=E6=B7=BB=E5=8A=A0=E9=AD=
-=94=E8=A1=93=E8=A1=A8=E3=80=82
--
--		Michael Chastain
--		<mailto:mec@shout.net>
--		22 Sep 1997
--
--=E7=8F=BE=E5=9C=A8=E6=87=89=E8=A9=B2=E6=9C=80=E6=96=B0=E7=9A=84Linux 2.1.1=
-12.=E5=9B=A0=E7=88=B2=E5=9C=A8=E7=89=B9=E6=80=A7=E5=87=8D=E7=B5=90=E6=9C=9F=
-=E9=96=93=EF=BC=8C=E4=B8=8D=E8=83=BD=E5=9C=A82.2.x=E5=89=8D=E6=94=B9=E8=AE=
-=8A=E4=BB=BB=E4=BD=95=E6=9D=B1=E8=A5=BF=E3=80=82=E9=80=99=E4=BA=9B=E6=A2=9D=
-=E7=9B=AE=E8=A2=AB=E6=95=B8=E5=9F=9F=E6=89=80=E6=8E=92=E5=BA=8F=E3=80=82
--
--		Krzysztof G.Baranowski
--	        <mailto: kgb@knm.org.pl>
--		29 Jul 1998
--
--=E6=9B=B4=E6=96=B0=E9=AD=94=E8=A1=93=E8=A1=A8=E5=88=B0Linux 2.5.45=E3=80=
-=82=E5=89=9B=E5=A5=BD=E8=B6=8A=E9=81=8E=E7=89=B9=E6=80=A7=E5=87=8D=E7=B5=90=
-=EF=BC=8C=E4=BD=86=E6=98=AF=E6=9C=89=E5=8F=AF=E8=83=BD=E9=82=84=E6=9C=83=E6=
-=9C=89=E4=B8=80=E4=BA=9B=E6=96=B0=E7=9A=84=E9=AD=94=E8=A1=93=E5=80=BC=E5=9C=
-=A82.6.x=E4=B9=8B=E5=89=8D=E8=9E=8D=E5=85=A5=E5=88=B0=E5=85=A7=E6=A0=B8=E4=
-=B8=AD=E3=80=82
--
--		Petr Baudis
--		<pasky@ucw.cz>
--		03 Nov 2002
--
--=E6=9B=B4=E6=96=B0=E9=AD=94=E8=A1=93=E8=A1=A8=E5=88=B0Linux 2.5.74=E3=80=82
--
--		Fabian Frederick
--                <ffrederick@users.sourceforge.net>
--		09 Jul 2003
--
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
--=E9=AD=94=E8=A1=93=E6=95=B8=E5=90=8D              =E6=95=B8=E5=AD=97      =
-       =E7=B5=90=E6=A7=8B                     =E6=96=87=E4=BB=B6
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
--=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
---=20
-2.30.2
-
---fuomk4bg4wfovgwo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmNZuCMACgkQvP0LAY0m
-WPFAgRAAsTtVvFtSrGmkf0rHr8qOqvntM4pJmHJdqpoiln3UFO8jtHavvslu8Lih
-YjpCrAHw27qI6RFKtw5aZKIvatqydE2okhWYkxWbJToYhVwIt8/BaxRE9MCf478Q
-OEOD63b+jBsIwPKL15FZ3skWCYeKgkuSruIe9R19W9R8GJOfp5R53HmepRal60SA
-DLmNEK/PhuVjhYZ+tlX+DUapQFk1BdOiEzhMT+rJu75DEOwqaWYMo+heMGbhq3yA
-zS6PGnaQzS6vJXRarhpAmWhG0x7duHZ/MKEvzgdhYkTdEP5xIK/vK/alyhUOL9A1
-MtVyrfSlKISNTU/wXbNB+fEYyRq7oyth/Te72QdrewFTmUjKNzsgEFL3e263vYLy
-1OiT11JvAdhS8m/395HbQsZbWho66Vgo5OKvvgPGITvb4bUaqtU2Lwy1XOtEHwHu
-MBHI/vDHsmsEV0EuOlgev6y2hwVsPf32RwOPc047mbYENKZgIQPri23ELOn67u+k
-9C5+50/EWImKW/aoPOThqxbruJyXp5r6I/nttzTGKo100yuD3bUtRYnFvdDrr6G2
-5lCiILVAXjWQ1R3PkyK1tUXaDMp/B9YeSzLWsMp4Ek560pvKrdJm24Wjb171CKi6
-wAm9/VVwWtEMqDVQuwQjYNY9veROG6wtyIhSNSDcUfIDDoTwgL8=
-=IpeW
------END PGP SIGNATURE-----
-
---fuomk4bg4wfovgwo--
+Jason
