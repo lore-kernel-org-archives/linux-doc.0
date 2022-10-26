@@ -2,145 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 363E5C38A2D
-	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 07:10:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1370FA373D
+	for <linux-doc@archiver.kernel.org>; Wed, 26 Oct 2022 07:41:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232496AbiJZHKN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 03:10:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51416 "EHLO
+        id S233305AbiJZHlN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 03:41:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233076AbiJZHKL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 03:10:11 -0400
-Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B007C1D3;
-        Wed, 26 Oct 2022 00:10:09 -0700 (PDT)
-Message-ID: <d75c757b-91af-d8e5-9362-8496afc2a74f@lirui.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
-        t=1666768208;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rYyjv5sHorlR+bRaGTpE5Ne+PADO5gOacNsgNuB19s0=;
-        b=gLsdgQmDJpNSKOIOXx6awv31bwRk8FTPu/qeAQiWwKwQqjMaxndtjkIwBZJSIIuC/XuPmK
-        67gGtiYLnw1sFZwjrLX6WfQh9hNMdV2n6f0yqhE/BIIHtPgiFNTjNkOhHikkD0DWbb9iLH
-        33YivYz/YaGuLWViuy14mocSV0pgDNtUHgipOO3pA6mCFLp59aNXDz02LCqEGcHkVkXXhi
-        PzSlASA0okwrUb/oXExtFwfQPTMtxXOBjT0qde4aZEUWTtsKcegtCTbOFufJkpWnOiLuU/
-        zlGLeWnMdiTSiTwHrI4/aqeGq2HiCaM9D0w8hpUGAQlRqsAqZIu+WRhhx1vLAA==
-Date:   Wed, 26 Oct 2022 15:09:57 +0800
+        with ESMTP id S233319AbiJZHlA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 03:41:00 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5596261748
+        for <linux-doc@vger.kernel.org>; Wed, 26 Oct 2022 00:40:58 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1onb1f-0006ye-HE; Wed, 26 Oct 2022 09:40:35 +0200
+Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1onb1c-0003YL-O6; Wed, 26 Oct 2022 09:40:32 +0200
+Date:   Wed, 26 Oct 2022 09:40:32 +0200
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, andrew@lunn.ch, saeedm@nvidia.com,
+        corbet@lwn.net, michael.chan@broadcom.com,
+        huangguangbin2@huawei.com, chenhao288@hisilicon.com,
+        moshet@nvidia.com, linux@rempel-privat.de,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next] ethtool: linkstate: add a statistic for PHY
+ down events
+Message-ID: <20221026074032.GF8675@pengutronix.de>
+References: <20221026020948.1913777-1-kuba@kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs/zh_CN: Add userspace-api/sysfs-platform_profile
- Chinese translation
-Content-Language: en-US
-To:     YanTeng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Wu XiangCheng <wu.xiangcheng@linux.dev>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alex Shi <alexs@kernel.org>
-References: <20221025061804.35801-1-me@lirui.org>
- <e75fb7c4-67d8-1e17-8bf4-59e1be87893c@loongson.cn>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Rui Li <me@lirui.org>
-In-Reply-To: <e75fb7c4-67d8-1e17-8bf4-59e1be87893c@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221026020948.1913777-1-kuba@kernel.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/10/26 9:48, YanTeng Si wrote:
->
-> 在 2022/10/25 14:18, Rui Li 写道:
->> Translate the following documents into Chinese:
->>
->> - userspace-api/sysfs-platform_profile.rst
->>
->> Signed-off-by: Rui Li <me@lirui.org>
->> ---
->>   .../zh_CN/userspace-api/index.rst             |  2 +-
->>   .../userspace-api/sysfs-platform_profile.rst  | 40 +++++++++++++++++++
->>   2 files changed, 41 insertions(+), 1 deletion(-)
->>   create mode 100644 Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
->>
->> diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
->> index 6a7e82ac16b9..0f3483a46fa2 100644
->> --- a/Documentation/translations/zh_CN/userspace-api/index.rst
->> +++ b/Documentation/translations/zh_CN/userspace-api/index.rst
->> @@ -26,6 +26,7 @@ Linux 内核用户空间API指南
->>        ebpf/index
->>      no_new_privs
->> +   sysfs-platform_profile
->>     TODOList:
->>   @@ -38,7 +39,6 @@ TODOList:
->>   * iommu
->>   * media/index
->>   * netlink/index
->> -* sysfs-platform_profile
->>   * vduse
->>   * futex2
->>   diff --git a/Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst b/Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
->> new file mode 100644
->> index 000000000000..6e861f911424
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
->> @@ -0,0 +1,40 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/userspace-api/sysfs-platform_profile.rst
->> +
->> +:翻译:
->> +
->> + 李睿 Rui Li <me@lirui.org>
->> +
->> +==========================================================
->> +平台配置文件选择（如 /sys/firmware/acpi/platform_profile）
->> +==========================================================
->> +
->> +现代系统中平台性能、温度、风扇和其他硬件相关的特性通常是可以动态配置的。平台
->> +配置通常会根据当前的状态由一些自动机制（很可能存在于内核之外）来自动调整。
->> +
->> +这些平台自动调整机制通常能够被配置成多个平台配置文件中的一个，要么偏向低功率
->> +工作，要么偏向性能。
-> How about 其要么偏向节能运行，要么偏向性能运行？
->> +
->> +platform_profile属性的目的是提供一个通用的sysfs API来选择这些平台自动配置
->> +机制的配置文件。
->> +
->> +需要注意的是，这个API只能用作选择平台配置文件。其目的并不是为了监测改变所致
->> +的性能特征。监测性能最好使用设备/供应商提供的工具，比如turbostat。
->
-> Original: it is NOT a goal of this API to allow monitoring the resulting performance characteristics.
->
->
-> Here maybe the translation could be improved
->
->> +
->> +具体来说，当选择高性能配置文件时，真实能达到的性能可能受制于多种因素，比如：
->> +其他组件的发热，房间温度，笔记本底部的自由空气流动等。这个API的目的明显不是让
->> +用户空间知道任何阻碍达到要求性能等级的欠佳条件。
-> Hmmm, how about 让用户空间知道任何阻碍达到要求的性能水平的局部最优条件，显然不是这个API的目标?
->> +
->> +由于数字本身并不能代表一个配置文件会调整的多个变量（功耗，发热等），这个API使
->> +用字符串来描述多种配置文件。为了保证用户空间能够获得一致的体验，
->> +sysfs-platform_profile ABI 文档定义了一个固定的配置文件名集合。驱动程序
->> +*必须* 将它们内置的配置文件表示映射到这个固定的集合中。
->> +
->> +如果映射时没有很好的匹配，可以添加一个新的配置文件名称。驱动希望引入的新配置文
->> +件名称时必须：
->> +
->> + 1. 解释为什么无法使用已有的配置文件名称。
->> + 2. 添加一个新的配置文件名称，以及预期行为的清晰描述，保存到
->> +    sysfs-platform_profile ABI文档中。
->
->
-> Thanks,
->
-> Yanteng
->
-Thanks, Yanteng! I will improve these translation in version 2. :)
+Hi Jakub,
 
+On Tue, Oct 25, 2022 at 07:09:48PM -0700, Jakub Kicinski wrote:
+> The previous attempt to augment carrier_down (see Link)
+> was not met with much enthusiasm so let's do the simple
+> thing of exposing what some devices already maintain.
+> Add a common ethtool statistic for link going down.
+> Currently users have to maintain per-driver mapping
+> to extract the right stat from the vendor-specific ethtool -S
+> stats. carrier_down does not fit the bill because it counts
+> a lot of software related false positives.
+> 
+> Add the statistic to the extended link state API to steer
+> vendors towards implementing all of it.
+> 
+> Implement for bnxt. mlx5 and (possibly) enic also have
+> a counter for this but I leave the implementation to their
+> maintainers.
+> 
+> Link: https://lore.kernel.org/r/20220520004500.2250674-1-kuba@kernel.org
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> CC: corbet@lwn.net
+> CC: michael.chan@broadcom.com
+> CC: huangguangbin2@huawei.com
+> CC: chenhao288@hisilicon.com
+> CC: moshet@nvidia.com
+> CC: linux@rempel-privat.de
+> CC: linux-doc@vger.kernel.org
+> ---
+>  Documentation/networking/ethtool-netlink.rst  |  1 +
+>  .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 15 +++++++++++++++
+>  include/linux/ethtool.h                       | 14 ++++++++++++++
+>  include/uapi/linux/ethtool_netlink.h          |  2 ++
+>  net/ethtool/linkstate.c                       | 19 ++++++++++++++++++-
+>  5 files changed, 50 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+> index d578b8bcd8a4..5454aa6c013c 100644
+> --- a/Documentation/networking/ethtool-netlink.rst
+> +++ b/Documentation/networking/ethtool-netlink.rst
+> @@ -491,6 +491,7 @@ any attributes.
+>    ``ETHTOOL_A_LINKSTATE_SQI_MAX``       u32     Max support SQI value
+>    ``ETHTOOL_A_LINKSTATE_EXT_STATE``     u8      link extended state
+>    ``ETHTOOL_A_LINKSTATE_EXT_SUBSTATE``  u8      link extended substate
+> +  ``ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT``  u64     count of link down events
+>    ====================================  ======  ============================
+>  
+>  For most NIC drivers, the value of ``ETHTOOL_A_LINKSTATE_LINK`` returns
+> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+> index cc89e5eabcb9..d5957ed00759 100644
+> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+> @@ -4112,6 +4112,20 @@ static void bnxt_get_rmon_stats(struct net_device *dev,
+>  	*ranges = bnxt_rmon_ranges;
+>  }
+>  
+> +static void bnxt_get_link_ext_stats(struct net_device *dev,
+> +				    struct ethtool_link_ext_stats *stats)
+> +{
+> +	struct bnxt *bp = netdev_priv(dev);
+> +	u64 *rx;
+> +
+> +	if (BNXT_VF(bp) || !(bp->flags & BNXT_FLAG_PORT_STATS_EXT))
+> +		return;
+> +
+> +	rx = bp->rx_port_stats_ext.sw_stats;
+> +	stats->LinkDownEvents =
+> +		*(rx + BNXT_RX_STATS_EXT_OFFSET(link_down_events));
+> +}
+> +
+
+s/LinkDownEvents/link_down_events.
+
+What is the best way to implement it on devices without dedicated HW
+counter? I assume in most cases only PHY driver would not real state of
+link.
+
+Regards,
+Oleksij
 -- 
-Rui Li    0x77E6D821D7AE84FE
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
