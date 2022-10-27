@@ -2,80 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A026C38A2D
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 01:37:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44C94C433FE
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 02:39:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233898AbiJ0BhZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 21:37:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43904 "EHLO
+        id S233626AbiJ0Cjj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 22:39:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233891AbiJ0BhX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 21:37:23 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32121F63E3;
-        Wed, 26 Oct 2022 18:37:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E344BB82407;
-        Thu, 27 Oct 2022 01:37:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9A45C433D6;
-        Thu, 27 Oct 2022 01:37:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666834640;
-        bh=mpyS3sJDkaKSZRmNmNC0CyMizCFv/rGTfRjX8WnfQf8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HqOxSyTdcT/THuqY0cp8/PKehIK6rzefcwGbU6xB74T5j8T8y3Wih007+6IqFy46n
-         QgtGuUaRqlafesSHnYTZZJ/YuaFMUkdFmDESIGDdOkOED13Wl5YFF08S0/DfnZBPRv
-         qBerz/s8779GniQNxCcla212w6e08zi9GM8vFIR1i4ZPGkBusTY6/Esab77UmiZV92
-         90LcMP2w4sFXs4RW4ykdqObPrEvCd38YwHeCDkmEYEOMuJiKEi/45cWVRWGaTdULto
-         Qgswc4vR0m8MWa+Hj3/TchTzXQqTZH7qkL97PkatGQ81NF5sx4iuQzjQ2BfWv6tAYr
-         o9UO7jZAUEA5A==
-Date:   Wed, 26 Oct 2022 18:37:18 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Thomas Sailer <t.sailer@alumni.ethz.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 01/15] hamradio: baycom: remove BAYCOM_MAGIC
-Message-ID: <20221026183711.342ae914@kernel.org>
-In-Reply-To: <9a453437b5c3b4b1887c1bd84455b0cc3d1c40b2.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
-References: <9a453437b5c3b4b1887c1bd84455b0cc3d1c40b2.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
+        with ESMTP id S233569AbiJ0Cji (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 22:39:38 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A5533FD07;
+        Wed, 26 Oct 2022 19:39:33 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B0C18D6E;
+        Wed, 26 Oct 2022 19:39:39 -0700 (PDT)
+Received: from a077893.blr.arm.com (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id EC1863F792;
+        Wed, 26 Oct 2022 19:39:29 -0700 (PDT)
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+To:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        catalin.marinas@arm.com, will@kernel.org
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        James Morse <james.morse@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org
+Subject: [PATCH 1/2] arm64: Add Cortex-715 CPU part definition
+Date:   Thu, 27 Oct 2022 08:09:14 +0530
+Message-Id: <20221027023915.1318100-2-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221027023915.1318100-1-anshuman.khandual@arm.com>
+References: <20221027023915.1318100-1-anshuman.khandual@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 27 Oct 2022 00:42:37 +0200 =D0=BD=D0=B0=D0=B1 wrote:
-> Since defanging in v2.6.12-rc1 it's set exactly once per port on probe
-> and checked exactly once per port on unload: it's useless. Kill it.
->=20
-> Notably, magic-number.rst has never had the right value for it with the
-> new-in-2.1.105 network-based driver
->=20
-> Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xy=
-z>
+Add the CPU Partnumbers for the new Arm designs.
 
-Interesting name :S Just to be clear full legal names are required.
-Not saying that's not your name, just saying I haven't heard it before.
+Cc: Catalin Marinas <catalin.marinas@arm.com> 
+Cc: Will Deacon <will@kernel.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc: James Morse <james.morse@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+ arch/arm64/include/asm/cputype.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Plus the From line must be the same, legal name.
+diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
+index abc418650fec..4b1ad810436f 100644
+--- a/arch/arm64/include/asm/cputype.h
++++ b/arch/arm64/include/asm/cputype.h
+@@ -80,6 +80,7 @@
+ #define ARM_CPU_PART_CORTEX_X1		0xD44
+ #define ARM_CPU_PART_CORTEX_A510	0xD46
+ #define ARM_CPU_PART_CORTEX_A710	0xD47
++#define ARM_CPU_PART_CORTEX_A715	0xD4D
+ #define ARM_CPU_PART_CORTEX_X2		0xD48
+ #define ARM_CPU_PART_NEOVERSE_N2	0xD49
+ #define ARM_CPU_PART_CORTEX_A78C	0xD4B
+@@ -142,6 +143,7 @@
+ #define MIDR_CORTEX_X1	MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_X1)
+ #define MIDR_CORTEX_A510 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A510)
+ #define MIDR_CORTEX_A710 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A710)
++#define MIDR_CORTEX_A715 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A715)
+ #define MIDR_CORTEX_X2 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_X2)
+ #define MIDR_NEOVERSE_N2 MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_NEOVERSE_N2)
+ #define MIDR_CORTEX_A78C	MIDR_CPU_MODEL(ARM_CPU_IMP_ARM, ARM_CPU_PART_CORTEX_A78C)
+-- 
+2.25.1
 
-> Ref: https://lore.kernel.org/linux-doc/YyMlovoskUcHLEb7@kroah.com/
-
-Link: is the tag we use.
-
-Otherwise looks fine.
