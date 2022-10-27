@@ -2,109 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F91AECDFA1
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 10:42:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47566C67871
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 10:44:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234303AbiJ0KmK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Oct 2022 06:42:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39410 "EHLO
+        id S233600AbiJ0KoN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Oct 2022 06:44:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234928AbiJ0KmJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 06:42:09 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4CDC2A87AE;
-        Thu, 27 Oct 2022 03:42:07 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BF9221FB;
-        Thu, 27 Oct 2022 03:42:12 -0700 (PDT)
-Received: from [10.163.38.26] (unknown [10.163.38.26])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2EF8D3F445;
-        Thu, 27 Oct 2022 03:41:56 -0700 (PDT)
-Message-ID: <ecd161db-b290-7997-a81e-a0a00bd1c599@arm.com>
-Date:   Thu, 27 Oct 2022 16:11:59 +0530
+        with ESMTP id S234309AbiJ0KoM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 06:44:12 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE987DF61
+        for <linux-doc@vger.kernel.org>; Thu, 27 Oct 2022 03:44:10 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id l11so783975edb.4
+        for <linux-doc@vger.kernel.org>; Thu, 27 Oct 2022 03:44:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=giuiXYYLk+f5QLS50ASlMusr4jOA07sul4BoLmCP2Tg=;
+        b=IN9rKSLQysrc1zS8/Aoy0aq5vrB08zsUfVBZNbxbclZikymid0Wk8I3Lp7v/HwF4GB
+         rV8Ar7hRJgWBBNYj406pMQkOXFslXJbPhUoLOUPKAWyYwJWp1C532zZC3zoKvfAHbSjS
+         KRHuRUanvg2fCyM5XUnSGVsrL4XRBVeVYoWHY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=giuiXYYLk+f5QLS50ASlMusr4jOA07sul4BoLmCP2Tg=;
+        b=p7pckfZWwLNEKkIoQ/8kuqg4dxK8iY4jqlksYt2+mkyDgB+U4NNN6hSK1/+tTLUXUc
+         foNmKX19WUhg3spjtT1luucVWIJJZhDQvYluQmtDFXfmWCsxAT0yw68foUTfXYfS6xM4
+         iShVbd/X6Dy1rlRxPzEuVZx8WI+cUlA5WzGquyKIv9JLsgrljjuKsd4aZLjqYmgMSVdY
+         yim5aDRKAJ2uUPbxO4Jp6T+PBRDBAnc8otvk7lPB7qRMqZSOhA6jLakeCv+hgu2Dx47B
+         bFpLMYuVOaP8rMu6XYsjQ2Xw5V1UB/2USMoXmHVTkb3M63iy0kWoxU15Hjcpn66mjBG1
+         yYiA==
+X-Gm-Message-State: ACrzQf2uv6GU2DtJrpT+HPyhpgsEJE9bAGi0G8zBahspj7JCZswyJSUi
+        QHgD8nRMX008FS0S175AJ84x3A==
+X-Google-Smtp-Source: AMsMyM7YmuQMOzkUROoct74BrEyBOXOY61+z4zYghz3wpEMzNkYu5jz8gJBxDNSYk3HcGTxe4XoSaQ==
+X-Received: by 2002:a05:6402:5291:b0:45c:3f6a:d4bc with SMTP id en17-20020a056402529100b0045c3f6ad4bcmr44696532edb.285.1666867448979;
+        Thu, 27 Oct 2022 03:44:08 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
+        by smtp.gmail.com with ESMTPSA id n1-20020aa7c441000000b00461c6e8453dsm774012edr.23.2022.10.27.03.44.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Oct 2022 03:44:08 -0700 (PDT)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH] docs/sphinx: More depth in the rtd sidebar toc
+Date:   Thu, 27 Oct 2022 12:44:06 +0200
+Message-Id: <20221027104406.549734-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH v4 2/2] arm64: support batched/deferred tlb shootdown
- during page reclamation
-To:     Barry Song <21cnbao@gmail.com>, Yicong Yang <yangyicong@huawei.com>
-Cc:     yangyicong@hisilicon.com, corbet@lwn.net, peterz@infradead.org,
-        arnd@arndb.de, linux-kernel@vger.kernel.org,
-        darren@os.amperecomputing.com, huzhanyuan@oppo.com,
-        lipeifeng@oppo.com, zhangshiming@oppo.com, guojian@oppo.com,
-        realmz6@gmail.com, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linux-mm@kvack.org, x86@kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, akpm@linux-foundation.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        wangkefeng.wang@huawei.com, xhao@linux.alibaba.com,
-        prime.zeng@hisilicon.com, Barry Song <v-songbaohua@oppo.com>,
-        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>,
-        catalin.marinas@arm.com, will@kernel.org, linux-doc@vger.kernel.org
-References: <20220921084302.43631-1-yangyicong@huawei.com>
- <20220921084302.43631-3-yangyicong@huawei.com>
- <168eac93-a6ee-0b2e-12bb-4222eff24561@arm.com>
- <8e391962-4e3a-5a56-64b4-78e8637e3b8c@huawei.com>
- <CAGsJ_4z=dZbrAUD9jczT08S3qi_ep-h+EK35UfayVk1S+Cnp2A@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CAGsJ_4z=dZbrAUD9jczT08S3qi_ep-h+EK35UfayVk1S+Cnp2A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+We love to nest our documenation for good structure, but that means
+the table of contents needs to keep up or you can't navigate them.
 
+Realized this trying to find the drm property documentation, which
+with some shuffling around disappeared. Why I didn't realize we can do
+this earlier, no idea.
 
-On 9/28/22 05:53, Barry Song wrote:
-> On Tue, Sep 27, 2022 at 10:15 PM Yicong Yang <yangyicong@huawei.com> wrote:
->>
->> On 2022/9/27 14:16, Anshuman Khandual wrote:
->>> [...]
->>>
->>> On 9/21/22 14:13, Yicong Yang wrote:
->>>> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
->>>> +{
->>>> +    /* for small systems with small number of CPUs, TLB shootdown is cheap */
->>>> +    if (num_online_cpus() <= 4)
->>>
->>> It would be great to have some more inputs from others, whether 4 (which should
->>> to be codified into a macro e.g ARM64_NR_CPU_DEFERRED_TLB, or something similar)
->>> is optimal for an wide range of arm64 platforms.
->>>
-> 
-> I have tested it on a 4-cpus and 8-cpus machine. but i have no machine
-> with 5,6,7
-> cores.
-> I saw improvement on 8-cpus machines and I found 4-cpus machines don't need
-> this patch.
-> 
-> so it seems safe to have
-> if (num_online_cpus()  < 8)
-> 
->>
->> Do you prefer this macro to be static or make it configurable through kconfig then
->> different platforms can make choice based on their own situations? It maybe hard to
->> test on all the arm64 platforms.
-> 
-> Maybe we can have this default enabled on machines with 8 and more cpus and
-> provide a tlbflush_batched = on or off to allow users enable or
-> disable it according
-> to their hardware and products. Similar example: rodata=on or off.
+Since the relevant parts of the toc are only loaded if you're in the
+right .html file there's no harm in going all the way to unlimited.
 
-No, sounds bit excessive. Kernel command line options should not be added
-for every possible run time switch options.
+Note that this has no impact on the classic theme (which doesn't have
+the sidebar) nor on the various :toctree: rendered inline in the
+output.
 
-> 
-> Hi Anshuman, Will,  Catalin, Andrew,
-> what do you think about this approach?
-> 
-> BTW, haoxin mentioned another important user scenarios for tlb bach on arm64:
-> https://lore.kernel.org/lkml/393d6318-aa38-01ed-6ad8-f9eac89bf0fc@linux.alibaba.com/
-> 
-> I do believe we need it based on the expensive cost of tlb shootdown in arm64
-> even by hardware broadcast.
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/conf.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Alright, for now could we enable ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH selectively
-with CONFIG_EXPERT and for num_online_cpus()  > 8 ?
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 934727e23e0e..5dc141c66726 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -240,6 +240,10 @@ if html_theme == 'sphinx_rtd_theme' or html_theme == 'sphinx_rtd_dark_mode':
+                 # Add color-specific RTD normal mode
+                 html_css_files.append('theme_rtd_colors.css')
+ 
++        html_theme_options = {
++            'navigation_depth': -1,
++        }
++
+     except ImportError:
+         html_theme = 'classic'
+ 
+-- 
+2.37.2
+
