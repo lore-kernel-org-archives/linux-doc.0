@@ -2,183 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D06FA3740
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 16:17:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99712FA3740
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 18:16:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235506AbiJ0QRi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Oct 2022 12:17:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52954 "EHLO
+        id S236217AbiJ0SQO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Oct 2022 14:16:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234241AbiJ0QRh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 12:17:37 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCC1F181CAA;
-        Thu, 27 Oct 2022 09:17:35 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RFKlX5018412;
-        Thu, 27 Oct 2022 16:17:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=RBZCC6G8ERwNbA38K8u8HBs61MikUan4bfhNGgb5WeY=;
- b=eeFKWhd0rzBd+CbQg4uAsSscNXtCIJC8gSg48BTZGwYLLLJgPqVwbHYrUSm+R6vdbuUx
- nYXmieWXvNnoTAR/La0dp7YxQhGNdmqk3RiVUDBkd5Qa/3Vlx8ATERuEMh7AJ3mQA9iL
- l30iF3YxuJitg6RgsgR+Va1mEWugckgefpGco03TQJ5jndI5akOn7QVL8nUnyTfQ1Bex
- VDXHDFOzUaAHqxDaXglBfXO8B780P3Sizk89p17KAiSTr0VOnVp1/TEH5q6VwU2/04cD
- qkI232OIGQBY3YB8r4qQag4RlU38hq2Xrz1B88ZsaGdVd17+fYwmE/CSr0N0M0Nzlk5O hw== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kfaj1amc8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Oct 2022 16:17:16 +0000
-Received: from nasanex01b.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29RGHFVB008181
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 27 Oct 2022 16:17:15 GMT
-Received: from [10.110.54.85] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 27 Oct
- 2022 09:17:14 -0700
-Message-ID: <75ef3cc5-3b19-9eab-b3eb-56fa254d92bd@quicinc.com>
-Date:   Thu, 27 Oct 2022 09:17:13 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v5 02/13] dt-bindings: Add binding for gunyah hypervisor
-To:     Rob Herring <robh@kernel.org>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
+        with ESMTP id S235733AbiJ0SPz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 14:15:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF3FB7C1D9;
+        Thu, 27 Oct 2022 11:15:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1C7E662415;
+        Thu, 27 Oct 2022 18:15:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 762B8C433C1;
+        Thu, 27 Oct 2022 18:15:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666894503;
+        bh=3HRxhPs5aRt82sCmtdzYduN3y/fgPE5EeF7WhWyHiY8=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=hFJ+ssifG3lbRsDRrGmIkez0dIzYs35PZPUPHi0U1U9DUeEdL9l/mnLbDIfrRq+Pj
+         q+52SJhDqKNPbcnD9oOghksA6ntCzMn37u5K15XynJPuyPDS8EteUI6sZUtpc3J4QH
+         R10oDECCio5GMwpCK7VPk0fQ4rEFuFPTZZ9+TQLdMjd5qoMU5bSlNTv2bzJlTImWi7
+         6Pib7X9nweO0JkPmiOJC0L2ScJtinkOGB8prXWU7gMY0IPVtPOClNmwdQHX6/BtpXB
+         pLgioVILGA/hXEmrK8a47EwAuy1XvhqNIU5y6fgY6KZ/r9KE0h7kqnfwq44xNHS5uW
+         YT0+kb4NEU7DQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 1EDC95C0A59; Thu, 27 Oct 2022 11:15:03 -0700 (PDT)
+Date:   Thu, 27 Oct 2022 11:15:03 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Parav Pandit <parav@nvidia.com>
+Cc:     Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "dhowells@redhat.com" <dhowells@redhat.com>,
+        "j.alglave@ucl.ac.uk" <j.alglave@ucl.ac.uk>,
+        "luc.maranget@inria.fr" <luc.maranget@inria.fr>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Dan Lustig <dlustig@nvidia.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20221011000840.289033-1-quic_eberman@quicinc.com>
- <20221011000840.289033-3-quic_eberman@quicinc.com>
- <20221012155645.GA2173829-robh@kernel.org>
- <ca13eb92-9b5b-19fd-27a5-f91f5048b142@quicinc.com>
- <CAL_Jsq+cR5AEa5i1u-_L6sP6nYXS6qgaVWZ=KwxpUbxV3ZW-BA@mail.gmail.com>
-Content-Language: en-US
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <CAL_Jsq+cR5AEa5i1u-_L6sP6nYXS6qgaVWZ=KwxpUbxV3ZW-BA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: mygc-R9Eu-uIu0M5bs6K3wMWg97ZzIfb
-X-Proofpoint-ORIG-GUID: mygc-R9Eu-uIu0M5bs6K3wMWg97ZzIfb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-27_07,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
- suspectscore=0 adultscore=0 bulkscore=0 mlxlogscore=999 lowpriorityscore=0
- phishscore=0 clxscore=1015 malwarescore=0 impostorscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2210270090
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4] locking/memory-barriers.txt: Improve documentation
+ for writel() example
+Message-ID: <20221027181503.GE5600@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20221010101331.29942-1-parav@nvidia.com>
+ <d5faaf6f-7de5-49b0-92d6-9989ffbdbf2e@app.fastmail.com>
+ <20221018100554.GA3112@willie-the-truck>
+ <20221018174907.GT5600@paulmck-ThinkPad-P17-Gen-1>
+ <PH0PR12MB54810CA260159E805D448375DC289@PH0PR12MB5481.namprd12.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PH0PR12MB54810CA260159E805D448375DC289@PH0PR12MB5481.namprd12.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Rob,
-
-On 10/26/2022 2:16 PM, Rob Herring wrote:
-> On Thu, Oct 13, 2022 at 6:59 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
->>
->>
->> On 10/12/2022 8:56 AM, Rob Herring wrote:
->>> On Mon, Oct 10, 2022 at 05:08:29PM -0700, Elliot Berman wrote:
->>>> When Linux is booted as a guest under the Gunyah hypervisor, the Gunyah
->>>> Resource Manager applies a devicetree overlay describing the virtual
->>>> platform configuration of the guest VM, such as the message queue
->>>> capability IDs for communicating with the Resource Manager. This
->>>> information is not otherwise discoverable by a VM: the Gunyah hypervisor
->>>> core does not provide a direct interface to discover capability IDs nor
->>>> a way to communicate with RM without having already known the
->>>> corresponding message queue capability ID. Add the DT bindings that
->>>> Gunyah adheres for the hypervisor node and message queues.
->>>>
->>>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->>>> ---
->>>>    .../bindings/firmware/gunyah-hypervisor.yaml  | 87 +++++++++++++++++++
->>>>    MAINTAINERS                                   |  1 +
->>>>    2 files changed, 88 insertions(+)
->>>>    create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
->>>> new file mode 100644
->>>> index 000000000000..f0a14101e2fd
->>>> --- /dev/null
->>>> +++ b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
->>>> @@ -0,0 +1,87 @@
->>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>>> +%YAML 1.2
->>>> +---
->>>> +$id: http://devicetree.org/schemas/firmware/gunyah-hypervisor.yaml#
->>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>> +
->>>> +title: Gunyah Hypervisor
->>>> +
->>>> +maintainers:
->>>> +  - Murali Nalajala <quic_mnalajal@quicinc.com>
->>>> +  - Elliot Berman <quic_eberman@quicinc.com>
->>>> +
->>>> +description: |+
->>>> +  On systems which support devicetree, Gunyah generates and overlays a deviceetree overlay which
->>>
->>> How you end up with the node (applying an overlay) is not relavent to
->>> the binding.
->>>
->>>> +  describes the basic configuration of the hypervisor. Virtual machines use this information to determine
->>>> +  the capability IDs of the message queues used to communicate with the Gunyah Resource Manager.
->>>
->>> Wrap at 80. That is the coding standard still though 100 is deemed
->>> allowed. And yamllint only complains at 110 because I didn't care to fix
->>> everyones lines over 100.
->>>
->>>> +  See also: https://github.com/quic/gunyah-resource-manager/blob/develop/src/vm_creation/dto_construct.c
->>>> +
->>>> +properties:
->>>> +  compatible:
->>>> +    items:
->>>> +      - const: gunyah-hypervisor-1.0
->>>> +      - const: gunyah-hypervisor
->>>
->>> 2 compatibles implies a difference between the 2. What's the difference?
->>> Where does '1.0' come from?
->>>
->>
->> There's no difference. I thought the convention was to have
->> device-specific compatible and the generic compatible. "device-specific"
->> here would be specific to version of Gunyah since it's software.
+On Tue, Oct 18, 2022 at 08:33:08PM +0000, Parav Pandit wrote:
+> Hi Paul, Will,
 > 
-> No, that's just what people do because "vendor,new-soc",
-> "vendor,old-soc" seems to bother them for some reason. At the end of
-> the day, it's just a string identifier that means something. If
-> there's no difference in that 'something', then there is no point in
-> having more than one string.
+> > From: Paul E. McKenney <paulmck@kernel.org>
+> > Sent: Tuesday, October 18, 2022 1:49 PM
+> > 
+> > On Tue, Oct 18, 2022 at 11:05:55AM +0100, Will Deacon wrote:
+> > > On Mon, Oct 17, 2022 at 10:55:00PM +0200, Arnd Bergmann wrote:
+> > > > On Mon, Oct 10, 2022, at 12:13 PM, Parav Pandit wrote:
+> > > > > The cited commit describes that when using writel(), explcit wmb()
+> > > > > is not needed. wmb() is an expensive barrier. writel() uses the
+> > > > > needed platform specific barrier instead of expensive wmb().
+> > > > >
+> > > > > Hence update the example to be more accurate that matches the
+> > > > > current implementation.
+> > > > >
+> > > > > commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA
+> > vs.
+> > > > > MMIO ordering example")
+> > > > >
+> > > > > Signed-off-by: Parav Pandit <parav@nvidia.com>
+> > > >
+> > > > I have no objections, though I still don't see a real need to change
+> > > > the wording here.
+> > >
+> > > FWIW, I also don't think this change is necessary. If anything, I'd
+> > > say we'd be better off _removing_ the text about writel from this
+> > > section and extending the reference to the "KERNEL I/O BARRIER
+> > > EFFECTS" section, as you could make similar comments about e.g.
+> > > readb() and subsequent barriers.
+> > >
+> > > For example, something like the diff below.
+> > 
+> > I do like this change, but we might be dealing with two different groups of
+> > readers.  Will and Arnd implemented significant parts of the current
+> > MMIO/DMA ordering infrastructure.  It is thus quite possible that wording
+> > which suffices to remind them of how things work might or might not help
+> > someone new to Linux who is trying to figure out what is required to make
+> > their driver work.
+> > 
+> > The traditional resolution of this sort of thing is to provide the
+> > documentation to a newbie and take any resulting confusion seriously.
+> > 
+> > Parav, thoughts?
 > 
-> You only need something specific enough to discover the rest from the
-> firmware. When that changes, then you add a new compatible. Of course,
-> if you want existing OSs to work, then better not change the
-> compatible.
+> I am ok with the change from Will that removes the writel() description.
+> However, it removes useful short description from the example of "why" writel() is used.
+> This is useful for newbie and experienced developers both.
 > 
+> So how about below additional change on top of Will's change?
+> This also aligns to rest of the short C comments in this example pseudo code.
+> 
+> If ok, I will take Will's and mine below change to v5.
+> 
+> index 4d24d39f5e42..5939c5e09570 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -1919,7 +1919,9 @@ There are some more advanced barrier functions:
+>                 /* assign ownership */
+>                 desc->status = DEVICE_OWN;
+> 
+> -               /* notify device of new descriptors */
+> +               /* Make descriptor status visible to the device followed by
+> +                * notify device of new descriptors
+> +                */
+>                 writel(DESC_NOTIFY, doorbell);
 
-Thanks for the info, I'll drop the "-1.0" suffix.
+Hearing no objections, please proceed.
 
+							Thanx, Paul
