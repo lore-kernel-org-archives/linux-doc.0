@@ -2,150 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2526FA3742
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 19:57:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4EFCECAAA1
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 20:10:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236759AbiJ0T5k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Oct 2022 15:57:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60948 "EHLO
+        id S236545AbiJ0UKq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Oct 2022 16:10:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236768AbiJ0T5j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 15:57:39 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F9E183069
-        for <linux-doc@vger.kernel.org>; Thu, 27 Oct 2022 12:57:38 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id z30so1895704qkz.13
-        for <linux-doc@vger.kernel.org>; Thu, 27 Oct 2022 12:57:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9ShQMKq3f3t9mdNgDE4T4ISWotog7fNGhGUUcv2YoMg=;
-        b=hLolaNNJy7xdgsD42DCxWNE5GBXgxjI4Umu9gglZGLPUaFCOYzjOXr39fae0Q0O8MF
-         sHp9I+kowEZ/j+fhq3j8frUaMQ/WBAOehsUgwHmJkPYMIPh3W/mbmiNHWvyACkEgNl0u
-         WBVnY86DnNjuML5ySVQfzetIWpibwQHcSymX+E3r4Q0ZdgWzHowCbDfAjq4GuUImdPyw
-         Gi6hz7XVWHDp+evplMLg+uC5k0iY1rJM8j3jqRVUGpPLMlkaZiZMsXrQLPqno41tocYz
-         NhvrJuYCM5QY1rf3mQJcsIjES6656UJ2W3gxyUyhS8hyQWORIakKv7u9lFzxd7n5fA3W
-         RY8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ShQMKq3f3t9mdNgDE4T4ISWotog7fNGhGUUcv2YoMg=;
-        b=Ug1ei9mcHfUFcDNv4i4243FvzYiabO+q0ycDP1TlqHrbuNC2/rkN7zfaAMejzPE4wP
-         T7FgWJaqrHlc9H2uPzL+vHa+05ibbI0etXy+lb02TgZetguscCGP0XfxNjgOwpyNUuMc
-         zbdILk0wsyDqOuLdYcVO/I7pcRIAwQOugTkdy8RxqSiu8nWsUpBRam6qTq4GJ5plAdTO
-         /yyovninwNUAyBNZqQzRaYbWt51TQcWQ23jxi8Z4BaRQ5bL91tZQIEpW6W/OV3oY3HE/
-         PsJNL8yd5uHZKKkrUCpdoTOupfRbWpwh59bzRXQ4m9wqHqzy6OCczxWHh4BKRXfNWfAL
-         CQvg==
-X-Gm-Message-State: ACrzQf1Yt62tX3WAQVF8sAk8orYmtWBxuteqFs+FBv0kj7G2vp+ktPBm
-        36KBIWwFgxzHjfQ1Z8aXrWXApA==
-X-Google-Smtp-Source: AMsMyM4yWtOgOkt8YKdLB/crE8PcyGzMyTwx009SvdvsTbcpFw9bukNS9N5IRIVhT6odNhEr6wWlvw==
-X-Received: by 2002:a05:620a:6011:b0:6ee:b2c1:686b with SMTP id dw17-20020a05620a601100b006eeb2c1686bmr35608281qkb.492.1666900657261;
-        Thu, 27 Oct 2022 12:57:37 -0700 (PDT)
-Received: from [192.168.1.11] ([64.57.193.93])
-        by smtp.gmail.com with ESMTPSA id s4-20020ac85284000000b0039c7b9522ecsm1357716qtn.35.2022.10.27.12.57.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Oct 2022 12:57:36 -0700 (PDT)
-Message-ID: <927392f9-aec5-7a34-b1ab-236a8d19d79c@linaro.org>
-Date:   Thu, 27 Oct 2022 15:57:34 -0400
+        with ESMTP id S236902AbiJ0UKe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 16:10:34 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2040.outbound.protection.outlook.com [40.107.220.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B2D142D62;
+        Thu, 27 Oct 2022 13:10:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mkNo53cNx53/NH1ojk/ULjH0JzTwoHjOBEHetptwv816B8yWuHdYMYIxnj8NcimrSEqW12tazyHpibf42hb72d8iJhfwdATj2vbpclQRDv/NVBq04dhSvSbBDTM/aIyA8/I8rHxaFJyo9NYCjAzNqrUu+8BISEWP+oHwT86ddND8H98ajap30RESrXsQaS/LRiU8bNOc+41m+AziMFAqP2rdNFC4olWsTdYlzApcWZpN3UemwUSPQPSGPCn1aWQtlzt94Z0tVps8uhpaoyux1ZWtni1oE4EHcgok0cgpkhJzKXZOQzEi0z/MeBijKf2XOhSEQsl/uNC0GKWOw9kC3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ErTieuUf1a0AEbviSnyTQ+5hjQZl4lJn32HDoS8V7tk=;
+ b=QKJxsGhGtunVgI9z+CQJ6LiTyqso0mRSITg36GWRdARu2eQJaVMavb0QbdxUZW/SYeAzbLTNj3bE7Rk90nme+qvPRjO1+i/mgJA5ORzd4j9sRLLy+ZIxVCXD08PXsZEVm4l7+IdJUOfKpl8dFdcxtOD01krPfdR/6QZxtMNWxpqcSumFRrlKwt5CjqPjZ3zftxSvXF6EseNafed3M9YDQymFWNgs4enykJaZejKhKOfdi8xBV9VVa9lPMA+l7WES34vBWp983XLPlNZ+DXF1IINsgoiz3c+hQccSkq6FgfGNi7WuAbLjP1bpObM1Lnwex6q2YzGe0SuM7qmkNgl9ZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ErTieuUf1a0AEbviSnyTQ+5hjQZl4lJn32HDoS8V7tk=;
+ b=k2JgVgmwj7cpun5Ua1qE1gOPuKQJCzosCJ7xH1XMx55pAI9hzB1m1XrBnhS3zeEbylH4TabdpAwdPGriuw7QdfErMq5Kb5S6CGSIFJnbFrJQk0eVFdJiBmGIDi2KqpWYfZ9GEa2IKGGhuHgKc7B6XYFc7NytgMclRQCI09DI+P53Romc3Xb7lIrT7Twh119RmhOC8RVIfyIUJKiuY/T+Dhb9a7TmTclomXp/iEwxY40P8OW+QAKOnw/h234MQCValwShsUNKaWphH2LGuZPELuqIj+zjcpmNv3QCyxso4Jecsz03fF7r/MoK/9I1vkC5df3OqeSicvj4rO56+IazjA==
+Received: from DM6PR01CA0024.prod.exchangelabs.com (2603:10b6:5:296::29) by
+ SA1PR12MB5670.namprd12.prod.outlook.com (2603:10b6:806:239::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5746.21; Thu, 27 Oct 2022 20:10:30 +0000
+Received: from DM6NAM11FT014.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:296:cafe::f8) by DM6PR01CA0024.outlook.office365.com
+ (2603:10b6:5:296::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.14 via Frontend
+ Transport; Thu, 27 Oct 2022 20:10:30 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ DM6NAM11FT014.mail.protection.outlook.com (10.13.173.132) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5746.16 via Frontend Transport; Thu, 27 Oct 2022 20:10:30 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Thu, 27 Oct
+ 2022 13:10:16 -0700
+Received: from sw-mtx-036.mtx.labs.mlnx (10.126.230.35) by
+ rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Thu, 27 Oct 2022 13:10:14 -0700
+From:   Parav Pandit <parav@nvidia.com>
+To:     <bagasdotme@gmail.com>, <arnd@arndb.de>,
+        <stern@rowland.harvard.edu>, <parri.andrea@gmail.com>,
+        <will@kernel.org>, <peterz@infradead.org>, <boqun.feng@gmail.com>,
+        <npiggin@gmail.com>, <dhowells@redhat.com>, <j.alglave@ucl.ac.uk>,
+        <luc.maranget@inria.fr>, <paulmck@kernel.org>, <akiyks@gmail.com>,
+        <dlustig@nvidia.com>, <joel@joelfernandes.org>, <corbet@lwn.net>,
+        <linux-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+CC:     Parav Pandit <parav@nvidia.com>
+Subject: [PATCH v5] locking/memory-barriers.txt: Improve documentation for writel() example
+Date:   Thu, 27 Oct 2022 23:10:00 +0300
+Message-ID: <20221027201000.219731-1-parav@nvidia.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v6 02/21] dt-bindings: Add binding for gunyah hypervisor
-Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-3-quic_eberman@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221026185846.3983888-3-quic_eberman@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT014:EE_|SA1PR12MB5670:EE_
+X-MS-Office365-Filtering-Correlation-Id: 54587a02-9220-46d4-850f-08dab8574bff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Q9TRyBNX28FaMHuoH8BdDoV/r5mMwyo3OCDfzgozqHoO+2V3zmGxHshFdrwPiCOUmYqWWNIp2D2Mh2lywkhMIIwiDlUirj6D7dbeFs565IUXXC58PJ+3IbPFpsmi+JCaoNArk5RLWdgw7S4BTSde3mHg/Ja684EUYAtPabfgEsLMs/HBlMmx/Y3ItfeOm52247dBp/KojuSABqG9/JxRLt9m100ij34+c6B8sib7X6dptSGjix7WpFWTm9oYu517fuG1Jxw8k2LSd8gj9qONmLpOSUPQiIwof/+J5FDSEnfbecwpCvqUMccaJgRJaTxIKL0gDve8u+kb3qZ7FhzzWTKj1QB2X/NIEXKZ4rh54FaxFwrc4st2yO8oTIEDUnhwGdIn0kYMDWfZFIu0UDje/hrr03USHlLmpf/szMphjHaoy/FUVcx6sD6ABGYTchFVcHs3cZZyamU0mpfE7KVPmdh7E2zI3lGZHA45FqbP5pHOV5Qt9P5NkbpcEFRa9ThCjo5r4Mg1rYlBkBNIFLzvOLcgs1zNhokvDRS20gln3vvq1Co4tyKWvmGbEuY5f072LtAczca0IUvhSrvqCDvj097K8oQChLEofk7Gmo/0RF4jbf4e/JJ7Uk4T39wa65v1jnLZcyEKrMJnyay8+x/HVi0p+mSuIMdgbrBoFIvASMghJ2wXpARtbRgdj8jOWjrhDuyVtp6MAOLGXhs6HUM2kbUJBiRQh0vLQy5yvVUZOI2rug4j7zIV0jEDjCziDY78B8757nLOQoBtWfjyu7UIrh7pk90OyUU5DhdOCf5+GUo=
+X-Forefront-Antispam-Report: CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(136003)(346002)(39860400002)(376002)(396003)(451199015)(46966006)(36840700001)(40470700004)(1076003)(8676002)(921005)(4326008)(70206006)(40480700001)(83380400001)(16526019)(7636003)(2906002)(2616005)(336012)(47076005)(36756003)(82310400005)(41300700001)(26005)(70586007)(186003)(8936002)(7416002)(5660300002)(478600001)(426003)(356005)(86362001)(316002)(6666004)(110136005)(36860700001)(107886003)(40460700003)(82740400003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2022 20:10:30.1486
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54587a02-9220-46d4-850f-08dab8574bff
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT014.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5670
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 26/10/2022 14:58, Elliot Berman wrote:
-> When Linux is booted as a guest under the Gunyah hypervisor, the Gunyah
-> Resource Manager applies a devicetree overlay describing the virtual
-> platform configuration of the guest VM, such as the message queue
-> capability IDs for communicating with the Resource Manager. This
-> information is not otherwise discoverable by a VM: the Gunyah hypervisor
-> core does not provide a direct interface to discover capability IDs nor
-> a way to communicate with RM without having already known the
-> corresponding message queue capability ID. Add the DT bindings that
-> Gunyah adheres for the hypervisor node and message queues.
-> 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
->  .../bindings/firmware/gunyah-hypervisor.yaml  | 86 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 87 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-> new file mode 100644
-> index 000000000000..3a8c1c2157a4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-> @@ -0,0 +1,86 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/firmware/gunyah-hypervisor.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Gunyah Hypervisor
-> +
-> +maintainers:
-> +  - Murali Nalajala <quic_mnalajal@quicinc.com>
-> +  - Elliot Berman <quic_eberman@quicinc.com>
-> +
-> +description: |+
-> +  Gunyah virtual machines use this information to determine the capability IDs
-> +  of the message queues used to communicate with the Gunyah Resource Manager.
-> +  See also: https://github.com/quic/gunyah-resource-manager/blob/develop/src/vm_creation/dto_construct.c
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: gunyah-hypervisor-1.0
-> +      - const: gunyah-hypervisor
+The cited commit describes that when using writel(), explicit wmb()
+is not needed. wmb() is an expensive barrier. writel() uses the needed
+platform specific barrier instead of wmb().
 
-You are sending next version while we still keep discussing old one...
-and without necessary changes. Instead keep discussing the previous one
-till we reach consensus.
+writeX() section of "KERNEL I/O BARRIER EFFECTS" already describes
+ordering of I/O accessors with MMIO writes.
 
-These compatibles look wrong based on our discussion.
+Hence add the comment for pseudo code of writel() and remove confusing
+text around writel() and wmb().
 
-Best regards,
-Krzysztof
+commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
+
+Signed-off-by: Parav Pandit <parav@nvidia.com>
+---
+changelog:
+v4->v5:
+- Used suggested documentation update from Will
+- Added comment to the writel() pseudo code example
+- updated commit log for newer changes
+v3->v4:
+- further trimmed the documentation for redundant description
+v2->v3:
+- removed redundant description for writeX()
+- updated text for alignment and smaller change lines
+- updated commit log with blank line before signed-off-by line
+v1->v2:
+- Further improved description of writel() example
+- changed commit subject from 'usage' to 'example'
+v0->v1:
+- Corrected to mention I/O barrier instead of dma_wmb().
+- removed numbered references in commit log
+- corrected typo 'explcit' to 'explicit' in commit log
+---
+ Documentation/memory-barriers.txt | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+index 06f80e3785c5..e698093bade1 100644
+--- a/Documentation/memory-barriers.txt
++++ b/Documentation/memory-barriers.txt
+@@ -1910,7 +1910,8 @@ There are some more advanced barrier functions:
+ 
+      These are for use with consistent memory to guarantee the ordering
+      of writes or reads of shared memory accessible to both the CPU and a
+-     DMA capable device.
++     DMA capable device. See Documentation/core-api/dma-api.rst file for more
++     information about consistent memory.
+ 
+      For example, consider a device driver that shares memory with a device
+      and uses a descriptor status value to indicate if the descriptor belongs
+@@ -1931,22 +1932,21 @@ There are some more advanced barrier functions:
+ 		/* assign ownership */
+ 		desc->status = DEVICE_OWN;
+ 
+-		/* notify device of new descriptors */
++		/* Make descriptor status visible to the device followed by
++		 * notify device of new descriptor
++		 */
+ 		writel(DESC_NOTIFY, doorbell);
+ 	}
+ 
+-     The dma_rmb() allows us guarantee the device has released ownership
++     The dma_rmb() allows us to guarantee that the device has released ownership
+      before we read the data from the descriptor, and the dma_wmb() allows
+      us to guarantee the data is written to the descriptor before the device
+      can see it now has ownership.  The dma_mb() implies both a dma_rmb() and
+-     a dma_wmb().  Note that, when using writel(), a prior wmb() is not needed
+-     to guarantee that the cache coherent memory writes have completed before
+-     writing to the MMIO region.  The cheaper writel_relaxed() does not provide
+-     this guarantee and must not be used here.
+-
+-     See the subsection "Kernel I/O barrier effects" for more information on
+-     relaxed I/O accessors and the Documentation/core-api/dma-api.rst file for
+-     more information on consistent memory.
++     a dma_wmb().
++
++     Note that the dma_*() barriers do not provide any ordering guarantees for
++     accesses to MMIO regions.  See the later "KERNEL I/O BARRIER EFFECTS"
++     subsection for more information about I/O accessors and MMIO ordering.
+ 
+  (*) pmem_wmb();
+ 
+-- 
+2.26.2
 
