@@ -2,216 +2,259 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E992AECAAA1
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 18:24:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 933F7FA3740
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 18:38:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235586AbiJ0SYl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Oct 2022 14:24:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38636 "EHLO
+        id S234875AbiJ0SiA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Oct 2022 14:38:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236438AbiJ0SYi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 14:24:38 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7EE0DF75;
-        Thu, 27 Oct 2022 11:24:37 -0700 (PDT)
+        with ESMTP id S235323AbiJ0Sh7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 14:37:59 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF3849410B;
+        Thu, 27 Oct 2022 11:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666895878; x=1698431878;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=amLNkMSlyqeQG7y+M0AM3wkbWQ2CXAtma/ICaKGuhzE=;
+  b=criKZoT6VFfSZlp0lmq5Tzuc+L4yliZnF0OyxLnJUfGbGWbu7SsjrqgU
+   uloihfwpZGieVl93MaO0NurpRDnoij3RtSGuC6RfQZS39gBb2lYNCmsBA
+   JJi5lxuBq1+ebCkEVNjpNd9Ik2EOcn7r3PG6ruockDukjchhlZRLkRIpQ
+   96NMMiF04RyxlZPz10oOIxcaMcDP3q/rlFI0frHxjrR+wBIlT0UdrzmI2
+   /FFGV6OQw2NlG4B5s4MmN1UxGuOiT5rbr1G5sHZIK/9R0kKLF2AzNtFy0
+   T/aJDhQRr6AXGAeFIxmaZgNTfCrDDAN+kRD6ovWwiugbH5A4O9gQ89IQO
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="288027426"
+X-IronPort-AV: E=Sophos;i="5.95,218,1661842800"; 
+   d="scan'208";a="288027426"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2022 11:37:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="665786227"
+X-IronPort-AV: E=Sophos;i="5.95,218,1661842800"; 
+   d="scan'208";a="665786227"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga001.jf.intel.com with ESMTP; 27 Oct 2022 11:37:58 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 27 Oct 2022 11:37:57 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 27 Oct 2022 11:37:57 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.41) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 27 Oct 2022 11:37:57 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Lg0/otnarxcygzNgw3TeLxm2r4Wdvy72WgZZlcmkHitB7aBPHWZgsbbsA737/5oG1798WD2yqOmo0MHSa1HY46uQAVTbGdfxAjSqCAUEEF2Eu5S/H2NLGhZDGjMrymhBKAixgRZxMyXov9cNl5CJ5G0JQXzTpHa2wsxUBO+EqAo18B+hIHA6e5AzW90p6UiLL5GVLuBGa5oYorcJ4cJ2Dbv7bOXAw0UtRsHAvATY7QHKGpU1WHDb84JEk+3FNHx2XhBHuNamfDmzc7QfNE+CtpwlXVv9+U5nDbNIQi2t6rC0UxAm4d4ousDR8Q3WyehmM0L5yq9cPjHDYA0pB5/0fQ==
+ b=e5NIr377SqWgSZwKYVgJTchEcyvnKdu54jsc4OC386kuNPtvJ0iScqpf8AibHy+JRu2+2u6rSBHVDoDdMNtqioeHkZ2YXW7HsdPzwxcxdCoANyplu2nTgWkpAcxdpghzEylz+cQpmSEswK5z7TAW8MtGrbLMdPrFqqy/3isWIVqDcXOQLaBzRVvh/A+ZCCQ2NghpNOhh9KWuxBapNvEkg6tYfAKoxBkx9atB+nP9LMdvaaqg6rhMEBgfTNRms16dEZGMWou4plg3I9SQagn6DXDS5cdBcdn1/pfjBdIUJ5m41/QeSnbBoOx69GWmhvV8AKLEszi2YDFZJnepufYnxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yzd9laxZC2tSaRWAbacRwJSwyM72buGy1BrzADX9oio=;
- b=J2Xg+KyuVeiSFtyuQ9g47FZgKCllyrD1VWkROE/gnKjQFhAN8tlPQmyCFhAJOsvFBF/dScxJA8vZEaXf7h4SeOXQ0ZargrMoT9wkN91LdoHnkt+9VRG/qgXxf1zYdnbxLvy4948cx+s7mX9clDnB7Kt81giQ6c7f5GIk6ymP0CJ82gs87HHM1MrTicY1fOX3ymJdN69pdZBcq03VXE5qnp9lHD/TYa8QXGQo3LZqUsgqocQkHAmFDnQWA0ugRVs4IapZ3lNiMWByfbuv9OyhutA5LbrgtHd5j5hDFf9onvd9kHcZSpr1pN3lyJuegMorcfEK1zefeZs+lxux02B+eg==
+ bh=k5NsZ+V7CLtqqMaXkFWgx/GvaEjCeVyNEmRgAvkAiwE=;
+ b=DoHgcuYpkqBo3sMQ2Gvb4YPjLhAhXZm9plXuo0vCk0EDFRzsoODjK9QH/5iPqrk+AKq1kwVBBg2aZHknQQKcJdaPHV0z9psjYipL8dhVBiBgYxaI+2W6vABi+2jEj6DVIjRj/XVK6DKC6L9I0sqiWmQ+WDpDCWiz/EWLRZmMHSOMlVGX2W8wjPuWw6s8Z81TA/Q9q4BcGgRni53wHZCk1XlvEeLzvtWxxNKlF6+mdOndbITwspXNL8sPS9OUZGfV8MNu8KxbAcIDQDOpQcDm1UT2sgWpQ3W5W5cRnjzhGZrwfVKwcdWsN1+tNav3/kjzpdxdEwqHQ4s823u9AiILog==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yzd9laxZC2tSaRWAbacRwJSwyM72buGy1BrzADX9oio=;
- b=nkBwj3Pthxm4TOOrwvShavsUJJi+n/I+8fFhbNuVQnEhQzpuOXBmTKnzXEolYlDL4jppHy1+cIE66/C2F3nmtlQ4G5f4LuhT2zSutISOy88dww3X7uxoN53XQ9tWCWBmMaij7wwIRdWmtzlBvNcwOtitjcdlFpCcINQ0NNekPGHsz5yXrV8tuE6rom3v6E/nW9Mto90QyAhEeOt/wSYUYw2rf3MSLDpx+XQHc9fZGcuXayH4Sl9nBtaefNi65/NSZg9elyZ+5qytQNyky/+fkI4oii5Lz+J+srQR5xLxmxHFeEdQ2bVjRSvHGjQPbcnOdOut19q3W/1Jtn/tUAvyUg==
-Received: from PH0PR12MB5481.namprd12.prod.outlook.com (2603:10b6:510:d4::15)
- by LV2PR12MB5894.namprd12.prod.outlook.com (2603:10b6:408:174::14) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
+ by MW3PR11MB4633.namprd11.prod.outlook.com (2603:10b6:303:5b::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.14; Thu, 27 Oct
- 2022 18:24:35 +0000
-Received: from PH0PR12MB5481.namprd12.prod.outlook.com
- ([fe80::d756:c945:3194:629e]) by PH0PR12MB5481.namprd12.prod.outlook.com
- ([fe80::d756:c945:3194:629e%9]) with mapi id 15.20.5769.014; Thu, 27 Oct 2022
- 18:24:35 +0000
-From:   Parav Pandit <parav@nvidia.com>
-To:     "paulmck@kernel.org" <paulmck@kernel.org>
-CC:     Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "dhowells@redhat.com" <dhowells@redhat.com>,
-        "j.alglave@ucl.ac.uk" <j.alglave@ucl.ac.uk>,
-        "luc.maranget@inria.fr" <luc.maranget@inria.fr>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Dan Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v4] locking/memory-barriers.txt: Improve documentation for
- writel() example
-Thread-Topic: [PATCH v4] locking/memory-barriers.txt: Improve documentation
- for writel() example
-Thread-Index: AQHY3JEEUGpScoYh8UGbpcw6oN0VqK4THE8AgADc+4CAAIFqgIAAJRcwgA4HJICAAAKPMA==
-Date:   Thu, 27 Oct 2022 18:24:35 +0000
-Message-ID: <PH0PR12MB5481D4417D82F130804ABA4FDC339@PH0PR12MB5481.namprd12.prod.outlook.com>
-References: <20221010101331.29942-1-parav@nvidia.com>
- <d5faaf6f-7de5-49b0-92d6-9989ffbdbf2e@app.fastmail.com>
- <20221018100554.GA3112@willie-the-truck>
- <20221018174907.GT5600@paulmck-ThinkPad-P17-Gen-1>
- <PH0PR12MB54810CA260159E805D448375DC289@PH0PR12MB5481.namprd12.prod.outlook.com>
- <20221027181503.GE5600@paulmck-ThinkPad-P17-Gen-1>
-In-Reply-To: <20221027181503.GE5600@paulmck-ThinkPad-P17-Gen-1>
-Accept-Language: en-US
+ 2022 18:37:50 +0000
+Received: from CY4PR11MB1862.namprd11.prod.outlook.com
+ ([fe80::207e:ab0b:9e29:6a4b]) by CY4PR11MB1862.namprd11.prod.outlook.com
+ ([fe80::207e:ab0b:9e29:6a4b%12]) with mapi id 15.20.5746.028; Thu, 27 Oct
+ 2022 18:37:49 +0000
+Message-ID: <cd4c5da6-6ada-67b4-44f6-6d5796fae8c9@intel.com>
+Date:   Thu, 27 Oct 2022 11:37:46 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.4.0
+Subject: Re: [PATCH v7 05/12] x86/resctrl: Detect and configure Slow Memory
+ Bandwidth allocation
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR12MB5481:EE_|LV2PR12MB5894:EE_
-x-ms-office365-filtering-correlation-id: 68ba79f9-edf4-45c2-741f-08dab8488006
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OYPmQ2RMxdA2Z8gxJM+j5iTDhQ1i+z3yoWYpFP8e/jqenNywchhIzBMopFmLzx5oe3TCcwoNXLzEx+QFNbBMHcNCOSH/4w6Z7FukwLDtDGmY19N5y5a8a8sZi3OGstsYgdzETI2FhA/f1E+Crl6htnWdsCIXNFIiEC9GeZE6W9v8fRu9SUbvmqKjMWyyhax2CCetFjXeN3EvvmhmivFZqzRRH1SBsWuvCGwglb4jAOICjIhC/5Pvt5Eg6hz5nAWK77E5/x17eJA2XwQ4uNrhyGtZmA0B5ZOGuZqloWI7j514nhtP3OOPKB+BQxowOePEBcogcbsBJ0Mb3S+vc/hjwFwxkMx3EmMy4dqgVBS7lT8NpQnIXzSzpLuPt/tlrgf2cjV75/Uai01rbTGNV0Xdp/VT3ygVgTFZgEe0TaOCsIYs5bQ7rIILK0Yy0lcNcaVWRwc9Xr57CwLpQ8XbWel3MLgPy1PAF7MMVqf1HSrS72m1B6iKE8fiEerPivW6M9G4+Tf7jm7RJ/Z22WAO6lYmQzut626H5o0VJf3OUU/AfK0SO7BjB2ywOObC/pdfXw6vv+DyWvPd4NKQNlGrRXtxOEARQBJH15My1Tt2DszGumqm46M4Zm2abrO2aSkiDDfGbbmaHvfhnPf/m7bgnt2RIUQ/YWu0T3plPX7Y4q8Yp+/JkZI8ChHeD2o4u2kLPSegcbSkQGWMxaYyv1JVM037LbydBiYW3MxHy0aiZ+uZIyMZRBi/RhaDD8L1wEbTDtm9lC1mj8SR9Gu4cQt4YQKWqw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB5481.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(346002)(396003)(39860400002)(366004)(451199015)(316002)(6916009)(2906002)(38070700005)(9686003)(83380400001)(186003)(54906003)(8936002)(64756008)(86362001)(5660300002)(7416002)(41300700001)(122000001)(66446008)(52536014)(66476007)(66556008)(76116006)(66946007)(33656002)(55016003)(4326008)(8676002)(38100700002)(478600001)(71200400001)(66899015)(7696005)(6506007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?3RCWQJ5pcwTbjlmEBeGrAYXgl9M6ThvXkFGOfj9CR9xWgORnplL/xC9ctaYw?=
- =?us-ascii?Q?VTwdzMaqfnASV5kc76mZaLIF2OOLkyAd/6HVW0jU9xXK5wGgUQRizAuA4MFR?=
- =?us-ascii?Q?Od6Oon3PoVZkfEGMi3VeLldnIdvZZaFqhGadRju7te8IKarhrBB0YzOGUEv7?=
- =?us-ascii?Q?iYRHhI9sW+NTCLLn4vHVlYcp7c+uDG/8HaEN4rrjM5SmyDCmp6JncNesg5FC?=
- =?us-ascii?Q?YX2sryhuIKiCb/DZtCzSXK8SLL1cweledOWHQYvLIM7NuUkk/xEnlzgBHa3e?=
- =?us-ascii?Q?WCJpOlmKIHLjGc2CjKOoUOcrvWM8gY4rAGEyMSJdqTfTVtRGXWZSocDWBZ8X?=
- =?us-ascii?Q?X61TOusnCVpo4hkaYBYjD7C03FLfSoxbNlKv196jo+1Sg+f7wrWGVjVqylMn?=
- =?us-ascii?Q?2evLBuW+W13vCglpI3Glh2FgAnkYhycGXZ6owPu9v8pgJC16XFpVxvZC3omi?=
- =?us-ascii?Q?/7sWgULBy6zepv+jHflIl4D9p5SPe/wk50F474QaQpP6TEx8DIadM0Nkmv6e?=
- =?us-ascii?Q?LDGySRG1uLUgFI4HVLVlmh+jiGI+JS/3MDcxFkdENxHICvAvjx5FZj03NWG7?=
- =?us-ascii?Q?xHIbx4yKdy3HHQHdLb0iU5FFTaSvQ+kB+dfoXj0ShfzdHqP1wS5l02I3JePM?=
- =?us-ascii?Q?dUR1pTsbXw9BiBeyTX2QXrbfkrWR7GcCrVjX5qmYsmoMII+MPXgsrp+95O+L?=
- =?us-ascii?Q?QZYS56dpsCvhquKSWMVMyx6YuwRAGRcxzEkxW4/bYLkq0jRAnjK9EcJOOJO7?=
- =?us-ascii?Q?N+3d83ANJYoK+rYQWDoIJ3RimWqbEQB5ARTHcnSXEgbZX/+UFqwPUn/hsegw?=
- =?us-ascii?Q?x/64R0MzSzP7LJGgTmJsqTngxAMStr1K03LBAnRWU92gsVq36oKQaEpkdqTH?=
- =?us-ascii?Q?N98/+wtwQXKfJJ9xPFG2PKuwdit3TrU2bv25+190h2aVNjzUyP2emsYVBi8g?=
- =?us-ascii?Q?wR7qi5btIyHWSO4Ke7H0cGuZ2TdLpWRK9IsM9t4Hn7VEskTPVhEpODAKeEOE?=
- =?us-ascii?Q?WQ5k/L1ViDWTAxgOTon/8ekTwIiOoN+WvKE8UvYNucWI3S59bjBCBJ83iU2+?=
- =?us-ascii?Q?bd88gE9BCFdEZlxMDna1ps2cU39MmNlwZKhkvf6x/xuQHL9AoguxIaxa9d92?=
- =?us-ascii?Q?ULBOZkMHUVPDyvqDOwMDo2P+KuM60gc7H8tYeUjCtmw93UBhbExlYQb6Brn3?=
- =?us-ascii?Q?+VKwVOMT9ocd82CszMf4T8jjcNDkprx/VySlCPnKpAYVzR4ReKpYqCEakYUR?=
- =?us-ascii?Q?HFp2Cp65zXTB3ygbvus/buFM2jCu7lgdKIUEqnjqPeRtMMhHmjUklrhqzikg?=
- =?us-ascii?Q?9m3uQmOECnw8ZpHsglmIEqs6b/ABlXOWSebNrdXAC32XoWgCvBoj8uGxGH6O?=
- =?us-ascii?Q?krCRrc9qaiDRJqm29DzweDZrmk0J6dvqgUj4ilW471JIVLdr0d65Jitl0keP?=
- =?us-ascii?Q?sJMAcfXBYpPfANVVk/7k3B707oqebBbswPntBxAlhYSYjz2yYDl0LiaYjc8l?=
- =?us-ascii?Q?a+YAI4VaqDBQ80lqAEkPnTjiHd7lFTh1dR9hBB6MNDiM1NdQSI9hvr26A1Io?=
- =?us-ascii?Q?VoKEEQzPRStNxSNxGih7GSkOBo+UmD2qMzY176SaarsH8gYm0+G/uhlXHiRt?=
- =?us-ascii?Q?0/Oi54S2OY4Olbv4k/eiCfU=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+To:     <babu.moger@amd.com>, <corbet@lwn.net>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>
+CC:     <fenghua.yu@intel.com>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+        <akpm@linux-foundation.org>, <quic_neeraju@quicinc.com>,
+        <rdunlap@infradead.org>, <damien.lemoal@opensource.wdc.com>,
+        <songmuchun@bytedance.com>, <peterz@infradead.org>,
+        <jpoimboe@kernel.org>, <pbonzini@redhat.com>,
+        <chang.seok.bae@intel.com>, <pawan.kumar.gupta@linux.intel.com>,
+        <jmattson@google.com>, <daniel.sneddon@linux.intel.com>,
+        <sandipan.das@amd.com>, <tony.luck@intel.com>,
+        <james.morse@arm.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <bagasdotme@gmail.com>,
+        <eranian@google.com>
+References: <166604543832.5345.9696970469830919982.stgit@bmoger-ubuntu>
+ <166604559954.5345.14619487558472213422.stgit@bmoger-ubuntu>
+ <c999a7f8-b083-72a6-ff07-201369339c92@intel.com>
+ <ef734fc1-8a51-4c60-f73f-2d71fcc54b30@amd.com>
+ <e299ce70-ebca-a05f-a1f1-aed6386c379f@intel.com>
+ <fbb32df7-df49-7a51-67d8-a8abfe7e1c3f@amd.com>
+From:   Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <fbb32df7-df49-7a51-67d8-a8abfe7e1c3f@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR13CA0069.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::14) To CY4PR11MB1862.namprd11.prod.outlook.com
+ (2603:10b6:903:124::18)
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PR11MB1862:EE_|MW3PR11MB4633:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4c925f7-ba45-44e4-861b-08dab84a5980
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JrA+4++4Qp2zFpmscKreTC+jjHkRk4mg2dWqH7rIZlhsfJDwOsGshEQYfo3i5Ogg3uO6k9RurcbmrN6YRvD2NLAIM/2yPT7LV1TYNz3TtXKiwNZl0RUsLmnHwA04ge/WMtj/nW5Il6HlHyb/+O/gAeb9JGHUcvdg0xu7KMfr+jPgDttvfzycqnRAFZMJQi6iLvBhrP88LUqPj0HWeyDbK65/geicijbpFfjrJISNMLYE4UF0G/mtPoO3oNXbid1+FhNtOipiZhBanTvzZ0ixHB4KMChEEmGtfoRXaqWAx9Qkv3GtjHMELRgE0gs/TEWNWiK2Us50UK4LvA3InkgiZsmtRayv0paS/8hfQsbUFt8uydSZyLCGkZEiZAVf1Oh3FXc789zaJweILWf2IU/gsMzjLL5uCuU3UH2Co7Vew1eUOODDwvDCRW3fmD1JJ8JZtyyvrwi9eNaKvD8x+SGvf3YgcOLMUZEImtSVgODuJ+1yUhKvMDItN31Hlin+Em+SJaaPozvtrwmK4bjp8eNMHCzPsz4OAwBuFrMPI44p5cwpUsbvpb1P+WHRLrehimW2U34xm6J0vYUHOXyLQyV5+cjmvS1iwIAJSnz6KDmLUGrXvr1qTHz4rEplJHZFlrBTEn6rXHXdo7EJ2D1r+09YPZU7HHS5TfWADFChL578TkRMvKUB7Tz3JzVUUnauZA2UfC1ZxLGHATiriY89mEBX9n/7WCJuntZLmoXuQUEw1fEZmRnhXSesJaX+TkxAksgOAyT9XVo0Ee09LVeqeCu/+UyPgoHOkB72nTnGdTvcVmE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(366004)(376002)(396003)(136003)(39860400002)(451199015)(44832011)(36756003)(6666004)(41300700001)(8936002)(26005)(6512007)(6506007)(53546011)(4326008)(38100700002)(8676002)(66556008)(66476007)(2906002)(66946007)(31696002)(86362001)(316002)(186003)(2616005)(83380400001)(31686004)(5660300002)(478600001)(82960400001)(7416002)(6486002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b2xiSmNBSU5vQzFLQmU4elZUVUpvcGN6aUlMY1UwMDlwY0pWU0lueUE1YzNT?=
+ =?utf-8?B?amZBQzNOemdEVkF3akowVFZRSGJjcFlLeFZjZXduWlNBcHRXRjNDTE92R1I4?=
+ =?utf-8?B?Qzh2T0JIOTBwb3E3MlNHNkM4WnBWbG9IenpCZXJxTW40UnZRZkRKYWI4QW5M?=
+ =?utf-8?B?cCtWcldPUU5DLzdiVWoxUTc3NFh2ajVXeEQyYXY5T1pyTTRhd09FcXVxYis1?=
+ =?utf-8?B?a3BwVVFnMVJEMERHZkhMUnNCaTQ3TmNuelhVdXNYOUNxU2JkNlpQdG5WSWdo?=
+ =?utf-8?B?eDF2b3l2M1ZrbmJTSnBPanl0eW8zMFlvNDlWZWtrcG1lYldLMmdMeGdVWlZj?=
+ =?utf-8?B?TDZ2VFpyVHcyTExnVjV4QmEwK0t3V2NzV3JlcW9JZzFUTm4vTWhMNkE1ZVNT?=
+ =?utf-8?B?NW1hUVBINEZKaUx6VkFMSCtFTTlGN2phZFhONDRsTmpJOG4wVTJOMnBjbjZK?=
+ =?utf-8?B?TDN1aDRsTzFPZzF0Nno4djlHK0c0LzZTdlhFd3dibXNmajJoNFkxUmdCb29X?=
+ =?utf-8?B?TUdMNGVzWmxlVHdFdnhZRDVVZ2wxa1hwbjJrU3FEdS9XSU5zU2w1aHV6Qlph?=
+ =?utf-8?B?MkFFOEFCTGdieWhXN2JrUXltVUZ2eVhuR0RJT0g2QVFGdG5MT1hPYlc2anUv?=
+ =?utf-8?B?bUJsN0xLRVB6UE1rNFJOMFV4aloraE9kQzJHcmozcWZWdytack82cGg5L1Nz?=
+ =?utf-8?B?bWp5R2RKR000enBMWlNNTWNZZmdkMDhxUFFTM09rTkFLa1I2NUYxdWdhREc2?=
+ =?utf-8?B?Zjd0c2xMMHJsejROUXZFeDc2Z1FrVzdGTUVLWm55SEF5Y1lMZ0dPdHFHVlU1?=
+ =?utf-8?B?Kzh1bDNsYjNvbzc2aHZEYS9yQkhMOWh5U2JLT3VxTk82OHNWbTcvTDF4ZUZK?=
+ =?utf-8?B?TExrYVlYRnFWLzBLUk4zMmkvbFAwRVdxaldWeS9oU0VtZVJEZE90ZW82d1BH?=
+ =?utf-8?B?RWNYLzNZMUtrVDRvTE10aU9DbnVpVVlmY2hudGVtWHpKOXVSc0J1aENnSHAr?=
+ =?utf-8?B?b053N1l3YldDM1RkbEJhTkpyQk1NTTgvUHg4aWE2NU5UeHp3bmZaTnNwS0tp?=
+ =?utf-8?B?Uy9xcG9RcEF2RUlySlZ6YkxJcG5pYitaaXBuTUVNZFFJbWs3Uy8vSHBHa2I2?=
+ =?utf-8?B?TExWS1o0WURLM1RTZkRrNnpJSTFSZVcxTHRTRm1YM3BQVDIvekJua3ozbk1w?=
+ =?utf-8?B?bEF2ck85Y3k3VUppWk9DUEUvSmtsV1lUY2hwRlBOdXNzMFpZbVYveW0vNkVt?=
+ =?utf-8?B?M0lLUU54alFEdEcwTS93RlJISDJ1YnEySWtaL0JjMlNCZzhoUExnbzlYZEVj?=
+ =?utf-8?B?OXZmQ0pZR21iTExkcUpuL0hXOVY3NzYrNnorYnMySVZNZnhMbFRCeitYeHZK?=
+ =?utf-8?B?aFVsQTRkUFJYUGRqelZBZVl6SnpDdUdLaWtYdnBmS1FjaWNJTzVVOVVuUkxo?=
+ =?utf-8?B?SFU0bzR0UFNKRlp2UW13T1JuTVAyTTJhMlkyUmd0QlVuLzgyNnpyV3c0M1hr?=
+ =?utf-8?B?Y2g2L1E0NWlZZUIvMStWb1N4Y08xZHhSZEVtZjloblNRTFBWRzR0a2VKOXVt?=
+ =?utf-8?B?TkgxUGhGaGRYcnVyY0UxVnIyemwzSE80aFAwZ1VadFpISmY1alE0QmxaYUg2?=
+ =?utf-8?B?WDdTTUgrMEUxaXFEUWpPbldMeWpXdFpZeGtUSmdlSUVoaGtLRkZnN1QyamhR?=
+ =?utf-8?B?YTRZT0tXR01CZzhPV3YvNDNUZENNSkpydEFMYzEraHhKKzBMMkVFM20zQWpm?=
+ =?utf-8?B?dkRielc4bmFEVmZwenkvb0NLc0RSeHRPay92bm9ZTW1UYklsOW5TZk1aNHRs?=
+ =?utf-8?B?eFFYM1AvbGxGNjg3TzNEaThaUzZianBudlFPYk5LcXJDMHNrSHY5ZXdpb0lp?=
+ =?utf-8?B?SGUrOXN1eFRWUWtka0JCakI4OGhVWmpoWEEzWXBMMjZSaTNXbWFZanhKTVB5?=
+ =?utf-8?B?RUhNellGYm51YWVkT1dWb0VJTXcvcGNUT3lZd3NxUlAwZWlackdCSWxrYURW?=
+ =?utf-8?B?dWdzNnZHVlFHbEY5Wkw2MCtmU0RnMmgvSXFOSUxwT2crbk9KaE1KbHZwdjRk?=
+ =?utf-8?B?KzBsd1lsNnVDYjJBS0hTSVBXV3FKSmp4VkwxSEM4SjJ0c3FkNjdaZTUxVGxC?=
+ =?utf-8?B?UkcvZ1JoSmIxSzl6WndaMmhGSEdXRXVGMUZmQ3p4K3UzTHFhMHRaRU5UK0ZC?=
+ =?utf-8?B?UkE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4c925f7-ba45-44e4-861b-08dab84a5980
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB5481.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68ba79f9-edf4-45c2-741f-08dab8488006
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2022 18:24:35.0784
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2022 18:37:49.7532
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FcMzYyyqVZzTl7gLkZA+aHx9SsY7hE/WmeOiX8wLlt7CKTLeWDKXVShyb6qcNA9T/XP1N49GemSYdp46R7B/iQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5894
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CY5UDltILWfGSLbUNOzADVh7WcZp2Qnzh37UPqVo+saTU3QIvyT/dpvBtS0Ze7kIwO7WiZhLUFtlaJ7CBsPogo4paR1rMoB7zGSD9t0+5hA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4633
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Babu,
 
+On 10/27/2022 8:30 AM, Moger, Babu wrote:
+> On 10/26/22 15:23, Reinette Chatre wrote:
+>> On 10/26/2022 12:07 PM, Moger, Babu wrote:
+>>> On 10/25/22 18:43, Reinette Chatre wrote:
+>>>> On 10/17/2022 3:26 PM, Babu Moger wrote:
+>>>>
+>>>> ...
+>>>>
+>>>>> @@ -2845,7 +2846,8 @@ static int rdtgroup_init_alloc(struct rdtgroup *rdtgrp)
+>>>>>  
+>>>>>  	list_for_each_entry(s, &resctrl_schema_all, list) {
+>>>>>  		r = s->res;
+>>>>> -		if (r->rid == RDT_RESOURCE_MBA) {
+>>>>> +		if (r->rid == RDT_RESOURCE_MBA ||
+>>>>> +		    r->rid == RDT_RESOURCE_SMBA) {
+>>>>>  			rdtgroup_init_mba(r, rdtgrp->closid);
+>>>>>  			if (is_mba_sc(r))
+>>>>>  				continue;
+>>>> The above hunk and the ones that follow are unexpected.
+>>> I am thinking the above check is required, It is updating the
+>>> staged_config with default values. Right now, the default value for SMBA
+>>> is same as MBA default value. So, I used this code to initialize.
+>>>
+>>> Did I miss something?
+>> As I described in the following comments my concern is related to all the
+>> software controller code still executing for SMBA. Yes, in the above hunk
+>> SMBA would need (some of) rdtgroup_init_mba() ... but note that it contains
+>> software controller checks and in the above hunk its call is also followed
+>> by another software controller check.
+>>
+>> The software controller is just applicable to MBA and these checks have been
+>> isolated to the MBA resource. Using it for SMBA that does not support
+>> software controller at all is making the code harder to follow and sets this
+>> code up for future mistakes. I think it would make the code easier to understand
+>> if this is made very clear that software controller is not applicable to SMBA at
+>> all instead of repurposing these flows.
+> 
+> Yes. Understood.  How about this? I feel this is much more cleaner.
+> 
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> index e5a48f05e787..d91a6a513681 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -2845,16 +2845,18 @@ static int rdtgroup_init_alloc(struct rdtgroup
+> *rdtgrp)
+>  
+>         list_for_each_entry(s, &resctrl_schema_all, list) {
+>                 r = s->res;
+> -               if (r->rid == RDT_RESOURCE_MBA) {
+> +               if (r->rid == RDT_RESOURCE_MBA ||
+> +                   r->rid == RDT_RESOURCE_SMBA) {
+>                         rdtgroup_init_mba(r, rdtgrp->closid);
+> -                       if (is_mba_sc(r))
+> -                               continue;
+>                 } else {
+>                         ret = rdtgroup_init_cat(s, rdtgrp->closid);
+>                         if (ret < 0)
+>                                 return ret;
+>                 }
+>  
+> +               if (is_mba_sc(r))
+> +                       continue;
+> +
+>                 ret = resctrl_arch_update_domains(r, rdtgrp->closid);
+>                 if (ret < 0) {
+>                         rdt_last_cmd_puts("Failed to initialize
+> allocations\n");
+> 
 
-> From: Paul E. McKenney <paulmck@kernel.org>
-> Sent: Thursday, October 27, 2022 2:15 PM
->=20
-> On Tue, Oct 18, 2022 at 08:33:08PM +0000, Parav Pandit wrote:
-> > Hi Paul, Will,
-> >
-> > > From: Paul E. McKenney <paulmck@kernel.org>
-> > > Sent: Tuesday, October 18, 2022 1:49 PM
-> > >
-> > > On Tue, Oct 18, 2022 at 11:05:55AM +0100, Will Deacon wrote:
-> > > > On Mon, Oct 17, 2022 at 10:55:00PM +0200, Arnd Bergmann wrote:
-> > > > > On Mon, Oct 10, 2022, at 12:13 PM, Parav Pandit wrote:
-> > > > > > The cited commit describes that when using writel(), explcit
-> > > > > > wmb() is not needed. wmb() is an expensive barrier. writel()
-> > > > > > uses the needed platform specific barrier instead of expensive
-> wmb().
-> > > > > >
-> > > > > > Hence update the example to be more accurate that matches the
-> > > > > > current implementation.
-> > > > > >
-> > > > > > commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken
-> > > > > > DMA
-> > > vs.
-> > > > > > MMIO ordering example")
-> > > > > >
-> > > > > > Signed-off-by: Parav Pandit <parav@nvidia.com>
-> > > > >
-> > > > > I have no objections, though I still don't see a real need to
-> > > > > change the wording here.
-> > > >
-> > > > FWIW, I also don't think this change is necessary. If anything,
-> > > > I'd say we'd be better off _removing_ the text about writel from
-> > > > this section and extending the reference to the "KERNEL I/O
-> > > > BARRIER EFFECTS" section, as you could make similar comments about
-> e.g.
-> > > > readb() and subsequent barriers.
-> > > >
-> > > > For example, something like the diff below.
-> > >
-> > > I do like this change, but we might be dealing with two different
-> > > groups of readers.  Will and Arnd implemented significant parts of
-> > > the current MMIO/DMA ordering infrastructure.  It is thus quite
-> > > possible that wording which suffices to remind them of how things
-> > > work might or might not help someone new to Linux who is trying to
-> > > figure out what is required to make their driver work.
-> > >
-> > > The traditional resolution of this sort of thing is to provide the
-> > > documentation to a newbie and take any resulting confusion seriously.
-> > >
-> > > Parav, thoughts?
-> >
-> > I am ok with the change from Will that removes the writel() description=
-.
-> > However, it removes useful short description from the example of "why"
-> writel() is used.
-> > This is useful for newbie and experienced developers both.
-> >
-> > So how about below additional change on top of Will's change?
-> > This also aligns to rest of the short C comments in this example pseudo
-> code.
-> >
-> > If ok, I will take Will's and mine below change to v5.
-> >
-> > index 4d24d39f5e42..5939c5e09570 100644
-> > --- a/Documentation/memory-barriers.txt
-> > +++ b/Documentation/memory-barriers.txt
-> > @@ -1919,7 +1919,9 @@ There are some more advanced barrier functions:
-> >                 /* assign ownership */
-> >                 desc->status =3D DEVICE_OWN;
-> >
-> > -               /* notify device of new descriptors */
-> > +               /* Make descriptor status visible to the device followe=
-d by
-> > +                * notify device of new descriptors
-> > +                */
-> >                 writel(DESC_NOTIFY, doorbell);
->=20
-> Hearing no objections, please proceed.
->=20
-> 							Thanx, Paul
-Thanks Paul, I will respin v5 shortly.
+I do not see how that move changes what is run in the SMBA case and it ignores the
+is_mba_sc() call within rdtgroup_init_mba(). How about making is_mba_sc() more
+robust in support of your original snippet?
+
+Something like:
+
+bool is_mba_sc(struct rdt_resource *r)
+{
+	if (!r)
+		return rdt_resources_all[RDT_RESOURCE_MBA].r_resctrl.membw.mba_sc;
+
+	if (r->rid != RDT_RESOURCE_MBA)
+		return false;
+
+	return r->membw.mba_sc;
+}
+
+Reinette
