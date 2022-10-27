@@ -2,249 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D95CEFA3740
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 02:39:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 046B9FA3740
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 03:39:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233643AbiJ0Cjl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 26 Oct 2022 22:39:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54440 "EHLO
+        id S234172AbiJ0Djw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 26 Oct 2022 23:39:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233668AbiJ0Cjk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 22:39:40 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EDE0F1A811;
-        Wed, 26 Oct 2022 19:39:37 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 088D21042;
-        Wed, 26 Oct 2022 19:39:44 -0700 (PDT)
-Received: from a077893.blr.arm.com (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0F8D63F792;
-        Wed, 26 Oct 2022 19:39:33 -0700 (PDT)
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-To:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        catalin.marinas@arm.com, will@kernel.org
-Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        James Morse <james.morse@arm.com>,
+        with ESMTP id S234067AbiJ0Djt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 26 Oct 2022 23:39:49 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2135.outbound.protection.outlook.com [40.107.92.135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91A0B27B30;
+        Wed, 26 Oct 2022 20:39:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EaedGQnPiYCBuztZHiR0Nl0KX1tPH+yK/tZawFSoTVHq8VpbUW6/7gxo/FuIhX3xioPXo6ov9rDazNDIt1yIniF2I9kCZ+6bYz/WAz6GEJqYyxjzVptC+WxBARA/xpkGL8FDSN45z3QykdnvOYA1uCD6XA1YqZD0KGM1DmPaGsQzOIUDwJX8BdWlVSvQLzO6951taLG3wqKB/s3B+tKw7FQRqltUMp8M6BRLs3Nc+Hxal6ftdO39yPcZegkp+r+MsYCULrgFCE7lhoX5xAMicodE5SIkyKmEzxSg/WtEdnnZEJpPJ51F1wmlHbeydaCdOS69lCv8f0dTuDxeKys7NA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0KyUr12g+UhQ42ynK/3G/0Myh3dlI/JGoZJu74cgGC0=;
+ b=NPk2s4xO+upQiJhol9wZILdAgsxT7pwCKZcu8oR1UXKbtE3ofjGlRQx59G+u5anyAiUy3Q1cLfZmUTeJBNlpa9HCV8K1wufZOH1iiZkNP15QGhNGCAh7giKM7bqVFgtKkUtANa72wcuJwogqSzYpLluKxOlYNDoMY52/uRRLlzW7vRae2HArNv6unsKXfjE7s6AsljIhsEtyu6mA50rOorLDk6qXbLaNCDDeALs1MVBdOM4lCDFO/FFQ8E95Z0J9Y08f/GR30WXXVCTA68aH387+i2l1ZiBKYDPUnBxJJfaZ62Bnt6AeHJ4sE59yySJSGVQLm1jt2RbU+/vy61X1vw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0KyUr12g+UhQ42ynK/3G/0Myh3dlI/JGoZJu74cgGC0=;
+ b=MZ+ctKP3K+TCFWngBiqMCbgZusl283SAYshN0zALjuILqdy4QrVgEA/auA1OsIQAd6ihauIrE9gL4NNw7W/jOwVvDEtH42DLQ0Psw3/KOS2uGC8yA+PsJK95nls2Z8nz204dRXU/QrOmD3iLw+RfVf/Q3VJo0Zsi4N+lrtCCIIA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from SN4PR01MB7455.prod.exchangelabs.com (2603:10b6:806:202::11) by
+ SN6PR01MB4992.prod.exchangelabs.com (2603:10b6:805:bf::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5746.28; Thu, 27 Oct 2022 03:39:43 +0000
+Received: from SN4PR01MB7455.prod.exchangelabs.com
+ ([fe80::ebe2:243d:ff84:aaa8]) by SN4PR01MB7455.prod.exchangelabs.com
+ ([fe80::ebe2:243d:ff84:aaa8%3]) with mapi id 15.20.5746.028; Thu, 27 Oct 2022
+ 03:39:43 +0000
+Message-ID: <8d806632-aef7-a56f-9934-c07a0defdc5f@os.amperecomputing.com>
+Date:   Thu, 27 Oct 2022 10:39:26 +0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH v9 1/9] hwmon: smpro: Add Ampere's Altra smpro-hwmon
+ driver
+Content-Language: en-CA
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     macro@orcam.me.uk, Lee Jones <lee@kernel.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jean Delvare <jdelvare@suse.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] arm64: errata: Workaround possible Cortex-A715 [ESR|FAR]_ELx corruption
-Date:   Thu, 27 Oct 2022 08:09:15 +0530
-Message-Id: <20221027023915.1318100-3-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221027023915.1318100-1-anshuman.khandual@arm.com>
-References: <20221027023915.1318100-1-anshuman.khandual@arm.com>
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thu Nguyen <thu@os.amperecomputing.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        thang@os.amperecomputing.com
+References: <20220929094321.770125-1-quan@os.amperecomputing.com>
+ <20220929094321.770125-2-quan@os.amperecomputing.com>
+ <20221026150001.GA2545504@roeck-us.net>
+From:   Quan Nguyen <quan@os.amperecomputing.com>
+In-Reply-To: <20221026150001.GA2545504@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR01CA0005.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:191::23) To SN4PR01MB7455.prod.exchangelabs.com
+ (2603:10b6:806:202::11)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN4PR01MB7455:EE_|SN6PR01MB4992:EE_
+X-MS-Office365-Filtering-Correlation-Id: 33d8c37b-66d1-4497-3ead-08dab7cce2cb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dkDK0cJ6WfNVqg74nur3R+cwdbnr054Fm9fuNqopTr+GfhlzaXHvBypaejVN+iv5BVDXz56KU7J6tAwSnHpX69Q5rep5CBUIo/fL98Qpqp761NjCS60+1FgKbZ+Q64YLIUE+NJSb07eNtCDAeYSyYwLDl+9SqDWlqGANvFvEUrCzc8+6zdEWidKVAoUO9zOYf7pKi1Fgarpp5ZXNPP/YFtoi4mOsgV/C3dGGO7AtRMc76C9yJjZzjWWEZWR1rS4jHYjWoGCOqpWd63sA5pvXc12CX3R95ii6Xlg9IPAvBCoxLW+sdv7ChTc3z0Y1XPiQ7do6moTpuVNZHevUt7tlqkvUWOxcJnubnFyUpsuV1DXyZ9k0EV7v1SLH/QbGh+2nWlyaeIB/B8teDLq3u50lwawxq1tJbdtjX1nCtOgTiJOr9crCewEr01uBlT55wvAnPqpXn/cXYlxj/TNCjL1pOqF2YmgpD7ijn6g4y1RK1zAGqw2VyKLv+YggiXAXY+5Yb3DmAY0qdvpns9XekmRg20iC1ONKKDfXXhamNbCCCZ6bvOMd2FAJZ0uSRsix4t9JsWzPEZKQfT4J2UC1rR2UcE62Lx3gtkq7WIE2l8XNTHl45aYWOvTdpwtRQaIauiXtFqfV1j5bUe2J7v4sG2MKzPqonihQ3/6SFet+RfwcAKYxYiUy3SKqDtd3W5tYDetaDbRrTWI/JpmDQ1NpKPvm18LRMwW0d+dQ4YIIFBVLSWUV1kRDbdNwX9wJ7ZJYojEpjxkrOGzbPuhjG1Vsh+zj0NypV49EH9TdFT+anuwcLKcVF4FMfIMhLI5i3RDpVZEDF8MKxw+yUx6XuIoR96VbHju9wsa/TjSiqU7v3oJsjISIkzr4IRV12N/GALHW6Ob6
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR01MB7455.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39850400004)(136003)(396003)(366004)(346002)(376002)(451199015)(83380400001)(31686004)(186003)(478600001)(6486002)(2906002)(7416002)(4744005)(38350700002)(38100700002)(86362001)(31696002)(966005)(6506007)(6512007)(53546011)(52116002)(26005)(2616005)(6666004)(107886003)(66556008)(4326008)(8676002)(54906003)(41300700001)(66946007)(66476007)(8936002)(5660300002)(6916009)(316002)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RTVXV2xkRC9xTTdIaVdmVkRXZmcrYmRYdExtMkY0VWZTNHAxYTVEYk5hNmNO?=
+ =?utf-8?B?NjBFNEJwUnYvakVpRHpVbGNiZmUreGpmVE5HV1VCVG9TcmJCTGhzY0tjbE5y?=
+ =?utf-8?B?WWVsWXNMeXhQYzNFNTNxeEpBNGtKdXBGSWxrdlROYXF1YWp3Qm4xT09abXUy?=
+ =?utf-8?B?SENYeHcySDhVM0hEc2VUUkhxSmFXTlpGMitTY0Y4OGNpT2JPOWIrNGZzUFlk?=
+ =?utf-8?B?TmdVSGtMUlJLa1JvUzJadHE4d2ZUbUdVc25YRnlIbFVPblRJenQrbnR0VVN3?=
+ =?utf-8?B?L0p1MTBPL3E1dDZiZklzU1NKS0ZZU1M3ZzVORTExUUV1cjFkN3B3QS9LQVVG?=
+ =?utf-8?B?cEw0Z1p0VHVtMmRBTC8vSHlndktVNjJiSllaYkRXenpJR1VnTDQzRTVvZ0tX?=
+ =?utf-8?B?ckgxM1lGZk9DS0hXbTBhaW94QmNUTmIyWC9CbnhzTHZaeUxjKzAvNEpuQnhp?=
+ =?utf-8?B?bEdCT2x4N3ByeWVmRThLekNRcXVmRmNPV0g2TVNWQ2E4T1ZCblc2UVlNT3cy?=
+ =?utf-8?B?dGR5Z3dBNWI4Q3A3UzFiUzNhbzVKRTNsckxFQzZBMDhwUG8vSk9PU3paOGRF?=
+ =?utf-8?B?VHFMUlFkSGE4VHNqSGZYKyttdHUvQjNWMmc1dnBPcmRoQVVEUUVJYWpoQlAy?=
+ =?utf-8?B?ZzRzTG9sMlhmWXhFVmxMY1AvMTBkRFZJRS9QSzB6RXFkeG50Qmh3UmcyMExs?=
+ =?utf-8?B?Q2xnYXByODdMaHpJaWZvYTZibitrUURkT1FOK1YzTk9pbDJpOS9mQ2xmVnpl?=
+ =?utf-8?B?MHhhV212blBZN1dnSzNHOHpTSTRDNHIwYlhsd0J3VCtQWXJQN0pmYlZSSWda?=
+ =?utf-8?B?Ty9DV3MvQlJSODcvcnp1ZC8wMXppSmJJQ1FrUjA0TXJNRDdQMWZBMVFucWho?=
+ =?utf-8?B?T1lTTnFtWUpPNGFZRXJxT1VWS0NlMTExc0FaaUZJU2hQK2tLK0pCc0J1UnpF?=
+ =?utf-8?B?dWlmWkhrTGpwenhkNHdVdGM5R2J6TWVrZlliR2xaL1hyOXdlWDMzbWZDUzJW?=
+ =?utf-8?B?aUVST0hlMWcrcktzTW9YZFRxWFlaWWF1cFprWnlGbkdYaHFaOHlFUHVmdFJq?=
+ =?utf-8?B?UCswYnd4Ym5CbWdVTDNoLzhnOU9mNU9qZ1owOGNwVFd3Q1I4dkpaMXJKRHBJ?=
+ =?utf-8?B?aVJ1NXM1ZlB3cXBiWDJSWUcrNlQwcGJMN1dYbS9Xc1FONmMyMDhMTFZiSUxw?=
+ =?utf-8?B?bHBjKzFCT1lzSjdBVjQ3ZDdTek1PcnhuSVNhcHZxRHd0aUtWdjBzR2dzWnMz?=
+ =?utf-8?B?SHZ5My8xUG9LdFVHdyttNGFRWjR3bTYvZlFHT1BGV3RBWGZpbDVFZERWRHMz?=
+ =?utf-8?B?eHZleEpubm1WTU5KRzg4OEUwVzM3NjErQnh5TThwdlp1R0NnbGxub0h4NEhE?=
+ =?utf-8?B?Mm5Sclc2ckJHbDRWZFVYZEx6Q3VhUGNBNmRJSWVjZ1RnZmdIcCsxWWM4ZVpR?=
+ =?utf-8?B?QUZJSEJ5YS9TdldTaldJTkxQbzZoYWtId0hWdWM0RjVtcGQrSUdVQUlTOWNn?=
+ =?utf-8?B?RGVQYTdkTENydEVYR0NJbmNhSVV6c3JDYnZyZnZJeEZmQUdQRE0wdEcyWWV5?=
+ =?utf-8?B?MEVaNDJFR0ZOVjFXeTRSYWQzWEdSQ3Z4SWxsSmJ4QVhCdTM0QVFIVmE2UkN3?=
+ =?utf-8?B?OEZkZlAwbWEzcUwzd0EzbzR4VnpoVHJSbHIySGhjMS9iNUphVFh6cklPbzBs?=
+ =?utf-8?B?L2tPMDVJVUo4RnNwMzMwbWFpcHkzcnB1SnBlVTVMaVpRaVlVS1o3NklnM2tm?=
+ =?utf-8?B?OEprV0Uza1h2TCt4eE1sYVZneVhIaFNaV2tEeUgvaGdHT3hCSkxYeXRROEVD?=
+ =?utf-8?B?ZmYxcGdNSS9QcC9aU0poUXhQMnlzZStBTGJDN05Ib09qZVNwekk1N25QWDdL?=
+ =?utf-8?B?ZWVST3hNYjFwVjQ2M3ZoTTk0V2ttVG1BSTRnZVpXYjFEbUxmSWkxOWdyOW9K?=
+ =?utf-8?B?ZXFoTHdYWm5ZQVVDdFFjcFJvRnBCL0Nla09udWhMUTNkNEdVZ0lvN1hmRDU5?=
+ =?utf-8?B?VldDZUpXa29EMjA4OE1vWU5iVnNmcHFPeXBDWWZDeWZqMUwzMW1XeEZiVnN0?=
+ =?utf-8?B?MVFVdllUaVBJUW1ISWY1cHJDVmRZSllBeGJ5SXdWdGIydkhVZkdTTkhpNjky?=
+ =?utf-8?B?R25CT0h0WStwZWx3L3ROVDJ4ZU5XT2k3LzNJMjVvMXNPSWdORkxpL1I1RGZV?=
+ =?utf-8?Q?VCmlpEcE+qU+6H+B5e/770s=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33d8c37b-66d1-4497-3ead-08dab7cce2cb
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR01MB7455.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2022 03:39:43.6902
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ODJ6NL2VPUrru9cd6WNLyas4qMcGlMsLh4kalpNP1r/9bAIoofqJz8zYQ3ADA8dOXaoOuhl8+ZaH7h30xjsJCsxz5l1T0O54F3SWV45H+vA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR01MB4992
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-If a Cortex-A715 cpu sees a page mapping permissions change from executable
-to non-executable, it may corrupt the ESR_ELx and FAR_ELx registers, on the
-next instruction abort caused by permission fault.
 
-Only user-space does executable to non-executable permission transition via
-mprotect() system call which calls ptep_modify_prot_start() and ptep_modify
-_prot_commit() helpers, while changing the page mapping. The platform code
-can override these helpers via __HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION.
 
-Work around the problem via doing a break-before-make TLB invalidation, for
-all executable user space mappings, that go through mprotect() system call.
-This overrides ptep_modify_prot_start() and ptep_modify_prot_commit(), via
-defining HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION on the platform thus giving
-an opportunity to intercept user space exec mappings, and do the necessary
-TLB invalidation. Similar interceptions are also implemented for HugeTLB.
+On 26/10/2022 22:00, Guenter Roeck wrote:
+> On Thu, Sep 29, 2022 at 04:43:13PM +0700, Quan Nguyen wrote:
+>> This commit adds support for Ampere SMpro hwmon driver. This driver
+>> supports accessing various CPU sensors provided by the SMpro co-processor
+>> including temperature, power, voltages, and current.
+>>
+>> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+>> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+> 
+> I see that the mfd patch was accepted into the mfd subsystem,
+> so I'll apply this and the next patch in the series to hwmon-next.
+> 
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Mark Rutland <mark.rutland@arm.com> 
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
- Documentation/arm64/silicon-errata.rst |  2 ++
- arch/arm64/Kconfig                     | 16 +++++++++++
- arch/arm64/include/asm/hugetlb.h       |  9 +++++++
- arch/arm64/include/asm/pgtable.h       | 24 +++++++++++++++++
- arch/arm64/kernel/cpu_errata.c         |  7 +++++
- arch/arm64/mm/hugetlbpage.c            | 37 ++++++++++++++++++++++++++
- arch/arm64/tools/cpucaps               |  1 +
- 7 files changed, 96 insertions(+)
+Thanks Guenter for picking the patches.
 
-diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index 808ade4cc008..ec5f889d7681 100644
---- a/Documentation/arm64/silicon-errata.rst
-+++ b/Documentation/arm64/silicon-errata.rst
-@@ -120,6 +120,8 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Cortex-A710     | #2224489        | ARM64_ERRATUM_2224489       |
- +----------------+-----------------+-----------------+-----------------------------+
-+| ARM            | Cortex-A715     | #2645198        | ARM64_ERRATUM_2645198       |
-++----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Cortex-X2       | #2119858        | ARM64_ERRATUM_2119858       |
- +----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Cortex-X2       | #2224489        | ARM64_ERRATUM_2224489       |
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 505c8a1ccbe0..56c3381e9d94 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -964,6 +964,22 @@ config ARM64_ERRATUM_2457168
- 
- 	  If unsure, say Y.
- 
-+config ARM64_ERRATUM_2645198
-+	bool "Cortex-A715: 2645198: Workaround possible [ESR|FAR]_ELx corruption"
-+	default y
-+	help
-+	  This option adds the workaround for ARM Cortex-A715 erratum 2645198.
-+
-+	  If a Cortex-A715 cpu sees a page mapping permissions change from executable
-+	  to non-executable, it may corrupt the ESR_ELx and FAR_ELx registers on the
-+	  next instruction abort caused by permission fault.
-+
-+	  Only user-space does executable to non-executable permission transition via
-+	  mprotect() system call. Workaround the problem by doing a break-before-make
-+	  TLB invalidation, for all changes to executable user space mappings.
-+
-+	  If unsure, say Y.
-+
- config CAVIUM_ERRATUM_22375
- 	bool "Cavium erratum 22375, 24313"
- 	default y
-diff --git a/arch/arm64/include/asm/hugetlb.h b/arch/arm64/include/asm/hugetlb.h
-index d20f5da2d76f..6a4a1ab8eb23 100644
---- a/arch/arm64/include/asm/hugetlb.h
-+++ b/arch/arm64/include/asm/hugetlb.h
-@@ -49,6 +49,15 @@ extern pte_t huge_ptep_get(pte_t *ptep);
- 
- void __init arm64_hugetlb_cma_reserve(void);
- 
-+#define huge_ptep_modify_prot_start huge_ptep_modify_prot_start
-+extern pte_t huge_ptep_modify_prot_start(struct vm_area_struct *vma,
-+					 unsigned long addr, pte_t *ptep);
-+
-+#define huge_ptep_modify_prot_commit huge_ptep_modify_prot_commit
-+extern void huge_ptep_modify_prot_commit(struct vm_area_struct *vma,
-+					 unsigned long addr, pte_t *ptep,
-+					 pte_t old_pte, pte_t new_pte);
-+
- #include <asm-generic/hugetlb.h>
- 
- #endif /* __ASM_HUGETLB_H */
-diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-index 71a1af42f0e8..c4c021277f20 100644
---- a/arch/arm64/include/asm/pgtable.h
-+++ b/arch/arm64/include/asm/pgtable.h
-@@ -1095,7 +1095,31 @@ static inline bool pud_sect_supported(void)
- 	return PAGE_SIZE == SZ_4K;
- }
- 
-+#define __HAVE_ARCH_PTEP_MODIFY_PROT_TRANSACTION
-+static inline pte_t ptep_modify_prot_start(struct vm_area_struct *vma,
-+					   unsigned long addr,
-+					   pte_t *ptep)
-+{
-+	pte_t pte = ptep_get_and_clear(vma->vm_mm, addr, ptep);
- 
-+	if (IS_ENABLED(CONFIG_ARM64_WORKAROUND_2645198)) {
-+		/*
-+		 * Break-before-make (BBM) is required for all user space mappings
-+		 * when the permission changes from executable to non-executable
-+		 * in cases where cpu is affected with errata #2645198.
-+		 */
-+		if (pte_user_exec(pte) && cpus_have_const_cap(ARM64_WORKAROUND_2645198))
-+			__flush_tlb_range(vma, addr, addr + PAGE_SIZE, PAGE_SIZE, false, 3);
-+	}
-+	return pte;
-+}
-+
-+static inline void ptep_modify_prot_commit(struct vm_area_struct *vma,
-+					   unsigned long addr,
-+					   pte_t *ptep, pte_t old_pte, pte_t pte)
-+{
-+	__set_pte_at(vma->vm_mm, addr, ptep, pte);
-+}
- #endif /* !__ASSEMBLY__ */
- 
- #endif /* __ASM_PGTABLE_H */
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 89ac00084f38..307faa2b4395 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -661,6 +661,13 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
- 		CAP_MIDR_RANGE_LIST(trbe_write_out_of_range_cpus),
- 	},
- #endif
-+#ifdef CONFIG_ARM64_ERRATUM_2645198
-+	{
-+		.desc = "ARM erratum 2645198",
-+		.capability = ARM64_WORKAROUND_2645198,
-+		ERRATA_MIDR_ALL_VERSIONS(MIDR_CORTEX_A715)
-+	},
-+#endif
- #ifdef CONFIG_ARM64_ERRATUM_2077057
- 	{
- 		.desc = "ARM erratum 2077057",
-diff --git a/arch/arm64/mm/hugetlbpage.c b/arch/arm64/mm/hugetlbpage.c
-index 35e9a468d13e..8cdcb3a34c27 100644
---- a/arch/arm64/mm/hugetlbpage.c
-+++ b/arch/arm64/mm/hugetlbpage.c
-@@ -559,3 +559,40 @@ bool __init arch_hugetlb_valid_size(unsigned long size)
- {
- 	return __hugetlb_valid_size(size);
- }
-+
-+pte_t huge_ptep_modify_prot_start(struct vm_area_struct *vma,
-+				  unsigned long addr, pte_t *ptep)
-+{
-+	pte_t pte = huge_ptep_get_and_clear(vma->vm_mm, addr, ptep);
-+
-+	if (IS_ENABLED(CONFIG_ARM64_WORKAROUND_2645198)) {
-+		/*
-+		 * Break-before-make (BBM) is required for all user space mappings
-+		 * when the permission changes from executable to non-executable
-+		 * in cases where cpu is affected with errata #2645198.
-+		 */
-+		if (pte_user_exec(pte) && cpus_have_const_cap(ARM64_WORKAROUND_2645198)) {
-+			size_t pgsize = page_size(pte_page(pte));
-+			int level = 3;
-+
-+			if (pgsize == PUD_SIZE)
-+				level = 1;
-+			else if ((pgsize == PMD_SIZE) || (pgsize == CONT_PMD_SIZE))
-+				level = 2;
-+			else if (pgsize == CONT_PTE_SIZE)
-+				level = 3;
-+			else
-+				pr_warn("%s: unrecognized huge page size 0x%lx\n",
-+					__func__, pgsize);
-+			__flush_tlb_range(vma, addr, addr + pgsize, pgsize, false, level);
-+		}
-+	}
-+	return pte;
-+}
-+
-+void huge_ptep_modify_prot_commit(struct vm_area_struct *vma,
-+				  unsigned long addr, pte_t *ptep,
-+				  pte_t old_pte, pte_t pte)
-+{
-+	set_huge_pte_at(vma->vm_mm, addr, ptep, pte);
-+}
-diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-index f1c0347ec31a..2274d836fcfe 100644
---- a/arch/arm64/tools/cpucaps
-+++ b/arch/arm64/tools/cpucaps
-@@ -70,6 +70,7 @@ WORKAROUND_2038923
- WORKAROUND_2064142
- WORKAROUND_2077057
- WORKAROUND_2457168
-+WORKAROUND_2645198
- WORKAROUND_2658417
- WORKAROUND_TRBE_OVERWRITE_FILL_MODE
- WORKAROUND_TSB_FLUSH_FAILURE
--- 
-2.25.1
+There are two issues found by Bagas [1] in document format and kernel 
+test robot [2] on smpro-hwmon.c. I'll fix them in separate patches.
 
+[1] 
+https://lore.kernel.org/lkml/Y1aHiaZ1OpHZIzS9@google.com/T/#mfea2167b99384486a1b75d9304536015116c1821
+[2] 
+https://lore.kernel.org/lkml/Y1aHiaZ1OpHZIzS9@google.com/T/#mc86afb1ae9d332f152e0fb0d1908dac667519871
+
+Thanks,
+- Quan
