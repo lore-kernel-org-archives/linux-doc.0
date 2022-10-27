@@ -2,76 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6442CECAAA1
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 20:59:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56895FA3743
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 21:56:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236362AbiJ0U7k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Oct 2022 16:59:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42664 "EHLO
+        id S236939AbiJ0V4A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Oct 2022 17:56:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237388AbiJ0U7J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 16:59:09 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 428CEC06B5;
-        Thu, 27 Oct 2022 13:51:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1224062552;
-        Thu, 27 Oct 2022 20:50:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6CA62C433D7;
-        Thu, 27 Oct 2022 20:50:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666903832;
-        bh=A4E5bckZc2Ra37LNVj7x6T/9k58cNSMtXpbZePCSihk=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=Rb+F7adZJy2QkXeTMgATWrkFonZsdM/ZUKGYeKWEvM4hjtbq+d3eCMvJLenGQiQZH
-         kAvVTkEkpA16fq2r5ugirNvQDGpweD3yYaLd9g9UfMe/1VE5nzO/V7bjRims2fkD6O
-         pOIpM8IlZsbiy6oa0+hNz69M3/EGio4Su+iRD/Lfpv/XxhBgFBIcXno9B+ZGdngrWh
-         MYbD6QSJYOx6BJoRg7wXl0ifjDbG649TQez2uyzgVYM1M5UniDUNJ4BjwHm2ItBwWC
-         zm9mhds5sQf02byc9hWeSPSWDH9aKRV8XJuAXK6vkPbgWLtSTcoCgZ8dXhqtXERVRU
-         xAnHQmIGz6Drg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 56F18E270D9;
-        Thu, 27 Oct 2022 20:50:32 +0000 (UTC)
-Subject: Re: [GIT PULL] hardening fixes for v6.1-rc3
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <202210271203.1CABE4152@keescook>
-References: <202210271203.1CABE4152@keescook>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <202210271203.1CABE4152@keescook>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git tags/hardening-v6.1-rc3
-X-PR-Tracked-Commit-Id: 72c3ebea375c39413d02113758319b74ecd790bd
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 2eb72d85acf3357e6d7c88febcc0ad553805364b
-Message-Id: <166690383235.21870.10456103204204237625.pr-tracker-bot@kernel.org>
-Date:   Thu, 27 Oct 2022 20:50:32 +0000
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
-        linux-hardening@vger.kernel.org, llvm@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>
+        with ESMTP id S233569AbiJ0Vz6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 17:55:58 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 603C08E718;
+        Thu, 27 Oct 2022 14:55:57 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id t25so8536108ejb.8;
+        Thu, 27 Oct 2022 14:55:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NBF9nN1amKjoEJYkIjpsAIirOQycb1TH6Xv8hrGX720=;
+        b=mDkvDqdAij8U7APRP9yt0MpP0X4VRBno0CXMoN30kyF44cwwyG6SWPi0RMmgixT3Bt
+         gDGI3NQdLQgzAOkEJRsHlv30WGUJ2hQblLeSpwcJ5STMlX4u4j8a3tQV2KR2m0LIQzBm
+         AQJ503ah+Ml5VjRZNjjXGPE/NDYPCFMXA8zgjE5t0SVsx9Hw9IWLWZ3AMAqfOZwZ+V+e
+         qYuMVsdT8DFxXyS63KjEsQME+nw+FVWDILA1TQjyCKoVJwx1GB6oAfX2SEHxx6BUkppp
+         FRbFNc1nFH6dDsPv8S53kFNtYm8nzlkRSUmQ01A3lEAB9LpF+C23K7NNIPQTDmTy9HCd
+         Qzng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NBF9nN1amKjoEJYkIjpsAIirOQycb1TH6Xv8hrGX720=;
+        b=6BVG8AZlvHBdNfDuq3y0z0cB4b1Wz77p1Qw9M60GA2NEmU3KgTPr2ySvQQHz7shLSp
+         c7/7/4S7F/XYaHq+sDa85+TCuzKNUuspSDKOczKSArB/GAhRVU3TpQeeiKyT5asUY3HD
+         IBPVGA+822LvOWeul5Rk7bpegwv4o3zFHUps2GE8xf4tgwQxpgozAEL5tT3m0hCpZhIE
+         RCt1nl74uaaac8dywy+LwjBWlv3VyYuIr9P0mv2K0dAzo9pWXgQ3rjx8rzm4QwOk4E3M
+         tkWsvgIVTHQY1SmkihR84tviWtfpvldiUCXeBrbBBGGOJDcLyK/jc8gbZQREJiWX6gpc
+         60KA==
+X-Gm-Message-State: ACrzQf3oqve7tszSgB1J/9Vf7QOWwXmlx46uMoffqRrJHQsZXqAEVGxP
+        VaOO3lBr+QoJl6MaDDecDaOSFd5IzH1CT8+lKUU=
+X-Google-Smtp-Source: AMsMyM6xp5XG883Sfz6qxUaX5+gPHPonCP4MPn0vbsj6Bzy6ERW5G8ermHkmXVNLJ97zdVUdhxlu0w7L/DMiIXxWfLY=
+X-Received: by 2002:a17:906:8442:b0:7ad:960b:ef61 with SMTP id
+ e2-20020a170906844200b007ad960bef61mr2610486ejy.702.1666907755828; Thu, 27
+ Oct 2022 14:55:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220921084302.43631-1-yangyicong@huawei.com> <20220921084302.43631-3-yangyicong@huawei.com>
+ <168eac93-a6ee-0b2e-12bb-4222eff24561@arm.com> <8e391962-4e3a-5a56-64b4-78e8637e3b8c@huawei.com>
+ <CAGsJ_4z=dZbrAUD9jczT08S3qi_ep-h+EK35UfayVk1S+Cnp2A@mail.gmail.com>
+ <ecd161db-b290-7997-a81e-a0a00bd1c599@arm.com> <87o7tx5oyx.fsf@stealth>
+In-Reply-To: <87o7tx5oyx.fsf@stealth>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Fri, 28 Oct 2022 10:55:42 +1300
+Message-ID: <CAGsJ_4zrGfPYAXGW0g3Z-GF4vT7GD0xDjZn1dv-qruztEQTghg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] arm64: support batched/deferred tlb shootdown
+ during page reclamation
+To:     Punit Agrawal <punit.agrawal@bytedance.com>
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        Yicong Yang <yangyicong@huawei.com>, yangyicong@hisilicon.com,
+        corbet@lwn.net, peterz@infradead.org, arnd@arndb.de,
+        linux-kernel@vger.kernel.org, darren@os.amperecomputing.com,
+        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
+        guojian@oppo.com, realmz6@gmail.com, linux-mips@vger.kernel.org,
+        openrisc@lists.librecores.org, linux-mm@kvack.org, x86@kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, akpm@linux-foundation.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        wangkefeng.wang@huawei.com, xhao@linux.alibaba.com,
+        prime.zeng@hisilicon.com, Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>,
+        catalin.marinas@arm.com, will@kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Thu, 27 Oct 2022 12:03:27 -0700:
+On Fri, Oct 28, 2022 at 3:19 AM Punit Agrawal
+<punit.agrawal@bytedance.com> wrote:
+>
+>
+> [ Apologies for chiming in late in the conversation ]
+>
+> Anshuman Khandual <anshuman.khandual@arm.com> writes:
+>
+> > On 9/28/22 05:53, Barry Song wrote:
+> >> On Tue, Sep 27, 2022 at 10:15 PM Yicong Yang <yangyicong@huawei.com> wrote:
+> >>>
+> >>> On 2022/9/27 14:16, Anshuman Khandual wrote:
+> >>>> [...]
+> >>>>
+> >>>> On 9/21/22 14:13, Yicong Yang wrote:
+> >>>>> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
+> >>>>> +{
+> >>>>> +    /* for small systems with small number of CPUs, TLB shootdown is cheap */
+> >>>>> +    if (num_online_cpus() <= 4)
+> >>>>
+> >>>> It would be great to have some more inputs from others, whether 4 (which should
+> >>>> to be codified into a macro e.g ARM64_NR_CPU_DEFERRED_TLB, or something similar)
+> >>>> is optimal for an wide range of arm64 platforms.
+> >>>>
+> >>
+> >> I have tested it on a 4-cpus and 8-cpus machine. but i have no machine
+> >> with 5,6,7
+> >> cores.
+> >> I saw improvement on 8-cpus machines and I found 4-cpus machines don't need
+> >> this patch.
+> >>
+> >> so it seems safe to have
+> >> if (num_online_cpus()  < 8)
+> >>
+> >>>
+> >>> Do you prefer this macro to be static or make it configurable through kconfig then
+> >>> different platforms can make choice based on their own situations? It maybe hard to
+> >>> test on all the arm64 platforms.
+> >>
+> >> Maybe we can have this default enabled on machines with 8 and more cpus and
+> >> provide a tlbflush_batched = on or off to allow users enable or
+> >> disable it according
+> >> to their hardware and products. Similar example: rodata=on or off.
+> >
+> > No, sounds bit excessive. Kernel command line options should not be added
+> > for every possible run time switch options.
+> >
+> >>
+> >> Hi Anshuman, Will,  Catalin, Andrew,
+> >> what do you think about this approach?
+> >>
+> >> BTW, haoxin mentioned another important user scenarios for tlb bach on arm64:
+> >> https://lore.kernel.org/lkml/393d6318-aa38-01ed-6ad8-f9eac89bf0fc@linux.alibaba.com/
+> >>
+> >> I do believe we need it based on the expensive cost of tlb shootdown in arm64
+> >> even by hardware broadcast.
+> >
+> > Alright, for now could we enable ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH selectively
+> > with CONFIG_EXPERT and for num_online_cpus()  > 8 ?
+>
+> When running the test program in the commit in a VM, I saw benefits from
+> the patches at all sizes from 2, 4, 8, 32 vcpus. On the test machine,
+> ptep_clear_flush() went from ~1% in the unpatched version to not showing
+> up.
+>
+> Yicong mentioned that he didn't see any benefit for <= 4 CPUs but is
+> there any overhead? I am wondering what are the downsides of enabling
+> the config by default.
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git tags/hardening-v6.1-rc3
+As we are deferring tlb flush, but sometimes while we are modifying the vma
+which are deferred, we need to do a sync by flush_tlb_batched_pending() in
+mprotect() , madvise() to make sure they can see the flushed result. if nobody
+is doing mprotect(), madvise() etc in the deferred period, the overhead is zero.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/2eb72d85acf3357e6d7c88febcc0ad553805364b
+>
+> Thanks,
+> Punit
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Thanks
+Barry
