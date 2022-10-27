@@ -2,156 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04584ECAAA1
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 19:17:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4C23ECAAA1
+	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 19:55:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229565AbiJ0TR0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Oct 2022 15:17:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40896 "EHLO
+        id S236736AbiJ0Tz5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Oct 2022 15:55:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236336AbiJ0TRY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 15:17:24 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2046.outbound.protection.outlook.com [40.107.94.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8CA2733CD;
-        Thu, 27 Oct 2022 12:17:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bf7TR8s16teNaBtBpKjdYeVXOsCL4+yk47UUyzvp/aCiHDbF9w8OVSb6pnRInOjv4+nfvhZTkVLjSTGTINBczcUfbMemYMdwPtEMrV3hDRVcMHIZ/QirwXLsvya4cEsJ4EWiDCFLBrEVT/WuIp8/Zyet454McAFB3rAj44gnT9N/gZOTR1IeZ4EiWxmrmQBxgDBQ46ctYm4OME9IxdEKXwuiXt2aYH2R4NLEBVtoQybIhiRn001FSQ/B/TptXzTDLD5hvWG8PrhEmbYsv/2ddmI2AGEhhywDQOWNpJs3bglaEZQ1N4/JJZZ/osJEziJoKzH85SF8eZCmUr3JF2J1pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=24EMnR2nTF+QOV63wnbws2Z/L2iQktmWyirmKZh2eYw=;
- b=LeehNVLvmBYLh229inmqyn1iY+u/8wSCx5xxLusL0B6YTo4QNHYnNp/OKgJkRHQBs1OOdbk7vbgxmM1lLZRUAO8VjJVx5ysKs/+VhAKXXM9hZDMSkrJwOAtZ8huy21+F8LfPAf1SvXderdcp1giScWwIpVp2FPFMJMZ4rap7tGeeB0iwaOE4Jrwh1SHtmUz7XmYqSacAjJW7r8EgGy3jpQgxfDTnRsFzoKr2P+xRBCSpuVd5K0IdBSPu9jFJ+0Q+UgQ+38n/doX4KBAvVvpKpSojK/b9tv5QZXioy493+a+ZI9O3jj9wBwlRhI4UdOl3+fnK1UnnNppw8H8NGSWnbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=24EMnR2nTF+QOV63wnbws2Z/L2iQktmWyirmKZh2eYw=;
- b=EmI5n0StVZdBcIuv3LadrQTOGeoRO/mqMLV/DLeQ6OKlez3Pjs672jj1+qI+CoIXa7XuVyniAqb9NYrj3LT/7RY3OcPLubmXksduAdkiRFsVmeGG0wgmglXqcmuNMH0AsMrW8nRSfpNFS2nKOH+XIqdeSE8Am2d13ZOGsCpuL14=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
- by DM6PR12MB4403.namprd12.prod.outlook.com (2603:10b6:5:2ab::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.14; Thu, 27 Oct
- 2022 19:17:21 +0000
-Received: from SA0PR12MB4557.namprd12.prod.outlook.com
- ([fe80::8bb9:f98:468a:c7a]) by SA0PR12MB4557.namprd12.prod.outlook.com
- ([fe80::8bb9:f98:468a:c7a%7]) with mapi id 15.20.5746.028; Thu, 27 Oct 2022
- 19:17:21 +0000
-Message-ID: <c115afc4-8ed6-6188-af94-18b8a9da00e1@amd.com>
-Date:   Thu, 27 Oct 2022 14:17:17 -0500
+        with ESMTP id S236723AbiJ0Tz4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 15:55:56 -0400
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12BA440E31
+        for <linux-doc@vger.kernel.org>; Thu, 27 Oct 2022 12:55:54 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id x26so1932539qki.0
+        for <linux-doc@vger.kernel.org>; Thu, 27 Oct 2022 12:55:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=phTE8Hb2ngpgKiU4qEw9Lxs4Tg0Q1IriLkNiuUxWbrA=;
+        b=SLiZgtBtLeK+zXz2D/eNY1D1zV3xsgNeksFqjPCbsKNbPzMla/jRUDugiePENX73ip
+         P/2mXeFdNEpaJrZlcZUZvNsyAuPAnIrZAiC5ALBMHFJUrQ0Rb9CQYk773GYs0q3iGqvh
+         B2WM4HerpmMxEQiSda7hzKWhdXNhkW38WHwUdtBmW2ffVcRHwAL61jvG1h9IwIDmO2vX
+         oor1QPHbN8jVVVS0IvkJKvwW6oaLAZuh1ob7nE2lo9Ot33KloW/Lef7rBSbbH2rf8d7d
+         aE64Y6HQZxtQsonfMDH1nnrRRvM9sIZvb5UWzuvgLq8ZtAJuCbLn9llNBDxt4LydG89z
+         apDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=phTE8Hb2ngpgKiU4qEw9Lxs4Tg0Q1IriLkNiuUxWbrA=;
+        b=5W8xzVeWqI49gwZ8boIWopa4wbfgWRc9gr1ImBidbPEnaj5jMY9cbk/o29L/+7ZwYj
+         h1nIFrCNPdClXtHw+rO6osixwmAQW2NAOSQMtve2WEKq5/nFgtVPY9/J3/5XmRYbRyqP
+         bX96vWK91UBgkCCxbZBLS5090Mvp2LAuGuFK8JS6pCdK4E/G/iF+sIH6LlLjGpXqhOo+
+         PUA9VG5AvWftQ4dp0EJyYW5BxqMwx+BF1ybMWxLFPOP3352i9aWrAw1KBK6AMDXDHa+W
+         jXxQdPBFxz6SpC1I3t4m7zaCpYPQFon0AtUEk+rrTUTiAGJmLngLnSMFXexU6hfKVSCN
+         SOBg==
+X-Gm-Message-State: ACrzQf2rXe5QTCzk830CcDwKVpwlt4cfbHznwm/AK81A1+Iw3ICGTP9F
+        MuoSTDRxP0lOZgZESalcKCgUQA==
+X-Google-Smtp-Source: AMsMyM5FXOg6GzFfIF0AuRgweoogKXQKTmdDgZJ2PVbtcQn8m9jGg9sXOm3QaqOPYu4qR9rZ5hVLrg==
+X-Received: by 2002:a37:b041:0:b0:6eb:cc8c:e9a9 with SMTP id z62-20020a37b041000000b006ebcc8ce9a9mr34662885qke.573.1666900553202;
+        Thu, 27 Oct 2022 12:55:53 -0700 (PDT)
+Received: from [192.168.1.11] ([64.57.193.93])
+        by smtp.gmail.com with ESMTPSA id n14-20020a05620a294e00b006eed094dcdasm1585036qkp.70.2022.10.27.12.55.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Oct 2022 12:55:52 -0700 (PDT)
+Message-ID: <79673829-a079-201f-91e1-790eb7cc3a4b@linaro.org>
+Date:   Thu, 27 Oct 2022 15:55:50 -0400
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v7 01/12] x86/cpufeatures: Add Slow Memory Bandwidth
- Allocation feature flag
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v5 02/13] dt-bindings: Add binding for gunyah hypervisor
 Content-Language: en-US
-To:     Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
-Cc:     fenghua.yu@intel.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        peterz@infradead.org, jpoimboe@kernel.org, pbonzini@redhat.com,
-        chang.seok.bae@intel.com, pawan.kumar.gupta@linux.intel.com,
-        jmattson@google.com, daniel.sneddon@linux.intel.com,
-        sandipan.das@amd.com, tony.luck@intel.com, james.morse@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, eranian@google.com
-References: <166604543832.5345.9696970469830919982.stgit@bmoger-ubuntu>
- <166604557098.5345.506719195181543985.stgit@bmoger-ubuntu>
- <1f30019f-51ac-0d73-3024-03a7b33544e4@intel.com>
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <1f30019f-51ac-0d73-3024-03a7b33544e4@intel.com>
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Rob Herring <robh@kernel.org>
+Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221011000840.289033-1-quic_eberman@quicinc.com>
+ <20221011000840.289033-3-quic_eberman@quicinc.com>
+ <20221012155645.GA2173829-robh@kernel.org>
+ <ca13eb92-9b5b-19fd-27a5-f91f5048b142@quicinc.com>
+ <CAL_Jsq+cR5AEa5i1u-_L6sP6nYXS6qgaVWZ=KwxpUbxV3ZW-BA@mail.gmail.com>
+ <75ef3cc5-3b19-9eab-b3eb-56fa254d92bd@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <75ef3cc5-3b19-9eab-b3eb-56fa254d92bd@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0060.namprd03.prod.outlook.com
- (2603:10b6:610:b3::35) To SA0PR12MB4557.namprd12.prod.outlook.com
- (2603:10b6:806:9d::10)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4557:EE_|DM6PR12MB4403:EE_
-X-MS-Office365-Filtering-Correlation-Id: 35205ace-469c-4b65-db78-08dab84fdf14
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4GeDw6WEIrAgNtD2sfgNim85S2G1DVZJif4GlFIZNC0jyTz0aMepkLPCebFZazMc65ssqFUxxDH8xnz/TR7cUmGKQheiAcbuHY6vCEXViXIHCvgKkx9X5A3GQhx+sXP60/3229G1m/afUhw+nXl1lNweHnmnzsYAj0FdMgdpInUfCCZ8NgDKb/kJtB4Dg1dDU23FpmQYZEVKf1D7WXGv70b272cIgnIbCj30flzIjP2QK1r/39jk5R5OUwD2TWc7zDj5+t/MbOBoYXfhqYIe2i5XeiGlbOWmiC6gfxj1B/S4zKItKLolTp77OzWwrkZ8qKnEaPomB229UKG0GNXuxTWtuTZHakR3VdyfBR0O8h92eHZN1wNrVHFdRMD1kvKrisv7DXjBwOvDGTQQIR4OJageK/d13a5E3PHYJ2bD4DL4VvN+8B9NUZEdXM86gH8SFfad0sirIakt4HH/roCg86f4AyZ0dwiA78tivZPz865/6UhrX9RRYv3l0sIlL+k+pfmEm9VFccldLrXxF50owMIgXTaOejPpY7LFaK+2jxfKXfrqlUymX+UWyHBaJzNo0g+zgZg7a5oYh7g7LwYDCoHhmnADtQLtlYfhfTqaKwYvN3UlwOs4gU6gznJDSAIbTrCHcPwfd9TDxtAPAnI20UkFvfZksDlnq5PvVWKSSELlWQ5HSWrJExGvntbn11GiojpAYMcRz2fEDHQINLuUHBdlAs7MN9azu8cv3YHkVizgXYhGy/2H+eOMc6c67ReL4gR38ZRDh7JsCpyjt9t9tnXVxD/sZqOLySZyK9NsFx8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(396003)(136003)(346002)(39860400002)(376002)(451199015)(6506007)(6666004)(36756003)(53546011)(4326008)(2906002)(66476007)(66556008)(66946007)(316002)(8676002)(83380400001)(2616005)(3450700001)(186003)(86362001)(31696002)(26005)(6512007)(4744005)(5660300002)(41300700001)(8936002)(7416002)(478600001)(6486002)(31686004)(38100700002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UjVBL2JKWVNjWktLMXphUzZNdDVoTFYyNTVYa3B2azc3Q0VXTlFwSzRUQitp?=
- =?utf-8?B?a1R3WElLM1RFeHNhdEpqQWdKeldUdnk4LzFnWUJLMEE0WGk2dHBrSjZoeXpG?=
- =?utf-8?B?SmRrTmRWNWV5RklKQzdPT3VUV2U3TFl3d0hVL3JHcmx4Y0hTbGFKOVFVRndC?=
- =?utf-8?B?UDA2d1hmSmFrVTlGUWNtWFpVdUNLa0I1Y0VQU0VHY1NLUW9tVXZBSDdZODdz?=
- =?utf-8?B?K2hjenQwbzNCOVVyS1pUdzlLOStDWk1kZlo2SEFVWlpWVkp1OGc3R0daUzFW?=
- =?utf-8?B?K3lJQmVGQ1pkdm5ZMVJ0RVpDSFhZaVdlY3NwNUpCM0gwbjEwbWFrRnYyd1lH?=
- =?utf-8?B?RUF6R2VTOGprL3BnRkpNSzJnMzBnQXRHRnF6TlgwR0xCMkg2T0hrMTRJckxY?=
- =?utf-8?B?ZjhodHBKVEszSG5sQTVQb1FzY25wenc3cnpuR2o4RmF3MURZaU9Wc3JZZEs2?=
- =?utf-8?B?cmU0a2NNb0h0a2ZWWFd1dFhLcFlZbEN1dEpON1dmZXdObSs0Y0h0NWRjWGxH?=
- =?utf-8?B?NTZ4TzhYMFNuTHYzOHVqcDgwMWJlcnkzanVvN2NRdUFoK2tSNkhSN09RNFdQ?=
- =?utf-8?B?NU50aGtQMUdSZ1RyUTFNU3hCQVo0WjlHNjNEWnFVWXZOVE1QOCtycDZ6aER2?=
- =?utf-8?B?SmJ1bUZIRHVLSDlpQXlsSW9GWWR6MXovSld0L0Nub2hvOFdnK1o2VFRLRUFP?=
- =?utf-8?B?TWpvWFVaek1LTTczb0RoMDBqdTkySnV4ZG81VU51QXlXamV6SVJyYmRtQmE4?=
- =?utf-8?B?VllBQXQ1YTZ1bXhkN3BtTnk1U2hMS2xKRkRUclZzYjExejl3TjVtVjJTZG9G?=
- =?utf-8?B?Tk1OQmMzci9tU3EwN1hSbk5IK3FOZGI2WHBDSE0wS2RLeWV1TnJVQWhIb1JC?=
- =?utf-8?B?STAyMmJKeGU4QkNZb1pnTkZKV2JOUXFuNC9CNlZheE52K1RmdnBvcC9IOHp5?=
- =?utf-8?B?L3FkQ2pYc090bmtIQ0twNkhtdjJPcXlXYkc3ZktXVGdQUjE2WFpPeVE2c2NH?=
- =?utf-8?B?VHhtQTlVbFdOWWVwaFNFb3Evcit1c2R2Rnk2anBMVklTQlAzSFk4Y3V1Nnk0?=
- =?utf-8?B?c0I0RXQ4ak4vMmM3eklEQzBXUjJiNVlCNFZGTlVPeHg4QWhHK2NHQmlvRjRp?=
- =?utf-8?B?UnBsM2R4NEpGU2k5bmNhVVBnNGN4Q2R4V05LbXh0b2FWc2FEMG5GcjNEbXVV?=
- =?utf-8?B?UVRScDYzbG10UUI0d3RJOW5LUWNrTGRielllVVJlZDJNQS95SE9RdXNpdGdn?=
- =?utf-8?B?N0MxYUVrWkRvbnBzWjdMa05uNGpZcmwrMHVMM1ExMU96d2pmeE1QN0phOTc3?=
- =?utf-8?B?RCs0NFp3UWNMU2JpUDRwNW1CSEtLSzVvR0YwM0ZYSTdWUE1WYzJFdXIwUTBC?=
- =?utf-8?B?YXh5NGJ1Slc5dUgrZFk0cnIrSzZjd1N1Tk1pRHlCeWVMbVkyU1J3T014bEFB?=
- =?utf-8?B?RkpCa0JCa3NHNVYyUWdrWG5VdVB6cDZrVzRkWm54Z0JPcWk4Tk9lblBLcDZa?=
- =?utf-8?B?M3lqZktGUVdVc2FtdS9LMGZGeGJXQlZVTkozUE4wNVZlYW0rNkVQV2h6M1dX?=
- =?utf-8?B?ZDQyREx4WWhIYjljQWVqdDczdzlkaUhwM2dtU3pZTjU0eG9tV3ZQdkVtMzFF?=
- =?utf-8?B?aEZjWjlZeGsxVk96eDFmUEoxS0U5ZWFGb01rc05WT3VlRmFiNVRRQVV1QXJt?=
- =?utf-8?B?dDlrUno0M1ZDeWdYRzJpK2ZmYWxkWHYrL09hZ2dqdFh6S2I3TTRsUU5FeERx?=
- =?utf-8?B?c1pqWU1YUkhPd28rTTBWRVJFUkVmV1RBRVRwYnRXOVJWZ1ZXMTliSXdtWU1o?=
- =?utf-8?B?Z2h0RXhmTVM4Sis0SEppTW8wRWJHeHBzYVphMTV2VkZFWm55dTg4NFJNd3Q3?=
- =?utf-8?B?ZkQ4WG9rVVZyaGt6c2NDa1FDRjFvMUovb1JGN2VLb0hDNm5KeHBLUUVGOUZU?=
- =?utf-8?B?RzRRcUJRMHNiTVc4WE4yMlFUWkZyZXdwZFFPOHU2amdIK0JLeTRsZU4ydGJt?=
- =?utf-8?B?UWNDRjhSdndBYmdidzh5YjVvT0JzV3A3SEVha1J4amNOVTJsSFZQRUJoSDdn?=
- =?utf-8?B?R1JWaUFLVGlXSGJHaTRsZktkd3F6VFFNT0RjSmNDT3dSVS9jcGZRT2FTbVJq?=
- =?utf-8?Q?QkNhzJgmgANRdoec+2R3CLnAP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35205ace-469c-4b65-db78-08dab84fdf14
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4557.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2022 19:17:21.2521
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XjHaXqxWsLg/iFbtTlmWEIRoaKYhDN1IgPtFEgHzwTYLLmSfN2190W34Z+frdYUz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4403
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Reinette,
-
-On 10/27/22 13:49, Reinette Chatre wrote:
-> Hi Babu,
->
-> On 10/17/2022 3:26 PM, Babu Moger wrote:
->> ---
->>  arch/x86/include/asm/cpufeatures.h |    1 +
->>  arch/x86/kernel/cpu/scattered.c    |    1 +
->>  2 files changed, 2 insertions(+)
+On 27/10/2022 12:17, Elliot Berman wrote:
+> Hi Rob,
+> 
+> On 10/26/2022 2:16 PM, Rob Herring wrote:
+>> On Thu, Oct 13, 2022 at 6:59 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>>>
+>>>
+>>> On 10/12/2022 8:56 AM, Rob Herring wrote:
+>>>> On Mon, Oct 10, 2022 at 05:08:29PM -0700, Elliot Berman wrote:
+>>>>> When Linux is booted as a guest under the Gunyah hypervisor, the Gunyah
+>>>>> Resource Manager applies a devicetree overlay describing the virtual
+>>>>> platform configuration of the guest VM, such as the message queue
+>>>>> capability IDs for communicating with the Resource Manager. This
+>>>>> information is not otherwise discoverable by a VM: the Gunyah hypervisor
+>>>>> core does not provide a direct interface to discover capability IDs nor
+>>>>> a way to communicate with RM without having already known the
+>>>>> corresponding message queue capability ID. Add the DT bindings that
+>>>>> Gunyah adheres for the hypervisor node and message queues.
+>>>>>
+>>>>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>>>>> ---
+>>>>>    .../bindings/firmware/gunyah-hypervisor.yaml  | 87 +++++++++++++++++++
+>>>>>    MAINTAINERS                                   |  1 +
+>>>>>    2 files changed, 88 insertions(+)
+>>>>>    create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+>>>>> new file mode 100644
+>>>>> index 000000000000..f0a14101e2fd
+>>>>> --- /dev/null
+>>>>> +++ b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+>>>>> @@ -0,0 +1,87 @@
+>>>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>>>>> +%YAML 1.2
+>>>>> +---
+>>>>> +$id: http://devicetree.org/schemas/firmware/gunyah-hypervisor.yaml#
+>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>>> +
+>>>>> +title: Gunyah Hypervisor
+>>>>> +
+>>>>> +maintainers:
+>>>>> +  - Murali Nalajala <quic_mnalajal@quicinc.com>
+>>>>> +  - Elliot Berman <quic_eberman@quicinc.com>
+>>>>> +
+>>>>> +description: |+
+>>>>> +  On systems which support devicetree, Gunyah generates and overlays a deviceetree overlay which
+>>>>
+>>>> How you end up with the node (applying an overlay) is not relavent to
+>>>> the binding.
+>>>>
+>>>>> +  describes the basic configuration of the hypervisor. Virtual machines use this information to determine
+>>>>> +  the capability IDs of the message queues used to communicate with the Gunyah Resource Manager.
+>>>>
+>>>> Wrap at 80. That is the coding standard still though 100 is deemed
+>>>> allowed. And yamllint only complains at 110 because I didn't care to fix
+>>>> everyones lines over 100.
+>>>>
+>>>>> +  See also: https://github.com/quic/gunyah-resource-manager/blob/develop/src/vm_creation/dto_construct.c
+>>>>> +
+>>>>> +properties:
+>>>>> +  compatible:
+>>>>> +    items:
+>>>>> +      - const: gunyah-hypervisor-1.0
+>>>>> +      - const: gunyah-hypervisor
+>>>>
+>>>> 2 compatibles implies a difference between the 2. What's the difference?
+>>>> Where does '1.0' come from?
+>>>>
+>>>
+>>> There's no difference. I thought the convention was to have
+>>> device-specific compatible and the generic compatible. "device-specific"
+>>> here would be specific to version of Gunyah since it's software.
 >>
-> I see arch/x86/include/asm/cpufeatures.h patches that also include
-> a change to tools/arch/x86/include/asm/cpufeatures.h in support
-> of perf. I do not know the customs here but I see others
-> change both in the same patch and if it is not done together a separate
-> patch to tools/arch/x86/include/asm/cpufeatures.h would be required
-> anyway to address the inevitable perf build warning.
+>> No, that's just what people do because "vendor,new-soc",
+>> "vendor,old-soc" seems to bother them for some reason. At the end of
+>> the day, it's just a string identifier that means something. If
+>> there's no difference in that 'something', then there is no point in
+>> having more than one string.
+>>
+>> You only need something specific enough to discover the rest from the
+>> firmware. When that changes, then you add a new compatible. Of course,
+>> if you want existing OSs to work, then better not change the
+>> compatible.
+>>
+> 
+> Thanks for the info, I'll drop the "-1.0" suffix.
 
-Lately, I see that these two files are synced after the feature bits are
-committed. I can send the separate once these changes are committed.
+You still did not answer from where does 1.0 come from... Compatibles
+are usually expected to be specific.
 
-Thanks
-
-Babu
+Best regards,
+Krzysztof
 
