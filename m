@@ -2,109 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E02BECAAA1
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 01:55:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9490FA3741
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 01:56:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235291AbiJ1BzH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Oct 2022 21:55:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35486 "EHLO
+        id S235256AbiJ1B46 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Oct 2022 21:56:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234705AbiJ1BzF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 21:55:05 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E090425C4A;
-        Thu, 27 Oct 2022 18:55:04 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id 192so3597926pfx.5;
-        Thu, 27 Oct 2022 18:55:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=irU9wao3U9xoVcrQJyhza+H5ctRejikSJ6E6Kg/V3MY=;
-        b=CWM+n58iZiFaG225OsCmWHZxmK5R48tN5dvlbhaHxGL6zDQz8ikkUPO6pYpORUPjip
-         TBwCPWjBSo+lPY8hcQ/r6PO1M8HtjnYaafUDgaIpPXNjtOf7+f/XWawhjEGWj8GlvMmy
-         zn3tBnA/O4kiw52fT+8WYh1og+y/20LW2lFhDWakRiTTmRryBaKcOTg68lDo1/Un1KaI
-         7+CFmUpqb6N6PcWUBQ+SSXjLkXrxkxEtShz/QWu3xad5yiE+gGtAqQM9DbOVi+hL5mCj
-         B+iQApADWVUin1F+MqIVoThiWKPKpsbFJO3Ght1+T6C6/NphYeRpi+D4agCx4Z9saimZ
-         jKNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=irU9wao3U9xoVcrQJyhza+H5ctRejikSJ6E6Kg/V3MY=;
-        b=7pCpKwUXuiwOsMcDx53KeZovs0eGqBS1Gso9olulm6qY7FLhQFtH3864ysE/VUOitB
-         E0Fy6tU5uDxV4Xfdc8n6NqxYEAAIAGvz6FRrnHHs8FBdSOmHobtGfL2gBNJuEa0tvyBr
-         5o0Hgge09as3ovj1+g+ZA5R6wHgCPzJella6oZjcIAdDxSu8+rkr1Jry13YZgCaukN48
-         uKmchWYx+rR1th0voos++teRIY3OyuHmpEPmOGOcVm0t7f/VoCspv8F83PDLIUmrByiT
-         KAZ5+hyMVUSkPRJ8BxGuPF+hy5X20yJ8bYmHFz4NFVk3X089ZXxj8AZW3g1W7+ycaC6g
-         vGhw==
-X-Gm-Message-State: ACrzQf1yQtx1xg9K93bpVRcCMzwt80KPB0bX5PRAv3BmbyWj1GAjBKqA
-        VC834pgAk+WDlfc84hTPd98=
-X-Google-Smtp-Source: AMsMyM4hVMBb2+2ZWJtSPhm8ookS+OzUjXKv7LWFttXdbfHxCskyQZQlVqr/s11N5B9sTMyIa6ndGQ==
-X-Received: by 2002:a05:6a00:10cf:b0:563:34ce:412f with SMTP id d15-20020a056a0010cf00b0056334ce412fmr52875662pfu.67.1666922104148;
-        Thu, 27 Oct 2022 18:55:04 -0700 (PDT)
-Received: from [192.168.43.80] (subs28-116-206-12-40.three.co.id. [116.206.12.40])
-        by smtp.gmail.com with ESMTPSA id y189-20020a6264c6000000b005625ef68eecsm1776143pfb.31.2022.10.27.18.54.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Oct 2022 18:55:03 -0700 (PDT)
-Message-ID: <d3be78c5-dbb0-6419-03ad-8337b46f91a0@gmail.com>
-Date:   Fri, 28 Oct 2022 08:54:54 +0700
+        with ESMTP id S234467AbiJ1B45 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 21:56:57 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1F04EAEA1F;
+        Thu, 27 Oct 2022 18:56:54 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7287123A;
+        Thu, 27 Oct 2022 18:57:00 -0700 (PDT)
+Received: from [192.168.0.146] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 86D553F445;
+        Thu, 27 Oct 2022 18:56:44 -0700 (PDT)
+Message-ID: <55256df4-fff1-fa78-97bc-7aaa9efb7255@arm.com>
+Date:   Fri, 28 Oct 2022 07:26:44 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH 01/15] hamradio: baycom: remove BAYCOM_MAGIC
-To:     Jakub Kicinski <kuba@kernel.org>,
-        =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Thomas Sailer <t.sailer@alumni.ethz.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-hams@vger.kernel.org, netdev@vger.kernel.org
-References: <9a453437b5c3b4b1887c1bd84455b0cc3d1c40b2.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
- <20221026183711.342ae914@kernel.org>
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v4 2/2] arm64: support batched/deferred tlb shootdown
+ during page reclamation
 Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20221026183711.342ae914@kernel.org>
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Yicong Yang <yangyicong@huawei.com>, yangyicong@hisilicon.com,
+        corbet@lwn.net, peterz@infradead.org, arnd@arndb.de,
+        linux-kernel@vger.kernel.org, darren@os.amperecomputing.com,
+        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
+        guojian@oppo.com, realmz6@gmail.com, linux-mips@vger.kernel.org,
+        openrisc@lists.librecores.org, linux-mm@kvack.org, x86@kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, akpm@linux-foundation.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        wangkefeng.wang@huawei.com, xhao@linux.alibaba.com,
+        prime.zeng@hisilicon.com, Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>,
+        catalin.marinas@arm.com, will@kernel.org, linux-doc@vger.kernel.org
+References: <20220921084302.43631-1-yangyicong@huawei.com>
+ <20220921084302.43631-3-yangyicong@huawei.com>
+ <168eac93-a6ee-0b2e-12bb-4222eff24561@arm.com>
+ <8e391962-4e3a-5a56-64b4-78e8637e3b8c@huawei.com>
+ <CAGsJ_4z=dZbrAUD9jczT08S3qi_ep-h+EK35UfayVk1S+Cnp2A@mail.gmail.com>
+ <ecd161db-b290-7997-a81e-a0a00bd1c599@arm.com>
+ <CAGsJ_4x0KhEjm5a9jhtS+YK1AT49u3sHnp2rHZVSuTGZp4nKzA@mail.gmail.com>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <CAGsJ_4x0KhEjm5a9jhtS+YK1AT49u3sHnp2rHZVSuTGZp4nKzA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/27/22 08:37, Jakub Kicinski wrote:
-> On Thu, 27 Oct 2022 00:42:37 +0200 наб wrote:
->> Since defanging in v2.6.12-rc1 it's set exactly once per port on probe
->> and checked exactly once per port on unload: it's useless. Kill it.
+
+
+On 10/28/22 03:37, Barry Song wrote:
+> On Thu, Oct 27, 2022 at 11:42 PM Anshuman Khandual
+> <anshuman.khandual@arm.com> wrote:
 >>
->> Notably, magic-number.rst has never had the right value for it with the
->> new-in-2.1.105 network-based driver
 >>
->> Signed-off-by: Ahelenia Ziemiańska <nabijaczleweli@nabijaczleweli.xyz>
+>>
+>> On 9/28/22 05:53, Barry Song wrote:
+>>> On Tue, Sep 27, 2022 at 10:15 PM Yicong Yang <yangyicong@huawei.com> wrote:
+>>>>
+>>>> On 2022/9/27 14:16, Anshuman Khandual wrote:
+>>>>> [...]
+>>>>>
+>>>>> On 9/21/22 14:13, Yicong Yang wrote:
+>>>>>> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
+>>>>>> +{
+>>>>>> +    /* for small systems with small number of CPUs, TLB shootdown is cheap */
+>>>>>> +    if (num_online_cpus() <= 4)
+>>>>>
+>>>>> It would be great to have some more inputs from others, whether 4 (which should
+>>>>> to be codified into a macro e.g ARM64_NR_CPU_DEFERRED_TLB, or something similar)
+>>>>> is optimal for an wide range of arm64 platforms.
+>>>>>
+>>>
+>>> I have tested it on a 4-cpus and 8-cpus machine. but i have no machine
+>>> with 5,6,7
+>>> cores.
+>>> I saw improvement on 8-cpus machines and I found 4-cpus machines don't need
+>>> this patch.
+>>>
+>>> so it seems safe to have
+>>> if (num_online_cpus()  < 8)
+>>>
+>>>>
+>>>> Do you prefer this macro to be static or make it configurable through kconfig then
+>>>> different platforms can make choice based on their own situations? It maybe hard to
+>>>> test on all the arm64 platforms.
+>>>
+>>> Maybe we can have this default enabled on machines with 8 and more cpus and
+>>> provide a tlbflush_batched = on or off to allow users enable or
+>>> disable it according
+>>> to their hardware and products. Similar example: rodata=on or off.
+>>
+>> No, sounds bit excessive. Kernel command line options should not be added
+>> for every possible run time switch options.
+>>
+>>>
+>>> Hi Anshuman, Will,  Catalin, Andrew,
+>>> what do you think about this approach?
+>>>
+>>> BTW, haoxin mentioned another important user scenarios for tlb bach on arm64:
+>>> https://lore.kernel.org/lkml/393d6318-aa38-01ed-6ad8-f9eac89bf0fc@linux.alibaba.com/
+>>>
+>>> I do believe we need it based on the expensive cost of tlb shootdown in arm64
+>>> even by hardware broadcast.
+>>
+>> Alright, for now could we enable ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH selectively
+>> with CONFIG_EXPERT and for num_online_cpus()  > 8 ?
 > 
-> Interesting name :S Just to be clear full legal names are required.
-> Not saying that's not your name, just saying I haven't heard it before.
-> 
-> Plus the From line must be the same, legal name.
-> 
+> Sounds good to me. It is a good start to bring up tlb batched flush in
+> ARM64. Later on, we
+> might want to see it in both memory reclamation and migration.
 
-You mean From header (email).
-
-In this case, she forgot to add From: tag before the patch description
-(which could be easily added with --from option to git-format-patch(1)).
-
-Thanks.
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+Right, that is the idea, CONFIG_EXPERT gives an way to test this out for some time
+on various platforms, and later it can be dropped off. Regarding num_online_cpus()
+= '8' as the threshold which would potentially give benefit of batched TLB should
+be defined as a macro e.g NR_CPUS_FOR_BATCHED_TLB or internal (non user selectable)
+config , with a proper in-code comment, explaining the rationale.
