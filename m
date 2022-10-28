@@ -2,83 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A13F5ECAAA1
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 13:57:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88666C38A02
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 14:00:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229916AbiJ1N5r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Oct 2022 09:57:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32828 "EHLO
+        id S230364AbiJ1OAL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Oct 2022 10:00:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229927AbiJ1N5q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 09:57:46 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF6A1D52F8;
-        Fri, 28 Oct 2022 06:57:45 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id f23so4916004plr.6;
-        Fri, 28 Oct 2022 06:57:45 -0700 (PDT)
+        with ESMTP id S230295AbiJ1OAI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 10:00:08 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA7F053033;
+        Fri, 28 Oct 2022 07:00:05 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id b11so4772102pjp.2;
+        Fri, 28 Oct 2022 07:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=pURq2ZAIigLcDR9TJTtusCVtDsz7Ut0rfG8GHdRJiLY=;
-        b=HOgEVO+N1Zf1fQolQQp13J5kNAlNn8KlHrL0Sg5RBszVJCST6gOzhLjEA1+izYlRo0
-         wKLRzpzzb3OVrRcCE2as6vKT3PzVSgpdYdxiRJ7KNfZbB5obteL03PnlBB8YaxZ5x0le
-         ARJEhl1HFQb4677BmbF40X6pHBAHjcvpZgb2D0VTCX3uxTlJ2zLIIkJSwK9JDINnx33K
-         NE6d7/2o9zRNVdvM8mfo/gdwUG4lMayDxZ5/OcI/dKOu5MUgVyhy9ziGHqCWuy1X5nzB
-         svIxyAdmMuk3v3rl24T9lIR/NtCgvNXJ+wWuKin3nFQNSsYTHtq835J+IxRFqlS4lJXq
-         gDZg==
+        bh=2Qdg5JQ7jRUVPiQSfa/lnoZs8xU+IO+CeBX2ZEGSnLE=;
+        b=lqmAJcTIp2+lm06nHfSbdtp9KvQqW3/KRJChj6Y9ol+fsPbgMP4niyu8xDUOnO5F/k
+         c/O9Srp8Ib4CUJJouEhJgthrp+IxhePnRblIm8EaYXkAWDEFh77hniGXwMTt2tY4dAH8
+         ZyqfXB2ekw8OXp3b5edPpHSFeNmrJBPKwENnf3TeUR+0/y0Yv7Ers5GcxnuA1tTodZ75
+         rLJ8GHZi2atguUKeQ7+22Rb2TwUqGSEEdFLQkHew1lR1ONqbadHXSjtz43ROs8K1ZbXR
+         74wKbkspRBsYwALRCPcxbqYFqKLeSV0QPIubCmG8jiVfCIA+RjsxQJyvOcOgw8fwGe9A
+         NexQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pURq2ZAIigLcDR9TJTtusCVtDsz7Ut0rfG8GHdRJiLY=;
-        b=YbHS7watV1dJGJ/Eub8+D+QgZTF52/vNjNWnJVHTZoQntkEYhEJn4fjCDoFp2axBsp
-         Ri1i+kUBaqk70cQfhGjhnTCp2Cpisuxyi+QLt6GH/+VPrweH+aKaRN4AadcgXUyVQffv
-         68Bz8YcvPQ36eIH3o8gb/uV5iqelVZi13ZbxczMFYpmnssCWMgLdTfyfKLKKoo+H7NFc
-         lMNX6WzWiQNUJ58BA5VgNHusBNe3Wn1b2IP/EyNf7kqVisEBLdUj+Ep4SSsw5Cc6qglE
-         5nghFetoEWHKhKbBacsoyMwItpQ/1LjBtSSrEAeiXLj2kM2+nfA+ct7fIskBsCqbQbHA
-         X0SQ==
-X-Gm-Message-State: ACrzQf1dYXE1Xy37a2pdsHBYWvJBHO6sZxLF5gw5MiI/frFH0EGpojSh
-        mBDtWTeuoCwlqALn+hnx7S8=
-X-Google-Smtp-Source: AMsMyM4TmHqsO8JBZiWG9JydskJ3G+0iWR4RBrx4gAFd8i7wP2pvDVtrfXUd4cIl1xJm5O4PcntkPg==
-X-Received: by 2002:a17:902:e84e:b0:186:b699:d4ab with SMTP id t14-20020a170902e84e00b00186b699d4abmr23303128plg.116.1666965465198;
-        Fri, 28 Oct 2022 06:57:45 -0700 (PDT)
+        bh=2Qdg5JQ7jRUVPiQSfa/lnoZs8xU+IO+CeBX2ZEGSnLE=;
+        b=lpADhJPebzU8oxUPp1A/9Ry+BubHAEogQdLgB5zr7akBdh46bEUffobY0Whu4LNrEx
+         UGEyiTaZXqEFcroCImXztYHQUpADSvVWq9YzcQxOuWdhw2OQY1BtE1ALrIEe14kbjOqT
+         DOeoCDBxYG76Xvmm0KPIU9iM3exyFc6w1ENyqYx6ZTgWce9ai3uOjVDzcaSTpUF7abTx
+         fOGKe7maUrFwIasnN5ylDZzKHTeln7hrZDQ0ffPEc+QUOI/RamJmu/z3JL6YroYCZtA3
+         4vQT+1npE8ib+qCATYtACeaQCmq0/82vobqInuRDEkEmIO7vFbiD+rJyFZS+GlpaCmRg
+         XaYg==
+X-Gm-Message-State: ACrzQf3eEASYdJNjsdOFyROIdv80e/KG0WCOXuubDhttKS5/iTUoveEB
+        D9R1/OTiUETIQWuH70Y/PzE=
+X-Google-Smtp-Source: AMsMyM4ida+A+ZnEWS1fy9FKWnWafErnFrEadIPuVwLRE0h27lTjO6iZao57TIUMM5AmHgOHs7mm0g==
+X-Received: by 2002:a17:90a:2bc9:b0:212:8210:c92d with SMTP id n9-20020a17090a2bc900b002128210c92dmr16555151pje.38.1666965604593;
+        Fri, 28 Oct 2022 07:00:04 -0700 (PDT)
 Received: from [192.168.43.80] (subs03-180-214-233-72.three.co.id. [180.214.233.72])
-        by smtp.gmail.com with ESMTPSA id n3-20020a635c43000000b0045935b12e97sm2734731pgm.36.2022.10.28.06.57.39
+        by smtp.gmail.com with ESMTPSA id p6-20020aa79e86000000b005629b6a8b53sm2978500pfq.15.2022.10.28.07.00.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Oct 2022 06:57:44 -0700 (PDT)
-Message-ID: <18fe94a5-23f3-aa59-ddf3-d9f0cd370182@gmail.com>
-Date:   Fri, 28 Oct 2022 20:57:38 +0700
+        Fri, 28 Oct 2022 07:00:04 -0700 (PDT)
+Message-ID: <550dfefc-ceab-385f-8b2c-69b21cd29166@gmail.com>
+Date:   Fri, 28 Oct 2022 20:59:59 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.0
-Subject: Re: [PATCH 12/15] drivers: net: slip: remove SLIP_MAGIC
+Subject: Re: [PATCH 13/15] fcntl: remove FASYNC_MAGIC
 Content-Language: en-US
 To:     =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
         Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        =?UTF-8?Q?Jakub_Kici=c5=84ski?= <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+        Hu Haowen <src.res@email.cn>, Jeff Layton <jlayton@kernel.org>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Oliver Hartkopp <socketcan@hartkopp.net>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Duoming Zhou <duoming@zju.edu.cn>,
-        Huang Pei <huangpei@loongson.cn>, linux-doc@vger.kernel.org,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net, netdev@vger.kernel.org
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-fsdevel@vger.kernel.org
 References: <9a453437b5c3b4b1887c1bd84455b0cc3d1c40b2.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
- <f5f9036f2a488886fe5a424d8143e8f2f3fdcf3f.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
+ <4729b484174431a57b6bca139fe659f0e27b7e1a.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <f5f9036f2a488886fe5a424d8143e8f2f3fdcf3f.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
+In-Reply-To: <4729b484174431a57b6bca139fe659f0e27b7e1a.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -89,13 +83,10 @@ On 10/27/22 05:43, наб wrote:
 > We have largely moved away from this approach,
 > and we have better debugging instrumentation nowadays: kill it
 > 
-> Additionally, all SLIP_MAGIC checks just early-exit instead
-> of noting the bug, so they're detrimental, if anything
-> 
 
-Same reply as [1].
+Again, see [1].
 
-[1]: https://lore.kernel.org/linux-doc/9386b19f-dd99-3601-9e87-3056100dfe53@gmail.com/
+[1]: https://lore.kernel.org/linux-doc/80c998ec-435f-158c-9b45-4e6844f7861b@gmail.com/
 
 -- 
 An old man doll... just what I always wanted! - Clara
