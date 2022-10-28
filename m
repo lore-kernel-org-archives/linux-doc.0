@@ -2,134 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC3C8ECAAA1
-	for <linux-doc@archiver.kernel.org>; Thu, 27 Oct 2022 23:19:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C394FFA373D
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 00:28:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235028AbiJ0XTk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Oct 2022 19:19:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50792 "EHLO
+        id S234664AbiJ1A2u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Oct 2022 20:28:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235359AbiJ0XTi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 19:19:38 -0400
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [IPv6:2001:4190:8020::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 328D8B1E3
-        for <linux-doc@vger.kernel.org>; Thu, 27 Oct 2022 16:19:37 -0700 (PDT)
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-        id 4729E92009D; Fri, 28 Oct 2022 01:08:18 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by angie.orcam.me.uk (Postfix) with ESMTP id 3E4F792009B;
-        Fri, 28 Oct 2022 00:08:18 +0100 (BST)
-Date:   Fri, 28 Oct 2022 00:08:18 +0100 (BST)
-From:   "Maciej W. Rozycki" <macro@orcam.me.uk>
-To:     Arnd Bergmann <arnd@arndb.de>
-cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Yu Zhao <yuzhao@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        page-reclaim@google.com, Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v14 08/14] mm: multi-gen LRU: support page table walks
-In-Reply-To: <d24a5273-1c66-4653-9730-4de31ffcf0e8@app.fastmail.com>
-Message-ID: <alpine.DEB.2.21.2210272332590.3199@angie.orcam.me.uk>
-References: <20220815071332.627393-1-yuzhao@google.com> <20220815071332.627393-9-yuzhao@google.com> <Y0go8wWtdcyH1+Ch@hirez.programming.kicks-ass.net> <CAOUHufa9+FTO3Pv-5jC-e3S5goPsUGu-5KcPVHa4bWb0X+d2ug@mail.gmail.com> <CAHk-=wj1rc2t5noMtVOgu8XXeTM4KiggEub9PdcexxeQrYPZvA@mail.gmail.com>
- <Y1FXpHdyvXjrjbLw@hirez.programming.kicks-ass.net> <CAHk-=whQchubuDpRGFabhmcZuzdt13OOF8wznXb+Dbi3GzBQhQ@mail.gmail.com> <Y1GZjPO+szk7X0wP@hirez.programming.kicks-ass.net> <CAHk-=wikUaRM5H_y1Bc+QyvGi40dKDL8fnCTyz7ECbwK7aHNPQ@mail.gmail.com>
- <Y1IUMDJFScAMrCS5@casper.infradead.org> <CAHk-=wjrpH1+6cQQjTO6p-96ndBMiOnNH098vhS2jLybxD+7gA@mail.gmail.com> <alpine.DEB.2.21.2210211911390.50489@angie.orcam.me.uk> <CAHk-=wgNZNNd4t004x0ehXm=DA+JmYY=0MgVNDXUtoV4ApyXvQ@mail.gmail.com>
- <alpine.DEB.2.21.2210240054280.50489@angie.orcam.me.uk> <d24a5273-1c66-4653-9730-4de31ffcf0e8@app.fastmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        with ESMTP id S229902AbiJ1A2t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 20:28:49 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BD87A2332;
+        Thu, 27 Oct 2022 17:28:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666916928; x=1698452928;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cLR1KG+Ou2LQDJ/ROrlk412K74arvA0PceC9Uu9ii08=;
+  b=ifWDujvrjxQ8zjYxX9tp89OGknl7rck49gojJ7iha+pEkugDpQIas7hp
+   efxmSvC308+SLgJ8JEM6lilE/1Djfg/MBRb7/Gl6IoDoJ7HqYdTfJC7gC
+   iop7DIJ1SrW0rmyfStDFqZwzsZSwyfc31bVVsjHZbpIuYddG5aE0CYuQF
+   7DBQXbsd2qjSKjaT85uGDrjXzlPMoFqfZDARaK/lprk+1EGhoOz2pQusx
+   psLbw9zKOd8YyTV5Yajwfx1go+NdgbBB91Jd36ZCEoB4FWCrYZzidPOGr
+   FTFcPV6N+MtyUwhkTteXhK1wszO+u+300vUCyd9nV7++tuBWa2Z1iAUn3
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="288091256"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; 
+   d="scan'208";a="288091256"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2022 17:28:48 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="627356153"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; 
+   d="scan'208";a="627356153"
+Received: from ortizseb-mobl.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.212.153.115])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2022 17:28:47 -0700
+From:   Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     "H . Peter Anvin" <hpa@zytor.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v16 0/3] Add TDX Guest Attestation support
+Date:   Thu, 27 Oct 2022 17:28:17 -0700
+Message-Id: <20221028002820.3303030-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 26 Oct 2022, Arnd Bergmann wrote:
+Hi All,
 
-> >> In fact, I don't understand how current kernels work on an i486 at
-> >> all, since it looks like
-> >> 
-> >>   exit_to_user_mode_prepare ->
-> >>     arch_exit_to_user_mode_prepare
-> >> 
-> >> ends up having an unconditional 'rdtsc' instruction in it.
-> >> >
-> >  The fix here is obviously and trivially:
-> >
-> > 	select HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET if !M486SX && !M486
-> 
-> I think that would be "if X86_TSC", otherwise you still include the
-> TSC-less 586-class (5x86, 6x86, Elan, Winchip C6, MediaGX, ...)
+Intel's Trust Domain Extensions (TDX) protect guest VMs from malicious
+hosts and some physical attacks. VM guest with TDX support is called
+as a TDX Guest.
 
- Right, I tend to forget about these more exotic chips from the 1990s era.  
-I'll run some verification and come up with the actual fix in the next 
-several days.
+In TDX guest, attestation process is used to verify the TDX guest
+trustworthiness to other entities before provisioning secrets to the
+guest. For example, a key server may request for attestation before
+releasing the encryption keys to mount the encrypted rootfs or
+secondary drive.
 
-> > So what's the actual burden from keeping this support around?  Would my 
-> > proposal to emulate CMPXCHG8B (and possibly RDTSC) in #UD handler help?
-> 
-> That sounds worse to me than the current use of runtime alternatives
-> for picking between cmpxchg8b_emu and the native instruction.
+This patch set adds attestation support for the TDX guest. Details
+about the TDX attestation process and the steps involved are explained
+in Documentation/x86/tdx.rst (added by patch 2/3).
 
- Why is that so?  Because of the trap-and-emulate technique?  It's been 
-around since forever and specified in some processor ISAs even, where some 
-machine instructions are explicitly allowed to be omitted from actual 
-hardware and delegated to OS emulation without making affected hardware 
-non-compliant.  VAX had it back from 1970s and RISC-V has it now.  We've 
-been using it to retrofit operations ourselves, though maybe not with the 
-x86 arch.
+Following are the details of the patch set:
 
- Or is it because of the complex address decoding x86 requires?  Well, I 
-have actually realised we do have it already, in the x87 CR0.EM emulator.  
-While IEEE-754 exceptions can make use of the address of the operand 
-recorded in the FPU environment full emulation requires decoding by hand.
+Patch 1/3 -> Preparatory patch for adding attestation support.
+Patch 2/3 -> Adds user interface driver to support attestation.
+Patch 3/3 -> Adds selftest support for TDREPORT feature.
 
-> For arm32, we have a combination of two other approaches:
-> 
-> - On the oldest processors that never had SMP support (ARMv5 and
->   earlier), it is not possible to enable support for SMP at all.
->   Using a Kconfig 'depends on X86_CMPXCHG64' for CONFIG_SMP would
->   still allow building 486 kernels, but completely avoid the problem
->   of trying to make the same kernel work on later SMP machines.
+Commit log history is maintained in the individual patches.
 
- That would be fine with me of course.
+Current overall status of this series is, it has no pending issues
+and can be considered for the upcoming merge cycle.
 
-> - For the special case of early ARMv6 hardware that has 32-bit
->   atomics but not 64-bit ones, the kernel just falls back to
->   CONFIG_GENERIC_ATOMIC64 and no cmpxchg64(). The same should work
->   for an i486+SMP kernel. It's obviously slower, but most users
->   can trivially avoid this by either running an i686 SMP kernel
->   or an i486 UP kernel.
+Kuppuswamy Sathyanarayanan (3):
+  x86/tdx: Add a wrapper to get TDREPORT from the TDX Module
+  virt: Add TDX guest driver
+  selftests: tdx: Test TDX attestation GetReport support
 
- You meant an M586TSC+ SMP kernel presumably (I have such a machine), but 
-otherwise I'd be fine with such an approach too.
+ Documentation/virt/coco/tdx-guest.rst        |  42 +++++
+ Documentation/virt/index.rst                 |   1 +
+ Documentation/x86/tdx.rst                    |  43 +++++
+ arch/x86/coco/tdx/tdx.c                      |  31 ++++
+ arch/x86/include/asm/tdx.h                   |   2 +
+ drivers/virt/Kconfig                         |   2 +
+ drivers/virt/Makefile                        |   1 +
+ drivers/virt/coco/tdx-guest/Kconfig          |  10 ++
+ drivers/virt/coco/tdx-guest/Makefile         |   2 +
+ drivers/virt/coco/tdx-guest/tdx-guest.c      | 121 +++++++++++++
+ include/uapi/linux/tdx-guest.h               |  55 ++++++
+ tools/testing/selftests/Makefile             |   1 +
+ tools/testing/selftests/tdx/Makefile         |   7 +
+ tools/testing/selftests/tdx/config           |   1 +
+ tools/testing/selftests/tdx/tdx_guest_test.c | 175 +++++++++++++++++++
+ 15 files changed, 494 insertions(+)
+ create mode 100644 Documentation/virt/coco/tdx-guest.rst
+ create mode 100644 drivers/virt/coco/tdx-guest/Kconfig
+ create mode 100644 drivers/virt/coco/tdx-guest/Makefile
+ create mode 100644 drivers/virt/coco/tdx-guest/tdx-guest.c
+ create mode 100644 include/uapi/linux/tdx-guest.h
+ create mode 100644 tools/testing/selftests/tdx/Makefile
+ create mode 100644 tools/testing/selftests/tdx/config
+ create mode 100644 tools/testing/selftests/tdx/tdx_guest_test.c
 
- So it looks to me like we have at least three options to keep 486 alive,
-two of which seem fairly straightforward to deploy and maintain long-term.  
-I like your last proposal the most, FWIW.  Do we have a consensus here?
+-- 
+2.34.1
 
-  Maciej
