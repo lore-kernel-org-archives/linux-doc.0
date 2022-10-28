@@ -2,92 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F39E3C38A02
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 13:50:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94DCCC38A02
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 13:51:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229827AbiJ1Nut (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Oct 2022 09:50:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46086 "EHLO
+        id S230303AbiJ1Nvl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Oct 2022 09:51:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229927AbiJ1NuU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 09:50:20 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A2153EA46;
-        Fri, 28 Oct 2022 06:48:57 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id h2so4890076pgp.4;
-        Fri, 28 Oct 2022 06:48:57 -0700 (PDT)
+        with ESMTP id S229689AbiJ1NvL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 09:51:11 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C643DAEA1F;
+        Fri, 28 Oct 2022 06:51:06 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id m6so4881461pfb.0;
+        Fri, 28 Oct 2022 06:51:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=wE36S4Q5QWhpFdF46oNzWKHxmiuCfLnpzqCU+eFD2+c=;
-        b=cG4Pku9rZ0VITcSQVmtP7BMBPYsHVd6SmHjm3wGArrpOIxcqYGgw6eG5tPmqJncahT
-         3tGUiHNeRrmqc3kkMULrXFwFVoLLr5sMimq5SOnfFWY8nb82uRynQE0NtjHRqW1sAmFW
-         nM7pwNFyM/Hoiw7FMr8vKM2wTBRoHb9vz/cvDRpSF89H6h9z0bwi249J5Cpb60wRLkcn
-         F2E5lNpaLs0AtN+49DEjknt7U/baVHM/NGwoVn5gUEkU7+wYcBAMZZx9ATPS1hINIEd2
-         oGb+1SImBElSIllLMNm3Q1UBc3RQv181o+8OfmQkAxC8xqTBoQJ0pAjsUfl+Knn7L4cB
-         GRSQ==
+        bh=gVR7uLVEIb14+gIUsjABrQEQi2BsRftXIio3cVFwFYQ=;
+        b=mXLZFNyNtymeMlvxGAoMhzfwbQyjIXXXM12ojwNCUV47agltlck9ZxdWTShPILGCsY
+         Ok4eyCLHrcgI7cYTvova61YIGnDsbhuX/RJE6FBKRTDBBl8v6UVyt7ffZapDkrrYeVoK
+         TQZz/dTXzN70mxdy81R03x6s/+TuFsXGg5KnmIdPnnt6JL7/eS0kST4ARj8HfFSvrFGe
+         FGyoANksj/IVaF8tYRYBXPusInU6OA1MmCr645RD0636ynWrmZAZPtAmkHkENzJrX4sS
+         WLITgHitn4SIUWIlxGaZRuuSVM2kZptNwenCN4S6DufjZg7Jc33vFjoqRhOeFZeQkWCI
+         jnjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wE36S4Q5QWhpFdF46oNzWKHxmiuCfLnpzqCU+eFD2+c=;
-        b=q601H8A4aNXca1vUUV8aYd3b630qbdOV2OmlX1kjfdhwCXTGZVzQulEy+JQ+to2MCg
-         iLxLyCEK7DgRDuf2V6hYtB+u5D0X1ySuvw52bzYd2q9ZLL13Jy8Vn9u9WU+HIx35V2Z5
-         F7sQTT++zNzdpH0cDZkYh3SZiCMIuEpEczXIYYdHmGvqcostZneLJtkof7QPV7J58KvO
-         290yk87sNLQ6PzykwrMe0Owl/e3Ljl7QUaYl+nLpRyKbmF9kN8kjax9xNZPpkQNls+RH
-         /cUScGmvK6IgDjHgooFLppJtAcuMxv8v0h5rFwQZpBO/u+5bAO89sV/dSBExDE9/aX+h
-         imug==
-X-Gm-Message-State: ACrzQf2pJciQLZHq5REMVA4G2CZzBaT4nDJ/xuXe6eyx/vjWFu12hsE0
-        H+QDJWLjHWryx2ghZXeqXrc=
-X-Google-Smtp-Source: AMsMyM7Ocqtk9aKZ7TyJ4UhBbCZ4/O7u2PI6jmlN6yYJC+D8ujXagdwRZF10yINmvJfWzQPXIWYr0g==
-X-Received: by 2002:a05:6a00:1acd:b0:56b:8181:d78d with SMTP id f13-20020a056a001acd00b0056b8181d78dmr33676499pfv.50.1666964936887;
-        Fri, 28 Oct 2022 06:48:56 -0700 (PDT)
+        bh=gVR7uLVEIb14+gIUsjABrQEQi2BsRftXIio3cVFwFYQ=;
+        b=hFgRNHqFlu0cfV9ViChCZdgcf1t2gzSMGXVIfXyCrT6jn592TZvWp9UZKL1szfO6M5
+         xXocLcqoN9p9YgUictybA/jeV0tjIStzo/Tns30TnqPZgWL3H9CpkRMCP9BDB4pbf7Od
+         uQ99e65Hj0Akl0WftxEWxCmlzKZnq5jUoJ46bcm9+7U5kX7t5XkOlgYXWsdFmhUST2TF
+         ru155IoZcClEzkTguYhMHMfynsfKXh8z5ncl6xaNuc7sXGrBnsRZY1JcD4hsqEVuxa3W
+         /IL9fHFv/fx5ngiOwKlxkGIdJXFryJKNK7aoiubHf03PIYLocyS0TgQfSJbKmhhHG0Xu
+         VmYg==
+X-Gm-Message-State: ACrzQf3rUOAykZDnAqeW6heWU14UvT+nEnSEdPsa+yFGGwUQo5Z3Ae/G
+        5Wov2N0cyNvGhFR4a0QxLA0=
+X-Google-Smtp-Source: AMsMyM6if4CBEcjN2RGRqt4eY19a8v/sOOaQYnzPkWhBOTpAgAtb7eX963Y9r6IJG/vjBS81PVWSGA==
+X-Received: by 2002:a63:7704:0:b0:464:3985:8963 with SMTP id s4-20020a637704000000b0046439858963mr48420258pgc.154.1666965066258;
+        Fri, 28 Oct 2022 06:51:06 -0700 (PDT)
 Received: from [192.168.43.80] (subs03-180-214-233-72.three.co.id. [180.214.233.72])
-        by smtp.gmail.com with ESMTPSA id m5-20020a170902bb8500b00186a8beec78sm3096216pls.52.2022.10.28.06.48.52
+        by smtp.gmail.com with ESMTPSA id p18-20020a170902ead200b00176a6ba5969sm3074274pld.98.2022.10.28.06.51.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Oct 2022 06:48:56 -0700 (PDT)
-Message-ID: <ca4ed45b-8183-07e0-1ebc-796241b27e18@gmail.com>
-Date:   Fri, 28 Oct 2022 20:48:51 +0700
+        Fri, 28 Oct 2022 06:51:05 -0700 (PDT)
+Message-ID: <61febb47-28a4-3343-081c-4c06b87ba870@gmail.com>
+Date:   Fri, 28 Oct 2022 20:50:59 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.0
-Subject: Re: [PATCH 10/15] scsi: acorn: remove QUEUE_MAGIC_{FREE,USED}
+Subject: Re: [PATCH 01/15] hamradio: baycom: remove BAYCOM_MAGIC
 Content-Language: en-US
-To:     =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>,
+        Jonathan Corbet <corbet@lwn.net>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
         Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>,
         Hu Haowen <src.res@email.cn>,
-        Russell King <linux@armlinux.org.uk>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Thomas Sailer <t.sailer@alumni.ethz.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        =?UTF-8?Q?Jakub_Kici=c5=84ski?= <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-arm-kernel@lists.infradead.org, linux-scsi@vger.kernel.org
+        linux-hams@vger.kernel.org, netdev@vger.kernel.org
 References: <9a453437b5c3b4b1887c1bd84455b0cc3d1c40b2.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
- <f1330d4027e3d7e85d2a5cd7c5f43fed866b9ef9.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
+ <47c2bffb-6bfe-7f5d-0d2d-3cbb99d31019@gmail.com> <Y1vccrsHSnF1QOIb@kadam>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <f1330d4027e3d7e85d2a5cd7c5f43fed866b9ef9.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
+In-Reply-To: <Y1vccrsHSnF1QOIb@kadam>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/27/22 05:43, наб wrote:
-> We have largely moved away from this approach,
-> and we have better debugging instrumentation nowadays: kill it
+On 10/28/22 20:43, Dan Carpenter wrote:
+>>
+>> Also, s/Kill it/Remove BAYCOM_MAGIC from magic numbers table/ (your
+>> wording is kinda mature).
+>>
+> 
+> The kernel has almost 13 thousand kills...
+> 
+> $ git grep -i kill | wc -l
+> 12975
+> $
+> 
+> It's fine.
 > 
 
-Same reply as [1].
+The word meaning depends on context. In this case, the author means
+removing SOME_MAGIC magic number from the table, one by one until
+the magic number documentation is removed (due to historical cruft).
 
-[1]: https://lore.kernel.org/linux-doc/80c998ec-435f-158c-9b45-4e6844f7861b@gmail.com/
+Thanks.
 
 -- 
 An old man doll... just what I always wanted! - Clara
