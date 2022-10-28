@@ -2,44 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 324FBC38A02
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 18:33:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDE7AC38A02
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 18:33:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229909AbiJ1Sc7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Oct 2022 14:32:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44612 "EHLO
+        id S230123AbiJ1Sdu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Oct 2022 14:33:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229874AbiJ1Sc5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 14:32:57 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 548A8242C8F;
-        Fri, 28 Oct 2022 11:32:55 -0700 (PDT)
+        with ESMTP id S230073AbiJ1Sds (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 14:33:48 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16786241B0B;
+        Fri, 28 Oct 2022 11:33:48 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0822360C;
-        Fri, 28 Oct 2022 18:32:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0822360C
+        by ms.lwn.net (Postfix) with ESMTPSA id B94F760C;
+        Fri, 28 Oct 2022 18:33:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B94F760C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1666981975; bh=GytfI3KnLzhfu4180U79pN4OF0jl4kO5qY4Qhst1Cj4=;
+        t=1666982027; bh=JgRPKdDOJTD3cZEutGoGOcnPFgVvlBkF5Yc8qJPY5mw=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=aE7V4SyB6trV1lxHwuxN0X/xSUB8LVVI2OcA6c/iDIu40Fb6gSGnzJZk8ijDFowCN
-         F0qq/EDWWZZPoTzk38t4pNYAS+e+PHe2MF6KoLNayIse6e1/lUXtiYaUDo9qQZ6fxW
-         4EeP8nT7GK9XPuen01VSfOkEVQC6JEr4XcnrfVTPCAjuB7a/AGlE1tSW4wPFA0M5vL
-         PC7HP2gwRbCCLk/ccnrh0NEYvZfF0CrKGE9F1DsLFQtC5iHlaHXrTmh/wR+/7y6qi/
-         U3tQEoU48rXpIcFdCNi6qG81DjFKjVzcuduj2RHj0/CeqG2vYijeLyJTErPR5svb9P
-         TmA4kpGDjlguQ==
+        b=J8kDaFCHTFi+J1qpYsCxgNLmx09lPFbQSySz7UlEJ5Gw3z74vH87Y1jywXVEpQ5pC
+         SA4AMtS+WWKb+cbBG/+73Ekg4TP1xoSpbsOgk30h8kdyBwX/UP9pvcxjkPQ67A6YiV
+         E7DAaYAxUjIgFU+CzAQkdjJxGirnZJEM1g6v7U85vhc/Jtw7A9SCfS7fBCXrBPBKcu
+         5/Gef1bOS7ojxvwUh1U2/vY38LfC86gjSRy0ASbsrb2UURqlqGcxlb7RPL+8vnhJJ0
+         IBqZg1GAmfkpmmdCxYnr5G2fBJScbAPm85McgpZ8UjUTfqau1jE0nJ8XaXRx7CEW2T
+         eaNze6/n37Ybw==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Rui Li <me@lirui.org>, Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>
 Cc:     Wu XiangCheng <wu.xiangcheng@linux.dev>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Rui Li <me@lirui.org>
-Subject: Re: [PATCH v4 0/2] docs/zh_CN: Add staging/index and xz Chinese
+Subject: Re: [PATCH] docs/zh_CN: Add userspace-api/no_new_privs Chinese
  translation
-In-Reply-To: <cover.1666328379.git.me@lirui.org>
-References: <cover.1666328379.git.me@lirui.org>
-Date:   Fri, 28 Oct 2022 12:32:54 -0600
-Message-ID: <87h6zn6bop.fsf@meer.lwn.net>
+In-Reply-To: <20221022120557.381115-1-me@lirui.org>
+References: <20221022120557.381115-1-me@lirui.org>
+Date:   Fri, 28 Oct 2022 12:33:47 -0600
+Message-ID: <87czab6bn8.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -48,29 +48,16 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Rui Li <me@lirui.org> writes:
 
-> Translate the following files into Chinese:
+> Translate the following documents into Chinese:
 >
-> - Documentation/staging/index.rst
-> - Documentation/staging/xz.rst
+> - userspace-api/no_new_privs.rst
 >
-> Add staging/index into the menu of zh_CN/index. Also fix one
-> translation in the zh_CN/index file.
->
-> Changes since v3 [1]:
-> Add missing reviewed-by signature for patch 1 and 2.
->
-> [1]: v3: https://marc.info/?l=linux-doc&m=166627656723013&w=2
->
-> Rui Li (2):
->   docs/zh_CN: Add staging/index Chinese translation
->   docs/zh_CN: Add staging/xz Chinese translation
->
->  Documentation/translations/zh_CN/index.rst    |   8 +-
->  .../translations/zh_CN/staging/index.rst      |  26 +++++
->  .../translations/zh_CN/staging/xz.rst         | 100 ++++++++++++++++++
->  3 files changed, 130 insertions(+), 4 deletions(-)
->  create mode 100644 Documentation/translations/zh_CN/staging/index.rst
->  create mode 100644 Documentation/translations/zh_CN/staging/xz.rst
+> Signed-off-by: Rui Li <me@lirui.org>
+> ---
+>  .../zh_CN/userspace-api/index.rst             |  2 +-
+>  .../zh_CN/userspace-api/no_new_privs.rst      | 57 +++++++++++++++++++
+>  2 files changed, 58 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/userspace-api/no_new_privs.rst
 
 Applied, thanks.
 
