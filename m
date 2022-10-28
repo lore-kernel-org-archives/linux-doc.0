@@ -2,280 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDB12C38A02
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 09:22:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16490C38A02
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 10:16:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229647AbiJ1JW4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Oct 2022 05:22:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34676 "EHLO
+        id S230171AbiJ1KQ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Oct 2022 06:16:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbiJ1JW4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 05:22:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED9831C6BCE
-        for <linux-doc@vger.kernel.org>; Fri, 28 Oct 2022 02:22:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666948927;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5P/LL6n+AFbg9otfZiL41bboBVYLpgB4u6EYlg8Zxhc=;
-        b=Fqjb1bcvJCjmw2nhUrw+8NHjTXYGmu0k2dEFyGlN4hKro8TJd5x1lhdeGWr6GG0emHu0cC
-        sL+53Ni8Ok8f5MAwcDWXkexAY9Y7Hy168khx0WqjdvFfkTDy1L10G1tEVQnxUUrTgnwmpq
-        fCs1e/A5trHh+F8VSuYAP1PIaxmGbNk=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-361-vKAaZtATPfSxYqwFXSsUkQ-1; Fri, 28 Oct 2022 05:22:05 -0400
-X-MC-Unique: vKAaZtATPfSxYqwFXSsUkQ-1
-Received: by mail-ej1-f69.google.com with SMTP id sa6-20020a1709076d0600b0078d84ed54b9so2447946ejc.18
-        for <linux-doc@vger.kernel.org>; Fri, 28 Oct 2022 02:22:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:to
-         :content-language:subject:cc:user-agent:mime-version:date:message-id
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5P/LL6n+AFbg9otfZiL41bboBVYLpgB4u6EYlg8Zxhc=;
-        b=HhxX4lcastOFPRnDEfxoMmGZt99+EhDAK4MtgdOxI/vyu4mWJZWJHvf94n0eG068PH
-         cx6f+kFWqfu8J08CQncoUJCTJygOgTqw76ZAYDOeCFRRA3pKDzmlSISc53QUgov9xLqn
-         y3zP1oALd5iTjSWMb1JSfRCcm3joEZcGu9OCyl+hCYRUYBt6JR9NfKpBZSxuCFI0jzEp
-         evyB+wSEo2mYfCO37XWKby7M5zu1UnBxShhemDi5ZgE/YU3+zU0k0MXDXn6tvKikxcRQ
-         XYTD47gD7nQKxyemYeQtJ5lYZYRE44Red0yeKWpzuX8KAVUyh61NnRQmkiKNO8nm9xeO
-         k6nQ==
-X-Gm-Message-State: ACrzQf1Cg5TXzmnou5x3Y5Czl/bNFjxfI+3YCEd2V++NYPWRcwQRChhN
-        K3mvkxpgA9WVx4sZ0JvwywgXVLCPLjALFx/UzgaIBU8+TAQex/v7C2o80fx+0jEfOBXxvOLJWis
-        aL5RH07MO2ITb8Zs8hoj7
-X-Received: by 2002:a17:907:7d8e:b0:78d:ed30:643b with SMTP id oz14-20020a1709077d8e00b0078ded30643bmr45428654ejc.253.1666948924618;
-        Fri, 28 Oct 2022 02:22:04 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4j/2fPa3s0HO+qy5YZC0lCKZmYPkr+Pw/cCwWJMHHSd+ww3jdyGEU+d3BUFhvzeqvKuGu4lg==
-X-Received: by 2002:a17:907:7d8e:b0:78d:ed30:643b with SMTP id oz14-20020a1709077d8e00b0078ded30643bmr45428634ejc.253.1666948924316;
-        Fri, 28 Oct 2022 02:22:04 -0700 (PDT)
-Received: from [192.168.41.200] (83-90-141-187-cable.dk.customer.tdc.net. [83.90.141.187])
-        by smtp.gmail.com with ESMTPSA id ky9-20020a170907778900b00781dbdb292asm1928013ejc.155.2022.10.28.02.22.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Oct 2022 02:22:03 -0700 (PDT)
-From:   Jesper Dangaard Brouer <jbrouer@redhat.com>
-X-Google-Original-From: Jesper Dangaard Brouer <brouer@redhat.com>
-Message-ID: <ea8948ed-a995-68bc-2d6e-57945f0d5249@redhat.com>
-Date:   Fri, 28 Oct 2022 11:22:02 +0200
+        with ESMTP id S230005AbiJ1KQY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 06:16:24 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DEF2C1C19D1;
+        Fri, 28 Oct 2022 03:16:22 -0700 (PDT)
+Received: from loongson.cn (unknown [112.20.109.239])
+        by gateway (Coremail) with SMTP id _____8Axjrf1q1tjOhQDAA--.6840S3;
+        Fri, 28 Oct 2022 18:16:21 +0800 (CST)
+Received: from [192.168.100.8] (unknown [112.20.109.239])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxNlf0q1tjqVIGAA--.3985S3;
+        Fri, 28 Oct 2022 18:16:21 +0800 (CST)
+Message-ID: <96dfa5d8-93b3-08f8-fae2-dcece9aa1a78@loongson.cn>
+Date:   Fri, 28 Oct 2022 18:16:20 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Cc:     brouer@redhat.com, Maryam Tahhan <mtahhan@redhat.com>
-Subject: Re: [PATCH bpf-next v1] Document BPF_MAP_TYPE_LPM_TRIE
-Content-Language: en-US
-To:     Donald Hunter <donald.hunter@gmail.com>, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20221026100232.49181-1-donald.hunter@gmail.com>
-In-Reply-To: <20221026100232.49181-1-donald.hunter@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v2] docs/zh_CN: Add userspace-api/sysfs-platform_profile
+ Chinese translation
+To:     Rui Li <me@lirui.org>, Alex Shi <alexs@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Wu XiangCheng <wu.xiangcheng@linux.dev>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221026070732.72818-1-me@lirui.org>
+From:   YanTeng Si <siyanteng@loongson.cn>
+In-Reply-To: <20221026070732.72818-1-me@lirui.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxNlf0q1tjqVIGAA--.3985S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxGF1rGr17urWrGr4rury5twb_yoWrAF15pF
+        n8KryxGr1kGryYkw1xGF1DGF1rKF1ru3W2g397G34Ygas8ZFWqkr1UtFWj93ZxGrW8AayD
+        Jw48tFy8uF1Iv37anT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bf8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS
+        14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+        1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv
+        67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
+        AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C2
+        67AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI
+        8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWU
+        CwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r
+        1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsG
+        vfC2KfnxnUUI43ZEXa7IU8hiSPUUUUU==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+在 2022/10/26 15:07, Rui Li 写道:
+> Translate the following documents into Chinese:
+>
+> - userspace-api/sysfs-platform_profile.rst
+>
+> Signed-off-by: Rui Li <me@lirui.org>
 
-On 26/10/2022 12.02, Donald Hunter wrote:
-> Add documentation for BPF_MAP_TYPE_LPM_TRIE including kernel
-> BPF helper usage, userspace usage and examples.
-> 
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+
+
+Thanks,
+
+Yanteng
+
 > ---
->   Documentation/bpf/map_lpm_trie.rst | 179 +++++++++++++++++++++++++++++
->   1 file changed, 179 insertions(+)
->   create mode 100644 Documentation/bpf/map_lpm_trie.rst
-
-LGTM
-
-Acked-by: Jesper Dangaard Brouer <brouer@redhat.com>
-
-(no comments below, but kept it for others comment on)
-
-> diff --git a/Documentation/bpf/map_lpm_trie.rst b/Documentation/bpf/map_lpm_trie.rst
+> Changes since v1:
+> - Improve some translation.
+> ---
+>   .../zh_CN/userspace-api/index.rst             |  2 +-
+>   .../userspace-api/sysfs-platform_profile.rst  | 40 +++++++++++++++++++
+>   2 files changed, 41 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
+>
+> diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
+> index 6a7e82ac16b9..0f3483a46fa2 100644
+> --- a/Documentation/translations/zh_CN/userspace-api/index.rst
+> +++ b/Documentation/translations/zh_CN/userspace-api/index.rst
+> @@ -26,6 +26,7 @@ Linux 内核用户空间API指南
+>   
+>      ebpf/index
+>      no_new_privs
+> +   sysfs-platform_profile
+>   
+>   TODOList:
+>   
+> @@ -38,7 +39,6 @@ TODOList:
+>   * iommu
+>   * media/index
+>   * netlink/index
+> -* sysfs-platform_profile
+>   * vduse
+>   * futex2
+>   
+> diff --git a/Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst b/Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
 > new file mode 100644
-> index 000000000000..d57c967d11d0
+> index 000000000000..7d21740db125
 > --- /dev/null
-> +++ b/Documentation/bpf/map_lpm_trie.rst
-> @@ -0,0 +1,179 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2022 Red Hat, Inc.
+> +++ b/Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
+> @@ -0,0 +1,40 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
 > +
-> +=====================
-> +BPF_MAP_TYPE_LPM_TRIE
-> +=====================
+> +:Original: Documentation/userspace-api/sysfs-platform_profile.rst
 > +
-> +.. note::
-> +   - ``BPF_MAP_TYPE_LPM_TRIE`` was introduced in kernel version 4.11
+> +:翻译:
 > +
-> +``BPF_MAP_TYPE_LPM_TRIE`` provides a longest prefix match algorithm that
-> +can be used to match IP addresses to a stored set of prefixes.
-> +Internally, data is stored in an unbalanced trie of nodes that uses
-> +``prefixlen,data`` pairs as its keys. The ``data`` is interpreted in
-> +network byte order, i.e. big endian, so ``data[0]`` stores the most
-> +significant byte.
+> + 李睿 Rui Li <me@lirui.org>
 > +
-> +LPM tries may be created with a maximum prefix length that is a multiple
-> +of 8, in the range from 8 to 2048. The key used for lookup and update
-> +operations is a ``struct bpf_lpm_trie_key``, extended by
-> +``max_prefixlen/8`` bytes.
+> +==========================================================
+> +平台配置文件选择（如 /sys/firmware/acpi/platform_profile）
+> +==========================================================
 > +
-> +- For IPv4 addresses the data length is 4 bytes
-> +- For IPv6 addresses the data length is 16 bytes
+> +现代系统中平台性能、温度、风扇和其他硬件相关的特性通常是可以动态配置的。平台
+> +配置通常会根据当前的状态由一些自动机制（很可能存在于内核之外）来自动调整。
 > +
-> +The value type stored in the LPM trie can be any user defined type.
+> +这些平台自动调整机制通常能够被配置成多个平台配置文件中的一个，要么偏向节能运
+> +行，要么偏向性能运行。
 > +
-> +.. note::
-> +   When creating a map of type ``BPF_MAP_TYPE_LPM_TRIE`` you must set the
-> +   ``BPF_F_NO_PREALLOC`` flag.
+> +platform_profile属性的目的是提供一个通用的sysfs API来选择这些平台自动配置
+> +机制的配置文件。
 > +
-> +Usage
-> +=====
+> +需要注意的是，这个API只能用作选择平台配置文件，用来监测所产生的性能特征并不
+> +是其目标。监测性能最好使用设备/供应商提供的工具，比如turbostat。
 > +
-> +Kernel BPF
-> +----------
+> +具体来说，当选择高性能配置文件时，真实能达到的性能可能受制于多种因素，比如：
+> +其他组件的发热，房间温度，笔记本底部的自由空气流动等。让用户空间知道任何阻碍
+> +达到要求性能水平的局部最优条件，显然不是这个API的目标。
 > +
-> +.. c:function::
-> +   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+> +由于数字本身并不能代表一个配置文件会调整的多个变量（功耗，发热等），这个API
+> +使用字符串来描述多种配置文件。为了保证用户空间能够获得一致的体验，
+> +sysfs-platform_profile ABI 文档定义了一个固定的配置文件名集合。驱动程序
+> +*必须* 将它们内置的配置文件表示映射到这个固定的集合中。
 > +
-> +The longest prefix entry for a given data value can be found using the
-> +``bpf_map_lookup_elem()`` helper. This helper returns a pointer to the
-> +value associated with the longest matching ``key``, or ``NULL`` if no
-> +entry was found.
+> +如果映射时没有很好的匹配，可以添加一个新的配置文件名称。驱动希望引入的新配置
+> +文件名称时必须：
 > +
-> +The ``key`` should have ``prefixlen`` set to ``max_prefixlen`` when
-> +performing longest prefix lookups. For example, when searching for the
-> +longest prefix match for an IPv4 address, ``prefixlen`` should be set to
-> +``32``.
-> +
-> +.. c:function::
-> +   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
-> +
-> +Prefix entries can be added or updated using the ``bpf_map_update_elem()``
-> +helper. This helper replaces existing elements atomically.
-> +
-> +``bpf_map_update_elem()`` returns ``0`` on success, or negative error in
-> +case of failure.
-> +
-> + .. note::
-> +    The flags parameter must be one of BPF_ANY, BPF_NOEXIST or BPF_EXIST,
-> +    but the value is ignored, giving BPF_ANY semantics.
-> +
-> +.. c:function::
-> +   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
-> +
-> +Prefix entries can be deleted using the ``bpf_map_delete_elem()``
-> +helper. This helper will return 0 on success, or negative error in case
-> +of failure.
-> +
-> +Userspace
-> +---------
-> +
-> +Access from userspace uses libbpf APIs with the same names as above, with
-> +the map identified by ``fd``.
-> +
-> +.. c:function::
-> +   int bpf_map_get_next_key (int fd, const void *cur_key, void *next_key)
-> +
-> +A userspace program can iterate through the entries in an LPM trie using
-> +libbpf's ``bpf_map_get_next_key()`` function. The first key can be
-> +fetched by calling ``bpf_map_get_next_key()`` with ``cur_key`` set to
-> +``NULL``. Subsequent calls will fetch the next key that follows the
-> +current key. ``bpf_map_get_next_key()`` returns ``0`` on success,
-> +``-ENOENT`` if cur_key is the last key in the hash, or negative error in
-> +case of failure.
-> +
-> +``bpf_map_get_next_key()`` will iterate through the LPM trie elements
-> +from leftmost leaf first. This means that iteration will return more
-> +specific keys before less specific ones.
-> +
-> +Examples
-> +========
-> +
-> +Please see ``tools/samples/bpf/xdp_router_ipv4_user.c`` and
-> +``xdp_router_ipv4.bpf.c`` for a functional example. The code snippets
-> +below demonstrates API usage.
-> +
-> +Kernel BPF
-> +----------
-> +
-> +The following BPF code snippet shows how to declare a new LPM trie for IPv4
-> +address prefixes:
-> +
-> +.. code-block:: c
-> +
-> +    #include <linux/bpf.h>
-> +    #include <bpf/bpf_helpers.h>
-> +
-> +    struct ipv4_lpm_key {
-> +            __u32 prefixlen;
-> +            __u32 data;
-> +    };
-> +
-> +    struct {
-> +            __uint(type, BPF_MAP_TYPE_LPM_TRIE);
-> +            __type(key, struct ipv4_lpm_key);
-> +            __type(value, __u32);
-> +            __uint(map_flags, BPF_F_NO_PREALLOC);
-> +            __uint(max_entries, 255);
-> +    } ipv4_lpm_map SEC(".maps");
-> +
-> +The following BPF code snippet shows how to lookup by IPv4 address:
-> +
-> +.. code-block:: c
-> +
-> +    void *lookup(__u32 ipaddr)
-> +    {
-> +            struct ipv4_lpm_key key = {
-> +                    .prefixlen = 32,
-> +                    .data = ipaddr
-> +            };
-> +
-> +            return bpf_map_lookup_elem(&ipv4_lpm_map, &key);
-> +    }
-> +
-> +Userspace
-> +---------
-> +
-> +The following snippet shows how to insert an IPv4 prefix entry into an LPM trie:
-> +
-> +.. code-block:: c
-> +
-> +    int add_prefix_entry(int lpm_fd, __u32 addr, __u32 prefixlen, struct value *value)
-> +    {
-> +            struct ipv4_lpm_key ipv4_key = {
-> +                    .prefixlen = prefixlen,
-> +                    .data = addr
-> +            };
-> +            return bpf_map_update_elem(lpm_fd, &ipv4_key, value, BPF_ANY);
-> +    }
-> +
-> +The following snippet shows a userspace program walking through LPM trie
-> +entries:
-> +
-> +.. code-block:: c
-> +
-> +    #include <bpf/libbpf.h>
-> +    #include <bpf/bpf.h>
-> +
-> +    void iterate_lpm_trie(int map_fd)
-> +    {
-> +            struct ipv4_lpm_key *cur_key = NULL;
-> +            struct ipv4_lpm_key next_key;
-> +            struct value value;
-> +            int err;
-> +
-> +            for (;;) {
-> +                    err = bpf_map_get_next_key(map_fd, cur_key, &next_key);
-> +                    if (err)
-> +                            break;
-> +
-> +                    bpf_map_lookup_elem(map_fd, &next_key, &value);
-> +
-> +                    /* Use key and value here */
-> +
-> +                    cur_key = &next_key;
-> +            }
-> +    }
+> + 1. 解释为什么无法使用已有的配置文件名称。
+> + 2. 添加一个新的配置文件名称，以及预期行为的清晰描述，保存到
+> +    sysfs-platform_profile ABI文档中。
 
