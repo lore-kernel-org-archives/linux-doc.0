@@ -2,44 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDE7AC38A02
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 18:33:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E27EECAAA1
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 18:34:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230123AbiJ1Sdu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Oct 2022 14:33:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45040 "EHLO
+        id S229456AbiJ1Ses (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Oct 2022 14:34:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230073AbiJ1Sds (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 14:33:48 -0400
+        with ESMTP id S230041AbiJ1Ser (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 14:34:47 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16786241B0B;
-        Fri, 28 Oct 2022 11:33:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C04F81056B;
+        Fri, 28 Oct 2022 11:34:41 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B94F760C;
-        Fri, 28 Oct 2022 18:33:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B94F760C
+        by ms.lwn.net (Postfix) with ESMTPSA id BEDFA60C;
+        Fri, 28 Oct 2022 18:34:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BEDFA60C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1666982027; bh=JgRPKdDOJTD3cZEutGoGOcnPFgVvlBkF5Yc8qJPY5mw=;
+        t=1666982080; bh=Vmdct1O8NVVyoM/GlLyujP/EuDony6SKKZFoO2GTU9E=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=J8kDaFCHTFi+J1qpYsCxgNLmx09lPFbQSySz7UlEJ5Gw3z74vH87Y1jywXVEpQ5pC
-         SA4AMtS+WWKb+cbBG/+73Ekg4TP1xoSpbsOgk30h8kdyBwX/UP9pvcxjkPQ67A6YiV
-         E7DAaYAxUjIgFU+CzAQkdjJxGirnZJEM1g6v7U85vhc/Jtw7A9SCfS7fBCXrBPBKcu
-         5/Gef1bOS7ojxvwUh1U2/vY38LfC86gjSRy0ASbsrb2UURqlqGcxlb7RPL+8vnhJJ0
-         IBqZg1GAmfkpmmdCxYnr5G2fBJScbAPm85McgpZ8UjUTfqau1jE0nJ8XaXRx7CEW2T
-         eaNze6/n37Ybw==
+        b=aSE676p5/VT2E0+gAqGbBSvUQtgQKeCt4fu1J9kI9UciNUR8CQ1iXphmZpCL401i+
+         +Won0AI0FJTy2xJVvtGWOZET9+GbDkHpqf6z40VNVKdvv3TXt4+A1O6iRVc1VraPXM
+         keH8PJFTN4jsGt7sgjm2i2TOPsqHeqg2ez/GMD7M+L1NtOyAcdmAWfN2YEqJgKZjHW
+         YomjgVzWbINeURM5kIghsl1Y2Hqtj/zEdJoTR5RcBIWKpIMDDpBezfvizo44Or7w00
+         U/Z4PS3IKzbTb2YIDMu52tWjUPuZgD6OOBhTThi2LmKYUwIU2dNfBr29SDG46lnvJj
+         bRY0Az3ZvrONg==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Rui Li <me@lirui.org>, Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>
 Cc:     Wu XiangCheng <wu.xiangcheng@linux.dev>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Rui Li <me@lirui.org>
-Subject: Re: [PATCH] docs/zh_CN: Add userspace-api/no_new_privs Chinese
- translation
-In-Reply-To: <20221022120557.381115-1-me@lirui.org>
-References: <20221022120557.381115-1-me@lirui.org>
-Date:   Fri, 28 Oct 2022 12:33:47 -0600
-Message-ID: <87czab6bn8.fsf@meer.lwn.net>
+Subject: Re: [PATCH v2] docs/zh_CN: Add userspace-api/sysfs-platform_profile
+ Chinese translation
+In-Reply-To: <20221026070732.72818-1-me@lirui.org>
+References: <20221026070732.72818-1-me@lirui.org>
+Date:   Fri, 28 Oct 2022 12:34:40 -0600
+Message-ID: <878rkz6blr.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -50,14 +50,17 @@ Rui Li <me@lirui.org> writes:
 
 > Translate the following documents into Chinese:
 >
-> - userspace-api/no_new_privs.rst
+> - userspace-api/sysfs-platform_profile.rst
 >
 > Signed-off-by: Rui Li <me@lirui.org>
 > ---
+> Changes since v1:
+> - Improve some translation.
+> ---
 >  .../zh_CN/userspace-api/index.rst             |  2 +-
->  .../zh_CN/userspace-api/no_new_privs.rst      | 57 +++++++++++++++++++
->  2 files changed, 58 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/userspace-api/no_new_privs.rst
+>  .../userspace-api/sysfs-platform_profile.rst  | 40 +++++++++++++++++++
+>  2 files changed, 41 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
 
 Applied, thanks.
 
