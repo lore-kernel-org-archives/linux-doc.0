@@ -2,227 +2,250 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DC6BC38A02
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 06:25:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36BE8ECAAA1
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 06:47:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229489AbiJ1GZH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Oct 2022 02:25:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50898 "EHLO
+        id S230118AbiJ1Grc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Oct 2022 02:47:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbiJ1GZG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 02:25:06 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 829A360EAF;
-        Thu, 27 Oct 2022 23:25:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id E55F0CE2980;
-        Fri, 28 Oct 2022 06:25:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6497CC433D6;
-        Fri, 28 Oct 2022 06:24:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1666938299;
-        bh=k7aN7LYX9/gz2U+HjzOWTMv69r/tY13JXJiMdzAVc2U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1g6XHY0pwYkq83qgpbDX0T6QIA/iiU9TMz6NuPje492ONdpgC+ehO7JqQg2ibWhm5
-         btjZF+CXQYSJivO+Bo0Zk5x6IOML4+VZnIL5W0KfA8PSlAvc3OTYuzqEQRSbpNK/pz
-         +3OkpGZWgr8urS4woQW3OEMOtLRQv00/Egq9FP0s=
-Date:   Fri, 28 Oct 2022 08:25:52 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
+        with ESMTP id S229980AbiJ1Gq7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 02:46:59 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD5C715B31E;
+        Thu, 27 Oct 2022 23:43:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666939405; x=1698475405;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=8NnFR5a6Ov4GS57k7NcQ6r9rc2t1vYt8WPecZyaK0cQ=;
+  b=M+doX1X/NFa5YSyRRXs1GZCSJZgsZ7wRChFO2Wylvx1ZDECW8psDEKLo
+   O80rwYAz2VcqybEVJLerEvRl8uP0BGQmSwDLXjBv+fVtrhMyDt8aO//t3
+   g8WkHSSMdFqpKeaLXsZAN8BfBqcM54CYNIoUMOTAVfvkCh9o8wBTnC3jm
+   erdq6vBr4NK4XMhU+vF2ysjKYuqv2QN5eDUCG9m7Y4vOkZTWlulKqkmAp
+   2/285QTJaeePNQgXoiOzqmGbzcilgCaV3VYcyRJ8lw4nwykwS9LXqN1kh
+   YwK/0BqgaibJFKRzkFmYbzjZO0PfzM0eKuofnOIHj0chH2XwLWjtt0OXQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="288139755"
+X-IronPort-AV: E=Sophos;i="5.95,220,1661842800"; 
+   d="scan'208";a="288139755"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2022 23:43:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="696111933"
+X-IronPort-AV: E=Sophos;i="5.95,220,1661842800"; 
+   d="scan'208";a="696111933"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by fmsmga008.fm.intel.com with ESMTP; 27 Oct 2022 23:42:55 -0700
+Date:   Fri, 28 Oct 2022 14:38:26 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Isaku Yamahata <isaku.yamahata@gmail.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        "H . Peter Anvin" <hpa@zytor.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v16 2/3] virt: Add TDX guest driver
-Message-ID: <Y1t18Aw2RbP+oj9D@kroah.com>
-References: <20221028002820.3303030-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20221028002820.3303030-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 6/8] KVM: Update lpage info when private/shared memory
+ are mixed
+Message-ID: <20221028063826.GC3885130@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-7-chao.p.peng@linux.intel.com>
+ <20221026204620.GB3819453@ls.amr.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221028002820.3303030-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <20221026204620.GB3819453@ls.amr.corp.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Oct 27, 2022 at 05:28:19PM -0700, Kuppuswamy Sathyanarayanan wrote:
-> +	/*
-> +	 * Check for valid input values. Per TDX Module 1.0
-> +	 * specification, section titled "TDG.MR.REPORT",
-> +	 * REPORTDATA length is fixed as TDX_REPORTDATA_LEN,
+On Wed, Oct 26, 2022 at 01:46:20PM -0700, Isaku Yamahata wrote:
+> On Tue, Oct 25, 2022 at 11:13:42PM +0800,
+> Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> 
+> > When private/shared memory are mixed in a large page, the lpage_info may
+> > not be accurate and should be updated with this mixed info. A large page
+> > has mixed pages can't be really mapped as large page since its
+> > private/shared pages are from different physical memory.
+> > 
+> > Update lpage_info when private/shared memory attribute is changed. If
+> > both private and shared pages are within a large page region, it can't
+> > be mapped as large page. It's a bit challenge to track the mixed
+> > info in a 'count' like variable, this patch instead reserves a bit in
+> > 'disallow_lpage' to indicate a large page has mixed private/share pages.
+> > 
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  arch/x86/include/asm/kvm_host.h |   8 +++
+> >  arch/x86/kvm/mmu/mmu.c          | 112 +++++++++++++++++++++++++++++++-
+> >  arch/x86/kvm/x86.c              |   2 +
+> >  include/linux/kvm_host.h        |  19 ++++++
+> >  virt/kvm/kvm_main.c             |  16 +++--
+> >  5 files changed, 152 insertions(+), 5 deletions(-)
+> > 
+> ...
+> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> > index 33b1aec44fb8..67a9823a8c35 100644
+> > --- a/arch/x86/kvm/mmu/mmu.c
+> > +++ b/arch/x86/kvm/mmu/mmu.c
+> ...
+> > @@ -6910,3 +6915,108 @@ void kvm_mmu_pre_destroy_vm(struct kvm *kvm)
+> >  	if (kvm->arch.nx_lpage_recovery_thread)
+> >  		kthread_stop(kvm->arch.nx_lpage_recovery_thread);
+> >  }
+> > +
+> > +static inline bool linfo_is_mixed(struct kvm_lpage_info *linfo)
+> > +{
+> > +	return linfo->disallow_lpage & KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> > +}
+> > +
+> > +static inline void linfo_update_mixed(struct kvm_lpage_info *linfo, bool mixed)
+> > +{
+> > +	if (mixed)
+> > +		linfo->disallow_lpage |= KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> > +	else
+> > +		linfo->disallow_lpage &= ~KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> > +}
+> > +
+> > +static bool mem_attr_is_mixed_2m(struct kvm *kvm, unsigned int attr,
+> > +				 gfn_t start, gfn_t end)
+> > +{
+> > +	XA_STATE(xas, &kvm->mem_attr_array, start);
+> > +	gfn_t gfn = start;
+> > +	void *entry;
+> > +	bool shared = attr == KVM_MEM_ATTR_SHARED;
+> > +	bool mixed = false;
+> > +
+> > +	rcu_read_lock();
+> > +	entry = xas_load(&xas);
+> > +	while (gfn < end) {
+> > +		if (xas_retry(&xas, entry))
+> > +			continue;
+> > +
+> > +		KVM_BUG_ON(gfn != xas.xa_index, kvm);
+> > +
+> > +		if ((entry && !shared) || (!entry && shared)) {
+> > +			mixed = true;
+> > +			goto out;
+> 
+> nitpick: goto isn't needed. break should work.
 
-If this length is fixed, then you can never change it, so why have it at
-all?
+Thanks.
 
-> +	 * TDREPORT length is fixed as TDX_REPORT_LEN, and
-> +	 * TDREPORT subtype is fixed as 0.
-> +	 */
-> +	if (req.subtype || req.rpd_len != TDX_REPORTDATA_LEN ||
-> +	    req.tdr_len != TDX_REPORT_LEN)
-> +		return -EINVAL;
-> +
-> +	if (memchr_inv(req.reserved, 0, sizeof(req.reserved)))
-> +		return -EINVAL;
-> +
-> +	reportdata = kmalloc(req.rpd_len, GFP_KERNEL);
-> +	if (!reportdata)
-> +		return -ENOMEM;
-> +
-> +	tdreport = kzalloc(req.tdr_len, GFP_KERNEL);
-> +	if (!tdreport) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	if (copy_from_user(reportdata, u64_to_user_ptr(req.reportdata),
-> +			   req.rpd_len)) {
-> +		ret = -EFAULT;
-> +		goto out;
-> +	}
-> +
-> +	/* Generate TDREPORT using "TDG.MR.REPORT" TDCALL */
-> +	ret = tdx_mcall_get_report(reportdata, tdreport, req.subtype);
-> +	if (ret)
-> +		goto out;
-> +
-> +	if (copy_to_user(u64_to_user_ptr(req.tdreport), tdreport, req.tdr_len))
-> +		ret = -EFAULT;
-> +
-> +out:
-> +	kfree(reportdata);
-> +	kfree(tdreport);
-> +
-> +	return ret;
-> +}
-> +
-> +static long tdx_guest_ioctl(struct file *file, unsigned int cmd,
-> +			    unsigned long arg)
-> +{
-> +	switch (cmd) {
-> +	case TDX_CMD_GET_REPORT:
-> +		return tdx_get_report((void __user *)arg);
+> 
+> > +		}
+> > +
+> > +		entry = xas_next(&xas);
+> > +		gfn++;
+> > +	}
+> > +out:
+> > +	rcu_read_unlock();
+> > +	return mixed;
+> > +}
+> > +
+> > +static bool mem_attr_is_mixed(struct kvm *kvm, struct kvm_memory_slot *slot,
+> > +			      int level, unsigned int attr,
+> > +			      gfn_t start, gfn_t end)
+> > +{
+> > +	unsigned long gfn;
+> > +	void *entry;
+> > +
+> > +	if (level == PG_LEVEL_2M)
+> > +		return mem_attr_is_mixed_2m(kvm, attr, start, end);
+> > +
+> > +	entry = xa_load(&kvm->mem_attr_array, start);
+> > +	for (gfn = start; gfn < end; gfn += KVM_PAGES_PER_HPAGE(level - 1)) {
+> > +		if (linfo_is_mixed(lpage_info_slot(gfn, slot, level - 1)))
+> > +			return true;
+> > +		if (xa_load(&kvm->mem_attr_array, gfn) != entry)
+> > +			return true;
+> > +	}
+> > +	return false;
+> > +}
+> > +
+> > +void kvm_arch_update_mem_attr(struct kvm *kvm, struct kvm_memory_slot *slot,
+> > +			      unsigned int attr, gfn_t start, gfn_t end)
+> > +{
+> > +
+> > +	unsigned long lpage_start, lpage_end;
+> > +	unsigned long gfn, pages, mask;
+> > +	int level;
+> > +
+> > +	WARN_ONCE(!(attr & (KVM_MEM_ATTR_PRIVATE | KVM_MEM_ATTR_SHARED)),
+> > +			"Unsupported mem attribute.\n");
+> > +
+> > +	/*
+> > +	 * The sequence matters here: we update the higher level basing on the
+> > +	 * lower level's scanning result.
+> > +	 */
+> > +	for (level = PG_LEVEL_2M; level <= KVM_MAX_HUGEPAGE_LEVEL; level++) {
+> > +		pages = KVM_PAGES_PER_HPAGE(level);
+> > +		mask = ~(pages - 1);
+> 
+> nitpick: KVM_HPAGE_MASK(level).  Maybe matter of preference.
 
-You know the type of this pointer here, why not cast it instead of
-having to cast it from void * again?
+Yes, haven't noticed there is a KVM_HPAGE_MASK defined. Have no
+strong preference here, since I already have KVM_PAGES_PER_HPAGE(level),
+getting mask is straightforward.
 
-> +	default:
-> +		return -ENOTTY;
-> +	}
-> +}
-> +
-> +static const struct file_operations tdx_guest_fops = {
-> +	.owner = THIS_MODULE,
-> +	.unlocked_ioctl = tdx_guest_ioctl,
-> +	.llseek = no_llseek,
-> +};
-> +
-> +static struct miscdevice tdx_misc_dev = {
-> +	.name = KBUILD_MODNAME,
-> +	.minor = MISC_DYNAMIC_MINOR,
-> +	.fops = &tdx_guest_fops,
-> +};
-> +
-> +static const struct x86_cpu_id tdx_guest_ids[] = {
-> +	X86_MATCH_FEATURE(X86_FEATURE_TDX_GUEST, NULL),
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(x86cpu, tdx_guest_ids);
-> +
-> +static int __init tdx_guest_init(void)
-> +{
-> +	if (!x86_match_cpu(tdx_guest_ids))
-> +		return -ENODEV;
-> +
-> +	return misc_register(&tdx_misc_dev);
-> +}
-> +module_init(tdx_guest_init);
-> +
-> +static void __exit tdx_guest_exit(void)
-> +{
-> +	misc_deregister(&tdx_misc_dev);
-> +}
-> +module_exit(tdx_guest_exit);
-> +
-> +MODULE_AUTHOR("Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>");
-> +MODULE_DESCRIPTION("TDX Guest Driver");
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/uapi/linux/tdx-guest.h b/include/uapi/linux/tdx-guest.h
-> new file mode 100644
-> index 000000000000..29453e6a7ced
-> --- /dev/null
-> +++ b/include/uapi/linux/tdx-guest.h
-> @@ -0,0 +1,55 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +/*
-> + * Userspace interface for TDX guest driver
-> + *
-> + * Copyright (C) 2022 Intel Corporation
-> + */
-> +
-> +#ifndef _UAPI_LINUX_TDX_GUEST_H_
-> +#define _UAPI_LINUX_TDX_GUEST_H_
-> +
-> +#include <linux/ioctl.h>
-> +#include <linux/types.h>
-> +
-> +/* Length of the REPORTDATA used in TDG.MR.REPORT TDCALL */
-> +#define TDX_REPORTDATA_LEN              64
-> +
-> +/* Length of TDREPORT used in TDG.MR.REPORT TDCALL */
-> +#define TDX_REPORT_LEN                  1024
+A single KVM_HPAGE_MASK(level) will not give me what I need since here
+is gfn, KVM_HPAGE_MASK(level)>> PAGE_SHIFT should be the right
+equivalent.
 
-As these are fixed values, why do you have to say them again in the
-structure?
-
-If you ever change them, wonderful, make a new ioctl.  You can't change
-this one as userspace would have to also change, there is no way you
-could mix/match kernel versions and userspace and not have problems.
-
-So just fix these values, like you have, and remove them from the
-structure definition as there's no way you can change them anyway.
-
-> +
-> +/**
-> + * struct tdx_report_req - Request struct for TDX_CMD_GET_REPORT IOCTL.
-> + *
-> + * @reportdata: User-defined REPORTDATA to be included into TDREPORT.
-> + *              Typically it can be some nonce provided by attestation
-> + *              service, so the generated TDREPORT can be uniquely verified.
-> + * @tdreport: TDREPORT output from TDCALL[TDG.MR.REPORT].
-
-These are userspace pointers, document them as such please.
-
-> + * @rpd_len: Length of the REPORTDATA (fixed as 64 bytes by the TDX Module
-> + *           specification, but a parameter is added to handle future
-> + *           extension).
-
-As I say above, this can't be changed, right?
-
-> + * @tdr_len: Length of the TDREPORT (fixed as 1024 bytes by the TDX Module
-> + *           specification, but a parameter is added to accommodate future
-> + *           extension).
-
-Again, can't be changed.
-
-> + * @subtype: Subtype of TDREPORT (fixed as 0 by the TDX Module specification,
-> + *           but added a parameter to handle future extension).
-
-If this too is fixed, you can't change it.
-
-thanks,
-
-greg k-h
+Chao
+> 
+> 
+> > +		lpage_start = max(start & mask, slot->base_gfn);
+> > +		lpage_end = (end - 1) & mask;
+> > +
+> > +		/*
+> > +		 * We only need to scan the head and tail page, for middle pages
+> > +		 * we know they are not mixed.
+> > +		 */
+> > +		linfo_update_mixed(lpage_info_slot(lpage_start, slot, level),
+> > +				   mem_attr_is_mixed(kvm, slot, level, attr,
+> > +						     lpage_start, start));
+> > +
+> > +		if (lpage_start == lpage_end)
+> > +			return;
+> > +
+> > +		for (gfn = lpage_start + pages; gfn < lpage_end; gfn += pages)
+> > +			linfo_update_mixed(lpage_info_slot(gfn, slot, level),
+> > +					   false);
+> > +
+> > +		linfo_update_mixed(lpage_info_slot(lpage_end, slot, level),
+> > +				   mem_attr_is_mixed(kvm, slot, level, attr,
+> > +						     end, lpage_end + pages));
+> > +	}
+> > +}
+> 
+> -- 
+> Isaku Yamahata <isaku.yamahata@gmail.com>
