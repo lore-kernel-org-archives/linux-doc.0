@@ -2,122 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E7FDECAAA1
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 12:26:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27F35FA3742
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 13:11:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229520AbiJ1M0h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Oct 2022 08:26:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41948 "EHLO
+        id S230261AbiJ1NLs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Oct 2022 09:11:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbiJ1M0g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 08:26:36 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7D542543E3;
-        Fri, 28 Oct 2022 05:26:35 -0700 (PDT)
-Received: from loongson.cn (unknown [112.20.109.239])
-        by gateway (Coremail) with SMTP id _____8AxSth6yltjBRoDAA--.9996S3;
-        Fri, 28 Oct 2022 20:26:34 +0800 (CST)
-Received: from localhost.localdomain (unknown [112.20.109.239])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8BxFld4yltjxmEGAA--.4128S2;
-        Fri, 28 Oct 2022 20:26:34 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     alexs@kernel.org, seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
-        ojeda@kernel.org, boqun.feng@gmail.com, wedsonaf@gmail.com,
-        gary@garyguo.net, bjorn3_gh@protonmail.com,
-        rust-for-linux@vger.kernel.org, bobwxc@email.cn,
-        wu.xiangcheng@linux.dev, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        siyanteng01@gmail.com
-Subject: [PATCH v3 5/5] docs/zh_CN: Add rust arch-support Chinese translation
-Date:   Fri, 28 Oct 2022 20:24:43 +0800
-Message-Id: <1f5b1d1e4f84bf105ab5bed146652937a74e9b69.1666959529.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1666959529.git.siyanteng@loongson.cn>
-References: <cover.1666959529.git.siyanteng@loongson.cn>
+        with ESMTP id S230118AbiJ1NLs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 09:11:48 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FDDE1C3E49
+        for <linux-doc@vger.kernel.org>; Fri, 28 Oct 2022 06:11:46 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id bs21so6550452wrb.4
+        for <linux-doc@vger.kernel.org>; Fri, 28 Oct 2022 06:11:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:message-id:in-reply-to:date:references
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Aj7lCoa9R32lr+KR5EAOPwdoRP9ej39sPKRFvXXmKo=;
+        b=EFIo+tctRNuBHWwWw1xOq1kEixfm3foZR690FRJu3AM3x8PYD0ZDLFys0bq0GHDw0q
+         D+MTVPyEG1mTG0ZgdOgJq8+gjfvXKbovWD8hGjcbI7wWrksCjPBNiTntRvERjSr3G2+k
+         Lu7JNnRQmZ6+8v+2wFsOY4k1EMCtFfmzGGyaZDJW+zI6dotPwQ2SHNssHmq5yH6XrLvw
+         xSqtVUxuIWlv47NuYTEMe31KwKyXtoj47d/WfUsTDmeHSsavPPN1aNy232z2FiDj7IE2
+         kdVuMjIFXr8rqIXxZZe02eKvfiUGYKO5h8nAQjogNLBpf+5ZCJOnzUUb++YTPAQ3vG+E
+         aVQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:message-id:in-reply-to:date:references
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+Aj7lCoa9R32lr+KR5EAOPwdoRP9ej39sPKRFvXXmKo=;
+        b=iyVTG/rh4Fo7og9khUMZ/zOuWIoq98EH+nHyg7GTEKJFI57XkQFRw9Yt7ob99cCmsi
+         73OnCDgfn4EDmG3/PuyXfGm3Q1bef5XSBBZzZJs7zleTks01UdowUQwjGXSOsYgjPhIv
+         l3pvEuFaMcs2rWftKq+7klSaDCLQA85cEGe3WMRb/4rmk7ewL+Nd3SBrQUkSw5XJptFn
+         qy/Wubtj2Fn2Q0RaC3QggocWUetdj8ULG5WfBNEz2oKxzIIy8/8VoamloDgOR6IjosjM
+         Rp5kNrGPZawIguaN3bYgSyvPajVT5AmRWPJomzkPL6MgzvKH4axyetljlSiAD3JNI1Jr
+         bdEw==
+X-Gm-Message-State: ACrzQf0K0LxBrGeETqXtEhiei3zZfuWyIzv8DQdixIIm5TJlz9b6ydhH
+        RulpAxoWhG3BwqOxlCH/yn03dA==
+X-Google-Smtp-Source: AMsMyM6YDLGx8tddVpugpJgNDAZlKMyecbRnjlokKyPGo/AAsO2SU74UqqxLLYtDEOG4bOxEAgjUZA==
+X-Received: by 2002:adf:df83:0:b0:236:6d5d:ff8b with SMTP id z3-20020adfdf83000000b002366d5dff8bmr18336437wrl.315.1666962704559;
+        Fri, 28 Oct 2022 06:11:44 -0700 (PDT)
+Received: from localhost ([95.148.15.66])
+        by smtp.gmail.com with ESMTPSA id k21-20020a05600c1c9500b003bfaba19a8fsm4641180wms.35.2022.10.28.06.11.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Oct 2022 06:11:43 -0700 (PDT)
+From:   Punit Agrawal <punit.agrawal@bytedance.com>
+To:     Yicong Yang <yangyicong@huawei.com>
+Cc:     Punit Agrawal <punit.agrawal@bytedance.com>,
+        Barry Song <21cnbao@gmail.com>, <yangyicong@hisilicon.com>,
+        <corbet@lwn.net>, <peterz@infradead.org>, <arnd@arndb.de>,
+        <linux-kernel@vger.kernel.org>, <darren@os.amperecomputing.com>,
+        <huzhanyuan@oppo.com>, <lipeifeng@oppo.com>,
+        <zhangshiming@oppo.com>, <guojian@oppo.com>, <realmz6@gmail.com>,
+        <linux-mips@vger.kernel.org>, <openrisc@lists.librecores.org>,
+        <linux-mm@kvack.org>, <x86@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <akpm@linux-foundation.org>,
+        <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+        <wangkefeng.wang@huawei.com>, <xhao@linux.alibaba.com>,
+        <prime.zeng@hisilicon.com>, Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linux-doc@vger.kernel.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH v4 2/2] arm64: support batched/deferred tlb shootdown
+ during page reclamation
+References: <20220921084302.43631-1-yangyicong@huawei.com>
+        <20220921084302.43631-3-yangyicong@huawei.com>
+        <168eac93-a6ee-0b2e-12bb-4222eff24561@arm.com>
+        <8e391962-4e3a-5a56-64b4-78e8637e3b8c@huawei.com>
+        <CAGsJ_4z=dZbrAUD9jczT08S3qi_ep-h+EK35UfayVk1S+Cnp2A@mail.gmail.com>
+        <ecd161db-b290-7997-a81e-a0a00bd1c599@arm.com>
+        <87o7tx5oyx.fsf@stealth>
+        <bc44cf85-aee9-03ca-9911-dbd904a43cc8@huawei.com>
+Date:   Fri, 28 Oct 2022 14:11:41 +0100
+In-Reply-To: <bc44cf85-aee9-03ca-9911-dbd904a43cc8@huawei.com> (Yicong Yang's
+        message of "Fri, 28 Oct 2022 09:20:08 +0800")
+Message-ID: <87bkpw5bzm.fsf@stealth>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxFld4yltjxmEGAA--.4128S2
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7KFy7Zr17Kw1DAr1rCw18AFb_yoW8KFy3pa
-        4qkryfG3WrJryjkrWxGF1UJF4UGF18Gw1UJr1xGwn5Xr4DJF1UJr4Utr98twnrCr48AFW5
-        Xr40kryUCw1UAr7anT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
-        bSkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
-        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
-        wVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
-        ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kK
-        e7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
-        0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWrXVW3AwAv7VC2z280
-        aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262
-        kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km
-        07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
-        1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW7
-        JVWDJwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rV
-        WUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
-        JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0eOJUUUUUU==
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate .../rust/arch-support.rst into Chinese.
+Yicong Yang <yangyicong@huawei.com> writes:
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Gary Guo <gary@garyguo.net>
-Reviewed-by: Alex Shi <alexs@kernel.org>
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
----
- .../translations/zh_CN/rust/arch-support.rst  | 23 +++++++++++++++++++
- .../translations/zh_CN/rust/index.rst         |  5 +---
- 2 files changed, 24 insertions(+), 4 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/rust/arch-support.rst
+> On 2022/10/27 22:19, Punit Agrawal wrote:
+>> 
+>> [ Apologies for chiming in late in the conversation ]
+>> 
+>> Anshuman Khandual <anshuman.khandual@arm.com> writes:
+>> 
+>>> On 9/28/22 05:53, Barry Song wrote:
+>>>> On Tue, Sep 27, 2022 at 10:15 PM Yicong Yang <yangyicong@huawei.com> wrote:
+>>>>>
+>>>>> On 2022/9/27 14:16, Anshuman Khandual wrote:
+>>>>>> [...]
+>>>>>>
+>>>>>> On 9/21/22 14:13, Yicong Yang wrote:
+>>>>>>> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
+>>>>>>> +{
+>>>>>>> +    /* for small systems with small number of CPUs, TLB shootdown is cheap */
+>>>>>>> +    if (num_online_cpus() <= 4)
+>>>>>>
+>>>>>> It would be great to have some more inputs from others, whether 4 (which should
+>>>>>> to be codified into a macro e.g ARM64_NR_CPU_DEFERRED_TLB, or something similar)
+>>>>>> is optimal for an wide range of arm64 platforms.
+>>>>>>
+>>>>
+>>>> I have tested it on a 4-cpus and 8-cpus machine. but i have no machine
+>>>> with 5,6,7
+>>>> cores.
+>>>> I saw improvement on 8-cpus machines and I found 4-cpus machines don't need
+>>>> this patch.
+>>>>
+>>>> so it seems safe to have
+>>>> if (num_online_cpus()  < 8)
+>>>>
+>>>>>
+>>>>> Do you prefer this macro to be static or make it configurable through kconfig then
+>>>>> different platforms can make choice based on their own situations? It maybe hard to
+>>>>> test on all the arm64 platforms.
+>>>>
+>>>> Maybe we can have this default enabled on machines with 8 and more cpus and
+>>>> provide a tlbflush_batched = on or off to allow users enable or
+>>>> disable it according
+>>>> to their hardware and products. Similar example: rodata=on or off.
+>>>
+>>> No, sounds bit excessive. Kernel command line options should not be added
+>>> for every possible run time switch options.
+>>>
+>>>>
+>>>> Hi Anshuman, Will,  Catalin, Andrew,
+>>>> what do you think about this approach?
+>>>>
+>>>> BTW, haoxin mentioned another important user scenarios for tlb bach on arm64:
+>>>> https://lore.kernel.org/lkml/393d6318-aa38-01ed-6ad8-f9eac89bf0fc@linux.alibaba.com/
+>>>>
+>>>> I do believe we need it based on the expensive cost of tlb shootdown in arm64
+>>>> even by hardware broadcast.
+>>>
+>>> Alright, for now could we enable ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH selectively
+>>> with CONFIG_EXPERT and for num_online_cpus()  > 8 ?
+>> 
+>> When running the test program in the commit in a VM, I saw benefits from
+>> the patches at all sizes from 2, 4, 8, 32 vcpus. On the test machine,
+>> ptep_clear_flush() went from ~1% in the unpatched version to not showing
+>> up.
+>> 
+>
+> Maybe you're booting VM on a server with more than 32 cores and Barry tested
+> on his 4 CPUs embedded platform. I guess a 4 CPU VM is not fully equivalent to
+> a 4 CPU real machine as the tbli and dsb in the VM may influence the host
+> as well.
 
-diff --git a/Documentation/translations/zh_CN/rust/arch-support.rst b/Documentation/translations/zh_CN/rust/arch-support.rst
-new file mode 100644
-index 000000000000..afbd02afec45
---- /dev/null
-+++ b/Documentation/translations/zh_CN/rust/arch-support.rst
-@@ -0,0 +1,23 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/rust/arch-support.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+架构支持
-+========
-+
-+目前，Rust编译器（``rustc``）使用LLVM进行代码生成，这限制了可以支持的目标架构。此外，对
-+使用LLVM/Clang构建内核的支持也有所不同（请参见 Documentation/kbuild/llvm.rst ）。这
-+种支持对于使用 ``libclang`` 的 ``bindgen`` 来说是必需的。
-+
-+下面是目前可以工作的架构的一般总结。支持程度与 ``MAINTAINERS`` 文件中的``S`` 值相对应:
-+
-+============  ================  ==============================================
-+架构          支持水平          限制因素
-+============  ================  ==============================================
-+``x86``       Maintained        只有 ``x86_64``
-+============  ================  ==============================================
-diff --git a/Documentation/translations/zh_CN/rust/index.rst b/Documentation/translations/zh_CN/rust/index.rst
-index c5507ad488a1..b01f887e7167 100644
---- a/Documentation/translations/zh_CN/rust/index.rst
-+++ b/Documentation/translations/zh_CN/rust/index.rst
-@@ -18,10 +18,7 @@ Rust
-     quick-start
-     general-information
-     coding-guidelines
--
--TODOList:
--
--*    arch-support
-+    arch-support
- 
- .. only::  subproject and html
- 
--- 
-2.31.1
+Yeah, I also wondered about this.
+
+I was able to test on a 6-core RK3399 based system - there the
+ptep_clear_flush() was only 0.10% of the overall execution time. The
+hardware seems to do a pretty good job of keeping the TLB flushing
+overhead low.
+
+[...]
 
