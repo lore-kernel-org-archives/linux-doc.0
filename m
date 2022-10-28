@@ -2,59 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D84C38A02
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 14:01:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D14EECAAA1
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 14:04:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230491AbiJ1OBN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Oct 2022 10:01:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40168 "EHLO
+        id S230153AbiJ1OEJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Oct 2022 10:04:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230334AbiJ1OBM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 10:01:12 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9586B1213D6;
-        Fri, 28 Oct 2022 07:01:10 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d24so4929272pls.4;
-        Fri, 28 Oct 2022 07:01:10 -0700 (PDT)
+        with ESMTP id S230010AbiJ1OEI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 10:04:08 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0086B1DEC1B;
+        Fri, 28 Oct 2022 07:04:07 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id b11so4783394pjp.2;
+        Fri, 28 Oct 2022 07:04:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=mzrT4rDKHGVcSASZdk2vgblIAXRTRtBk/UeL/heid0Q=;
-        b=BG3Pd52vxz7FCMwsHVabpMk1NSqJQel/piPy76J2aKZ6cFNoCiNlK/yQaXpSW49pdV
-         fbHYk/uNaJZ5BXU3+LDe7sZY6+FLJgWxQxBSP8jKUujvuteW8WA1yAsj7hH5VBF8wOJ3
-         GItCA4kWa8ApsneZh53Y1E/TEratf38l2qTB7cLc5OZ1mWXZljy0l7f9cTkdD6/2nj/k
-         DBMDugBpOxkE0oZO8lGY9ZaDb5HcsOvDl2Y+VS8mYAogprT3Y5RcgQp8RpGiIYUkwUgE
-         UH4D1Ace0YobLWkfaUtRJoqcz2yG0GNbc2kMKmgqf6VZucS0gL4NIvw3x7zcjy2rXko1
-         qi0w==
+        bh=o1QkAhlKr5y3Yemv84a0WENoZI0iQ9cHsX5Tp/FV6B8=;
+        b=EXftrL6jQFzF0sxNA70BdMwTF3A8Qh650r36dic5x9N30A+WrSN+lKkncvIzFNnXQ2
+         Gt+hdA1/wsTu1tompguNjBSrcYt3Db1INEujJj7MFsZRH+ePkGfdx1mHo1HRnbbQWNBU
+         knWUYIEXnwOlOGfFWqyeEdvp8/kd+9OUcFx9hf7rYu7ggIrIj52YPIJM/JYd1rh9dnnn
+         vPzTlOJ9bQ3OlBwkKrWr5MZt3xET8wfvGvO0JptJlclvbnH1On/jrAqWyKjN+zMNNuJj
+         mVw4STKzDnquKc5Fqta+JE1aEiDbH4NlnUKlae8P2f5d/HTXp7zLyp0fC8UeyCIAaEbS
+         o1ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mzrT4rDKHGVcSASZdk2vgblIAXRTRtBk/UeL/heid0Q=;
-        b=YQhIq64Qo50N116PqlUiJ+K7xaJGyZ/xDbq04IABkAph18DXt6go64cPwwyDJg7qhY
-         Rr93H1X2oG2aENaARJT15nOecdjAy931VnFq40LlbPQ6P0r8pHPMj09nYA07HgF39UnG
-         Qs3s3AYvWtweQJtRg75aiG5EpAsLyu+6qB8TKKw/BzIKVHP5T9mAdJQjHaPenWpuuF3U
-         FIiSYItVxZVd1VmfgshieWli8aE1qrh8pEFenIZIsFl2dWz3Jdwopm6tS/YZaAKlyIud
-         LOywP8MM7Tgdh07j2/LA40b0d/+85pOAIXpcosh51AO0wDNPJa+2xImAFotTUaM7GzZ9
-         Q9uQ==
-X-Gm-Message-State: ACrzQf3VfxJadDHr+DvjIfwG5qIbMTfiou8aVdvwVmqENK7QI16gn3E9
-        BoaQ+QoK0gpJ69cXxpvmQ2c=
-X-Google-Smtp-Source: AMsMyM7U9TGZLeKkJ8uj85NlJ2JhWTtOjKOG0VBqHH5AXSoTwrKedoeBTqh+GVXpKiko+SwxV8oFTg==
-X-Received: by 2002:a17:902:d54c:b0:186:c092:97db with SMTP id z12-20020a170902d54c00b00186c09297dbmr21200680plf.28.1666965670128;
-        Fri, 28 Oct 2022 07:01:10 -0700 (PDT)
+        bh=o1QkAhlKr5y3Yemv84a0WENoZI0iQ9cHsX5Tp/FV6B8=;
+        b=pKJpN9OW4wnRTzuY4svPXuSiAm4sXduQr8BTUiXTzO+N8Gwil5dmqfSNb5ipbKJ47W
+         wFhgCQyohrHvywTFRluVmGstnbLI5+eoXvMu0Xh+53tYxublmA9wcdrcBTMZS4AUiD/+
+         PfZQ7STNuiOmSAp75noEjbnLcEFCmfDmyJFG1Q1GvCsLxM6hcvKCYKlICf7SlcOfM9OQ
+         OGp5XmgtB3PP7HPxenew8iRr8O3zmI2bcNkqaTmgPTzonDWCueisIRt064+XX0Tgwor1
+         H8md7gzkk/UAj2aaIMUgahQu2KHqnxDgd3QMcf8slBSOIQa9XnLU54r0rMFg0JoobWiZ
+         kXXA==
+X-Gm-Message-State: ACrzQf2bUEMmRGxpKn2SAhfUVm+t7xuVoN9h/GzhZXe9ncYm0anrWX+3
+        qtNU/WsT/VPHiN5u3+3MlTw=
+X-Google-Smtp-Source: AMsMyM5Bdu55a+pqkKJZBBQ1bL85SEwmUnbaJNJya+QsyYzpf2RxaaFGM5Ml577NXVyPVftPP7SA0A==
+X-Received: by 2002:a17:903:2442:b0:186:ef89:7b41 with SMTP id l2-20020a170903244200b00186ef897b41mr7574440pls.164.1666965847480;
+        Fri, 28 Oct 2022 07:04:07 -0700 (PDT)
 Received: from [192.168.43.80] (subs03-180-214-233-72.three.co.id. [180.214.233.72])
-        by smtp.gmail.com with ESMTPSA id om2-20020a17090b3a8200b0020d3662cc77sm4293127pjb.48.2022.10.28.07.01.06
+        by smtp.gmail.com with ESMTPSA id k12-20020a170902c40c00b001822121c45asm3209062plk.28.2022.10.28.07.04.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Oct 2022 07:01:09 -0700 (PDT)
-Message-ID: <0286fc73-da93-42b7-2f87-4191f51dcbb2@gmail.com>
-Date:   Fri, 28 Oct 2022 21:01:05 +0700
+        Fri, 28 Oct 2022 07:04:07 -0700 (PDT)
+Message-ID: <3f4ca307-c995-e105-7190-5fff51dfe742@gmail.com>
+Date:   Fri, 28 Oct 2022 21:04:01 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.0
-Subject: Re: [PATCH 14/15] scsi: ncr53c8xx: replace CCB_MAGIC with bool busy
+Subject: Re: [PATCH 15/15] Documentation: bury magic-number, now devoid of
+ content
 Content-Language: en-US
 To:     =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -62,17 +63,20 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>,
         Hu Haowen <src.res@email.cn>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Kees Cook <keescook@chromium.org>,
+        Stefano Zacchiroli <zack@upsilon.cc>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Wu XiangCheng <bobwxc@email.cn>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-scsi@vger.kernel.org
+        linux-doc-tw-discuss@lists.sourceforge.net
 References: <9a453437b5c3b4b1887c1bd84455b0cc3d1c40b2.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
- <182906437bbf7597968cc68e0babe6f7ff772f79.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
+ <83bd024a7f81492be259a531c407cb017186d745.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <182906437bbf7597968cc68e0babe6f7ff772f79.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
+In-Reply-To: <83bd024a7f81492be259a531c407cb017186d745.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -80,13 +84,17 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 10/27/22 05:43, наб wrote:
-> As for magic numbers, we have largely moved away from this approach,
-> and we have better debugging instrumentation nowadays: kill it
+> The list is now empty, and we've largely moved away from this approach,
+> and we have better debugging instrumentation nowadays
 > 
 
-Meh, see [1] for the same reply.
+The patch subject should be "Documentation: remove magic number
+documentation".
 
-[1]: https://lore.kernel.org/linux-doc/80c998ec-435f-158c-9b45-4e6844f7861b@gmail.com/
+Better say for the description "Now that all magic numbers have
+been removed, remove the documentation".
+
+Thanks.
 
 -- 
 An old man doll... just what I always wanted! - Clara
