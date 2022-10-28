@@ -2,104 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1DF5ECAAA1
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 16:54:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EC70FA3742
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 17:56:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230224AbiJ1QyW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Oct 2022 12:54:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55378 "EHLO
+        id S229500AbiJ1R4J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Oct 2022 13:56:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230253AbiJ1QyS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 12:54:18 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC8D021CD64
-        for <linux-doc@vger.kernel.org>; Fri, 28 Oct 2022 09:54:07 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id f22so3829464qto.3
-        for <linux-doc@vger.kernel.org>; Fri, 28 Oct 2022 09:54:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.cmu.edu; s=google-2021;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wmuritYpfhIEOF1X+rtosFks48G8Ge/OmMv0BpD+cGY=;
-        b=Jomx+oheKolMSkNx6v22oT27TT85PjFQw9xsYUFbz+2aZlK+vL6HM6I2Jv6DswW1dz
-         +/BxkNQf6fLIe9UT9LFl0wsSKZ6F6oK1s+SI5Kqz68neFvTUZxGxN0V+VB9mrlKZP2Qn
-         9+Zoe+SUrv4NYf9k0AzLe29mV6ZiBNM6tPyfB0FNWXYkT1+8YLXWtdH/bD84SCFE+2Rs
-         gEWDGQo4RIdtLZ+Gc9Z9594rhx56vpbCZTUa6jKyE8Q2HecuwHmxrcrjJ6mO7iN64FBr
-         KjKLjUkKaUs/NiNIuosRRZAhg3n+UBJ+XEEkkK6eaBt6ZqxcBTwUpadYAm+ysgiZwlO2
-         vhLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wmuritYpfhIEOF1X+rtosFks48G8Ge/OmMv0BpD+cGY=;
-        b=gwlTqOJ/8WKwXhtkr0CubJGXA0iTErZRYheQeZjCmVMtvrTXPMWBLu+w3AGfjXT/8w
-         KPmuMMgF46pO0FfhDKu4ek3QQFV1TK7v0cVDhY4SqMySWtfYoIXwRjnzAKg12N2Xrz9i
-         kAIgsjy6LunkB8JV8uQogPtNq2FPQza54w2/kE27hh/epLD3Z7usRjPLcUyxFp83GBzI
-         JMW0Ll4aNN7mRMJUkpgZ0JUyLYQd3M2GkGw2ArJHUs0l7PiXAgUKa2k5G6En23qLYIYH
-         hofRH0D+4HN0+lxa9nJkAicfnzDsRgoOzvf5rAXYdfVMrgr8BCTU9rvs6ci92VT3h/wk
-         rixQ==
-X-Gm-Message-State: ACrzQf0XkPiiHeWdF5noSQZDJPhfGZsFqqBVxPazYuwL5h4ccpUfA2xi
-        yRzcntTiADw3ikz6OMzN6bTmow==
-X-Google-Smtp-Source: AMsMyM4kbG0BKvQ7RxfkpSOGioHi7r+d/ui61IOJaF4139vdRc+jaYkZamGH2qUn9FD7i3H0XgDFMQ==
-X-Received: by 2002:a05:622a:1194:b0:3a4:ea9f:f48e with SMTP id m20-20020a05622a119400b003a4ea9ff48emr343992qtk.241.1666976046890;
-        Fri, 28 Oct 2022 09:54:06 -0700 (PDT)
-Received: from cs.cmu.edu (tunnel29655-pt.tunnel.tserv13.ash1.ipv6.he.net. [2001:470:7:582::2])
-        by smtp.gmail.com with ESMTPSA id k2-20020a37ba02000000b006bb83c2be40sm3198311qkf.59.2022.10.28.09.54.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 09:54:06 -0700 (PDT)
-Date:   Fri, 28 Oct 2022 12:54:04 -0400
-From:   Jan Harkes <jaharkes@cs.cmu.edu>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net
-Subject: Re: [PATCH 05/15] coda: remove CODA_MAGIC
-Message-ID: <20221028165404.hzslvndpg26wop6k@cs.cmu.edu>
-References: <9a453437b5c3b4b1887c1bd84455b0cc3d1c40b2.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
- <a6eb2dae62abf49b351760a4f55031d1c6f4ea01.1666822928.git.nabijaczleweli@nabijaczleweli.xyz>
- <b65541bf-ad17-b465-0f77-66d9e9c242fb@gmail.com>
+        with ESMTP id S229619AbiJ1R4H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 13:56:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D06FB71C;
+        Fri, 28 Oct 2022 10:56:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8A01A629F9;
+        Fri, 28 Oct 2022 17:56:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4EE6C433C1;
+        Fri, 28 Oct 2022 17:56:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666979765;
+        bh=Wlp0wy+aIPCdmybVNAMcWJ4RF9OAgXH+GCCz9N2qmuQ=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=bg6Gr1uP3lQVc319yWgc7sVOo3b7TF2Yca3ELPzK9xdqzDdnO5EPljY8P1AMeEFgY
+         fr1Djhrce+3ic3vozX9UN71kyskBoI+hZPozMCdVoGbN8je1GQZKB6RpdzdyuxvHKu
+         TuGX1uaVRkH821fjv6QmdUVbsVuoWWdESHL4dYeuDHPyRHjUNr1f11oeRarvrAr5AQ
+         7ROrJlJyXZqAcdLcgY8UTCe87GDXmR9NbBLhakdHFfR1+S4MOejQoeHJLwOeltfsjL
+         +CawrV+0L7/1ZxmkrD2uVRk/h1OyncIAcCb/O7Xwutv0/UrPkwrPQMgWmSy8++zSRr
+         JT5b/L1BXvBgA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 70AAC5C0692; Fri, 28 Oct 2022 10:56:05 -0700 (PDT)
+Date:   Fri, 28 Oct 2022 10:56:05 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Parav Pandit <parav@nvidia.com>
+Cc:     bagasdotme@gmail.com, arnd@arndb.de, stern@rowland.harvard.edu,
+        parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org,
+        boqun.feng@gmail.com, npiggin@gmail.com, dhowells@redhat.com,
+        j.alglave@ucl.ac.uk, luc.maranget@inria.fr, akiyks@gmail.com,
+        dlustig@nvidia.com, joel@joelfernandes.org, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5] locking/memory-barriers.txt: Improve documentation
+ for writel() example
+Message-ID: <20221028175605.GO5600@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20221027201000.219731-1-parav@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b65541bf-ad17-b465-0f77-66d9e9c242fb@gmail.com>
+In-Reply-To: <20221027201000.219731-1-parav@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 28, 2022 at 08:23:38PM +0700, Bagas Sanjaya wrote:
-> On 10/27/22 05:42, наб wrote:
-> > We have largely moved away from this approach,
-> > and we have better debugging tooling nowadays: kill it
-> > 
+On Thu, Oct 27, 2022 at 11:10:00PM +0300, Parav Pandit wrote:
+> The cited commit describes that when using writel(), explicit wmb()
+> is not needed. wmb() is an expensive barrier. writel() uses the needed
+> platform specific barrier instead of wmb().
 > 
-> Again, see [1] and [2].
+> writeX() section of "KERNEL I/O BARRIER EFFECTS" already describes
+> ordering of I/O accessors with MMIO writes.
 > 
-> [1]: https://lore.kernel.org/linux-doc/47c2bffb-6bfe-7f5d-0d2d-3cbb99d31019@gmail.com/
-> [2]: https://lore.kernel.org/linux-doc/9d96c96d-dfc7-7749-07d4-2601c00661c2@gmail.com/
+> Hence add the comment for pseudo code of writel() and remove confusing
+> text around writel() and wmb().
+> 
+> commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
+> 
+> Signed-off-by: Parav Pandit <parav@nvidia.com>
 
-I guess I must be old-school because I appreciate magic numbers and
-assertions to catch situations that should obviously never happen.
+Hearing no immediate objections, I have pulled this in for further
+review.  If all goes well, I intend to submit this during the upcoming
+v6.2 merge window.
 
-This https://lkml.org/lkml/2019/4/2/923 bug would have been caught a lot
-sooner if ext4 had happened to check a magic number in vma->vm_file. As
-it was, we ended up passing a Coda file instead of a file handle for the
-the underlying filesystem which then ended up with the wrong inode and
-their mmap_sem happened to scribble the spinlock on the Coda inode.
+							Thanx, Paul
 
-This wasn't really ext4's fault, it wasn't expecting to get a mmapped
-region with another file system's file handle, but that is exactly the
-point of these magic numbers, to catch the unexpected. Not sure what
-better debug tooling would catch that unless you were already expecting
-the problem.
-
-Jan
+> ---
+> changelog:
+> v4->v5:
+> - Used suggested documentation update from Will
+> - Added comment to the writel() pseudo code example
+> - updated commit log for newer changes
+> v3->v4:
+> - further trimmed the documentation for redundant description
+> v2->v3:
+> - removed redundant description for writeX()
+> - updated text for alignment and smaller change lines
+> - updated commit log with blank line before signed-off-by line
+> v1->v2:
+> - Further improved description of writel() example
+> - changed commit subject from 'usage' to 'example'
+> v0->v1:
+> - Corrected to mention I/O barrier instead of dma_wmb().
+> - removed numbered references in commit log
+> - corrected typo 'explcit' to 'explicit' in commit log
+> ---
+>  Documentation/memory-barriers.txt | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+> index 06f80e3785c5..e698093bade1 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -1910,7 +1910,8 @@ There are some more advanced barrier functions:
+>  
+>       These are for use with consistent memory to guarantee the ordering
+>       of writes or reads of shared memory accessible to both the CPU and a
+> -     DMA capable device.
+> +     DMA capable device. See Documentation/core-api/dma-api.rst file for more
+> +     information about consistent memory.
+>  
+>       For example, consider a device driver that shares memory with a device
+>       and uses a descriptor status value to indicate if the descriptor belongs
+> @@ -1931,22 +1932,21 @@ There are some more advanced barrier functions:
+>  		/* assign ownership */
+>  		desc->status = DEVICE_OWN;
+>  
+> -		/* notify device of new descriptors */
+> +		/* Make descriptor status visible to the device followed by
+> +		 * notify device of new descriptor
+> +		 */
+>  		writel(DESC_NOTIFY, doorbell);
+>  	}
+>  
+> -     The dma_rmb() allows us guarantee the device has released ownership
+> +     The dma_rmb() allows us to guarantee that the device has released ownership
+>       before we read the data from the descriptor, and the dma_wmb() allows
+>       us to guarantee the data is written to the descriptor before the device
+>       can see it now has ownership.  The dma_mb() implies both a dma_rmb() and
+> -     a dma_wmb().  Note that, when using writel(), a prior wmb() is not needed
+> -     to guarantee that the cache coherent memory writes have completed before
+> -     writing to the MMIO region.  The cheaper writel_relaxed() does not provide
+> -     this guarantee and must not be used here.
+> -
+> -     See the subsection "Kernel I/O barrier effects" for more information on
+> -     relaxed I/O accessors and the Documentation/core-api/dma-api.rst file for
+> -     more information on consistent memory.
+> +     a dma_wmb().
+> +
+> +     Note that the dma_*() barriers do not provide any ordering guarantees for
+> +     accesses to MMIO regions.  See the later "KERNEL I/O BARRIER EFFECTS"
+> +     subsection for more information about I/O accessors and MMIO ordering.
+>  
+>   (*) pmem_wmb();
+>  
+> -- 
+> 2.26.2
+> 
