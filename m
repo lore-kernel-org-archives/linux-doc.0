@@ -2,66 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E27EECAAA1
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 18:34:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D658ECAAA1
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 18:39:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbiJ1Ses (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Oct 2022 14:34:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46740 "EHLO
+        id S229473AbiJ1SjO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Oct 2022 14:39:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230041AbiJ1Ser (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 14:34:47 -0400
+        with ESMTP id S229441AbiJ1SjN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 14:39:13 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C04F81056B;
-        Fri, 28 Oct 2022 11:34:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BD016386E
+        for <linux-doc@vger.kernel.org>; Fri, 28 Oct 2022 11:39:13 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BEDFA60C;
-        Fri, 28 Oct 2022 18:34:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BEDFA60C
+        by ms.lwn.net (Postfix) with ESMTPSA id BF9F260C;
+        Fri, 28 Oct 2022 18:39:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BF9F260C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1666982080; bh=Vmdct1O8NVVyoM/GlLyujP/EuDony6SKKZFoO2GTU9E=;
+        t=1666982352; bh=aTDMPxCxgPrQ9x5CfbpJECfz64JMFJuwPfDiwqmWxg8=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=aSE676p5/VT2E0+gAqGbBSvUQtgQKeCt4fu1J9kI9UciNUR8CQ1iXphmZpCL401i+
-         +Won0AI0FJTy2xJVvtGWOZET9+GbDkHpqf6z40VNVKdvv3TXt4+A1O6iRVc1VraPXM
-         keH8PJFTN4jsGt7sgjm2i2TOPsqHeqg2ez/GMD7M+L1NtOyAcdmAWfN2YEqJgKZjHW
-         YomjgVzWbINeURM5kIghsl1Y2Hqtj/zEdJoTR5RcBIWKpIMDDpBezfvizo44Or7w00
-         U/Z4PS3IKzbTb2YIDMu52tWjUPuZgD6OOBhTThi2LmKYUwIU2dNfBr29SDG46lnvJj
-         bRY0Az3ZvrONg==
+        b=bQnz8GU12HLubaBrC4YJLOO1bXEGYZ5Lv1Z+Rd+xOw1uVQv6IJ2rbjaYHh9ZixgTU
+         Ajz0hJVfz0ksh9eIyeClAlKzKGPfKuC42EfXVo5O5QMtE6o/Y8CaNkm8qJzEcVyLdb
+         wGQQv5oNwsciAhSEd/MOrbk1Q4Ird0fwkspRbEpnuNHRthAjxyVg6oSwel3KF3iHBl
+         yb+Tm8hdjtweT+1GAZrL/C2mf6vWcsA/E9x+0qYmfTDH7gOeg46QL+FPRXeGtO6mb+
+         gkvV+B8vZJmBkmvDJJ0mzH/aPwUSxzn1XKBa0YBIpBWxLUbyvJ2IiM4PNSu+iA1skc
+         4amBfZnlYlRVQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Rui Li <me@lirui.org>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>
-Cc:     Wu XiangCheng <wu.xiangcheng@linux.dev>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Rui Li <me@lirui.org>
-Subject: Re: [PATCH v2] docs/zh_CN: Add userspace-api/sysfs-platform_profile
- Chinese translation
-In-Reply-To: <20221026070732.72818-1-me@lirui.org>
-References: <20221026070732.72818-1-me@lirui.org>
-Date:   Fri, 28 Oct 2022 12:34:40 -0600
-Message-ID: <878rkz6blr.fsf@meer.lwn.net>
+To:     WANG Xuerui <kernel@xen0n.name>, linux-doc@vger.kernel.org
+Cc:     WANG Xuerui <git@xen0n.name>, Huacai Chen <chenhuacai@kernel.org>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>, loongarch@lists.linux.dev
+Subject: Re: [PATCH 0/2] LoongArch syscall ABI documentation
+In-Reply-To: <20221018100457.3440691-1-kernel@xen0n.name>
+References: <20221018100457.3440691-1-kernel@xen0n.name>
+Date:   Fri, 28 Oct 2022 12:39:12 -0600
+Message-ID: <874jvn6be7.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rui Li <me@lirui.org> writes:
+WANG Xuerui <kernel@xen0n.name> writes:
 
-> Translate the following documents into Chinese:
+> From: WANG Xuerui <git@xen0n.name>
 >
-> - userspace-api/sysfs-platform_profile.rst
+> Hi,
 >
-> Signed-off-by: Rui Li <me@lirui.org>
-> ---
-> Changes since v1:
-> - Improve some translation.
-> ---
->  .../zh_CN/userspace-api/index.rst             |  2 +-
->  .../userspace-api/sysfs-platform_profile.rst  | 40 +++++++++++++++++++
->  2 files changed, 41 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/userspace-api/sysfs-platform_profile.rst
+> Due to popular demand [1] (even Loongson employees can get lost), the
+> current LoongArch syscall ABI is now documented. A Simplified Chinese
+> translation is included too.
+>
+> [1]: https://github.com/loongson/LoongArch-Documentation/issues/66
+>
+> WANG Xuerui (2):
+>   Documentation: LoongArch: Document the syscall ABI
+>   docs/zh_CN: LoongArch: Translate the syscall ABI doc
+>
+>  Documentation/loongarch/index.rst             |  1 +
+>  Documentation/loongarch/syscall-abi.rst       | 36 ++++++++++++++++++
+>  .../translations/zh_CN/loongarch/index.rst    |  1 +
+>  .../zh_CN/loongarch/syscall-abi.rst           | 37 +++++++++++++++++++
+>  4 files changed, 75 insertions(+)
+>  create mode 100644 Documentation/loongarch/syscall-abi.rst
+>  create mode 100644 Documentation/translations/zh_CN/loongarch/syscall-abi.rst
 
-Applied, thanks.
+Would you like me to take these through the docs tree?
+
+Thanks,
 
 jon
