@@ -2,373 +2,280 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5390DC38A02
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 08:14:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDB12C38A02
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 09:22:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230018AbiJ1IOQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Oct 2022 04:14:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52418 "EHLO
+        id S229647AbiJ1JW4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Oct 2022 05:22:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229955AbiJ1IOE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 04:14:04 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E8851C2F2E;
-        Fri, 28 Oct 2022 01:14:02 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MzFYy41BzzVjMm;
-        Fri, 28 Oct 2022 16:09:10 +0800 (CST)
-Received: from localhost.localdomain (10.67.164.66) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 28 Oct 2022 16:14:00 +0800
-From:   Yicong Yang <yangyicong@huawei.com>
-To:     <akpm@linux-foundation.org>, <linux-mm@kvack.org>,
-        <linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <anshuman.khandual@arm.com>, <linux-doc@vger.kernel.org>
-CC:     <corbet@lwn.net>, <peterz@infradead.org>, <arnd@arndb.de>,
-        <punit.agrawal@bytedance.com>, <linux-kernel@vger.kernel.org>,
-        <darren@os.amperecomputing.com>, <yangyicong@hisilicon.com>,
-        <huzhanyuan@oppo.com>, <lipeifeng@oppo.com>,
-        <zhangshiming@oppo.com>, <guojian@oppo.com>, <realmz6@gmail.com>,
-        <linux-mips@vger.kernel.org>, <openrisc@lists.librecores.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
-        <linux-s390@vger.kernel.org>, Barry Song <21cnbao@gmail.com>,
-        <wangkefeng.wang@huawei.com>, <xhao@linux.alibaba.com>,
-        <prime.zeng@hisilicon.com>, Barry Song <v-songbaohua@oppo.com>,
-        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
-Subject: [PATCH v5 2/2] arm64: support batched/deferred tlb shootdown during page reclamation
-Date:   Fri, 28 Oct 2022 16:12:55 +0800
-Message-ID: <20221028081255.19157-3-yangyicong@huawei.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20221028081255.19157-1-yangyicong@huawei.com>
-References: <20221028081255.19157-1-yangyicong@huawei.com>
+        with ESMTP id S229501AbiJ1JW4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 05:22:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED9831C6BCE
+        for <linux-doc@vger.kernel.org>; Fri, 28 Oct 2022 02:22:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666948927;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5P/LL6n+AFbg9otfZiL41bboBVYLpgB4u6EYlg8Zxhc=;
+        b=Fqjb1bcvJCjmw2nhUrw+8NHjTXYGmu0k2dEFyGlN4hKro8TJd5x1lhdeGWr6GG0emHu0cC
+        sL+53Ni8Ok8f5MAwcDWXkexAY9Y7Hy168khx0WqjdvFfkTDy1L10G1tEVQnxUUrTgnwmpq
+        fCs1e/A5trHh+F8VSuYAP1PIaxmGbNk=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-361-vKAaZtATPfSxYqwFXSsUkQ-1; Fri, 28 Oct 2022 05:22:05 -0400
+X-MC-Unique: vKAaZtATPfSxYqwFXSsUkQ-1
+Received: by mail-ej1-f69.google.com with SMTP id sa6-20020a1709076d0600b0078d84ed54b9so2447946ejc.18
+        for <linux-doc@vger.kernel.org>; Fri, 28 Oct 2022 02:22:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:to
+         :content-language:subject:cc:user-agent:mime-version:date:message-id
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5P/LL6n+AFbg9otfZiL41bboBVYLpgB4u6EYlg8Zxhc=;
+        b=HhxX4lcastOFPRnDEfxoMmGZt99+EhDAK4MtgdOxI/vyu4mWJZWJHvf94n0eG068PH
+         cx6f+kFWqfu8J08CQncoUJCTJygOgTqw76ZAYDOeCFRRA3pKDzmlSISc53QUgov9xLqn
+         y3zP1oALd5iTjSWMb1JSfRCcm3joEZcGu9OCyl+hCYRUYBt6JR9NfKpBZSxuCFI0jzEp
+         evyB+wSEo2mYfCO37XWKby7M5zu1UnBxShhemDi5ZgE/YU3+zU0k0MXDXn6tvKikxcRQ
+         XYTD47gD7nQKxyemYeQtJ5lYZYRE44Red0yeKWpzuX8KAVUyh61NnRQmkiKNO8nm9xeO
+         k6nQ==
+X-Gm-Message-State: ACrzQf1Cg5TXzmnou5x3Y5Czl/bNFjxfI+3YCEd2V++NYPWRcwQRChhN
+        K3mvkxpgA9WVx4sZ0JvwywgXVLCPLjALFx/UzgaIBU8+TAQex/v7C2o80fx+0jEfOBXxvOLJWis
+        aL5RH07MO2ITb8Zs8hoj7
+X-Received: by 2002:a17:907:7d8e:b0:78d:ed30:643b with SMTP id oz14-20020a1709077d8e00b0078ded30643bmr45428654ejc.253.1666948924618;
+        Fri, 28 Oct 2022 02:22:04 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4j/2fPa3s0HO+qy5YZC0lCKZmYPkr+Pw/cCwWJMHHSd+ww3jdyGEU+d3BUFhvzeqvKuGu4lg==
+X-Received: by 2002:a17:907:7d8e:b0:78d:ed30:643b with SMTP id oz14-20020a1709077d8e00b0078ded30643bmr45428634ejc.253.1666948924316;
+        Fri, 28 Oct 2022 02:22:04 -0700 (PDT)
+Received: from [192.168.41.200] (83-90-141-187-cable.dk.customer.tdc.net. [83.90.141.187])
+        by smtp.gmail.com with ESMTPSA id ky9-20020a170907778900b00781dbdb292asm1928013ejc.155.2022.10.28.02.22.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Oct 2022 02:22:03 -0700 (PDT)
+From:   Jesper Dangaard Brouer <jbrouer@redhat.com>
+X-Google-Original-From: Jesper Dangaard Brouer <brouer@redhat.com>
+Message-ID: <ea8948ed-a995-68bc-2d6e-57945f0d5249@redhat.com>
+Date:   Fri, 28 Oct 2022 11:22:02 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.67.164.66]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Cc:     brouer@redhat.com, Maryam Tahhan <mtahhan@redhat.com>
+Subject: Re: [PATCH bpf-next v1] Document BPF_MAP_TYPE_LPM_TRIE
+Content-Language: en-US
+To:     Donald Hunter <donald.hunter@gmail.com>, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20221026100232.49181-1-donald.hunter@gmail.com>
+In-Reply-To: <20221026100232.49181-1-donald.hunter@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Barry Song <v-songbaohua@oppo.com>
 
-on x86, batched and deferred tlb shootdown has lead to 90%
-performance increase on tlb shootdown. on arm64, HW can do
-tlb shootdown without software IPI. But sync tlbi is still
-quite expensive.
 
-Even running a simplest program which requires swapout can
-prove this is true,
- #include <sys/types.h>
- #include <unistd.h>
- #include <sys/mman.h>
- #include <string.h>
+On 26/10/2022 12.02, Donald Hunter wrote:
+> Add documentation for BPF_MAP_TYPE_LPM_TRIE including kernel
+> BPF helper usage, userspace usage and examples.
+> 
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+> ---
+>   Documentation/bpf/map_lpm_trie.rst | 179 +++++++++++++++++++++++++++++
+>   1 file changed, 179 insertions(+)
+>   create mode 100644 Documentation/bpf/map_lpm_trie.rst
 
- int main()
- {
- #define SIZE (1 * 1024 * 1024)
-         volatile unsigned char *p = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
-                                          MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+LGTM
 
-         memset(p, 0x88, SIZE);
+Acked-by: Jesper Dangaard Brouer <brouer@redhat.com>
 
-         for (int k = 0; k < 10000; k++) {
-                 /* swap in */
-                 for (int i = 0; i < SIZE; i += 4096) {
-                         (void)p[i];
-                 }
+(no comments below, but kept it for others comment on)
 
-                 /* swap out */
-                 madvise(p, SIZE, MADV_PAGEOUT);
-         }
- }
-
-Perf result on snapdragon 888 with 8 cores by using zRAM
-as the swap block device.
-
- ~ # perf record taskset -c 4 ./a.out
- [ perf record: Woken up 10 times to write data ]
- [ perf record: Captured and wrote 2.297 MB perf.data (60084 samples) ]
- ~ # perf report
- # To display the perf.data header info, please use --header/--header-only options.
- # To display the perf.data header info, please use --header/--header-only options.
- #
- #
- # Total Lost Samples: 0
- #
- # Samples: 60K of event 'cycles'
- # Event count (approx.): 35706225414
- #
- # Overhead  Command  Shared Object      Symbol
- # ........  .......  .................  .............................................................................
- #
-    21.07%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irq
-     8.23%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irqrestore
-     6.67%  a.out    [kernel.kallsyms]  [k] filemap_map_pages
-     6.16%  a.out    [kernel.kallsyms]  [k] __zram_bvec_write
-     5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
-     3.71%  a.out    [kernel.kallsyms]  [k] _raw_spin_lock
-     3.49%  a.out    [kernel.kallsyms]  [k] memset64
-     1.63%  a.out    [kernel.kallsyms]  [k] clear_page
-     1.42%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock
-     1.26%  a.out    [kernel.kallsyms]  [k] mod_zone_state.llvm.8525150236079521930
-     1.23%  a.out    [kernel.kallsyms]  [k] xas_load
-     1.15%  a.out    [kernel.kallsyms]  [k] zram_slot_lock
-
-ptep_clear_flush() takes 5.36% CPU in the micro-benchmark
-swapping in/out a page mapped by only one process. If the
-page is mapped by multiple processes, typically, like more
-than 100 on a phone, the overhead would be much higher as
-we have to run tlb flush 100 times for one single page.
-Plus, tlb flush overhead will increase with the number
-of CPU cores due to the bad scalability of tlb shootdown
-in HW, so those ARM64 servers should expect much higher
-overhead.
-
-Further perf annonate shows 95% cpu time of ptep_clear_flush
-is actually used by the final dsb() to wait for the completion
-of tlb flush. This provides us a very good chance to leverage
-the existing batched tlb in kernel. The minimum modification
-is that we only send async tlbi in the first stage and we send
-dsb while we have to sync in the second stage.
-
-With the above simplest micro benchmark, collapsed time to
-finish the program decreases around 5%.
-
-Typical collapsed time w/o patch:
- ~ # time taskset -c 4 ./a.out
- 0.21user 14.34system 0:14.69elapsed
-w/ patch:
- ~ # time taskset -c 4 ./a.out
- 0.22user 13.45system 0:13.80elapsed
-
-Also, Yicong Yang added the following observation.
-	Tested with benchmark in the commit on Kunpeng920 arm64 server,
-	observed an improvement around 12.5% with command
-	`time ./swap_bench`.
-		w/o		w/
-	real	0m13.460s	0m11.771s
-	user	0m0.248s	0m0.279s
-	sys	0m12.039s	0m11.458s
-
-	Originally it's noticed a 16.99% overhead of ptep_clear_flush()
-	which has been eliminated by this patch:
-
-	[root@localhost yang]# perf record -- ./swap_bench && perf report
-	[...]
-	16.99%  swap_bench  [kernel.kallsyms]  [k] ptep_clear_flush
-
-It is tested on 4,8,128 CPU platforms and shows to be beneficial on
-large systems but may not have improvement on small systems like on
-a 4 CPU platform. So make ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH depends
-on CONFIG_EXPERT for this stage and only make this enabled on systems
-with more than 8 CPUs. User can modify this threshold according to
-their own platforms by CONFIG_NR_CPUS_FOR_BATCHED_TLB.
-
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Nadav Amit <namit@vmware.com>
-Cc: Mel Gorman <mgorman@suse.de>
-Tested-by: Yicong Yang <yangyicong@hisilicon.com>
-Tested-by: Xin Hao <xhao@linux.alibaba.com>
-Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-Reviewed-by: Kefeng Wang <wangkefeng.wang@huawei.com>
----
- .../features/vm/TLB/arch-support.txt          |  2 +-
- arch/arm64/Kconfig                            |  6 +++
- arch/arm64/include/asm/tlbbatch.h             | 12 +++++
- arch/arm64/include/asm/tlbflush.h             | 46 ++++++++++++++++++-
- arch/x86/include/asm/tlbflush.h               |  3 +-
- mm/rmap.c                                     | 10 ++--
- 6 files changed, 71 insertions(+), 8 deletions(-)
- create mode 100644 arch/arm64/include/asm/tlbbatch.h
-
-diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
-index 039e4e91ada3..2caf815d7c6c 100644
---- a/Documentation/features/vm/TLB/arch-support.txt
-+++ b/Documentation/features/vm/TLB/arch-support.txt
-@@ -9,7 +9,7 @@
-     |       alpha: | TODO |
-     |         arc: | TODO |
-     |         arm: | TODO |
--    |       arm64: | N/A  |
-+    |       arm64: |  ok  |
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 505c8a1ccbe0..72975e82c7d7 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -93,6 +93,7 @@ config ARM64
- 	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
- 	select ARCH_SUPPORTS_NUMA_BALANCING
- 	select ARCH_SUPPORTS_PAGE_TABLE_CHECK
-+	select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH if EXPERT
- 	select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
- 	select ARCH_WANT_DEFAULT_BPF_JIT
- 	select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT
-@@ -268,6 +269,11 @@ config ARM64_CONT_PMD_SHIFT
- 	default 5 if ARM64_16K_PAGES
- 	default 4
- 
-+config ARM64_NR_CPUS_FOR_BATCHED_TLB
-+	int "Threshold to enable batched TLB flush"
-+	default 8
-+	depends on ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
-+
- config ARCH_MMAP_RND_BITS_MIN
- 	default 14 if ARM64_64K_PAGES
- 	default 16 if ARM64_16K_PAGES
-diff --git a/arch/arm64/include/asm/tlbbatch.h b/arch/arm64/include/asm/tlbbatch.h
-new file mode 100644
-index 000000000000..fedb0b87b8db
---- /dev/null
-+++ b/arch/arm64/include/asm/tlbbatch.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _ARCH_ARM64_TLBBATCH_H
-+#define _ARCH_ARM64_TLBBATCH_H
-+
-+struct arch_tlbflush_unmap_batch {
-+	/*
-+	 * For arm64, HW can do tlb shootdown, so we don't
-+	 * need to record cpumask for sending IPI
-+	 */
-+};
-+
-+#endif /* _ARCH_ARM64_TLBBATCH_H */
-diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
-index 412a3b9a3c25..b21cdeb57a18 100644
---- a/arch/arm64/include/asm/tlbflush.h
-+++ b/arch/arm64/include/asm/tlbflush.h
-@@ -254,17 +254,23 @@ static inline void flush_tlb_mm(struct mm_struct *mm)
- 	dsb(ish);
- }
- 
--static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
-+static inline void __flush_tlb_page_nosync(struct mm_struct *mm,
- 					 unsigned long uaddr)
- {
- 	unsigned long addr;
- 
- 	dsb(ishst);
--	addr = __TLBI_VADDR(uaddr, ASID(vma->vm_mm));
-+	addr = __TLBI_VADDR(uaddr, ASID(mm));
- 	__tlbi(vale1is, addr);
- 	__tlbi_user(vale1is, addr);
- }
- 
-+static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
-+					 unsigned long uaddr)
-+{
-+	return __flush_tlb_page_nosync(vma->vm_mm, uaddr);
-+}
-+
- static inline void flush_tlb_page(struct vm_area_struct *vma,
- 				  unsigned long uaddr)
- {
-@@ -272,6 +278,42 @@ static inline void flush_tlb_page(struct vm_area_struct *vma,
- 	dsb(ish);
- }
- 
-+#ifdef CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
-+
-+static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
-+{
-+	/*
-+	 * TLB batched flush is proved to be beneficial for systems with large
-+	 * number of CPUs, especially system with more than 8 CPUs. TLB shutdown
-+	 * is cheap on small systems which may not need this feature. So use
-+	 * a threshold for enabling this to avoid potential side effects on
-+	 * these platforms.
-+	 */
-+	if (num_online_cpus() <= CONFIG_ARM64_NR_CPUS_FOR_BATCHED_TLB)
-+		return false;
-+
-+#ifdef CONFIG_ARM64_WORKAROUND_REPEAT_TLBI
-+	if (unlikely(this_cpu_has_cap(ARM64_WORKAROUND_REPEAT_TLBI)))
-+		return false;
-+#endif
-+
-+	return true;
-+}
-+
-+static inline void arch_tlbbatch_add_mm(struct arch_tlbflush_unmap_batch *batch,
-+					struct mm_struct *mm,
-+					unsigned long uaddr)
-+{
-+	__flush_tlb_page_nosync(mm, uaddr);
-+}
-+
-+static inline void arch_tlbbatch_flush(struct arch_tlbflush_unmap_batch *batch)
-+{
-+	dsb(ish);
-+}
-+
-+#endif /* CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH */
-+
- /*
-  * This is meant to avoid soft lock-ups on large TLB flushing ranges and not
-  * necessarily a performance improvement.
-diff --git a/arch/x86/include/asm/tlbflush.h b/arch/x86/include/asm/tlbflush.h
-index 8a497d902c16..5bd78ae55cd4 100644
---- a/arch/x86/include/asm/tlbflush.h
-+++ b/arch/x86/include/asm/tlbflush.h
-@@ -264,7 +264,8 @@ static inline u64 inc_mm_tlb_gen(struct mm_struct *mm)
- }
- 
- static inline void arch_tlbbatch_add_mm(struct arch_tlbflush_unmap_batch *batch,
--					struct mm_struct *mm)
-+					struct mm_struct *mm,
-+					unsigned long uaddr)
- {
- 	inc_mm_tlb_gen(mm);
- 	cpumask_or(&batch->cpumask, &batch->cpumask, mm_cpumask(mm));
-diff --git a/mm/rmap.c b/mm/rmap.c
-index a9ab10bc0144..a1b408ff44e5 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -640,12 +640,13 @@ void try_to_unmap_flush_dirty(void)
- #define TLB_FLUSH_BATCH_PENDING_LARGE			\
- 	(TLB_FLUSH_BATCH_PENDING_MASK / 2)
- 
--static void set_tlb_ubc_flush_pending(struct mm_struct *mm, bool writable)
-+static void set_tlb_ubc_flush_pending(struct mm_struct *mm, bool writable,
-+				      unsigned long uaddr)
- {
- 	struct tlbflush_unmap_batch *tlb_ubc = &current->tlb_ubc;
- 	int batch, nbatch;
- 
--	arch_tlbbatch_add_mm(&tlb_ubc->arch, mm);
-+	arch_tlbbatch_add_mm(&tlb_ubc->arch, mm, uaddr);
- 	tlb_ubc->flush_required = true;
- 
- 	/*
-@@ -723,7 +724,8 @@ void flush_tlb_batched_pending(struct mm_struct *mm)
- 	}
- }
- #else
--static void set_tlb_ubc_flush_pending(struct mm_struct *mm, bool writable)
-+static void set_tlb_ubc_flush_pending(struct mm_struct *mm, bool writable,
-+				      unsigned long uaddr)
- {
- }
- 
-@@ -1596,7 +1598,7 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
- 				 */
- 				pteval = ptep_get_and_clear(mm, address, pvmw.pte);
- 
--				set_tlb_ubc_flush_pending(mm, pte_dirty(pteval));
-+				set_tlb_ubc_flush_pending(mm, pte_dirty(pteval), address);
- 			} else {
- 				pteval = ptep_clear_flush(vma, address, pvmw.pte);
- 			}
--- 
-2.24.0
+> diff --git a/Documentation/bpf/map_lpm_trie.rst b/Documentation/bpf/map_lpm_trie.rst
+> new file mode 100644
+> index 000000000000..d57c967d11d0
+> --- /dev/null
+> +++ b/Documentation/bpf/map_lpm_trie.rst
+> @@ -0,0 +1,179 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +.. Copyright (C) 2022 Red Hat, Inc.
+> +
+> +=====================
+> +BPF_MAP_TYPE_LPM_TRIE
+> +=====================
+> +
+> +.. note::
+> +   - ``BPF_MAP_TYPE_LPM_TRIE`` was introduced in kernel version 4.11
+> +
+> +``BPF_MAP_TYPE_LPM_TRIE`` provides a longest prefix match algorithm that
+> +can be used to match IP addresses to a stored set of prefixes.
+> +Internally, data is stored in an unbalanced trie of nodes that uses
+> +``prefixlen,data`` pairs as its keys. The ``data`` is interpreted in
+> +network byte order, i.e. big endian, so ``data[0]`` stores the most
+> +significant byte.
+> +
+> +LPM tries may be created with a maximum prefix length that is a multiple
+> +of 8, in the range from 8 to 2048. The key used for lookup and update
+> +operations is a ``struct bpf_lpm_trie_key``, extended by
+> +``max_prefixlen/8`` bytes.
+> +
+> +- For IPv4 addresses the data length is 4 bytes
+> +- For IPv6 addresses the data length is 16 bytes
+> +
+> +The value type stored in the LPM trie can be any user defined type.
+> +
+> +.. note::
+> +   When creating a map of type ``BPF_MAP_TYPE_LPM_TRIE`` you must set the
+> +   ``BPF_F_NO_PREALLOC`` flag.
+> +
+> +Usage
+> +=====
+> +
+> +Kernel BPF
+> +----------
+> +
+> +.. c:function::
+> +   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+> +
+> +The longest prefix entry for a given data value can be found using the
+> +``bpf_map_lookup_elem()`` helper. This helper returns a pointer to the
+> +value associated with the longest matching ``key``, or ``NULL`` if no
+> +entry was found.
+> +
+> +The ``key`` should have ``prefixlen`` set to ``max_prefixlen`` when
+> +performing longest prefix lookups. For example, when searching for the
+> +longest prefix match for an IPv4 address, ``prefixlen`` should be set to
+> +``32``.
+> +
+> +.. c:function::
+> +   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
+> +
+> +Prefix entries can be added or updated using the ``bpf_map_update_elem()``
+> +helper. This helper replaces existing elements atomically.
+> +
+> +``bpf_map_update_elem()`` returns ``0`` on success, or negative error in
+> +case of failure.
+> +
+> + .. note::
+> +    The flags parameter must be one of BPF_ANY, BPF_NOEXIST or BPF_EXIST,
+> +    but the value is ignored, giving BPF_ANY semantics.
+> +
+> +.. c:function::
+> +   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
+> +
+> +Prefix entries can be deleted using the ``bpf_map_delete_elem()``
+> +helper. This helper will return 0 on success, or negative error in case
+> +of failure.
+> +
+> +Userspace
+> +---------
+> +
+> +Access from userspace uses libbpf APIs with the same names as above, with
+> +the map identified by ``fd``.
+> +
+> +.. c:function::
+> +   int bpf_map_get_next_key (int fd, const void *cur_key, void *next_key)
+> +
+> +A userspace program can iterate through the entries in an LPM trie using
+> +libbpf's ``bpf_map_get_next_key()`` function. The first key can be
+> +fetched by calling ``bpf_map_get_next_key()`` with ``cur_key`` set to
+> +``NULL``. Subsequent calls will fetch the next key that follows the
+> +current key. ``bpf_map_get_next_key()`` returns ``0`` on success,
+> +``-ENOENT`` if cur_key is the last key in the hash, or negative error in
+> +case of failure.
+> +
+> +``bpf_map_get_next_key()`` will iterate through the LPM trie elements
+> +from leftmost leaf first. This means that iteration will return more
+> +specific keys before less specific ones.
+> +
+> +Examples
+> +========
+> +
+> +Please see ``tools/samples/bpf/xdp_router_ipv4_user.c`` and
+> +``xdp_router_ipv4.bpf.c`` for a functional example. The code snippets
+> +below demonstrates API usage.
+> +
+> +Kernel BPF
+> +----------
+> +
+> +The following BPF code snippet shows how to declare a new LPM trie for IPv4
+> +address prefixes:
+> +
+> +.. code-block:: c
+> +
+> +    #include <linux/bpf.h>
+> +    #include <bpf/bpf_helpers.h>
+> +
+> +    struct ipv4_lpm_key {
+> +            __u32 prefixlen;
+> +            __u32 data;
+> +    };
+> +
+> +    struct {
+> +            __uint(type, BPF_MAP_TYPE_LPM_TRIE);
+> +            __type(key, struct ipv4_lpm_key);
+> +            __type(value, __u32);
+> +            __uint(map_flags, BPF_F_NO_PREALLOC);
+> +            __uint(max_entries, 255);
+> +    } ipv4_lpm_map SEC(".maps");
+> +
+> +The following BPF code snippet shows how to lookup by IPv4 address:
+> +
+> +.. code-block:: c
+> +
+> +    void *lookup(__u32 ipaddr)
+> +    {
+> +            struct ipv4_lpm_key key = {
+> +                    .prefixlen = 32,
+> +                    .data = ipaddr
+> +            };
+> +
+> +            return bpf_map_lookup_elem(&ipv4_lpm_map, &key);
+> +    }
+> +
+> +Userspace
+> +---------
+> +
+> +The following snippet shows how to insert an IPv4 prefix entry into an LPM trie:
+> +
+> +.. code-block:: c
+> +
+> +    int add_prefix_entry(int lpm_fd, __u32 addr, __u32 prefixlen, struct value *value)
+> +    {
+> +            struct ipv4_lpm_key ipv4_key = {
+> +                    .prefixlen = prefixlen,
+> +                    .data = addr
+> +            };
+> +            return bpf_map_update_elem(lpm_fd, &ipv4_key, value, BPF_ANY);
+> +    }
+> +
+> +The following snippet shows a userspace program walking through LPM trie
+> +entries:
+> +
+> +.. code-block:: c
+> +
+> +    #include <bpf/libbpf.h>
+> +    #include <bpf/bpf.h>
+> +
+> +    void iterate_lpm_trie(int map_fd)
+> +    {
+> +            struct ipv4_lpm_key *cur_key = NULL;
+> +            struct ipv4_lpm_key next_key;
+> +            struct value value;
+> +            int err;
+> +
+> +            for (;;) {
+> +                    err = bpf_map_get_next_key(map_fd, cur_key, &next_key);
+> +                    if (err)
+> +                            break;
+> +
+> +                    bpf_map_lookup_elem(map_fd, &next_key, &value);
+> +
+> +                    /* Use key and value here */
+> +
+> +                    cur_key = &next_key;
+> +            }
+> +    }
 
