@@ -2,93 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD1BBECAAA1
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 18:19:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1BD1ECAAA1
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 18:29:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229776AbiJ1STi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 28 Oct 2022 14:19:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46750 "EHLO
+        id S229379AbiJ1S3A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 28 Oct 2022 14:29:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbiJ1STi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 14:19:38 -0400
+        with ESMTP id S229727AbiJ1S3A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 28 Oct 2022 14:29:00 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18FCF55B1;
-        Fri, 28 Oct 2022 11:19:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEFD61EB544;
+        Fri, 28 Oct 2022 11:28:59 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9B1A560C;
-        Fri, 28 Oct 2022 18:19:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9B1A560C
+        by ms.lwn.net (Postfix) with ESMTPSA id 6A8BB60C;
+        Fri, 28 Oct 2022 18:28:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6A8BB60C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1666981169; bh=Oc5cMdKanGrG3AiQdbRR/5dfJXVOInrFY/Y/d7mf19w=;
+        t=1666981739; bh=8uJfkxcjmwrwp6oqALKbmrqEDzrWBbWor3WgNDeNADY=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=O9z8oKHanbEgjMaZ5jB56/4e8hU4siOlE4MdLZQ7i/bC80VBFyv31JKvfCVXXJJRN
-         n/tVLhiXBdKD9cotPj/qnf2f8sT/bFyEmJPpPH5ZWkiOzJrZ8oM7C/J8mI+WTmVNGS
-         wVJW34Lp4U5tz+rYfWRMK6kE4svVrXdo1qxGDMhLmHVA1ZjhUpwe8d6Bm8zivPkdtl
-         tTQvd8paOeAy58OKgeay6w2XvPgiyoF6Ofz7By961g2vTqoah197pDN5BQOM1InjGb
-         QPv+7lS8NlkUlMICCM3ajsUDIDIEG7frKrDuApsbVSWtcSwnA2gbNk4BWArWgCPV+K
-         AEBadMbq1Upjg==
+        b=b5jSsMcLi27O5oQunvhZPC4SIiLOnG1X9oA/hcv2Hb0A83cf6BqO2Hnookw0WcdxS
+         RQK7fH4LN0/WngjZPjG19gMZIsAb1IEQiC4F/KH3EFsCOrILUkHsvUZEqs0dtA0pJI
+         qK0vvLcjmrkSVwXP6R+zrzCFshefGGs2y9sHksrjeEKqXJ5lfNRVqe3a8PRb/Jpcmo
+         UC4ii2Kd6s4iCqsil4XYG56VuBhYdCPoSBp3lCXomcr3c9QwGtDqMVFEx/aWEaV0Z4
+         Y33JTFyRywWf3doaR8Yu7JLSiLgtFdj9kmLKPsRvJccks/AxQvgyDL4awLO7BJWFCa
+         AKl65WSW8R/Dg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/sphinx: More depth in the rtd sidebar toc
-In-Reply-To: <20221027104406.549734-1-daniel.vetter@ffwll.ch>
-References: <20221027104406.549734-1-daniel.vetter@ffwll.ch>
-Date:   Fri, 28 Oct 2022 12:19:29 -0600
-Message-ID: <87tu3n6cb2.fsf@meer.lwn.net>
+To:     Rui Li <me@lirui.org>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>
+Cc:     Wu XiangCheng <wu.xiangcheng@linux.dev>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Rui Li <me@lirui.org>
+Subject: Re: [PATCH v3 0/2] docs/zh_CN: Add userspace-api/index and ebpf
+ Chinese translation
+In-Reply-To: <cover.1666185911.git.me@lirui.org>
+References: <cover.1666185911.git.me@lirui.org>
+Date:   Fri, 28 Oct 2022 12:28:58 -0600
+Message-ID: <87pmeb6bv9.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Daniel Vetter <daniel.vetter@ffwll.ch> writes:
+Rui Li <me@lirui.org> writes:
 
-> We love to nest our documenation for good structure, but that means
-> the table of contents needs to keep up or you can't navigate them.
+> Translate the following documents into Chinese:
 >
-> Realized this trying to find the drm property documentation, which
-> with some shuffling around disappeared. Why I didn't realize we can do
-> this earlier, no idea.
+> - Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
+> - Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
+> - Documentation/translations/zh_CN/userspace-api/index.rst
 >
-> Since the relevant parts of the toc are only loaded if you're in the
-> right .html file there's no harm in going all the way to unlimited.
+> Add userspace-api into the menu of zh_CN index.
 >
-> Note that this has no impact on the classic theme (which doesn't have
-> the sidebar) nor on the various :toctree: rendered inline in the
-> output.
+> Rui Li (2):
+>   docs/zh_CN: Add userspace-api/index Chinese translation
+>   docs/zh_CN: Add userspace-api/ebpf Chinese translation
 >
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
->  Documentation/conf.py | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 934727e23e0e..5dc141c66726 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -240,6 +240,10 @@ if html_theme == 'sphinx_rtd_theme' or html_theme == 'sphinx_rtd_dark_mode':
->                  # Add color-specific RTD normal mode
->                  html_css_files.append('theme_rtd_colors.css')
->  
-> +        html_theme_options = {
-> +            'navigation_depth': -1,
-> +        }
-> +
->      except ImportError:
->          html_theme = 'classic'
+>  Documentation/translations/zh_CN/index.rst    |  2 +-
+>  .../zh_CN/userspace-api/ebpf/index.rst        | 22 ++++++++
+>  .../zh_CN/userspace-api/ebpf/syscall.rst      | 29 +++++++++++
+>  .../zh_CN/userspace-api/index.rst             | 50 +++++++++++++++++++
+>  4 files changed, 102 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/index.rst
+>  create mode 100644 Documentation/translations/zh_CN/userspace-api/ebpf/syscall.rst
+>  create mode 100644 Documentation/translations/zh_CN/userspace-api/index.rst
 
-So this patch isn't against docs-next, and applies to the RTD theme,
-which is no longer the default.  I have no objection to it, but have you
-looked at how your docs come out with the alabaster theme?
-
-Thanks,
+Applied, thanks.
 
 jon
