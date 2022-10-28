@@ -2,103 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D126FECAAA1
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 02:33:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C598FA373D
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 02:50:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235668AbiJ1Cdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Oct 2022 22:33:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46052 "EHLO
+        id S236523AbiJ1Cum (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Oct 2022 22:50:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229998AbiJ1Cdx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 22:33:53 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97910BB3B3;
-        Thu, 27 Oct 2022 19:33:52 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id b2so9858744eja.6;
-        Thu, 27 Oct 2022 19:33:52 -0700 (PDT)
+        with ESMTP id S234867AbiJ1Cul (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 22:50:41 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 949FE5B724;
+        Thu, 27 Oct 2022 19:50:40 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id cr19so2798123qtb.0;
+        Thu, 27 Oct 2022 19:50:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=53s4zP1UbHrZ8BLuZgRVSbCBJDm3/rz9JXrjUQqbB5E=;
-        b=WqdwLO4ke2DgLv0opSrzgJZjZHbK0QD8uH4ZNd0x7dk3s52U+rbOWgudpTkvlrbc2C
-         njU2wtGfrvV8/NUss1r1BUe0ygYP0nWdf+rRnRW4iOhcdq4E7JgmNeYcpaER62C++10W
-         Rf95LXFsaYGzr7yodO/XgAhLvDQCLx8jb/r+Lbn8kK25e1uSti9JV5ceofWXWDnK8EcB
-         YS6XfxG28QdlWzh6VvM+B2fo1ubnZXeMEk8Mb9SzWDrUtTO7k2d0V+BYHU5dJS8+BN3+
-         yEEOJUGLXKRULSBtEfLR87dRCV4abkoy+j9klKG9rdJkiEPKgQeaxGkRnSYHdqmIrymv
-         xEpw==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=t5Ep/zI57uGQ7BXyZF7xK1sUrnH2cyShmygiCTP45g8=;
+        b=AQ7qcREf/U8bAmbf+h4JnB6/o/Uu6HOjga3pgyuFvwQxblNMssad/GBme48+gOtEBx
+         z/PK323Fqm1Pz5bHf47hZUhaKxZj0K73NRnww6/R19YvLdCEVjzIFbIFCAqrtGBRJ1ix
+         iwNcNWxef3t8RIrw5/tdqKL1wcXCE1dtcnWx6HTe/K0Q7ktWn22R3sHlda3hZDkNn8V1
+         U/2Sk7UZUuiPs+zO/bCSbwPh6WogqOEYvucSrlztTQ3JjRKA+a3wm4TcF40GK5XtWM0H
+         TkCIbOo1l7BND1byVT8Z0N4a4fMMISRqm+vbbudKLrp44/+qOMc1oZ37833TJvddwKUD
+         ZRJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=53s4zP1UbHrZ8BLuZgRVSbCBJDm3/rz9JXrjUQqbB5E=;
-        b=U8Jtmcy38yxUc8qvv5x1r2eqnCwiCtD/R/L5YSzhSw9LRhDiQgZrmjb9XaotDAniF3
-         LFq0szL7s3HOTSrVxIWO6F02gASuNkaZNrteHKcVXnyGWc/fV4PrOf/5KuueliETh36m
-         q6gVgdIT/lnCWl73bqWtclpTj71s8qYoZWFKf5DcsAjcTx/96PJhQiNuwHHOLuNhAxTF
-         uIAWPHW7XpQto9SegXVyBZtk+eX2KndSA4QeR4oyLyGF5PHLIIZpbvTRhcZaHz1CM+Gr
-         QB406B9Mejkp6SkT+SsVUYahOstnnMJZX6USvZ8VoEOvpca8HoKsBALPWc6xAX5q7Poc
-         xX3w==
-X-Gm-Message-State: ACrzQf17HgvU+MrFTVCBc+bRL7Lx1GwJuMDcM3FRqJjOvpe5WaLTmCKD
-        kKZ/jFuUxj9tmLpj9aIRtCunsrcFva5hB0/hn/4=
-X-Google-Smtp-Source: AMsMyM7/yz23JjtCZZBG4XioO8LLTMkgQkesu0H7ASDVCHRK0f36BZw2OFvG1P/5ZVpCqSaVcLKXWKDgKFVy6fpso9Q=
-X-Received: by 2002:a17:907:2bdb:b0:7ad:95e5:ce80 with SMTP id
- gv27-20020a1709072bdb00b007ad95e5ce80mr3390491ejc.625.1666924431113; Thu, 27
- Oct 2022 19:33:51 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=t5Ep/zI57uGQ7BXyZF7xK1sUrnH2cyShmygiCTP45g8=;
+        b=EDypVPIv2UKriM8tkzUGBVRPLMFDdcFmvcuuSFjB8fGzn0QEjllwZZdIM8wmkpRWaI
+         bMR/6BXQl1qHcCaMeJ2rqWGO/ua4VYu4q0jpG+epwx3zgU3+2eLninJEi3zBngBCqor9
+         /SCjE3fQ1yflpUpi4ElLZD65nvNq/GCX0940W2Pivv8VzF/gUN/42Fb1VGEMM1ukfry+
+         bFF+pAHX/BY3GhaCIA1hGCTDp695GGDRZrvaf/UuDUynT9X3ZhPZGPo+tHbZeG43ruKF
+         tWEUL0BDmowhD35mPAocFzxKkZn6h7rztaIhrGZeDfsKhZswf9VTDnAc0+FRP4CMXUHi
+         yDvA==
+X-Gm-Message-State: ACrzQf38EL7xgAPrwXbiEs+Jo7v/zdKHft2h2KtaOLPKdkgJzrmZwTTD
+        RMoxroHwPWGbUexw2SuATqU=
+X-Google-Smtp-Source: AMsMyM4Nv+0m8bYMqzbLGds5n2zHneZr8/7WguTYFwvf8/0ldTHVdVXBDWN9aEgdh+A0B3cGmcx6QQ==
+X-Received: by 2002:ac8:5b4d:0:b0:3a4:f759:5ac9 with SMTP id n13-20020ac85b4d000000b003a4f7595ac9mr6278306qtw.454.1666925439446;
+        Thu, 27 Oct 2022 19:50:39 -0700 (PDT)
+Received: from [192.168.1.102] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
+        by smtp.gmail.com with ESMTPSA id bs15-20020a05620a470f00b006ec09d7d357sm2143569qkb.47.2022.10.27.19.50.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Oct 2022 19:50:38 -0700 (PDT)
+Message-ID: <880ede37-773e-c2bd-8a69-6e3d202983d9@gmail.com>
+Date:   Thu, 27 Oct 2022 19:50:35 -0700
 MIME-Version: 1.0
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com> <20221026185846.3983888-3-quic_eberman@quicinc.com>
-In-Reply-To: <20221026185846.3983888-3-quic_eberman@quicinc.com>
-From:   Jassi Brar <jassisinghbrar@gmail.com>
-Date:   Thu, 27 Oct 2022 21:33:39 -0500
-Message-ID: <CABb+yY3JVNPG3dcyHNFxEeGEu3MN_pAOh3+cwexPPe2YG6SNUg@mail.gmail.com>
-Subject: Re: [PATCH v6 02/21] dt-bindings: Add binding for gunyah hypervisor
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH net-next v2] ethtool: linkstate: add a statistic for PHY
+ down events
+Content-Language: en-US
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        corbet@lwn.net, michael.chan@broadcom.com, andrew@lunn.ch,
+        hkallweit1@gmail.com, linux@armlinux.org.uk,
+        huangguangbin2@huawei.com, chenhao288@hisilicon.com,
+        moshet@nvidia.com, linux@rempel-privat.de,
+        linux-doc@vger.kernel.org
+References: <20221028012719.2702267-1-kuba@kernel.org>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20221028012719.2702267-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 26, 2022 at 1:59 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
-.....
-> +
-> +        gunyah-resource-mgr@0 {
-> +            compatible = "gunyah-resource-manager-1-0", "gunyah-resource-manager";
-> +            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX full IRQ */
-> +                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX empty IRQ */
-> +            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
-> +                  /* TX, RX cap ids */
-> +        };
->
-All these resources are used only by the mailbox controller driver.
-So, this should be the mailbox controller node, rather than the
-mailbox user.
-One option is to load gunyah-resource-manager as a module that relies
-on the gunyah-mailbox provider. That would also avoid the "Allow
-direct registration to a channel" hack patch.
 
-thanks.
+
+On 10/27/2022 6:27 PM, Jakub Kicinski wrote:
+> The previous attempt to augment carrier_down (see Link)
+> was not met with much enthusiasm so let's do the simple
+> thing of exposing what some devices already maintain.
+> Add a common ethtool statistic for link going down.
+> Currently users have to maintain per-driver mapping
+> to extract the right stat from the vendor-specific ethtool -S
+> stats. carrier_down does not fit the bill because it counts
+> a lot of software related false positives.
+> 
+> Add the statistic to the extended link state API to steer
+> vendors towards implementing all of it.
+> 
+> Implement for bnxt and all Linux-controlled PHYs. mlx5 and (possibly)
+> enic also have a counter for this but I leave the implementation
+> to their maintainers.
+> 
+> Link: https://lore.kernel.org/r/20220520004500.2250674-1-kuba@kernel.org
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+[snip]
+
+Looks good just one nit/comment, feel free to respin or add:
+
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+
+> @@ -723,6 +724,8 @@ struct phy_device {
+>   
+>   	int pma_extable;
+>   
+> +	unsigned int link_down_events;
+
+Should not this be an u64 to match what the extended link state can 
+report? Not that I would hope that anyone had a chance to witness 4 
+billion link down events using PHYLIB.
+-- 
+Florian
