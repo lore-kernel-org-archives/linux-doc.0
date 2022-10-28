@@ -2,113 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C598FA373D
-	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 02:50:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A7C2ECAAA1
+	for <linux-doc@archiver.kernel.org>; Fri, 28 Oct 2022 03:08:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236523AbiJ1Cum (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 27 Oct 2022 22:50:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56348 "EHLO
+        id S229531AbiJ1DIx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 27 Oct 2022 23:08:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234867AbiJ1Cul (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 22:50:41 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 949FE5B724;
-        Thu, 27 Oct 2022 19:50:40 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id cr19so2798123qtb.0;
-        Thu, 27 Oct 2022 19:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t5Ep/zI57uGQ7BXyZF7xK1sUrnH2cyShmygiCTP45g8=;
-        b=AQ7qcREf/U8bAmbf+h4JnB6/o/Uu6HOjga3pgyuFvwQxblNMssad/GBme48+gOtEBx
-         z/PK323Fqm1Pz5bHf47hZUhaKxZj0K73NRnww6/R19YvLdCEVjzIFbIFCAqrtGBRJ1ix
-         iwNcNWxef3t8RIrw5/tdqKL1wcXCE1dtcnWx6HTe/K0Q7ktWn22R3sHlda3hZDkNn8V1
-         U/2Sk7UZUuiPs+zO/bCSbwPh6WogqOEYvucSrlztTQ3JjRKA+a3wm4TcF40GK5XtWM0H
-         TkCIbOo1l7BND1byVT8Z0N4a4fMMISRqm+vbbudKLrp44/+qOMc1oZ37833TJvddwKUD
-         ZRJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t5Ep/zI57uGQ7BXyZF7xK1sUrnH2cyShmygiCTP45g8=;
-        b=EDypVPIv2UKriM8tkzUGBVRPLMFDdcFmvcuuSFjB8fGzn0QEjllwZZdIM8wmkpRWaI
-         bMR/6BXQl1qHcCaMeJ2rqWGO/ua4VYu4q0jpG+epwx3zgU3+2eLninJEi3zBngBCqor9
-         /SCjE3fQ1yflpUpi4ElLZD65nvNq/GCX0940W2Pivv8VzF/gUN/42Fb1VGEMM1ukfry+
-         bFF+pAHX/BY3GhaCIA1hGCTDp695GGDRZrvaf/UuDUynT9X3ZhPZGPo+tHbZeG43ruKF
-         tWEUL0BDmowhD35mPAocFzxKkZn6h7rztaIhrGZeDfsKhZswf9VTDnAc0+FRP4CMXUHi
-         yDvA==
-X-Gm-Message-State: ACrzQf38EL7xgAPrwXbiEs+Jo7v/zdKHft2h2KtaOLPKdkgJzrmZwTTD
-        RMoxroHwPWGbUexw2SuATqU=
-X-Google-Smtp-Source: AMsMyM4Nv+0m8bYMqzbLGds5n2zHneZr8/7WguTYFwvf8/0ldTHVdVXBDWN9aEgdh+A0B3cGmcx6QQ==
-X-Received: by 2002:ac8:5b4d:0:b0:3a4:f759:5ac9 with SMTP id n13-20020ac85b4d000000b003a4f7595ac9mr6278306qtw.454.1666925439446;
-        Thu, 27 Oct 2022 19:50:39 -0700 (PDT)
-Received: from [192.168.1.102] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
-        by smtp.gmail.com with ESMTPSA id bs15-20020a05620a470f00b006ec09d7d357sm2143569qkb.47.2022.10.27.19.50.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Oct 2022 19:50:38 -0700 (PDT)
-Message-ID: <880ede37-773e-c2bd-8a69-6e3d202983d9@gmail.com>
-Date:   Thu, 27 Oct 2022 19:50:35 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH net-next v2] ethtool: linkstate: add a statistic for PHY
- down events
-Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        corbet@lwn.net, michael.chan@broadcom.com, andrew@lunn.ch,
-        hkallweit1@gmail.com, linux@armlinux.org.uk,
+        with ESMTP id S234884AbiJ1DIw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 27 Oct 2022 23:08:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0785A48A07;
+        Thu, 27 Oct 2022 20:08:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9961D625E1;
+        Fri, 28 Oct 2022 03:08:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72E8AC433B5;
+        Fri, 28 Oct 2022 03:08:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666926531;
+        bh=v5tBBIl0hmiCA93khbzSNtrdC8qEit67keKoDj0Edg4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=uqHiL3VnNUexaeI52NkXwLNtt7iGSjqm1Zbj5qD+h/MW7bnsM8MLIIxs83dHsamW0
+         ZZoLf45oZlgV1w8rTP2J6m6KRD8RKa/sYMf4Do88dqqCshj/o4d+MFAymAwDGAGQ6C
+         +KhBQ5zO/+asxetMNfJPOFiqgLdH5H2U8Z4rF3TOfg5/4Rca1swdHEm3E8bnjQ99oi
+         aTfFA5DIkgDujHzYUanrGW0sPMh+NdtLWJmlvmDzKDYF4EBixmCzPR0rQfuFjIizxX
+         im3MStN5aktQOd6/gDfNhRr2QOySereQAgMBs/or0eXC14sxFuFGJHHvf9tvnC++eI
+         HTo5hB3TVMykg==
+Date:   Thu, 27 Oct 2022 20:08:49 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, corbet@lwn.net, michael.chan@broadcom.com,
+        andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
         huangguangbin2@huawei.com, chenhao288@hisilicon.com,
         moshet@nvidia.com, linux@rempel-privat.de,
         linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v2] ethtool: linkstate: add a statistic for PHY
+ down events
+Message-ID: <20221027200849.34e26e3e@kernel.org>
+In-Reply-To: <880ede37-773e-c2bd-8a69-6e3d202983d9@gmail.com>
 References: <20221028012719.2702267-1-kuba@kernel.org>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20221028012719.2702267-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        <880ede37-773e-c2bd-8a69-6e3d202983d9@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 10/27/2022 6:27 PM, Jakub Kicinski wrote:
-> The previous attempt to augment carrier_down (see Link)
-> was not met with much enthusiasm so let's do the simple
-> thing of exposing what some devices already maintain.
-> Add a common ethtool statistic for link going down.
-> Currently users have to maintain per-driver mapping
-> to extract the right stat from the vendor-specific ethtool -S
-> stats. carrier_down does not fit the bill because it counts
-> a lot of software related false positives.
+On Thu, 27 Oct 2022 19:50:35 -0700 Florian Fainelli wrote:
+> > @@ -723,6 +724,8 @@ struct phy_device {
+> >   
+> >   	int pma_extable;
+> >   
+> > +	unsigned int link_down_events;  
 > 
-> Add the statistic to the extended link state API to steer
-> vendors towards implementing all of it.
-> 
-> Implement for bnxt and all Linux-controlled PHYs. mlx5 and (possibly)
-> enic also have a counter for this but I leave the implementation
-> to their maintainers.
-> 
-> Link: https://lore.kernel.org/r/20220520004500.2250674-1-kuba@kernel.org
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-[snip]
+> Should not this be an u64 to match what the extended link state can 
+> report? Not that I would hope that anyone had a chance to witness 4 
+> billion link down events using PHYLIB.
 
-Looks good just one nit/comment, feel free to respin or add:
-
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-
-> @@ -723,6 +724,8 @@ struct phy_device {
->   
->   	int pma_extable;
->   
-> +	unsigned int link_down_events;
-
-Should not this be an u64 to match what the extended link state can 
-report? Not that I would hope that anyone had a chance to witness 4 
-billion link down events using PHYLIB.
--- 
-Florian
+How about I also make the uAPI side 32 bit? I made it 64b because
+that feels like the default these days but as you say, re-training
+a link 4 billion times is unlikely to happen in one person's lifetime :S
