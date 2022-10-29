@@ -2,200 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24704FA3743
-	for <linux-doc@archiver.kernel.org>; Sat, 29 Oct 2022 09:11:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0938DC38A02
+	for <linux-doc@archiver.kernel.org>; Sat, 29 Oct 2022 09:14:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229739AbiJ2JLh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 29 Oct 2022 05:11:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50888 "EHLO
+        id S229531AbiJ2JO6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 29 Oct 2022 05:14:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229741AbiJ2JLg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Oct 2022 05:11:36 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 714A874DFF;
-        Sat, 29 Oct 2022 02:11:35 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id j7so2915633pjn.5;
-        Sat, 29 Oct 2022 02:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XGovVwjV1E6BtwAiQsNOA452MnQdQNOQG6D6vOb6hjA=;
-        b=p2QpFFF5brhI4B/eXe+Z4xKQnOouzEpVnsR2XVDcm6l2MYNVqlTciLf4+nBkZxvVnP
-         oFSWEV1VNijYMeOfawxJGLATxCcZyE+2Ep5EkFwnGqACwpt188YeIlh0E/i3wPBvtwcQ
-         6p1hfuLM/TBc5AvXxutguyvUN4gvjjV8zvXSq8YqEzyiJfxZwSMvF7pSe5TTJuuXS5wy
-         vuLc60YIxYAEYtYjEjGQwsmjCIPzvg2e5WPgD4KqKhrtuyMw8ETHzKclKdrbZPz+5HYW
-         hInjBTHcD+fAYruoqy00HDYWKdsBiKLgfQKI+jqNeHCWdgEpjazZVUMUP+K96RgWDNoa
-         2kFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XGovVwjV1E6BtwAiQsNOA452MnQdQNOQG6D6vOb6hjA=;
-        b=VBzXX0IgS4L2TJOOnHluohLpeXjon8mIhQeNgTdjoWc/XPS203Q5sbpFQBb392AFV9
-         AuTyxmNTTv8i+mqb+mUllZiC0BdoHpe/iCoIPPsGl6ATVn4OVyEoQlcwxJHenQrlTbVV
-         DynqjBuI8K9y3pMTskxu5/xZQkQKXIRnN3P7Sm98XFIs1nAtf4oFfXkKwHoTToMGMmc+
-         daazj/oLLlJI5b34Io2yLHSLFCbexnnqcJUpuLVJ6Y3qNxW8X8PpmW8LBtIqKS2e/wVf
-         aXqxyjcrg0b2mFNferbNN13tIbNlCQPPDnUjgb3McpCLRvReKCWbg+Yk0NOL7pbzwlDb
-         w51g==
-X-Gm-Message-State: ACrzQf27OWUudc0s3/fhXad6B1751sc/x6ypBddN2la8qoI5K0mbSOyM
-        MNDiC9Pp7ja8XoMmLK8iXBA=
-X-Google-Smtp-Source: AMsMyM4OatQFYqVqmKwLry/ueQrrTE1Ary//IAEG8r6UYYkfBMVy9IEHCtjpLWqjIXaf33tEae5evQ==
-X-Received: by 2002:a17:90a:9606:b0:213:aff5:e537 with SMTP id v6-20020a17090a960600b00213aff5e537mr1690450pjo.183.1667034694859;
-        Sat, 29 Oct 2022 02:11:34 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-1.three.co.id. [180.214.232.1])
-        by smtp.gmail.com with ESMTPSA id i66-20020a626d45000000b0056b8e788acesm789333pfc.82.2022.10.29.02.11.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Oct 2022 02:11:34 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 1AF4E103D6E; Sat, 29 Oct 2022 16:11:30 +0700 (WIB)
-Date:   Sat, 29 Oct 2022 16:11:30 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Sean Anderson <sean.anderson@seco.com>
-Cc:     Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        linux-phy@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Camelia Alexandra Groza <camelia.groza@nxp.com>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 4/9] phy: fsl: Add Lynx 10G SerDes driver
-Message-ID: <Y1zuQvkyqtHOPGrk@debian.me>
-References: <20221027191113.403712-1-sean.anderson@seco.com>
- <20221027191113.403712-5-sean.anderson@seco.com>
+        with ESMTP id S229542AbiJ2JO5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 29 Oct 2022 05:14:57 -0400
+Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3463C2EF4C
+        for <linux-doc@vger.kernel.org>; Sat, 29 Oct 2022 02:14:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
+        t=1667034890; bh=eI8IpBS6LrseP7BBua7RiBE8WSQM8q98o5QeMtv4iEA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=R7KotmcH0huu0we2hsHBPkB1LUC/Tk1o7QJ4mE3dr3R65JFjJ2Wd7XFv9Lr/1w6Rv
+         BmiUDuji1zFBO74QQ1ELN0Yg1EgnE4kPLMBZzNlER0IbXBBVhEqGyrWE22+iOYoEbQ
+         Qm99BVbTDuvrB5G6W4BnKQm+GgjZz+5siHJwh+rM=
+Received: from [192.168.9.172] (unknown [101.88.133.1])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id CFE5A600CE;
+        Sat, 29 Oct 2022 17:14:49 +0800 (CST)
+Message-ID: <1f353678-3398-e30b-1c87-6edb278f74db@xen0n.name>
+Date:   Sat, 29 Oct 2022 17:14:48 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="9mhS4nfECiIf9yXH"
-Content-Disposition: inline
-In-Reply-To: <20221027191113.403712-5-sean.anderson@seco.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101
+ Thunderbird/108.0a1
+Subject: Re: [PATCH 0/2] LoongArch syscall ABI documentation
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     WANG Xuerui <git@xen0n.name>, Huacai Chen <chenhuacai@kernel.org>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>, loongarch@lists.linux.dev
+References: <20221018100457.3440691-1-kernel@xen0n.name>
+ <874jvn6be7.fsf@meer.lwn.net>
+Content-Language: en-US
+From:   WANG Xuerui <kernel@xen0n.name>
+In-Reply-To: <874jvn6be7.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 10/29/22 02:39, Jonathan Corbet wrote:
+> WANG Xuerui <kernel@xen0n.name> writes:
+>
+>> From: WANG Xuerui <git@xen0n.name>
+>>
+>> Hi,
+>>
+>> Due to popular demand [1] (even Loongson employees can get lost), the
+>> current LoongArch syscall ABI is now documented. A Simplified Chinese
+>> translation is included too.
+>>
+>> [1]: https://github.com/loongson/LoongArch-Documentation/issues/66
+>>
+>> WANG Xuerui (2):
+>>    Documentation: LoongArch: Document the syscall ABI
+>>    docs/zh_CN: LoongArch: Translate the syscall ABI doc
+>>
+>>   Documentation/loongarch/index.rst             |  1 +
+>>   Documentation/loongarch/syscall-abi.rst       | 36 ++++++++++++++++++
+>>   .../translations/zh_CN/loongarch/index.rst    |  1 +
+>>   .../zh_CN/loongarch/syscall-abi.rst           | 37 +++++++++++++++++++
+>>   4 files changed, 75 insertions(+)
+>>   create mode 100644 Documentation/loongarch/syscall-abi.rst
+>>   create mode 100644 Documentation/translations/zh_CN/loongarch/syscall-abi.rst
+> Would you like me to take these through the docs tree?
+That's fine by me, thanks. I'll send a v2 in the weekend (likely 
+tomorrow) for the people who have commented to give their R-b's.
+>
+> Thanks,
+>
+> jon
 
---9mhS4nfECiIf9yXH
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+-- 
+WANG "xen0n" Xuerui
 
-On Thu, Oct 27, 2022 at 03:11:08PM -0400, Sean Anderson wrote:
->  .. only::  subproject and html
-> diff --git a/Documentation/driver-api/phy/lynx_10g.rst b/Documentation/dr=
-iver-api/phy/lynx_10g.rst
-> new file mode 100644
-> index 000000000000..ebbf4dd86726
-> --- /dev/null
-> +++ b/Documentation/driver-api/phy/lynx_10g.rst
-> @@ -0,0 +1,58 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +Lynx 10G Phy (QorIQ SerDes)
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +
-> +Using this phy
-> +--------------
-> +
-> +:c:func:`phy_get` just gets (or creates) a new :c:type:`phy` with the la=
-nes
-> +described in the phandle. :c:func:`phy_init` is what actually reserves t=
-he
-> +lanes for use. Unlike some other drivers, when the phy is created, there=
- is no
-> +default protocol. :c:func:`phy_set_mode <phy_set_mode_ext>` must be call=
-ed in
-> +order to set the protocol.
-> +
-> +Supporting SoCs
-> +---------------
-> +
-> +Each new SoC needs a :c:type:`struct lynx_conf <lynx_conf>`, containing =
-the
-> +number of lanes in each device, the endianness of the device, and the he=
-lper
-> +functions to use when selecting protocol controllers. For example, the
-> +configuration for the LS1046A is::
+Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
 
-Did you mean struct lynx_cfg as in below snippet?
-
-> +
-> +    static const struct lynx_cfg ls1046a_cfg =3D {
-> +        .lanes =3D 4,
-> +        .endian =3D REGMAP_ENDIAN_BIG,
-> +        .mode_conflict =3D lynx_ls_mode_conflict,
-> +        .mode_apply =3D lynx_ls_mode_apply,
-> +        .mode_init =3D lynx_ls_mode_init,
-> +    };
-> +
-> +The ``mode_`` functions will generally be common to all SoCs in a series=
- (e.g.
-> +all Layerscape SoCs or all T-series SoCs).
-> +
-> +In addition, you will need to add a device node as documented in
-> +``Documentation/devicetree/bindings/phy/fsl,lynx-10g.yaml``. This lets t=
-he
-> +driver know which lanes are available to configure.
-> +
-> +Supporting Protocols
-> +--------------------
-> +
-> +Each protocol is a combination of values which must be programmed into t=
-he lane
-> +registers. To add a new protocol, first add it to :c:type:`enum lynx_pro=
-tocol
-> +<lynx_protocol>`. Add a new entry to `lynx_proto_params`, and populate t=
-he
-> +appropriate fields. Modify `lynx_lookup_proto` to map the :c:type:`enum
-> +phy_mode <phy_mode>` to :c:type:`enum lynx_protocol <lynx_protocol>`. Up=
-date
-> +the ``mode_conflict``, ``mode_apply``, and ``mode_init`` helpers are upd=
-ated to
-> +support your protocol.
-> +
-
-These lynx_ keywords should be in double backticks to be consistent
-(rendered as inline code).
-
-Also, don't forget to add conjunctions:
-
-"... Then modify ``lynx_lookup_proto`` ... Finally, update the ...
-helpers ..."
-
-> +You may need to modify :c:func:`lynx_set_mode` in order to support your
-> +protocol. This can happen when you have added members to :c:type:`struct
-> +lynx_proto_params <lynx_proto_params>`. It can also happen if you have s=
-pecific
-> +clocking requirements, or protocol-specific registers to program.
-> +
-> +Internal API Reference
-> +----------------------
-> +
-> +.. kernel-doc:: drivers/phy/freescale/phy-fsl-lynx-10g.c
-
-Otherwise LGTM, thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---9mhS4nfECiIf9yXH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY1zuPAAKCRD2uYlJVVFO
-o0lFAQDAGPql7PsJtgyOHANd61r9QA5C1NsAs7p1z2APtWtn7wD8CZbEagXT+kX1
-GJMBh0UPc1fhpUiL2ln6IRYVs6nfRw0=
-=CfkV
------END PGP SIGNATURE-----
-
---9mhS4nfECiIf9yXH--
