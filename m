@@ -2,77 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F663C38A02
-	for <linux-doc@archiver.kernel.org>; Sun, 30 Oct 2022 18:52:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8543AECAAA1
+	for <linux-doc@archiver.kernel.org>; Sun, 30 Oct 2022 22:06:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229714AbiJ3SwR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 30 Oct 2022 14:52:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45096 "EHLO
+        id S229500AbiJ3WGi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 30 Oct 2022 18:06:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbiJ3SwQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Oct 2022 14:52:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4175B484
-        for <linux-doc@vger.kernel.org>; Sun, 30 Oct 2022 11:52:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 509E460F2F
-        for <linux-doc@vger.kernel.org>; Sun, 30 Oct 2022 18:52:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51419C433D6;
-        Sun, 30 Oct 2022 18:52:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667155934;
-        bh=xfbHTZtsv4ooZR7yI6bz2q2hHWAAqWrm4tRnwf9d+Po=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kfwA9aS7uCv3b6xcVakRiQ9dc5UF6wvy6XcUaX/3DwigCDgRIAuFgIcC/weET53zM
-         2WSaYWnPPj2W9+Vx/Eh3HWun9yG/POiQg/UuU4tp7pi1VEDLNZgP0QYufJUKXKAASJ
-         72wieVdkwS7Yi1eU1jKvG1G97oF5cUDALw4G9BuFq4mskoWaS/sjTDZn2QAuWxCbmN
-         Ul56AXbVvJUmxfjDP8uwIFRI4n83/RSJgohtpXktJXA6S2O3keUYL2hpr8J9ShF3ap
-         h+Btgb8Xv+bDbQHnRBJB6ZDIzCcsP2BprpvC4dG7vgVFP4w9eVQ283bXQ0zIjKMpHZ
-         2B8njMPNcEGSA==
-From:   SeongJae Park <sj@kernel.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     SeongJae Park <sjpark@amazon.de>, damon@lists.linux.dev,
-        oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [sj:damon/next 26/37] htmldocs: Documentation/admin-guide/mm/damon/guide.rst:5: WARNING: Duplicate explicit target name: "page".
-Date:   Sun, 30 Oct 2022 18:52:12 +0000
-Message-Id: <20221030185212.104281-1-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <202210301953.0QNM3R4h-lkp@intel.com>
-References: 
+        with ESMTP id S229494AbiJ3WGh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 30 Oct 2022 18:06:37 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B13EC7651;
+        Sun, 30 Oct 2022 15:06:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667167596; x=1698703596;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IlxZQ6qxXfEbM/XmZBwTjN/fapBFZBIks0uyy63At0A=;
+  b=JRwSZnyvLAIbEUoJkTAgG4AVaiZcWXu8ZXSuMAUSCn9/mDQoGxtH01hm
+   GJfXwZIPyggoBH/f3prg954QFZo6q1LmdkEbjubsyu90KLafYOFkUNZS4
+   MtuOh/vGPJGdwsG/E6UVS1XebehW8nZwcqmR6OjxyeZ9BDfUfG+t4LyAI
+   EsYX5OIMMzZ3ZvtOM4ryuHk7cJEgoWSj6SNEN4CuQNXlf9oI1pTgQoX2R
+   R9uLNpcLFeh1uFCYdvv/ReF7C/BPKuwEbdALGv67K5oo7lv2kFG67OIt/
+   rWgNKNwhmCywZ1NPCMTDXOpFs9pRaNUxW+v7qMnKMLTrXMGTBTw+AXFku
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="288496655"
+X-IronPort-AV: E=Sophos;i="5.95,226,1661842800"; 
+   d="scan'208";a="288496655"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2022 15:06:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="628055229"
+X-IronPort-AV: E=Sophos;i="5.95,226,1661842800"; 
+   d="scan'208";a="628055229"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga007.jf.intel.com with ESMTP; 30 Oct 2022 15:06:31 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1opGRo-004phz-28;
+        Mon, 31 Oct 2022 00:06:28 +0200
+Date:   Mon, 31 Oct 2022 00:06:28 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Xu Yilun <yilun.xu@intel.com>
+Cc:     matthew.gerlach@linux.intel.com, hao.wu@intel.com,
+        russell.h.weight@intel.com, basheer.ahmed.muddebihal@intel.com,
+        trix@redhat.com, mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net, jirislaby@kernel.org,
+        geert+renesas@glider.be, niklas.soderlund+renesas@ragnatech.se,
+        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de,
+        ilpo.jarvinen@linux.intel.com, marpagan@redhat.com
+Subject: Re: [PATCH v4 3/4] fpga: dfl: add basic support DFHv1
+Message-ID: <Y171ZEHpOydtR4dW@smile.fi.intel.com>
+References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com>
+ <20221020212610.697729-4-matthew.gerlach@linux.intel.com>
+ <Y10l3NkIn0gsdVZq@yilunxu-OptiPlex-7050>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y10l3NkIn0gsdVZq@yilunxu-OptiPlex-7050>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 30 Oct 2022 19:48:49 +0800 kernel test robot <lkp@intel.com> wrote:
+On Sat, Oct 29, 2022 at 09:08:44PM +0800, Xu Yilun wrote:
+> On 2022-10-20 at 14:26:09 -0700, matthew.gerlach@linux.intel.com wrote:
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/=
-> next
-> head:   be45b44bd28cc8b20ccb1197147389e75d815e68
-> commit: 1304ee0155423bb664d6b4342faa02765bf393bb [26/37] Docs/DAMON: Add mo=
-> re DAMON docs for external DAMON-only html documents
-> reproduce:
->         # https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/commit/?id=3D1304ee0155423bb664d6b4342faa02765bf393bb
->         git remote add sj https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git
->         git fetch --no-tags sj damon/next
->         git checkout 1304ee0155423bb664d6b4342faa02765bf393bb
->         make menuconfig
->         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
->         make htmldocs
+> >  struct dfl_feature_info {
+> >  	u16 fid;
+> >  	u8 revision;
+> > +	u8 dfh_version;
+> >  	struct resource mmio_res;
+> >  	void __iomem *ioaddr;
+> >  	struct list_head node;
+> >  	unsigned int irq_base;
+> >  	unsigned int nr_irqs;
+> > +	unsigned int param_size;
+> > +	u64 params[];
+> >  };
+
+...
+
+> > +	finfo = kzalloc(sizeof(*finfo) + dfh_psize, GFP_KERNEL);
+
+
+This probably may use something from overflow.h.
+
+> The u64 flexible array in the structure, but seems dfh_get_psize could
+> not garantee 64bit aligned size.
 > 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
+> What's the mandatory alignment of param data? If 64bit aligned, bit 33-34
+> of PARAM_HDR should be reserved. If 32bit aligned, finfo:params should be
+> u32[].
 
-Thank you, I fixed these and pushed[1,2]!
+Isn't it guaranteed by the C standard / architecture ABI?
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/commit/?h=damon/next&id=4e00b5e54958681516214cdb674160f7f8d0442c
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/commit/?h=damon/next&id=458173b3a762f83527d35cff2ca2693bb17d7911
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Thanks,
-SJ
-
-[...]
