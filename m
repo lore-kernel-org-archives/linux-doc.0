@@ -2,197 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB7D9FA3743
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Oct 2022 18:36:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D82F2ECAAA1
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Oct 2022 20:15:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229956AbiJaSg5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Oct 2022 14:36:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35212 "EHLO
+        id S229949AbiJaUPJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Oct 2022 16:15:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbiJaSg4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Oct 2022 14:36:56 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67CC713D75
-        for <linux-doc@vger.kernel.org>; Mon, 31 Oct 2022 11:36:54 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id j15so17214814wrq.3
-        for <linux-doc@vger.kernel.org>; Mon, 31 Oct 2022 11:36:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:message-id:in-reply-to:date:references
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sNqF1x5hFExPPQ1p8H8ZfUJkMN/LytiJFdG0FgSo0Yc=;
-        b=Mki3cqNyLb6i/7bDr8xmcRoAI7MKB8Ubep7MvVdCAwvVAv/rvYzaNntbYk7evNSPOx
-         iZSZj+1kqC7UTT9hY3p9QxXxVMZ7rRgmk+9DY9r7FhExeFFt1VDbTR9aAf2X+JrZ0tNY
-         Tr/US88lDzmERESqdII2j74Xqtc13Nxr3puP6+gFIxszTZcUEQgT950jsRCvi08bhiKR
-         jD8ZqkKvxW/CqsLaBVsSxX0va4onlR2A9GDsiypQf+pm99b/Y+UG3WiItOZJ+Li8JVOO
-         +Y1i4xOLivYeF+DP4zPejP0GtpVAQoKKHaj+oeUXTWFGo9wGo7aYYFoFnonbrsyfX2Yj
-         K6HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:message-id:in-reply-to:date:references
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sNqF1x5hFExPPQ1p8H8ZfUJkMN/LytiJFdG0FgSo0Yc=;
-        b=fsplDAn04JpitFrbOE4mtSFnRe5JsRgdKAuIYrZlX+JzHsNjgJ65ZEx0hnq86RFU2x
-         IsOO3T4pp8e0sO03/KRyC0FB+u15z2uvwNqibdCwROWIniXtvZ466aJs59mVH2vZbsFX
-         O0cw+jYJ/d6iLU0tn0NRJLDs9m5y6hJncQ0ODdP9f/pTBQPT6SxTBYNySFjUTTSaaKzd
-         36A6v4naZxhEfSCyct3aPJfOnemYYS5/gub+tl5n3uuFn6It4uPLe+6g7uIYLxpyTnuQ
-         TN6w+pcdouYxjWZlPcpguuMUjXbt5LmnsGo6q4RIbaokhaoa3TB8yOvRz6/mSB/Iv7of
-         46JQ==
-X-Gm-Message-State: ACrzQf2v8tp0KOnt8YiLFSwmt9+cAbZEaCCRapLsvZPDghYaEWmcBojd
-        I1bG9pMHRL1YHmc8S8PkbJyNNg==
-X-Google-Smtp-Source: AMsMyM6L4c0mU3rV7kcQN/uxBci0PgFY6LkbseXn4PqZrB/kcujXoiDFpfGo/UsDapmtxjnBCDkTjg==
-X-Received: by 2002:a5d:584e:0:b0:236:6f0f:9d8 with SMTP id i14-20020a5d584e000000b002366f0f09d8mr9048660wrf.701.1667241412938;
-        Mon, 31 Oct 2022 11:36:52 -0700 (PDT)
-Received: from localhost ([95.148.15.66])
-        by smtp.gmail.com with ESMTPSA id b20-20020a05600c151400b003b3307fb98fsm7781722wmg.24.2022.10.31.11.36.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 11:36:52 -0700 (PDT)
-From:   Punit Agrawal <punit.agrawal@bytedance.com>
-To:     Barry Song <21cnbao@gmail.com>
-Cc:     Punit Agrawal <punit.agrawal@bytedance.com>,
-        Yicong Yang <yangyicong@huawei.com>, yangyicong@hisilicon.com,
-        corbet@lwn.net, peterz@infradead.org, arnd@arndb.de,
-        linux-kernel@vger.kernel.org, darren@os.amperecomputing.com,
-        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
-        guojian@oppo.com, realmz6@gmail.com, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linux-mm@kvack.org, x86@kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, akpm@linux-foundation.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        wangkefeng.wang@huawei.com, xhao@linux.alibaba.com,
-        prime.zeng@hisilicon.com, Barry Song <v-songbaohua@oppo.com>,
-        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>,
-        catalin.marinas@arm.com, will@kernel.org,
-        linux-doc@vger.kernel.org,
-        Anshuman Khandual <anshuman.khandual@arm.com>
-Subject: Re: [PATCH v4 2/2] arm64: support batched/deferred tlb shootdown
- during page reclamation
-References: <20220921084302.43631-1-yangyicong@huawei.com>
-        <20220921084302.43631-3-yangyicong@huawei.com>
-        <168eac93-a6ee-0b2e-12bb-4222eff24561@arm.com>
-        <8e391962-4e3a-5a56-64b4-78e8637e3b8c@huawei.com>
-        <CAGsJ_4z=dZbrAUD9jczT08S3qi_ep-h+EK35UfayVk1S+Cnp2A@mail.gmail.com>
-        <ecd161db-b290-7997-a81e-a0a00bd1c599@arm.com>
-        <87o7tx5oyx.fsf@stealth>
-        <bc44cf85-aee9-03ca-9911-dbd904a43cc8@huawei.com>
-        <87bkpw5bzm.fsf@stealth>
-        <CAGsJ_4xj2fKLOEHYC46P8ZhUPX8rw=yTNv3Zs=CPxLON6Xxvqw@mail.gmail.com>
-Date:   Mon, 31 Oct 2022 18:36:51 +0000
-In-Reply-To: <CAGsJ_4xj2fKLOEHYC46P8ZhUPX8rw=yTNv3Zs=CPxLON6Xxvqw@mail.gmail.com>
-        (Barry Song's message of "Sat, 29 Oct 2022 10:40:11 +1300")
-Message-ID: <87zgdb4z7g.fsf@stealth>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        with ESMTP id S230013AbiJaUPG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Oct 2022 16:15:06 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35DB06337;
+        Mon, 31 Oct 2022 13:15:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667247305; x=1698783305;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=IHbJOlvitpR4GGONJy+qLhQEFg8wxFTPAPEhDEJBvcI=;
+  b=Gbm1faOrlUqsBnNglUrYPOgFhzUG7psoc5fnpkUvlz4SNAUQMMIZ/2sv
+   ryPvpMudpHhL4ikWyr31ctVDZWoBbJPMf8ms+lwg6PF0zjL697FTLwN9u
+   mbEUeqvubfbk8jRbPgbVv9Kl1QxtIablCdDPwVTP2H4HGVWOW7q7XUatt
+   tlxi8poftOd1jFLjetgYzVn8jDXWvWZNKp+PqzwQE7QAx7t3neWc6Al56
+   CpHEnLWWDnDwl2Ehswu4kNybhWbK719WOwqJOlZrDqfcXWp28zPaHt41s
+   qlV+ejQDYKAexxA15nPzfdkD20itVN1imCYCdhuz8yRTm43Fn5ePBgbB3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="308989799"
+X-IronPort-AV: E=Sophos;i="5.95,228,1661842800"; 
+   d="scan'208";a="308989799"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 13:15:04 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="758956171"
+X-IronPort-AV: E=Sophos;i="5.95,228,1661842800"; 
+   d="scan'208";a="758956171"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 13:15:04 -0700
+Date:   Mon, 31 Oct 2022 13:15:06 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+cc:     Xu Yilun <yilun.xu@intel.com>, hao.wu@intel.com,
+        russell.h.weight@intel.com, basheer.ahmed.muddebihal@intel.com,
+        trix@redhat.com, mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net, jirislaby@kernel.org,
+        geert+renesas@glider.be, niklas.soderlund+renesas@ragnatech.se,
+        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de,
+        ilpo.jarvinen@linux.intel.com, marpagan@redhat.com
+Subject: Re: [PATCH v4 3/4] fpga: dfl: add basic support DFHv1
+In-Reply-To: <Y1/q/PDPNq7pNtda@smile.fi.intel.com>
+Message-ID: <alpine.DEB.2.22.394.2210311310560.2680729@rhweight-WRK1>
+References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com> <20221020212610.697729-4-matthew.gerlach@linux.intel.com> <Y10l3NkIn0gsdVZq@yilunxu-OptiPlex-7050> <Y171ZEHpOydtR4dW@smile.fi.intel.com> <Y18h4+ESJo+NQnOu@yilunxu-OptiPlex-7050>
+ <Y1/q/PDPNq7pNtda@smile.fi.intel.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Barry Song <21cnbao@gmail.com> writes:
 
-> On Sat, Oct 29, 2022 at 2:11 AM Punit Agrawal
-> <punit.agrawal@bytedance.com> wrote:
+
+On Mon, 31 Oct 2022, Andy Shevchenko wrote:
+
+> On Mon, Oct 31, 2022 at 09:16:19AM +0800, Xu Yilun wrote:
+>> On 2022-10-31 at 00:06:28 +0200, Andy Shevchenko wrote:
+>>> On Sat, Oct 29, 2022 at 09:08:44PM +0800, Xu Yilun wrote:
+>>>> On 2022-10-20 at 14:26:09 -0700, matthew.gerlach@linux.intel.com wrote:
+>>>
+>>>>>  struct dfl_feature_info {
+>>>>>  	u16 fid;
+>>>>>  	u8 revision;
+>>>>> +	u8 dfh_version;
+>>>>>  	struct resource mmio_res;
+>>>>>  	void __iomem *ioaddr;
+>>>>>  	struct list_head node;
+>>>>>  	unsigned int irq_base;
+>>>>>  	unsigned int nr_irqs;
+>>>>> +	unsigned int param_size;
+>>>>> +	u64 params[];
+>>>>>  };
+>>>
+>>> ...
+>>>
+>>>>> +	finfo = kzalloc(sizeof(*finfo) + dfh_psize, GFP_KERNEL);
+>>>
+>>>
+>>> This probably may use something from overflow.h.
+>>>
+>>>> The u64 flexible array in the structure, but seems dfh_get_psize could
+>>>> not garantee 64bit aligned size.
+>>>>
+>>>> What's the mandatory alignment of param data? If 64bit aligned, bit 33-34
+>>>> of PARAM_HDR should be reserved. If 32bit aligned, finfo:params should be
+>>>> u32[].
+>>>
+>>> Isn't it guaranteed by the C standard / architecture ABI?
 >>
->> Yicong Yang <yangyicong@huawei.com> writes:
->>
->> > On 2022/10/27 22:19, Punit Agrawal wrote:
->> >>
->> >> [ Apologies for chiming in late in the conversation ]
->> >>
->> >> Anshuman Khandual <anshuman.khandual@arm.com> writes:
->> >>
->> >>> On 9/28/22 05:53, Barry Song wrote:
->> >>>> On Tue, Sep 27, 2022 at 10:15 PM Yicong Yang <yangyicong@huawei.com> wrote:
->> >>>>>
->> >>>>> On 2022/9/27 14:16, Anshuman Khandual wrote:
->> >>>>>> [...]
->> >>>>>>
->> >>>>>> On 9/21/22 14:13, Yicong Yang wrote:
->> >>>>>>> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
->> >>>>>>> +{
->> >>>>>>> +    /* for small systems with small number of CPUs, TLB shootdown is cheap */
->> >>>>>>> +    if (num_online_cpus() <= 4)
->> >>>>>>
->> >>>>>> It would be great to have some more inputs from others, whether 4 (which should
->> >>>>>> to be codified into a macro e.g ARM64_NR_CPU_DEFERRED_TLB, or something similar)
->> >>>>>> is optimal for an wide range of arm64 platforms.
->> >>>>>>
->> >>>>
->> >>>> I have tested it on a 4-cpus and 8-cpus machine. but i have no machine
->> >>>> with 5,6,7
->> >>>> cores.
->> >>>> I saw improvement on 8-cpus machines and I found 4-cpus machines don't need
->> >>>> this patch.
->> >>>>
->> >>>> so it seems safe to have
->> >>>> if (num_online_cpus()  < 8)
->> >>>>
->> >>>>>
->> >>>>> Do you prefer this macro to be static or make it configurable through kconfig then
->> >>>>> different platforms can make choice based on their own situations? It maybe hard to
->> >>>>> test on all the arm64 platforms.
->> >>>>
->> >>>> Maybe we can have this default enabled on machines with 8 and more cpus and
->> >>>> provide a tlbflush_batched = on or off to allow users enable or
->> >>>> disable it according
->> >>>> to their hardware and products. Similar example: rodata=on or off.
->> >>>
->> >>> No, sounds bit excessive. Kernel command line options should not be added
->> >>> for every possible run time switch options.
->> >>>
->> >>>>
->> >>>> Hi Anshuman, Will,  Catalin, Andrew,
->> >>>> what do you think about this approach?
->> >>>>
->> >>>> BTW, haoxin mentioned another important user scenarios for tlb bach on arm64:
->> >>>> https://lore.kernel.org/lkml/393d6318-aa38-01ed-6ad8-f9eac89bf0fc@linux.alibaba.com/
->> >>>>
->> >>>> I do believe we need it based on the expensive cost of tlb shootdown in arm64
->> >>>> even by hardware broadcast.
->> >>>
->> >>> Alright, for now could we enable ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH selectively
->> >>> with CONFIG_EXPERT and for num_online_cpus()  > 8 ?
->> >>
->> >> When running the test program in the commit in a VM, I saw benefits from
->> >> the patches at all sizes from 2, 4, 8, 32 vcpus. On the test machine,
->> >> ptep_clear_flush() went from ~1% in the unpatched version to not showing
->> >> up.
->> >>
->> >
->> > Maybe you're booting VM on a server with more than 32 cores and Barry tested
->> > on his 4 CPUs embedded platform. I guess a 4 CPU VM is not fully equivalent to
->> > a 4 CPU real machine as the tbli and dsb in the VM may influence the host
->> > as well.
->>
->> Yeah, I also wondered about this.
->>
->> I was able to test on a 6-core RK3399 based system - there the
->> ptep_clear_flush() was only 0.10% of the overall execution time. The
->> hardware seems to do a pretty good job of keeping the TLB flushing
->> overhead low.
+>> I'm referring to the malloc size of the structure. It reserved dfh_psize
+>> bytes for this u64 array, but there is no garantee dfh_psize should be a
+>> multiple of 8. So there may be memory leak when accessing the last
+>> array element?
+>
+> Have you looked at macros in the overflow.h? Would the use of it solve your
+> concern?
 
-I found a problem with my measurements (missing volatile). Correcting
-that increased the overhead somewhat - more below.
+By clarifying the definition of the next field in the parameter header 
+as the number of 8-byte words, dfh_get_psize is guaranteed to be a multiple of 8.
+This is fixed in the next revision of patches.
 
-> RK3399 has Dual-core ARM Cortex-A72 MPCore processor and
-> Quad-core ARM Cortex-A53 MPCore processor. you are probably
-> going to see different overhead of ptep_clear_flush() when you
-> bind the micro-benchmark on different cores.
+Matthew Gerlach
 
-Indeed - binding the code on the A53 shows half the overhead from
-ptep_clear_flush() compared to the A72.
-
-On the A53 -
-
-    $ perf report --stdio -i perf.vanilla.a53.data | grep ptep_clear_flush
-         0.63%  pageout  [kernel.kallsyms]  [k] ptep_clear_flush
-
-On the A72
-
-    $ perf report --stdio -i perf.vanilla.a72.data | grep ptep_clear_flush
-         1.34%  pageout  [kernel.kallsyms]      [k] ptep_clear_flush
-
-
-[...]
-
+>
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+>
