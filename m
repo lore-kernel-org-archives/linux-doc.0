@@ -2,109 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8D2AFA3741
-	for <linux-doc@archiver.kernel.org>; Mon, 31 Oct 2022 18:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB7D9FA3743
+	for <linux-doc@archiver.kernel.org>; Mon, 31 Oct 2022 18:36:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229905AbiJaSDd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Oct 2022 14:03:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41688 "EHLO
+        id S229956AbiJaSg5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Oct 2022 14:36:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229975AbiJaSDU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Oct 2022 14:03:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E52513DD6
-        for <linux-doc@vger.kernel.org>; Mon, 31 Oct 2022 11:03:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BDCCF6136A
-        for <linux-doc@vger.kernel.org>; Mon, 31 Oct 2022 18:03:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E8D7C433D6;
-        Mon, 31 Oct 2022 18:03:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667239392;
-        bh=6hLhv+fhob8SuiCdW0Sjii1D67SU+WLSGSUTJSSJMmQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=gHXlioRqoYUBBQqA7T0h2aYS98UB6xYj7IvAk+yDmLFQF7FXS8MRG/AQYw8c2PT9o
-         LgYCBXrBJNximFnSiOhvkYFq9Bhm13T84nAMK1E83Rco0SgaPTyFEkhQJQPuR2Dnct
-         qJHWpji2JezektP3mBJv8grR7Dy7Cd13c6NaAo1EZ8suBrOe5+Qqq13ByIHEJTEzBb
-         hwKMtqvp5dONsMq6xmgxRFi74nwdS3MVitCYmUEbAG/7vYWOFIDkRbsmoMuTX7RYjw
-         gIwjuSVI5pOSln/DZtFYdt4R3kBAJXKEkKMh7YrXEcVz5DX5rUm8fLa44bc+5BX50g
-         P1oes82KhzntA==
-From:   =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>
-To:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        linux-riscv@lists.infradead.org,
-        Alexandre Ghiti <alexandre.ghiti@canonical.com>
-Cc:     =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: riscv: Document the sv57 VM layout
-Date:   Mon, 31 Oct 2022 19:02:30 +0100
-Message-Id: <20221031180230.1420544-1-bjorn@kernel.org>
-X-Mailer: git-send-email 2.37.2
+        with ESMTP id S229987AbiJaSg4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Oct 2022 14:36:56 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67CC713D75
+        for <linux-doc@vger.kernel.org>; Mon, 31 Oct 2022 11:36:54 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id j15so17214814wrq.3
+        for <linux-doc@vger.kernel.org>; Mon, 31 Oct 2022 11:36:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:message-id:in-reply-to:date:references
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sNqF1x5hFExPPQ1p8H8ZfUJkMN/LytiJFdG0FgSo0Yc=;
+        b=Mki3cqNyLb6i/7bDr8xmcRoAI7MKB8Ubep7MvVdCAwvVAv/rvYzaNntbYk7evNSPOx
+         iZSZj+1kqC7UTT9hY3p9QxXxVMZ7rRgmk+9DY9r7FhExeFFt1VDbTR9aAf2X+JrZ0tNY
+         Tr/US88lDzmERESqdII2j74Xqtc13Nxr3puP6+gFIxszTZcUEQgT950jsRCvi08bhiKR
+         jD8ZqkKvxW/CqsLaBVsSxX0va4onlR2A9GDsiypQf+pm99b/Y+UG3WiItOZJ+Li8JVOO
+         +Y1i4xOLivYeF+DP4zPejP0GtpVAQoKKHaj+oeUXTWFGo9wGo7aYYFoFnonbrsyfX2Yj
+         K6HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:message-id:in-reply-to:date:references
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sNqF1x5hFExPPQ1p8H8ZfUJkMN/LytiJFdG0FgSo0Yc=;
+        b=fsplDAn04JpitFrbOE4mtSFnRe5JsRgdKAuIYrZlX+JzHsNjgJ65ZEx0hnq86RFU2x
+         IsOO3T4pp8e0sO03/KRyC0FB+u15z2uvwNqibdCwROWIniXtvZ466aJs59mVH2vZbsFX
+         O0cw+jYJ/d6iLU0tn0NRJLDs9m5y6hJncQ0ODdP9f/pTBQPT6SxTBYNySFjUTTSaaKzd
+         36A6v4naZxhEfSCyct3aPJfOnemYYS5/gub+tl5n3uuFn6It4uPLe+6g7uIYLxpyTnuQ
+         TN6w+pcdouYxjWZlPcpguuMUjXbt5LmnsGo6q4RIbaokhaoa3TB8yOvRz6/mSB/Iv7of
+         46JQ==
+X-Gm-Message-State: ACrzQf2v8tp0KOnt8YiLFSwmt9+cAbZEaCCRapLsvZPDghYaEWmcBojd
+        I1bG9pMHRL1YHmc8S8PkbJyNNg==
+X-Google-Smtp-Source: AMsMyM6L4c0mU3rV7kcQN/uxBci0PgFY6LkbseXn4PqZrB/kcujXoiDFpfGo/UsDapmtxjnBCDkTjg==
+X-Received: by 2002:a5d:584e:0:b0:236:6f0f:9d8 with SMTP id i14-20020a5d584e000000b002366f0f09d8mr9048660wrf.701.1667241412938;
+        Mon, 31 Oct 2022 11:36:52 -0700 (PDT)
+Received: from localhost ([95.148.15.66])
+        by smtp.gmail.com with ESMTPSA id b20-20020a05600c151400b003b3307fb98fsm7781722wmg.24.2022.10.31.11.36.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Oct 2022 11:36:52 -0700 (PDT)
+From:   Punit Agrawal <punit.agrawal@bytedance.com>
+To:     Barry Song <21cnbao@gmail.com>
+Cc:     Punit Agrawal <punit.agrawal@bytedance.com>,
+        Yicong Yang <yangyicong@huawei.com>, yangyicong@hisilicon.com,
+        corbet@lwn.net, peterz@infradead.org, arnd@arndb.de,
+        linux-kernel@vger.kernel.org, darren@os.amperecomputing.com,
+        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
+        guojian@oppo.com, realmz6@gmail.com, linux-mips@vger.kernel.org,
+        openrisc@lists.librecores.org, linux-mm@kvack.org, x86@kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, akpm@linux-foundation.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        wangkefeng.wang@huawei.com, xhao@linux.alibaba.com,
+        prime.zeng@hisilicon.com, Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>,
+        catalin.marinas@arm.com, will@kernel.org,
+        linux-doc@vger.kernel.org,
+        Anshuman Khandual <anshuman.khandual@arm.com>
+Subject: Re: [PATCH v4 2/2] arm64: support batched/deferred tlb shootdown
+ during page reclamation
+References: <20220921084302.43631-1-yangyicong@huawei.com>
+        <20220921084302.43631-3-yangyicong@huawei.com>
+        <168eac93-a6ee-0b2e-12bb-4222eff24561@arm.com>
+        <8e391962-4e3a-5a56-64b4-78e8637e3b8c@huawei.com>
+        <CAGsJ_4z=dZbrAUD9jczT08S3qi_ep-h+EK35UfayVk1S+Cnp2A@mail.gmail.com>
+        <ecd161db-b290-7997-a81e-a0a00bd1c599@arm.com>
+        <87o7tx5oyx.fsf@stealth>
+        <bc44cf85-aee9-03ca-9911-dbd904a43cc8@huawei.com>
+        <87bkpw5bzm.fsf@stealth>
+        <CAGsJ_4xj2fKLOEHYC46P8ZhUPX8rw=yTNv3Zs=CPxLON6Xxvqw@mail.gmail.com>
+Date:   Mon, 31 Oct 2022 18:36:51 +0000
+In-Reply-To: <CAGsJ_4xj2fKLOEHYC46P8ZhUPX8rw=yTNv3Zs=CPxLON6Xxvqw@mail.gmail.com>
+        (Barry Song's message of "Sat, 29 Oct 2022 10:40:11 +1300")
+Message-ID: <87zgdb4z7g.fsf@stealth>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Björn Töpel <bjorn@rivosinc.com>
+Barry Song <21cnbao@gmail.com> writes:
 
-RISC-V has been supporting the "sv57" address translation mode for a
-while, but is has not been added to the VM layout documentation. Let
-us fix that.
+> On Sat, Oct 29, 2022 at 2:11 AM Punit Agrawal
+> <punit.agrawal@bytedance.com> wrote:
+>>
+>> Yicong Yang <yangyicong@huawei.com> writes:
+>>
+>> > On 2022/10/27 22:19, Punit Agrawal wrote:
+>> >>
+>> >> [ Apologies for chiming in late in the conversation ]
+>> >>
+>> >> Anshuman Khandual <anshuman.khandual@arm.com> writes:
+>> >>
+>> >>> On 9/28/22 05:53, Barry Song wrote:
+>> >>>> On Tue, Sep 27, 2022 at 10:15 PM Yicong Yang <yangyicong@huawei.com> wrote:
+>> >>>>>
+>> >>>>> On 2022/9/27 14:16, Anshuman Khandual wrote:
+>> >>>>>> [...]
+>> >>>>>>
+>> >>>>>> On 9/21/22 14:13, Yicong Yang wrote:
+>> >>>>>>> +static inline bool arch_tlbbatch_should_defer(struct mm_struct *mm)
+>> >>>>>>> +{
+>> >>>>>>> +    /* for small systems with small number of CPUs, TLB shootdown is cheap */
+>> >>>>>>> +    if (num_online_cpus() <= 4)
+>> >>>>>>
+>> >>>>>> It would be great to have some more inputs from others, whether 4 (which should
+>> >>>>>> to be codified into a macro e.g ARM64_NR_CPU_DEFERRED_TLB, or something similar)
+>> >>>>>> is optimal for an wide range of arm64 platforms.
+>> >>>>>>
+>> >>>>
+>> >>>> I have tested it on a 4-cpus and 8-cpus machine. but i have no machine
+>> >>>> with 5,6,7
+>> >>>> cores.
+>> >>>> I saw improvement on 8-cpus machines and I found 4-cpus machines don't need
+>> >>>> this patch.
+>> >>>>
+>> >>>> so it seems safe to have
+>> >>>> if (num_online_cpus()  < 8)
+>> >>>>
+>> >>>>>
+>> >>>>> Do you prefer this macro to be static or make it configurable through kconfig then
+>> >>>>> different platforms can make choice based on their own situations? It maybe hard to
+>> >>>>> test on all the arm64 platforms.
+>> >>>>
+>> >>>> Maybe we can have this default enabled on machines with 8 and more cpus and
+>> >>>> provide a tlbflush_batched = on or off to allow users enable or
+>> >>>> disable it according
+>> >>>> to their hardware and products. Similar example: rodata=on or off.
+>> >>>
+>> >>> No, sounds bit excessive. Kernel command line options should not be added
+>> >>> for every possible run time switch options.
+>> >>>
+>> >>>>
+>> >>>> Hi Anshuman, Will,  Catalin, Andrew,
+>> >>>> what do you think about this approach?
+>> >>>>
+>> >>>> BTW, haoxin mentioned another important user scenarios for tlb bach on arm64:
+>> >>>> https://lore.kernel.org/lkml/393d6318-aa38-01ed-6ad8-f9eac89bf0fc@linux.alibaba.com/
+>> >>>>
+>> >>>> I do believe we need it based on the expensive cost of tlb shootdown in arm64
+>> >>>> even by hardware broadcast.
+>> >>>
+>> >>> Alright, for now could we enable ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH selectively
+>> >>> with CONFIG_EXPERT and for num_online_cpus()  > 8 ?
+>> >>
+>> >> When running the test program in the commit in a VM, I saw benefits from
+>> >> the patches at all sizes from 2, 4, 8, 32 vcpus. On the test machine,
+>> >> ptep_clear_flush() went from ~1% in the unpatched version to not showing
+>> >> up.
+>> >>
+>> >
+>> > Maybe you're booting VM on a server with more than 32 cores and Barry tested
+>> > on his 4 CPUs embedded platform. I guess a 4 CPU VM is not fully equivalent to
+>> > a 4 CPU real machine as the tbli and dsb in the VM may influence the host
+>> > as well.
+>>
+>> Yeah, I also wondered about this.
+>>
+>> I was able to test on a 6-core RK3399 based system - there the
+>> ptep_clear_flush() was only 0.10% of the overall execution time. The
+>> hardware seems to do a pretty good job of keeping the TLB flushing
+>> overhead low.
 
-Signed-off-by: Björn Töpel <bjorn@rivosinc.com>
----
- Documentation/riscv/vm-layout.rst | 36 +++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+I found a problem with my measurements (missing volatile). Correcting
+that increased the overhead somewhat - more below.
 
-diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
-index 5b36e45fef60..35f76798b6e4 100644
---- a/Documentation/riscv/vm-layout.rst
-+++ b/Documentation/riscv/vm-layout.rst
-@@ -97,3 +97,39 @@ RISC-V Linux Kernel SV48
-    ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules, BPF
-    ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel
-   __________________|____________|__________________|_________|____________________________________________________________
-+
-+
-+RISC-V Linux Kernel SV57
-+------------------------
-+
-+::
-+
-+ ========================================================================================================================
-+      Start addr    |   Offset   |     End addr     |  Size   | VM area description
-+ ========================================================================================================================
-+                    |            |                  |         |
-+   0000000000000000 |    0       | 00ffffffffffffff |   64 PB | user-space virtual memory, different per mm
-+  __________________|____________|__________________|_________|___________________________________________________________
-+                    |            |                  |         |
-+   0100000000000000 | +64     PB | feffffffffffffff | ~16K PB | ... huge, almost 64 bits wide hole of non-canonical
-+                    |            |                  |         | virtual memory addresses up to the -64 PB
-+                    |            |                  |         | starting offset of kernel mappings.
-+  __________________|____________|__________________|_________|___________________________________________________________
-+                                                              |
-+                                                              | Kernel-space virtual memory, shared between all processes:
-+  ____________________________________________________________|___________________________________________________________
-+                    |            |                  |         |
-+   ff1bfffffee00000 |  -57    PB | ff1bfffffeffffff |    2 MB | fixmap
-+   ff1bffffff000000 |  -57    PB | ff1bffffffffffff |   16 MB | PCI io
-+   ff1c000000000000 |  -57    PB | ff1fffffffffffff |    1 PB | vmemmap
-+   ff20000000000000 |  -56    PB | ff5fffffffffffff |   16 PB | vmalloc/ioremap space
-+   ff60000000000000 |  -40    PB | ffdffffeffffffff |   32 PB | direct mapping of all physical memory
-+   ffdfffff00000000 |  - 8    PB | fffffffeffffffff |    8 PB | kasan
-+  __________________|____________|__________________|_________|____________________________________________________________
-+                                                              |
-+                                                              | Identical layout to the 39-bit one from here on:
-+  ____________________________________________________________|____________________________________________________________
-+                    |            |                  |         |
-+   ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules, BPF
-+   ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel
-+  __________________|____________|__________________|_________|____________________________________________________________
--- 
-2.37.2
+> RK3399 has Dual-core ARM Cortex-A72 MPCore processor and
+> Quad-core ARM Cortex-A53 MPCore processor. you are probably
+> going to see different overhead of ptep_clear_flush() when you
+> bind the micro-benchmark on different cores.
+
+Indeed - binding the code on the A53 shows half the overhead from
+ptep_clear_flush() compared to the A72.
+
+On the A53 -
+
+    $ perf report --stdio -i perf.vanilla.a53.data | grep ptep_clear_flush
+         0.63%  pageout  [kernel.kallsyms]  [k] ptep_clear_flush
+
+On the A72
+
+    $ perf report --stdio -i perf.vanilla.a72.data | grep ptep_clear_flush
+         1.34%  pageout  [kernel.kallsyms]      [k] ptep_clear_flush
+
+
+[...]
 
