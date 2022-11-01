@@ -2,128 +2,293 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 168ACFA3747
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 03:20:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B36C7FA373D
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 05:26:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229626AbiKADUO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Oct 2022 23:20:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60118 "EHLO
+        id S229515AbiKAF0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 01:26:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229565AbiKADUM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Oct 2022 23:20:12 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A03E164C1;
-        Mon, 31 Oct 2022 20:20:10 -0700 (PDT)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A13B3We003254;
-        Tue, 1 Nov 2022 03:19:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=vsmyPGqjrN3pNUGJKucOlOuMfiAWJI3kVBM4CmpcAkg=;
- b=UUJ0PGKXDKWr5c3E2BU6bNCBnUPNMa0Equr0An1IGwSLjMDeld0Q1S79X1JxIq5dXGb+
- kG6ulC1mMuXLMDmCu0i2QX+vTzs08Klenr/y1VWSNNWzZINaI/SPoWNsLFSQImZbOe3b
- DCLLTVawa4nQVXP5mVWm3D4tMPBm7aXB+yj4ToXzr9hC/pVUUOnSjyuybNtaItgVqFoG
- Ki5altTbn2ScPNROPmrGTWwi9st/hHGJA15ZLkT30j/QXcBA4GUFf65EzIS+sL/lauc0
- Pl1GgCpc+75hf1A4NQm71V/UvO4WgE1a+F9ToBezO9RpHxhGO/tgFFedTWcYxwY4iM+V dQ== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kjsqh05ve-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 01 Nov 2022 03:19:56 +0000
-Received: from nasanex01b.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A13JtsO000716
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 1 Nov 2022 03:19:55 GMT
-Received: from [10.110.109.83] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 31 Oct
- 2022 20:19:53 -0700
-Message-ID: <fb7e101f-8de0-d77e-30e1-74b882b19583@quicinc.com>
-Date:   Mon, 31 Oct 2022 20:19:52 -0700
+        with ESMTP id S229462AbiKAF0K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 01:26:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E68BBF7;
+        Mon, 31 Oct 2022 22:26:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0A4ED6154D;
+        Tue,  1 Nov 2022 05:26:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACFA2C433D6;
+        Tue,  1 Nov 2022 05:26:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667280365;
+        bh=X6WmZZqM7w4svCt9AOxbUsrJNiVQgC/31iGfIajDt0s=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Uzxwh2i+nhWndgk25kLV6wIai7Hfa86Dl9AGDhWLhD9LXJ3w6EahCvvSFoCe8EFae
+         BfMjuCEn+navjZAE0wDuKMNor0lSAjqne3nSLXDfnWgr+1KXPrFs8KkXz1i+EHc2Mr
+         ss0+yNyXZrTrMLE2vyxWttymSj1SAgw4e2bFxzPTyqbWjT6+BiITeA6ptMiMKpnf+r
+         eEyBAuabGyzNYG0JHiD9MkW1CDKGyWDn0aUKf3Jzcn0/3Ggx+eVfGv4L+bUNnR8Pnr
+         PnSksG3kPPI6vGPCEp0BQ4SMKOCzrq0dqgWmu99yZtL0wQPXaIZsAp9HtjhisZyXa+
+         gO7geTHur4/+w==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        Jakub Kicinski <kuba@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>, corbet@lwn.net,
+        michael.chan@broadcom.com, andrew@lunn.ch, hkallweit1@gmail.com,
+        linux@armlinux.org.uk, huangguangbin2@huawei.com,
+        chenhao288@hisilicon.com, moshet@nvidia.com,
+        linux@rempel-privat.de, linux-doc@vger.kernel.org
+Subject: [PATCH net-next v3] ethtool: linkstate: add a statistic for PHY down events
+Date:   Mon, 31 Oct 2022 22:26:01 -0700
+Message-Id: <20221101052601.162708-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v6 02/21] dt-bindings: Add binding for gunyah hypervisor
-Content-Language: en-US
-To:     Jassi Brar <jassisinghbrar@gmail.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "Marc Zyngier" <maz@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Srinivas Kandagatla" <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-3-quic_eberman@quicinc.com>
- <CABb+yY3JVNPG3dcyHNFxEeGEu3MN_pAOh3+cwexPPe2YG6SNUg@mail.gmail.com>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <CABb+yY3JVNPG3dcyHNFxEeGEu3MN_pAOh3+cwexPPe2YG6SNUg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 4w0f77iR79SVZoQsJSIViVLTnRUaGtL4
-X-Proofpoint-ORIG-GUID: 4w0f77iR79SVZoQsJSIViVLTnRUaGtL4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-31_22,2022-10-31_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
- priorityscore=1501 malwarescore=0 impostorscore=0 lowpriorityscore=0
- suspectscore=0 bulkscore=0 mlxlogscore=749 clxscore=1015 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211010023
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jassi,
+The previous attempt to augment carrier_down (see Link)
+was not met with much enthusiasm so let's do the simple
+thing of exposing what some devices already maintain.
+Add a common ethtool statistic for link going down.
+Currently users have to maintain per-driver mapping
+to extract the right stat from the vendor-specific ethtool -S
+stats. carrier_down does not fit the bill because it counts
+a lot of software related false positives.
 
-On 10/27/2022 7:33 PM, Jassi Brar wrote:
- > On Wed, Oct 26, 2022 at 1:59 PM Elliot Berman 
-<quic_eberman@quicinc.com> wrote:
- > .....
- >> +
- >> +        gunyah-resource-mgr@0 {
- >> +            compatible = "gunyah-resource-manager-1-0", 
-"gunyah-resource-manager";
- >> +            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX 
-full IRQ */
- >> +                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX 
-empty IRQ */
- >> +            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
- >> +                  /* TX, RX cap ids */
- >> +        };
- >>
- > All these resources are used only by the mailbox controller driver.
- > So, this should be the mailbox controller node, rather than the
- > mailbox user.> One option is to load gunyah-resource-manager as a 
-module that relies
- > on the gunyah-mailbox provider. That would also avoid the "Allow
- > direct registration to a channel" hack patch.
+Add the statistic to the extended link state API to steer
+vendors towards implementing all of it.
 
-A message queue to another guest VM wouldn't be known at boot time and 
-thus couldn't be described on the devicetree. We will need "Allow direct 
-registration to a channel" patch anyway to support those message queues. 
-I would like to have one consistent mechanism to set up message queues.
+Implement for bnxt and all Linux-controlled PHYs. mlx5 and (possibly)
+enic also have a counter for this but I leave the implementation
+to their maintainers.
 
-- Elliot
+Link: https://lore.kernel.org/r/20220520004500.2250674-1-kuba@kernel.org
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+--
+v3:
+ - make the stat u32 (apart from the ethtool struct which uses u64s
+   for the "not set" detection, whatevs)
+v2:
+ - add phylib support
+---
+CC: corbet@lwn.net
+CC: michael.chan@broadcom.com
+CC: andrew@lunn.ch
+CC: hkallweit1@gmail.com
+CC: linux@armlinux.org.uk
+CC: huangguangbin2@huawei.com
+CC: chenhao288@hisilicon.com
+CC: moshet@nvidia.com
+CC: linux@rempel-privat.de
+CC: f.fainelli@gmail.com
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/networking/ethtool-netlink.rst  |  1 +
+ .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 15 ++++++++++++
+ drivers/net/phy/phy.c                         |  1 +
+ include/linux/ethtool.h                       | 14 +++++++++++
+ include/linux/phy.h                           |  3 +++
+ include/uapi/linux/ethtool_netlink.h          |  1 +
+ net/ethtool/linkstate.c                       | 24 ++++++++++++++++++-
+ 7 files changed, 58 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index d578b8bcd8a4..bede24ef44fd 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -491,6 +491,7 @@ any attributes.
+   ``ETHTOOL_A_LINKSTATE_SQI_MAX``       u32     Max support SQI value
+   ``ETHTOOL_A_LINKSTATE_EXT_STATE``     u8      link extended state
+   ``ETHTOOL_A_LINKSTATE_EXT_SUBSTATE``  u8      link extended substate
++  ``ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT``  u32     count of link down events
+   ====================================  ======  ============================
+ 
+ For most NIC drivers, the value of ``ETHTOOL_A_LINKSTATE_LINK`` returns
+diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+index cc89e5eabcb9..d8f0351df954 100644
+--- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
++++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+@@ -4112,6 +4112,20 @@ static void bnxt_get_rmon_stats(struct net_device *dev,
+ 	*ranges = bnxt_rmon_ranges;
+ }
+ 
++static void bnxt_get_link_ext_stats(struct net_device *dev,
++				    struct ethtool_link_ext_stats *stats)
++{
++	struct bnxt *bp = netdev_priv(dev);
++	u64 *rx;
++
++	if (BNXT_VF(bp) || !(bp->flags & BNXT_FLAG_PORT_STATS_EXT))
++		return;
++
++	rx = bp->rx_port_stats_ext.sw_stats;
++	stats->link_down_events =
++		*(rx + BNXT_RX_STATS_EXT_OFFSET(link_down_events));
++}
++
+ void bnxt_ethtool_free(struct bnxt *bp)
+ {
+ 	kfree(bp->test_info);
+@@ -4161,6 +4175,7 @@ const struct ethtool_ops bnxt_ethtool_ops = {
+ 	.get_eeprom             = bnxt_get_eeprom,
+ 	.set_eeprom		= bnxt_set_eeprom,
+ 	.get_link		= bnxt_get_link,
++	.get_link_ext_stats	= bnxt_get_link_ext_stats,
+ 	.get_eee		= bnxt_get_eee,
+ 	.set_eee		= bnxt_set_eee,
+ 	.get_module_info	= bnxt_get_module_info,
+diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+index e741d8aebffe..e5b6cb1a77f9 100644
+--- a/drivers/net/phy/phy.c
++++ b/drivers/net/phy/phy.c
+@@ -67,6 +67,7 @@ static void phy_link_down(struct phy_device *phydev)
+ {
+ 	phydev->phy_link_change(phydev, false);
+ 	phy_led_trigger_change_speed(phydev);
++	WRITE_ONCE(phydev->link_down_events, phydev->link_down_events + 1);
+ }
+ 
+ static const char *phy_pause_str(struct phy_device *phydev)
+diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
+index 99dc7bfbcd3c..fa8e0d52dd30 100644
+--- a/include/linux/ethtool.h
++++ b/include/linux/ethtool.h
+@@ -125,6 +125,17 @@ struct ethtool_link_ext_state_info {
+ 	};
+ };
+ 
++struct ethtool_link_ext_stats {
++	/* Custom Linux statistic for PHY level link down events.
++	 * In a simpler world it should be equal to netdev->carrier_down_count
++	 * unfortunately netdev also counts local reconfigurations which don't
++	 * actually take the physical link down, not to mention NC-SI which,
++	 * if present, keeps the link up regardless of host state.
++	 * This statistic counts when PHY _actually_ went down, or lost link.
++	 */
++	u64 link_down_events;
++};
++
+ /**
+  * ethtool_rxfh_indir_default - get default value for RX flow hash indirection
+  * @index: Index in RX flow hash indirection table
+@@ -481,6 +492,7 @@ struct ethtool_module_power_mode_params {
+  *	do not attach ext_substate attribute to netlink message). If link_ext_state
+  *	and link_ext_substate are unknown, return -ENODATA. If not implemented,
+  *	link_ext_state and link_ext_substate will not be sent to userspace.
++ * @get_link_ext_stats: Read extra link-related counters.
+  * @get_eeprom_len: Read range of EEPROM addresses for validation of
+  *	@get_eeprom and @set_eeprom requests.
+  *	Returns 0 if device does not support EEPROM access.
+@@ -652,6 +664,8 @@ struct ethtool_ops {
+ 	u32	(*get_link)(struct net_device *);
+ 	int	(*get_link_ext_state)(struct net_device *,
+ 				      struct ethtool_link_ext_state_info *);
++	void	(*get_link_ext_stats)(struct net_device *,
++				      struct ethtool_link_ext_stats *);
+ 	int	(*get_eeprom_len)(struct net_device *);
+ 	int	(*get_eeprom)(struct net_device *,
+ 			      struct ethtool_eeprom *, u8 *);
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index ddf66198f751..9a3752c0c444 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -600,6 +600,7 @@ struct macsec_ops;
+  * @psec: Pointer to Power Sourcing Equipment control struct
+  * @lock:  Mutex for serialization access to PHY
+  * @state_queue: Work queue for state machine
++ * @link_down_events: Number of times link was lost
+  * @shared: Pointer to private data shared by phys in one package
+  * @priv: Pointer to driver private data
+  *
+@@ -723,6 +724,8 @@ struct phy_device {
+ 
+ 	int pma_extable;
+ 
++	unsigned int link_down_events;
++
+ 	void (*phy_link_change)(struct phy_device *phydev, bool up);
+ 	void (*adjust_link)(struct net_device *dev);
+ 
+diff --git a/include/uapi/linux/ethtool_netlink.h b/include/uapi/linux/ethtool_netlink.h
+index bb57084ac524..aaf7c6963d61 100644
+--- a/include/uapi/linux/ethtool_netlink.h
++++ b/include/uapi/linux/ethtool_netlink.h
+@@ -262,6 +262,7 @@ enum {
+ 	ETHTOOL_A_LINKSTATE_SQI_MAX,		/* u32 */
+ 	ETHTOOL_A_LINKSTATE_EXT_STATE,		/* u8 */
+ 	ETHTOOL_A_LINKSTATE_EXT_SUBSTATE,	/* u8 */
++	ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT,	/* u32 */
+ 
+ 	/* add new constants above here */
+ 	__ETHTOOL_A_LINKSTATE_CNT,
+diff --git a/net/ethtool/linkstate.c b/net/ethtool/linkstate.c
+index fb676f349455..2158c17a0b32 100644
+--- a/net/ethtool/linkstate.c
++++ b/net/ethtool/linkstate.c
+@@ -13,6 +13,7 @@ struct linkstate_reply_data {
+ 	int					link;
+ 	int					sqi;
+ 	int					sqi_max;
++	struct ethtool_link_ext_stats		link_stats;
+ 	bool					link_ext_state_provided;
+ 	struct ethtool_link_ext_state_info	ethtool_link_ext_state_info;
+ };
+@@ -22,7 +23,7 @@ struct linkstate_reply_data {
+ 
+ const struct nla_policy ethnl_linkstate_get_policy[] = {
+ 	[ETHTOOL_A_LINKSTATE_HEADER]		=
+-		NLA_POLICY_NESTED(ethnl_header_policy),
++		NLA_POLICY_NESTED(ethnl_header_policy_stats),
+ };
+ 
+ static int linkstate_get_sqi(struct net_device *dev)
+@@ -107,6 +108,19 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
+ 			goto out;
+ 	}
+ 
++	ethtool_stats_init((u64 *)&data->link_stats,
++			   sizeof(data->link_stats) / 8);
++
++	if (req_base->flags & ETHTOOL_FLAG_STATS) {
++		if (dev->phydev)
++			data->link_stats.link_down_events =
++				READ_ONCE(dev->phydev->link_down_events);
++
++		if (dev->ethtool_ops->get_link_ext_stats)
++			dev->ethtool_ops->get_link_ext_stats(dev,
++							     &data->link_stats);
++	}
++
+ 	ret = 0;
+ out:
+ 	ethnl_ops_complete(dev);
+@@ -134,6 +148,9 @@ static int linkstate_reply_size(const struct ethnl_req_info *req_base,
+ 	if (data->ethtool_link_ext_state_info.__link_ext_substate)
+ 		len += nla_total_size(sizeof(u8)); /* LINKSTATE_EXT_SUBSTATE */
+ 
++	if (data->link_stats.link_down_events != ETHTOOL_STAT_NOT_SET)
++		len += nla_total_size(sizeof(u32));
++
+ 	return len;
+ }
+ 
+@@ -166,6 +183,11 @@ static int linkstate_fill_reply(struct sk_buff *skb,
+ 			return -EMSGSIZE;
+ 	}
+ 
++	if (data->link_stats.link_down_events != ETHTOOL_STAT_NOT_SET)
++		if (nla_put_u32(skb, ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT,
++				data->link_stats.link_down_events))
++			return -EMSGSIZE;
++
+ 	return 0;
+ }
+ 
+-- 
+2.38.1
+
