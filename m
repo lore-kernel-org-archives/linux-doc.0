@@ -2,339 +2,260 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB705C43219
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 18:01:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24953C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 18:40:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230060AbiKASB0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 14:01:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51848 "EHLO
+        id S230241AbiKASkJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 14:40:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229648AbiKASB0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 14:01:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2553611C38;
-        Tue,  1 Nov 2022 11:01:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9E5EA616D7;
-        Tue,  1 Nov 2022 18:01:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5DCFC433D7;
-        Tue,  1 Nov 2022 18:01:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1667325684;
-        bh=SlHQrX7xe+dDaoxjsjFu3JAbvEWWHPmd5SLSSMrZQ/g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uWJGKZy6RSi+Bj59hMk/+I5MXsIDPPYQPfdiVD9YYjeivF930LrG6ypBerIUdMb7X
-         b0i4uMOm1aoHLxeLs25HoTAqPvaJHYeDOp1uv/JZYoVokxKxZSuOEHDL1wcztMTpNK
-         Od8DJiyInPw+Mb0+glti5Asv0LRGkUTSmD2lkVpE=
-Date:   Tue, 1 Nov 2022 19:02:16 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 10/21] gunyah: rsc_mgr: Add resource manager RPC core
-Message-ID: <Y2FfKCKZ3N8rOqcT@kroah.com>
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-11-quic_eberman@quicinc.com>
+        with ESMTP id S230185AbiKASkH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 14:40:07 -0400
+X-Greylist: delayed 1600 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 01 Nov 2022 11:40:06 PDT
+Received: from mx0a-003ede02.pphosted.com (mx0a-003ede02.pphosted.com [205.220.169.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7A181C101
+        for <linux-doc@vger.kernel.org>; Tue,  1 Nov 2022 11:40:06 -0700 (PDT)
+Received: from pps.filterd (m0286614.ppops.net [127.0.0.1])
+        by mx0b-003ede02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A1ICeN2022377
+        for <linux-doc@vger.kernel.org>; Tue, 1 Nov 2022 11:13:26 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=getcruise.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=ppemail; bh=TZN+nxD29A/mXjM1cTiRY1RyYzHigm/eAkBELU0CF14=;
+ b=PBHgMfUWCAyWU+BS9eg7YzTm9ZpaAWRdUFPUe3AbTXdG9277ibb7aYz6LP2C+JW38sNt
+ +RShb638WNFPMBblaBb0ov0DM7lRc9HUi1ihzHVyW6bIN6uzuHLuSYwbePPDnnjShLH/
+ XO3ui/uthf28h7KkwyyZWPucah2FYIWYRzMSD2dTgMicQcRhC2VFFXj6biwxY+gmgOPr
+ Y9WMTK/kiqOi/oUt7tjmUIofofxArczYB981kZNKts+jNyPh7JWrHHWgUd7HGz32Ly/o
+ 8nnvQRCg1YDQvLwTIF13w9Ryvbcyu5Tliw+MF5UCaQdnCHpv4XaaRCYZ7y2foj8MwpDa cg== 
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+        by mx0b-003ede02.pphosted.com (PPS) with ESMTPS id 3kh16dru5q-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Tue, 01 Nov 2022 11:13:26 -0700
+Received: by mail-pj1-f69.google.com with SMTP id lx3-20020a17090b4b0300b002137705324eso1291339pjb.1
+        for <linux-doc@vger.kernel.org>; Tue, 01 Nov 2022 11:13:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=getcruise.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TZN+nxD29A/mXjM1cTiRY1RyYzHigm/eAkBELU0CF14=;
+        b=B9YUrfo7zTLPpIvcViTkY5ihrai3NrkPOR9Me2X6e/5VjqOEorTYmYKytewk8j5Whh
+         VOrVciNBdVse5KYJzaGbd4iSdC/KfI9Hrzpx/o2rNOY7hdOTkLyjWc6W3axBFzbnFa5T
+         NZuNVao5FcNNiAQP+woknoddrhEZkRiV7C2XonIybKVRC5p+SYICfCtsmBKWpJALQ90c
+         UDSc4gX9deqGyEV/IrPWO/96WsipmOy5U71WwlNg8GaDii+IFcyPvCwcHgkDlPc8Mg44
+         lZcmvzDKj1lKYv2VvSxrCH7m9r/ZwU0VT3p8Nup5+8yGfUQasJenSyIrY4scjlm4jNSf
+         iPlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TZN+nxD29A/mXjM1cTiRY1RyYzHigm/eAkBELU0CF14=;
+        b=Id9Xn2QGfO7sGxZp0wCve+rfLQmpJ38Q03Ph0m/pdaNDmhFFzAdnLOnf/JtboGUrfC
+         MqgZdXX4sNWd5SCkSjQxWIEzRGTESWkKxbINP6gXaxVHv4HUVopam6CZoW7iRssrp/m7
+         Uv0/dEe/a3kRQRW83yXySpIsNTEbOVXxQM0473Lsxpv+bI3Z3hysKvE7paRCEDLLhhcr
+         IrJSzO6U7pmC5XO2aOYR4j1wdjYjUaUUZPKboOxUD8WVlqeR2WACjjZ66TrwM3yOWzKD
+         nlvFp0KlBuCAdQveoStvOez4mpgJ1vWtCaMUc39rEcu9hZ1tszpIa5AAZfdcqSaxrUKo
+         ygAA==
+X-Gm-Message-State: ACrzQf3pR12et9AXo8lGJ1HghV4Gmt0YIWQTbmV6N/tpXvspQEVtX1+L
+        S78F6BJ0WQl5TIVY8zCGWsXbG1KdR7JTRZ7o3n6PRa/nhbAvdFQOcqmDSvb9wvJ0AmfomtP/UHG
+        Z3pxijyAQvbq4MpqO4nM=
+X-Received: by 2002:a63:4410:0:b0:43c:9385:5373 with SMTP id r16-20020a634410000000b0043c93855373mr171021pga.342.1667326405461;
+        Tue, 01 Nov 2022 11:13:25 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7xCdoqUgHSMdgTLB6mB0dr3YKn10njr1NWWEPBfi45SBznlOcV6JWQVykoZp8vU4em6iPbsQ==
+X-Received: by 2002:a63:4410:0:b0:43c:9385:5373 with SMTP id r16-20020a634410000000b0043c93855373mr171015pga.342.1667326405050;
+        Tue, 01 Nov 2022 11:13:25 -0700 (PDT)
+Received: from 4VPLMR2-DT.corp.robot.car ([199.73.125.241])
+        by smtp.gmail.com with ESMTPSA id m14-20020a63fd4e000000b00460c67afbd5sm6229047pgj.7.2022.11.01.11.13.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Nov 2022 11:13:24 -0700 (PDT)
+From:   Andy Ren <andy.ren@getcruise.com>
+To:     netdev@vger.kernel.org, davem@davemloft.com, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwm.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        roman.gushchin@linux.dev, Andy Ren <andy.ren@getcruise.com>
+Subject: [PATCH net-next] netconsole: Enable live renaming for network interfaces used by netconsole
+Date:   Tue,  1 Nov 2022 11:12:25 -0700
+Message-Id: <20221101181225.1272144-1-andy.ren@getcruise.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221026185846.3983888-11-quic_eberman@quicinc.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: wgCPIiPPYiHR1XN9Dc2cwb3emWjQKxyu
+X-Proofpoint-GUID: wgCPIiPPYiHR1XN9Dc2cwb3emWjQKxyu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-01_09,2022-11-01_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 adultscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
+ clxscore=1011 mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211010132
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Oct 26, 2022 at 11:58:35AM -0700, Elliot Berman wrote:
-> The resource manager is a special virtual machine which is always
-> running on a Gunyah system. It provides APIs for creating and destroying
-> VMs, secure memory management, sharing/lending of memory between VMs,
-> and setup of inter-VM communication. Calls to the resource manager are
-> made via message queues.
-> 
-> This patch implements the basic probing and RPC mechanism to make those
-> API calls. Request/response calls can be made with gh_rm_call.
-> Drivers can also register to notifications pushed by RM via
-> gh_rm_register_notifier
-> 
-> Specific API calls that resource manager supports will be implemented in
-> subsequent patches.
-> 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
->  MAINTAINERS                    |   2 +-
->  drivers/virt/gunyah/Kconfig    |  15 +
->  drivers/virt/gunyah/Makefile   |   3 +
->  drivers/virt/gunyah/rsc_mgr.c  | 602 +++++++++++++++++++++++++++++++++
->  drivers/virt/gunyah/rsc_mgr.h  |  34 ++
->  include/linux/gunyah_rsc_mgr.h |  26 ++
->  6 files changed, 681 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/virt/gunyah/rsc_mgr.c
->  create mode 100644 drivers/virt/gunyah/rsc_mgr.h
->  create mode 100644 include/linux/gunyah_rsc_mgr.h
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 586539eadd3b..e072a0d2e553 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -8945,7 +8945,7 @@ F:	Documentation/virt/gunyah/
->  F:	arch/arm64/gunyah/
->  F:	drivers/mailbox/gunyah-msgq.c
->  F:	drivers/virt/gunyah/
-> -F:	include/linux/gunyah.h
-> +F:	include/linux/gunyah*.h
->  
->  HABANALABS PCI DRIVER
->  M:	Oded Gabbay <ogabbay@kernel.org>
-> diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
-> index 127156a678a6..4de88d80aa7b 100644
-> --- a/drivers/virt/gunyah/Kconfig
-> +++ b/drivers/virt/gunyah/Kconfig
-> @@ -10,3 +10,18 @@ config GUNYAH
->  
->  	  Say Y/M here to enable the drivers needed to interact in a Gunyah
->  	  virtual environment.
-> +
-> +config GUNYAH_RESORUCE_MANAGER
-> +	tristate "Gunyah Resource Manager"
-> +	select MAILBOX
-> +	select GUNYAH_MESSAGE_QUEUES
-> +	depends on GUNYAH
-> +	default y
+This patch enables support for live renaming of network interfaces
+initialized by netconsole.
 
-You only have "default y" if your machine can not boot without it.
-Please do not add that here.
+This resolves an issue seen when netconsole is configured to boot as a
+built-in kernel module with a kernel boot argument. As stated in the
+kernel man page - As a built-in, netconsole initializes immediately
+after NIC cards and will bring up the specified interface as soon as
+possible. Consequently, the renaming of specified interfaces will fail
+and return EBUSY. This is because by default, the kernel disallows live
+renaming unless the device explicitly sets a priv_flags bit
+(IFF_LIVE_RENAME_OK), and renaming after a network interface is up
+returns EBUSY.
 
-> +	help
-> +	  The resource manager (RM) is a privileged application VM supporting
-> +	  the Gunyah Hypervisor. Enable this driver to support communicating
-> +	  with Gunyah RM. This is typically required for a VM running under
-> +	  Gunyah wanting to have Gunyah-awareness.
-> +
-> +	  Say Y/M here if unsure.
-> +
-> diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-> index 2ac4ee64b89d..2c18b0a56413 100644
-> --- a/drivers/virt/gunyah/Makefile
-> +++ b/drivers/virt/gunyah/Makefile
-> @@ -1 +1,4 @@
->  obj-$(CONFIG_GUNYAH) += gunyah.o
-> +
-> +gunyah_rsc_mgr-y += rsc_mgr.o
-> +obj-$(CONFIG_GUNYAH_RESORUCE_MANAGER) += gunyah_rsc_mgr.o
-> diff --git a/drivers/virt/gunyah/rsc_mgr.c b/drivers/virt/gunyah/rsc_mgr.c
-> new file mode 100644
-> index 000000000000..a9fde703cbbe
-> --- /dev/null
-> +++ b/drivers/virt/gunyah/rsc_mgr.c
-> @@ -0,0 +1,602 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#define pr_fmt(fmt) "gh_rsc_mgr: " fmt
+The changes to the kernel are as of following:
 
-This is a driver, you should never need this as you should be using the
-dev_*() calls, not pr_*() calls as you always have access to a struct
-device, right?
+- Addition of a iface_live_renaming boolean flag to the netpoll struct,
+used to enable/disable interface live renaming. False by default
+- Changes to check for the aforementioned flag in network and ethernet
+driver interface renaming code
+- Adds a new optional "*" parameter to the netconsole configuration string
+after interface device name that enables interface live renaming when
+included (e.g. "eth0*"). When this parameter is included,
+"iface_live_renaming" is set to true.
+---
+ Documentation/networking/netconsole.rst |  5 +++--
+ include/linux/netpoll.h                 |  3 +++
+ net/core/dev.c                          |  3 ++-
+ net/core/netpoll.c                      | 18 +++++++++++++++++-
+ net/ethernet/eth.c                      |  5 ++++-
+ 5 files changed, 29 insertions(+), 5 deletions(-)
 
-So you can drop this.
+diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
+index 1f5c4a04027c..c1255a4d9c9b 100644
+--- a/Documentation/networking/netconsole.rst
++++ b/Documentation/networking/netconsole.rst
+@@ -34,20 +34,21 @@ Sender and receiver configuration:
+ It takes a string configuration parameter "netconsole" in the
+ following format::
+ 
+- netconsole=[+][src-port]@[src-ip]/[<dev>],[tgt-port]@<tgt-ip>/[tgt-macaddr]
++ netconsole=[+][src-port]@[src-ip]/[<dev>][*],[tgt-port]@<tgt-ip>/[tgt-macaddr]
+ 
+    where
+ 	+             if present, enable extended console support
+ 	src-port      source for UDP packets (defaults to 6665)
+ 	src-ip        source IP to use (interface address)
+ 	dev           network interface (eth0)
++	*             if present, allow runtime network interface renaming
+ 	tgt-port      port for logging agent (6666)
+ 	tgt-ip        IP address for logging agent
+ 	tgt-macaddr   ethernet MAC address for logging agent (broadcast)
+ 
+ Examples::
+ 
+- linux netconsole=4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc
++ linux netconsole=4444@10.0.0.1/eth1*,9353@10.0.0.2/12:34:56:78:9a:bc
+ 
+ or::
+ 
+diff --git a/include/linux/netpoll.h b/include/linux/netpoll.h
+index bd19c4b91e31..f2ebdabf0959 100644
+--- a/include/linux/netpoll.h
++++ b/include/linux/netpoll.h
+@@ -32,6 +32,7 @@ struct netpoll {
+ 	bool ipv6;
+ 	u16 local_port, remote_port;
+ 	u8 remote_mac[ETH_ALEN];
++	bool iface_live_renaming;
+ };
+ 
+ struct netpoll_info {
+@@ -51,9 +52,11 @@ struct netpoll_info {
+ void netpoll_poll_dev(struct net_device *dev);
+ void netpoll_poll_disable(struct net_device *dev);
+ void netpoll_poll_enable(struct net_device *dev);
++bool netpoll_live_renaming_enabled(struct net_device *dev);
+ #else
+ static inline void netpoll_poll_disable(struct net_device *dev) { return; }
+ static inline void netpoll_poll_enable(struct net_device *dev) { return; }
++static inline bool netpoll_live_renaming_enabled(struct net_device *dev) { return false; }
+ #endif
+ 
+ void netpoll_send_udp(struct netpoll *np, const char *msg, int len);
+diff --git a/net/core/dev.c b/net/core/dev.c
+index cfb68db040a4..67430bec1f33 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -1176,7 +1176,8 @@ int dev_change_name(struct net_device *dev, const char *newname)
+ 	 * directly.
+ 	 */
+ 	if (dev->flags & IFF_UP &&
+-	    likely(!(dev->priv_flags & IFF_LIVE_RENAME_OK)))
++	    likely(!(dev->priv_flags & IFF_LIVE_RENAME_OK) &&
++		   !netpoll_live_renaming_enabled(dev)))
+ 		return -EBUSY;
+ 
+ 	down_write(&devnet_rename_sem);
+diff --git a/net/core/netpoll.c b/net/core/netpoll.c
+index 9be762e1d042..fcea265290c3 100644
+--- a/net/core/netpoll.c
++++ b/net/core/netpoll.c
+@@ -224,6 +224,15 @@ void netpoll_poll_enable(struct net_device *dev)
+ }
+ EXPORT_SYMBOL(netpoll_poll_enable);
+ 
++bool netpoll_live_renaming_enabled(struct net_device *dev)
++{
++	if (dev->npinfo && dev->npinfo->netpoll->iface_live_renaming)
++		return true;
++
++	return false;
++}
++EXPORT_SYMBOL(netpoll_live_renaming_enabled);
++
+ static void refill_skbs(void)
+ {
+ 	struct sk_buff *skb;
+@@ -523,7 +532,7 @@ static int netpoll_parse_ip_addr(const char *str, union inet_addr *addr)
+ 
+ int netpoll_parse_options(struct netpoll *np, char *opt)
+ {
+-	char *cur=opt, *delim;
++	char *cur = opt, *delim, *asterisk;
+ 	int ipv6;
+ 	bool ipversion_set = false;
+ 
+@@ -556,6 +565,13 @@ int netpoll_parse_options(struct netpoll *np, char *opt)
+ 		if ((delim = strchr(cur, ',')) == NULL)
+ 			goto parse_failed;
+ 		*delim = 0;
++
++		asterisk = strchr(cur, '*');
++		if (asterisk) {
++			np->iface_live_renaming = true;
++			*asterisk = 0;
++		}
++
+ 		strscpy(np->dev_name, cur, sizeof(np->dev_name));
+ 		cur = delim;
+ 	}
+diff --git a/net/ethernet/eth.c b/net/ethernet/eth.c
+index e02daa74e833..bb341acfcf05 100644
+--- a/net/ethernet/eth.c
++++ b/net/ethernet/eth.c
+@@ -62,6 +62,7 @@
+ #include <net/gro.h>
+ #include <linux/uaccess.h>
+ #include <net/pkt_sched.h>
++#include <linux/netpoll.h>
+ 
+ /**
+  * eth_header - create the Ethernet header
+@@ -288,8 +289,10 @@ int eth_prepare_mac_addr_change(struct net_device *dev, void *p)
+ {
+ 	struct sockaddr *addr = p;
+ 
+-	if (!(dev->priv_flags & IFF_LIVE_ADDR_CHANGE) && netif_running(dev))
++	if (!(dev->priv_flags & IFF_LIVE_ADDR_CHANGE) && netif_running(dev) &&
++	    !netpoll_live_renaming_enabled(dev))
+ 		return -EBUSY;
++
+ 	if (!is_valid_ether_addr(addr->sa_data))
+ 		return -EADDRNOTAVAIL;
+ 	return 0;
+-- 
+2.38.1
 
-
-> +
-> +#include <linux/of.h>
-> +#include <linux/slab.h>
-> +#include <linux/mutex.h>
-> +#include <linux/sched.h>
-> +#include <linux/gunyah.h>
-> +#include <linux/module.h>
-> +#include <linux/of_irq.h>
-> +#include <linux/kthread.h>
-> +#include <linux/notifier.h>
-> +#include <linux/workqueue.h>
-> +#include <linux/completion.h>
-> +#include <linux/gunyah_rsc_mgr.h>
-> +#include <linux/platform_device.h>
-> +
-> +#include "rsc_mgr.h"
-> +
-> +/* Resource Manager Header */
-> +struct gh_rm_rpc_hdr {
-> +	u8 version : 4, hdr_words : 4;
-> +	u8 type : 2, fragments : 6;
-
-Ick, that's hard to read.  One variable per line please?
-
-And why the bit packed stuff?  Are you sure this is the way to do this?
-Why not use a bitmask instead?
-
-> +	u16 seq;
-> +	u32 msg_id;
-> +} __packed;
-> +
-> +/* Standard reply header */
-> +struct gh_rm_rpc_reply_hdr {
-> +	struct gh_rm_rpc_hdr rpc_hdr;
-> +	u32 err_code;
-> +} __packed;
-> +
-> +/* RPC Header versions */
-> +#define GH_RM_RPC_HDR_VERSION_ONE	0x1
-> +
-> +/* RPC Header words */
-> +#define GH_RM_RPC_HDR_WORDS		0x2
-> +
-> +/* RPC Message types */
-> +#define GH_RM_RPC_TYPE_CONT		0x0
-> +#define GH_RM_RPC_TYPE_REQ		0x1
-> +#define GH_RM_RPC_TYPE_RPLY		0x2
-> +#define GH_RM_RPC_TYPE_NOTIF		0x3
-> +
-> +#define GH_RM_MAX_NUM_FRAGMENTS		62
-> +
-> +#define GH_RM_MAX_MSG_SIZE	(GH_MSGQ_MAX_MSG_SIZE - sizeof(struct gh_rm_rpc_hdr))
-> +
-> +/**
-> + * struct gh_rm_connection - Represents a complete message from resource manager
-> + * @payload: Combined payload of all the fragments (msg headers stripped off).
-> + * @size: Size of the payload.
-> + * @ret: Linux return code, set in case there was an error processing connection
-> + * @msg_id: Message ID from the header.
-> + * @type: GH_RM_RPC_TYPE_RPLY or GH_RM_RPC_TYPE_NOTIF.
-> + * @num_fragments: total number of fragments expected to be received.
-> + * @fragments_received: fragments received so far.
-> + * @rm_error: For request/reply sequences with standard replies.
-> + * @seq: Sequence ID for the main message.
-> + * @seq_done: Signals caller that the RM reply has been received
-> + */
-> +struct gh_rm_connection {
-> +	void *payload;
-> +	size_t size;
-> +	int ret;
-> +	u32 msg_id;
-> +	u8 type;
-> +
-> +	u8 num_fragments;
-> +	u8 fragments_received;
-> +
-> +	/* only for req/reply sequence */
-> +	u32 rm_error;
-> +	u16 seq;
-> +	struct completion seq_done;
-> +};
-> +
-> +struct gh_rm_notif_complete {
-> +	struct gh_rm_connection *conn;
-> +	struct work_struct work;
-> +};
-> +
-> +struct gh_rsc_mgr {
-> +	struct gunyah_resource tx_ghrsc, rx_ghrsc;
-> +	struct gh_msgq msgq;
-> +	struct mbox_client msgq_client;
-> +	struct gh_rm_connection *active_rx_connection;
-> +	int last_tx_ret;
-> +
-> +	struct idr call_idr;
-> +	struct mutex call_idr_lock;
-> +
-> +	struct mutex send_lock;
-> +
-> +	struct work_struct recv_work;
-> +};
-> +
-> +static struct gh_rsc_mgr *__rsc_mgr;
-
-Sorry, no, you don't get to just limit yourself to one of these.  Please
-make this properly handle any number of "resource managers", static
-variables like this is not ok.
-
-> +SRCU_NOTIFIER_HEAD_STATIC(gh_rm_notifier);
-
-Why do you need a notifier list?
-
-Who will register for this?  For what?  Why?
-
-> +static int gh_rm_drv_probe(struct platform_device *pdev)
-> +{
-> +	struct gh_rsc_mgr *rsc_mgr;
-> +	int ret;
-> +
-> +	rsc_mgr = devm_kzalloc(&pdev->dev, sizeof(*rsc_mgr), GFP_KERNEL);
-> +	if (!rsc_mgr)
-> +		return -ENOMEM;
-> +	platform_set_drvdata(pdev, rsc_mgr);
-> +
-> +	mutex_init(&rsc_mgr->call_idr_lock);
-> +	idr_init(&rsc_mgr->call_idr);
-> +	mutex_init(&rsc_mgr->send_lock);
-> +
-> +	ret = gh_msgq_platform_probe_direction(pdev, GUNYAH_RESOURCE_TYPE_MSGQ_TX, 0,
-> +						&rsc_mgr->tx_ghrsc);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = gh_msgq_platform_probe_direction(pdev, GUNYAH_RESOURCE_TYPE_MSGQ_RX, 1,
-> +						&rsc_mgr->rx_ghrsc);
-> +	if (ret)
-> +		return ret;
-> +
-> +	rsc_mgr->msgq_client.dev = &pdev->dev;
-
-So your client device is the platform device, and not a new bridge
-device that you create instead?  Why?
-
-
-> +	rsc_mgr->msgq_client.tx_block = true;
-> +	rsc_mgr->msgq_client.rx_callback = gh_rm_msgq_rx_data;
-> +	rsc_mgr->msgq_client.tx_done = gh_rm_msgq_tx_done;
-> +
-> +	ret = gh_msgq_init(&pdev->dev, &rsc_mgr->msgq, &rsc_mgr->msgq_client,
-> +				&rsc_mgr->tx_ghrsc, &rsc_mgr->rx_ghrsc);
-> +	if (ret)
-> +		return ret;
-> +
-> +	__rsc_mgr = rsc_mgr;
-> +
-> +	return 0;
-> +}
-> +static struct platform_driver gh_rm_driver = {
-> +	.probe = gh_rm_drv_probe,
-> +	.remove = gh_rm_drv_remove,
-> +	.driver = {
-> +		.name = "gh_rsc_mgr",
-> +		.of_match_table = gh_rm_of_match,
-> +	},
-
-Wait, why is this a platform driver?  This is binding to a real device
-on a real bus, not a random platform description in DT, right?
-
-Or is it controlled by your DT?  I can't figure that out here, sorry.
-
-thanks,
-
-greg k-h
