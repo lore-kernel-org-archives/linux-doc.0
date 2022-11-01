@@ -2,155 +2,292 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 215FCC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 08:59:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBE8BC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 09:03:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229487AbiKAI7L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 04:59:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42506 "EHLO
+        id S229492AbiKAJDk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 05:03:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229574AbiKAI7J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 04:59:09 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 057122668
-        for <linux-doc@vger.kernel.org>; Tue,  1 Nov 2022 01:59:08 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id z5-20020a17090a8b8500b00210a3a2364fso1098674pjn.0
-        for <linux-doc@vger.kernel.org>; Tue, 01 Nov 2022 01:59:07 -0700 (PDT)
+        with ESMTP id S229462AbiKAJDk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 05:03:40 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAEE9E07
+        for <linux-doc@vger.kernel.org>; Tue,  1 Nov 2022 02:03:38 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id f9so12902991pgj.2
+        for <linux-doc@vger.kernel.org>; Tue, 01 Nov 2022 02:03:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L8uxTY+98TOHH0Zp8gLObBaR0X3ktB4Yr6zWM6164/E=;
-        b=Pk2N1AvEYPscdgn4Qk2r/p4XK9Cn7Whxvkhfapl3fgB35DVSWRXC/bD/wpYvPPvTpI
-         aJ+OmMoC3LokfkGydEdRuP/XzGFvFzDAWIwY+DeunbkfGxevS0/O6o8NC5MDEZg2I4zR
-         yr+c5I40TUHrPVXUq1o/0wYsWhjZlqxPFVKHxQ6V0lUSES4+Oeadbqhfed5PTjW95xFh
-         K/SU4iHrgcHqNnybaEOXwIo3PBtP4IfXhEJ3zoC6iQU4xJWVa1FPl66TW/m92g1q6JU8
-         ULT72C6tmFRuiaoT4fb6gWEyAlKA202DokZ22XEcfkO0Uzvsy9WBoCLSACbeuT2SYLxQ
-         A7Ug==
+        bh=Jp+csowDa92K9Gj0Zlh1HwJPe/hGB3+s+A80Tb78+7c=;
+        b=PlBnwCFj/devdsxINsouq1TNwqE3Gv2Cf42Gt4oDsBmwhywKBOs0UW41+PzLJyeB/I
+         alwC/d8+Rx1OBVva+gPVisQjliGQ9UhP6NJhF6rdpQfNbCPuWnDXrqh8SY4PGEimAjOf
+         4UdSWxS3W+0wGX/eaXmgYFf7AzGjsAgu125OI+2Pwg0tvJJP4ouhixL2+G1iyqUXrl3h
+         IcQgkE7argHMeHF6uAAaAzinarZAW4TCPwd9bPSS62vb/KCjzT39f1E/xct/IEzquRB8
+         P28tm6bbLzYiRrFAgb77qtI0qslEjLedbzSK2onquhZ9uBvDi3e+fnd7UqCPKRsrHV2R
+         hHww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=L8uxTY+98TOHH0Zp8gLObBaR0X3ktB4Yr6zWM6164/E=;
-        b=0OcgolMTHdBe4OpFC77ZJrcWOIl+wLthHmP8q0qptUjFP19/iMasNJ8N/xSWbpTOri
-         XvgeEyRtvg8Lk7V2CEOR3Pc0nyLZ5K5QYRQJWnC3Wttx3c0YFVZYD5fP91Ouv5y3ptbL
-         EkMH6vlRDQt5LcfTGsu9l8/Dv5/jKOVCk5bMWUPtRjFfY3fT/GTZ5gvjKJ0k+Ct/ANaG
-         q72ztxAxkDyKY+cNYzyOdaKj20PuSWTPMevQJGLYRNfA3vlmXFH/WuxKF8VqSkiOWi4Q
-         CFolkPx1zYiM1o56ZqeCY9LXlN17pvrq8Rq9yJJhqDcyN+2J2BJE9qP6sg/imTXayLaT
-         TuqA==
-X-Gm-Message-State: ACrzQf1LeaAQRpVj64mDPGGr1eX7EGwVCsAZLB8afpypV0woJMXbQUtg
-        VC5qEpuh7NqyWLQf1OFqtGM=
-X-Google-Smtp-Source: AMsMyM6IKGzwxVpIydFAHxPFQfVXTKntl1BykzU/SqV7HczivDNi9Xxe4iH8D0AGozlaXI3YWeQMjA==
-X-Received: by 2002:a17:90b:153:b0:213:b853:5db1 with SMTP id em19-20020a17090b015300b00213b8535db1mr16182324pjb.168.1667293147465;
-        Tue, 01 Nov 2022 01:59:07 -0700 (PDT)
+        bh=Jp+csowDa92K9Gj0Zlh1HwJPe/hGB3+s+A80Tb78+7c=;
+        b=hU0WTzoFljkgjtFYTVv0keWtn58olbZFKA1lZiy9WQkYvdfoui5qYO/TjayPm+uRpY
+         QHY+AkKOnZn6V26UpY5sS1jFIw6piV8shMjo2cxztDIrY6ErK75eyMC4xrUXlRjekhJS
+         +RqvBRZJ+Ovgo041IHxn4SFqBsmQmmnAa+mdGTWOxnuTHfZxMf5kBbwCmrVIfOLQXPKW
+         NyO8QBOO7pgJRXiAGRDBgPqrB66IQeaXs4PJRe3gjOQSp/k/Or7af+2bnUWlUoBWgMi5
+         aJT+m0oPRgCdt68K3ZKng4vopBWUtK5rTr2RjlhYgHrubtO65JEcpD+1cWUtXRhSME+q
+         gHtQ==
+X-Gm-Message-State: ACrzQf2nbJhFEJaHElkoMJpGZcsaClUfnO1MfWfOkce4/k+BnxY5x3xQ
+        ycPoqWlaYwNK1WmBF80VZeE=
+X-Google-Smtp-Source: AMsMyM66rtYVH7/JlJZJMrQXeQVD3xLeP/D4a2pKGRHeo6+m+qYIkLeoSfDNZx+42IS3EyGBZ3i9Bw==
+X-Received: by 2002:a05:6a00:4c9c:b0:56b:a9bd:ee4f with SMTP id eb28-20020a056a004c9c00b0056ba9bdee4fmr18822763pfb.35.1667293417505;
+        Tue, 01 Nov 2022 02:03:37 -0700 (PDT)
 Received: from debian.me (subs32-116-206-28-24.three.co.id. [116.206.28.24])
-        by smtp.gmail.com with ESMTPSA id u12-20020a170902714c00b00186881688f2sm4099375plm.220.2022.11.01.01.59.06
+        by smtp.gmail.com with ESMTPSA id x184-20020a6231c1000000b0056bbd286cf4sm1216532pfx.167.2022.11.01.02.03.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 01:59:06 -0700 (PDT)
+        Tue, 01 Nov 2022 02:03:37 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id B174D1039B6; Tue,  1 Nov 2022 15:59:03 +0700 (WIB)
-Date:   Tue, 1 Nov 2022 15:59:03 +0700
+        id 8C749101AC5; Tue,  1 Nov 2022 16:03:33 +0700 (WIB)
+Date:   Tue, 1 Nov 2022 16:03:33 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: Font size for actual content in Alabaster too small?
-Message-ID: <Y2Df19XaRqdNNa/m@debian.me>
-References: <7bddd517-6326-8f92-1ff2-1f97c9d4b235@gmail.com>
- <87mt9c2avq.fsf@meer.lwn.net>
+To:     =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-riscv@lists.infradead.org,
+        Alexandre Ghiti <alexandre.ghiti@canonical.com>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation: riscv: Document the sv57 VM layout
+Message-ID: <Y2Dg5fYVfhoJmOX3@debian.me>
+References: <20221031180230.1420544-1-bjorn@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="1LgKMSxYP0Hjkv5p"
+        protocol="application/pgp-signature"; boundary="yURbL6TMLgVl+TwT"
 Content-Disposition: inline
-In-Reply-To: <87mt9c2avq.fsf@meer.lwn.net>
+In-Reply-To: <20221031180230.1420544-1-bjorn@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---1LgKMSxYP0Hjkv5p
+--yURbL6TMLgVl+TwT
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 31, 2022 at 10:52:57AM -0600, Jonathan Corbet wrote:
->=20
-> You didn't notice that I'd already set the font size (seemingly too
-> small) in conf.py.  The real fix, anyway, is to stop trying to wire font
-> sizes and let the user's browser settings take control.  So I'm
-> pondering something like the following...
->=20
-> jon
->=20
-> --------8<--------------
->=20
->=20
-> >From 236978c7bd9433aea45d5314f31c079e0ef031bb Mon Sep 17 00:00:00 2001
-> From: Jonathan Corbet <corbet@lwn.net>
-> Date: Mon, 31 Oct 2022 10:48:19 -0600
-> Subject: [PATCH] docs: Don't wire font sizes for HTML output
->=20
-> The alabaster theme likes to provide explicit sizes for fonts, which
-> overrides the users's own browser settings and is guaranteed to displease
-> folks.  Set the font size to "inherit" so that the users browser settings
-> control the font size they get.  We can use the font_size configuration
-> option for the main body font (changing the size I'd already put there),
-> but the sidebar size can only be set via custom CSS.
->=20
-> Reported-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/conf.py                  | 3 ++-
->  Documentation/sphinx-static/custom.css | 1 +
->  2 files changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index 6ab47833ab6c..c715610d6297 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -316,9 +316,10 @@ if major <=3D 1 and minor < 8:
->  if  html_theme =3D=3D 'alabaster':
->      html_theme_options =3D {
->          'description': get_cline_version(),
-> -        'font_size': '10pt',
->          'page_width': '65em',
->          'sidebar_width': '15em',
-> +        'font_size': 'inherit',
-> +        'font_family': 'serif',
->      }
-> =20
->  sys.stderr.write("Using %s theme\n" % html_theme)
-> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphin=
-x-static/custom.css
-> index 9b36f7abd24f..45a624fdcf2c 100644
-> --- a/Documentation/sphinx-static/custom.css
-> +++ b/Documentation/sphinx-static/custom.css
-> @@ -11,6 +11,7 @@ div.body h3 { font-size: 130%; }
->  /* Tighten up the layout slightly */
->  div.body { padding: 0 15px 0 10px; }
->  div.sphinxsidebarwrapper { padding: 1em 0.4em; }
-> +div.sphinxsidebar { font-size: inherit; }
->  /* Tweak document margins and don't force width */
->  div.document {
->      margin: 20px 10px 0 10px;=20
+On Mon, Oct 31, 2022 at 07:02:30PM +0100, Bj=C3=B6rn T=C3=B6pel wrote:
+> +
+> +
+> +RISC-V Linux Kernel SV57
+> +------------------------
+> +
+> +::
+> +
+> + =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +      Start addr    |   Offset   |     End addr     |  Size   | VM area =
+description
+> + =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +                    |            |                  |         |
+> +   0000000000000000 |    0       | 00ffffffffffffff |   64 PB | user-spa=
+ce virtual memory, different per mm
+> +  __________________|____________|__________________|_________|_________=
+__________________________________________________
+> +                    |            |                  |         |
+> +   0100000000000000 | +64     PB | feffffffffffffff | ~16K PB | ... huge=
+, almost 64 bits wide hole of non-canonical
+> +                    |            |                  |         | virtual =
+memory addresses up to the -64 PB
+> +                    |            |                  |         | starting=
+ offset of kernel mappings.
+> +  __________________|____________|__________________|_________|_________=
+__________________________________________________
+> +                                                              |
+> +                                                              | Kernel-s=
+pace virtual memory, shared between all processes:
+> +  ____________________________________________________________|_________=
+__________________________________________________
+> +                    |            |                  |         |
+> +   ff1bfffffee00000 |  -57    PB | ff1bfffffeffffff |    2 MB | fixmap
+> +   ff1bffffff000000 |  -57    PB | ff1bffffffffffff |   16 MB | PCI io
+> +   ff1c000000000000 |  -57    PB | ff1fffffffffffff |    1 PB | vmemmap
+> +   ff20000000000000 |  -56    PB | ff5fffffffffffff |   16 PB | vmalloc/=
+ioremap space
+> +   ff60000000000000 |  -40    PB | ffdffffeffffffff |   32 PB | direct m=
+apping of all physical memory
+> +   ffdfffff00000000 |  - 8    PB | fffffffeffffffff |    8 PB | kasan
+> +  __________________|____________|__________________|_________|_________=
+___________________________________________________
+> +                                                              |
+> +                                                              | Identica=
+l layout to the 39-bit one from here on:
+> +  ____________________________________________________________|_________=
+___________________________________________________
+> +                    |            |                  |         |
+> +   ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules,=
+ BPF
+> +   ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel
+> +  __________________|____________|__________________|_________|_________=
+___________________________________________________
 
-LGTM, thanks.
+The memory layout figure above should have been in table format (it is
+written as such, isn't it?):
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---- >8 ----
+
+diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-lay=
+out.rst
+index 35f76798b6e41b..f87b63a0cc9cfa 100644
+--- a/Documentation/riscv/vm-layout.rst
++++ b/Documentation/riscv/vm-layout.rst
+@@ -102,34 +102,32 @@ RISC-V Linux Kernel SV48
+ RISC-V Linux Kernel SV57
+ ------------------------
+=20
+-::
+-
+- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-      Start addr    |   Offset   |     End addr     |  Size   | VM area de=
+scription
+- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-                    |            |                  |         |
+-   0000000000000000 |    0       | 00ffffffffffffff |   64 PB | user-space=
+ virtual memory, different per mm
+-  __________________|____________|__________________|_________|___________=
+________________________________________________
+-                    |            |                  |         |
+-   0100000000000000 | +64     PB | feffffffffffffff | ~16K PB | ... huge, =
+almost 64 bits wide hole of non-canonical
+-                    |            |                  |         | virtual me=
+mory addresses up to the -64 PB
+-                    |            |                  |         | starting o=
+ffset of kernel mappings.
+-  __________________|____________|__________________|_________|___________=
+________________________________________________
+-                                                              |
+-                                                              | Kernel-spa=
+ce virtual memory, shared between all processes:
+-  ____________________________________________________________|___________=
+________________________________________________
+-                    |            |                  |         |
+-   ff1bfffffee00000 |  -57    PB | ff1bfffffeffffff |    2 MB | fixmap
+-   ff1bffffff000000 |  -57    PB | ff1bffffffffffff |   16 MB | PCI io
+-   ff1c000000000000 |  -57    PB | ff1fffffffffffff |    1 PB | vmemmap
+-   ff20000000000000 |  -56    PB | ff5fffffffffffff |   16 PB | vmalloc/io=
+remap space
+-   ff60000000000000 |  -40    PB | ffdffffeffffffff |   32 PB | direct map=
+ping of all physical memory
+-   ffdfffff00000000 |  - 8    PB | fffffffeffffffff |    8 PB | kasan
+-  __________________|____________|__________________|_________|___________=
+_________________________________________________
+-                                                              |
+-                                                              | Identical =
+layout to the 39-bit one from here on:
+-  ____________________________________________________________|___________=
+_________________________________________________
+-                    |            |                  |         |
+-   ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules, B=
+PF
+-   ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel
+-  __________________|____________|__________________|_________|___________=
+_________________________________________________
++  +------------------+--------+------------------+---------+--------------=
+------------------------------------------------+
++  |    Start addr    | Offset |     End addr     |  Size   | VM area descr=
+iption                                          |
++  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=
+=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
++  | 0000000000000000 |    0   | 00ffffffffffffff |   64 PB | user-space vi=
+rtual memory, different per mm                  |
++  +------------------+--------+------------------+---------+--------------=
+------------------------------------------------+
++  | 0100000000000000 | +64 PB | feffffffffffffff | ~16K PB | ... huge, alm=
+ost 64 bits wide hole of non-canonical          |
++  |                  |        |                  |         | virtual memor=
+y addresses up to the -64 PB                    |
++  |                  |        |                  |         | starting offs=
+et of kernel mappings.                          |
++  +------------------+--------+------------------+---------+--------------=
+------------------------------------------------+
++  |                              Kernel-space virtual memory, shared betwe=
+en all processes:                               |
++  +------------------+--------+------------------+---------+--------------=
+------------------------------------------------+
++  | ff1bfffffee00000 | -57 PB | ff1bfffffeffffff |    2 MB | fixmap       =
+                                                |
++  +------------------+--------+------------------+---------+--------------=
+------------------------------------------------+
++  | ff1bffffff000000 | -57 PB | ff1bffffffffffff |   16 MB | PCI io       =
+                                                |
++  +------------------+--------+------------------+---------+--------------=
+------------------------------------------------+
++  | ff1c000000000000 | -57 PB | ff1fffffffffffff |    1 PB | vmemmap      =
+                                                |
++  +------------------+--------+------------------+---------+--------------=
+------------------------------------------------+
++  | ff20000000000000 | -56 PB | ff5fffffffffffff |   16 PB | vmalloc/iorem=
+ap space                                        |
++  +------------------+--------+------------------+---------+--------------=
+------------------------------------------------+
++  | ff60000000000000 | -40 PB | ffdffffeffffffff |   32 PB | direct mappin=
+g of all physical memory                        |
++  +------------------+--------+------------------+---------+--------------=
+------------------------------------------------+
++  | ffdfffff00000000 | -8 PB  | fffffffeffffffff |    8 PB | kasan        =
+                                                |
++  +------------------+--------+------------------+---------+--------------=
+------------------------------------------------+
++  |                                   Identical layout to the 39-bit one f=
+rom here on:                                    |
++  +------------------+--------+------------------+---------+--------------=
+------------------------------------------------+
++  | ffffffff00000000 | -4 GB  | ffffffff7fffffff |    2 GB | modules, BPF =
+                                                |
++  +------------------+--------+------------------+---------+--------------=
+------------------------------------------------+
++  | ffffffff80000000 | -2 GB  | ffffffffffffffff |    2 GB | kernel       =
+                                                |
++  +------------------+--------+------------------+---------+--------------=
+------------------------------------------------+
+
+However, for consistency, other similar figures should also be converted
+to tables (as separate patch).
+
+Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---1LgKMSxYP0Hjkv5p
+--yURbL6TMLgVl+TwT
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2DfzwAKCRD2uYlJVVFO
-o9vUAP9w+sgnF9nSdAf3oQt5ot8ZJTrKFcRXMe/t8PLe3lK37QEA5vejl/iHFRFt
-BvSyo5fpQBuK53bbipBs/HXA0DgZ/Ag=
-=osOv
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2Dg5QAKCRD2uYlJVVFO
+oyoHAQDSvuixaPsTu33sJAg6+XOwOCjsAT9k0V97zVoeWcDVWwD/TSOkf07TlUXD
+TPktqmAI6ey9cx5GFTqFoUnqWP2GQAk=
+=u90+
 -----END PGP SIGNATURE-----
 
---1LgKMSxYP0Hjkv5p--
+--yURbL6TMLgVl+TwT--
