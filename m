@@ -2,255 +2,251 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76860C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 16:06:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B31FBC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 16:10:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229601AbiKAQGv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 12:06:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47506 "EHLO
+        id S229562AbiKAQKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 12:10:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbiKAQGu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 12:06:50 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 371EE1571D;
-        Tue,  1 Nov 2022 09:06:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667318809; x=1698854809;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=MayWlSqqoHM0+wU0rV8BWk4tRrFd6ej2gtNp75/u7+4=;
-  b=I8I/girk6cKqgnvjHfcZfIE6DEfTK4qX3Lv2KSvFIcnyawa0uqdxmNqi
-   eBLyblNJzj101uHA0L1PupsJHBwcEimUon+XewA/8WJFumt30M0CK2z76
-   DhtHcCRSjg4Tx06itMFreTXwc//wseED0G4zIEQJOIFt9EEqStoAZ3GLe
-   gFtowvcAZWkU0LJYz33QrcMVgkXgYUxhJlpTBaPvW+IjZf5xmLPzUDd+6
-   S7k3EdOC6mkMB3ObJqQS8ic5UQjE6dPbWQymyUwnUvsdukoiQRA3KqR8X
-   kzJOPqvd0OzlZONOLOn7ahuCtEefF7cooNGRXbucHMuxBpsCXA6RmU2pb
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="307896805"
-X-IronPort-AV: E=Sophos;i="5.95,231,1661842800"; 
-   d="scan'208";a="307896805"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 09:06:44 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="636445570"
-X-IronPort-AV: E=Sophos;i="5.95,231,1661842800"; 
-   d="scan'208";a="636445570"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 09:06:42 -0700
-Date:   Tue, 1 Nov 2022 09:04:39 -0700 (PDT)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Xu Yilun <yilun.xu@intel.com>
-cc:     hao.wu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        linux-serial@vger.kernel.org, jirislaby@kernel.org,
-        geert+renesas@glider.be, andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com
-Subject: Re: [PATCH v4 4/4] tty: serial: 8250: add DFL bus driver for Altera
- 16550.
-In-Reply-To: <Y2B6kAnd+m3ftWRf@yilunxu-OptiPlex-7050>
-Message-ID: <alpine.DEB.2.22.394.2211010843110.2746019@rhweight-WRK1>
-References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com> <20221020212610.697729-5-matthew.gerlach@linux.intel.com> <Y11FmiDeVhGir+7z@yilunxu-OptiPlex-7050> <alpine.DEB.2.22.394.2210311719460.2680729@rhweight-WRK1>
- <Y2B6kAnd+m3ftWRf@yilunxu-OptiPlex-7050>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S229517AbiKAQKE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 12:10:04 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on20610.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eaa::610])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B18B81C407;
+        Tue,  1 Nov 2022 09:10:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NYm/Yhe6dN+DvUgZ4pthiyEDLLDwze76WgKqUZppBg1vAm8LBEfsWDyefFxUCSpeh2GyovotjFXfgN3hfsisOKCf2e+Yre87Pz4jYHPSU7/bBcQxDy6SgfWOuFRYCzzLqxBm+ClbrDE26I4LW1c8JbMP1scBY1jg/VajpyQJ2j1PpBIVfDasGY5BF4uPBCXl5z/do55JnE58hxapf7pdB8PdSb7yKhkTybtoRPKlb5KusCPSRk0FKPWzEI1aKi774Fmlo5wBxKdOjW/yenrAoHuudsJIwi8jkKUneabJrUniiLySDAzm6fWFlueW7/vkLxxLv6CJ4rqciHL6C/iq4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7SzfOpI5uYz6HWW4FanyA++TUz1RczsQ1gB8Rsv/uA0=;
+ b=UTdmEtLkUyUjbsUF+fFzmxs3pPsuRl+azvrw3ue02vLTGewEp1mFiR4/z2NbtspVXv915XYMhC6/ye54c4GOBTx0PXkuQwJElGhDnY47BT96Asc+rIMND3AY/3+44TPiRGP3JfKWWMQd6XwoSlr5kz5HFZuRilx5xTE7ORzZYHyKwQpW+JWf51O1V5inlMOLTgntZnI+YYK6pZfqQy2xocmnWewllVyuuFW2xMzoNnTbQIeBI8nzF3tk/+Zv7Zn1p7merjFO10jTVijaLnF6EPtW/0iXhnZa5MSSBLCiI1qC72OTeonpsplzHeRekvk8bIeVi9kao6z5ZgRYk18GmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7SzfOpI5uYz6HWW4FanyA++TUz1RczsQ1gB8Rsv/uA0=;
+ b=lYAMQNoUIIdUegZkPQohMG5VGZzfYZi5BpuFqSZjRWH2l6mcl1/iS3Rlx23p0QZLSWT2du0sOWIWFPqsOhxOg3vTF+wOURxizGYS6kclFcsrKe0/FgzEpNEBiOty/1zs1fj9+4fgfAxdZuhTH7DLBisgzRrQywSZ2lzaHEhd26H2azK47zN1RgYxYBgRgFERnQsEIP5QQGOoFjuhwDTCHB+bm+R+2pdqy5SjgIl+3F5/RsZOXviBzULuOxo4RE3msKgTrfgo/DcOP3EKHwZrS91Nk3daVbH8wBwXNrctOiS9amrQqoqVUWP+UXFbDk9exHi73WHJudbVOmFIfjUU9Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by SJ0PR12MB5440.namprd12.prod.outlook.com (2603:10b6:a03:3ac::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.21; Tue, 1 Nov
+ 2022 16:09:59 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5769.015; Tue, 1 Nov 2022
+ 16:09:58 +0000
+Date:   Tue, 1 Nov 2022 13:09:57 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Lu Baolu <baolu.lu@linux.intel.com>, bpf@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v3 8/15] iommufd: Algorithms for PFN storage
+Message-ID: <Y2FE1YKpxCFNTJJr@nvidia.com>
+References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <8-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+X-ClientProxiedBy: MN2PR19CA0040.namprd19.prod.outlook.com
+ (2603:10b6:208:19b::17) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SJ0PR12MB5440:EE_
+X-MS-Office365-Filtering-Correlation-Id: 15ce3e92-7692-439c-dffd-08dabc2385ef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jIfzs70SmW34/TuxdUX69RdLAGowTrmxlRKLRq9KRDyLtjTvRqhYyUF+nKGoOTPzU1sL3duA2W1pSkMmBxkbEYjoxSkgilzQpz8G6RA8Yq6rcN7mut2V16QX72ZHlOMU2nHFALL70LQftm70J5LNBQpBbbAQN7QIJRgUhQ2Lhdplu8qPRbgGFaB78zoe+Nu7tj1gBG/EOL67k6jcnFPHejsthb55suKD8piMbr5/MSAcLfr46iFK0F9XFmhZWPmNQJsUVoFxv7GrgnwZzzG6vtU3ovsDRdiHpVFY8AgGsoDbj6PIxvNzKvETVy20m3wX2NwoCwefs/yiV1GCKoIip/+nfBF8JrMFrK2Yq9CLiIygnP64MeiK8WHjTeNOrBxS9dH0X95Df+3yOVuuM8+d/srLDZdtB6tYeD4k+sBQmJow99xiUT8G61nTGwZTk6F8MnzMNRZIRvrs2ai+n+jMXR5SuCWP/YHc0P+7QRnTbWrNwls3RmegAwc0L7sPzJ9UoyvTsEz70E7+j32SwKpbUkm7PAt/OAAQcjRRDhsLgwEHEuUQXdQ30XD2BnNt2BrAVG56EdLthopXdK8vABOt7EmV8PBzcH+bP0IYx9q4QjgCEl5iSTjqy89v7YWc4dt2sfegL77vYSR57Fj9ARBBBRQSLobqyHdzPH2ZpK50JDb6X8PpX+wMxA/oy2oLy/0u2rJhLx0MuNuZ9t7zTZLlZoEeUT5gFTePfgyI194GcyPD1TStcQ3PXOMYrbeAcWgX
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(376002)(39860400002)(136003)(366004)(346002)(451199015)(6486002)(478600001)(6506007)(66946007)(66556008)(66476007)(8676002)(4326008)(2906002)(41300700001)(186003)(6512007)(26005)(2616005)(8936002)(7406005)(5660300002)(7416002)(83380400001)(921005)(38100700002)(110136005)(54906003)(316002)(86362001)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?g0/zwJpcdrFReqp6Y6jobm/wqz0ef83xbRhShoqJEWel6L3ETA86V1XxrdlR?=
+ =?us-ascii?Q?evb9axffBLRKTWm7zA58TUcctzJyKw3jFlA1lew60lLDnCCWYXqUT2sud4SP?=
+ =?us-ascii?Q?Anjgr3BgDETaQk1xgfDccQceG/3/WCTxrNAvbdpFMZwUGdN41xGkfennP9P9?=
+ =?us-ascii?Q?ZU/JpWQVAWEefUl9ik/SmWQkSGJrOogYGmUXBc9yPcy4rs0sh+8D8KAmxBY6?=
+ =?us-ascii?Q?WF2/5itTsMy2iupRtF9RIjPGlHFUoNZY9S2hqsuxcJl6o9z1JXefKr8qS0fZ?=
+ =?us-ascii?Q?9OQgCe+9Jh8ggoOQ8GgEZefWw8X7da+Sp+cqMufo77jspA2te4QrxDwnRoLH?=
+ =?us-ascii?Q?HVGle/A5vNp9Asv8UME/EFsemvfAM6s/8ha2OalByt9tb2baUUS4hMpCZ1J6?=
+ =?us-ascii?Q?X6hIXGuitBhwCvAPwW5W33xBvFZ2Ijc7YuJTm/aB6iMuQECSzDBroKdS47RF?=
+ =?us-ascii?Q?TT6UqU+8qEXBN4tDL3BkbqrugO/xySKtGwxX8N5FtjNW3hXwJEg0/GGbgcFc?=
+ =?us-ascii?Q?b/wDkSAtQ+nHdBtql/6h66+U3B/q/QbHA0fxJVOVwiKaNHJuNUVpEhi3/QNc?=
+ =?us-ascii?Q?MNWt1uqEObP+2ztWHdqYxDbMEYnuZisLHnkcwJAzZhdF+Hx1IN//E/Dlok2q?=
+ =?us-ascii?Q?8/J/1pbFkQS2W6jNQwpzXevc6YOtwBfToNLqdpsI4eGqp/dxniX4V5Meo6xR?=
+ =?us-ascii?Q?C9tzJitVlNjFQeQxesoPYjRvJxPi4fh2r3eYdg6tFhKMvAkRCDRcSOj79lyQ?=
+ =?us-ascii?Q?+rl9I9qb+1l95BhW7K7RIdXIAA0jZyqWSyp/37+1txiKyIA180R6aSJkSq3C?=
+ =?us-ascii?Q?pWCx6SAoRjprQ1fUplKueQoR+SFyz8M5KpzRrHPXSPYUk1KzTVkqP1e8fstf?=
+ =?us-ascii?Q?fc5ouqW/TcwiKCKrxU7QmENvbHt7ioEgkYJ4m6aFXD9XtWP1EWG/VUYJbevc?=
+ =?us-ascii?Q?TykPAy30ARS4q95SRONZhpoOKgjFESrHfUhRFUDRdJdzBOSGpMwY7plqFamv?=
+ =?us-ascii?Q?24tszDtREHhwG/fDg/P/vvSIgtvRclmsoJt32q+GiaQJB0qbVp9Rz63xazoW?=
+ =?us-ascii?Q?1uotTaHCeVevKGLdOSG4D3xsDmn6xYl7BH7MHeoT7+WPtKCt1mpVvJ9dn02l?=
+ =?us-ascii?Q?muSxftIxRcrde3vN3HezCeBkq66Iv/Z/w1zpCpkpOYPzdRetHCQgjsiFMeNt?=
+ =?us-ascii?Q?TgumomeuQiTou5RSr+1CnZ86I93uGm+qzoMPJQt2j2z7s9FM3xgiY0bzQ36i?=
+ =?us-ascii?Q?TklCE/gdMho5+iBWijFoeuQ9vTN4l7sMDNAxzxpBUxzl/L7H1ALvAAMnxJIM?=
+ =?us-ascii?Q?mcbjLmPZH6I+dptAnYPKoxNWol457mBmlm1j8ljOZ90ya34d5zaa3+2QCP2h?=
+ =?us-ascii?Q?jf04i0H/59AeVfSUPy9R5Z95E40TZ0p3HRarGSBib7aK8Q0z60L3sz9APv96?=
+ =?us-ascii?Q?yGVXxlE7zluC5kWP9naiSSD3irENx6np1oYr/DpH/0887EnuPVyFA31JQjMo?=
+ =?us-ascii?Q?3bndspUU9/33Uw8v9yzIZbCCazr3eoAZM3tc/Z4yDAzAzpPEzmvzfmEEvvfH?=
+ =?us-ascii?Q?LhKKh/IY+WD1Oyv8WV8=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15ce3e92-7692-439c-dffd-08dabc2385ef
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 16:09:58.5188
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hZ4RyWozP+rxVOXlHoDjEPQJZ1rR9oW/iSCI6k8Va5VsRSnfm0TVhVNbU8X5EpYA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5440
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Oct 25, 2022 at 03:12:17PM -0300, Jason Gunthorpe wrote:
 
+> +/**
+> + * iopt_unmap_domain() - Unmap without unpinning PFNs in a domain
+> + * @iopt: The iopt the domain is part of
+> + * @domain: The domain to unmap
+> + *
+> + * The caller must know that unpinning is not required, usually because there
+> + * are other domains in the iopt.
+> + */
+> +void iopt_unmap_domain(struct io_pagetable *iopt, struct iommu_domain *domain)
+> +{
+> +	struct interval_tree_span_iter span;
+> +
+> +	interval_tree_for_each_span(&span, &iopt->area_itree, 0, ULONG_MAX)
+> +		if (!span.is_hole)
+> +			iommu_unmap_nofail(domain, span.start_used,
+> +					   span.last_used - span.start_used +
+> +						   1);
+> +}
 
-On Tue, 1 Nov 2022, Xu Yilun wrote:
+Syzkaller found a splat here.
 
-> On 2022-10-31 at 17:34:39 -0700, matthew.gerlach@linux.intel.com wrote:
->>
->>
->> On Sat, 29 Oct 2022, Xu Yilun wrote:
->>
->>> On 2022-10-20 at 14:26:10 -0700, matthew.gerlach@linux.intel.com wrote:
->>>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>>>
->>>> Add a Device Feature List (DFL) bus driver for the Altera
->>>> 16550 implementation of UART.
->>>>
->>>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>>> ---
->>>> v4: use dev_err_probe() everywhere that is appropriate
->>>>     clean up noise
->>>>     change error messages to use the word, unsupported
->>>>     tried again to sort Makefile and KConfig better
->>>>     reorder probe function for easier error handling
->>>>     use new dfh_find_param API
->>>>
->>>> v3: use passed in location of registers
->>>>     use cleaned up functions for parsing parameters
->>>>
->>>> v2: clean up error messages
->>>>     alphabetize header files
->>>>     fix 'missing prototype' error by making function static
->>>>     tried to sort Makefile and Kconfig better
->>>> ---
->>>>  drivers/tty/serial/8250/8250_dfl.c | 149 +++++++++++++++++++++++++++++
->>>>  drivers/tty/serial/8250/Kconfig    |  12 +++
->>>>  drivers/tty/serial/8250/Makefile   |   1 +
->>>>  3 files changed, 162 insertions(+)
->>>>  create mode 100644 drivers/tty/serial/8250/8250_dfl.c
->>>>
->>>> diff --git a/drivers/tty/serial/8250/8250_dfl.c b/drivers/tty/serial/8250/8250_dfl.c
->>>> new file mode 100644
->>>> index 000000000000..f02f0ba2a565
->>>> --- /dev/null
->>>> +++ b/drivers/tty/serial/8250/8250_dfl.c
->>>> @@ -0,0 +1,149 @@
->>>> +// SPDX-License-Identifier: GPL-2.0
->>>> +/*
->>>> + * Driver for FPGA UART
->>>> + *
->>>> + * Copyright (C) 2022 Intel Corporation, Inc.
->>>> + *
->>>> + * Authors:
->>>> + *   Ananda Ravuri <ananda.ravuri@intel.com>
->>>> + *   Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>>> + */
->>>> +
->>>> +#include <linux/bitfield.h>
->>>> +#include <linux/dfl.h>
->>>> +#include <linux/io-64-nonatomic-lo-hi.h>
->>>> +#include <linux/kernel.h>
->>>> +#include <linux/module.h>
->>>> +#include <linux/serial.h>
->>>> +#include <linux/serial_8250.h>
->>>> +
->>>> +struct dfl_uart {
->>>> +	int line;
->>>> +};
->>>> +
->>>> +static int dfl_uart_get_params(struct dfl_device *dfl_dev, struct uart_8250_port *uart)
->>>> +{
->>>> +	struct device *dev = &dfl_dev->dev;
->>>> +	u64 v, fifo_len, reg_width;
->>>> +	u64 *p;
->>>> +
->>>> +	p = dfh_find_param(dfl_dev, DFHv1_PARAM_ID_CLK_FRQ);
->>>> +	if (!p)
->>>> +		return dev_err_probe(dev, -EINVAL, "missing CLK_FRQ param\n");
->>>> +
->>>> +	uart->port.uartclk = *p;
->>>> +	dev_dbg(dev, "UART_CLK_ID %u Hz\n", uart->port.uartclk);
->>>> +
->>>> +	p = dfh_find_param(dfl_dev, DFHv1_PARAM_ID_FIFO_LEN);
->>>> +	if (!p)
->>>> +		return dev_err_probe(dev, -EINVAL, "missing FIFO_LEN param\n");
->>>> +
->>>> +	fifo_len = *p;
->>>> +	dev_dbg(dev, "UART_FIFO_ID fifo_len %llu\n", fifo_len);
->>>> +
->>>> +	switch (fifo_len) {
->>>> +	case 32:
->>>> +		uart->port.type = PORT_ALTR_16550_F32;
->>>> +		break;
->>>> +
->>>> +	case 64:
->>>> +		uart->port.type = PORT_ALTR_16550_F64;
->>>> +		break;
->>>> +
->>>> +	case 128:
->>>> +		uart->port.type = PORT_ALTR_16550_F128;
->>>> +		break;
->>>> +
->>>> +	default:
->>>> +		return dev_err_probe(dev, -EINVAL, "unsupported fifo_len %llu\n", fifo_len);
->>>> +	}
->>>> +
->>>> +	p = dfh_find_param(dfl_dev, DFHv1_PARAM_ID_REG_LAYOUT);
->>>> +	if (!p)
->>>> +		return dev_err_probe(dev, -EINVAL, "missing REG_LAYOUT param\n");
->>>> +
->>>> +	v = *p;
->>>> +	uart->port.regshift = FIELD_GET(DFHv1_PARAM_ID_REG_SHIFT, v);
->>>> +	reg_width = FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v);
->>>
->>> I have concern that the raw layout inside the parameter block is
->>> still exposed to drivers and need to be parsed by each driver.
->>
->> Raw parameter block will always have to be passed to the driver because HW
->> specific properties can be defined that will need to be parsed by the
->> specific driver.
->
-> So there is a question about the scope of the definitions of these parameter
-> blocks. MSIX seems globally used across all dfl devices. REG_LAYOUT
-> seems specific to uart?
+The area_itree maintains "tombstones" of areas that are allocated, and
+IOVA reserved, but not yet populated in the domain. This scheme
+reduces the scope of the area_itree lock to only around allocation,
+and not the much slower population step. It is the basis for parallel
+mapping operation.
 
-There are definitely two classes of parameter blocks.  One class is HW 
-agnostic parameters where the parameters are relevant to many different 
-kinds of HW components.  MSI-X, and input clock-frequency are certainly HW 
-agnostic, and it turns out that REG_LAYOUT is not specific to uart.  You 
-can see reg_bits and reg_stride in struct regmap_config.  There are also 
-device tree bindings for reg-shift and reg-io-width.  The second class of 
-parameters would be specific to HW component.  In the case of this uart 
-driver, all parameters would be considered HW agnostic parameters.
+However, when a area is tombstoned with a area->pages == NULL it also
+hasn't been mapped to a domain and thus cannot be unmapped
 
->
-> If a parameter block is widely used in dfl drivers, duplicate the parsing
-> from HW layout in each driver may not be a good idea. While for device
-> specific parameter block, it's OK.
+The above span iterator is actually iterating over all the allocated
+IOVAs, not the IOVAs that have been populated to a domain. To get that
+we need to check area->pages before allowing the area to become a
+'used'. Thus if we race domain destruction with map and hit the
+tombstone we can trigger a WARN_ON in the selftest that the IOVA being
+unmapped is not mapped.
 
-It sounds like we are in agreement.
+A case of incorrect optimization. The fix is simple enough, just
+remove the span iterator (and audit that no other uses of area_itree
+are mis-using the span iterator)
 
->
-> Another concern is the indexing of the parameter IDs. If some parameter
-> blocks should be device specific, then no need to have globally indexed
-> parameter IDs. Index them locally in device is OK. So put the definitions
-> of ID values, HW layout and their parsing operation in each driver.
+diff --git a/drivers/iommu/iommufd/io_pagetable.c b/drivers/iommu/iommufd/io_pagetable.c
+index 5d4d48c80d3ad8..d1ba31491babb0 100644
+--- a/drivers/iommu/iommufd/io_pagetable.c
++++ b/drivers/iommu/iommufd/io_pagetable.c
+@@ -709,15 +709,14 @@ static void iopt_unfill_domain(struct io_pagetable *iopt,
+ 				continue;
+ 
+ 			mutex_lock(&pages->mutex);
+-			if (area->storage_domain != domain) {
+-				mutex_unlock(&pages->mutex);
+-				continue;
+-			}
+-			area->storage_domain = storage_domain;
++			if (IS_ENABLED(CONFIG_IOMMUFD_TEST))
++				WARN_ON(!area->storage_domain);
++			if (area->storage_domain == domain)
++				area->storage_domain = storage_domain;
+ 			mutex_unlock(&pages->mutex);
+-		}
+ 
+-		iopt_unmap_domain(iopt, domain);
++			iopt_area_unmap_domain(area, domain);
++		}
+ 		return;
+ 	}
+ 
+diff --git a/drivers/iommu/iommufd/io_pagetable.h b/drivers/iommu/iommufd/io_pagetable.h
+index 0bd645da97809a..3b85fa344f6be3 100644
+--- a/drivers/iommu/iommufd/io_pagetable.h
++++ b/drivers/iommu/iommufd/io_pagetable.h
+@@ -65,7 +65,8 @@ void iopt_area_unfill_domains(struct iopt_area *area, struct iopt_pages *pages);
+ int iopt_area_fill_domain(struct iopt_area *area, struct iommu_domain *domain);
+ void iopt_area_unfill_domain(struct iopt_area *area, struct iopt_pages *pages,
+ 			     struct iommu_domain *domain);
+-void iopt_unmap_domain(struct io_pagetable *iopt, struct iommu_domain *domain);
++void iopt_area_unmap_domain(struct iopt_area *area,
++			    struct iommu_domain *domain);
+ 
+ static inline unsigned long iopt_area_index(struct iopt_area *area)
+ {
+diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
+index b15967d87ffa86..dcc4620cd5d5e6 100644
+--- a/drivers/iommu/iommufd/pages.c
++++ b/drivers/iommu/iommufd/pages.c
+@@ -1186,22 +1186,17 @@ static void iopt_area_unfill_partial_domain(struct iopt_area *area,
+ }
+ 
+ /**
+- * iopt_unmap_domain() - Unmap without unpinning PFNs in a domain
+- * @iopt: The iopt the domain is part of
++ * iopt_area_unmap_domain() - Unmap without unpinning PFNs in a domain
++ * @area: The IOVA range to unmap
+  * @domain: The domain to unmap
+  *
+  * The caller must know that unpinning is not required, usually because there
+  * are other domains in the iopt.
+  */
+-void iopt_unmap_domain(struct io_pagetable *iopt, struct iommu_domain *domain)
++void iopt_area_unmap_domain(struct iopt_area *area, struct iommu_domain *domain)
+ {
+-	struct interval_tree_span_iter span;
+-
+-	interval_tree_for_each_span(&span, &iopt->area_itree, 0, ULONG_MAX)
+-		if (!span.is_hole)
+-			iommu_unmap_nofail(domain, span.start_used,
+-					   span.last_used - span.start_used +
+-						   1);
++	iommu_unmap_nofail(domain, iopt_area_iova(area),
++			   iopt_area_length(area));
+ }
+ 
+ /**
 
-It may be confusing for two drivers to use the same parameter id that have 
-different meanings and data layout.  Since all the parameters for this 
-driver would be considered HW agnostic, we'd don't need to address this 
-issue with this patchset.
-
->
-> Thanks,
-> Yilun
->
->>
->>>
->>> How about we define HW agnostic IDs for parameter specific fields like:
->>>
->>> PARAM_ID		FIELD_ID
->>> ================================
->>> MSIX			STARTV
->>> 			NUMV
->>> --------------------------------
->>> CLK			FREQ
->>> --------------------------------
->>> FIFO			LEN
->>> --------------------------------
->>> REG_LAYOUT		WIDTH
->>> 			SHIFT
->>>
->>> And define like u64 dfl_find_param(struct dfl_device *, int param_id, int field_id)
->>
->> I don't think dfl_find_param as defined above adds much value.
->>
->>>
->>> Think further, if we have to define HW agnostic property - value pairs,
->>> why don't we just use "Software nodes for the firmware node", see
->>> drivers/base/swnode.c. I think this may be a better choice.
->>
->> I am looking into "Software nodes for the firmware node", and it can be used
->> for HW agnostic properties.  Each dfl driver will still have to make a
->> function call to fetch each HW agnostice property value as well as a
->> function call to find the HW specific parameters and then parse those
->> parameters.
->>
->>>
->>> Thanks,
->>> Yilun
->>>
->
