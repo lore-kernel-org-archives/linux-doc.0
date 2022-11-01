@@ -2,262 +2,326 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 299F6C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 16:30:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54621C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 16:54:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbiKAQay (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 12:30:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33930 "EHLO
+        id S230342AbiKAQy2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 12:54:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230266AbiKAQat (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 12:30:49 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 771991CFF9;
-        Tue,  1 Nov 2022 09:30:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667320230; x=1698856230;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=oyJcxv9XLLszFYcBarMqE4cI9/+st/gjsR3pNOh/nb0=;
-  b=Yo+iXTllZxM9qlIbxx6mSvVYFt3c78J0wI/d0EvPempIs0R4khJw3Ccs
-   4Cym2gg7tbQ+XO4dmsvucpW1Ml93fY+1lz8Az+jKKFFdNIZhZ+iRgMvfd
-   CWugf7yBG8ZRwIpykjUEXDNo5pXMIjlUjDruVwgPE99VpmsuGco54aPrk
-   COD0uPk4RpIoeKUc9Zk7Yrr8zC+7iLd7nCDUAchz91BKMsBgi1HCJjnvQ
-   4MiW2voYnhgczUHgqN6ZAFIZX9Daeg+83LO7JD5AcuKjsyiLKSGSYNjE2
-   CC4gpTeXp7sFBcvJrRiv9a5mx9pNYZdf19E5OkXkee7qKt6Yw2vz9me/m
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="310887148"
-X-IronPort-AV: E=Sophos;i="5.95,231,1661842800"; 
-   d="scan'208";a="310887148"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 09:30:29 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="697458814"
-X-IronPort-AV: E=Sophos;i="5.95,231,1661842800"; 
-   d="scan'208";a="697458814"
-Received: from mweigler-mobl.ger.corp.intel.com ([10.249.40.213])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 09:30:24 -0700
-Date:   Tue, 1 Nov 2022 18:30:22 +0200 (EET)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     matthew.gerlach@linux.intel.com
-cc:     Xu Yilun <yilun.xu@intel.com>, hao.wu@intel.com,
-        Russ Weight <russell.h.weight@intel.com>,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, Lukas Wunner <lukas@wunner.de>,
-        marpagan@redhat.com
-Subject: Re: [PATCH v4 4/4] tty: serial: 8250: add DFL bus driver for Altera
- 16550.
-In-Reply-To: <alpine.DEB.2.22.394.2211010843110.2746019@rhweight-WRK1>
-Message-ID: <1a812bba-6832-36cc-dfed-7d7ddd8f421c@linux.intel.com>
-References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com> <20221020212610.697729-5-matthew.gerlach@linux.intel.com> <Y11FmiDeVhGir+7z@yilunxu-OptiPlex-7050> <alpine.DEB.2.22.394.2210311719460.2680729@rhweight-WRK1> <Y2B6kAnd+m3ftWRf@yilunxu-OptiPlex-7050>
- <alpine.DEB.2.22.394.2211010843110.2746019@rhweight-WRK1>
+        with ESMTP id S229511AbiKAQyX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 12:54:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E091D7B
+        for <linux-doc@vger.kernel.org>; Tue,  1 Nov 2022 09:53:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1667321602;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VlbZG9ub6DF/LY2VtLFrDY1eKkkq4JGcfuS3h450tTI=;
+        b=ejmY81oJfFV1dEYOlucEqkAiFk7+FIwayIPTv6ig7/uJCX9NQsXN77gjMQvieCwAqP6Unp
+        spOCWPwtLdK44Sc3+ZFws26fpGHh70kBJhuLjb2HAJ+wH833uFjTX1D1xUJWMnNGTWYzlB
+        6CUdMubaldChZS9KfvAa1JglVI4yAlo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-622-AyImlOReMvids-H-Ejt9cQ-1; Tue, 01 Nov 2022 12:53:16 -0400
+X-MC-Unique: AyImlOReMvids-H-Ejt9cQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E87F85A5A6;
+        Tue,  1 Nov 2022 16:53:15 +0000 (UTC)
+Received: from fedora (unknown [10.22.32.201])
+        by smtp.corp.redhat.com (Postfix) with SMTP id A6E492166B2D;
+        Tue,  1 Nov 2022 16:53:11 +0000 (UTC)
+Date:   Tue, 1 Nov 2022 13:53:09 -0300
+From:   Wander Lairson Costa <wander@redhat.com>
+To:     Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v16 3/3] selftests: tdx: Test TDX attestation GetReport
+ support
+Message-ID: <20221101165309.uihcsbjiejkrkiov@fedora>
+References: <20221028002820.3303030-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20221028002820.3303030-4-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20221101133556.l7dffiwl24lqjioz@fedora>
+ <bb9efd4c-ad21-e03b-922d-cc137e52dc28@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bb9efd4c-ad21-e03b-922d-cc137e52dc28@linux.intel.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 1 Nov 2022, matthew.gerlach@linux.intel.com wrote:
+On Tue, Nov 01, 2022 at 06:43:31AM -0700, Sathyanarayanan Kuppuswamy wrote:
+> 
+> 
+> On 11/1/22 6:35 AM, Wander Lairson Costa wrote:
+> > On Thu, Oct 27, 2022 at 05:28:20PM -0700, Kuppuswamy Sathyanarayanan wrote:
+> >> Attestation is used to verify the trustworthiness of a TDX guest.
+> >> During the guest bring-up, the Intel TDX module measures and records
+> >> the initial contents and configuration of the guest, and at runtime,
+> >> guest software uses runtime measurement registers (RMTRs) to measure
+> >> and record details related to kernel image, command line params, ACPI
+> >> tables, initrd, etc. At guest runtime, the attestation process is used
+> >> to attest to these measurements.
+> >>
+> >> The first step in the TDX attestation process is to get the TDREPORT
+> >> data. It is a fixed size data structure generated by the TDX module
+> >> which includes the above mentioned measurements data, a MAC ID to
+> >> protect the integrity of the TDREPORT, and a 64-Byte of user specified
+> >> data passed during TDREPORT request which can uniquely identify the
+> >> TDREPORT.
+> >>
+> >> Intel's TDX guest driver exposes TDX_CMD_GET_REPORT IOCTL interface to
+> >> enable guest userspace to get the TDREPORT.
+> >>
+> >> Add a kernel self test module to test this ABI and verify the validity
+> >> of the generated TDREPORT.
+> >>
+> >> Reviewed-by: Tony Luck <tony.luck@intel.com>
+> >> Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> >> Acked-by: Kai Huang <kai.huang@intel.com>
+> >> Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> >> Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+> >> ---
+> >>
+> >> Changes since v15:
+> >>  * None
+> >>
+> >> Changes since v14:
+> >>  * Fixed format issue in struct comments.
+> >>  * Rebased on top of v6.1-rc1
+> >>
+> >> Changes since v13:
+> >>  * Removed __packed from TDREPORT structs.
+> >>  * Since the guest driver is moved to drivers/virt/coco, removed
+> >>    tools/arch/x86/include header folder usage.
+> >>  * Fixed struct comments to match kernel-doc format.
+> >>  * Fixed commit log as per review comments.
+> >>  * Fixed some format issues in the code.
+> >>
+> >> Changes since v12:
+> >>  * Changed #ifdef DEBUG usage with if (DEBUG).
+> >>  * Initialized reserved entries values to zero.
+> >>
+> >> Changes since v11:
+> >>  * Renamed devname with TDX_GUEST_DEVNAME.
+> >>
+> >> Changes since v10:
+> >>  * Replaced TD/TD Guest usage with guest or TDX guest.
+> >>  * Reworded the subject line.
+> >>
+> >> Changes since v9:
+> >>  * Copied arch/x86/include/uapi/asm/tdx.h to tools/arch/x86/include to
+> >>    decouple header dependency between kernel source and tools dir.
+> >>  * Fixed Makefile to adapt to above change.
+> >>  * Fixed commit log and comments.
+> >>  * Added __packed to hardware structs.
+> >>
+> >> Changes since v8:
+> >>  * Please refer to https://lore.kernel.org/all/ \
+> >>    20220728034420.648314-1-sathyanarayanan.kuppuswamy@linux.intel.com/
+> >>
+> >>  tools/testing/selftests/Makefile             |   1 +
+> >>  tools/testing/selftests/tdx/Makefile         |   7 +
+> >>  tools/testing/selftests/tdx/config           |   1 +
+> >>  tools/testing/selftests/tdx/tdx_guest_test.c | 175 +++++++++++++++++++
+> >>  4 files changed, 184 insertions(+)
+> >>  create mode 100644 tools/testing/selftests/tdx/Makefile
+> >>  create mode 100644 tools/testing/selftests/tdx/config
+> >>  create mode 100644 tools/testing/selftests/tdx/tdx_guest_test.c
+> >>
+> >> diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+> >> index 0464b2c6c1e4..f60e14d16bfd 100644
+> >> --- a/tools/testing/selftests/Makefile
+> >> +++ b/tools/testing/selftests/Makefile
+> >> @@ -73,6 +73,7 @@ TARGETS += sync
+> >>  TARGETS += syscall_user_dispatch
+> >>  TARGETS += sysctl
+> >>  TARGETS += tc-testing
+> >> +TARGETS += tdx
+> >>  TARGETS += timens
+> >>  ifneq (1, $(quicktest))
+> >>  TARGETS += timers
+> >> diff --git a/tools/testing/selftests/tdx/Makefile b/tools/testing/selftests/tdx/Makefile
+> >> new file mode 100644
+> >> index 000000000000..8dd43517cd55
+> >> --- /dev/null
+> >> +++ b/tools/testing/selftests/tdx/Makefile
+> >> @@ -0,0 +1,7 @@
+> >> +# SPDX-License-Identifier: GPL-2.0
+> >> +
+> >> +CFLAGS += -O3 -Wl,-no-as-needed -Wall -static
+> >> +
+> >> +TEST_GEN_PROGS := tdx_guest_test
+> >> +
+> >> +include ../lib.mk
+> >> diff --git a/tools/testing/selftests/tdx/config b/tools/testing/selftests/tdx/config
+> >> new file mode 100644
+> >> index 000000000000..aa1edc829ab6
+> >> --- /dev/null
+> >> +++ b/tools/testing/selftests/tdx/config
+> >> @@ -0,0 +1 @@
+> >> +CONFIG_TDX_GUEST_DRIVER=y
+> >> diff --git a/tools/testing/selftests/tdx/tdx_guest_test.c b/tools/testing/selftests/tdx/tdx_guest_test.c
+> >> new file mode 100644
+> >> index 000000000000..a5c243f73adc
+> >> --- /dev/null
+> >> +++ b/tools/testing/selftests/tdx/tdx_guest_test.c
+> >> @@ -0,0 +1,175 @@
+> >> +// SPDX-License-Identifier: GPL-2.0
+> >> +/*
+> >> + * Test TDX guest features
+> >> + *
+> >> + * Copyright (C) 2022 Intel Corporation.
+> >> + *
+> >> + * Author: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+> >> + */
+> >> +
+> >> +#include <sys/ioctl.h>
+> >> +
+> >> +#include <errno.h>
+> >> +#include <fcntl.h>
+> >> +
+> >> +#include "../kselftest_harness.h"
+> >> +#include "../../../../include/uapi/linux/tdx-guest.h"
+> >> +
+> >> +#define TDX_GUEST_DEVNAME "/dev/tdx_guest"
+> >> +#define HEX_DUMP_SIZE 8
+> >> +#define DEBUG 0
+> >> +
+> >> +/**
+> >> + * struct tdreport_type - Type header of TDREPORT_STRUCT.
+> >> + * @type: Type of the TDREPORT (0 - SGX, 81 - TDX, rest are reserved)
+> >> + * @sub_type: Subtype of the TDREPORT (Default value is 0).
+> >> + * @version: TDREPORT version (Default value is 0).
+> >> + * @reserved: Added for future extension.
+> >> + *
+> >> + * More details can be found in TDX v1.0 module specification, sec
+> >> + * titled "REPORTTYPE".
+> >> + */
+> >> +struct tdreport_type {
+> >> +	__u8 type;
+> >> +	__u8 sub_type;
+> >> +	__u8 version;
+> >> +	__u8 reserved;
+> >> +};
+> >> +
+> >> +/**
+> >> + * struct reportmac - TDX guest report data, MAC and TEE hashes.
+> >> + * @type: TDREPORT type header.
+> >> + * @reserved1: Reserved for future extension.
+> >> + * @cpu_svn: CPU security version.
+> >> + * @tee_tcb_info_hash: SHA384 hash of TEE TCB INFO.
+> >> + * @tee_td_info_hash: SHA384 hash of TDINFO_STRUCT.
+> >> + * @reportdata: User defined unique data passed in TDG.MR.REPORT request.
+> >> + * @reserved2: Reserved for future extension.
+> >> + * @mac: CPU MAC ID.
+> >> + *
+> >> + * It is MAC-protected and contains hashes of the remainder of the
+> >> + * report structure along with user provided report data. More details can
+> >> + * be found in TDX v1.0 Module specification, sec titled "REPORTMACSTRUCT"
+> >> + */
+> >> +struct reportmac {
+> >> +	struct tdreport_type type;
+> >> +	__u8 reserved1[12];
+> >> +	__u8 cpu_svn[16];
+> >> +	__u8 tee_tcb_info_hash[48];
+> >> +	__u8 tee_td_info_hash[48];
+> >> +	__u8 reportdata[64];
+> >> +	__u8 reserved2[32];
+> >> +	__u8 mac[32];
+> >> +};
+> >> +
+> >> +/**
+> >> + * struct td_info - TDX guest measurements and configuration.
+> >> + * @attr: TDX Guest attributes (like debug, spet_disable, etc).
+> >> + * @xfam: Extended features allowed mask.
+> >> + * @mrtd: Build time measurement register.
+> >> + * @mrconfigid: Software-defined ID for non-owner-defined configuration
+> >> + *              of the guest - e.g., run-time or OS configuration.
+> >> + * @mrowner: Software-defined ID for the guest owner.
+> >> + * @mrownerconfig: Software-defined ID for owner-defined configuration of
+> >> + *                 the guest - e.g., specific to the workload.
+> >> + * @rtmr: Run time measurement registers.
+> >> + * @reserved: Added for future extension.
+> >> + *
+> >> + * It contains the measurements and initial configuration of the TDX guest
+> >> + * that was locked at initialization and a set of measurement registers
+> >> + * that are run-time extendable. More details can be found in TDX v1.0
+> >> + * Module specification, sec titled "TDINFO_STRUCT".
+> >> + */
+> >> +struct td_info {
+> >> +	__u8 attr[8];
+> >> +	__u64 xfam;
+> >> +	__u64 mrtd[6];
+> >> +	__u64 mrconfigid[6];
+> >> +	__u64 mrowner[6];
+> >> +	__u64 mrownerconfig[6];
+> >> +	__u64 rtmr[24];
+> >> +	__u64 reserved[14];
+> >> +};
+> >> +
+> >> +/*
+> >> + * struct tdreport - Output of TDCALL[TDG.MR.REPORT].
+> >> + * @reportmac: Mac protected header of size 256 bytes.
+> >> + * @tee_tcb_info: Additional attestable elements in the TCB are not
+> >> + *                reflected in the reportmac.
+> >> + * @reserved: Added for future extension.
+> >> + * @tdinfo: Measurements and configuration data of size 512 bytes.
+> >> + *
+> >> + * More details can be found in TDX v1.0 Module specification, sec
+> >> + * titled "TDREPORT_STRUCT".
+> >> + */
+> >> +struct tdreport {
+> >> +	struct reportmac reportmac;
+> >> +	__u8 tee_tcb_info[239];
+> >> +	__u8 reserved[17];
+> >> +	struct td_info tdinfo;
+> >> +};
+> >> +
+> >> +static void print_array_hex(const char *title, const char *prefix_str,
+> >> +			    const void *buf, int len)
+> >> +{
+> >> +	int i, j, line_len, rowsize = HEX_DUMP_SIZE;
+> >> +	const __u8 *ptr = buf;
+> >> +
+> >> +	if (!len || !buf)
+> > 
+> > If len is not zero and buf is null, this would be bug. It is better to
+> > let the code crash or assert buf isn't null after testing len.
+> 
+> It is just a debug dump routine. So I don't think you need to add assert or
+> crash here. If you really want some indication, maybe we can add an error message
+> for invalid params.
+
+Honestly, by design the code never enters in the `if` condition. So I am
+in favor of removing it.
 
 > 
-> 
-> On Tue, 1 Nov 2022, Xu Yilun wrote:
-> 
-> > On 2022-10-31 at 17:34:39 -0700, matthew.gerlach@linux.intel.com wrote:
-> > > 
-> > > 
-> > > On Sat, 29 Oct 2022, Xu Yilun wrote:
-> > > 
-> > > > On 2022-10-20 at 14:26:10 -0700, matthew.gerlach@linux.intel.com wrote:
-> > > > > From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> > > > > 
-> > > > > Add a Device Feature List (DFL) bus driver for the Altera
-> > > > > 16550 implementation of UART.
-> > > > > 
-> > > > > Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> > > > > ---
-> > > > > v4: use dev_err_probe() everywhere that is appropriate
-> > > > >     clean up noise
-> > > > >     change error messages to use the word, unsupported
-> > > > >     tried again to sort Makefile and KConfig better
-> > > > >     reorder probe function for easier error handling
-> > > > >     use new dfh_find_param API
-> > > > > 
-> > > > > v3: use passed in location of registers
-> > > > >     use cleaned up functions for parsing parameters
-> > > > > 
-> > > > > v2: clean up error messages
-> > > > >     alphabetize header files
-> > > > >     fix 'missing prototype' error by making function static
-> > > > >     tried to sort Makefile and Kconfig better
-> > > > > ---
-> > > > >  drivers/tty/serial/8250/8250_dfl.c | 149
-> > > > > +++++++++++++++++++++++++++++
-> > > > >  drivers/tty/serial/8250/Kconfig    |  12 +++
-> > > > >  drivers/tty/serial/8250/Makefile   |   1 +
-> > > > >  3 files changed, 162 insertions(+)
-> > > > >  create mode 100644 drivers/tty/serial/8250/8250_dfl.c
-> > > > > 
-> > > > > diff --git a/drivers/tty/serial/8250/8250_dfl.c
-> > > > > b/drivers/tty/serial/8250/8250_dfl.c
-> > > > > new file mode 100644
-> > > > > index 000000000000..f02f0ba2a565
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/tty/serial/8250/8250_dfl.c
-> > > > > @@ -0,0 +1,149 @@
-> > > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > > +/*
-> > > > > + * Driver for FPGA UART
-> > > > > + *
-> > > > > + * Copyright (C) 2022 Intel Corporation, Inc.
-> > > > > + *
-> > > > > + * Authors:
-> > > > > + *   Ananda Ravuri <ananda.ravuri@intel.com>
-> > > > > + *   Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> > > > > + */
-> > > > > +
-> > > > > +#include <linux/bitfield.h>
-> > > > > +#include <linux/dfl.h>
-> > > > > +#include <linux/io-64-nonatomic-lo-hi.h>
-> > > > > +#include <linux/kernel.h>
-> > > > > +#include <linux/module.h>
-> > > > > +#include <linux/serial.h>
-> > > > > +#include <linux/serial_8250.h>
-> > > > > +
-> > > > > +struct dfl_uart {
-> > > > > +	int line;
-> > > > > +};
-> > > > > +
-> > > > > +static int dfl_uart_get_params(struct dfl_device *dfl_dev, struct
-> > > > > uart_8250_port *uart)
-> > > > > +{
-> > > > > +	struct device *dev = &dfl_dev->dev;
-> > > > > +	u64 v, fifo_len, reg_width;
-> > > > > +	u64 *p;
-> > > > > +
-> > > > > +	p = dfh_find_param(dfl_dev, DFHv1_PARAM_ID_CLK_FRQ);
-> > > > > +	if (!p)
-> > > > > +		return dev_err_probe(dev, -EINVAL, "missing CLK_FRQ
-> > > > > param\n");
-> > > > > +
-> > > > > +	uart->port.uartclk = *p;
-> > > > > +	dev_dbg(dev, "UART_CLK_ID %u Hz\n", uart->port.uartclk);
-> > > > > +
-> > > > > +	p = dfh_find_param(dfl_dev, DFHv1_PARAM_ID_FIFO_LEN);
-> > > > > +	if (!p)
-> > > > > +		return dev_err_probe(dev, -EINVAL, "missing FIFO_LEN
-> > > > > param\n");
-> > > > > +
-> > > > > +	fifo_len = *p;
-> > > > > +	dev_dbg(dev, "UART_FIFO_ID fifo_len %llu\n", fifo_len);
-> > > > > +
-> > > > > +	switch (fifo_len) {
-> > > > > +	case 32:
-> > > > > +		uart->port.type = PORT_ALTR_16550_F32;
-> > > > > +		break;
-> > > > > +
-> > > > > +	case 64:
-> > > > > +		uart->port.type = PORT_ALTR_16550_F64;
-> > > > > +		break;
-> > > > > +
-> > > > > +	case 128:
-> > > > > +		uart->port.type = PORT_ALTR_16550_F128;
-> > > > > +		break;
-> > > > > +
-> > > > > +	default:
-> > > > > +		return dev_err_probe(dev, -EINVAL, "unsupported
-> > > > > fifo_len %llu\n", fifo_len);
-> > > > > +	}
-> > > > > +
-> > > > > +	p = dfh_find_param(dfl_dev, DFHv1_PARAM_ID_REG_LAYOUT);
-> > > > > +	if (!p)
-> > > > > +		return dev_err_probe(dev, -EINVAL, "missing REG_LAYOUT
-> > > > > param\n");
-> > > > > +
-> > > > > +	v = *p;
-> > > > > +	uart->port.regshift = FIELD_GET(DFHv1_PARAM_ID_REG_SHIFT, v);
-> > > > > +	reg_width = FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v);
-> > > > 
-> > > > I have concern that the raw layout inside the parameter block is
-> > > > still exposed to drivers and need to be parsed by each driver.
-> > > 
-> > > Raw parameter block will always have to be passed to the driver because HW
-> > > specific properties can be defined that will need to be parsed by the
-> > > specific driver.
 > > 
-> > So there is a question about the scope of the definitions of these parameter
-> > blocks. MSIX seems globally used across all dfl devices. REG_LAYOUT
-> > seems specific to uart?
 > 
-> There are definitely two classes of parameter blocks.  One class is HW
-> agnostic parameters where the parameters are relevant to many different kinds
-> of HW components.  MSI-X, and input clock-frequency are certainly HW agnostic,
-> and it turns out that REG_LAYOUT is not specific to uart.  You can see
-> reg_bits and reg_stride in struct regmap_config.  There are also device tree
-> bindings for reg-shift and reg-io-width.  The second class of parameters would
-> be specific to HW component.  In the case of this uart driver, all parameters
-> would be considered HW agnostic parameters.
+> -- 
+> Sathyanarayanan Kuppuswamy
+> Linux Kernel Developer
 > 
-> > 
-> > If a parameter block is widely used in dfl drivers, duplicate the parsing
-> > from HW layout in each driver may not be a good idea. While for device
-> > specific parameter block, it's OK.
-> 
-> It sounds like we are in agreement.
-> 
-> > 
-> > Another concern is the indexing of the parameter IDs. If some parameter
-> > blocks should be device specific, then no need to have globally indexed
-> > parameter IDs. Index them locally in device is OK. So put the definitions
-> > of ID values, HW layout and their parsing operation in each driver.
-> 
-> It may be confusing for two drivers to use the same parameter id that have
-> different meanings and data layout.  Since all the parameters for this driver
-> would be considered HW agnostic, we'd don't need to address this issue with
-> this patchset.
->
-> > > > How about we define HW agnostic IDs for parameter specific fields like:
-> > > > 
-> > > > PARAM_ID		FIELD_ID
-> > > > ================================
-> > > > MSIX			STARTV
-> > > > 			NUMV
-> > > > --------------------------------
-> > > > CLK			FREQ
-> > > > --------------------------------
-> > > > FIFO			LEN
-> > > > --------------------------------
-> > > > REG_LAYOUT		WIDTH
-> > > > 			SHIFT
-> > > > 
-> > > > And define like u64 dfl_find_param(struct dfl_device *, int param_id,
-> > > > int field_id)
-> > > 
-> > > I don't think dfl_find_param as defined above adds much value.
-> > > 
-> > > > 
-> > > > Think further, if we have to define HW agnostic property - value pairs,
-> > > > why don't we just use "Software nodes for the firmware node", see
-> > > > drivers/base/swnode.c. I think this may be a better choice.
-> > > 
-> > > I am looking into "Software nodes for the firmware node", and it can be
-> > > used
-> > > for HW agnostic properties.  Each dfl driver will still have to make a
-> > > function call to fetch each HW agnostice property value as well as a
-> > > function call to find the HW specific parameters and then parse those
-> > > parameters.
 
-Btw, another aspect this discussion has completely overlooked is the 
-presence of parameter version and how it impacts data layout. Is v1 
-always going be a subset of v2 or can a later version remove something
-v1 had?
-
--- 
- i.
