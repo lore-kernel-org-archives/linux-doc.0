@@ -2,145 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A55FFC43219
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 22:03:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4653C43217
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 22:04:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231163AbiKAWDm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 18:03:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43640 "EHLO
+        id S231149AbiKAWER (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 18:04:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231164AbiKAWDl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 18:03:41 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55B5B6565;
-        Tue,  1 Nov 2022 15:03:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S231279AbiKAWEE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 18:04:04 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B8C114D1D;
+        Tue,  1 Nov 2022 15:03:52 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 07883B81F90;
-        Tue,  1 Nov 2022 22:03:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C393C433C1;
-        Tue,  1 Nov 2022 22:03:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667340217;
-        bh=XY/ulrYaYGf2HDwTIn5UM+YygVjoR1FVPIUX5UmsGLg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gAuVFi8XC9immb+OBoh45a69etCiIxST3cQ8zlUrBziijVny5gzKm1g6mJqPwryDE
-         gu2m/my5MjOsEff8QdTwpPM2gvreMqHywFlVaGUGE6HrZCS5jBn8HAUSAu7K0t+t8b
-         3+ATJxW4lPChNcbiIe/KTaGpulS+IsO62n4Zh6qaDCvakn40ifgWtX2ZMwmtuuMFis
-         W2Dd1zQSIB/iAhpN+GeC9JlZtMW1pwuE/lQU7II4S32fjxG6RY/WSqOEzOeQ1hb4c0
-         9C9pYgxdYobujW+mCapDZEkkGu5CLw0gQj/h94WcbzWiluppkFQGpJWraXyg90HgV/
-         mpibBeqhmoKNQ==
-From:   SeongJae Park <sj@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, damon@lists.linux.dev,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, SeongJae Park <sj@kernel.org>
-Subject: [PATCH 7/8] Docs/admin-guide/mm/damon/usage: document schemes/<s>/tried_regions sysfs directory
-Date:   Tue,  1 Nov 2022 22:03:27 +0000
-Message-Id: <20221101220328.95765-8-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221101220328.95765-1-sj@kernel.org>
-References: <20221101220328.95765-1-sj@kernel.org>
+        by ms.lwn.net (Postfix) with ESMTPSA id A0B9E365;
+        Tue,  1 Nov 2022 22:03:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A0B9E365
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1667340232; bh=jO4gD8L1wTs5nUFcj9QOQgNbI5MHAgFzoSQUT7ySAcM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=X1KQlosYNXLoLfZHv3lS97Fe1ZomyCv0MFy3ue/hsMuYghD1SXNZ+joW1nSp3IUYd
+         MdJVfDSVGSwmAk9tPilFubDwyzP1HWfaUKs9gYf2bMz5ekoqIGcPeQI40f/o0+WkQE
+         qyz5x/X+2u0UGpo/j1EBei6+ARC98bfe8BnHrYOPYmLeXWJxoiKSku97pUWw6Bd/NV
+         MEbCHoW9+EbTaAveF0mevSh+yPqW5yK/zQ7vDBcUT+T06k7FXJ5zyYsbcuzGRoFWyN
+         2EZxiIuB+V2wzYO/pMAi89rreVPsAxXft0KF08NjohPNvqzhlq4e2vdVhY6rbkVcLj
+         9PZUwBYfAZNgA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linuxfoundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] A handful of documentation fixes
+Date:   Tue, 01 Nov 2022 16:03:52 -0600
+Message-ID: <87o7tqxrg7.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document 'tried_regions' directory in DAMON sysfs interface usage in the
-administrator guide.
+The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 45 ++++++++++++++++++--
- 1 file changed, 42 insertions(+), 3 deletions(-)
+  Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index c17e02e1e426..1a5b6b71efa1 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -88,6 +88,9 @@ comma (","). ::
-     │ │ │ │ │ │ │ │ weights/sz_permil,nr_accesses_permil,age_permil
-     │ │ │ │ │ │ │ watermarks/metric,interval_us,high,mid,low
-     │ │ │ │ │ │ │ stats/nr_tried,sz_tried,nr_applied,sz_applied,qt_exceeds
-+    │ │ │ │ │ │ │ tried_regions/
-+    │ │ │ │ │ │ │ │ 0/start,end,nr_accesses,age
-+    │ │ │ │ │ │ │ │ ...
-     │ │ │ │ │ │ ...
-     │ │ │ │ ...
-     │ │ ...
-@@ -125,7 +128,14 @@ in the state.  Writing ``commit`` to the ``state`` file makes kdamond reads the
- user inputs in the sysfs files except ``state`` file again.  Writing
- ``update_schemes_stats`` to ``state`` file updates the contents of stats files
- for each DAMON-based operation scheme of the kdamond.  For details of the
--stats, please refer to :ref:`stats section <sysfs_schemes_stats>`.
-+stats, please refer to :ref:`stats section <sysfs_schemes_stats>`.  Writing
-+``update_schemes_tried_regions`` to ``state`` file updates the DAMON-based
-+operation scheme action tried regions directory for each DAMON-based operation
-+scheme of the kdamond.  Writing ``clear_schemes_tried_regions`` to ``state``
-+file clears the DAMON-based operating scheme action tried regions directory for
-+each DAMON-based operation scheme of the kdamond.  For details of the
-+DAMON-based operation scheme action tried regions directory, please refer to
-+:ref:tried_regions section <sysfs_schemes_tried_regions>`.
- 
- If the state is ``on``, reading ``pid`` shows the pid of the kdamond thread.
- 
-@@ -166,6 +176,8 @@ You can set and get what type of monitoring operations DAMON will use for the
- context by writing one of the keywords listed in ``avail_operations`` file and
- reading from the ``operations`` file.
- 
-+.. _sysfs_monitoring_attrs:
-+
- contexts/<N>/monitoring_attrs/
- ------------------------------
- 
-@@ -255,8 +267,9 @@ to ``N-1``.  Each directory represents each DAMON-based operation scheme.
- schemes/<N>/
- ------------
- 
--In each scheme directory, four directories (``access_pattern``, ``quotas``,
--``watermarks``, and ``stats``) and one file (``action``) exist.
-+In each scheme directory, five directories (``access_pattern``, ``quotas``,
-+``watermarks``, ``stats``, and ``tried_regions``) and one file (``action``)
-+exist.
- 
- The ``action`` file is for setting and getting what action you want to apply to
- memory regions having specific access pattern of the interest.  The keywords
-@@ -351,6 +364,32 @@ should ask DAMON sysfs interface to updte the content of the files for the
- stats by writing a special keyword, ``update_schemes_stats`` to the relevant
- ``kdamonds/<N>/state`` file.
- 
-+.. _sysfs_schemes_tried_regions:
-+
-+schemes/<N>/tried_regions/
-+--------------------------
-+
-+When a special keyword, ``update_schemes_tried_regions``, is written to the
-+relevant ``kdamonds/<N>/state`` file, DAMON creates directories named integer
-+starting from ``0`` under this directory.  Each directory contains files
-+exposing detailed information about each of the memory region that the
-+corresponding scheme's ``action`` has tried to be applied under this directory,
-+during next :ref:`aggregation interval <sysfs_monitoring_attrs>`.  The
-+information includes address range, ``nr_accesses``, , and ``age`` of the
-+region.
-+
-+The directories will be removed when another special keyword,
-+``clear_schemes_tried_regions``, is written to the relevant
-+``kdamonds/<N>/state`` file.
-+
-+tried_regions/<N>/
-+------------------
-+
-+In each region directory, you will find four files (``start``, ``end``,
-+``nr_accesses``, and ``age``).  Reading the files will show the start and end
-+addresses, ``nr_accesses``, and ``age`` of the region that corresponding
-+DAMON-based operation scheme ``action`` has tried to be applied.
-+
- Example
- ~~~~~~~
- 
--- 
-2.25.1
+are available in the Git repository at:
 
+  git://git.lwn.net/linux.git tags/docs-6.1-fixes
+
+for you to fetch changes up to 2f3f53d62307262f0086804ea7cea99b0e085450:
+
+  docs/process/howto: Replace C89 with C11 (2022-10-24 11:27:51 -0600)
+
+----------------------------------------------------------------
+Four small fixes for the docs tree.
+
+----------------------------------------------------------------
+Akira Yokosawa (1):
+      docs/process/howto: Replace C89 with C11
+
+Mushahid Hussain (1):
+      Documentation: Fix spelling mistake in hacking.rst
+
+Nick Desaulniers (1):
+      Documentation: process: replace outdated LTS table w/ link
+
+Zheng Yejian (1):
+      tracing/histogram: Update document for KEYS_MAX size
+
+ Documentation/kernel-hacking/hacking.rst           |  2 +-
+ Documentation/process/2.Process.rst                | 15 ++++-----------
+ Documentation/process/howto.rst                    |  2 +-
+ Documentation/trace/histogram.rst                  |  2 +-
+ Documentation/translations/it_IT/process/howto.rst |  2 +-
+ Documentation/translations/ja_JP/howto.rst         |  2 +-
+ Documentation/translations/ko_KR/howto.rst         |  2 +-
+ Documentation/translations/zh_CN/process/howto.rst |  2 +-
+ Documentation/translations/zh_TW/process/howto.rst |  2 +-
+ 9 files changed, 12 insertions(+), 19 deletions(-)
