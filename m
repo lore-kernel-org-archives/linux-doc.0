@@ -2,99 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 847C2C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 21:30:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE48AC43217
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 21:59:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230297AbiKAVaE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 17:30:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47668 "EHLO
+        id S231226AbiKAV7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 17:59:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230056AbiKAVaD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 17:30:03 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58D3C1DF3E;
-        Tue,  1 Nov 2022 14:30:02 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E8EDE365;
-        Tue,  1 Nov 2022 21:30:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E8EDE365
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1667338202; bh=Whjgo1/LcTcPlcW4445jRDYE5vq2NPEo3QUgeSSwdlQ=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=g46ySEfodXVUkzI/4hXZe33PCUn92FRck2p4svSpul/MRPGSsnBI1q5qN3OneXrNA
-         u5NT8Wca9TSPorTr5GVcE+urRIWgC1V3sRNMtqS9XdqDUuswp1EVt+0QFS43zzWfFV
-         FrbMoQOyBfNkhP5Nto7qIkWA2NQxyj712UROGMghEfa4+nM40CXjM6IoFUsUDCT790
-         RpXd1Qw3NMTYHyNoIo/eFZ6YyC1Azm35nRyKkkdBDLiB3c6jIEa2JKnVtgdm993IRv
-         9K1v3A7vYMr3/T0xo5Jjn+H83hvrLkqb+2RyXJ5ckqWAvMejR6/7UGb/2vXYmpvt0u
-         xFL4xO5XzyrCg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bilbao@vt.edu, bagasdotme@gmail.com, willy@infradead.org,
-        akiyks@gmail.com, miguel.ojeda.sandonis@gmail.com,
-        Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: Re: [PATCH v3 0/2] Documentation: Start Spanish translation and
- include HOWTO
-In-Reply-To: <20221024145521.69465-1-carlos.bilbao@amd.com>
-References: <20221024145521.69465-1-carlos.bilbao@amd.com>
-Date:   Tue, 01 Nov 2022 15:30:01 -0600
-Message-ID: <87wn8ext0m.fsf@meer.lwn.net>
+        with ESMTP id S231229AbiKAV7X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 17:59:23 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B6B51A812;
+        Tue,  1 Nov 2022 14:58:49 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id f5so19024861ejc.5;
+        Tue, 01 Nov 2022 14:58:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4TMJ2/97uEF+3KaUi8/IJUBwB2FgHNsew0b2CWSykd0=;
+        b=N5MlkBYasbaBLPbYSLbwkBFgPK6XXiKDrbPXeLderFC0hN+1hqOiBdezANh1oMuCZY
+         imjOu8VGMMXlEk60P8cD0Z5PE6gEyd4OkOST0fKrKQp3ENUFvL9lN9/4qwYfFkDXOMA9
+         iSJlDLbkIpVta68NLet1Cl1wEZkEjxA4BQLy/kXGoQ4EADyX7/SAC2AoguIFFkpLNRXr
+         keqExt3Bo/d7P0ZzgJzNy4le+ovY3LvlsPH4vN5e8uAfsrx02Z/PlE9TACqm/RswpPjN
+         exD9MmDNVG5L0RaTNgfiBMBpjdU57J761psqOv91wEC/bdQrTcPLpDD/Pt8/fsJzW/00
+         Y8mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4TMJ2/97uEF+3KaUi8/IJUBwB2FgHNsew0b2CWSykd0=;
+        b=xyZpzWbIt7w7uXmcAdzU9nkfKoRRFT7BTQ3QwgWKgwQXSA/fAYA2fFuJ3ZgS2KOwXp
+         2XH1eymU6BJrUMKeFdngOXdOGk8VXxaN5IBoaXSNyXNWG1Nvl6yoL9XjEHIxxj0WE331
+         axgaPgx0mEB44Es1PmDwuMAE6CI8A4w4++oo6pA0/VEq4uxsr5h4bhw04VVXClOyFUEP
+         LjfgR6i/3EvyMGP3qHZvlcTwRyBbbhsV33NChgqBFbQSaWNB37EduNlLayeBCTKvgENS
+         JSe2JqkHW6AyLZw8IyVHn+IYXjxFYYXHlsBCPYC1xg6UiuhzmPXPaN+QnWc+SyWbsm+f
+         xyDg==
+X-Gm-Message-State: ACrzQf1WlF3PuePe5u+UG4kElFASv9MQBkYwB15KL6YvfAP72WS/UWar
+        +J6QsV2aAtcweinWw5gNLr+udsuxI22aEAqGg7w=
+X-Google-Smtp-Source: AMsMyM7gKetTduEW6MoryEjGlM7bGisT8V3iiRxLCrzL3iNkTHiUe9QH39sF2k31aoiedPiZQxniBSUE419TF76ewHA=
+X-Received: by 2002:a17:906:2a93:b0:78d:b87e:6aab with SMTP id
+ l19-20020a1709062a9300b0078db87e6aabmr20674022eje.157.1667339928024; Tue, 01
+ Nov 2022 14:58:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
+ <20221026185846.3983888-3-quic_eberman@quicinc.com> <CABb+yY3JVNPG3dcyHNFxEeGEu3MN_pAOh3+cwexPPe2YG6SNUg@mail.gmail.com>
+ <fb7e101f-8de0-d77e-30e1-74b882b19583@quicinc.com> <CABb+yY08jP+Q5xvzLf=7F1tULP6-eZz5EDiK9mBj2fAv=iZa_A@mail.gmail.com>
+ <4cb58489-cd42-1868-9add-0c360065de23@quicinc.com>
+In-Reply-To: <4cb58489-cd42-1868-9add-0c360065de23@quicinc.com>
+From:   Jassi Brar <jassisinghbrar@gmail.com>
+Date:   Tue, 1 Nov 2022 16:58:36 -0500
+Message-ID: <CABb+yY2GA90RLazHZL7sLtC+ka-P8y6s00V2BVF4OMPTDi-rKg@mail.gmail.com>
+Subject: Re: [PATCH v6 02/21] dt-bindings: Add binding for gunyah hypervisor
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Kalle Valo <kvalo@kernel.org>, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Carlos Bilbao <carlos.bilbao@amd.com> writes:
-
-> Spanish is the second most spoken language in the world. This patch set
-> starts the process of translating critical kernel documentation into the
-> Spanish language.
+On Tue, Nov 1, 2022 at 3:35 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
 >
-> Link to v2: https://lkml.org/lkml/2022/10/13/866
-> Changes since v2:
->   - Apply improvements proposed by Miguel Ojeda
->   - Added Reviewed-By of Miguel Ojeda for first commit
->   - Added Reviwed-By of Bagas Sanjaya for second commit
 >
-> Changes since v1:
->   - Added me as MAINTAINER
->   - Fixed warnings of kernel test robot
->   - Use imperative form in second commit
->   - Improved minor translation details
 >
-> Carlos Bilbao (2):
->   Documentation: Start translations to Spanish
->   Documentation: Add HOWTO Spanish translation into rst based build system
+> On 11/1/2022 9:23 AM, Jassi Brar wrote:
+> > On Mon, Oct 31, 2022 at 10:20 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+> >>
+> >> Hi Jassi,
+> >>
+> >> On 10/27/2022 7:33 PM, Jassi Brar wrote:
+> >>   > On Wed, Oct 26, 2022 at 1:59 PM Elliot Berman
+> >> <quic_eberman@quicinc.com> wrote:
+> >>   > .....
+> >>   >> +
+> >>   >> +        gunyah-resource-mgr@0 {
+> >>   >> +            compatible = "gunyah-resource-manager-1-0",
+> >> "gunyah-resource-manager";
+> >>   >> +            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX
+> >> full IRQ */
+> >>   >> +                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX
+> >> empty IRQ */
+> >>   >> +            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
+> >>   >> +                  /* TX, RX cap ids */
+> >>   >> +        };
+> >>   >>
+> >>   > All these resources are used only by the mailbox controller driver.
+> >>   > So, this should be the mailbox controller node, rather than the
+> >>   > mailbox user.> One option is to load gunyah-resource-manager as a
+> >> module that relies
+> >>   > on the gunyah-mailbox provider. That would also avoid the "Allow
+> >>   > direct registration to a channel" hack patch.
+> >>
+> >> A message queue to another guest VM wouldn't be known at boot time and
+> >> thus couldn't be described on the devicetree.
+> >>
+> > I think you need to implement of_xlate() ... or please tell me what
+> > exactly you need to specify in the dt.
 >
->   Documentation/translations/index.rst          |   1 +
->   .../translations/sp_SP/disclaimer-sp.rst      |   6 +
->   Documentation/translations/sp_SP/howto.rst    | 617 ++++++++++++++++++
->   Documentation/translations/sp_SP/index.rst    |  80 +++
->   MAINTAINERS                                   |   5 +
->   5 files changed, 709 insertions(+)
->   create mode 100644 Documentation/translations/sp_SP/disclaimer-sp.rst
->   create mode 100644 Documentation/translations/sp_SP/howto.rst
->   create mode 100644 Documentation/translations/sp_SP/index.rst
+> Dynamically created virtual machines can't be known on the dt, so there
+> is nothing to specify in the DT. There couldn't be a devicetree node for
+> the message queue client because that client is only exists once the VM
+> is created by userspace.
+>
+The underlying "physical channel" is the synchronous SMC instruction,
+which remains 1 irrespective of the number of mailbox instances
+created.
+So basically you are sharing one resource among users. Why doesn't the
+RM request the "smc instruction" channel once and share it among
+users?
 
-I went to apply this series just now, and got the following from "git
-am":
-
-WARNING: Message contains suspicious unicode control characters!
-         Subject: [PATCH v3 2/2] Documentation: Add HOWTO Spanish translati=
-on into rst based build system
-            Line: +estable m=C3=A1s reciente del kernel, y no est=C3=A1n in=
-teresados =E2=80=8B=E2=80=8Ben ayudar a probar
-            ---------------------------------------------------------------^
-            Char: ZERO WIDTH SPACE (0x200b)
-         If you are sure about this, rerun with the right flag to allow.
-
-Any idea what the story is there?  Could I get a resend without that
-problem?
-
-Thanks,
-
-jon
+-j
