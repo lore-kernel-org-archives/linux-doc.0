@@ -2,92 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24953C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 18:40:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5494DC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 18:40:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230241AbiKASkJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 14:40:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54242 "EHLO
+        id S230185AbiKASkZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 14:40:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230185AbiKASkH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 14:40:07 -0400
-X-Greylist: delayed 1600 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 01 Nov 2022 11:40:06 PDT
+        with ESMTP id S230272AbiKASkY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 14:40:24 -0400
 Received: from mx0a-003ede02.pphosted.com (mx0a-003ede02.pphosted.com [205.220.169.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7A181C101
-        for <linux-doc@vger.kernel.org>; Tue,  1 Nov 2022 11:40:06 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6F441C10C
+        for <linux-doc@vger.kernel.org>; Tue,  1 Nov 2022 11:40:22 -0700 (PDT)
 Received: from pps.filterd (m0286614.ppops.net [127.0.0.1])
-        by mx0b-003ede02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A1ICeN2022377
-        for <linux-doc@vger.kernel.org>; Tue, 1 Nov 2022 11:13:26 -0700
+        by mx0b-003ede02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A1IWYme020372
+        for <linux-doc@vger.kernel.org>; Tue, 1 Nov 2022 11:40:22 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=getcruise.com; h=from : to : cc :
  subject : date : message-id : mime-version : content-transfer-encoding;
  s=ppemail; bh=TZN+nxD29A/mXjM1cTiRY1RyYzHigm/eAkBELU0CF14=;
- b=PBHgMfUWCAyWU+BS9eg7YzTm9ZpaAWRdUFPUe3AbTXdG9277ibb7aYz6LP2C+JW38sNt
- +RShb638WNFPMBblaBb0ov0DM7lRc9HUi1ihzHVyW6bIN6uzuHLuSYwbePPDnnjShLH/
- XO3ui/uthf28h7KkwyyZWPucah2FYIWYRzMSD2dTgMicQcRhC2VFFXj6biwxY+gmgOPr
- Y9WMTK/kiqOi/oUt7tjmUIofofxArczYB981kZNKts+jNyPh7JWrHHWgUd7HGz32Ly/o
- 8nnvQRCg1YDQvLwTIF13w9Ryvbcyu5Tliw+MF5UCaQdnCHpv4XaaRCYZ7y2foj8MwpDa cg== 
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-        by mx0b-003ede02.pphosted.com (PPS) with ESMTPS id 3kh16dru5q-1
+ b=cA1YNKo/ElUALFXNlrUwD6xNYLkdcvPsSFHRoO2j+Sxr4kjnhmsTxvg+SQdWZRChz23a
+ jLbdnQqTw2liZyaBf/sY0l4BgNCIh0GalmwcMfcpdE1soBTtdsXjVvq/+SkVXr5nm0Vi
+ 8994I0gZvevUECKneatLKdq0U187exSiKd00VTNfnczLKg3+zeOpXF/wUPQ6d11pjL+F
+ CMjdw564Zf/6zTm3Nsu2p3CvlFLfOtTxlR9YrT5sVW71jgijsycHfGDG3OrrXrnBVbKN
+ uvAbH9wukxpb/rOoIUT1xzR4pkJUs7ZCUUhaldXbX1KsvL/pJuLd07DNm8c7uhauoGBF 9g== 
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+        by mx0b-003ede02.pphosted.com (PPS) with ESMTPS id 3kh16drub6-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 01 Nov 2022 11:13:26 -0700
-Received: by mail-pj1-f69.google.com with SMTP id lx3-20020a17090b4b0300b002137705324eso1291339pjb.1
-        for <linux-doc@vger.kernel.org>; Tue, 01 Nov 2022 11:13:26 -0700 (PDT)
+        for <linux-doc@vger.kernel.org>; Tue, 01 Nov 2022 11:40:22 -0700
+Received: by mail-pg1-f199.google.com with SMTP id 125-20020a630283000000b0046e9babe7b3so8249252pgc.11
+        for <linux-doc@vger.kernel.org>; Tue, 01 Nov 2022 11:40:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=getcruise.com; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=TZN+nxD29A/mXjM1cTiRY1RyYzHigm/eAkBELU0CF14=;
-        b=B9YUrfo7zTLPpIvcViTkY5ihrai3NrkPOR9Me2X6e/5VjqOEorTYmYKytewk8j5Whh
-         VOrVciNBdVse5KYJzaGbd4iSdC/KfI9Hrzpx/o2rNOY7hdOTkLyjWc6W3axBFzbnFa5T
-         NZuNVao5FcNNiAQP+woknoddrhEZkRiV7C2XonIybKVRC5p+SYICfCtsmBKWpJALQ90c
-         UDSc4gX9deqGyEV/IrPWO/96WsipmOy5U71WwlNg8GaDii+IFcyPvCwcHgkDlPc8Mg44
-         lZcmvzDKj1lKYv2VvSxrCH7m9r/ZwU0VT3p8Nup5+8yGfUQasJenSyIrY4scjlm4jNSf
-         iPlw==
+        b=kaNealaoGmf/RrPO8DwyZR6T+/tcWXGyYzK0SKjEnxcfOEiA8sRNfFOhnHZrSh7vND
+         nbhi/gbGEhsSa2dR2Y11RXiYJlIpioQm1Vr7rWlxlmr+J857hqo32unyVe70tTeY86gY
+         TJuhJDjpLlxMC+SZYzLr8o3qb2edlQvoGSKCX0DCCWxplz4NSdXmwBTSbHjiYiVqGnxL
+         lq+ggrQ8+MSmiF6Ri/gNLJmNRFU60IPDxIhhVFL3Z9GdL5bjMtT9nenL5BXEfALwqfn6
+         9uPoNkRhhkLyGOdI1/xqvohu3un7pjjoDE1mOPBSLWHf3wQwh6aErszAED4AQ7/7YjTc
+         F71Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=TZN+nxD29A/mXjM1cTiRY1RyYzHigm/eAkBELU0CF14=;
-        b=Id9Xn2QGfO7sGxZp0wCve+rfLQmpJ38Q03Ph0m/pdaNDmhFFzAdnLOnf/JtboGUrfC
-         MqgZdXX4sNWd5SCkSjQxWIEzRGTESWkKxbINP6gXaxVHv4HUVopam6CZoW7iRssrp/m7
-         Uv0/dEe/a3kRQRW83yXySpIsNTEbOVXxQM0473Lsxpv+bI3Z3hysKvE7paRCEDLLhhcr
-         IrJSzO6U7pmC5XO2aOYR4j1wdjYjUaUUZPKboOxUD8WVlqeR2WACjjZ66TrwM3yOWzKD
-         nlvFp0KlBuCAdQveoStvOez4mpgJ1vWtCaMUc39rEcu9hZ1tszpIa5AAZfdcqSaxrUKo
-         ygAA==
-X-Gm-Message-State: ACrzQf3pR12et9AXo8lGJ1HghV4Gmt0YIWQTbmV6N/tpXvspQEVtX1+L
-        S78F6BJ0WQl5TIVY8zCGWsXbG1KdR7JTRZ7o3n6PRa/nhbAvdFQOcqmDSvb9wvJ0AmfomtP/UHG
-        Z3pxijyAQvbq4MpqO4nM=
-X-Received: by 2002:a63:4410:0:b0:43c:9385:5373 with SMTP id r16-20020a634410000000b0043c93855373mr171021pga.342.1667326405461;
-        Tue, 01 Nov 2022 11:13:25 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7xCdoqUgHSMdgTLB6mB0dr3YKn10njr1NWWEPBfi45SBznlOcV6JWQVykoZp8vU4em6iPbsQ==
-X-Received: by 2002:a63:4410:0:b0:43c:9385:5373 with SMTP id r16-20020a634410000000b0043c93855373mr171015pga.342.1667326405050;
-        Tue, 01 Nov 2022 11:13:25 -0700 (PDT)
+        b=TTFWLkDcna26CgbVhHe3SqSOTGpBnIN3aayMOZKAC+1sQLG4okvWYVggxA0AWqQ1S2
+         gMnYc6VDGVwOHrUOLKvHp7lOaqY3xyrTMCS+DxsdjrA44X+uDAL5PKrMdrsJp1LAP56N
+         lQwADxY2lEt+B6WXnxwBH4rs2ipCR7xJ/cjPvd3Y6cm/hgMbctA2ALzBjmsY/LMyXsqX
+         gK7FSr72Htx6EKY0mc0TZLbKIEfXJpJBLNEZHHgBq/30Bhho7+GTD5bnQCQJMnwTtUms
+         GWD3sVYFMPkI9+knY9sSe2ZrKVvHk8BvjOFT3W1AnfQFkF6g/vEofDvqEOl+h3CQvfSR
+         L8gA==
+X-Gm-Message-State: ACrzQf25ZU09VJdfRV7+I/XDfi6MDdV33Xzktf2W5ctrl1J+I2KmvHFj
+        PTkdFLq3h815xtUGZ0wO3VAcofZZcmYVHzPzZec6H+8Z2CyFs7TPiHximh9Ldt645kgLF8Vyv/0
+        GsEesFdhJG6wHTBl113Q=
+X-Received: by 2002:a62:a503:0:b0:56b:cb10:2d87 with SMTP id v3-20020a62a503000000b0056bcb102d87mr21167770pfm.79.1667328021195;
+        Tue, 01 Nov 2022 11:40:21 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4h7sjO7Pjd4/m+pe8D/lAg5yb26iD2UghyFQ1kUHbRrOa+BOyWQ+jEHR/N6AJpCu1UVjrmoA==
+X-Received: by 2002:a62:a503:0:b0:56b:cb10:2d87 with SMTP id v3-20020a62a503000000b0056bcb102d87mr21167747pfm.79.1667328020908;
+        Tue, 01 Nov 2022 11:40:20 -0700 (PDT)
 Received: from 4VPLMR2-DT.corp.robot.car ([199.73.125.241])
-        by smtp.gmail.com with ESMTPSA id m14-20020a63fd4e000000b00460c67afbd5sm6229047pgj.7.2022.11.01.11.13.23
+        by smtp.gmail.com with ESMTPSA id l6-20020a622506000000b0056c08c87196sm6851935pfl.48.2022.11.01.11.40.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 11:13:24 -0700 (PDT)
+        Tue, 01 Nov 2022 11:40:20 -0700 (PDT)
 From:   Andy Ren <andy.ren@getcruise.com>
-To:     netdev@vger.kernel.org, davem@davemloft.com, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwm.net
+To:     netdev@vger.kernel.org
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         roman.gushchin@linux.dev, Andy Ren <andy.ren@getcruise.com>
 Subject: [PATCH net-next] netconsole: Enable live renaming for network interfaces used by netconsole
-Date:   Tue,  1 Nov 2022 11:12:25 -0700
-Message-Id: <20221101181225.1272144-1-andy.ren@getcruise.com>
+Date:   Tue,  1 Nov 2022 11:40:05 -0700
+Message-Id: <20221101184005.1278860-1-andy.ren@getcruise.com>
 X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: wgCPIiPPYiHR1XN9Dc2cwb3emWjQKxyu
-X-Proofpoint-GUID: wgCPIiPPYiHR1XN9Dc2cwb3emWjQKxyu
+X-Proofpoint-ORIG-GUID: A6vOdUojfxrelCmdrteDMzr9rCMEmr0y
+X-Proofpoint-GUID: A6vOdUojfxrelCmdrteDMzr9rCMEmr0y
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-01_09,2022-11-01_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
  bulkscore=0 adultscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
- clxscore=1011 mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0
+ clxscore=1015 mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0
  impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211010132
+ engine=8.12.0-2210170000 definitions=main-2211010135
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
