@@ -2,138 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE48AC43217
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 21:59:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E9A3C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 22:03:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231226AbiKAV7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 17:59:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38962 "EHLO
+        id S231137AbiKAWDi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 18:03:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231229AbiKAV7X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 17:59:23 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B6B51A812;
-        Tue,  1 Nov 2022 14:58:49 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id f5so19024861ejc.5;
-        Tue, 01 Nov 2022 14:58:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4TMJ2/97uEF+3KaUi8/IJUBwB2FgHNsew0b2CWSykd0=;
-        b=N5MlkBYasbaBLPbYSLbwkBFgPK6XXiKDrbPXeLderFC0hN+1hqOiBdezANh1oMuCZY
-         imjOu8VGMMXlEk60P8cD0Z5PE6gEyd4OkOST0fKrKQp3ENUFvL9lN9/4qwYfFkDXOMA9
-         iSJlDLbkIpVta68NLet1Cl1wEZkEjxA4BQLy/kXGoQ4EADyX7/SAC2AoguIFFkpLNRXr
-         keqExt3Bo/d7P0ZzgJzNy4le+ovY3LvlsPH4vN5e8uAfsrx02Z/PlE9TACqm/RswpPjN
-         exD9MmDNVG5L0RaTNgfiBMBpjdU57J761psqOv91wEC/bdQrTcPLpDD/Pt8/fsJzW/00
-         Y8mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4TMJ2/97uEF+3KaUi8/IJUBwB2FgHNsew0b2CWSykd0=;
-        b=xyZpzWbIt7w7uXmcAdzU9nkfKoRRFT7BTQ3QwgWKgwQXSA/fAYA2fFuJ3ZgS2KOwXp
-         2XH1eymU6BJrUMKeFdngOXdOGk8VXxaN5IBoaXSNyXNWG1Nvl6yoL9XjEHIxxj0WE331
-         axgaPgx0mEB44Es1PmDwuMAE6CI8A4w4++oo6pA0/VEq4uxsr5h4bhw04VVXClOyFUEP
-         LjfgR6i/3EvyMGP3qHZvlcTwRyBbbhsV33NChgqBFbQSaWNB37EduNlLayeBCTKvgENS
-         JSe2JqkHW6AyLZw8IyVHn+IYXjxFYYXHlsBCPYC1xg6UiuhzmPXPaN+QnWc+SyWbsm+f
-         xyDg==
-X-Gm-Message-State: ACrzQf1WlF3PuePe5u+UG4kElFASv9MQBkYwB15KL6YvfAP72WS/UWar
-        +J6QsV2aAtcweinWw5gNLr+udsuxI22aEAqGg7w=
-X-Google-Smtp-Source: AMsMyM7gKetTduEW6MoryEjGlM7bGisT8V3iiRxLCrzL3iNkTHiUe9QH39sF2k31aoiedPiZQxniBSUE419TF76ewHA=
-X-Received: by 2002:a17:906:2a93:b0:78d:b87e:6aab with SMTP id
- l19-20020a1709062a9300b0078db87e6aabmr20674022eje.157.1667339928024; Tue, 01
- Nov 2022 14:58:48 -0700 (PDT)
+        with ESMTP id S231126AbiKAWDh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 18:03:37 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD7EC644F;
+        Tue,  1 Nov 2022 15:03:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7B5C6B81E2A;
+        Tue,  1 Nov 2022 22:03:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6358BC433D6;
+        Tue,  1 Nov 2022 22:03:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667340213;
+        bh=fXmQiQlwfo1wAtVQvQojVvgAeobZBuMjJxM4aD7I54Y=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Q9lbX6QjRZr48IH1loFyw7ZQIC/F6A4uWEKV18+WWDbfBbnX5P9vOFduF+agJj7t5
+         qFqKcTZ6V8e2nu/UvyZuv2d1WYLU1Abk3z+BXEWvtNTUV3gbzNpCiDBgSIttEn2VyI
+         uy5cwQyet4IQdKycQxA0R2hREj3rFeEXJrVMfm7YyAGMPDFyBqH842rADPmTqlmKuU
+         2K46rFMIcVYPe5PKwZ3bZx5czIn96wZAhVR0Kpt6aCdmO0S0Ze5jOBKBuLT8DSnDSJ
+         fbj2C5u1Y1LFYCk23WV5q7iKbukPOef/JQWFbWmcZ3/hJtYiidh7y1UkN2WM7BGozy
+         X6GOYOF4RCLrg==
+From:   SeongJae Park <sj@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, damon@lists.linux.dev,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/8] efficiently expose damos action tried regions information
+Date:   Tue,  1 Nov 2022 22:03:20 +0000
+Message-Id: <20221101220328.95765-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-3-quic_eberman@quicinc.com> <CABb+yY3JVNPG3dcyHNFxEeGEu3MN_pAOh3+cwexPPe2YG6SNUg@mail.gmail.com>
- <fb7e101f-8de0-d77e-30e1-74b882b19583@quicinc.com> <CABb+yY08jP+Q5xvzLf=7F1tULP6-eZz5EDiK9mBj2fAv=iZa_A@mail.gmail.com>
- <4cb58489-cd42-1868-9add-0c360065de23@quicinc.com>
-In-Reply-To: <4cb58489-cd42-1868-9add-0c360065de23@quicinc.com>
-From:   Jassi Brar <jassisinghbrar@gmail.com>
-Date:   Tue, 1 Nov 2022 16:58:36 -0500
-Message-ID: <CABb+yY2GA90RLazHZL7sLtC+ka-P8y6s00V2BVF4OMPTDi-rKg@mail.gmail.com>
-Subject: Re: [PATCH v6 02/21] dt-bindings: Add binding for gunyah hypervisor
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 1, 2022 at 3:35 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
->
->
->
-> On 11/1/2022 9:23 AM, Jassi Brar wrote:
-> > On Mon, Oct 31, 2022 at 10:20 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
-> >>
-> >> Hi Jassi,
-> >>
-> >> On 10/27/2022 7:33 PM, Jassi Brar wrote:
-> >>   > On Wed, Oct 26, 2022 at 1:59 PM Elliot Berman
-> >> <quic_eberman@quicinc.com> wrote:
-> >>   > .....
-> >>   >> +
-> >>   >> +        gunyah-resource-mgr@0 {
-> >>   >> +            compatible = "gunyah-resource-manager-1-0",
-> >> "gunyah-resource-manager";
-> >>   >> +            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX
-> >> full IRQ */
-> >>   >> +                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX
-> >> empty IRQ */
-> >>   >> +            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
-> >>   >> +                  /* TX, RX cap ids */
-> >>   >> +        };
-> >>   >>
-> >>   > All these resources are used only by the mailbox controller driver.
-> >>   > So, this should be the mailbox controller node, rather than the
-> >>   > mailbox user.> One option is to load gunyah-resource-manager as a
-> >> module that relies
-> >>   > on the gunyah-mailbox provider. That would also avoid the "Allow
-> >>   > direct registration to a channel" hack patch.
-> >>
-> >> A message queue to another guest VM wouldn't be known at boot time and
-> >> thus couldn't be described on the devicetree.
-> >>
-> > I think you need to implement of_xlate() ... or please tell me what
-> > exactly you need to specify in the dt.
->
-> Dynamically created virtual machines can't be known on the dt, so there
-> is nothing to specify in the DT. There couldn't be a devicetree node for
-> the message queue client because that client is only exists once the VM
-> is created by userspace.
->
-The underlying "physical channel" is the synchronous SMC instruction,
-which remains 1 irrespective of the number of mailbox instances
-created.
-So basically you are sharing one resource among users. Why doesn't the
-RM request the "smc instruction" channel once and share it among
-users?
+Changes from RFC
+(https://lore.kernel.org/damon/20221019001317.104270-1-sj@kernel.org/):
+- Split out cleanup/refactoring parts[1]
 
--j
+[1] https://lore.kernel.org/damon/20221026225943.100429-1-sj@kernel.org/
+
+-----------------------------------------------------------------------
+
+DAMON users can retrieve the monitoring results via 'after_aggregation'
+callbacks if the user is using the kernel API, or 'damon_aggregated'
+tracepoint if the user is in the user space.  Those are useful if full
+monitoring results are necessary.  However, if the user has interest in
+only a snapshot of the results for some regions having specific access
+pattern, the interfaces could be inefficient.  For example, some users
+only want to know which memory regions are not accessed for more than a
+specific time at the moment.
+
+Also, some DAMOS users would want to know exactly to what memory regions
+the schemes' actions tried to be applied, for a debugging or a tuning.
+As DAMOS has its internal mechanism for quota and regions
+prioritization, the users would need to simulate DAMOS' mechanism
+against the monitoring results.  That's unnecessarily complex.
+
+This patchset implements DAMON kernel API callbacks and sysfs directory
+for efficient exposure of the information for the use cases.  The new
+callback will be called for each region when a DAMOS action is gonna
+tried to be applied to it.  The sysfs directory will be called
+'tried_regions' and placed under each scheme sysfs directory.  Users can
+write a special keyworkd, 'update_schemes_regions', to the 'state' file
+of a kdamond sysfs directory.  Then, DAMON sysfs interface will fill the
+directory with the information of regions that corresponding scheme
+action was tried to be applied for next one aggregation interval.
+
+Patches Sequence
+----------------
+
+The first one (patch 1) implements the callback for the kernel space
+users.  Following two patches (patches 2 and 3) implements sysfs
+directories for the information and its sub directories.  Two patches
+(patches 4 and 5) for implementing the special keywords for filling the
+data to and cleaning up the directories follow.  Patch 6 adds a selftest
+for the new sysfs directory.  Finally, two patches (patches 7 and 8)
+document the new feature in the administrator guide and the ABI
+document.
+
+Assembled Tree
+--------------
+
+This patchset is based on the latest mm-unstable tree[1].  Assembled
+tree is also available at the damon/next tree[2].
+
+[1] https://git.kernel.org/akpm/mm/h/mm-unstable
+[2] https://git.kernel.org/sj/h/damon/next
+
+SeongJae Park (8):
+  mm/damon/core: add a callback for scheme target regions check
+  mm/damon/sysfs-schemes: implement schemes/tried_regions directory
+  mm/damon/sysfs-schemes: implement scheme region directory
+  mm/damon/sysfs: implement DAMOS tried regions update command
+  mm/damon/sysfs-schemes: implement DAMOS-tried regions clear command
+  tools/selftets/damon/sysfs: test tried_regions directory existence
+  Docs/admin-guide/mm/damon/usage: document schemes/<s>/tried_regions
+    sysfs directory
+  Docs/ABI/damon: document 'schemes/<s>/tried_regions' sysfs directory
+
+ .../ABI/testing/sysfs-kernel-mm-damon         |  32 +++
+ Documentation/admin-guide/mm/damon/usage.rst  |  45 ++-
+ include/linux/damon.h                         |   5 +
+ mm/damon/core.c                               |   6 +-
+ mm/damon/sysfs-common.h                       |  10 +
+ mm/damon/sysfs-schemes.c                      | 261 ++++++++++++++++++
+ mm/damon/sysfs.c                              |  77 +++++-
+ tools/testing/selftests/damon/sysfs.sh        |   7 +
+ 8 files changed, 437 insertions(+), 6 deletions(-)
+
+-- 
+2.25.1
+
