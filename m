@@ -2,93 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D406C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 17:34:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DA84C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 17:36:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230161AbiKAReG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 13:34:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33768 "EHLO
+        id S230122AbiKARgb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 13:36:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230408AbiKARdN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 13:33:13 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1F291CB17;
-        Tue,  1 Nov 2022 10:33:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
-        t=1667323981; bh=JoeQUnpY7vK3GkymqK9ssQPbhH1w8wzKrNuORFh5uvo=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=lhHB6/ow9dBOfW+qE0PkuFHFxii7q4VyI5xrTuRBSVP6FowNwIH7ac3noQMLi1Y0H
-         xI3hfk3K4VN4VIL55SpNOVdlvBPgdKtiGBJ+bVNQVwSr6YB2cSplGJ3ddFK+Rv9QvE
-         p3qLLs6yMfHTIWslsxgifI5N86T1pk7UBTitoL4w7FuFN80EEc6qs4Lh6XmkUux1KD
-         TNcOCjyzJf0YLFEd2rCUts4BrtNBVCGUSeRc1U4TjzBKIbmpcUZnvTQhPd0aybbCea
-         4splR5lncGBko7qEIagfw8oUW7hszmW/O91PLsl//bqyxN/kQ9I57WmKvS0stnlLLr
-         dkcuA6dwQkJ/w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from probook ([78.34.126.36]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M26r3-1orq0S3SZt-002bNE; Tue, 01
- Nov 2022 18:33:01 +0100
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-doc@vger.kernel.org
-Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jonathan Corbet <corbet@lwn.net>,
+        with ESMTP id S230161AbiKARga (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 13:36:30 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D5C61D640;
+        Tue,  1 Nov 2022 10:36:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3B323B81E7B;
+        Tue,  1 Nov 2022 17:36:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8937C433C1;
+        Tue,  1 Nov 2022 17:36:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667324186;
+        bh=l2/BGInigMpzUkkvNeiIzvRne5n+cAy/QymsCTZKTCU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UVyk91WQE58CYUvXZDLz3pczrjmayQOVsgd5oArv0+VSYem0mvtE7Gd4SyQhQG2SI
+         pNtTXmBLmCIvYNSJXH5YzIgl7VZQeUvfd/ocSDtQO9ILQPU/1YG00sXOEOaYNkMvd/
+         LYUk4O+G4HV5nwkPwJ+rdisrqVBnrg4jDfLC/5uQ3BTUwVrBQxjdelaPi3S7AhsWzf
+         68DqVN7ZVYu9VNKztjpyUGIdQVIDex/HCuRmeHWapSawAiXJCqyN1cis7PkV39FnX4
+         8Z+3acGsfNk32BTHxd/6JNxjmyrRq7F23cdkb4zUTsQLKPNZ7MCyUggR2dsbZk8yBt
+         HXN3kurnKhFcg==
+Date:   Tue, 1 Nov 2022 17:36:22 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: driver-api: spi: Update reference to struct spi_controller
-Date:   Tue,  1 Nov 2022 18:32:51 +0100
-Message-Id: <20221101173252.1069294-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.35.1
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: driver-api: spi: Update reference to struct
+ spi_controller
+Message-ID: <Y2FZFuAvLCRmnhFo@sirena.org.uk>
+References: <20221101173252.1069294-1-j.neuschaefer@gmx.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:YFOSNjlwG99mLOnLjkWj5S9jhCLukjysYhysmXDQVL6yCd2JyZB
- /4HnzfHpIkBGhmgZdJBuBjh7BbGpvhUjb7yHkG18GikWhJt5k193WUxVMbDsPB/7hWxPeGJ
- pk7T0NcdRqHJoqpZclt0edwk5SeeufGh9clfTL6JSwwOPnM7wyfN80Fm0wOC5IhVG2Cr9ok
- hPVQGCyDJmqaomG3rGmZw==
-UI-OutboundReport: notjunk:1;M01:P0:83ArS7ffRCs=;OC+MltJ5NWPR9fGkT3NU6LxcDxg
- ArrrdBnvVg1MIrzxKoL/4E5qxNcous+R7qANXjbJQE11fGVxyEXgQzC8u6SzatRl3Tt+7bu/d
- W3fZcXKaXlXguk+yuZByPflYHoV4a8ooeN+Aw0So+y6GltW8xtAt0jY9AmCqCEJM9nWC4zAnN
- LebCU5wjR3IsL8gSJ9cUfNKQZLOkY+PsacY4GCEgMI3oNhVWQBcRLyCVJzRmDW+oSwZUICNAk
- mdDBsQSzHGcc6TuMGLuAWzidBDdbiuT9C2NclpNk4JE8o3tEkVu51Q5unO75g3ewy+xqNCTm4
- uyFtBtf5FWHfzrvj+kZFFQiF3lSv1z3CrcnssX1r2XRV83vaAhvx+2RCskcr7DKynMD4TGynT
- JsYtEVSC4YxNjkxPHdY/j42YNJYAS0ckDaqy8EyTkFmciDhi208rtCa0IfE6WASYsn2r4/2TD
- v08Wiigk/Hi61iqAPaH0XCVTTuNy4VTq4KUcY7i8ASLJ4BCmIz6kyyM/gjkHhQmtn8u4g7yQj
- egmyRXThcFWfoYkoT0F5g5oJ77Q1oUIycW8+yrvM4jxSp5PMrmbD+guGGICkU71xeUyLmXBWz
- mA0FM4byKWepiajKyvdsgcHwJfXgjGBVpmZl+rfEGaktMKPOnsx/KwLVwTO11Sa1bVhs1/9/Y
- d0swdLp4dbN79V45EDLD2TSSubW07eYhattlDxWzsa9M769kP6c3W9Ef+lwg+TmwD3XxJz0Ge
- NATlyHipbZKYVpdc0gRyk/S1MSW7tQ9Luetht9xE138EmidwTIuN4TFtWema8s0MGILiZW5sK
- QONcb55hxkrmtZaKHA3U28iW+n7A2/JUBJRlfHnv33nLRq2YS0s13l4vtNafOaG7dabi9FqqB
- QTkZeMk9G9TV/0Tm0G0bqS2+2BHpEm5Z4fwj6qmIQCri8mHCfixwOmLo3pPhtF1dx+lBxhlsH
- WuTmgCKdLfo4h/SuV4Po6/vQWfs=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="gBGaeP68nRHPkeus"
+Content-Disposition: inline
+In-Reply-To: <20221101173252.1069294-1-j.neuschaefer@gmx.net>
+X-Cookie: Do not write below this line.
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-struct spi_master has been renamed to struct spi_controller. Update the
-reference in spi.rst to make it clickable again.
 
-Fixes: 8caab75fd2c2 ("spi: Generalize SPI "master" to "controller"")
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
- Documentation/driver-api/spi.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--gBGaeP68nRHPkeus
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/driver-api/spi.rst b/Documentation/driver-api/s=
-pi.rst
-index f64cb666498aa..f28887045049d 100644
-=2D-- a/Documentation/driver-api/spi.rst
-+++ b/Documentation/driver-api/spi.rst
-@@ -25,8 +25,8 @@ hardware, which may be as simple as a set of GPIO pins o=
-r as complex as
- a pair of FIFOs connected to dual DMA engines on the other side of the
- SPI shift register (maximizing throughput). Such drivers bridge between
- whatever bus they sit on (often the platform bus) and SPI, and expose
--the SPI side of their device as a :c:type:`struct spi_master
--<spi_master>`. SPI devices are children of that master,
-+the SPI side of their device as a :c:type:`struct spi_controller
-+<spi_controller>`. SPI devices are children of that master,
- represented as a :c:type:`struct spi_device <spi_device>` and
- manufactured from :c:type:`struct spi_board_info
- <spi_board_info>` descriptors which are usually provided by
-=2D-
-2.35.1
+On Tue, Nov 01, 2022 at 06:32:51PM +0100, Jonathan Neusch=E4fer wrote:
+> struct spi_master has been renamed to struct spi_controller. Update the
+> reference in spi.rst to make it clickable again.
 
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
+
+--gBGaeP68nRHPkeus
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNhWRUACgkQJNaLcl1U
+h9BRlwf7B0mnc1fXywUeFOn6ugStBKXYFIOvrouynvHyJGp/8iQtjyPe0+kmQ6rK
+aZl8LUVpUFG2n2YUbkMUL+0wRmo+JFM9/gycnZ+sAgyCu7tPnEhHhpTg5YXSo1JZ
+5kjqa6WLvEw5ZEMCKVO+VWLuEsGPeOVcfZqQy6k3T2/knk0PtoBHG1ApvDAfz3jg
+0FRfgTcyoC6+bvaNz1o1hAaHwJO7JZxrYOk9UgyIMCUsNKxEEuS+EqK7Kt1CS1jO
+mpF32w93t+DqfBIAG/HLu7F2HbkRAVx/C8DjHZIPPtGUAg/7px+xrfSzjaIdBeZ5
+FlSoPTjpCmU0ZPtdZNzspeoHQ6joug==
+=gAQ/
+-----END PGP SIGNATURE-----
+
+--gBGaeP68nRHPkeus--
