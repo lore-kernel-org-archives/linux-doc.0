@@ -2,133 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E40A0C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 20:35:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B459C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 20:52:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229877AbiKAUfq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 16:35:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38180 "EHLO
+        id S229471AbiKAUwn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 16:52:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbiKAUfp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 16:35:45 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FF3712772;
-        Tue,  1 Nov 2022 13:35:45 -0700 (PDT)
+        with ESMTP id S229468AbiKAUwm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 16:52:42 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A43D618B34;
+        Tue,  1 Nov 2022 13:52:41 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id z14so21748979wrn.7;
+        Tue, 01 Nov 2022 13:52:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1667334945; x=1698870945;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=vq8w5J8ZljgRouLDat6E82i5n2WY0T1CLVf69PaTsHk=;
-  b=GNZDuxvERjCyicXQf6DyRn6LZ3QsUzqreq0KHjYqtDOtpE+bDWxMK3qi
-   /FjSNPB18TAOzVVZ0+tZ4TvhlxBICltoMfMMLDMMx/GBjG+BTEhx4eRdu
-   d8ljSL9ENxpSsCGm9/7d6t1BQlgScWY6favRl7U3hG806hFO9BJseMK87
-   A=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 01 Nov 2022 13:35:44 -0700
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 13:35:44 -0700
-Received: from [10.134.65.5] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 1 Nov 2022
- 13:35:43 -0700
-Message-ID: <4cb58489-cd42-1868-9add-0c360065de23@quicinc.com>
-Date:   Tue, 1 Nov 2022 13:35:43 -0700
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KWn69+8F3B4tQVp2WbYf/f8oxP5n6T+Dle+0PyaHhYM=;
+        b=CVG+hqdWcdMPoUMYwvDkUnMfmbxxghIWgjYSIbwCvPK1QzlDSH8fkPdzfT2F0OHBSR
+         2TW2Kl4JI5x8sfz0ukoJF/yr2XYOE3o/wBML6Vt+0extJrn5Id9MCyAK3aR4dDPcyAbW
+         2cSu/lts749QlSKgMXeQqBwLIGO9xwqnfwQq/DvVCMPD2rwVyiEX29bRqABajjq2IrPi
+         qXmMdSVw5QsjhCFbRU07mzU24vSE+3ZtaJVBTNm1uEnKL3l1qWHxhJJbeya4Y63C/IOB
+         ym9Xuv91w4Q55/CPXtLjtQlc3uQEsvPoDW2PTfYbXuBoocMnbSs9L/bLqkXB9Hg5vVl0
+         szoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KWn69+8F3B4tQVp2WbYf/f8oxP5n6T+Dle+0PyaHhYM=;
+        b=o18PZRVYscjsoaadBywaXPVZ5O4zUr3+oWgBUw/cTkJDsgQKCLBJ8OyOCVPz5UjugH
+         amIuRzXWwDWoGnyLOva62Mbll+7ZieAMiqSD2NijP4Du96YIbHbdPCgaIUV2wKVbR380
+         Ba1uIP8+uqmuGUoIF+oCodrcqSAow5RLd98RVrEI7ICMdPLz456WGDF2NXSwlKtPpFaL
+         8Ij0Ygb8s8VNh09JpkIiZocUyAAS+BA15VO16QzG36OWxgZf1vIArn+QqihzbeHUYld3
+         d3UI2swZ8qsC/MWU5OAI2ldyRlhB7l2LPvZ6b2Iw4hI98jH0OE7m/X5ZeCgru46pb51i
+         z1kQ==
+X-Gm-Message-State: ACrzQf1Fi3xw8fxPPK/eQsGcn41YPq+9vza0oWURQ05mCqg1+h/DAZ7e
+        HxRhyvSIuwLz6Pi4ThHBjqE=
+X-Google-Smtp-Source: AMsMyM7MxtU+7v2SLAvOGA1h0ocsqzFAlGdl4ThjL6RcLDg+H2dcfqU3l4XQHc0yqN8SZhwgAYCJEA==
+X-Received: by 2002:a05:6000:104:b0:236:a6f4:c67f with SMTP id o4-20020a056000010400b00236a6f4c67fmr12731466wrx.82.1667335960131;
+        Tue, 01 Nov 2022 13:52:40 -0700 (PDT)
+Received: from hp-power-15.localdomain (mm-167-8-212-37.vitebsk.dynamic.pppoe.byfly.by. [37.212.8.167])
+        by smtp.gmail.com with ESMTPSA id jb1-20020a05600c54e100b003c6b874a0dfsm11854413wmb.14.2022.11.01.13.52.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Nov 2022 13:52:39 -0700 (PDT)
+From:   Siarhei Volkau <lis8215@gmail.com>
+Cc:     Siarhei Volkau <lis8215@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] docs/pinctrl: fix pinctrl examples
+Date:   Tue,  1 Nov 2022 23:51:57 +0300
+Message-Id: <20221101205159.1468069-1-lis8215@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v6 02/21] dt-bindings: Add binding for gunyah hypervisor
-To:     Jassi Brar <jassisinghbrar@gmail.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "Marc Zyngier" <maz@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Srinivas Kandagatla" <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-3-quic_eberman@quicinc.com>
- <CABb+yY3JVNPG3dcyHNFxEeGEu3MN_pAOh3+cwexPPe2YG6SNUg@mail.gmail.com>
- <fb7e101f-8de0-d77e-30e1-74b882b19583@quicinc.com>
- <CABb+yY08jP+Q5xvzLf=7F1tULP6-eZz5EDiK9mBj2fAv=iZa_A@mail.gmail.com>
-Content-Language: en-US
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <CABb+yY08jP+Q5xvzLf=7F1tULP6-eZz5EDiK9mBj2fAv=iZa_A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The document has some typos in the examples related to using
+pinctrl_select_state function and out-of-context variables.
+The patchset aims to fix that.
 
+Siarhei Volkau (2):
+  docs/pinctrl: fix pinctrl_select_state examples
+  docs/pinctrl: fix runtime pinmuxing example
 
-On 11/1/2022 9:23 AM, Jassi Brar wrote:
-> On Mon, Oct 31, 2022 at 10:20 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
->>
->> Hi Jassi,
->>
->> On 10/27/2022 7:33 PM, Jassi Brar wrote:
->>   > On Wed, Oct 26, 2022 at 1:59 PM Elliot Berman
->> <quic_eberman@quicinc.com> wrote:
->>   > .....
->>   >> +
->>   >> +        gunyah-resource-mgr@0 {
->>   >> +            compatible = "gunyah-resource-manager-1-0",
->> "gunyah-resource-manager";
->>   >> +            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX
->> full IRQ */
->>   >> +                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX
->> empty IRQ */
->>   >> +            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
->>   >> +                  /* TX, RX cap ids */
->>   >> +        };
->>   >>
->>   > All these resources are used only by the mailbox controller driver.
->>   > So, this should be the mailbox controller node, rather than the
->>   > mailbox user.> One option is to load gunyah-resource-manager as a
->> module that relies
->>   > on the gunyah-mailbox provider. That would also avoid the "Allow
->>   > direct registration to a channel" hack patch.
->>
->> A message queue to another guest VM wouldn't be known at boot time and
->> thus couldn't be described on the devicetree.
->>
-> I think you need to implement of_xlate() ... or please tell me what
-> exactly you need to specify in the dt.
+ Documentation/driver-api/pin-control.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Dynamically created virtual machines can't be known on the dt, so there 
-is nothing to specify in the DT. There couldn't be a devicetree node for 
-the message queue client because that client is only exists once the VM 
-is created by userspace.
+-- 
+2.36.1
 
-As a more concrete example, there is QRTR (net/qrtr) virtualization 
-support which is implemented with Gunyah message queues. Whether a QRTR 
-client needs to be for VM is only determined when launching the VM as 
-well as which message queue resource the QRTR client should be using. 
-Since many VMs could be running on a system, it's not possible to know 
-the number of mailbox controllers (i.e. message queues) nor the number 
-of mailbox clients (e.g. QRTR) as a static configuration in the DT.
-
-Thanks,
-Elliot
