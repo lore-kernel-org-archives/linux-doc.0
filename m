@@ -2,118 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5210FA3740
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 02:04:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56B1DC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 03:20:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229620AbiKACEx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Oct 2022 22:04:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52292 "EHLO
+        id S229752AbiKADUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Oct 2022 23:20:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbiKACEx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Oct 2022 22:04:53 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80DB562C2;
-        Mon, 31 Oct 2022 19:04:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667268291; x=1698804291;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aCt6XUlU98NDB9OobTpbG9jY9vCxrYTtoNS5Y6y/56c=;
-  b=ED9tKGUbJdyAu1C3soCbfUJG2tyR6w8Eau5UH2HjYtUU1/BTLKM6uboy
-   SmF+cfrLY9+bWamJeNYPIrkebDU3M1P5QEwGBq1u9cymfYfWNNowhcQ55
-   wZPIfotcjHK3OmbVnPiAh7tWa55M6WRGhvu6mF1JmMKVTt1HPTDNUKzIY
-   dlZkKj0bjkXPAlFSw1/eeqQ0VZhgLbJ5MgJbx5S1zyPw+dEDLZhPbycmq
-   w+ZxLCL8I8RZ8WmjtV1gXCElc8q87Nxa9bM69X9R4bn0W3JOIIM3kjbiu
-   hdVhtfYMw0qhIf5ywLVyPT3Ik44hTqlERTC3eiybf/UREFH4WJaFhE/dY
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="310751480"
-X-IronPort-AV: E=Sophos;i="5.95,229,1661842800"; 
-   d="scan'208";a="310751480"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 19:04:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="776349365"
-X-IronPort-AV: E=Sophos;i="5.95,229,1661842800"; 
-   d="scan'208";a="776349365"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Oct 2022 19:04:23 -0700
-Date:   Tue, 1 Nov 2022 09:55:13 +0800
-From:   Xu Yilun <yilun.xu@intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     matthew.gerlach@linux.intel.com, hao.wu@intel.com,
-        russell.h.weight@intel.com, basheer.ahmed.muddebihal@intel.com,
-        trix@redhat.com, mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net, jirislaby@kernel.org,
-        geert+renesas@glider.be, niklas.soderlund+renesas@ragnatech.se,
-        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de,
-        ilpo.jarvinen@linux.intel.com, marpagan@redhat.com
-Subject: Re: [PATCH v4 3/4] fpga: dfl: add basic support DFHv1
-Message-ID: <Y2B8gRnnkDQkdDeq@yilunxu-OptiPlex-7050>
-References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com>
- <20221020212610.697729-4-matthew.gerlach@linux.intel.com>
- <Y10l3NkIn0gsdVZq@yilunxu-OptiPlex-7050>
- <Y171ZEHpOydtR4dW@smile.fi.intel.com>
- <Y18h4+ESJo+NQnOu@yilunxu-OptiPlex-7050>
- <Y1/q/PDPNq7pNtda@smile.fi.intel.com>
+        with ESMTP id S229561AbiKADUM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Oct 2022 23:20:12 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DBC6647F;
+        Mon, 31 Oct 2022 20:20:09 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A139dCP031554;
+        Tue, 1 Nov 2022 03:19:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=9WjdJBUVH8MeLvA9zh4Sza3xE353qf9XmPnIJRTg3o0=;
+ b=FkxISVjvKZXQbL+0dSpAJTk4egSQgWpxAXWeB6toT6waoXI5r9ErXEymo0PuOb+vdDP3
+ VxV1GUK58L0HPrFFEUrJdlkh+m62H83mSM+CRvoH18qQlNwBmtGHVNqDdKtjFFkx/uLm
+ ngwNjZvFXHMsDJXSkMvN3MIaJ8oTwLRfgDKbqQ4wDe7yI1AZZ949YXErB/3Beg04n3f1
+ kf9frK4Wy7YEpAIUaLeJdOocOsh78m46CC/Nt63whE4wFEUFKzI/kqi3tMIkzJ4pDKnx
+ bnncDilBbM/kebhj4fSZGGlQbtvSjGtDO+Yit3vGVfoKP5v1LwUechbUajZ+AsbLkNxN Zw== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kjsqh05vc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 01 Nov 2022 03:19:49 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A13Jm3k029644
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 1 Nov 2022 03:19:48 GMT
+Received: from [10.110.109.83] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 31 Oct
+ 2022 20:19:46 -0700
+Message-ID: <df09560d-803b-33f6-69ed-6d377d05d336@quicinc.com>
+Date:   Mon, 31 Oct 2022 20:19:45 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y1/q/PDPNq7pNtda@smile.fi.intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v5 02/13] dt-bindings: Add binding for gunyah hypervisor
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>
+CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20221011000840.289033-1-quic_eberman@quicinc.com>
+ <20221011000840.289033-3-quic_eberman@quicinc.com>
+ <20221012155645.GA2173829-robh@kernel.org>
+ <ca13eb92-9b5b-19fd-27a5-f91f5048b142@quicinc.com>
+ <CAL_Jsq+cR5AEa5i1u-_L6sP6nYXS6qgaVWZ=KwxpUbxV3ZW-BA@mail.gmail.com>
+ <75ef3cc5-3b19-9eab-b3eb-56fa254d92bd@quicinc.com>
+ <79673829-a079-201f-91e1-790eb7cc3a4b@linaro.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <79673829-a079-201f-91e1-790eb7cc3a4b@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: fs7KBXATslAtjcGiQirE6T_AviZphkjK
+X-Proofpoint-ORIG-GUID: fs7KBXATslAtjcGiQirE6T_AviZphkjK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-31_22,2022-10-31_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ priorityscore=1501 malwarescore=0 impostorscore=0 lowpriorityscore=0
+ suspectscore=0 bulkscore=0 mlxlogscore=999 clxscore=1011 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211010023
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-10-31 at 17:34:20 +0200, Andy Shevchenko wrote:
-> On Mon, Oct 31, 2022 at 09:16:19AM +0800, Xu Yilun wrote:
-> > On 2022-10-31 at 00:06:28 +0200, Andy Shevchenko wrote:
-> > > On Sat, Oct 29, 2022 at 09:08:44PM +0800, Xu Yilun wrote:
-> > > > On 2022-10-20 at 14:26:09 -0700, matthew.gerlach@linux.intel.com wrote:
-> > > 
-> > > > >  struct dfl_feature_info {
-> > > > >  	u16 fid;
-> > > > >  	u8 revision;
-> > > > > +	u8 dfh_version;
-> > > > >  	struct resource mmio_res;
-> > > > >  	void __iomem *ioaddr;
-> > > > >  	struct list_head node;
-> > > > >  	unsigned int irq_base;
-> > > > >  	unsigned int nr_irqs;
-> > > > > +	unsigned int param_size;
-> > > > > +	u64 params[];
-> > > > >  };
-> > > 
-> > > ...
-> > > 
-> > > > > +	finfo = kzalloc(sizeof(*finfo) + dfh_psize, GFP_KERNEL);
-> > > 
-> > > 
-> > > This probably may use something from overflow.h.
-> > > 
-> > > > The u64 flexible array in the structure, but seems dfh_get_psize could
-> > > > not garantee 64bit aligned size.
-> > > > 
-> > > > What's the mandatory alignment of param data? If 64bit aligned, bit 33-34
-> > > > of PARAM_HDR should be reserved. If 32bit aligned, finfo:params should be
-> > > > u32[].
-> > > 
-> > > Isn't it guaranteed by the C standard / architecture ABI?
-> > 
-> > I'm referring to the malloc size of the structure. It reserved dfh_psize
-> > bytes for this u64 array, but there is no garantee dfh_psize should be a
-> > multiple of 8. So there may be memory leak when accessing the last
-> > array element?
-> 
-> Have you looked at macros in the overflow.h? Would the use of it solve your
-> concern?
 
-Yes, struct_size() or array_size() specifies the element size & count,
-which solve the concern at the root.
 
+On 10/27/2022 12:55 PM, Krzysztof Kozlowski wrote:
+> On 27/10/2022 12:17, Elliot Berman wrote:
+>> Hi Rob,
+>>
+>> On 10/26/2022 2:16 PM, Rob Herring wrote:
+>>> On Thu, Oct 13, 2022 at 6:59 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>>>>
+>>>>
+>>>> On 10/12/2022 8:56 AM, Rob Herring wrote:
+>>>>> On Mon, Oct 10, 2022 at 05:08:29PM -0700, Elliot Berman wrote:
+>>>>>> When Linux is booted as a guest under the Gunyah hypervisor, the Gunyah
+>>>>>> Resource Manager applies a devicetree overlay describing the virtual
+>>>>>> platform configuration of the guest VM, such as the message queue
+>>>>>> capability IDs for communicating with the Resource Manager. This
+>>>>>> information is not otherwise discoverable by a VM: the Gunyah hypervisor
+>>>>>> core does not provide a direct interface to discover capability IDs nor
+>>>>>> a way to communicate with RM without having already known the
+>>>>>> corresponding message queue capability ID. Add the DT bindings that
+>>>>>> Gunyah adheres for the hypervisor node and message queues.
+>>>>>>
+>>>>>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>>>>>> ---
+>>>>>>     .../bindings/firmware/gunyah-hypervisor.yaml  | 87 +++++++++++++++++++
+>>>>>>     MAINTAINERS                                   |  1 +
+>>>>>>     2 files changed, 88 insertions(+)
+>>>>>>     create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+>>>>>>
+>>>>>> diff --git a/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..f0a14101e2fd
+>>>>>> --- /dev/null
+>>>>>> +++ b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+>>>>>> @@ -0,0 +1,87 @@
+>>>>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>>>>>> +%YAML 1.2
+>>>>>> +---
+>>>>>> +$id: http://devicetree.org/schemas/firmware/gunyah-hypervisor.yaml#
+>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>>>> +
+>>>>>> +title: Gunyah Hypervisor
+>>>>>> +
+>>>>>> +maintainers:
+>>>>>> +  - Murali Nalajala <quic_mnalajal@quicinc.com>
+>>>>>> +  - Elliot Berman <quic_eberman@quicinc.com>
+>>>>>> +
+>>>>>> +description: |+
+>>>>>> +  On systems which support devicetree, Gunyah generates and overlays a deviceetree overlay which
+>>>>>
+>>>>> How you end up with the node (applying an overlay) is not relavent to
+>>>>> the binding.
+>>>>>
+>>>>>> +  describes the basic configuration of the hypervisor. Virtual machines use this information to determine
+>>>>>> +  the capability IDs of the message queues used to communicate with the Gunyah Resource Manager.
+>>>>>
+>>>>> Wrap at 80. That is the coding standard still though 100 is deemed
+>>>>> allowed. And yamllint only complains at 110 because I didn't care to fix
+>>>>> everyones lines over 100.
+>>>>>
+>>>>>> +  See also: https://github.com/quic/gunyah-resource-manager/blob/develop/src/vm_creation/dto_construct.c
+>>>>>> +
+>>>>>> +properties:
+>>>>>> +  compatible:
+>>>>>> +    items:
+>>>>>> +      - const: gunyah-hypervisor-1.0
+>>>>>> +      - const: gunyah-hypervisor
+>>>>>
+>>>>> 2 compatibles implies a difference between the 2. What's the difference?
+>>>>> Where does '1.0' come from?
+>>>>>
+>>>>
+>>>> There's no difference. I thought the convention was to have
+>>>> device-specific compatible and the generic compatible. "device-specific"
+>>>> here would be specific to version of Gunyah since it's software.
+>>>
+>>> No, that's just what people do because "vendor,new-soc",
+>>> "vendor,old-soc" seems to bother them for some reason. At the end of
+>>> the day, it's just a string identifier that means something. If
+>>> there's no difference in that 'something', then there is no point in
+>>> having more than one string.
+>>>
+>>> You only need something specific enough to discover the rest from the
+>>> firmware. When that changes, then you add a new compatible. Of course,
+>>> if you want existing OSs to work, then better not change the
+>>> compatible.
+>>>
+>>
+>> Thanks for the info, I'll drop the "-1.0" suffix.
 > 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
+> You still did not answer from where does 1.0 come from... Compatibles
+> are usually expected to be specific.
 > 
-> 
+
+The 1.0 comes from the Gunyah version. This is the same version returned 
+by "hyp_identify" hypercall.
+
