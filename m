@@ -2,258 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5494DC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 18:40:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62162C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 19:18:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230185AbiKASkZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 14:40:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54506 "EHLO
+        id S230413AbiKATSM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 15:18:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230272AbiKASkY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 14:40:24 -0400
-Received: from mx0a-003ede02.pphosted.com (mx0a-003ede02.pphosted.com [205.220.169.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6F441C10C
-        for <linux-doc@vger.kernel.org>; Tue,  1 Nov 2022 11:40:22 -0700 (PDT)
-Received: from pps.filterd (m0286614.ppops.net [127.0.0.1])
-        by mx0b-003ede02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A1IWYme020372
-        for <linux-doc@vger.kernel.org>; Tue, 1 Nov 2022 11:40:22 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=getcruise.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=ppemail; bh=TZN+nxD29A/mXjM1cTiRY1RyYzHigm/eAkBELU0CF14=;
- b=cA1YNKo/ElUALFXNlrUwD6xNYLkdcvPsSFHRoO2j+Sxr4kjnhmsTxvg+SQdWZRChz23a
- jLbdnQqTw2liZyaBf/sY0l4BgNCIh0GalmwcMfcpdE1soBTtdsXjVvq/+SkVXr5nm0Vi
- 8994I0gZvevUECKneatLKdq0U187exSiKd00VTNfnczLKg3+zeOpXF/wUPQ6d11pjL+F
- CMjdw564Zf/6zTm3Nsu2p3CvlFLfOtTxlR9YrT5sVW71jgijsycHfGDG3OrrXrnBVbKN
- uvAbH9wukxpb/rOoIUT1xzR4pkJUs7ZCUUhaldXbX1KsvL/pJuLd07DNm8c7uhauoGBF 9g== 
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-        by mx0b-003ede02.pphosted.com (PPS) with ESMTPS id 3kh16drub6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 01 Nov 2022 11:40:22 -0700
-Received: by mail-pg1-f199.google.com with SMTP id 125-20020a630283000000b0046e9babe7b3so8249252pgc.11
-        for <linux-doc@vger.kernel.org>; Tue, 01 Nov 2022 11:40:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=getcruise.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TZN+nxD29A/mXjM1cTiRY1RyYzHigm/eAkBELU0CF14=;
-        b=kaNealaoGmf/RrPO8DwyZR6T+/tcWXGyYzK0SKjEnxcfOEiA8sRNfFOhnHZrSh7vND
-         nbhi/gbGEhsSa2dR2Y11RXiYJlIpioQm1Vr7rWlxlmr+J857hqo32unyVe70tTeY86gY
-         TJuhJDjpLlxMC+SZYzLr8o3qb2edlQvoGSKCX0DCCWxplz4NSdXmwBTSbHjiYiVqGnxL
-         lq+ggrQ8+MSmiF6Ri/gNLJmNRFU60IPDxIhhVFL3Z9GdL5bjMtT9nenL5BXEfALwqfn6
-         9uPoNkRhhkLyGOdI1/xqvohu3un7pjjoDE1mOPBSLWHf3wQwh6aErszAED4AQ7/7YjTc
-         F71Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TZN+nxD29A/mXjM1cTiRY1RyYzHigm/eAkBELU0CF14=;
-        b=TTFWLkDcna26CgbVhHe3SqSOTGpBnIN3aayMOZKAC+1sQLG4okvWYVggxA0AWqQ1S2
-         gMnYc6VDGVwOHrUOLKvHp7lOaqY3xyrTMCS+DxsdjrA44X+uDAL5PKrMdrsJp1LAP56N
-         lQwADxY2lEt+B6WXnxwBH4rs2ipCR7xJ/cjPvd3Y6cm/hgMbctA2ALzBjmsY/LMyXsqX
-         gK7FSr72Htx6EKY0mc0TZLbKIEfXJpJBLNEZHHgBq/30Bhho7+GTD5bnQCQJMnwTtUms
-         GWD3sVYFMPkI9+knY9sSe2ZrKVvHk8BvjOFT3W1AnfQFkF6g/vEofDvqEOl+h3CQvfSR
-         L8gA==
-X-Gm-Message-State: ACrzQf25ZU09VJdfRV7+I/XDfi6MDdV33Xzktf2W5ctrl1J+I2KmvHFj
-        PTkdFLq3h815xtUGZ0wO3VAcofZZcmYVHzPzZec6H+8Z2CyFs7TPiHximh9Ldt645kgLF8Vyv/0
-        GsEesFdhJG6wHTBl113Q=
-X-Received: by 2002:a62:a503:0:b0:56b:cb10:2d87 with SMTP id v3-20020a62a503000000b0056bcb102d87mr21167770pfm.79.1667328021195;
-        Tue, 01 Nov 2022 11:40:21 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4h7sjO7Pjd4/m+pe8D/lAg5yb26iD2UghyFQ1kUHbRrOa+BOyWQ+jEHR/N6AJpCu1UVjrmoA==
-X-Received: by 2002:a62:a503:0:b0:56b:cb10:2d87 with SMTP id v3-20020a62a503000000b0056bcb102d87mr21167747pfm.79.1667328020908;
-        Tue, 01 Nov 2022 11:40:20 -0700 (PDT)
-Received: from 4VPLMR2-DT.corp.robot.car ([199.73.125.241])
-        by smtp.gmail.com with ESMTPSA id l6-20020a622506000000b0056c08c87196sm6851935pfl.48.2022.11.01.11.40.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 11:40:20 -0700 (PDT)
-From:   Andy Ren <andy.ren@getcruise.com>
-To:     netdev@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        roman.gushchin@linux.dev, Andy Ren <andy.ren@getcruise.com>
-Subject: [PATCH net-next] netconsole: Enable live renaming for network interfaces used by netconsole
-Date:   Tue,  1 Nov 2022 11:40:05 -0700
-Message-Id: <20221101184005.1278860-1-andy.ren@getcruise.com>
-X-Mailer: git-send-email 2.38.1
+        with ESMTP id S229974AbiKATSH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 15:18:07 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2077.outbound.protection.outlook.com [40.107.92.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F5B1EAEE;
+        Tue,  1 Nov 2022 12:17:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lg+k2A5AJ4X6h04pD1emr4BPqXxGi+wfenXOmob4/Mzx+D7XmK2+dyqoW71w3cegAqZkW3f32AQ7xZacEsGePvUTSZ9SJjFROBNyfu3nL6Ta2xuUWF6ka+MrSxZgsVydVq9DasUo2URoceLXqGvFPT5VNCTn6kvdLkB5Q9Kw9vQEpSRa2G4zITHloke2OkxVsak7MafPgSHmIuFYj5zu3Xs27s+8N4sTlST8WB4o7IZHHOmgj3dJc+1OjOFZjKIflug3NKYqppqBrvJNDAkQQ/LkjFMVDaMHLeBf1stJOArSRTqK7wufcxKSft3LwOfSi2D5sXgl3DX6sIW0y9HeUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2Hj5W3rVaIU0gFrNM3j1dhZkA3BpedesQsKz9UiGNqM=;
+ b=KxMVFBfayUb4T/WZcKX02fn3WE8eYv28vcBYs777//uR22aBsImdtsVIvzuDPq4LOmXkMQnZeQXe4eeajXCpdBrVtrTS6iq4H2OVgI7TaE7hst+QXsOLFnd1wgT2r4TfjKHyDIzwBei7Kfag+2GnEz5ZqiXAMN9PCiwQKa4UHGDa//YyBr4ZUIi5z2t3VjhZPXJmqlxd0ylIIEx2BVbZCscQF74x6/v4aqrTiaKFV3XiNKSJvSGruJ9yhSiBPVDToEIbYBfgeaUSYmAmq49gRDDE0lygzXezttC3rDIsB1eqs8KfBK/+usnaBg6GyjrnrMAirL567N9x31Lj2PqJJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2Hj5W3rVaIU0gFrNM3j1dhZkA3BpedesQsKz9UiGNqM=;
+ b=BEm7tvIcTK6gSFWjmJ0qJLfZ/vRzTA1le9yjIwf0vFkRLHdVwQJiQZT+5pbyBDL4eqGjOODMpuMjusxu2sNqydG0Xee+yea1PUeM5bcu0fKN+a7Y9SQsTPSfUFDPJQGO8fu4Ls14iWZnTbAdxjnPvoA9B4Uf3AFIDFBNuQ9x2SZd5V6nD3YuxiQoEpGAiStcRdgLc73zakdMSbabY3FAEYfDbvdvGWKNo62N/aLwVlGCvTefjaVdByBpqrfz3DYgUKXllYIHmkr0hOrgO8+HpRYis5VSHdgkT/ODXaSaOeUDAP3T88COqolzd7lVj03tDsZ95XpsdM6UtgNoYPkBiw==
+Received: from BN0PR04CA0130.namprd04.prod.outlook.com (2603:10b6:408:ed::15)
+ by BY5PR12MB4098.namprd12.prod.outlook.com (2603:10b6:a03:205::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.15; Tue, 1 Nov
+ 2022 19:17:47 +0000
+Received: from BN8NAM11FT094.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:ed:cafe::ad) by BN0PR04CA0130.outlook.office365.com
+ (2603:10b6:408:ed::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.21 via Frontend
+ Transport; Tue, 1 Nov 2022 19:17:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ BN8NAM11FT094.mail.protection.outlook.com (10.13.176.131) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5791.20 via Frontend Transport; Tue, 1 Nov 2022 19:17:46 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Tue, 1 Nov 2022
+ 12:17:33 -0700
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Tue, 1 Nov 2022 12:17:32 -0700
+Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29 via Frontend
+ Transport; Tue, 1 Nov 2022 12:17:30 -0700
+Date:   Tue, 1 Nov 2022 12:17:29 -0700
+From:   Nicolin Chen <nicolinc@nvidia.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+CC:     Lu Baolu <baolu.lu@linux.intel.com>, <bpf@vger.kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>, <iommu@lists.linux.dev>,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>, <linux-doc@vger.kernel.org>,
+        <linux-kselftest@vger.kernel.org>, <llvm@lists.linux.dev>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        "Jason Wang" <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        <kvm@vger.kernel.org>, "Matthew Rosato" <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        Yi Liu <yi.l.liu@intel.com>,
+        "Keqian Zhu" <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v3 09/15] iommufd: Data structure to provide IOVA to PFN
+ mapping
+Message-ID: <Y2FwydZzhcQ2vpdU@Asurada-Nvidia>
+References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <9-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: A6vOdUojfxrelCmdrteDMzr9rCMEmr0y
-X-Proofpoint-GUID: A6vOdUojfxrelCmdrteDMzr9rCMEmr0y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-01_09,2022-11-01_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- bulkscore=0 adultscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
- clxscore=1015 mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211010135
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <9-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT094:EE_|BY5PR12MB4098:EE_
+X-MS-Office365-Filtering-Correlation-Id: a1f66620-a4e7-4680-c37c-08dabc3dc251
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XHltHxwgGfDR2GhX7Qh1bqvq9yawPePAYkbWYh1vac8T6Fyv3424gr10XIQc2LOSiPdk62VRGhoBc/Cgo4zFh1ElmXDIhOk9HIcKK1OdhpAoQ806LJ/Ra/gr2nPI0E7qwWqM0XfcRE5cv/Eo2iF7wUjIaVh8/6v/4EhfI7yM+8ox4H0tokV5VZg1X5oT4KsqtHavUNmKFPceZr5v5nArhpy5BADTv6PbV4fd1DelZy45MALPQ9K1Wrr+YJdBS64tiOx5KPw07CIiom/07Z3yPvkZphTpkzbq7F8R0wJ4v0iJbZHweoqrAtzNa6P3+2r90b1fO3bOfFHZHtnmSQgzpvuU2P/jkWsPBogPsVr+X1LKypgoIRmnfrK5VXy+3KldzVJpRQYaoObqN0rJ4DV8+PKjQrk2Ca2CRxYHplsuf/h16NpJhfpdDexAylkZwC1aEov1qQDcKh9gLg21IA/aL1VMEl+NFpAe7Sy2Wn5U1I0oUihoRap0ao0KdwdflzrqlL7WGZGUBBTp9EHKik19kzYtY0DbxSNt0Np52OsnpTWY+3pniDz/M0hZWKwcPjlQyBr/bRYoNpTPaeVuH0GXCBrUaJZCkwVJkhWDli95EeB2eNt642YnGK/WsOgczRthKMrQWaiZoC89Nr9kYbAdRhK0SZpO2CFBGadanYK/ZymAhZzAgHtjJOlxCUjt0Rm4/pD8wFsP5zFnCO9bSJsEPxj6Ucfn7RGTYD5HKqJQ9wnZj1b3SnMPQBvAoZWmSq5K5HQrcrZacScTRrtZGTnx7A==
+X-Forefront-Antispam-Report: CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(396003)(376002)(39860400002)(346002)(136003)(451199015)(46966006)(36840700001)(40470700004)(47076005)(7636003)(356005)(36860700001)(426003)(9686003)(4744005)(86362001)(7416002)(7406005)(2906002)(5660300002)(8676002)(70206006)(6636002)(8936002)(336012)(4326008)(41300700001)(82310400005)(26005)(6862004)(70586007)(33716001)(54906003)(186003)(478600001)(40460700003)(316002)(82740400003)(55016003)(40480700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 19:17:46.3480
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1f66620-a4e7-4680-c37c-08dabc3dc251
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT094.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4098
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch enables support for live renaming of network interfaces
-initialized by netconsole.
+On Tue, Oct 25, 2022 at 03:12:18PM -0300, Jason Gunthorpe wrote:
 
-This resolves an issue seen when netconsole is configured to boot as a
-built-in kernel module with a kernel boot argument. As stated in the
-kernel man page - As a built-in, netconsole initializes immediately
-after NIC cards and will bring up the specified interface as soon as
-possible. Consequently, the renaming of specified interfaces will fail
-and return EBUSY. This is because by default, the kernel disallows live
-renaming unless the device explicitly sets a priv_flags bit
-(IFF_LIVE_RENAME_OK), and renaming after a network interface is up
-returns EBUSY.
+> diff --git a/drivers/iommu/iommufd/io_pagetable.c b/drivers/iommu/iommufd/io_pagetable.c
+> new file mode 100644
+> index 00000000000000..27cbb652ee33cd
+> --- /dev/null
+> +++ b/drivers/iommu/iommufd/io_pagetable.c
 
-The changes to the kernel are as of following:
+> +void iopt_enable_large_pages(struct io_pagetable *iopt)
+> +{
+> +	down_write(&iopt->domains_rwsem);
+> +	down_write(&iopt->iova_rwsem);
+> +	WRITE_ONCE(iopt->disable_large_pages, false);
+> +	iopt_calculate_iova_alignment(iopt);
 
-- Addition of a iface_live_renaming boolean flag to the netpoll struct,
-used to enable/disable interface live renaming. False by default
-- Changes to check for the aforementioned flag in network and ethernet
-driver interface renaming code
-- Adds a new optional "*" parameter to the netconsole configuration string
-after interface device name that enables interface live renaming when
-included (e.g. "eth0*"). When this parameter is included,
-"iface_live_renaming" is set to true.
----
- Documentation/networking/netconsole.rst |  5 +++--
- include/linux/netpoll.h                 |  3 +++
- net/core/dev.c                          |  3 ++-
- net/core/netpoll.c                      | 18 +++++++++++++++++-
- net/ethernet/eth.c                      |  5 ++++-
- 5 files changed, 29 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-index 1f5c4a04027c..c1255a4d9c9b 100644
---- a/Documentation/networking/netconsole.rst
-+++ b/Documentation/networking/netconsole.rst
-@@ -34,20 +34,21 @@ Sender and receiver configuration:
- It takes a string configuration parameter "netconsole" in the
- following format::
- 
-- netconsole=[+][src-port]@[src-ip]/[<dev>],[tgt-port]@<tgt-ip>/[tgt-macaddr]
-+ netconsole=[+][src-port]@[src-ip]/[<dev>][*],[tgt-port]@<tgt-ip>/[tgt-macaddr]
- 
-    where
- 	+             if present, enable extended console support
- 	src-port      source for UDP packets (defaults to 6665)
- 	src-ip        source IP to use (interface address)
- 	dev           network interface (eth0)
-+	*             if present, allow runtime network interface renaming
- 	tgt-port      port for logging agent (6666)
- 	tgt-ip        IP address for logging agent
- 	tgt-macaddr   ethernet MAC address for logging agent (broadcast)
- 
- Examples::
- 
-- linux netconsole=4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc
-+ linux netconsole=4444@10.0.0.1/eth1*,9353@10.0.0.2/12:34:56:78:9a:bc
- 
- or::
- 
-diff --git a/include/linux/netpoll.h b/include/linux/netpoll.h
-index bd19c4b91e31..f2ebdabf0959 100644
---- a/include/linux/netpoll.h
-+++ b/include/linux/netpoll.h
-@@ -32,6 +32,7 @@ struct netpoll {
- 	bool ipv6;
- 	u16 local_port, remote_port;
- 	u8 remote_mac[ETH_ALEN];
-+	bool iface_live_renaming;
- };
- 
- struct netpoll_info {
-@@ -51,9 +52,11 @@ struct netpoll_info {
- void netpoll_poll_dev(struct net_device *dev);
- void netpoll_poll_disable(struct net_device *dev);
- void netpoll_poll_enable(struct net_device *dev);
-+bool netpoll_live_renaming_enabled(struct net_device *dev);
- #else
- static inline void netpoll_poll_disable(struct net_device *dev) { return; }
- static inline void netpoll_poll_enable(struct net_device *dev) { return; }
-+static inline bool netpoll_live_renaming_enabled(struct net_device *dev) { return false; }
- #endif
- 
- void netpoll_send_udp(struct netpoll *np, const char *msg, int len);
-diff --git a/net/core/dev.c b/net/core/dev.c
-index cfb68db040a4..67430bec1f33 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -1176,7 +1176,8 @@ int dev_change_name(struct net_device *dev, const char *newname)
- 	 * directly.
- 	 */
- 	if (dev->flags & IFF_UP &&
--	    likely(!(dev->priv_flags & IFF_LIVE_RENAME_OK)))
-+	    likely(!(dev->priv_flags & IFF_LIVE_RENAME_OK) &&
-+		   !netpoll_live_renaming_enabled(dev)))
- 		return -EBUSY;
- 
- 	down_write(&devnet_rename_sem);
-diff --git a/net/core/netpoll.c b/net/core/netpoll.c
-index 9be762e1d042..fcea265290c3 100644
---- a/net/core/netpoll.c
-+++ b/net/core/netpoll.c
-@@ -224,6 +224,15 @@ void netpoll_poll_enable(struct net_device *dev)
- }
- EXPORT_SYMBOL(netpoll_poll_enable);
- 
-+bool netpoll_live_renaming_enabled(struct net_device *dev)
-+{
-+	if (dev->npinfo && dev->npinfo->netpoll->iface_live_renaming)
-+		return true;
-+
-+	return false;
-+}
-+EXPORT_SYMBOL(netpoll_live_renaming_enabled);
-+
- static void refill_skbs(void)
- {
- 	struct sk_buff *skb;
-@@ -523,7 +532,7 @@ static int netpoll_parse_ip_addr(const char *str, union inet_addr *addr)
- 
- int netpoll_parse_options(struct netpoll *np, char *opt)
- {
--	char *cur=opt, *delim;
-+	char *cur = opt, *delim, *asterisk;
- 	int ipv6;
- 	bool ipversion_set = false;
- 
-@@ -556,6 +565,13 @@ int netpoll_parse_options(struct netpoll *np, char *opt)
- 		if ((delim = strchr(cur, ',')) == NULL)
- 			goto parse_failed;
- 		*delim = 0;
-+
-+		asterisk = strchr(cur, '*');
-+		if (asterisk) {
-+			np->iface_live_renaming = true;
-+			*asterisk = 0;
-+		}
-+
- 		strscpy(np->dev_name, cur, sizeof(np->dev_name));
- 		cur = delim;
- 	}
-diff --git a/net/ethernet/eth.c b/net/ethernet/eth.c
-index e02daa74e833..bb341acfcf05 100644
---- a/net/ethernet/eth.c
-+++ b/net/ethernet/eth.c
-@@ -62,6 +62,7 @@
- #include <net/gro.h>
- #include <linux/uaccess.h>
- #include <net/pkt_sched.h>
-+#include <linux/netpoll.h>
- 
- /**
-  * eth_header - create the Ethernet header
-@@ -288,8 +289,10 @@ int eth_prepare_mac_addr_change(struct net_device *dev, void *p)
- {
- 	struct sockaddr *addr = p;
- 
--	if (!(dev->priv_flags & IFF_LIVE_ADDR_CHANGE) && netif_running(dev))
-+	if (!(dev->priv_flags & IFF_LIVE_ADDR_CHANGE) && netif_running(dev) &&
-+	    !netpoll_live_renaming_enabled(dev))
- 		return -EBUSY;
-+
- 	if (!is_valid_ether_addr(addr->sa_data))
- 		return -EADDRNOTAVAIL;
- 	return 0;
--- 
-2.38.1
-
+Coverity reports unchecked return value, perhaps WARN_ON()?
