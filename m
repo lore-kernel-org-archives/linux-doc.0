@@ -2,109 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F59C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 22:42:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C9FFC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 22:59:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbiKAWmg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 18:42:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47416 "EHLO
+        id S229954AbiKAW7R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 18:59:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbiKAWmf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 18:42:35 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6C471CB3F;
-        Tue,  1 Nov 2022 15:42:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S230089AbiKAW7M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 18:59:12 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9668266B;
+        Tue,  1 Nov 2022 15:59:10 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 424A76175D;
-        Tue,  1 Nov 2022 22:42:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81BCFC433D6;
-        Tue,  1 Nov 2022 22:42:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667342552;
-        bh=caDhOOkdw7z53f05vO/AU3UZzOHNogK6zUKVe9TIHWo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=b9+ZoH3rLB8ompGkwnmJ258fNTx3GkBSrxm4TRaZiVujXyHZYKJTG3IkOxWWgupWl
-         WyWRgjMppktx+/G534Zl1GAkatKvTYUG873rFYn6tYI4tUcCbP8gfZVwR8Bdv4LocT
-         dYnWGX9lvznYciDJ1Lq2pCe9rx/5UbFByJ263pDGMvYJWeV28nqm09c1ilavf8aYFT
-         lFD1wzhYZ573nP+/1354yh0+hHrhQpcgZSTASXK8TLmtmAthYJsE3czeepGj2kVAnf
-         zT3YQ5fnMNKH00QFoNhHi4InCjmWyqv1nlL5e64Z0SlFdRIhO6uXV6ULtOSGjbVQX8
-         0uLtNFA5ph1RQ==
-Received: by pali.im (Postfix)
-        id 175207F8; Tue,  1 Nov 2022 23:42:30 +0100 (CET)
-Date:   Tue, 1 Nov 2022 23:42:30 +0100
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: arm: marvell: Add Orion codenames and
- archive homepage
-Message-ID: <20221101224230.wbd37f7zbaueevkn@pali>
-References: <20220719080807.16729-1-pali@kernel.org>
- <20220817231208.42emdluzead2hweg@pali>
- <20220923224346.tgws4gxd5daoz2rm@pali>
+        by ms.lwn.net (Postfix) with ESMTPSA id 9DA07378;
+        Tue,  1 Nov 2022 22:59:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9DA07378
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1667343550; bh=JmKSz1EXF2soYM3nAP/FeBNnUyNfKI5tcZWQF19jA74=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=k5cORtTfPNGBvfEdwmOlSSXT4BXbJwVuoCUSJIF4gKRUdlwCVLgYG5uD4GdwzxelK
+         kCwEbaRpm3DvILrOh73PqC02i1voWETvAc4dBe0f/KaMIysQmaCr5iic11aHNVjQ4D
+         ZFtr3VK3Lv3tK5sX8iONoW4psgCrEcKlDhhHkgh8hUFAkT2oj5hrwrC7E1Bn+4f6Fd
+         XGAQ6od82wnscrimG4HvpGyMQNn5SJBNuBQSUCqJ4YAtHqqyU4lkFCuV4drStRgwQw
+         FrarPloFShPucMN7MEIynFbq/QsF9IrLEF9SKJHlDAQ+mk8t7HT5zgn3JOfWIGYETH
+         mKoiWbTjKaXKA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bilbao@vt.edu, bagasdotme@gmail.com, willy@infradead.org,
+        akiyks@gmail.com, miguel.ojeda.sandonis@gmail.com
+Subject: Re: [PATCH v3 0/2] Documentation: Start Spanish translation and
+ include HOWTO
+In-Reply-To: <5fd2092e-2f3e-27c0-66a9-94e02efa1e8d@amd.com>
+References: <20221024145521.69465-1-carlos.bilbao@amd.com>
+ <87wn8ext0m.fsf@meer.lwn.net>
+ <5fd2092e-2f3e-27c0-66a9-94e02efa1e8d@amd.com>
+Date:   Tue, 01 Nov 2022 16:59:09 -0600
+Message-ID: <87edumxow2.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220923224346.tgws4gxd5daoz2rm@pali>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Saturday 24 September 2022 00:43:46 Pali Rohár wrote:
-> On Thursday 18 August 2022 01:12:08 Pali Rohár wrote:
-> > On Tuesday 19 July 2022 10:08:07 Pali Rohár wrote:
-> > > Orion codenames are extracted from menuconfig ARCH_ORION5X and
-> > > old Orion homepage with 88F5182/88F5281 was found in web archive.
-> > > 
-> > > Signed-off-by: Pali Rohár <pali@kernel.org>
-> > 
-> > PING?
-> 
-> PING?
+Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-PING?
+> On 11/1/22 16:30, Jonathan Corbet wrote:
+>
+>>=20
+>>
+>> I went to apply this series just now, and got the following from "git
+>> am":
+>>
+>> WARNING: Message contains suspicious unicode control characters!
+>>           Subject: [PATCH v3 2/2] Documentation: Add HOWTO Spanish trans=
+lation into rst based build system
+>>              Line: +estable m=C3=A1s reciente del kernel, y no est=C3=A1=
+n interesados =E2=80=8B=E2=80=8Ben ayudar a probar
+>>              -----------------------------------------------------------=
+----^
+>>              Char: ZERO WIDTH SPACE (0x200b)
+>>           If you are sure about this, rerun with the right flag to allow.
+>>
+>> Any idea what the story is there?  Could I get a resend without that
+>> problem?
+> Just tried to apply git am and didn't get any warning. Maybe you are using
+> an extra flag? I'm running with git version 2.34.1. Could you try replaci=
+ng
+> the offending char with a space? Hopefully that solves it.
 
-> > > ---
-> > > In archived homepage are also links to erratas and other Orion documents
-> > > but apparently webarchive does not have backup copy of it :-( and Marvell
-> > > already removed all documentation from their web sites :-(
-> > > ---
-> > >  Documentation/arm/marvell.rst | 12 +++++++-----
-> > >  1 file changed, 7 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/Documentation/arm/marvell.rst b/Documentation/arm/marvell.rst
-> > > index 2f41caa0096c..8540437f6a79 100644
-> > > --- a/Documentation/arm/marvell.rst
-> > > +++ b/Documentation/arm/marvell.rst
-> > > @@ -14,18 +14,20 @@ Orion family
-> > >  
-> > >    Flavors:
-> > >          - 88F5082
-> > > -        - 88F5181
-> > > -        - 88F5181L
-> > > -        - 88F5182
-> > > +        - 88F5181  a.k.a Orion-1
-> > > +        - 88F5181L a.k.a Orion-VoIP
-> > > +        - 88F5182  a.k.a Orion-NAS
-> > >  
-> > >                 - Datasheet: https://web.archive.org/web/20210124231420/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-datasheet.pdf
-> > >                 - Programmer's User Guide: https://web.archive.org/web/20210124231536/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-opensource-manual.pdf
-> > >                 - User Manual: https://web.archive.org/web/20210124231631/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-usermanual.pdf
-> > >                 - Functional Errata: https://web.archive.org/web/20210704165540/https://www.digriz.org.uk/ts78xx/88F5182_Functional_Errata.pdf
-> > > -        - 88F5281
-> > > +        - 88F5281  a.k.a Orion-2
-> > >  
-> > >                 - Datasheet: https://web.archive.org/web/20131028144728/http://www.ocmodshop.com/images/reviews/networking/qnap_ts409u/marvel_88f5281_data_sheet.pdf
-> > > -        - 88F6183
-> > > +        - 88F6183  a.k.a Orion-1-90
-> > > +  Homepage:
-> > > +        https://web.archive.org/web/20080607215437/http://www.marvell.com/products/media/index.jsp
-> > >    Core:
-> > >  	Feroceon 88fr331 (88f51xx) or 88fr531-vd (88f52xx) ARMv5 compatible
-> > >    Linux kernel mach directory:
-> > > -- 
-> > > 2.20.1
-> > > 
+I'm sorry, it was b4 that complained, not git.  To see it happen, try:
+
+  b4 am 20221024145521.69465-1-carlos.bilbao@amd.com
+
+There were, in fact, two zero-width spaces in there, and two more in
+Junio Hamano's name.  I've taken them all out, and learned all about
+searching for weird characters in Emacs as a side benefit :)
+
+Series is now applied, thanks.
+
+jon
