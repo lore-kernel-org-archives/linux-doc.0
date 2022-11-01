@@ -2,228 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F9CC4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 20:32:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E40A0C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 20:35:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229945AbiKAUcm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 16:32:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35424 "EHLO
+        id S229877AbiKAUfq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 16:35:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230008AbiKAUcl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 16:32:41 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2057.outbound.protection.outlook.com [40.107.94.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55FDB1EC42;
-        Tue,  1 Nov 2022 13:32:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kuJ9v9OEGAzlUSnrklz0+OLYv+1JBGkpvoGmohQ7AOVKuTZ0a2LnUIHL+320v5JzqpX+nHwVy1p8DZRWUhjIVx4FmgtmUZan7dSRgOnqIJ46Au+fFuSjyHssTOsNvEaK62c5APWDMqcwyxnZam1+OAS2455uo8bpA8SzgjrMSqjw4VP43XzyhBnxhsgGWwm5FR+LyKiZKIdCn6P+648s+sRjhGtouEbFUxCX0+Rl/f6VldByHOkDGSYh0mLnUQV0o4lzcAEBVZz07wJBDHd6NcylSU+F/D1mWkjF0IGIL/22GFfZjm41yBKLbyRqr7DmrKtcMEsMVr+iXbt+lG4Mgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dhrfeWVVzZJfNMwypps4ZFKS7siOUekN0581LcP+KMo=;
- b=Eu6g2pQnJrL6pEEzvi7GoVJiALSmYVZwjJEd3yCrVQf4KiKCwAPG5eHxNWUng3UM/oxlQjq1x03VW/cjJu9Z3ScxDlwdmJSdhIn0AiYbJH9KBruPvbHEFtud+v9HrPH0fvGgSciReUVbTWzM98Htf573Dmo6dvssA44ykeF9XD2/vLNNdeh4Jd5SyHWAyHv8A4CISBnVay76a9cnBPuc7/GJnEifbkLg/OFrcF8wcbRf+JB1bLFXxK/0YVGBtIi0JNi4b8uG0ou/jclTnSSo2D7AB6J67F6Kmtk7yKyi9FM+Yv9QOTQmNhuIUmZYWfPP/lnu6G4//YB7HNDH5caQ9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dhrfeWVVzZJfNMwypps4ZFKS7siOUekN0581LcP+KMo=;
- b=Z/VkaOoLSY/sEAyRL9C3lsdtaurVRc6C3VzW1TjeCV55JK+kFSsZL0D9HThE5/nAqAJxCvuSIA1YhaKLTBaA2S1AyYBqUjO5jjh3CyULah0Vsv43BXZiBWwHPmYiY6/ZdstjMVCOs0e+cqzVcDXIQtRlWPLFpM3c4WYP2i+RYrZQlsBmcbgp0TR7Si2eae8jkMKBN+6q3BF7JV1GhBU4igIpSROJ7a0uDFKOiv7i2qpiVIXfS8BMXSl/dR70CgAGEiIr4cx51/j9l89WAgB2D91jcR7ovRaOFli0NH5EFMdiLn+ZPTaqscQNuuMU46Emv6337/SOGrSSTAqmQBxHFw==
-Received: from DS7PR03CA0187.namprd03.prod.outlook.com (2603:10b6:5:3b6::12)
- by MN0PR12MB5881.namprd12.prod.outlook.com (2603:10b6:208:379::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.21; Tue, 1 Nov
- 2022 20:32:37 +0000
-Received: from DM6NAM11FT050.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3b6:cafe::a8) by DS7PR03CA0187.outlook.office365.com
- (2603:10b6:5:3b6::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.19 via Frontend
- Transport; Tue, 1 Nov 2022 20:32:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- DM6NAM11FT050.mail.protection.outlook.com (10.13.173.111) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5791.20 via Frontend Transport; Tue, 1 Nov 2022 20:32:37 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Tue, 1 Nov 2022
- 13:32:27 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+        with ESMTP id S229528AbiKAUfp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 16:35:45 -0400
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FF3712772;
+        Tue,  1 Nov 2022 13:35:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1667334945; x=1698870945;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=vq8w5J8ZljgRouLDat6E82i5n2WY0T1CLVf69PaTsHk=;
+  b=GNZDuxvERjCyicXQf6DyRn6LZ3QsUzqreq0KHjYqtDOtpE+bDWxMK3qi
+   /FjSNPB18TAOzVVZ0+tZ4TvhlxBICltoMfMMLDMMx/GBjG+BTEhx4eRdu
+   d8ljSL9ENxpSsCGm9/7d6t1BQlgScWY6favRl7U3hG806hFO9BJseMK87
+   A=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 01 Nov 2022 13:35:44 -0700
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 13:35:44 -0700
+Received: from [10.134.65.5] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 1 Nov 2022
- 13:32:27 -0700
-Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com (10.129.68.10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29 via Frontend
- Transport; Tue, 1 Nov 2022 13:32:25 -0700
-Date:   Tue, 1 Nov 2022 13:32:23 -0700
-From:   Nicolin Chen <nicolinc@nvidia.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-CC:     Lu Baolu <baolu.lu@linux.intel.com>, <bpf@vger.kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>, <iommu@lists.linux.dev>,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>, <linux-doc@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>, <llvm@lists.linux.dev>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        "Jason Wang" <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        <kvm@vger.kernel.org>, "Matthew Rosato" <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Shameerali Kolothum Thodi 
-        <shameerali.kolothum.thodi@huawei.com>,
-        Yi Liu <yi.l.liu@intel.com>,
-        "Keqian Zhu" <zhukeqian1@huawei.com>
-Subject: Re: [PATCH v3 15/15] iommufd: Add a selftest
-Message-ID: <Y2GCV97lxEGwAuo6@Asurada-Nvidia>
-References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
- <15-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ 13:35:43 -0700
+Message-ID: <4cb58489-cd42-1868-9add-0c360065de23@quicinc.com>
+Date:   Tue, 1 Nov 2022 13:35:43 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <15-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT050:EE_|MN0PR12MB5881:EE_
-X-MS-Office365-Filtering-Correlation-Id: d969627f-c6ef-4dec-bdc7-08dabc483721
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sFkmhEzKXLHfDSjsHaV65vS2fGRtZVIigBccLL70jYLYqL3dZawR8hZTgSUb+x+ffTjsCpmNnDbt4HDLSVjt9XYKu7S12FWUNyMr2jI3OVpI/1H7/Ij/uPtc1juj+2eZVRUhhdpFoVeoW8lT43CCrvJppPnkA92OXuLJFXgC5RD+BmPvTe4+OuGtws6FiV9vdLbLWYkxqurg/7W2jpMdTOoZauDauMbR9O9LI8bXRig5l4tcqvFoXwhvqci6NFikWbNlteSHC0+zlw3GnhPojnb1q61ffMejCb3W+5AFZptx2JwcFuwTx7Y3WhLHu75O1cHZzHfATrUStPQkq5cw7g9ACeLay851LUAahpG1G4EgPV6+8waOeCZkagHPUElsmA0nz3JPEEGorigy4V4UmTEX0xtp201hy27TuapgX0tZMRiL2N0zBTRA+pF+hwUaCQsnOOvN232Jtx8cDIgUDrJwcTpKFGs8VBQ5QhO30bWi1QkAta21Z3iHQ1qUczTAD87rWxyhC5238KRJVTgUtvmlaLhoiQDUHyNyN+rKt2Pth2Jm8ZbAYyHqM6rubyB7iTMuNrcTf3aH6h+Mhb9/RKLjMYmeOaJiYCbdGc4sWTupcitOpS8YmaDa5kWKWK5HTA749DRLqSRrWW2lTGRgbeBa8Aq81Vyz7dhgjfc5rWVACgZo+/+doKr4F3bPv1jfg+yhHlzeAbF6zzPVLWfJov1ta+HiV4FI2OgL5BnxlnXwffEsAQSGliSR4DuwiEqg8Y6WtnImh1xaviddA1p5eQ==
-X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(136003)(346002)(376002)(396003)(39860400002)(451199015)(36840700001)(46966006)(40470700004)(316002)(47076005)(33716001)(9686003)(83380400001)(186003)(426003)(336012)(55016003)(86362001)(40480700001)(4326008)(8676002)(70586007)(70206006)(356005)(82310400005)(82740400003)(36860700001)(7636003)(26005)(8936002)(2906002)(6862004)(6636002)(7406005)(7416002)(5660300002)(40460700003)(41300700001)(54906003)(478600001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 20:32:37.3409
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d969627f-c6ef-4dec-bdc7-08dabc483721
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT050.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5881
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v6 02/21] dt-bindings: Add binding for gunyah hypervisor
+To:     Jassi Brar <jassisinghbrar@gmail.com>
+CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        "Mark Rutland" <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "Marc Zyngier" <maz@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Srinivas Kandagatla" <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
+ <20221026185846.3983888-3-quic_eberman@quicinc.com>
+ <CABb+yY3JVNPG3dcyHNFxEeGEu3MN_pAOh3+cwexPPe2YG6SNUg@mail.gmail.com>
+ <fb7e101f-8de0-d77e-30e1-74b882b19583@quicinc.com>
+ <CABb+yY08jP+Q5xvzLf=7F1tULP6-eZz5EDiK9mBj2fAv=iZa_A@mail.gmail.com>
+Content-Language: en-US
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <CABb+yY08jP+Q5xvzLf=7F1tULP6-eZz5EDiK9mBj2fAv=iZa_A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 25, 2022 at 03:12:24PM -0300, Jason Gunthorpe wrote:
- 
-> diff --git a/drivers/iommu/iommufd/selftest.c b/drivers/iommu/iommufd/selftest.c
 
-> +static inline struct iommufd_hw_pagetable *
-> +get_md_pagetable(struct iommufd_ucmd *ucmd, u32 mockpt_id,
-> +		 struct mock_iommu_domain **mock)
-> +{
-> +	struct iommufd_hw_pagetable *hwpt;
-> +	struct iommufd_object *obj;
-> +
-> +	obj = iommufd_get_object(ucmd->ictx, mockpt_id,
-> +				 IOMMUFD_OBJ_HW_PAGETABLE);
-> +	if (IS_ERR(obj))
-> +		return ERR_CAST(obj);
-> +	hwpt = container_of(obj, struct iommufd_hw_pagetable, obj);
-> +	if (hwpt->domain->ops != mock_ops.default_domain_ops) {
-> +		return ERR_PTR(-EINVAL);
-> +		iommufd_put_object(&hwpt->obj);
 
-Coverity reports that return is placed before iommufd_put_object.
+On 11/1/2022 9:23 AM, Jassi Brar wrote:
+> On Mon, Oct 31, 2022 at 10:20 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>>
+>> Hi Jassi,
+>>
+>> On 10/27/2022 7:33 PM, Jassi Brar wrote:
+>>   > On Wed, Oct 26, 2022 at 1:59 PM Elliot Berman
+>> <quic_eberman@quicinc.com> wrote:
+>>   > .....
+>>   >> +
+>>   >> +        gunyah-resource-mgr@0 {
+>>   >> +            compatible = "gunyah-resource-manager-1-0",
+>> "gunyah-resource-manager";
+>>   >> +            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX
+>> full IRQ */
+>>   >> +                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX
+>> empty IRQ */
+>>   >> +            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
+>>   >> +                  /* TX, RX cap ids */
+>>   >> +        };
+>>   >>
+>>   > All these resources are used only by the mailbox controller driver.
+>>   > So, this should be the mailbox controller node, rather than the
+>>   > mailbox user.> One option is to load gunyah-resource-manager as a
+>> module that relies
+>>   > on the gunyah-mailbox provider. That would also avoid the "Allow
+>>   > direct registration to a channel" hack patch.
+>>
+>> A message queue to another guest VM wouldn't be known at boot time and
+>> thus couldn't be described on the devicetree.
+>>
+> I think you need to implement of_xlate() ... or please tell me what
+> exactly you need to specify in the dt.
 
-> +static int iommufd_test_access_pages(struct iommufd_ucmd *ucmd,
-> +				     unsigned int access_id, unsigned long iova,
-> +				     size_t length, void __user *uptr,
-> +				     u32 flags)
-> +{
-> +	struct iommu_test_cmd *cmd = ucmd->cmd;
-> +	struct selftest_access_item *item;
-> +	struct selftest_access *staccess;
-> +	struct page **pages;
-> +	size_t npages;
-> +	int rc;
-> +
-> +	if (flags & ~MOCK_FLAGS_ACCESS_WRITE)
-> +		return -EOPNOTSUPP;
-> +
-> +	staccess = iommufd_access_get(access_id);
-> +	if (IS_ERR(staccess))
-> +		return PTR_ERR(staccess);
-> +
-> +	npages = (ALIGN(iova + length, PAGE_SIZE) -
-> +		  ALIGN_DOWN(iova, PAGE_SIZE)) /
-> +		 PAGE_SIZE;
-> +	pages = kvcalloc(npages, sizeof(*pages), GFP_KERNEL_ACCOUNT);
-> +	if (!pages) {
-> +		rc = -ENOMEM;
-> +		goto out_put;
-> +	}
-> +
-> +	rc = iommufd_access_pin_pages(staccess->access, iova, length, pages,
-> +				      flags & MOCK_FLAGS_ACCESS_WRITE);
-> +	if (rc)
-> +		goto out_free_pages;
-> +
-> +	rc = iommufd_test_check_pages(
-> +		uptr - (iova - ALIGN_DOWN(iova, PAGE_SIZE)), pages, npages);
-> +	if (rc)
-> +		goto out_unaccess;
-> +
-> +	item = kzalloc(sizeof(*item), GFP_KERNEL_ACCOUNT);
-> +	if (!item) {
-> +		rc = -ENOMEM;
-> +		goto out_unaccess;
-> +	}
-> +
-> +	item->iova = iova;
-> +	item->length = length;
-> +	spin_lock(&staccess->lock);
-> +	item->id = staccess->next_id++;
-> +	list_add_tail(&item->items_elm, &staccess->items);
-> +	spin_unlock(&staccess->lock);
-> +
-> +	cmd->access_pages.out_access_item_id = item->id;
-> +	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
-> +	if (rc)
-> +		goto out_free_item;
-> +	goto out_free_pages;
-> +
-> +out_free_item:
-> +	spin_lock(&staccess->lock);
-> +	list_del(&item->items_elm);
-> +	spin_unlock(&staccess->lock);
-> +	kfree(item);
-> +out_unaccess:
-> +	iommufd_access_unpin_pages(staccess->access, iova, length);
-> +out_free_pages:
-> +	kvfree(pages);
+Dynamically created virtual machines can't be known on the dt, so there 
+is nothing to specify in the DT. There couldn't be a devicetree node for 
+the message queue client because that client is only exists once the VM 
+is created by userspace.
 
-Coverity reports a double free here, call trace:
+As a more concrete example, there is QRTR (net/qrtr) virtualization 
+support which is implemented with Gunyah message queues. Whether a QRTR 
+client needs to be for VM is only determined when launching the VM as 
+well as which message queue resource the QRTR client should be using. 
+Since many VMs could be running on a system, it's not possible to know 
+the number of mailbox controllers (i.e. message queues) nor the number 
+of mailbox clients (e.g. QRTR) as a static configuration in the DT.
 
-[jumped from] rc = iommufd_access_pin_pages(..., pages, ...);
-	[in which] iopt_pages_add_access(..., out_pages, ...);
-		[then] iopt_pages_fill_xarray(..., out_pages);
-			[then] iopt_pages_fill_from_mm(..., out_pages);
-				[then] user->upages = out_pages + ...;
-				       pfn_reader_user_pin(user, ...);
-					[then] kfree(user->upages);
-					       return -EFAULT;
-
-Should be the same potential issue in the other email.
+Thanks,
+Elliot
