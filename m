@@ -2,87 +2,250 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C9FFC433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 22:59:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44ABAC43217
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 23:05:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229954AbiKAW7R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 18:59:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57702 "EHLO
+        id S231282AbiKAXF0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 19:05:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230089AbiKAW7M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 18:59:12 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9668266B;
-        Tue,  1 Nov 2022 15:59:10 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9DA07378;
-        Tue,  1 Nov 2022 22:59:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9DA07378
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1667343550; bh=JmKSz1EXF2soYM3nAP/FeBNnUyNfKI5tcZWQF19jA74=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=k5cORtTfPNGBvfEdwmOlSSXT4BXbJwVuoCUSJIF4gKRUdlwCVLgYG5uD4GdwzxelK
-         kCwEbaRpm3DvILrOh73PqC02i1voWETvAc4dBe0f/KaMIysQmaCr5iic11aHNVjQ4D
-         ZFtr3VK3Lv3tK5sX8iONoW4psgCrEcKlDhhHkgh8hUFAkT2oj5hrwrC7E1Bn+4f6Fd
-         XGAQ6od82wnscrimG4HvpGyMQNn5SJBNuBQSUCqJ4YAtHqqyU4lkFCuV4drStRgwQw
-         FrarPloFShPucMN7MEIynFbq/QsF9IrLEF9SKJHlDAQ+mk8t7HT5zgn3JOfWIGYETH
-         mKoiWbTjKaXKA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bilbao@vt.edu, bagasdotme@gmail.com, willy@infradead.org,
-        akiyks@gmail.com, miguel.ojeda.sandonis@gmail.com
-Subject: Re: [PATCH v3 0/2] Documentation: Start Spanish translation and
- include HOWTO
-In-Reply-To: <5fd2092e-2f3e-27c0-66a9-94e02efa1e8d@amd.com>
-References: <20221024145521.69465-1-carlos.bilbao@amd.com>
- <87wn8ext0m.fsf@meer.lwn.net>
- <5fd2092e-2f3e-27c0-66a9-94e02efa1e8d@amd.com>
-Date:   Tue, 01 Nov 2022 16:59:09 -0600
-Message-ID: <87edumxow2.fsf@meer.lwn.net>
+        with ESMTP id S230487AbiKAXFW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 19:05:22 -0400
+Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9E26DF01A;
+        Tue,  1 Nov 2022 16:05:02 -0700 (PDT)
+Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
+        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id C936D4ED6;
+        Wed,  2 Nov 2022 00:05:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
+        s=202205; t=1667343901;
+        bh=sqF6M40mTe+GMCjQFaEsJ1ZjHEHltPKbbHcjSmMmLiQ=;
+        h=Date:From:Cc:Subject:References:In-Reply-To:From;
+        b=M+LDVQoZbugRpd3IJ7349nnHdg1XnBeovSVBRsUGuJKds/1CCK56zXFaPbBluGHPc
+         8OPrWZC0r4y7tkIsZXa7BTGiaGEsLNo1Mn0itPa5PtLPnPn3U6Un/P270AGXwDoHlz
+         MW1ivjN27FAeeM+fUXPwtwkPysSnZVbUnf2AHdoYsp7E6WltF70SxZeGg/ZU8ikiAn
+         BSXDPbRwrWkFDGuYN9Bm0Dy7xZh2T8aOfxqG2244o7O4XgR/pPDkViocfDi3Hm5vvh
+         iHTRjOYqX3MG315jfifJaku+UrJGNChtIRCCy949L+rpVeCX7nY7zic82qbhWAFYYc
+         n8T0yKlhHA/Lf+b9wjPW1sm59p0RElFeLnpPQXDIgN1CCEFEMuU9IdaDRqS0usQ8Ol
+         00mVM4kJxoD0PorJvEaV61VLW8OjSFPm/dyG5CvB2R3Eq7F/+NK4pPlkrGcazxaIuA
+         WsfRgZgOZKs0oqa5XckglMb3nxUijj2N4SNSJ5Te9u7Hchg5y7XOYz0aufwHIBTg47
+         0pnVZqIRN+z+gKJ19xJWyv5QbvmjYYYRU600F1t5WnqHB3oLYAYaEdtncQQAc2SHcr
+         ZDP1WW0wRgx4UpjaABuJKXkr9YDenmFdrXd8NzwSi0LsdawXZ8qc6YdSBno7ciGBxK
+         5LFevY0MwNnnriJBzwg3OTbQ=
+Date:   Wed, 2 Nov 2022 00:05:00 +0100
+From:   Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= 
+        <nabijaczleweli@nabijaczleweli.xyz>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Thomas Sailer <t.sailer@alumni.ethz.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-hams@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH v2 01/15] hamradio: baycom: remove BAYCOM_MAGIC
+Message-ID: <da617ec5a1dd5196c0b4b4a4895caf7838620abf.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
+References: <cover.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="t44h2yodatck72g2"
+Content-Disposition: inline
+In-Reply-To: <cover.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
+User-Agent: NeoMutt/20220429
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Carlos Bilbao <carlos.bilbao@amd.com> writes:
 
-> On 11/1/22 16:30, Jonathan Corbet wrote:
->
->>=20
->>
->> I went to apply this series just now, and got the following from "git
->> am":
->>
->> WARNING: Message contains suspicious unicode control characters!
->>           Subject: [PATCH v3 2/2] Documentation: Add HOWTO Spanish trans=
-lation into rst based build system
->>              Line: +estable m=C3=A1s reciente del kernel, y no est=C3=A1=
-n interesados =E2=80=8B=E2=80=8Ben ayudar a probar
->>              -----------------------------------------------------------=
-----^
->>              Char: ZERO WIDTH SPACE (0x200b)
->>           If you are sure about this, rerun with the right flag to allow.
->>
->> Any idea what the story is there?  Could I get a resend without that
->> problem?
-> Just tried to apply git am and didn't get any warning. Maybe you are using
-> an extra flag? I'm running with git version 2.34.1. Could you try replaci=
-ng
-> the offending char with a space? Hopefully that solves it.
+--t44h2yodatck72g2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm sorry, it was b4 that complained, not git.  To see it happen, try:
+Before being defanged in v2.6.12-rc1, the magic was validated on each
+netdev_priv() invocation; after, it's set exactly once per port on probe
+and checked exactly once per port on unload: it's useless. Kill it.
 
-  b4 am 20221024145521.69465-1-carlos.bilbao@amd.com
+Notably, magic-number.rst has never had the right value for it with the
+new-in-Linux-2.1.105 network-based driver, rendering this documentation
+worse than useless.
 
-There were, in fact, two zero-width spaces in there, and two more in
-Junio Hamano's name.  I've taken them all out, and learned all about
-searching for weird characters in Emacs as a side benefit :)
+Link: https://lore.kernel.org/linux-doc/YyMlovoskUcHLEb7@kroah.com/
+Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
+---
+ Documentation/process/magic-number.rst            |  1 -
+ .../translations/it_IT/process/magic-number.rst   |  1 -
+ .../translations/zh_CN/process/magic-number.rst   |  1 -
+ .../translations/zh_TW/process/magic-number.rst   |  1 -
+ drivers/net/hamradio/baycom_epp.c                 | 15 ++-------------
+ 5 files changed, 2 insertions(+), 17 deletions(-)
 
-Series is now applied, thanks.
+diff --git a/Documentation/process/magic-number.rst b/Documentation/process=
+/magic-number.rst
+index 64b5948fc1d4..87353e0207c1 100644
+--- a/Documentation/process/magic-number.rst
++++ b/Documentation/process/magic-number.rst
+@@ -73,7 +73,6 @@ APM_BIOS_MAGIC        0x4101           apm_user          =
+       ``arch/x86/kerne
+ FASYNC_MAGIC          0x4601           fasync_struct            ``include/=
+linux/fs.h``
+ SLIP_MAGIC            0x5302           slip                     ``drivers/=
+net/slip.h``
+ MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
+char/pcmcia/synclink_cs.c``
+-BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
+net/baycom_epp.c``
+ HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
+linux/hdlcdrv.h``
+ KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
+s/include/asm/sn/klkernvars.h``
+ CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+coda_fs_i.h``
+diff --git a/Documentation/translations/it_IT/process/magic-number.rst b/Do=
+cumentation/translations/it_IT/process/magic-number.rst
+index 02eb7eb2448e..a96712bd8a68 100644
+--- a/Documentation/translations/it_IT/process/magic-number.rst
++++ b/Documentation/translations/it_IT/process/magic-number.rst
+@@ -79,7 +79,6 @@ APM_BIOS_MAGIC        0x4101           apm_user          =
+       ``arch/x86/kerne
+ FASYNC_MAGIC          0x4601           fasync_struct            ``include/=
+linux/fs.h``
+ SLIP_MAGIC            0x5302           slip                     ``drivers/=
+net/slip.h``
+ MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
+char/pcmcia/synclink_cs.c``
+-BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
+net/baycom_epp.c``
+ HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
+linux/hdlcdrv.h``
+ KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
+s/include/asm/sn/klkernvars.h``
+ CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+coda_fs_i.h``
+diff --git a/Documentation/translations/zh_CN/process/magic-number.rst b/Do=
+cumentation/translations/zh_CN/process/magic-number.rst
+index 0617ce125e12..44f3a29fce57 100644
+--- a/Documentation/translations/zh_CN/process/magic-number.rst
++++ b/Documentation/translations/zh_CN/process/magic-number.rst
+@@ -62,7 +62,6 @@ APM_BIOS_MAGIC        0x4101           apm_user          =
+       ``arch/x86/kerne
+ FASYNC_MAGIC          0x4601           fasync_struct            ``include/=
+linux/fs.h``
+ SLIP_MAGIC            0x5302           slip                     ``drivers/=
+net/slip.h``
+ MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
+char/pcmcia/synclink_cs.c``
+-BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
+net/baycom_epp.c``
+ HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
+linux/hdlcdrv.h``
+ KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
+s/include/asm/sn/klkernvars.h``
+ CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+coda_fs_i.h``
+diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Do=
+cumentation/translations/zh_TW/process/magic-number.rst
+index f3f7082e17c6..0fde3183e82a 100644
+--- a/Documentation/translations/zh_TW/process/magic-number.rst
++++ b/Documentation/translations/zh_TW/process/magic-number.rst
+@@ -65,7 +65,6 @@ APM_BIOS_MAGIC        0x4101           apm_user          =
+       ``arch/x86/kerne
+ FASYNC_MAGIC          0x4601           fasync_struct            ``include/=
+linux/fs.h``
+ SLIP_MAGIC            0x5302           slip                     ``drivers/=
+net/slip.h``
+ MGSLPC_MAGIC          0x5402           mgslpc_info              ``drivers/=
+char/pcmcia/synclink_cs.c``
+-BAYCOM_MAGIC          0x19730510       baycom_state             ``drivers/=
+net/baycom_epp.c``
+ HDLCDRV_MAGIC         0x5ac6e778       hdlcdrv_state            ``include/=
+linux/hdlcdrv.h``
+ KV_MAGIC              0x5f4b565f       kernel_vars_s            ``arch/mip=
+s/include/asm/sn/klkernvars.h``
+ CODA_MAGIC            0xC0DAC0DA       coda_file_info           ``fs/coda/=
+coda_fs_i.h``
+diff --git a/drivers/net/hamradio/baycom_epp.c b/drivers/net/hamradio/bayco=
+m_epp.c
+index 791b4a53d69f..8f018703e74d 100644
+--- a/drivers/net/hamradio/baycom_epp.c
++++ b/drivers/net/hamradio/baycom_epp.c
+@@ -45,13 +45,9 @@
+ /* --------------------------------------------------------------------- */
+=20
+ #define BAYCOM_DEBUG
+-#define BAYCOM_MAGIC 19730510
+=20
+ /* --------------------------------------------------------------------- */
+=20
+-static const char paranoia_str[] =3D KERN_ERR=20
+-	"baycom_epp: bad magic number for hdlcdrv_state struct in routine %s\n";
+-
+ static const char bc_drvname[] =3D "baycom_epp";
+ static const char bc_drvinfo[] =3D KERN_INFO "baycom_epp: (C) 1998-2000 Th=
+omas Sailer, HB9JNX/AE4WA\n"
+ "baycom_epp: version 0.7\n";
+@@ -152,8 +148,6 @@ static struct net_device *baycom_device[NR_PORTS];
+  */
+=20
+ struct baycom_state {
+-	int magic;
+-
+         struct pardevice *pdev;
+ 	struct net_device *dev;
+ 	unsigned int work_running;
+@@ -1210,7 +1204,6 @@ static void __init baycom_epp_dev_setup(struct net_de=
+vice *dev)
+ 	 * initialize part of the baycom_state struct
+ 	 */
+ 	bc->dev =3D dev;
+-	bc->magic =3D BAYCOM_MAGIC;
+ 	bc->cfg.fclk =3D 19666600;
+ 	bc->cfg.bps =3D 9600;
+ 	/*
+@@ -1279,12 +1272,8 @@ static void __exit cleanup_baycomepp(void)
+ 		struct net_device *dev =3D baycom_device[i];
+=20
+ 		if (dev) {
+-			struct baycom_state *bc =3D netdev_priv(dev);
+-			if (bc->magic =3D=3D BAYCOM_MAGIC) {
+-				unregister_netdev(dev);
+-				free_netdev(dev);
+-			} else
+-				printk(paranoia_str, "cleanup_module");
++			unregister_netdev(dev);
++			free_netdev(dev);
+ 		}
+ 	}
+ 	parport_unregister_driver(&baycom_epp_par_driver);
+--=20
+2.30.2
 
-jon
+--t44h2yodatck72g2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmNhphwACgkQvP0LAY0m
+WPFuZxAAmkj8gNjxpP3uoVgEhHtMntYALIuqjzxQtp+RQRkc33KqHK88+As+DPTb
+swGGUu3N2XjfDEPgFk7iRlDNPUsb0wcATFrzrZggucsoQ0hUzn3ZCm3nsGAdaWtG
+zCdJP1iREYtLaqdNfArXkxKIoOowy9QsX+obDwy+KzZtd1rVsXygl17r1m/iSHWZ
+wos2iAObCsCipRj09e4u/rka7CKgGgtmYpkHlpHNvNBjwF1RJZG/8/k6czXBJ54q
+MKN8c8MJwvsYUtUbuZVUKcatU6SoFh1iGJTdcr4K5HWB7KOyfcURUlBa34GsDlMH
+sYqWHQLCN93jG+/6luPoPYWmPGo9owfwGgiAjrMLl3frG1jAEzRrvnEqiOrZnnCM
+tpkWIezJ5okdNMrJFk6mNzMDtGPyPTDXtcXXHx6tW0gUKgjLC+ofPVvuG24F1Lwf
+PyiuOA0X03sFKzMyLQpeYn4lmmhgbPaGvZ51yzzC3zjsPT0TWX8h3N8eh9sLI/qF
+DOGOejfCNirHh1AfoC69O1LalZDcbQenzEGWQERXexYyD9WkfznkS8tMrSeAJzdI
+Gr4h/ExENY8duTnACEK4bqxpL7RM5h9989e7cho1MfhLDWxv1Mj2/5ouDPfnGnpJ
+uoOkpuVJnsSaHBSHVlnY5Lq8s6OQpWSvzXugiJSH7xJ6ojx9LJ4=
+=Z7wJ
+-----END PGP SIGNATURE-----
+
+--t44h2yodatck72g2--
