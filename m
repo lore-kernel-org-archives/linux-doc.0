@@ -2,281 +2,293 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A02AC4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 17:39:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E026C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 17:45:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231160AbiKARjd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 13:39:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40084 "EHLO
+        id S230039AbiKARpY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 13:45:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230427AbiKARjc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 13:39:32 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB4FA1C134;
-        Tue,  1 Nov 2022 10:39:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667324371; x=1698860371;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=0ZjrCQV2szkIBsohUgRabaLNp5KW45ts5vZMFlnCfUc=;
-  b=K29vJq3c3/CQJEDpbBstFYfUra7dxK2QB988bwQprxyNnhoN/cOSlMKS
-   e8AysJqkmJ5Kmts3M3IRaLA9IovpFGq9C76xq3Nea2kz4ul+eTTxM7/pT
-   x897gJclVuDsatuj+/DcV0flWlsQRmmfmL/NNV34qyJG5Ca2Io7VmA7sh
-   Wj3mvaOfnvKjqA3ajsU+idvEUJ7BoF+B1OMJUVOIrdpKU1CR/yH1GDU4U
-   g9kW0C3d3Zo4aVLItsT2UeFXLsnnCKzhIeg8wMOprf06YfhZHoI5Wh3ZI
-   jEqnZFELM92g6cZgoxIIHr7PlPkyf0MpS/rxI0JDLuzqLae2KfkAxW+lU
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="371281095"
-X-IronPort-AV: E=Sophos;i="5.95,231,1661842800"; 
-   d="scan'208";a="371281095"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 10:39:31 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="585085265"
-X-IronPort-AV: E=Sophos;i="5.95,231,1661842800"; 
-   d="scan'208";a="585085265"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 10:39:31 -0700
-Date:   Tue, 1 Nov 2022 10:39:47 -0700 (PDT)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-cc:     Xu Yilun <yilun.xu@intel.com>, hao.wu@intel.com,
-        Russ Weight <russell.h.weight@intel.com>,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        linux-serial <linux-serial@vger.kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>, geert+renesas@glider.be,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, Lukas Wunner <lukas@wunner.de>,
-        marpagan@redhat.com
-Subject: Re: [PATCH v4 4/4] tty: serial: 8250: add DFL bus driver for Altera
- 16550.
-In-Reply-To: <1a812bba-6832-36cc-dfed-7d7ddd8f421c@linux.intel.com>
-Message-ID: <alpine.DEB.2.22.394.2211011037420.2746019@rhweight-WRK1>
-References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com> <20221020212610.697729-5-matthew.gerlach@linux.intel.com> <Y11FmiDeVhGir+7z@yilunxu-OptiPlex-7050> <alpine.DEB.2.22.394.2210311719460.2680729@rhweight-WRK1> <Y2B6kAnd+m3ftWRf@yilunxu-OptiPlex-7050>
- <alpine.DEB.2.22.394.2211010843110.2746019@rhweight-WRK1> <1a812bba-6832-36cc-dfed-7d7ddd8f421c@linux.intel.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S229562AbiKARpX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 13:45:23 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CC261CB04;
+        Tue,  1 Nov 2022 10:45:20 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A1HWEEo001851;
+        Tue, 1 Nov 2022 17:45:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=yRmx4djPcDbd4WB9oKDdIBwYg0RTQ87iKdGWmMMWJSg=;
+ b=gqTnat0FqBxzZFAbgvEFGf1i3VhPBWqTTwjfKKW02D3e/CfgnY9oFygWK7jXMbeqQXTE
+ TRefiIzjTOrJtxI/9jUoNebOir3IQ6CdukMvPgqCPBfiUXKXFw+7veTsFfKfG4bELyBl
+ F0M2Q16PmGlxSZhP/pgFUirHltaPgvEXBC43EsTVkfSmzZMFdzudgvzN3xf1qW1wRHPl
+ sDgqCHvhLThnqEWrFmzK1uavRzLR+5yFcXgH6+7TOUdafj4nEGhKRTavxfQwLSGwFB5Q
+ 4E9WZSR8j257VvhmSVf0WlcJqDnKpp6fZHe/9NZuYgEfsotNAi2G3WUnIsEBIWaJq/8B zg== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kk7xp819s-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 01 Nov 2022 17:45:02 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A1Hj1xl013060
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 1 Nov 2022 17:45:01 GMT
+Received: from [10.134.65.5] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 1 Nov 2022
+ 10:45:00 -0700
+Message-ID: <cc9f6d43-0655-482e-384d-e75230e951cf@quicinc.com>
+Date:   Tue, 1 Nov 2022 10:44:59 -0700
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-195426309-1667324388=:2746019"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v6 09/21] mailbox: Add Gunyah message queue mailbox
+Content-Language: en-US
+To:     Pavan Kondeti <quic_pkondeti@quicinc.com>
+CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Will Deacon" <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
+ <20221026185846.3983888-10-quic_eberman@quicinc.com>
+ <20221027135510.GA29032@hu-pkondeti-hyd.qualcomm.com>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <20221027135510.GA29032@hu-pkondeti-hyd.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: EHivaGWcRaFEzMH7s9WypfDwZzoI3CQe
+X-Proofpoint-ORIG-GUID: EHivaGWcRaFEzMH7s9WypfDwZzoI3CQe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-01_08,2022-11-01_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=555
+ mlxscore=0 malwarescore=0 suspectscore=0 spamscore=0 impostorscore=0
+ bulkscore=0 phishscore=0 clxscore=1015 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211010130
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323328-195426309-1667324388=:2746019
-Content-Type: text/plain; charset=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 8BIT
+On 10/27/2022 6:55 AM, Pavan Kondeti wrote:
+> Hi Elliot,
+> 
+> On Wed, Oct 26, 2022 at 11:58:34AM -0700, Elliot Berman wrote:
+>> Gunyah message queues are a unidirectional inter-VM pipe for messages up
+>> to 1024 bytes. This driver supports pairing a receiver message queue and
+>> a transmitter message queue to expose a single mailbox channel.
+>>
+>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> 
+> <snip>
+> 
+>> +static irqreturn_t gh_msgq_tx_irq_handler(int irq, void *data)
+>> +{
+>> +	struct gh_msgq *msgq = data;
+>> +
+>> +	mbox_chan_txdone(gh_msgq_chan(msgq), 0);
+>> +
+>> +	return IRQ_HANDLED;
+>> +}
+>> +
+>> +static void gh_msgq_txdone_tasklet(unsigned long data)
+>> +{
+>> +	struct gh_msgq *msgq = (struct gh_msgq *)data;
+>> +
+>> +	mbox_chan_txdone(gh_msgq_chan(msgq), msgq->last_status);
+>> +}
+>> +
+>> +static int gh_msgq_send_data(struct mbox_chan *chan, void *data)
+>> +{
+>> +	struct gh_msgq *msgq = mbox_chan_to_msgq(chan);
+>> +	struct gh_msgq_tx_data *msgq_data = data;
+>> +	u64 tx_flags = 0;
+>> +	unsigned long ret;
+>> +	bool ready;
+>> +
+>> +	if (msgq_data->push)
+>> +		tx_flags |= GH_HYPERCALL_MSGQ_TX_FLAGS_PUSH;
+>> +
+>> +	ret = gh_hypercall_msgq_send(msgq->tx_ghrsc->capid, msgq_data->length,
+>> +					(uintptr_t)msgq_data->data, tx_flags, &ready);
+>> +
+>> +	/**
+>> +	 * unlikely because Linux tracks state of msgq and should not try to
+>> +	 * send message when msgq is full.
+>> +	 */
+>> +	if (unlikely(ret == GH_ERROR_MSGQUEUE_FULL))
+>> +		return -EAGAIN;
+>> +
+>> +	/**
+>> +	 * Propagate all other errors to client. If we return error to mailbox
+>> +	 * framework, then no other messages can be sent and nobody will know
+>> +	 * to retry this message.
+>> +	 */
+>> +	msgq->last_status = gh_remap_error(ret);
+>> +
+>> +	/**
+>> +	 * This message was successfully sent, but message queue isn't ready to
+>> +	 * receive more messages because it's now full. Mailbox framework
+>> +	 * requires that we only report that message was transmitted only when
+>> +	 * we're ready to transmit another message. We'll get that in the form
+>> +	 * of tx IRQ once the other side starts to drain the msgq.
+>> +	 */
+>> +	if (ret == GH_ERROR_OK && !ready)
+>> +		return 0;
+>> +
+>> +	/**
+>> +	 * We can send more messages. Mailbox framework requires that tx done
+>> +	 * happens asynchronously to sending the message. Gunyah message queues
+>> +	 * tell us right away on the hypercall return whether we can send more
+>> +	 * messages. To work around this, defer the txdone to a tasklet.
+>> +	 */
+>> +	tasklet_schedule(&msgq->txdone_tasklet);
+>> +
+> 
+> Nice comments.
+> 
+> irq_work would be a better choice.
+> 
+>> +	return 0;
+>> +}
+>> +
+>> +struct mbox_chan_ops gh_msgq_ops = {
+>> +	.send_data = gh_msgq_send_data,
+>> +};
+>> +
+>> +/**
+>> + * gh_msgq_init() - Initialize a Gunyah message queue with an mbox_client
+>> + * @parent: optional, device parent used for the mailbox controller
+>> + * @msgq: Pointer to the gh_msgq to initialize
+>> + * @cl: A mailbox client to bind to the mailbox channel that the message queue creates
+>> + * @tx_ghrsc: optional, the transmission side of the message queue
+>> + * @rx_ghrsc: optional, the receiving side of the message queue
+>> + *
+>> + * At least one of tx_ghrsc and rx_ghrsc should be not NULL. Most message queue use cases come with
+>> + * a pair of message queues to facilitiate bidirectional communication. When tx_ghrsc is set,
+>> + * the client can send messages with mbox_send_message(gh_msgq_chan(msgq), msg). When rx_ghrsc
+>> + * is set, the mbox_client should register an .rx_callback() and the message queue driver will
+>> + * push all available messages upon receiving the RX ready interrupt. The messages should be
+>> + * consumed or copied by the client right away as the gh_msgq_rx_data will be replaced/destroyed
+>> + * after the callback.
+>> + *
+>> + * Returns - 0 on success, negative otherwise
+>> + */
+>> +int gh_msgq_init(struct device *parent, struct gh_msgq *msgq, struct mbox_client *cl,
+>> +		     struct gunyah_resource *tx_ghrsc, struct gunyah_resource *rx_ghrsc)
+>> +{
+>> +	int ret;
+>> +
+>> +	/* Must have at least a tx_ghrsc or rx_ghrsc and that they are the right device types */
+>> +	if ((!tx_ghrsc && !rx_ghrsc) ||
+>> +	    (tx_ghrsc && tx_ghrsc->type != GUNYAH_RESOURCE_TYPE_MSGQ_TX) ||
+>> +	    (rx_ghrsc && rx_ghrsc->type != GUNYAH_RESOURCE_TYPE_MSGQ_RX))
+>> +		return -EINVAL;
+>> +
+>> +	msgq->tx_ghrsc = tx_ghrsc;
+>> +	msgq->rx_ghrsc = rx_ghrsc;
+>> +
+>> +	msgq->mbox.dev = parent;
+>> +	msgq->mbox.ops = &gh_msgq_ops;
+>> +	msgq->mbox.chans = kcalloc(1, sizeof(*msgq->mbox.chans), GFP_KERNEL);
+> 
+> Error handling missing.
+> 
+> minor nit pick:
+> 
+> If you initialize num_chans to 1 before, then you can use that as the first
+> argument to kcalloc() which makes it more readable since you opted for kcalloc()
+> instead of kzalloc() there.
+> 
+>> +	msgq->mbox.num_chans = 1;
+>> +	msgq->mbox.txdone_irq = true;
+>> +
+>> +	if (gh_msgq_has_tx(msgq)) {
+>> +		ret = request_irq(msgq->tx_ghrsc->irq, gh_msgq_tx_irq_handler, 0, "gh_msgq_tx",
+>> +				msgq);
+>> +		if (ret)
+>> +			goto err_chans;
+>> +	}
+>> +
+>> +	if (gh_msgq_has_rx(msgq)) {
+>> +		ret = request_threaded_irq(msgq->rx_ghrsc->irq, NULL, gh_msgq_rx_irq_handler,
+>> +						IRQF_ONESHOT, "gh_msgq_rx", msgq);
+>> +		if (ret)
+>> +			goto err_tx_irq;
+>> +	}
+>> +
+>> +	tasklet_init(&msgq->txdone_tasklet, gh_msgq_txdone_tasklet, (unsigned long)msgq);
+> 
+> If you wish to use tasklets, use tasklet_setup().
+> 
+>> +
+>> +	ret = mbox_controller_register(&msgq->mbox);
+>> +	if (ret)
+>> +		goto err_rx_irq;
+>> +
+>> +	ret = mbox_bind_client(gh_msgq_chan(msgq), cl);
+>> +	if (ret)
+>> +		goto err_mbox;
+>> +
+>> +	return 0;
+>> +err_mbox:
+>> +	mbox_controller_unregister(&msgq->mbox);
+>> +err_rx_irq:
+>> +	if (gh_msgq_has_rx(msgq))
+>> +		free_irq(msgq->rx_ghrsc->irq, msgq);
+>> +err_tx_irq:
+>> +	if (gh_msgq_has_tx(msgq))
+>> +		free_irq(msgq->tx_ghrsc->irq, msgq);
+>> +err_chans:
+>> +	kfree(msgq->mbox.chans);
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL_GPL(gh_msgq_init);
+>> +
+>> +void gh_msgq_remove(struct gh_msgq *msgq)
+>> +{
+>> +	if (gh_msgq_has_rx(msgq))
+>> +		free_irq(msgq->rx_ghrsc->irq, msgq);
+>> +
+>> +	if (gh_msgq_has_tx(msgq))
+>> +		free_irq(msgq->tx_ghrsc->irq, msgq);
+>> +
+>> +	kfree(msgq->mbox.chans);
+>> +}
+>> +EXPORT_SYMBOL_GPL(gh_msgq_remove);
+>> +
+> 
+> Is gh_msgq_remove() supposed to undo every thing done in gh_msgq_init()?
+> ex: mbox controller and channel are not unregistered.
+> 
 
-
-
-On Tue, 1 Nov 2022, Ilpo Järvinen wrote:
-
-> On Tue, 1 Nov 2022, matthew.gerlach@linux.intel.com wrote:
->
->>
->>
->> On Tue, 1 Nov 2022, Xu Yilun wrote:
->>
->>> On 2022-10-31 at 17:34:39 -0700, matthew.gerlach@linux.intel.com wrote:
->>>>
->>>>
->>>> On Sat, 29 Oct 2022, Xu Yilun wrote:
->>>>
->>>>> On 2022-10-20 at 14:26:10 -0700, matthew.gerlach@linux.intel.com wrote:
->>>>>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>>>>>
->>>>>> Add a Device Feature List (DFL) bus driver for the Altera
->>>>>> 16550 implementation of UART.
->>>>>>
->>>>>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>>>>> ---
->>>>>> v4: use dev_err_probe() everywhere that is appropriate
->>>>>>     clean up noise
->>>>>>     change error messages to use the word, unsupported
->>>>>>     tried again to sort Makefile and KConfig better
->>>>>>     reorder probe function for easier error handling
->>>>>>     use new dfh_find_param API
->>>>>>
->>>>>> v3: use passed in location of registers
->>>>>>     use cleaned up functions for parsing parameters
->>>>>>
->>>>>> v2: clean up error messages
->>>>>>     alphabetize header files
->>>>>>     fix 'missing prototype' error by making function static
->>>>>>     tried to sort Makefile and Kconfig better
->>>>>> ---
->>>>>>  drivers/tty/serial/8250/8250_dfl.c | 149
->>>>>> +++++++++++++++++++++++++++++
->>>>>>  drivers/tty/serial/8250/Kconfig    |  12 +++
->>>>>>  drivers/tty/serial/8250/Makefile   |   1 +
->>>>>>  3 files changed, 162 insertions(+)
->>>>>>  create mode 100644 drivers/tty/serial/8250/8250_dfl.c
->>>>>>
->>>>>> diff --git a/drivers/tty/serial/8250/8250_dfl.c
->>>>>> b/drivers/tty/serial/8250/8250_dfl.c
->>>>>> new file mode 100644
->>>>>> index 000000000000..f02f0ba2a565
->>>>>> --- /dev/null
->>>>>> +++ b/drivers/tty/serial/8250/8250_dfl.c
->>>>>> @@ -0,0 +1,149 @@
->>>>>> +// SPDX-License-Identifier: GPL-2.0
->>>>>> +/*
->>>>>> + * Driver for FPGA UART
->>>>>> + *
->>>>>> + * Copyright (C) 2022 Intel Corporation, Inc.
->>>>>> + *
->>>>>> + * Authors:
->>>>>> + *   Ananda Ravuri <ananda.ravuri@intel.com>
->>>>>> + *   Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>>>>> + */
->>>>>> +
->>>>>> +#include <linux/bitfield.h>
->>>>>> +#include <linux/dfl.h>
->>>>>> +#include <linux/io-64-nonatomic-lo-hi.h>
->>>>>> +#include <linux/kernel.h>
->>>>>> +#include <linux/module.h>
->>>>>> +#include <linux/serial.h>
->>>>>> +#include <linux/serial_8250.h>
->>>>>> +
->>>>>> +struct dfl_uart {
->>>>>> +	int line;
->>>>>> +};
->>>>>> +
->>>>>> +static int dfl_uart_get_params(struct dfl_device *dfl_dev, struct
->>>>>> uart_8250_port *uart)
->>>>>> +{
->>>>>> +	struct device *dev = &dfl_dev->dev;
->>>>>> +	u64 v, fifo_len, reg_width;
->>>>>> +	u64 *p;
->>>>>> +
->>>>>> +	p = dfh_find_param(dfl_dev, DFHv1_PARAM_ID_CLK_FRQ);
->>>>>> +	if (!p)
->>>>>> +		return dev_err_probe(dev, -EINVAL, "missing CLK_FRQ
->>>>>> param\n");
->>>>>> +
->>>>>> +	uart->port.uartclk = *p;
->>>>>> +	dev_dbg(dev, "UART_CLK_ID %u Hz\n", uart->port.uartclk);
->>>>>> +
->>>>>> +	p = dfh_find_param(dfl_dev, DFHv1_PARAM_ID_FIFO_LEN);
->>>>>> +	if (!p)
->>>>>> +		return dev_err_probe(dev, -EINVAL, "missing FIFO_LEN
->>>>>> param\n");
->>>>>> +
->>>>>> +	fifo_len = *p;
->>>>>> +	dev_dbg(dev, "UART_FIFO_ID fifo_len %llu\n", fifo_len);
->>>>>> +
->>>>>> +	switch (fifo_len) {
->>>>>> +	case 32:
->>>>>> +		uart->port.type = PORT_ALTR_16550_F32;
->>>>>> +		break;
->>>>>> +
->>>>>> +	case 64:
->>>>>> +		uart->port.type = PORT_ALTR_16550_F64;
->>>>>> +		break;
->>>>>> +
->>>>>> +	case 128:
->>>>>> +		uart->port.type = PORT_ALTR_16550_F128;
->>>>>> +		break;
->>>>>> +
->>>>>> +	default:
->>>>>> +		return dev_err_probe(dev, -EINVAL, "unsupported
->>>>>> fifo_len %llu\n", fifo_len);
->>>>>> +	}
->>>>>> +
->>>>>> +	p = dfh_find_param(dfl_dev, DFHv1_PARAM_ID_REG_LAYOUT);
->>>>>> +	if (!p)
->>>>>> +		return dev_err_probe(dev, -EINVAL, "missing REG_LAYOUT
->>>>>> param\n");
->>>>>> +
->>>>>> +	v = *p;
->>>>>> +	uart->port.regshift = FIELD_GET(DFHv1_PARAM_ID_REG_SHIFT, v);
->>>>>> +	reg_width = FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v);
->>>>>
->>>>> I have concern that the raw layout inside the parameter block is
->>>>> still exposed to drivers and need to be parsed by each driver.
->>>>
->>>> Raw parameter block will always have to be passed to the driver because HW
->>>> specific properties can be defined that will need to be parsed by the
->>>> specific driver.
->>>
->>> So there is a question about the scope of the definitions of these parameter
->>> blocks. MSIX seems globally used across all dfl devices. REG_LAYOUT
->>> seems specific to uart?
->>
->> There are definitely two classes of parameter blocks.  One class is HW
->> agnostic parameters where the parameters are relevant to many different kinds
->> of HW components.  MSI-X, and input clock-frequency are certainly HW agnostic,
->> and it turns out that REG_LAYOUT is not specific to uart.  You can see
->> reg_bits and reg_stride in struct regmap_config.  There are also device tree
->> bindings for reg-shift and reg-io-width.  The second class of parameters would
->> be specific to HW component.  In the case of this uart driver, all parameters
->> would be considered HW agnostic parameters.
->>
->>>
->>> If a parameter block is widely used in dfl drivers, duplicate the parsing
->>> from HW layout in each driver may not be a good idea. While for device
->>> specific parameter block, it's OK.
->>
->> It sounds like we are in agreement.
->>
->>>
->>> Another concern is the indexing of the parameter IDs. If some parameter
->>> blocks should be device specific, then no need to have globally indexed
->>> parameter IDs. Index them locally in device is OK. So put the definitions
->>> of ID values, HW layout and their parsing operation in each driver.
->>
->> It may be confusing for two drivers to use the same parameter id that have
->> different meanings and data layout.  Since all the parameters for this driver
->> would be considered HW agnostic, we'd don't need to address this issue with
->> this patchset.
->>
->>>>> How about we define HW agnostic IDs for parameter specific fields like:
->>>>>
->>>>> PARAM_ID		FIELD_ID
->>>>> ================================
->>>>> MSIX			STARTV
->>>>> 			NUMV
->>>>> --------------------------------
->>>>> CLK			FREQ
->>>>> --------------------------------
->>>>> FIFO			LEN
->>>>> --------------------------------
->>>>> REG_LAYOUT		WIDTH
->>>>> 			SHIFT
->>>>>
->>>>> And define like u64 dfl_find_param(struct dfl_device *, int param_id,
->>>>> int field_id)
->>>>
->>>> I don't think dfl_find_param as defined above adds much value.
->>>>
->>>>>
->>>>> Think further, if we have to define HW agnostic property - value pairs,
->>>>> why don't we just use "Software nodes for the firmware node", see
->>>>> drivers/base/swnode.c. I think this may be a better choice.
->>>>
->>>> I am looking into "Software nodes for the firmware node", and it can be
->>>> used
->>>> for HW agnostic properties.  Each dfl driver will still have to make a
->>>> function call to fetch each HW agnostice property value as well as a
->>>> function call to find the HW specific parameters and then parse those
->>>> parameters.
->
-> Btw, another aspect this discussion has completely overlooked is the
-> presence of parameter version and how it impacts data layout. Is v1
-> always going be a subset of v2 or can a later version remove something
-> v1 had?
-
-In general it would be preferable for v1 to be a subset of v2.  This 
-allows for v1 SW to work on v2 HW.
-
->
-> -- 
-> i.
->
---8323328-195426309-1667324388=:2746019--
+Ah thanks for catching, updated this as well as rest of your comments.
