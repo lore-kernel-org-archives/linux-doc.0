@@ -2,126 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82AA6C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 22:38:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F59C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 22:42:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231329AbiKAWi2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 18:38:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44106 "EHLO
+        id S229850AbiKAWmg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 18:42:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231433AbiKAWiK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 18:38:10 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57FE81EC5A;
-        Tue,  1 Nov 2022 15:37:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667342250; x=1698878250;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=TSOGjnjupfOrdH3obGXGgrrinoXppjy4+FuK31YZweg=;
-  b=G8pMiDlSYIRGCEJRmldyxYiv3IK3CuffNiKpBT0LCbD68fQ0FBU6teTQ
-   fJ/SBV3+Z6n1QLI2qvnx4pa4ZZ3iP51939QGJ11tGFwc1R/xhxI2qGuCp
-   moSaQDVhUoIRPgivxi0Jv3n2Ot2fbLDV6cPqCUZbRBY+JWEgc1KgcsU1v
-   6SOKGcd4sJ9Z7EaT7/xwULIVHG1Hzbm+OFCtus0Yb3Y0H1mYzqhljbW5p
-   p6nikBvfd9nprCpibvVtSScsj1HFOuKUg11tcUW8tnerzJmlIuhvbNZID
-   zitarmXJgP7vBNhNqGef9EXCcrmTvS4mQEkn4JO3JOftOvL+IVfqLFgmn
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="310360135"
-X-IronPort-AV: E=Sophos;i="5.95,232,1661842800"; 
-   d="scan'208";a="310360135"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 15:37:28 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="723320146"
-X-IronPort-AV: E=Sophos;i="5.95,232,1661842800"; 
-   d="scan'208";a="723320146"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 15:37:27 -0700
-Date:   Tue, 1 Nov 2022 15:37:19 -0700 (PDT)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Xu Yilun <yilun.xu@intel.com>
-cc:     hao.wu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net, jirislaby@kernel.org,
-        geert+renesas@glider.be, andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
-        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
-        marpagan@redhat.com
-Subject: Re: [PATCH v4 3/4] fpga: dfl: add basic support DFHv1
-In-Reply-To: <alpine.DEB.2.22.394.2210290739540.2504975@rhweight-WRK1>
-Message-ID: <alpine.DEB.2.22.394.2211011520290.2767909@rhweight-WRK1>
-References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com> <20221020212610.697729-4-matthew.gerlach@linux.intel.com> <Y10l3NkIn0gsdVZq@yilunxu-OptiPlex-7050> <alpine.DEB.2.22.394.2210290739540.2504975@rhweight-WRK1>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S229717AbiKAWmf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 18:42:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6C471CB3F;
+        Tue,  1 Nov 2022 15:42:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 424A76175D;
+        Tue,  1 Nov 2022 22:42:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81BCFC433D6;
+        Tue,  1 Nov 2022 22:42:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667342552;
+        bh=caDhOOkdw7z53f05vO/AU3UZzOHNogK6zUKVe9TIHWo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b9+ZoH3rLB8ompGkwnmJ258fNTx3GkBSrxm4TRaZiVujXyHZYKJTG3IkOxWWgupWl
+         WyWRgjMppktx+/G534Zl1GAkatKvTYUG873rFYn6tYI4tUcCbP8gfZVwR8Bdv4LocT
+         dYnWGX9lvznYciDJ1Lq2pCe9rx/5UbFByJ263pDGMvYJWeV28nqm09c1ilavf8aYFT
+         lFD1wzhYZ573nP+/1354yh0+hHrhQpcgZSTASXK8TLmtmAthYJsE3czeepGj2kVAnf
+         zT3YQ5fnMNKH00QFoNhHi4InCjmWyqv1nlL5e64Z0SlFdRIhO6uXV6ULtOSGjbVQX8
+         0uLtNFA5ph1RQ==
+Received: by pali.im (Postfix)
+        id 175207F8; Tue,  1 Nov 2022 23:42:30 +0100 (CET)
+Date:   Tue, 1 Nov 2022 23:42:30 +0100
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: arm: marvell: Add Orion codenames and
+ archive homepage
+Message-ID: <20221101224230.wbd37f7zbaueevkn@pali>
+References: <20220719080807.16729-1-pali@kernel.org>
+ <20220817231208.42emdluzead2hweg@pali>
+ <20220923224346.tgws4gxd5daoz2rm@pali>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220923224346.tgws4gxd5daoz2rm@pali>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Saturday 24 September 2022 00:43:46 Pali Rohár wrote:
+> On Thursday 18 August 2022 01:12:08 Pali Rohár wrote:
+> > On Tuesday 19 July 2022 10:08:07 Pali Rohár wrote:
+> > > Orion codenames are extracted from menuconfig ARCH_ORION5X and
+> > > old Orion homepage with 88F5182/88F5281 was found in web archive.
+> > > 
+> > > Signed-off-by: Pali Rohár <pali@kernel.org>
+> > 
+> > PING?
+> 
+> PING?
 
+PING?
 
-On Sat, 29 Oct 2022, matthew.gerlach@linux.intel.com wrote:
-
->
->>
->>>  	if (!finfo)
->>>  		return -ENOMEM;
->>> 
->>> +	if (dfh_psize > 0) {
->>> +		memcpy_fromio(finfo->params,
->>> +			      binfo->ioaddr + ofst + DFHv1_PARAM_HDR, 
->>> dfh_psize);
->>> +		finfo->param_size = dfh_psize;
->>> +	}
->>> +
->>>  	finfo->fid = fid;
->>>  	finfo->revision = revision;
->>> -	finfo->mmio_res.start = binfo->start + ofst;
->>> -	finfo->mmio_res.end = finfo->mmio_res.start + size - 1;
->>> +	finfo->dfh_version = dfh_ver;
->>>  	finfo->mmio_res.flags = IORESOURCE_MEM;
->>> -	finfo->irq_base = irq_base;
->>> -	finfo->nr_irqs = nr_irqs;
->>> +	if (dfh_ver == 1) {
->>> +		v = readq(binfo->ioaddr + ofst + DFHv1_CSR_ADDR);
->>> +		if (v & DFHv1_CSR_ADDR_REL)
->>> +			finfo->mmio_res.start = v & ~DFHv1_CSR_ADDR_REL;
->>> +		else
->>> +			finfo->mmio_res.start = binfo->start + ofst +
->>> +					       FIELD_GET(DFHv1_CSR_ADDR_MASK, 
->>> v);
->>> +
->>> +		v = readq(binfo->ioaddr + ofst + DFHv1_CSR_SIZE_GRP);
->>> +		finfo->mmio_res.end = finfo->mmio_res.start +
->>> +				      FIELD_GET(DFHv1_CSR_SIZE_GRP_SIZE, v) - 
->>> 1;
->> 
->> So for dflv1, no feature header resource for dfl_device, is it a problem
->> for dfl_uio? Does userspace driver need the raw feature header?
-> These are two very good questions.  The dfl_uio driver question is 
-> particularly relevent because user space is looking at the GUIDs.
->
-
-In the case of dfl_uio driver, user space will definitely want to look at 
-the feature header for the GUID and the parameters.  Since DFHv1 can have 
-the DFH header and the feature registers in non-contiguous memory 
-locations, a resource for the dfl_device will be required.  In earlier
-revisions of this patch set, a second resource was added called csr_res 
-pointing to the feature's register while mmio_res pointed at the header.
-Do we just need better names or do we need an array of named resources?
-
->> 
->>> +	} else {
->>> +		finfo->mmio_res.start = binfo->start + ofst;
->>> +		finfo->mmio_res.end = finfo->mmio_res.start + size - 1;
->>> +	}
->>> +
->>> +	ret = parse_feature_irqs(binfo, ofst, finfo);
->>> +	if (ret) {
->>> +		kfree(finfo);
->>> +		return ret;
->>> +	}
->>>
+> > > ---
+> > > In archived homepage are also links to erratas and other Orion documents
+> > > but apparently webarchive does not have backup copy of it :-( and Marvell
+> > > already removed all documentation from their web sites :-(
+> > > ---
+> > >  Documentation/arm/marvell.rst | 12 +++++++-----
+> > >  1 file changed, 7 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/Documentation/arm/marvell.rst b/Documentation/arm/marvell.rst
+> > > index 2f41caa0096c..8540437f6a79 100644
+> > > --- a/Documentation/arm/marvell.rst
+> > > +++ b/Documentation/arm/marvell.rst
+> > > @@ -14,18 +14,20 @@ Orion family
+> > >  
+> > >    Flavors:
+> > >          - 88F5082
+> > > -        - 88F5181
+> > > -        - 88F5181L
+> > > -        - 88F5182
+> > > +        - 88F5181  a.k.a Orion-1
+> > > +        - 88F5181L a.k.a Orion-VoIP
+> > > +        - 88F5182  a.k.a Orion-NAS
+> > >  
+> > >                 - Datasheet: https://web.archive.org/web/20210124231420/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-datasheet.pdf
+> > >                 - Programmer's User Guide: https://web.archive.org/web/20210124231536/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-opensource-manual.pdf
+> > >                 - User Manual: https://web.archive.org/web/20210124231631/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-usermanual.pdf
+> > >                 - Functional Errata: https://web.archive.org/web/20210704165540/https://www.digriz.org.uk/ts78xx/88F5182_Functional_Errata.pdf
+> > > -        - 88F5281
+> > > +        - 88F5281  a.k.a Orion-2
+> > >  
+> > >                 - Datasheet: https://web.archive.org/web/20131028144728/http://www.ocmodshop.com/images/reviews/networking/qnap_ts409u/marvel_88f5281_data_sheet.pdf
+> > > -        - 88F6183
+> > > +        - 88F6183  a.k.a Orion-1-90
+> > > +  Homepage:
+> > > +        https://web.archive.org/web/20080607215437/http://www.marvell.com/products/media/index.jsp
+> > >    Core:
+> > >  	Feroceon 88fr331 (88f51xx) or 88fr531-vd (88f52xx) ARMv5 compatible
+> > >    Linux kernel mach directory:
+> > > -- 
+> > > 2.20.1
+> > > 
