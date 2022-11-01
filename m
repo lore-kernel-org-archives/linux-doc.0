@@ -2,293 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B36C7FA373D
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 05:26:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CE7AC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 06:08:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229515AbiKAF0L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 01:26:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47358 "EHLO
+        id S229817AbiKAGIz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 02:08:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbiKAF0K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 01:26:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E68BBF7;
-        Mon, 31 Oct 2022 22:26:06 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0A4ED6154D;
-        Tue,  1 Nov 2022 05:26:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACFA2C433D6;
-        Tue,  1 Nov 2022 05:26:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667280365;
-        bh=X6WmZZqM7w4svCt9AOxbUsrJNiVQgC/31iGfIajDt0s=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Uzxwh2i+nhWndgk25kLV6wIai7Hfa86Dl9AGDhWLhD9LXJ3w6EahCvvSFoCe8EFae
-         BfMjuCEn+navjZAE0wDuKMNor0lSAjqne3nSLXDfnWgr+1KXPrFs8KkXz1i+EHc2Mr
-         ss0+yNyXZrTrMLE2vyxWttymSj1SAgw4e2bFxzPTyqbWjT6+BiITeA6ptMiMKpnf+r
-         eEyBAuabGyzNYG0JHiD9MkW1CDKGyWDn0aUKf3Jzcn0/3Ggx+eVfGv4L+bUNnR8Pnr
-         PnSksG3kPPI6vGPCEp0BQ4SMKOCzrq0dqgWmu99yZtL0wQPXaIZsAp9HtjhisZyXa+
-         gO7geTHur4/+w==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        Jakub Kicinski <kuba@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>, corbet@lwn.net,
-        michael.chan@broadcom.com, andrew@lunn.ch, hkallweit1@gmail.com,
+        with ESMTP id S229770AbiKAGIx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 02:08:53 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D010010FD6
+        for <linux-doc@vger.kernel.org>; Mon, 31 Oct 2022 23:08:52 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id ud5so34724434ejc.4
+        for <linux-doc@vger.kernel.org>; Mon, 31 Oct 2022 23:08:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rRqH+X4IV0YFloxeFBwjC1/MuoMEjilCXD5hJoJnGgg=;
+        b=GROnPEF+L+0NscEMLlrAnk9vIFD/+nuwOUr6u9FBfFDwisNd0kjrtF8uMShWsk24dr
+         gE6w4DaSlm7AR99504g7dk92JXcemijZLdnfJQr4gHws30zR7oeb4Rfwg288gWDqLJ/b
+         /TLSGEVrUohKpAP+9CHWQB65J5T+hA9KVKLhI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rRqH+X4IV0YFloxeFBwjC1/MuoMEjilCXD5hJoJnGgg=;
+        b=BHKrAPmfk3AJNgTD19VgDTWE9XIjltRptu+GmSw3Glgi5J8/1HhCEVfLmEFGgpuHYx
+         lRMV4nxqWUNH0HPO8sXc3AACFKz6kArPtpPXup8+SxfnLSTceXyskBUnAVx/igo/5ugv
+         fgUjKtYHfg/hfyUsoAPfz6vF+Wy74SS+aFj7lfffm+vzRJ9frgDPpjhNDJSLS29uFW8x
+         My+fryjtR5EG1FBnmJksPsij/pd3+YIwpP6TrKnycTNtptzUpsNuAUacdAOND89GvG7z
+         Poga7dYi6q4/TU9w+IDqPtS4sQLB4eBE1L+DIu1/+c23AcSRYcm7vI44UFOzR/sIBxqR
+         AMsA==
+X-Gm-Message-State: ACrzQf3qFETm7Z1WyTFEuKpBpTQ2J0Hgen/90/WjNKbY6S5PshEJPIUG
+        YPMJgaj0F4NDHr36AvYiuEn5I2wEbfNPcFHww3+YBg==
+X-Google-Smtp-Source: AMsMyM6aCiz6kOrNBk82/CTGCAG+vYjx1RteoxJzfcSAcH4ZsJgP1vZ2zyL9mUMB4KM2ebUTRwbgXjoZFVpdPenxL1Y=
+X-Received: by 2002:a17:907:7632:b0:7a1:d4f0:e7c5 with SMTP id
+ jy18-20020a170907763200b007a1d4f0e7c5mr16858922ejc.160.1667282931303; Mon, 31
+ Oct 2022 23:08:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <20221101052601.162708-1-kuba@kernel.org>
+In-Reply-To: <20221101052601.162708-1-kuba@kernel.org>
+From:   Michael Chan <michael.chan@broadcom.com>
+Date:   Mon, 31 Oct 2022 23:08:39 -0700
+Message-ID: <CACKFLikHJphFqB=NBZ3zQPNW=9PY9SX2evs6sfHD7GJrA7ey=g@mail.gmail.com>
+Subject: Re: [PATCH net-next v3] ethtool: linkstate: add a statistic for PHY
+ down events
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, Florian Fainelli <f.fainelli@gmail.com>,
+        corbet@lwn.net, andrew@lunn.ch, hkallweit1@gmail.com,
         linux@armlinux.org.uk, huangguangbin2@huawei.com,
         chenhao288@hisilicon.com, moshet@nvidia.com,
         linux@rempel-privat.de, linux-doc@vger.kernel.org
-Subject: [PATCH net-next v3] ethtool: linkstate: add a statistic for PHY down events
-Date:   Mon, 31 Oct 2022 22:26:01 -0700
-Message-Id: <20221101052601.162708-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.38.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="000000000000e1032e05ec628ea7"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The previous attempt to augment carrier_down (see Link)
-was not met with much enthusiasm so let's do the simple
-thing of exposing what some devices already maintain.
-Add a common ethtool statistic for link going down.
-Currently users have to maintain per-driver mapping
-to extract the right stat from the vendor-specific ethtool -S
-stats. carrier_down does not fit the bill because it counts
-a lot of software related false positives.
+--000000000000e1032e05ec628ea7
+Content-Type: text/plain; charset="UTF-8"
 
-Add the statistic to the extended link state API to steer
-vendors towards implementing all of it.
+On Mon, Oct 31, 2022 at 10:26 PM Jakub Kicinski <kuba@kernel.org> wrote:
+>
+> The previous attempt to augment carrier_down (see Link)
+> was not met with much enthusiasm so let's do the simple
+> thing of exposing what some devices already maintain.
+> Add a common ethtool statistic for link going down.
+> Currently users have to maintain per-driver mapping
+> to extract the right stat from the vendor-specific ethtool -S
+> stats. carrier_down does not fit the bill because it counts
+> a lot of software related false positives.
+>
+> Add the statistic to the extended link state API to steer
+> vendors towards implementing all of it.
+>
+> Implement for bnxt and all Linux-controlled PHYs. mlx5 and (possibly)
+> enic also have a counter for this but I leave the implementation
+> to their maintainers.
+>
+> Link: https://lore.kernel.org/r/20220520004500.2250674-1-kuba@kernel.org
+> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> --
+> v3:
+>  - make the stat u32 (apart from the ethtool struct which uses u64s
+>    for the "not set" detection, whatevs)
+> v2:
+>  - add phylib support
 
-Implement for bnxt and all Linux-controlled PHYs. mlx5 and (possibly)
-enic also have a counter for this but I leave the implementation
-to their maintainers.
+Reviewed-by: Michael Chan <michael.chan@broadcom.com>
 
-Link: https://lore.kernel.org/r/20220520004500.2250674-1-kuba@kernel.org
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
---
-v3:
- - make the stat u32 (apart from the ethtool struct which uses u64s
-   for the "not set" detection, whatevs)
-v2:
- - add phylib support
----
-CC: corbet@lwn.net
-CC: michael.chan@broadcom.com
-CC: andrew@lunn.ch
-CC: hkallweit1@gmail.com
-CC: linux@armlinux.org.uk
-CC: huangguangbin2@huawei.com
-CC: chenhao288@hisilicon.com
-CC: moshet@nvidia.com
-CC: linux@rempel-privat.de
-CC: f.fainelli@gmail.com
-CC: linux-doc@vger.kernel.org
----
- Documentation/networking/ethtool-netlink.rst  |  1 +
- .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 15 ++++++++++++
- drivers/net/phy/phy.c                         |  1 +
- include/linux/ethtool.h                       | 14 +++++++++++
- include/linux/phy.h                           |  3 +++
- include/uapi/linux/ethtool_netlink.h          |  1 +
- net/ethtool/linkstate.c                       | 24 ++++++++++++++++++-
- 7 files changed, 58 insertions(+), 1 deletion(-)
+--000000000000e1032e05ec628ea7
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index d578b8bcd8a4..bede24ef44fd 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -491,6 +491,7 @@ any attributes.
-   ``ETHTOOL_A_LINKSTATE_SQI_MAX``       u32     Max support SQI value
-   ``ETHTOOL_A_LINKSTATE_EXT_STATE``     u8      link extended state
-   ``ETHTOOL_A_LINKSTATE_EXT_SUBSTATE``  u8      link extended substate
-+  ``ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT``  u32     count of link down events
-   ====================================  ======  ============================
- 
- For most NIC drivers, the value of ``ETHTOOL_A_LINKSTATE_LINK`` returns
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-index cc89e5eabcb9..d8f0351df954 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-@@ -4112,6 +4112,20 @@ static void bnxt_get_rmon_stats(struct net_device *dev,
- 	*ranges = bnxt_rmon_ranges;
- }
- 
-+static void bnxt_get_link_ext_stats(struct net_device *dev,
-+				    struct ethtool_link_ext_stats *stats)
-+{
-+	struct bnxt *bp = netdev_priv(dev);
-+	u64 *rx;
-+
-+	if (BNXT_VF(bp) || !(bp->flags & BNXT_FLAG_PORT_STATS_EXT))
-+		return;
-+
-+	rx = bp->rx_port_stats_ext.sw_stats;
-+	stats->link_down_events =
-+		*(rx + BNXT_RX_STATS_EXT_OFFSET(link_down_events));
-+}
-+
- void bnxt_ethtool_free(struct bnxt *bp)
- {
- 	kfree(bp->test_info);
-@@ -4161,6 +4175,7 @@ const struct ethtool_ops bnxt_ethtool_ops = {
- 	.get_eeprom             = bnxt_get_eeprom,
- 	.set_eeprom		= bnxt_set_eeprom,
- 	.get_link		= bnxt_get_link,
-+	.get_link_ext_stats	= bnxt_get_link_ext_stats,
- 	.get_eee		= bnxt_get_eee,
- 	.set_eee		= bnxt_set_eee,
- 	.get_module_info	= bnxt_get_module_info,
-diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
-index e741d8aebffe..e5b6cb1a77f9 100644
---- a/drivers/net/phy/phy.c
-+++ b/drivers/net/phy/phy.c
-@@ -67,6 +67,7 @@ static void phy_link_down(struct phy_device *phydev)
- {
- 	phydev->phy_link_change(phydev, false);
- 	phy_led_trigger_change_speed(phydev);
-+	WRITE_ONCE(phydev->link_down_events, phydev->link_down_events + 1);
- }
- 
- static const char *phy_pause_str(struct phy_device *phydev)
-diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
-index 99dc7bfbcd3c..fa8e0d52dd30 100644
---- a/include/linux/ethtool.h
-+++ b/include/linux/ethtool.h
-@@ -125,6 +125,17 @@ struct ethtool_link_ext_state_info {
- 	};
- };
- 
-+struct ethtool_link_ext_stats {
-+	/* Custom Linux statistic for PHY level link down events.
-+	 * In a simpler world it should be equal to netdev->carrier_down_count
-+	 * unfortunately netdev also counts local reconfigurations which don't
-+	 * actually take the physical link down, not to mention NC-SI which,
-+	 * if present, keeps the link up regardless of host state.
-+	 * This statistic counts when PHY _actually_ went down, or lost link.
-+	 */
-+	u64 link_down_events;
-+};
-+
- /**
-  * ethtool_rxfh_indir_default - get default value for RX flow hash indirection
-  * @index: Index in RX flow hash indirection table
-@@ -481,6 +492,7 @@ struct ethtool_module_power_mode_params {
-  *	do not attach ext_substate attribute to netlink message). If link_ext_state
-  *	and link_ext_substate are unknown, return -ENODATA. If not implemented,
-  *	link_ext_state and link_ext_substate will not be sent to userspace.
-+ * @get_link_ext_stats: Read extra link-related counters.
-  * @get_eeprom_len: Read range of EEPROM addresses for validation of
-  *	@get_eeprom and @set_eeprom requests.
-  *	Returns 0 if device does not support EEPROM access.
-@@ -652,6 +664,8 @@ struct ethtool_ops {
- 	u32	(*get_link)(struct net_device *);
- 	int	(*get_link_ext_state)(struct net_device *,
- 				      struct ethtool_link_ext_state_info *);
-+	void	(*get_link_ext_stats)(struct net_device *,
-+				      struct ethtool_link_ext_stats *);
- 	int	(*get_eeprom_len)(struct net_device *);
- 	int	(*get_eeprom)(struct net_device *,
- 			      struct ethtool_eeprom *, u8 *);
-diff --git a/include/linux/phy.h b/include/linux/phy.h
-index ddf66198f751..9a3752c0c444 100644
---- a/include/linux/phy.h
-+++ b/include/linux/phy.h
-@@ -600,6 +600,7 @@ struct macsec_ops;
-  * @psec: Pointer to Power Sourcing Equipment control struct
-  * @lock:  Mutex for serialization access to PHY
-  * @state_queue: Work queue for state machine
-+ * @link_down_events: Number of times link was lost
-  * @shared: Pointer to private data shared by phys in one package
-  * @priv: Pointer to driver private data
-  *
-@@ -723,6 +724,8 @@ struct phy_device {
- 
- 	int pma_extable;
- 
-+	unsigned int link_down_events;
-+
- 	void (*phy_link_change)(struct phy_device *phydev, bool up);
- 	void (*adjust_link)(struct net_device *dev);
- 
-diff --git a/include/uapi/linux/ethtool_netlink.h b/include/uapi/linux/ethtool_netlink.h
-index bb57084ac524..aaf7c6963d61 100644
---- a/include/uapi/linux/ethtool_netlink.h
-+++ b/include/uapi/linux/ethtool_netlink.h
-@@ -262,6 +262,7 @@ enum {
- 	ETHTOOL_A_LINKSTATE_SQI_MAX,		/* u32 */
- 	ETHTOOL_A_LINKSTATE_EXT_STATE,		/* u8 */
- 	ETHTOOL_A_LINKSTATE_EXT_SUBSTATE,	/* u8 */
-+	ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT,	/* u32 */
- 
- 	/* add new constants above here */
- 	__ETHTOOL_A_LINKSTATE_CNT,
-diff --git a/net/ethtool/linkstate.c b/net/ethtool/linkstate.c
-index fb676f349455..2158c17a0b32 100644
---- a/net/ethtool/linkstate.c
-+++ b/net/ethtool/linkstate.c
-@@ -13,6 +13,7 @@ struct linkstate_reply_data {
- 	int					link;
- 	int					sqi;
- 	int					sqi_max;
-+	struct ethtool_link_ext_stats		link_stats;
- 	bool					link_ext_state_provided;
- 	struct ethtool_link_ext_state_info	ethtool_link_ext_state_info;
- };
-@@ -22,7 +23,7 @@ struct linkstate_reply_data {
- 
- const struct nla_policy ethnl_linkstate_get_policy[] = {
- 	[ETHTOOL_A_LINKSTATE_HEADER]		=
--		NLA_POLICY_NESTED(ethnl_header_policy),
-+		NLA_POLICY_NESTED(ethnl_header_policy_stats),
- };
- 
- static int linkstate_get_sqi(struct net_device *dev)
-@@ -107,6 +108,19 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
- 			goto out;
- 	}
- 
-+	ethtool_stats_init((u64 *)&data->link_stats,
-+			   sizeof(data->link_stats) / 8);
-+
-+	if (req_base->flags & ETHTOOL_FLAG_STATS) {
-+		if (dev->phydev)
-+			data->link_stats.link_down_events =
-+				READ_ONCE(dev->phydev->link_down_events);
-+
-+		if (dev->ethtool_ops->get_link_ext_stats)
-+			dev->ethtool_ops->get_link_ext_stats(dev,
-+							     &data->link_stats);
-+	}
-+
- 	ret = 0;
- out:
- 	ethnl_ops_complete(dev);
-@@ -134,6 +148,9 @@ static int linkstate_reply_size(const struct ethnl_req_info *req_base,
- 	if (data->ethtool_link_ext_state_info.__link_ext_substate)
- 		len += nla_total_size(sizeof(u8)); /* LINKSTATE_EXT_SUBSTATE */
- 
-+	if (data->link_stats.link_down_events != ETHTOOL_STAT_NOT_SET)
-+		len += nla_total_size(sizeof(u32));
-+
- 	return len;
- }
- 
-@@ -166,6 +183,11 @@ static int linkstate_fill_reply(struct sk_buff *skb,
- 			return -EMSGSIZE;
- 	}
- 
-+	if (data->link_stats.link_down_events != ETHTOOL_STAT_NOT_SET)
-+		if (nla_put_u32(skb, ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT,
-+				data->link_stats.link_down_events))
-+			return -EMSGSIZE;
-+
- 	return 0;
- }
- 
--- 
-2.38.1
-
+MIIQbQYJKoZIhvcNAQcCoIIQXjCCEFoCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+gg3EMIIFDTCCA/WgAwIBAgIQeEqpED+lv77edQixNJMdADANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA5MTYwMDAwMDBaFw0yODA5MTYwMDAwMDBaMFsxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBS
+MyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
+vbCmXCcsbZ/a0fRIQMBxp4gJnnyeneFYpEtNydrZZ+GeKSMdHiDgXD1UnRSIudKo+moQ6YlCOu4t
+rVWO/EiXfYnK7zeop26ry1RpKtogB7/O115zultAz64ydQYLe+a1e/czkALg3sgTcOOcFZTXk38e
+aqsXsipoX1vsNurqPtnC27TWsA7pk4uKXscFjkeUE8JZu9BDKaswZygxBOPBQBwrA5+20Wxlk6k1
+e6EKaaNaNZUy30q3ArEf30ZDpXyfCtiXnupjSK8WU2cK4qsEtj09JS4+mhi0CTCrCnXAzum3tgcH
+cHRg0prcSzzEUDQWoFxyuqwiwhHu3sPQNmFOMwIDAQABo4IB2jCCAdYwDgYDVR0PAQH/BAQDAgGG
+MGAGA1UdJQRZMFcGCCsGAQUFBwMCBggrBgEFBQcDBAYKKwYBBAGCNxQCAgYKKwYBBAGCNwoDBAYJ
+KwYBBAGCNxUGBgorBgEEAYI3CgMMBggrBgEFBQcDBwYIKwYBBQUHAxEwEgYDVR0TAQH/BAgwBgEB
+/wIBADAdBgNVHQ4EFgQUljPR5lgXWzR1ioFWZNW+SN6hj88wHwYDVR0jBBgwFoAUj/BLf6guRSSu
+TVD6Y5qL3uLdG7wwegYIKwYBBQUHAQEEbjBsMC0GCCsGAQUFBzABhiFodHRwOi8vb2NzcC5nbG9i
+YWxzaWduLmNvbS9yb290cjMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5j
+b20vY2FjZXJ0L3Jvb3QtcjMuY3J0MDYGA1UdHwQvMC0wK6ApoCeGJWh0dHA6Ly9jcmwuZ2xvYmFs
+c2lnbi5jb20vcm9vdC1yMy5jcmwwWgYDVR0gBFMwUTALBgkrBgEEAaAyASgwQgYKKwYBBAGgMgEo
+CjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAN
+BgkqhkiG9w0BAQsFAAOCAQEAdAXk/XCnDeAOd9nNEUvWPxblOQ/5o/q6OIeTYvoEvUUi2qHUOtbf
+jBGdTptFsXXe4RgjVF9b6DuizgYfy+cILmvi5hfk3Iq8MAZsgtW+A/otQsJvK2wRatLE61RbzkX8
+9/OXEZ1zT7t/q2RiJqzpvV8NChxIj+P7WTtepPm9AIj0Keue+gS2qvzAZAY34ZZeRHgA7g5O4TPJ
+/oTd+4rgiU++wLDlcZYd/slFkaT3xg4qWDepEMjT4T1qFOQIL+ijUArYS4owpPg9NISTKa1qqKWJ
+jFoyms0d0GwOniIIbBvhI2MJ7BSY9MYtWVT5jJO3tsVHwj4cp92CSFuGwunFMzCCA18wggJHoAMC
+AQICCwQAAAAAASFYUwiiMA0GCSqGSIb3DQEBCwUAMEwxIDAeBgNVBAsTF0dsb2JhbFNpZ24gUm9v
+dCBDQSAtIFIzMRMwEQYDVQQKEwpHbG9iYWxTaWduMRMwEQYDVQQDEwpHbG9iYWxTaWduMB4XDTA5
+MDMxODEwMDAwMFoXDTI5MDMxODEwMDAwMFowTDEgMB4GA1UECxMXR2xvYmFsU2lnbiBSb290IENB
+IC0gUjMxEzARBgNVBAoTCkdsb2JhbFNpZ24xEzARBgNVBAMTCkdsb2JhbFNpZ24wggEiMA0GCSqG
+SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMJXaQeQZ4Ihb1wIO2hMoonv0FdhHFrYhy/EYCQ8eyip0E
+XyTLLkvhYIJG4VKrDIFHcGzdZNHr9SyjD4I9DCuul9e2FIYQebs7E4B3jAjhSdJqYi8fXvqWaN+J
+J5U4nwbXPsnLJlkNc96wyOkmDoMVxu9bi9IEYMpJpij2aTv2y8gokeWdimFXN6x0FNx04Druci8u
+nPvQu7/1PQDhBjPogiuuU6Y6FnOM3UEOIDrAtKeh6bJPkC4yYOlXy7kEkmho5TgmYHWyn3f/kRTv
+riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
+QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
+UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
+M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
+Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
+14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
+a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
+XzCCBUwwggQ0oAMCAQICDF5AaMOe0cZvaJpCQjANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
+RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
+UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAwODIxMzhaFw0yNTA5MTAwODIxMzhaMIGO
+MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
+BgNVBAoTDUJyb2FkY29tIEluYy4xFTATBgNVBAMTDE1pY2hhZWwgQ2hhbjEoMCYGCSqGSIb3DQEJ
+ARYZbWljaGFlbC5jaGFuQGJyb2FkY29tLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC
+ggEBALhEmG7egFWvPKcrDxuNhNcn2oHauIHc8AzGhPyJxU4S6ZUjHM/psoNo5XxlMSRpYE7g7vLx
+J4NBefU36XTEWVzbEkAuOSuJTuJkm98JE3+wjeO+aQTbNF3mG2iAe0AZbAWyqFxZulWitE8U2tIC
+9mttDjSN/wbltcwuti7P57RuR+WyZstDlPJqUMm1rJTbgDqkF2pnvufc4US2iexnfjGopunLvioc
+OnaLEot1MoQO7BIe5S9H4AcCEXXcrJJiAtMCl47ARpyHmvQFQFFTrHgUYEd9V+9bOzY7MBIGSV1N
+/JfsT1sZw6HT0lJkSQefhPGpBniAob62DJP3qr11tu8CAwEAAaOCAdowggHWMA4GA1UdDwEB/wQE
+AwIFoDCBowYIKwYBBQUHAQEEgZYwgZMwTgYIKwYBBQUHMAKGQmh0dHA6Ly9zZWN1cmUuZ2xvYmFs
+c2lnbi5jb20vY2FjZXJ0L2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNydDBBBggrBgEFBQcw
+AYY1aHR0cDovL29jc3AuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAw
+TQYDVR0gBEYwRDBCBgorBgEEAaAyASgKMDQwMgYIKwYBBQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2Jh
+bHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwSQYDVR0fBEIwQDA+oDygOoY4aHR0cDov
+L2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcmwwJAYDVR0R
+BB0wG4EZbWljaGFlbC5jaGFuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNV
+HSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQU31rAyTdZweIF0tJTFYwfOv2w
+L4QwDQYJKoZIhvcNAQELBQADggEBACcuyaGmk0NSZ7Kio7O7WSZ0j0f9xXcBnLbJvQXFYM7JI5uS
+kw5ozATEN5gfmNIe0AHzqwoYjAf3x8Dv2w7HgyrxWdpjTKQFv5jojxa3A5LVuM8mhPGZfR/L5jSk
+5xc3llsKqrWI4ov4JyW79p0E99gfPA6Waixoavxvv1CZBQ4Stu7N660kTu9sJrACf20E+hdKLoiU
+hd5wiQXo9B2ncm5P3jFLYLBmPltIn/uzdiYpFj+E9kS9XYDd+boBZhN1Vh0296zLQZobLfKFzClo
+E6IFyTTANonrXvCRgodKS+QJEH8Syu2jSKe023aVemkuZjzvPK7o9iU7BKkPG2pzLPgxggJtMIIC
+aQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQD
+EyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgxeQGjDntHGb2iaQkIw
+DQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEICcwkrATfY8WrYi4pUqqNs+XOUAyd4cH
+LoWiq+89ECl0MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIyMTEw
+MTA2MDg1MVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCG
+SAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQC
+ATANBgkqhkiG9w0BAQEFAASCAQCMuuojg4PrSJkd5zZMICLhG4xCa5aeiLRvwB4Q5vdSCkvT2B7i
+rbiy/6RL27gLc++0gH/Ctkuz3HAxRRbIz5D8mIy34aTbGar/UFvoyoCmTOBugnlpP56Kkn45i3yb
+amYDk9k4WZ/94RPpTRbAhlYcNdYqN0GPqAzzRwOnpXYeFNLjQKTNNfXqyU6tSLOnrTo5YTVO8rWm
+AsdWRbTv9cSGYILbgVo4H44U4oSgTDBghh/Yw9dcvmJuDCgpAVeZIY18gRP9XfrBofhuT/Rqx5HD
+gHu3KKJ21ygy1UIv7yc24LfUINClpw0nKvd0gnH9vTuu9BH/gvAMS0u8t+kT/GH5
+--000000000000e1032e05ec628ea7--
