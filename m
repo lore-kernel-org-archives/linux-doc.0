@@ -2,242 +2,479 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17988FA373D
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 11:01:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD5A8FA3743
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 11:49:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230062AbiKALBT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 07:01:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42132 "EHLO
+        id S231224AbiKALtC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 07:49:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229964AbiKALBS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 07:01:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B59819C03
-        for <linux-doc@vger.kernel.org>; Tue,  1 Nov 2022 04:00:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667300419;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tUgPMvy3VGkHcduOGHC0NN08qyPSt72BZ+gPr23LqZk=;
-        b=IBXqK7w33+EW4+pEkVfOyegsO5Xt/6faTMFHzyMwJBfr5GfY6gHCIdVrutbbGUBuzWOkjM
-        Ykbc9mRnDGtpZ2FEOVj0hHi3iASprIYhnTQF6qHIUPPeOM0ytZt6c38VMWeH8IyO/AFWEN
-        LaDwzclDbVLE4YrmxLiqV4NqiD1+xlM=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-313-HqMzUg5wNhiRLLYNPtbqEQ-1; Tue, 01 Nov 2022 07:00:18 -0400
-X-MC-Unique: HqMzUg5wNhiRLLYNPtbqEQ-1
-Received: by mail-qv1-f70.google.com with SMTP id em2-20020ad44f82000000b004af5338777cso7389384qvb.4
-        for <linux-doc@vger.kernel.org>; Tue, 01 Nov 2022 04:00:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tUgPMvy3VGkHcduOGHC0NN08qyPSt72BZ+gPr23LqZk=;
-        b=s0QyfYbZqMepaB0TBygZo2Fixjr+w5aTCOwUaZ5oLOiWiVmFCSwwn/61pbuIO5DksV
-         sShhTr8aye6+BL4aEd5kybnaTrnuRVtfMTRuR1ZifAU8/MPhttUkrulmW/rItzopKqLL
-         6Vu5mBmwFgByShOpuhP/vffM5yRRlQbH4nYIpXTOBAJXRxb5onLFfqx0RyZINNYHrVxn
-         obEIFslLxz9GuBRAOMwqMur65Mi2IfTQ5V/KE2V9Bo5nFLRLGtxvD++4i0pidokUVlz+
-         HYwItMB9q3Qw/P6+hWV59eYbJwypfXJGRvTJrMQ7F58viPiN24gLA8iBnsAvE49UbWJ/
-         NWpA==
-X-Gm-Message-State: ACrzQf2Om4OJRk9ro/mj/rDZiOtXqEx/xVIsADzGdy8vP8LYC8BtZjPF
-        gtk+gYjmheZXxtLHf563Kqmv9Dx9wcYIsS+EQmTuxfj1z8v227tbk2HgYM21JFyM5Cxn7PyfDdo
-        PLtVmcY71Y4rubO6/gzCb
-X-Received: by 2002:a05:622a:4c8e:b0:3a5:26a5:51d4 with SMTP id ez14-20020a05622a4c8e00b003a526a551d4mr7391704qtb.92.1667300417466;
-        Tue, 01 Nov 2022 04:00:17 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7lu7pC7PKXWeJgg25nKoOsyXZDObeXT8CM27oEjHGETpWGLJhnxME3nRTHJByFL0pfnvkH5g==
-X-Received: by 2002:a05:622a:4c8e:b0:3a5:26a5:51d4 with SMTP id ez14-20020a05622a4c8e00b003a526a551d4mr7391691qtb.92.1667300417166;
-        Tue, 01 Nov 2022 04:00:17 -0700 (PDT)
-Received: from [192.168.0.4] ([78.17.46.82])
-        by smtp.gmail.com with ESMTPSA id b13-20020ac812cd000000b0039492d503cdsm4090253qtj.51.2022.11.01.04.00.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Nov 2022 04:00:16 -0700 (PDT)
-Message-ID: <22732cba-8ecc-1c79-a777-3df40c6923bb@redhat.com>
-Date:   Tue, 1 Nov 2022 11:00:15 +0000
+        with ESMTP id S230421AbiKALsf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 07:48:35 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E15361AD9E;
+        Tue,  1 Nov 2022 04:42:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667302929; x=1698838929;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=fVnmfE4aAQhJRses/HkLxskjBJG6DmPsjixSgyOEAeU=;
+  b=iaEpHSu2YlKrBePJq2R96njxAhZwSqfv+Utube6tNxS7V3g0mfPRnEyo
+   II8haeBgnH6asY85war8AEUZEgEXuX4iKwdX+gUHH0CfFP1BFZU8qlqEY
+   NPZxIo1yvdJ2tnr1sla+K+UeEq5Og5VGGT38OCsDnGuGZp+JRU3RXH6C7
+   9W4glB9p8bf6bpN0nOo9LXjoC+auMfdQH9gHi3bhDSF/9lEXnj/q8235T
+   CCvHcEYtp5BT0kson7QeGAtS4ttYSQQPH1vX6iuvkCLBy+NQaJzYnj98w
+   sfo49A6w/aUA21aUCPvU+9CaerDZN1vaZsF32+6VMhFPrWXqL1hYYkfSB
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="373331312"
+X-IronPort-AV: E=Sophos;i="5.95,230,1661842800"; 
+   d="scan'208";a="373331312"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 04:42:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="628549426"
+X-IronPort-AV: E=Sophos;i="5.95,230,1661842800"; 
+   d="scan'208";a="628549426"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga007.jf.intel.com with ESMTP; 01 Nov 2022 04:41:57 -0700
+Date:   Tue, 1 Nov 2022 19:37:29 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Michael Roth <michael.roth@amd.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
+        wei.w.wang@intel.com
+Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20221101113729.GA4015495@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
+ <20221031174738.fklhlia5fmaiinpe@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH bpf-next v1] bpf, docs: document
- BPF_MAP_TYPE_ARRAY_OF_MAPS and *_HASH_OF_MAPS
-Content-Language: en-US
-To:     Donald Hunter <donald.hunter@gmail.com>, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20221010112154.39494-1-donald.hunter@gmail.com>
-From:   Maryam Tahhan <mtahhan@redhat.com>
-In-Reply-To: <20221010112154.39494-1-donald.hunter@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221031174738.fklhlia5fmaiinpe@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/10/2022 12:21, Donald Hunter wrote:
-> Add documentation for the ARRAY_OF_MAPS and HASH_OF_MAPS map types,
-> including usage and examples.
+On Mon, Oct 31, 2022 at 12:47:38PM -0500, Michael Roth wrote:
+> On Tue, Oct 25, 2022 at 11:13:37PM +0800, Chao Peng wrote:
+> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > 
+> > Introduce 'memfd_restricted' system call with the ability to create
+> > memory areas that are restricted from userspace access through ordinary
+> > MMU operations (e.g. read/write/mmap). The memory content is expected to
+> > be used through a new in-kernel interface by a third kernel module.
+> > 
+> > memfd_restricted() is useful for scenarios where a file descriptor(fd)
+> > can be used as an interface into mm but want to restrict userspace's
+> > ability on the fd. Initially it is designed to provide protections for
+> > KVM encrypted guest memory.
+> > 
+> > Normally KVM uses memfd memory via mmapping the memfd into KVM userspace
+> > (e.g. QEMU) and then using the mmaped virtual address to setup the
+> > mapping in the KVM secondary page table (e.g. EPT). With confidential
+> > computing technologies like Intel TDX, the memfd memory may be encrypted
+> > with special key for special software domain (e.g. KVM guest) and is not
+> > expected to be directly accessed by userspace. Precisely, userspace
+> > access to such encrypted memory may lead to host crash so should be
+> > prevented.
+> > 
+> > memfd_restricted() provides semantics required for KVM guest encrypted
+> > memory support that a fd created with memfd_restricted() is going to be
+> > used as the source of guest memory in confidential computing environment
+> > and KVM can directly interact with core-mm without the need to expose
+> > the memoy content into KVM userspace.
+> > 
+> > KVM userspace is still in charge of the lifecycle of the fd. It should
+> > pass the created fd to KVM. KVM uses the new restrictedmem_get_page() to
+> > obtain the physical memory page and then uses it to populate the KVM
+> > secondary page table entries.
+> > 
+> > The userspace restricted memfd can be fallocate-ed or hole-punched
+> > from userspace. When these operations happen, KVM can get notified
+> > through restrictedmem_notifier, it then gets chance to remove any
+> > mapped entries of the range in the secondary page tables.
+> > 
+> > memfd_restricted() itself is implemented as a shim layer on top of real
+> > memory file systems (currently tmpfs). Pages in restrictedmem are marked
+> > as unmovable and unevictable, this is required for current confidential
+> > usage. But in future this might be changed.
+> > 
+> > By default memfd_restricted() prevents userspace read, write and mmap.
+> > By defining new bit in the 'flags', it can be extended to support other
+> > restricted semantics in the future.
+> > 
+> > The system call is currently wired up for x86 arch.
+> > 
+> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
+> >  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
+> >  include/linux/restrictedmem.h          |  62 ++++++
+> >  include/linux/syscalls.h               |   1 +
+> >  include/uapi/asm-generic/unistd.h      |   5 +-
+> >  include/uapi/linux/magic.h             |   1 +
+> >  kernel/sys_ni.c                        |   3 +
+> >  mm/Kconfig                             |   4 +
+> >  mm/Makefile                            |   1 +
+> >  mm/restrictedmem.c                     | 250 +++++++++++++++++++++++++
+> >  10 files changed, 328 insertions(+), 1 deletion(-)
+> >  create mode 100644 include/linux/restrictedmem.h
+> >  create mode 100644 mm/restrictedmem.c
+> > 
+> > diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+> > index 320480a8db4f..dc70ba90247e 100644
+> > --- a/arch/x86/entry/syscalls/syscall_32.tbl
+> > +++ b/arch/x86/entry/syscalls/syscall_32.tbl
+> > @@ -455,3 +455,4 @@
+> >  448	i386	process_mrelease	sys_process_mrelease
+> >  449	i386	futex_waitv		sys_futex_waitv
+> >  450	i386	set_mempolicy_home_node		sys_set_mempolicy_home_node
+> > +451	i386	memfd_restricted	sys_memfd_restricted
+> > diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+> > index c84d12608cd2..06516abc8318 100644
+> > --- a/arch/x86/entry/syscalls/syscall_64.tbl
+> > +++ b/arch/x86/entry/syscalls/syscall_64.tbl
+> > @@ -372,6 +372,7 @@
+> >  448	common	process_mrelease	sys_process_mrelease
+> >  449	common	futex_waitv		sys_futex_waitv
+> >  450	common	set_mempolicy_home_node	sys_set_mempolicy_home_node
+> > +451	common	memfd_restricted	sys_memfd_restricted
+> >  
+> >  #
+> >  # Due to a historical design error, certain syscalls are numbered differently
+> > diff --git a/include/linux/restrictedmem.h b/include/linux/restrictedmem.h
+> > new file mode 100644
+> > index 000000000000..9c37c3ea3180
+> > --- /dev/null
+> > +++ b/include/linux/restrictedmem.h
+> > @@ -0,0 +1,62 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> > +#ifndef _LINUX_RESTRICTEDMEM_H
+> > +
+> > +#include <linux/file.h>
+> > +#include <linux/magic.h>
+> > +#include <linux/pfn_t.h>
+> > +
+> > +struct restrictedmem_notifier;
+> > +
+> > +struct restrictedmem_notifier_ops {
+> > +	void (*invalidate_start)(struct restrictedmem_notifier *notifier,
+> > +				 pgoff_t start, pgoff_t end);
+> > +	void (*invalidate_end)(struct restrictedmem_notifier *notifier,
+> > +			       pgoff_t start, pgoff_t end);
+> > +};
+> > +
+> > +struct restrictedmem_notifier {
+> > +	struct list_head list;
+> > +	const struct restrictedmem_notifier_ops *ops;
+> > +};
+> > +
+> > +#ifdef CONFIG_RESTRICTEDMEM
+> > +
+> > +void restrictedmem_register_notifier(struct file *file,
+> > +				     struct restrictedmem_notifier *notifier);
+> > +void restrictedmem_unregister_notifier(struct file *file,
+> > +				       struct restrictedmem_notifier *notifier);
+> > +
+> > +int restrictedmem_get_page(struct file *file, pgoff_t offset,
+> > +			   struct page **pagep, int *order);
+> > +
+> > +static inline bool file_is_restrictedmem(struct file *file)
+> > +{
+> > +	return file->f_inode->i_sb->s_magic == RESTRICTEDMEM_MAGIC;
+> > +}
+> > +
+> > +#else
+> > +
+> > +static inline void restrictedmem_register_notifier(struct file *file,
+> > +				     struct restrictedmem_notifier *notifier)
+> > +{
+> > +}
+> > +
+> > +static inline void restrictedmem_unregister_notifier(struct file *file,
+> > +				       struct restrictedmem_notifier *notifier)
+> > +{
+> > +}
+> > +
+> > +static inline int restrictedmem_get_page(struct file *file, pgoff_t offset,
+> > +					 struct page **pagep, int *order)
+> > +{
+> > +	return -1;
+> > +}
+> > +
+> > +static inline bool file_is_restrictedmem(struct file *file)
+> > +{
+> > +	return false;
+> > +}
+> > +
+> > +#endif /* CONFIG_RESTRICTEDMEM */
+> > +
+> > +#endif /* _LINUX_RESTRICTEDMEM_H */
+> > diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> > index a34b0f9a9972..f9e9e0c820c5 100644
+> > --- a/include/linux/syscalls.h
+> > +++ b/include/linux/syscalls.h
+> > @@ -1056,6 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int flags);
+> >  asmlinkage long sys_set_mempolicy_home_node(unsigned long start, unsigned long len,
+> >  					    unsigned long home_node,
+> >  					    unsigned long flags);
+> > +asmlinkage long sys_memfd_restricted(unsigned int flags);
+> >  
+> >  /*
+> >   * Architecture-specific system calls
+> > diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+> > index 45fa180cc56a..e93cd35e46d0 100644
+> > --- a/include/uapi/asm-generic/unistd.h
+> > +++ b/include/uapi/asm-generic/unistd.h
+> > @@ -886,8 +886,11 @@ __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
+> >  #define __NR_set_mempolicy_home_node 450
+> >  __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
+> >  
+> > +#define __NR_memfd_restricted 451
+> > +__SYSCALL(__NR_memfd_restricted, sys_memfd_restricted)
+> > +
+> >  #undef __NR_syscalls
+> > -#define __NR_syscalls 451
+> > +#define __NR_syscalls 452
+> >  
+> >  /*
+> >   * 32 bit systems traditionally used different
+> > diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+> > index 6325d1d0e90f..8aa38324b90a 100644
+> > --- a/include/uapi/linux/magic.h
+> > +++ b/include/uapi/linux/magic.h
+> > @@ -101,5 +101,6 @@
+> >  #define DMA_BUF_MAGIC		0x444d4142	/* "DMAB" */
+> >  #define DEVMEM_MAGIC		0x454d444d	/* "DMEM" */
+> >  #define SECRETMEM_MAGIC		0x5345434d	/* "SECM" */
+> > +#define RESTRICTEDMEM_MAGIC	0x5245534d	/* "RESM" */
+> >  
+> >  #endif /* __LINUX_MAGIC_H__ */
+> > diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+> > index 860b2dcf3ac4..7c4a32cbd2e7 100644
+> > --- a/kernel/sys_ni.c
+> > +++ b/kernel/sys_ni.c
+> > @@ -360,6 +360,9 @@ COND_SYSCALL(pkey_free);
+> >  /* memfd_secret */
+> >  COND_SYSCALL(memfd_secret);
+> >  
+> > +/* memfd_restricted */
+> > +COND_SYSCALL(memfd_restricted);
+> > +
+> >  /*
+> >   * Architecture specific weak syscall entries.
+> >   */
+> > diff --git a/mm/Kconfig b/mm/Kconfig
+> > index 0331f1461f81..0177d53676c7 100644
+> > --- a/mm/Kconfig
+> > +++ b/mm/Kconfig
+> > @@ -1076,6 +1076,10 @@ config IO_MAPPING
+> >  config SECRETMEM
+> >  	def_bool ARCH_HAS_SET_DIRECT_MAP && !EMBEDDED
+> >  
+> > +config RESTRICTEDMEM
+> > +	bool
+> > +	depends on TMPFS
+> > +
+> >  config ANON_VMA_NAME
+> >  	bool "Anonymous VMA name support"
+> >  	depends on PROC_FS && ADVISE_SYSCALLS && MMU
+> > diff --git a/mm/Makefile b/mm/Makefile
+> > index 9a564f836403..6cb6403ffd40 100644
+> > --- a/mm/Makefile
+> > +++ b/mm/Makefile
+> > @@ -117,6 +117,7 @@ obj-$(CONFIG_PAGE_EXTENSION) += page_ext.o
+> >  obj-$(CONFIG_PAGE_TABLE_CHECK) += page_table_check.o
+> >  obj-$(CONFIG_CMA_DEBUGFS) += cma_debug.o
+> >  obj-$(CONFIG_SECRETMEM) += secretmem.o
+> > +obj-$(CONFIG_RESTRICTEDMEM) += restrictedmem.o
+> >  obj-$(CONFIG_CMA_SYSFS) += cma_sysfs.o
+> >  obj-$(CONFIG_USERFAULTFD) += userfaultfd.o
+> >  obj-$(CONFIG_IDLE_PAGE_TRACKING) += page_idle.o
+> > diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+> > new file mode 100644
+> > index 000000000000..e5bf8907e0f8
+> > --- /dev/null
+> > +++ b/mm/restrictedmem.c
+> > @@ -0,0 +1,250 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +#include "linux/sbitmap.h"
+> > +#include <linux/pagemap.h>
+> > +#include <linux/pseudo_fs.h>
+> > +#include <linux/shmem_fs.h>
+> > +#include <linux/syscalls.h>
+> > +#include <uapi/linux/falloc.h>
+> > +#include <uapi/linux/magic.h>
+> > +#include <linux/restrictedmem.h>
+> > +
+> > +struct restrictedmem_data {
+> > +	struct mutex lock;
+> > +	struct file *memfd;
+> > +	struct list_head notifiers;
+> > +};
+> > +
+> > +static void restrictedmem_notifier_invalidate(struct restrictedmem_data *data,
+> > +				 pgoff_t start, pgoff_t end, bool notify_start)
+> > +{
+> > +	struct restrictedmem_notifier *notifier;
+> > +
+> > +	mutex_lock(&data->lock);
+> > +	list_for_each_entry(notifier, &data->notifiers, list) {
+> > +		if (notify_start)
+> > +			notifier->ops->invalidate_start(notifier, start, end);
+> > +		else
+> > +			notifier->ops->invalidate_end(notifier, start, end);
+> > +	}
+> > +	mutex_unlock(&data->lock);
+> > +}
+> > +
+> > +static int restrictedmem_release(struct inode *inode, struct file *file)
+> > +{
+> > +	struct restrictedmem_data *data = inode->i_mapping->private_data;
+> > +
+> > +	fput(data->memfd);
+> > +	kfree(data);
+> > +	return 0;
+> > +}
+> > +
+> > +static long restrictedmem_fallocate(struct file *file, int mode,
+> > +				    loff_t offset, loff_t len)
+> > +{
+> > +	struct restrictedmem_data *data = file->f_mapping->private_data;
+> > +	struct file *memfd = data->memfd;
+> > +	int ret;
+> > +
+> > +	if (mode & FALLOC_FL_PUNCH_HOLE) {
+> > +		if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> > +			return -EINVAL;
+> > +	}
+> > +
+> > +	restrictedmem_notifier_invalidate(data, offset, offset + len, true);
+> > +	ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+> > +	restrictedmem_notifier_invalidate(data, offset, offset + len, false);
+> > +	return ret;
+> > +}
 > 
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> ---
->   Documentation/bpf/map_of_maps.rst | 145 ++++++++++++++++++++++++++++++
->   1 file changed, 145 insertions(+)
->   create mode 100644 Documentation/bpf/map_of_maps.rst
+> In v8 there was some discussion about potentially passing the page/folio
+> and order as part of the invalidation callback, I ended up needing
+> something similar for SEV-SNP, and think it might make sense for other
+> platforms. This main reasoning is:
+
+In that context what we talked on is the inaccessible_get_pfn(), I was
+not aware there is need for invalidation callback as well.
+
 > 
-> diff --git a/Documentation/bpf/map_of_maps.rst b/Documentation/bpf/map_of_maps.rst
-> new file mode 100644
-> index 000000000000..16fcda8720de
-> --- /dev/null
-> +++ b/Documentation/bpf/map_of_maps.rst
-> @@ -0,0 +1,145 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2022 Red Hat, Inc.
-> +
-> +========================================================
-> +BPF_MAP_TYPE_ARRAY_OF_MAPS and BPF_MAP_TYPE_HASH_OF_MAPS
-> +========================================================
-> +
-> +.. note::
-> +   - ``BPF_MAP_TYPE_ARRAY_OF_MAPS`` and ``BPF_MAP_TYPE_HASH_OF_MAPS`` were
-> +     introduced in kernel version 4.12.
-> +
-> +``BPF_MAP_TYPE_ARRAY_OF_MAPS`` and ``BPF_MAP_TYPE_HASH_OF_MAPS`` provide general
-> +purpose support for map in map storage. One level of nesting is supported, where
-> +an outer map contains instances of a single type of inner map, for example
-> +``array_of_maps->sock_map``.
-> +
-> +When creating an outer map, an inner map instance is used to initialize the
-> +metadata that the outer map holds about its inner maps. This inner map has a
-> +separate lifetime from the outer map and can be deleted after the outer map has
-> +been created.
-> +
-> +The outer map supports element update and delete from user space using the
-> +syscall API. A BPF program is only allowed to do element lookup in the outer
-> +map.
-> +
-> +.. note::
-> +   - Multi-level nesting is not supported.
-> +   - Any BPF map type can be used as an inner map, except for
-> +     ``BPF_MAP_TYPE_PROG_ARRAY``.
-> +   - A BPF program cannot update or delete outer map entries.
-> +
-> +Array of Maps
-> +-------------
-> +
-> +For ``BPF_MAP_TYPE_ARRAY_OF_MAPS`` the key is an unsigned 32-bit integer index
-> +into the array. The array is a fixed size with `max_entries` elements that are
-> +zero initialized when created.
-> +
-> +Hash of Maps
-> +------------
-> +
-> +For ``BPF_MAP_TYPE_HASH_OF_MAPS`` the key type can be chosen when defining the
-> +map.
-> +
-> +The kernel is responsible for allocating and freeing key/value pairs, up
-> +to the max_entries limit that you specify. Hash maps use pre-allocation
-> +of hash table elements by default. The ``BPF_F_NO_PREALLOC`` flag can be
-> +used to disable pre-allocation when it is too memory expensive.
-> +
-> +Usage
-> +=====
-> +
-> +.. c:function::
-> +   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-> +
-> +Inner maps can be retrieved using the ``bpf_map_lookup_elem()`` helper. This
-> +helper returns a pointer to the inner map, or ``NULL`` if no entry was found.
-> +
-> +Examples
-> +========
-> +
-> +Kernel BPF
-> +----------
-> +
-> +This snippet shows how to create an array of devmaps in a BPF program. Note that
-> +the outer array can only be modified from user space using the syscall API.
-> +
-> +.. code-block:: c
-> +
-> +    struct redirect_map {
-> +            __uint(type, BPF_MAP_TYPE_DEVMAP);
-> +            __uint(max_entries, 32);
-> +            __type(key, enum skb_drop_reason);
-> +            __type(value, __u64);
-> +    } redirect_map SEC(".maps");
-> +
-> +    struct {
-> +            __uint(type, BPF_MAP_TYPE_ARRAY_OF_MAPS);
-> +            __uint(max_entries, 2);
-> +            __uint(key_size, sizeof(int));
-> +            __uint(value_size, sizeof(int));
-> +            __array(values, struct redirect_map);
-> +    } outer_map SEC(".maps");
-> +
-Maybe worth sticking to the same __type declarations in both map structs 
-for the key and value params?
+>   1) restoring kernel directmap:
+> 
+>      Currently SNP (and I believe TDX) need to either split or remove kernel
+>      direct mappings for restricted PFNs, since there is no guarantee that
+>      other PFNs within a 2MB range won't be used for non-restricted
+>      (which will cause an RMP #PF in the case of SNP since the 2MB
+>      mapping overlaps with guest-owned pages)
 
-Other than that LGTM.
+Has the splitting and restoring been a well-discussed direction? I'm
+just curious whether there is other options to solve this issue.
 
-> +This snippet shows how to lookup an outer map to retrieve an inner map.
-> +
-> +.. code-block:: c
-> +
-> +    SEC("xdp")
-> +    int redirect_by_priority(struct xdp_md *ctx) {
-> +            struct bpf_map *devmap;
-> +            int action = XDP_PASS;
-> +            int index = 0;
-> +
-> +            devmap = bpf_map_lookup_elem(&outer_arr, &index);
-> +            if (!devmap)
-> +                    return XDP_PASS;
-> +
-> +            /* use inner devmap here */
-> +
-> +            return action;
-> +    }
-> +
-> +User Space
-> +----------
-> +
-> +This snippet shows how to create an array based outer map:
-> +
-> +.. code-block:: c
-> +
-> +    int create_outer_array(int inner_fd) {
-> +            int fd;
-> +            LIBBPF_OPTS(bpf_map_create_opts, opts);
-> +            opts.inner_map_fd = inner_fd;
-> +            fd = bpf_map_create(BPF_MAP_TYPE_ARRAY_OF_MAPS,
-> +                                "example_array",       /* name */
-> +                                sizeof(__u32),         /* key size */
-> +                                sizeof(__u32),         /* value size */
-> +                                256,                   /* max entries */
-> +                                &opts);                /* create opts */
-> +            return fd;
-> +    }
-> +
-> +
-> +This snippet shows how to add an inner map to an outer map:
-> +
-> +.. code-block:: c
-> +
-> +    int add_devmap(int outer_fd, int index, const char *name) {
-> +            int fd, ret;
-> +
-> +            fd = bpf_map_create(BPF_MAP_TYPE_DEVMAP, name,
-> +                                sizeof(__u32), sizeof(__u32), 256, NULL);
-> +            if (fd < 0)
-> +                    return fd;
-> +
-> +            ret = bpf_map_update_elem(outer_fd, &index, &fd, BPF_NOEXIST);
-> +            return ret;
-> +    }
-> +
-> +References
-> +==========
-> +
-> +- https://lore.kernel.org/netdev/20170322170035.923581-3-kafai@fb.com/
-> +- https://lore.kernel.org/netdev/20170322170035.923581-4-kafai@fb.com/
+> 
+>      Previously we were able to restore 2MB mappings to some degree
+>      since both shared/restricted pages were all pinned, so anything
+>      backed by a THP (or hugetlb page once that is implemented) at guest
+>      teardown could be restored as 2MB direct mapping.
+> 
+>      Invalidation seems like the most logical time to have this happen,
 
+Currently invalidation only happens at user-initiated fallocate(). It
+does not cover the VM teardown case where the restoring might also be
+expected to be handled.
+
+>      but whether or not to restore as 2MB requires the order to be 2MB
+>      or larger, and for GPA range being invalidated to cover the entire
+>      2MB (otherwise it means the page was potentially split and some
+>      subpages free back to host already, in which case it can't be
+>      restored as 2MB).
+> 
+>   2) Potentially less invalidations:
+>       
+>      If we pass the entire folio or compound_page as part of
+>      invalidation, we only needed to issue 1 invalidation per folio.
+
+I'm not sure I agree, the current invalidation covers the whole range
+that passed from userspace and the invalidation is invoked only once for
+each usrspace fallocate().
+
+> 
+>   3) Potentially useful for hugetlbfs support:
+> 
+>      One issue with hugetlbfs is that we don't support splitting the
+>      hugepage in such cases, which was a big obstacle prior to UPM. Now
+>      however, we may have the option of doing "lazy" invalidations where
+>      fallocate(PUNCH_HOLE, ...) won't free a shmem-allocate page unless
+>      all the subpages within the 2M range are either hole-punched, or the
+>      guest is shut down, so in that way we never have to split it. Sean
+>      was pondering something similar in another thread:
+> 
+>        https://lore.kernel.org/linux-mm/YyGLXXkFCmxBfu5U@google.com/
+> 
+>      Issuing invalidations with folio-granularity ties in fairly well
+>      with this sort of approach if we end up going that route.
+
+There is semantics difference between the current one and the proposed
+one: The invalidation range is exactly what userspace passed down to the
+kernel (being fallocated) while the proposed one will be subset of that
+(if userspace-provided addr/size is not aligned to power of two), I'm
+not quite confident this difference has no side effect.
+
+> 
+> I need to rework things for v9, and we'll probably want to use struct
+> folio instead of struct page now, but as a proof-of-concept of sorts this
+> is what I'd added on top of v8 of your patchset to implement 1) and 2):
+> 
+>   https://github.com/mdroth/linux/commit/127e5ea477c7bd5e4107fd44a04b9dc9e9b1af8b
+> 
+> Does an approach like this seem reasonable? Should be work this into the
+> base restricted memslot support?
+
+If the above mentioned semantics difference is not a problem, I don't
+have strong objection on this.
+
+Sean, since you have much better understanding on this, what is your
+take on this?
+
+Chao
+> 
+> Thanks,
+> 
+> Mike
