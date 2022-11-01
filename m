@@ -2,363 +2,212 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5620DFA3741
-	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 00:03:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A87E9FA3747
+	for <linux-doc@archiver.kernel.org>; Tue,  1 Nov 2022 00:34:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229667AbiKAAC7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 31 Oct 2022 20:02:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44630 "EHLO
+        id S229787AbiKAAe0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 31 Oct 2022 20:34:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229719AbiKAAC4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Oct 2022 20:02:56 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51CB514D06;
-        Mon, 31 Oct 2022 17:02:53 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id m6so12098696pfb.0;
-        Mon, 31 Oct 2022 17:02:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oS6N/+L/OhffcO3EfR3Iv/UryqKn7hoaC0JJFd1ABbs=;
-        b=FEU+ej6a2Z4dObdFfkYQNzqWvGRTS0az/uZN2S7EHoxHRay6dQk1Cm1KybCC1dfxDT
-         OyB76sl3fY+1ShqDOwB3Svf48LU6q4YPHuesBoXIj91JVbK+wBWEwsQ/LKaTqEcjqUce
-         ApyLN2awgPGKrOu7qBWNVvBywCRkyf+f+BNJpmZyHGXmPvrRmg5V0Opi7kqMaFhl7YC7
-         ZfItoBUMXHhr7a2iS6ZLIrKtHZ8b5vdumqDnKfLPIITDYeQ3WWefGuzUL8+oumQUHhW7
-         lrYxXkQVjaLUTllewkTl0IIpNOQO9Sv3RFVOqiv2p4SK1UAo9kdR2AdyASdskNj5FmMw
-         PhjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oS6N/+L/OhffcO3EfR3Iv/UryqKn7hoaC0JJFd1ABbs=;
-        b=u4w2Mhd+3ftjHC54uzTlbQFWrJu+fudOeBMUnOh7edEQ0E4NOil98cVvPPdZMfLgjV
-         7zCyNkzi/uNo2HSgjfrni2565DMe6ywE4wExU1FaXOnvcOtBhOTxkSNoJEUcQQ/rdGxX
-         oZ9Nq8p2XWGimKe4nJ2mSF4vlw5UO2RmGnPuenA8AQfhu4WZG3YR/MPpp9Dhw0ED8kJC
-         mkR6c3VerApSZ/7H/W4JZvXmgwPyZ5aO8hgijbGaBc9ZukQiYP+aYJmFZOIR6wmuMyG6
-         pflUjFUPN0HRIcwqDaOrmFPjnkk8yvYbKIhVceaitMS+GerI3Fvnn35Civuo350YVvse
-         uquA==
-X-Gm-Message-State: ACrzQf3wbYptGtXNKwlAkyjRcSXhLCT1O/hIQIvGic7E7INuBwkjm8l+
-        OJLuNZX3UfNaH+HaVzgeXSM=
-X-Google-Smtp-Source: AMsMyM6Ux5ge+1rBOdMB9VQXkykvW/cRl7baTLO/ElNy8RU81cUDIaiW2cViWcwou8S0KckvrDFrgA==
-X-Received: by 2002:a05:6a00:805:b0:561:9a81:ef11 with SMTP id m5-20020a056a00080500b005619a81ef11mr29717pfk.86.1667260972541;
-        Mon, 31 Oct 2022 17:02:52 -0700 (PDT)
-Received: from localhost ([192.55.54.55])
-        by smtp.gmail.com with ESMTPSA id b1-20020a170902ed0100b001806445887asm4940403pld.223.2022.10.31.17.02.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 17:02:51 -0700 (PDT)
-Date:   Mon, 31 Oct 2022 17:02:50 -0700
-From:   Isaku Yamahata <isaku.yamahata@gmail.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Isaku Yamahata <isaku.yamahata@gmail.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 7/8] KVM: Handle page fault for private memory
-Message-ID: <20221101000250.GA674570@ls.amr.corp.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-8-chao.p.peng@linux.intel.com>
- <20221026215425.GC3819453@ls.amr.corp.intel.com>
- <20221028065545.GD3885130@chaop.bj.intel.com>
+        with ESMTP id S229776AbiKAAeZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 31 Oct 2022 20:34:25 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFE0F15A27;
+        Mon, 31 Oct 2022 17:34:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667262864; x=1698798864;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=acc+2gBvRft+JiQI6WLRivHkyIwnDQIoyJyGzxx54G8=;
+  b=fOqynw/FxWsnL7zmy8pcfsD7bEI51JImUeX7hT6i80Sy4wCfPnL48PUh
+   XdGQ/32UJpIqqol8kHCvKjn1PWzQQoz9jAAG3O8PLe8W+cgIjWAceXOVe
+   IDxmU51CFfdef0niBHDZDNSNpN7xdK+C1gL2RF82htkEEbSI6FpTADRc8
+   Jmy5mIqHFNCHKO7P/9QEY88qflJznY+6ViMcIE0FBt42TGkeVu3qH1LuW
+   RcLqGDS7oMbdXhLANS4iNV+oObheE49McSCjZDd6jEj1VHQtMaaiDPsC1
+   IvpE6+CSd2H/Vl+kGKyOcA8qvUYDAh7WYGtXiV1LJJgNvBfQEavzcI1n/
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="371112434"
+X-IronPort-AV: E=Sophos;i="5.95,229,1661842800"; 
+   d="scan'208";a="371112434"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 17:34:23 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="739152697"
+X-IronPort-AV: E=Sophos;i="5.95,229,1661842800"; 
+   d="scan'208";a="739152697"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.139])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 17:34:22 -0700
+Date:   Mon, 31 Oct 2022 17:34:39 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Xu Yilun <yilun.xu@intel.com>
+cc:     hao.wu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, corbet@lwn.net,
+        linux-serial@vger.kernel.org, jirislaby@kernel.org,
+        geert+renesas@glider.be, andriy.shevchenko@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se, macro@orcam.me.uk,
+        johan@kernel.org, lukas@wunner.de, ilpo.jarvinen@linux.intel.com,
+        marpagan@redhat.com
+Subject: Re: [PATCH v4 4/4] tty: serial: 8250: add DFL bus driver for Altera
+ 16550.
+In-Reply-To: <Y11FmiDeVhGir+7z@yilunxu-OptiPlex-7050>
+Message-ID: <alpine.DEB.2.22.394.2210311719460.2680729@rhweight-WRK1>
+References: <20221020212610.697729-1-matthew.gerlach@linux.intel.com> <20221020212610.697729-5-matthew.gerlach@linux.intel.com> <Y11FmiDeVhGir+7z@yilunxu-OptiPlex-7050>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221028065545.GD3885130@chaop.bj.intel.com>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Oct 28, 2022 at 02:55:45PM +0800,
-Chao Peng <chao.p.peng@linux.intel.com> wrote:
-
-> On Wed, Oct 26, 2022 at 02:54:25PM -0700, Isaku Yamahata wrote:
-> > On Tue, Oct 25, 2022 at 11:13:43PM +0800,
-> > Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > 
-> > > A memslot with KVM_MEM_PRIVATE being set can include both fd-based
-> > > private memory and hva-based shared memory. Architecture code (like TDX
-> > > code) can tell whether the on-going fault is private or not. This patch
-> > > adds a 'is_private' field to kvm_page_fault to indicate this and
-> > > architecture code is expected to set it.
-> > > 
-> > > To handle page fault for such memslot, the handling logic is different
-> > > depending on whether the fault is private or shared. KVM checks if
-> > > 'is_private' matches the host's view of the page (maintained in
-> > > mem_attr_array).
-> > >   - For a successful match, private pfn is obtained with
-> > >     restrictedmem_get_page () from private fd and shared pfn is obtained
-> > >     with existing get_user_pages().
-> > >   - For a failed match, KVM causes a KVM_EXIT_MEMORY_FAULT exit to
-> > >     userspace. Userspace then can convert memory between private/shared
-> > >     in host's view and retry the fault.
-> > > 
-> > > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > > ---
-> > >  arch/x86/kvm/mmu/mmu.c          | 56 +++++++++++++++++++++++++++++++--
-> > >  arch/x86/kvm/mmu/mmu_internal.h | 14 ++++++++-
-> > >  arch/x86/kvm/mmu/mmutrace.h     |  1 +
-> > >  arch/x86/kvm/mmu/spte.h         |  6 ++++
-> > >  arch/x86/kvm/mmu/tdp_mmu.c      |  3 +-
-> > >  include/linux/kvm_host.h        | 28 +++++++++++++++++
-> > >  6 files changed, 103 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> > > index 67a9823a8c35..10017a9f26ee 100644
-> > > --- a/arch/x86/kvm/mmu/mmu.c
-> > > +++ b/arch/x86/kvm/mmu/mmu.c
-> > > @@ -3030,7 +3030,7 @@ static int host_pfn_mapping_level(struct kvm *kvm, gfn_t gfn,
-> > >  
-> > >  int kvm_mmu_max_mapping_level(struct kvm *kvm,
-> > >  			      const struct kvm_memory_slot *slot, gfn_t gfn,
-> > > -			      int max_level)
-> > > +			      int max_level, bool is_private)
-> > >  {
-> > >  	struct kvm_lpage_info *linfo;
-> > >  	int host_level;
-> > > @@ -3042,6 +3042,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
-> > >  			break;
-> > >  	}
-> > >  
-> > > +	if (is_private)
-> > > +		return max_level;
-> > 
-> > Below PG_LEVEL_NUM is passed by zap_collapsible_spte_range().  It doesn't make
-> > sense.
-> > 
-> > > +
-> > >  	if (max_level == PG_LEVEL_4K)
-> > >  		return PG_LEVEL_4K;
-> > >  
-> > > @@ -3070,7 +3073,8 @@ void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
-> > >  	 * level, which will be used to do precise, accurate accounting.
-> > >  	 */
-> > >  	fault->req_level = kvm_mmu_max_mapping_level(vcpu->kvm, slot,
-> > > -						     fault->gfn, fault->max_level);
-> > > +						     fault->gfn, fault->max_level,
-> > > +						     fault->is_private);
-> > >  	if (fault->req_level == PG_LEVEL_4K || fault->huge_page_disallowed)
-> > >  		return;
-> > >  
-> > > @@ -4141,6 +4145,32 @@ void kvm_arch_async_page_ready(struct kvm_vcpu *vcpu, struct kvm_async_pf *work)
-> > >  	kvm_mmu_do_page_fault(vcpu, work->cr2_or_gpa, 0, true);
-> > >  }
-> > >  
-> > > +static inline u8 order_to_level(int order)
-> > > +{
-> > > +	BUILD_BUG_ON(KVM_MAX_HUGEPAGE_LEVEL > PG_LEVEL_1G);
-> > > +
-> > > +	if (order >= KVM_HPAGE_GFN_SHIFT(PG_LEVEL_1G))
-> > > +		return PG_LEVEL_1G;
-> > > +
-> > > +	if (order >= KVM_HPAGE_GFN_SHIFT(PG_LEVEL_2M))
-> > > +		return PG_LEVEL_2M;
-> > > +
-> > > +	return PG_LEVEL_4K;
-> > > +}
-> > > +
-> > > +static int kvm_faultin_pfn_private(struct kvm_page_fault *fault)
-> > > +{
-> > > +	int order;
-> > > +	struct kvm_memory_slot *slot = fault->slot;
-> > > +
-> > > +	if (kvm_restricted_mem_get_pfn(slot, fault->gfn, &fault->pfn, &order))
-> > > +		return RET_PF_RETRY;
-> > > +
-> > > +	fault->max_level = min(order_to_level(order), fault->max_level);
-> > > +	fault->map_writable = !(slot->flags & KVM_MEM_READONLY);
-> > > +	return RET_PF_CONTINUE;
-> > > +}
-> > > +
-> > >  static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-> > >  {
-> > >  	struct kvm_memory_slot *slot = fault->slot;
-> > > @@ -4173,6 +4203,22 @@ static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-> > >  			return RET_PF_EMULATE;
-> > >  	}
-> > >  
-> > > +	if (kvm_slot_can_be_private(slot) &&
-> > > +	    fault->is_private != kvm_mem_is_private(vcpu->kvm, fault->gfn)) {
-> > > +		vcpu->run->exit_reason = KVM_EXIT_MEMORY_FAULT;
-> > > +		if (fault->is_private)
-> > > +			vcpu->run->memory.flags = KVM_MEMORY_EXIT_FLAG_PRIVATE;
-> > > +		else
-> > > +			vcpu->run->memory.flags = 0;
-> > > +		vcpu->run->memory.padding = 0;
-> > > +		vcpu->run->memory.gpa = fault->gfn << PAGE_SHIFT;
-> > > +		vcpu->run->memory.size = PAGE_SIZE;
-> > > +		return RET_PF_USER;
-> > > +	}
-> > > +
-> > > +	if (fault->is_private)
-> > > +		return kvm_faultin_pfn_private(fault);
-> > > +
-> > >  	async = false;
-> > >  	fault->pfn = __gfn_to_pfn_memslot(slot, fault->gfn, false, &async,
-> > >  					  fault->write, &fault->map_writable,
-> > > @@ -5557,6 +5603,9 @@ int noinline kvm_mmu_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, u64 err
-> > >  			return -EIO;
-> > >  	}
-> > >  
-> > > +	if (r == RET_PF_USER)
-> > > +		return 0;
-> > > +
-> > >  	if (r < 0)
-> > >  		return r;
-> > >  	if (r != RET_PF_EMULATE)
-> > > @@ -6408,7 +6457,8 @@ static bool kvm_mmu_zap_collapsible_spte(struct kvm *kvm,
-> > >  		 */
-> > >  		if (sp->role.direct &&
-> > >  		    sp->role.level < kvm_mmu_max_mapping_level(kvm, slot, sp->gfn,
-> > > -							       PG_LEVEL_NUM)) {
-> > > +							       PG_LEVEL_NUM,
-> > > +							       false)) {
-> > >  			kvm_zap_one_rmap_spte(kvm, rmap_head, sptep);
-> > >  
-> > >  			if (kvm_available_flush_tlb_with_range())
-> > > diff --git a/arch/x86/kvm/mmu/mmu_internal.h b/arch/x86/kvm/mmu/mmu_internal.h
-> > > index 582def531d4d..5cdff5ca546c 100644
-> > > --- a/arch/x86/kvm/mmu/mmu_internal.h
-> > > +++ b/arch/x86/kvm/mmu/mmu_internal.h
-> > > @@ -188,6 +188,7 @@ struct kvm_page_fault {
-> > >  
-> > >  	/* Derived from mmu and global state.  */
-> > >  	const bool is_tdp;
-> > > +	const bool is_private;
-> > >  	const bool nx_huge_page_workaround_enabled;
-> > >  
-> > >  	/*
-> > > @@ -236,6 +237,7 @@ int kvm_tdp_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault);
-> > >   * RET_PF_RETRY: let CPU fault again on the address.
-> > >   * RET_PF_EMULATE: mmio page fault, emulate the instruction directly.
-> > >   * RET_PF_INVALID: the spte is invalid, let the real page fault path update it.
-> > > + * RET_PF_USER: need to exit to userspace to handle this fault.
-> > >   * RET_PF_FIXED: The faulting entry has been fixed.
-> > >   * RET_PF_SPURIOUS: The faulting entry was already fixed, e.g. by another vCPU.
-> > >   *
-> > > @@ -252,6 +254,7 @@ enum {
-> > >  	RET_PF_RETRY,
-> > >  	RET_PF_EMULATE,
-> > >  	RET_PF_INVALID,
-> > > +	RET_PF_USER,
-> > >  	RET_PF_FIXED,
-> > >  	RET_PF_SPURIOUS,
-> > >  };
-> > > @@ -309,7 +312,7 @@ static inline int kvm_mmu_do_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
-> > >  
-> > >  int kvm_mmu_max_mapping_level(struct kvm *kvm,
-> > >  			      const struct kvm_memory_slot *slot, gfn_t gfn,
-> > > -			      int max_level);
-> > > +			      int max_level, bool is_private);
-> > >  void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault);
-> > >  void disallowed_hugepage_adjust(struct kvm_page_fault *fault, u64 spte, int cur_level);
-> > >  
-> > > @@ -318,4 +321,13 @@ void *mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
-> > >  void account_huge_nx_page(struct kvm *kvm, struct kvm_mmu_page *sp);
-> > >  void unaccount_huge_nx_page(struct kvm *kvm, struct kvm_mmu_page *sp);
-> > >  
-> > > +#ifndef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> > > +static inline int kvm_restricted_mem_get_pfn(struct kvm_memory_slot *slot,
-> > > +					gfn_t gfn, kvm_pfn_t *pfn, int *order)
-> > > +{
-> > > +	WARN_ON_ONCE(1);
-> > > +	return -EOPNOTSUPP;
-> > > +}
-> > > +#endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
-> > > +
-> > >  #endif /* __KVM_X86_MMU_INTERNAL_H */
-> > > diff --git a/arch/x86/kvm/mmu/mmutrace.h b/arch/x86/kvm/mmu/mmutrace.h
-> > > index ae86820cef69..2d7555381955 100644
-> > > --- a/arch/x86/kvm/mmu/mmutrace.h
-> > > +++ b/arch/x86/kvm/mmu/mmutrace.h
-> > > @@ -58,6 +58,7 @@ TRACE_DEFINE_ENUM(RET_PF_CONTINUE);
-> > >  TRACE_DEFINE_ENUM(RET_PF_RETRY);
-> > >  TRACE_DEFINE_ENUM(RET_PF_EMULATE);
-> > >  TRACE_DEFINE_ENUM(RET_PF_INVALID);
-> > > +TRACE_DEFINE_ENUM(RET_PF_USER);
-> > >  TRACE_DEFINE_ENUM(RET_PF_FIXED);
-> > >  TRACE_DEFINE_ENUM(RET_PF_SPURIOUS);
-> > >  
-> > > diff --git a/arch/x86/kvm/mmu/spte.h b/arch/x86/kvm/mmu/spte.h
-> > > index 7670c13ce251..9acdf72537ce 100644
-> > > --- a/arch/x86/kvm/mmu/spte.h
-> > > +++ b/arch/x86/kvm/mmu/spte.h
-> > > @@ -315,6 +315,12 @@ static inline bool is_dirty_spte(u64 spte)
-> > >  	return dirty_mask ? spte & dirty_mask : spte & PT_WRITABLE_MASK;
-> > >  }
-> > >  
-> > > +static inline bool is_private_spte(u64 spte)
-> > > +{
-> > > +	/* FIXME: Query C-bit/S-bit for SEV/TDX. */
-> > > +	return false;
-> > > +}
-> > > +
-> > 
-> > PFN encoded in spte doesn't make sense.  In VMM for TDX, private-vs-shared is
-> > determined by S-bit of GFN.
-> 
-> My understanding is we will have software bit in the spte, will we? In
-> current TDX code I see we have SPTE_SHARED_MASK bit defined.
-
-I'm afraid that you're referring old version.  It's not.  For TDX, gfn needs
-to be checked.  Which isn't encoded in spte.
 
 
-> > >  static inline u64 get_rsvd_bits(struct rsvd_bits_validate *rsvd_check, u64 pte,
-> > >  				int level)
-> > >  {
-> > > diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
-> > > index 672f0432d777..9f97aac90606 100644
-> > > --- a/arch/x86/kvm/mmu/tdp_mmu.c
-> > > +++ b/arch/x86/kvm/mmu/tdp_mmu.c
-> > > @@ -1768,7 +1768,8 @@ static void zap_collapsible_spte_range(struct kvm *kvm,
-> > >  			continue;
-> > >  
-> > >  		max_mapping_level = kvm_mmu_max_mapping_level(kvm, slot,
-> > > -							      iter.gfn, PG_LEVEL_NUM);
-> > > +						iter.gfn, PG_LEVEL_NUM,
-> > > +						is_private_spte(iter.old_spte));
-> > >  		if (max_mapping_level < iter.level)
-> > >  			continue;
-> > 
-> > This is to merge pages into a large page on the next kvm page fault.  large page
-> > support is not yet supported.  Let's skip the private slot until large page
-> > support is done.
-> 
-> So what your suggestion is passing in a 'false' at this time for
-> 'is_private'? Unless we will decide not use the above is_private_spte,
-> this code does not hurt, right? is_private_spte() return false before
-> we finally get chance to add the large page support.
+On Sat, 29 Oct 2022, Xu Yilun wrote:
 
-Let's pass false always for now.
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+> On 2022-10-20 at 14:26:10 -0700, matthew.gerlach@linux.intel.com wrote:
+>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>
+>> Add a Device Feature List (DFL) bus driver for the Altera
+>> 16550 implementation of UART.
+>>
+>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>> ---
+>> v4: use dev_err_probe() everywhere that is appropriate
+>>     clean up noise
+>>     change error messages to use the word, unsupported
+>>     tried again to sort Makefile and KConfig better
+>>     reorder probe function for easier error handling
+>>     use new dfh_find_param API
+>>
+>> v3: use passed in location of registers
+>>     use cleaned up functions for parsing parameters
+>>
+>> v2: clean up error messages
+>>     alphabetize header files
+>>     fix 'missing prototype' error by making function static
+>>     tried to sort Makefile and Kconfig better
+>> ---
+>>  drivers/tty/serial/8250/8250_dfl.c | 149 +++++++++++++++++++++++++++++
+>>  drivers/tty/serial/8250/Kconfig    |  12 +++
+>>  drivers/tty/serial/8250/Makefile   |   1 +
+>>  3 files changed, 162 insertions(+)
+>>  create mode 100644 drivers/tty/serial/8250/8250_dfl.c
+>>
+>> diff --git a/drivers/tty/serial/8250/8250_dfl.c b/drivers/tty/serial/8250/8250_dfl.c
+>> new file mode 100644
+>> index 000000000000..f02f0ba2a565
+>> --- /dev/null
+>> +++ b/drivers/tty/serial/8250/8250_dfl.c
+>> @@ -0,0 +1,149 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Driver for FPGA UART
+>> + *
+>> + * Copyright (C) 2022 Intel Corporation, Inc.
+>> + *
+>> + * Authors:
+>> + *   Ananda Ravuri <ananda.ravuri@intel.com>
+>> + *   Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>> + */
+>> +
+>> +#include <linux/bitfield.h>
+>> +#include <linux/dfl.h>
+>> +#include <linux/io-64-nonatomic-lo-hi.h>
+>> +#include <linux/kernel.h>
+>> +#include <linux/module.h>
+>> +#include <linux/serial.h>
+>> +#include <linux/serial_8250.h>
+>> +
+>> +struct dfl_uart {
+>> +	int line;
+>> +};
+>> +
+>> +static int dfl_uart_get_params(struct dfl_device *dfl_dev, struct uart_8250_port *uart)
+>> +{
+>> +	struct device *dev = &dfl_dev->dev;
+>> +	u64 v, fifo_len, reg_width;
+>> +	u64 *p;
+>> +
+>> +	p = dfh_find_param(dfl_dev, DFHv1_PARAM_ID_CLK_FRQ);
+>> +	if (!p)
+>> +		return dev_err_probe(dev, -EINVAL, "missing CLK_FRQ param\n");
+>> +
+>> +	uart->port.uartclk = *p;
+>> +	dev_dbg(dev, "UART_CLK_ID %u Hz\n", uart->port.uartclk);
+>> +
+>> +	p = dfh_find_param(dfl_dev, DFHv1_PARAM_ID_FIFO_LEN);
+>> +	if (!p)
+>> +		return dev_err_probe(dev, -EINVAL, "missing FIFO_LEN param\n");
+>> +
+>> +	fifo_len = *p;
+>> +	dev_dbg(dev, "UART_FIFO_ID fifo_len %llu\n", fifo_len);
+>> +
+>> +	switch (fifo_len) {
+>> +	case 32:
+>> +		uart->port.type = PORT_ALTR_16550_F32;
+>> +		break;
+>> +
+>> +	case 64:
+>> +		uart->port.type = PORT_ALTR_16550_F64;
+>> +		break;
+>> +
+>> +	case 128:
+>> +		uart->port.type = PORT_ALTR_16550_F128;
+>> +		break;
+>> +
+>> +	default:
+>> +		return dev_err_probe(dev, -EINVAL, "unsupported fifo_len %llu\n", fifo_len);
+>> +	}
+>> +
+>> +	p = dfh_find_param(dfl_dev, DFHv1_PARAM_ID_REG_LAYOUT);
+>> +	if (!p)
+>> +		return dev_err_probe(dev, -EINVAL, "missing REG_LAYOUT param\n");
+>> +
+>> +	v = *p;
+>> +	uart->port.regshift = FIELD_GET(DFHv1_PARAM_ID_REG_SHIFT, v);
+>> +	reg_width = FIELD_GET(DFHv1_PARAM_ID_REG_WIDTH, v);
+>
+> I have concern that the raw layout inside the parameter block is
+> still exposed to drivers and need to be parsed by each driver.
+
+Raw parameter block will always have to be passed to the driver because HW 
+specific properties can be defined that will need to be parsed by the 
+specific driver.
+
+>
+> How about we define HW agnostic IDs for parameter specific fields like:
+>
+> PARAM_ID		FIELD_ID
+> ================================
+> MSIX			STARTV
+> 			NUMV
+> --------------------------------
+> CLK			FREQ
+> --------------------------------
+> FIFO			LEN
+> --------------------------------
+> REG_LAYOUT		WIDTH
+> 			SHIFT
+>
+> And define like u64 dfl_find_param(struct dfl_device *, int param_id, int field_id)
+
+I don't think dfl_find_param as defined above adds much value.
+
+>
+> Think further, if we have to define HW agnostic property - value pairs,
+> why don't we just use "Software nodes for the firmware node", see
+> drivers/base/swnode.c. I think this may be a better choice.
+
+I am looking into "Software nodes for the firmware node", and it can be 
+used for HW agnostic properties.  Each dfl driver will still have to 
+make a function call to fetch each HW agnostice property value as well as 
+a function call to find the HW specific parameters and then parse those 
+parameters.
+
+>
+> Thanks,
+> Yilun
+>
