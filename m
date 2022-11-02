@@ -2,155 +2,235 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E498C4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 11:48:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08B91C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 11:50:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230261AbiKBLsO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 07:48:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45404 "EHLO
+        id S229537AbiKBLuk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 07:50:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230298AbiKBLsK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 07:48:10 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 510C228723;
-        Wed,  2 Nov 2022 04:48:07 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id j12so16330381plj.5;
-        Wed, 02 Nov 2022 04:48:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lrt48o0wxQzQSNwn9v0lTmEHxq/zDXHhMvj06dfThtY=;
-        b=TY2LrmuIAoR+xdiGyBablBuIPoXvzxK6cMCmSG4gN3TWjqpd30TwaP+LzPRqMH1drI
-         +y/3lRjhS9NFfbNfUjgujDC5BH2NgR733/m96E7Oe4xYVN0ym+ftOuQKxbgaRke+rS6Z
-         Wp8r+sgub3NlWrpc/YSJBmmikuvfmKyqmXAfpmmKgFtXYQRJagntlifh68AauVxlB1BF
-         /AEeCt4+brNpUwI+Lb8j47PnhjsA/I+rvCuYnbhmFFhk6eEdUUyKjT2Ib6WrNtaapS5U
-         rU99ywZWfG7MKxJdg5hWcAKdNZSHE5x7Gph/KiaVXz1I8g5OMdi4zmVPKP1U7qf9/cNs
-         ozaA==
+        with ESMTP id S229553AbiKBLuj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 07:50:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96B4628726
+        for <linux-doc@vger.kernel.org>; Wed,  2 Nov 2022 04:49:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1667389780;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=LW6MOnU6mlfcCxH+G3H9xQRaq19jciK+WKOGYbqCWSU=;
+        b=ffY0KPODDGW60yrzsW8Qvfb2x3UPCR3jwzrieDG2zpiXT9Onc8oBtcuoXHMO6662lSgE6K
+        TMfOOz1TScyi2BssoyQaJPieGuvx2N6AakrRRDQ8odZ+jJSS2gJalMb4Qatcxt6XmgxG2W
+        IHDU6LLb5XtuSoitX3gMQd0QPAyJJSY=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-360-I9I6vOguMMaoNYRUu3VI5g-1; Wed, 02 Nov 2022 07:49:39 -0400
+X-MC-Unique: I9I6vOguMMaoNYRUu3VI5g-1
+Received: by mail-qk1-f198.google.com with SMTP id bp10-20020a05620a458a00b006fa29f253dcso8064880qkb.11
+        for <linux-doc@vger.kernel.org>; Wed, 02 Nov 2022 04:49:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=lrt48o0wxQzQSNwn9v0lTmEHxq/zDXHhMvj06dfThtY=;
-        b=tKSbla9CumoMIV0Py4EjrTGWj245m8MALqX6d7GtCs9qbSm/451Rw17RnCmGndQ+en
-         +JckLjt67wZqggJhnQvaOcCcJ1kCWKhfs0MR8TtC9UqX2Q7DAmEQzKY7jq4McgeC0c+K
-         nJis1XT/ZV4X+/ohn9IMUpGPBF8qG962eJpP7ZXuyc6bcEWh9B7f5zDxJy3T2ZVlmdTa
-         XBLwhxwCVOoPPj38fcSmquqv1HsIkPhlUhV0ikCug2F2fQZzzY3us3bA8/PhDXCjNPva
-         +/+EAyt+k46PzYr+eSZ4m23rfDStuwgWKgu+uDFZFr0LtEiN+LH9nhxi1tVBBUtGAx/l
-         tFxw==
-X-Gm-Message-State: ACrzQf3VutA3WgvbXj6k/8j5Mpu/dNpR96tNmOitFzJLMGZv0GJahxm2
-        12fMlEwC/KRhhLGxqSsFcDQ=
-X-Google-Smtp-Source: AMsMyM7CtWB8wxg+vrruuJ9K0sE0Tig7eyYj0WyGmnUalTtz2/1PxHmG4YgJO+NqaE2OkWJQIkgbzw==
-X-Received: by 2002:a17:90b:4f45:b0:213:ccc6:87df with SMTP id pj5-20020a17090b4f4500b00213ccc687dfmr19537471pjb.227.1667389686843;
-        Wed, 02 Nov 2022 04:48:06 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id 13-20020a62190d000000b00562cfc80864sm8295435pfz.36.2022.11.02.04.48.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Nov 2022 04:48:06 -0700 (PDT)
-Message-ID: <4e54c76a-138a-07e0-985a-dd83cb622208@gmail.com>
-Date:   Wed, 2 Nov 2022 20:48:01 +0900
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LW6MOnU6mlfcCxH+G3H9xQRaq19jciK+WKOGYbqCWSU=;
+        b=GUTADGJkaWqi4xpLQ7zBu7MmpNf6HXmAPrCJQe0F68eEK+jX3TndhaM+B4ufEwW845
+         SOWzzlTA0DdTdnCI4+0dGZSUGBDQfguSL8UgHVsV4IMpXAppX4p1/V+BYcu6sDtgDE7z
+         WJCBdrxPQ+8R0iGqz1+JA74qobsINkQQc2cKUku1NzXZz2HZz6pJKKLmonIwIVSJGsDS
+         DX/NyU3/MMBQXCNjtsmUUq2soCstSUIawysowU6YD5jXtKG3FnPTpN3FsEiBgseQCh5F
+         lDA78hTm7yHqv6FdVmfwQRmE+3oPkUqapniwSLOYIyN2/qgTDBDSyfDFQwHJA8bhnRsm
+         8hdA==
+X-Gm-Message-State: ACrzQf3JV2cZzfqKdKtOGvL+xlcsfSm9c+iY+fLBAlj5Z/KOBRCTRe3X
+        Sltt2JFCGiqcJBm6FO6WcjR+tApnHnAXBq8Ytvp6WS+KL1eAUn61J4RMO0Xuh0tw5mg8PkadT3Y
+        uJYmevAUDHb/QXSAUvn56
+X-Received: by 2002:a05:620a:91d:b0:6fa:442d:9a72 with SMTP id v29-20020a05620a091d00b006fa442d9a72mr7035157qkv.487.1667389779194;
+        Wed, 02 Nov 2022 04:49:39 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6D357WNkXQsA8F1Qf+1depCIhRZduzzilE2kN0d/zLKKeF+biT1yrpskbjJybuEEVhju25Qg==
+X-Received: by 2002:a05:620a:91d:b0:6fa:442d:9a72 with SMTP id v29-20020a05620a091d00b006fa442d9a72mr7035151qkv.487.1667389778964;
+        Wed, 02 Nov 2022 04:49:38 -0700 (PDT)
+Received: from nfvsdn-06.testing.baremetal.edge-sites.net (nat-pool-232-132.redhat.com. [66.187.232.132])
+        by smtp.gmail.com with ESMTPSA id h6-20020a05620a400600b006ee8874f5fasm7784855qko.53.2022.11.02.04.49.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 04:49:38 -0700 (PDT)
+From:   mtahhan@redhat.com
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     jbrouer@redhat.com, thoiland@redhat.com,
+        Maryam Tahhan <mtahhan@redhat.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>
+Subject: [PATCH bpf-next v2 1/1] docs: BPF_MAP_TYPE_CPUMAP
+Date:   Wed,  2 Nov 2022 08:44:16 -0400
+Message-Id: <20221102124416.2820268-2-mtahhan@redhat.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20221102124416.2820268-1-mtahhan@redhat.com>
+References: <20221102124416.2820268-1-mtahhan@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] docs/driver-api/miscellaneous: Remove kernel-doc of
- serial_core.c
-To:     Jiri Slaby <jslaby@suse.cz>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since merge of tty-6.0-rc1, "make htmldocs" with Sphinx >=3.1 emits
-a bunch of warnings indicating duplicate kernel-doc comments from
-drivers/tty/serial/serial_core.c.
+From: Maryam Tahhan <mtahhan@redhat.com>
 
-This is due to the kernel-doc directive for serial_core.c in
-serial/drivers.rst added in the merge. It conflicts with an existing
-kernel-doc directive in miscellaneous.rst.
+Add documentation for BPF_MAP_TYPE_CPUMAP including
+kernel version introduced, usage and examples.
 
-Remove the latter directive and resolve the duplicates.
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Fixes: 607ca0f742b7 ("Merge tag 'tty-6.0-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty")
-Cc: stable@vger.kernel.org # 6.0
-Cc: Jiri Slaby <jslaby@suse.cz>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
+Co-developed-by: Lorenzo Bianconi <lorenzo@kernel.org>
 ---
-Hi Jiri,
+ Documentation/bpf/map_cpumap.rst | 140 +++++++++++++++++++++++++++++++
+ 1 file changed, 140 insertions(+)
+ create mode 100644 Documentation/bpf/map_cpumap.rst
 
-I've seeing the increased warnings of duplicates from "make htmldocs"
-since the 6.0 merge window. They look like (partial):
-
-/linux/Documentation/driver-api/serial/driver.rst:111: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:111.
-Declaration is '.. c:function:: void uart_write_wakeup(struct uart_port *port)'.
-/linux/Documentation/driver-api/serial/driver.rst:111: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:111.
-Declaration is '.. c:None:: struct uart_port *port'.
-/linux/Documentation/driver-api/serial/driver.rst:343: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:343.
-Declaration is '.. c:function:: void uart_update_timeout(struct uart_port *port, unsigned int cflag, unsigned int baud)'.
-/linux/Documentation/driver-api/serial/driver.rst:343: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:343.
-Declaration is '.. c:None:: struct uart_port *port'.
-/linux/Documentation/driver-api/serial/driver.rst:343: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:343.
-Declaration is '.. c:None:: unsigned int cflag'.
-/linux/Documentation/driver-api/serial/driver.rst:343: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:343.
-Declaration is '.. c:None:: unsigned int baud'.
-/linux/Documentation/driver-api/serial/driver.rst:376: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:376.
-
-These warning messages are not easy to track down, as there is an
-unresolved issue in Sphinx's C domain parser who can't handle a
-function and a struct of the same name and causes duplicates in a
-later stage of Sphinx processing.
-
-But the warnings shown above turned out to be true duplicates.
-
-There is a not-clearly-documented rule in including kernel-doc
-comments into .rst files. Any kernel-doc comment can be included
-at most once in the whole documentation tree. Otherwise, you can't
-be sure of which target a cross-reference points to.
-
-As I don't have full context of these kernel-doc comments, this is
-meant as a band-aide patch, especially the reference to
-serial/driver.rst added at the bottom.
-
-If I can get acks from you and/or Greg, I'd like Jon to take the
-fix, as this issue affects the -doc tree most.
-
-Thanks,
-Akira
-
---
- Documentation/driver-api/miscellaneous.rst | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/driver-api/miscellaneous.rst b/Documentation/driver-api/miscellaneous.rst
-index 304ffb146cf9..4a5104a368ac 100644
---- a/Documentation/driver-api/miscellaneous.rst
-+++ b/Documentation/driver-api/miscellaneous.rst
-@@ -16,12 +16,11 @@ Parallel Port Devices
- 16x50 UART Driver
- =================
- 
--.. kernel-doc:: drivers/tty/serial/serial_core.c
--   :export:
--
- .. kernel-doc:: drivers/tty/serial/8250/8250_core.c
-    :export:
- 
-+See serial/driver.rst for related APIs.
+diff --git a/Documentation/bpf/map_cpumap.rst b/Documentation/bpf/map_cpumap.rst
+new file mode 100644
+index 000000000000..23320fb61bf7
+--- /dev/null
++++ b/Documentation/bpf/map_cpumap.rst
+@@ -0,0 +1,140 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
 +
- Pulse-Width Modulation (PWM)
- ============================
- 
-
-base-commit: 30a0b95b1335e12efef89dd78518ed3e4a71a763
++===================
++BPF_MAP_TYPE_CPUMAP
++===================
++
++.. note::
++   - ``BPF_MAP_TYPE_CPUMAP`` was introduced in kernel version 4.15
++
++``BPF_MAP_TYPE_CPUMAP`` is primarily used as a backend map for the XDP BPF
++helpers ``bpf_redirect_map()`` and ``XDP_REDIRECT`` action. This map type redirects raw
++XDP frames to another CPU.
++
++A CPUMAP is a scalability and isolation mechanism that allows the steering of packets
++to dedicated CPUs for processing. An example use-case for this map type is software
++based Receive Side Scaling (RSS).
++
++The CPUMAP represents the CPUs in the system indexed as the map-key, and the
++map-value is the config setting (per CPUMAP entry). Each CPUMAP entry has a dedicated
++kernel thread bound to the given CPU to represent the remote CPU execution unit.
++
++Starting from Linux kernel version 5.9 the CPUMAP can run a second XDP program
++on the remote CPU. This allows an XDP program to split its processing across
++multiple CPUs. For example, a scenario where the initial CPU (that sees/receives
++the packets) needs to do minimal packet processing and the remote CPU (to which
++the packet is directed) can afford to spend more cycles processing the frame. The
++initial CPU is where the XDP redirect program is executed. The remote CPU
++receives raw``xdp_frame`` objects.
++
++Usage
++=====
++
++.. c:function::
++   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
++
++ CPU entries can be added or updated using the ``bpf_map_update_elem()``
++ helper. This helper replaces existing elements atomically. The ``value`` parameter
++ can be ``struct bpf_cpumap_val``.
++
++ .. note::
++    The maps can only be updated from user space and not from a BPF program.
++
++ .. code-block:: c
++
++    struct bpf_cpumap_val {
++        __u32 qsize;  /* queue size to remote target CPU */
++        union {
++            int   fd; /* prog fd on map write */
++            __u32 id; /* prog id on map read */
++        } bpf_prog;
++    };
++
++.. c:function::
++   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
++
++ CPU entries can be retrieved using the ``bpf_map_lookup_elem()``
++ helper.
++
++.. c:function::
++   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
++
++ CPU entries can be deleted using the ``bpf_map_delete_elem()``
++ helper. This helper will return 0 on success, or negative error in case of
++ failure.
++
++.. c:function::
++     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
++
++ Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
++ For ``BPF_MAP_TYPE_CPUMAP`` this map contains references to CPUs.
++
++ The lower two bits of *flags* are used as the return code if the map lookup
++ fails. This is so that the return value can be one of the XDP program return
++ codes up to ``XDP_TX``, as chosen by the caller.
++
++Examples
++========
++Kernel
++------
++
++The following code snippet shows how to declare a BPF_MAP_TYPE_CPUMAP called
++cpu_map and how to redirect packets to a remote CPU using a round robin scheme.
++
++.. code-block:: c
++
++   struct {
++        __uint(type, BPF_MAP_TYPE_CPUMAP);
++        __type(key, u32);
++        __type(value, struct bpf_cpumap_val);
++        __uint(max_entries, 12);
++    } cpu_map SEC(".maps");
++
++    struct {
++        __uint(type, BPF_MAP_TYPE_ARRAY);
++        __type(key, u32);
++        __type(value, u32);
++        __uint(max_entries, 12);
++    } cpus_available SEC(".maps");
++
++    struct {
++        __uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
++        __type(key, u32);
++        __type(value, u32);
++        __uint(max_entries, 1);
++       } cpus_iterator SEC(".maps");
++
++    SEC("xdp")
++    int  xdp_redir_cpu_round_robin(struct xdp_md *ctx)
++    {
++        u32 key = 0;
++        u32 cpu_dest = 0;
++        u32 *cpu_selected, *cpu_iterator;
++        u32 cpu_idx;
++
++        cpu_iterator = bpf_map_lookup_elem(&cpus_iterator, &key);
++        if (!cpu_iterator)
++            return XDP_ABORTED;
++        cpu_idx = *cpu_iterator;
++
++        *cpu_iterator += 1;
++        if (*cpu_iterator == bpf_num_possible_cpus())
++            *cpu_iterator = 0;
++
++        cpu_selected = bpf_map_lookup_elem(&cpus_available, &cpu_idx);
++        if (!cpu_selected)
++            return XDP_ABORTED;
++        cpu_dest = *cpu_selected;
++
++        if (cpu_dest >= bpf_num_possible_cpus())
++            return XDP_ABORTED;
++
++        return bpf_redirect_map(&cpu_map, cpu_dest, 0);
++    }
++
++References
++===========
++
++- https://elixir.bootlin.com/linux/v6.0.1/source/kernel/bpf/cpumap.c
++- https://developers.redhat.com/blog/2021/05/13/receive-side-scaling-rss-with-ebpf-and-cpumap#redirecting_into_a_cpumap
 -- 
-2.25.1
+2.35.3
 
