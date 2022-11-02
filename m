@@ -2,228 +2,299 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF21C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 03:48:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59FE7C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 03:57:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230369AbiKBDsL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 23:48:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34954 "EHLO
+        id S229542AbiKBD5L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 23:57:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230341AbiKBDsK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 23:48:10 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6777275E0;
-        Tue,  1 Nov 2022 20:48:08 -0700 (PDT)
+        with ESMTP id S229516AbiKBD5J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 23:57:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66EF520F67;
+        Tue,  1 Nov 2022 20:57:08 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5862CB81AF4;
-        Wed,  2 Nov 2022 03:48:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB259C433D6;
-        Wed,  2 Nov 2022 03:48:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1667360886;
-        bh=sbMaQT6+NPvwwLF+F7fQwVF4XJp4iIgtZmUGq1r649Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WwPcwEQsKA6aItzTDqzoBLFUKEDCoQbVfXBRVXzf7xAOUOs1/4xiNgjiCmx4bjNA+
-         mY4JAPUkj9sgLbdPV6vQ46D5d+aeZgskxt95iTD17FThVDKbQnqu6i7Ua4U6mdID7R
-         Spi95Tu/jt1O9xDHdK826C83ubpsjeOC8Cp/HuuQ=
-Date:   Wed, 2 Nov 2022 03:53:11 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 10/21] gunyah: rsc_mgr: Add resource manager RPC core
-Message-ID: <Y2Hbl4y9Hioybxmq@kroah.com>
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-11-quic_eberman@quicinc.com>
- <Y2FfKCKZ3N8rOqcT@kroah.com>
- <3d2858fe-ea3e-159c-faff-5052cba1e08c@quicinc.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F2DC4617E1;
+        Wed,  2 Nov 2022 03:57:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 953F6C433C1;
+        Wed,  2 Nov 2022 03:57:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667361427;
+        bh=wgPMwwJKGKYLp+OyaPOh2LlsTDebXX2chCuRXvs6Bhw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=eKiDeHbl+uFwIeZIKr8zCP93HEF4YgDt4KS+GYxV0BmusSRayLF6rLaD1Up9bT9bd
+         JIWMWTr7U1+AJWabas8NmVncw82/XdxKhoxY6qhZaL8lfTLGwRgRAcXb18vO/xPftO
+         5wpNxwiFXLkLp0jHHQCR2jDL1FbIgXsYs/4UpbmEVAAEN+e43lVUbGa31/y0h6w8uw
+         oPKDkCQSfcAxO5CovR88o7mZF60Cq/nq6a+l6cRJ3NZzxl7UX+DPcKS72a4ry6OD7o
+         7/FY4jsCCl3PBP5paJswPHL2q5rkF7enZW3q5S3ahKOGPRqBQYsGog+MCdlVHtdSWd
+         beA+4XdkIuq4A==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        Jakub Kicinski <kuba@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Michael Chan <michael.chan@broadcom.com>,
+        Andrew Lunn <andrew@lunn.ch>, corbet@lwn.net,
+        hkallweit1@gmail.com, linux@armlinux.org.uk,
+        huangguangbin2@huawei.com, chenhao288@hisilicon.com,
+        moshet@nvidia.com, linux@rempel-privat.de,
+        linux-doc@vger.kernel.org
+Subject: [PATCH net-next v4] ethtool: linkstate: add a statistic for PHY down events
+Date:   Tue,  1 Nov 2022 20:57:04 -0700
+Message-Id: <20221102035704.110304-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3d2858fe-ea3e-159c-faff-5052cba1e08c@quicinc.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 01, 2022 at 05:12:58PM -0700, Elliot Berman wrote:
-> 
-> 
-> On 11/1/2022 11:02 AM, Greg Kroah-Hartman wrote:
-> > On Wed, Oct 26, 2022 at 11:58:35AM -0700, Elliot Berman wrote:
-> > > The resource manager is a special virtual machine which is always
-> > > running on a Gunyah system. It provides APIs for creating and destroying
-> > > VMs, secure memory management, sharing/lending of memory between VMs,
-> > > and setup of inter-VM communication. Calls to the resource manager are
-> > > made via message queues.
-> > > 
-> > > This patch implements the basic probing and RPC mechanism to make those
-> > > API calls. Request/response calls can be made with gh_rm_call.
-> > > Drivers can also register to notifications pushed by RM via
-> > > gh_rm_register_notifier
-> > > 
-> > > Specific API calls that resource manager supports will be implemented in
-> > > subsequent patches.
-> > > 
-> > > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> > > ---
-> > >   MAINTAINERS                    |   2 +-
-> > >   drivers/virt/gunyah/Kconfig    |  15 +
-> > >   drivers/virt/gunyah/Makefile   |   3 +
-> > >   drivers/virt/gunyah/rsc_mgr.c  | 602 +++++++++++++++++++++++++++++++++
-> > >   drivers/virt/gunyah/rsc_mgr.h  |  34 ++
-> > >   include/linux/gunyah_rsc_mgr.h |  26 ++
-> > >   6 files changed, 681 insertions(+), 1 deletion(-)
-> > >   create mode 100644 drivers/virt/gunyah/rsc_mgr.c
-> > >   create mode 100644 drivers/virt/gunyah/rsc_mgr.h
-> > >   create mode 100644 include/linux/gunyah_rsc_mgr.h
-> > > 
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 586539eadd3b..e072a0d2e553 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -8945,7 +8945,7 @@ F:	Documentation/virt/gunyah/
-> > >   F:	arch/arm64/gunyah/
-> > >   F:	drivers/mailbox/gunyah-msgq.c
-> > >   F:	drivers/virt/gunyah/
-> > > -F:	include/linux/gunyah.h
-> > > +F:	include/linux/gunyah*.h
-> > >   HABANALABS PCI DRIVER
-> > >   M:	Oded Gabbay <ogabbay@kernel.org>
-> > > diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
-> > > index 127156a678a6..4de88d80aa7b 100644
-> > > --- a/drivers/virt/gunyah/Kconfig
-> > > +++ b/drivers/virt/gunyah/Kconfig
-> > > @@ -10,3 +10,18 @@ config GUNYAH
-> > >   	  Say Y/M here to enable the drivers needed to interact in a Gunyah
-> > >   	  virtual environment.
-> > > +
-> > > +config GUNYAH_RESORUCE_MANAGER
-> > > +	tristate "Gunyah Resource Manager"
-> > > +	select MAILBOX
-> > > +	select GUNYAH_MESSAGE_QUEUES
-> > > +	depends on GUNYAH
-> > > +	default y
-> > 
-> > You only have "default y" if your machine can not boot without it.
-> > Please do not add that here.
-> > 
-> 
-> There's a guideline in Documentation/kbuild/kconfig-language.rst to provide
-> some sane defaults for subdriver behavior. Here, CONFIG_GUNYAH is default n.
-> It's unlikely for someone to want to have Linux with base Gunyah support
-> (hypercalls and hypervisor detection) without also having the Resource
-> Manager driver. If it's better, I could change to default m?
+The previous attempt to augment carrier_down (see Link)
+was not met with much enthusiasm so let's do the simple
+thing of exposing what some devices already maintain.
+Add a common ethtool statistic for link going down.
+Currently users have to maintain per-driver mapping
+to extract the right stat from the vendor-specific ethtool -S
+stats. carrier_down does not fit the bill because it counts
+a lot of software related false positives.
 
-Why is this a separate build option at all anyway?  If you want
-CONFIG_GUNYAH why would you ever turn this off?  So why even allow it to
-be an option?  Just always built it depending on the main option.
+Add the statistic to the extended link state API to steer
+vendors towards implementing all of it.
 
-> > > +/* Resource Manager Header */
-> > > +struct gh_rm_rpc_hdr {
-> > > +	u8 version : 4, hdr_words : 4;
-> > > +	u8 type : 2, fragments : 6;
-> > 
-> > Ick, that's hard to read.  One variable per line please?
-> 
-> Ack.
-> 
-> > And why the bit packed stuff?  Are you sure this is the way to do this?
-> > Why not use a bitmask instead?
-> > 
-> 
-> I felt bit packed implementation is cleaner and easier to map to
-> understanding what the fields are used for.
+Implement for bnxt and all Linux-controlled PHYs. mlx5 and (possibly)
+enic also have a counter for this but I leave the implementation
+to their maintainers.
 
-Ah, so this isn't what is on the "wire", then don't use a bitfield like
-this, use a real variable and that will be faster and simpler to
-understand.
+Link: https://lore.kernel.org/r/20220520004500.2250674-1-kuba@kernel.org
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+Reviewed-by: Michael Chan <michael.chan@broadcom.com>
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+--
+v4:
+ - add a comment about the struct remaining as u64
+v3:
+ - make the stat u32 (apart from the ethtool struct which uses u64s
+   for the "not set" detection, whatevs)
+v2:
+ - add phylib support
+---
+CC: corbet@lwn.net
+CC: michael.chan@broadcom.com
+CC: andrew@lunn.ch
+CC: hkallweit1@gmail.com
+CC: linux@armlinux.org.uk
+CC: huangguangbin2@huawei.com
+CC: chenhao288@hisilicon.com
+CC: moshet@nvidia.com
+CC: linux@rempel-privat.de
+CC: f.fainelli@gmail.com
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/networking/ethtool-netlink.rst  |  1 +
+ .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 15 ++++++++++++
+ drivers/net/phy/phy.c                         |  1 +
+ include/linux/ethtool.h                       | 14 +++++++++++
+ include/linux/phy.h                           |  3 +++
+ include/uapi/linux/ethtool_netlink.h          |  1 +
+ net/ethtool/linkstate.c                       | 24 ++++++++++++++++++-
+ 7 files changed, 58 insertions(+), 1 deletion(-)
 
-> > > +static struct gh_rsc_mgr *__rsc_mgr;
-> > 
-> > Sorry, no, you don't get to just limit yourself to one of these.  Please
-> > make this properly handle any number of "resource managers", static
-> > variables like this is not ok.
-> > 
-> 
-> There will only ever be one resource manager. optee, psci, and qcom_scm use
-> a similar approach.
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index d578b8bcd8a4..bede24ef44fd 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -491,6 +491,7 @@ any attributes.
+   ``ETHTOOL_A_LINKSTATE_SQI_MAX``       u32     Max support SQI value
+   ``ETHTOOL_A_LINKSTATE_EXT_STATE``     u8      link extended state
+   ``ETHTOOL_A_LINKSTATE_EXT_SUBSTATE``  u8      link extended substate
++  ``ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT``  u32     count of link down events
+   ====================================  ======  ============================
+ 
+ For most NIC drivers, the value of ``ETHTOOL_A_LINKSTATE_LINK`` returns
+diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+index cc89e5eabcb9..d8f0351df954 100644
+--- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
++++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+@@ -4112,6 +4112,20 @@ static void bnxt_get_rmon_stats(struct net_device *dev,
+ 	*ranges = bnxt_rmon_ranges;
+ }
+ 
++static void bnxt_get_link_ext_stats(struct net_device *dev,
++				    struct ethtool_link_ext_stats *stats)
++{
++	struct bnxt *bp = netdev_priv(dev);
++	u64 *rx;
++
++	if (BNXT_VF(bp) || !(bp->flags & BNXT_FLAG_PORT_STATS_EXT))
++		return;
++
++	rx = bp->rx_port_stats_ext.sw_stats;
++	stats->link_down_events =
++		*(rx + BNXT_RX_STATS_EXT_OFFSET(link_down_events));
++}
++
+ void bnxt_ethtool_free(struct bnxt *bp)
+ {
+ 	kfree(bp->test_info);
+@@ -4161,6 +4175,7 @@ const struct ethtool_ops bnxt_ethtool_ops = {
+ 	.get_eeprom             = bnxt_get_eeprom,
+ 	.set_eeprom		= bnxt_set_eeprom,
+ 	.get_link		= bnxt_get_link,
++	.get_link_ext_stats	= bnxt_get_link_ext_stats,
+ 	.get_eee		= bnxt_get_eee,
+ 	.set_eee		= bnxt_set_eee,
+ 	.get_module_info	= bnxt_get_module_info,
+diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+index e741d8aebffe..e5b6cb1a77f9 100644
+--- a/drivers/net/phy/phy.c
++++ b/drivers/net/phy/phy.c
+@@ -67,6 +67,7 @@ static void phy_link_down(struct phy_device *phydev)
+ {
+ 	phydev->phy_link_change(phydev, false);
+ 	phy_led_trigger_change_speed(phydev);
++	WRITE_ONCE(phydev->link_down_events, phydev->link_down_events + 1);
+ }
+ 
+ static const char *phy_pause_str(struct phy_device *phydev)
+diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
+index 99dc7bfbcd3c..fa8e0d52dd30 100644
+--- a/include/linux/ethtool.h
++++ b/include/linux/ethtool.h
+@@ -125,6 +125,17 @@ struct ethtool_link_ext_state_info {
+ 	};
+ };
+ 
++struct ethtool_link_ext_stats {
++	/* Custom Linux statistic for PHY level link down events.
++	 * In a simpler world it should be equal to netdev->carrier_down_count
++	 * unfortunately netdev also counts local reconfigurations which don't
++	 * actually take the physical link down, not to mention NC-SI which,
++	 * if present, keeps the link up regardless of host state.
++	 * This statistic counts when PHY _actually_ went down, or lost link.
++	 */
++	u64 link_down_events;
++};
++
+ /**
+  * ethtool_rxfh_indir_default - get default value for RX flow hash indirection
+  * @index: Index in RX flow hash indirection table
+@@ -481,6 +492,7 @@ struct ethtool_module_power_mode_params {
+  *	do not attach ext_substate attribute to netlink message). If link_ext_state
+  *	and link_ext_substate are unknown, return -ENODATA. If not implemented,
+  *	link_ext_state and link_ext_substate will not be sent to userspace.
++ * @get_link_ext_stats: Read extra link-related counters.
+  * @get_eeprom_len: Read range of EEPROM addresses for validation of
+  *	@get_eeprom and @set_eeprom requests.
+  *	Returns 0 if device does not support EEPROM access.
+@@ -652,6 +664,8 @@ struct ethtool_ops {
+ 	u32	(*get_link)(struct net_device *);
+ 	int	(*get_link_ext_state)(struct net_device *,
+ 				      struct ethtool_link_ext_state_info *);
++	void	(*get_link_ext_stats)(struct net_device *,
++				      struct ethtool_link_ext_stats *);
+ 	int	(*get_eeprom_len)(struct net_device *);
+ 	int	(*get_eeprom)(struct net_device *,
+ 			      struct ethtool_eeprom *, u8 *);
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index ddf66198f751..9a3752c0c444 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -600,6 +600,7 @@ struct macsec_ops;
+  * @psec: Pointer to Power Sourcing Equipment control struct
+  * @lock:  Mutex for serialization access to PHY
+  * @state_queue: Work queue for state machine
++ * @link_down_events: Number of times link was lost
+  * @shared: Pointer to private data shared by phys in one package
+  * @priv: Pointer to driver private data
+  *
+@@ -723,6 +724,8 @@ struct phy_device {
+ 
+ 	int pma_extable;
+ 
++	unsigned int link_down_events;
++
+ 	void (*phy_link_change)(struct phy_device *phydev, bool up);
+ 	void (*adjust_link)(struct net_device *dev);
+ 
+diff --git a/include/uapi/linux/ethtool_netlink.h b/include/uapi/linux/ethtool_netlink.h
+index bb57084ac524..aaf7c6963d61 100644
+--- a/include/uapi/linux/ethtool_netlink.h
++++ b/include/uapi/linux/ethtool_netlink.h
+@@ -262,6 +262,7 @@ enum {
+ 	ETHTOOL_A_LINKSTATE_SQI_MAX,		/* u32 */
+ 	ETHTOOL_A_LINKSTATE_EXT_STATE,		/* u8 */
+ 	ETHTOOL_A_LINKSTATE_EXT_SUBSTATE,	/* u8 */
++	ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT,	/* u32 */
+ 
+ 	/* add new constants above here */
+ 	__ETHTOOL_A_LINKSTATE_CNT,
+diff --git a/net/ethtool/linkstate.c b/net/ethtool/linkstate.c
+index fb676f349455..2158c17a0b32 100644
+--- a/net/ethtool/linkstate.c
++++ b/net/ethtool/linkstate.c
+@@ -13,6 +13,7 @@ struct linkstate_reply_data {
+ 	int					link;
+ 	int					sqi;
+ 	int					sqi_max;
++	struct ethtool_link_ext_stats		link_stats;
+ 	bool					link_ext_state_provided;
+ 	struct ethtool_link_ext_state_info	ethtool_link_ext_state_info;
+ };
+@@ -22,7 +23,7 @@ struct linkstate_reply_data {
+ 
+ const struct nla_policy ethnl_linkstate_get_policy[] = {
+ 	[ETHTOOL_A_LINKSTATE_HEADER]		=
+-		NLA_POLICY_NESTED(ethnl_header_policy),
++		NLA_POLICY_NESTED(ethnl_header_policy_stats),
+ };
+ 
+ static int linkstate_get_sqi(struct net_device *dev)
+@@ -107,6 +108,19 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
+ 			goto out;
+ 	}
+ 
++	ethtool_stats_init((u64 *)&data->link_stats,
++			   sizeof(data->link_stats) / 8);
++
++	if (req_base->flags & ETHTOOL_FLAG_STATS) {
++		if (dev->phydev)
++			data->link_stats.link_down_events =
++				READ_ONCE(dev->phydev->link_down_events);
++
++		if (dev->ethtool_ops->get_link_ext_stats)
++			dev->ethtool_ops->get_link_ext_stats(dev,
++							     &data->link_stats);
++	}
++
+ 	ret = 0;
+ out:
+ 	ethnl_ops_complete(dev);
+@@ -134,6 +148,9 @@ static int linkstate_reply_size(const struct ethnl_req_info *req_base,
+ 	if (data->ethtool_link_ext_state_info.__link_ext_substate)
+ 		len += nla_total_size(sizeof(u8)); /* LINKSTATE_EXT_SUBSTATE */
+ 
++	if (data->link_stats.link_down_events != ETHTOOL_STAT_NOT_SET)
++		len += nla_total_size(sizeof(u32));
++
+ 	return len;
+ }
+ 
+@@ -166,6 +183,11 @@ static int linkstate_fill_reply(struct sk_buff *skb,
+ 			return -EMSGSIZE;
+ 	}
+ 
++	if (data->link_stats.link_down_events != ETHTOOL_STAT_NOT_SET)
++		if (nla_put_u32(skb, ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT,
++				data->link_stats.link_down_events))
++			return -EMSGSIZE;
++
+ 	return 0;
+ }
+ 
+-- 
+2.38.1
 
-And all of those are also wrong.
-
-There is no need for this variable at all, you are doing extra work to
-make this a "single" device.  Just always work off of the device that
-the driver core gave you and all is good and you will have no limits on
-how many different ones you eventually get.  It will be less code
-overall, so it's the right thing to do.
-
-> > > +SRCU_NOTIFIER_HEAD_STATIC(gh_rm_notifier);
-> > 
-> > Why do you need a notifier list?
-> > 
-> > Who will register for this?  For what?  Why?
-> > 
-> 
-> The majority of notifications that RM sends to Linux will be related to VM
-> state, e.g. "VM crashed." I've not added the handling in VM manager yet to
-> reduce the number of patches in this series. It was used in the previous
-> series for the console driver. I can remove for now and re-introduce it once
-> VM manager makes use?
-
-Please remove if you are not using it.  Notifier lists are almost always
-wrong when it comes to the driver model, so please don't add them now,
-we can discuss it later if you feel it really needs to be introduced
-then.
-
-> > > +static struct platform_driver gh_rm_driver = {
-> > > +	.probe = gh_rm_drv_probe,
-> > > +	.remove = gh_rm_drv_remove,
-> > > +	.driver = {
-> > > +		.name = "gh_rsc_mgr",
-> > > +		.of_match_table = gh_rm_of_match,
-> > > +	},
-> > 
-> > Wait, why is this a platform driver?  This is binding to a real device
-> > on a real bus, not a random platform description in DT, right?
-> 
-> This a binding for a real device and not a "random platform description" in
-> DT to get the driver probed.
-> 
-> > Or is it controlled by your DT?  I can't figure that out here, sorry.
-> 
-> There is some info in Patch 2 about why the DT node exists and how it looks.
-> Essentially, The DT node is provided by Gunyah during boot and describes how
-> Linux can communicate with resource manager.
-
-Ick, ok, for now let's leave this alone but for dynamic devices, you
-should never use a platform device.  All devices that hang off of this
-controller better not be platform devices, but belong to the bus type of
-your new bus, right?
-
-thanks,
-
-greg k-h
