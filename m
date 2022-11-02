@@ -2,200 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85998C4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 18:47:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A9EEC43217
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 18:50:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231731AbiKBSrb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 14:47:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42244 "EHLO
+        id S231536AbiKBSuR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 14:50:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231527AbiKBSrS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 14:47:18 -0400
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDC072FFDC
-        for <linux-doc@vger.kernel.org>; Wed,  2 Nov 2022 11:47:12 -0700 (PDT)
-Received: by mail-qt1-x833.google.com with SMTP id x15so7352791qtv.9
-        for <linux-doc@vger.kernel.org>; Wed, 02 Nov 2022 11:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wtKcJi4R+48TsMqCQH8XbgPczt6c7dDfQAB3HD59hhY=;
-        b=pfumJRZiHgyJtXnF8PDr9lKiJtTxPbqBr1M1hCs6+w3gsHb3qhj7zcyp30HmvnyZjt
-         nY51eJMa4l0wv1s/JGywDrh7oO19aAsyEiieQ/7q0RntsmIjE90KfUtY4kzzlCmTgaCk
-         IqaVAr0069VGzZNijegHpWaNlTeHpIaGa7TuPDAkkc3cEngVPMx3+/JgNezm9OHrqyqJ
-         v+fCkElj1RSKTTZ2m9UwiTZ0Q4c3lsr63S7Kf8juhl9tWLLge9nZKtwbIrcZeb/ynqId
-         AZ8ImC5YP698K5O0sEHzd/xM8KXBr/L6ovJoW1TQcVHE21bHXw33jqHqoB68nyEBMPTn
-         +5tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wtKcJi4R+48TsMqCQH8XbgPczt6c7dDfQAB3HD59hhY=;
-        b=IQD5U8SKcJusp8tDRG7e2zHICVzO2LOK/Th6iWg6KjiWiT7VU5A9TcKNUCzkDQnE+w
-         YWJPwVS8/jqhzjvxcOmMZtjbwmJZBhMsfTgPXGf0FNMNOCTHUHXfohM+HVPp+Av1UPFP
-         a/6HbDeUBTM7oX0WE37qeUiyggXv3KwEhDIk/Lwa7ROXaw1Mi9irXN64iUc5ntlW2L9U
-         OyUiB/ymBoNwsqjxy2Dz315VqYDkm3zPQdEAfrOf/jhom6RvZFvUer9ZfeM2PrYuSFDI
-         x2nzxnIk5X5tNqOHeM4nthcvTo1QuPEu2R7W9e4fBuGp6X4yoCBMLww9zkPqqIpMFnJ5
-         9Y/Q==
-X-Gm-Message-State: ACrzQf0WSIiD5fdUECjme/TLadp2HAVaLRbND8uD+iDLt0msuBiTbXEV
-        Af6oILQ1i9lJYEzdl6/WaWXJoA==
-X-Google-Smtp-Source: AMsMyM7tImKnGk9XhaAiOo0zzhJ2EQR6Zs464t+GgKh7kg2gdsVZ7zA3dCADMCh4CvutPud+rvmN1A==
-X-Received: by 2002:a05:622a:64f:b0:3a5:d40:b58d with SMTP id a15-20020a05622a064f00b003a50d40b58dmr21547399qtb.308.1667414832073;
-        Wed, 02 Nov 2022 11:47:12 -0700 (PDT)
-Received: from ?IPV6:2601:586:5000:570:28d9:4790:bc16:cc93? ([2601:586:5000:570:28d9:4790:bc16:cc93])
-        by smtp.gmail.com with ESMTPSA id g19-20020a05620a40d300b006eea4b5abcesm9162922qko.89.2022.11.02.11.47.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Nov 2022 11:47:11 -0700 (PDT)
-Message-ID: <c9c3bffc-0d2a-ef67-ccab-ee040608405a@linaro.org>
-Date:   Wed, 2 Nov 2022 14:47:09 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v5 02/13] dt-bindings: Add binding for gunyah hypervisor
-Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Rob Herring <robh@kernel.org>
-Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
+        with ESMTP id S231718AbiKBSt4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 14:49:56 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69CE6C01;
+        Wed,  2 Nov 2022 11:49:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1374BB82426;
+        Wed,  2 Nov 2022 18:49:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBFD8C433C1;
+        Wed,  2 Nov 2022 18:49:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667414991;
+        bh=A9V26abd3ofhCXzboqJszcQ8NMZJoEJqgoBj4Pi/PF8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=n/eYUT5c1MXDySctcF4yD+cGNE9uiEyE8Yln6G6O7ESxBGrWOkD0qXBrIxP5D09tx
+         rPet5rrxRJHAfe8hioWKZQ1iJusfCXAckHA7RwECS67arZyVDWKd/Y/QhKsTgKxco9
+         fJcyq7ZBTJR3e2zg94+sL6bxDLT6dxqk7tFIHafdkuomMQJqTXrd+OVXW5rvQKWImI
+         oxU70L8e/VzYhVf1rQFGdJuJdbFi82J56nqiMSJYPtdM3hZaUOdzHcN2Pl/6O88y+J
+         /4ZlWQygHNWO8kJXUc+bgLLUB14i597HfGfy0iLluCcZoSYl5LjAUwo2LEgEWCJGVl
+         WZQUaqh5TxuQw==
+Date:   Wed, 2 Nov 2022 11:49:48 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Nicolin Chen <nicolinc@nvidia.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>, bpf@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221011000840.289033-1-quic_eberman@quicinc.com>
- <20221011000840.289033-3-quic_eberman@quicinc.com>
- <20221012155645.GA2173829-robh@kernel.org>
- <ca13eb92-9b5b-19fd-27a5-f91f5048b142@quicinc.com>
- <CAL_Jsq+cR5AEa5i1u-_L6sP6nYXS6qgaVWZ=KwxpUbxV3ZW-BA@mail.gmail.com>
- <75ef3cc5-3b19-9eab-b3eb-56fa254d92bd@quicinc.com>
- <79673829-a079-201f-91e1-790eb7cc3a4b@linaro.org>
- <df09560d-803b-33f6-69ed-6d377d05d336@quicinc.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <df09560d-803b-33f6-69ed-6d377d05d336@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v3 15/15] iommufd: Add a selftest
+Message-ID: <Y2K7zMvzrHmQJ1hk@dev-arch.thelio-3990X>
+References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <15-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <Y2GCV97lxEGwAuo6@Asurada-Nvidia>
+ <Y2Jt+WxNUwROJ8fN@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2Jt+WxNUwROJ8fN@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 31/10/2022 23:19, Elliot Berman wrote:
+On Wed, Nov 02, 2022 at 10:17:45AM -0300, Jason Gunthorpe wrote:
+> On Tue, Nov 01, 2022 at 01:32:23PM -0700, Nicolin Chen wrote:
+> > On Tue, Oct 25, 2022 at 03:12:24PM -0300, Jason Gunthorpe wrote:
+> >  
+> > > diff --git a/drivers/iommu/iommufd/selftest.c b/drivers/iommu/iommufd/selftest.c
+> > 
+> > > +static inline struct iommufd_hw_pagetable *
+> > > +get_md_pagetable(struct iommufd_ucmd *ucmd, u32 mockpt_id,
+> > > +		 struct mock_iommu_domain **mock)
+> > > +{
+> > > +	struct iommufd_hw_pagetable *hwpt;
+> > > +	struct iommufd_object *obj;
+> > > +
+> > > +	obj = iommufd_get_object(ucmd->ictx, mockpt_id,
+> > > +				 IOMMUFD_OBJ_HW_PAGETABLE);
+> > > +	if (IS_ERR(obj))
+> > > +		return ERR_CAST(obj);
+> > > +	hwpt = container_of(obj, struct iommufd_hw_pagetable, obj);
+> > > +	if (hwpt->domain->ops != mock_ops.default_domain_ops) {
+> > > +		return ERR_PTR(-EINVAL);
+> > > +		iommufd_put_object(&hwpt->obj);
+> > 
+> > Coverity reports that return is placed before iommufd_put_object.
 > 
+> I'm surprised no compiler warned about this!
+
+clang does have -Wunreachable-code-return to try and flag issues like
+this but it is not on by default nor included in -Wall:
+
+https://clang.llvm.org/docs/DiagnosticsReference.html#wunreachable-code-return
+
+The fact it is included in -Wunreachable-code-aggressive makes me think
+that this might generate a lot of false positives around constructs such
+as
+
+    if (IS_ENABLED(CONFIG_...))
+        return ...;
+
+    return ...;
+
+but I have not actually tested it.
+
+> > > +static int iommufd_test_access_pages(struct iommufd_ucmd *ucmd,
+> > > +				     unsigned int access_id, unsigned long iova,
+> > > +				     size_t length, void __user *uptr,
+> > > +				     u32 flags)
+> > > +{
+> > > +	struct iommu_test_cmd *cmd = ucmd->cmd;
+> > > +	struct selftest_access_item *item;
+> > > +	struct selftest_access *staccess;
+> > > +	struct page **pages;
+> > > +	size_t npages;
+> > > +	int rc;
+> > > +
+> > > +	if (flags & ~MOCK_FLAGS_ACCESS_WRITE)
+> > > +		return -EOPNOTSUPP;
+> > > +
+> > > +	staccess = iommufd_access_get(access_id);
+> > > +	if (IS_ERR(staccess))
+> > > +		return PTR_ERR(staccess);
+> > > +
+> > > +	npages = (ALIGN(iova + length, PAGE_SIZE) -
+> > > +		  ALIGN_DOWN(iova, PAGE_SIZE)) /
+> > > +		 PAGE_SIZE;
+> > > +	pages = kvcalloc(npages, sizeof(*pages), GFP_KERNEL_ACCOUNT);
+> > > +	if (!pages) {
+> > > +		rc = -ENOMEM;
+> > > +		goto out_put;
+> > > +	}
+> > > +
+> > > +	rc = iommufd_access_pin_pages(staccess->access, iova, length, pages,
+> > > +				      flags & MOCK_FLAGS_ACCESS_WRITE);
+> > > +	if (rc)
+> > > +		goto out_free_pages;
+> > > +
+> > > +	rc = iommufd_test_check_pages(
+> > > +		uptr - (iova - ALIGN_DOWN(iova, PAGE_SIZE)), pages, npages);
+> > > +	if (rc)
+> > > +		goto out_unaccess;
+> > > +
+> > > +	item = kzalloc(sizeof(*item), GFP_KERNEL_ACCOUNT);
+> > > +	if (!item) {
+> > > +		rc = -ENOMEM;
+> > > +		goto out_unaccess;
+> > > +	}
+> > > +
+> > > +	item->iova = iova;
+> > > +	item->length = length;
+> > > +	spin_lock(&staccess->lock);
+> > > +	item->id = staccess->next_id++;
+> > > +	list_add_tail(&item->items_elm, &staccess->items);
+> > > +	spin_unlock(&staccess->lock);
+> > > +
+> > > +	cmd->access_pages.out_access_item_id = item->id;
+> > > +	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
+> > > +	if (rc)
+> > > +		goto out_free_item;
+> > > +	goto out_free_pages;
+> > > +
+> > > +out_free_item:
+> > > +	spin_lock(&staccess->lock);
+> > > +	list_del(&item->items_elm);
+> > > +	spin_unlock(&staccess->lock);
+> > > +	kfree(item);
+> > > +out_unaccess:
+> > > +	iommufd_access_unpin_pages(staccess->access, iova, length);
+> > > +out_free_pages:
+> > > +	kvfree(pages);
+> > 
+> > Coverity reports a double free here, call trace:
+> > 
+> > [jumped from] rc = iommufd_access_pin_pages(..., pages, ...);
+> > 	[in which] iopt_pages_add_access(..., out_pages, ...);
+> > 		[then] iopt_pages_fill_xarray(..., out_pages);
+> > 			[then] iopt_pages_fill_from_mm(..., out_pages);
+> > 				[then] user->upages = out_pages + ...;
+> > 				       pfn_reader_user_pin(user, ...);
+> > 					[then] kfree(user->upages);
+> > 					       return -EFAULT;
+> > 
+> > Should be the same potential issue in the other email.
 > 
-> On 10/27/2022 12:55 PM, Krzysztof Kozlowski wrote:
->> On 27/10/2022 12:17, Elliot Berman wrote:
->>> Hi Rob,
->>>
->>> On 10/26/2022 2:16 PM, Rob Herring wrote:
->>>> On Thu, Oct 13, 2022 at 6:59 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
->>>>>
->>>>>
->>>>> On 10/12/2022 8:56 AM, Rob Herring wrote:
->>>>>> On Mon, Oct 10, 2022 at 05:08:29PM -0700, Elliot Berman wrote:
->>>>>>> When Linux is booted as a guest under the Gunyah hypervisor, the Gunyah
->>>>>>> Resource Manager applies a devicetree overlay describing the virtual
->>>>>>> platform configuration of the guest VM, such as the message queue
->>>>>>> capability IDs for communicating with the Resource Manager. This
->>>>>>> information is not otherwise discoverable by a VM: the Gunyah hypervisor
->>>>>>> core does not provide a direct interface to discover capability IDs nor
->>>>>>> a way to communicate with RM without having already known the
->>>>>>> corresponding message queue capability ID. Add the DT bindings that
->>>>>>> Gunyah adheres for the hypervisor node and message queues.
->>>>>>>
->>>>>>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->>>>>>> ---
->>>>>>>     .../bindings/firmware/gunyah-hypervisor.yaml  | 87 +++++++++++++++++++
->>>>>>>     MAINTAINERS                                   |  1 +
->>>>>>>     2 files changed, 88 insertions(+)
->>>>>>>     create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
->>>>>>>
->>>>>>> diff --git a/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
->>>>>>> new file mode 100644
->>>>>>> index 000000000000..f0a14101e2fd
->>>>>>> --- /dev/null
->>>>>>> +++ b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
->>>>>>> @@ -0,0 +1,87 @@
->>>>>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>>>>>> +%YAML 1.2
->>>>>>> +---
->>>>>>> +$id: http://devicetree.org/schemas/firmware/gunyah-hypervisor.yaml#
->>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>>>> +
->>>>>>> +title: Gunyah Hypervisor
->>>>>>> +
->>>>>>> +maintainers:
->>>>>>> +  - Murali Nalajala <quic_mnalajal@quicinc.com>
->>>>>>> +  - Elliot Berman <quic_eberman@quicinc.com>
->>>>>>> +
->>>>>>> +description: |+
->>>>>>> +  On systems which support devicetree, Gunyah generates and overlays a deviceetree overlay which
->>>>>>
->>>>>> How you end up with the node (applying an overlay) is not relavent to
->>>>>> the binding.
->>>>>>
->>>>>>> +  describes the basic configuration of the hypervisor. Virtual machines use this information to determine
->>>>>>> +  the capability IDs of the message queues used to communicate with the Gunyah Resource Manager.
->>>>>>
->>>>>> Wrap at 80. That is the coding standard still though 100 is deemed
->>>>>> allowed. And yamllint only complains at 110 because I didn't care to fix
->>>>>> everyones lines over 100.
->>>>>>
->>>>>>> +  See also: https://github.com/quic/gunyah-resource-manager/blob/develop/src/vm_creation/dto_construct.c
->>>>>>> +
->>>>>>> +properties:
->>>>>>> +  compatible:
->>>>>>> +    items:
->>>>>>> +      - const: gunyah-hypervisor-1.0
->>>>>>> +      - const: gunyah-hypervisor
->>>>>>
->>>>>> 2 compatibles implies a difference between the 2. What's the difference?
->>>>>> Where does '1.0' come from?
->>>>>>
->>>>>
->>>>> There's no difference. I thought the convention was to have
->>>>> device-specific compatible and the generic compatible. "device-specific"
->>>>> here would be specific to version of Gunyah since it's software.
->>>>
->>>> No, that's just what people do because "vendor,new-soc",
->>>> "vendor,old-soc" seems to bother them for some reason. At the end of
->>>> the day, it's just a string identifier that means something. If
->>>> there's no difference in that 'something', then there is no point in
->>>> having more than one string.
->>>>
->>>> You only need something specific enough to discover the rest from the
->>>> firmware. When that changes, then you add a new compatible. Of course,
->>>> if you want existing OSs to work, then better not change the
->>>> compatible.
->>>>
->>>
->>> Thanks for the info, I'll drop the "-1.0" suffix.
->>
->> You still did not answer from where does 1.0 come from... Compatibles
->> are usually expected to be specific.
->>
+> Yes, looks like
 > 
-> The 1.0 comes from the Gunyah version. This is the same version returned 
-> by "hyp_identify" hypercall.
-
-Then dropping 1.0 makes sense - your SW provides auto-detection.
-
-Best regards,
-Krzysztof
-
+> Thanks,
+> Jason
