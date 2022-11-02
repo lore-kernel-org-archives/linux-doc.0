@@ -2,75 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F29B1C4321E
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 16:36:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 646E9C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 17:15:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231868AbiKBQg1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 12:36:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55056 "EHLO
+        id S230002AbiKBRPI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 13:15:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231658AbiKBQgJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 12:36:09 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E47DA2E9C5;
-        Wed,  2 Nov 2022 09:31:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id ED5FEB823C1;
-        Wed,  2 Nov 2022 16:31:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26F2AC433C1;
-        Wed,  2 Nov 2022 16:31:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667406694;
-        bh=2nuCPWnsntj/V1Ilk+t2EKDcgaQhP8VQs4FNpOQCQ7Y=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=qOCaiOXVSQb79pR0eVnT5oDKO8azi0YVQNAloIhbOxZe97unsO6Jsk9DQxTfCTDEP
-         t7lhJi1O9831GwGhIeS+H77yPje8yACFCC81du58m58G8PoZ3BpWdmUY646glzgGFQ
-         CSgKmHzhO6ZpznGHuLRXHQqjFIHLPyZUKjHjFPv4y9w1cqq7CAsXlBJFmVCH/MSeyu
-         kcyyo6oSuDQLN8cFm4nLJRViIOYEQuTQ1/mUujYw7rzpvv79ZArF7u7jqC2n8D4oEd
-         UdhAMEhZ25EVd89E5m8rttWyWtDNcELiie7jzaomi8G0bLhUdV6c0wQzrJDuwT0Jum
-         xzDiAucGZgdlw==
-Date:   Wed, 2 Nov 2022 09:31:33 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Michael Chan <michael.chan@broadcom.com>,
-        Andrew Lunn <andrew@lunn.ch>, corbet@lwn.net,
-        hkallweit1@gmail.com, linux@armlinux.org.uk,
-        huangguangbin2@huawei.com, chenhao288@hisilicon.com,
-        moshet@nvidia.com, linux@rempel-privat.de,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v4] ethtool: linkstate: add a statistic for PHY
- down events
-Message-ID: <20221102093133.4000add1@kernel.org>
-In-Reply-To: <20221102035704.110304-1-kuba@kernel.org>
-References: <20221102035704.110304-1-kuba@kernel.org>
+        with ESMTP id S229531AbiKBRO4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 13:14:56 -0400
+Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9DEB2186;
+        Wed,  2 Nov 2022 10:14:55 -0700 (PDT)
+Date:   Wed, 2 Nov 2022 10:14:38 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1667409294;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=xtTSxM1Q/qUYa04qDvMF9fQMU1lb3nJ4Yr7MTQ7VghU=;
+        b=HGPpAdSi8jBVZcmLugyVIGYvvWkqF3VSKjIyZSapgYT5aDBIwno6PFiycmuKqNRsi6eCEU
+        00g6vsaXFrHI8ZLMVDXPBYRRjci2zvrdgfTapXezF72FnhcQyMODDDKyeJs8AgdHDo+xZ1
+        Ak9oegP1g8hgVuDq9qb8v6diwqyoY50=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Roman Gushchin <roman.gushchin@linux.dev>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>, Andy Ren <andy.ren@getcruise.com>,
+        netdev@vger.kernel.org, richardbgobert@gmail.com,
+        davem@davemloft.net, wsa+renesas@sang-engineering.com,
+        edumazet@google.com, petrm@nvidia.com, pabeni@redhat.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2] netconsole: Enable live renaming for network
+ interfaces used by netconsole
+Message-ID: <Y2KlfhfijyNl8yxT@P9FQF9L96D.corp.robot.car>
+References: <20221102002420.2613004-1-andy.ren@getcruise.com>
+ <Y2G+SYXyZAB/r3X0@lunn.ch>
+ <20221101204006.75b46660@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221101204006.75b46660@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue,  1 Nov 2022 20:57:04 -0700 Jakub Kicinski wrote:
-> +	 * This statistic counts when PHY _actually_ went down, or lost link.
-> +	 */
+On Tue, Nov 01, 2022 at 08:40:06PM -0700, Jakub Kicinski wrote:
+> On Wed, 2 Nov 2022 01:48:09 +0100 Andrew Lunn wrote:
+> > Changing the interface name while running is probably not an
+> > issue. There are a few drivers which report the name to the firmware,
+> > presumably for logging, and phoning home, but it should not otherwise
+> > affect the hardware.
+> 
+> Agreed. BTW I wonder if we really want to introduce a netconsole
+> specific uAPI for this or go ahead with something more general.
 
-Please ignore, I just realized I forgot to commit the change:
+Netconsole is a bit special because it brings an interface up very early.
+E.g. in our case without the netconsole the renaming is happening before
+the interface is brought up.
 
-diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
-index fa8e0d52dd30..15c0134ae938 100644
---- a/include/linux/ethtool.h
-+++ b/include/linux/ethtool.h
-@@ -132,6 +132,9 @@ struct ethtool_link_ext_stats {
-         * actually take the physical link down, not to mention NC-SI which,
-         * if present, keeps the link up regardless of host state.
-         * This statistic counts when PHY _actually_ went down, or lost link.
-+        *
-+        * Note that we need u64 for ethtool_stats_init() and comparisons
-+        * to ETHTOOL_STAT_NOT_SET, only u32 is exposed to the user.
-         */
-        u64 link_down_events;
- };
+I wonder if the netconsole-specific flag should allow renaming only once.
+
+> A sysctl for global "allow UP rename"?
+
+This will work for us, but I've no idea what it will break for other users
+and how to check it without actually trying to break :) And likely we won't
+learn about it for quite some time, asssuming they don't run net-next.
+
+> 
+> We added the live renaming for failover a while back and there were 
+> no reports of user space breaking as far as I know. So perhaps nobody
+> actually cares and we should allow renaming all interfaces while UP?
+> For backwards compat we can add a sysctl as mentioned or a rtnetlink 
+> "I know what I'm doing" flag? 
+> 
+> Maybe print an info message into the logs for a few releases to aid
+> debug?
+> 
+> IOW either there is a reason we don't allow rename while up, and
+> netconsole being bound to an interface is immaterial. Or there is 
+> no reason and we should allow all.
+
+My understanding is that it's not an issue for the kernel, but might be
+an issue for some userspace apps which do not expect it.
+
+If you prefer to go with the 'global sysctl' approach, how the path forward
+should look like?
+
+Thanks!
