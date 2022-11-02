@@ -2,163 +2,322 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB4E3C4321E
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 22:07:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C382C43217
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 22:34:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231299AbiKBWH1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 18:07:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52090 "EHLO
+        id S229823AbiKBWeA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 18:34:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231140AbiKBWHY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 18:07:24 -0400
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2047.outbound.protection.outlook.com [40.107.100.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E774E9FC4;
-        Wed,  2 Nov 2022 15:07:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R8RMtwYLjlcORJMERRZB5IM6k4I1P2/hL7DQR5zYnqU3tBiUC3JHZ5bfcDcyPj++16yTaiLuX7lSfbWQcfYw1VGdIleMQ/cqS2WxLnnAJlSUgypJU7YiK/xsbJ3NxNkPs2yDLJsqTFnhfOfxpwYZVMW/9GUd6BTfRdLgNjugpU6ZRzabRQQq1Lw3caXW9+4iJ3+Qjr+qmYrSqyICzdbwX6kohp5I6C7HPF9gg/eaI2HBwO3W/6N4q5MvHJVuBohipC9+GleOLlwiYE5lUcm5Bh5HBOdGjBUiGEwaJIihea1mgEOhF7aRXfn/zJ3vTi54BWTARBYA+zJgIQEdrIwwyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xmgh0iZGAX/QaShdCQlzD7eUL2K+mNnD0XRsqFHwmKQ=;
- b=WQ+bfzaPxSbjwghcCrtrYWLuf0oxJ3rm7HeepCWE3686uZSOjFAzZSsdvWMkoClFEsteYBcW2ua4MZFWwLrpEhtyPY7PrtcsZmalptjHIhL/izM5eY+ETfwB26Qp8FkaH2PSXlL8FJ0JQzfDcODt698958ZIdd2stidP7Q2yS+4ylPxfyzzBseVE409AMKr/PJRhp488e6dM2gnRPklsRPLMIAOFue3/QsUAc9vJFVgtvizezMe4RMz6PgFPWHo5/T/tI+nlCMaCRjLWQm7EJQbkSzBESQ2FIaRdthvOVhVMQSyMgXqfx9oIkWBxWWcY4qy/za9615YWfrXLEeHhbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=shutemov.name smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xmgh0iZGAX/QaShdCQlzD7eUL2K+mNnD0XRsqFHwmKQ=;
- b=D+EjUkf7VsYyfWM7okA4VBupydeKxXIDLiltbX9HLxlZ9DeCB0KjkvRUt7DGq3eYqvHD+D0fh92CaaPCSAbO47QHhQUvkHjT7aT825DGAzmB+dIM8pwK5GUCWB5h+6OR/MaYBmk6lhHslt9OUbPMxAsYRqBvZ/qMjPdYaNPVzMo=
-Received: from MW4PR03CA0106.namprd03.prod.outlook.com (2603:10b6:303:b7::21)
- by DS7PR12MB6006.namprd12.prod.outlook.com (2603:10b6:8:7d::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.19; Wed, 2 Nov
- 2022 22:07:20 +0000
-Received: from CO1NAM11FT088.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:b7:cafe::47) by MW4PR03CA0106.outlook.office365.com
- (2603:10b6:303:b7::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.20 via Frontend
- Transport; Wed, 2 Nov 2022 22:07:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT088.mail.protection.outlook.com (10.13.175.131) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5791.20 via Frontend Transport; Wed, 2 Nov 2022 22:07:20 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Wed, 2 Nov
- 2022 17:07:18 -0500
-Date:   Wed, 2 Nov 2022 17:07:00 -0500
-From:   Michael Roth <michael.roth@amd.com>
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-CC:     Chao Peng <chao.p.peng@linux.intel.com>, <kvm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-        <linux-api@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        <luto@kernel.org>, <jun.nakajima@intel.com>,
-        <dave.hansen@intel.com>, <ak@linux.intel.com>, <david@redhat.com>,
-        <aarcange@redhat.com>, <ddutile@redhat.com>, <dhildenb@redhat.com>,
-        Quentin Perret <qperret@google.com>, <tabba@google.com>,
-        <mhocko@suse.com>, Muchun Song <songmuchun@bytedance.com>,
-        <wei.w.wang@intel.com>
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221102220700.5u4mj7fm37m6ust2@amd.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <20221031174738.fklhlia5fmaiinpe@amd.com>
- <20221102211404.l5whyif3j3k67fv2@box.shutemov.name>
+        with ESMTP id S229516AbiKBWd7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 18:33:59 -0400
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C246B65E3;
+        Wed,  2 Nov 2022 15:33:57 -0700 (PDT)
+Received: by mail-qk1-x72b.google.com with SMTP id k2so76592qkk.7;
+        Wed, 02 Nov 2022 15:33:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jghAwM8O77qNsX5ylF4aUMHAtVnZKZQ1M8+R/5pBzT0=;
+        b=nkLWQNFEFioMwqqh0LoOH22rSx9eGFg5xXVrmzAgklEC2pssPksA6a9ctgyVCLKraz
+         oVCGhLVua3FKhg+tgq7c5c5MrdmCy2DovBjWQHeV+Gy0VjxJ2wcSG30PHUpJZfyjMCNp
+         zEQaZFBt0XB/LfMomirlvzGIKWM92tuVhVImyOaXCz2yEJHBgNq6eL5RKVuwa2yQKqtF
+         TvnqweDLLwFxZKtNz59fJ4NarViSA6/0zsnVDYS2xM2qbPVneNxIpiJFmo/0XYAOB8Xs
+         N8OILRfuSCKHLVx+T6U2q8p6Xau0cZ1MBOzipU/Dt5cEBDFF6jcGyMhmqB5/saR9SWwW
+         zROQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jghAwM8O77qNsX5ylF4aUMHAtVnZKZQ1M8+R/5pBzT0=;
+        b=7P/CiNzdJwXz6Nb/o50bPGdvRGfDYGn82CLqwK03QOawUgH9foGaFkmgDnTRjIFuB3
+         saZppZ8jKFl8ODOs0DPVI9CDtXGgxaWIyZgb1kyugSKb36FrEt953XOOGbOmVR22IPXn
+         zO9exmUBXzja7frRus1i1Udvy/d2k4bDXaR8rrLnxHHLp8gWoptBkqG4+SgiVb6hUx+4
+         JyZp7+B9xJOCgPRVRG8b7sNs/OfujDlC3CBJD1tCr2ZMPXq4um8GkymogenMhdLEGfFM
+         DiAiLMM4QOGc9+Uv/c26DjWKCTeF3TXfMUHsLHbotbH9wvAVebyvetv3gFOvRXjUEuOn
+         fQrg==
+X-Gm-Message-State: ACrzQf1LhIy5CW9NRbMvPI9tIclQ8HrZG9c2VfKerv4GQSFNlQf4oY2X
+        tb1N8cx9pcVrP0SOIADg8g0=
+X-Google-Smtp-Source: AMsMyM6+N2KW2cUrG1EWb9tH3WABxZKVeVhPkHtX5GS3rJ6W8714MIzsLndP6LQXWJvNAwxd+iTH8A==
+X-Received: by 2002:a05:620a:8d8:b0:6fa:696a:685 with SMTP id z24-20020a05620a08d800b006fa696a0685mr3061526qkz.250.1667428436753;
+        Wed, 02 Nov 2022 15:33:56 -0700 (PDT)
+Received: from [10.69.53.73] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id w12-20020a05620a424c00b006bbc3724affsm9518914qko.45.2022.11.02.15.33.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Nov 2022 15:33:56 -0700 (PDT)
+Message-ID: <9842ee9c-5fcc-5458-2779-ad9b88468b48@gmail.com>
+Date:   Wed, 2 Nov 2022 15:33:53 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20221102211404.l5whyif3j3k67fv2@box.shutemov.name>
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT088:EE_|DS7PR12MB6006:EE_
-X-MS-Office365-Filtering-Correlation-Id: ff531ccf-3b4d-4dae-a24f-08dabd1e9cd7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /hC8O7xYZw4KFGp1bNZdyhvnG7UfsRdVmw4OKn2REFbUZDpuTxcdT4NtGFSWYx6dGw96vzaMUT+Mj9LlBPM02HNyy0EPlowS8hUS5L1zpcTkPM5wid2w5aLewwbL1Inz31kbu3ykJUeEth7dX4VN1r33kddPCS0nqKfO6DUvY9UJSSEeVJUDTDd98D85oAiwG4VaLKxQTspvHcr352emgwNf6rer5N0Duy4tjQoQ8yO2NoPFWxHi+pw69Rds9PXE0TsBOKq+GJ8x8zfqdD+tyXiX8A9dKFnkEJmvlN1AvmZ3AkVr2wZcE1PdAcGO/E0/qKUDLWoagXcpuUReAEDO/nyGLhWIlz6DzUrL0/5jP783Zxxw3HtZLFsva4jd7YTg0/tOMV61WF+krJcXZ3nv25myMJPKbMTmylWvY71zEkaN9zxt1XadCvzo6Iy5+91/4hBbtNveG+q2GIwsmNpkAPTd81wM3tEX5cKdtF6v3wfJXunDs8Rizf6b6qHboJBDwJi97cQvNLLidVEZ5XFd5UXgSC665zpt7iKB2D7/jhcDegco8dHMh7DZUsEVEgf+7Nq1HGzIPsNiw072D+Nprkp6lqnxLuPs6n2KcbSW9oBKDgtZ7a7r+svitQQ1bpttTMefNaN8KPib/leePspTWzLV4ZpfVqLCTRFMzc24UYnLBVcpvAT6ivwm1BnPDeot+hJTq71bO7KaZ7Au3L/UimZYTtM72xuFD+JKmYEc0om5y/wu/LCmyKsEGbDrUdr/k8RGhPnWb22Bccd3w+RwqAzrXQlzFNGxTBbHDbaVtssdxY18dzbABCJeC99XubarZvBsxLUwRjIF00tt60jkCQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(346002)(396003)(39860400002)(451199015)(46966006)(36840700001)(40470700004)(86362001)(81166007)(356005)(36756003)(82740400003)(40480700001)(26005)(8676002)(83380400001)(2906002)(40460700003)(186003)(4326008)(41300700001)(8936002)(70586007)(16526019)(70206006)(336012)(2616005)(426003)(82310400005)(47076005)(1076003)(6666004)(44832011)(966005)(7406005)(5660300002)(478600001)(7416002)(6916009)(316002)(54906003)(36860700001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2022 22:07:20.2830
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff531ccf-3b4d-4dae-a24f-08dabd1e9cd7
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT088.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6006
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH v3 0/9] mm: introduce Designated Movable Blocks
+To:     Mel Gorman <mgorman@suse.de>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Rapoport <rppt@kernel.org>, Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@suse.com>,
+        KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        David Hildenbrand <david@redhat.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+References: <20221020215318.4193269-1-opendmb@gmail.com>
+ <20221026105500.n6ddzqqf5ozjswsp@suse.de>
+Content-Language: en-US
+From:   Doug Berger <opendmb@gmail.com>
+In-Reply-To: <20221026105500.n6ddzqqf5ozjswsp@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 03, 2022 at 12:14:04AM +0300, Kirill A. Shutemov wrote:
-> On Mon, Oct 31, 2022 at 12:47:38PM -0500, Michael Roth wrote:
-> > 
-> > In v8 there was some discussion about potentially passing the page/folio
-> > and order as part of the invalidation callback, I ended up needing
-> > something similar for SEV-SNP, and think it might make sense for other
-> > platforms. This main reasoning is:
-> > 
-> >   1) restoring kernel directmap:
-> > 
-> >      Currently SNP (and I believe TDX) need to either split or remove kernel
-> >      direct mappings for restricted PFNs, since there is no guarantee that
-> >      other PFNs within a 2MB range won't be used for non-restricted
-> >      (which will cause an RMP #PF in the case of SNP since the 2MB
-> >      mapping overlaps with guest-owned pages)
+On 10/26/2022 3:55 AM, Mel Gorman wrote:
+> On Thu, Oct 20, 2022 at 02:53:09PM -0700, Doug Berger wrote:
+>> MOTIVATION:
+>> Some Broadcom devices (e.g. 7445, 7278) contain multiple memory
+>> controllers with each mapped in a different address range within
+>> a Uniform Memory Architecture. Some users of these systems have
+>> expressed the desire to locate ZONE_MOVABLE memory on each
+>> memory controller to allow user space intensive processing to
+>> make better use of the additional memory bandwidth.
+>> Unfortunately, the historical monotonic layout of zones would
+>> mean that if the lowest addressed memory controller contains
+>> ZONE_MOVABLE memory then all of the memory available from
+>> memory controllers at higher addresses must also be in the
+>> ZONE_MOVABLE zone. This would force all kernel memory accesses
+>> onto the lowest addressed memory controller and significantly
+>> reduce the amount of memory available for non-movable
+>> allocations.
+>>
 > 
-> That's news to me. Where the restriction for SNP comes from?
+> I didn't review the first version of this patch because others, particularly
+> David Hildenbrand highlighted many of the concerns I had. I broadly followed
+> the discussion but didn't respond because I live in a permanent state of
+> having too much to do but with a new version, I have to say something.
+I am familiar with that state and as a beneficiary of your hard work 
+I'll take the opportunity to say thanks and I appreciate you taking the 
+time to respond.
 
-Sorry, missed your first question.
-
-For SNP at least, the restriction is documented in APM Volume 2, Section
-15.36.10, First row of Table 15-36 (preceeding paragraph has more
-context). I forgot to mention this is only pertaining to writes by the
-host to 2MB pages that contain guest-owned subpages, for reads it's
-not an issue, but I think the implementation requirements end up being
-the same either way:
-
-  https://www.amd.com/system/files/TechDocs/24593.pdf
-
--Mike
-
-> That's news to me. Where the restriction for SNP comes from? There's no
-> such limitation on TDX side AFAIK?
 > 
-> Could you point me to relevant documentation if there's any?
+> The three big questions he initially asked were
 > 
-> -- 
->   Kiryl Shutsemau / Kirill A. Shutemov
+> 	How large are these areas typically?
+> 	How large are they in comparison to other memory in the system?
+> 	How is this memory currently presented to the system?
+> 	Can you share some more how exactly ZONE_MOVABLE would help here to make
+> 		better use of the memory bandwidth?
+> 
+> Zones are about addressing limitations primarily and frankly, ZONE_MOVABLE
+> was a bad idea in retrospect. Today, the preferred approach would have
+> been to create a separate NUMA node with distance-1 to the local node
+> (fudge by adding 1 to the local distance "10" for zonelist purposes)
+> that was ZONE_MOVABLE with the zonelists structured such that GFP_MOVABLE
+> allocations would prefer the "movable" node first.
+I'm afraid I don't completely follow what you are suggesting here.
+
+> While I don't recall
+> why I did not take that approach, it most likely was because CONFIG_NUMA
+> was not always set, it was only intended for hugetlbfs allocations and
+> maybe I didn't have the necessary skill or foresight to take that approach.
+It remains true that CONFIG_NUMA is not always set and that is a key 
+motivator for this patch set. For example, Google is moving to a common 
+GKI kernel for their Google TV platform that they are requiring vendors 
+to support. Currently the arm64 GKI kernel does not set CONFIG_NUMA and 
+it seems unlikely that we will be able to get all vendors to accept such 
+a change.
+
+> 
+> Hotplugs requirements are somewhat different, the primary motivation that
+> I'm aware of is being able to guarantee they can be offlined, particularly
+> nodes, which can be done in some circumstances. Generally hotplug does
+> not care what uses the memory as long as it can be removed later. The
+> requirements for restricted access to high speed memory is different.
+This is effectively the same requirement that an implementation of 
+'reusable' reserved memory has. A driver that owns reserved memory may 
+not care what uses the memory as long as the memory can be reclaimed 
+when the driver needs it. This is functionally analogous to memory 
+hotplug. Reserved memory that is 'reusable' and compatible with 
+'shared-dma-pool' uses the CMA implementation, but there is room for an 
+alternative implementation that shares the memory more aggressively. 
+This is a separate motivator for Designated Movable Block support, but I 
+am deferring that discussion since it is desirable to have a more 
+extended debate over APIs and such.
+
+> 
+> There is a high degree of uncertainity of how these regions are to be
+> used by applications to get access to the high speed memory, to quote
+> 
+> 	I'm not certain what is typical because these systems are highly
+> 	configurable and Broadcom's customers have different ideas about
+> 	application processing.
+> 
+> 	...
+> 
+> 	The Designated Movable Block concept introduced here has the
+> 	potential to offer useful services to different constituencies. I
+> 	tried to highlight this in my V1 patch set with the hope of
+> 	attracting some interest, but it can complicate the overall
+> 	discussion, so I would like to maybe narrow the discussion here. It
+> 	may be good to keep them in mind when assessing the overall value,
+> 	but perhaps the "other opportunities" can be covered as a follow
+> 	on discussion.
+> 
+> I note the "potential" part here because we don't actually know.
+I used "potential" here not as in "it might be useful", but rather that 
+"different constituencies (i.e. people outside of the Broadcom 
+ecosystem) might also find them useful".
+
+> A
+> major limitation of ZONE_MOVABLE is that there is no way of controlling
+> access from userspace to restrict the high-speed memory to a designated
+> application, only to all applications in general. The primary interface
+> to control access to memory with different characteristics is mempolicies
+> which is NUMA orientated, not zone orientated. So, if there is a special
+> application that requires exclusive access, it's very difficult to configure
+> based on zones.  Furthermore, page table pages mapping data located in the
+> high-speed region are stored in the slower memory which potentially impacts
+> the performance if the working set of the application exceeds TLB reach.
+> Finally, while there is mention that Broadcom may have some special
+> interface to determine what applications can use the high-speed region,
+> it's hardware-specific as opposed to something that belongs in the core mm.
+> 
+> I agree that keeping the high-speed memory in a local node and using "sticky"
+> pageblocks or CMA has limitations of its own but in itself, that does not
+> justify using ZONE_MOVABLE in my opinion. The statement that ARM can have
+> multiple controllers with equal distance and bandwidth (if I'm reading it
+> correctly) but places them in different zones.... that's just a bit weird if
+> there are no other addressing limitations. It's not obvious why ARM would do
+> that, but it also does not matter because it shouldn't be a core mm concern.
+There appears to be some confusion regarding my explanation of multiple 
+memory controllers on a device like the BCM7278. There is no inherent 
+performance difference between the two memory controllers and their 
+attached DRAM. They merely provide the opportunity to perform memory 
+accesses in parallel for different physical address ranges. The physical 
+address ranges were selected by the SoC designers for reasons only known 
+to them, but I'm sure they had no consideration of zones in their 
+decision making. The selection of zones remains an artifact of the 
+design of Linux.
+
+Since the BCM7278 contains a 4-core SMP cluster and each core can have 
+multiple outstanding memory transactions the speed of DDR transactions 
+can create a bottleneck for the system. If each memory controller has an 
+effective bandwidth of X then, provided the system memory accesses can 
+be distributed across both memory controllers, the combined effective 
+bandwidth can be additive (X + X = 2X). Of course the actual result is 
+highly dependent on the dependent clause "provided the system memory 
+accesses can be distributed across both memory controllers". The 
+accesses do not need to be evenly distributed to gain a benefit. We just 
+want to reduce any idle time on each memory controller.
+
+It was observed that the monotonic zone layout for a non-NUMA system 
+(like this one) creates a bias for kernel space to use lower physical 
+memory addresses and user space to use higher physical memory addresses. 
+Broadcom customers requested the ability to locate movablecore memory 
+within the physical address range of each memory controller and reported 
+that it improved their system performance. Unfortunately, I do not have 
+access to their data and I doubt they would allow me to share it if I 
+did. I don't believe this is really about trying to optimize the 
+performance of a specific application as much as trying to prevent 
+overall system performance degradation from underutilized memory bandwidth.
+
+> 
+> There are already examples of where memory is physically "local" to
+> the CPU but has different bandwidth or latency including High Bandwidth
+> (HBM), Sub-NUMA Clustering (SNC), PMEM as a memory-life device and some
+> AMD EPYC Chips, particularly the first generation where a sockets memory
+> controllers had different distances. With the broadcom controllers,
+> it sounds like a local memory controller but the bandwidth available
+> differs. It's functionally equivalent to HBM.
+The bandwidth available does not differ, but if too few transactions 
+target one of the memory controllers, that controllers bandwidth is 
+underutilized.
+
+> 
+> The fact that the memory access is physically local to the CPU socket is
+> irrelevant when the characteristics of that locality differs. NUMA stands
+> for Non-Uniform Memory Access and if bandwidth to different address ranges
+> differs, then the system is inherently NUMA even if that is inconvenient.
+The bandwidth to different address ranges does not differ. A single 
+threaded application should see no performance difference regardless of 
+where its memory is located. However, if multiple application threads 
+are executing in parallel and the memory is divided between the memory 
+controllers they will be able to do more work per unit of time than if 
+the memory is predominantly located on one memory controller.
+
+> 
+> While I have not evaluated the implementation in detail, there is already
+> infrastructure dealing with tiered memory (memory that is local but has
+> different characteristics) with support for moving memory between tiers
+> depending on access patterns. Memory policies can be used to restrict
+> access to what processes can access the higher bandwidth memory. Given the
+> use case for DSM, I suspect that the intent is "application data uses high
+> bandwidth memory where possible and kernel uses lower bandwidth memory"
+> which is probably fine for an appliance because there is only one workload
+> but it's not a generic solution suitable.
+> 
+> Going back to the original questions;
+> 
+> 	How large are these areas typically?
+> 	How large are they in comparison to other memory in the system?
+> 
+> I am treating this as the same question because the consequencs are the
+> same. A high ratio of !MOVABLE:MOVABLE can cause big problems including
+> premature OOM, surprising reclaim behaviour etc
+This is what makes the current movablecore implementation unacceptable. 
+In order to get any movablecore memory in the lower physical address 
+range requires all of the upper physical address range to be movablecore 
+which is horribly unbalanced. Specifying a value like 
+'movablecore=256M@2G,512M' with this patch set allows us to specify 
+512MB of total movablecore with 256MB of it at a physical address within 
+the lower memory controller and the remainder at the highest addresses 
+of the upper memory controller.
+
+> 
+> 	How is this memory currently presented to the system?
+> 
+> It's local, but with different characteristics so it's inherently NUMA
+> because it's Non-Uniform, there is no getting away from that.
+It does not have different characteristics.
+
+> 
+> 	Can you share some more how exactly ZONE_MOVABLE would help here to make
+> 		better use of the memory bandwidth?
+> 
+> In the appliance case, it doesn't matter if the intent is that "all
+> application data should use high bandwidth memory where possible and
+> the application phase behaviour is predictable" and that may very well
+> work fine for the users of the Broadcom platforms with multiple memory
+> controllers. It does not work at all for the general where access must
+> be restricted to a subset of tasks in a general system that can only be
+> controlled with memory policies.
+> 
+> The high bandwidth memory should be representated as a NUMA node, optionally
+> to create that node as ZONE_MOVABLE and relying on the zonelists to select
+> the movable zone as the first preference.
+> 
+This patch set is fundamentally about greater control over the placement 
+of movablecore memory. The current implementation of movablecore 
+requires all of the ZONE_MOVABLE memory to be located at the highest 
+physical addresses of the system when CONFIG_NUMA is not set. Allowing 
+the specification of a base address allows greater flexibility on 
+systems where there are benefits.
+
+Thanks again for your time,
+     Doug
+
+
