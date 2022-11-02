@@ -2,78 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6406C4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 04:58:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C660EC43217
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 05:13:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229684AbiKBE6Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 00:58:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55800 "EHLO
+        id S229459AbiKBFNV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 01:13:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbiKBE6W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 00:58:22 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B886E10E6;
-        Tue,  1 Nov 2022 21:58:20 -0700 (PDT)
+        with ESMTP id S229457AbiKBFNT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 01:13:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C37C1252AB;
+        Tue,  1 Nov 2022 22:13:18 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6A09AB820BB;
-        Wed,  2 Nov 2022 04:58:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB326C433C1;
-        Wed,  2 Nov 2022 04:58:16 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 442EB617EB;
+        Wed,  2 Nov 2022 05:13:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71C23C433C1;
+        Wed,  2 Nov 2022 05:13:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1667365098;
-        bh=kOzIq9EyC4fDMAzs4YGklmDZT3mFY3v1MqN1V44mblQ=;
+        s=korg; t=1667365997;
+        bh=X5ownL5/SLGdv+si92x3oobTQIguLhc5vCym52Z20MY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=y2JAyjY85RDwqxFFeIveaG0L96n1uLOz0pLF3nd4r3u0yMm1BE4qJGRuVjg9kgodd
-         Y24Wk8YPy7UNGZ5ZVMWTsFuRLv7rL28Kvo5zlmbcOEdGQLjcSKmPl3efG9tmcktndC
-         sjlXeaH60OH4Xici4Uv9WiIow94e0vOkH7ZShvk8=
-Date:   Wed, 2 Nov 2022 05:59:10 +0100
+        b=HyxuQLit/4cmu7jRRg4Fdl0RP3BH8N7DjW1mWNS8QOmSNwnnHFn5CwDpKQ8MTnS3R
+         HKjFlUAElj2+daojXwgjVtioze5al16rvPm3jpfeUD1QSgeQMLv4sVH6n1b55ozHCE
+         5iZVIvLfmc3kTSFzrTj9MuSs+ole19eoTiNESdjA=
+Date:   Wed, 2 Nov 2022 06:14:10 +0100
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     stable@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Pavel Machek <pavel@denx.de>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] Documentation: process: Describe kernel version prefix
- for third option
-Message-ID: <Y2H5Hs7UQJw8T2IX@kroah.com>
-References: <20221101131743.371340-1-bagasdotme@gmail.com>
- <Y2EfhWxk0j/oVLJx@kroah.com>
- <b1914779-0303-3d37-a504-e1715f7ee0af@gmail.com>
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Kalle Valo <kvalo@kernel.org>, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 13/21] gunyah: vm_mgr: Introduce basic VM Manager
+Message-ID: <Y2H8oh7AvYDiMqKs@kroah.com>
+References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
+ <20221026185846.3983888-14-quic_eberman@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b1914779-0303-3d37-a504-e1715f7ee0af@gmail.com>
+In-Reply-To: <20221026185846.3983888-14-quic_eberman@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 02, 2022 at 11:19:44AM +0700, Bagas Sanjaya wrote:
-> On 11/1/22 20:30, Greg Kroah-Hartman wrote:
-> > 
-> > No, sorry, this is not needed and does not have to be in the subject
-> > line at all.
-> > 
-> > The current wording is fine, it's just that people don't always read it.
-> > 
-> > so consider this a NAK.
-> > 
-> 
-> Hi Greg,
-> 
-> There was a case when a submitter submitted multiple backports (which
-> qualified for third option) without specifying the prefix, hence a
-> reviewer complained [1].
-> 
-> [1]: https://lore.kernel.org/all/20221101074351.GA8310@amd/
+On Wed, Oct 26, 2022 at 11:58:38AM -0700, Elliot Berman wrote:
+> +#define GH_CREATE_VM			_IO(GH_IOCTL_TYPE, 0x40) /* Returns a Gunyah VM fd */
 
-Yes, and as I said on that thread, to you directly:
-	https://lore.kernel.org/all/Y2Ef0hK4rTmAoEUs@kroah.com/
-the submission was done correctly, no one should have complained, and
-the patches were applied by me to the correct branches without any
-problems at all.
+Why 0x40?  Why not just use the same KVM ioctl numbers and names as you
+are doing the same thing as them, right?
 
-This is not an issue, this change is not needed at all.
+Normally your first ioctl is "0x01", not "0x40", so this feels really
+odd.
+
+thanks,
 
 greg k-h
