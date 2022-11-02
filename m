@@ -2,271 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09F2EC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 00:25:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F35C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 00:49:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229880AbiKBAZm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 20:25:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49262 "EHLO
+        id S229962AbiKBAtE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 20:49:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229889AbiKBAZh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 20:25:37 -0400
-Received: from mx0b-003ede02.pphosted.com (mx0b-003ede02.pphosted.com [205.220.181.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE44D60FB
-        for <linux-doc@vger.kernel.org>; Tue,  1 Nov 2022 17:25:36 -0700 (PDT)
-Received: from pps.filterd (m0286618.ppops.net [127.0.0.1])
-        by mx0b-003ede02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A20JNX7025008
-        for <linux-doc@vger.kernel.org>; Tue, 1 Nov 2022 17:25:35 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=getcruise.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=ppemail; bh=HNeH6fQKWa/SXTqsQ3ku21U4ths4w0Cni02GfQkvwJU=;
- b=FE8RKg2bNnCCSEFEk3OlkHJjN1j1IGYZSGSzi2TfDF5gM2yBTz/QzMWGS4fzGqW4dhW8
- 36S26gPwrUw/VYuLaPIUP+sOQjQwAggWQgIU7Z7WTaSyepHZzajyBljVo1RSAQtLYx7j
- EL2ruIwpE/uWh5EXtaJOTjaYdMqb6/vaBfPffzfu3Tn6vA9tsJhthLE3S7If2tE7Dkwm
- dshOPa47bnTTtAPR93JeIPkNtWm/ItGd5pgE25u0fcqTXWIbEcQsT6krI9KPQ7XOWdzF
- e0nJYJ1gxecsi07PTBByHvaeZhxkdgWzg3vWv5D2a6+DSsvzLqcC2p0BL1Em7d1xfo7E Yw== 
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-        by mx0b-003ede02.pphosted.com (PPS) with ESMTPS id 3kh1vwgwm7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 01 Nov 2022 17:25:34 -0700
-Received: by mail-pf1-f200.google.com with SMTP id cb7-20020a056a00430700b00561b86e0265so8181763pfb.13
-        for <linux-doc@vger.kernel.org>; Tue, 01 Nov 2022 17:25:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=getcruise.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HNeH6fQKWa/SXTqsQ3ku21U4ths4w0Cni02GfQkvwJU=;
-        b=gZMI7qdmcGdQieYwM6F86KvCUS5dNynbkKH1Hqmbl0z5g0i8Yv83PyUoGB+4LIPIkc
-         lPIg3ew2iLvBySJ7Jlt1XSpu4FNrd5qwG57XDkz3EOLkesy55IP5Qb+0VpO3tslKEZXU
-         RUjxe7FFjE+OjZp8OWFVkKSLqeWsEX6lrmExhM5KRTIPDPbe4pg7OAt3OAhlWsqNGhRk
-         9hZt7wportbubjzEbSUoVqTJAIVNA2dzX5EhKJQgv9hQMSfYb3m+j1ekt7I2vmGcX09a
-         19L/3Wg5UPLqkpeuGJplhecfnNdnpItPBq51BdDpRc/WhV3ETUBfS7L3B9TFNwSNBBJ0
-         PB+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HNeH6fQKWa/SXTqsQ3ku21U4ths4w0Cni02GfQkvwJU=;
-        b=f7gnHBVSdzU1Fh5isVObEVvOPhgtVr/+AOhhAxynrXHsJpXZxoqPSVkVJScR/VHVVB
-         luVB9fUPXtmQhM0/h/QmGCOkAbadt6G22GIpasApfWS4PAnRLBbwaGdBnJ5L/SYIhZGt
-         /VrwENMjVW2aU4ELAKdmYzN7YQh49bfEhaxUIfVk4RVEtKjip7z8HtXZIy8nZyHuPIVL
-         9tgfwqTKIomdOkQ8UWpkT1f1PfwuUbES/QPzTcl5qoV4Xm01GD48VhfvM1DZNdN+7VKT
-         CbzJaB8hfNMZrHguQM6z2XBb4yPLk8h1rmQSKWEsJcf759Px7iewaoenYPpZ/+thwHmt
-         hu5A==
-X-Gm-Message-State: ACrzQf2lOVTCj8da/zjeyyLOg4I7L1CoZFNyj5OidCH+ImlZVeIl/iKA
-        3dV5t4d92IQ2U0VYuXUhz0c80yZn1p3tHiYtIjpqoFr7KQd3LfbAGenmOmgZR7jpjsggWqbw2Or
-        ZdWydJmB/llGTgYV6008=
-X-Received: by 2002:a17:902:6bc5:b0:183:4bef:1b20 with SMTP id m5-20020a1709026bc500b001834bef1b20mr21661893plt.158.1667348733541;
-        Tue, 01 Nov 2022 17:25:33 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7/YWdmRuUsmso5eR0Fo7r6dQnDUFcvn5En4f2d0BIxI8IYV1nnrOD0fnF5ySDdIKGo+FLgDg==
-X-Received: by 2002:a17:902:6bc5:b0:183:4bef:1b20 with SMTP id m5-20020a1709026bc500b001834bef1b20mr21661869plt.158.1667348733233;
-        Tue, 01 Nov 2022 17:25:33 -0700 (PDT)
-Received: from 4VPLMR2-DT.corp.robot.car ([199.73.125.241])
-        by smtp.gmail.com with ESMTPSA id x20-20020a17090a531400b001fe39bda429sm98272pjh.38.2022.11.01.17.25.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 17:25:32 -0700 (PDT)
-From:   Andy Ren <andy.ren@getcruise.com>
-To:     netdev@vger.kernel.org
-Cc:     richardbgobert@gmail.com, davem@davemloft.net,
-        wsa+renesas@sang-engineering.com, edumazet@google.com,
-        petrm@nvidia.com, kuba@kernel.org, pabeni@redhat.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, roman.gushchin@linux.dev,
-        Andy Ren <andy.ren@getcruise.com>
-Subject: [PATCH net-next v2] netconsole: Enable live renaming for network interfaces used by netconsole
-Date:   Tue,  1 Nov 2022 17:24:20 -0700
-Message-Id: <20221102002420.2613004-1-andy.ren@getcruise.com>
-X-Mailer: git-send-email 2.38.1
+        with ESMTP id S229887AbiKBAs7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 20:48:59 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF37015832;
+        Tue,  1 Nov 2022 17:48:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=R3t1/PtFRukR3DTN5dw0xr3D2iRQOcJcwJDabN8WoqY=; b=k+9rA9GBEMT2v2v5k6cpq+Qf8n
+        wc9TUex0nKhotDyP26vyXHCVH5cCmX3e3cP5SBrHL+xJgzpC6eUKlWBitRUTe5Ms9PYv6Ppxvy9So
+        OvIa1GRa1DYdVrw5kV2tYe1Nx9HBF3mFN/6kGVpmrUiwS+QhlqcqlgJtF6uYCnyOTkk0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1oq1vN-0019Xl-QK; Wed, 02 Nov 2022 01:48:09 +0100
+Date:   Wed, 2 Nov 2022 01:48:09 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Andy Ren <andy.ren@getcruise.com>
+Cc:     netdev@vger.kernel.org, richardbgobert@gmail.com,
+        davem@davemloft.net, wsa+renesas@sang-engineering.com,
+        edumazet@google.com, petrm@nvidia.com, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, roman.gushchin@linux.dev
+Subject: Re: [PATCH net-next v2] netconsole: Enable live renaming for network
+ interfaces used by netconsole
+Message-ID: <Y2G+SYXyZAB/r3X0@lunn.ch>
+References: <20221102002420.2613004-1-andy.ren@getcruise.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: l202lrlR0xxEQblUj0GcmLIb8sbDAVjD
-X-Proofpoint-GUID: l202lrlR0xxEQblUj0GcmLIb8sbDAVjD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-01_12,2022-11-01_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1015
- mlxscore=0 priorityscore=1501 adultscore=0 mlxlogscore=999 bulkscore=0
- spamscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211020000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221102002420.2613004-1-andy.ren@getcruise.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch enables support for live renaming of network interfaces
-initialized by netconsole.
+On Tue, Nov 01, 2022 at 05:24:20PM -0700, Andy Ren wrote:
+> This patch enables support for live renaming of network interfaces
+> initialized by netconsole.
+> 
+> This resolves an issue seen when netconsole is configured to boot as a
+> built-in kernel module with a kernel boot argument. As stated in the
+> kernel man page - As a built-in, netconsole initializes immediately
+> after NIC cards and will bring up the specified interface as soon as
+> possible. Consequently, the renaming of specified interfaces will fail
+> and return EBUSY. This is because by default, the kernel disallows live
+> renaming unless the device explicitly sets a priv_flags bit
+> (e.g: IFF_LIVE_RENAME_OK or IFF_LIVE_ADDR_CHANGE), and so renaming after
+> a network interface is up returns EBUSY.
+> 
+> The changes to the kernel are as of following:
+> 
+> - Addition of a iface_live_renaming boolean flag to the netpoll struct,
+> used to enable/disable interface live renaming. False by default
+> - Changes to check for the aforementioned flag in network and ethernet
+> driver interface renaming code
+> - Adds a new optional "*" parameter to the netconsole configuration
+> string that enables interface live renaming when included
+> (e.g. netconsole=+*....). When this optional parameter is included,
+> "iface_live_renaming" is set to true
 
-This resolves an issue seen when netconsole is configured to boot as a
-built-in kernel module with a kernel boot argument. As stated in the
-kernel man page - As a built-in, netconsole initializes immediately
-after NIC cards and will bring up the specified interface as soon as
-possible. Consequently, the renaming of specified interfaces will fail
-and return EBUSY. This is because by default, the kernel disallows live
-renaming unless the device explicitly sets a priv_flags bit
-(e.g: IFF_LIVE_RENAME_OK or IFF_LIVE_ADDR_CHANGE), and so renaming after
-a network interface is up returns EBUSY.
 
-The changes to the kernel are as of following:
+>  /**
+>   * eth_header - create the Ethernet header
+> @@ -288,8 +289,10 @@ int eth_prepare_mac_addr_change(struct net_device *dev, void *p)
+>  {
+>  	struct sockaddr *addr = p;
+>  
+> -	if (!(dev->priv_flags & IFF_LIVE_ADDR_CHANGE) && netif_running(dev))
+> +	if (!(dev->priv_flags & IFF_LIVE_ADDR_CHANGE) && netif_running(dev) &&
+> +	    !netpoll_live_renaming_enabled(dev))
+>  		return -EBUSY;
+> +
+>  	if (!is_valid_ether_addr(addr->sa_data))
+>  		return -EADDRNOTAVAIL;
+>  	return 0;
 
-- Addition of a iface_live_renaming boolean flag to the netpoll struct,
-used to enable/disable interface live renaming. False by default
-- Changes to check for the aforementioned flag in network and ethernet
-driver interface renaming code
-- Adds a new optional "*" parameter to the netconsole configuration
-string that enables interface live renaming when included
-(e.g. netconsole=+*....). When this optional parameter is included,
-"iface_live_renaming" is set to true
+There is no mention of this in the commit message.
 
-Signed-off-by: Andy Ren <andy.ren@getcruise.com>
----
- Documentation/networking/netconsole.rst |  7 ++++---
- drivers/net/netconsole.c                |  5 +++++
- include/linux/netpoll.h                 |  3 +++
- net/core/dev.c                          |  3 ++-
- net/core/netpoll.c                      | 15 +++++++++++++++
- net/ethernet/eth.c                      |  5 ++++-
- 6 files changed, 33 insertions(+), 5 deletions(-)
+Changing the interface name while running is probably not an
+issue. There are a few drivers which report the name to the firmware,
+presumably for logging, and phoning home, but it should not otherwise
+affect the hardware.
 
-diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-index 1f5c4a04027c..01a45f38ce3f 100644
---- a/Documentation/networking/netconsole.rst
-+++ b/Documentation/networking/netconsole.rst
-@@ -34,10 +34,11 @@ Sender and receiver configuration:
- It takes a string configuration parameter "netconsole" in the
- following format::
- 
-- netconsole=[+][src-port]@[src-ip]/[<dev>],[tgt-port]@<tgt-ip>/[tgt-macaddr]
-+ netconsole=[+][*][src-port]@[src-ip]/[<dev>],[tgt-port]@<tgt-ip>/[tgt-macaddr]
- 
-    where
- 	+             if present, enable extended console support
-+	*             if present, allow runtime network interface renaming
- 	src-port      source for UDP packets (defaults to 6665)
- 	src-ip        source IP to use (interface address)
- 	dev           network interface (eth0)
-@@ -47,7 +48,7 @@ following format::
- 
- Examples::
- 
-- linux netconsole=4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc
-+ linux netconsole=*4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc
- 
- or::
- 
-@@ -158,7 +159,7 @@ If '+' is prefixed to the configuration line or "extended" config file
- is set to 1, extended console support is enabled. An example boot
- param follows::
- 
-- linux netconsole=+4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc
-+ linux netconsole=+*4444@10.0.0.1/eth1,9353@10.0.0.2/12:34:56:78:9a:bc
- 
- Log messages are transmitted with extended metadata header in the
- following format which is the same as /dev/kmsg::
-diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-index bdff9ac5056d..dea5b783744f 100644
---- a/drivers/net/netconsole.c
-+++ b/drivers/net/netconsole.c
-@@ -188,6 +188,11 @@ static struct netconsole_target *alloc_param_target(char *target_config)
- 		target_config++;
- 	}
- 
-+	if (*target_config == '*') {
-+		nt->np.iface_live_renaming = true;
-+		target_config++;
-+	}
-+
- 	/* Parse parameters and setup netpoll */
- 	err = netpoll_parse_options(&nt->np, target_config);
- 	if (err)
-diff --git a/include/linux/netpoll.h b/include/linux/netpoll.h
-index bd19c4b91e31..f2ebdabf0959 100644
---- a/include/linux/netpoll.h
-+++ b/include/linux/netpoll.h
-@@ -32,6 +32,7 @@ struct netpoll {
- 	bool ipv6;
- 	u16 local_port, remote_port;
- 	u8 remote_mac[ETH_ALEN];
-+	bool iface_live_renaming;
- };
- 
- struct netpoll_info {
-@@ -51,9 +52,11 @@ struct netpoll_info {
- void netpoll_poll_dev(struct net_device *dev);
- void netpoll_poll_disable(struct net_device *dev);
- void netpoll_poll_enable(struct net_device *dev);
-+bool netpoll_live_renaming_enabled(struct net_device *dev);
- #else
- static inline void netpoll_poll_disable(struct net_device *dev) { return; }
- static inline void netpoll_poll_enable(struct net_device *dev) { return; }
-+static inline bool netpoll_live_renaming_enabled(struct net_device *dev) { return false; }
- #endif
- 
- void netpoll_send_udp(struct netpoll *np, const char *msg, int len);
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 2e4f1c97b59e..90e6870d38d0 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -1176,7 +1176,8 @@ int dev_change_name(struct net_device *dev, const char *newname)
- 	 * directly.
- 	 */
- 	if (dev->flags & IFF_UP &&
--	    likely(!(dev->priv_flags & IFF_LIVE_RENAME_OK)))
-+	    likely(!(dev->priv_flags & IFF_LIVE_RENAME_OK) &&
-+		   !netpoll_live_renaming_enabled(dev)))
- 		return -EBUSY;
- 
- 	down_write(&devnet_rename_sem);
-diff --git a/net/core/netpoll.c b/net/core/netpoll.c
-index 9be762e1d042..a22319676667 100644
---- a/net/core/netpoll.c
-+++ b/net/core/netpoll.c
-@@ -224,6 +224,21 @@ void netpoll_poll_enable(struct net_device *dev)
- }
- EXPORT_SYMBOL(netpoll_poll_enable);
- 
-+bool netpoll_live_renaming_enabled(struct net_device *dev)
-+{
-+	struct netpoll_info *ni;
-+	bool live_renaming_enabled = false;
-+
-+	rcu_read_lock();
-+	ni = rcu_dereference(dev->npinfo);
-+	if (ni && ni->netpoll->iface_live_renaming)
-+		live_renaming_enabled = true;
-+	rcu_read_unlock();
-+
-+	return live_renaming_enabled;
-+}
-+EXPORT_SYMBOL(netpoll_live_renaming_enabled);
-+
- static void refill_skbs(void)
- {
- 	struct sk_buff *skb;
-diff --git a/net/ethernet/eth.c b/net/ethernet/eth.c
-index e02daa74e833..bb341acfcf05 100644
---- a/net/ethernet/eth.c
-+++ b/net/ethernet/eth.c
-@@ -62,6 +62,7 @@
- #include <net/gro.h>
- #include <linux/uaccess.h>
- #include <net/pkt_sched.h>
-+#include <linux/netpoll.h>
- 
- /**
-  * eth_header - create the Ethernet header
-@@ -288,8 +289,10 @@ int eth_prepare_mac_addr_change(struct net_device *dev, void *p)
- {
- 	struct sockaddr *addr = p;
- 
--	if (!(dev->priv_flags & IFF_LIVE_ADDR_CHANGE) && netif_running(dev))
-+	if (!(dev->priv_flags & IFF_LIVE_ADDR_CHANGE) && netif_running(dev) &&
-+	    !netpoll_live_renaming_enabled(dev))
- 		return -EBUSY;
-+
- 	if (!is_valid_ether_addr(addr->sa_data))
- 		return -EADDRNOTAVAIL;
- 	return 0;
--- 
-2.38.1
+However, changing the MAC address does need changes to the hardware
+configuration, and not all can do that while the interface is running.
+So i think this last part needs some justification.
 
+   Andrew
