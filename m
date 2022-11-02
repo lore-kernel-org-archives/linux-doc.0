@@ -2,106 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 931FDC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 10:05:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B415C433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 10:30:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229459AbiKBKFz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 06:05:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34866 "EHLO
+        id S230202AbiKBK37 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 06:29:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230271AbiKBKFw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 06:05:52 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77AC3248EF;
-        Wed,  2 Nov 2022 03:05:46 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id c15-20020a17090a1d0f00b0021365864446so1466347pjd.4;
-        Wed, 02 Nov 2022 03:05:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eMZGynsVBldapEggqqWQswcP13k8N/tUCzBN2hX6JyE=;
-        b=d9lCCQ8FCYRg9DNALNcFIs8V9hUc0Hqr0lFto04YGeUtZeaMJ+pAU2GnyLFefClHPm
-         SPKDAQOGwJHWQJSzaFKWANRX4pwQp71ztCoeNMnuZ1yajxuCGEjM5k3BOaO3mptSdwO+
-         vzsoKVxIwpAlFUr3qH+AlbrlXgEBehnEjRvQgSng+zrEEDy8N2YdPVP5Lqvj6KKGJf9W
-         25v2MC7LL3+5MFywyKrIZZIQnlx54IIL9emLxScDB3ftSqy7B141yqn/KzkKLabImFFq
-         yF4Y6CLJ1HpelOO02uIy1dpNuOLD/3dC72ThmEm3f6k8tIiEOwiyHWDDRbk1xYI0Kt7K
-         Dfdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eMZGynsVBldapEggqqWQswcP13k8N/tUCzBN2hX6JyE=;
-        b=5fOaPh/bLU/7+v4Y4xuuzGwHUDKyt69jUfQB3VSk5H+bVVg+E5x2rcgVc46QH/lM5P
-         DbWF2ny9ph47FpUcK+GTFHTKXXvKoJRQwwt4qy7Z1626JwLIOeV31jJqFcA5vb59S+86
-         BWGNyKbFj8EwwJ6/kTEMtkP2qi1eyvr8zRqUj7ATtcl9oabNRqkruUjx7uZvQU8UvOL/
-         D3LbVLUSuo+9oj7DHIrJvd8bgnPSvC4L/xL4qSxxw8m9jf5nHKsZCO5viDbFVjUM597W
-         MqoKlXisfYRg4kwFwfdIFPNaLKzKy6DQxEUpW8IvCnfStFFPZeNM5Xz/S1uERTYc/sO6
-         UKaA==
-X-Gm-Message-State: ACrzQf23i6ri77nyxeAhqhjqsQhHOnBeM+pMH45DcjRn8gVy5w5yafIa
-        yE7ZyKv+4pcpWvyKn3O2Xac=
-X-Google-Smtp-Source: AMsMyM6N/TVoUpFfF8uqOCgAGyxQlYCLDX1VKzXJpP7qR0LgZ0g7sekiQ7GxJ7VGtfFiKQTDGcpEIw==
-X-Received: by 2002:a17:90b:4a04:b0:213:587b:204e with SMTP id kk4-20020a17090b4a0400b00213587b204emr24733399pjb.98.1667383545929;
-        Wed, 02 Nov 2022 03:05:45 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id 9-20020a631749000000b0046f1e8cb30dsm7229747pgx.26.2022.11.02.03.05.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Nov 2022 03:05:45 -0700 (PDT)
-Message-ID: <b705e85b-c58b-fea4-508f-99ca4bc830b0@gmail.com>
-Date:   Wed, 2 Nov 2022 19:05:39 +0900
+        with ESMTP id S229875AbiKBK36 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 06:29:58 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 387C4638C;
+        Wed,  2 Nov 2022 03:29:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667384998; x=1698920998;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lhbEfJ05wgHz8sN63U6Q3zvR5dLafMlrMr3x4O4sHTA=;
+  b=KBfc3O+7KyZyyQv8rg4cko4kQs8rr8v7PsxhAg5UxvBaSEhwm8ZK7zgj
+   xhx4ZRgxP/3Cp8uLCoo6fiUwKgmEs4WmgLyNkYfpVgLeU+wVHoveDrnXQ
+   1n4JXUXb4l2CxVLAS6cUe/vdG7rIt50rkPOqVVZvUTTJ7IPQ917Bv44A7
+   EXsEdUFMlj6J4wNJF24Fd2efIDpl2P2TSeu/jiqwjq0Ddr/+1fsIKK51f
+   tmQGJJUWrv84fsXR3GIY78oYpfL+w2mrFLYsI/ZzpDY14lovJmC7QcbUY
+   UCme2ptF5lFIMjBR5JiJThg+1kuSvQlveTkiUpKXCWoDTReZPZiRKg+G9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="289083009"
+X-IronPort-AV: E=Sophos;i="5.95,232,1661842800"; 
+   d="scan'208";a="289083009"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2022 03:29:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="612190193"
+X-IronPort-AV: E=Sophos;i="5.95,232,1661842800"; 
+   d="scan'208";a="612190193"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006.jf.intel.com with ESMTP; 02 Nov 2022 03:29:55 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1oqB0L-006813-1u;
+        Wed, 02 Nov 2022 12:29:53 +0200
+Date:   Wed, 2 Nov 2022 12:29:53 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     linux-doc@vger.kernel.org, dmaengine@vger.kernel.org,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Vinod Koul <vinod.koul@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] Documentation: devres: add missing
+ devm_acpi_dma_controller_free() helper
+Message-ID: <Y2JGoTBMkrzKctsC@smile.fi.intel.com>
+References: <20221102022701.1407289-1-yangyingliang@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3 0/2] Documentation: Start Spanish translation and
- include HOWTO
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Carlos Bilbao <carlos.bilbao@amd.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bilbao@vt.edu, willy@infradead.org,
-        miguel.ojeda.sandonis@gmail.com, Akira Yokosawa <akiyks@gmail.com>
-References: <20221024145521.69465-1-carlos.bilbao@amd.com>
- <87wn8ext0m.fsf@meer.lwn.net> <5fd2092e-2f3e-27c0-66a9-94e02efa1e8d@amd.com>
- <87edumxow2.fsf@meer.lwn.net>
- <0d210871-a24a-8e61-b734-ae6df992011d@gmail.com>
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <0d210871-a24a-8e61-b734-ae6df992011d@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221102022701.1407289-1-yangyingliang@huawei.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2 Nov 2022 16:13:57 +0700, Bagas Sanjaya wrote:
-> On 11/2/22 05:59, Jonathan Corbet wrote:
->>
->> I'm sorry, it was b4 that complained, not git.  To see it happen, try:
->>
->>   b4 am 20221024145521.69465-1-carlos.bilbao@amd.com
->>
->> There were, in fact, two zero-width spaces in there, and two more in
->> Junio Hamano's name.  I've taken them all out, and learned all about
->> searching for weird characters in Emacs as a side benefit :)
->>
->> Series is now applied, thanks.
->>
-> 
-> Hi jon,
-> 
-> There is still outstanding issue regarding language identifier slug [1],
-> which isn't addressed yet.
-> 
-> [1]: https://lore.kernel.org/linux-doc/48b4a5a1-2a52-4159-699b-9db73a012892@gmail.com/
-To be clear, I'm OK with sp_SP/ with the explanation given in the changelog
-of v3 1/2.
+On Wed, Nov 02, 2022 at 10:27:01AM +0800, Yang Yingliang wrote:
+> Add missing devm_acpi_dma_controller_free() to devres.rst, it's introduced
+> by commit 1b2e98bc1e35 ("dma: acpi-dma: introduce ACPI DMA helpers").
 
-Regards,
-Akira
+OK
 
-> [2]: https://lore.kernel.org/linux-doc/Y0ork19pGMhZq8qn@debian.me/
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+> Fixes: 1b2e98bc1e35 ("dma: acpi-dma: introduce ACPI DMA helpers")
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> Cc: Vinod Koul <vinod.koul@intel.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> ---
+>  Documentation/driver-api/driver-model/devres.rst | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Thanks.
+> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+> index ff8158274fb3..aac9c1e39ebc 100644
+> --- a/Documentation/driver-api/driver-model/devres.rst
+> +++ b/Documentation/driver-api/driver-model/devres.rst
+> @@ -438,6 +438,7 @@ SERDEV
+>  
+>  SLAVE DMA ENGINE
+>    devm_acpi_dma_controller_register()
+> +  devm_acpi_dma_controller_free()
+>  
+>  SPI
+>    devm_spi_alloc_master()
+> -- 
+> 2.25.1
 > 
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
