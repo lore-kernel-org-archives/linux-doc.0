@@ -2,94 +2,240 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB03C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 20:30:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3828C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 20:51:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231150AbiKBUau (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 16:30:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58330 "EHLO
+        id S229975AbiKBUvO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 16:51:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231196AbiKBUar (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 16:30:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDC063896;
-        Wed,  2 Nov 2022 13:30:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 844FE61BDF;
-        Wed,  2 Nov 2022 20:30:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAF51C433C1;
-        Wed,  2 Nov 2022 20:30:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667421045;
-        bh=hud8Dpz5A5Zx36M35iJBXmY3CB9VaHEsQIX80WqYh4c=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=RweD87Fa6HGuEDGwF4YVqM+BdcUvNOQL+CMELNcieFg3TcfJ/1Ez22e9NT+/s1lgd
-         e4VU6afapXCtyFo+WA6PmVqy38OSsn/axYwHhoc8Kcxp5LlYykp9q8qjOol2CMmI6D
-         4yT8xgHA2rx/YuFRaCqvsbJQVz46bF/chq6ihok0mgH4WO0alIDF59jldBgi7j/ktS
-         i2XuGWQSb+8WoSSIZ260tZ4LaDgh+lwN1uQ4h38CqDfdi/dGH8+7Kv3r8lbzjR/46a
-         l6SjLq3Sx+Ww+0bBrlQ5qly3VRZ9YCxgASxJ5xw74nT/ST0quoQik10daC5ftS6jY2
-         mqFtGJNN+3m5g==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 7F2415C1813; Wed,  2 Nov 2022 13:30:45 -0700 (PDT)
-Date:   Wed, 2 Nov 2022 13:30:45 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Will Deacon <will@kernel.org>
-Cc:     Parav Pandit <parav@nvidia.com>, bagasdotme@gmail.com,
-        arnd@arndb.de, stern@rowland.harvard.edu, parri.andrea@gmail.com,
-        peterz@infradead.org, boqun.feng@gmail.com, npiggin@gmail.com,
-        dhowells@redhat.com, j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
-        akiyks@gmail.com, dlustig@nvidia.com, joel@joelfernandes.org,
-        corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5] locking/memory-barriers.txt: Improve documentation
- for writel() example
-Message-ID: <20221102203045.GS5600@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20221027201000.219731-1-parav@nvidia.com>
- <20221102060553.GA15438@willie-the-truck>
+        with ESMTP id S229770AbiKBUvN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 16:51:13 -0400
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E84EBF8;
+        Wed,  2 Nov 2022 13:51:12 -0700 (PDT)
+Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-13c569e5ff5so5972fac.6;
+        Wed, 02 Nov 2022 13:51:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vz0GfozIpsPUBz1QIRbwEXWEh5SPtHrHm1HOdjXnaj0=;
+        b=hCFn13MzPnpqEf9Kex9dFGEIZm/M1JDpAf+dzr8CboGw1nWgBItdLYanDTl/cDX3G1
+         ProzILPf/rOP0RkYBo6mvWZLI7EW/cZJPnoZVBP7qt6phrByah4FQy+qHohtT4EUJy9g
+         03TvqPir9RhNYeGLPO/OQamLMvgsEttzTLICkzgFsqG2IwueeOMwpEhV1KJYp2MpTPGq
+         Pb8p1hl+2fCTRphE6udzIIrGiXfyLuNJuD1MZafR197LxxlcMpZ/VLiH0YVdSQgRvNie
+         fbIY262E+PmQSNAaIygFcPhip7M87skMd93jB6DECsySj4OVd69IzBtKA49nvyF6/KSd
+         EphA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vz0GfozIpsPUBz1QIRbwEXWEh5SPtHrHm1HOdjXnaj0=;
+        b=z4MiN/W8c8Y46J30qTHJpNAMyemdnNHEGu4iV45ILGWqB4B58qYK98gHHfWf7hQ1WO
+         xtfgBkctF6zW/CDdus5V+kNWmLwQwiVa/ugj9sZrK5U9ufemNvPd9RRMFsMmtgoceYCj
+         ZBBRqd9SsQQZWD6HBNzscMapRw2C6o6Eae+TfGOFTLi1mryhLehfqNsi5XlqwNM5x2l6
+         p/BfF1PXD9ytUc0GKtDsTjhh5/1Rv3L76iDLnaOn22rlpqqG7jneZn8Cllt0Rdl67NaX
+         ypyvbf8wdhO9pEvib6airxKsz/ZXSOh+Ixk26fHlm2aT9JdJsqpmWaFPmORS288M4rvH
+         25kQ==
+X-Gm-Message-State: ACrzQf2dvD/X8ta0Fx5VJqHkJufqWc/uvk1hiRV2VBZlRmNOgZjwPmw1
+        s/tleLafT7tD6dAxOdXDcsI=
+X-Google-Smtp-Source: AMsMyM72H2oEil2phBMfeD9kNgmomI5srb1Ke1q9WqklFVafKYt4AHmFWvYO6aQguvqiB69jFm8Bcw==
+X-Received: by 2002:a05:6870:e2d6:b0:13c:a47a:c477 with SMTP id w22-20020a056870e2d600b0013ca47ac477mr16170494oad.269.1667422271417;
+        Wed, 02 Nov 2022 13:51:11 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s35-20020a4a96a6000000b004806f494d2fsm857957ooi.11.2022.11.02.13.51.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 13:51:10 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Wed, 2 Nov 2022 13:51:10 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Quan Nguyen <quan@os.amperecomputing.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        Open Source Submission <patches@amperecomputing.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Phong Vo <phong@os.amperecomputing.com>,
+        thang@os.amperecomputing.com, openbmc@lists.ozlabs.org
+Subject: Re: [PATCH] docs: hwmon: (smpro-hwmon) Improve grammar and formatting
+Message-ID: <20221102205110.GA2089605@roeck-us.net>
+References: <20221102062103.3135417-1-quan@os.amperecomputing.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221102060553.GA15438@willie-the-truck>
+In-Reply-To: <20221102062103.3135417-1-quan@os.amperecomputing.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 02, 2022 at 06:05:54AM +0000, Will Deacon wrote:
-> On Thu, Oct 27, 2022 at 11:10:00PM +0300, Parav Pandit wrote:
-> > The cited commit describes that when using writel(), explicit wmb()
-> > is not needed. wmb() is an expensive barrier. writel() uses the needed
-> > platform specific barrier instead of wmb().
-> > 
-> > writeX() section of "KERNEL I/O BARRIER EFFECTS" already describes
-> > ordering of I/O accessors with MMIO writes.
-> > 
-> > Hence add the comment for pseudo code of writel() and remove confusing
-> > text around writel() and wmb().
-> > 
-> > commit 5846581e3563 ("locking/memory-barriers.txt: Fix broken DMA vs. MMIO ordering example")
-> > 
-> > Signed-off-by: Parav Pandit <parav@nvidia.com>
-> > ---
-> > changelog:
-> > v4->v5:
-> > - Used suggested documentation update from Will
-> > - Added comment to the writel() pseudo code example
-> > - updated commit log for newer changes
+On Wed, Nov 02, 2022 at 01:21:03PM +0700, Quan Nguyen wrote:
+> Improve documentation grammar and formatting for the
+> Ampere(R)'s Altra(R) SMpro hwmon driver.
 > 
-> Sorry for the delay on this, I'm really behind on patches at the moment.
-> This patch looks good to me, so thanks for doing it. You can either add
-> my:
+> Thanks Bagas for the changes in the link below.
 > 
-> Acked-by: Will Deacon <will@kernel.org>
-> 
-> or, since we worked on this together:
-> 
-> Co-developed-by: Will Deacon <will@kernel.org>
-> Signed-off-by: Will Deacon <will@kernel.org>
+> Link: https://lore.kernel.org/lkml/Y1aHiaZ1OpHZIzS9@google.com/T/#mfea2167b99384486a1b75d9304536015116c1821
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Thank you!  I will apply these tags on the next rebase.
+Applied to hwmon-next.
 
-							Thanx, Paul
+Thanks,
+Guenter
+
+> ---
+>  Documentation/hwmon/smpro-hwmon.rst | 111 ++++++++++++++--------------
+>  1 file changed, 56 insertions(+), 55 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/smpro-hwmon.rst b/Documentation/hwmon/smpro-hwmon.rst
+> index 3a9b14dacf89..fb7b3665735b 100644
+> --- a/Documentation/hwmon/smpro-hwmon.rst
+> +++ b/Documentation/hwmon/smpro-hwmon.rst
+> @@ -7,39 +7,39 @@ Supported chips:
+>  
+>    * Ampere(R) Altra(R)
+>  
+> -    Prefix: 'smpro'
+> +    Prefix: ``smpro``
+>  
+> -    Reference: Altra SoC BMC Interface Specification
+> +    Reference: `Altra SoC BMC Interface Specification`
+>  
+>  Author: Thu Nguyen <thu@os.amperecomputing.com>
+>  
+>  Description
+>  -----------
+> -This driver supports hardware monitoring for Ampere(R) Altra(R) SoC's based on the
+> -SMpro co-processor (SMpro).
+> -The following sensor types are supported by the driver:
+> +The smpro-hwmon driver supports hardware monitoring for Ampere(R) Altra(R)
+> +SoCs based on the SMpro co-processor (SMpro).  The following sensor metrics
+> +are supported by the driver:
+>  
+>    * temperature
+>    * voltage
+>    * current
+>    * power
+>  
+> -The SMpro interface provides the registers to query the various sensors and
+> +The interface provides the registers to query the various sensors and
+>  their values which are then exported to userspace by this driver.
+>  
+>  Usage Notes
+>  -----------
+>  
+> -SMpro hwmon driver creates at least two sysfs files for each sensor.
+> +The driver creates at least two sysfs files for each sensor.
+>  
+> -* File ``<sensor_type><idx>_label`` reports the sensor label.
+> -* File ``<sensor_type><idx>_input`` returns the sensor value.
+> +* ``<sensor_type><idx>_label`` reports the sensor label.
+> +* ``<sensor_type><idx>_input`` returns the sensor value.
+>  
+> -The sysfs files are allocated in the SMpro root fs folder.
+> -There is one root folder for each SMpro instance.
+> +The sysfs files are allocated in the SMpro rootfs folder, with one root
+> +directory for each instance.
+>  
+> -When the SoC is turned off, the driver will fail to read registers
+> -and return -ENXIO.
+> +When the SoC is turned off, the driver will fail to read registers and
+> +return ``-ENXIO``.
+>  
+>  Sysfs entries
+>  -------------
+> @@ -48,48 +48,49 @@ The following sysfs files are supported:
+>  
+>  * Ampere(R) Altra(R):
+>  
+> -============    =============   ======  ===============================================
+> -Name            Unit            Perm    Description
+> -temp1_input     milli Celsius   RO      SoC temperature
+> -temp2_input     milli Celsius   RO      Max temperature reported among SoC VRDs
+> -temp2_crit      milli Celsius   RO      SoC VRD HOT Threshold temperature
+> -temp3_input     milli Celsius   RO      Max temperature reported among DIMM VRDs
+> -temp4_input     milli Celsius   RO      Max temperature reported among Core VRDs
+> -temp5_input     milli Celsius   RO      Temperature of DIMM0 on CH0
+> -temp5_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> -temp6_input     milli Celsius   RO      Temperature of DIMM0 on CH1
+> -temp6_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> -temp7_input     milli Celsius   RO      Temperature of DIMM0 on CH2
+> -temp7_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> -temp8_input     milli Celsius   RO      Temperature of DIMM0 on CH3
+> -temp8_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> -temp9_input     milli Celsius   RO      Temperature of DIMM0 on CH4
+> -temp9_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> -temp10_input    milli Celsius   RO      Temperature of DIMM0 on CH5
+> -temp10_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> -temp11_input    milli Celsius   RO      Temperature of DIMM0 on CH6
+> -temp11_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> -temp12_input    milli Celsius   RO      Temperature of DIMM0 on CH7
+> -temp12_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
+> -temp13_input    milli Celsius   RO      Max temperature reported among RCA VRDs
+> -in0_input       milli Volts     RO      Core voltage
+> -in1_input       milli Volts     RO      SoC voltage
+> -in2_input       milli Volts     RO      DIMM VRD1 voltage
+> -in3_input       milli Volts     RO      DIMM VRD2 voltage
+> -in4_input       milli Volts     RO      RCA VRD voltage
+> -cur1_input      milli Amperes   RO      Core VRD current
+> -cur2_input      milli Amperes   RO      SoC VRD current
+> -cur3_input      milli Amperes   RO      DIMM VRD1 current
+> -cur4_input      milli Amperes   RO      DIMM VRD2 current
+> -cur5_input      milli Amperes   RO      RCA VRD current
+> -power1_input    micro Watts     RO      Core VRD power
+> -power2_input    micro Watts     RO      SoC VRD power
+> -power3_input    micro Watts     RO      DIMM VRD1 power
+> -power4_input    micro Watts     RO      DIMM VRD2 power
+> -power5_input    micro Watts     RO      RCA VRD power
+> -============    =============   ======  ===============================================
+> -
+> -Example::
+> +  ============    =============  ======  ===============================================
+> +  Name            Unit           Perm    Description
+> +  ============    =============  ======  ===============================================
+> +  temp1_input     millicelsius   RO      SoC temperature
+> +  temp2_input     millicelsius   RO      Max temperature reported among SoC VRDs
+> +  temp2_crit      millicelsius   RO      SoC VRD HOT Threshold temperature
+> +  temp3_input     millicelsius   RO      Max temperature reported among DIMM VRDs
+> +  temp4_input     millicelsius   RO      Max temperature reported among Core VRDs
+> +  temp5_input     millicelsius   RO      Temperature of DIMM0 on CH0
+> +  temp5_crit      millicelsius   RO      MEM HOT Threshold for all DIMMs
+> +  temp6_input     millicelsius   RO      Temperature of DIMM0 on CH1
+> +  temp6_crit      millicelsius   RO      MEM HOT Threshold for all DIMMs
+> +  temp7_input     millicelsius   RO      Temperature of DIMM0 on CH2
+> +  temp7_crit      millicelsius   RO      MEM HOT Threshold for all DIMMs
+> +  temp8_input     millicelsius   RO      Temperature of DIMM0 on CH3
+> +  temp8_crit      millicelsius   RO      MEM HOT Threshold for all DIMMs
+> +  temp9_input     millicelsius   RO      Temperature of DIMM0 on CH4
+> +  temp9_crit      millicelsius   RO      MEM HOT Threshold for all DIMMs
+> +  temp10_input    millicelsius   RO      Temperature of DIMM0 on CH5
+> +  temp10_crit     millicelsius   RO      MEM HOT Threshold for all DIMMs
+> +  temp11_input    millicelsius   RO      Temperature of DIMM0 on CH6
+> +  temp11_crit     millicelsius   RO      MEM HOT Threshold for all DIMMs
+> +  temp12_input    millicelsius   RO      Temperature of DIMM0 on CH7
+> +  temp12_crit     millicelsius   RO      MEM HOT Threshold for all DIMMs
+> +  temp13_input    millicelsius   RO      Max temperature reported among RCA VRDs
+> +  in0_input       millivolts     RO      Core voltage
+> +  in1_input       millivolts     RO      SoC voltage
+> +  in2_input       millivolts     RO      DIMM VRD1 voltage
+> +  in3_input       millivolts     RO      DIMM VRD2 voltage
+> +  in4_input       millivolts     RO      RCA VRD voltage
+> +  cur1_input      milliamperes   RO      Core VRD current
+> +  cur2_input      milliamperes   RO      SoC VRD current
+> +  cur3_input      milliamperes   RO      DIMM VRD1 current
+> +  cur4_input      milliamperes   RO      DIMM VRD2 current
+> +  cur5_input      milliamperes   RO      RCA VRD current
+> +  power1_input    microwatts     RO      Core VRD power
+> +  power2_input    microwatts     RO      SoC VRD power
+> +  power3_input    microwatts     RO      DIMM VRD1 power
+> +  power4_input    microwatts     RO      DIMM VRD2 power
+> +  power5_input    microwatts     RO      RCA VRD power
+> +  ============    =============  ======  ===============================================
+> +
+> +  Example::
+>  
+>      # cat in0_input
+>      830
