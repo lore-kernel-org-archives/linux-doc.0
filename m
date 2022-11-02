@@ -2,76 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ECADC433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 02:57:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56383C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 03:40:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231189AbiKBC5n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 22:57:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46876 "EHLO
+        id S230103AbiKBDkL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 23:40:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231190AbiKBC5k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 22:57:40 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C4B222538
-        for <linux-doc@vger.kernel.org>; Tue,  1 Nov 2022 19:57:40 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N2BPq6LvZzHv50;
-        Wed,  2 Nov 2022 10:57:19 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 2 Nov 2022 10:57:38 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Wed, 2 Nov
- 2022 10:57:37 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-doc@vger.kernel.org>
-CC:     Yang Yingliang <yangyingliang@huawei.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] Documentation: devres: add missing MEM helper
-Date:   Wed, 2 Nov 2022 10:55:34 +0800
-Message-ID: <20221102025534.1450337-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S229785AbiKBDkK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 23:40:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 557CF26AC1;
+        Tue,  1 Nov 2022 20:40:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D74796172F;
+        Wed,  2 Nov 2022 03:40:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF521C433D7;
+        Wed,  2 Nov 2022 03:40:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667360408;
+        bh=YvIE6halxY+/sZPI1kuhiNcmZGBmKfv091gJ/Usx2HU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=dECRwqqCEG/Ct8DxQAtr8C782XsNfmXDEDV81c7jZKYHL8WkVDivFge03dx1WFqYt
+         3hddwowmUhVE6gknEMzNvvrV/wsz7JrN/ozMeEGjaaXPWIOWIRxp/9h1MoLIOiQwMK
+         m0UZXjj7iZf3lHXapvRo4IscVwD5GGkerF9tXaUcG2hsHqrP6COh96FjjIeZ4htbmF
+         mFB4YySnu96McpPBejZ3mdmdv/jEG+W6tPmK+BTEau0MTtdnms9iVycaeqUqzdkPd/
+         o6R0GM1r1Aiww/bDz31IF28c5O+5WQA6FehCguOjobRPpTDlLwwpKqIIcU0ZqSxyhr
+         9dYRFoLcyoG/A==
+Date:   Tue, 1 Nov 2022 20:40:06 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Andy Ren <andy.ren@getcruise.com>, netdev@vger.kernel.org,
+        richardbgobert@gmail.com, davem@davemloft.net,
+        wsa+renesas@sang-engineering.com, edumazet@google.com,
+        petrm@nvidia.com, pabeni@redhat.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        roman.gushchin@linux.dev
+Subject: Re: [PATCH net-next v2] netconsole: Enable live renaming for
+ network interfaces used by netconsole
+Message-ID: <20221101204006.75b46660@kernel.org>
+In-Reply-To: <Y2G+SYXyZAB/r3X0@lunn.ch>
+References: <20221102002420.2613004-1-andy.ren@getcruise.com>
+        <Y2G+SYXyZAB/r3X0@lunn.ch>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add missing devm_kstrdup_const() to devres.rst. It's introduce by
-commit 09d1ea1c7309 ("devres: provide devm_kstrdup_const()").
+On Wed, 2 Nov 2022 01:48:09 +0100 Andrew Lunn wrote:
+> Changing the interface name while running is probably not an
+> issue. There are a few drivers which report the name to the firmware,
+> presumably for logging, and phoning home, but it should not otherwise
+> affect the hardware.
 
-Fixes: 09d1ea1c7309 ("devres: provide devm_kstrdup_const()")
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- Documentation/driver-api/driver-model/devres.rst | 1 +
- 1 file changed, 1 insertion(+)
+Agreed. BTW I wonder if we really want to introduce a netconsole
+specific uAPI for this or go ahead with something more general.
+A sysctl for global "allow UP rename"?
 
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index 2bea236d6919..853396d19419 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -357,6 +357,7 @@ MEM
-   devm_kmemdup()
-   devm_krealloc()
-   devm_kstrdup()
-+  devm_kstrdup_const()
-   devm_kvasprintf()
-   devm_kzalloc()
- 
--- 
-2.25.1
+We added the live renaming for failover a while back and there were 
+no reports of user space breaking as far as I know. So perhaps nobody
+actually cares and we should allow renaming all interfaces while UP?
+For backwards compat we can add a sysctl as mentioned or a rtnetlink 
+"I know what I'm doing" flag? 
 
+Maybe print an info message into the logs for a few releases to aid
+debug?
+
+IOW either there is a reason we don't allow rename while up, and
+netconsole being bound to an interface is immaterial. Or there is 
+no reason and we should allow all.
