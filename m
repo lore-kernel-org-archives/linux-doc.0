@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80DD5C43217
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 18:05:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1B81C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 18:05:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230522AbiKBSFK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 14:05:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34070 "EHLO
+        id S230435AbiKBSFS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 14:05:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231134AbiKBSFI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 14:05:08 -0400
+        with ESMTP id S231236AbiKBSFJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 14:05:09 -0400
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E646C2E6B4;
-        Wed,  2 Nov 2022 11:05:06 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A2I2QNd004942;
-        Wed, 2 Nov 2022 18:04:14 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6B72EF19;
+        Wed,  2 Nov 2022 11:05:07 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A2HvRK8021920;
+        Wed, 2 Nov 2022 18:04:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=9QCqRyX7/rpCsjusa/miM3akYsJyOGsIlbhQcQ2O78A=;
- b=ouPRegq/ErIfIodhVe5NoKl/MlZl7bA0uAIKPQ694rqcmsHPry+XtFjd9EbHmTawTUKp
- ASJqBapoX31lCJ5lNuUCTfh7hePsWetY/oi+b0AL4kwpZItFOAzQ2lYO93mfUPc8DVNV
- timt1Xv1fyZ3YpJ7TGzw4enNMiXFLpvVg+OeiAwTu5vn7gGjHhLErwGWx0Vhy4LJ8iUC
- 8UORUFwgOxnnlaBlEBJfcHfqo81WC/oypx01cvfzk51zGGaM38qHkk501TCXljo7z/Y+
- kIAXUZ16TyiNevFwe3sf6xYX4NT/R0LzmoVkIlxZulj4BeUnyE24bFr61lufTVM833EK 9g== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kkwfu806n-1
+ bh=DYV6UhlxBjAVhUwnUSfoiUxcFgJpAGe3cb+kiFS//ko=;
+ b=A/5TWOpZ6Q+PPzRcEALKyEY/6yCizUdad0FFpEE+QXWouXi24dc/jIlggChSg7dIJH+Z
+ CGeimhqgbJ056v6hp99/yG0Ff5vIHHPXGvWbgixnEhctAVaPW9xveScqUOf9vx9dG56c
+ pdykAI4fVjcnY6geCTQZSibaO+HaxYsXZLsmk/+HDr/Gs83s6TK6CVoktJBaeT6m7G2I
+ cAHGPD2cXSVqBC7zAd8QNDPmFXvUwl3siupi67ZdaqVO3SX+MO+e64mBfxZvBWh0Knxp
+ R8TnYBO5fGMr5lJPYsI+Cbd1VRimDDRPcZh2Oo+gygqV9Cf988nqVET7gq79Lt76qgMg nQ== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kkm40132q-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 02 Nov 2022 18:04:14 +0000
+        Wed, 02 Nov 2022 18:04:47 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A2I4DBO006128
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A2I4kEN018416
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 2 Nov 2022 18:04:13 GMT
+        Wed, 2 Nov 2022 18:04:46 GMT
 Received: from [10.134.65.5] (10.80.80.8) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 2 Nov 2022
- 11:04:12 -0700
-Message-ID: <6b035c6e-087a-8fe9-d1ba-3e0c8a0c2130@quicinc.com>
-Date:   Wed, 2 Nov 2022 11:04:12 -0700
+ 11:04:45 -0700
+Message-ID: <28eaa4bd-a9ee-c415-57c4-a9a56ffeef18@quicinc.com>
+Date:   Wed, 2 Nov 2022 11:04:45 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH v6 21/21] docs: gunyah: Document Gunyah VM Manager
+Subject: Re: [PATCH v6 10/21] gunyah: rsc_mgr: Add resource manager RPC core
 Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>
 CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>,
         Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
         Carl van Schaik <quic_cvanscha@quicinc.com>,
         Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
         Andy Gross <agross@kernel.org>,
@@ -63,36 +63,38 @@ CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
         Marc Zyngier <maz@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Will Deacon" <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Arnd Bergmann" <arnd@arndb.de>,
         Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Amol Maheshwari <amahesh@qti.qualcomm.com>,
         Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
         <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-22-quic_eberman@quicinc.com>
- <Y2JrA2rXJuRrFALF@debian.me>
+ <20221026185846.3983888-11-quic_eberman@quicinc.com>
+ <Y2FfKCKZ3N8rOqcT@kroah.com>
+ <3d2858fe-ea3e-159c-faff-5052cba1e08c@quicinc.com>
+ <Y2Hbl4y9Hioybxmq@kroah.com>
 From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <Y2JrA2rXJuRrFALF@debian.me>
+In-Reply-To: <Y2Hbl4y9Hioybxmq@kroah.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: e-dSAsNRMptKzn7chKnN5jnv4T69jBlk
-X-Proofpoint-ORIG-GUID: e-dSAsNRMptKzn7chKnN5jnv4T69jBlk
+X-Proofpoint-GUID: qoEDl_mkLKaCYoFGnVLHFqai4C07Z8lz
+X-Proofpoint-ORIG-GUID: qoEDl_mkLKaCYoFGnVLHFqai4C07Z8lz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-02_14,2022-11-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- priorityscore=1501 impostorscore=0 clxscore=1011 suspectscore=0
- phishscore=0 spamscore=0 mlxlogscore=999 mlxscore=0 adultscore=0
- bulkscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ definitions=2022-11-02_13,2022-11-02_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ clxscore=1015 mlxlogscore=657 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 mlxscore=0 phishscore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.12.0-2210170000 definitions=main-2211020117
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -100,212 +102,175 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 11/2/2022 6:05 AM, Bagas Sanjaya wrote:
-> On Wed, Oct 26, 2022 at 11:58:46AM -0700, Elliot Berman wrote:
->> diff --git a/Documentation/virt/gunyah/vm-manager.rst b/Documentation/virt/gunyah/vm-manager.rst
->> new file mode 100644
->> index 000000000000..c232ba05de7e
->> --- /dev/null
->> +++ b/Documentation/virt/gunyah/vm-manager.rst
->> @@ -0,0 +1,94 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +=======================
->> +Virtual Machine Manager
->> +=======================
->> +
->> +The Gunyah Virtual Machine Manager is a Linux driver to support launching virtual machines.
->> +
->> +Summary
->> +=======
->> +
->> +Gunyah VMM presently supports launching non-proxy scheduled Linux-like virtual machines.
->> +
->> +Sample Userspace VMM
->> +====================
->> +
->> +A sample userspace VMM is included in samples/gunyah/ along with a sample minimal devicetree
->> +that can be used to launch a Linux-like virtual machine under Gunyah. To build this sample, enable
->> +CONFIG_SAMPLE_GUNYAH.
->> +
->> +IOCTLs and userspace VMM flows
->> +==============================
->> +
->> +The kernel exposes a char device interface at /dev/gunyah.
->> +
->> +To create a VM, use the GH_CREATE_VM ioctl. A successful call will return a "Gunyah VM" file descriptor.
->> +
->> +/dev/gunyah API Descriptions
->> +----------------------------
->> +
->> +GH_CREATE_VM
->> +~~~~~~~~~~~~
->> +
->> +Creates a Gunyah VM. The argument is reserved for future use and must be 0.
->> +
->> +Gunyah VM API Descriptions
->> +--------------------------
->> +
->> +GH_VM_SET_USER_MEM_REGION
->> +~~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +::
->> +
->> +  struct gh_userspace_memory_region {
->> +	__u32 label;
->> +	__u32 flags;
->> +	__u64 guest_phys_addr;
->> +	__u64 memory_size;
->> +	__u64 userspace_addr;
->> +  };
->> +
->> +This ioctl allows the user to create or delete a memory parcel for a guest
->> +virtual machine. Each memory region is uniquely identified by a label;
->> +attempting to create two memory regions with the same label is not allowed.
->> +
->> +While VMM is guest-agnostic and allows runtime addition of memory regions,
->> +Linux guest virtual machines do not support accepting memory regions at runtime.
->> +Thus, memory regions should be provided before starting the VM and the VM
->> +configured to accept those memory regions at boot-up.
->> +
->> +The guest physical address is used by Linux to check the requested user regions
->> +do not overlap and to help find a corresponding memory region for calls like
->> +GH_VM_SET_DTB_CONFIG.
->> +
->> +To delete a memory region, call GH_VM_SET_USER_MEM_REGION with label set to the
->> +memory region of interest and memory_size set to 0.
->> +
->> +The flags field of gh_userspace_memory_region can set the following bits. All
->> +other bits must be 0 and are reserved for future use. The ioctl will return
->> +-EINVAL if an unsupported bit is detected.
->> +
->> +  - GH_MEM_ALLOW_READ/GH_MEM_ALLOW_WRITE/GH_MEM_ALLOW_EXEC sets read/write/exec permissions
->> +    for the guest, respectively.
->> +
->> +  - GH_MEM_LENT means that the memory will be unmapped from the host and be unaccessible by
->> +    the host while the guest has the region.
->> +
->> +GH_VM_SET_DTB_CONFIG
->> +~~~~~~~~~~~~~~~~~~~~
->> +
->> +::
->> +
->> +  struct gh_vm_dtb_config {
->> +	__u64 gpa;
->> +	__u64 size;
->> +  };
->> +
->> +This ioctl sets the location of the VM's devicetree blob and is used by Gunyah
->> +Resource Manager to allocate resources.
->> +
->> +GH_VM_START
->> +~~~~~~~~~~~
->> +
->> +This ioctl starts the virtual machine.
+On 11/1/2022 7:53 PM, Greg Kroah-Hartman wrote:
+> On Tue, Nov 01, 2022 at 05:12:58PM -0700, Elliot Berman wrote:
+>>
+>>
+>> On 11/1/2022 11:02 AM, Greg Kroah-Hartman wrote:
+>>> On Wed, Oct 26, 2022 at 11:58:35AM -0700, Elliot Berman wrote:
+>>>> The resource manager is a special virtual machine which is always
+>>>> running on a Gunyah system. It provides APIs for creating and destroying
+>>>> VMs, secure memory management, sharing/lending of memory between VMs,
+>>>> and setup of inter-VM communication. Calls to the resource manager are
+>>>> made via message queues.
+>>>>
+>>>> This patch implements the basic probing and RPC mechanism to make those
+>>>> API calls. Request/response calls can be made with gh_rm_call.
+>>>> Drivers can also register to notifications pushed by RM via
+>>>> gh_rm_register_notifier
+>>>>
+>>>> Specific API calls that resource manager supports will be implemented in
+>>>> subsequent patches.
+>>>>
+>>>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>>>> ---
+>>>>    MAINTAINERS                    |   2 +-
+>>>>    drivers/virt/gunyah/Kconfig    |  15 +
+>>>>    drivers/virt/gunyah/Makefile   |   3 +
+>>>>    drivers/virt/gunyah/rsc_mgr.c  | 602 +++++++++++++++++++++++++++++++++
+>>>>    drivers/virt/gunyah/rsc_mgr.h  |  34 ++
+>>>>    include/linux/gunyah_rsc_mgr.h |  26 ++
+>>>>    6 files changed, 681 insertions(+), 1 deletion(-)
+>>>>    create mode 100644 drivers/virt/gunyah/rsc_mgr.c
+>>>>    create mode 100644 drivers/virt/gunyah/rsc_mgr.h
+>>>>    create mode 100644 include/linux/gunyah_rsc_mgr.h
+>>>>
+>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>> index 586539eadd3b..e072a0d2e553 100644
+>>>> --- a/MAINTAINERS
+>>>> +++ b/MAINTAINERS
+>>>> @@ -8945,7 +8945,7 @@ F:	Documentation/virt/gunyah/
+>>>>    F:	arch/arm64/gunyah/
+>>>>    F:	drivers/mailbox/gunyah-msgq.c
+>>>>    F:	drivers/virt/gunyah/
+>>>> -F:	include/linux/gunyah.h
+>>>> +F:	include/linux/gunyah*.h
+>>>>    HABANALABS PCI DRIVER
+>>>>    M:	Oded Gabbay <ogabbay@kernel.org>
+>>>> diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
+>>>> index 127156a678a6..4de88d80aa7b 100644
+>>>> --- a/drivers/virt/gunyah/Kconfig
+>>>> +++ b/drivers/virt/gunyah/Kconfig
+>>>> @@ -10,3 +10,18 @@ config GUNYAH
+>>>>    	  Say Y/M here to enable the drivers needed to interact in a Gunyah
+>>>>    	  virtual environment.
+>>>> +
+>>>> +config GUNYAH_RESORUCE_MANAGER
+>>>> +	tristate "Gunyah Resource Manager"
+>>>> +	select MAILBOX
+>>>> +	select GUNYAH_MESSAGE_QUEUES
+>>>> +	depends on GUNYAH
+>>>> +	default y
+>>>
+>>> You only have "default y" if your machine can not boot without it.
+>>> Please do not add that here.
+>>>
+>>
+>> There's a guideline in Documentation/kbuild/kconfig-language.rst to provide
+>> some sane defaults for subdriver behavior. Here, CONFIG_GUNYAH is default n.
+>> It's unlikely for someone to want to have Linux with base Gunyah support
+>> (hypercalls and hypervisor detection) without also having the Resource
+>> Manager driver. If it's better, I could change to default m?
 > 
-> I think the wording can be better:
-> 
-> ---- >8 ----
-> 
-> diff --git a/Documentation/virt/gunyah/vm-manager.rst b/Documentation/virt/gunyah/vm-manager.rst
-> index c232ba05de7e96..772fd970b91d7e 100644
-> --- a/Documentation/virt/gunyah/vm-manager.rst
-> +++ b/Documentation/virt/gunyah/vm-manager.rst
-> @@ -4,18 +4,15 @@
->   Virtual Machine Manager
->   =======================
->   
-> -The Gunyah Virtual Machine Manager is a Linux driver to support launching virtual machines.
-> -
-> -Summary
-> -=======
-> -
-> -Gunyah VMM presently supports launching non-proxy scheduled Linux-like virtual machines.
-> +The Gunyah Virtual Machine Manager is a Linux driver for launching virtual
-> +machines using Gunyah. It presently supports launching non-proxy scheduled
-> +Linux-like virtual machines.
->   
->   Sample Userspace VMM
->   ====================
->   
-> -A sample userspace VMM is included in samples/gunyah/ along with a sample minimal devicetree
-> -that can be used to launch a Linux-like virtual machine under Gunyah. To build this sample, enable
-> +A sample userspace VMM is included in samples/gunyah/ along with a minimal
-> +devicetree that can be used to launch a VM. To build this sample, enable
->   CONFIG_SAMPLE_GUNYAH.
->   
->   IOCTLs and userspace VMM flows
-> @@ -23,7 +20,8 @@ IOCTLs and userspace VMM flows
->   
->   The kernel exposes a char device interface at /dev/gunyah.
->   
-> -To create a VM, use the GH_CREATE_VM ioctl. A successful call will return a "Gunyah VM" file descriptor.
-> +To create a VM, use the GH_CREATE_VM ioctl. A successful call will return a
-> +"Gunyah VM" file descriptor.
->   
->   /dev/gunyah API Descriptions
->   ----------------------------
-> @@ -51,29 +49,28 @@ GH_VM_SET_USER_MEM_REGION
->   
->   This ioctl allows the user to create or delete a memory parcel for a guest
->   virtual machine. Each memory region is uniquely identified by a label;
-> -attempting to create two memory regions with the same label is not allowed.
-> +attempting to create two regions with the same label is not allowed.
->   
->   While VMM is guest-agnostic and allows runtime addition of memory regions,
->   Linux guest virtual machines do not support accepting memory regions at runtime.
-> -Thus, memory regions should be provided before starting the VM and the VM
-> -configured to accept those memory regions at boot-up.
-> +Thus, memory regions should be provided before starting the VM and the VM must
-> +be configured to accept these at boot-up.
->   
-> -The guest physical address is used by Linux to check the requested user regions
-> -do not overlap and to help find a corresponding memory region for calls like
-> -GH_VM_SET_DTB_CONFIG.
-> +The guest physical address is used by Linux kernel to check that the requested
-> +user regions do not overlap and to help find the corresponding memory region
-> +for calls like GH_VM_SET_DTB_CONFIG.
->   
->   To delete a memory region, call GH_VM_SET_USER_MEM_REGION with label set to the
-> -memory region of interest and memory_size set to 0.
-> +desired region and memory_size set to 0.
->   
-> -The flags field of gh_userspace_memory_region can set the following bits. All
-> +The flags field of gh_userspace_memory_region accepts the following bits. All
->   other bits must be 0 and are reserved for future use. The ioctl will return
->   -EINVAL if an unsupported bit is detected.
->   
-> -  - GH_MEM_ALLOW_READ/GH_MEM_ALLOW_WRITE/GH_MEM_ALLOW_EXEC sets read/write/exec permissions
-> -    for the guest, respectively.
-> -
-> -  - GH_MEM_LENT means that the memory will be unmapped from the host and be unaccessible by
-> -    the host while the guest has the region.
-> +  - GH_MEM_ALLOW_READ/GH_MEM_ALLOW_WRITE/GH_MEM_ALLOW_EXEC sets read/write/exec
-> +    permissions for the guest, respectively.
-> +  - GH_MEM_LENT means that the memory will be unmapped from the host and be
-> +    unaccessible by the host while the guest has the region.
-
-One side question -- before, you asked that I add newline between the 
-list entries. Here, you've removed them. When do I need the extra 
-newline vs not?
-
-https://lore.kernel.org/all/YzUUaIx+azyzFDNX@debian.me/
-
->   
->   GH_VM_SET_DTB_CONFIG
->   ~~~~~~~~~~~~~~~~~~~~
-> @@ -91,4 +88,4 @@ Resource Manager to allocate resources.
->   GH_VM_START
->   ~~~~~~~~~~~
->   
-> -This ioctl starts the virtual machine.
-> +This ioctl starts the VM.
-> 
-> Thanks.
+> Why is this a separate build option at all anyway?  If you want
+> CONFIG_GUNYAH why would you ever turn this off?  So why even allow it to
+> be an option?  Just always built it depending on the main option.
 > 
 
-Thanks for reviewing and providing all the suggestions. I've applied all 
-of them.
+Ack.
 
+I'll also end up removing CONFIG_GUNYAH_MESSAGE_QUEUES from patch 9 as well.
 
+>>>> +/* Resource Manager Header */
+>>>> +struct gh_rm_rpc_hdr {
+>>>> +	u8 version : 4, hdr_words : 4;
+>>>> +	u8 type : 2, fragments : 6;
+>>>
+>>> Ick, that's hard to read.  One variable per line please?
+>>
+>> Ack.
+>>
+>>> And why the bit packed stuff?  Are you sure this is the way to do this?
+>>> Why not use a bitmask instead?
+>>>
+>>
+>> I felt bit packed implementation is cleaner and easier to map to
+>> understanding what the fields are used for.
+> 
+> Ah, so this isn't what is on the "wire", then don't use a bitfield like
+> this, use a real variable and that will be faster and simpler to
+> understand.
+> 
 
+This is what's on the "wire". Whether I use bitfield or bit packed would 
+be functionally the same and is just a cosmetic change IMO.
+
+>>>> +static struct gh_rsc_mgr *__rsc_mgr;
+>>>
+>>> Sorry, no, you don't get to just limit yourself to one of these.  Please
+>>> make this properly handle any number of "resource managers", static
+>>> variables like this is not ok.
+>>>
+>>
+>> There will only ever be one resource manager. optee, psci, and qcom_scm use
+>> a similar approach.
+> 
+> And all of those are also wrong.
+> 
+> There is no need for this variable at all, you are doing extra work to
+> make this a "single" device.  Just always work off of the device that
+> the driver core gave you and all is good and you will have no limits on
+> how many different ones you eventually get.  It will be less code
+> overall, so it's the right thing to do.
+> 
+
+Ack
+
+>>>> +SRCU_NOTIFIER_HEAD_STATIC(gh_rm_notifier);
+>>>
+>>> Why do you need a notifier list?
+>>>
+>>> Who will register for this?  For what?  Why?
+>>>
+>>
+>> The majority of notifications that RM sends to Linux will be related to VM
+>> state, e.g. "VM crashed." I've not added the handling in VM manager yet to
+>> reduce the number of patches in this series. It was used in the previous
+>> series for the console driver. I can remove for now and re-introduce it once
+>> VM manager makes use?
+> 
+> Please remove if you are not using it.  Notifier lists are almost always
+> wrong when it comes to the driver model, so please don't add them now,
+> we can discuss it later if you feel it really needs to be introduced
+> then.
+> 
+
+Ack
+
+>>>> +static struct platform_driver gh_rm_driver = {
+>>>> +	.probe = gh_rm_drv_probe,
+>>>> +	.remove = gh_rm_drv_remove,
+>>>> +	.driver = {
+>>>> +		.name = "gh_rsc_mgr",
+>>>> +		.of_match_table = gh_rm_of_match,
+>>>> +	},
+>>>
+>>> Wait, why is this a platform driver?  This is binding to a real device
+>>> on a real bus, not a random platform description in DT, right?
+>>
+>> This a binding for a real device and not a "random platform description" in
+>> DT to get the driver probed.
+>>
+>>> Or is it controlled by your DT?  I can't figure that out here, sorry.
+>>
+>> There is some info in Patch 2 about why the DT node exists and how it looks.
+>> Essentially, The DT node is provided by Gunyah during boot and describes how
+>> Linux can communicate with resource manager.
+> 
+> Ick, ok, for now let's leave this alone but for dynamic devices, you
+> should never use a platform device.  All devices that hang off of this
+> controller better not be platform devices, but belong to the bus type of
+> your new bus, right?
+> 
+
+That's correct.
