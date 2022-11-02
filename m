@@ -2,104 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B415C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 10:30:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E498C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 11:48:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230202AbiKBK37 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 06:29:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48922 "EHLO
+        id S230261AbiKBLsO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 07:48:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229875AbiKBK36 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 06:29:58 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 387C4638C;
-        Wed,  2 Nov 2022 03:29:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667384998; x=1698920998;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lhbEfJ05wgHz8sN63U6Q3zvR5dLafMlrMr3x4O4sHTA=;
-  b=KBfc3O+7KyZyyQv8rg4cko4kQs8rr8v7PsxhAg5UxvBaSEhwm8ZK7zgj
-   xhx4ZRgxP/3Cp8uLCoo6fiUwKgmEs4WmgLyNkYfpVgLeU+wVHoveDrnXQ
-   1n4JXUXb4l2CxVLAS6cUe/vdG7rIt50rkPOqVVZvUTTJ7IPQ917Bv44A7
-   EXsEdUFMlj6J4wNJF24Fd2efIDpl2P2TSeu/jiqwjq0Ddr/+1fsIKK51f
-   tmQGJJUWrv84fsXR3GIY78oYpfL+w2mrFLYsI/ZzpDY14lovJmC7QcbUY
-   UCme2ptF5lFIMjBR5JiJThg+1kuSvQlveTkiUpKXCWoDTReZPZiRKg+G9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="289083009"
-X-IronPort-AV: E=Sophos;i="5.95,232,1661842800"; 
-   d="scan'208";a="289083009"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2022 03:29:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10518"; a="612190193"
-X-IronPort-AV: E=Sophos;i="5.95,232,1661842800"; 
-   d="scan'208";a="612190193"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP; 02 Nov 2022 03:29:55 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1oqB0L-006813-1u;
-        Wed, 02 Nov 2022 12:29:53 +0200
-Date:   Wed, 2 Nov 2022 12:29:53 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-doc@vger.kernel.org, dmaengine@vger.kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Vinod Koul <vinod.koul@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] Documentation: devres: add missing
- devm_acpi_dma_controller_free() helper
-Message-ID: <Y2JGoTBMkrzKctsC@smile.fi.intel.com>
-References: <20221102022701.1407289-1-yangyingliang@huawei.com>
+        with ESMTP id S230298AbiKBLsK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 07:48:10 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 510C228723;
+        Wed,  2 Nov 2022 04:48:07 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id j12so16330381plj.5;
+        Wed, 02 Nov 2022 04:48:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lrt48o0wxQzQSNwn9v0lTmEHxq/zDXHhMvj06dfThtY=;
+        b=TY2LrmuIAoR+xdiGyBablBuIPoXvzxK6cMCmSG4gN3TWjqpd30TwaP+LzPRqMH1drI
+         +y/3lRjhS9NFfbNfUjgujDC5BH2NgR733/m96E7Oe4xYVN0ym+ftOuQKxbgaRke+rS6Z
+         Wp8r+sgub3NlWrpc/YSJBmmikuvfmKyqmXAfpmmKgFtXYQRJagntlifh68AauVxlB1BF
+         /AEeCt4+brNpUwI+Lb8j47PnhjsA/I+rvCuYnbhmFFhk6eEdUUyKjT2Ib6WrNtaapS5U
+         rU99ywZWfG7MKxJdg5hWcAKdNZSHE5x7Gph/KiaVXz1I8g5OMdi4zmVPKP1U7qf9/cNs
+         ozaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lrt48o0wxQzQSNwn9v0lTmEHxq/zDXHhMvj06dfThtY=;
+        b=tKSbla9CumoMIV0Py4EjrTGWj245m8MALqX6d7GtCs9qbSm/451Rw17RnCmGndQ+en
+         +JckLjt67wZqggJhnQvaOcCcJ1kCWKhfs0MR8TtC9UqX2Q7DAmEQzKY7jq4McgeC0c+K
+         nJis1XT/ZV4X+/ohn9IMUpGPBF8qG962eJpP7ZXuyc6bcEWh9B7f5zDxJy3T2ZVlmdTa
+         XBLwhxwCVOoPPj38fcSmquqv1HsIkPhlUhV0ikCug2F2fQZzzY3us3bA8/PhDXCjNPva
+         +/+EAyt+k46PzYr+eSZ4m23rfDStuwgWKgu+uDFZFr0LtEiN+LH9nhxi1tVBBUtGAx/l
+         tFxw==
+X-Gm-Message-State: ACrzQf3VutA3WgvbXj6k/8j5Mpu/dNpR96tNmOitFzJLMGZv0GJahxm2
+        12fMlEwC/KRhhLGxqSsFcDQ=
+X-Google-Smtp-Source: AMsMyM7CtWB8wxg+vrruuJ9K0sE0Tig7eyYj0WyGmnUalTtz2/1PxHmG4YgJO+NqaE2OkWJQIkgbzw==
+X-Received: by 2002:a17:90b:4f45:b0:213:ccc6:87df with SMTP id pj5-20020a17090b4f4500b00213ccc687dfmr19537471pjb.227.1667389686843;
+        Wed, 02 Nov 2022 04:48:06 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id 13-20020a62190d000000b00562cfc80864sm8295435pfz.36.2022.11.02.04.48.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Nov 2022 04:48:06 -0700 (PDT)
+Message-ID: <4e54c76a-138a-07e0-985a-dd83cb622208@gmail.com>
+Date:   Wed, 2 Nov 2022 20:48:01 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221102022701.1407289-1-yangyingliang@huawei.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] docs/driver-api/miscellaneous: Remove kernel-doc of
+ serial_core.c
+To:     Jiri Slaby <jslaby@suse.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 02, 2022 at 10:27:01AM +0800, Yang Yingliang wrote:
-> Add missing devm_acpi_dma_controller_free() to devres.rst, it's introduced
-> by commit 1b2e98bc1e35 ("dma: acpi-dma: introduce ACPI DMA helpers").
+Since merge of tty-6.0-rc1, "make htmldocs" with Sphinx >=3.1 emits
+a bunch of warnings indicating duplicate kernel-doc comments from
+drivers/tty/serial/serial_core.c.
 
-OK
+This is due to the kernel-doc directive for serial_core.c in
+serial/drivers.rst added in the merge. It conflicts with an existing
+kernel-doc directive in miscellaneous.rst.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Remove the latter directive and resolve the duplicates.
 
-> Fixes: 1b2e98bc1e35 ("dma: acpi-dma: introduce ACPI DMA helpers")
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Cc: Vinod Koul <vinod.koul@intel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->  Documentation/driver-api/driver-model/devres.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-> index ff8158274fb3..aac9c1e39ebc 100644
-> --- a/Documentation/driver-api/driver-model/devres.rst
-> +++ b/Documentation/driver-api/driver-model/devres.rst
-> @@ -438,6 +438,7 @@ SERDEV
->  
->  SLAVE DMA ENGINE
->    devm_acpi_dma_controller_register()
-> +  devm_acpi_dma_controller_free()
->  
->  SPI
->    devm_spi_alloc_master()
-> -- 
-> 2.25.1
-> 
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Fixes: 607ca0f742b7 ("Merge tag 'tty-6.0-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty")
+Cc: stable@vger.kernel.org # 6.0
+Cc: Jiri Slaby <jslaby@suse.cz>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+Hi Jiri,
 
+I've seeing the increased warnings of duplicates from "make htmldocs"
+since the 6.0 merge window. They look like (partial):
+
+/linux/Documentation/driver-api/serial/driver.rst:111: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:111.
+Declaration is '.. c:function:: void uart_write_wakeup(struct uart_port *port)'.
+/linux/Documentation/driver-api/serial/driver.rst:111: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:111.
+Declaration is '.. c:None:: struct uart_port *port'.
+/linux/Documentation/driver-api/serial/driver.rst:343: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:343.
+Declaration is '.. c:function:: void uart_update_timeout(struct uart_port *port, unsigned int cflag, unsigned int baud)'.
+/linux/Documentation/driver-api/serial/driver.rst:343: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:343.
+Declaration is '.. c:None:: struct uart_port *port'.
+/linux/Documentation/driver-api/serial/driver.rst:343: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:343.
+Declaration is '.. c:None:: unsigned int cflag'.
+/linux/Documentation/driver-api/serial/driver.rst:343: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:343.
+Declaration is '.. c:None:: unsigned int baud'.
+/linux/Documentation/driver-api/serial/driver.rst:376: WARNING: Duplicate C declaration, also defined at driver-api/miscellaneous:376.
+
+These warning messages are not easy to track down, as there is an
+unresolved issue in Sphinx's C domain parser who can't handle a
+function and a struct of the same name and causes duplicates in a
+later stage of Sphinx processing.
+
+But the warnings shown above turned out to be true duplicates.
+
+There is a not-clearly-documented rule in including kernel-doc
+comments into .rst files. Any kernel-doc comment can be included
+at most once in the whole documentation tree. Otherwise, you can't
+be sure of which target a cross-reference points to.
+
+As I don't have full context of these kernel-doc comments, this is
+meant as a band-aide patch, especially the reference to
+serial/driver.rst added at the bottom.
+
+If I can get acks from you and/or Greg, I'd like Jon to take the
+fix, as this issue affects the -doc tree most.
+
+Thanks,
+Akira
+
+--
+ Documentation/driver-api/miscellaneous.rst | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/driver-api/miscellaneous.rst b/Documentation/driver-api/miscellaneous.rst
+index 304ffb146cf9..4a5104a368ac 100644
+--- a/Documentation/driver-api/miscellaneous.rst
++++ b/Documentation/driver-api/miscellaneous.rst
+@@ -16,12 +16,11 @@ Parallel Port Devices
+ 16x50 UART Driver
+ =================
+ 
+-.. kernel-doc:: drivers/tty/serial/serial_core.c
+-   :export:
+-
+ .. kernel-doc:: drivers/tty/serial/8250/8250_core.c
+    :export:
+ 
++See serial/driver.rst for related APIs.
++
+ Pulse-Width Modulation (PWM)
+ ============================
+ 
+
+base-commit: 30a0b95b1335e12efef89dd78518ed3e4a71a763
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
