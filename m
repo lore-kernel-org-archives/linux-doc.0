@@ -2,229 +2,238 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB086C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 14:58:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 890E9C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 16:20:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230197AbiKBO6V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 10:58:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42596 "EHLO
+        id S231522AbiKBQUj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 12:20:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230115AbiKBO6F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 10:58:05 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A8FA2A700;
-        Wed,  2 Nov 2022 07:58:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667401083; x=1698937083;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=uie0uv8Iy7FMg7x2ZTUU5aJpcMzyu1e6Q6enp9LSoyY=;
-  b=ZiV4Qqs0Tt+CbXwtP/lHN/yu9lfS50Vv2S0cQq5gcuYJF66onjt18zGP
-   GfvBclorFR939PfYtZw8lA+rW3DwdpAW6BkiGfX+2eHLq1+O/oDxmyDWT
-   XfbTRvWSAl6O/CZu7F9zPxpYY9zlIXawPWpT1QU0/f6PbNzpptLfqtOsr
-   vPD58yWdqmGUGJ5aTXamr3u0t0Ii5h3crkal5pCJn9zveoFVW/kKKb2Fb
-   b3nu/QzL83xh8AbHlX/jn5Hf1AJ82pr5+DwpNHD9njXFwsovA5hrk2zx7
-   wOE9a1Jjs8Rxk8Hto0ovK14RHR9xSP0TJGNVGOwjgEXp2G5O3sm5wfna2
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="296875186"
-X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; 
-   d="scan'208";a="296875186"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2022 07:58:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="665588091"
-X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; 
-   d="scan'208";a="665588091"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga008.jf.intel.com with ESMTP; 02 Nov 2022 07:57:52 -0700
-Date:   Wed, 2 Nov 2022 22:53:25 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Michael Roth <michael.roth@amd.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
-        wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221102145325.GA4068513@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <20221031174738.fklhlia5fmaiinpe@amd.com>
- <20221101113729.GA4015495@chaop.bj.intel.com>
- <20221101151944.rhpav47pdulsew7l@amd.com>
- <20221101193058.tpzkap3kbrbgasqi@amd.com>
+        with ESMTP id S230186AbiKBQUV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 12:20:21 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AA1F3134F
+        for <linux-doc@vger.kernel.org>; Wed,  2 Nov 2022 09:14:47 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id bg9-20020a05600c3c8900b003bf249616b0so1609911wmb.3
+        for <linux-doc@vger.kernel.org>; Wed, 02 Nov 2022 09:14:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BpDb3eA5T10BTKaEzNInMNBCCpx0zoiS14ubIM6NfnE=;
+        b=gxlExpzzLGUfRn7vXJgTOm6x12MJszdK4eaWr1U0uyx/Ia3OEtiHhBV0CRsqZQuOf7
+         8FyVMf41cOXuV4VEH6Hi7xAeFixEBeDAKVxMCLX48Dfa8Y78007LDZb3jotS41UMNcjg
+         uZtFKHfHwrFm2IJWpnRwHmR82bSrSxiULmNT3HcjrCBIslON7u5tHL3xqB2u1cfO1m6p
+         mL2ncoRZkdUOZ8f8T7pAdr7IzySCixciPSys5wcnTx6uAZO7f+IivY6HKrWpYFM29n9I
+         wVX5GumCVuGQhmkbuC765tg/KvzRrp5PMZ2io7iWDs0E1uKUbb2DQb1HV59vUMZGAf+c
+         j/gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BpDb3eA5T10BTKaEzNInMNBCCpx0zoiS14ubIM6NfnE=;
+        b=AriZvvV0oxKqMBA5vhO/42LDh2/D5ySz3cUfoJL4UhW/ZuN7gh6GrbUx8xN7ML+sCO
+         5UzmsjE7+Cp+aHisccYS9fAHUz9CC6g4neYkffcoVT6+hrT6874qppoLk3jnjT2Jeuze
+         6VbuZUHjJOZR8I6MsD3WKE2k7O8+eK+rVs1caewVOHdrcyqK9u52+zqGJXXRsaVPy5QW
+         nDJ9Y1QhdG8YJ1jCHfZ8m5o8PkVZj1u5p2iMLJkggcrQVBiaY/JLXlwgrn5HX8ujHEWx
+         SYIcRXF3xptOFNAoVWpTrns/J2uc7IXZE0qwvloDPUHPrwnxN5KsWmodHm6+lNDzUqz1
+         +dNw==
+X-Gm-Message-State: ACrzQf1Hc0IKfpyOEPfFKp4lrJOChgVu9paIeW4nMaq5ggQHCzSEuhgn
+        4AhYV6tUudSV+lDQoqRI9xOl8A==
+X-Google-Smtp-Source: AMsMyM7HGMltrxCTrV7aqNFSsqNsIgzADe5S3oOs1MHc1WYnXT/2QUlJHefFW892SSjNmfT1q7IMoA==
+X-Received: by 2002:a05:600c:a48:b0:3b9:af1f:1b38 with SMTP id c8-20020a05600c0a4800b003b9af1f1b38mr16514126wmq.185.1667405658449;
+        Wed, 02 Nov 2022 09:14:18 -0700 (PDT)
+Received: from usaari01.cust.communityfibre.co.uk ([2a02:6b6a:b4d7:0:6a08:9b26:ab04:7065])
+        by smtp.gmail.com with ESMTPSA id m17-20020a5d56d1000000b0022cc6b8df5esm13230923wrw.7.2022.11.02.09.14.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 09:14:17 -0700 (PDT)
+From:   Usama Arif <usama.arif@bytedance.com>
+To:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, linux@armlinux.org.uk,
+        yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org,
+        maz@kernel.org, steven.price@arm.com, mark.rutland@arm.com
+Cc:     fam.zheng@bytedance.com, liangma@liangbit.com,
+        punit.agrawal@bytedance.com, Usama Arif <usama.arif@bytedance.com>
+Subject: [RFC 0/6] KVM: arm64: implement vcpu_is_preempted check
+Date:   Wed,  2 Nov 2022 16:13:34 +0000
+Message-Id: <20221102161340.2982090-1-usama.arif@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221101193058.tpzkap3kbrbgasqi@amd.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 01, 2022 at 02:30:58PM -0500, Michael Roth wrote:
-> On Tue, Nov 01, 2022 at 10:19:44AM -0500, Michael Roth wrote:
-> > On Tue, Nov 01, 2022 at 07:37:29PM +0800, Chao Peng wrote:
-> > > On Mon, Oct 31, 2022 at 12:47:38PM -0500, Michael Roth wrote:
-> > > > On Tue, Oct 25, 2022 at 11:13:37PM +0800, Chao Peng wrote:
-> > > 
-> > > > 
-> > > >   3) Potentially useful for hugetlbfs support:
-> > > > 
-> > > >      One issue with hugetlbfs is that we don't support splitting the
-> > > >      hugepage in such cases, which was a big obstacle prior to UPM. Now
-> > > >      however, we may have the option of doing "lazy" invalidations where
-> > > >      fallocate(PUNCH_HOLE, ...) won't free a shmem-allocate page unless
-> > > >      all the subpages within the 2M range are either hole-punched, or the
-> > > >      guest is shut down, so in that way we never have to split it. Sean
-> > > >      was pondering something similar in another thread:
-> > > > 
-> > > >        https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-mm%2FYyGLXXkFCmxBfu5U%40google.com%2F&amp;data=05%7C01%7CMichael.Roth%40amd.com%7C28ba5dbb51844f910dec08dabc1c99e6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638029128345507924%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=bxcRfuJIgo1Z1G8HQ800HscE6y7RXRQwvWSkfc5M8Bs%3D&amp;reserved=0
-> > > > 
-> > > >      Issuing invalidations with folio-granularity ties in fairly well
-> > > >      with this sort of approach if we end up going that route.
-> > > 
-> > > There is semantics difference between the current one and the proposed
-> > > one: The invalidation range is exactly what userspace passed down to the
-> > > kernel (being fallocated) while the proposed one will be subset of that
-> > > (if userspace-provided addr/size is not aligned to power of two), I'm
-> > > not quite confident this difference has no side effect.
-> > 
-> > In theory userspace should not be allocating/hole-punching restricted
-> > pages for GPA ranges that are already mapped as private in the xarray,
-> > and KVM could potentially fail such requests (though it does currently).
-> > 
-> > But if we somehow enforced that, then we could rely on
-> > KVM_MEMORY_ENCRYPT_REG_REGION to handle all the MMU invalidation stuff,
-> > which would free up the restricted fd invalidation callbacks to be used
-> > purely to handle doing things like RMP/directmap fixups prior to returning
-> > restricted pages back to the host. So that was sort of my thinking why the
-> > new semantics would still cover all the necessary cases.
-> 
-> Sorry, this explanation is if we rely on userspace to fallocate() on 2MB
-> boundaries, and ignore any non-aligned requests in the kernel. But
-> that's not how I actually ended up implementing things, so I'm not sure
-> why answered that way...
-> 
-> In my implementation we actually do issue invalidations for fallocate()
-> even for non-2M-aligned GPA/offset ranges. For instance (assuming
-> restricted FD offset 0 corresponds to GPA 0), an fallocate() on GPA
-> range 0x1000-0x402000 would result in the following invalidations being
-> issued if everything was backed by a 2MB page:
-> 
->   invalidate GPA: 0x001000-0x200000, Page: pfn_to_page(I), order:9
->   invalidate GPA: 0x200000-0x400000, Page: pfn_to_page(J), order:9
->   invalidate GPA: 0x400000-0x402000, Page: pfn_to_page(K), order:9
+This patchset adds support for vcpu_is_preempted in arm64, which allows the guest
+to check if a vcpu was scheduled out, which is useful to know incase it was
+holding a lock. vcpu_is_preempted can be used to improve
+performance in locking (see owner_on_cpu usage in mutex_spin_on_owner,
+mutex_can_spin_on_owner, rtmutex_spin_on_owner and osq_lock) and scheduling
+(see available_idle_cpu which is used in several places in kernel/sched/fair.c
+for e.g. in wake_affine to determine which CPU can run soonest):
 
-Only see this I understand what you are actually going to propose;)
+This patchset shows improvement on overcommitted hosts (vCPUs > pCPUS), as waiting
+for preempted vCPUs reduces performance.
 
-So the memory range(start/end) will be still there and covers exactly
-what it should be from usrspace point of view, the page+order(or just
-folio) is really just a _hint_ for the invalidation callbacks. Looks
-ugly though.
+This patchset is inspired from the para_steal_clock implementation and from the
+work originally done by Zengruan Ye:
+https://lore.kernel.org/linux-arm-kernel/20191226135833.1052-1-yezengruan@huawei.com/.
+(I have kept the original file author and patch sign-offs, hope thats ok).
 
-In v9 we use a invalidate_start/ invalidate_end pair to solve a race
-contention issue(https://lore.kernel.org/kvm/Y1LOe4JvnTbFNs4u@google.com/).
-To work with this, I believe we only need pass this hint info for
-invalidate_start() since at the invalidate_end() time, the page has
-already been discarded.
+All the results in the below experiments are done on an aws r6g.metal instance
+which has 64 pCPUs.
 
-Another worth-mentioning-thing is invalidate_start/end is not just
-invoked for hole punching, but also for allocation(e.g. default
-fallocate). While for allocation we can get the page only at the
-invalidate_end() time. But AFAICS, the invalidate() is called for
-fallocate(allocation) is because previously we rely on the existence in
-memory backing store to tell a page is private and we need notify KVM
-that the page is being converted from shared to private, but that is not
-true for current code and fallocate() is also not mandatory since KVM
-can call restrictedmem_get_page() to allocate dynamically, so I think we
-can remove the invalidation path for fallocate(allocation).
+The following table shows the index results of UnixBench running on a 128 vCPU VM
+with (6.0.0+vcpu_is_preempted) and without (6.0.0 base) the patchset.
+TestName                                6.0.0 base  6.0.0+vcpu_is_preempted    % improvement for vcpu_is_preempted
+Dhrystone 2 using register variables    187761      191274.7                   1.871368389
+Double-Precision Whetstone              96743.6     98414.4                    1.727039308
+Execl Throughput                        689.3       10426                      1412.548963
+File Copy 1024 bufsize 2000 maxblocks   549.5       3165                       475.978162
+File Copy 256 bufsize 500 maxblocks     400.7       2084.7                     420.2645371
+File Copy 4096 bufsize 8000 maxblocks   894.3       5003.2                     459.4543218
+Pipe Throughput                         76819.5     78601.5                    2.319723508
+Pipe-based Context Switching            3444.8      13414.5                    289.4130283
+Process Creation                        301.1       293.4                      -2.557289937
+Shell Scripts (1 concurrent)            1248.1      28300.6                    2167.494592
+Shell Scripts (8 concurrent)            781.2       26222.3                    3256.669227
+System Call Overhead                    3426        3729.4                     8.855808523
 
-> 
-> So you still cover the same range, but the arch/platform callbacks can
-> then, as a best effort, do things like restore 2M directmap if they see
-> that the backing page is 2MB+ and the GPA range covers the entire range.
-> If the GPA doesn't covers the whole range, or the backing page is
-> order:0, then in that case we are still forced to leave the directmap
-> split.
-> 
-> But with that in place we can then improve on that by allowing for the
-> use of hugetlbfs.
-> 
-> We'd still be somewhat reliant on userspace to issue fallocate()'s on
-> 2M-aligned boundaries to some degree (guest teardown invalidations
-> could be issued as 2M-aligned, which would be the bulk of the pages
-> in most cases, but for discarding pages after private->shared
-> conversion we could still get fragmentation). This could maybe be
-> addressed by keeping track of those partial/non-2M-aligned fallocate()
-> requests and then issuing them as a batched 2M invalidation once all
-> the subpages have been fallocate(HOLE_PUNCH)'d. We'd need to enforce
-> that fallocate(PUNCH_HOLE) is preceeded by
-> KVM_MEMORY_ENCRYPT_UNREG_REGION to make sure MMU invalidations happen
-> though.
+System Benchmarks Index Score           3053        11534                      277.7923354
 
-Don't understand why the sequence matters here, we should do MMU
-invalidation for both fallocate(PUNCH_HOLE) and
-KVM_MEMORY_ENCRYPT_UNREG_REGION, right?
+This shows a 277% overall improvement using these patches.
 
+The biggest improvement is in the shell scripts benchmark, which forks a lot of processes.
+This acquires rwsem lock where a large chunk of time is spent in base 6.0.0 kernel.
+This can be seen from one of the callstack of the perf output of the shell
+scripts benchmark on 6.0.0 base (pseudo NMI enabled for perf numbers below):
+- 33.79% el0_svc
+   - 33.43% do_el0_svc
+      - 33.43% el0_svc_common.constprop.3
+         - 33.30% invoke_syscall
+            - 17.27% __arm64_sys_clone
+               - 17.27% __do_sys_clone
+                  - 17.26% kernel_clone
+                     - 16.73% copy_process
+                        - 11.91% dup_mm
+                           - 11.82% dup_mmap
+                              - 9.15% down_write
+                                 - 8.87% rwsem_down_write_slowpath
+                                    - 8.48% osq_lock
+
+Just under 50% of the total time in the shell script benchmarks ends up being
+spent in osq_lock in the base 6.0.0 kernel:
+  Children      Self  Command   Shared Object        Symbol
+   17.19%    10.71%  sh      [kernel.kallsyms]  [k] osq_lock
+    6.17%     4.04%  sort    [kernel.kallsyms]  [k] osq_lock
+    4.20%     2.60%  multi.  [kernel.kallsyms]  [k] osq_lock
+    3.77%     2.47%  grep    [kernel.kallsyms]  [k] osq_lock
+    3.50%     2.24%  expr    [kernel.kallsyms]  [k] osq_lock
+    3.41%     2.23%  od      [kernel.kallsyms]  [k] osq_lock
+    3.36%     2.15%  rm      [kernel.kallsyms]  [k] osq_lock
+    3.28%     2.12%  tee     [kernel.kallsyms]  [k] osq_lock
+    3.16%     2.02%  wc      [kernel.kallsyms]  [k] osq_lock
+    0.21%     0.13%  looper  [kernel.kallsyms]  [k] osq_lock
+    0.01%     0.00%  Run     [kernel.kallsyms]  [k] osq_lock
+
+and this comes down to less than 1% total with 6.0.0+vcpu_is_preempted kernel:
+  Children      Self  Command   Shared Object        Symbol
+     0.26%     0.21%  sh      [kernel.kallsyms]  [k] osq_lock
+     0.10%     0.08%  multi.  [kernel.kallsyms]  [k] osq_lock
+     0.04%     0.04%  sort    [kernel.kallsyms]  [k] osq_lock
+     0.02%     0.01%  grep    [kernel.kallsyms]  [k] osq_lock
+     0.02%     0.02%  od      [kernel.kallsyms]  [k] osq_lock
+     0.01%     0.01%  tee     [kernel.kallsyms]  [k] osq_lock
+     0.01%     0.00%  expr    [kernel.kallsyms]  [k] osq_lock
+     0.01%     0.01%  looper  [kernel.kallsyms]  [k] osq_lock
+     0.00%     0.00%  wc      [kernel.kallsyms]  [k] osq_lock
+     0.00%     0.00%  rm      [kernel.kallsyms]  [k] osq_lock
+
+To make sure, there is no change in performance when vCPUs < pCPUs, UnixBench
+was run on a 32 CPU VM. The kernel with vcpu_is_preempted implemented
+performed 0.9% better overall than base kernel, and the individual benchmarks
+were within +/-2% improvement over 6.0.0 base.
+Hence the patches have no negative affect when vCPUs < pCPUs.
+
+
+The other method discussed in https://lore.kernel.org/linux-arm-kernel/20191226135833.1052-1-yezengruan@huawei.com/
+was pv conditional yield by Marc Zyngier and Will Deacon to reduce vCPU reschedule
+if the vCPU will exit immediately.
+(https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git/log/?h=kvm-arm64/pvcy).
+The patches were ported to 6.0.0 kernel and tested with UnixBench with a 128 vCPU VM:
+
+TestName                                6.0.0 base  6.0.0+pvcy      % improvement for pvcy
+Dhrystone 2 using register variables    187761      183128          -2.467498575
+Double-Precision Whetstone              96743.6     96645           -0.101918887
+Execl Throughput                        689.3       1019.8          47.9471928
+File Copy 1024 bufsize 2000 maxblocks   549.5       2029.7          269.3721565
+File Copy 256 bufsize 500 maxblocks     400.7       1439.4          259.2213626
+File Copy 4096 bufsize 8000 maxblocks   894.3       3434.1          283.9986582
+Pipe Throughput                         76819.5     74268.8         -3.320380893
+Pipe-based Context Switching            3444.8      5963.3          73.11019508
+Process Creation                        301.1       163.2           -45.79873796
+Shell Scripts (1 concurrent)            1248.1      1859.7          49.00248378
+Shell Scripts (8 concurrent)            781.2       1171            49.89759345
+System Call Overhead                    3426        3194.4          -6.760070053
+
+System Benchmarks Index Score           3053        4605            50.83524402
+
+pvcy shows a smaller overall improvement (50%) compared to vcpu_is_preempted (277%).
+Host side flamegraph analysis shows that ~60% of the host time when using pvcy
+is spent in kvm_handle_wfx, compared with ~1.5% when using vcpu_is_preempted,
+hence vcpu_is_preempted shows a larger improvement.
+
+It might be that pvcy can be used in combination with vcpu_is_preempted, but this
+series is to start a discussion on vcpu_is_preempted as it shows a much bigger
+improvement in performance and its much easier to review vcpu_is_preempted standalone.
+
+The respective QEMU change to test this is at
+https://github.com/uarif1/qemu/commit/2da2c2927ae8de8f03f439804a0dad9cf68501b6,
+if this patchset looks good to start review, I can send the QEMU change to the
+qemu mailing list to start its review as well.
+
+Looking forward to your response!
 Thanks,
-Chao
-> 
-> Not sure on these potential follow-ups, but they all at least seem
-> compatible with the proposed invalidation scheme.
-> 
-> -Mike
-> 
-> > 
-> > -Mike
-> > 
-> > > 
-> > > > 
-> > > > I need to rework things for v9, and we'll probably want to use struct
-> > > > folio instead of struct page now, but as a proof-of-concept of sorts this
-> > > > is what I'd added on top of v8 of your patchset to implement 1) and 2):
-> > > > 
-> > > >   https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fmdroth%2Flinux%2Fcommit%2F127e5ea477c7bd5e4107fd44a04b9dc9e9b1af8b&amp;data=05%7C01%7CMichael.Roth%40amd.com%7C28ba5dbb51844f910dec08dabc1c99e6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638029128345507924%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=iv%2BOMPe5AZuUtIW6bCH%2BRhJPljS14JrTXbQXptLG9fM%3D&amp;reserved=0
-> > > > 
-> > > > Does an approach like this seem reasonable? Should be work this into the
-> > > > base restricted memslot support?
-> > > 
-> > > If the above mentioned semantics difference is not a problem, I don't
-> > > have strong objection on this.
-> > > 
-> > > Sean, since you have much better understanding on this, what is your
-> > > take on this?
-> > > 
-> > > Chao
-> > > > 
-> > > > Thanks,
-> > > > 
-> > > > Mike
+Usama
+ 
+Usama Arif (6):
+  KVM: arm64: Document PV-lock interface
+  KVM: arm64: Add SMCCC paravirtualised lock calls
+  KVM: arm64: Support pvlock preempted via shared structure
+  KVM: arm64: Provide VCPU attributes for PV lock
+  KVM: arm64: Support the VCPU preemption check
+  KVM: selftests: add tests for PV time specific hypercalls
+
+ Documentation/virt/kvm/arm/hypercalls.rst     |   3 +
+ Documentation/virt/kvm/arm/pvlock.rst         |  64 +++++++++
+ Documentation/virt/kvm/devices/vcpu.rst       |  23 ++++
+ arch/arm64/include/asm/kvm_host.h             |  25 ++++
+ arch/arm64/include/asm/paravirt.h             |   2 +
+ arch/arm64/include/asm/pvlock-abi.h           |  17 +++
+ arch/arm64/include/asm/spinlock.h             |  16 ++-
+ arch/arm64/include/uapi/asm/kvm.h             |   3 +
+ arch/arm64/kernel/paravirt.c                  | 126 ++++++++++++++++++
+ arch/arm64/kernel/setup.c                     |   3 +
+ arch/arm64/kvm/Makefile                       |   2 +-
+ arch/arm64/kvm/arm.c                          |   8 ++
+ arch/arm64/kvm/guest.c                        |   9 ++
+ arch/arm64/kvm/hypercalls.c                   |  36 +++++
+ arch/arm64/kvm/pvlock.c                       | 100 ++++++++++++++
+ arch/arm64/kvm/pvtime.c                       |  16 ---
+ include/linux/arm-smccc.h                     |  13 ++
+ include/linux/cpuhotplug.h                    |   1 +
+ include/uapi/linux/kvm.h                      |   2 +
+ tools/arch/arm64/include/uapi/asm/kvm.h       |   1 +
+ tools/include/linux/arm-smccc.h               |  13 ++
+ .../selftests/kvm/aarch64/hypercalls.c        |   2 +
+ 22 files changed, 467 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/virt/kvm/arm/pvlock.rst
+ create mode 100644 arch/arm64/include/asm/pvlock-abi.h
+ create mode 100644 arch/arm64/kvm/pvlock.c
+
+-- 
+2.25.1
+
