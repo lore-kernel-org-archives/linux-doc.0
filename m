@@ -2,85 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DBE8C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 13:49:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B13CC4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 14:05:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbiKBNtk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 09:49:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44346 "EHLO
+        id S230199AbiKBOFQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 10:05:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230416AbiKBNtj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 09:49:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90FA218E1C
-        for <linux-doc@vger.kernel.org>; Wed,  2 Nov 2022 06:49:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S230460AbiKBOFM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 10:05:12 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C498659D;
+        Wed,  2 Nov 2022 07:05:09 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2C3B761983
-        for <linux-doc@vger.kernel.org>; Wed,  2 Nov 2022 13:49:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B864C433D6;
-        Wed,  2 Nov 2022 13:49:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667396975;
-        bh=Zvx4yfeQGZ9eCYPwW8fT45IdWc04urN5E5aJc6gkJfw=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=tSn0lxVmQy8ecckqIffOcmYwzvd/Af26sNNqK7SGGsbgN2TsALF1Xrzi1ago9kgYk
-         yiv7FBv8+VgklCTgW12EolPm6bme8ONf6JGb1Kyp/UcEMcKfj9mmGQCTibjtu/zyin
-         TYvbhI1aX1kQPFIFrrvH4vYpwAtLp8GfCX2yI3NklqWkSY7kNc8n/b6Vji7EUZUDnV
-         oPRLGCOkVwudz4Y4T2peLVfmcbKdlC4P7/IPKPBAB/h5XNAJMN8Je/fbRo3hdAHO+p
-         Qbc55Q39pEIBF2NY+rKSKCnCKON5hjQjPV20Ml3epJZG38M894X79FsFv2vos1OtW6
-         p/ZPF+5cDjcbw==
-From:   Mark Brown <broonie@kernel.org>
-To:     linux-doc@vger.kernel.org,
-        Yang Yingliang <yangyingliang@huawei.com>
-Cc:     Douglas Anderson <dianders@chromium.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-In-Reply-To: <20221102020716.1397449-1-yangyingliang@huawei.com>
-References: <20221102020716.1397449-1-yangyingliang@huawei.com>
-Subject: Re: [PATCH] Documentation: devres: add missing REGULATOR helper
-Message-Id: <166739697419.88879.16694100840908886479.b4-ty@kernel.org>
-Date:   Wed, 02 Nov 2022 13:49:34 +0000
+        by ms.lwn.net (Postfix) with ESMTPSA id DCB7D365;
+        Wed,  2 Nov 2022 14:05:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DCB7D365
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1667397909; bh=fEfmtLM6ZpC/JE7X2h8uYfu9scljejTH43oDZZTginY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=WDyM2XvGbR+6ntDz+l6aXCRA5Pg46XYx5d5b0+BgLvd8Vlmi6LDR1BcQOHRWTKJVQ
+         zL7kcvV5eTx8/hF2JEiUDn7sUD/DleBfz95bCg2CfamHZhMsZHwmgRjV/trOAz6UEB
+         afeT4sM2Av+IQ17tVzOiMROK4pJNvOrlgv5rNecYQzCYDwXkAyD2yvL1kRzm0ZOZoW
+         NZixITR8/hdbNP6c4zxXTl5XCsZSS1Zn3IOUpC4Vmp/M+ooVSZ9i+Ky3NxkPvxb05p
+         Uaz8VCnHcYPgFksdDqFu250gaqsJ4k7agG3/5HEer4sAVru0X9PkWylcZ/2UhJuj4p
+         fFo3JlR7fXNIQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Carlos Bilbao <carlos.bilbao@amd.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bilbao@vt.edu, willy@infradead.org, akiyks@gmail.com,
+        miguel.ojeda.sandonis@gmail.com
+Subject: Re: [PATCH v3 0/2] Documentation: Start Spanish translation and
+ include HOWTO
+In-Reply-To: <0d210871-a24a-8e61-b734-ae6df992011d@gmail.com>
+References: <20221024145521.69465-1-carlos.bilbao@amd.com>
+ <87wn8ext0m.fsf@meer.lwn.net>
+ <5fd2092e-2f3e-27c0-66a9-94e02efa1e8d@amd.com>
+ <87edumxow2.fsf@meer.lwn.net>
+ <0d210871-a24a-8e61-b734-ae6df992011d@gmail.com>
+Date:   Wed, 02 Nov 2022 08:05:08 -0600
+Message-ID: <87k04dwiy3.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-fc921
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2 Nov 2022 10:07:16 +0800, Yang Yingliang wrote:
-> Add missing devm_regulator_bulk_get_const() to devres.rst, it's introduced
-> by commit 1de452a0edda ("regulator: core: Allow drivers to define their init
-> data as const").
-> 
-> 
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-Applied to
+> On 11/2/22 05:59, Jonathan Corbet wrote:
+>> 
+>> I'm sorry, it was b4 that complained, not git.  To see it happen, try:
+>> 
+>>   b4 am 20221024145521.69465-1-carlos.bilbao@amd.com
+>> 
+>> There were, in fact, two zero-width spaces in there, and two more in
+>> Junio Hamano's name.  I've taken them all out, and learned all about
+>> searching for weird characters in Emacs as a side benefit :)
+>> 
+>> Series is now applied, thanks.
+>> 
+>
+> Hi jon,
+>
+> There is still outstanding issue regarding language identifier slug [1],
+> which isn't addressed yet.
+>
+> [1]: https://lore.kernel.org/linux-doc/48b4a5a1-2a52-4159-699b-9db73a012892@gmail.com/
+> [2]: https://lore.kernel.org/linux-doc/Y0ork19pGMhZq8qn@debian.me/
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+Well, it's clearly somewhat resolved in that I took the patches.
 
-Thanks!
+If we want a policy: I think that names not tied to geography are
+probably better and that's what we should do in the future.  I don't
+think it's worth forcing a change on any of the other translations,
+though; they can be renamed if the developers involved choose to do so.
 
-[1/1] Documentation: devres: add missing REGULATOR helper
-      commit: 692fab0820520f5a400446ab3016a237dca32109
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+jon
