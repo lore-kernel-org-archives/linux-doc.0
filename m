@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDB83C43217
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 12:35:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9538C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 13:05:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbiKBMfO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 08:35:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46362 "EHLO
+        id S231239AbiKBNFO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 09:05:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230087AbiKBMfO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 08:35:14 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 954062936E;
-        Wed,  2 Nov 2022 05:35:08 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id b62so5742993pgc.0;
-        Wed, 02 Nov 2022 05:35:08 -0700 (PDT)
+        with ESMTP id S230298AbiKBNFN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 09:05:13 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5F97BCAE;
+        Wed,  2 Nov 2022 06:05:11 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d24so16519968pls.4;
+        Wed, 02 Nov 2022 06:05:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ytob8zx1SKLrpfmFHLBokxWlh3AKyd6aWp40MhHR3AA=;
-        b=L+WGEPxtjHZGG+0/03qhtcLzwTWa0RZvC6ENbtnYYEmGdOdqzORyCYWGHiiKGwBbZp
-         KslMkod7TDhB8M0NXP2k/nLbt9OCY3e+3cdkqW9y+YimCUIenhZoL3a6OXgPowGILUxX
-         gRjl7Jb0Ux1nGP34bMqyiSWOkaugy4IC1/m8vql7oRWtS/IoOeOQatQafP+Pg96OhfSn
-         Q7fv7twRUQVxEMmym8IOEfYsAnBx/udNvUVEpKWpif7oh5++Jt6I+7+7RvHE3v+F3O3v
-         lSCqoLRINb8GEybY6rkPROmwAkKFlBNnIaYSLWx0tZAYhd/+7HZJfiiX2URPxsihLRxE
-         3PlA==
+        bh=Huyh9wUKlgeHcrDnqlzfeeXrkbo7IuxRYJnuX9s8J4U=;
+        b=GmrLDJoVj+xHnDQUa/s1aE0/2/0uPVB41AXo8Yh/AFc3pMPlNQmBwTjJsTbWGxbQ6W
+         tUTpqNJ0SSIva40zLzQNRtJeRaYMPOqL2/b8HWD3NXCq+PrhuPWPClYI0OB+HsG+s6tP
+         G41wlFYnhO+pye0ONy5uDRt2cV/rDFz9X8Ev63vKPAuwS9qHcnAzbtydtr4B295QgFvY
+         DjmROBwhCgmmtSyZF1TwS6tTJWm+/zJ94H1AZiceNE8zDmhGwGz59WErXNsWkMJyPbS/
+         2pY3t4FszouIRgcZDqrI0Pjq0bHqr3keHUElPnHulsA0hn+Ax4Ef4Yp8xtNMuMpe2YD2
+         Ktuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ytob8zx1SKLrpfmFHLBokxWlh3AKyd6aWp40MhHR3AA=;
-        b=tZ8WDbgXfytWV8O1xzh4ttT03dkghL2vofQteC3l6PKETnJVBsSgI62ia3cWcKqdot
-         z653DJx3NTvRV7VsEWQA/2zhAdDW3ZiBD/T/pZum7knvAxqULno57rOo3sXQUJAHJqyX
-         z3NxwzlJShsIVT7RmbZTHXdWvDagIt2R2FtkofPGU/f3OhQxLkbOWqt3fwcryhN3PVkS
-         3X0OJzuz2aWPZ5HyFaDbssX6hU1TkT9qo99hJfHNVAQgIL0gaPw1vC8f1S5D4rG/xWTj
-         zAVwmuTYsf1X6hbOCbvnOdmseJltPW2v2XsRhyqrJCSfyz9wzZoRYAxtZPJlXCMcHTMp
-         CZSA==
-X-Gm-Message-State: ACrzQf0IjXHkHF3U644wzGI/o+xyq1B3DVZDQzvcONTKgEHQJMZNXH58
-        U19V5uUPjakY5kleW0DzzxA=
-X-Google-Smtp-Source: AMsMyM4jOx9/ITQnqPBGYtd6ydBNmq2RMw1l33fg34hHBYM3Z1Lk8t/v3pEbA7l6diIXB1ayvFtrbw==
-X-Received: by 2002:a05:6a00:1a8f:b0:56d:f7c2:959 with SMTP id e15-20020a056a001a8f00b0056df7c20959mr4269897pfv.71.1667392508049;
-        Wed, 02 Nov 2022 05:35:08 -0700 (PDT)
+        bh=Huyh9wUKlgeHcrDnqlzfeeXrkbo7IuxRYJnuX9s8J4U=;
+        b=RV5vhztsSl+Wn2n5d+zvYiWJjwQSDED3EUPUfYx7lb/bouNMVnz9L2Nix8QlJXty0b
+         OOkH3Up7XdsvAvzIlx10UDspdcin7fTibJRTENMsmyoSj/LIMh0moX41XhKco5xuB3+s
+         MHgINB0LKSBXUY7QY54NJFC/Ym2zdfdlVjaL0Fjg3fiLB17XKHG4PZgfSqALio8kmon0
+         Hzgf3jaFmg2ii21Fr6Ohbfppc1JhAPszOCgV3ZdY2YQEpD4lPao5jJd3qOr6I4cVA/Fr
+         T7Zokoadyo309V3b9SelTfkReiJ6xlz5c195+OQZkff48FCms/U9JQEaRhuy+2aZIZcn
+         jLQg==
+X-Gm-Message-State: ACrzQf0f+lYTTZq/fo5LLFJjP/U5/eLzkci34PnAjzW2NgxdZkur8IQZ
+        qyJiGoOQlvu4rnGU8PYkmp0=
+X-Google-Smtp-Source: AMsMyM5da1P+z5SC6LESKmsXTekNfxELJMlJkCDcJaieLHd+JXNW11xqXAsm+I1Z/8BFyNvd0nvFTw==
+X-Received: by 2002:a17:903:1d0:b0:187:1305:39d5 with SMTP id e16-20020a17090301d000b00187130539d5mr19385133plh.93.1667394311166;
+        Wed, 02 Nov 2022 06:05:11 -0700 (PDT)
 Received: from debian.me (subs32-116-206-28-50.three.co.id. [116.206.28.50])
-        by smtp.gmail.com with ESMTPSA id m20-20020a6562d4000000b00462ae17a1c4sm7529521pgv.33.2022.11.02.05.35.07
+        by smtp.gmail.com with ESMTPSA id n4-20020a6546c4000000b0046ec7beb53esm7617767pgr.8.2022.11.02.06.05.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Nov 2022 05:35:07 -0700 (PDT)
+        Wed, 02 Nov 2022 06:05:10 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id 01518103835; Wed,  2 Nov 2022 19:35:04 +0700 (WIB)
-Date:   Wed, 2 Nov 2022 19:35:04 +0700
+        id 84D88104209; Wed,  2 Nov 2022 20:05:07 +0700 (WIB)
+Date:   Wed, 2 Nov 2022 20:05:07 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     Elliot Berman <quic_eberman@quicinc.com>
 Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
@@ -79,52 +79,270 @@ Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
         Kalle Valo <kvalo@kernel.org>, devicetree@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 01/21] docs: gunyah: Introduce Gunyah Hypervisor
-Message-ID: <Y2Jj+FLcL8pYLv+q@debian.me>
+Subject: Re: [PATCH v6 21/21] docs: gunyah: Document Gunyah VM Manager
+Message-ID: <Y2JrA2rXJuRrFALF@debian.me>
 References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-2-quic_eberman@quicinc.com>
+ <20221026185846.3983888-22-quic_eberman@quicinc.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="lcWsjmNz5hWimLOD"
+        protocol="application/pgp-signature"; boundary="hj7LpSjy5/N/rAip"
 Content-Disposition: inline
-In-Reply-To: <20221026185846.3983888-2-quic_eberman@quicinc.com>
+In-Reply-To: <20221026185846.3983888-22-quic_eberman@quicinc.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---lcWsjmNz5hWimLOD
+--hj7LpSjy5/N/rAip
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 26, 2022 at 11:58:26AM -0700, Elliot Berman wrote:
-> Gunyah is an open-source Type-1 hypervisor developed by Qualcomm. It
-> does not depend on any lower-privileged OS/kernel code for its core
-> functionality. This increases its security and can support a smaller
-> trusted computing based when compared to Type-2 hypervisors.
->=20
-> Add documentation describing the Gunyah hypervisor and the main
-> components of the Gunyah hypervisor which are of interest to Linux
-> virtualization development.
->=20
+On Wed, Oct 26, 2022 at 11:58:46AM -0700, Elliot Berman wrote:
+> diff --git a/Documentation/virt/gunyah/vm-manager.rst b/Documentation/vir=
+t/gunyah/vm-manager.rst
+> new file mode 100644
+> index 000000000000..c232ba05de7e
+> --- /dev/null
+> +++ b/Documentation/virt/gunyah/vm-manager.rst
+> @@ -0,0 +1,94 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Virtual Machine Manager
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The Gunyah Virtual Machine Manager is a Linux driver to support launchin=
+g virtual machines.
+> +
+> +Summary
+> +=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Gunyah VMM presently supports launching non-proxy scheduled Linux-like v=
+irtual machines.
+> +
+> +Sample Userspace VMM
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +A sample userspace VMM is included in samples/gunyah/ along with a sampl=
+e minimal devicetree
+> +that can be used to launch a Linux-like virtual machine under Gunyah. To=
+ build this sample, enable
+> +CONFIG_SAMPLE_GUNYAH.
+> +
+> +IOCTLs and userspace VMM flows
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> +
+> +The kernel exposes a char device interface at /dev/gunyah.
+> +
+> +To create a VM, use the GH_CREATE_VM ioctl. A successful call will retur=
+n a "Gunyah VM" file descriptor.
+> +
+> +/dev/gunyah API Descriptions
+> +----------------------------
+> +
+> +GH_CREATE_VM
+> +~~~~~~~~~~~~
+> +
+> +Creates a Gunyah VM. The argument is reserved for future use and must be=
+ 0.
+> +
+> +Gunyah VM API Descriptions
+> +--------------------------
+> +
+> +GH_VM_SET_USER_MEM_REGION
+> +~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +::
+> +
+> +  struct gh_userspace_memory_region {
+> +	__u32 label;
+> +	__u32 flags;
+> +	__u64 guest_phys_addr;
+> +	__u64 memory_size;
+> +	__u64 userspace_addr;
+> +  };
+> +
+> +This ioctl allows the user to create or delete a memory parcel for a gue=
+st
+> +virtual machine. Each memory region is uniquely identified by a label;
+> +attempting to create two memory regions with the same label is not allow=
+ed.
+> +
+> +While VMM is guest-agnostic and allows runtime addition of memory region=
+s,
+> +Linux guest virtual machines do not support accepting memory regions at =
+runtime.
+> +Thus, memory regions should be provided before starting the VM and the VM
+> +configured to accept those memory regions at boot-up.
+> +
+> +The guest physical address is used by Linux to check the requested user =
+regions
+> +do not overlap and to help find a corresponding memory region for calls =
+like
+> +GH_VM_SET_DTB_CONFIG.
+> +
+> +To delete a memory region, call GH_VM_SET_USER_MEM_REGION with label set=
+ to the
+> +memory region of interest and memory_size set to 0.
+> +
+> +The flags field of gh_userspace_memory_region can set the following bits=
+=2E All
+> +other bits must be 0 and are reserved for future use. The ioctl will ret=
+urn
+> +-EINVAL if an unsupported bit is detected.
+> +
+> +  - GH_MEM_ALLOW_READ/GH_MEM_ALLOW_WRITE/GH_MEM_ALLOW_EXEC sets read/wri=
+te/exec permissions
+> +    for the guest, respectively.
+> +
+> +  - GH_MEM_LENT means that the memory will be unmapped from the host and=
+ be unaccessible by
+> +    the host while the guest has the region.
+> +
+> +GH_VM_SET_DTB_CONFIG
+> +~~~~~~~~~~~~~~~~~~~~
+> +
+> +::
+> +
+> +  struct gh_vm_dtb_config {
+> +	__u64 gpa;
+> +	__u64 size;
+> +  };
+> +
+> +This ioctl sets the location of the VM's devicetree blob and is used by =
+Gunyah
+> +Resource Manager to allocate resources.
+> +
+> +GH_VM_START
+> +~~~~~~~~~~~
+> +
+> +This ioctl starts the virtual machine.
 
-LGTM, thanks.
+I think the wording can be better:
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---- >8 ----
+
+diff --git a/Documentation/virt/gunyah/vm-manager.rst b/Documentation/virt/=
+gunyah/vm-manager.rst
+index c232ba05de7e96..772fd970b91d7e 100644
+--- a/Documentation/virt/gunyah/vm-manager.rst
++++ b/Documentation/virt/gunyah/vm-manager.rst
+@@ -4,18 +4,15 @@
+ Virtual Machine Manager
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-The Gunyah Virtual Machine Manager is a Linux driver to support launching =
+virtual machines.
+-
+-Summary
+-=3D=3D=3D=3D=3D=3D=3D
+-
+-Gunyah VMM presently supports launching non-proxy scheduled Linux-like vir=
+tual machines.
++The Gunyah Virtual Machine Manager is a Linux driver for launching virtual
++machines using Gunyah. It presently supports launching non-proxy scheduled
++Linux-like virtual machines.
+=20
+ Sample Userspace VMM
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-A sample userspace VMM is included in samples/gunyah/ along with a sample =
+minimal devicetree
+-that can be used to launch a Linux-like virtual machine under Gunyah. To b=
+uild this sample, enable
++A sample userspace VMM is included in samples/gunyah/ along with a minimal
++devicetree that can be used to launch a VM. To build this sample, enable
+ CONFIG_SAMPLE_GUNYAH.
+=20
+ IOCTLs and userspace VMM flows
+@@ -23,7 +20,8 @@ IOCTLs and userspace VMM flows
+=20
+ The kernel exposes a char device interface at /dev/gunyah.
+=20
+-To create a VM, use the GH_CREATE_VM ioctl. A successful call will return =
+a "Gunyah VM" file descriptor.
++To create a VM, use the GH_CREATE_VM ioctl. A successful call will return a
++"Gunyah VM" file descriptor.
+=20
+ /dev/gunyah API Descriptions
+ ----------------------------
+@@ -51,29 +49,28 @@ GH_VM_SET_USER_MEM_REGION
+=20
+ This ioctl allows the user to create or delete a memory parcel for a guest
+ virtual machine. Each memory region is uniquely identified by a label;
+-attempting to create two memory regions with the same label is not allowed.
++attempting to create two regions with the same label is not allowed.
+=20
+ While VMM is guest-agnostic and allows runtime addition of memory regions,
+ Linux guest virtual machines do not support accepting memory regions at ru=
+ntime.
+-Thus, memory regions should be provided before starting the VM and the VM
+-configured to accept those memory regions at boot-up.
++Thus, memory regions should be provided before starting the VM and the VM =
+must
++be configured to accept these at boot-up.
+=20
+-The guest physical address is used by Linux to check the requested user re=
+gions
+-do not overlap and to help find a corresponding memory region for calls li=
+ke
+-GH_VM_SET_DTB_CONFIG.
++The guest physical address is used by Linux kernel to check that the reque=
+sted
++user regions do not overlap and to help find the corresponding memory regi=
+on
++for calls like GH_VM_SET_DTB_CONFIG.
+=20
+ To delete a memory region, call GH_VM_SET_USER_MEM_REGION with label set t=
+o the
+-memory region of interest and memory_size set to 0.
++desired region and memory_size set to 0.
+=20
+-The flags field of gh_userspace_memory_region can set the following bits. =
+All
++The flags field of gh_userspace_memory_region accepts the following bits. =
+All
+ other bits must be 0 and are reserved for future use. The ioctl will return
+ -EINVAL if an unsupported bit is detected.
+=20
+-  - GH_MEM_ALLOW_READ/GH_MEM_ALLOW_WRITE/GH_MEM_ALLOW_EXEC sets read/write=
+/exec permissions
+-    for the guest, respectively.
+-
+-  - GH_MEM_LENT means that the memory will be unmapped from the host and b=
+e unaccessible by
+-    the host while the guest has the region.
++  - GH_MEM_ALLOW_READ/GH_MEM_ALLOW_WRITE/GH_MEM_ALLOW_EXEC sets read/write=
+/exec
++    permissions for the guest, respectively.
++  - GH_MEM_LENT means that the memory will be unmapped from the host and be
++    unaccessible by the host while the guest has the region.
+=20
+ GH_VM_SET_DTB_CONFIG
+ ~~~~~~~~~~~~~~~~~~~~
+@@ -91,4 +88,4 @@ Resource Manager to allocate resources.
+ GH_VM_START
+ ~~~~~~~~~~~
+=20
+-This ioctl starts the virtual machine.
++This ioctl starts the VM.
+
+Thanks.=20
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---lcWsjmNz5hWimLOD
+--hj7LpSjy5/N/rAip
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2Jj9QAKCRD2uYlJVVFO
-o8iZAP9ne1/t0CSHYZJHKuMWjnNVF9v2tjatTGFij3brCK5ccgEA6ZehG9xndGC0
-Ga0PcJr9HBhqMNopmGgdNKin3IzhMAs=
-=VAEi
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2Jq/gAKCRD2uYlJVVFO
+owilAP9rOWj2RSc16xKy16v6rBpgFMf9kWpJ6RaRz4vJ/jImiAD9EL+mrL03+yCQ
+uK+z+aXFFpnKScR58vO7PtNiq6SouAk=
+=F0L1
 -----END PGP SIGNATURE-----
 
---lcWsjmNz5hWimLOD--
+--hj7LpSjy5/N/rAip--
