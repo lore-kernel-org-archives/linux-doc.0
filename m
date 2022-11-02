@@ -2,99 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F35C433FE
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 00:49:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAA0FC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 02:01:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbiKBAtE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 1 Nov 2022 20:49:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32884 "EHLO
+        id S229907AbiKBCBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 1 Nov 2022 22:01:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229887AbiKBAs7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 20:48:59 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF37015832;
-        Tue,  1 Nov 2022 17:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=R3t1/PtFRukR3DTN5dw0xr3D2iRQOcJcwJDabN8WoqY=; b=k+9rA9GBEMT2v2v5k6cpq+Qf8n
-        wc9TUex0nKhotDyP26vyXHCVH5cCmX3e3cP5SBrHL+xJgzpC6eUKlWBitRUTe5Ms9PYv6Ppxvy9So
-        OvIa1GRa1DYdVrw5kV2tYe1Nx9HBF3mFN/6kGVpmrUiwS+QhlqcqlgJtF6uYCnyOTkk0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1oq1vN-0019Xl-QK; Wed, 02 Nov 2022 01:48:09 +0100
-Date:   Wed, 2 Nov 2022 01:48:09 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Andy Ren <andy.ren@getcruise.com>
-Cc:     netdev@vger.kernel.org, richardbgobert@gmail.com,
-        davem@davemloft.net, wsa+renesas@sang-engineering.com,
-        edumazet@google.com, petrm@nvidia.com, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, roman.gushchin@linux.dev
-Subject: Re: [PATCH net-next v2] netconsole: Enable live renaming for network
- interfaces used by netconsole
-Message-ID: <Y2G+SYXyZAB/r3X0@lunn.ch>
-References: <20221102002420.2613004-1-andy.ren@getcruise.com>
+        with ESMTP id S229770AbiKBCBU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 1 Nov 2022 22:01:20 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7B512ACA;
+        Tue,  1 Nov 2022 19:01:17 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id kt23so41609838ejc.7;
+        Tue, 01 Nov 2022 19:01:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wpkpMG7UiwPayNiAZQIqA2owOEcKN042OlaP9NIKByQ=;
+        b=PSI3BxsZxQhkVlAwBWePeEx4KtAfoo+szxImTtRUReTiDfr9ZDx6Sm5NPHqenJcNxT
+         C1Cc1XtX2d+q26GnaWUsavd/r/VG2SddcvxNhRrceGmgd8jXDP3zO8nuuVuiXE9yg8Hv
+         VromHHJwnoFv47aFFD6im43jbHCHm0qV2ut4Mm6hghqXVKBTtMMrOPSX4Es8NmfRxURn
+         Y2nNK2sDRLTEQ4u2C+01zkX51+PYOkgLN2dDilBwbJVMVTnY515pXXOwSNQHmXwZgrRC
+         ZExHO0WidqM2hqoKFAVYfQ30DpWzZE83Qd9SU2LqqYcsm7iUQBgPH/cZK8jnKEybEFn/
+         rKrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wpkpMG7UiwPayNiAZQIqA2owOEcKN042OlaP9NIKByQ=;
+        b=cgRV5/DyRKhMj01OIeUrLC6eWhGYLbnLGj5xQZeRvEQN0czm4IOkAvgIBr1u5Vn+4o
+         1RMmg2shoMW5l7mRnCzsQpldKVoAUFo3RpTHoH/VsFdKHoY4I9Ge1GZrjt105SSJex0Q
+         C9MyQrlnobGjz8cE7Tl4uuBuZlvqYXkoy1BcnEh093jL2d0e8dXxTm2lm4bej5ffDQUF
+         4Al2Y1IaOonsfKDLsW8uI51x3m7ZLflyWafQxaNn5/NQU/B5dDBSCIh2VgOw2im3lH9t
+         F7ep5+lj5LtaTgc34z/yaAwBbKPTFHToPX5taKLfJW44dbcZ99vtsMe4BawFLeQrfdQl
+         PwzQ==
+X-Gm-Message-State: ACrzQf1LEj69j6zNOfBDQruvaCua3lfpdAzPQMAtOPfb2Zn2tLrz/32M
+        zbkg4ho9d72OKhakyxVmeaKwgnbM7yWAj4KD7DU=
+X-Google-Smtp-Source: AMsMyM5uJ5eWQp6S+6Z4C0hK1rcz1qVltZNk5Qi3uW9GAkUnX1SsK5gFIxVzAh58sQenfPHh535CfkF5IlSn2uxJo/M=
+X-Received: by 2002:a17:906:8a7b:b0:7ac:baef:6de1 with SMTP id
+ hy27-20020a1709068a7b00b007acbaef6de1mr21277925ejc.734.1667354476420; Tue, 01
+ Nov 2022 19:01:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221102002420.2613004-1-andy.ren@getcruise.com>
+References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
+ <20221026185846.3983888-3-quic_eberman@quicinc.com> <CABb+yY3JVNPG3dcyHNFxEeGEu3MN_pAOh3+cwexPPe2YG6SNUg@mail.gmail.com>
+ <fb7e101f-8de0-d77e-30e1-74b882b19583@quicinc.com> <CABb+yY08jP+Q5xvzLf=7F1tULP6-eZz5EDiK9mBj2fAv=iZa_A@mail.gmail.com>
+ <4cb58489-cd42-1868-9add-0c360065de23@quicinc.com> <CABb+yY2GA90RLazHZL7sLtC+ka-P8y6s00V2BVF4OMPTDi-rKg@mail.gmail.com>
+ <62f7402d-f0e7-8e8a-e1a4-958ddbcf8d8b@quicinc.com>
+In-Reply-To: <62f7402d-f0e7-8e8a-e1a4-958ddbcf8d8b@quicinc.com>
+From:   Jassi Brar <jassisinghbrar@gmail.com>
+Date:   Tue, 1 Nov 2022 21:01:04 -0500
+Message-ID: <CABb+yY0-rtt5CfzGA_D3THnfTO1pgstmVo2_1McEJ=JMdTcD2Q@mail.gmail.com>
+Subject: Re: [PATCH v6 02/21] dt-bindings: Add binding for gunyah hypervisor
+To:     Elliot Berman <quic_eberman@quicinc.com>
+Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Kalle Valo <kvalo@kernel.org>, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 01, 2022 at 05:24:20PM -0700, Andy Ren wrote:
-> This patch enables support for live renaming of network interfaces
-> initialized by netconsole.
-> 
-> This resolves an issue seen when netconsole is configured to boot as a
-> built-in kernel module with a kernel boot argument. As stated in the
-> kernel man page - As a built-in, netconsole initializes immediately
-> after NIC cards and will bring up the specified interface as soon as
-> possible. Consequently, the renaming of specified interfaces will fail
-> and return EBUSY. This is because by default, the kernel disallows live
-> renaming unless the device explicitly sets a priv_flags bit
-> (e.g: IFF_LIVE_RENAME_OK or IFF_LIVE_ADDR_CHANGE), and so renaming after
-> a network interface is up returns EBUSY.
-> 
-> The changes to the kernel are as of following:
-> 
-> - Addition of a iface_live_renaming boolean flag to the netpoll struct,
-> used to enable/disable interface live renaming. False by default
-> - Changes to check for the aforementioned flag in network and ethernet
-> driver interface renaming code
-> - Adds a new optional "*" parameter to the netconsole configuration
-> string that enables interface live renaming when included
-> (e.g. netconsole=+*....). When this optional parameter is included,
-> "iface_live_renaming" is set to true
+On Tue, Nov 1, 2022 at 7:12 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>
+>
+>
+> On 11/1/2022 2:58 PM, Jassi Brar wrote:
+> > On Tue, Nov 1, 2022 at 3:35 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+> >>
+> >>
+> >>
+> >> On 11/1/2022 9:23 AM, Jassi Brar wrote:
+> >>> On Mon, Oct 31, 2022 at 10:20 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+> >>>>
+> >>>> Hi Jassi,
+> >>>>
+> >>>> On 10/27/2022 7:33 PM, Jassi Brar wrote:
+> >>>>    > On Wed, Oct 26, 2022 at 1:59 PM Elliot Berman
+> >>>> <quic_eberman@quicinc.com> wrote:
+> >>>>    > .....
+> >>>>    >> +
+> >>>>    >> +        gunyah-resource-mgr@0 {
+> >>>>    >> +            compatible = "gunyah-resource-manager-1-0",
+> >>>> "gunyah-resource-manager";
+> >>>>    >> +            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX
+> >>>> full IRQ */
+> >>>>    >> +                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX
+> >>>> empty IRQ */
+> >>>>    >> +            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
+> >>>>    >> +                  /* TX, RX cap ids */
+> >>>>    >> +        };
+> >>>>    >>
+> >>>>    > All these resources are used only by the mailbox controller driver.
+> >>>>    > So, this should be the mailbox controller node, rather than the
+> >>>>    > mailbox user.> One option is to load gunyah-resource-manager as a
+> >>>> module that relies
+> >>>>    > on the gunyah-mailbox provider. That would also avoid the "Allow
+> >>>>    > direct registration to a channel" hack patch.
+> >>>>
+> >>>> A message queue to another guest VM wouldn't be known at boot time and
+> >>>> thus couldn't be described on the devicetree.
+> >>>>
+> >>> I think you need to implement of_xlate() ... or please tell me what
+> >>> exactly you need to specify in the dt.
+> >>
+> >> Dynamically created virtual machines can't be known on the dt, so there
+> >> is nothing to specify in the DT. There couldn't be a devicetree node for
+> >> the message queue client because that client is only exists once the VM
+> >> is created by userspace.
+> >>
+> > The underlying "physical channel" is the synchronous SMC instruction,
+> > which remains 1 irrespective of the number of mailbox instances
+> > created.
+>
+> I disagree that the physical channel is the SMC instruction. Regardless
+> though, there are num_online_cpus() "physical channels" with this
+> perspective.
+>
+> > So basically you are sharing one resource among users. Why doesn't the
+> > RM request the "smc instruction" channel once and share it among
+> > users?
+>
+> I suppose in this scenario, a single mailbox channel would represent all
+> message queues? This would cause Linux to serialize *all* message queue
+> hypercalls. Sorry, I can only think negative implications.
+>
+> Error handling needs to move into clients: if a TX message queue becomes
+> full or an RX message queue becomes empty, then we'll need to return
+> error back to the client right away. The clients would need to register
+> for the RTS/RTR interrupts to know when to send/receive messages and
+> have retry error handling. If the mailbox controller retried for the
+> clients as currently proposed, then we could get into a scenario where a
+> message queue could never be ready to send/receive and thus stuck
+> forever trying to process that message. The effect here would be that
+> the mailbox controller becomes a wrapper to some SMC instructions that
+> aren't related at the SMC instruction level.
+>
+> A single channel would limit performance of SMP systems because only one
+> core could send/receive a message. There is no such limitation for
+> message queues to behave like this.
+>
+This is just an illusion. If Gunyah can handle multiple calls from a
+VM parallely, even with the "bind-client-to-channel" hack you can't
+make sure different channels run on different cpu cores.  If you are
+ok with that, you could simply populate a mailbox controller with N
+channels and allocate them in any order the clients ask.
 
-
->  /**
->   * eth_header - create the Ethernet header
-> @@ -288,8 +289,10 @@ int eth_prepare_mac_addr_change(struct net_device *dev, void *p)
->  {
->  	struct sockaddr *addr = p;
->  
-> -	if (!(dev->priv_flags & IFF_LIVE_ADDR_CHANGE) && netif_running(dev))
-> +	if (!(dev->priv_flags & IFF_LIVE_ADDR_CHANGE) && netif_running(dev) &&
-> +	    !netpoll_live_renaming_enabled(dev))
->  		return -EBUSY;
-> +
->  	if (!is_valid_ether_addr(addr->sa_data))
->  		return -EADDRNOTAVAIL;
->  	return 0;
-
-There is no mention of this in the commit message.
-
-Changing the interface name while running is probably not an
-issue. There are a few drivers which report the name to the firmware,
-presumably for logging, and phoning home, but it should not otherwise
-affect the hardware.
-
-However, changing the MAC address does need changes to the hardware
-configuration, and not all can do that while the interface is running.
-So i think this last part needs some justification.
-
-   Andrew
+-j
