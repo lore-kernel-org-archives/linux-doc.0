@@ -2,178 +2,246 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64BD1C4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 13:17:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F12D3C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  2 Nov 2022 13:18:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231395AbiKBNRM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 09:17:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57600 "EHLO
+        id S231218AbiKBNSV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 09:18:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231408AbiKBNQt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 09:16:49 -0400
-Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 484032B241;
-        Wed,  2 Nov 2022 06:16:23 -0700 (PDT)
-Date:   Wed, 2 Nov 2022 21:15:32 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1667394982;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uuWmPk5WkHpSGF8IFG03laDR60UtXtFIu2F8aLEhgvI=;
-        b=sQn0cFBOr4SdIuO+3PpI5GOyuPVJty9ESBKyMl9B/tbaLBD4TvRtO6JChlODstGydieMKs
-        cIIB5oVJJcR2rwZTYavrobq/Kh+5FwY4ypyfwehAhNiIFfmzkeBgPlv/WfjRqInugMCk2Y
-        Ql5vGXp3EBNkIDqsWpy7bnXt6OnJefo=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
-To:     Rui Li <me@lirui.org>
-Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: Add userspace-api/seccomp_filter Chinese
- translation
-Message-ID: <Y2JtdC+UfKfCgrZ/@bobwxc.mipc>
-References: <20221101122843.218114-1-me@lirui.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        with ESMTP id S231484AbiKBNR6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 09:17:58 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDA192A722;
+        Wed,  2 Nov 2022 06:17:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HKp7ohdpxGQ5tb62wfeRVXRBiZy0sIRUuCfPhJNtmdfDYvVvXcQSfkdigct2RgVVGsG92Z5Wx5/cR2ZKdr/QxaBG6LvQFhegQ1jfPkGB9p2sssuYFdA67V5MR0uDC6TVlpFZ5L0HdnYi3w5lNgCt6RDFV0D/GmCTLgnzcdn59hLNlsBe+9FdKPhsN4NFvEWryhSr1tHmsHoYpp/8Zz8YRGZtLWT8wYwS3qfO1oX0quIoFLQMK9KWWkAdmezcTmACgrbUoC7pXTbk9kzq2xZyny3R7e845WchWA0Dxbl93F5gtnkD2k1AAw8xl5lrntDecIyLWTPwrRHm6VEPbfC5SA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NmRaQL7SXYCVJ75qusrjG5w/TI/0E8m49d8XBfoeFgE=;
+ b=e7dmRfhdasc/Mu12WWoaV3HFlh/zTOPMxcC+pPLvD6HLGs77i843YNnAmNDFv/QIGfsknDaoCBGAMuM9ZekxBPH2l5duSodXSfanInzHQFiLwKgCHj3aPvq9LXhCN78GbQ2AjUm91TcLXB3aJPq0E3FA0CJ62y4vP6UScFvaRmRd/Tf02VuAClnkxiymY9ULLCg5a7/IacepcgR01+s/wqNMXsRkcj75HM1yq+/bTvFyc7GnS1CgqkbP8DQmFDoD2fFpwW8B8BKPEC2wZzRH1PC0OEdF5UV+QcnyyPfu5EGGn1WFb5zDmoOaI5D/UJ2P/QSgRlHC+uk8VHid67TSkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NmRaQL7SXYCVJ75qusrjG5w/TI/0E8m49d8XBfoeFgE=;
+ b=mDWgRlzaHjI3g6A0GLd97zx5KWJQQtp7pLtFE/+o9Qaj3UKO5C0/CPWC/LFkk2P0a0W6pme/kU64+WEjFRnuuepqQlkCqKWSTQkIZh9LIFzZh8lxbiJ03Kd0ubbF05HePolpqS4HTCPnzipKdylLuykVhtypT1b5pQlLHJrNicsYFAs/OAu9fdjfhjEl5/100oR5susd0faMC+1+83R9NS7VAUnCFyMq+mJTZcRQBecKPtGM5B776lqDxi0SxZC+WY+WuN90uHD5t7yu+JpG8INavtFtHO1ahEugrqHbWimTbZUsSKG/ylF9S41JLsy7RYqbmmVjxt7OVPlhMgz5Pg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by CO6PR12MB5396.namprd12.prod.outlook.com (2603:10b6:303:139::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.21; Wed, 2 Nov
+ 2022 13:17:46 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5769.015; Wed, 2 Nov 2022
+ 13:17:46 +0000
+Date:   Wed, 2 Nov 2022 10:17:45 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Nicolin Chen <nicolinc@nvidia.com>
+Cc:     Lu Baolu <baolu.lu@linux.intel.com>, bpf@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v3 15/15] iommufd: Add a selftest
+Message-ID: <Y2Jt+WxNUwROJ8fN@nvidia.com>
+References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <15-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <Y2GCV97lxEGwAuo6@Asurada-Nvidia>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221101122843.218114-1-me@lirui.org>
-X-Generator: review-reply, a very cute ai bot
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <Y2GCV97lxEGwAuo6@Asurada-Nvidia>
+X-ClientProxiedBy: BL0PR05CA0022.namprd05.prod.outlook.com
+ (2603:10b6:208:91::32) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|CO6PR12MB5396:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0e60d49f-bf36-414f-39b0-08dabcd4a232
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: pCD2pzrpKJ+alfJp5Gr3GaqvySVjOl7vmexgWDs6kb28GTYbO7siN2j0mszKCKGcjbGxxgRRqtf/rpUyu+qZuOUIG90AF+sGbA3Xf8/wnmlnqVQJ3F8mVOXfnHTGYsl6gmq4bVqhM8fAldArxDx385fNHiMXIidZKyXZTRksEuWQabwjuCSEJOlDcUvLPm+OHpXtaALo0TUwAQTwcLTZMNWrMq+xpEe5UoFWQsTKNUnFxTrLKn+C337TFlB1bLMzm8Wrk51tNMcEf/JHXPKmT4YIkTC7m6wHdENSrH+Cos4dAUA7ZHR3vX294kma4tv9RO4TOYJerzXiZ9kyemfIpXUVP2Hc4yetQXqql+gNgXe25SFFExjcqR2Hd5SFg5ITBfjrfAMYwpHQq8UtDYwEADYnBE6EDUmXyiCKVDWZDz9u2KFJ1gqCNM+o7Q/eHn131MfNXZtaO5o0SiXURe2o50IN+jHGniY3rxUEOkYYazv2ZRUDw5VmFA1imedbV/Xb284g8MTaUSASls5mI4cyxSLu8SXWjvYY5/XpwTksR8uN9X3b60FyBijd0n+n2820hxSmElJb4ZM4fXwtByF1q6HegkDwH6rxexC00Eg8GXuHjuYtJPfa9zm+HPZ0chOvnPapttqb7WgYaX4MFJ08xngDqX12gCOo3CuwdOmPfkjinnhGJf517gTd1+JiTgR8iVqlXJmLuAS+p9FdzqttjbJNTXdDvuSDNXrNbsKaGZttrwLf5VrfUuTk6dm14REf
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(39860400002)(136003)(366004)(396003)(346002)(451199015)(4326008)(6636002)(316002)(478600001)(54906003)(37006003)(66476007)(6486002)(6506007)(8676002)(66556008)(66946007)(26005)(5660300002)(7416002)(41300700001)(7406005)(8936002)(6862004)(38100700002)(36756003)(2906002)(86362001)(83380400001)(186003)(6512007)(2616005)(67856001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lrYCHkcYO2XO5GJgH+cNCSJoDeyL5XcLBICN5ka4tMeDM1Es2ANxntkNMMK+?=
+ =?us-ascii?Q?gEfHPcAjliaJXvsCniGIBBSAGNK10K0OEfaCDexPCOR5Nn+Vf3sGXoS+t56d?=
+ =?us-ascii?Q?xE3P0rpxrCOKaP9h4wsYZGx8o4Zbk6PnJ3STJ/xmgK4TxZKfzoy2IOzU+hLm?=
+ =?us-ascii?Q?qo0Gs2T2SKRPPsJOKKB3fk67aC43Kk52qM9sRYiQGcL2FlZR6cbSgbQ6cI15?=
+ =?us-ascii?Q?u/dmFtf9q5OT/WHHYwvdNKzlnCgXDKgEtKi1CKbfGdIPjoAz30fBUo8jGtrM?=
+ =?us-ascii?Q?DXQ51E9ERERDvy9XYCBi9IXO7aDODcjMhilUFRQuquoII5jiX57veNwmQP6L?=
+ =?us-ascii?Q?XtDI8eRZym0jXfHVbwYNP/K/aMuQuZUdJlCf7UDLD5pM+/bfOPS8X7ClPSWq?=
+ =?us-ascii?Q?kGtmoS++lTzPVZqzW7VWviJTnvgA7565Bg7bcqd2wXyUicztL6ceWDq7JeIY?=
+ =?us-ascii?Q?9WpmBn68izYYFSxa90OoB0GyElQUycfa+JXy1LDP/I00qKDOwJJwSctdCzNP?=
+ =?us-ascii?Q?Yp+wl486qhsItJEV46iKMryLCcB40M1a96qAEsAYGb0J6zpXvbkrR1w0ryLb?=
+ =?us-ascii?Q?qpJxeIbchHTgvgsCWbNb7WwAyWIgcAsZwOL57hZ8YMLQi+2J3CpJbt+nUI5r?=
+ =?us-ascii?Q?LU3FPqCRCcrf05IqHDuDgfdwFrsYeDViLO/JtA6GCBydIhjJz5+3Ea0NhKd2?=
+ =?us-ascii?Q?+eOGrmpN5LRdp64CM3mY1aCSONIwWSpDlAbYyfBzUToKm3b8MSTmN+H9eT7H?=
+ =?us-ascii?Q?a0uf4peEIWJaS/jP1R9HMWtl2QKNFK6UraRZTlRpwQFI7XqxQL4o4/U+YlQN?=
+ =?us-ascii?Q?KFFoOWaoorVAMJi4nemq68MrU80fDZKCiKuoUvrCIMvOhz5SyW00vE4ZrYly?=
+ =?us-ascii?Q?Xx8d6hpoEYgNpm6lfHm2Qq+nDzQ2cyL/M1AxzrKt07e3TKgAiOAi21CMpMGs?=
+ =?us-ascii?Q?07zCs9sOgg6psRM5R4AyNtuXE9WiaqdW2pNvI7EpYm1balB6fQv4cc0pR2jB?=
+ =?us-ascii?Q?5YF+KdBglK9Rf+Z7gYrdx4KEIdB5jLBkMm1QVgQXizU6/CZypOZwcXVYjerc?=
+ =?us-ascii?Q?DM4Qb1OM0jRuavsTpIXTkxCzxGTdk63JM3IC81rsxBvzSgNxTggsri94k8i8?=
+ =?us-ascii?Q?LqAxzkpYf7Tsz6mMwqNg74a2poLhBLT/93U7j59OftyVRTEHAQFFnN7gOVrr?=
+ =?us-ascii?Q?YXibFBYfb9OYV6YR1Nt/RgXMOtdzCOA40wCQY14DpypZRnYMlkKCV3HS9/X+?=
+ =?us-ascii?Q?m+L04TuF9zMtfRJTMBpG2b3/X78lqQwXFrM5xv/BGQEBVoGSIxAz+a+jMhic?=
+ =?us-ascii?Q?VWcWWVQ0VQGkyU9k7ZTJKPes4QQ0DrMOUjzFBqqQnFJb8TNJ5FTLRVzwQnd3?=
+ =?us-ascii?Q?+QIGWyieB8cn5MP1Adrb2vXnT6qlvzlmHx2uY7SMtL0bgx7Bz3aMUOOl2peq?=
+ =?us-ascii?Q?JV0vC11Ze7ipApGfDNxOwnRB1rrspyWzeKaIy0s6OTiFDtpcjEwFVmRWSHR5?=
+ =?us-ascii?Q?uw5WT2pNVpwX35DVD/1/XbGqWwSJxXdOno4JDLDOR76txrJe2uAyQd6AAD+r?=
+ =?us-ascii?Q?J8PMKD4/LoIrxIqgzgg=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e60d49f-bf36-414f-39b0-08dabcd4a232
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2022 13:17:46.8510
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WjKXNYHXNHOXz9Y3PROSeaqNj70VRsDk/meElTlR1husRdvFHq1TXRCuZq4VHLGt
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5396
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-> Translate the following documents into Chinese:
-> 
-> - userspace-api/seccomp_filter.rst
-> 
-> Also adjust index order according to the original index file.
-> 
-> Signed-off-by: Rui Li <me@lirui.org>
-> ---
->  .../zh_CN/userspace-api/index.rst             |   4 +-
->  .../zh_CN/userspace-api/seccomp_filter.rst    | 291 ++++++++++++++++++
->  2 files changed, 293 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/translations/zh_CN/userspace-api/seccomp_filter.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
-> index 0f3483a46fa2..dad5ba7cae6d 100644
-> --- a/Documentation/translations/zh_CN/userspace-api/index.rst
-> +++ b/Documentation/translations/zh_CN/userspace-api/index.rst
-> @@ -24,13 +24,13 @@ Linux 内核用户空间API指南
->  .. toctree::
->     :maxdepth: 2
+On Tue, Nov 01, 2022 at 01:32:23PM -0700, Nicolin Chen wrote:
+> On Tue, Oct 25, 2022 at 03:12:24PM -0300, Jason Gunthorpe wrote:
 >  
-> -   ebpf/index
->     no_new_privs
-> +   seccomp_filter
-> +   ebpf/index
->     sysfs-platform_profile
->  
->  TODOList:
->  
-> -* seccomp_filter
->  * landlock
->  * unshare
->  * spec_ctrl
-> diff --git a/Documentation/translations/zh_CN/userspace-api/seccomp_filter.rst b/Documentation/translations/zh_CN/userspace-api/seccomp_filter.rst
-> new file mode 100644
-> index 000000000000..24c3b18eb727
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/userspace-api/seccomp_filter.rst
-> @@ -0,0 +1,291 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/userspace-api/seccomp_filter.rst
-> +
-> +:翻译:
-> +
-> + 李睿 Rui Li <me@lirui.org>
-> +
-> +==================================
-> +Seccomp BPF (基于过滤器的安全计算)
-> +==================================
+> > diff --git a/drivers/iommu/iommufd/selftest.c b/drivers/iommu/iommufd/selftest.c
+> 
+> > +static inline struct iommufd_hw_pagetable *
+> > +get_md_pagetable(struct iommufd_ucmd *ucmd, u32 mockpt_id,
+> > +		 struct mock_iommu_domain **mock)
+> > +{
+> > +	struct iommufd_hw_pagetable *hwpt;
+> > +	struct iommufd_object *obj;
+> > +
+> > +	obj = iommufd_get_object(ucmd->ictx, mockpt_id,
+> > +				 IOMMUFD_OBJ_HW_PAGETABLE);
+> > +	if (IS_ERR(obj))
+> > +		return ERR_CAST(obj);
+> > +	hwpt = container_of(obj, struct iommufd_hw_pagetable, obj);
+> > +	if (hwpt->domain->ops != mock_ops.default_domain_ops) {
+> > +		return ERR_PTR(-EINVAL);
+> > +		iommufd_put_object(&hwpt->obj);
+> 
+> Coverity reports that return is placed before iommufd_put_object.
 
-Add a note line here? Like:
+I'm surprised no compiler warned about this!
 
-*Seccomp: SECure COMPuting*
+> 
+> > +static int iommufd_test_access_pages(struct iommufd_ucmd *ucmd,
+> > +				     unsigned int access_id, unsigned long iova,
+> > +				     size_t length, void __user *uptr,
+> > +				     u32 flags)
+> > +{
+> > +	struct iommu_test_cmd *cmd = ucmd->cmd;
+> > +	struct selftest_access_item *item;
+> > +	struct selftest_access *staccess;
+> > +	struct page **pages;
+> > +	size_t npages;
+> > +	int rc;
+> > +
+> > +	if (flags & ~MOCK_FLAGS_ACCESS_WRITE)
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	staccess = iommufd_access_get(access_id);
+> > +	if (IS_ERR(staccess))
+> > +		return PTR_ERR(staccess);
+> > +
+> > +	npages = (ALIGN(iova + length, PAGE_SIZE) -
+> > +		  ALIGN_DOWN(iova, PAGE_SIZE)) /
+> > +		 PAGE_SIZE;
+> > +	pages = kvcalloc(npages, sizeof(*pages), GFP_KERNEL_ACCOUNT);
+> > +	if (!pages) {
+> > +		rc = -ENOMEM;
+> > +		goto out_put;
+> > +	}
+> > +
+> > +	rc = iommufd_access_pin_pages(staccess->access, iova, length, pages,
+> > +				      flags & MOCK_FLAGS_ACCESS_WRITE);
+> > +	if (rc)
+> > +		goto out_free_pages;
+> > +
+> > +	rc = iommufd_test_check_pages(
+> > +		uptr - (iova - ALIGN_DOWN(iova, PAGE_SIZE)), pages, npages);
+> > +	if (rc)
+> > +		goto out_unaccess;
+> > +
+> > +	item = kzalloc(sizeof(*item), GFP_KERNEL_ACCOUNT);
+> > +	if (!item) {
+> > +		rc = -ENOMEM;
+> > +		goto out_unaccess;
+> > +	}
+> > +
+> > +	item->iova = iova;
+> > +	item->length = length;
+> > +	spin_lock(&staccess->lock);
+> > +	item->id = staccess->next_id++;
+> > +	list_add_tail(&item->items_elm, &staccess->items);
+> > +	spin_unlock(&staccess->lock);
+> > +
+> > +	cmd->access_pages.out_access_item_id = item->id;
+> > +	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
+> > +	if (rc)
+> > +		goto out_free_item;
+> > +	goto out_free_pages;
+> > +
+> > +out_free_item:
+> > +	spin_lock(&staccess->lock);
+> > +	list_del(&item->items_elm);
+> > +	spin_unlock(&staccess->lock);
+> > +	kfree(item);
+> > +out_unaccess:
+> > +	iommufd_access_unpin_pages(staccess->access, iova, length);
+> > +out_free_pages:
+> > +	kvfree(pages);
+> 
+> Coverity reports a double free here, call trace:
+> 
+> [jumped from] rc = iommufd_access_pin_pages(..., pages, ...);
+> 	[in which] iopt_pages_add_access(..., out_pages, ...);
+> 		[then] iopt_pages_fill_xarray(..., out_pages);
+> 			[then] iopt_pages_fill_from_mm(..., out_pages);
+> 				[then] user->upages = out_pages + ...;
+> 				       pfn_reader_user_pin(user, ...);
+> 					[then] kfree(user->upages);
+> 					       return -EFAULT;
+> 
+> Should be the same potential issue in the other email.
 
-> +
-> +介绍
-> +=====
-
-4*=
-
-> +
-> +大量系统调用被暴露给每个用户空间进程，但其中又有许多系统调用在进程的整个生命
-> +周期中都没被使用。随着系统调用的改变和成熟，缺陷被找到并消除。允许某一部分应
-> +用程序仅能访问一部分系统调用是有好处的，这会减少内核暴露给应用程序的面积。
-> +系统调用过滤器就是为这些应用程序而生的。
-> [...]
-> +值得注意的是， ``struct seccomp_data`` 包含了系统调用寄存器参数的值，但是不包含指向
-> +内存的指针。任务的内存可以通过  ``ptrace()`` 或 ``/proc/pid/mem`` 由合适的特权跟踪
-> +访问。但是，需要注意避免之前提到的TOCTOU攻击：所有从被跟踪者内存中读到的参数都应该先
-> +读到追踪器的内存中，再做出策略决定。这样就可以对系统调用的参数做源自决定。
-
-源自 -> 原子
-
-> +
-> +Sysctls
-> +=======
-> +
-> +Seccomp的sysctl文件可以在 ``/proc/sys/kernel/seccomp/`` 文件夹中找到。这里有对文件
-> +夹中每个文件的描述：
-> +
-> +``actions_avail``:
-> +	以字符串形式保存seccomp保存值（参考上文的 ``SECCOMP_RET_*`` 宏）的只读有序
-
-保存值 -> 返回值
-
-> +	列表。从左往右按照最少许可返回值到最多许可返回值排序。
-> +
-> +	这个列表代表了内核支持的seccomp返回值集合。一个用户空间程序可以使用这个列表来在
-> +	程序建立时确定在 ``seccomp.h`` 中找到的动作是否和当前运行内核实际支持的动作有所
-> +	不同。
-> +
-> +``actions_logged``:
-> +	允许被记录的seccomp保存值（参考上文的 ``SECCOMP_RET_*`` 宏）的可读写有序列表。
-
-保存值 -> 返回值
-
-> +	对文件写入不需要是有序的，但从文件读取将与actions_avail sysctl一致的方式排序。
-> +
-> +	``allow`` 字符串在 ``actions_logged`` sysctl中不被接收，因为不可能记录
-> +	``SECCOMP_RET_ALLOW`` 动作。尝试向sysctl写入 ``allow`` 会导致返回一个EINVAL。
-> +
-> +添加架构支持
-> +============
-> +
-> +请查看 ``arch/Kconfig`` 了解权威要求。总的来说如果一个架构同时支持ptrace_event和
-> +seccomp，那么它将可以通过较小的修改支持seccomp过滤器： ``SIGSYS`` 支持和seccomp
-> +返回值检查。然后必须将 ``CONFIG_HAVE_ARCH_SECCOMP_FILTER`` 添加到它的架构特定
-> +的Kconfig中。
-> +
-> +注意事项
-> +========
-> +
-> +vDSO可能导致一些系统调用完全在用户空间中运行，当你在不同机器上跑程序时可能导致回退
-> +到真正系统调用的意外发生。为了在x86上最小化这些意外的发生，请确保你在测试时把
-> +``/sys/devices/system/clocksource/clocksource0/current_clocksource`` 设置为
-> +``acpi_pm`` 之类的值。
-> +
-> +在x86-64上，vsyscall模拟默认开启。（vsyscalls是vDSO调用的传统变体。）目前，模拟
-> +vsyscalls会遵守seccomp，但是有一些奇怪情况：
-> +
-> +- ``SECCOMP_RET_TRAP`` 的返回值会设置一个指向给定vsyscall入口的 ``si_call_addr``，
-> +  而不是'syscall'指令之后的地址。任何想重新开始调用的代码都需要注意 (a) 返回指令
-
-返回指令 -> ret指令
+Yes, looks like
 
 Thanks,
-	Wu
+Jason
