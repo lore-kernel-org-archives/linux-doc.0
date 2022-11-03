@@ -2,199 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D54C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 07:24:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 718E2C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 09:39:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231201AbiKCHYu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 03:24:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57748 "EHLO
+        id S229871AbiKCJjm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 05:39:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229826AbiKCHYs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 03:24:48 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CE75FCC;
-        Thu,  3 Nov 2022 00:24:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667460288; x=1698996288;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=pa4Tl8vIMPTpDJ/9rvnKDGM/xFbQvPW3wp4ufS0vlc4=;
-  b=ezazsBQXPVMNfFmGMPvswlWPh///6OSoEcRa45dmThGuUGCL12BFuOSi
-   0rkobCIQkj/bXHxDJdI6lNru1QxXszLXObsdIaOx5f1rQ3N2teUtjIpxt
-   ss9T7qfJcff7kQt5dF8h16//vUl7NpKmThIcahxkvb+dXROLK2EyBp+IZ
-   Xt5bRNPSYT7pcOYahGhAO1Q45irCG0fAeGWszZ/0zdd/ituc6ml1JDA1O
-   HXMmUJacUjxvUM9HmWXINzJP4P5b7ZkeP+cRP0fDiOBxaiJ6HXbHFtICP
-   Ip2M73fZc6UDIO5tesfJ7r7IFLISDO5E9uolWIGFXGxZHcmb0hCYC6SNI
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="310721769"
-X-IronPort-AV: E=Sophos;i="5.95,235,1661842800"; 
-   d="scan'208";a="310721769"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2022 00:24:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="777198978"
-X-IronPort-AV: E=Sophos;i="5.95,235,1661842800"; 
-   d="scan'208";a="777198978"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga001.fm.intel.com with ESMTP; 03 Nov 2022 00:24:46 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 3 Nov 2022 00:24:45 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 3 Nov 2022 00:24:45 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 3 Nov 2022 00:24:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gW2tmqDAZE8nh3NwPGJrZqjpkmtVoNWSCYx3M5grWMAaVTsYJopoRvX172BnlnfTagRJ98wYrQRbfT0/YQ+OtyY8yd6Lo4A2ajs3GgKDf/mMl1OFDfkSYpGwr05Qz3Iu+qn55Jp7g/HU4DIURySNiookeaI+QjTvvew/lfr2tSfTkCvClRnOIKDraObmk6efMPsWRRKF16ilaoNx1U7fcfTDi6ARgIrTD2qRGLHjJi+Vf9t3qGtrMgpkYuXlc1dPGCtdyVDNUO82DRfbOwIyDDAf+92/f0GGiRDrWnt12uJe7R2Uzxe3NWCYhx+xzJmZFjPRkFIvhE/btFgHnfANCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pa4Tl8vIMPTpDJ/9rvnKDGM/xFbQvPW3wp4ufS0vlc4=;
- b=Gs2QiGoYXe+2dcm4DBQkSEM/T6fpRRldllVg3iC/RKVMuHmcD7jBFrynjVjW+P2Sw1/hISelDG2u6sOtxtYfDPu5GCFh6SbYdLdVXG2YQZIrPZNLHIrbfevfTQHACLMjuc0RgTNDUVAF7Nj0cdNq9NRx4rvDHplk4J/SLZyljNOuW8gUH+HuLSvm2Wr7X6zETNuHg/jNqxXFtiQ/1yDNDAVeagb9P9jqvrvSaV6g6M2P3a70HQB+nEpDa+BgNraM/mJILEfDWIlrrOIqhO0QPKNEsE6smNV3hyk4bVYAunn6TR8+I2qquPORzFbRyQ51yqxrQ/k4pdBySBYHTNgJLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by PH7PR11MB5861.namprd11.prod.outlook.com (2603:10b6:510:133::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.20; Thu, 3 Nov
- 2022 07:23:57 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::737e:211a:bb53:4cd7]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::737e:211a:bb53:4cd7%5]) with mapi id 15.20.5791.022; Thu, 3 Nov 2022
- 07:23:57 +0000
-From:   "Tian, Kevin" <kevin.tian@intel.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>,
-        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-        Joerg Roedel <joro@8bytes.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
-CC:     Alex Williamson <alex.williamson@redhat.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        "Martins, Joao" <joao.m.martins@oracle.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        "Shameerali Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>,
-        Keqian Zhu <zhukeqian1@huawei.com>
-Subject: RE: [PATCH v3 06/15] kernel/user: Allow user::locked_vm to be usable
- for iommufd
-Thread-Topic: [PATCH v3 06/15] kernel/user: Allow user::locked_vm to be usable
- for iommufd
-Thread-Index: AQHY6J1oCrPbP04ZE0StrYmKUQ2d/q4s2SbQ
-Date:   Thu, 3 Nov 2022 07:23:57 +0000
-Message-ID: <BN9PR11MB5276CEF0379EAB0B7EFA31228C389@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
- <6-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
-In-Reply-To: <6-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|PH7PR11MB5861:EE_
-x-ms-office365-filtering-correlation-id: 387f4266-94a3-4a36-1cf2-08dabd6c5f1b
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: SaOW49sdO2xCbkh8ah+892FNFPWk4kWDPPoxP6f5Y1s247rngGiS6InxKVSlAYf8754bYGzgmnNyQY+RY5T/9epg+iUuH6dX3jR0pFF/awBgkxuOud4XAuxZLy0su4jj2E08ptGGX8W/VyPtUqIzC9W4WsoUbZVHPXjSyQZ/w8v+OGk99uUo4/YVKnOZljqurliQuPHOnkHCkU1aiNlm71tKklq+xH2bNZjMv+e8HEUYxVQtgThgf118ow/TbSnCeTpitzAyhR0DIpOuoy4tg2n0PDTU+VioZAfAU7dJOlZh+a3PzabhfnsL26PzfmUDktug2bBkXs9o4RTjUBZkCm1S6RJ/hU+/W1TglbaBU0AGQPQWT/yDA4WfNlBzL9RMemu10Q5SJglr0pw7xnjUKLP0iPOI9NATRnc+ojmGIcRS6O1K/KRNdISzG1jrB7x+upqrG0M8pQzt8MmWX9gzEn0ITHZuOF9rkSx1pZZggE6CzGP6rpiSBAWOsNfkXOHrIXv2TLFnlxwN++USC97fx3lpGbnUXQc1wSIqsIXmv0apbHPjG02ggPevd2A0qKoOWbZA/XJ2A82tMZjKL9ZQ0a2ybprvMD6T2JyJXMSoBsmftr08ft3smx6R6MZr+en3GyxADiKWJDZdBpo0SaJawE7zaZv4r2P+PZm83a2EccB+9Hp2ZRK46LpJtcF8ZkUMoeglNePlr6E3IY1sf6qtfRjyXRFDVzsuueWlAbFHJISyT0+lAiU3q+dW3TY8ZYtbyPNDbJr2pINw7IxizO+jjz7Qcu4K/wxKpFp1/OLbiDw=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(39860400002)(376002)(136003)(396003)(346002)(366004)(451199015)(110136005)(478600001)(54906003)(8936002)(66446008)(9686003)(66946007)(7696005)(76116006)(7406005)(66556008)(52536014)(26005)(8676002)(41300700001)(66476007)(4326008)(7416002)(5660300002)(4744005)(186003)(83380400001)(64756008)(38070700005)(2906002)(55016003)(86362001)(71200400001)(6506007)(316002)(82960400001)(33656002)(38100700002)(921005)(122000001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?2dd7q3XceR7NZC3EZva+YaKD8yI8PMaKNrCyEEPR7UZ+dr/fmE/K98T+TTIR?=
- =?us-ascii?Q?mHStUpqL14O8GJ9sI9rHYEnE1DMH53zlHXWszP+32B4i96wzvkgtfVodWOP+?=
- =?us-ascii?Q?aS0DM5Kb/y520CO0xYLjS8Rnz47OHGmAlTNX6hedNl3PKSXuyFFxyxu0aAPs?=
- =?us-ascii?Q?gk8f89zmBVddoHBayXxhUD2JmF/BDm3ScWn1IcjBFHqDDxRexPo2NEiCUETk?=
- =?us-ascii?Q?AgFzSgmkxRKnDRppEFOucTmFg4FRlkLmI65K2iJdUwU99zVQi06r7Hkhd4Xh?=
- =?us-ascii?Q?gehdJlWCG68Sj5TBp0tFNNAmWZnouWN6+3fmJYJOsmdjw1U4VIH9Fhq+ddNv?=
- =?us-ascii?Q?zqUbG8Z8kOxGl5xl0NaDqKnNOmil30Q1ofd9mfdkgnDSlJn18sPuQ/T5YQgS?=
- =?us-ascii?Q?za3fnaKsw6mDegzkdeVnwgCFbIfD/bX9tlfEDI2oolqbXp4z7ti2A1jv7fnA?=
- =?us-ascii?Q?JCLaoK6n5E741mASkeRqRcjeZBST4KeQNM/hoeLJBsJXnWYVBeFG+NGbqa2X?=
- =?us-ascii?Q?x1v6TUIbeDcwd0NEKEJFS68F3r2A7toGQqQ7X1Wt0FVQJ0meE2t/SncplPRw?=
- =?us-ascii?Q?F1CGtB3qI2n94IfKufYWt2j+M+8M0k5K2a7i0xklQWADkH3SrnIX7ToRqGrN?=
- =?us-ascii?Q?597yt5/bRf8CFlRdla6SFuW/+f7pDsv3q63hPrZPMoOq5BePm2hVc7WfOJ3C?=
- =?us-ascii?Q?AhyDEoXTQSMbJPZ8iB8wkKKGSDSh9B+uCoJUmnDFquzYxbZ6PsQ+sPBhRycE?=
- =?us-ascii?Q?nN9Pigo9I4/LO8Azzel0VmymFBrtJWDdVbHk8A4LxJoVseE2ZU82qZk9k9oq?=
- =?us-ascii?Q?rF9HGB1bXIjYbtCZRiPxi6g+e1akRtPHp1enWOI5PjVtfi+hgyRqB2Ukwd8M?=
- =?us-ascii?Q?dRCiaMxBnYVx7f1GwTdGPiT5svVjh9TLr0fya89GQQgtFDpnC1hufW4AAqD+?=
- =?us-ascii?Q?cxQV6uh06KgrAysc8z04Op/yUuPUH6an2btBMZHP2JIpQjmbgjly2fTDwIJh?=
- =?us-ascii?Q?NWYt7EHDxIlF6emLwcDPB/jp8eVTMND2VqUqUEDmM9y1LNOsfZ9RfLxizfNh?=
- =?us-ascii?Q?zzTIZKEZdXjhLgSUCND5LcG7dXEXJ14V0l8Km+6AIrOgEgeHgu/kNLy5u89i?=
- =?us-ascii?Q?prjWikpTGn1GZkjSIbzO6r2YF2GnDEs6BbAnXJpAqqxEBF2HmIAiI0hc7B8R?=
- =?us-ascii?Q?Z53S/mFnVSyriMdJyWkdwX3zibf3ygxcluB8ScBndtP6lZuETbxLr88u9Fqd?=
- =?us-ascii?Q?/nFja9gWvUNk4IM8lPGKS4pjbm9s5/966bXdF3/7zq/KT8OyaGPkIJcy0XXu?=
- =?us-ascii?Q?BvJ7mnjflQ5nF4KJnDWUYqsp5dpCFtAWPJG1SF8obT2kxMA1xEUieWUDY/jt?=
- =?us-ascii?Q?OUnhvkowVL29kjfBl3Ou2ssn8l4qyKXPlDEghH3ifbtaQsHMMGKmSOHLFi+n?=
- =?us-ascii?Q?1kf6Kt1xmynBPFLs2M6bWYYgx51bYuLUUsx4e9rTi9YTFBXwS4a8eF+TcAYa?=
- =?us-ascii?Q?leeebL8hVCDFxg3/tc3zxF5AkYe9DPj/l9X5TyNojqlp5/7j9WSs0zj+rq8i?=
- =?us-ascii?Q?d0RamUqatMvtsiGWdGdWj+ZNGes8oTe3iacs46Lw?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 387f4266-94a3-4a36-1cf2-08dabd6c5f1b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2022 07:23:57.5764
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OrjXu0kFgNiUg8iZUpc/8RRINym9wcwJz42nASLByzO8v7BltaPJtfoUvz4IELZzLbUC/5mKWSeXE4VfSN4shQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5861
-X-OriginatorOrg: intel.com
+        with ESMTP id S229493AbiKCJjl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 05:39:41 -0400
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAD1F10B5;
+        Thu,  3 Nov 2022 02:39:40 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 507F15C01E2;
+        Thu,  3 Nov 2022 05:39:40 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Thu, 03 Nov 2022 05:39:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1667468380; x=1667554780; bh=pq/dGHH7V9
+        vQT6il3oQy+WRKjBkAdF1iwzEfdpBBAcM=; b=h82CMvLjI4pEqGK5Z6rVCRoZv7
+        7pTlIaSBYqIjWxZcUYFbuy/gcy++JmAv2r//H+GrR/WODosjTa7ncunOlqFP7Wk4
+        F6K1HsiHvMCG642I52eDomwVEipur5kW2pnUy8N/TCaw3DuNznhO6sMjm0ptnVrh
+        43VvSyaxdlFzSuuc5tduOaOKTeIoZF8tGALTVMM/JkCRp4PzowPbECTkm61Sv+Jh
+        nVdNN3d1S2Cu2+asamQT5FW/wHLG42t5vtelBX3VibkNWYYUR4jnfGjKu5SyKjWu
+        NmZVjAZPO1hNJ5vrAXKufLHSnTrne3qv5EnIbsJqkP1DIUEiojM1fNkPifqA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1667468380; x=1667554780; bh=pq/dGHH7V9vQT6il3oQy+WRKjBkA
+        dF1iwzEfdpBBAcM=; b=i3hyaQtYrvJeFd2m2ROzmrJaw9BZCshfWCyJni/Ta6PV
+        L4BeHtGKU9JlDUvhDYeLCjF2gPsEB3nWEEmVptJt14efkDCLtWlP+vg47IjycGjo
+        Bj7oJjB7A5KMKOGSxFTATfXAFrnOFLw3/bjjg0EpJlzS/7AaugtUR3QWokxUepbI
+        TrCns3kpX6Hl+oXUkOHWeFWeuuvWD1MAaWXo9kTaRwpsmoqHx5TJdgdsMXl1iepq
+        F5dST8hYuIuQcA/2LuYXOAMc8LmCUSW7BU2A6LgZ2MDwwsFxO57EHO5XQW9UCdOf
+        2mAlZiy/aSqS+s7OlUg/7tJp6npfqXTvtgxatHT9hw==
+X-ME-Sender: <xms:XIxjY4ooMqCM_Uq-CY8kkAWyGJrgMg1RRICbXa6Mgeen5EVGrhQBpg>
+    <xme:XIxjY-pa9ZhzWp4Pz3td-4SWGPVUuFD9u21ZcBl_m1mHsaS73wb3yXlrjdl5MQrbp
+    YbV3DBua0QHZWalmrA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudelgddtudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
+    udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:XIxjY9NJPkNLNumhOinsc7eegHv3sJ2jDeoL5CypcX9kbCSfedwZVg>
+    <xmx:XIxjY_5sQOVcPRqD5OR1DslPYclFMom0GWqE1VWYtAO94PNPpSRT6w>
+    <xmx:XIxjY35gxnh3Jo0bBKZpckUqbt8g8OkvqSRYEwKDAwtaJGo6uZr2Vw>
+    <xmx:XIxjY-xJgA8bgFZ4arLsUqXS3-TX9GnqsMK66mWxx6I8o-D5HgJSyQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 0B0CEB603ED; Thu,  3 Nov 2022 05:39:40 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1087-g968661d8e1-fm-20221021.001-g968661d8
+Mime-Version: 1.0
+Message-Id: <a3754259-9989-495e-a6bd-5501daff06a2@app.fastmail.com>
+In-Reply-To: <7c59a115-36c5-c954-5610-ef5ef1dbb83e@quicinc.com>
+References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
+ <20221026185846.3983888-14-quic_eberman@quicinc.com>
+ <c1f86c53-1d9f-4faf-9313-de86d33e3739@app.fastmail.com>
+ <7c59a115-36c5-c954-5610-ef5ef1dbb83e@quicinc.com>
+Date:   Thu, 03 Nov 2022 10:39:21 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Elliot Berman" <quic_eberman@quicinc.com>,
+        "Bjorn Andersson" <quic_bjorande@quicinc.com>,
+        "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
+Cc:     "Murali Nalajala" <quic_mnalajal@quicinc.com>,
+        "Trilok Soni" <quic_tsoni@quicinc.com>,
+        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
+        "Carl van Schaik" <quic_cvanscha@quicinc.com>,
+        "Prakruthi Deepak Heragu" <quic_pheragu@quicinc.com>,
+        "Andy Gross" <agross@kernel.org>,
+        "Jassi Brar" <jassisinghbrar@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        "Mark Rutland" <mark.rutland@arm.com>,
+        "Lorenzo Pieralisi" <lorenzo.pieralisi@arm.com>,
+        "Sudeep Holla" <sudeep.holla@arm.com>,
+        "Marc Zyngier" <maz@kernel.org>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Will Deacon" <will@kernel.org>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "Srinivas Kandagatla" <srinivas.kandagatla@linaro.org>,
+        "Amol Maheshwari" <amahesh@qti.qualcomm.com>,
+        "Kalle Valo" <kvalo@kernel.org>, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 13/21] gunyah: vm_mgr: Introduce basic VM Manager
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Jason Gunthorpe <jgg@nvidia.com>
-> Sent: Wednesday, October 26, 2022 2:12 AM
->=20
-> Following the pattern of io_uring, perf, skb, and bpf iommfd will use
-> user->locked_vm for accounting pinned pages. Ensure the value is included
-> in the struct and export free_uid() as iommufd is modular.
->=20
-> user->locked_vm is the good accounting to use for ulimit because it is
-> per-user, and the security sandboxing of locked pages is not supposed to
-> be per-process. Other places (vfio, vdpa and infiniband) have used
-> mm->pinned_vm and/or mm->locked_vm for accounting pinned pages, but
-> this
-> is only per-process and inconsistent with the new FOLL_LONGTERM users in
-> the kernel.
->=20
-> Concurrent work is underway to try to put this in a cgroup, so everything
-> can be consistent and the kernel can provide a FOLL_LONGTERM limit that
-> actually provides security.
->=20
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+On Wed, Nov 2, 2022, at 19:44, Elliot Berman wrote:
+> On 11/2/2022 12:31 AM, Arnd Bergmann wrote:
+>>> +static long gh_dev_ioctl_create_vm(unsigned long arg)
+>>> +{
+>>> +	struct gunyah_vm *ghvm;
+>>> +	struct file *file;
+>>> +	int fd, err;
+>>> +
+>>> +	/* arg reserved for future use. */
+>>> +	if (arg)
+>>> +		return -EINVAL;
+>> 
+>> Do you have something specific in mind here? If 'create'
+>> is the only command you support, and it has no arguments,
+>> it would be easier to do it implicitly during open() and
+>> have each fd opened from /dev/gunyah represent a new VM.
+>> 
+>
+> I'd like the argument here to support different types of virtual 
+> machines. I want to leave open what "different types" can be in case 
+> something new comes up in the future, but immediately "different type" 
+> would correspond to a few different authentication mechanisms for 
+> virtual machines that Gunyah supports.
+>
+> In this series, I'm only supporting unauthenticated virtual machines 
+> because they are the simplest to get up and running from a Linux 
+> userspace. When I introduce the other authentication mechanisms, I'll 
+> expand much more on how they work, but I'll give quick overview here. 
+> Other authentication mechanisms that are currently supported by Gunyah 
+> are "protected VM" and, on Qualcomm platforms, "PIL/carveout VMs". 
+> Protected VMs are *loosely* similar to the protected firmware design for 
+> KVM and intended to support Android virtualization use cases. 
+> PIL/carevout VMs are special virtual machines that can run on Qualcomm 
+> firmware which authenticate in a way similar to remoteproc firmware (MDT 
+> loader).
 
-Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+Ok, thanks for the background. Having different types of virtual
+machines does mean that you may need some complexity, but I would
+still lean towards using the simpler context management of opening
+the /dev/gunyah device node to get a new context, and then using
+ioctls on each fd to manage that context, instead of going through
+the extra indirection of having a secondary 'open context' command
+that always requires opening two file descriptors.
+
+>> I'm correct, you can just turn the entire bus/device/driver
+>> structure within your code into simple function calls, where
+>> the main code calls vm_mgr_probe() as an exported function
+>> instead of creating a device.
+>
+> Ack. I can do this, although I am nervous about this snowballing into a 
+> situation where I have a mega-module.
+>
+>  > Please stop beating everything in a single module.
+>
+> https://lore.kernel.org/all/250945d2-3940-9830-63e5-beec5f44010b@linaro.org/
+
+I see you concern, but I wasn't suggesting having everything
+in one module either. There are three common ways of splitting
+things into separate modules:
+
+- I suggested having the vm_mgr module as a library block that
+  exports a few symbols which get used by the core module. The
+  module doesn't do anything on its own, but loading the core
+  module forces loading the vm_mgr.
+
+- Alternatively one can do the opposite, and have symbols
+  exported by the core module, with the vm_mgr module using
+  it. This would make sense if you commonly have the core
+  module loaded on virtual machines that do not need to manage
+  other VMs.
+
+- The method you have is to have a lower "bus" level that
+  abstracts device providers from consumers, with both sides
+  hooking into the bus. This makes sense for physical buses
+  like PCI or USB where both the host driver and the function
+  driver are unaware of implementation details of the other,
+  but in your case it does not seem like a good fit.
+
+        Arnd
