@@ -2,280 +2,209 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE1D6C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 03:50:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB82BC4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 05:03:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230315AbiKCDuf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 23:50:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41744 "EHLO
+        id S230073AbiKCFDP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 01:03:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230314AbiKCDuY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 23:50:24 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CEB315FED;
-        Wed,  2 Nov 2022 20:50:23 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id d13-20020a17090a3b0d00b00213519dfe4aso682881pjc.2;
-        Wed, 02 Nov 2022 20:50:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iWVR2ehQGeZFXPOJNknn3hmzbHnYOWV57filXnjqjrU=;
-        b=IljhQhIC/sgv7OmXIphyRoF1Fm2arV5E5U02Kgp8tUT+YAED6LwaG9RD4QoU9CUSP5
-         1/JNzISZO7e0k7LVi4Nhh5KwB3CiEdhylwRBnpUuPf9JfG2iFOLa5bBg4N7u4W1/WhBl
-         LJQGh6yVWhaw0tytwIyyV/ZB5HPOV0pCuqYcSOAT9NwusSA0CGBvX+EyWy3UKnp5kXPg
-         nIFT6Dh82si3xpSAfsD2M3v8F8yWE/FhhpLtf3lkKEWv52m501EQ66Nykxayp1XTqDvL
-         WAWBvQlIHGidKNnNKDn8JmAbCkreN9tLcEXmsdG3J1CBqteqkisOYXXjzr5N4tg3qu+Q
-         7XoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iWVR2ehQGeZFXPOJNknn3hmzbHnYOWV57filXnjqjrU=;
-        b=t0Gi1uSIOqt7X6qCl71cWJZA9S93adZj2MwMDiegXgcj1oSEhYiTI6Qp0T8hIVHz9f
-         dvAMUJudIU+RtVDMazsLH3yJgyvnhobtBz0g4cY6Tpyofw+k+9N/fp3JOOjE4ZKra3PM
-         oDpNsAWKcMpq+H2RDLqQuTmjaCku/pPTFDXd/l+YrMfWCUU6qvNbK2EjVlbYZS+1YDL/
-         97VvhottBIxACmMjmWt/vp6A7DBopqIa6YlUaiMMMuUC7ltFlHhmTvpvw0PKgovd+Z45
-         pOsKbtQtxhEHP83HTaDYVJRaDTrnax8DdcG1zGyszlIZfBJdD+g+9hZUdr/dbdIWG3Od
-         YOfA==
-X-Gm-Message-State: ACrzQf1z1c43ALdPVjiICogaILOVWMtMRKZnl7woN4oYROV4R0K2iWew
-        noQ+cYYzn82zI5fuTRfMjhg=
-X-Google-Smtp-Source: AMsMyM59vsw1ww2iJDViww6QqEMLB7bqz+DWsHRCrrgQ+b/6qP0v4EaYmz/ye+GUsaHp7b3ofc0NxA==
-X-Received: by 2002:a17:90a:c78a:b0:212:e56b:2b17 with SMTP id gn10-20020a17090ac78a00b00212e56b2b17mr29293540pjb.51.1667447423005;
-        Wed, 02 Nov 2022 20:50:23 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-93.three.co.id. [180.214.232.93])
-        by smtp.gmail.com with ESMTPSA id u18-20020a170902e81200b001868d4600b8sm9150731plg.158.2022.11.02.20.50.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Nov 2022 20:50:21 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 51DCA1032A1; Thu,  3 Nov 2022 10:50:18 +0700 (WIB)
-Date:   Thu, 3 Nov 2022 10:50:17 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Usama Arif <usama.arif@bytedance.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, linux@armlinux.org.uk,
-        yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org,
-        maz@kernel.org, steven.price@arm.com, mark.rutland@arm.com,
-        fam.zheng@bytedance.com, liangma@liangbit.com,
-        punit.agrawal@bytedance.com
-Subject: Re: [RFC 1/6] KVM: arm64: Document PV-lock interface
-Message-ID: <Y2M6eU6xW7jjVQNx@debian.me>
-References: <20221102161340.2982090-1-usama.arif@bytedance.com>
- <20221102161340.2982090-2-usama.arif@bytedance.com>
+        with ESMTP id S229459AbiKCFDO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 01:03:14 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5673217E20;
+        Wed,  2 Nov 2022 22:03:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667451793; x=1698987793;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=WlsoWM3cXQ40rTxzgRf+zKSEXCNgez6ahPIqPjBOkd0=;
+  b=maBE11NLqk5UyVaTEQzcHC0szK2srUaciphplg4qctOqqC4wuYbJfL/d
+   g4P/HkiLrmV/sCvZ8i1eh6AS6snIHx/Gi8D9HqeiLEFYV3zLAIEQEX+iK
+   XQO5VpQY45oo5q0jGEbI125lJPuYLZ3HF9KJ0xvTZYI9EcwthDHGO17o9
+   qZBnI6l+a20BROWusRLQMsY5pC6cMNf8uxi2BeskIgUYW859gNZsiJLxN
+   IP+ob2yTbJgrKXSBSXeI10xnjAklEe7sccH4zydlnV/ifYMTBIdejs9Kp
+   FbH5gnMLK7fTkfwlUipOJg9f/GI+45R32c386i3E2U6w1BVhlgZnc/WAl
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="289299866"
+X-IronPort-AV: E=Sophos;i="5.95,235,1661842800"; 
+   d="scan'208";a="289299866"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2022 22:03:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="759806889"
+X-IronPort-AV: E=Sophos;i="5.95,235,1661842800"; 
+   d="scan'208";a="759806889"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orsmga004.jf.intel.com with ESMTP; 02 Nov 2022 22:03:12 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 2 Nov 2022 22:03:11 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 2 Nov 2022 22:03:11 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Wed, 2 Nov 2022 22:03:11 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.107)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Wed, 2 Nov 2022 22:03:10 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GN16u5A1heeBKuFlw2bWNehIoTl1E1Turc7cDdEYb625LggjlSbpmxzUD150C1B3Qs5ets88JD11U/vSZttCBqfH60UD/eJzqz/sV5F3bVp/AFc+RIRgTN5BmFsOrltB4AFm/6glmXmgrdCqGNJwEPYqKHBfrb38mCh5XsSA8Sx3xEqACyS7hVDS1HBJ8Xjx37IXYnedGooNvV+vN0ocXOQ7YhJhoWoM+vLEU0v3R/n03W/SOwM2b/ZW1PMjob491fB+VXpa+DMJI+fsQdwsd9lsPseC04LJE+VT/4zJcVJ7sld2CzuYcxVM/qbvedrA1OHsXFrqp9b0be6q7XFxwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nyuge1T/gEUBOaXmzilULfHQeBwmdTMPA+dhQMm2Lds=;
+ b=CUZQlXxMEpi5aXmCCmDHsjcIaOKUpAGwvFUdNvc146HmJ9DsUGwbz3WIGirywGRN7w4oZw6/rk3qS0OLaSreAgC9fn5JMsnQXqnyETLfCyTHg6E/LzO4MdxjTzNMOd/2UQ3OUpY8qoQZbYcB+itYQSZGQ4+zG+rNF9nvHdgm5rdviop2OjnagJTYsPHEt8nzlYZXb3RG8vNpR16iQQxb/+PndHsLUJ9DPCQ3gsdfPhkP1rw2VXrutkFKgP2TF2gGqAcYeZ2ms5J4/+4Yny/jYqLhR7G/qzo5K8OYUcSiyZxDfmncLsKQw0OVzssfG6n9N+ikSejjcNFTE0veskaiHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by PH0PR11MB5015.namprd11.prod.outlook.com (2603:10b6:510:39::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.21; Thu, 3 Nov
+ 2022 05:03:02 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::737e:211a:bb53:4cd7]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::737e:211a:bb53:4cd7%5]) with mapi id 15.20.5791.022; Thu, 3 Nov 2022
+ 05:03:02 +0000
+From:   "Tian, Kevin" <kevin.tian@intel.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+        Joerg Roedel <joro@8bytes.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
+CC:     Alex Williamson <alex.williamson@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        "Jason Wang" <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        "Martins, Joao" <joao.m.martins@oracle.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        "Niklas Schnelle" <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        Keqian Zhu <zhukeqian1@huawei.com>
+Subject: RE: [PATCH v3 01/15] iommu: Add IOMMU_CAP_ENFORCE_CACHE_COHERENCY
+Thread-Topic: [PATCH v3 01/15] iommu: Add IOMMU_CAP_ENFORCE_CACHE_COHERENCY
+Thread-Index: AQHY6J1pKmFlCrqKv0W024OFAAUm9K4ssNig
+Date:   Thu, 3 Nov 2022 05:03:01 +0000
+Message-ID: <BN9PR11MB5276F41D50FFAFFCC8186B238C389@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <1-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+In-Reply-To: <1-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|PH0PR11MB5015:EE_
+x-ms-office365-filtering-correlation-id: 356cd29b-2411-4e91-e3b4-08dabd58af17
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: AgYdYCv+p946+T/1CAhe2Ps0UBH/3PTT4nrGF5iXffSn9ItG0qyFUi+ITPtXjj4jKLi/zdhb/M9V6UBYKzm/6SMj5p03vWRqTMYGYr/BfOi2YOaPB/PaUmfAhVHp1GMJJskgC+mzkLv7JpV1z/wsL4XjYdj3qvhN5LTJIez4kYhPenbrGB/CYanFBY6R/Dcg2Qi51GRyFe5IL8lSVHjxcxcutbQ/uP1YuiIxVX7L6/X7Ymgns4haen5vV1fAhtDDRClWkQ85rsPDYhPY7Lt+y5Mmz4YNrB9Ddo4R5F5fmjH5OQN/+UQDapZGguS1lTOVRYfl2dqDY1uWnarrBfwRLp0/oXNqEHSvTNtKYBjlp3uw5tdX0GRUO82ff/45/ih17sJBip2BiSTRt4Dtn7V3Sv8oj4jQ4gycRG0gPAsSQwPaOcgy6oYLiXQy1O/LbZbq21TGvUdRFUTx4wFGfLsD3PyJ8OuCF0OjhjNPTK7HmMSEOWsOIhQhg06WLSrS/BttBLt8qAscnHBAeXR+YLjhAM5XR7xMNqSj95M28aknWw7bjdSMRKAHwT5+FZh6L0beER2VatuvJa6MozkU250ZkXqDo6H4nbYNCsMu0SsUgMMw52Su8kYtWK6IAJ2yceiw4s/wa6cLz/HPfVV3sam5mgb7/C6mGbHLDukG45vOfoV4EyDyHK3pONoVaF6Uu0VHxZ247KuKP+7RBZPyyauIp4uj9N7FcfHbrSyMlEVpNAKfaYObCojPIoEsXik4vt1HGOP1aBcSDW3sZrFlFhBuhYVyGqS4NNfYorypSeGP7ng=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(39860400002)(366004)(376002)(346002)(396003)(451199015)(66556008)(38070700005)(86362001)(38100700002)(122000001)(55016003)(33656002)(82960400001)(921005)(41300700001)(71200400001)(52536014)(316002)(4326008)(110136005)(9686003)(186003)(478600001)(26005)(7406005)(54906003)(5660300002)(8936002)(7416002)(4744005)(64756008)(66446008)(66476007)(8676002)(7696005)(66946007)(6506007)(76116006)(2906002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?egewr6HOfJoQCcIIzZ4YRgvtAFyz/Pxg0kJQZqrUciREzJN349Z/tha4XHJE?=
+ =?us-ascii?Q?zwgKtv8ob4f8Eu7v9QeKB8Cgp2o65Z9Tppg5/klqw33zD4BbhEbfesem//GY?=
+ =?us-ascii?Q?sM4VuWfqnhehucYvFUvtTApVLStV3JwiaAEGK0BGe9aZjFEr/tkTTSpr73Ti?=
+ =?us-ascii?Q?syLdAeA7JK76cdS9apmdpTDFLvI5szosBbeYB/iUpxqboNrb/KYH67sUFuui?=
+ =?us-ascii?Q?fam+5FL9DknNqxuXh7newGnzOjvahBbaPURG8ARWGfb/TG63DJ2tnbLnSGWH?=
+ =?us-ascii?Q?yah2mALVo/m1ZTLjheC9KD4D1Bj3i9agv93QY3CB6JY3/2cPVIq3icOIcYxP?=
+ =?us-ascii?Q?j+nvzP7ieoniMy6ij6VNGH8KnRawoGK0rGG88t7l53d1Xw64MlhF27DXS7iV?=
+ =?us-ascii?Q?2J7HlXRe4T2a18BlofcfgGBxu6iE1q5u7kumxB5wCiZFgVW+WlOxnBRk0hyN?=
+ =?us-ascii?Q?3/71JfCm8XyuueC63DpITWdaH/lwU1vEF3+u8tRt443DX65zMVyb2opGRqQj?=
+ =?us-ascii?Q?EJp7v91lz59714+iRh2d5bgVPNyp3fvYXh0c42jVu04pTvVScAllPy4Ctzhh?=
+ =?us-ascii?Q?7gB2rwIDWLPGb76XXSyOpkNE5mvy2hwIdMPWjAn/O32VTyxshq8suDNESRHy?=
+ =?us-ascii?Q?I6hRkaTqDUDthWnK4/0q1YfAPam/y1hJcIiH6p7+kMI6MpKQWmF/vhWprlww?=
+ =?us-ascii?Q?gEtZlDSYbzbzhcj1qAsVlaGScS9YHCPs3udfJFVB0odv2uDeg/+A6NrxL8r9?=
+ =?us-ascii?Q?Dk1qqGTQUZ+AA9yUe2C00BKy96OkaGK0R/mcttmt37M0kyvgE/pGzznxr75e?=
+ =?us-ascii?Q?xqILGeeu00gS0R6/PWEgoEkNZi824CdTevxXt7A9MNFvvVyb7nlN9bU9GqUO?=
+ =?us-ascii?Q?Ayoo/bagLwhw2ywd7MBcFKIMZyLjsz1kq8bnVRdAlrmK962yEZIhe0w6l3ny?=
+ =?us-ascii?Q?Bk7QKfx+4TPyarTQYc+lDEgLrNjFgx5aD2iKHF0X/cN1eXq+V2Wnf3b6YURg?=
+ =?us-ascii?Q?lQYHEH33gt83HelpxbBy3Gd6C+subJhROfeS1Buo+ogqV0oxmigZ8CzfBxI+?=
+ =?us-ascii?Q?DLFUj4aA2/pgKmxbDCfmhswRC2T7xgPcniL6tfoa2OSoG6wMaFQ2el+8QG8j?=
+ =?us-ascii?Q?pP9BgDQse36uFbkvybovlQr8jlJRVFVSXaX+HMVhziUQ2ms2NBP2z7iiXWMw?=
+ =?us-ascii?Q?hXY3PBRWkHEq0Op5TFkCnzY0r84CygiqUI65FIXw8DVqoLawXBiT/xC8XkcS?=
+ =?us-ascii?Q?+Qi1IZrzO3mLaZy2w2T6GFEz3xbKgrtFMZOp+TO+W9Z5Asho41xt1NoUVaoL?=
+ =?us-ascii?Q?EaDph8yY798fdudoKkTLE6o+FZVLxxiccX9YzlVZqwadcW2u+9zl/Dwz7fRz?=
+ =?us-ascii?Q?uRUzYx0SNxBpff1Qn6Qeg4uotOp9IxXeyIMPZVHK133G3IzO67KsPKd2aoBO?=
+ =?us-ascii?Q?uXeE2AVW6NWOGuX6Hl/BBJjSu3VwxZ2C2k732OAxi1dQGll8JINKdeUHpjrl?=
+ =?us-ascii?Q?BzCuR35gfT1TMIejxnXB2ZB8q/eqcsGKqMtAQzWbPTW3WN6jfpBJKOu2Ub9E?=
+ =?us-ascii?Q?QxvpyhklYGqSORW7xX4SHSExGWRcsP7vzQqUDRS3?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="0kw+g6XS/JN44czt"
-Content-Disposition: inline
-In-Reply-To: <20221102161340.2982090-2-usama.arif@bytedance.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 356cd29b-2411-4e91-e3b4-08dabd58af17
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2022 05:03:01.8071
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9dugcSgRdV00XaytH5jfkAaeR3Hr2OWRabkJJf74l3WtpyGY5pYbz8U8RrKkIKzE+UoN7OA/+Ntn+Cu6OJX5SQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5015
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+> From: Jason Gunthorpe <jgg@nvidia.com>
+> Sent: Wednesday, October 26, 2022 2:12 AM
+>=20
+> This queries if a domain linked to a device should expect to support
+> enforce_cache_coherency() so iommufd can negotiate the rules for when a
+> domain should be shared or not.
+>=20
+> For iommufd a device that declares
+> IOMMU_CAP_ENFORCE_CACHE_COHERENCY will
+> not be attached to a domain that does not support it.
+>=20
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 
---0kw+g6XS/JN44czt
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Kevin Tian <kevin.tian@intel.com>, with one nit
 
-On Wed, Nov 02, 2022 at 04:13:35PM +0000, Usama Arif wrote:
-> +    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +    Function ID:  (uint32)    0xC6000020
-> +    PV_call_id:   (uint32)    The function to query for support.
-> +                              Currently only PV_LOCK_PREEMPTED is suppor=
-ted.
-> +    Return value: (int64)     NOT_SUPPORTED (-1) or SUCCESS (0) if the r=
-elevant
-> +                              PV-lock feature is supported by the hyperv=
-isor.
-> +    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +PV_LOCK_PREEMPTED
-> +    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +    Function ID:  (uint32)    0xC6000021
-> +    Return value: (int64)     IPA of the pv lock data structure for this
-> +                              VCPU. On failure:
-> +                              NOT_SUPPORTED (-1)
-> +    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
+> @@ -4458,7 +4458,11 @@ static bool intel_iommu_capable(struct device
+> *dev, enum iommu_cap cap)
+>  		return irq_remapping_enabled =3D=3D 1;
+>  	if (cap =3D=3D IOMMU_CAP_PRE_BOOT_PROTECTION)
+>  		return dmar_platform_optin();
+> +	if (cap =3D=3D IOMMU_CAP_ENFORCE_CACHE_COHERENCY) {
+> +		struct device_domain_info *info =3D dev_iommu_priv_get(dev);
+>=20
+> +		return ecap_sc_support(info->iommu->ecap);
+> +	}
+>  	return false;
+>  }
 
-You need to fix up these tables above:
-
----- >8 ----
-
-diff --git a/Documentation/virt/kvm/arm/pvlock.rst b/Documentation/virt/kvm=
-/arm/pvlock.rst
-index 766aeef50b2d31..940a1cb221bc90 100644
---- a/Documentation/virt/kvm/arm/pvlock.rst
-+++ b/Documentation/virt/kvm/arm/pvlock.rst
-@@ -15,21 +15,23 @@ The existence of the PV_LOCK hypercall should be probed=
- using the SMCCC 1.1
- ARCH_FEATURES mechanism before calling it.
-=20
- PV_LOCK_FEATURES
--    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-     Function ID:  (uint32)    0xC6000020
-     PV_call_id:   (uint32)    The function to query for support.
-                               Currently only PV_LOCK_PREEMPTED is supporte=
-d.
-     Return value: (int64)     NOT_SUPPORTED (-1) or SUCCESS (0) if the rel=
-evant
-                               PV-lock feature is supported by the hypervis=
-or.
--    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
- PV_LOCK_PREEMPTED
--    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-     Function ID:  (uint32)    0xC6000021
-     Return value: (int64)     IPA of the pv lock data structure for this
-                               VCPU. On failure:
-                               NOT_SUPPORTED (-1)
--    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
- The IPA returned by PV_LOCK_PREEMPTED should be mapped by the guest as nor=
-mal
- memory with inner and outer write back caching attributes, in the inner
-
-The similar fixup should also be made to the tables in
-Documentation/virt/kvm/arm/pvtime.rst, though.
-
-> +The IPA returned by PV_LOCK_PREEMPTED should be mapped by the guest as n=
-ormal
-> +memory with inner and outer write back caching attributes, in the inner
-> +shareable domain.
-> +
-> +PV_LOCK_PREEMPTED returns the structure for the calling VCPU.
-> +
-> +PV lock state
-> +-------------
-> +
-> +The structure pointed to by the PV_LOCK_PREEMPTED hypercall is as follow=
-s:
-> +
-> ++-----------+-------------+-------------+-------------------------------=
---+
-> +| Field     | Byte Length | Byte Offset | Description                   =
-  |
-> ++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
-> +| preempted |      8      |      0      | Indicate if the VCPU that owns=
-  |
-> +|           |             |             | this struct is running or not.=
-  |
-> +|           |             |             | Non-zero values mean the VCPU =
-  |
-> +|           |             |             | has been preempted. Zero means=
-  |
-> +|           |             |             | the VCPU is not preempted.    =
-  |
-> ++-----------+-------------+-------------+-------------------------------=
---+
-> +
-> +The preempted field will be updated to 1 by the hypervisor prior to sche=
-duling
-> +a VCPU. When the VCPU is scheduled out, the preempted field will be upda=
-ted
-> +to 0 by the hypervisor.
-> +
-> +The structure will be present within a reserved region of the normal mem=
-ory
-> +given to the guest. The guest should not attempt to write into this memo=
-ry.
-> +There is a structure per VCPU of the guest.
-> +
-> +For the user space interface see Documentation/virt/kvm/devices/vcpu.rst
-> +section "4. GROUP: KVM_ARM_VCPU_PVLOCK_CTRL".
-
-Use reST labels for cross-referencing to the documentation section:
-
----- >8 ----
-
-diff --git a/Documentation/virt/kvm/arm/pvlock.rst b/Documentation/virt/kvm=
-/arm/pvlock.rst
-index 940a1cb221bc90..4e9d09b76ef033 100644
---- a/Documentation/virt/kvm/arm/pvlock.rst
-+++ b/Documentation/virt/kvm/arm/pvlock.rst
-@@ -62,5 +62,5 @@ The structure will be present within a reserved region of=
- the normal memory
- given to the guest. The guest should not attempt to write into this memory.
- There is a structure per VCPU of the guest.
-=20
--For the user space interface see Documentation/virt/kvm/devices/vcpu.rst
--section "4. GROUP: KVM_ARM_VCPU_PVLOCK_CTRL".
-+For the user space interface see :ref:`KVM_VCPU_TSC_CTRL in Generic vcpu
-+interface documentation <kvm-vcpu-tsc-ctrl>`.
-diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/k=
-vm/devices/vcpu.rst
-index 223ac2fe62f01f..6532f61073a39c 100644
---- a/Documentation/virt/kvm/devices/vcpu.rst
-+++ b/Documentation/virt/kvm/devices/vcpu.rst
-@@ -194,6 +194,8 @@ base address must be 64 byte aligned and exist within a=
- valid guest memory
- region. See Documentation/virt/kvm/arm/pvtime.rst for more information
- including the layout of the stolen time structure.
-=20
-+.. _kvm-vcpu-tsc-ctrl:
-+
- 4. GROUP: KVM_VCPU_TSC_CTRL
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-=20
-
-Also, you need to add the documentation to table of contents (index):
-
----- >8 ----
-
-diff --git a/Documentation/virt/kvm/arm/index.rst b/Documentation/virt/kvm/=
-arm/index.rst
-index e8484843215808..b8499dc00a6a96 100644
---- a/Documentation/virt/kvm/arm/index.rst
-+++ b/Documentation/virt/kvm/arm/index.rst
-@@ -10,4 +10,5 @@ ARM
-    hyp-abi
-    hypercalls
-    pvtime
-+   pvlock
-    ptp_kvm
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---0kw+g6XS/JN44czt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2M6dAAKCRD2uYlJVVFO
-o6ypAQC4gXIOLzJaG1xrERxYGFbFMVCxsI4H9zRtmvL0N59oZAD+I4W4aE89G8OC
-aMB8yxTT1P3MYgIXYCERt69q1eOhAw0=
-=7yrW
------END PGP SIGNATURE-----
-
---0kw+g6XS/JN44czt--
+use switch/case while making this change.
