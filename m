@@ -2,182 +2,262 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 718E2C433FE
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 09:39:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B212C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 10:25:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229871AbiKCJjm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 05:39:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52668 "EHLO
+        id S230085AbiKCKZH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 06:25:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbiKCJjl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 05:39:41 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAD1F10B5;
-        Thu,  3 Nov 2022 02:39:40 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 507F15C01E2;
-        Thu,  3 Nov 2022 05:39:40 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Thu, 03 Nov 2022 05:39:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; t=1667468380; x=1667554780; bh=pq/dGHH7V9
-        vQT6il3oQy+WRKjBkAdF1iwzEfdpBBAcM=; b=h82CMvLjI4pEqGK5Z6rVCRoZv7
-        7pTlIaSBYqIjWxZcUYFbuy/gcy++JmAv2r//H+GrR/WODosjTa7ncunOlqFP7Wk4
-        F6K1HsiHvMCG642I52eDomwVEipur5kW2pnUy8N/TCaw3DuNznhO6sMjm0ptnVrh
-        43VvSyaxdlFzSuuc5tduOaOKTeIoZF8tGALTVMM/JkCRp4PzowPbECTkm61Sv+Jh
-        nVdNN3d1S2Cu2+asamQT5FW/wHLG42t5vtelBX3VibkNWYYUR4jnfGjKu5SyKjWu
-        NmZVjAZPO1hNJ5vrAXKufLHSnTrne3qv5EnIbsJqkP1DIUEiojM1fNkPifqA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1667468380; x=1667554780; bh=pq/dGHH7V9vQT6il3oQy+WRKjBkA
-        dF1iwzEfdpBBAcM=; b=i3hyaQtYrvJeFd2m2ROzmrJaw9BZCshfWCyJni/Ta6PV
-        L4BeHtGKU9JlDUvhDYeLCjF2gPsEB3nWEEmVptJt14efkDCLtWlP+vg47IjycGjo
-        Bj7oJjB7A5KMKOGSxFTATfXAFrnOFLw3/bjjg0EpJlzS/7AaugtUR3QWokxUepbI
-        TrCns3kpX6Hl+oXUkOHWeFWeuuvWD1MAaWXo9kTaRwpsmoqHx5TJdgdsMXl1iepq
-        F5dST8hYuIuQcA/2LuYXOAMc8LmCUSW7BU2A6LgZ2MDwwsFxO57EHO5XQW9UCdOf
-        2mAlZiy/aSqS+s7OlUg/7tJp6npfqXTvtgxatHT9hw==
-X-ME-Sender: <xms:XIxjY4ooMqCM_Uq-CY8kkAWyGJrgMg1RRICbXa6Mgeen5EVGrhQBpg>
-    <xme:XIxjY-pa9ZhzWp4Pz3td-4SWGPVUuFD9u21ZcBl_m1mHsaS73wb3yXlrjdl5MQrbp
-    YbV3DBua0QHZWalmrA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudelgddtudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
-    udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:XIxjY9NJPkNLNumhOinsc7eegHv3sJ2jDeoL5CypcX9kbCSfedwZVg>
-    <xmx:XIxjY_5sQOVcPRqD5OR1DslPYclFMom0GWqE1VWYtAO94PNPpSRT6w>
-    <xmx:XIxjY35gxnh3Jo0bBKZpckUqbt8g8OkvqSRYEwKDAwtaJGo6uZr2Vw>
-    <xmx:XIxjY-xJgA8bgFZ4arLsUqXS3-TX9GnqsMK66mWxx6I8o-D5HgJSyQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 0B0CEB603ED; Thu,  3 Nov 2022 05:39:40 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1087-g968661d8e1-fm-20221021.001-g968661d8
-Mime-Version: 1.0
-Message-Id: <a3754259-9989-495e-a6bd-5501daff06a2@app.fastmail.com>
-In-Reply-To: <7c59a115-36c5-c954-5610-ef5ef1dbb83e@quicinc.com>
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-14-quic_eberman@quicinc.com>
- <c1f86c53-1d9f-4faf-9313-de86d33e3739@app.fastmail.com>
- <7c59a115-36c5-c954-5610-ef5ef1dbb83e@quicinc.com>
-Date:   Thu, 03 Nov 2022 10:39:21 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Elliot Berman" <quic_eberman@quicinc.com>,
-        "Bjorn Andersson" <quic_bjorande@quicinc.com>,
-        "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-Cc:     "Murali Nalajala" <quic_mnalajal@quicinc.com>,
-        "Trilok Soni" <quic_tsoni@quicinc.com>,
-        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
-        "Carl van Schaik" <quic_cvanscha@quicinc.com>,
-        "Prakruthi Deepak Heragu" <quic_pheragu@quicinc.com>,
-        "Andy Gross" <agross@kernel.org>,
-        "Jassi Brar" <jassisinghbrar@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        "Lorenzo Pieralisi" <lorenzo.pieralisi@arm.com>,
-        "Sudeep Holla" <sudeep.holla@arm.com>,
-        "Marc Zyngier" <maz@kernel.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Will Deacon" <will@kernel.org>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "Srinivas Kandagatla" <srinivas.kandagatla@linaro.org>,
-        "Amol Maheshwari" <amahesh@qti.qualcomm.com>,
-        "Kalle Valo" <kvalo@kernel.org>, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 13/21] gunyah: vm_mgr: Introduce basic VM Manager
+        with ESMTP id S231192AbiKCKZG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 06:25:06 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 187AEDE87;
+        Thu,  3 Nov 2022 03:25:05 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id bs21so2063520wrb.4;
+        Thu, 03 Nov 2022 03:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wcw3vDILN+VEHTzCfmu4v27x19X3i1q7FXp645flK6U=;
+        b=UL7CofUqPSXbNsY8WOzUTJyCfMZCfHpLZ2ItSBRonkS21jz3vK8nnIgMU/daI0+ydr
+         AQ12sIHRu1lgI3We49QIvGiLBkdtB+QevOLm/yaPAoXFrqta1r1GyW9LVYqbv5jZLuER
+         hHAaEL6e0PWdpiQWOLDmoHCLK9KWvh42pvqHnUzZrjC+08kHySZ6rq0lvAIWBoScDfla
+         VoaR7inIvA4F0HQV0+hMAbc1+Hsw4NY7w9FF5sKVBLn0wv2CHPbAGjncXw/AQLZu1rLt
+         Poe6JAfeZ7cwRTGeSOCMUBPaUfWLhqnU4KRG6Mxq8XhzLeaHV3Ng/OcpLjxM6d+UcWwZ
+         IpoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wcw3vDILN+VEHTzCfmu4v27x19X3i1q7FXp645flK6U=;
+        b=nUwGjrO0pXdtE6YYjwrpndbpRm0Yt2XqHK06h7UpU38kHkau1Wy4UrY8n3EfDD4kIM
+         juPWS6kDewoAOjnojpRMDnLfRKUbXWt1cUGNhSKah7e1DlRwsaYIxPpR8V94eKiZ51WS
+         /p8MfMBEaJxEmsVLcB3xUvgD57Rr3eEFCtOD3jL9YlG+S1/9726XbV74H/jilehFaQVe
+         7uedgqmfUmDU7nDY8epulgZKZKppJ5YQGldkrmRceun1CY3Nd/0i3W6+UxJzcl0TZLHa
+         /Zry85nNRz9RFpSkhf2ZSplSvSpsw1P6AXjnEa9SLgQbyivBaqW1SRrp9dv5fwsWW+Qr
+         cz5A==
+X-Gm-Message-State: ACrzQf3cxjZ0JZroLSPNQbi7X2wT+EgHR/fND7ziV5TV+a3ofPDGYdNq
+        8piw9zmkVqTPwjApAZ8IkVc=
+X-Google-Smtp-Source: AMsMyM7xwdlAqiDVEIAz8d1gSI7tOaoJiw80uyoGhG74NvLVcPUes2rguRn3h1zztYX2AHC6tMfMkg==
+X-Received: by 2002:a5d:4846:0:b0:236:64b1:50fe with SMTP id n6-20020a5d4846000000b0023664b150femr18498398wrs.672.1667471103322;
+        Thu, 03 Nov 2022 03:25:03 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:b0e4:331f:74b1:5cc8])
+        by smtp.gmail.com with ESMTPSA id l2-20020a05600c1d0200b003cf878c4468sm5829695wms.5.2022.11.03.03.25.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Nov 2022 03:25:02 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     mtahhan@redhat.com
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
+        thoiland@redhat.com, Lorenzo Bianconi <lorenzo@kernel.org>
+Subject: Re: [PATCH bpf-next v2 1/1] docs: BPF_MAP_TYPE_CPUMAP
+In-Reply-To: <20221102124416.2820268-2-mtahhan@redhat.com>
+        (mtahhan@redhat.com's message of "Wed, 2 Nov 2022 08:44:16 -0400")
+Date:   Thu, 03 Nov 2022 10:24:49 +0000
+Message-ID: <m2mt98tjwu.fsf@gmail.com>
+References: <20221102124416.2820268-1-mtahhan@redhat.com>
+        <20221102124416.2820268-2-mtahhan@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
+MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 2, 2022, at 19:44, Elliot Berman wrote:
-> On 11/2/2022 12:31 AM, Arnd Bergmann wrote:
->>> +static long gh_dev_ioctl_create_vm(unsigned long arg)
->>> +{
->>> +	struct gunyah_vm *ghvm;
->>> +	struct file *file;
->>> +	int fd, err;
->>> +
->>> +	/* arg reserved for future use. */
->>> +	if (arg)
->>> +		return -EINVAL;
->> 
->> Do you have something specific in mind here? If 'create'
->> is the only command you support, and it has no arguments,
->> it would be easier to do it implicitly during open() and
->> have each fd opened from /dev/gunyah represent a new VM.
->> 
+mtahhan@redhat.com writes:
+
+> From: Maryam Tahhan <mtahhan@redhat.com>
 >
-> I'd like the argument here to support different types of virtual 
-> machines. I want to leave open what "different types" can be in case 
-> something new comes up in the future, but immediately "different type" 
-> would correspond to a few different authentication mechanisms for 
-> virtual machines that Gunyah supports.
+> Add documentation for BPF_MAP_TYPE_CPUMAP including
+> kernel version introduced, usage and examples.
 >
-> In this series, I'm only supporting unauthenticated virtual machines 
-> because they are the simplest to get up and running from a Linux 
-> userspace. When I introduce the other authentication mechanisms, I'll 
-> expand much more on how they work, but I'll give quick overview here. 
-> Other authentication mechanisms that are currently supported by Gunyah 
-> are "protected VM" and, on Qualcomm platforms, "PIL/carveout VMs". 
-> Protected VMs are *loosely* similar to the protected firmware design for 
-> KVM and intended to support Android virtualization use cases. 
-> PIL/carevout VMs are special virtual machines that can run on Qualcomm 
-> firmware which authenticate in a way similar to remoteproc firmware (MDT 
-> loader).
-
-Ok, thanks for the background. Having different types of virtual
-machines does mean that you may need some complexity, but I would
-still lean towards using the simpler context management of opening
-the /dev/gunyah device node to get a new context, and then using
-ioctls on each fd to manage that context, instead of going through
-the extra indirection of having a secondary 'open context' command
-that always requires opening two file descriptors.
-
->> I'm correct, you can just turn the entire bus/device/driver
->> structure within your code into simple function calls, where
->> the main code calls vm_mgr_probe() as an exported function
->> instead of creating a device.
+> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
+> Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
+> Co-developed-by: Lorenzo Bianconi <lorenzo@kernel.org>
+> ---
+>  Documentation/bpf/map_cpumap.rst | 140 +++++++++++++++++++++++++++++++
+>  1 file changed, 140 insertions(+)
+>  create mode 100644 Documentation/bpf/map_cpumap.rst
 >
-> Ack. I can do this, although I am nervous about this snowballing into a 
-> situation where I have a mega-module.
->
->  > Please stop beating everything in a single module.
->
-> https://lore.kernel.org/all/250945d2-3940-9830-63e5-beec5f44010b@linaro.org/
+> diff --git a/Documentation/bpf/map_cpumap.rst b/Documentation/bpf/map_cpumap.rst
+> new file mode 100644
+> index 000000000000..23320fb61bf7
+> --- /dev/null
+> +++ b/Documentation/bpf/map_cpumap.rst
+> @@ -0,0 +1,140 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +.. Copyright (C) 2022 Red Hat, Inc.
+> +
+> +===================
+> +BPF_MAP_TYPE_CPUMAP
+> +===================
+> +
+> +.. note::
+> +   - ``BPF_MAP_TYPE_CPUMAP`` was introduced in kernel version 4.15
+> +
+> +``BPF_MAP_TYPE_CPUMAP`` is primarily used as a backend map for the XDP BPF
+> +helpers ``bpf_redirect_map()`` and ``XDP_REDIRECT`` action. This map type redirects raw
+> +XDP frames to another CPU.
+> +
+> +A CPUMAP is a scalability and isolation mechanism that allows the steering of packets
+> +to dedicated CPUs for processing. An example use-case for this map type is software
+> +based Receive Side Scaling (RSS).
+> +
+> +The CPUMAP represents the CPUs in the system indexed as the map-key, and the
+> +map-value is the config setting (per CPUMAP entry). Each CPUMAP entry has a dedicated
+> +kernel thread bound to the given CPU to represent the remote CPU execution unit.
+> +
+> +Starting from Linux kernel version 5.9 the CPUMAP can run a second XDP program
+> +on the remote CPU. This allows an XDP program to split its processing across
+> +multiple CPUs. For example, a scenario where the initial CPU (that sees/receives
+> +the packets) needs to do minimal packet processing and the remote CPU (to which
+> +the packet is directed) can afford to spend more cycles processing the frame. The
+> +initial CPU is where the XDP redirect program is executed. The remote CPU
+> +receives raw``xdp_frame`` objects.
 
-I see you concern, but I wasn't suggesting having everything
-in one module either. There are three common ways of splitting
-things into separate modules:
+Nit - missing space between raw and ``xdp_frame`` is breaking formatting.
 
-- I suggested having the vm_mgr module as a library block that
-  exports a few symbols which get used by the core module. The
-  module doesn't do anything on its own, but loading the core
-  module forces loading the vm_mgr.
+> +
+> +Usage
+> +=====
 
-- Alternatively one can do the opposite, and have symbols
-  exported by the core module, with the vm_mgr module using
-  it. This would make sense if you commonly have the core
-  module loaded on virtual machines that do not need to manage
-  other VMs.
+Can you add subheadings for "Kernel BPF" and "Userspace" and move
+update, lookup, delete under "Userspace".
 
-- The method you have is to have a lower "bus" level that
-  abstracts device providers from consumers, with both sides
-  hooking into the bus. This makes sense for physical buses
-  like PCI or USB where both the host driver and the function
-  driver are unaware of implementation details of the other,
-  but in your case it does not seem like a good fit.
+> +.. c:function::
+> +   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
 
-        Arnd
+This function signature is for the BPF helper. If it can only be used
+from userspace then this should be the libbpf function signature.
+
+> +
+> + CPU entries can be added or updated using the ``bpf_map_update_elem()``
+> + helper. This helper replaces existing elements atomically. The ``value`` parameter
+> + can be ``struct bpf_cpumap_val``.
+
+I think this needs to be a stronger statement that says the value must
+either be a __u32 or a struct bpf_cpumap_val.
+
+> + .. note::
+> +    The maps can only be updated from user space and not from a BPF program.
+
+Suggest moving this note to the start of the usage section.
+
+> + .. code-block:: c
+> +
+> +    struct bpf_cpumap_val {
+> +        __u32 qsize;  /* queue size to remote target CPU */
+> +        union {
+> +            int   fd; /* prog fd on map write */
+> +            __u32 id; /* prog id on map read */
+> +        } bpf_prog;
+> +    };
+
+Should also state the valid use of flags, which I think is BPF_ANY or
+BPF_EXIST due to the array semantics.
+
+> +.. c:function::
+> +   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+
+This needs to be the libbpf function signature.
+
+> + CPU entries can be retrieved using the ``bpf_map_lookup_elem()``
+> + helper.
+> +
+> +.. c:function::
+> +   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
+
+This needs to be the libbpf function signature.
+
+> + CPU entries can be deleted using the ``bpf_map_delete_elem()``
+> + helper. This helper will return 0 on success, or negative error in case of
+> + failure.
+> +
+> +.. c:function::
+> +     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
+
+Can you put this under a "Kernel BPF" subheading.
+
+> + Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
+> + For ``BPF_MAP_TYPE_CPUMAP`` this map contains references to CPUs.
+> +
+> + The lower two bits of *flags* are used as the return code if the map lookup
+
+Nit - should that be ``flags``
+
+> + fails. This is so that the return value can be one of the XDP program return
+> + codes up to ``XDP_TX``, as chosen by the caller.
+> +
+> +Examples
+> +========
+> +Kernel
+> +------
+> +
+> +The following code snippet shows how to declare a BPF_MAP_TYPE_CPUMAP called
+> +cpu_map and how to redirect packets to a remote CPU using a round robin scheme.
+
+Nit - ``BPF_MAP_TYPE_CPUMAP`` called ``cpu_map``
+
+> +.. code-block:: c
+> +
+> +   struct {
+> +        __uint(type, BPF_MAP_TYPE_CPUMAP);
+> +        __type(key, u32);
+> +        __type(value, struct bpf_cpumap_val);
+> +        __uint(max_entries, 12);
+> +    } cpu_map SEC(".maps");
+> +
+> +    struct {
+> +        __uint(type, BPF_MAP_TYPE_ARRAY);
+> +        __type(key, u32);
+> +        __type(value, u32);
+> +        __uint(max_entries, 12);
+> +    } cpus_available SEC(".maps");
+> +
+> +    struct {
+> +        __uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
+> +        __type(key, u32);
+> +        __type(value, u32);
+> +        __uint(max_entries, 1);
+> +       } cpus_iterator SEC(".maps");
+
+Nit - closing brace indentation.
+
+> +    SEC("xdp")
+> +    int  xdp_redir_cpu_round_robin(struct xdp_md *ctx)
+> +    {
+> +        u32 key = 0;
+> +        u32 cpu_dest = 0;
+> +        u32 *cpu_selected, *cpu_iterator;
+> +        u32 cpu_idx;
+> +
+> +        cpu_iterator = bpf_map_lookup_elem(&cpus_iterator, &key);
+> +        if (!cpu_iterator)
+> +            return XDP_ABORTED;
+> +        cpu_idx = *cpu_iterator;
+> +
+> +        *cpu_iterator += 1;
+> +        if (*cpu_iterator == bpf_num_possible_cpus())
+> +            *cpu_iterator = 0;
+> +
+> +        cpu_selected = bpf_map_lookup_elem(&cpus_available, &cpu_idx);
+> +        if (!cpu_selected)
+> +            return XDP_ABORTED;
+> +        cpu_dest = *cpu_selected;
+> +
+> +        if (cpu_dest >= bpf_num_possible_cpus())
+> +            return XDP_ABORTED;
+> +
+> +        return bpf_redirect_map(&cpu_map, cpu_dest, 0);
+> +    }
+
+I think the above example should use __u32 instead of u32 because it
+should use UAPI definitions, but we should verify this.
+
+> +References
+> +===========
+> +
+> +- https://elixir.bootlin.com/linux/v6.0.1/source/kernel/bpf/cpumap.c
+> +- https://developers.redhat.com/blog/2021/05/13/receive-side-scaling-rss-with-ebpf-and-cpumap#redirecting_into_a_cpumap
