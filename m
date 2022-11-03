@@ -2,464 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5739FC4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 20:50:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F114CC433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 22:08:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230017AbiKCUuT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 16:50:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50890 "EHLO
+        id S230387AbiKCWIG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 18:08:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbiKCUuR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 16:50:17 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C710BBE
-        for <linux-doc@vger.kernel.org>; Thu,  3 Nov 2022 13:50:16 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id b185so2730521pfb.9
-        for <linux-doc@vger.kernel.org>; Thu, 03 Nov 2022 13:50:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isovalent-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ShhVUwxdLqG8TvNLgUyfCLxu7xddFqDKAygt854lMcQ=;
-        b=Ns6DJmi819ZsOY6vQGtvh1yl8q/znskGR6tNXdD5fSSrELv3h93xl+pwfSIJMcLClu
-         OZo/YLjtahdbyW878TY1fMvedl5m28Cj4aGffssV3tf+hn9pEtNK7asoWocDs8VSVECM
-         tiwGBNZub+Krb6eh9bB/GVfkhzAeOoCCoB0rf1ZJ8AOcV6vjH2cJudUXZzb59VH38FDp
-         w4V/S9zBTDKBIFZZ+Npa4Om/z46LPY1ejT15hnYR7mSiJTorwDUfd9UaaSxZmBJYrDMs
-         sP1KGQAEb4hACPGl9MUjYtgIb8W7IS+2Clche1OQo0vVlQrMQr2jwta//W0jh9dmHlQW
-         Csbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ShhVUwxdLqG8TvNLgUyfCLxu7xddFqDKAygt854lMcQ=;
-        b=7IfNPLwzhy0FYJP662IdLI9xp9m+Juu8ak3YQ2RW0m6edg/TeIlHXmX457jmSVHN6N
-         2Z+6PuU4lxd43QHkpO/a85t1AxkhVjlfKa+yunAvVHDNiW2xGMmun/M+QipRZ3+1XaR8
-         xZe9NM8g5JZEUhQp0J2MM75OBMaLBgNVnd2tPmUtEzorSE3FQIXZro2Z8l/SofrjIJSp
-         caD0b7cv8vT5tNJeGlEy2L+9nr/lbW4pu0s1W3wQ+1JefHU2WBaRk/cEWILVaaprKJan
-         MSskyYxkWyryTDANoCo+jJP6cvM4n2jAjE4SzrSWFt/GiM5O1ix/mjPphK7X2x1igZ9Q
-         KHQQ==
-X-Gm-Message-State: ACrzQf2MyejrB53HvtNAqDkM9Z3pKpKj+hazBx2nLuux1Zi2BwswJArx
-        4wpuVQ1vjVYYGzUKIIFyJV6LsQ==
-X-Google-Smtp-Source: AMsMyM6027h3bqfFipEA0nJHhpVhWPhTxgeiCwMc0+YwhAr4zZBgN5XBbBCvKVk6n8rDHJE5eRdVZw==
-X-Received: by 2002:a05:6a00:1502:b0:56e:42f6:5f3c with SMTP id q2-20020a056a00150200b0056e42f65f3cmr5639532pfu.27.1667508614418;
-        Thu, 03 Nov 2022 13:50:14 -0700 (PDT)
-Received: from localhost.localdomain (c-73-93-5-123.hsd1.ca.comcast.net. [73.93.5.123])
-        by smtp.gmail.com with ESMTPSA id x13-20020a17090300cd00b00172cb8b97a8sm1137858plc.5.2022.11.03.13.50.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 13:50:13 -0700 (PDT)
-From:   Joe Stringer <joe@isovalent.com>
-To:     bpf@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ast@kernel.org, corbet@lwn.net, martin.lau@linux.dev
-Subject: [PATCH bpf-next v2] docs/bpf: Add LRU internals description and graph
-Date:   Thu,  3 Nov 2022 13:50:09 -0700
-Message-Id: <20221103205010.3266865-1-joe@isovalent.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S229764AbiKCWIF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 18:08:05 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E45C121E36;
+        Thu,  3 Nov 2022 15:08:03 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A3LfvN7021100;
+        Thu, 3 Nov 2022 22:07:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=0Q4UYJo0r4CAvLo84TRF+qOpG8p4iPvKnthKy/ejt7k=;
+ b=RlcfmzbFyO9u35F10nQ6EgqBj45EHHMPr/a1igEh8DGR+qO0bXKgrQlbSQBS8wuhvHoy
+ qwkndz98dqyfJTDt99rwTjOwIJ/g+konDnvEkbm/JhzJVk58Uil6SZfCBUAeP0z5y0vX
+ 0WjevBkC/FWUkS4mHfJpgXLX1YwrEknAobUtlHzP+1x/EPp9AlrAg6csYWFlKz/oXEBQ
+ fmfKSRD548oLvKqKMvo2GApMvDbqGyq5UX/CcL+EjrMOOddRSBXZHXUXY4srtJm9eXAQ
+ Cq9f8ZBX1bxMkzAZNA9vmCPzVbOMlhKOoHPAWNfGt39MzD4xteq6EJlX24VoTQG1XFFR tQ== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kmhuerpqh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 03 Nov 2022 22:07:47 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A3M7kmK009283
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 3 Nov 2022 22:07:46 GMT
+Received: from [10.110.42.219] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 3 Nov 2022
+ 15:07:45 -0700
+Message-ID: <032eeabb-28a5-9568-6aee-5631acb72a7b@quicinc.com>
+Date:   Thu, 3 Nov 2022 15:07:44 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v6 10/21] gunyah: rsc_mgr: Add resource manager RPC core
+Content-Language: en-US
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Jassi Brar <jassisinghbrar@gmail.com>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Will Deacon" <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
+ <20221026185846.3983888-11-quic_eberman@quicinc.com>
+ <Y2FfKCKZ3N8rOqcT@kroah.com>
+ <3d2858fe-ea3e-159c-faff-5052cba1e08c@quicinc.com>
+ <Y2Hbl4y9Hioybxmq@kroah.com>
+ <28eaa4bd-a9ee-c415-57c4-a9a56ffeef18@quicinc.com>
+ <Y2MJ43oVYfNgBZsQ@kroah.com>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <Y2MJ43oVYfNgBZsQ@kroah.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 1-FvWOgjVbh2h8A49qQZ54Ga2lNccyoG
+X-Proofpoint-ORIG-GUID: 1-FvWOgjVbh2h8A49qQZ54Ga2lNccyoG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-03_04,2022-11-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ malwarescore=0 impostorscore=0 mlxlogscore=751 priorityscore=1501
+ phishscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211030151
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend the bpf hashmap docs to include a brief description of the
-internals of the LRU map type (setting appropriate API expectations),
-including the original commit message from Martin and a variant on the
-graph that I had presented during my Linux Plumbers Conference 2022 talk
-on "Pressure feedback for LRU map types"[0].
 
-The node names in the dot file correspond roughly to the functions where
-the logic for those decisions or steps is defined, to help curious
-developers to cross-reference and update this logic if the details of
-the LRU implementation ever differ from this description.
 
-[0]: https://lpc.events/event/16/contributions/1368/
+On 11/2/2022 5:22 PM, Greg Kroah-Hartman wrote:
+> On Wed, Nov 02, 2022 at 11:04:45AM -0700, Elliot Berman wrote:
+>>>>>> +/* Resource Manager Header */
+>>>>>> +struct gh_rm_rpc_hdr {
+>>>>>> +	u8 version : 4, hdr_words : 4;
+>>>>>> +	u8 type : 2, fragments : 6;
+>>>>>
+>>>>> Ick, that's hard to read.  One variable per line please?
+>>>>
+>>>> Ack.
+>>>>
+>>>>> And why the bit packed stuff?  Are you sure this is the way to do this?
+>>>>> Why not use a bitmask instead?
+>>>>>
+>>>>
+>>>> I felt bit packed implementation is cleaner and easier to map to
+>>>> understanding what the fields are used for.
+>>>
+>>> Ah, so this isn't what is on the "wire", then don't use a bitfield like
+>>> this, use a real variable and that will be faster and simpler to
+>>> understand.
+>>>
+>>
+>> This is what's on the "wire". Whether I use bitfield or bit packed would be
+>> functionally the same and is just a cosmetic change IMO.
+> 
+> Ah, that wasn't obvious at all.
+> 
+> Usually using bitfields like this for "wire" protocols is not a good
+> idea (endian issues and all of that.)  Please use a bitmask instead, as
+> that way you know exactly what is happening, and the compiler can
+> usually generate much better code overall.
+> 
+> And as this is on the wire, please specify the endian values, _AND_ use
+> the proper kernel types for stuff that goes between user/kernel or
+> kernel/hardware, as you are not doing that here.
 
-Signed-off-by: Joe Stringer <joe@isovalent.com>
----
-v2: Fix issue that caused initial email submission to fail
----
- Documentation/bpf/map_hash.rst            | 193 ++++++++++++++++++++++
- Documentation/bpf/map_lru_hash_update.dot | 163 ++++++++++++++++++
- 2 files changed, 356 insertions(+)
- create mode 100644 Documentation/bpf/map_lru_hash_update.dot
-
-diff --git a/Documentation/bpf/map_hash.rst b/Documentation/bpf/map_hash.rst
-index e85120878b27..1bf7c497e5fe 100644
---- a/Documentation/bpf/map_hash.rst
-+++ b/Documentation/bpf/map_hash.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0-only
- .. Copyright (C) 2022 Red Hat, Inc.
-+.. Copyright (C) 2022 Isovalent, Inc.
- 
- ===============================================
- BPF_MAP_TYPE_HASH, with PERCPU and LRU Variants
-@@ -183,3 +184,195 @@ Userspace walking the map elements from the map declared above:
-                     cur_key = &next_key;
-             }
-     }
-+
-+Internals
-+=========
-+
-+This section of the document is targeted at Linux developers and describes
-+aspects of the map implementations that are not considered stable ABI. The
-+following details are subject to change in future versions of the kernel.
-+
-+``BPF_MAP_TYPE_LRU_HASH`` and variants
-+--------------------------------------
-+
-+An LRU hashmap type consists of two properties: Firstly, it is a hash map and
-+hence is indexable by key for constant time lookups. Secondly, when at map
-+capacity, map updates will trigger eviction of old entries based on the age of
-+the elements in a set of lists. Each of these properties may be either global
-+or per-CPU, depending on the map type and flags used to create the map:
-+
-+.. flat-table:: Comparison of map properties by map type (x-axis) and flags
-+   (y-axis)
-+
-+   * -
-+     - ``BPF_MAP_TYPE_LRU_HASH``
-+     - ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
-+
-+   * - ``BPF_NO_COMMON_LRU``
-+     - Per-CPU LRU, global map
-+     - Per-CPU LRU, per-cpu map
-+
-+   * - ``!BPF_NO_COMMON_LRU``
-+     - Global LRU, global map
-+     - Global LRU, per-cpu map
-+
-+The commit message for LRU map support provides a general overview of the
-+underlying LRU algorithm used for entry eviction when the table is full:
-+
-+::
-+
-+    commit 3a08c2fd763450a927d1130de078d6f9e74944fb
-+    Author: Martin KaFai Lau <kafai@fb.com>
-+    Date:   Fri Nov 11 10:55:06 2016 -0800
-+
-+        bpf: LRU List
-+
-+        Introduce bpf_lru_list which will provide LRU capability to
-+        the bpf_htab in the later patch.
-+
-+        * General Thoughts:
-+        1. Target use case.  Read is more often than update.
-+           (i.e. bpf_lookup_elem() is more often than bpf_update_elem()).
-+           If bpf_prog does a bpf_lookup_elem() first and then an in-place
-+           update, it still counts as a read operation to the LRU list concern.
-+        2. It may be useful to think of it as a LRU cache
-+        3. Optimize the read case
-+           3.1 No lock in read case
-+           3.2 The LRU maintenance is only done during bpf_update_elem()
-+        4. If there is a percpu LRU list, it will lose the system-wise LRU
-+           property.  A completely isolated percpu LRU list has the best
-+           performance but the memory utilization is not ideal considering
-+           the work load may be imbalance.
-+        5. Hence, this patch starts the LRU implementation with a global LRU
-+           list with batched operations before accessing the global LRU list.
-+           As a LRU cache, #read >> #update/#insert operations, it will work well.
-+        6. There is a local list (for each cpu) which is named
-+           'struct bpf_lru_locallist'.  This local list is not used to sort
-+           the LRU property.  Instead, the local list is to batch enough
-+           operations before acquiring the lock of the global LRU list.  More
-+           details on this later.
-+        7. In the later patch, it allows a percpu LRU list by specifying a
-+           map-attribute for scalability reason and for use cases that need to
-+           prepare for the worst (and pathological) case like DoS attack.
-+           The percpu LRU list is completely isolated from each other and the
-+           LRU nodes (including free nodes) cannot be moved across the list.  The
-+           following description is for the global LRU list but mostly applicable
-+           to the percpu LRU list also.
-+
-+        * Global LRU List:
-+        1. It has three sub-lists: active-list, inactive-list and free-list.
-+        2. The two list idea, active and inactive, is borrowed from the
-+           page cache.
-+        3. All nodes are pre-allocated and all sit at the free-list (of the
-+           global LRU list) at the beginning.  The pre-allocation reasoning
-+           is similar to the existing BPF_MAP_TYPE_HASH.  However,
-+           opting-out prealloc (BPF_F_NO_PREALLOC) is not supported in
-+           the LRU map.
-+
-+        * Active/Inactive List (of the global LRU list):
-+        1. The active list, as its name says it, maintains the active set of
-+           the nodes.  We can think of it as the working set or more frequently
-+           accessed nodes.  The access frequency is approximated by a ref-bit.
-+           The ref-bit is set during the bpf_lookup_elem().
-+        2. The inactive list, as its name also says it, maintains a less
-+           active set of nodes.  They are the candidates to be removed
-+           from the bpf_htab when we are running out of free nodes.
-+        3. The ordering of these two lists is acting as a rough clock.
-+           The tail of the inactive list is the older nodes and
-+           should be released first if the bpf_htab needs free element.
-+
-+        * Rotating the Active/Inactive List (of the global LRU list):
-+        1. It is the basic operation to maintain the LRU property of
-+           the global list.
-+        2. The active list is only rotated when the inactive list is running
-+           low.  This idea is similar to the current page cache.
-+           Inactive running low is currently defined as
-+           "# of inactive < # of active".
-+        3. The active list rotation always starts from the tail.  It moves
-+           node without ref-bit set to the head of the inactive list.
-+           It moves node with ref-bit set back to the head of the active
-+           list and then clears its ref-bit.
-+        4. The inactive rotation is pretty simply.
-+           It walks the inactive list and moves the nodes back to the head of
-+           active list if its ref-bit is set. The ref-bit is cleared after moving
-+           to the active list.
-+           If the node does not have ref-bit set, it just leave it as it is
-+           because it is already in the inactive list.
-+
-+        * Shrinking the Inactive List (of the global LRU list):
-+        1. Shrinking is the operation to get free nodes when the bpf_htab is
-+           full.
-+        2. It usually only shrinks the inactive list to get free nodes.
-+        3. During shrinking, it will walk the inactive list from the tail,
-+           delete the nodes without ref-bit set from bpf_htab.
-+        4. If no free node found after step (3), it will forcefully get
-+           one node from the tail of inactive or active list.  Forcefully is
-+           in the sense that it ignores the ref-bit.
-+
-+        * Local List:
-+        1. Each CPU has a 'struct bpf_lru_locallist'.  The purpose is to
-+           batch enough operations before acquiring the lock of the
-+           global LRU.
-+        2. A local list has two sub-lists, free-list and pending-list.
-+        3. During bpf_update_elem(), it will try to get from the free-list
-+           of (the current CPU local list).
-+        4. If the local free-list is empty, it will acquire from the
-+           global LRU list.  The global LRU list can either satisfy it
-+           by its global free-list or by shrinking the global inactive
-+           list.  Since we have acquired the global LRU list lock,
-+           it will try to get at most LOCAL_FREE_TARGET elements
-+           to the local free list.
-+        5. When a new element is added to the bpf_htab, it will
-+           first sit at the pending-list (of the local list) first.
-+           The pending-list will be flushed to the global LRU list
-+           when it needs to acquire free nodes from the global list
-+           next time.
-+
-+        * Lock Consideration:
-+        The LRU list has a lock (lru_lock).  Each bucket of htab has a
-+        lock (buck_lock).  If both locks need to be acquired together,
-+        the lock order is always lru_lock -> buck_lock and this only
-+        happens in the bpf_lru_list.c logic.
-+
-+        In hashtab.c, both locks are not acquired together (i.e. one
-+        lock is always released first before acquiring another lock).
-+
-+        Signed-off-by: Martin KaFai Lau <kafai@fb.com>
-+        Acked-by: Alexei Starovoitov <ast@kernel.org>
-+        Signed-off-by: David S. Miller <davem@davemloft.net>
-+
-+Notably, there are various steps that the update algorithm attempts in order to
-+enforce the LRU property which have increasing impacts on other CPUs involved
-+in the operations:
-+
-+- Attempt to use CPU-local state to batch operations
-+- Attempt to fetch free nodes from global lists
-+- Attempt to pull any node from a global list and remove it from the hashmap
-+- Attempt to pull any node from any CPU's list and remove it from the hashmap
-+
-+Even if an LRU node may be acquired, maps of type ``BPF_MAP_TYPE_LRU_HASH``
-+may fail to insert the entry into the map if other CPUs are heavily contending
-+on the global hashmap lock.
-+
-+This algorithm is described visually in the following diagram:
-+
-+.. kernel-figure::  map_lru_hash_update.dot
-+   :alt:    Diagram outlining the LRU eviction steps taken during map update
-+
-+   LRU hash eviction during map update for ``BPF_MAP_TYPE_LRU_HASH`` and
-+   variants
-+
-+Map updates start from the oval in the top right "begin ``bpf_map_update()``"
-+and progress through the graph towards the bottom where the result may be
-+either a successful update or a failure with various error codes. The key in
-+the top right provides indicators for which locks may be involved in specific
-+operations. This is intended as a visual hint for reasoning about how map
-+contention may impact update operations, though the map type and flags may
-+impact the actual contention on those locks, based on the logic described in
-+the table above. For instance, if the map is created with type
-+``BPF_MAP_TYPE_LRU_PERCPU_HASH`` and flags ``BPF_NO_COMMON_LRU`` then all map
-+properties would be per-cpu.
-+
-+The dot file source for the above diagram is uses internal kernel function
-+names for the node names in order to make the corresponding logic easier to
-+find. See ``Documentation/bpf/map_lru_hash_update.dot`` for more details.
-diff --git a/Documentation/bpf/map_lru_hash_update.dot b/Documentation/bpf/map_lru_hash_update.dot
-new file mode 100644
-index 000000000000..3839b68f32b7
---- /dev/null
-+++ b/Documentation/bpf/map_lru_hash_update.dot
-@@ -0,0 +1,163 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// Copyright (C) 2022 Isovalent, Inc.
-+digraph {
-+  node [colorscheme=accent4,style=filled] # Apply colorscheme to all nodes
-+  graph [splines=ortho, nodesep=1]
-+
-+  subgraph cluster_key {
-+    label = "Key\n(locks held during operation)";
-+    rankdir = TB;
-+
-+    remote_lock [shape=rectangle,fillcolor=4,label="remote CPU LRU lock"]
-+    hash_lock [shape=rectangle,fillcolor=3,label="hashtab lock"]
-+    lru_lock [shape=rectangle,fillcolor=2,label="LRU lock"]
-+    local_lock [shape=rectangle,fillcolor=1,label="local CPU LRU lock"]
-+    no_lock [shape=rectangle,label="no locks held"]
-+  }
-+
-+  begin [shape=oval,label="begin\nbpf_map_update()"]
-+
-+  // Nodes below with an 'fn_' prefix are roughly labeled by the C function
-+  // names that initiate the corresponding logic in kernel/bpf/bpf_lru_list.c.
-+  // Number suffixes and errno suffixes handle subsections of the corresponding
-+  // logic in the function as of the writing of this dot.
-+  fn_bpf_lru_pop_free [shape=diamond,fillcolor=1,
-+    label="Local freelist\nnode available?"];
-+  fn__local_list_pop_free [shape=rectangle,
-+    label="Use node owned\nby this CPU"]
-+
-+  common_lru_check [shape=diamond,
-+    label="Map created with\nBPF_NO_COMMON_LRU\nflag set?"];
-+
-+  fn_bpf_lru_list_pop_free_to_local [shape=rectangle,fillcolor=2,
-+    label="Flush local pending,
-+    Rotate Global list, move
-+    LOCAL_FREE_TARGET
-+    from global -> local"]
-+  // Also corresponds to:
-+  // fn__local_list_flush()
-+  // fn_bpf_lru_list_rotate()
-+  fn___bpf_lru_node_move_to_free[shape=diamond,fillcolor=2,
-+    label="Able to free\nLOCAL_FREE_TARGET\nnodes?"]
-+
-+  fn___bpf_lru_list_shrink_inactive [shape=rectangle,fillcolor=3,
-+    label="Shrink inactive list
-+      up to remaining
-+      LOCAL_FREE_TARGET
-+      (global LRU -> local)"]
-+  fn___bpf_lru_list_shrink [shape=diamond,fillcolor=2,
-+    label="> 0 entries in\nlocal free list?"]
-+  fn___bpf_lru_list_shrink2 [shape=rectangle,fillcolor=2,
-+    label="Steal one node from
-+      inactive, or if empty,
-+      from active global list"]
-+  fn___bpf_lru_list_shrink3 [shape=rectangle,fillcolor=3,
-+    label="Try to remove\nnode from hashtab"]
-+
-+  fn_bpf_lru_pop_free2 [shape=diamond,label="Htab removal\nsuccessful?"]
-+  common_lru_check2 [shape=diamond,
-+    label="Map created with\nBPF_NO_COMMON_LRU\nflag set?"]
-+
-+  subgraph cluster_remote_lock {
-+    label = "Iterate through CPUs\n(start from current)";
-+    style = dashed;
-+    rankdir=LR;
-+
-+    fn_bpf_lru_pop_free5 [shape=diamond,fillcolor=4,
-+      label="Steal a node from\nper-cpu freelist?"]
-+    fn_bpf_lru_pop_free6 [shape=rectangle,fillcolor=4,
-+      label="Steal a node from
-+        (1) Unreferenced pending, or
-+        (2) Any pending node"]
-+    fn_bpf_lru_pop_free7 [shape=rectangle,fillcolor=3,
-+      label="Try to remove\nnode from hashtab"]
-+    fn_htab_lru_map_update_elem [shape=diamond,
-+      label="Stole node\nfrom remote\nCPU?"]
-+    fn_htab_lru_map_update_elem2 [shape=diamond,label="Iterated\nall CPUs?"]
-+    // Also corresponds to:
-+    // fn__local_list_pop_free()
-+    // fn__local_list_pop_pending()
-+  }
-+
-+  fn_bpf_lru_list_pop_free_to_local2 [shape=rectangle,
-+    label="Use node that was\nnot recently referenced"]
-+  fn_bpf_lru_pop_free4 [shape=rectangle,
-+    label="Use node that was\nactively referenced\nin global list"]
-+  fn_htab_lru_map_update_elem_ENOMEM [shape=oval,label="return -ENOMEM"]
-+  fn_htab_lru_map_update_elem3 [shape=rectangle,
-+    label="Use node that was\nactively referenced\nin (another?) CPU's cache"]
-+  fn_htab_lru_map_update_elem4 [shape=diamond,
-+    label="Can lock this\nhashtab bucket?"]
-+  fn_htab_lru_map_update_elem5 [shape=rectangle,fillcolor=3,
-+    label="Update hashmap\nwith new element"]
-+  fn_htab_lru_map_update_elem6 [shape=oval,label="return 0"]
-+  fn_htab_lru_map_update_elem_EBUSY [shape=oval,label="return -EBUSY"]
-+
-+  begin -> fn_bpf_lru_pop_free
-+  fn_bpf_lru_pop_free -> fn__local_list_pop_free [xlabel="Y"]
-+  fn_bpf_lru_pop_free -> common_lru_check [xlabel="N"]
-+  common_lru_check -> fn_bpf_lru_list_pop_free_to_local [xlabel="Y"]
-+  common_lru_check -> fn___bpf_lru_list_shrink_inactive [xlabel="N"]
-+  fn_bpf_lru_list_pop_free_to_local -> fn___bpf_lru_node_move_to_free
-+  fn___bpf_lru_node_move_to_free ->
-+    fn_bpf_lru_list_pop_free_to_local2 [xlabel="Y"]
-+  fn___bpf_lru_node_move_to_free ->
-+    fn___bpf_lru_list_shrink_inactive [xlabel="N"]
-+  fn___bpf_lru_list_shrink_inactive -> fn___bpf_lru_list_shrink
-+  fn___bpf_lru_list_shrink -> fn_bpf_lru_list_pop_free_to_local2 [xlabel = "Y"]
-+  fn___bpf_lru_list_shrink -> fn___bpf_lru_list_shrink2 [xlabel="N"]
-+  fn___bpf_lru_list_shrink2 -> fn___bpf_lru_list_shrink3
-+  fn___bpf_lru_list_shrink3 -> fn_bpf_lru_pop_free2
-+  fn_bpf_lru_pop_free2 -> fn_bpf_lru_pop_free4 [xlabel = "Y"]
-+  fn_bpf_lru_pop_free2 -> common_lru_check2 [xlabel = "N"]
-+  common_lru_check2 -> fn_htab_lru_map_update_elem_ENOMEM [xlabel = "Y"]
-+  common_lru_check2 -> fn_bpf_lru_pop_free5 [xlabel = "N"]
-+  fn_bpf_lru_pop_free5 -> fn_htab_lru_map_update_elem [xlabel = "Y"]
-+  fn_bpf_lru_pop_free5 -> fn_bpf_lru_pop_free6 [xlabel = "N"]
-+  fn_bpf_lru_pop_free6 -> fn_bpf_lru_pop_free7
-+  fn_bpf_lru_pop_free7 -> fn_htab_lru_map_update_elem
-+
-+  fn_htab_lru_map_update_elem -> fn_htab_lru_map_update_elem3 [xlabel = "Y"]
-+  fn_htab_lru_map_update_elem -> fn_htab_lru_map_update_elem2  [xlabel = "N"]
-+  fn_htab_lru_map_update_elem2 ->
-+    fn_htab_lru_map_update_elem_ENOMEM [xlabel = "Y"]
-+  fn_htab_lru_map_update_elem2 -> fn_bpf_lru_pop_free5 [xlabel = "N"]
-+  fn_htab_lru_map_update_elem3 -> fn_htab_lru_map_update_elem4
-+
-+  fn__local_list_pop_free -> fn_htab_lru_map_update_elem4
-+  fn_bpf_lru_list_pop_free_to_local2 -> fn_htab_lru_map_update_elem4
-+  fn_bpf_lru_pop_free4 -> fn_htab_lru_map_update_elem4
-+
-+  fn_htab_lru_map_update_elem4 -> fn_htab_lru_map_update_elem5 [xlabel="Y"]
-+  fn_htab_lru_map_update_elem4 ->
-+    fn_htab_lru_map_update_elem_EBUSY [xlabel="N"]
-+  fn_htab_lru_map_update_elem5 -> fn_htab_lru_map_update_elem6
-+
-+  // Create invisible pad nodes to line up various nodes
-+  pad0 [style=invis]
-+  pad1 [style=invis]
-+  pad2 [style=invis]
-+  pad3 [style=invis]
-+  pad4 [style=invis]
-+
-+  // Line up the key with the top of the graph
-+  no_lock -> local_lock [style=invis]
-+  local_lock -> lru_lock [style=invis]
-+  lru_lock -> hash_lock [style=invis]
-+  hash_lock -> remote_lock [style=invis]
-+  remote_lock -> fn_bpf_lru_pop_free5 [style=invis]
-+  remote_lock -> fn___bpf_lru_list_shrink [style=invis]
-+
-+  // Line up return code nodes at the bottom of the graph
-+  fn_htab_lru_map_update_elem -> pad0 [style=invis]
-+  pad0 -> pad1 [style=invis]
-+  pad1 -> pad2 [style=invis]
-+  pad2-> fn_htab_lru_map_update_elem_ENOMEM [style=invis]
-+  fn_htab_lru_map_update_elem4 -> pad3 [style=invis]
-+  pad3 -> fn_htab_lru_map_update_elem_EBUSY  [style=invis]
-+
-+  // Reduce diagram width by forcing some nodes to appear above others
-+  fn_bpf_lru_pop_free4 -> fn_htab_lru_map_update_elem3 [style=invis]
-+  common_lru_check2 -> pad4 [style=invis]
-+  pad4 -> fn_bpf_lru_pop_free5 [style=invis]
-+}
--- 
-2.25.1
-
+Ack
