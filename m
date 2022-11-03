@@ -2,62 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60F98C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 20:44:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5739FC4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 20:50:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229700AbiKCUo1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 16:44:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47118 "EHLO
+        id S230017AbiKCUuT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 16:50:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230333AbiKCUo0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 16:44:26 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 943AE1CFE3
-        for <linux-doc@vger.kernel.org>; Thu,  3 Nov 2022 13:44:24 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id m6so2768667pfb.0
-        for <linux-doc@vger.kernel.org>; Thu, 03 Nov 2022 13:44:24 -0700 (PDT)
+        with ESMTP id S229704AbiKCUuR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 16:50:17 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C710BBE
+        for <linux-doc@vger.kernel.org>; Thu,  3 Nov 2022 13:50:16 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id b185so2730521pfb.9
+        for <linux-doc@vger.kernel.org>; Thu, 03 Nov 2022 13:50:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=isovalent-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AxKD7HF4VVY6C126pnDDCJGczug2CgC+SjyJrp+YveA=;
-        b=Qqajwshc86+H88ho7BNzEiH4HfWO6BWtwZg+QECAgNELOi+NRoU2gBEpbjU4xSbu+i
-         5+6ra/YuVXRpQ3DDcAqdEwRaqcDmfSE+GommNahY2cHmTYDo9tj8Yp3rZC4UdSnBWLWE
-         HGBJ7717HIAtkMrIFLFp2BVU3wXt1Yjj8EV34kihRmljJA+TROErZnVB+musMDBXIZAq
-         X0iy6Mk6ES/vi+FobKUBNyyyuXQe88Xnsq8iOniSbJEQ0T0BFZjwoi/RWBljUBZYMGLD
-         4jlJGf3LTE/0qb4MWQtOd68n3MJm5EmfA7UOyuuU3zRfs8uEjJP1HGAY0kME9Zmmvofh
-         NyyA==
+        bh=ShhVUwxdLqG8TvNLgUyfCLxu7xddFqDKAygt854lMcQ=;
+        b=Ns6DJmi819ZsOY6vQGtvh1yl8q/znskGR6tNXdD5fSSrELv3h93xl+pwfSIJMcLClu
+         OZo/YLjtahdbyW878TY1fMvedl5m28Cj4aGffssV3tf+hn9pEtNK7asoWocDs8VSVECM
+         tiwGBNZub+Krb6eh9bB/GVfkhzAeOoCCoB0rf1ZJ8AOcV6vjH2cJudUXZzb59VH38FDp
+         w4V/S9zBTDKBIFZZ+Npa4Om/z46LPY1ejT15hnYR7mSiJTorwDUfd9UaaSxZmBJYrDMs
+         sP1KGQAEb4hACPGl9MUjYtgIb8W7IS+2Clche1OQo0vVlQrMQr2jwta//W0jh9dmHlQW
+         Csbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AxKD7HF4VVY6C126pnDDCJGczug2CgC+SjyJrp+YveA=;
-        b=cmXSBQjENfbNjGuunUFEQFmVGxTpvVCbxycZOqTnafBOmqG/Cwp6c9elTjDg06ok1g
-         Ha2pi9pbLV6Yl2lm2OPqQ09pWmbBAggXZwHGZmO1gGQjOcbZnTSctBFxMypFG2ejUJZ0
-         ltEs+Yn8/ZSzVAYWgKjTP6MzQui6QEevrN9cTVtoWO0OwQJj+ufOkpk8Ud9FBqwrOzgg
-         iSubSvob/BFg9LTrrZE6KxJ9zGGrbLghYdd+J5tq7t4ERXBcmeMOtBiuHzxwVxI1ZbK1
-         a+IOT2MN5KOpIPjavt/mVpi2lf0EfIDpiOp87bPx4TQvAy89EI9kGEv7j1bI4MX/Xunr
-         HGaw==
-X-Gm-Message-State: ACrzQf0lylq/2QhRJPfFGp9Sf8wgSKhmcOSNBVCAgz07y5H5ylsuw7Vb
-        jdDB8F1XzaHvDv3IEAzbIvWv0JTX+BxI6Q==
-X-Google-Smtp-Source: AMsMyM6CiPa+5R/TyGlp/rFsDqFmZ6NUHGpvAHAw4AwR7B8fo5DynfVKBb5lUBsYWDpyZVeasAHESQ==
-X-Received: by 2002:a05:6a00:2409:b0:54e:a3ad:d32d with SMTP id z9-20020a056a00240900b0054ea3add32dmr31953902pfh.70.1667508263919;
-        Thu, 03 Nov 2022 13:44:23 -0700 (PDT)
+        bh=ShhVUwxdLqG8TvNLgUyfCLxu7xddFqDKAygt854lMcQ=;
+        b=7IfNPLwzhy0FYJP662IdLI9xp9m+Juu8ak3YQ2RW0m6edg/TeIlHXmX457jmSVHN6N
+         2Z+6PuU4lxd43QHkpO/a85t1AxkhVjlfKa+yunAvVHDNiW2xGMmun/M+QipRZ3+1XaR8
+         xZe9NM8g5JZEUhQp0J2MM75OBMaLBgNVnd2tPmUtEzorSE3FQIXZro2Z8l/SofrjIJSp
+         caD0b7cv8vT5tNJeGlEy2L+9nr/lbW4pu0s1W3wQ+1JefHU2WBaRk/cEWILVaaprKJan
+         MSskyYxkWyryTDANoCo+jJP6cvM4n2jAjE4SzrSWFt/GiM5O1ix/mjPphK7X2x1igZ9Q
+         KHQQ==
+X-Gm-Message-State: ACrzQf2MyejrB53HvtNAqDkM9Z3pKpKj+hazBx2nLuux1Zi2BwswJArx
+        4wpuVQ1vjVYYGzUKIIFyJV6LsQ==
+X-Google-Smtp-Source: AMsMyM6027h3bqfFipEA0nJHhpVhWPhTxgeiCwMc0+YwhAr4zZBgN5XBbBCvKVk6n8rDHJE5eRdVZw==
+X-Received: by 2002:a05:6a00:1502:b0:56e:42f6:5f3c with SMTP id q2-20020a056a00150200b0056e42f65f3cmr5639532pfu.27.1667508614418;
+        Thu, 03 Nov 2022 13:50:14 -0700 (PDT)
 Received: from localhost.localdomain (c-73-93-5-123.hsd1.ca.comcast.net. [73.93.5.123])
-        by smtp.gmail.com with ESMTPSA id z23-20020a17090ad79700b0020ab246ac79sm391009pju.47.2022.11.03.13.44.22
+        by smtp.gmail.com with ESMTPSA id x13-20020a17090300cd00b00172cb8b97a8sm1137858plc.5.2022.11.03.13.50.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 13:44:23 -0700 (PDT)
+        Thu, 03 Nov 2022 13:50:13 -0700 (PDT)
 From:   Joe Stringer <joe@isovalent.com>
 To:     bpf@vger.kernel.org
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         ast@kernel.org, corbet@lwn.net, martin.lau@linux.dev
-Subject: [PATCH bpf-next] docs/bpf: Add LRU internals description and graph
-Date:   Thu,  3 Nov 2022 13:44:18 -0700
-Message-Id: <20221103204419.3259331-1-joe@isovalent.com>
+Subject: [PATCH bpf-next v2] docs/bpf: Add LRU internals description and graph
+Date:   Thu,  3 Nov 2022 13:50:09 -0700
+Message-Id: <20221103205010.3266865-1-joe@isovalent.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -77,6 +76,8 @@ the LRU implementation ever differ from this description.
 [0]: https://lpc.events/event/16/contributions/1368/
 
 Signed-off-by: Joe Stringer <joe@isovalent.com>
+---
+v2: Fix issue that caused initial email submission to fail
 ---
  Documentation/bpf/map_hash.rst            | 193 ++++++++++++++++++++++
  Documentation/bpf/map_lru_hash_update.dot | 163 ++++++++++++++++++
@@ -292,7 +293,7 @@ index e85120878b27..1bf7c497e5fe 100644
 +find. See ``Documentation/bpf/map_lru_hash_update.dot`` for more details.
 diff --git a/Documentation/bpf/map_lru_hash_update.dot b/Documentation/bpf/map_lru_hash_update.dot
 new file mode 100644
-index 000000000000..735482a3896d
+index 000000000000..3839b68f32b7
 --- /dev/null
 +++ b/Documentation/bpf/map_lru_hash_update.dot
 @@ -0,0 +1,163 @@
@@ -306,11 +307,11 @@ index 000000000000..735482a3896d
 +    label = "Key\n(locks held during operation)";
 +    rankdir = TB;
 +
-+    remote_lock [shape=rectangle,fillcolor=4,label="🔒 remote CPU LRU lock"]
-+    hash_lock [shape=rectangle,fillcolor=3,label="🔒 hashtab lock"]
-+    lru_lock [shape=rectangle,fillcolor=2,label="🔒 LRU lock"]
-+    local_lock [shape=rectangle,fillcolor=1,label="🔒 local CPU LRU lock"]
-+    no_lock [shape=rectangle,label="🔓 no locks held"]
++    remote_lock [shape=rectangle,fillcolor=4,label="remote CPU LRU lock"]
++    hash_lock [shape=rectangle,fillcolor=3,label="hashtab lock"]
++    lru_lock [shape=rectangle,fillcolor=2,label="LRU lock"]
++    local_lock [shape=rectangle,fillcolor=1,label="local CPU LRU lock"]
++    no_lock [shape=rectangle,label="no locks held"]
 +  }
 +
 +  begin [shape=oval,label="begin\nbpf_map_update()"]
@@ -357,7 +358,7 @@ index 000000000000..735482a3896d
 +    label="Map created with\nBPF_NO_COMMON_LRU\nflag set?"]
 +
 +  subgraph cluster_remote_lock {
-+    label = "🔁 Iterate through CPUs\n(start from current)";
++    label = "Iterate through CPUs\n(start from current)";
 +    style = dashed;
 +    rankdir=LR;
 +
