@@ -2,145 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BFA4C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 22:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E73C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 22:46:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229637AbiKCWiI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 18:38:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52648 "EHLO
+        id S229745AbiKCWq4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 18:46:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231205AbiKCWiH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 18:38:07 -0400
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E21B21263;
-        Thu,  3 Nov 2022 15:38:06 -0700 (PDT)
-Received: by mail-il1-x133.google.com with SMTP id x16so1820938ilm.5;
-        Thu, 03 Nov 2022 15:38:06 -0700 (PDT)
+        with ESMTP id S229507AbiKCWqz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 18:46:55 -0400
+Received: from mx0b-003ede02.pphosted.com (mx0b-003ede02.pphosted.com [205.220.181.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 959DA64E5
+        for <linux-doc@vger.kernel.org>; Thu,  3 Nov 2022 15:46:53 -0700 (PDT)
+Received: from pps.filterd (m0286619.ppops.net [127.0.0.1])
+        by mx0b-003ede02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A3MjEID024243
+        for <linux-doc@vger.kernel.org>; Thu, 3 Nov 2022 15:46:52 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=getcruise.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=ppemail; bh=sVRvJGC5sqfEU9QZsnMrtFLb8qHeVXrcogKO2S26elc=;
+ b=e417fwl08gleF8laXRckpIak7JgIEoxf8SRYn7re0PnyECuMD5K9sMuYxoj5Y0I0y3ia
+ O0bd/LTLy57bjMnSajlyVwTy1qjf8d2ioCo/oNngSqHd1sijTjVQX0QpMBhkdCV4XTp/
+ yTjOiSj2oIX9pemx7WLZ0YV8YpyOAHWe8lbp6BlyfUbbyS0ZJ6ZjnbZayxxi2tRvC81Q
+ NfVl20W3QVsfeQiokeukkD7Z4xGoC1otqA2RF5GcUJOLtDKiDTME9R71B4usgD+BXe/m
+ l7wrs0GZxb1PQVSjgR0W/1hkSjrRRuTcwtEBUan6lpTYIBa3pJVs/5K5thzK/yDjNwaL ig== 
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+        by mx0b-003ede02.pphosted.com (PPS) with ESMTPS id 3kh36msdnw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 03 Nov 2022 15:46:52 -0700
+Received: by mail-pl1-f199.google.com with SMTP id x18-20020a170902ec9200b001869f20da7eso2194940plg.10
+        for <linux-doc@vger.kernel.org>; Thu, 03 Nov 2022 15:46:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=n/t1QpuYGHmjAu6dJiu/PChAZGU9N6vHDNe293KYEKg=;
-        b=VjI8+xBVnmxg8YwdltVKRQP3gbaBNpKLQMs0G1a7hAssRQchnhhZNcwC6qtmeXhkcD
-         cAF6PArcmw3SffnHcFqHc3Mk1ggVb7V4hak55iZrfXvIhXHvmI7UGSNkz0bG1M1KLD0f
-         jFOSuiEWOKV5kyggb+l0oQ6+msrvJPKOfmSA9scWFqJx3Fd6FOCOPCl7h01pTPWfpOlz
-         BZFDjfETIbyiIsFj4Ue12jbkOLhRkfnSoGVZoeY627txHFh78O1srSHDw7NBOCqidDt+
-         rq6n565n+Ebb+3e2T2ertqwWXxxlIA+A3207RiF6idjGSL5Welq3+wY74RT6FOcbhlzN
-         cSDw==
+        d=getcruise.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sVRvJGC5sqfEU9QZsnMrtFLb8qHeVXrcogKO2S26elc=;
+        b=d8vNySAns775Y5vlpQ9BAqKXmMmw5Rd/++77lMlVDGHLko9chcCuI4F/xBzN4ugNB1
+         R5Z12nHI6aoZO1klxUYm7kfEVrs8GIGER55Wy/izmkurKbmxHaVqa0u/PqG+EapaLXsf
+         9jMKNcBfS34e1s8NOeUAzjX4MBuL7xR+VynQ5UWfqQM9Ntz1cNlHXs3kjWs4c+IBIKjg
+         z/zfCIJtH+d/nPQ7n+B49V9+07vE1C1sZzTmu+hCCiOnnE5uafjPQgEddYeNODb2TgJn
+         JEDMJx29MKfCzQZxjxZWZfKFc5EoZcLrBFLDvWS7x3yvdmg860BKuC+z1Ye+01dQ6SeT
+         lRZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n/t1QpuYGHmjAu6dJiu/PChAZGU9N6vHDNe293KYEKg=;
-        b=axAhfXc/v73o+/FyZa2XFc4k84V8lEzr8BIS9g51VhmT0NvH5iZETBbGo3s5xGBqLC
-         RVRwOdfm5UfJJiJpEwOqDzKxmLN+KB28DIXWJA6zd9e5Qkc2cUDZzO0PlZHSS0kjQzSY
-         1R42h3+2SmB43DFFNgXfiZdDSByf/C/yVIbhR516HrVt2PNsM9X1+uPY9Bkzlv4uNGxB
-         ICpG8ReczQpwrVo/mqLX7YRjLFTpd16RKChj/l2ZTX/mrsOcqdmenx/2UHieePJHJH1s
-         UAc0qjM+lktxOJ43YcotJo85ZjIsFAShhlaKDiV391y68XIy12U29iMCXYW5KC41mHSS
-         ar4w==
-X-Gm-Message-State: ACrzQf3JuhF/NoE25ddyRaVj1ccaYcWPaItv4EXy5Cr96Kw/oRjOYW8m
-        Xgxp+9bnfhAgIL2pzM9sDGo=
-X-Google-Smtp-Source: AMsMyM4JowYYx6kYKPONyukV2RPMcEKLyA1l+4PKc3pecw+8cbd8R468vbfzMHb1YW0InkHPRs1AxA==
-X-Received: by 2002:a92:da89:0:b0:300:c5a3:2fa0 with SMTP id u9-20020a92da89000000b00300c5a32fa0mr9264176iln.78.1667515085229;
-        Thu, 03 Nov 2022 15:38:05 -0700 (PDT)
-Received: from ?IPV6:2601:282:800:dc80:a10c:23e5:6dc3:8e07? ([2601:282:800:dc80:a10c:23e5:6dc3:8e07])
-        by smtp.googlemail.com with ESMTPSA id o1-20020a022201000000b00374da9c6e37sm617653jao.123.2022.11.03.15.38.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Nov 2022 15:38:02 -0700 (PDT)
-Message-ID: <49fbb357-ea22-2647-25d0-a2993cd5ad32@gmail.com>
-Date:   Thu, 3 Nov 2022 16:38:00 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH net-next v2] netconsole: Enable live renaming for network
- interfaces used by netconsole
-Content-Language: en-US
-To:     Ido Schimmel <idosch@idosch.org>, Jakub Kicinski <kuba@kernel.org>
-Cc:     Roman Gushchin <roman.gushchin@linux.dev>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Andy Ren <andy.ren@getcruise.com>, netdev@vger.kernel.org,
-        richardbgobert@gmail.com, davem@davemloft.net,
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sVRvJGC5sqfEU9QZsnMrtFLb8qHeVXrcogKO2S26elc=;
+        b=l60h3u23h4RQVH+pK4HQ76ss8w2yDhIlfC0/VjAZTQrfMTfaRez/+EWo4bbgjCYZ4H
+         82L+41AVxM0t8mHsCMWDLpL6iX9TCUWxT+ydwgm2m/sqjdzleHhvS5GyK4E+OVBmBL8a
+         itKfwC3wopB83FFIeBY0nDKEev5AU0HOIzI5lqZuQlOA7GQxguwnn1hO0Hdtd7rdlmzp
+         rO+MPUh/sDJk5woSZN2lzVCoFGrIINh2dkBTljgZkDd8akNaWQqjeeV/zDncgR3vPmIJ
+         HIi5H2tt61h8zMwTff27F6uqcUZMV6U7pcR0QPGsDoVLvOa6dK4R6/17ZgFr3LakEHHP
+         BIag==
+X-Gm-Message-State: ACrzQf1BZh0yG4Ci4O2xfLyf12TD9+bIpTbr2BRlvdBUmAFslFj9Ou2o
+        EPW5qLf2D4JNssEHbrYvUXK4q/4kjxhfL2XxCDZkBYHzsovqixF8BStxZ7Y0r+CCSIl1NDRMaCJ
+        mmmU69WOOUEC/A2/UCg4=
+X-Received: by 2002:a17:90a:ca13:b0:213:b85a:3bdb with SMTP id x19-20020a17090aca1300b00213b85a3bdbmr29368294pjt.97.1667515611446;
+        Thu, 03 Nov 2022 15:46:51 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7TqjNmXDLkrEaa7CvwsAzH3YBoAkgB7TIg2KbN6E40Y4/gtA1Oa05aE4lEPo3NhAQo8vJ1vA==
+X-Received: by 2002:a17:90a:ca13:b0:213:b85a:3bdb with SMTP id x19-20020a17090aca1300b00213b85a3bdbmr29368271pjt.97.1667515611102;
+        Thu, 03 Nov 2022 15:46:51 -0700 (PDT)
+Received: from 4VPLMR2-DT.corp.robot.car ([199.73.125.241])
+        by smtp.gmail.com with ESMTPSA id x188-20020a6331c5000000b0043941566481sm1250977pgx.39.2022.11.03.15.46.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Nov 2022 15:46:50 -0700 (PDT)
+From:   Andy Ren <andy.ren@getcruise.com>
+To:     netdev@vger.kernel.org
+Cc:     richardbgobert@gmail.com, davem@davemloft.net,
         wsa+renesas@sang-engineering.com, edumazet@google.com,
-        petrm@nvidia.com, pabeni@redhat.com, corbet@lwn.net,
+        petrm@nvidia.com, kuba@kernel.org, pabeni@redhat.com,
+        corbet@lwn.net, andrew@lunn.ch, dsahern@gmail.com,
+        sthemmin@microsoft.com, idosch@idosch.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stephen Hemminger <sthemmin@microsoft.com>
-References: <20221102002420.2613004-1-andy.ren@getcruise.com>
- <Y2G+SYXyZAB/r3X0@lunn.ch> <20221101204006.75b46660@kernel.org>
- <Y2KlfhfijyNl8yxT@P9FQF9L96D.corp.robot.car>
- <20221102125418.272c4381@kernel.org> <Y2P/33wfWmQ/xC3n@shredder>
-From:   David Ahern <dsahern@gmail.com>
-In-Reply-To: <Y2P/33wfWmQ/xC3n@shredder>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        roman.gushchin@linux.dev, Andy Ren <andy.ren@getcruise.com>
+Subject: [PATCH net-next] net/core: Allow live renaming when an interface is up
+Date:   Thu,  3 Nov 2022 15:46:44 -0700
+Message-Id: <20221103224644.3806447-1-andy.ren@getcruise.com>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: 34l2Xe2puoTiv0Ken--jHh8Mz_ifYvFD
+X-Proofpoint-ORIG-GUID: 34l2Xe2puoTiv0Ken--jHh8Mz_ifYvFD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-03_04,2022-11-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1015
+ mlxscore=0 phishscore=0 suspectscore=0 spamscore=0 priorityscore=1501
+ impostorscore=0 bulkscore=0 mlxlogscore=762 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211030156
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/3/22 11:52 AM, Ido Schimmel wrote:
-> On Wed, Nov 02, 2022 at 12:54:18PM -0700, Jakub Kicinski wrote:
->> On Wed, 2 Nov 2022 10:14:38 -0700 Roman Gushchin wrote:
->>>> Agreed. BTW I wonder if we really want to introduce a netconsole
->>>> specific uAPI for this or go ahead with something more general.  
->>>
->>> Netconsole is a bit special because it brings an interface up very early.
->>> E.g. in our case without the netconsole the renaming is happening before
->>> the interface is brought up.
->>>
->>> I wonder if the netconsole-specific flag should allow renaming only once.
->>>  
->>>> A sysctl for global "allow UP rename"?  
->>>
->>> This will work for us, but I've no idea what it will break for other users
->>> and how to check it without actually trying to break :) And likely we won't
->>> learn about it for quite some time, asssuming they don't run net-next.
->>
->> Then again IFF_LIVE_RENAME_OK was added in 5.2 so quite a while back.
->>
->>>> We added the live renaming for failover a while back and there were 
->>>> no reports of user space breaking as far as I know. So perhaps nobody
->>>> actually cares and we should allow renaming all interfaces while UP?
->>>> For backwards compat we can add a sysctl as mentioned or a rtnetlink 
->>>> "I know what I'm doing" flag? 
->>>>
->>>> Maybe print an info message into the logs for a few releases to aid
->>>> debug?
->>>>
->>>> IOW either there is a reason we don't allow rename while up, and
->>>> netconsole being bound to an interface is immaterial. Or there is 
->>>> no reason and we should allow all.  
->>>
->>> My understanding is that it's not an issue for the kernel, but might be
->>> an issue for some userspace apps which do not expect it.
->>
->> There are in-kernel notifier users which could cache the name on up /
->> down. But yes, the user space is the real worry.
->>
->>> If you prefer to go with the 'global sysctl' approach, how the path forward
->>> should look like?
->>
->> That's the question. The sysctl would really just be to cover our back
->> sides, and be able to tell the users "you opted in by setting that
->> sysctl, we didn't break backward compat". But practically speaking, 
->> its a different entity that'd be flipping the sysctl (e.g. management
->> daemon) and different entity that'd be suffering (e.g. routing daemon).
->> So the sysctl doesn't actually help anyone :/
->>
->> So maybe we should just risk it and wonder about workarounds once
->> complains surface, if they do. Like generate fake down/up events.
->> Or create some form of "don't allow live renames now" lock-like
->> thing a process could take.
->>
->> Adding a couple more CCs and if nobody screams at us I vote we just
->> remove the restriction instead of special casing.
-> 
-> Tried looking at history.git to understand the reasoning behind this
-> restriction. I guess it's because back then it was only possible via
-> IOCTL and user space wouldn't be notified about such a change. Nowadays
-> user space gets a notification regardless of the administrative state of
-> the netdev (see rtnetlink_event()). At least in-kernel listeners to
-> NETDEV_CHANGENAME do not seem to care if the netdev is administratively
-> up or not. So, FWIW, the suggested approach sounds sane to me.
+This patch allows a network interface to be renamed when the interface
+is up.
 
-+1
+Live renaming was added as a failover in the past, and there has been no
+arising issues of user space breaking. Furthermore, it seems that this
+flag was added because in the past, IOCTL was used for renaming, which
+would not notify the user space. Nowadays, it appears that the user
+space receives notifications regardless of the state of the network
+device (e.g. rtnetlink_event()). The listeners for NETDEV_CHANGENAME
+also do not strictly ensure that the netdev is up or not.
+
+Hence, this patch seeks to remove the live renaming flag and checks due
+to the aforementioned reasons.
+
+The changes are of following:
+- Remove IFF_LIVE_RENAME_OK flag declarations
+- Remove check in dev_change_name that checks whether device is up and
+if IFF_LIVE_RENAME_OK is set by the network device's priv_flags
+- Remove references of IFF_LIVE_RENAME_OK in the failover module
+
+Signed-off-by: Andy Ren <andy.ren@getcruise.com>
+---
+ include/linux/netdevice.h | 3 ---
+ net/core/dev.c            | 4 ----
+ net/core/failover.c       | 6 +++---
+ 3 files changed, 3 insertions(+), 10 deletions(-)
+
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 4b5052db978f..e2ff45aa17f5 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -1655,7 +1655,6 @@ struct net_device_ops {
+  * @IFF_FAILOVER: device is a failover master device
+  * @IFF_FAILOVER_SLAVE: device is lower dev of a failover master device
+  * @IFF_L3MDEV_RX_HANDLER: only invoke the rx handler of L3 master device
+- * @IFF_LIVE_RENAME_OK: rename is allowed while device is up and running
+  * @IFF_TX_SKB_NO_LINEAR: device/driver is capable of xmitting frames with
+  *	skb_headlen(skb) == 0 (data starts from frag0)
+  * @IFF_CHANGE_PROTO_DOWN: device supports setting carrier via IFLA_PROTO_DOWN
+@@ -1691,7 +1690,6 @@ enum netdev_priv_flags {
+ 	IFF_FAILOVER			= 1<<27,
+ 	IFF_FAILOVER_SLAVE		= 1<<28,
+ 	IFF_L3MDEV_RX_HANDLER		= 1<<29,
+-	IFF_LIVE_RENAME_OK		= 1<<30,
+ 	IFF_TX_SKB_NO_LINEAR		= BIT_ULL(31),
+ 	IFF_CHANGE_PROTO_DOWN		= BIT_ULL(32),
+ };
+@@ -1726,7 +1724,6 @@ enum netdev_priv_flags {
+ #define IFF_FAILOVER			IFF_FAILOVER
+ #define IFF_FAILOVER_SLAVE		IFF_FAILOVER_SLAVE
+ #define IFF_L3MDEV_RX_HANDLER		IFF_L3MDEV_RX_HANDLER
+-#define IFF_LIVE_RENAME_OK		IFF_LIVE_RENAME_OK
+ #define IFF_TX_SKB_NO_LINEAR		IFF_TX_SKB_NO_LINEAR
+ 
+ /* Specifies the type of the struct net_device::ml_priv pointer */
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 2e4f1c97b59e..dd373b86b3d2 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -1175,10 +1175,6 @@ int dev_change_name(struct net_device *dev, const char *newname)
+ 	 * they are supposed to operate on master interface
+ 	 * directly.
+ 	 */
+-	if (dev->flags & IFF_UP &&
+-	    likely(!(dev->priv_flags & IFF_LIVE_RENAME_OK)))
+-		return -EBUSY;
+-
+ 	down_write(&devnet_rename_sem);
+ 
+ 	if (strncmp(newname, dev->name, IFNAMSIZ) == 0) {
+diff --git a/net/core/failover.c b/net/core/failover.c
+index 864d2d83eff4..655411c4ca51 100644
+--- a/net/core/failover.c
++++ b/net/core/failover.c
+@@ -80,14 +80,14 @@ static int failover_slave_register(struct net_device *slave_dev)
+ 		goto err_upper_link;
+ 	}
+ 
+-	slave_dev->priv_flags |= (IFF_FAILOVER_SLAVE | IFF_LIVE_RENAME_OK);
++	slave_dev->priv_flags |= IFF_FAILOVER_SLAVE;
+ 
+ 	if (fops && fops->slave_register &&
+ 	    !fops->slave_register(slave_dev, failover_dev))
+ 		return NOTIFY_OK;
+ 
+ 	netdev_upper_dev_unlink(slave_dev, failover_dev);
+-	slave_dev->priv_flags &= ~(IFF_FAILOVER_SLAVE | IFF_LIVE_RENAME_OK);
++	slave_dev->priv_flags &= ~IFF_FAILOVER_SLAVE;
+ err_upper_link:
+ 	netdev_rx_handler_unregister(slave_dev);
+ done:
+@@ -121,7 +121,7 @@ int failover_slave_unregister(struct net_device *slave_dev)
+ 
+ 	netdev_rx_handler_unregister(slave_dev);
+ 	netdev_upper_dev_unlink(slave_dev, failover_dev);
+-	slave_dev->priv_flags &= ~(IFF_FAILOVER_SLAVE | IFF_LIVE_RENAME_OK);
++	slave_dev->priv_flags &= ~IFF_FAILOVER_SLAVE;
+ 
+ 	if (fops && fops->slave_unregister &&
+ 	    !fops->slave_unregister(slave_dev, failover_dev))
+-- 
+2.38.1
+
