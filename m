@@ -2,262 +2,361 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B212C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 10:25:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF89FC43217
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 12:14:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230085AbiKCKZH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 06:25:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48820 "EHLO
+        id S231566AbiKCMOI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 08:14:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231192AbiKCKZG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 06:25:06 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 187AEDE87;
-        Thu,  3 Nov 2022 03:25:05 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id bs21so2063520wrb.4;
-        Thu, 03 Nov 2022 03:25:05 -0700 (PDT)
+        with ESMTP id S231542AbiKCMOF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 08:14:05 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E348647C
+        for <linux-doc@vger.kernel.org>; Thu,  3 Nov 2022 05:14:04 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id 4so1771867pli.0
+        for <linux-doc@vger.kernel.org>; Thu, 03 Nov 2022 05:14:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wcw3vDILN+VEHTzCfmu4v27x19X3i1q7FXp645flK6U=;
-        b=UL7CofUqPSXbNsY8WOzUTJyCfMZCfHpLZ2ItSBRonkS21jz3vK8nnIgMU/daI0+ydr
-         AQ12sIHRu1lgI3We49QIvGiLBkdtB+QevOLm/yaPAoXFrqta1r1GyW9LVYqbv5jZLuER
-         hHAaEL6e0PWdpiQWOLDmoHCLK9KWvh42pvqHnUzZrjC+08kHySZ6rq0lvAIWBoScDfla
-         VoaR7inIvA4F0HQV0+hMAbc1+Hsw4NY7w9FF5sKVBLn0wv2CHPbAGjncXw/AQLZu1rLt
-         Poe6JAfeZ7cwRTGeSOCMUBPaUfWLhqnU4KRG6Mxq8XhzLeaHV3Ng/OcpLjxM6d+UcWwZ
-         IpoA==
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ykKkxzrVaENbuwNMnsDAkKb7vBCdpcfSASwQOTHYf5Y=;
+        b=AHPIa6s8bgoeCdBzzeDdQ5gNw0eTrxD4uv0eiabE+6bUdZUsBZSphBK2pnp1T9iNGh
+         ucAvqtZ9TE8HmnflVn2dCrnaSie5/XeYe4YLoo7WTDFkfMc5dpbI0+mTRyicVgIpdc0U
+         X47b3t980ZiHx+DQ6QDrlNI5XftB9wivrJPYHspVki7Qvuv8R1MJlBmO06AKFy78undv
+         /soPJJ0OE2THhqxBsaR73O1NnIgowDxvA8gY/F6HzsgmOXjSc7Xu8D7qNwgeY+s0O/Fx
+         nRZzn5oDRfnMX0yVHuQcj6lrdqYgeWxfp/5NqczM0kfO8RkJ2TpgKmIc7Dc+JJb78Frs
+         n2lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wcw3vDILN+VEHTzCfmu4v27x19X3i1q7FXp645flK6U=;
-        b=nUwGjrO0pXdtE6YYjwrpndbpRm0Yt2XqHK06h7UpU38kHkau1Wy4UrY8n3EfDD4kIM
-         juPWS6kDewoAOjnojpRMDnLfRKUbXWt1cUGNhSKah7e1DlRwsaYIxPpR8V94eKiZ51WS
-         /p8MfMBEaJxEmsVLcB3xUvgD57Rr3eEFCtOD3jL9YlG+S1/9726XbV74H/jilehFaQVe
-         7uedgqmfUmDU7nDY8epulgZKZKppJ5YQGldkrmRceun1CY3Nd/0i3W6+UxJzcl0TZLHa
-         /Zry85nNRz9RFpSkhf2ZSplSvSpsw1P6AXjnEa9SLgQbyivBaqW1SRrp9dv5fwsWW+Qr
-         cz5A==
-X-Gm-Message-State: ACrzQf3cxjZ0JZroLSPNQbi7X2wT+EgHR/fND7ziV5TV+a3ofPDGYdNq
-        8piw9zmkVqTPwjApAZ8IkVc=
-X-Google-Smtp-Source: AMsMyM7xwdlAqiDVEIAz8d1gSI7tOaoJiw80uyoGhG74NvLVcPUes2rguRn3h1zztYX2AHC6tMfMkg==
-X-Received: by 2002:a5d:4846:0:b0:236:64b1:50fe with SMTP id n6-20020a5d4846000000b0023664b150femr18498398wrs.672.1667471103322;
-        Thu, 03 Nov 2022 03:25:03 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:b0e4:331f:74b1:5cc8])
-        by smtp.gmail.com with ESMTPSA id l2-20020a05600c1d0200b003cf878c4468sm5829695wms.5.2022.11.03.03.25.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 03:25:02 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     mtahhan@redhat.com
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org, jbrouer@redhat.com,
-        thoiland@redhat.com, Lorenzo Bianconi <lorenzo@kernel.org>
-Subject: Re: [PATCH bpf-next v2 1/1] docs: BPF_MAP_TYPE_CPUMAP
-In-Reply-To: <20221102124416.2820268-2-mtahhan@redhat.com>
-        (mtahhan@redhat.com's message of "Wed, 2 Nov 2022 08:44:16 -0400")
-Date:   Thu, 03 Nov 2022 10:24:49 +0000
-Message-ID: <m2mt98tjwu.fsf@gmail.com>
-References: <20221102124416.2820268-1-mtahhan@redhat.com>
-        <20221102124416.2820268-2-mtahhan@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ykKkxzrVaENbuwNMnsDAkKb7vBCdpcfSASwQOTHYf5Y=;
+        b=6kUfNsRlI9hqiGgUo0BAGkPVgKtFV+hGdqfI1ODZHenauBkKufNKlDNHARLg4dLAsi
+         w/bheIwmqo6WD8wK5GvoyC6GdfmzIp21Nxh/7Tm6+5GgxhJNRJsPlaW+aZ1+BtSstGFi
+         FpBbfKMPSoqCwBoKrFJgtzQUxrki9dp4IsjBIMbIGpjHyXk5ncsr+AWlOd1DXxL68MqA
+         /KCWAbFVHhvwocOptocl24D4ZRr51OfNBfd02Er6ahcNtfPitpQM8OPv3zYrGWpp65tA
+         TVuedwL3vr6SwPzUkPge0YIVuxGqPDR6FleLvxttEn/yElKZfcVttc0t9/4xOYEA8kKD
+         A7xA==
+X-Gm-Message-State: ACrzQf3BDtbYm5ILyY5Xv99AqAXtI9KAtQsxo1QpOcoLdDn3glEtqeRB
+        eYUbSS5vqRUjVo7h2fgX2VONz69VgXPcUOHSrj5CeA==
+X-Google-Smtp-Source: AMsMyM7MOsitCnFSBgl/ZnDBVruuaM7ihUaAsBPMHP2Hg7MlUfZnclYeHr7DuPtAXdWk7ISQPrhjiHeyEl1yBRgMxMM=
+X-Received: by 2002:a17:90a:7bc4:b0:213:28e9:8a8a with SMTP id
+ d4-20020a17090a7bc400b0021328e98a8amr31511762pjl.121.1667477643186; Thu, 03
+ Nov 2022 05:14:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+In-Reply-To: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+From:   Vishal Annapurve <vannapurve@google.com>
+Date:   Thu, 3 Nov 2022 17:43:52 +0530
+Message-ID: <CAGtprH-av3K6YxUbz1cAsQp4w2ce35UrfBF-u7Q_qCuTNMdvzQ@mail.gmail.com>
+Subject: Re: [PATCH v9 0/8] KVM: mm: fd-based approach for supporting KVM
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, tabba@google.com,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-mtahhan@redhat.com writes:
-
-> From: Maryam Tahhan <mtahhan@redhat.com>
+On Tue, Oct 25, 2022 at 8:48 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
 >
-> Add documentation for BPF_MAP_TYPE_CPUMAP including
-> kernel version introduced, usage and examples.
+> This patch series implements KVM guest private memory for confidential
+> computing scenarios like Intel TDX[1]. If a TDX host accesses
+> TDX-protected guest memory, machine check can happen which can further
+> crash the running host system, this is terrible for multi-tenant
+> configurations. The host accesses include those from KVM userspace like
+> QEMU. This series addresses KVM userspace induced crash by introducing
+> new mm and KVM interfaces so KVM userspace can still manage guest memory
+> via a fd-based approach, but it can never access the guest memory
+> content.
 >
-> Signed-off-by: Maryam Tahhan <mtahhan@redhat.com>
-> Signed-off-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> Co-developed-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> ---
->  Documentation/bpf/map_cpumap.rst | 140 +++++++++++++++++++++++++++++++
->  1 file changed, 140 insertions(+)
->  create mode 100644 Documentation/bpf/map_cpumap.rst
+> The patch series touches both core mm and KVM code. I appreciate
+> Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
+> reviews are always welcome.
+>   - 01: mm change, target for mm tree
+>   - 02-08: KVM change, target for KVM tree
 >
-> diff --git a/Documentation/bpf/map_cpumap.rst b/Documentation/bpf/map_cpumap.rst
-> new file mode 100644
-> index 000000000000..23320fb61bf7
-> --- /dev/null
-> +++ b/Documentation/bpf/map_cpumap.rst
-> @@ -0,0 +1,140 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2022 Red Hat, Inc.
-> +
-> +===================
-> +BPF_MAP_TYPE_CPUMAP
-> +===================
-> +
-> +.. note::
-> +   - ``BPF_MAP_TYPE_CPUMAP`` was introduced in kernel version 4.15
-> +
-> +``BPF_MAP_TYPE_CPUMAP`` is primarily used as a backend map for the XDP BPF
-> +helpers ``bpf_redirect_map()`` and ``XDP_REDIRECT`` action. This map type redirects raw
-> +XDP frames to another CPU.
-> +
-> +A CPUMAP is a scalability and isolation mechanism that allows the steering of packets
-> +to dedicated CPUs for processing. An example use-case for this map type is software
-> +based Receive Side Scaling (RSS).
-> +
-> +The CPUMAP represents the CPUs in the system indexed as the map-key, and the
-> +map-value is the config setting (per CPUMAP entry). Each CPUMAP entry has a dedicated
-> +kernel thread bound to the given CPU to represent the remote CPU execution unit.
-> +
-> +Starting from Linux kernel version 5.9 the CPUMAP can run a second XDP program
-> +on the remote CPU. This allows an XDP program to split its processing across
-> +multiple CPUs. For example, a scenario where the initial CPU (that sees/receives
-> +the packets) needs to do minimal packet processing and the remote CPU (to which
-> +the packet is directed) can afford to spend more cycles processing the frame. The
-> +initial CPU is where the XDP redirect program is executed. The remote CPU
-> +receives raw``xdp_frame`` objects.
+> Given KVM is the only current user for the mm part, I have chatted with
+> Paolo and he is OK to merge the mm change through KVM tree, but
+> reviewed-by/acked-by is still expected from the mm people.
+>
+> The patches have been verified in Intel TDX environment, but Vishal has
+> done an excellent work on the selftests[4] which are dedicated for this
+> series, making it possible to test this series without innovative
+> hardware and fancy steps of building a VM environment. See Test section
+> below for more info.
+>
+>
+> Introduction
+> ============
+> KVM userspace being able to crash the host is horrible. Under current
+> KVM architecture, all guest memory is inherently accessible from KVM
+> userspace and is exposed to the mentioned crash issue. The goal of this
+> series is to provide a solution to align mm and KVM, on a userspace
+> inaccessible approach of exposing guest memory.
+>
+> Normally, KVM populates secondary page table (e.g. EPT) by using a host
+> virtual address (hva) from core mm page table (e.g. x86 userspace page
+> table). This requires guest memory being mmaped into KVM userspace, but
+> this is also the source where the mentioned crash issue can happen. In
+> theory, apart from those 'shared' memory for device emulation etc, guest
+> memory doesn't have to be mmaped into KVM userspace.
+>
+> This series introduces fd-based guest memory which will not be mmaped
+> into KVM userspace. KVM populates secondary page table by using a
 
-Nit - missing space between raw and ``xdp_frame`` is breaking formatting.
+With no mappings in place for userspace VMM, IIUC, looks like the host
+kernel will not be able to find the culprit userspace process in case
+of Machine check error on guest private memory. As implemented in
+hwpoison_user_mappings, host kernel tries to look at the processes
+which have mapped the pfns with hardware error.
 
-> +
-> +Usage
-> +=====
+Is there a modification needed in mce handling logic of the host
+kernel to immediately send a signal to the vcpu thread accessing
+faulting pfn backing guest private memory?
 
-Can you add subheadings for "Kernel BPF" and "Userspace" and move
-update, lookup, delete under "Userspace".
 
-> +.. c:function::
-> +   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
-
-This function signature is for the BPF helper. If it can only be used
-from userspace then this should be the libbpf function signature.
-
-> +
-> + CPU entries can be added or updated using the ``bpf_map_update_elem()``
-> + helper. This helper replaces existing elements atomically. The ``value`` parameter
-> + can be ``struct bpf_cpumap_val``.
-
-I think this needs to be a stronger statement that says the value must
-either be a __u32 or a struct bpf_cpumap_val.
-
-> + .. note::
-> +    The maps can only be updated from user space and not from a BPF program.
-
-Suggest moving this note to the start of the usage section.
-
-> + .. code-block:: c
-> +
-> +    struct bpf_cpumap_val {
-> +        __u32 qsize;  /* queue size to remote target CPU */
-> +        union {
-> +            int   fd; /* prog fd on map write */
-> +            __u32 id; /* prog id on map read */
-> +        } bpf_prog;
-> +    };
-
-Should also state the valid use of flags, which I think is BPF_ANY or
-BPF_EXIST due to the array semantics.
-
-> +.. c:function::
-> +   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-
-This needs to be the libbpf function signature.
-
-> + CPU entries can be retrieved using the ``bpf_map_lookup_elem()``
-> + helper.
-> +
-> +.. c:function::
-> +   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
-
-This needs to be the libbpf function signature.
-
-> + CPU entries can be deleted using the ``bpf_map_delete_elem()``
-> + helper. This helper will return 0 on success, or negative error in case of
-> + failure.
-> +
-> +.. c:function::
-> +     long bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
-
-Can you put this under a "Kernel BPF" subheading.
-
-> + Redirect the packet to the endpoint referenced by ``map`` at index ``key``.
-> + For ``BPF_MAP_TYPE_CPUMAP`` this map contains references to CPUs.
-> +
-> + The lower two bits of *flags* are used as the return code if the map lookup
-
-Nit - should that be ``flags``
-
-> + fails. This is so that the return value can be one of the XDP program return
-> + codes up to ``XDP_TX``, as chosen by the caller.
-> +
-> +Examples
-> +========
-> +Kernel
-> +------
-> +
-> +The following code snippet shows how to declare a BPF_MAP_TYPE_CPUMAP called
-> +cpu_map and how to redirect packets to a remote CPU using a round robin scheme.
-
-Nit - ``BPF_MAP_TYPE_CPUMAP`` called ``cpu_map``
-
-> +.. code-block:: c
-> +
-> +   struct {
-> +        __uint(type, BPF_MAP_TYPE_CPUMAP);
-> +        __type(key, u32);
-> +        __type(value, struct bpf_cpumap_val);
-> +        __uint(max_entries, 12);
-> +    } cpu_map SEC(".maps");
-> +
-> +    struct {
-> +        __uint(type, BPF_MAP_TYPE_ARRAY);
-> +        __type(key, u32);
-> +        __type(value, u32);
-> +        __uint(max_entries, 12);
-> +    } cpus_available SEC(".maps");
-> +
-> +    struct {
-> +        __uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
-> +        __type(key, u32);
-> +        __type(value, u32);
-> +        __uint(max_entries, 1);
-> +       } cpus_iterator SEC(".maps");
-
-Nit - closing brace indentation.
-
-> +    SEC("xdp")
-> +    int  xdp_redir_cpu_round_robin(struct xdp_md *ctx)
-> +    {
-> +        u32 key = 0;
-> +        u32 cpu_dest = 0;
-> +        u32 *cpu_selected, *cpu_iterator;
-> +        u32 cpu_idx;
-> +
-> +        cpu_iterator = bpf_map_lookup_elem(&cpus_iterator, &key);
-> +        if (!cpu_iterator)
-> +            return XDP_ABORTED;
-> +        cpu_idx = *cpu_iterator;
-> +
-> +        *cpu_iterator += 1;
-> +        if (*cpu_iterator == bpf_num_possible_cpus())
-> +            *cpu_iterator = 0;
-> +
-> +        cpu_selected = bpf_map_lookup_elem(&cpus_available, &cpu_idx);
-> +        if (!cpu_selected)
-> +            return XDP_ABORTED;
-> +        cpu_dest = *cpu_selected;
-> +
-> +        if (cpu_dest >= bpf_num_possible_cpus())
-> +            return XDP_ABORTED;
-> +
-> +        return bpf_redirect_map(&cpu_map, cpu_dest, 0);
-> +    }
-
-I think the above example should use __u32 instead of u32 because it
-should use UAPI definitions, but we should verify this.
-
-> +References
-> +===========
-> +
-> +- https://elixir.bootlin.com/linux/v6.0.1/source/kernel/bpf/cpumap.c
-> +- https://developers.redhat.com/blog/2021/05/13/receive-side-scaling-rss-with-ebpf-and-cpumap#redirecting_into_a_cpumap
+> fd/offset pair backed by a memory file system. The fd can be created
+> from a supported memory filesystem like tmpfs/hugetlbfs and KVM can
+> directly interact with them with newly introduced in-kernel interface,
+> therefore remove the KVM userspace from the path of accessing/mmaping
+> the guest memory.
+>
+> Kirill had a patch [2] to address the same issue in a different way. It
+> tracks guest encrypted memory at the 'struct page' level and relies on
+> HWPOISON to reject the userspace access. The patch has been discussed in
+> several online and offline threads and resulted in a design document [3]
+> which is also the original proposal for this series. Later this patch
+> series evolved as more comments received in community but the major
+> concepts in [3] still hold true so recommend reading.
+>
+> The patch series may also be useful for other usages, for example, pure
+> software approach may use it to harden itself against unintentional
+> access to guest memory. This series is designed with these usages in
+> mind but doesn't have code directly support them and extension might be
+> needed.
+>
+>
+> mm change
+> =========
+> Introduces a new memfd_restricted system call which can create memory
+> file that is restricted from userspace access via normal MMU operations
+> like read(), write() or mmap() etc and the only way to use it is
+> passing it to a third kernel module like KVM and relying on it to
+> access the fd through the newly added restrictedmem kernel interface.
+> The restrictedmem interface bridges the memory file subsystems
+> (tmpfs/hugetlbfs etc) and their users (KVM in this case) and provides
+> bi-directional communication between them.
+>
+>
+> KVM change
+> ==========
+> Extends the KVM memslot to provide guest private (encrypted) memory from
+> a fd. With this extension, a single memslot can maintain both private
+> memory through private fd (restricted_fd/restricted_offset) and shared
+> (unencrypted) memory through userspace mmaped host virtual address
+> (userspace_addr). For a particular guest page, the corresponding page in
+> KVM memslot can be only either private or shared and only one of the
+> shared/private parts of the memslot is visible to guest. For how this
+> new extension is used in QEMU, please refer to kvm_set_phys_mem() in
+> below TDX-enabled QEMU repo.
+>
+> Introduces new KVM_EXIT_MEMORY_FAULT exit to allow userspace to get the
+> chance on decision-making for shared <-> private memory conversion. The
+> exit can be an implicit conversion in KVM page fault handler or an
+> explicit conversion from guest OS.
+>
+> Extends existing SEV ioctls KVM_MEMORY_ENCRYPT_{UN,}REG_REGION to
+> convert a guest page between private <-> shared. The data maintained in
+> these ioctls tells the truth whether a guest page is private or shared
+> and this information will be used in KVM page fault handler to decide
+> whether the private or the shared part of the memslot is visible to
+> guest.
+>
+>
+> Test
+> ====
+> Ran two kinds of tests:
+>   - Selftests [4] from Vishal and VM boot tests in non-TDX environment
+>     Code also in below repo: https://github.com/chao-p/linux/tree/privmem-v9
+>
+>   - Functional tests in TDX capable environment
+>     Tested the new functionalities in TDX environment. Code repos:
+>     Linux: https://github.com/chao-p/linux/tree/privmem-v9-tdx
+>     QEMU: https://github.com/chao-p/qemu/tree/privmem-v9
+>
+>     An example QEMU command line for TDX test:
+>     -object tdx-guest,id=tdx,debug=off,sept-ve-disable=off \
+>     -machine confidential-guest-support=tdx \
+>     -object memory-backend-memfd-private,id=ram1,size=${mem} \
+>     -machine memory-backend=ram1
+>
+>
+> TODO
+> ====
+>   - Page accounting and limiting for encrypted memory
+>   - hugetlbfs support
+>
+>
+> Changelog
+> =========
+> v9:
+>   - mm: move inaccessible memfd into separated syscall.
+>   - mm: return page instead of pfn_t for inaccessible_get_pfn and remove
+>     inaccessible_put_pfn.
+>   - KVM: rename inaccessible/private to restricted and CONFIG change to
+>     make the code friendly to pKVM.
+>   - KVM: add invalidate_begin/end pair to fix race contention and revise
+>     the lock protection for invalidation path.
+>   - KVM: optimize setting lpage_info for > 2M level by direct accessing
+>     lower level's result.
+>   - KVM: avoid load xarray in kvm_mmu_max_mapping_level() and instead let
+>     the caller to pass in is_private.
+>   - KVM: API doc improvement.
+> v8:
+>   - mm: redesign mm part by introducing a shim layer(inaccessible_memfd)
+>     in memfd to avoid touch the memory file systems directly.
+>   - mm: exclude F_SEAL_AUTO_ALLOCATE as it is for shared memory and
+>     cause confusion in this series, will send out separately.
+>   - doc: exclude the man page change, it's not kernel patch and will
+>     send out separately.
+>   - KVM: adapt to use the new mm inaccessible_memfd interface.
+>   - KVM: update lpage_info when setting mem_attr_array to support
+>     large page.
+>   - KVM: change from xa_store_range to xa_store for mem_attr_array due
+>     to xa_store_range overrides all entries which is not intended
+>     behavior for us.
+>   - KVM: refine the mmu_invalidate_retry_gfn mechanism for private page.
+>   - KVM: reorganize KVM_MEMORY_ENCRYPT_{UN,}REG_REGION and private page
+>     handling code suggested by Sean.
+> v7:
+>   - mm: introduce F_SEAL_AUTO_ALLOCATE to avoid double allocation.
+>   - KVM: use KVM_MEMORY_ENCRYPT_{UN,}REG_REGION to record
+>     private/shared info.
+>   - KVM: use similar sync mechanism between zap/page fault paths as
+>     mmu_notifier for memfile_notifier based invalidation.
+> v6:
+>   - mm: introduce MEMFILE_F_* flags into memfile_node to allow checking
+>     feature consistence among all memfile_notifier users and get rid of
+>     internal flags like SHM_F_INACCESSIBLE.
+>   - mm: make pfn_ops callbacks being members of memfile_backing_store
+>     and then refer to it directly in memfile_notifier.
+>   - mm: remove backing store unregister.
+>   - mm: remove RLIMIT_MEMLOCK based memory accounting and limiting.
+>   - KVM: reorganize patch sequence for page fault handling and private
+>     memory enabling.
+> v5:
+>   - Add man page for MFD_INACCESSIBLE flag and improve KVM API do for
+>     the new memslot extensions.
+>   - mm: introduce memfile_{un}register_backing_store to allow memory
+>     backing store to register/unregister it from memfile_notifier.
+>   - mm: remove F_SEAL_INACCESSIBLE, use in-kernel flag
+>     (SHM_F_INACCESSIBLE for shmem) instead.
+>   - mm: add memory accounting and limiting (RLIMIT_MEMLOCK based) for
+>     MFD_INACCESSIBLE memory.
+>   - KVM: remove the overlap check for mapping the same file+offset into
+>     multiple gfns due to perf consideration, warned in document.
+> v4:
+>   - mm: rename memfd_ops to memfile_notifier and separate it from
+>     memfd.c to standalone memfile-notifier.c.
+>   - KVM: move pfn_ops to per-memslot scope from per-vm scope and allow
+>     registering multiple memslots to the same memory backing store.
+>   - KVM: add a 'kvm' reference in memslot so that we can recover kvm in
+>     memfile_notifier handlers.
+>   - KVM: add 'private_' prefix for the new fields in memslot.
+>   - KVM: reshape the 'type' to 'flag' for kvm_memory_exit
+> v3:
+>   - Remove 'RFC' prefix.
+>   - Fix race condition between memfile_notifier handlers and kvm destroy.
+>   - mm: introduce MFD_INACCESSIBLE flag for memfd_create() to force
+>     setting F_SEAL_INACCESSIBLE when the fd is created.
+>   - KVM: add the shared part of the memslot back to make private/shared
+>     pages live in one memslot.
+>
+> Reference
+> =========
+> [1] Intel TDX:
+> https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html
+> [2] Kirill's implementation:
+> https://lore.kernel.org/all/20210416154106.23721-1-kirill.shutemov@linux.intel.com/T/
+> [3] Original design proposal:
+> https://lore.kernel.org/all/20210824005248.200037-1-seanjc@google.com/
+> [4] Selftest:
+> https://lore.kernel.org/all/20220819174659.2427983-1-vannapurve@google.com/
+>
+>
+> Chao Peng (7):
+>   KVM: Extend the memslot to support fd-based private memory
+>   KVM: Add KVM_EXIT_MEMORY_FAULT exit
+>   KVM: Use gfn instead of hva for mmu_notifier_retry
+>   KVM: Register/unregister the guest private memory regions
+>   KVM: Update lpage info when private/shared memory are mixed
+>   KVM: Handle page fault for private memory
+>   KVM: Enable and expose KVM_MEM_PRIVATE
+>
+> Kirill A. Shutemov (1):
+>   mm: Introduce memfd_restricted system call to create restricted user
+>     memory
+>
+>  Documentation/virt/kvm/api.rst         |  88 ++++-
+>  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
+>  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
+>  arch/x86/include/asm/kvm_host.h        |   8 +
+>  arch/x86/kvm/Kconfig                   |   3 +
+>  arch/x86/kvm/mmu/mmu.c                 | 170 +++++++++-
+>  arch/x86/kvm/mmu/mmu_internal.h        |  14 +-
+>  arch/x86/kvm/mmu/mmutrace.h            |   1 +
+>  arch/x86/kvm/mmu/spte.h                |   6 +
+>  arch/x86/kvm/mmu/tdp_mmu.c             |   3 +-
+>  arch/x86/kvm/x86.c                     |   4 +-
+>  include/linux/kvm_host.h               |  89 ++++-
+>  include/linux/restrictedmem.h          |  62 ++++
+>  include/linux/syscalls.h               |   1 +
+>  include/uapi/asm-generic/unistd.h      |   5 +-
+>  include/uapi/linux/kvm.h               |  38 +++
+>  include/uapi/linux/magic.h             |   1 +
+>  kernel/sys_ni.c                        |   3 +
+>  mm/Kconfig                             |   4 +
+>  mm/Makefile                            |   1 +
+>  mm/restrictedmem.c                     | 250 ++++++++++++++
+>  virt/kvm/Kconfig                       |   7 +
+>  virt/kvm/kvm_main.c                    | 453 +++++++++++++++++++++----
+>  23 files changed, 1121 insertions(+), 92 deletions(-)
+>  create mode 100644 include/linux/restrictedmem.h
+>  create mode 100644 mm/restrictedmem.c
+>
+>
+> base-commit: e18d6152ff0f41b7f01f9817372022df04e0d354
+> --
+> 2.25.1
+>
