@@ -2,245 +2,379 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EDBEC4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 19:45:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEF25C433FE
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 20:11:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230182AbiKCTps (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 15:45:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43106 "EHLO
+        id S231611AbiKCULC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 16:11:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbiKCTpr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 15:45:47 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 046311F9C5;
-        Thu,  3 Nov 2022 12:45:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1667504743; x=1699040743;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=OS+/+xZt1QdTJvH8RPAr0SDIsAedYTAz4C3sGWMmzrg=;
-  b=APqBo4kDberOYEAq+cOzShQ+Y024ukW7sz+imBchwAMWU9IzjPdw8ULC
-   uyMONsBPW/xh80JbYcLPqN+azY4s+HquXxFrsUOXAj/DBn+ZjCOO7Ty75
-   +30ImCndaBLPNwP4KYADl2LSwVoo44hOL+FFr750r1St3as746QAdrx3J
-   8=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 03 Nov 2022 12:45:42 -0700
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2022 12:45:41 -0700
-Received: from [10.110.88.98] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 3 Nov 2022
- 12:45:40 -0700
-Message-ID: <4bf14665-3303-2449-a5d7-5b7cf01ccc29@quicinc.com>
-Date:   Thu, 3 Nov 2022 12:45:39 -0700
+        with ESMTP id S231699AbiKCUKm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 16:10:42 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2049.outbound.protection.outlook.com [40.107.92.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C8CC22BC7;
+        Thu,  3 Nov 2022 13:08:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=leLh2ETI4Xx8YdcbYpZ0djPGGwtnMi+t1N+y4Eexe20MZILSmRyiKNPaoQb4fWP/q4XmFJFUTwGDCBBRgOYCQkmHmcnNbFvyavBEqECVa5GWl9YVnXD07NNuzlrDIyOiQP7/sXBRdmwVHYsHMeOUIaVH7DJMhgT1SzSQUICyFE9lOql+O58N2zsTzPW8xPx6L0+x5b5ls3itoYrYXaiLHaeFZpzsrit5d8Pi0JvuEX+nbXqOtTFJO7nRG2qiHgSSLwFxjjZiELdwpG8v5MYysC3JiHPwgBp+NW1B9wkWB3r6/7I/lB9tpgIby0rYmMb2NIOJHgalNYIoniiDEQ9Iaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5zm3bIP3L8p2z0OUNnhV6jZNY5NfASqMk1xTsnAFnCI=;
+ b=QyhEhPPNzsdb/P6f6kIXXal2mM4ZTxazCXTzzwsmZMhjPY4yyAixb1SLerc89R4OOam9ik/fxxmF1QR+dASbd7+hKKo1NEaPouyFE1ye0BozJRZWFQm4zhpjKLsse+Y8LGNSc8GogAk6PFAvsu9Z/6CygINeWRXvIur70kxX3Zz/KkG3w6qvwoAAK2OGygrC54BV52L8+bfgtVz7SkO6+xWVUw8jD/WweUQdFMqA0+NWg1QQhr2QUhacccq9sdThnEUwszF6KATUyHaZGnOijDIiBxmE3jrP7F0ZT1ugn24dDjWpnFG3S3QaPf71wfIrdZ/nzDh+knhBp34B8ckQiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5zm3bIP3L8p2z0OUNnhV6jZNY5NfASqMk1xTsnAFnCI=;
+ b=unNf544L+elQTlBx6FALIwjFcTms8qVb1E0puFr6673nJ4QTAJ71KmOp7znh2njC5DI0MF4XdFw1+GiWx+cM24mhEQHWPNduKDeerDtZHEmI5E7qakLcYZFJ56kNcfbzhNfDeDvMJrnb+v/wfZuMuLoYpyijqgWyVLl+tVOB7ElBsvkU7A/57lnACEPz1QqsJkl+QUARdOU96vq2K6lNe+zaClWiu9UZ20oAaWdUC+WlKLpvTPOFAzjz16AaBvcNyxHBiv5H9XO4ctXuCEuVsGKncV5TJVPUe+x3AF6qXjpdVcfRyEhXC5xXXqRrfCI6vaAgxQan9CtaK4/s0wTeiQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by DM6PR12MB4926.namprd12.prod.outlook.com (2603:10b6:5:1bb::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.22; Thu, 3 Nov
+ 2022 20:08:10 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5769.015; Thu, 3 Nov 2022
+ 20:08:10 +0000
+Date:   Thu, 3 Nov 2022 17:08:08 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Lu Baolu <baolu.lu@linux.intel.com>, bpf@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v3 8/15] iommufd: Algorithms for PFN storage
+Message-ID: <Y2QfqAWxqT5cCfmN@nvidia.com>
+References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <8-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+X-ClientProxiedBy: MN2PR03CA0007.namprd03.prod.outlook.com
+ (2603:10b6:208:23a::12) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v6 02/21] dt-bindings: Add binding for gunyah hypervisor
-To:     Jassi Brar <jassisinghbrar@gmail.com>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "Marc Zyngier" <maz@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        "Amol Maheshwari" <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-3-quic_eberman@quicinc.com>
- <CABb+yY3JVNPG3dcyHNFxEeGEu3MN_pAOh3+cwexPPe2YG6SNUg@mail.gmail.com>
- <fb7e101f-8de0-d77e-30e1-74b882b19583@quicinc.com>
- <CABb+yY08jP+Q5xvzLf=7F1tULP6-eZz5EDiK9mBj2fAv=iZa_A@mail.gmail.com>
- <4cb58489-cd42-1868-9add-0c360065de23@quicinc.com>
- <CABb+yY2GA90RLazHZL7sLtC+ka-P8y6s00V2BVF4OMPTDi-rKg@mail.gmail.com>
- <62f7402d-f0e7-8e8a-e1a4-958ddbcf8d8b@quicinc.com>
- <CABb+yY0-rtt5CfzGA_D3THnfTO1pgstmVo2_1McEJ=JMdTcD2Q@mail.gmail.com>
- <840d876c-6a09-59cf-fc66-c5752ad22d7e@quicinc.com>
- <CABb+yY1rd2mzNz-ovaO2Di=9qeAKp4XeUUE+6yPbBiv7YjTCfw@mail.gmail.com>
- <10525d0d-b887-6960-5fbc-933b91e2e97c@quicinc.com>
- <CABb+yY2fBa3up8Byu8axagwTEoidW+mbwene1qFyh=qJxPLJ=Q@mail.gmail.com>
-Content-Language: en-US
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <CABb+yY2fBa3up8Byu8axagwTEoidW+mbwene1qFyh=qJxPLJ=Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM6PR12MB4926:EE_
+X-MS-Office365-Filtering-Correlation-Id: b3852987-e928-40b6-6e26-08dabdd7210c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /QhhWZcAE7T73USA680PHEcRNrgHVxtYlDU8bcddGS8bGxNnLOlMwiaMS39Q9xrcbJyX5GBdUHqv1kXDMscYKH+ux9+R852th+Pi20BohuGRXEaLhPODEKOS8oSx1KCfBIxxT5RYoHUwA1tkYXHmXAlhVNCVZ6rq5afT9GIFzXIaaFjit7bjslVZn1tSzOX9oedpsQ3iw6zxKZkC/tUKNeQg4OxZ9TuJAfJadDD4Q+2t8cfu0Pf+1TRE3fYqVmcb5ukGFG2jhW0q4RzgaL9MIVlJ0EvJccI4shHqBKhi8BgOxYTyz+GKsfggaH8hhkkyO7oCPy+p2zfSAhLVrYIlKyC3DQQPq+aIvA/3+eqa7YiPFK7qij3MIyFcYT+VJyL+UrKO64FuEYl8oz+em/yMsgvluU0Tah4eptrh3an8HPSJaa4EEqsqmP87g+XpsnRgdtBUAL3PdgpS825S3TD9xLhQFiyjSe6GqP2lJ6wKfVXJX26Qwykkc+yIlo9oDclFZK42qf7+Z7m5JVpMy33pcS24alMuHHYePbLOg+a5ykuUt0zz2aDUA4tzvzS50DGu51xmQY48ojuDWT/UV70/KetApMRVeKgOpOZfxGqLrmyT83JmQo/HL7O/+0IcM24Kna5xAu1ZFAfYqlb7jW303m7Coyihm8Ua6mPjEPu1CfFx3+0uBXMEX3ys7AaKuYnE4nQJlk528tVcXxFqf0HNeaPlpJoJPWj0gKeteCNrHazcJysFwaqAu4VX1k1+GkxyIspF9WujnuuEOpwOQU5IFjSSC6h9WxZg/CM3Q/i9znlOD2xVI8Iz769og2dErtKrQZm21tYWUQMYn86ervjrsw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(376002)(136003)(396003)(366004)(346002)(451199015)(921005)(26005)(41300700001)(36756003)(86362001)(8676002)(66476007)(66946007)(6512007)(66556008)(4326008)(186003)(8936002)(7406005)(5660300002)(2616005)(7416002)(966005)(478600001)(6506007)(6486002)(54906003)(110136005)(316002)(38100700002)(2906002)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RjmVIT0evtLp+SHTLmW+txnxnw+dTMOtZty2u1Mx9Zx7+LPt/svF/bfSLp0z?=
+ =?us-ascii?Q?/qsWq2bJXXO07mi451Vk7XMR94kHEgFfShX+10Zy8eeDwnCYpVBmNftRxC3k?=
+ =?us-ascii?Q?C0v3L0Yq/uk4WhLYqk3IgiGzHnQ6ZXPg6wPYVh+bJetc+ik4Jg9NrrGv+kpb?=
+ =?us-ascii?Q?9PFtgKHFbYaZOFAL0lGiOh/px9/sFVET6nF7v9n1DMng2piE4+pO5nfpqrjj?=
+ =?us-ascii?Q?vtB90FhsEdVBqCMHUh2OnJFaUN0PMA6S3TKyr0Qs1xJ6ZN+NVQ46uHC6Qjtf?=
+ =?us-ascii?Q?7kOrRxPJ+i4g0Vu9cWWhunz3hZeXxFFNQXkcLnZ+VsjUjudhGjEsrdT2gRkN?=
+ =?us-ascii?Q?OXh4tXr19WkZuJTxlezq5BLiu9kKhBQRTXf0HZ8406xwPxPy/wuGq6riiV3O?=
+ =?us-ascii?Q?aIfu9sIbjSI8AUCf2Et3UIVPmEDKD0IQZCXJPZvo0KxHpwxVOYggVvKciKLs?=
+ =?us-ascii?Q?pChpiwvjGSfBKf6ewVVHbjgX42WeGXUMMVQlf3TGlrWiLDCXQepdALQ655I/?=
+ =?us-ascii?Q?d0uIHYLihJ8dbdRiTgqYhpMbTwUThMiFU3MfvV1o/lbcfHWy74aztvGJ5BCE?=
+ =?us-ascii?Q?33eXKjRzAGcevJurYkaZR4IIYaC3kVRktZkUN64r9f506u3Mz9ZPA25ZdZq7?=
+ =?us-ascii?Q?GvZ3TjilixYkesLt89sdgUou1s/VoOvxHpyX/qncWFvG2zAYhpx9QO1uQLYt?=
+ =?us-ascii?Q?Nc9V8glPKjkdvM08y9ML//0YcKR2vmbLu85kTkf2F+qNL4i3cFJPaKxO/wCP?=
+ =?us-ascii?Q?ddX2e9cyulPhureo6U1mn7kaJQxExcjDnfb7CettyuyPns6oHoIENNBwJ6lA?=
+ =?us-ascii?Q?t5Z2VCP58Kgs3upMxqVdKbrcO/RsdQhKmOX3wol7u2nfpWzezxzqgnAYYfNK?=
+ =?us-ascii?Q?XC4AoIz25CP1zmqtF9Q90pz2e3vqUPRXXylWKyC0Gx9FQ26sKU5ujEvmTFs1?=
+ =?us-ascii?Q?KP4m3kd+S6UGtULzp23C+hfwHcYQYXRbyK401bK1NbpetDcvWXJjuFXpi6KI?=
+ =?us-ascii?Q?1dZWJK3a8TolCY6f8dHi8daFmdPXRRm/+RSrXXR0hbTAGt8Q7DWc8ekluY9B?=
+ =?us-ascii?Q?y/yYgzz1ixFI0jM+EJJg1NLtxp0h5wfg2okrlCN9FNYuRRKDKz3zypBX0CdH?=
+ =?us-ascii?Q?r6yqKro3s3CI2PYPLr/gQMMxf9qSycqKlWdMbLaoJjuztt0S5F+hhxXm4PRo?=
+ =?us-ascii?Q?/KgtxNUg2RQgKC4jGrUPxhojISosoT3EggoT0AsY4HVUIvtzx9AjkfSjhWtb?=
+ =?us-ascii?Q?8HEkh7s9pFbPF7n8Tar8mN/dNJy2vFymvKn3bDzI0kxGY1rtlGmwFmv3yGD9?=
+ =?us-ascii?Q?fQD8Cem6PKNaY9sQ4niUFlgGXIGJkk5gmUb13Ob/mWFCKh/4QrldCeH64a31?=
+ =?us-ascii?Q?CJANxRHyzUfvjc7LvACSqwW/snUqogzBgItBhXHrRid9YhbwvydgVAEopqYB?=
+ =?us-ascii?Q?abJxteaxmTkJ1ediJ5GbMpg7KpJ1PI5uhv5C5wMLDaQQ+Hgmc6JG14liDZay?=
+ =?us-ascii?Q?dLgp06c6OiWxxR6kervh+t1r+6jxBTHtXGIYZdUXVd0b8sfaGex5kM3z+xPB?=
+ =?us-ascii?Q?EZjUc9M6s+86OjDYHjI=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3852987-e928-40b6-6e26-08dabdd7210c
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2022 20:08:09.9014
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ePm9doUxLMBAo9VXMlSGz2lulRKwIew6kMy3i4TuAlEHH23N33F17+aVy+LSDLLe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4926
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Oct 25, 2022 at 03:12:17PM -0300, Jason Gunthorpe wrote:
+> +
+> +/**
+> + * iopt_area_fill_domains() - Install PFNs into the area's domains
+> + * @area: The area to act on
+> + * @pages: The pages associated with the area (area->pages is NULL)
+> + *
+> + * Called during area creation. The area is freshly created and not inserted in
+> + * the domains_itree yet. PFNs are read and loaded into every domain held in the
+> + * area's io_pagetable and the area is installed in the domains_itree.
+> + *
+> + * On failure all domains are left unchanged.
+> + */
+> +int iopt_area_fill_domains(struct iopt_area *area, struct iopt_pages *pages)
+> +{
+> +	struct pfn_reader pfns;
+> +	struct iommu_domain *domain;
+> +	unsigned long unmap_index;
+> +	unsigned long index;
+> +	int rc;
+> +
+> +	lockdep_assert_held(&area->iopt->domains_rwsem);
+> +
+> +	if (xa_empty(&area->iopt->domains))
+> +		return 0;
+> +
+> +	mutex_lock(&pages->mutex);
+> +	rc = pfn_reader_first(&pfns, pages, iopt_area_index(area),
+> +			      iopt_area_last_index(area));
+> +	if (rc)
+> +		goto out_unlock;
+> +
+> +	while (!pfn_reader_done(&pfns)) {
+> +		xa_for_each(&area->iopt->domains, index, domain) {
+> +			rc = batch_to_domain(&pfns.batch, domain, area,
+> +					     pfns.batch_start_index);
+> +			if (rc)
+> +				goto out_unmap;
+> +		}
+> +
+> +		rc = pfn_reader_next(&pfns);
+> +		if (rc)
+> +			goto out_unmap;
+> +	}
+> +	rc = pfn_reader_update_pinned(&pfns);
+> +	if (rc)
+> +		goto out_unmap;
+> +
+> +	area->storage_domain = xa_load(&area->iopt->domains, 0);
+> +	interval_tree_insert(&area->pages_node, &pages->domains_itree);
+> +	goto out_destroy;
+> +
+> +out_unmap:
+> +	xa_for_each(&area->iopt->domains, unmap_index, domain) {
+> +		unsigned long end_index = pfns.batch_start_index;
+> +
+> +		if (unmap_index <= index)
+> +			end_index = pfns.batch_end_index;
 
+syzkaller found that there is a typo here, it should be <
 
-On 11/2/2022 8:21 PM, Jassi Brar wrote:
-> On Wed, Nov 2, 2022 at 6:23 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
->>
->>
->>
->> On 11/2/2022 11:24 AM, Jassi Brar wrote:
->>> On Wed, Nov 2, 2022 at 1:06 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
->>>>
->>>> Hi Jassi,
->>>>
->>>> On 11/1/2022 7:01 PM, Jassi Brar wrote:
->>>>> On Tue, Nov 1, 2022 at 7:12 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
->>>>>>
->>>>>>
->>>>>>
->>>>>> On 11/1/2022 2:58 PM, Jassi Brar wrote:
->>>>>>> On Tue, Nov 1, 2022 at 3:35 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>> On 11/1/2022 9:23 AM, Jassi Brar wrote:
->>>>>>>>> On Mon, Oct 31, 2022 at 10:20 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
->>>>>>>>>>
->>>>>>>>>> Hi Jassi,
->>>>>>>>>>
->>>>>>>>>> On 10/27/2022 7:33 PM, Jassi Brar wrote:
->>>>>>>>>>       > On Wed, Oct 26, 2022 at 1:59 PM Elliot Berman
->>>>>>>>>> <quic_eberman@quicinc.com> wrote:
->>>>>>>>>>       > .....
->>>>>>>>>>       >> +
->>>>>>>>>>       >> +        gunyah-resource-mgr@0 {
->>>>>>>>>>       >> +            compatible = "gunyah-resource-manager-1-0",
->>>>>>>>>> "gunyah-resource-manager";
->>>>>>>>>>       >> +            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX
->>>>>>>>>> full IRQ */
->>>>>>>>>>       >> +                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX
->>>>>>>>>> empty IRQ */
->>>>>>>>>>       >> +            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
->>>>>>>>>>       >> +                  /* TX, RX cap ids */
->>>>>>>>>>       >> +        };
->>>>>>>>>>       >>
->>>>>>>>>>       > All these resources are used only by the mailbox controller driver.
->>>>>>>>>>       > So, this should be the mailbox controller node, rather than the
->>>>>>>>>>       > mailbox user.> One option is to load gunyah-resource-manager as a
->>>>>>>>>> module that relies
->>>>>>>>>>       > on the gunyah-mailbox provider. That would also avoid the "Allow
->>>>>>>>>>       > direct registration to a channel" hack patch.
->>>>>>>>>>
->>>>>>>>>> A message queue to another guest VM wouldn't be known at boot time and
->>>>>>>>>> thus couldn't be described on the devicetree.
->>>>>>>>>>
->>>>>>>>> I think you need to implement of_xlate() ... or please tell me what
->>>>>>>>> exactly you need to specify in the dt.
->>>>>>>>
->>>>>>>> Dynamically created virtual machines can't be known on the dt, so there
->>>>>>>> is nothing to specify in the DT. There couldn't be a devicetree node for
->>>>>>>> the message queue client because that client is only exists once the VM
->>>>>>>> is created by userspace.
->>>>>>>>
->>>>>>> The underlying "physical channel" is the synchronous SMC instruction,
->>>>>>> which remains 1 irrespective of the number of mailbox instances
->>>>>>> created.
->>>>>>
->>>>>> I disagree that the physical channel is the SMC instruction. Regardless
->>>>>> though, there are num_online_cpus() "physical channels" with this
->>>>>> perspective.
->>>>>>
->>>>>>> So basically you are sharing one resource among users. Why doesn't the
->>>>>>> RM request the "smc instruction" channel once and share it among
->>>>>>> users?
->>>>>>
->>>>>> I suppose in this scenario, a single mailbox channel would represent all
->>>>>> message queues? This would cause Linux to serialize *all* message queue
->>>>>> hypercalls. Sorry, I can only think negative implications.
->>>>>>
->>>>>> Error handling needs to move into clients: if a TX message queue becomes
->>>>>> full or an RX message queue becomes empty, then we'll need to return
->>>>>> error back to the client right away. The clients would need to register
->>>>>> for the RTS/RTR interrupts to know when to send/receive messages and
->>>>>> have retry error handling. If the mailbox controller retried for the
->>>>>> clients as currently proposed, then we could get into a scenario where a
->>>>>> message queue could never be ready to send/receive and thus stuck
->>>>>> forever trying to process that message. The effect here would be that
->>>>>> the mailbox controller becomes a wrapper to some SMC instructions that
->>>>>> aren't related at the SMC instruction level.
->>>>>>
->>>>>> A single channel would limit performance of SMP systems because only one
->>>>>> core could send/receive a message. There is no such limitation for
->>>>>> message queues to behave like this.
->>>>>>
->>>>> This is just an illusion. If Gunyah can handle multiple calls from a
->>>>> VM parallely, even with the "bind-client-to-channel" hack you can't
->>>>> make sure different channels run on different cpu cores.  If you are
->>>>> ok with that, you could simply populate a mailbox controller with N
->>>>> channels and allocate them in any order the clients ask.
->>>>
->>>> I wanted to make sure I understood the ask here completely. On what
->>>> basis is N chosen? Who would be the mailbox clients?
->>>>
->>> A channel structure is cheap, so any number that is not likely to run
->>> out. Say you have 10 possible users in a VM, set N=16. I know ideally
->>> it should be precise and flexible but the gain in simplicity makes the
->>> trade-off very acceptable.
->>
->> I think I get the direction you are thinking now. N is chosen based off
->> of how many clients there might be. One mailbox controller will
->> represent all message queues and each channel will be one message queue.
->> There are some limitations that might make it more complex to implement
->> than having 1 message queue per controller like I have now.
->>
->> My interpretation is that mailbox controller knows the configuration of
->> its channels before being bound to a client. For dynamically created
->> message queues, the client would need tell the controller about the
->> message queue configuration. I didn't find example where client is
->> providing information about a channel to the controller.
->>
->>    1. need a mechanism to allow the client to provide the
->> gunyah_resources for the channel (i.e. the irqs and cap ids).
->>
-> IIUC there is exactly one resource-manager in a VM. Right?
-> Looking at your code, TX and RX irq are used only by the mailbox
-> driver and are the same for all clients/users. So that should be a
-> property under the mailbox controller node. Not sure what cap ids are.
-> 
+However, I wasn't able to make a quick reproduction for something that
+should have a been a very reliable failure path using nth fault
+injection. This led to a great big adventure where I discovered that
+fault injection and xarray do not play nicely together:
 
-Ah -- "message queues" are a generic inter-VM communication mechanism 
-offered by Gunyah. One use case for message queues is to communicate 
-with the resource-manager, but other message queues can exist between 
-other virtual machines. Those other message queues use different TX and 
-RX irq and have different client protocols.
+https://lore.kernel.org/r/Y2QR0EDvq7p9i1xw@nvidia.com
 
-In mailbox terminology, we have one known channel at boot-up time (the 
-resource manager). That known channel can inform Linux about other 
-channels at runtime. The client (not the controller) decodes received 
-data from the channel to discover the new channels.
+Which ended up spending a whole bunch of time to add a nth failure
+study to the test suite and understand what is going on and how to
+make it work better. It now covers this scenario deterministically.
 
-One approach we found was coming from pcc.c, which has their own 
-request_channel function (pcc_mbox_request_channel). We could follow 
-this approach as well...
+The exhaustive nth failure study also shows this error handling has
+another, more serious, problem. We keep track of how many pages have
+been pinned inside the pages, and we also keep track of the last
+charge to the rlimit/etc. At the end of operations these are
+reconciled. There are lots of assertions checking that this is being
+tracked properly so that we don't loose track of a pinned page in the
+very complicated logic.
 
->>    2. Still need to have bind-client-to-channel patch since clients
->> aren't real devices and so shouldn't be on DT.
->>
-> the clients may be virtual (serial, gpio etc) but the resource-manager
-> requires some mailbox hardware to communicate, so the resource-manager
-> should be the mailbox client (that further spawns virtual devices)
+The new test suite discovered this missing:
 
-Yes, this the design I'm aiming for. Also want to highlight that the 
-resource-manager spawns Gunyah virtual devices such as message queue 
-channels.
+ 		/* Any pages not transferred to the batch are just unpinned */
+ 		unpin_user_pages(pfns->user.upages + (pfns->batch_end_index -
+ 						      pfns->user.upages_start),
+ 				 npages);
++		iopt_pages_sub_npinned(pages, npages);
 
-Thanks,
-Elliot
+We need to charge back the as-yet-unprocessed pages we are unpinning
+when destroying the batch.
+
+And then we get into trouble that things are not happening in the
+order the assertions would like as this:
+
+> +			iopt_area_unfill_partial_domain(area, pages, domain,
+> +							end_index);
+
+Demands that the pinned page charge during unfilling be only
+decreasing, never increasing. However we can still be holding pinned
+pages in the batch at this instant that don't get cleaned up until:
+
+> +		}
+> +	}
+> +out_destroy:
+> +	pfn_reader_destroy(&pfns);
+
+Here
+
+Thus the assertions get unhappy.
+
+Introducing a pfn_reader_release_pins() which is called before
+unfilling gets everything in the right order and the testing of these
+two functions now passes, though I still have to insert a few more
+error injection points to get full coverage.
+
+Syzkaller has found another 4 things I still have to look at and is
+now sitting at 65%(72%) coverage. So steadily progressing..
+
+Jason
+
+diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
+index 245e7b96902107..ce707d6f5ee959 100644
+--- a/drivers/iommu/iommufd/pages.c
++++ b/drivers/iommu/iommufd/pages.c
+@@ -994,7 +994,15 @@ static int pfn_reader_init(struct pfn_reader *pfns, struct iopt_pages *pages,
+ 	return 0;
+ }
+ 
+-static void pfn_reader_destroy(struct pfn_reader *pfns)
++/*
++ * There are many assertions regarding the state of pages->npinned vs
++ * pages->last_pinned, for instance something like unmapping a domain must only
++ * decrement the npinned, and pfn_reader_destroy() must be called only after all
++ * the pins are updated. This is fine for success flows, but error flows
++ * sometimes need to release the pins held inside the pfn_reader before going on
++ * to complete unmapping and releasing pins held in domains.
++ */
++static void pfn_reader_release_pins(struct pfn_reader *pfns)
+ {
+ 	struct iopt_pages *pages = pfns->pages;
+ 
+@@ -1005,12 +1013,20 @@ static void pfn_reader_destroy(struct pfn_reader *pfns)
+ 		unpin_user_pages(pfns->user.upages + (pfns->batch_end_index -
+ 						      pfns->user.upages_start),
+ 				 npages);
++		iopt_pages_sub_npinned(pages, npages);
++		pfns->user.upages_end = pfns->batch_end_index;
+ 	}
+-
+-	pfn_reader_user_destroy(&pfns->user, pfns->pages);
+-
+ 	if (pfns->batch_start_index != pfns->batch_end_index)
+ 		pfn_reader_unpin(pfns);
++	pfns->batch_start_index = pfns->batch_end_index;
++}
++
++static void pfn_reader_destroy(struct pfn_reader *pfns)
++{
++	struct iopt_pages *pages = pfns->pages;
++
++	pfn_reader_release_pins(pfns);
++	pfn_reader_user_destroy(&pfns->user, pfns->pages);
+ 	batch_destroy(&pfns->batch, NULL);
+ 	WARN_ON(pages->last_npinned != pages->npinned);
+ }
+@@ -1223,6 +1239,7 @@ void iopt_area_unfill_domain(struct iopt_area *area, struct iopt_pages *pages,
+  */
+ int iopt_area_fill_domain(struct iopt_area *area, struct iommu_domain *domain)
+ {
++	unsigned long done_end_index;
+ 	struct pfn_reader pfns;
+ 	int rc;
+ 
+@@ -1234,10 +1251,12 @@ int iopt_area_fill_domain(struct iopt_area *area, struct iommu_domain *domain)
+ 		return rc;
+ 
+ 	while (!pfn_reader_done(&pfns)) {
++		done_end_index = pfns.batch_start_index;
+ 		rc = batch_to_domain(&pfns.batch, domain, area,
+ 				     pfns.batch_start_index);
+ 		if (rc)
+ 			goto out_unmap;
++		done_end_index = pfns.batch_end_index;
+ 
+ 		rc = pfn_reader_next(&pfns);
+ 		if (rc)
+@@ -1250,8 +1269,9 @@ int iopt_area_fill_domain(struct iopt_area *area, struct iommu_domain *domain)
+ 	goto out_destroy;
+ 
+ out_unmap:
++	pfn_reader_release_pins(&pfns);
+ 	iopt_area_unfill_partial_domain(area, area->pages, domain,
+-					pfns.batch_start_index);
++					done_end_index);
+ out_destroy:
+ 	pfn_reader_destroy(&pfns);
+ 	return rc;
+@@ -1270,9 +1290,11 @@ int iopt_area_fill_domain(struct iopt_area *area, struct iommu_domain *domain)
+  */
+ int iopt_area_fill_domains(struct iopt_area *area, struct iopt_pages *pages)
+ {
+-	struct pfn_reader pfns;
++	unsigned long done_first_end_index;
++	unsigned long done_all_end_index;
+ 	struct iommu_domain *domain;
+ 	unsigned long unmap_index;
++	struct pfn_reader pfns;
+ 	unsigned long index;
+ 	int rc;
+ 
+@@ -1288,12 +1310,15 @@ int iopt_area_fill_domains(struct iopt_area *area, struct iopt_pages *pages)
+ 		goto out_unlock;
+ 
+ 	while (!pfn_reader_done(&pfns)) {
++		done_first_end_index = pfns.batch_end_index;
++		done_all_end_index = pfns.batch_start_index;
+ 		xa_for_each(&area->iopt->domains, index, domain) {
+ 			rc = batch_to_domain(&pfns.batch, domain, area,
+ 					     pfns.batch_start_index);
+ 			if (rc)
+ 				goto out_unmap;
+ 		}
++		done_all_end_index = done_first_end_index;
+ 
+ 		rc = pfn_reader_next(&pfns);
+ 		if (rc)
+@@ -1308,11 +1333,14 @@ int iopt_area_fill_domains(struct iopt_area *area, struct iopt_pages *pages)
+ 	goto out_destroy;
+ 
+ out_unmap:
++	pfn_reader_release_pins(&pfns);
+ 	xa_for_each(&area->iopt->domains, unmap_index, domain) {
+-		unsigned long end_index = pfns.batch_start_index;
++		unsigned long end_index;
+ 
+-		if (unmap_index <= index)
+-			end_index = pfns.batch_end_index;
++		if (unmap_index < index)
++			end_index = done_first_end_index;
++		else
++			end_index = done_all_end_index;
+ 
+ 		/*
+ 		 * The area is not yet part of the domains_itree so we have to
