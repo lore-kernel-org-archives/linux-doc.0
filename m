@@ -2,147 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5172BC4167B
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 23:05:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41D17C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 23:59:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230504AbiKCXFC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 19:05:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40774 "EHLO
+        id S230074AbiKCX7K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 19:59:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231204AbiKCXFA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 19:05:00 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88FFEDF13
-        for <linux-doc@vger.kernel.org>; Thu,  3 Nov 2022 16:04:59 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id m6-20020a17090a5a4600b00212f8dffec9so3208461pji.0
-        for <linux-doc@vger.kernel.org>; Thu, 03 Nov 2022 16:04:59 -0700 (PDT)
+        with ESMTP id S229496AbiKCX7J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 19:59:09 -0400
+Received: from mx0a-003ede02.pphosted.com (mx0a-003ede02.pphosted.com [205.220.169.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 618152125F
+        for <linux-doc@vger.kernel.org>; Thu,  3 Nov 2022 16:59:08 -0700 (PDT)
+Received: from pps.filterd (m0286617.ppops.net [127.0.0.1])
+        by mx0b-003ede02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A3Nx8Tn003669
+        for <linux-doc@vger.kernel.org>; Thu, 3 Nov 2022 16:59:08 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=getcruise.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=ppemail; bh=ouJbkpR6+J4Encuu8K7QZ3Tg66Y2gZ1ROektz28aaQ8=;
+ b=qNuSTQHrlG29WMBEKCzuEhwbZzxB6GY99xiOvuj5BHHRWga2x6p/B5hkz2cx60hHH75P
+ 6JgW+zYu7qrkQRFfopmZG6DydatjSDuk30xktVeUBzNWjOtNYU4efSalYV5Wy11vAkPP
+ pO6Fnu/wBPXcqrC760wvGd90QU2jNam0+qw/NGPPS9CGtG5jMgWarrBKRAbf4eW2mj+V
+ pNeDmiejgUciOLFV8xF9XLoxdfDXcV1BSaUo8A8VCiZaaAADZYtnfAqiU/iLCdPH+3w9
+ EfYdDJgAblXO8Ckiqaj6Fcz3zM04HqSyNL4W+h+eFkOUevHtCpbavh2CgQywvydhxNSu tg== 
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+        by mx0b-003ede02.pphosted.com (PPS) with ESMTPS id 3kmptmr0db-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 03 Nov 2022 16:59:07 -0700
+Received: by mail-pl1-f198.google.com with SMTP id z15-20020a170903018f00b0018862d520fbso490356plg.11
+        for <linux-doc@vger.kernel.org>; Thu, 03 Nov 2022 16:59:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ty7NKEPl0IHHIKXvP+jXCaEpuJOC+fqTvmEMtCpQ/20=;
-        b=rQnp+SwB2zMSq0CxGruqys/HkI4BO0cs24vZcUtuIOAevup3Y78FQIob1VLtYPM4TW
-         cAdQKut1sAQnbM6RE4Nm9dOd/n1bzcGOEZ2ElA8ACLK+5DrOk66Qd9UjphJMHGodCVhB
-         suednwHwQu0747FO0ErJ6MskTw3c1IHuy97x4qT7qRTobrAjI2qqaQ9qrsYHObDuiLne
-         9nFHuZfBYQuomcslj83mRerOA09HO4FMwWxhwjluEXAf5450VKKTvi3I6AJxRsOgPMbS
-         0iZx3Y49cYnH4f0Dk4p0nvsEgI5F5O70XswxtMhuqEnZHAoYkQNfeej4jHze5fR+sQEe
-         eEWA==
+        d=getcruise.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ouJbkpR6+J4Encuu8K7QZ3Tg66Y2gZ1ROektz28aaQ8=;
+        b=OAKCB1UKkJMmowNucXL/9mtiqjd2rHIVEgvHyojJcdPvsFIoahcervOah+E2d6sia3
+         J7XRoq3KFs7WCY5YF7n35fC5DipAjvx5leflRZQH5RegAef2zIVv2Zh+YewQhWUfoZhK
+         kGJV6i6uHGrLGi/dwKivK+r9+hLARwnd6HR5RlUNarGUpNSpKvSd/lpQyaAbFqbrhtRR
+         8JVPGW+JRo7kzYFgmUqrmO4OZhGIh+ccHoxeBfsmJiakVUl6d4kRc6SP1HOY4cg/Vuvh
+         DjKGlJxGYUYy8uS9H8gc9BaZoUGsPtpiIjPuulUlaph5lWzGiZipll0Up0op302Btj+O
+         05cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ty7NKEPl0IHHIKXvP+jXCaEpuJOC+fqTvmEMtCpQ/20=;
-        b=G5vMSvq19jxI8nwiQ9qtJ+e/hYCWP+N2VbuszJLRBhL+O3/cYSnE311UsaCb8L7Ll0
-         02EDqGV7NMzDICu/umeirTV8z47ZEmEEMMQEnVVUGrgxBJMb0OwI6YYLKEW55P5dAzsl
-         S74OaSTSiTX0e1V7NwzePnlkF1DDCFY9lRPDbHxer1OUn69HphTLNtpBaC2CNv6H3NL9
-         LY1mNXiYLL08zxgA30wOyGOMwJIb3/dqrFsfMGljEuesXpdg7PqN2fD+vzBg1oWQHSAI
-         IWV1g09UfHeOCS/rQs18FzxoT37L9Wqgn9H+1nCyOwKM3FZtpFyasULpM2A0tXpADcnj
-         86WQ==
-X-Gm-Message-State: ACrzQf3wzEpgs0/1CsnXN0zAXjO2JIYDLit3jWZbTjuyT5VSwbVXh4nK
-        sKcOzAvfZ5YxXhJydB91mnvFGw==
-X-Google-Smtp-Source: AMsMyM4SAC4AWjYSYyCN4S3X8KC1TnM1iyPSaM02SstCPPdhS3uGTSJeL2KSiB26C81hZIhFnQ7kZg==
-X-Received: by 2002:a17:902:d4ce:b0:188:5340:4a3a with SMTP id o14-20020a170902d4ce00b0018853404a3amr5770987plg.79.1667516698820;
-        Thu, 03 Nov 2022 16:04:58 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id x12-20020a62860c000000b0056281da3bcbsm1297475pfd.149.2022.11.03.16.04.57
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ouJbkpR6+J4Encuu8K7QZ3Tg66Y2gZ1ROektz28aaQ8=;
+        b=DAsZbTB9Se81nisXzHjsSnFyIKHdBSiR59XT/nOtE9//LRErx32GfKsKzHozQtp3dq
+         PPRwh2NVfO8LyuQym55aJdKWVO/73vHz1JaopvG3wl2SCZ8rIg+wc3N5HAk3+oQdN6h+
+         akSzaS8rlNZT7fefc1Z348KxvfmKi7alXtEkGoXLDMGpYqfQZ0XWkyLHrDxpvAe8X/8h
+         8u1itOBtld2DzEDLXAiqb3oojYYcF2YtUM3tKEIDsbGxyE08FumvBYkw4Jqv7YRsCCZB
+         tUJw1qJXLu7IGl+ngQpqfmOYLYwtF9Vjr93LEwqWUaMIImGakoBAx2aG2Hnyz5c3qVDQ
+         /fuA==
+X-Gm-Message-State: ACrzQf1ZJA8Fr5oSFMHC5ikrdAiVGmISQU1ZD/G2tzJ7z4A838hJ4Nl3
+        tuixpATP3vJbQZof1ev6lZq/Mn48AWNkBgAtnWnkXS7y4wneCulTWJpkSL7n2ZuKUGj8/dWGR21
+        ANUrUJsUyTqnAolZtILY=
+X-Received: by 2002:a17:90b:152:b0:213:dfd6:3e5e with SMTP id em18-20020a17090b015200b00213dfd63e5emr24109791pjb.229.1667519947161;
+        Thu, 03 Nov 2022 16:59:07 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7SppjLEvoSfBSakmBLmRXOSm7cpqMiL0FcJeujJFX7yxnb9wtBbX+fAhrpea0RWwUGxQoOYQ==
+X-Received: by 2002:a17:90b:152:b0:213:dfd6:3e5e with SMTP id em18-20020a17090b015200b00213dfd63e5emr24109771pjb.229.1667519946882;
+        Thu, 03 Nov 2022 16:59:06 -0700 (PDT)
+Received: from 4VPLMR2-DT.corp.robot.car ([199.73.125.241])
+        by smtp.gmail.com with ESMTPSA id j6-20020a170902c08600b00183ba0fd54dsm1152555pld.262.2022.11.03.16.59.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 16:04:57 -0700 (PDT)
-Date:   Thu, 3 Nov 2022 23:04:53 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 5/8] KVM: Register/unregister the guest private memory
- regions
-Message-ID: <Y2RJFWplouV2iF5E@google.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-6-chao.p.peng@linux.intel.com>
+        Thu, 03 Nov 2022 16:59:06 -0700 (PDT)
+From:   Andy Ren <andy.ren@getcruise.com>
+To:     netdev@vger.kernel.org
+Cc:     richardbgobert@gmail.com, davem@davemloft.net,
+        wsa+renesas@sang-engineering.com, edumazet@google.com,
+        petrm@nvidia.com, kuba@kernel.org, pabeni@redhat.com,
+        corbet@lwn.net, andrew@lunn.ch, dsahern@gmail.com,
+        sthemmin@microsoft.com, idosch@idosch.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        roman.gushchin@linux.dev, Andy Ren <andy.ren@getcruise.com>
+Subject: [PATCH net-next] net/core: Allow live renaming when an interface is up
+Date:   Thu,  3 Nov 2022 16:58:47 -0700
+Message-Id: <20221103235847.3919772-1-andy.ren@getcruise.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221025151344.3784230-6-chao.p.peng@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: Zwos7P-CsMYoo1N5TMaGQiQvNotSm4vL
+X-Proofpoint-GUID: Zwos7P-CsMYoo1N5TMaGQiQvNotSm4vL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-03_04,2022-11-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
+ adultscore=0 malwarescore=0 phishscore=0 suspectscore=0 priorityscore=1501
+ bulkscore=0 clxscore=1015 impostorscore=0 mlxlogscore=851
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211030163
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Oct 25, 2022, Chao Peng wrote:
-> @@ -4708,6 +4802,24 @@ static long kvm_vm_ioctl(struct file *filp,
->  		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
->  		break;
->  	}
-> +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
-> +	case KVM_MEMORY_ENCRYPT_REG_REGION:
-> +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
+This patch allows a network interface to be renamed when the interface
+is up.
 
-I'm having second thoughts about usurping KVM_MEMORY_ENCRYPT_(UN)REG_REGION.  Aside
-from the fact that restricted/protected memory may not be encrypted, there are
-other potential use cases for per-page memory attributes[*], e.g. to make memory
-read-only (or no-exec, or exec-only, etc...) without having to modify memslots.
+Live renaming was added as a failover in the past, and there has been no
+arising issues of user space breaking. Furthermore, it seems that this
+flag was added because in the past, IOCTL was used for renaming, which
+would not notify the user space. Nowadays, it appears that the user
+space receives notifications regardless of the state of the network
+device (e.g. rtnetlink_event()). The listeners for NETDEV_CHANGENAME
+also do not strictly ensure that the netdev is up or not.
 
-Any paravirt use case where the attributes of a page are effectively dictated by
-the guest is going to run into the exact same performance problems with memslots,
-which isn't suprising in hindsight since shared vs. private is really just an
-attribute, albeit with extra special semantics.
+Hence, this patch seeks to remove the live renaming flag and checks due
+to the aforementioned reasons.
 
-And if we go with a brand new ioctl(), maybe someday in the very distant future
-we can deprecate and delete KVM_MEMORY_ENCRYPT_(UN)REG_REGION.
+The changes are of following:
+- Remove IFF_LIVE_RENAME_OK flag declarations
+- Remove check in dev_change_name that checks whether device is up and
+if IFF_LIVE_RENAME_OK is set by the network device's priv_flags
+- Remove references of IFF_LIVE_RENAME_OK in the failover module
 
-Switching to a new ioctl() should be a minor change, i.e. shouldn't throw too big
-of a wrench into things.
+Signed-off-by: Andy Ren <andy.ren@getcruise.com>
+---
+ include/linux/netdevice.h |  3 ---
+ net/core/dev.c            | 16 ----------------
+ net/core/failover.c       |  6 +++---
+ 3 files changed, 3 insertions(+), 22 deletions(-)
 
-Something like:
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 4b5052db978f..e2ff45aa17f5 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -1655,7 +1655,6 @@ struct net_device_ops {
+  * @IFF_FAILOVER: device is a failover master device
+  * @IFF_FAILOVER_SLAVE: device is lower dev of a failover master device
+  * @IFF_L3MDEV_RX_HANDLER: only invoke the rx handler of L3 master device
+- * @IFF_LIVE_RENAME_OK: rename is allowed while device is up and running
+  * @IFF_TX_SKB_NO_LINEAR: device/driver is capable of xmitting frames with
+  *	skb_headlen(skb) == 0 (data starts from frag0)
+  * @IFF_CHANGE_PROTO_DOWN: device supports setting carrier via IFLA_PROTO_DOWN
+@@ -1691,7 +1690,6 @@ enum netdev_priv_flags {
+ 	IFF_FAILOVER			= 1<<27,
+ 	IFF_FAILOVER_SLAVE		= 1<<28,
+ 	IFF_L3MDEV_RX_HANDLER		= 1<<29,
+-	IFF_LIVE_RENAME_OK		= 1<<30,
+ 	IFF_TX_SKB_NO_LINEAR		= BIT_ULL(31),
+ 	IFF_CHANGE_PROTO_DOWN		= BIT_ULL(32),
+ };
+@@ -1726,7 +1724,6 @@ enum netdev_priv_flags {
+ #define IFF_FAILOVER			IFF_FAILOVER
+ #define IFF_FAILOVER_SLAVE		IFF_FAILOVER_SLAVE
+ #define IFF_L3MDEV_RX_HANDLER		IFF_L3MDEV_RX_HANDLER
+-#define IFF_LIVE_RENAME_OK		IFF_LIVE_RENAME_OK
+ #define IFF_TX_SKB_NO_LINEAR		IFF_TX_SKB_NO_LINEAR
+ 
+ /* Specifies the type of the struct net_device::ml_priv pointer */
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 2e4f1c97b59e..a2d650ae15d7 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -1163,22 +1163,6 @@ int dev_change_name(struct net_device *dev, const char *newname)
+ 
+ 	net = dev_net(dev);
+ 
+-	/* Some auto-enslaved devices e.g. failover slaves are
+-	 * special, as userspace might rename the device after
+-	 * the interface had been brought up and running since
+-	 * the point kernel initiated auto-enslavement. Allow
+-	 * live name change even when these slave devices are
+-	 * up and running.
+-	 *
+-	 * Typically, users of these auto-enslaving devices
+-	 * don't actually care about slave name change, as
+-	 * they are supposed to operate on master interface
+-	 * directly.
+-	 */
+-	if (dev->flags & IFF_UP &&
+-	    likely(!(dev->priv_flags & IFF_LIVE_RENAME_OK)))
+-		return -EBUSY;
+-
+ 	down_write(&devnet_rename_sem);
+ 
+ 	if (strncmp(newname, dev->name, IFNAMSIZ) == 0) {
+diff --git a/net/core/failover.c b/net/core/failover.c
+index 864d2d83eff4..655411c4ca51 100644
+--- a/net/core/failover.c
++++ b/net/core/failover.c
+@@ -80,14 +80,14 @@ static int failover_slave_register(struct net_device *slave_dev)
+ 		goto err_upper_link;
+ 	}
+ 
+-	slave_dev->priv_flags |= (IFF_FAILOVER_SLAVE | IFF_LIVE_RENAME_OK);
++	slave_dev->priv_flags |= IFF_FAILOVER_SLAVE;
+ 
+ 	if (fops && fops->slave_register &&
+ 	    !fops->slave_register(slave_dev, failover_dev))
+ 		return NOTIFY_OK;
+ 
+ 	netdev_upper_dev_unlink(slave_dev, failover_dev);
+-	slave_dev->priv_flags &= ~(IFF_FAILOVER_SLAVE | IFF_LIVE_RENAME_OK);
++	slave_dev->priv_flags &= ~IFF_FAILOVER_SLAVE;
+ err_upper_link:
+ 	netdev_rx_handler_unregister(slave_dev);
+ done:
+@@ -121,7 +121,7 @@ int failover_slave_unregister(struct net_device *slave_dev)
+ 
+ 	netdev_rx_handler_unregister(slave_dev);
+ 	netdev_upper_dev_unlink(slave_dev, failover_dev);
+-	slave_dev->priv_flags &= ~(IFF_FAILOVER_SLAVE | IFF_LIVE_RENAME_OK);
++	slave_dev->priv_flags &= ~IFF_FAILOVER_SLAVE;
+ 
+ 	if (fops && fops->slave_unregister &&
+ 	    !fops->slave_unregister(slave_dev, failover_dev))
+-- 
+2.38.1
 
-  KVM_SET_MEMORY_ATTRIBUTES
-
-  struct kvm_memory_attributes {
-	__u64 address;
-	__u64 size;
-	__u64 flags;
-  }
-
-[*] https://lore.kernel.org/all/Y1a1i9vbJ%2FpVmV9r@google.com
-
-> +		struct kvm_enc_region region;
-> +		bool set = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
-> +
-> +		if (!kvm_arch_has_private_mem(kvm))
-> +			goto arch_vm_ioctl;
-> +
-> +		r = -EFAULT;
-> +		if (copy_from_user(&region, argp, sizeof(region)))
-> +			goto out;
-> +
-> +		r = kvm_vm_ioctl_set_mem_attr(kvm, region.addr,
-> +					      region.size, set);
-> +		break;
-> +	}
-> +#endif
