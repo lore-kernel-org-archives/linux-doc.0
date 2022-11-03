@@ -2,164 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC3FAC4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 22:33:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BFA4C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 22:38:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbiKCWdn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 18:33:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50872 "EHLO
+        id S229637AbiKCWiI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 18:38:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229863AbiKCWdm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 18:33:42 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A2C61FCE7;
-        Thu,  3 Nov 2022 15:33:41 -0700 (PDT)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A3MWa4N020807;
-        Thu, 3 Nov 2022 22:33:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=ojVz6+kfupsCAHfqd+jwQYHHjRd1Sj2lQ0/Cs05oazE=;
- b=LkdqzMfJ93AdRhxbWol/fmuJlpLghVdOFB3XzaescAeQX+LAUJ1igua1AjNnUpCQTwj/
- ljrVkFn25suqv+8wbm4uayIHIJtpfGDXEVquZnLf/wQuUiKxdFo/89x/eA7lWuCdSPiZ
- GqgpTxgJna40ta5gfUnO6tyKryK9YBWI9DH7Ul3V/u/KaOmC+K5th6rx96Wz71pEEe8T
- 8pI78PuMgjuuDcQ570Sz1op9QpfQ1283fdiBG8dqfKdE9Dqdb/7EAk5fjj6oZnsNmFAI
- wHyQ527MJMZnWRuIBEeiadMP6TD7sW9EcKNCZGjMXZwJK5vBqgGOt0InLHbAoAiAo6+S eA== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kmpgx803a-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 03 Nov 2022 22:33:25 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A3MXOVt006920
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 3 Nov 2022 22:33:24 GMT
-Received: from [10.110.42.219] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 3 Nov 2022
- 15:33:23 -0700
-Message-ID: <ab7184f6-09e4-4b1c-bebe-30119b8da46c@quicinc.com>
-Date:   Thu, 3 Nov 2022 15:33:22 -0700
+        with ESMTP id S231205AbiKCWiH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 18:38:07 -0400
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E21B21263;
+        Thu,  3 Nov 2022 15:38:06 -0700 (PDT)
+Received: by mail-il1-x133.google.com with SMTP id x16so1820938ilm.5;
+        Thu, 03 Nov 2022 15:38:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n/t1QpuYGHmjAu6dJiu/PChAZGU9N6vHDNe293KYEKg=;
+        b=VjI8+xBVnmxg8YwdltVKRQP3gbaBNpKLQMs0G1a7hAssRQchnhhZNcwC6qtmeXhkcD
+         cAF6PArcmw3SffnHcFqHc3Mk1ggVb7V4hak55iZrfXvIhXHvmI7UGSNkz0bG1M1KLD0f
+         jFOSuiEWOKV5kyggb+l0oQ6+msrvJPKOfmSA9scWFqJx3Fd6FOCOPCl7h01pTPWfpOlz
+         BZFDjfETIbyiIsFj4Ue12jbkOLhRkfnSoGVZoeY627txHFh78O1srSHDw7NBOCqidDt+
+         rq6n565n+Ebb+3e2T2ertqwWXxxlIA+A3207RiF6idjGSL5Welq3+wY74RT6FOcbhlzN
+         cSDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n/t1QpuYGHmjAu6dJiu/PChAZGU9N6vHDNe293KYEKg=;
+        b=axAhfXc/v73o+/FyZa2XFc4k84V8lEzr8BIS9g51VhmT0NvH5iZETBbGo3s5xGBqLC
+         RVRwOdfm5UfJJiJpEwOqDzKxmLN+KB28DIXWJA6zd9e5Qkc2cUDZzO0PlZHSS0kjQzSY
+         1R42h3+2SmB43DFFNgXfiZdDSByf/C/yVIbhR516HrVt2PNsM9X1+uPY9Bkzlv4uNGxB
+         ICpG8ReczQpwrVo/mqLX7YRjLFTpd16RKChj/l2ZTX/mrsOcqdmenx/2UHieePJHJH1s
+         UAc0qjM+lktxOJ43YcotJo85ZjIsFAShhlaKDiV391y68XIy12U29iMCXYW5KC41mHSS
+         ar4w==
+X-Gm-Message-State: ACrzQf3JuhF/NoE25ddyRaVj1ccaYcWPaItv4EXy5Cr96Kw/oRjOYW8m
+        Xgxp+9bnfhAgIL2pzM9sDGo=
+X-Google-Smtp-Source: AMsMyM4JowYYx6kYKPONyukV2RPMcEKLyA1l+4PKc3pecw+8cbd8R468vbfzMHb1YW0InkHPRs1AxA==
+X-Received: by 2002:a92:da89:0:b0:300:c5a3:2fa0 with SMTP id u9-20020a92da89000000b00300c5a32fa0mr9264176iln.78.1667515085229;
+        Thu, 03 Nov 2022 15:38:05 -0700 (PDT)
+Received: from ?IPV6:2601:282:800:dc80:a10c:23e5:6dc3:8e07? ([2601:282:800:dc80:a10c:23e5:6dc3:8e07])
+        by smtp.googlemail.com with ESMTPSA id o1-20020a022201000000b00374da9c6e37sm617653jao.123.2022.11.03.15.38.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Nov 2022 15:38:02 -0700 (PDT)
+Message-ID: <49fbb357-ea22-2647-25d0-a2993cd5ad32@gmail.com>
+Date:   Thu, 3 Nov 2022 16:38:00 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v6 13/21] gunyah: vm_mgr: Introduce basic VM Manager
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH net-next v2] netconsole: Enable live renaming for network
+ interfaces used by netconsole
 Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-14-quic_eberman@quicinc.com>
- <c1f86c53-1d9f-4faf-9313-de86d33e3739@app.fastmail.com>
- <7c59a115-36c5-c954-5610-ef5ef1dbb83e@quicinc.com>
- <Y2MJYEqnJONvH0fY@kroah.com>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <Y2MJYEqnJONvH0fY@kroah.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To:     Ido Schimmel <idosch@idosch.org>, Jakub Kicinski <kuba@kernel.org>
+Cc:     Roman Gushchin <roman.gushchin@linux.dev>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andy Ren <andy.ren@getcruise.com>, netdev@vger.kernel.org,
+        richardbgobert@gmail.com, davem@davemloft.net,
+        wsa+renesas@sang-engineering.com, edumazet@google.com,
+        petrm@nvidia.com, pabeni@redhat.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Stephen Hemminger <sthemmin@microsoft.com>
+References: <20221102002420.2613004-1-andy.ren@getcruise.com>
+ <Y2G+SYXyZAB/r3X0@lunn.ch> <20221101204006.75b46660@kernel.org>
+ <Y2KlfhfijyNl8yxT@P9FQF9L96D.corp.robot.car>
+ <20221102125418.272c4381@kernel.org> <Y2P/33wfWmQ/xC3n@shredder>
+From:   David Ahern <dsahern@gmail.com>
+In-Reply-To: <Y2P/33wfWmQ/xC3n@shredder>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: bjBicJSDzvATZudAaAiSrBktCr4v1hol
-X-Proofpoint-ORIG-GUID: bjBicJSDzvATZudAaAiSrBktCr4v1hol
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-03_04,2022-11-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- mlxlogscore=909 impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
- suspectscore=0 adultscore=0 clxscore=1015 mlxscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211030154
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 11/2/2022 5:20 PM, Greg Kroah-Hartman wrote:
-> On Wed, Nov 02, 2022 at 11:44:51AM -0700, Elliot Berman wrote:
->>
->>
->> On 11/2/2022 12:31 AM, Arnd Bergmann wrote:
->>> On Wed, Oct 26, 2022, at 20:58, Elliot Berman wrote:
+On 11/3/22 11:52 AM, Ido Schimmel wrote:
+> On Wed, Nov 02, 2022 at 12:54:18PM -0700, Jakub Kicinski wrote:
+>> On Wed, 2 Nov 2022 10:14:38 -0700 Roman Gushchin wrote:
+>>>> Agreed. BTW I wonder if we really want to introduce a netconsole
+>>>> specific uAPI for this or go ahead with something more general.  
 >>>
->>>> +static const struct file_operations gh_vm_fops = {
->>>> +	.unlocked_ioctl = gh_vm_ioctl,
->>>> +	.release = gh_vm_release,
->>>> +	.llseek = noop_llseek,
->>>> +};
+>>> Netconsole is a bit special because it brings an interface up very early.
+>>> E.g. in our case without the netconsole the renaming is happening before
+>>> the interface is brought up.
 >>>
->>> There should be a .compat_ioctl entry here, otherwise it is
->>> impossible to use from 32-bit tasks. If all commands have
->>> arguments passed through a pointer to a properly defined
->>> structure, you can just set it to compat_ptr_ioctl.
+>>> I wonder if the netconsole-specific flag should allow renaming only once.
+>>>  
+>>>> A sysctl for global "allow UP rename"?  
 >>>
+>>> This will work for us, but I've no idea what it will break for other users
+>>> and how to check it without actually trying to break :) And likely we won't
+>>> learn about it for quite some time, asssuming they don't run net-next.
 >>
->> Ack.
+>> Then again IFF_LIVE_RENAME_OK was added in 5.2 so quite a while back.
 >>
->>>> +static long gh_dev_ioctl_create_vm(unsigned long arg)
->>>> +{
->>>> +	struct gunyah_vm *ghvm;
->>>> +	struct file *file;
->>>> +	int fd, err;
->>>> +
->>>> +	/* arg reserved for future use. */
->>>> +	if (arg)
->>>> +		return -EINVAL;
+>>>> We added the live renaming for failover a while back and there were 
+>>>> no reports of user space breaking as far as I know. So perhaps nobody
+>>>> actually cares and we should allow renaming all interfaces while UP?
+>>>> For backwards compat we can add a sysctl as mentioned or a rtnetlink 
+>>>> "I know what I'm doing" flag? 
+>>>>
+>>>> Maybe print an info message into the logs for a few releases to aid
+>>>> debug?
+>>>>
+>>>> IOW either there is a reason we don't allow rename while up, and
+>>>> netconsole being bound to an interface is immaterial. Or there is 
+>>>> no reason and we should allow all.  
 >>>
->>> Do you have something specific in mind here? If 'create'
->>> is the only command you support, and it has no arguments,
->>> it would be easier to do it implicitly during open() and
->>> have each fd opened from /dev/gunyah represent a new VM.
->>>
+>>> My understanding is that it's not an issue for the kernel, but might be
+>>> an issue for some userspace apps which do not expect it.
 >>
->> I'd like the argument here to support different types of virtual machines. I
->> want to leave open what "different types" can be in case something new comes
->> up in the future, but immediately "different type" would correspond to a few
->> different authentication mechanisms for virtual machines that Gunyah
->> supports.
+>> There are in-kernel notifier users which could cache the name on up /
+>> down. But yes, the user space is the real worry.
+>>
+>>> If you prefer to go with the 'global sysctl' approach, how the path forward
+>>> should look like?
+>>
+>> That's the question. The sysctl would really just be to cover our back
+>> sides, and be able to tell the users "you opted in by setting that
+>> sysctl, we didn't break backward compat". But practically speaking, 
+>> its a different entity that'd be flipping the sysctl (e.g. management
+>> daemon) and different entity that'd be suffering (e.g. routing daemon).
+>> So the sysctl doesn't actually help anyone :/
+>>
+>> So maybe we should just risk it and wonder about workarounds once
+>> complains surface, if they do. Like generate fake down/up events.
+>> Or create some form of "don't allow live renames now" lock-like
+>> thing a process could take.
+>>
+>> Adding a couple more CCs and if nobody screams at us I vote we just
+>> remove the restriction instead of special casing.
 > 
-> Please don't add code that does not actually do something now, as that
-> makes it impossible to review properly, _AND_ no one knows what is going
-> to happen in the future.  In the future, you can just add a new ioctl
-> and all is good, no need to break working userspace by suddenly looking
-> at the arg value and doing something with it.
-> 
+> Tried looking at history.git to understand the reasoning behind this
+> restriction. I guess it's because back then it was only possible via
+> IOCTL and user space wouldn't be notified about such a change. Nowadays
+> user space gets a notification regardless of the administrative state of
+> the netdev (see rtnetlink_event()). At least in-kernel listeners to
+> NETDEV_CHANGENAME do not seem to care if the netdev is administratively
+> up or not. So, FWIW, the suggested approach sounds sane to me.
 
-I think the argument does something today and it's documented to need to 
-be 0. If a userspace from the future provides non-zero value, Linux will 
-correctly reject it because it doesn't know how to interpret the 
-different VM types.
-
-I can document it more clearly as the VM type field and support only the 
-one VM type today.
-
-Creating new ioctl for each VM type feels to me like I didn't design 
-CREATE_VM ioctl right in first place.
-
-Thanks,
-Elliot
++1
