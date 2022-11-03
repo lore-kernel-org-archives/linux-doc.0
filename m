@@ -2,221 +2,280 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCD16C43217
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 03:21:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE1D6C4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 03:50:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230510AbiKCDV5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 2 Nov 2022 23:21:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59246 "EHLO
+        id S230315AbiKCDuf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 2 Nov 2022 23:50:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230466AbiKCDVx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 23:21:53 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC0D914D2E;
-        Wed,  2 Nov 2022 20:21:51 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id f7so1156648edc.6;
-        Wed, 02 Nov 2022 20:21:51 -0700 (PDT)
+        with ESMTP id S230314AbiKCDuY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 2 Nov 2022 23:50:24 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CEB315FED;
+        Wed,  2 Nov 2022 20:50:23 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id d13-20020a17090a3b0d00b00213519dfe4aso682881pjc.2;
+        Wed, 02 Nov 2022 20:50:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3mJ1M1GCa29hKoerTifDSh6zyzpsImb+52pEFvSJf6k=;
-        b=SqxPLb37gwUzlh0M2OCmLT3oshNTX2u7ZDnwnsLBGMw+2hzrjm6H6qVneSZ2JRG7ad
-         RKiQCmfVy/LwMrC4GGlPmWe4n1VN+tOdt7Ec/A3lOUs0teu08X0hUfJqw0pqAVWz9a6S
-         OBaBfZQ1F4jdSUk1XyQfZegrANC4EX4EGTs+tpsRpkxPDI6zneQs5wrsCrlFnMV9tcIe
-         O62MGSmazs952yy/io8OtJPPORD4inDvrc8dFCzFjPezL8uKfHbEJuZsEYTcX5oAeDsK
-         wQCIFJ6DdBY6dhNV+e4msBR4tYEJvv6NUHbumbMH596G34oFlWLJbM/bmStZk3954W2g
-         H7lg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iWVR2ehQGeZFXPOJNknn3hmzbHnYOWV57filXnjqjrU=;
+        b=IljhQhIC/sgv7OmXIphyRoF1Fm2arV5E5U02Kgp8tUT+YAED6LwaG9RD4QoU9CUSP5
+         1/JNzISZO7e0k7LVi4Nhh5KwB3CiEdhylwRBnpUuPf9JfG2iFOLa5bBg4N7u4W1/WhBl
+         LJQGh6yVWhaw0tytwIyyV/ZB5HPOV0pCuqYcSOAT9NwusSA0CGBvX+EyWy3UKnp5kXPg
+         nIFT6Dh82si3xpSAfsD2M3v8F8yWE/FhhpLtf3lkKEWv52m501EQ66Nykxayp1XTqDvL
+         WAWBvQlIHGidKNnNKDn8JmAbCkreN9tLcEXmsdG3J1CBqteqkisOYXXjzr5N4tg3qu+Q
+         7XoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3mJ1M1GCa29hKoerTifDSh6zyzpsImb+52pEFvSJf6k=;
-        b=7nsxTNaFvprYu2zh1StnMYIQJUnMedGE+UUoCgCSUdjSoRsnFWlWihUXELN1KTVHPV
-         DAReOtiPHKzGBIsfAMkva1JUdTEUy8vzoJUJNVyY9NmrqJiSJuv4CwCaY3aU0RN0Kx3j
-         gi/2YNHW3IULGkojpNxmcOJRFeK7O5nsfBMaVZjFVMIU3viu/EtEwVbR/6VWzSqJUW26
-         gPA24Zy2x2o8eO5KnhJCcZyMe4C1Rza0jCyR1MiPKTuIiGJup6jBZEJR5miViXxaUCw4
-         P5+PAGgvioOLyq+KVK17UZhTLZuKKYqBo82+bmTCHNDYKTQBHfDPbyHUwqU7jOeX7fWH
-         Lxow==
-X-Gm-Message-State: ACrzQf3a1g69PfJl4cEcYxTozNNyF/P8fZkAqk0rRkGjlVGqoitNJbDS
-        t08bBwPK+w1ZySUjNwRMc+0BQJlrZbfPTUP2e8A=
-X-Google-Smtp-Source: AMsMyM6kKs8VptkJDrUguJRraGRylo14qt/1lsP7wua44fsE/ep67/0MdoOlKkkmkz/BVyRXfkdfHy9iRMu5SfKNflU=
-X-Received: by 2002:a05:6402:1d4e:b0:461:c7bd:7d9c with SMTP id
- dz14-20020a0564021d4e00b00461c7bd7d9cmr27654272edb.284.1667445710302; Wed, 02
- Nov 2022 20:21:50 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iWVR2ehQGeZFXPOJNknn3hmzbHnYOWV57filXnjqjrU=;
+        b=t0Gi1uSIOqt7X6qCl71cWJZA9S93adZj2MwMDiegXgcj1oSEhYiTI6Qp0T8hIVHz9f
+         dvAMUJudIU+RtVDMazsLH3yJgyvnhobtBz0g4cY6Tpyofw+k+9N/fp3JOOjE4ZKra3PM
+         oDpNsAWKcMpq+H2RDLqQuTmjaCku/pPTFDXd/l+YrMfWCUU6qvNbK2EjVlbYZS+1YDL/
+         97VvhottBIxACmMjmWt/vp6A7DBopqIa6YlUaiMMMuUC7ltFlHhmTvpvw0PKgovd+Z45
+         pOsKbtQtxhEHP83HTaDYVJRaDTrnax8DdcG1zGyszlIZfBJdD+g+9hZUdr/dbdIWG3Od
+         YOfA==
+X-Gm-Message-State: ACrzQf1z1c43ALdPVjiICogaILOVWMtMRKZnl7woN4oYROV4R0K2iWew
+        noQ+cYYzn82zI5fuTRfMjhg=
+X-Google-Smtp-Source: AMsMyM59vsw1ww2iJDViww6QqEMLB7bqz+DWsHRCrrgQ+b/6qP0v4EaYmz/ye+GUsaHp7b3ofc0NxA==
+X-Received: by 2002:a17:90a:c78a:b0:212:e56b:2b17 with SMTP id gn10-20020a17090ac78a00b00212e56b2b17mr29293540pjb.51.1667447423005;
+        Wed, 02 Nov 2022 20:50:23 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-93.three.co.id. [180.214.232.93])
+        by smtp.gmail.com with ESMTPSA id u18-20020a170902e81200b001868d4600b8sm9150731plg.158.2022.11.02.20.50.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 20:50:21 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 51DCA1032A1; Thu,  3 Nov 2022 10:50:18 +0700 (WIB)
+Date:   Thu, 3 Nov 2022 10:50:17 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Usama Arif <usama.arif@bytedance.com>
+Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, linux@armlinux.org.uk,
+        yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org,
+        maz@kernel.org, steven.price@arm.com, mark.rutland@arm.com,
+        fam.zheng@bytedance.com, liangma@liangbit.com,
+        punit.agrawal@bytedance.com
+Subject: Re: [RFC 1/6] KVM: arm64: Document PV-lock interface
+Message-ID: <Y2M6eU6xW7jjVQNx@debian.me>
+References: <20221102161340.2982090-1-usama.arif@bytedance.com>
+ <20221102161340.2982090-2-usama.arif@bytedance.com>
 MIME-Version: 1.0
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-3-quic_eberman@quicinc.com> <CABb+yY3JVNPG3dcyHNFxEeGEu3MN_pAOh3+cwexPPe2YG6SNUg@mail.gmail.com>
- <fb7e101f-8de0-d77e-30e1-74b882b19583@quicinc.com> <CABb+yY08jP+Q5xvzLf=7F1tULP6-eZz5EDiK9mBj2fAv=iZa_A@mail.gmail.com>
- <4cb58489-cd42-1868-9add-0c360065de23@quicinc.com> <CABb+yY2GA90RLazHZL7sLtC+ka-P8y6s00V2BVF4OMPTDi-rKg@mail.gmail.com>
- <62f7402d-f0e7-8e8a-e1a4-958ddbcf8d8b@quicinc.com> <CABb+yY0-rtt5CfzGA_D3THnfTO1pgstmVo2_1McEJ=JMdTcD2Q@mail.gmail.com>
- <840d876c-6a09-59cf-fc66-c5752ad22d7e@quicinc.com> <CABb+yY1rd2mzNz-ovaO2Di=9qeAKp4XeUUE+6yPbBiv7YjTCfw@mail.gmail.com>
- <10525d0d-b887-6960-5fbc-933b91e2e97c@quicinc.com>
-In-Reply-To: <10525d0d-b887-6960-5fbc-933b91e2e97c@quicinc.com>
-From:   Jassi Brar <jassisinghbrar@gmail.com>
-Date:   Wed, 2 Nov 2022 22:21:38 -0500
-Message-ID: <CABb+yY2fBa3up8Byu8axagwTEoidW+mbwene1qFyh=qJxPLJ=Q@mail.gmail.com>
-Subject: Re: [PATCH v6 02/21] dt-bindings: Add binding for gunyah hypervisor
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="0kw+g6XS/JN44czt"
+Content-Disposition: inline
+In-Reply-To: <20221102161340.2982090-2-usama.arif@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 2, 2022 at 6:23 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
->
->
->
-> On 11/2/2022 11:24 AM, Jassi Brar wrote:
-> > On Wed, Nov 2, 2022 at 1:06 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
-> >>
-> >> Hi Jassi,
-> >>
-> >> On 11/1/2022 7:01 PM, Jassi Brar wrote:
-> >>> On Tue, Nov 1, 2022 at 7:12 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
-> >>>>
-> >>>>
-> >>>>
-> >>>> On 11/1/2022 2:58 PM, Jassi Brar wrote:
-> >>>>> On Tue, Nov 1, 2022 at 3:35 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
-> >>>>>>
-> >>>>>>
-> >>>>>>
-> >>>>>> On 11/1/2022 9:23 AM, Jassi Brar wrote:
-> >>>>>>> On Mon, Oct 31, 2022 at 10:20 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
-> >>>>>>>>
-> >>>>>>>> Hi Jassi,
-> >>>>>>>>
-> >>>>>>>> On 10/27/2022 7:33 PM, Jassi Brar wrote:
-> >>>>>>>>      > On Wed, Oct 26, 2022 at 1:59 PM Elliot Berman
-> >>>>>>>> <quic_eberman@quicinc.com> wrote:
-> >>>>>>>>      > .....
-> >>>>>>>>      >> +
-> >>>>>>>>      >> +        gunyah-resource-mgr@0 {
-> >>>>>>>>      >> +            compatible = "gunyah-resource-manager-1-0",
-> >>>>>>>> "gunyah-resource-manager";
-> >>>>>>>>      >> +            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX
-> >>>>>>>> full IRQ */
-> >>>>>>>>      >> +                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX
-> >>>>>>>> empty IRQ */
-> >>>>>>>>      >> +            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
-> >>>>>>>>      >> +                  /* TX, RX cap ids */
-> >>>>>>>>      >> +        };
-> >>>>>>>>      >>
-> >>>>>>>>      > All these resources are used only by the mailbox controller driver.
-> >>>>>>>>      > So, this should be the mailbox controller node, rather than the
-> >>>>>>>>      > mailbox user.> One option is to load gunyah-resource-manager as a
-> >>>>>>>> module that relies
-> >>>>>>>>      > on the gunyah-mailbox provider. That would also avoid the "Allow
-> >>>>>>>>      > direct registration to a channel" hack patch.
-> >>>>>>>>
-> >>>>>>>> A message queue to another guest VM wouldn't be known at boot time and
-> >>>>>>>> thus couldn't be described on the devicetree.
-> >>>>>>>>
-> >>>>>>> I think you need to implement of_xlate() ... or please tell me what
-> >>>>>>> exactly you need to specify in the dt.
-> >>>>>>
-> >>>>>> Dynamically created virtual machines can't be known on the dt, so there
-> >>>>>> is nothing to specify in the DT. There couldn't be a devicetree node for
-> >>>>>> the message queue client because that client is only exists once the VM
-> >>>>>> is created by userspace.
-> >>>>>>
-> >>>>> The underlying "physical channel" is the synchronous SMC instruction,
-> >>>>> which remains 1 irrespective of the number of mailbox instances
-> >>>>> created.
-> >>>>
-> >>>> I disagree that the physical channel is the SMC instruction. Regardless
-> >>>> though, there are num_online_cpus() "physical channels" with this
-> >>>> perspective.
-> >>>>
-> >>>>> So basically you are sharing one resource among users. Why doesn't the
-> >>>>> RM request the "smc instruction" channel once and share it among
-> >>>>> users?
-> >>>>
-> >>>> I suppose in this scenario, a single mailbox channel would represent all
-> >>>> message queues? This would cause Linux to serialize *all* message queue
-> >>>> hypercalls. Sorry, I can only think negative implications.
-> >>>>
-> >>>> Error handling needs to move into clients: if a TX message queue becomes
-> >>>> full or an RX message queue becomes empty, then we'll need to return
-> >>>> error back to the client right away. The clients would need to register
-> >>>> for the RTS/RTR interrupts to know when to send/receive messages and
-> >>>> have retry error handling. If the mailbox controller retried for the
-> >>>> clients as currently proposed, then we could get into a scenario where a
-> >>>> message queue could never be ready to send/receive and thus stuck
-> >>>> forever trying to process that message. The effect here would be that
-> >>>> the mailbox controller becomes a wrapper to some SMC instructions that
-> >>>> aren't related at the SMC instruction level.
-> >>>>
-> >>>> A single channel would limit performance of SMP systems because only one
-> >>>> core could send/receive a message. There is no such limitation for
-> >>>> message queues to behave like this.
-> >>>>
-> >>> This is just an illusion. If Gunyah can handle multiple calls from a
-> >>> VM parallely, even with the "bind-client-to-channel" hack you can't
-> >>> make sure different channels run on different cpu cores.  If you are
-> >>> ok with that, you could simply populate a mailbox controller with N
-> >>> channels and allocate them in any order the clients ask.
-> >>
-> >> I wanted to make sure I understood the ask here completely. On what
-> >> basis is N chosen? Who would be the mailbox clients?
-> >>
-> > A channel structure is cheap, so any number that is not likely to run
-> > out. Say you have 10 possible users in a VM, set N=16. I know ideally
-> > it should be precise and flexible but the gain in simplicity makes the
-> > trade-off very acceptable.
->
-> I think I get the direction you are thinking now. N is chosen based off
-> of how many clients there might be. One mailbox controller will
-> represent all message queues and each channel will be one message queue.
-> There are some limitations that might make it more complex to implement
-> than having 1 message queue per controller like I have now.
->
-> My interpretation is that mailbox controller knows the configuration of
-> its channels before being bound to a client. For dynamically created
-> message queues, the client would need tell the controller about the
-> message queue configuration. I didn't find example where client is
-> providing information about a channel to the controller.
->
->   1. need a mechanism to allow the client to provide the
-> gunyah_resources for the channel (i.e. the irqs and cap ids).
->
-IIUC there is exactly one resource-manager in a VM. Right?
-Looking at your code, TX and RX irq are used only by the mailbox
-driver and are the same for all clients/users. So that should be a
-property under the mailbox controller node. Not sure what cap ids are.
 
->   2. Still need to have bind-client-to-channel patch since clients
-> aren't real devices and so shouldn't be on DT.
->
-the clients may be virtual (serial, gpio etc) but the resource-manager
-requires some mailbox hardware to communicate, so the resource-manager
-should be the mailbox client (that further spawns virtual devices)
+--0kw+g6XS/JN44czt
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thnx.
+On Wed, Nov 02, 2022 at 04:13:35PM +0000, Usama Arif wrote:
+> +    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +    Function ID:  (uint32)    0xC6000020
+> +    PV_call_id:   (uint32)    The function to query for support.
+> +                              Currently only PV_LOCK_PREEMPTED is suppor=
+ted.
+> +    Return value: (int64)     NOT_SUPPORTED (-1) or SUCCESS (0) if the r=
+elevant
+> +                              PV-lock feature is supported by the hyperv=
+isor.
+> +    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +PV_LOCK_PREEMPTED
+> +    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +    Function ID:  (uint32)    0xC6000021
+> +    Return value: (int64)     IPA of the pv lock data structure for this
+> +                              VCPU. On failure:
+> +                              NOT_SUPPORTED (-1)
+> +    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+
+You need to fix up these tables above:
+
+---- >8 ----
+
+diff --git a/Documentation/virt/kvm/arm/pvlock.rst b/Documentation/virt/kvm=
+/arm/pvlock.rst
+index 766aeef50b2d31..940a1cb221bc90 100644
+--- a/Documentation/virt/kvm/arm/pvlock.rst
++++ b/Documentation/virt/kvm/arm/pvlock.rst
+@@ -15,21 +15,23 @@ The existence of the PV_LOCK hypercall should be probed=
+ using the SMCCC 1.1
+ ARCH_FEATURES mechanism before calling it.
+=20
+ PV_LOCK_FEATURES
+-    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+     Function ID:  (uint32)    0xC6000020
+     PV_call_id:   (uint32)    The function to query for support.
+                               Currently only PV_LOCK_PREEMPTED is supporte=
+d.
+     Return value: (int64)     NOT_SUPPORTED (-1) or SUCCESS (0) if the rel=
+evant
+                               PV-lock feature is supported by the hypervis=
+or.
+-    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ PV_LOCK_PREEMPTED
+-    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+     Function ID:  (uint32)    0xC6000021
+     Return value: (int64)     IPA of the pv lock data structure for this
+                               VCPU. On failure:
+                               NOT_SUPPORTED (-1)
+-    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D    =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ The IPA returned by PV_LOCK_PREEMPTED should be mapped by the guest as nor=
+mal
+ memory with inner and outer write back caching attributes, in the inner
+
+The similar fixup should also be made to the tables in
+Documentation/virt/kvm/arm/pvtime.rst, though.
+
+> +The IPA returned by PV_LOCK_PREEMPTED should be mapped by the guest as n=
+ormal
+> +memory with inner and outer write back caching attributes, in the inner
+> +shareable domain.
+> +
+> +PV_LOCK_PREEMPTED returns the structure for the calling VCPU.
+> +
+> +PV lock state
+> +-------------
+> +
+> +The structure pointed to by the PV_LOCK_PREEMPTED hypercall is as follow=
+s:
+> +
+> ++-----------+-------------+-------------+-------------------------------=
+--+
+> +| Field     | Byte Length | Byte Offset | Description                   =
+  |
+> ++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+> +| preempted |      8      |      0      | Indicate if the VCPU that owns=
+  |
+> +|           |             |             | this struct is running or not.=
+  |
+> +|           |             |             | Non-zero values mean the VCPU =
+  |
+> +|           |             |             | has been preempted. Zero means=
+  |
+> +|           |             |             | the VCPU is not preempted.    =
+  |
+> ++-----------+-------------+-------------+-------------------------------=
+--+
+> +
+> +The preempted field will be updated to 1 by the hypervisor prior to sche=
+duling
+> +a VCPU. When the VCPU is scheduled out, the preempted field will be upda=
+ted
+> +to 0 by the hypervisor.
+> +
+> +The structure will be present within a reserved region of the normal mem=
+ory
+> +given to the guest. The guest should not attempt to write into this memo=
+ry.
+> +There is a structure per VCPU of the guest.
+> +
+> +For the user space interface see Documentation/virt/kvm/devices/vcpu.rst
+> +section "4. GROUP: KVM_ARM_VCPU_PVLOCK_CTRL".
+
+Use reST labels for cross-referencing to the documentation section:
+
+---- >8 ----
+
+diff --git a/Documentation/virt/kvm/arm/pvlock.rst b/Documentation/virt/kvm=
+/arm/pvlock.rst
+index 940a1cb221bc90..4e9d09b76ef033 100644
+--- a/Documentation/virt/kvm/arm/pvlock.rst
++++ b/Documentation/virt/kvm/arm/pvlock.rst
+@@ -62,5 +62,5 @@ The structure will be present within a reserved region of=
+ the normal memory
+ given to the guest. The guest should not attempt to write into this memory.
+ There is a structure per VCPU of the guest.
+=20
+-For the user space interface see Documentation/virt/kvm/devices/vcpu.rst
+-section "4. GROUP: KVM_ARM_VCPU_PVLOCK_CTRL".
++For the user space interface see :ref:`KVM_VCPU_TSC_CTRL in Generic vcpu
++interface documentation <kvm-vcpu-tsc-ctrl>`.
+diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/k=
+vm/devices/vcpu.rst
+index 223ac2fe62f01f..6532f61073a39c 100644
+--- a/Documentation/virt/kvm/devices/vcpu.rst
++++ b/Documentation/virt/kvm/devices/vcpu.rst
+@@ -194,6 +194,8 @@ base address must be 64 byte aligned and exist within a=
+ valid guest memory
+ region. See Documentation/virt/kvm/arm/pvtime.rst for more information
+ including the layout of the stolen time structure.
+=20
++.. _kvm-vcpu-tsc-ctrl:
++
+ 4. GROUP: KVM_VCPU_TSC_CTRL
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+=20
+
+Also, you need to add the documentation to table of contents (index):
+
+---- >8 ----
+
+diff --git a/Documentation/virt/kvm/arm/index.rst b/Documentation/virt/kvm/=
+arm/index.rst
+index e8484843215808..b8499dc00a6a96 100644
+--- a/Documentation/virt/kvm/arm/index.rst
++++ b/Documentation/virt/kvm/arm/index.rst
+@@ -10,4 +10,5 @@ ARM
+    hyp-abi
+    hypercalls
+    pvtime
++   pvlock
+    ptp_kvm
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--0kw+g6XS/JN44czt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2M6dAAKCRD2uYlJVVFO
+o6ypAQC4gXIOLzJaG1xrERxYGFbFMVCxsI4H9zRtmvL0N59oZAD+I4W4aE89G8OC
+aMB8yxTT1P3MYgIXYCERt69q1eOhAw0=
+=7yrW
+-----END PGP SIGNATURE-----
+
+--0kw+g6XS/JN44czt--
