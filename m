@@ -2,214 +2,245 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F08C4321E
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 18:05:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EDBEC4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 19:45:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbiKCSFE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 14:05:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37606 "EHLO
+        id S230182AbiKCTps (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 15:45:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229699AbiKCSEF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 14:04:05 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2512423BC0
-        for <linux-doc@vger.kernel.org>; Thu,  3 Nov 2022 11:01:47 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id 4so2707401pli.0
-        for <linux-doc@vger.kernel.org>; Thu, 03 Nov 2022 11:01:47 -0700 (PDT)
+        with ESMTP id S229493AbiKCTpr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 15:45:47 -0400
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 046311F9C5;
+        Thu,  3 Nov 2022 12:45:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=izZdOIN6JWP3fwMuNlCfXVu66JA2QFEY9SoPm54SNBw=;
-        b=MOY3PJGr2LIy205MrPpag/ClsGw4MP56tI7WpOwNj6gRfuTiQCVn98MtRZStlxteOr
-         z/rYnBoJ3tFl3LO6m2/egnvL4bcl7xkZx16guu7qdEyEmyMdVtcyQ9dR/pPXZQo6EsME
-         JCOc9PvVPmrBN7ZLPAp3bUoEUQZ3DsvlFd5so=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=izZdOIN6JWP3fwMuNlCfXVu66JA2QFEY9SoPm54SNBw=;
-        b=ml+j0gyCCiPy88SF+KshQGK9Z+igpaDDbrXWhaXmRLFQEeqPeTBzlbaVIKdL3/gGcc
-         dX8moPrBHm39XRiwpryovtE1moLsRtNDtbAYHgLm42Vrapc10igaH0/Bd2+Mj0A/GwmY
-         6AvvvRcluAKoN2oa8l+D8C/KAG4bagCoKeZbNyKXM0RADFEyFaJkExGPD9vMUPQV1mVb
-         YvOiYlJCKCqHXepTA4OLE4S6cX2h0nhD5NGv6/2JsOzgP6YQ/n0Elv72RpThEImddgcP
-         TnkPcGey5E9ZJXjxDIUV4FzS7QpGebQ3YAQN++233eeqyZpc3ziMvdl7+lOeeDiAZq1t
-         yysQ==
-X-Gm-Message-State: ACrzQf1p+APgBqzWsEjYhYpABu7wkMq99Pp0DqKMUCv0NsBeLKW9OWze
-        OhR+vm/c6+NUVVw4ZEKZ/6dnmw==
-X-Google-Smtp-Source: AMsMyM6RmbXOOHxWXmI1WbxbS7/D6I8ewM4LRqfQX2jVykTakTV/EqKIJaeg9+BsosfNX6F7K9BLXw==
-X-Received: by 2002:a17:90a:540e:b0:210:1e26:9422 with SMTP id z14-20020a17090a540e00b002101e269422mr31496427pjh.100.1667498506839;
-        Thu, 03 Nov 2022 11:01:46 -0700 (PDT)
-Received: from evgreen-glaptop.lan ([98.45.28.95])
-        by smtp.gmail.com with ESMTPSA id t12-20020a1709027fcc00b00177fb862a87sm1000277plb.20.2022.11.03.11.01.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 11:01:46 -0700 (PDT)
-From:   Evan Green <evgreen@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     corbet@lwn.net, linux-pm@vger.kernel.org, rjw@rjwysocki.net,
-        gwendal@chromium.org, apronin@chromium.org,
-        Pavel Machek <pavel@ucw.cz>, Kees Cook <keescook@chromium.org>,
-        Matthew Garrett <mgarrett@aurora.tech>,
-        linux-integrity@vger.kernel.org, jejb@linux.ibm.com,
-        zohar@linux.ibm.com, dlunev@google.com,
-        Eric Biggers <ebiggers@kernel.org>,
-        Ben Boeckel <me@benboeckel.net>, jarkko@kernel.org,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Evan Green <evgreen@chromium.org>,
-        Ben Boeckel <linux@me.benboeckel.net>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        Paul Moore <paul@paul-moore.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: [PATCH v4 05/11] security: keys: trusted: Allow storage of PCR values in creation data
-Date:   Thu,  3 Nov 2022 11:01:13 -0700
-Message-Id: <20221103105558.v4.5.I32591db064b6cdc91850d777f363c9d05c985b39@changeid>
-X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
-In-Reply-To: <20221103180120.752659-1-evgreen@chromium.org>
-References: <20221103180120.752659-1-evgreen@chromium.org>
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1667504743; x=1699040743;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=OS+/+xZt1QdTJvH8RPAr0SDIsAedYTAz4C3sGWMmzrg=;
+  b=APqBo4kDberOYEAq+cOzShQ+Y024ukW7sz+imBchwAMWU9IzjPdw8ULC
+   uyMONsBPW/xh80JbYcLPqN+azY4s+HquXxFrsUOXAj/DBn+ZjCOO7Ty75
+   +30ImCndaBLPNwP4KYADl2LSwVoo44hOL+FFr750r1St3as746QAdrx3J
+   8=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 03 Nov 2022 12:45:42 -0700
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2022 12:45:41 -0700
+Received: from [10.110.88.98] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 3 Nov 2022
+ 12:45:40 -0700
+Message-ID: <4bf14665-3303-2449-a5d7-5b7cf01ccc29@quicinc.com>
+Date:   Thu, 3 Nov 2022 12:45:39 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v6 02/21] dt-bindings: Add binding for gunyah hypervisor
+To:     Jassi Brar <jassisinghbrar@gmail.com>
+CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        "Mark Rutland" <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "Marc Zyngier" <maz@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        "Amol Maheshwari" <amahesh@qti.qualcomm.com>,
+        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
+ <20221026185846.3983888-3-quic_eberman@quicinc.com>
+ <CABb+yY3JVNPG3dcyHNFxEeGEu3MN_pAOh3+cwexPPe2YG6SNUg@mail.gmail.com>
+ <fb7e101f-8de0-d77e-30e1-74b882b19583@quicinc.com>
+ <CABb+yY08jP+Q5xvzLf=7F1tULP6-eZz5EDiK9mBj2fAv=iZa_A@mail.gmail.com>
+ <4cb58489-cd42-1868-9add-0c360065de23@quicinc.com>
+ <CABb+yY2GA90RLazHZL7sLtC+ka-P8y6s00V2BVF4OMPTDi-rKg@mail.gmail.com>
+ <62f7402d-f0e7-8e8a-e1a4-958ddbcf8d8b@quicinc.com>
+ <CABb+yY0-rtt5CfzGA_D3THnfTO1pgstmVo2_1McEJ=JMdTcD2Q@mail.gmail.com>
+ <840d876c-6a09-59cf-fc66-c5752ad22d7e@quicinc.com>
+ <CABb+yY1rd2mzNz-ovaO2Di=9qeAKp4XeUUE+6yPbBiv7YjTCfw@mail.gmail.com>
+ <10525d0d-b887-6960-5fbc-933b91e2e97c@quicinc.com>
+ <CABb+yY2fBa3up8Byu8axagwTEoidW+mbwene1qFyh=qJxPLJ=Q@mail.gmail.com>
+Content-Language: en-US
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <CABb+yY2fBa3up8Byu8axagwTEoidW+mbwene1qFyh=qJxPLJ=Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Matthew Garrett <matthewgarrett@google.com>
 
-When TPMs generate keys, they can also generate some information
-describing the state of the PCRs at creation time. This data can then
-later be certified by the TPM, allowing verification of the PCR values.
-This allows us to determine the state of the system at the time a key
-was generated. Add an additional argument to the trusted key creation
-options, allowing the user to provide the set of PCRs that should have
-their values incorporated into the creation data.
 
-Link: https://lore.kernel.org/lkml/20210220013255.1083202-6-matthewgarrett@google.com/
-Signed-off-by: Matthew Garrett <mjg59@google.com>
-Signed-off-by: Evan Green <evgreen@chromium.org>
-Reviewed-by: Ben Boeckel <linux@me.benboeckel.net>
----
+On 11/2/2022 8:21 PM, Jassi Brar wrote:
+> On Wed, Nov 2, 2022 at 6:23 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 11/2/2022 11:24 AM, Jassi Brar wrote:
+>>> On Wed, Nov 2, 2022 at 1:06 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>>>>
+>>>> Hi Jassi,
+>>>>
+>>>> On 11/1/2022 7:01 PM, Jassi Brar wrote:
+>>>>> On Tue, Nov 1, 2022 at 7:12 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> On 11/1/2022 2:58 PM, Jassi Brar wrote:
+>>>>>>> On Tue, Nov 1, 2022 at 3:35 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On 11/1/2022 9:23 AM, Jassi Brar wrote:
+>>>>>>>>> On Mon, Oct 31, 2022 at 10:20 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+>>>>>>>>>>
+>>>>>>>>>> Hi Jassi,
+>>>>>>>>>>
+>>>>>>>>>> On 10/27/2022 7:33 PM, Jassi Brar wrote:
+>>>>>>>>>>       > On Wed, Oct 26, 2022 at 1:59 PM Elliot Berman
+>>>>>>>>>> <quic_eberman@quicinc.com> wrote:
+>>>>>>>>>>       > .....
+>>>>>>>>>>       >> +
+>>>>>>>>>>       >> +        gunyah-resource-mgr@0 {
+>>>>>>>>>>       >> +            compatible = "gunyah-resource-manager-1-0",
+>>>>>>>>>> "gunyah-resource-manager";
+>>>>>>>>>>       >> +            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX
+>>>>>>>>>> full IRQ */
+>>>>>>>>>>       >> +                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX
+>>>>>>>>>> empty IRQ */
+>>>>>>>>>>       >> +            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
+>>>>>>>>>>       >> +                  /* TX, RX cap ids */
+>>>>>>>>>>       >> +        };
+>>>>>>>>>>       >>
+>>>>>>>>>>       > All these resources are used only by the mailbox controller driver.
+>>>>>>>>>>       > So, this should be the mailbox controller node, rather than the
+>>>>>>>>>>       > mailbox user.> One option is to load gunyah-resource-manager as a
+>>>>>>>>>> module that relies
+>>>>>>>>>>       > on the gunyah-mailbox provider. That would also avoid the "Allow
+>>>>>>>>>>       > direct registration to a channel" hack patch.
+>>>>>>>>>>
+>>>>>>>>>> A message queue to another guest VM wouldn't be known at boot time and
+>>>>>>>>>> thus couldn't be described on the devicetree.
+>>>>>>>>>>
+>>>>>>>>> I think you need to implement of_xlate() ... or please tell me what
+>>>>>>>>> exactly you need to specify in the dt.
+>>>>>>>>
+>>>>>>>> Dynamically created virtual machines can't be known on the dt, so there
+>>>>>>>> is nothing to specify in the DT. There couldn't be a devicetree node for
+>>>>>>>> the message queue client because that client is only exists once the VM
+>>>>>>>> is created by userspace.
+>>>>>>>>
+>>>>>>> The underlying "physical channel" is the synchronous SMC instruction,
+>>>>>>> which remains 1 irrespective of the number of mailbox instances
+>>>>>>> created.
+>>>>>>
+>>>>>> I disagree that the physical channel is the SMC instruction. Regardless
+>>>>>> though, there are num_online_cpus() "physical channels" with this
+>>>>>> perspective.
+>>>>>>
+>>>>>>> So basically you are sharing one resource among users. Why doesn't the
+>>>>>>> RM request the "smc instruction" channel once and share it among
+>>>>>>> users?
+>>>>>>
+>>>>>> I suppose in this scenario, a single mailbox channel would represent all
+>>>>>> message queues? This would cause Linux to serialize *all* message queue
+>>>>>> hypercalls. Sorry, I can only think negative implications.
+>>>>>>
+>>>>>> Error handling needs to move into clients: if a TX message queue becomes
+>>>>>> full or an RX message queue becomes empty, then we'll need to return
+>>>>>> error back to the client right away. The clients would need to register
+>>>>>> for the RTS/RTR interrupts to know when to send/receive messages and
+>>>>>> have retry error handling. If the mailbox controller retried for the
+>>>>>> clients as currently proposed, then we could get into a scenario where a
+>>>>>> message queue could never be ready to send/receive and thus stuck
+>>>>>> forever trying to process that message. The effect here would be that
+>>>>>> the mailbox controller becomes a wrapper to some SMC instructions that
+>>>>>> aren't related at the SMC instruction level.
+>>>>>>
+>>>>>> A single channel would limit performance of SMP systems because only one
+>>>>>> core could send/receive a message. There is no such limitation for
+>>>>>> message queues to behave like this.
+>>>>>>
+>>>>> This is just an illusion. If Gunyah can handle multiple calls from a
+>>>>> VM parallely, even with the "bind-client-to-channel" hack you can't
+>>>>> make sure different channels run on different cpu cores.  If you are
+>>>>> ok with that, you could simply populate a mailbox controller with N
+>>>>> channels and allocate them in any order the clients ask.
+>>>>
+>>>> I wanted to make sure I understood the ask here completely. On what
+>>>> basis is N chosen? Who would be the mailbox clients?
+>>>>
+>>> A channel structure is cheap, so any number that is not likely to run
+>>> out. Say you have 10 possible users in a VM, set N=16. I know ideally
+>>> it should be precise and flexible but the gain in simplicity makes the
+>>> trade-off very acceptable.
+>>
+>> I think I get the direction you are thinking now. N is chosen based off
+>> of how many clients there might be. One mailbox controller will
+>> represent all message queues and each channel will be one message queue.
+>> There are some limitations that might make it more complex to implement
+>> than having 1 message queue per controller like I have now.
+>>
+>> My interpretation is that mailbox controller knows the configuration of
+>> its channels before being bound to a client. For dynamically created
+>> message queues, the client would need tell the controller about the
+>> message queue configuration. I didn't find example where client is
+>> providing information about a channel to the controller.
+>>
+>>    1. need a mechanism to allow the client to provide the
+>> gunyah_resources for the channel (i.e. the irqs and cap ids).
+>>
+> IIUC there is exactly one resource-manager in a VM. Right?
+> Looking at your code, TX and RX irq are used only by the mailbox
+> driver and are the same for all clients/users. So that should be a
+> property under the mailbox controller node. Not sure what cap ids are.
+> 
 
-(no changes since v3)
+Ah -- "message queues" are a generic inter-VM communication mechanism 
+offered by Gunyah. One use case for message queues is to communicate 
+with the resource-manager, but other message queues can exist between 
+other virtual machines. Those other message queues use different TX and 
+RX irq and have different client protocols.
 
-Changes in v3:
- - Clarified creationpcrs documentation (Ben)
+In mailbox terminology, we have one known channel at boot-up time (the 
+resource manager). That known channel can inform Linux about other 
+channels at runtime. The client (not the controller) decodes received 
+data from the channel to discover the new channels.
 
- .../security/keys/trusted-encrypted.rst       |  6 +++++
- include/keys/trusted-type.h                   |  1 +
- security/keys/trusted-keys/trusted_tpm1.c     |  9 +++++++
- security/keys/trusted-keys/trusted_tpm2.c     | 25 +++++++++++++++++--
- 4 files changed, 39 insertions(+), 2 deletions(-)
+One approach we found was coming from pcc.c, which has their own 
+request_channel function (pcc_mbox_request_channel). We could follow 
+this approach as well...
 
-diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-index 9bc9db8ec6517c..a1872964fe862f 100644
---- a/Documentation/security/keys/trusted-encrypted.rst
-+++ b/Documentation/security/keys/trusted-encrypted.rst
-@@ -199,6 +199,12 @@ Usage::
-        policyhandle= handle to an authorization policy session that defines the
-                      same policy and with the same hash algorithm as was used to
-                      seal the key.
-+       creationpcrs= hex integer representing the set of PCRs to be
-+                     included in the creation data. For each bit set, the
-+                     corresponding PCR will be included in the key creation
-+                     data. Bit 0 corresponds to PCR0. Currently only the first
-+                     PC standard 24 PCRs are supported on the currently active
-+                     bank. Leading zeroes are optional. TPM2 only.
- 
- "keyctl print" returns an ascii hex copy of the sealed key, which is in standard
- TPM_STORED_DATA format.  The key length for new keys are always in bytes.
-diff --git a/include/keys/trusted-type.h b/include/keys/trusted-type.h
-index 209086fed240a5..8523d41507b2a4 100644
---- a/include/keys/trusted-type.h
-+++ b/include/keys/trusted-type.h
-@@ -54,6 +54,7 @@ struct trusted_key_options {
- 	uint32_t policydigest_len;
- 	unsigned char policydigest[MAX_DIGEST_SIZE];
- 	uint32_t policyhandle;
-+	uint32_t creation_pcrs;
- };
- 
- struct trusted_key_ops {
-diff --git a/security/keys/trusted-keys/trusted_tpm1.c b/security/keys/trusted-keys/trusted_tpm1.c
-index aa108bea6739b3..2975827c01bec0 100644
---- a/security/keys/trusted-keys/trusted_tpm1.c
-+++ b/security/keys/trusted-keys/trusted_tpm1.c
-@@ -713,6 +713,7 @@ enum {
- 	Opt_hash,
- 	Opt_policydigest,
- 	Opt_policyhandle,
-+	Opt_creationpcrs,
- };
- 
- static const match_table_t key_tokens = {
-@@ -725,6 +726,7 @@ static const match_table_t key_tokens = {
- 	{Opt_hash, "hash=%s"},
- 	{Opt_policydigest, "policydigest=%s"},
- 	{Opt_policyhandle, "policyhandle=%s"},
-+	{Opt_creationpcrs, "creationpcrs=%s"},
- 	{Opt_err, NULL}
- };
- 
-@@ -858,6 +860,13 @@ static int getoptions(char *c, struct trusted_key_payload *pay,
- 				return -EINVAL;
- 			opt->policyhandle = handle;
- 			break;
-+		case Opt_creationpcrs:
-+			if (!tpm2)
-+				return -EINVAL;
-+			res = kstrtoint(args[0].from, 16, &opt->creation_pcrs);
-+			if (res < 0)
-+				return -EINVAL;
-+			break;
- 		default:
- 			return -EINVAL;
- 		}
-diff --git a/security/keys/trusted-keys/trusted_tpm2.c b/security/keys/trusted-keys/trusted_tpm2.c
-index e1388d7d799a36..a7ad83bc0e5396 100644
---- a/security/keys/trusted-keys/trusted_tpm2.c
-+++ b/security/keys/trusted-keys/trusted_tpm2.c
-@@ -401,7 +401,7 @@ int tpm2_seal_trusted(struct tpm_chip *chip,
- 	struct tpm_buf buf;
- 	u32 hash;
- 	u32 flags;
--	int i;
-+	int i, j;
- 	int rc;
- 
- 	for (i = 0; i < ARRAY_SIZE(tpm2_hash_map); i++) {
-@@ -470,7 +470,28 @@ int tpm2_seal_trusted(struct tpm_chip *chip,
- 	tpm_buf_append_u16(&buf, 0);
- 
- 	/* creation PCR */
--	tpm_buf_append_u32(&buf, 0);
-+	if (options->creation_pcrs) {
-+		/* One bank */
-+		tpm_buf_append_u32(&buf, 1);
-+		/* Which bank to use */
-+		tpm_buf_append_u16(&buf, hash);
-+		/* Length of the PCR bitmask */
-+		tpm_buf_append_u8(&buf, 3);
-+		/* PCR bitmask */
-+		for (i = 0; i < 3; i++) {
-+			char tmp = 0;
-+
-+			for (j = 0; j < 8; j++) {
-+				char bit = (i * 8) + j;
-+
-+				if (options->creation_pcrs & (1 << bit))
-+					tmp |= (1 << j);
-+			}
-+			tpm_buf_append_u8(&buf, tmp);
-+		}
-+	} else {
-+		tpm_buf_append_u32(&buf, 0);
-+	}
- 
- 	if (buf.flags & TPM_BUF_OVERFLOW) {
- 		rc = -E2BIG;
--- 
-2.38.1.431.g37b22c650d-goog
+>>    2. Still need to have bind-client-to-channel patch since clients
+>> aren't real devices and so shouldn't be on DT.
+>>
+> the clients may be virtual (serial, gpio etc) but the resource-manager
+> requires some mailbox hardware to communicate, so the resource-manager
+> should be the mailbox client (that further spawns virtual devices)
 
+Yes, this the design I'm aiming for. Also want to highlight that the 
+resource-manager spawns Gunyah virtual devices such as message queue 
+channels.
+
+Thanks,
+Elliot
