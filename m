@@ -2,89 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 571E6C4332F
-	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 13:56:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF8DAC4332F
+	for <linux-doc@archiver.kernel.org>; Thu,  3 Nov 2022 15:43:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231491AbiKCN4e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 09:56:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50722 "EHLO
+        id S232197AbiKCPnL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 11:43:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbiKCN4d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 09:56:33 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7266B13D7A;
-        Thu,  3 Nov 2022 06:56:32 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id io19so1990154plb.8;
-        Thu, 03 Nov 2022 06:56:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ign6P2397IfFIK8m+Wt90gPlj7W1vvnJv9kawkVb51E=;
-        b=HI60mlPg8m4ViBKO0Ko7cuIw5CWkpo8OHY1k84Ajd5UAw+zDBFvmBRD4QqqhAkWjrN
-         lNmUO5a0U0c9OsgC2lnIcjG0iXaXQwj1Rjdhdq3CWXM3n20R6+lqm1pCRuvrf7JrLUxY
-         ty8hjsDXeWQExDcegMa7fgsxIufgE5FGrldncF2oy/UlSjaix/bMMutFDFEgSiuDnZQO
-         0DgEIpgx/XfW3tmQMZa/NUd6jvrjEc1L14YPWBE1ZcnUtLREdMF8hBrirywpkLkCcwtx
-         B38Pd5TkQTOi5rbP8ECHzsFmcft2lugGBX2bI3whqkTYnqsAwTPuWQomeqr5pzoOSuec
-         9FCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ign6P2397IfFIK8m+Wt90gPlj7W1vvnJv9kawkVb51E=;
-        b=OMTMIziAe3R9XIwA4OSkxc4H44Z0tTRt7WZJ4eM6zcnFln10CpSnoVq1Xo73eYEfUN
-         dxkDCPrNZgaKQt84tqT+rqczvIHQHOULMpGtOdYLQZ7xY9K0d+ZbGcMZk87v6CJicfqi
-         /C9vOnLnv1n1fW4YSkJlhQiRPU5LeSJ6udbkxEH1oMcAMd5JsHNJ9w/HdfGzkiRkJIHK
-         HFZkp3CUHdXavM+DhuiGWJLYIA9617omZ9fzg4CHJvhJigfD4iXPgbwLFa0+74nRkwAN
-         4jWzuOHJw0BLNF4OeCG5S8Af02TXxmjGdoTsEYKrPxz+GQdKVnMOuI26dt8/iwxUN3LW
-         /L7g==
-X-Gm-Message-State: ACrzQf2DIuv5/JmZdxq/JqDh0FfFv2L0LR5LIly7iJgc1LWbS1VuYpqm
-        JCJgZKP9LSotyR/bibg6upE=
-X-Google-Smtp-Source: AMsMyM4vIEMLHQ7RSu1HWrdVM/SWZEWnhtUUleBmGwGYurtfIHzBYGeVcxvcjRtNSl0mHNh1iLLDqg==
-X-Received: by 2002:a17:90b:1c8d:b0:203:cc25:4eb5 with SMTP id oo13-20020a17090b1c8d00b00203cc254eb5mr31460357pjb.132.1667483791949;
-        Thu, 03 Nov 2022 06:56:31 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-12.three.co.id. [180.214.232.12])
-        by smtp.gmail.com with ESMTPSA id b6-20020a170903228600b00187033cac81sm689757plh.145.2022.11.03.06.56.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Nov 2022 06:56:31 -0700 (PDT)
-Message-ID: <5636b9a1-dbb8-5ab3-8b56-05f6faaccded@gmail.com>
-Date:   Thu, 3 Nov 2022 20:56:25 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [External] Re: [RFC 1/6] KVM: arm64: Document PV-lock interface
-Content-Language: en-US
-To:     Usama Arif <usama.arif@bytedance.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        with ESMTP id S232198AbiKCPnH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 11:43:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C256B1B1DA;
+        Thu,  3 Nov 2022 08:42:55 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 383A861F34;
+        Thu,  3 Nov 2022 15:42:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A648C433D6;
+        Thu,  3 Nov 2022 15:42:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667490174;
+        bh=PmqtbmT9mQWma23ymagJ11tWufGstamjMkYv5eb/5qo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=P02zYSj2EXx8UFjhs0W38mcmH7PPhDxFrPAs3DIwwhe6kVMB5ibwdAun3jGpCY3Y0
+         M08VVoWub2n2hyrhtGRR+mmykQmLuUjOx4UNjXm1UNFay342V8GGHmWoTpGWxiOaKH
+         u+Nb3RWExGgZHx0Tie5GDON9iPIaNrOz4o0S9sKqUM9AYwtKKEWBOLvdCL2C47/yYX
+         1ooW7JvbX5/t0zVJf1DccEtvFvn2k/ObkEawkO86X17x3V2vSX8ofZ2bXJYj+hwaqZ
+         HLWQU546DfPaovhrx6xD/ATmcTYzFxi1OLvcUMh6DrdUDLb+OUf+r9/r10eCBExuhV
+         v6tNjRSjvqybA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1oqcMm-003Xt1-3n;
+        Thu, 03 Nov 2022 15:42:52 +0000
+Date:   Thu, 03 Nov 2022 15:42:51 +0000
+Message-ID: <86fsf0qc1w.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Usama Arif <usama.arif@bytedance.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org,
         virtualization@lists.linux-foundation.org, linux@armlinux.org.uk,
         yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org,
-        maz@kernel.org, steven.price@arm.com, mark.rutland@arm.com,
+        steven.price@arm.com, mark.rutland@arm.com,
         fam.zheng@bytedance.com, liangma@liangbit.com,
         punit.agrawal@bytedance.com
-References: <20221102161340.2982090-1-usama.arif@bytedance.com>
- <20221102161340.2982090-2-usama.arif@bytedance.com>
- <Y2M6eU6xW7jjVQNx@debian.me>
- <61800b69-5f6a-d173-fc42-628ee3db15d8@bytedance.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <61800b69-5f6a-d173-fc42-628ee3db15d8@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] kvm/arm: Fix pvtime documentation
+In-Reply-To: <24d81fe9-7cd1-71eb-8c35-0739f638b3df@gmail.com>
+References: <20221103131210.3603385-1-usama.arif@bytedance.com>
+        <24d81fe9-7cd1-71eb-8c35-0739f638b3df@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: bagasdotme@gmail.com, usama.arif@bytedance.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, linux-doc@vger.kernel.org, virtualization@lists.linux-foundation.org, linux@armlinux.org.uk, yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org, steven.price@arm.com, mark.rutland@arm.com, fam.zheng@bytedance.com, liangma@liangbit.com, punit.agrawal@bytedance.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/3/22 20:15, Usama Arif wrote:
-> Hi,
+On Thu, 03 Nov 2022 13:55:29 +0000,
+Bagas Sanjaya <bagasdotme@gmail.com> wrote:
 > 
-> Thanks for the review. I will include the changes in the next version I send for pvlock. I have sent a patch to fix pvtime here https://lore.kernel.org/all/20221103131210.3603385-1-usama.arif@bytedance.com/.
+> On 11/3/22 20:12, Usama Arif wrote:
+> > This includes table format and using reST labels for
+> > cross-referencing to vcpu.rst.
+> > 
+> > Suggested-by:  Bagas Sanjaya <bagasdotme@gmail.com>
+> > Signed-off-by: Usama Arif <usama.arif@bytedance.com>
 > 
+> This is not what people normally do when given suggestion diff like
+> what I sent before [1]. Instead, they just apply and squash the
+> suggestion (while also applying requested changes from reviewers).
 
-Please please please *DON'T* top-post; reply inline instead.
+No, this is the correct course of action. There isn't any point in
+having an *unrelated* change in a separate series. This is a
+standalone change, posted as a standalone patch.
+
+> Please reroll your series [2] with suggestion applied.
+
+Or not.
+
+	M.
 
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Without deviation from the norm, progress is not possible.
