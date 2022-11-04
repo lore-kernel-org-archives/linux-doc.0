@@ -2,137 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BE5CC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 00:11:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3001DC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 00:38:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230147AbiKDALo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 20:11:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40996 "EHLO
+        id S229875AbiKDAiq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 20:38:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiKDALo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 20:11:44 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D4EF1EEC2;
-        Thu,  3 Nov 2022 17:11:43 -0700 (PDT)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A3NPaL5002973;
-        Fri, 4 Nov 2022 00:11:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=9um3ZqpDt41HPVHjQIIDyCNQp1mkqmYAWnmHFIiqcqg=;
- b=TJY2YdUCBPRkFGI+qord3bqcXfQbmjmXlIDTC5RFGzMC36RN2++mEb1QwsZsWTM3IZAz
- NPiIIp4F03m4ubxE6yS7CrJCNh29g3t+ia3VcQT+etjMvfoKiKjFWu523hcbGmqv3iFn
- MNWPjCdspDJwEbB74akki60rgpMiWF7UzcxfRakt5yCHe2F8Qp9B5D72uOT0TlczRN5+
- XPUYxkNIKhmrRiiynnwhlbV1Z3el43LvDFMRM4vwVnukvX6b/zJ2efaG9S6qxm+6H615
- A+cD+A7xRwg1pv1it/eJyBmh3sejemhXgI/2H+Oc7PaXabmlraNYgpkAK4KMrOAS5E14 xA== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kmq0f03gj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 04 Nov 2022 00:11:23 +0000
-Received: from nasanex01b.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A40BMSJ007251
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 4 Nov 2022 00:11:22 GMT
-Received: from [10.110.42.219] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Thu, 3 Nov 2022
- 17:11:21 -0700
-Message-ID: <96238455-73b6-bead-0fdb-55ca68e5bf0b@quicinc.com>
-Date:   Thu, 3 Nov 2022 17:11:21 -0700
+        with ESMTP id S229591AbiKDAip (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 20:38:45 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ABDB1F9DA;
+        Thu,  3 Nov 2022 17:38:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=7/VDsmcUfW64igp3tr4bheqcBK30NchUj2FJa4I48w8=; b=as8dmT+6yUgYIooJWAeqrZR5wj
+        p5EUlEz1SZEXRT/7vXxEZ8N8OtaSR5sbGQ8GLduey2Q1dBWQpwtkukL4eVWzinjuRI0iN5PTEfmwo
+        /baWu/xE93wWGZaQvGqgtjGC0dDfO+uk5ZsGqrimb+27+LG2FFmKSCcIauHMDRKmetHjnz6CtpcIU
+        8Y6FMqoZQxKuDsWROEEWaaOGRskPoiT2WbjlVx6SRJEjkPVeuVOUWc4fwreaz0lI9MYJ9gtdRx1+K
+        OmYZJNeB3HrnxE4czmaEyj0X5HdYjZaosHnnr/ML57HcuAx2ZKVSEiz55MpyDBFPiCrc7sIWT6sCA
+        YI5eXc3Q==;
+Received: from [2601:1c2:d80:3110::a2e7] (helo=casper.infradead.org)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oqkjN-006vdD-9E; Fri, 04 Nov 2022 00:38:45 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: [PATCH] debugfs: small Documentation cleaning
+Date:   Thu,  3 Nov 2022 17:38:35 -0700
+Message-Id: <20221104003835.29472-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v6 13/21] gunyah: vm_mgr: Introduce basic VM Manager
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Will Deacon" <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Arnd Bergmann" <arnd@arndb.de>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-14-quic_eberman@quicinc.com>
- <Y2H8oh7AvYDiMqKs@kroah.com>
- <722b05a1-4bf5-0837-baea-b1d0a9cc1e43@quicinc.com>
- <Y2MKWOihjAPxfl6v@kroah.com>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <Y2MKWOihjAPxfl6v@kroah.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 7ionMH-UFMBFFVCX6rmfZ0BCak8qJtsx
-X-Proofpoint-ORIG-GUID: 7ionMH-UFMBFFVCX6rmfZ0BCak8qJtsx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-03_04,2022-11-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 malwarescore=0
- bulkscore=0 priorityscore=1501 impostorscore=0 mlxlogscore=782
- phishscore=0 suspectscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211030163
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Fix punctuation in a parenthetical phrase.
+Add 2 article adjectives and change one from "an" to "a".
 
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+---
+ Documentation/filesystems/debugfs.rst |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-On 11/2/2022 5:24 PM, Greg Kroah-Hartman wrote:
-> On Wed, Nov 02, 2022 at 11:45:12AM -0700, Elliot Berman wrote:
->> +Michael
->>
->> On 11/1/2022 10:14 PM, Greg Kroah-Hartman wrote:
->>> On Wed, Oct 26, 2022 at 11:58:38AM -0700, Elliot Berman wrote:
->>>> +#define GH_CREATE_VM			_IO(GH_IOCTL_TYPE, 0x40) /* Returns a Gunyah VM fd */
->>>
->>> Why 0x40?  Why not just use the same KVM ioctl numbers and names as you
->>> are doing the same thing as them, right?
->>
->> We've designed so that there are a few ioctls that will feel similar to KVM
->> ioctls since we know this design has been successful, but we don't intend to
->> support KVM ioctls 1:1. Gunyah has different semantics for many of the
->> name-identical ioctls. It seems odd to mix some re-used KVM ioctls with
->> novel Gunyah ioctls?
-> 
-> Even if you don't support it 1:1, at least for the ones that are the
-> same thing, pick the same numbers as that's a nicer thing to do, right?
-> 
-
-Does same thing == interpretation of arguments is the same? For
-instance, GH_CREATE_VM and KVM_CREATE_VM interpret the arguments
-differently. Same for KVM_SET_USERSPACE_MEMORY. The high level 
-functionality should be similar for most all hypervisors since they will 
-all support creating a VM and probably sharing memory with that VM. The 
-arguments for that will necessarily look similar, but they will probably 
-be subtly different because the hypervisors support different features.
-
-I don't think userspace that supports both KVM and Gunyah will benefit 
-much from re-using the same numbers since those re-used ioctl calls 
-still need to sit within the context of a Gunyah VM.
-
-Thanks,
-Elliot
+diff -- a/Documentation/filesystems/debugfs.rst b/Documentation/filesystems/debugfs.rst
+--- a/Documentation/filesystems/debugfs.rst
++++ b/Documentation/filesystems/debugfs.rst
+@@ -155,8 +155,8 @@ any code which does so in the mainline.
+ debugfs_create_blob() are read-only.
+ 
+ If you want to dump a block of registers (something that happens quite
+-often during development, even if little such code reaches mainline.
+-Debugfs offers two functions: one to make a registers-only file, and
++often during development, even if little such code reaches mainline),
++debugfs offers two functions: one to make a registers-only file, and
+ another to insert a register block in the middle of another sequential
+ file::
+ 
+@@ -183,7 +183,7 @@ The "base" argument may be 0, but you ma
+ using __stringify, and a number of register names (macros) are actually
+ byte offsets over a base for the register block.
+ 
+-If you want to dump an u32 array in debugfs, you can create file with::
++If you want to dump a u32 array in debugfs, you can create a file with::
+ 
+     struct debugfs_u32_array {
+ 	u32 *array;
+@@ -197,7 +197,7 @@ If you want to dump an u32 array in debu
+ The "array" argument wraps a pointer to the array's data and the number
+ of its elements. Note: Once array is created its size can not be changed.
+ 
+-There is a helper function to create device related seq_file::
++There is a helper function to create a device-related seq_file::
+ 
+    void debugfs_create_devm_seqfile(struct device *dev,
+ 				const char *name,
