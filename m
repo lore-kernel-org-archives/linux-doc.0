@@ -2,216 +2,529 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4C25C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 19:38:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF485C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 19:38:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229694AbiKDTi2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 15:38:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34408 "EHLO
+        id S229576AbiKDTil (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 15:38:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbiKDTi1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 15:38:27 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2084.outbound.protection.outlook.com [40.107.92.84])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F1A1233;
-        Fri,  4 Nov 2022 12:38:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n9MOHJX0Eo4URfqTQcYd/NxK0F69punBcI0/ZOUWqgrAdYVvGCYLaq6IKJ+nkReedzn0vJTXpVRBnX3BVu1sHfRKhYR0+EjV/1W2cwfj/t2lm3IQOXP8VdtqBejPnr52EqheAa+T76oErtxCTuiBCN25uB8x7oS6DRAI3w/KaO3zGj5/wgdfo8z/YXIBqxT4KiXYMUccNo1g49esCcn7+DOHT/0tlteoc8wqgiDq5VsRxN7XyeCiWPywC6wWzm7QucjEeIcW4kXVpyejkFS8qgj3kWGtJrbq+g8KSsMWAgp+5U+7huJbWJgvf02F0m662gPjSIFZei39ESICbaH9VA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fc6SBY9LB5znsGTBZSL5qn0+1MXVufxNsrh9BBBMhz8=;
- b=fVotcvU+EWQzQ8fTuElSDxfnb9489in9DP+nbuQkmAfjK/xcdQ1onkyF3eJG3wEXPaau33ufPZ+IF/6i8hKV2un7Sas5OrpJPEauUhJmOmK0eyAzcTPV3OWxWeB8ChNxtFusaAH5EvE1ElLxdM5GLFc9avqWrDDrO+/JNlaTVFtjOjr7cBrtPNBscJO/qnBY9L1kBts0AKqjh13jEDhNBmZXhAfAv6xC2gu/ukCOg14E+KEmEoovKuHnh5+S2TuKxwuaUuKDEst5gx7w0iGUQyzbEQbM2SWIRC8Ow2NyMgXMenx+nDaWAaXKGugfOXImoJi1wakZjSSC3NXWzL/2nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fc6SBY9LB5znsGTBZSL5qn0+1MXVufxNsrh9BBBMhz8=;
- b=jwLo4uKww1tjjUQCggst8ZyN+b91772gQNMkKBKJT1HdUE5UYKfmeT7JEsx01FCfjmykXlj0klmTHvOcPgSB5c5NxjRgZvTQiQ5VljVnBFujYmTeND/da6l0+r8ys6o2CDENhKFlnWyuMehjqWvYisW1stlZ3Vhl+JP5/I/I6NVR92Dr3HVEUqpTcxDxCM1Fp1PimdaLLpjQRWrkSBIVWdiMUw/Zistq4jbxtGY6pwGMx9QEuAfyeE3e2PZjCb+lNwBSJf2RNpfSktZr14TkVj1hlu3FsPET/X4DxHa373iJESJ9jf49evNMPjwxUJxj2U5cPmkEZREMW4xSOxjUGg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by DM6PR12MB4370.namprd12.prod.outlook.com (2603:10b6:5:2aa::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.22; Fri, 4 Nov
- 2022 19:38:21 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5769.015; Fri, 4 Nov 2022
- 19:38:21 +0000
-Date:   Fri, 4 Nov 2022 16:38:19 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     "Tian, Kevin" <kevin.tian@intel.com>
-Cc:     Lu Baolu <baolu.lu@linux.intel.com>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>,
-        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-        Joerg Roedel <joro@8bytes.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        "Martins, Joao" <joao.m.martins@oracle.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Shameerali Kolothum Thodi 
-        <shameerali.kolothum.thodi@huawei.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>,
-        Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH v3 03/15] interval-tree: Add a utility to iterate over
- spans in an interval tree
-Message-ID: <Y2VqK3m9i6FlQd9+@nvidia.com>
-References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
- <3-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
- <BN9PR11MB527666424E77F8417DF1BF4C8C389@BN9PR11MB5276.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB527666424E77F8417DF1BF4C8C389@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-ClientProxiedBy: BL1PR13CA0012.namprd13.prod.outlook.com
- (2603:10b6:208:256::17) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM6PR12MB4370:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2bac7c37-378a-4a5a-3e0a-08dabe9c20fb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yJ4hZqmMFMqFQ1jpBXWXD8nImIcpM+PWJYzciaiLhyNmYnaTxcCZ8U2ANuKGomhwGjrhXOkN+gOvnKfz7cuY9Pusq3EU3OQ3eyEzosTeZ1BxAIvXhuul+Pbq3c2FwAgilckdTXDXJGFb9YqRRQEKxB+bNg20SE17C35TdE2J1TjJVcZkaRA39FdCxtdgpMj/GCr092ksP2/sqdJR5gNmTbC9NhDAgAeqKHJfOmFk+mCzAYycjzpIVuYFVea3/rkxi4rzsr/+YFo1QxKCE2Om0GC4lTmsBd/gUp4VQPQRF9gEVHyFB7PdQUi+QLIb7o/awxYz9TT73KXuO36JcGr5VkRDmrzOnLFozTEuzyYobrQHn+tGNQHiXrLglySAmJo0ISbLpaxT9wd03857SQGwSLyXf6sufBa7ARROFhkxZMNSk97W+vlTqObhfmHmZgI0GVWI+alvYzhl5QMYnumWBzPRQiRwKMGdr3GWrnGFMf7DeJ5g4ciLkk8oaM1CVWh+4suwAaxJa+5f1NycmzqlQQQgkvW6A9SQ598LGwB8jSwlqqBOhCh7aroLlrLPlXRF8C8h6VPWHhhUg3QvxtlCILpicXil+vsB+kFdD5TyWS7pll+muFKM9gtYFM6Kidgkci8OefUx3X+qkop5jFE91Y8BCamqV+/xVUN+DGbYs/rHk5EgOFM3r2+ZTpBuc/JVGpAdml/jy9De+wxcguaADxWTTOKsU8Fx0LCQnuGecQwskttNOS+QhxJlrQoANJUk
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(39860400002)(396003)(376002)(366004)(451199015)(38100700002)(36756003)(2616005)(5660300002)(7416002)(2906002)(7406005)(86362001)(83380400001)(6512007)(316002)(6916009)(478600001)(186003)(26005)(54906003)(6486002)(66476007)(41300700001)(66556008)(6506007)(8676002)(8936002)(4326008)(66946007)(21314003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tASGuNGcW43x7UoAjPS2tGtRH6e9RQzyzAGQwhT+4A2BrzagCRaS2w/LCrZq?=
- =?us-ascii?Q?fqstNS137CFTHuKSktKod+G810oBvcgyW3KUhGAUvNFO95X7kdEuuYMGJJsx?=
- =?us-ascii?Q?Jvs/+gKRLvo0OvqDY26AkncIgi0nNrDvcmCQCkpcZxO7jZkBHvbU/u+v+o9R?=
- =?us-ascii?Q?kt1wXYWqv1ju2U2kLxUumFg1y8njt3Hd/NmoVqg5FOWgQO4lMC6e5aeDsvM+?=
- =?us-ascii?Q?0qtLpdsl8pUYKfVZJCAhyyMCHMq4ZVgB6o5qIYkjApr6vadCfegQrddOjnR2?=
- =?us-ascii?Q?5lICfLj6mVK88xatJexzt9wG267PU/W34PY/Jh4MmQWpZs94eiPmqQLLfCsP?=
- =?us-ascii?Q?hi4aH2g1ANhAdJk/nb4zpHmLD2Yfjy4jxtC64Z1LjjfOTgv30mmkeTI/vWLd?=
- =?us-ascii?Q?+GjvaAEmKyimD6wgSdXddeGM+xeUdWR/AEYvLsZbEAtuzKNIz+Ef3YjQyZBO?=
- =?us-ascii?Q?b9CGcNXzua1RiuYJnsXdQc9WMYKIAHfg+UeMBbB52LAqn2BtHgKSpRPXlttX?=
- =?us-ascii?Q?nAAVT7VUMAwLRB5kiqifaTHdI5AH7YclKn/cbGpClbIm3dEbzQO29sm8rnNQ?=
- =?us-ascii?Q?Hv9+VlaqXfnWzjgDv8HjRQPG4pwBWhMeywRpCins44z8NoS27hkUsjEUS47q?=
- =?us-ascii?Q?+zMnr62W5QoiGW0lomWc9c0aTOjfTZoRxDmxu0ew7baPDvCnHN40GBJ+uOA9?=
- =?us-ascii?Q?uden9QSsrm+lVeML3RdgbS1M7gtVCNM21xi6kUPHQe5qXYG3itByuEAXYAPB?=
- =?us-ascii?Q?4FcKQBfQe3tIJ/n2ta8tsGoYj7Z3+LStJxCygf1sxkaP2TYg7eYjHM9CcVpE?=
- =?us-ascii?Q?efJHdMHfrCHr0Qq71RYWzSlj7GgFFBozXP2lDFb1ZavAUfVCLslM4zX2Amco?=
- =?us-ascii?Q?mJtf3PK0juqFLx1jL29gNgZq8Hsy/ls29BErAxSCbsxjuZ14wiIUPUrSRZu/?=
- =?us-ascii?Q?sFCcoPiSht9YpQ1zY0BPYz+FkqTWJ7HP/1G0ZQC4N0y/RahfdtiKiQupsseY?=
- =?us-ascii?Q?FVq29RDbs7m03sz8LBos8x902e1fiGsb15Bry/g7CDzk2Fqq9ZpjcvbcfAyC?=
- =?us-ascii?Q?SvsTGoe/7uNqo8TesEZb5FczEXLespoKkRei79ukth7JS18WPNmKurhVnU9E?=
- =?us-ascii?Q?OG7Wpl3l1Uz6b41OlIJUiuaIOMKgEfCxQ2K9ff6txaSkzJkU2LovLq0gIhkJ?=
- =?us-ascii?Q?sReTSgn3m1S9l8ASmWBRWHOIjPrXkUcSr7y6ov7WHcOpTQ92mDywc+5K7KWx?=
- =?us-ascii?Q?fxASmrpjLPuuEhHMU0/muf46Grv2Cad4r2MVt8eyUXQwXyC8t7qtGgsEp6v6?=
- =?us-ascii?Q?HudcbOlKRuQNlSgILXKaR1oDTGFOyUupIhgYQ/7quRdIY3xwhURNKVoUwqAZ?=
- =?us-ascii?Q?pIXYdgqd9BYiIR7cw7mp2wB6vjmI45YeKDmWp/Jl0Z+fYI09Z8o56gayMdba?=
- =?us-ascii?Q?sTNXQJIyMfVA4qcnUtRu/5O38J2f0Ku+22lP7QvyLdy7wkmpgATgjDRsRtm1?=
- =?us-ascii?Q?nxafKHV3MQmst7cADIWiIUEcu/p+0u6gGwmt544sMsMCbHYDuSIJsjLmw5Dy?=
- =?us-ascii?Q?3xbnj3Tiz2r3YUsAh2g=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2bac7c37-378a-4a5a-3e0a-08dabe9c20fb
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2022 19:38:20.9940
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AyfX/IpUwy/mkuALM8c3MHWZyyHV2cN9FwtFKlAC3GUVYMD0IkmXLlq92cBwspye
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4370
+        with ESMTP id S229720AbiKDTij (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 15:38:39 -0400
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 520A3C77;
+        Fri,  4 Nov 2022 12:38:34 -0700 (PDT)
+Received: from pps.filterd (m0150242.ppops.net [127.0.0.1])
+        by mx0a-002e3701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A4FZYPu004981;
+        Fri, 4 Nov 2022 19:38:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : subject :
+ date : message-id : in-reply-to : references; s=pps0720;
+ bh=zFea3ha9HFtfiXKf+MvGPFFv9hcHTnWxgx1wDMflA3E=;
+ b=goNbsv4lKx4493mLm07iJJfNYb3mf1lWHgxBzNcBIM449lWmluHL3NvB8CxEdoEiTrug
+ /a0jYlxkB2RsINEYlNZQgj+qsL8JGbh+r4M7Rw8yPEz5+WL9/AI4JII7GhCoIbD1Rlk0
+ oVefF8aoG38omOFDP6ULU+6WwFx+c/m3Ov0Yuva7elW9TlCC4P/EAKiWc41TglRhMOv3
+ 3vEd2in/y/9sEfo07UNe5pw9HMqh6Ncbb2eqqEuXcNPfz2Q4nNHLBKKyciY03+9O3OQ3
+ tliYgMlY9gK0aWCLO1GWNlheP7DOCKMwLgCg/V+W1JrSdnDhndhvJnR7DkLR/gxrbgfh 0Q== 
+Received: from p1lg14881.it.hpe.com (p1lg14881.it.hpe.com [16.230.97.202])
+        by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 3kn4nv2amj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 04 Nov 2022 19:38:10 +0000
+Received: from p1lg14885.dc01.its.hpecorp.net (unknown [10.119.18.236])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by p1lg14881.it.hpe.com (Postfix) with ESMTPS id CD10380471E;
+        Fri,  4 Nov 2022 19:38:09 +0000 (UTC)
+Received: from hpe.com (unknown [16.231.227.36])
+        by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTP id 3073D808166;
+        Fri,  4 Nov 2022 19:38:09 +0000 (UTC)
+From:   nick.hawkins@hpe.com
+To:     jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, verdun@hpe.com,
+        nick.hawkins@hpe.com, corbet@lwn.net, linux@armlinux.org.uk,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v1 1/6] hwmon: (gxp-fan-ctrl) Add GXP fan controller
+Date:   Fri,  4 Nov 2022 14:36:52 -0500
+Message-Id: <20221104193657.105130-2-nick.hawkins@hpe.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20221104193657.105130-1-nick.hawkins@hpe.com>
+References: <20221104193657.105130-1-nick.hawkins@hpe.com>
+X-Proofpoint-ORIG-GUID: R9awUIoSaoPR1jRpJnbwWRElZnlCDaCq
+X-Proofpoint-GUID: R9awUIoSaoPR1jRpJnbwWRElZnlCDaCq
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-04_11,2022-11-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 phishscore=0 spamscore=0
+ malwarescore=0 mlxlogscore=999 suspectscore=0 mlxscore=0 clxscore=1015
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211040122
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 03, 2022 at 05:31:17AM +0000, Tian, Kevin wrote:
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > Sent: Wednesday, October 26, 2022 2:12 AM
-> > +/*
-> > + * This iterator travels over spans in an interval tree. It does not return
-> > + * nodes but classifies each span as either a hole, where no nodes intersect,
-> > or
-> > + * a used, which is fully covered by nodes. Each iteration step toggles
-> > between
-> > + * hole and used until the entire range is covered. The returned spans
-> > always
-> > + * fully cover the requested range.
-> > + *
-> > + * The iterator is greedy, it always returns the largest hole or used possible,
-> > + * consolidating all consecutive nodes.
-> > + *
-> > + * Only is_hole, start_hole/used and last_hole/used are part of the external
-> > + * interface.
-> 
-> slightly better readability if moving this sentence into the structure as
-> the break line
+From: Nick Hawkins <nick.hawkins@hpe.com>
 
-Do you mean like this?
+The GXP SoC can support up to 16 fans through the interface provided by
+the CPLD. The fans speeds are controlled via a pwm value 0-255. The fans
+are also capable of reporting if they have failed to the CPLD which in
+turn reports the status to the GXP SoC. There are no tachometers so fan
+speeds are reported as a percent of the pwm value.
 
-@@ -37,13 +37,16 @@ interval_tree_iter_next(struct interval_tree_node *node,
-  * The iterator is greedy, it always returns the largest hole or used possible,
-  * consolidating all consecutive nodes.
-- *
-- * Only is_hole, start_hole/used and last_hole/used are part of the external
-- * interface.
-  */
- struct interval_tree_span_iter {
- 	struct interval_tree_node *nodes[2];
- 	unsigned long first_index;
- 	unsigned long last_index;
+Signed-off-by: Nick Hawkins <nick.hawkins@hpe.com>
+---
+ Documentation/hwmon/gxp-fan-ctrl.rst |  36 +++
+ drivers/hwmon/Kconfig                |   8 +
+ drivers/hwmon/Makefile               |   1 +
+ drivers/hwmon/gxp-fan-ctrl.c         | 362 +++++++++++++++++++++++++++
+ 4 files changed, 407 insertions(+)
+ create mode 100644 Documentation/hwmon/gxp-fan-ctrl.rst
+ create mode 100644 drivers/hwmon/gxp-fan-ctrl.c
+
+diff --git a/Documentation/hwmon/gxp-fan-ctrl.rst b/Documentation/hwmon/gxp-fan-ctrl.rst
+new file mode 100644
+index 000000000000..fc1709fb113b
+--- /dev/null
++++ b/Documentation/hwmon/gxp-fan-ctrl.rst
+@@ -0,0 +1,36 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+	/*
-+	 * Only is_hole, start_hole/used and last_hole/used are part of the
-+	 * external interface.
-+	 */
- 	union {
- 		unsigned long start_hole;
- 		unsigned long start_used;
++Kernel driver gxp-fan-ctrl
++==========================
++
++Supported chips:
++
++  * HPE GXP SOC
++
++Author: Nick Hawkins <nick.hawkins@hpe.com>
++
++
++Description
++-----------
++
++gxp-fan-ctrl is a driver which provides fan control for the hpe gxp soc.
++The driver allows the gathering of fan status and the use of fan
++pwm control.
++
++
++Usage Notes
++-----------
++
++Traditionally fanY_input returns an RPM value, on HPE GXP systems it is
++the pwm value [0-255] due to the fan speeds being reported as
++percentages.
++
++
++Sysfs attributes
++----------------
++
++======================= =================================================
++pwm[0-15]		Fan 0 to 15 respective pwm value
++fan[0-15]_input		Fan 0 to 15 respective input value: pwm value
++fan[0-15]_fault		Fan 0 to 15 respective fault status: 1 fail, 0 ok
++======================= =================================================
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index e70d9614bec2..3d32cd77424c 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -2303,6 +2303,14 @@ config SENSORS_INTEL_M10_BMC_HWMON
+ 	  sensors monitor various telemetry data of different components on the
+ 	  card, e.g. board temperature, FPGA core temperature/voltage/current.
+ 
++config SENSORS_GXP_FAN_CTRL
++	tristate "GXP Fan Control driver"
++	depends on ARCH_HPE_GXP || COMPILE_TEST
++	help
++	  If you say yes here you get support for GXP fan control functionality.
++	  The GXP controls fan function via the CPLD through the use of PWM
++	  registers. This driver reports status and pwm setting of the fans.
++
+ if ACPI
+ 
+ comment "ACPI drivers"
+diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+index 007e829d1d0d..b474dcc708c4 100644
+--- a/drivers/hwmon/Makefile
++++ b/drivers/hwmon/Makefile
+@@ -83,6 +83,7 @@ obj-$(CONFIG_SENSORS_GL518SM)	+= gl518sm.o
+ obj-$(CONFIG_SENSORS_GL520SM)	+= gl520sm.o
+ obj-$(CONFIG_SENSORS_GSC)	+= gsc-hwmon.o
+ obj-$(CONFIG_SENSORS_GPIO_FAN)	+= gpio-fan.o
++obj-$(CONFIG_SENSORS_GXP_FAN_CTRL) += gxp-fan-ctrl.o
+ obj-$(CONFIG_SENSORS_HIH6130)	+= hih6130.o
+ obj-$(CONFIG_SENSORS_ULTRA45)	+= ultra45_env.o
+ obj-$(CONFIG_SENSORS_I5500)	+= i5500_temp.o
+diff --git a/drivers/hwmon/gxp-fan-ctrl.c b/drivers/hwmon/gxp-fan-ctrl.c
+new file mode 100644
+index 000000000000..a01530951d58
+--- /dev/null
++++ b/drivers/hwmon/gxp-fan-ctrl.c
+@@ -0,0 +1,362 @@
++// SPDX-License-Identifier: GPL-2.0=or-later
++/* Copyright (C) 2022 Hewlett-Packard Enterprise Development Company, L.P. */
++
++#include <linux/err.h>
++#include <linux/hwmon.h>
++#include <linux/hwmon-sysfs.h>
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include <linux/platform_device.h>
++#include <linux/regmap.h>
++#include <linux/mfd/syscon.h>
++
++#define OFFSET_PWM0DUTY	0x10
++#define OFFSET_PWM1DUTY	0x11
++#define OFFSET_PWM2DUTY	0x12
++#define OFFSET_PWM3DUTY	0x13
++#define OFFSET_PWM4DUTY	0x14
++#define OFFSET_PWM5DUTY	0x15
++#define OFFSET_PWM6DUTY	0x16
++#define OFFSET_PWM7DUTY	0x17
++
++struct fan_data {
++	u32 inst;
++	u32 fail;
++	u32 id;
++	u32 bit;
++};
++
++struct fan_ctrl_data {
++	struct fan_data fan[16];
++	u32 power_bit;
++};
++
++struct gxp_fan_ctrl_drvdata {
++	struct device	*dev;
++	struct device	*hwmon_dev;
++	struct regmap	*plreg_map; /* Programmable logic register regmap */
++	struct regmap	*fn2_map; /* Function 2 regmap */
++	void __iomem	*base;
++	const struct fan_ctrl_data *data;
++	struct mutex update_lock; /* To protect the setting of the fan PWM value */
++};
++
++static void address_translation(u32 desired_offset, u32 *offset, u32 *bit_shift)
++{
++	*offset = (desired_offset & 0xffc);
++	*bit_shift = (desired_offset - *offset) * 8;
++}
++
++static bool fan_installed(struct device *dev, int fan)
++{
++	struct gxp_fan_ctrl_drvdata *drvdata = dev_get_drvdata(dev);
++	u32 trans_offset;
++	u32 trans_shift;
++	u32 val;
++
++	address_translation(drvdata->data->fan[fan].inst,
++			    &trans_offset,
++			    &trans_shift);
++
++	regmap_read(drvdata->plreg_map, trans_offset, &val);
++	val = (val >> trans_shift) & drvdata->data->fan[fan].bit;
++	if (val == drvdata->data->fan[fan].bit)
++		return 1;
++	else
++		return 0;
++}
++
++static bool fan_failed(struct device *dev, int fan)
++{
++	struct gxp_fan_ctrl_drvdata *drvdata = dev_get_drvdata(dev);
++	u32 trans_offset;
++	u32 trans_shift;
++	u32 val;
++
++	address_translation(drvdata->data->fan[fan].fail,
++			    &trans_offset,
++			    &trans_shift);
++
++	regmap_read(drvdata->plreg_map, trans_offset, &val);
++	val = (val >> trans_shift) & drvdata->data->fan[fan].fail;
++	if (val == drvdata->data->fan[fan].fail)
++		return 1;
++	else
++		return 0;
++}
++
++static ssize_t show_fault(struct device *dev, struct device_attribute *attr,
++			  char *buf)
++{
++	int nr = (to_sensor_dev_attr(attr))->index;
++	unsigned char val;
++
++	val = (fan_failed(dev, nr)) ? 1 : 0;
++
++	return sprintf(buf, "%d\n", val);
++}
++
++static ssize_t show_in(struct device *dev, struct device_attribute *attr,
++		       char *buf)
++{
++	int nr = (to_sensor_dev_attr(attr))->index;
++	struct gxp_fan_ctrl_drvdata *drvdata = dev_get_drvdata(dev);
++	unsigned char val;
++	unsigned int reg;
++
++	/* Check Power Status */
++	regmap_read(drvdata->fn2_map, 0, &reg);
++	if (reg & BIT(drvdata->data->power_bit)) {
++		/* If Fan presents, then read it. */
++		val = (fan_installed(dev, nr)) ? readb(drvdata->base +
++						       OFFSET_PWM0DUTY +
++						       nr) : 0;
++	} else {
++		/* Power Off */
++		val = 0;
++	}
++
++	return sprintf(buf, "%d\n", val);
++}
++
++static ssize_t show_pwm(struct device *dev, struct device_attribute *attr,
++			char *buf)
++{
++	int nr = (to_sensor_dev_attr(attr))->index;
++	struct gxp_fan_ctrl_drvdata *drvdata = dev_get_drvdata(dev);
++	unsigned char val;
++
++	val = readb(drvdata->base + OFFSET_PWM0DUTY + nr);
++
++	return sprintf(buf, "%d\n", val);
++}
++
++static ssize_t store_pwm(struct device *dev, struct device_attribute *attr,
++			 const char *buf, size_t count)
++{
++	int nr = (to_sensor_dev_attr(attr))->index;
++	struct gxp_fan_ctrl_drvdata *drvdata = dev_get_drvdata(dev);
++	unsigned long val;
++	int err;
++
++	err = kstrtoul(buf, 10, &val);
++	if (err)
++		return err;
++
++	if (val > 255)
++		return -1; /* out of range */
++
++	mutex_lock(&drvdata->update_lock);
++
++	writeb(val, drvdata->base + OFFSET_PWM0DUTY + nr);
++
++	mutex_unlock(&drvdata->update_lock);
++	return count;
++}
++
++static SENSOR_DEVICE_ATTR(pwm0, 0200 | 0444, show_pwm, store_pwm, 0);
++static SENSOR_DEVICE_ATTR(pwm1, 0200 | 0444, show_pwm, store_pwm, 1);
++static SENSOR_DEVICE_ATTR(pwm2, 0200 | 0444, show_pwm, store_pwm, 2);
++static SENSOR_DEVICE_ATTR(pwm3, 0200 | 0444, show_pwm, store_pwm, 3);
++static SENSOR_DEVICE_ATTR(pwm4, 0200 | 0444, show_pwm, store_pwm, 4);
++static SENSOR_DEVICE_ATTR(pwm5, 0200 | 0444, show_pwm, store_pwm, 5);
++static SENSOR_DEVICE_ATTR(pwm6, 0200 | 0444, show_pwm, store_pwm, 6);
++static SENSOR_DEVICE_ATTR(pwm7, 0200 | 0444, show_pwm, store_pwm, 7);
++static SENSOR_DEVICE_ATTR(pwm8, 0200 | 0444, show_pwm, store_pwm, 8);
++static SENSOR_DEVICE_ATTR(pwm9, 0200 | 0444, show_pwm, store_pwm, 9);
++static SENSOR_DEVICE_ATTR(pwm10, 0200 | 0444, show_pwm, store_pwm, 10);
++static SENSOR_DEVICE_ATTR(pwm11, 0200 | 0444, show_pwm, store_pwm, 11);
++static SENSOR_DEVICE_ATTR(pwm12, 0200 | 0444, show_pwm, store_pwm, 12);
++static SENSOR_DEVICE_ATTR(pwm13, 0200 | 0444, show_pwm, store_pwm, 13);
++static SENSOR_DEVICE_ATTR(pwm14, 0200 | 0444, show_pwm, store_pwm, 14);
++static SENSOR_DEVICE_ATTR(pwm15, 0200 | 0444, show_pwm, store_pwm, 15);
++
++static struct sensor_device_attribute sda_in_input[] = {
++	SENSOR_ATTR(fan0_input, 0444, show_in, NULL, 0),
++	SENSOR_ATTR(fan1_input, 0444, show_in, NULL, 1),
++	SENSOR_ATTR(fan2_input, 0444, show_in, NULL, 2),
++	SENSOR_ATTR(fan3_input, 0444, show_in, NULL, 3),
++	SENSOR_ATTR(fan4_input, 0444, show_in, NULL, 4),
++	SENSOR_ATTR(fan5_input, 0444, show_in, NULL, 5),
++	SENSOR_ATTR(fan6_input, 0444, show_in, NULL, 6),
++	SENSOR_ATTR(fan7_input, 0444, show_in, NULL, 7),
++	SENSOR_ATTR(fan8_input, 0444, show_in, NULL, 8),
++	SENSOR_ATTR(fan9_input, 0444, show_in, NULL, 9),
++	SENSOR_ATTR(fan10_input, 0444, show_in, NULL, 10),
++	SENSOR_ATTR(fan11_input, 0444, show_in, NULL, 11),
++	SENSOR_ATTR(fan12_input, 0444, show_in, NULL, 12),
++	SENSOR_ATTR(fan13_input, 0444, show_in, NULL, 13),
++	SENSOR_ATTR(fan14_input, 0444, show_in, NULL, 14),
++	SENSOR_ATTR(fan15_input, 0444, show_in, NULL, 15),
++};
++
++static SENSOR_DEVICE_ATTR(fan0_fault, 0444, show_fault, NULL, 0);
++static SENSOR_DEVICE_ATTR(fan1_fault, 0444, show_fault, NULL, 1);
++static SENSOR_DEVICE_ATTR(fan2_fault, 0444, show_fault, NULL, 2);
++static SENSOR_DEVICE_ATTR(fan3_fault, 0444, show_fault, NULL, 3);
++static SENSOR_DEVICE_ATTR(fan4_fault, 0444, show_fault, NULL, 4);
++static SENSOR_DEVICE_ATTR(fan5_fault, 0444, show_fault, NULL, 5);
++static SENSOR_DEVICE_ATTR(fan6_fault, 0444, show_fault, NULL, 6);
++static SENSOR_DEVICE_ATTR(fan7_fault, 0444, show_fault, NULL, 7);
++static SENSOR_DEVICE_ATTR(fan8_fault, 0444, show_fault, NULL, 8);
++static SENSOR_DEVICE_ATTR(fan9_fault, 0444, show_fault, NULL, 9);
++static SENSOR_DEVICE_ATTR(fan10_fault, 0444, show_fault, NULL, 10);
++static SENSOR_DEVICE_ATTR(fan11_fault, 0444, show_fault, NULL, 11);
++static SENSOR_DEVICE_ATTR(fan12_fault, 0444, show_fault, NULL, 12);
++static SENSOR_DEVICE_ATTR(fan13_fault, 0444, show_fault, NULL, 13);
++static SENSOR_DEVICE_ATTR(fan14_fault, 0444, show_fault, NULL, 14);
++static SENSOR_DEVICE_ATTR(fan15_fault, 0444, show_fault, NULL, 15);
++
++static struct attribute *gxp_fan_ctrl_attrs[] = {
++	&sensor_dev_attr_fan0_fault.dev_attr.attr,
++	&sensor_dev_attr_fan1_fault.dev_attr.attr,
++	&sensor_dev_attr_fan2_fault.dev_attr.attr,
++	&sensor_dev_attr_fan3_fault.dev_attr.attr,
++	&sensor_dev_attr_fan4_fault.dev_attr.attr,
++	&sensor_dev_attr_fan5_fault.dev_attr.attr,
++	&sensor_dev_attr_fan6_fault.dev_attr.attr,
++	&sensor_dev_attr_fan7_fault.dev_attr.attr,
++	&sensor_dev_attr_fan8_fault.dev_attr.attr,
++	&sensor_dev_attr_fan9_fault.dev_attr.attr,
++	&sensor_dev_attr_fan10_fault.dev_attr.attr,
++	&sensor_dev_attr_fan11_fault.dev_attr.attr,
++	&sensor_dev_attr_fan12_fault.dev_attr.attr,
++	&sensor_dev_attr_fan13_fault.dev_attr.attr,
++	&sensor_dev_attr_fan14_fault.dev_attr.attr,
++	&sensor_dev_attr_fan15_fault.dev_attr.attr,
++	&sda_in_input[0].dev_attr.attr,
++	&sda_in_input[1].dev_attr.attr,
++	&sda_in_input[2].dev_attr.attr,
++	&sda_in_input[3].dev_attr.attr,
++	&sda_in_input[4].dev_attr.attr,
++	&sda_in_input[5].dev_attr.attr,
++	&sda_in_input[6].dev_attr.attr,
++	&sda_in_input[7].dev_attr.attr,
++	&sda_in_input[8].dev_attr.attr,
++	&sda_in_input[9].dev_attr.attr,
++	&sda_in_input[10].dev_attr.attr,
++	&sda_in_input[11].dev_attr.attr,
++	&sda_in_input[12].dev_attr.attr,
++	&sda_in_input[13].dev_attr.attr,
++	&sda_in_input[14].dev_attr.attr,
++	&sda_in_input[15].dev_attr.attr,
++	&sensor_dev_attr_pwm0.dev_attr.attr,
++	&sensor_dev_attr_pwm1.dev_attr.attr,
++	&sensor_dev_attr_pwm2.dev_attr.attr,
++	&sensor_dev_attr_pwm3.dev_attr.attr,
++	&sensor_dev_attr_pwm4.dev_attr.attr,
++	&sensor_dev_attr_pwm5.dev_attr.attr,
++	&sensor_dev_attr_pwm6.dev_attr.attr,
++	&sensor_dev_attr_pwm7.dev_attr.attr,
++	&sensor_dev_attr_pwm8.dev_attr.attr,
++	&sensor_dev_attr_pwm9.dev_attr.attr,
++	&sensor_dev_attr_pwm10.dev_attr.attr,
++	&sensor_dev_attr_pwm11.dev_attr.attr,
++	&sensor_dev_attr_pwm12.dev_attr.attr,
++	&sensor_dev_attr_pwm13.dev_attr.attr,
++	&sensor_dev_attr_pwm14.dev_attr.attr,
++	&sensor_dev_attr_pwm15.dev_attr.attr,
++	NULL,
++};
++
++ATTRIBUTE_GROUPS(gxp_fan_ctrl);
++
++static struct regmap *gxp_fan_ctrl_init_regmap(struct platform_device *pdev, char *reg_name)
++{
++	struct regmap_config regmap_config = {
++		.reg_bits = 32,
++		.reg_stride = 4,
++		.val_bits = 32,
++	};
++	void __iomem *base;
++
++	base = devm_platform_ioremap_resource_byname(pdev, reg_name);
++	if (IS_ERR(base))
++		return ERR_CAST(base);
++
++	regmap_config.name = reg_name;
++
++	return devm_regmap_init_mmio(&pdev->dev, base, &regmap_config);
++}
++
++static int gxp_fan_ctrl_probe(struct platform_device *pdev)
++{
++	struct gxp_fan_ctrl_drvdata *drvdata;
++	struct resource *res;
++	struct device *dev = &pdev->dev;
++
++	drvdata = devm_kzalloc(&pdev->dev, sizeof(struct gxp_fan_ctrl_drvdata),
++			       GFP_KERNEL);
++	if (!drvdata)
++		return -ENOMEM;
++
++	drvdata->dev = &pdev->dev;
++
++	drvdata->data = of_device_get_match_data(&pdev->dev);
++
++	platform_set_drvdata(pdev, drvdata);
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	drvdata->base = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(drvdata->base))
++		return dev_err_probe(dev, PTR_ERR(drvdata->base),
++				     "failed to map base\n");
++	drvdata->plreg_map = gxp_fan_ctrl_init_regmap(pdev, "plreg");
++	if (IS_ERR(drvdata->plreg_map))
++		return dev_err_probe(dev, PTR_ERR(drvdata->plreg_map),
++				     "failed to map plreg_handle\n");
++
++	drvdata->fn2_map = gxp_fan_ctrl_init_regmap(pdev, "fn2reg");
++	if (IS_ERR(drvdata->fn2_map))
++		return dev_err_probe(dev, PTR_ERR(drvdata->fn2_map),
++				     "failed to map fn2_handle\n");
++
++	mutex_init(&drvdata->update_lock);
++
++	drvdata->hwmon_dev = devm_hwmon_device_register_with_groups(&pdev->dev,
++								    "fan_ctrl",
++								    drvdata,
++								    gxp_fan_ctrl_groups);
++
++	return PTR_ERR_OR_ZERO(drvdata->hwmon_dev);
++}
++
++static const struct fan_ctrl_data g10_data = {
++	.fan[0] = { .inst = 0x00, .fail = 0x02, .id = 0x04, .bit = 0x01 },
++	.fan[1] = { .inst = 0x00, .fail = 0x02, .id = 0x04, .bit = 0x02 },
++	.fan[2] = { .inst = 0x00, .fail = 0x02, .id = 0x04, .bit = 0x04 },
++	.fan[3] = { .inst = 0x00, .fail = 0x02, .id = 0x04, .bit = 0x08 },
++	.fan[4] = { .inst = 0x00, .fail = 0x02, .id = 0x04, .bit = 0x10 },
++	.fan[5] = { .inst = 0x00, .fail = 0x02, .id = 0x04, .bit = 0x20 },
++	.fan[6] = { .inst = 0x00, .fail = 0x02, .id = 0x04, .bit = 0x40 },
++	.fan[7] = { .inst = 0x00, .fail = 0x02, .id = 0x04, .bit = 0x80 },
++	.fan[8] = { .inst = 0x01, .fail = 0x03, .id = 0x05, .bit = 0x01 },
++	.fan[9] = { .inst = 0x01, .fail = 0x03, .id = 0x05, .bit = 0x02 },
++	.fan[10] = { .inst = 0x01, .fail = 0x03, .id = 0x05, .bit = 0x04 },
++	.fan[11] = { .inst = 0x01, .fail = 0x03, .id = 0x05, .bit = 0x08 },
++	.fan[12] = { .inst = 0x01, .fail = 0x03, .id = 0x05, .bit = 0x10 },
++	.fan[13] = { .inst = 0x01, .fail = 0x03, .id = 0x05, .bit = 0x20 },
++	.fan[14] = { .inst = 0x01, .fail = 0x03, .id = 0x05, .bit = 0x40 },
++	.fan[15] = { .inst = 0x01, .fail = 0x03, .id = 0x05, .bit = 0x80 },
++	.power_bit = 24,
++};
++
++static const struct of_device_id gxp_fan_ctrl_of_match[] = {
++	{ .compatible = "hpe,gxp-fan-ctrl", .data = &g10_data },
++	{},
++};
++MODULE_DEVICE_TABLE(of, gxp_fan_ctrl_of_match);
++
++static struct platform_driver gxp_fan_ctrl_driver = {
++	.probe		= gxp_fan_ctrl_probe,
++	.driver = {
++		.name	= "gxp-fan-ctrl",
++		.of_match_table = gxp_fan_ctrl_of_match,
++	},
++};
++module_platform_driver(gxp_fan_ctrl_driver);
++
++MODULE_AUTHOR("Nick Hawkins <nick.hawkins@hpe.com>");
++MODULE_DESCRIPTION("HPE GXP Fan Ctrl driver");
++MODULE_LICENSE("GPL");
+-- 
+2.17.1
 
-> > +void interval_tree_span_iter_advance(struct interval_tree_span_iter *iter,
-> > +				     struct rb_root_cached *itree,
-> > +				     unsigned long new_index)
-> > +{
-> > +	if (iter->is_hole == -1)
-> > +		return;
-> > +
-> > +	iter->first_index = new_index;
-> > +	if (new_index == iter->last_index) {
-> > +		iter->is_hole = -1;
-> > +		return;
-> > +	}
-> > +
-> > +	/* Rely on the union aliasing hole/used */
-> > +	if (iter->start_hole <= new_index && new_index <= iter->last_hole) {
-> 
-> "<=" to "<"
-> 
-> > +		iter->start_hole = new_index;
-> > +		return;
-> > +	}
-
-Hrm, I don't think so..  This is testing if new_index is valid for the
-current span. new_index == start_XXX is a valid index of the span and
-new_index == last_XX is also a valid index, so either of them should
-just update start_XX and do nothing else.
-
-Thanks,
-Jason
