@@ -2,262 +2,215 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CDF5C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 09:31:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FE99C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 10:00:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229708AbiKDJbI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 05:31:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49052 "EHLO
+        id S231644AbiKDKAl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 06:00:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbiKDJbH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 05:31:07 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B1A72655E;
-        Fri,  4 Nov 2022 02:31:06 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id h193so3884444pgc.10;
-        Fri, 04 Nov 2022 02:31:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TFugYYD0BR8hWyBRF4DKWEpDwNwTVF4Yxa7IWquEXJ4=;
-        b=KIUkIiCYoWIFXnawtI9t/7B8BBplMPyLCetFJ9mK+2mI6lzrPhjf5SYdaiOqYqQrnN
-         GMwVTIUs0r6528mtxJ0h8FlD8trC1agoBLpjclO9L0NLm1CIDCEl7XBypabi9QnLRnda
-         t3sEtHqq/QseoFdIVwLmL6ONBkZO5XapLbDQrpDQhCFetTp+zhYZ9/fAxb8GCJDLm1Po
-         y7+Y57NBuf8Xyifc5/JxefeJa1F6f6wKbzBfc3MB1M5ZrHezBrGGDyStvyUfFi7pn+aV
-         j+ak1Kf0kPZKd9yH0mbTvCjlZLRxzr73sK4e0hZieWEXY+JkXNUBnDjbNz7CcR6Q+wun
-         mMqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TFugYYD0BR8hWyBRF4DKWEpDwNwTVF4Yxa7IWquEXJ4=;
-        b=5WjlQKtLUvOA+3o/ixJZOqGxaOEAdhrOMdfIzs9WGoGFUHcrC+ZBAzn6kIA7i5GhIP
-         IIxPheymyV9PJrh8HoNXsUmWwggWCw3YyFZbIwJDTYXaGXE05M2IDEUx4PLmNRY9Tg+S
-         orvZjSmoKkep0HXrkVL4OMlxB6lHn4zMN2gSX/odjNRGsNX8h02spYrSpphHzm9iXl2T
-         WBxMc/AA8nBuX8YbjwskPrFDeGKbWrH/nEvqSxvPqGQFT+La0M4Kr3XCOa13//mYUgKG
-         EUbZVsqg1rMBqRFd91y0RhdF5Zn3iSTgom3DUFwcXvsYLCUjHCKZk7luVBEaRdrqbP/p
-         dMsA==
-X-Gm-Message-State: ACrzQf0q32Qx8ybRWpETrkkPfO1bYg17O2uDzzzdNh2CdjTLzaXK5jn/
-        4GlrfB9EDFLRIMlr9vPhYfk=
-X-Google-Smtp-Source: AMsMyM7GrYlstaszFAsFUeDSF1MKxyp1tmcLADtVROUAt9PkVyYVUOK+wK/YvtFh2QDgGvoBvChRkA==
-X-Received: by 2002:a05:6a00:1ac6:b0:56d:ad2c:e803 with SMTP id f6-20020a056a001ac600b0056dad2ce803mr21029480pfv.59.1667554265648;
-        Fri, 04 Nov 2022 02:31:05 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-93.three.co.id. [180.214.232.93])
-        by smtp.gmail.com with ESMTPSA id w188-20020a627bc5000000b005672daedc8fsm2245142pfc.81.2022.11.04.02.31.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Nov 2022 02:31:05 -0700 (PDT)
-Message-ID: <101ab00c-5fa7-c3ee-63bd-f235e7c4d398@gmail.com>
-Date:   Fri, 4 Nov 2022 16:31:02 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH bpf-next v2] docs/bpf: Add LRU internals description and
- graph
-To:     Joe Stringer <joe@isovalent.com>, bpf@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ast@kernel.org, corbet@lwn.net, martin.lau@linux.dev
-References: <20221103205010.3266865-1-joe@isovalent.com>
+        with ESMTP id S231633AbiKDKAf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 06:00:35 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 063F22B253;
+        Fri,  4 Nov 2022 03:00:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667556029; x=1699092029;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=gQwwB1X1/9G4/YYk46bj7YzOPQSmB5R7/HHWoyPMHxg=;
+  b=UtZXALTMPwI01W3yNKJMYLEleNyJMlg4UPvpJglr0pwP7bb7MOdfj5Io
+   kGzJOlgp3vtHR0gWR2xlC3yvsxOZRAL1dMrFmHoHOWgMTk2Zizn2RFFTQ
+   NVZGUytEfHw2vJmLb4Wk7TOdy2tdl+6fcsKUkYjph1nlhD1S4ujIJziEM
+   9buWhQ96wRjUCvcyLFm4LdGRafMwVztflu6DYgvRtZkUCAw+yzTjZsp5K
+   LZr+cbR5vqRU6nes0pLnN3/KMHK+N34+qbyeNxITVPIvrgmEk4UIn1WN0
+   lC0yep7ecwp9Ye/LPKwVpo9Xf2O4Ki3sAqomo3JY3ceU4OonF+V9nRGJ2
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="396230674"
+X-IronPort-AV: E=Sophos;i="5.96,137,1665471600"; 
+   d="scan'208";a="396230674"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2022 03:00:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="629673077"
+X-IronPort-AV: E=Sophos;i="5.96,137,1665471600"; 
+   d="scan'208";a="629673077"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga007.jf.intel.com with ESMTP; 04 Nov 2022 03:00:28 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 4 Nov 2022 03:00:27 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 4 Nov 2022 03:00:26 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Fri, 4 Nov 2022 03:00:26 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.109)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Fri, 4 Nov 2022 03:00:26 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RRgl9UZP9otpIKwcE8/mgFCceAoJEdlLVgxryjDb9qtXLB2rZvSuK0n/cdC2oVfU8lDdF39pbC715QE3M1amvClot0k5FpQN4rqjtrhbh8N28JY3EnovlQRsz6nyQIBhM9uxPXrFeGN23n97vx+ZVUKtxTJKUUUzUFym6r48bq+bjG0wiQmwKUqIquo6IqBr16bFEoMt1TWQX7zIAmxorDgb1QrcMekUHYjcKVkuTlEB1R9OAJfNIZfm1I4MiLLKO4+0sliAOciCeTEmi1rPPdtZo6RyodX8HZvok3yJuHb7AJNQdFOnEbOIPeZriEo4SbkA1MYiTF4RHkTALBCOwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gQwwB1X1/9G4/YYk46bj7YzOPQSmB5R7/HHWoyPMHxg=;
+ b=LgrLn9Jh8FoWOUIGjadUCINqOjEGMgpX8ZqGgAgnHjZPEfqNexQWda3OTUGATttCV7hC4d3viV/9L+5MqoLUtKx19re0UECEYDpAlifwW2cn5rl7/ahxsAj5x7UYPUte5yLeSeMySKjCCesIdzQ6SvJlJfcz7HF/5S6T9cVymQA87endqgGngfUSmiyBk8zgBG9F8S6U0FRI2PkypB6qvsWO8C2aJDOYnm8o/X3VlSWSrlCzT8uYT/3G/NIK0dMsSnTK3ndsh2f30Fhjp5cg8y4zbqkoJwatsQLa1K3OR20tSJExe9ZRmSC53xSTxzmGa3+1SCeY9Lzy6T8IkAVYIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by PH7PR11MB5863.namprd11.prod.outlook.com (2603:10b6:510:135::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.22; Fri, 4 Nov
+ 2022 10:00:24 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::737e:211a:bb53:4cd7]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::737e:211a:bb53:4cd7%5]) with mapi id 15.20.5791.022; Fri, 4 Nov 2022
+ 10:00:24 +0000
+From:   "Tian, Kevin" <kevin.tian@intel.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+        Joerg Roedel <joro@8bytes.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
+CC:     Alex Williamson <alex.williamson@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        "Jason Wang" <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        "Martins, Joao" <joao.m.martins@oracle.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        "Niklas Schnelle" <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        Keqian Zhu <zhukeqian1@huawei.com>
+Subject: RE: [PATCH v3 11/15] iommufd: Add a HW pagetable object
+Thread-Topic: [PATCH v3 11/15] iommufd: Add a HW pagetable object
+Thread-Index: AQHY6J1wkejA0Ad3VEK0+/DX7xfUhK4uljBA
+Date:   Fri, 4 Nov 2022 10:00:23 +0000
+Message-ID: <BN9PR11MB52762F734CF358C48FDFCB1C8C3B9@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <11-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+In-Reply-To: <11-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+Accept-Language: en-US
 Content-Language: en-US
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20221103205010.3266865-1-joe@isovalent.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|PH7PR11MB5863:EE_
+x-ms-office365-filtering-correlation-id: 8c026233-2711-45e2-ffef-08dabe4b643e
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: zaLT7W+s/gHqyF5mgiBbbLWNnsTRvI6E8hcZoRqfuIrLlGaHjeSmp4PK1EwDmV0u5aaCVoPGW1q+7m0eLnaSLkp7LB4rwegs/hByNQUK273nBJRpVLzoJRLKy4LEqx0juWs03I+Ne1IRvCdbZkP9Nz98LM3yMNJRM4dzTFF4Wp2yoBDhKm+Z5UjpHP4WiLW1/sS0LYQ2zFxxN+AuZ2cwWh3xUB6NGAgQS2GO+gDi1FDt7PSHB5DnQBpNQmFNJTwNrRzYBljXLtcBoYc/LnrhxZHQr4dgFOfKGFJD3Oc5Z3oUUZOLnrkLMyGBOKYmGwvKgNe69Pdj7TTmsEKkXrJH/NriNFxBBdxH8ohPfGEoo5KkALIVGZvYJIzu5SuwienIdNYJgn64j3AR27Oq0vkIJLU8hC+34e5vVILbPgW3fg3EbiD/Z/ROt+OqZssJeYNGeY/3bJOE21MBuQtc+oh4iZf+vBYWpYYLOTZtnzVuAuBpwKXKcfzOxMTl4HmEzHHMdYssliGZHgI8FPoJY5dZCPu3gQgNXQZHxkvMn0yu0Bi+85Z4jGTGnNKjxIco57+99xXCgA9aTNOeewW7M6Jmp8j6n8ADA1vuTEKCvwLjBsCZyx8XiO9jWdiBnTAThs5yv4U/vbrnuepsvpVi8nO6zYySo3CgLBCL+6qemWwlozICFU0veUX+UYcPR2i3QluMN388YH6ldH62J0SwVswIMxHn9H42VtOYd9fIlqPgx2fVSSwA82BcbM+mKdJ4s5NJc0tfUzunHJyq0ahycxprS5H2b/r90iwt1Jr0LeXgiNI=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(346002)(396003)(136003)(39860400002)(366004)(451199015)(33656002)(7406005)(7416002)(55016003)(82960400001)(4326008)(8936002)(41300700001)(5660300002)(316002)(52536014)(54906003)(71200400001)(66446008)(7696005)(66476007)(2906002)(64756008)(38070700005)(76116006)(122000001)(38100700002)(6506007)(186003)(110136005)(26005)(66946007)(9686003)(86362001)(921005)(66556008)(478600001)(8676002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?a1uGAb0fbnRd/KtMZ6hobw3JX+A3MOUel8Y51edFHIS3yhxLnEPEGySP4Vzn?=
+ =?us-ascii?Q?6fLB/vU/p7yZfCTph5rqfOu7nKezshlXLHQBOon/Qz/EJnb4DuQ5IIaNSUEV?=
+ =?us-ascii?Q?vpDckZC8iYxrezpe7PiDPZU3GGQb46stY2G3/jBQGDSxB8Zu2bxytt+PZmcJ?=
+ =?us-ascii?Q?7z0EzGgvhenpNL08RJp5seM1QAlH13g4kGfPSa6yo+nHCGGCgT9gedlnA/T+?=
+ =?us-ascii?Q?rjunRq4FpPoyDwPFSdt0QskpqtzfM7jH9lwo4TRpluE0Qsdyov2WxsMn/VsU?=
+ =?us-ascii?Q?ZcFb6gY1Y5a3WuhyvFsXHj90yXVybvq+YpuZaPzKLLU6lzcDufrInsvNWEbj?=
+ =?us-ascii?Q?d2ec3pLpe7sQ6JQS2FUdagMRI2mz3rlz8qoGNKvY0LpZ9UlPhhB16rgqU0xC?=
+ =?us-ascii?Q?54fwA+XD1drpeb/DM1EquITuqSusAGblA7qiGD/nHU1H3b4iaIXeXVyW/2PQ?=
+ =?us-ascii?Q?L3F3xEpdRhBcLK9GWHybgk/8fC9XBgDPMtbgy88gAFwRW9dyaTlrRBYlw42R?=
+ =?us-ascii?Q?slV8tMtf6fdoJ2QV4uJZTZ2Ay0rBrMoejX58LUeJ7p4mmZApW0eVfD1erMJr?=
+ =?us-ascii?Q?MB9HgQQdbYYLL08VwaxJq0q4Z4tBRt/ZzGwNeBvXQUnXPwyKakRPi7tNMeHX?=
+ =?us-ascii?Q?wqcpy88I/OLeVzxtVELJJjgGBjRkdlAcz1WTlu05k9qTfa2Jw9dMpsW1qRbX?=
+ =?us-ascii?Q?j21fV2AOcwR4w+zcfsXuVejP2wGoXrlYgu8IVaJDEEI+5tbv6w5eh1vl3nE1?=
+ =?us-ascii?Q?SyI+cdmVghH0B/WDuXa5IHZAspt8oCOUH4WdHX3ZbWQUuTnP89Bukq9NMEQE?=
+ =?us-ascii?Q?7MGdOeRSWKwZnIrBTe4JyNola2DBPlccVNJkWK5RK5bi7zikpMEPV8tehOMf?=
+ =?us-ascii?Q?hg9LZf/01qhz6VlHPwMFVxFaRtIzNwuBm04HyVtGZ/5GF4Ka7URtNlwGb0cX?=
+ =?us-ascii?Q?V9Vfqv1z7J2b1edzXkaPIV5/8yjkq8LlYWrharTGfi9S7CdjktVJ3ucQNYc4?=
+ =?us-ascii?Q?TyUVxKRJG3oybNiSzLUG3HLiFvDRCzr7Le9wDsJnd+dlU4TRkM2/Fob0uSDF?=
+ =?us-ascii?Q?JoONOLkoponUnBnxgGeocZq1s45L5BNLyvm7xSgTC7pB2PX0TlkDWKssSqKj?=
+ =?us-ascii?Q?qfg4DejLCGAOk8gZ3ARRWQBIdTaJzZ/58MbP6fbDFlqHK9po9hoatJspWm39?=
+ =?us-ascii?Q?KcQH6g2q7HMf+sLao4oX/Cw/4uaF5951iANdCqZpVvYgkM6p36nGa5X02T83?=
+ =?us-ascii?Q?7MzuU/vqwQ4YjvcKstqoU8o9bXOBdkFHBXNCBj9MePGzolXDY5aPqp2bwAZ8?=
+ =?us-ascii?Q?sOUVLKWLTu3HeP4abAe2Gh0ZQVwPcO9JNaVzT4EGsVuKDX9LCmGWPwQSfr/b?=
+ =?us-ascii?Q?HlAUMDysyn4RP31JN/AbzMDS6f+Ou3BSl5qDAW3bsIr/dt1UH/iijrXJWjUn?=
+ =?us-ascii?Q?BeiGb4Cobxd9OlZs2RUu1qul7EvMXmZ5ypCgd2vflfKAP/6/7ChDOVNdWqad?=
+ =?us-ascii?Q?CCLxUfzvYcBN23dq1o1+S5e2uZgzplxm8ct3n3J0NIKxxiAbZNCPL+uk4azJ?=
+ =?us-ascii?Q?mvmbxkcXGyZ9hY7L728brVxkVO+CNaeCVCafs+3C?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c026233-2711-45e2-ffef-08dabe4b643e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2022 10:00:23.9552
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PO7ZNqkfCPnw51JGV8m0tJU59rKU3B4O+35oBd9hUsv+EiUaRZzQD7Kfy2hzCgpDiSpTpKTwEUdlhej91stmrg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5863
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/4/22 03:50, Joe Stringer wrote:
-> +An LRU hashmap type consists of two properties: Firstly, it is a hash map and
-> +hence is indexable by key for constant time lookups. Secondly, when at map
-> +capacity, map updates will trigger eviction of old entries based on the age of
-> +the elements in a set of lists. Each of these properties may be either global
-> +or per-CPU, depending on the map type and flags used to create the map:
-> +
-> +.. flat-table:: Comparison of map properties by map type (x-axis) and flags
-> +   (y-axis)
-> +
-> +   * -
-> +     - ``BPF_MAP_TYPE_LRU_HASH``
-> +     - ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
-> +
-> +   * - ``BPF_NO_COMMON_LRU``
-> +     - Per-CPU LRU, global map
-> +     - Per-CPU LRU, per-cpu map
-> +
-> +   * - ``!BPF_NO_COMMON_LRU``
-> +     - Global LRU, global map
-> +     - Global LRU, per-cpu map
-> +
+> From: Jason Gunthorpe <jgg@nvidia.com>
+> Sent: Wednesday, October 26, 2022 2:12 AM
+>=20
+> The hw_pagetable object exposes the internal struct iommu_domain's to
+> userspace. An iommu_domain is required when any DMA device attaches to
+> an
+> IOAS to control the io page table through the iommu driver.
+>=20
+> For compatibility with VFIO the hw_pagetable is automatically created whe=
+n
+> a DMA device is attached to the IOAS. If a compatible iommu_domain
+> already
+> exists then the hw_pagetable associated with it is used for the
+> attachment.
+>=20
+> In the initial series there is no iommufd uAPI for the hw_pagetable
+> object. The next patch provides driver facing APIs for IO page table
+> attachment that allows drivers to accept either an IOAS or a hw_pagetable
+> ID and for the driver to return the hw_pagetable ID that was auto-selecte=
+d
+> from an IOAS. The expectation is the driver will provide uAPI through its
+> own FD for attaching its device to iommufd. This allows userspace to lear=
+n
+> the mapping of devices to iommu_domains and to override the automatic
+> attachment.
+>=20
+> The future HW specific interface will allow userspace to create
+> hw_pagetable objects using iommu_domains with IOMMU driver specific
+> parameters. This infrastructure will allow linking those domains to IOAS'=
+s
+> and devices.
+>=20
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 
-Shouldn't the table be written in reST table syntax instead?
-
-> +The commit message for LRU map support provides a general overview of the
-> +underlying LRU algorithm used for entry eviction when the table is full:
-> +
-> +::
-> +
-> +    commit 3a08c2fd763450a927d1130de078d6f9e74944fb
-> +    Author: Martin KaFai Lau <kafai@fb.com>
-> +    Date:   Fri Nov 11 10:55:06 2016 -0800
-> +
-> +        bpf: LRU List
-> +
-> +        Introduce bpf_lru_list which will provide LRU capability to
-> +        the bpf_htab in the later patch.
-> +
-> +        * General Thoughts:
-> +        1. Target use case.  Read is more often than update.
-> +           (i.e. bpf_lookup_elem() is more often than bpf_update_elem()).
-> +           If bpf_prog does a bpf_lookup_elem() first and then an in-place
-> +           update, it still counts as a read operation to the LRU list concern.
-> +        2. It may be useful to think of it as a LRU cache
-> +        3. Optimize the read case
-> +           3.1 No lock in read case
-> +           3.2 The LRU maintenance is only done during bpf_update_elem()
-> +        4. If there is a percpu LRU list, it will lose the system-wise LRU
-> +           property.  A completely isolated percpu LRU list has the best
-> +           performance but the memory utilization is not ideal considering
-> +           the work load may be imbalance.
-> +        5. Hence, this patch starts the LRU implementation with a global LRU
-> +           list with batched operations before accessing the global LRU list.
-> +           As a LRU cache, #read >> #update/#insert operations, it will work well.
-> +        6. There is a local list (for each cpu) which is named
-> +           'struct bpf_lru_locallist'.  This local list is not used to sort
-> +           the LRU property.  Instead, the local list is to batch enough
-> +           operations before acquiring the lock of the global LRU list.  More
-> +           details on this later.
-> +        7. In the later patch, it allows a percpu LRU list by specifying a
-> +           map-attribute for scalability reason and for use cases that need to
-> +           prepare for the worst (and pathological) case like DoS attack.
-> +           The percpu LRU list is completely isolated from each other and the
-> +           LRU nodes (including free nodes) cannot be moved across the list.  The
-> +           following description is for the global LRU list but mostly applicable
-> +           to the percpu LRU list also.
-> +
-> +        * Global LRU List:
-> +        1. It has three sub-lists: active-list, inactive-list and free-list.
-> +        2. The two list idea, active and inactive, is borrowed from the
-> +           page cache.
-> +        3. All nodes are pre-allocated and all sit at the free-list (of the
-> +           global LRU list) at the beginning.  The pre-allocation reasoning
-> +           is similar to the existing BPF_MAP_TYPE_HASH.  However,
-> +           opting-out prealloc (BPF_F_NO_PREALLOC) is not supported in
-> +           the LRU map.
-> +
-> +        * Active/Inactive List (of the global LRU list):
-> +        1. The active list, as its name says it, maintains the active set of
-> +           the nodes.  We can think of it as the working set or more frequently
-> +           accessed nodes.  The access frequency is approximated by a ref-bit.
-> +           The ref-bit is set during the bpf_lookup_elem().
-> +        2. The inactive list, as its name also says it, maintains a less
-> +           active set of nodes.  They are the candidates to be removed
-> +           from the bpf_htab when we are running out of free nodes.
-> +        3. The ordering of these two lists is acting as a rough clock.
-> +           The tail of the inactive list is the older nodes and
-> +           should be released first if the bpf_htab needs free element.
-> +
-> +        * Rotating the Active/Inactive List (of the global LRU list):
-> +        1. It is the basic operation to maintain the LRU property of
-> +           the global list.
-> +        2. The active list is only rotated when the inactive list is running
-> +           low.  This idea is similar to the current page cache.
-> +           Inactive running low is currently defined as
-> +           "# of inactive < # of active".
-> +        3. The active list rotation always starts from the tail.  It moves
-> +           node without ref-bit set to the head of the inactive list.
-> +           It moves node with ref-bit set back to the head of the active
-> +           list and then clears its ref-bit.
-> +        4. The inactive rotation is pretty simply.
-> +           It walks the inactive list and moves the nodes back to the head of
-> +           active list if its ref-bit is set. The ref-bit is cleared after moving
-> +           to the active list.
-> +           If the node does not have ref-bit set, it just leave it as it is
-> +           because it is already in the inactive list.
-> +
-> +        * Shrinking the Inactive List (of the global LRU list):
-> +        1. Shrinking is the operation to get free nodes when the bpf_htab is
-> +           full.
-> +        2. It usually only shrinks the inactive list to get free nodes.
-> +        3. During shrinking, it will walk the inactive list from the tail,
-> +           delete the nodes without ref-bit set from bpf_htab.
-> +        4. If no free node found after step (3), it will forcefully get
-> +           one node from the tail of inactive or active list.  Forcefully is
-> +           in the sense that it ignores the ref-bit.
-> +
-> +        * Local List:
-> +        1. Each CPU has a 'struct bpf_lru_locallist'.  The purpose is to
-> +           batch enough operations before acquiring the lock of the
-> +           global LRU.
-> +        2. A local list has two sub-lists, free-list and pending-list.
-> +        3. During bpf_update_elem(), it will try to get from the free-list
-> +           of (the current CPU local list).
-> +        4. If the local free-list is empty, it will acquire from the
-> +           global LRU list.  The global LRU list can either satisfy it
-> +           by its global free-list or by shrinking the global inactive
-> +           list.  Since we have acquired the global LRU list lock,
-> +           it will try to get at most LOCAL_FREE_TARGET elements
-> +           to the local free list.
-> +        5. When a new element is added to the bpf_htab, it will
-> +           first sit at the pending-list (of the local list) first.
-> +           The pending-list will be flushed to the global LRU list
-> +           when it needs to acquire free nodes from the global list
-> +           next time.
-> +
-> +        * Lock Consideration:
-> +        The LRU list has a lock (lru_lock).  Each bucket of htab has a
-> +        lock (buck_lock).  If both locks need to be acquired together,
-> +        the lock order is always lru_lock -> buck_lock and this only
-> +        happens in the bpf_lru_list.c logic.
-> +
-> +        In hashtab.c, both locks are not acquired together (i.e. one
-> +        lock is always released first before acquiring another lock).
-> +
-> +        Signed-off-by: Martin KaFai Lau <kafai@fb.com>
-> +        Acked-by: Alexei Starovoitov <ast@kernel.org>
-> +        Signed-off-by: David S. Miller <davem@davemloft.net>
-> +
-
-What about just writing the pointer ("See commit 3a08c2fd7634 ("bpf: LRU List")")
-instead?
-
-> +Notably, there are various steps that the update algorithm attempts in order to
-> +enforce the LRU property which have increasing impacts on other CPUs involved
-> +in the operations:
-> +
-> +- Attempt to use CPU-local state to batch operations
-> +- Attempt to fetch free nodes from global lists
-> +- Attempt to pull any node from a global list and remove it from the hashmap
-> +- Attempt to pull any node from any CPU's list and remove it from the hashmap
-> +
-
-Better say "... other CPUs involved in the following operation attempts:"
-
-> +Even if an LRU node may be acquired, maps of type ``BPF_MAP_TYPE_LRU_HASH``
-> +may fail to insert the entry into the map if other CPUs are heavily contending
-> +on the global hashmap lock.
-> +
-> +This algorithm is described visually in the following diagram:
-> +
-> +.. kernel-figure::  map_lru_hash_update.dot
-> +   :alt:    Diagram outlining the LRU eviction steps taken during map update
-> +
-> +   LRU hash eviction during map update for ``BPF_MAP_TYPE_LRU_HASH`` and
-> +   variants
-> +
-<snipped>...
-> +
-> +The dot file source for the above diagram is uses internal kernel function
-> +names for the node names in order to make the corresponding logic easier to
-> +find. See ``Documentation/bpf/map_lru_hash_update.dot`` for more details.
-
-Since it references the same figure, just say "See the figure above for more
-details".
-
-Otherwise LGTM, thanks.
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+Reviewed-by: Kevin Tian <kevin.tian@intel.com>
