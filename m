@@ -2,151 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29A01C43217
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 22:09:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9448C43219
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 22:29:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230142AbiKDWJt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 18:09:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36592 "EHLO
+        id S229715AbiKDW34 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 18:29:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbiKDWJr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 18:09:47 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7514F25291
-        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 15:09:44 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id f27so16762068eje.1
-        for <linux-doc@vger.kernel.org>; Fri, 04 Nov 2022 15:09:44 -0700 (PDT)
+        with ESMTP id S229665AbiKDW3z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 18:29:55 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8739DEF6
+        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 15:29:53 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id y4so6146667plb.2
+        for <linux-doc@vger.kernel.org>; Fri, 04 Nov 2022 15:29:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isovalent-com.20210112.gappssmtp.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9KBg06ASwQ0kj5Ll8CLNORO/tXAtWH1/P4+spInuBjU=;
-        b=6wG3u3hZVFCLp3K2T2Sf/LAU1DSBeN+nC0BGK9arw6vilmy9jI48rpAMcDoCZpwFKG
-         QpolMLRk+09tudrxWMG2TE2c7/b5KNs97QRcf0ry42QDBSAbC9J6askQdS0xNj1LjsU0
-         ccJ1m2byPOfKcgqa5CBqRuYVt0QTgrd3Z4HRcZckMcck45/mLoNpTISwLEJ2dAWw0ypt
-         NWBRISB89SQ4S9QG61smvRzvIdZYXLsAssVf/IMRe1gBRxSr6Pf4fFi9W177ptwXDOTQ
-         NiOLgd/XsSZFsnEekAt3ShFwhLgA2Zo1k5VJj655qT5UiiSSeF4xInIo3CB6jdkq9tNn
-         pmPg==
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Aq/mVWfLwMWGNt8fSCRAZ8qaQX+Rp9/roFUUSHdFcg=;
+        b=dKOKOca6Gt2YyKKroo64YoypifXCi0Cnu7uvNh/c1CQKTYDigZb1a5Lc6nfrrUEMI/
+         4AE2r5sOnFMf/n4N6rkqJkEinjHy10LPkOYq61AodJoYbUhGCTtIzVhqSoARiYYRtFo/
+         EclovTivzigbK81kGBQRDG0qF26K9JY+bLhX0J0qVedsSALXRnsV1mIYQbLUA7RdI4Bl
+         F8BWIJWldzMyvETppjo+2Y4ZQDwmlrfV9ZT/zySDdpk9yZyTmfAxbwSHbaM4LwBFWmC7
+         KyZY28moUsv5znWRMH9QPRY8B1+WPpJCb1AVkbrC9wmyWUSfTKUMmauuTdOpubCs51OC
+         6Y/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9KBg06ASwQ0kj5Ll8CLNORO/tXAtWH1/P4+spInuBjU=;
-        b=jyMNuUDFCHo1+RXRTqFG94uinNdedqZuSVlhIOcDebEiaapJ3YM/QaAbHyOsMBCAmj
-         JVW+dAr3Om5LVvpdTL6xyIuYqkgUKmiqYTm1y7OCXMr155K32Drzqj+N1akiTZkTVaD9
-         UfXusLqycuvfju/PRJ0huYv26mrmaOoPk+gO1i0ORzEu92ang+Bf6S8IETXcieQjSrU4
-         mK5V31VTGPwlOoRJBI4G+kVg4g+XfhLj6cTZobcNdVF7DhkDhuoHV2sblF4o3z++GyGX
-         P3gE/0r5MKwN2wD1Yx8EbjT9J4Op3ZnJH2KFhMT5T6QNfU8MapNsS2gXlsjPIjcvuRvr
-         natQ==
-X-Gm-Message-State: ACrzQf2pcZX/XY9jvwqbF9EXJapH/mhfdAVlH5QHYOPyWzLKMkuaWtcV
-        4V29BgHakQ7ua4vEQMcsOkGXf1kncsXMRfDB7ZXDTQ==
-X-Google-Smtp-Source: AMsMyM6zLjfIm1LJZmdJmX3F1xuORskdHrN+sT3pubY7G2c3YSxmJcX5MMdRtWEU53NiZRQBAb55waQpcSVm/whAGAo=
-X-Received: by 2002:a17:907:6e9e:b0:78c:5533:4158 with SMTP id
- sh30-20020a1709076e9e00b0078c55334158mr34265173ejc.417.1667599783015; Fri, 04
- Nov 2022 15:09:43 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5Aq/mVWfLwMWGNt8fSCRAZ8qaQX+Rp9/roFUUSHdFcg=;
+        b=MFmKS8UyaXFTg9CthLbcnd6G5HLaYp6vun8K4jYeVxd8bX3Tv4jbHbrI9euK1S+5mE
+         VqgUekKWsoMOwUVRF40yquHGqaoGJcvUPe12bRJby/DKAE9KCOqrSP0wbQUcFmtBJezC
+         0zfbuHntRMhSgnLJhvLHayBkEQ/81W7GTKZLLhPZT6C3aCyJpDEtIznCMikdgeNKHo19
+         kchIg7UKaJ74S15k+2bCVXkrvVp7Q/GDC8SPZ6VivZc+8puVbszTCFnZOFn9+5kDB1K7
+         1om9FP2Z0J/UBw7Iy+ub+lk56OjYopkaNcRzYp47n6K5Tkvu7lVu5jYtRietW/LcLQ33
+         blYg==
+X-Gm-Message-State: ACrzQf02jHeTWQd6ZwL1HXt074PlqqEL0Vmt9Xnwo4a+FYT1Yoq0b3E7
+        mNZh5RpxETpEFav+PuInt+es+Q==
+X-Google-Smtp-Source: AMsMyM6o08bPyM7u13HIMLyxzK/w69wLSfIdjhMYyTpFlvV74UC9l3d3wEgtuR0o04KYkQ2hwL/GmQ==
+X-Received: by 2002:a17:903:2645:b0:185:480a:85d2 with SMTP id je5-20020a170903264500b00185480a85d2mr37750861plb.144.1667600993126;
+        Fri, 04 Nov 2022 15:29:53 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id s11-20020a170902ea0b00b0018700ba9090sm237049plg.185.2022.11.04.15.29.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Nov 2022 15:29:52 -0700 (PDT)
+Date:   Fri, 4 Nov 2022 22:29:48 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 4/8] KVM: Use gfn instead of hva for mmu_notifier_retry
+Message-ID: <Y2WSXLtcJOpWPtuv@google.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-5-chao.p.peng@linux.intel.com>
+ <CA+EHjTySnJTuLB+XoRya6kS_zw2iMahW9-Ze70oKTf+6k0GrGQ@mail.gmail.com>
+ <20221104022813.GA4129873@chaop.bj.intel.com>
 MIME-Version: 1.0
-References: <20221103205010.3266865-1-joe@isovalent.com> <101ab00c-5fa7-c3ee-63bd-f235e7c4d398@gmail.com>
-In-Reply-To: <101ab00c-5fa7-c3ee-63bd-f235e7c4d398@gmail.com>
-From:   Joe Stringer <joe@isovalent.com>
-Date:   Fri, 4 Nov 2022 15:09:32 -0700
-Message-ID: <CADa=RyxodgJ+Wa3tiWxTntZoy7eSm_UkuzDBx9tCN=s_QnsDOw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2] docs/bpf: Add LRU internals description and graph
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ast@kernel.org, corbet@lwn.net,
-        martin.lau@linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221104022813.GA4129873@chaop.bj.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Resending, this time without HTML.
+On Fri, Nov 04, 2022, Chao Peng wrote:
+> On Thu, Oct 27, 2022 at 11:29:14AM +0100, Fuad Tabba wrote:
+> > Hi,
+> > 
+> > On Tue, Oct 25, 2022 at 4:19 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> > >
+> > > Currently in mmu_notifier validate path, hva range is recorded and then
+> > > checked against in the mmu_notifier_retry_hva() of the page fault path.
+> > > However, for the to be introduced private memory, a page fault may not
+> > > have a hva associated, checking gfn(gpa) makes more sense.
+> > >
+> > > For existing non private memory case, gfn is expected to continue to
+> > > work. The only downside is when aliasing multiple gfns to a single hva,
+> > > the current algorithm of checking multiple ranges could result in a much
+> > > larger range being rejected. Such aliasing should be uncommon, so the
+> > > impact is expected small.
+> > >
+> > > It also fixes a bug in kvm_zap_gfn_range() which has already been using
+> > 
+> > nit: Now it's kvm_unmap_gfn_range().
+> 
+> Forgot to mention: the bug is still with kvm_zap_gfn_range(). It calls
+> kvm_mmu_invalidate_begin/end with a gfn range but before this series
+> kvm_mmu_invalidate_begin/end actually accept a hva range. Note it's
+> unrelated to whether we use kvm_zap_gfn_range() or kvm_unmap_gfn_range()
+> in the following patch (patch 05).
 
-On Fri, Nov 4, 2022 at 2:31 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> On 11/4/22 03:50, Joe Stringer wrote:
-> > +An LRU hashmap type consists of two properties: Firstly, it is a hash map and
-> > +hence is indexable by key for constant time lookups. Secondly, when at map
-> > +capacity, map updates will trigger eviction of old entries based on the age of
-> > +the elements in a set of lists. Each of these properties may be either global
-> > +or per-CPU, depending on the map type and flags used to create the map:
-> > +
-> > +.. flat-table:: Comparison of map properties by map type (x-axis) and flags
-> > +   (y-axis)
-> > +
-> > +   * -
-> > +     - ``BPF_MAP_TYPE_LRU_HASH``
-> > +     - ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
-> > +
-> > +   * - ``BPF_NO_COMMON_LRU``
-> > +     - Per-CPU LRU, global map
-> > +     - Per-CPU LRU, per-cpu map
-> > +
-> > +   * - ``!BPF_NO_COMMON_LRU``
-> > +     - Global LRU, global map
-> > +     - Global LRU, per-cpu map
-> > +
->
-> Shouldn't the table be written in reST table syntax instead?
+Grr, in the future, if you find an existing bug, please send a patch.  At the
+very least, report the bug.  The APICv case that this was added for could very
+well be broken because of this, and the resulting failures would be an absolute
+nightmare to debug.
 
-This table follows the syntax outlined in
-https://docs.kernel.org/doc-guide/sphinx.html#list-tables . Is that
-document not up to date?
-I'm happy to do this, but several of the diagram boxes will reference
-terms like rotation, shrinking etc without explaining what they are. I
-think it's a net negative to readability if this text is not included
-with the diagram. If you think the commit formatting is a bit over the
-top, I could maybe just remove the decoration and embed the content
-directly in the doc? On my first attempt at sketching this up, it just
-felt a bit weird for me to submit that text directly if Martin was the
-author of the text. But I could figure something out for that if
-that's the preferred approach.
+Compile tested only...
 
-> > +Notably, there are various steps that the update algorithm attempts in order to
-> > +enforce the LRU property which have increasing impacts on other CPUs involved
-> > +in the operations:
-> > +
-> > +- Attempt to use CPU-local state to batch operations
-> > +- Attempt to fetch free nodes from global lists
-> > +- Attempt to pull any node from a global list and remove it from the hashmap
-> > +- Attempt to pull any node from any CPU's list and remove it from the hashmap
-> > +
->
-> Better say "... other CPUs involved in the following operation attempts:"
+--
+From: Sean Christopherson <seanjc@google.com>
+Date: Fri, 4 Nov 2022 22:20:33 +0000
+Subject: [PATCH] KVM: x86/mmu: Block all page faults during
+ kvm_zap_gfn_range()
 
-Will fix, thanks.
+When zapping a GFN range, pass 0 => ALL_ONES for the to-be-invalidated
+range to effectively block all page faults while the zap is in-progress.
+The invalidation helpers take a host virtual address, whereas zapping a
+GFN obviously provides a guest physical address and with the wrong unit
+of measurement (frame vs. byte).
 
-> > +Even if an LRU node may be acquired, maps of type ``BPF_MAP_TYPE_LRU_HASH``
-> > +may fail to insert the entry into the map if other CPUs are heavily contending
-> > +on the global hashmap lock.
-> > +
-> > +This algorithm is described visually in the following diagram:
-> > +
-> > +.. kernel-figure::  map_lru_hash_update.dot
-> > +   :alt:    Diagram outlining the LRU eviction steps taken during map update
-> > +
-> > +   LRU hash eviction during map update for ``BPF_MAP_TYPE_LRU_HASH`` and
-> > +   variants
-> > +
-> <snipped>...
-> > +
-> > +The dot file source for the above diagram is uses internal kernel function
-> > +names for the node names in order to make the corresponding logic easier to
-> > +find. See ``Documentation/bpf/map_lru_hash_update.dot`` for more details.
->
-> Since it references the same figure, just say "See the figure above for more
-> details".
+Alternatively, KVM could walk all memslots to get the associated HVAs,
+but thanks to SMM, that would require multiple lookups.  And practically
+speaking, kvm_zap_gfn_range() usage is quite rare and not a hot path,
+e.g. MTRR and CR0.CD are almost guaranteed to be done only on vCPU0
+during boot, and APICv inhibits are similarly infrequent operations.
 
-The figure is rendered visually in the docs without the corresponding
-node names, so developers would need to look at either the dot source
-or maybe the SVG source though that's arguably a little less readable.
-The suggested phrasing to see the figure doesn't sound very useful to
-me since the simple reader's interpretation would be to look directly
-at the render rather than the source. This last sentence was intended
-as a helpful way for developers to find the path to the corresponding
-document, but if you think that is too much detail then I could also
-just drop this last sentence. Thoughts?
+Fixes: edb298c663fc ("KVM: x86/mmu: bump mmu notifier count in kvm_zap_gfn_range")
+Cc: stable@vger.kernel.org
+Cc: Maxim Levitsky <mlevitsk@redhat.com>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+---
+ arch/x86/kvm/mmu/mmu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Cheers,
-Joe
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 6f81539061d6..1ccb769f62af 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -6056,7 +6056,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+ 
+ 	write_lock(&kvm->mmu_lock);
+ 
+-	kvm_mmu_invalidate_begin(kvm, gfn_start, gfn_end);
++	kvm_mmu_invalidate_begin(kvm, 0, -1ul);
+ 
+ 	flush = kvm_rmap_zap_gfn_range(kvm, gfn_start, gfn_end);
+ 
+@@ -6070,7 +6070,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+ 		kvm_flush_remote_tlbs_with_address(kvm, gfn_start,
+ 						   gfn_end - gfn_start);
+ 
+-	kvm_mmu_invalidate_end(kvm, gfn_start, gfn_end);
++	kvm_mmu_invalidate_end(kvm, 0, -1ul);
+ 
+ 	write_unlock(&kvm->mmu_lock);
+ }
+
+base-commit: c12879206e47730ff5ab255bbf625b28ade4028f
+-- 
+
