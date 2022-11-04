@@ -2,79 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67762C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 12:40:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13CDBC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 13:17:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230132AbiKDMkt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 08:40:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57210 "EHLO
+        id S231715AbiKDNQ6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 09:16:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbiKDMks (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 08:40:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50A4B2AD2;
-        Fri,  4 Nov 2022 05:40:48 -0700 (PDT)
+        with ESMTP id S232010AbiKDNQw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 09:16:52 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDB02ED6C
+        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 06:16:49 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E1BAB6216F;
-        Fri,  4 Nov 2022 12:40:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8347C433C1;
-        Fri,  4 Nov 2022 12:40:46 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 78F90B82D19
+        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 13:16:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E4CEC43148
+        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 13:16:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667565647;
-        bh=86lfsZhQiofECwdBXs+MGUADeqUzwNnoH81scqJlkF4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cOgihHFG7DvlRNq1fWGC6tK8cVXEkJgDWZtX+VyGNFA51eg1sTn82YVl3OSeafcph
-         rzJvLIdXzod+5/+tx5ZI0dEkJMKMviP/GIQjKDsKI2BYkILiT01Iua1qEROQZQb2sO
-         2dCOxlezc4wDwi8wbuaRYT2gzi5v3Dfl+VG6BIgYXWSUft8nrDYClyfSKPjKR0Z5T2
-         Lzvh6a6m6Jtp00g6Bwwmu96/5N5I9mvfcKd60nvChtpuHFsoyC1wfLbJOLovXEOPLe
-         4TXLT4wOA7qdGY5MA8GCJ1FtEBDIWDIHMPwUlTOWMG+iQkYYk1Pv9ftShuIV/pJfEP
-         HfFe2mb4mrNdA==
-Date:   Fri, 4 Nov 2022 18:10:43 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Sireesh Kodali <sireeshkodali1@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH v2 0/3] dmaengine: Add support for immediate commands
-Message-ID: <Y2UIS7P0alvqT4jn@matsya>
-References: <20221027051429.46593-1-sireeshkodali1@gmail.com>
+        s=k20201202; t=1667567807;
+        bh=T2gXDiJqgByvHZsKFOUU0vjzD/iVerZ54w/8dGlGVBo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Co+Ihr7+mylgkgwzTP8PJus/1/+5pCRPPWe+NwqjRMx6zTeYYlLRmeV8qXN5Vdl/A
+         iWi1sJUAT7k+M1au+gp1Uav5bo9aJ0XytNt6QvRvZifGEx23VvdPMi2vxrAmExMwUe
+         Vc5N/OXwU3EL5bvapARozPwC4g/NVYD+dXRon2oYSiP789dUjNAJDWyobUgExMRHjR
+         Hhp6H34wYcOeVuDu86ht+H1lhqKqb3x3qDCTFo0JWctuZhjF9ofxVqj/cgdwu7y/Cm
+         w1ZWgU17y+OnuFt4m/JOQdFAWnuFN896TvIccfDYtJdtCdFD4oEHnaOlQtf9OyvNV6
+         vsQ15khype3Pw==
+Received: by mail-lj1-f176.google.com with SMTP id d3so6320954ljl.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 Nov 2022 06:16:47 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1DC97u8HNy3YCl+4ey7mJ4rQsSCyxs7H84BdPzJ7k37Z5hxwnI
+        +PYkoTLLyLkeOXT9LoNJluekKko6vD3T1mgov0URDw==
+X-Google-Smtp-Source: AMsMyM7NWcVL2vaGbcou/fnIP3CKTPl+hRuPzErwPx7le/15F84d+iL7YhayD2QXQkCrJL1HCwESjQnI47zMh23OWn0=
+X-Received: by 2002:a2e:a211:0:b0:26e:861:522f with SMTP id
+ h17-20020a2ea211000000b0026e0861522fmr13091555ljm.508.1667567805033; Fri, 04
+ Nov 2022 06:16:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221027051429.46593-1-sireeshkodali1@gmail.com>
+References: <20221104123913.50610-1-bagasdotme@gmail.com>
+In-Reply-To: <20221104123913.50610-1-bagasdotme@gmail.com>
+From:   KP Singh <kpsingh@kernel.org>
+Date:   Fri, 4 Nov 2022 14:16:33 +0100
+X-Gmail-Original-Message-ID: <CACYkzJ6h=TsxLvXVbfUDgsfd5uZqqsmAXsZhdQS12ZyHniiVMg@mail.gmail.com>
+Message-ID: <CACYkzJ6h=TsxLvXVbfUDgsfd5uZqqsmAXsZhdQS12ZyHniiVMg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next] Documentation: bpf: escape underscore in BPF
+ type name prefix
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Vernet <void@manifault.com>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 27-10-22, 10:44, Sireesh Kodali wrote:
-> The IPA v2.x block, found on some older Qualcomm SoCs, uses BAM DMA to
-> send and receive packets from the AP. It also uses BAM to receive
-> commands from the AP (and possibly the modem). These commands are
-> encoded as "Immediate Commands". They vary from regular BAM DMA
-> commands. Adding support for immediate commands is trivial, but requires
-> also adding Immediate Commands to the dmaengine API, which is what this
-> patch series does.
+On Fri, Nov 4, 2022 at 1:39 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> Sphinx reported unknown target warning:
+>
+> Documentation/bpf/bpf_design_QA.rst:329: WARNING: Unknown target name: "bpf".
+>
+> The warning is caused by BPF type name prefix ("bpf_") which is written
+> without escaping the trailing underscore.
+>
+> Escape the underscore to fix the warning. While at it, wrap the
+> containing paragraph in less than 80 characters.
+>
+> Fixes: 9805af8d8a5b17 ("bpf: Document UAPI details for special BPF types")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Can you explain a bit more. I understand you need "Immediate Commands"
-but am really reluctant to add another interface to support a specific
-use case
-
-> 
-> Sireesh Kodali (3):
->   doc: dmaengine: client-api: Add immediate commands in the DMA client
->     API
->   dmaengine: Add support for immediate commands in the client API
->   dmaengine: bam_dma: Add support for immediate commands
-> 
->  Documentation/driver-api/dmaengine/provider.rst | 10 ++++++++++
->  drivers/dma/qcom/bam_dma.c                      |  3 +++
->  include/linux/dmaengine.h                       |  4 ++++
->  3 files changed, 17 insertions(+)
-> 
-> -- 
-> 2.38.1
-
--- 
-~Vinod
+Acked-by: KP Singh <kpsingh@kernel.org>
