@@ -2,66 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8B29C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 14:54:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0545EC433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 15:06:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230008AbiKDOyS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 10:54:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39054 "EHLO
+        id S232305AbiKDPF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 11:05:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231873AbiKDOyR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 10:54:17 -0400
-Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 896652EF33;
-        Fri,  4 Nov 2022 07:54:15 -0700 (PDT)
-Received: from uucp (helo=alpha)
-        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-        id 1oqy52-0003X5-00; Fri, 04 Nov 2022 15:54:00 +0100
-Received: by alpha.franken.de (Postfix, from userid 1000)
-        id 5A5EEC0EF4; Fri,  4 Nov 2022 15:50:02 +0100 (CET)
-Date:   Fri, 4 Nov 2022 15:50:02 +0100
-From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-To:     Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-mips@vger.kernel.org
-Subject: Re: [PATCH v2 07/15] MIPS: IP27: clean out sn/nmi.h
-Message-ID: <20221104145002.GA16099@alpha.franken.de>
-References: <cover.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
- <534e0e7e4f2b0cc1cb35d5024192473635ed1b94.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
+        with ESMTP id S232143AbiKDPF5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 11:05:57 -0400
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB7AE5FF9;
+        Fri,  4 Nov 2022 08:05:56 -0700 (PDT)
+Received: by mail-qt1-f174.google.com with SMTP id h21so3190135qtu.2;
+        Fri, 04 Nov 2022 08:05:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pKspryUXShYNSbZd0Tz6f9AJ4x/r0hDiiq5i0wx1tkE=;
+        b=vvwyL5kqEMsudbviKymiA3miQyxehN13cp9Xpxl9pgxGxIguDTHil39icgzE3YVVeO
+         RPUEx2XpLMxxUb4mWKJjFMj+JbWGFoZKEHmAXVLvrAxUoAlKq1N2+TttvJhEt6IUgwAC
+         RRc8h8Ck8nVLJeD4mruXF7yAGaMGW8UAKviIM4sRWUOh6URC1JZ28nyTtf1lntjfw1WU
+         iDxp4/Yp4A00jBmx4FAsT0idMSdCGjogq8EfT3PfNNevPpwebgagZqfJwuWGd12svm7o
+         iVVMcnCbbr7M0072iRy8B/8Yl6oD32/5Yevc5QOL24vbFvY1vs5yx/wDv3l0VFe6y8hC
+         JRZg==
+X-Gm-Message-State: ACrzQf2TrKs24sbocozDl/ZR8wPjAHH6NcrQQjF07Y8NolOWlWws/i2g
+        xSFcBT3ZMVu7xOgArqfayII=
+X-Google-Smtp-Source: AMsMyM6BIFnDSMdh6LUJTGNjtmJjhjrS7sHuzgQ0G1FxEQAM3deBBTiVZg5tXpubcD2GkXNTb5Yd3w==
+X-Received: by 2002:ac8:7d42:0:b0:3a5:66a9:2fe4 with SMTP id h2-20020ac87d42000000b003a566a92fe4mr2810851qtb.689.1667574355684;
+        Fri, 04 Nov 2022 08:05:55 -0700 (PDT)
+Received: from maniforge.dhcp.thefacebook.com ([2620:10d:c091:480::b27e])
+        by smtp.gmail.com with ESMTPSA id i6-20020a05620a248600b006a6ebde4799sm3062419qkn.90.2022.11.04.08.05.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Nov 2022 08:05:55 -0700 (PDT)
+Date:   Fri, 4 Nov 2022 10:05:54 -0500
+From:   David Vernet <void@manifault.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Subject: Re: [PATCH bpf-next] Documentation: bpf: escape underscore in BPF
+ type name prefix
+Message-ID: <Y2UqUqrqVbPqueZ/@maniforge.dhcp.thefacebook.com>
+References: <20221104123913.50610-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <534e0e7e4f2b0cc1cb35d5024192473635ed1b94.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20221104123913.50610-1-bagasdotme@gmail.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Nov 02, 2022 at 12:05:30AM +0100, Ahelenia Ziemiańska wrote:
-> The only user is arch/mips/sgi-ip27/ip27-nmi.c; this file was imported
-> wholesale in 2.3.99pre9-1, and received only whitespace updates since
-> then.
+On Fri, Nov 04, 2022 at 07:39:14PM +0700, Bagas Sanjaya wrote:
+> Sphinx reported unknown target warning:
 > 
-> NMI_MAGIC isn't a magic number; it's unclear if it's actually used by
-> the firmware in some capacity or if it's a holdover from copying the SGI
-> code, but in the former case it's API and in the latter it's dead cruft.
+> Documentation/bpf/bpf_design_QA.rst:329: WARNING: Unknown target name: "bpf".
+> 
+> The warning is caused by BPF type name prefix ("bpf_") which is written
+> without escaping the trailing underscore.
+> 
+> Escape the underscore to fix the warning. While at it, wrap the
+> containing paragraph in less than 80 characters.
+> 
+> Fixes: 9805af8d8a5b17 ("bpf: Document UAPI details for special BPF types")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-it's used by firmware and Linux code to register the NMI exception
-handler. Please leave arch/mips/include/asm/sn/nmi.h untouched as
-it's documents firmware NMI handler usage (even when we don't use it, yet).
-
-Thomas.
-
--- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+Acked-by: David Vernet <void@manifault.com>
