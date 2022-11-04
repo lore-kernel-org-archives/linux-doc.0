@@ -2,119 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7757CC43219
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 19:22:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42BEBC43217
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 19:26:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229814AbiKDTWj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 15:22:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54548 "EHLO
+        id S229601AbiKDT0Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 15:26:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbiKDTWh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 15:22:37 -0400
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA4114876C;
-        Fri,  4 Nov 2022 12:22:35 -0700 (PDT)
-Received: by mail-oi1-x232.google.com with SMTP id v81so6169446oie.5;
-        Fri, 04 Nov 2022 12:22:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+CrrtBZaWaBIBfDEz9a9BacRZtXiPhURWnCTyiBknKU=;
-        b=f7SabvhELt4tvu58wD/HGUQtx2q3c42bp4689l/poRMwjHONs2y+uJybLQ6btnBic8
-         iSYK/T680hWQ8YubanyiQ/jk4TxtOOSgyzZyzTjBStaumbjkRAc3PTfrEP9z1ET4ppjL
-         os0cjm+F8kyIi27l3gX1TCu+EYDnb6I6sC6rEheSVAEJvEJuF1rkSUHHVYhQ9PjtWNZC
-         /KoHUhscmHo/jN1PCMTUxC8NT4KR3QukfsWt+gbIkumzBVh1p3Sny9bKzJeet5110tpk
-         HzVFo5k5iKj3j88DvNf1ucVPdH/av+bU0vEDu76g9bGVlHfWhJDUhqHlYTifQBH3QuBi
-         oWFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+CrrtBZaWaBIBfDEz9a9BacRZtXiPhURWnCTyiBknKU=;
-        b=kpb0AEjnpgyvCrUHBAaaEt+sLn/DmSZLAkavzi4Q/eEzc15S/9bNCI5Se3u8v6GYOc
-         LMEBwFvL+t17AYAC/zT5CQyCoAPzihSm4Z+f8P1+XidK6tGrvehttoqn3BfzMxbugouK
-         PSKRHswn6/DSy9a14G3cW8a6x2FSHZ9NpIxFLoAj4p9+qt6kWACR5cNg8zGgTt50ILSt
-         yQ5Q9tpnypVZEkRlk0ovHOcq2/FeegKRfAO9ZP4FH25aJw1juFgJtODXrnU/LCmiI57b
-         BX+q6wBTzPzHjpnwLsN4RfPXBz95Yj5LclVUebh2mKUqz3RJ8zHiMBOQ7o/uHB0m16/Y
-         WAsw==
-X-Gm-Message-State: ACrzQf0IxZ7/0qN9U151z1H/jqWr6wNonDkyUWLaJ2PzBtzz9DIpdrbB
-        Y96q9w60xSW54rGzRoVyjgo=
-X-Google-Smtp-Source: AMsMyM5j57nGJ6ihP9Jnolnn5vAnBZp3njFzbqkVuO45h5Gs91zBtM7qMBV3ZTA/jEfxwCmFGOBzYQ==
-X-Received: by 2002:aca:2819:0:b0:359:f8a7:c88 with SMTP id 25-20020aca2819000000b00359f8a70c88mr260428oix.278.1667589755023;
-        Fri, 04 Nov 2022 12:22:35 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id n132-20020acabd8a000000b003547a3401e6sm1729901oif.43.2022.11.04.12.22.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Nov 2022 12:22:34 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 4 Nov 2022 12:22:32 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-bluetooth@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
-        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Subject: Re: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before
- freeing timers
-Message-ID: <20221104192232.GA2520396@roeck-us.net>
-References: <20221104054053.431922658@goodmis.org>
-MIME-Version: 1.0
+        with ESMTP id S229532AbiKDT0L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 15:26:11 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on20615.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe5b::615])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE9E021E2C;
+        Fri,  4 Nov 2022 12:26:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fG/sa/f5G+Cx88ylfezt9R7IjJ+Vlh46C1RTYX6LR1Ob3XmnWO74zjiffbgEqj0DCIbPfd0E1fYUG5j7zEbuRJ8/PsS+aEDeI8jsLpXXvuwbmvX4RVkURWqihP5WDtnIeN94AKfJnQxZDq/FIfqToXQCPyotmK3HFji1v/JGBl32E1VEPBxZ6h6W2dmLMggcIb2Tcfnof7oHzSGHqFIYQ8seg8Od3qH6j7XhlPda0OqB2wgHaxiz/PuCG+XTSRd3qyKjhATCferMsN0kXIil0vNYGpJotTKYwfch8JvQm6gqCHA7gNpP2uPZksGKxvXWfwRCjYJQvn3YOUJMt1oujw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5tu930OvuFu3jUn0EKruj8z7OPgPu9liMfZeXGy8qZo=;
+ b=NU0S6ba+3W29Axpe6TuMsMPlxY5hqznzKrnsa7gRkB1d9E+PdTtWMQ0zCUM9hJY2ovmq/c3DCcMrpo1uBt/IVlP2JuNNaQ6BlYra8LussY6cWSOkVmKS1g/BLKaSMXXJne0t1Lsmj13SOFWvwygbU406efcu6hs37oabSqBs9avTDVvEiamrbd95ybPcdaB8ggIu2YwqnxxhGkkzsDhhI17AKSzBEf3EGhNd3gnNlfc9mXpVBUd5qhoCkpKx0ABbNoSS4NXxOnqkG9qyprw8Yw0/vIxdCr/fxGfM6fKhBPwXCzBCFq1URnlusZruNl2+DQfI2+3Nn6A5jtGFzE6wwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5tu930OvuFu3jUn0EKruj8z7OPgPu9liMfZeXGy8qZo=;
+ b=hhEBYTJnwInl1s3HayOV4a5LvCPn7gfecC9hDQwHhKm235znCA69/DysEXmHtIUb9/Y5RoaQhouE5nrM25yZ0eQ8kYq/XtsKw/rITTGNmYBfhoDpHEi0zJVClwtWalGQvYUA3DIB7rYD/RGQi9NowPwaqRosDeEHBSY94dbl5eBoEf+vRc2KFmIpXwzeWzUqmoQPHS7lrkwdezsjzmQUYijkuSDbmiWo+9IDNvxzy+u8oXJUFLzjq31txDRUCtqQZ2bgrKUz2mfDXzzN//GaXXbMtnJcnMyfxV1+BLTUdA7UfZiyuM8yx+l5GsquKSmUG2V/YptGb91mJC7Rxk/2IQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by CH2PR12MB4311.namprd12.prod.outlook.com (2603:10b6:610:a8::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.22; Fri, 4 Nov
+ 2022 19:25:41 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5769.015; Fri, 4 Nov 2022
+ 19:25:41 +0000
+Date:   Fri, 4 Nov 2022 16:25:40 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     "Tian, Kevin" <kevin.tian@intel.com>
+Cc:     Lu Baolu <baolu.lu@linux.intel.com>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+        Joerg Roedel <joro@8bytes.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        "Martins, Joao" <joao.m.martins@oracle.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v3 01/15] iommu: Add IOMMU_CAP_ENFORCE_CACHE_COHERENCY
+Message-ID: <Y2VnNJYQfQwfKiwl@nvidia.com>
+References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <1-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <BN9PR11MB5276F41D50FFAFFCC8186B238C389@BN9PR11MB5276.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221104054053.431922658@goodmis.org>
+In-Reply-To: <BN9PR11MB5276F41D50FFAFFCC8186B238C389@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-ClientProxiedBy: MN2PR02CA0004.namprd02.prod.outlook.com
+ (2603:10b6:208:fc::17) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|CH2PR12MB4311:EE_
+X-MS-Office365-Filtering-Correlation-Id: a7ab9e5c-9a8f-4249-85c4-08dabe9a5c8c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RYof3kHT/5xG1v5dpE9hfFOlu7hv//WpwOdSMdPx/xJFG7EHEGRFl2mAwulqTHw2MgJJ7VlboY5xOSfdDSZcRbHfAkBhBJ4gsTk/oSxfuPQ2qyv/6X4GLh5p4Z4fcxDVkjVH/vjnfZKO6brgmULLYMieQwxJwZATcNDvowLE9Pv+w4PA3mJi4is5QTJ507n09rp2X/pMwV8aleR3Ud70c4PohZ6k/iSA/eOMsqJrnX8KPk2rRdeGVw0z8Oa4NdbmAZJ5sFGU3oNv0dcOtqRaJH0oq/AEvViHbC7UC9Hyz/0q0+Rp57jL/vZqIRm59dDVYxk5Q6PVuAvGATF26V1vctRYz2J7DH/y9EAUnn+7TIkXg+hzta+qERxpMCPzOImd8J+meQNY/MrUAWeIEfM5QIGZmh1KSvo3DEngnqpimSvKhSjJpvg7M6aUy+x8Ge2K1/Ik32pShbb9rBDsAIWzXULdV78R0rI5dW51pxNr6KFhnBSp7LXK+P/uKplrJM/y14W+eNJMmVqWinPShVuMdRcpcGEaNDEWbeMwpO0XIDykAS+GOpsacQbTQkfsPm8dCNZx02N6d5Xv8GemqZozFsbQ+qryeBHzFCOhIxECAry0fSIX+wnk6eYhog//AttWNxDki/L7Er8ncS4etOWhsq3sCnlYrla7JZrsKu+UEKXomgBxFaeLVeQA5qBiRzn55h9Ta2C9GZ/KfBSZ1TZ2GQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(39860400002)(366004)(376002)(346002)(396003)(451199015)(38100700002)(36756003)(8936002)(66556008)(8676002)(86362001)(41300700001)(4326008)(26005)(66946007)(7416002)(7406005)(5660300002)(316002)(66476007)(54906003)(6916009)(4744005)(2906002)(2616005)(186003)(478600001)(6486002)(6512007)(6506007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yyFyQvaMpZGct7Hne/EZj9HxjaAFYkbmqox4swBGXMNhDXE59WyZwvAYX3rq?=
+ =?us-ascii?Q?zr6AIONCYyDh+cx4nU3jKlpWkf+8ccEfiOyq/R3gWdwTaNPkkP3yW/Es3IVe?=
+ =?us-ascii?Q?8rvZKh4jlOyuawe3ifyV5VJoFh/IL/Ddo9X2hTqQmeFoUXnZ9a3uLSzRs9Ta?=
+ =?us-ascii?Q?x9xHBBgXyFsnGvSqoJ3xoEfQxhAc5tmlJn0iWs2AJMNThMJdrmVTFihlKyhS?=
+ =?us-ascii?Q?56AAeykQidtQtuP9ZfPYYvvMzSCI0x6s4fecpAKj26zHiO318OLI+j1DoFEA?=
+ =?us-ascii?Q?9wkmYS8OfhYqvBpKIm/C29BrH8R+CAO1jrFDaD8PwHCRaDq4onKqANQfUXOH?=
+ =?us-ascii?Q?UGLKkq/dgz1GmwjQCC9aKGKXUP3TIJmTGn/COPJixjFkxPkUvIjXx7x8+FEL?=
+ =?us-ascii?Q?fE+ylNmoIjMkUPGRl3usObVLfVIXchsvP58NL44KsLVwCBXd+qDEbbITYCWD?=
+ =?us-ascii?Q?rZlBarcXvdPI2KBS7MlvMylhqvcp8gA26Lst4LLdGthMJpfRbwkao1x4T/y+?=
+ =?us-ascii?Q?7kmC0dvaxxoedfzQumwR4MPt5K3/2ccsHRUaFe3dVa9cbY426vHNCsypFlA7?=
+ =?us-ascii?Q?YCLssfSItOMkZkI2zAWBrAnw0Fir5oZh1xgXBT5hNOEfPYf2nUwxTCse87yR?=
+ =?us-ascii?Q?0uSvrrdxbzauE3lddlyqByb+klg8ZAJrAXD26D7ua3rNzFAJq5XPIQTloE40?=
+ =?us-ascii?Q?mQeNhIy8Pur6zFdYQDZ4/mXbEzTV8nJSzALwZRnzzRR2AZ8jcvoDVVrUi1hZ?=
+ =?us-ascii?Q?O9ARNSKDXl4EkLNWwKCNQJ+2k9KOevxHKT0N0wfuwUTtGb90qxn80rysMqDI?=
+ =?us-ascii?Q?JAyUGCe6vEAU8qt5Alio7fbVNfL/lpxDhJjKZI5KNn08oPB/tWNvfx40mnmZ?=
+ =?us-ascii?Q?Lbhx9dEFUHAIwdAjTOOslb3ROT/ejR5sFP3lYMHd11BCMii7YwZJCdJtqmwq?=
+ =?us-ascii?Q?UeuF47n8ovK3PhEJtHxNGaERUAiy5hfbwcNUH6fQVKhTkyEtbD0RMxd9Ps6+?=
+ =?us-ascii?Q?vtf06lCoeXqg6vYRQJBZejwprcR7PA9gaUiVaokZA923HI26yqeNtf+01VZu?=
+ =?us-ascii?Q?BqCKBylnl0NnIyXJfFNSkBhbqSpfp0evfJ8U9Py6SZASoXjzki5gJFz/3+jJ?=
+ =?us-ascii?Q?moVFT8lOTzPLOsvIxGK36hAyCSaA0Jn6lDfkQ5rpAQVLO6mMoU3n0D1sN6er?=
+ =?us-ascii?Q?9LWSr59oxf/U/BKwrtJFf7UtPpcIeE57s3AHVzAw88Odg1nmSE+xc1UXeLPW?=
+ =?us-ascii?Q?yITkhSpuNFx6CuQ1+VUjt0rqD9Jr5myV5EQZqLzoXaOWe74aMpOD378ZQjqc?=
+ =?us-ascii?Q?PwzsH52w3i3YCXYNsaWxc1jNmAQpV82vRQpsgu+vB9l0x00ngmy/u6dzlAk2?=
+ =?us-ascii?Q?eDTgbej1azJw0W5s31lMhnCJtpFpbcEIp8AWJO2PT2brCcmx2QRKu4JA5ntZ?=
+ =?us-ascii?Q?gFLMBl6leKQlobxQq0mUqBJ1qtKAJm3XAwmypu8yNRvUXLky4ElVSF/98/mu?=
+ =?us-ascii?Q?Xfd8sGKndnXXHJQ39KpbAggIC8fejV98aTJrH+36laE3Ys5e2lRO1GiksUX7?=
+ =?us-ascii?Q?L3Er2ESuzuUzf6u5Wk0=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7ab9e5c-9a8f-4249-85c4-08dabe9a5c8c
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2022 19:25:41.5956
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ffrl3EKxzoH1cRMlzzCtTQKxmSOCRc0kXL8VuFk1f/OF31YHYuS2S4UOIup/iGEb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4311
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 04, 2022 at 01:40:53AM -0400, Steven Rostedt wrote:
+On Thu, Nov 03, 2022 at 05:03:01AM +0000, Tian, Kevin wrote:
+> > @@ -4458,7 +4458,11 @@ static bool intel_iommu_capable(struct device
+> > *dev, enum iommu_cap cap)
+> >  		return irq_remapping_enabled == 1;
+> >  	if (cap == IOMMU_CAP_PRE_BOOT_PROTECTION)
+> >  		return dmar_platform_optin();
+> > +	if (cap == IOMMU_CAP_ENFORCE_CACHE_COHERENCY) {
+> > +		struct device_domain_info *info = dev_iommu_priv_get(dev);
+> > 
+> > +		return ecap_sc_support(info->iommu->ecap);
+> > +	}
+> >  	return false;
+> >  }
 > 
-> Back in April, I posted an RFC patch set to help mitigate a common issue
-> where a timer gets armed just before it is freed, and when the timer
-> goes off, it crashes in the timer code without any evidence of who the
-> culprit was. I got side tracked and never finished up on that patch set.
-> Since this type of crash is still our #1 crash we are seeing in the field,
-> it has become a priority again to finish it.
-> 
-> This is v3 of that patch set. Thomas Gleixner posted an untested version
-> that makes timer->function NULL as the flag that it is shutdown. I took that
-> code, tested it (fixed it up), added more comments, and changed the
-> name to timer_shutdown_sync(). I also converted it to use WARN_ON_ONCE()
-> instead of just WARN_ON() as Linus asked for.
-> 
+> use switch/case while making this change.
 
-Unfortunately the renaming caused some symbol conflicts.
+Done:
 
-Global definition: timer_shutdown
+static bool intel_iommu_capable(struct device *dev, enum iommu_cap cap)
+{
+	struct device_domain_info *info = dev_iommu_priv_get(dev);
 
-  File             Line
-0 time.c            93 static inline void timer_shutdown(struct clock_event_device *evt)
-1 arm_arch_timer.c 690 static __always_inline int timer_shutdown(const int access,
-2 timer-fttmr010.c 105 int (*timer_shutdown)(struct clock_event_device *evt);
-3 timer-sp804.c    158 static inline void timer_shutdown(struct clock_event_device *evt)
-4 timer.h          239 static inline int timer_shutdown(struct timer_list *timer)
+	switch (cap) {
+	case IOMMU_CAP_CACHE_COHERENCY:
+		return true;
+	case IOMMU_CAP_INTR_REMAP:
+		return irq_remapping_enabled == 1;
+	case IOMMU_CAP_PRE_BOOT_PROTECTION:
+		return dmar_platform_optin();
+	case IOMMU_CAP_ENFORCE_CACHE_COHERENCY:
+		return ecap_sc_support(info->iommu->ecap);
+	default:
+		return false;
+	}
+}
 
-Guenter
+Thanks,
+Jason
