@@ -2,68 +2,305 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56AACC4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 18:36:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9245AC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 19:01:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232187AbiKDSgD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 14:36:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55062 "EHLO
+        id S229696AbiKDTB6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 15:01:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230045AbiKDSgD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 14:36:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5FA540931;
-        Fri,  4 Nov 2022 11:35:58 -0700 (PDT)
+        with ESMTP id S229636AbiKDTBu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 15:01:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA8E82E9D3;
+        Fri,  4 Nov 2022 12:01:48 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6DE33622FB;
-        Fri,  4 Nov 2022 18:35:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5118CC433D6;
-        Fri,  4 Nov 2022 18:35:57 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4B2FD622FF;
+        Fri,  4 Nov 2022 19:01:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29759C433C1;
+        Fri,  4 Nov 2022 19:01:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667586957;
-        bh=VPj9cmh6AQFP0VK/8I1kT7FJ9030U5M07JRujBjXtss=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=sQbWWomwLEvYnjJKkidFiGQ28C8Q1HidFmegtNdDhJZSVz2riozKuI+h6yavtGznE
-         Z2KDFcZtgfh5LAyksLsQXJvjXfD8rE8hnJ83uOQ8o3XoopYB2PXbFOr30342+1nYmB
-         GBOH4VgLtWNPoRne/PUemG5sV4elSyLF3EhnqJNWSeB3EhmE2AOrmOeRusYAIUG3O2
-         +bqWH0D4HAzPtxEt6oILW6LnlMACedeW2ygnXb+61wxxuP/+2FCQIgE6dDBSNJRF8y
-         nFMJJCymy1JNsHvgMVHBipZ0sJDx2SzwLpGTBv+5FE+CKwG0iQDPlHOI/gsNmnaTJ2
-         PYBzFjFj+wedA==
-Date:   Fri, 4 Nov 2022 11:35:56 -0700
+        s=k20201202; t=1667588507;
+        bh=kvUXqvw0zqo2xck7gjriXlfUuW1WN4zUjRtyPKD5WKk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hk2MJFLGCH6lA8cRwTKcmCf4kQI46K+UER57mxC23sO5twlHQdVRTSan2uCuP7d1X
+         5/O3JTFV6wrsM9Glr0K1NXzFcRV+bzPzrM6MbQnHRhCIRugxKDLEv4s0NdDVWdHqWy
+         XDHPC8hOV+KcsUiwggjp5Xd7xWC7LcvDA/aaq9gUb1hsSwwc6AMbAREd0QAOzd0hbh
+         pIvdkTSIJs8uxR7O2ueYhhV2FTPDLz99Q6aradJ8z+C/dRNUBrwpglR68ltKtptg8p
+         5p7saHW/kzdfM5EEOd1a+PwPd7EpUP2sFAwHulPeJ34epbkeAKBOHjskBmKn7h7uoJ
+         qhJ1/wq19Bm2Q==
 From:   Jakub Kicinski <kuba@kernel.org>
-To:     Ahelenia =?UTF-8?B?WmllbWlhxYRza2E=?= 
-        <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>, coda@cs.cmu.edu,
-        codalist@coda.cs.cmu.edu, linux-arm-kernel@lists.infradead.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-hams@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-scsi@vger.kernel.org,
-        netdev@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v2 00/15] magic-number.rst funeral rites
-Message-ID: <20221104113556.488c4e17@kernel.org>
-In-Reply-To: <cover.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
-References: <cover.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        Jakub Kicinski <kuba@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Michael Chan <michael.chan@broadcom.com>,
+        Andrew Lunn <andrew@lunn.ch>, corbet@lwn.net,
+        hkallweit1@gmail.com, linux@armlinux.org.uk,
+        huangguangbin2@huawei.com, chenhao288@hisilicon.com,
+        moshet@nvidia.com, linux@rempel-privat.de,
+        linux-doc@vger.kernel.org
+Subject: [PATCH net-next v5] ethtool: linkstate: add a statistic for PHY down events
+Date:   Fri,  4 Nov 2022 12:01:25 -0700
+Message-Id: <20221104190125.684910-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2 Nov 2022 00:04:54 +0100 Ahelenia Ziemia=C5=84ska wrote:
-> This is a follow-up for the 18+1-patch series (
-> https://lore.kernel.org/linux-kernel/8389a7b85b5c660c6891b1740b5dacc53491=
-a41b.1663280877.git.nabijaczleweli@nabijaczleweli.xyz/
-> https://lore.kernel.org/linux-kernel/20220927003727.slf4ofb7dgum6apt@tart=
-a.nabijaczleweli.xyz/
-> ) I sent in September, and the same reasoning applies:
+The previous attempt to augment carrier_down (see Link)
+was not met with much enthusiasm so let's do the simple
+thing of exposing what some devices already maintain.
+Add a common ethtool statistic for link going down.
+Currently users have to maintain per-driver mapping
+to extract the right stat from the vendor-specific ethtool -S
+stats. carrier_down does not fit the bill because it counts
+a lot of software related false positives.
 
-No idea how you want this to get merged, but FWIW you can add my
+Add the statistic to the extended link state API to steer
+vendors towards implementing all of it.
 
-Acked-by: Jakub Kicinski <kuba@kernel.org>
+Implement for bnxt and all Linux-controlled PHYs. mlx5 and (possibly)
+enic also have a counter for this but I leave the implementation
+to their maintainers.
 
-to patches 1, 2, 11 and 12.
+Link: https://lore.kernel.org/r/20220520004500.2250674-1-kuba@kernel.org
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+Reviewed-by: Michael Chan <michael.chan@broadcom.com>
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+--
+v5:
+ - actually add the comment
+ - make checkpatch happy and add names to arguments of the op
+v4: https://lore.kernel.org/all/20221102035704.110304-1-kuba@kernel.org/
+ - add a comment about the struct remaining as u64
+v3: https://lore.kernel.org/all/20221101052601.162708-1-kuba@kernel.org/
+ - make the stat u32 (apart from the ethtool struct which uses u64s
+   for the "not set" detection, whatevs)
+v2: https://lore.kernel.org/all/20221028012719.2702267-1-kuba@kernel.org/
+ - add phylib support
+---
+CC: corbet@lwn.net
+CC: michael.chan@broadcom.com
+CC: andrew@lunn.ch
+CC: hkallweit1@gmail.com
+CC: linux@armlinux.org.uk
+CC: huangguangbin2@huawei.com
+CC: chenhao288@hisilicon.com
+CC: moshet@nvidia.com
+CC: linux@rempel-privat.de
+CC: f.fainelli@gmail.com
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/networking/ethtool-netlink.rst  |  1 +
+ .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 15 ++++++++++++
+ drivers/net/phy/phy.c                         |  1 +
+ include/linux/ethtool.h                       | 17 +++++++++++++
+ include/linux/phy.h                           |  3 +++
+ include/uapi/linux/ethtool_netlink.h          |  1 +
+ net/ethtool/linkstate.c                       | 24 ++++++++++++++++++-
+ 7 files changed, 61 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index d578b8bcd8a4..bede24ef44fd 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -491,6 +491,7 @@ any attributes.
+   ``ETHTOOL_A_LINKSTATE_SQI_MAX``       u32     Max support SQI value
+   ``ETHTOOL_A_LINKSTATE_EXT_STATE``     u8      link extended state
+   ``ETHTOOL_A_LINKSTATE_EXT_SUBSTATE``  u8      link extended substate
++  ``ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT``  u32     count of link down events
+   ====================================  ======  ============================
+ 
+ For most NIC drivers, the value of ``ETHTOOL_A_LINKSTATE_LINK`` returns
+diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+index cc89e5eabcb9..d8f0351df954 100644
+--- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
++++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
+@@ -4112,6 +4112,20 @@ static void bnxt_get_rmon_stats(struct net_device *dev,
+ 	*ranges = bnxt_rmon_ranges;
+ }
+ 
++static void bnxt_get_link_ext_stats(struct net_device *dev,
++				    struct ethtool_link_ext_stats *stats)
++{
++	struct bnxt *bp = netdev_priv(dev);
++	u64 *rx;
++
++	if (BNXT_VF(bp) || !(bp->flags & BNXT_FLAG_PORT_STATS_EXT))
++		return;
++
++	rx = bp->rx_port_stats_ext.sw_stats;
++	stats->link_down_events =
++		*(rx + BNXT_RX_STATS_EXT_OFFSET(link_down_events));
++}
++
+ void bnxt_ethtool_free(struct bnxt *bp)
+ {
+ 	kfree(bp->test_info);
+@@ -4161,6 +4175,7 @@ const struct ethtool_ops bnxt_ethtool_ops = {
+ 	.get_eeprom             = bnxt_get_eeprom,
+ 	.set_eeprom		= bnxt_set_eeprom,
+ 	.get_link		= bnxt_get_link,
++	.get_link_ext_stats	= bnxt_get_link_ext_stats,
+ 	.get_eee		= bnxt_get_eee,
+ 	.set_eee		= bnxt_set_eee,
+ 	.get_module_info	= bnxt_get_module_info,
+diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+index e741d8aebffe..e5b6cb1a77f9 100644
+--- a/drivers/net/phy/phy.c
++++ b/drivers/net/phy/phy.c
+@@ -67,6 +67,7 @@ static void phy_link_down(struct phy_device *phydev)
+ {
+ 	phydev->phy_link_change(phydev, false);
+ 	phy_led_trigger_change_speed(phydev);
++	WRITE_ONCE(phydev->link_down_events, phydev->link_down_events + 1);
+ }
+ 
+ static const char *phy_pause_str(struct phy_device *phydev)
+diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
+index 99dc7bfbcd3c..5c51c7fda32a 100644
+--- a/include/linux/ethtool.h
++++ b/include/linux/ethtool.h
+@@ -125,6 +125,20 @@ struct ethtool_link_ext_state_info {
+ 	};
+ };
+ 
++struct ethtool_link_ext_stats {
++	/* Custom Linux statistic for PHY level link down events.
++	 * In a simpler world it should be equal to netdev->carrier_down_count
++	 * unfortunately netdev also counts local reconfigurations which don't
++	 * actually take the physical link down, not to mention NC-SI which,
++	 * if present, keeps the link up regardless of host state.
++	 * This statistic counts when PHY _actually_ went down, or lost link.
++	 *
++	 * Note that we need u64 for ethtool_stats_init() and comparisons
++	 * to ETHTOOL_STAT_NOT_SET, but only u32 is exposed to the user.
++	 */
++	u64 link_down_events;
++};
++
+ /**
+  * ethtool_rxfh_indir_default - get default value for RX flow hash indirection
+  * @index: Index in RX flow hash indirection table
+@@ -481,6 +495,7 @@ struct ethtool_module_power_mode_params {
+  *	do not attach ext_substate attribute to netlink message). If link_ext_state
+  *	and link_ext_substate are unknown, return -ENODATA. If not implemented,
+  *	link_ext_state and link_ext_substate will not be sent to userspace.
++ * @get_link_ext_stats: Read extra link-related counters.
+  * @get_eeprom_len: Read range of EEPROM addresses for validation of
+  *	@get_eeprom and @set_eeprom requests.
+  *	Returns 0 if device does not support EEPROM access.
+@@ -652,6 +667,8 @@ struct ethtool_ops {
+ 	u32	(*get_link)(struct net_device *);
+ 	int	(*get_link_ext_state)(struct net_device *,
+ 				      struct ethtool_link_ext_state_info *);
++	void	(*get_link_ext_stats)(struct net_device *dev,
++				      struct ethtool_link_ext_stats *stats);
+ 	int	(*get_eeprom_len)(struct net_device *);
+ 	int	(*get_eeprom)(struct net_device *,
+ 			      struct ethtool_eeprom *, u8 *);
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index ddf66198f751..9a3752c0c444 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -600,6 +600,7 @@ struct macsec_ops;
+  * @psec: Pointer to Power Sourcing Equipment control struct
+  * @lock:  Mutex for serialization access to PHY
+  * @state_queue: Work queue for state machine
++ * @link_down_events: Number of times link was lost
+  * @shared: Pointer to private data shared by phys in one package
+  * @priv: Pointer to driver private data
+  *
+@@ -723,6 +724,8 @@ struct phy_device {
+ 
+ 	int pma_extable;
+ 
++	unsigned int link_down_events;
++
+ 	void (*phy_link_change)(struct phy_device *phydev, bool up);
+ 	void (*adjust_link)(struct net_device *dev);
+ 
+diff --git a/include/uapi/linux/ethtool_netlink.h b/include/uapi/linux/ethtool_netlink.h
+index bb57084ac524..aaf7c6963d61 100644
+--- a/include/uapi/linux/ethtool_netlink.h
++++ b/include/uapi/linux/ethtool_netlink.h
+@@ -262,6 +262,7 @@ enum {
+ 	ETHTOOL_A_LINKSTATE_SQI_MAX,		/* u32 */
+ 	ETHTOOL_A_LINKSTATE_EXT_STATE,		/* u8 */
+ 	ETHTOOL_A_LINKSTATE_EXT_SUBSTATE,	/* u8 */
++	ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT,	/* u32 */
+ 
+ 	/* add new constants above here */
+ 	__ETHTOOL_A_LINKSTATE_CNT,
+diff --git a/net/ethtool/linkstate.c b/net/ethtool/linkstate.c
+index fb676f349455..2158c17a0b32 100644
+--- a/net/ethtool/linkstate.c
++++ b/net/ethtool/linkstate.c
+@@ -13,6 +13,7 @@ struct linkstate_reply_data {
+ 	int					link;
+ 	int					sqi;
+ 	int					sqi_max;
++	struct ethtool_link_ext_stats		link_stats;
+ 	bool					link_ext_state_provided;
+ 	struct ethtool_link_ext_state_info	ethtool_link_ext_state_info;
+ };
+@@ -22,7 +23,7 @@ struct linkstate_reply_data {
+ 
+ const struct nla_policy ethnl_linkstate_get_policy[] = {
+ 	[ETHTOOL_A_LINKSTATE_HEADER]		=
+-		NLA_POLICY_NESTED(ethnl_header_policy),
++		NLA_POLICY_NESTED(ethnl_header_policy_stats),
+ };
+ 
+ static int linkstate_get_sqi(struct net_device *dev)
+@@ -107,6 +108,19 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
+ 			goto out;
+ 	}
+ 
++	ethtool_stats_init((u64 *)&data->link_stats,
++			   sizeof(data->link_stats) / 8);
++
++	if (req_base->flags & ETHTOOL_FLAG_STATS) {
++		if (dev->phydev)
++			data->link_stats.link_down_events =
++				READ_ONCE(dev->phydev->link_down_events);
++
++		if (dev->ethtool_ops->get_link_ext_stats)
++			dev->ethtool_ops->get_link_ext_stats(dev,
++							     &data->link_stats);
++	}
++
+ 	ret = 0;
+ out:
+ 	ethnl_ops_complete(dev);
+@@ -134,6 +148,9 @@ static int linkstate_reply_size(const struct ethnl_req_info *req_base,
+ 	if (data->ethtool_link_ext_state_info.__link_ext_substate)
+ 		len += nla_total_size(sizeof(u8)); /* LINKSTATE_EXT_SUBSTATE */
+ 
++	if (data->link_stats.link_down_events != ETHTOOL_STAT_NOT_SET)
++		len += nla_total_size(sizeof(u32));
++
+ 	return len;
+ }
+ 
+@@ -166,6 +183,11 @@ static int linkstate_fill_reply(struct sk_buff *skb,
+ 			return -EMSGSIZE;
+ 	}
+ 
++	if (data->link_stats.link_down_events != ETHTOOL_STAT_NOT_SET)
++		if (nla_put_u32(skb, ETHTOOL_A_LINKSTATE_EXT_DOWN_CNT,
++				data->link_stats.link_down_events))
++			return -EMSGSIZE;
++
+ 	return 0;
+ }
+ 
+-- 
+2.38.1
+
