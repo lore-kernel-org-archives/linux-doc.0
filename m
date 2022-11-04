@@ -2,246 +2,240 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38526C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 21:19:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D5F7C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 21:26:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbiKDVTn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 17:19:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34998 "EHLO
+        id S229609AbiKDV0t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 17:26:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230119AbiKDVTi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 17:19:38 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55BB06329
-        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 14:19:36 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id 78so5389745pgb.13
-        for <linux-doc@vger.kernel.org>; Fri, 04 Nov 2022 14:19:36 -0700 (PDT)
+        with ESMTP id S229457AbiKDV0s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 17:26:48 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D93643871;
+        Fri,  4 Nov 2022 14:26:47 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id kt23so16481052ejc.7;
+        Fri, 04 Nov 2022 14:26:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q9ugyqOccmZowmlQRWmpT6Mn2YOA1KD6X2k+Tf7TPbA=;
-        b=RdPxBPZxRTrKi5VyUPbTa4PsV8EOmVSMHgdDTAto2Y3fDrK1yMJfnyHZGOAvZE51hC
-         MUTtzoVHHX3zY/UFvFQlLPFajO7Vk3UMWasOYjOunInXxRe9GMgvy1prXwrGnsWHLQTq
-         MkB4hXkPdaYmZNJhW5Z57kkp8cXynosPMw6g3gXtm3aJ5VZv/vU0u99UNnhtOR7mBQ/S
-         QL/4AUeWJ9N/SNvmKiWOBa8KZXdzPs5PSg0nheKWUsEYBsob3rOduKBZLw054Y3uq3k4
-         U296HEgVheMABieNv5oHp9dnkof3mwu5OIEwrSvKx9gbTi9SI4ERJkf3JYtYBgDx3FuJ
-         lMUA==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=AveMACjXVbF/hxLVe9ZZR8krStFPyiZoSTVBDH05wjw=;
+        b=cTOlGMMzZJR1iNQytevx/7l+waGuBR0MG5AnpaC85mR4CkNuOcs9TnL2yON8WE66c7
+         Tsqt73xWDzTuSE91FhwGk4HvIdn/wqgCnKR5PHKaSCBRskr+qMtJY0mnL3bD+eJH1+hX
+         2wkGRVGg55xPWfe+xfP0A68j+X2cnaUni57u6cj9IawCwZwrsLPR5OapHw9Sd1Ah/eS1
+         sJjwnjwRCDH/KPafbFFDq/5/UULs/2VtykHfFacjU//3gQKYI3mZDXOPlKozG7nb/C52
+         t3Ht5UlM7q9empPn2qPlDK99L+oj1l3a7oa3Rb5tQad4tiDzwGi1nrwe4JfHhUSUkks1
+         zIKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q9ugyqOccmZowmlQRWmpT6Mn2YOA1KD6X2k+Tf7TPbA=;
-        b=XNs7WseE9QVkg2zBIbv2IAxl1yxFYdmL+oR4hdYQMG08uqoqUdoglQTYqxJrPxjDuz
-         CaePYeDCzip+nq1wNFd9s3/7TA5/vZHZ83BnKL+hWcIk3aeqvEtLn5C3mMZ1+mNAaWxN
-         LuVRdGonNyc0PkeamPQtYGx3+8oblYIvh4P2COC93s8fmM+CENbpqf4BafRmNmUV8FAe
-         v+pDwZkLQyz1eQUVPpFrEObvVkYRYcSluk3yomQIpS6+JeMCOk4uFgE0M522rsE0glc2
-         +N6iQLp8/w8uDAMEOGY1HbsjGsMiE8BOFDdMzHpoq8PRzrpJ3WfcsKAmvj6CKVsnj7O3
-         ZWKw==
-X-Gm-Message-State: ACrzQf3cZO/XH9pnMbuUB2hZBuV3FHmnHJgwnjY1uovJrf/fw6WJSK04
-        cUrgYc6hpPnS4s8GEIrnWwKS1g==
-X-Google-Smtp-Source: AMsMyM5HLN09MZ7XXfHooCD3zs8msfwo0CBHOrCrZEPWc/5ODnQb86suM3i3C9TKpVcD/J1sy4dlFA==
-X-Received: by 2002:a63:215f:0:b0:46f:c464:a054 with SMTP id s31-20020a63215f000000b0046fc464a054mr23293449pgm.420.1667596775547;
-        Fri, 04 Nov 2022 14:19:35 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id d10-20020a621d0a000000b00562664d5027sm77216pfd.61.2022.11.04.14.19.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Nov 2022 14:19:35 -0700 (PDT)
-Date:   Fri, 4 Nov 2022 21:19:31 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, tabba@google.com,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 5/8] KVM: Register/unregister the guest private memory
- regions
-Message-ID: <Y2WB48kD0J4VGynX@google.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-6-chao.p.peng@linux.intel.com>
- <Y2RJFWplouV2iF5E@google.com>
- <20221104082843.GA4142342@chaop.bj.intel.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AveMACjXVbF/hxLVe9ZZR8krStFPyiZoSTVBDH05wjw=;
+        b=VEHyOaUI0MspsFnmn5Ro0SgY0wnpdZVqaxqvtILl7Gz4suzvsAmab2KZJP2Bk+i2KE
+         uhULi7Uh3s8GPxB2Fy7fIsb2ozNKvmQ/3h6G+IuKLzhlDOxQnjT/eo+hDh5//SnLcGjW
+         oz+Y6S6JwGeXtsE919IhOEhzoulmR1DySaXj1i70sYtoGfcCMHKtrCY/FF9ZlA+B7/+J
+         D/4Lf74ku5umAdM8GM+WlmktNgDBHJfPwOB9CCjwBRq0v7NEsMAyO4y3KPY2tIJRwVE3
+         0tQXQ/9fBAg57c9W8bceRNgHq/P6DgDgtieuH6JMe5oOJJaUAVCTX0qzhRFnvKjSyh5F
+         UdjA==
+X-Gm-Message-State: ACrzQf1tSkpX7MWRx4jmg9eRjtSyBysife8IQV7aQAWCAAPxtPTymLhy
+        RMlkzD7LUTDmiW8q4Z4PJSP4exe4W/eSINDnv1s=
+X-Google-Smtp-Source: AMsMyM7Z1SD/98VyO1rZj5Skho54nfScaK7yrTH+svVpB2spa/fkUna6NMalV8wNaNZHqKh4KEQGJNB7iLZJ0LTHtR4=
+X-Received: by 2002:a17:906:99c5:b0:73d:70c5:1a4f with SMTP id
+ s5-20020a17090699c500b0073d70c51a4fmr35850607ejn.302.1667597205313; Fri, 04
+ Nov 2022 14:26:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221104082843.GA4142342@chaop.bj.intel.com>
+References: <20221010112154.39494-1-donald.hunter@gmail.com>
+In-Reply-To: <20221010112154.39494-1-donald.hunter@gmail.com>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Fri, 4 Nov 2022 14:26:33 -0700
+Message-ID: <CAEf4BzYiSyps09esMH407WnzPvND+c56EQHeooLUF9RKcs-Y3Q@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v1] bpf, docs: document BPF_MAP_TYPE_ARRAY_OF_MAPS
+ and *_HASH_OF_MAPS
+To:     Donald Hunter <donald.hunter@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Paolo, any thoughts before I lead things further astray?
+On Mon, Oct 10, 2022 at 4:32 AM Donald Hunter <donald.hunter@gmail.com> wrote:
+>
+> Add documentation for the ARRAY_OF_MAPS and HASH_OF_MAPS map types,
+> including usage and examples.
+>
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+> ---
 
-On Fri, Nov 04, 2022, Chao Peng wrote:
-> On Thu, Nov 03, 2022 at 11:04:53PM +0000, Sean Christopherson wrote:
-> > On Tue, Oct 25, 2022, Chao Peng wrote:
-> > > @@ -4708,6 +4802,24 @@ static long kvm_vm_ioctl(struct file *filp,
-> > >  		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
-> > >  		break;
-> > >  	}
-> > > +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
-> > > +	case KVM_MEMORY_ENCRYPT_REG_REGION:
-> > > +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
-> > 
-> > I'm having second thoughts about usurping KVM_MEMORY_ENCRYPT_(UN)REG_REGION.  Aside
-> > from the fact that restricted/protected memory may not be encrypted, there are
-> > other potential use cases for per-page memory attributes[*], e.g. to make memory
-> > read-only (or no-exec, or exec-only, etc...) without having to modify memslots.
-> > 
-> > Any paravirt use case where the attributes of a page are effectively dictated by
-> > the guest is going to run into the exact same performance problems with memslots,
-> > which isn't suprising in hindsight since shared vs. private is really just an
-> > attribute, albeit with extra special semantics.
-> > 
-> > And if we go with a brand new ioctl(), maybe someday in the very distant future
-> > we can deprecate and delete KVM_MEMORY_ENCRYPT_(UN)REG_REGION.
-> > 
-> > Switching to a new ioctl() should be a minor change, i.e. shouldn't throw too big
-> > of a wrench into things.
-> > 
-> > Something like:
-> > 
-> >   KVM_SET_MEMORY_ATTRIBUTES
-> > 
-> >   struct kvm_memory_attributes {
-> > 	__u64 address;
-> > 	__u64 size;
-> > 	__u64 flags;
+subject suggestion (as it's pretty long):
 
-Oh, this is half-baked.  I lost track of which flags were which.  What I intended
-was a separate, initially-unused flags, e.g.
+bpf, docs: document BPF_MAP_TYPE_{ARRAY,HASH}_OF_MAPS
 
- struct kvm_memory_attributes {
-	__u64 address;
-	__u64 size;
-	__u64 attributes;
-	__u64 flags;
-  }
 
-so that KVM can tweak behavior and/or extend the effective size of the struct.
+>  Documentation/bpf/map_of_maps.rst | 145 ++++++++++++++++++++++++++++++
+>  1 file changed, 145 insertions(+)
+>  create mode 100644 Documentation/bpf/map_of_maps.rst
+>
+> diff --git a/Documentation/bpf/map_of_maps.rst b/Documentation/bpf/map_of_maps.rst
+> new file mode 100644
+> index 000000000000..16fcda8720de
+> --- /dev/null
+> +++ b/Documentation/bpf/map_of_maps.rst
+> @@ -0,0 +1,145 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +.. Copyright (C) 2022 Red Hat, Inc.
+> +
+> +========================================================
+> +BPF_MAP_TYPE_ARRAY_OF_MAPS and BPF_MAP_TYPE_HASH_OF_MAPS
+> +========================================================
+> +
+> +.. note::
+> +   - ``BPF_MAP_TYPE_ARRAY_OF_MAPS`` and ``BPF_MAP_TYPE_HASH_OF_MAPS`` were
+> +     introduced in kernel version 4.12.
+> +
+> +``BPF_MAP_TYPE_ARRAY_OF_MAPS`` and ``BPF_MAP_TYPE_HASH_OF_MAPS`` provide general
+> +purpose support for map in map storage. One level of nesting is supported, where
+> +an outer map contains instances of a single type of inner map, for example
+> +``array_of_maps->sock_map``.
+> +
+> +When creating an outer map, an inner map instance is used to initialize the
+> +metadata that the outer map holds about its inner maps. This inner map has a
+> +separate lifetime from the outer map and can be deleted after the outer map has
+> +been created.
+> +
+> +The outer map supports element update and delete from user space using the
+> +syscall API. A BPF program is only allowed to do element lookup in the outer
+> +map.
+> +
+> +.. note::
+> +   - Multi-level nesting is not supported.
+> +   - Any BPF map type can be used as an inner map, except for
+> +     ``BPF_MAP_TYPE_PROG_ARRAY``.
+> +   - A BPF program cannot update or delete outer map entries.
+> +
+> +Array of Maps
+> +-------------
+> +
+> +For ``BPF_MAP_TYPE_ARRAY_OF_MAPS`` the key is an unsigned 32-bit integer index
+> +into the array. The array is a fixed size with `max_entries` elements that are
+> +zero initialized when created.
+> +
+> +Hash of Maps
+> +------------
+> +
+> +For ``BPF_MAP_TYPE_HASH_OF_MAPS`` the key type can be chosen when defining the
+> +map.
+> +
+> +The kernel is responsible for allocating and freeing key/value pairs, up
+> +to the max_entries limit that you specify. Hash maps use pre-allocation
+> +of hash table elements by default. The ``BPF_F_NO_PREALLOC`` flag can be
+> +used to disable pre-allocation when it is too memory expensive.
+> +
+> +Usage
+> +=====
+> +
+> +.. c:function::
+> +   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+> +
+> +Inner maps can be retrieved using the ``bpf_map_lookup_elem()`` helper. This
+> +helper returns a pointer to the inner map, or ``NULL`` if no entry was found.
+> +
+> +Examples
+> +========
+> +
+> +Kernel BPF
+> +----------
+> +
+> +This snippet shows how to create an array of devmaps in a BPF program. Note that
+> +the outer array can only be modified from user space using the syscall API.
+> +
+> +.. code-block:: c
+> +
+> +    struct redirect_map {
+> +            __uint(type, BPF_MAP_TYPE_DEVMAP);
+> +            __uint(max_entries, 32);
+> +            __type(key, enum skb_drop_reason);
+> +            __type(value, __u64);
+> +    } redirect_map SEC(".maps");
+> +
+> +    struct {
+> +            __uint(type, BPF_MAP_TYPE_ARRAY_OF_MAPS);
+> +            __uint(max_entries, 2);
+> +            __uint(key_size, sizeof(int));
+> +            __uint(value_size, sizeof(int));
+> +            __array(values, struct redirect_map);
+> +    } outer_map SEC(".maps");
+> +
 
-> I like the idea of adding a new ioctl(). But putting all attributes into
-> a flags in uAPI sounds not good to me, e.g. forcing userspace to set all
-> attributes in one call can cause pain for userspace, probably for KVM
-> implementation as well. For private<->shared memory conversion, we
-> actually only care the KVM_MEM_ATTR_SHARED or KVM_MEM_ATTR_PRIVATE bit,
+Let's also demonstrate libbpf's declarative way to initialize entries
+in outer map? See progs/test_btf_map_in_map.c under selftests/bpf for
+various examples.
 
-Not necessarily, e.g. I can see pKVM wanting to convert from RW+PRIVATE => RO+SHARED
-or even RW+PRIVATE => NONE+SHARED so that the guest can't write/access the memory
-while it's accessible from the host.
+> +This snippet shows how to lookup an outer map to retrieve an inner map.
+> +
+> +.. code-block:: c
+> +
+> +    SEC("xdp")
+> +    int redirect_by_priority(struct xdp_md *ctx) {
+> +            struct bpf_map *devmap;
+> +            int action = XDP_PASS;
+> +            int index = 0;
+> +
+> +            devmap = bpf_map_lookup_elem(&outer_arr, &index);
+> +            if (!devmap)
+> +                    return XDP_PASS;
+> +
+> +            /* use inner devmap here */
+> +
+> +            return action;
+> +    }
+> +
+> +User Space
+> +----------
+> +
+> +This snippet shows how to create an array based outer map:
+> +
+> +.. code-block:: c
+> +
+> +    int create_outer_array(int inner_fd) {
+> +            int fd;
+> +            LIBBPF_OPTS(bpf_map_create_opts, opts);
+> +            opts.inner_map_fd = inner_fd;
 
-And if this does extend beyond shared/private, dropping from RWX=>R, i.e. dropping
-WX permissions, would also be a common operation.
+LIBBPF_OPTS(bpf_map_create_opts, opts, .inner_map_fd = inner_fd);
 
-Hmm, typing that out makes me think that if we do end up supporting other "attributes",
-i.e. protections, we should go straight to full RWX protections instead of doing
-things piecemeal, i.e. add individual protections instead of combinations like
-NO_EXEC and READ_ONLY.  The protections would have to be inverted for backwards
-compatibility, but that's easy enough to handle.  The semantics could be like
-protection keys, which also have inverted persmissions, where the final protections
-are the combination of memslot+attributes, i.e. a read-only memslot couldn't be made
-writable via attributes.
-
-E.g. userspace could do "NO_READ | NO_WRITE | NO_EXEC" to temporarily block access
-to memory without needing to delete the memslot.  KVM would need to disallow
-unsupported combinations, e.g. disallowed effective protections would be:
-
-  - W or WX [unless there's an arch that supports write-only memory]
-  - R or RW [until KVM plumbs through support for no-exec, or it's unsupported in hardware]
-  - X       [until KVM plumbs through support for exec-only, or it's unsupported in hardware]
-
-Anyways, that's all future work...
-
-> but we force userspace to set other irrelevant bits as well if use this
-> API.
-
-They aren't irrelevant though, as the memory attributes are all describing the
-allowed protections for a given page.  If there's a use case where userspace "can't"
-keep track of the attributes for whatever reason, then userspace could do a RMW
-to set/clear attributes.  Alternatively, the ioctl() could take an "operation" and
-support WRITE/OR/AND to allow setting/clearing individual flags, e.g. tweak the
-above to be: 
- 
- struct kvm_memory_attributes {
-	__u64 address;
-	__u64 size;
-	__u64 attributes;
-	__u32 operation;
-	__u32 flags;
-  }
-
-> I looked at kvm_device_attr, sounds we can do similar:
-
-The device attributes deal with isolated, arbitrary values, whereas memory attributes
-are flags, i.e. devices are 1:1 whereas memory is 1:MANY.  There is no "unset" for
-device attributes, because they aren't flags.  Device attributes vs. memory attributes
-really are two very different things that just happen to use a common name.
-
-If it helped clarify things without creating naming problems, we could even use
-PROTECTIONS instead of ATTRIBUTES.
-
->   KVM_SET_MEMORY_ATTR
-> 
->   struct kvm_memory_attr {
-> 	__u64 address;
-> 	__u64 size;
-> #define KVM_MEM_ATTR_SHARED	BIT(0)
-> #define KVM_MEM_ATTR_READONLY	BIT(1)
-> #define KVM_MEM_ATTR_NOEXEC	BIT(2)
-> 	__u32 attr;
-
-As above, letting userspace set only a single attribute would prevent setting
-(or clearing) multiple attributes in a single ioctl().
-
-> 	__u32 pad;
->   }
-> 
-> I'm not sure if we need KVM_GET_MEMORY_ATTR/KVM_HAS_MEMORY_ATTR as well,
-
-Definitely would need to communicate to userspace that various attributes are
-supported.  That doesn't necessarily require a common ioctl(), but I don't see
-any reason not to add a common helper, and adding a common helper would mean
-KVM_CAP_PRIVATE_MEM can go away.  But it should return a bitmask so that userspace
-can do a single query to get all supported attributes, e.g. KVM_SUPPORTED_MEMORY_ATTRIBUTES.  
-
-As for KVM_GET_MEMORY_ATTRIBUTES, we wouldn't necessarily have to provide such an
-API, e.g. we could hold off until someone came along with a RMW use case (as above).
-That said, debug would likely be a nightmare without KVM_GET_MEMORY_ATTRIBUTES,
-so it's probably best to add it straightway.
-
-> but sounds like we need a KVM_UNSET_MEMORY_ATTR.
-
-No need if the setter operates on all attributes.
-
-> Since we are exposing the attribute directly to userspace I also think
-> we'd better treat shared memory as the default, so even when the private
-> memory is not used, the bit can still be meaningful. So define BIT(0) as
-> KVM_MEM_ATTR_PRIVATE instead of KVM_MEM_ATTR_SHARED.
-
-Ah, right.
+> +            fd = bpf_map_create(BPF_MAP_TYPE_ARRAY_OF_MAPS,
+> +                                "example_array",       /* name */
+> +                                sizeof(__u32),         /* key size */
+> +                                sizeof(__u32),         /* value size */
+> +                                256,                   /* max entries */
+> +                                &opts);                /* create opts */
+> +            return fd;
+> +    }
+> +
+> +
+> +This snippet shows how to add an inner map to an outer map:
+> +
+> +.. code-block:: c
+> +
+> +    int add_devmap(int outer_fd, int index, const char *name) {
+> +            int fd, ret;
+> +
+> +            fd = bpf_map_create(BPF_MAP_TYPE_DEVMAP, name,
+> +                                sizeof(__u32), sizeof(__u32), 256, NULL);
+> +            if (fd < 0)
+> +                    return fd;
+> +
+> +            ret = bpf_map_update_elem(outer_fd, &index, &fd, BPF_NOEXIST);
+> +            return ret;
+> +    }
+> +
+> +References
+> +==========
+> +
+> +- https://lore.kernel.org/netdev/20170322170035.923581-3-kafai@fb.com/
+> +- https://lore.kernel.org/netdev/20170322170035.923581-4-kafai@fb.com/
+> --
+> 2.35.1
+>
