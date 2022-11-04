@@ -2,71 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5210C43217
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 22:52:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7909FC43217
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 22:54:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229551AbiKDWwc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 18:52:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59492 "EHLO
+        id S229574AbiKDWyo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 18:54:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231204AbiKDWvz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 18:51:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 298C94B9AF;
-        Fri,  4 Nov 2022 15:48:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B91B662365;
-        Fri,  4 Nov 2022 22:48:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D313C433C1;
-        Fri,  4 Nov 2022 22:48:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667602091;
-        bh=bqV/vszFeBDsONkoSz/IwUrRhBqKQlBIMsG1jNqmdtM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=YZsRN0TFyDcszgT4fq/V9blHS7nDEmG8ozFrrQgBSC29lwI3YtwsyDOz0AoJfWd2u
-         WN81pmcGCiOercsVzUh7qzywCuQwlbDTkt87OXHD0sEFotpLynAR1fQKVKBR/Y5Yc0
-         mjmYjjRf9kCqBpWQqFqaO5SMPkLChSR41ExsTgGc2y1ii0LT3ktS/Z13NsfwMBYtiQ
-         3U/ucX3HhXW50GXF+c0filSvc/HuFld10F5Y8iBkdUXkPmNIMoq29igs5R1TK54/Gz
-         7QrWvLdhkO5t2WpthCYsq89nw+evHaMtT9EkXrJhuFNHW5dQJgvTb0wjZWwQs+hnUJ
-         oyd6fZjXTo7ig==
-Date:   Fri, 4 Nov 2022 15:48:09 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, Florian Fainelli <f.fainelli@gmail.com>,
-        Michael Chan <michael.chan@broadcom.com>,
-        Andrew Lunn <andrew@lunn.ch>, corbet@lwn.net,
-        hkallweit1@gmail.com, huangguangbin2@huawei.com,
-        chenhao288@hisilicon.com, moshet@nvidia.com,
-        linux@rempel-privat.de, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v5] ethtool: linkstate: add a statistic for PHY
- down events
-Message-ID: <20221104154809.671ac378@kernel.org>
-In-Reply-To: <Y2VzoD5uwW64yYgD@shell.armlinux.org.uk>
-References: <20221104190125.684910-1-kuba@kernel.org>
-        <Y2VzoD5uwW64yYgD@shell.armlinux.org.uk>
+        with ESMTP id S229544AbiKDWy3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 18:54:29 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B91FC4FF88;
+        Fri,  4 Nov 2022 15:54:13 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id t25so16867557ejb.8;
+        Fri, 04 Nov 2022 15:54:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=100fY9KESFaq3hq0fX+Iw8RTNm69n7uFfyY6208fkpo=;
+        b=gReDsr7Bvlbcz4buxyw+70IReOD+ZV8RqRzj56Tu3/IerQ/G6ETQwdXlldmVRxKhCR
+         bnumTTApG89yPYGwDPin9nYTj6t5V8pyLf6HcqrMnE1WBKXXnYM9zFAHnyJe3KyV07CM
+         xTtutHjwSEseogeHbXDawoE8JiGkdNXuXamB2j0gEpT0b2pkK2zybsA71Tck7sU3Gpdz
+         xIqnFRVFO/pJ6yvFk4IFiqLJsez2p7QDywvfaAmjRMHyE0ZJJuU9M/I4KlxULQQ1OkV8
+         F0XMvMUtTXqKfqjMYpRntJqaz2Dik0/NM1j6vME/HPSdnUxZRUSX0pPRNiz5I5FqDdq/
+         Ztog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=100fY9KESFaq3hq0fX+Iw8RTNm69n7uFfyY6208fkpo=;
+        b=mSHy2jepucYMZ25JJFqWIAPj8swJOYhvzl7oeuULyYphhdi/Ble0GlA+hPkS9ds7UF
+         ptzXzIhivkVDZiZBWz2t42V8VSLMrVNFZWPuv4+etZlGvWZ86f3IiiAf+praAWZTDOZR
+         yVVYE6iHmL2Ydu32ILk/FhDPnwuKC407aKD1Ms/XjnwPH4sol00R2Cm2PtV+QCdQSQqO
+         jpCVvOul7xkRxE/x37NVLGhZgDntWKvXj5KPiFjJGkIQBEqoYvpCXfxMERttJxLKUkoP
+         f9tSyejtLJnmMm3C/LvcRLWOEyp6G1wVBBiHSKxWIcSkQX90FrzqkVn4V9UCeN/r1S8t
+         uf8Q==
+X-Gm-Message-State: ACrzQf1hX96lKZwg1WGvXHeI9vQjpJPCPfbb2caoTrE+m2DbCqXG1WzB
+        3m5rW7U0MxC3VQyCnoqYkVK2VB2H8cODO55R2xQ=
+X-Google-Smtp-Source: AMsMyM4c/5imPL+QWpu8mN5nTB1mvVwXVTyxeyZA2Vg/xchascXVGOrmXycgsu1SPi2ymFpzNC6glET1MR76HnJhIxY=
+X-Received: by 2002:a17:906:11d6:b0:7ad:fd3e:2a01 with SMTP id
+ o22-20020a17090611d600b007adfd3e2a01mr17392619eja.545.1667602452262; Fri, 04
+ Nov 2022 15:54:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20221104101928.9479-1-donald.hunter@gmail.com>
+In-Reply-To: <20221104101928.9479-1-donald.hunter@gmail.com>
+From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date:   Fri, 4 Nov 2022 15:54:00 -0700
+Message-ID: <CAEf4BzYXz_VNYPUsqv_NkFEwZsj6XM-4gJbZvFnCd5-pfqnbkQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2] docs/bpf: document BPF ARRAY_OF_MAPS and HASH_OF_MAPS
+To:     Donald Hunter <donald.hunter@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Maryam Tahhan <mtahhan@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 4 Nov 2022 20:18:40 +0000 Russell King (Oracle) wrote:
-> I guess we'll need phylink to support this as well, so phylink using
-> drivers can provide this statistic not only for phylib based PHYs, but
-> also for direct SFP connections as well.
-> 
-> Thinking about the complexities of copper SFPs that may contain a PHY,
-> it seems to me that the sensible implementation would be for phylink
-> to keep the counter and not use the phylib counter (as that PHY may
-> be re-plugged and thus the count can reset back to zero) which I
-> suspect userspace would not be prepared for.
+On Fri, Nov 4, 2022 at 3:20 AM Donald Hunter <donald.hunter@gmail.com> wrote:
+>
+> Add documentation for the ARRAY_OF_MAPS and HASH_OF_MAPS map types,
+> including usage and examples.
+>
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+> ---
+> v1 -> v2:
+> - Fix formatting nits
+> - Tidy up code snippets as suggested by Maryam Tahhan
+> ---
 
-Makes sense, having the counter go back on a netdev could be highly
-confusing for local detection.
+Didn't notice v2 and left a few comments on v1. Please check them and
+see if you can address suggestions. Thanks!
 
-How would you like to proceed? I can try to take a stab at a phylink
-implementation but a stab it will be. 
+>  Documentation/bpf/map_of_maps.rst | 129 ++++++++++++++++++++++++++++++
+>  1 file changed, 129 insertions(+)
+>  create mode 100644 Documentation/bpf/map_of_maps.rst
+>
+
+[...]
