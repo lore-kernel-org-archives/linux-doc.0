@@ -2,109 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3CCBC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 02:50:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCF6CC43217
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 03:26:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229700AbiKDCul (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 22:50:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44392 "EHLO
+        id S231334AbiKDD0O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 3 Nov 2022 23:26:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbiKDCuk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 22:50:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDD1A65FE;
-        Thu,  3 Nov 2022 19:50:39 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A1C462066;
-        Fri,  4 Nov 2022 02:50:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19B30C433D6;
-        Fri,  4 Nov 2022 02:50:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667530238;
-        bh=xUMe7WcxDjcNixtO8e13bMn6UtwNVzh9mKBW9tU/MGQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=DIZ8XoqQ63peEAmLWU+06RPEkk6UMsZYWqwmehfcyi21ly9/D3DTh4I8iKBQUA9+A
-         F62lb6dYmFMtA1bdhMYY4goCon/xg/fwfAyjUcSmR1kRXZonD+mXwbGgC7DXRDGQkg
-         hRcSVaj4RMSxZI2aRXulEtH0U6px8fJvqDVfmkoCHx7Ls970BAAiYQP5QloC0PMMHu
-         IoPZCsmUw/NX2MkBQuqljeOW2TiSeughtHG8Kksw4Ub5/s+rdb1JSxFicKhRfhHCv7
-         2PCt5Fwi17WPmM5ynQLjX/57ogldynNlpT8ZxoWTajF9XeJUbLC4CjR1chUARUnxN1
-         xMb/ioviiXHbQ==
-Date:   Thu, 3 Nov 2022 19:50:37 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Andy Ren <andy.ren@getcruise.com>
-Cc:     netdev@vger.kernel.org, richardbgobert@gmail.com,
-        davem@davemloft.net, wsa+renesas@sang-engineering.com,
-        edumazet@google.com, petrm@nvidia.com, pabeni@redhat.com,
-        corbet@lwn.net, andrew@lunn.ch, dsahern@gmail.com,
-        sthemmin@microsoft.com, idosch@idosch.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        roman.gushchin@linux.dev
-Subject: Re: [PATCH net-next] net/core: Allow live renaming when an
- interface is up
-Message-ID: <20221103195037.13ff8caf@kernel.org>
-In-Reply-To: <20221103235847.3919772-1-andy.ren@getcruise.com>
-References: <20221103235847.3919772-1-andy.ren@getcruise.com>
+        with ESMTP id S231393AbiKDDZl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 23:25:41 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0899B55A2;
+        Thu,  3 Nov 2022 20:24:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667532241; x=1699068241;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+K0KHiANdHtRLNlLpBoLS86KP7cKwh6NE3ig6cqeZeI=;
+  b=KBeaFCmzlZHshVG8nCoZASiSHX6FK3+x3P5YP7irRM+j8iAwGrGxdgmt
+   MnMn+xoD8DhZrcBKen5YldMHsPv49wkeLOcGkv58PWtZGn2hLx6AVsoo9
+   ZFRmcseiD5BH3sm+MfFmjBOvgekWpQyVFX4wQzeD+Kvqc9kxDbOY2Z071
+   wGojqke8YeN/NGRr3mXS1RbOpmkOfq9z0zDVgtWU3A+EK149vR0BZItjf
+   YldfY0tL+y5po2JUDluJDixMnKW4pM9+NTq0fc6+XGY1rwox0d3pgNi0Z
+   hlw/9d3vRCehV/8QJlX1lcfThuPrX5+OeD5JGtmHxXXqsSOhxvcnqrOlK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="307491936"
+X-IronPort-AV: E=Sophos;i="5.96,136,1665471600"; 
+   d="scan'208";a="307491936"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2022 20:24:00 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="703932012"
+X-IronPort-AV: E=Sophos;i="5.96,136,1665471600"; 
+   d="scan'208";a="703932012"
+Received: from fswhite-mobl3.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.212.196.122])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2022 20:23:59 -0700
+From:   Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     "H . Peter Anvin" <hpa@zytor.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v17 0/3] Add TDX Guest Attestation support
+Date:   Thu,  3 Nov 2022 20:23:52 -0700
+Message-Id: <20221104032355.227814-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  3 Nov 2022 16:58:47 -0700 Andy Ren wrote:
-> @@ -1691,7 +1690,6 @@ enum netdev_priv_flags {
->  	IFF_FAILOVER			= 1<<27,
->  	IFF_FAILOVER_SLAVE		= 1<<28,
->  	IFF_L3MDEV_RX_HANDLER		= 1<<29,
-> -	IFF_LIVE_RENAME_OK		= 1<<30,
+Hi All,
 
-As Stephen says the hole should be somehow noted.
-Comment saying what it was, or just a comment saying there 
-is a hole that can be reused.
+Intel's Trust Domain Extensions (TDX) protect guest VMs from malicious
+hosts and some physical attacks. VM guest with TDX support is called
+as a TDX Guest.
 
->  	IFF_TX_SKB_NO_LINEAR		= BIT_ULL(31),
->  	IFF_CHANGE_PROTO_DOWN		= BIT_ULL(32),
->  };
-> @@ -1726,7 +1724,6 @@ enum netdev_priv_flags {
->  #define IFF_FAILOVER			IFF_FAILOVER
->  #define IFF_FAILOVER_SLAVE		IFF_FAILOVER_SLAVE
->  #define IFF_L3MDEV_RX_HANDLER		IFF_L3MDEV_RX_HANDLER
-> -#define IFF_LIVE_RENAME_OK		IFF_LIVE_RENAME_OK
->  #define IFF_TX_SKB_NO_LINEAR		IFF_TX_SKB_NO_LINEAR
->  
->  /* Specifies the type of the struct net_device::ml_priv pointer */
-> diff --git a/net/core/dev.c b/net/core/dev.c
-> index 2e4f1c97b59e..a2d650ae15d7 100644
-> --- a/net/core/dev.c
-> +++ b/net/core/dev.c
-> @@ -1163,22 +1163,6 @@ int dev_change_name(struct net_device *dev, const char *newname)
->  
->  	net = dev_net(dev);
->  
-> -	/* Some auto-enslaved devices e.g. failover slaves are
-> -	 * special, as userspace might rename the device after
-> -	 * the interface had been brought up and running since
-> -	 * the point kernel initiated auto-enslavement. Allow
-> -	 * live name change even when these slave devices are
-> -	 * up and running.
-> -	 *
-> -	 * Typically, users of these auto-enslaving devices
-> -	 * don't actually care about slave name change, as
-> -	 * they are supposed to operate on master interface
-> -	 * directly.
-> -	 */
-> -	if (dev->flags & IFF_UP &&
-> -	    likely(!(dev->priv_flags & IFF_LIVE_RENAME_OK)))
-> -		return -EBUSY;
-> -
+In TDX guest, attestation process is used to verify the TDX guest
+trustworthiness to other entities before provisioning secrets to the
+guest. For example, a key server may request for attestation before
+releasing the encryption keys to mount the encrypted rootfs or
+secondary drive.
 
-Let's leave a hint for potential triage and add something extra to the
-netdev_info() print a few lines down in case the interface is renamed
-while UP. Perhaps:
+This patch set adds attestation support for the TDX guest. Details
+about the TDX attestation process and the steps involved are explained
+in Documentation/x86/tdx.rst (added by patch 2/3).
 
-	netdev_info(dev, "renamed from %s%s\n", oldname,
-		    dev->flags & IFF_UP ? " (while UP)" : "");
+Following are the details of the patch set:
 
-or some such.
+Patch 1/3 -> Preparatory patch for adding attestation support.
+Patch 2/3 -> Adds user interface driver to support attestation.
+Patch 3/3 -> Adds selftest support for TDREPORT feature.
+
+Commit log history is maintained in the individual patches.
+
+Current overall status of this series is, it has no pending issues
+and can be considered for the upcoming merge cycle.
+
+Kuppuswamy Sathyanarayanan (3):
+  x86/tdx: Add a wrapper to get TDREPORT from the TDX Module
+  virt: Add TDX guest driver
+  selftests: tdx: Test TDX attestation GetReport support
+
+ Documentation/virt/coco/tdx-guest.rst        |  42 +++++
+ Documentation/virt/index.rst                 |   1 +
+ Documentation/x86/tdx.rst                    |  43 +++++
+ arch/x86/coco/tdx/tdx.c                      |  38 +++++
+ arch/x86/include/asm/tdx.h                   |   2 +
+ drivers/virt/Kconfig                         |   2 +
+ drivers/virt/Makefile                        |   1 +
+ drivers/virt/coco/tdx-guest/Kconfig          |  10 ++
+ drivers/virt/coco/tdx-guest/Makefile         |   2 +
+ drivers/virt/coco/tdx-guest/tdx-guest.c      | 102 ++++++++++++
+ include/uapi/linux/tdx-guest.h               |  41 +++++
+ tools/testing/selftests/Makefile             |   1 +
+ tools/testing/selftests/tdx/Makefile         |   7 +
+ tools/testing/selftests/tdx/config           |   1 +
+ tools/testing/selftests/tdx/tdx_guest_test.c | 163 +++++++++++++++++++
+ 15 files changed, 456 insertions(+)
+ create mode 100644 Documentation/virt/coco/tdx-guest.rst
+ create mode 100644 drivers/virt/coco/tdx-guest/Kconfig
+ create mode 100644 drivers/virt/coco/tdx-guest/Makefile
+ create mode 100644 drivers/virt/coco/tdx-guest/tdx-guest.c
+ create mode 100644 include/uapi/linux/tdx-guest.h
+ create mode 100644 tools/testing/selftests/tdx/Makefile
+ create mode 100644 tools/testing/selftests/tdx/config
+ create mode 100644 tools/testing/selftests/tdx/tdx_guest_test.c
+
+-- 
+2.34.1
+
