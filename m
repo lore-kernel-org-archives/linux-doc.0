@@ -2,36 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3586C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 21:52:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CF69C433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 22:01:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229645AbiKDVwf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 17:52:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51734 "EHLO
+        id S229958AbiKDWBA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 18:01:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230205AbiKDVwY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 17:52:24 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D94450F29;
-        Fri,  4 Nov 2022 14:52:15 -0700 (PDT)
-Received: from zn.tnic (p200300ea9733e7a4329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e7a4:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9E6B81EC02DD;
-        Fri,  4 Nov 2022 22:52:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1667598733;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=gAo7a0ZYJob8toTFhefpXsLRABn4m7TXaunFS9hPqZI=;
-        b=ZeHuOmys74umhJ8KAC8i6EmDDkhCOyZIFbDgWtVK2BSJOTXuW2l0r1wccRDCa2HMQsVUtI
-        4Q4jzHTYfQR6nMG592CEhu3zs/o5sSKAwYk+CEAYRri8/o4WtxnTnlPQc22MzwD8MO+MV7
-        CbxaDH9IMf2q/CdIRRSoY23lA33f/8M=
-Date:   Fri, 4 Nov 2022 22:52:13 +0100
-From:   Borislav Petkov <bp@alien8.de>
+        with ESMTP id S229544AbiKDWA6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 18:00:58 -0400
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8584383
+        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 15:00:56 -0700 (PDT)
+Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-13be3ef361dso6938550fac.12
+        for <linux-doc@vger.kernel.org>; Fri, 04 Nov 2022 15:00:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9ru2O27KhwLVb1DWRXQb8XtQqCurqYDAL67PCWqMfqE=;
+        b=p5z1DkIlfx8i6AFUMDT/HshPZbplUxGPOa98ZuyhLM+4EdBOr+wIzBhw2b2/4CxMEQ
+         0+7AmUHdoOPEOw2BMwCbpy6N5TGdtONibPiVtSHpm44nafbKshwffZgG4/x7owqOjORU
+         g7z6ub2sAkT+IrWAvrMFh6EKsZlR/WuMtYF1oLL8Dwt5cmUYxvPsYc5P6gDB5pgq6OFh
+         yxlTHRxs2XWQweRJ42RypWc+ltWhJTqpFBH0d52eDjnWvdxJfrMd+/8LyuQfg7X5hh3M
+         2ON9mWd+97DPM5nYE8ZazS7svxlZAl8gP6US0A38vxeXncc6JYPBL2a7925Sa62wG9Vd
+         lEOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9ru2O27KhwLVb1DWRXQb8XtQqCurqYDAL67PCWqMfqE=;
+        b=l2x7dnpuIfWnGYNazRGjNCxeBcIHm4LGe79AeuulRWzkL550R1m4VXp7Q0q9tViIvC
+         h3df8Y+ekRDKtp3W14E6VAaG2GrqUksXA2X1K+V5aq3N4pjRwRofyDjWhNhZhGDJUEnj
+         qEMQNAdLzVRGvvai1XqLfG883JYaP88+hjCD0V/oRqs9yJ2aXVELc8RDTf4xj9MINkeE
+         DZfB7+Nyx4IvUZgPYu7/YO6KJQqjZ652ddQSOMfheONV8yWtSa2k/EHibvxkDkftztmP
+         a+O8b0oRGwGsAqvLXq+1twS4f5GmN50muv1OdjFSVfxayNNfG6CAdyl3UQ+rrj0PLlAY
+         7ygw==
+X-Gm-Message-State: ACrzQf3CrupFzrKnDkh1Ezaed8PdWALZ2K6i9G7aIx3LmROVKE7llC3c
+        EDNUzhJ7SHlGeBfy6j8iOVyfyvKq0v6HkX1dt8WfJw==
+X-Google-Smtp-Source: AMsMyM4bGltVDYrrDGLU9k+sm/2cljesNpv6yCiTtOf7czHWrEhygAy+4nXAiY5LPqr5OsvB7nfwL42Xxb/PwWY2wq8=
+X-Received: by 2002:a05:6871:8a3:b0:13b:18ef:e8df with SMTP id
+ r35-20020a05687108a300b0013b18efe8dfmr22205078oaq.181.1667599255959; Fri, 04
+ Nov 2022 15:00:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20221104213651.141057-1-kim.phillips@amd.com> <20221104213651.141057-4-kim.phillips@amd.com>
+In-Reply-To: <20221104213651.141057-4-kim.phillips@amd.com>
+From:   Jim Mattson <jmattson@google.com>
+Date:   Fri, 4 Nov 2022 15:00:45 -0700
+Message-ID: <CALMp9eSpKGCYK_1r3o326ui5RVoH73_RR5-LR2Div9Jm5zvk6A@mail.gmail.com>
+Subject: Re: [PATCH 3/3] x86/speculation: Support Automatic IBRS under virtualization
 To:     Kim Phillips <kim.phillips@amd.com>
-Cc:     x86@kernel.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+Cc:     x86@kernel.org, Borislav Petkov <bp@alien8.de>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
         Dave Hansen <dave.hansen@linux.intel.com>,
         "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
         Joao Martins <joao.m.martins@oracle.com>,
@@ -48,30 +71,25 @@ Cc:     x86@kernel.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
         Babu Moger <Babu.Moger@amd.com>,
         Tom Lendacky <thomas.lendacky@amd.com>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] x86/speculation: Support Automatic IBRS
-Message-ID: <Y2WJjdY3wwQl9/q9@zn.tnic>
-References: <20221104213651.141057-1-kim.phillips@amd.com>
- <20221104213651.141057-3-kim.phillips@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221104213651.141057-3-kim.phillips@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 04, 2022 at 04:36:50PM -0500, Kim Phillips wrote:
->  - Allow for spectre_v2=autoibrs in the kernel command line,
->    reverting to auto-selection if the feature isn't available.
+On Fri, Nov 4, 2022 at 2:38 PM Kim Phillips <kim.phillips@amd.com> wrote:
+>
+> VM Guests may want to use Auto IBRS, so propagate the CPUID to them.
+>
+> Co-developed-by: Babu Moger <Babu.Moger@amd.com>
+> Signed-off-by: Kim Phillips <kim.phillips@amd.com>
 
-Why?
+The APM says that, under AutoIBRS, CPL0 processes "have IBRS
+protection." I'm taking this to mean only that indirect branches in
+CPL0 are not subject to steering from a less privileged predictor
+mode. This would imply that indirect branches executed at CPL0 in L1
+could potentially be subject to steering by code running at CPL0 in
+L2, since L1 and L2 share hardware predictor modes.
 
-What the whole logic here should do is enable autoibrs when detected
-automatically, without the need for the user to even select it as it is
-the superior mitigation.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Fortunately, there is an IBPB when switching VMCBs in svm_vcpu_load().
+But it might be worth noting that this is necessary for AutoIBRS to
+work (unless it actually isn't).
