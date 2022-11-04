@@ -2,218 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADA98C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 10:20:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C38C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 11:07:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231669AbiKDKUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 06:20:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46624 "EHLO
+        id S229496AbiKDLHO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 07:07:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231664AbiKDKUK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 06:20:10 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BFA523F;
-        Fri,  4 Nov 2022 03:20:09 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id l14so6414327wrw.2;
-        Fri, 04 Nov 2022 03:20:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6P8xxdGWubsmXrylRSzncfWm/SKD8aRP3wQQ4UiL6hI=;
-        b=n/r2ULB3Fyty+hwEg7z6CRvCbq8QI1ODnk/0bZfnnUbIMGmRRliuzQoKOzOFKCS8+G
-         8fAGsscJKZwXTd9s5yxEvKwjMTbP1E7q454TSAxO4dxsNxsfOz6XMcmXo/ZUe1frymXN
-         LHa6ZQzV/HKXM8T1NJK/QzIrbWfAcMi0SAJDSyzvJWUvPTksU6dWU6KAIxEqDLzERH/P
-         h0+8s5q32vKbMLUCvzpOt38lLz8+LbrrOUZE+6P/Pk1EO5EIdJbNZ5qemtQNKTXDtcVr
-         hidL+NlGXLbzVsJHReBtkHXawadTULcFYYLGjVJfEhtSU2CEFoKjOAI20DLFw02LlKu8
-         18Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6P8xxdGWubsmXrylRSzncfWm/SKD8aRP3wQQ4UiL6hI=;
-        b=KPpYKv/iCSY/r2jDZRlJobMr8HtFH8TfPlqL6zFdNXv10FsEeJXg8EjIP3hO/DlS3V
-         Zg21kobtT9SRPQMuAGd59H1KEVnqzN/DQgawNaTdEv4A+Ce4HRXDfLJEDgqvMXJbgowW
-         ZYcFXzAbEvUXo46ZPefiZVZAI55YJoQfzJRZaO+ttvJ1Uypqom8I+jSgelQuw136xaMR
-         UQsKq9JHhlb3NAQ78y18hOfIZEIo5+O9FtxDbQ5J0DiClbppeDjTIlhmBV8QUsvEzeTJ
-         dE1pOs7pVlX9XdhLEclg/H4JBcwE6CzfiwLqUJfKs3wokBPPxPj2TWCzq2P2BHrWHB+3
-         0hAQ==
-X-Gm-Message-State: ACrzQf2RhLhDysI5Z+11f12nwB4v7CfY86pDdms4iTSD/O+e0++GLKGu
-        zTeuOhPyYK5g/ARyl7RLN7OtxGBwEmik7w==
-X-Google-Smtp-Source: AMsMyM6kmdIVZ8e+xXiNC3fmreH0pC43qtKWiOp0laBnpdZw0Vns8T571zt4KquZXcBhhwzlyI2HnQ==
-X-Received: by 2002:a5d:4887:0:b0:226:ed34:7bbd with SMTP id g7-20020a5d4887000000b00226ed347bbdmr21079930wrq.561.1667557207079;
-        Fri, 04 Nov 2022 03:20:07 -0700 (PDT)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:69c4:31e5:f2b8:3146])
-        by smtp.gmail.com with ESMTPSA id bj4-20020a0560001e0400b002322bff5b3bsm3846262wrb.54.2022.11.04.03.20.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Nov 2022 03:20:06 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Maryam Tahhan <mtahhan@redhat.com>,
-        Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v2] docs/bpf: document BPF ARRAY_OF_MAPS and HASH_OF_MAPS
-Date:   Fri,  4 Nov 2022 10:19:28 +0000
-Message-Id: <20221104101928.9479-1-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.35.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S231296AbiKDLHF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 07:07:05 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BE8ADF;
+        Fri,  4 Nov 2022 04:07:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2E182B82CFA;
+        Fri,  4 Nov 2022 11:07:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C55D6C433D6;
+        Fri,  4 Nov 2022 11:07:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667560021;
+        bh=D9p9S1ydD8MQNluvBI5O/R0bIkf9iDKhWvtR/SEIOuo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=GOQE8UhpKNLVzJH69gWuCsLA7W+RJq5VZo9XmzTuOsoUhiu1xo4HUlBsdK4BtW0Qe
+         7hBYTjC2zsUqhZVFR2eYPjcqkuOHVKOhqKUhPBEKLVBtm5+Tc0Z0EWDsU6Qt9Rk7g8
+         d0TnOSPWJ1VACGJJHpMMyuo5uhE3AN1qlTXohEJUk+tkW2uCe9kC0YKqg1qcRAl7MJ
+         ASve4U9LHoqaaaiVE4OX5apqqHdGzy62Zocvz0RdYfcY8hBRzZuf4c/NGXwlEI6HJ6
+         OnlkENr5V9z8ssLPdNvWw+LS59DtNfFmgInqOgprKbZr2+geQf7AAJpCknbZiAju+6
+         hTgoCCZEv7zxg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1oquXL-003kAf-06;
+        Fri, 04 Nov 2022 11:06:59 +0000
+Date:   Fri, 04 Nov 2022 11:06:58 +0000
+Message-ID: <86cza3q8q5.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Usama Arif <usama.arif@bytedance.com>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, linux@armlinux.org.uk,
+        yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org,
+        steven.price@arm.com, mark.rutland@arm.com,
+        fam.zheng@bytedance.com, liangma@liangbit.com,
+        punit.agrawal@bytedance.com
+Subject: Re: [PATCH] kvm/arm: Fix pvtime documentation
+In-Reply-To: <4b2b78c6-9903-1247-9d16-fc6270aa34fc@gmail.com>
+References: <20221103131210.3603385-1-usama.arif@bytedance.com>
+        <24d81fe9-7cd1-71eb-8c35-0739f638b3df@gmail.com>
+        <86fsf0qc1w.wl-maz@kernel.org>
+        <4b2b78c6-9903-1247-9d16-fc6270aa34fc@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: bagasdotme@gmail.com, usama.arif@bytedance.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, linux-doc@vger.kernel.org, virtualization@lists.linux-foundation.org, linux@armlinux.org.uk, yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org, steven.price@arm.com, mark.rutland@arm.com, fam.zheng@bytedance.com, liangma@liangbit.com, punit.agrawal@bytedance.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for the ARRAY_OF_MAPS and HASH_OF_MAPS map types,
-including usage and examples.
+On Fri, 04 Nov 2022 01:48:21 +0000,
+Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> 
+> On 11/3/22 22:42, Marc Zyngier wrote:
+> > No, this is the correct course of action. There isn't any point in
+> > having an *unrelated* change in a separate series. This is a
+> > standalone change, posted as a standalone patch.
+> > 
+> >> Please reroll your series [2] with suggestion applied.
+> > 
+> > Or not.
+> > 
+> 
+> You mean the series before this patch have already been applied,
+> right?
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
-v1 -> v2:
-- Fix formatting nits
-- Tidy up code snippets as suggested by Maryam Tahhan
----
- Documentation/bpf/map_of_maps.rst | 129 ++++++++++++++++++++++++++++++
- 1 file changed, 129 insertions(+)
- create mode 100644 Documentation/bpf/map_of_maps.rst
+This change is 100% independent from the series you quoted. Why should
+there be a dependency between the two?
 
-diff --git a/Documentation/bpf/map_of_maps.rst b/Documentation/bpf/map_of_maps.rst
-new file mode 100644
-index 000000000000..d5a09bc669a3
---- /dev/null
-+++ b/Documentation/bpf/map_of_maps.rst
-@@ -0,0 +1,129 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2022 Red Hat, Inc.
-+
-+========================================================
-+BPF_MAP_TYPE_ARRAY_OF_MAPS and BPF_MAP_TYPE_HASH_OF_MAPS
-+========================================================
-+
-+.. note::
-+   - ``BPF_MAP_TYPE_ARRAY_OF_MAPS`` and ``BPF_MAP_TYPE_HASH_OF_MAPS`` were
-+     introduced in kernel version 4.12
-+
-+``BPF_MAP_TYPE_ARRAY_OF_MAPS`` and ``BPF_MAP_TYPE_HASH_OF_MAPS`` provide general
-+purpose support for map in map storage. One level of nesting is supported, where
-+an outer map contains instances of a single type of inner map, for example
-+``array_of_maps->sock_map``.
-+
-+When creating an outer map, an inner map instance is used to initialize the
-+metadata that the outer map holds about its inner maps. This inner map has a
-+separate lifetime from the outer map and can be deleted after the outer map has
-+been created.
-+
-+The outer map supports element update and delete from user space using the
-+syscall API. A BPF program is only allowed to do element lookup in the outer
-+map.
-+
-+.. note::
-+   - Multi-level nesting is not supported.
-+   - Any BPF map type can be used as an inner map, except for
-+     ``BPF_MAP_TYPE_PROG_ARRAY``.
-+   - A BPF program cannot update or delete outer map entries.
-+
-+Array of Maps
-+-------------
-+
-+For ``BPF_MAP_TYPE_ARRAY_OF_MAPS`` the key is an unsigned 32-bit integer index
-+into the array. The array is a fixed size with ``max_entries`` elements that are
-+zero initialized when created.
-+
-+Hash of Maps
-+------------
-+
-+For ``BPF_MAP_TYPE_HASH_OF_MAPS`` the key type can be chosen when defining the
-+map.
-+
-+The kernel is responsible for allocating and freeing key/value pairs, up
-+to the max_entries limit that you specify. Hash maps use pre-allocation
-+of hash table elements by default. The ``BPF_F_NO_PREALLOC`` flag can be
-+used to disable pre-allocation when it is too memory expensive.
-+
-+Usage
-+=====
-+
-+Kernel BPF
-+----------
-+
-+.. c:function::
-+   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-+
-+Inner maps can be retrieved using the ``bpf_map_lookup_elem()`` helper. This
-+helper returns a pointer to the inner map, or ``NULL`` if no entry was found.
-+
-+Examples
-+========
-+
-+Kernel BPF
-+----------
-+
-+This snippet shows how to create an array of devmaps in a BPF program. Note that
-+the outer array can only be modified from user space using the syscall API.
-+
-+.. code-block:: c
-+
-+    struct inner_map {
-+            __uint(type, BPF_MAP_TYPE_DEVMAP);
-+            __uint(max_entries, 32);
-+            __type(key, __u32);
-+            __type(value, __u32);
-+    } inner_map SEC(".maps");
-+
-+    struct {
-+            __uint(type, BPF_MAP_TYPE_ARRAY_OF_MAPS);
-+            __uint(max_entries, 32);
-+            __type(key, __u32);
-+            __type(value, __u32);
-+            __array(values, struct inner_map);
-+    } outer_map SEC(".maps");
-+
-+User Space
-+----------
-+
-+This snippet shows how to create an array based outer map:
-+
-+.. code-block:: c
-+
-+    int create_outer_array(int inner_fd) {
-+            int fd;
-+
-+            LIBBPF_OPTS(bpf_map_create_opts, opts);
-+            opts.inner_map_fd = inner_fd;
-+            fd = bpf_map_create(BPF_MAP_TYPE_ARRAY_OF_MAPS,
-+                                "example_array",       /* name */
-+                                sizeof(__u32),         /* key size */
-+                                sizeof(__u32),         /* value size */
-+                                256,                   /* max entries */
-+                                &opts);                /* create opts */
-+            return fd;
-+    }
-+
-+
-+This snippet shows how to add an inner map to an outer map:
-+
-+.. code-block:: c
-+
-+    int add_devmap(int outer_fd, int index, const char *name) {
-+            int fd;
-+
-+            fd = bpf_map_create(BPF_MAP_TYPE_DEVMAP, name,
-+                                sizeof(__u32), sizeof(__u32), 256, NULL);
-+            if (fd < 0)
-+                    return fd;
-+
-+            return bpf_map_update_elem(outer_fd, &index, &fd, BPF_NOEXIST);
-+    }
-+
-+References
-+==========
-+
-+- https://lore.kernel.org/netdev/20170322170035.923581-3-kafai@fb.com/
-+- https://lore.kernel.org/netdev/20170322170035.923581-4-kafai@fb.com/
+As for respinning the series at this stage for a documentation
+formatting issue, this is pretty pointless, and only clutters people's
+Inbox with redundant versions...
+
+	M.
+
 -- 
-2.35.1
-
+Without deviation from the norm, progress is not possible.
