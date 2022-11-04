@@ -2,92 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DA62C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 20:19:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8604C43217
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 20:38:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229969AbiKDUTB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 16:19:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60296 "EHLO
+        id S229993AbiKDUik (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 16:38:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbiKDUS7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 16:18:59 -0400
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F4224B9AC;
-        Fri,  4 Nov 2022 13:18:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=9EmpCQn2JtXjzKJNAAzmFElq0JAsPIVY4uXrTBDtmsw=; b=pGh5Zl03PPKgjEz9Gyg0OcWmFf
-        23h/4RmeBesW47/gaD9RbCmgQK5jr++OTAF+ninARnOs3oU1mhY4sonVW1QCuwbuw2905Of9c7gaV
-        DahXcIuQjTnFP07MLnlF33ZErOHrE71L+gnQAJmXHaRIy6FhbI1soqbuciRNCwXJ2vGd6iHCbCgYk
-        4AX7AefOgmB5ATR/dBPS4jKSXKIxlcEq3Ge9Yb6kfVNaqXmd44FQTuSBrR9brXbl/xH9xFAEdY6Qi
-        ue75A0DQeSWbyJU0IPCo9ep8wyHV+mQG6DicSE96+yTeBL6N72+GdrQ13fcLz1XR+14OzJqrFH4sQ
-        N7pUkqKg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35116)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1or39L-00084d-6R; Fri, 04 Nov 2022 20:18:47 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1or39E-0001A3-MM; Fri, 04 Nov 2022 20:18:40 +0000
-Date:   Fri, 4 Nov 2022 20:18:40 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, Florian Fainelli <f.fainelli@gmail.com>,
-        Michael Chan <michael.chan@broadcom.com>,
-        Andrew Lunn <andrew@lunn.ch>, corbet@lwn.net,
-        hkallweit1@gmail.com, huangguangbin2@huawei.com,
-        chenhao288@hisilicon.com, moshet@nvidia.com,
-        linux@rempel-privat.de, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v5] ethtool: linkstate: add a statistic for PHY
- down events
-Message-ID: <Y2VzoD5uwW64yYgD@shell.armlinux.org.uk>
-References: <20221104190125.684910-1-kuba@kernel.org>
+        with ESMTP id S229459AbiKDUij (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 16:38:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4409D2BB26;
+        Fri,  4 Nov 2022 13:38:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AD78962332;
+        Fri,  4 Nov 2022 20:38:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93F91C433D6;
+        Fri,  4 Nov 2022 20:38:35 +0000 (UTC)
+Date:   Fri, 4 Nov 2022 16:38:34 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Anna-Maria Gleixner <anna-maria@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-acpi@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-bluetooth@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
+        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Subject: Re: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before
+ freeing timers
+Message-ID: <20221104154355.578ab689@rorschach.local.home>
+In-Reply-To: <20221104154209.21b26782@rorschach.local.home>
+References: <20221104054053.431922658@goodmis.org>
+        <20221104192232.GA2520396@roeck-us.net>
+        <20221104154209.21b26782@rorschach.local.home>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221104190125.684910-1-kuba@kernel.org>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 04, 2022 at 12:01:25PM -0700, Jakub Kicinski wrote:
-> The previous attempt to augment carrier_down (see Link)
-> was not met with much enthusiasm so let's do the simple
-> thing of exposing what some devices already maintain.
-> Add a common ethtool statistic for link going down.
-> Currently users have to maintain per-driver mapping
-> to extract the right stat from the vendor-specific ethtool -S
-> stats. carrier_down does not fit the bill because it counts
-> a lot of software related false positives.
-> 
-> Add the statistic to the extended link state API to steer
-> vendors towards implementing all of it.
-> 
-> Implement for bnxt and all Linux-controlled PHYs. mlx5 and (possibly)
-> enic also have a counter for this but I leave the implementation
-> to their maintainers.
+On Fri, 4 Nov 2022 15:42:09 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-Hi Jakub,
+> $ git grep '\btimer_shutdown'
+> arch/arm/mach-spear/time.c:static inline void timer_shutdown(struct clock_event_device *evt)
+> arch/arm/mach-spear/time.c:     timer_shutdown(evt);
+> arch/arm/mach-spear/time.c:     timer_shutdown(evt);
+> arch/arm/mach-spear/time.c:     timer_shutdown(evt);
+> drivers/clocksource/arm_arch_timer.c:static __always_inline int timer_shutdown(const int access,
+> drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_VIRT_ACCESS, clk);
+> drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_PHYS_ACCESS, clk);
+> drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_MEM_VIRT_ACCESS, clk);
+> drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_MEM_PHYS_ACCESS, clk);
+> drivers/clocksource/timer-fttmr010.c:   int (*timer_shutdown)(struct clock_event_device *evt);
 
-I guess we'll need phylink to support this as well, so phylink using
-drivers can provide this statistic not only for phylib based PHYs, but
-also for direct SFP connections as well.
 
-Thinking about the complexities of copper SFPs that may contain a PHY,
-it seems to me that the sensible implementation would be for phylink
-to keep the counter and not use the phylib counter (as that PHY may
-be re-plugged and thus the count can reset back to zero) which I
-suspect userspace would not be prepared for.
 
-Russell.
+> drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
+> drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
+> drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
+> drivers/clocksource/timer-fttmr010.c:           fttmr010->timer_shutdown = ast2600_timer_shutdown;
+> drivers/clocksource/timer-fttmr010.c:           fttmr010->timer_shutdown = fttmr010_timer_shutdown;
+> drivers/clocksource/timer-fttmr010.c:   fttmr010->clkevt.set_state_shutdown = fttmr010->timer_shutdown;
+> drivers/clocksource/timer-fttmr010.c:   fttmr010->clkevt.tick_resume = fttmr010->timer_shutdown;
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+I won't touch structure fields though.
+
+-- Steve
+
+
+> drivers/clocksource/timer-sp804.c:static inline void timer_shutdown(struct clock_event_device *evt)
+> drivers/clocksource/timer-sp804.c:      timer_shutdown(evt);
+> drivers/clocksource/timer-sp804.c:      timer_shutdown(evt);
