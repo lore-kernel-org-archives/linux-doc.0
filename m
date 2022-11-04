@@ -2,212 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54426C433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 23:01:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4693BC4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 23:10:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229688AbiKDXBR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 19:01:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36736 "EHLO
+        id S229629AbiKDXKf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 19:10:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbiKDXBN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 19:01:13 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADBB63E0BA;
-        Fri,  4 Nov 2022 16:01:12 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id bj12so16827413ejb.13;
-        Fri, 04 Nov 2022 16:01:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mnBGC6ns2QKQUwsYssAlJWYsRWuUiXzRM8wUSXllHeY=;
-        b=AetqL+GCSI422/2hCgfq4OKkij9RKW/lJHEtnZQzEoFQsQzeQEKibXavqnXftAnlW4
-         I1IE20LMF7RLclidBfU6Rvspd47G4d/CsdXshcIPHgtECQNxukRcNE9JifOPIcUBcseP
-         7tF+veaWTNEErB/Q/siVtNrVxEN7a3b7bR6GWl4748nJZzeBKeQzQMTM+xPzOOtmuIy1
-         1NDHvcuUsKLiW4wRllKoOpbj9DgazsdWHjTmRLDZXQFqhXeQ2aOQyY0Z6Ht4qVgigBsL
-         EjIVH5Behz9OhqNcXlhKRb0mgHnUGHreb+Dd2Ww8Fx8Z9Q4YDAOp3f0aNRY0lFQIFvYf
-         XZXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mnBGC6ns2QKQUwsYssAlJWYsRWuUiXzRM8wUSXllHeY=;
-        b=rbshBBZZasceu2AIdgEVTKgYUwToVtTKmJn+6NPmilHAHP0GEeat1ejYqb4+72n1FT
-         cYMFOttH09QIW29z0GcR1xUZAAX4hRcjvLzKZpo68Ob/WAyfn4k2sQwMwZFTx3J0aJzq
-         BT3mLpHyTfb2cCemnMO+HwGIasYwboH4g98ePxBsPelPwkaeLYMn+EoQfBimJb+64LMT
-         iQeOJy+85QG/8m+ixlH5N+DobYZk5/Z/D414n+MvPYT22xYxPeUp8nHQP7TvxfbhWq26
-         XGO7ZHQJLxTsvxjFy6g6kn0WvFfPa8OEHz4qRIG8SEQrakWEO93Lc3tyBmiU/2OPlkIA
-         kPAA==
-X-Gm-Message-State: ACrzQf25+uM7uEUR876MsPzC6VH9zbSGPAdOlI6tE3crqZSchB9Qly+R
-        wYeVZn3x1MT6aVAcg+y3NglSOl0w7OHDYABru40=
-X-Google-Smtp-Source: AMsMyM7TsBN+QDYqHM6OoAfK4Gq41wUB6NminuI/stPHxMvIX4PzuvKL3z2q/CdIq16MG0QJpX3PWRFCM2TL6zSHNqU=
-X-Received: by 2002:a17:906:99c5:b0:73d:70c5:1a4f with SMTP id
- s5-20020a17090699c500b0073d70c51a4fmr36127820ejn.302.1667602871140; Fri, 04
- Nov 2022 16:01:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221104172140.19762-1-donald.hunter@gmail.com>
-In-Reply-To: <20221104172140.19762-1-donald.hunter@gmail.com>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Fri, 4 Nov 2022 16:00:59 -0700
-Message-ID: <CAEf4BzYpNd_oM6n4eW6UqF5n60xkvTarhbcyCgJSCDFtg1rm4g@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v1] docs/bpf: Document BPF map types QUEUE and STACK
-To:     Donald Hunter <donald.hunter@gmail.com>
+        with ESMTP id S229575AbiKDXKe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 19:10:34 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85BA7A19F;
+        Fri,  4 Nov 2022 16:10:33 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C35E82C8;
+        Fri,  4 Nov 2022 23:10:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C35E82C8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1667603432; bh=hrRJCfax9hvAb9UzryvBrpCL6w0tDPadfdbP2XtM8T4=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=hos/qeQCIvdU1pNKwBpWwCpSvg+L/oCV+7awU4OsvHsS2cxH6xNcpJjp2hoxSjzan
+         IxlNJcInNFz9RQI6Z5l+vvzO2Zqbest6sAYh6K45Fzq+1HrRTUmdfDVftWGMKwO7z2
+         3xgc7X7UTc1EHPd5dky1Wd5QQsA8SHLfP5LII7zFt/ofkNr5KdIj4WRSKTb2BcHiTC
+         vkZw0kRGw2aSmNAKlbwHgAhup2QHL0P5IjRuLFgLL8o9Dm+/0OhPNsdj/eGfUnUS8G
+         MPSiMUzQPzDopPwATzPO2Yix/ZcKDKvt1JHJdB6LDNXBur4TkBQ8OoHSvhgGWBMGJj
+         d3JBaRHGjjhhQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Joe Stringer <joe@isovalent.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
 Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, ast@kernel.org, martin.lau@linux.dev
+Subject: Re: [PATCH bpf-next v2] docs/bpf: Add LRU internals description and
+ graph
+In-Reply-To: <CADa=RyxodgJ+Wa3tiWxTntZoy7eSm_UkuzDBx9tCN=s_QnsDOw@mail.gmail.com>
+References: <20221103205010.3266865-1-joe@isovalent.com>
+ <101ab00c-5fa7-c3ee-63bd-f235e7c4d398@gmail.com>
+ <CADa=RyxodgJ+Wa3tiWxTntZoy7eSm_UkuzDBx9tCN=s_QnsDOw@mail.gmail.com>
+Date:   Fri, 04 Nov 2022 17:10:31 -0600
+Message-ID: <87fseyqpso.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 4, 2022 at 10:21 AM Donald Hunter <donald.hunter@gmail.com> wrote:
->
-> Add documentation for BPF_MAP_TYPE_QUEUE and BPF_MAP_TYPE_STACK,
-> including usage and examples.
->
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> ---
->  Documentation/bpf/map_queue_stack.rst | 119 ++++++++++++++++++++++++++
->  1 file changed, 119 insertions(+)
->  create mode 100644 Documentation/bpf/map_queue_stack.rst
->
-> diff --git a/Documentation/bpf/map_queue_stack.rst b/Documentation/bpf/map_queue_stack.rst
-> new file mode 100644
-> index 000000000000..a27e7f573869
-> --- /dev/null
-> +++ b/Documentation/bpf/map_queue_stack.rst
-> @@ -0,0 +1,119 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2022 Red Hat, Inc.
-> +
-> +=========================================
-> +BPF_MAP_TYPE_QUEUE and BPF_MAP_TYPE_STACK
-> +=========================================
-> +
-> +.. note::
-> +   - ``BPF_MAP_TYPE_QUEUE`` and ``BPF_MAP_TYPE_STACK`` were introduced
-> +     in kernel version 4.20
-> +
-> +``BPF_MAP_TYPE_QUEUE`` provides FIFO storage and ``BPF_MAP_TYPE_STACK``
-> +provides LIFO storage for BPF programs. These maps support peek, pop and
-> +push operations that are exposed to BPF programs through the respective
-> +helpers. These operations are exposed to userspace applications using
-> +the existing ``bpf`` syscall in the following way:
-> +
-> +- ``BPF_MAP_LOOKUP_ELEM`` -> peek
-> +- ``BPF_MAP_LOOKUP_AND_DELETE_ELEM`` -> pop
-> +- ``BPF_MAP_UPDATE_ELEM`` -> push
-> +
-> +``BPF_MAP_TYPE_QUEUE`` and ``BPF_MAP_TYPE_STACK`` do not support
-> +``BPF_F_NO_PREALLOC``.
-> +
-> +Usage
-> +=====
-> +
-> +Kernel BPF
-> +----------
-> +
-> +.. c:function::
-> +   long bpf_map_push_elem(struct bpf_map *map, const void *value, u64 flags)
-> +
-> +An element ``value`` can be added to a queue or stack using the
-> +``bpf_map_push_elem()`` helper. If ``flags`` is set to ``BPF_EXIST``
-> +then, when the queue or stack is full, the oldest element will be
-> +removed to make room for ``value`` to be added. Returns ``0`` on
-> +success, or negative error in case of failure.
-> +
-> +.. c:function::
-> +   long bpf_map_peek_elem(struct bpf_map *map, void *value)
-> +
-> +This helper fetches an element ``value`` from a queue or stack without
-> +removing it. Returns ``0`` on success, or negative error in case of
-> +failure.
-> +
-> +.. c:function::
-> +   long bpf_map_pop_elem(struct bpf_map *map, void *value)
-> +
-> +This helper removes an element into ``value`` from a queue or
-> +stack. Returns ``0`` on success, or negative error in case of failure.
-> +
-> +
-> +Userspace
-> +---------
-> +
-> +.. c:function::
-> +   int bpf_map_update_elem (int fd, const void *key, const void *value, __u64 flags)
-> +
-> +A userspace program can push ``value`` onto a queue or stack using libbpf's
-> +``bpf_map_update_elem`` function. The ``key`` parameter must be set to
-> +``NULL`` and ``flags`` must be set to ``BPF_ANY``. Returns ``0`` on
-> +success, or negative error in case of failure.
-> +
-> +.. c:function::
-> +   int bpf_map_lookup_elem (int fd, const void *key, void *value)
-> +
-> +A userspace program can peek at the ``value`` at the head of a queue or stack
-> +using the libbpf ``bpf_map_lookup_elem`` function. The ``key`` parameter must be
-> +set to ``NULL``.  Returns ``0`` on success, or negative error in case of
-> +failure.
-> +
-> +.. c:function::
-> +   int bpf_map_lookup_and_delete_elem (int fd, const void *key, void *value)
-> +
-> +A userspace program can pop a ``value`` from the head of a queue or stack using
-> +the libbpf ``bpf_map_lookup_and_delete_elem`` function. The ``key`` parameter
-> +must be set to ``NULL``. Returns ``0`` on success, or negative error in case of
-> +failure.
-> +
-> +Examples
-> +========
-> +
-> +Kernel BPF
-> +----------
-> +
-> +This snippet shows how to declare a queue in a BPF program:
-> +
-> +.. code-block:: c
-> +
-> +    struct {
-> +            __uint(type, BPF_MAP_TYPE_QUEUE);
-> +            __type(value, __u32);
-> +            __uint(max_entries, 10);
-> +    } queue SEC(".maps");
-> +
-> +
-> +Userspace
-> +---------
-> +
-> +This snippet shows how to use libbpf to create a queue from userspace:
+Joe Stringer <joe@isovalent.com> writes:
 
-I'd prefer "how to use libbpf's low-level API to create a queue".
-Because ideally people use the declarative way shown above, which is
-also "use libbpf to create", but is simpler and preserves all the BTF
-type information (if map supports it).
-
-> +
-> +.. code-block:: c
-> +
-> +    int create_queue()
-> +    {
-> +            return bpf_map_create(BPF_MAP_TYPE_QUEUE,
-> +                                  "sample_queue", /* name */
-> +                                  0,              /* key size, must be zero */
-> +                                  sizeof(__u32),  /* value size */
-> +                                  10,             /* max entries */
-> +                                  0);             /* create options */
-
-NULL, it's a pointer
-
-> +    }
-> +
-> +
-> +References
-> +==========
-> +
-> +https://lwn.net/ml/netdev/153986858555.9127.14517764371945179514.stgit@kernel/
-> --
-> 2.35.1
+> Resending, this time without HTML.
 >
+> On Fri, Nov 4, 2022 at 2:31 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>>
+>> Shouldn't the table be written in reST table syntax instead?
+>
+> This table follows the syntax outlined in
+> https://docs.kernel.org/doc-guide/sphinx.html#list-tables . Is that
+> document not up to date?
+
+That document, right where you linked, says:
+
+	The list-table formats can be useful for tables that are not
+	easily laid out in the usual Sphinx ASCII-art formats. These
+	formats are nearly impossible for readers of the plain-text
+	documents to understand, though, and should be avoided in the
+	absence of a strong justification for their use.
+
+The list-table formats exist for a reason, and sometimes they can't
+really be avoided, but they do impose a heavy readability cost on the
+plain-text files.
+
+> I'm happy to do this, but several of the diagram boxes will reference
+> terms like rotation, shrinking etc without explaining what they are. I
+> think it's a net negative to readability if this text is not included
+> with the diagram. If you think the commit formatting is a bit over the
+> top, I could maybe just remove the decoration and embed the content
+> directly in the doc? On my first attempt at sketching this up, it just
+> felt a bit weird for me to submit that text directly if Martin was the
+> author of the text. But I could figure something out for that if
+> that's the preferred approach.
+
+I don't quite understand this comment; I don't think anybody is asking
+you to take information out?  Just to use one of the other table formats
+if you can.
+
+>> Since it references the same figure, just say "See the figure above for more
+>> details".
+>
+> The figure is rendered visually in the docs without the corresponding
+> node names, so developers would need to look at either the dot source
+> or maybe the SVG source though that's arguably a little less readable.
+> The suggested phrasing to see the figure doesn't sound very useful to
+> me since the simple reader's interpretation would be to look directly
+> at the render rather than the source. This last sentence was intended
+> as a helpful way for developers to find the path to the corresponding
+> document, but if you think that is too much detail then I could also
+> just drop this last sentence. Thoughts?
+
+That sentence is fine, I wouldn't mess with it.
+
+Thanks,
+
+jon
