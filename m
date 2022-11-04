@@ -2,83 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C41DC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 22:06:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29A01C43217
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 22:09:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229739AbiKDWGb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 18:06:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34522 "EHLO
+        id S230142AbiKDWJt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 18:09:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbiKDWGa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 18:06:30 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26401D10A;
-        Fri,  4 Nov 2022 15:06:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667599590; x=1699135590;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=fW0Bxr9OnS17BvgprAuZazMwrhTy9Qfa+MwnyV0jt60=;
-  b=n4hAvMbyxzAX+HZ9f5EgeAzpeNQ2G2C5NYqieQrd6sSgBKpDZBaCEqUj
-   GDEbWiJztuLp2Gj5qimeRplzG4qTv1WfxgiC8xPoKja34A9/L7PKnYVxp
-   sgi1TiCf+ktmF2L9BPtCDV3MP7CrbKz4mLwzW2lZeKWJZEDjObAkzxT2p
-   xFNLDg0nCgDCoHqRoirutydS3cqhjuDKc4Dw4o7Px4jAEPRZzA1XqZdDf
-   jPDZNw6EHvvr+tRwJWwv3yZosrjSN+JVkaZpFUXfg8ET+HlP/7yiXgi2v
-   RWIHk4SOM0rtA/tgiFwCIRnv7VHCvxLgIRoSlYTo7lpgpK01hjxIELvMV
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="289811519"
-X-IronPort-AV: E=Sophos;i="5.96,138,1665471600"; 
-   d="scan'208";a="289811519"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2022 15:06:29 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10521"; a="635243963"
-X-IronPort-AV: E=Sophos;i="5.96,138,1665471600"; 
-   d="scan'208";a="635243963"
-Received: from anantsin-mobl2.amr.corp.intel.com (HELO [10.209.97.57]) ([10.209.97.57])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2022 15:06:28 -0700
-Message-ID: <b2274949-8fba-24ff-89bf-627f288ace06@intel.com>
-Date:   Fri, 4 Nov 2022 15:06:28 -0700
+        with ESMTP id S229472AbiKDWJr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 18:09:47 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7514F25291
+        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 15:09:44 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id f27so16762068eje.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 Nov 2022 15:09:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isovalent-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9KBg06ASwQ0kj5Ll8CLNORO/tXAtWH1/P4+spInuBjU=;
+        b=6wG3u3hZVFCLp3K2T2Sf/LAU1DSBeN+nC0BGK9arw6vilmy9jI48rpAMcDoCZpwFKG
+         QpolMLRk+09tudrxWMG2TE2c7/b5KNs97QRcf0ry42QDBSAbC9J6askQdS0xNj1LjsU0
+         ccJ1m2byPOfKcgqa5CBqRuYVt0QTgrd3Z4HRcZckMcck45/mLoNpTISwLEJ2dAWw0ypt
+         NWBRISB89SQ4S9QG61smvRzvIdZYXLsAssVf/IMRe1gBRxSr6Pf4fFi9W177ptwXDOTQ
+         NiOLgd/XsSZFsnEekAt3ShFwhLgA2Zo1k5VJj655qT5UiiSSeF4xInIo3CB6jdkq9tNn
+         pmPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9KBg06ASwQ0kj5Ll8CLNORO/tXAtWH1/P4+spInuBjU=;
+        b=jyMNuUDFCHo1+RXRTqFG94uinNdedqZuSVlhIOcDebEiaapJ3YM/QaAbHyOsMBCAmj
+         JVW+dAr3Om5LVvpdTL6xyIuYqkgUKmiqYTm1y7OCXMr155K32Drzqj+N1akiTZkTVaD9
+         UfXusLqycuvfju/PRJ0huYv26mrmaOoPk+gO1i0ORzEu92ang+Bf6S8IETXcieQjSrU4
+         mK5V31VTGPwlOoRJBI4G+kVg4g+XfhLj6cTZobcNdVF7DhkDhuoHV2sblF4o3z++GyGX
+         P3gE/0r5MKwN2wD1Yx8EbjT9J4Op3ZnJH2KFhMT5T6QNfU8MapNsS2gXlsjPIjcvuRvr
+         natQ==
+X-Gm-Message-State: ACrzQf2pcZX/XY9jvwqbF9EXJapH/mhfdAVlH5QHYOPyWzLKMkuaWtcV
+        4V29BgHakQ7ua4vEQMcsOkGXf1kncsXMRfDB7ZXDTQ==
+X-Google-Smtp-Source: AMsMyM6zLjfIm1LJZmdJmX3F1xuORskdHrN+sT3pubY7G2c3YSxmJcX5MMdRtWEU53NiZRQBAb55waQpcSVm/whAGAo=
+X-Received: by 2002:a17:907:6e9e:b0:78c:5533:4158 with SMTP id
+ sh30-20020a1709076e9e00b0078c55334158mr34265173ejc.417.1667599783015; Fri, 04
+ Nov 2022 15:09:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 0/3] x86/speculation: Support Automatic IBRS
-Content-Language: en-US
-To:     Kim Phillips <kim.phillips@amd.com>, x86@kernel.org
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Babu Moger <Babu.Moger@amd.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221104213651.141057-1-kim.phillips@amd.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <20221104213651.141057-1-kim.phillips@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221103205010.3266865-1-joe@isovalent.com> <101ab00c-5fa7-c3ee-63bd-f235e7c4d398@gmail.com>
+In-Reply-To: <101ab00c-5fa7-c3ee-63bd-f235e7c4d398@gmail.com>
+From:   Joe Stringer <joe@isovalent.com>
+Date:   Fri, 4 Nov 2022 15:09:32 -0700
+Message-ID: <CADa=RyxodgJ+Wa3tiWxTntZoy7eSm_UkuzDBx9tCN=s_QnsDOw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2] docs/bpf: Add LRU internals description and graph
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ast@kernel.org, corbet@lwn.net,
+        martin.lau@linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/4/22 14:36, Kim Phillips wrote:
-> The AMD Zen4 core supports a new feature called Automatic IBRS.
-> (Indirect Branch Restricted Speculation).
-> 
-> Enable Automatic IBRS by default if the CPU feature is present.
-> It typically provides greater performance over the incumbent
-> generic retpolines mitigation.
+Resending, this time without HTML.
 
-Could you also share some information on how this differs from EIBRS and
-why it needs to exist in parallel to EBIRS?
+On Fri, Nov 4, 2022 at 2:31 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> On 11/4/22 03:50, Joe Stringer wrote:
+> > +An LRU hashmap type consists of two properties: Firstly, it is a hash map and
+> > +hence is indexable by key for constant time lookups. Secondly, when at map
+> > +capacity, map updates will trigger eviction of old entries based on the age of
+> > +the elements in a set of lists. Each of these properties may be either global
+> > +or per-CPU, depending on the map type and flags used to create the map:
+> > +
+> > +.. flat-table:: Comparison of map properties by map type (x-axis) and flags
+> > +   (y-axis)
+> > +
+> > +   * -
+> > +     - ``BPF_MAP_TYPE_LRU_HASH``
+> > +     - ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
+> > +
+> > +   * - ``BPF_NO_COMMON_LRU``
+> > +     - Per-CPU LRU, global map
+> > +     - Per-CPU LRU, per-cpu map
+> > +
+> > +   * - ``!BPF_NO_COMMON_LRU``
+> > +     - Global LRU, global map
+> > +     - Global LRU, per-cpu map
+> > +
+>
+> Shouldn't the table be written in reST table syntax instead?
+
+This table follows the syntax outlined in
+https://docs.kernel.org/doc-guide/sphinx.html#list-tables . Is that
+document not up to date?
+I'm happy to do this, but several of the diagram boxes will reference
+terms like rotation, shrinking etc without explaining what they are. I
+think it's a net negative to readability if this text is not included
+with the diagram. If you think the commit formatting is a bit over the
+top, I could maybe just remove the decoration and embed the content
+directly in the doc? On my first attempt at sketching this up, it just
+felt a bit weird for me to submit that text directly if Martin was the
+author of the text. But I could figure something out for that if
+that's the preferred approach.
+
+> > +Notably, there are various steps that the update algorithm attempts in order to
+> > +enforce the LRU property which have increasing impacts on other CPUs involved
+> > +in the operations:
+> > +
+> > +- Attempt to use CPU-local state to batch operations
+> > +- Attempt to fetch free nodes from global lists
+> > +- Attempt to pull any node from a global list and remove it from the hashmap
+> > +- Attempt to pull any node from any CPU's list and remove it from the hashmap
+> > +
+>
+> Better say "... other CPUs involved in the following operation attempts:"
+
+Will fix, thanks.
+
+> > +Even if an LRU node may be acquired, maps of type ``BPF_MAP_TYPE_LRU_HASH``
+> > +may fail to insert the entry into the map if other CPUs are heavily contending
+> > +on the global hashmap lock.
+> > +
+> > +This algorithm is described visually in the following diagram:
+> > +
+> > +.. kernel-figure::  map_lru_hash_update.dot
+> > +   :alt:    Diagram outlining the LRU eviction steps taken during map update
+> > +
+> > +   LRU hash eviction during map update for ``BPF_MAP_TYPE_LRU_HASH`` and
+> > +   variants
+> > +
+> <snipped>...
+> > +
+> > +The dot file source for the above diagram is uses internal kernel function
+> > +names for the node names in order to make the corresponding logic easier to
+> > +find. See ``Documentation/bpf/map_lru_hash_update.dot`` for more details.
+>
+> Since it references the same figure, just say "See the figure above for more
+> details".
+
+The figure is rendered visually in the docs without the corresponding
+node names, so developers would need to look at either the dot source
+or maybe the SVG source though that's arguably a little less readable.
+The suggested phrasing to see the figure doesn't sound very useful to
+me since the simple reader's interpretation would be to look directly
+at the render rather than the source. This last sentence was intended
+as a helpful way for developers to find the path to the corresponding
+document, but if you think that is too much detail then I could also
+just drop this last sentence. Thoughts?
+
+Cheers,
+Joe
