@@ -2,182 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9448C43219
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 22:29:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14BB8C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 22:38:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229715AbiKDW34 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 18:29:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42922 "EHLO
+        id S229628AbiKDWiU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 18:38:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229665AbiKDW3z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 18:29:55 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8739DEF6
-        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 15:29:53 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id y4so6146667plb.2
-        for <linux-doc@vger.kernel.org>; Fri, 04 Nov 2022 15:29:53 -0700 (PDT)
+        with ESMTP id S229459AbiKDWiT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 18:38:19 -0400
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86CEB2FC24;
+        Fri,  4 Nov 2022 15:38:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5Aq/mVWfLwMWGNt8fSCRAZ8qaQX+Rp9/roFUUSHdFcg=;
-        b=dKOKOca6Gt2YyKKroo64YoypifXCi0Cnu7uvNh/c1CQKTYDigZb1a5Lc6nfrrUEMI/
-         4AE2r5sOnFMf/n4N6rkqJkEinjHy10LPkOYq61AodJoYbUhGCTtIzVhqSoARiYYRtFo/
-         EclovTivzigbK81kGBQRDG0qF26K9JY+bLhX0J0qVedsSALXRnsV1mIYQbLUA7RdI4Bl
-         F8BWIJWldzMyvETppjo+2Y4ZQDwmlrfV9ZT/zySDdpk9yZyTmfAxbwSHbaM4LwBFWmC7
-         KyZY28moUsv5znWRMH9QPRY8B1+WPpJCb1AVkbrC9wmyWUSfTKUMmauuTdOpubCs51OC
-         6Y/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5Aq/mVWfLwMWGNt8fSCRAZ8qaQX+Rp9/roFUUSHdFcg=;
-        b=MFmKS8UyaXFTg9CthLbcnd6G5HLaYp6vun8K4jYeVxd8bX3Tv4jbHbrI9euK1S+5mE
-         VqgUekKWsoMOwUVRF40yquHGqaoGJcvUPe12bRJby/DKAE9KCOqrSP0wbQUcFmtBJezC
-         0zfbuHntRMhSgnLJhvLHayBkEQ/81W7GTKZLLhPZT6C3aCyJpDEtIznCMikdgeNKHo19
-         kchIg7UKaJ74S15k+2bCVXkrvVp7Q/GDC8SPZ6VivZc+8puVbszTCFnZOFn9+5kDB1K7
-         1om9FP2Z0J/UBw7Iy+ub+lk56OjYopkaNcRzYp47n6K5Tkvu7lVu5jYtRietW/LcLQ33
-         blYg==
-X-Gm-Message-State: ACrzQf02jHeTWQd6ZwL1HXt074PlqqEL0Vmt9Xnwo4a+FYT1Yoq0b3E7
-        mNZh5RpxETpEFav+PuInt+es+Q==
-X-Google-Smtp-Source: AMsMyM6o08bPyM7u13HIMLyxzK/w69wLSfIdjhMYyTpFlvV74UC9l3d3wEgtuR0o04KYkQ2hwL/GmQ==
-X-Received: by 2002:a17:903:2645:b0:185:480a:85d2 with SMTP id je5-20020a170903264500b00185480a85d2mr37750861plb.144.1667600993126;
-        Fri, 04 Nov 2022 15:29:53 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id s11-20020a170902ea0b00b0018700ba9090sm237049plg.185.2022.11.04.15.29.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Nov 2022 15:29:52 -0700 (PDT)
-Date:   Fri, 4 Nov 2022 22:29:48 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 4/8] KVM: Use gfn instead of hva for mmu_notifier_retry
-Message-ID: <Y2WSXLtcJOpWPtuv@google.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-5-chao.p.peng@linux.intel.com>
- <CA+EHjTySnJTuLB+XoRya6kS_zw2iMahW9-Ze70oKTf+6k0GrGQ@mail.gmail.com>
- <20221104022813.GA4129873@chaop.bj.intel.com>
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1667601498; x=1699137498;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=wsU+aHAPL6wI9VTXb6yNVacRzmtrJE6X1htelu1J7e8=;
+  b=l0/x7R6Q4Np+x2J4SeiDI319iA9+eM+7JdQ/Sud81DoSheR4qzwAj0Wv
+   r6n/JlbBHYzZ5WRjDHBvKMZ6nRG6wbttqAT/mbAtkjjVq3dJrw4azjTCu
+   HvmbjMMP3bmKjK9rlRm9CvdEu8w8nQfMLjNx5ajfs36JX/TxqvnPAAOj+
+   o=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 04 Nov 2022 15:38:18 -0700
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2022 15:38:17 -0700
+Received: from [10.110.122.8] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Fri, 4 Nov 2022
+ 15:38:16 -0700
+Message-ID: <980db147-794e-ecd9-9626-64ff81109bab@quicinc.com>
+Date:   Fri, 4 Nov 2022 15:38:16 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221104022813.GA4129873@chaop.bj.intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v6 13/21] gunyah: vm_mgr: Introduce basic VM Manager
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Will Deacon" <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Srinivas Kandagatla" <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
+ <20221026185846.3983888-14-quic_eberman@quicinc.com>
+ <Y2H8oh7AvYDiMqKs@kroah.com>
+ <722b05a1-4bf5-0837-baea-b1d0a9cc1e43@quicinc.com>
+ <Y2MKWOihjAPxfl6v@kroah.com>
+ <96238455-73b6-bead-0fdb-55ca68e5bf0b@quicinc.com>
+ <9dd597d9-a3f3-48f2-8416-b5b097a230d5@app.fastmail.com>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <9dd597d9-a3f3-48f2-8416-b5b097a230d5@app.fastmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 04, 2022, Chao Peng wrote:
-> On Thu, Oct 27, 2022 at 11:29:14AM +0100, Fuad Tabba wrote:
-> > Hi,
-> > 
-> > On Tue, Oct 25, 2022 at 4:19 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > >
-> > > Currently in mmu_notifier validate path, hva range is recorded and then
-> > > checked against in the mmu_notifier_retry_hva() of the page fault path.
-> > > However, for the to be introduced private memory, a page fault may not
-> > > have a hva associated, checking gfn(gpa) makes more sense.
-> > >
-> > > For existing non private memory case, gfn is expected to continue to
-> > > work. The only downside is when aliasing multiple gfns to a single hva,
-> > > the current algorithm of checking multiple ranges could result in a much
-> > > larger range being rejected. Such aliasing should be uncommon, so the
-> > > impact is expected small.
-> > >
-> > > It also fixes a bug in kvm_zap_gfn_range() which has already been using
-> > 
-> > nit: Now it's kvm_unmap_gfn_range().
+
+
+On 11/4/2022 1:10 AM, Arnd Bergmann wrote:
+> On Fri, Nov 4, 2022, at 01:11, Elliot Berman wrote:
+>> On 11/2/2022 5:24 PM, Greg Kroah-Hartman wrote:
+>>> On Wed, Nov 02, 2022 at 11:45:12AM -0700, Elliot Berman wrote:
+>>>
+>>> Even if you don't support it 1:1, at least for the ones that are the
+>>> same thing, pick the same numbers as that's a nicer thing to do, right?
+>>>
+>>
+>> Does same thing == interpretation of arguments is the same? For
+>> instance, GH_CREATE_VM and KVM_CREATE_VM interpret the arguments
+>> differently. Same for KVM_SET_USERSPACE_MEMORY. The high level
+>> functionality should be similar for most all hypervisors since they will
+>> all support creating a VM and probably sharing memory with that VM. The
+>> arguments for that will necessarily look similar, but they will probably
+>> be subtly different because the hypervisors support different features.
 > 
-> Forgot to mention: the bug is still with kvm_zap_gfn_range(). It calls
-> kvm_mmu_invalidate_begin/end with a gfn range but before this series
-> kvm_mmu_invalidate_begin/end actually accept a hva range. Note it's
-> unrelated to whether we use kvm_zap_gfn_range() or kvm_unmap_gfn_range()
-> in the following patch (patch 05).
+> I think in the ideal case, you should make the arguments and the
+> command codes the same for any command where that is possible. If
+> you come across a command that is shared with KVM but just needs
+> another flag, that would involve coordinating with the KVM maintainers
+> about sharing the definition so the same flag does not get reused
+> in an incompatible way.
+> 
 
-Grr, in the future, if you find an existing bug, please send a patch.  At the
-very least, report the bug.  The APICv case that this was added for could very
-well be broken because of this, and the resulting failures would be an absolute
-nightmare to debug.
+I think the converse also needs to be true; KVM would need to check that
+new flags don't get used in some incompatible way with Gunyah, even if
+one of us is just -EINVAL'ing. I don't think Gunyah and KVM should be
+reliant on the other reviewing shared ioctls.
 
-Compile tested only...
+The problem is a bit worse because "machine type" is architecture-
+dependent whereas the planned Gunyah flags are architecture-independent.
+KVM within itself re-uses flags between architectures so Gunyah would
+need to reserve some flags from all architectures that KVM supports.
 
---
-From: Sean Christopherson <seanjc@google.com>
-Date: Fri, 4 Nov 2022 22:20:33 +0000
-Subject: [PATCH] KVM: x86/mmu: Block all page faults during
- kvm_zap_gfn_range()
+> For commands that cannot fit into the existing definition, there
+> should be a different command code, using your own namespace and
+> not the 0xAE block that KVM has. It still makes sense to follow
+> the argument structure roughly here, unless there is a technical
+> reason for making it different.
+> 
+>> I don't think userspace that supports both KVM and Gunyah will benefit
+>> much from re-using the same numbers since those re-used ioctl calls
+>> still need to sit within the context of a Gunyah VM.
+> 
+> One immediate benefit is for tools that work on running processes,
+> such as strace, gdb or qemu-user. If they encounter a known command,
+> they can correctly display the arguments etc.
+> 
 
-When zapping a GFN range, pass 0 => ALL_ONES for the to-be-invalidated
-range to effectively block all page faults while the zap is in-progress.
-The invalidation helpers take a host virtual address, whereas zapping a
-GFN obviously provides a guest physical address and with the wrong unit
-of measurement (frame vs. byte).
+We can update these tools and anyway there will be different ioctls to
+get started. There are important ioctls that wouldn't be correctly
+displayed off the bat anyway; work would need to be done to support the
+Gunyah ioctls either way. Whereas tooling update is temporary, the
+coupling of KVM and Gunyah ioctls would be permanent.
 
-Alternatively, KVM could walk all memslots to get the associated HVAs,
-but thanks to SMM, that would require multiple lookups.  And practically
-speaking, kvm_zap_gfn_range() usage is quite rare and not a hot path,
-e.g. MTRR and CR0.CD are almost guaranteed to be done only on vCPU0
-during boot, and APICv inhibits are similarly infrequent operations.
+> Another benefit is for sharing portions of the VMM that live in
+> outside processes like vhost-user based device emulation that
+> interacts with irqfd, memfd etc. The more similar the command
+> interface is, the easier it gets to keep these tools portable.
+> 
 
-Fixes: edb298c663fc ("KVM: x86/mmu: bump mmu notifier count in kvm_zap_gfn_range")
-Cc: stable@vger.kernel.org
-Cc: Maxim Levitsky <mlevitsk@redhat.com>
-Signed-off-by: Sean Christopherson <seanjc@google.com>
----
- arch/x86/kvm/mmu/mmu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hypervisor interfaces already have different ioctls for equivalent
+functionality [1], so VMMs that want to scale to multiple hypervisors
+already abstract out ioctl-level interfaces so there wouldn't be any
+code-reuse even if Gunyah and KVM shared the same ioctl number. Between
+hypervisors, the best case is there is design similarity for userspace,
+which makes it easier to add new hypervisor support for VMMs and that's
+what we are aiming for.
 
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index 6f81539061d6..1ccb769f62af 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -6056,7 +6056,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
- 
- 	write_lock(&kvm->mmu_lock);
- 
--	kvm_mmu_invalidate_begin(kvm, gfn_start, gfn_end);
-+	kvm_mmu_invalidate_begin(kvm, 0, -1ul);
- 
- 	flush = kvm_rmap_zap_gfn_range(kvm, gfn_start, gfn_end);
- 
-@@ -6070,7 +6070,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
- 		kvm_flush_remote_tlbs_with_address(kvm, gfn_start,
- 						   gfn_end - gfn_start);
- 
--	kvm_mmu_invalidate_end(kvm, gfn_start, gfn_end);
-+	kvm_mmu_invalidate_end(kvm, 0, -1ul);
- 
- 	write_unlock(&kvm->mmu_lock);
- }
+[1]: e.g. compare KVM, acrn, xen for implementing virtual interrupts.
+KVM and acrn use independently implemented irqfd interfaces, xen has
+totally different implementation called event channels.
 
-base-commit: c12879206e47730ff5ab255bbf625b28ade4028f
--- 
-
+Thanks,
+Elliot
