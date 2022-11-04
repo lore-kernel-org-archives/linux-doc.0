@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B38BC433FE
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 19:39:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D80B9C4167E
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 19:39:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229744AbiKDTjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 15:39:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35474 "EHLO
+        id S229821AbiKDTjE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 15:39:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229752AbiKDTix (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 15:38:53 -0400
+        with ESMTP id S229838AbiKDTiz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 15:38:55 -0400
 Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7CC9F2F;
-        Fri,  4 Nov 2022 12:38:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 464D32DE9;
+        Fri,  4 Nov 2022 12:38:50 -0700 (PDT)
 Received: from pps.filterd (m0134420.ppops.net [127.0.0.1])
-        by mx0b-002e3701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A4Io2a2032674;
-        Fri, 4 Nov 2022 19:38:10 GMT
+        by mx0b-002e3701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A4InxvY032476;
+        Fri, 4 Nov 2022 19:38:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : subject :
- date : message-id; s=pps0720;
- bh=8MxEKOo6LY1pXE6amFKVRRRqYGk9kKOjIJAqfVf3W0s=;
- b=fNdLnqyD2SsPrb/O5i4REVdRbmkqVOoVgnTHwCG7wYaZiwACMCcDfDjQETwpGaas8wwE
- XR7yBqjwG424Woxn0g9r/M3qwVpH4Tb88w1ZhhhufEPbwSZtSh1wd21uu3awoOxlJbuQ
- xXO+XtbWrJgJdP5Fs5+Z82NYF01KCb9UehnMiJbkVFYGVevODPd4bQPe6Z7tBXgUdw/i
- BMdWYyOCQ5BKW24XjwwPWArJ76Ws8HNfnzcf7J0qu2ANGVayFa06MMQMITn5kG89HAoq
- p16cVvRqLKesjQu2vdYzK32DfG47JXtnGAC0h7J4vXFVX/JmSLTsqkPuCMcW2g09+WtN Hg== 
-Received: from p1lg14879.it.hpe.com (p1lg14879.it.hpe.com [16.230.97.200])
-        by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3kn8bv08sy-1
+ date : message-id : in-reply-to : references : mime-version; s=pps0720;
+ bh=cSNwqUzZCdX5UiVEc3vVaX+MjONfSqVjR+Hh8eM/+2I=;
+ b=QKIINRNGAz/l91wFvlbDiwcbBo2W9O69e3laM4GZW5KGGmPdTVjXl7Uxbgt1mULfk3MU
+ EfkM/OpMUoHVmJWQkyxeCzttNTp9WeqTLGQvl5LIrvD2M5RAlaPKO/kK5YZRaI+M14Nq
+ /LuCPVZxPOyZ1R520RdMO6GCVA2mAjYUvp279sNAT1N2kXCnp2voLQONoWp8Jwy/m4N3
+ oYOdK3KiToar7BM3oZn3khTCUx0vfCrLX58/qtNmrUHt2V67f1mGmXUKTeAJo/FTivIB
+ 7j+IFXWmoPEIdO5r4I3usSvFecUAF1lhpsTKn0uaQsAHaI5PCApAONjdeVwqj0hcx33V XQ== 
+Received: from p1lg14880.it.hpe.com (p1lg14880.it.hpe.com [16.230.97.201])
+        by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3kn8bv08t5-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 04 Nov 2022 19:38:10 +0000
+        Fri, 04 Nov 2022 19:38:11 +0000
 Received: from p1lg14885.dc01.its.hpecorp.net (unknown [10.119.18.236])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by p1lg14879.it.hpe.com (Postfix) with ESMTPS id 32B42295A9;
-        Fri,  4 Nov 2022 19:38:09 +0000 (UTC)
+        by p1lg14880.it.hpe.com (Postfix) with ESMTPS id E503E8040DA;
+        Fri,  4 Nov 2022 19:38:10 +0000 (UTC)
 Received: from hpe.com (unknown [16.231.227.36])
-        by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTP id 04B3D8089A5;
-        Fri,  4 Nov 2022 19:38:07 +0000 (UTC)
+        by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTP id 5BFF6808166;
+        Fri,  4 Nov 2022 19:38:10 +0000 (UTC)
 From:   nick.hawkins@hpe.com
 To:     jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, verdun@hpe.com,
@@ -45,17 +45,21 @@ To:     jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
         linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v1 0/6] ARM: Add GXP Fan and SPI controllers
-Date:   Fri,  4 Nov 2022 14:36:51 -0500
-Message-Id: <20221104193657.105130-1-nick.hawkins@hpe.com>
+Subject: [PATCH v1 3/6] dt-bindings: hwmon: Add hpe,gxp-fan-ctrl
+Date:   Fri,  4 Nov 2022 14:36:54 -0500
+Message-Id: <20221104193657.105130-4-nick.hawkins@hpe.com>
 X-Mailer: git-send-email 2.17.1
-X-Proofpoint-ORIG-GUID: Vgt_moPJ3UE3OnS6ruEH78KCs5f8W0Ov
-X-Proofpoint-GUID: Vgt_moPJ3UE3OnS6ruEH78KCs5f8W0Ov
+In-Reply-To: <20221104193657.105130-1-nick.hawkins@hpe.com>
+References: <20221104193657.105130-1-nick.hawkins@hpe.com>
+X-Proofpoint-ORIG-GUID: yUwB621IbEXMwiJsGvtmecnb0dReeota
+X-Proofpoint-GUID: yUwB621IbEXMwiJsGvtmecnb0dReeota
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-HPE-SCL: -1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-04_11,2022-11-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
  lowpriorityscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999
  bulkscore=0 phishscore=0 impostorscore=0 mlxscore=0 adultscore=0
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
@@ -66,39 +70,63 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Nick Hawkins <nick.hawkins@hpe.com>
 
-The GXP SoC can support up to 16 fans through the interface provided by
-the CPLD. The fans speeds are controlled via a pwm value 0-255. The fans
-are also capable of reporting if they have failed to the CPLD which in
-turn reports the status to the GXP SoC. Based on previous feedback the
-registers required for fan control have been regmaped individualy to fan
-driver. Specifically these registers are the function 2 registers and the
-programmable logic registers from the CPLD. Additionally in this patchset
-there is support for the SPI driver which already exists as spi-gxp.c in
-the SPI driver.
+This provides the base registers address, programmable logic registers
+address, and the function 2 registers to allow control access of the HPE
+fans on the GXP SoC.
 
-Nick Hawkins (6):
-  hwmon: (gxp-fan-ctrl) Add GXP fan controller
-  ABI: sysfs-class-hwmon: add a description for fanY_fault
-  dt-bindings: hwmon: Add hpe,gxp-fan-ctrl
-  ARM: dts: add GXP Support for fans and SPI
-  ARM: multi_v7_defconfig: Add GXP Fan and SPI support
-  MAINTAINERS: add gxp fan controller and documents
-
- Documentation/ABI/testing/sysfs-class-hwmon   |   9 +
- .../bindings/hwmon/hpe,gxp-fan-ctrl.yaml      |  41 ++
- Documentation/hwmon/gxp-fan-ctrl.rst          |  36 ++
- MAINTAINERS                                   |   2 +
- arch/arm/boot/dts/hpe-bmc-dl360gen10.dts      |  58 +++
- arch/arm/boot/dts/hpe-gxp.dtsi                |  64 +++-
- arch/arm/configs/multi_v7_defconfig           |   2 +
- drivers/hwmon/Kconfig                         |   8 +
- drivers/hwmon/Makefile                        |   1 +
- drivers/hwmon/gxp-fan-ctrl.c                  | 362 ++++++++++++++++++
- 10 files changed, 564 insertions(+), 19 deletions(-)
+Signed-off-by: Nick Hawkins <nick.hawkins@hpe.com>
+---
+ .../bindings/hwmon/hpe,gxp-fan-ctrl.yaml      | 41 +++++++++++++++++++
+ 1 file changed, 41 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/hwmon/hpe,gxp-fan-ctrl.yaml
- create mode 100644 Documentation/hwmon/gxp-fan-ctrl.rst
- create mode 100644 drivers/hwmon/gxp-fan-ctrl.c
 
+diff --git a/Documentation/devicetree/bindings/hwmon/hpe,gxp-fan-ctrl.yaml b/Documentation/devicetree/bindings/hwmon/hpe,gxp-fan-ctrl.yaml
+new file mode 100644
+index 000000000000..40a5d9cd0a30
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/hpe,gxp-fan-ctrl.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/hpe,gxp-fan-ctrl.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: GXP Fan Controller
++
++maintainers:
++  - Nick Hawkins <nick.hawkins@hpe.com>
++
++properties:
++  compatible:
++    const: hpe,gxp-fan-ctrl
++
++  reg:
++    items:
++      - description: Fan controller base register
++      - description: Programmable logic registers base
++      - description: Function 2 registers base
++
++  reg-names:
++    items:
++      - const: base
++      - const: plreg
++      - const: fn2reg
++
++required:
++  - compatible
++  - reg
++  - reg-names
++
++additionalProperties: false
++
++examples:
++  - |
++    fanctrl@1000c00 {
++      compatible = "hpe,gxp-fan-ctrl";
++      reg = <0x1000c00 0x200>, <0xd1000000 0xff>, <0x80200000 0x100000>;
++      reg-names = "base", "plreg", "fn2reg";
++    };
 -- 
 2.17.1
 
