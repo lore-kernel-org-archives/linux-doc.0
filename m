@@ -2,83 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13CDBC4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 13:17:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E562FC433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 14:49:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231715AbiKDNQ6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 09:16:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49794 "EHLO
+        id S231840AbiKDOtE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 10:49:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232010AbiKDNQw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 09:16:52 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDB02ED6C
-        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 06:16:49 -0700 (PDT)
+        with ESMTP id S231844AbiKDOsq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 10:48:46 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF8C31DC8;
+        Fri,  4 Nov 2022 07:48:32 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 78F90B82D19
-        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 13:16:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E4CEC43148
-        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 13:16:47 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4912F62239;
+        Fri,  4 Nov 2022 14:48:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37F01C433C1;
+        Fri,  4 Nov 2022 14:48:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667567807;
-        bh=T2gXDiJqgByvHZsKFOUU0vjzD/iVerZ54w/8dGlGVBo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Co+Ihr7+mylgkgwzTP8PJus/1/+5pCRPPWe+NwqjRMx6zTeYYlLRmeV8qXN5Vdl/A
-         iWi1sJUAT7k+M1au+gp1Uav5bo9aJ0XytNt6QvRvZifGEx23VvdPMi2vxrAmExMwUe
-         Vc5N/OXwU3EL5bvapARozPwC4g/NVYD+dXRon2oYSiP789dUjNAJDWyobUgExMRHjR
-         Hhp6H34wYcOeVuDu86ht+H1lhqKqb3x3qDCTFo0JWctuZhjF9ofxVqj/cgdwu7y/Cm
-         w1ZWgU17y+OnuFt4m/JOQdFAWnuFN896TvIccfDYtJdtCdFD4oEHnaOlQtf9OyvNV6
-         vsQ15khype3Pw==
-Received: by mail-lj1-f176.google.com with SMTP id d3so6320954ljl.1
-        for <linux-doc@vger.kernel.org>; Fri, 04 Nov 2022 06:16:47 -0700 (PDT)
-X-Gm-Message-State: ACrzQf1DC97u8HNy3YCl+4ey7mJ4rQsSCyxs7H84BdPzJ7k37Z5hxwnI
-        +PYkoTLLyLkeOXT9LoNJluekKko6vD3T1mgov0URDw==
-X-Google-Smtp-Source: AMsMyM7NWcVL2vaGbcou/fnIP3CKTPl+hRuPzErwPx7le/15F84d+iL7YhayD2QXQkCrJL1HCwESjQnI47zMh23OWn0=
-X-Received: by 2002:a2e:a211:0:b0:26e:861:522f with SMTP id
- h17-20020a2ea211000000b0026e0861522fmr13091555ljm.508.1667567805033; Fri, 04
- Nov 2022 06:16:45 -0700 (PDT)
+        s=k20201202; t=1667573311;
+        bh=gCkIm11TczXuHf2G/XSOXU9X+j/bqcP+zUEZpbuotS0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZLVHD9T9kjqbotHk7IAU0wxPq7X8FuiqUFZrDexOufSEk2Yz3GEDRyhzLA2GbiJBl
+         GUoQcp6WmrE8Ioskn3pAUpS1a2YKCjlOU+4CPztE5A8saX9Kj2KZOL532/PtTe8pGl
+         gpILo10+Pw+qZjmuHnegBJiNSkQ9CHrK2mtbQcpkDsWMjanI5fyZD6Xexk6GeRIRhB
+         +6jYun80U3iDbLOD9I1AthddnQJw9Yut71gDtmiLFXrf2uAMuLnclQzrBztic6JME+
+         3/B1Ejwv/031MoBsjmHHndEVzDixxwUYL3+CLZhgBs+4NzHfLpwO29+Dzm2Se+27rM
+         wOZRh2rFqpNRw==
+Date:   Fri, 4 Nov 2022 20:18:27 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     linux-doc@vger.kernel.org, dmaengine@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+        Vinod Koul <vinod.koul@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] Documentation: devres: add missing
+ devm_acpi_dma_controller_free() helper
+Message-ID: <Y2UmO9/vs5+dQFT7@matsya>
+References: <20221102022701.1407289-1-yangyingliang@huawei.com>
 MIME-Version: 1.0
-References: <20221104123913.50610-1-bagasdotme@gmail.com>
-In-Reply-To: <20221104123913.50610-1-bagasdotme@gmail.com>
-From:   KP Singh <kpsingh@kernel.org>
-Date:   Fri, 4 Nov 2022 14:16:33 +0100
-X-Gmail-Original-Message-ID: <CACYkzJ6h=TsxLvXVbfUDgsfd5uZqqsmAXsZhdQS12ZyHniiVMg@mail.gmail.com>
-Message-ID: <CACYkzJ6h=TsxLvXVbfUDgsfd5uZqqsmAXsZhdQS12ZyHniiVMg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next] Documentation: bpf: escape underscore in BPF
- type name prefix
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Vernet <void@manifault.com>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221102022701.1407289-1-yangyingliang@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Nov 4, 2022 at 1:39 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> Sphinx reported unknown target warning:
->
-> Documentation/bpf/bpf_design_QA.rst:329: WARNING: Unknown target name: "bpf".
->
-> The warning is caused by BPF type name prefix ("bpf_") which is written
-> without escaping the trailing underscore.
->
-> Escape the underscore to fix the warning. While at it, wrap the
-> containing paragraph in less than 80 characters.
->
-> Fixes: 9805af8d8a5b17 ("bpf: Document UAPI details for special BPF types")
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+On 02-11-22, 10:27, Yang Yingliang wrote:
+> Add missing devm_acpi_dma_controller_free() to devres.rst, it's introduced
+> by commit 1b2e98bc1e35 ("dma: acpi-dma: introduce ACPI DMA helpers").
 
-Acked-by: KP Singh <kpsingh@kernel.org>
+Applied, thanks
+
+-- 
+~Vinod
