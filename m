@@ -2,496 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 768DDC4167B
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 03:26:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF8BC433FE
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 05:43:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230261AbiKDD0S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 3 Nov 2022 23:26:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59232 "EHLO
+        id S229749AbiKDFnf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 01:43:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231428AbiKDDZl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 3 Nov 2022 23:25:41 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9564E55B9;
-        Thu,  3 Nov 2022 20:24:03 -0700 (PDT)
+        with ESMTP id S229646AbiKDFne (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 01:43:34 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55054DF97;
+        Thu,  3 Nov 2022 22:43:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667532243; x=1699068243;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=0xFLe1hurTnm8KS5SPlrngwwyBwqPnrefyHf7ACy3EM=;
-  b=RBjLwivOfjWLXYnBCqh6qbXJ/eIu25rjzEwChn5DTK+6M9KCI5uEHVXO
-   6qH0ytUJkBG1fWvBGio3GbwXfKo9WbogThcSa6VRmtYirmhWmsZi2tQ1C
-   pPI0ywJvwHSC3PIoGyXJxYyYB5vvRz5XXMP+CFU3IzCOQFAnhxfwRO5a9
-   7Sqx8OfRZ8To6WYnyJPxTKOC8nwEHVb3KxkFpZo/ehbGf2uQDjdacW4av
-   puuE12d91W0h7CFBxA/4vZFTyAXHvXXJWfjBb/7YwrJIlxFq9Ha0IVMf8
-   qg1XvUgh0WBIlCLvIshSxvUNSP91Ias66XERmotX8/fhwahtVPwxbgoIt
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="307491946"
+  t=1667540613; x=1699076613;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=trqSu4uttDtLId6wzhhHnXrPyjPOvJ92u2kouTvFFsc=;
+  b=jjBKBIfg57wr7ATgsrtgUhjQFP2WNnLbYrB79cVQbipXvgA313crgfJi
+   9TBNrb/mNast9AjuRGC8PcXolZN4lxwBxnpFC/ko6hOuCV+87dAcvq0Dj
+   RXGaDyih/cN73veQzGOrqN4ahUuCu/MLib+fGaUJXhyK34BzJSl+D7qhV
+   tZyLanchvTVC9OpPJoFkmedszYsZOKdfk1IsYEO+hEZ1E6oLu+J5AJpaz
+   afja/wI7fLJ4Qj7CkpxmRV0sJP9q70Iot3h/gwbHNaJG2k5QcAnUomqz5
+   KhJAzkMlG/EnuqiBfS9Cv74+jnTykTyxZCocTzd0gP8u861zPYD0Blagt
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="293212370"
 X-IronPort-AV: E=Sophos;i="5.96,136,1665471600"; 
-   d="scan'208";a="307491946"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2022 20:24:02 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="703932019"
+   d="scan'208";a="293212370"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2022 22:43:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="880175886"
 X-IronPort-AV: E=Sophos;i="5.96,136,1665471600"; 
-   d="scan'208";a="703932019"
-Received: from fswhite-mobl3.amr.corp.intel.com (HELO skuppusw-desk1.amr.corp.intel.com) ([10.212.196.122])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2022 20:24:01 -0700
-From:   Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     "H . Peter Anvin" <hpa@zytor.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v17 2/3] virt: Add TDX guest driver
-Date:   Thu,  3 Nov 2022 20:23:54 -0700
-Message-Id: <20221104032355.227814-3-sathyanarayanan.kuppuswamy@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221104032355.227814-1-sathyanarayanan.kuppuswamy@linux.intel.com>
-References: <20221104032355.227814-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+   d="scan'208";a="880175886"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmsmga006.fm.intel.com with ESMTP; 03 Nov 2022 22:43:32 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 3 Nov 2022 22:43:31 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 3 Nov 2022 22:43:31 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.40) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 3 Nov 2022 22:43:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JWpdZKhR26ZTUt2g3B5yc+WvztZRrGaTMm7wxTh5v9A2xcRtsJ/skyS/m/aFg0oTfBPZwjfys4TN9dmwwcTP3kAQQqR/FoKKTGl+aKa1im6lYyRWnusUhSOpVd+DUAJf+uFx/Htc00AIL0hsgv/yh0xrcmaP7qpS6ARthbSc2dwCeEf1E+aZJpFmB0WmKl71sRFC0fnqLw0vH7mOGPziSc1TtzC/WJoQ1oCRUsOt46ZoDD40uGIGg6wDQhV7oxfSGs85+m/QOZLbTVRut+yUjLVGk6kj+ZK0ltq9SHEChTx4a3svhs63L8y5P3cyZfwH+F/yHU8X6htCyaRdhRdarg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=trqSu4uttDtLId6wzhhHnXrPyjPOvJ92u2kouTvFFsc=;
+ b=LvZO1AoGjgCgKH7RQEhOQflt5J99yPC6fR71Lyx5y39+Ogyj+uZZy5iW75yexzqj8fcAFq4QzbPncMaFmeigYQQA6gv+EqHP/jxnkZ+X6/v8ZmcIW+WetvPDDRIERR67vkrfRGIuCe71aO6bZCmibtrkXbpbP+jhcLsp4zCA9vLDgMY3Fxck13VN6IAN1MfeGj+/lBLpvamgc3WGYsAvDajB+Zjcurw3siUAifAnT5zN1EZ91KJ8k1arNaKMUhSBGcgDVX4GX47yg06/9jkJzAYXBqsBcbM5Txrz5pEM46JwMpUH3axG7FPh7dzAsXSbw4M4q5QfaZFLu7MQRKd1eA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by IA0PR11MB7283.namprd11.prod.outlook.com (2603:10b6:208:439::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.20; Fri, 4 Nov
+ 2022 05:43:30 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::737e:211a:bb53:4cd7]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::737e:211a:bb53:4cd7%5]) with mapi id 15.20.5791.022; Fri, 4 Nov 2022
+ 05:43:30 +0000
+From:   "Tian, Kevin" <kevin.tian@intel.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+        Joerg Roedel <joro@8bytes.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
+CC:     Alex Williamson <alex.williamson@redhat.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        "Martins, Joao" <joao.m.martins@oracle.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        "Shameerali Kolothum Thodi" <shameerali.kolothum.thodi@huawei.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        Keqian Zhu <zhukeqian1@huawei.com>
+Subject: RE: [PATCH v3 15/15] iommufd: Add a selftest
+Thread-Topic: [PATCH v3 15/15] iommufd: Add a selftest
+Thread-Index: AQHY6J1pXc4epOTBu0+Bzhxi63Udt64uAKiAgABLnFA=
+Date:   Fri, 4 Nov 2022 05:43:29 +0000
+Message-ID: <BN9PR11MB52769FA78CA8B7FD3DB7595E8C3B9@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <15-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com> <Y2RkXV+q0Q6bdTde@nvidia.com>
+In-Reply-To: <Y2RkXV+q0Q6bdTde@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|IA0PR11MB7283:EE_
+x-ms-office365-filtering-correlation-id: f515e5a7-099c-435e-b3de-08dabe2780b9
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: c0xilIuTZ/p5bHNvK89Hx5D0lSX4l0jmD7C5J+me8itrX/V5UnFYhxFR2TtlyJb6kTNVhOI1r1tspo4/1LppwV/Btw+Maxr4CaXbolV2xkiUJfqIFabi6Q34OxWEZU4w+xeW2Yy490NkNGwdj2JxELEiabH8zjscnhjvfSbuUum3aidAAV9rloxvkQ2rrLWi4Fdgq6AJATH5QxqeUCVr6ICGBv01qiyXAPy7uMow0FQnr0beYbUMbZbuvnY226JHv5bzor6PgBhmKlQHqt34xUVwIjJGFtzM1UbzrQRuOhrox0gEih/2Q3zh/n1sPqRqm0aD/FnMd6HCGem22x+LFqhDY97VCkTwGGX9c9wQcFDpOz3CPpsxi3n360vCR0Y4Mmt9mENm2aPRZV0iyTJZ9USRB6UzDWfAUgj7CL+f2+2LgjX22zLbEwyj2kURyQ9vIxjC/d1i6nM341sACzp5mwtaICtUC1qniedxUv+lgMioKUgnQGSxZLOSKEL20RqBvjQq8Zo85xjHj6atQ2nPGAEqPwr6wSvi1Qg/z4aKTTsDnagGtJ+R3KIqDOvRuBv5xb3CnWbkIwbxgC3/4SDP/k3wo7MGjorN32y5Q6D14kywjHLPhCA+I2j058n6cXt6268pAdRz+XATYNs8bLrZp/RI2Xu5jxvo3ptnCEw0Jj3EtHkWF3ESI6YS5sn5Wb61dKgvbQx8OU2ThF2kyyjhphr7QdlCEqjL9xemB7WgEvNGK0GuI9rKbfczht6XieAbJmLaMMPa0nK0EcJiALjvqaiMK7l0nVhWxS/ZoZG/MyE=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(136003)(39860400002)(396003)(346002)(366004)(376002)(451199015)(921005)(66556008)(66446008)(71200400001)(55016003)(64756008)(66946007)(6506007)(7416002)(66476007)(38070700005)(8936002)(5660300002)(52536014)(2906002)(41300700001)(110136005)(4744005)(54906003)(316002)(4326008)(76116006)(7406005)(8676002)(26005)(186003)(9686003)(83380400001)(38100700002)(33656002)(82960400001)(478600001)(7696005)(122000001)(86362001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?LHZZcyupQoW+WnhOROgBP9dSECgZHutrR+Pg/wTjaTjsdf1DsC2ASm+WyEqR?=
+ =?us-ascii?Q?qHAzA+iNEk1b1SEerE7MENUsRoIzAQJrcTfatMa5H/WI9X34LIdVw31eX3hr?=
+ =?us-ascii?Q?f/RWThtnLSbdzMth9TRNI+yvPpSCgv3sIpdm6dVLRb/DhI8F6384ZJVmFIGI?=
+ =?us-ascii?Q?wq+nhD6sVv40UqN1dupgpvKFw4Iwtid8lus2eXZUSPjEacxdRaDxyQonRJek?=
+ =?us-ascii?Q?plLkMUaM/i9UZOeGzSEid0RLsdLzIoAxe1tVz2EsL9D0s4iw1sRm3MtW+faF?=
+ =?us-ascii?Q?50ENWP6KgMhQacYEppNthUo38WlHViXSRXSxkR949sfQUMbqFUAVUdeogly+?=
+ =?us-ascii?Q?H24bAMbPq85MItgmyfMQ83VSSWo+tJLF98e/Knv3Hh/M9JzA7lczi7V/JSJh?=
+ =?us-ascii?Q?ClVhCZEr6LygiGPTYfPZYXDxwKRezpdHIzajZYgD8L0aPupNexOjV+dho2Kh?=
+ =?us-ascii?Q?rzVj9cne41aAJ4w6xLsN4x9L4oBjt+4Tlyl6SEY0LM1fBN0AV6YIqqXZ/M+T?=
+ =?us-ascii?Q?CT9XOLaR9rKcyyx4rYap/ONBsLxlmM0xw4M+U25cor61f6dZENP3T5UaJbdv?=
+ =?us-ascii?Q?iZOfGiq901ItYvBos9I5RiUbiXm2JFJXj3I5j37lJZJzChse6XSNMjZOV7O0?=
+ =?us-ascii?Q?hE7YDm7zBl7DaPRF5sLnqLkgpaS6DYpbbjkBRrMYC+BEf/fqKRxeuJN6iNRH?=
+ =?us-ascii?Q?3CsDi1DpsxXbLA85YGcYBX3uipsMf66mqH2KxOGNPJ6Ho77wKKV7TM06UnOO?=
+ =?us-ascii?Q?4dRW3dJOYt6NrX/scrukze7iPRA98LfMqxeD0k+OqHPmmXp2r7Z53/+6pMAA?=
+ =?us-ascii?Q?XE1d3L2IMWoX4Ma1THKuIVng0fSzDO27mEv93CGuffJilKi33tokoYEMjR3P?=
+ =?us-ascii?Q?F3dn4CKLrHHNtYkqbG0zYDSCJPbA8ZBz09MatWcDQ+82Tz+iCnFDrdJsP50S?=
+ =?us-ascii?Q?SETrCSrrJFEQ65HC1Cj3b3LSOuyQnm3U2G2CyKbsIQ83yJqdqdQvPvSvERaK?=
+ =?us-ascii?Q?8j9264gJM7Q8wnYEiONDLdUpBiB1HIFYvlWO+weQtqh1gq17ajaY2D5refVX?=
+ =?us-ascii?Q?8ldEW7Ud7Du9I2XX8dsPLv9MQG9q+/1PRMBMKQQt1Ee3kMcGo/Tu6w0ZZdwB?=
+ =?us-ascii?Q?qMx9V2QltCzaZii/Qk8JMVgPhYJza0Zkip8hDvUqiYkc4MrW+kV0wXFd0gtC?=
+ =?us-ascii?Q?f0k7PfrVt8r55V0KZ6wrp7oEONiyJhCfRfuEAeYxWGX+BezXYVJcXlh7tryu?=
+ =?us-ascii?Q?1V4liicT7cczChBJ0B1ZmVHmKOqVCj9kzjlvS8HzpK9DzSvET8YZXVk0yLGf?=
+ =?us-ascii?Q?/RB+CaR+FwsoX0W6e3cD06vnN/ux2T7ytTwOREAtpHXUsoiR/TnnK7/kWDkE?=
+ =?us-ascii?Q?3olMw7gOi5PdtII3rip4a5h5YS1V3kIYW7YDa7IhyAdzSap9qjccbMBKbn7L?=
+ =?us-ascii?Q?H8ydu4Wyl+LcIUun0oTZVJSAlAGWpOkHGmqbHTdVY6pf68m/5OwHDa5sptdw?=
+ =?us-ascii?Q?cZ8+ntvTPClxaNMXi73yhV0KV40JS17RltLoUus1yqBHgiYKB6uh1HTiNi7v?=
+ =?us-ascii?Q?ydKvNjBbINzKRfBgpGHDUVb/iAyuhtgf6QypiWq8?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f515e5a7-099c-435e-b3de-08dabe2780b9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2022 05:43:29.8533
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4pLgnATjJF9MN2ZJYeOEL7BE8YdyE/cXTlGU6AgKYJEn7MLPf/EZuFw2YeYXKZGrryislrKm7vfijbOMYYo/6A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7283
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-TDX guest driver exposes IOCTL interfaces to service TDX guest
-user-specific requests. Currently, it is only used to allow the user to
-get the TDREPORT to support TDX attestation.
+> From: Jason Gunthorpe <jgg@nvidia.com>
+> Sent: Friday, November 4, 2022 9:01 AM
+>=20
+> The only way I can see to solve this is to hold a serializing lock
+> across iommufd_access_pin_pages() so that neither
+> iommufd_test_access_unmap() can progress until both the pin is
+> completed and the record of the pin is stored.
 
-Details about the TDX attestation process are documented in
-Documentation/x86/tdx.rst, and the IOCTL details are documented in
-Documentation/virt/coco/tdx-guest.rst.
+same as gvt does which maintains an internal mapping cache and
+conducts pin/unmap with cache update under the mutex protection.
 
-Operations like getting TDREPORT involves sending a blob of data as
-input and getting another blob of data as output. It was considered
-to use a sysfs interface for this, but it doesn't fit well into the
-standard sysfs model for configuring values. It would be possible to
-do read/write on files, but it would need multiple file descriptors,
-which would be somewhat messy. IOCTLs seems to be the best fitting
-and simplest model for this use case. The AMD sev-guest driver also
-uses IOCTL interface to support attestation.
+>=20
+> Fortunately in the iommufd design we can hold a lock like this across
+> these calls, and in the op callback, without deadlocking. I can't
+> recall if vfio can do the same, I suspect not since I had in my mind I
+> needed to avoid that kind of locking for deadlock reasons..
 
-[Bagas Sanjaya: Ack is for documentation portion]
-Acked-by: Kai Huang <kai.huang@intel.com>
-Acked-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Acked-by: Wander Lairson Costa <wander@redhat.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
-Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
----
-
-Changes since v16:
- * Removed rpd_len, tdr_len and subtype members from
-   struct tdx_report_req.
- * Used fixed size buffers for TDREPORT and REPORTDATA in
-   struct tdx_report_req.
-
-Changes since v15:
- * Removed error messages in tdx_get_report() as per Greg's suggestion.
- * Removed #ifdef MODULE usage for MODULE_DEVICE_TABLE.
- * Added copyright info for the header file.
-
-Changes since v14:
- * Used tdx_mcall_get_report() wrapper instead of __tdx_module_call()
-   call.
- * Added pr_err() messages for some failure cases in tdx_get_report().
- * Used KBUILD_MODNAME instead of device name.
- * Rebased on top of v6.1-rc1
-
-Changes since v13:
- * Converted the driver from built-in to a driver module
-   as per Greg's suggestion.
- * Moved the driver to drivers/virt/coco to match AMD SEV.
- * Added support to autoload the driver based on
-   X86_FEATURE_TDX_GUEST CPU feature.
- * Squashed patch titled "Documentation/x86: Document TDX
-   attestation process" with this patch.
- * Since the attestation process is already documented in
-   Documentation/x86/tdx.rst, remove it from the commit log.
- * Modified the commit log to match the new format.
- * Explicitly included the required header files.
- * Fixed magic number usage in reserved member check.
-
-Changes since v13:
- * Fixed the commit log as per review suggestion.
- * Explicitly included the required header files.
- * Fixed magic number usage in reserved member check.
-
-Changes since v12:
- * Added check to ensure reserved entries are set as 0.
-
-Changes since v11:
- * Renamed DRIVER_NAME to TDX_GUEST_DEVICE and moved it to
-   arch/x86/include/uapi/asm/tdx.h.
- * Fixed default error number in tdx_guest_ioctl().
- * Moved tdx_misc_dev definition out of tdx_guest_init() as
-   per Greg's suggestion.
- * Reordered struct tdx_report_req to avoid holes and added
-   required padding.
-
-Changes since v10:
- * Replaced TD/TD Guest usage with TDX Guest or Guest.
- * Removed unnecessary comments.
- * Added more validation to user input in tdx_get_report().
- * Used u64_to_user_ptr when reading user u64 pointers.
- * Fixed commit log as per review comments.
-
-Changes since v9:
- * Dropped the cover letter. Since this patch set only adds
-   TDREPORT support, the commit log itself has all the required details.
- * Dropped the Quote support and event IRQ support as per Dave's
-   review suggestion.
- * Dropped attest.c and moved its contents to tdx.c
- * Updated commit log and comments to reflect latest changes.
-
-Changes since v8:
- * Please refer to https://lore.kernel.org/all/ \
-   20220728034420.648314-1-sathyanarayanan.kuppuswamy@linux.intel.com/
-
- Documentation/virt/coco/tdx-guest.rst   |  42 ++++++++++
- Documentation/virt/index.rst            |   1 +
- Documentation/x86/tdx.rst               |  43 ++++++++++
- drivers/virt/Kconfig                    |   2 +
- drivers/virt/Makefile                   |   1 +
- drivers/virt/coco/tdx-guest/Kconfig     |  10 +++
- drivers/virt/coco/tdx-guest/Makefile    |   2 +
- drivers/virt/coco/tdx-guest/tdx-guest.c | 102 ++++++++++++++++++++++++
- include/uapi/linux/tdx-guest.h          |  41 ++++++++++
- 9 files changed, 244 insertions(+)
- create mode 100644 Documentation/virt/coco/tdx-guest.rst
- create mode 100644 drivers/virt/coco/tdx-guest/Kconfig
- create mode 100644 drivers/virt/coco/tdx-guest/Makefile
- create mode 100644 drivers/virt/coco/tdx-guest/tdx-guest.c
- create mode 100644 include/uapi/linux/tdx-guest.h
-
-diff --git a/Documentation/virt/coco/tdx-guest.rst b/Documentation/virt/coco/tdx-guest.rst
-new file mode 100644
-index 000000000000..388d0ffb686b
---- /dev/null
-+++ b/Documentation/virt/coco/tdx-guest.rst
-@@ -0,0 +1,42 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================================================================
-+TDX Guest API Documentation
-+===================================================================
-+
-+1. General description
-+======================
-+
-+The TDX guest driver exposes IOCTL interfaces via /dev/tdx-guest misc
-+device to allow userspace to get certain TDX guest specific details.
-+
-+2. API description
-+==================
-+
-+In this section, for each supported IOCTL, following information is
-+provided along with a generic description.
-+
-+:Input parameters: Parameters passed to the IOCTL and related details.
-+:Output: Details about output data and return value (with details about the non
-+         common error values).
-+
-+2.1 TDX_CMD_GET_REPORT
-+----------------------
-+
-+:Input parameters: struct tdx_report_req
-+:Output: Upon successful execution, TDREPORT data is copied to
-+         tdx_report_req.tdreport and return 0. Return -EINVAL for
-+         invalid operands, -EIO on TDCALL failure or standard error
-+         number on other common failures.
-+
-+The TDX_CMD_GET_REPORT IOCTL can be used by the attestation software to
-+get the TDREPORT from the TDX module using TDCALL[TDG.MR.REPORT].
-+
-+Reference
-+---------
-+
-+TDX reference material is collected here:
-+
-+https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html
-+
-+The driver is based on TDX module specification v1.0 and TDX GHCI specification v1.0.
-diff --git a/Documentation/virt/index.rst b/Documentation/virt/index.rst
-index 2f1cffa87b1b..56e003ff28ff 100644
---- a/Documentation/virt/index.rst
-+++ b/Documentation/virt/index.rst
-@@ -14,6 +14,7 @@ Linux Virtualization Support
-    ne_overview
-    acrn/index
-    coco/sev-guest
-+   coco/tdx-guest
-    hyperv/index
- 
- .. only:: html and subproject
-diff --git a/Documentation/x86/tdx.rst b/Documentation/x86/tdx.rst
-index b8fa4329e1a5..014b769923a4 100644
---- a/Documentation/x86/tdx.rst
-+++ b/Documentation/x86/tdx.rst
-@@ -210,6 +210,49 @@ converted to shared on boot.
- For coherent DMA allocation, the DMA buffer gets converted on the
- allocation. Check force_dma_unencrypted() for details.
- 
-+Attestation
-+===========
-+
-+Attestation is used to verify the TDX guest trustworthiness to other
-+entities before provisioning secrets to the guest. For example, a key
-+server may want to use attestation to verify that the guest is the
-+desired one before releasing the encryption keys to mount the encrypted
-+rootfs or secondary drive.
-+
-+The TDX module records the state of the TDX guest in various stages of
-+the guest boot process using build time measurement register (MRTD) and
-+runtime measurement registers (RTMR). Measurements related to guest
-+initial configuration and firmware image are recorded in the MRTD
-+register. Measurements related to initial state, kernel image, firmware
-+image, command line options, initrd, ACPI tables, etc are recorded in
-+RTMR registers. For more details as an example, please refer to TDX
-+Virtual Firmware design specification, sec titled "TD Measurement". At
-+TDX guest runtime, the attestation process is used to attest to these
-+measurements.
-+
-+The attestation process consists of two steps: TDREPORT generation and
-+Quote generation.
-+
-+TDX guest uses TDCALL[TDG.MR.REPORT] to get the TDREPORT (TDREPORT_STRUCT)
-+from the TDX module. TDREPORT is a fixed-size data structure generated by
-+the TDX module which contains guest-specific information (such as build
-+and boot measurements), platform security version, and the MAC to protect
-+the integrity of the TDREPORT. A user-provided 64-Byte REPORTDATA is used
-+as input and included in the TDREPORT. Typically it can be some nonce
-+provided by attestation service so the TDREPORT can be verified uniquely.
-+More details about the TDREPORT can be found in Intel TDX Module
-+specification, section titled "TDG.MR.REPORT Leaf".
-+
-+After getting the TDREPORT, the second step of the attestation process
-+is to send it to the Quoting Enclave (QE) to generate the Quote. TDREPORT
-+by design can only be verified on the local platform as the MAC key is
-+bound to the platform. To support remote verification of the TDREPORT,
-+TDX leverages Intel SGX Quoting Enclave to verify the TDREPORT locally
-+and convert it to a remotely verifiable Quote. Method of sending TDREPORT
-+to QE is implementation specific. Attestation software can choose
-+whatever communication channel available (i.e. vsock or TCP/IP) to
-+send the TDREPORT to QE and receive the Quote.
-+
- References
- ==========
- 
-diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
-index 87ef258cec64..f79ab13a5c28 100644
---- a/drivers/virt/Kconfig
-+++ b/drivers/virt/Kconfig
-@@ -52,4 +52,6 @@ source "drivers/virt/coco/efi_secret/Kconfig"
- 
- source "drivers/virt/coco/sev-guest/Kconfig"
- 
-+source "drivers/virt/coco/tdx-guest/Kconfig"
-+
- endif
-diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-index 093674e05c40..e9aa6fc96fab 100644
---- a/drivers/virt/Makefile
-+++ b/drivers/virt/Makefile
-@@ -11,3 +11,4 @@ obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
- obj-$(CONFIG_ACRN_HSM)		+= acrn/
- obj-$(CONFIG_EFI_SECRET)	+= coco/efi_secret/
- obj-$(CONFIG_SEV_GUEST)		+= coco/sev-guest/
-+obj-$(CONFIG_INTEL_TDX_GUEST)	+= coco/tdx-guest/
-diff --git a/drivers/virt/coco/tdx-guest/Kconfig b/drivers/virt/coco/tdx-guest/Kconfig
-new file mode 100644
-index 000000000000..14246fc2fb02
---- /dev/null
-+++ b/drivers/virt/coco/tdx-guest/Kconfig
-@@ -0,0 +1,10 @@
-+config TDX_GUEST_DRIVER
-+	tristate "TDX Guest driver"
-+	depends on INTEL_TDX_GUEST
-+	help
-+	  The driver provides userspace interface to communicate with
-+	  the TDX module to request the TDX guest details like attestation
-+	  report.
-+
-+	  To compile this driver as module, choose M here. The module will
-+	  be called tdx-guest.
-diff --git a/drivers/virt/coco/tdx-guest/Makefile b/drivers/virt/coco/tdx-guest/Makefile
-new file mode 100644
-index 000000000000..775cb463f9c8
---- /dev/null
-+++ b/drivers/virt/coco/tdx-guest/Makefile
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_TDX_GUEST_DRIVER) += tdx-guest.o
-diff --git a/drivers/virt/coco/tdx-guest/tdx-guest.c b/drivers/virt/coco/tdx-guest/tdx-guest.c
-new file mode 100644
-index 000000000000..40e7c1881fa9
---- /dev/null
-+++ b/drivers/virt/coco/tdx-guest/tdx-guest.c
-@@ -0,0 +1,102 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * TDX guest user interface driver
-+ *
-+ * Copyright (C) 2022 Intel Corporation
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/miscdevice.h>
-+#include <linux/mm.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/string.h>
-+#include <linux/uaccess.h>
-+
-+#include <uapi/linux/tdx-guest.h>
-+
-+#include <asm/cpu_device_id.h>
-+#include <asm/tdx.h>
-+
-+static long tdx_get_report(struct tdx_report_req __user *req)
-+{
-+	u8 *reportdata, *tdreport;
-+	long ret;
-+
-+	reportdata = kmalloc(TDX_REPORTDATA_LEN, GFP_KERNEL);
-+	if (!reportdata)
-+		return -ENOMEM;
-+
-+	tdreport = kzalloc(TDX_REPORT_LEN, GFP_KERNEL);
-+	if (!tdreport) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	if (copy_from_user(reportdata, req->reportdata, TDX_REPORTDATA_LEN)) {
-+		ret = -EFAULT;
-+		goto out;
-+	}
-+
-+	/* Generate TDREPORT using "TDG.MR.REPORT" TDCALL */
-+	ret = tdx_mcall_get_report(reportdata, tdreport);
-+	if (ret)
-+		goto out;
-+
-+	if (copy_to_user(req->tdreport, tdreport, TDX_REPORT_LEN))
-+		ret = -EFAULT;
-+
-+out:
-+	kfree(reportdata);
-+	kfree(tdreport);
-+
-+	return ret;
-+}
-+
-+static long tdx_guest_ioctl(struct file *file, unsigned int cmd,
-+			    unsigned long arg)
-+{
-+	switch (cmd) {
-+	case TDX_CMD_GET_REPORT:
-+		return tdx_get_report((struct tdx_report_req __user *)arg);
-+	default:
-+		return -ENOTTY;
-+	}
-+}
-+
-+static const struct file_operations tdx_guest_fops = {
-+	.owner = THIS_MODULE,
-+	.unlocked_ioctl = tdx_guest_ioctl,
-+	.llseek = no_llseek,
-+};
-+
-+static struct miscdevice tdx_misc_dev = {
-+	.name = KBUILD_MODNAME,
-+	.minor = MISC_DYNAMIC_MINOR,
-+	.fops = &tdx_guest_fops,
-+};
-+
-+static const struct x86_cpu_id tdx_guest_ids[] = {
-+	X86_MATCH_FEATURE(X86_FEATURE_TDX_GUEST, NULL),
-+	{}
-+};
-+MODULE_DEVICE_TABLE(x86cpu, tdx_guest_ids);
-+
-+static int __init tdx_guest_init(void)
-+{
-+	if (!x86_match_cpu(tdx_guest_ids))
-+		return -ENODEV;
-+
-+	return misc_register(&tdx_misc_dev);
-+}
-+module_init(tdx_guest_init);
-+
-+static void __exit tdx_guest_exit(void)
-+{
-+	misc_deregister(&tdx_misc_dev);
-+}
-+module_exit(tdx_guest_exit);
-+
-+MODULE_AUTHOR("Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>");
-+MODULE_DESCRIPTION("TDX Guest Driver");
-+MODULE_LICENSE("GPL");
-diff --git a/include/uapi/linux/tdx-guest.h b/include/uapi/linux/tdx-guest.h
-new file mode 100644
-index 000000000000..c1d52bc3a62e
---- /dev/null
-+++ b/include/uapi/linux/tdx-guest.h
-@@ -0,0 +1,41 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/*
-+ * Userspace interface for TDX guest driver
-+ *
-+ * Copyright (C) 2022 Intel Corporation
-+ */
-+
-+#ifndef _UAPI_LINUX_TDX_GUEST_H_
-+#define _UAPI_LINUX_TDX_GUEST_H_
-+
-+#include <linux/ioctl.h>
-+#include <linux/types.h>
-+
-+/* Length of the REPORTDATA used in TDG.MR.REPORT TDCALL */
-+#define TDX_REPORTDATA_LEN              64
-+
-+/* Length of TDREPORT used in TDG.MR.REPORT TDCALL */
-+#define TDX_REPORT_LEN                  1024
-+
-+/**
-+ * struct tdx_report_req - Request struct for TDX_CMD_GET_REPORT IOCTL.
-+ *
-+ * @reportdata: User buffer with REPORTDATA to be included into TDREPORT.
-+ *              Typically it can be some nonce provided by attestation
-+ *              service, so the generated TDREPORT can be uniquely verified.
-+ * @tdreport: User buffer to store TDREPORT output from TDCALL[TDG.MR.REPORT].
-+ */
-+struct tdx_report_req {
-+	__u8 reportdata[TDX_REPORTDATA_LEN];
-+	__u8 tdreport[TDX_REPORT_LEN];
-+};
-+
-+/*
-+ * TDX_CMD_GET_REPORT - Get TDREPORT using TDCALL[TDG.MR.REPORT]
-+ *
-+ * Return 0 on success, -EIO on TDCALL execution failure, and
-+ * standard errno on other general error cases.
-+ */
-+#define TDX_CMD_GET_REPORT              _IOWR('T', 1, struct tdx_report_req)
-+
-+#endif /* _UAPI_LINUX_TDX_GUEST_H_ */
--- 
-2.34.1
-
+I think so. iiuc vfio relies on driver to ensure serialization in this scen=
+ario.
