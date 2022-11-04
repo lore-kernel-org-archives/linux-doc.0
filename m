@@ -2,156 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83A79C4332F
-	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 16:26:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEB89C4332F
+	for <linux-doc@archiver.kernel.org>; Fri,  4 Nov 2022 17:00:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231146AbiKDQ0a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 12:26:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52902 "EHLO
+        id S231600AbiKDRA0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 13:00:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230165AbiKDQ02 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 12:26:28 -0400
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2078.outbound.protection.outlook.com [40.107.102.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BF631C402;
-        Fri,  4 Nov 2022 09:26:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RiGgEmzLwdlM25C7Of2ZVlBCAUODi07ifjOBwGTfB9ALUm8qCxfLuV67A5JQCNHjoEsoTZIQCK5J1aJHwqyLWca/k6l0IIAlhE/SgriHikfloLmITMWysSKXWy622kltV2kUi//2VudGhanZw44H9F8at1ICOJH/ngJCp2q4GmeVJ2INod7Cu6ipC2gMKwXIQo+gQEl1Wa9IraL9NUL5qEHHNmMgtTR29MNGEHV9/9XmFN9/tCDwAsewittZjDIjYhgd05mKYv/EQhajVlHXjC5qBfYVipwScTx1J7limKBTX+snIR9TkSG/yWwEjkqQY8n27xeKwkijdJrOe8mXTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XkldMygYQ/GrtnhorFa3NOKEfolO4WnJ7WHZzMyDovg=;
- b=kld+4zRlUUow/66K3MuTcM0MY+nxgJdL+ZWFMztfRxguBTT7OH/N45LvS16rw2wXb5TzCpbshQtLMc29hGxi7LTtmi+MigzxUrUyP4VSIxQrLNfbPXwA1jCw/KRR79ybzDDeASaZEs93+tah6cdcePhRpQc0ghJfnl/zcRdY6XZwmHiKiK1/lYr68gN7ofWAvDUQ648AYNxsnP+bi1n0dyvOlvrLhPbilDn0lgeT6Q94ZnosevWEjSiRnBSsT6krMLuMSIiepuk5qHsiNS0UOJL8CtW8xTiNzXsXUo0ye4WE8TZdiUdg75bZdB1+0D80fMGr3JqorEfTGb1pJ1Focw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XkldMygYQ/GrtnhorFa3NOKEfolO4WnJ7WHZzMyDovg=;
- b=T0IZcEMeP7y1nznSqvdFQX4W1dCiOuiV/wc435VSaIgLDlMH8OFhyvsmJfBRRvwD2zUF1d0FV9LdXRGrX8jSNCP5Z3JtxhEpUGbaM6QL33xYIJSRfoRFjtjoARikJ30IOl4JnKrajTgDN93p9nMDG3iGDgN1pQN06W3G456H/ELhZ2toOABJvHH4X2i4KpRMQDGJgUh7mJnW0RdmlLg1iKfdXTfS31s6VlhRlBOgf3paFQ3wtfpLir0l0YJhKE7mruX1HiY+XaTJAip+V6NlJ/9b6HNCnPt0J2u3ZNfS7ASJFXTk96M5NVuzS4r63mApe6FKkdLM1BFjCVa0YNv3gw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by CY5PR12MB6598.namprd12.prod.outlook.com (2603:10b6:930:42::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.22; Fri, 4 Nov
- 2022 16:26:24 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5769.015; Fri, 4 Nov 2022
- 16:26:24 +0000
-Date:   Fri, 4 Nov 2022 13:26:23 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Lu Baolu <baolu.lu@linux.intel.com>, bpf@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Shameerali Kolothum Thodi 
-        <shameerali.kolothum.thodi@huawei.com>,
-        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH v3 8/15] iommufd: Algorithms for PFN storage
-Message-ID: <Y2U9LiwXxPO7G6YW@nvidia.com>
-References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
- <8-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
- <Y2QfqAWxqT5cCfmN@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y2QfqAWxqT5cCfmN@nvidia.com>
-X-ClientProxiedBy: MN2PR15CA0044.namprd15.prod.outlook.com
- (2603:10b6:208:237::13) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+        with ESMTP id S229598AbiKDRAW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 13:00:22 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBA6031EFC
+        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 10:00:21 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id c15so3380833qtw.8
+        for <linux-doc@vger.kernel.org>; Fri, 04 Nov 2022 10:00:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/jNIi3NLp/0QE0eLEgGhnlZnXslRxZtVSsauwMnJ52A=;
+        b=TyCMiI4ARMPxd18RVlEv+qm2LWR7zC104Hlivn40qb5lZJslIeDFuCNMNvjneFE/Nj
+         LFwCX5vAwmEX/R8qjGO9x9K9/hgdwoRd2q59WUqMzWoiDvISQjer+tTT1jJ7UfSLA8Vn
+         fR3VeAjk206NeR5DC2lSXJH82ZME8JVM9jplc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/jNIi3NLp/0QE0eLEgGhnlZnXslRxZtVSsauwMnJ52A=;
+        b=5oXvJmVqeprP1hMjuZNkMN3MTkZxEAfggILGY77kpeTe+EfACnODv4ssz7hEXoxnj5
+         dvEjWTu3UPkzY/38//aGWBmXX3o7LdoKCB+dJCPMYnUvb8/Rf2JMEIGK/U8OVYITyMmJ
+         0O52Ku2juMNpc0KXWEEcfLp05uI9lCF1c3KZLizj/s/cXR5CPKPMopgYhSeGX3aw0/jq
+         CzBH+cWPGyYDAIY1Rd9gnZjU9/M44v6ubO/W+IX30tV2HkcFi/cbq/5lO/ybGmrh+1yA
+         fOfIuV5On+A4cX1ZA6oY4S/g548bSdY17fX0Mzcdoh2vDoFDp9/3xN7AJoR1cTEtpT+e
+         0jrg==
+X-Gm-Message-State: ACrzQf1EMCrKL2jF/F32jZKhkeiogubRrzpc4w+OXDt6Rbl8WbqrN+JL
+        GLkWfI3S4EbYiC4691MpYIZlkPR97BVRQw==
+X-Google-Smtp-Source: AMsMyM4tL/2nBXXPUcRZKDhzYuTKj2zu48FRr6scmEmLbY5d3YzXgXdvZ4BYCXYPqEKcytAWP2hShg==
+X-Received: by 2002:ac8:5dce:0:b0:3a4:f665:453d with SMTP id e14-20020ac85dce000000b003a4f665453dmr29897437qtx.276.1667581221052;
+        Fri, 04 Nov 2022 10:00:21 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id v25-20020ac87499000000b003a530a32f67sm2680090qtq.65.2022.11.04.10.00.20
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Nov 2022 10:00:20 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-3321c2a8d4cso49041017b3.5
+        for <linux-doc@vger.kernel.org>; Fri, 04 Nov 2022 10:00:20 -0700 (PDT)
+X-Received: by 2002:a81:8241:0:b0:370:5fad:47f0 with SMTP id
+ s62-20020a818241000000b003705fad47f0mr27409344ywf.441.1667581219811; Fri, 04
+ Nov 2022 10:00:19 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|CY5PR12MB6598:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8321a62c-a3d8-40bd-f216-08dabe815089
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Jgna2tqqPqq96YGI2Uu0Us5j23OPsMrB95gbMR08p51+1xXIf8fPy4VGqvZ2tWPdBRfdJZcLQBMb+bsr5Yep7DZGGRhvdjHgYqm6mleJRhEX08MAKl5Kbv6zBXsZ+tHh+qcBfAmzh/rLdA+NXfygpSNIr8QLnsMKNOmKFZ/SVBuPsQf5TP3kPFeppQ/SOYyZa/xoUdVnDy9tyOHkFa5CJ+semO6K98Xau4kPO0GNJ9LF6l0HCp4mM/KAIDwltRRDTAOAdZLpyS/IG8/634M7ZVicedCrYabTbm/w1/CI7Fs76pYDbUZwxbufDl/gPIRUOdSUaON/nzjYb5txhOajD+LXIqF0yE/tHtTB5E52sQhtVOEiPhzlmxZC1RS5mSpSZvFVyuQnRy40v3CJHMtLXBRDBgQhV+eScDMEuRuNsTBmChm9n3qshIJjTnWaahfPybGblDjK3ypgcmxeSE1K0VJCqyE4EjnTQRdcJmFuy+lL0aAkh/h0g+9wJE4A6rBKRlF0/OxBuUFTsosObby00hWVcEoLA/objQzo7nFHuSRk1N03ISomHNIu3JHdMgkWBPLQe2c4k2sac6+XyQtRvZg/yhugYTWkjixOGYTZxACAkmi1kga93YaldqvcS2RmKONiB4Cw/nf3eoTw7bXpV/W7SHJREH7/W3RzwqKbm0XZvtWSaKvXHqCX7AMo21flLjC82/3s/0PvV4kdtbWiu8O6tB3WCguCdwv1eOyM5KIuF6MHmKFNI631LeXDrCQ3
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(136003)(376002)(346002)(396003)(366004)(451199015)(54906003)(110136005)(316002)(6486002)(478600001)(5660300002)(8936002)(4744005)(7406005)(2616005)(7416002)(8676002)(36756003)(41300700001)(26005)(6512007)(186003)(4326008)(2906002)(6506007)(66556008)(66476007)(66946007)(38100700002)(86362001)(921005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lRHBZ0UAc+ueLS15gRUdPNPurwz45MSAR2C3KlPlVR8LLx1gc70u4ZYB/JkK?=
- =?us-ascii?Q?tTqVwbjlajVu3uNPuHLG9iNfqo38x5PKqBB7fVqLeEvKYdxSijsDaZ+H8xFO?=
- =?us-ascii?Q?Dk2QCEwRYbY49inSulOY95YEpLEkdIKrPhksBcXFau7ULrjZF3f0L4XldGQp?=
- =?us-ascii?Q?Y9DgvIlY7rc4joPBmj30pk1PFB/8NEmXICNztekNaFyC1VnWKJz4N0rEw8He?=
- =?us-ascii?Q?jcKESajXrFj7iJENXVhwPI0Tu7OuR1Y/2gi1cXWwiPpHXJ7KNAAc4MBB+1hF?=
- =?us-ascii?Q?Bnw29Ip2WETwIskXbUgfYEVuA+21r8feL9Q63+4Aay0BJpmoIMz5VzIzDyyr?=
- =?us-ascii?Q?P+UBETCJQtGQot01xUojB4bSJdG0hBNvM/yqYe1P3fAKiVjfJKZhB94hoClJ?=
- =?us-ascii?Q?lwWs9arCyK3cf+r+j2nyI7vWCB6NkIF82PpQHonWwIQSjMpApayqEZopTJfi?=
- =?us-ascii?Q?qCKm7jfLQvWysUSiS/cB7cbBbyyebbLJiFtgrX7sAxSb+cMfL4dybPKZpUNA?=
- =?us-ascii?Q?Mb2uijoquM+/lrpsb6nu3UkfQGn+7vwAdCUZGZxQftmRpZ81WSB/BW6Cfdy4?=
- =?us-ascii?Q?V3MHHJ0Umlq1GHTLwhDuyt08S7KPcHzuushrL4tst5bLSu2PnKCMxEH2k5FD?=
- =?us-ascii?Q?daFs/DyIaSj1aEITBfb94BN8xa86hADitfd949N5KgGKUy88N0O0b/HrMzuU?=
- =?us-ascii?Q?QIXhzyPskCAuCl3uhcif7Q+Aj2lqCP9eixXJJGcWCSb0VOKJZIFdEYkFBjqA?=
- =?us-ascii?Q?3uecjK4GwiEDlKBWmKYw96ZNyDXNTAFYPIt+rXoXbCFDCjQy17BQvBVNO/qk?=
- =?us-ascii?Q?lhcq8Hor8smEHrKDTVQfHuRVTRqqLINn1Z+G4QvNlaHkRZ+3oM8bLL6VGXCN?=
- =?us-ascii?Q?2ZUPU0b96EQReD0xbQCCT4V0qjXSq/KOK5YeqhLZ5glJE4LCRpa9s56EBzex?=
- =?us-ascii?Q?gSPR9iz9InCjF2AH1ji6orTELF1OrevyCCmNBBEXvKZWDEYRCx/lhvAx2riT?=
- =?us-ascii?Q?Vrq5E4Ha/RTKk1F9ewQrvRVkgdjMScdYYiWD+kNw94MOA6TLQ8pgvBrxzWa2?=
- =?us-ascii?Q?GrzEfTM6xJK1jv+NOtjUfTtKtnYuwNBrbGmr+SCUqyGSiUPLVVs6m+H+AVX0?=
- =?us-ascii?Q?XqIYSxPkhglLq+6zrIt/S/6xG8SluUYIkdQmR31Zahd/S7GnLs6OdhsMi7gP?=
- =?us-ascii?Q?CHsiHVdD4EjUf/4K18D4YqtO6G+qG8wwyyG5Bk6ETbih2RoNGuN0/Thj+phw?=
- =?us-ascii?Q?7qFyFaVlQA/s6ii9MfJZbm5bYOdmvSKtVNF/e0NxgrGrIZN8ML0kinGfZUFi?=
- =?us-ascii?Q?8Ks+I9MQlq49pi1cTIN+HmAFAE0t+SA1lT8POslyjcsr3D20cEq26+6m+W1W?=
- =?us-ascii?Q?pOTbNCT/xV1Uy2e4/ikJQAFx+DpF1PEWxXzfN4AXFRp+1dg2/IdX1gShFEDc?=
- =?us-ascii?Q?NSoNHqTc00fVXcXWS0cmlwSERawbQTsU1QOp2axwFCgka4lqtHe4ydFpcHqO?=
- =?us-ascii?Q?YcY/GOcl8ChzQbNfI0k6KqqHN9wXLfhj9v+cBki9n2JxcqHwiqeMTaN/1qLg?=
- =?us-ascii?Q?LcJsv3SKXdIxi0dIXs8=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8321a62c-a3d8-40bd-f216-08dabe815089
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2022 16:26:23.9966
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q1glTGEXH7f8IvZpWPhKisjTIPfIU+D1LjTgas5QSGiFWgEkEYEmUJzhSmDkMgwo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6598
+References: <20221104054053.431922658@goodmis.org>
+In-Reply-To: <20221104054053.431922658@goodmis.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 4 Nov 2022 10:00:03 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whKE5UL+AuCC2wK8oq8D_ueSO_T7-9Acx4POouqVi8ZHg@mail.gmail.com>
+Message-ID: <CAHk-=whKE5UL+AuCC2wK8oq8D_ueSO_T7-9Acx4POouqVi8ZHg@mail.gmail.com>
+Subject: Re: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before
+ freeing timers
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Anna-Maria Gleixner <anna-maria@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-acpi@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-bluetooth@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
+        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 03, 2022 at 05:08:08PM -0300, Jason Gunthorpe wrote:
-> +static void pfn_reader_release_pins(struct pfn_reader *pfns)
->  {
->  	struct iopt_pages *pages = pfns->pages;
->  
-> @@ -1005,12 +1013,20 @@ static void pfn_reader_destroy(struct pfn_reader *pfns)
->  		unpin_user_pages(pfns->user.upages + (pfns->batch_end_index -
->  						      pfns->user.upages_start),
->  				 npages);
-> +		iopt_pages_sub_npinned(pages, npages);
-> +		pfns->user.upages_end = pfns->batch_end_index;
->  	}
+On Thu, Nov 3, 2022 at 10:48 PM Steven Rostedt <rostedt@goodmis.org> wrote:
+>
+> Ideally, I would have the first patch go into this rc cycle, which is mostly
+> non functional as it will allow the other patches to come in via the respective
+> subsystems in the next merge window.
 
-Syzkaller says the hidden if above is no good on error paths where the
-pfn_reader has already advanced - it makes npages go negative:
+Ack.
 
--       if (pfns->user.upages) {
-+       if (pfns->user.upages_end > pfns->batch_end_index) {
+I also wonder if we could do the completely trivially correct
+conversions immediately.
 
-Jason
+I'm talking about the scripted ones where it's currently a
+"del_timer_sync()", and the very next action is freeing whatever data
+structure the timer is in (possibly with something like free_irq() in
+between - my point is that there's an unconditional free that is very
+clear and unambiguous), so that there is absolutely no question about
+whether they should use "timer_shutdown_sync()" or not.
+
+IOW, things like patches 03, 17 and 31, and at least parts others in
+this series.
+
+This series clearly has several much more complex cases that need
+actual real code review, and I think it would help to have the
+completely unambiguous cases out of the way, just to get rid of noise.
+
+So I'd take that first patch, and a scripted set of "this cannot
+change any semantics" patches early.
+
+                Linus
