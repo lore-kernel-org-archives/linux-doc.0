@@ -2,86 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD40C433FE
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 11:39:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69013C433FE
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 12:54:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229725AbiKELjU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Nov 2022 07:39:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58290 "EHLO
+        id S229516AbiKEMyZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Nov 2022 08:54:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229720AbiKELjT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Nov 2022 07:39:19 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60B4B286FE
-        for <linux-doc@vger.kernel.org>; Sat,  5 Nov 2022 04:39:18 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-173-F1fWfsGqNdGbFLk2HJ1oPw-1; Sat, 05 Nov 2022 11:39:14 +0000
-X-MC-Unique: F1fWfsGqNdGbFLk2HJ1oPw-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Sat, 5 Nov
- 2022 11:39:13 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.042; Sat, 5 Nov 2022 11:39:13 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Borislav Petkov' <bp@alien8.de>,
-        Kim Phillips <kim.phillips@amd.com>
-CC:     "x86@kernel.org" <x86@kernel.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
+        with ESMTP id S229493AbiKEMyY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Nov 2022 08:54:24 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C299427CD0;
+        Sat,  5 Nov 2022 05:54:23 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id p21so7217009plr.7;
+        Sat, 05 Nov 2022 05:54:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KZ42H0SLRCb6moReftXhDXdbBURVm/UoF5wzsM8xUyc=;
+        b=bt94TcYPdUT795A9mV804QOy+ZtYX4QrjGifmwqZU6WM6efHicX/Zuv1VYJdYBFy/Z
+         nwrV81Q/boSKhUlv0UMrBpbAo2WqQerfscW0Wf8fp4cwpt40A+dCSRAmqudgTe8S2wXS
+         W9pwBtMFI/8rQpuDXh6rRzArdDHActoQgJxpcJFJxGtRN0Ff+8pUpuifgfW6aLqf746s
+         k2TqjlYa4VB3pyMOKJBItFYwCES2HSyvvSVo3b+RwW3kk/yy41SUrkCr3OI3mmzM+Oth
+         aMmx5ZedOooqUimIcGAQ727gQQDIrcpYKsmYEasnAFUhPC5AyHs01F9bn4n5EeuyPUKL
+         bXWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KZ42H0SLRCb6moReftXhDXdbBURVm/UoF5wzsM8xUyc=;
+        b=WnCFvNi5CXhqv88MbnYdCzPPDCDAIaIILHAV4NdxzQe343vrAq7wt3gQT6OkOc1Z/Q
+         Xn0NvV4iF0O7i2W5r/cmPksJiRSVr/uoz59GgJWMob7BA6++Q2vU/YkNtRKR0gyjoATU
+         aIAq+30RQ0o2hAJ00/ASuyjsjhmIdPwtS17Ia1Kl/hPVuH3D/oWzSh8ODysVEwiDRTzQ
+         f73vYps5VT5vhd1RWOv6Gh+H3JpvMMpwx7ogycCEKyoKISxBPiWSUusj3n6AjxRdv+Gu
+         t+a7uEePaSDTC/TaV0EdBjh9ZdS+w+ikzFk3ORnMqZkmo4MF5Kn7YIdLGIM/02ZP4Q+K
+         H5kQ==
+X-Gm-Message-State: ACrzQf09DoRUKuw3PVCM63CEX4agrz74uqtg8MG8bRB/OE3r/Fq/iy8w
+        oHn/pW5XJVuDi5yNn3rDTn0=
+X-Google-Smtp-Source: AMsMyM5a+/nqgJ2p7Kn5x1+j6lOJAvpowKnoiKWCtowjrieFISNII+1U1wzCXSLPCB0uqGFGwajAhA==
+X-Received: by 2002:a17:90b:3a81:b0:213:ff6a:aa0d with SMTP id om1-20020a17090b3a8100b00213ff6aaa0dmr26881004pjb.86.1667652863308;
+        Sat, 05 Nov 2022 05:54:23 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-7.three.co.id. [180.214.233.7])
+        by smtp.gmail.com with ESMTPSA id 101-20020a17090a0fee00b0020669c8bd87sm1202427pjz.36.2022.11.05.05.54.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Nov 2022 05:54:22 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id A8F8510403A; Sat,  5 Nov 2022 19:54:18 +0700 (WIB)
+Date:   Sat, 5 Nov 2022 19:54:18 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Donald Hunter <donald.hunter@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Konrad Rzeszutek Wilk" <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Babu Moger <Babu.Moger@amd.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 2/3] x86/speculation: Support Automatic IBRS
-Thread-Topic: [PATCH 2/3] x86/speculation: Support Automatic IBRS
-Thread-Index: AQHY8JfPISSI8KokdESl6NTz/MxgvK4wNJ8w
-Date:   Sat, 5 Nov 2022 11:39:13 +0000
-Message-ID: <49e01e4d819a4e3aa1ef13da6bc654e4@AcuMS.aculab.com>
-References: <20221104213651.141057-1-kim.phillips@amd.com>
- <20221104213651.141057-3-kim.phillips@amd.com> <Y2WJjdY3wwQl9/q9@zn.tnic>
-In-Reply-To: <Y2WJjdY3wwQl9/q9@zn.tnic>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Maryam Tahhan <mtahhan@redhat.com>
+Subject: Re: [PATCH bpf-next v2] docs/bpf: document BPF ARRAY_OF_MAPS and
+ HASH_OF_MAPS
+Message-ID: <Y2Zc+vdyQF9a0NnV@debian.me>
+References: <20221104101928.9479-1-donald.hunter@gmail.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="itayzI8Iw9S89a8P"
+Content-Disposition: inline
+In-Reply-To: <20221104101928.9479-1-donald.hunter@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-RnJvbTogQm9yaXNsYXYgUGV0a292DQo+IFNlbnQ6IDA0IE5vdmVtYmVyIDIwMjIgMjE6NTINCj4g
-DQo+IE9uIEZyaSwgTm92IDA0LCAyMDIyIGF0IDA0OjM2OjUwUE0gLTA1MDAsIEtpbSBQaGlsbGlw
-cyB3cm90ZToNCj4gPiAgLSBBbGxvdyBmb3Igc3BlY3RyZV92Mj1hdXRvaWJycyBpbiB0aGUga2Vy
-bmVsIGNvbW1hbmQgbGluZSwNCj4gPiAgICByZXZlcnRpbmcgdG8gYXV0by1zZWxlY3Rpb24gaWYg
-dGhlIGZlYXR1cmUgaXNuJ3QgYXZhaWxhYmxlLg0KPiANCj4gV2h5Pw0KPiANCj4gV2hhdCB0aGUg
-d2hvbGUgbG9naWMgaGVyZSBzaG91bGQgZG8gaXMgZW5hYmxlIGF1dG9pYnJzIHdoZW4gZGV0ZWN0
-ZWQNCj4gYXV0b21hdGljYWxseSwgd2l0aG91dCB0aGUgbmVlZCBmb3IgdGhlIHVzZXIgdG8gZXZl
-biBzZWxlY3QgaXQgYXMgaXQgaXMNCj4gdGhlIHN1cGVyaW9yIG1pdGlnYXRpb24uDQoNClRoZSBv
-bmx5IHVzZWZ1bCBvcHRpb24gaXMgdG8gYWxsb3cgYSBkaWZmZXJlbnQgb3B0aW9uIGJlDQpzZWxl
-Y3RlZCBmb3IgY29kZSB0ZXN0aW5nLg0KU28gbWF5YmUgeW91IHdhbnQgYW4gb3B0aW9uIGZvciBj
-b21wbGV0ZW5lc3MgLSBmb3Igd2hlbg0KYW4gJ2V2ZW4gYmV0dGVyJyBvcHRpb24gaXMgYXZhaWxh
-YmxlLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5
-IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRp
-b24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
+--itayzI8Iw9S89a8P
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Nov 04, 2022 at 10:19:28AM +0000, Donald Hunter wrote:
+> +Kernel BPF
+> +----------
+<snipped>...
+> +Kernel BPF
+> +----------
+> +
+
+As kernel test robot has reported [1], you need to disambiguate both heading
+titles above:
+
+---- >8 ----
+
+diff --git a/Documentation/bpf/map_of_maps.rst b/Documentation/bpf/map_of_m=
+aps.rst
+index d5a09bc669a34c..4dfe6ef9938e70 100644
+--- a/Documentation/bpf/map_of_maps.rst
++++ b/Documentation/bpf/map_of_maps.rst
+@@ -50,8 +50,8 @@ used to disable pre-allocation when it is too memory expe=
+nsive.
+ Usage
+ =3D=3D=3D=3D=3D
+=20
+-Kernel BPF
+-----------
++Helpers for kernel BPF
++----------------------
+=20
+ .. c:function::
+    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+@@ -62,8 +62,8 @@ helper returns a pointer to the inner map, or ``NULL`` if=
+ no entry was found.
+ Examples
+ =3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-Kernel BPF
+-----------
++Kernel BPF examples
++-------------------
+=20
+ This snippet shows how to create an array of devmaps in a BPF program. Not=
+e that
+ the outer array can only be modified from user space using the syscall API.
+
+Thanks.
+
+[1]: https://lore.kernel.org/linux-doc/202211051940.yqd37TmX-lkp@intel.com/
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--itayzI8Iw9S89a8P
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2Zc9AAKCRD2uYlJVVFO
+owv9AQCew1ehLnZ3zQ5cuvQ+b5S3pG4hE73oeIhKgFsWWRVZkAEA3E7xPbyTRxo8
+kKKQoeX3msv+iVY42ZY7NU7QuWZ2ygA=
+=U1Mq
+-----END PGP SIGNATURE-----
+
+--itayzI8Iw9S89a8P--
