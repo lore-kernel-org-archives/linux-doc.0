@@ -2,325 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5E8BC4332F
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 02:53:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFA1AC4332F
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 03:10:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbiKECxx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 22:53:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52460 "EHLO
+        id S229545AbiKEDKU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 4 Nov 2022 23:10:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229499AbiKECxt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 22:53:49 -0400
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66A822A7
-        for <linux-doc@vger.kernel.org>; Fri,  4 Nov 2022 19:53:48 -0700 (PDT)
-Received: by mail-qv1-xf32.google.com with SMTP id ml12so4673497qvb.0
-        for <linux-doc@vger.kernel.org>; Fri, 04 Nov 2022 19:53:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JI7cKRM4RTeKDI0t+IERL0YBj1fl9UNNUZ2PEs6yEiQ=;
-        b=ALcOaOI5wQpNzPdzX6C0J9yppvP0ccW968P93F3xPK/ILN9f/tNC/6Aa3TIUD4K0jb
-         xKV1I/oxjRwjvyKCqQFFjdXqHJSjjx3pT0g6zaDXSB6wJZzhqXBx3S/1jc8dixzJ079T
-         FmY5qGOcBzieXybXTxvsdbxXokCqfXdoL4dG38cUSErnMt8LB+3X8Q+u70GgyPQ1w6nD
-         3k4htwqXL+atV1bum/28BbgEEOBS9aRmWIB1AIkVUTROjq2VtKxw6NF372krxH5i8MvX
-         ABPyU61i90apijPchAj8F9HzmfBSkwJmJ/uFv8kHdjtAGj/uI3AsJCrC8lclmluKB4Sk
-         yZHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JI7cKRM4RTeKDI0t+IERL0YBj1fl9UNNUZ2PEs6yEiQ=;
-        b=kG7ZNn4E4djJAllzPRXfHcZKxikNW+b0VBncgvsqbtus35aQMnncL8B02GtBeL3XKc
-         Pepv8HBfFJarj2jb+QijO+SJcgpbHxkA/aRuPO6y4Rw9yBmzoLU9giagiYIDNYhe5oP7
-         haj9m3aOM51uWPYh58k10QcRkjk9nGNKnUM20H6NwPVZ7l5dt0vltx4/HuIeMQCdqvTe
-         AN/LXM6PvWVJrimK4HlJ6Er6hbfiOQ8yAs4Q2ZQudhacvIwZu4qyAMk8m3Auj8QbykLS
-         x9z91ghwZyAZluyl/aqusLhKaEh8p9SEtT8xRnXslnO10O/GTWgBwEUzzuFecZ0nTVaL
-         8xAA==
-X-Gm-Message-State: ACrzQf0SAsmJVpmx1Mh2YsE5TO3bAPEXBxwW4baW9hP3GnA769hG2Mph
-        icfaNwCvDZn0uc7BUugHCHdXHA==
-X-Google-Smtp-Source: AMsMyM6sgg5HHp6alxMy0i4ndmBRmwHO85L4PUB1mVFu83X+//FOx5lNTiXxK/gwh4tSxcIKdH7WTQ==
-X-Received: by 2002:ad4:5c4e:0:b0:4bb:9fea:f52e with SMTP id a14-20020ad45c4e000000b004bb9feaf52emr35407214qva.51.1667616827460;
-        Fri, 04 Nov 2022 19:53:47 -0700 (PDT)
-Received: from soleen.c.googlers.com.com (193.132.150.34.bc.googleusercontent.com. [34.150.132.193])
-        by smtp.gmail.com with ESMTPSA id g10-20020a05620a40ca00b006fa12a74c53sm773373qko.61.2022.11.04.19.53.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Nov 2022 19:53:46 -0700 (PDT)
-From:   Pasha Tatashin <pasha.tatashin@soleen.com>
-To:     corbet@lwn.net, akpm@linux-foundation.org, hughd@google.com,
-        hannes@cmpxchg.org, david@redhat.com, vincent.whitchurch@axis.com,
-        seanjc@google.com, rppt@kernel.org, shy828301@gmail.com,
-        pasha.tatashin@soleen.com, paul.gortmaker@windriver.com,
-        peterx@redhat.com, vbabka@suse.cz, Liam.Howlett@Oracle.com,
-        ccross@google.com, willy@infradead.org, arnd@arndb.de,
-        cgel.zte@gmail.com, yuzhao@google.com,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org
-Subject: [PATCH] mm: anonymous shared memory naming
-Date:   Sat,  5 Nov 2022 02:53:42 +0000
-Message-Id: <20221105025342.3130038-1-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
+        with ESMTP id S229479AbiKEDKT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 23:10:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A95826AD4;
+        Fri,  4 Nov 2022 20:10:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E28ED623AE;
+        Sat,  5 Nov 2022 03:10:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 37A23C433D6;
+        Sat,  5 Nov 2022 03:10:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667617817;
+        bh=nhpq3hxAK2wGS+j94s5Pcnje7u22mnXK8DftPTzq/aI=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=k23VnWodDWZgwsuaY6QbRqH44NDumZ6cSZwyPUSLi9ioCCl90v6JRfpqoJjUiAwcM
+         4p+kdnrXSq4UeynwF1JK9sw6/aRaG4HzJJI1cn4dXNEgndLwrGX4bw9DUSNslvIMSj
+         oAQ/A5XxiEB1cimQ+S/aPEoJxnj5U3LvhVhU2V0vdhl3REMnl+AkpIr5z0T5iaqPwl
+         Ma07EyCrp7vZJ1qmKmZnunUQd8fBkqGTXQ3fq3Jlj7Q8g33CfH55sstaBCmXTt67lP
+         ODcDj8g7xXWr32c6EoCLcaugbZBQ3NxAYXarGzrZTG4UKWw/4QE9cYRQlOznEEE/i8
+         suWUipx9v7J1Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1C0D4E270FB;
+        Sat,  5 Nov 2022 03:10:17 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v4] octeon_ep: support Octeon device CNF95N
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166761781710.20771.16670605812386475186.git-patchwork-notify@kernel.org>
+Date:   Sat, 05 Nov 2022 03:10:17 +0000
+References: <20221103060600.1858-1-vburru@marvell.com>
+In-Reply-To: <20221103060600.1858-1-vburru@marvell.com>
+To:     Veerasenareddy Burru <vburru@marvell.com>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lironh@marvell.com, aayarekar@marvell.com, sedara@marvell.com,
+        sburla@marvell.com, linux-doc@vger.kernel.org, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        corbet@lwn.net
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since:
-commit 9a10064f5625 ("mm: add a field to store names for private anonymous
-memory")
+Hello:
 
-We can set names for private anonymous memory but not for shared
-anonymous memory. However, naming shared anonymous memory just as
-useful for tracking purposes.
+This patch was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Extend the functionality to be able to set names for shared anon.
+On Wed, 2 Nov 2022 23:05:57 -0700 you wrote:
+> Add support for Octeon device CNF95N.
+> CNF95N is a Octeon Fusion family product with same PCI NIC
+> characteristics as CN93 which is currently supported by the driver.
+> 
+> update supported device list in Documentation.
+> 
+> Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
+> 
+> [...]
 
-/ [anon_shmem:<name>]      an anonymous shared memory mapping that has
-                           been named by userspace
+Here is the summary with links:
+  - [net-next,v4] octeon_ep: support Octeon device CNF95N
+    https://git.kernel.org/netdev/net-next/c/63d9e1291484
 
-Sample output:
-        share = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
-                     MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-        rv = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME,
-                   share, SIZE, "shared anon");
-
-/proc/<pid>/maps (and smaps):
-7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024
-/dev/zero (deleted) [anon_shmem:shared anon]
-
-pmap $(pgrep a.out)
-254:   pub/a.out
-000056093fab2000      4K r---- a.out
-000056093fab3000      4K r-x-- a.out
-000056093fab4000      4K r---- a.out
-000056093fab5000      4K r---- a.out
-000056093fab6000      4K rw--- a.out
-000056093fdeb000    132K rw---   [ anon ]
-00007fc8e2b4c000 262144K rw-s- zero (deleted) [anon_shmem:shared anon]
-
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- Documentation/filesystems/proc.rst |  4 +++-
- fs/proc/task_mmu.c                 |  7 ++++---
- include/linux/mm.h                 |  2 ++
- include/linux/mm_types.h           | 27 +++++++++++++--------------
- mm/madvise.c                       |  7 ++-----
- mm/shmem.c                         | 13 +++++++++++--
- 6 files changed, 35 insertions(+), 25 deletions(-)
-
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 898c99eae8e4..8f1e68460da5 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -431,8 +431,10 @@ is not associated with a file:
-  [stack]                    the stack of the main process
-  [vdso]                     the "virtual dynamic shared object",
-                             the kernel system call handler
-- [anon:<name>]              an anonymous mapping that has been
-+ [anon:<name>]              a private anonymous mapping that has been
-                             named by userspace
-+ path [anon_shmem:<name>]   an anonymous shared memory mapping that has
-+                            been named by userspace
-  =============              ====================================
- 
-  or if empty, the mapping is anonymous.
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 8a74cdcc9af0..d6ae75ed81ca 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -277,6 +277,7 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
- 	struct mm_struct *mm = vma->vm_mm;
- 	struct file *file = vma->vm_file;
- 	vm_flags_t flags = vma->vm_flags;
-+	struct anon_vma_name *anon_name;
- 	unsigned long ino = 0;
- 	unsigned long long pgoff = 0;
- 	unsigned long start, end;
-@@ -293,6 +294,7 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
- 	start = vma->vm_start;
- 	end = vma->vm_end;
- 	show_vma_header_prefix(m, start, end, flags, pgoff, dev, ino);
-+	anon_name = anon_vma_name(vma);
- 
- 	/*
- 	 * Print the dentry name for named mappings, and a
-@@ -301,6 +303,8 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
- 	if (file) {
- 		seq_pad(m, ' ');
- 		seq_file_path(m, file, "\n");
-+		if (anon_name)
-+			seq_printf(m, " [anon_shmem:%s]", anon_name->name);
- 		goto done;
- 	}
- 
-@@ -312,8 +316,6 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
- 
- 	name = arch_vma_name(vma);
- 	if (!name) {
--		struct anon_vma_name *anon_name;
--
- 		if (!mm) {
- 			name = "[vdso]";
- 			goto done;
-@@ -330,7 +332,6 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
- 			goto done;
- 		}
- 
--		anon_name = anon_vma_name(vma);
- 		if (anon_name) {
- 			seq_pad(m, ' ');
- 			seq_printf(m, "[anon:%s]", anon_name->name);
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 8bbcccbc5565..06b6fb3277ab 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -699,8 +699,10 @@ static inline unsigned long vma_iter_addr(struct vma_iterator *vmi)
-  * paths in userfault.
-  */
- bool vma_is_shmem(struct vm_area_struct *vma);
-+bool vma_is_anon_shmem(struct vm_area_struct *vma);
- #else
- static inline bool vma_is_shmem(struct vm_area_struct *vma) { return false; }
-+static inline bool vma_is_anon_shmem(struct vm_area_struct *vma) { return false; }
- #endif
- 
- int vma_is_stack_for_current(struct vm_area_struct *vma);
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 500e536796ca..08d8b973fb60 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -461,21 +461,11 @@ struct vm_area_struct {
- 	 * For areas with an address space and backing store,
- 	 * linkage into the address_space->i_mmap interval tree.
- 	 *
--	 * For private anonymous mappings, a pointer to a null terminated string
--	 * containing the name given to the vma, or NULL if unnamed.
- 	 */
--
--	union {
--		struct {
--			struct rb_node rb;
--			unsigned long rb_subtree_last;
--		} shared;
--		/*
--		 * Serialized by mmap_sem. Never use directly because it is
--		 * valid only when vm_file is NULL. Use anon_vma_name instead.
--		 */
--		struct anon_vma_name *anon_name;
--	};
-+	struct {
-+		struct rb_node rb;
-+		unsigned long rb_subtree_last;
-+	} shared;
- 
- 	/*
- 	 * A file's MAP_PRIVATE vma can be in both i_mmap tree and anon_vma
-@@ -485,6 +475,7 @@ struct vm_area_struct {
- 	 */
- 	struct list_head anon_vma_chain; /* Serialized by mmap_lock &
- 					  * page_table_lock */
-+
- 	struct anon_vma *anon_vma;	/* Serialized by page_table_lock */
- 
- 	/* Function pointers to deal with this struct. */
-@@ -496,6 +487,14 @@ struct vm_area_struct {
- 	struct file * vm_file;		/* File we map to (can be NULL). */
- 	void * vm_private_data;		/* was vm_pte (shared mem) */
- 
-+#ifdef CONFIG_ANON_VMA_NAME
-+	/*
-+	 * For private and shared anonymous mappings, a pointer to a null
-+	 * terminated string containing the name given to the vma, or NULL if
-+	 * unnamed. Serialized by mmap_sem. Use anon_vma_name to access.
-+	 */
-+	struct anon_vma_name *anon_name;
-+#endif
- #ifdef CONFIG_SWAP
- 	atomic_long_t swap_readahead_info;
- #endif
-diff --git a/mm/madvise.c b/mm/madvise.c
-index c7105ec6d08c..255d5b485432 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -95,9 +95,6 @@ struct anon_vma_name *anon_vma_name(struct vm_area_struct *vma)
- {
- 	mmap_assert_locked(vma->vm_mm);
- 
--	if (vma->vm_file)
--		return NULL;
--
- 	return vma->anon_name;
- }
- 
-@@ -183,7 +180,7 @@ static int madvise_update_vma(struct vm_area_struct *vma,
- 	 * vm_flags is protected by the mmap_lock held in write mode.
- 	 */
- 	vma->vm_flags = new_flags;
--	if (!vma->vm_file) {
-+	if (!vma->vm_file || vma_is_anon_shmem(vma)) {
- 		error = replace_anon_vma_name(vma, anon_name);
- 		if (error)
- 			return error;
-@@ -1273,7 +1270,7 @@ static int madvise_vma_anon_name(struct vm_area_struct *vma,
- 	int error;
- 
- 	/* Only anonymous mappings can be named */
--	if (vma->vm_file)
-+	if (vma->vm_file && !vma_is_anon_shmem(vma))
- 		return -EBADF;
- 
- 	error = madvise_update_vma(vma, prev, start, end, vma->vm_flags,
-diff --git a/mm/shmem.c b/mm/shmem.c
-index c1d8b8a1aa3b..638bcb3d26bd 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -237,11 +237,17 @@ static const struct inode_operations shmem_inode_operations;
- static const struct inode_operations shmem_dir_inode_operations;
- static const struct inode_operations shmem_special_inode_operations;
- static const struct vm_operations_struct shmem_vm_ops;
-+static const struct vm_operations_struct shmem_anon_vm_ops;
- static struct file_system_type shmem_fs_type;
- 
-+bool vma_is_anon_shmem(struct vm_area_struct *vma)
-+{
-+	return vma->vm_ops == &shmem_anon_vm_ops;
-+}
-+
- bool vma_is_shmem(struct vm_area_struct *vma)
- {
--	return vma->vm_ops == &shmem_vm_ops;
-+	return vma_is_anon_shmem(vma) || vma->vm_ops == &shmem_vm_ops;
- }
- 
- static LIST_HEAD(shmem_swaplist);
-@@ -3995,6 +4001,8 @@ static const struct vm_operations_struct shmem_vm_ops = {
- #endif
- };
- 
-+static const struct vm_operations_struct shmem_anon_vm_ops = shmem_vm_ops;
-+
- int shmem_init_fs_context(struct fs_context *fc)
- {
- 	struct shmem_options *ctx;
-@@ -4170,6 +4178,7 @@ void shmem_truncate_range(struct inode *inode, loff_t lstart, loff_t lend)
- EXPORT_SYMBOL_GPL(shmem_truncate_range);
- 
- #define shmem_vm_ops				generic_file_vm_ops
-+#define shmem_anon_vm_ops			generic_file_vm_ops
- #define shmem_file_operations			ramfs_file_operations
- #define shmem_get_inode(sb, dir, mode, dev, flags)	ramfs_get_inode(sb, dir, mode, dev)
- #define shmem_acct_size(flags, size)		0
-@@ -4275,7 +4284,7 @@ int shmem_zero_setup(struct vm_area_struct *vma)
- 	if (vma->vm_file)
- 		fput(vma->vm_file);
- 	vma->vm_file = file;
--	vma->vm_ops = &shmem_vm_ops;
-+	vma->vm_ops = &shmem_anon_vm_ops;
- 
- 	return 0;
- }
+You are awesome, thank you!
 -- 
-2.38.1.431.g37b22c650d-goog
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
