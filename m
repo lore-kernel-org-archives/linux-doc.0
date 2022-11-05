@@ -2,142 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69013C433FE
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 12:54:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7F0DC4332F
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 13:33:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229516AbiKEMyZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Nov 2022 08:54:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45384 "EHLO
+        id S229748AbiKENdl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Nov 2022 09:33:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbiKEMyY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Nov 2022 08:54:24 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C299427CD0;
-        Sat,  5 Nov 2022 05:54:23 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id p21so7217009plr.7;
-        Sat, 05 Nov 2022 05:54:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KZ42H0SLRCb6moReftXhDXdbBURVm/UoF5wzsM8xUyc=;
-        b=bt94TcYPdUT795A9mV804QOy+ZtYX4QrjGifmwqZU6WM6efHicX/Zuv1VYJdYBFy/Z
-         nwrV81Q/boSKhUlv0UMrBpbAo2WqQerfscW0Wf8fp4cwpt40A+dCSRAmqudgTe8S2wXS
-         W9pwBtMFI/8rQpuDXh6rRzArdDHActoQgJxpcJFJxGtRN0Ff+8pUpuifgfW6aLqf746s
-         k2TqjlYa4VB3pyMOKJBItFYwCES2HSyvvSVo3b+RwW3kk/yy41SUrkCr3OI3mmzM+Oth
-         aMmx5ZedOooqUimIcGAQ727gQQDIrcpYKsmYEasnAFUhPC5AyHs01F9bn4n5EeuyPUKL
-         bXWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KZ42H0SLRCb6moReftXhDXdbBURVm/UoF5wzsM8xUyc=;
-        b=WnCFvNi5CXhqv88MbnYdCzPPDCDAIaIILHAV4NdxzQe343vrAq7wt3gQT6OkOc1Z/Q
-         Xn0NvV4iF0O7i2W5r/cmPksJiRSVr/uoz59GgJWMob7BA6++Q2vU/YkNtRKR0gyjoATU
-         aIAq+30RQ0o2hAJ00/ASuyjsjhmIdPwtS17Ia1Kl/hPVuH3D/oWzSh8ODysVEwiDRTzQ
-         f73vYps5VT5vhd1RWOv6Gh+H3JpvMMpwx7ogycCEKyoKISxBPiWSUusj3n6AjxRdv+Gu
-         t+a7uEePaSDTC/TaV0EdBjh9ZdS+w+ikzFk3ORnMqZkmo4MF5Kn7YIdLGIM/02ZP4Q+K
-         H5kQ==
-X-Gm-Message-State: ACrzQf09DoRUKuw3PVCM63CEX4agrz74uqtg8MG8bRB/OE3r/Fq/iy8w
-        oHn/pW5XJVuDi5yNn3rDTn0=
-X-Google-Smtp-Source: AMsMyM5a+/nqgJ2p7Kn5x1+j6lOJAvpowKnoiKWCtowjrieFISNII+1U1wzCXSLPCB0uqGFGwajAhA==
-X-Received: by 2002:a17:90b:3a81:b0:213:ff6a:aa0d with SMTP id om1-20020a17090b3a8100b00213ff6aaa0dmr26881004pjb.86.1667652863308;
-        Sat, 05 Nov 2022 05:54:23 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-7.three.co.id. [180.214.233.7])
-        by smtp.gmail.com with ESMTPSA id 101-20020a17090a0fee00b0020669c8bd87sm1202427pjz.36.2022.11.05.05.54.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Nov 2022 05:54:22 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id A8F8510403A; Sat,  5 Nov 2022 19:54:18 +0700 (WIB)
-Date:   Sat, 5 Nov 2022 19:54:18 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Maryam Tahhan <mtahhan@redhat.com>
-Subject: Re: [PATCH bpf-next v2] docs/bpf: document BPF ARRAY_OF_MAPS and
- HASH_OF_MAPS
-Message-ID: <Y2Zc+vdyQF9a0NnV@debian.me>
-References: <20221104101928.9479-1-donald.hunter@gmail.com>
+        with ESMTP id S229720AbiKENdj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Nov 2022 09:33:39 -0400
+Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1EE17669;
+        Sat,  5 Nov 2022 06:33:35 -0700 (PDT)
+Date:   Sat, 5 Nov 2022 21:33:27 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1667655214;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=dxRvSPpDkfA4OD0jTkmJfdwd7Z1nb3hGsYjmz0KPJnQ=;
+        b=oqch4dQvNpvDHRAep4jyoyCW9NyJxccw66ufHCjYLhBUF04rD/VSgUBLbpY6nJ7aoFkzqs
+        4wqxBEV+zzNKrLsTwt+mXDNudSm7/vBic+2ovzjs4cJ3r50xWRARht551br8JAiS9HZ1DT
+        EosekVyHCBli3IrQIrumS57LMDYgh/Q=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
+To:     Rui Li <me@lirui.org>
+Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN: Add userspace-api/futex2 Chinese translation
+Message-ID: <Y2ZmJ6bFeLi+xF+a@bobwxc.mipc>
+References: <20221105041741.288094-1-me@lirui.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="itayzI8Iw9S89a8P"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221104101928.9479-1-donald.hunter@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221105041741.288094-1-me@lirui.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=556; i=bobwxc@yeah.net;
+ h=from:subject; bh=lzpLYqc2X612vy5fFjAEe2n3C54VyB+hoiNMHkVJkzk=;
+ b=owEB7QES/pANAwAKAbZbKBIigrCFAcsmYgBjZmYMdFYZ8jCUSPxMz56Sw/I4DHKS4wfVtE1l4tyJ
+ Ea6qIdSJAbMEAAEKAB0WIQRFujdTmQmloK0WXU+2WygSIoKwhQUCY2ZmDAAKCRC2WygSIoKwhdvhC/
+ 4zgxwrzD9lbLv33RWS7URDJlisGot0tsgbub211VWMrdP9s2B/vfxuB1D7hZm5UVos51EFV0a8OZCT
+ Wq13Prhj/anaHW2r/f/pKxGa12hitP63CJSVqrzoAOxvwPfO06NMYhF5y2CSY7TXdJ/2XAC5OzgouV
+ q3LiscVxPhkr6Q1i63eaephcJr8uGepboUbXt0wStq+HBz9/8wqdNugt5LI6vNjxRLlpXazIdLZiXR
+ qLHgccFn4ZbfDWa4ZYPNjjaR6Ch5IUFqyAW0TIM2BXMhrxBuTgT/dVnKqhat9ymvyK7bycrt9BHPAq
+ jSZ28ccIH6armLWbtbVBlWa5tHkDYCQk5afst5RxEIi40drbFjEgSRIY/yvH4xFVflbsdLq0MpdSUQ
+ bHjHz2S9UjQtmT4os7nu0k8sWsnlt0/3JENsbYh0UXSNuDZorSfV6+ryFY84H5Tis7+KMDT4V0Wmo0
+ gcDXjTDK6iVu0IfRLlObeskFz+lP0nU7sY67jWNAzpgNw=
+X-Developer-Key: i=bobwxc@yeah.net; a=openpgp;
+ fpr=2BF2A4AA2F0730C3279ED01D32684A40BCA7AEA7
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+2022-11-05 (六) 12:17:41 +0800 Rui Li 曰：
+> Translate the following documents into Chinese:
+> 
+> - userspace-api/futex2.rst
+> 
+> Signed-off-by: Rui Li <me@lirui.org>
 
---itayzI8Iw9S89a8P
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
 
-On Fri, Nov 04, 2022 at 10:19:28AM +0000, Donald Hunter wrote:
-> +Kernel BPF
-> +----------
-<snipped>...
-> +Kernel BPF
-> +----------
-> +
+Thanks,
 
-As kernel test robot has reported [1], you need to disambiguate both heading
-titles above:
+> ---
+>  .../zh_CN/userspace-api/futex2.rst            | 80 +++++++++++++++++++
+>  .../zh_CN/userspace-api/index.rst             |  2 +-
+>  2 files changed, 81 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/userspace-api/futex2.rst
+> 
 
----- >8 ----
+-- 
+Wu XiangCheng	0x32684A40BCA7AEA7
 
-diff --git a/Documentation/bpf/map_of_maps.rst b/Documentation/bpf/map_of_m=
-aps.rst
-index d5a09bc669a34c..4dfe6ef9938e70 100644
---- a/Documentation/bpf/map_of_maps.rst
-+++ b/Documentation/bpf/map_of_maps.rst
-@@ -50,8 +50,8 @@ used to disable pre-allocation when it is too memory expe=
-nsive.
- Usage
- =3D=3D=3D=3D=3D
-=20
--Kernel BPF
------------
-+Helpers for kernel BPF
-+----------------------
-=20
- .. c:function::
-    void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-@@ -62,8 +62,8 @@ helper returns a pointer to the inner map, or ``NULL`` if=
- no entry was found.
- Examples
- =3D=3D=3D=3D=3D=3D=3D=3D
-=20
--Kernel BPF
------------
-+Kernel BPF examples
-+-------------------
-=20
- This snippet shows how to create an array of devmaps in a BPF program. Not=
-e that
- the outer array can only be modified from user space using the syscall API.
-
-Thanks.
-
-[1]: https://lore.kernel.org/linux-doc/202211051940.yqd37TmX-lkp@intel.com/
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---itayzI8Iw9S89a8P
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2Zc9AAKCRD2uYlJVVFO
-owv9AQCew1ehLnZ3zQ5cuvQ+b5S3pG4hE73oeIhKgFsWWRVZkAEA3E7xPbyTRxo8
-kKKQoeX3msv+iVY42ZY7NU7QuWZ2ygA=
-=U1Mq
------END PGP SIGNATURE-----
-
---itayzI8Iw9S89a8P--
