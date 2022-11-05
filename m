@@ -2,90 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61054C433FE
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 14:24:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BF94C4332F
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 14:45:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229776AbiKEOX7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Nov 2022 10:23:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39904 "EHLO
+        id S229517AbiKEOpY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Nov 2022 10:45:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229581AbiKEOX6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Nov 2022 10:23:58 -0400
-Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C831D2FE;
-        Sat,  5 Nov 2022 07:23:56 -0700 (PDT)
-Date:   Sat, 5 Nov 2022 22:23:45 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1667658234;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=8ebjs+8esHL8HGh+RohOf1TAMxpu6b+g4+vIiNqBHCM=;
-        b=t/ThmIIPiiTDnjjvSGFIXXL0mnJug96SzXyNWoAqFr0ljq36mX4QBv92VI8v9wCxNoY2Z5
-        nnuxaeOjQWcl6g4KV5M8EZAyu51BL6yiSKgVVRZKwBhQT9e68bgcqEob7EVzDMLhecboEm
-        wT9muNCyfr2ZcamDcxsUH6lNRM/KWf0=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
-To:     Rui Li <me@lirui.org>
-Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] docs/zh_CN: Add userspace-api/seccomp_filter Chinese
- translation
-Message-ID: <Y2Zx8Z/9v3SzqHD5@bobwxc.mipc>
-References: <20221105135020.292707-1-me@lirui.org>
+        with ESMTP id S229479AbiKEOpX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Nov 2022 10:45:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D01D6F016;
+        Sat,  5 Nov 2022 07:45:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6D06660B4C;
+        Sat,  5 Nov 2022 14:45:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 402D6C433D6;
+        Sat,  5 Nov 2022 14:45:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667659521;
+        bh=Uua9rMH8ov9+Gw+sFv2bzgzFPoAmAFSHy0HK4DaGsuA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Cwf0o+MI6eTvc8eEGGSkmY65qCb34GT2TnmxyNdEJrDRoJrtcJXox1JRT/o6Rfww/
+         ihv2k3Gcf/CKm5GtqARip6tQXM5Rxgs1o1dgkaDxUI1RW8mc1EJu1djdEJTSzTyRJ+
+         q5pgPo/zdF/9oveipcBqV7Zl0F1nWlRr+sIus+HBJJVmCCkeLq4gWupT3/ngcNDYjg
+         tOdan45o0m+dscyG9p7Xv5rvFAelqr4xQZ/me8JGAgI0Nrr117QxS7UvGzCvNFnL6j
+         wAZw4O9BdOo1snrqVsMvj/Gbp0f7JB8ZcTmsannVAJRwsbY8Z5KRYEtO9V3xe2e8/D
+         G5zvdiPvM6OUw==
+Date:   Sat, 5 Nov 2022 20:15:17 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Sean Anderson <sean.anderson@seco.com>
+Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
+        linux-phy@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc: phy: Document typical order of API calls
+Message-ID: <Y2Z2/Sz20QyZrek3@matsya>
+References: <20221018175841.1906611-1-sean.anderson@seco.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221105135020.292707-1-me@lirui.org>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=768; i=bobwxc@email.cn;
- h=from:subject; bh=gNkpdnUYAQzFLYdFUoQ1yENKCM3ahBrusyt2jXEkoyg=;
- b=owEB7AET/pANAwAKAbZbKBIigrCFAcsmYgBjZnHY9XE4XtxQaVMqu7OEhDw/pSGWVyjQRkHCUZe8
- PcU4VKeJAbIEAAEKAB0WIQRFujdTmQmloK0WXU+2WygSIoKwhQUCY2Zx2AAKCRC2WygSIoKwhRloC/
- dKXxS+LBzcHs0p1HeAPS2A+C0FRwiYsianzLlUFTpjSgZx4r/A5mpdY64ybhZHbvGF+ah3yg7QIpTB
- 5Q0einlD0T7QcQ7yw40wkQmFrTnY6/GouD0UkQrRgG0nWPUf5x992n1HP65hm1kzl8md0BEMGgsBGW
- NX+/T5oMfDcOWedFzuRKk7ROPazfi3xqdIDDyvF+Iy32wrehJBGwM9d1kdtqxqkk2dxVHeeMTxEIzU
- mSuITim/SMH/CSGB4AnFCEb16yUEMCUOkTfCCKsVZoZMQOS/ICyv0zGLZcNT4yNfEbVTAwDdFvxIle
- 0u7Vx1ebqYEjjMbKy188Gk+3BKGYvJCSonfPwYIbGAGNXQkWsbPfVYI7IIPULt8karyjwpEsxYXXhW
- mFPMmQn8kNTXG4nfWQVTrdHEonM3eqVIUMEJAWqdvz851Jnhyr6y6HTnG3xzqK+WV0jthne9usC07Z
- sswKF0FybikmdpfFDJS70BbfFDZC7gCWiyBEyiGV8FQg==
-X-Developer-Key: i=bobwxc@email.cn; a=openpgp;
- fpr=2BF2A4AA2F0730C3279ED01D32684A40BCA7AEA7
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20221018175841.1906611-1-sean.anderson@seco.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2022-11-05 (六) 21:50:20 +0800 Rui Li 曰：
-> Translate the following documents into Chinese:
-> 
-> - userspace-api/seccomp_filter.rst
-> 
-> Also adjust index order according to the original index file.
-> 
-> Signed-off-by: Rui Li <me@lirui.org>
+On 18-10-22, 13:58, Sean Anderson wrote:
+> Document the typical order of API calls to used by new drivers and
+> controllers. Many existing controllers follow this order, but some do
+> not. This is especially true for controllers designed to work with one
+> particular PHY driver, which may not need a call to (for example)
+> phy_init.
 
-
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-
-Thanks,
-
-> ---
-> Changes since v2:
-> - Fix some typo.
-> 
-> Changes since v1:
-> - Add a note for Seccomp.
-> - Fix some typo.
-> ---
->  .../zh_CN/userspace-api/index.rst             |   4 +-
->  .../zh_CN/userspace-api/seccomp_filter.rst    | 293 ++++++++++++++++++
->  2 files changed, 295 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/translations/zh_CN/userspace-api/seccomp_filter.rst
-> 
+Applied, thanks
 
 -- 
-Wu XiangCheng	0x32684A40BCA7AEA7
-
+~Vinod
