@@ -2,215 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F106DC433FE
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 03:33:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90E96C433FE
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 04:18:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229737AbiKEDdn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 4 Nov 2022 23:33:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34906 "EHLO
+        id S229550AbiKEESI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Nov 2022 00:18:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbiKEDdn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 4 Nov 2022 23:33:43 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED8D827DD1;
-        Fri,  4 Nov 2022 20:33:40 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id v28so6069606pfi.12;
-        Fri, 04 Nov 2022 20:33:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PqWuupQi575tTUpTn1o8/kCq7G4qDeLiygBhCrz4Zxo=;
-        b=aGdUJM/eIC4PP+6b+bBppMXXwPX3CNiuwwB6lgiPNuyvmrM88eneutVazgDvc2MLQ6
-         UJ4R0Wf47SGdcHq2b0/UA4d0wodUaZdfFZBAGej85/rMoU4MhjPEFB+3/wJZGPcFKlxm
-         xyjSsO9d8JDye6GUuUe2jduU1TVtZo9A+PyOJtV73YMr4d8EAJ9mD1yi1q94u8A1v6c/
-         sYJmUcWWFLssxQzvPQ8xoh1ULLvghWDEo7dLJO9mW53cox+STTdNM8t9ryEUtqowDMuP
-         dnBdvnq6ZwQlg+M0HrzyjyANMH+OWUoLl6Yf8pakpEOhFenzfv47ZZiQY5/6C8umg61P
-         fTew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PqWuupQi575tTUpTn1o8/kCq7G4qDeLiygBhCrz4Zxo=;
-        b=ankdGW0Sq/fCut1nEeKR8fp652qASZ1YjW0ILzcRt+33lc8CPF1kHLiVxHWNQYg9JZ
-         2M44wI3GheGLe3c2Nhy0pxpmFPTaykpDi7Y9lLNhu5r6uf5TDXKKnHfUYrM0GLSlCu9h
-         Qb/Yz2k3lTMimMJhI8sUeX3sIpLez5oos1HmCOqMeXkzCa1eY6x3oonn4pxlaQvXq8yT
-         JPwLj228Hc5L21elNjY8jUdnvRfZhtQjNXqrDv6+ziLzGKGKd7/J+T5jQD+Z2iYE6Dd2
-         z3prJXtXSX95VtWxIZy/giFa+IzLOtBgAOLXitaxWRqc9MB6HSSM5cmQLsUHrTZZy1XH
-         bBNA==
-X-Gm-Message-State: ACrzQf1ZTfZMVuJxjtopSbdaD2t175O7DyeEW+ogwY6rUR6Zu7Z5wnJc
-        bp9M1MXPNuw0nBGCzVPeoC8=
-X-Google-Smtp-Source: AMsMyM4x71iF83RahSkMtTuALh2Y0HRgGol+0+euNhayw25UqeojetlLdZqHO0MX/qp+ZVFHPLcIoQ==
-X-Received: by 2002:a63:5109:0:b0:470:22e0:d7a4 with SMTP id f9-20020a635109000000b0047022e0d7a4mr9087189pgb.71.1667619220342;
-        Fri, 04 Nov 2022 20:33:40 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-85.three.co.id. [180.214.232.85])
-        by smtp.gmail.com with ESMTPSA id w3-20020a628203000000b00562784609fbsm322628pfd.209.2022.11.04.20.33.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Nov 2022 20:33:39 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 4619D1009A7; Sat,  5 Nov 2022 10:33:36 +0700 (WIB)
-Date:   Sat, 5 Nov 2022 10:33:35 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Dipen Patel <dipenp@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        robh+dt@kernel.org
-Subject: Re: [PATCH 5/7] hte: Re-phrase tegra API document
-Message-ID: <Y2XZj4j/NQH2igvJ@debian.me>
-References: <20221103174523.29592-1-dipenp@nvidia.com>
- <20221103174523.29592-6-dipenp@nvidia.com>
+        with ESMTP id S229453AbiKEESH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Nov 2022 00:18:07 -0400
+Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6062625C58;
+        Fri,  4 Nov 2022 21:18:05 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lirui.org; s=key1;
+        t=1667621883;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=0xWrjWW5/BEZJ1QOBO6Ep76mm7zV7shhsAJO1ozIYHs=;
+        b=lHuDHl1TdkpvJ8Mk7syr07voA2i8CxaadlJCEPKzGw+ZM3uKMl4rFQbeOHw/b5n5qNI7VC
+        DG2iSxO3iKbdqTPXtW5j4PkGLaP20p+60vSTG85duxpD4qSlsf68UShIlCYkikX6UR3VOO
+        tQSnfAak4YkiWJh+nz+ISJSr+cePo7ZlKAPScrj54EhYSWzgAsSzn8Xr8ovxx6LtZksgBD
+        TSvm/hclClqIcibp/lMuz/W/MRPiRwJjmWx1EoZUdetEOxzu6eYQv3vmHB2GG2JnhFXqju
+        vIM4SyXiPyPoBPOdQmvEWPoX+pMsMmFWlqdJRa01e5KMyf+asPdjEuOx9B4FKQ==
+From:   Rui Li <me@lirui.org>
+To:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Wu XiangCheng <wu.xiangcheng@linux.dev>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rui Li <me@lirui.org>
+Subject: [PATCH] docs/zh_CN: Add userspace-api/futex2 Chinese translation
+Date:   Sat,  5 Nov 2022 12:17:41 +0800
+Message-Id: <20221105041741.288094-1-me@lirui.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="uDKYV1gmcRUMwZrs"
-Content-Disposition: inline
-In-Reply-To: <20221103174523.29592-6-dipenp@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Translate the following documents into Chinese:
 
---uDKYV1gmcRUMwZrs
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+- userspace-api/futex2.rst
 
-On Thu, Nov 03, 2022 at 10:45:21AM -0700, Dipen Patel wrote:
->  Description
->  -----------
-> -The Nvidia tegra194 HTE provider driver implements two GTE
-> -(Generic Timestamping Engine) instances: 1) GPIO GTE and 2) LIC
-> -(Legacy Interrupt Controller) IRQ GTE. Both GTE instances get the
-> -timestamp from the system counter TSC which has 31.25MHz clock rate, and=
- the
-> -driver converts clock tick rate to nanoseconds before storing it as time=
-stamp
-> -value.
-> +The Nvidia tegra HTE provider also known as GTE (Generic Timestamping En=
-gine)
-> +driver implements two GTE instances: 1) GPIO GTE and 2) LIC
-> +(Legacy Interrupt Controller) IRQ GTE. Both GTE instances get the timest=
-amp
-> +from the system counter TSC which has 31.25MHz clock rate, and the driver
-> +converts clock tick rate to nanoseconds before storing it as timestamp v=
-alue.
-> =20
->  GPIO GTE
->  --------
-> =20
->  This GTE instance timestamps GPIO in real time. For that to happen GPIO
-> -needs to be configured as input. The always on (AON) GPIO controller ins=
-tance
-> -supports timestamping GPIOs in real time and it has 39 GPIO lines. The G=
-PIO GTE
-> -and AON GPIO controller are tightly coupled as it requires very specific=
- bits
-> -to be set in GPIO config register before GPIO GTE can be used, for that =
-GPIOLIB
-> -adds two optional APIs as below. The GPIO GTE code supports both kernel
-> -and userspace consumers. The kernel space consumers can directly talk to=
- HTE
-> -subsystem while userspace consumers timestamp requests go through GPIOLI=
-B CDEV
-> -framework to HTE subsystem.
-> +needs to be configured as input. Only the always on (AON) GPIO controller
-> +instance supports timestamping GPIOs in real time as it is tightly coupl=
-ed with
-> +the GPIO GTE. To support this, GPIOLIB adds two optional APIs as mention=
-ed
-> +below. The GPIO GTE code supports both kernel and userspace consumers. T=
-he
-> +kernel space consumers can directly talk to HTE subsystem while userspace
-> +consumers timestamp requests go through GPIOLIB CDEV framework to HTE
-> +subsystem. The hte devicetree binding described at
-> +``Documentation/devicetree/bindings/timestamp`` provides an example of h=
-ow a
-> +consumer can request an GPIO line.
-> =20
->  See gpiod_enable_hw_timestamp_ns() and gpiod_disable_hw_timestamp_ns().
-> =20
+Signed-off-by: Rui Li <me@lirui.org>
+---
+ .../zh_CN/userspace-api/futex2.rst            | 80 +++++++++++++++++++
+ .../zh_CN/userspace-api/index.rst             |  2 +-
+ 2 files changed, 81 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/userspace-api/futex2.rst
 
-I think the wording can be better:
+diff --git a/Documentation/translations/zh_CN/userspace-api/futex2.rst b/Documentation/translations/zh_CN/userspace-api/futex2.rst
+new file mode 100644
+index 000000000000..04f9d62db1f7
+--- /dev/null
++++ b/Documentation/translations/zh_CN/userspace-api/futex2.rst
+@@ -0,0 +1,80 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/userspace-api/futex2.rst
++
++:翻译:
++
++ 李睿 Rui Li <me@lirui.org>
++
++======
++futex2
++======
++
++:作者: André Almeida <andrealmeid@collabora.com>
++
++futex，或者称为快速用户互斥锁（fast user mutex），是一组允许用户空间创建高性能同步
++机制的系统调用，比如用户空间中的互斥锁，信号量和条件变量。C标准库，如glibc，使用它作
++为实现更多高级接口的方式，如pthreads。
++
++futex2是初代futex系统调用的后续版本，旨在克服原有接口的限制。
++
++用户API
++=======
++
++``futex_waitv()``
++-----------------
++
++等待一个futex数组，可由其中任意一个唤醒::
++
++  futex_waitv(struct futex_waitv *waiters, unsigned int nr_futexes,
++              unsigned int flags, struct timespec *timeout, clockid_t clockid)
++
++  struct futex_waitv {
++        __u64 val;
++        __u64 uaddr;
++        __u32 flags;
++        __u32 __reserved;
++  };
++
++用户空间设置一个struct futex_waitv数组（最多128项），设置 ``uaddr`` 为等待的
++地址， ``val`` 为期望值， ``flags`` 为指定的类型（如private）和futex的大小。
++``__reserved`` 需要置为0，但是它可用作未来扩展。指向数组第一个元素的指针作为
++``waiters`` 传递。如果 ``waiters`` 或任何的  ``uaddr`` 地址无效，将返回 ``-EFAULT`` 。
++
++如果用户空间拥有32位的指针，那么需要做显式转换来保证高位清零。 ``uintptr_t`` 设计
++得很精巧，在32/64位的指针上都正常工作。
++
++``nr_futexes`` 指定了数组的大小。不在[1,128]区间内的值会使系统调用返回 ``-EINVAL`` 。
++
++系统调用的 ``flags`` 参数需要置0，但可用作未来扩展。
++
++对于每个 ``waiters`` 数组中的项，在 ``uaddr`` 的当前值会和 ``val`` 比较。如果
++不一致，系统调用会撤销截至目前完成的所有工作，并返回 ``-EAGAIN`` 。如果所有测试
++和验证都通过，系统调用会等待直到以下情况之一发生：
++
++- 指定的timeout超时，返回 ``-ETIMEOUT`` 。
++- 一个信号被传递给睡眠中的任务，返回 ``-ERESTARTSYS`` 。
++- 某个列表中的futex被唤醒，返回那个被唤醒的futex的索引。
++
++关于如何使用接口的例子可以在 ``tools/testing/selftests/futex/functional/futex_waitv.c``
++中找到。
++
++超时
++----
++
++``struct timespec *timeout`` 是一个指向绝对超时时间的可选参数。你需要在 ``clockid``
++参数中指定要使用的时钟类型。支持 ``CLOCK_MONOTONIC`` 和 ``CLOCK_REALTIME`` 。这个
++系统调用只接受64位的timespec结构体。
++
++futex的类型
++-----------
++
++futex既可以是私有的也可以是共享的。私有用于多个进程共享同样的内存空间，并且futex的虚拟
++地址对所有进程都是一样的。这允许在内核中进行优化。要使用私有futex，需要在futex标志中指定
++``FUTEX_PRIVATE_FLAG`` 。对于那些不在同一内存空间共享的进程，可以让同一个futex拥有不同
++的虚拟地址（例如使用基于文件的共享内存），这需要不同的内部机制来使得正确进入队列。这是默认
++的行为，而且对私有futex和共享futex都适用。
++
++futex可以是不同的大小：8，16，32或64位。目前只支持32位大小的futex，并且需要通过 ``FUTEX_32``
++标志指定。
+diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Documentation/translations/zh_CN/userspace-api/index.rst
+index dad5ba7cae6d..68b69b14b143 100644
+--- a/Documentation/translations/zh_CN/userspace-api/index.rst
++++ b/Documentation/translations/zh_CN/userspace-api/index.rst
+@@ -28,6 +28,7 @@ Linux 内核用户空间API指南
+    seccomp_filter
+    ebpf/index
+    sysfs-platform_profile
++   futex2
+ 
+ TODOList:
+ 
+@@ -40,7 +41,6 @@ TODOList:
+ * media/index
+ * netlink/index
+ * vduse
+-* futex2
+ 
+ .. only::  subproject and html
+ 
+-- 
+2.30.2
 
----- >8 ----
-
-diff --git a/Documentation/driver-api/hte/tegra194-hte.rst b/Documentation/=
-driver-api/hte/tegra194-hte.rst
-index 85e654772782c1..13c45bfc03a75e 100644
---- a/Documentation/driver-api/hte/tegra194-hte.rst
-+++ b/Documentation/driver-api/hte/tegra194-hte.rst
-@@ -5,11 +5,11 @@ HTE Kernel provider driver
-=20
- Description
- -----------
--The Nvidia tegra HTE provider also known as GTE (Generic Timestamping Engi=
-ne)
--driver implements two GTE instances: 1) GPIO GTE and 2) LIC
--(Legacy Interrupt Controller) IRQ GTE. Both GTE instances get the timestamp
--from the system counter TSC which has 31.25MHz clock rate, and the driver
--converts clock tick rate to nanoseconds before storing it as timestamp val=
-ue.
-+The Nvidia tegra HTE provider, also known as GTE (Generic Timestamping Eng=
-ine)
-+driver implements two GTE instances: GPIO GTE and LIC (Legacy Interrupt
-+Controller) IRQ GTE. Both GTE instances get the timestamp from system coun=
-ter
-+TSC which has 31.25MHz clock rate, and the driver converts clock tick rate=
- to
-+nanoseconds before storing it as timestamp value.
-=20
- GPIO GTE
- --------
-@@ -19,17 +19,17 @@ needs to be configured as input. Only the always on (AO=
-N) GPIO controller
- instance supports timestamping GPIOs in real time as it is tightly coupled=
- with
- the GPIO GTE. To support this, GPIOLIB adds two optional APIs as mentioned
- below. The GPIO GTE code supports both kernel and userspace consumers. The
--kernel space consumers can directly talk to HTE subsystem while userspace
--consumers timestamp requests go through GPIOLIB CDEV framework to HTE
--subsystem. The hte devicetree binding described at
--``Documentation/devicetree/bindings/timestamp`` provides an example of how=
- a
--consumer can request an GPIO line.
-+kernel space consumers can directly talk to HTE subsystem while requests f=
-rom
-+userspace consumers go through GPIOLIB CDEV framework to HTE subsystem. Th=
-e hte
-+devicetree binding described at ``Documentation/devicetree/bindings/timest=
-amp``
-+provides an example of how a consumer can request an GPIO line.
-=20
--See gpiod_enable_hw_timestamp_ns() and gpiod_disable_hw_timestamp_ns().
-+To toggle hardware timestamp, use gpiod_enable_hw_timestamp_ns() and
-+gpiod_disable_hw_timestamp_ns().
-=20
- For userspace consumers, GPIO_V2_LINE_FLAG_EVENT_CLOCK_HTE flag must be
--specified during IOCTL calls. Refer to ``tools/gpio/gpio-event-mon.c``, wh=
-ich
--returns the timestamp in nanoseconds.
-+specified during IOCTL calls. Refer to ``tools/gpio/gpio-event-mon.c`` for
-+example.
-=20
- LIC (Legacy Interrupt Controller) IRQ GTE
- -----------------------------------------
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---uDKYV1gmcRUMwZrs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2XZigAKCRD2uYlJVVFO
-o8AOAP4hUzaq+a/2yFymft+ISsBiFcMR0EF08Jm0EKm6pu04bQD/fWuDpsSvy1dM
-kq2KhhNX5LxzZ+zeUL5x+YiHkrC35Qg=
-=CiD3
------END PGP SIGNATURE-----
-
---uDKYV1gmcRUMwZrs--
