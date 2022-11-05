@@ -2,110 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A1B4C4332F
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 15:08:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27424C4332F
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 16:07:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229725AbiKEPIY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Nov 2022 11:08:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57076 "EHLO
+        id S229639AbiKEQHo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Nov 2022 12:07:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229911AbiKEPIX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Nov 2022 11:08:23 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE87924E;
-        Sat,  5 Nov 2022 08:08:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7E70AB800C1;
-        Sat,  5 Nov 2022 15:08:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B966C433C1;
-        Sat,  5 Nov 2022 15:08:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667660899;
-        bh=yWbcC0nag9CXDHgeNIYiUOaIkjJlOv4BI1h6LN5fnEg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=QeBuCDsvt3qUU/pifZXijpmEQtmwV2rZyeBd+fPS5xgRBo5wQdcTwl8y82gffWsyC
-         kCN0toUQPgsI0RXOCbW6WGp+ac6pKwwEic/PXLnVQyCoWGUif1Se+B9mrk0zoI6bKi
-         h7yor+NXh3jjo3kRl5vRnkoFRrm/tL3l6M7H4EUdPKV7mhvYY1GGPs4PFiGxBt0lKf
-         vq+DL6IwAuprmAb+OzKFyqeY2jTt+RpBBL8Zz4hEAVaPWAoCvPjpq3OUT27u8xfank
-         5mPGT9IB07ow1tUlQiT+5jGYthErxvcnysdVV38PM0BowPteo/hgx8swusVA6N8NBl
-         ZOOslt7fYWQpA==
-Date:   Sat, 5 Nov 2022 15:08:12 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     <linux-doc@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-        <Jonathan.Cameron@huawei.com>, <corbet@lwn.net>
-Subject: Re: [PATCH RESEND] Documentation: devres: add missing IIO helpers
-Message-ID: <20221105150812.66d81f40@jic23-huawei>
-In-Reply-To: <20221103023402.1024437-1-yangyingliang@huawei.com>
-References: <20221103023402.1024437-1-yangyingliang@huawei.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-pc-linux-gnu)
+        with ESMTP id S229493AbiKEQHn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Nov 2022 12:07:43 -0400
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E0510068
+        for <linux-doc@vger.kernel.org>; Sat,  5 Nov 2022 09:07:42 -0700 (PDT)
+Received: by mail-vs1-xe30.google.com with SMTP id 3so7009537vsh.5
+        for <linux-doc@vger.kernel.org>; Sat, 05 Nov 2022 09:07:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GP8p4dRzNVpyUotOfaypMmYTGE9lsMcq6qB3gjhmc04=;
+        b=iIDJL03zNkH0lS9YORaCB4Nnx18G1RT5PAxkqTBkren7bOYLdVGnhhilx+OlS481lw
+         gQr71gF/2R0QtX/qOni1Pt9vrqOkIr43rj0MZrH/uG69dzQgSBZeGC3nRHzTa1HEb5Zv
+         OhEAlIPPkZmfK8ER3fSUpMd0BmaBeM97bdw94=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GP8p4dRzNVpyUotOfaypMmYTGE9lsMcq6qB3gjhmc04=;
+        b=TQlNVZ/TRuK4G+PyCzfzMWrBWvAnAyCuzEf+WB/z+MGIOCkYrTENNOykLx/N2+OGDk
+         iZMlQ6EEj2IMIgK+2ap+lH9gPXuyDYRXGi2osws8erqx3DaCsJPgB5ih/EjFU/pQWRGg
+         fDWnP2zdxtxWgErxhP43dZL8yeiaAR+CNIZzne17o7hw9P5mwE1yuNwjJlNEeb17qbte
+         FRBdfBPKmOlig4yy+ebYREM13mQUQ4A3XGSu0UJ38Um6Mlrq6q3J2BKg49EGbNEU/fDi
+         YG8iy3xdFVnPekCi6wQpea4eLrSMQMLkFUkDlnAz+FLQSCIUfs+NWssm0VIYyzyao+2U
+         qr3Q==
+X-Gm-Message-State: ACrzQf1Pa5O6uw3SW08XL6wqE8OD4HsehMuNNXCXKGOpW5nCPVkIEdoh
+        ZbaLfu9AYxArHHA/Xqr0GqD8icMAA5YgRg==
+X-Google-Smtp-Source: AMsMyM5BIqEfqRIqNeGkVzJ14GCBjnenHBE2UVblC1zpkANgmr9IvOWUhMjQ+f9sFkUqMNmXiPjpkg==
+X-Received: by 2002:a05:6102:3d11:b0:3aa:515e:48e8 with SMTP id i17-20020a0561023d1100b003aa515e48e8mr398773vsv.63.1667664461460;
+        Sat, 05 Nov 2022 09:07:41 -0700 (PDT)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id q4-20020a9f3844000000b00409e1d5e75esm263917uad.37.2022.11.05.09.07.40
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Nov 2022 09:07:41 -0700 (PDT)
+Received: by mail-ua1-f41.google.com with SMTP id 97so3144920uam.0
+        for <linux-doc@vger.kernel.org>; Sat, 05 Nov 2022 09:07:40 -0700 (PDT)
+X-Received: by 2002:a81:114e:0:b0:36a:fc80:fa62 with SMTP id
+ 75-20020a81114e000000b0036afc80fa62mr40431421ywr.58.1667663992806; Sat, 05
+ Nov 2022 08:59:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20221105060024.598488967@goodmis.org>
+In-Reply-To: <20221105060024.598488967@goodmis.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sat, 5 Nov 2022 08:59:36 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wi95dGkg7DiuOZ27gGW+mxJipn9ykB6LHB-HrbbLG6OMQ@mail.gmail.com>
+Message-ID: <CAHk-=wi95dGkg7DiuOZ27gGW+mxJipn9ykB6LHB-HrbbLG6OMQ@mail.gmail.com>
+Subject: Re: [PATCH v4a 00/38] timers: Use timer_shutdown*() before freeing timers
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Anna-Maria Gleixner <anna-maria@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
+        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-acpi@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-bluetooth@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
+        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 3 Nov 2022 10:34:02 +0800
-Yang Yingliang <yangyingliang@huawei.com> wrote:
+On Fri, Nov 4, 2022 at 11:01 PM Steven Rostedt <rostedt@goodmis.org> wrote:
+>
+> Patch 1 fixes an issue with sunrpc/xprt where it incorrectly uses
+> del_singleshot_timer_sync() for something that is not a oneshot timer. As this
+> will be converted to shutdown, this needs to be fixed first.
 
-> Add some missing device-managed helpers of iio to devres.rst.
-> 
-> devm_iio_kfifo_buffer_setup_ext() is introduced by commit 0a21526bc1d4 ("iio:
-> kfifo: add devm_iio_triggered_buffer_setup_ext variant").
-> 
-> devm_iio_triggered_buffer_setup_ext() is introduced by commit 5164c7889857 ("iio:
-> triggered-buffer: add {devm_}iio_triggered_buffer_setup_ext variants").
-> 
-> devm_iio_hw_consumer_alloc() is introduced by b688c18d3006 ("IIO: hw_consumer:
-> add devm_iio_hw_consumer_alloc").
-> 
-> devm_fwnode_iio_channel_get_by_name() is introduced by commit 1e64b9c5f9a0 ("iio:
-> inkern: move to fwnode properties").
-> 
-> Fixes: 0a21526bc1d4 ("iio: kfifo: add devm_iio_triggered_buffer_setup_ext variant")
-> Fixes: 5164c7889857 ("iio: triggered-buffer: add {devm_}iio_triggered_buffer_setup_ext variants")
-> Fixes: b688c18d3006 ("IIO: hw_consumer: add devm_iio_hw_consumer_alloc")
-> Fixes: 1e64b9c5f9a0 ("iio: inkern: move to fwnode properties")
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-You didn't pick up my
+So this is the kind of thing that I would *not* want to get eartly.
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+I really would want to get just the infrastructure in to let people
+start doing conversions.
 
-or mention that my assumption is that this will go via the docs tree.
+And then the "mindlessly obvious patches that are done by scripting
+and can not possibly matter".
 
-Thanks,
+The kinds that do not *need* review, because they are mechanical, and
+that just cause pointless noise for the rest of the patches that *do*
+want review.
 
-Jonathan
+Not this kind of thing that is so subtle that you have to explain it.
+That's not a "scripted patch for no semantic change".
 
-> ---
-> The previous patch link:
-> https://patchwork.kernel.org/project/linux-iio/patch/20220927074043.942836-1-yangyingliang@huawei.com/
-> ---
->  Documentation/driver-api/driver-model/devres.rst | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-> index e0cb7df0f782..4249eb4239e0 100644
-> --- a/Documentation/driver-api/driver-model/devres.rst
-> +++ b/Documentation/driver-api/driver-model/devres.rst
-> @@ -287,12 +287,16 @@ IIO
->    devm_iio_device_register()
->    devm_iio_dmaengine_buffer_setup()
->    devm_iio_kfifo_buffer_setup()
-> +  devm_iio_kfifo_buffer_setup_ext()
->    devm_iio_map_array_register()
->    devm_iio_triggered_buffer_setup()
-> +  devm_iio_triggered_buffer_setup_ext()
->    devm_iio_trigger_alloc()
->    devm_iio_trigger_register()
->    devm_iio_channel_get()
->    devm_iio_channel_get_all()
-> +  devm_iio_hw_consumer_alloc()
-> +  devm_fwnode_iio_channel_get_by_name()
->  
->  INPUT
->    devm_input_allocate_device()
+So leave the del_singleshot_timer_sync() cases alone, they are
+irrelevant for the new infrastructure and for the "mindless scripted
+conversion" patches.
 
+> Patches 2-4 changes existing timer_shutdown() functions used locally in ARM and
+> some drivers to better namespace names.
+
+Ok, these are relevant.
+
+> Patch 5 implements the new timer_shutdown() and timer_shutdown_sync() functions
+> that disable re-arming the timer after they are called.
+
+This is obviously what I'd want early so that people can start doign
+this in their trees.
+
+> Patches 6-28 change all the locations where there's a kfree(), kfree_rcu(),
+> kmem_cache_free() and one call_rcu() call where the RCU function frees the
+> timer (the workqueue patch) in the same function as the del_timer{,_sync}() is
+> called on that timer, and there's no extra exit path between the del_timer and
+> freeing of the timer.
+
+So honestly, I was literally hoping for a "this is the coccinelle
+script" kind of patch.
+
+Now there seems to be a number of patches here that are actualyl
+really hard to see that they are "obviously correct" and I can't tell
+if they are actually scripted or not.
+
+They don't *look* scripted, but I can't really tell.  I looked at the
+patches with ten lines of context, and I didn't see the immediately
+following kfree() even in that expanded patch context, so it's fairly
+far away.
+
+Others in the series were *definitely* not scripted, doing clearly
+manual cleanups:
+
+-    if (dch->timer.function) {
+-        del_timer(&dch->timer);
+-        dch->timer.function = NULL;
+-    }
++    timer_shutdown(&dch->timer);
+
+so no, this does *not* make me feel "ok, this is all trivial".
+
+IOW, I'd really want *just* the infrastructure and *just* the provably
+trivial stuff. If it wasn't some scripted really obvious thing that
+cannot possibly change anything and that wasn't then edited manually
+for some reason, I really don't want it early.
+
+IOW, any early conversions I'd take are literally about removing pure
+mindless noise. Not about doing conversions.
+
+And I wouldn't mind it as a single conversion patch that has the
+coccinelle script as the explanation.
+
+Really just THAT kind of "100% mindless conversion".
+
+               Linus
