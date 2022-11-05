@@ -2,177 +2,250 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF97AC4332F
-	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 04:19:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 954FBC4332F
+	for <linux-doc@archiver.kernel.org>; Sat,  5 Nov 2022 06:01:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbiKEETs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 5 Nov 2022 00:19:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42378 "EHLO
+        id S229560AbiKEGBb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 5 Nov 2022 02:01:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiKEETr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Nov 2022 00:19:47 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34F4F25C5F;
-        Fri,  4 Nov 2022 21:19:46 -0700 (PDT)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A549KRm009176;
-        Sat, 5 Nov 2022 04:19:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=rVE969ogytLqBE1VG7Ut5W0MADRp4Pwg8YyYhTSqUIU=;
- b=UWfd7D3XfTDRQowpKnPwjyAnX7ExKR4UkxTJRaIk4Z60W1gYwvNX4qY2fASRc1cowmJu
- BwRHzslwrYfUQKb4rKBdkWXCTfSpMM2PMIH56mot5k/UkSe4iiNmsTZdUFg9eH9+SBM0
- 5/g3qY7ozdGlQP8AbZLzHVzjbbZ6r7SQoKe7N5RFeloBjF/2yhn2VtUcBi4kIcCql/ly
- 2U/FH2770cpQdoBkC8GPv/X8Pg71t7H0mledAm+U4yBke+16Pd4amyMf9gMTqu/viVej
- clhtyHRb+3/5Za4ztEgNMrZLY+TYdr7+iwTQVLgs3ZKXBJhaLyOumQXGUBCW3VFqZqzU dQ== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kneswr504-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 05 Nov 2022 04:19:27 +0000
-Received: from nasanex01a.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 2A54JQLB027279
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 5 Nov 2022 04:19:26 GMT
-Received: from [10.110.19.49] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Fri, 4 Nov 2022
- 21:19:25 -0700
-Message-ID: <95a9f253-984a-14e0-7e01-f168452576c4@quicinc.com>
-Date:   Fri, 4 Nov 2022 21:19:24 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v6 13/21] gunyah: vm_mgr: Introduce basic VM Manager
-Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Bjorn Andersson <quic_bjorande@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Will Deacon" <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Srinivas Kandagatla" <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20221026185846.3983888-1-quic_eberman@quicinc.com>
- <20221026185846.3983888-14-quic_eberman@quicinc.com>
- <Y2H8oh7AvYDiMqKs@kroah.com>
- <722b05a1-4bf5-0837-baea-b1d0a9cc1e43@quicinc.com>
- <Y2MKWOihjAPxfl6v@kroah.com>
- <96238455-73b6-bead-0fdb-55ca68e5bf0b@quicinc.com>
- <9dd597d9-a3f3-48f2-8416-b5b097a230d5@app.fastmail.com>
- <980db147-794e-ecd9-9626-64ff81109bab@quicinc.com>
-From:   Trilok Soni <quic_tsoni@quicinc.com>
-In-Reply-To: <980db147-794e-ecd9-9626-64ff81109bab@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: oMN8xX8RjMfaonXf2jb0_V1n3cX4SrZn
-X-Proofpoint-ORIG-GUID: oMN8xX8RjMfaonXf2jb0_V1n3cX4SrZn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-05_01,2022-11-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- impostorscore=0 clxscore=1011 suspectscore=0 adultscore=0 spamscore=0
- phishscore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211050031
+        with ESMTP id S229472AbiKEGBa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 5 Nov 2022 02:01:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54B812D1FD;
+        Fri,  4 Nov 2022 23:01:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BD4126098A;
+        Sat,  5 Nov 2022 06:01:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08B27C433C1;
+        Sat,  5 Nov 2022 06:01:27 +0000 (UTC)
+Received: from rostedt by gandalf.local.home with local (Exim 4.96)
+        (envelope-from <rostedt@goodmis.org>)
+        id 1orCFf-007Oer-03;
+        Sat, 05 Nov 2022 02:01:55 -0400
+Message-ID: <20221105060024.598488967@goodmis.org>
+User-Agent: quilt/0.66
+Date:   Sat, 05 Nov 2022 02:00:24 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Anna-Maria Gleixner <anna-maria@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        linux-edac@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-bluetooth@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
+        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
+Subject: [PATCH v4a 00/38] timers: Use timer_shutdown*() before freeing timers
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/4/2022 3:38 PM, Elliot Berman wrote:
-> 
-> 
-> On 11/4/2022 1:10 AM, Arnd Bergmann wrote:
->> On Fri, Nov 4, 2022, at 01:11, Elliot Berman wrote:
->>> On 11/2/2022 5:24 PM, Greg Kroah-Hartman wrote:
->>>> On Wed, Nov 02, 2022 at 11:45:12AM -0700, Elliot Berman wrote:
->>>>
->>>> Even if you don't support it 1:1, at least for the ones that are the
->>>> same thing, pick the same numbers as that's a nicer thing to do, right?
->>>>
->>>
->>> Does same thing == interpretation of arguments is the same? For
->>> instance, GH_CREATE_VM and KVM_CREATE_VM interpret the arguments
->>> differently. Same for KVM_SET_USERSPACE_MEMORY. The high level
->>> functionality should be similar for most all hypervisors since they will
->>> all support creating a VM and probably sharing memory with that VM. The
->>> arguments for that will necessarily look similar, but they will probably
->>> be subtly different because the hypervisors support different features.
->>
->> I think in the ideal case, you should make the arguments and the
->> command codes the same for any command where that is possible. If
->> you come across a command that is shared with KVM but just needs
->> another flag, that would involve coordinating with the KVM maintainers
->> about sharing the definition so the same flag does not get reused
->> in an incompatible way.
->>
-> 
-> I think the converse also needs to be true; KVM would need to check that
-> new flags don't get used in some incompatible way with Gunyah, even if
-> one of us is just -EINVAL'ing. I don't think Gunyah and KVM should be
-> reliant on the other reviewing shared ioctls.
-> 
-> The problem is a bit worse because "machine type" is architecture-
-> dependent whereas the planned Gunyah flags are architecture-independent.
-> KVM within itself re-uses flags between architectures so Gunyah would
-> need to reserve some flags from all architectures that KVM supports.
 
-I agree w/ Elliot. We would like to keep Gunyah independent and not rely 
-on the existing KVM ioctls space. We should allow new hypervisor drivers 
-interfaces addition in Linux kernel without them relying on KVM.
+Back in April, I posted an RFC patch set to help mitigate a common issue
+where a timer gets armed just before it is freed, and when the timer
+goes off, it crashes in the timer code without any evidence of who the
+culprit was. I got side tracked and never finished up on that patch set.
+Since this type of crash is still our #1 crash we are seeing in the field,
+it has become a priority again to finish it.
 
-> 
->> For commands that cannot fit into the existing definition, there
->> should be a different command code, using your own namespace and
->> not the 0xAE block that KVM has. It still makes sense to follow
->> the argument structure roughly here, unless there is a technical
->> reason for making it different.
->>
->>> I don't think userspace that supports both KVM and Gunyah will benefit
->>> much from re-using the same numbers since those re-used ioctl calls
->>> still need to sit within the context of a Gunyah VM.
->>
->> One immediate benefit is for tools that work on running processes,
->> such as strace, gdb or qemu-user. If they encounter a known command,
->> they can correctly display the arguments etc.
->>
-> 
-> We can update these tools and anyway there will be different ioctls to
-> get started. There are important ioctls that wouldn't be correctly
-> displayed off the bat anyway; work would need to be done to support the
-> Gunyah ioctls either way. Whereas tooling update is temporary, the
-> coupling of KVM and Gunyah ioctls would be permanent.
+The last version of that patch set is here:
 
-Agree, tools can be updated and that is the easy part as we grow the s/w 
-stack around Gunyah in userspace, like we already do w/ CrosVM (Virtual 
-Machine Manager) and QEMU will be next followed by rust-vmm. All of them 
-can be done without Gunyah ioctls relying anything on the KVM ioctls. 
-Elliot has also explained very well that we don't to go to KVM 
-maintainers for any of our additions and we also don't want them to come 
-to us, since there is no interoperability testing. It is best that both 
-Hypervisors and their Linux interfaces evolve independently.
+  https://lore.kernel.org/all/20221104054053.431922658@goodmis.org/
 
----Trilok Soni
+I'm calling this version 4a as it only has obvious changes were the timer that
+is being shutdown is in the same function where it will be freed or released,
+as this series should be "safe" for adding. I'll be calling the other patches
+4b for the next merge window.
+
+Patch 1 fixes an issue with sunrpc/xprt where it incorrectly uses
+del_singleshot_timer_sync() for something that is not a oneshot timer. As this
+will be converted to shutdown, this needs to be fixed first.
+
+Patches 2-4 changes existing timer_shutdown() functions used locally in ARM and
+some drivers to better namespace names.
+
+Patch 5 implements the new timer_shutdown() and timer_shutdown_sync() functions
+that disable re-arming the timer after they are called.
+
+Patches 6-28 change all the locations where there's a kfree(), kfree_rcu(),
+kmem_cache_free() and one call_rcu() call where the RCU function frees the
+timer (the workqueue patch) in the same function as the del_timer{,_sync}() is
+called on that timer, and there's no extra exit path between the del_timer and
+freeing of the timer.
+
+Patches 29-32 add timer_shutdown*() on on-stack timers that are about to be
+released at the end of the function.
+
+Patches 33-37 add timer_shutdown*() on module timers in the module exit code.
+
+Patch 38 simply converts an open coded "shutdown" code into timer_shutdown(),
+as a way timer_shutdown() disables the timer is by setting that timer function
+to NULL.
+
+Linus, I sorted the patches this way to let you see which you would think is
+safe to go into this -rc. I honestly believe that they are all safe, but that's
+just my own opinion.
+
+This series is here:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git
+timers-start
+
+Head SHA1: f58b516a65bac76f1bfa00126856d6c6c3d24a40
+
+
+Steven Rostedt (Google) (38):
+      SUNRPC/xprt: Use del_timer_sync() instead of del_singleshot_timer_sync()
+      ARM: spear: Do not use timer namespace for timer_shutdown() function
+      clocksource/drivers/arm_arch_timer: Do not use timer namespace for timer_shutdown() function
+      clocksource/drivers/sp804: Do not use timer namespace for timer_shutdown() function
+      timers: Add timer_shutdown_sync() and timer_shutdown() to be called before freeing timers
+      timers: sh: Use timer_shutdown_sync() before freeing timer
+      timers: block: Use timer_shutdown_sync() before freeing timer
+      timers: ACPI: Use timer_shutdown_sync() before freeing timer
+      timers: atm: Use timer_shutdown_sync() before freeing timer
+      timers: Bluetooth: Use timer_shutdown_sync() before freeing timer
+      timers: drm: Use timer_shutdown_sync() before freeing timer
+      timers: HID: Use timer_shutdown_sync() before freeing timer
+      timers: Input: Use timer_shutdown_sync() before freeing timer
+      timers: mISDN: Use timer_shutdown_sync() before freeing timer
+      timers: leds: Use timer_shutdown_sync() before freeing timer
+      timers: media: Use timer_shutdown_sync() before freeing timer
+      timers: net: Use timer_shutdown_sync() before freeing timer
+      timers: usb: Use timer_shutdown_sync() before freeing timer
+      timers: nfc: pn533: Use timer_shutdown_sync() before freeing timer
+      timers: pcmcia: Use timer_shutdown_sync() before freeing timer
+      timers: scsi: Use timer_shutdown_sync() and timer_shutdown() before freeing timer
+      timers: tty: Use timer_shutdown_sync() before freeing timer
+      timers: ext4: Use timer_shutdown_sync() before freeing timer
+      timers: fs/nilfs2: Use timer_shutdown_sync() before freeing timer
+      timers: ALSA: Use timer_shutdown_sync() before freeing timer
+      timers: jbd2: Use timer_shutdown() before freeing timer
+      timers: sched/psi: Use timer_shutdown_sync() before freeing timer
+      timers: workqueue: Use timer_shutdown_sync() before freeing timer
+      random: use timer_shutdown_sync() for on stack timers
+      timers: dma-buf: Use timer_shutdown_sync() for on stack timers
+      timers: drm: Use timer_shutdown_sync() for on stack timers
+      timers: media: Use timer_shutdown_sync() for on stack timers
+      timers: s390/cmm: Use timer_shutdown_sync() before a module is released
+      timers: atm: Use timer_shutdown_sync() before a module is released
+      timers: hangcheck: Use timer_shutdown_sync() before a module is released
+      timers: ipmi: Use timer_shutdown_sync() before a module is released
+      timers: Input: Use timer_shutdown_sync() before a module is released
+      timers: PM: Use timer_shutdown_sync()
+
+----
+ .../RCU/Design/Requirements/Requirements.rst       |  2 +-
+ Documentation/core-api/local_ops.rst               |  2 +-
+ Documentation/kernel-hacking/locking.rst           |  5 ++
+ arch/arm/mach-spear/time.c                         |  8 +--
+ arch/s390/mm/cmm.c                                 |  4 +-
+ arch/sh/drivers/push-switch.c                      |  2 +-
+ block/blk-iocost.c                                 |  2 +-
+ block/blk-iolatency.c                              |  2 +-
+ block/blk-throttle.c                               |  2 +-
+ block/kyber-iosched.c                              |  2 +-
+ drivers/acpi/apei/ghes.c                           |  2 +-
+ drivers/atm/idt77105.c                             |  4 +-
+ drivers/atm/idt77252.c                             |  4 +-
+ drivers/atm/iphase.c                               |  2 +-
+ drivers/base/power/wakeup.c                        |  7 +--
+ drivers/block/drbd/drbd_main.c                     |  2 +-
+ drivers/block/loop.c                               |  2 +-
+ drivers/block/sunvdc.c                             |  2 +-
+ drivers/bluetooth/hci_bcsp.c                       |  2 +-
+ drivers/bluetooth/hci_h5.c                         |  4 +-
+ drivers/bluetooth/hci_qca.c                        |  4 +-
+ drivers/char/hangcheck-timer.c                     |  4 +-
+ drivers/char/ipmi/ipmi_msghandler.c                |  2 +-
+ drivers/char/random.c                              |  2 +-
+ drivers/clocksource/arm_arch_timer.c               | 12 ++--
+ drivers/clocksource/timer-sp804.c                  |  6 +-
+ drivers/dma-buf/st-dma-fence.c                     |  2 +-
+ drivers/gpu/drm/gud/gud_pipe.c                     |  2 +-
+ drivers/gpu/drm/i915/i915_sw_fence.c               |  2 +-
+ drivers/hid/hid-wiimote-core.c                     |  2 +-
+ drivers/input/keyboard/locomokbd.c                 |  2 +-
+ drivers/input/keyboard/omap-keypad.c               |  2 +-
+ drivers/input/mouse/alps.c                         |  2 +-
+ drivers/input/serio/hil_mlc.c                      |  2 +-
+ drivers/isdn/hardware/mISDN/hfcmulti.c             |  5 +-
+ drivers/isdn/mISDN/l1oip_core.c                    |  4 +-
+ drivers/isdn/mISDN/timerdev.c                      |  4 +-
+ drivers/leds/trigger/ledtrig-pattern.c             |  2 +-
+ drivers/leds/trigger/ledtrig-transient.c           |  2 +-
+ drivers/media/pci/ivtv/ivtv-driver.c               |  2 +-
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c            | 18 +++---
+ drivers/media/usb/s2255/s2255drv.c                 |  4 +-
+ drivers/net/ethernet/intel/i40e/i40e_main.c        |  7 +--
+ drivers/net/ethernet/marvell/sky2.c                |  2 +-
+ drivers/net/ethernet/sun/sunvnet.c                 |  2 +-
+ drivers/net/usb/sierra_net.c                       |  2 +-
+ drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c   |  2 +-
+ drivers/net/wireless/intersil/hostap/hostap_ap.c   |  2 +-
+ drivers/net/wireless/marvell/mwifiex/main.c        |  2 +-
+ drivers/net/wireless/microchip/wilc1000/hif.c      |  6 +-
+ drivers/nfc/pn533/pn533.c                          |  2 +-
+ drivers/nfc/pn533/uart.c                           |  2 +-
+ drivers/pcmcia/bcm63xx_pcmcia.c                    |  2 +-
+ drivers/pcmcia/electra_cf.c                        |  2 +-
+ drivers/pcmcia/omap_cf.c                           |  2 +-
+ drivers/pcmcia/pd6729.c                            |  4 +-
+ drivers/pcmcia/yenta_socket.c                      |  4 +-
+ drivers/scsi/qla2xxx/qla_edif.c                    |  4 +-
+ drivers/staging/media/atomisp/i2c/atomisp-lm3554.c |  2 +-
+ drivers/tty/n_gsm.c                                |  2 +-
+ drivers/tty/sysrq.c                                |  2 +-
+ drivers/usb/gadget/udc/m66592-udc.c                |  2 +-
+ drivers/usb/serial/garmin_gps.c                    |  2 +-
+ drivers/usb/serial/mos7840.c                       |  2 +-
+ fs/ext4/super.c                                    |  2 +-
+ fs/jbd2/journal.c                                  |  2 +
+ fs/nilfs2/segment.c                                |  2 +-
+ include/linux/timer.h                              | 64 +++++++++++++++++++---
+ kernel/sched/psi.c                                 |  1 +
+ kernel/time/timer.c                                | 64 ++++++++++++----------
+ kernel/workqueue.c                                 |  4 +-
+ net/802/garp.c                                     |  2 +-
+ net/802/mrp.c                                      |  2 +-
+ net/bridge/br_multicast.c                          |  6 +-
+ net/bridge/br_multicast_eht.c                      |  4 +-
+ net/core/gen_estimator.c                           |  2 +-
+ net/core/neighbour.c                               |  2 +
+ net/ipv4/inet_timewait_sock.c                      |  1 +
+ net/ipv4/ipmr.c                                    |  2 +-
+ net/ipv6/ip6mr.c                                   |  2 +-
+ net/mac80211/mesh_pathtbl.c                        |  2 +-
+ net/netfilter/ipset/ip_set_list_set.c              |  2 +-
+ net/netfilter/ipvs/ip_vs_lblc.c                    |  2 +-
+ net/netfilter/ipvs/ip_vs_lblcr.c                   |  2 +-
+ net/netfilter/xt_LED.c                             |  2 +-
+ net/rxrpc/conn_object.c                            |  2 +-
+ net/sched/cls_flow.c                               |  2 +-
+ net/sunrpc/svc.c                                   |  2 +-
+ net/sunrpc/xprt.c                                  |  2 +-
+ net/tipc/discover.c                                |  2 +-
+ net/tipc/monitor.c                                 |  2 +-
+ sound/i2c/other/ak4117.c                           |  2 +-
+ sound/synth/emux/emux.c                            |  2 +-
+ 93 files changed, 227 insertions(+), 169 deletions(-)
