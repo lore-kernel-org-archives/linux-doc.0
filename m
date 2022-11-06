@@ -2,176 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F7C8C433FE
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Nov 2022 16:52:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 187DCC433FE
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Nov 2022 17:29:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229841AbiKFQwO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Nov 2022 11:52:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34294 "EHLO
+        id S229984AbiKFR3A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 6 Nov 2022 12:29:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229820AbiKFQwN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Nov 2022 11:52:13 -0500
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC978C759;
-        Sun,  6 Nov 2022 08:52:12 -0800 (PST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.west.internal (Postfix) with ESMTP id 21A562B063E5;
-        Sun,  6 Nov 2022 11:52:09 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Sun, 06 Nov 2022 11:52:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1667753528; x=1667760728; bh=ML
-        PScbiT/w3JaMANBBCz19l6qnUEijiodsNSPwsmFvA=; b=Rvl+sXfWlxBEW89l4i
-        EWsJsiMNFACOwsfH87VIaAq1cWAAbzliMtdvQGSvVadVW2Qe9nCccio18LVhn6ds
-        EfBqOKtSdRvhddLy7p8b+hhvLiHsV3jtvIVgr5QJHOXRvDfPHuE3BIikbsptqIBu
-        hmt6Yf998GGXvngq2aM7u0PMcHjyGg+Ra9UKLqtOaS6Uq9d0wgCXEBWqPIHFvoH8
-        LLzkUgL1AzPe+egCmvIWwnF/blrPT/GWVyEbm7PsR8COZ52yM+eIvrO0bog4qOd7
-        jEzC9SqMgtywysSkT/n6UC/zvyki3goOoq4A8kKoF9XsWt/O2wzmU7t1493cIQ8d
-        nnlw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; t=1667753528; x=1667760728; bh=MLPScbiT/w3JaMANBBCz19l6qnUE
-        ijiodsNSPwsmFvA=; b=h07AGaYuROhwH49JjCcdYVg+80f1ZOjXBDYzvRAYDFbO
-        wR74v7wGdecSj6zlx4O+8Nqk2ynI/PsQPLplQOQtgpHb6igzOII4X0LTs3eeOmpj
-        F7WYZb5OcynKVu/vkI/udT12Z3S0rx1ayvRpsZR1/u2QabaPzQH6gBIAJtOueU5S
-        SeLqulavBuyYo91FdS0FRZFw+R4+Vo+Jg1sy+knrB32IOXGaVTbXaESppH1Bhcz+
-        P9g8vzXpYXmsB2+UWpQhTh+WrsVEJ9aNxxfPktzeZ9jXRkvxMspaxyYf7OyTHTD+
-        0fNk75syjMBFLWs+R9EUYTzOu2h4ZllGYRqhFxVzVQ==
-X-ME-Sender: <xms:N-ZnY-VENFzdOTSFKoImnhRs11AgzUFjWGx-C8a4cxAjwgsP28nFbA>
-    <xme:N-ZnY6kvOZlDF4M0yF-44IuEX_eG5ZRNDvISnfAEDb2-7K13bM89zVJLbdhVtWPds
-    X74t2UsgZ2qPBE-t0M>
-X-ME-Received: <xmr:N-ZnYyZ5VxOW0u3WbrsYDkGdXh-Hb_OiREfIWKMEC4NLAX5AAPynqnC3IT-zKxI5qR1Z9w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdeigdekjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehttddttddttddvnecuhfhrohhmpedfmfhirhhi
-    lhhlucetrdcuufhhuhhtvghmohhvfdcuoehkihhrihhllhesshhhuhhtvghmohhvrdhnrg
-    hmvgeqnecuggftrfgrthhtvghrnhephfeigefhtdefhedtfedthefghedutddvueehtedt
-    tdehjeeukeejgeeuiedvkedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomhepkhhirhhilhhlsehshhhuthgvmhhovhdrnhgrmhgv
-X-ME-Proxy: <xmx:N-ZnY1UlArt7TMEZk6n5OsdgUyXI03nKKRxya_G9D7M8b5LsCFlrwg>
-    <xmx:N-ZnY4kHFOrUUbwiGbHASIvVqAo4cKXQgWdsm7HwqYGiBi_uuV1JuA>
-    <xmx:N-ZnY6fnfuqP-K6pKqhS_Mfgg9q7pHMOOwyV7m_nXX_WPUJ3RjP6Yg>
-    <xmx:OOZnY-vNeenKS4MgyOwWeEOvQeZCqjeYuizeO63TPG9jNCKoA75seJpV3Gs>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 6 Nov 2022 11:52:06 -0500 (EST)
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id 3198E104149; Sun,  6 Nov 2022 19:52:04 +0300 (+03)
-Date:   Sun, 6 Nov 2022 19:52:04 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, hughd@google.com,
-        hannes@cmpxchg.org, david@redhat.com, vincent.whitchurch@axis.com,
-        seanjc@google.com, rppt@kernel.org, shy828301@gmail.com,
-        paul.gortmaker@windriver.com, peterx@redhat.com, vbabka@suse.cz,
-        Liam.Howlett@oracle.com, ccross@google.com, willy@infradead.org,
-        arnd@arndb.de, cgel.zte@gmail.com, yuzhao@google.com,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH] mm: anonymous shared memory naming
-Message-ID: <20221106165204.odb7febmnykhna2h@box.shutemov.name>
-References: <20221105025342.3130038-1-pasha.tatashin@soleen.com>
- <20221106133351.ukb5quoizkkzyrge@box.shutemov.name>
- <CA+CK2bDK=oUYM-HZsYfZoq_n5BQMGpysMq395WK78r+SwYk99A@mail.gmail.com>
+        with ESMTP id S229928AbiKFR27 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Nov 2022 12:28:59 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64CFFF4D;
+        Sun,  6 Nov 2022 09:28:58 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 15EDDB80B2F;
+        Sun,  6 Nov 2022 17:28:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 279DCC433C1;
+        Sun,  6 Nov 2022 17:28:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667755735;
+        bh=7B9jEp22p3NOh27JTyp2fkl9cSDOyI+0LvYui7iIjns=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=JBmVV0SjUoOWLapbR5esGY/TH4I6gTJwadXsKy6vfhmxz5Iy/21zF3S1qW5mG6Cbp
+         lAdzOaMAukkEoGkgp19dCwatfoWivWetpmJziHS3LRGZvtDwgquA/n8JR+2xUXwlIH
+         LeORZ89TrVnmsp1XgjLSR9gG4LcW7aAOu4Tb4lGDX/aMmufffYveLRP+9Jnzn0r87x
+         MFgVQa+HkjotEMgMb09l4VoR8FXN0rvMkvK0CxfwCl0Sh9YZRTu8Y5bXtTveYMctjd
+         cH3I1kDVMxHkIb+JmgPHrQ8ugXvzNW9wdyGWjpo+xnJHmk/oU8qq4Yyv/y5s1isgxm
+         9FvooiYfnqKvg==
+Date:   Sun, 6 Nov 2022 17:28:48 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
+        Cosmin Tanislav <cosmin.tanislav@analog.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH] Documentation: ad4130: format list of
+ in_voltage-voltage_filter_mode_available modes
+Message-ID: <20221106172848.374831a5@jic23-huawei>
+In-Reply-To: <20221106140233.74112-1-bagasdotme@gmail.com>
+References: <20221106140233.74112-1-bagasdotme@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+CK2bDK=oUYM-HZsYfZoq_n5BQMGpysMq395WK78r+SwYk99A@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 06, 2022 at 08:45:44AM -0500, Pasha Tatashin wrote:
-> On Sun, Nov 6, 2022 at 8:34 AM Kirill A. Shutemov <kirill@shutemov.name> wrote:
-> >
-> > On Sat, Nov 05, 2022 at 02:53:42AM +0000, Pasha Tatashin wrote:
-> > > Since:
-> > > commit 9a10064f5625 ("mm: add a field to store names for private anonymous
-> > > memory")
-> > >
-> > > We can set names for private anonymous memory but not for shared
-> > > anonymous memory. However, naming shared anonymous memory just as
-> > > useful for tracking purposes.
-> > >
-> > > Extend the functionality to be able to set names for shared anon.
-> > >
-> > > / [anon_shmem:<name>]      an anonymous shared memory mapping that has
-> > >                            been named by userspace
-> > >
-> > > Sample output:
-> > >         share = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
-> > >                      MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-> > >         rv = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME,
-> > >                    share, SIZE, "shared anon");
-> > >
-> > > /proc/<pid>/maps (and smaps):
-> > > 7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024
-> > > /dev/zero (deleted) [anon_shmem:shared anon]
-> > >
-> > > pmap $(pgrep a.out)
-> > > 254:   pub/a.out
-> > > 000056093fab2000      4K r---- a.out
-> > > 000056093fab3000      4K r-x-- a.out
-> > > 000056093fab4000      4K r---- a.out
-> > > 000056093fab5000      4K r---- a.out
-> > > 000056093fab6000      4K rw--- a.out
-> > > 000056093fdeb000    132K rw---   [ anon ]
-> > > 00007fc8e2b4c000 262144K rw-s- zero (deleted) [anon_shmem:shared anon]
-> > >
-> > > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > > ---
-> > >  Documentation/filesystems/proc.rst |  4 +++-
-> > >  fs/proc/task_mmu.c                 |  7 ++++---
-> > >  include/linux/mm.h                 |  2 ++
-> > >  include/linux/mm_types.h           | 27 +++++++++++++--------------
-> > >  mm/madvise.c                       |  7 ++-----
-> > >  mm/shmem.c                         | 13 +++++++++++--
-> > >  6 files changed, 35 insertions(+), 25 deletions(-)
-> > >
-> > > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> > > index 898c99eae8e4..8f1e68460da5 100644
-> > > --- a/Documentation/filesystems/proc.rst
-> > > +++ b/Documentation/filesystems/proc.rst
-> > > @@ -431,8 +431,10 @@ is not associated with a file:
-> > >   [stack]                    the stack of the main process
-> > >   [vdso]                     the "virtual dynamic shared object",
-> > >                              the kernel system call handler
-> > > - [anon:<name>]              an anonymous mapping that has been
-> > > + [anon:<name>]              a private anonymous mapping that has been
-> > >                              named by userspace
-> > > + path [anon_shmem:<name>]   an anonymous shared memory mapping that has
-> > > +                            been named by userspace
-> >
-> > I expect it to break existing parsers. If the field starts with '/' it is
-> > reasonable to assume the rest of the string to be a path, but it is not
-> > the case now.
-> 
-> This is actually exactly why I kept the "path" part. It stays the same
-> as today for  anon-shared memory, but prevents pmap to change
-> anon-shared memory from showing it as simply [anon].
-> 
-> Here is what we have today in /proc/<pid>/maps (and smaps):
-> 7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024  /dev/zero (deleted)
-> 
-> So, the path points to /dev/zero but appended with (deleted) mark. The
-> pmap shows the same thing, as it is looking for leading '/' to
-> determine that this is a path.
-> 
-> With my change the above changes only when user specifically changed
-> the name like this:
-> 
-> 7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024  /dev/zero
-> (deleted) [USER-SPECIFIED-NAME]
-> 
-> So, the path stays, the (deleted) mark stays, and a name is added.
+On Sun,  6 Nov 2022 21:02:33 +0700
+Bagas Sanjaya <bagasdotme@gmail.com> wrote:
 
-Okay, fair enough.
+> Sphinx reports two warnings on sysfs documentation for AD4130 driver:
+> 
+> Documentation/ABI/testing/sysfs-bus-iio-adc-ad4130:2: WARNING: Unexpected indentation.
+> Documentation/ABI/testing/sysfs-bus-iio-adc-ad4130:2: WARNING: Block quote ends without a blank line; unexpected unindent.
+> 
+> These are due to misformatting of sinc* modes list. Format it with bullet
+> list. Since each entry spans multiple lines, separate each with a blank
+> line.
+> 
+> Fixes: 5bdef39c5c6e1a ("iio: adc: ad4130: add AD4130 driver")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Applied to the togreg branch of iio.git and pushed out initially as testing for
+the autobuilders to look at it (or at least look at the other stuff that I've
+applied on that branch today).
+
+Thanks!
+
+Jonathan
+
+> ---
+>  .../ABI/testing/sysfs-bus-iio-adc-ad4130      | 48 +++++++++++--------
+>  1 file changed, 29 insertions(+), 19 deletions(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-bus-iio-adc-ad4130 b/Documentation/ABI/testing/sysfs-bus-iio-adc-ad4130
+> index d9555751d21ce2..f24ed6687e900e 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-iio-adc-ad4130
+> +++ b/Documentation/ABI/testing/sysfs-bus-iio-adc-ad4130
+> @@ -3,25 +3,35 @@ KernelVersion:  6.2
+>  Contact:	linux-iio@vger.kernel.org
+>  Description:
+>  		Reading returns a list with the possible filter modes.
+> -		"sinc4"       - Sinc 4. Excellent noise performance. Long 1st
+> -				conversion time. No natural 50/60Hz rejection.
+> -		"sinc4+sinc1" - Sinc4 + averaging by 8. Low 1st conversion time.
+> -		"sinc3"	      - Sinc3. Moderate 1st conversion time. Good noise
+> -				performance.
+> -		"sinc3+rej60" - Sinc3 + 60Hz rejection. At a sampling frequency
+> -				of 50Hz, achieves simultaneous 50Hz and 60Hz
+> -				rejection.
+> -		"sinc3+sinc1" - Sinc3 + averaging by 8. Low 1st conversion time.
+> -				Best used with a sampling frequency of at least
+> -				216.19Hz.
+> -		"sinc3+pf1"   - Sinc3 + Post Filter 1.
+> -				53dB rejection @ 50Hz, 58dB rejection @ 60Hz.
+> -		"sinc3+pf2"   - Sinc3 + Post Filter 2.
+> -				70dB rejection @ 50Hz, 70dB rejection @ 60Hz.
+> -		"sinc3+pf3"   - Sinc3 + Post Filter 3.
+> -				99dB rejection @ 50Hz, 103dB rejection @ 60Hz.
+> -		"sinc3+pf4"   - Sinc3 + Post Filter 4.
+> -				103dB rejection @ 50Hz, 109dB rejection @ 60Hz.
+> +
+> +		  * "sinc4"       - Sinc 4. Excellent noise performance. Long
+> +                    1st conversion time. No natural 50/60Hz rejection.
+> +
+> +		  * "sinc4+sinc1" - Sinc4 + averaging by 8. Low 1st conversion
+> +		    time.
+> +
+> +		  * "sinc3"	      - Sinc3. Moderate 1st conversion time.
+> +		    Good noise performance.
+> +
+> +		  * "sinc3+rej60" - Sinc3 + 60Hz rejection. At a sampling
+> +		    frequency of 50Hz, achieves simultaneous 50Hz and 60Hz
+> +		    rejection.
+> +
+> +		  * "sinc3+sinc1" - Sinc3 + averaging by 8. Low 1st conversion
+> +		    time. Best used with a sampling frequency of at least
+> +		    216.19Hz.
+> +
+> +		  * "sinc3+pf1"   - Sinc3 + Post Filter 1. 53dB rejection @
+> +		    50Hz, 58dB rejection @ 60Hz.
+> +
+> +		  * "sinc3+pf2"   - Sinc3 + Post Filter 2. 70dB rejection @
+> +		    50Hz, 70dB rejection @ 60Hz.
+> +
+> +		  * "sinc3+pf3"   - Sinc3 + Post Filter 3. 99dB rejection @
+> +		    50Hz, 103dB rejection @ 60Hz.
+> +
+> +		  * "sinc3+pf4"   - Sinc3 + Post Filter 4. 103dB rejection @
+> +		    50Hz, 109dB rejection @ 60Hz.
+>  
+>  What:		/sys/bus/iio/devices/iio:deviceX/in_voltageY-voltageZ_filter_mode
+>  KernelVersion:  6.2
+> 
+> base-commit: b8bee0f98634cc1ce8cc8bf0e1db025734ee0c2b
+
