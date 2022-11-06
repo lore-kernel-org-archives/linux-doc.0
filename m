@@ -2,121 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E21FBC433FE
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Nov 2022 10:40:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2048CC4332F
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Nov 2022 11:22:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbiKFKkL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Nov 2022 05:40:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39888 "EHLO
+        id S229698AbiKFLWj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 6 Nov 2022 06:22:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229749AbiKFKkL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Nov 2022 05:40:11 -0500
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5762425D5
-        for <linux-doc@vger.kernel.org>; Sun,  6 Nov 2022 02:40:10 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id j16so13099240lfe.12
-        for <linux-doc@vger.kernel.org>; Sun, 06 Nov 2022 02:40:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Hy5N22BpARKaJzqpJuq2/NEKYC2Fhc4A8Sg9hguEVA8=;
-        b=S75r7pvYMadC9PSS2c+Wd+6k5dM0w3C0P0gogwtiqC46FvJxSCKmVRf62qL4ZllmIp
-         X6/RFJnbfP0oQUHznGwJrFIBsJN7zp+sqJki10B6Ei7ucPjFaRHuCDvU9esJPhb6vMo9
-         xM/1btnjEmGqYcipYa317JZa7KVGgVI1YJkaBO3qBFJUevwHXbLOKrd4Z/X5ZWYC2vS8
-         wXc/aQQdKSyX3m+BMnRzbuyKxETERfExC3ovnIUHIHS5uu3Cu0VAbNa4UkxI+3mgWG7a
-         ekOJ3kToFBvKsAfZl28DKwU8LhVWNk5GIhmdaDJwAx+59QGbAzn+7hMPNyJfLA92XYGJ
-         6Dlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hy5N22BpARKaJzqpJuq2/NEKYC2Fhc4A8Sg9hguEVA8=;
-        b=KzYjH0CdgQla6Y2gpxzzzlRHzC8x1gBr2wj+aMCBXYF1X3th/fMDVv6dTyaZveXg9p
-         9theQfFO+NwVs81ym0QsvtoOrtHtn8h/Iqr07ZId9ANgERKyPSquoH5LnNGvmmQ8qPW3
-         MI9YUoji7dW/WqrUGeeYsFUjpfCS3CsjeIzqzBI1qp8iUPZvXj1GNqxF4EAmkzLsBl+Z
-         C8cuP8R9KZx3NeApKAQf4kKJFZXBJGtkDNVJGYQrDQZlIDqPMfewBiQwW3Y3/OOGkL9p
-         PDfZ5G7h304RhCSxL3dT18v8ZKu3PiTMKmI4VVKwK/GA0CIdqkH2I044NkgGKXg8Ynic
-         khIg==
-X-Gm-Message-State: ACrzQf3O0rHBkTfi6i+uQI0cGa+xnkDmr4EvtuBWuRLPh5jNRL1o6zZZ
-        Fjf40+1wOYWGxxwgLEnPj0PzeA==
-X-Google-Smtp-Source: AMsMyM6noxGoBuZzh4cVN3T75v56NmIEoYOqzwnW86ZQ9lPU4V6cHxR3c+S7r4c3yzZX0NJ9Jv5nxQ==
-X-Received: by 2002:ac2:58ca:0:b0:4a2:d337:bb0 with SMTP id u10-20020ac258ca000000b004a2d3370bb0mr16513780lfo.452.1667731208735;
-        Sun, 06 Nov 2022 02:40:08 -0800 (PST)
-Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
-        by smtp.gmail.com with ESMTPSA id y17-20020a196411000000b004b1b0f12cb4sm637543lfb.201.2022.11.06.02.40.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Nov 2022 02:40:08 -0800 (PST)
-Message-ID: <408e68d0-1ae1-6d56-d008-61de14214326@linaro.org>
-Date:   Sun, 6 Nov 2022 11:40:07 +0100
+        with ESMTP id S229692AbiKFLWj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Nov 2022 06:22:39 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BF0E1137;
+        Sun,  6 Nov 2022 03:22:38 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B14E860C41;
+        Sun,  6 Nov 2022 11:22:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 459D8C433D6;
+        Sun,  6 Nov 2022 11:22:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667733757;
+        bh=OwdTq6vSYCGMHzoUM+Ktw7CRJaOcLC4+kIT/bLyvSOI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oydxPb/Hw5UAOU7joCSB3r72ZuzIWLb2EcYR6UWqAkIy/Ow2xlnvWY6jkJuytjMfT
+         lkwtNOEaKb92/NcQVC3NVU5gNol8DMYKo13xSZr9SVgnAcUyI4O7F26hWr0illqpV2
+         X/4woT6dhwfUhaVglPmzOBUCvXoNOmWwLPV4NNBnLMdA/i4vm0xYClQQxaqlk5KGXS
+         AhFRUq9sQKEMlc49ZR0Ff40AoW7XNThwOXtZ8nk9U2hH0vHlfN4nXpRss7xMia5u+o
+         ovdU7HETFyscLiM77/o6wXkEXAYptDvnLpYWvXJwjkgisN0VPlpZpiwddy031ath3r
+         AYUnKvc9o7isg==
+Date:   Sun, 6 Nov 2022 11:22:32 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Subject: Re: [PATCH] Documentation: riscv: tableize memory layout
+Message-ID: <Y2eY+LulWaKm7MHl@spud>
+References: <20221106100239.53704-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v1 5/6] ARM: multi_v7_defconfig: Add GXP Fan and SPI
- support
-Content-Language: en-US
-To:     nick.hawkins@hpe.com, jdelvare@suse.com, linux@roeck-us.net,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        verdun@hpe.com, corbet@lwn.net, linux@armlinux.org.uk,
-        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20221104193657.105130-1-nick.hawkins@hpe.com>
- <20221104193657.105130-6-nick.hawkins@hpe.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221104193657.105130-6-nick.hawkins@hpe.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221106100239.53704-1-bagasdotme@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/11/2022 20:36, nick.hawkins@hpe.com wrote:
-> From: Nick Hawkins <nick.hawkins@hpe.com>
+On Sun, Nov 06, 2022 at 05:02:40PM +0700, Bagas Sanjaya wrote:
+> Documentation: riscv: tableize memory layout
+
+Minor nit about the $subject - but this is the docs, so I guess there's
+nowhere better to mention grammar: "tableize" is not a word. I think
+what you want here is "tabulate".
+
+> The memory layout is written as table but it is inside literal code
+                                 ^ as a table           ^ inside a
+
+Anyway, those are minor nits I saw in passing, one actual comment and a
+simple question below.
+Thanks,
+Conor.
+
+> block, which renders as preformatted text. Write the layout in reST
+> grid table instead.
 > 
-> In order for HPE platforms to be supported by linux on GXP it is
-
-s/linux/Linux/
-
-> necessary for there to be fan and spi driver support. There fan driver
-> can support up to 16 fans that are driven by pwm through the CPLD. The
-
-s/pwm/PWM/
-
-> SPI driver supports access to the core flash and bios part. The SPI
-> driver spi-gxp was added previously to linux.
-
-s/linux/Linux/
-
-> 
-> Signed-off-by: Nick Hawkins <nick.hawkins@hpe.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
->  arch/arm/configs/multi_v7_defconfig | 2 ++
->  1 file changed, 2 insertions(+)
+>  Documentation/riscv/vm-layout.rst | 120 +++++++++++++++---------------
+>  1 file changed, 58 insertions(+), 62 deletions(-)
 > 
-> diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-> index 12b35008571f..92a854e7b01b 100644
-> --- a/arch/arm/configs/multi_v7_defconfig
-> +++ b/arch/arm/configs/multi_v7_defconfig
-> @@ -445,6 +445,7 @@ CONFIG_SPI_CADENCE=y
->  CONFIG_SPI_DAVINCI=y
->  CONFIG_SPI_FSL_QUADSPI=m
->  CONFIG_SPI_GPIO=m
-> +CONFIG_SPI_GXP=m
->  CONFIG_SPI_FSL_DSPI=m
->  CONFIG_SPI_OMAP24XX=y
->  CONFIG_SPI_ORION=y
-> @@ -535,6 +536,7 @@ CONFIG_SENSORS_NTC_THERMISTOR=m
->  CONFIG_SENSORS_PWM_FAN=m
->  CONFIG_SENSORS_RASPBERRYPI_HWMON=m
->  CONFIG_SENSORS_INA2XX=m
-> +CONFIG_SENSORS_GXP_FAN_CTRL=m
->  CONFIG_CPU_THERMAL=y
->  CONFIG_DEVFREQ_THERMAL=y
->  CONFIG_IMX_THERMAL=y
+> diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
+> index 5b36e45fef60bd..139320e35de81f 100644
+> --- a/Documentation/riscv/vm-layout.rst
+> +++ b/Documentation/riscv/vm-layout.rst
+> @@ -30,70 +30,66 @@ the RISC-V Linux Kernel resides.
+>  RISC-V Linux Kernel SV39
+>  ------------------------
+>  
+> -::
+> -
+> -  ========================================================================================================================
+> -      Start addr    |   Offset   |     End addr     |  Size   | VM area description
+> -  ========================================================================================================================
+> -                    |            |                  |         |
+> -   0000000000000000 |    0       | 0000003fffffffff |  256 GB | user-space virtual memory, different per mm
+> -  __________________|____________|__________________|_________|___________________________________________________________
+> -                    |            |                  |         |
+> -   0000004000000000 | +256    GB | ffffffbfffffffff | ~16M TB | ... huge, almost 64 bits wide hole of non-canonical
+> -                    |            |                  |         |     virtual memory addresses up to the -256 GB
+> -                    |            |                  |         |     starting offset of kernel mappings.
+> -  __________________|____________|__________________|_________|___________________________________________________________
+> -                                                              |
+> -                                                              | Kernel-space virtual memory, shared between all processes:
+> -  ____________________________________________________________|___________________________________________________________
+> -                    |            |                  |         |
+> -   ffffffc6fee00000 | -228    GB | ffffffc6feffffff |    2 MB | fixmap
+> -   ffffffc6ff000000 | -228    GB | ffffffc6ffffffff |   16 MB | PCI io
+> -   ffffffc700000000 | -228    GB | ffffffc7ffffffff |    4 GB | vmemmap
+> -   ffffffc800000000 | -224    GB | ffffffd7ffffffff |   64 GB | vmalloc/ioremap space
+> -   ffffffd800000000 | -160    GB | fffffff6ffffffff |  124 GB | direct mapping of all physical memory
+> -   fffffff700000000 |  -36    GB | fffffffeffffffff |   32 GB | kasan
+> -  __________________|____________|__________________|_________|____________________________________________________________
+> -                                                              |
+> -                                                              |
+> -  ____________________________________________________________|____________________________________________________________
+> -                    |            |                  |         |
+> -   ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules, BPF
+> -   ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel
+> -  __________________|____________|__________________|_________|____________________________________________________________
+> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
+> +   |    Start addr    | Offset  |     End addr     |  Size   | VM area description                                      |
+> +   +==================+=========+==================+=========+==========================================================+
+> +   | 0000000000000000 |    0    | 0000003fffffffff | 256 GB  | user-space virtual memory, different per mm              |
+> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
+> +   | 0000004000000000 | +256 GB | ffffffbfffffffff | ~16M TB | ... huge, almost 64 bits wide hole of non-canonical      |
+> +   |                  |         |                  |         | virtual memory addresses up to the -256 GB               |
+> +   |                  |         |                  |         | starting offset of kernel mappings.                      |
+> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
+> +   |                             Kernel-space virtual memory, shared between all processes:                             |
+> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
+> +   | ffffffc6fee00000 | -228 GB | ffffffc6feffffff | 2 MB    | fixmap                                                   |
+> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
+> +   | ffffffc6ff000000 | -228 GB | ffffffc6ffffffff | 16 MB   | PCI io                                                   |
+> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
+                                                        ^
+Will these numbers remain right-aligned in the formatted doc? They were
+aligned before in the text form & no longer appear to be.
 
-Best regards,
-Krzysztof
+> +   | ffffffc700000000 | -228 GB | ffffffc7ffffffff | 4 GB    | vmemmap                                                  |
+> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
+> +   | ffffffc800000000 | -224 GB | ffffffd7ffffffff | 64 GB   | vmalloc/ioremap space                                    |
+> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
+> +   | ffffffd800000000 | -160 GB | fffffff6ffffffff | 124 GB  | direct mapping of all physical memory                    |
+> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
+> +   | fffffff700000000 | -36 GB  | fffffffeffffffff | 32 GB   | kasan                                                    |
+> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
+> +   |                                  Identical layout to the 39-bit one from here on:                                  |
+
+This one /is/ sv39. I'd leave this as a blank to match the styling in
+the original document.
+
+> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
+> +   | ffffffff00000000 | -4 GB   | ffffffff7fffffff | 2 GB    | modules, BPF                                             |
+> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
+> +   | ffffffff80000000 | -2 GB   | ffffffffffffffff | 2 GB    | kernel                                                   |
+> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
+>  
+>  
 
