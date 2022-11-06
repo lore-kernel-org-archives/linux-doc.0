@@ -2,104 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EE15C4332F
-	for <linux-doc@archiver.kernel.org>; Sun,  6 Nov 2022 12:04:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49446C433FE
+	for <linux-doc@archiver.kernel.org>; Sun,  6 Nov 2022 13:34:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229729AbiKFMET (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Nov 2022 07:04:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53476 "EHLO
+        id S229944AbiKFNeE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 6 Nov 2022 08:34:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229692AbiKFMES (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Nov 2022 07:04:18 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA3A1C770;
-        Sun,  6 Nov 2022 04:04:16 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id e129so8143937pgc.9;
-        Sun, 06 Nov 2022 04:04:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7WHoM4Iu4fJxp7HgcJoBzK0BlZg2s5EfrY+4N37pGSY=;
-        b=Dgepef9Ywlk+Bne97k4KA0Ls1tS+uiI7lvEMTzRG45yu5TaYWrohbVnbOb6yw9Vx+B
-         HnvuocWSr6F+xShFbxHBZTJki9hNrS+1n3dkTjUPgE8jRCkJmgoiZgxZ7LtyFO6QQkfF
-         KOFdpJziTjOl8ub7InvS3lJjaBdCvIppAVbPgOCE5F6wuPXjWVDcTRxgeI72BdMyM90T
-         /9cox17jsFfvAPfTuDllejwMwf5867E6hB+6LV4qXNBC4nNHpw1IGQ0kEeTeBo36L6XA
-         ntzh6z5P1Znw5CwEZfIlFPndvJuLCwWQrY8eKKEZup9PSdGN1boS29vlSeNy0bQgjZOH
-         lIRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7WHoM4Iu4fJxp7HgcJoBzK0BlZg2s5EfrY+4N37pGSY=;
-        b=df2g8HbSqNzO0X3jJtAHbdqyYMPfssuih8UJZreoXJrJ9vvUTnRaVhMvnSaeunVzrD
-         cGkKL5bFUBUnaxP3rI8kJDtD6yJjj9xajNBoQn/EsAp7c69fZg1vxezkabUReBjXsyWh
-         5srvESzjn7MC+wd/Dy0Ulcj4vA3/dkxYxKx1yUoP2906yMQ123nFD374D7akLGnO8p2U
-         Ye3sgGW6o+zTO7EPfjLOL5omz6cCKIQ1O/vqG2754udW2ICfHKsBSjFoOdcLaqDqWM9P
-         T0Y1+RCO/MvXU0ksXswPhn8ualItE2cmsJhGyLoU6SBw0f/zDv2P5AY12tX5CF/kBLb9
-         xoPQ==
-X-Gm-Message-State: ACrzQf23f4IU3aD8VUSs01W/sTS0dyvuhEwpq9Zw8hwzy0WH+uC09Hq2
-        PM2jyHi0uAsUIWu25+RcL3I=
-X-Google-Smtp-Source: AMsMyM7KMlfHuBbOBAmRlK/2wwFT5NvjeQ+Gnze8bJIrH/qSzi9yTEp+tAwE1ocYNzW9o6nxzhkapQ==
-X-Received: by 2002:a63:6c8a:0:b0:46f:c6e0:8ee9 with SMTP id h132-20020a636c8a000000b0046fc6e08ee9mr29630094pgc.493.1667736255755;
-        Sun, 06 Nov 2022 04:04:15 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id k5-20020a170902c40500b001886ff822ffsm2993075plk.186.2022.11.06.04.04.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Nov 2022 04:04:15 -0800 (PST)
-Message-ID: <07e0949f-fa9f-e4f8-2891-aaf9f84ede7c@gmail.com>
-Date:   Sun, 6 Nov 2022 21:04:10 +0900
+        with ESMTP id S229804AbiKFNeD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Nov 2022 08:34:03 -0500
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86D29DFFF;
+        Sun,  6 Nov 2022 05:34:02 -0800 (PST)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.west.internal (Postfix) with ESMTP id 6DE8A2B06280;
+        Sun,  6 Nov 2022 08:33:57 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Sun, 06 Nov 2022 08:33:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+         h=cc:cc:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm2; t=1667741636; x=1667748836; bh=qW
+        0kL8NboCk/b+RHJv96xFs8vnUwrO9Z41lcOwMOB8E=; b=ZAaJqrKdI5LhW2lFri
+        kvU1FsfUECIQD9N8sO7JXPk8AqgarmIjBf+YEbsbOBO8ubzBbwNrBPkd5jYkzzJY
+        ScC2Em7YUEr+g6D9JnWHxanDgRisCrQoUvP9pdIfmkY+N21MIxJZOsLa0BME7eZB
+        j09FtiK+ieMxgJOBIWdL+qMtTzGGivauJ0ZrqIsDrAGok6TOFnlYQvQj5GGIQ3kA
+        wsOeSnWjNdGs/h0GmFbJC9BV8Zp4K/DLenbli05o3q/zHrVAHuCMipaqioURUMJ2
+        ktmLmrFICYnTCcGTZYZ4Ime9E3Q4xCp/6vdwevnOkPb4nZAGtEmr1Q5ptRxcqELk
+        UQFA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1667741636; x=1667748836; bh=qW0kL8NboCk/b+RHJv96xFs8vnUw
+        rO9Z41lcOwMOB8E=; b=TgL/lROlUJEFEFXtcXVtI1Y26EuNQSY3CAROZ9yWyNYn
+        V7zu+k7LtQDQYTYWU3XvCzOo66JkWwLPBcImgww1xw8fL7zW3srwY2b8A7hoMR9V
+        hAhSbL/S7Fr8DptVpO3zfcjn+4uCVGZm+e6/og0B0oYjdKBCWKXpzCzskNz9JIJ/
+        y41qabStDHrCW3yW/fF1gCM6yGRcC73hJrIlEiRKZQsJCn5hCdj3FGwBpWXmm9M7
+        zsQRihm/mZc5K/vWAFhGbBWFp7M1w+VEY5aHQPysbBN9gSm/UAAKHUW/1US5TdpC
+        tN3YKlfyGVlJ6kTlUfijHrOeg3DdqPUjFzu7nUR1vw==
+X-ME-Sender: <xms:w7dnYwZbT57sBQC872l8BjpzGaPfV8dVLnO1XByQCSs5APaV4xlq9Q>
+    <xme:w7dnY7ZBDxmTYZ43UWprMS1aLjT-NaGQf9BKYbV8hsANc0ch5KjDMYSSBmms91Teu
+    NY--p1tvLlxd4KnR8M>
+X-ME-Received: <xmr:w7dnY6_WsL9IiN274wPkJTZNtrdXKmSKMXNJgOn1P1KurPTm215tWJCEj8zXS9F3spEO1Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdeigdegjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehttddttddttddvnecuhfhrohhmpedfmfhirhhi
+    lhhlucetrdcuufhhuhhtvghmohhvfdcuoehkihhrihhllhesshhhuhhtvghmohhvrdhnrg
+    hmvgeqnecuggftrfgrthhtvghrnhephfeigefhtdefhedtfedthefghedutddvueehtedt
+    tdehjeeukeejgeeuiedvkedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomhepkhhirhhilhhlsehshhhuthgvmhhovhdrnhgrmhgv
+X-ME-Proxy: <xmx:w7dnY6oOZG9W9pqXoZMr-Ff_7yz_takt9x2wrVt_VedyFWfLrriyRg>
+    <xmx:w7dnY7q-wn-_ci1Wao2rR-uiYdAWw9Ij-xaB3N_WRsXv6N0sdQ6A_Q>
+    <xmx:w7dnY4TtpP3ophLuoBVpRi2mc5-7VBVZJuWAr1NX_T-xB_SaGFaCHg>
+    <xmx:xLdnY3BiyQNYUYPNSeq_8_DlQWviDkIBdIO9OnYhbIpVzHY77O89ReWaIYE>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 6 Nov 2022 08:33:55 -0500 (EST)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id 5A2BB104149; Sun,  6 Nov 2022 16:33:51 +0300 (+03)
+Date:   Sun, 6 Nov 2022 16:33:51 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc:     corbet@lwn.net, akpm@linux-foundation.org, hughd@google.com,
+        hannes@cmpxchg.org, david@redhat.com, vincent.whitchurch@axis.com,
+        seanjc@google.com, rppt@kernel.org, shy828301@gmail.com,
+        paul.gortmaker@windriver.com, peterx@redhat.com, vbabka@suse.cz,
+        Liam.Howlett@Oracle.com, ccross@google.com, willy@infradead.org,
+        arnd@arndb.de, cgel.zte@gmail.com, yuzhao@google.com,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH] mm: anonymous shared memory naming
+Message-ID: <20221106133351.ukb5quoizkkzyrge@box.shutemov.name>
+References: <20221105025342.3130038-1-pasha.tatashin@soleen.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     alexandre.ghiti@canonical.com, aou@eecs.berkeley.edu,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        palmer@dabbelt.com, paul.walmsley@sifive.com,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <20221106100239.53704-1-bagasdotme@gmail.com>
-Subject: Re: [PATCH] Documentation: riscv: tableize memory layout
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20221106100239.53704-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221105025342.3130038-1-pasha.tatashin@soleen.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bagas,
-
-On Sun,  6 Nov 2022 17:02:40 +0700, Bagas Sanjaya wrote:
-> The memory layout is written as table but it is inside literal code
-> block, which renders as preformatted text. Write the layout in reST
-> grid table instead.
-
-What's the purpose of this change?
-
-The tables in html/pdf output after this change are almost unreadable
-to my eyes due to the proportional font and random wrapping inside
-table columns.
-
-I think in this particular case, "literal block" is the right
-choice at least for html output, as can be seen at:
-
-   https://www.kernel.org/doc/html/latest/riscv/vm-layout.html
-   https://www.kernel.org/doc/html/next/riscv/vm-layout.html
-
-Yes, these very wide tables need horizontal scrolling in the alabaster
-theme (in next), but they look much nicer than your version.
-
-In pdf output, wide literal blocks are force-wrapped and don't look good.
-Using some smaller font size for latex might help, but most people don't
-care much of pdf outputs anyway, I guess.
-
-        Thanks, Akira
+On Sat, Nov 05, 2022 at 02:53:42AM +0000, Pasha Tatashin wrote:
+> Since:
+> commit 9a10064f5625 ("mm: add a field to store names for private anonymous
+> memory")
 > 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> We can set names for private anonymous memory but not for shared
+> anonymous memory. However, naming shared anonymous memory just as
+> useful for tracking purposes.
+> 
+> Extend the functionality to be able to set names for shared anon.
+> 
+> / [anon_shmem:<name>]      an anonymous shared memory mapping that has
+>                            been named by userspace
+> 
+> Sample output:
+>         share = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
+>                      MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+>         rv = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME,
+>                    share, SIZE, "shared anon");
+> 
+> /proc/<pid>/maps (and smaps):
+> 7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024
+> /dev/zero (deleted) [anon_shmem:shared anon]
+> 
+> pmap $(pgrep a.out)
+> 254:   pub/a.out
+> 000056093fab2000      4K r---- a.out
+> 000056093fab3000      4K r-x-- a.out
+> 000056093fab4000      4K r---- a.out
+> 000056093fab5000      4K r---- a.out
+> 000056093fab6000      4K rw--- a.out
+> 000056093fdeb000    132K rw---   [ anon ]
+> 00007fc8e2b4c000 262144K rw-s- zero (deleted) [anon_shmem:shared anon]
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 > ---
->  Documentation/riscv/vm-layout.rst | 120 +++++++++++++++---------------
->  1 file changed, 58 insertions(+), 62 deletions(-)
+>  Documentation/filesystems/proc.rst |  4 +++-
+>  fs/proc/task_mmu.c                 |  7 ++++---
+>  include/linux/mm.h                 |  2 ++
+>  include/linux/mm_types.h           | 27 +++++++++++++--------------
+>  mm/madvise.c                       |  7 ++-----
+>  mm/shmem.c                         | 13 +++++++++++--
+>  6 files changed, 35 insertions(+), 25 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 898c99eae8e4..8f1e68460da5 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -431,8 +431,10 @@ is not associated with a file:
+>   [stack]                    the stack of the main process
+>   [vdso]                     the "virtual dynamic shared object",
+>                              the kernel system call handler
+> - [anon:<name>]              an anonymous mapping that has been
+> + [anon:<name>]              a private anonymous mapping that has been
+>                              named by userspace
+> + path [anon_shmem:<name>]   an anonymous shared memory mapping that has
+> +                            been named by userspace
+
+I expect it to break existing parsers. If the field starts with '/' it is
+reasonable to assume the rest of the string to be a path, but it is not
+the case now.
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
