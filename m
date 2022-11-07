@@ -2,65 +2,409 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAD3BC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 08:19:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A678DC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 09:55:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230379AbiKGITA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 03:19:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36348 "EHLO
+        id S231518AbiKGJzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 04:55:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230304AbiKGIS7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 03:18:59 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB59CBCD;
-        Mon,  7 Nov 2022 00:18:58 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8842460F2A;
-        Mon,  7 Nov 2022 08:18:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62522C433D7;
-        Mon,  7 Nov 2022 08:18:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667809138;
-        bh=3dF2QAjPMfoUQc5YaxUYmnqWeYAkdfF2bIY7ZZsXg2A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aMJ5ZGb5OuAqEChpPrsX/OlVBsRQIeCVT/pMh0OcbLoIKLwgHY0b+Ic+OX+LbcI6z
-         8GcPGi2t63iQV/nw6FcBcjnhReunsBVTFKc5ZFBDPB9DDjnuACeimIZX97c/Wacm5M
-         aF3BK3v7OooCi1NnzkBxUsLlfgawWZSaX5hg90DqmdOVMiuCRhwG7nEt6i6FbGoqHY
-         sdzYMmAPFD5egSyrOSXLErRQUkeotN5OD3mk1BoSdqQ173xZrZnNvl+ch+/S7vW5hq
-         FaLCG40nhKpy7IgwavlOSmUh0uKCfC9tbJphyjc55Xk8mZMf2rQ/kRSvMRjo5E9idR
-         Xdwg0c7IpoP0g==
-Date:   Mon, 7 Nov 2022 10:18:53 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Veerasenareddy Burru <vburru@marvell.com>
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lironh@marvell.com, aayarekar@marvell.com, sedara@marvell.com,
-        sburla@marvell.com, linux-doc@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Subject: Re: [PATCH net-next 1/9] octeon_ep: wait for firmware ready
-Message-ID: <Y2i/bdCAgQa95du8@unreal>
-References: <20221107072524.9485-1-vburru@marvell.com>
- <20221107072524.9485-2-vburru@marvell.com>
+        with ESMTP id S231673AbiKGJzW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 04:55:22 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35BA91581E;
+        Mon,  7 Nov 2022 01:55:18 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id q71so9983723pgq.8;
+        Mon, 07 Nov 2022 01:55:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hr8slVM8vWWCownhtCp/SyZlW1/FtPW5skKNhYxHrZI=;
+        b=SviQdqK8TII1if2wp7MGb3OwR8gIonBvw2nuaftxN5e+GOP+qu1Kd+dvxighLGz6eZ
+         msVcF35UvjffoUlhvc2BRsbpKjnnL2GcItKWpVWW8z803IDj/6KhUUZw4XTitgHID+9l
+         5s0in3FFSWJvAl1GOI1vPulKVnKqnQSISjlSWCX2KatYOZ79eD/GB6Bn4wZhkzj2C6zT
+         OUAMAuoYHBae7IFxyxJJj1w6a+fC5C6CZC5c78aHZ0w7r0DyAwal6G4o55Qq3q0T/lAn
+         3PhKIRkqZ2FGZzLY0wWQJb6j8izHICcQpIa/wTkXSkUYdswGiK4xxdnwvsF84pDR5JGY
+         K7Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hr8slVM8vWWCownhtCp/SyZlW1/FtPW5skKNhYxHrZI=;
+        b=OzntdKrplKOk90T6GCrFVF62QZoPUXZ3oswdBOD9bWlg3Xdz6KJ+yeM+p/Z08EyJEx
+         nvzCIWTLypflDh3cu1+sRz/GpbvTNTFlLGwN/w0vTQDDVUFGi8Bc8yeQW9htNFBxxVGQ
+         q/AO73WWh+pgMWnHnSFBXbssorr3JTuQgg0aGn3H5n9cliP1eHTr7bNswH4zRJ//Vd/6
+         268nzsNitXtj3LRygnDpT5gjNemc4qp6wwKEVLaC/CQPOq1BC7z+cPhLYSS4Mp6ajXGb
+         1CD0UemgfWnHPiBALUSLQeDNVr9ctgUOqinViFLfE3UejZosAOB83KoTmlGTwWl5e/M+
+         EXbQ==
+X-Gm-Message-State: ACrzQf3WNc5TWWH6QuiMo2NgJnXaZtNf1fum/K6EdPMEu5vI98PTms14
+        7F2PgVqZ5RMPKAPlb3l0DGcP4xCTRx0=
+X-Google-Smtp-Source: AMsMyM6yO7OPDg8pIduklP+4s8ymkJ6srmETGY8d02lp7ifyDeaJQWWaurQJOt73HPWB6G0bA8RT2w==
+X-Received: by 2002:a05:6a00:1ad0:b0:56d:5fdb:a29b with SMTP id f16-20020a056a001ad000b0056d5fdba29bmr41532842pfv.76.1667814917649;
+        Mon, 07 Nov 2022 01:55:17 -0800 (PST)
+Received: from debian.me (subs09a-223-255-225-70.three.co.id. [223.255.225.70])
+        by smtp.gmail.com with ESMTPSA id bx6-20020a17090af48600b0020ad26fa65dsm3880914pjb.56.2022.11.07.01.55.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Nov 2022 01:55:17 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id C4A5C103EC6; Mon,  7 Nov 2022 16:55:13 +0700 (WIB)
+Date:   Mon, 7 Nov 2022 16:55:13 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] Documentation: RCU: use code blocks with autogenerated line
+ (was: Re: linux-next: build warning after merge of the rcu tree)
+Message-ID: <Y2jWAR1QESe3OrhH@debian.me>
+References: <20221107142641.527396ea@canb.auug.org.au>
+ <20221107050212.GG28461@paulmck-ThinkPad-P17-Gen-1>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="BOHAifbXzPBJBb7F"
 Content-Disposition: inline
-In-Reply-To: <20221107072524.9485-2-vburru@marvell.com>
+In-Reply-To: <20221107050212.GG28461@paulmck-ThinkPad-P17-Gen-1>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 06, 2022 at 11:25:15PM -0800, Veerasenareddy Burru wrote:
-> Make driver initialize the device only after firmware is ready
->  - add async device setup routine.
->  - poll firmware status register.
->  - once firmware is ready, call async device setup routine.
 
-Please don't do it. It is extremely hard to do it right. The proposed
-code that has combination of atomics used as a locks together with absence
-of proper locking from PCI and driver cores supports my claim.
+--BOHAifbXzPBJBb7F
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks
+On Sun, Nov 06, 2022 at 09:02:12PM -0800, Paul E. McKenney wrote:
+> On Mon, Nov 07, 2022 at 02:26:41PM +1100, Stephen Rothwell wrote:
+> > Hi all,
+> >=20
+> > After merging the rcu tree, today's linux-next build (htmldocs)
+> > produced this warning:
+> >=20
+> > Documentation/RCU/rcubarrier.rst:205: WARNING: Literal block ends witho=
+ut a blank line; unexpected unindent.
+> >=20
+> > Introduced by commit
+> >=20
+> >   21c2e3909721 ("doc: Update rcubarrier.rst")
+>=20
+> Huh.  I guess that numbered code samples are not supposed to have more
+> than nine lines?  Ah well, easy to fix by going back to left-justified
+> numbers.  I was wondering about that!
+>=20
+
+I think the proper fix is just let Sphinx generates line number:
+
+---- >8 ----
+
+=46rom 5cea54b61b2dbf2ec5e00479c6c8f9e190b49091 Mon Sep 17 00:00:00 2001
+=46rom: Bagas Sanjaya <bagasdotme@gmail.com>
+Date: Mon, 7 Nov 2022 15:41:31 +0700
+Subject: [PATCH] Documentation: RCU: use code blocks with autogenerated line
+ numbers in RCU barrier doc
+
+Recently Stephen Rothwell reported htmldocs warning in
+Documentation/RCU/rcubarrier.rst when merging rcu tree [1], which has been
+fixed by left-justifying the culprit line numbers. However, similar
+issues can occur when line numbers are manually added without caution.
+
+Instead, use code-block syntax with :linenos: option, which automatically
+generates line numbers in code snippets.
+
+Link: https://lore.kernel.org/linux-next/20221107142641.527396ea@canb.auug.=
+org.au/ [1]
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/RCU/rcubarrier.rst | 213 +++++++++++++++++--------------
+ 1 file changed, 114 insertions(+), 99 deletions(-)
+
+diff --git a/Documentation/RCU/rcubarrier.rst b/Documentation/RCU/rcubarrie=
+r.rst
+index 5a643e5233d5f6..79adf39838653e 100644
+--- a/Documentation/RCU/rcubarrier.rst
++++ b/Documentation/RCU/rcubarrier.rst
+@@ -70,81 +70,87 @@ If your module uses multiple srcu_struct structures, th=
+en it must also
+ use multiple invocations of srcu_barrier() when unloading that module.
+ For example, if it uses call_rcu(), call_srcu() on srcu_struct_1, and
+ call_srcu() on srcu_struct_2, then the following three lines of code
+-will be required when unloading::
++will be required when unloading:
+=20
+- 1 rcu_barrier();
+- 2 srcu_barrier(&srcu_struct_1);
+- 3 srcu_barrier(&srcu_struct_2);
++.. code-block:: c
++   :linenos:
++
++   rcu_barrier();
++   srcu_barrier(&srcu_struct_1);
++   srcu_barrier(&srcu_struct_2);
+=20
+ If latency is of the essence, workqueues could be used to run these
+ three functions concurrently.
+=20
+ An ancient version of the rcutorture module makes use of rcu_barrier()
+-in its exit function as follows::
++in its exit function as follows:
+=20
+- 1  static void
+- 2  rcu_torture_cleanup(void)
+- 3  {
+- 4    int i;
+- 5
+- 6    fullstop =3D 1;
+- 7    if (shuffler_task !=3D NULL) {
+- 8     VERBOSE_PRINTK_STRING("Stopping rcu_torture_shuffle task");
+- 9     kthread_stop(shuffler_task);
+- 10   }
+- 11   shuffler_task =3D NULL;
+- 12
+- 13   if (writer_task !=3D NULL) {
+- 14     VERBOSE_PRINTK_STRING("Stopping rcu_torture_writer task");
+- 15     kthread_stop(writer_task);
+- 16   }
+- 17   writer_task =3D NULL;
+- 18
+- 19   if (reader_tasks !=3D NULL) {
+- 20     for (i =3D 0; i < nrealreaders; i++) {
+- 21       if (reader_tasks[i] !=3D NULL) {
+- 22         VERBOSE_PRINTK_STRING(
+- 23           "Stopping rcu_torture_reader task");
+- 24         kthread_stop(reader_tasks[i]);
+- 25       }
+- 26       reader_tasks[i] =3D NULL;
+- 27     }
+- 28     kfree(reader_tasks);
+- 29     reader_tasks =3D NULL;
+- 30   }
+- 31   rcu_torture_current =3D NULL;
+- 32
+- 33   if (fakewriter_tasks !=3D NULL) {
+- 34     for (i =3D 0; i < nfakewriters; i++) {
+- 35       if (fakewriter_tasks[i] !=3D NULL) {
+- 36         VERBOSE_PRINTK_STRING(
+- 37           "Stopping rcu_torture_fakewriter task");
+- 38         kthread_stop(fakewriter_tasks[i]);
+- 39       }
+- 40       fakewriter_tasks[i] =3D NULL;
+- 41     }
+- 42     kfree(fakewriter_tasks);
+- 43     fakewriter_tasks =3D NULL;
+- 44   }
+- 45
+- 46   if (stats_task !=3D NULL) {
+- 47     VERBOSE_PRINTK_STRING("Stopping rcu_torture_stats task");
+- 48     kthread_stop(stats_task);
+- 49   }
+- 50   stats_task =3D NULL;
+- 51
+- 52   /* Wait for all RCU callbacks to fire. */
+- 53   rcu_barrier();
+- 54
+- 55   rcu_torture_stats_print(); /* -After- the stats thread is stopped! */
+- 56
+- 57   if (cur_ops->cleanup !=3D NULL)
+- 58     cur_ops->cleanup();
+- 59   if (atomic_read(&n_rcu_torture_error))
+- 60     rcu_torture_print_module_parms("End of test: FAILURE");
+- 61   else
+- 62     rcu_torture_print_module_parms("End of test: SUCCESS");
+- 63 }
++.. code-block:: c
++   :linenos:
++
++   static void
++   rcu_torture_cleanup(void)
++   {
++     int i;
++  =20
++     fullstop =3D 1;
++     if (shuffler_task !=3D NULL) {
++      VERBOSE_PRINTK_STRING("Stopping rcu_torture_shuffle task");
++      kthread_stop(shuffler_task);
++     }
++     shuffler_task =3D NULL;
++  =20
++     if (writer_task !=3D NULL) {
++       VERBOSE_PRINTK_STRING("Stopping rcu_torture_writer task");
++       kthread_stop(writer_task);
++     }
++     writer_task =3D NULL;
++  =20
++     if (reader_tasks !=3D NULL) {
++       for (i =3D 0; i < nrealreaders; i++) {
++         if (reader_tasks[i] !=3D NULL) {
++           VERBOSE_PRINTK_STRING(
++             "Stopping rcu_torture_reader task");
++           kthread_stop(reader_tasks[i]);
++         }
++         reader_tasks[i] =3D NULL;
++       }
++       kfree(reader_tasks);
++       reader_tasks =3D NULL;
++     }
++     rcu_torture_current =3D NULL;
++  =20
++     if (fakewriter_tasks !=3D NULL) {
++       for (i =3D 0; i < nfakewriters; i++) {
++         if (fakewriter_tasks[i] !=3D NULL) {
++           VERBOSE_PRINTK_STRING(
++             "Stopping rcu_torture_fakewriter task");
++           kthread_stop(fakewriter_tasks[i]);
++         }
++         fakewriter_tasks[i] =3D NULL;
++       }
++       kfree(fakewriter_tasks);
++       fakewriter_tasks =3D NULL;
++     }
++  =20
++     if (stats_task !=3D NULL) {
++       VERBOSE_PRINTK_STRING("Stopping rcu_torture_stats task");
++       kthread_stop(stats_task);
++     }
++     stats_task =3D NULL;
++  =20
++     /* Wait for all RCU callbacks to fire. */
++     rcu_barrier();
++  =20
++     rcu_torture_stats_print(); /* -After- the stats thread is stopped! */
++  =20
++     if (cur_ops->cleanup !=3D NULL)
++       cur_ops->cleanup();
++     if (atomic_read(&n_rcu_torture_error))
++       rcu_torture_print_module_parms("End of test: FAILURE");
++     else
++       rcu_torture_print_module_parms("End of test: SUCCESS");
++   }
+=20
+ Line 6 sets a global variable that prevents any RCU callbacks from
+ re-posting themselves. This will not be necessary in most cases, since
+@@ -191,21 +197,24 @@ queues. His implementation queues an RCU callback on =
+each of the per-CPU
+ callback queues, and then waits until they have all started executing, at
+ which point, all earlier RCU callbacks are guaranteed to have completed.
+=20
+-The original code for rcu_barrier() was roughly as follows::
++The original code for rcu_barrier() was roughly as follows:
+=20
+- 1   void rcu_barrier(void)
+- 2   {
+- 3     BUG_ON(in_interrupt());
+- 4     /* Take cpucontrol mutex to protect against CPU hotplug */
+- 5     mutex_lock(&rcu_barrier_mutex);
+- 6     init_completion(&rcu_barrier_completion);
+- 7     atomic_set(&rcu_barrier_cpu_count, 1);
+- 8     on_each_cpu(rcu_barrier_func, NULL, 0, 1);
+- 9     if (atomic_dec_and_test(&rcu_barrier_cpu_count))
+- 10       complete(&rcu_barrier_completion);
+- 11    wait_for_completion(&rcu_barrier_completion);
+- 12    mutex_unlock(&rcu_barrier_mutex);
+- 13  }
++.. code-block:: c
++   :linenos:
++
++   void rcu_barrier(void)
++   {
++     BUG_ON(in_interrupt());
++     /* Take cpucontrol mutex to protect against CPU hotplug */
++     mutex_lock(&rcu_barrier_mutex);
++     init_completion(&rcu_barrier_completion);
++     atomic_set(&rcu_barrier_cpu_count, 1);
++     on_each_cpu(rcu_barrier_func, NULL, 0, 1);
++     if (atomic_dec_and_test(&rcu_barrier_cpu_count))
++        complete(&rcu_barrier_completion);
++     wait_for_completion(&rcu_barrier_completion);
++     mutex_unlock(&rcu_barrier_mutex);
++   }
+=20
+ Line 3 verifies that the caller is in process context, and lines 5 and 12
+ use rcu_barrier_mutex to ensure that only one rcu_barrier() is using the
+@@ -230,18 +239,21 @@ This code was rewritten in 2008 and several times the=
+reafter, but this
+ still gives the general idea.
+=20
+ The rcu_barrier_func() runs on each CPU, where it invokes call_rcu()
+-to post an RCU callback, as follows::
++to post an RCU callback, as follows:
+=20
+- 1  static void rcu_barrier_func(void *notused)
+- 2  {
+- 3    int cpu =3D smp_processor_id();
+- 4    struct rcu_data *rdp =3D &per_cpu(rcu_data, cpu);
+- 5    struct rcu_head *head;
+- 6
+- 7    head =3D &rdp->barrier;
+- 8    atomic_inc(&rcu_barrier_cpu_count);
+- 9    call_rcu(head, rcu_barrier_callback);
+- 10 }
++.. code-block:: c
++   :linenos:
++
++   static void rcu_barrier_func(void *notused)
++   {
++     int cpu =3D smp_processor_id();
++     struct rcu_data *rdp =3D &per_cpu(rcu_data, cpu);
++     struct rcu_head *head;
++  =20
++     head =3D &rdp->barrier;
++     atomic_inc(&rcu_barrier_cpu_count);
++     call_rcu(head, rcu_barrier_callback);
++   }
+=20
+ Lines 3 and 4 locate RCU's internal per-CPU rcu_data structure,
+ which contains the struct rcu_head that needed for the later call to
+@@ -252,13 +264,16 @@ the current CPU's queue.
+=20
+ The rcu_barrier_callback() function simply atomically decrements the
+ rcu_barrier_cpu_count variable and finalizes the completion when it
+-reaches zero, as follows::
++reaches zero, as follows:
+=20
+- 1 static void rcu_barrier_callback(struct rcu_head *notused)
+- 2 {
+- 3   if (atomic_dec_and_test(&rcu_barrier_cpu_count))
+- 4     complete(&rcu_barrier_completion);
+- 5 }
++.. code-block:: c
++   :linenos:
++
++   static void rcu_barrier_callback(struct rcu_head *notused)
++   {
++     if (atomic_dec_and_test(&rcu_barrier_cpu_count))
++       complete(&rcu_barrier_completion);
++   }
+=20
+ .. _rcubarrier_quiz_3:
+=20
+
+base-commit: 2c9ea2f2e0a56cbf6931992812bffe47506f23d0
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--BOHAifbXzPBJBb7F
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2jV+QAKCRD2uYlJVVFO
+o5A7AP9iAn+6E7tVSXBerXQ40pTMUCc2+RUW8u1xgjV29B6PbQD/QVCJ67K/jTuw
+Y+Nm2TLobUyphGJ6YesUTknojFN+6QA=
+=Xniw
+-----END PGP SIGNATURE-----
+
+--BOHAifbXzPBJBb7F--
