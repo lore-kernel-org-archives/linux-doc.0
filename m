@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEF90C41535
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 07:27:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B493C46467
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 07:27:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231415AbiKGH1F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 02:27:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37216 "EHLO
+        id S231420AbiKGH1G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 02:27:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231448AbiKGH0s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 02:26:48 -0500
+        with ESMTP id S231445AbiKGH0r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 02:26:47 -0500
 Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89D0A38B4;
-        Sun,  6 Nov 2022 23:26:47 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8988013D2C;
+        Sun,  6 Nov 2022 23:26:46 -0800 (PST)
 Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A76X0xG004392;
+        by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A76X0xH004392;
         Sun, 6 Nov 2022 23:26:40 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=pfpt0220;
- bh=1MYnuzMUF8cHbMwVjzRzmVwMCW9EmcTbS1yoOWcg5L4=;
- b=HTOm6vtiyKijFMh3yFHI9+pTalclYbKNc2KNydDnxuL68zPjiMGWhgBzZzc15+OSlaDw
- /lddabM3JFZgxYjQbhcgdWaEDRGSpWK7ExqBU+Abf2a6bfXqi6H+SR76BViXz4g7qQ+A
- czvBkCVyAHh/HOZKa0QrJCm7UATlhVRBwvWQYsLa0cMft0DNzQr/sBxpvuR8BuCmqPhB
- k6DGuwHkW8ymFUNUtF4AkEd9Y3lduWoa288mi5psj+hpVtF6r0BifAsE0BfvwysgWvrq
- 9DAk98T3YMByyEQIBqrQ2jOM2+ggqnDHx1dwGissPkM9JNfw1JtWIzbVbmPBknhIUrz8 pA== 
+ bh=DwYV4VEmhO+xAsqREfk+3L5xcekniqBBnYaDek77Qtc=;
+ b=eS2vakutUW4DP76KWRwbCo5J5ewMwEFW7tCT4hUl8GrohRU5M+3qHIND+b1Nt3vjfyBS
+ kKHdo3+HHb3xtp21bRzHZruaVyRmttb5zqsicz4lSd/Sxw8h81u6WjqDPY/ydsrTv/eo
+ B9fQkhj0ePgEgiyuJLene3PMmSRclHEamb0OvWNXrKZ66Q/RV9h27P5ii1NljuUdubml
+ uLviM4m8YJ0d79wzWcYyvcZghnGtRWevkgjDRq8mJ645Z2Y2vbm9aM6Z5UWa/3aTVQRZ
+ 8HRDYPiwxKA2HURfRswB4oFBn+WBWZt5O3vbeKy6UAgpLfcF00/3FY+oO7P6OjxgE4tj uQ== 
 Received: from dc5-exch02.marvell.com ([199.233.59.182])
-        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3kpvuk85b9-2
+        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3kpvuk85b9-3
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
         Sun, 06 Nov 2022 23:26:40 -0800
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH02.marvell.com
  (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Sun, 6 Nov
- 2022 23:26:37 -0800
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
- (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sun, 6 Nov 2022 23:26:37 -0800
+ 2022 23:26:39 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
+ Transport; Sun, 6 Nov 2022 23:26:39 -0800
 Received: from sburla-PowerEdge-T630.caveonetworks.com (unknown [10.106.27.217])
-        by maili.marvell.com (Postfix) with ESMTP id 44AB83F7050;
-        Sun,  6 Nov 2022 23:26:37 -0800 (PST)
+        by maili.marvell.com (Postfix) with ESMTP id E6B043F7050;
+        Sun,  6 Nov 2022 23:26:38 -0800 (PST)
 From:   Veerasenareddy Burru <vburru@marvell.com>
 To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <lironh@marvell.com>, <aayarekar@marvell.com>,
@@ -49,17 +49,17 @@ CC:     <linux-doc@vger.kernel.org>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>
-Subject: [PATCH net-next 5/9] octeon_ep: support asynchronous notifications
-Date:   Sun, 6 Nov 2022 23:25:19 -0800
-Message-ID: <20221107072524.9485-6-vburru@marvell.com>
+Subject: [PATCH net-next 7/9] octeon_ep: add SRIOV VF creation
+Date:   Sun, 6 Nov 2022 23:25:21 -0800
+Message-ID: <20221107072524.9485-8-vburru@marvell.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20221107072524.9485-1-vburru@marvell.com>
 References: <20221107072524.9485-1-vburru@marvell.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: NKRfXI1CQwsCOLWhcrwgR8q1pbXPbo9C
-X-Proofpoint-ORIG-GUID: NKRfXI1CQwsCOLWhcrwgR8q1pbXPbo9C
+X-Proofpoint-GUID: bQ2zehtKMs9a2YedPkX_A9PgphLKlYsW
+X-Proofpoint-ORIG-GUID: bQ2zehtKMs9a2YedPkX_A9PgphLKlYsW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-06_16,2022-11-03_01,2022-06-22_01
@@ -67,61 +67,80 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add asynchronous notification support to the control mailbox.
+Add support to create SRIOV VFs.
 
 Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
-Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
+Signed-off-by: Sathesh Edara <sedara@marvell.com>
 ---
- .../marvell/octeon_ep/octep_ctrl_net.c        | 29 +++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ .../ethernet/marvell/octeon_ep/octep_main.c   | 50 +++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
-diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
-index 715af1891d0d..80bcd6cd4732 100644
---- a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
-+++ b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
-@@ -279,6 +279,33 @@ static int process_mbox_resp(struct octep_device *oct,
- 	return 0;
+diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
+index ad5553854467..fa0f3d597eb1 100644
+--- a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
++++ b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
+@@ -1236,11 +1236,61 @@ static void octep_remove(struct pci_dev *pdev)
+ 	pci_disable_device(pdev);
  }
  
-+static int process_mbox_notify(struct octep_device *oct,
-+			       struct octep_ctrl_mbox_msg *msg)
++static int octep_sriov_disable(struct octep_device *oct)
 +{
-+	struct octep_ctrl_net_f2h_req *req;
-+	struct net_device *netdev = oct->netdev;
++	struct pci_dev *pdev = oct->pdev;
 +
-+	req = (struct octep_ctrl_net_f2h_req *)msg->sg_list[0].msg;
-+	switch (req->hdr.s.cmd) {
-+	case OCTEP_CTRL_NET_F2H_CMD_LINK_STATUS:
-+		if (netif_running(netdev)) {
-+			if (req->link.state) {
-+				dev_info(&oct->pdev->dev, "netif_carrier_on\n");
-+				netif_carrier_on(netdev);
-+			} else {
-+				dev_info(&oct->pdev->dev, "netif_carrier_off\n");
-+				netif_carrier_off(netdev);
-+			}
-+		}
-+		break;
-+	default:
-+		pr_info("Unknown mbox req : %u\n", req->hdr.s.cmd);
-+		break;
++	if (pci_vfs_assigned(oct->pdev)) {
++		dev_warn(&pdev->dev, "Can't disable SRIOV while VFs are assigned\n");
++		return -EPERM;
 +	}
++
++	pci_disable_sriov(pdev);
++	CFG_GET_ACTIVE_VFS(oct->conf) = 0;
 +
 +	return 0;
 +}
 +
- int octep_ctrl_net_recv_fw_messages(struct octep_device *oct)
- {
- 	static u16 msg_sz = sizeof(union octep_ctrl_net_max_data);
-@@ -303,6 +330,8 @@ int octep_ctrl_net_recv_fw_messages(struct octep_device *oct)
- 			process_mbox_req(oct, &msg);
- 		else if (msg.hdr.s.flags & OCTEP_CTRL_MBOX_MSG_HDR_FLAG_RESP)
- 			process_mbox_resp(oct, &msg);
-+		else if (msg.hdr.s.flags & OCTEP_CTRL_MBOX_MSG_HDR_FLAG_NOTIFY)
-+			process_mbox_notify(oct, &msg);
- 	}
++static int octep_sriov_enable(struct octep_device *oct, int num_vfs)
++{
++	struct pci_dev *pdev = oct->pdev;
++	int err;
++
++	err = pci_enable_sriov(pdev, num_vfs);
++	if (err) {
++		dev_warn(&pdev->dev, "Failed to enable SRIOV err=%d\n", err);
++		return err;
++	}
++	CFG_GET_ACTIVE_VFS(oct->conf) = num_vfs;
++
++	return num_vfs;
++}
++
++static int octep_sriov_configure(struct pci_dev *pdev, int num_vfs)
++{
++	struct octep_device *oct = pci_get_drvdata(pdev);
++	int max_nvfs;
++
++	if (num_vfs == 0)
++		return octep_sriov_disable(oct);
++
++	max_nvfs = CFG_GET_MAX_VFS(oct->conf);
++
++	if (num_vfs > max_nvfs) {
++		dev_err(&pdev->dev, "Invalid VF count Max supported VFs = %d\n",
++			max_nvfs);
++		return -EINVAL;
++	}
++
++	return octep_sriov_enable(oct, num_vfs);
++}
++
+ static struct pci_driver octep_driver = {
+ 	.name = OCTEP_DRV_NAME,
+ 	.id_table = octep_pci_id_tbl,
+ 	.probe = octep_probe,
+ 	.remove = octep_remove,
++	.sriov_configure = octep_sriov_configure,
+ };
  
- 	return 0;
+ /**
 -- 
 2.36.0
 
