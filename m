@@ -2,119 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C416AC43217
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 17:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABD8DC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 17:33:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231858AbiKGRS4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 12:18:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35024 "EHLO
+        id S232566AbiKGRdL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 12:33:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232611AbiKGRSu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 12:18:50 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FC16209BF;
-        Mon,  7 Nov 2022 09:18:49 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 093D0611C2;
-        Mon,  7 Nov 2022 17:18:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B513C433C1;
-        Mon,  7 Nov 2022 17:18:45 +0000 (UTC)
-Date:   Mon, 7 Nov 2022 17:18:42 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, kexec@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v3 1/2] arm64: kdump: Provide default size when
- crashkernel=Y,low is not specified
-Message-ID: <Y2k98lFhtUP2u1VM@arm.com>
-References: <20220711090319.1604-1-thunder.leizhen@huawei.com>
- <20220711090319.1604-2-thunder.leizhen@huawei.com>
+        with ESMTP id S232546AbiKGRdK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 12:33:10 -0500
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0977823EAC
+        for <linux-doc@vger.kernel.org>; Mon,  7 Nov 2022 09:33:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667842390; x=1699378390;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XlCKGtfUOOsWZKAmOLbMdf7L0wmWwqYuF9wT5UroNEg=;
+  b=m4W4O8kr0VFEoAdbC0L8hvw52biAAJel+XDv6mgQL+qhVG1QsmFtFg69
+   DFVdLfucP6VYM4SosDeomrM19Y8aDBzpnohnYLuHi9V4QcXhfVyD+8Bb6
+   /uEltQ/TVvzr+xFfS04zBHyyO/E5tyXLhd1FW34MC3YFtMHFykK/L92Jg
+   Rd6RaO9a9BbEt5aNIWcgEuwaKSWpSnmFkhs3WXbVrTJkx/BIsDAtoqMRS
+   OkTDp+oL9Te8MLq4o7Wu0LhhldXdU/pnWP7Ehk3n9kXAEOKwLsa6Osozf
+   upIndzZ0NRTYy+c3hvXyM9fyPti+T6nBvPg8ovXrWvaeN+ImqhmJ4ZE+r
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="308096792"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; 
+   d="scan'208";a="308096792"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 09:32:58 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="630568315"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; 
+   d="scan'208";a="630568315"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.143])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 09:32:58 -0800
+From:   Lucas De Marchi <lucas.demarchi@intel.com>
+To:     dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-doc@vger.kernel.org
+Cc:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [PATCH 0/3] Documentation/gpu: reduce verbosity in toc
+Date:   Mon,  7 Nov 2022 09:32:06 -0800
+Message-Id: <20221107173209.2219571-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220711090319.1604-2-thunder.leizhen@huawei.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 11, 2022 at 05:03:18PM +0800, Zhen Lei wrote:
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 2522b11e593f239..65a2c3a22a4b57d 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -843,7 +843,7 @@
->  			available.
->  			It will be ignored if crashkernel=X is specified.
->  	crashkernel=size[KMG],low
-> -			[KNL, X86-64] range under 4G. When crashkernel=X,high
-> +			[KNL, X86-64, ARM64] range under 4G. When crashkernel=X,high
->  			is passed, kernel could allocate physical memory region
->  			above 4G, that cause second kernel crash on system
->  			that require some amount of low memory, e.g. swiotlb
-> @@ -857,12 +857,6 @@
->  			It will be ignored when crashkernel=X,high is not used
->  			or memory reserved is below 4G.
->  
-> -			[KNL, ARM64] range in low memory.
-> -			This one lets the user specify a low range in the
-> -			DMA zone for the crash dump kernel.
-> -			It will be ignored when crashkernel=X,high is not used
-> -			or memory reserved is located in the DMA zones.
-> -
->  	cryptomgr.notests
->  			[KNL] Disable crypto self-tests
->  
-> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-> index 339ee84e5a61a0b..5390f361208ccf7 100644
-> --- a/arch/arm64/mm/init.c
-> +++ b/arch/arm64/mm/init.c
-> @@ -96,6 +96,14 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
->  #define CRASH_ADDR_LOW_MAX		arm64_dma_phys_limit
->  #define CRASH_ADDR_HIGH_MAX		(PHYS_MASK + 1)
->  
-> +/*
-> + * This is an empirical value in x86_64 and taken here directly. Please
-> + * refer to the code comment in reserve_crashkernel_low() of x86_64 for more
-> + * details.
-> + */
-> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	\
-> +	max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20)
-> +
->  static int __init reserve_crashkernel_low(unsigned long long low_size)
->  {
->  	unsigned long long low_base;
-> @@ -147,7 +155,9 @@ static void __init reserve_crashkernel(void)
->  		 * is not allowed.
->  		 */
->  		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
-> -		if (ret && (ret != -ENOENT))
-> +		if (ret == -ENOENT)
-> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-> +		else if (ret)
->  			return;
+Checking some issues I was having i915 doc made me look at the toc for
+Documentation/gpu. I think it's too hard to read when extending the toc
+all levels for each driver. Reduce it to maxdepth=2.
 
-BTW, since we want a default low allocation, I think we should change
-the checking logic slightly. Currently we have:
+Also fix the usage-stats section appearing in the wrong place.
 
-	if ((crash_base >= CRASH_ADDR_LOW_MAX) &&
-	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
-		...
+Lucas De Marchi (3):
+  Documentation/gpu: Fix section in the wrong scope
+  Documentation/gpu: Limit index to maxdepth=2
+  Documentation/gpu: Limit drivers index to maxdepth=2
 
-If crash_base is just below CRASH_ADDR_LOW_MAX, we deem it sufficient
-but a crashkernel trying to allocate 64MB of swiotlb may fail. So maybe
-change this to crash_base >= CRASH_ADDR_LOW_MAX - crash_low_size.
+ Documentation/gpu/drivers.rst         | 1 +
+ Documentation/gpu/drm-usage-stats.rst | 1 -
+ Documentation/gpu/index.rst           | 1 +
+ 3 files changed, 2 insertions(+), 1 deletion(-)
 
 -- 
-Catalin
+2.38.1
+
