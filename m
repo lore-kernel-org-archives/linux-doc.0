@@ -2,156 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AE56C4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 20:06:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14BAFC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 20:07:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231667AbiKGUGB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 15:06:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45238 "EHLO
+        id S232178AbiKGUHK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 15:07:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231351AbiKGUGA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 15:06:00 -0500
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D922527CC3;
-        Mon,  7 Nov 2022 12:05:59 -0800 (PST)
-Received: by mail-ot1-f44.google.com with SMTP id cn2-20020a056830658200b0066c74617e3dso7204976otb.2;
-        Mon, 07 Nov 2022 12:05:59 -0800 (PST)
+        with ESMTP id S232141AbiKGUHI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 15:07:08 -0500
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF410178BB
+        for <linux-doc@vger.kernel.org>; Mon,  7 Nov 2022 12:07:06 -0800 (PST)
+Received: by mail-io1-xd2b.google.com with SMTP id z3so9823696iof.3
+        for <linux-doc@vger.kernel.org>; Mon, 07 Nov 2022 12:07:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8hV5ZSh2seubDdRrNeUCchubOhAcqvi4PJAb4HdDdB0=;
+        b=XFhq0Xs1jn9mlb/AMwxtrT0VkUmekAjemvzCWhPsc1Ud0+riFpyDUOqaiMwrJeA3Z6
+         YwvXvpSGLpp5GbahQ7vv81j2ecpKUXWI0A0BSqH60uAjtpy68h6e/ejR+/LIKk93mcTa
+         jO+VPdm7g7f7628BIvfrcFqI2yT5xKpz+qHCM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mzxwEFNUScRHad0GSitNuAPUAQgYGoYkKZUbn1eKG18=;
-        b=Pk7c3069xNX4M+ZFbRx1Kg4eokduxQiU4Ya7kmipQd6L8+/a6//TQfwWAvHhWxxTEv
-         /dQvBT0WD8rQzh5IPiIjLlaez7mffx5zbRRIcC/KqSaDIKsQmW0SBFh/vJGTwEhrcTYW
-         mPB8mC7OuvaGEP9j9ycemv+J6NPRuAbKJewyyrC5reKwPpEiu11JsVdKSRk+tYuJBAVu
-         aPLWgiQme7jCVt7a8Hqp49AUZAkC6xhi8Wa215qfSbluW3rHjw82SCTAcRU8FFrvUVKY
-         IoDi6O6HogkLk0QoW53xkl1RQMd2Uw7NNnVQ27JXIwFtW7UzztWkUmN7dGV0i8GTZMfZ
-         31gg==
-X-Gm-Message-State: ACrzQf0Asqv0GGV8K9RVMril0+v3ho0ydyRvzXeNVYndArt/QWUBm5C2
-        +RcLk1bfiAmkcrn7w49Bhb0jTW2nGA==
-X-Google-Smtp-Source: AMsMyM5F0ZUoojX9ufwQfzy1dN0QLHEBHTBy2a9TmPWOTk7MHOTPAWpdcmmZ5GfaQLGlHKVMLnBdiQ==
-X-Received: by 2002:a05:6830:410b:b0:66c:9a3a:53e with SMTP id w11-20020a056830410b00b0066c9a3a053emr8419415ott.225.1667851558934;
-        Mon, 07 Nov 2022 12:05:58 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id m6-20020a4a9506000000b0049201e2b8f4sm2522674ooi.4.2022.11.07.12.05.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 12:05:58 -0800 (PST)
-Received: (nullmailer pid 1504075 invoked by uid 1000);
-        Mon, 07 Nov 2022 20:06:00 -0000
-Date:   Mon, 7 Nov 2022 14:06:00 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Dipen Patel <dipenp@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 4/7] dt-bindings: timestamp: Add Tegra234 support
-Message-ID: <20221107200600.GA1489762-robh@kernel.org>
-References: <20221103174523.29592-1-dipenp@nvidia.com>
- <20221103174523.29592-5-dipenp@nvidia.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8hV5ZSh2seubDdRrNeUCchubOhAcqvi4PJAb4HdDdB0=;
+        b=hK+dNhI+PN2sFS/+b0kFwby785VwaPuDj+XesC4c25qMuR/PDwU0QvKR+wJnk9KxN/
+         XND8xIHtkHm75Bp7xK54eaB3jRgqbz7hQA9+Y3H0Hjj7EtLngP2YMOvkPhBSN0tgu8Id
+         /5rGg3hk8oF8HZq5FUtdJcQoXBcN27U8lWGe2/DJx2VlrVVs78nRIOQQh2FVRsnmGLpz
+         Wu4eIbBxuVdhTXzKMib+W8NG89KTyAqmh1dVUDt27WXIzW2JCKQTRwvrZ9CxtUHZ2WwV
+         BpRwwf/vgkLVZwWOuOJdFiy9yxiZRIYexu4HoG4Gw7RMEhN9bbdsI3dXxy5tVby1iKJv
+         6W2Q==
+X-Gm-Message-State: ACrzQf2+FmC3EmBlj6eMYwAPajc0OdZfu72Vh6sgr+kal1x0Jh+jo9O2
+        9mRuS2nuq2wQ0OACJ44vMSEFwFvVhlpBC93KOjsbjw==
+X-Google-Smtp-Source: AMsMyM766uk95+uCyh+ZkJmMUM61FCimR1/A3TW5Hx+jV3LnaGnqApC2gedZ+O3jgliaPdRUfL3HL1UMwKMghdeC55E=
+X-Received: by 2002:a05:6638:e8a:b0:374:f6c5:cff6 with SMTP id
+ p10-20020a0566380e8a00b00374f6c5cff6mr31358868jas.187.1667851626098; Mon, 07
+ Nov 2022 12:07:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221103174523.29592-5-dipenp@nvidia.com>
+References: <20221027104406.549734-1-daniel.vetter@ffwll.ch> <87tu3n6cb2.fsf@meer.lwn.net>
+In-Reply-To: <87tu3n6cb2.fsf@meer.lwn.net>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Mon, 7 Nov 2022 21:06:54 +0100
+Message-ID: <CAKMK7uHXz7kteQ_sckTQx=E9cWSqGXS_Y0_pLjX2CRcApOvKRQ@mail.gmail.com>
+Subject: Re: [PATCH] docs/sphinx: More depth in the rtd sidebar toc
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Nov 03, 2022 at 10:45:20AM -0700, Dipen Patel wrote:
-> Added timestamp provider support for the Tegra234 in devicetree
-> bindings.
-> 
-> Signed-off-by: Dipen Patel <dipenp@nvidia.com>
-> ---
->  .../timestamp/nvidia,tegra194-hte.yaml        | 44 +++++++++++++++++--
->  1 file changed, 40 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
-> index c31e207d1652..158dbe58c49f 100644
-> --- a/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
-> +++ b/Documentation/devicetree/bindings/timestamp/nvidia,tegra194-hte.yaml
-> @@ -4,7 +4,7 @@
->  $id: http://devicetree.org/schemas/timestamp/nvidia,tegra194-hte.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: Tegra194 on chip generic hardware timestamping engine (HTE)
-> +title: Tegra on chip generic hardware timestamping engine (HTE) provider
->  
->  maintainers:
->    - Dipen Patel <dipenp@nvidia.com>
-> @@ -23,6 +23,8 @@ properties:
->      enum:
->        - nvidia,tegra194-gte-aon
->        - nvidia,tegra194-gte-lic
-> +      - nvidia,tegra234-gte-aon
-> +      - nvidia,tegra234-gte-lic
+On Fri, 28 Oct 2022 at 20:19, Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> Daniel Vetter <daniel.vetter@ffwll.ch> writes:
+>
+> > We love to nest our documenation for good structure, but that means
+> > the table of contents needs to keep up or you can't navigate them.
+> >
+> > Realized this trying to find the drm property documentation, which
+> > with some shuffling around disappeared. Why I didn't realize we can do
+> > this earlier, no idea.
+> >
+> > Since the relevant parts of the toc are only loaded if you're in the
+> > right .html file there's no harm in going all the way to unlimited.
+> >
+> > Note that this has no impact on the classic theme (which doesn't have
+> > the sidebar) nor on the various :toctree: rendered inline in the
+> > output.
+> >
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: linux-doc@vger.kernel.org
+> > ---
+> >  Documentation/conf.py | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/Documentation/conf.py b/Documentation/conf.py
+> > index 934727e23e0e..5dc141c66726 100644
+> > --- a/Documentation/conf.py
+> > +++ b/Documentation/conf.py
+> > @@ -240,6 +240,10 @@ if html_theme == 'sphinx_rtd_theme' or html_theme == 'sphinx_rtd_dark_mode':
+> >                  # Add color-specific RTD normal mode
+> >                  html_css_files.append('theme_rtd_colors.css')
+> >
+> > +        html_theme_options = {
+> > +            'navigation_depth': -1,
+> > +        }
+> > +
+> >      except ImportError:
+> >          html_theme = 'classic'
+>
+> So this patch isn't against docs-next, and applies to the RTD theme,
+> which is no longer the default.  I have no objection to it, but have you
+> looked at how your docs come out with the alabaster theme?
 
-How is the h/w in this chip different from the existing one? I'm 
-assuming it must be because you don't have a fallback compatible.
+[sorry took a bit longer to get back to this]
 
->  
->    reg:
->      maxItems: 1
-> @@ -43,9 +45,8 @@ properties:
->      description:
->        HTE lines are arranged in 32 bit slice where each bit represents different
->        line/signal that it can enable/configure for the timestamp. It is u32
-> -      property and depends on the HTE instance in the chip. The value 3 is for
-> -      GPIO GTE and 11 for IRQ GTE.
-> -    enum: [3, 11]
-> +      property and the value depends on the HTE instance in the chip.
+Hm looks pretty, but more in a print style than using it dynamically,
+you can't really click through the sidebar toc at all to quickly find
+something, and if you're wrong, navigate up a few levels again. It's
+just the toc for exactly the local document, nothing else at all. rtd
+theme always gives you the full toc all the way up, and if you have
+epic patience could actually give you the full toc on every document
+(but that's probably not a good idea for the kernel). Do you need me
+to send the rebased version or can you smash this one in?
 
-If this statement was true, then this property makes sense...
-
-> +    enum: [3, 11, 17]
->  
->    '#timestamp-cells':
->      description:
-> @@ -55,6 +56,41 @@ properties:
->        mentioned in the nvidia GPIO device tree binding document.
->      const: 1
->  
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - nvidia,tegra194-gte-aon
-> +              - nvidia,tegra234-gte-aon
-> +    then:
-> +      properties:
-> +        nvidia,slices:
-> +          const: 3
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - nvidia,tegra194-gte-lic
-> +    then:
-> +      properties:
-> +        nvidia,slices:
-> +          const: 11
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - nvidia,tegra234-gte-lic
-> +    then:
-> +      properties:
-> +        nvidia,slices:
-> +          const: 17
-
-However, if there is only one possible value for each compatible, then 
-being per instance can't really be true. I guess 'aon' or 'lic' define 
-the instance? That's not normal practice. Are there other differences?
-
-It seems like 'nvidia,slices' should be implied from the compatible 
-string.
-
-Rob
+btw on today's linux-next the sphinx.rst page isn't updated with the
+new default theme choice of alabaster. That seems to have been
+forgotten.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
