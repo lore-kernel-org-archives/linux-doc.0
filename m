@@ -2,100 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA690C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 23:41:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7D1FC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 23:46:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231734AbiKGXlI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 18:41:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58668 "EHLO
+        id S232132AbiKGXqU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 18:46:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232518AbiKGXlH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 18:41:07 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1453317076;
-        Mon,  7 Nov 2022 15:41:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667864467; x=1699400467;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=HkPqplWnWgKasGuEjl+2C0+gJiDFRh+H10A4rXRH/Z0=;
-  b=PlIfBVJdQYf6s0VPQVtS18XWHJeHthWnS+DAvKp1Gd0x6wuG0KOmAPZo
-   6d3Hb97XbGSgkobs6GD9js9hWExAHDTagmbHnCpgbdIFYQ525nQrLKSOb
-   Ln7eP6jT1wRsZfQH4oGa0EuqNdfMTFyg6DFoezWNpQAi01G4S56PoSak7
-   intSfP4llqIpJA1g7FkIErhXlC9oVnmm4Vl1xa6MdJwebCq8jRpe6/ZnR
-   tpd7nYf+CJFEBz+jmLZZ2S+5GjrmWGWn/kJ7PXbzI4DI406HaRFCzHCgA
-   z8qdLsIR8tE2huoi4RIjK+naLfl1hUzd+JZi3ZhJOP+JcQafVjm/ChECu
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="309261744"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; 
-   d="scan'208";a="309261744"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 15:41:06 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="630668969"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; 
-   d="scan'208";a="630668969"
-Received: from peggykes-mobl.amr.corp.intel.com (HELO [10.251.7.244]) ([10.251.7.244])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 15:41:04 -0800
-Message-ID: <da41d7f0-68ea-0c21-1dca-218f8184a0f3@intel.com>
-Date:   Mon, 7 Nov 2022 15:41:03 -0800
+        with ESMTP id S232636AbiKGXqO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 18:46:14 -0500
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C728B220D6;
+        Mon,  7 Nov 2022 15:46:12 -0800 (PST)
+Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-13bd2aea61bso14598646fac.0;
+        Mon, 07 Nov 2022 15:46:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GZv4VEzTh60ff7rQ3G/lXHbECUZzBVMWsmSC7ny0h2U=;
+        b=VjP2xLNvuzSQgD3I3ozjFn7UeaPo9By3BYlMaoCMJk7jmaecIwNEmn+KVxkbozJ7in
+         F2T2cyAWTUBqTEppT1Z4uygxuQQqa0BFMXysIOX3ba4Bf4OIog1kUBS5sKaSzp8hJgTQ
+         7kmPR4ebc4Nv2rSnS2g7PO8DAcXe0rC/Grjgmv0zZPBqjPAiJyUIyovdGmVnaRD/JH11
+         U9WV72vCmRz5dYRVfd2svO3Q8bh7pL9DqQ0WNsX9c6EDzdRPjEH8nw1ljnil5NXImYbn
+         ex+rfomJIlLAdipHuqEbJeYk8qUnJNN7RU32EXCJgUd7YpLUYkVAHaqLIGBP1VV9M4J6
+         yvEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GZv4VEzTh60ff7rQ3G/lXHbECUZzBVMWsmSC7ny0h2U=;
+        b=FojNV/pKvq6Csn8+W7wDsN4sutI/KZ5bXUAdX+z2yraOnVl4fF7mwNZw3cQkQraFrH
+         jgL18qMksvXeHQNRKtb0eICrfR3+hRgASBxU7zvHEfKwqA5ZapDSg+29s+3Gk+X/9brA
+         lh0AJcADqcOjwInPcsCg8duKG1gKelZI6HlXHxbhZZ0wFz3Hat1LQLF5qK5AEEDNUiZn
+         GwFSV+kXlaCr+QgjsKKqi60jIbbfjLCubazjpKpYa9Xim8v+I07RBmQiII36U/A58Cte
+         KKpLnBwGZvQt0HDlMMhyd9xMH8i3byA4OlsxvVk2jvBPO2JJb8GMIpK2jSLbP4fdcgA5
+         S1Tw==
+X-Gm-Message-State: ACrzQf3WLKXZb0ofALuYq05Is4sMFi3J2KRJsB7YfhHQAFAoDP1fQwWU
+        QwwPuWpiGCEdrKjh8RZZPdw6Ud5qoZGNMtEj+Cs=
+X-Google-Smtp-Source: AMsMyM5HPQzYIO4bhvVrQ4BX4/oYdqe2G9XJrxXQcHtdlRvqzM3YxSvaL6WZ/k4sAb+Aygi8fxH2APLc7Pk5juNOlOo=
+X-Received: by 2002:a05:6870:5781:b0:13b:8bb8:5c5b with SMTP id
+ i1-20020a056870578100b0013b8bb85c5bmr664481oap.298.1667864772071; Mon, 07 Nov
+ 2022 15:46:12 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 2/3] x86/speculation: Support Automatic IBRS
-Content-Language: en-US
-To:     Kim Phillips <kim.phillips@amd.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Babu Moger <Babu.Moger@amd.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221104213651.141057-1-kim.phillips@amd.com>
- <20221104213651.141057-3-kim.phillips@amd.com> <Y2WJjdY3wwQl9/q9@zn.tnic>
- <Y2ZEinL+wlIX+1Sn@hirez.programming.kicks-ass.net>
- <d413c064-ee9b-5853-9cf1-544adde22c8a@amd.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <d413c064-ee9b-5853-9cf1-544adde22c8a@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20221104223604.29615-1-rick.p.edgecombe@intel.com>
+ <20221104223604.29615-38-rick.p.edgecombe@intel.com> <CAMe9rOpfSccXVWmgK6E0Y0DXC=VX3PpdxXookN1Ty8soeAxrKw@mail.gmail.com>
+ <87iljs4ecp.fsf@oldenburg.str.redhat.com> <ca106fe1b5005f54525e7a644684108f6a823e14.camel@intel.com>
+ <87h6zaiu05.fsf@oldenburg.str.redhat.com> <f60f1138813f850d52dd92bc6b3df067c021a197.camel@intel.com>
+ <CAMe9rOpVUwCccRb5DAyraEKO48rix+Xfiamfp_Vc_aHhjp7=LQ@mail.gmail.com>
+ <73b8f726c424db1af1c10a48e101bf74703a186a.camel@intel.com>
+ <CAMe9rOo6+Di5-mdWa6rviZ7zdO3yMgFPeTw-CXxXZNSQc=-8Wg@mail.gmail.com>
+ <31b5284ce7930835b055e4207059e4bea32367be.camel@intel.com>
+ <CAMe9rOr1XpnisqWHh6C6Wi6tUAu5avhbKb_7E7ZpN_eMkktTww@mail.gmail.com> <2f8fe2ede43909ea3c51ff05f7dae5f63d5ed8c8.camel@intel.com>
+In-Reply-To: <2f8fe2ede43909ea3c51ff05f7dae5f63d5ed8c8.camel@intel.com>
+From:   "H.J. Lu" <hjl.tools@gmail.com>
+Date:   Mon, 7 Nov 2022 15:45:35 -0800
+Message-ID: <CAMe9rOqULmJLM8O-_z7iZVoE6Ysngvw2UjBSwQ4BDB-+A__tdA@mail.gmail.com>
+Subject: Re: [RFC 37/37] fs/binfmt_elf: Block old shstk elf bit
+To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "Syromiatnikov, Eugene" <esyr@redhat.com>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
+        "Eranian, Stephane" <eranian@google.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "fweimer@redhat.com" <fweimer@redhat.com>,
+        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
+        "jannh@google.com" <jannh@google.com>,
+        "dethoma@microsoft.com" <dethoma@microsoft.com>,
+        "kcc@google.com" <kcc@google.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
+        "Yang, Weijiang" <weijiang.yang@intel.com>,
+        "Lutomirski, Andy" <luto@kernel.org>,
+        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "john.allen@amd.com" <john.allen@amd.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        "gorcunov@gmail.com" <gorcunov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/7/22 14:39, Kim Phillips wrote:
-> I've started a version that has AUTOIBRS reuse SPECTRE_V2_EIBRS
-> spectre_v2_mitigation enum, but, so far, it's change to bugs.c
-> looks bigger: 58 lines changed vs. 34 (see below).
-> 
-> Let me know if you want me to send it as a part of a v2 submission
-> after I take care of the kvm CPUID review.
+On Mon, Nov 7, 2022 at 2:47 PM Edgecombe, Rick P
+<rick.p.edgecombe@intel.com> wrote:
+>
+> On Mon, 2022-11-07 at 13:47 -0800, H.J. Lu wrote:
+> > On Mon, Nov 7, 2022 at 1:34 PM Edgecombe, Rick P
+> > <rick.p.edgecombe@intel.com> wrote:
+> > >
+> > > On Mon, 2022-11-07 at 13:21 -0800, H.J. Lu wrote:
+> > > > > > Some applications and libraries are compiled with -fcf-
+> > > > > > protection,
+> > > > > > but
+> > > > > > they manipulate the stack in such a way that they aren't
+> > > > > > compatible
+> > > > > > with the shadow stack.   However, if the build/test setup
+> > > > > > doesn't
+> > > > > > support
+> > > > > > shadow stack, it is impossible to validate.
+> > > > > >
+> > > > >
+> > > > > When we have everything in place, the problems would be much
+> > > > > more
+> > > > > obvious when distros started turning it on. But we can't turn
+> > > > > it on
+> > > > > as
+> > > >
+> > > > Not necessarily.  The problem will show up only in a CET enabled
+> > > > environment since build/test setup may not be on a CET capable
+> > > > hardware.
+> > >
+> > > Well, I'm not sure of the details of distro testing, but there are
+> > > plenty of TGL and later systems out there today. With kernel
+> > > support,
+> > > I'm thinking these types of problems couldn't lurk for years like
+> > > they
+> > > have.
+> >
+> > If this is the case, we would have nothing to worry about since the
+> > CET
+> > enabled applications won't pass validation if they aren't CET
+> > compatible.
+>
+> Hmm, I think you couldn't have already forgotten the problem binaries
+> are already shipped...
 
-Thanks for putting that together.  I generally like how this looks.
+It should be OK since glibc doesn't support CET.
 
-I think it probably goes to a _bit_ too much trouble to turn off
-"eibrs,lfence/retpoline".  If someone goes to the trouble of specifying
-those, a warning or pr_info() is probably enough.  You don't need to
-actively override it.
+> >
+> > > >
+> > > > > planned without breaking things for existing binaries. We can
+> > > > > have
+> > > > > both
+> > > > > by:
+> > > > > 1. Choosing a new bit, adding it to the tools, and never
+> > > > > supporting
+> > > > > the
+> > > > > old bit in glibc.
+> > > > > 2. Providing the option to have the kernel block the old bit,
+> > > > > so
+> > > > > upgraded users can decide what experience they would like. Then
+> > > > > distros
+> > > > > can find the problems and adjust their packages. I'm starting
+> > > > > to
+> > > > > think
+> > > > > a default off sysctl toggle might be better than a Kconfig.
+> > > > > 3. Any other ideas?
+> > > >
+> > > > Don't enable CET in glibc until we can validate CET
+> > > > functionality.
+> > >
+> > > Can you elaborate on what you mean by this? Not upstream glibc CET
+> > > support? Or have users not enable it? If the latter, how would they
+> > > know about all these problems.
+> >
+> > The current glibc doesn't support CET.  To enable CET in an
+> > application,
+> > one should validate it together with the CET enabled glibc under the
+> > CET
+> > enabled kernel on a CET capable machine.
+>
+> Agreed that this is how it should have gone.
+>
+> >
+> > >
+> > > And what is wrong with the cleanest option, number 1? The ABI
+> > > document
+> > > can be updated.
+> >
+> > It doesn't help resolve any issues.
+>
+> Please read the coverletter if you are unsure of what issues this is
+> trying to address. I should have put more in the commit log.
+>
+>
+>
 
-> -    } else if (boot_cpu_has(X86_FEATURE_IBRS) && !spectre_v2_in_ibrs_mode(mode) &&
-> -           mode != SPECTRE_V2_AUTO_IBRS) {
-> +    } else if ((boot_cpu_has(X86_FEATURE_IBRS) && !spectre_v2_in_ibrs_mode(mode)) ||
-> +           (boot_cpu_has(X86_FEATURE_AUTOIBRS) && !spectre_v2_in_ibrs_mode(mode))) {
->          setup_force_cpu_cap(X86_FEATURE_USE_IBRS_FW);
->          pr_info("Enabling Restricted Speculation for firmware calls\n"); 
 
-Did the "mode != SPECTRE_V2_AUTO_IBRS" check get dropped accidentally?
-Or is it unnecessary now?
+-- 
+H.J.
