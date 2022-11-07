@@ -2,97 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93142C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 10:22:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A57BC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 11:19:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231580AbiKGKWC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 05:22:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33062 "EHLO
+        id S231304AbiKGLTD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 06:19:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231719AbiKGKVw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 05:21:52 -0500
-Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com [IPv6:2a00:1450:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBDC418E23
-        for <linux-doc@vger.kernel.org>; Mon,  7 Nov 2022 02:21:38 -0800 (PST)
-Received: by mail-ed1-x54a.google.com with SMTP id q13-20020a056402518d00b00462b0599644so8133127edd.20
-        for <linux-doc@vger.kernel.org>; Mon, 07 Nov 2022 02:21:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ihUiIO3ZLwpQKr6BgSjeEHYERb79BZdv2hX+HIlwkJI=;
-        b=L5X++DuCad+8UxHidtzd0ia2QhWMBne6T5ULMfNTvrrMHUXXqX//6iwiE924aWtDl2
-         LHjk8+PQvvWwiUAW4IM7/Jbaw9xPV3bB92LqE/4ckIEGVB9eU+8rjRaBGxYzVKh62B+3
-         pffzH8ZFW3ICBI06YUAqiRNAyj/S9rF5NbVVXaC7T9sH/bXhSk9qFdYMgedpUpqAvXiL
-         uOlBxfs1km20u40N9rIMzarYVjNpodlyESEmZHq/LZVkUhYHweZ5DLwmdEJc3n025kH6
-         sBBYgobP0SiZSy/OJEJpKNxmdbVQ3Z+k3kee+L3N6Dx/f4OR8oKfE6aMdDBEnuoU2Rps
-         i3Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ihUiIO3ZLwpQKr6BgSjeEHYERb79BZdv2hX+HIlwkJI=;
-        b=EYufJPmGWQBy04BjtbJDNuZabq+AEYR9fgLQ/L+zhLOMXBTK3Vc9hyLxrWLDLrnxsZ
-         rvgb3wzNT4rg8TZytGKduzf/tSJieAmyrrVql4yO5iGY01ayciOVz4Ho3lYQDymiXWjG
-         3lic3DZ155rYDzwI5qRoqwPOWiI9MirAItmoKJ32HGi+mrpqRmhND2GPl5zVKtFgcu9c
-         uGHHIFulYQ9piwvE677dM3w+uRtdcqyxfL4TWTMfQO6A0neLpTCb1FsrY3OE8VcQdk++
-         To8idYLzFtMwcMZ2zsvdq78oXtBZTDyLabfAJLaNr0KL8xWIFNdP03i4jrhjg+tig8a/
-         7p7A==
-X-Gm-Message-State: ACrzQf0TzX2BtKKXFwpzLyKy2Gu8fpeMoq+1IxVdnRwmqtkZkg2TRDYf
-        VNKOXNFvBunJWKXitIvTmMk7QrE30lLXvaiX5Q==
-X-Google-Smtp-Source: AMsMyM4jq5TdocedxtCJg2krWmLr2HLqOAo0hc+LmOQKo7sUV/41w3aF32a0u2yLv+C9qrJe1WC8ojLmdAcUQOQh8Q==
-X-Received: from peternewman10.zrh.corp.google.com ([2a00:79e0:9d:6:ce1e:a203:209a:548c])
- (user=peternewman job=sendgmr) by 2002:a17:907:788:b0:741:4d1a:595d with SMTP
- id xd8-20020a170907078800b007414d1a595dmr46434575ejb.737.1667816497306; Mon,
- 07 Nov 2022 02:21:37 -0800 (PST)
-Date:   Mon,  7 Nov 2022 11:21:34 +0100
-In-Reply-To: <166759206900.3281208.11975514088019160962.stgit@bmoger-ubuntu>
-Mime-Version: 1.0
-References: <166759206900.3281208.11975514088019160962.stgit@bmoger-ubuntu>
-X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
-Message-ID: <20221107102134.255757-1-peternewman@google.com>
-Subject: Re: [PATCH v8 10/13] x86/resctrl: Add sysfs interface to write mbm_total_bytes_config
-From:   Peter Newman <peternewman@google.com>
-To:     babu.moger@amd.com
-Cc:     akpm@linux-foundation.org, bagasdotme@gmail.com, bp@alien8.de,
-        chang.seok.bae@intel.com, corbet@lwn.net,
-        damien.lemoal@opensource.wdc.com, daniel.sneddon@linux.intel.com,
-        dave.hansen@linux.intel.com, eranian@google.com,
-        fenghua.yu@intel.com, hpa@zytor.com, james.morse@arm.com,
-        jmattson@google.com, jpoimboe@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mingo@redhat.com, paulmck@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, pbonzini@redhat.com,
-        peterz@infradead.org, quic_neeraju@quicinc.com,
-        rdunlap@infradead.org, reinette.chatre@intel.com,
-        sandipan.das@amd.com, songmuchun@bytedance.com, tglx@linutronix.de,
-        tony.luck@intel.com, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S229659AbiKGLTC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 06:19:02 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83830CE3C;
+        Mon,  7 Nov 2022 03:19:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667819941; x=1699355941;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cvxDWNtZzVvqQ3+pEhs6dDAy1QCbFhG4zWxy+4oWNiI=;
+  b=VO97Et4glXrjgp9o+bUUfEFcFseC3yRQxuxCex045QWMNqPTc7Q+Yfn9
+   p6Uis3aGMRXMFSxqB/IsZHCuZWQ10rtQHHCB9DU2MKB1inE1DMK3sSbl1
+   +4bw9vPo/yRNsaqhdoz8+jKRxwROTN63LYy8+zaMSLi4GZjVu+cVU98F4
+   zY8SjUr2LN/DwT4UNzRg6MNfDgyVQk6jMl/22+CQQh4zhI6L9m1ucL2R7
+   VpZ+U/F8RvohmrzfFFwx5yqH75o1HyEFpsEdv/rZ80VJuWMOS4RmxlkPs
+   jInmaxKpC/3yOd1XafPxYjyCcSrQACUROdtR6tSfC/36lkGkmlcisLj85
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="297878464"
+X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; 
+   d="scan'208";a="297878464"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 03:19:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="725106215"
+X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; 
+   d="scan'208";a="725106215"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Nov 2022 03:18:55 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1os09U-008bap-0v;
+        Mon, 07 Nov 2022 13:18:52 +0200
+Date:   Mon, 7 Nov 2022 13:18:52 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Minchan Kim <minchan@kernel.org>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Hugh Dickins <hughd@google.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        David Hildenbrand <david@redhat.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC v2 3/3] mm, printk: introduce new format %pGt for page_type
+Message-ID: <Y2jpnBLFOgP8+RZ7@smile.fi.intel.com>
+References: <20221106140355.294845-1-42.hyeyoo@gmail.com>
+ <20221106140355.294845-4-42.hyeyoo@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221106140355.294845-4-42.hyeyoo@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Babu,
+On Sun, Nov 06, 2022 at 11:03:55PM +0900, Hyeonggon Yoo wrote:
+> dump_page() uses %pGp format to print 'flags' field of struct page.
+> As some page flags (e.g. PG_buddy, see page-flags.h for more details)
+> are set in page_type field, introduce %pGt format which provides
+> human readable output of page_type. And use it in dump_page().
+> 
+> Note that the sense of bits are different in page_type. if page_type is
+> 0xffffffff, no flags are set. if PG_slab (0x00100000) flag is set,
+> page_type is 0xffefffff. Clearing a bit means we set the bit. Bits in
+> page_type are inverted when printing type names.
+> 
+> Below is examples of dump_page(). One is just after alloc_pages() and
+> the other is after __SetPageSlab().
+> 
+> [    1.814728] page:ffffea000415e200 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x105788
+> [    1.815961] flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
 
-On Fri, Nov 04, 2022 at 03:01:09PM -0500, Babu Moger wrote:
-> +	/*
-> +	 * When an Event Configuration is changed, the bandwidth counters
-> +	 * for all RMIDs and Events will be cleared by the hardware. The
-> +	 * hardware also sets MSR_IA32_QM_CTR.Unavailable (bit 62) for
-> +	 * every RMID on the next read to any event for every RMID.
-> +	 * Subsequent reads will have MSR_IA32_QM_CTR.Unavailable (bit 62)
-> +	 * cleared while it is tracked by the hardware. Clear the
-> +	 * mbm_local and mbm_total counts for all the RMIDs.
-> +	 */
-> +	memset(d->mbm_local, 0, sizeof(struct mbm_state) * r->num_rmid);
-> +	memset(d->mbm_total, 0, sizeof(struct mbm_state) * r->num_rmid);
+> [    1.816443] page_type: 0xffffffff()
 
-Looking around, I can't find a reader for mbm_total anymore. It looks
-like the last place it was used went away in James's recent change:
+Why do we have empty parentheses? I would expect either something there, or no
+parentheses at all.
 
-https://lore.kernel.org/all/20220902154829.30399-19-james.morse@arm.com
+> [    1.816704] raw: 0017ffffc0000000 0000000000000000 dead000000000122 0000000000000000
+> [    1.817291] raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+> [    1.817870] page dumped because: Before __SetPageSlab()
+> 
+> [    1.818258] page:ffffea000415e200 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x105788
+> [    1.818857] flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
+> [    1.819250] page_type: 0xffefffff(slab)
+> [    1.819483] raw: 0017ffffc0000000 0000000000000000 dead000000000122 0000000000000000
+> [    1.819947] raw: 0000000000000000 0000000000000000 00000001ffefffff 0000000000000000
+> [    1.820410] page dumped because: After __SetPageSlab()
 
-Are we supposed to be clearing arch_mbm_total now?
+> Cc: Petr Mladek <pmladek@suse.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-mm@kvack.org
 
-Thanks!
--Peter
+Can you utilize --cc parameter next time and avoid polluting commit message
+with this? We have archives where anybody can check this (and usually maintainers
+add a Link tag for that purpose).
+
+...
+
+> +	%pGt	0xffefffff(slab)
+
+No space before ( ?
+
+...
+
+> +static
+> +char *format_page_type(char *buf, char *end, unsigned int page_type)
+> +{
+> +	if (!(page_type & PAGE_TYPE_BASE))
+> +		return string(buf, end, "no type for user-mapped page", default_str_spec);
+
+It's too long, can we make it shorten?
+
+> +	buf = number(buf, end, page_type, default_flag_spec);
+> +
+> +	if (buf < end)
+> +		*buf = '(';
+> +	buf++;
+
+> +	if (page_type_has_type(page_type))
+
+This should be check for the entire function.
+
+> +		buf = format_flags(buf, end, ~page_type, pagetype_names);
+> +
+> +	if (buf < end)
+> +		*buf = ')';
+> +	buf++;
+> +
+> +	return buf;
+> +}
+
+...
+
+> @@ -36,6 +36,11 @@ const struct trace_print_flags pageflag_names[] = {
+>  	{0, NULL}
+>  };
+>  
+> +const struct trace_print_flags pagetype_names[] = {
+> +	__def_pagetype_names,
+
+
+> +	{0, NULL}
+
+Hmm... I see it's already done like this above, but {}  would suffice, why not
+to convert the rest first to the {} and use it here?
+
+> +};
+
+...
+
+>  	pr_warn("%sflags: %pGp%s\n", type, &head->flags,
+>  		page_cma ? " CMA" : "");
+> +	pr_warn("page_type: %pGt\n", &head->page_type);
+> +
+>  	print_hex_dump(KERN_WARNING, "raw: ", DUMP_PREFIX_NONE, 32,
+>  			sizeof(unsigned long), page,
+>  			sizeof(struct page), false);
+> diff --git a/mm/internal.h b/mm/internal.h
+> index cb4c663a714e..956eaa9f12c0 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -773,6 +773,7 @@ static inline void flush_tlb_batched_pending(struct mm_struct *mm)
+>  #endif /* CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH */
+>  
+>  extern const struct trace_print_flags pageflag_names[];
+> +extern const struct trace_print_flags pagetype_names[];
+>  extern const struct trace_print_flags vmaflag_names[];
+>  extern const struct trace_print_flags gfpflag_names[];
+
+I would split this to a separate change, but it's up to PRINTK maintainers.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
