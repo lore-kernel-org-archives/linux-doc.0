@@ -2,208 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A57BC433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 11:19:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A46C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 11:48:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231304AbiKGLTD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 06:19:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39930 "EHLO
+        id S231913AbiKGLsh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 06:48:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229659AbiKGLTC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 06:19:02 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83830CE3C;
-        Mon,  7 Nov 2022 03:19:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667819941; x=1699355941;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cvxDWNtZzVvqQ3+pEhs6dDAy1QCbFhG4zWxy+4oWNiI=;
-  b=VO97Et4glXrjgp9o+bUUfEFcFseC3yRQxuxCex045QWMNqPTc7Q+Yfn9
-   p6Uis3aGMRXMFSxqB/IsZHCuZWQ10rtQHHCB9DU2MKB1inE1DMK3sSbl1
-   +4bw9vPo/yRNsaqhdoz8+jKRxwROTN63LYy8+zaMSLi4GZjVu+cVU98F4
-   zY8SjUr2LN/DwT4UNzRg6MNfDgyVQk6jMl/22+CQQh4zhI6L9m1ucL2R7
-   VpZ+U/F8RvohmrzfFFwx5yqH75o1HyEFpsEdv/rZ80VJuWMOS4RmxlkPs
-   jInmaxKpC/3yOd1XafPxYjyCcSrQACUROdtR6tSfC/36lkGkmlcisLj85
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="297878464"
-X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; 
-   d="scan'208";a="297878464"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 03:19:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10523"; a="725106215"
-X-IronPort-AV: E=Sophos;i="5.96,143,1665471600"; 
-   d="scan'208";a="725106215"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by FMSMGA003.fm.intel.com with ESMTP; 07 Nov 2022 03:18:55 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1os09U-008bap-0v;
-        Mon, 07 Nov 2022 13:18:52 +0200
-Date:   Mon, 7 Nov 2022 13:18:52 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Cc:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        David Hildenbrand <david@redhat.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC v2 3/3] mm, printk: introduce new format %pGt for page_type
-Message-ID: <Y2jpnBLFOgP8+RZ7@smile.fi.intel.com>
-References: <20221106140355.294845-1-42.hyeyoo@gmail.com>
- <20221106140355.294845-4-42.hyeyoo@gmail.com>
+        with ESMTP id S231714AbiKGLsa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 06:48:30 -0500
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E231F07;
+        Mon,  7 Nov 2022 03:48:29 -0800 (PST)
+Received: by mail-pj1-x102d.google.com with SMTP id l6so10351580pjj.0;
+        Mon, 07 Nov 2022 03:48:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fvr80PkwpQ6hjNpvYYW8IQLkFqmVccni+PUYRawFuvA=;
+        b=fiukTMYTyjxWsa8x4fgdJLv5PDFoiEE1XxSRatZoFKxoH7GH1RMZsCkCy2fEwy44mA
+         szrXgMAM/yMVeDAVodGIhhtL4XQU6+L0jSha7dJD0UMEfyZcnJYqAhw+5y/QlQutHlvo
+         bv96oclSReRuS4Yak/ILdzhnjThlv2fOXeNzMrIkoPTH39xEaJHLr0BeJ0nKFi18tRW3
+         F+ZszIAILyQcyG3AjjcBi4wpnUJGpRATlBNcBVdvpa+DYnxuQgAaJzBxkMAwnflYrDXu
+         TR4YA2N47q3unWbbUaoqxbqL++NRvVwBxxICbhxtXWMJpcYDpSAAIr35de7NwR26VxOV
+         Ko/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fvr80PkwpQ6hjNpvYYW8IQLkFqmVccni+PUYRawFuvA=;
+        b=eSNfePrcie8bQJ/b5bZKlnmsOr7cEbQFPuO2tyBx/V3n4yLwBxAl20hC8f/wSUYPbs
+         YDZ64FGeM3Ux1KMj47KadXUXma431CYlCLYXB7Av43xM2b4fU/lMUE+rq0Td84jeBQKZ
+         9HjOjAIyAg9HsWWA0EAHrHT0BlFXx2VZYbO4/rSW8NPKhGQ6F2hRCV2N2I9QfamVBbAd
+         sMb5vH8HgSJ/PrbfmO9vvmeG6ZRTo6PuwumtmpI1Jhx1ZPwSDGz+wK+wHQgw1VX2KOyf
+         xLGVjzg7nx5k1EPERb9Eb2dAYb4xWR8+n2brQ6nDzg+EY3dPNZ2G5P1HzYsEAnb0hbc+
+         kfKQ==
+X-Gm-Message-State: ACrzQf2NB880NH0rLfAcOMcTmyDob3l57F7ZlE8e1XdQWMXxoLBNVJzX
+        gKvfRUWt237Rk4hs+PmRC3Q=
+X-Google-Smtp-Source: AMsMyM5V7PN2Fq+vgPQifeaOqVZZiQmGUcwKXiHgqltKBZooPx0NBJmWSu6MlCOI7pyEwVw5IkPYmQ==
+X-Received: by 2002:a17:902:ba8d:b0:187:11c7:e878 with SMTP id k13-20020a170902ba8d00b0018711c7e878mr44671991pls.67.1667821708620;
+        Mon, 07 Nov 2022 03:48:28 -0800 (PST)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id l16-20020a170903121000b00176b3c9693esm4789489plh.299.2022.11.07.03.48.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Nov 2022 03:48:28 -0800 (PST)
+Message-ID: <af3ec8bf-310e-69ea-9d32-f7aec740b306@gmail.com>
+Date:   Mon, 7 Nov 2022 20:48:23 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221106140355.294845-4-42.hyeyoo@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     corbet@lwn.net, frederic@kernel.org, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, josh@joshtriplett.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-next@vger.kernel.org, mathieu.desnoyers@efficios.com,
+        paulmck@kernel.org, quic_neeraju@quicinc.com, rcu@vger.kernel.org,
+        rostedt@goodmis.org, sfr@canb.auug.org.au,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <Y2jWAR1QESe3OrhH@debian.me>
+Subject: [PATCH] Documentation: RCU: use code blocks with autogenerated line
+ (was: Re: linux-next: build warning after merge of the rcu tree)
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <Y2jWAR1QESe3OrhH@debian.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 06, 2022 at 11:03:55PM +0900, Hyeonggon Yoo wrote:
-> dump_page() uses %pGp format to print 'flags' field of struct page.
-> As some page flags (e.g. PG_buddy, see page-flags.h for more details)
-> are set in page_type field, introduce %pGt format which provides
-> human readable output of page_type. And use it in dump_page().
+Hi Bagas,
+
+On Mon, 7 Nov 2022 16:55:13 +0700, Bagas Sanjaya wrote:
+> On Sun, Nov 06, 2022 at 09:02:12PM -0800, Paul E. McKenney wrote:
+>> On Mon, Nov 07, 2022 at 02:26:41PM +1100, Stephen Rothwell wrote:
+>> > Hi all,
+>> > 
+>> > After merging the rcu tree, today's linux-next build (htmldocs)
+>> > produced this warning:
+>> > 
+>> > Documentation/RCU/rcubarrier.rst:205: WARNING: Literal block ends without a blank line; unexpected unindent.
+>> > 
+>> > Introduced by commit
+>> > 
+>> >   21c2e3909721 ("doc: Update rcubarrier.rst")
+>> 
+>> Huh.  I guess that numbered code samples are not supposed to have more
+>> than nine lines?  Ah well, easy to fix by going back to left-justified
+>> numbers.  I was wondering about that!
+>> 
 > 
-> Note that the sense of bits are different in page_type. if page_type is
-> 0xffffffff, no flags are set. if PG_slab (0x00100000) flag is set,
-> page_type is 0xffefffff. Clearing a bit means we set the bit. Bits in
-> page_type are inverted when printing type names.
-> 
-> Below is examples of dump_page(). One is just after alloc_pages() and
-> the other is after __SetPageSlab().
-> 
-> [    1.814728] page:ffffea000415e200 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x105788
-> [    1.815961] flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
+> I think the proper fix is just let Sphinx generates line number:
 
-> [    1.816443] page_type: 0xffffffff()
+That might be true if all you care about were the generated documents,
+but we need to pay attention to readers of .rst files as plain-text.
 
-Why do we have empty parentheses? I would expect either something there, or no
-parentheses at all.
+There are a bunch of references to line numbers in RCU documents.
+If explicit line numbers are removed from snippets, such readers need
+to count the lines by themselves, which doesn't sound reasonable to me.
 
-> [    1.816704] raw: 0017ffffc0000000 0000000000000000 dead000000000122 0000000000000000
-> [    1.817291] raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
-> [    1.817870] page dumped because: Before __SetPageSlab()
-> 
-> [    1.818258] page:ffffea000415e200 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x105788
-> [    1.818857] flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
-> [    1.819250] page_type: 0xffefffff(slab)
-> [    1.819483] raw: 0017ffffc0000000 0000000000000000 dead000000000122 0000000000000000
-> [    1.819947] raw: 0000000000000000 0000000000000000 00000001ffefffff 0000000000000000
-> [    1.820410] page dumped because: After __SetPageSlab()
+If you can put labels to referenced lines within code snippets, auto
+generation of line numbers might work, but as far as I know, Sphinx
+doesn't provide such a nice feature.
 
-> Cc: Petr Mladek <pmladek@suse.com>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-mm@kvack.org
+Of course, you can prove me wrong.
 
-Can you utilize --cc parameter next time and avoid polluting commit message
-with this? We have archives where anybody can check this (and usually maintainers
-add a Link tag for that purpose).
+          Thanks, Akira 
 
-...
-
-> +	%pGt	0xffefffff(slab)
-
-No space before ( ?
-
-...
-
-> +static
-> +char *format_page_type(char *buf, char *end, unsigned int page_type)
-> +{
-> +	if (!(page_type & PAGE_TYPE_BASE))
-> +		return string(buf, end, "no type for user-mapped page", default_str_spec);
-
-It's too long, can we make it shorten?
-
-> +	buf = number(buf, end, page_type, default_flag_spec);
-> +
-> +	if (buf < end)
-> +		*buf = '(';
-> +	buf++;
-
-> +	if (page_type_has_type(page_type))
-
-This should be check for the entire function.
-
-> +		buf = format_flags(buf, end, ~page_type, pagetype_names);
-> +
-> +	if (buf < end)
-> +		*buf = ')';
-> +	buf++;
-> +
-> +	return buf;
-> +}
-
-...
-
-> @@ -36,6 +36,11 @@ const struct trace_print_flags pageflag_names[] = {
->  	{0, NULL}
->  };
->  
-> +const struct trace_print_flags pagetype_names[] = {
-> +	__def_pagetype_names,
-
-
-> +	{0, NULL}
-
-Hmm... I see it's already done like this above, but {}  would suffice, why not
-to convert the rest first to the {} and use it here?
-
-> +};
-
-...
-
->  	pr_warn("%sflags: %pGp%s\n", type, &head->flags,
->  		page_cma ? " CMA" : "");
-> +	pr_warn("page_type: %pGt\n", &head->page_type);
-> +
->  	print_hex_dump(KERN_WARNING, "raw: ", DUMP_PREFIX_NONE, 32,
->  			sizeof(unsigned long), page,
->  			sizeof(struct page), false);
-> diff --git a/mm/internal.h b/mm/internal.h
-> index cb4c663a714e..956eaa9f12c0 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -773,6 +773,7 @@ static inline void flush_tlb_batched_pending(struct mm_struct *mm)
->  #endif /* CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH */
->  
->  extern const struct trace_print_flags pageflag_names[];
-> +extern const struct trace_print_flags pagetype_names[];
->  extern const struct trace_print_flags vmaflag_names[];
->  extern const struct trace_print_flags gfpflag_names[];
-
-I would split this to a separate change, but it's up to PRINTK maintainers.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+  
