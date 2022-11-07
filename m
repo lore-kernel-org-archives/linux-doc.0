@@ -2,139 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84514C4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 12:00:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4AA7C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 12:20:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231299AbiKGMAz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 07:00:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33092 "EHLO
+        id S232070AbiKGMUO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 07:20:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231835AbiKGMAs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 07:00:48 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3369B1A833
-        for <linux-doc@vger.kernel.org>; Mon,  7 Nov 2022 04:00:47 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id h9so15896568wrt.0
-        for <linux-doc@vger.kernel.org>; Mon, 07 Nov 2022 04:00:47 -0800 (PST)
+        with ESMTP id S232017AbiKGMUM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 07:20:12 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5971BD62;
+        Mon,  7 Nov 2022 04:20:11 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id m7-20020a05600c090700b003cf8a105d9eso7017667wmp.5;
+        Mon, 07 Nov 2022 04:20:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zWvz8bh4+vQKDNdPBDvtEEjozaiA8NxpItsV7tm0Qy0=;
-        b=RM2XZktvK25OAmJHVCsqxExlx2YDb8taU5jJP6p51IieAMAC7rVqfwilaQF7Xqqe3G
-         UwMWWVo3jrRu5oK/J3jJN4bG6MrzlcwfXbL/gDA98pemG49BzKD6bgFyow0xVV6hIC4N
-         cf6zx1TH/gu3ilDDICAD4lfW6uErG3Aj8PE+aPiMsDZzvwiNA5Y84Nf0p0SZtWeekrp2
-         3qdK1/twOpDLX49v/t/ybYncTBiauIlLPODLWk6KsnXmtK/KZ/QbdXqSQ3r7uxN3WAvW
-         bCAtytlDiReH1KhZkxHPGBBrCC7+BrOifMA+vx31z4AXM6SLhrkDGFn6tpeXsfo6CyjO
-         Ug9w==
+        d=gmail.com; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xpO1ES1DT9VB2Pc2bbJXPCltOGfFXJglqqrpyjrXtK8=;
+        b=Y1LpakEB5SGdSNuJfeOjuV1WjbL536FkfPZguA1c5W2WHxopXHj89W9ZTxsgx7F8tv
+         po7pgEfTXTYT+0AJ7WAxGJwkktW2oEbHYrxct1Dlda+MVlv6L/2suzgYQHDmdnYAjY1u
+         eV89nkxa+g9NLG65nXuAfwL7dJkONH483k79jXz+m9xxz8w1Dtxn1F/hbBLD1N4yphPL
+         vqTohbjFrzcmHU9yY+gCA03ZWQe2udLqtHddPYInHw4d756CBM/zbMBlqFhLZgi/PwTs
+         Tf4g4QGDKp8X+81do68DTyC5qhUXpP+ubDUxWnfEOm3Y3/pyPmxC85dlc14Zcf0O7zSY
+         YV7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zWvz8bh4+vQKDNdPBDvtEEjozaiA8NxpItsV7tm0Qy0=;
-        b=W19HcKT/hglf5jMnr8fgOGlMAPeWwEZESHl9vrV4jzMRogwhOwd7jZ7c8uGuz/QKU8
-         /Y1UeH9BiyxTvgjd2Z4qo18SPCPV9ffy1jpfVIFtwb/1XVn9lAgQ7mbXwtiy7g6q81Sg
-         QsGPbObg9zeKEDQvgJHSq/wGiM+lqyCOzwViCFtorDevaxY5dYwG0fxerF7d092aq1Sh
-         Sa6cTFkAP/9qiWC66OniYxQdBZZxEyD9IPYcpqy9dFeIGDXG0D76R+bivvKQ7bX6tnOr
-         331bseZeztr5u0QYdEZChNIFszn3he9nusbGI62gI7ukzzQeQX02+hIb/1sM98A6JQjB
-         Wmww==
-X-Gm-Message-State: ACrzQf3d8fpT/3Lw1TO8y4zxj7Jiqp9VSjJHxg/XurSZyvahFxh8V6Bb
-        aW37OHlkdALTHbyowaT4UOzQ/UF4HQctqA==
-X-Google-Smtp-Source: AMsMyM59k115pH9o+6WIgEa9CaPh3ktLnt7NSnldWl3F1VAmeY4BCiQWWWW9a39fkvnQOQN6hJYR7A==
-X-Received: by 2002:adf:e241:0:b0:238:3c64:decc with SMTP id bl1-20020adfe241000000b002383c64deccmr15833238wrb.698.1667822445787;
-        Mon, 07 Nov 2022 04:00:45 -0800 (PST)
-Received: from ?IPV6:2a02:6b6a:b4d7:0:ebf7:de38:f6bc:8fe8? ([2a02:6b6a:b4d7:0:ebf7:de38:f6bc:8fe8])
-        by smtp.gmail.com with ESMTPSA id g2-20020a5d4882000000b00236cb3fec8fsm8600966wrq.9.2022.11.07.04.00.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Nov 2022 04:00:45 -0800 (PST)
-Message-ID: <180b91af-a2aa-2cfd-eb7f-b2825c4e3dbe@bytedance.com>
-Date:   Mon, 7 Nov 2022 12:00:44 +0000
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xpO1ES1DT9VB2Pc2bbJXPCltOGfFXJglqqrpyjrXtK8=;
+        b=mYdC7DBztPkQxqy9HvezqGK9skguvpytsHJC4Kmg24NRmKYINkLfVjviiC8aeatEVp
+         DrjmV6+pY73eXyKe5WM3rVdkjKIXksfg4/6PpDHk6nclGW6v47p02xzdX4/4entsRgKk
+         HVs2k13QHHZUXTAcndwWZNuCWsrZOGEwXeGNq4xV4u5b6SYt58Hnl2LNbe3e0/Zyvjgj
+         Tg4i/Zv0K1RNZgc+MDUAxZnk58umAfU17J+Ij6cOFOEqCEWXTetngnsvEbjHJdebHTtT
+         Si03obpVdTCD2Thbf0q96sBVSBFC/qnk3HIqr6KLj6wWQ20lTluur2mllP9eBbJP/wzL
+         jfjA==
+X-Gm-Message-State: ACrzQf1HBaUMv7AyXpdicfFvm5NwFjtTBN9UBgJyWPpw69jDM2s9UisP
+        jKCYrbnlR7iSkwRkmOIHnW0=
+X-Google-Smtp-Source: AMsMyM4uI0V2M+QW8ibD8ONg8BiYxQeVPVRSbIejoYJ9gjoyye/xqfEBSqmLITjKvasG04aeIOUlmA==
+X-Received: by 2002:a1c:6a17:0:b0:3cf:9d32:db2e with SMTP id f23-20020a1c6a17000000b003cf9d32db2emr9181101wmc.62.1667823609700;
+        Mon, 07 Nov 2022 04:20:09 -0800 (PST)
+Received: from imac ([2a02:8010:60a0:0:5c58:5d45:1992:a386])
+        by smtp.gmail.com with ESMTPSA id c5-20020a05600c0a4500b003b4a68645e9sm12724471wmq.34.2022.11.07.04.20.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Nov 2022 04:20:08 -0800 (PST)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH bpf-next v1] docs/bpf: Document BPF map types QUEUE and
+ STACK
+In-Reply-To: <CAEf4BzYpNd_oM6n4eW6UqF5n60xkvTarhbcyCgJSCDFtg1rm4g@mail.gmail.com>
+        (Andrii Nakryiko's message of "Fri, 4 Nov 2022 16:00:59 -0700")
+Date:   Mon, 07 Nov 2022 09:17:29 +0000
+Message-ID: <m2v8nrrumu.fsf@gmail.com>
+References: <20221104172140.19762-1-donald.hunter@gmail.com>
+        <CAEf4BzYpNd_oM6n4eW6UqF5n60xkvTarhbcyCgJSCDFtg1rm4g@mail.gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [External] Re: [v2 0/6] KVM: arm64: implement vcpu_is_preempted
- check
-Content-Language: en-US
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, linux@armlinux.org.uk,
-        yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org,
-        steven.price@arm.com, mark.rutland@arm.com, bagasdotme@gmail.com,
-        fam.zheng@bytedance.com, liangma@liangbit.com,
-        punit.agrawal@bytedance.com
-References: <20221104062105.4119003-1-usama.arif@bytedance.com>
- <87k048f3cm.wl-maz@kernel.org>
-From:   Usama Arif <usama.arif@bytedance.com>
-In-Reply-To: <87k048f3cm.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Andrii Nakryiko <andrii.nakryiko@gmail.com> writes:
 
-
-On 06/11/2022 16:35, Marc Zyngier wrote:
-> On Fri, 04 Nov 2022 06:20:59 +0000,
-> Usama Arif <usama.arif@bytedance.com> wrote:
+> On Fri, Nov 4, 2022 at 10:21 AM Donald Hunter <donald.hunter@gmail.com> wrote:
 >>
->> This patchset adds support for vcpu_is_preempted in arm64, which
->> allows the guest to check if a vcpu was scheduled out, which is
->> useful to know incase it was holding a lock. vcpu_is_preempted can
->> be used to improve performance in locking (see owner_on_cpu usage in
->> mutex_spin_on_owner, mutex_can_spin_on_owner, rtmutex_spin_on_owner
->> and osq_lock) and scheduling (see available_idle_cpu which is used
->> in several places in kernel/sched/fair.c for e.g. in wake_affine to
->> determine which CPU can run soonest):
-> 
-> [...]
-> 
->> pvcy shows a smaller overall improvement (50%) compared to
->> vcpu_is_preempted (277%).  Host side flamegraph analysis shows that
->> ~60% of the host time when using pvcy is spent in kvm_handle_wfx,
->> compared with ~1.5% when using vcpu_is_preempted, hence
->> vcpu_is_preempted shows a larger improvement.
-> 
-> And have you worked out *why* we spend so much time handling WFE?
-> 
-> 	M.
+>> +
+>> +Userspace
+>> +---------
+>> +
+>> +This snippet shows how to use libbpf to create a queue from userspace:
+>
+> I'd prefer "how to use libbpf's low-level API to create a queue".
+> Because ideally people use the declarative way shown above, which is
+> also "use libbpf to create", but is simpler and preserves all the BTF
+> type information (if map supports it).
 
-Its from the following change in pvcy patchset:
+I'll incorporate this and also see if I can reword to highlight the
+preferred declarative approach.
 
-diff --git a/arch/arm64/kvm/handle_exit.c b/arch/arm64/kvm/handle_exit.c
-index e778eefcf214..915644816a85 100644
---- a/arch/arm64/kvm/handle_exit.c
-+++ b/arch/arm64/kvm/handle_exit.c
-@@ -118,7 +118,12 @@ static int kvm_handle_wfx(struct kvm_vcpu *vcpu)
-         }
+>> +
+>> +.. code-block:: c
+>> +
+>> +    int create_queue()
+>> +    {
+>> +            return bpf_map_create(BPF_MAP_TYPE_QUEUE,
+>> +                                  "sample_queue", /* name */
+>> +                                  0,              /* key size, must be zero */
+>> +                                  sizeof(__u32),  /* value size */
+>> +                                  10,             /* max entries */
+>> +                                  0);             /* create options */
+>
+> NULL, it's a pointer
 
-         if (esr & ESR_ELx_WFx_ISS_WFE) {
--               kvm_vcpu_on_spin(vcpu, vcpu_mode_priv(vcpu));
-+               int state;
-+               while ((state = kvm_pvcy_check_state(vcpu)) == 0)
-+                       schedule();
-+
-+               if (state == -1)
-+                       kvm_vcpu_on_spin(vcpu, vcpu_mode_priv(vcpu));
-         } else {
-                 if (esr & ESR_ELx_WFx_ISS_WFxT)
-                         vcpu_set_flag(vcpu, IN_WFIT);
-
-
-If my understanding is correct of the pvcy changes, whenever pvcy 
-returns an unchanged vcpu state, we would schedule to another vcpu. And 
-its the constant scheduling where the time is spent. I guess the affects 
-are much higher when the lock contention is very high. This can be seem 
-from the pvcy host side flamegraph as well with (~67% of the time spent 
-in the schedule() call in kvm_handle_wfx), For reference, I have put the 
-graph at:
-https://uarif1.github.io/pvlock/perf_host_pvcy_nmi.svg
-
-Thanks,
-Usama
-
-> 
+Good catch, thanks!
