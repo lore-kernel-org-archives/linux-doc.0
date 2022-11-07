@@ -2,27 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7657BC4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 15:32:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9083DC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 15:35:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232267AbiKGPce (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 10:32:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37238 "EHLO
+        id S232168AbiKGPfS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 10:35:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231553AbiKGPce (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 10:32:34 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 377A31F2FB;
-        Mon,  7 Nov 2022 07:32:33 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C74EB1FB;
-        Mon,  7 Nov 2022 07:32:38 -0800 (PST)
-Received: from FVFF77S0Q05N (unknown [10.57.69.132])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3BE3F3F73D;
-        Mon,  7 Nov 2022 07:32:30 -0800 (PST)
-Date:   Mon, 7 Nov 2022 15:32:24 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Will Deacon <will@kernel.org>
+        with ESMTP id S232289AbiKGPfP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 10:35:15 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 196F01099;
+        Mon,  7 Nov 2022 07:35:15 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AAF5960E17;
+        Mon,  7 Nov 2022 15:35:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E27DC433C1;
+        Mon,  7 Nov 2022 15:35:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667835314;
+        bh=YgTjc9NWRa4hkCM5G3S0/8cBCSAgAXOlIov4LDNhgLA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=L0h0qU8/wbruaUY0+KTShGs7d4ZHYnVtjDKBT776gi82Vc5PUrq7aSP6OhXloFNRq
+         QRL/JqICUb/pDv1M5V6P7oLyrzAWtqUhAs0D2y5lJ3H2ZBDxRAjT9S+0WRIfHzDsS4
+         lRSFqMUEBtpV3AxQWLIC+C8BTKeRybIogwS4G4/G4FkEMgmifzsK6z6bNWLmwPO8iq
+         47LT4LWt0q46ICgGe1m6HqZYOeRrqETvzZu9ZZAI1aYudHsLPeOCBNZKgm+VaxLRgK
+         dxFJLSj3kjjlnwVi+/u+Le4bhJebjrb5rPRwWCY9AgGNBvbEFNHekNZd68S/j+vJ5O
+         m4OWFNcGrpUQg==
+Date:   Mon, 7 Nov 2022 15:35:07 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Mark Rutland <mark.rutland@arm.com>
 Cc:     Jianlin Lv <iecedge@gmail.com>, corbet@lwn.net,
         catalin.marinas@arm.com, rostedt@goodmis.org, mingo@redhat.com,
         naveen.n.rao@linux.ibm.com, anil.s.keshavamurthy@intel.com,
@@ -31,50 +42,55 @@ Cc:     Jianlin Lv <iecedge@gmail.com>, corbet@lwn.net,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 Subject: Re: [PATCH] arm64/kprobes: Add support for KPROBES_ON_FTRACE
-Message-ID: <Y2klCLj7F7fKsza+@FVFF77S0Q05N>
+Message-ID: <20221107153506.GA21157@willie-the-truck>
 References: <20220728020250.1699-1-iecedge@gmail.com>
  <20221107144931.GA20793@willie-the-truck>
+ <Y2klCLj7F7fKsza+@FVFF77S0Q05N>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221107144931.GA20793@willie-the-truck>
+In-Reply-To: <Y2klCLj7F7fKsza+@FVFF77S0Q05N>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 07, 2022 at 02:49:31PM +0000, Will Deacon wrote:
-> [+Mark R]
-> 
-> On Thu, Jul 28, 2022 at 02:02:50AM +0000, Jianlin Lv wrote:
-> > This is the arm64 version of ftrace-based kprobes to avoid the overhead
-> > with regular kprobes, by using the ftrace infrastructure.
+On Mon, Nov 07, 2022 at 03:32:24PM +0000, Mark Rutland wrote:
+> On Mon, Nov 07, 2022 at 02:49:31PM +0000, Will Deacon wrote:
+> > [+Mark R]
 > > 
-> > Signed-off-by: Jianlin Lv <iecedge@gmail.com>
-> > ---
-> >  .../debug/kprobes-on-ftrace/arch-support.txt  |  2 +-
-> >  arch/arm64/Kconfig                            |  1 +
-> >  arch/arm64/kernel/probes/Makefile             |  1 +
-> >  arch/arm64/kernel/probes/kprobes-ftrace.c     | 81 +++++++++++++++++++
-> >  include/linux/kprobes.h                       |  2 +
-> >  kernel/kprobes.c                              |  4 +-
-> >  6 files changed, 88 insertions(+), 3 deletions(-)
-> >  create mode 100644 arch/arm64/kernel/probes/kprobes-ftrace.c
+> > On Thu, Jul 28, 2022 at 02:02:50AM +0000, Jianlin Lv wrote:
+> > > This is the arm64 version of ftrace-based kprobes to avoid the overhead
+> > > with regular kprobes, by using the ftrace infrastructure.
+> > > 
+> > > Signed-off-by: Jianlin Lv <iecedge@gmail.com>
+> > > ---
+> > >  .../debug/kprobes-on-ftrace/arch-support.txt  |  2 +-
+> > >  arch/arm64/Kconfig                            |  1 +
+> > >  arch/arm64/kernel/probes/Makefile             |  1 +
+> > >  arch/arm64/kernel/probes/kprobes-ftrace.c     | 81 +++++++++++++++++++
+> > >  include/linux/kprobes.h                       |  2 +
+> > >  kernel/kprobes.c                              |  4 +-
+> > >  6 files changed, 88 insertions(+), 3 deletions(-)
+> > >  create mode 100644 arch/arm64/kernel/probes/kprobes-ftrace.c
+> > 
+> > Sorry for the slow reply on this, but I think this deserved to be split
+> > into two patches: the first one reworking the core check_ftrace_location()
+> > logic to work properly with branch-and-link style architectures, and the
+> > second one adding support for arm64.
 > 
-> Sorry for the slow reply on this, but I think this deserved to be split
-> into two patches: the first one reworking the core check_ftrace_location()
-> logic to work properly with branch-and-link style architectures, and the
-> second one adding support for arm64.
+> I'd prefer we don't do this at all; there a bunch of issues with kprobes *not*
+> taking an exception, since we get a dodgy not-quite-real pt_regs, and to clean
+> up the existing issues the plan is:
+> 
+> 1) Move ftrace over to ftrace_regs
+> 2) Implement fprobes using ftrace_regs
+> 3) Remove kretprobes
+> 
+> ... and regular kprobes will need to take an exception (via BRK) to get a real
+> pt_regs, so that can't be optimized to use ftrace.
 
-I'd prefer we don't do this at all; there a bunch of issues with kprobes *not*
-taking an exception, since we get a dodgy not-quite-real pt_regs, and to clean
-up the existing issues the plan is:
+OKey doke. Does that mean that other architectures will follow the same
+approach of taking an exception, or do they somehow work by magic?
 
-1) Move ftrace over to ftrace_regs
-2) Implement fprobes using ftrace_regs
-3) Remove kretprobes
-
-... and regular kprobes will need to take an exception (via BRK) to get a real
-pt_regs, so that can't be optimized to use ftrace.
-
-Thanks,
-Mark.
+Will
