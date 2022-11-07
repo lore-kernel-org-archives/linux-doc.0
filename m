@@ -2,164 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD37C43217
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 21:48:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74241C433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 22:29:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233340AbiKGVsf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 16:48:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37804 "EHLO
+        id S231598AbiKGW3v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 17:29:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233086AbiKGVsf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 16:48:35 -0500
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49FFC2BED;
-        Mon,  7 Nov 2022 13:48:33 -0800 (PST)
-Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-13be3ef361dso14205120fac.12;
-        Mon, 07 Nov 2022 13:48:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=I46IWU9HY2ruNBy3JjstNCm87DjtFShdlj2dycepamI=;
-        b=nIrkWr7jjloh2uAuMz/dJfFAvESxMqswgPNAj0cN4PvnsyXfOEXPIdW/w5XRUtyZ66
-         GjRfZC3xVTE2hbJgF9HhnefWJEszLzFdHatbVc9B1lSPCARmDDtOOU9SHFA52ARys0N3
-         1iaF5k+52u242vUyC3Jn9HQOhamLi/eQefNj7WTUXetZ6Lve4u/fi1i0QDMFvXCy1/Ny
-         B20x1p0+zxjxBZZekosoTISB/iiY+N1v/XXbZS62ZdQzrKkgvP/gz7wka6dhbuQhUJ4O
-         8ETkbJWYpk5hFp11MZOS2xG4Ste+XOc1YOCpZdB09ytSr37Nwd/NPlVdS3B3uELQN3eR
-         UfJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I46IWU9HY2ruNBy3JjstNCm87DjtFShdlj2dycepamI=;
-        b=IilGekM+0/HGVUdxXESja8LvdsVJzeYNykVQmr350S351fr5OHbeRsRIVf4IEu9E4P
-         VGCwn5VWz0n9SxxNA7HUVQ5reuU3PzsdDiMoeRdR+9WN8kRb/65V1Wi//XsvC8qOqJ0O
-         mLv8vgF7B/RKNK4WrrksavXRHOrnoMszECN2aAADb7moBHbjHUPVrN+MuQThaps3G8QY
-         qnsUTPiDUkQ6aXdhF8NnIQaLGg0TfKEy65tNp27ubRXN1/Dk/Dy6aZf5goZiCrbdSZAM
-         JTeovmqltWI7iV1WCdC7KJ1YhKH1SszD1ele2lYVhdSNgNW+AsO7a0ai1cp4XxtPrM0r
-         UKOA==
-X-Gm-Message-State: ACrzQf2xbWSiEcijJkTJ9BOHSUL1bVZlgMRZwCeZoQPG9d83RyJRr9z7
-        KL6/R4MGnDJGlAAVZF2OH+WZWJLRQOHfmBvevOo=
-X-Google-Smtp-Source: AMsMyM4gNGsRmPP0akudxVGkG68/crhXiv8O0loidyj+0lxizRpWSxU58sjRDG5uC8rpYM5nRMtUJ/WUywt+8i5cjHc=
-X-Received: by 2002:a05:6870:f5a4:b0:136:3e0d:acdd with SMTP id
- eh36-20020a056870f5a400b001363e0dacddmr33027556oab.298.1667857712559; Mon, 07
- Nov 2022 13:48:32 -0800 (PST)
+        with ESMTP id S230186AbiKGW3u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 17:29:50 -0500
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1480821262;
+        Mon,  7 Nov 2022 14:29:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h/kfQ6cy/R03CdfnN0bIFLNbh+IN8PbV+0TueqXAKfelYoyA2u/D8M+RQAXHNZKEnBC0oEjrVQvXiFZxrwkCErlJ3/AjXMg/7esjmnSZeyiLxR2WCmUYF/Cmxuo5bvFzMzrzMX/8iia7rO+ta1T9zVHbzs/dn6OL+Ubi5dlS/TyfomIiV6FbH+bTGPm7YtjxLvQkGG5VY5PwM/rd9EkBR9bRSeALm2Uu3mYIzI6cJGgRcwaqPgdrmnC0EhYqArcPwg2BdflxHL18iF1Xt6W7kTeJ+td4gQnr3iG1PVzzQ8PtF8DXPZCDB2PQPMVn3ALIomfwl9AW893B/czUpBQ7bQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZLrFr57HupA6O5T8cpvT38WQofxfu8AoxEQNbqZIasQ=;
+ b=WkRjQg6EcvzHqxG/suHzH7PYb6T6raUeDk8HtQ8bUGIAjx465Y8b4QFuliiqlBPQUEUs5SLQAVyNDUaRmaix7N2vJ2QExfEwCb8LMYPDuEO0pFklkhvSTix5ugXON/gPnX+qeyOQHwnScHiUHsXwPSCYTzVDAmNplxgYnqIqlu0ytwGhBiYn5juVelDKKwrI125hDQkKLT/lFufyXtHRlDteSUDpvUjVG1+FQ+pkvKqxTugfPDj+L5gpFwXnFGjQYdYlzG3YK22PaDQlD+faTuFh1yTK38pO6BSb+w0IWJVCEokMX5xqYmlVN+bTkAGUPNb7KkGdt5I0vsvMmYtlsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZLrFr57HupA6O5T8cpvT38WQofxfu8AoxEQNbqZIasQ=;
+ b=REAvmaZfZ9uggjWVJmkjHU5XLBs/t7i6NRelmx/kS2tGlZPhwWahjBLeM0McBqS0RceMFPcKRjV3AuELTOB8Eq4FOp1yps1V4PqHEELuop5f871MofICFa15cOCvv/wL6vaCbBaJhHdvFClklh7t0jiTvbIno3dx738ZvV7rFKo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS7PR12MB6263.namprd12.prod.outlook.com (2603:10b6:8:95::17) by
+ IA1PR12MB6164.namprd12.prod.outlook.com (2603:10b6:208:3e8::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5791.26; Mon, 7 Nov 2022 22:29:46 +0000
+Received: from DS7PR12MB6263.namprd12.prod.outlook.com
+ ([fe80::6f5:7c8f:32d9:e72c]) by DS7PR12MB6263.namprd12.prod.outlook.com
+ ([fe80::6f5:7c8f:32d9:e72c%3]) with mapi id 15.20.5791.026; Mon, 7 Nov 2022
+ 22:29:46 +0000
+Message-ID: <f25152d2-7045-94f4-d5dc-69b609c0be6a@amd.com>
+Date:   Mon, 7 Nov 2022 16:29:44 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Content-Language: en-US
+To:     Jim Mattson <jmattson@google.com>
+Cc:     x86@kernel.org, Borislav Petkov <bp@alien8.de>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Babu Moger <Babu.Moger@amd.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221104213651.141057-1-kim.phillips@amd.com>
+ <20221104213651.141057-4-kim.phillips@amd.com>
+ <CALMp9eSpKGCYK_1r3o326ui5RVoH73_RR5-LR2Div9Jm5zvk6A@mail.gmail.com>
+From:   Kim Phillips <kim.phillips@amd.com>
+Subject: Re: [PATCH 3/3] x86/speculation: Support Automatic IBRS under
+ virtualization
+In-Reply-To: <CALMp9eSpKGCYK_1r3o326ui5RVoH73_RR5-LR2Div9Jm5zvk6A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH2PR12CA0017.namprd12.prod.outlook.com
+ (2603:10b6:610:57::27) To DS7PR12MB6263.namprd12.prod.outlook.com
+ (2603:10b6:8:95::17)
 MIME-Version: 1.0
-References: <20221104223604.29615-1-rick.p.edgecombe@intel.com>
- <20221104223604.29615-38-rick.p.edgecombe@intel.com> <CAMe9rOpfSccXVWmgK6E0Y0DXC=VX3PpdxXookN1Ty8soeAxrKw@mail.gmail.com>
- <87iljs4ecp.fsf@oldenburg.str.redhat.com> <ca106fe1b5005f54525e7a644684108f6a823e14.camel@intel.com>
- <87h6zaiu05.fsf@oldenburg.str.redhat.com> <f60f1138813f850d52dd92bc6b3df067c021a197.camel@intel.com>
- <CAMe9rOpVUwCccRb5DAyraEKO48rix+Xfiamfp_Vc_aHhjp7=LQ@mail.gmail.com>
- <73b8f726c424db1af1c10a48e101bf74703a186a.camel@intel.com>
- <CAMe9rOo6+Di5-mdWa6rviZ7zdO3yMgFPeTw-CXxXZNSQc=-8Wg@mail.gmail.com> <31b5284ce7930835b055e4207059e4bea32367be.camel@intel.com>
-In-Reply-To: <31b5284ce7930835b055e4207059e4bea32367be.camel@intel.com>
-From:   "H.J. Lu" <hjl.tools@gmail.com>
-Date:   Mon, 7 Nov 2022 13:47:56 -0800
-Message-ID: <CAMe9rOr1XpnisqWHh6C6Wi6tUAu5avhbKb_7E7ZpN_eMkktTww@mail.gmail.com>
-Subject: Re: [RFC 37/37] fs/binfmt_elf: Block old shstk elf bit
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6263:EE_|IA1PR12MB6164:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d6ae764-1082-4103-7d38-08dac10f9315
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HGmnFqxxW2f8Z9l4Z91BOxYOY7n1LzbBu+5+BCUd62/sJEl58r6jaQCqpwDfqc2bMcVuIseBSW2n/Y+iUxTTYXE6qmzh+11EERRNH4yFG+h5HEYGthP32ciySDIeMDvCl9d1gK3DMXlYBV59+bl/E19KJA5RDQfilVJ46LxCc3j5pli0062Xa59/+OMV25ARcRpkysBaf3JEwrbj1cK2ZWil7WztduQLV8zrZjqnqloOEY7wIGhQQf+heBl6Fc/t7+BFycK+mIU5k7fJJF/p/cmUnFaoorSnf/G7o2gci+X/RGd08PVBb/w9qegd83pwv0ORV9e1to6BodK+vLBBFbq5izbIUEzEzERvU95EHumE7rYOttgxMNDoTWQWegjJ3B5GluSp19j2TZJKmeTGmMeI3v7Tb0qAadNH3bz9yc3X84Xhz7vENq5F5GYOD9apwvvhK21xJpMe4SSkBv6E0M5F7sAQ+MXMcXimkwwpFYW3ge/hvF7Q4ofC4ApZaYtC+oTlMFXWp6PH1jvM0zSESJi2xt5JEI+ZT0ToBRMTNx6dyT2DXF/3pfASP+hxRN42ztrmc9qN5hEnIcYu8PYrP8NUvGheISpAi0MCfmT6lEUm3JWz4QP7dYylpkOAjsImPLnanDTxgV8PvlaFeRh/84z7xLQkYyrAbEjC5s/FgAQm7+05xtFaAuOQzqAlS79ovPEqofZml55m4yLefSC8GQSGGjj1b51uIdz+okRrCrGrIZhenTMmTROuyGt6Jro+qVw4aOhabnWBpRTRHcMlbaFUugKy+UMK/i6qpwUlTEg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6263.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(39860400002)(366004)(136003)(396003)(376002)(451199015)(6916009)(2616005)(186003)(41300700001)(38100700002)(8936002)(4326008)(8676002)(66556008)(66476007)(5660300002)(2906002)(44832011)(7416002)(54906003)(6506007)(6512007)(53546011)(26005)(316002)(478600001)(6486002)(66946007)(31686004)(86362001)(31696002)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkQyb3V3YWZoWmZ1bXNOZUNLZUd0U2xLcEI5QXJtSURVbDlXZmw4Y3RLWXhI?=
+ =?utf-8?B?NXQ5ZzY3YUVKU08yVjZZTVB2NGR5clpybXNnWDRlY0g0a1huaUxydGpQZk04?=
+ =?utf-8?B?MWpRb3htcGExVEkyYTcrVTM3ZW40NWRaM3c5VHR0SS81b1BwVVRVaTIxRUI4?=
+ =?utf-8?B?YUZkWkxDRE03cmNkYktqd1B0THkxblAxaytLU25hRUZKSUJGdlhuYlNScHlV?=
+ =?utf-8?B?Sk51SldyanY3UlVodWlYRVdGSFBYdE43aUZCQ2hINGZQS1RkTXFGWndBTzEr?=
+ =?utf-8?B?czdwOHNFVnNBRm1LQlRuUkY2bWt1UFJDMVZnM2R0dit3U2V0dFdQdzYvZllE?=
+ =?utf-8?B?c0dRVGJIdGt1MmNxemtFMXpXZ3BGOUp4Vm4zaXBWR3hsZVdqVE1mVEE1cjNx?=
+ =?utf-8?B?ZG43QW1hZzRudk4ya0M0bGN3Q29iMlU1SHRzanlabVljK2szeEd2Q1I2ZU5R?=
+ =?utf-8?B?SlMyODlVR1hDZDZoNG84TXFhVGJpcTVJekRSK3B5L2dkYnB1ODhGeXg1Rllj?=
+ =?utf-8?B?b01JcStsUHNxclFkNXd6WE02enZ1c1JsNXh5b214VDAwR09MKzhiRDRGczJo?=
+ =?utf-8?B?bTR0ZTlLYlM5VjErZXN3cnNkNndBVll5cWdxaDd0Tk1uZUwvYkE2aVMvY2Zv?=
+ =?utf-8?B?QzdLNGtTSjQ4bVNKcnNhVmt2VGJKN0hOa01tbXF3UCtwL0doQXBsV0tLWDlq?=
+ =?utf-8?B?NlVkbDR3U3RTdkpNbEcwUzZoWUlTWFhVbFl3ZHF2UUNhMERNclFhUnBvaFpV?=
+ =?utf-8?B?MThZVzJud2JSd2VKQU9OMmhGeHJ5aDBQQVF4OXpoK25vSkk3VWJySUtRRStD?=
+ =?utf-8?B?WUZ3dzVMVlQyNlREZmM3N3M2UUtEVkdhWmZoTGgzMm0rakx3TmpMTHNqbWpl?=
+ =?utf-8?B?NGtCdkZCOHV0cDVWb2JTckd1VGUxMmZUTWc1cmQxUE1CNTFQVHFFM3dxMm90?=
+ =?utf-8?B?Z2xCai9kK0hUa3RCSkZlcDdqb3ViUzdZRjdIQ2Q5Rzdvb0dpamU1UGJpR3F2?=
+ =?utf-8?B?aGIySEVhdUtrREVRU3A1SlRScWRLUFJNNkRXNWNhZzIwVXFFYjBVNnRJTllq?=
+ =?utf-8?B?a0Vad1V2eGJKNG1GN1U3SHhBdzYyNGx0REtZNm1UaTdRY3JPTHpkRy93QmhF?=
+ =?utf-8?B?OWYwTTJPdzRSaTIvdzNIZWRDbkhRNno4NzVhOHZ4VTNXcVhWdzVNK1k4RDU2?=
+ =?utf-8?B?QWVRdEQ1RTNEUHV5clR6VlJzUWZWYm1XemhWS3JNVDhHZUVDMEdiVE5Gd0pG?=
+ =?utf-8?B?M0lxWW10cGpIN3BYN3hxck5BZDhUNjZHRnRNNDF5RldLZ0ZUM0lwamIzcjFi?=
+ =?utf-8?B?N21wR1FyMjRRdHJaSFdza0FkcjI1eHdtWXJkQjRkUmpPUStzczdRYkx3WlJU?=
+ =?utf-8?B?SVNEVHVNTE55WXVudkJjWEJ5Z0JoUkdkSnhySTNiT2NtUlMxV1FZZnVVSUdz?=
+ =?utf-8?B?cXJ4OFYxRS9KcTQveFdYOFVmSVUyblVhY2VKU0h4T2g4YmlPRVo2Zmo2ODhu?=
+ =?utf-8?B?WTFVZTBMbER1VmtDQ1NzUDVUOW4wZVp0SXdnQXZPMnVjRERyZ1BPZjg1SHA3?=
+ =?utf-8?B?SnVlVVBMUytSQ2F2S1V6Sk5aazYxMWt3dHVNWE1YZFF5UkZGYUtUcVhNaFJS?=
+ =?utf-8?B?L0pBYTZPTTluQTNXQTh1VzgzeFY0bjRKOXB3bDJYSytYa2xIRmh1V1p3YTBG?=
+ =?utf-8?B?bHlxOXhaNW9RVm1lek5OTWRJNVNZcXBMMUNOYTJJNEd3NHk4T09QSENoSTda?=
+ =?utf-8?B?VmhMK0hJUzQrdUs5aDRveVA4WVhsWDZmYWR6VTE0cHJucTIxcVJvNlh6c1JG?=
+ =?utf-8?B?S3dHUkM4cWxMMW1mcC8zb2xvODNjS1RrWGdWempwM2l0NGtONG1QSHZZb1ox?=
+ =?utf-8?B?eERSMVhhcThhMDdzTSs5Sk85bmtPK2Z4dGtHdnF0L2lIUFBJSmlaNlJoMFZ1?=
+ =?utf-8?B?dHhzTDR0Z2NZNUFYUG5pSnpsc3VDVjF4cUVaTm1wd3dwK2hjekF6MDRpK1R3?=
+ =?utf-8?B?SUNuVlRZN2dVNCtOTS80dEJDZndLNlRMcVdkMHMwVGlnN1hyZXN5MDEwVWx4?=
+ =?utf-8?B?UkJsNDFJMkxlQXY0VktvakVwZ01QS2c3UVA4N0UvdWsraHBFaWcwdkxHYWJK?=
+ =?utf-8?Q?cE4KcUyXuBNbS3apfluWupcP7?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d6ae764-1082-4103-7d38-08dac10f9315
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6263.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2022 22:29:46.4227
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /MBCb2txAiCiPaQKNryHxI3t5I0Jc+IS3q6nrLFIPlxOOsQVj1BNuTXDulqg/xT+IpeDZ9+ocWDNZYVAWvAqTQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6164
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 7, 2022 at 1:34 PM Edgecombe, Rick P
-<rick.p.edgecombe@intel.com> wrote:
->
-> On Mon, 2022-11-07 at 13:21 -0800, H.J. Lu wrote:
-> > > > Some applications and libraries are compiled with -fcf-
-> > > > protection,
-> > > > but
-> > > > they manipulate the stack in such a way that they aren't
-> > > > compatible
-> > > > with the shadow stack.   However, if the build/test setup doesn't
-> > > > support
-> > > > shadow stack, it is impossible to validate.
-> > > >
-> > >
-> > > When we have everything in place, the problems would be much more
-> > > obvious when distros started turning it on. But we can't turn it on
-> > > as
-> >
-> > Not necessarily.  The problem will show up only in a CET enabled
-> > environment since build/test setup may not be on a CET capable
-> > hardware.
->
-> Well, I'm not sure of the details of distro testing, but there are
-> plenty of TGL and later systems out there today. With kernel support,
-> I'm thinking these types of problems couldn't lurk for years like they
-> have.
+On 11/4/22 5:00 PM, Jim Mattson wrote:
+> On Fri, Nov 4, 2022 at 2:38 PM Kim Phillips <kim.phillips@amd.com> wrote:
+>>
+>> VM Guests may want to use Auto IBRS, so propagate the CPUID to them.
+>>
+>> Co-developed-by: Babu Moger <Babu.Moger@amd.com>
+>> Signed-off-by: Kim Phillips <kim.phillips@amd.com>
+> 
+> The APM says that, under AutoIBRS, CPL0 processes "have IBRS
+> protection." I'm taking this to mean only that indirect branches in
+> CPL0 are not subject to steering from a less privileged predictor
+> mode. This would imply that indirect branches executed at CPL0 in L1
+> could potentially be subject to steering by code running at CPL0 in
+> L2, since L1 and L2 share hardware predictor modes.
 
-If this is the case, we would have nothing to worry about since the CET
-enabled applications won't pass validation if they aren't CET compatible.
+That's true for AMD processors that don't support Same Mode IBRS, also
+documented in the APM.
 
-> >
-> > > planned without breaking things for existing binaries. We can have
-> > > both
-> > > by:
-> > > 1. Choosing a new bit, adding it to the tools, and never supporting
-> > > the
-> > > old bit in glibc.
-> > > 2. Providing the option to have the kernel block the old bit, so
-> > > upgraded users can decide what experience they would like. Then
-> > > distros
-> > > can find the problems and adjust their packages. I'm starting to
-> > > think
-> > > a default off sysctl toggle might be better than a Kconfig.
-> > > 3. Any other ideas?
-> >
-> > Don't enable CET in glibc until we can validate CET functionality.
->
-> Can you elaborate on what you mean by this? Not upstream glibc CET
-> support? Or have users not enable it? If the latter, how would they
-> know about all these problems.
+Processors that support AutoIBRS also support Same Mode IBRS (see
+CPUID Fn8000_0008_EBX[IbrsSameMode] (bit 19)).
 
-The current glibc doesn't support CET.  To enable CET in an application,
-one should validate it together with the CET enabled glibc under the CET
-enabled kernel on a CET capable machine.
+> Fortunately, there is an IBPB when switching VMCBs in svm_vcpu_load().
+> But it might be worth noting that this is necessary for AutoIBRS to
+> work (unless it actually isn't).
 
->
-> And what is wrong with the cleanest option, number 1? The ABI document
-> can be updated.
+It is needed, but not for kernel/CPL0 code, rather to protect one
+guest's user-space code from another's.
 
-It doesn't help resolve any issues.
-
--- 
-H.J.
+Kim
