@@ -2,152 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE366C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 14:27:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA0AC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 14:28:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232226AbiKGO1Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 09:27:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40200 "EHLO
+        id S232434AbiKGO2m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 09:28:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232463AbiKGO0s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 09:26:48 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9903B27CD1;
-        Mon,  7 Nov 2022 06:20:40 -0800 (PST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id C9E4E1F8B4;
-        Mon,  7 Nov 2022 14:20:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1667830838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=mh/Y3uwvq82Px8GTLeRTukZSQVpPtpYrFg2LuLtAC6g=;
-        b=EQW19GhDUzPsCd4Jz5cKGqQ9/exV3P6JT8YYRVmXcz/SccfGnGdy07BLLKO9tYe7EhF8uF
-        UbUKVxCTeFzj6i3iOYUpTnh44F8bcM3NFDw5ddx3qkuGX9qwxS25arPDYByTmGR7PhN7Fe
-        PLr68l6X7abgt2o9dKSEjf1glswpnPg=
-Received: from suse.cz (unknown [10.100.201.202])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 3FB7E2C141;
-        Mon,  7 Nov 2022 14:20:35 +0000 (UTC)
-Date:   Mon, 7 Nov 2022 15:20:34 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Hugh Dickins <hughd@google.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        David Hildenbrand <david@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC v2 3/3] mm, printk: introduce new format %pGt for page_type
-Message-ID: <Y2kUMsHNyTCN8EaN@alley>
-References: <20221106140355.294845-1-42.hyeyoo@gmail.com>
- <20221106140355.294845-4-42.hyeyoo@gmail.com>
- <Y2jpnBLFOgP8+RZ7@smile.fi.intel.com>
-MIME-Version: 1.0
+        with ESMTP id S232514AbiKGO1s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 09:27:48 -0500
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2076.outbound.protection.outlook.com [40.107.102.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0AA026C;
+        Mon,  7 Nov 2022 06:22:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mszigofpctcsQJW4/5/c9dT8/q/93cKReoaCC5vcF8vp7IF9eY/5+m86o1d1OWrZHhtgxh8FsWy90rrO2YOgXRcfzGkVTav33eRuxUnCALNpbZf3gcdroTzZI5yx7RGbSD8CkEOzJTc7pjLKCUJUuPfP+UT8GDenaL4zhFI1uWvysrldxNXduGsJGqV8wpNCIwkcQcXyVC9SV0Uys81PEMtQ0gWucfOhCKgzETvABU6BFdJz4aDOSaGTRcq5bN7G8FH1OSIWwWGk7CXstePJZO17l9YgMXOJl/FlgUotoguSTSzPdEk3tK/s+PCw5BjpYCKN03tlx+8xjD60DE+YvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x9gDiS/6kxpQdRLNP3zKaMUPXYGbn1G70pfZMF6dAKg=;
+ b=Xh4qAqe7mBiVCF3FW0C3BXxTasVLbEP2OdX1p0p/2mj550feFJUyyoaALGv7F0JK+cvQsFya3xU5QKpg3xGzadnS1Pzz1LCosJCWLUlSI64///U5x6qfLuQV2EO0X0QDpEt9X0dpDEhdtbDriaHDPfnZYybI0ozPZU7qbT7BZMQOfPtr3kNUzb7rLvabXdtH4/YPsA1vqBP4M95mkzW2W/YyZYgHU5trCdeqt0qevGQR7SmHiGUX5EQ4cssZvc72gkjvzUEAEbDeOOJaOxslxSyKrP32fc2kX41Zj+rSh8xh7DEcX1ZchaQJv4to2QgbGpmxpvsH1PCti/4qoaVBHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x9gDiS/6kxpQdRLNP3zKaMUPXYGbn1G70pfZMF6dAKg=;
+ b=P0YtFMnDRKvjNPdjsArHwWSUtxE/VCyc+5GNnSEzmVuhIAkXAfY+kulvGg3UvfChVFNUFnDtkXrNVXZytX0nYr1gLfz5AEPXR/UfpC99m9u8exEK3v4EupDrZ7SkArOmSA5B3jfBoabBo0NzoVDXVuW+OdJGpUuVHhze0/N9gS8gg8CAi+tS/yfX8DjOXuZ2vUktxa7z5veZHhPrP36MLx4j9sMN6u1/ZPjl60cfxicXJsqoStsGueLgEX8aceFGx6+UNwwpdQRahuvkpmWrIiqf+nF3FJ6rYkUZPsS3Zu/uiSAtDPbPHhlGu8ZaJU6zJgoZEUWPfVRqL6xRMk/yoA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by IA1PR12MB6436.namprd12.prod.outlook.com (2603:10b6:208:3ac::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.26; Mon, 7 Nov
+ 2022 14:22:34 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::7a81:a4e4:bb9c:d1de%6]) with mapi id 15.20.5791.026; Mon, 7 Nov 2022
+ 14:22:34 +0000
+Date:   Mon, 7 Nov 2022 10:22:33 -0400
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Alex Williamson <alex.williamson@redhat.com>
+Cc:     Lu Baolu <baolu.lu@linux.intel.com>, bpf@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v3 00/15] IOMMUFD Generic interface
+Message-ID: <Y2kUqW9e8xQemel4@nvidia.com>
+References: <0-v3-402a7d6459de+24b-iommufd_jgg@nvidia.com>
+ <20221104152713.3ae1c409.alex.williamson@redhat.com>
+ <20221104160348.07aed446.alex.williamson@redhat.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2jpnBLFOgP8+RZ7@smile.fi.intel.com>
+In-Reply-To: <20221104160348.07aed446.alex.williamson@redhat.com>
+X-ClientProxiedBy: BL0PR1501CA0004.namprd15.prod.outlook.com
+ (2603:10b6:207:17::17) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|IA1PR12MB6436:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4c7f3e4b-1acd-42ee-e688-08dac0cb8390
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Te4F77/FHbMbcrn+dWCWC8bakqSZ4abKsGdqL9wfqVzKnbisQTWDDrqXCzag/h5edr+yNHZ88wT0XY4xK2WWP0s9C4ZsnPM/yUcoLXS2oynL4jZhi5FiGvuLtnVaOThYXc1F/21Z/+daEA3zgjN3lvMrn4raAPjfDVA40YSiFUdfcGPx3rUlRamnIIiwBt12ze1SCpEK8QgZzNIyKVNfKRW39VLy7cNOHR+1yUsAVPUTFCGBKoL7GSUcFEEl2IKeaLU8mk2CTKrlM/pIePUaEIqf0IDO9zU6DzsUjZm316ofF8ZiqsFZrbR2Eo1B2Rzqkt1aolgqtDaKZ1CZgswwWPYilje9rUvYpF/Yv/fV7+Vj0+v1hX4+mkqZjrXw1h0fy7WXZE3HCU70Y5+h9zIIbPGktP/V5Rt44Zftk7TKesBS+Wvp1ULNPNRTNYLpq3S3BQzhVBgMEGJPLHJVy7PFxxQaAvKohoG3sW6B/h+Ok5JeeLLlmmNKOh1nHOwIrQTPhuL8sMxd9+DlJAyelhxBVS4ScpDO/2nll6C09Fj1olR78Qoi994oR4tlnZdSzQ4UErZ4MtNhNRpDxrU3AGKJ9gfDx4dpA8IXLx5dcADoopOtNeAxk1wfgBWum2+r2E5fx3ApCEINmV+wtIuv915KVw9Fu5pOWMlE2JfjlbB+7j5ElAopijBwgnkE/f71WUbQ/SQH8+8/Ngjovp0YRlOscbOWCLBrUToIbGpTcBSsMGrUQXHm+3ZuhCoJ4KTmFog3wtFJow5wf2dJkNUF6b/MyOM5gf4QIDC4PirM7l+rdUL9NVvznyNGbYGCUsvQ5rJXGZZEwQvKI7qeouAA49TcpDdBtI8BgEAWZdf5Q26I9rn9fmv4pef0MoGqecyLmOwk
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(366004)(396003)(346002)(39860400002)(376002)(451199015)(38100700002)(2906002)(86362001)(6506007)(8676002)(2616005)(186003)(26005)(6512007)(316002)(6916009)(54906003)(66946007)(966005)(6486002)(66476007)(478600001)(66556008)(7406005)(7416002)(5660300002)(4326008)(41300700001)(8936002)(83380400001)(36756003)(41533002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?o/PS1qkbTKUQZA/HtJYH1/pTkObW8rONpW32O3JHN7SK8Y/zc1MWrMYwNGdV?=
+ =?us-ascii?Q?nqnu0FQT3lb/WvIREYJK9dnqm6Qjo2qmcFQ1LBrkyvBzQJw24vRkR1mNUpkT?=
+ =?us-ascii?Q?efgd14H6PPAEteP5TAijh8Z+ltMgmfjbjA6JnM4tGKEu1U7rYO+ylcTwaUnd?=
+ =?us-ascii?Q?rXmGfMBEMCRhYpGGeyVk2ki5mCt+ak4OBt6/kFAMpVIvXQU2BlZ1x447IgHv?=
+ =?us-ascii?Q?D0w+6ONVzGPLz+fl+u5c3MQe7Z2gQAPrx03qiS8meC48Y2vx+fkRTu8HYZBY?=
+ =?us-ascii?Q?sw+1Xa5A1JQe94KXtCOa2Foc0sKicXL8Rms6a9REUXEzFmFOKHZ23XAY2Qas?=
+ =?us-ascii?Q?Fp9XEN5V+GvHgTnp7nNKGBdIjqKI1tb+5D8mkOkpXaQQTYuDYN9/KzN9LbFe?=
+ =?us-ascii?Q?h2xstJlMk34apP/6DMuTJjzGkWyKUms4khd9MqgL2DV35jwCF7GHTdnYmzCH?=
+ =?us-ascii?Q?Nba2lm5BYSOKpVc8o3gz1oDEglchRmTsbWdzbCt2NJ8Nqv8bH4He+fRG+ZzU?=
+ =?us-ascii?Q?fvXDWT5GADX6ykRAFgFlsnyCF1AhhZtFO/7IKONDfbS/sckSv/oMXnrmFGYG?=
+ =?us-ascii?Q?QRch8qnM8eUMtxd9+VyERMI92lkN0IbUc8Q1prPqvLfSEMt6Y79kKUANamYr?=
+ =?us-ascii?Q?8ZECkz8D5MN5ikoMJxuFClws+i5V3dkYlgCDzq6g7smRd8nofBoIY+fbs7ra?=
+ =?us-ascii?Q?hVvisC3HKu7pYpc5f85Bmz2JR1E2dNywfOse6b0L7RE/CoWZ00q4K74yVZ0G?=
+ =?us-ascii?Q?hPW6ympAV8YJ9eqvePgzC1rAStJFNOwdK3oEcb4YiszZUwXirApM8pR/iNgs?=
+ =?us-ascii?Q?fVdD+l2GBLGS9aDL4C4Gh4T7vK14hQbaOFt93qqMkm+Y3JphqzTLWqP//4Ss?=
+ =?us-ascii?Q?EAPzaYXHEPSB98iUtIPYvutRGmq8/cPZ2xxITDq01BSsmbsdhCWgPOVaGKFm?=
+ =?us-ascii?Q?/jTlcbtF3c5I64T0dmIggXGn+OiI0D7KaCCRI15iwdsHFUk1DAIjtuVvVVht?=
+ =?us-ascii?Q?K3b/Ht6zNLn+MrjpRIBMtza97LKhHmFQODqRHm7aWD+iQTehdO/WcZeuhgX+?=
+ =?us-ascii?Q?pXWz8rJTQjEB22gkQFuIwxC3Bmo4EnVEryRVgphTGndq2atJUNTd10aaM/xA?=
+ =?us-ascii?Q?Wouy9ljnCP3TdgY04CUUb8LhsUGPYUfyGlJFZG3Vf2B2OYsAi9eOVg9pySck?=
+ =?us-ascii?Q?44MYBVseuJs2MzlRuR0n2s5+/VMGHZY6C8PLvt5YBDCo2qztRnw4FJz6dsVh?=
+ =?us-ascii?Q?NxrZMMFaeaYq3tUQXJWo4xBb//BHbq99DJ9Fx7HPL1Zj3AdfqaBsPKBl1zgO?=
+ =?us-ascii?Q?5A3AvZCDr3LVljH8wIBE3+EExmCRDtIiV46nG7aLbWrgvnSb2JzrLCcJJ6Vn?=
+ =?us-ascii?Q?zMZIN/gp4bXir8mU2wU05w7A9Pr3R7yClzufZeSuTX1fmfAV/ddkOsEV6+zc?=
+ =?us-ascii?Q?XJ//JE/1y+zG7SR6YYMTQ0qmjU1sO0JrQxfbyk6gKU502/b8x+AT8sjnF6oB?=
+ =?us-ascii?Q?3ACXXimxu28mkOkMcNilMLK0i4iW9mrrrO/j6JV+9pydbUpaw+xNaHaZITUT?=
+ =?us-ascii?Q?6nJUsFYvpByGh2z+S9c=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c7f3e4b-1acd-42ee-e688-08dac0cb8390
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2022 14:22:34.6894
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pwqoshIMUwn3yMMiyACOec1TO5SW7YG13QruI1zBJshveVX34z0e8KQUEA+VmduW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6436
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 2022-11-07 13:18:52, Andy Shevchenko wrote:
-> On Sun, Nov 06, 2022 at 11:03:55PM +0900, Hyeonggon Yoo wrote:
-> > dump_page() uses %pGp format to print 'flags' field of struct page.
-> > As some page flags (e.g. PG_buddy, see page-flags.h for more details)
-> > are set in page_type field, introduce %pGt format which provides
-> > human readable output of page_type. And use it in dump_page().
+On Fri, Nov 04, 2022 at 04:03:48PM -0600, Alex Williamson wrote:
+> On Fri, 4 Nov 2022 15:27:13 -0600
+> Alex Williamson <alex.williamson@redhat.com> wrote:
+> 
+> > On Tue, 25 Oct 2022 15:12:09 -0300
+> > Jason Gunthorpe <jgg@nvidia.com> wrote:
 > > 
-> > Note that the sense of bits are different in page_type. if page_type is
-> > 0xffffffff, no flags are set. if PG_slab (0x00100000) flag is set,
-> > page_type is 0xffefffff. Clearing a bit means we set the bit. Bits in
-> > page_type are inverted when printing type names.
+> > > [
+> > > At this point everything is done and I will start putting this work into a
+> > > git tree and into linux-next with the intention of sending it during the
+> > > next merge window.
+> > > 
+> > > I intend to focus the next several weeks on more intensive QA to look at
+> > > error flows and other things. Hopefully including syzkaller if I'm lucky
+> > > ]  
 > > 
-> > Below is examples of dump_page(). One is just after alloc_pages() and
-> > the other is after __SetPageSlab().
-> > 
-> > [    1.814728] page:ffffea000415e200 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x105788
-> > [    1.815961] flags: 0x17ffffc0000000(node=0|zone=2|lastcpupid=0x1fffff)
+> > In case this one hasn't been reported yet (with IOMMUFD_VFIO_CONTAINER):
 > 
-> > [    1.816443] page_type: 0xffffffff()
+> And...
 > 
-> Why do we have empty parentheses? I would expect either something there, or no
-> parentheses at all.
+> ------------[ cut here ]------------
+> WARNING: CPU: 4 PID: 1736 at drivers/iommu/iommufd/io_pagetable.c:660 iopt_destroy_table+0x91/0xc0 [iommufd]
 
-This looks fine. format_page_flags() does the same for %pGp.
+This is a generic splat that says accounting has gone wrong
 
-> ...
-> 
-> > +	%pGt	0xffefffff(slab)
-> 
-> No space before ( ?
+syzkaller hit splats like this and they are fixed, so I'm guessing it
+is sorted out now. Most likely:
 
-Also looks fine. %pGp does the same.
+https://lore.kernel.org/all/Y2QfqAWxqT5cCfmN@nvidia.com/
+https://lore.kernel.org/all/Y2U9LiwXxPO7G6YW@nvidia.com/
 
-> ...
-> 
-> > +static
-> > +char *format_page_type(char *buf, char *end, unsigned int page_type)
-> > +{
-> > +	if (!(page_type & PAGE_TYPE_BASE))
-> > +		return string(buf, end, "no type for user-mapped page", default_str_spec);
-> 
-> It's too long, can we make it shorten?
+I hope to post v4 by the end of the day (the fixes on are on the
+github already), so please re-test this
 
-I wonder if it would help to write the value. Something like:
-
-      page_type: 0x0ace5768(no type)
-
-That said. I am not familiar with the page types and am not sure
-about the semantic of this value. MM people should decide what they
-want to see in this case.
-
-> ...
-> 
-> >  	pr_warn("%sflags: %pGp%s\n", type, &head->flags,
-> >  		page_cma ? " CMA" : "");
-> > +	pr_warn("page_type: %pGt\n", &head->page_type);
-> > +
-> >  	print_hex_dump(KERN_WARNING, "raw: ", DUMP_PREFIX_NONE, 32,
-> >  			sizeof(unsigned long), page,
-> >  			sizeof(struct page), false);
-> > diff --git a/mm/internal.h b/mm/internal.h
-> > index cb4c663a714e..956eaa9f12c0 100644
-> > --- a/mm/internal.h
-> > +++ b/mm/internal.h
-> > @@ -773,6 +773,7 @@ static inline void flush_tlb_batched_pending(struct mm_struct *mm)
-> >  #endif /* CONFIG_ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH */
-> >  
-> >  extern const struct trace_print_flags pageflag_names[];
-> > +extern const struct trace_print_flags pagetype_names[];
-> >  extern const struct trace_print_flags vmaflag_names[];
-> >  extern const struct trace_print_flags gfpflag_names[];
-> 
-> I would split this to a separate change, but it's up to PRINTK maintainers.
-
-I guess that you are talking about the line:
-
-+	pr_warn("page_type: %pGt\n", &head->page_type);
-
-
-Yes, it would be better to have implementation of %pGt modifier
-in one patch and add the user in another one.
-
-Best Regards,
-Petr
+Jason
