@@ -2,179 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22E96C4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 15:59:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50E65C4167B
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 16:07:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232083AbiKGP7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 10:59:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53076 "EHLO
+        id S232128AbiKGQHG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 11:07:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231355AbiKGP7r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 10:59:47 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61203638A
-        for <linux-doc@vger.kernel.org>; Mon,  7 Nov 2022 07:59:46 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id d26so31291008eje.10
-        for <linux-doc@vger.kernel.org>; Mon, 07 Nov 2022 07:59:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IITd8EQrY06zpsnvdK0dLKdgj3UcdcbIn9cavEKCvvE=;
-        b=Zyh+TFztkylFfIJjhF7e3ln1pqKsHjlcPRTlwDPW040eSVRHTt0unIS2z0vhwrpwlR
-         gMP2vb8ln3hscKXDKYkmMnQ3/qm/hIdHKiLQoJCZuasZgekNVu57Prdtuk6LnIq0MqzT
-         +fz1ya4IIIMn4+c5F640/fuxSsWS8PjcHvyVyhjL72Fxxl36TdXJrwBW1ZP7cnZENFHS
-         zLmY+Ta1T+fdWDBBKIvf92W8VN/gKQ5/8PebZRqH8GSJBwusRTFXJl4UV/jSMmL9Muk+
-         wzdu8GwFLpVkPfuEA2Ra1EVIiwqIwHqvGWB1OoJVr72DmJB3xNUS/1WayxPrN6MAqY05
-         nQog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IITd8EQrY06zpsnvdK0dLKdgj3UcdcbIn9cavEKCvvE=;
-        b=S/zxpUPuCkTuA6BTWVKpaMOvX0lM/gzyxR/rKCTJjzPbUz+/Bz4/xL0sUeRqEwVOFJ
-         bP2oMEDY1cg/+Sa3wfH/H1PBC+EZXXSqNNhamXedc2o5Z5Mk+PuaMG0GoTczg6Mx9CG7
-         SmDDX6i2kcCnYHZPvCOlxOc4wGf0bJbJgLoYCP9TVw/st0R92TjaHtV3hdW6TEFKrgNh
-         Msqedn6LtnidE6zmxgB1/K/QdXDgUdpmie4pXXmHx6+6hZ+5C/BxXJpUuavkToD0F3Y9
-         8O4ZtEZdkkwtSMQsIZkwXAIDJQjKzilFxFZNc/+M82yl2NLt21RjxYu41gnlozCdqYzA
-         BRCA==
-X-Gm-Message-State: ACrzQf0vcjvtvDPPKYLNrTT34O8NhO7x0nDgpnlVe1cqji+2OOnQHUjB
-        piGz65aPnczOS0FBjr44k1xpk70RzB1GkIa8TtmaPA==
-X-Google-Smtp-Source: AMsMyM6eF24oy4Q00nqEXNLtxRfg2QD7eeW1/AHtxkxp9g4K556Ph5XLWbzIFR8X3u4YTP0rNgLgqHrCfId/TXUbV0U=
-X-Received: by 2002:a17:907:c26:b0:7ad:f6c8:d6c with SMTP id
- ga38-20020a1709070c2600b007adf6c80d6cmr31255335ejc.640.1667836784893; Mon, 07
- Nov 2022 07:59:44 -0800 (PST)
+        with ESMTP id S232795AbiKGQGj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 11:06:39 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 788A720358;
+        Mon,  7 Nov 2022 08:06:31 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 68E0CED1;
+        Mon,  7 Nov 2022 08:06:37 -0800 (PST)
+Received: from FVFF77S0Q05N (unknown [10.57.69.132])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D5E0A3F534;
+        Mon,  7 Nov 2022 08:06:28 -0800 (PST)
+Date:   Mon, 7 Nov 2022 16:06:26 +0000
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Will Deacon <will@kernel.org>
+Cc:     Jianlin Lv <iecedge@gmail.com>, corbet@lwn.net,
+        catalin.marinas@arm.com, rostedt@goodmis.org, mingo@redhat.com,
+        naveen.n.rao@linux.ibm.com, anil.s.keshavamurthy@intel.com,
+        davem@davemloft.net, mhiramat@kernel.org, arnd@arndb.de,
+        zhengzengkai@huawei.com, jianlv@ebay.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] arm64/kprobes: Add support for KPROBES_ON_FTRACE
+Message-ID: <Y2ktAisfFAr0aU2V@FVFF77S0Q05N>
+References: <20220728020250.1699-1-iecedge@gmail.com>
+ <20221107144931.GA20793@willie-the-truck>
+ <Y2klCLj7F7fKsza+@FVFF77S0Q05N>
+ <20221107153506.GA21157@willie-the-truck>
 MIME-Version: 1.0
-References: <20221105025342.3130038-1-pasha.tatashin@soleen.com>
- <20221106133351.ukb5quoizkkzyrge@box.shutemov.name> <CA+CK2bDK=oUYM-HZsYfZoq_n5BQMGpysMq395WK78r+SwYk99A@mail.gmail.com>
- <20221106165204.odb7febmnykhna2h@box.shutemov.name>
-In-Reply-To: <20221106165204.odb7febmnykhna2h@box.shutemov.name>
-From:   Pasha Tatashin <pasha.tatashin@soleen.com>
-Date:   Mon, 7 Nov 2022 10:59:08 -0500
-Message-ID: <CA+CK2bBQik_=a5vuaXs+=Zrnod5bn8XcKHdz=aqsudhcS=PijA@mail.gmail.com>
-Subject: Re: [PATCH] mm: anonymous shared memory naming
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, hughd@google.com,
-        hannes@cmpxchg.org, david@redhat.com, vincent.whitchurch@axis.com,
-        seanjc@google.com, rppt@kernel.org, shy828301@gmail.com,
-        paul.gortmaker@windriver.com, peterx@redhat.com, vbabka@suse.cz,
-        Liam.Howlett@oracle.com, ccross@google.com, willy@infradead.org,
-        arnd@arndb.de, cgel.zte@gmail.com, yuzhao@google.com,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221107153506.GA21157@willie-the-truck>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Nov 6, 2022 at 11:52 AM Kirill A. Shutemov <kirill@shutemov.name> wrote:
->
-> On Sun, Nov 06, 2022 at 08:45:44AM -0500, Pasha Tatashin wrote:
-> > On Sun, Nov 6, 2022 at 8:34 AM Kirill A. Shutemov <kirill@shutemov.name> wrote:
-> > >
-> > > On Sat, Nov 05, 2022 at 02:53:42AM +0000, Pasha Tatashin wrote:
-> > > > Since:
-> > > > commit 9a10064f5625 ("mm: add a field to store names for private anonymous
-> > > > memory")
-> > > >
-> > > > We can set names for private anonymous memory but not for shared
-> > > > anonymous memory. However, naming shared anonymous memory just as
-> > > > useful for tracking purposes.
-> > > >
-> > > > Extend the functionality to be able to set names for shared anon.
-> > > >
-> > > > / [anon_shmem:<name>]      an anonymous shared memory mapping that has
-> > > >                            been named by userspace
-> > > >
-> > > > Sample output:
-> > > >         share = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
-> > > >                      MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-> > > >         rv = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME,
-> > > >                    share, SIZE, "shared anon");
-> > > >
-> > > > /proc/<pid>/maps (and smaps):
-> > > > 7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024
-> > > > /dev/zero (deleted) [anon_shmem:shared anon]
-> > > >
-> > > > pmap $(pgrep a.out)
-> > > > 254:   pub/a.out
-> > > > 000056093fab2000      4K r---- a.out
-> > > > 000056093fab3000      4K r-x-- a.out
-> > > > 000056093fab4000      4K r---- a.out
-> > > > 000056093fab5000      4K r---- a.out
-> > > > 000056093fab6000      4K rw--- a.out
-> > > > 000056093fdeb000    132K rw---   [ anon ]
-> > > > 00007fc8e2b4c000 262144K rw-s- zero (deleted) [anon_shmem:shared anon]
-> > > >
-> > > > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+On Mon, Nov 07, 2022 at 03:35:07PM +0000, Will Deacon wrote:
+> On Mon, Nov 07, 2022 at 03:32:24PM +0000, Mark Rutland wrote:
+> > On Mon, Nov 07, 2022 at 02:49:31PM +0000, Will Deacon wrote:
+> > > [+Mark R]
+> > > 
+> > > On Thu, Jul 28, 2022 at 02:02:50AM +0000, Jianlin Lv wrote:
+> > > > This is the arm64 version of ftrace-based kprobes to avoid the overhead
+> > > > with regular kprobes, by using the ftrace infrastructure.
+> > > > 
+> > > > Signed-off-by: Jianlin Lv <iecedge@gmail.com>
 > > > > ---
-> > > >  Documentation/filesystems/proc.rst |  4 +++-
-> > > >  fs/proc/task_mmu.c                 |  7 ++++---
-> > > >  include/linux/mm.h                 |  2 ++
-> > > >  include/linux/mm_types.h           | 27 +++++++++++++--------------
-> > > >  mm/madvise.c                       |  7 ++-----
-> > > >  mm/shmem.c                         | 13 +++++++++++--
-> > > >  6 files changed, 35 insertions(+), 25 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> > > > index 898c99eae8e4..8f1e68460da5 100644
-> > > > --- a/Documentation/filesystems/proc.rst
-> > > > +++ b/Documentation/filesystems/proc.rst
-> > > > @@ -431,8 +431,10 @@ is not associated with a file:
-> > > >   [stack]                    the stack of the main process
-> > > >   [vdso]                     the "virtual dynamic shared object",
-> > > >                              the kernel system call handler
-> > > > - [anon:<name>]              an anonymous mapping that has been
-> > > > + [anon:<name>]              a private anonymous mapping that has been
-> > > >                              named by userspace
-> > > > + path [anon_shmem:<name>]   an anonymous shared memory mapping that has
-> > > > +                            been named by userspace
-> > >
-> > > I expect it to break existing parsers. If the field starts with '/' it is
-> > > reasonable to assume the rest of the string to be a path, but it is not
-> > > the case now.
-> >
-> > This is actually exactly why I kept the "path" part. It stays the same
-> > as today for  anon-shared memory, but prevents pmap to change
-> > anon-shared memory from showing it as simply [anon].
-> >
-> > Here is what we have today in /proc/<pid>/maps (and smaps):
-> > 7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024  /dev/zero (deleted)
-> >
-> > So, the path points to /dev/zero but appended with (deleted) mark. The
-> > pmap shows the same thing, as it is looking for leading '/' to
-> > determine that this is a path.
-> >
-> > With my change the above changes only when user specifically changed
-> > the name like this:
-> >
-> > 7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024  /dev/zero
-> > (deleted) [USER-SPECIFIED-NAME]
-> >
-> > So, the path stays, the (deleted) mark stays, and a name is added.
->
-> Okay, fair enough.
+> > > >  .../debug/kprobes-on-ftrace/arch-support.txt  |  2 +-
+> > > >  arch/arm64/Kconfig                            |  1 +
+> > > >  arch/arm64/kernel/probes/Makefile             |  1 +
+> > > >  arch/arm64/kernel/probes/kprobes-ftrace.c     | 81 +++++++++++++++++++
+> > > >  include/linux/kprobes.h                       |  2 +
+> > > >  kernel/kprobes.c                              |  4 +-
+> > > >  6 files changed, 88 insertions(+), 3 deletions(-)
+> > > >  create mode 100644 arch/arm64/kernel/probes/kprobes-ftrace.c
+> > > 
+> > > Sorry for the slow reply on this, but I think this deserved to be split
+> > > into two patches: the first one reworking the core check_ftrace_location()
+> > > logic to work properly with branch-and-link style architectures, and the
+> > > second one adding support for arm64.
+> > 
+> > I'd prefer we don't do this at all; there a bunch of issues with kprobes *not*
+> > taking an exception, since we get a dodgy not-quite-real pt_regs, and to clean
+> > up the existing issues the plan is:
+> > 
+> > 1) Move ftrace over to ftrace_regs
+> > 2) Implement fprobes using ftrace_regs
+> > 3) Remove kretprobes
+> > 
+> > ... and regular kprobes will need to take an exception (via BRK) to get a real
+> > pt_regs, so that can't be optimized to use ftrace.
+> 
+> OKey doke. Does that mean that other architectures will follow the same
+> approach of taking an exception,
 
-After thinking about this, it makes sense to remove "path" entirely.
-The pmap without arguments will show the user named segment as
-"[anon]", but with -X argument it will show the full name:
+I think once everyone has FPROBE, KPROBES_ON_FTRACE becomes redundant, and
+could be removed (leaving kprobes to always follow a take-an-exception flow on
+all architectures).
 
-pmap -X
-7fa84fcef000 rw-s 00000000  00:01      1024 262144    0   0         0
-        0         0        0              0             0
-0               0    0       0      0           0 [anon_shmem:named
-shared anon]
-7fa85fcef000 rw-p 00000000  00:00         0 262144    0   0         0
-        0         0        0              0             0
-0               0    0       0      0           0 [anon:named anon]
+> or do they somehow work by magic?
 
-In my opinion this is better to stay consistent with regular anon
-memory, and also to minimize the chance to surprise the existing
-scripts.
+Some architectures don't need to take an exception to be able to create a full
+pt_regs (e.g. x86's flags are accessible in a way arm64's PSTATE isn't), but
+that needs to be generated / restored differently to exception entry/return,
+and so even where it's possible it can be painful to maintain (and slower than
+using ftrace_regs), so I suspect KPROBES_ON_FTRACE would be removed.
 
-Pasha
+So different constaints more than magic.
 
->
-> --
->   Kiryl Shutsemau / Kirill A. Shutemov
+Thanks,
+Mark.
