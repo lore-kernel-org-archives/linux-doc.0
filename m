@@ -2,133 +2,340 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2C97C43217
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 18:39:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 863ADC433FE
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 18:47:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233253AbiKGSjG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 13:39:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51052 "EHLO
+        id S231426AbiKGSrX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 13:47:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233250AbiKGSis (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 13:38:48 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52E2E2AE02;
-        Mon,  7 Nov 2022 10:37:23 -0800 (PST)
-Received: from zn.tnic (p200300ea9733e71f329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e71f:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 76AF71EC059D;
-        Mon,  7 Nov 2022 19:37:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1667846242;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=ltXQMShsByXnuTxy9rVs5hzHUnj2fKxptiwJ6JDDxxI=;
-        b=WswS6nowYrD7HOA1CKiSinEVVs19Mx1DZJ4uL8wIXOH8iq5mjHNOq5BUqN3Zi+F/VLE5k4
-        sbVF7XPPF4xDL9ywiYCT7mZkuO35NXnjOevEOCyiB0ycO0OzCbdJ4AyaaigoYMoFwkjTLy
-        jP11GdsqJjf3Gl9rB7peaxnb7aCERuA=
-Date:   Mon, 7 Nov 2022 19:37:17 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>, "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-Subject: Re: [PATCH v3 04/37] x86/cpufeatures: Enable CET CR4 bit for shadow
- stack
-Message-ID: <Y2lQXXCQRTiYljIg@zn.tnic>
-References: <20221104223604.29615-1-rick.p.edgecombe@intel.com>
- <20221104223604.29615-5-rick.p.edgecombe@intel.com>
- <Y2lHxb5BnbQi499s@zn.tnic>
- <14b4c6e3d5b7b259e832ff44e64597f1cf344ffe.camel@intel.com>
+        with ESMTP id S232582AbiKGSrW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 13:47:22 -0500
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DB2927143
+        for <linux-doc@vger.kernel.org>; Mon,  7 Nov 2022 10:47:20 -0800 (PST)
+Received: by mail-qt1-x832.google.com with SMTP id l15so7414339qtv.4
+        for <linux-doc@vger.kernel.org>; Mon, 07 Nov 2022 10:47:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lj2j2IowLRClh2CPK+1bgXAKaDYVWiVJ2biJrtBrjjs=;
+        b=fAsxNpKqKfjlLu6qyaCUUsQ6rgzXrse5vGKTil+8bXk5cFvSQ6jD5lq6WuyaLZDydJ
+         TrFSoxBtyaN6K68JJsrqntKcnCbm9BsA7xgOMU90mwKvLKC2oyLQ4p0Mi7teerV7EMWZ
+         ZHsI0H6iaqFs63tPj46T4LVKPCzLMfx0GotpVLIO9u2f0jEGNMEpQ05AYjUEn37cWMnJ
+         v8ptvlt23NbMCLTphQQi0fpn7DbbfscEsUxz0lEKrrW7q+6yi6ETrYqdEffF83R4Rid1
+         0qXLNdkQwo5ommzLS/5z0LfIKIjShEyNG9AV77dtGO4kW2exnkQNIHwC+E5Hx9vTFJ/9
+         /8FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lj2j2IowLRClh2CPK+1bgXAKaDYVWiVJ2biJrtBrjjs=;
+        b=C/jsFV99b5YeVZwcAgc1+VMEkSQ8kJnt8LGnz77BfmQ7grTOB+/m/AOSN/z4KJ5n96
+         hJA0qdfqj3OuEe4pmQAJctr7KiEgKbhVqlBCvL9Po35NS1lExwbAuU4om65JdnYHtrdq
+         qmEuibgycB8h55rXARkYTPVW85Wz1gG3c+XvUoV2nHECl3s/fEbBygj3xctsn0F4co7a
+         dK0jnOufGHJXuGW1vjTPzQ9giaJCGd6ZI8ODPu6iuo98AfFkWBTdiu8xpehwkWjzgoAj
+         FR/8pEmMW3ds6Wr/FKvdYjyymyDHgZiDzXNV5RP2Xjm5DAiFoaLFZ3vUZBeDE9nQykIg
+         lSdg==
+X-Gm-Message-State: ACrzQf2Pxl6Q6NXXIgdqb4yb1FkQrtzW29LsDB/jfls0RHixoQPzsRGb
+        xqMrN5+YRkT38DHijfSnhS34qw==
+X-Google-Smtp-Source: AMsMyM7oIXCqWPDxi3Itwk4RPx2dR7Dbzk5iWTr+mBkmB1MCZBfwAw0s/XVQc8Gc17pUawEm8yzI1w==
+X-Received: by 2002:ac8:71c7:0:b0:3a5:4cb1:7baa with SMTP id i7-20020ac871c7000000b003a54cb17baamr21357905qtp.303.1667846839395;
+        Mon, 07 Nov 2022 10:47:19 -0800 (PST)
+Received: from soleen.c.googlers.com.com (193.132.150.34.bc.googleusercontent.com. [34.150.132.193])
+        by smtp.gmail.com with ESMTPSA id t17-20020a05622a149100b0039ee562799csm6638167qtx.59.2022.11.07.10.47.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Nov 2022 10:47:18 -0800 (PST)
+From:   Pasha Tatashin <pasha.tatashin@soleen.com>
+To:     corbet@lwn.net, akpm@linux-foundation.org, hughd@google.com,
+        hannes@cmpxchg.org, david@redhat.com, vincent.whitchurch@axis.com,
+        seanjc@google.com, rppt@kernel.org, shy828301@gmail.com,
+        pasha.tatashin@soleen.com, paul.gortmaker@windriver.com,
+        peterx@redhat.com, vbabka@suse.cz, Liam.Howlett@Oracle.com,
+        ccross@google.com, willy@infradead.org, arnd@arndb.de,
+        cgel.zte@gmail.com, yuzhao@google.com,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        bagasdotme@gmail.com, kirill@shutemov.name
+Subject: [PATCH v2] mm: anonymous shared memory naming
+Date:   Mon,  7 Nov 2022 18:47:15 +0000
+Message-Id: <20221107184715.3950621-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.38.1.431.g37b22c650d-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <14b4c6e3d5b7b259e832ff44e64597f1cf344ffe.camel@intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 07, 2022 at 06:19:48PM +0000, Edgecombe, Rick P wrote:
-> It was to catch if the software user shadow stack feature gets disabled
-> at boot with the "clearcpuid" command.
+Since: commit 9a10064f5625 ("mm: add a field to store names for private
+anonymous memory"), name for private anonymous memory, but not shared
+anonymous, can be set. However, naming shared anonymous memory just as
+useful for tracking purposes.
 
-I don't understand. clearcpuid does setup_clear_cpu_cap() too. It would
-eventually clear the bit in boot_cpu_data.x86_capability's AFAICT.
+Extend the functionality to be able to set names for shared anon.
 
-cpu_feature_enabled() looks at boot_cpu_data too.
+Sample output:
+  /* Create shared anonymous segmenet */
+  anon_shmem = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
+                    MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+  /* Name the segment: "MY-NAME" */
+  rv = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME,
+             anon_shmem, SIZE, "MY-NAME");
 
-So what's the problem?
+cat /proc/<pid>/maps (and smaps):
+7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024 [anon_shmem:MY-NAME]
 
-Oh, and also, you've added that clearcpuid thing to the help docs.
-Please remove it. clearcpuid= taints the kernel and we've left it in
-because some of your colleagues really wanted it for testing or whatnot.
-But it is crap and it was on its way out at some point so we better not
-proliferate its use any more.
+Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+---
+ Documentation/filesystems/proc.rst |  8 +++++---
+ fs/proc/task_mmu.c                 | 14 ++++++++++----
+ include/linux/mm.h                 |  2 ++
+ include/linux/mm_types.h           | 27 +++++++++++++--------------
+ mm/madvise.c                       |  7 ++-----
+ mm/shmem.c                         | 20 ++++++++++++++++++--
+ 6 files changed, 50 insertions(+), 28 deletions(-)
 
-> Is there a better way to do this?
+ Changes since v1:
+ https://lore.kernel.org/lkml/20221105025342.3130038-1-pasha.tatashin@soleen.com
+ - removed "path" for user named anon shared memory
+ - fixed a warning found by kernel test robot
+ - fixed a warning reported by Bagas Sanjaya
+ - simplified and improved the commit log
 
-Yeah, cpu_feature_enabled() should be enough and if it isn't, then we
-need to fix it to be.
-
-Which reminds me, I'd need to take Maxim's patch too:
-
-https://lore.kernel.org/r/20220718141123.136106-3-mlevitsk@redhat.com
-
-as it is a simplification.
-
-> > Here you need to do
-> > 
-> > 	setup_clear_cpu_cap(X86_FEATURE_IBT);
-> > 	setup_clear_cpu_cap(X86_FEATURE_SHSTK);
-> 
-> This only gets called by kexec way after boot, as kexec is prepping to
-> transition to the new kernel. Do we want to be clearing feature bits at
-> that time?
-
-Hmm, I was under the impression you'll have the usual chicken bit
-"noshstk" which gets added with every big feature. So it'll call that
-thing here.
-
-> Sure, sorry about that. I'll target tip for the next version.
-
-Thanks!
-
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 898c99eae8e4..b8f175ae4853 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -426,14 +426,16 @@ with the memory region, as the case would be with BSS (uninitialized data).
+ The "pathname" shows the name associated file for this mapping.  If the mapping
+ is not associated with a file:
+ 
+- =============              ====================================
++ ===================        ===========================================
+  [heap]                     the heap of the program
+  [stack]                    the stack of the main process
+  [vdso]                     the "virtual dynamic shared object",
+                             the kernel system call handler
+- [anon:<name>]              an anonymous mapping that has been
++ [anon:<name>]              a private anonymous mapping that has been
+                             named by userspace
+- =============              ====================================
++ [anon_shmem:<name>]        an anonymous shared memory mapping that has
++                            been named by userspace
++ ===================        ===========================================
+ 
+  or if empty, the mapping is anonymous.
+ 
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 8a74cdcc9af0..d22687d2e81e 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -277,6 +277,7 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
+ 	struct mm_struct *mm = vma->vm_mm;
+ 	struct file *file = vma->vm_file;
+ 	vm_flags_t flags = vma->vm_flags;
++	struct anon_vma_name *anon_name;
+ 	unsigned long ino = 0;
+ 	unsigned long long pgoff = 0;
+ 	unsigned long start, end;
+@@ -293,6 +294,7 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
+ 	start = vma->vm_start;
+ 	end = vma->vm_end;
+ 	show_vma_header_prefix(m, start, end, flags, pgoff, dev, ino);
++	anon_name = anon_vma_name(vma);
+ 
+ 	/*
+ 	 * Print the dentry name for named mappings, and a
+@@ -300,7 +302,14 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
+ 	 */
+ 	if (file) {
+ 		seq_pad(m, ' ');
+-		seq_file_path(m, file, "\n");
++		/*
++		 * If user named this anon shared memory via
++		 * prctl(PR_SET_VMA ..., use the provided name.
++		 */
++		if (anon_name)
++			seq_printf(m, "[anon_shmem:%s]", anon_name->name);
++		else
++			seq_file_path(m, file, "\n");
+ 		goto done;
+ 	}
+ 
+@@ -312,8 +321,6 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
+ 
+ 	name = arch_vma_name(vma);
+ 	if (!name) {
+-		struct anon_vma_name *anon_name;
+-
+ 		if (!mm) {
+ 			name = "[vdso]";
+ 			goto done;
+@@ -330,7 +337,6 @@ show_map_vma(struct seq_file *m, struct vm_area_struct *vma)
+ 			goto done;
+ 		}
+ 
+-		anon_name = anon_vma_name(vma);
+ 		if (anon_name) {
+ 			seq_pad(m, ' ');
+ 			seq_printf(m, "[anon:%s]", anon_name->name);
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 8bbcccbc5565..06b6fb3277ab 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -699,8 +699,10 @@ static inline unsigned long vma_iter_addr(struct vma_iterator *vmi)
+  * paths in userfault.
+  */
+ bool vma_is_shmem(struct vm_area_struct *vma);
++bool vma_is_anon_shmem(struct vm_area_struct *vma);
+ #else
+ static inline bool vma_is_shmem(struct vm_area_struct *vma) { return false; }
++static inline bool vma_is_anon_shmem(struct vm_area_struct *vma) { return false; }
+ #endif
+ 
+ int vma_is_stack_for_current(struct vm_area_struct *vma);
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 500e536796ca..08d8b973fb60 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -461,21 +461,11 @@ struct vm_area_struct {
+ 	 * For areas with an address space and backing store,
+ 	 * linkage into the address_space->i_mmap interval tree.
+ 	 *
+-	 * For private anonymous mappings, a pointer to a null terminated string
+-	 * containing the name given to the vma, or NULL if unnamed.
+ 	 */
+-
+-	union {
+-		struct {
+-			struct rb_node rb;
+-			unsigned long rb_subtree_last;
+-		} shared;
+-		/*
+-		 * Serialized by mmap_sem. Never use directly because it is
+-		 * valid only when vm_file is NULL. Use anon_vma_name instead.
+-		 */
+-		struct anon_vma_name *anon_name;
+-	};
++	struct {
++		struct rb_node rb;
++		unsigned long rb_subtree_last;
++	} shared;
+ 
+ 	/*
+ 	 * A file's MAP_PRIVATE vma can be in both i_mmap tree and anon_vma
+@@ -485,6 +475,7 @@ struct vm_area_struct {
+ 	 */
+ 	struct list_head anon_vma_chain; /* Serialized by mmap_lock &
+ 					  * page_table_lock */
++
+ 	struct anon_vma *anon_vma;	/* Serialized by page_table_lock */
+ 
+ 	/* Function pointers to deal with this struct. */
+@@ -496,6 +487,14 @@ struct vm_area_struct {
+ 	struct file * vm_file;		/* File we map to (can be NULL). */
+ 	void * vm_private_data;		/* was vm_pte (shared mem) */
+ 
++#ifdef CONFIG_ANON_VMA_NAME
++	/*
++	 * For private and shared anonymous mappings, a pointer to a null
++	 * terminated string containing the name given to the vma, or NULL if
++	 * unnamed. Serialized by mmap_sem. Use anon_vma_name to access.
++	 */
++	struct anon_vma_name *anon_name;
++#endif
+ #ifdef CONFIG_SWAP
+ 	atomic_long_t swap_readahead_info;
+ #endif
+diff --git a/mm/madvise.c b/mm/madvise.c
+index c7105ec6d08c..255d5b485432 100644
+--- a/mm/madvise.c
++++ b/mm/madvise.c
+@@ -95,9 +95,6 @@ struct anon_vma_name *anon_vma_name(struct vm_area_struct *vma)
+ {
+ 	mmap_assert_locked(vma->vm_mm);
+ 
+-	if (vma->vm_file)
+-		return NULL;
+-
+ 	return vma->anon_name;
+ }
+ 
+@@ -183,7 +180,7 @@ static int madvise_update_vma(struct vm_area_struct *vma,
+ 	 * vm_flags is protected by the mmap_lock held in write mode.
+ 	 */
+ 	vma->vm_flags = new_flags;
+-	if (!vma->vm_file) {
++	if (!vma->vm_file || vma_is_anon_shmem(vma)) {
+ 		error = replace_anon_vma_name(vma, anon_name);
+ 		if (error)
+ 			return error;
+@@ -1273,7 +1270,7 @@ static int madvise_vma_anon_name(struct vm_area_struct *vma,
+ 	int error;
+ 
+ 	/* Only anonymous mappings can be named */
+-	if (vma->vm_file)
++	if (vma->vm_file && !vma_is_anon_shmem(vma))
+ 		return -EBADF;
+ 
+ 	error = madvise_update_vma(vma, prev, start, end, vma->vm_flags,
+diff --git a/mm/shmem.c b/mm/shmem.c
+index c1d8b8a1aa3b..a6482cadda79 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -237,11 +237,17 @@ static const struct inode_operations shmem_inode_operations;
+ static const struct inode_operations shmem_dir_inode_operations;
+ static const struct inode_operations shmem_special_inode_operations;
+ static const struct vm_operations_struct shmem_vm_ops;
++static const struct vm_operations_struct shmem_anon_vm_ops;
+ static struct file_system_type shmem_fs_type;
+ 
++bool vma_is_anon_shmem(struct vm_area_struct *vma)
++{
++	return vma->vm_ops == &shmem_anon_vm_ops;
++}
++
+ bool vma_is_shmem(struct vm_area_struct *vma)
+ {
+-	return vma->vm_ops == &shmem_vm_ops;
++	return vma_is_anon_shmem(vma) || vma->vm_ops == &shmem_vm_ops;
+ }
+ 
+ static LIST_HEAD(shmem_swaplist);
+@@ -3995,6 +4001,15 @@ static const struct vm_operations_struct shmem_vm_ops = {
+ #endif
+ };
+ 
++static const struct vm_operations_struct shmem_anon_vm_ops = {
++	.fault		= shmem_fault,
++	.map_pages	= filemap_map_pages,
++#ifdef CONFIG_NUMA
++	.set_policy     = shmem_set_policy,
++	.get_policy     = shmem_get_policy,
++#endif
++};
++
+ int shmem_init_fs_context(struct fs_context *fc)
+ {
+ 	struct shmem_options *ctx;
+@@ -4170,6 +4185,7 @@ void shmem_truncate_range(struct inode *inode, loff_t lstart, loff_t lend)
+ EXPORT_SYMBOL_GPL(shmem_truncate_range);
+ 
+ #define shmem_vm_ops				generic_file_vm_ops
++#define shmem_anon_vm_ops			generic_file_vm_ops
+ #define shmem_file_operations			ramfs_file_operations
+ #define shmem_get_inode(sb, dir, mode, dev, flags)	ramfs_get_inode(sb, dir, mode, dev)
+ #define shmem_acct_size(flags, size)		0
+@@ -4275,7 +4291,7 @@ int shmem_zero_setup(struct vm_area_struct *vma)
+ 	if (vma->vm_file)
+ 		fput(vma->vm_file);
+ 	vma->vm_file = file;
+-	vma->vm_ops = &shmem_vm_ops;
++	vma->vm_ops = &shmem_anon_vm_ops;
+ 
+ 	return 0;
+ }
 -- 
-Regards/Gruss,
-    Boris.
+2.38.1.431.g37b22c650d-goog
 
-https://people.kernel.org/tglx/notes-about-netiquette
