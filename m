@@ -2,100 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50E65C4167B
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 16:07:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C8CAC43219
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 16:46:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232128AbiKGQHG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 11:07:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57646 "EHLO
+        id S232535AbiKGQqb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 11:46:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232795AbiKGQGj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 11:06:39 -0500
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 788A720358;
-        Mon,  7 Nov 2022 08:06:31 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 68E0CED1;
-        Mon,  7 Nov 2022 08:06:37 -0800 (PST)
-Received: from FVFF77S0Q05N (unknown [10.57.69.132])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D5E0A3F534;
-        Mon,  7 Nov 2022 08:06:28 -0800 (PST)
-Date:   Mon, 7 Nov 2022 16:06:26 +0000
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Will Deacon <will@kernel.org>
-Cc:     Jianlin Lv <iecedge@gmail.com>, corbet@lwn.net,
-        catalin.marinas@arm.com, rostedt@goodmis.org, mingo@redhat.com,
-        naveen.n.rao@linux.ibm.com, anil.s.keshavamurthy@intel.com,
-        davem@davemloft.net, mhiramat@kernel.org, arnd@arndb.de,
-        zhengzengkai@huawei.com, jianlv@ebay.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64/kprobes: Add support for KPROBES_ON_FTRACE
-Message-ID: <Y2ktAisfFAr0aU2V@FVFF77S0Q05N>
-References: <20220728020250.1699-1-iecedge@gmail.com>
- <20221107144931.GA20793@willie-the-truck>
- <Y2klCLj7F7fKsza+@FVFF77S0Q05N>
- <20221107153506.GA21157@willie-the-truck>
+        with ESMTP id S232469AbiKGQqa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 11:46:30 -0500
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3D8A60C4;
+        Mon,  7 Nov 2022 08:46:29 -0800 (PST)
+Received: from fraeml703-chm.china.huawei.com (unknown [172.18.147.206])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4N5cWx0RY4z67QFM;
+        Tue,  8 Nov 2022 00:44:29 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml703-chm.china.huawei.com (10.206.15.52) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.31; Mon, 7 Nov 2022 17:46:27 +0100
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 7 Nov
+ 2022 16:46:27 +0000
+Date:   Mon, 7 Nov 2022 16:46:26 +0000
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+CC:     Jonathan Cameron <jic23@kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>, <corbet@lwn.net>
+Subject: Re: [PATCH RESEND] Documentation: devres: add missing IIO helpers
+Message-ID: <20221107164626.0000223b@Huawei.com>
+In-Reply-To: <7e984b00-8845-8938-1495-334c8d4db878@huawei.com>
+References: <20221103023402.1024437-1-yangyingliang@huawei.com>
+        <20221105150812.66d81f40@jic23-huawei>
+        <7e984b00-8845-8938-1495-334c8d4db878@huawei.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221107153506.GA21157@willie-the-truck>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 07, 2022 at 03:35:07PM +0000, Will Deacon wrote:
-> On Mon, Nov 07, 2022 at 03:32:24PM +0000, Mark Rutland wrote:
-> > On Mon, Nov 07, 2022 at 02:49:31PM +0000, Will Deacon wrote:
-> > > [+Mark R]
-> > > 
-> > > On Thu, Jul 28, 2022 at 02:02:50AM +0000, Jianlin Lv wrote:
-> > > > This is the arm64 version of ftrace-based kprobes to avoid the overhead
-> > > > with regular kprobes, by using the ftrace infrastructure.
-> > > > 
-> > > > Signed-off-by: Jianlin Lv <iecedge@gmail.com>
-> > > > ---
-> > > >  .../debug/kprobes-on-ftrace/arch-support.txt  |  2 +-
-> > > >  arch/arm64/Kconfig                            |  1 +
-> > > >  arch/arm64/kernel/probes/Makefile             |  1 +
-> > > >  arch/arm64/kernel/probes/kprobes-ftrace.c     | 81 +++++++++++++++++++
-> > > >  include/linux/kprobes.h                       |  2 +
-> > > >  kernel/kprobes.c                              |  4 +-
-> > > >  6 files changed, 88 insertions(+), 3 deletions(-)
-> > > >  create mode 100644 arch/arm64/kernel/probes/kprobes-ftrace.c
-> > > 
-> > > Sorry for the slow reply on this, but I think this deserved to be split
-> > > into two patches: the first one reworking the core check_ftrace_location()
-> > > logic to work properly with branch-and-link style architectures, and the
-> > > second one adding support for arm64.
-> > 
-> > I'd prefer we don't do this at all; there a bunch of issues with kprobes *not*
-> > taking an exception, since we get a dodgy not-quite-real pt_regs, and to clean
-> > up the existing issues the plan is:
-> > 
-> > 1) Move ftrace over to ftrace_regs
-> > 2) Implement fprobes using ftrace_regs
-> > 3) Remove kretprobes
-> > 
-> > ... and regular kprobes will need to take an exception (via BRK) to get a real
-> > pt_regs, so that can't be optimized to use ftrace.
+On Mon, 7 Nov 2022 09:25:28 +0800
+Yang Yingliang <yangyingliang@huawei.com> wrote:
+
+> Hi,
 > 
-> OKey doke. Does that mean that other architectures will follow the same
-> approach of taking an exception,
+> On 2022/11/5 23:08, Jonathan Cameron wrote:
+> > On Thu, 3 Nov 2022 10:34:02 +0800
+> > Yang Yingliang <yangyingliang@huawei.com> wrote:
+> >  
+> >> Add some missing device-managed helpers of iio to devres.rst.
+> >>
+> >> devm_iio_kfifo_buffer_setup_ext() is introduced by commit 0a21526bc1d4 ("iio:
+> >> kfifo: add devm_iio_triggered_buffer_setup_ext variant").
+> >>
+> >> devm_iio_triggered_buffer_setup_ext() is introduced by commit 5164c7889857 ("iio:
+> >> triggered-buffer: add {devm_}iio_triggered_buffer_setup_ext variants").
+> >>
+> >> devm_iio_hw_consumer_alloc() is introduced by b688c18d3006 ("IIO: hw_consumer:
+> >> add devm_iio_hw_consumer_alloc").
+> >>
+> >> devm_fwnode_iio_channel_get_by_name() is introduced by commit 1e64b9c5f9a0 ("iio:
+> >> inkern: move to fwnode properties").
+> >>
+> >> Fixes: 0a21526bc1d4 ("iio: kfifo: add devm_iio_triggered_buffer_setup_ext variant")
+> >> Fixes: 5164c7889857 ("iio: triggered-buffer: add {devm_}iio_triggered_buffer_setup_ext variants")
+> >> Fixes: b688c18d3006 ("IIO: hw_consumer: add devm_iio_hw_consumer_alloc")
+> >> Fixes: 1e64b9c5f9a0 ("iio: inkern: move to fwnode properties")
+> >> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>  
+> > You didn't pick up my
+> >
+> > Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> >
+> > or mention that my assumption is that this will go via the docs tree.  
+> I changed the commit message, it's not same as the earlier patch, so I 
+> didn't add your ACK tag.
+> It's nice that you acked this patch.
+> 
 
-I think once everyone has FPROBE, KPROBES_ON_FTRACE becomes redundant, and
-could be removed (leaving kprobes to always follow a take-an-exception flow on
-all architectures).
-
-> or do they somehow work by magic?
-
-Some architectures don't need to take an exception to be able to create a full
-pt_regs (e.g. x86's flags are accessible in a way arm64's PSTATE isn't), but
-that needs to be generated / restored differently to exception entry/return,
-and so even where it's possible it can be painful to maintain (and slower than
-using ftrace_regs), so I suspect KPROBES_ON_FTRACE would be removed.
-
-So different constaints more than magic.
+Ah understood.  For something as small as that, just keep tags.
 
 Thanks,
-Mark.
+
+Jonathan
+
+> Thanks,
+> Yang
+> >
+> > Thanks,
+> >
+> > Jonathan
+> >  
+> >> ---
+> >> The previous patch link:
+> >> https://patchwork.kernel.org/project/linux-iio/patch/20220927074043.942836-1-yangyingliang@huawei.com/
+> >> ---
+> >>   Documentation/driver-api/driver-model/devres.rst | 4 ++++
+> >>   1 file changed, 4 insertions(+)
+> >>
+> >> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+> >> index e0cb7df0f782..4249eb4239e0 100644
+> >> --- a/Documentation/driver-api/driver-model/devres.rst
+> >> +++ b/Documentation/driver-api/driver-model/devres.rst
+> >> @@ -287,12 +287,16 @@ IIO
+> >>     devm_iio_device_register()
+> >>     devm_iio_dmaengine_buffer_setup()
+> >>     devm_iio_kfifo_buffer_setup()
+> >> +  devm_iio_kfifo_buffer_setup_ext()
+> >>     devm_iio_map_array_register()
+> >>     devm_iio_triggered_buffer_setup()
+> >> +  devm_iio_triggered_buffer_setup_ext()
+> >>     devm_iio_trigger_alloc()
+> >>     devm_iio_trigger_register()
+> >>     devm_iio_channel_get()
+> >>     devm_iio_channel_get_all()
+> >> +  devm_iio_hw_consumer_alloc()
+> >> +  devm_fwnode_iio_channel_get_by_name()
+> >>   
+> >>   INPUT
+> >>     devm_input_allocate_device()  
+> > .  
+
