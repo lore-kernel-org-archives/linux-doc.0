@@ -2,224 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4C27C433FE
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 13:48:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6747CC4332F
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 14:07:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231329AbiKGNsu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 08:48:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42774 "EHLO
+        id S229638AbiKGOHT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 09:07:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229778AbiKGNst (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 08:48:49 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74F0A1B1C1;
-        Mon,  7 Nov 2022 05:48:47 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id o4so16310919wrq.6;
-        Mon, 07 Nov 2022 05:48:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OrUyRGzwE2ra16JuFmiYoijJKLT6LRaYNEIkUv8jxGc=;
-        b=YYI1hnetdP6OmFZwGJk4mhjMc40VULbuk5jWaMguvr01Slbr4wiLy7x3EgjEEcfeWZ
-         M7t8/Zzch/lICelcpBhFq9hB1D0ry3et/sZ/UcCuXxewlsVa19HyyXxzVv2th/hAmuGV
-         27NVyps0+BgQgVcm4pM1Ijo70HWDH97hrNMP0VeBfYRZTD3Gyi7poKF7u+kdraeQ0SGU
-         miSXlBJD7m5DUaaV+YGyVbJ2mMDkmNnJaNFTCG9n0Nt+4Lo09c0LDcsvF8R9VzNl8ZV9
-         kwA5k/xieQGt4vAlkx+YoBFiFnoFaeSZW4hX0PH2uZhxcqeTtIKczBigEGWzwcnNy5Mw
-         0VpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OrUyRGzwE2ra16JuFmiYoijJKLT6LRaYNEIkUv8jxGc=;
-        b=CJTlGPU0elaaZu1Hq+bg97twCijV1T4mpOgdZ4Y2n86pwmRHWZ+dyAjs0ysA8Tla/B
-         i8ym77sqbJJSi1DnZNQaqjWqHFUf1QE94JMDj7ZWdba8gkJndf9AbIgFr5F1GyT8JdPr
-         EHJ/Y3nb41tYZ9n2ofRR6OVe57EB0l7T14KB2h6NID/DXrpKUyzEMbwD6Vcrk7CT4ecm
-         ccEXuDa8LSHUhPrB+NccH0Q0214E5hR0+/d9MLLmuQSnl31FP8BXgWa1jAknw4uZOtWz
-         9L2xxlll7tfcx5XzWzxaitTIK1guatrhADk/vedVO0OrqRuXua3UMZROg9BUC8meiARQ
-         R6bg==
-X-Gm-Message-State: ACrzQf2rE+KERixmsfvumKf1G417trxfOPCoeJJtM/JL54vXJE1UvhBc
-        4HMtr4qZaBp/TGDXLePU1lPlqjVngpNtWQ==
-X-Google-Smtp-Source: AMsMyM5uzEBl2o9U1yFezMAlIGgYgVNM3K41WHriM+gNssdy1c660NjenqwNcOsfm0zsmzV7zgMCRw==
-X-Received: by 2002:adf:ed4a:0:b0:236:aef1:9c75 with SMTP id u10-20020adfed4a000000b00236aef19c75mr31432407wro.258.1667828925431;
-        Mon, 07 Nov 2022 05:48:45 -0800 (PST)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:5c58:5d45:1992:a386])
-        by smtp.gmail.com with ESMTPSA id k8-20020a05600c168800b003cf47fdead5sm8140396wmn.30.2022.11.07.05.48.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 05:48:44 -0800 (PST)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Maryam Tahhan <mtahhan@redhat.com>,
-        Donald Hunter <donald.hunter@gmail.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH bpf-next v3] docs/bpf: document BPF ARRAY_OF_MAPS and HASH_OF_MAPS
-Date:   Mon,  7 Nov 2022 13:48:40 +0000
-Message-Id: <20221107134840.92633-1-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S231875AbiKGOHS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 09:07:18 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D61F1A055;
+        Mon,  7 Nov 2022 06:07:16 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5C5CCB811E4;
+        Mon,  7 Nov 2022 14:07:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 288D9C433D6;
+        Mon,  7 Nov 2022 14:07:11 +0000 (UTC)
+Date:   Mon, 7 Nov 2022 14:07:07 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, kexec@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v3 1/2] arm64: kdump: Provide default size when
+ crashkernel=Y,low is not specified
+Message-ID: <Y2kRC7JALMQQRsxE@arm.com>
+References: <20220711090319.1604-1-thunder.leizhen@huawei.com>
+ <20220711090319.1604-2-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220711090319.1604-2-thunder.leizhen@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for the ARRAY_OF_MAPS and HASH_OF_MAPS map types,
-including usage and examples.
+On Mon, Jul 11, 2022 at 05:03:18PM +0800, Zhen Lei wrote:
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index 339ee84e5a61a0b..5390f361208ccf7 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -96,6 +96,14 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
+>  #define CRASH_ADDR_LOW_MAX		arm64_dma_phys_limit
+>  #define CRASH_ADDR_HIGH_MAX		(PHYS_MASK + 1)
+>  
+> +/*
+> + * This is an empirical value in x86_64 and taken here directly. Please
+> + * refer to the code comment in reserve_crashkernel_low() of x86_64 for more
+> + * details.
+> + */
+> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	\
+> +	max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20)
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
-v2 -> v3:
-- Update BPF example to show declarative initialisation, as
-  suggested by Andrii Nakryiko
-- Use LIBBPF_OPTS inline initialisation, as suggested by
-  Andrii Nakryiko
-- Fix duplicate label warning,
-Reported-by: kernel test robot <lkp@intel.com>
+I agree with Will here, we need a better comment and we might as well
+change the default value to something else until someone tells us that
+the default is not large enough. The default swiotlb size is 64M, so we
+need to cover that. The extra 8MB for any additional low allocations are
+ok as well but the 256MB doesn't make much sense to me, or at least not
+together with the rest.
 
-v1 -> v2:
-- Fix formatting nits
-- Tidy up code snippets as suggested by Maryam Tahhan
----
- Documentation/bpf/map_of_maps.rst | 126 ++++++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
- create mode 100644 Documentation/bpf/map_of_maps.rst
+If the main kernel got a command line option for a larger swiotlb, does
+the crash kernel boot with the same command line? If not, we can just go
+for a fixed 128M value here, which is double the default swiotlb buffer.
 
-diff --git a/Documentation/bpf/map_of_maps.rst b/Documentation/bpf/map_of_maps.rst
-new file mode 100644
-index 000000000000..63e41b06a91d
---- /dev/null
-+++ b/Documentation/bpf/map_of_maps.rst
-@@ -0,0 +1,126 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2022 Red Hat, Inc.
-+
-+========================================================
-+BPF_MAP_TYPE_ARRAY_OF_MAPS and BPF_MAP_TYPE_HASH_OF_MAPS
-+========================================================
-+
-+.. note::
-+   - ``BPF_MAP_TYPE_ARRAY_OF_MAPS`` and ``BPF_MAP_TYPE_HASH_OF_MAPS`` were
-+     introduced in kernel version 4.12
-+
-+``BPF_MAP_TYPE_ARRAY_OF_MAPS`` and ``BPF_MAP_TYPE_HASH_OF_MAPS`` provide general
-+purpose support for map in map storage. One level of nesting is supported, where
-+an outer map contains instances of a single type of inner map, for example
-+``array_of_maps->sock_map``.
-+
-+When creating an outer map, an inner map instance is used to initialize the
-+metadata that the outer map holds about its inner maps. This inner map has a
-+separate lifetime from the outer map and can be deleted after the outer map has
-+been created.
-+
-+The outer map supports element update and delete from user space using the
-+syscall API. A BPF program is only allowed to do element lookup in the outer
-+map.
-+
-+.. note::
-+   - Multi-level nesting is not supported.
-+   - Any BPF map type can be used as an inner map, except for
-+     ``BPF_MAP_TYPE_PROG_ARRAY``.
-+   - A BPF program cannot update or delete outer map entries.
-+
-+For ``BPF_MAP_TYPE_ARRAY_OF_MAPS`` the key is an unsigned 32-bit integer index
-+into the array. The array is a fixed size with ``max_entries`` elements that are
-+zero initialized when created.
-+
-+For ``BPF_MAP_TYPE_HASH_OF_MAPS`` the key type can be chosen when defining the
-+map. The kernel is responsible for allocating and freeing key/value pairs, up to
-+the max_entries limit that you specify. Hash maps use pre-allocation of hash
-+table elements by default. The ``BPF_F_NO_PREALLOC`` flag can be used to disable
-+pre-allocation when it is too memory expensive.
-+
-+Usage
-+=====
-+
-+Kernel BPF Helper
-+-----------------
-+
-+.. c:function::
-+   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-+
-+Inner maps can be retrieved using the ``bpf_map_lookup_elem()`` helper. This
-+helper returns a pointer to the inner map, or ``NULL`` if no entry was found.
-+
-+Examples
-+========
-+
-+Kernel BPF Example
-+------------------
-+
-+This snippet shows how to create and initialise an array of devmaps in a BPF
-+program. Note that the outer array can only be modified from user space using
-+the syscall API.
-+
-+.. code-block:: c
-+
-+    struct inner_map {
-+            __uint(type, BPF_MAP_TYPE_DEVMAP);
-+            __uint(max_entries, 10);
-+            __type(key, __u32);
-+            __type(value, __u32);
-+    } inner_map1 SEC(".maps"), inner_map2 SEC(".maps");
-+
-+    struct {
-+            __uint(type, BPF_MAP_TYPE_ARRAY_OF_MAPS);
-+            __uint(max_entries, 2);
-+            __type(key, __u32);
-+            __array(values, struct inner_map);
-+    } outer_map SEC(".maps") = {
-+            .values = { &inner_map1,
-+                        &inner_map2 }
-+    };
-+
-+See ``progs/test_bpf_map_in_map.c`` in ``tools/testing/selftests/bpf`` for more
-+examples of declarative initialisation of outer maps.
-+
-+User Space
-+----------
-+
-+This snippet shows how to create an array based outer map:
-+
-+.. code-block:: c
-+
-+    int create_outer_array(int inner_fd) {
-+            int fd;
-+
-+            LIBBPF_OPTS(bpf_map_create_opts, opts, .inner_map_fd = inner_fd);
-+            fd = bpf_map_create(BPF_MAP_TYPE_ARRAY_OF_MAPS,
-+                                "example_array",       /* name */
-+                                sizeof(__u32),         /* key size */
-+                                sizeof(__u32),         /* value size */
-+                                256,                   /* max entries */
-+                                &opts);                /* create opts */
-+            return fd;
-+    }
-+
-+
-+This snippet shows how to add an inner map to an outer map:
-+
-+.. code-block:: c
-+
-+    int add_devmap(int outer_fd, int index, const char *name) {
-+            int fd;
-+
-+            fd = bpf_map_create(BPF_MAP_TYPE_DEVMAP, name,
-+                                sizeof(__u32), sizeof(__u32), 256, NULL);
-+            if (fd < 0)
-+                    return fd;
-+
-+            return bpf_map_update_elem(outer_fd, &index, &fd, BPF_ANY);
-+    }
-+
-+References
-+==========
-+
-+- https://lore.kernel.org/netdev/20170322170035.923581-3-kafai@fb.com/
-+- https://lore.kernel.org/netdev/20170322170035.923581-4-kafai@fb.com/
 -- 
-2.35.1
-
+Catalin
