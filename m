@@ -2,107 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 871D6C4332F
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 02:55:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDCD0C4332F
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 03:57:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230050AbiKGCzi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 6 Nov 2022 21:55:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57978 "EHLO
+        id S230332AbiKGD5F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 6 Nov 2022 22:57:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229995AbiKGCzh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Nov 2022 21:55:37 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF3DDDF10;
-        Sun,  6 Nov 2022 18:55:36 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id k5so9303555pjo.5;
-        Sun, 06 Nov 2022 18:55:36 -0800 (PST)
+        with ESMTP id S230304AbiKGD5E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 6 Nov 2022 22:57:04 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61289B7F5;
+        Sun,  6 Nov 2022 19:57:03 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id l6so9428369pjj.0;
+        Sun, 06 Nov 2022 19:57:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aWOoCPraIwKfT3TJ2UGqA8BagIEiXV7VcCLfAdgHcas=;
-        b=h5CuqOt9UMbb8pINbacScKFwgI4Ki3Ph8JYaNPx52uZwSKkj6zmSJoWfBasg9PZN/y
-         AvHz7nbYC1DsbeUpFs/cgkfHaCBsW9iHbZ4pRMWI0K0snMMtFoDgtjpQvvOrCY79HMcH
-         clHQhYqiSrPbqDUqDai7SWgYVbChL6dcUearVCGuPinzZKT5TDUWO52kbGJYqGTCiWKQ
-         8zr+vGYFkY6K6tTrDMDktCPxTRcLpMvRZ4GO5g4UtQ/2shNCq5uyFxomNXoCeFKbhsEg
-         w8zi78RKDrpnWwvTtP/NFyWtA2BuEr06V9OuuMo92LdyOj8wBRvpACMtbzKRzkSntv3L
-         zs5A==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jFMW3O4nMzzbsjps13fey55rZ3wr/PRwCQWHd1qcbcA=;
+        b=cBnySRhwG9RoqlHnyyNDFqhPlpjxDLCS4e5dnFc2lZK2UFHxFIIFJwEkPyJ3PHw3c/
+         Q0fP3TgkwQoRItRNssOvfgKeobkt2uXGkcn7kZxO3BbWQ0jBRvGCKb3hCfUJafKjqq8k
+         uR6Cd4x1u48Ox6DzxUTa19AeGAq6ZdpD+lBSwFXqmULfd/mXqsil114RRgw6TxpdTiLz
+         /tm9VL/RTqfc5Q53iwcCAK8WtnF653mfAd6XQv9kGUlvTiYZTKGW11cG5qDm8l8AeNYt
+         OobCKgopZrtYt6ugCFghPhU4FVwgvqbH5G50GBZuL6yk9XGYmNxH9lcDHRC4DXMu2TPI
+         1XZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aWOoCPraIwKfT3TJ2UGqA8BagIEiXV7VcCLfAdgHcas=;
-        b=34i5EOIUj0SacUV+CcnKPQyMT+8edJDQrEDMLQq6CzOt4u1ShBSqoN9PLfw53uX8jR
-         lsIV2LaUnp6SJ/TMBnEWWfkcpbolXFZ62R46s/o/OmD7BjKPQh5O+M6jXFntv8t1vZbV
-         Zm+RlM610q0pDA5WLEn9vqI8T7oPinHAmQU0QThwmQVscpksH9CWkgxKJi9AEMT0rnwA
-         amjGr9aEnSBItDa6h5JNrrLTPIZ5wB3jboKz8YnTHO5nMBNCqYs7Fg+k5vNnVNiAm8AH
-         gL57tt6mq68VyMFYWtyfV22lZ9uUFOYpcW9cu8sqkuqXMoq8odNKQvV3QbrZSau1OUl7
-         ISGw==
-X-Gm-Message-State: ANoB5pnkrYDi12+mLLquCyE1iob7a7+TnTd5pZbx8DPk6TYnfWxIjLAI
-        RFbs3Yd6O5sr58TYJnYDf4w=
-X-Google-Smtp-Source: AA0mqf5jDapJui4VBzarerUQi6R4XZ5/ZzYjPi4B3w2KuxTJKcAjPn9b+PpNdbqfiFQ2iY9N1B0xCA==
-X-Received: by 2002:a17:902:bc49:b0:188:760f:d843 with SMTP id t9-20020a170902bc4900b00188760fd843mr8958398plz.111.1667789736161;
-        Sun, 06 Nov 2022 18:55:36 -0800 (PST)
-Received: from [192.168.43.80] (subs02-180-214-232-14.three.co.id. [180.214.232.14])
-        by smtp.gmail.com with ESMTPSA id v126-20020a626184000000b00565cf8c52c8sm3315179pfb.174.2022.11.06.18.55.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Nov 2022 18:55:35 -0800 (PST)
-Message-ID: <aebae1eb-ed56-00a9-101f-c4e5ab0af91a@gmail.com>
-Date:   Mon, 7 Nov 2022 09:55:31 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] Documentation: riscv: tableize memory layout
-To:     Conor Dooley <conor@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexandre Ghiti <alexandre.ghiti@canonical.com>
-References: <20221106100239.53704-1-bagasdotme@gmail.com>
- <Y2eY+LulWaKm7MHl@spud>
-Content-Language: en-US
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jFMW3O4nMzzbsjps13fey55rZ3wr/PRwCQWHd1qcbcA=;
+        b=UNgni8SrPuwTh+sAQERrK00jugrI/t7H0J+THUw4n4bEWgtlYjpGP93TuC6tbpkY0I
+         B1CbTYliBSWshhzUqfr4g61ZgG63+1oip8cfWjypWzJJ0SUnp5JiBNeVw4ggMGKebgJG
+         KrgShBMn7kEjmC39zJ5/Zjn5MJBxgodUDMNxnTPwLzFGyUfFDieTvUCkCPqG+2zXlPU7
+         Q82+RWaJzLKWIDH/kMOlsvkwkO7E+/lL8j7NXvwjV0R88d95HrqJXf795YJ3C1gIXNJ4
+         h5rzWup7aKU9YpggV04IefKF8huECDtscB+ePxglTL5A+JqrYjCVyTluT+za2Oz3yzOW
+         kJuA==
+X-Gm-Message-State: ACrzQf10uspqETAk3axpsNxh0Pu/Ew/iECtV2100JvaNLkhiOKOJT1vK
+        31kVPU7Nu3PnA4aPQCSkquA=
+X-Google-Smtp-Source: AMsMyM4dGSaEfzbbZa2tW2MWyiEUxcwujp0EXKxIC/QK7xq2+L6A/rW/IJiML0aA97pqbqrq5krEUg==
+X-Received: by 2002:a17:902:ccc2:b0:178:29e1:899e with SMTP id z2-20020a170902ccc200b0017829e1899emr48045976ple.114.1667793422831;
+        Sun, 06 Nov 2022 19:57:02 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-14.three.co.id. [180.214.232.14])
+        by smtp.gmail.com with ESMTPSA id 68-20020a621647000000b0056bd1bf4243sm3282388pfw.53.2022.11.06.19.57.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Nov 2022 19:57:02 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id B260E103B90; Mon,  7 Nov 2022 10:56:58 +0700 (WIB)
+Date:   Mon, 7 Nov 2022 10:56:58 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <Y2eY+LulWaKm7MHl@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     nick.hawkins@hpe.com
+Cc:     jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, verdun@hpe.com, corbet@lwn.net,
+        linux@armlinux.org.uk, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v1 1/6] hwmon: (gxp-fan-ctrl) Add GXP fan controller
+Message-ID: <Y2iCCpKYRm0c7gvZ@debian.me>
+References: <20221104193657.105130-1-nick.hawkins@hpe.com>
+ <20221104193657.105130-2-nick.hawkins@hpe.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Xo6UyqZ2b1CGVEcP"
+Content-Disposition: inline
+In-Reply-To: <20221104193657.105130-2-nick.hawkins@hpe.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/6/22 18:22, Conor Dooley wrote:
->> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
->> +   |    Start addr    | Offset  |     End addr     |  Size   | VM area description                                      |
->> +   +==================+=========+==================+=========+==========================================================+
->> +   | 0000000000000000 |    0    | 0000003fffffffff | 256 GB  | user-space virtual memory, different per mm              |
->> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
->> +   | 0000004000000000 | +256 GB | ffffffbfffffffff | ~16M TB | ... huge, almost 64 bits wide hole of non-canonical      |
->> +   |                  |         |                  |         | virtual memory addresses up to the -256 GB               |
->> +   |                  |         |                  |         | starting offset of kernel mappings.                      |
->> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
->> +   |                             Kernel-space virtual memory, shared between all processes:                             |
->> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
->> +   | ffffffc6fee00000 | -228 GB | ffffffc6feffffff | 2 MB    | fixmap                                                   |
->> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
->> +   | ffffffc6ff000000 | -228 GB | ffffffc6ffffffff | 16 MB   | PCI io                                                   |
->> +   +------------------+---------+------------------+---------+----------------------------------------------------------+
->                                                         ^
-> Will these numbers remain right-aligned in the formatted doc? They were
-> aligned before in the text form & no longer appear to be.
-> 
 
-These numbers also become wrapped in their cells.
+--Xo6UyqZ2b1CGVEcP
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-However, in order to fix alignment of these, custom CSS is needed, similar
-to one in StackOverflow [1].
+On Fri, Nov 04, 2022 at 02:36:52PM -0500, nick.hawkins@hpe.com wrote:
+> diff --git a/Documentation/hwmon/gxp-fan-ctrl.rst b/Documentation/hwmon/g=
+xp-fan-ctrl.rst
+> new file mode 100644
+> index 000000000000..fc1709fb113b
+> --- /dev/null
+> +++ b/Documentation/hwmon/gxp-fan-ctrl.rst
+> @@ -0,0 +1,36 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Kernel driver gxp-fan-ctrl
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> +
+> +Supported chips:
+> +
+> +  * HPE GXP SOC
+> +
+> +Author: Nick Hawkins <nick.hawkins@hpe.com>
+> +
+> +
+> +Description
+> +-----------
+> +
+> +gxp-fan-ctrl is a driver which provides fan control for the hpe gxp soc.
+> +The driver allows the gathering of fan status and the use of fan
+> +pwm control.
+> +
+> +
+> +Usage Notes
+> +-----------
+> +
+> +Traditionally fanY_input returns an RPM value, on HPE GXP systems it is
+> +the pwm value [0-255] due to the fan speeds being reported as
+> +percentages.
+> +
+> +
+> +Sysfs attributes
+> +----------------
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +pwm[0-15]		Fan 0 to 15 respective pwm value
+> +fan[0-15]_input		Fan 0 to 15 respective input value: pwm value
+> +fan[0-15]_fault		Fan 0 to 15 respective fault status: 1 fail, 0 ok
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-[1]: https://stackoverflow.com/a/7351383
+You need to add the documentation to toctree of hwmon documentation:
+
+---- >8 ----
+
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index ddff3c5713d74e..29ecef3ba4870b 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -73,6 +73,7 @@ Hardware Monitoring Kernel Drivers
+    g762
+    gsc-hwmon
+    gl518sm
++   gxp-fan-ctrl
+    hih6130
+    ibmaem
+    ibm-cffps
 
 Thanks.
 
--- 
+--=20
 An old man doll... just what I always wanted! - Clara
 
+--Xo6UyqZ2b1CGVEcP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2iCBQAKCRD2uYlJVVFO
+o9iXAQC5dCdUaEBhlftegSoX9NMmwqr5otKpX0J4Hyg6r6BWxQEAwN3T6R2st6FD
+eQsWtMfkIixxZzJaGvqzv40MwM9tfAg=
+=Jvc3
+-----END PGP SIGNATURE-----
+
+--Xo6UyqZ2b1CGVEcP--
