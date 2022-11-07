@@ -2,43 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C71AC47089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E77C3A5A1
 	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 07:27:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231494AbiKGH1K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 02:27:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37230 "EHLO
+        id S231504AbiKGH1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 02:27:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231467AbiKGH0v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 02:26:51 -0500
-Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6909938B4;
-        Sun,  6 Nov 2022 23:26:48 -0800 (PST)
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-        by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A76X0xF004392;
-        Sun, 6 Nov 2022 23:26:39 -0800
+        with ESMTP id S231263AbiKGH0y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 02:26:54 -0500
+Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56AA638B4;
+        Sun,  6 Nov 2022 23:26:53 -0800 (PST)
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+        by mx0a-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A76qsmt030455;
+        Sun, 6 Nov 2022 23:26:47 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=pfpt0220;
- bh=m+80Psa8AIOdzF5BiqGh6FzuPeAQNVmIZNKFsS/67MY=;
- b=TGHZxgP40O6HL5fsMx5HfXSU7FUwOpjlksLrEnBqSP2aVRaPUoowWxYD7wPXNEKTdRQe
- CZ/bIWK9KSCKpnsuI5e9MqsEVWZvge7osXThS4CQFhWy2+o4z29BqtVRwtwvn5VUOWAf
- 7BbhCwNDQnT745nclSLBtY+wtNX55oIHKouK/PfY4RsfePAp1b8R4gju5WwuEtx43WGI
- AwUIzkOWDJe22cTF2sWH2EX14olK+6mbMk+JlOWjaYIzg1DK7QPZ9oFhEU5DjbtjlUCz
- ZBJRWCOnOviYE36iMx2q4JSXYRvrB2epvbcFLzavQY7w3yW3ypJ/UNDq+ZG09bnH6l9z pg== 
+ bh=OG91zjWgCBVIQZ/YopAzEJ6kOI2z5YE8t2TUA/EN/Dg=;
+ b=CQrPB8Kh3nR5KZnNfbUWRZdkDXrDhV/kau+TLcCkfyoSA+sAzCS8kyDbCkPgw6tULkgm
+ 5b3pYqW4X7VLAc9kEvQ4/W0HHucPFmZ8JouuvHk6u7g/6KP9NeyscUoMtPOOQyQ4JbxW
+ jcnTlghhOlwbGvccu6iNvVcBMs6yFWZMccDLPF1TDnEg8fnEVNzOHvfOeXCcxH8kWgUt
+ 9vM6CR6a19iqZaKp4eQQuKoD6p2bK1rv9Q9ttjmcZIL5v0eEw9l3rlme9DSuchVN6nfK
+ n2DuPeb8whERNPjBsSSO/dp3G+uiv8yjuTyU+B4Og9ulH+YVgtlcb5JEh1+ivAOjz2Lj 8A== 
 Received: from dc5-exch02.marvell.com ([199.233.59.182])
-        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3kpvuk85b9-1
+        by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3kpw4wg3gb-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Sun, 06 Nov 2022 23:26:39 -0800
+        Sun, 06 Nov 2022 23:26:47 -0800
 Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
  (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Sun, 6 Nov
- 2022 23:26:36 -0800
+ 2022 23:26:45 -0800
 Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
  (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sun, 6 Nov 2022 23:26:36 -0800
+ Transport; Sun, 6 Nov 2022 23:26:45 -0800
 Received: from sburla-PowerEdge-T630.caveonetworks.com (unknown [10.106.27.217])
-        by maili.marvell.com (Postfix) with ESMTP id 657B53F704F;
-        Sun,  6 Nov 2022 23:26:36 -0800 (PST)
+        by maili.marvell.com (Postfix) with ESMTP id 54E5E3F704F;
+        Sun,  6 Nov 2022 23:26:45 -0800 (PST)
 From:   Veerasenareddy Burru <vburru@marvell.com>
 To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <lironh@marvell.com>, <aayarekar@marvell.com>,
@@ -49,17 +49,17 @@ CC:     <linux-doc@vger.kernel.org>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>
-Subject: [PATCH net-next 4/9] octeon_ep: enhance control mailbox for VF support
-Date:   Sun, 6 Nov 2022 23:25:18 -0800
-Message-ID: <20221107072524.9485-5-vburru@marvell.com>
+Subject: [PATCH net-next 8/9] octeon_ep: add PF-VF mailbox communication
+Date:   Sun, 6 Nov 2022 23:25:22 -0800
+Message-ID: <20221107072524.9485-9-vburru@marvell.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20221107072524.9485-1-vburru@marvell.com>
 References: <20221107072524.9485-1-vburru@marvell.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: 7suJ9B9qAMOM7d6x3mo9ceL_goyoxhwF
-X-Proofpoint-ORIG-GUID: 7suJ9B9qAMOM7d6x3mo9ceL_goyoxhwF
+X-Proofpoint-GUID: jqIsxWPlRx1sl0m-nl3HY82_p3q0LZxs
+X-Proofpoint-ORIG-GUID: jqIsxWPlRx1sl0m-nl3HY82_p3q0LZxs
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-06_16,2022-11-03_01,2022-06-22_01
@@ -67,1545 +67,747 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Enhance control mailbox protocol to support following
- - separate command and response queues
-    * command queue to send control commands to firmware.
-    * response queue to receive responses and notifications from firmware.
- - variable size messages using scatter/gather
- - VF support
-    * extend control command structure to include vfid.
-    * update APIs to accept VF ID.
+Implement mailbox communication between PF and VFs.
+PF-VF mailbox is used for all control commands from VF to PF and
+asynchronous notification messages from PF to VF.
 
-Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
 Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
+Signed-off-by: Sathesh Edara <sedara@marvell.com>
+Signed-off-by: Abhijit Ayarekar <aayarekar@marvell.com>
 ---
- .../marvell/octeon_ep/octep_ctrl_mbox.c       | 318 +++++++++-------
- .../marvell/octeon_ep/octep_ctrl_mbox.h       | 102 ++---
- .../marvell/octeon_ep/octep_ctrl_net.c        | 349 ++++++++++++------
- .../marvell/octeon_ep/octep_ctrl_net.h        | 176 +++++----
- .../marvell/octeon_ep/octep_ethtool.c         |   7 +-
- .../ethernet/marvell/octeon_ep/octep_main.c   |  82 ++--
- 6 files changed, 623 insertions(+), 411 deletions(-)
+ .../net/ethernet/marvell/octeon_ep/Makefile   |   3 +-
+ .../marvell/octeon_ep/octep_cn9k_pf.c         |  42 ++-
+ .../ethernet/marvell/octeon_ep/octep_main.c   |  14 +-
+ .../ethernet/marvell/octeon_ep/octep_main.h   |  44 +--
+ .../marvell/octeon_ep/octep_pfvf_mbox.c       | 306 ++++++++++++++++++
+ .../marvell/octeon_ep/octep_pfvf_mbox.h       | 126 ++++++++
+ .../marvell/octeon_ep/octep_regs_cn9k_pf.h    |   9 +
+ .../net/ethernet/marvell/octeon_ep/octep_tx.h |  24 +-
+ 8 files changed, 523 insertions(+), 45 deletions(-)
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_pfvf_mbox.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep/octep_pfvf_mbox.h
 
-diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.c b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.c
-index 39322e4dd100..46f6fc81ca8f 100644
---- a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.c
-+++ b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.c
-@@ -24,41 +24,49 @@
- /* Time in msecs to wait for message response */
- #define OCTEP_CTRL_MBOX_MSG_WAIT_MS			10
+diff --git a/drivers/net/ethernet/marvell/octeon_ep/Makefile b/drivers/net/ethernet/marvell/octeon_ep/Makefile
+index 2026c8118158..6cfa7198fdbd 100644
+--- a/drivers/net/ethernet/marvell/octeon_ep/Makefile
++++ b/drivers/net/ethernet/marvell/octeon_ep/Makefile
+@@ -6,4 +6,5 @@
+ obj-$(CONFIG_OCTEON_EP) += octeon_ep.o
  
--#define OCTEP_CTRL_MBOX_INFO_MAGIC_NUM_OFFSET(m)	(m)
--#define OCTEP_CTRL_MBOX_INFO_BARMEM_SZ_OFFSET(m)	((m) + 8)
--#define OCTEP_CTRL_MBOX_INFO_HOST_STATUS_OFFSET(m)	((m) + 24)
--#define OCTEP_CTRL_MBOX_INFO_FW_STATUS_OFFSET(m)	((m) + 144)
--
--#define OCTEP_CTRL_MBOX_H2FQ_INFO_OFFSET(m)		((m) + OCTEP_CTRL_MBOX_INFO_SZ)
--#define OCTEP_CTRL_MBOX_H2FQ_PROD_OFFSET(m)		(OCTEP_CTRL_MBOX_H2FQ_INFO_OFFSET(m))
--#define OCTEP_CTRL_MBOX_H2FQ_CONS_OFFSET(m)		((OCTEP_CTRL_MBOX_H2FQ_INFO_OFFSET(m)) + 4)
--#define OCTEP_CTRL_MBOX_H2FQ_ELEM_SZ_OFFSET(m)		((OCTEP_CTRL_MBOX_H2FQ_INFO_OFFSET(m)) + 8)
--#define OCTEP_CTRL_MBOX_H2FQ_ELEM_CNT_OFFSET(m)		((OCTEP_CTRL_MBOX_H2FQ_INFO_OFFSET(m)) + 12)
--
--#define OCTEP_CTRL_MBOX_F2HQ_INFO_OFFSET(m)		((m) + \
--							 OCTEP_CTRL_MBOX_INFO_SZ + \
--							 OCTEP_CTRL_MBOX_H2FQ_INFO_SZ)
--#define OCTEP_CTRL_MBOX_F2HQ_PROD_OFFSET(m)		(OCTEP_CTRL_MBOX_F2HQ_INFO_OFFSET(m))
--#define OCTEP_CTRL_MBOX_F2HQ_CONS_OFFSET(m)		((OCTEP_CTRL_MBOX_F2HQ_INFO_OFFSET(m)) + 4)
--#define OCTEP_CTRL_MBOX_F2HQ_ELEM_SZ_OFFSET(m)		((OCTEP_CTRL_MBOX_F2HQ_INFO_OFFSET(m)) + 8)
--#define OCTEP_CTRL_MBOX_F2HQ_ELEM_CNT_OFFSET(m)		((OCTEP_CTRL_MBOX_F2HQ_INFO_OFFSET(m)) + 12)
--
--#define OCTEP_CTRL_MBOX_Q_OFFSET(m, i)			((m) + \
--							 (sizeof(struct octep_ctrl_mbox_msg) * (i)))
--
--static u32 octep_ctrl_mbox_circq_inc(u32 index, u32 mask)
-+/* Size of mbox info in bytes */
-+#define OCTEP_CTRL_MBOX_INFO_SZ				256
-+/* Size of mbox host to fw queue info in bytes */
-+#define OCTEP_CTRL_MBOX_H2FQ_INFO_SZ			16
-+/* Size of mbox fw to host queue info in bytes */
-+#define OCTEP_CTRL_MBOX_F2HQ_INFO_SZ			16
-+
-+#define OCTEP_CTRL_MBOX_TOTAL_INFO_SZ	(OCTEP_CTRL_MBOX_INFO_SZ + \
-+					 OCTEP_CTRL_MBOX_H2FQ_INFO_SZ + \
-+					 OCTEP_CTRL_MBOX_F2HQ_INFO_SZ)
-+
-+#define OCTEP_CTRL_MBOX_INFO_MAGIC_NUM(m)	(m)
-+#define OCTEP_CTRL_MBOX_INFO_BARMEM_SZ(m)	((m) + 8)
-+#define OCTEP_CTRL_MBOX_INFO_HOST_STATUS(m)	((m) + 24)
-+#define OCTEP_CTRL_MBOX_INFO_FW_STATUS(m)	((m) + 144)
-+
-+#define OCTEP_CTRL_MBOX_H2FQ_INFO(m)	((m) + OCTEP_CTRL_MBOX_INFO_SZ)
-+#define OCTEP_CTRL_MBOX_H2FQ_PROD(m)	(OCTEP_CTRL_MBOX_H2FQ_INFO(m))
-+#define OCTEP_CTRL_MBOX_H2FQ_CONS(m)	((OCTEP_CTRL_MBOX_H2FQ_INFO(m)) + 4)
-+#define OCTEP_CTRL_MBOX_H2FQ_SZ(m)	((OCTEP_CTRL_MBOX_H2FQ_INFO(m)) + 8)
-+
-+#define OCTEP_CTRL_MBOX_F2HQ_INFO(m)	((m) + \
-+					 OCTEP_CTRL_MBOX_INFO_SZ + \
-+					 OCTEP_CTRL_MBOX_H2FQ_INFO_SZ)
-+#define OCTEP_CTRL_MBOX_F2HQ_PROD(m)	(OCTEP_CTRL_MBOX_F2HQ_INFO(m))
-+#define OCTEP_CTRL_MBOX_F2HQ_CONS(m)	((OCTEP_CTRL_MBOX_F2HQ_INFO(m)) + 4)
-+#define OCTEP_CTRL_MBOX_F2HQ_SZ(m)	((OCTEP_CTRL_MBOX_F2HQ_INFO(m)) + 8)
-+
-+static const u32 mbox_hdr_sz = sizeof(union octep_ctrl_mbox_msg_hdr);
-+
-+static inline u32 octep_ctrl_mbox_circq_inc(u32 index, u32 inc, u32 sz)
+ octeon_ep-y := octep_main.o octep_cn9k_pf.o octep_tx.o octep_rx.o \
+-	       octep_ethtool.o octep_ctrl_mbox.o octep_ctrl_net.o
++	       octep_ethtool.o octep_ctrl_mbox.o octep_ctrl_net.o \
++	       octep_pfvf_mbox.o
+diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c b/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
+index e307bae62673..4840133477dc 100644
+--- a/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
++++ b/drivers/net/ethernet/marvell/octeon_ep/octep_cn9k_pf.c
+@@ -354,26 +354,50 @@ static void octep_setup_mbox_regs_cn93_pf(struct octep_device *oct, int q_no)
  {
--	return (index + 1) & mask;
-+	return (index + inc) % sz;
- }
+ 	struct octep_mbox *mbox = oct->mbox[q_no];
  
--static u32 octep_ctrl_mbox_circq_space(u32 pi, u32 ci, u32 mask)
-+static inline u32 octep_ctrl_mbox_circq_space(u32 pi, u32 ci, u32 sz)
- {
--	return mask - ((pi - ci) & mask);
-+	return sz - (abs(pi - ci) % sz);
- }
- 
--static u32 octep_ctrl_mbox_circq_depth(u32 pi, u32 ci, u32 mask)
-+static inline u32 octep_ctrl_mbox_circq_depth(u32 pi, u32 ci, u32 sz)
- {
--	return ((pi - ci) & mask);
-+	return (abs(pi - ci) % sz);
- }
- 
- int octep_ctrl_mbox_init(struct octep_ctrl_mbox *mbox)
-@@ -73,172 +81,228 @@ int octep_ctrl_mbox_init(struct octep_ctrl_mbox *mbox)
- 		return -EINVAL;
- 	}
- 
--	magic_num = readq(OCTEP_CTRL_MBOX_INFO_MAGIC_NUM_OFFSET(mbox->barmem));
-+	magic_num = readq(OCTEP_CTRL_MBOX_INFO_MAGIC_NUM(mbox->barmem));
- 	if (magic_num != OCTEP_CTRL_MBOX_MAGIC_NUMBER) {
--		pr_info("octep_ctrl_mbox : Invalid magic number %llx\n", magic_num);
-+		pr_info("octep_ctrl_mbox : Invalid magic number %llx\n",
-+			magic_num);
- 		return -EINVAL;
- 	}
- 
--	status = readq(OCTEP_CTRL_MBOX_INFO_FW_STATUS_OFFSET(mbox->barmem));
-+	status = readq(OCTEP_CTRL_MBOX_INFO_FW_STATUS(mbox->barmem));
- 	if (status != OCTEP_CTRL_MBOX_STATUS_READY) {
- 		pr_info("octep_ctrl_mbox : Firmware is not ready.\n");
- 		return -EINVAL;
- 	}
- 
--	mbox->barmem_sz = readl(OCTEP_CTRL_MBOX_INFO_BARMEM_SZ_OFFSET(mbox->barmem));
-+	mbox->barmem_sz = readl(OCTEP_CTRL_MBOX_INFO_BARMEM_SZ(mbox->barmem));
- 
--	writeq(OCTEP_CTRL_MBOX_STATUS_INIT, OCTEP_CTRL_MBOX_INFO_HOST_STATUS_OFFSET(mbox->barmem));
-+	writeq(OCTEP_CTRL_MBOX_STATUS_INIT,
-+	       OCTEP_CTRL_MBOX_INFO_HOST_STATUS(mbox->barmem));
- 
--	mbox->h2fq.elem_cnt = readl(OCTEP_CTRL_MBOX_H2FQ_ELEM_CNT_OFFSET(mbox->barmem));
--	mbox->h2fq.elem_sz = readl(OCTEP_CTRL_MBOX_H2FQ_ELEM_SZ_OFFSET(mbox->barmem));
--	mbox->h2fq.mask = (mbox->h2fq.elem_cnt - 1);
--	mutex_init(&mbox->h2fq_lock);
-+	mbox->h2fq.sz = readl(OCTEP_CTRL_MBOX_H2FQ_SZ(mbox->barmem));
-+	mbox->h2fq.hw_prod = OCTEP_CTRL_MBOX_H2FQ_PROD(mbox->barmem);
-+	mbox->h2fq.hw_cons = OCTEP_CTRL_MBOX_H2FQ_CONS(mbox->barmem);
-+	mbox->h2fq.hw_q = mbox->barmem + OCTEP_CTRL_MBOX_TOTAL_INFO_SZ;
- 
--	mbox->f2hq.elem_cnt = readl(OCTEP_CTRL_MBOX_F2HQ_ELEM_CNT_OFFSET(mbox->barmem));
--	mbox->f2hq.elem_sz = readl(OCTEP_CTRL_MBOX_F2HQ_ELEM_SZ_OFFSET(mbox->barmem));
--	mbox->f2hq.mask = (mbox->f2hq.elem_cnt - 1);
--	mutex_init(&mbox->f2hq_lock);
+-	mbox->q_no = q_no;
 -
--	mbox->h2fq.hw_prod = OCTEP_CTRL_MBOX_H2FQ_PROD_OFFSET(mbox->barmem);
--	mbox->h2fq.hw_cons = OCTEP_CTRL_MBOX_H2FQ_CONS_OFFSET(mbox->barmem);
--	mbox->h2fq.hw_q = mbox->barmem +
--			  OCTEP_CTRL_MBOX_INFO_SZ +
--			  OCTEP_CTRL_MBOX_H2FQ_INFO_SZ +
--			  OCTEP_CTRL_MBOX_F2HQ_INFO_SZ;
+-	/* PF mbox interrupt reg */
+-	mbox->mbox_int_reg = oct->mmio[0].hw_addr + CN93_SDP_EPF_MBOX_RINT(0);
 -
--	mbox->f2hq.hw_prod = OCTEP_CTRL_MBOX_F2HQ_PROD_OFFSET(mbox->barmem);
--	mbox->f2hq.hw_cons = OCTEP_CTRL_MBOX_F2HQ_CONS_OFFSET(mbox->barmem);
--	mbox->f2hq.hw_q = mbox->h2fq.hw_q +
--			  ((mbox->h2fq.elem_sz + sizeof(union octep_ctrl_mbox_msg_hdr)) *
--			   mbox->h2fq.elem_cnt);
-+	mbox->f2hq.sz = readl(OCTEP_CTRL_MBOX_F2HQ_SZ(mbox->barmem));
-+	mbox->f2hq.hw_prod = OCTEP_CTRL_MBOX_F2HQ_PROD(mbox->barmem);
-+	mbox->f2hq.hw_cons = OCTEP_CTRL_MBOX_F2HQ_CONS(mbox->barmem);
-+	mbox->f2hq.hw_q = mbox->barmem +
-+			  OCTEP_CTRL_MBOX_TOTAL_INFO_SZ +
-+			  mbox->h2fq.sz;
+ 	/* PF to VF DATA reg. PF writes into this reg */
+-	mbox->mbox_write_reg = oct->mmio[0].hw_addr + CN93_SDP_R_MBOX_PF_VF_DATA(q_no);
++	mbox->pf_vf_data_reg = oct->mmio[0].hw_addr + CN93_SDP_MBOX_PF_VF_DATA(q_no);
  
- 	/* ensure ready state is seen after everything is initialized */
- 	wmb();
--	writeq(OCTEP_CTRL_MBOX_STATUS_READY, OCTEP_CTRL_MBOX_INFO_HOST_STATUS_OFFSET(mbox->barmem));
-+	writeq(OCTEP_CTRL_MBOX_STATUS_READY,
-+	       OCTEP_CTRL_MBOX_INFO_HOST_STATUS(mbox->barmem));
- 
- 	pr_info("Octep ctrl mbox : Init successful.\n");
- 
- 	return 0;
+ 	/* VF to PF DATA reg. PF reads from this reg */
+-	mbox->mbox_read_reg = oct->mmio[0].hw_addr + CN93_SDP_R_MBOX_VF_PF_DATA(q_no);
++	mbox->vf_pf_data_reg = oct->mmio[0].hw_addr + CN93_SDP_MBOX_VF_PF_DATA(q_no);
  }
  
--int octep_ctrl_mbox_send(struct octep_ctrl_mbox *mbox, struct octep_ctrl_mbox_msg *msg)
-+static int write_mbox_data(struct octep_ctrl_mbox_q *q, u32 *pi,
-+			   u32 ci, void *buf, u32 w_sz)
-+{
-+	u32 cp_sz;
-+	u8 __iomem *qbuf;
+ /* Process non-ioq interrupts required to keep pf interface running.
+  * OEI_RINT is needed for control mailbox
++ * MBOX_RINT is needed for pfvf mailbox
+  */
+ static int octep_poll_non_ioq_interrupts_cn93_pf(struct octep_device *oct)
+ {
+-	u64 reg0;
++	u32 vf, active_vfs, active_rings_per_vf, vf_mbox_queue;
++	u64 reg0, reg1;
+ 	int handled = 0;
+ 
++	reg0 = octep_read_csr64(oct, CN93_SDP_EPF_MBOX_RINT(0));
++	reg1 = octep_read_csr64(oct, CN93_SDP_EPF_MBOX_RINT(1));
++	if (reg0 || reg1) {
++		dev_info(&oct->pdev->dev,
++			 "Received MBOX_RINT intr: reg0 0x%llx reg1 0x%llx\n",
++			 reg0, reg1);
 +
-+	/* Assumption: Caller has ensured enough write space */
-+	qbuf = (q->hw_q + *pi);
-+	if (*pi < ci) {
-+		/* copy entire w_sz */
-+		memcpy_toio(qbuf, buf, w_sz);
-+		*pi = octep_ctrl_mbox_circq_inc(*pi, w_sz, q->sz);
-+	} else {
-+		/* copy up to end of queue */
-+		cp_sz = min((q->sz - *pi), w_sz);
-+		memcpy_toio(qbuf, buf, cp_sz);
-+		w_sz -= cp_sz;
-+		*pi = octep_ctrl_mbox_circq_inc(*pi, cp_sz, q->sz);
-+		if (w_sz) {
-+			/* roll over and copy remaining w_sz */
-+			buf += cp_sz;
-+			qbuf = (q->hw_q + *pi);
-+			memcpy_toio(qbuf, buf, w_sz);
-+			*pi = octep_ctrl_mbox_circq_inc(*pi, w_sz, q->sz);
++		active_vfs = CFG_GET_ACTIVE_VFS(oct->conf);
++		active_rings_per_vf = CFG_GET_ACTIVE_RPVF(oct->conf);
++		for (vf = 0; vf < active_vfs; vf++) {
++			vf_mbox_queue = vf * active_rings_per_vf;
++			if (!(reg0 & (0x1UL << vf_mbox_queue)))
++				continue;
++
++			if (!oct->mbox[vf_mbox_queue]) {
++				dev_err(&oct->pdev->dev, "bad mbox vf %d\n", vf);
++				continue;
++			}
++			schedule_work(&oct->mbox[vf_mbox_queue]->wk.work);
 +		}
++		if (reg0)
++			octep_write_csr64(oct, CN93_SDP_EPF_MBOX_RINT(0), reg0);
++		if (reg1)
++			octep_write_csr64(oct, CN93_SDP_EPF_MBOX_RINT(1), reg1);
++
++		handled = 1;
 +	}
-+
-+	return 0;
-+}
-+
-+int octep_ctrl_mbox_send(struct octep_ctrl_mbox *mbox,
-+			 struct octep_ctrl_mbox_msg *msgs,
-+			 int num)
- {
--	unsigned long timeout = msecs_to_jiffies(OCTEP_CTRL_MBOX_MSG_TIMEOUT_MS);
--	unsigned long period = msecs_to_jiffies(OCTEP_CTRL_MBOX_MSG_WAIT_MS);
-+	struct octep_ctrl_mbox_msg_buf *sg;
-+	struct octep_ctrl_mbox_msg *msg;
- 	struct octep_ctrl_mbox_q *q;
--	unsigned long expire;
--	u64 *mbuf, *word0;
--	u8 __iomem *qidx;
--	u16 pi, ci;
--	int i;
-+	u32 pi, ci, prev_pi, buf_sz, w_sz;
-+	int m, s;
- 
--	if (!mbox || !msg)
-+	if (!mbox || !msgs)
- 		return -EINVAL;
- 
-+	if (readq(OCTEP_CTRL_MBOX_INFO_FW_STATUS(mbox->barmem)) !=
-+	    OCTEP_CTRL_MBOX_STATUS_READY)
-+		return -EIO;
-+
-+	mutex_lock(&mbox->h2fq_lock);
- 	q = &mbox->h2fq;
- 	pi = readl(q->hw_prod);
- 	ci = readl(q->hw_cons);
-+	for (m = 0; m < num; m++) {
-+		msg = &msgs[m];
-+		if (!msg)
-+			break;
- 
--	if (!octep_ctrl_mbox_circq_space(pi, ci, q->mask))
--		return -ENOMEM;
--
--	qidx = OCTEP_CTRL_MBOX_Q_OFFSET(q->hw_q, pi);
--	mbuf = (u64 *)msg->msg;
--	word0 = &msg->hdr.word0;
--
--	mutex_lock(&mbox->h2fq_lock);
--	for (i = 1; i <= msg->hdr.sizew; i++)
--		writeq(*mbuf++, (qidx + (i * 8)));
--
--	writeq(*word0, qidx);
-+		/* not enough space for next message */
-+		if (octep_ctrl_mbox_circq_space(pi, ci, q->sz) <
-+		    (msg->hdr.s.sz + mbox_hdr_sz))
-+			break;
- 
--	pi = octep_ctrl_mbox_circq_inc(pi, q->mask);
-+		prev_pi = pi;
-+		write_mbox_data(q, &pi, ci, (void *)&msg->hdr, mbox_hdr_sz);
-+		buf_sz = msg->hdr.s.sz;
-+		for (s = 0; ((s < msg->sg_num) && (buf_sz > 0)); s++) {
-+			sg = &msg->sg_list[s];
-+			w_sz = (sg->sz <= buf_sz) ? sg->sz : buf_sz;
-+			write_mbox_data(q, &pi, ci, sg->msg, w_sz);
-+			buf_sz -= w_sz;
-+		}
-+		if (buf_sz) {
-+			/* we did not write entire message */
-+			pi = prev_pi;
-+			break;
-+		}
-+	}
- 	writel(pi, q->hw_prod);
- 	mutex_unlock(&mbox->h2fq_lock);
- 
--	/* don't check for notification response */
--	if (msg->hdr.flags & OCTEP_CTRL_MBOX_MSG_HDR_FLAG_NOTIFY)
--		return 0;
-+	return (m) ? m : -EAGAIN;
-+}
- 
--	expire = jiffies + timeout;
--	while (true) {
--		*word0 = readq(qidx);
--		if (msg->hdr.flags == OCTEP_CTRL_MBOX_MSG_HDR_FLAG_RESP)
--			break;
--		schedule_timeout_interruptible(period);
--		if (signal_pending(current) || time_after(jiffies, expire)) {
--			pr_info("octep_ctrl_mbox: Timed out\n");
--			return -EBUSY;
-+static int read_mbox_data(struct octep_ctrl_mbox_q *q, u32 pi,
-+			  u32 *ci, void *buf, u32 r_sz)
-+{
-+	u32 cp_sz;
-+	u8 __iomem *qbuf;
-+
-+	/* Assumption: Caller has ensured enough read space */
-+	qbuf = (q->hw_q + *ci);
-+	if (*ci < pi) {
-+		/* copy entire r_sz */
-+		memcpy_fromio(buf, qbuf, r_sz);
-+		*ci = octep_ctrl_mbox_circq_inc(*ci, r_sz, q->sz);
-+	} else {
-+		/* copy up to end of queue */
-+		cp_sz = min((q->sz - *ci), r_sz);
-+		memcpy_fromio(buf, qbuf, cp_sz);
-+		r_sz -= cp_sz;
-+		*ci = octep_ctrl_mbox_circq_inc(*ci, cp_sz, q->sz);
-+		if (r_sz) {
-+			/* roll over and copy remaining r_sz */
-+			buf += cp_sz;
-+			qbuf = (q->hw_q + *ci);
-+			memcpy_fromio(buf, qbuf, r_sz);
-+			*ci = octep_ctrl_mbox_circq_inc(*ci, r_sz, q->sz);
- 		}
- 	}
--	mbuf = (u64 *)msg->msg;
--	for (i = 1; i <= msg->hdr.sizew; i++)
--		*mbuf++ = readq(qidx + (i * 8));
- 
- 	return 0;
+ 	/* Check for OEI INTR */
+ 	reg0 = octep_read_csr64(oct, CN93_SDP_EPF_OEI_RINT);
+ 	if (reg0) {
+@@ -562,6 +586,8 @@ static void octep_enable_interrupts_cn93_pf(struct octep_device *oct)
+ 	octep_write_csr64(oct, CN93_SDP_EPF_OEI_RINT_ENA_W1S, -1ULL);
+ 	octep_write_csr64(oct, CN93_SDP_EPF_MISC_RINT_ENA_W1S, intr_mask);
+ 	octep_write_csr64(oct, CN93_SDP_EPF_DMA_RINT_ENA_W1S, intr_mask);
++	octep_write_csr64(oct, CN93_SDP_EPF_MBOX_RINT_ENA_W1S(0), -1ULL);
++	octep_write_csr64(oct, CN93_SDP_EPF_MBOX_RINT_ENA_W1S(1), -1ULL);
  }
  
--int octep_ctrl_mbox_recv(struct octep_ctrl_mbox *mbox, struct octep_ctrl_mbox_msg *msg)
-+int octep_ctrl_mbox_recv(struct octep_ctrl_mbox *mbox,
-+			 struct octep_ctrl_mbox_msg *msgs,
-+			 int num)
- {
-+	struct octep_ctrl_mbox_msg_buf *sg;
-+	struct octep_ctrl_mbox_msg *msg;
- 	struct octep_ctrl_mbox_q *q;
--	u32 count, pi, ci;
--	u8 __iomem *qidx;
--	u64 *mbuf;
--	int i;
-+	u32 pi, ci, q_depth, r_sz, buf_sz, prev_ci;
-+	int s, m;
- 
--	if (!mbox || !msg)
-+	if (!mbox || !msgs)
- 		return -EINVAL;
- 
-+	if (readq(OCTEP_CTRL_MBOX_INFO_FW_STATUS(mbox->barmem)) !=
-+	    OCTEP_CTRL_MBOX_STATUS_READY)
-+		return -EIO;
-+
-+	mutex_lock(&mbox->f2hq_lock);
- 	q = &mbox->f2hq;
- 	pi = readl(q->hw_prod);
- 	ci = readl(q->hw_cons);
--	count = octep_ctrl_mbox_circq_depth(pi, ci, q->mask);
--	if (!count)
--		return -EAGAIN;
--
--	qidx = OCTEP_CTRL_MBOX_Q_OFFSET(q->hw_q, ci);
--	mbuf = (u64 *)msg->msg;
--
--	mutex_lock(&mbox->f2hq_lock);
-+	for (m = 0; m < num; m++) {
-+		q_depth = octep_ctrl_mbox_circq_depth(pi, ci, q->sz);
-+		if (q_depth < mbox_hdr_sz)
-+			break;
- 
--	msg->hdr.word0 = readq(qidx);
--	for (i = 1; i <= msg->hdr.sizew; i++)
--		*mbuf++ = readq(qidx + (i * 8));
-+		msg = &msgs[m];
-+		if (!msg)
-+			break;
- 
--	ci = octep_ctrl_mbox_circq_inc(ci, q->mask);
-+		prev_ci = ci;
-+		read_mbox_data(q, pi, &ci, (void *)&msg->hdr, mbox_hdr_sz);
-+		buf_sz = msg->hdr.s.sz;
-+		if (q_depth < (mbox_hdr_sz + buf_sz)) {
-+			ci = prev_ci;
-+			break;
-+		}
-+		for (s = 0; ((s < msg->sg_num) && (buf_sz > 0)); s++) {
-+			sg = &msg->sg_list[s];
-+			r_sz = (sg->sz <= buf_sz) ? sg->sz : buf_sz;
-+			read_mbox_data(q, pi, &ci, sg->msg, r_sz);
-+			buf_sz -= r_sz;
-+		}
-+		if (buf_sz) {
-+			/* we did not read entire message */
-+			ci = prev_ci;
-+			break;
-+		}
-+	}
- 	writel(ci, q->hw_cons);
--
- 	mutex_unlock(&mbox->f2hq_lock);
- 
--	if (msg->hdr.flags != OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ || !mbox->process_req)
--		return 0;
--
--	mbox->process_req(mbox->user_ctx, msg);
--	mbuf = (u64 *)msg->msg;
--	for (i = 1; i <= msg->hdr.sizew; i++)
--		writeq(*mbuf++, (qidx + (i * 8)));
--
--	writeq(msg->hdr.word0, qidx);
--
--	return 0;
-+	return (m) ? m : -EAGAIN;
- }
- 
- int octep_ctrl_mbox_uninit(struct octep_ctrl_mbox *mbox)
- {
- 	if (!mbox)
- 		return -EINVAL;
-+	if (!mbox->barmem)
-+		return -EINVAL;
- 
--	writeq(OCTEP_CTRL_MBOX_STATUS_UNINIT,
--	       OCTEP_CTRL_MBOX_INFO_HOST_STATUS_OFFSET(mbox->barmem));
-+	writeq(OCTEP_CTRL_MBOX_STATUS_INVALID,
-+	       OCTEP_CTRL_MBOX_INFO_HOST_STATUS(mbox->barmem));
- 	/* ensure uninit state is written before uninitialization */
- 	wmb();
- 
- 	mutex_destroy(&mbox->h2fq_lock);
- 	mutex_destroy(&mbox->f2hq_lock);
- 
--	writeq(OCTEP_CTRL_MBOX_STATUS_INVALID,
--	       OCTEP_CTRL_MBOX_INFO_HOST_STATUS_OFFSET(mbox->barmem));
--
- 	pr_info("Octep ctrl mbox : Uninit successful.\n");
- 
- 	return 0;
-diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.h b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.h
-index 2dc5753cfec6..6ee0345d4436 100644
---- a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.h
-+++ b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_mbox.h
-@@ -27,50 +27,39 @@
-  * |-------------------------------------------|
-  * |producer index (4 bytes)                   |
-  * |consumer index (4 bytes)                   |
-- * |element size (4 bytes)                     |
-- * |element count (4 bytes)                    |
-+ * |max element size (4 bytes)                 |
-+ * |reserved (4 bytes)                         |
-  * |===========================================|
-  * |Fw to Host Queue info (16 bytes)           |
-  * |-------------------------------------------|
-  * |producer index (4 bytes)                   |
-  * |consumer index (4 bytes)                   |
-- * |element size (4 bytes)                     |
-- * |element count (4 bytes)                    |
-+ * |max element size (4 bytes)                 |
-+ * |reserved (4 bytes)                         |
-  * |===========================================|
-- * |Host to Fw Queue                           |
-+ * |Host to Fw Queue ((total size-288/2) bytes)|
-  * |-------------------------------------------|
-- * |((elem_sz + hdr(8 bytes)) * elem_cnt) bytes|
-+ * |                                           |
-  * |===========================================|
-  * |===========================================|
-- * |Fw to Host Queue                           |
-+ * |Fw to Host Queue ((total size-288/2) bytes)|
-  * |-------------------------------------------|
-- * |((elem_sz + hdr(8 bytes)) * elem_cnt) bytes|
-+ * |                                           |
-  * |===========================================|
-  */
- 
- #define OCTEP_CTRL_MBOX_MAGIC_NUMBER			0xdeaddeadbeefbeefull
- 
--/* Size of mbox info in bytes */
--#define OCTEP_CTRL_MBOX_INFO_SZ				256
--/* Size of mbox host to target queue info in bytes */
--#define OCTEP_CTRL_MBOX_H2FQ_INFO_SZ			16
--/* Size of mbox target to host queue info in bytes */
--#define OCTEP_CTRL_MBOX_F2HQ_INFO_SZ			16
--/* Size of mbox queue in bytes */
--#define OCTEP_CTRL_MBOX_Q_SZ(sz, cnt)			(((sz) + 8) * (cnt))
--/* Size of mbox in bytes */
--#define OCTEP_CTRL_MBOX_SZ(hsz, hcnt, fsz, fcnt)	(OCTEP_CTRL_MBOX_INFO_SZ + \
--							 OCTEP_CTRL_MBOX_H2FQ_INFO_SZ + \
--							 OCTEP_CTRL_MBOX_F2HQ_INFO_SZ + \
--							 OCTEP_CTRL_MBOX_Q_SZ(hsz, hcnt) + \
--							 OCTEP_CTRL_MBOX_Q_SZ(fsz, fcnt))
--
- /* Valid request message */
- #define OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ		BIT(0)
- /* Valid response message */
- #define OCTEP_CTRL_MBOX_MSG_HDR_FLAG_RESP		BIT(1)
- /* Valid notification, no response required */
- #define OCTEP_CTRL_MBOX_MSG_HDR_FLAG_NOTIFY		BIT(2)
-+/* Valid custom message */
-+#define OCTEP_CTRL_MBOX_MSG_HDR_FLAG_CUSTOM		BIT(3)
-+
-+#define OCTEP_CTRL_MBOX_MSG_DESC_MAX			4
- 
- enum octep_ctrl_mbox_status {
- 	OCTEP_CTRL_MBOX_STATUS_INVALID = 0,
-@@ -81,31 +70,48 @@ enum octep_ctrl_mbox_status {
- 
- /* mbox message */
- union octep_ctrl_mbox_msg_hdr {
--	u64 word0;
-+	u64 words[2];
- 	struct {
-+		/* must be 0 */
-+		u16 reserved1:15;
-+		/* vf_idx is valid if 1 */
-+		u16 is_vf:1;
-+		/* sender vf index 0-(n-1), 0 if (is_vf==0) */
-+		u16 vf_idx;
-+		/* total size of message excluding header */
-+		u32 sz;
- 		/* OCTEP_CTRL_MBOX_MSG_HDR_FLAG_* */
- 		u32 flags;
--		/* size of message in words excluding header */
--		u32 sizew;
--	};
-+		/* identifier to match responses */
-+		u16 msg_id;
-+		u16 reserved2;
-+	} s;
-+};
-+
-+/* mbox message buffer */
-+struct octep_ctrl_mbox_msg_buf {
-+	u32 reserved1;
-+	u16 reserved2;
-+	/* size of buffer */
-+	u16 sz;
-+	/* pointer to message buffer */
-+	void *msg;
- };
- 
- /* mbox message */
- struct octep_ctrl_mbox_msg {
- 	/* mbox transaction header */
- 	union octep_ctrl_mbox_msg_hdr hdr;
--	/* pointer to message buffer */
--	void *msg;
-+	/* number of sg buffer's */
-+	int sg_num;
-+	/* message buffer's */
-+	struct octep_ctrl_mbox_msg_buf sg_list[OCTEP_CTRL_MBOX_MSG_DESC_MAX];
- };
- 
- /* Mbox queue */
- struct octep_ctrl_mbox_q {
--	/* q element size, should be aligned to unsigned long */
--	u16 elem_sz;
--	/* q element count, should be power of 2 */
--	u16 elem_cnt;
--	/* q mask */
--	u16 mask;
-+	/* size of queue buffer */
-+	u32 sz;
- 	/* producer address in bar mem */
- 	u8 __iomem *hw_prod;
- 	/* consumer address in bar mem */
-@@ -115,16 +121,10 @@ struct octep_ctrl_mbox_q {
- };
- 
- struct octep_ctrl_mbox {
--	/* host driver version */
--	u64 version;
- 	/* size of bar memory */
- 	u32 barmem_sz;
- 	/* pointer to BAR memory */
- 	u8 __iomem *barmem;
--	/* user context for callback, can be null */
--	void *user_ctx;
--	/* callback handler for processing request, called from octep_ctrl_mbox_recv */
--	int (*process_req)(void *user_ctx, struct octep_ctrl_mbox_msg *msg);
- 	/* host-to-fw queue */
- 	struct octep_ctrl_mbox_q h2fq;
- 	/* fw-to-host queue */
-@@ -146,22 +146,32 @@ int octep_ctrl_mbox_init(struct octep_ctrl_mbox *mbox);
- /* Send mbox message.
-  *
-  * @param mbox: non-null pointer to struct octep_ctrl_mbox.
-+ * @param msgs: Array of non-null pointers to struct octep_ctrl_mbox_msg.
-+ *             Caller should fill msg.sz and msg.desc.sz for each message.
-+ * @param num: Size of msg array.
-  *
-- * return value: 0 on success, -errno on failure.
-+ * return value: number of messages sent on success, -errno on failure.
-  */
--int octep_ctrl_mbox_send(struct octep_ctrl_mbox *mbox, struct octep_ctrl_mbox_msg *msg);
-+int octep_ctrl_mbox_send(struct octep_ctrl_mbox *mbox,
-+			 struct octep_ctrl_mbox_msg *msgs,
-+			 int num);
- 
- /* Retrieve mbox message.
-  *
-  * @param mbox: non-null pointer to struct octep_ctrl_mbox.
-+ * @param msgs: Array of non-null pointers to struct octep_ctrl_mbox_msg.
-+ *             Caller should fill msg.sz and msg.desc.sz for each message.
-+ * @param num: Size of msg array.
-  *
-- * return value: 0 on success, -errno on failure.
-+ * return value: number of messages received on success, -errno on failure.
-  */
--int octep_ctrl_mbox_recv(struct octep_ctrl_mbox *mbox, struct octep_ctrl_mbox_msg *msg);
-+int octep_ctrl_mbox_recv(struct octep_ctrl_mbox *mbox,
-+			 struct octep_ctrl_mbox_msg *msgs,
-+			 int num);
- 
- /* Uninitialize control mbox.
-  *
-- * @param ep: non-null pointer to struct octep_ctrl_mbox.
-+ * @param mbox: non-null pointer to struct octep_ctrl_mbox.
-  *
-  * return value: 0 on success, -errno on failure.
-  */
-diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
-index 7c00c896ab98..715af1891d0d 100644
---- a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
-+++ b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.c
-@@ -8,134 +8,199 @@
- #include <linux/types.h>
- #include <linux/etherdevice.h>
- #include <linux/pci.h>
-+#include <linux/wait.h>
- 
+ /* Disable all interrupts */
+diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
+index fa0f3d597eb1..a21b04a1b1b8 100644
+--- a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
++++ b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
+@@ -17,6 +17,7 @@
  #include "octep_config.h"
  #include "octep_main.h"
  #include "octep_ctrl_net.h"
- 
--int octep_get_link_status(struct octep_device *oct)
-+static const u32 req_hdr_sz = sizeof(union octep_ctrl_net_req_hdr);
-+static const u32 mtu_sz = sizeof(struct octep_ctrl_net_h2f_req_cmd_mtu);
-+static const u32 mac_sz = sizeof(struct octep_ctrl_net_h2f_req_cmd_mac);
-+static const u32 state_sz = sizeof(struct octep_ctrl_net_h2f_req_cmd_state);
-+static const u32 link_info_sz = sizeof(struct octep_ctrl_net_link_info);
-+static const u32 get_stats_sz = sizeof(struct octep_ctrl_net_h2f_req_cmd_get_stats);
-+static atomic_t ctrl_net_msg_id;
-+
-+static void init_send_req(struct octep_ctrl_mbox_msg *msg, void *buf,
-+			  u16 sz, int vfid)
- {
--	struct octep_ctrl_net_h2f_req req = {};
--	struct octep_ctrl_net_h2f_resp *resp;
--	struct octep_ctrl_mbox_msg msg = {};
--	int err;
-+	msg->hdr.s.flags = OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
-+	msg->hdr.s.msg_id = atomic_inc_return(&ctrl_net_msg_id) &
-+			    GENMASK(sizeof(msg->hdr.s.msg_id) * BITS_PER_BYTE, 0);
-+	msg->hdr.s.sz = req_hdr_sz + sz;
-+	msg->sg_num = 1;
-+	msg->sg_list[0].msg = buf;
-+	msg->sg_list[0].sz = msg->hdr.s.sz;
-+	if (vfid != OCTEP_CTRL_NET_INVALID_VFID) {
-+		msg->hdr.s.is_vf = 1;
-+		msg->hdr.s.vf_idx = vfid;
-+	}
-+}
- 
--	req.hdr.cmd = OCTEP_CTRL_NET_H2F_CMD_LINK_STATUS;
--	req.link.cmd = OCTEP_CTRL_NET_CMD_GET;
-+static int send_mbox_req(struct octep_device *oct,
-+			 struct octep_ctrl_net_wait_data *d,
-+			 bool wait_for_response)
-+{
-+	int err, ret;
- 
--	msg.hdr.flags = OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
--	msg.hdr.sizew = OCTEP_CTRL_NET_H2F_STATE_REQ_SZW;
--	msg.msg = &req;
--	err = octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
--	if (err)
-+	err = octep_ctrl_mbox_send(&oct->ctrl_mbox, &d->msg, 1);
-+	if (err < 0)
- 		return err;
- 
--	resp = (struct octep_ctrl_net_h2f_resp *)&req;
--	return resp->link.state;
-+	if (!wait_for_response)
-+		return 0;
-+
-+	d->done = 0;
-+	INIT_LIST_HEAD(&d->list);
-+	list_add_tail(&d->list, &oct->ctrl_req_wait_list);
-+	ret = wait_event_interruptible_timeout(oct->ctrl_req_wait_q,
-+					       (d->done != 0),
-+					       jiffies + msecs_to_jiffies(500));
-+	list_del(&d->list);
-+	if (ret == 0 || ret == 1)
-+		return -EAGAIN;
-+
-+	/**
-+	 * (ret == 0)  cond = false && timeout, return 0
-+	 * (ret < 0) interrupted by signal, return 0
-+	 * (ret == 1) cond = true && timeout, return 1
-+	 * (ret >= 1) cond = true && !timeout, return 1
-+	 */
-+
-+	if (d->data.resp.hdr.s.reply != OCTEP_CTRL_NET_REPLY_OK)
-+		return -EAGAIN;
-+
-+	return 0;
- }
- 
--void octep_set_link_status(struct octep_device *oct, bool up)
-+int octep_ctrl_net_init(struct octep_device *oct)
- {
--	struct octep_ctrl_net_h2f_req req = {};
--	struct octep_ctrl_mbox_msg msg = {};
-+	struct pci_dev *pdev = oct->pdev;
-+	struct octep_ctrl_mbox *ctrl_mbox;
-+	int ret;
-+
-+	init_waitqueue_head(&oct->ctrl_req_wait_q);
-+	INIT_LIST_HEAD(&oct->ctrl_req_wait_list);
-+
-+	/* Initialize control mbox */
-+	ctrl_mbox = &oct->ctrl_mbox;
-+	ctrl_mbox->barmem = CFG_GET_CTRL_MBOX_MEM_ADDR(oct->conf);
-+	ret = octep_ctrl_mbox_init(ctrl_mbox);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to initialize control mbox\n");
-+		return ret;
-+	}
-+	oct->ctrl_mbox_ifstats_offset = ctrl_mbox->barmem_sz;
-+
-+	return 0;
-+}
- 
--	req.hdr.cmd = OCTEP_CTRL_NET_H2F_CMD_LINK_STATUS;
--	req.link.cmd = OCTEP_CTRL_NET_CMD_SET;
--	req.link.state = (up) ? OCTEP_CTRL_NET_STATE_UP : OCTEP_CTRL_NET_STATE_DOWN;
-+int octep_ctrl_net_get_link_status(struct octep_device *oct, int vfid)
-+{
-+	struct octep_ctrl_net_wait_data d = {0};
-+	struct octep_ctrl_net_h2f_req *req = &d.data.req;
-+	int err;
- 
--	msg.hdr.flags = OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
--	msg.hdr.sizew = OCTEP_CTRL_NET_H2F_STATE_REQ_SZW;
--	msg.msg = &req;
--	octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
-+	init_send_req(&d.msg, (void *)req, state_sz, vfid);
-+	req->hdr.s.cmd = OCTEP_CTRL_NET_H2F_CMD_LINK_STATUS;
-+	req->link.cmd = OCTEP_CTRL_NET_CMD_GET;
-+	err = send_mbox_req(oct, &d, true);
-+	if (err < 0)
-+		return err;
-+
-+	return d.data.resp.link.state;
- }
- 
--void octep_set_rx_state(struct octep_device *oct, bool up)
-+int octep_ctrl_net_set_link_status(struct octep_device *oct, int vfid, bool up,
-+				   bool wait_for_response)
- {
--	struct octep_ctrl_net_h2f_req req = {};
--	struct octep_ctrl_mbox_msg msg = {};
-+	struct octep_ctrl_net_wait_data d = {0};
-+	struct octep_ctrl_net_h2f_req *req = &d.data.req;
- 
--	req.hdr.cmd = OCTEP_CTRL_NET_H2F_CMD_RX_STATE;
--	req.link.cmd = OCTEP_CTRL_NET_CMD_SET;
--	req.link.state = (up) ? OCTEP_CTRL_NET_STATE_UP : OCTEP_CTRL_NET_STATE_DOWN;
-+	init_send_req(&d.msg, req, state_sz, vfid);
-+	req->hdr.s.cmd = OCTEP_CTRL_NET_H2F_CMD_LINK_STATUS;
-+	req->link.cmd = OCTEP_CTRL_NET_CMD_SET;
-+	req->link.state = (up) ? OCTEP_CTRL_NET_STATE_UP :
-+				OCTEP_CTRL_NET_STATE_DOWN;
- 
--	msg.hdr.flags = OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
--	msg.hdr.sizew = OCTEP_CTRL_NET_H2F_STATE_REQ_SZW;
--	msg.msg = &req;
--	octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
-+	return send_mbox_req(oct, &d, wait_for_response);
- }
- 
--int octep_get_mac_addr(struct octep_device *oct, u8 *addr)
-+int octep_ctrl_net_set_rx_state(struct octep_device *oct, int vfid, bool up,
-+				bool wait_for_response)
- {
--	struct octep_ctrl_net_h2f_req req = {};
--	struct octep_ctrl_net_h2f_resp *resp;
--	struct octep_ctrl_mbox_msg msg = {};
--	int err;
-+	struct octep_ctrl_net_wait_data d = {0};
-+	struct octep_ctrl_net_h2f_req *req = &d.data.req;
-+
-+	init_send_req(&d.msg, req, state_sz, vfid);
-+	req->hdr.s.cmd = OCTEP_CTRL_NET_H2F_CMD_RX_STATE;
-+	req->link.cmd = OCTEP_CTRL_NET_CMD_SET;
-+	req->link.state = (up) ? OCTEP_CTRL_NET_STATE_UP :
-+				OCTEP_CTRL_NET_STATE_DOWN;
- 
--	req.hdr.cmd = OCTEP_CTRL_NET_H2F_CMD_MAC;
--	req.link.cmd = OCTEP_CTRL_NET_CMD_GET;
-+	return send_mbox_req(oct, &d, wait_for_response);
-+}
-+
-+int octep_ctrl_net_get_mac_addr(struct octep_device *oct, int vfid, u8 *addr)
-+{
-+	struct octep_ctrl_net_wait_data d = {0};
-+	struct octep_ctrl_net_h2f_req *req = &d.data.req;
-+	int err;
- 
--	msg.hdr.flags = OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
--	msg.hdr.sizew = OCTEP_CTRL_NET_H2F_MAC_REQ_SZW;
--	msg.msg = &req;
--	err = octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
--	if (err)
-+	init_send_req(&d.msg, req, mac_sz, vfid);
-+	req->hdr.s.cmd = OCTEP_CTRL_NET_H2F_CMD_MAC;
-+	req->link.cmd = OCTEP_CTRL_NET_CMD_GET;
-+	err = send_mbox_req(oct, &d, true);
-+	if (err < 0)
- 		return err;
- 
--	resp = (struct octep_ctrl_net_h2f_resp *)&req;
--	memcpy(addr, resp->mac.addr, ETH_ALEN);
-+	memcpy(addr, d.data.resp.mac.addr, ETH_ALEN);
- 
--	return err;
-+	return 0;
- }
- 
--int octep_set_mac_addr(struct octep_device *oct, u8 *addr)
-+int octep_ctrl_net_set_mac_addr(struct octep_device *oct, int vfid, u8 *addr,
-+				bool wait_for_response)
- {
--	struct octep_ctrl_net_h2f_req req = {};
--	struct octep_ctrl_mbox_msg msg = {};
-+	struct octep_ctrl_net_wait_data d = {0};
-+	struct octep_ctrl_net_h2f_req *req = &d.data.req;
- 
--	req.hdr.cmd = OCTEP_CTRL_NET_H2F_CMD_MAC;
--	req.mac.cmd = OCTEP_CTRL_NET_CMD_SET;
--	memcpy(&req.mac.addr, addr, ETH_ALEN);
-+	init_send_req(&d.msg, req, mac_sz, vfid);
-+	req->hdr.s.cmd = OCTEP_CTRL_NET_H2F_CMD_MAC;
-+	req->mac.cmd = OCTEP_CTRL_NET_CMD_SET;
-+	memcpy(&req->mac.addr, addr, ETH_ALEN);
- 
--	msg.hdr.flags = OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
--	msg.hdr.sizew = OCTEP_CTRL_NET_H2F_MAC_REQ_SZW;
--	msg.msg = &req;
--
--	return octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
-+	return send_mbox_req(oct, &d, wait_for_response);
- }
- 
--int octep_set_mtu(struct octep_device *oct, int mtu)
-+int octep_ctrl_net_set_mtu(struct octep_device *oct, int vfid, int mtu,
-+			   bool wait_for_response)
- {
--	struct octep_ctrl_net_h2f_req req = {};
--	struct octep_ctrl_mbox_msg msg = {};
--
--	req.hdr.cmd = OCTEP_CTRL_NET_H2F_CMD_MTU;
--	req.mtu.cmd = OCTEP_CTRL_NET_CMD_SET;
--	req.mtu.val = mtu;
-+	struct octep_ctrl_net_wait_data d = {0};
-+	struct octep_ctrl_net_h2f_req *req = &d.data.req;
- 
--	msg.hdr.flags = OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
--	msg.hdr.sizew = OCTEP_CTRL_NET_H2F_MTU_REQ_SZW;
--	msg.msg = &req;
-+	init_send_req(&d.msg, req, mtu_sz, vfid);
-+	req->hdr.s.cmd = OCTEP_CTRL_NET_H2F_CMD_MTU;
-+	req->mtu.cmd = OCTEP_CTRL_NET_CMD_SET;
-+	req->mtu.val = mtu;
- 
--	return octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
-+	return send_mbox_req(oct, &d, wait_for_response);
- }
- 
--int octep_get_if_stats(struct octep_device *oct)
-+int octep_ctrl_net_get_if_stats(struct octep_device *oct, int vfid)
- {
- 	void __iomem *iface_rx_stats;
- 	void __iomem *iface_tx_stats;
--	struct octep_ctrl_net_h2f_req req = {};
--	struct octep_ctrl_mbox_msg msg = {};
-+	struct octep_ctrl_net_wait_data d = {0};
-+	struct octep_ctrl_net_h2f_req *req = &d.data.req;
- 	int err;
- 
--	req.hdr.cmd = OCTEP_CTRL_NET_H2F_CMD_GET_IF_STATS;
--	req.mac.cmd = OCTEP_CTRL_NET_CMD_GET;
--	req.get_stats.offset = oct->ctrl_mbox_ifstats_offset;
--
--	msg.hdr.flags = OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
--	msg.hdr.sizew = OCTEP_CTRL_NET_H2F_GET_STATS_REQ_SZW;
--	msg.msg = &req;
--	err = octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
--	if (err)
-+	init_send_req(&d.msg, req, get_stats_sz, vfid);
-+	req->hdr.s.cmd = OCTEP_CTRL_NET_H2F_CMD_GET_IF_STATS;
-+	req->get_stats.offset = oct->ctrl_mbox_ifstats_offset;
-+	err = send_mbox_req(oct, &d, true);
-+	if (err < 0)
- 		return err;
- 
- 	iface_rx_stats = oct->ctrl_mbox.barmem + oct->ctrl_mbox_ifstats_offset;
-@@ -144,51 +209,115 @@ int octep_get_if_stats(struct octep_device *oct)
- 	memcpy_fromio(&oct->iface_rx_stats, iface_rx_stats, sizeof(struct octep_iface_rx_stats));
- 	memcpy_fromio(&oct->iface_tx_stats, iface_tx_stats, sizeof(struct octep_iface_tx_stats));
- 
--	return err;
-+	return 0;
- }
- 
--int octep_get_link_info(struct octep_device *oct)
-+int octep_ctrl_net_get_link_info(struct octep_device *oct, int vfid)
- {
--	struct octep_ctrl_net_h2f_req req = {};
-+	struct octep_ctrl_net_wait_data d = {0};
-+	struct octep_ctrl_net_h2f_req *req = &d.data.req;
- 	struct octep_ctrl_net_h2f_resp *resp;
--	struct octep_ctrl_mbox_msg msg = {};
- 	int err;
- 
--	req.hdr.cmd = OCTEP_CTRL_NET_H2F_CMD_LINK_INFO;
--	req.mac.cmd = OCTEP_CTRL_NET_CMD_GET;
--
--	msg.hdr.flags = OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
--	msg.hdr.sizew = OCTEP_CTRL_NET_H2F_LINK_INFO_REQ_SZW;
--	msg.msg = &req;
--	err = octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
--	if (err)
-+	init_send_req(&d.msg, req, link_info_sz, vfid);
-+	req->hdr.s.cmd = OCTEP_CTRL_NET_H2F_CMD_LINK_INFO;
-+	req->link_info.cmd = OCTEP_CTRL_NET_CMD_GET;
-+	err = send_mbox_req(oct, &d, true);
-+	if (err < 0)
- 		return err;
- 
--	resp = (struct octep_ctrl_net_h2f_resp *)&req;
-+	resp = &d.data.resp;
- 	oct->link_info.supported_modes = resp->link_info.supported_modes;
- 	oct->link_info.advertised_modes = resp->link_info.advertised_modes;
- 	oct->link_info.autoneg = resp->link_info.autoneg;
- 	oct->link_info.pause = resp->link_info.pause;
- 	oct->link_info.speed = resp->link_info.speed;
- 
--	return err;
-+	return 0;
- }
- 
--int octep_set_link_info(struct octep_device *oct, struct octep_iface_link_info *link_info)
-+int octep_ctrl_net_set_link_info(struct octep_device *oct, int vfid,
-+				 struct octep_iface_link_info *link_info,
-+				 bool wait_for_response)
- {
--	struct octep_ctrl_net_h2f_req req = {};
--	struct octep_ctrl_mbox_msg msg = {};
-+	struct octep_ctrl_net_wait_data d = {0};
-+	struct octep_ctrl_net_h2f_req *req = &d.data.req;
-+
-+	init_send_req(&d.msg, req, link_info_sz, vfid);
-+	req->hdr.s.cmd = OCTEP_CTRL_NET_H2F_CMD_LINK_INFO;
-+	req->link_info.cmd = OCTEP_CTRL_NET_CMD_SET;
-+	req->link_info.info.advertised_modes = link_info->advertised_modes;
-+	req->link_info.info.autoneg = link_info->autoneg;
-+	req->link_info.info.pause = link_info->pause;
-+	req->link_info.info.speed = link_info->speed;
-+
-+	return send_mbox_req(oct, &d, wait_for_response);
-+}
-+
-+static int process_mbox_req(struct octep_device *oct,
-+			    struct octep_ctrl_mbox_msg *msg)
-+{
-+	return 0;
-+}
-+
-+static int process_mbox_resp(struct octep_device *oct,
-+			     struct octep_ctrl_mbox_msg *msg)
-+{
-+	struct octep_ctrl_net_wait_data *pos, *n;
-+
-+	list_for_each_entry_safe(pos, n, &oct->ctrl_req_wait_list, list) {
-+		if (pos->msg.hdr.s.msg_id == msg->hdr.s.msg_id) {
-+			memcpy(&pos->data.resp,
-+			       msg->sg_list[0].msg,
-+			       msg->hdr.s.sz);
-+			pos->done = 1;
-+			wake_up_interruptible_all(&oct->ctrl_req_wait_q);
-+			break;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+int octep_ctrl_net_recv_fw_messages(struct octep_device *oct)
-+{
-+	static u16 msg_sz = sizeof(union octep_ctrl_net_max_data);
-+	union octep_ctrl_net_max_data data = {0};
-+	struct octep_ctrl_mbox_msg msg = {0};
-+	int ret;
-+
-+	msg.hdr.s.sz = msg_sz;
-+	msg.sg_num = 1;
-+	msg.sg_list[0].sz = msg_sz;
-+	msg.sg_list[0].msg = &data;
-+	while (true) {
-+		/* mbox will overwrite msg.hdr.s.sz so initialize it */
-+		msg.hdr.s.sz = msg_sz;
-+		ret = octep_ctrl_mbox_recv(&oct->ctrl_mbox,
-+					   (struct octep_ctrl_mbox_msg *)&msg,
-+					   1);
-+		if (ret <= 0)
-+			break;
-+
-+		if (msg.hdr.s.flags & OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ)
-+			process_mbox_req(oct, &msg);
-+		else if (msg.hdr.s.flags & OCTEP_CTRL_MBOX_MSG_HDR_FLAG_RESP)
-+			process_mbox_resp(oct, &msg);
-+	}
-+
-+	return 0;
-+}
-+
-+int octep_ctrl_net_uninit(struct octep_device *oct)
-+{
-+	struct octep_ctrl_net_wait_data *pos, *n;
-+
-+	list_for_each_entry_safe(pos, n, &oct->ctrl_req_wait_list, list)
-+		pos->done = 1;
- 
--	req.hdr.cmd = OCTEP_CTRL_NET_H2F_CMD_LINK_INFO;
--	req.link_info.cmd = OCTEP_CTRL_NET_CMD_SET;
--	req.link_info.info.advertised_modes = link_info->advertised_modes;
--	req.link_info.info.autoneg = link_info->autoneg;
--	req.link_info.info.pause = link_info->pause;
--	req.link_info.info.speed = link_info->speed;
-+	wake_up_interruptible_all(&oct->ctrl_req_wait_q);
- 
--	msg.hdr.flags = OCTEP_CTRL_MBOX_MSG_HDR_FLAG_REQ;
--	msg.hdr.sizew = OCTEP_CTRL_NET_H2F_LINK_INFO_REQ_SZW;
--	msg.msg = &req;
-+	octep_ctrl_mbox_uninit(&oct->ctrl_mbox);
- 
--	return octep_ctrl_mbox_send(&oct->ctrl_mbox, &msg);
-+	return 0;
- }
-diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.h b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.h
-index f23b58381322..c68cdaa1738b 100644
---- a/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.h
-+++ b/drivers/net/ethernet/marvell/octeon_ep/octep_ctrl_net.h
-@@ -7,6 +7,8 @@
- #ifndef __OCTEP_CTRL_NET_H__
- #define __OCTEP_CTRL_NET_H__
- 
-+#define OCTEP_CTRL_NET_INVALID_VFID	(-1)
-+
- /* Supported commands */
- enum octep_ctrl_net_cmd {
- 	OCTEP_CTRL_NET_CMD_GET = 0,
-@@ -45,15 +47,18 @@ enum octep_ctrl_net_f2h_cmd {
- 	OCTEP_CTRL_NET_F2H_CMD_LINK_STATUS,
- };
- 
--struct octep_ctrl_net_req_hdr {
--	/* sender id */
--	u16 sender;
--	/* receiver id */
--	u16 receiver;
--	/* octep_ctrl_net_h2t_cmd */
--	u16 cmd;
--	/* reserved */
--	u16 rsvd0;
-+union octep_ctrl_net_req_hdr {
-+	u64 words[1];
-+	struct {
-+		/* sender id */
-+		u16 sender;
-+		/* receiver id */
-+		u16 receiver;
-+		/* octep_ctrl_net_h2t_cmd */
-+		u16 cmd;
-+		/* reserved */
-+		u16 rsvd0;
-+	} s;
- };
- 
- /* get/set mtu request */
-@@ -110,7 +115,7 @@ struct octep_ctrl_net_h2f_req_cmd_link_info {
- 
- /* Host to fw request data */
- struct octep_ctrl_net_h2f_req {
--	struct octep_ctrl_net_req_hdr hdr;
-+	union octep_ctrl_net_req_hdr hdr;
- 	union {
- 		struct octep_ctrl_net_h2f_req_cmd_mtu mtu;
- 		struct octep_ctrl_net_h2f_req_cmd_mac mac;
-@@ -121,15 +126,18 @@ struct octep_ctrl_net_h2f_req {
- 	};
- } __packed;
- 
--struct octep_ctrl_net_resp_hdr {
--	/* sender id */
--	u16 sender;
--	/* receiver id */
--	u16 receiver;
--	/* octep_ctrl_net_h2t_cmd */
--	u16 cmd;
--	/* octep_ctrl_net_reply */
--	u16 reply;
-+union octep_ctrl_net_resp_hdr {
-+	u64 words[1];
-+	struct {
-+		/* sender id */
-+		u16 sender;
-+		/* receiver id */
-+		u16 receiver;
-+		/* octep_ctrl_net_h2t_cmd */
-+		u16 cmd;
-+		/* octep_ctrl_net_reply */
-+		u16 reply;
-+	} s;
- };
- 
- /* get mtu response */
-@@ -152,7 +160,7 @@ struct octep_ctrl_net_h2f_resp_cmd_state {
- 
- /* Host to fw response data */
- struct octep_ctrl_net_h2f_resp {
--	struct octep_ctrl_net_resp_hdr hdr;
-+	union octep_ctrl_net_resp_hdr hdr;
- 	union {
- 		struct octep_ctrl_net_h2f_resp_cmd_mtu mtu;
- 		struct octep_ctrl_net_h2f_resp_cmd_mac mac;
-@@ -170,7 +178,7 @@ struct octep_ctrl_net_f2h_req_cmd_state {
- 
- /* Fw to host request data */
- struct octep_ctrl_net_f2h_req {
--	struct octep_ctrl_net_req_hdr hdr;
-+	union octep_ctrl_net_req_hdr hdr;
- 	union {
- 		struct octep_ctrl_net_f2h_req_cmd_state link;
- 	};
-@@ -178,122 +186,146 @@ struct octep_ctrl_net_f2h_req {
- 
- /* Fw to host response data */
- struct octep_ctrl_net_f2h_resp {
--	struct octep_ctrl_net_resp_hdr hdr;
-+	union octep_ctrl_net_resp_hdr hdr;
- };
- 
--/* Size of host to fw octep_ctrl_mbox queue element */
--union octep_ctrl_net_h2f_data_sz {
-+/* Max data size to be transferred over mbox */
-+union octep_ctrl_net_max_data {
- 	struct octep_ctrl_net_h2f_req h2f_req;
- 	struct octep_ctrl_net_h2f_resp h2f_resp;
--};
--
--/* Size of fw to host octep_ctrl_mbox queue element */
--union octep_ctrl_net_f2h_data_sz {
- 	struct octep_ctrl_net_f2h_req f2h_req;
- 	struct octep_ctrl_net_f2h_resp f2h_resp;
- };
- 
--/* size of host to fw data in words */
--#define OCTEP_CTRL_NET_H2F_DATA_SZW		((sizeof(union octep_ctrl_net_h2f_data_sz)) / \
--						 (sizeof(unsigned long)))
--
--/* size of fw to host data in words */
--#define OCTEP_CTRL_NET_F2H_DATA_SZW		((sizeof(union octep_ctrl_net_f2h_data_sz)) / \
--						 (sizeof(unsigned long)))
--
--/* size in words of get/set mtu request */
--#define OCTEP_CTRL_NET_H2F_MTU_REQ_SZW			2
--/* size in words of get/set mac request */
--#define OCTEP_CTRL_NET_H2F_MAC_REQ_SZW			2
--/* size in words of get stats request */
--#define OCTEP_CTRL_NET_H2F_GET_STATS_REQ_SZW		2
--/* size in words of get/set state request */
--#define OCTEP_CTRL_NET_H2F_STATE_REQ_SZW		2
--/* size in words of get/set link info request */
--#define OCTEP_CTRL_NET_H2F_LINK_INFO_REQ_SZW		4
--
--/* size in words of get mtu response */
--#define OCTEP_CTRL_NET_H2F_GET_MTU_RESP_SZW		2
--/* size in words of set mtu response */
--#define OCTEP_CTRL_NET_H2F_SET_MTU_RESP_SZW		1
--/* size in words of get mac response */
--#define OCTEP_CTRL_NET_H2F_GET_MAC_RESP_SZW		2
--/* size in words of set mac response */
--#define OCTEP_CTRL_NET_H2F_SET_MAC_RESP_SZW		1
--/* size in words of get state request */
--#define OCTEP_CTRL_NET_H2F_GET_STATE_RESP_SZW		2
--/* size in words of set state request */
--#define OCTEP_CTRL_NET_H2F_SET_STATE_RESP_SZW		1
--/* size in words of get link info request */
--#define OCTEP_CTRL_NET_H2F_GET_LINK_INFO_RESP_SZW	4
--/* size in words of set link info request */
--#define OCTEP_CTRL_NET_H2F_SET_LINK_INFO_RESP_SZW	1
-+struct octep_ctrl_net_wait_data {
-+	struct list_head list;
-+	int done;
-+	struct octep_ctrl_mbox_msg msg;
-+	union {
-+		struct octep_ctrl_net_h2f_req req;
-+		struct octep_ctrl_net_h2f_resp resp;
-+	} data;
-+};
-+
-+/** Initialize data for ctrl net.
-+ *
-+ * @param oct: non-null pointer to struct octep_device.
-+ *
-+ * return value: 0 on success, -errno on error.
-+ */
-+int octep_ctrl_net_init(struct octep_device *oct);
- 
- /** Get link status from firmware.
-  *
-  * @param oct: non-null pointer to struct octep_device.
-+ * @param vfid: Index of virtual function.
-  *
-  * return value: link status 0=down, 1=up.
-  */
--int octep_get_link_status(struct octep_device *oct);
-+int octep_ctrl_net_get_link_status(struct octep_device *oct, int vfid);
- 
- /** Set link status in firmware.
-  *
-  * @param oct: non-null pointer to struct octep_device.
-+ * @param vfid: Index of virtual function.
-  * @param up: boolean status.
-+ * @param wait_for_response: poll for response.
-+ *
-+ * return value: 0 on success, -errno on failure
-  */
--void octep_set_link_status(struct octep_device *oct, bool up);
-+int octep_ctrl_net_set_link_status(struct octep_device *oct, int vfid, bool up,
-+				   bool wait_for_response);
- 
- /** Set rx state in firmware.
-  *
-  * @param oct: non-null pointer to struct octep_device.
-+ * @param vfid: Index of virtual function.
-  * @param up: boolean status.
-+ * @param wait_for_response: poll for response.
-+ *
-+ * return value: 0 on success, -errno on failure.
-  */
--void octep_set_rx_state(struct octep_device *oct, bool up);
-+int octep_ctrl_net_set_rx_state(struct octep_device *oct, int vfid, bool up,
-+				bool wait_for_response);
- 
- /** Get mac address from firmware.
-  *
-  * @param oct: non-null pointer to struct octep_device.
-+ * @param vfid: Index of virtual function.
-  * @param addr: non-null pointer to mac address.
-  *
-  * return value: 0 on success, -errno on failure.
-  */
--int octep_get_mac_addr(struct octep_device *oct, u8 *addr);
-+int octep_ctrl_net_get_mac_addr(struct octep_device *oct, int vfid, u8 *addr);
- 
- /** Set mac address in firmware.
-  *
-  * @param oct: non-null pointer to struct octep_device.
-+ * @param vfid: Index of virtual function.
-  * @param addr: non-null pointer to mac address.
-+ * @param wait_for_response: poll for response.
-+ *
-+ * return value: 0 on success, -errno on failure.
-  */
--int octep_set_mac_addr(struct octep_device *oct, u8 *addr);
-+int octep_ctrl_net_set_mac_addr(struct octep_device *oct, int vfid, u8 *addr,
-+				bool wait_for_response);
- 
- /** Set mtu in firmware.
-  *
-  * @param oct: non-null pointer to struct octep_device.
-+ * @param vfid: Index of virtual function.
-  * @param mtu: mtu.
-+ * @param wait_for_response: poll for response.
-+ *
-+ * return value: 0 on success, -errno on failure.
-  */
--int octep_set_mtu(struct octep_device *oct, int mtu);
-+int octep_ctrl_net_set_mtu(struct octep_device *oct, int vfid, int mtu,
-+			   bool wait_for_response);
- 
- /** Get interface statistics from firmware.
-  *
-  * @param oct: non-null pointer to struct octep_device.
-+ * @param vfid: Index of virtual function.
-  *
-  * return value: 0 on success, -errno on failure.
-  */
--int octep_get_if_stats(struct octep_device *oct);
-+int octep_ctrl_net_get_if_stats(struct octep_device *oct, int vfid);
- 
- /** Get link info from firmware.
-  *
-  * @param oct: non-null pointer to struct octep_device.
-+ * @param vfid: Index of virtual function.
-  *
-  * return value: 0 on success, -errno on failure.
-  */
--int octep_get_link_info(struct octep_device *oct);
-+int octep_ctrl_net_get_link_info(struct octep_device *oct, int vfid);
- 
- /** Set link info in firmware.
-  *
-  * @param oct: non-null pointer to struct octep_device.
-+ * @param vfid: Index of virtual function.
-+ * @param link_info: non-null pointer to struct octep_iface_link_info.
-+ * @param wait_for_response: poll for response.
-+ *
-+ * return value: 0 on success, -errno on failure.
-+ */
-+int octep_ctrl_net_set_link_info(struct octep_device *oct,
-+				 int vfid,
-+				 struct octep_iface_link_info *link_info,
-+				 bool wait_for_response);
-+
-+/** Poll for firmware messages and process them.
-+ *
-+ * @param oct: non-null pointer to struct octep_device.
-+ */
-+int octep_ctrl_net_recv_fw_messages(struct octep_device *oct);
-+
-+/** Uninitialize data for ctrl net.
-+ *
-+ * @param oct: non-null pointer to struct octep_device.
-+ *
-+ * return value: 0 on success, -errno on error.
-  */
--int octep_set_link_info(struct octep_device *oct, struct octep_iface_link_info *link_info);
-+int octep_ctrl_net_uninit(struct octep_device *oct);
- 
- #endif /* __OCTEP_CTRL_NET_H__ */
-diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_ethtool.c b/drivers/net/ethernet/marvell/octeon_ep/octep_ethtool.c
-index 87ef129b269a..389042b57787 100644
---- a/drivers/net/ethernet/marvell/octeon_ep/octep_ethtool.c
-+++ b/drivers/net/ethernet/marvell/octeon_ep/octep_ethtool.c
-@@ -150,7 +150,7 @@ octep_get_ethtool_stats(struct net_device *netdev,
- 	rx_packets = 0;
- 	rx_bytes = 0;
- 
--	octep_get_if_stats(oct);
-+	octep_ctrl_net_get_if_stats(oct, OCTEP_CTRL_NET_INVALID_VFID);
- 	iface_tx_stats = &oct->iface_tx_stats;
- 	iface_rx_stats = &oct->iface_rx_stats;
- 
-@@ -283,7 +283,7 @@ static int octep_get_link_ksettings(struct net_device *netdev,
- 	ethtool_link_ksettings_zero_link_mode(cmd, supported);
- 	ethtool_link_ksettings_zero_link_mode(cmd, advertising);
- 
--	octep_get_link_info(oct);
-+	octep_ctrl_net_get_link_info(oct, OCTEP_CTRL_NET_INVALID_VFID);
- 
- 	advertised_modes = oct->link_info.advertised_modes;
- 	supported_modes = oct->link_info.supported_modes;
-@@ -439,7 +439,8 @@ static int octep_set_link_ksettings(struct net_device *netdev,
- 	link_info_new.speed = cmd->base.speed;
- 	link_info_new.autoneg = autoneg;
- 
--	err = octep_set_link_info(oct, &link_info_new);
-+	err = octep_ctrl_net_set_link_info(oct, OCTEP_CTRL_NET_INVALID_VFID,
-+					   &link_info_new, true);
- 	if (err)
- 		return err;
- 
-diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
-index 93d234b5a84b..f3c6ab123066 100644
---- a/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
-+++ b/drivers/net/ethernet/marvell/octeon_ep/octep_main.c
-@@ -508,11 +508,10 @@ static int octep_open(struct net_device *netdev)
- 	octep_napi_enable(oct);
- 
- 	oct->link_info.admin_up = 1;
--	octep_set_rx_state(oct, true);
--
--	ret = octep_get_link_status(oct);
--	if (!ret)
--		octep_set_link_status(oct, true);
-+	octep_ctrl_net_set_rx_state(oct, OCTEP_CTRL_NET_INVALID_VFID, true,
-+				    false);
-+	octep_ctrl_net_set_link_status(oct, OCTEP_CTRL_NET_INVALID_VFID, true,
-+				       false);
- 	oct->poll_non_ioq_intr = false;
- 
- 	/* Enable the input and output queues for this Octeon device */
-@@ -523,7 +522,7 @@ static int octep_open(struct net_device *netdev)
- 
- 	octep_oq_dbell_init(oct);
- 
--	ret = octep_get_link_status(oct);
-+	ret = octep_ctrl_net_get_link_status(oct, OCTEP_CTRL_NET_INVALID_VFID);
- 	if (ret)
- 		octep_link_up(netdev);
- 
-@@ -555,14 +554,16 @@ static int octep_stop(struct net_device *netdev)
- 
- 	netdev_info(netdev, "Stopping the device ...\n");
- 
-+	octep_ctrl_net_set_link_status(oct, OCTEP_CTRL_NET_INVALID_VFID, false,
-+				       false);
-+	octep_ctrl_net_set_rx_state(oct, OCTEP_CTRL_NET_INVALID_VFID, false,
-+				    false);
-+
- 	/* Stop Tx from stack */
- 	netif_tx_stop_all_queues(netdev);
- 	netif_carrier_off(netdev);
- 	netif_tx_disable(netdev);
- 
--	octep_set_link_status(oct, false);
--	octep_set_rx_state(oct, false);
--
- 	oct->link_info.admin_up = 0;
- 	oct->link_info.oper_up = 0;
- 
-@@ -764,7 +765,9 @@ static void octep_get_stats64(struct net_device *netdev,
- 	struct octep_device *oct = netdev_priv(netdev);
- 	int q;
- 
--	octep_get_if_stats(oct);
-+	if (netif_running(netdev))
-+		octep_ctrl_net_get_if_stats(oct, OCTEP_CTRL_NET_INVALID_VFID);
-+
- 	tx_packets = 0;
- 	tx_bytes = 0;
- 	rx_packets = 0;
-@@ -835,7 +838,8 @@ static int octep_set_mac(struct net_device *netdev, void *p)
- 	if (!is_valid_ether_addr(addr->sa_data))
- 		return -EADDRNOTAVAIL;
- 
--	err = octep_set_mac_addr(oct, addr->sa_data);
-+	err = octep_ctrl_net_set_mac_addr(oct, OCTEP_CTRL_NET_INVALID_VFID,
-+					  addr->sa_data, true);
- 	if (err)
- 		return err;
- 
-@@ -855,7 +859,8 @@ static int octep_change_mtu(struct net_device *netdev, int new_mtu)
- 	if (link_info->mtu == new_mtu)
- 		return 0;
- 
--	err = octep_set_mtu(oct, new_mtu);
-+	err = octep_ctrl_net_set_mtu(oct, OCTEP_CTRL_NET_INVALID_VFID, new_mtu,
-+				     true);
- 	if (!err) {
- 		oct->link_info.mtu = new_mtu;
- 		netdev->mtu = new_mtu;
-@@ -881,7 +886,7 @@ static void cancel_all_tasks(struct octep_device *oct)
++#include "octep_pfvf_mbox.h"
+ 
+ #define OCTEP_INTR_POLL_TIME_MSECS    100
+ struct workqueue_struct *octep_wq;
+@@ -889,6 +890,7 @@ static void cancel_all_tasks(struct octep_device *oct)
  	cancel_work_sync(&oct->ctrl_mbox_task);
  	oct->poll_non_ioq_intr = false;
  	cancel_delayed_work_sync(&oct->intr_poll_task);
--	octep_ctrl_mbox_uninit(&oct->ctrl_mbox);
-+	octep_ctrl_net_uninit(oct);
++	octep_delete_pfvf_mbox(oct);
+ 	octep_ctrl_net_uninit(oct);
  }
  
- /**
-@@ -921,34 +926,14 @@ static void octep_ctrl_mbox_task(struct work_struct *work)
- {
- 	struct octep_device *oct = container_of(work, struct octep_device,
- 						ctrl_mbox_task);
--	struct net_device *netdev = oct->netdev;
--	struct octep_ctrl_net_f2h_req req = {};
--	struct octep_ctrl_mbox_msg msg;
--	int ret = 0;
-+	int status;
+@@ -1000,6 +1002,13 @@ int octep_device_setup(struct octep_device *oct)
+ 	if (ret)
+ 		return ret;
  
--	msg.msg = &req;
--	while (true) {
--		ret = octep_ctrl_mbox_recv(&oct->ctrl_mbox, &msg);
--		if (ret)
--			break;
-+	status = atomic_read(&oct->status);
-+	if (status != OCTEP_DEV_STATUS_INIT &&
-+	    status != OCTEP_DEV_STATUS_READY)
-+		return;
- 
--		switch (req.hdr.cmd) {
--		case OCTEP_CTRL_NET_F2H_CMD_LINK_STATUS:
--			if (netif_running(netdev)) {
--				if (req.link.state) {
--					dev_info(&oct->pdev->dev, "netif_carrier_on\n");
--					netif_carrier_on(netdev);
--				} else {
--					dev_info(&oct->pdev->dev, "netif_carrier_off\n");
--					netif_carrier_off(netdev);
--				}
--			}
--			break;
--		default:
--			pr_info("Unknown mbox req : %u\n", req.hdr.cmd);
--			break;
--		}
--	}
-+	octep_ctrl_net_recv_fw_messages(oct);
- }
- 
- static const char *octep_devid_to_str(struct octep_device *oct)
-@@ -972,7 +957,6 @@ static const char *octep_devid_to_str(struct octep_device *oct)
-  */
- int octep_device_setup(struct octep_device *oct)
- {
--	struct octep_ctrl_mbox *ctrl_mbox;
- 	struct pci_dev *pdev = oct->pdev;
- 	int i, ret;
- 
-@@ -1009,18 +993,9 @@ int octep_device_setup(struct octep_device *oct)
- 
- 	oct->pkind = CFG_GET_IQ_PKIND(oct->conf);
- 
--	/* Initialize control mbox */
--	ctrl_mbox = &oct->ctrl_mbox;
--	ctrl_mbox->barmem = CFG_GET_CTRL_MBOX_MEM_ADDR(oct->conf);
--	ret = octep_ctrl_mbox_init(ctrl_mbox);
--	if (ret) {
--		dev_err(&pdev->dev, "Failed to initialize control mbox\n");
--		return -1;
--	}
--	oct->ctrl_mbox_ifstats_offset = OCTEP_CTRL_MBOX_SZ(ctrl_mbox->h2fq.elem_sz,
--							   ctrl_mbox->h2fq.elem_cnt,
--							   ctrl_mbox->f2hq.elem_sz,
--							   ctrl_mbox->f2hq.elem_cnt);
-+	ret = octep_ctrl_net_init(oct);
-+	if (ret)
++	ret = octep_setup_pfvf_mbox(oct);
++	if (ret) {
++		dev_err(&pdev->dev, " pfvf mailbox setup failed\n");
++		octep_ctrl_net_uninit(oct);
 +		return ret;
- 
++	}
++
  	INIT_WORK(&oct->tx_timeout_task, octep_tx_timeout_task);
  	INIT_WORK(&oct->ctrl_mbox_task, octep_ctrl_mbox_task);
-@@ -1139,7 +1114,8 @@ static void octep_dev_setup_task(struct work_struct *work)
- 	netdev->max_mtu = OCTEP_MAX_MTU;
- 	netdev->mtu = OCTEP_DEFAULT_MTU;
+ 	INIT_DELAYED_WORK(&oct->intr_poll_task, octep_intr_poll_task);
+@@ -1026,11 +1035,6 @@ static void octep_device_cleanup(struct octep_device *oct)
  
--	octep_get_mac_addr(oct, oct->mac_addr);
-+	octep_ctrl_net_get_mac_addr(oct, OCTEP_CTRL_NET_INVALID_VFID,
-+				    oct->mac_addr);
- 	eth_hw_addr_set(netdev, oct->mac_addr);
+ 	dev_info(&oct->pdev->dev, "Cleaning up Octeon Device ...\n");
  
- 	err = register_netdev(netdev);
+-	for (i = 0; i < OCTEP_MAX_VF; i++) {
+-		vfree(oct->mbox[i]);
+-		oct->mbox[i] = NULL;
+-	}
+-
+ 	cancel_all_tasks(oct);
+ 
+ 	oct->hw_ops.soft_reset(oct);
+diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_main.h b/drivers/net/ethernet/marvell/octeon_ep/octep_main.h
+index 5546b2b09d25..f181c5fa249f 100644
+--- a/drivers/net/ethernet/marvell/octeon_ep/octep_main.h
++++ b/drivers/net/ethernet/marvell/octeon_ep/octep_main.h
+@@ -94,28 +94,27 @@ struct octep_mbox_data {
+ 	u64 *data;
+ };
+ 
++#define MAX_VF_PF_MBOX_DATA_SIZE 384
++/* wrappers around work structs */
++struct octep_pfvf_mbox_wk {
++	struct work_struct work;
++	void *ctxptr;
++	u64 ctxul;
++};
++
+ /* Octeon device mailbox */
+ struct octep_mbox {
+-	/* A spinlock to protect access to this q_mbox. */
+-	spinlock_t lock;
+-
+-	u32 q_no;
+-	u32 state;
+-
+-	/* SLI_MAC_PF_MBOX_INT for PF, SLI_PKT_MBOX_INT for VF. */
+-	u8 __iomem *mbox_int_reg;
+-
+-	/* SLI_PKT_PF_VF_MBOX_SIG(0) for PF,
+-	 * SLI_PKT_PF_VF_MBOX_SIG(1) for VF.
+-	 */
+-	u8 __iomem *mbox_write_reg;
+-
+-	/* SLI_PKT_PF_VF_MBOX_SIG(1) for PF,
+-	 * SLI_PKT_PF_VF_MBOX_SIG(0) for VF.
+-	 */
+-	u8 __iomem *mbox_read_reg;
+-
++	/* A mutex to protect access to this q_mbox. */
++	struct mutex lock;
++	u32 vf_id;
++	u32 config_data_index;
++	u32 message_len;
++	u8 __iomem *pf_vf_data_reg;
++	u8 __iomem *vf_pf_data_reg;
++	struct octep_pfvf_mbox_wk wk;
++	struct octep_device *oct;
+ 	struct octep_mbox_data mbox_data;
++	u8 config_data[MAX_VF_PF_MBOX_DATA_SIZE];
+ };
+ 
+ /* Tx/Rx queue vector per interrupt. */
+@@ -193,6 +192,11 @@ struct octep_iface_link_info {
+ 	u8  oper_up;
+ };
+ 
++/* The Octeon VF device specific info data structure.*/
++struct octep_pfvf_info {
++	u8 mac_addr[ETH_ALEN];
++};
++
+ /* Device status */
+ enum octep_dev_status {
+ 	OCTEP_DEV_STATUS_INVALID,
+@@ -269,6 +273,8 @@ struct octep_device {
+ 
+ 	/* Mailbox to talk to VFs */
+ 	struct octep_mbox *mbox[OCTEP_MAX_VF];
++	/* VFs info */
++	struct octep_pfvf_info vf_info[OCTEP_MAX_VF];
+ 
+ 	/* Work entry to handle Tx timeout */
+ 	struct work_struct tx_timeout_task;
+diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_pfvf_mbox.c b/drivers/net/ethernet/marvell/octeon_ep/octep_pfvf_mbox.c
+new file mode 100644
+index 000000000000..6c22cb189130
+--- /dev/null
++++ b/drivers/net/ethernet/marvell/octeon_ep/octep_pfvf_mbox.c
+@@ -0,0 +1,306 @@
++// SPDX-License-Identifier: GPL-2.0
++/* Marvell Octeon EP (EndPoint) Ethernet Driver
++ *
++ * Copyright (C) 2020 Marvell.
++ *
++ */
++#include <linux/types.h>
++#include <linux/types.h>
++#include <linux/errno.h>
++#include <linux/string.h>
++#include <linux/mutex.h>
++#include <linux/jiffies.h>
++#include <linux/sched.h>
++#include <linux/sched/signal.h>
++#include <linux/io.h>
++#include <linux/pci.h>
++#include <linux/etherdevice.h>
++
++#include "octep_config.h"
++#include "octep_main.h"
++#include "octep_pfvf_mbox.h"
++#include "octep_ctrl_net.h"
++
++static void octep_pfvf_validate_version(struct octep_device *oct,  u32 vf_id,
++					union octep_pfvf_mbox_word cmd,
++					union octep_pfvf_mbox_word *rsp)
++{
++	u32 vf_version = (u32)cmd.s_version.version;
++
++	if (vf_version <= OCTEP_PF_MBOX_VERSION)
++		rsp->s_version.type = OCTEP_PFVF_MBOX_TYPE_RSP_ACK;
++	else
++		rsp->s_version.type = OCTEP_PFVF_MBOX_TYPE_RSP_NACK;
++}
++
++static void octep_pfvf_get_link_status(struct octep_device *oct, u32 vf_id,
++				       union octep_pfvf_mbox_word cmd,
++				       union octep_pfvf_mbox_word *rsp)
++{
++	int status;
++
++	status = octep_ctrl_net_get_link_status(oct, vf_id);
++	if (status < 0) {
++		rsp->s_link_status.type = OCTEP_PFVF_MBOX_TYPE_RSP_NACK;
++		dev_err(&oct->pdev->dev, "Get VF link status failed via host control Mbox\n");
++		return;
++	}
++	rsp->s_link_status.type = OCTEP_PFVF_MBOX_TYPE_RSP_ACK;
++	rsp->s_link_status.status = status;
++}
++
++static void octep_pfvf_set_link_status(struct octep_device *oct, u32 vf_id,
++				       union octep_pfvf_mbox_word cmd,
++				       union octep_pfvf_mbox_word *rsp)
++{
++	int err;
++
++	err = octep_ctrl_net_set_link_status(oct, vf_id, cmd.s_link_status.status, true);
++	if (err) {
++		rsp->s_link_status.type = OCTEP_PFVF_MBOX_TYPE_RSP_NACK;
++		dev_err(&oct->pdev->dev, "Set VF link status failed via host control Mbox\n");
++		return;
++	}
++	rsp->s_link_status.type = OCTEP_PFVF_MBOX_TYPE_RSP_ACK;
++}
++
++static void octep_pfvf_set_rx_state(struct octep_device *oct, u32 vf_id,
++				    union octep_pfvf_mbox_word cmd,
++				    union octep_pfvf_mbox_word *rsp)
++{
++	int err;
++
++	err = octep_ctrl_net_set_rx_state(oct, vf_id, cmd.s_link_state.state, true);
++	if (err) {
++		rsp->s_link_state.type = OCTEP_PFVF_MBOX_TYPE_RSP_NACK;
++		dev_err(&oct->pdev->dev, "Set VF Rx link state failed via host control Mbox\n");
++		return;
++	}
++	rsp->s_link_state.type = OCTEP_PFVF_MBOX_TYPE_RSP_ACK;
++}
++
++static void octep_pfvf_set_mtu(struct octep_device *oct, u32 vf_id,
++			       union octep_pfvf_mbox_word cmd,
++			       union octep_pfvf_mbox_word *rsp)
++{
++	int err;
++
++	err = octep_ctrl_net_set_mtu(oct, vf_id, cmd.s_set_mtu.mtu, true);
++	if (err) {
++		rsp->s_set_mtu.type = OCTEP_PFVF_MBOX_TYPE_RSP_NACK;
++		dev_err(&oct->pdev->dev, "Set VF MTU failed via host control Mbox\n");
++		return;
++	}
++	rsp->s_set_mtu.type = OCTEP_PFVF_MBOX_TYPE_RSP_ACK;
++}
++
++static void octep_pfvf_set_mac_addr(struct octep_device *oct,  u32 vf_id,
++				    union octep_pfvf_mbox_word cmd,
++				    union octep_pfvf_mbox_word *rsp)
++{
++	int err;
++
++	err = octep_ctrl_net_set_mac_addr(oct, vf_id, cmd.s_set_mac.mac_addr, true);
++	if (err) {
++		rsp->s_set_mac.type = OCTEP_PFVF_MBOX_TYPE_RSP_NACK;
++		dev_err(&oct->pdev->dev, "Set VF MAC address failed via host control Mbox\n");
++		return;
++	}
++	rsp->s_set_mac.type = OCTEP_PFVF_MBOX_TYPE_RSP_ACK;
++}
++
++static void octep_pfvf_get_mac_addr(struct octep_device *oct,  u32 vf_id,
++				    union octep_pfvf_mbox_word cmd,
++				    union octep_pfvf_mbox_word *rsp)
++{
++	int err;
++
++	err = octep_ctrl_net_get_mac_addr(oct, vf_id, rsp->s_set_mac.mac_addr);
++	if (err) {
++		rsp->s_set_mac.type = OCTEP_PFVF_MBOX_TYPE_RSP_NACK;
++		dev_err(&oct->pdev->dev, "Get VF MAC address failed via host control Mbox\n");
++		return;
++	}
++	rsp->s_set_mac.type = OCTEP_PFVF_MBOX_TYPE_RSP_ACK;
++}
++
++int octep_setup_pfvf_mbox(struct octep_device *oct)
++{
++	int i = 0, num_vfs = 0, rings_per_vf = 0;
++	int ring = 0;
++
++	num_vfs = oct->conf->sriov_cfg.active_vfs;
++	rings_per_vf = oct->conf->sriov_cfg.max_rings_per_vf;
++
++	for (i = 0; i < num_vfs; i++) {
++		/* TODO: FIXME: VSR: discuss about the usage of i and ring variables */
++		ring  = rings_per_vf * i;
++		oct->mbox[ring] = vzalloc(sizeof(*oct->mbox[ring]));
++
++		if (!oct->mbox[ring])
++			goto free_mbox;
++
++		memset(oct->mbox[ring], 0, sizeof(struct octep_mbox));
++		mutex_init(&oct->mbox[ring]->lock);
++		INIT_WORK(&oct->mbox[ring]->wk.work, octep_pfvf_mbox_work);
++		oct->mbox[ring]->wk.ctxptr = oct->mbox[i];
++
++		if (!oct->mbox[i])
++			oct->mbox[ring]->wk.ctxptr = oct->mbox[ring];
++
++		oct->mbox[ring]->oct = oct;
++		oct->mbox[ring]->vf_id = i;
++		oct->hw_ops.setup_mbox_regs(oct, ring);
++	}
++	return 0;
++
++free_mbox:
++	while (i) {
++		i--;
++		ring  = rings_per_vf * i;
++		cancel_work_sync(&oct->mbox[ring]->wk.work);
++		mutex_destroy(&oct->mbox[ring]->lock);
++		vfree(oct->mbox[ring]);
++		oct->mbox[ring] = NULL;
++	}
++	return 1;
++}
++
++void octep_delete_pfvf_mbox(struct octep_device *oct)
++{
++	int rings_per_vf = oct->conf->sriov_cfg.max_rings_per_vf;
++	int num_vfs = oct->conf->sriov_cfg.active_vfs;
++	int i = 0, ring = 0, vf_srn = 0;
++
++	for (i = 0; i < num_vfs; i++) {
++		ring  = vf_srn + rings_per_vf * i;
++		if (!oct->mbox[ring])
++			continue;
++
++		if (work_pending(&oct->mbox[ring]->wk.work))
++			cancel_work_sync(&oct->mbox[ring]->wk.work);
++		vfree(oct->mbox[ring]);
++		oct->mbox[ring] = NULL;
++	}
++}
++
++static void octep_pfvf_pf_get_data(struct octep_device *oct,
++				   struct octep_mbox *mbox, int vf_id,
++				   union octep_pfvf_mbox_word cmd,
++				   union octep_pfvf_mbox_word *rsp)
++{
++	int length = 0;
++	int i = 0;
++	int err;
++	struct octep_iface_link_info link_info;
++	struct octep_iface_rx_stats rx_stats;
++	struct octep_iface_tx_stats tx_stats;
++
++	rsp->s_data.type = OCTEP_PFVF_MBOX_TYPE_RSP_ACK;
++
++	if (cmd.s_data.frag != OCTEP_PFVF_MBOX_MORE_FRAG_FLAG) {
++		mbox->config_data_index = 0;
++		memset(mbox->config_data, 0, MAX_VF_PF_MBOX_DATA_SIZE);
++		/* Based on the OPCODE CMD the PF driver
++		 * specific API should be called to fetch
++		 * the requested data
++		 */
++		switch (cmd.s.opcode) {
++		case OCTEP_PFVF_MBOX_CMD_GET_LINK_INFO:
++			memset(&link_info, 0, sizeof(link_info));
++			err = octep_ctrl_net_get_link_info(oct, vf_id, &link_info);
++			if (!err) {
++				mbox->message_len = sizeof(link_info);
++				*((int32_t *)rsp->s_data.data) = mbox->message_len;
++				memcpy(mbox->config_data, (u8 *)&link_info, sizeof(link_info));
++			} else {
++				rsp->s_data.type = OCTEP_PFVF_MBOX_TYPE_RSP_NACK;
++				return;
++			}
++			break;
++		case OCTEP_PFVF_MBOX_CMD_GET_STATS:
++			memset(&rx_stats, 0, sizeof(rx_stats));
++			memset(&tx_stats, 0, sizeof(tx_stats));
++			err = octep_ctrl_net_get_if_stats(oct, vf_id, &rx_stats, &tx_stats);
++			if (!err) {
++				mbox->message_len = sizeof(rx_stats) + sizeof(tx_stats);
++				*((int32_t *)rsp->s_data.data) = mbox->message_len;
++				memcpy(mbox->config_data, (u8 *)&rx_stats, sizeof(rx_stats));
++				memcpy(mbox->config_data + sizeof(rx_stats), (u8 *)&tx_stats,
++				       sizeof(tx_stats));
++
++			} else {
++				rsp->s_data.type = OCTEP_PFVF_MBOX_TYPE_RSP_NACK;
++				return;
++			}
++			break;
++		}
++		*((int32_t *)rsp->s_data.data) = mbox->message_len;
++		return;
++	}
++
++	if (mbox->message_len > OCTEP_PFVF_MBOX_MAX_DATA_SIZE)
++		length = OCTEP_PFVF_MBOX_MAX_DATA_SIZE;
++	else
++		length = mbox->message_len;
++
++	mbox->message_len -= length;
++
++	for (i = 0; i < length; i++) {
++		rsp->s_data.data[i] =
++			mbox->config_data[mbox->config_data_index];
++		mbox->config_data_index++;
++	}
++}
++
++void octep_pfvf_mbox_work(struct work_struct *work)
++{
++	struct octep_pfvf_mbox_wk *wk = container_of(work, struct octep_pfvf_mbox_wk, work);
++	union octep_pfvf_mbox_word cmd = { 0 };
++	union octep_pfvf_mbox_word rsp = { 0 };
++	struct octep_mbox *mbox = NULL;
++	struct octep_device *oct = NULL;
++	int vf_id;
++
++	mbox = (struct octep_mbox *)wk->ctxptr;
++	oct = (struct octep_device *)mbox->oct;
++	vf_id = mbox->vf_id;
++
++	mutex_lock(&mbox->lock);
++	cmd.u64 = readq(mbox->vf_pf_data_reg);
++	rsp.u64 = 0;
++
++	switch (cmd.s.opcode) {
++	case OCTEP_PFVF_MBOX_CMD_VERSION:
++		octep_pfvf_validate_version(oct, vf_id, cmd, &rsp);
++		break;
++	case OCTEP_PFVF_MBOX_CMD_GET_LINK_STATUS:
++		octep_pfvf_get_link_status(oct, vf_id, cmd, &rsp);
++		break;
++	case OCTEP_PFVF_MBOX_CMD_SET_LINK_STATUS:
++		octep_pfvf_set_link_status(oct, vf_id, cmd, &rsp);
++		break;
++	case OCTEP_PFVF_MBOX_CMD_SET_RX_STATE:
++		octep_pfvf_set_rx_state(oct, vf_id, cmd, &rsp);
++		break;
++	case OCTEP_PFVF_MBOX_CMD_SET_MTU:
++		octep_pfvf_set_mtu(oct, vf_id, cmd, &rsp);
++		break;
++	case OCTEP_PFVF_MBOX_CMD_SET_MAC_ADDR:
++		octep_pfvf_set_mac_addr(oct, vf_id, cmd, &rsp);
++		break;
++	case OCTEP_PFVF_MBOX_CMD_GET_MAC_ADDR:
++		octep_pfvf_get_mac_addr(oct, vf_id, cmd, &rsp);
++		break;
++	case OCTEP_PFVF_MBOX_CMD_GET_LINK_INFO:
++	case OCTEP_PFVF_MBOX_CMD_GET_STATS:
++		octep_pfvf_pf_get_data(oct, mbox, vf_id, cmd, &rsp);
++		break;
++	default:
++		dev_err(&oct->pdev->dev, "PF-VF mailbox: invalid opcode %d\n", cmd.s.opcode);
++		rsp.s.type = OCTEP_PFVF_MBOX_TYPE_RSP_NACK;
++		break;
++	}
++	writeq(rsp.u64, mbox->vf_pf_data_reg);
++	mutex_unlock(&mbox->lock);
++}
+diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_pfvf_mbox.h b/drivers/net/ethernet/marvell/octeon_ep/octep_pfvf_mbox.h
+new file mode 100644
+index 000000000000..d113f1310655
+--- /dev/null
++++ b/drivers/net/ethernet/marvell/octeon_ep/octep_pfvf_mbox.h
+@@ -0,0 +1,126 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/* Marvell Octeon EP (EndPoint) Ethernet Driver
++ *
++ * Copyright (C) 2020 Marvell.
++ *
++ */
++#ifndef _OCTEP_PFVF_MBOX_H_
++#define _OCTEP_PFVF_MBOX_H_
++
++#define OCTEP_PF_MBOX_VERSION 1
++
++enum octep_pfvf_mbox_opcode {
++	OCTEP_PFVF_MBOX_CMD_VERSION,
++	OCTEP_PFVF_MBOX_CMD_SET_MTU,
++	OCTEP_PFVF_MBOX_CMD_SET_MAC_ADDR,
++	OCTEP_PFVF_MBOX_CMD_GET_MAC_ADDR,
++	OCTEP_PFVF_MBOX_CMD_GET_LINK_INFO,
++	OCTEP_PFVF_MBOX_CMD_GET_STATS,
++	OCTEP_PFVF_MBOX_CMD_SET_RX_STATE,
++	OCTEP_PFVF_MBOX_CMD_SET_LINK_STATUS,
++	OCTEP_PFVF_MBOX_CMD_GET_LINK_STATUS,
++	OCTEP_PFVF_MBOX_CMD_LAST,
++};
++
++enum octep_pfvf_mbox_word_type {
++	OCTEP_PFVF_MBOX_TYPE_CMD,
++	OCTEP_PFVF_MBOX_TYPE_RSP_ACK,
++	OCTEP_PFVF_MBOX_TYPE_RSP_NACK,
++};
++
++enum octep_pfvf_mbox_cmd_status {
++	OCTEP_PFVF_MBOX_CMD_STATUS_NOT_SETUP = 1,
++	OCTEP_PFVF_MBOX_CMD_STATUS_TIMEDOUT = 2,
++	OCTEP_PFVF_MBOX_CMD_STATUS_NACK = 3,
++	OCTEP_PFVF_MBOX_CMD_STATUS_BUSY = 4
++};
++
++enum octep_pfvf_mbox_state {
++	OCTEP_PFVF_MBOX_STATE_IDLE = 0,
++	OCTEP_PFVF_MBOX_STATE_BUSY = 1,
++};
++
++enum octep_pfvf_link_status {
++	OCTEP_PFVF_LINK_STATUS_DOWN,
++	OCTEP_PFVF_LINK_STATUS_UP,
++};
++
++enum octep_pfvf_link_speed {
++	OCTEP_PFVF_LINK_SPEED_NONE,
++	OCTEP_PFVF_LINK_SPEED_1000,
++	OCTEP_PFVF_LINK_SPEED_10000,
++	OCTEP_PFVF_LINK_SPEED_25000,
++	OCTEP_PFVF_LINK_SPEED_40000,
++	OCTEP_PFVF_LINK_SPEED_50000,
++	OCTEP_PFVF_LINK_SPEED_100000,
++	OCTEP_PFVF_LINK_SPEED_LAST,
++};
++
++enum octep_pfvf_link_duplex {
++	OCTEP_PFVF_LINK_HALF_DUPLEX,
++	OCTEP_PFVF_LINK_FULL_DUPLEX,
++};
++
++enum octep_pfvf_link_autoneg {
++	OCTEP_PFVF_LINK_AUTONEG,
++	OCTEP_PFVF_LINK_FIXED,
++};
++
++#define OCTEP_PFVF_MBOX_TIMEOUT_MS     500
++#define OCTEP_PFVF_MBOX_MAX_RETRIES    2
++#define OCTEP_PFVF_MBOX_VERSION        0
++#define OCTEP_PFVF_MBOX_MAX_DATA_SIZE  6
++#define OCTEP_PFVF_MBOX_MORE_FRAG_FLAG 1
++#define OCTEP_PFVF_MBOX_WRITE_WAIT_TIME msecs_to_jiffies(1)
++
++union octep_pfvf_mbox_word {
++	u64 u64;
++	struct {
++		u64 opcode:8;
++		u64 type:2;
++		u64 rsvd:6;
++		u64 data:48;
++	} s;
++	struct {
++		u64 opcode:8;
++		u64 type:2;
++		u64 frag:1;
++		u64 rsvd:5;
++		u8 data[6];
++	} s_data;
++	struct {
++		u64 opcode:8;
++		u64 type:2;
++		u64 rsvd:6;
++		u64 version:48;
++	} s_version;
++	struct {
++		u64 opcode:8;
++		u64 type:2;
++		u64 rsvd:6;
++		u8 mac_addr[6];
++	} s_set_mac;
++	struct {
++		u64 opcode:8;
++		u64 type:2;
++		u64 rsvd:6;
++		u64 mtu:48;
++	} s_set_mtu;
++	struct {
++		u64 opcode:8;
++		u64 type:2;
++		u64 state:1;
++		u64 rsvd:53;
++	} s_link_state;
++	struct {
++		u64 opcode:8;
++		u64 type:2;
++		u64 status:1;
++		u64 rsvd:53;
++	} s_link_status;
++} __packed;
++
++void octep_pfvf_mbox_work(struct work_struct *work);
++int octep_setup_pfvf_mbox(struct octep_device *oct);
++void octep_delete_pfvf_mbox(struct octep_device *oct);
++#endif
+diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_regs_cn9k_pf.h b/drivers/net/ethernet/marvell/octeon_ep/octep_regs_cn9k_pf.h
+index 0466fd9a002d..f29c4344fc41 100644
+--- a/drivers/net/ethernet/marvell/octeon_ep/octep_regs_cn9k_pf.h
++++ b/drivers/net/ethernet/marvell/octeon_ep/octep_regs_cn9k_pf.h
+@@ -208,6 +208,9 @@
+ #define    CN93_SDP_R_MBOX_PF_VF_INT_START        0x10220
+ #define    CN93_SDP_R_MBOX_VF_PF_DATA_START       0x10230
+ 
++#define    CN93_SDP_MBOX_VF_PF_DATA_START       0x24000
++#define    CN93_SDP_MBOX_PF_VF_DATA_START       0x22000
++
+ #define    CN93_SDP_R_MBOX_PF_VF_DATA(ring)		\
+ 	(CN93_SDP_R_MBOX_PF_VF_DATA_START + ((ring) * CN93_RING_OFFSET))
+ 
+@@ -217,6 +220,12 @@
+ #define    CN93_SDP_R_MBOX_VF_PF_DATA(ring)		\
+ 	(CN93_SDP_R_MBOX_VF_PF_DATA_START + ((ring) * CN93_RING_OFFSET))
+ 
++#define    CN93_SDP_MBOX_VF_PF_DATA(ring)          \
++	(CN93_SDP_MBOX_VF_PF_DATA_START + ((ring) * CN93_EPVF_RING_OFFSET))
++
++#define    CN93_SDP_MBOX_PF_VF_DATA(ring)      \
++	(CN93_SDP_MBOX_PF_VF_DATA_START + ((ring) * CN93_EPVF_RING_OFFSET))
++
+ /* ##################### Interrupt Registers ########################## */
+ #define	   CN93_SDP_R_ERR_TYPE_START	          0x10400
+ 
+diff --git a/drivers/net/ethernet/marvell/octeon_ep/octep_tx.h b/drivers/net/ethernet/marvell/octeon_ep/octep_tx.h
+index 2ef57980eb47..05788bf2cf08 100644
+--- a/drivers/net/ethernet/marvell/octeon_ep/octep_tx.h
++++ b/drivers/net/ethernet/marvell/octeon_ep/octep_tx.h
+@@ -45,6 +45,18 @@ struct octep_tx_buffer {
+ 
+ /* Hardware interface Tx statistics */
+ struct octep_iface_tx_stats {
++	/* Total frames sent on the interface */
++	u64 pkts;
++
++	/* Total octets sent on the interface */
++	u64 octs;
++
++	/* Packets sent to a broadcast DMAC */
++	u64 bcst;
++
++	/* Packets sent to the multicast DMAC */
++	u64 mcst;
++
+ 	/* Packets dropped due to excessive collisions */
+ 	u64 xscol;
+ 
+@@ -61,12 +73,6 @@ struct octep_iface_tx_stats {
+ 	 */
+ 	u64 scol;
+ 
+-	/* Total octets sent on the interface */
+-	u64 octs;
+-
+-	/* Total frames sent on the interface */
+-	u64 pkts;
+-
+ 	/* Packets sent with an octet count < 64 */
+ 	u64 hist_lt64;
+ 
+@@ -91,12 +97,6 @@ struct octep_iface_tx_stats {
+ 	/* Packets sent with an octet count of > 1518 */
+ 	u64 hist_gt1518;
+ 
+-	/* Packets sent to a broadcast DMAC */
+-	u64 bcst;
+-
+-	/* Packets sent to the multicast DMAC */
+-	u64 mcst;
+-
+ 	/* Packets sent that experienced a transmit underflow and were
+ 	 * truncated
+ 	 */
 -- 
 2.36.0
 
