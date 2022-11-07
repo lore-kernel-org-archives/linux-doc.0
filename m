@@ -2,113 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB83AC4167D
-	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 18:02:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 144FCC4321E
+	for <linux-doc@archiver.kernel.org>; Mon,  7 Nov 2022 18:05:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232417AbiKGSC3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 13:02:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39414 "EHLO
+        id S232947AbiKGSFK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 13:05:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233130AbiKGSCA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 13:02:00 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95EBF1E720
-        for <linux-doc@vger.kernel.org>; Mon,  7 Nov 2022 09:58:04 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id i132-20020a1c3b8a000000b003cfa97c05cdso149243wma.4
-        for <linux-doc@vger.kernel.org>; Mon, 07 Nov 2022 09:58:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:message-id:date:references:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3/UsOLSVJeRrP3hKZ9XAB4D/JQx5F5JGX1FwiQPvVuU=;
-        b=cN2PpU8w5R2dGTCKi5Q3mrHU2O2eEm8NRLA4oJn3gXKgwYvWUGzX8ieo/RXw6RfGik
-         dnpAhH0P9gzQTOtEFsMuej1JSGcRVQT2+jz9EQxY7IW1NmU2uGRHyGwOnWHtqiehjA82
-         Qe14hhcb7Ob/3syPlHGOy9eSFnY0s5lUJ01BQXgog2TBMZJUqSACQtWVmIiq2K5sfeqx
-         0CN5GAmfwLAp8ZzsHzVmhCM1cPGAUsRs5qh1aGWg+UIPv2TfXtFF7pe8N1Ar7p7qFMHJ
-         0gqYD9GtLugFGiVJRyelKODICgOo6FrDlzU/SS6CCTinBOMn1PlHse8jAoL0wga5t3tC
-         nOZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:message-id:date:references:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3/UsOLSVJeRrP3hKZ9XAB4D/JQx5F5JGX1FwiQPvVuU=;
-        b=TkOdQPU6YbkGNHt5T2sBBKOK8iTQviCnNsPMJKZ7dB6WD5rUXVw4tscfJ7sLD+pp5G
-         yY6X5xvrOv/VOIFqllVIwSSChU/ZZceW5/BWmogYoROpvuJ7GkknmFC+m5/6wRVqFCQY
-         rF/cdatii9ija+1SdJ6uGgij5xonZGZTZNP5E/F0izi8fqN18PolkSnkGOgP3b/xRYJb
-         7flM93tbxulpJQBWNEShnclYNWN6ObePOyzHkEXdwDM0Uw6Mbq4BqtkimyVVneNtzgWN
-         N1zbY8SMLcg0+RlAVZiOJlWB7cRQY70Jz2othdW7iEsN/V/SExPgGaCVaqdqTaPXG8+U
-         f89A==
-X-Gm-Message-State: ANoB5pkyiICflVLXzW+pS8qC1IrJnIEbbV9rdKc54+ksA30TO5BzfFWM
-        gux/z1At0h9BNEK4VwyI/PzCoA==
-X-Google-Smtp-Source: AA0mqf45hAf2eMGXeCEaPsHNxIabuTwUDaLIbBELqZs+Mkr1Si2gd7+wy0i/EyOsvqAwI8wbbgmJXw==
-X-Received: by 2002:a05:600c:1695:b0:3cf:a9b7:81e7 with SMTP id k21-20020a05600c169500b003cfa9b781e7mr5268454wmn.116.1667843883081;
-        Mon, 07 Nov 2022 09:58:03 -0800 (PST)
-Received: from localhost ([95.148.15.66])
-        by smtp.gmail.com with ESMTPSA id n17-20020a5d6611000000b002383edcde09sm7994811wru.59.2022.11.07.09.58.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 09:58:02 -0800 (PST)
-From:   Punit Agrawal <punit.agrawal@bytedance.com>
-To:     Usama Arif <usama.arif@bytedance.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, linux@armlinux.org.uk,
-        yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org,
-        maz@kernel.org, steven.price@arm.com, mark.rutland@arm.com,
-        bagasdotme@gmail.com, fam.zheng@bytedance.com,
-        liangma@liangbit.com, punit.agrawal@bytedance.com
-Subject: Re: [v2 2/6] KVM: arm64: Add SMCCC paravirtualised lock calls
-References: <20221104062105.4119003-1-usama.arif@bytedance.com>
-        <20221104062105.4119003-3-usama.arif@bytedance.com>
-Date:   Mon, 07 Nov 2022 17:58:01 +0000
-Message-ID: <87cz9y3avq.fsf@stealth>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        with ESMTP id S233026AbiKGSEt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 13:04:49 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9AD224F26;
+        Mon,  7 Nov 2022 10:00:43 -0800 (PST)
+Received: from zn.tnic (p200300ea9733e71f329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:9733:e71f:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 49F851EC059D;
+        Mon,  7 Nov 2022 19:00:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1667844042;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=UkSYnjmUQupdoESl0cYE22dAydPPeLNDAdR5Iz0pnhU=;
+        b=bXNIbKBf++r6UJZ1YxkMPFeTEsnxN+C6+C+eLrtUPptX7sJ1W2m3VuISpp81WPCK4PTYdm
+        mK9DduVUBLvg9bqJuQ6msgSIq572Li4j8FEI7OJElPzWdein5uvqIVmWrwPB6EpjLMZqtf
+        Xphdp9jPHy+GLhx1wExdY8rJG2XIe+E=
+Date:   Mon, 7 Nov 2022 19:00:37 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Rick Edgecombe <rick.p.edgecombe@intel.com>
+Cc:     x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H . J . Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V . Shankar" <ravi.v.shankar@intel.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        John Allen <john.allen@amd.com>, kcc@google.com,
+        eranian@google.com, rppt@kernel.org, jamorris@linux.microsoft.com,
+        dethoma@microsoft.com, akpm@linux-foundation.org,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: Re: [PATCH v3 04/37] x86/cpufeatures: Enable CET CR4 bit for shadow
+ stack
+Message-ID: <Y2lHxb5BnbQi499s@zn.tnic>
+References: <20221104223604.29615-1-rick.p.edgecombe@intel.com>
+ <20221104223604.29615-5-rick.p.edgecombe@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221104223604.29615-5-rick.p.edgecombe@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Usama Arif <usama.arif@bytedance.com> writes:
+On Fri, Nov 04, 2022 at 03:35:31PM -0700, Rick Edgecombe wrote:
+>  static __always_inline void setup_cet(struct cpuinfo_x86 *c)
+>  {
+> -	u64 msr = CET_ENDBR_EN;
+> +	bool kernel_ibt = HAS_KERNEL_IBT && cpu_feature_enabled(X86_FEATURE_IBT);
+> +	bool user_shstk;
+> +	u64 msr = 0;
+>  
+> -	if (!HAS_KERNEL_IBT ||
+> -	    !cpu_feature_enabled(X86_FEATURE_IBT))
+> +	/*
+> +	 * Enable user shadow stack only if the Linux defined user shadow stack
+> +	 * cap was not cleared by command line.
+> +	 */
+> +	user_shstk = cpu_feature_enabled(X86_FEATURE_SHSTK) &&
+> +		     IS_ENABLED(CONFIG_X86_USER_SHADOW_STACK) &&
+> +		     !test_bit(X86_FEATURE_USER_SHSTK, (unsigned long *)cpu_caps_cleared);
 
-> Add a new SMCCC compatible hypercalls for PV lock features:
->   ARM_SMCCC_KVM_FUNC_PV_LOCK:   0xC6000002
->
-> Also add the header file which defines the ABI for the paravirtualized
-> lock features we're about to add.
->
-> Signed-off-by: Zengruan Ye <yezengruan@huawei.com>
-> Signed-off-by: Usama Arif <usama.arif@bytedance.com>
-> ---
->  arch/arm64/include/asm/pvlock-abi.h | 17 +++++++++++++++++
->  include/linux/arm-smccc.h           |  8 ++++++++
->  tools/include/linux/arm-smccc.h     |  8 ++++++++
->  3 files changed, 33 insertions(+)
->  create mode 100644 arch/arm64/include/asm/pvlock-abi.h
->
-> diff --git a/arch/arm64/include/asm/pvlock-abi.h b/arch/arm64/include/asm/pvlock-abi.h
-> new file mode 100644
-> index 000000000000..3f4574071679
-> --- /dev/null
-> +++ b/arch/arm64/include/asm/pvlock-abi.h
-> @@ -0,0 +1,17 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright(c) 2019 Huawei Technologies Co., Ltd
-> + * Author: Zengruan Ye <yezengruan@huawei.com>
-> + *         Usama Arif <usama.arif@bytedance.com>
-> + */
+Huh, why poke at cpu_caps_cleared? 
+
+Look below:
+
+> +	if (!kernel_ibt && !user_shstk)
+>  		return;
+>  
+> +	if (user_shstk)
+> +		set_cpu_cap(c, X86_FEATURE_USER_SHSTK);
 > +
-> +#ifndef __ASM_PVLOCK_ABI_H
-> +#define __ASM_PVLOCK_ABI_H
+> +	if (kernel_ibt)
+> +		msr = CET_ENDBR_EN;
 > +
-> +struct pvlock_vcpu_state {
-> +	__le64 preempted;
-> +	/* Structure must be 64 byte aligned, pad to that size */
-> +	u8 padding[56];
-> +} __packed;
+>  	wrmsrl(MSR_IA32_S_CET, msr);
+>  	cr4_set_bits(X86_CR4_CET);
+>  
+> -	if (!ibt_selftest()) {
+> +	if (kernel_ibt && !ibt_selftest()) {
+>  		pr_err("IBT selftest: Failed!\n");
+>  		setup_clear_cpu_cap(X86_FEATURE_IBT);
+>  		return;
+>  	}
+>  }
+> +#else /* CONFIG_X86_CET */
+> +static inline void setup_cet(struct cpuinfo_x86 *c) {}
+> +#endif
+>  
+>  __noendbr void cet_disable(void)
+>  {
+> -	if (cpu_feature_enabled(X86_FEATURE_IBT))
+> -		wrmsrl(MSR_IA32_S_CET, 0);
+> +	if (!(cpu_feature_enabled(X86_FEATURE_IBT) ||
+> +	      cpu_feature_enabled(X86_FEATURE_SHSTK)))
+> +		return;
+> +
+> +	wrmsrl(MSR_IA32_S_CET, 0);
+> +	wrmsrl(MSR_IA32_U_CET, 0);
 
-For structure alignment, I'd have expected to see the use of "aligned"
-attribute. Is there any benefit in using padding to achieve alignment?
+Here you need to do
 
-[...]
+	setup_clear_cpu_cap(X86_FEATURE_IBT);
+	setup_clear_cpu_cap(X86_FEATURE_SHSTK);
+
+and then the cpu_feature_enabled() test above alone should suffice.
+
+But, before you do that, I'd like to ask you to update your patchset
+ontop of tip/master because the conflicts are getting non-trivial. This
+one doesn't even want to apply with a large fuzz:
+
+$ patch -p1 --dry-run -F20 -i /tmp/new
+checking file arch/x86/kernel/cpu/common.c
+Hunk #1 FAILED at 596.
+1 out of 1 hunk FAILED
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
