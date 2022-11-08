@@ -2,90 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BE3BC4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 09:49:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3765C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 10:00:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233736AbiKHJtu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Nov 2022 04:49:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60994 "EHLO
+        id S233473AbiKHKAS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Nov 2022 05:00:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233762AbiKHJtt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 04:49:49 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA55DE4
-        for <linux-doc@vger.kernel.org>; Tue,  8 Nov 2022 01:49:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667900988; x=1699436988;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=iC+onxNy7KNgKEzOFYTssykgkV5jyGSsB6F/1ba4UZ0=;
-  b=VmZwpVODJbAWMxsVheh8gZwI0nRY3kfIqAyFjBhRReNZky9g/Gs0E3zN
-   GhrO67dBkPMEK4RfutACZJ38aEXu01R8R82sXEnUjXyxwYiJsR34i2EZb
-   0vALxX8V7bZ6wEtBpuH5rVR7YAmTQjx7vk9ljyENZmo7JP1kaH5EqTDsw
-   O538kSma9MVgvG3tbWE2jmxoi6f5CyCpi55JGx3Bgfu+uHmaU8k7hopun
-   TAskVrZyCGDZDf8yg9KXVib9icB+3DFoCVEPbuIP1/4y687DaC5ajjlkU
-   VZoPyLFuflVOYNgbwYwzNJSoRpvvCnHM22JoZX494kzhjXqQBZXjumsUo
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="312445512"
-X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
-   d="scan'208";a="312445512"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 01:49:48 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="811182308"
-X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
-   d="scan'208";a="811182308"
-Received: from shylandx-mobl2.ger.corp.intel.com (HELO [10.213.210.50]) ([10.213.210.50])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 01:49:46 -0800
-Message-ID: <ee6f2ae9-9420-1c91-a029-644cb8ac85e0@linux.intel.com>
-Date:   Tue, 8 Nov 2022 09:49:45 +0000
+        with ESMTP id S233671AbiKHKAR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 05:00:17 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78A2F2A94C;
+        Tue,  8 Nov 2022 02:00:16 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0A98F614E6;
+        Tue,  8 Nov 2022 10:00:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 690ECC433D7;
+        Tue,  8 Nov 2022 10:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667901615;
+        bh=WdDOo8U/DzkUPI7ETAKH9dAAWOmv1Yt9yMQjVaB2hKQ=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=ScWd4GHK5xQQHeHmqZPX9xcyvvj/QHWJwKfh98ICb5POEhhYcI3rL/bo1j7zV+Qvd
+         EYI1o0FAT5OgZ7twGyC79mlgfhskXvwpO2NeWb5SqpZrcDzeE3QPKClfL5OhWjPgUH
+         jyhkOVMukoey+64U6fYnsFBa8wM4FPGM1slG86C+5/rELi9SrDE56QbpzqLbd+5Lii
+         zrHS2J1VAdjnFtejepZL6wRHGI4HnPBphdZ1ViuAc7SijfJrjzAR1BwkcNgnaNpHYa
+         2OeXR9IVml9R15HUugbmFQOMedjniq2yO2kFuS4o2ke5Qa2vEXoFZacMjDpw5T5qe2
+         Hq6EJvoqg+qXA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4C035C4166D;
+        Tue,  8 Nov 2022 10:00:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH 1/3] Documentation/gpu: Fix section in the wrong scope
-Content-Language: en-US
-To:     Lucas De Marchi <lucas.demarchi@intel.com>,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        linux-doc@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20221107173209.2219571-1-lucas.demarchi@intel.com>
- <20221107173209.2219571-2-lucas.demarchi@intel.com>
-From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20221107173209.2219571-2-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v5] ethtool: linkstate: add a statistic for PHY down
+ events
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166790161530.10635.9762046985462618583.git-patchwork-notify@kernel.org>
+Date:   Tue, 08 Nov 2022 10:00:15 +0000
+References: <20221104190125.684910-1-kuba@kernel.org>
+In-Reply-To: <20221104190125.684910-1-kuba@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, f.fainelli@gmail.com, michael.chan@broadcom.com,
+        andrew@lunn.ch, corbet@lwn.net, hkallweit1@gmail.com,
+        linux@armlinux.org.uk, huangguangbin2@huawei.com,
+        chenhao288@hisilicon.com, moshet@nvidia.com,
+        linux@rempel-privat.de, linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello:
 
-On 07/11/2022 17:32, Lucas De Marchi wrote:
-> That section should still be inside "DRM client usage stats" rather than
-> as a sibling.
+This patch was applied to netdev/net-next.git (master)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Fri,  4 Nov 2022 12:01:25 -0700 you wrote:
+> The previous attempt to augment carrier_down (see Link)
+> was not met with much enthusiasm so let's do the simple
+> thing of exposing what some devices already maintain.
+> Add a common ethtool statistic for link going down.
+> Currently users have to maintain per-driver mapping
+> to extract the right stat from the vendor-specific ethtool -S
+> stats. carrier_down does not fit the bill because it counts
+> a lot of software related false positives.
 > 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->   Documentation/gpu/drm-usage-stats.rst | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> index 92c5117368d7..b46327356e80 100644
-> --- a/Documentation/gpu/drm-usage-stats.rst
-> +++ b/Documentation/gpu/drm-usage-stats.rst
-> @@ -126,7 +126,6 @@ percentage utilization of the engine, whereas drm-engine-<str> only reflects
->   time active without considering what frequency the engine is operating as a
->   percentage of it's maximum frequency.
->   
-> -===============================
->   Driver specific implementations
->   ===============================
->   
+> [...]
 
-Oops - yep.
+Here is the summary with links:
+  - [net-next,v5] ethtool: linkstate: add a statistic for PHY down events
+    https://git.kernel.org/netdev/net-next/c/9a0f830f8026
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Regards,
 
-Tvrtko
