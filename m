@@ -2,113 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E53F1C43217
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 15:38:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03A68C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 15:47:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232170AbiKHPi3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Nov 2022 10:38:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57894 "EHLO
+        id S234513AbiKHPrn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Nov 2022 10:47:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234237AbiKHPi2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 10:38:28 -0500
-Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 38E472736;
-        Tue,  8 Nov 2022 07:38:24 -0800 (PST)
-Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 96C4FB86;
-        Tue,  8 Nov 2022 16:38:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
-        s=202205; t=1667921901;
-        bh=QmFrYew7uldCRdEfnY237r/8E+rgbEnHjVQjjnRiroM=;
+        with ESMTP id S234504AbiKHPrg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 10:47:36 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B691258BD1;
+        Tue,  8 Nov 2022 07:47:35 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 0C605CE1BDA;
+        Tue,  8 Nov 2022 15:47:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A244C433D7;
+        Tue,  8 Nov 2022 15:47:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1667922452;
+        bh=za4WbEtLefrKEzgLi73bg/HM+ESMxSvU10ePvP+t5j4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rAckSJb0Nvd8f9bLqB/jNx/HbGoh4z5cUQgYfixAmFnBkKcZmhLyagtO9wUERm1wW
-         sXfmAL2985EWoB6SDCHvTV5+gTT5951NfRemZlHJEn+eY1hw0UjSEs5aFzhfnzfjVD
-         43TBQdL6BsdCfZJd+ApJD2X/Pa97gWIOI+DAQcCWXKsG0dh04KlUFzqj92BtITJQiN
-         9BvCsmOHKCg6bhGPls+bvJFTGsAiMSoiaB9Isu97wtgdMhPglIjv+v5CDmSAOn0mye
-         wRCIYaiqhzZFJM0Eaur/Alx0FJwKRirko3rwoyP3DEAV1x6bMdFKaTppuamEDL9Y+5
-         afuW7YfxXTb311b1E3HbbgnbAa25ca1PwfS5dw+0eIPWLzKrVc47+ER1bVeNGeTZf8
-         Zv5Gr4vDraGTqSNNokTG/zcWotNAAE07fp1BIHsAKp9b9X7mjhN7UQi9cU08FC74R4
-         H1rZYtiSRtmE8dCVU2frn2llbCoYe/x3/xnkSg0foazxLsxqkHxHOrluONEdgjAs70
-         jpibf1xyVKrIcNwXW+SMDbR2Iu2OuV8c+ixwICHBkHxPL1ngiDeyQ0VXJreeOPyuQY
-         ZKqqdziapgXRPdK+r05sH+KBfj0hj2CJmvDlrAhU0s1U9oUK42Vq2VvS86seW2PSaA
-         fWi1uQpl9AgI0mbcN24ar4r0=
-Date:   Tue, 8 Nov 2022 16:38:20 +0100
-From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-mips@vger.kernel.org
-Subject: Re: [PATCH v2 07/15] MIPS: IP27: clean out sn/nmi.h
-Message-ID: <20221108153820.fp5du7p7zr7pc7cs@tarta.nabijaczleweli.xyz>
-References: <cover.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
- <534e0e7e4f2b0cc1cb35d5024192473635ed1b94.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
- <20221104145002.GA16099@alpha.franken.de>
+        b=huE/SXUEGR1joRt6ooEIUKklN/HLnn9Zea75Xz7GxdEbNcACWLMoY71rWU/yF+QSt
+         8poWuZCjX+5jqJfQ1PFkaQ1vHrLimy9t9mTA4ugE49WpEZFoTkCNMkN96Vds5qpMC2
+         1Zj16EoBoG8zkoSW12eSKxi2EG2cW51AYjeeaw0I=
+Date:   Tue, 8 Nov 2022 16:47:28 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jing Leng <jleng@ambarella.com>
+Cc:     balbi@kernel.org, bilbao@vt.edu, corbet@lwn.net,
+        laurent.pinchart@ideasonboard.com, mchehab+huawei@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, rdunlap@infradead.org
+Subject: Re: [PATCH v5] usb: gadget: uvc: add bulk transfer support
+Message-ID: <Y2p6ELhnZ9GE1ASQ@kroah.com>
+References: <20220513004201.25563-1-3090101217@zju.edu.cn>
+ <20221103061303.26813-1-jleng@ambarella.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="h7xzdhf5opgoap56"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221104145002.GA16099@alpha.franken.de>
-User-Agent: NeoMutt/20220429
+In-Reply-To: <20221103061303.26813-1-jleng@ambarella.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Nov 03, 2022 at 02:13:03PM +0800, Jing Leng wrote:
+> **********************************************************************
+> This email and attachments contain Ambarella Proprietary and/or Confidential Information and is intended solely for the use of the individual(s) to whom it is addressed. Any unauthorized review, use, disclosure, distribute, copy, or print is prohibited. If you are not an intended recipient, please contact the sender by reply email and destroy all copies of the original message. Thank you.
 
---h7xzdhf5opgoap56
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Nov 04, 2022 at 03:50:02PM +0100, Thomas Bogendoerfer wrote:
-> On Wed, Nov 02, 2022 at 12:05:30AM +0100, Ahelenia Ziemia=C5=84ska wrote:
-> > The only user is arch/mips/sgi-ip27/ip27-nmi.c; this file was imported
-> > wholesale in 2.3.99pre9-1, and received only whitespace updates since
-> > then.
-> >=20
-> > NMI_MAGIC isn't a magic number; it's unclear if it's actually used by
-> > the firmware in some capacity or if it's a holdover from copying the SGI
-> > code, but in the former case it's API and in the latter it's dead cruft.
->=20
-> it's used by firmware and Linux code to register the NMI exception
-> handler.
-Great, I'll put that in the message.
-
-> Please leave arch/mips/include/asm/sn/nmi.h untouched as
-> it's documents firmware NMI handler usage (even when we don't use it, yet=
-).
-"Yet".
-This file appeared in 2.3.99pre9-1, and hasn't changed since.
-I removed hard-coded assembly struct offsets, which we'll never use,
-because we /haven't/ used them, and this part is implemented in C.
-This file's my age, and these parts have been dead for just as long.
-
-Yet.
-
---h7xzdhf5opgoap56
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmNqd+kACgkQvP0LAY0m
-WPGGpg//dLU8hnK9tZdfcpo5GV0ERzxD2jSaCqx+7GtOPqi06pMv+x1W9p+DtT+R
-yjWlIz7bfhLM+cK9Foh9xE4fw6q1OMLMxj+OTAgHvymPnMKqw+eTKvNA5Pli46wp
-knBbflMGUCyUT8y8U8vT7wL49xYTRsdH5h27yz+wjRvgaBYz9x8iExttM8M3pVaR
-j7sbzS9U3I3/y4TyJ+jySOix3zGmB3J9gOcYIv2226tUUSLWHn9x7RHO593pbWEv
-mGH+5sVG3jrCUZA9mriR4RI2ztrqse1RsvxSJYROJtoQh4so5zR0I796HHP+FLeh
-i0aDcILPce0YFKO/3wz/XgntV5k1CK5s0niqP2aTcscM5DGJHjkjZvXnacQFYp/I
-isf/2zz/XTmMuDehzC48hoGEkBtFFVIUm5JKiE361PxGtlh8EmpCLu1CN/jb/9Yy
-ZcOWYsRWezri/Y897k/IpQo54iwvVCrOuQmCkhfrXyqoSugVUC3Y/G2yMEU9vMij
-lz1c4e+FSzH8zZNqG06mKfo23JkFhJn5GcHKEdcqVrH/R18u+qEOue1Zzlamrqnf
-D4W9jdUUKCkvGGSpxyztm1Vvx5kTvTWF1yJevCoL/uYRVFpiLbUzkptSI3Ww5Q9e
-bU1YDGV3U1bCxT9a0pvGl3EzdN1fSf7cwDWsEae9agiRRS6+1UM=
-=FWO/
------END PGP SIGNATURE-----
-
---h7xzdhf5opgoap56--
+Now deleted.
