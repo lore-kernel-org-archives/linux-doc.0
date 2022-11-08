@@ -2,192 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC12C4321E
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 18:47:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E4B9C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 20:42:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbiKHSrx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Nov 2022 13:47:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55312 "EHLO
+        id S229871AbiKHUmW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Nov 2022 15:42:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbiKHSrZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 13:47:25 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 532CE5E9C3
-        for <linux-doc@vger.kernel.org>; Tue,  8 Nov 2022 10:45:46 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id q9so41101337ejd.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Nov 2022 10:45:46 -0800 (PST)
+        with ESMTP id S229505AbiKHUmV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 15:42:21 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7FC365872
+        for <linux-doc@vger.kernel.org>; Tue,  8 Nov 2022 12:42:20 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id a13so24375814edj.0
+        for <linux-doc@vger.kernel.org>; Tue, 08 Nov 2022 12:42:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google;
+        d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=34xmTXahX9JOxAWp+niqcaXhO5EjSMmbu9kacIdY9GA=;
-        b=Q7EEEYcV7XltPOfTeY+7k0wa4jo3dxm2gU1pfbspEfsVW158MhXaCQ2w7LENlv2KFN
-         gbETXxIpwN02DzJ3Dmrp5CaxshdelWH/bKAo2om0M9pxffzXRe+udF/qr5Gbuy8Ut7zW
-         y1aCjGRCgHWuU/JLiaKbIcpaAY6ZoCC703xNcA5l5GhztkTg/WRD22wVzrtpr3R9+SJy
-         hEz5KtX/mhLD38qg/RPQITzxPITBH5tTUAgNObi+6TpUyjh0HGiT54mAXQ1X7/od6THg
-         CeCrxGEiqgEzHBC6z8Sh9TDpLwOXI7kbUTgVTVSeYreXRsyw/ELOmlUegRQBCPB5RCio
-         E/LQ==
+        bh=8PDeB4nZ2b0/kaV55EwLdKiv7+4Bjm3GYojARxweqjE=;
+        b=AVqZhoAy5n+PtVAMMbVx+483gzWF1tI70Wt+diEOnr/EEFplpI0IFX1YwVIOi7rt+5
+         xKjZRLDc7nKF1ln5nELX1axvNvA5KYnfEpaqcCUyQ1pFevFiis+oM1AT+lyQk3g7zHXY
+         LCaPl0JSId8MgYe21cyHU2fF6H+jewXU4nMH02zBTKFcCs2BJmeM/k0IOqOeQqCcSB32
+         Y6WYvyPjSIPQ9vvrFv+lQAHO3ltLKEVdP+WdsH1qA8J8GYSCb6l+9H4m2VSi05fgWWYa
+         RryX9TkQXOsmrkLmuqRSFQyVkoTeXgUcRgclZKN9oXRwEyoI5GUOItPRM4ZgJNwyzF37
+         S9og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=34xmTXahX9JOxAWp+niqcaXhO5EjSMmbu9kacIdY9GA=;
-        b=RyaRReL0Pn1pkHfGFcxyjBqk0HQBJiqXVQ9lz7yBWQkWOmusq37+Y/0q02kX6F1ZN9
-         wu+/iU5e7rbcalB7xQO2taYYYxEzublXhysv1wQ1LMhTs9Im9lhUOiv72gcp8QNjwaL6
-         5F3M9V4OzRKQp+838TIwZ86llSG3GAQ55qw6hSIS7k9yB6rSK8USJ4MQzWDjW39hB5h4
-         tQiVoftegop72MXBQ+yJcW1TfpiDowkVq2Qx5bd/vegmU6Mc1lU8oxrKaVOtI23umgM6
-         2z2rb73hDXoYMyGxBj9VfhqHOZyKMshof73KYSWDHEVGYZOrrA6ULMS/EDc7UoU6bCQ3
-         FV6Q==
-X-Gm-Message-State: ACrzQf3flrWrnBOOKVcLFoe0DtPhcfG1+Vhq62FMncaB9zlUhnWkAa0l
-        LjXxn5w11kwIdAP06w0SKTW6P0g7johMUoMoxNbpiQ==
-X-Google-Smtp-Source: AMsMyM7Tlc8spRalg0u2yiOeDWCAOkwjTndgzLLthoZ/7CAUKa/Ts8f5EjNK5MHh7Os/q7EA89e+nwpl5t2NZIebdhw=
-X-Received: by 2002:a17:907:761b:b0:7a3:86dd:d330 with SMTP id
- jx27-20020a170907761b00b007a386ddd330mr53730091ejc.34.1667933135949; Tue, 08
- Nov 2022 10:45:35 -0800 (PST)
+        bh=8PDeB4nZ2b0/kaV55EwLdKiv7+4Bjm3GYojARxweqjE=;
+        b=rxQ/8Ny3EpF7WU5SmAMBxrkCnPOnuNuewy3ta5FqacRuLdZUcu39prP2mBA4NF+LuF
+         iO/2zHbVGsAgntDSyjMJA3PdVcm4CTtWTJFdBc8AT82+Y8VwLr0mytExS79mptusV5/6
+         3NGZk0n/VDdX28fb4hY6zR/25qO4ZujqU6/y6CfvGwrgdOuqFQEH/XK6jvkjAWRTiUxQ
+         KQgka11bJ0Z9s08VWDf4b44KuUbeQZjtFbGsz3hc86uZ4TcdjXqOjZMvMaUeQj1G8FWW
+         8ShX38z29YOmYREOk+JeiJu4StNCNi8BvxgbQ9Jt0jboay8ApHIelyXiVLe3R0N+n3C6
+         BLNQ==
+X-Gm-Message-State: ACrzQf2Nb6IyKk0fgt+Hj/ABW6o7gWkspASRr40KtfUNyDXZ5vq8H8VK
+        gENKUkoV44ts2OEsR7SpfO12BFdGkuF/U43tMKoPOA==
+X-Google-Smtp-Source: AMsMyM5UacZlCRfKiRNa0kTrzT5kX7+K684naVNWV/pxq0wgKsP9jRI7CKgITH4pf2zDtNIwin7mrjQA9a0Qs67HpcE=
+X-Received: by 2002:aa7:c718:0:b0:462:ff35:95dc with SMTP id
+ i24-20020aa7c718000000b00462ff3595dcmr56160916edq.32.1667940139213; Tue, 08
+ Nov 2022 12:42:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20221107184715.3950621-1-pasha.tatashin@soleen.com> <e94ac231-7137-010c-2f2b-6a309c941759@redhat.com>
-In-Reply-To: <e94ac231-7137-010c-2f2b-6a309c941759@redhat.com>
-From:   Pasha Tatashin <pasha.tatashin@soleen.com>
-Date:   Tue, 8 Nov 2022 13:44:58 -0500
-Message-ID: <CA+CK2bAbKMj8-crNCtmQ=DB5uRvQBJtFTLf5TH9=RWRGjfOGew@mail.gmail.com>
-Subject: Re: [PATCH v2] mm: anonymous shared memory naming
-To:     David Hildenbrand <david@redhat.com>
-Cc:     corbet@lwn.net, akpm@linux-foundation.org, hughd@google.com,
-        hannes@cmpxchg.org, vincent.whitchurch@axis.com, seanjc@google.com,
-        rppt@kernel.org, shy828301@gmail.com, paul.gortmaker@windriver.com,
-        peterx@redhat.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
-        ccross@google.com, willy@infradead.org, arnd@arndb.de,
-        cgel.zte@gmail.com, yuzhao@google.com,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        bagasdotme@gmail.com, kirill@shutemov.name
+References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk> <E1osRXT-002mw3-JR@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1osRXT-002mw3-JR@rmk-PC.armlinux.org.uk>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 8 Nov 2022 21:42:08 +0100
+Message-ID: <CACRpkdaPwe0igrZOnA3Q3QosySTEa9H06kdXLQMcpeEmt+hiBw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] dt-bindings: mfd: add binding for Apple Mac System
+ Management Controller
+To:     "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        asahi@lists.linux.dev, devicetree@vger.kernel.org,
+        Hector Martin <marcan@marcan.st>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sven Peter <sven@svenpeter.dev>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi David,
+On Tue, Nov 8, 2022 at 5:33 PM Russell King (Oracle)
+<rmk+kernel@armlinux.org.uk> wrote:
 
-Thank you for taking a look at this change:
-
-On Tue, Nov 8, 2022 at 12:56 PM David Hildenbrand <david@redhat.com> wrote:
+> Add a DT binding for the Apple Mac System Management Controller.
 >
-> On 07.11.22 19:47, Pasha Tatashin wrote:
-> > Since: commit 9a10064f5625 ("mm: add a field to store names for private
-> > anonymous memory"), name for private anonymous memory, but not shared
-> > anonymous, can be set. However, naming shared anonymous memory just as
->
->                                                                   ^ is
->
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
-OK
+Looks good to me!
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-> > useful for tracking purposes.
-> >
-> > Extend the functionality to be able to set names for shared anon.
-> >
-> > Sample output:
-> >    /* Create shared anonymous segmenet */
->
-> s/segmenet/segment/
-
-Ok
-
->
-> >    anon_shmem = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
-> >                      MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-> >    /* Name the segment: "MY-NAME" */
-> >    rv = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME,
-> >               anon_shmem, SIZE, "MY-NAME");
-> >
-> > cat /proc/<pid>/maps (and smaps):
-> > 7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024 [anon_shmem:MY-NAME]
->
-> What would it have looked like before? Just no additional information?
-
-Before:
-
-7fc8e2b4c000-7fc8f2b4c000 rw-s 00000000 00:01 1024 /dev/zero (deleted)
-
-Pasha
-
->
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> > ---
->
->
-> [...]
->
-> > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > index 8bbcccbc5565..06b6fb3277ab 100644
-> > --- a/include/linux/mm.h
-> > +++ b/include/linux/mm.h
-> > @@ -699,8 +699,10 @@ static inline unsigned long vma_iter_addr(struct vma_iterator *vmi)
-> >    * paths in userfault.
-> >    */
-> >   bool vma_is_shmem(struct vm_area_struct *vma);
-> > +bool vma_is_anon_shmem(struct vm_area_struct *vma);
-> >   #else
-> >   static inline bool vma_is_shmem(struct vm_area_struct *vma) { return false; }
-> > +static inline bool vma_is_anon_shmem(struct vm_area_struct *vma) { return false; }
-> >   #endif
-> >
-> >   int vma_is_stack_for_current(struct vm_area_struct *vma);
-> > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> > index 500e536796ca..08d8b973fb60 100644
-> > --- a/include/linux/mm_types.h
-> > +++ b/include/linux/mm_types.h
-> > @@ -461,21 +461,11 @@ struct vm_area_struct {
-> >        * For areas with an address space and backing store,
-> >        * linkage into the address_space->i_mmap interval tree.
-> >        *
-> > -      * For private anonymous mappings, a pointer to a null terminated string
-> > -      * containing the name given to the vma, or NULL if unnamed.
-> >        */
-> > -
-> > -     union {
-> > -             struct {
-> > -                     struct rb_node rb;
-> > -                     unsigned long rb_subtree_last;
-> > -             } shared;
-> > -             /*
-> > -              * Serialized by mmap_sem. Never use directly because it is
-> > -              * valid only when vm_file is NULL. Use anon_vma_name instead.
-> > -              */
-> > -             struct anon_vma_name *anon_name;
-> > -     };
-> > +     struct {
-> > +             struct rb_node rb;
-> > +             unsigned long rb_subtree_last;
-> > +     } shared;
-> >
->
-> So that effectively grows the size of vm_area_struct. Hm. I'd really
-> prefer to keep this specific to actual anonymous memory, not extending
-> it to anonymous files.
-
-It grows only when CONFIG_ANON_VMA_NAME=y, otherwise it stays the same
-as before. Are you suggesting adding another config specifically for
-shared memory? I wonder if we could add a union for some other part of
-vm_area_struct where anon and file cannot be used together.
-
-> Do we have any *actual* users where we don't have an alternative? I
-> doubt that this is really required.
->
-> The simplest approach seems to be to use memfd instead of MAP_SHARED |
-> MAP_ANONYMOUS. __NR_memfd_create can be passed a name and you get what
-> you propose here effectively already. Or does anything speak against it?
-
-For our use case the above does not work. We are working on highly
-paravirtualized virtual machines. The VMM maps VM memory as anonymous
-shared memory (not private because VMM is sandboxed and drivers are
-running in their own processes). However, the VM tells back to the VMM
-how parts of the memory are actually used by the guest, how each of
-the segments should be backed (i.e. 4K pages, 2M pages), and some
-other information about the segments. The naming allows us to monitor
-the effective memory footprint for each of these segments from the
-host without looking inside the guest.
-
-Pasha
+Yours,
+Linus Walleij
