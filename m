@@ -2,122 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B25C43217
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 09:15:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A063C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 09:33:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233702AbiKHJPf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Nov 2022 04:15:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36032 "EHLO
+        id S233512AbiKHJd3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Nov 2022 04:33:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233726AbiKHJPa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 04:15:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D4252F009
-        for <linux-doc@vger.kernel.org>; Tue,  8 Nov 2022 01:14:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667898867;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=KP+tiCnk9vCKqrx4wl6vmjk9CSIgAcrzK2YQ6PLAxpU=;
-        b=HvofJwMia+xRSBsOD4/cY+x14ahaw2Unb3Y1nWiIE/q6YbB6iRUTV+bpa0HpKqV43MsPeM
-        V+5CCGEDt+m90xm2XUpeXJNmgouC3P8AGHMylLcUyzYKFTWL/kdzwzoI9kU76J6+DJh47f
-        dbw3XfH7cWKJ18f+/kc8p4qYlXNYdv8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-178-Ut-AJcnsP0m_xLQD9tcXTQ-1; Tue, 08 Nov 2022 04:14:23 -0500
-X-MC-Unique: Ut-AJcnsP0m_xLQD9tcXTQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C9E41C06EE9;
-        Tue,  8 Nov 2022 09:14:22 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.65])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B29FC4B3FC6;
-        Tue,  8 Nov 2022 09:14:14 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc:     "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "Yu, Yu-cheng" <yu-cheng.yu@intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "kcc@google.com" <kcc@google.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "bp@alien8.de" <bp@alien8.de>, "oleg@redhat.com" <oleg@redhat.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>
-Subject: Re: [RFC 37/37] fs/binfmt_elf: Block old shstk elf bit
-References: <20221104223604.29615-1-rick.p.edgecombe@intel.com>
-        <20221104223604.29615-38-rick.p.edgecombe@intel.com>
-        <CAMe9rOpfSccXVWmgK6E0Y0DXC=VX3PpdxXookN1Ty8soeAxrKw@mail.gmail.com>
-        <87iljs4ecp.fsf@oldenburg.str.redhat.com>
-        <ca106fe1b5005f54525e7a644684108f6a823e14.camel@intel.com>
-        <87h6zaiu05.fsf@oldenburg.str.redhat.com>
-        <f60f1138813f850d52dd92bc6b3df067c021a197.camel@intel.com>
-        <CAMe9rOpVUwCccRb5DAyraEKO48rix+Xfiamfp_Vc_aHhjp7=LQ@mail.gmail.com>
-        <73b8f726c424db1af1c10a48e101bf74703a186a.camel@intel.com>
-Date:   Tue, 08 Nov 2022 10:14:12 +0100
-In-Reply-To: <73b8f726c424db1af1c10a48e101bf74703a186a.camel@intel.com> (Rick
-        P. Edgecombe's message of "Mon, 7 Nov 2022 21:10:52 +0000")
-Message-ID: <87leolkduj.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+        with ESMTP id S233615AbiKHJdW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 04:33:22 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7459C13CF8;
+        Tue,  8 Nov 2022 01:33:20 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id o4so20017174wrq.6;
+        Tue, 08 Nov 2022 01:33:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=H7UigtKd2aguDxATVCZnnJd8IJSjFzIX4+jHHQBRFMk=;
+        b=QxgS68RxhsQ6TVao4eR6NpwQP5cAXCVH1iBWneiNCURADthk/U1ktVJlh5jgFuNXwQ
+         rRWGgLrQpxA110dLy+xBoDDbrbBoXK10pyUYb15KzV2BGCfHZg58sxz+rpeJcIokpmuC
+         oaOTmPbakl0Dlcwb8bS0Aixp8kge1V8ZZ7J7Bz4oV3Kfjx/VRyCy8slg20i+19wJzE3x
+         +0cIKOws6NJHrkJEKjFqUctnzmVgyGTW4YavYQLr1Rotpcebi1InWCZ6GF/Pq1mBc4aF
+         sJ03AqTve6oneg9XZ5P1r/UbbqF6jDvDWyfrUfQgG4F0AtSqvvqi4gYUP0fIY7b0RzL6
+         bVFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H7UigtKd2aguDxATVCZnnJd8IJSjFzIX4+jHHQBRFMk=;
+        b=b3h7tzAaKD92uWzvD2SkDuyfl2THE8KY56igHwMuOfLaDrrHliNATZMp6D3R9VPowa
+         P1cNbAOTIg4WxJX4zHuwpVtMhqYYXwCnut6o4yXiHTftD6xS2d/i6LU8k6yzGFkt/vRN
+         p7zd4NrGXosar+cziAkog8Oo6HML6Q9Nh59q1sWtoP65vk1vxPvD0nb7PiwpOUQi+pj6
+         dxOcbv74iJjlXupYvbGSEevE0HosAHnNXAnF4mOuv+iBzzHA7ZPX5iynCUMndXbLJwbY
+         uJS3wEoYG2CAVv4bdzGY7NHj3P5U1nOQHg7Aca52N7kMAtBwm1ucScJ92DvJZARR4Tg9
+         afhQ==
+X-Gm-Message-State: ACrzQf3jxlTN6sbzwGueo3QKiiyWlx45IVHr09ZAE4NPA7KsqJpFUvxC
+        IDy7wnz2ZMsuKvpn6CEEAJahs/L3SY/Fnw==
+X-Google-Smtp-Source: AMsMyM7o/SyT/6t2FI5Ce3LZBx3CEpAL6kH81c3fQVxiYl4jO9P25e555vS8yS+ytManC5BIGf6OEg==
+X-Received: by 2002:a5d:584e:0:b0:236:6f0f:9d8 with SMTP id i14-20020a5d584e000000b002366f0f09d8mr34750605wrf.701.1667899998329;
+        Tue, 08 Nov 2022 01:33:18 -0800 (PST)
+Received: from imac.fritz.box ([2a02:8010:60a0:0:550:1196:18a3:8071])
+        by smtp.gmail.com with ESMTPSA id t1-20020a1c7701000000b003b3307fb98fsm10340929wmi.24.2022.11.08.01.33.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Nov 2022 01:33:17 -0800 (PST)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Yonghong Song <yhs@meta.com>,
+        Donald Hunter <donald.hunter@gmail.com>
+Subject: [PATCH bpf-next v3] docs/bpf: Document BPF map types QUEUE and STACK
+Date:   Tue,  8 Nov 2022 09:33:14 +0000
+Message-Id: <20221108093314.44851-1-donald.hunter@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Rick P. Edgecombe:
+Add documentation for BPF_MAP_TYPE_QUEUE and BPF_MAP_TYPE_STACK,
+including usage and examples.
 
-> When we have everything in place, the problems would be much more
-> obvious when distros started turning it on. But we can't turn it on as
-> planned without breaking things for existing binaries. We can have both
-> by:
-> 1. Choosing a new bit, adding it to the tools, and never supporting the
-> old bit in glibc.
-> 2. Providing the option to have the kernel block the old bit, so
-> upgraded users can decide what experience they would like. Then distros
-> can find the problems and adjust their packages. I'm starting to think
-> a default off sysctl toggle might be better than a Kconfig.
-> 3. Any other ideas?
+Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+---
+v2 -> v3:
+- Add BPF_EXIST to valid flags as reported by Yonghong Song
+- Clarify valid flags for bpf_map_push_elem
 
-This problem is fairly common nowadays for new system calls.  Before
-glibc can use them internally, we need to port userspace first,
-otherwise key applications fail to work.  Yet we do not require ELF
-markup to make the new system call available to glibc.
+v1 -> v2:
+- Mention "libbpf's low-level API", as reported by Andrii Nakryiko
+- Replace 0 with NULL in code snippet, as reported by Andrii Nakryiko
+---
+ Documentation/bpf/map_queue_stack.rst | 122 ++++++++++++++++++++++++++
+ 1 file changed, 122 insertions(+)
+ create mode 100644 Documentation/bpf/map_queue_stack.rst
 
-The situation here seems similar: before deploying a new glibc, we need
-to upgrade parts of userspace.
-
-Thanks,
-Florian
+diff --git a/Documentation/bpf/map_queue_stack.rst b/Documentation/bpf/map_queue_stack.rst
+new file mode 100644
+index 000000000000..f20e31a647b9
+--- /dev/null
++++ b/Documentation/bpf/map_queue_stack.rst
+@@ -0,0 +1,122 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++.. Copyright (C) 2022 Red Hat, Inc.
++
++=========================================
++BPF_MAP_TYPE_QUEUE and BPF_MAP_TYPE_STACK
++=========================================
++
++.. note::
++   - ``BPF_MAP_TYPE_QUEUE`` and ``BPF_MAP_TYPE_STACK`` were introduced
++     in kernel version 4.20
++
++``BPF_MAP_TYPE_QUEUE`` provides FIFO storage and ``BPF_MAP_TYPE_STACK``
++provides LIFO storage for BPF programs. These maps support peek, pop and
++push operations that are exposed to BPF programs through the respective
++helpers. These operations are exposed to userspace applications using
++the existing ``bpf`` syscall in the following way:
++
++- ``BPF_MAP_LOOKUP_ELEM`` -> peek
++- ``BPF_MAP_LOOKUP_AND_DELETE_ELEM`` -> pop
++- ``BPF_MAP_UPDATE_ELEM`` -> push
++
++``BPF_MAP_TYPE_QUEUE`` and ``BPF_MAP_TYPE_STACK`` do not support
++``BPF_F_NO_PREALLOC``.
++
++Usage
++=====
++
++Kernel BPF
++----------
++
++.. c:function::
++   long bpf_map_push_elem(struct bpf_map *map, const void *value, u64 flags)
++
++An element ``value`` can be added to a queue or stack using the
++``bpf_map_push_elem`` helper. The ``flags`` parameter must be set to
++``BPF_ANY`` or ``BPF_EXIST``. If ``flags`` is set to ``BPF_EXIST`` then,
++when the queue or stack is full, the oldest element will be removed to
++make room for ``value`` to be added. Returns ``0`` on success, or
++negative error in case of failure.
++
++.. c:function::
++   long bpf_map_peek_elem(struct bpf_map *map, void *value)
++
++This helper fetches an element ``value`` from a queue or stack without
++removing it. Returns ``0`` on success, or negative error in case of
++failure.
++
++.. c:function::
++   long bpf_map_pop_elem(struct bpf_map *map, void *value)
++
++This helper removes an element into ``value`` from a queue or
++stack. Returns ``0`` on success, or negative error in case of failure.
++
++
++Userspace
++---------
++
++.. c:function::
++   int bpf_map_update_elem (int fd, const void *key, const void *value, __u64 flags)
++
++A userspace program can push ``value`` onto a queue or stack using libbpf's
++``bpf_map_update_elem`` function. The ``key`` parameter must be set to
++``NULL`` and ``flags`` must be set to ``BPF_ANY`` or ``BPF_EXIST``, with the
++same semantics as the ``bpf_map_push_elem`` kernel helper. Returns ``0`` on
++success, or negative error in case of failure.
++
++.. c:function::
++   int bpf_map_lookup_elem (int fd, const void *key, void *value)
++
++A userspace program can peek at the ``value`` at the head of a queue or stack
++using the libbpf ``bpf_map_lookup_elem`` function. The ``key`` parameter must be
++set to ``NULL``.  Returns ``0`` on success, or negative error in case of
++failure.
++
++.. c:function::
++   int bpf_map_lookup_and_delete_elem (int fd, const void *key, void *value)
++
++A userspace program can pop a ``value`` from the head of a queue or stack using
++the libbpf ``bpf_map_lookup_and_delete_elem`` function. The ``key`` parameter
++must be set to ``NULL``. Returns ``0`` on success, or negative error in case of
++failure.
++
++Examples
++========
++
++Kernel BPF
++----------
++
++This snippet shows how to declare a queue in a BPF program:
++
++.. code-block:: c
++
++    struct {
++            __uint(type, BPF_MAP_TYPE_QUEUE);
++            __type(value, __u32);
++            __uint(max_entries, 10);
++    } queue SEC(".maps");
++
++
++Userspace
++---------
++
++This snippet shows how to use libbpf's low-level API to create a queue from
++userspace:
++
++.. code-block:: c
++
++    int create_queue()
++    {
++            return bpf_map_create(BPF_MAP_TYPE_QUEUE,
++                                  "sample_queue", /* name */
++                                  0,              /* key size, must be zero */
++                                  sizeof(__u32),  /* value size */
++                                  10,             /* max entries */
++                                  NULL);          /* create options */
++    }
++
++
++References
++==========
++
++https://lwn.net/ml/netdev/153986858555.9127.14517764371945179514.stgit@kernel/
+-- 
+2.35.1
 
