@@ -2,102 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7A9C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 02:29:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1E99C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 02:48:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233273AbiKHC3S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 21:29:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54640 "EHLO
+        id S230362AbiKHCru (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 21:47:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233371AbiKHC3O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 21:29:14 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A4B812D09;
-        Mon,  7 Nov 2022 18:29:10 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id r18so12174581pgr.12;
-        Mon, 07 Nov 2022 18:29:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=h8+iDxfk1Lu5FMUmp5MLJsvPgLkzuNlpDVt+Jem4i3Q=;
-        b=Jp6Olhjx38ZCDIpDvJa1kIKktRPm6c5xnQbrcwbxWay6fgRWNK0dTBXcUESv2Ou9wj
-         mlhrbfIlEkDgdrQnx6HVbM9ZBII5gln6KLJd6+6tVcKZVN4z54kuoPubmB6j8IidDZTI
-         W9weypMD0ZPjGj5KN6/B7vCwTppH7/3YkT+f9Cs3J1ls3GeBLeQIgD0x+VYsina/5Oee
-         4izY6OU4D1ZVoDRiUCmNpjftQ/mVr81qX/Rd0N6uHQrAprw8F1K0QqVV4yNycxrn/49E
-         UVzyiHlNcQIlokU0fkuQWaCpkWMkaD3VMznkY0jZ8QtZUvfzgUQHR8UMGQYdehANEXm6
-         oOag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h8+iDxfk1Lu5FMUmp5MLJsvPgLkzuNlpDVt+Jem4i3Q=;
-        b=td2ujajh3hsZlV5QLdCDZrXfOGB24YUH+8hJoAQPfjKul7REklEzmeYxO7eRa2Sgnm
-         n9OqTTIzl1L8JzM8aIK/wl30BI3yOa8W0bLoQ51QKJpTAqqIhS3qw7bp9hhvIYywXSzf
-         /AKKuIPdaHl5g0yYT3o/gRxUSF0Z4aYvDMqAkNUY1WnD4NJxr232k2JgMOfrx1l/f1mQ
-         VmmEd+h6hXLfeunJ+Q9KSjRE4/mmKqDVBB62oUx0ROJibZZSb23J73HX4EdhgjZGMaUE
-         Zbn24HTK+0fcwvdZfS0IatTFTqTtcWBOEQAj8zZq3f6DNZKm/4dl60OOUueep+BKQEbw
-         JguQ==
-X-Gm-Message-State: ACrzQf3uJAvnmj2C7DJYzdf8olZTuHjEiZyVclyUr/TZ4ywMo953p9C9
-        r6JoXR4MsOngxhriEdZ1oRY=
-X-Google-Smtp-Source: AMsMyM4PHS1dbFAuhR5oCM2R3s+kkIX9oz32AKULQ5Nbtx0LyF1xDDPqA9EGoLuJeO4fX+1jOUKMfg==
-X-Received: by 2002:a05:6a00:1823:b0:56b:f348:998f with SMTP id y35-20020a056a00182300b0056bf348998fmr53571623pfa.28.1667874550131;
-        Mon, 07 Nov 2022 18:29:10 -0800 (PST)
-Received: from [192.168.43.80] (subs02-180-214-232-93.three.co.id. [180.214.232.93])
-        by smtp.gmail.com with ESMTPSA id k27-20020aa7999b000000b0056b8af5d46esm5144170pfh.168.2022.11.07.18.29.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Nov 2022 18:29:09 -0800 (PST)
-Message-ID: <206a95eb-5430-f9bf-15ad-4e644393255e@gmail.com>
-Date:   Tue, 8 Nov 2022 09:29:01 +0700
+        with ESMTP id S232494AbiKHCrX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 21:47:23 -0500
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42AA32E9FE;
+        Mon,  7 Nov 2022 18:47:22 -0800 (PST)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N5svP1nkBzRp3H;
+        Tue,  8 Nov 2022 10:47:13 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 8 Nov 2022 10:47:20 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 8 Nov 2022 10:47:19 +0800
+Subject: Re: [PATCH v3 1/2] arm64: kdump: Provide default size when
+ crashkernel=Y,low is not specified
+To:     Catalin Marinas <catalin.marinas@arm.com>
+CC:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, <kexec@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        "Dave Kleikamp" <dave.kleikamp@oracle.com>
+References: <20220711090319.1604-1-thunder.leizhen@huawei.com>
+ <20220711090319.1604-2-thunder.leizhen@huawei.com> <Y2k98lFhtUP2u1VM@arm.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <1dd20529-e346-cd64-d93d-54231c8b3d38@huawei.com>
+Date:   Tue, 8 Nov 2022 10:47:18 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] Documentation: RCU: use code blocks with autogenerated
- line (was: Re: linux-next: build warning after merge of the rcu tree)
+In-Reply-To: <Y2k98lFhtUP2u1VM@arm.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     corbet@lwn.net, frederic@kernel.org, jiangshanlai@gmail.com,
-        joel@joelfernandes.org, josh@joshtriplett.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-next@vger.kernel.org, mathieu.desnoyers@efficios.com,
-        paulmck@kernel.org, quic_neeraju@quicinc.com, rcu@vger.kernel.org,
-        rostedt@goodmis.org, sfr@canb.auug.org.au
-References: <Y2jWAR1QESe3OrhH@debian.me>
- <af3ec8bf-310e-69ea-9d32-f7aec740b306@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <af3ec8bf-310e-69ea-9d32-f7aec740b306@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/7/22 18:48, Akira Yokosawa wrote:
-> That might be true if all you care about were the generated documents,
-> but we need to pay attention to readers of .rst files as plain-text.
+
+
+On 2022/11/8 1:18, Catalin Marinas wrote:
+> On Mon, Jul 11, 2022 at 05:03:18PM +0800, Zhen Lei wrote:
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 2522b11e593f239..65a2c3a22a4b57d 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -843,7 +843,7 @@
+>>  			available.
+>>  			It will be ignored if crashkernel=X is specified.
+>>  	crashkernel=size[KMG],low
+>> -			[KNL, X86-64] range under 4G. When crashkernel=X,high
+>> +			[KNL, X86-64, ARM64] range under 4G. When crashkernel=X,high
+>>  			is passed, kernel could allocate physical memory region
+>>  			above 4G, that cause second kernel crash on system
+>>  			that require some amount of low memory, e.g. swiotlb
+>> @@ -857,12 +857,6 @@
+>>  			It will be ignored when crashkernel=X,high is not used
+>>  			or memory reserved is below 4G.
+>>  
+>> -			[KNL, ARM64] range in low memory.
+>> -			This one lets the user specify a low range in the
+>> -			DMA zone for the crash dump kernel.
+>> -			It will be ignored when crashkernel=X,high is not used
+>> -			or memory reserved is located in the DMA zones.
+>> -
+>>  	cryptomgr.notests
+>>  			[KNL] Disable crypto self-tests
+>>  
+>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+>> index 339ee84e5a61a0b..5390f361208ccf7 100644
+>> --- a/arch/arm64/mm/init.c
+>> +++ b/arch/arm64/mm/init.c
+>> @@ -96,6 +96,14 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
+>>  #define CRASH_ADDR_LOW_MAX		arm64_dma_phys_limit
+>>  #define CRASH_ADDR_HIGH_MAX		(PHYS_MASK + 1)
+>>  
+>> +/*
+>> + * This is an empirical value in x86_64 and taken here directly. Please
+>> + * refer to the code comment in reserve_crashkernel_low() of x86_64 for more
+>> + * details.
+>> + */
+>> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	\
+>> +	max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20)
+>> +
+>>  static int __init reserve_crashkernel_low(unsigned long long low_size)
+>>  {
+>>  	unsigned long long low_base;
+>> @@ -147,7 +155,9 @@ static void __init reserve_crashkernel(void)
+>>  		 * is not allowed.
+>>  		 */
+>>  		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
+>> -		if (ret && (ret != -ENOENT))
+>> +		if (ret == -ENOENT)
+>> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>> +		else if (ret)
+>>  			return;
 > 
-> There are a bunch of references to line numbers in RCU documents.
-> If explicit line numbers are removed from snippets, such readers need
-> to count the lines by themselves, which doesn't sound reasonable to me.
+> BTW, since we want a default low allocation, I think we should change
+> the checking logic slightly. Currently we have:
 > 
-
-I think only rcubarrier.rst have explicit references to line numbers.
-
-Also, besides manual line counting, readers seeing rst sources can deduce
-where actually the lines are from explanation of the snippet. Of course
-they can make htmldocs and seeing the output if they want.
-
-> If you can put labels to referenced lines within code snippets, auto
-> generation of line numbers might work, but as far as I know, Sphinx
-> doesn't provide such a nice feature.
+> 	if ((crash_base >= CRASH_ADDR_LOW_MAX) &&
+> 	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
+> 		...
 > 
+> If crash_base is just below CRASH_ADDR_LOW_MAX, we deem it sufficient
+> but a crashkernel trying to allocate 64MB of swiotlb may fail. So maybe
+> change this to crash_base >= CRASH_ADDR_LOW_MAX - crash_low_size.
 
-There's also :emphasize-lines: option to highlight selected line numbers.
+The equal sign needs to be removed.
 
-Thanks.
+The situation should be the allocation of "crashkernel=X,high".
+
+This possibility is too small, the high memory is unlikely to be that small.
+memblock_phys_alloc_range() always search for memory block from high addresses
+to low addresses. In the initial phase, high-end memory is not fragmented.
+
+Of course, the modification can make people look more reassuring. OK, I'll
+update it.
+
+> 
 
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Regards,
+  Zhen Lei
