@@ -2,100 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18FDAC4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 20:45:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFEACC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 20:56:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230034AbiKHUpO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Nov 2022 15:45:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51574 "EHLO
+        id S229518AbiKHU4H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Nov 2022 15:56:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230085AbiKHUoX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 15:44:23 -0500
-Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB6CE1F2D2;
-        Tue,  8 Nov 2022 12:43:57 -0800 (PST)
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-        by mx0a-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A8H0aan008598;
-        Tue, 8 Nov 2022 12:43:47 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=pfpt0220;
- bh=BIWGptJV6hpQpDjuFqfbYZMqkWijG7x7ilqLthRxdaM=;
- b=DTJUwfUdWKvXnzX6eEluz1+K89Exr3EXF2g9SFrIsVETq08NhEVUbDVrlxyQHSDm1Qqh
- ApUHpqZTvwNX0gAW+r4L8AqZareZzMa/5lB1gFDThBF6qYpR0IY2/pG1R0dI6jn+ALm4
- Vu69PjJE4t4QMBdrI5e70rBWIMv6/XvHYle+VDE6/GFc3zTx5ysJgP2mF+JMQubGS5fu
- WKOBzZepNsOqPvq1D51vZHRPUbykAc3inR7kEAT7KKikXIDPPADRpan/Xv5EPfeOKjq0
- y3B2YeQ1JJgHg3+dGI6igAVxNT6575ba86BF78EKWSCDaVam4X2OYBPM6WW6/xTCIOv3 7g== 
-Received: from dc5-exch02.marvell.com ([199.233.59.182])
-        by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3kqu4vh09m-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 08 Nov 2022 12:43:47 -0800
-Received: from DC5-EXCH02.marvell.com (10.69.176.39) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Tue, 8 Nov
- 2022 12:43:45 -0800
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH02.marvell.com
- (10.69.176.39) with Microsoft SMTP Server id 15.0.1497.18 via Frontend
- Transport; Tue, 8 Nov 2022 12:43:45 -0800
-Received: from sburla-PowerEdge-T630.caveonetworks.com (unknown [10.106.27.217])
-        by maili.marvell.com (Postfix) with ESMTP id 30B6B3F7089;
-        Tue,  8 Nov 2022 12:43:45 -0800 (PST)
-From:   Veerasenareddy Burru <vburru@marvell.com>
-To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <lironh@marvell.com>, <aayarekar@marvell.com>,
-        <sedara@marvell.com>, <sburla@marvell.com>
-CC:     <linux-doc@vger.kernel.org>,
-        Veerasenareddy Burru <vburru@marvell.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "Jonathan Corbet" <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
-        Lorenzo Bianconi <lorenzo@kernel.org>
-Subject: [PATCH net-next 8/8] octeon_ep_vf: update MAINTAINERS
-Date:   Tue, 8 Nov 2022 12:41:59 -0800
-Message-ID: <20221108204209.23071-9-vburru@marvell.com>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20221108204209.23071-1-vburru@marvell.com>
-References: <20221108204209.23071-1-vburru@marvell.com>
+        with ESMTP id S229571AbiKHU4E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 15:56:04 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2812958016
+        for <linux-doc@vger.kernel.org>; Tue,  8 Nov 2022 12:56:02 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id r12so22900290lfp.1
+        for <linux-doc@vger.kernel.org>; Tue, 08 Nov 2022 12:56:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZN9uZSDNWvaPFO2rZ2x2Euvj8Fn47RRK/0sBC6DfBoo=;
+        b=CuaG+ej43GV97bUxgLQ9Mm7HA7sNVVPduZA+KOU+AD0jUQpgdK2xLg5+jOzpTkMTkd
+         YRdoqohWEn/klIj6bPC4IgxMSsVVC5svI2BPsorqQfBxwe2o/DohjYx8NEPwa7rt9UKU
+         ZzBGG9pXB6oIJ2M1xF0rDC5J/WyZQlJFOzL436PLSirh6EBvyoOzAwnGoGNKwu+7RWN8
+         GmyflwkKAKtNq2iUMsLJJCxoFxNgINizTJBJ8uNMxS7U19tp/v6cAF224e07LIq/QTo0
+         NSiBRikayAq+us4QpLNdvEfZjYkk1nwrFpBCSb26a3cbqrN+o7ih+b5KtV5C0CaseA0o
+         4K+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZN9uZSDNWvaPFO2rZ2x2Euvj8Fn47RRK/0sBC6DfBoo=;
+        b=Xu5uBkEBNW5zf/Ys+zhhHyIHzD7L4KRcikjiuKevoCT7XtQ8qpQrkQFkzj46XoalTY
+         +E7lmUnJ4AR6YT0I5/hTAElhljTNgHAXRSXT49TJn9qmmnnOtjeDtPyWJDon+2ovCkTV
+         ga9banrxIpiCvMfWUzFNW/RISUcuflRT5pkurYS34z5N0S4UejJObsFnF1j9voKugZFU
+         H+Hp+RcphdYvPmH2DlWjngKlF7CbHGtLXR+MMEHq7oiYz8H3p3txJ2IVr79L+2K5xrBZ
+         GjtICbPrYkALRTS1J/AUL/oBChFPoJmiHyL2MSOUOCZiXexML5b0GVmfJngicba9y7b1
+         uPfQ==
+X-Gm-Message-State: ANoB5pkaQ186YFieSIW5x/lWWsrfRfGkJfgdTUNQh7ufrzpJ3xyXn6L7
+        TU5bJ7zMhU5AdvFYeZR954MfVeB8RYnvZA==
+X-Google-Smtp-Source: AA0mqf5bvyq3TmeVB175nUAweelEZ+MjMm8/M3KZoRYAcUcfeLH2drcbccrcU5kqWiR1zP0FQH25kg==
+X-Received: by 2002:ac2:5b8f:0:b0:4b3:e970:693f with SMTP id o15-20020ac25b8f000000b004b3e970693fmr2654998lfn.421.1667940960464;
+        Tue, 08 Nov 2022 12:56:00 -0800 (PST)
+Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
+        by smtp.gmail.com with ESMTPSA id g4-20020a056512118400b00497a1f92a72sm1933759lfr.221.2022.11.08.12.55.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Nov 2022 12:55:59 -0800 (PST)
+Message-ID: <531d88b8-75db-1d8f-1384-b8d05594e7b3@linaro.org>
+Date:   Tue, 8 Nov 2022 21:55:58 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: ulaC-OHdZRrqKDts9suiXF-3D5J9OPok
-X-Proofpoint-GUID: ulaC-OHdZRrqKDts9suiXF-3D5J9OPok
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-07_11,2022-11-08_01,2022-06-22_01
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 3/7] dt-bindings: mfd: add binding for Apple Mac System
+ Management Controller
+Content-Language: en-US
+To:     "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>
+Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        asahi@lists.linux.dev, devicetree@vger.kernel.org,
+        Hector Martin <marcan@marcan.st>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sven Peter <sven@svenpeter.dev>
+References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
+ <E1osRXT-002mw3-JR@rmk-PC.armlinux.org.uk>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <E1osRXT-002mw3-JR@rmk-PC.armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-add MAINTAINERS for octeon_ep_vf driver.
+On 08/11/2022 17:33, Russell King (Oracle) wrote:
+> Add a DT binding for the Apple Mac System Management Controller.
 
-Signed-off-by: Veerasenareddy Burru <vburru@marvell.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Drop the second, redundant "binding" from subject. It's already in prefix.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 95fc5e1b4548..25c7bc579620 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12397,6 +12397,15 @@ L:	netdev@vger.kernel.org
- S:	Supported
- F:	drivers/net/ethernet/marvell/octeon_ep
- 
-+MARVELL OCTEON ENDPOINT VF DRIVER
-+M:	Veerasenareddy Burru <vburru@marvell.com>
-+M:	Abhijit Ayarekar <aayarekar@marvell.com>
-+M:	Sathesh Edara <sedara@marvell.com>
-+M:	Satananda Burla <sburla@marvell.com>
-+L:	netdev@vger.kernel.org
-+S:	Supported
-+F:	drivers/net/ethernet/marvell/octeon_ep_vf
-+
- MATROX FRAMEBUFFER DRIVER
- L:	linux-fbdev@vger.kernel.org
- S:	Orphan
--- 
-2.36.0
+> 
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
+>  .../devicetree/bindings/mfd/apple,smc.yaml    | 67 +++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> new file mode 100644
+> index 000000000000..014eba5a1bbc
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> @@ -0,0 +1,67 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple Mac System Management Controller
+> +
+> +maintainers:
+> +  - Hector Martin <marcan@marcan.st>
+> +
+> +description:
+> +  Apple Mac System Management Controller implements various functions
+> +  such as GPIO, RTC, power, reboot.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - apple,t6000-smc
+> +          - apple,t8103-smc
+> +          - apple,t8112-smc
+> +      - const: apple,smc
+> +
+> +  reg:
+> +    items:
+> +      - description: SMC area
+> +      - description: SRAM area
+> +
+> +  reg-names:
+> +    items:
+> +      - const: smc
+> +      - const: sram
+> +
+> +  mboxes:
+> +    maxItems: 1
+> +
+> +  gpio:
+> +    $ref: /schemas/gpio/gpio-macsmc.yaml
+
+So this depends on other patch, so:
+1. You need mention the dependency in cover letter (nothing there),
+2. Re-order patches.
+
+The GPIO cannot go separate tree and this must be explicitly communicated.
+
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - mboxes
+> +
+> +examples:
+> +  - |
+> +    soc {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +
+> +      smc@23e400000 {
+
+Usually these are called system-controller, to have a generic name (as
+asked by DT spec).
+
+> +        compatible = "apple,t8103-smc", "apple,smc";
+> +        reg = <0x2 0x3e400000 0x0 0x4000>,
+> +               <0x2 0x3fe00000 0x0 0x100000>;
+
+Align the items (opening <).
+
+With three above:
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
