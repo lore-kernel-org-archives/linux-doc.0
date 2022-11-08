@@ -2,162 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AFC6C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 05:53:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FC19C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 07:21:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233313AbiKHFxb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Nov 2022 00:53:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53766 "EHLO
+        id S232798AbiKHHVE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Nov 2022 02:21:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233329AbiKHFx3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 00:53:29 -0500
-Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com [IPv6:2607:f8b0:4864:20::e2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E70D5D69;
-        Mon,  7 Nov 2022 21:53:25 -0800 (PST)
-Received: by mail-vs1-xe2c.google.com with SMTP id 128so12696143vse.6;
-        Mon, 07 Nov 2022 21:53:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JUUX7ZIq/U7gt7jiUmgSCgCgFz67sPw3x5Z6ID1kiVY=;
-        b=OkZcW8REGmRrJ+5YTTvYN/pehvrsKGzEXVRfhMD6M7uSbdIpo02yjnokNyrT2dbEYo
-         FGxXwUhMsgT6a+t0ycevgs1aYc+6uuzNFDTMUk5xabNZcUB3Io540QNryAwgGwFZbhFJ
-         xnsKLXI6uUKeXbqghhb2Snc7VHp75up9nk2UFArdjBEHY5KO6Wfac6j74H4DeL51ol/Q
-         HS8Av9AGsxwniXCTIDN6n+kIu2RVtD1db7LFiQzN941sCm+KU6OZTdT3RQJ8Ijkf0qn1
-         YAssWrWAFyTlGQrfF1gjGX5SQi879n5AtPJrhJmhi9UyHk25RRjtJJQcD8erBN+KqagN
-         A9oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JUUX7ZIq/U7gt7jiUmgSCgCgFz67sPw3x5Z6ID1kiVY=;
-        b=M6H++1eUc8G26OeOXoBA6QCPxGOsCCAfE76LMud0KAhZXTR6k50p0O5huyf11TctUV
-         SUpJOVxcHFYcm6/jWxfJ2INZIWu0sXsJso12KRykjz8HSCDeSnNIb3OK+9S5r6TsPYZI
-         Ink/D03rJ7rVRkIuIk7d4qS1wVnlUkOeoZo3Pt3LWQWsS03FHQhTBgq8QvujI1GmJNSa
-         967ogllkP6HxqsSdIPbjL1LuDSs45jdl33UMJJWrKozGZfmaBOyQv5XwEtNkIU0Py5TF
-         u2m1DBbLb5porsUgFINclNe4FLUie9iG5hd+H+XqAcw/cj0m0ke0oSgyHXRhVIKT8pU9
-         yCtg==
-X-Gm-Message-State: ACrzQf08/G1tcmBysNikhHt3tObmit/MKh7D1Vj0tJATY4WzhDypGwxE
-        JCYzh6WKTu31vvDMncbj0MDxkTZfmevsctrKo9A=
-X-Google-Smtp-Source: AMsMyM5t70GS9K03UePSY0T0jKrxCZyrdnGYtcTca9TgW/nXEn9X+WTYf3paxBUpvOsdTR8+MqMNk11O+m9B040xjwI=
-X-Received: by 2002:a67:e093:0:b0:3aa:4c52:1c06 with SMTP id
- f19-20020a67e093000000b003aa4c521c06mr26404376vsl.45.1667886804991; Mon, 07
- Nov 2022 21:53:24 -0800 (PST)
+        with ESMTP id S232494AbiKHHVD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 02:21:03 -0500
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E9ED13D05;
+        Mon,  7 Nov 2022 23:21:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667892062; x=1699428062;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=upQwL5A0Maekh82raTC60T5oBKGppSiNQzfVbZZR6Q8=;
+  b=NHZNtum37Ge4b2nlVNYfhNWqQeDTgP1qrq3FaXkb/9JepQ1xobuoFHio
+   xA1ch3lfnVuWBN6NE6rVlH6Y90/WigCk9thA8qEijNyDaPkooyfOis+OZ
+   u334GIWAl3n/QSoVrQW+s4g6QgZX8NF3qAv+TYTOHYB0+h7me/Ox/daGR
+   YRF54QlGLpHFHLxpwFFK3F8R4c9Pl0wiwhVQXIda1xfgsM7cuFl2g3++L
+   P/865ao2BKIRjxHfTEQKJciWfW49XFgQ8IVeVA0qx1l92X5uJveR081M9
+   5qSSWBgCwZFjro/whtOeNKQsm24iAl6DeVwzMLYBFKO+cyPGRMGcNf5y9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="312416933"
+X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
+   d="scan'208";a="312416933"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2022 23:21:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="638690908"
+X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
+   d="scan'208";a="638690908"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by fmsmga007.fm.intel.com with ESMTP; 07 Nov 2022 23:20:50 -0800
+Date:   Tue, 8 Nov 2022 15:16:24 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 4/8] KVM: Use gfn instead of hva for mmu_notifier_retry
+Message-ID: <20221108071624.GA76278@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-5-chao.p.peng@linux.intel.com>
+ <CA+EHjTySnJTuLB+XoRya6kS_zw2iMahW9-Ze70oKTf+6k0GrGQ@mail.gmail.com>
+ <20221104022813.GA4129873@chaop.bj.intel.com>
+ <Y2WSXLtcJOpWPtuv@google.com>
 MIME-Version: 1.0
-References: <20220728020250.1699-1-iecedge@gmail.com> <20221107144931.GA20793@willie-the-truck>
- <Y2klCLj7F7fKsza+@FVFF77S0Q05N> <20221107153506.GA21157@willie-the-truck>
- <Y2ktAisfFAr0aU2V@FVFF77S0Q05N> <20221108141009.d39d1d02f07e8993c1f37349@kernel.org>
-In-Reply-To: <20221108141009.d39d1d02f07e8993c1f37349@kernel.org>
-From:   Jianlin Lv <iecedge@gmail.com>
-Date:   Tue, 8 Nov 2022 13:53:13 +0800
-Message-ID: <CAFA-uR_B2iRaNj7Da2tZOu7JHUhrm=wZASia7nOfP-xJipzfiQ@mail.gmail.com>
-Subject: Re: [PATCH] arm64/kprobes: Add support for KPROBES_ON_FTRACE
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>, Will Deacon <will@kernel.org>,
-        corbet@lwn.net, catalin.marinas@arm.com, rostedt@goodmis.org,
-        mingo@redhat.com, naveen.n.rao@linux.ibm.com,
-        anil.s.keshavamurthy@intel.com, davem@davemloft.net, arnd@arndb.de,
-        zhengzengkai@huawei.com, jianlv@ebay.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2WSXLtcJOpWPtuv@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 8, 2022 at 1:10 PM Masami Hiramatsu <mhiramat@kernel.org> wrote:
->
-> On Mon, 7 Nov 2022 16:06:26 +0000
-> Mark Rutland <mark.rutland@arm.com> wrote:
->
-> > On Mon, Nov 07, 2022 at 03:35:07PM +0000, Will Deacon wrote:
-> > > On Mon, Nov 07, 2022 at 03:32:24PM +0000, Mark Rutland wrote:
-> > > > On Mon, Nov 07, 2022 at 02:49:31PM +0000, Will Deacon wrote:
-> > > > > [+Mark R]
-> > > > >
-> > > > > On Thu, Jul 28, 2022 at 02:02:50AM +0000, Jianlin Lv wrote:
-> > > > > > This is the arm64 version of ftrace-based kprobes to avoid the overhead
-> > > > > > with regular kprobes, by using the ftrace infrastructure.
-> > > > > >
-> > > > > > Signed-off-by: Jianlin Lv <iecedge@gmail.com>
-> > > > > > ---
-> > > > > >  .../debug/kprobes-on-ftrace/arch-support.txt  |  2 +-
-> > > > > >  arch/arm64/Kconfig                            |  1 +
-> > > > > >  arch/arm64/kernel/probes/Makefile             |  1 +
-> > > > > >  arch/arm64/kernel/probes/kprobes-ftrace.c     | 81 +++++++++++++++++++
-> > > > > >  include/linux/kprobes.h                       |  2 +
-> > > > > >  kernel/kprobes.c                              |  4 +-
-> > > > > >  6 files changed, 88 insertions(+), 3 deletions(-)
-> > > > > >  create mode 100644 arch/arm64/kernel/probes/kprobes-ftrace.c
-> > > > >
-> > > > > Sorry for the slow reply on this, but I think this deserved to be split
-> > > > > into two patches: the first one reworking the core check_ftrace_location()
-> > > > > logic to work properly with branch-and-link style architectures, and the
-> > > > > second one adding support for arm64.
+On Fri, Nov 04, 2022 at 10:29:48PM +0000, Sean Christopherson wrote:
+> On Fri, Nov 04, 2022, Chao Peng wrote:
+> > On Thu, Oct 27, 2022 at 11:29:14AM +0100, Fuad Tabba wrote:
+> > > Hi,
+> > > 
+> > > On Tue, Oct 25, 2022 at 4:19 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
 > > > >
-> > > > I'd prefer we don't do this at all; there a bunch of issues with kprobes *not*
-> > > > taking an exception, since we get a dodgy not-quite-real pt_regs, and to clean
-> > > > up the existing issues the plan is:
+> > > > Currently in mmu_notifier validate path, hva range is recorded and then
+> > > > checked against in the mmu_notifier_retry_hva() of the page fault path.
+> > > > However, for the to be introduced private memory, a page fault may not
+> > > > have a hva associated, checking gfn(gpa) makes more sense.
 > > > >
-> > > > 1) Move ftrace over to ftrace_regs
-> > > > 2) Implement fprobes using ftrace_regs
-> > > > 3) Remove kretprobes
->
-> Yes, that is what we agreed at the tracing summit.
+> > > > For existing non private memory case, gfn is expected to continue to
+> > > > work. The only downside is when aliasing multiple gfns to a single hva,
+> > > > the current algorithm of checking multiple ranges could result in a much
+> > > > larger range being rejected. Such aliasing should be uncommon, so the
+> > > > impact is expected small.
+> > > >
+> > > > It also fixes a bug in kvm_zap_gfn_range() which has already been using
+> > > 
+> > > nit: Now it's kvm_unmap_gfn_range().
+> > 
+> > Forgot to mention: the bug is still with kvm_zap_gfn_range(). It calls
+> > kvm_mmu_invalidate_begin/end with a gfn range but before this series
+> > kvm_mmu_invalidate_begin/end actually accept a hva range. Note it's
+> > unrelated to whether we use kvm_zap_gfn_range() or kvm_unmap_gfn_range()
+> > in the following patch (patch 05).
+> 
+> Grr, in the future, if you find an existing bug, please send a patch.  At the
+> very least, report the bug.
 
-Sorry to miss TS2022.
-Are there documents that can be shared to document the conclusions
-reached at the tracing summit?
-This will be helpful to understand what changes may be coming to tracing.
+Agreed, this can be sent out separately from this series.
 
->
-> When we finished to move on the fprobe and fprobe-events, kretprobes
-> (and kprobe-on-ftrace if CONFIG_HAVE_DYNAMIC_FTRACE_WITH_REGS is not
-> supported) are not needed from the user viewpoint.
-> So we can mark the kretprobe API obsolete.
->
-> > > >
-> > > > ... and regular kprobes will need to take an exception (via BRK) to get a real
-> > > > pt_regs, so that can't be optimized to use ftrace.
-> > >
-> > > OKey doke. Does that mean that other architectures will follow the same
-> > > approach of taking an exception,
-> >
-> > I think once everyone has FPROBE, KPROBES_ON_FTRACE becomes redundant, and
-> > could be removed (leaving kprobes to always follow a take-an-exception flow on
-> > all architectures).
->
-> Anyway I will give some window to transit to the fprobe with ftrace_regs.
->
-> >
-> > > or do they somehow work by magic?
-> >
-> > Some architectures don't need to take an exception to be able to create a full
-> > pt_regs (e.g. x86's flags are accessible in a way arm64's PSTATE isn't), but
-> > that needs to be generated / restored differently to exception entry/return,
-> > and so even where it's possible it can be painful to maintain (and slower than
-> > using ftrace_regs), so I suspect KPROBES_ON_FTRACE would be removed.
->
-> I think KPROBES_ON_FTRACE support depends on CONFIG_HAVE_DYNAMIC_FTRACE_WITH_REGS.
-> When the all architecture removed it, I remove it. But it means that if function
-> tracer is enabled, we can not put any kprobes on the entry of functions on x86
-> because there is no space to put a software breakpoint at the function entry
-> on x86.
->
-> For the ftrace (tracefs) user, I will minimize the effect of this change, but
-> the tools developers (including eBPF developer) this change may be critical.
->
-> Thank you,
->
->
-> >
-> > So different constaints more than magic.
-> >
-> > Thanks,
-> > Mark.
->
->
+> The APICv case that this was added for could very
+> well be broken because of this, and the resulting failures would be an absolute
+> nightmare to debug.
+
+Given the apicv_inhibit should be rare, the change looks good to me.
+Just to be clear, your will send out this fix, right?
+
+Chao
+
+> 
+> Compile tested only...
+> 
 > --
-> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> From: Sean Christopherson <seanjc@google.com>
+> Date: Fri, 4 Nov 2022 22:20:33 +0000
+> Subject: [PATCH] KVM: x86/mmu: Block all page faults during
+>  kvm_zap_gfn_range()
+> 
+> When zapping a GFN range, pass 0 => ALL_ONES for the to-be-invalidated
+> range to effectively block all page faults while the zap is in-progress.
+> The invalidation helpers take a host virtual address, whereas zapping a
+> GFN obviously provides a guest physical address and with the wrong unit
+> of measurement (frame vs. byte).
+> 
+> Alternatively, KVM could walk all memslots to get the associated HVAs,
+> but thanks to SMM, that would require multiple lookups.  And practically
+> speaking, kvm_zap_gfn_range() usage is quite rare and not a hot path,
+> e.g. MTRR and CR0.CD are almost guaranteed to be done only on vCPU0
+> during boot, and APICv inhibits are similarly infrequent operations.
+> 
+> Fixes: edb298c663fc ("KVM: x86/mmu: bump mmu notifier count in kvm_zap_gfn_range")
+> Cc: stable@vger.kernel.org
+> Cc: Maxim Levitsky <mlevitsk@redhat.com>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> ---
+>  arch/x86/kvm/mmu/mmu.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index 6f81539061d6..1ccb769f62af 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+> @@ -6056,7 +6056,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+>  
+>  	write_lock(&kvm->mmu_lock);
+>  
+> -	kvm_mmu_invalidate_begin(kvm, gfn_start, gfn_end);
+> +	kvm_mmu_invalidate_begin(kvm, 0, -1ul);
+>  
+>  	flush = kvm_rmap_zap_gfn_range(kvm, gfn_start, gfn_end);
+>  
+> @@ -6070,7 +6070,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+>  		kvm_flush_remote_tlbs_with_address(kvm, gfn_start,
+>  						   gfn_end - gfn_start);
+>  
+> -	kvm_mmu_invalidate_end(kvm, gfn_start, gfn_end);
+> +	kvm_mmu_invalidate_end(kvm, 0, -1ul);
+>  
+>  	write_unlock(&kvm->mmu_lock);
+>  }
+> 
+> base-commit: c12879206e47730ff5ab255bbf625b28ade4028f
+> -- 
