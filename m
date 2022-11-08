@@ -2,105 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 844FEC4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 22:30:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C701BC433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 22:48:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbiKHWar (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Nov 2022 17:30:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59448 "EHLO
+        id S230029AbiKHWsX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Nov 2022 17:48:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbiKHWaS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 17:30:18 -0500
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32E6F1007;
-        Tue,  8 Nov 2022 14:30:10 -0800 (PST)
-Received: by mail-ot1-f50.google.com with SMTP id r13-20020a056830418d00b0065601df69c0so9176811otu.7;
-        Tue, 08 Nov 2022 14:30:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=kj6QYdjPI+Mq4cfZXxle0k51SIZ4UdpD/shGFJqOIiY=;
-        b=rsC4XHHvIUH0nLc+i/7PA/kswwxqAmsLvjMD22FJ3M7Av6bBi4dHg/hIX5VmWkFJdD
-         To/UUF8AFMMp/cQoyiyOjfOPvuS58XZqiwV1oUZ0KK//v8gv9qy3RGj04afmnqU7Vvzg
-         nNaaZowYu7a7bT7i9WewRrn8al4pE1APi1zd6DreCWMy8CK46/j6ggPcWdvtkh7aBgg2
-         W0h976ttbEiKZXGLje4DACRpb9QEDeuKnLMmyqpGkR98p6yxaCxhaSLaJ+nAUerebH6G
-         eIyjSLryLU9FLXMiLy8hhSRbRFT0p+QuAZMzGcrB6+hw8sI4POo0YTIrF8wRv4RlC6dx
-         mbdw==
-X-Gm-Message-State: ACrzQf0SJp5nNUiFJspgchMn+Mh6lJ8SIBk2fF4eNnKEohvvAZ0KaraX
-        3L+4SXQKTKzs32DlPEPY5g==
-X-Google-Smtp-Source: AMsMyM4w+Q0bbTEoYWhch8yicb0YbQQFv0vfYscvOAojHPlu4xud6CxfcJeuZdXmpshPM5pW0gSwWA==
-X-Received: by 2002:a05:6830:628b:b0:660:d639:f380 with SMTP id ce11-20020a056830628b00b00660d639f380mr27602176otb.181.1667946609236;
-        Tue, 08 Nov 2022 14:30:09 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id y36-20020a05687045a400b0013ae39d0575sm5230025oao.15.2022.11.08.14.30.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Nov 2022 14:30:08 -0800 (PST)
-Received: (nullmailer pid 4095484 invoked by uid 1000);
-        Tue, 08 Nov 2022 22:30:08 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229492AbiKHWsW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 17:48:22 -0500
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2049.outbound.protection.outlook.com [40.107.94.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1AE464A1F;
+        Tue,  8 Nov 2022 14:48:20 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Fj9pbWlHLQmYLSG7h/e3jAEFVH6Jzp+CCAtdFs+62SHLd67LZK0tYG3FdqGae/CgK0evRRaAZmju+aqXZUjlpA6c8EwQ1TL61BLUHrFIb1guCmBUeNpMRwgNVz/llxykHmUkelw6h9B0lirFziETEFKmnQS3a0GOV+UHjmpR2ObLLbgeV/kjy17f4m52AVsYm0ScfV8tdCsiKF75y7CNWk/6hHTi3YbJ6IhyFKME88a4dUZgVa6cwSbGarbxmd0ushph6Tjw0FseOii+jXFJ0BbVQUvtWjwK1N5zHlfvKlwkczZVtek0eAwDuEuAxpAkfCMfub4rFD9BGHPWhUuTmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+/Jx34ECwwWQHLbUbXYSYxvvpWsiHRDpsjjdt/eia5s=;
+ b=O96ack4F9L38hLEPneFabKwy7FKB2XuF6HIjGTh1Ow892CsmLj0EZlb4VJUyW06xVjEzUAOyMlnJf3BkrAokL9+tFQWh7+uV6abyjbNrPMwQIpQW1PC5KvKWw+lfOLmQDNxDBTEWPSyi+UVWkkWZo2QoeBioSGj6MtcgGq2v6pED1HrbaaIeCjK/9XV8poTOiYiWfCV65Y2AYv47+949NHurQKRpsuHpIyfMT5xlQwipwCW8Dtt9g/Vdeycf3hPYc952z4EC9lcAXz4JUd+G+o569fZxKly4XAsduahaA0ZkZgdenAa29yVdOsgGnQONgSmAQbwXVCb40lhSnkJmbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+/Jx34ECwwWQHLbUbXYSYxvvpWsiHRDpsjjdt/eia5s=;
+ b=SYxZZzgfivV/Zny/SMX4VXgNB2QTVKFl8zhS0k3MJwEzEHLV1c8h19zeT1scS/lOgFd/oZ/VKVYHx6j8JKvJVlWcxKi3GrbDJVio0Us+/uNjc0g3BimMb/9A/gr41xFVOmfwfw8k+QPrO6VYN+ngNpByXv0OA0x1Cn9jM91+YgQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS7PR12MB6263.namprd12.prod.outlook.com (2603:10b6:8:95::17) by
+ DM4PR12MB6541.namprd12.prod.outlook.com (2603:10b6:8:88::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5791.27; Tue, 8 Nov 2022 22:48:19 +0000
+Received: from DS7PR12MB6263.namprd12.prod.outlook.com
+ ([fe80::6f5:7c8f:32d9:e72c]) by DS7PR12MB6263.namprd12.prod.outlook.com
+ ([fe80::6f5:7c8f:32d9:e72c%3]) with mapi id 15.20.5791.026; Tue, 8 Nov 2022
+ 22:48:19 +0000
+Message-ID: <4c8945ae-62c4-7550-dc75-068cca99e678@amd.com>
+Date:   Tue, 8 Nov 2022 16:48:12 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 3/3] x86/speculation: Support Automatic IBRS under
+ virtualization
+Content-Language: en-US
+To:     Jim Mattson <jmattson@google.com>
+Cc:     x86@kernel.org, Borislav Petkov <bp@alien8.de>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Babu Moger <Babu.Moger@amd.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20221104213651.141057-1-kim.phillips@amd.com>
+ <20221104213651.141057-4-kim.phillips@amd.com>
+ <CALMp9eSpKGCYK_1r3o326ui5RVoH73_RR5-LR2Div9Jm5zvk6A@mail.gmail.com>
+ <f25152d2-7045-94f4-d5dc-69b609c0be6a@amd.com>
+ <CALMp9eQF7iPXCNkafmaGHY5Dzg+opt0xp+Y8ceML8RTxFyCo7A@mail.gmail.com>
+From:   Kim Phillips <kim.phillips@amd.com>
+Organization: AMD
+In-Reply-To: <CALMp9eQF7iPXCNkafmaGHY5Dzg+opt0xp+Y8ceML8RTxFyCo7A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA9PR13CA0015.namprd13.prod.outlook.com
+ (2603:10b6:806:21::20) To DS7PR12MB6263.namprd12.prod.outlook.com
+ (2603:10b6:8:95::17)
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>, asahi@lists.linux.dev,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Petr Mladek <pmladek@suse.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-        Sven Peter <sven@svenpeter.dev>,
-        Hector Martin <marcan@marcan.st>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-doc@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
-In-Reply-To: <E1osRXi-002mwL-UB@rmk-PC.armlinux.org.uk>
-References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
- <E1osRXi-002mwL-UB@rmk-PC.armlinux.org.uk>
-Message-Id: <166794645522.4092185.9292599131300169784.robh@kernel.org>
-Subject: Re: [PATCH v3 6/7] dt-bindings: gpio: add binding for the GPIO block
- for Apple Mac SMC
-Date:   Tue, 08 Nov 2022 16:30:08 -0600
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6263:EE_|DM4PR12MB6541:EE_
+X-MS-Office365-Filtering-Correlation-Id: 104dc1f7-87d2-4d83-7c2d-08dac1db54ac
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /kgUeDa0IUqXuCYRgRU3QjHKb19iRzicC2MgTiElbNMG8xgnTMYcxefy2JN8lNYy6XjtnFfgryQ1CqiTOqTSewO4262nDvVTIMA1RJF42zja/z7/uGcB+kXAnx8+cF+8ovAf+2umPAjIw/EdiIUaNJjpou/VB5mgnnlVk0SXb6BLKBCrd8oJd+nvQ7U7gWGyOsvnH58MifXtwS3vL7rraT1glWleuN0MgvlWMqukgcqru7lj6dU4SKxaunLh0Xh0XO0uxiCtqvT+K0XizLBpnCbJ8fH3EsuElKNMQeItXq1oPoUOLCHpm0p58pw55zYAV7jIFHccezzWje53l4vb3/kSHOhlCB5WTwWTyedvV3/mT74LYqmOYs6ZoOFLAf+tLORDQNmW6uUTzITnj0oc6ocwB1vUBj/yLcC7OE07dK99vi4YUoMfWrge1+KAg5/5VuBvYZomVyWx4ABck6i6EJYgANJhOk3P9Ub/nyRHLtLXS+hp7cxxTPIf0eqk+yLmGZMFO+Yt2bZntCs2j0qGGigg2prxQf4chMW6R4CW9IB1MCEcXJvi5cfZUWFvFTRQ5RPRa0hFwEpwHlae6OW9+4wDwNyPX3QL0+rtARv53QZDI/mQZLsEAG++Zh4Rvb1oF6akdu9nvVwtu9yHQZaAQTC01bqfnUWjXSppJsCDZJWjYHx8DPsvctbYdjzZQ/3/x8Bl5M1QPST0scoeoQo+KaXtbhvOjy7d/BfIiUf5E+LB4/YV2XuKmE0NVnW/x0x8VuPTlokD7zzTzPSF9GF5svzBsPkHPBxtlt3IEHf59Xo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6263.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(39860400002)(136003)(376002)(366004)(346002)(451199015)(6486002)(5660300002)(7416002)(36756003)(478600001)(6666004)(41300700001)(2906002)(44832011)(66556008)(8936002)(66946007)(66476007)(4326008)(6916009)(316002)(8676002)(54906003)(38100700002)(186003)(2616005)(31686004)(86362001)(6506007)(53546011)(36916002)(6512007)(31696002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RXlpRER0NjZldHZKbFZRaU1vcVhDUWxZaFphL0ZUdzdWeGh2RGhEdlA1Z2Ex?=
+ =?utf-8?B?bFdKSmJETFBDU0kvMG1UUDRybjNFcm9rOXIzOUJadkNzelNoZXc2MjIvSnFE?=
+ =?utf-8?B?b1BvUzZZbmo5QlhGa0I0cGIrS3BrcU1xb0RTT0c5TlV3U0phazh0OTRCTElP?=
+ =?utf-8?B?Vlhaa0FEdE5JVzRKSjlNbU5KaXF2NjB2Ym1Ub05oR25CTWEwRG9lL2JKMFg3?=
+ =?utf-8?B?ekVqcVZjMEhIb054cCs4eTlCTXVCUHlIK0t0Y1VrdGVISG42MzRDRzBoWjhC?=
+ =?utf-8?B?RGtZZHlubHpHSTM2Z1BuOTF2SUdwUGpuZXdjeFBLQVdwbUZzOEVLajJUOVJu?=
+ =?utf-8?B?TGdsUXZmWSt0Qk5rajU2L2hzL2IwMzVmTm4rbzY1VCtvT3JQWW9aUkhxRWdR?=
+ =?utf-8?B?S09BeUlyS2p4NDNGd1FHWC9OMkN3V0l1WWNqWDJiRER2UHV1VHF6ZVBMVE9j?=
+ =?utf-8?B?bm5MOWNJdFF6QjZLem5WTWxjYW5hOHhmODhac1gzMldCUm9uS1JxMmc4aWZa?=
+ =?utf-8?B?R2daTzNzUG44N3ZMV3FCTC84cllzTmI5RTFaRWhpbFpIcGxIWU5MYk9WU0c3?=
+ =?utf-8?B?cU5GcFNwdjA0MWpXazg4MjUzRU80Sm45YnJzaEpCQ0x3cmQ2QyszQWVYTkJM?=
+ =?utf-8?B?TWlsZzdVMmsxN1BZYmFJS0tpd3dReElzdHU0M0pMMHpVUDlUYkx1eTM3eUEx?=
+ =?utf-8?B?SU5zVUswMSsvU1ZpTzVxYkM2V0J2N29vaU1iNndzQjI3NDZWUWJFNjdXSjIy?=
+ =?utf-8?B?eDV1NjRJTmJROEY2SFhCbllZaUVtdTFCYmRSajZBbWZDOWYxQnJvUEpEQUly?=
+ =?utf-8?B?TnZERXlNWmpIMEI0WmdqVHdXNDl2QTMyc0F6YTZRLzM0dUYyN3YxZXU4aHlC?=
+ =?utf-8?B?WnlZSXpZMWJ0TkVqdlBKcllxaDc4SERqemw4S3hKY1k1RFMxelRlT0VocTFa?=
+ =?utf-8?B?UVRCbnVEV1QzRUNXZ1NHZlZpb1JKOHBWckVkODFwNGpJUHlRZFBocXNJZTUx?=
+ =?utf-8?B?WWFOOEhxZ21nNkR0dDZCTWN5UnJFNko0ak9UK3BkYVEza3ZNWnoxWnl2UGJX?=
+ =?utf-8?B?L01hQUlMc2treW4xSXcvckI4eDBVQi9CeW1aRFdlVllpUG5wci9QWDFVbXJ1?=
+ =?utf-8?B?RENHblhhWjZKNTd1bGhMa1MvU2IvZi96ZEI0NUZqcjdhYzZ1U2p6bllBMW9X?=
+ =?utf-8?B?UklCYlk4Rk9BMWRCeFJDeTYya2VjYmI5TkJzZEFJUExWZ2VKakFodnZ1bTBC?=
+ =?utf-8?B?YWhoU3B1U2ErVHB6ZlV3R3p3R0hhQ21wN1FpSktxdVpvYmdPZWErSGN5SGhw?=
+ =?utf-8?B?akVxaVRoZ3AvanV2RFBxSkNnaHNBWEV4NG5Mc2FoSXpOTWpDQ2wvV0pmZktB?=
+ =?utf-8?B?VkhDTnBZNjIyY2RaVXZGRytXOXBqTVZTampMZDRoR25GYkxEMVJZb3FVUU0x?=
+ =?utf-8?B?YjB6ZGtLSEpoTk5ZaGlkMi9Meit6a3RBS1dSelNKVmpUTy9zOU5yUjBzUTc5?=
+ =?utf-8?B?QnVhY2loN09lL3BZZHZOcXB3bkxINHltRkpsSmVCZENSNTk4dEQyNlZRNGtB?=
+ =?utf-8?B?M2RyZXFlZEx2RzM4MW5BcTZ2YlhGdVIxK0g0bTdueEdyNm5LWkFvWVNVSWZP?=
+ =?utf-8?B?cExSNjVKWENCWnRVa2ZBYy9aeEJvNUd1T3J4dkZKT1JVa3ZEa2JLZUhxNWlG?=
+ =?utf-8?B?Mk5ubXZOcTdZZlBlMVBnQUJvVFh1b3IvOU9XVFp3Z2VEVmY5WG5SWTBlcmts?=
+ =?utf-8?B?bFNjanlNQ1ZMSjJHdEQ3RUlZMVdCV0JZR24xb09ZU3l3NG15Y3FkTnhta0JV?=
+ =?utf-8?B?aTFKaVRXS2d6alR3dFlnR2pvbElQeXk5Tm45d0h2MmlKaFJ3YUdTcnZzSmU5?=
+ =?utf-8?B?VVE0b1NtazJPeXcrWTJJRHRuOEpLbkpvVDlQZ1RvakdYM2Ftc01OVzdrUVRB?=
+ =?utf-8?B?N3pPcVlZclZ3ZmFVTW1QTVVDSldrZ3RzdTljRTlSNE1rUGh0c0hvdUZwZGRr?=
+ =?utf-8?B?aEFPRlFPSHh2aFN3dE9UeFIvb3JWTTNXWU9MTWxScWNNTi9wcE1OaVNlcFEv?=
+ =?utf-8?B?a2NBYTRxT0NVMnEyMlFZMytVK25qN2h4SmE2SnpHdkVVby9tRUR2OENZdlA2?=
+ =?utf-8?B?emV6dkFnaGdIYUo1MjZNdWZGTUlDZnBuejlobjFFRHVYbmpSd1o0UFVRODhE?=
+ =?utf-8?Q?wJWAx62ndFRZYS9Vfg6po5ddfXIuQY/t5TiAs8O1BL2M?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 104dc1f7-87d2-4d83-7c2d-08dac1db54ac
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6263.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2022 22:48:19.0341
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Vytip/eyd81I+X+fRNYbphLfKgiMCWB6/lte9ALLzWc2/ywZaZqEgBKP0EPLjjWoMW8PmFSC+9N/0UDtdRt3BQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6541
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On Tue, 08 Nov 2022 16:33:42 +0000, Russell King (Oracle) wrote:
-> Add the DT binding for the Apple Mac System Management Controller GPIOs.
+On 11/7/22 4:42 PM, Jim Mattson wrote:
+> On Mon, Nov 7, 2022 at 2:29 PM Kim Phillips <kim.phillips@amd.com> wrote:
+>>
+>> On 11/4/22 5:00 PM, Jim Mattson wrote:
+>>> On Fri, Nov 4, 2022 at 2:38 PM Kim Phillips <kim.phillips@amd.com> wrote:
+>>>>
+>>>> VM Guests may want to use Auto IBRS, so propagate the CPUID to them.
+>>>>
+>>>> Co-developed-by: Babu Moger <Babu.Moger@amd.com>
+>>>> Signed-off-by: Kim Phillips <kim.phillips@amd.com>
+>>>
+>>> The APM says that, under AutoIBRS, CPL0 processes "have IBRS
+>>> protection." I'm taking this to mean only that indirect branches in
+>>> CPL0 are not subject to steering from a less privileged predictor
+>>> mode. This would imply that indirect branches executed at CPL0 in L1
+>>> could potentially be subject to steering by code running at CPL0 in
+>>> L2, since L1 and L2 share hardware predictor modes.
+>>
+>> That's true for AMD processors that don't support Same Mode IBRS, also
+>> documented in the APM.
+>>
+>> Processors that support AutoIBRS also support Same Mode IBRS (see
+>> CPUID Fn8000_0008_EBX[IbrsSameMode] (bit 19)).
+>>
+>>> Fortunately, there is an IBPB when switching VMCBs in svm_vcpu_load().
+>>> But it might be worth noting that this is necessary for AutoIBRS to
+>>> work (unless it actually isn't).
+>>
+>> It is needed, but not for kernel/CPL0 code, rather to protect one
+>> guest's user-space code from another's.
 > 
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> ---
->  .../bindings/gpio/apple,smc-gpio.yaml         | 37 +++++++++++++++++++
->  1 file changed, 37 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
+> The question is whether it's necessary when switching between L1 and
+> L2 on the same vCPU of the same VM.
 > 
+> On the Intel side, this was (erroneously) optimized away in commit
+> 5c911beff20a ("KVM: nVMX: Skip IBPB when switching between vmcs01 and
+> vmcs02").
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Then why hasn't it been reverted?
 
-yamllint warnings/errors:
+Does its rationale not make sense?:
 
-dtschema/dtc warnings/errors:
-./Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml: $id: relative path/filename doesn't match actual path or filename
-	expected: http://devicetree.org/schemas/gpio/apple,smc-gpio.yaml#
+     The IBPB is intended to prevent one guest from attacking another, which
+     is unnecessary in the nested case as it's the same guest from KVM's
+     perspective.
 
-doc reference errors (make refcheckdocs):
+Thanks,
 
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+Kim
