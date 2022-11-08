@@ -2,83 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3765C433FE
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 10:00:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07742C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 10:08:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233473AbiKHKAS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Nov 2022 05:00:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36762 "EHLO
+        id S232910AbiKHKIk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Nov 2022 05:08:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233671AbiKHKAR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 05:00:17 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78A2F2A94C;
-        Tue,  8 Nov 2022 02:00:16 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0A98F614E6;
-        Tue,  8 Nov 2022 10:00:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 690ECC433D7;
-        Tue,  8 Nov 2022 10:00:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667901615;
-        bh=WdDOo8U/DzkUPI7ETAKH9dAAWOmv1Yt9yMQjVaB2hKQ=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=ScWd4GHK5xQQHeHmqZPX9xcyvvj/QHWJwKfh98ICb5POEhhYcI3rL/bo1j7zV+Qvd
-         EYI1o0FAT5OgZ7twGyC79mlgfhskXvwpO2NeWb5SqpZrcDzeE3QPKClfL5OhWjPgUH
-         jyhkOVMukoey+64U6fYnsFBa8wM4FPGM1slG86C+5/rELi9SrDE56QbpzqLbd+5Lii
-         zrHS2J1VAdjnFtejepZL6wRHGI4HnPBphdZ1ViuAc7SijfJrjzAR1BwkcNgnaNpHYa
-         2OeXR9IVml9R15HUugbmFQOMedjniq2yO2kFuS4o2ke5Qa2vEXoFZacMjDpw5T5qe2
-         Hq6EJvoqg+qXA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4C035C4166D;
-        Tue,  8 Nov 2022 10:00:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S233739AbiKHKIi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 05:08:38 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DF862BF9;
+        Tue,  8 Nov 2022 02:08:36 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id j15so20147268wrq.3;
+        Tue, 08 Nov 2022 02:08:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2C6cKXTuh9PjHXXGu6GpQS6dNWhxcXl81NbxxvAbDTY=;
+        b=JZ4YTkYYieN70wi7kRTlkDUD67fVAJGyGo9CutNyrgPKQ1lPcQNRvx4RT6Gd7JfLWN
+         yHyy+LykKoezrLoy/gPdOQ9/Tc5saIB1nPF23ikrgqWiVeK52RzrpFhUxZUISvAReBVf
+         Xr7jQW0QcKG2U7f6QqTq4aEp/n7DljWJtEsN9wXOUUJd1NK5A90Jzbyjreicy3+7k+ON
+         8A4o7cWJI2ofW/pLPFq1/VJxRJcAyIcUlo+9F9nNgXiG3//o4corAIXUiCol2v9xbJAr
+         m45CIrSrMRHwEVlitV/b1vY021caJnTFeY3K/akrHl0LJXvwvPc2SqrENorn0Ws3e9H0
+         rzzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2C6cKXTuh9PjHXXGu6GpQS6dNWhxcXl81NbxxvAbDTY=;
+        b=0O9ze3fbM408PbQBQ7ebGGePj3ItzZz9v4mYNdq4J/JEShqgKta+JVpZhMnCtImivt
+         2ibZ9w2yj2WSCyrEZ2PgRHDpM60KTKHIYi6pJpInyMDOX/xyK5r0IDZJslsz31JGjINV
+         6Gxb8uM/FtMIytHSA/fMYmhnrf5s61W59cuvBlze0bqZczrxhB+bVddZTj90awNvvr0/
+         ToNzSwAuezwIm2rxuDBiHofEttBLm5/7EbCiXSto2FlTaHkNH3T7kxmtmQkPo6lum2id
+         v/0mpncwgoxrFzs6ymygjE+v+Hv0GKUUDCyu3j/QxhM4rVrgLX2NT4pe3BBzlFOhMZ+M
+         eTYg==
+X-Gm-Message-State: ACrzQf0MUfbqrK4EDXQi5gDSetkC39Qlj8T430Ib2zfU/hCtXU+LnA6w
+        RJD1WSv/S2tj48CLb+0x5DP6aRjkWuBgRw==
+X-Google-Smtp-Source: AMsMyM69LAmvBj+4lYiWsMO1XctWn7rSmBiFG7vqIfAAh0RT+KiSgEjaB3Jp5Tfg9TC6F3tDhWq2Aw==
+X-Received: by 2002:a05:6000:a11:b0:236:7685:e7 with SMTP id co17-20020a0560000a1100b00236768500e7mr36162245wrb.359.1667902114630;
+        Tue, 08 Nov 2022 02:08:34 -0800 (PST)
+Received: from imac ([2a02:8010:60a0:0:550:1196:18a3:8071])
+        by smtp.gmail.com with ESMTPSA id k186-20020a1ca1c3000000b003cf4d99fd2asm10639611wme.6.2022.11.08.02.08.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Nov 2022 02:08:33 -0800 (PST)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     Yonghong Song <yhs@meta.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH bpf-next v2] docs/bpf: Document BPF map types QUEUE and
+ STACK
+In-Reply-To: <976d046e-6b10-78bd-4c20-d23f81e5c907@meta.com> (Yonghong Song's
+        message of "Mon, 7 Nov 2022 10:27:58 -0800")
+Date:   Tue, 08 Nov 2022 09:20:36 +0000
+Message-ID: <m2edudssyj.fsf@gmail.com>
+References: <20221107150550.94855-1-donald.hunter@gmail.com>
+        <976d046e-6b10-78bd-4c20-d23f81e5c907@meta.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (darwin)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v5] ethtool: linkstate: add a statistic for PHY down
- events
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166790161530.10635.9762046985462618583.git-patchwork-notify@kernel.org>
-Date:   Tue, 08 Nov 2022 10:00:15 +0000
-References: <20221104190125.684910-1-kuba@kernel.org>
-In-Reply-To: <20221104190125.684910-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, f.fainelli@gmail.com, michael.chan@broadcom.com,
-        andrew@lunn.ch, corbet@lwn.net, hkallweit1@gmail.com,
-        linux@armlinux.org.uk, huangguangbin2@huawei.com,
-        chenhao288@hisilicon.com, moshet@nvidia.com,
-        linux@rempel-privat.de, linux-doc@vger.kernel.org
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Yonghong Song <yhs@meta.com> writes:
 
-This patch was applied to netdev/net-next.git (master)
-by Paolo Abeni <pabeni@redhat.com>:
+> On 11/7/22 7:05 AM, Donald Hunter wrote:
+[...]
+>> +
+>> +Userspace
+>> +---------
+>> +
+>> +.. c:function::
+>> +   int bpf_map_update_elem (int fd, const void *key, const void *value, __u64 flags)
+>> +
+>> +A userspace program can push ``value`` onto a queue or stack using libbpf's
+>> +``bpf_map_update_elem`` function. The ``key`` parameter must be set to
+>> +``NULL`` and ``flags`` must be set to ``BPF_ANY``. Returns ``0`` on
+>> +success, or negative error in case of failure.
+>
+> Besides BPF_ANY, BPF_EXIST is allowed as well?
 
-On Fri,  4 Nov 2022 12:01:25 -0700 you wrote:
-> The previous attempt to augment carrier_down (see Link)
-> was not met with much enthusiasm so let's do the simple
-> thing of exposing what some devices already maintain.
-> Add a common ethtool statistic for link going down.
-> Currently users have to maintain per-driver mapping
-> to extract the right stat from the vendor-specific ethtool -S
-> stats. carrier_down does not fit the bill because it counts
-> a lot of software related false positives.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v5] ethtool: linkstate: add a statistic for PHY down events
-    https://git.kernel.org/netdev/net-next/c/9a0f830f8026
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Good catch, thanks!
