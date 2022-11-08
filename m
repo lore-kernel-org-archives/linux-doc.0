@@ -2,147 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1E99C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 02:48:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FF5AC4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 03:45:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230362AbiKHCru (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 21:47:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60950 "EHLO
+        id S232920AbiKHDpW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 7 Nov 2022 22:45:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232494AbiKHCrX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 21:47:23 -0500
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42AA32E9FE;
-        Mon,  7 Nov 2022 18:47:22 -0800 (PST)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N5svP1nkBzRp3H;
-        Tue,  8 Nov 2022 10:47:13 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 8 Nov 2022 10:47:20 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 8 Nov 2022 10:47:19 +0800
-Subject: Re: [PATCH v3 1/2] arm64: kdump: Provide default size when
- crashkernel=Y,low is not specified
-To:     Catalin Marinas <catalin.marinas@arm.com>
-CC:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, <kexec@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        "Dave Kleikamp" <dave.kleikamp@oracle.com>
-References: <20220711090319.1604-1-thunder.leizhen@huawei.com>
- <20220711090319.1604-2-thunder.leizhen@huawei.com> <Y2k98lFhtUP2u1VM@arm.com>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <1dd20529-e346-cd64-d93d-54231c8b3d38@huawei.com>
-Date:   Tue, 8 Nov 2022 10:47:18 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        with ESMTP id S232907AbiKHDpU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 22:45:20 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B16D23178;
+        Mon,  7 Nov 2022 19:45:19 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id m14-20020a17090a3f8e00b00212dab39bcdso16772412pjc.0;
+        Mon, 07 Nov 2022 19:45:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qckFeD/Pt+sjt3ZlSfmlazZQAbxsJ1ktBLsagW6IgrQ=;
+        b=FH9VAzFoXUR46qDebGlu3fcJnK6+nfGW4qTxltGPb6jzH3adwTNgTYkarxOUiNIlVO
+         8ONzopdMsT3HUr26AGwrr9HvIg2iNaLFMz8QRpOdIqGaNX3fdM174GJuvGX3030eiTh1
+         q7cpasGEeVPpB1eDaw9JREPbNBd65Ezz+Pfw/ZIztSwL847bk2FFrtlHrazQInx0eHf5
+         RuhcW6K85YkWY25fnBJZowCCzFOEkCGNNpO5Kv7rDYPvig7cI/smneUMCUe8j6ZkDoxN
+         6LJl0pEsUl4RojdAG7FQ8yyJLK3ybfAD8CgYw/FzDj8yVMpvDbkt2M53CNm3TKyeGKfm
+         /Itw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qckFeD/Pt+sjt3ZlSfmlazZQAbxsJ1ktBLsagW6IgrQ=;
+        b=IMPiZi+2IwARTBK++NWyfQu0R0JD/r3TvUT1pa0b2lmjaXXY+5xpvA00ip1Lz2sXhS
+         goBpu1GkU7x62RIL824VfJ4FYDpF1Gfl5+NjjQg//hOMaO+WJd/VXUpiHtk9zblGKvaJ
+         f5rBZOuvEOf81P//aOJMKaduq3nxwTWaxnxl+G9pLKFHyQpPqDAleHam19czt5eAmF8/
+         fighw8YRxd4t6HRwPBDyZEyH4GtOInNKEoqxKig94J2kqf0Ygo9p492Gpn6bz56QwDGP
+         k4XR9/3BGE3MmV8iPZ1VuHjkfHjjPSq/vmIRZbWB+X0qNeZf7dkXFe4DTp6NQLOWPeLI
+         Vmqw==
+X-Gm-Message-State: ACrzQf0tHHKQ+//TpC0+OqBVjHhpxv4H1KAVA1gqCs3TKxbDw+5HWFQ3
+        WhPu+tMlrpuesuKe2/Am8uI=
+X-Google-Smtp-Source: AMsMyM5tBTqgUASBPjV21N8H6J2m+peEz7OGJWQsDcGg1rbGeXDb0doOv+V8wKJ1pTFS9FnJWBBTCg==
+X-Received: by 2002:a17:902:c94a:b0:186:e68a:9aad with SMTP id i10-20020a170902c94a00b00186e68a9aadmr53540653pla.72.1667879118728;
+        Mon, 07 Nov 2022 19:45:18 -0800 (PST)
+Received: from debian.me (subs02-180-214-232-93.three.co.id. [180.214.232.93])
+        by smtp.gmail.com with ESMTPSA id y15-20020a17090322cf00b00176d347e9a7sm5752203plg.233.2022.11.07.19.45.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Nov 2022 19:45:17 -0800 (PST)
+Received: by debian.me (Postfix, from userid 1000)
+        id 1B5A51038C6; Tue,  8 Nov 2022 10:45:10 +0700 (WIB)
+Date:   Tue, 8 Nov 2022 10:45:10 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     bpf@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+        Joerg Roedel <joro@8bytes.org>,
+        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Eric Auger <eric.auger@redhat.com>,
+        Eric Farman <farman@linux.ibm.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Nicolin Chen <nicolinc@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Shameerali Kolothum Thodi 
+        <shameerali.kolothum.thodi@huawei.com>,
+        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v4 04/17] iommufd: Document overview of iommufd
+Message-ID: <Y2nQxvRQKYtSAfTc@debian.me>
+References: <0-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
+ <4-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <Y2k98lFhtUP2u1VM@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="VlYIyqR9GGcDMQ/y"
+Content-Disposition: inline
+In-Reply-To: <4-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--VlYIyqR9GGcDMQ/y
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2022/11/8 1:18, Catalin Marinas wrote:
-> On Mon, Jul 11, 2022 at 05:03:18PM +0800, Zhen Lei wrote:
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index 2522b11e593f239..65a2c3a22a4b57d 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -843,7 +843,7 @@
->>  			available.
->>  			It will be ignored if crashkernel=X is specified.
->>  	crashkernel=size[KMG],low
->> -			[KNL, X86-64] range under 4G. When crashkernel=X,high
->> +			[KNL, X86-64, ARM64] range under 4G. When crashkernel=X,high
->>  			is passed, kernel could allocate physical memory region
->>  			above 4G, that cause second kernel crash on system
->>  			that require some amount of low memory, e.g. swiotlb
->> @@ -857,12 +857,6 @@
->>  			It will be ignored when crashkernel=X,high is not used
->>  			or memory reserved is below 4G.
->>  
->> -			[KNL, ARM64] range in low memory.
->> -			This one lets the user specify a low range in the
->> -			DMA zone for the crash dump kernel.
->> -			It will be ignored when crashkernel=X,high is not used
->> -			or memory reserved is located in the DMA zones.
->> -
->>  	cryptomgr.notests
->>  			[KNL] Disable crypto self-tests
->>  
->> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
->> index 339ee84e5a61a0b..5390f361208ccf7 100644
->> --- a/arch/arm64/mm/init.c
->> +++ b/arch/arm64/mm/init.c
->> @@ -96,6 +96,14 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
->>  #define CRASH_ADDR_LOW_MAX		arm64_dma_phys_limit
->>  #define CRASH_ADDR_HIGH_MAX		(PHYS_MASK + 1)
->>  
->> +/*
->> + * This is an empirical value in x86_64 and taken here directly. Please
->> + * refer to the code comment in reserve_crashkernel_low() of x86_64 for more
->> + * details.
->> + */
->> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	\
->> +	max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20)
->> +
->>  static int __init reserve_crashkernel_low(unsigned long long low_size)
->>  {
->>  	unsigned long long low_base;
->> @@ -147,7 +155,9 @@ static void __init reserve_crashkernel(void)
->>  		 * is not allowed.
->>  		 */
->>  		ret = parse_crashkernel_low(cmdline, 0, &crash_low_size, &crash_base);
->> -		if (ret && (ret != -ENOENT))
->> +		if (ret == -ENOENT)
->> +			crash_low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
->> +		else if (ret)
->>  			return;
-> 
-> BTW, since we want a default low allocation, I think we should change
-> the checking logic slightly. Currently we have:
-> 
-> 	if ((crash_base >= CRASH_ADDR_LOW_MAX) &&
-> 	     crash_low_size && reserve_crashkernel_low(crash_low_size)) {
-> 		...
-> 
-> If crash_base is just below CRASH_ADDR_LOW_MAX, we deem it sufficient
-> but a crashkernel trying to allocate 64MB of swiotlb may fail. So maybe
-> change this to crash_base >= CRASH_ADDR_LOW_MAX - crash_low_size.
+On Mon, Nov 07, 2022 at 08:48:57PM -0400, Jason Gunthorpe wrote:
+> From: Kevin Tian <kevin.tian@intel.com>
+>=20
+> Add iommufd into the documentation tree, and supply initial documentation.
+> Much of this is linked from code comments by kdoc.
+>=20
 
-The equal sign needs to be removed.
+The documentation LGTM, thanks.
 
-The situation should be the allocation of "crashkernel=X,high".
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-This possibility is too small, the high memory is unlikely to be that small.
-memblock_phys_alloc_range() always search for memory block from high addresses
-to low addresses. In the initial phase, high-end memory is not fragmented.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Of course, the modification can make people look more reassuring. OK, I'll
-update it.
+--VlYIyqR9GGcDMQ/y
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Regards,
-  Zhen Lei
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2nQwQAKCRD2uYlJVVFO
+ozsKAPwOuRyOmFizFmjuooe/gexDrhdGHJSdBsMEQGnAYJfwKgEAsJqlXtWAwodg
+hHXROiqV7JqrnspKYDSIglvCm5IePAc=
+=NHaN
+-----END PGP SIGNATURE-----
+
+--VlYIyqR9GGcDMQ/y--
