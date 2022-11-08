@@ -2,129 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FF5AC4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 03:45:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E716C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 05:10:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232920AbiKHDpW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 7 Nov 2022 22:45:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58940 "EHLO
+        id S229922AbiKHFKS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Nov 2022 00:10:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232907AbiKHDpU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 7 Nov 2022 22:45:20 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B16D23178;
-        Mon,  7 Nov 2022 19:45:19 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id m14-20020a17090a3f8e00b00212dab39bcdso16772412pjc.0;
-        Mon, 07 Nov 2022 19:45:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qckFeD/Pt+sjt3ZlSfmlazZQAbxsJ1ktBLsagW6IgrQ=;
-        b=FH9VAzFoXUR46qDebGlu3fcJnK6+nfGW4qTxltGPb6jzH3adwTNgTYkarxOUiNIlVO
-         8ONzopdMsT3HUr26AGwrr9HvIg2iNaLFMz8QRpOdIqGaNX3fdM174GJuvGX3030eiTh1
-         q7cpasGEeVPpB1eDaw9JREPbNBd65Ezz+Pfw/ZIztSwL847bk2FFrtlHrazQInx0eHf5
-         RuhcW6K85YkWY25fnBJZowCCzFOEkCGNNpO5Kv7rDYPvig7cI/smneUMCUe8j6ZkDoxN
-         6LJl0pEsUl4RojdAG7FQ8yyJLK3ybfAD8CgYw/FzDj8yVMpvDbkt2M53CNm3TKyeGKfm
-         /Itw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qckFeD/Pt+sjt3ZlSfmlazZQAbxsJ1ktBLsagW6IgrQ=;
-        b=IMPiZi+2IwARTBK++NWyfQu0R0JD/r3TvUT1pa0b2lmjaXXY+5xpvA00ip1Lz2sXhS
-         goBpu1GkU7x62RIL824VfJ4FYDpF1Gfl5+NjjQg//hOMaO+WJd/VXUpiHtk9zblGKvaJ
-         f5rBZOuvEOf81P//aOJMKaduq3nxwTWaxnxl+G9pLKFHyQpPqDAleHam19czt5eAmF8/
-         fighw8YRxd4t6HRwPBDyZEyH4GtOInNKEoqxKig94J2kqf0Ygo9p492Gpn6bz56QwDGP
-         k4XR9/3BGE3MmV8iPZ1VuHjkfHjjPSq/vmIRZbWB+X0qNeZf7dkXFe4DTp6NQLOWPeLI
-         Vmqw==
-X-Gm-Message-State: ACrzQf0tHHKQ+//TpC0+OqBVjHhpxv4H1KAVA1gqCs3TKxbDw+5HWFQ3
-        WhPu+tMlrpuesuKe2/Am8uI=
-X-Google-Smtp-Source: AMsMyM5tBTqgUASBPjV21N8H6J2m+peEz7OGJWQsDcGg1rbGeXDb0doOv+V8wKJ1pTFS9FnJWBBTCg==
-X-Received: by 2002:a17:902:c94a:b0:186:e68a:9aad with SMTP id i10-20020a170902c94a00b00186e68a9aadmr53540653pla.72.1667879118728;
-        Mon, 07 Nov 2022 19:45:18 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-93.three.co.id. [180.214.232.93])
-        by smtp.gmail.com with ESMTPSA id y15-20020a17090322cf00b00176d347e9a7sm5752203plg.233.2022.11.07.19.45.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Nov 2022 19:45:17 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
-        id 1B5A51038C6; Tue,  8 Nov 2022 10:45:10 +0700 (WIB)
-Date:   Tue, 8 Nov 2022 10:45:10 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     bpf@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Joao Martins <joao.m.martins@oracle.com>, kvm@vger.kernel.org,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Nicolin Chen <nicolinc@nvidia.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Shameerali Kolothum Thodi 
-        <shameerali.kolothum.thodi@huawei.com>,
-        Yi Liu <yi.l.liu@intel.com>, Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH v4 04/17] iommufd: Document overview of iommufd
-Message-ID: <Y2nQxvRQKYtSAfTc@debian.me>
-References: <0-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
- <4-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="VlYIyqR9GGcDMQ/y"
-Content-Disposition: inline
-In-Reply-To: <4-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
+        with ESMTP id S229834AbiKHFKR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 00:10:17 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 635F212D2D;
+        Mon,  7 Nov 2022 21:10:16 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D545A61477;
+        Tue,  8 Nov 2022 05:10:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB4B2C433D6;
+        Tue,  8 Nov 2022 05:10:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667884215;
+        bh=3IrJwJrA1RHpQGiiZvKL0qC5cBBuXUjOTdkaNFU91NE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=o9r5qIP8M05KbsxQB029t+OxiONfyvU9RZ5iNZ+S3gX1R07+jir3ElxEpCKroYGla
+         vjItR1yiQeIV4cQPXLNvQIixWs0nXCtzDrJar4uF+STKIfMkMYTyFoHgdod8Gx8C4Z
+         XtqdAYUwCYJ2oXb0deMA/ndn4WMjdiQTRXFHIszc9VKtn9E8oSeK5ZzU/wbmVj3bPS
+         I4ZssQiev3LAJinU8S8SBIrRtnSGuc6zdI4+JOfN0W2QlM6egpub0AQDPtMEdkco1a
+         CzLEvSfNXL9NPgasSiAIT9IHvIh92aI+Y6NZTlrs//5yroRgX8v2L+HrFrNIICZ8S4
+         dFU1PQDCyjxWw==
+Date:   Tue, 8 Nov 2022 14:10:09 +0900
+From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Will Deacon <will@kernel.org>, Jianlin Lv <iecedge@gmail.com>,
+        corbet@lwn.net, catalin.marinas@arm.com, rostedt@goodmis.org,
+        mingo@redhat.com, naveen.n.rao@linux.ibm.com,
+        anil.s.keshavamurthy@intel.com, davem@davemloft.net,
+        mhiramat@kernel.org, arnd@arndb.de, zhengzengkai@huawei.com,
+        jianlv@ebay.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] arm64/kprobes: Add support for KPROBES_ON_FTRACE
+Message-Id: <20221108141009.d39d1d02f07e8993c1f37349@kernel.org>
+In-Reply-To: <Y2ktAisfFAr0aU2V@FVFF77S0Q05N>
+References: <20220728020250.1699-1-iecedge@gmail.com>
+        <20221107144931.GA20793@willie-the-truck>
+        <Y2klCLj7F7fKsza+@FVFF77S0Q05N>
+        <20221107153506.GA21157@willie-the-truck>
+        <Y2ktAisfFAr0aU2V@FVFF77S0Q05N>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, 7 Nov 2022 16:06:26 +0000
+Mark Rutland <mark.rutland@arm.com> wrote:
 
---VlYIyqR9GGcDMQ/y
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Mon, Nov 07, 2022 at 03:35:07PM +0000, Will Deacon wrote:
+> > On Mon, Nov 07, 2022 at 03:32:24PM +0000, Mark Rutland wrote:
+> > > On Mon, Nov 07, 2022 at 02:49:31PM +0000, Will Deacon wrote:
+> > > > [+Mark R]
+> > > > 
+> > > > On Thu, Jul 28, 2022 at 02:02:50AM +0000, Jianlin Lv wrote:
+> > > > > This is the arm64 version of ftrace-based kprobes to avoid the overhead
+> > > > > with regular kprobes, by using the ftrace infrastructure.
+> > > > > 
+> > > > > Signed-off-by: Jianlin Lv <iecedge@gmail.com>
+> > > > > ---
+> > > > >  .../debug/kprobes-on-ftrace/arch-support.txt  |  2 +-
+> > > > >  arch/arm64/Kconfig                            |  1 +
+> > > > >  arch/arm64/kernel/probes/Makefile             |  1 +
+> > > > >  arch/arm64/kernel/probes/kprobes-ftrace.c     | 81 +++++++++++++++++++
+> > > > >  include/linux/kprobes.h                       |  2 +
+> > > > >  kernel/kprobes.c                              |  4 +-
+> > > > >  6 files changed, 88 insertions(+), 3 deletions(-)
+> > > > >  create mode 100644 arch/arm64/kernel/probes/kprobes-ftrace.c
+> > > > 
+> > > > Sorry for the slow reply on this, but I think this deserved to be split
+> > > > into two patches: the first one reworking the core check_ftrace_location()
+> > > > logic to work properly with branch-and-link style architectures, and the
+> > > > second one adding support for arm64.
+> > > 
+> > > I'd prefer we don't do this at all; there a bunch of issues with kprobes *not*
+> > > taking an exception, since we get a dodgy not-quite-real pt_regs, and to clean
+> > > up the existing issues the plan is:
+> > > 
+> > > 1) Move ftrace over to ftrace_regs
+> > > 2) Implement fprobes using ftrace_regs
+> > > 3) Remove kretprobes
 
-On Mon, Nov 07, 2022 at 08:48:57PM -0400, Jason Gunthorpe wrote:
-> From: Kevin Tian <kevin.tian@intel.com>
->=20
-> Add iommufd into the documentation tree, and supply initial documentation.
-> Much of this is linked from code comments by kdoc.
->=20
+Yes, that is what we agreed at the tracing summit.
 
-The documentation LGTM, thanks.
+When we finished to move on the fprobe and fprobe-events, kretprobes
+(and kprobe-on-ftrace if CONFIG_HAVE_DYNAMIC_FTRACE_WITH_REGS is not
+supported) are not needed from the user viewpoint.
+So we can mark the kretprobe API obsolete.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > > 
+> > > ... and regular kprobes will need to take an exception (via BRK) to get a real
+> > > pt_regs, so that can't be optimized to use ftrace.
+> > 
+> > OKey doke. Does that mean that other architectures will follow the same
+> > approach of taking an exception,
+> 
+> I think once everyone has FPROBE, KPROBES_ON_FTRACE becomes redundant, and
+> could be removed (leaving kprobes to always follow a take-an-exception flow on
+> all architectures).
 
---=20
-An old man doll... just what I always wanted! - Clara
+Anyway I will give some window to transit to the fprobe with ftrace_regs.
 
---VlYIyqR9GGcDMQ/y
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> > or do they somehow work by magic?
+> 
+> Some architectures don't need to take an exception to be able to create a full
+> pt_regs (e.g. x86's flags are accessible in a way arm64's PSTATE isn't), but
+> that needs to be generated / restored differently to exception entry/return,
+> and so even where it's possible it can be painful to maintain (and slower than
+> using ftrace_regs), so I suspect KPROBES_ON_FTRACE would be removed.
 
------BEGIN PGP SIGNATURE-----
+I think KPROBES_ON_FTRACE support depends on CONFIG_HAVE_DYNAMIC_FTRACE_WITH_REGS.
+When the all architecture removed it, I remove it. But it means that if function
+tracer is enabled, we can not put any kprobes on the entry of functions on x86
+because there is no space to put a software breakpoint at the function entry
+on x86.
 
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY2nQwQAKCRD2uYlJVVFO
-ozsKAPwOuRyOmFizFmjuooe/gexDrhdGHJSdBsMEQGnAYJfwKgEAsJqlXtWAwodg
-hHXROiqV7JqrnspKYDSIglvCm5IePAc=
-=NHaN
------END PGP SIGNATURE-----
+For the ftrace (tracefs) user, I will minimize the effect of this change, but
+the tools developers (including eBPF developer) this change may be critical.
 
---VlYIyqR9GGcDMQ/y--
+Thank you,
+
+
+> 
+> So different constaints more than magic.
+> 
+> Thanks,
+> Mark.
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
