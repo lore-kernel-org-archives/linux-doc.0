@@ -2,208 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AA48C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 05:49:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AFC6C4332F
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 05:53:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232243AbiKHFtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Nov 2022 00:49:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50702 "EHLO
+        id S233313AbiKHFxb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Nov 2022 00:53:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230212AbiKHFtE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 00:49:04 -0500
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2059.outbound.protection.outlook.com [40.107.93.59])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E7C2B623;
-        Mon,  7 Nov 2022 21:49:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A/HIjW7cXflqhLVnDbWr2suh3Y6BXCgAPq8ORJlsYDe4gIIhDsjIoqjr19lojE9q8LHzh/0kzMEYWPIXmLC4qPkUuEjAOcXIbiT+Wn/vNx1qBWQispFCh6YxtFftaTG9lulnCG/Q/yfeBcvVImJIHKTc6nyXW10ZQHrI0U/LajBuuHZ2MWHc/SRmncv0k2+jrN/50OkMURfYk48Imn5ut0dh5q7/kF3YqQyw2KjUUpubF/NqkZHQaklrPIK2U5fejbWKNhbrj61UAt9gQ2op9G+op752Y+k9HjfhM5GgIkJXMkoDs8lOo09G81BRpJBbWPMFKbyD1Nnn1HH0ZuuuGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1eB75dOmandimjEGrxhFcGUifEQ94vIACgHQdCRNjTg=;
- b=S/B6iX+Nmo9L8kmmzc5jHXhf0LGs4cj1WNOM52xDlEcmCekuB0zFh0/D0horhbAetfIYs7eDOtNbMS3X+5nNzwkpaytrQV7iCtb1AqWaZoMEkxXnq6mwrsFthoYZa1dZRb+7V06+E7geByGQn+iFdkw/10Wm2Z5vqId5feSAs0iR3fGMVoBVPF8MZT4NGvBqHM5xwF+3LHx5gdxoPyTduB6D2OC/qvmK0Fra+WWtZrreG/Ywc9ZnxgLjhNO8/rw3x49C+m1VG9tVuPRT0/dSxIb8mxxlINHyHkYGCvpv5Xg864Vvd9U/3h160JGpP/6dx+1LOfhNJh9J9X5KYJ2OQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1eB75dOmandimjEGrxhFcGUifEQ94vIACgHQdCRNjTg=;
- b=EPXmVGT9O4SM6mmZ5qO4+Mj5xGprZZsLmxozR36cQHbchPEOm3y+RmisleoDa/CLOYEoT4Ch6LlZuA9TaIWfV5rkQvab1ZliSYFZmVb9lk8RfPb/KXWTLyEHzqqz7q9K1D9k40E8VUmWyuVAuSWVwtW8uEx7OCn12jfjT1LkO6UOJn0wcN4UruLDO+wTc1Dd+3mWuDxxFYgP9pEJm1kQNRKJFrB3UxWMvufLQKW7pjyz2FWrsiSMR84e7JZmKuoBMJYlL4KONz/dQtx8Gqvde0p1wNEpTgd0fE21N9qcU0Xpo/rr34Q/Itwkgfl4ErWkG8lnugKokKRdmMk9YkYT1w==
-Received: from DM6PR21CA0002.namprd21.prod.outlook.com (2603:10b6:5:174::12)
- by PH7PR12MB6812.namprd12.prod.outlook.com (2603:10b6:510:1b6::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.27; Tue, 8 Nov
- 2022 05:48:50 +0000
-Received: from DM6NAM11FT033.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:174:cafe::c8) by DM6PR21CA0002.outlook.office365.com
- (2603:10b6:5:174::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5834.2 via Frontend
- Transport; Tue, 8 Nov 2022 05:48:50 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- DM6NAM11FT033.mail.protection.outlook.com (10.13.172.221) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5791.20 via Frontend Transport; Tue, 8 Nov 2022 05:48:49 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Mon, 7 Nov 2022
- 21:48:38 -0800
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 7 Nov 2022
- 21:48:37 -0800
-Received: from Asurada-Nvidia (10.127.8.13) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29 via Frontend
- Transport; Mon, 7 Nov 2022 21:48:34 -0800
-Date:   Mon, 7 Nov 2022 21:48:32 -0800
-From:   Nicolin Chen <nicolinc@nvidia.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-CC:     <bpf@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        David Woodhouse <dwmw2@infradead.org>, <iommu@lists.linux.dev>,
-        Joerg Roedel <joro@8bytes.org>,
-        Kevin Tian <kevin.tian@intel.com>, <linux-doc@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>, <llvm@lists.linux.dev>,
-        Nathan Chancellor <nathan@kernel.org>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        "Robin Murphy" <robin.murphy@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        "Suravee Suthikulpanit" <suravee.suthikulpanit@amd.com>,
-        Tom Rix <trix@redhat.com>, Will Deacon <will@kernel.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Eric Auger <eric.auger@redhat.com>,
-        Eric Farman <farman@linux.ibm.com>,
-        "Jason Wang" <jasowang@redhat.com>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        <kvm@vger.kernel.org>, "Matthew Rosato" <mjrosato@linux.ibm.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Shameerali Kolothum Thodi 
-        <shameerali.kolothum.thodi@huawei.com>,
-        Yi Liu <yi.l.liu@intel.com>,
-        "Keqian Zhu" <zhukeqian1@huawei.com>
-Subject: Re: [PATCH v4 15/17] iommufd: Add a selftest
-Message-ID: <Y2ntsDi4RSLtUVKm@Asurada-Nvidia>
-References: <0-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
- <15-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
+        with ESMTP id S233329AbiKHFx3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 00:53:29 -0500
+Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com [IPv6:2607:f8b0:4864:20::e2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E70D5D69;
+        Mon,  7 Nov 2022 21:53:25 -0800 (PST)
+Received: by mail-vs1-xe2c.google.com with SMTP id 128so12696143vse.6;
+        Mon, 07 Nov 2022 21:53:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JUUX7ZIq/U7gt7jiUmgSCgCgFz67sPw3x5Z6ID1kiVY=;
+        b=OkZcW8REGmRrJ+5YTTvYN/pehvrsKGzEXVRfhMD6M7uSbdIpo02yjnokNyrT2dbEYo
+         FGxXwUhMsgT6a+t0ycevgs1aYc+6uuzNFDTMUk5xabNZcUB3Io540QNryAwgGwFZbhFJ
+         xnsKLXI6uUKeXbqghhb2Snc7VHp75up9nk2UFArdjBEHY5KO6Wfac6j74H4DeL51ol/Q
+         HS8Av9AGsxwniXCTIDN6n+kIu2RVtD1db7LFiQzN941sCm+KU6OZTdT3RQJ8Ijkf0qn1
+         YAssWrWAFyTlGQrfF1gjGX5SQi879n5AtPJrhJmhi9UyHk25RRjtJJQcD8erBN+KqagN
+         A9oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JUUX7ZIq/U7gt7jiUmgSCgCgFz67sPw3x5Z6ID1kiVY=;
+        b=M6H++1eUc8G26OeOXoBA6QCPxGOsCCAfE76LMud0KAhZXTR6k50p0O5huyf11TctUV
+         SUpJOVxcHFYcm6/jWxfJ2INZIWu0sXsJso12KRykjz8HSCDeSnNIb3OK+9S5r6TsPYZI
+         Ink/D03rJ7rVRkIuIk7d4qS1wVnlUkOeoZo3Pt3LWQWsS03FHQhTBgq8QvujI1GmJNSa
+         967ogllkP6HxqsSdIPbjL1LuDSs45jdl33UMJJWrKozGZfmaBOyQv5XwEtNkIU0Py5TF
+         u2m1DBbLb5porsUgFINclNe4FLUie9iG5hd+H+XqAcw/cj0m0ke0oSgyHXRhVIKT8pU9
+         yCtg==
+X-Gm-Message-State: ACrzQf08/G1tcmBysNikhHt3tObmit/MKh7D1Vj0tJATY4WzhDypGwxE
+        JCYzh6WKTu31vvDMncbj0MDxkTZfmevsctrKo9A=
+X-Google-Smtp-Source: AMsMyM5t70GS9K03UePSY0T0jKrxCZyrdnGYtcTca9TgW/nXEn9X+WTYf3paxBUpvOsdTR8+MqMNk11O+m9B040xjwI=
+X-Received: by 2002:a67:e093:0:b0:3aa:4c52:1c06 with SMTP id
+ f19-20020a67e093000000b003aa4c521c06mr26404376vsl.45.1667886804991; Mon, 07
+ Nov 2022 21:53:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <15-v4-0de2f6c78ed0+9d1-iommufd_jgg@nvidia.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT033:EE_|PH7PR12MB6812:EE_
-X-MS-Office365-Filtering-Correlation-Id: b3dc1d63-6ac6-466a-45f5-08dac14ce93e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eY9/2Pq/KSGaLtPqfA+qytD9hPjW7b8nSINWBjAb/q1plT4kQppYPFPCfTu2jh1IjRi8PAtUVBYBDQcEW0N67shB/dPmDgwY9WB8ewEhoTxgomfAWD8u8Bo7dPyORCjKKFomyuj9TTBgksWvxs45agjr8PHCisG3MluoBEkled90MQvUboam6BJ7L6Sq87QQiF54bD72oXwnxJhGfVFD8IDj8Ah29MVf+Cl5bNbOBooscWQxhIskUi/SQY4zkVYW7wPrfPVNAfpQDg4zoGhAxy1mLvaB7icP0ly5MuI5hwnRDYvmJ069fy6xzH0S6eLoh50+/fNSP2BbDbrIneiNtKU5Dt/KhL9xsJ23c51ZlvgNII75NLnEPxWVK9YjqA+C1ItgsUOf7dkgoNNHawVaZtR1Lvnnryj7XACAaLZyVvOKdo1X4KAFnbfSNmvzlAX35rJw1odarUoMf6lRapUGSdajHWAeefBHevgdHKb9QXWHBE8HyM+TQohydc1ThHKNtepcZHvfi+uAmKDeS2PT+nrZOCIc2WfBoxrMKu1E0UWlkejesItZ7qG9QeFicqWxCYQA6N7AUL+B0MMJCixqh40nKZsW+4KzR67MjTwSPJ945UD7DUBnRSNDMls+gWT2Mp8OC6YYITSWnqFbi/2HY04oWbjn32lAvY0u8B1LDVm5csYk/Yylr+7R/C8Un6+tUszOeq7oQcdGLPb0rYmNR94LMYeVWEw6zHLd1UM7UthSuhvqtsFHNuzPlEuBXzXzCwBfQ99udhEbw1Is7xk6lA==
-X-Forefront-Antispam-Report: CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(396003)(39860400002)(346002)(451199015)(46966006)(40470700004)(36840700001)(41300700001)(40480700001)(55016003)(9686003)(8936002)(6862004)(336012)(26005)(5660300002)(426003)(2906002)(478600001)(186003)(47076005)(7406005)(7416002)(4326008)(33716001)(82740400003)(7636003)(356005)(8676002)(70206006)(70586007)(83380400001)(36860700001)(86362001)(40460700003)(82310400005)(316002)(6636002)(54906003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2022 05:48:49.9631
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3dc1d63-6ac6-466a-45f5-08dac14ce93e
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT033.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6812
+References: <20220728020250.1699-1-iecedge@gmail.com> <20221107144931.GA20793@willie-the-truck>
+ <Y2klCLj7F7fKsza+@FVFF77S0Q05N> <20221107153506.GA21157@willie-the-truck>
+ <Y2ktAisfFAr0aU2V@FVFF77S0Q05N> <20221108141009.d39d1d02f07e8993c1f37349@kernel.org>
+In-Reply-To: <20221108141009.d39d1d02f07e8993c1f37349@kernel.org>
+From:   Jianlin Lv <iecedge@gmail.com>
+Date:   Tue, 8 Nov 2022 13:53:13 +0800
+Message-ID: <CAFA-uR_B2iRaNj7Da2tZOu7JHUhrm=wZASia7nOfP-xJipzfiQ@mail.gmail.com>
+Subject: Re: [PATCH] arm64/kprobes: Add support for KPROBES_ON_FTRACE
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>, Will Deacon <will@kernel.org>,
+        corbet@lwn.net, catalin.marinas@arm.com, rostedt@goodmis.org,
+        mingo@redhat.com, naveen.n.rao@linux.ibm.com,
+        anil.s.keshavamurthy@intel.com, davem@davemloft.net, arnd@arndb.de,
+        zhengzengkai@huawei.com, jianlv@ebay.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Nov 07, 2022 at 08:49:08PM -0400, Jason Gunthorpe wrote:
+On Tue, Nov 8, 2022 at 1:10 PM Masami Hiramatsu <mhiramat@kernel.org> wrote:
+>
+> On Mon, 7 Nov 2022 16:06:26 +0000
+> Mark Rutland <mark.rutland@arm.com> wrote:
+>
+> > On Mon, Nov 07, 2022 at 03:35:07PM +0000, Will Deacon wrote:
+> > > On Mon, Nov 07, 2022 at 03:32:24PM +0000, Mark Rutland wrote:
+> > > > On Mon, Nov 07, 2022 at 02:49:31PM +0000, Will Deacon wrote:
+> > > > > [+Mark R]
+> > > > >
+> > > > > On Thu, Jul 28, 2022 at 02:02:50AM +0000, Jianlin Lv wrote:
+> > > > > > This is the arm64 version of ftrace-based kprobes to avoid the overhead
+> > > > > > with regular kprobes, by using the ftrace infrastructure.
+> > > > > >
+> > > > > > Signed-off-by: Jianlin Lv <iecedge@gmail.com>
+> > > > > > ---
+> > > > > >  .../debug/kprobes-on-ftrace/arch-support.txt  |  2 +-
+> > > > > >  arch/arm64/Kconfig                            |  1 +
+> > > > > >  arch/arm64/kernel/probes/Makefile             |  1 +
+> > > > > >  arch/arm64/kernel/probes/kprobes-ftrace.c     | 81 +++++++++++++++++++
+> > > > > >  include/linux/kprobes.h                       |  2 +
+> > > > > >  kernel/kprobes.c                              |  4 +-
+> > > > > >  6 files changed, 88 insertions(+), 3 deletions(-)
+> > > > > >  create mode 100644 arch/arm64/kernel/probes/kprobes-ftrace.c
+> > > > >
+> > > > > Sorry for the slow reply on this, but I think this deserved to be split
+> > > > > into two patches: the first one reworking the core check_ftrace_location()
+> > > > > logic to work properly with branch-and-link style architectures, and the
+> > > > > second one adding support for arm64.
+> > > >
+> > > > I'd prefer we don't do this at all; there a bunch of issues with kprobes *not*
+> > > > taking an exception, since we get a dodgy not-quite-real pt_regs, and to clean
+> > > > up the existing issues the plan is:
+> > > >
+> > > > 1) Move ftrace over to ftrace_regs
+> > > > 2) Implement fprobes using ftrace_regs
+> > > > 3) Remove kretprobes
+>
+> Yes, that is what we agreed at the tracing summit.
 
-> diff --git a/tools/testing/selftests/iommu/iommufd.c b/tools/testing/selftests/iommu/iommufd.c
+Sorry to miss TS2022.
+Are there documents that can be shared to document the conclusions
+reached at the tracing summit?
+This will be helpful to understand what changes may be coming to tracing.
 
-> +TEST_F(iommufd, cmd_length)
-> +{
-> +#define TEST_LENGTH(_struct, _ioctl)                                     \
-> +	{                                                                \
-> +		struct {                                                 \
-> +			struct _struct cmd;                              \
-> +			uint8_t extra;                                   \
-> +		} cmd = { .cmd = { .size = sizeof(struct _struct) - 1 }, \
-> +			  .extra = UINT8_MAX };                          \
-> +		int old_errno;                                           \
-> +		int rc;                                                  \
-> +									 \
-> +		EXPECT_ERRNO(EOPNOTSUPP, ioctl(self->fd, _ioctl, &cmd)); \
-
-I guess it should be EINVAL corresponding to updated kernel code?
-
-> +TEST_F(iommufd, cmd_ex_fail)
-> +{
-> +	struct {
-> +		struct iommu_destroy cmd;
-> +		__u64 future;
-> +	} cmd = { .cmd = { .size = sizeof(cmd), .id = 0 } };
-> +
-> +	/* object id is invalid and command is longer */
-> +	EXPECT_ERRNO(ENOENT, ioctl(self->fd, IOMMU_DESTROY, &cmd));
-> +	/* future area is non-zero */
-> +	cmd.future = 1;
-> +	EXPECT_ERRNO(E2BIG, ioctl(self->fd, IOMMU_DESTROY, &cmd));
-> +	/* Original command "works" */
-> +	cmd.cmd.size = sizeof(cmd.cmd);
-> +	EXPECT_ERRNO(ENOENT, ioctl(self->fd, IOMMU_DESTROY, &cmd));
-> +	/* Short command fails */
-> +	cmd.cmd.size = sizeof(cmd.cmd) - 1;
-> +	EXPECT_ERRNO(EOPNOTSUPP, ioctl(self->fd, IOMMU_DESTROY, &cmd));
-
-Ditto
-
-> +TEST_HARNESS_MAIN
-> diff --git a/tools/testing/selftests/iommu/iommufd_fail_nth.c b/tools/testing/selftests/iommu/iommufd_fail_nth.c
-
-> +static void fail_nth_first(struct __test_metadata *_metadata,
-> +			   struct fail_nth_state *nth_state)
-> +{
-> +	char buf[300];
-> +
-> +	snprintf(buf, sizeof(buf), "/proc/self/task/%u/fail-nth", gettid());
-
-Not sure what's missing, I have a build error at gettid. Copying
-a solution from tools/perf/jvmti/jvmti_agent.c file, can fix with:
-------------------------------
-diff --git a/tools/testing/selftests/iommu/iommufd_fail_nth.c b/tools/testing/selftests/iommu/iommufd_fail_nth.c
-index 99eaa9f32e0b..7704b3a754d3 100644
---- a/tools/testing/selftests/iommu/iommufd_fail_nth.c
-+++ b/tools/testing/selftests/iommu/iommufd_fail_nth.c
-@@ -19,6 +19,7 @@
- 
- #define __EXPORTED_HEADERS__
- #include <linux/vfio.h>
-+#include <syscall.h> /* for gettid() */
- 
- #include "iommufd_utils.h"
- 
-@@ -84,6 +85,13 @@ struct fail_nth_state {
-        unsigned int iteration;
- };
- 
-+#ifndef HAVE_GETTID
-+static inline pid_t gettid(void)
-+{
-+       return (pid_t)syscall(__NR_gettid);
-+}
-+#endif
-+
- static void fail_nth_first(struct __test_metadata *_metadata,
-                           struct fail_nth_state *nth_state)
- {
-------------------------------
+>
+> When we finished to move on the fprobe and fprobe-events, kretprobes
+> (and kprobe-on-ftrace if CONFIG_HAVE_DYNAMIC_FTRACE_WITH_REGS is not
+> supported) are not needed from the user viewpoint.
+> So we can mark the kretprobe API obsolete.
+>
+> > > >
+> > > > ... and regular kprobes will need to take an exception (via BRK) to get a real
+> > > > pt_regs, so that can't be optimized to use ftrace.
+> > >
+> > > OKey doke. Does that mean that other architectures will follow the same
+> > > approach of taking an exception,
+> >
+> > I think once everyone has FPROBE, KPROBES_ON_FTRACE becomes redundant, and
+> > could be removed (leaving kprobes to always follow a take-an-exception flow on
+> > all architectures).
+>
+> Anyway I will give some window to transit to the fprobe with ftrace_regs.
+>
+> >
+> > > or do they somehow work by magic?
+> >
+> > Some architectures don't need to take an exception to be able to create a full
+> > pt_regs (e.g. x86's flags are accessible in a way arm64's PSTATE isn't), but
+> > that needs to be generated / restored differently to exception entry/return,
+> > and so even where it's possible it can be painful to maintain (and slower than
+> > using ftrace_regs), so I suspect KPROBES_ON_FTRACE would be removed.
+>
+> I think KPROBES_ON_FTRACE support depends on CONFIG_HAVE_DYNAMIC_FTRACE_WITH_REGS.
+> When the all architecture removed it, I remove it. But it means that if function
+> tracer is enabled, we can not put any kprobes on the entry of functions on x86
+> because there is no space to put a software breakpoint at the function entry
+> on x86.
+>
+> For the ftrace (tracefs) user, I will minimize the effect of this change, but
+> the tools developers (including eBPF developer) this change may be critical.
+>
+> Thank you,
+>
+>
+> >
+> > So different constaints more than magic.
+> >
+> > Thanks,
+> > Mark.
+>
+>
+> --
+> Masami Hiramatsu (Google) <mhiramat@kernel.org>
