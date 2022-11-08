@@ -2,86 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E4B9C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 20:42:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF787C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 20:42:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229871AbiKHUmW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Nov 2022 15:42:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49568 "EHLO
+        id S229868AbiKHUmt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Nov 2022 15:42:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbiKHUmV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 15:42:21 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7FC365872
-        for <linux-doc@vger.kernel.org>; Tue,  8 Nov 2022 12:42:20 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id a13so24375814edj.0
-        for <linux-doc@vger.kernel.org>; Tue, 08 Nov 2022 12:42:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8PDeB4nZ2b0/kaV55EwLdKiv7+4Bjm3GYojARxweqjE=;
-        b=AVqZhoAy5n+PtVAMMbVx+483gzWF1tI70Wt+diEOnr/EEFplpI0IFX1YwVIOi7rt+5
-         xKjZRLDc7nKF1ln5nELX1axvNvA5KYnfEpaqcCUyQ1pFevFiis+oM1AT+lyQk3g7zHXY
-         LCaPl0JSId8MgYe21cyHU2fF6H+jewXU4nMH02zBTKFcCs2BJmeM/k0IOqOeQqCcSB32
-         Y6WYvyPjSIPQ9vvrFv+lQAHO3ltLKEVdP+WdsH1qA8J8GYSCb6l+9H4m2VSi05fgWWYa
-         RryX9TkQXOsmrkLmuqRSFQyVkoTeXgUcRgclZKN9oXRwEyoI5GUOItPRM4ZgJNwyzF37
-         S9og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8PDeB4nZ2b0/kaV55EwLdKiv7+4Bjm3GYojARxweqjE=;
-        b=rxQ/8Ny3EpF7WU5SmAMBxrkCnPOnuNuewy3ta5FqacRuLdZUcu39prP2mBA4NF+LuF
-         iO/2zHbVGsAgntDSyjMJA3PdVcm4CTtWTJFdBc8AT82+Y8VwLr0mytExS79mptusV5/6
-         3NGZk0n/VDdX28fb4hY6zR/25qO4ZujqU6/y6CfvGwrgdOuqFQEH/XK6jvkjAWRTiUxQ
-         KQgka11bJ0Z9s08VWDf4b44KuUbeQZjtFbGsz3hc86uZ4TcdjXqOjZMvMaUeQj1G8FWW
-         8ShX38z29YOmYREOk+JeiJu4StNCNi8BvxgbQ9Jt0jboay8ApHIelyXiVLe3R0N+n3C6
-         BLNQ==
-X-Gm-Message-State: ACrzQf2Nb6IyKk0fgt+Hj/ABW6o7gWkspASRr40KtfUNyDXZ5vq8H8VK
-        gENKUkoV44ts2OEsR7SpfO12BFdGkuF/U43tMKoPOA==
-X-Google-Smtp-Source: AMsMyM5UacZlCRfKiRNa0kTrzT5kX7+K684naVNWV/pxq0wgKsP9jRI7CKgITH4pf2zDtNIwin7mrjQA9a0Qs67HpcE=
-X-Received: by 2002:aa7:c718:0:b0:462:ff35:95dc with SMTP id
- i24-20020aa7c718000000b00462ff3595dcmr56160916edq.32.1667940139213; Tue, 08
- Nov 2022 12:42:19 -0800 (PST)
+        with ESMTP id S229709AbiKHUms (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 15:42:48 -0500
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED7AD67133;
+        Tue,  8 Nov 2022 12:42:47 -0800 (PST)
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+        by mx0b-0016f401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A8HQofl032334;
+        Tue, 8 Nov 2022 12:42:29 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=pfpt0220; bh=b/uyn2DhR1Fdqjkrf+V8LcqMK8HBEi7P55ivfn8OZUs=;
+ b=GIIIoD9XCt6N9ez/gbiwMItqwwvQI8dS5oAEasbN8TBGAIMgUOAEzd1dzwpoFcsQIXiP
+ DJ4s0TQWC02F7ktSvvDb1VaX48YRNf9Tg9Hi0XTvF25gFrPy33DuJy8WciedRIqXBqv9
+ 7eb7nnMEMSfwnDs92SAIsyzsOs07gN8GMF8olwRoEYJ0EHx073B9DYToKOBbOy2zk3iX
+ 7qke/DrmI2NVruCpu9zapyiwYCv+D7TrUoqLolVv086QAToq0o4caisQodoYJhs9u/Dx
+ Y0E4k5WYeVmCYfnsjLSvRi583D9bnLWl2IRCpjP6OjYb826iBSW9q2+pl3WSoBq70+ay sQ== 
+Received: from dc5-exch02.marvell.com ([199.233.59.182])
+        by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3kquh58svt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Tue, 08 Nov 2022 12:42:29 -0800
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Tue, 8 Nov
+ 2022 12:42:27 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 8 Nov 2022 12:42:26 -0800
+Received: from sburla-PowerEdge-T630.caveonetworks.com (unknown [10.106.27.217])
+        by maili.marvell.com (Postfix) with ESMTP id 834523F7089;
+        Tue,  8 Nov 2022 12:42:26 -0800 (PST)
+From:   Veerasenareddy Burru <vburru@marvell.com>
+To:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <lironh@marvell.com>, <aayarekar@marvell.com>,
+        <sedara@marvell.com>, <sburla@marvell.com>
+CC:     <linux-doc@vger.kernel.org>,
+        Veerasenareddy Burru <vburru@marvell.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>
+Subject: [PATCH net-next 0/8] Add octeon_ep_vf driver
+Date:   Tue, 8 Nov 2022 12:41:51 -0800
+Message-ID: <20221108204209.23071-1-vburru@marvell.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk> <E1osRXT-002mw3-JR@rmk-PC.armlinux.org.uk>
-In-Reply-To: <E1osRXT-002mw3-JR@rmk-PC.armlinux.org.uk>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 8 Nov 2022 21:42:08 +0100
-Message-ID: <CACRpkdaPwe0igrZOnA3Q3QosySTEa9H06kdXLQMcpeEmt+hiBw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/7] dt-bindings: mfd: add binding for Apple Mac System
- Management Controller
-To:     "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        asahi@lists.linux.dev, devicetree@vger.kernel.org,
-        Hector Martin <marcan@marcan.st>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sven Peter <sven@svenpeter.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: d1UMSbNckWYHQkkCwzt-C5QmC0JnggPU
+X-Proofpoint-ORIG-GUID: d1UMSbNckWYHQkkCwzt-C5QmC0JnggPU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-07_11,2022-11-08_01,2022-06-22_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Nov 8, 2022 at 5:33 PM Russell King (Oracle)
-<rmk+kernel@armlinux.org.uk> wrote:
+This driver implements networking functionality of Marvell's Octeon
+PCI Endpoint NIC VF.
 
-> Add a DT binding for the Apple Mac System Management Controller.
->
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+This driver support following devices:
+ * Network controller: Cavium, Inc. Device b203
+ * Network controller: Cavium, Inc. Device b403
 
-Looks good to me!
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Veerasenareddy Burru (8):
+  octeon_ep_vf: Add driver framework and device initialization
+  octeon_ep_vf: add hardware configuration APIs
+  octeon_ep_vf: add VF-PF mailbox communication.
+  octeon_ep_vf: add Tx/Rx ring resource setup and cleanup
+  octeon_ep_vf: add support for ndo ops
+  octeon_ep_vf: add Tx/Rx processing and interrupt support
+  octeon_ep_vf: add ethtool support
+  octeon_ep_vf: update MAINTAINERS
 
-Yours,
-Linus Walleij
+ .../ethernet/marvell/octeon_ep_vf.rst         |   19 +
+ MAINTAINERS                                   |    9 +
+ drivers/net/ethernet/marvell/Kconfig          |    1 +
+ drivers/net/ethernet/marvell/Makefile         |    1 +
+ .../net/ethernet/marvell/octeon_ep_vf/Kconfig |   19 +
+ .../ethernet/marvell/octeon_ep_vf/Makefile    |    9 +
+ .../marvell/octeon_ep_vf/octep_vf_cn9k.c      |  489 +++++++
+ .../marvell/octeon_ep_vf/octep_vf_config.h    |  155 +++
+ .../marvell/octeon_ep_vf/octep_vf_ethtool.c   |  307 +++++
+ .../marvell/octeon_ep_vf/octep_vf_main.c      | 1136 +++++++++++++++++
+ .../marvell/octeon_ep_vf/octep_vf_main.h      |  305 +++++
+ .../marvell/octeon_ep_vf/octep_vf_mbox.c      |  358 ++++++
+ .../marvell/octeon_ep_vf/octep_vf_mbox.h      |  137 ++
+ .../marvell/octeon_ep_vf/octep_vf_regs_cn9k.h |  154 +++
+ .../marvell/octeon_ep_vf/octep_vf_rx.c        |  508 ++++++++
+ .../marvell/octeon_ep_vf/octep_vf_rx.h        |  199 +++
+ .../marvell/octeon_ep_vf/octep_vf_tx.c        |  335 +++++
+ .../marvell/octeon_ep_vf/octep_vf_tx.h        |  242 ++++
+ 18 files changed, 4383 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/marvell/octeon_ep_vf.rst
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/Kconfig
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/Makefile
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/octep_vf_cn9k.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/octep_vf_config.h
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/octep_vf_ethtool.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/octep_vf_main.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/octep_vf_main.h
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/octep_vf_mbox.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/octep_vf_mbox.h
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/octep_vf_regs_cn9k.h
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/octep_vf_rx.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/octep_vf_rx.h
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/octep_vf_tx.c
+ create mode 100644 drivers/net/ethernet/marvell/octeon_ep_vf/octep_vf_tx.h
+
+
+base-commit: ee1bfbcc71cfac3b570365558cf38cb70f6ca971
+-- 
+2.36.0
+
