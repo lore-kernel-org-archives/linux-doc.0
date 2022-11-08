@@ -2,228 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77769C4332F
-	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 10:22:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F0A4C433FE
+	for <linux-doc@archiver.kernel.org>; Tue,  8 Nov 2022 11:02:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233840AbiKHKWW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 8 Nov 2022 05:22:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49872 "EHLO
+        id S233747AbiKHLCw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 8 Nov 2022 06:02:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233826AbiKHKWW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 05:22:22 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02AA1E0D3;
-        Tue,  8 Nov 2022 02:22:21 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id j5-20020a05600c410500b003cfa9c0ea76so3347220wmi.3;
-        Tue, 08 Nov 2022 02:22:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6jv4scRgKtBySLGDgjJWwuwFVamakxMKqAypSIGD624=;
-        b=DNZ4ybWF+SH+0/5zdj6u9V88M8Wz04xwjb0Wa7WJuWRH5Lpi4qFekvvfB+NPDs4UD4
-         e8G/J96FqYFIw/FWK6iI0bKcY+fs5Y5mTqIMyI4wBB3Rjj16XKIAWL2w8ceD0vSO/v5O
-         jY23S2JgpML77g7eLbvVN1hKRbHoPu/CAE/Vu4SnlFWIctLKGmcudpxUFuUX+/BXMPUf
-         NCc7bqif8bbwYHK0SrvvEC2JCd8AmWcUcszVoG+gRuNYly2rakiClLHHtxP2Fa+YoLEl
-         aXtJaxobpsLMSD0+FIOmXaPdwe7oCenj+QiaP/luto5KgC5gk3fQp1rJl42FWxtpLuSa
-         M3SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6jv4scRgKtBySLGDgjJWwuwFVamakxMKqAypSIGD624=;
-        b=cbIqkoHOQH4qAdyTnmUysImRxmXOt0+5cnufKG+UNc7NBDz5Y/lDJGyBVVDTUWmjo6
-         Hrkc6Dyi2YV2J3jdz/sHNjjS/NRK1jfW3mG4xdDmUU4ysEIwrQ30EMFJVuSi1AJevu5e
-         QsUe1EO0KMejkxDqOsSB4SU6lfQCU+fIzB/ARyxhtGXSRF0bUJNSlFt1LqdnezsmPQJC
-         lusToifQ9BT85uihf0x23YPA4d9ues6jNdbZuJQJbHKNvgc/5PY3ElQRaKSAEhYdF0FP
-         AlTm6ff+aF9QCUI8sNd18oCbobX92+SkE1x64/x9vNTm4gLtqgMzSpz2h7++FUk3EnyF
-         HI+w==
-X-Gm-Message-State: ANoB5pkQsilc0OgOs/CW2Y04OeU3pFoaOoj9kSUdWfgwuJbXNe9ym0dE
-        qYFzhXPo8fau601K/dtPBbjfehdqF7jvnQ==
-X-Google-Smtp-Source: AA0mqf4ml7Ki+y1+0C13ItGrDjNZPA+6rQO6+VL8LKIcapHQiQ540wENZhbEPdOxBYNTS2IJgTrZyA==
-X-Received: by 2002:a1c:3bd4:0:b0:3cf:b2ac:bd91 with SMTP id i203-20020a1c3bd4000000b003cfb2acbd91mr4548927wma.128.1667902938881;
-        Tue, 08 Nov 2022 02:22:18 -0800 (PST)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:550:1196:18a3:8071])
-        by smtp.gmail.com with ESMTPSA id p15-20020adfce0f000000b0022cbf4cda62sm11776801wrn.27.2022.11.08.02.22.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Nov 2022 02:22:18 -0800 (PST)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Yonghong Song <yhs@meta.com>,
-        Donald Hunter <donald.hunter@gmail.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH bpf-next v4] docs/bpf: document BPF ARRAY_OF_MAPS and HASH_OF_MAPS
-Date:   Tue,  8 Nov 2022 10:22:15 +0000
-Message-Id: <20221108102215.47297-1-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S233479AbiKHLCu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 8 Nov 2022 06:02:50 -0500
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34980450B3;
+        Tue,  8 Nov 2022 03:02:49 -0800 (PST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id E87E732003D3;
+        Tue,  8 Nov 2022 06:02:44 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Tue, 08 Nov 2022 06:02:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1667905364; x=1667991764; bh=nP2DN9huvRZCwj+EeirHvDaYlV3K
+        zWuv19wsVeFnYlg=; b=nPTarOnIxrW/zamDmNXsZG4ai+ApYSZmmzu+BhtbT5rw
+        mtbLXtnZ91Wsx6cYX7aQe4jZNZCZsGJC2Mla0GEjFkbCGOJ0KBcJtDMhDKwLl2qA
+        xaOoirLqqKZ47HBzkKP2M5j76dDIFWFnVqIqsP9aY5MXXANWgjOnEYn4r2NdpYtA
+        eIrKIfH3WTwPLnB+RkwhAu7gPi2pBocGLuYYuCxZ37Yy0ZkfWkf3aIyWlg2KfItI
+        fMMe5Ex/coTrt3s6VoIfzZS7AryQmV2ko/ZWtQmxKcO8hjv2Nz70dTdz6ifpHEZp
+        1rdY7PjtxERy0Q0Niv606EEZIHGhJMdtMiFBZqSRHw==
+X-ME-Sender: <xms:UzdqY1hDCSISO_-tueqlv65Y-WT_by5RX-iY4Ks0vXO6BVm1TInShQ>
+    <xme:UzdqY6DYiH1jBu5p3i9vMHEdK2-4ppT4mhYlRGf9-8zqlnPHTBDTgXN0NbEFsvbtS
+    zLCMQh0zQpRTRU>
+X-ME-Received: <xmr:UzdqY1FUxNDg1EKaGIKEFlwu8n9f0aHEgH_ktHJyHrIG3Nfq7Pts_ecTuHbXqhjLAVUYSbUIN1n-K5SXRB-pYNAEYQQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfedtgddvfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefkughoucfu
+    tghhihhmmhgvlhcuoehiughoshgthhesihguohhstghhrdhorhhgqeenucggtffrrghtth
+    gvrhhnpeehhfdtjedviefffeduuddvffegteeiieeguefgudffvdfftdefheeijedthfej
+    keenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepihguohhstghhsehiughoshgthhdrohhrgh
+X-ME-Proxy: <xmx:VDdqY6QY6IRVvS7SoRrZrc9OVQxuCMX-yqC-_VGfglqi2aj1Iptghg>
+    <xmx:VDdqYyyaaUhuHCuo7VOmKuyeUPaPEquhT5Xgch_f2n0DWNtfriLfFQ>
+    <xmx:VDdqYw7J8H6KkbKUGE7Dk_PaNtjh_YA5u9eNYUPoWMDKw7x29dzckg>
+    <xmx:VDdqY3Lw9EuSetC5HmwinjJF4KgSYqFnlwzwvtxQZtZHdjcE_Ao8bg>
+Feedback-ID: i494840e7:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 8 Nov 2022 06:02:43 -0500 (EST)
+Date:   Tue, 8 Nov 2022 13:02:38 +0200
+From:   Ido Schimmel <idosch@idosch.org>
+To:     Andy Ren <andy.ren@getcruise.com>
+Cc:     netdev@vger.kernel.org, richardbgobert@gmail.com,
+        davem@davemloft.net, wsa+renesas@sang-engineering.com,
+        edumazet@google.com, petrm@nvidia.com, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, andrew@lunn.ch,
+        dsahern@gmail.com, sthemmin@microsoft.com,
+        sridhar.samudrala@intel.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, roman.gushchin@linux.dev
+Subject: Re: [PATCH net-next v3] net/core: Allow live renaming when an
+ interface is up
+Message-ID: <Y2o3ThYXNADKiwRT@shredder>
+References: <20221107174242.1947286-1-andy.ren@getcruise.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221107174242.1947286-1-andy.ren@getcruise.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for the ARRAY_OF_MAPS and HASH_OF_MAPS map types,
-including usage and examples.
+On Mon, Nov 07, 2022 at 09:42:42AM -0800, Andy Ren wrote:
+> Allow a network interface to be renamed when the interface
+> is up.
+> 
+> As described in the netconsole documentation [1], when netconsole is
+> used as a built-in, it will bring up the specified interface as soon as
+> possible. As a result, user space will not be able to rename the
+> interface since the kernel disallows renaming of interfaces that are
+> administratively up unless the 'IFF_LIVE_RENAME_OK' private flag was set
+> by the kernel.
+> 
+> The original solution [2] to this problem was to add a new parameter to
+> the netconsole configuration parameters that allows renaming of
+> the interface used by netconsole while it is administratively up.
+> However, during the discussion that followed, it became apparent that we
+> have no reason to keep the current restriction and instead we should
+> allow user space to rename interfaces regardless of their administrative
+> state:
+> 
+> 1. The restriction was put in place over 20 years ago when renaming was
+> only possible via IOCTL and before rtnetlink started notifying user
+> space about such changes like it does today.
+> 
+> 2. The 'IFF_LIVE_RENAME_OK' flag was added over 3 years ago in version
+> 5.2 and no regressions were reported.
+> 
+> 3. In-kernel listeners to 'NETDEV_CHANGENAME' do not seem to care about
+> the administrative state of interface.
+> 
+> Therefore, allow user space to rename running interfaces by removing the
+> restriction and the associated 'IFF_LIVE_RENAME_OK' flag. Help in
+> possible triage by emitting a message to the kernel log that an
+> interface was renamed while UP.
+> 
+> [1] https://www.kernel.org/doc/Documentation/networking/netconsole.rst
+> [2] https://lore.kernel.org/netdev/20221102002420.2613004-1-andy.ren@getcruise.com/
+> 
+> Signed-off-by: Andy Ren <andy.ren@getcruise.com>
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
-v3 -> v4:
-- Fix typo in filename, as reported by Yonghong Song
-- Add lookup to list of ops, as reported by Yonghong Song
-- Clean up declaration in example, as reported by Yonghong Song
-
-v2 -> v3:
-- Update BPF example to show declarative initialisation, as
-  suggested by Andrii Nakryiko
-- Use LIBBPF_OPTS inline initialisation, as suggested by
-  Andrii Nakryiko
-- Fix duplicate label warning,
-Reported-by: kernel test robot <lkp@intel.com>
-
-v1 -> v2:
-- Fix formatting nits
-- Tidy up code snippets as suggested by Maryam Tahhan
----
- Documentation/bpf/map_of_maps.rst | 126 ++++++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
- create mode 100644 Documentation/bpf/map_of_maps.rst
-
-diff --git a/Documentation/bpf/map_of_maps.rst b/Documentation/bpf/map_of_maps.rst
-new file mode 100644
-index 000000000000..07212b9227a9
---- /dev/null
-+++ b/Documentation/bpf/map_of_maps.rst
-@@ -0,0 +1,126 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2022 Red Hat, Inc.
-+
-+========================================================
-+BPF_MAP_TYPE_ARRAY_OF_MAPS and BPF_MAP_TYPE_HASH_OF_MAPS
-+========================================================
-+
-+.. note::
-+   - ``BPF_MAP_TYPE_ARRAY_OF_MAPS`` and ``BPF_MAP_TYPE_HASH_OF_MAPS`` were
-+     introduced in kernel version 4.12
-+
-+``BPF_MAP_TYPE_ARRAY_OF_MAPS`` and ``BPF_MAP_TYPE_HASH_OF_MAPS`` provide general
-+purpose support for map in map storage. One level of nesting is supported, where
-+an outer map contains instances of a single type of inner map, for example
-+``array_of_maps->sock_map``.
-+
-+When creating an outer map, an inner map instance is used to initialize the
-+metadata that the outer map holds about its inner maps. This inner map has a
-+separate lifetime from the outer map and can be deleted after the outer map has
-+been created.
-+
-+The outer map supports element lookup, update and delete from user space using
-+the syscall API. A BPF program is only allowed to do element lookup in the outer
-+map.
-+
-+.. note::
-+   - Multi-level nesting is not supported.
-+   - Any BPF map type can be used as an inner map, except for
-+     ``BPF_MAP_TYPE_PROG_ARRAY``.
-+   - A BPF program cannot update or delete outer map entries.
-+
-+For ``BPF_MAP_TYPE_ARRAY_OF_MAPS`` the key is an unsigned 32-bit integer index
-+into the array. The array is a fixed size with ``max_entries`` elements that are
-+zero initialized when created.
-+
-+For ``BPF_MAP_TYPE_HASH_OF_MAPS`` the key type can be chosen when defining the
-+map. The kernel is responsible for allocating and freeing key/value pairs, up to
-+the max_entries limit that you specify. Hash maps use pre-allocation of hash
-+table elements by default. The ``BPF_F_NO_PREALLOC`` flag can be used to disable
-+pre-allocation when it is too memory expensive.
-+
-+Usage
-+=====
-+
-+Kernel BPF Helper
-+-----------------
-+
-+.. c:function::
-+   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-+
-+Inner maps can be retrieved using the ``bpf_map_lookup_elem()`` helper. This
-+helper returns a pointer to the inner map, or ``NULL`` if no entry was found.
-+
-+Examples
-+========
-+
-+Kernel BPF Example
-+------------------
-+
-+This snippet shows how to create and initialise an array of devmaps in a BPF
-+program. Note that the outer array can only be modified from user space using
-+the syscall API.
-+
-+.. code-block:: c
-+
-+    struct inner_map {
-+            __uint(type, BPF_MAP_TYPE_DEVMAP);
-+            __uint(max_entries, 10);
-+            __type(key, __u32);
-+            __type(value, __u32);
-+    } inner_map1 SEC(".maps"), inner_map2 SEC(".maps");
-+
-+    struct {
-+            __uint(type, BPF_MAP_TYPE_ARRAY_OF_MAPS);
-+            __uint(max_entries, 2);
-+            __type(key, __u32);
-+            __array(values, struct inner_map);
-+    } outer_map SEC(".maps") = {
-+            .values = { &inner_map1,
-+                        &inner_map2 }
-+    };
-+
-+See ``progs/test_btf_map_in_map.c`` in ``tools/testing/selftests/bpf`` for more
-+examples of declarative initialisation of outer maps.
-+
-+User Space
-+----------
-+
-+This snippet shows how to create an array based outer map:
-+
-+.. code-block:: c
-+
-+    int create_outer_array(int inner_fd) {
-+            LIBBPF_OPTS(bpf_map_create_opts, opts, .inner_map_fd = inner_fd);
-+            int fd;
-+
-+            fd = bpf_map_create(BPF_MAP_TYPE_ARRAY_OF_MAPS,
-+                                "example_array",       /* name */
-+                                sizeof(__u32),         /* key size */
-+                                sizeof(__u32),         /* value size */
-+                                256,                   /* max entries */
-+                                &opts);                /* create opts */
-+            return fd;
-+    }
-+
-+
-+This snippet shows how to add an inner map to an outer map:
-+
-+.. code-block:: c
-+
-+    int add_devmap(int outer_fd, int index, const char *name) {
-+            int fd;
-+
-+            fd = bpf_map_create(BPF_MAP_TYPE_DEVMAP, name,
-+                                sizeof(__u32), sizeof(__u32), 256, NULL);
-+            if (fd < 0)
-+                    return fd;
-+
-+            return bpf_map_update_elem(outer_fd, &index, &fd, BPF_ANY);
-+    }
-+
-+References
-+==========
-+
-+- https://lore.kernel.org/netdev/20170322170035.923581-3-kafai@fb.com/
-+- https://lore.kernel.org/netdev/20170322170035.923581-4-kafai@fb.com/
--- 
-2.35.1
-
+Reviewed-by: Ido Schimmel <idosch@nvidia.com>
