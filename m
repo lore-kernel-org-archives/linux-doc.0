@@ -2,247 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A19ADC4332F
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 19:39:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDD9C4332F
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 19:40:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231373AbiKITjB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 14:39:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39212 "EHLO
+        id S231758AbiKITky (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 14:40:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230443AbiKITjA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 14:39:00 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EAC618B1E
-        for <linux-doc@vger.kernel.org>; Wed,  9 Nov 2022 11:38:58 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id w14so27449513wru.8
-        for <linux-doc@vger.kernel.org>; Wed, 09 Nov 2022 11:38:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lh0nRP77OHPBfFy0WBZz6D0tz7ScfvXWOpoB+unsGmE=;
-        b=XT5OpEcAC2vJgaagUXubYidHz4EnH3vTp6IDL5PXT/hagaNDKVWsad3/AIWLbzAo4O
-         DOZvmdDpzRdb9mDIAOX/leK0v0Loqn6EjUleKllNnVU9SNVmKhZyeuk6dooCovbH96RT
-         CzDzEJhC0rrOhNDVbegsmz4PKxwEnIDkwN6yVGZyS7iq+Je/iYCbGsTpjhytvVkb73OW
-         xq9jPQJvhurPCa8tm9dYvd9LyvD5kdRBULt7I/gfW4r6nVKorAQ7unv9pQEHXiHBXgWS
-         WC2JdSp4cRic5ooJPTufmSc7PpqeRU29ZluZPNdQw9wBCq6qfQk2sq1Nv9NPZ74qvZmI
-         zDGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lh0nRP77OHPBfFy0WBZz6D0tz7ScfvXWOpoB+unsGmE=;
-        b=7MTrovbWkPoXEN7Atva90rYXuOI1qEUL+BuwhDJVJYIHbxTu4satLaRgiXUEsjRU5N
-         ZB5s87PRiJksOHkIJKMu6j2MkfaGNYCRA3qJfBSb6dR3eYVRhtgwzLnd2w2Gl3Vm8Ssg
-         zWh4nj3+oNcFvidr3cD6uYpNO/Egk+sOrm6JPwsrxyCoBGLy88W9LfKD/3BenvgWn2h3
-         EdZavxsVXJAMJNYVWRko0QfCCCpZkrs3V9/04HV0mGwA1oO86r9xr9CJYaYTzyEtPeWM
-         0cRH8A6nfgsw9bgfqdBXSvmBhIaW5Nrh6+4xODkjULwTvoHN+owUwu+f1n5CEyd/omIC
-         qTrw==
-X-Gm-Message-State: ACrzQf0ZCoh8abKS8Jcbg64S575r2ezmpc7btxGT6H5bQyprCW5mV4Y5
-        YhFV7MlRNIxN284Hl3rq+kcXEA==
-X-Google-Smtp-Source: AMsMyM5Vv6j8+WGVmZnNA7DjnX36A/WyWoPzubWciasWpvIGo6jVmLL7077josfOvY5BLIa/A7nRRQ==
-X-Received: by 2002:a5d:6088:0:b0:236:bd20:2d07 with SMTP id w8-20020a5d6088000000b00236bd202d07mr36906705wrt.165.1668022736766;
-        Wed, 09 Nov 2022 11:38:56 -0800 (PST)
-Received: from ?IPV6:2a02:6b6a:b4d7:0:bc6a:614e:fac7:5a4c? ([2a02:6b6a:b4d7:0:bc6a:614e:fac7:5a4c])
-        by smtp.gmail.com with ESMTPSA id p33-20020a05600c1da100b003c71358a42dsm3352830wms.18.2022.11.09.11.38.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Nov 2022 11:38:55 -0800 (PST)
-Message-ID: <d39f639b-cd5c-15f4-e6cb-5e2525992acf@bytedance.com>
-Date:   Wed, 9 Nov 2022 19:38:55 +0000
+        with ESMTP id S231745AbiKITkx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 14:40:53 -0500
+Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7C0F02A421;
+        Wed,  9 Nov 2022 11:40:52 -0800 (PST)
+Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
+        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 73766292;
+        Wed,  9 Nov 2022 20:40:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
+        s=202205; t=1668022849;
+        bh=GaOmxz6JTuMIOYsKhCv0SBSOjIVtDuRY7JydJkeuUWA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Mcg5csJxaykijh8hhFUTKYC+e/Us2HmYcNvujeIpmH/F7Qvql1/gwUQXFykk/Usn5
+         aHzuy/TMtbLDZCp3S1RO7SIV/QRnqEB9V67ZkuLZ3UlVUXIUdd8TtylIUHXejxgr0y
+         c+qZKNr1wA2uYRYUp4GUE+m61wCM9sVVs7oxeZ+7INuKabeYp8Kvf+chI6I4ZBWyD7
+         bDYW5pMrYBVU5hxlFzkZK2RVLdrFEXV/IadoXpQVoZAmZ5PiIj6ZDrcma/+g8bAwL1
+         AFlsHIA4CunIUS9wnI+9mCTl4lUEVkDAT7jWtYN6gYDGaVpHqaqdD8aMhKBBmCTVg1
+         u/9d90Ci9IPGpYArd3vtKfi0dAfaI1tlWfXRobr3745EoQfGbDQLGGVU/g1cqqYbkh
+         AfDR6QxgiUDVFDF8z8bayiwB/G9VNf1dXrDwcld7Wlj8JoLSSCX1MdElmfhM7W5jbU
+         Un/S8lLzW/RuSwItSZkVqvlSjaFwzR0vDBaFUkPYhqqphWsJ0JWkQ601kfCT/sswNB
+         ZW7e9T6CUE6UJnFRBnlZZNNIjjzF0uI2Br7cNeIEQKqs5WAVaTK9a4mxlYYWMD7aaZ
+         FHT6EnFo6fvVVYEgJ2chejEnm/nQETVLYQ+6xseptvFQ5CYpxNHf5OZyDqotTTaG81
+         RfZL7MmbwntdB+7uvxum/MB0=
+Date:   Wed, 9 Nov 2022 20:40:48 +0100
+From:   Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= 
+        <nabijaczleweli@nabijaczleweli.xyz>
+To:     James Bottomley <jejb@linux.ibm.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        linux-scsi@vger.kernel.org
+Subject: Re: [PATCH v2 14/15] scsi: ncr53c8xx: replace CCB_MAGIC with bool
+ busy
+Message-ID: <20221109194048.hcs65yzpsgvek73m@tarta.nabijaczleweli.xyz>
+References: <cover.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
+ <27cefe163e602f7d5b35ba2e966dccf9109798f9.1667330271.git.nabijaczleweli@nabijaczleweli.xyz>
+ <44fa41b4d69219b89e805d572df486c4dda77f08.camel@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [v2 0/6] KVM: arm64: implement vcpu_is_preempted check
-Content-Language: en-US
-To:     Punit Agrawal <punit.agrawal@bytedance.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, linux@armlinux.org.uk,
-        yezengruan@huawei.com, catalin.marinas@arm.com, will@kernel.org,
-        maz@kernel.org, steven.price@arm.com, mark.rutland@arm.com,
-        bagasdotme@gmail.com, fam.zheng@bytedance.com, liangma@liangbit.com
-References: <20221104062105.4119003-1-usama.arif@bytedance.com>
- <87wn861v3x.fsf@stealth>
-From:   Usama Arif <usama.arif@bytedance.com>
-In-Reply-To: <87wn861v3x.fsf@stealth>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="a6dqxib67q7dhbvf"
+Content-Disposition: inline
+In-Reply-To: <44fa41b4d69219b89e805d572df486c4dda77f08.camel@linux.ibm.com>
+User-Agent: NeoMutt/20220429
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--a6dqxib67q7dhbvf
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 07/11/2022 18:24, Punit Agrawal wrote:
-> Hi Usama,
-> 
-> Usama Arif <usama.arif@bytedance.com> writes:
-> 
->> This patchset adds support for vcpu_is_preempted in arm64, which allows the guest
->> to check if a vcpu was scheduled out, which is useful to know incase it was
->> holding a lock. vcpu_is_preempted can be used to improve
->> performance in locking (see owner_on_cpu usage in mutex_spin_on_owner,
->> mutex_can_spin_on_owner, rtmutex_spin_on_owner and osq_lock) and scheduling
->> (see available_idle_cpu which is used in several places in kernel/sched/fair.c
->> for e.g. in wake_affine to determine which CPU can run soonest):
->>
->> This patchset shows improvement on overcommitted hosts (vCPUs > pCPUS), as waiting
->> for preempted vCPUs reduces performance.
->>
->> This patchset is inspired from the para_steal_clock implementation and from the
->> work originally done by Zengruan Ye:
->> https://lore.kernel.org/linux-arm-kernel/20191226135833.1052-1-yezengruan@huawei.com/.
->>
->> All the results in the below experiments are done on an aws r6g.metal instance
->> which has 64 pCPUs.
->>
->> The following table shows the index results of UnixBench running on a 128 vCPU VM
->> with (6.0.0+vcpu_is_preempted) and without (6.0.0 base) the patchset.
->> TestName                                6.0.0 base  6.0.0+vcpu_is_preempted    % improvement for vcpu_is_preempted
->> Dhrystone 2 using register variables    187761      191274.7                   1.871368389
->> Double-Precision Whetstone              96743.6     98414.4                    1.727039308
->> Execl Throughput                        689.3       10426                      1412.548963
->> File Copy 1024 bufsize 2000 maxblocks   549.5       3165                       475.978162
->> File Copy 256 bufsize 500 maxblocks     400.7       2084.7                     420.2645371
->> File Copy 4096 bufsize 8000 maxblocks   894.3       5003.2                     459.4543218
->> Pipe Throughput                         76819.5     78601.5                    2.319723508
->> Pipe-based Context Switching            3444.8      13414.5                    289.4130283
->> Process Creation                        301.1       293.4                      -2.557289937
->> Shell Scripts (1 concurrent)            1248.1      28300.6                    2167.494592
->> Shell Scripts (8 concurrent)            781.2       26222.3                    3256.669227
->> System Call Overhead                    3426        3729.4                     8.855808523
->>
->> System Benchmarks Index Score           3053        11534                      277.7923354
->>
->> This shows a 277% overall improvement using these patches.
->>
->> The biggest improvement is in the shell scripts benchmark, which forks a lot of processes.
->> This acquires rwsem lock where a large chunk of time is spent in base 6.0.0 kernel.
->> This can be seen from one of the callstack of the perf output of the shell
->> scripts benchmark on 6.0.0 base (pseudo NMI enabled for perf numbers below):
->> - 33.79% el0_svc
->>     - 33.43% do_el0_svc
->>        - 33.43% el0_svc_common.constprop.3
->>           - 33.30% invoke_syscall
->>              - 17.27% __arm64_sys_clone
->>                 - 17.27% __do_sys_clone
->>                    - 17.26% kernel_clone
->>                       - 16.73% copy_process
->>                          - 11.91% dup_mm
->>                             - 11.82% dup_mmap
->>                                - 9.15% down_write
->>                                   - 8.87% rwsem_down_write_slowpath
->>                                      - 8.48% osq_lock
->>
->> Just under 50% of the total time in the shell script benchmarks ends up being
->> spent in osq_lock in the base 6.0.0 kernel:
->>    Children      Self  Command   Shared Object        Symbol
->>     17.19%    10.71%  sh      [kernel.kallsyms]  [k] osq_lock
->>      6.17%     4.04%  sort    [kernel.kallsyms]  [k] osq_lock
->>      4.20%     2.60%  multi.  [kernel.kallsyms]  [k] osq_lock
->>      3.77%     2.47%  grep    [kernel.kallsyms]  [k] osq_lock
->>      3.50%     2.24%  expr    [kernel.kallsyms]  [k] osq_lock
->>      3.41%     2.23%  od      [kernel.kallsyms]  [k] osq_lock
->>      3.36%     2.15%  rm      [kernel.kallsyms]  [k] osq_lock
->>      3.28%     2.12%  tee     [kernel.kallsyms]  [k] osq_lock
->>      3.16%     2.02%  wc      [kernel.kallsyms]  [k] osq_lock
->>      0.21%     0.13%  looper  [kernel.kallsyms]  [k] osq_lock
->>      0.01%     0.00%  Run     [kernel.kallsyms]  [k] osq_lock
->>
->> and this comes down to less than 1% total with 6.0.0+vcpu_is_preempted kernel:
->>    Children      Self  Command   Shared Object        Symbol
->>       0.26%     0.21%  sh      [kernel.kallsyms]  [k] osq_lock
->>       0.10%     0.08%  multi.  [kernel.kallsyms]  [k] osq_lock
->>       0.04%     0.04%  sort    [kernel.kallsyms]  [k] osq_lock
->>       0.02%     0.01%  grep    [kernel.kallsyms]  [k] osq_lock
->>       0.02%     0.02%  od      [kernel.kallsyms]  [k] osq_lock
->>       0.01%     0.01%  tee     [kernel.kallsyms]  [k] osq_lock
->>       0.01%     0.00%  expr    [kernel.kallsyms]  [k] osq_lock
->>       0.01%     0.01%  looper  [kernel.kallsyms]  [k] osq_lock
->>       0.00%     0.00%  wc      [kernel.kallsyms]  [k] osq_lock
->>       0.00%     0.00%  rm      [kernel.kallsyms]  [k] osq_lock
->>
->> To make sure, there is no change in performance when vCPUs < pCPUs, UnixBench
->> was run on a 32 CPU VM. The kernel with vcpu_is_preempted implemented
->> performed 0.9% better overall than base kernel, and the individual benchmarks
->> were within +/-2% improvement over 6.0.0 base.
->> Hence the patches have no negative affect when vCPUs < pCPUs.
->>
->>
->> The other method discussed in https://lore.kernel.org/linux-arm-kernel/20191226135833.1052-1-yezengruan@huawei.com/
->> was pv conditional yield by Marc Zyngier and Will Deacon to reduce vCPU reschedule
->> if the vCPU will exit immediately.
->> (https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git/log/?h=kvm-arm64/pvcy).
->> The patches were ported to 6.0.0 kernel and tested with UnixBench with a 128 vCPU VM:
->>
->> TestName                                6.0.0 base  6.0.0+pvcy      % improvement for pvcy
->> Dhrystone 2 using register variables    187761      183128          -2.467498575
->> Double-Precision Whetstone              96743.6     96645           -0.101918887
->> Execl Throughput                        689.3       1019.8          47.9471928
->> File Copy 1024 bufsize 2000 maxblocks   549.5       2029.7          269.3721565
->> File Copy 256 bufsize 500 maxblocks     400.7       1439.4          259.2213626
->> File Copy 4096 bufsize 8000 maxblocks   894.3       3434.1          283.9986582
->> Pipe Throughput                         76819.5     74268.8         -3.320380893
->> Pipe-based Context Switching            3444.8      5963.3          73.11019508
->> Process Creation                        301.1       163.2           -45.79873796
->> Shell Scripts (1 concurrent)            1248.1      1859.7          49.00248378
->> Shell Scripts (8 concurrent)            781.2       1171            49.89759345
->> System Call Overhead                    3426        3194.4          -6.760070053
->>
->> System Benchmarks Index Score           3053        4605            50.83524402
->>
->> pvcy shows a smaller overall improvement (50%) compared to vcpu_is_preempted (277%).
->> Host side flamegraph analysis shows that ~60% of the host time when using pvcy
->> is spent in kvm_handle_wfx, compared with ~1.5% when using vcpu_is_preempted,
->> hence vcpu_is_preempted shows a larger improvement.
->>
->> It might be that pvcy can be used in combination with vcpu_is_preempted, but this
->> series is to start a discussion on vcpu_is_preempted as it shows a much bigger
->> improvement in performance and its much easier to review vcpu_is_preempted standalone.
-> 
-> Looking at both the patchsets - this one and the pvcy, it looks to me
-> that vcpu_is_preempted() and the pvcy patches are somewhat
-> orthogonal. The former is optimizing mutex and rwsem in their optimistic
-> spinning phase while the latter is going after spinlocks (via wfe).
-> 
-> Unless I'm missing something the features are not necessarily comparable
-> on the same workloads - unixbench is probably mutex heavy and doesn't
-> show as much benefit with just the pvcy changes. I wonder if it's easy
-> to have both the features enabled to see this in effect.
-> 
-> I've left some comments on the patches; but no need to respin just
-> yet. Let's see if there is any other feedback.
-> 
-> Thanks,
-> Punit
-> 
-
-There was a small bug in v2, where pv_lock_init was called too early in 
-the boot in setup_arch, hence pvlock_vcpu_state was not initialized for 
-vCPU 0 (the state was initialized for vCPUs 1-127 during secondary core 
-boot, hence the rest of the vCPUs were using pvlock correctly). I will 
-send the next revision making it an early_initcall along with addressing 
-Punits' comments, but will wait for further comments on v2 before 
-sending it. I have tested it with early_initcall and didnt see a 
-significant change in performance (which is expected as only 1 out of 
-128 vCPUs wasnt using pvlock correctly).
-
-I tried pvcy+vcpu_is_preempted patches together and I see a slight 
-reduction in performance over pvcy only.
-As a summary, with the above changes to move to early_initcall included 
-the overall Unixbench score improvements are:
-
-Change over 6.0.0 base kernel                 % improvement over base
-vcpu_is_preempted                             279%
-pvcy                                          51%
-pvcy+vcpu_is_preempted                        37%
-
-Thanks,
-Usama
-
-
+On Fri, Nov 04, 2022 at 03:57:20PM -0400, James Bottomley wrote:
+> On Wed, 2022-11-02 at 00:06 +0100, Ahelenia Ziemia=C5=84ska wrote:
 > [...]
-> 
+> > @@ -4356,7 +4347,7 @@ static int ncr_queue_command (struct ncb *np,
+> > struct scsi_cmnd *cmd)
+> >  	*/
+> > =20
+> >  	/* activate this job.  */
+> > -	cp->magic		=3D CCB_MAGIC;
+> > +	cp->busy		=3D true;
+> > =20
+> >  	/*
+> >  	**	insert next CCBs into start queue.
+>=20
+> Are you sure this is just an internal magic number?  The way these old
+> scripts engines used to work is that the CCB array forms a mailbox and
+> the card continually scans the mailbox to see if it has any work to do.
+> These magic values are often a signal to the card that the CCB array
+> contains a valid entry it hasn't seen and it should work on it, so the
+> card might be expecting to see this full 32 bit value.
+
+AFAICT this is an internal flag: in FreeBSD, whence this is copied, this
+driver is introduced in 37bd2c9c33d9684c0bf650e02579ebb329724d6a[1],
+and AFAICT it's used in exactly the same way as it is here; the manual[2]
+doesn't mention it at all; neither do the scripts; and the layout is
+vastly different between there and current Linux; so I'm happy to
+conclude it's not used by the device, I think?
+
+1: https://cgit.freebsd.org/src/commit/?id=3D37bd2c9c33d9684c0bf650e02579eb=
+b329724d6a
+2: http://bitsavers.trailing-edge.com/components/ncr_symbios/scsi/53C810/53=
+C810_PCI-SCSI_IO_Processor_Data_Manual_May1993.pdf
+
+--a6dqxib67q7dhbvf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmNsAj0ACgkQvP0LAY0m
+WPG6Ig/6A5Ng7Ep5CkhuZqOi5kIQ3K1T8VujDWxbD5DyiTl9UtcQu5lk2WLDFnew
+GxdVzmt7abEzibLMIn0cPKPKolcfxmXWnqmT9tJr/G7iabW5VEpXKyMY2nP50u8F
+owYqsnSfqxoBElAx0FEH9w7pdrwCUd5Ty0wdhscieyBtUlKd9RuUdLL2KOY2z+Ki
+SFBw9IjMB/Mh6QQfGQuuyu1BMETDCVxQRyBJ/R+WPUnywWBzHyeJM7NeFFXvXOFL
+uIWsuaotXbNJXm+rZwrQOsBIXhczP5nHVlB+y+44ownDvyfQ0PUYNbn61/OH5Ha2
+7yJDpSZsrkxVDLumOc0/X/tryY0X9QpUGhnZ/ToNgsChiskyZAd1MSNQX9dEHLzi
+u2X89NbH04HnxVvWKsoG29cmAO0/2FHfHdVriqLqgC6g0c6o64pPAKlp+ywDJf0j
+aymHn6yUlXbDlWI1DRTYKjzqCpdEZEQb5in1j8guaGAlzK/XUQJPSMHgk3k9xi4y
+K9loM46Pvxfl+86VSTe44E5iQ9sN0sWWVhjNHqcdJ2Ace1WkJOUWVt1hjYx+lGA7
+st5rq6oc5o6onHnqFDjZ+hJoqkNpmBMqk7PkjQ6woc3IFiRFE3+mZMWvSUCPNfFH
+4kacNlNyV5Qab8R+LALDioIkW9ZrVBaJy9x6u3zuomK4DRquVC4=
+=vTv4
+-----END PGP SIGNATURE-----
+
+--a6dqxib67q7dhbvf--
