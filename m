@@ -2,76 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24AC6C43217
-	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 21:01:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4694EC433FE
+	for <linux-doc@archiver.kernel.org>; Wed,  9 Nov 2022 21:03:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231584AbiKIVBx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 9 Nov 2022 16:01:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56452 "EHLO
+        id S229452AbiKIVDi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 9 Nov 2022 16:03:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231685AbiKIVBh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 16:01:37 -0500
+        with ESMTP id S229627AbiKIVDh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 9 Nov 2022 16:03:37 -0500
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95C2831222;
-        Wed,  9 Nov 2022 13:01:13 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67DC110077;
+        Wed,  9 Nov 2022 13:03:34 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2A2AC37E;
-        Wed,  9 Nov 2022 21:01:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2A2AC37E
+        by ms.lwn.net (Postfix) with ESMTPSA id 386BF735;
+        Wed,  9 Nov 2022 21:03:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 386BF735
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1668027673; bh=ITr2R0mtUe/KCYtEsEvbQ007phtJBhesDNR74eyDa8s=;
+        t=1668027811; bh=tffqkokSe67mEjaJEheehIb5oj8+UVSETr54rqR1I5Y=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=UgGFyRZ8JGvPW88XDRVKc/i1yXpdH2cQnF6KWzxrRNQHisnv0R+pYDcLI6QSGJCBo
-         eS7Jw7mciZZQwyhwOlLfDEgu+lqghC9K47ebS4riP3utK2ancGqtCvsk9/jJJj2McA
-         xK4HtRzv9Wznl7tHx7dnPMVWX/UwdMcBx/jkWfxdw7F8sJm1sHaF26grwVOhc+Gjd7
-         ywu3zivVh+UxsZVbcE1q1c7s+xBDD9WEE/ueoaGgc08B/kezCiFIKhqLdai8HSsmzj
-         nEJhtzOogJmDpRqJnIhjMj5pzvfBe7Gl/4tZHlx1+dA3d8jZPGabJnl4dFnW2H+Jk7
-         Nt8SRuAGma5oQ==
+        b=OEvea2ntLsCsP2YuOvADWmxNyc8iT1nYwb86B9vBilI6J+bCaxo11TcAdXxusMtdf
+         UAVGq7vYiflu3N1qq6keC5oHXY/AGEQ2beGVjmREKrTZ6sRENzvEpdgScVY48Q5FMj
+         tfyaWINKty5wI0EbQXs0I/aKfOUNRYBpxWh1GcQy4ij9aX7JnupZ8shgJ0vSVfAFdA
+         iiickS+3kUqr8hk9C560BbDGiw3oW74TF9Q71TigjzBhKsVnA0GgLWlBs0d6QsQF4u
+         rQc6Ta4lSt8xnA1l+V2RXHKr2EBrHlYFyaKQP1kcZ83PG0f1EB3HbqgghM96Fk4a+/
+         Qvz5C8MeKUgfw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yang Yingliang <yangyingliang@huawei.com>,
-        linux-doc@vger.kernel.org, linux-iio@vger.kernel.org
-Cc:     jic23@kernel.org, Jonathan.Cameron@huawei.com,
-        yangyingliang@huawei.com
-Subject: Re: [PATCH RESEND] Documentation: devres: add missing IIO helpers
-In-Reply-To: <20221103023402.1024437-1-yangyingliang@huawei.com>
-References: <20221103023402.1024437-1-yangyingliang@huawei.com>
-Date:   Wed, 09 Nov 2022 14:01:12 -0700
-Message-ID: <87tu37j10n.fsf@meer.lwn.net>
+To:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        linux-doc@vger.kernel.org
+Cc:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Olivia Mackall <olivia@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: admin-guide: hw_random: Make document title more
+ generic and concise
+In-Reply-To: <20221101160119.955997-1-j.neuschaefer@gmx.net>
+References: <20221101160119.955997-1-j.neuschaefer@gmx.net>
+Date:   Wed, 09 Nov 2022 14:03:30 -0700
+Message-ID: <87pmdvj0wt.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yang Yingliang <yangyingliang@huawei.com> writes:
+Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net> writes:
 
-> Add some missing device-managed helpers of iio to devres.rst.
+> The hw_random subsystem no longer works only on specific Intel chipsets;
+> make the title of hw_random.rst reflect this fact.
 >
-> devm_iio_kfifo_buffer_setup_ext() is introduced by commit 0a21526bc1d4 ("iio:
-> kfifo: add devm_iio_triggered_buffer_setup_ext variant").
+> While we're at it, also remove the words "Linux support for", since it's
+> clear from context that this is a document about Linux.
 >
-> devm_iio_triggered_buffer_setup_ext() is introduced by commit 5164c7889857 ("iio:
-> triggered-buffer: add {devm_}iio_triggered_buffer_setup_ext variants").
->
-> devm_iio_hw_consumer_alloc() is introduced by b688c18d3006 ("IIO: hw_consumer:
-> add devm_iio_hw_consumer_alloc").
->
-> devm_fwnode_iio_channel_get_by_name() is introduced by commit 1e64b9c5f9a0 ("iio:
-> inkern: move to fwnode properties").
->
-> Fixes: 0a21526bc1d4 ("iio: kfifo: add devm_iio_triggered_buffer_setup_ext variant")
-> Fixes: 5164c7889857 ("iio: triggered-buffer: add {devm_}iio_triggered_buffer_setup_ext variants")
-> Fixes: b688c18d3006 ("IIO: hw_consumer: add devm_iio_hw_consumer_alloc")
-> Fixes: 1e64b9c5f9a0 ("iio: inkern: move to fwnode properties")
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
 > ---
-> The previous patch link:
-> https://patchwork.kernel.org/project/linux-iio/patch/20220927074043.942836-1-yangyingliang@huawei.com/
-> ---
->  Documentation/driver-api/driver-model/devres.rst | 4 ++++
->  1 file changed, 4 insertions(+)
+>  Documentation/admin-guide/hw_random.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
 Applied, thanks.
 
